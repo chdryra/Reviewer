@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="@dimen/list_item_leftPadding"
+	android:layout_marginRight="@dimen/list_item_rightPadding"    
+    android:orientation="horizontal" >
+    
+    <EditText android:id="@+id/criterion_name_edit_text"
+	    android:layout_weight="20"
+	    android:layout_width="0dp"
+		android:layout_height="wrap_content"        
+		android:hint="@string/criterion_name_hint"
+		android:textSize="@dimen/list_item_textSize"
+		 />
+     
+    <RatingBar android:id="@+id/criterion_rating_bar"
+        android:layout_weight="0"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:numStars="5"
+        android:stepSize="0.5"
+        android:rating="0.0"
+        android:layout_gravity="center_vertical"
+	    />
+    		      
+	</LinearLayout>

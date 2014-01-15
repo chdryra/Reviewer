@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginLeft="@dimen/list_item_leftPadding"
+   	android:layout_marginRight="@dimen/list_item_rightPadding"
+    android:orientation="vertical" >
+    
+    <EditText
+        android:id="@+id/subject_description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/category_name" 
+        style="?android:listSeparatorTextViewStyle"/>
+
+    <EditText
+        android:id="@+id/category_description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/parent_category_name" 
+        style="?android:listSeparatorTextViewStyle"/>
+    
+    <include layout="@layout/criterion_row" />
+</LinearLayout>
