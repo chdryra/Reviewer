@@ -16,7 +16,11 @@ public class Review {
 	private String mReviewText;
 	private float mRating;
 	
-	public Review(String subject) {
+	public Review() {
+		
+	}
+	
+	public void setSubject(String subject) {
 		mSubject = subject;
 	}
 	
@@ -31,7 +35,11 @@ public class Review {
 	public float getRating() {
 		return mRating;
 	}
-	
+
+	public void setDate(Date date) {
+		mDate = date;
+	}
+
 	public Date getDate() {
 		return mDate;
 	}
@@ -46,6 +54,10 @@ public class Review {
 
 	public void setCriteriaList(ArrayList<Criterion> criteriaList) {
 		mCriteriaList = criteriaList;
+	}
+	
+	public void addCriterion(Criterion criterion) {
+		mCriteriaList.add(criterion);
 	}
 	
 	}

@@ -3,13 +3,18 @@
 
     <string name="app_name">Reviewer</string>
     <string name="action_settings">Settings</string>
-    <string name="criterion_name_hint">Criterion</string>
+    <string name="criterion_dialog_title">New criterion</string>
+    <string name="criterion_edit_dialog_title">Edit criterion</string>
+    <string name="criterion_dialog_hint">Enter criterion name</string>
     <string name="criterion_weight_hint">Weight</string>
     <string name="parent_category_name">A subtype of...(Optional) </string>
     <string name="subject_name">Subject</string>
     <string name="category_name">Category</string>
     <string name="button_add_criterion_text">Add criterion</string>
     <string name="button_done_text">Done</string>
-    <string name="menu_new_criterion">New criterion</string>
+    <string name="button_confirm_text">confirm</string>
+    <string name="button_delete_text">delete</string>
+    <string name="button_cancel_text">cancel</string>
+    <string name="menu_new_criterion">new criterion</string>
 
 </resources>

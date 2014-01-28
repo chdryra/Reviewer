@@ -11,7 +11,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/subject_name" 
-        android:cursorVisible="false"/>
+        android:cursorVisible="false"
+       />
  
     <TextView
         android:id="@+id/review_subject_separator"
@@ -49,31 +50,12 @@
         android:layout_below="@id/total_rating_bar_separator" 
         />
     
-    <!--
-    <LinearLayout 
-	    android:layout_width="match_parent"
-	    android:layout_height="match_parent"
-	    android:orientation="vertical" 
-	    android:id="@+id/review_layout">
-	    </LinearLayout>
-      
-    <include
-        android:layout_height="70dp"
-        layout="@layout/criterion_row_stars" 
-        android:layout_gravity="center"/>
--->
-
-<!-- android:layout_above="@+id/done_button" -->
-
     <ListView
         android:id="@+id/criterion_listview"
-        android:layout_width="match_parent"
+        android:layout_width="fill_parent"
         android:layout_height="match_parent"
-        android:descendantFocusability="afterDescendants"
         android:layout_alignParentLeft="true"
-        android:layout_below="@+id/add_criterion_button"
-        
-         >
+        android:layout_below="@+id/add_criterion_button" >
     </ListView>
 <!--  
     <Button

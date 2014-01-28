@@ -9,7 +9,7 @@
 	    android:layout_width="0dp"
 		android:layout_height="wrap_content"
     	android:layout_marginRight="@dimen/list_item_intraPadding"        
-		android:hint="@string/criterion_name_hint"
+		android:hint="@string/criterion_dialog_hint"
 		android:textSize="@dimen/list_item_textSize"
 		 />
 
