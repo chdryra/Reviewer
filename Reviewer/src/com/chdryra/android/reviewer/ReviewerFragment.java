@@ -9,11 +9,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
@@ -23,9 +22,11 @@ import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class ReviewerFragment extends Fragment {
 	private final static String TAG = "ReviewerFragment";
@@ -34,12 +35,15 @@ public class ReviewerFragment extends Fragment {
 	
 	public static final int CRITERION_NEW = 0;
 	public static final int CRITERION_EDIT = 1;
+
+	private static enum ToastType {ADDED, DELETED, CHANGED, EXISTS};
 	
 	private Review mReview;
 	private ArrayList<Criterion> mCriteria = new ArrayList<Criterion>();
 	
 	private EditText mSubject;
-	private Button mAddCriterionButton;
+	private EditText mCriterionName;
+	private ImageButton mAddCriterionButton;
 	private ListView mCriteriaListView;
 	private RatingBar mRatingBar;
 	
@@ -48,6 +52,7 @@ public class ReviewerFragment extends Fragment {
 	{
 	    InputMethodManager imm= (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
 	    imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
+        editText.setCursorVisible(false);
 	}
 	
 	@Override
@@ -63,63 +68,65 @@ public class ReviewerFragment extends Fragment {
 		View v = inflater.inflate(R.layout.fragment_review, container, false);		
 		
 		mSubject = (EditText)v.findViewById(R.id.review_subject);
+		setupEditText(mSubject);		
+		mSubject.setCursorVisible(false);
 		mSubject.setOnEditorActionListener(new TextView.OnEditorActionListener() {
 	        @Override
 	        public boolean onEditorAction(TextView v, int actionId, KeyEvent event)
 	        {
-	        	EditText editText;
+	        	EditText eT;
 	            if(actionId == EditorInfo.IME_ACTION_DONE)
 	            {
-	              	editText = (EditText)v;
-	                hideKeyboard(editText);
-	                editText.setCursorVisible(false);
+	              	eT = (EditText)v;
+	                hideKeyboard(eT);
 	            }
 	            return true;
 	        }
 	    });
-	 
-	    mSubject.setOnFocusChangeListener(new View.OnFocusChangeListener()
-	    {
+		
+//		mSubject.addTextChangedListener(new TextWatcher() {
+//			
+//			@Override
+//			public void onTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
+//				// TODO Auto-generated method stub
+//				
+//			}
+//			
+//			@Override
+//			public void beforeTextChanged(CharSequence arg0, int arg1, int arg2,
+//					int arg3) {
+//				// TODO Auto-generated method stub
+//				
+//			}
+//			
+//			@Override
+//			public void afterTextChanged(Editable arg0) {
+//				
+//			}
+//		});
+//		
+		mCriterionName = (EditText)v.findViewById(R.id.criterion_add_edit_text);
+		setupEditText(mCriterionName);
+		mCriterionName.setOnEditorActionListener(new TextView.OnEditorActionListener() {
 	        @Override
-	        public void onFocusChange(View v, boolean hasFocus)
+	        public boolean onEditorAction(TextView v, int actionId, KeyEvent event)
 	        {
-	            EditText editText;
-
-	            if(!hasFocus)
+	        	EditText eT;
+	            if(actionId == EditorInfo.IME_ACTION_DONE)
 	            {
-	            	editText = (EditText)v;
-	                hideKeyboard(editText);
-	                editText.setCursorVisible(false);
+	              	addCriterion();
+	            	eT = (EditText)v;	              	
+					hideKeyboard(eT);
 	            }
+	            return true;
 	        }
 	    });
-		    
-		mSubject.setOnClickListener(new View.OnClickListener() {
-		        @Override
-		        public void onClick(View v) {
-		        	EditText editText = (EditText)v;
-		        	editText.setCursorVisible(true);
-		        }
-		    });
-		
-		mSubject.addTextChangedListener(new TextWatcher() {
-			
+
+		mAddCriterionButton = (ImageButton)v.findViewById(R.id.criterion_add_button);
+		mAddCriterionButton.setOnClickListener(new View.OnClickListener() {			
 			@Override
-			public void onTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void beforeTextChanged(CharSequence arg0, int arg1, int arg2,
-					int arg3) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void afterTextChanged(Editable arg0) {
-				
+			public void onClick(View button) {			
+				addCriterion();							
 			}
 		});
 		
@@ -128,7 +135,6 @@ public class ReviewerFragment extends Fragment {
 		mCriteriaListView.setOnItemLongClickListener(new OnItemLongClickListener() {
 			@Override
 			public boolean onItemLongClick(AdapterView<?> parent, View v, int pos, long id) {
-				//v.setBackgroundColor(Color.parseColor("#222222"));
 				Criterion c = (Criterion)parent.getItemAtPosition(pos);
 				Log.i(TAG, "Criterion: " + c.getName());
 				
@@ -143,20 +149,7 @@ public class ReviewerFragment extends Fragment {
 				return false;
 			}
 		});
-		
-		mAddCriterionButton = (Button)v.findViewById(R.id.add_criterion_button);
-		mAddCriterionButton.setOnClickListener(new View.OnClickListener() {
-			
-			@Override
-			public void onClick(View button) {				
-				FragmentManager fm = getActivity().getSupportFragmentManager();
-				CriterionDialogFragment dialog = new CriterionDialogFragment();
-				dialog.setTargetFragment(ReviewerFragment.this, CRITERION_NEW);
-				dialog.show(fm, CRITERION_DIALOG_TAG);
 				
-			}
-		});
-		
 		mRatingBar = (RatingBar)v.findViewById(R.id.total_rating_bar);
 		
 		return v;		
@@ -203,8 +196,6 @@ public class ReviewerFragment extends Fragment {
 				
 			Criterion c = getItem(position);
 			
-			Log.i(TAG, "Pre Position: " + String.valueOf(position) + ", Criterion: " + c.getName() + ", Rating: " + c.getRating());
-			
 			vh.ratingBar.setTag(Integer.valueOf(position));			
 			vh.ratingBar.setOnRatingBarChangeListener(new CriterionRatingChangeListener());
 			vh.ratingBar.setRating(c.getRating());
@@ -212,8 +203,6 @@ public class ReviewerFragment extends Fragment {
 			vh.criterionText.setTag(Integer.valueOf(position));
 			vh.criterionText.setText(c.getName());		
 	
-			Log.i(TAG, "Post Position: " + String.valueOf(position) + ", Criterion: " + c.getName() + ", Rating: " + c.getRating());
-			
 			return(convertView);
 		};
 	};
@@ -234,6 +223,46 @@ public class ReviewerFragment extends Fragment {
      			mRatingBar.setEnabled(true);
 	}
 	
+	private void addCriterion() {
+		String criterionName = mCriterionName.getText().toString();
+      	if(criterionName.length() > 0)
+		{      		
+      		if(criterionExists(criterionName)) {
+				makeToast(ToastType.EXISTS, criterionName);
+				mCriterionName.setText(null);
+				return;
+			}
+      		
+			Criterion c = new Criterion(criterionName);
+			mCriteria.add(c);
+			makeToast(ToastType.ADDED, criterionName);
+		};
+		
+		mCriterionName.setText(null);
+		updateUI();
+	}
+	
+	private void setupEditText(EditText editText) {	 
+		 
+		editText.setOnClickListener(new View.OnClickListener() {
+		        @Override
+		        public void onClick(View v) {
+		        	EditText eT = (EditText)v;
+		        	eT.setCursorVisible(true);
+		        }
+		    });
+		
+		editText.setOnTouchListener(new View.OnTouchListener() {
+			
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				EditText eT = (EditText)v;
+	        	eT.setCursorVisible(true);
+				return false;
+			}
+		});
+	}
+	
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (resultCode == Activity.RESULT_CANCELED) {
@@ -242,24 +271,21 @@ public class ReviewerFragment extends Fragment {
 		
 		if (resultCode == Activity.RESULT_OK) {
 			switch (requestCode) {
-			case CRITERION_NEW:
-				String criterionName = (String)data.getSerializableExtra(CriterionDialogFragment.EXTRA_CRITERION_NEW_NAME);
-				if(criterionName != null)
-				{
-					Criterion c = new Criterion(criterionName);
-					mCriteria.add(c);
-				};
-				break;
-
 			case CRITERION_EDIT:
 				String oldName = (String)data.getSerializableExtra(CriterionDialogFragment.EXTRA_CRITERION_OLD_NAME);
 				String newName = (String)data.getSerializableExtra(CriterionDialogFragment.EXTRA_CRITERION_NEW_NAME);				
 				if(newName != null)
 				{
+					if(criterionExists(newName)) {
+						makeToast(ToastType.EXISTS, newName);
+						return;
+					}
+					
 					for (Criterion cr : mCriteria) {
 						if(cr.getName().equals(oldName))
 							cr.setName(newName);
 					}
+					Toast.makeText(getActivity(), "Changed " + oldName + " to " + newName + "...", Toast.LENGTH_SHORT).show();
 				};				
 				break;
 
@@ -275,11 +301,52 @@ public class ReviewerFragment extends Fragment {
 			while (iter.hasNext()) {
 			    if (iter.next().getName().equals(toDelete)) {
 			    	iter.remove();
+			    	makeToast(ToastType.DELETED, toDelete);
 			    	break;
 			    }			        
 			}
 		}		
 
 		updateUI();				
+	}
+
+	private boolean criterionExists(String name) {
+		Iterator<Criterion> iter = mCriteria.iterator();
+		while (iter.hasNext()) {
+		    if (iter.next().getName().equals(name)) {
+		    	return true;
+		    }			        
+		}
+		
+		return false;
+	}
+	
+	private void makeToast(ToastType t, String s1, String s2) {
+		switch (t) {
+		case DELETED:
+			Toast.makeText(getActivity(), "Deleted " + s1 + "...", Toast.LENGTH_SHORT).show();	
+			break;
+
+		case ADDED:
+			Toast.makeText(getActivity(), "Added " + s1 + "...", Toast.LENGTH_SHORT).show();	
+			break;
+
+		case CHANGED:
+			Toast.makeText(getActivity(), "Changed " + s1 + " to " + s2 + "...", Toast.LENGTH_SHORT).show();	
+			break;
+
+		case EXISTS:
+			Toast.makeText(getActivity(), s1 + " already exists...", Toast.LENGTH_SHORT).show();			
+			break;
+			
+		default:
+			break;
+		}
+		
+		
+	}
+	
+	private void makeToast(ToastType t, String s1) {
+		makeToast(t, s1, null);		
 	}
 }

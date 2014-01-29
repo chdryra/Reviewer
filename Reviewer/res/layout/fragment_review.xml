@@ -11,24 +11,18 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/subject_name" 
+        style="?android:textAppearanceLarge"
+        android:gravity="center"
         android:cursorVisible="false"
         android:inputType="text"
         android:imeOptions="actionDone"
        />
  
-    <TextView
-        android:id="@+id/review_subject_separator"
-        style="?android:listSeparatorTextViewStyle"
-        android:layout_width="match_parent"
-        android:layout_height="5dip"
-        android:layout_below="@id/review_subject"
-        />
-
     <RatingBar
         android:id="@+id/total_rating_bar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/review_subject_separator"
+        android:layout_below="@+id/review_subject"
         android:layout_centerHorizontal="true"
         android:numStars="5"
         android:rating="0.0"
@@ -41,24 +35,53 @@
         android:layout_height="5dip"
         android:layout_below="@id/total_rating_bar"
         />
-
-    <Button
-        android:id="@+id/add_criterion_button"
-        style="@android:style/Widget.Button.Small"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/list_item_intraPadding"
-        android:text="@string/button_add_criterion_text"
+ 
+    <LinearLayout 
+        android:id="@+id/criterion_add_linear_layout"
         android:layout_below="@id/total_rating_bar_separator" 
-        />
-    
+        android:orientation="horizontal"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:paddingTop="@dimen/list_item_intraPadding"
+        >
+        
+	 	<EditText
+	        android:id="@+id/criterion_add_edit_text"
+	        android:hint="@string/edit_text_add_criterion_text"
+	        android:layout_height="wrap_content"
+	        android:layout_width="0dip"
+	        android:layout_weight="1"
+	        android:cursorVisible="false"
+        	android:inputType="text"
+        	android:imeOptions="actionDone"
+	        />
+
+	 	<ImageButton 
+	 	    android:id="@+id/criterion_add_button"
+	 	    android:src="@android:drawable/ic_input_add"
+	 	    android:background="@null"
+	 	    android:layout_width="wrap_content"
+	 	    android:layout_height="wrap_content"
+	 	    android:layout_gravity="center_vertical|center_horizontal"
+	     />	 	
+	     
+	 	 
+	</LinearLayout>
+	 
+    <!-- <Button
+	 	    android:id="@+id/criterion_add_button"
+	 	    android:layout_width="wrap_content"
+	 	    android:layout_height="wrap_content"
+	 	    android:text="@string/button_add_criterion_text" />
+	     -->
     <ListView
         android:id="@+id/criterion_listview"
         android:layout_width="fill_parent"
         android:layout_height="match_parent"
         android:layout_alignParentLeft="true"
-        android:layout_below="@+id/add_criterion_button" >
+        android:layout_below="@+id/criterion_add_linear_layout" >
     </ListView>
+
 <!--  
     <Button
         android:id="@+id/done_button"

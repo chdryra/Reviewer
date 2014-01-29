@@ -10,9 +10,9 @@
     <string name="parent_category_name">A subtype of...(Optional) </string>
     <string name="subject_name">Subject</string>
     <string name="category_name">Category</string>
-    <string name="button_add_criterion_text">Add criterion</string>
-    <string name="button_done_text">Done</string>
-    <string name="button_confirm_text">confirm</string>
+    <string name="edit_text_add_criterion_text">Add optional criterion</string>
+    <string name="button_add_criterion_text">Add</string>
+    <string name="button_done_text">done</string>
     <string name="button_delete_text">delete</string>
     <string name="button_cancel_text">cancel</string>
     <string name="menu_new_criterion">new criterion</string>
