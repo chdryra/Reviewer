@@ -4,17 +4,20 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ArrayAdapter;
@@ -41,6 +44,12 @@ public class ReviewerFragment extends Fragment {
 	private RatingBar mRatingBar;
 	
 	
+	private void hideKeyboard(EditText editText)
+	{
+	    InputMethodManager imm= (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+	    imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
+	}
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -53,7 +62,46 @@ public class ReviewerFragment extends Fragment {
 			Bundle savedInstanceState) {
 		View v = inflater.inflate(R.layout.fragment_review, container, false);		
 		
-		mSubject= (EditText)v.findViewById(R.id.review_subject);
+		mSubject = (EditText)v.findViewById(R.id.review_subject);
+		mSubject.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+	        @Override
+	        public boolean onEditorAction(TextView v, int actionId, KeyEvent event)
+	        {
+	        	EditText editText;
+	            if(actionId == EditorInfo.IME_ACTION_DONE)
+	            {
+	              	editText = (EditText)v;
+	                hideKeyboard(editText);
+	                editText.setCursorVisible(false);
+	            }
+	            return true;
+	        }
+	    });
+	 
+	    mSubject.setOnFocusChangeListener(new View.OnFocusChangeListener()
+	    {
+	        @Override
+	        public void onFocusChange(View v, boolean hasFocus)
+	        {
+	            EditText editText;
+
+	            if(!hasFocus)
+	            {
+	            	editText = (EditText)v;
+	                hideKeyboard(editText);
+	                editText.setCursorVisible(false);
+	            }
+	        }
+	    });
+		    
+		mSubject.setOnClickListener(new View.OnClickListener() {
+		        @Override
+		        public void onClick(View v) {
+		        	EditText editText = (EditText)v;
+		        	editText.setCursorVisible(true);
+		        }
+		    });
+		
 		mSubject.addTextChangedListener(new TextWatcher() {
 			
 			@Override
@@ -170,7 +218,6 @@ public class ReviewerFragment extends Fragment {
 		};
 	};
 
-
 	static class ViewHolder {
 	    public RatingBar ratingBar;
 	    public TextView criterionText;
@@ -197,17 +244,23 @@ public class ReviewerFragment extends Fragment {
 			switch (requestCode) {
 			case CRITERION_NEW:
 				String criterionName = (String)data.getSerializableExtra(CriterionDialogFragment.EXTRA_CRITERION_NEW_NAME);
-				Criterion c = new Criterion(criterionName);
-				mCriteria.add(c);
+				if(criterionName != null)
+				{
+					Criterion c = new Criterion(criterionName);
+					mCriteria.add(c);
+				};
 				break;
 
 			case CRITERION_EDIT:
 				String oldName = (String)data.getSerializableExtra(CriterionDialogFragment.EXTRA_CRITERION_OLD_NAME);
 				String newName = (String)data.getSerializableExtra(CriterionDialogFragment.EXTRA_CRITERION_NEW_NAME);				
-				for (Criterion cr : mCriteria) {
-					if(cr.getName().equals(oldName))
-						cr.setName(newName);
-				}
+				if(newName != null)
+				{
+					for (Criterion cr : mCriteria) {
+						if(cr.getName().equals(oldName))
+							cr.setName(newName);
+					}
+				};				
 				break;
 
 			default:
