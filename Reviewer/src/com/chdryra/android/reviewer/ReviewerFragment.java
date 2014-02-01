@@ -1,7 +1,9 @@
 package com.chdryra.android.reviewer;
 
 import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.TreeMap;
 
 import android.app.Activity;
 import android.content.Context;
@@ -19,8 +21,7 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemLongClickListener;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
+import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
@@ -33,20 +34,19 @@ public class ReviewerFragment extends Fragment {
 	private final static String CRITERION_DIALOG_TAG = "CriterionDialog";
 	public static final String CRITERION_NAME = "com.chdryra.android.reviewer.criterion_name";
 	
-	public static final int CRITERION_NEW = 0;
-	public static final int CRITERION_EDIT = 1;
-
-	private static enum ToastType {ADDED, DELETED, CHANGED, EXISTS};
+	public static final int CRITERION_EDIT = 0;
 	
 	private Review mReview;
-	private ArrayList<Criterion> mCriteria = new ArrayList<Criterion>();
 	
+	private CriterionList mCriteria = new CriterionList();
 	private EditText mSubject;
 	private EditText mCriterionName;
 	private ImageButton mAddCriterionButton;
+	private ImageButton mCalcAverageRatingButton;
 	private ListView mCriteriaListView;
-	private RatingBar mRatingBar;
-	
+	private RatingBar mTotalRatingBar;
+	private boolean mTotalRatingIsAverage = false;
+	private float mTotalRatingUser;
 	
 	private void hideKeyboard(EditText editText)
 	{
@@ -59,7 +59,7 @@ public class ReviewerFragment extends Fragment {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setHasOptionsMenu(true);		
-		setRetainInstance(true);
+		setRetainInstance(true);		
 	}
 	
 	@Override
@@ -83,28 +83,7 @@ public class ReviewerFragment extends Fragment {
 	            return true;
 	        }
 	    });
-		
-//		mSubject.addTextChangedListener(new TextWatcher() {
-//			
-//			@Override
-//			public void onTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
-//				// TODO Auto-generated method stub
-//				
-//			}
-//			
-//			@Override
-//			public void beforeTextChanged(CharSequence arg0, int arg1, int arg2,
-//					int arg3) {
-//				// TODO Auto-generated method stub
-//				
-//			}
-//			
-//			@Override
-//			public void afterTextChanged(Editable arg0) {
-//				
-//			}
-//		});
-//		
+			
 		mCriterionName = (EditText)v.findViewById(R.id.criterion_add_edit_text);
 		setupEditText(mCriterionName);
 		mCriterionName.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -130,7 +109,7 @@ public class ReviewerFragment extends Fragment {
 			}
 		});
 		
-		mCriteriaListView = (ListView) v.findViewById(R.id.criterion_listview);
+		mCriteriaListView = (ListView) v.findViewById(R.id.criterion_listview);		
 		mCriteriaListView.setAdapter(new CriterionAdaptor(mCriteria));
 		mCriteriaListView.setOnItemLongClickListener(new OnItemLongClickListener() {
 			@Override
@@ -150,29 +129,75 @@ public class ReviewerFragment extends Fragment {
 			}
 		});
 				
-		mRatingBar = (RatingBar)v.findViewById(R.id.total_rating_bar);
+		mTotalRatingBar = (RatingBar)v.findViewById(R.id.total_rating_bar);
+		mTotalRatingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+			
+			@Override
+			public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+				if(fromUser) {
+					mTotalRatingUser = rating;
+					setTotalRatingIsUser();
+				}
+			}
+		});
+		
+		mCalcAverageRatingButton = (ImageButton)v.findViewById(R.id.criterion_avg_button);
+		mCalcAverageRatingButton.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				if(mTotalRatingIsAverage)
+					setTotalRatingIsUser();
+				else
+					setTotalRatingIsAverage();
+				
+				recomputeTotalRating();
+			}
+		});
 		
 		return v;		
 	}
 	
-	class CriterionAdaptor extends ArrayAdapter<Criterion> {
-		
-		private class CriterionRatingChangeListener implements RatingBar.OnRatingBarChangeListener {
-			public CriterionRatingChangeListener() {
-				
-			}
+	private void setTotalRatingIsAverage() {
+		mTotalRatingIsAverage = true;
+		mCalcAverageRatingButton.setImageResource(android.R.drawable.ic_input_add);
+		recomputeTotalRating();
+	}
+	
+	private void setTotalRatingIsUser() {
+		mTotalRatingIsAverage = false;
+		mCalcAverageRatingButton.setImageResource(android.R.drawable.ic_menu_add);
+		mTotalRatingBar.setRating(mTotalRatingUser);
+	}
+	
+	private void recomputeTotalRating() {
+		if(mTotalRatingIsAverage)
+			mTotalRatingBar.setRating(mCriteria.getAverageRating());
+	}
+	
+	class CriterionAdaptor extends BaseAdapter {	
+		private CriterionList mCriteria;
+	
+		public CriterionAdaptor(CriterionList criteria){
+		    mCriteria  = criteria;
+		}
 			
-			@Override
-			public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-				if (fromUser) {
-					getItem((Integer)ratingBar.getTag()).setRating(rating);	
-				}				
-			}
+		@Override
+		public int getCount() {
+			return mCriteria.size();
 		}
 		
-		public CriterionAdaptor(ArrayList<Criterion> criteria) {
-			super(getActivity(), 0, criteria);
-		}		
+		@Override
+		public long getItemId(int position) {
+			return position;
+		}
+		
+		@Override
+		public Object getItem(int position) {
+			LinkedHashMap<String, Criterion> map = mCriteria.getCriterionHashMap();
+			String[] keys = map.keySet().toArray(new String[map.size()]);
+			return map.get(keys[position]);
+		}
 		
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
@@ -194,10 +219,21 @@ public class ReviewerFragment extends Fragment {
 				vh = (ViewHolder)convertView.getTag();
 			}
 				
-			Criterion c = getItem(position);
+			Criterion c = (Criterion)getItem(position);
 			
 			vh.ratingBar.setTag(Integer.valueOf(position));			
-			vh.ratingBar.setOnRatingBarChangeListener(new CriterionRatingChangeListener());
+			vh.ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+				
+				@Override
+				public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+					if (fromUser) {
+						Criterion c = (Criterion)getItem((Integer)ratingBar.getTag()) ;
+						mCriteria.changeCriterionRating(c.getName(), rating);
+						recomputeTotalRating();
+					}					
+				}
+			});
+			
 			vh.ratingBar.setRating(c.getRating());
 									
 			vh.criterionText.setTag(Integer.valueOf(position));
@@ -213,31 +249,15 @@ public class ReviewerFragment extends Fragment {
 	}
 	
 	private void updateUI() {
-     		((CriterionAdaptor)mCriteriaListView.getAdapter()).notifyDataSetChanged();
-     		if(mCriteria.size() > 0)
-     		{
-     			mRatingBar.setRating(0);
-     			mRatingBar.setEnabled(false);
-     		}
-     		else
-     			mRatingBar.setEnabled(true);
+ 		((CriterionAdaptor)mCriteriaListView.getAdapter()).notifyDataSetChanged();
+ 		recomputeTotalRating();
 	}
 	
 	private void addCriterion() {
-		String criterionName = mCriterionName.getText().toString();
-      	if(criterionName.length() > 0)
-		{      		
-      		if(criterionExists(criterionName)) {
-				makeToast(ToastType.EXISTS, criterionName);
-				mCriterionName.setText(null);
-				return;
-			}
-      		
-			Criterion c = new Criterion(criterionName);
-			mCriteria.add(c);
-			makeToast(ToastType.ADDED, criterionName);
-		};
-		
+		if (mCriteria.size() == 0)
+			setTotalRatingIsAverage();
+		String criterionName = mCriterionName.getText().toString();      		
+		makeToast(mCriteria.addCriterion(criterionName), criterionName);
 		mCriterionName.setText(null);
 		updateUI();
 	}
@@ -274,19 +294,7 @@ public class ReviewerFragment extends Fragment {
 			case CRITERION_EDIT:
 				String oldName = (String)data.getSerializableExtra(CriterionDialogFragment.EXTRA_CRITERION_OLD_NAME);
 				String newName = (String)data.getSerializableExtra(CriterionDialogFragment.EXTRA_CRITERION_NEW_NAME);				
-				if(newName != null)
-				{
-					if(criterionExists(newName)) {
-						makeToast(ToastType.EXISTS, newName);
-						return;
-					}
-					
-					for (Criterion cr : mCriteria) {
-						if(cr.getName().equals(oldName))
-							cr.setName(newName);
-					}
-					Toast.makeText(getActivity(), "Changed " + oldName + " to " + newName + "...", Toast.LENGTH_SHORT).show();
-				};				
+				makeToast(mCriteria.changeCriterionName(oldName, newName), oldName, newName);
 				break;
 
 			default:
@@ -296,57 +304,32 @@ public class ReviewerFragment extends Fragment {
 			
 		if (resultCode == CriterionDialogFragment.RESULT_DELETE_CRITERION) {
 			String toDelete = (String)data.getSerializableExtra(CriterionDialogFragment.EXTRA_CRITERION_OLD_NAME);
-			
-			Iterator<Criterion> iter = mCriteria.iterator();
-			while (iter.hasNext()) {
-			    if (iter.next().getName().equals(toDelete)) {
-			    	iter.remove();
-			    	makeToast(ToastType.DELETED, toDelete);
-			    	break;
-			    }			        
-			}
+			makeToast(mCriteria.deleteCriterion(toDelete), toDelete);
+			if(mCriteria.size() == 0)
+				setTotalRatingIsUser();
 		}		
 
 		updateUI();				
 	}
-
-	private boolean criterionExists(String name) {
-		Iterator<Criterion> iter = mCriteria.iterator();
-		while (iter.hasNext()) {
-		    if (iter.next().getName().equals(name)) {
-		    	return true;
-		    }			        
-		}
-		
-		return false;
-	}
 	
-	private void makeToast(ToastType t, String s1, String s2) {
-		switch (t) {
-		case DELETED:
+	private void makeToast(CriterionList.Result r, String s1, String s2) {
+		if( r == CriterionList.Result.DELETED )
 			Toast.makeText(getActivity(), "Deleted " + s1 + "...", Toast.LENGTH_SHORT).show();	
-			break;
 
-		case ADDED:
+		if( r == CriterionList.Result.ADDED )
 			Toast.makeText(getActivity(), "Added " + s1 + "...", Toast.LENGTH_SHORT).show();	
-			break;
 
-		case CHANGED:
+		if( r == CriterionList.Result.CHANGED )
 			Toast.makeText(getActivity(), "Changed " + s1 + " to " + s2 + "...", Toast.LENGTH_SHORT).show();	
-			break;
 
-		case EXISTS:
+		if( r == CriterionList.Result.EXISTS )
 			Toast.makeText(getActivity(), s1 + " already exists...", Toast.LENGTH_SHORT).show();			
-			break;
-			
-		default:
-			break;
-		}
-		
-		
 	}
 	
-	private void makeToast(ToastType t, String s1) {
-		makeToast(t, s1, null);		
+	private void makeToast(CriterionList.Result r, String s1) {
+		makeToast(r, s1, null);		
 	}
+	
+	
+	
 }
