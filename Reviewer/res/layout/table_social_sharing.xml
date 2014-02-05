@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent">
+
+   	<TableRow
+	    android:id="@+id/tableRow1"
+	    android:layout_height="wrap_content"
+	    android:layout_width="match_parent"
+	    android:layout_weight="1"
+	    >
+
+   		<ToggleButton
+   		    android:id="@+id/facebook"
+   		    android:layout_weight="1"
+   		    android:textOff="@string/facebook"
+   		    android:textOn="@string/facebook" />
+
+    	<ToggleButton
+    	    android:id="@+id/twitter"
+    	    android:textOn="@string/twitter"
+            android:textOff="@string/twitter"
+            android:gravity="center"
+            android:layout_weight="1"/>
+
+    </TableRow>
+
+    <TableRow
+	    android:id="@+id/tableRow2"
+	    android:layout_height="wrap_content"
+	    android:layout_width="match_parent"
+	    android:layout_weight="1">
+    	
+    	<ToggleButton
+            android:id="@+id/email"  
+            android:textOn="@string/email"
+            android:textOff="@string/email"
+            android:layout_weight="1"/>
+        <ToggleButton
+            android:id="@+id/tumblr" 
+            android:textOn="@string/tumblr"
+            android:textOff="@string/tumblr"
+            android:layout_weight="1"/>
+    </TableRow>
+    
+    <TableRow
+	    android:id="@+id/tableRow3"
+	    android:layout_height="wrap_content"
+	    android:layout_width="match_parent"
+	    android:layout_weight="1">
+    	<ToggleButton
+            android:id="@+id/flickr"  
+            android:textOn="@string/flickr"
+            android:textOff="@string/flickr" 
+            android:layout_weight="1"/>
+        <ToggleButton
+            android:id="@+id/foursquare" 
+            android:textOn="@string/foursquare"
+            android:textOff="@string/foursquare"
+            android:layout_weight="1"/>
+    </TableRow>
+</TableLayout>

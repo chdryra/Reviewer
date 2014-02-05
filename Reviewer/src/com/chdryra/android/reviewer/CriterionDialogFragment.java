@@ -8,7 +8,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
@@ -19,7 +18,9 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
 
-public class CriterionDialogFragment extends DialogFragment {
+import com.actionbarsherlock.app.SherlockDialogFragment;
+
+public class CriterionDialogFragment extends SherlockDialogFragment {
 
 	public static final String EXTRA_CRITERION_NEW_NAME = "com.chdryra.android.reviewer.criterion_new_name";
 	public static final String EXTRA_CRITERION_OLD_NAME = "com.chdryra.android.reviewer.criterion_old_name";
@@ -31,13 +32,11 @@ public class CriterionDialogFragment extends DialogFragment {
 	
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
-		
-		
 		View v = getActivity().getLayoutInflater().inflate(R.layout.dialog_criterion, null);
 		EditText editText = (EditText)v.findViewById(R.id.criterion_name_edit_text);
-		if( getTargetRequestCode() == ReviewerFragment.CRITERION_EDIT )
+		if( getTargetRequestCode() == ReviewerDefineFragment.CRITERION_EDIT )
 		{
-			mCriterionOldName = (String)getArguments().getSerializable(ReviewerFragment.CRITERION_NAME);
+			mCriterionOldName = (String)getArguments().getSerializable(ReviewerDefineFragment.CRITERION_NAME);
 			editText.setText(mCriterionOldName);
 		}
 		

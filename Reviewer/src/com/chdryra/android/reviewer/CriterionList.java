@@ -97,4 +97,10 @@ public class CriterionList {
 		
 		return mAverageRating;		
 	}
+	
+	public void deleteComments() {
+		Iterator<Criterion> it = mCriteria.values().iterator();
+		while (it.hasNext())
+		  it.next().deleteComment();
+	}
 }

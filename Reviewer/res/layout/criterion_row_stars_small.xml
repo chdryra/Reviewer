@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="@dimen/list_item_leftPadding"
+	android:layout_marginRight="@dimen/list_item_rightPadding"    
+    android:orientation="horizontal" 
+    android:longClickable="true"
+    android:background="@drawable/criterion_background_activated">
+
+    <TextView
+        android:id="@+id/criterion_name_text_view"
+        android:layout_width="0dip"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:textSize="@dimen/list_item_textSize"
+        style="?android:attr/listViewStyle"
+        android:layout_marginLeft="@dimen/list_item_leftPadding"
+        android:layout_marginRight="@dimen/list_item_rightPadding"
+        android:layout_weight="1" 
+       />
+
+    <RatingBar
+        android:id="@+id/criterion_rating_bar"
+        style="?android:attr/ratingBarStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:isIndicator="true"
+        android:numStars="5"
+        android:layout_marginRight="@dimen/list_item_rightPadding"
+        android:layout_marginLeft="@dimen/list_item_leftPadding"
+        android:rating="0.0"
+        android:stepSize="0.5" 
+        android:layout_gravity="center_vertical|center_vertical"/>
+    		      
+	</LinearLayout>

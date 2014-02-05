@@ -1,9 +1,9 @@
 package com.chdryra.android.reviewer;
 
-public class Criterion {
-	private static final String TAG = "Criterion";
+public class Criterion implements Commentable{
 	private String mName;		
 	private float mRating;
+	private String mComment;
 	
 	public Criterion() {
 	}
@@ -31,6 +31,26 @@ public class Criterion {
 	
 	public String getName() {
 		return mName;
+	}
+
+	@Override
+	public String getCommentTitle() {
+		return getName();
+	}
+	
+	@Override
+	public String getComment() {
+		return mComment;
+	}
+
+	@Override
+	public void setComment(String comment) {
+		mComment = comment;
+	}
+
+	@Override
+	public void deleteComment() {
+		mComment = null;
 	}
 }
 
