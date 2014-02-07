@@ -44,7 +44,8 @@ public class ReviewerFinishFragment extends SherlockFragment {
 	public final static int SOCIAL_EDIT = 1;
 	public final static int IMAGE_REQUEST = 2;
 	public final static int IMAGE_EDIT = 3;
-
+	public final static int LOCATION_EDIT = 4;
+	
 	private Review mReview;
 	private Uri mImageUri;
 	
@@ -170,7 +171,7 @@ public class ReviewerFinishFragment extends SherlockFragment {
 		public void onClick(View v) {
 			
 			Intent i = new Intent(getSherlockActivity(), ReviewerLocationActivity.class);
-			startActivity(i);
+			startActivityForResult(i, LOCATION_EDIT);
 		}
 	});
 	

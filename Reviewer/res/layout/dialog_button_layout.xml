@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+  	android:layout_height="wrap_content"
+    >
+ <View
+     android:id="@+id/dialog_buttons_horizontal_divider" 
+     style="@style/HorizontalDivider"/>
+ 
+<LinearLayout 
+    android:layout_width="match_parent"
+  	android:layout_height="wrap_content"
+  	android:orientation="horizontal" 
+  	android:layout_below="@id/dialog_buttons_horizontal_divider">
+
+    <Button 
+        android:id="@+id/button_map_delete"
+        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:text="@string/button_delete_text"
+        android:background="@null"
+        android:layout_weight="1"/>
+    
+    <View style="@style/VerticalDivider" />
+    
+    <Button 
+        android:id="@+id/button_map_cancel"
+        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:text="@string/button_cancel_text"
+        android:background="@null"
+        android:layout_weight="1"/>
+    
+    <View style="@style/VerticalDivider" />
+    
+    <Button 
+        android:id="@+id/button_map_done"
+        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:text="@string/button_done_text"
+        android:background="@null"
+        android:layout_weight="1"/>
+
+</LinearLayout>
+</RelativeLayout>
