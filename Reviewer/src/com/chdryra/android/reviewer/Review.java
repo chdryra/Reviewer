@@ -16,7 +16,7 @@ import android.widget.RatingBar;
 
 public class Review implements Commentable{	
 	private static final String TAG = "Review";
-	private static final String GENERAL_COMMENT_TITLE = "Overall";
+	private static final String GENERAL_COMMENT_TITLE = "General";
 	
 	private UUID mID;
 	private String mSubject;
@@ -25,7 +25,7 @@ public class Review implements Commentable{
 	private float mRating;
 	private boolean mRatingIsAverage;
 	private String mComment;
-	private Bitmap mPhoto;
+	private Bitmap mImage;
 	private Location mLocation;
 	
 	public Review() {
@@ -80,7 +80,7 @@ public class Review implements Commentable{
 	private String getFormattedComment() {
 		String comment = new String();
 		if(mComment != null)
-			comment += GENERAL_COMMENT_TITLE + ": " + mComment + String.format("%n");
+			comment += mComment + String.format("%n");
 		
 		LinkedHashMap<String, Criterion> criteria = getCriteriaList().getCriterionHashMap();
 		Iterator<Criterion> it = criteria.values().iterator();
@@ -125,4 +125,13 @@ public class Review implements Commentable{
 		mComment = null;
 	}
 
+	public Bitmap getImage() {
+		return mImage;
+	}
+
+	public void setImage(Bitmap image) {
+		mImage = image;
+	}
+
+	
 }

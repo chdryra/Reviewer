@@ -40,6 +40,7 @@ public class CommentDialogFragment extends SherlockDialogFragment {
 		
 		mReview = (Review)IntentObjectHolder.getObject(ReviewerFinishFragment.REVIEW_OBJECT);
 		
+		linearlayout.addView(getCommentLineView(dialog, mReview));
 		LinkedHashMap<String, Criterion> criteria = mReview.getCriteriaList().getCriterionHashMap();
 		Iterator<Criterion> it = criteria.values().iterator();
 		while (it.hasNext()) {
@@ -47,12 +48,23 @@ public class CommentDialogFragment extends SherlockDialogFragment {
 			linearlayout.addView(getCommentLineView(dialog, criterion));
 		}
 		
-		linearlayout.addView(getCommentLineView(dialog, mReview));
 		scrollView.addView(linearlayout);
 		
 		return dialog;
 		}
 
+	@Override
+	public void onPause() {
+		IntentObjectHolder.addObject(ReviewerFinishFragment.REVIEW_OBJECT, mReview);
+		super.onPause();
+	}
+	
+	@Override
+	public void onSaveInstanceState(Bundle arg0) {
+		IntentObjectHolder.addObject(ReviewerFinishFragment.REVIEW_OBJECT, mReview);
+		super.onSaveInstanceState(arg0);
+	}
+	
 	private View getCommentLineView(final AlertDialog dialog, final Commentable commentable) {
 		View v = getSherlockActivity().getLayoutInflater().inflate(R.layout.dialog_comment, null);
 		TextView criterionName = (TextView)v.findViewById(R.id.comment_text_view);
@@ -116,7 +128,7 @@ public class CommentDialogFragment extends SherlockDialogFragment {
 	private AlertDialog buildDialog(View v) {
 		return new AlertDialog.Builder(getActivity()).
 				setView(v).
-				setTitle(R.string.comment_edit_dialog_title).
+				setTitle(R.string.dialog_comment_title).
 				setPositiveButton(R.string.button_done_text, new DialogInterface.OnClickListener() {
 					
 					@Override

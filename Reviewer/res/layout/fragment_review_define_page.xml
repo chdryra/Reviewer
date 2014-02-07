@@ -10,7 +10,7 @@
         android:id="@+id/review_subject" 
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/subject_name" 
+        android:hint="@string/edit_text_subject_name" 
         style="?android:textAppearanceLarge"
         android:gravity="center"
         android:cursorVisible="false"
@@ -32,13 +32,13 @@
 	
     <View
         android:id="@+id/total_rating_bar_separator"
-    	style="@style/Divider"
+    	style="@style/HorizontalDivider"
     	android:layout_below="@id/total_rating_bar"/>
         
 
 	 <EditText
 	        android:id="@+id/criterion_add_edit_text"
-	        android:hint="@string/edit_text_add_criterion_text"
+	        android:hint="@string/edit_text_add_criterion_hint"
 	        android:layout_height="wrap_content"
 	        android:layout_width="match_parent"
 	        android:layout_below="@id/total_rating_bar_separator"
@@ -63,7 +63,6 @@
  	      android:layout_above="@+id/criterion_listview"
  	      android:layout_alignParentLeft="true"
  	      android:background="@null"
- 	      android:contentDescription="@string/edit_text_add_criterion_text"
  	      android:src="@android:drawable/ic_input_add" />
 
  	  <ImageButton
@@ -74,7 +73,6 @@
  	      android:layout_above="@+id/total_rating_bar_separator"
  	      android:layout_alignLeft="@+id/criterion_add_button"
  	      android:background="@null"
- 	      android:contentDescription="@string/edit_text_add_criterion_text"
  	      android:src="@android:drawable/ic_menu_add" />
 
 </RelativeLayout>

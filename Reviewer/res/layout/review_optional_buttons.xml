@@ -9,19 +9,25 @@
          	 	
 	 	<ImageButton 
 	 	    android:id="@+id/add_photo_button"
-	 	    android:src="@android:drawable/ic_menu_camera"
-	 	    android:layout_width="120dp"
-	 	    android:layout_height="90dp"
+	 	    android:src="@drawable/ic_menu_camera"
+	 	    android:background="@android:color/transparent"
+	 	    android:layout_width="wrap_content"
+	 	    android:layout_height="wrap_content"
 	 	    android:layout_weight="1"
 	 	    android:layout_gravity="center_horizontal"
 	 	    android:contentDescription="Add photo"
 	     />
 	 	
+	 	<View
+    	style="@style/VerticalDivider"/>
+    
+	 	
 	 	<ImageButton 
 	 	    android:id="@+id/add_location_button"
-	 	    android:src="@android:drawable/ic_menu_mylocation"
-	 	    android:layout_width="120dp"
-	 	    android:layout_height="90dp"
+	 	    android:src="@drawable/ic_menu_mylocation"
+	 	    android:background="@android:color/transparent"
+	 	    android:layout_width="wrap_content"
+	 	    android:layout_height="wrap_content"
 	 	    android:layout_weight="1"
 	 	    android:layout_gravity="center_horizontal"
 	 	    android:contentDescription="Add location"

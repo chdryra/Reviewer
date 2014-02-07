@@ -123,10 +123,11 @@ public class CriterionDialogFragment extends SherlockDialogFragment {
 		getTargetFragment().onActivityResult(getTargetRequestCode(), resultCode, i);
 	}
 	
+	
 	private AlertDialog buildDialog(View v) {
 		return new AlertDialog.Builder(getActivity()).
 				setView(v).
-				setTitle(R.string.criterion_edit_dialog_title).
+				setTitle(R.string.dialog_criterion_title).
 				setPositiveButton(R.string.button_done_text, new DialogInterface.OnClickListener() {
 					
 					@Override

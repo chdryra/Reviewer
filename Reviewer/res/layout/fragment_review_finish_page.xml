@@ -14,13 +14,11 @@
         android:layout_height="wrap_content" 
         style="?android:textAppearanceLarge"
         android:gravity="center"
-        android:text="@string/subject_name"
-
        />        
 
     <View
         android:id="@+id/review_subject_separator_finish_page"
-    	style="@style/Divider"
+    	style="@style/HorizontalDivider"
     	android:layout_below="@id/review_subject_finish_page"/>
     
     <RatingBar
@@ -37,7 +35,7 @@
 
     <View
         android:id="@+id/total_rating_bar_separator_finish_page"
-    	style="@style/Divider"
+    	style="@style/HorizontalDivider"
     	android:layout_below="@id/total_rating_bar_finish_page"/>
     
     <LinearLayout 
@@ -45,13 +43,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_below="@id/total_rating_bar_finish_page">
+        android:layout_below="@id/total_rating_bar_finish_page"
+        android:clickable="true">
         
     </LinearLayout>	
     
     <View
         android:id="@+id/linear_layout_criteria_rating_bars_separator"
-    	style="@style/Divider"
+    	style="@style/HorizontalDivider"
     	android:layout_below="@id/linear_layout_criteria_rating_bars"/>
 
    	 <include  
@@ -65,27 +64,23 @@
 
    	 <View
         android:id="@+id/review_optional_buttons_separator"
-    	style="@style/Divider"
+    	style="@style/HorizontalDivider"
     	android:layout_below="@id/review_optional_buttons"/>
    	 
     <TextView        
        	android:id="@+id/comment_text_view"
-        android:hint="@string/add_comment_hint"
+        android:hint="@string/edit_text_add_comment_hint"
         style="?android:attr/editTextStyle"
         android:layout_below="@id/review_optional_buttons_separator"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:gravity="top|left"
-        android:scrollbarStyle="insideInset"
-		android:scrollbars="vertical" 
-		android:overScrollMode="always"
 		android:clickable="true"
-		android:maxLines="7"
 	        />
 
      <View
         android:id="@+id/comment_separator"
-    	style="@style/Divider"
+    	style="@style/HorizontalDivider"
     	android:layout_below="@id/comment_text_view"/>
    	 
 </RelativeLayout>

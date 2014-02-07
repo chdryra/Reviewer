@@ -1,22 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!-- App level -->
     <string name="app_name">Reviewer</string>
     <string name="action_settings">Settings</string>
-    <string name="criterion_dialog_hint">Enter criterion name</string>
-    <string name="criterion_edit_dialog_title">Edit criterion</string>
-    <string name="subject_name">Subject</string>
-    <string name="edit_text_add_criterion_text">Criterion name...</string>
-    <string name="button_add_criterion_text">Add</string>
+   
+    <!-- Dialogs -->
+    <string name="dialog_criterion_title">Edit criterion</string>
+    <string name="dialog_comment_title">Edit comment</string>
+    <string name="dialog_choose_social">Share</string>
+    
+    <!-- EditTexts -->
+    <string name="edit_text_subject_name">Subject</string>
+    <string name="edit_text_add_criterion_hint">Criterion name...</string>
+    <string name="edit_text_add_comment_hint">Add comment...</string>
+    <string name="edit_text_add_comment_dialog_hint">Comment...</string>
+    
+    <!-- Buttons -->
     <string name="button_done_text">done</string>
     <string name="button_delete_text">delete</string>
     <string name="button_cancel_text">cancel</string>
+    <string name="button_add_criterion_text">add</string>
+    <string name="button_retake_photo_text">retake</string>
+    
+    <!-- Menus -->
     <string name="menu_next">next</string>
     <string name="menu_done">done</string>
     <string name="menu_share">share</string>
-    <string name="comment_edit_dialog_title">Edit comment</string>
-    <string name="add_comment_hint">Add comment...</string>
-    <string name="social_choose_dialog">Social sharing</string>
+    <string name="menu_tags">tags</string>
+    
+    <!-- Social -->
     <string name="facebook">facebook</string>
     <string name="twitter">twitter</string>
     <string name="email">email</string>

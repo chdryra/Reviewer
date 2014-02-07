@@ -16,10 +16,9 @@
 	        android:id="@+id/comment_edit_text"
 	        android:layout_width="match_parent"
 	        android:layout_height="wrap_content"
-	        android:hint="@string/add_comment_hint"
+	        android:hint="@string/edit_text_add_comment_hint"
 	        android:inputType="textCapSentences|textAutoCorrect"
 	        android:imeOptions="actionNext"	       
 	        android:layout_weight="1" 
 	/>
-
 </LinearLayout>

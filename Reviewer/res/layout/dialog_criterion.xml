@@ -4,6 +4,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:hint="@string/criterion_dialog_hint"
+        android:hint="@string/edit_text_add_criterion_hint"
         android:inputType="textCapSentences"
 />
