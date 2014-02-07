@@ -10,11 +10,15 @@
     <string name="dialog_comment_title">Edit comment</string>
     <string name="dialog_choose_social">Share</string>
     
+    <!-- Activities -->
+    <string name="location_activity_title">Location</string>
+    
     <!-- EditTexts -->
-    <string name="edit_text_subject_name">Subject</string>
-    <string name="edit_text_add_criterion_hint">Criterion name...</string>
-    <string name="edit_text_add_comment_hint">Add comment...</string>
-    <string name="edit_text_add_comment_dialog_hint">Comment...</string>
+    <string name="edit_text_subject_hint">Subject</string>
+    <string name="edit_text_add_criterion_hint">Criterion name&#8230;</string>
+    <string name="edit_text_add_comment_hint">Add comment&#8230;</string>
+    <string name="edit_text_add_comment_dialog_hint">Comment&#8230;</string>
+    <string name="edit_text_name_location_hint">Name this location&#8230;</string>
     
     <!-- Buttons -->
     <string name="button_done_text">done</string>
@@ -28,6 +32,9 @@
     <string name="menu_done">done</string>
     <string name="menu_share">share</string>
     <string name="menu_tags">tags</string>
+    <string name="menu_current_location">current location</string>
+    <string name="menu_location_from_photo">location_from_photo</string>
+    <string name="menu_search_location">search for location</string>
     
     <!-- Social -->
     <string name="facebook">facebook</string>

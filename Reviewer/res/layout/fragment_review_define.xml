@@ -10,7 +10,7 @@
         android:id="@+id/review_subject" 
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/edit_text_subject_name" 
+        android:hint="@string/edit_text_subject_hint" 
         style="?android:textAppearanceLarge"
         android:gravity="center"
         android:cursorVisible="false"
@@ -18,8 +18,6 @@
         android:imeOptions="actionDone"
        />        
 
-    
-    
     <RatingBar
         android:id="@+id/total_rating_bar"
         android:layout_width="wrap_content"

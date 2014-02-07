@@ -63,7 +63,7 @@ public class ReviewerDefineFragment extends SherlockFragment{
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		View v = inflater.inflate(R.layout.fragment_review_define_page, container, false);		
+		View v = inflater.inflate(R.layout.fragment_review_define, container, false);		
 		
 		mSubject = (EditText)v.findViewById(R.id.review_subject);
 		EditTextUtils.setupEditTextCusorVisibility(mSubject);		

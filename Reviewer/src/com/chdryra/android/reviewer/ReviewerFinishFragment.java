@@ -67,7 +67,7 @@ public class ReviewerFinishFragment extends SherlockFragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		
-	View v = inflater.inflate(R.layout.fragment_review_finish_page, container, false);	
+	View v = inflater.inflate(R.layout.fragment_review_finish, container, false);	
 	
 	getSherlockActivity().getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 	
@@ -163,6 +163,18 @@ public class ReviewerFinishFragment extends SherlockFragment {
 	mAddLocationButton = (ImageButton)v.findViewById(R.id.add_location_button);
 	mAddLocationButton.getLayoutParams().height = maxWidth;
 	mAddLocationButton.getLayoutParams().width = maxHeight;
+	
+	mAddLocationButton.setOnClickListener(new View.OnClickListener() {
+		
+		@Override
+		public void onClick(View v) {
+			
+			Intent i = new Intent(getSherlockActivity(), ReviewerLocationActivity.class);
+			startActivity(i);
+		}
+	});
+	
+	setImageButtonImage();
 	
 	return v;
 	}

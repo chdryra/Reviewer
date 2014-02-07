@@ -49,7 +49,20 @@
             <meta-data android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ReviewerDefineActivity" />
         </activity>
+
+        <activity android:name=".ReviewerLocationActivity"
+		    android:windowSoftInputMode="adjustPan"
+		    android:configChanges="orientation"
+		    android:exported="true"
+            android:label="@string/location_activity_title" 
+            android:screenOrientation="portrait">
+            <meta-data android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ReviewerFinishActivity" />
+        </activity>
     
+        <meta-data 
+            android:name="com.google.android.maps.v2.API_KEY"
+            android:value="AIzaSyCZ_ArQmEClJYtDtvbcbSQQbvUcCZf3KWg"/>
     </application>
 <!-- android:windowSoftInputMode="stateHidden" -->
 </manifest>
