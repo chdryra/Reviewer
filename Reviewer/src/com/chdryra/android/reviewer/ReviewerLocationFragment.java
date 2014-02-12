@@ -47,6 +47,9 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 	
 	private GoogleMap mGoogleMap;
 	private MapView mMapView;
+	private LatLng mPhotoLatLng;
+	private LatLng mReviewLatLng;
+	private LatLng mDefaultLatLng;
 	private LatLng mLatLng;
 	
 	private LocationClient mLocationClient;
@@ -66,21 +69,36 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		super.onCreateView(inflater, container, savedInstanceState);
-		
+		super.onCreateView(inflater, container, savedInstanceState);		
 		
 		View v = inflater.inflate(R.layout.fragment_review_location, container, false);
 		getSherlockActivity().getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 		mMapView = (MapView)v.findViewById(R.id.mapView);
 	    mMapView.onCreate(savedInstanceState);
-
+	    
 	    mGoogleMap = ((MapView) v.findViewById(R.id.mapView)).getMap();
 	    mGoogleMap.setMyLocationEnabled(true);
+	    mGoogleMap.setOnMyLocationButtonClickListener(new GoogleMap.OnMyLocationButtonClickListener() {
+			
+			@Override
+			public boolean onMyLocationButtonClick() {
+				Location location = mLocationClient.getLastLocation();
+				mLatLng = new LatLng(location.getLatitude(), location.getLongitude());
+				zoomToLatLng();
+				return false;
+			}
+		});
 	    
-	    mLatLng = getSherlockActivity().getIntent().getParcelableExtra(ReviewerFinishFragment.IMAGE_LATLNG);
-	    if (mLatLng != null)
-	    	zoomToLatLng(DEFAULT_ZOOM);	
+	    mReviewLatLng = getSherlockActivity().getIntent().getParcelableExtra(ReviewerFinishFragment.REVIEW_LATLNG);
+	    mPhotoLatLng = getSherlockActivity().getIntent().getParcelableExtra(ReviewerFinishFragment.IMAGE_LATLNG);
+	    if (mReviewLatLng != null)
+	    	mDefaultLatLng = mReviewLatLng;
+	    else if (mPhotoLatLng != null)
+	    	mDefaultLatLng = mPhotoLatLng;
+	    
+	    mLatLng = mDefaultLatLng;
+	    zoomToLatLng();	
 	    	    
 	    mLocationClient.connect();
 
@@ -179,7 +197,15 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-		case R.id.menu_iterm_search_location:
+		case R.id.menu_item_revert_location:
+			mLatLng = mDefaultLatLng;
+			zoomToLatLng();
+			break;
+		case R.id.menu_item_image_location:
+			mLatLng = mPhotoLatLng;
+			zoomToLatLng();
+			break;
+		case R.id.menu_item_search_location:
 			break;
 		case android.R.id.home:
 			if (NavUtils.getParentActivityName(getSherlockActivity()) != null) {
@@ -207,8 +233,11 @@ GooglePlayServicesClient.OnConnectionFailedListener{
         }
 	 }
 	 
-	 private void zoomToLatLng(int zoom) {
-		 mGoogleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(mLatLng, zoom));
+	 private void zoomToLatLng() {
+		 if(mLatLng == null)
+			 return;
+	 
+		 mGoogleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(mLatLng, DEFAULT_ZOOM));
 		 MarkerOptions markerOptions = new MarkerOptions().position(mLatLng);
 		 mGoogleMap.addMarker(markerOptions);
 	 }
@@ -231,9 +260,11 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 		Log.i(TAG, "LocationClient connected");
 		if(mLatLng == null) {
 			Location location = mLocationClient.getLastLocation();
-			if(location != null)
-				mLatLng = new LatLng(location.getLatitude(), location.getLongitude());
-			zoomToLatLng(DEFAULT_ZOOM);
+			if(location != null) {
+				mDefaultLatLng = new LatLng(location.getLatitude(), location.getLongitude());
+				mLatLng = mDefaultLatLng;
+				zoomToLatLng();
+			}
 		}
 	}
 

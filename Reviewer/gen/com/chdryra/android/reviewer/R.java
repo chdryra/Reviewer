@@ -1073,17 +1073,19 @@ containing a value of this type.
         public static final int common_signin_btn_text_pressed_dark=0x7f020086;
         public static final int common_signin_btn_text_pressed_light=0x7f020087;
         public static final int criterion_background_activated=0x7f020088;
-        public static final int ic_checkmark_holo_light=0x7f020089;
-        public static final int ic_launcher=0x7f02008a;
-        public static final int ic_menu_camera=0x7f02008b;
-        public static final int ic_menu_forward=0x7f02008c;
-        public static final int ic_menu_mylocation=0x7f02008d;
-        public static final int ic_menu_search=0x7f02008e;
-        public static final int ic_plusone_medium_off_client=0x7f02008f;
-        public static final int ic_plusone_small_off_client=0x7f020090;
-        public static final int ic_plusone_standard_off_client=0x7f020091;
-        public static final int ic_plusone_tall_off_client=0x7f020092;
-        public static final int total_rating_average_toggle_activated=0x7f020093;
+        public static final int dialog_button_layout_activated=0x7f020089;
+        public static final int ic_checkmark_holo_light=0x7f02008a;
+        public static final int ic_launcher=0x7f02008b;
+        public static final int ic_menu_camera=0x7f02008c;
+        public static final int ic_menu_forward=0x7f02008d;
+        public static final int ic_menu_mylocation=0x7f02008e;
+        public static final int ic_menu_revert=0x7f02008f;
+        public static final int ic_menu_search=0x7f020090;
+        public static final int ic_plusone_medium_off_client=0x7f020091;
+        public static final int ic_plusone_small_off_client=0x7f020092;
+        public static final int ic_plusone_standard_off_client=0x7f020093;
+        public static final int ic_plusone_tall_off_client=0x7f020094;
+        public static final int total_rating_average_toggle_activated=0x7f020095;
     }
     public static final class id {
         public static final int abs__action_bar=0x7f050024;
@@ -1125,7 +1127,7 @@ containing a value of this type.
         public static final int abs__textButton=0x7f050017;
         public static final int abs__title=0x7f05001f;
         public static final int abs__up=0x7f05000f;
-        public static final int action_settings=0x7f05006a;
+        public static final int action_settings=0x7f05006c;
         public static final int add_location_button=0x7f05005b;
         public static final int add_optionals_linear_layout=0x7f050059;
         public static final int add_photo_button=0x7f05005a;
@@ -1164,9 +1166,11 @@ containing a value of this type.
         public static final int map_buttons=0x7f050056;
         public static final int menu_item_choose_social=0x7f050067;
         public static final int menu_item_choose_tags=0x7f050066;
+        public static final int menu_item_image_location=0x7f05006a;
         public static final int menu_item_next_screen=0x7f050065;
+        public static final int menu_item_revert_location=0x7f050069;
         public static final int menu_item_review_done=0x7f050068;
-        public static final int menu_iterm_search_location=0x7f050069;
+        public static final int menu_item_search_location=0x7f05006b;
         public static final int none=0x7f050000;
         public static final int normal=0x7f050001;
         public static final int review_optional_buttons=0x7f050050;

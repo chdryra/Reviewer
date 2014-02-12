@@ -28,11 +28,7 @@ public class ImageHandler {
 	
 	public ImageHandler(String imageFilePath) {
 		mImageFilePath = imageFilePath;
-		try {
-			mEXIF = new ExifInterface(mImageFilePath);
-		} catch (IOException e) {
-			Log.i(TAG, "No EXIF found in " + mImageFilePath);
-		}
+		getEXIF();
 	}
 	
 	public String getImageFilePath() {
@@ -42,14 +38,21 @@ public class ImageHandler {
 	public void setImageFilePath(String imageFilePath) {
 		mImageFilePath = imageFilePath;
 		mEXIF = null;
-		try {
-			mEXIF = new ExifInterface(mImageFilePath);
-		} catch (IOException e) {
-			Log.i(TAG, "No EXIF found in " + mImageFilePath);
-		}
+		getEXIF();
 	}
 	
 	public ExifInterface getEXIF() {
+		if(mImageFilePath != null) {
+			if (mEXIF == null) {
+				try {
+					mEXIF = new ExifInterface(mImageFilePath);
+				} catch (IOException e) {
+					Log.i(TAG, "No EXIF found in " + mImageFilePath);
+				}
+			}	
+		} else 
+			mEXIF = null;
+		
 		return mEXIF;
 	}
 	
@@ -106,10 +109,7 @@ public class ImageHandler {
 	}
 	
 	public boolean hasGPSTag() {
-		if(mEXIF == null)
-			return false;
-		
-		EXIFtoLatLngConverter converter = new EXIFtoLatLngConverter(mEXIF);
+		EXIFtoLatLngConverter converter = new EXIFtoLatLngConverter(getEXIF());
 		return converter.isValid();
 	}
 	
@@ -281,7 +281,6 @@ public class ImageHandler {
 		
 		 try {
 		     Bitmap oriented = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
-		     bitmap.recycle();
 		     return oriented;
 		 } catch (OutOfMemoryError e) {
 		     e.printStackTrace();

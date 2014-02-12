@@ -31,7 +31,6 @@ public class ReviewImageHandler extends ImageHandler{
 	
 	private ReviewImageHandler(Review review) {
 		mReview = review;
-		createNewImageFile();
 	}
 			
 	public void deleteImage() {

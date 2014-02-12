@@ -19,7 +19,7 @@
         android:layout_height="wrap_content"
         android:layout_width="0dp"
         android:text="@string/button_delete_text"
-        android:background="@null"
+        style="@style/Widget.Sherlock.ActionButton"
         android:layout_weight="1"/>
     
     <View style="@style/VerticalDivider" />
@@ -29,7 +29,7 @@
         android:layout_height="wrap_content"
         android:layout_width="0dp"
         android:text="@string/button_cancel_text"
-        android:background="@null"
+        style="@style/Widget.Sherlock.ActionButton"
         android:layout_weight="1"/>
     
     <View style="@style/VerticalDivider" />
@@ -39,7 +39,7 @@
         android:layout_height="wrap_content"
         android:layout_width="0dp"
         android:text="@string/button_done_text"
-        android:background="@null"
+        style="@style/Widget.Sherlock.ActionButton"
         android:layout_weight="1"/>
 
 </LinearLayout>

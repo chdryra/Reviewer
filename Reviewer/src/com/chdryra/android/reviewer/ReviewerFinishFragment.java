@@ -45,6 +45,7 @@ public class ReviewerFinishFragment extends SherlockFragment {
 	public static final String COMMENT_TEXT = "com.chdryra,android,reviewer.comment_text";
 	public static final String IMAGE_FILE = "com.chdryra,android,reviewer.image_file";
 	public static final String IMAGE_LATLNG = "com.chdryra,android,reviewer.image_latlng";
+	public static final String REVIEW_LATLNG = "com.chdryra,android,reviewer.review_latlng";
 	
 	public final static int COMMENT_EDIT = 0;
 	public final static int SOCIAL_EDIT = 1;
@@ -178,6 +179,8 @@ public class ReviewerFinishFragment extends SherlockFragment {
 			@Override
 			public void onClick(View v) {				
 				Intent i = new Intent(getSherlockActivity(), ReviewerLocationActivity.class);
+				if (mReview.hasLatLng())					
+					i.putExtra(REVIEW_LATLNG, mReview.getLatLng());
 				if (mReview.hasImage() && mReviewImageHandler.hasGPSTag())					
 					i.putExtra(IMAGE_LATLNG, mReviewImageHandler.getLatLngFromEXIF());
 				startActivityForResult(i, LOCATION_EDIT);
@@ -256,56 +259,79 @@ public class ReviewerFinishFragment extends SherlockFragment {
 			return;
 		}
 		
-		if (resultCode == Activity.RESULT_OK) {
-			switch (requestCode) {
+		switch (requestCode) {
+			
 			case COMMENT_EDIT:
-				updateComment((String)data.getSerializableExtra(CommentDialogFragment.EXTRA_COMMENT_STRING));				
+				switch (resultCode) {
+					case Activity.RESULT_OK:
+						updateComment((String)data.getSerializableExtra(CommentDialogFragment.EXTRA_COMMENT_STRING));				
+						break;
+					case CommentDialogFragment.RESULT_DELETE_COMMENT:
+						updateComment(null);
+						break;		
+					default:
+						break;
+				}
 				break;
-	
+				
 			case IMAGE_REQUEST:
-				final boolean isCamera;
-		        if(data == null)
-		            isCamera = true;
-		        else {
-		        	final String action = data.getAction();
-		            if(action == null)
-		                isCamera = false;
-		            else
-		                isCamera = action.equals(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-		        }
-		        
-		        if(!isCamera) {
-		        	Uri uri = data == null ? null : data.getData();
-		        	String path = ImageHandler.getRealPathFromURI(getSherlockActivity(), uri);
-		        	mReviewImageHandler.setImageFilePath(path);
-		        }
-		     
-		        if(mReviewImageHandler.bitmapExists())
-		        	setReviewImage();
+				switch (resultCode) {
+					case Activity.RESULT_OK:
+						final boolean isCamera;
+				        if(data == null)
+				            isCamera = true;
+				        else {
+				        	final String action = data.getAction();
+				            if(action == null)
+				                isCamera = false;
+				            else
+				                isCamera = action.equals(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+				        }
+				        
+				        if(!isCamera) {
+				        	Uri uri = data == null ? null : data.getData();
+				        	String path = ImageHandler.getRealPathFromURI(getSherlockActivity(), uri);
+				        	mReviewImageHandler.setImageFilePath(path);
+				        }
+				     
+				        if(mReviewImageHandler.bitmapExists())
+				        	setReviewImage();				
+						break;		
+					default:
+						break;
+				}
 				break;
 				
 			case IMAGE_EDIT:
-				requestImageCaptureIntent();
+				switch (resultCode) {
+					case Activity.RESULT_OK:
+						requestImageCaptureIntent();
+						break;
+					case ImageDialogFragment.RESULT_DELETE_IMAGE:
+						deleteReviewImage();
+						break;		
+					default:
+						break;
+				}
 				break;
 				
 			case LOCATION_EDIT:
-				setReviewLocation(data);
+				switch (resultCode) {
+					case Activity.RESULT_OK:
+						setReviewLocation(data);
+						break;
+					case ReviewerLocationFragment.RESULT_DELETE_LOCATION:
+						deleteReviewLocation();
+						break;		
+					default:
+						break;
+				}
+				break;
+
 			default:
 				break;
-			};
-		}
-			
-		if (resultCode == CommentDialogFragment.RESULT_DELETE_COMMENT) {
-			updateComment(null);
 		}
 		
-		if (resultCode == ImageDialogFragment.RESULT_DELETE_IMAGE) {
-			deleteReviewImage();
-		}
-		
-		if (resultCode == ReviewerLocationFragment.RESULT_DELETE_LOCATION) {
-			deleteReviewLocation();
-		}
 	}
 
 	private void setImageButtonImage() {
