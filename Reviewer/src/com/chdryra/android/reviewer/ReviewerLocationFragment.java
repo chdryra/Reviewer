@@ -231,7 +231,8 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 		Log.i(TAG, "LocationClient connected");
 		if(mLatLng == null) {
 			Location location = mLocationClient.getLastLocation();
-			mLatLng = new LatLng(location.getLatitude(), location.getLongitude());
+			if(location != null)
+				mLatLng = new LatLng(location.getLatitude(), location.getLongitude());
 			zoomToLatLng(DEFAULT_ZOOM);
 		}
 	}

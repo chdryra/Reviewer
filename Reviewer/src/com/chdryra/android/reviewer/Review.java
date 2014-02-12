@@ -32,8 +32,12 @@ public class Review implements Commentable{
 	private void generateID() {
 		mID = UUID.randomUUID();
 	}
+
+	public UUID getID() {
+		return mID;
+	}
 	
-	public void setSubject(String subject) {
+ 	public void setSubject(String subject) {
 		mSubject = subject;
 	}
 	
@@ -90,7 +94,6 @@ public class Review implements Commentable{
 		
 		return comment;
 	}
-
 
 	public String getCommentIncludingCriteria() {
 		return getFormattedComment();

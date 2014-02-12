@@ -53,7 +53,7 @@ public class ReviewerFinishFragment extends SherlockFragment {
 	public final static int LOCATION_EDIT = 4;
 	
 	private Review mReview;
-	private ImageHelper mImageHelper;
+	private ReviewImageHandler mReviewImageHandler;
 	
 	private TextView mSubject;
 	private RatingBar mRatingBar;
@@ -71,7 +71,7 @@ public class ReviewerFinishFragment extends SherlockFragment {
 		setRetainInstance(true);
 		mReview = (Review)IntentObjectHolder.getObject(ReviewerDefineFragment.REVIEW_OBJECT);
 		if(mReview.hasImage())
-			mImageHelper = ImageHelper.getInstance(mReview.getSubject());
+			mReviewImageHandler = ReviewImageHandler.getInstance(mReview);		
 	}
 
 	@Override
@@ -178,23 +178,23 @@ public class ReviewerFinishFragment extends SherlockFragment {
 			@Override
 			public void onClick(View v) {				
 				Intent i = new Intent(getSherlockActivity(), ReviewerLocationActivity.class);
-				if (mReview.hasImage() && mImageHelper.hasGPSTag())					
-					i.putExtra(IMAGE_LATLNG, mImageHelper.getLatLngFromImage());
+				if (mReview.hasImage() && mReviewImageHandler.hasGPSTag())					
+					i.putExtra(IMAGE_LATLNG, mReviewImageHandler.getLatLngFromEXIF());
 				startActivityForResult(i, LOCATION_EDIT);
 			}
 			
 		});
 		
-		setImageButtonImage();
+		setLocationButtonImage();
 		
 		return v;
 	}
 
 	private void requestImageCaptureIntent() {
-		if(mImageHelper == null)
-			mImageHelper = ImageHelper.getInstance(mReview.getSubject());
+		if(mReviewImageHandler == null)
+			mReviewImageHandler = ReviewImageHandler.getInstance(mReview);
 		
-		mImageHelper.createNewImageFile();
+		mReviewImageHandler.createNewImageFile();
 		
 		final List<Intent> cameraIntents = new ArrayList<Intent>();
 		final Intent captureIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
@@ -205,7 +205,7 @@ public class ReviewerFinishFragment extends SherlockFragment {
 	        final Intent intent = new Intent(captureIntent);
 	        intent.setComponent(new ComponentName(res.activityInfo.packageName, res.activityInfo.name));
 	        intent.setPackage(packageName);
-	        intent.putExtra(MediaStore.EXTRA_OUTPUT, mImageHelper.getUri());
+	        intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(new File(mReviewImageHandler.getImageFilePath())));
 	        cameraIntents.add(intent);
 	    }
         
@@ -276,14 +276,13 @@ public class ReviewerFinishFragment extends SherlockFragment {
 		        
 		        if(!isCamera) {
 		        	Uri uri = data == null ? null : data.getData();
-		        	String path = ImageHelper.getRealPathFromURI(getSherlockActivity(), uri);
-		        	File imageFile = new File(path);
-		        	if(imageFile.exists())
-		        		mImageHelper.setImageFile(imageFile);
+		        	String path = ImageHandler.getRealPathFromURI(getSherlockActivity(), uri);
+		        	mReviewImageHandler.setImageFilePath(path);
+		        }
 		        	else
 		        		break;
-		        }
-		        if(mImageHelper.bitmapExists(getSherlockActivity()))
+		     
+		        if(mReviewImageHandler.bitmapExists())
 		        	setReviewImage();
 				break;
 				
@@ -306,7 +305,9 @@ public class ReviewerFinishFragment extends SherlockFragment {
 			deleteReviewImage();
 		}
 		
-	
+		if (resultCode == ReviewerLocationFragment.RESULT_DELETE_LOCATION) {
+			deleteReviewLocation();
+		}
 	}
 
 	private void setImageButtonImage() {
@@ -319,29 +320,27 @@ public class ReviewerFinishFragment extends SherlockFragment {
 			int maxWidth = mAddPhotoButton.getLayoutParams().width;				
 			int maxHeight = mAddPhotoButton.getLayoutParams().height;
 			
-			Bitmap imageThumbnail = mImageHelper.resizeImage(getSherlockActivity(), maxWidth, maxHeight);	        		        
+			Bitmap imageThumbnail = ImageHandler.resizeImage(reviewImage, maxWidth, maxHeight);	        		        
 			mAddPhotoButton.setImageBitmap(imageThumbnail);
 		}	
-				
-
 	}
 
 	private void setLocationButtonImage() {
-		mAddLocationButton.setImageBitmap(mReview.getMapSnapshot());
+		Bitmap mapSnapshot = mReview.getMapSnapshot();
+		
+		if(mapSnapshot == null)
+			mAddLocationButton.setImageResource(R.drawable.ic_menu_mylocation);
+		else
+			mAddLocationButton.setImageBitmap(mapSnapshot);
 	}
 	
 	private void setReviewImage() {
-        int maxWidth = (int)getSherlockActivity().getResources().getDimension(R.dimen.imageMaxWidth);				
-		int maxHeight = (int)getSherlockActivity().getResources().getDimension(R.dimen.imageMaxHeight);;
-		
-		Bitmap reviewImage = mImageHelper.resizeImage(getSherlockActivity(), maxWidth, maxHeight);
-		mReview.setImage(reviewImage);
+        mReviewImageHandler.setReviewImage(getSherlockActivity());
 		setImageButtonImage();
 	}
 	
 	private void deleteReviewImage() {
-		mImageHelper.deleteImage();
-		mReview.setImage(null);
+		mReviewImageHandler.deleteImage();
 		setImageButtonImage();
 	}
 	
