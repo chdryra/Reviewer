@@ -326,8 +326,8 @@ public class ReviewerFinishFragment extends SherlockFragment {
 
 	}
 
-	private void setLocationButtonImage(Bitmap snapshot) {
-		mAddLocationButton.setImageBitmap(snapshot);
+	private void setLocationButtonImage() {
+		mAddLocationButton.setImageBitmap(mReview.getMapSnapshot());
 	}
 	
 	private void setReviewImage() {
@@ -350,7 +350,8 @@ public class ReviewerFinishFragment extends SherlockFragment {
 		Bitmap snapshot = data.getParcelableExtra(ReviewerLocationFragment.MAP_SNAPSHOT);
 		
 		mReview.setLatLng(ll);
-		setLocationButtonImage(snapshot);
+		mReview.setMapSnapshot(snapshot);
+		setLocationButtonImage();
 	}
 	
 	private void deleteReviewLocation() {

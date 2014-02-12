@@ -22,6 +22,7 @@ public class Review implements Commentable{
 	private String mComment;
 	private Bitmap mImage;
 	private LatLng mLatLng;
+	private Bitmap mMapSnapshot;
 	
 	public Review() {
 		generateID();
@@ -143,4 +144,13 @@ public class Review implements Commentable{
 	public boolean hasLatLng() {
 		return mLatLng != null;
 	}
+
+	public Bitmap getMapSnapshot() {
+		return mMapSnapshot;
+	}
+
+	public void setMapSnapshot(Bitmap mapSnapshot) {
+		mMapSnapshot = mapSnapshot;
+	}
+	
 }
