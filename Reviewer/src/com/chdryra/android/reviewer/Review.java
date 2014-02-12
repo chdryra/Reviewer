@@ -1,18 +1,13 @@
 package com.chdryra.android.reviewer;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
-import java.util.Map;
 import java.util.UUID;
 
 import android.graphics.Bitmap;
-import android.location.Location;
-import android.os.Parcel;
-import android.os.Parcelable;
-import android.util.Log;
-import android.widget.RatingBar;
+
+import com.google.android.gms.maps.model.LatLng;
 
 public class Review implements Commentable{	
 	private static final String TAG = "Review";
@@ -26,7 +21,7 @@ public class Review implements Commentable{
 	private boolean mRatingIsAverage;
 	private String mComment;
 	private Bitmap mImage;
-	private Location mLocation;
+	private LatLng mLatLng;
 	
 	public Review() {
 		generateID();
@@ -133,5 +128,19 @@ public class Review implements Commentable{
 		mImage = image;
 	}
 
+	public boolean hasImage() {
+		return mImage != null;
+	}
+
+	public LatLng getLatLng() {
+		return mLatLng;
+	}
+
+	public void setLatLng(LatLng latlng) {
+		mLatLng = latlng;
+	}
 	
+	public boolean hasLatLng() {
+		return mLatLng != null;
+	}
 }

@@ -480,9 +480,9 @@ int string auth_client_requested_by_msg 0x7f060018
 int string auth_client_using_bad_version_title 0x7f060013
 int string button_add_criterion_text 0x7f060034
 int string button_cancel_text 0x7f060033
+int string button_change_photo_text 0x7f060035
 int string button_delete_text 0x7f060032
 int string button_done_text 0x7f060031
-int string button_retake_photo_text 0x7f060035
 int string common_google_play_services_enable_button 0x7f060006
 int string common_google_play_services_enable_text 0x7f060005
 int string common_google_play_services_enable_title 0x7f060004

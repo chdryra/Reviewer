@@ -1310,11 +1310,11 @@ containing a value of this type.
         public static final int auth_client_using_bad_version_title=0x7f060013;
         public static final int button_add_criterion_text=0x7f060034;
         public static final int button_cancel_text=0x7f060033;
+        public static final int button_change_photo_text=0x7f060035;
         public static final int button_delete_text=0x7f060032;
         /**  Buttons 
          */
         public static final int button_done_text=0x7f060031;
-        public static final int button_retake_photo_text=0x7f060035;
         /**  Button in confirmation dialog to enable Google Play services.  Clicking it
         will direct user to application settings of Google Play services where they
         can enable it [CHAR LIMIT=40] 

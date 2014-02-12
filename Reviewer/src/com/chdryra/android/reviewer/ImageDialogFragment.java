@@ -41,7 +41,7 @@ public class ImageDialogFragment extends SherlockDialogFragment {
 	private AlertDialog buildDialog(View v) {
 		return new AlertDialog.Builder(getActivity()).
 				setView(v).
-				setPositiveButton(R.string.button_retake_photo_text, new DialogInterface.OnClickListener() {
+				setPositiveButton(R.string.button_change_photo_text, new DialogInterface.OnClickListener() {
 					
 					@Override
 					public void onClick(DialogInterface dialog, int which) {

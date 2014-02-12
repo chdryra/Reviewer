@@ -1,16 +1,23 @@
 package com.chdryra.android.reviewer;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.FileOutputStream;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.content.IntentSender;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.os.Bundle;
-import android.provider.SyncStateContract.Constants;
 import android.support.v4.app.NavUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
@@ -20,8 +27,10 @@ import com.google.android.gms.common.GooglePlayServicesClient;
 import com.google.android.gms.location.LocationClient;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.GoogleMap.SnapshotReadyCallback;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 public class ReviewerLocationFragment extends SherlockMapFragment implements
 GooglePlayServicesClient.ConnectionCallbacks,
@@ -29,12 +38,23 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 
 	private final static String TAG = "ReviewerLocationFragment";
 	private final static int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
-	private final static String LOCATION_NAME = "com.chdryra.android.reviewer.location_name";
+	private final static int DEFAULT_ZOOM = 15;
+	
+	public static final int RESULT_DELETE_LOCATION = Activity.RESULT_FIRST_USER;
+	public final static String LOCATION_LATLNG = "com.chdryra.android.reviewer.location_latlng";
+	public final static String LOCATION_NAME = "com.chdryra.android.reviewer.location_name";
+	public final static String MAP_SNAPSHOT = "com.chdryra.android.reviewer.map_snapshot";
 	
 	private GoogleMap mGoogleMap;
 	private MapView mMapView;
-	private Location mLocation;
+	private LatLng mLatLng;
+	
 	private LocationClient mLocationClient;
+	
+	private Bitmap mSnapshot;
+	private Button mDeleteButton;
+	private Button mCancelButton;
+	private Button mDoneButton;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -45,8 +65,7 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 	}
 	
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		super.onCreateView(inflater, container, savedInstanceState);
 		
 		
@@ -58,10 +77,52 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 
 	    mGoogleMap = ((MapView) v.findViewById(R.id.mapView)).getMap();
 	    mGoogleMap.setMyLocationEnabled(true);
-	 
 	    
+	    mLatLng = getSherlockActivity().getIntent().getParcelableExtra(ReviewerFinishFragment.IMAGE_LATLNG);
+	    if (mLatLng != null)
+	    	zoomToLatLng(DEFAULT_ZOOM);	
+	    	    
 	    mLocationClient.connect();
+
+	    mDeleteButton = (Button)v.findViewById(R.id.button_map_delete);
+	    mDeleteButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				sendResult(RESULT_DELETE_LOCATION);
+			}
+		});
+	    
+	    mCancelButton = (Button)v.findViewById(R.id.button_map_cancel);
+	    mCancelButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				sendResult(Activity.RESULT_CANCELED);
+			}
+		});
+	    
+	    mDoneButton = (Button)v.findViewById(R.id.button_map_done);
+	    mDoneButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				CaptureMapScreen();
+			}
+		});
+	       
+	    
+	    	    
 	    return v;
+	}
+	
+	private void sendResult(int resultCode) {
+		Intent intent = new Intent();
+		
+		if(resultCode == Activity.RESULT_OK) {
+			intent.putExtra(MAP_SNAPSHOT, mSnapshot);
+			intent.putExtra(LOCATION_LATLNG, mLatLng);
+		}
+		
+		 getSherlockActivity().setResult(resultCode,intent);		 
+		 getSherlockActivity().finish();	
 	}
 	
 	@Override
@@ -146,6 +207,12 @@ GooglePlayServicesClient.OnConnectionFailedListener{
         }
 	 }
 	 
+	 private void zoomToLatLng(int zoom) {
+		 mGoogleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(mLatLng, zoom));
+		 MarkerOptions markerOptions = new MarkerOptions().position(mLatLng);
+		 mGoogleMap.addMarker(markerOptions);
+	 }
+	 
 	@Override
 	public void onConnectionFailed(ConnectionResult connectionResult) {
 		 if (connectionResult.hasResolution()) {
@@ -162,10 +229,11 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 	@Override
 	public void onConnected(Bundle arg0) {
 		Log.i(TAG, "LocationClient connected");
-		if(mLocation == null)
-			mLocation = mLocationClient.getLastLocation();
-	    
-	    mGoogleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(mLocation.getLatitude(), mLocation.getLongitude()), 17));		
+		if(mLatLng == null) {
+			Location location = mLocationClient.getLastLocation();
+			mLatLng = new LatLng(location.getLatitude(), location.getLongitude());
+			zoomToLatLng(DEFAULT_ZOOM);
+		}
 	}
 
 	@Override
@@ -173,4 +241,22 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 		Log.i(TAG, "LocationClient disconnected");
 	}
 
+	public void CaptureMapScreen() 
+	{
+		SnapshotReadyCallback callback = new SnapshotReadyCallback() {
+			Bitmap bitmap;
+
+            @Override
+            public void onSnapshotReady(Bitmap snapshot) {
+                try {
+                	mSnapshot = Bitmap.createScaledBitmap(snapshot, 300, 300, true);
+                	sendResult(Activity.RESULT_OK);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+
+	    mGoogleMap.snapshot(callback);
+	}
 }

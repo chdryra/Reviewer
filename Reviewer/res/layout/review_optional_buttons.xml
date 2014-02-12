@@ -15,6 +15,7 @@
 	 	    android:layout_height="wrap_content"
 	 	    android:layout_weight="1"
 	 	    android:layout_gravity="center_horizontal"
+	 	    android:scaleType="centerInside"
 	 	    android:contentDescription="Add photo"
 	     />
 	 	
@@ -30,6 +31,7 @@
 	 	    android:layout_height="wrap_content"
 	 	    android:layout_weight="1"
 	 	    android:layout_gravity="center_horizontal"
+	 	    android:scaleType="centerInside"
 	 	    android:contentDescription="Add location"
 	     />
 </LinearLayout>

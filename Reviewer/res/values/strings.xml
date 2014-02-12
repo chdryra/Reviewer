@@ -25,7 +25,7 @@
     <string name="button_delete_text">delete</string>
     <string name="button_cancel_text">cancel</string>
     <string name="button_add_criterion_text">add</string>
-    <string name="button_retake_photo_text">retake</string>
+    <string name="button_change_photo_text">change</string>
     
     <!-- Menus -->
     <string name="menu_next">next</string>
