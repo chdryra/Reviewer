@@ -355,9 +355,9 @@ public class ReviewerFinishFragment extends SherlockFragment {
 	}
 	
 	private void deleteReviewLocation() {
-		mImageHelper.deleteImage();
-		mReview.setImage(null);
-		setImageButtonImage();
+		mReview.setLatLng(null);
+		mReview.setMapSnapshot(null);
+		setLocationButtonImage();
 	}
 	
 	private void updateComment(String comment) {
