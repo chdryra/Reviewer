@@ -279,8 +279,6 @@ public class ReviewerFinishFragment extends SherlockFragment {
 		        	String path = ImageHandler.getRealPathFromURI(getSherlockActivity(), uri);
 		        	mReviewImageHandler.setImageFilePath(path);
 		        }
-		        	else
-		        		break;
 		     
 		        if(mReviewImageHandler.bitmapExists())
 		        	setReviewImage();
@@ -311,20 +309,20 @@ public class ReviewerFinishFragment extends SherlockFragment {
 	}
 
 	private void setImageButtonImage() {
-		Bitmap reviewImage = mReview.getImage();
+		Bitmap thumbnail = null;
+		if(mReviewImageHandler != null)
+			thumbnail = mReviewImageHandler.getThumbnail();
 		
-		if(reviewImage == null) {
+		if( thumbnail == null)
 			mAddPhotoButton.setImageResource(R.drawable.ic_menu_camera);
-			return;
-		} else {
-			int maxWidth = mAddPhotoButton.getLayoutParams().width;				
-			int maxHeight = mAddPhotoButton.getLayoutParams().height;
-			
-			Bitmap imageThumbnail = ImageHandler.resizeImage(reviewImage, maxWidth, maxHeight);	        		        
-			mAddPhotoButton.setImageBitmap(imageThumbnail);
-		}	
+		else
+			mAddPhotoButton.setImageBitmap(thumbnail);
 	}
 
+	private void deleteImageButtonImage() {
+		mAddPhotoButton.setImageResource(R.drawable.ic_menu_camera);
+	}
+	
 	private void setLocationButtonImage() {
 		Bitmap mapSnapshot = mReview.getMapSnapshot();
 		
@@ -335,13 +333,12 @@ public class ReviewerFinishFragment extends SherlockFragment {
 	}
 	
 	private void setReviewImage() {
-        mReviewImageHandler.setReviewImage(getSherlockActivity());
-		setImageButtonImage();
+        mReviewImageHandler.setReviewImage(getSherlockActivity(), mAddPhotoButton);
 	}
 	
 	private void deleteReviewImage() {
 		mReviewImageHandler.deleteImage();
-		setImageButtonImage();
+		deleteImageButtonImage();
 	}
 	
 	private void setReviewLocation(Intent data) {

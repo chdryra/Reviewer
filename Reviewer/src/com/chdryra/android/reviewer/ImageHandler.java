@@ -6,9 +6,11 @@ import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.BitmapFactory.Options;
 import android.graphics.Matrix;
 import android.media.ExifInterface;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.provider.MediaStore;
 import android.util.Log;
 
@@ -63,6 +65,7 @@ public class ImageHandler {
 		BitmapFactory.Options options = getInDecodeBoundsOptions();
 		options.inSampleSize = calculateInSampleSize(options, maxWidth, maxHeight);			
 		options.inJustDecodeBounds = false;
+		
 		Bitmap bitmap = BitmapFactory.decodeFile(mImageFilePath, options);
 		bitmap = rotateBitmapUsingExif(mImageFilePath, bitmap);
 		return bitmap;
@@ -74,6 +77,10 @@ public class ImageHandler {
 		return bitmap;
 	}
 
+	private Bitmap returnLoadedBitmap(Bitmap bitmap) {
+		return bitmap;
+	}
+	
 	private int calculateInSampleSize( BitmapFactory.Options options, int reqWidth, int reqHeight) {
 	    final int height = options.outHeight;
 	    final int width = options.outWidth;

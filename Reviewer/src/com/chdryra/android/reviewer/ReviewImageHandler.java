@@ -1,25 +1,17 @@
 package com.chdryra.android.reviewer;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 
 import android.content.Context;
-import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Matrix;
-import android.media.ExifInterface;
-import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Environment;
-import android.provider.MediaStore;
-import android.provider.MediaStore.Images.Media;
 import android.util.Log;
-
-import com.google.android.gms.maps.model.LatLng;
+import android.widget.ImageButton;
 
 public class ReviewImageHandler extends ImageHandler{
 
@@ -28,6 +20,7 @@ public class ReviewImageHandler extends ImageHandler{
 	private static HashMap<String, ReviewImageHandler> sReviewImageHandlers = new HashMap<String, ReviewImageHandler>();
 	
 	private Review mReview;
+	private Bitmap mThumbnail;
 	
 	public static ReviewImageHandler getInstance(Review mReview) {
 		if(!sReviewImageHandlers.containsKey(mReview.getID().toString()))
@@ -70,10 +63,45 @@ public class ReviewImageHandler extends ImageHandler{
         setImageFilePath(path);
 	}
 	
-	public void setReviewImage(Context context) {
+	public void setReviewImage(Context context, ImageButton thumbnailView) {
 		int maxWidth = (int)context.getResources().getDimension(R.dimen.imageMaxWidth);				
 		int maxHeight = (int)context.getResources().getDimension(R.dimen.imageMaxHeight);
 		
-		mReview.setImage(getBitmap(maxWidth, maxHeight));
+		BitmapLoaderTask loader = new BitmapLoaderTask(thumbnailView);
+		loader.execute(maxWidth, maxHeight);
+	}
+
+	public Bitmap getThumbnail() {
+		return mThumbnail;
+	}
+	
+	private class BitmapLoaderTask extends AsyncTask<Integer, Void, Bitmap> {		
+		private ImageButton mThumbnailView;
+		
+		public BitmapLoaderTask(ImageButton thumbnailView) {
+			mThumbnailView = thumbnailView;
+		}
+		
+		@Override
+	    protected Bitmap doInBackground(Integer... params) {
+	        int maxWidth = params[0];
+	        int maxHeight = params[1];
+	        Bitmap bitmap = getBitmap(maxWidth, maxHeight);
+	        
+	        maxWidth = mThumbnailView.getLayoutParams().width;				
+			maxHeight = mThumbnailView.getLayoutParams().height;
+			
+			mThumbnail = ImageHandler.resizeImage(bitmap, maxWidth, maxHeight);	        		        
+			return bitmap;
+	    }
+		
+		@Override
+		protected void onPostExecute(Bitmap bitmap) {
+			mReview.setImage(bitmap);
+			if(bitmap == null)
+				mThumbnailView.setImageResource(R.drawable.ic_menu_camera);
+			else
+				mThumbnailView.setImageBitmap(mThumbnail);
+		}	
 	}
 }
