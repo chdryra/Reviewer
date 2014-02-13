@@ -34,9 +34,9 @@ public class CriterionDialogFragment extends SherlockDialogFragment {
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		View v = getActivity().getLayoutInflater().inflate(R.layout.dialog_criterion, null);
 		EditText editText = (EditText)v.findViewById(R.id.criterion_name_edit_text);
-		if( getTargetRequestCode() == ReviewerDefineFragment.CRITERION_EDIT )
+		if( getTargetRequestCode() == ReviewDefineFragment.CRITERION_EDIT )
 		{
-			mCriterionOldName = (String)getArguments().getSerializable(ReviewerDefineFragment.CRITERION_NAME);
+			mCriterionOldName = (String)getArguments().getSerializable(ReviewDefineFragment.CRITERION_NAME);
 			editText.setText(mCriterionOldName);
 		}
 		

@@ -31,7 +31,7 @@ import com.actionbarsherlock.view.MenuItem;
 
 
 
-public class ReviewerDefineFragment extends SherlockFragment{
+public class ReviewDefineFragment extends SherlockFragment{
 	private final static String TAG = "ReviewerFragment";
 	private final static String CRITERION_DIALOG_TAG = "CriterionDialog";
 	public final static String CRITERION_NAME = "com.chdryra.android.reviewer.criterion_name";
@@ -53,7 +53,7 @@ public class ReviewerDefineFragment extends SherlockFragment{
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		mReview = (Review)IntentObjectHolder.getObject(ReviewerFinishFragment.REVIEW_OBJECT);
+		mReview = (Review)IntentObjectHolder.getObject(ReviewFinishFragment.REVIEW_OBJECT);
 		if(mReview == null)
 			mReview = new Review();
 		setHasOptionsMenu(true);		
@@ -113,7 +113,7 @@ public class ReviewerDefineFragment extends SherlockFragment{
 				Log.i(TAG, "Criterion: " + c.getName());
 				
 				CriterionDialogFragment dialog = new CriterionDialogFragment();
-				dialog.setTargetFragment(ReviewerDefineFragment.this, CRITERION_EDIT);
+				dialog.setTargetFragment(ReviewDefineFragment.this, CRITERION_EDIT);
 				Bundle args = new Bundle();
 				args.putSerializable(CRITERION_NAME, c.getName());
 				dialog.setArguments(args);
@@ -334,7 +334,7 @@ public class ReviewerDefineFragment extends SherlockFragment{
 				mReview.setRating(mTotalRatingBar.getRating());
 				mReview.setRatingIsAverage(mTotalRatingIsAverage);
 				IntentObjectHolder.addObject(REVIEW_OBJECT, mReview);
-				Intent i = new Intent(getSherlockActivity(), ReviewerFinishActivity.class);
+				Intent i = new Intent(getSherlockActivity(), ReviewFinishActivity.class);
 				startActivity(i);
 			}
 			break;

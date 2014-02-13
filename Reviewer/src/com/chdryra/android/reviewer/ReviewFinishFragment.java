@@ -32,7 +32,7 @@ import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.google.android.gms.maps.model.LatLng;
 
-public class ReviewerFinishFragment extends SherlockFragment {
+public class ReviewFinishFragment extends SherlockFragment {
 	private final static String TAG = "ReviewerFinishFragment";
 	
 	private final static String DIALOG_COMMENT_TAG = "CommentDialog";
@@ -46,6 +46,7 @@ public class ReviewerFinishFragment extends SherlockFragment {
 	public static final String IMAGE_FILE = "com.chdryra,android,reviewer.image_file";
 	public static final String IMAGE_LATLNG = "com.chdryra,android,reviewer.image_latlng";
 	public static final String REVIEW_LATLNG = "com.chdryra,android,reviewer.review_latlng";
+	public static final String LOCATION_BUTTON = "com.chdryra,android,reviewer.location_button";
 	
 	public final static int COMMENT_EDIT = 0;
 	public final static int SOCIAL_EDIT = 1;
@@ -70,14 +71,13 @@ public class ReviewerFinishFragment extends SherlockFragment {
 		super.onCreate(savedInstanceState);
 		setHasOptionsMenu(true);		
 		setRetainInstance(true);
-		mReview = (Review)IntentObjectHolder.getObject(ReviewerDefineFragment.REVIEW_OBJECT);
+		mReview = (Review)IntentObjectHolder.getObject(ReviewDefineFragment.REVIEW_OBJECT);
 		if(mReview.hasImage())
 			mReviewImageHandler = ReviewImageHandler.getInstance(mReview);		
 	}
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {		
 		View v = inflater.inflate(R.layout.fragment_review_finish, container, false);	
 		
 		getSherlockActivity().getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -129,17 +129,24 @@ public class ReviewerFinishFragment extends SherlockFragment {
 			mComment.setText(comment);
 		
 		mComment.setOnClickListener(new View.OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				IntentObjectHolder.addObject(REVIEW_OBJECT, mReview);
-				CommentDialogFragment dialog = new CommentDialogFragment();
-				dialog.setTargetFragment(ReviewerFinishFragment.this, COMMENT_EDIT);
-				Bundle args = new Bundle();
-				args.putSerializable(COMMENT_TEXT, mComment.getText().toString());
-				dialog.setArguments(args);
-				dialog.show(getFragmentManager(), DIALOG_COMMENT_TAG);			
+				Intent i = new Intent(getSherlockActivity(), ReviewCommentActivity.class);
+				startActivityForResult(i, COMMENT_EDIT);
 			}
+			
+//			@Override
+//			public void onClick(View v) {
+//				IntentObjectHolder.addObject(REVIEW_OBJECT, mReview);
+//				CommentDialogFragment dialog = new CommentDialogFragment();
+//				dialog.setTargetFragment(ReviewFinishFragment.this, COMMENT_EDIT);
+//				Bundle args = new Bundle();
+//				args.putSerializable(COMMENT_TEXT, mComment.getText().toString());
+//				dialog.setArguments(args);
+//				dialog.show(getFragmentManager(), DIALOG_COMMENT_TAG);			
+//			}
 		});
 		
 		
@@ -159,7 +166,7 @@ public class ReviewerFinishFragment extends SherlockFragment {
 					requestImageCaptureIntent();
 				} else {
 					ImageDialogFragment dialog = new ImageDialogFragment();
-					dialog.setTargetFragment(ReviewerFinishFragment.this, IMAGE_EDIT);
+					dialog.setTargetFragment(ReviewFinishFragment.this, IMAGE_EDIT);
 					Bundle args = new Bundle();
 					args.putParcelable(REVIEW_IMAGE, mReview.getImage());				
 					dialog.setArguments(args);
@@ -177,12 +184,13 @@ public class ReviewerFinishFragment extends SherlockFragment {
 			
 			@Override
 			public void onClick(View v) {				
-				Intent i = new Intent(getSherlockActivity(), ReviewerLocationActivity.class);
+				Intent i = new Intent(getSherlockActivity(), ReviewLocationActivity.class);
 				if (mReview.hasLatLng())					
 					i.putExtra(REVIEW_LATLNG, mReview.getLatLng());
 				if (mReview.hasImage() && mReviewImageHandler.hasGPSTag())					
 					i.putExtra(IMAGE_LATLNG, mReviewImageHandler.getLatLngFromEXIF());
 				IntentObjectHolder.addObject(REVIEW_OBJECT, mReview);
+				IntentObjectHolder.addObject(LOCATION_BUTTON, mAddLocationButton);
 				startActivityForResult(i, LOCATION_EDIT);
 			}
 			
@@ -263,9 +271,10 @@ public class ReviewerFinishFragment extends SherlockFragment {
 			
 			//Editing comments
 			case COMMENT_EDIT:
+				mReview = (Review)IntentObjectHolder.getObject(REVIEW_OBJECT);
 				switch (resultCode) {
 					case Activity.RESULT_OK:
-						updateComment((String)data.getSerializableExtra(CommentDialogFragment.EXTRA_COMMENT_STRING));				
+						updateComment();				
 						break;
 					case CommentDialogFragment.RESULT_DELETE_COMMENT:
 						deleteComment();
@@ -321,7 +330,8 @@ public class ReviewerFinishFragment extends SherlockFragment {
 			//Getting location
 			case LOCATION_EDIT:
 				mReview = (Review)IntentObjectHolder.getObject(REVIEW_OBJECT);
-				setLocationButtonImage();
+				if(resultCode == ReviewLocationFragment.RESULT_DELETE_LOCATION)
+					deleteLocationButtonImage();
 				break;
 
 			default:
@@ -341,13 +351,15 @@ public class ReviewerFinishFragment extends SherlockFragment {
 		mAddPhotoButton.setImageResource(R.drawable.ic_menu_camera);
 	}
 	
-	private void setLocationButtonImage() {
-		Bitmap mapSnapshot = mReview.getMapSnapshot();
-		
-		if(mapSnapshot == null)
-			mAddLocationButton.setImageResource(R.drawable.ic_menu_mylocation);
+	private void setLocationButtonImage() {		
+		if(mReview.hasMapSnapshot())
+			mAddLocationButton.setImageBitmap(mReview.getMapSnapshot());
 		else
-			mAddLocationButton.setImageBitmap(mapSnapshot);
+			deleteLocationButtonImage();
+	}
+	
+	private void deleteLocationButtonImage() {
+		mAddLocationButton.setImageResource(R.drawable.ic_menu_mylocation);
 	}
 	
 	private void setReviewImage() {
@@ -361,10 +373,9 @@ public class ReviewerFinishFragment extends SherlockFragment {
 	
 	private void deleteComment() {
 		mComment.setText(null);
-		mReview.deleteCommentIncludingCriteria();
 	}
 	
-	private void updateComment(String comment) {
-		mComment.setText(comment);
+	private void updateComment() {
+		mComment.setText(mReview.getCommentIncludingCriteria());
 	}	
 }

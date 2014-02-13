@@ -38,7 +38,7 @@ public class CommentDialogFragment extends SherlockDialogFragment {
 		linearlayout.setOrientation(LinearLayout.VERTICAL);
         linearlayout.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));        
 		
-		mReview = (Review)IntentObjectHolder.getObject(ReviewerFinishFragment.REVIEW_OBJECT);
+		mReview = (Review)IntentObjectHolder.getObject(ReviewFinishFragment.REVIEW_OBJECT);
 		
 		linearlayout.addView(getCommentLineView(dialog, mReview));
 		LinkedHashMap<String, Criterion> criteria = mReview.getCriteriaList().getCriterionHashMap();
@@ -55,13 +55,13 @@ public class CommentDialogFragment extends SherlockDialogFragment {
 
 	@Override
 	public void onPause() {
-		IntentObjectHolder.addObject(ReviewerFinishFragment.REVIEW_OBJECT, mReview);
+		IntentObjectHolder.addObject(ReviewFinishFragment.REVIEW_OBJECT, mReview);
 		super.onPause();
 	}
 	
 	@Override
 	public void onSaveInstanceState(Bundle arg0) {
-		IntentObjectHolder.addObject(ReviewerFinishFragment.REVIEW_OBJECT, mReview);
+		IntentObjectHolder.addObject(ReviewFinishFragment.REVIEW_OBJECT, mReview);
 		super.onSaveInstanceState(arg0);
 	}
 	
@@ -71,7 +71,7 @@ public class CommentDialogFragment extends SherlockDialogFragment {
 		criterionName.setText(commentable.getCommentTitle());
 		EditText comment = (EditText)v.findViewById(R.id.comment_edit_text);
 		
-		if( getTargetRequestCode() == ReviewerFinishFragment.COMMENT_EDIT )
+		if( getTargetRequestCode() == ReviewFinishFragment.COMMENT_EDIT )
 			comment.setText(commentable.getComment());
 		
 		comment.addTextChangedListener(new TextWatcher() {

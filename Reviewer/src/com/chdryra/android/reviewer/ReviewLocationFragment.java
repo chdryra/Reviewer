@@ -1,16 +1,11 @@
 package com.chdryra.android.reviewer;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.FileOutputStream;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.location.Location;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.util.Log;
@@ -18,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
@@ -32,7 +28,7 @@ import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-public class ReviewerLocationFragment extends SherlockMapFragment implements
+public class ReviewLocationFragment extends SherlockMapFragment implements
 GooglePlayServicesClient.ConnectionCallbacks,
 GooglePlayServicesClient.OnConnectionFailedListener{
 
@@ -44,6 +40,9 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 	public final static String LOCATION_LATLNG = "com.chdryra.android.reviewer.location_latlng";
 	public final static String LOCATION_NAME = "com.chdryra.android.reviewer.location_name";
 	public final static String MAP_SNAPSHOT = "com.chdryra.android.reviewer.map_snapshot";
+
+	private Review mReview;
+	private ImageButton mButton;
 	
 	private GoogleMap mGoogleMap;
 	private MapView mMapView;
@@ -54,7 +53,6 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 	
 	private LocationClient mLocationClient;
 	
-	private Bitmap mSnapshot;
 	private Button mDeleteButton;
 	private Button mCancelButton;
 	private Button mDoneButton;
@@ -65,6 +63,8 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 		setHasOptionsMenu(true);		
 		setRetainInstance(true);
 		mLocationClient = new LocationClient(getSherlockActivity(), this, this);
+		mReview = (Review)IntentObjectHolder.getObject(ReviewFinishFragment.REVIEW_OBJECT);
+		mButton = (ImageButton)IntentObjectHolder.getObject(ReviewFinishFragment.LOCATION_BUTTON);
 	}
 	
 	@Override
@@ -90,8 +90,8 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 			}
 		});
 	    
-	    mReviewLatLng = getSherlockActivity().getIntent().getParcelableExtra(ReviewerFinishFragment.REVIEW_LATLNG);
-	    mPhotoLatLng = getSherlockActivity().getIntent().getParcelableExtra(ReviewerFinishFragment.IMAGE_LATLNG);
+	    mReviewLatLng = getSherlockActivity().getIntent().getParcelableExtra(ReviewFinishFragment.REVIEW_LATLNG);
+	    mPhotoLatLng = getSherlockActivity().getIntent().getParcelableExtra(ReviewFinishFragment.IMAGE_LATLNG);
 	    if (mReviewLatLng != null)
 	    	mDefaultLatLng = mReviewLatLng;
 	    else if (mPhotoLatLng != null)
@@ -126,26 +126,22 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 			}
 		});
 	       
-	    
-	    	    
 	    return v;
 	}
 	
 	private void sendResult(int resultCode) {
 		if(resultCode == Activity.RESULT_OK) {
-			Review review = (Review)IntentObjectHolder.getObject(ReviewerFinishFragment.REVIEW_OBJECT);
-			review.setLatLng(mLatLng, mSnapshot);
-			IntentObjectHolder.addObject(ReviewerFinishFragment.REVIEW_OBJECT, review);
+			mReview.setLatLng(mLatLng);
+			IntentObjectHolder.addObject(ReviewFinishFragment.REVIEW_OBJECT, mReview);
 		}
 		
 		if(resultCode == RESULT_DELETE_LOCATION) {
-			Review review = (Review)IntentObjectHolder.getObject(ReviewerFinishFragment.REVIEW_OBJECT);
-			review.deleteLatLng();
-			IntentObjectHolder.addObject(ReviewerFinishFragment.REVIEW_OBJECT, review);
+			mReview.deleteLatLng();
+			IntentObjectHolder.addObject(ReviewFinishFragment.REVIEW_OBJECT, mReview);
 		}
 		
-		 getSherlockActivity().setResult(resultCode);		 
-		 getSherlockActivity().finish();	
+		getSherlockActivity().setResult(resultCode);		 
+		getSherlockActivity().finish();	
 	}
 	
 	@Override
@@ -285,9 +281,8 @@ GooglePlayServicesClient.OnConnectionFailedListener{
             @Override
             public void onSnapshotReady(Bitmap snapshot) {
                 try {
-                	int width = (int)getSherlockActivity().getResources().getDimension(R.dimen.mapMaxWidth);				
-            		int height = (int)getSherlockActivity().getResources().getDimension(R.dimen.mapMaxHeight);
-                	mSnapshot = Bitmap.createScaledBitmap(snapshot, width, height, true);
+                	MapSnapshotScalerTask scaler = new MapSnapshotScalerTask();
+                	scaler.execute(snapshot);
                 	sendResult(Activity.RESULT_OK);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -296,5 +291,25 @@ GooglePlayServicesClient.OnConnectionFailedListener{
         };
 
 	    mGoogleMap.snapshot(callback);
+	}
+	
+	private class MapSnapshotScalerTask extends AsyncTask<Bitmap, Void, Bitmap> {		
+		
+		@Override
+	    protected Bitmap doInBackground(Bitmap... params) {
+			Bitmap snapshot = params[0];
+			int width = (int)getSherlockActivity().getResources().getDimension(R.dimen.mapMaxWidth);				
+    		int height = (int)getSherlockActivity().getResources().getDimension(R.dimen.mapMaxHeight);
+        	return Bitmap.createScaledBitmap(snapshot, width, height, true);
+	    }
+		
+		@Override
+		protected void onPostExecute(Bitmap bitmap) {
+			mReview.setMapSnapshot(bitmap);
+			if(bitmap == null)
+				mButton.setImageResource(R.drawable.ic_menu_camera);
+			else
+				mButton.setImageBitmap(bitmap);
+		}	
 	}
 }

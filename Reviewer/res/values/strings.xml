@@ -12,6 +12,7 @@
     
     <!-- Activities -->
     <string name="location_activity_title">Location</string>
+    <string name="comment_activity_title">Comment</string>
     
     <!-- EditTexts -->
     <string name="edit_text_subject_hint">Subject</string>

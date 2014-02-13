@@ -20,7 +20,7 @@ public class ImageDialogFragment extends SherlockDialogFragment {
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		View v = getActivity().getLayoutInflater().inflate(R.layout.dialog_image, null);
 		ImageView imageView= (ImageView)v.findViewById(R.id.dialog_image_image_view);
-		mImage = getArguments().getParcelable(ReviewerFinishFragment.REVIEW_IMAGE);
+		mImage = getArguments().getParcelable(ReviewFinishFragment.REVIEW_IMAGE);
 		
 		imageView.setImageBitmap(mImage);
 		

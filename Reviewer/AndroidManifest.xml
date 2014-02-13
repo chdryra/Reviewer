@@ -30,7 +30,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="com.chdryra.android.reviewer.ReviewerDefineActivity"            
+            android:name="com.chdryra.android.reviewer.ReviewDefineActivity"            
             android:windowSoftInputMode="adjustPan"
             android:label="@string/app_name" 
             android:screenOrientation="portrait">
@@ -40,24 +40,34 @@
             </intent-filter>
         </activity>
         
-        <activity android:name=".ReviewerFinishActivity"
+        <activity android:name="com.chdryra.android.reviewer.ReviewFinishActivity"
 		    android:windowSoftInputMode="adjustPan"
 		    android:configChanges="orientation"
 		    android:exported="true"
             android:label="@string/app_name" 
             android:screenOrientation="portrait">
             <meta-data android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ReviewerDefineActivity" />
+                android:value="com.chdryra.android.reviewer.ReviewDefineActivity" />
         </activity>
 
-        <activity android:name=".ReviewerLocationActivity"
+        <activity android:name="com.chdryra.android.reviewer.ReviewLocationActivity"
 		    android:windowSoftInputMode="adjustPan"
 		    android:configChanges="orientation"
 		    android:exported="true"
             android:label="@string/location_activity_title" 
             android:screenOrientation="portrait">
             <meta-data android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ReviewerFinishActivity" />
+                android:value="com.chdryra.android.reviewer.ReviewFinishActivity" />
+        </activity>
+
+        <activity android:name="com.chdryra.android.reviewer.ReviewCommentActivity"
+		    android:windowSoftInputMode="adjustPan"
+		    android:configChanges="orientation"
+		    android:exported="true"
+            android:label="@string/comment_activity_title" 
+            android:screenOrientation="portrait">
+            <meta-data android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.chdryra.android.reviewer.ReviewFinishActivity" />
         </activity>
     
         <meta-data 

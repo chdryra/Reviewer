@@ -5,12 +5,12 @@ import android.app.Activity;
 import android.support.v4.app.Fragment;
 import android.view.Menu;
 
-public class ReviewerDefineActivity extends SingleFragmentActivity {
+public class ReviewDefineActivity extends SingleFragmentActivity {
 
 	@Override
 	protected Fragment createFragment() {
 		// TODO Auto-generated method stub
-		return new ReviewerDefineFragment();
+		return new ReviewDefineFragment();
 	}
 
 }

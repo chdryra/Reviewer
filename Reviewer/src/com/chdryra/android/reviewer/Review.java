@@ -78,20 +78,21 @@ public class Review implements Commentable{
 	}
 
 	private String getFormattedComment() {
-		String comment = new String();
+		String comment = null;
+		
 		if(mComment != null)
-			comment += mComment + String.format("%n");
+			comment = mComment;
 		
 		LinkedHashMap<String, Criterion> criteria = getCriteriaList().getCriterionHashMap();
+		if(criteria.size() > 0 && comment != null)
+			 comment += String.format("%n");
 		Iterator<Criterion> it = criteria.values().iterator();
 		while (it.hasNext()) {
 			Criterion criterion = it.next();
 			if(criterion.getComment() != null)
 				comment +=  String.format("%n") + "*" + criterion.getName() + ": " + criterion.getComment();			
 		}
-		
-		
-		
+				
 		return comment;
 	}
 
@@ -140,22 +141,29 @@ public class Review implements Commentable{
 		return mLatLng;
 	}
 
-	public void setLatLng(LatLng latlng, Bitmap mapSnapshot) {
+	public void setLatLng(LatLng latlng) {
 		mLatLng = latlng;
-		mMapSnapshot = mapSnapshot;
 	}
 
 	public void deleteLatLng() {
 		mLatLng = null;
-		mMapSnapshot = null;
+	
 	}
 	
 	public boolean hasLatLng() {
 		return mLatLng != null;
 	}
 
+	public void setMapSnapshot(Bitmap bitmap) {
+		mMapSnapshot = bitmap;	
+	}
+	
 	public Bitmap getMapSnapshot() {
 		return mMapSnapshot;
 	}
-	
+
+	public boolean hasMapSnapshot() {
+		return mMapSnapshot != null;
+	}
+
 }
