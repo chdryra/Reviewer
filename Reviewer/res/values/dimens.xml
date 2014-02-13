@@ -7,6 +7,8 @@
 	<dimen name="list_item_rightPadding">6dp</dimen>
 	<dimen name="list_item_intraPadding">2dp</dimen>
 	<dimen name="list_item_textSize">16dp</dimen>
-	<dimen name="imageMaxWidth">1280px</dimen>
-	<dimen name="imageMaxHeight">1280px</dimen>
+	<dimen name="imageMaxWidth">960px</dimen>
+	<dimen name="imageMaxHeight">960px</dimen>
+	<dimen name="mapMaxWidth">540px</dimen>
+	<dimen name="mapMaxHeight">540px</dimen>
 </resources>

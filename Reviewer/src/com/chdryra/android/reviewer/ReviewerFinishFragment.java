@@ -159,7 +159,6 @@ public class ReviewerFinishFragment extends SherlockFragment {
 					requestImageCaptureIntent();
 				} else {
 					ImageDialogFragment dialog = new ImageDialogFragment();
-					IntentObjectHolder.addObject(REVIEW_OBJECT, mReview);
 					dialog.setTargetFragment(ReviewerFinishFragment.this, IMAGE_EDIT);
 					Bundle args = new Bundle();
 					args.putParcelable(REVIEW_IMAGE, mReview.getImage());				
@@ -183,6 +182,7 @@ public class ReviewerFinishFragment extends SherlockFragment {
 					i.putExtra(REVIEW_LATLNG, mReview.getLatLng());
 				if (mReview.hasImage() && mReviewImageHandler.hasGPSTag())					
 					i.putExtra(IMAGE_LATLNG, mReviewImageHandler.getLatLngFromEXIF());
+				IntentObjectHolder.addObject(REVIEW_OBJECT, mReview);
 				startActivityForResult(i, LOCATION_EDIT);
 			}
 			
@@ -261,19 +261,21 @@ public class ReviewerFinishFragment extends SherlockFragment {
 		
 		switch (requestCode) {
 			
+			//Editing comments
 			case COMMENT_EDIT:
 				switch (resultCode) {
 					case Activity.RESULT_OK:
 						updateComment((String)data.getSerializableExtra(CommentDialogFragment.EXTRA_COMMENT_STRING));				
 						break;
 					case CommentDialogFragment.RESULT_DELETE_COMMENT:
-						updateComment(null);
+						deleteComment();
 						break;		
 					default:
 						break;
 				}
 				break;
 				
+			//Getting image
 			case IMAGE_REQUEST:
 				switch (resultCode) {
 					case Activity.RESULT_OK:
@@ -301,7 +303,8 @@ public class ReviewerFinishFragment extends SherlockFragment {
 						break;
 				}
 				break;
-				
+			
+			//Changing image
 			case IMAGE_EDIT:
 				switch (resultCode) {
 					case Activity.RESULT_OK:
@@ -314,18 +317,11 @@ public class ReviewerFinishFragment extends SherlockFragment {
 						break;
 				}
 				break;
-				
+			
+			//Getting location
 			case LOCATION_EDIT:
-				switch (resultCode) {
-					case Activity.RESULT_OK:
-						setReviewLocation(data);
-						break;
-					case ReviewerLocationFragment.RESULT_DELETE_LOCATION:
-						deleteReviewLocation();
-						break;		
-					default:
-						break;
-				}
+				mReview = (Review)IntentObjectHolder.getObject(REVIEW_OBJECT);
+				setLocationButtonImage();
 				break;
 
 			default:
@@ -335,14 +331,10 @@ public class ReviewerFinishFragment extends SherlockFragment {
 	}
 
 	private void setImageButtonImage() {
-		Bitmap thumbnail = null;
-		if(mReviewImageHandler != null)
-			thumbnail = mReviewImageHandler.getThumbnail();
-		
-		if( thumbnail == null)
-			mAddPhotoButton.setImageResource(R.drawable.ic_menu_camera);
+		if( mReview.hasImage() )
+			mAddPhotoButton.setImageBitmap(mReview.getImage());
 		else
-			mAddPhotoButton.setImageBitmap(thumbnail);
+			deleteImageButtonImage();
 	}
 
 	private void deleteImageButtonImage() {
@@ -367,19 +359,9 @@ public class ReviewerFinishFragment extends SherlockFragment {
 		deleteImageButtonImage();
 	}
 	
-	private void setReviewLocation(Intent data) {
-		LatLng ll = data.getParcelableExtra(ReviewerLocationFragment.LOCATION_LATLNG);
-		Bitmap snapshot = data.getParcelableExtra(ReviewerLocationFragment.MAP_SNAPSHOT);
-		
-		mReview.setLatLng(ll);
-		mReview.setMapSnapshot(snapshot);
-		setLocationButtonImage();
-	}
-	
-	private void deleteReviewLocation() {
-		mReview.setLatLng(null);
-		mReview.setMapSnapshot(null);
-		setLocationButtonImage();
+	private void deleteComment() {
+		mComment.setText(null);
+		mReview.deleteCommentIncludingCriteria();
 	}
 	
 	private void updateComment(String comment) {

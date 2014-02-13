@@ -934,6 +934,8 @@ containing a value of this type.
         public static final int list_item_leftPadding=0x7f080011;
         public static final int list_item_rightPadding=0x7f080012;
         public static final int list_item_textSize=0x7f080014;
+        public static final int mapMaxHeight=0x7f080018;
+        public static final int mapMaxWidth=0x7f080017;
     }
     public static final class drawable {
         public static final int abs__ab_bottom_solid_dark_holo=0x7f020000;

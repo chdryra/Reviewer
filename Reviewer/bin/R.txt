@@ -161,6 +161,8 @@ int dimen list_item_intraPadding 0x7f080013
 int dimen list_item_leftPadding 0x7f080011
 int dimen list_item_rightPadding 0x7f080012
 int dimen list_item_textSize 0x7f080014
+int dimen mapMaxHeight 0x7f080018
+int dimen mapMaxWidth 0x7f080017
 int drawable abs__ab_bottom_solid_dark_holo 0x7f020000
 int drawable abs__ab_bottom_solid_inverse_holo 0x7f020001
 int drawable abs__ab_bottom_solid_light_holo 0x7f020002

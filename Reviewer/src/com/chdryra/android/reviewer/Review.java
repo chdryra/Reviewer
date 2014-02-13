@@ -140,8 +140,14 @@ public class Review implements Commentable{
 		return mLatLng;
 	}
 
-	public void setLatLng(LatLng latlng) {
+	public void setLatLng(LatLng latlng, Bitmap mapSnapshot) {
 		mLatLng = latlng;
+		mMapSnapshot = mapSnapshot;
+	}
+
+	public void deleteLatLng() {
+		mLatLng = null;
+		mMapSnapshot = null;
 	}
 	
 	public boolean hasLatLng() {
@@ -150,10 +156,6 @@ public class Review implements Commentable{
 
 	public Bitmap getMapSnapshot() {
 		return mMapSnapshot;
-	}
-
-	public void setMapSnapshot(Bitmap mapSnapshot) {
-		mMapSnapshot = mapSnapshot;
 	}
 	
 }

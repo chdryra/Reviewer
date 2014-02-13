@@ -155,14 +155,12 @@ public class ReviewerDefineFragment extends SherlockFragment{
 	private void setTotalRatingIsAverage() {
 		mTotalRatingIsAverage = true;
 		mCalcAverageRatingButton.setImageResource(android.R.drawable.ic_input_add);
-//		makeToast(Result.TOTAL_IS_AVERAGE);
 		recomputeTotalRating();
 	}
 	
 	private void setTotalRatingIsUser() {
 		mTotalRatingIsAverage = false;
 		mCalcAverageRatingButton.setImageResource(android.R.drawable.ic_menu_add);
-///		makeToast(Result.TOTAL_IS_USER);
 		mTotalRatingBar.setRating(mTotalRatingUser);
 	}
 	

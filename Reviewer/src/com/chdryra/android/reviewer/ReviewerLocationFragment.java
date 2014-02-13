@@ -132,14 +132,19 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 	}
 	
 	private void sendResult(int resultCode) {
-		Intent intent = new Intent();
-		
 		if(resultCode == Activity.RESULT_OK) {
-			intent.putExtra(MAP_SNAPSHOT, mSnapshot);
-			intent.putExtra(LOCATION_LATLNG, mLatLng);
+			Review review = (Review)IntentObjectHolder.getObject(ReviewerFinishFragment.REVIEW_OBJECT);
+			review.setLatLng(mLatLng, mSnapshot);
+			IntentObjectHolder.addObject(ReviewerFinishFragment.REVIEW_OBJECT, review);
 		}
 		
-		 getSherlockActivity().setResult(resultCode,intent);		 
+		if(resultCode == RESULT_DELETE_LOCATION) {
+			Review review = (Review)IntentObjectHolder.getObject(ReviewerFinishFragment.REVIEW_OBJECT);
+			review.deleteLatLng();
+			IntentObjectHolder.addObject(ReviewerFinishFragment.REVIEW_OBJECT, review);
+		}
+		
+		 getSherlockActivity().setResult(resultCode);		 
 		 getSherlockActivity().finish();	
 	}
 	
@@ -276,12 +281,13 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 	public void CaptureMapScreen() 
 	{
 		SnapshotReadyCallback callback = new SnapshotReadyCallback() {
-			Bitmap bitmap;
 
             @Override
             public void onSnapshotReady(Bitmap snapshot) {
                 try {
-                	mSnapshot = Bitmap.createScaledBitmap(snapshot, 300, 300, true);
+                	int width = (int)getSherlockActivity().getResources().getDimension(R.dimen.mapMaxWidth);				
+            		int height = (int)getSherlockActivity().getResources().getDimension(R.dimen.mapMaxHeight);
+                	mSnapshot = Bitmap.createScaledBitmap(snapshot, width, height, true);
                 	sendResult(Activity.RESULT_OK);
                 } catch (Exception e) {
                     e.printStackTrace();

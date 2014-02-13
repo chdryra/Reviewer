@@ -20,7 +20,6 @@ public class ReviewImageHandler extends ImageHandler{
 	private static HashMap<String, ReviewImageHandler> sReviewImageHandlers = new HashMap<String, ReviewImageHandler>();
 	
 	private Review mReview;
-	private Bitmap mThumbnail;
 	
 	public static ReviewImageHandler getInstance(Review mReview) {
 		if(!sReviewImageHandlers.containsKey(mReview.getID().toString()))
@@ -70,10 +69,6 @@ public class ReviewImageHandler extends ImageHandler{
 		loader.execute(maxWidth, maxHeight);
 	}
 
-	public Bitmap getThumbnail() {
-		return mThumbnail;
-	}
-	
 	private class BitmapLoaderTask extends AsyncTask<Integer, Void, Bitmap> {		
 		private ImageButton mThumbnailView;
 		
@@ -83,15 +78,7 @@ public class ReviewImageHandler extends ImageHandler{
 		
 		@Override
 	    protected Bitmap doInBackground(Integer... params) {
-	        int maxWidth = params[0];
-	        int maxHeight = params[1];
-	        Bitmap bitmap = getBitmap(maxWidth, maxHeight);
-	        
-	        maxWidth = mThumbnailView.getLayoutParams().width;				
-			maxHeight = mThumbnailView.getLayoutParams().height;
-			
-			mThumbnail = ImageHandler.resizeImage(bitmap, maxWidth, maxHeight);	        		        
-			return bitmap;
+			return getBitmap(params[0], params[1]);
 	    }
 		
 		@Override
@@ -100,7 +87,7 @@ public class ReviewImageHandler extends ImageHandler{
 			if(bitmap == null)
 				mThumbnailView.setImageResource(R.drawable.ic_menu_camera);
 			else
-				mThumbnailView.setImageBitmap(mThumbnail);
+				mThumbnailView.setImageBitmap(bitmap);
 		}	
 	}
 }
