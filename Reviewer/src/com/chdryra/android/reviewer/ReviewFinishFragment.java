@@ -276,7 +276,7 @@ public class ReviewFinishFragment extends SherlockFragment {
 					case Activity.RESULT_OK:
 						updateComment();				
 						break;
-					case CommentDialogFragment.RESULT_DELETE_COMMENT:
+					case ReviewCommentFragment.RESULT_DELETE_COMMENT:
 						deleteComment();
 						break;		
 					default:
