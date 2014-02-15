@@ -10,7 +10,6 @@ import android.content.ComponentName;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -21,6 +20,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
@@ -30,7 +30,6 @@ import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
-import com.google.android.gms.maps.model.LatLng;
 
 public class ReviewFinishFragment extends SherlockFragment {
 	private final static String TAG = "ReviewerFinishFragment";
@@ -63,6 +62,8 @@ public class ReviewFinishFragment extends SherlockFragment {
 	private TextView mComment;
 	private ImageButton mAddPhotoButton;
 	private ImageButton mAddLocationButton;
+	private EditText mImageCaption;
+	private EditText mMapCaption;
 	
 	private boolean mCriteriaLayoutVisible = false;
 	
@@ -129,24 +130,12 @@ public class ReviewFinishFragment extends SherlockFragment {
 			mComment.setText(comment);
 		
 		mComment.setOnClickListener(new View.OnClickListener() {
-
 			@Override
 			public void onClick(View v) {
 				IntentObjectHolder.addObject(REVIEW_OBJECT, mReview);
 				Intent i = new Intent(getSherlockActivity(), ReviewCommentActivity.class);
 				startActivityForResult(i, COMMENT_EDIT);
 			}
-			
-//			@Override
-//			public void onClick(View v) {
-//				IntentObjectHolder.addObject(REVIEW_OBJECT, mReview);
-//				CommentDialogFragment dialog = new CommentDialogFragment();
-//				dialog.setTargetFragment(ReviewFinishFragment.this, COMMENT_EDIT);
-//				Bundle args = new Bundle();
-//				args.putSerializable(COMMENT_TEXT, mComment.getText().toString());
-//				dialog.setArguments(args);
-//				dialog.show(getFragmentManager(), DIALOG_COMMENT_TAG);			
-//			}
 		});
 		
 		
@@ -197,6 +186,9 @@ public class ReviewFinishFragment extends SherlockFragment {
 		});
 		
 		setLocationButtonImage();
+		
+		mImageCaption = (EditText)v.findViewById(R.id.image_caption_edit_text);
+		mMapCaption = (EditText)v.findViewById(R.id.map_caption_edit_text);
 		
 		return v;
 	}
@@ -274,7 +266,7 @@ public class ReviewFinishFragment extends SherlockFragment {
 				mReview = (Review)IntentObjectHolder.getObject(REVIEW_OBJECT);
 				switch (resultCode) {
 					case Activity.RESULT_OK:
-						updateComment();				
+						updateComment();	
 						break;
 					case ReviewCommentFragment.RESULT_DELETE_COMMENT:
 						deleteComment();
@@ -330,6 +322,8 @@ public class ReviewFinishFragment extends SherlockFragment {
 			//Getting location
 			case LOCATION_EDIT:
 				mReview = (Review)IntentObjectHolder.getObject(REVIEW_OBJECT);
+				if(resultCode == Activity.RESULT_OK)
+					mMapCaption.setText(mReview.getLocationName());
 				if(resultCode == ReviewLocationFragment.RESULT_DELETE_LOCATION)
 					deleteLocationButtonImage();
 				break;

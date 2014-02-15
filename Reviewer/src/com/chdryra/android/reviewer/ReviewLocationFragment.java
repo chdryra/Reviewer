@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 
 import com.actionbarsherlock.view.Menu;
@@ -44,15 +45,15 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 	private Review mReview;
 	private ImageButton mButton;
 	
+	private LocationClient mLocationClient;
+	
 	private GoogleMap mGoogleMap;
 	private MapView mMapView;
 	private LatLng mPhotoLatLng;
 	private LatLng mReviewLatLng;
 	private LatLng mDefaultLatLng;
 	private LatLng mLatLng;
-	
-	private LocationClient mLocationClient;
-	
+	private EditText mLocationName;
 	private Button mDeleteButton;
 	private Button mCancelButton;
 	private Button mDoneButton;
@@ -125,13 +126,15 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 				CaptureMapScreen();
 			}
 		});
-	       
+
+	    mLocationName = (EditText)v.findViewById(R.id.edit_text_name_location);
 	    return v;
 	}
 	
 	private void sendResult(int resultCode) {
 		if(resultCode == Activity.RESULT_OK) {
 			mReview.setLatLng(mLatLng);
+			mReview.setLocationName(mLocationName.getText().toString());
 			IntentObjectHolder.addObject(ReviewFinishFragment.REVIEW_OBJECT, mReview);
 		}
 		
