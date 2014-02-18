@@ -6,11 +6,23 @@
     android:orientation="vertical" >
      	
  	<EditText
+ 	    android:id="@+id/edit_text_search_location"
+ 	    android:layout_width="match_parent"
+ 	    android:layout_height="wrap_content" 
+ 	    android:hint="@string/edit_text_search_location_hint"
+ 	    android:inputType="text|textPostalAddress"
+ 	    android:visibility="gone"
+ 	    android:imeOptions="actionSearch"
+ 	    />
+ 	     	
+ 	<AutoCompleteTextView
  	    android:id="@+id/edit_text_name_location"
  	    android:layout_width="match_parent"
  	    android:layout_height="wrap_content" 
  	    android:hint="@string/edit_text_name_location_hint"
  	    android:inputType="textCapSentences"
+ 	    android:imeOptions="actionDone"
+ 	    android:cursorVisible="false"
  	    />
 
  	<com.google.android.gms.maps.MapView
@@ -20,6 +32,14 @@
         android:layout_height="0dp"
         android:clickable="true"
         android:layout_weight="1"/>
+ 	
+ 	<ProgressBar
+		android:id="@+id/address_progress_bar"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_centerHorizontal="true"
+		android:indeterminate="true"
+		android:visibility="gone" />
  	
  	<include layout="@layout/dialog_button_layout"
  	    android:id="@+id/map_buttons"/>

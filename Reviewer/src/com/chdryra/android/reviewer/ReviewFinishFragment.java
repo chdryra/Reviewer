@@ -58,7 +58,7 @@ public class ReviewFinishFragment extends SherlockFragment {
 	
 	private TextView mSubject;
 	private RatingBar mRatingBar;
-	private LinearLayout mLinearLayout;
+	private LinearLayout mCriteriaLayout;
 	private TextView mComment;
 	private ImageButton mAddPhotoButton;
 	private ImageButton mAddLocationButton;
@@ -86,7 +86,7 @@ public class ReviewFinishFragment extends SherlockFragment {
 		mSubject = (TextView)v.findViewById(R.id.review_subject_finish_page);
 		mSubject.setText(mReview.getSubject());
 	
-		mLinearLayout = (LinearLayout)v.findViewById(R.id.linear_layout_criteria_rating_bars);
+		mCriteriaLayout = (LinearLayout)v.findViewById(R.id.linear_layout_criteria_rating_bars);
 		Iterator<Criterion> it = mReview.getCriteriaList().getCriterionHashMap().values().iterator();
 		boolean dark = false;
 		while (it.hasNext()) {
@@ -103,7 +103,7 @@ public class ReviewFinishFragment extends SherlockFragment {
 			ratingBar.setRating(c.getRating());
 			ratingBar.setIsIndicator(true);
 			ratingBar.setFocusable(false);
-			mLinearLayout.addView(criteriaView);
+			mCriteriaLayout.addView(criteriaView);
 		}
 		
 		mRatingBar = (RatingBar)v.findViewById(R.id.total_rating_bar_finish_page);
@@ -115,9 +115,9 @@ public class ReviewFinishFragment extends SherlockFragment {
 				if(event.getAction() == MotionEvent.ACTION_UP) {
 				mCriteriaLayoutVisible = !mCriteriaLayoutVisible;
 				if(mCriteriaLayoutVisible)
-					mLinearLayout.setVisibility(View.VISIBLE);
+					mCriteriaLayout.setVisibility(View.VISIBLE);
 				else
-					mLinearLayout.setVisibility(View.GONE);
+					mCriteriaLayout.setVisibility(View.GONE);
 				}
 				return true;
 			}

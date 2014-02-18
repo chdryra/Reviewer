@@ -1,20 +1,35 @@
 package com.chdryra.android.reviewer;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Locale;
+
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.graphics.Bitmap;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
@@ -49,14 +64,22 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 	
 	private GoogleMap mGoogleMap;
 	private MapView mMapView;
+	
 	private LatLng mPhotoLatLng;
 	private LatLng mReviewLatLng;
 	private LatLng mDefaultLatLng;
 	private LatLng mLatLng;
-	private EditText mLocationName;
+	
+	private EditText mSearchLocation;
+	private AutoCompleteTextView mLocationName;
 	private Button mDeleteButton;
 	private Button mCancelButton;
 	private Button mDoneButton;
+	
+	private boolean mSearchLocationVisible = false;
+	
+	private ArrayList<String> mLocationNameSuggestions = new ArrayList<String>();
+	private ArrayAdapter<Address> mLocationNameAdapter;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -85,8 +108,7 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 			@Override
 			public boolean onMyLocationButtonClick() {
 				Location location = mLocationClient.getLastLocation();
-				mLatLng = new LatLng(location.getLatitude(), location.getLongitude());
-				zoomToLatLng();
+				setLatLng(new LatLng(location.getLatitude(), location.getLongitude()));
 				return false;
 			}
 		});
@@ -98,8 +120,7 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 	    else if (mPhotoLatLng != null)
 	    	mDefaultLatLng = mPhotoLatLng;
 	    
-	    mLatLng = mDefaultLatLng;
-	    zoomToLatLng();	
+	    setLatLng(mDefaultLatLng);
 	    	    
 	    mLocationClient.connect();
 
@@ -127,7 +148,45 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 			}
 		});
 
-	    mLocationName = (EditText)v.findViewById(R.id.edit_text_name_location);
+	    mSearchLocation = (EditText)v.findViewById(R.id.edit_text_search_location);
+	    
+	    mLocationName = (AutoCompleteTextView)v.findViewById(R.id.edit_text_name_location);
+	    if(mReview.getLocationName() != null) {
+	    	mLocationName.setText(mReview.getLocationName());
+	    	mLocationName.setSelection(0);
+	    }
+	    
+	    mLocationName.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				AutoCompleteTextView tv = (AutoCompleteTextView)v;
+				if(tv.getText().toString().length() >= tv.getThreshold() && mLocationName.getAdapter() != null)
+					tv.showDropDown();
+				else
+					mLocationName.setAdapter(new LocationNameAdapter(getSherlockActivity(), android.R.layout.simple_list_item_1, mLatLng));
+				
+				tv.setCursorVisible(true);
+				tv.setSelection(tv.getText().toString().length());
+			}
+				
+		});
+
+	    mLocationName.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+			
+			@Override
+			public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+	            if(actionId == EditorInfo.IME_ACTION_DONE)
+	            {
+	            	AutoCompleteTextView tv = (AutoCompleteTextView)v;
+	            	tv.dismissDropDown();
+	            	tv.setSelection(0);
+	            	tv.setCursorVisible(false);
+	            }
+	            return false;
+			}
+		});
+	    
 	    return v;
 	}
 	
@@ -202,14 +261,17 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.menu_item_revert_location:
-			mLatLng = mDefaultLatLng;
-			zoomToLatLng();
+			setLatLng(mDefaultLatLng);
 			break;
 		case R.id.menu_item_image_location:
-			mLatLng = mPhotoLatLng;
-			zoomToLatLng();
+			setLatLng(mPhotoLatLng);
 			break;
 		case R.id.menu_item_search_location:
+			mSearchLocationVisible = !mSearchLocationVisible;
+			if(mSearchLocationVisible)
+				mSearchLocation.setVisibility(View.VISIBLE);
+			else
+				mSearchLocation.setVisibility(View.GONE);
 			break;
 		case android.R.id.home:
 			if (NavUtils.getParentActivityName(getSherlockActivity()) != null) {
@@ -224,7 +286,18 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 		return super.onOptionsItemSelected(item);
 	}
 
-	 @Override
+	private void setLatLng(LatLng latlang) {
+		if(latlang == null)
+			return;
+		
+		if(mLatLng != latlang && mLocationName != null)
+			mLocationName.setText(null);
+		
+		mLatLng = latlang;
+		zoomToLatLng();
+	}
+	
+	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (requestCode) {
             case CONNECTION_FAILURE_RESOLUTION_REQUEST :
@@ -266,8 +339,7 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 			Location location = mLocationClient.getLastLocation();
 			if(location != null) {
 				mDefaultLatLng = new LatLng(location.getLatitude(), location.getLongitude());
-				mLatLng = mDefaultLatLng;
-				zoomToLatLng();
+				setLatLng(mDefaultLatLng);
 			}
 		}
 	}
@@ -315,4 +387,66 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 				mButton.setImageBitmap(bitmap);
 		}	
 	}
+	
+	  private class GetAddressTask extends AsyncTask<LatLng, Void, List<Address>> {
+		  
+		  Context mContext;
+		  
+		  public GetAddressTask(Context context) {
+			  super();
+			  mContext = context;
+		  }
+  
+		  @Override
+		  protected List<Address> doInBackground(LatLng... params) {
+			  Geocoder geocoder = new Geocoder(mContext, Locale.getDefault());
+      
+			  LatLng loc = params[0];
+
+			  List<Address> addresses = null;
+			  try {
+			      addresses = geocoder.getFromLocation(loc.latitude, loc.longitude, 20);
+			  } catch (IOException e1) {
+				  Log.e("LocationSampleActivity",
+				          "IO Exception in getFromLocation()");
+				  e1.printStackTrace();
+				  Log.e(TAG, "IO Exception trying to get address");
+				  } catch (IllegalArgumentException e2) {
+				  String errorString = "Illegal arguments " +
+				          Double.toString(loc.latitude) +
+				          " , " +
+				          Double.toString(loc.longitude) +
+				          " passed to address service";
+				  Log.e("LocationSampleActivity", errorString);
+				  e2.printStackTrace();
+				  Log.e(TAG, errorString);
+			  }
+			 
+			  if (addresses != null && addresses.size() > 0) {
+				  return addresses;
+			  } else {
+			      Log.i(TAG, "No address found");
+			      return null;
+			  }
+		}
+		  
+		@Override
+		protected void onPostExecute(List<Address> addresses) {
+			super.onPostExecute(addresses);
+			Iterator<Address> it = addresses.iterator();
+			while(it.hasNext()) {
+				Address address = it.next();
+			    String addressText = String.format(
+			              "%s, %s",
+			              // If there's a street address, add it
+			              address.getMaxAddressLineIndex() > 0 ?
+			                      address.getAddressLine(0) : "",
+			              // Locality is usually a city
+			              address.getLocality());
+			    
+			    mLocationNameSuggestions.add(addressText);
+			};
+		}
+	}
 }
+
