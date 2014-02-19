@@ -98,20 +98,21 @@
    	     android:hint="@string/edit_text_image_caption_hint"
    	     android:textSize="@dimen/list_item_textSize"
    	     android:cursorVisible="false"
+   	     android:scrollHorizontally="false"
+   	     android:layout_gravity="bottom"
    	     android:layout_weight="1"/>
    	
    	  <View
         android:id="@+id/review_optional_buttons_captions_separator"
     	style="@style/VerticalDivider"/>
    	 
-   	 <EditText 
-   	     android:id="@+id/map_caption_edit_text"
+   	 <TextView
+   	     android:id="@+id/map_caption_text"
    	     android:layout_width="match_parent"
    	     android:layout_height="wrap_content"
-   	     android:inputType="textCapSentences"
    	     android:hint="@string/edit_text_map_caption_hint"
    	     android:textSize="@dimen/list_item_textSize"
-   	     android:cursorVisible="false"
+   	     style="?android:attr/editTextStyle"
    	     android:layout_weight="1"/>
 
    	 </LinearLayout>

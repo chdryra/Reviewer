@@ -7,12 +7,18 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Locale;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Context;
+import android.location.Address;
+import android.location.Geocoder;
+import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.Filter;
@@ -21,8 +27,7 @@ import android.widget.Filterable;
 import com.google.android.gms.maps.model.LatLng;
 
 public class LocationNameAdapter extends ArrayAdapter<String> implements Filterable {
-
-	private static final String LOG_TAG = "LocationNameAdapter";
+	private static final String TAG = "LocationNameAdapter";
 
     private static final String PLACES_API_BASE = "https://maps.googleapis.com/maps/api/place";
     private static final String TYPE_AUTOCOMPLETE = "/autocomplete";
@@ -33,10 +38,15 @@ public class LocationNameAdapter extends ArrayAdapter<String> implements Filtera
     private static final int RADIUS = 25000;
 	private ArrayList<String> mLocationSuggestions = null;
 	private LatLng mLatLng;
+	private String mLocationAddress;
 	
 	public LocationNameAdapter(Context context, int textViewResourceId, LatLng latlng) {
 		super(context, textViewResourceId);
 		mLatLng = latlng;
+		if(mLatLng != null) {
+			GetAddressTask task = new GetAddressTask(context);
+			task.execute(mLatLng);
+		}
 	}
 	
 	@Override
@@ -57,8 +67,17 @@ public class LocationNameAdapter extends ArrayAdapter<String> implements Filtera
                 FilterResults filterResults = new FilterResults();
                 if (constraint != null) {
                     mLocationSuggestions = autoComplete(constraint.toString());
+                    if(mLocationAddress != null)
+                    	mLocationSuggestions.add(0, mLocationAddress);
                     filterResults.values = mLocationSuggestions;
                     filterResults.count = mLocationSuggestions.size();
+                } else {
+                	if(mLocationAddress != null) {
+                		mLocationSuggestions = new ArrayList<String>();
+                    	mLocationSuggestions.add(0, mLocationAddress);
+                    	filterResults.values = mLocationSuggestions;
+                    	filterResults.count = mLocationSuggestions.size();
+                	}
                 }
                 return filterResults;
             }
@@ -105,10 +124,10 @@ public class LocationNameAdapter extends ArrayAdapter<String> implements Filtera
                 jsonResults.append(buff, 0, read);
             }
         } catch (MalformedURLException e) {
-            Log.e(LOG_TAG, "Error processing Places API URL", e);
+            Log.e(TAG, "Error processing Places API URL", e);
             return resultList;
         } catch (IOException e) {
-            Log.e(LOG_TAG, "Error connecting to Places API", e);
+            Log.e(TAG, "Error connecting to Places API", e);
             return resultList;
         } finally {
             if (conn != null) {
@@ -127,9 +146,71 @@ public class LocationNameAdapter extends ArrayAdapter<String> implements Filtera
                 resultList.add(predsJsonArray.getJSONObject(i).getString("description"));
             }
         } catch (JSONException e) {
-            Log.e(LOG_TAG, "Cannot process JSON results", e);
+            Log.e(TAG, "Cannot process JSON results", e);
         }
 
         return resultList;
     }
+    
+	  private class GetAddressTask extends AsyncTask<LatLng, Void, Address> {
+		  
+		  Context mContext;
+		  
+		  public GetAddressTask(Context context) {
+			  super();
+			  mContext = context;
+		  }
+  
+		  @Override
+		  protected Address doInBackground(LatLng... params) {
+			  Geocoder geocoder = new Geocoder(mContext, Locale.getDefault());
+      
+			  LatLng loc = params[0];
+
+			  List<Address> addresses = null;
+			  try {
+			      addresses = geocoder.getFromLocation(loc.latitude, loc.longitude, 1);
+			  } catch (IOException e1) {
+				  Log.e("LocationSampleActivity",
+				          "IO Exception in getFromLocation()");
+				  e1.printStackTrace();
+				  Log.e(TAG, "IO Exception trying to get address");
+				  } catch (IllegalArgumentException e2) {
+				  String errorString = "Illegal arguments " +
+				          Double.toString(loc.latitude) +
+				          " , " +
+				          Double.toString(loc.longitude) +
+				          " passed to address service";
+				  Log.e("LocationSampleActivity", errorString);
+				  e2.printStackTrace();
+				  Log.e(TAG, errorString);
+			  }
+			 
+			  if (addresses != null && addresses.size() > 0) {
+				  return addresses.get(0);
+			  } else {
+			      Log.i(TAG, "No address found");
+			      return null;
+			  }
+		}
+		  
+		@Override
+		protected void onPostExecute(Address address) {
+			super.onPostExecute(address);
+		    String addressText = String.format(
+		              "%s%s%s",
+		              // If there's a street address, add it
+		              address.getMaxAddressLineIndex() > 0 ?
+		                      address.getAddressLine(0) : "",
+		              // Locality is usually a city
+		              address.getLocality() != null ?
+		            		  ", " + address.getLocality(): "",
+		              address.getCountryName() != null ?
+		            		  ", " + address.getCountryName() : "");
+			    
+			mLocationAddress = addressText;
+		    mLocationSuggestions = new ArrayList<String>();
+		    mLocationSuggestions.add(mLocationAddress);
+		}
+	}
 }

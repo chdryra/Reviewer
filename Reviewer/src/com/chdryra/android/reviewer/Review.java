@@ -12,6 +12,7 @@ import com.google.android.gms.maps.model.LatLng;
 public class Review implements Commentable{	
 	private static final String TAG = "Review";
 	private static final String GENERAL_COMMENT_TITLE = "General";
+	private static final String LOCATION_DELIMITER = ",";
 	
 	private UUID mID;
 	private String mSubject;
@@ -21,6 +22,7 @@ public class Review implements Commentable{
 	private boolean mRatingIsAverage;
 	private String mComment;
 	private Bitmap mImage;
+	private String mImageCaption;
 	private LatLng mLatLng;
 	private Bitmap mMapSnapshot;
 	private String mLocationName;
@@ -137,6 +139,14 @@ public class Review implements Commentable{
 	public boolean hasImage() {
 		return mImage != null;
 	}
+	
+	public String getImageCaption() {
+		return mImageCaption;
+	}
+
+	public void setImageCaption(String imageCaption) {
+		mImageCaption = imageCaption;
+	}
 
 	public LatLng getLatLng() {
 		return mLatLng;
@@ -175,4 +185,11 @@ public class Review implements Commentable{
 		mLocationName = locationName;
 	}
 	
+	public String getShortenedLocationName() {
+		if(mLocationName == null)
+			return null;
+		
+		String[] split = mLocationName.split(LOCATION_DELIMITER);
+		return split[0];
+	}
 }

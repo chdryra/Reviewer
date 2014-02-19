@@ -1173,7 +1173,7 @@ containing a value of this type.
         public static final int mapLinearLayout=0x7f05005c;
         public static final int mapView=0x7f05005f;
         public static final int map_buttons=0x7f050061;
-        public static final int map_caption_edit_text=0x7f05005a;
+        public static final int map_caption_text=0x7f05005a;
         public static final int menu_item_choose_social=0x7f050072;
         public static final int menu_item_choose_tags=0x7f050071;
         public static final int menu_item_image_location=0x7f050075;

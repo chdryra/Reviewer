@@ -1,18 +1,11 @@
 package com.chdryra.android.reviewer;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Locale;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.graphics.Bitmap;
-import android.location.Address;
-import android.location.Geocoder;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -20,11 +13,12 @@ import android.support.v4.app.NavUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.ArrayAdapter;
+import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -78,9 +72,6 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 	
 	private boolean mSearchLocationVisible = false;
 	
-	private ArrayList<String> mLocationNameSuggestions = new ArrayList<String>();
-	private ArrayAdapter<Address> mLocationNameAdapter;
-	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -104,7 +95,6 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 	    mGoogleMap = ((MapView) v.findViewById(R.id.mapView)).getMap();
 	    mGoogleMap.setMyLocationEnabled(true);
 	    mGoogleMap.setOnMyLocationButtonClickListener(new GoogleMap.OnMyLocationButtonClickListener() {
-			
 			@Override
 			public boolean onMyLocationButtonClick() {
 				Location location = mLocationClient.getLastLocation();
@@ -113,15 +103,60 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 			}
 		});
 	    
+	    mLocationName = (AutoCompleteTextView)v.findViewById(R.id.edit_text_name_location);
+	    mLocationName.setOnTouchListener(new View.OnTouchListener(){
+	    	   @Override
+	    	public boolean onTouch(View v, MotionEvent event) {
+	    		if(mLocationName.getAdapter() != null && mLocationName.getAdapter().getCount() > 0)
+					mLocationName.showDropDown();
+	    		return false;
+	    	}
+	    	});
+	    
+	    mLocationName.setOnClickListener(new View.OnClickListener() {		
+			@Override
+			public void onClick(View v) {
+				mLocationName.setCursorVisible(true);
+			}				
+		});
+
+	    mLocationName.setOnEditorActionListener(new TextView.OnEditorActionListener() {			
+			@Override
+			public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+	            if(event == null) {
+	            	if(actionId == EditorInfo.IME_ACTION_DONE)
+	            		silenceLocationNameEditor();
+	            } else if(event.getAction() == KeyEvent.ACTION_DOWN && 
+	            		event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
+	            	silenceLocationNameEditor();
+	            	hideKeyboard();
+	            	return true;
+	            }
+	            
+	            return false;
+			}
+		});
+	    
+	    mLocationName.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+	    	  @Override
+	    	  public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+	    		  mLocationName.dispatchKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_ENTER));
+	    	  }
+	    	});
+	    
 	    mReviewLatLng = getSherlockActivity().getIntent().getParcelableExtra(ReviewFinishFragment.REVIEW_LATLNG);
 	    mPhotoLatLng = getSherlockActivity().getIntent().getParcelableExtra(ReviewFinishFragment.IMAGE_LATLNG);
-	    if (mReviewLatLng != null)
+	    if (mReviewLatLng != null) {
 	    	mDefaultLatLng = mReviewLatLng;
-	    else if (mPhotoLatLng != null)
+	    	setLatLng(mDefaultLatLng);
+	    	mLocationName.setText(mReview.getLocationName());
+	    	silenceLocationNameEditor();
+	    }
+	    else if (mPhotoLatLng != null) {
 	    	mDefaultLatLng = mPhotoLatLng;
-	    
-	    setLatLng(mDefaultLatLng);
-	    	    
+	    	setLatLng(mDefaultLatLng);
+	    }
+	    	    	    
 	    mLocationClient.connect();
 
 	    mDeleteButton = (Button)v.findViewById(R.id.button_map_delete);
@@ -149,45 +184,20 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 		});
 
 	    mSearchLocation = (EditText)v.findViewById(R.id.edit_text_search_location);
-	    
-	    mLocationName = (AutoCompleteTextView)v.findViewById(R.id.edit_text_name_location);
-	    if(mReview.getLocationName() != null) {
-	    	mLocationName.setText(mReview.getLocationName());
-	    	mLocationName.setSelection(0);
-	    }
-	    
-	    mLocationName.setOnClickListener(new View.OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				AutoCompleteTextView tv = (AutoCompleteTextView)v;
-				if(tv.getText().toString().length() >= tv.getThreshold() && mLocationName.getAdapter() != null)
-					tv.showDropDown();
-				else
-					mLocationName.setAdapter(new LocationNameAdapter(getSherlockActivity(), android.R.layout.simple_list_item_1, mLatLng));
-				
-				tv.setCursorVisible(true);
-				tv.setSelection(tv.getText().toString().length());
-			}
-				
-		});
-
-	    mLocationName.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-			
-			@Override
-			public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-	            if(actionId == EditorInfo.IME_ACTION_DONE)
-	            {
-	            	AutoCompleteTextView tv = (AutoCompleteTextView)v;
-	            	tv.dismissDropDown();
-	            	tv.setSelection(0);
-	            	tv.setCursorVisible(false);
-	            }
-	            return false;
-			}
-		});
-	    
+	        
 	    return v;
+	}
+	
+	private void hideKeyboard()
+	{
+		InputMethodManager inputManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+	    inputManager.hideSoftInputFromWindow(getSherlockActivity().getCurrentFocus().getWindowToken(), 0);
+	}
+
+	private void silenceLocationNameEditor() {
+		mLocationName.dismissDropDown();
+    	mLocationName.setSelection(1);
+    	mLocationName.setCursorVisible(false);
 	}
 	
 	private void sendResult(int resultCode) {
@@ -290,10 +300,13 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 		if(latlang == null)
 			return;
 		
-		if(mLatLng != latlang && mLocationName != null)
-			mLocationName.setText(null);
-		
 		mLatLng = latlang;
+		
+		if(mLocationName != null) {
+			mLocationName.setText(null);
+			mLocationName.setAdapter(new LocationNameAdapter(getSherlockActivity(), android.R.layout.simple_list_item_1, mLatLng));
+		}
+		
 		zoomToLatLng();
 	}
 	
@@ -386,67 +399,6 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 			else
 				mButton.setImageBitmap(bitmap);
 		}	
-	}
-	
-	  private class GetAddressTask extends AsyncTask<LatLng, Void, List<Address>> {
-		  
-		  Context mContext;
-		  
-		  public GetAddressTask(Context context) {
-			  super();
-			  mContext = context;
-		  }
-  
-		  @Override
-		  protected List<Address> doInBackground(LatLng... params) {
-			  Geocoder geocoder = new Geocoder(mContext, Locale.getDefault());
-      
-			  LatLng loc = params[0];
-
-			  List<Address> addresses = null;
-			  try {
-			      addresses = geocoder.getFromLocation(loc.latitude, loc.longitude, 20);
-			  } catch (IOException e1) {
-				  Log.e("LocationSampleActivity",
-				          "IO Exception in getFromLocation()");
-				  e1.printStackTrace();
-				  Log.e(TAG, "IO Exception trying to get address");
-				  } catch (IllegalArgumentException e2) {
-				  String errorString = "Illegal arguments " +
-				          Double.toString(loc.latitude) +
-				          " , " +
-				          Double.toString(loc.longitude) +
-				          " passed to address service";
-				  Log.e("LocationSampleActivity", errorString);
-				  e2.printStackTrace();
-				  Log.e(TAG, errorString);
-			  }
-			 
-			  if (addresses != null && addresses.size() > 0) {
-				  return addresses;
-			  } else {
-			      Log.i(TAG, "No address found");
-			      return null;
-			  }
-		}
-		  
-		@Override
-		protected void onPostExecute(List<Address> addresses) {
-			super.onPostExecute(addresses);
-			Iterator<Address> it = addresses.iterator();
-			while(it.hasNext()) {
-				Address address = it.next();
-			    String addressText = String.format(
-			              "%s, %s",
-			              // If there's a street address, add it
-			              address.getMaxAddressLineIndex() > 0 ?
-			                      address.getAddressLine(0) : "",
-			              // Locality is usually a city
-			              address.getLocality());
-			    
-			    mLocationNameSuggestions.add(addressText);
-			};
-		}
-	}
+	}	
 }
 

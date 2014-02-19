@@ -396,7 +396,7 @@ int id listMode 0x7f050006
 int id mapLinearLayout 0x7f05005c
 int id mapView 0x7f05005f
 int id map_buttons 0x7f050061
-int id map_caption_edit_text 0x7f05005a
+int id map_caption_text 0x7f05005a
 int id menu_item_choose_social 0x7f050072
 int id menu_item_choose_tags 0x7f050071
 int id menu_item_image_location 0x7f050075

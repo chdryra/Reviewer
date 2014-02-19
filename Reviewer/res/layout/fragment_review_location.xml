@@ -23,6 +23,7 @@
  	    android:inputType="textCapSentences"
  	    android:imeOptions="actionDone"
  	    android:cursorVisible="false"
+ 	    android:completionThreshold="1"
  	    />
 
  	<com.google.android.gms.maps.MapView

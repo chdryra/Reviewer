@@ -15,11 +15,16 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.support.v4.app.NavUtils;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.DisplayMetrics;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -46,6 +51,8 @@ public class ReviewFinishFragment extends SherlockFragment {
 	public static final String IMAGE_LATLNG = "com.chdryra,android,reviewer.image_latlng";
 	public static final String REVIEW_LATLNG = "com.chdryra,android,reviewer.review_latlng";
 	public static final String LOCATION_BUTTON = "com.chdryra,android,reviewer.location_button";
+
+	public final static int CAPTION_MAX_LINES = 5;
 	
 	public final static int COMMENT_EDIT = 0;
 	public final static int SOCIAL_EDIT = 1;
@@ -63,7 +70,7 @@ public class ReviewFinishFragment extends SherlockFragment {
 	private ImageButton mAddPhotoButton;
 	private ImageButton mAddLocationButton;
 	private EditText mImageCaption;
-	private EditText mMapCaption;
+	private TextView mMapCaption;
 	
 	private boolean mCriteriaLayoutVisible = false;
 	
@@ -170,25 +177,57 @@ public class ReviewFinishFragment extends SherlockFragment {
 		mAddLocationButton.getLayoutParams().height = maxWidth;
 		mAddLocationButton.getLayoutParams().width = maxHeight;		
 		mAddLocationButton.setOnClickListener(new View.OnClickListener() {
-			
 			@Override
-			public void onClick(View v) {				
-				Intent i = new Intent(getSherlockActivity(), ReviewLocationActivity.class);
-				if (mReview.hasLatLng())					
-					i.putExtra(REVIEW_LATLNG, mReview.getLatLng());
-				if (mReview.hasImage() && mReviewImageHandler.hasGPSTag())					
-					i.putExtra(IMAGE_LATLNG, mReviewImageHandler.getLatLngFromEXIF());
-				IntentObjectHolder.addObject(REVIEW_OBJECT, mReview);
-				IntentObjectHolder.addObject(LOCATION_BUTTON, mAddLocationButton);
-				startActivityForResult(i, LOCATION_EDIT);
+			public void onClick(View v) {	
+				requestLocationFindIntent();
 			}
-			
 		});
 		
 		setLocationButtonImage();
 		
 		mImageCaption = (EditText)v.findViewById(R.id.image_caption_edit_text);
-		mMapCaption = (EditText)v.findViewById(R.id.map_caption_edit_text);
+		mImageCaption.setHorizontallyScrolling(false);
+		mImageCaption.setMaxLines(CAPTION_MAX_LINES);
+		mImageCaption.addTextChangedListener(new TextWatcher() {
+			
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before, int count) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count,
+					int after) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void afterTextChanged(Editable s) {
+				mReview.setImageCaption(s.toString());				
+			}
+		});
+		if(mReview.getImageCaption() != null)
+			mImageCaption.setText(mReview.getImageCaption());
+		
+		mMapCaption = (TextView)v.findViewById(R.id.map_caption_text);
+		mMapCaption.setHorizontallyScrolling(false);
+		mMapCaption.setMaxLines(CAPTION_MAX_LINES);
+		mMapCaption.setOnClickListener(new View.OnClickListener() {			
+			@Override
+			public void onClick(View v) {
+				requestLocationFindIntent();
+			}
+		});
+		mMapCaption.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+			
+			@Override
+			public void onFocusChange(View v, boolean hasFocus) {
+				if(hasFocus)
+					requestLocationFindIntent();
+			}
+		});
 		
 		return v;
 	}
@@ -217,6 +256,17 @@ public class ReviewFinishFragment extends SherlockFragment {
 		chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, cameraIntents.toArray(new Parcelable[]{}));
 
         startActivityForResult(chooserIntent, IMAGE_REQUEST);
+	}
+	
+	private void requestLocationFindIntent() {
+		Intent i = new Intent(getSherlockActivity(), ReviewLocationActivity.class);
+		if (mReview.hasLatLng())					
+			i.putExtra(REVIEW_LATLNG, mReview.getLatLng());
+		if (mReview.hasImage() && mReviewImageHandler.hasGPSTag())					
+			i.putExtra(IMAGE_LATLNG, mReviewImageHandler.getLatLngFromEXIF());
+		IntentObjectHolder.addObject(REVIEW_OBJECT, mReview);
+		IntentObjectHolder.addObject(LOCATION_BUTTON, mAddLocationButton);
+		startActivityForResult(i, LOCATION_EDIT);
 	}
 	
 	@Override
@@ -322,8 +372,8 @@ public class ReviewFinishFragment extends SherlockFragment {
 			//Getting location
 			case LOCATION_EDIT:
 				mReview = (Review)IntentObjectHolder.getObject(REVIEW_OBJECT);
-				if(resultCode == Activity.RESULT_OK)
-					mMapCaption.setText(mReview.getLocationName());
+				if(resultCode == Activity.RESULT_OK) 
+					setMapCaption();
 				if(resultCode == ReviewLocationFragment.RESULT_DELETE_LOCATION)
 					deleteLocationButtonImage();
 				break;
@@ -372,4 +422,8 @@ public class ReviewFinishFragment extends SherlockFragment {
 	private void updateComment() {
 		mComment.setText(mReview.getCommentIncludingCriteria());
 	}	
+	
+	private void setMapCaption() {
+		mMapCaption.setText("@" + mReview.getShortenedLocationName());
+	}
 }
