@@ -228,6 +228,8 @@ public class ReviewFinishFragment extends SherlockFragment {
 					requestLocationFindIntent();
 			}
 		});
+		if(mReview.getLocationName() != null)
+			setMapCaption();
 		
 		return v;
 	}
