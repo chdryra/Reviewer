@@ -50,6 +50,7 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 	public final static String LOCATION_LATLNG = "com.chdryra.android.reviewer.location_latlng";
 	public final static String LOCATION_NAME = "com.chdryra.android.reviewer.location_name";
 	public final static String MAP_SNAPSHOT = "com.chdryra.android.reviewer.map_snapshot";
+	public final static int mNumberDefaultClosestNames = 5;
 
 	private Review mReview;
 	private ImageButton mButton;
@@ -102,9 +103,24 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 				return false;
 			}
 		});
+	    	    
+	    mLocationName = (MyAutoCompleteTextView)v.findViewById(R.id.edit_text_name_location);
+
+	    mReviewLatLng = getSherlockActivity().getIntent().getParcelableExtra(ReviewFinishFragment.REVIEW_LATLNG);
+	    mPhotoLatLng = getSherlockActivity().getIntent().getParcelableExtra(ReviewFinishFragment.IMAGE_LATLNG);
+	    if (mReviewLatLng != null) {
+	    	mDefaultLatLng = mReviewLatLng;
+	    	setLatLng(mDefaultLatLng);
+	    	mLocationName.setText(mReview.getLocationName());
+	    	mLocationName.silenceEditor();
+	    }
+	    else if (mPhotoLatLng != null) {
+	    	mDefaultLatLng = mPhotoLatLng;
+	    	setLatLng(mDefaultLatLng);
+	    }
 	    
 	    mSearchLocation = (MyAutoCompleteTextView)v.findViewById(R.id.edit_text_search_location);
-	    mSearchLocation.setAdapter(new LocationNameAdapter(getSherlockActivity(), android.R.layout.simple_list_item_1, null));
+	    //mSearchLocation.setAdapter(new LocationNameAdapter(getSherlockActivity(), android.R.layout.simple_list_item_1, mLatLng, 0));
 	    mSearchLocation.setOnEditorActionListener(new TextView.OnEditorActionListener() {			
 			@Override
 			public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -124,22 +140,7 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 	            return false;
 			}
 		});
-	    
-	    mLocationName = (MyAutoCompleteTextView)v.findViewById(R.id.edit_text_name_location);
 
-	    mReviewLatLng = getSherlockActivity().getIntent().getParcelableExtra(ReviewFinishFragment.REVIEW_LATLNG);
-	    mPhotoLatLng = getSherlockActivity().getIntent().getParcelableExtra(ReviewFinishFragment.IMAGE_LATLNG);
-	    if (mReviewLatLng != null) {
-	    	mDefaultLatLng = mReviewLatLng;
-	    	setLatLng(mDefaultLatLng);
-	    	mLocationName.setText(mReview.getLocationName());
-	    	mLocationName.silenceEditor();
-	    }
-	    else if (mPhotoLatLng != null) {
-	    	mDefaultLatLng = mPhotoLatLng;
-	    	setLatLng(mDefaultLatLng);
-	    }
-	    	    	    
 	    mLocationClient.connect();
 
 	    mDeleteButton = (Button)v.findViewById(R.id.button_map_delete);
@@ -277,7 +278,12 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 		
 		if(mLocationName != null) {
 			mLocationName.setText(null);
-			mLocationName.setAdapter(new LocationNameAdapter(getSherlockActivity(), android.R.layout.simple_list_item_1, mLatLng));
+			mLocationName.setAdapter(new LocationNameAdapter(getSherlockActivity(), android.R.layout.simple_list_item_1, mLatLng, mNumberDefaultClosestNames));
+		}
+
+		if(mSearchLocation != null) {
+			mLocationName.setText(null);
+			mSearchLocation.setAdapter(new LocationNameAdapter(getSherlockActivity(), android.R.layout.simple_list_item_1, mLatLng, 0));
 		}
 		
 		zoomToLatLng();
@@ -302,7 +308,9 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 	 
 		 mGoogleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(mLatLng, DEFAULT_ZOOM));
 		 MarkerOptions markerOptions = new MarkerOptions().position(mLatLng);
+		 mGoogleMap.clear();
 		 mGoogleMap.addMarker(markerOptions);
+		 
 	 }
 	 
 	@Override

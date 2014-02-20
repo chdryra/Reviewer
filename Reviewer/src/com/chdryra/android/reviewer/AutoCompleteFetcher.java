@@ -20,7 +20,7 @@ public class AutoCompleteFetcher extends GooglePlacesAPIFetcher {
 	
 	private String mQuery;
 	private LatLng mLatLng;
-	private int mRadius = 1000;
+	private int mRadius = 250;
 
 	public AutoCompleteFetcher(String query, LatLng latlng, int radius) {
 		super(AUTOCOMPLETE, RESULTS_TAG);
@@ -34,7 +34,7 @@ public class AutoCompleteFetcher extends GooglePlacesAPIFetcher {
 		StringBuilder urlString = getURLStem();
 	    
 		if(mLatLng != null) 
-	    	urlString.append("?location=" + mLatLng.latitude + "," + mLatLng.longitude);
+	    	urlString.append("&location=" + mLatLng.latitude + "," + mLatLng.longitude);
 	 
 	    urlString.append("&radius=" + mRadius);
 		

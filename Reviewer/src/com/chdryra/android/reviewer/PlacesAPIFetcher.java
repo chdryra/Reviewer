@@ -12,7 +12,12 @@ import com.google.android.gms.maps.model.LatLng;
 
 public class PlacesAPIFetcher {
     private static final String TAG = "PlacesAPIFetcher";
-    public static final int RADIUS = 1000;
+    private static final String DEFAULT_TYPE = "establishment";
+    private static final String ALL_TYPES = GooglePlacesAPIFetcher.ALL_TYPES;
+    private static final String NO_TYPES = null;
+    
+    public static final int NEARBY_RADIUS = 100;
+    public static final int AUTOCOMPLETE_RADIUS = 250;
     
     public PlacesAPIFetcher() {
     }	
@@ -37,25 +42,23 @@ public class PlacesAPIFetcher {
 	    return result;
 	}
     
-    public static String fetchNearestName(LatLng latlng, String address) {
-    	String keyword = null;
-    	NearbySearchFetcher.RadiusOrRank ror = NearbySearchFetcher.RadiusOrRank.RADIUS;
-    	if(address != null) {
-    		keyword = address;
-    		ror = NearbySearchFetcher.RadiusOrRank.RANK_BY_DISTANCE;
-    	}
+    public static ArrayList<String> fetchNearestNames(LatLng latlng, int number) {
+    	NearbySearchFetcher.RadiusOrRank ror = NearbySearchFetcher.RadiusOrRank.RANK_BY_PROMINENCE;
     	
-    	NearbySearchFetcher fetcher = new NearbySearchFetcher(latlng, ror, RADIUS, keyword);
-    	JSONArray results = fetcher.getResults();
+    	NearbySearchFetcher fetcher = new NearbySearchFetcher(latlng, ror, NEARBY_RADIUS, NO_TYPES);
+    	JSONArray resultsJSON = fetcher.getResults();
     	
-        String result = null;
-        try {	        
-	        result = results.getJSONObject(0).getString("name");
-	    } catch (JSONException e) {
-	        Log.e(TAG, "Cannot process JSON results", e);
-	    }
+        ArrayList<String> resultsList = new ArrayList<String>();
+        if(resultsJSON != null) {
+	        try {
+	        	for (int i = 0; i < Math.min(number, resultsJSON.length()); i++)
+	        		resultsList.add(resultsJSON.getJSONObject(i).getString("name"));
+		    } catch (JSONException e) {
+		        Log.e(TAG, "Cannot process JSON results", e);
+		    }
+        }
         
-        return result;
+        return resultsList;
     }
 
 }
