@@ -1,11 +1,16 @@
 package com.chdryra.android.reviewer;
 
 
+import java.io.IOException;
+import java.util.List;
+import java.util.Locale;
+
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.graphics.Bitmap;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -13,15 +18,10 @@ import android.support.v4.app.NavUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.AdapterView;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -64,8 +64,8 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 	private LatLng mDefaultLatLng;
 	private LatLng mLatLng;
 	
-	private EditText mSearchLocation;
-	private AutoCompleteTextView mLocationName;
+	private MyAutoCompleteTextView mSearchLocation;
+	private MyAutoCompleteTextView mLocationName;
 	private Button mDeleteButton;
 	private Button mCancelButton;
 	private Button mDoneButton;
@@ -103,33 +103,21 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 			}
 		});
 	    
-	    mLocationName = (AutoCompleteTextView)v.findViewById(R.id.edit_text_name_location);
-	    mLocationName.setOnTouchListener(new View.OnTouchListener(){
-	    	   @Override
-	    	public boolean onTouch(View v, MotionEvent event) {
-	    		if(mLocationName.getAdapter() != null && mLocationName.getAdapter().getCount() > 0)
-					mLocationName.showDropDown();
-	    		return false;
-	    	}
-	    	});
-	    
-	    mLocationName.setOnClickListener(new View.OnClickListener() {		
-			@Override
-			public void onClick(View v) {
-				mLocationName.setCursorVisible(true);
-			}				
-		});
-
-	    mLocationName.setOnEditorActionListener(new TextView.OnEditorActionListener() {			
+	    mSearchLocation = (MyAutoCompleteTextView)v.findViewById(R.id.edit_text_search_location);
+	    mSearchLocation.setAdapter(new LocationNameAdapter(getSherlockActivity(), android.R.layout.simple_list_item_1, null));
+	    mSearchLocation.setOnEditorActionListener(new TextView.OnEditorActionListener() {			
 			@Override
 			public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
 	            if(event == null) {
-	            	if(actionId == EditorInfo.IME_ACTION_DONE)
-	            		silenceLocationNameEditor();
+	            	if(actionId == EditorInfo.IME_ACTION_SEARCH) {
+	            		mSearchLocation.silenceEditor();
+	            		gotoSearchLocation();
+	            	}
 	            } else if(event.getAction() == KeyEvent.ACTION_DOWN && 
 	            		event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
-	            	silenceLocationNameEditor();
-	            	hideKeyboard();
+	            	mSearchLocation.silenceEditor();
+	            	mSearchLocation.hideKeyboard();
+	            	gotoSearchLocation();
 	            	return true;
 	            }
 	            
@@ -137,20 +125,15 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 			}
 		});
 	    
-	    mLocationName.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-	    	  @Override
-	    	  public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-	    		  mLocationName.dispatchKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_ENTER));
-	    	  }
-	    	});
-	    
+	    mLocationName = (MyAutoCompleteTextView)v.findViewById(R.id.edit_text_name_location);
+
 	    mReviewLatLng = getSherlockActivity().getIntent().getParcelableExtra(ReviewFinishFragment.REVIEW_LATLNG);
 	    mPhotoLatLng = getSherlockActivity().getIntent().getParcelableExtra(ReviewFinishFragment.IMAGE_LATLNG);
 	    if (mReviewLatLng != null) {
 	    	mDefaultLatLng = mReviewLatLng;
 	    	setLatLng(mDefaultLatLng);
 	    	mLocationName.setText(mReview.getLocationName());
-	    	silenceLocationNameEditor();
+	    	mLocationName.silenceEditor();
 	    }
 	    else if (mPhotoLatLng != null) {
 	    	mDefaultLatLng = mPhotoLatLng;
@@ -182,22 +165,12 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 				CaptureMapScreen();
 			}
 		});
-
-	    mSearchLocation = (EditText)v.findViewById(R.id.edit_text_search_location);
 	        
 	    return v;
 	}
 	
-	private void hideKeyboard()
-	{
-		InputMethodManager inputManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-	    inputManager.hideSoftInputFromWindow(getSherlockActivity().getCurrentFocus().getWindowToken(), 0);
-	}
-
-	private void silenceLocationNameEditor() {
-		mLocationName.dismissDropDown();
-    	mLocationName.setSelection(1);
-    	mLocationName.setCursorVisible(false);
+	private void gotoSearchLocation() {
+		new MapSearchTask().execute(mSearchLocation.getText().toString());
 	}
 	
 	private void sendResult(int resultCode) {
@@ -399,6 +372,20 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 			else
 				mButton.setImageBitmap(bitmap);
 		}	
-	}	
+	}
+	
+	private class MapSearchTask extends AsyncTask<String, Void, LatLng> {		
+		
+		@Override
+	    protected LatLng doInBackground(String... params) {
+       	 	return new PlacesAPIFetcher().fetchLatLng(params[0]);
+	    }
+		
+		@Override
+		protected void onPostExecute(LatLng latlng) {
+			setLatLng(latlng);
+		}	
+	}
+		
 }
 

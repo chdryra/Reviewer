@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
      	
- 	<EditText
+ 	<com.chdryra.android.reviewer.MyAutoCompleteTextView
  	    android:id="@+id/edit_text_search_location"
  	    android:layout_width="match_parent"
  	    android:layout_height="wrap_content" 
@@ -13,9 +13,11 @@
  	    android:inputType="text|textPostalAddress"
  	    android:visibility="gone"
  	    android:imeOptions="actionSearch"
+ 	    android:cursorVisible="false"
+ 	    android:completionThreshold="1"
  	    />
  	     	
- 	<AutoCompleteTextView
+ 	<com.chdryra.android.reviewer.MyAutoCompleteTextView
  	    android:id="@+id/edit_text_name_location"
  	    android:layout_width="match_parent"
  	    android:layout_height="wrap_content" 
