@@ -24,6 +24,9 @@
     <string name="edit_text_map_caption_hint">Location&#8230;</string>
     <string name="edit_text_image_caption_hint">Caption&#8230;</string>
     
+    <!--  SearchViews -->
+    <string name="search_location_hint">Search for location&#8230;</string>
+    
     <!-- Buttons -->
     <string name="button_done_text">done</string>
     <string name="button_delete_text">delete</string>

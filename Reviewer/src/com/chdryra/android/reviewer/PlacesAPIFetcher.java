@@ -45,7 +45,7 @@ public class PlacesAPIFetcher {
     public static ArrayList<String> fetchNearestNames(LatLng latlng, int number) {
     	NearbySearchFetcher.RadiusOrRank ror = NearbySearchFetcher.RadiusOrRank.RANK_BY_PROMINENCE;
     	
-    	NearbySearchFetcher fetcher = new NearbySearchFetcher(latlng, ror, NEARBY_RADIUS, NO_TYPES);
+    	NearbySearchFetcher fetcher = new NearbySearchFetcher(latlng, ror, NEARBY_RADIUS, ALL_TYPES);
     	JSONArray resultsJSON = fetcher.getResults();
     	
         ArrayList<String> resultsList = new ArrayList<String>();

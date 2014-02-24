@@ -32,18 +32,23 @@ public class LocationNameAdapter extends ArrayAdapter<String> implements Filtera
 	
     private ArrayList<String> mLocationSuggestions = null;
 	private ArrayList<String> mLocationDefaultSuggestions;
+	private String mPrimaryDefaultSuggestion;
 	private LatLng mLatLng;
-	private int mNumberDefaultSuggestions;
 	
-	public LocationNameAdapter(Context context, int textViewResourceId, LatLng latlng, int numberDefaultSuggestions) {
+	public LocationNameAdapter(Context context, int textViewResourceId, LatLng latlng, int numberDefaultSuggestions, String primaryDefaultSuggestion) {
 		super(context, textViewResourceId);
 		mLatLng = latlng;
-		mNumberDefaultSuggestions = numberDefaultSuggestions;
-		
-		if(mLatLng != null && mNumberDefaultSuggestions > 0) {
-			GetAddressTask task = new GetAddressTask(context);
-			task.execute(mLatLng);
-		}
+		if(numberDefaultSuggestions > 0) {
+			if(primaryDefaultSuggestion != null) {
+				mPrimaryDefaultSuggestion = primaryDefaultSuggestion;
+				numberDefaultSuggestions--;
+			}
+			
+			if(mLatLng != null) {				
+				GetAddressTask task = new GetAddressTask(context, mLatLng);
+				task.execute(numberDefaultSuggestions);
+			}	
+		}		
 	}
 	
 	@Override
@@ -92,20 +97,22 @@ public class LocationNameAdapter extends ArrayAdapter<String> implements Filtera
     }
 
 	    
-    private class GetAddressTask extends AsyncTask<LatLng, Void, ArrayList<String>> {
+    private class GetAddressTask extends AsyncTask<Integer, Void, ArrayList<String>> {
 		  
 		  Context mContext;
+		  LatLng mLatLng;
 		  
-		  public GetAddressTask(Context context) {
+		  public GetAddressTask(Context context, LatLng latlng) {
 			  super();
 			  mContext = context;
+			  mLatLng = latlng;
 		  }
   
 		  @Override
-		  protected ArrayList<String> doInBackground(LatLng... params) {
-			  LatLng loc = params[0];
+		  protected ArrayList<String> doInBackground(Integer... params) {
+			  Integer numberToGet = params[0];
 					 			 
-			  ArrayList<String> namesFromGoogle = PlacesAPIFetcher.fetchNearestNames(loc, mNumberDefaultSuggestions);
+			  ArrayList<String> namesFromGoogle = PlacesAPIFetcher.fetchNearestNames(mLatLng, numberToGet);
 			  
 			  if(namesFromGoogle.size() > 0)
 				  return namesFromGoogle;
@@ -114,14 +121,14 @@ public class LocationNameAdapter extends ArrayAdapter<String> implements Filtera
 			
 				  List<Address> addresses = null;
 				  try {
-				      addresses = geocoder.getFromLocation(loc.latitude, loc.longitude, mNumberDefaultSuggestions);
+				      addresses = geocoder.getFromLocation(mLatLng.latitude, mLatLng.longitude, numberToGet);
 				  } catch (IOException e1) {
 					  Log.e(TAG, "IO Exception trying to get address");
 				  } catch (IllegalArgumentException e2) {
 				  String errorString = "Illegal arguments " +
-				          Double.toString(loc.latitude) +
+				          Double.toString(mLatLng.latitude) +
 				          " , " +
-				          Double.toString(loc.longitude) +
+				          Double.toString(mLatLng.longitude) +
 				          " passed to address service";
 				  Log.e("LocationSampleActivity", errorString);
 				  e2.printStackTrace();
@@ -158,6 +165,8 @@ public class LocationNameAdapter extends ArrayAdapter<String> implements Filtera
 	protected void onPostExecute(ArrayList<String> addresses) {
 		super.onPostExecute(addresses);
 		mLocationDefaultSuggestions = addresses;
+		if(mPrimaryDefaultSuggestion != null)
+			mLocationDefaultSuggestions.add(0, mPrimaryDefaultSuggestion);
 	    mLocationSuggestions = new ArrayList<String>(mLocationDefaultSuggestions);
 	}
 	}

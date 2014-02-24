@@ -1,25 +1,22 @@
 package com.chdryra.android.reviewer;
 
 
-import java.io.IOException;
-import java.util.List;
-import java.util.Locale;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.graphics.Bitmap;
-import android.location.Address;
-import android.location.Geocoder;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
+import android.support.v4.view.MenuItemCompat;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -28,6 +25,7 @@ import android.widget.TextView;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
+import com.actionbarsherlock.widget.SearchView;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesClient;
 import com.google.android.gms.location.LocationClient;
@@ -50,7 +48,7 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 	public final static String LOCATION_LATLNG = "com.chdryra.android.reviewer.location_latlng";
 	public final static String LOCATION_NAME = "com.chdryra.android.reviewer.location_name";
 	public final static String MAP_SNAPSHOT = "com.chdryra.android.reviewer.map_snapshot";
-	public final static int mNumberDefaultClosestNames = 5;
+	public final static int NUMBER_DEFAULT_NAMES= 5;
 
 	private Review mReview;
 	private ImageButton mButton;
@@ -72,6 +70,7 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 	private Button mDoneButton;
 	
 	private boolean mSearchLocationVisible = false;
+	private String mSearchLocationName;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -120,7 +119,15 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 	    }
 	    
 	    mSearchLocation = (MyAutoCompleteTextView)v.findViewById(R.id.edit_text_search_location);
-	    //mSearchLocation.setAdapter(new LocationNameAdapter(getSherlockActivity(), android.R.layout.simple_list_item_1, mLatLng, 0));
+	    mSearchLocation.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+		    @Override
+		    public void onFocusChange(View v, boolean hasFocus) {
+		        if (hasFocus) {
+		        	mSearchLocation.setCursorVisible(true);
+		            getSherlockActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+		        }
+		    }
+		});
 	    mSearchLocation.setOnEditorActionListener(new TextView.OnEditorActionListener() {			
 			@Override
 			public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -171,7 +178,8 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 	}
 	
 	private void gotoSearchLocation() {
-		new MapSearchTask().execute(mSearchLocation.getText().toString());
+		mSearchLocationName = mSearchLocation.getText().toString();
+		new MapSearchTask().execute(mSearchLocationName);
 	}
 	
 	private void sendResult(int resultCode) {
@@ -239,6 +247,28 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 		super.onCreateOptionsMenu(menu, inflater);
 		inflater.inflate(R.menu.fragment_review_location, menu);
+		
+		final MenuItem searchViewMenuItem = menu.findItem(R.id.action_search);
+		SearchView searchView = new SearchView(getSherlockActivity().getSupportActionBar().getThemedContext());
+
+		searchView.setQueryHint(getResources().getString(R.string.search_location_hint));
+		searchViewMenuItem.setActionView(searchView);
+
+	    final MenuItem imageLocationIcon = menu.findItem(R.id.menu_item_image_location);
+		final MenuItem revertLocationIcon = menu.findItem(R.id.menu_item_revert_location);
+	    searchView.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
+			@Override
+			public void onFocusChange(View v, boolean hasFocus) {
+				if(hasFocus) {	
+					imageLocationIcon.setVisible(false);
+					revertLocationIcon.setVisible(false);
+				} else {
+					imageLocationIcon.setVisible(true);
+					revertLocationIcon.setVisible(true);	
+					searchViewMenuItem.collapseActionView();
+				}
+			}
+		});
 	}
 	
 	@Override
@@ -252,10 +282,18 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 			break;
 		case R.id.menu_item_search_location:
 			mSearchLocationVisible = !mSearchLocationVisible;
-			if(mSearchLocationVisible)
+			if(mSearchLocationVisible) {
 				mSearchLocation.setVisibility(View.VISIBLE);
-			else
+				mSearchLocation.setFocusable(true);
+				mSearchLocation.requestFocus();
+				getSherlockActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+				
+			}
+			else {
+				mSearchLocation.silenceEditor();
+				mSearchLocation.setFocusable(false);
 				mSearchLocation.setVisibility(View.GONE);
+			}
 			break;
 		case android.R.id.home:
 			if (NavUtils.getParentActivityName(getSherlockActivity()) != null) {
@@ -278,12 +316,12 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 		
 		if(mLocationName != null) {
 			mLocationName.setText(null);
-			mLocationName.setAdapter(new LocationNameAdapter(getSherlockActivity(), android.R.layout.simple_list_item_1, mLatLng, mNumberDefaultClosestNames));
+			mLocationName.setAdapter(new LocationNameAdapter(getSherlockActivity(), 
+					android.R.layout.simple_list_item_1, mLatLng, NUMBER_DEFAULT_NAMES, mSearchLocationName));
 		}
 
 		if(mSearchLocation != null) {
-			mLocationName.setText(null);
-			mSearchLocation.setAdapter(new LocationNameAdapter(getSherlockActivity(), android.R.layout.simple_list_item_1, mLatLng, 0));
+			mSearchLocation.setAdapter(new LocationNameAdapter(getSherlockActivity(), android.R.layout.simple_list_item_1, mLatLng, 0, null));
 		}
 		
 		zoomToLatLng();
@@ -386,7 +424,7 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 		
 		@Override
 	    protected LatLng doInBackground(String... params) {
-       	 	return new PlacesAPIFetcher().fetchLatLng(params[0]);
+			return PlacesAPIFetcher.fetchLatLng(params[0]);
 	    }
 		
 		@Override
