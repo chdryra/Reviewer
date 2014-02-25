@@ -32,17 +32,18 @@
         android:isIndicator="true"
         android:clickable="true"/>
 
-    <View
-        android:id="@+id/total_rating_bar_separator_finish_page"
-    	style="@style/HorizontalDivider"/>
-    
     <LinearLayout 
         android:id="@+id/linear_layout_criteria_rating_bars"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:clickable="true">
-        
+        android:clickable="true"
+		android:visibility="gone">
+		
+        <View
+        android:id="@+id/total_rating_bar_separator_finish_page"
+    	style="@style/HorizontalDivider"/>
+    
     </LinearLayout>	
     
     <View
@@ -53,44 +54,58 @@
         android:id="@+id/add_comment_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        style="@style/Widget.Sherlock.ActionButton"
         android:text="@string/button_add_comment_text" />
     
-    <TextView        
-       	android:id="@+id/comment_text_view"
-        android:hint="@string/edit_text_add_comment_hint"
-        style="?android:attr/editTextStyle"
+    <View style="@style/HorizontalDivider"/>
+    
+    <LinearLayout 
+        android:id="@+id/comment_linear_layout"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
-		android:clickable="true"
-		android:visibility="gone"
-	 />
+        android:orientation="vertical"
+        android:visibility="gone">
+        
+	    <TextView        
+	       	android:id="@+id/comment_text_view"
+	        android:hint="@string/edit_text_add_comment_hint"
+	        style="?android:attr/editTextStyle"
+	        android:layout_height="wrap_content"
+	        android:layout_width="match_parent"
+			android:clickable="true"/>
+	    
+	     <View
+	        android:id="@+id/comment_separator"
+	    	style="@style/HorizontalDivider"/>
+	   	    
+    </LinearLayout>
     
-     <View
-        android:id="@+id/comment_separator"
-    	style="@style/HorizontalDivider"/>
-   	
+     <include  
+        layout="@layout/optional_image_buttons"
+        android:layout_width="match_parent"
+    	android:layout_height="wrap_content"
+     	/>
+    
      <Button 
         android:id="@+id/add_location_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        style="@style/Widget.Sherlock.ActionButton"
         android:text="@string/button_add_location_text" />
+     
+     <View
+        android:id="@+id/add_location_button_separator"
+    	style="@style/HorizontalDivider"/>
      
      <Button 
         android:id="@+id/add_image_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        style="@style/Widget.Sherlock.ActionButton"
         android:text="@string/button_add_image_text" />
-    
-   	 <include  
-        layout="@layout/review_optional_buttons"
-        android:id="@+id/add_image_location"
-        android:layout_width="match_parent"
-    	android:layout_height="wrap_content"
-    	android:layout_gravity="center_horizontal"
-     	/>
-   	
+   	 
    	  <View
-        android:id="@+id/review_optional_buttons_edit_texts_separator"
+        android:id="@+id/add_image_button_separator"
     	style="@style/HorizontalDivider"/>
    	 
 </LinearLayout>

@@ -2,14 +2,15 @@
  
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" 
         android:id="@+id/add_image_location_linear_layout"
+		android:baselineAligned="false"
         android:orientation="horizontal"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:layout_gravity="center_horizontal">
-       
+    
     <LinearLayout
        	android:id="@+id/add_image_linear_layout"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_width="match_parent"
         android:orientation="vertical"
         android:visibility="gone"
@@ -23,12 +24,10 @@
 	 	    android:layout_height="wrap_content"
 	 	    android:layout_gravity="center_horizontal"
 	 	    android:scaleType="centerInside"
-	 	    android:contentDescription="Add photo"
+	 	    android:contentDescription="@string/button_add_image_text"
 	     />
    	
-	 	<View
-	    	android:id="@+id/add_image_separator"
-    		style="@style/HorizontalDivider"/>
+	 	<View style="@style/HorizontalDivider"/>
 	 	
 	   	 <EditText 
 	   	     android:id="@+id/image_caption_edit_text"
@@ -40,7 +39,9 @@
 	   	     android:cursorVisible="false"
 	   	     android:scrollHorizontally="false"
 	   	     android:layout_gravity="bottom"/>
-	   	
+
+	   	<View style="@style/HorizontalDivider"/>
+	   	 	   	
 	</LinearLayout>
 	
 <!-- 	<View -->
@@ -49,7 +50,7 @@
    	 
    	<LinearLayout
        	android:id="@+id/add_location_linear_layout"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_width="match_parent"
         android:orientation="vertical"
         android:visibility="gone"
@@ -63,12 +64,10 @@
 	 	    android:layout_height="wrap_content"
 	 	    android:layout_gravity="center_horizontal"
 	 	    android:scaleType="centerInside"
-	 	    android:contentDescription="Add location"
+	 	    android:contentDescription="@string/button_add_location_text"
 	     />
 
-	 	<View
-	    	android:id="@+id/add_location_separator"
-    		style="@style/HorizontalDivider"/>
+	 	<View style="@style/HorizontalDivider"/>
 	 	
 		<TextView
    	     android:id="@+id/map_caption_text"
@@ -78,5 +77,8 @@
    	     android:textSize="@dimen/list_item_textSize"
    	     style="?android:attr/editTextStyle"/>
 	 	
+		<View style="@style/HorizontalDivider"/>
+		
 	</LinearLayout>
+	
 </LinearLayout>

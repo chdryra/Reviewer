@@ -74,7 +74,7 @@ public class ReviewFinishFragment extends SherlockFragment {
 	private ImageButton mAddLocationImageButton;
 	private TextView mMapCaption;
 	
-	private boolean mCriteriaLayoutVisible = false;
+	private boolean mCriteriaLayoutVisible = true;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -121,6 +121,8 @@ public class ReviewFinishFragment extends SherlockFragment {
 		//***Criteria Rating Bars***
 		mCriteriaLayout = (LinearLayout)v.findViewById(R.id.linear_layout_criteria_rating_bars);
 		Iterator<Criterion> it = mReview.getCriteriaList().getCriterionHashMap().values().iterator();
+		if(it.hasNext())
+			mCriteriaLayout.setVisibility(View.VISIBLE);
 		boolean dark = false;
 		while (it.hasNext()) {
 			Criterion c = it.next();
@@ -144,7 +146,7 @@ public class ReviewFinishFragment extends SherlockFragment {
 		String comment = mReview.getCommentIncludingCriteria();
 		if(comment != null) {
 			mComment.setText(comment);
-			setVisibleGoneView(mComment, mAddCommentButton);
+			setVisibleGoneView((View)mComment.getParent(), mAddCommentButton);
 		}
 		
 		mComment.setOnClickListener(new View.OnClickListener() {
@@ -183,9 +185,9 @@ public class ReviewFinishFragment extends SherlockFragment {
 			@Override
 			public void afterTextChanged(Editable s) {
 				if(s != null && s.toString().length() > 0)
-					setVisibleGoneView(mComment, mAddCommentButton);
+					setVisibleGoneView((View)mComment.getParent(), mAddCommentButton);
 				else
-					setVisibleGoneView(mAddCommentButton, mComment);
+					setVisibleGoneView(mAddCommentButton, (View)mComment.getParent());
 			}
 		});
 		
@@ -262,12 +264,12 @@ public class ReviewFinishFragment extends SherlockFragment {
 				requestLocationFindIntent();
 			}
 		});
-		mMapCaption.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+		mMapCaption.setOnTouchListener(new View.OnTouchListener() {
 			
 			@Override
-			public void onFocusChange(View v, boolean hasFocus) {
-				if(hasFocus)
-					requestLocationFindIntent();
+			public boolean onTouch(View v, MotionEvent event) {
+				requestLocationFindIntent();
+				return true;
 			}
 		});
 		
@@ -503,7 +505,9 @@ public class ReviewFinishFragment extends SherlockFragment {
 	}	
 
 	private void setMapCaption() {
-		mMapCaption.setText("@" + mReview.getShortenedLocationName());
+		String name = mReview.getShortenedLocationName();
+		if(name != null && name.length() > 0)
+			mMapCaption.setText("@" + name);
 		setVisibleGoneView((View)mAddLocationImageButton.getParent(), mAddLocationButton);
 	}
 	
