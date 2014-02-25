@@ -3,6 +3,7 @@ package com.chdryra.android.reviewer;
 
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.graphics.Bitmap;
@@ -10,14 +11,13 @@ import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
-import android.support.v4.view.MenuItemCompat;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -25,7 +25,6 @@ import android.widget.TextView;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
-import com.actionbarsherlock.widget.SearchView;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesClient;
 import com.google.android.gms.location.LocationClient;
@@ -57,19 +56,17 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 	
 	private GoogleMap mGoogleMap;
 	private MapView mMapView;
-	
-	private LatLng mPhotoLatLng;
-	private LatLng mReviewLatLng;
-	private LatLng mDefaultLatLng;
-	private LatLng mLatLng;
-	
-	private MyAutoCompleteTextView mSearchLocation;
+	private ArrayAdapterSearchView mSearchView;
 	private MyAutoCompleteTextView mLocationName;
 	private Button mDeleteButton;
 	private Button mCancelButton;
 	private Button mDoneButton;
 	
-	private boolean mSearchLocationVisible = false;
+	private LatLng mPhotoLatLng;
+	private LatLng mReviewLatLng;
+	private LatLng mDefaultLatLng;
+	private LatLng mLatLng;
+		
 	private String mSearchLocationName;
 	
 	@Override
@@ -89,6 +86,8 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 		View v = inflater.inflate(R.layout.fragment_review_location, container, false);
 		getSherlockActivity().getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+		mLocationClient.connect();
+		
 		mMapView = (MapView)v.findViewById(R.id.mapView);
 	    mMapView.onCreate(savedInstanceState);
 	    
@@ -117,38 +116,6 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 	    	mDefaultLatLng = mPhotoLatLng;
 	    	setLatLng(mDefaultLatLng);
 	    }
-	    
-	    mSearchLocation = (MyAutoCompleteTextView)v.findViewById(R.id.edit_text_search_location);
-	    mSearchLocation.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-		    @Override
-		    public void onFocusChange(View v, boolean hasFocus) {
-		        if (hasFocus) {
-		        	mSearchLocation.setCursorVisible(true);
-		            getSherlockActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
-		        }
-		    }
-		});
-	    mSearchLocation.setOnEditorActionListener(new TextView.OnEditorActionListener() {			
-			@Override
-			public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-	            if(event == null) {
-	            	if(actionId == EditorInfo.IME_ACTION_SEARCH) {
-	            		mSearchLocation.silenceEditor();
-	            		gotoSearchLocation();
-	            	}
-	            } else if(event.getAction() == KeyEvent.ACTION_DOWN && 
-	            		event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
-	            	mSearchLocation.silenceEditor();
-	            	mSearchLocation.hideKeyboard();
-	            	gotoSearchLocation();
-	            	return true;
-	            }
-	            
-	            return false;
-			}
-		});
-
-	    mLocationClient.connect();
 
 	    mDeleteButton = (Button)v.findViewById(R.id.button_map_delete);
 	    mDeleteButton.setOnClickListener(new View.OnClickListener() {
@@ -178,7 +145,7 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 	}
 	
 	private void gotoSearchLocation() {
-		mSearchLocationName = mSearchLocation.getText().toString();
+		mSearchLocationName = mSearchView.getText();
 		new MapSearchTask().execute(mSearchLocationName);
 	}
 	
@@ -248,15 +215,40 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 		super.onCreateOptionsMenu(menu, inflater);
 		inflater.inflate(R.menu.fragment_review_location, menu);
 		
-		final MenuItem searchViewMenuItem = menu.findItem(R.id.action_search);
-		SearchView searchView = new SearchView(getSherlockActivity().getSupportActionBar().getThemedContext());
+		mSearchView = new ArrayAdapterSearchView(getSherlockActivity().getSupportActionBar().getThemedContext());
+		mSearchView.setQueryHint(getResources().getString(R.string.search_view_location_hint));
 
-		searchView.setQueryHint(getResources().getString(R.string.search_location_hint));
-		searchViewMenuItem.setActionView(searchView);
+		mSearchView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
+	        @Override
+	        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+	            mSearchView.setText(parent.getItemAtPosition(position).toString());
+	            mSearchView.clearFocus();
+	            gotoSearchLocation();
+
+	        }
+	    });
+	    
+	    mSearchView.setOnEditorActionListener(new TextView.OnEditorActionListener() {			
+				@Override
+				public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+		            if(event == null) {
+		            	if(actionId == EditorInfo.IME_ACTION_SEARCH) {
+		            		mSearchView.clearFocus();
+		            		gotoSearchLocation();
+		            	}
+		            } 		            
+		            return false;
+				}
+		});
+
+	    mSearchView.setAdapter(new LocationNameAdapter(getSherlockActivity(), android.R.layout.simple_list_item_1, mLatLng, 0, null));
+	    
 	    final MenuItem imageLocationIcon = menu.findItem(R.id.menu_item_image_location);
 		final MenuItem revertLocationIcon = menu.findItem(R.id.menu_item_revert_location);
-	    searchView.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
+		final MenuItem searchViewMenuItem = menu.findItem(R.id.action_search);
+		mSearchView.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
 			@Override
 			public void onFocusChange(View v, boolean hasFocus) {
 				if(hasFocus) {	
@@ -269,6 +261,8 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 				}
 			}
 		});
+	    	    
+	    searchViewMenuItem.setActionView(mSearchView);
 	}
 	
 	@Override
@@ -279,21 +273,6 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 			break;
 		case R.id.menu_item_image_location:
 			setLatLng(mPhotoLatLng);
-			break;
-		case R.id.menu_item_search_location:
-			mSearchLocationVisible = !mSearchLocationVisible;
-			if(mSearchLocationVisible) {
-				mSearchLocation.setVisibility(View.VISIBLE);
-				mSearchLocation.setFocusable(true);
-				mSearchLocation.requestFocus();
-				getSherlockActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
-				
-			}
-			else {
-				mSearchLocation.silenceEditor();
-				mSearchLocation.setFocusable(false);
-				mSearchLocation.setVisibility(View.GONE);
-			}
 			break;
 		case android.R.id.home:
 			if (NavUtils.getParentActivityName(getSherlockActivity()) != null) {
@@ -320,10 +299,9 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 					android.R.layout.simple_list_item_1, mLatLng, NUMBER_DEFAULT_NAMES, mSearchLocationName));
 		}
 
-		if(mSearchLocation != null) {
-			mSearchLocation.setAdapter(new LocationNameAdapter(getSherlockActivity(), android.R.layout.simple_list_item_1, mLatLng, 0, null));
-		}
-		
+		if(mSearchView != null)
+			mSearchView.setAdapter(new LocationNameAdapter(getSherlockActivity(), android.R.layout.simple_list_item_1, mLatLng, 0, null));
+	
 		zoomToLatLng();
 	}
 	
@@ -421,7 +399,19 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 	}
 	
 	private class MapSearchTask extends AsyncTask<String, Void, LatLng> {		
+
+		private ProgressDialog pd;
 		
+		@Override
+		protected void onPreExecute() {
+			super.onPreExecute();
+			pd = new ProgressDialog(getSherlockActivity());
+			pd.setTitle(getResources().getString(R.string.progress_bar_search_location_title));
+			pd.setMessage(getResources().getString(R.string.progress_bar_search_location_message));
+			pd.setCancelable(false);
+			pd.setIndeterminate(true);
+			pd.show();
+		}
 		@Override
 	    protected LatLng doInBackground(String... params) {
 			return PlacesAPIFetcher.fetchLatLng(params[0]);
@@ -430,6 +420,7 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 		@Override
 		protected void onPostExecute(LatLng latlng) {
 			setLatLng(latlng);
+			pd.dismiss();
 		}	
 	}
 		

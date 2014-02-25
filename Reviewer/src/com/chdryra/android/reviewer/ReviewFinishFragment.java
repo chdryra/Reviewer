@@ -18,13 +18,11 @@ import android.support.v4.app.NavUtils;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.DisplayMetrics;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.EditorInfo;
-import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -66,10 +64,14 @@ public class ReviewFinishFragment extends SherlockFragment {
 	private TextView mSubject;
 	private RatingBar mRatingBar;
 	private LinearLayout mCriteriaLayout;
+	private Button mAddCommentButton;
 	private TextView mComment;
-	private ImageButton mAddPhotoButton;
-	private ImageButton mAddLocationButton;
+	private Button mAddImageButton;
+	private Button mAddLocationButton;
+	
+	private ImageButton mAddPhotoImageButton;
 	private EditText mImageCaption;
+	private ImageButton mAddLocationImageButton;
 	private TextView mMapCaption;
 	
 	private boolean mCriteriaLayoutVisible = false;
@@ -79,6 +81,7 @@ public class ReviewFinishFragment extends SherlockFragment {
 		super.onCreate(savedInstanceState);
 		setHasOptionsMenu(true);		
 		setRetainInstance(true);
+		
 		mReview = (Review)IntentObjectHolder.getObject(ReviewDefineFragment.REVIEW_OBJECT);
 		if(mReview.hasImage())
 			mReviewImageHandler = ReviewImageHandler.getInstance(mReview);		
@@ -86,13 +89,36 @@ public class ReviewFinishFragment extends SherlockFragment {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {		
-		View v = inflater.inflate(R.layout.fragment_review_finish, container, false);	
-		
+		View v = inflater.inflate(R.layout.fragment_review_finish, container, false);			
 		getSherlockActivity().getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		
+		mAddCommentButton = (Button)v.findViewById(R.id.add_comment_button);
+		mAddImageButton = (Button)v.findViewById(R.id.add_image_button);
+		mAddLocationButton = (Button)v.findViewById(R.id.add_location_button);
+		
+		//***Subject Heading***
 		mSubject = (TextView)v.findViewById(R.id.review_subject_finish_page);
 		mSubject.setText(mReview.getSubject());
 	
+		//***Total Rating Bar***
+		mRatingBar = (RatingBar)v.findViewById(R.id.total_rating_bar_finish_page);
+		mRatingBar.setRating(mReview.getRating());
+		mRatingBar.setOnTouchListener(new View.OnTouchListener() {
+			
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				if(event.getAction() == MotionEvent.ACTION_UP) {
+				mCriteriaLayoutVisible = !mCriteriaLayoutVisible;
+				if(mCriteriaLayoutVisible)
+					mCriteriaLayout.setVisibility(View.VISIBLE);
+				else
+					mCriteriaLayout.setVisibility(View.GONE);
+				}
+				return true;
+			}
+		});
+	
+		//***Criteria Rating Bars***
 		mCriteriaLayout = (LinearLayout)v.findViewById(R.id.linear_layout_criteria_rating_bars);
 		Iterator<Criterion> it = mReview.getCriteriaList().getCriterionHashMap().values().iterator();
 		boolean dark = false;
@@ -113,28 +139,13 @@ public class ReviewFinishFragment extends SherlockFragment {
 			mCriteriaLayout.addView(criteriaView);
 		}
 		
-		mRatingBar = (RatingBar)v.findViewById(R.id.total_rating_bar_finish_page);
-		mRatingBar.setRating(mReview.getRating());
-		mRatingBar.setOnTouchListener(new View.OnTouchListener() {
-			
-			@Override
-			public boolean onTouch(View v, MotionEvent event) {
-				if(event.getAction() == MotionEvent.ACTION_UP) {
-				mCriteriaLayoutVisible = !mCriteriaLayoutVisible;
-				if(mCriteriaLayoutVisible)
-					mCriteriaLayout.setVisibility(View.VISIBLE);
-				else
-					mCriteriaLayout.setVisibility(View.GONE);
-				}
-				return true;
-			}
-		});
-			
-		
+		//**Comment Text View***
 		mComment = (TextView)v.findViewById(R.id.comment_text_view);
 		String comment = mReview.getCommentIncludingCriteria();
-		if(comment != null)
+		if(comment != null) {
 			mComment.setText(comment);
+			setVisibleGoneView(mComment, mAddCommentButton);
+		}
 		
 		mComment.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -144,18 +155,49 @@ public class ReviewFinishFragment extends SherlockFragment {
 				startActivityForResult(i, COMMENT_EDIT);
 			}
 		});
+
+		mComment.setOnTouchListener(new View.OnTouchListener() {
+			
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				mComment.performClick();
+				return false;
+			}
+		});
 		
+		mComment.addTextChangedListener(new TextWatcher() {
+			
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before, int count) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count,
+					int after) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void afterTextChanged(Editable s) {
+				if(s != null && s.toString().length() > 0)
+					setVisibleGoneView(mComment, mAddCommentButton);
+				else
+					setVisibleGoneView(mAddCommentButton, mComment);
+			}
+		});
 		
 		DisplayMetrics displaymetrics = new DisplayMetrics();
 		getSherlockActivity().getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
 		int maxWidth = Math.min(displaymetrics.widthPixels, displaymetrics.heightPixels) / 2;				
 		int maxHeight = maxWidth;
 	
-		mAddPhotoButton = (ImageButton)v.findViewById(R.id.add_photo_button);	
-		mAddPhotoButton.getLayoutParams().height = maxWidth;
-		mAddPhotoButton.getLayoutParams().width = maxHeight;
-		mAddPhotoButton.setOnClickListener(new View.OnClickListener() {
-			
+		mAddPhotoImageButton = (ImageButton)v.findViewById(R.id.add_photo_image_button);	
+		mAddPhotoImageButton.getLayoutParams().height = maxWidth;
+		mAddPhotoImageButton.getLayoutParams().width = maxHeight;
+		mAddPhotoImageButton.setOnClickListener(new View.OnClickListener() {			
 			@Override
 			public void onClick(View v) {
 				if (mReview.getImage() == null) {
@@ -173,10 +215,10 @@ public class ReviewFinishFragment extends SherlockFragment {
 		
 		setImageButtonImage();
 		
-		mAddLocationButton = (ImageButton)v.findViewById(R.id.add_location_button);
-		mAddLocationButton.getLayoutParams().height = maxWidth;
-		mAddLocationButton.getLayoutParams().width = maxHeight;		
-		mAddLocationButton.setOnClickListener(new View.OnClickListener() {
+		mAddLocationImageButton = (ImageButton)v.findViewById(R.id.add_location_image_button);
+		mAddLocationImageButton.getLayoutParams().height = maxWidth;
+		mAddLocationImageButton.getLayoutParams().width = maxHeight;		
+		mAddLocationImageButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {	
 				requestLocationFindIntent();
@@ -228,8 +270,36 @@ public class ReviewFinishFragment extends SherlockFragment {
 					requestLocationFindIntent();
 			}
 		});
+		
 		if(mReview.getLocationName() != null)
 			setMapCaption();
+	
+		//**Add Optional Buttons***//		
+		
+		mAddCommentButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				mComment.performClick();
+			}
+		});
+		
+		
+		mAddImageButton.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				mAddPhotoImageButton.performClick();				
+			}
+		});
+		
+		mAddLocationButton.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				mAddLocationImageButton.performClick();
+				
+			}
+		});
 		
 		return v;
 	}
@@ -267,7 +337,7 @@ public class ReviewFinishFragment extends SherlockFragment {
 		if (mReview.hasImage() && mReviewImageHandler.hasGPSTag())					
 			i.putExtra(IMAGE_LATLNG, mReviewImageHandler.getLatLngFromEXIF());
 		IntentObjectHolder.addObject(REVIEW_OBJECT, mReview);
-		IntentObjectHolder.addObject(LOCATION_BUTTON, mAddLocationButton);
+		IntentObjectHolder.addObject(LOCATION_BUTTON, mAddLocationImageButton);
 		startActivityForResult(i, LOCATION_EDIT);
 	}
 	
@@ -350,7 +420,7 @@ public class ReviewFinishFragment extends SherlockFragment {
 				        }
 				     
 				        if(mReviewImageHandler.bitmapExists())
-				        	setReviewImage();				
+				        	updateReviewImage();				
 						break;		
 					default:
 						break;
@@ -374,7 +444,7 @@ public class ReviewFinishFragment extends SherlockFragment {
 			//Getting location
 			case LOCATION_EDIT:
 				mReview = (Review)IntentObjectHolder.getObject(REVIEW_OBJECT);
-				if(resultCode == Activity.RESULT_OK) 
+				if(resultCode == Activity.RESULT_OK)
 					setMapCaption();
 				if(resultCode == ReviewLocationFragment.RESULT_DELETE_LOCATION)
 					deleteLocationButtonImage();
@@ -387,29 +457,36 @@ public class ReviewFinishFragment extends SherlockFragment {
 	}
 
 	private void setImageButtonImage() {
-		if( mReview.hasImage() )
-			mAddPhotoButton.setImageBitmap(mReview.getImage());
+		if( mReview.hasImage() ) {
+			mAddPhotoImageButton.setImageBitmap(mReview.getImage());
+			setVisibleGoneView((View)mAddPhotoImageButton.getParent(), mAddImageButton);
+		}
 		else
 			deleteImageButtonImage();
 	}
 
 	private void deleteImageButtonImage() {
-		mAddPhotoButton.setImageResource(R.drawable.ic_menu_camera);
+		mAddPhotoImageButton.setImageResource(R.drawable.ic_menu_camera);
+		setVisibleGoneView(mAddImageButton, (View)mAddPhotoImageButton.getParent());
 	}
 	
 	private void setLocationButtonImage() {		
-		if(mReview.hasMapSnapshot())
-			mAddLocationButton.setImageBitmap(mReview.getMapSnapshot());
+		if(mReview.hasMapSnapshot()) {
+			mAddLocationImageButton.setImageBitmap(mReview.getMapSnapshot());
+			setVisibleGoneView((View)mAddLocationImageButton.getParent(), mAddLocationButton);
+		}
 		else
 			deleteLocationButtonImage();
 	}
 	
 	private void deleteLocationButtonImage() {
-		mAddLocationButton.setImageResource(R.drawable.ic_menu_mylocation);
+		mAddLocationImageButton.setImageResource(R.drawable.ic_menu_mylocation);
+		setVisibleGoneView(mAddLocationButton, (View)mAddLocationImageButton.getParent());
 	}
 	
-	private void setReviewImage() {
-        mReviewImageHandler.setReviewImage(getSherlockActivity(), mAddPhotoButton);
+	private void updateReviewImage() {
+        mReviewImageHandler.setReviewImage(getSherlockActivity(), mAddPhotoImageButton);
+        setVisibleGoneView((View)mAddPhotoImageButton.getParent(), mAddImageButton);
 	}
 	
 	private void deleteReviewImage() {
@@ -424,8 +501,14 @@ public class ReviewFinishFragment extends SherlockFragment {
 	private void updateComment() {
 		mComment.setText(mReview.getCommentIncludingCriteria());
 	}	
-	
+
 	private void setMapCaption() {
 		mMapCaption.setText("@" + mReview.getShortenedLocationName());
+		setVisibleGoneView((View)mAddLocationImageButton.getParent(), mAddLocationButton);
+	}
+	
+	public void setVisibleGoneView(View visibleView, View goneView) {
+		visibleView.setVisibility(View.VISIBLE);
+		goneView.setVisibility(View.GONE);
 	}
 }

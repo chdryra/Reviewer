@@ -25,7 +25,11 @@
     <string name="edit_text_image_caption_hint">Caption&#8230;</string>
     
     <!--  SearchViews -->
-    <string name="search_location_hint">Search for location&#8230;</string>
+    <string name="search_view_location_hint">Search for location&#8230;</string>
+
+    <!-- ProgressDialogs -->
+    <string name="progress_bar_search_location_title">Searching&#8230;</string>
+    <string name="progress_bar_search_location_message">Please wait&#8230;</string>
     
     <!-- Buttons -->
     <string name="button_done_text">done</string>
@@ -33,6 +37,9 @@
     <string name="button_cancel_text">cancel</string>
     <string name="button_add_criterion_text">add</string>
     <string name="button_change_photo_text">change</string>
+    <string name="button_add_image_text">add image</string>
+    <string name="button_add_comment_text">add comment</string>
+    <string name="button_add_location_text">add location</string>
     
     <!-- Menus -->
     <string name="menu_next">next</string>

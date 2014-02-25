@@ -84,10 +84,12 @@ public class ReviewImageHandler extends ImageHandler{
 		@Override
 		protected void onPostExecute(Bitmap bitmap) {
 			mReview.setImage(bitmap);
-			if(bitmap == null)
+			if(bitmap == null) {
 				mThumbnailView.setImageResource(R.drawable.ic_menu_camera);
-			else
+			}
+			else {
 				mThumbnailView.setImageBitmap(bitmap);
+			}
 		}	
 	}
 }
