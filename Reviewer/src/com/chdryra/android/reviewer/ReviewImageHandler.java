@@ -16,9 +16,12 @@ import android.widget.ImageButton;
 public class ReviewImageHandler extends ImageHandler{
 
 	private static final String TAG = "ImageHelper";
-
 	private static HashMap<String, ReviewImageHandler> sReviewImageHandlers = new HashMap<String, ReviewImageHandler>();
+	private static final String IMAGE_DIRECTORY = "Reviewer";
+	private static final String ERROR_CREATING_FILE_MESSAGE = "Error creating file!";
+	private static final String ERROR_NO_STORAGE_MESSAGE = "No storage available!";
 	
+	private long fileCounter = 0;
 	private Review mReview;
 	
 	public static ReviewImageHandler getInstance(Review mReview) {
@@ -37,28 +40,22 @@ public class ReviewImageHandler extends ImageHandler{
 		setImageFilePath(null);
 	}
 	
-	public void createNewImageFile() {
-		String timeStamp = SimpleDateFormat.getDateInstance().format(new Date());
-	    String imageFileName = mReview.getSubject() + "_" + timeStamp;
+	public void createNewImageFile() throws IOException{
+	    String imageFileName = mReview.getSubject() + "_" + fileCounter++;
 	    String path = null;
 	    
         if(Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
-            path = Environment.getExternalStorageDirectory().getName() + File.separatorChar + imageFileName + ".jpg";
-            File file = new File(path);
-            try {
-                if( !file.exists() ) {
-                    file.getParentFile().mkdirs();
-                    file.createNewFile();
-                }
-            } catch (IOException e) {
-                Log.e(TAG, "Could not create file.", e);
-            }
-            Log.i(TAG, path);
+        	File dcimDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM);
+            File reviewerDir = new File(dcimDir, IMAGE_DIRECTORY);
+            File file = new File(reviewerDir, imageFileName + ".jpg");
+            path = file.toString();
+            setImageFilePath(path);
+            createImageFile();
         } else {
-        	Log.i(TAG, "No external storage");
+        	throw new IOException(ERROR_NO_STORAGE_MESSAGE);
         }
         
-        setImageFilePath(path);
+        Log.i(TAG, "Created file " + path);
 	}
 	
 	public void setReviewImage(Context context, ImageButton thumbnailView) {

@@ -1,12 +1,14 @@
 package com.chdryra.android.reviewer;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 import android.app.Activity;
 import android.content.ComponentName;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
@@ -18,6 +20,7 @@ import android.support.v4.app.NavUtils;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -92,19 +95,25 @@ public class ReviewFinishFragment extends SherlockFragment {
 		View v = inflater.inflate(R.layout.fragment_review_finish, container, false);			
 		getSherlockActivity().getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		
+		//***Get all view objects***//
+		mSubject = (TextView)v.findViewById(R.id.review_subject_finish_page);
+		mRatingBar = (RatingBar)v.findViewById(R.id.total_rating_bar_finish_page);
+		mCriteriaLayout = (LinearLayout)v.findViewById(R.id.linear_layout_criteria_rating_bars);
+		mComment = (TextView)v.findViewById(R.id.comment_text_view);
 		mAddCommentButton = (Button)v.findViewById(R.id.add_comment_button);
 		mAddImageButton = (Button)v.findViewById(R.id.add_image_button);
 		mAddLocationButton = (Button)v.findViewById(R.id.add_location_button);
+		mAddPhotoImageButton = (ImageButton)v.findViewById(R.id.add_photo_image_button);	
+		mAddLocationImageButton = (ImageButton)v.findViewById(R.id.add_location_image_button);
+		mImageCaption = (EditText)v.findViewById(R.id.image_caption_edit_text);
+		mMapCaption = (TextView)v.findViewById(R.id.map_caption_text);
 		
-		//***Subject Heading***
-		mSubject = (TextView)v.findViewById(R.id.review_subject_finish_page);
+		//***Subject Heading***//
 		mSubject.setText(mReview.getSubject());
 	
-		//***Total Rating Bar***
-		mRatingBar = (RatingBar)v.findViewById(R.id.total_rating_bar_finish_page);
+		//***Total Rating Bar***//
 		mRatingBar.setRating(mReview.getRating());
 		mRatingBar.setOnTouchListener(new View.OnTouchListener() {
-			
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
 				if(event.getAction() == MotionEvent.ACTION_UP) {
@@ -118,8 +127,7 @@ public class ReviewFinishFragment extends SherlockFragment {
 			}
 		});
 	
-		//***Criteria Rating Bars***
-		mCriteriaLayout = (LinearLayout)v.findViewById(R.id.linear_layout_criteria_rating_bars);
+		//***Criteria Rating Bars***//
 		Iterator<Criterion> it = mReview.getCriteriaList().getCriterionHashMap().values().iterator();
 		if(it.hasNext())
 			mCriteriaLayout.setVisibility(View.VISIBLE);
@@ -140,46 +148,58 @@ public class ReviewFinishFragment extends SherlockFragment {
 			ratingBar.setFocusable(false);
 			mCriteriaLayout.addView(criteriaView);
 		}
+	
+		//***Add Comment Button***//		
+		mAddCommentButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				requestCommentMakeIntent();
+			}
+		});
 		
-		//**Comment Text View***
-		mComment = (TextView)v.findViewById(R.id.comment_text_view);
+		//***Add Image Button***//
+		mAddImageButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				if (mReview.getImage() == null) {
+					requestImageCaptureIntent();
+				} else {
+					ImageDialogFragment dialog = new ImageDialogFragment();
+					dialog.setTargetFragment(ReviewFinishFragment.this, IMAGE_EDIT);
+					Bundle args = new Bundle();
+					args.putParcelable(REVIEW_IMAGE, mReview.getImage());				
+					dialog.setArguments(args);
+					dialog.show(getFragmentManager(), DIALOG_IMAGE_TAG);
+				}				
+			}
+		});
+		
+		//***Add Location Button***//
+		mAddLocationButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				requestLocationFindIntent();
+			}
+		});
+		
+		//***Comment Text View***//
 		String comment = mReview.getCommentIncludingCriteria();
-		if(comment != null) {
+		if(comment != null)
 			mComment.setText(comment);
-			setVisibleGoneView((View)mComment.getParent(), mAddCommentButton);
-		}
-		
 		mComment.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				IntentObjectHolder.addObject(REVIEW_OBJECT, mReview);
-				Intent i = new Intent(getSherlockActivity(), ReviewCommentActivity.class);
-				startActivityForResult(i, COMMENT_EDIT);
+				mAddCommentButton.performClick();
 			}
 		});
-
-		mComment.setOnTouchListener(new View.OnTouchListener() {
-			
-			@Override
-			public boolean onTouch(View v, MotionEvent event) {
-				mComment.performClick();
-				return false;
-			}
-		});
-		
-		mComment.addTextChangedListener(new TextWatcher() {
-			
+		mComment.addTextChangedListener(new TextWatcher() {	
 			@Override
 			public void onTextChanged(CharSequence s, int start, int before, int count) {
-				// TODO Auto-generated method stub
-				
 			}
 			
 			@Override
 			public void beforeTextChanged(CharSequence s, int start, int count,
 					int after) {
-				// TODO Auto-generated method stub
-				
 			}
 			
 			@Override
@@ -195,56 +215,29 @@ public class ReviewFinishFragment extends SherlockFragment {
 		getSherlockActivity().getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
 		int maxWidth = Math.min(displaymetrics.widthPixels, displaymetrics.heightPixels) / 2;				
 		int maxHeight = maxWidth;
-	
-		mAddPhotoImageButton = (ImageButton)v.findViewById(R.id.add_photo_image_button);	
+		
+		//***Image image button***//
 		mAddPhotoImageButton.getLayoutParams().height = maxWidth;
 		mAddPhotoImageButton.getLayoutParams().width = maxHeight;
 		mAddPhotoImageButton.setOnClickListener(new View.OnClickListener() {			
 			@Override
 			public void onClick(View v) {
-				if (mReview.getImage() == null) {
-					requestImageCaptureIntent();
-				} else {
-					ImageDialogFragment dialog = new ImageDialogFragment();
-					dialog.setTargetFragment(ReviewFinishFragment.this, IMAGE_EDIT);
-					Bundle args = new Bundle();
-					args.putParcelable(REVIEW_IMAGE, mReview.getImage());				
-					dialog.setArguments(args);
-					dialog.show(getFragmentManager(), DIALOG_IMAGE_TAG);
-				}
+				mAddImageButton.performClick();
 			}
 		});
-		
 		setImageButtonImage();
 		
-		mAddLocationImageButton = (ImageButton)v.findViewById(R.id.add_location_image_button);
-		mAddLocationImageButton.getLayoutParams().height = maxWidth;
-		mAddLocationImageButton.getLayoutParams().width = maxHeight;		
-		mAddLocationImageButton.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {	
-				requestLocationFindIntent();
-			}
-		});
-		
-		setLocationButtonImage();
-		
-		mImageCaption = (EditText)v.findViewById(R.id.image_caption_edit_text);
+		//***Image caption***//
 		mImageCaption.setHorizontallyScrolling(false);
 		mImageCaption.setMaxLines(CAPTION_MAX_LINES);
-		mImageCaption.addTextChangedListener(new TextWatcher() {
-			
+		mImageCaption.addTextChangedListener(new TextWatcher() {	
 			@Override
 			public void onTextChanged(CharSequence s, int start, int before, int count) {
-				// TODO Auto-generated method stub
-				
 			}
 			
 			@Override
 			public void beforeTextChanged(CharSequence s, int start, int count,
 					int after) {
-				// TODO Auto-generated method stub
-				
 			}
 			
 			@Override
@@ -254,64 +247,55 @@ public class ReviewFinishFragment extends SherlockFragment {
 		});
 		if(mReview.getImageCaption() != null)
 			mImageCaption.setText(mReview.getImageCaption());
+
+		//***Location image button***//
+		mAddLocationImageButton.getLayoutParams().height = maxWidth;
+		mAddLocationImageButton.getLayoutParams().width = maxHeight;		
+		mAddLocationImageButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {	
+				mAddLocationButton.performClick();
+			}
+		});
+		setLocationButtonImage();
 		
-		mMapCaption = (TextView)v.findViewById(R.id.map_caption_text);
+		//***Map caption***//
 		mMapCaption.setHorizontallyScrolling(false);
 		mMapCaption.setMaxLines(CAPTION_MAX_LINES);
-		mMapCaption.setOnClickListener(new View.OnClickListener() {			
-			@Override
-			public void onClick(View v) {
-				requestLocationFindIntent();
-			}
-		});
 		mMapCaption.setOnTouchListener(new View.OnTouchListener() {
-			
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
-				requestLocationFindIntent();
-				return true;
+				mAddLocationButton.performClick();
+				return false;
 			}
 		});
-		
-		if(mReview.getLocationName() != null)
-			setMapCaption();
+		setMapCaption();
 	
-		//**Add Optional Buttons***//		
-		
-		mAddCommentButton.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				mComment.performClick();
-			}
-		});
-		
-		
-		mAddImageButton.setOnClickListener(new View.OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				mAddPhotoImageButton.performClick();				
-			}
-		});
-		
-		mAddLocationButton.setOnClickListener(new View.OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				mAddLocationImageButton.performClick();
-				
-			}
-		});
-		
 		return v;
 	}
 
+	private void requestCommentMakeIntent() {
+		IntentObjectHolder.addObject(REVIEW_OBJECT, mReview);
+		Intent i = new Intent(getSherlockActivity(), ReviewCommentActivity.class);
+		startActivityForResult(i, COMMENT_EDIT);
+	}
+	
 	private void requestImageCaptureIntent() {
 		if(mReviewImageHandler == null)
 			mReviewImageHandler = ReviewImageHandler.getInstance(mReview);
 		
-		mReviewImageHandler.createNewImageFile();
-		
+		//Set up image file
+		try {
+			mReviewImageHandler.createNewImageFile();
+		} catch (IOException e) {
+			Log.e(TAG, e.getMessage(), e);
+			e.printStackTrace();
+			return;
+		}
+		File imageFile = new File(mReviewImageHandler.getImageFilePath());
+		Uri imageUri = Uri.fromFile(imageFile);		
+
+	    //Create intents
 		final List<Intent> cameraIntents = new ArrayList<Intent>();
 		final Intent captureIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
 		final PackageManager packageManager = getSherlockActivity().getPackageManager();
@@ -321,7 +305,7 @@ public class ReviewFinishFragment extends SherlockFragment {
 	        final Intent intent = new Intent(captureIntent);
 	        intent.setComponent(new ComponentName(res.activityInfo.packageName, res.activityInfo.name));
 	        intent.setPackage(packageName);
-	        intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(new File(mReviewImageHandler.getImageFilePath())));
+	        intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
 	        cameraIntents.add(intent);
 	    }
         
@@ -379,7 +363,7 @@ public class ReviewFinishFragment extends SherlockFragment {
 
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		if (resultCode == Activity.RESULT_CANCELED) {
+		if (requestCode != IMAGE_REQUEST && resultCode == Activity.RESULT_CANCELED) {
 			return;
 		}
 		
@@ -422,8 +406,19 @@ public class ReviewFinishFragment extends SherlockFragment {
 				        }
 				     
 				        if(mReviewImageHandler.bitmapExists())
-				        	updateReviewImage();				
+				        {
+				        	if(isCamera) {
+					    		Uri imageUri = Uri.fromFile(new File(mReviewImageHandler.getImageFilePath()));
+					        	getSherlockActivity().sendBroadcast(
+					        			new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, imageUri));
+				        	}
+				        	updateReviewImage();
+				        }
 						break;		
+					case Activity.RESULT_CANCELED:
+						if(!mReviewImageHandler.bitmapExists())
+							mReviewImageHandler.deleteImageFile();
+						break;
 					default:
 						break;
 				}
@@ -446,8 +441,10 @@ public class ReviewFinishFragment extends SherlockFragment {
 			//Getting location
 			case LOCATION_EDIT:
 				mReview = (Review)IntentObjectHolder.getObject(REVIEW_OBJECT);
-				if(resultCode == Activity.RESULT_OK)
+				if(resultCode == Activity.RESULT_OK) {
 					setMapCaption();
+					setVisibleGoneView((View)mAddLocationImageButton.getParent(), mAddLocationButton);
+				}
 				if(resultCode == ReviewLocationFragment.RESULT_DELETE_LOCATION)
 					deleteLocationButtonImage();
 				break;
@@ -506,9 +503,10 @@ public class ReviewFinishFragment extends SherlockFragment {
 
 	private void setMapCaption() {
 		String name = mReview.getShortenedLocationName();
-		if(name != null && name.length() > 0)
+		if(name != null && name.length() > 0) {
 			mMapCaption.setText("@" + name);
-		setVisibleGoneView((View)mAddLocationImageButton.getParent(), mAddLocationButton);
+			setVisibleGoneView((View)mAddLocationImageButton.getParent(), mAddLocationButton);
+		}
 	}
 	
 	public void setVisibleGoneView(View visibleView, View goneView) {

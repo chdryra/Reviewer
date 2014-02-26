@@ -1,16 +1,15 @@
 package com.chdryra.android.reviewer;
 
+import java.io.File;
 import java.io.IOException;
 
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.BitmapFactory.Options;
 import android.graphics.Matrix;
 import android.media.ExifInterface;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.provider.MediaStore;
 import android.util.Log;
 
@@ -18,6 +17,7 @@ import com.google.android.gms.maps.model.LatLng;
 
 public class ImageHandler {
 	private static final String TAG = "ImageHandler";
+	private static final String ERROR_CREATING_FILE_MESSAGE = "Error creating file!";
 	public static enum PhotoOrientation{PORTRAIT, LANDSCAPE, SQUARE};
 	
 	private String mImageFilePath;
@@ -39,6 +39,27 @@ public class ImageHandler {
 		mImageFilePath = imageFilePath;
 		mEXIF = null;
 		getEXIF();
+	}
+
+	public void createImageFile() throws IOException{
+		File file = new File(mImageFilePath);
+		try {
+            if(!file.exists() && mImageFilePath != null) {
+                file.getParentFile().mkdirs();
+                file.createNewFile();
+            }
+        } catch (IOException e) {
+            throw new IOException(ERROR_CREATING_FILE_MESSAGE, e);
+        }
+	}
+
+	public void deleteImageFile() {
+		File file = new File(mImageFilePath);
+        if(file.exists()) {
+            file.delete();
+        }
+        mImageFilePath = null;
+        mEXIF = null;
 	}
 	
 	public ExifInterface getEXIF() {
@@ -80,10 +101,6 @@ public class ImageHandler {
 		return bitmap;
 	}
 
-	private Bitmap returnLoadedBitmap(Bitmap bitmap) {
-		return bitmap;
-	}
-	
 	private int calculateInSampleSize( BitmapFactory.Options options, int reqWidth, int reqHeight) {
 	    final int height = options.outHeight;
 	    final int width = options.outWidth;

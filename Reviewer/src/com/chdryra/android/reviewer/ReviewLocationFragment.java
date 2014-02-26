@@ -109,7 +109,8 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 	    if (mReviewLatLng != null) {
 	    	mDefaultLatLng = mReviewLatLng;
 	    	setLatLng(mDefaultLatLng);
-	    	mLocationName.setText(mReview.getLocationName());
+	    	if(mReview != null)
+	    		mLocationName.setText(mReview.getLocationName());
 	    	mLocationName.silenceEditor();
 	    }
 	    else if (mPhotoLatLng != null) {
