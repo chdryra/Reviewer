@@ -37,7 +37,7 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 
-public class ReviewFinishFragment extends SherlockFragment {
+public class ReviewOptionsFragment extends SherlockFragment {
 	private final static String TAG = "ReviewerFinishFragment";
 	
 	private final static String DIALOG_COMMENT_TAG = "CommentDialog";
@@ -85,7 +85,7 @@ public class ReviewFinishFragment extends SherlockFragment {
 		setHasOptionsMenu(true);		
 		setRetainInstance(true);
 		
-		mReview = (Review)IntentObjectHolder.getObject(ReviewDefineFragment.REVIEW_OBJECT);
+		mReview = (Review)IntentObjectHolder.getObject(ReviewCreateFragment.REVIEW_OBJECT);
 		if(mReview.hasImage())
 			mReviewImageHandler = ReviewImageHandler.getInstance(mReview);		
 	}
@@ -165,7 +165,7 @@ public class ReviewFinishFragment extends SherlockFragment {
 					requestImageCaptureIntent();
 				} else {
 					ImageDialogFragment dialog = new ImageDialogFragment();
-					dialog.setTargetFragment(ReviewFinishFragment.this, IMAGE_EDIT);
+					dialog.setTargetFragment(ReviewOptionsFragment.this, IMAGE_EDIT);
 					Bundle args = new Bundle();
 					args.putParcelable(REVIEW_IMAGE, mReview.getImage());				
 					dialog.setArguments(args);

@@ -75,8 +75,8 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 		setHasOptionsMenu(true);		
 		setRetainInstance(true);
 		mLocationClient = new LocationClient(getSherlockActivity(), this, this);
-		mReview = (Review)IntentObjectHolder.getObject(ReviewFinishFragment.REVIEW_OBJECT);
-		mButton = (ImageButton)IntentObjectHolder.getObject(ReviewFinishFragment.LOCATION_BUTTON);
+		mReview = (Review)IntentObjectHolder.getObject(ReviewOptionsFragment.REVIEW_OBJECT);
+		mButton = (ImageButton)IntentObjectHolder.getObject(ReviewOptionsFragment.LOCATION_BUTTON);
 	}
 	
 	@Override
@@ -104,8 +104,8 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 	    	    
 	    mLocationName = (MyAutoCompleteTextView)v.findViewById(R.id.edit_text_name_location);
 
-	    mReviewLatLng = getSherlockActivity().getIntent().getParcelableExtra(ReviewFinishFragment.REVIEW_LATLNG);
-	    mPhotoLatLng = getSherlockActivity().getIntent().getParcelableExtra(ReviewFinishFragment.IMAGE_LATLNG);
+	    mReviewLatLng = getSherlockActivity().getIntent().getParcelableExtra(ReviewOptionsFragment.REVIEW_LATLNG);
+	    mPhotoLatLng = getSherlockActivity().getIntent().getParcelableExtra(ReviewOptionsFragment.IMAGE_LATLNG);
 	    if (mReviewLatLng != null) {
 	    	mDefaultLatLng = mReviewLatLng;
 	    	setLatLng(mDefaultLatLng);
@@ -154,12 +154,12 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 		if(resultCode == Activity.RESULT_OK) {
 			mReview.setLatLng(mLatLng);
 			mReview.setLocationName(mLocationName.getText().toString());
-			IntentObjectHolder.addObject(ReviewFinishFragment.REVIEW_OBJECT, mReview);
+			IntentObjectHolder.addObject(ReviewOptionsFragment.REVIEW_OBJECT, mReview);
 		}
 		
 		if(resultCode == RESULT_DELETE_LOCATION) {
 			mReview.deleteLatLng();
-			IntentObjectHolder.addObject(ReviewFinishFragment.REVIEW_OBJECT, mReview);
+			IntentObjectHolder.addObject(ReviewOptionsFragment.REVIEW_OBJECT, mReview);
 		}
 		
 		getSherlockActivity().setResult(resultCode);		 

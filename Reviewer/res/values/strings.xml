@@ -13,6 +13,8 @@
     <!-- Activities -->
     <string name="location_activity_title">Location</string>
     <string name="comment_activity_title">Comment</string>
+    <string name="review_define_activity_title">Create</string>
+    <string name="review_optionals_activity_title">Options</string>
     
     <!-- EditTexts -->
     <string name="edit_text_subject_hint">Subject</string>

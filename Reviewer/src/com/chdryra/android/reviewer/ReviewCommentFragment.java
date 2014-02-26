@@ -41,7 +41,7 @@ public class ReviewCommentFragment extends SherlockFragment {
 		super.onCreate(savedInstanceState);
 		setRetainInstance(true);
 		setHasOptionsMenu(true);
-		mReview = (Review)IntentObjectHolder.getObject(ReviewFinishFragment.REVIEW_OBJECT);
+		mReview = (Review)IntentObjectHolder.getObject(ReviewOptionsFragment.REVIEW_OBJECT);
 	}
 	
 	@Override
@@ -119,7 +119,7 @@ public class ReviewCommentFragment extends SherlockFragment {
              }
          });
 		
-		if( getTargetRequestCode() == ReviewFinishFragment.COMMENT_EDIT )
+		if( getTargetRequestCode() == ReviewOptionsFragment.COMMENT_EDIT )
 			comment.setText(commentable.getComment());
 		
 		comment.addTextChangedListener(new TextWatcher() {
@@ -161,7 +161,7 @@ public class ReviewCommentFragment extends SherlockFragment {
 		if (resultCode == RESULT_DELETE_COMMENT)
 			mReview.deleteCommentIncludingCriteria();
 		
-		IntentObjectHolder.addObject(ReviewFinishFragment.REVIEW_OBJECT, mReview);
+		IntentObjectHolder.addObject(ReviewOptionsFragment.REVIEW_OBJECT, mReview);
 		
 		getSherlockActivity().setResult(resultCode);		 
 		getSherlockActivity().finish();	
