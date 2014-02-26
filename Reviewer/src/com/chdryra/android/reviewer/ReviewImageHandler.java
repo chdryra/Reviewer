@@ -48,6 +48,10 @@ public class ReviewImageHandler extends ImageHandler{
         	File dcimDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM);
             File reviewerDir = new File(dcimDir, IMAGE_DIRECTORY);
             File file = new File(reviewerDir, imageFileName + ".jpg");
+            if(file.exists()) {
+            	createNewImageFile();
+            	return;
+            }
             path = file.toString();
             setImageFilePath(path);
             createImageFile();
