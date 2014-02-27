@@ -89,7 +89,7 @@ public class ReviewCommentFragment extends SherlockFragment {
 		}
 	
 	private View getCommentLineView(final Commentable commentable) {
-		View v = getSherlockActivity().getLayoutInflater().inflate(R.layout.dialog_comment, null);
+		View v = getSherlockActivity().getLayoutInflater().inflate(R.layout.comment_line_view, null);
 		TextView criterionName = (TextView)v.findViewById(R.id.comment_text_view);
 		criterionName.setText(commentable.getCommentTitle());
 		
@@ -119,7 +119,7 @@ public class ReviewCommentFragment extends SherlockFragment {
              }
          });
 		
-		if( getTargetRequestCode() == ReviewOptionsFragment.COMMENT_EDIT )
+		if( commentable.getComment() != null )
 			comment.setText(commentable.getComment());
 		
 		comment.addTextChangedListener(new TextWatcher() {

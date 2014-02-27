@@ -3,6 +3,7 @@ package com.chdryra.android.reviewer;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.StringTokenizer;
 import java.util.UUID;
 
 import android.graphics.Bitmap;
@@ -13,6 +14,7 @@ public class Review implements Commentable{
 	private static final String TAG = "Review";
 	private static final String GENERAL_COMMENT_TITLE = "General";
 	private static final String LOCATION_DELIMITER = ",";
+	private static final String COMMENT_HEADLINE_DELIMITER = ".!?";
 	
 	private UUID mID;
 	private String mSubject;
@@ -123,11 +125,20 @@ public class Review implements Commentable{
 		return mComment;
 	}
 	
+	public String getCommentHeadline() {
+		StringTokenizer tokens = new StringTokenizer(mComment, COMMENT_HEADLINE_DELIMITER);
+		return tokens.nextToken();
+	}
+	
 	@Override
 	public void deleteComment() {
 		mComment = null;
 	}
 
+	public boolean hasComment() {
+		return mComment != null;
+	}
+	
 	public Bitmap getImage() {
 		return mImage;
 	}
@@ -148,6 +159,10 @@ public class Review implements Commentable{
 		mImageCaption = imageCaption;
 	}
 
+	public boolean hasImageCaption() {
+		return mImageCaption != null;
+	}
+	
 	public LatLng getLatLng() {
 		return mLatLng;
 	}
@@ -158,7 +173,7 @@ public class Review implements Commentable{
 
 	public void deleteLatLng() {
 		mLatLng = null;
-	
+		mMapSnapshot = null;
 	}
 	
 	public boolean hasLatLng() {
@@ -183,6 +198,10 @@ public class Review implements Commentable{
 
 	public void setLocationName(String locationName) {
 		mLocationName = locationName;
+	}
+	
+	public boolean hasLocationName() {
+		return mLocationName != null;
 	}
 	
 	public String getShortenedLocationName() {

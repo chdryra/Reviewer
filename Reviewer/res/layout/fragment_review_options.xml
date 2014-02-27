@@ -43,59 +43,13 @@
     </LinearLayout>	
     
     <View style="@style/HorizontalDivider"/>
-
-    <Button 
-        android:id="@+id/add_comment_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        style="@style/Widget.Sherlock.ActionButton"
-        android:text="@string/button_add_comment_text" />
-    
-    <View style="@style/HorizontalDivider"/>
-    
-    <LinearLayout 
-        android:id="@+id/comment_linear_layout"
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent"
-        android:orientation="vertical"
-        android:visibility="gone">
-        
-	    <TextView        
-	       	android:id="@+id/comment_text_view"
-	        android:hint="@string/edit_text_add_comment_hint"
-	        style="?android:attr/editTextStyle"
-	        android:layout_height="wrap_content"
-	        android:layout_width="match_parent"
-			android:clickable="true"/>
-	    
-	     <View style="@style/HorizontalDivider"/>
-	   	    
-    </LinearLayout>
     
      <include  
         layout="@layout/optional_image_buttons"
         android:layout_width="match_parent"
     	android:layout_height="wrap_content"
      	/>
-    
-     <Button 
-        android:id="@+id/add_location_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        style="@style/Widget.Sherlock.ActionButton"
-        android:text="@string/button_add_location_text" />
-     
-     <View style="@style/HorizontalDivider"/>
-     
-     <Button 
-        android:id="@+id/add_image_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        style="@style/Widget.Sherlock.ActionButton"
-        android:text="@string/button_add_image_text" />
-   	 
-   	  <View style="@style/HorizontalDivider"/>
-   	 
+   	<View style="@style/HorizontalDivider"/>
 </LinearLayout>
 
 </ScrollView>
