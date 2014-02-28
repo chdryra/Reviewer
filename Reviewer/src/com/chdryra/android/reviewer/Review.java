@@ -12,7 +12,7 @@ import com.google.android.gms.maps.model.LatLng;
 
 public class Review implements Commentable{	
 	private static final String TAG = "Review";
-	private static final String GENERAL_COMMENT_TITLE = "General";
+	private static final String GENERAL_COMMENT_TITLE = "Overall";
 	private static final String LOCATION_DELIMITER = ",";
 	private static final String COMMENT_HEADLINE_DELIMITER = ".!?";
 	
@@ -28,6 +28,7 @@ public class Review implements Commentable{
 	private LatLng mLatLng;
 	private Bitmap mMapSnapshot;
 	private String mLocationName;
+	private NumberData mNumberData;
 	
 	public Review() {
 		generateID();
@@ -211,4 +212,13 @@ public class Review implements Commentable{
 		String[] split = mLocationName.split(LOCATION_DELIMITER);
 		return split[0];
 	}
+
+	public NumberData getNumberData() {
+		return mNumberData;
+	}
+
+	public void setNumberData(NumberData numberData) {
+		mNumberData = numberData;
+	}
+	
 }

@@ -30,6 +30,7 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.view.Menu;
@@ -45,8 +46,10 @@ public class ReviewOptionsFragment extends SherlockFragment {
 	
 	public final static String REVIEW_OBJECT = "com.chdryra.android.reviewer.review_object";
 	public final static String REVIEW_SUBJECT = "com.chdryra.android.reviewer.review_subject";
-	public final static String REVIEW_IMAGE = "com.chdryra.android.reviewer.review_image";
-	public final static String REVIEW_COMMENT = "com.chdryra.android.reviewer.review_comment";
+	public final static String DIALOG_IMAGE = "com.chdryra.android.reviewer.review_image";
+	public final static String DIALOG_IMAGE_CAPTION = "com.chdryra.android.reviewer.review_image_caption";
+	public final static String DIALOG_IMAGE_CAPTION_HINT = "com.chdryra.android.reviewer.review_image_caption_hint";
+	public final static String DIALOG_COMMENT = "com.chdryra.android.reviewer.review_comment";
 	public static final String COMMENT_TEXT = "com.chdryra,android,reviewer.comment_text";
 	public static final String IMAGE_FILE = "com.chdryra,android,reviewer.image_file";
 	public static final String IMAGE_LATLNG = "com.chdryra,android,reviewer.image_latlng";
@@ -86,7 +89,6 @@ public class ReviewOptionsFragment extends SherlockFragment {
 		super.onCreate(savedInstanceState);
 		setHasOptionsMenu(true);		
 		setRetainInstance(true);
-		
 		mReview = (Review)IntentObjectHolder.getObject(ReviewCreateFragment.REVIEW_OBJECT);
 		if(mReview.hasImage())
 			mReviewImageHandler = ReviewImageHandler.getInstance(mReview);		
@@ -163,9 +165,9 @@ public class ReviewOptionsFragment extends SherlockFragment {
 		mAddPhotoImageButton.setOnClickListener(new View.OnClickListener() {			
 			@Override
 			public void onClick(View v) {
-				if (!mReview.hasImage()) {
+				if (!mReview.hasImage())
 					requestImageCaptureIntent();
-				} else
+				else
 					showImageEditDialog();			
 			}
 		});
@@ -177,9 +179,9 @@ public class ReviewOptionsFragment extends SherlockFragment {
 		mAddLocationImageButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {	
-				if (!mReview.hasLatLng()) {
+				if (!mReview.hasLatLng())
 					requestLocationFindIntent();
-				} else
+				else
 					showLocationEditDialog();
 			}
 		});
@@ -190,19 +192,18 @@ public class ReviewOptionsFragment extends SherlockFragment {
 		mAddCommentImageButton.getLayoutParams().width = maxHeight;		
 		mAddCommentImageButton.setOnClickListener(new View.OnClickListener() {
 			@Override
-			public void onClick(View v) {	
-				if (!mReview.hasComment()) {
+			public void onClick(View v) {
+				if (!mReview.hasComment())
 					requestCommentMakeIntent();
-				} else
+				else
 					showCommentEditDialog();
 			}
 		});
 		
 		mCommentTextView.getLayoutParams().height = maxWidth;
 		mCommentTextView.getLayoutParams().width = maxHeight;		
-		String comment = mReview.getCommentHeadline();
-		if(comment != null) {
-			mCommentTextView.setText(comment);
+		if(mReview.getComment() != null) {
+			mCommentTextView.setText(mReview.getCommentHeadline());
 			setVisibleGoneView(mCommentTextView, mAddCommentImageButton);
 		} else
 			setVisibleGoneView(mAddCommentImageButton, mCommentTextView);
@@ -210,6 +211,16 @@ public class ReviewOptionsFragment extends SherlockFragment {
 			@Override
 			public void onClick(View v) {
 				mAddCommentImageButton.performClick();
+			}
+		});
+
+		//***Comment Text View***//
+		mAddInfoImageButton.getLayoutParams().height = maxWidth;
+		mAddInfoImageButton.getLayoutParams().width = maxHeight;		
+		mAddInfoImageButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Toast.makeText(getSherlockActivity(), "units..." + MeasurementUnits.CURRENCY.getNames().toString(), Toast.LENGTH_LONG).show();
 			}
 		});
 
@@ -275,30 +286,31 @@ public class ReviewOptionsFragment extends SherlockFragment {
 	}
 	
 	private void showImageEditDialog() {
-		ImageDialogFragment dialog = new ImageDialogFragment();
-		dialog.setTargetFragment(ReviewOptionsFragment.this, IMAGE_EDIT);
 		Bundle args = new Bundle();
-		args.putParcelable(REVIEW_IMAGE, mReview.getImage());				
-		dialog.setArguments(args);
-		dialog.show(getFragmentManager(), DIALOG_IMAGE_TAG);
+		args.putParcelable(DIALOG_IMAGE, mReview.getImage());						
+		args.putString(DIALOG_IMAGE_CAPTION, mReview.getImageCaption());
+		args.putString(DIALOG_IMAGE_CAPTION_HINT, getResources().getString(R.string.edit_text_image_caption_hint));
+		showDialog(new ImageDialogFragment(), IMAGE_EDIT, DIALOG_IMAGE_TAG, args);
 	}
 
 	private void showLocationEditDialog() {
-//		LocationDialogFragment dialog = new LocationDialogFragment();
-//		dialog.setTargetFragment(ReviewOptionsFragment.this, LOCATION_EDIT);
-//		Bundle args = new Bundle();
-//		args.putParcelable(REVIEW_IMAGE, mReview.getImage());				
-//		dialog.setArguments(args);
-//		dialog.show(getFragmentManager(), DIALOG_IMAGE_TAG);
-	}
-	
-	private void showCommentEditDialog() {
-		CommentDialogFragment dialog = new CommentDialogFragment();
-		dialog.setTargetFragment(ReviewOptionsFragment.this, COMMENT_EDIT);
 		Bundle args = new Bundle();
-		args.putString(REVIEW_COMMENT, mReview.getCommentIncludingCriteria());				
+		args.putParcelable(DIALOG_IMAGE, mReview.getMapSnapshot());
+		args.putString(DIALOG_IMAGE_CAPTION, mReview.getLocationName());
+		args.putString(DIALOG_IMAGE_CAPTION_HINT, getResources().getString(R.string.edit_text_name_location_hint));		
+		showDialog(new ImageDialogFragment(), LOCATION_EDIT, DIALOG_LOCATION_TAG, args);
+	}
+
+	private void showCommentEditDialog() {
+		Bundle args = new Bundle();
+		args.putString(DIALOG_COMMENT, mReview.getCommentIncludingCriteria());						
+		showDialog(new CommentDialogFragment(), COMMENT_EDIT, DIALOG_COMMENT_TAG, args);
+	}
+
+	private void showDialog(BasicDialogFragment dialog, int requestCode, String tag, Bundle args) {
+		dialog.setTargetFragment(ReviewOptionsFragment.this, requestCode);
 		dialog.setArguments(args);
-		dialog.show(getFragmentManager(), DIALOG_COMMENT_TAG);
+		dialog.show(getFragmentManager(), tag);
 	}
 
 	@Override
@@ -391,7 +403,10 @@ public class ReviewOptionsFragment extends SherlockFragment {
 						break;
 					case ImageDialogFragment.RESULT_DELETE:
 						deleteReviewImage();
-						break;		
+						break;	
+					case ImageDialogFragment.CAPTION_CHANGED:
+						mReview.setImageCaption(data.getStringExtra(DIALOG_IMAGE_CAPTION));
+						break;
 					default:
 						break;
 				}
@@ -408,15 +423,18 @@ public class ReviewOptionsFragment extends SherlockFragment {
 			default:
 				break;
 
-				//Changing image
+			//Changing location
 			case LOCATION_EDIT:
 				switch (resultCode) {
 					case Activity.RESULT_OK:
 						requestLocationFindIntent();
 						break;
-					case CommentDialogFragment.RESULT_DELETE:
+					case ImageDialogFragment.RESULT_DELETE:
 						deleteLocation();
-						break;		
+						break;
+					case ImageDialogFragment.CAPTION_CHANGED:
+						mReview.setLocationName(data.getStringExtra(DIALOG_IMAGE_CAPTION));
+						break;
 					default:
 						break;
 				}
@@ -457,9 +475,8 @@ public class ReviewOptionsFragment extends SherlockFragment {
 	}
 
 	private void setImageButtonImage() {
-		if( mReview.hasImage() ) {
+		if( mReview.hasImage() )
 			mAddPhotoImageButton.setImageBitmap(mReview.getImage());
-		}
 		else
 			deleteImageButtonImage();
 	}
@@ -469,9 +486,8 @@ public class ReviewOptionsFragment extends SherlockFragment {
 	}
 	
 	private void setLocationButtonImage() {		
-		if(mReview.hasMapSnapshot()) {
+		if(mReview.hasMapSnapshot())
 			mAddLocationImageButton.setImageBitmap(mReview.getMapSnapshot());
-		}
 		else
 			deleteLocation();
 	}

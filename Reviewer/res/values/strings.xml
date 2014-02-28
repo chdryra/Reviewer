@@ -12,6 +12,7 @@
     <string name="dialog_button_change_text">change</string>
     <string name="dialog_button_delete_text">delete</string>
     <string name="dialog_button_cancel_text">cancel</string>
+    <string name="dialog_image_content_description">Review image</string>
     
     <!-- Activities -->
     <string name="location_activity_title">Location</string>
@@ -28,6 +29,8 @@
     <string name="edit_text_search_location_hint">Search for location&#8230;</string>
     <string name="edit_text_map_caption_hint">Location&#8230;</string>
     <string name="edit_text_image_caption_hint">Caption&#8230;</string>
+    <string name="edit_text_add_info_hint">Info label&#8230;</string>
+    <string name="edit_text_info_value_hint">value&#8230;</string>
     
     <!--  SearchViews -->
     <string name="search_view_location_hint">Search for location&#8230;</string>

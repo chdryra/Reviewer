@@ -6,7 +6,7 @@
 	android:layout_marginRight="@dimen/list_item_rightPadding"    
     android:orientation="horizontal" 
     android:longClickable="true"
-    android:background="@drawable/criterion_background_activated">
+    android:background="@drawable/list_long_click_background_activated">
 
     <TextView
         android:id="@+id/criterion_name_text_view"

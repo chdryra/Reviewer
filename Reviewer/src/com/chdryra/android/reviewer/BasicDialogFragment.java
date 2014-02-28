@@ -17,7 +17,7 @@ public abstract class BasicDialogFragment extends SherlockDialogFragment {
 	@Override
 	public abstract Dialog onCreateDialog(Bundle savedInstanceState); 
 
-	private void sendResult(int resultCode) {
+	protected void sendResult(int resultCode) {
 		if (getTargetFragment() == null || resultCode == Activity.RESULT_CANCELED) {
 			return;
 		}

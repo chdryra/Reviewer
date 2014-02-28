@@ -14,7 +14,7 @@ public class CommentDialogFragment extends BasicDialogFragment {
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		View v = getActivity().getLayoutInflater().inflate(R.layout.dialog_comment, null);
 		TextView textView= (TextView)v.findViewById(R.id.comment_text_view);
-		mComment = getArguments().getString(ReviewOptionsFragment.REVIEW_COMMENT);		
+		mComment = getArguments().getString(ReviewOptionsFragment.DIALOG_COMMENT);		
 		textView.setText(mComment);
 		
 		return buildDialog(v);

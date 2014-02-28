@@ -17,7 +17,8 @@ public class EditTextUtils {
 	}
 	
 	public static void setupEditTextCusorVisibility(EditText editText) {	 
-		 
+		editText.setCursorVisible(false);
+		
 		editText.setOnClickListener(new View.OnClickListener() {
 		        @Override
 		        public void onClick(View v) {
