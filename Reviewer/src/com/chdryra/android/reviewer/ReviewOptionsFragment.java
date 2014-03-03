@@ -597,6 +597,8 @@ public class ReviewOptionsFragment extends SherlockFragment {
 			
 			mDataLinearLayout.addView(labelRow);
 			mDataLinearLayout.addView(valueRow);
+			
+			++i;
 		}
 
 		setVisibleGoneView(mDataLinearLayout, mAddDataImageButton);
