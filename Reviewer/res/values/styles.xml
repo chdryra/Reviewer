@@ -31,7 +31,7 @@
 	    <item name="android:background">?android:attr/listDivider</item>
 	    <item name="android:gravity">center_horizontal</item>
 	</style>
-	
+
     <style name="SquareImageButton">
         <item name="android:layout_width">match_parent</item>
 	    <item name="android:layout_height">match_parent</item>
@@ -42,4 +42,9 @@
 	    <item name="android:clickable">true</item>
     </style>
 
+    <style name="SimpleTransparentButton">
+        <item name="android:layout_width">match_parent</item>
+	    <item name="android:layout_height">wrap_content</item>
+	    <item name="android:background">@android:color/transparent</item>
+    </style>
 </resources>

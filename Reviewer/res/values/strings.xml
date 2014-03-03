@@ -17,6 +17,7 @@
     <!-- Activities -->
     <string name="location_activity_title">Location</string>
     <string name="comment_activity_title">Comment</string>
+    <string name="data_activity_title">Facts</string>
     <string name="review_define_activity_title">Create</string>
     <string name="review_optionals_activity_title">Options</string>
     
@@ -29,8 +30,9 @@
     <string name="edit_text_search_location_hint">Search for location&#8230;</string>
     <string name="edit_text_map_caption_hint">Location&#8230;</string>
     <string name="edit_text_image_caption_hint">Caption&#8230;</string>
-    <string name="edit_text_add_info_hint">Info label&#8230;</string>
-    <string name="edit_text_info_value_hint">value&#8230;</string>
+    <string name="edit_text_datum_name_hint">label (e.g. Price, No. dwarves etc. )&#8230;</string>
+    <string name="edit_text_datum_value_hint">value&#8230;</string>
+    <string name="edit_text_datum_unit_hint">unit&#8230;</string>
     
     <!--  SearchViews -->
     <string name="search_view_location_hint">Search for location&#8230;</string>
@@ -48,7 +50,7 @@
     <string name="button_add_image_text">add image</string>
     <string name="button_add_comment_text">add comment</string>
     <string name="button_add_location_text">add location</string>
-    <string name="button_add_info_text">add info</string>
+    <string name="button_add_info_text">add some info</string>
     
     <!-- Menus -->
     <string name="menu_next">next</string>
@@ -66,5 +68,5 @@
     <string name="tumblr">tumblr</string>
     <string name="flickr">flickr</string>
     <string name="foursquare">foursquare</string>
-
+    
 </resources>

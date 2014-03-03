@@ -1,18 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
   	android:layout_height="wrap_content"
-    >
- <View
-     android:id="@+id/dialog_buttons_horizontal_divider" 
-     style="@style/HorizontalDivider"/>
+  	android:orientation="vertical">
+
+    <View style="@style/HorizontalDivider"/>
  
 <LinearLayout 
     android:layout_width="match_parent"
   	android:layout_height="wrap_content"
-  	android:orientation="horizontal" 
-  	android:layout_below="@id/dialog_buttons_horizontal_divider">
+  	android:orientation="horizontal" >
 
     <Button 
         android:id="@+id/button_map_delete"
@@ -43,4 +41,4 @@
         android:layout_weight="1"/>
 
 </LinearLayout>
-</RelativeLayout>
+</LinearLayout>

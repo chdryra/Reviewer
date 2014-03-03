@@ -8,11 +8,12 @@ import java.util.UUID;
 
 import android.graphics.Bitmap;
 
+import com.chdryra.android.reviewer.ReviewData.Datum;
 import com.google.android.gms.maps.model.LatLng;
 
 public class Review implements Commentable{	
 	private static final String TAG = "Review";
-	private static final String GENERAL_COMMENT_TITLE = "Overall";
+	private static final String GENERAL_COMMENT_TITLE = "Headline";
 	private static final String LOCATION_DELIMITER = ",";
 	private static final String COMMENT_HEADLINE_DELIMITER = ".!?";
 	
@@ -28,7 +29,7 @@ public class Review implements Commentable{
 	private LatLng mLatLng;
 	private Bitmap mMapSnapshot;
 	private String mLocationName;
-	private NumberData mNumberData;
+	private ReviewData mReviewData;
 	
 	public Review() {
 		generateID();
@@ -127,8 +128,11 @@ public class Review implements Commentable{
 	}
 	
 	public String getCommentHeadline() {
-		StringTokenizer tokens = new StringTokenizer(mComment, COMMENT_HEADLINE_DELIMITER);
-		return tokens.nextToken();
+		if(mComment != null) {
+			StringTokenizer tokens = new StringTokenizer(mComment, COMMENT_HEADLINE_DELIMITER);
+			return tokens.nextToken();
+		} else
+			return null;
 	}
 	
 	@Override
@@ -213,12 +217,37 @@ public class Review implements Commentable{
 		return split[0];
 	}
 
-	public NumberData getNumberData() {
-		return mNumberData;
+	public ReviewData getData() {
+		return mReviewData;
 	}
 
-	public void setNumberData(NumberData numberData) {
-		mNumberData = numberData;
+	public void setData(ReviewData reviewData) {
+		mReviewData = reviewData;
+	}
+	
+	public void deleteData() {
+		mReviewData = null;
+	}
+	
+	public String getDataHeadline() {
+		if(mReviewData == null)
+			return null;
+		
+		LinkedHashMap<String, Datum> dataMap = mReviewData.getDataMap();
+		Iterator<Datum> it = dataMap.values().iterator();
+		StringBuilder headlineBuilder = new StringBuilder();
+		if(it.hasNext()) {
+			Datum datum = it.next();
+			headlineBuilder.append(datum.getLabel());
+			headlineBuilder.append(": ");
+			headlineBuilder.append(datum.getValue());
+		}
+		
+		return headlineBuilder.toString();
+	}
+	
+	public boolean hasData() {
+		return mReviewData!=null;
 	}
 	
 }

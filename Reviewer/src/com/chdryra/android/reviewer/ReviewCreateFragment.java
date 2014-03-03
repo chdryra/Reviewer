@@ -1,20 +1,16 @@
 package com.chdryra.android.reviewer;
 
-import java.util.Date;
 import java.util.LinkedHashMap;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
@@ -29,11 +25,9 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 
-
-
 public class ReviewCreateFragment extends SherlockFragment{
 	private final static String TAG = "ReviewerFragment";
-	private final static String CRITERION_DIALOG_TAG = "CriterionDialog";
+	private final static String DIALOG_CRITERION_TAG = "CriterionDialog";
 	public final static String CRITERION_NAME = "com.chdryra.android.reviewer.criterion_name";
 	public final static String REVIEW_OBJECT = "com.chdryra.android.reviewer.review_object";
 	public final static int CRITERION_EDIT = 0;
@@ -61,8 +55,7 @@ public class ReviewCreateFragment extends SherlockFragment{
 	}
 	
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View v = inflater.inflate(R.layout.fragment_review_create, container, false);		
 		
 		mSubject = (EditText)v.findViewById(R.id.review_subject);
@@ -117,7 +110,7 @@ public class ReviewCreateFragment extends SherlockFragment{
 				Bundle args = new Bundle();
 				args.putSerializable(CRITERION_NAME, c.getName());
 				dialog.setArguments(args);
-				dialog.show(getFragmentManager(), CRITERION_DIALOG_TAG);
+				dialog.show(getFragmentManager(), DIALOG_CRITERION_TAG);
 				
 				return false;
 			}
@@ -270,7 +263,8 @@ public class ReviewCreateFragment extends SherlockFragment{
 			case CRITERION_EDIT:
 				String oldName = (String)data.getSerializableExtra(CriterionDialogFragment.EXTRA_CRITERION_OLD_NAME);
 				String newName = (String)data.getSerializableExtra(CriterionDialogFragment.EXTRA_CRITERION_NEW_NAME);				
-				makeToast(mCriteria.changeCriterionName(oldName, newName), oldName, newName);
+				if(!oldName.equals(newName))
+					makeToast(mCriteria.changeCriterionName(oldName, newName), oldName, newName);
 				break;
 
 			default:
@@ -301,7 +295,7 @@ public class ReviewCreateFragment extends SherlockFragment{
 		if( r == CriterionList.Result.EXISTS )
 			Toast.makeText(getSherlockActivity(), s1 + " already exists...", Toast.LENGTH_SHORT).show();
 		
-		if( r == CriterionList.Result.NULLNAME )
+		if( r == CriterionList.Result.NULLNAME && (s1 == null || s1.length() == 0))
 			Toast.makeText(getSherlockActivity(), "Enter criterion name...", Toast.LENGTH_SHORT).show();
 	}
 	

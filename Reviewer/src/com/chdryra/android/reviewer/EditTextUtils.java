@@ -11,14 +11,12 @@ public class EditTextUtils {
 
 	public static void hideKeyboard(Activity activity, EditText editText)
 	{
-	    InputMethodManager imm= (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
+	    InputMethodManager imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
 	    imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
         editText.setCursorVisible(false);
 	}
 	
 	public static void setupEditTextCusorVisibility(EditText editText) {	 
-		editText.setCursorVisible(false);
-		
 		editText.setOnClickListener(new View.OnClickListener() {
 		        @Override
 		        public void onClick(View v) {

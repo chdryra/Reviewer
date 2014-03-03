@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.WindowManager;
 
 import com.actionbarsherlock.app.SherlockDialogFragment;
 
@@ -17,6 +18,12 @@ public abstract class BasicDialogFragment extends SherlockDialogFragment {
 	@Override
 	public abstract Dialog onCreateDialog(Bundle savedInstanceState); 
 
+	@Override
+	public void onStop() {
+		getSherlockActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+		super.onStop();
+	}
+	
 	protected void sendResult(int resultCode) {
 		if (getTargetFragment() == null || resultCode == Activity.RESULT_CANCELED) {
 			return;
