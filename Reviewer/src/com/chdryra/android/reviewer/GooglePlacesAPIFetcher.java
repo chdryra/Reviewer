@@ -44,7 +44,6 @@ public abstract class GooglePlacesAPIFetcher{
 		HttpURLConnection conn = null;	    	    
 	
 		try {	    
-			String s = getURLString();
 	    	URL url = new URL(getURLString());    
 	        conn = (HttpURLConnection) url.openConnection();
 	        InputStreamReader in = new InputStreamReader(conn.getInputStream());

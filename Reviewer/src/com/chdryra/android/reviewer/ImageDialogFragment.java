@@ -30,7 +30,7 @@ public class ImageDialogFragment extends BasicDialogFragment {
 		String captionHint = getArguments().getString(ReviewOptionsFragment.DIALOG_IMAGE_CAPTION_HINT);
 		
 		imageView.setImageBitmap(image);
-		EditTextUtils.setupEditTextCusorVisibility(mImageCaption);
+		RandomTextUtils.setupEditTextCusorVisibility(mImageCaption);
 		mImageCaption.setHint(captionHint);
 		mImageCaption.setText(mOriginalCaption);
 		mImageCaption.setOnEditorActionListener(new TextView.OnEditorActionListener() {			

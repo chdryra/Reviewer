@@ -2,10 +2,13 @@ package com.chdryra.android.reviewer;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Locale;
 
 import android.app.Activity;
 import android.content.ComponentName;
@@ -17,13 +20,13 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.support.v4.app.NavUtils;
+import android.text.format.DateFormat;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewGroup.LayoutParams;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -43,20 +46,25 @@ public class ReviewOptionsFragment extends SherlockFragment {
 	private final static String DIALOG_IMAGE_TAG = "ImageDialog";
 	private final static String DIALOG_LOCATION_TAG = "LocationDialog";
 	private final static String DIALOG_DATA_TAG = "DataDialog";
+	private final static String DIALOG_DATE_TAG = "DateDialog";
+	
+	private final static String NO_CRITERIA = "no criteria";
+	private final static String TOGGLE_CRITERIA = "touch stars to toggle criteria";
 	
 	public final static String REVIEW_OBJECT = "com.chdryra.android.reviewer.review_object";
 	public final static String REVIEW_SUBJECT = "com.chdryra.android.reviewer.review_subject";
+	public static final String REVIEW_LATLNG = "com.chdryra,android,reviewer.review_latlng";
+	public static final String REVIEW_DATE = "com.chdryra,android,reviewer.review_date";
+	
 	public final static String DIALOG_IMAGE = "com.chdryra.android.reviewer.review_image";
 	public final static String DIALOG_IMAGE_CAPTION = "com.chdryra.android.reviewer.review_image_caption";
 	public final static String DIALOG_IMAGE_CAPTION_HINT = "com.chdryra.android.reviewer.review_image_caption_hint";
 	public final static String DIALOG_COMMENT = "com.chdryra.android.reviewer.review_comment";
+	
 	public static final String COMMENT_TEXT = "com.chdryra,android,reviewer.comment_text";
 	public static final String IMAGE_FILE = "com.chdryra,android,reviewer.image_file";
 	public static final String IMAGE_LATLNG = "com.chdryra,android,reviewer.image_latlng";
-	public static final String REVIEW_LATLNG = "com.chdryra,android,reviewer.review_latlng";
 	public static final String LOCATION_BUTTON = "com.chdryra,android,reviewer.location_button";
-
-	public final static int DATA_MAX_LINES = 3;
 	
 	public final static int IMAGE_REQUEST = 0;
 	public final static int IMAGE_EDIT = 1;
@@ -66,14 +74,18 @@ public class ReviewOptionsFragment extends SherlockFragment {
 	public final static int COMMENT_EDIT = 5;
 	public final static int DATA_REQUEST = 6;
 	public final static int DATA_EDIT = 7;
+	public final static int DATE_EDIT = 8;
 
-	
+	public final static int DATA_TABLE_MAX_VALUES = 3;
+
 	private Review mReview;
 	private ReviewImageHandler mReviewImageHandler;
 	
 	private TextView mSubject;
 	private RatingBar mRatingBar;
+	private TextView mTouchStarsTextView;
 	private LinearLayout mCriteriaLayout;
+	private String mTouchStarsText;
 	
 	private ImageButton mAddPhotoImageButton;
 	private ImageButton mAddLocationImageButton;
@@ -82,6 +94,7 @@ public class ReviewOptionsFragment extends SherlockFragment {
 	
 	private TextView mCommentTextView;
 	private LinearLayout mDataLinearLayout;
+	private TextView mDateTextView;
 	
 	private boolean mCriteriaLayoutVisible = true;
 	
@@ -92,7 +105,8 @@ public class ReviewOptionsFragment extends SherlockFragment {
 		setRetainInstance(true);
 		mReview = (Review)IntentObjectHolder.getObject(ReviewCreateFragment.REVIEW_OBJECT);
 		if(mReview.hasImage())
-			mReviewImageHandler = ReviewImageHandler.getInstance(mReview);		
+			mReviewImageHandler = ReviewImageHandler.getInstance(mReview);
+		mReview.setDate(new Date());
 	}
 
 	@Override
@@ -101,8 +115,9 @@ public class ReviewOptionsFragment extends SherlockFragment {
 		getSherlockActivity().getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		
 		//***Get all view objects***//
-		mSubject = (TextView)v.findViewById(R.id.review_subject_finish_page);
-		mRatingBar = (RatingBar)v.findViewById(R.id.total_rating_bar_finish_page);
+		mSubject = (TextView)v.findViewById(R.id.review_subject_text_view);
+		mRatingBar = (RatingBar)v.findViewById(R.id.total_rating_bar);
+		mTouchStarsTextView = (TextView)v.findViewById(R.id.stars_touch_text_view);
 		mCriteriaLayout = (LinearLayout)v.findViewById(R.id.linear_layout_criteria_rating_bars);
 		
 		mAddPhotoImageButton = (ImageButton)v.findViewById(R.id.add_photo_image_button);	
@@ -112,6 +127,8 @@ public class ReviewOptionsFragment extends SherlockFragment {
 		
 		mCommentTextView = (TextView)v.findViewById(R.id.comment_text_view);
 		mDataLinearLayout= (LinearLayout)v.findViewById(R.id.data_table_linear_layout);
+		
+		mDateTextView = (TextView)v.findViewById(R.id.date_text_view);
 		
 		//***Subject Heading***//
 		mSubject.setText(mReview.getSubject());
@@ -132,10 +149,12 @@ public class ReviewOptionsFragment extends SherlockFragment {
 			}
 		});
 	
+		int numCriteria = mReview.getCriteriaList().size();
+		mTouchStarsText = numCriteria == 0? NO_CRITERIA : TOGGLE_CRITERIA;
+		mTouchStarsTextView.setText(mTouchStarsText);
+		
 		//***Criteria Rating Bars***//
 		Iterator<Criterion> it = mReview.getCriteriaList().getCriterionHashMap().values().iterator();
-		if(it.hasNext())
-			mCriteriaLayout.setVisibility(View.VISIBLE);
 		boolean dark = false;
 		while (it.hasNext()) {
 			Criterion c = it.next();
@@ -148,12 +167,17 @@ public class ReviewOptionsFragment extends SherlockFragment {
 			RatingBar ratingBar = (RatingBar)criteriaView.findViewById(R.id.criterion_rating_bar);		
 			
 			criterionText.setText(c.getName());
+			criterionText.setTextColor(mTouchStarsTextView.getTextColors().getDefaultColor());
 			ratingBar.setRating(c.getRating());
 			ratingBar.setIsIndicator(true);
 			ratingBar.setFocusable(false);
 			mCriteriaLayout.addView(criteriaView);
 		}
-	
+		if(numCriteria > 0) {
+			View divider = getSherlockActivity().getLayoutInflater().inflate(R.layout.horizontal_divider, null);
+			mCriteriaLayout.addView(divider);
+		}
+		
 		//***Get display metrics to ensure square buttons***//
 		DisplayMetrics displaymetrics = new DisplayMetrics();
 		getSherlockActivity().getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
@@ -246,7 +270,16 @@ public class ReviewOptionsFragment extends SherlockFragment {
 			}
 		});
 
+		mDateTextView.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				showDateEditDialog();
+			}
+		});
 		
+		updateDateDisplay();
+
 		return v;
 	}
 
@@ -336,6 +369,12 @@ public class ReviewOptionsFragment extends SherlockFragment {
 		showDialog(new DataDialogFragment(), DATA_EDIT, DIALOG_DATA_TAG, null);
 	}
 
+	private void showDateEditDialog() {
+		Bundle args = new Bundle();
+		args.putSerializable(REVIEW_DATE, mReview.getDate());						
+		showDialog(new DateDialogFragment(), DATE_EDIT, DIALOG_DATE_TAG, args);
+	}
+	
 	private void showDialog(BasicDialogFragment dialog, int requestCode, String tag, Bundle args) {
 		dialog.setTargetFragment(ReviewOptionsFragment.this, requestCode);
 		dialog.setArguments(args);
@@ -383,8 +422,6 @@ public class ReviewOptionsFragment extends SherlockFragment {
 		}
 		
 		switch (requestCode) {
-			
-			//Getting image
 			case IMAGE_REQUEST:
 				switch (resultCode) {
 					case Activity.RESULT_OK:
@@ -424,7 +461,6 @@ public class ReviewOptionsFragment extends SherlockFragment {
 				}
 				break;
 			
-			//Changing image
 			case IMAGE_EDIT:
 				switch (resultCode) {
 					case Activity.RESULT_OK:
@@ -440,19 +476,17 @@ public class ReviewOptionsFragment extends SherlockFragment {
 						break;
 				}
 				break;
-			
-				
-			//Getting location
+							
 			case LOCATION_REQUEST:
 				mReview = (Review)IntentObjectHolder.getObject(REVIEW_OBJECT);
 				if(resultCode == ReviewLocationFragment.RESULT_DELETE_LOCATION)
 					deleteLocation();
+				updateDateDisplay();
 				break;
 
 			default:
 				break;
 
-			//Changing location
 			case LOCATION_EDIT:
 				switch (resultCode) {
 					case Activity.RESULT_OK:
@@ -463,14 +497,13 @@ public class ReviewOptionsFragment extends SherlockFragment {
 						break;
 					case ImageDialogFragment.CAPTION_CHANGED:
 						mReview.setLocationName(data.getStringExtra(DIALOG_IMAGE_CAPTION));
+						updateDateDisplay();
 						break;
 					default:
 						break;
 				}
 				break;
-			
 
-			//Editing comments
 			case COMMENT_REQUEST:
 				mReview = (Review)IntentObjectHolder.getObject(REVIEW_OBJECT);
 				switch (resultCode) {
@@ -485,7 +518,6 @@ public class ReviewOptionsFragment extends SherlockFragment {
 				}
 				break;
 				
-				//Changing image
 			case COMMENT_EDIT:
 				switch (resultCode) {
 					case Activity.RESULT_OK:
@@ -499,34 +531,35 @@ public class ReviewOptionsFragment extends SherlockFragment {
 				}
 				break;
 				
-				//Editing data
-				case DATA_REQUEST:
-					mReview = (Review)IntentObjectHolder.getObject(REVIEW_OBJECT);
-					updateDataTable();	
-					break;
+			case DATA_REQUEST:
+				mReview = (Review)IntentObjectHolder.getObject(REVIEW_OBJECT);
+				updateDataTable();	
+				break;
+				
+			case DATA_EDIT:
+				switch (resultCode) {
+					case Activity.RESULT_OK:
+						requestDataAddIntent();
+						break;
+					case DataDialogFragment.RESULT_DELETE:
+						deleteData();
+						break;		
+					default:
+						break;
+				}
+				break;
 					
-					//Changing image
-				case DATA_EDIT:
-					switch (resultCode) {
-						case Activity.RESULT_OK:
-							requestDataAddIntent();
-							break;
-						case DataDialogFragment.RESULT_DELETE:
-							deleteData();
-							break;		
-						default:
-							break;
-					}
-					break;				
-			
+			case DATE_EDIT:
+				mReview.setDate((Date)data.getSerializableExtra(REVIEW_DATE));
+				updateDateDisplay();
+				break;		
 		}
-		
 	}
 
 	private void setImageButtonImage() {
 		if( mReview.hasImage() ) {
 			mAddPhotoImageButton.setImageBitmap(mReview.getImage());
-			mAddPhotoImageButton.setBackgroundColor(getResources().getColor(R.color.DarkGray));
+			//mAddPhotoImageButton.setBackgroundColor(getResources().getColor(R.color.DarkGray));
 		}
 		else
 			deleteImageButtonImage();
@@ -534,7 +567,7 @@ public class ReviewOptionsFragment extends SherlockFragment {
 
 	private void deleteImageButtonImage() {
 		mAddPhotoImageButton.setImageResource(R.drawable.ic_menu_camera);
-		mAddPhotoImageButton.setBackgroundColor(getResources().getColor(android.R.color.transparent));
+		//mAddPhotoImageButton.setBackgroundColor(getResources().getColor(android.R.color.transparent));
 	}
 	
 	private void setLocationButtonImage() {		
@@ -580,17 +613,18 @@ public class ReviewOptionsFragment extends SherlockFragment {
 		
 		
 		mDataLinearLayout.removeAllViews();
-		
+		setVisibleGoneView(mDataLinearLayout, mAddDataImageButton);
 		LinkedHashMap<String, Datum> dataMap = mReview.getData().getDataMap();
 		Iterator<Datum> it = dataMap.values().iterator();
 		int i = 0;
-		while(it.hasNext() && i < DATA_MAX_LINES) {
+		while(it.hasNext() && i < DATA_TABLE_MAX_VALUES) {
 			Datum datum = it.next();
 			
 			FrameLayout labelRow = (FrameLayout)getSherlockActivity().getLayoutInflater().inflate(R.layout.data_table_label_row, null);
 			FrameLayout valueRow = (FrameLayout)getSherlockActivity().getLayoutInflater().inflate(R.layout.data_table_value_row, null);
+			
 			TextView label = (TextView)labelRow.findViewById(R.id.data_table_label_text_view);
-			TextView value = (TextView)valueRow.findViewById(R.id.data_table_value_text_view);
+			TextView value = (TextView)valueRow.findViewById(R.id.data_table_value_text_view);			
 			
 			label.setText(datum.getLabel());
 			value.setText(datum.getValue());
@@ -601,7 +635,7 @@ public class ReviewOptionsFragment extends SherlockFragment {
 			++i;
 		}
 
-		setVisibleGoneView(mDataLinearLayout, mAddDataImageButton);
+		
 	}
 	
 	private void deleteData() {
@@ -609,8 +643,19 @@ public class ReviewOptionsFragment extends SherlockFragment {
 		updateDataTable();
 	}
 	
-	public void setVisibleGoneView(View visibleView, View goneView) {
+	private void setVisibleGoneView(View visibleView, View goneView) {
 		visibleView.setVisibility(View.VISIBLE);
 		goneView.setVisibility(View.GONE);
+	}
+	
+	private void updateDateDisplay() {
+		SimpleDateFormat format = new SimpleDateFormat("dd/MM/yy, HH:mm", Locale.getDefault());
+		
+		String dateString = "@";
+		if(mReview.hasLocationName())
+			dateString += mReview.getLocationName() +", ";
+		
+		dateString += format.format(mReview.getDate());
+		mDateTextView.setText(dateString);
 	}
 }

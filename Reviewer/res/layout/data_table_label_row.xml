@@ -9,6 +9,8 @@
 	    android:id="@+id/data_table_label_text_view"
 	    android:layout_width="wrap_content"
     	android:layout_height="wrap_content"
+    	android:ellipsize="end"
+		android:singleLine="true"
 	    android:textSize="@dimen/list_item_textSize"
 	    android:textColor="@color/WhiteSmoke"
 	    android:layout_gravity="left"/>

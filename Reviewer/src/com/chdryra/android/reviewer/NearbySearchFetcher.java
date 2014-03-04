@@ -1,12 +1,8 @@
 package com.chdryra.android.reviewer;
 
-import android.util.Log;
-
 import com.google.android.gms.maps.model.LatLng;
 
 public class NearbySearchFetcher extends GooglePlacesAPIFetcher {
-	private static final String TAG = "NearbySearchFetcher";
-	
 	private static final String NEARBY_SEARCH = "/nearbysearch";
 	private static final String RESULTS_TAG = "results";
 	public static enum RadiusOrRank{RADIUS, RANK_BY_DISTANCE, RANK_BY_PROMINENCE};

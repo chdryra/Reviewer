@@ -12,7 +12,6 @@ import com.chdryra.android.reviewer.ReviewData.Datum;
 import com.google.android.gms.maps.model.LatLng;
 
 public class Review implements Commentable{	
-	private static final String TAG = "Review";
 	private static final String GENERAL_COMMENT_TITLE = "Headline";
 	private static final String LOCATION_DELIMITER = ",";
 	private static final String COMMENT_HEADLINE_DELIMITER = ".!?";

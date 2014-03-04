@@ -89,8 +89,8 @@ public class ReviewDataFragment extends SherlockFragment {
 		mDataListView.setAdapter(new ReviewDataAdaptor(mReviewData));
 		updateUI();
 		
-		EditTextUtils.setupEditTextCusorVisibility(mDatumLabel);
-		EditTextUtils.setupEditTextCusorVisibility(mDatumValue);
+		RandomTextUtils.setupEditTextCusorVisibility(mDatumLabel);
+		RandomTextUtils.setupEditTextCusorVisibility(mDatumValue);
 		mDatumValue.setOnEditorActionListener(new TextView.OnEditorActionListener() {
 	        @Override
 	        public boolean onEditorAction(TextView v, int actionId, KeyEvent event)
@@ -142,8 +142,8 @@ public class ReviewDataFragment extends SherlockFragment {
 			public void onClick(View v) {
 				if(mIsKeyboardVisible) {
 					addDatum();
-					EditTextUtils.hideKeyboard(getSherlockActivity(), mDatumLabel);
-					EditTextUtils.hideKeyboard(getSherlockActivity(), mDatumValue);
+					RandomTextUtils.hideKeyboard(getSherlockActivity(), mDatumLabel);
+					RandomTextUtils.hideKeyboard(getSherlockActivity(), mDatumValue);
 				}
 				else
 					sendResult(Activity.RESULT_OK);
@@ -256,7 +256,7 @@ public class ReviewDataFragment extends SherlockFragment {
 			
 			if (convertView == null) {						
 				LayoutInflater inflater = getSherlockActivity().getLayoutInflater();
-				convertView = inflater.inflate(R.layout.datum_row, parent, false);
+				convertView = inflater.inflate(R.layout.datum_linear_row, parent, false);
 				
 				TextView datumName = (TextView)convertView.findViewById(R.id.datum_label_text_view);
 				TextView datumValue = (TextView)convertView.findViewById(R.id.datum_value_text_view);
@@ -273,7 +273,7 @@ public class ReviewDataFragment extends SherlockFragment {
 				
 			Datum datum = (Datum)getItem(position);
 			
-			vh.datumName.setText(datum.getLabel());
+			vh.datumName.setText(datum.getLabel() +":");
 			vh.datumValue.setText(datum.getValue());
 	
 			return(convertView);

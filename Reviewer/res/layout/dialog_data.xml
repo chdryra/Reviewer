@@ -1,7 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/data_table_layout"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
-    		      
-</TableLayout>
+    
+	<LinearLayout 
+	    android:id="@+id/data_linear_layout"
+	    android:orientation="vertical"
+		android:layout_width="match_parent"
+    	android:layout_height="wrap_content">
+        		      
+	</LinearLayout>
+	    
+</ScrollView>

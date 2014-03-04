@@ -59,20 +59,20 @@ public class ReviewCreateFragment extends SherlockFragment{
 		View v = inflater.inflate(R.layout.fragment_review_create, container, false);		
 		
 		mSubject = (EditText)v.findViewById(R.id.review_subject);
-		EditTextUtils.setupEditTextCusorVisibility(mSubject);		
+		RandomTextUtils.setupEditTextCusorVisibility(mSubject);		
 		mSubject.setOnEditorActionListener(new TextView.OnEditorActionListener() {
 	        @Override
 	        public boolean onEditorAction(TextView v, int actionId, KeyEvent event)
 	        {
 	            if(actionId == EditorInfo.IME_ACTION_DONE)
-	                EditTextUtils.hideKeyboard(getSherlockActivity(), (EditText)v);
+	                RandomTextUtils.hideKeyboard(getSherlockActivity(), (EditText)v);
 	           
 	            return true;
 	        }
 	    });
 			
 		mCriterionName = (EditText)v.findViewById(R.id.criterion_add_edit_text);
-		EditTextUtils.setupEditTextCusorVisibility(mCriterionName);
+		RandomTextUtils.setupEditTextCusorVisibility(mCriterionName);
 		mCriterionName.setOnEditorActionListener(new TextView.OnEditorActionListener() {
 	        @Override
 	        public boolean onEditorAction(TextView v, int actionId, KeyEvent event)
@@ -82,7 +82,7 @@ public class ReviewCreateFragment extends SherlockFragment{
 	        		if (mCriterionName.getText().toString().length() > 0)
 	        			addCriterion();	        		
 	              	
-	                EditTextUtils.hideKeyboard(getSherlockActivity(),(EditText)v);
+	                RandomTextUtils.hideKeyboard(getSherlockActivity(),(EditText)v);
 	            }
 	            return true;
 	        }
