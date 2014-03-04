@@ -152,8 +152,12 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 	
 	private void sendResult(int resultCode) {
 		if(resultCode == Activity.RESULT_OK) {
+			String locationName = mLocationName.getText().toString();
+			if(locationName.length() == 0 )
+				locationName = null;
+			
 			mReview.setLatLng(mLatLng);
-			mReview.setLocationName(mLocationName.getText().toString());
+			mReview.setLocationName(locationName);
 			IntentObjectHolder.addObject(ReviewOptionsFragment.REVIEW_OBJECT, mReview);
 		}
 		

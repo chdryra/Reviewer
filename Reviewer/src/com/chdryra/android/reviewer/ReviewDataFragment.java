@@ -63,23 +63,7 @@ public class ReviewDataFragment extends SherlockFragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		final View v = inflater.inflate(R.layout.fragment_review_data, container, false);		
-		
-		v.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-			
-			@Override
-			public void onGlobalLayout() {
-				 Rect r = new Rect();
-				    //r will be populated with the coordinates of your view that area still visible.
-				    v.getWindowVisibleDisplayFrame(r);
-
-				    int heightDiff = v.getRootView().getHeight() - (r.bottom - r.top);
-				    if (heightDiff > 100) // if more than 100 pixels, its probably a keyboard...
-				    	mIsKeyboardVisible = true;
-				    else
-				    	mIsKeyboardVisible = false;
-			}
-		});
-		
+				
 		getSherlockActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);		
 		getSherlockActivity().getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		
@@ -150,6 +134,22 @@ public class ReviewDataFragment extends SherlockFragment {
 			}
 		});
 	    
+//		v.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+//			
+//			@Override
+//			public void onGlobalLayout() {
+//				 Rect r = new Rect();
+//				    //r will be populated with the coordinates of your view that area still visible.
+//				    v.getWindowVisibleDisplayFrame(r);
+//
+//				    int heightDiff = v.getRootView().getHeight() - (r.bottom - r.top);
+//				    if (heightDiff > 100) // if more than 100 pixels, its probably a keyboard...
+//				    	mIsKeyboardVisible = true;
+//				    else
+//				    	mIsKeyboardVisible = false;
+//			}
+//		});
+
 		return v;
 	}
 	

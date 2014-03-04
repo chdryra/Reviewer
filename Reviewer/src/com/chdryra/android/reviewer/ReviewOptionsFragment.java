@@ -494,6 +494,7 @@ public class ReviewOptionsFragment extends SherlockFragment {
 						break;
 					case ImageDialogFragment.RESULT_DELETE:
 						deleteLocation();
+						updateDateDisplay();
 						break;
 					case ImageDialogFragment.CAPTION_CHANGED:
 						mReview.setLocationName(data.getStringExtra(DIALOG_IMAGE_CAPTION));
@@ -649,7 +650,11 @@ public class ReviewOptionsFragment extends SherlockFragment {
 	}
 	
 	private void updateDateDisplay() {
-		SimpleDateFormat format = new SimpleDateFormat("dd/MM/yy, HH:mm", Locale.getDefault());
+		SimpleDateFormat format = null;
+		if(DateFormat.is24HourFormat(getSherlockActivity()))
+			format = new SimpleDateFormat("dd/MM/yy, HH:mm", Locale.getDefault());
+		else
+			format = new SimpleDateFormat("dd/MM/yy, h:mm aa", Locale.getDefault());
 		
 		String dateString = "@";
 		if(mReview.hasLocationName())

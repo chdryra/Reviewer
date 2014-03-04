@@ -178,6 +178,7 @@ public class Review implements Commentable{
 	public void deleteLatLng() {
 		mLatLng = null;
 		mMapSnapshot = null;
+		mLocationName = null;
 	}
 	
 	public boolean hasLatLng() {
