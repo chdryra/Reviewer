@@ -51,6 +51,9 @@
     <string name="button_add_comment_text">add comment</string>
     <string name="button_add_location_text">add location</string>
     <string name="button_add_info_text">add some info</string>
+
+    <!-- Checkboxes -->
+    <string name="checkbox_add_criteria_comments">add criteria comments</string>
     
     <!-- Menus -->
     <string name="menu_next">next</string>
@@ -60,6 +63,7 @@
     <string name="menu_current_location">current location</string>
     <string name="menu_location_from_photo">location_from_photo</string>
     <string name="menu_search_location">search for location</string>
+    <string name="menu_criteria_comments">c</string>
     
     <!-- Social -->
     <string name="facebook">facebook</string>

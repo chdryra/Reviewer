@@ -384,7 +384,7 @@ public class ReviewOptionsFragment extends SherlockFragment {
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 		super.onCreateOptionsMenu(menu, inflater);
-		inflater.inflate(R.menu.fragment_review_finish, menu);
+		inflater.inflate(R.menu.fragment_review_options, menu);
 	}
 	
 

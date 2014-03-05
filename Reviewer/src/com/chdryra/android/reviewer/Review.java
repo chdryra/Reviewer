@@ -12,14 +12,14 @@ import com.chdryra.android.reviewer.ReviewData.Datum;
 import com.google.android.gms.maps.model.LatLng;
 
 public class Review implements Commentable{	
-	private static final String GENERAL_COMMENT_TITLE = "Headline";
+	private static final String GENERAL_COMMENT_TITLE = "Overview";
 	private static final String LOCATION_DELIMITER = ",";
 	private static final String COMMENT_HEADLINE_DELIMITER = ".!?";
 	
 	private UUID mID;
 	private String mSubject;
 	private Date mDate;	
-	private CriterionList mCriteriaList;
+	private CriterionList mCriteriaList = new CriterionList();
 	private float mRating;
 	private boolean mRatingIsAverage;
 	private String mComment;
@@ -78,7 +78,7 @@ public class Review implements Commentable{
 	public CriterionList getCriteriaList() {
 		return mCriteriaList;
 	}
-
+	
 	public void setCriteriaList(CriterionList criteriaList) {
 		mCriteriaList = criteriaList;
 	}
