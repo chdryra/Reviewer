@@ -31,7 +31,6 @@ public class ArrayAdapterSearchView extends SearchView {
 
 	@Override
 	public void setSuggestionsAdapter(CursorAdapter adapter) {
-	    // don't let anyone touch this
 	}
 
 	public void setOnItemClickListener(AdapterView.OnItemClickListener listener) {

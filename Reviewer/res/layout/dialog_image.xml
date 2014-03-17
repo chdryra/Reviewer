@@ -14,7 +14,7 @@
 	    android:adjustViewBounds="true"
 	    android:contentDescription="@string/dialog_image_content_description"/>
 
-	<EditText    
+	<com.chdryra.android.reviewer.ClearableEditText
 	    android:id="@+id/dialog_image_caption_edit_text"
 	    android:inputType="textCapSentences"
 	    android:layout_width="match_parent"

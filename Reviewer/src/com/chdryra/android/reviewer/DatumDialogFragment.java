@@ -18,15 +18,15 @@ public class DatumDialogFragment extends BasicDialogFragment {
 	public static final String DATUM_OLD_LABEL = "com.chdryra.android.reviewer.datum_old_label";
 	public static final String DATUM_OLD_VALUE = "com.chdryra.android.reviewer.datum_old_label";
 	
-	private EditText mLabel;
-	private EditText mValue;
+	private ClearableEditText mLabel;
+	private ClearableEditText mValue;
 	private String mOldLabel;
 	
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		View v = getActivity().getLayoutInflater().inflate(R.layout.dialog_datum, null);
-		mLabel = (EditText)v.findViewById(R.id.datum_label_edit_text);
-		mValue = (EditText)v.findViewById(R.id.datum_value_edit_text);
+		mLabel = (ClearableEditText)v.findViewById(R.id.datum_label_edit_text);
+		mValue = (ClearableEditText)v.findViewById(R.id.datum_value_edit_text);
 		
 		mOldLabel = getArguments().getString(ReviewDataFragment.DATUM_LABEL);
 		mLabel.setText(mOldLabel);		
@@ -41,7 +41,7 @@ public class DatumDialogFragment extends BasicDialogFragment {
 	            if(actionId == EditorInfo.IME_ACTION_DONE)
 	            	dialog.getButton(DialogInterface.BUTTON_POSITIVE).performClick();
 
-	            return true;
+	            return false;
 	        }
 	    });
 

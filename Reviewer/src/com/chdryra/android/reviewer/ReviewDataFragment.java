@@ -39,8 +39,8 @@ public class ReviewDataFragment extends SherlockFragment {
 	
 	private Review mReview;
 	
-	private EditText mDatumLabel;
-	private EditText mDatumValue;
+	private ClearableEditText mDatumLabel;
+	private ClearableEditText mDatumValue;
 	private ListView mDataListView;
 	
 	private Button mDeleteButton;
@@ -67,22 +67,21 @@ public class ReviewDataFragment extends SherlockFragment {
 		getSherlockActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);		
 		getSherlockActivity().getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		
-		mDatumLabel = (EditText)v.findViewById(R.id.datum_label_edit_text);
-		mDatumValue = (EditText)v.findViewById(R.id.datum_value_edit_text);
+		mDatumLabel = (ClearableEditText)v.findViewById(R.id.datum_label_edit_text);
+		mDatumValue = (ClearableEditText)v.findViewById(R.id.datum_value_edit_text);
 		mDataListView = (ListView)v.findViewById(R.id.data_listview);
 		mDataListView.setAdapter(new ReviewDataAdaptor(mReviewData));
 		updateUI();
 		
-		RandomTextUtils.setupEditTextCusorVisibility(mDatumLabel);
-		RandomTextUtils.setupEditTextCusorVisibility(mDatumValue);
 		mDatumValue.setOnEditorActionListener(new TextView.OnEditorActionListener() {
 	        @Override
 	        public boolean onEditorAction(TextView v, int actionId, KeyEvent event)
 	        {
 	            if(actionId == EditorInfo.IME_ACTION_GO)
 					addDatum();
-					mDatumLabel.requestFocus();
-	            return true;
+					
+	            mDatumLabel.requestFocus();
+	            return false;
 	        }
 	    });
 

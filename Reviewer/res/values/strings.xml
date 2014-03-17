@@ -63,7 +63,8 @@
     <string name="menu_current_location">current location</string>
     <string name="menu_location_from_photo">location_from_photo</string>
     <string name="menu_search_location">search for location</string>
-    <string name="menu_criteria_comments">c</string>
+    <string name="menu_criteria_comments">criteria comments</string>
+    <string name="menu_clear_comment">clear comment</string>
     
     <!-- Social -->
     <string name="facebook">facebook</string>

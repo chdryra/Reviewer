@@ -593,8 +593,8 @@ public class ReviewOptionsFragment extends SherlockFragment {
 	}
 	
 	private void deleteComment() {
-		mCommentTextView.setText(null);
-		setVisibleGoneView(mAddCommentImageButton, mCommentTextView);
+		mReview.deleteCommentIncludingCriteria();
+		updateComment();
 	}
 	
 	private void updateComment() {

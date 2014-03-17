@@ -35,8 +35,8 @@ public class ReviewCreateFragment extends SherlockFragment{
 	
 	private Review mReview;
 	private CriterionList mCriteria = new CriterionList();
-	private EditText mSubject;
-	private EditText mCriterionName;
+	private ClearableEditText mSubject;
+	private ClearableEditText mCriterionName;
 	private ImageButton mAddCriterionButton;
 	private ImageButton mCalcAverageRatingButton;
 	private ListView mCriteriaListView;
@@ -58,35 +58,7 @@ public class ReviewCreateFragment extends SherlockFragment{
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View v = inflater.inflate(R.layout.fragment_review_create, container, false);		
 		
-		mSubject = (EditText)v.findViewById(R.id.review_subject);
-		RandomTextUtils.setupEditTextCusorVisibility(mSubject);		
-		mSubject.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-	        @Override
-	        public boolean onEditorAction(TextView v, int actionId, KeyEvent event)
-	        {
-	            if(actionId == EditorInfo.IME_ACTION_DONE)
-	                RandomTextUtils.hideKeyboard(getSherlockActivity(), (EditText)v);
-	           
-	            return true;
-	        }
-	    });
-			
-		mCriterionName = (EditText)v.findViewById(R.id.criterion_add_edit_text);
-		RandomTextUtils.setupEditTextCusorVisibility(mCriterionName);
-		mCriterionName.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-	        @Override
-	        public boolean onEditorAction(TextView v, int actionId, KeyEvent event)
-	        {
-	            if(actionId == EditorInfo.IME_ACTION_DONE)
-	            {
-	        		if (mCriterionName.getText().toString().length() > 0)
-	        			addCriterion();	        		
-	              	
-	                RandomTextUtils.hideKeyboard(getSherlockActivity(),(EditText)v);
-	            }
-	            return true;
-	        }
-	    });
+		mSubject = (ClearableEditText)v.findViewById(R.id.review_subject);
 
 		mAddCriterionButton = (ImageButton)v.findViewById(R.id.criterion_add_button);
 		mAddCriterionButton.setOnClickListener(new View.OnClickListener() {			
@@ -95,6 +67,18 @@ public class ReviewCreateFragment extends SherlockFragment{
 				addCriterion();							
 			}
 		});
+
+		mCriterionName = (ClearableEditText)v.findViewById(R.id.criterion_add_edit_text);
+		mCriterionName.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+	        @Override
+	        public boolean onEditorAction(TextView v, int actionId, KeyEvent event)
+	        {
+	            if(actionId == EditorInfo.IME_ACTION_DONE)
+	            	mAddCriterionButton.performClick();	        		
+
+	            return true;
+	        }
+	    });
 		
 		mCriteriaListView = (ListView) v.findViewById(R.id.criterion_listview);		
 		mCriteriaListView.setAdapter(new CriterionAdaptor(mCriteria));
@@ -112,13 +96,12 @@ public class ReviewCreateFragment extends SherlockFragment{
 				dialog.setArguments(args);
 				dialog.show(getFragmentManager(), DIALOG_CRITERION_TAG);
 				
-				return false;
+				return true;
 			}
 		});
 				
 		mTotalRatingBar = (RatingBar)v.findViewById(R.id.total_rating_bar);
 		mTotalRatingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
-			
 			@Override
 			public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
 				if(fromUser) {

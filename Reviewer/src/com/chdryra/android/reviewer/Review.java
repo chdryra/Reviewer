@@ -90,13 +90,18 @@ public class Review implements Commentable{
 			comment = mComment;
 		
 		LinkedHashMap<String, Criterion> criteria = getCriteriaList().getCriterionHashMap();
-		if(criteria.size() > 0 && comment != null)
-			 comment += String.format("%n");
 		Iterator<Criterion> it = criteria.values().iterator();
+		boolean firstComment = true;
 		while (it.hasNext()) {
 			Criterion criterion = it.next();
-			if(criterion.getComment() != null)
-				comment +=  String.format("%n") + "*" + criterion.getName() + ": " + criterion.getComment();			
+			if(criterion.getComment() != null) {
+				if(firstComment) {
+					comment += String.format("%n");
+					firstComment = false;
+				}
+			
+				comment +=  String.format("%n") + "*" + criterion.getName() + ": " + criterion.getComment();
+			}
 		}
 				
 		return comment;

@@ -44,13 +44,15 @@ public class ReviewCommentFragment extends SherlockFragment {
 	private Button mCancelButton;
 	private Button mDoneButton;
 
-	private MenuItem mAddCriteriaCommentsMenuItem;
 	private boolean mAddCriteriaComments = false;
-	
+	private MenuItem mAddCriteriaCommentsMenuItem;
+	private MenuItem mClearCommentMenuItem;
+
 	private View mHeadlineCommentsView;
 	private LinearLayout mCriteriaCommentsLinearLayout;
-
 	
+	private EditText mCurrentFocusedEditText;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -72,10 +74,13 @@ public class ReviewCommentFragment extends SherlockFragment {
 		mCriteriaCommentsLinearLayout = (LinearLayout)v.findViewById(R.id.criteria_comments_linear_layout);
 		LinkedHashMap<String, Criterion> criteria = mReview.getCriteriaList().getCriterionHashMap();
 		Iterator<Criterion> it = criteria.values().iterator();
-		while (it.hasNext())
-			mCriteriaCommentsLinearLayout.addView(getCommentLineView(it.next(), null));
-		
-		hideCriteriaComments();
+		while (it.hasNext()) {
+			Criterion c = it.next();
+			mCriteriaCommentsLinearLayout.addView(getCommentLineView(c, null));
+			if( c.getComment() != null && c.getComment().length() > 0)
+				mAddCriteriaComments = true;
+		}
+		updateCriteriaCommentsDisplay();
 		
 	    mDeleteButton = (Button)v.findViewById(R.id.button_map_delete);
 	    mDeleteButton.setOnClickListener(new View.OnClickListener() {
@@ -137,6 +142,7 @@ public class ReviewCommentFragment extends SherlockFragment {
              @Override
              public boolean onTouch(View v, MotionEvent event) {
                  if (v.getId() == R.id.comment_edit_text) {
+                	 
                 	 EditText et = (EditText)v;
                 	 
                 	 if(et.getLineCount() <= MAX_COMMENT_EDITTEXT_LINES)
@@ -176,6 +182,7 @@ public class ReviewCommentFragment extends SherlockFragment {
 				String newComment = s.toString().trim();
 				if(newComment.length() > 0)
 					commentable.setComment(newComment);
+				updateClearCommentMenuItemVisibility();
 			}	
 		});
 		
@@ -184,11 +191,37 @@ public class ReviewCommentFragment extends SherlockFragment {
 		    public void onFocusChange(View v, boolean hasFocus) {
 		        if (hasFocus) {
 		            getSherlockActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+		            setCurrentFocussedEditText((EditText)v);
 		        }
 		    }
 		});
 		
 		return v;
+	}
+
+	
+	private void setCurrentFocussedEditText(EditText v) {
+		mCurrentFocusedEditText = v;
+		updateClearCommentMenuItemVisibility();
+	}
+
+	private void updateClearCommentMenuItemVisibility() {
+		if(mCurrentFocusedEditText != null &&  mCurrentFocusedEditText.getText().toString() != null &&
+		   mCurrentFocusedEditText.getText().toString().length() > 0) {
+			mClearCommentMenuItem.setVisible(true);
+		} else {
+			mClearCommentMenuItem.setVisible(false);
+		}
+	}
+	
+	private void updateCriteriaCommentsDisplay() {
+		if(mAddCriteriaComments) {
+			showCriteriaComments();
+			mAddCriteriaCommentsMenuItem.setIcon(R.drawable.ic_delete);
+		} else {
+			hideCriteriaComments();
+			mAddCriteriaCommentsMenuItem.setIcon(R.drawable.ic_input_add);
+		}
 	}
 	
 	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
@@ -199,12 +232,12 @@ public class ReviewCommentFragment extends SherlockFragment {
 		} else
 			mCriteriaCommentsLinearLayout.setVisibility(View.GONE);
 		
+		//Hacky crap to get keyboard to show Done instead of Next due to caching issues;
 		EditText et = (EditText)mHeadlineCommentsView.findViewById(R.id.comment_edit_text);
 		int it = et.getInputType();
 		et.setInputType(InputType.TYPE_NULL);
 		et.setImeOptions(EditorInfo.IME_ACTION_DONE);
 		et.setInputType(it);
-		
 		et.requestFocus();
 		RandomTextUtils.showKeyboard(getSherlockActivity(), et);
 	}
@@ -217,6 +250,7 @@ public class ReviewCommentFragment extends SherlockFragment {
 		} else
 			mCriteriaCommentsLinearLayout.setVisibility(View.VISIBLE);
 		
+		//Hacky crap to get keyboard to show Next instead of Done due to caching issues;
 		EditText et = (EditText)mHeadlineCommentsView.findViewById(R.id.comment_edit_text);
 		int it = et.getInputType();
 		et.setInputType(InputType.TYPE_NULL);
@@ -256,6 +290,9 @@ public class ReviewCommentFragment extends SherlockFragment {
 		mAddCriteriaCommentsMenuItem = menu.findItem(R.id.menu_item_add_criteria_comments);
 		if(mReview.getCriteriaList().size() == 0)
 			mAddCriteriaCommentsMenuItem.setVisible(false);
+		
+		mClearCommentMenuItem = menu.findItem(R.id.menu_item_clear_comment);
+		updateClearCommentMenuItemVisibility();
 	}
 	
 	@Override
@@ -266,13 +303,12 @@ public class ReviewCommentFragment extends SherlockFragment {
 			return true;
 		case R.id.menu_item_add_criteria_comments:
 			mAddCriteriaComments = !mAddCriteriaComments;
-			if(mAddCriteriaComments) {
-				showCriteriaComments();
-				mAddCriteriaCommentsMenuItem.setIcon(R.drawable.ic_delete);
-			} else {
-				hideCriteriaComments();
-				mAddCriteriaCommentsMenuItem.setIcon(R.drawable.ic_input_add);
-			}
+			updateCriteriaCommentsDisplay();
+			break;
+		case R.id.menu_item_clear_comment:
+			if(mCurrentFocusedEditText != null)
+				mCurrentFocusedEditText.setText(null);
+			break;
 		default:
 			break;
 		}

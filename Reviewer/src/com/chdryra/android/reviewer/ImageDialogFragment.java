@@ -15,7 +15,7 @@ public class ImageDialogFragment extends BasicDialogFragment {
 		
 	public static final int CAPTION_CHANGED = 2;
 	
-	protected EditText mImageCaption;
+	protected ClearableEditText mImageCaption;
 	private String mOriginalCaption;
 
 	@Override
@@ -23,14 +23,13 @@ public class ImageDialogFragment extends BasicDialogFragment {
 		View v = getActivity().getLayoutInflater().inflate(R.layout.dialog_image, null);
 		
 		ImageView imageView = (ImageView)v.findViewById(R.id.dialog_image_image_view);
-		mImageCaption = (EditText)v.findViewById(R.id.dialog_image_caption_edit_text);
+		mImageCaption = (ClearableEditText)v.findViewById(R.id.dialog_image_caption_edit_text);
 		
 		Bitmap image = getArguments().getParcelable(ReviewOptionsFragment.DIALOG_IMAGE);
 		mOriginalCaption = getArguments().getString(ReviewOptionsFragment.DIALOG_IMAGE_CAPTION);
 		String captionHint = getArguments().getString(ReviewOptionsFragment.DIALOG_IMAGE_CAPTION_HINT);
 		
 		imageView.setImageBitmap(image);
-		RandomTextUtils.setupEditTextCusorVisibility(mImageCaption);
 		mImageCaption.setHint(captionHint);
 		mImageCaption.setText(mOriginalCaption);
 		mImageCaption.setOnEditorActionListener(new TextView.OnEditorActionListener() {			

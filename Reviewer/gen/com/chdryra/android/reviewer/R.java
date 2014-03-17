@@ -1435,22 +1435,24 @@ containing a value of this type.
         public static final int common_signin_btn_text_pressed_light=0x7f020087;
         public static final int dialog_button_layout_activated=0x7f020088;
         public static final int ic_checkmark_holo_light=0x7f020089;
-        public static final int ic_delete=0x7f02008a;
-        public static final int ic_input_add=0x7f02008b;
-        public static final int ic_launcher=0x7f02008c;
-        public static final int ic_menu_attachment=0x7f02008d;
-        public static final int ic_menu_camera=0x7f02008e;
-        public static final int ic_menu_edit=0x7f02008f;
-        public static final int ic_menu_forward=0x7f020090;
-        public static final int ic_menu_mylocation=0x7f020091;
-        public static final int ic_menu_revert=0x7f020092;
-        public static final int ic_menu_search=0x7f020093;
-        public static final int ic_plusone_medium_off_client=0x7f020094;
-        public static final int ic_plusone_small_off_client=0x7f020095;
-        public static final int ic_plusone_standard_off_client=0x7f020096;
-        public static final int ic_plusone_tall_off_client=0x7f020097;
-        public static final int list_long_click_background_activated=0x7f020098;
-        public static final int total_rating_average_toggle_activated=0x7f020099;
+        public static final int ic_clear_search_api_disabled_holo_light=0x7f02008a;
+        public static final int ic_clear_search_api_holo_light=0x7f02008b;
+        public static final int ic_delete=0x7f02008c;
+        public static final int ic_input_add=0x7f02008d;
+        public static final int ic_launcher=0x7f02008e;
+        public static final int ic_menu_attachment=0x7f02008f;
+        public static final int ic_menu_camera=0x7f020090;
+        public static final int ic_menu_edit=0x7f020091;
+        public static final int ic_menu_forward=0x7f020092;
+        public static final int ic_menu_mylocation=0x7f020093;
+        public static final int ic_menu_revert=0x7f020094;
+        public static final int ic_menu_search=0x7f020095;
+        public static final int ic_plusone_medium_off_client=0x7f020096;
+        public static final int ic_plusone_small_off_client=0x7f020097;
+        public static final int ic_plusone_standard_off_client=0x7f020098;
+        public static final int ic_plusone_tall_off_client=0x7f020099;
+        public static final int list_long_click_background_activated=0x7f02009a;
+        public static final int total_rating_average_toggle_activated=0x7f02009b;
     }
     public static final class id {
         public static final int abs__action_bar=0x7f040036;
@@ -1492,8 +1494,8 @@ containing a value of this type.
         public static final int abs__textButton=0x7f040029;
         public static final int abs__title=0x7f040031;
         public static final int abs__up=0x7f040021;
-        public static final int action_search=0x7f04008f;
-        public static final int action_settings=0x7f040095;
+        public static final int action_search=0x7f040090;
+        public static final int action_settings=0x7f040096;
         public static final int add_comment_image_button=0x7f04007f;
         public static final int add_data_image_button=0x7f040082;
         public static final int add_location_image_button=0x7f040080;
@@ -1570,13 +1572,14 @@ containing a value of this type.
         public static final int mapLinearLayout=0x7f040073;
         public static final int mapView=0x7f040075;
         public static final int map_buttons=0x7f040077;
-        public static final int menu_item_add_criteria_comments=0x7f04008d;
-        public static final int menu_item_choose_social=0x7f040093;
-        public static final int menu_item_choose_tags=0x7f040092;
-        public static final int menu_item_image_location=0x7f040090;
-        public static final int menu_item_next_screen=0x7f04008e;
-        public static final int menu_item_revert_location=0x7f040091;
-        public static final int menu_item_review_done=0x7f040094;
+        public static final int menu_item_add_criteria_comments=0x7f04008e;
+        public static final int menu_item_choose_social=0x7f040094;
+        public static final int menu_item_choose_tags=0x7f040093;
+        public static final int menu_item_clear_comment=0x7f04008d;
+        public static final int menu_item_image_location=0x7f040091;
+        public static final int menu_item_next_screen=0x7f04008f;
+        public static final int menu_item_revert_location=0x7f040092;
+        public static final int menu_item_review_done=0x7f040095;
         public static final int none=0x7f040012;
         public static final int normal=0x7f040013;
         public static final int review_subject=0x7f040068;
@@ -1838,15 +1841,16 @@ containing a value of this type.
         /**  EditTexts 
          */
         public static final int edit_text_subject_hint=0x7f070034;
-        public static final int email=0x7f070056;
+        public static final int email=0x7f070057;
         /**  Social 
          */
-        public static final int facebook=0x7f070054;
-        public static final int flickr=0x7f070058;
-        public static final int foursquare=0x7f070059;
+        public static final int facebook=0x7f070055;
+        public static final int flickr=0x7f070059;
+        public static final int foursquare=0x7f07005a;
         /**  Activities 
          */
         public static final int location_activity_title=0x7f07002f;
+        public static final int menu_clear_comment=0x7f070054;
         public static final int menu_criteria_comments=0x7f070053;
         public static final int menu_current_location=0x7f070050;
         public static final int menu_done=0x7f07004d;
@@ -1866,8 +1870,8 @@ containing a value of this type.
         /**   SearchViews 
          */
         public static final int search_view_location_hint=0x7f07003f;
-        public static final int tumblr=0x7f070057;
-        public static final int twitter=0x7f070055;
+        public static final int tumblr=0x7f070058;
+        public static final int twitter=0x7f070056;
     }
     public static final class style {
         /** 

@@ -22,12 +22,12 @@ public class CriterionDialogFragment extends BasicDialogFragment {
 	public static final int RESULT_DELETE_CRITERION = Activity.RESULT_FIRST_USER;
 	
 	private String mCriterionOldName;
-	private EditText mCriterionName;
+	private ClearableEditText mCriterionName;
 	
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		View v = getActivity().getLayoutInflater().inflate(R.layout.dialog_criterion, null);
-		mCriterionName = (EditText)v.findViewById(R.id.criterion_name_edit_text);
+		mCriterionName = (ClearableEditText)v.findViewById(R.id.criterion_name_edit_text);
 		if( getTargetRequestCode() == ReviewCreateFragment.CRITERION_EDIT )
 		{
 			mCriterionOldName = (String)getArguments().getSerializable(ReviewCreateFragment.CRITERION_NAME);
@@ -41,8 +41,8 @@ public class CriterionDialogFragment extends BasicDialogFragment {
 	        public boolean onEditorAction(TextView v, int actionId, KeyEvent event)
 	        {
 	            if(actionId == EditorInfo.IME_ACTION_DONE)
-	            	dialog.getButton(DialogInterface.BUTTON_POSITIVE).performClick();
-
+	            	dialog.getButton(DialogInterface.BUTTON_POSITIVE).performClick();	            	     
+	            
 	            return true;
 	        }
 	    });
