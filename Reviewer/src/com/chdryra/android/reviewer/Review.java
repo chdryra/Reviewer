@@ -144,8 +144,9 @@ public class Review implements Commentable{
 		mComment = null;
 	}
 
+	@Override
 	public boolean hasComment() {
-		return mComment != null;
+		return mComment != null || mCriteriaList.hasComment();
 	}
 	
 	public Bitmap getImage() {

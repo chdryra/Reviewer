@@ -49,16 +49,15 @@ public class ClearableAutoCompleteTextView extends AutoCompleteTextView {
             	et.setCursorVisible(true);
             	et.handleClearButton();
             	
-            	showDropDownIfAvailable();
-
                 if (et.getCompoundDrawables()[2] != null && 
                 		event.getX() > et.getWidth() - et.getPaddingRight() - mCloseButton.getIntrinsicWidth()) {
                     et.setText(null);
-                    showKeyboard();
-                    showDropDownIfAvailable();
                     mXTouched = true;
-                }
+                } 
  
+                showKeyboard();
+                showDropDownIfAvailable();
+                
 	    		return true;
 	    	}
 	    	});

@@ -11,13 +11,16 @@
     <string name="dialog_choose_social">Share</string>
     <string name="dialog_button_change_text">change</string>
     <string name="dialog_button_delete_text">delete</string>
+    <string name="dialog_button_yes_text">yes</string>
     <string name="dialog_button_cancel_text">cancel</string>
     <string name="dialog_image_content_description">Review image</string>
+    <string name="dialog_date_title">When</string>
     
     <!-- Activities -->
     <string name="location_activity_title">Location</string>
     <string name="comment_activity_title">Comment</string>
     <string name="data_activity_title">Facts</string>
+    <string name="image_activity_title">Image</string>
     <string name="review_define_activity_title">Create</string>
     <string name="review_optionals_activity_title">Options</string>
     

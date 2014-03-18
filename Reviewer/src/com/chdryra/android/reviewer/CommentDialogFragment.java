@@ -6,7 +6,7 @@ import android.view.View;
 import android.widget.TextView;
 
 public class CommentDialogFragment extends BasicDialogFragment {
-
+	
 	private String mComment;
 	
 	@Override
@@ -15,6 +15,8 @@ public class CommentDialogFragment extends BasicDialogFragment {
 		TextView textView= (TextView)v.findViewById(R.id.comment_text_view);
 		mComment = getArguments().getString(ReviewOptionsFragment.DIALOG_COMMENT);		
 		textView.setText(mComment);
+	
+		setDeleteConfirmation(getResources().getString(R.string.comment_activity_title));
 		
 		return buildDialog(v);
 	}

@@ -1737,21 +1737,21 @@ containing a value of this type.
         [CHAR LIMIT=70] 
          */
         public static final int auth_client_using_bad_version_title=0x7f070013;
-        public static final int button_add_comment_text=0x7f070048;
-        public static final int button_add_criterion_text=0x7f070045;
-        public static final int button_add_image_text=0x7f070047;
-        public static final int button_add_info_text=0x7f07004a;
-        public static final int button_add_location_text=0x7f070049;
-        public static final int button_cancel_text=0x7f070044;
-        public static final int button_change_photo_text=0x7f070046;
-        public static final int button_delete_text=0x7f070043;
+        public static final int button_add_comment_text=0x7f07004b;
+        public static final int button_add_criterion_text=0x7f070048;
+        public static final int button_add_image_text=0x7f07004a;
+        public static final int button_add_info_text=0x7f07004d;
+        public static final int button_add_location_text=0x7f07004c;
+        public static final int button_cancel_text=0x7f070047;
+        public static final int button_change_photo_text=0x7f070049;
+        public static final int button_delete_text=0x7f070046;
         /**  Buttons 
          */
-        public static final int button_done_text=0x7f070042;
+        public static final int button_done_text=0x7f070045;
         /**  Checkboxes 
          */
-        public static final int checkbox_add_criteria_comments=0x7f07004b;
-        public static final int comment_activity_title=0x7f070030;
+        public static final int checkbox_add_criteria_comments=0x7f07004e;
+        public static final int comment_activity_title=0x7f070032;
         /**  Button in confirmation dialog to enable Google Play services.  Clicking it
         will direct user to application settings of Google Play services where they
         can enable it [CHAR LIMIT=40] 
@@ -1819,60 +1819,63 @@ containing a value of this type.
         /**  Long form sign-in button text [CHAR LIMIT=30] 
          */
         public static final int common_signin_button_text_long=0x7f070012;
-        public static final int data_activity_title=0x7f070031;
-        public static final int dialog_button_cancel_text=0x7f07002d;
+        public static final int data_activity_title=0x7f070033;
+        public static final int dialog_button_cancel_text=0x7f07002e;
         public static final int dialog_button_change_text=0x7f07002b;
         public static final int dialog_button_delete_text=0x7f07002c;
+        public static final int dialog_button_yes_text=0x7f07002d;
         public static final int dialog_choose_social=0x7f07002a;
         public static final int dialog_comment_title=0x7f070029;
         /**  Dialogs 
          */
         public static final int dialog_criterion_title=0x7f070028;
-        public static final int dialog_image_content_description=0x7f07002e;
-        public static final int edit_text_add_comment_dialog_hint=0x7f070037;
-        public static final int edit_text_add_comment_hint=0x7f070036;
-        public static final int edit_text_add_criterion_hint=0x7f070035;
-        public static final int edit_text_datum_name_hint=0x7f07003c;
-        public static final int edit_text_datum_unit_hint=0x7f07003e;
-        public static final int edit_text_datum_value_hint=0x7f07003d;
-        public static final int edit_text_image_caption_hint=0x7f07003b;
-        public static final int edit_text_map_caption_hint=0x7f07003a;
-        public static final int edit_text_name_location_hint=0x7f070038;
-        public static final int edit_text_search_location_hint=0x7f070039;
+        public static final int dialog_date_title=0x7f070030;
+        public static final int dialog_image_content_description=0x7f07002f;
+        public static final int edit_text_add_comment_dialog_hint=0x7f07003a;
+        public static final int edit_text_add_comment_hint=0x7f070039;
+        public static final int edit_text_add_criterion_hint=0x7f070038;
+        public static final int edit_text_datum_name_hint=0x7f07003f;
+        public static final int edit_text_datum_unit_hint=0x7f070041;
+        public static final int edit_text_datum_value_hint=0x7f070040;
+        public static final int edit_text_image_caption_hint=0x7f07003e;
+        public static final int edit_text_map_caption_hint=0x7f07003d;
+        public static final int edit_text_name_location_hint=0x7f07003b;
+        public static final int edit_text_search_location_hint=0x7f07003c;
         /**  EditTexts 
          */
-        public static final int edit_text_subject_hint=0x7f070034;
-        public static final int email=0x7f070057;
+        public static final int edit_text_subject_hint=0x7f070037;
+        public static final int email=0x7f07005a;
         /**  Social 
          */
-        public static final int facebook=0x7f070055;
-        public static final int flickr=0x7f070059;
-        public static final int foursquare=0x7f07005a;
+        public static final int facebook=0x7f070058;
+        public static final int flickr=0x7f07005c;
+        public static final int foursquare=0x7f07005d;
+        public static final int image_activity_title=0x7f070034;
         /**  Activities 
          */
-        public static final int location_activity_title=0x7f07002f;
-        public static final int menu_clear_comment=0x7f070054;
-        public static final int menu_criteria_comments=0x7f070053;
-        public static final int menu_current_location=0x7f070050;
-        public static final int menu_done=0x7f07004d;
-        public static final int menu_location_from_photo=0x7f070051;
+        public static final int location_activity_title=0x7f070031;
+        public static final int menu_clear_comment=0x7f070057;
+        public static final int menu_criteria_comments=0x7f070056;
+        public static final int menu_current_location=0x7f070053;
+        public static final int menu_done=0x7f070050;
+        public static final int menu_location_from_photo=0x7f070054;
         /**  Menus 
          */
-        public static final int menu_next=0x7f07004c;
-        public static final int menu_search_location=0x7f070052;
-        public static final int menu_share=0x7f07004e;
-        public static final int menu_tags=0x7f07004f;
-        public static final int progress_bar_search_location_message=0x7f070041;
+        public static final int menu_next=0x7f07004f;
+        public static final int menu_search_location=0x7f070055;
+        public static final int menu_share=0x7f070051;
+        public static final int menu_tags=0x7f070052;
+        public static final int progress_bar_search_location_message=0x7f070044;
         /**  ProgressDialogs 
          */
-        public static final int progress_bar_search_location_title=0x7f070040;
-        public static final int review_define_activity_title=0x7f070032;
-        public static final int review_optionals_activity_title=0x7f070033;
+        public static final int progress_bar_search_location_title=0x7f070043;
+        public static final int review_define_activity_title=0x7f070035;
+        public static final int review_optionals_activity_title=0x7f070036;
         /**   SearchViews 
          */
-        public static final int search_view_location_hint=0x7f07003f;
-        public static final int tumblr=0x7f070058;
-        public static final int twitter=0x7f070056;
+        public static final int search_view_location_hint=0x7f070042;
+        public static final int tumblr=0x7f07005b;
+        public static final int twitter=0x7f070059;
     }
     public static final class style {
         /** 

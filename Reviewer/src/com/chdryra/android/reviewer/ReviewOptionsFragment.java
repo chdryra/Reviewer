@@ -355,7 +355,7 @@ public class ReviewOptionsFragment extends SherlockFragment {
 		args.putParcelable(DIALOG_IMAGE, mReview.getMapSnapshot());
 		args.putString(DIALOG_IMAGE_CAPTION, mReview.getLocationName());
 		args.putString(DIALOG_IMAGE_CAPTION_HINT, getResources().getString(R.string.edit_text_name_location_hint));		
-		showDialog(new ImageDialogFragment(), LOCATION_EDIT, DIALOG_LOCATION_TAG, args);
+		showDialog(new LocationDialogFragment(), LOCATION_EDIT, DIALOG_LOCATION_TAG, args);
 	}
 
 	private void showCommentEditDialog() {
@@ -479,7 +479,7 @@ public class ReviewOptionsFragment extends SherlockFragment {
 							
 			case LOCATION_REQUEST:
 				mReview = (Review)IntentObjectHolder.getObject(REVIEW_OBJECT);
-				if(resultCode == ReviewLocationFragment.RESULT_DELETE_LOCATION)
+				if(resultCode == ReviewLocationFragment.RESULT_DELETE)
 					deleteLocation();
 				updateDateDisplay();
 				break;
@@ -511,7 +511,7 @@ public class ReviewOptionsFragment extends SherlockFragment {
 					case Activity.RESULT_OK:
 						updateComment();	
 						break;
-					case ReviewCommentFragment.RESULT_DELETE_COMMENT:
+					case ReviewCommentFragment.RESULT_DELETE:
 						deleteComment();
 						break;		
 					default:
@@ -560,7 +560,6 @@ public class ReviewOptionsFragment extends SherlockFragment {
 	private void setImageButtonImage() {
 		if( mReview.hasImage() ) {
 			mAddPhotoImageButton.setImageBitmap(mReview.getImage());
-			//mAddPhotoImageButton.setBackgroundColor(getResources().getColor(R.color.DarkGray));
 		}
 		else
 			deleteImageButtonImage();

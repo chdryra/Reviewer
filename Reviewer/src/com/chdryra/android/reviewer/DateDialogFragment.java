@@ -60,7 +60,7 @@ public class DateDialogFragment extends BasicDialogFragment {
 		mTimePicker.setCurrentHour(hour);
 		mTimePicker.setCurrentMinute(min);
 		
-		return buildDialog(v);
+		return buildDialog(v, getResources().getString(R.string.dialog_date_title));
 	}
 
 	@Override

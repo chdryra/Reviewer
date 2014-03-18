@@ -107,4 +107,14 @@ public class CriterionList {
 		while (it.hasNext())
 		  it.next().deleteComment();
 	}
+	
+	public boolean hasComment() {
+		Iterator<Criterion> it = mCriteria.values().iterator();
+		while (it.hasNext()) {
+		  if(it.next().hasComment())
+			  return true;
+		}
+		
+		return false;
+	}
 }

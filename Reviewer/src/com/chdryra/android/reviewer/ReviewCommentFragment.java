@@ -6,6 +6,7 @@ import java.util.LinkedHashMap;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -33,11 +34,13 @@ import com.actionbarsherlock.view.MenuItem;
 public class ReviewCommentFragment extends SherlockFragment {
 	
 	public static final String EXTRA_COMMENT_STRING = "com.chdryra.android.reviewer.comment_string";
-	public static final int RESULT_DELETE_COMMENT = Activity.RESULT_FIRST_USER;
+	public static final int RESULT_DELETE = Activity.RESULT_FIRST_USER;
 	
 	private static final int MIN_HEADLINE_EDITTEXT_LINES = 3;
 	private static final int MAX_COMMENT_EDITTEXT_LINES = 5;
 
+	private static final int DELETE_CONFIRM = BasicDialogFragment.DELETE_CONFIRM;
+	
 	private Drawable mClearCommentIcon;  
 
 	private Review mReview;
@@ -46,6 +49,8 @@ public class ReviewCommentFragment extends SherlockFragment {
 	private Button mCancelButton;
 	private Button mDoneButton;
 
+	private boolean mDeleteConfirmed = false;
+	
 	private boolean mAddCriteriaComments = false;
 	private MenuItem mAddCriteriaCommentsMenuItem;
 	private MenuItem mClearCommentMenuItem;
@@ -90,7 +95,7 @@ public class ReviewCommentFragment extends SherlockFragment {
 	    mDeleteButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				sendResult(RESULT_DELETE_COMMENT);
+				sendResult(RESULT_DELETE);
 			}
 		});
 	    
@@ -280,8 +285,15 @@ public class ReviewCommentFragment extends SherlockFragment {
 	}
 	
 	private void sendResult(int resultCode) {
-		if (resultCode == RESULT_DELETE_COMMENT)
-			mReview.deleteCommentIncludingCriteria();
+		if (resultCode == RESULT_DELETE && mReview.hasComment()) {
+			if(mDeleteConfirmed)
+				mReview.deleteCommentIncludingCriteria();
+			else {
+				BasicDialogFragment.showDeleteConfirmDialog(getResources().getString(R.string.comment_activity_title), 
+						ReviewCommentFragment.this, getFragmentManager());
+				return;
+			}
+		}
 		
 		if(resultCode == Activity.RESULT_OK) {
 			mReview.setComment(mEditTexts.get(mReview.getCommentTitle()).getText().toString());
@@ -305,6 +317,20 @@ public class ReviewCommentFragment extends SherlockFragment {
 		getSherlockActivity().finish();	
 	}
 
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+	    switch (requestCode) {
+	        case DELETE_CONFIRM:
+				if(resultCode == Activity.RESULT_OK) {
+					mDeleteConfirmed = true;
+					sendResult(RESULT_DELETE);
+				}
+				break;
+			default:
+				break;
+		    }
+	}
+	
 	@Override
     public void onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);

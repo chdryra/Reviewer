@@ -42,8 +42,10 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 	private final static String TAG = "ReviewerLocationFragment";
 	private final static int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
 	private final static int DEFAULT_ZOOM = 15;
-	
-	public static final int RESULT_DELETE_LOCATION = Activity.RESULT_FIRST_USER;
+
+	private static final int DELETE_CONFIRM = BasicDialogFragment.DELETE_CONFIRM;
+
+	public static final int RESULT_DELETE = Activity.RESULT_FIRST_USER;
 	public final static String LOCATION_LATLNG = "com.chdryra.android.reviewer.location_latlng";
 	public final static String LOCATION_NAME = "com.chdryra.android.reviewer.location_name";
 	public final static String MAP_SNAPSHOT = "com.chdryra.android.reviewer.map_snapshot";
@@ -58,9 +60,12 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 	private MapView mMapView;
 	private ArrayAdapterSearchView mSearchView;
 	private ClearableAutoCompleteTextView mLocationName;
+
 	private Button mDeleteButton;
 	private Button mCancelButton;
 	private Button mDoneButton;
+	
+	private boolean mDeleteConfirmed = false;
 	
 	private LatLng mPhotoLatLng;
 	private LatLng mReviewLatLng;
@@ -122,7 +127,7 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 	    mDeleteButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				sendResult(RESULT_DELETE_LOCATION);
+				sendResult(RESULT_DELETE);
 			}
 		});
 	    
@@ -153,19 +158,24 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 	private void sendResult(int resultCode) {
 		if(resultCode == Activity.RESULT_OK) {
 			String locationName = mLocationName.getText().toString();
-			if(locationName.length() == 0 )
+			if(locationName != null && locationName.length() == 0 )
 				locationName = null;
 			
 			mReview.setLatLng(mLatLng);
 			mReview.setLocationName(locationName);
-			IntentObjectHolder.addObject(ReviewOptionsFragment.REVIEW_OBJECT, mReview);
 		}
 		
-		if(resultCode == RESULT_DELETE_LOCATION) {
-			mReview.deleteLatLng();
-			IntentObjectHolder.addObject(ReviewOptionsFragment.REVIEW_OBJECT, mReview);
+		if(resultCode == RESULT_DELETE && mReview.hasLatLng()) {
+			if(mDeleteConfirmed) {
+				mReview.deleteLatLng();
+			} else {
+				BasicDialogFragment.showDeleteConfirmDialog(getResources().getString(R.string.location_activity_title), 
+						ReviewLocationFragment.this, getFragmentManager());
+				return;
+			}
 		}
 		
+		IntentObjectHolder.addObject(ReviewOptionsFragment.REVIEW_OBJECT, mReview);
 		getSherlockActivity().setResult(resultCode);		 
 		getSherlockActivity().finish();	
 	}
@@ -320,6 +330,14 @@ GooglePlayServicesClient.OnConnectionFailedListener{
                     default:
                     	break;
                 }
+            case DELETE_CONFIRM:
+				if(resultCode == Activity.RESULT_OK) {
+					mDeleteConfirmed = true;
+					sendResult(RESULT_DELETE);
+				}
+				break;
+			default:
+				break;
         }
 	 }
 	 

@@ -21,7 +21,7 @@ public class LocationNameAdapter extends ArrayAdapter<String> implements Filtera
 	private static final int RADIUS = 250;
 	
     private ArrayList<String> mLocationSuggestions = null;
-	private ArrayList<String> mLocationDefaultSuggestions;
+	private ArrayList<String> mLocationDefaultSuggestions = null;
 	private String mPrimaryDefaultSuggestion;
 	private LatLng mLatLng;
 	
@@ -154,10 +154,12 @@ public class LocationNameAdapter extends ArrayAdapter<String> implements Filtera
 	@Override
 	protected void onPostExecute(ArrayList<String> addresses) {
 		super.onPostExecute(addresses);
-		mLocationDefaultSuggestions = addresses;
-		if(mPrimaryDefaultSuggestion != null)
-			mLocationDefaultSuggestions.add(0, mPrimaryDefaultSuggestion);
-	    mLocationSuggestions = new ArrayList<String>(mLocationDefaultSuggestions);
+		if(addresses != null) {
+			mLocationDefaultSuggestions = addresses;
+			if(mPrimaryDefaultSuggestion != null)
+				mLocationDefaultSuggestions.add(0, mPrimaryDefaultSuggestion);
+			mLocationSuggestions = new ArrayList<String>(mLocationDefaultSuggestions);
+		}
 	}
 	}
 }

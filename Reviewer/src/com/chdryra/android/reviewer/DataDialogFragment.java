@@ -42,6 +42,8 @@ public class DataDialogFragment extends BasicDialogFragment {
 			dark = !dark;
 		}
 
+		setDeleteConfirmation(getResources().getString(R.string.data_activity_title));
+	
 		return buildDialog(v);
 	}
 }

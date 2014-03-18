@@ -52,5 +52,10 @@ public class Criterion implements Commentable{
 	public void deleteComment() {
 		mComment = null;
 	}
+	
+	@Override
+	public boolean hasComment() {
+		return mComment != null;
+	}
 }
 

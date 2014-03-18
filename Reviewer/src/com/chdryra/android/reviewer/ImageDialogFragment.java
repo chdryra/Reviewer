@@ -17,7 +17,7 @@ public class ImageDialogFragment extends BasicDialogFragment {
 	
 	protected ClearableEditText mImageCaption;
 	private String mOriginalCaption;
-
+	
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		View v = getActivity().getLayoutInflater().inflate(R.layout.dialog_image, null);
@@ -44,12 +44,19 @@ public class ImageDialogFragment extends BasicDialogFragment {
 			}
 		});
 		
+		setDeleteConfirmation(getResources().getString(R.string.image_activity_title));
+		
 		return buildDialog(v);
 		}
 
 	@Override
 	protected void sendResult(int resultCode) {
 		if (getTargetFragment() == null || resultCode == Activity.RESULT_CANCELED) {
+			return;
+		}
+		
+		if(resultCode == RESULT_DELETE) {
+			super.sendResult(resultCode);
 			return;
 		}
 		
@@ -63,9 +70,5 @@ public class ImageDialogFragment extends BasicDialogFragment {
 		
 		if(resultCode == CAPTION_CHANGED)
 			getDialog().dismiss();
-	}
-	
-	protected void setupEditText() {
-		
 	}
 }

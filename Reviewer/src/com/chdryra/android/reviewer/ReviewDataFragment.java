@@ -29,13 +29,14 @@ import com.actionbarsherlock.view.MenuItem;
 import com.chdryra.android.reviewer.ReviewData.Datum;
 
 public class ReviewDataFragment extends SherlockFragment {
-	public static final int RESULT_DELETE_DATA = Activity.RESULT_FIRST_USER;
+	public static final int RESULT_DELETE = Activity.RESULT_FIRST_USER;
 	
 	public static final String DATUM_LABEL = "com.chdryra.android.reviewer.datum_label";
 	public static final String DATUM_VALUE = "com.chdryra.android.reviewer.datum_vallue";	
 	public static final String DIALOG_DATUM_TAG = "DatumDialog";
-	
-	private static final int DATUM_EDIT = 0;
+
+	private static final int DELETE_CONFIRM = BasicDialogFragment.DELETE_CONFIRM;
+	private static final int DATUM_EDIT = DELETE_CONFIRM + 1;
 	
 	private Review mReview;
 	
@@ -47,6 +48,8 @@ public class ReviewDataFragment extends SherlockFragment {
 	private Button mCancelButton;
 	private Button mDoneButton;
 
+	private boolean mDeleteConfirmed = false;
+	
 	private boolean mIsKeyboardVisible = false;
 	private ReviewData mReviewData = new ReviewData();
 	
@@ -107,7 +110,7 @@ public class ReviewDataFragment extends SherlockFragment {
 	    mDeleteButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				sendResult(RESULT_DELETE_DATA);
+				sendResult(RESULT_DELETE);
 			}
 		});
 	    
@@ -123,31 +126,28 @@ public class ReviewDataFragment extends SherlockFragment {
 	    mDoneButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				if(mIsKeyboardVisible) {
+				if(mIsKeyboardVisible)
 					addDatum();
-					RandomTextUtils.hideKeyboard(getSherlockActivity(), mDatumLabel);
-					RandomTextUtils.hideKeyboard(getSherlockActivity(), mDatumValue);
-				}
-				else
-					sendResult(Activity.RESULT_OK);
+
+				sendResult(Activity.RESULT_OK);
 			}
 		});
 	    
-//		v.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-//			
-//			@Override
-//			public void onGlobalLayout() {
-//				 Rect r = new Rect();
-//				    //r will be populated with the coordinates of your view that area still visible.
-//				    v.getWindowVisibleDisplayFrame(r);
-//
-//				    int heightDiff = v.getRootView().getHeight() - (r.bottom - r.top);
-//				    if (heightDiff > 100) // if more than 100 pixels, its probably a keyboard...
-//				    	mIsKeyboardVisible = true;
-//				    else
-//				    	mIsKeyboardVisible = false;
-//			}
-//		});
+		v.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+			
+			@Override
+			public void onGlobalLayout() {
+				 Rect r = new Rect();
+				    //r will be populated with the coordinates of your view that area still visible.
+				    v.getWindowVisibleDisplayFrame(r);
+
+				    int heightDiff = v.getRootView().getHeight() - (r.bottom - r.top);
+				    if (heightDiff > 100) // if more than 100 pixels, its probably a keyboard...
+				    	mIsKeyboardVisible = true;
+				    else
+				    	mIsKeyboardVisible = false;
+			}
+		});
 
 		return v;
 	}
@@ -175,15 +175,21 @@ public class ReviewDataFragment extends SherlockFragment {
 	}
 	
 	private void sendResult(int resultCode) {
-		if (resultCode == RESULT_DELETE_DATA)
-			mReview.deleteData();
+		if (resultCode == RESULT_DELETE && mReview.hasData()) {
+			if(mDeleteConfirmed)
+				mReview.deleteData();
+			else {
+				BasicDialogFragment.showDeleteConfirmDialog(getResources().getString(R.string.data_activity_title), 
+						ReviewDataFragment.this, getFragmentManager());
+				return;
+			}
+		}
 		
 		if(resultCode == Activity.RESULT_OK && mReviewData.size() > 0) {
 			mReview.setData(mReviewData);
 		}
 		
-		IntentObjectHolder.addObject(ReviewOptionsFragment.REVIEW_OBJECT, mReview);
-		
+		IntentObjectHolder.addObject(ReviewOptionsFragment.REVIEW_OBJECT, mReview);		
 		getSherlockActivity().setResult(resultCode);		 
 		getSherlockActivity().finish();	
 	}
@@ -191,24 +197,37 @@ public class ReviewDataFragment extends SherlockFragment {
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		getSherlockActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-		
-		if (resultCode == Activity.RESULT_CANCELED) {
-			return;
+	
+		switch(requestCode) {
+			case DATUM_EDIT:
+				switch(resultCode) {
+					case Activity.RESULT_OK:
+						String oldLabel = (String)data.getSerializableExtra(DatumDialogFragment.DATUM_OLD_LABEL);
+						String newLabel = (String)data.getSerializableExtra(DATUM_LABEL);
+						String newValue = (String)data.getSerializableExtra(DATUM_VALUE);
+						mReviewData.deleteDatum(oldLabel);
+						mReviewData.addDatum(newLabel, newValue);
+						break;
+					case DatumDialogFragment.RESULT_DELETE:
+						String toDelete = (String)data.getSerializableExtra(DatumDialogFragment.DATUM_OLD_LABEL);
+						mReviewData.deleteDatum(toDelete);
+						break;
+					default:
+						return;
+				}
+			case DELETE_CONFIRM:
+				switch(resultCode) {
+					case Activity.RESULT_OK:
+						mDeleteConfirmed = true;
+						sendResult(RESULT_DELETE);
+						return;
+					default:
+						return;
+				}
+			default:
+				break;
 		}
 		
-		if (resultCode == Activity.RESULT_OK && requestCode == DATUM_EDIT) {
-			String oldLabel = (String)data.getSerializableExtra(DatumDialogFragment.DATUM_OLD_LABEL);
-			String newLabel = (String)data.getSerializableExtra(DATUM_LABEL);
-			String newValue = (String)data.getSerializableExtra(DATUM_VALUE);
-			mReviewData.deleteDatum(oldLabel);
-			mReviewData.addDatum(newLabel, newValue);
-		}
-			
-		if (resultCode == DatumDialogFragment.RESULT_DELETE) {
-			String toDelete = (String)data.getSerializableExtra(DatumDialogFragment.DATUM_OLD_LABEL);
-			mReviewData.deleteDatum(toDelete);
-		}		
-
 		mReview.setData(mReviewData);
 		updateUI();				
 	}
