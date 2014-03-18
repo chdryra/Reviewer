@@ -51,6 +51,10 @@ public class CriterionList {
 		return Result.NOT_EXIST;
 	}
 
+	public Criterion getCriterion(String criterionName) {
+		return mCriteria.get(criterionName);
+	}
+	
 	public Result changeCriterionName(String currentName, String newName) {
 		if(newName != null)
 		{

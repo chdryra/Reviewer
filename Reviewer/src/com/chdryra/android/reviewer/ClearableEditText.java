@@ -15,7 +15,7 @@ import android.widget.TextView;
 
 public class ClearableEditText extends EditText {
 		 
-    private Drawable mCloseButton = getResources().getDrawable(R.drawable.ic_clear_search_api_disabled_holo_light);
+    private Drawable mCloseButton = getResources().getDrawable(R.drawable.dialog_ic_close_normal_holo_light);
      
     public ClearableEditText(Context context) {
         super(context);
@@ -45,29 +45,26 @@ public class ClearableEditText extends EditText {
         // Set bounds of the Clear button so it will look ok
         mCloseButton.setBounds(0, 0, mCloseButton.getIntrinsicWidth(), mCloseButton.getIntrinsicHeight());
   
-        this.setOnTouchListener(new View.OnTouchListener() {
+        setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
- 
             	ClearableEditText et = (ClearableEditText)v; 
             	et.setCursorVisible(true);
             	et.handleClearButton();
             	
-                if (et.getCompoundDrawables()[2] == null)
-                    return false;
-                 
-                if (event.getAction() != MotionEvent.ACTION_UP)
+                if (et.getCompoundDrawables()[2] == null || event.getAction() != MotionEvent.ACTION_UP)
                     return false;
                  
                 if (event.getX() > et.getWidth() - et.getPaddingRight() - mCloseButton.getIntrinsicWidth()) {
                     et.setText(null);
                     et.handleClearButton();
                 }
+                
                 return false;
             }
         });
  
-        this.addTextChangedListener(new TextWatcher() {
+        addTextChangedListener(new TextWatcher() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
             	handleClearButton();
@@ -104,7 +101,7 @@ public class ClearableEditText extends EditText {
     	setCompoundDrawables(getCompoundDrawables()[0], getCompoundDrawables()[1], null, getCompoundDrawables()[3]);
     }
     
-    private void handleClearButton() {
+    void handleClearButton() {
         if (this.getText().toString().equals(""))
         	hideClearButton();
         else

@@ -57,7 +57,7 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 	private GoogleMap mGoogleMap;
 	private MapView mMapView;
 	private ArrayAdapterSearchView mSearchView;
-	private MyAutoCompleteTextView mLocationName;
+	private ClearableAutoCompleteTextView mLocationName;
 	private Button mDeleteButton;
 	private Button mCancelButton;
 	private Button mDoneButton;
@@ -102,7 +102,7 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 			}
 		});
 	    	    
-	    mLocationName = (MyAutoCompleteTextView)v.findViewById(R.id.edit_text_name_location);
+	    mLocationName = (ClearableAutoCompleteTextView)v.findViewById(R.id.edit_text_name_location);
 
 	    mReviewLatLng = getSherlockActivity().getIntent().getParcelableExtra(ReviewOptionsFragment.REVIEW_LATLNG);
 	    mPhotoLatLng = getSherlockActivity().getIntent().getParcelableExtra(ReviewOptionsFragment.IMAGE_LATLNG);
@@ -111,7 +111,7 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 	    	setLatLng(mDefaultLatLng);
 	    	if(mReview != null)
 	    		mLocationName.setText(mReview.getLocationName());
-	    	mLocationName.silenceEditor();
+	    	mLocationName.hideChrome();
 	    }
 	    else if (mPhotoLatLng != null) {
 	    	mDefaultLatLng = mPhotoLatLng;

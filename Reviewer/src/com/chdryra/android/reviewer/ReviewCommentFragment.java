@@ -1,10 +1,12 @@
 package com.chdryra.android.reviewer;
 
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
@@ -19,8 +21,6 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -37,7 +37,9 @@ public class ReviewCommentFragment extends SherlockFragment {
 	
 	private static final int MIN_HEADLINE_EDITTEXT_LINES = 3;
 	private static final int MAX_COMMENT_EDITTEXT_LINES = 5;
-	
+
+	private Drawable mClearCommentIcon;  
+
 	private Review mReview;
 	
 	private Button mDeleteButton;
@@ -53,6 +55,8 @@ public class ReviewCommentFragment extends SherlockFragment {
 	
 	private EditText mCurrentFocusedEditText;
 
+	private HashMap<String, EditText> mEditTexts = new HashMap<String, EditText>();
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -129,8 +133,9 @@ public class ReviewCommentFragment extends SherlockFragment {
 		if(v == null)
 			v = getSherlockActivity().getLayoutInflater().inflate(R.layout.comment_line_view, null);
 		
+		String commentTitle = commentable.getCommentTitle();
 		TextView criterionName = (TextView)v.findViewById(R.id.comment_text_view);
-		criterionName.setText(commentable.getCommentTitle());
+		criterionName.setText(commentTitle);
 		
 		EditText comment = (EditText)v.findViewById(R.id.comment_edit_text);
 		comment.setHorizontallyScrolling(false);
@@ -166,22 +171,19 @@ public class ReviewCommentFragment extends SherlockFragment {
 			
 			@Override
 			public void onTextChanged(CharSequence s, int start, int before, int count) {
-				// TODO Auto-generated method stub
 				
 			}
 			
 			@Override
 			public void beforeTextChanged(CharSequence s, int start, int count,
 					int after) {
-				// TODO Auto-generated method stub
-				
 			}
 			
 			@Override
 			public void afterTextChanged(Editable s) {
-				String newComment = s.toString().trim();
-				if(newComment.length() > 0)
-					commentable.setComment(newComment);
+//				String newComment = s.toString().trim();
+//				if(newComment.length() > 0)
+//					commentable.setComment(newComment);
 				updateClearCommentMenuItemVisibility();
 			}	
 		});
@@ -196,6 +198,8 @@ public class ReviewCommentFragment extends SherlockFragment {
 		    }
 		});
 		
+		mEditTexts.put(commentTitle, comment);
+		
 		return v;
 	}
 
@@ -206,12 +210,17 @@ public class ReviewCommentFragment extends SherlockFragment {
 	}
 
 	private void updateClearCommentMenuItemVisibility() {
-		if(mCurrentFocusedEditText != null &&  mCurrentFocusedEditText.getText().toString() != null &&
-		   mCurrentFocusedEditText.getText().toString().length() > 0) {
-			mClearCommentMenuItem.setVisible(true);
+		//Have to hack as setting visibility relegates icon to overflow
+		if(mCurrentFocusedEditText != null &&  mCurrentFocusedEditText.getText().toString() != null
+				&& mCurrentFocusedEditText.getText().toString().length() > 0) {
+			mClearCommentIcon.setAlpha(100);
+			mClearCommentMenuItem.setEnabled(true);
 		} else {
-			mClearCommentMenuItem.setVisible(false);
+			mClearCommentIcon.setAlpha(0);
+			mClearCommentMenuItem.setEnabled(false);
 		}
+		
+		mClearCommentMenuItem.setIcon(mClearCommentIcon);
 	}
 	
 	private void updateCriteriaCommentsDisplay() {
@@ -274,25 +283,44 @@ public class ReviewCommentFragment extends SherlockFragment {
 		if (resultCode == RESULT_DELETE_COMMENT)
 			mReview.deleteCommentIncludingCriteria();
 		
-		if(mReview.getCriteriaList().size() > 0 && !mAddCriteriaComments)
-			mReview.getCriteriaList().deleteComments();
+		if(resultCode == Activity.RESULT_OK) {
+			mReview.setComment(mEditTexts.get(mReview.getCommentTitle()).getText().toString());
+			for (HashMap.Entry<String, EditText> entry : mEditTexts.entrySet())
+			{
+				String title = entry.getKey();
+				
+				if(title.equals(mReview.getCommentTitle()))
+			    	continue;
+				
+				Criterion c = mReview.getCriteriaList().getCriterion(title);
+				if(mAddCriteriaComments) 
+					c.setComment(entry.getValue().getText().toString());
+				else
+					c.deleteComment();
+			}
+		}	
 		
 		IntentObjectHolder.addObject(ReviewOptionsFragment.REVIEW_OBJECT, mReview);
-		
 		getSherlockActivity().setResult(resultCode);		 
 		getSherlockActivity().finish();	
 	}
 
 	@Override
-	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-		super.onCreateOptionsMenu(menu, inflater);
-		inflater.inflate(R.menu.fragment_review_comment, menu);
+    public void onPrepareOptionsMenu(Menu menu) {
+        super.onPrepareOptionsMenu(menu);
+    	mClearCommentMenuItem = menu.findItem(R.id.menu_item_clear_comment);
+    	mClearCommentIcon = getResources().getDrawable(R.drawable.ic_clear_search_api_holo_light);
+		updateClearCommentMenuItemVisibility();
+
 		mAddCriteriaCommentsMenuItem = menu.findItem(R.id.menu_item_add_criteria_comments);
 		if(mReview.getCriteriaList().size() == 0)
 			mAddCriteriaCommentsMenuItem.setVisible(false);
-		
-		mClearCommentMenuItem = menu.findItem(R.id.menu_item_clear_comment);
-		updateClearCommentMenuItemVisibility();
+    }
+	
+	@Override
+	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+		super.onCreateOptionsMenu(menu, inflater);		
+		inflater.inflate(R.menu.fragment_review_comment, menu);
 	}
 	
 	@Override
