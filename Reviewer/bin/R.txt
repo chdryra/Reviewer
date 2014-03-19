@@ -487,8 +487,9 @@ int drawable ic_plusone_medium_off_client 0x7f020097
 int drawable ic_plusone_small_off_client 0x7f020098
 int drawable ic_plusone_standard_off_client 0x7f020099
 int drawable ic_plusone_tall_off_client 0x7f02009a
-int drawable list_long_click_background_activated 0x7f02009b
-int drawable total_rating_average_toggle_activated 0x7f02009c
+int drawable image_button_selected 0x7f02009b
+int drawable list_long_click_background_activated 0x7f02009c
+int drawable total_rating_average_toggle_activated 0x7f02009d
 int id abs__action_bar 0x7f040036
 int id abs__action_bar_container 0x7f040035
 int id abs__action_bar_subtitle 0x7f040027

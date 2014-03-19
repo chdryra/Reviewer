@@ -20,6 +20,7 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.support.v4.app.NavUtils;
+import android.text.TextUtils;
 import android.text.format.DateFormat;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -27,6 +28,8 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
+import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -185,8 +188,8 @@ public class ReviewOptionsFragment extends SherlockFragment {
 		int maxHeight = maxWidth;
 		
 		//***Image image button***//
-		mAddPhotoImageButton.getLayoutParams().height = maxWidth;
-		mAddPhotoImageButton.getLayoutParams().width = maxHeight;
+		mAddPhotoImageButton.getLayoutParams().height = maxHeight;
+		mAddPhotoImageButton.getLayoutParams().width = maxWidth;
 		mAddPhotoImageButton.setOnClickListener(new View.OnClickListener() {			
 			@Override
 			public void onClick(View v) {
@@ -199,8 +202,8 @@ public class ReviewOptionsFragment extends SherlockFragment {
 		setImageButtonImage();
 		
 		//***Location image button***//
-		mAddLocationImageButton.getLayoutParams().height = maxWidth;
-		mAddLocationImageButton.getLayoutParams().width = maxHeight;		
+		mAddLocationImageButton.getLayoutParams().height = maxHeight;
+		mAddLocationImageButton.getLayoutParams().width = maxWidth;		
 		mAddLocationImageButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {	
@@ -213,8 +216,8 @@ public class ReviewOptionsFragment extends SherlockFragment {
 		setLocationButtonImage();
 		
 		//***Comment Image Button***//
-		mAddCommentImageButton.getLayoutParams().height = maxWidth;
-		mAddCommentImageButton.getLayoutParams().width = maxHeight;		
+		mAddCommentImageButton.getLayoutParams().height = maxHeight;
+		mAddCommentImageButton.getLayoutParams().width = maxWidth;		
 		mAddCommentImageButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -226,8 +229,8 @@ public class ReviewOptionsFragment extends SherlockFragment {
 		});
 		
 		//***Comment Text View***//
-		mCommentTextView.getLayoutParams().height = maxWidth;
-		mCommentTextView.getLayoutParams().width = maxHeight;		
+		mCommentTextView.getLayoutParams().height = maxHeight;
+		mCommentTextView.getLayoutParams().width = maxWidth;		
 		if(mReview.getComment() != null) {
 			mCommentTextView.setText(mReview.getCommentHeadline());
 			setVisibleGoneView(mCommentTextView, mAddCommentImageButton);
@@ -239,10 +242,10 @@ public class ReviewOptionsFragment extends SherlockFragment {
 				mAddCommentImageButton.performClick();
 			}
 		});
-
+	
 		//***Data Image Button***//
-		mAddDataImageButton.getLayoutParams().height = maxWidth;
-		mAddDataImageButton.getLayoutParams().width = maxHeight;		
+		mAddDataImageButton.getLayoutParams().height = maxHeight;
+		mAddDataImageButton.getLayoutParams().width = maxWidth;		
 		mAddDataImageButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -255,8 +258,8 @@ public class ReviewOptionsFragment extends SherlockFragment {
 		});
 
 		//***Comment Text View***//
-		mDataLinearLayout.getLayoutParams().height = maxWidth;
-		mDataLinearLayout.getLayoutParams().width = maxHeight;
+		mDataLinearLayout.getLayoutParams().height = maxHeight;
+		mDataLinearLayout.getLayoutParams().width = maxWidth;
 
 		if(mReview.hasData()) {
 			updateDataTable();
@@ -558,16 +561,14 @@ public class ReviewOptionsFragment extends SherlockFragment {
 	}
 
 	private void setImageButtonImage() {
-		if( mReview.hasImage() ) {
+		if( mReview.hasImage() )
 			mAddPhotoImageButton.setImageBitmap(mReview.getImage());
-		}
 		else
 			deleteImageButtonImage();
 	}
 
 	private void deleteImageButtonImage() {
 		mAddPhotoImageButton.setImageResource(R.drawable.ic_menu_camera);
-		//mAddPhotoImageButton.setBackgroundColor(getResources().getColor(android.R.color.transparent));
 	}
 	
 	private void setLocationButtonImage() {		
@@ -599,6 +600,12 @@ public class ReviewOptionsFragment extends SherlockFragment {
 	private void updateComment() {
 		String headline = mReview.getCommentHeadline();
 		mCommentTextView.setText(headline);
+
+		//Have to ellipsise here as can't get it to work in XML
+		int maxLines = RandomTextUtils.getMaxNumberLines(mCommentTextView);
+		mCommentTextView.setMaxLines(maxLines > 1? maxLines - 1 : 1);
+		mCommentTextView.setEllipsize(TextUtils.TruncateAt.END);
+		
 		if(headline == null)
 			setVisibleGoneView(mAddCommentImageButton, mCommentTextView);
 		else
@@ -610,8 +617,7 @@ public class ReviewOptionsFragment extends SherlockFragment {
 			setVisibleGoneView(mAddDataImageButton, mDataLinearLayout);
 			return;
 		}
-		
-		
+				
 		mDataLinearLayout.removeAllViews();
 		setVisibleGoneView(mDataLinearLayout, mAddDataImageButton);
 		LinkedHashMap<String, Datum> dataMap = mReview.getData().getDataMap();
@@ -634,8 +640,6 @@ public class ReviewOptionsFragment extends SherlockFragment {
 			
 			++i;
 		}
-
-		
 	}
 	
 	private void deleteData() {

@@ -1,6 +1,5 @@
 package com.chdryra.android.reviewer;
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.text.Editable;
@@ -13,7 +12,6 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
-import android.widget.EditText;
 import android.widget.TextView;
 
 public class ClearableAutoCompleteTextView extends AutoCompleteTextView {

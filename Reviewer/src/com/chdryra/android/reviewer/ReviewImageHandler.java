@@ -2,8 +2,6 @@ package com.chdryra.android.reviewer;
 
 import java.io.File;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.HashMap;
 
 import android.content.Context;
@@ -18,7 +16,6 @@ public class ReviewImageHandler extends ImageHandler{
 	private static final String TAG = "ImageHelper";
 	private static HashMap<String, ReviewImageHandler> sReviewImageHandlers = new HashMap<String, ReviewImageHandler>();
 	private static final String IMAGE_DIRECTORY = "Reviewer";
-	private static final String ERROR_CREATING_FILE_MESSAGE = "Error creating file!";
 	private static final String ERROR_NO_STORAGE_MESSAGE = "No storage available!";
 	
 	private long fileCounter = 0;

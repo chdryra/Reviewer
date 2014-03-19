@@ -1,9 +1,8 @@
 package com.chdryra.android.reviewer;
 
-
-
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.graphics.Bitmap;
@@ -11,6 +10,8 @@ import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
+import android.support.v4.widget.CursorAdapter;
+import android.util.AttributeSet;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -18,13 +19,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.TextView.OnEditorActionListener;
 
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
+import com.actionbarsherlock.widget.SearchView;
+
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesClient;
 import com.google.android.gms.location.LocationClient;
@@ -66,14 +71,13 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 	private Button mDoneButton;
 	
 	private boolean mDeleteConfirmed = false;
+	private String mSearchLocationName;
 	
 	private LatLng mPhotoLatLng;
 	private LatLng mReviewLatLng;
 	private LatLng mDefaultLatLng;
 	private LatLng mLatLng;
 		
-	private String mSearchLocationName;
-	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -446,6 +450,51 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 			pd.dismiss();
 		}	
 	}
-		
-}
 
+	private class ArrayAdapterSearchView extends SearchView {
+		private SearchView.SearchAutoComplete mSearchAutoComplete;
+
+		public ArrayAdapterSearchView(Context context) {
+		    super(context);
+		    initialize();
+		}
+
+		public ArrayAdapterSearchView(Context context, AttributeSet attrs) {
+		    super(context, attrs);
+		    initialize();
+		}
+
+		public void initialize() {
+		    mSearchAutoComplete = (SearchAutoComplete) findViewById(R.id.abs__search_src_text);
+		    setAdapter(null);
+		    setOnItemClickListener(null);
+		}
+
+		@Override
+		public void setSuggestionsAdapter(CursorAdapter adapter) {
+		}
+
+		public void setOnItemClickListener(AdapterView.OnItemClickListener listener) {
+		    mSearchAutoComplete.setOnItemClickListener(listener);
+		}
+
+		public void setAdapter(ArrayAdapter<?> adapter) {
+		    mSearchAutoComplete.setAdapter(adapter);
+		}
+		
+		public void setText(String text) { 
+			mSearchAutoComplete.setText(text); 
+		}
+
+		public String getText() {
+			return mSearchAutoComplete.getText().toString();
+		}
+
+		public void setOnEditorActionListener(
+				OnEditorActionListener onEditorActionListener) {
+			mSearchAutoComplete.setOnEditorActionListener(onEditorActionListener);
+			
+		} 
+	}
+
+}

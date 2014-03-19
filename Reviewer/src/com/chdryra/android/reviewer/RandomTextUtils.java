@@ -4,11 +4,9 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Paint;
 import android.graphics.Rect;
-import android.view.MotionEvent;
-import android.view.View;
-import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.TextView;
 
 public class RandomTextUtils {
 
@@ -25,36 +23,22 @@ public class RandomTextUtils {
 		imm.showSoftInput(editText, InputMethodManager.SHOW_IMPLICIT);
         editText.setCursorVisible(true);
 	}
-	
-	public static void setupEditTextCusorVisibility(EditText editText) {	 
-		editText.setOnClickListener(new View.OnClickListener() {
-		        @Override
-		        public void onClick(View v) {
-		        	EditText eT = (EditText)v;
-		        	eT.setCursorVisible(true);
-		        }
-		    });
-		
-		editText.setOnTouchListener(new View.OnTouchListener() {
-			
-			@Override
-			public boolean onTouch(View v, MotionEvent event) {
-				EditText eT = (EditText)v;
-	        	eT.setCursorVisible(true);
-				return false;
-			}
-		});
-	}
-	
-	public static int getNumberLines(String string, float textSize, int lineWidth) {
+
+	public static int getNumberLines(String string, TextView textView) {
 		Rect bounds = new Rect();
 		Paint paint = new Paint();
-		paint.setTextSize(textSize);
+		paint.setTextSize(textView.getTextSize());
 		paint.getTextBounds(string, 0, string.length(), bounds);
 
-		int textWidth = (int) Math.ceil( bounds.width());
+		int lineWidth = textView.getLayoutParams().width - textView.getPaddingRight() - textView.getPaddingLeft();
+		int textWidth = (int) Math.ceil(bounds.width());
+		
 		return lineWidth > 0? textWidth / lineWidth + 1 : 0;
 	}
-
 	
+	public static int getMaxNumberLines(TextView textView) {
+		int maxHeight = textView.getLayoutParams().height - textView.getPaddingTop() - textView.getPaddingBottom();
+		
+		return maxHeight / textView.getLineHeight();
+	}
 }

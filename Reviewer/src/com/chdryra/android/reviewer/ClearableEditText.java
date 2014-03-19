@@ -5,13 +5,11 @@ import android.graphics.drawable.Drawable;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
-import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
-import android.widget.TextView;
 
 public class ClearableEditText extends EditText {
 		 
@@ -78,7 +76,16 @@ public class ClearableEditText extends EditText {
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
         });
-    	
+   
+        setOnFocusChangeListener(new View.OnFocusChangeListener() {
+			
+			@Override
+			public void onFocusChange(View v, boolean hasFocus) {
+				if(!hasFocus)
+					hideClearButton();
+			}
+		});
+        
         handleClearButton();
     }
     

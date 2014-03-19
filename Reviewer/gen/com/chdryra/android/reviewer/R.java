@@ -1452,8 +1452,9 @@ containing a value of this type.
         public static final int ic_plusone_small_off_client=0x7f020098;
         public static final int ic_plusone_standard_off_client=0x7f020099;
         public static final int ic_plusone_tall_off_client=0x7f02009a;
-        public static final int list_long_click_background_activated=0x7f02009b;
-        public static final int total_rating_average_toggle_activated=0x7f02009c;
+        public static final int image_button_selected=0x7f02009b;
+        public static final int list_long_click_background_activated=0x7f02009c;
+        public static final int total_rating_average_toggle_activated=0x7f02009d;
     }
     public static final class id {
         public static final int abs__action_bar=0x7f040036;

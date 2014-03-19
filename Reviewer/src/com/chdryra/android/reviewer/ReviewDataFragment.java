@@ -6,7 +6,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Bundle;
-import android.support.v4.app.NavUtils;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -18,8 +17,6 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -39,6 +36,7 @@ public class ReviewDataFragment extends SherlockFragment {
 	private static final int DATUM_EDIT = DELETE_CONFIRM + 1;
 	
 	private Review mReview;
+	private ReviewData mReviewData = new ReviewData();
 	
 	private ClearableEditText mDatumLabel;
 	private ClearableEditText mDatumValue;
@@ -49,9 +47,7 @@ public class ReviewDataFragment extends SherlockFragment {
 	private Button mDoneButton;
 
 	private boolean mDeleteConfirmed = false;
-	
 	private boolean mIsKeyboardVisible = false;
-	private ReviewData mReviewData = new ReviewData();
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {

@@ -2,57 +2,70 @@
 <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/add_optionals_buttons"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content" >
+    android:layout_height="wrap_content">
     
     <TableRow android:layout_weight="1">
         
-     <RelativeLayout 
-	    android:layout_width="match_parent"
-	    android:layout_height="match_parent" 
-	    android:layout_weight="1">
-	
-		<ImageButton 
-	 	    android:id="@+id/add_comment_image_button"
-	 	    android:src="@drawable/ic_menu_edit"
-	 	    android:contentDescription="@string/button_add_comment_text"
-	 	    style="@style/SquareImageButton"
-	     />
+	    <RelativeLayout
+	        android:layout_width="match_parent"
+		    android:layout_height="match_parent" 
+		    android:layout_weight="1">
 		
-	    <TextView
-	        android:id="@+id/comment_text_view"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:layout_centerInParent="true"
-	        android:textAlignment="center"
-	        style="?android:textAppearanceLarge"
-       		android:gravity="center"
-       		android:background="@color/LightSlateGray"
-       		android:textColor="@color/WhiteSmoke"
-       		android:visibility="gone"
-       		/>
-	
+			<ImageButton 
+		 	    android:id="@+id/add_comment_image_button"
+		 	    android:src="@drawable/ic_menu_edit"
+		 	    android:contentDescription="@string/button_add_comment_text"
+		 	    style="@style/SquareImageButton"/>
+			
+		    <TextView
+		        android:id="@+id/comment_text_view"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_centerInParent="true"
+		        android:textAlignment="center"
+		        style="?android:textAppearanceLarge"
+	       		android:gravity="center"
+	       		android:background="@drawable/image_button_selected"
+	       		android:textColor="@color/WhiteSmoke"
+	       		android:ellipsize="marquee"
+	       		android:visibility="gone"/>
+		
 		</RelativeLayout>
-		
+			
 	 	<View style="@style/VerticalDivider" />
-	 	
-	 	<ImageButton 
-	 	    android:id="@+id/add_location_image_button"
-	 	    android:src="@drawable/ic_menu_mylocation"
-	 	    android:contentDescription="@string/button_add_location_text"
-	 	    style="@style/SquareImageButton"
-	     />
-	 </TableRow>
+	 
+		<FrameLayout 
+		   android:layout_width="match_parent"
+		   android:layout_height="match_parent" 
+		   android:layout_weight="1">
+		
+			<ImageButton 
+			    android:id="@+id/add_location_image_button"
+			    android:src="@drawable/ic_menu_mylocation"
+			    android:contentDescription="@string/button_add_location_text"
+			    style="@style/SquareImageButton"
+		    />
+
+		</FrameLayout>
+ 
+ 	</TableRow>
 	 
     <View style="@style/HorizontalDivider"/>
     
 	 <TableRow android:layout_weight="1" >
-	 	<ImageButton 
-	 	    android:id="@+id/add_photo_image_button"
-	 	    android:src="@drawable/ic_menu_camera"
-	 	    android:contentDescription="@string/button_add_image_text"
-	 	    style="@style/SquareImageButton"
-	     /> 	
-	 	
+	 	<FrameLayout 
+		    android:layout_width="match_parent"
+		    android:layout_height="match_parent"
+		    android:layout_weight="1">
+		
+		 	<ImageButton 
+		 	    android:id="@+id/add_photo_image_button"
+		 	    android:src="@drawable/ic_menu_camera"
+		 	    android:contentDescription="@string/button_add_image_text"
+		 	    style="@style/SquareImageButton"/> 	
+		 	
+		</FrameLayout>
+		
 	 	<View style="@style/VerticalDivider" />
 	 	
 	 	<RelativeLayout 
@@ -64,15 +77,15 @@
 		 	    android:id="@+id/add_data_image_button"
 		 	    android:src="@drawable/ic_menu_attachment"
 		 	    android:contentDescription="@string/button_add_info_text"
-		 	    style="@style/SquareImageButton"
-		     />
-		 		
+		 	    style="@style/SquareImageButton"/>
+					
 		    <LinearLayout
 		        android:id="@+id/data_table_linear_layout"
 		        android:layout_width="match_parent"
 		        android:layout_height="wrap_content"
 		        android:gravity="center"
-		        android:orientation="vertical"/>
+		        android:orientation="vertical"
+		        android:background="@drawable/image_button_selected"/>
 		
 		</RelativeLayout>
 	 		 	
