@@ -12,6 +12,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.view.View;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.TimePicker;
 
@@ -19,7 +21,9 @@ public class DateDialogFragment extends BasicDialogFragment {
 
 	private DatePicker mDatePicker;
 	private TimePicker mTimePicker;
+	private CheckBox mCheckBoxIncludeTime;
 	private Date mCurrentDate;
+	private boolean mIncludeTime;
 	
 	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 	@Override
@@ -27,8 +31,10 @@ public class DateDialogFragment extends BasicDialogFragment {
 		View v = getActivity().getLayoutInflater().inflate(R.layout.dialog_date, null);
 		mDatePicker = (DatePicker)v.findViewById(R.id.date_picker);
 		mTimePicker = (TimePicker)v.findViewById(R.id.time_picker);
+		mCheckBoxIncludeTime = (CheckBox)v.findViewById(R.id.checkbox_include_time);
 		
 		mCurrentDate = (Date)getArguments().getSerializable(ReviewOptionsFragment.REVIEW_DATE);
+		mIncludeTime = getArguments().getBoolean(ReviewOptionsFragment.REVIEW_DATE_INC_TIME);
 		
 		final Calendar calendar = Calendar.getInstance(Locale.getDefault());
 		calendar.setTime(mCurrentDate);
@@ -48,7 +54,6 @@ public class DateDialogFragment extends BasicDialogFragment {
 				public void onDateChanged(DatePicker view, int newYear, int newMonth, int newDay) {
 		            Calendar newDate = Calendar.getInstance(Locale.getDefault());
 		            newDate.set(newYear, newMonth, newDay);
-		
 		            if (newDate.after(calendar)) {
 		                view.init(year, month, day, this);
 		            }
@@ -59,10 +64,43 @@ public class DateDialogFragment extends BasicDialogFragment {
 		mTimePicker.setIs24HourView(DateFormat.is24HourFormat(getActivity()));
 		mTimePicker.setCurrentHour(hour);
 		mTimePicker.setCurrentMinute(min);
+		if(mIncludeTime)
+			enableTimePicker();
+		else
+			disableTimePicker();
+		mCheckBoxIncludeTime.setChecked(mIncludeTime);
+		mCheckBoxIncludeTime.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+			
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				if(isChecked) {
+					enableTimePicker();
+					mIncludeTime = true;
+				}
+				else {
+					disableTimePicker();
+					mIncludeTime = false;
+				}
+			}
+		});
 		
 		return buildDialog(v, getResources().getString(R.string.dialog_date_title));
 	}
 
+	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
+	private void enableTimePicker() {
+		mTimePicker.setEnabled(true);
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
+			mTimePicker.setAlpha(100);
+	}
+	
+	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
+	private void disableTimePicker() {
+		mTimePicker.setEnabled(false);
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
+			mTimePicker.setAlpha(25);
+	}
+	
 	@Override
 	protected void sendResult(int resultCode) {
 		if (getTargetFragment() == null || resultCode == Activity.RESULT_CANCELED) {
@@ -80,11 +118,12 @@ public class DateDialogFragment extends BasicDialogFragment {
 		calendar.set(year, month, day, hour, minute);
 		Date newDate = calendar.getTime();
 		
+		i.putExtra(ReviewOptionsFragment.REVIEW_DATE_INC_TIME, mCheckBoxIncludeTime.isChecked());
 		if(resultCode == Activity.RESULT_OK && newDate.before(new Date()))
 			i.putExtra(ReviewOptionsFragment.REVIEW_DATE, newDate);
 		else 
 			i.putExtra(ReviewOptionsFragment.REVIEW_DATE, mCurrentDate);
-		
+			
 		getTargetFragment().onActivityResult(getTargetRequestCode(), resultCode, i);
 	}
 }

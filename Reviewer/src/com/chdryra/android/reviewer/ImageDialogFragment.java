@@ -31,6 +31,12 @@ public class ImageDialogFragment extends BasicDialogFragment {
 		imageView.setImageBitmap(image);
 		mImageCaption.setHint(captionHint);
 		mImageCaption.setText(mOriginalCaption);
+		//For some reason setSelection(0) doesn't work unless I force set the span of the selection
+		if(mOriginalCaption != null && mOriginalCaption.length() > 0) {
+			mImageCaption.setSelection(0, mOriginalCaption.length());
+			mImageCaption.setSelection(0);
+		}
+		
 		mImageCaption.setOnEditorActionListener(new TextView.OnEditorActionListener() {			
 			@Override
 			public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {

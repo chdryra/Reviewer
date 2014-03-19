@@ -36,7 +36,7 @@ public class ReviewCommentFragment extends SherlockFragment {
 	public static final String EXTRA_COMMENT_STRING = "com.chdryra.android.reviewer.comment_string";
 	public static final int RESULT_DELETE = Activity.RESULT_FIRST_USER;
 	
-	private static final int MIN_HEADLINE_EDITTEXT_LINES = 3;
+	private static final int MIN_HEADLINE_EDITTEXT_LINES = 2;
 	private static final int MAX_COMMENT_EDITTEXT_LINES = 5;
 
 	private static final int DELETE_CONFIRM = BasicDialogFragment.DELETE_CONFIRM;
@@ -186,9 +186,6 @@ public class ReviewCommentFragment extends SherlockFragment {
 			
 			@Override
 			public void afterTextChanged(Editable s) {
-//				String newComment = s.toString().trim();
-//				if(newComment.length() > 0)
-//					commentable.setComment(newComment);
 				updateClearCommentMenuItemVisibility();
 			}	
 		});

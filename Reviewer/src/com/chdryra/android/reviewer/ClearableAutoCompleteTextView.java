@@ -76,7 +76,18 @@ public class ClearableAutoCompleteTextView extends AutoCompleteTextView {
 	            return false;
 			}
 		});
-	    
+
+        setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				ClearableAutoCompleteTextView et = (ClearableAutoCompleteTextView)v;
+				String text = et.getText().toString();
+                if(text != null && text.length() > 0) {
+                	et.setSelection(text.length());
+                }
+			}
+		});
+
 	    setOnItemClickListener(new AdapterView.OnItemClickListener() {
 	    	@Override
 	    	public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
@@ -158,7 +169,14 @@ public class ClearableAutoCompleteTextView extends AutoCompleteTextView {
 	
 	private void silenceEditor() {
 		dismissDropDown();
-    	setSelection(0);
+		
+		//For some reason setSelection(0) doesn't work unless I force set the span of the selection
+		String text = getText().toString();
+		if(text != null && text.length() > 0) {
+			setSelection(0, text.length());
+			setSelection(0);
+		}
+		
     	setCursorVisible(false);
 	}
 }

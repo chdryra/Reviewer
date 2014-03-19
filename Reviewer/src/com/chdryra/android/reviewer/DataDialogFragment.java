@@ -33,7 +33,7 @@ public class DataDialogFragment extends BasicDialogFragment {
 			TextView value = (TextView)datumRow.findViewById(R.id.datum_value_text_view);
 			value.setGravity(Gravity.RIGHT);
 			
-			label.setText(datum.getLabel() + ":");
+			label.setText(datum.getLabel() + ": ");
 			value.setText(datum.getValue());
 		
 			datumRow.setBackgroundResource(dark == true? android.R.drawable.divider_horizontal_bright: android.R.drawable.divider_horizontal_dark);

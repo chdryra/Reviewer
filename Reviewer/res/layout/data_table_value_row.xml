@@ -9,11 +9,15 @@
 	    android:id="@+id/data_table_value_text_view"
 	    android:layout_width="wrap_content"
     	android:layout_height="wrap_content"
-    	android:ellipsize="end"
 		android:singleLine="true"    	
 	    android:textSize="@dimen/list_item_textSize"
 	    android:textColor="@color/LightSlateGray"
-	    android:layout_gravity="right"/>
+	    android:layout_gravity="right"
+	    android:ellipsize="marquee"
+	    android:scrollHorizontally="true"
+	    android:marqueeRepeatLimit ="marquee_forever"
+    	android:focusable="true"
+    	android:focusableInTouchMode="true" />
 	    
 </FrameLayout>
     

@@ -46,14 +46,15 @@ public class ClearableEditText extends EditText {
         setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
+            	if (event.getAction() != MotionEvent.ACTION_UP)
+                    return false;
+                
             	ClearableEditText et = (ClearableEditText)v; 
             	et.setCursorVisible(true);
             	et.handleClearButton();
-            	
-                if (et.getCompoundDrawables()[2] == null || event.getAction() != MotionEvent.ACTION_UP)
-                    return false;
                  
-                if (event.getX() > et.getWidth() - et.getPaddingRight() - mCloseButton.getIntrinsicWidth()) {
+                if (et.getCompoundDrawables()[2] != null && 
+                		event.getX() > et.getWidth() - et.getPaddingRight() - mCloseButton.getIntrinsicWidth()) {
                     et.setText(null);
                     et.handleClearButton();
                 }
@@ -61,7 +62,18 @@ public class ClearableEditText extends EditText {
                 return false;
             }
         });
- 
+
+        setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				ClearableEditText et = (ClearableEditText)v;
+				String text = et.getText().toString();
+                if(text != null && text.length() > 0) {
+                	et.setSelection(text.length());
+                }
+			}
+		});
+        
         addTextChangedListener(new TextWatcher() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {

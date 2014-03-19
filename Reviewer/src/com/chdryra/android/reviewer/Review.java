@@ -12,13 +12,14 @@ import com.chdryra.android.reviewer.ReviewData.Datum;
 import com.google.android.gms.maps.model.LatLng;
 
 public class Review implements Commentable{	
-	private static final String GENERAL_COMMENT_TITLE = "Overview";
+	private static final String GENERAL_COMMENT_TITLE = "Overall";
 	private static final String LOCATION_DELIMITER = ",";
 	private static final String COMMENT_HEADLINE_DELIMITER = ".!?";
 	
 	private UUID mID;
 	private String mSubject;
 	private Date mDate;	
+	private boolean mDateWithTime = false;
 	private CriterionList mCriteriaList = new CriterionList();
 	private float mRating;
 	private boolean mRatingIsAverage;
@@ -27,6 +28,7 @@ public class Review implements Commentable{
 	private String mImageCaption;
 	private LatLng mLatLng;
 	private Bitmap mMapSnapshot;
+	private float mMapSnapshotZoom;
 	private String mLocationName;
 	private ReviewData mReviewData;
 	
@@ -75,6 +77,14 @@ public class Review implements Commentable{
 		return mDate;
 	}
 	
+	public boolean isDateWithTime() {
+		return mDateWithTime;
+	}
+
+	public void setDateWithTime(boolean dateWithTime) {
+		mDateWithTime = dateWithTime;
+	}
+
 	public CriterionList getCriteriaList() {
 		return mCriteriaList;
 	}
@@ -201,6 +211,14 @@ public class Review implements Commentable{
 
 	public boolean hasMapSnapshot() {
 		return mMapSnapshot != null;
+	}
+
+	public float getMapSnapshotZoom() {
+		return mMapSnapshotZoom;
+	}
+
+	public void setMapSnapshotZoom(float mapSnapshotZoom) {
+		mMapSnapshotZoom = mapSnapshotZoom;
 	}
 
 	public String getLocationName() {

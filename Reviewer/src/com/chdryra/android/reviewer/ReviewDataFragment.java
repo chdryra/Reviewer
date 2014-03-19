@@ -80,7 +80,7 @@ public class ReviewDataFragment extends SherlockFragment {
 					addDatum();
 					
 	            mDatumLabel.requestFocus();
-	            return false;
+	            return true;
 	        }
 	    });
 
@@ -211,6 +211,7 @@ public class ReviewDataFragment extends SherlockFragment {
 					default:
 						return;
 				}
+				break;
 			case DELETE_CONFIRM:
 				switch(resultCode) {
 					case Activity.RESULT_OK:

@@ -33,7 +33,7 @@
     <string name="edit_text_search_location_hint">search for location&#8230;</string>
     <string name="edit_text_map_caption_hint">location&#8230;</string>
     <string name="edit_text_image_caption_hint">caption&#8230;</string>
-    <string name="edit_text_datum_name_hint">label (e.g. Price, No. dwarves etc. )&#8230;</string>
+    <string name="edit_text_datum_name_hint">label (e.g. \'price\', \'director\' etc. )&#8230;</string>
     <string name="edit_text_datum_value_hint">value&#8230;</string>
     <string name="edit_text_datum_unit_hint">unit&#8230;</string>
     
@@ -57,6 +57,7 @@
 
     <!-- Checkboxes -->
     <string name="checkbox_add_criteria_comments">add criteria comments</string>
+    <string name="checkbox_include_time">time</string>
     
     <!-- Menus -->
     <string name="menu_next">next</string>

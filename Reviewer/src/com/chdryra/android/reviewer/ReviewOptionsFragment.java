@@ -53,11 +53,20 @@ public class ReviewOptionsFragment extends SherlockFragment {
 	
 	private final static String NO_CRITERIA = "no criteria";
 	private final static String TOGGLE_CRITERIA = "touch stars to toggle criteria";
-	
+
+	private final static SimpleDateFormat mDateFormat = 
+			new SimpleDateFormat("dd/MM/yy", Locale.getDefault());
+	private final static SimpleDateFormat mDateFormat24HrIncTime = 
+			new SimpleDateFormat("dd/MM/yy, HH:mm", Locale.getDefault());
+	private final static SimpleDateFormat mDateFormat12HrIncTime = 
+			new SimpleDateFormat("dd/MM/yy, h:mm aa", Locale.getDefault());
+
 	public final static String REVIEW_OBJECT = "com.chdryra.android.reviewer.review_object";
 	public final static String REVIEW_SUBJECT = "com.chdryra.android.reviewer.review_subject";
 	public static final String REVIEW_LATLNG = "com.chdryra,android,reviewer.review_latlng";
+	public static final String REVIEW_MAP_SNAPSHOT_ZOOM = "com.chdryra,android,reviewer.review_map_snapshot_zoom";
 	public static final String REVIEW_DATE = "com.chdryra,android,reviewer.review_date";
+	public static final String REVIEW_DATE_INC_TIME = "com.chdryra,android,reviewer.review_date_inc_time";
 	
 	public final static String DIALOG_IMAGE = "com.chdryra.android.reviewer.review_image";
 	public final static String DIALOG_IMAGE_CAPTION = "com.chdryra.android.reviewer.review_image_caption";
@@ -68,6 +77,7 @@ public class ReviewOptionsFragment extends SherlockFragment {
 	public static final String IMAGE_FILE = "com.chdryra,android,reviewer.image_file";
 	public static final String IMAGE_LATLNG = "com.chdryra,android,reviewer.image_latlng";
 	public static final String LOCATION_BUTTON = "com.chdryra,android,reviewer.location_button";
+
 	
 	public final static int IMAGE_REQUEST = 0;
 	public final static int IMAGE_EDIT = 1;
@@ -138,23 +148,25 @@ public class ReviewOptionsFragment extends SherlockFragment {
 	
 		//***Total Rating Bar***//
 		mRatingBar.setRating(mReview.getRating());
-		mRatingBar.setOnTouchListener(new View.OnTouchListener() {
-			@Override
-			public boolean onTouch(View v, MotionEvent event) {
-				if(event.getAction() == MotionEvent.ACTION_UP) {
-				mCriteriaLayoutVisible = !mCriteriaLayoutVisible;
-				if(mCriteriaLayoutVisible)
-					mCriteriaLayout.setVisibility(View.VISIBLE);
-				else
-					mCriteriaLayout.setVisibility(View.GONE);
-				}
-				return true;
-			}
-		});
-	
 		int numCriteria = mReview.getCriteriaList().size();
 		mTouchStarsText = numCriteria == 0? NO_CRITERIA : TOGGLE_CRITERIA;
 		mTouchStarsTextView.setText(mTouchStarsText);
+		if(numCriteria > 0) {
+			mRatingBar.setOnTouchListener(new View.OnTouchListener() {
+				@Override
+				public boolean onTouch(View v, MotionEvent event) {
+					if(event.getAction() == MotionEvent.ACTION_UP) {
+					mCriteriaLayoutVisible = !mCriteriaLayoutVisible;
+					if(mCriteriaLayoutVisible)
+						mCriteriaLayout.setVisibility(View.VISIBLE);
+					else
+						mCriteriaLayout.setVisibility(View.GONE);
+					}
+					return true;
+				}
+			});
+		}
+	
 		
 		//***Criteria Rating Bars***//
 		Iterator<Criterion> it = mReview.getCriteriaList().getCriterionHashMap().values().iterator();
@@ -336,8 +348,7 @@ public class ReviewOptionsFragment extends SherlockFragment {
 	
 	private void requestLocationFindIntent() {
 		Intent i = new Intent(getSherlockActivity(), ReviewLocationActivity.class);
-		if (mReview.hasLatLng())					
-			i.putExtra(REVIEW_LATLNG, mReview.getLatLng());
+		
 		if (mReview.hasImage() && mReviewImageHandler.hasGPSTag())					
 			i.putExtra(IMAGE_LATLNG, mReviewImageHandler.getLatLngFromEXIF());
 		IntentObjectHolder.addObject(REVIEW_OBJECT, mReview);
@@ -375,6 +386,7 @@ public class ReviewOptionsFragment extends SherlockFragment {
 	private void showDateEditDialog() {
 		Bundle args = new Bundle();
 		args.putSerializable(REVIEW_DATE, mReview.getDate());						
+		args.putBoolean(REVIEW_DATE_INC_TIME, mReview.isDateWithTime());
 		showDialog(new DateDialogFragment(), DATE_EDIT, DIALOG_DATE_TAG, args);
 	}
 	
@@ -555,6 +567,7 @@ public class ReviewOptionsFragment extends SherlockFragment {
 					
 			case DATE_EDIT:
 				mReview.setDate((Date)data.getSerializableExtra(REVIEW_DATE));
+				mReview.setDateWithTime(data.getBooleanExtra(REVIEW_DATE_INC_TIME, false));
 				updateDateDisplay();
 				break;		
 		}
@@ -653,11 +666,13 @@ public class ReviewOptionsFragment extends SherlockFragment {
 	}
 	
 	private void updateDateDisplay() {
-		SimpleDateFormat format = null;
-		if(DateFormat.is24HourFormat(getSherlockActivity()))
-			format = new SimpleDateFormat("dd/MM/yy, HH:mm", Locale.getDefault());
-		else
-			format = new SimpleDateFormat("dd/MM/yy, h:mm aa", Locale.getDefault());
+		SimpleDateFormat format = mDateFormat;
+		if(mReview.isDateWithTime()) {
+			if(DateFormat.is24HourFormat(getSherlockActivity()))
+				format = new SimpleDateFormat("dd/MM/yy, HH:mm", Locale.getDefault());
+			else
+				format = new SimpleDateFormat("dd/MM/yy, h:mm aa", Locale.getDefault());
+		}
 		
 		String dateString = "@";
 		if(mReview.hasLocationName())
