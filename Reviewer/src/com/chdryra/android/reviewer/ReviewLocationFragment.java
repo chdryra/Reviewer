@@ -70,7 +70,6 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 	private Button mCancelButton;
 	private Button mDoneButton;
 	
-	private boolean mDeleteConfirmed = false;
 	private String mSearchLocationName;
 	
 	private LatLng mPhotoLatLng;
@@ -79,6 +78,7 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 	private LatLng mLatLng;
 
 	private float mReviewMapSnapshotZoom;
+	private boolean mDeleteConfirmed = false;
 	private boolean mImageLocationIconIsVisible = true;
 		
 	@Override
