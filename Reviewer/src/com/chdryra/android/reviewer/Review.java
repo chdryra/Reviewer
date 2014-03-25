@@ -4,11 +4,9 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.StringTokenizer;
-import java.util.UUID;
 
 import android.graphics.Bitmap;
 
-import com.chdryra.android.reviewer.ReviewData.Datum;
 import com.chdryra.android.reviewer.ReviewIDGenerator.ReviewID;
 import com.google.android.gms.maps.model.LatLng;
 

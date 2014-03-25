@@ -1,8 +1,5 @@
 package com.chdryra.android.reviewer;
 
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-
 import android.app.Dialog;
 import android.os.Bundle;
 import android.view.Gravity;
