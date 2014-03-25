@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
-public class CommentDialogFragment extends BasicDialogFragment {
+public class DialogCommentFragment extends DialogBasicFragment {
 	
 	private String mComment;
 	

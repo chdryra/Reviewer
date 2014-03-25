@@ -1,5 +1,7 @@
 package com.chdryra.android.reviewer;
 
+import com.chdryra.android.myandroidwidgets.ClearableEditText;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -12,7 +14,7 @@ import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.widget.TextView;
 
-public class DatumDialogFragment extends BasicDialogFragment {
+public class DialogDatumFragment extends DialogBasicFragment {
 
 	public static final String DATUM_OLD_LABEL = "com.chdryra.android.reviewer.datum_old_label";
 	public static final String DATUM_OLD_VALUE = "com.chdryra.android.reviewer.datum_old_label";

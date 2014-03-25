@@ -1,6 +1,8 @@
 package com.chdryra.android.reviewer;
 
 
+import com.chdryra.android.myandroidwidgets.ClearableEditText;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -13,7 +15,7 @@ import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.widget.TextView;
 
-public class CriterionDialogFragment extends BasicDialogFragment {
+public class DialogCriterionFragment extends DialogBasicFragment {
 
 	public static final String EXTRA_CRITERION_NEW_NAME = "com.chdryra.android.reviewer.criterion_new_name";
 	public static final String EXTRA_CRITERION_OLD_NAME = "com.chdryra.android.reviewer.criterion_old_name";

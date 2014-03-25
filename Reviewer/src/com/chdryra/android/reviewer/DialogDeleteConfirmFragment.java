@@ -9,7 +9,7 @@ import android.os.Bundle;
 
 import com.actionbarsherlock.app.SherlockDialogFragment;
 
-public class DeleteConfirmDialog extends SherlockDialogFragment {
+public class DialogDeleteConfirmFragment extends SherlockDialogFragment {
 
 	private static final String DELETE = "Delete";
 	public static final String DELETE_WHAT = "com.chdryra.android.reviewer.delete_what";

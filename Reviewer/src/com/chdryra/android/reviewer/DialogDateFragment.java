@@ -17,7 +17,7 @@ import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.TimePicker;
 
-public class DateDialogFragment extends BasicDialogFragment {
+public class DialogDateFragment extends DialogBasicFragment {
 
 	private DatePicker mDatePicker;
 	private TimePicker mTimePicker;

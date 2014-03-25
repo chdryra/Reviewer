@@ -23,6 +23,8 @@ import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
+import com.chdryra.android.mygenerallibrary.IntentObjectHolder;
+import com.chdryra.android.myandroidwidgets.ClearableEditText;
 
 public class ReviewCreateFragment extends SherlockFragment{
 	private final static String TAG = "ReviewerFragment";
@@ -88,7 +90,7 @@ public class ReviewCreateFragment extends SherlockFragment{
 				Criterion c = (Criterion)parent.getItemAtPosition(pos);
 				Log.i(TAG, "Criterion: " + c.getName());
 				
-				CriterionDialogFragment dialog = new CriterionDialogFragment();
+				DialogCriterionFragment dialog = new DialogCriterionFragment();
 				dialog.setTargetFragment(ReviewCreateFragment.this, CRITERION_EDIT);
 				Bundle args = new Bundle();
 				args.putSerializable(CRITERION_NAME, c.getName());
@@ -243,8 +245,8 @@ public class ReviewCreateFragment extends SherlockFragment{
 		if (resultCode == Activity.RESULT_OK) {
 			switch (requestCode) {
 			case CRITERION_EDIT:
-				String oldName = (String)data.getSerializableExtra(CriterionDialogFragment.EXTRA_CRITERION_OLD_NAME);
-				String newName = (String)data.getSerializableExtra(CriterionDialogFragment.EXTRA_CRITERION_NEW_NAME);				
+				String oldName = (String)data.getSerializableExtra(DialogCriterionFragment.EXTRA_CRITERION_OLD_NAME);
+				String newName = (String)data.getSerializableExtra(DialogCriterionFragment.EXTRA_CRITERION_NEW_NAME);				
 				if(!oldName.equals(newName))
 					makeToast(mCriteria.changeCriterionName(oldName, newName), oldName, newName);
 				break;
@@ -254,8 +256,8 @@ public class ReviewCreateFragment extends SherlockFragment{
 			};
 		}
 			
-		if (resultCode == CriterionDialogFragment.RESULT_DELETE_CRITERION) {
-			String toDelete = (String)data.getSerializableExtra(CriterionDialogFragment.EXTRA_CRITERION_OLD_NAME);
+		if (resultCode == DialogCriterionFragment.RESULT_DELETE_CRITERION) {
+			String toDelete = (String)data.getSerializableExtra(DialogCriterionFragment.EXTRA_CRITERION_OLD_NAME);
 			makeToast(mCriteria.deleteCriterion(toDelete), toDelete);
 			if(mCriteria.size() == 0)
 				setTotalRatingIsUser();

@@ -1,4 +1,6 @@
 package com.chdryra.android.reviewer;
+import com.chdryra.android.myandroidwidgets.ClearableEditText;
+
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
@@ -10,7 +12,7 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class ImageDialogFragment extends BasicDialogFragment {
+public class DialogImageFragment extends DialogBasicFragment {
 		
 	public static final int CAPTION_CHANGED = 2;
 	

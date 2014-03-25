@@ -6,7 +6,7 @@
     android:layout_marginLeft="@dimen/list_item_leftPadding"
     android:layout_marginRight="@dimen/list_item_rightPadding" >
    	
-    <com.chdryra.android.reviewer.ClearableEditText
+    <com.chdryra.android.myandroidwidgets.ClearableEditText
         android:id="@+id/review_subject" 
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -34,7 +34,7 @@
     	android:layout_below="@id/total_rating_bar"/>
         
 
-	 <com.chdryra.android.reviewer.ClearableEditText
+	 <com.chdryra.android.myandroidwidgets.ClearableEditText
 	        android:id="@+id/criterion_add_edit_text"
 	        android:hint="@string/edit_text_add_criterion_hint"
 	        android:layout_height="wrap_content"

@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
     
-    <com.chdryra.android.reviewer.ClearableEditText
+    <com.chdryra.android.myandroidwidgets.ClearableEditText
         android:id="@+id/datum_label_edit_text" 
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -14,7 +14,7 @@
         android:imeOptions="actionNext"
      />        
     
-     <com.chdryra.android.reviewer.ClearableEditText
+     <com.chdryra.android.myandroidwidgets.ClearableEditText
         android:id="@+id/datum_value_edit_text" 
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

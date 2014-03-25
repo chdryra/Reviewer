@@ -28,8 +28,6 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
-import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -40,6 +38,9 @@ import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
+import com.chdryra.android.mygenerallibrary.ImageHelper;
+import com.chdryra.android.mygenerallibrary.IntentObjectHolder;
+import com.chdryra.android.mygenerallibrary.RandomTextUtils;
 import com.chdryra.android.reviewer.ReviewData.Datum;
 
 public class ReviewOptionsFragment extends SherlockFragment {
@@ -92,7 +93,7 @@ public class ReviewOptionsFragment extends SherlockFragment {
 	public final static int DATA_TABLE_MAX_VALUES = 3;
 
 	private Review mReview;
-	private ReviewImageHandler mReviewImageHandler;
+	private ReviewImageHelper mReviewImageHelper;
 	
 	private TextView mSubject;
 	private RatingBar mRatingBar;
@@ -118,7 +119,7 @@ public class ReviewOptionsFragment extends SherlockFragment {
 		setRetainInstance(true);
 		mReview = (Review)IntentObjectHolder.getObject(ReviewCreateFragment.REVIEW_OBJECT);
 		if(mReview.hasImage())
-			mReviewImageHandler = ReviewImageHandler.getInstance(mReview);
+			mReviewImageHelper = ReviewImageHelper.getInstance(mReview);
 		mReview.setDate(new Date());
 	}
 
@@ -311,18 +312,18 @@ public class ReviewOptionsFragment extends SherlockFragment {
 	}
 	
 	private void requestImageCaptureIntent() {
-		if(mReviewImageHandler == null)
-			mReviewImageHandler = ReviewImageHandler.getInstance(mReview);
+		if(mReviewImageHelper == null)
+			mReviewImageHelper = ReviewImageHelper.getInstance(mReview);
 		
 		//Set up image file
 		try {
-			mReviewImageHandler.createNewImageFile();
+			mReviewImageHelper.createNewImageFile();
 		} catch (IOException e) {
 			Log.e(TAG, e.getMessage(), e);
 			e.printStackTrace();
 			return;
 		}
-		File imageFile = new File(mReviewImageHandler.getImageFilePath());
+		File imageFile = new File(mReviewImageHelper.getImageFilePath());
 		Uri imageUri = Uri.fromFile(imageFile);		
 
 	    //Create intents
@@ -349,8 +350,8 @@ public class ReviewOptionsFragment extends SherlockFragment {
 	private void requestLocationFindIntent() {
 		Intent i = new Intent(getSherlockActivity(), ReviewLocationActivity.class);
 		
-		if (mReview.hasImage() && mReviewImageHandler.hasGPSTag())					
-			i.putExtra(IMAGE_LATLNG, mReviewImageHandler.getLatLngFromEXIF());
+		if (mReview.hasImage() && mReviewImageHelper.hasGPSTag())					
+			i.putExtra(IMAGE_LATLNG, mReviewImageHelper.getLatLngFromEXIF());
 		IntentObjectHolder.addObject(REVIEW_OBJECT, mReview);
 		IntentObjectHolder.addObject(LOCATION_BUTTON, mAddLocationImageButton);
 		startActivityForResult(i, LOCATION_REQUEST);
@@ -361,7 +362,7 @@ public class ReviewOptionsFragment extends SherlockFragment {
 		args.putParcelable(DIALOG_IMAGE, mReview.getImage());						
 		args.putString(DIALOG_IMAGE_CAPTION, mReview.getImageCaption());
 		args.putString(DIALOG_IMAGE_CAPTION_HINT, getResources().getString(R.string.edit_text_image_caption_hint));
-		showDialog(new ImageDialogFragment(), IMAGE_EDIT, DIALOG_IMAGE_TAG, args);
+		showDialog(new DialogImageFragment(), IMAGE_EDIT, DIALOG_IMAGE_TAG, args);
 	}
 
 	private void showLocationEditDialog() {
@@ -369,28 +370,28 @@ public class ReviewOptionsFragment extends SherlockFragment {
 		args.putParcelable(DIALOG_IMAGE, mReview.getMapSnapshot());
 		args.putString(DIALOG_IMAGE_CAPTION, mReview.getLocationName());
 		args.putString(DIALOG_IMAGE_CAPTION_HINT, getResources().getString(R.string.edit_text_name_location_hint));		
-		showDialog(new LocationDialogFragment(), LOCATION_EDIT, DIALOG_LOCATION_TAG, args);
+		showDialog(new DialogLocationFragment(), LOCATION_EDIT, DIALOG_LOCATION_TAG, args);
 	}
 
 	private void showCommentEditDialog() {
 		Bundle args = new Bundle();
 		args.putString(DIALOG_COMMENT, mReview.getCommentIncludingCriteria());						
-		showDialog(new CommentDialogFragment(), COMMENT_EDIT, DIALOG_COMMENT_TAG, args);
+		showDialog(new DialogCommentFragment(), COMMENT_EDIT, DIALOG_COMMENT_TAG, args);
 	}
 
 	private void showDataEditDialog() {
 		IntentObjectHolder.addObject(REVIEW_OBJECT, mReview);
-		showDialog(new DataDialogFragment(), DATA_EDIT, DIALOG_DATA_TAG, null);
+		showDialog(new DialogDataFragment(), DATA_EDIT, DIALOG_DATA_TAG, null);
 	}
 
 	private void showDateEditDialog() {
 		Bundle args = new Bundle();
 		args.putSerializable(REVIEW_DATE, mReview.getDate());						
 		args.putBoolean(REVIEW_DATE_INC_TIME, mReview.isDateWithTime());
-		showDialog(new DateDialogFragment(), DATE_EDIT, DIALOG_DATE_TAG, args);
+		showDialog(new DialogDateFragment(), DATE_EDIT, DIALOG_DATE_TAG, args);
 	}
 	
-	private void showDialog(BasicDialogFragment dialog, int requestCode, String tag, Bundle args) {
+	private void showDialog(DialogBasicFragment dialog, int requestCode, String tag, Bundle args) {
 		dialog.setTargetFragment(ReviewOptionsFragment.this, requestCode);
 		dialog.setArguments(args);
 		dialog.show(getFragmentManager(), tag);
@@ -453,14 +454,14 @@ public class ReviewOptionsFragment extends SherlockFragment {
 				        
 				        if(!isCamera) {
 				        	Uri uri = data == null ? null : data.getData();
-				        	String path = ImageHandler.getRealPathFromURI(getSherlockActivity(), uri);
-				        	mReviewImageHandler.setImageFilePath(path);
+				        	String path = ImageHelper.getRealPathFromURI(getSherlockActivity(), uri);
+				        	mReviewImageHelper.setImageFilePath(path);
 				        }
 				     
-				        if(mReviewImageHandler.bitmapExists())
+				        if(mReviewImageHelper.bitmapExists())
 				        {
 				        	if(isCamera) {
-					    		Uri imageUri = Uri.fromFile(new File(mReviewImageHandler.getImageFilePath()));
+					    		Uri imageUri = Uri.fromFile(new File(mReviewImageHelper.getImageFilePath()));
 					        	getSherlockActivity().sendBroadcast(
 					        			new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, imageUri));
 				        	}
@@ -468,8 +469,8 @@ public class ReviewOptionsFragment extends SherlockFragment {
 				        }
 						break;		
 					case Activity.RESULT_CANCELED:
-						if(!mReviewImageHandler.bitmapExists())
-							mReviewImageHandler.deleteImageFile();
+						if(!mReviewImageHelper.bitmapExists())
+							mReviewImageHelper.deleteImageFile();
 						break;
 					default:
 						break;
@@ -481,10 +482,10 @@ public class ReviewOptionsFragment extends SherlockFragment {
 					case Activity.RESULT_OK:
 						requestImageCaptureIntent();
 						break;
-					case ImageDialogFragment.RESULT_DELETE:
+					case DialogImageFragment.RESULT_DELETE:
 						deleteReviewImage();
 						break;	
-					case ImageDialogFragment.CAPTION_CHANGED:
+					case DialogImageFragment.CAPTION_CHANGED:
 						mReview.setImageCaption(data.getStringExtra(DIALOG_IMAGE_CAPTION));
 						break;
 					default:
@@ -507,11 +508,11 @@ public class ReviewOptionsFragment extends SherlockFragment {
 					case Activity.RESULT_OK:
 						requestLocationFindIntent();
 						break;
-					case ImageDialogFragment.RESULT_DELETE:
+					case DialogImageFragment.RESULT_DELETE:
 						deleteLocation();
 						updateDateDisplay();
 						break;
-					case ImageDialogFragment.CAPTION_CHANGED:
+					case DialogImageFragment.CAPTION_CHANGED:
 						mReview.setLocationName(data.getStringExtra(DIALOG_IMAGE_CAPTION));
 						updateDateDisplay();
 						break;
@@ -539,7 +540,7 @@ public class ReviewOptionsFragment extends SherlockFragment {
 					case Activity.RESULT_OK:
 						requestCommentMakeIntent();
 						break;
-					case CommentDialogFragment.RESULT_DELETE:
+					case DialogCommentFragment.RESULT_DELETE:
 						deleteComment();
 						break;		
 					default:
@@ -557,7 +558,7 @@ public class ReviewOptionsFragment extends SherlockFragment {
 					case Activity.RESULT_OK:
 						requestDataAddIntent();
 						break;
-					case DataDialogFragment.RESULT_DELETE:
+					case DialogDataFragment.RESULT_DELETE:
 						deleteData();
 						break;		
 					default:
@@ -597,11 +598,11 @@ public class ReviewOptionsFragment extends SherlockFragment {
 	}
 	
 	private void updateReviewImage() {
-        mReviewImageHandler.setReviewImage(getSherlockActivity(), mAddPhotoImageButton);
+        mReviewImageHelper.setReviewImage(getSherlockActivity(), mAddPhotoImageButton);
 	}
 	
 	private void deleteReviewImage() {
-		mReviewImageHandler.deleteImage();
+		mReviewImageHelper.deleteImage();
 		deleteImageButtonImage();
 	}
 	
@@ -669,9 +670,9 @@ public class ReviewOptionsFragment extends SherlockFragment {
 		SimpleDateFormat format = mDateFormat;
 		if(mReview.isDateWithTime()) {
 			if(DateFormat.is24HourFormat(getSherlockActivity()))
-				format = new SimpleDateFormat("dd/MM/yy, HH:mm", Locale.getDefault());
+				format = mDateFormat24HrIncTime;
 			else
-				format = new SimpleDateFormat("dd/MM/yy, h:mm aa", Locale.getDefault());
+				format = mDateFormat12HrIncTime;
 		}
 		
 		String dateString = "@";

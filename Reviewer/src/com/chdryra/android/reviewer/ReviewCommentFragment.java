@@ -30,6 +30,8 @@ import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
+import com.chdryra.android.mygenerallibrary.IntentObjectHolder;
+import com.chdryra.android.mygenerallibrary.RandomTextUtils;
 
 public class ReviewCommentFragment extends SherlockFragment {
 	
@@ -39,7 +41,7 @@ public class ReviewCommentFragment extends SherlockFragment {
 	private static final int MIN_HEADLINE_EDITTEXT_LINES = 2;
 	private static final int MAX_COMMENT_EDITTEXT_LINES = 5;
 
-	private static final int DELETE_CONFIRM = BasicDialogFragment.DELETE_CONFIRM;
+	private static final int DELETE_CONFIRM = DialogBasicFragment.DELETE_CONFIRM;
 	
 	private Drawable mClearCommentIcon;  
 
@@ -286,7 +288,7 @@ public class ReviewCommentFragment extends SherlockFragment {
 			if(mDeleteConfirmed)
 				mReview.deleteCommentIncludingCriteria();
 			else {
-				BasicDialogFragment.showDeleteConfirmDialog(getResources().getString(R.string.comment_activity_title), 
+				DialogBasicFragment.showDeleteConfirmDialog(getResources().getString(R.string.comment_activity_title), 
 						ReviewCommentFragment.this, getFragmentManager());
 				return;
 			}

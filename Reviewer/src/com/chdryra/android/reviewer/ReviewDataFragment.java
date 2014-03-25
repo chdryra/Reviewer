@@ -23,6 +23,8 @@ import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.view.MenuItem;
+import com.chdryra.android.mygenerallibrary.IntentObjectHolder;
+import com.chdryra.android.myandroidwidgets.ClearableEditText;
 import com.chdryra.android.reviewer.ReviewData.Datum;
 
 public class ReviewDataFragment extends SherlockFragment {
@@ -32,7 +34,7 @@ public class ReviewDataFragment extends SherlockFragment {
 	public static final String DATUM_VALUE = "com.chdryra.android.reviewer.datum_vallue";	
 	public static final String DIALOG_DATUM_TAG = "DatumDialog";
 
-	private static final int DELETE_CONFIRM = BasicDialogFragment.DELETE_CONFIRM;
+	private static final int DELETE_CONFIRM = DialogBasicFragment.DELETE_CONFIRM;
 	private static final int DATUM_EDIT = DELETE_CONFIRM + 1;
 	
 	private Review mReview;
@@ -90,7 +92,7 @@ public class ReviewDataFragment extends SherlockFragment {
 			public boolean onItemLongClick(AdapterView<?> parent, View v, int pos, long id) {
 				Datum datum = (Datum)parent.getItemAtPosition(pos);
 				
-				DatumDialogFragment dialog = new DatumDialogFragment();
+				DialogDatumFragment dialog = new DialogDatumFragment();
 				dialog.setTargetFragment(ReviewDataFragment.this, DATUM_EDIT);
 				Bundle args = new Bundle();
 				args.putString(DATUM_LABEL, datum.getLabel());
@@ -175,7 +177,7 @@ public class ReviewDataFragment extends SherlockFragment {
 			if(mDeleteConfirmed)
 				mReview.deleteData();
 			else {
-				BasicDialogFragment.showDeleteConfirmDialog(getResources().getString(R.string.data_activity_title), 
+				DialogBasicFragment.showDeleteConfirmDialog(getResources().getString(R.string.data_activity_title), 
 						ReviewDataFragment.this, getFragmentManager());
 				return;
 			}
@@ -198,14 +200,14 @@ public class ReviewDataFragment extends SherlockFragment {
 			case DATUM_EDIT:
 				switch(resultCode) {
 					case Activity.RESULT_OK:
-						String oldLabel = (String)data.getSerializableExtra(DatumDialogFragment.DATUM_OLD_LABEL);
+						String oldLabel = (String)data.getSerializableExtra(DialogDatumFragment.DATUM_OLD_LABEL);
 						String newLabel = (String)data.getSerializableExtra(DATUM_LABEL);
 						String newValue = (String)data.getSerializableExtra(DATUM_VALUE);
 						mReviewData.deleteDatum(oldLabel);
 						mReviewData.addDatum(newLabel, newValue);
 						break;
-					case DatumDialogFragment.RESULT_DELETE:
-						String toDelete = (String)data.getSerializableExtra(DatumDialogFragment.DATUM_OLD_LABEL);
+					case DialogDatumFragment.RESULT_DELETE:
+						String toDelete = (String)data.getSerializableExtra(DialogDatumFragment.DATUM_OLD_LABEL);
 						mReviewData.deleteDatum(toDelete);
 						break;
 					default:

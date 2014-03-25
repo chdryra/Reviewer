@@ -3,7 +3,7 @@ package com.chdryra.android.reviewer;
 import android.app.Dialog;
 import android.os.Bundle;
 
-public class LocationDialogFragment extends ImageDialogFragment {
+public class DialogLocationFragment extends DialogImageFragment {
 
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {

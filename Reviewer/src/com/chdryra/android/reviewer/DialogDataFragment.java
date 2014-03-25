@@ -10,9 +10,10 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.chdryra.android.mygenerallibrary.IntentObjectHolder;
 import com.chdryra.android.reviewer.ReviewData.Datum;
 
-public class DataDialogFragment extends BasicDialogFragment {
+public class DialogDataFragment extends DialogBasicFragment {
 
 	private Review mReview;
 	
