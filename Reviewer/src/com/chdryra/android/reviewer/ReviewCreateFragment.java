@@ -230,7 +230,7 @@ public class ReviewCreateFragment extends SherlockFragment{
 		if (mCriteria.size() == 0 && criterionName.length() > 0)
 			setTotalRatingIsAverage();		      		
 		
-		makeToast(mCriteria.addCriterion(criterionName), criterionName);		
+		mCriteria.addCriterion(criterionName);		
 		mCriterionName.setText(null);
 		
 		updateUI();
@@ -248,7 +248,7 @@ public class ReviewCreateFragment extends SherlockFragment{
 				String oldName = (String)data.getSerializableExtra(DialogCriterionFragment.EXTRA_CRITERION_OLD_NAME);
 				String newName = (String)data.getSerializableExtra(DialogCriterionFragment.EXTRA_CRITERION_NEW_NAME);				
 				if(!oldName.equals(newName))
-					makeToast(mCriteria.changeCriterionName(oldName, newName), oldName, newName);
+					mCriteria.changeCriterionName(oldName, newName);
 				break;
 
 			default:
@@ -258,40 +258,12 @@ public class ReviewCreateFragment extends SherlockFragment{
 			
 		if (resultCode == DialogCriterionFragment.RESULT_DELETE_CRITERION) {
 			String toDelete = (String)data.getSerializableExtra(DialogCriterionFragment.EXTRA_CRITERION_OLD_NAME);
-			makeToast(mCriteria.deleteCriterion(toDelete), toDelete);
+			mCriteria.deleteCriterion(toDelete);
 			if(mCriteria.size() == 0)
 				setTotalRatingIsUser();
 		}		
 
 		updateUI();				
-	}
-	
-	private void makeToast(CriterionList.Result r, String s1, String s2) {
-		if( r == CriterionList.Result.DELETED )
-			Toast.makeText(getSherlockActivity(), "Deleted " + s1 + "...", Toast.LENGTH_SHORT).show();	
-
-		if( r == CriterionList.Result.ADDED )
-			Toast.makeText(getSherlockActivity(), "Added " + s1 + "...", Toast.LENGTH_SHORT).show();	
-
-		if( r == CriterionList.Result.CHANGED )
-			Toast.makeText(getSherlockActivity(), "Changed " + s1 + " to " + s2 + "...", Toast.LENGTH_SHORT).show();	
-
-		if( r == CriterionList.Result.EXISTS )
-			Toast.makeText(getSherlockActivity(), s1 + " already exists...", Toast.LENGTH_SHORT).show();
-		
-		if( r == CriterionList.Result.NULLNAME && (s1 == null || s1.length() == 0))
-			Toast.makeText(getSherlockActivity(), "Enter criterion name...", Toast.LENGTH_SHORT).show();
-	}
-	
-	private void makeToast(CriterionList.Result r, String s1) {
-		makeToast(r, s1, null);		
-	}
-	
-	private void makeToast(Result r) {
-		if( r == Result.TOTAL_IS_AVERAGE)
-			Toast.makeText(getSherlockActivity(), "Total rating switched to average...", Toast.LENGTH_SHORT).show();
-		if( r== Result.TOTAL_IS_USER )
-			Toast.makeText(getSherlockActivity(), "Total rating switched to independent...", Toast.LENGTH_SHORT).show();
 	}
 	
 	@Override

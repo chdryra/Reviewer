@@ -262,9 +262,7 @@ public class ReviewDataFragment extends SherlockFragment {
 		
 		@Override
 		public Object getItem(int position) {
-			HashMap<String, Datum> map = mData.getDataMap();
-			String[] keys = map.keySet().toArray(new String[map.size()]);
-			return map.get(keys[position]);
+			return mData.getItem(position);
 		}
 		
 		@Override

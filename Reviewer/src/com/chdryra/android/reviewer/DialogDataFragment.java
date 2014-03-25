@@ -23,12 +23,8 @@ public class DialogDataFragment extends DialogBasicFragment {
 		LinearLayout dataLinearLayout = (LinearLayout)v.findViewById(R.id.data_linear_layout);
 		
 		mReview = (Review)IntentObjectHolder.getObject(ReviewOptionsFragment.REVIEW_OBJECT);
-		LinkedHashMap<String, Datum> dataMap = mReview.getData().getDataMap();
-		Iterator<Datum> it = dataMap.values().iterator();
 		boolean dark = true;
-		while (it.hasNext()) {
-			Datum datum = (Datum) it.next();
-			
+		for(Datum datum: mReview.getData()) {
 			View datumRow = getSherlockActivity().getLayoutInflater().inflate(R.layout.datum_linear_row, null);
 			TextView label = (TextView)datumRow.findViewById(R.id.datum_label_text_view);
 			TextView value = (TextView)datumRow.findViewById(R.id.datum_value_text_view);
@@ -42,7 +38,7 @@ public class DialogDataFragment extends DialogBasicFragment {
 			
 			dark = !dark;
 		}
-
+		
 		setDeleteConfirmation(getResources().getString(R.string.data_activity_title));
 	
 		return buildDialog(v);

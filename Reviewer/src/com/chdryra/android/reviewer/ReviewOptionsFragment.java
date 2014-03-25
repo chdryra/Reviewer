@@ -634,12 +634,8 @@ public class ReviewOptionsFragment extends SherlockFragment {
 				
 		mDataLinearLayout.removeAllViews();
 		setVisibleGoneView(mDataLinearLayout, mAddDataImageButton);
-		LinkedHashMap<String, Datum> dataMap = mReview.getData().getDataMap();
-		Iterator<Datum> it = dataMap.values().iterator();
 		int i = 0;
-		while(it.hasNext() && i < DATA_TABLE_MAX_VALUES) {
-			Datum datum = it.next();
-			
+		for(Datum datum: mReview.getData()) {
 			FrameLayout labelRow = (FrameLayout)getSherlockActivity().getLayoutInflater().inflate(R.layout.data_table_label_row, null);
 			FrameLayout valueRow = (FrameLayout)getSherlockActivity().getLayoutInflater().inflate(R.layout.data_table_value_row, null);
 			
@@ -653,6 +649,8 @@ public class ReviewOptionsFragment extends SherlockFragment {
 			mDataLinearLayout.addView(valueRow);
 			
 			++i;
+			if(i == DATA_TABLE_MAX_VALUES)
+				break;
 		}
 	}
 	

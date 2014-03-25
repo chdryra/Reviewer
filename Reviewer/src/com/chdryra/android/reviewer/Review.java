@@ -9,43 +9,45 @@ import java.util.UUID;
 import android.graphics.Bitmap;
 
 import com.chdryra.android.reviewer.ReviewData.Datum;
+import com.chdryra.android.reviewer.ReviewIDGenerator.ReviewID;
 import com.google.android.gms.maps.model.LatLng;
 
 public class Review implements Commentable{	
-	private static final String GENERAL_COMMENT_TITLE = "Overall";
 	private static final String LOCATION_DELIMITER = ",";
 	private static final String COMMENT_HEADLINE_DELIMITER = ".!?";
 	
-	private UUID mID;
+	private ReviewID mID;
 	private String mSubject;
+	private float mRating;
+	
+	private CriterionList mCriteriaList = new CriterionList();
+	private boolean mRatingIsAverage;
+	
 	private Date mDate;	
 	private boolean mDateWithTime = false;
-	private CriterionList mCriteriaList = new CriterionList();
-	private float mRating;
-	private boolean mRatingIsAverage;
+	
 	private String mComment;
+	
 	private Bitmap mImage;
 	private String mImageCaption;
+	
 	private LatLng mLatLng;
 	private Bitmap mMapSnapshot;
 	private float mMapSnapshotZoom;
 	private String mLocationName;
+	
 	private ReviewData mReviewData;
 	
 	public Review() {
-		generateID();
+		mID = ReviewIDGenerator.generateID();
 		mDate = new Date();
 	}
-	
-	private void generateID() {
-		mID = UUID.randomUUID();
-	}
 
-	public UUID getID() {
+	public ReviewID getID() {
 		return mID;
 	}
 	
- 	public void setSubject(String subject) {
+	public void setSubject(String subject) {
 		mSubject = subject;
 	}
 	
@@ -128,7 +130,7 @@ public class Review implements Commentable{
 	
 	@Override
 	public String getCommentTitle() {
-		return GENERAL_COMMENT_TITLE;
+		return mSubject;
 	}
 	
 	@Override
@@ -251,23 +253,6 @@ public class Review implements Commentable{
 	
 	public void deleteData() {
 		mReviewData = null;
-	}
-	
-	public String getDataHeadline() {
-		if(mReviewData == null)
-			return null;
-		
-		LinkedHashMap<String, Datum> dataMap = mReviewData.getDataMap();
-		Iterator<Datum> it = dataMap.values().iterator();
-		StringBuilder headlineBuilder = new StringBuilder();
-		if(it.hasNext()) {
-			Datum datum = it.next();
-			headlineBuilder.append(datum.getLabel());
-			headlineBuilder.append(": ");
-			headlineBuilder.append(datum.getValue());
-		}
-		
-		return headlineBuilder.toString();
 	}
 	
 	public boolean hasData() {
