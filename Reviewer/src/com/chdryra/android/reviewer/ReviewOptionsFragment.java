@@ -219,7 +219,7 @@ public class ReviewOptionsFragment extends SherlockFragment {
 		mAddLocationImageButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {	
-				if (!mReview.hasLatLng())
+				if (!mReview.hasLocation())
 					requestLocationFindIntent();
 				else
 					showLocationEditDialog();
@@ -366,8 +366,8 @@ public class ReviewOptionsFragment extends SherlockFragment {
 
 	private void showLocationEditDialog() {
 		Bundle args = new Bundle();
-		args.putParcelable(DIALOG_IMAGE, mReview.getMapSnapshot());
-		args.putString(DIALOG_IMAGE_CAPTION, mReview.getLocationName());
+		args.putParcelable(DIALOG_IMAGE, mReview.getLocation().getMapSnapshot());
+		args.putString(DIALOG_IMAGE_CAPTION, mReview.getLocation().getName());
 		args.putString(DIALOG_IMAGE_CAPTION_HINT, getResources().getString(R.string.edit_text_name_location_hint));		
 		showDialog(new DialogLocationFragment(), LOCATION_EDIT, DIALOG_LOCATION_TAG, args);
 	}
@@ -512,7 +512,7 @@ public class ReviewOptionsFragment extends SherlockFragment {
 						updateDateDisplay();
 						break;
 					case DialogImageFragment.CAPTION_CHANGED:
-						mReview.setLocationName(data.getStringExtra(DIALOG_IMAGE_CAPTION));
+						mReview.getLocation().setName(data.getStringExtra(DIALOG_IMAGE_CAPTION));
 						updateDateDisplay();
 						break;
 					default:
@@ -577,23 +577,19 @@ public class ReviewOptionsFragment extends SherlockFragment {
 		if( mReview.hasImage() )
 			mAddPhotoImageButton.setImageBitmap(mReview.getImage());
 		else
-			deleteImageButtonImage();
-	}
-
-	private void deleteImageButtonImage() {
-		mAddPhotoImageButton.setImageResource(R.drawable.ic_menu_camera);
+			mAddPhotoImageButton.setImageResource(R.drawable.ic_menu_camera);
 	}
 	
 	private void setLocationButtonImage() {		
-		if(mReview.hasMapSnapshot())
-			mAddLocationImageButton.setImageBitmap(mReview.getMapSnapshot());
+		if(mReview.getLocation().hasMapSnapshot())
+			mAddLocationImageButton.setImageBitmap(mReview.getLocation().getMapSnapshot());
 		else
-			deleteLocation();
+			mAddLocationImageButton.setImageResource(R.drawable.ic_menu_mylocation);
 	}
 	
 	private void deleteLocation() {
 		mAddLocationImageButton.setImageResource(R.drawable.ic_menu_mylocation);
-		mReview.deleteLatLng();
+		mReview.deleteLocation();
 	}
 	
 	private void updateReviewImage() {
@@ -602,7 +598,7 @@ public class ReviewOptionsFragment extends SherlockFragment {
 	
 	private void deleteReviewImage() {
 		mReviewImageHelper.deleteImage();
-		deleteImageButtonImage();
+		setImageButtonImage();
 	}
 	
 	private void deleteComment() {
@@ -673,8 +669,8 @@ public class ReviewOptionsFragment extends SherlockFragment {
 		}
 		
 		String dateString = "@";
-		if(mReview.hasLocationName())
-			dateString += mReview.getLocationName() +", ";
+		if(mReview.getLocation().hasName())
+			dateString += mReview.getLocation().getShortenedName() +", ";
 		
 		dateString += format.format(mReview.getDate());
 		mDateTextView.setText(dateString);

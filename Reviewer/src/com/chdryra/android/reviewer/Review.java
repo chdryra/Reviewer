@@ -11,7 +11,6 @@ import com.chdryra.android.reviewer.ReviewIDGenerator.ReviewID;
 import com.google.android.gms.maps.model.LatLng;
 
 public class Review implements Commentable{	
-	private static final String LOCATION_DELIMITER = ",";
 	private static final String COMMENT_HEADLINE_DELIMITER = ".!?";
 	
 	private ReviewID mID;
@@ -29,11 +28,12 @@ public class Review implements Commentable{
 	private Bitmap mImage;
 	private String mImageCaption;
 	
-	private LatLng mLatLng;
-	private Bitmap mMapSnapshot;
-	private float mMapSnapshotZoom;
-	private String mLocationName;
-	
+	private ReviewLocation mLocation = ReviewLocation.getNullLocation();
+//	private LatLng mLatLng;
+//	private Bitmap mMapSnapshot;
+//	private float mMapSnapshotZoom;
+//	private String mLocationName;
+//	
 	private ReviewData mReviewData;
 	
 	public Review() {
@@ -183,62 +183,20 @@ public class Review implements Commentable{
 		return mImageCaption != null;
 	}
 	
-	public LatLng getLatLng() {
-		return mLatLng;
-	}
-
-	public void setLatLng(LatLng latlng) {
-		mLatLng = latlng;
-	}
-
-	public void deleteLatLng() {
-		mLatLng = null;
-		mMapSnapshot = null;
-		mLocationName = null;
+	public ReviewLocation getLocation() {
+		return mLocation;
 	}
 	
-	public boolean hasLatLng() {
-		return mLatLng != null;
-	}
-
-	public void setMapSnapshot(Bitmap bitmap) {
-		mMapSnapshot = bitmap;	
+	public void setLocation(ReviewLocation location) {
+		mLocation = location;
 	}
 	
-	public Bitmap getMapSnapshot() {
-		return mMapSnapshot;
-	}
-
-	public boolean hasMapSnapshot() {
-		return mMapSnapshot != null;
-	}
-
-	public float getMapSnapshotZoom() {
-		return mMapSnapshotZoom;
-	}
-
-	public void setMapSnapshotZoom(float mapSnapshotZoom) {
-		mMapSnapshotZoom = mapSnapshotZoom;
-	}
-
-	public String getLocationName() {
-		return mLocationName;
-	}
-
-	public void setLocationName(String locationName) {
-		mLocationName = locationName;
+	public void deleteLocation() {
+		setLocation(ReviewLocation.getNullLocation());
 	}
 	
-	public boolean hasLocationName() {
-		return mLocationName != null;
-	}
-	
-	public String getShortenedLocationName() {
-		if(mLocationName == null)
-			return null;
-		
-		String[] split = mLocationName.split(LOCATION_DELIMITER);
-		return split[0];
+	public boolean hasLocation() {
+		return mLocation.getLatLng() != null;
 	}
 
 	public ReviewData getData() {
@@ -250,7 +208,7 @@ public class Review implements Commentable{
 	}
 	
 	public void deleteData() {
-		mReviewData = null;
+		setData(null);
 	}
 	
 	public boolean hasData() {
