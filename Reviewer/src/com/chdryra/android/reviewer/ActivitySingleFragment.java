@@ -6,7 +6,7 @@ import android.support.v4.app.FragmentManager;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 
-public abstract class SingleFragmentActivity extends SherlockFragmentActivity {
+public abstract class ActivitySingleFragment extends SherlockFragmentActivity {
 	protected abstract Fragment createFragment();
 
 	protected int getLayoutResId() {

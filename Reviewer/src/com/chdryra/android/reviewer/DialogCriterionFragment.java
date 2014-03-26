@@ -29,9 +29,9 @@ public class DialogCriterionFragment extends DialogBasicFragment {
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		View v = getActivity().getLayoutInflater().inflate(R.layout.dialog_criterion, null);
 		mCriterionName = (ClearableEditText)v.findViewById(R.id.criterion_name_edit_text);
-		if( getTargetRequestCode() == ReviewCreateFragment.CRITERION_EDIT )
+		if( getTargetRequestCode() == FragmentReviewCreate.CRITERION_EDIT )
 		{
-			mCriterionOldName = (String)getArguments().getSerializable(ReviewCreateFragment.CRITERION_NAME);
+			mCriterionOldName = (String)getArguments().getSerializable(FragmentReviewCreate.CRITERION_NAME);
 			mCriterionName.setText(mCriterionOldName);
 		}
 		

@@ -10,7 +10,7 @@ import android.graphics.Bitmap;
 import com.chdryra.android.reviewer.ReviewIDGenerator.ReviewID;
 import com.google.android.gms.maps.model.LatLng;
 
-public class Review implements Commentable{	
+public class MainReview implements Commentable{	
 	private static final String COMMENT_HEADLINE_DELIMITER = ".!?";
 	
 	private ReviewID mID;
@@ -24,19 +24,12 @@ public class Review implements Commentable{
 	private boolean mDateWithTime = false;
 	
 	private String mComment;
-	
-	private Bitmap mImage;
-	private String mImageCaption;
-	
-	private ReviewLocation mLocation = ReviewLocation.getNullLocation();
-//	private LatLng mLatLng;
-//	private Bitmap mMapSnapshot;
-//	private float mMapSnapshotZoom;
-//	private String mLocationName;
-//	
+
+	private ReviewImage mImage;
+	private ReviewLocation mLocation = ReviewLocation.getNullLocation();	
 	private ReviewData mReviewData;
 	
-	public Review() {
+	public MainReview() {
 		mID = ReviewIDGenerator.generateID();
 		mDate = new Date();
 	}
@@ -159,28 +152,20 @@ public class Review implements Commentable{
 		return mComment != null || mCriteriaList.hasComment();
 	}
 	
-	public Bitmap getImage() {
+	public ReviewImage getImage() {
 		return mImage;
 	}
-
-	public void setImage(Bitmap image) {
+	
+	public void setImage(ReviewImage image) {
 		mImage = image;
 	}
-
-	public boolean hasImage() {
-		return mImage != null;
+	
+	public void deleteImage() {
+		setImage(null);
 	}
 	
-	public String getImageCaption() {
-		return mImageCaption;
-	}
-
-	public void setImageCaption(String imageCaption) {
-		mImageCaption = imageCaption;
-	}
-
-	public boolean hasImageCaption() {
-		return mImageCaption != null;
+	public boolean hasImage() {
+		return mImage != null;
 	}
 	
 	public ReviewLocation getLocation() {

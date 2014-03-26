@@ -13,34 +13,34 @@ import android.os.Environment;
 import android.util.Log;
 import android.widget.ImageButton;
 
-public class ReviewImageHelper extends ImageHelper{
+public class HelperReviewImage extends ImageHelper{
 
 	private static final String TAG = "ImageHelper";
-	private static HashMap<String, ReviewImageHelper> sReviewImageHelpers = new HashMap<String, ReviewImageHelper>();
+	private static HashMap<String, HelperReviewImage> sHelperReviewImages = new HashMap<String, HelperReviewImage>();
 	private static final String IMAGE_DIRECTORY = "Reviewer";
 	private static final String ERROR_NO_STORAGE_MESSAGE = "No storage available!";
 	
 	private long fileCounter = 0;
-	private Review mReview;
+	private MainReview mMainReview;
 	
-	public static ReviewImageHelper getInstance(Review mReview) {
-		if(!sReviewImageHelpers.containsKey(mReview.getID().toString()))
-			sReviewImageHelpers.put(mReview.getID().toString(), new ReviewImageHelper(mReview));
+	public static HelperReviewImage getInstance(MainReview mReview) {
+		if(!sHelperReviewImages.containsKey(mReview.getID().toString()))
+			sHelperReviewImages.put(mReview.getID().toString(), new HelperReviewImage(mReview));
 		
-		return sReviewImageHelpers.get(mReview.getID().toString());
+		return sHelperReviewImages.get(mReview.getID().toString());
 	}
 	
-	private ReviewImageHelper(Review review) {
-		mReview = review;
+	private HelperReviewImage(MainReview mainReview) {
+		mMainReview = mainReview;
 	}
 			
 	public void deleteImage() {
-		mReview.setImage(null);
+		mMainReview.setImage(null);
 		setImageFilePath(null);
 	}
 	
 	public void createNewImageFile() throws IOException{
-	    String imageFileName = mReview.getSubject() + "_" + fileCounter++;
+	    String imageFileName = mMainReview.getSubject() + "_" + fileCounter++;
 	    String path = null;
 	    
         if(Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
@@ -83,7 +83,7 @@ public class ReviewImageHelper extends ImageHelper{
 		
 		@Override
 		protected void onPostExecute(Bitmap bitmap) {
-			mReview.setImage(bitmap);
+			mMainReview.setImage(new ReviewImage(bitmap));
 			if(bitmap == null) {
 				mThumbnailView.setImageResource(R.drawable.ic_menu_camera);
 			}

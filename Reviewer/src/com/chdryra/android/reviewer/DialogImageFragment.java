@@ -26,9 +26,9 @@ public class DialogImageFragment extends DialogBasicFragment {
 		ImageView imageView = (ImageView)v.findViewById(R.id.dialog_image_image_view);
 		mImageCaption = (ClearableEditText)v.findViewById(R.id.dialog_image_caption_edit_text);
 		
-		Bitmap image = getArguments().getParcelable(ReviewOptionsFragment.DIALOG_IMAGE);
-		mOriginalCaption = getArguments().getString(ReviewOptionsFragment.DIALOG_IMAGE_CAPTION);
-		String captionHint = getArguments().getString(ReviewOptionsFragment.DIALOG_IMAGE_CAPTION_HINT);
+		Bitmap image = getArguments().getParcelable(FragmentReviewOptions.DIALOG_IMAGE);
+		mOriginalCaption = getArguments().getString(FragmentReviewOptions.DIALOG_IMAGE_CAPTION);
+		String captionHint = getArguments().getString(FragmentReviewOptions.DIALOG_IMAGE_CAPTION_HINT);
 		
 		imageView.setImageBitmap(image);
 		mImageCaption.setHint(captionHint);
@@ -71,7 +71,7 @@ public class DialogImageFragment extends DialogBasicFragment {
 		String currentCaption = mImageCaption.getText().toString();
 		
 		if(resultCode == CAPTION_CHANGED && currentCaption != mOriginalCaption)
-			i.putExtra(ReviewOptionsFragment.DIALOG_IMAGE_CAPTION, currentCaption);
+			i.putExtra(FragmentReviewOptions.DIALOG_IMAGE_CAPTION, currentCaption);
 		
 		getTargetFragment().onActivityResult(getTargetRequestCode(), resultCode, i);
 		

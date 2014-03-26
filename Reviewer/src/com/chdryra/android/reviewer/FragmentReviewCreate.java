@@ -26,7 +26,7 @@ import com.actionbarsherlock.view.MenuItem;
 import com.chdryra.android.mygenerallibrary.IntentObjectHolder;
 import com.chdryra.android.myandroidwidgets.ClearableEditText;
 
-public class ReviewCreateFragment extends SherlockFragment{
+public class FragmentReviewCreate extends SherlockFragment{
 	private final static String TAG = "ReviewerFragment";
 	private final static String DIALOG_CRITERION_TAG = "CriterionDialog";
 	public final static String CRITERION_NAME = "com.chdryra.android.reviewer.criterion_name";
@@ -34,7 +34,7 @@ public class ReviewCreateFragment extends SherlockFragment{
 	public final static int CRITERION_EDIT = 0;
 	public static enum Result {TOTAL_IS_AVERAGE, TOTAL_IS_USER};
 	
-	private Review mReview;
+	private MainReview mMainReview;
 	private CriterionList mCriteria = new CriterionList();
 	private ClearableEditText mSubject;
 	private ClearableEditText mCriterionName;
@@ -48,9 +48,9 @@ public class ReviewCreateFragment extends SherlockFragment{
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		mReview = (Review)IntentObjectHolder.getObject(ReviewOptionsFragment.REVIEW_OBJECT);
-		if(mReview == null)
-			mReview = new Review();
+		mMainReview = (MainReview)IntentObjectHolder.getObject(FragmentReviewOptions.REVIEW_OBJECT);
+		if(mMainReview == null)
+			mMainReview = new MainReview();
 		setHasOptionsMenu(true);		
 		setRetainInstance(true);		
 	}
@@ -91,7 +91,7 @@ public class ReviewCreateFragment extends SherlockFragment{
 				Log.i(TAG, "Criterion: " + c.getName());
 				
 				DialogCriterionFragment dialog = new DialogCriterionFragment();
-				dialog.setTargetFragment(ReviewCreateFragment.this, CRITERION_EDIT);
+				dialog.setTargetFragment(FragmentReviewCreate.this, CRITERION_EDIT);
 				Bundle args = new Bundle();
 				args.putSerializable(CRITERION_NAME, c.getName());
 				dialog.setArguments(args);
@@ -279,12 +279,12 @@ public class ReviewCreateFragment extends SherlockFragment{
 			if (mSubject == null || mSubject.length() < 1)
 				Toast.makeText(getSherlockActivity(), "Please enter a subject name...", Toast.LENGTH_SHORT).show();
 			else {
-				mReview.setSubject(mSubject.getText().toString());
-				mReview.setCriteriaList(mCriteria);
-				mReview.setRating(mTotalRatingBar.getRating());
-				mReview.setRatingIsAverage(mTotalRatingIsAverage);
-				IntentObjectHolder.addObject(REVIEW_OBJECT, mReview);
-				Intent i = new Intent(getSherlockActivity(), ReviewOptionsActivity.class);
+				mMainReview.setSubject(mSubject.getText().toString());
+				mMainReview.setCriteriaList(mCriteria);
+				mMainReview.setRating(mTotalRatingBar.getRating());
+				mMainReview.setRatingIsAverage(mTotalRatingIsAverage);
+				IntentObjectHolder.addObject(REVIEW_OBJECT, mMainReview);
+				Intent i = new Intent(getSherlockActivity(), ActivityReviewOptions.class);
 				startActivity(i);
 			}
 			break;

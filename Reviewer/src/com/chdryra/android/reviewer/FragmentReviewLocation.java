@@ -53,7 +53,7 @@ import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-public class ReviewLocationFragment extends SherlockMapFragment implements
+public class FragmentReviewLocation extends SherlockMapFragment implements
 GooglePlayServicesClient.ConnectionCallbacks,
 GooglePlayServicesClient.OnConnectionFailedListener{
 
@@ -69,7 +69,7 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 	public final static String MAP_SNAPSHOT = "com.chdryra.android.reviewer.map_snapshot";
 	public final static int NUMBER_DEFAULT_NAMES= 5;
 
-	private Review mReview;
+	private MainReview mMainReview;
 	private ImageButton mButton;
 	
 	private LocationClient mLocationClient;
@@ -99,10 +99,10 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 		super.onCreate(savedInstanceState);
 		setRetainInstance(true);
 		mLocationClient = new LocationClient(getSherlockActivity(), this, this);
-		mReview = (Review)IntentObjectHolder.getObject(ReviewOptionsFragment.REVIEW_OBJECT);
-		mButton = (ImageButton)IntentObjectHolder.getObject(ReviewOptionsFragment.LOCATION_BUTTON);
-		mRevertMapSnapshotZoom =  mReview.getLocation().hasMapSnapshot() ? mReview.getLocation().getMapSnapshotZoom() : DEFAULT_ZOOM;
-	    mPhotoLatLng = getSherlockActivity().getIntent().getParcelableExtra(ReviewOptionsFragment.IMAGE_LATLNG);
+		mMainReview = (MainReview)IntentObjectHolder.getObject(FragmentReviewOptions.REVIEW_OBJECT);
+		mButton = (ImageButton)IntentObjectHolder.getObject(FragmentReviewOptions.LOCATION_BUTTON);
+		mRevertMapSnapshotZoom =  mMainReview.getLocation().hasMapSnapshot() ? mMainReview.getLocation().getMapSnapshotZoom() : DEFAULT_ZOOM;
+	    mPhotoLatLng = getSherlockActivity().getIntent().getParcelableExtra(FragmentReviewOptions.IMAGE_LATLNG);
 	    setHasOptionsMenu(true);		
 	}
 	
@@ -131,12 +131,12 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 	    	    
 	    mLocationName = (ClearableAutoCompleteTextView)v.findViewById(R.id.edit_text_name_location);
 
-	    if (mReview.hasLocation()) {
-	    	mRevertLatLng = mReview.getLocation().getLatLng();
+	    if (mMainReview.hasLocation()) {
+	    	mRevertLatLng = mMainReview.getLocation().getLatLng();
 	    	setLatLng(mRevertLatLng);
 	    	zoomToLatLng(mRevertMapSnapshotZoom);
-	    	if(mReview != null)
-	    		mLocationName.setText(mReview.getLocation().getName());
+	    	if(mMainReview != null)
+	    		mLocationName.setText(mMainReview.getLocation().getName());
 	    	mLocationName.hideChrome();
 	    }
 	    else if (mPhotoLatLng != null) {
@@ -178,19 +178,19 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 	
 	private void sendResult(int resultCode) {
 		if(resultCode == Activity.RESULT_OK)
-			mReview.setLocation(new ReviewLocation(mLatLng, mLocationName.getText().toString()));
+			mMainReview.setLocation(new ReviewLocation(mLatLng, mLocationName.getText().toString()));
 		
-		if(resultCode == RESULT_DELETE && mReview.hasLocation()) {
+		if(resultCode == RESULT_DELETE && mMainReview.hasLocation()) {
 			if(mDeleteConfirmed) {
-				mReview.deleteLocation();
+				mMainReview.deleteLocation();
 			} else {
 				DialogBasicFragment.showDeleteConfirmDialog(getResources().getString(R.string.location_activity_title), 
-						ReviewLocationFragment.this, getFragmentManager());
+						FragmentReviewLocation.this, getFragmentManager());
 				return;
 			}
 		}
 		
-		IntentObjectHolder.addObject(ReviewOptionsFragment.REVIEW_OBJECT, mReview);
+		IntentObjectHolder.addObject(FragmentReviewOptions.REVIEW_OBJECT, mMainReview);
 		getSherlockActivity().setResult(resultCode);		 
 		getSherlockActivity().finish();	
 	}
@@ -304,7 +304,7 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 			mSearchLocationName = null;
 			setLatLng(mRevertLatLng);
 			zoomToLatLng(mRevertMapSnapshotZoom);
-			mLocationName.setText(mReview.getLocation().getName());
+			mLocationName.setText(mMainReview.getLocation().getName());
 			mLocationName.hideChrome();
 			break;
 		case R.id.menu_item_image_location:
@@ -331,7 +331,7 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 		
 		if(mLocationName != null) {
 			mLocationName.setText(null);
-			String primaryDefaultSuggestion = mSearchLocationName != null? mSearchLocationName : mReview.getSubject();
+			String primaryDefaultSuggestion = mSearchLocationName != null? mSearchLocationName : mMainReview.getSubject();
 			mLocationName.setAdapter(new LocationNameAdapter(getSherlockActivity(), 
 					android.R.layout.simple_list_item_1, mLatLng, NUMBER_DEFAULT_NAMES, primaryDefaultSuggestion));
 		}
@@ -444,7 +444,7 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 		
 		@Override
 		protected void onPostExecute(Bitmap bitmap) {
-			mReview.getLocation().setMapSnapshot(bitmap, mZoom);
+			mMainReview.getLocation().setMapSnapshot(bitmap, mZoom);
 			if(bitmap == null)
 				mButton.setImageResource(R.drawable.ic_menu_camera);
 			else

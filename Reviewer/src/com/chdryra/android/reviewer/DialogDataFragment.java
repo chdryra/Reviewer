@@ -12,16 +12,16 @@ import com.chdryra.android.reviewer.ReviewData.Datum;
 
 public class DialogDataFragment extends DialogBasicFragment {
 
-	private Review mReview;
+	private MainReview mMainReview;
 	
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		View v = getActivity().getLayoutInflater().inflate(R.layout.dialog_data, null);
 		LinearLayout dataLinearLayout = (LinearLayout)v.findViewById(R.id.data_linear_layout);
 		
-		mReview = (Review)IntentObjectHolder.getObject(ReviewOptionsFragment.REVIEW_OBJECT);
+		mMainReview = (MainReview)IntentObjectHolder.getObject(FragmentReviewOptions.REVIEW_OBJECT);
 		boolean dark = true;
-		for(Datum datum: mReview.getData()) {
+		for(Datum datum: mMainReview.getData()) {
 			View datumRow = getSherlockActivity().getLayoutInflater().inflate(R.layout.datum_linear_row, null);
 			TextView label = (TextView)datumRow.findViewById(R.id.datum_label_text_view);
 			TextView value = (TextView)datumRow.findViewById(R.id.datum_value_text_view);

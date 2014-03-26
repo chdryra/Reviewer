@@ -25,7 +25,7 @@ import com.chdryra.android.mygenerallibrary.IntentObjectHolder;
 import com.chdryra.android.myandroidwidgets.ClearableEditText;
 import com.chdryra.android.reviewer.ReviewData.Datum;
 
-public class ReviewDataFragment extends SherlockFragment {
+public class FragmentReviewData extends SherlockFragment {
 	public static final int RESULT_DELETE = Activity.RESULT_FIRST_USER;
 	
 	public static final String DATUM_LABEL = "com.chdryra.android.reviewer.datum_label";
@@ -35,7 +35,7 @@ public class ReviewDataFragment extends SherlockFragment {
 	private static final int DELETE_CONFIRM = DialogBasicFragment.DELETE_CONFIRM;
 	private static final int DATUM_EDIT = DELETE_CONFIRM + 1;
 	
-	private Review mReview;
+	private MainReview mMainReview;
 	private ReviewData mReviewData = new ReviewData();
 	
 	private ClearableEditText mDatumLabel;
@@ -54,9 +54,9 @@ public class ReviewDataFragment extends SherlockFragment {
 		super.onCreate(savedInstanceState);
 		setRetainInstance(true);
 		setHasOptionsMenu(true);
-		mReview = (Review)IntentObjectHolder.getObject(ReviewOptionsFragment.REVIEW_OBJECT);
-		if( mReview.getData() != null )
-			mReviewData = mReview.getData();
+		mMainReview = (MainReview)IntentObjectHolder.getObject(FragmentReviewOptions.REVIEW_OBJECT);
+		if( mMainReview.getData() != null )
+			mReviewData = mMainReview.getData();
 	}
 	
 	@Override
@@ -91,7 +91,7 @@ public class ReviewDataFragment extends SherlockFragment {
 				Datum datum = (Datum)parent.getItemAtPosition(pos);
 				
 				DialogDatumFragment dialog = new DialogDatumFragment();
-				dialog.setTargetFragment(ReviewDataFragment.this, DATUM_EDIT);
+				dialog.setTargetFragment(FragmentReviewData.this, DATUM_EDIT);
 				Bundle args = new Bundle();
 				args.putString(DATUM_LABEL, datum.getLabel());
 				args.putString(DATUM_VALUE, datum.getValue());
@@ -171,21 +171,21 @@ public class ReviewDataFragment extends SherlockFragment {
 	}
 	
 	private void sendResult(int resultCode) {
-		if (resultCode == RESULT_DELETE && mReview.hasData()) {
+		if (resultCode == RESULT_DELETE && mMainReview.hasData()) {
 			if(mDeleteConfirmed)
-				mReview.deleteData();
+				mMainReview.deleteData();
 			else {
 				DialogBasicFragment.showDeleteConfirmDialog(getResources().getString(R.string.data_activity_title), 
-						ReviewDataFragment.this, getFragmentManager());
+						FragmentReviewData.this, getFragmentManager());
 				return;
 			}
 		}
 		
 		if(resultCode == Activity.RESULT_OK && mReviewData.size() > 0) {
-			mReview.setData(mReviewData);
+			mMainReview.setData(mReviewData);
 		}
 		
-		IntentObjectHolder.addObject(ReviewOptionsFragment.REVIEW_OBJECT, mReview);		
+		IntentObjectHolder.addObject(FragmentReviewOptions.REVIEW_OBJECT, mMainReview);		
 		getSherlockActivity().setResult(resultCode);		 
 		getSherlockActivity().finish();	
 	}
@@ -225,7 +225,7 @@ public class ReviewDataFragment extends SherlockFragment {
 				break;
 		}
 		
-		mReview.setData(mReviewData);
+		mMainReview.setData(mReviewData);
 		updateUI();				
 	}
 

@@ -13,7 +13,7 @@ public class DialogCommentFragment extends DialogBasicFragment {
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		View v = getActivity().getLayoutInflater().inflate(R.layout.dialog_comment, null);
 		TextView textView= (TextView)v.findViewById(R.id.comment_text_view);
-		mComment = getArguments().getString(ReviewOptionsFragment.DIALOG_COMMENT);		
+		mComment = getArguments().getString(FragmentReviewOptions.DIALOG_COMMENT);		
 		textView.setText(mComment);
 	
 		setDeleteConfirmation(getResources().getString(R.string.comment_activity_title));

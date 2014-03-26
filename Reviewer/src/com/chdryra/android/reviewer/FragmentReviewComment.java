@@ -33,7 +33,7 @@ import com.actionbarsherlock.view.MenuItem;
 import com.chdryra.android.mygenerallibrary.IntentObjectHolder;
 import com.chdryra.android.mygenerallibrary.RandomTextUtils;
 
-public class ReviewCommentFragment extends SherlockFragment {
+public class FragmentReviewComment extends SherlockFragment {
 	
 	public static final String EXTRA_COMMENT_STRING = "com.chdryra.android.reviewer.comment_string";
 	public static final int RESULT_DELETE = Activity.RESULT_FIRST_USER;
@@ -45,7 +45,7 @@ public class ReviewCommentFragment extends SherlockFragment {
 	
 	private Drawable mClearCommentIcon;  
 
-	private Review mReview;
+	private MainReview mMainReview;
 	
 	private Button mDeleteButton;
 	private Button mCancelButton;
@@ -67,7 +67,7 @@ public class ReviewCommentFragment extends SherlockFragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		mReview = (Review)IntentObjectHolder.getObject(ReviewOptionsFragment.REVIEW_OBJECT);
+		mMainReview = (MainReview)IntentObjectHolder.getObject(FragmentReviewOptions.REVIEW_OBJECT);
 		setRetainInstance(true);
 		setHasOptionsMenu(true);
 	}
@@ -83,7 +83,7 @@ public class ReviewCommentFragment extends SherlockFragment {
 		setHeadlineCommentsView();
 
 		mCriteriaCommentsLinearLayout = (LinearLayout)v.findViewById(R.id.criteria_comments_linear_layout);
-		LinkedHashMap<String, Criterion> criteria = mReview.getCriteriaList().getCriterionHashMap();
+		LinkedHashMap<String, Criterion> criteria = mMainReview.getCriteriaList().getCriterionHashMap();
 		Iterator<Criterion> it = criteria.values().iterator();
 		while (it.hasNext()) {
 			Criterion c = it.next();
@@ -121,7 +121,7 @@ public class ReviewCommentFragment extends SherlockFragment {
 	}
 	
 	private void setHeadlineCommentsView() {
-		mHeadlineCommentsView = getCommentLineView(mReview, mHeadlineCommentsView);
+		mHeadlineCommentsView = getCommentLineView(mMainReview, mHeadlineCommentsView);
 		EditText comment = (EditText)mHeadlineCommentsView.findViewById(R.id.comment_edit_text);
 		comment.setMinLines(MIN_HEADLINE_EDITTEXT_LINES);
 		comment.setGravity(Gravity.TOP);
@@ -284,26 +284,26 @@ public class ReviewCommentFragment extends SherlockFragment {
 	}
 	
 	private void sendResult(int resultCode) {
-		if (resultCode == RESULT_DELETE && mReview.hasComment()) {
+		if (resultCode == RESULT_DELETE && mMainReview.hasComment()) {
 			if(mDeleteConfirmed)
-				mReview.deleteCommentIncludingCriteria();
+				mMainReview.deleteCommentIncludingCriteria();
 			else {
 				DialogBasicFragment.showDeleteConfirmDialog(getResources().getString(R.string.comment_activity_title), 
-						ReviewCommentFragment.this, getFragmentManager());
+						FragmentReviewComment.this, getFragmentManager());
 				return;
 			}
 		}
 		
 		if(resultCode == Activity.RESULT_OK) {
-			mReview.setComment(mEditTexts.get(mReview.getCommentTitle()).getText().toString());
+			mMainReview.setComment(mEditTexts.get(mMainReview.getCommentTitle()).getText().toString());
 			for (HashMap.Entry<String, EditText> entry : mEditTexts.entrySet())
 			{
 				String title = entry.getKey();
 				
-				if(title.equals(mReview.getCommentTitle()))
+				if(title.equals(mMainReview.getCommentTitle()))
 			    	continue;
 				
-				Criterion c = mReview.getCriteriaList().getCriterion(title);
+				Criterion c = mMainReview.getCriteriaList().getCriterion(title);
 				if(mAddCriteriaComments) 
 					c.setComment(entry.getValue().getText().toString());
 				else
@@ -311,7 +311,7 @@ public class ReviewCommentFragment extends SherlockFragment {
 			}
 		}	
 		
-		IntentObjectHolder.addObject(ReviewOptionsFragment.REVIEW_OBJECT, mReview);
+		IntentObjectHolder.addObject(FragmentReviewOptions.REVIEW_OBJECT, mMainReview);
 		getSherlockActivity().setResult(resultCode);		 
 		getSherlockActivity().finish();	
 	}
@@ -338,7 +338,7 @@ public class ReviewCommentFragment extends SherlockFragment {
 		updateClearCommentMenuItemVisibility();
 
 		mAddCriteriaCommentsMenuItem = menu.findItem(R.id.menu_item_add_criteria_comments);
-		if(mReview.getCriteriaList().size() == 0)
+		if(mMainReview.getCriteriaList().size() == 0)
 			mAddCriteriaCommentsMenuItem.setVisible(false);
     }
 	

@@ -29,9 +29,9 @@ public class DialogDatumFragment extends DialogBasicFragment {
 		mLabel = (ClearableEditText)v.findViewById(R.id.datum_label_edit_text);
 		mValue = (ClearableEditText)v.findViewById(R.id.datum_value_edit_text);
 		
-		mOldLabel = getArguments().getString(ReviewDataFragment.DATUM_LABEL);
+		mOldLabel = getArguments().getString(FragmentReviewData.DATUM_LABEL);
 		mLabel.setText(mOldLabel);		
-		mValue.setText(getArguments().getString(ReviewDataFragment.DATUM_VALUE));
+		mValue.setText(getArguments().getString(FragmentReviewData.DATUM_VALUE));
 		
 		final AlertDialog dialog = buildDialog(v); 
 
@@ -60,8 +60,8 @@ public class DialogDatumFragment extends DialogBasicFragment {
 		Intent i = new Intent();
 		if(resultCode == Activity.RESULT_OK) {
 			i.putExtra(DATUM_OLD_LABEL, mOldLabel);
-			i.putExtra(ReviewDataFragment.DATUM_LABEL, mLabel.getText().toString());
-			i.putExtra(ReviewDataFragment.DATUM_VALUE, mValue.getText().toString());
+			i.putExtra(FragmentReviewData.DATUM_LABEL, mLabel.getText().toString());
+			i.putExtra(FragmentReviewData.DATUM_VALUE, mValue.getText().toString());
 		}
 		
 		if(resultCode == RESULT_DELETE)

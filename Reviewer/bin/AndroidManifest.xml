@@ -31,7 +31,7 @@
         android:theme="@style/Theme.Sherlock.Light" >
         
         <activity
-            android:name="com.chdryra.android.reviewer.ReviewCreateActivity"            
+            android:name="com.chdryra.android.reviewer.ActivityReviewCreate"            
             android:windowSoftInputMode="adjustPan"
             android:label="@string/review_define_activity_title" 
             android:screenOrientation="portrait">
@@ -41,44 +41,44 @@
             </intent-filter>
         </activity>
         
-        <activity android:name="com.chdryra.android.reviewer.ReviewOptionsActivity"
+        <activity android:name="com.chdryra.android.reviewer.ActivityReviewOptions"
 		    android:windowSoftInputMode="adjustPan"
 		    android:configChanges="orientation"
 		    android:exported="true"
             android:label="@string/review_optionals_activity_title" 
             android:screenOrientation="portrait">
             <meta-data android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.chdryra.android.reviewer.ReviewCreateActivity" />
+                android:value="com.chdryra.android.reviewer.ActivityReviewCreate" />
         </activity>
 
-        <activity android:name="com.chdryra.android.reviewer.ReviewLocationActivity"
+        <activity android:name="com.chdryra.android.reviewer.ActivityReviewLocation"
 		    android:windowSoftInputMode="adjustPan"
 		    android:configChanges="orientation"
 		    android:exported="true"
             android:label="@string/location_activity_title" 
             android:screenOrientation="portrait">
             <meta-data android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.chdryra.android.reviewer.ReviewOptionsActivity" />
+                android:value="com.chdryra.android.reviewer.ActivityReviewOptions" />
         </activity>
 
-        <activity android:name="com.chdryra.android.reviewer.ReviewCommentActivity"
+        <activity android:name="com.chdryra.android.reviewer.ActivityReviewComment"
 		    android:windowSoftInputMode="adjustPan"
 		    android:configChanges="orientation"
 		    android:exported="true"
             android:label="@string/comment_activity_title" 
             android:screenOrientation="portrait">
             <meta-data android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.chdryra.android.reviewer.ReviewOptionsActivity" />
+                android:value="com.chdryra.android.reviewer.ActivityReviewOptions" />
         </activity>
 
-        <activity android:name="com.chdryra.android.reviewer.ReviewDataActivity"
+        <activity android:name="com.chdryra.android.reviewer.ActivityReviewData"
 		    android:windowSoftInputMode="adjustPan"
 		    android:configChanges="orientation"
 		    android:exported="true"
             android:label="@string/data_activity_title" 
             android:screenOrientation="portrait">
             <meta-data android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.chdryra.android.reviewer.ReviewOptionsActivity" />
+                android:value="com.chdryra.android.reviewer.ActivityReviewOptions" />
         </activity>
         
         <meta-data 

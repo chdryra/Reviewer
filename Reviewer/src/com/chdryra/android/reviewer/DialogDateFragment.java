@@ -33,8 +33,8 @@ public class DialogDateFragment extends DialogBasicFragment {
 		mTimePicker = (TimePicker)v.findViewById(R.id.time_picker);
 		mCheckBoxIncludeTime = (CheckBox)v.findViewById(R.id.checkbox_include_time);
 		
-		mCurrentDate = (Date)getArguments().getSerializable(ReviewOptionsFragment.REVIEW_DATE);
-		mIncludeTime = getArguments().getBoolean(ReviewOptionsFragment.REVIEW_DATE_INC_TIME);
+		mCurrentDate = (Date)getArguments().getSerializable(FragmentReviewOptions.REVIEW_DATE);
+		mIncludeTime = getArguments().getBoolean(FragmentReviewOptions.REVIEW_DATE_INC_TIME);
 		
 		final Calendar calendar = Calendar.getInstance(Locale.getDefault());
 		calendar.setTime(mCurrentDate);
@@ -118,11 +118,11 @@ public class DialogDateFragment extends DialogBasicFragment {
 		calendar.set(year, month, day, hour, minute);
 		Date newDate = calendar.getTime();
 		
-		i.putExtra(ReviewOptionsFragment.REVIEW_DATE_INC_TIME, mCheckBoxIncludeTime.isChecked());
+		i.putExtra(FragmentReviewOptions.REVIEW_DATE_INC_TIME, mCheckBoxIncludeTime.isChecked());
 		if(resultCode == Activity.RESULT_OK && newDate.before(new Date()))
-			i.putExtra(ReviewOptionsFragment.REVIEW_DATE, newDate);
+			i.putExtra(FragmentReviewOptions.REVIEW_DATE, newDate);
 		else 
-			i.putExtra(ReviewOptionsFragment.REVIEW_DATE, mCurrentDate);
+			i.putExtra(FragmentReviewOptions.REVIEW_DATE, mCurrentDate);
 			
 		getTargetFragment().onActivityResult(getTargetRequestCode(), resultCode, i);
 	}
