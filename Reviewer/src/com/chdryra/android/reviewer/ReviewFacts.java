@@ -4,25 +4,33 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.NoSuchElementException;
 
-public class ReviewData implements Iterable<ReviewData.Datum>{
-	private LinkedHashMap<String, Datum> mData = new LinkedHashMap<String, Datum>();
+public class ReviewFacts implements Iterable<ReviewFacts.Datum>{
+	private LinkedHashMap<String, Datum> mData;
 	
-	public void addDatum(String label, String value) {
+	public ReviewFacts() {
+		mData = new LinkedHashMap<String, Datum>();
+	}
+		
+	public void put(String label, String value) {
 		if(label != null && value != null)
 			mData.put(label, new Datum(label, value));
 	}
 	
-	public void deleteDatum(String label) {
+	public void remove(String label) {
 		mData.remove(label);
 	}
 	
 	public Datum getItem(int position) {
 		String[] keys = mData.keySet().toArray(new String[mData.size()]);
-		return mData.get(keys[position]);
+		return get(keys[position]);
 	}
 	
-	public String getValue(String name) {
-		return mData.get(name).getValue();
+	public Datum get(String label) {
+		return mData.get(label);
+	}
+	
+	public String getValue(String label) {
+		return mData.get(label).getValue();
 	}
 	
 	public int size() {
@@ -76,7 +84,7 @@ public class ReviewData implements Iterable<ReviewData.Datum>{
 			if(position <= 0) {
 				throw new IllegalStateException("Have to do at least one next() before you can delete");
 			} else
-				deleteDatum(getItem(position-1).mLabel);
+				ReviewFacts.this.remove(getItem(position-1).mLabel);
 		}
 	}
 }

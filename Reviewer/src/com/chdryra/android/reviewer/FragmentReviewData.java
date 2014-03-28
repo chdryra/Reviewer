@@ -23,7 +23,7 @@ import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.view.MenuItem;
 import com.chdryra.android.mygenerallibrary.IntentObjectHolder;
 import com.chdryra.android.myandroidwidgets.ClearableEditText;
-import com.chdryra.android.reviewer.ReviewData.Datum;
+import com.chdryra.android.reviewer.ReviewFacts.Datum;
 
 public class FragmentReviewData extends SherlockFragment {
 	public static final int RESULT_DELETE = Activity.RESULT_FIRST_USER;
@@ -36,7 +36,7 @@ public class FragmentReviewData extends SherlockFragment {
 	private static final int DATUM_EDIT = DELETE_CONFIRM + 1;
 	
 	private MainReview mMainReview;
-	private ReviewData mReviewData = new ReviewData();
+	private ReviewFacts mReviewFacts = new ReviewFacts();
 	
 	private ClearableEditText mDatumLabel;
 	private ClearableEditText mDatumValue;
@@ -55,8 +55,8 @@ public class FragmentReviewData extends SherlockFragment {
 		setRetainInstance(true);
 		setHasOptionsMenu(true);
 		mMainReview = (MainReview)IntentObjectHolder.getObject(FragmentReviewOptions.REVIEW_OBJECT);
-		if( mMainReview.getData() != null )
-			mReviewData = mMainReview.getData();
+		if(mMainReview.hasFacts())
+			mReviewFacts = mMainReview.getFacts();
 	}
 	
 	@Override
@@ -69,7 +69,7 @@ public class FragmentReviewData extends SherlockFragment {
 		mDatumLabel = (ClearableEditText)v.findViewById(R.id.datum_label_edit_text);
 		mDatumValue = (ClearableEditText)v.findViewById(R.id.datum_value_edit_text);
 		mDataListView = (ListView)v.findViewById(R.id.data_listview);
-		mDataListView.setAdapter(new ReviewDataAdaptor(mReviewData));
+		mDataListView.setAdapter(new ReviewDataAdaptor(mReviewFacts));
 		updateUI();
 		
 		mDatumValue.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -159,7 +159,7 @@ public class FragmentReviewData extends SherlockFragment {
 		else if(value == null || value.length() == 0)
 			Toast.makeText(getSherlockActivity(), "Please enter a value...", Toast.LENGTH_SHORT).show();
 		else {
-			mReviewData.addDatum(label, value);
+			mReviewFacts.put(label, value);
 			mDatumLabel.setText(null);
 			mDatumValue.setText(null);
 			updateUI();
@@ -171,9 +171,9 @@ public class FragmentReviewData extends SherlockFragment {
 	}
 	
 	private void sendResult(int resultCode) {
-		if (resultCode == RESULT_DELETE && mMainReview.hasData()) {
+		if (resultCode == RESULT_DELETE && mMainReview.hasFacts()) {
 			if(mDeleteConfirmed)
-				mMainReview.deleteData();
+				mMainReview.deleteFacts();
 			else {
 				DialogBasicFragment.showDeleteConfirmDialog(getResources().getString(R.string.data_activity_title), 
 						FragmentReviewData.this, getFragmentManager());
@@ -181,8 +181,8 @@ public class FragmentReviewData extends SherlockFragment {
 			}
 		}
 		
-		if(resultCode == Activity.RESULT_OK && mReviewData.size() > 0) {
-			mMainReview.setData(mReviewData);
+		if(resultCode == Activity.RESULT_OK && mReviewFacts.size() > 0) {
+			mMainReview.setFacts(mReviewFacts);
 		}
 		
 		IntentObjectHolder.addObject(FragmentReviewOptions.REVIEW_OBJECT, mMainReview);		
@@ -201,12 +201,12 @@ public class FragmentReviewData extends SherlockFragment {
 						String oldLabel = (String)data.getSerializableExtra(DialogDatumFragment.DATUM_OLD_LABEL);
 						String newLabel = (String)data.getSerializableExtra(DATUM_LABEL);
 						String newValue = (String)data.getSerializableExtra(DATUM_VALUE);
-						mReviewData.deleteDatum(oldLabel);
-						mReviewData.addDatum(newLabel, newValue);
+						mReviewFacts.remove(oldLabel);
+						mReviewFacts.put(newLabel, newValue);
 						break;
 					case DialogDatumFragment.RESULT_DELETE:
 						String toDelete = (String)data.getSerializableExtra(DialogDatumFragment.DATUM_OLD_LABEL);
-						mReviewData.deleteDatum(toDelete);
+						mReviewFacts.remove(toDelete);
 						break;
 					default:
 						return;
@@ -225,7 +225,7 @@ public class FragmentReviewData extends SherlockFragment {
 				break;
 		}
 		
-		mMainReview.setData(mReviewData);
+		mMainReview.setFacts(mReviewFacts);
 		updateUI();				
 	}
 
@@ -242,9 +242,9 @@ public class FragmentReviewData extends SherlockFragment {
 	}
 
 	class ReviewDataAdaptor extends BaseAdapter {	
-		private ReviewData mData;
+		private ReviewFacts mData;
 	
-		public ReviewDataAdaptor(ReviewData data){
+		public ReviewDataAdaptor(ReviewFacts data){
 		    mData = data;
 		}
 			

@@ -4,8 +4,8 @@ import android.graphics.Bitmap;
 
 public class ReviewImage {
 
-	private Bitmap mBitmap;
-	private String mCaption;
+	private Bitmap mBitmap = null;
+	private String mCaption = null;
 	
 	public ReviewImage(Bitmap bitmap) {
 		mBitmap = bitmap;
@@ -26,4 +26,5 @@ public class ReviewImage {
 	public boolean hasCaption() {
 		return mCaption != null;
 	}
+	
 }

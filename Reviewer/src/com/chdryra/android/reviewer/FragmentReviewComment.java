@@ -83,10 +83,10 @@ public class FragmentReviewComment extends SherlockFragment {
 		setHeadlineCommentsView();
 
 		mCriteriaCommentsLinearLayout = (LinearLayout)v.findViewById(R.id.criteria_comments_linear_layout);
-		LinkedHashMap<String, Criterion> criteria = mMainReview.getCriteriaList().getCriterionHashMap();
-		Iterator<Criterion> it = criteria.values().iterator();
+		LinkedHashMap<String, SimpleReview> criteria = mMainReview.getChildren().getCriterionHashMap();
+		Iterator<SimpleReview> it = criteria.values().iterator();
 		while (it.hasNext()) {
-			Criterion c = it.next();
+			SimpleReview c = it.next();
 			mCriteriaCommentsLinearLayout.addView(getCommentLineView(c, null));
 			if( c.getComment() != null && c.getComment().length() > 0)
 				mAddCriteriaComments = true;
@@ -171,8 +171,8 @@ public class FragmentReviewComment extends SherlockFragment {
              }
          });
 		
-		if( commentable.getComment() != null )
-			comment.setText(commentable.getComment());
+		if( commentable.getCommentString() != null )
+			comment.setText(commentable.getCommentString());
 		
 		comment.addTextChangedListener(new TextWatcher() {
 			
@@ -303,9 +303,9 @@ public class FragmentReviewComment extends SherlockFragment {
 				if(title.equals(mMainReview.getCommentTitle()))
 			    	continue;
 				
-				Criterion c = mMainReview.getCriteriaList().getCriterion(title);
+				SimpleReview c = mMainReview.getChildren().get(title);
 				if(mAddCriteriaComments) 
-					c.setComment(entry.getValue().getText().toString());
+					c.setCommentString(entry.getValue().getText().toString());
 				else
 					c.deleteComment();
 			}
@@ -338,7 +338,7 @@ public class FragmentReviewComment extends SherlockFragment {
 		updateClearCommentMenuItemVisibility();
 
 		mAddCriteriaCommentsMenuItem = menu.findItem(R.id.menu_item_add_criteria_comments);
-		if(mMainReview.getCriteriaList().size() == 0)
+		if(mMainReview.getChildren().size() == 0)
 			mAddCriteriaCommentsMenuItem.setVisible(false);
     }
 	

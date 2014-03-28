@@ -10,48 +10,53 @@ import android.graphics.Bitmap;
 import com.chdryra.android.reviewer.ReviewIDGenerator.ReviewID;
 import com.google.android.gms.maps.model.LatLng;
 
-public class MainReview implements Commentable{	
-	private static final String COMMENT_HEADLINE_DELIMITER = ".!?";
+public class MainReview implements ReviewNode{	
+	private static final String TAG = "MainReview";
 	
 	private ReviewID mID;
-	private String mSubject;
+	private String mTitle;
 	private float mRating;
 	
-	private CriterionList mCriteriaList = new CriterionList();
+	private ReviewNode mNode;
 	private boolean mRatingIsAverage;
-	
+
+	private ReviewComment mComment;
+	private ReviewImage mImage;
+	private ReviewLocation mLocation;	
+	private ReviewFacts mReviewFacts;
+
 	private Date mDate;	
 	private boolean mDateWithTime = false;
-	
-	private String mComment;
 
-	private ReviewImage mImage;
-	private ReviewLocation mLocation = ReviewLocation.getNullLocation();	
-	private ReviewData mReviewData;
-	
-	public MainReview() {
+	public MainReview(String title) {
 		mID = ReviewIDGenerator.generateID();
-		mDate = new Date();
+		mTitle = title;
+		mNode = (ReviewNode)ReviewFactory.getInstance().createReviewNode(this);
 	}
 
+	@Override
 	public ReviewID getID() {
 		return mID;
 	}
-	
-	public void setSubject(String subject) {
-		mSubject = subject;
+
+	@Override
+	public String getTitle() {
+		return mTitle;
 	}
-	
-	public String getSubject() {
-		return mSubject;
+
+	@Override
+	public void setTitle(String title) {
+		mTitle = title;
 	}
-	
+
+	@Override
 	public void setRating(float rating) {
 		mRating = rating;
 	}
-	
+
+	@Override
 	public float getRating() {
-		return mRating;
+		return mRatingIsAverage? mNode.getChildren().getRating() : mRating;
 	}
 	
 	public boolean isRatingIsAverage() {
@@ -78,80 +83,20 @@ public class MainReview implements Commentable{
 		mDateWithTime = dateWithTime;
 	}
 
-	public CriterionList getCriteriaList() {
-		return mCriteriaList;
+	public ReviewCollection getCriteria() {
+		return getChildren();
 	}
 	
-	public void setCriteriaList(CriterionList criteriaList) {
-		mCriteriaList = criteriaList;
+	public void setCriteria(ReviewCollection criteria) {
+		addChildren(criteria);
 	}
 
-	private String getFormattedComment() {
-		String comment = null;
+	public void deleteCommentIncludingChildren() {
+		VisitorCommentDeleter v = new VisitorCommentDeleter();
+		acceptVisitor(v);
+		getChildren().acceptVisitor(v);
+	}
 		
-		if(mComment != null)
-			comment = mComment;
-		
-		LinkedHashMap<String, Criterion> criteria = getCriteriaList().getCriterionHashMap();
-		Iterator<Criterion> it = criteria.values().iterator();
-		boolean firstComment = true;
-		while (it.hasNext()) {
-			Criterion criterion = it.next();
-			if(criterion.getComment() != null) {
-				if(firstComment) {
-					comment += String.format("%n");
-					firstComment = false;
-				}
-			
-				comment +=  String.format("%n") + "*" + criterion.getName() + ": " + criterion.getComment();
-			}
-		}
-				
-		return comment;
-	}
-
-	public String getCommentIncludingCriteria() {
-		return getFormattedComment();
-	}
-
-	public void deleteCommentIncludingCriteria() {
-		deleteComment();
-		mCriteriaList.deleteComments();
-	}
-	
-	@Override
-	public String getCommentTitle() {
-		return mSubject;
-	}
-	
-	@Override
-	public void setComment(String comment) {
-		mComment = comment;
-	}
-
-	@Override
-	public String getComment() {
-		return mComment;
-	}
-	
-	public String getCommentHeadline() {
-		if(mComment != null) {
-			StringTokenizer tokens = new StringTokenizer(mComment, COMMENT_HEADLINE_DELIMITER);
-			return tokens.nextToken();
-		} else
-			return null;
-	}
-	
-	@Override
-	public void deleteComment() {
-		mComment = null;
-	}
-
-	@Override
-	public boolean hasComment() {
-		return mComment != null || mCriteriaList.hasComment();
-	}
-	
 	public ReviewImage getImage() {
 		return mImage;
 	}
@@ -177,27 +122,78 @@ public class MainReview implements Commentable{
 	}
 	
 	public void deleteLocation() {
-		setLocation(ReviewLocation.getNullLocation());
+		setLocation(null);
 	}
 	
 	public boolean hasLocation() {
-		return mLocation.getLatLng() != null;
+		return mLocation != null;
 	}
 
-	public ReviewData getData() {
-		return mReviewData;
+	public ReviewFacts getFacts() {
+		return mReviewFacts;
 	}
 
-	public void setData(ReviewData reviewData) {
-		mReviewData = reviewData;
+	public void setFacts(ReviewFacts reviewFacts) {
+		mReviewFacts = reviewFacts;
 	}
 	
-	public void deleteData() {
-		setData(null);
+	public void deleteFacts() {
+		setFacts(null);
 	}
 	
-	public boolean hasData() {
-		return mReviewData!=null;
+	public boolean hasFacts() {
+		return mReviewFacts != null && mReviewFacts.size() > 0;
+	}
+	
+	@Override
+	public void acceptVisitor(ReviewVisitor reviewVisitor) {
+		reviewVisitor.visit(this);
+		getChildren().acceptVisitor(reviewVisitor);
+	}
+
+	@Override
+	public void setComment(ReviewComment comment){
+		mComment = comment;
+	}
+
+	@Override
+	public ReviewComment getComment() {
+		return mComment;
+	}
+
+	@Override
+	public void deleteComment() {
+		setComment(null);
+	}
+
+	@Override
+	public boolean hasComment() {
+		return mComment != null;
+	}
+
+	@Override
+	public void setParent(Review parent) {
+		mNode.setParent(parent);
+	}
+
+	@Override
+	public ReviewNode getParent() {
+		return mNode.getParent();
+	}
+
+	@Override
+	public void addChild(Review child) {
+		mNode.addChild(child);
+	}
+
+	@Override
+	public void addChildren(ReviewCollection children) {
+		mNode.addChildren(children);
+	}
+
+	@Override
+	public ReviewCollection getChildren() {
+		return mNode.getChildren();
 	}
 	
 }

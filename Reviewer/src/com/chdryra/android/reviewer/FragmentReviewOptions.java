@@ -40,7 +40,7 @@ import com.actionbarsherlock.view.MenuItem;
 import com.chdryra.android.mygenerallibrary.ImageHelper;
 import com.chdryra.android.mygenerallibrary.IntentObjectHolder;
 import com.chdryra.android.mygenerallibrary.RandomTextUtils;
-import com.chdryra.android.reviewer.ReviewData.Datum;
+import com.chdryra.android.reviewer.ReviewFacts.Datum;
 
 public class FragmentReviewOptions extends SherlockFragment {
 	private final static String TAG = "ReviewerFinishFragment";
@@ -148,7 +148,7 @@ public class FragmentReviewOptions extends SherlockFragment {
 	
 		//***Total Rating Bar***//
 		mRatingBar.setRating(mMainReview.getRating());
-		int numCriteria = mMainReview.getCriteriaList().size();
+		int numCriteria = mMainReview.getChildren().size();
 		mTouchStarsText = numCriteria == 0? NO_CRITERIA : TOGGLE_CRITERIA;
 		mTouchStarsTextView.setText(mTouchStarsText);
 		if(numCriteria > 0) {
@@ -169,10 +169,10 @@ public class FragmentReviewOptions extends SherlockFragment {
 	
 		
 		//***Criteria Rating Bars***//
-		Iterator<Criterion> it = mMainReview.getCriteriaList().getCriterionHashMap().values().iterator();
+		Iterator<SimpleReview> it = mMainReview.getChildren().getCriterionHashMap().values().iterator();
 		boolean dark = false;
 		while (it.hasNext()) {
-			Criterion c = it.next();
+			SimpleReview c = it.next();
 			View criteriaView = getSherlockActivity().getLayoutInflater().inflate(R.layout.criterion_row_stars_small, null);
 			
 			criteriaView.setBackgroundResource(dark == true? android.R.drawable.divider_horizontal_bright: android.R.drawable.divider_horizontal_dark);
@@ -181,7 +181,7 @@ public class FragmentReviewOptions extends SherlockFragment {
 			TextView criterionText = (TextView)criteriaView.findViewById(R.id.criterion_name_text_view);				
 			RatingBar ratingBar = (RatingBar)criteriaView.findViewById(R.id.criterion_rating_bar);		
 			
-			criterionText.setText(c.getName());
+			criterionText.setText(c.getTitle());
 			criterionText.setTextColor(mTouchStarsTextView.getTextColors().getDefaultColor());
 			ratingBar.setRating(c.getRating());
 			ratingBar.setIsIndicator(true);
@@ -261,7 +261,7 @@ public class FragmentReviewOptions extends SherlockFragment {
 		mAddDataImageButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				if (!mMainReview.hasData())
+				if (!mMainReview.hasFacts())
 					requestDataAddIntent();
 				else
 					showDataEditDialog();
@@ -273,7 +273,7 @@ public class FragmentReviewOptions extends SherlockFragment {
 		mDataLinearLayout.getLayoutParams().height = maxHeight;
 		mDataLinearLayout.getLayoutParams().width = maxWidth;
 
-		if(mMainReview.hasData()) {
+		if(mMainReview.hasFacts()) {
 			updateDataTable();
 			setVisibleGoneView(mDataLinearLayout, mAddDataImageButton);
 		} else
@@ -622,7 +622,7 @@ public class FragmentReviewOptions extends SherlockFragment {
 	}	
 	
 	private void updateDataTable() {
-		if(!mMainReview.hasData()) {
+		if(!mMainReview.hasFacts()) {
 			setVisibleGoneView(mAddDataImageButton, mDataLinearLayout);
 			return;
 		}
@@ -630,7 +630,7 @@ public class FragmentReviewOptions extends SherlockFragment {
 		mDataLinearLayout.removeAllViews();
 		setVisibleGoneView(mDataLinearLayout, mAddDataImageButton);
 		int i = 0;
-		for(Datum datum: mMainReview.getData()) {
+		for(Datum datum: mMainReview.getFacts()) {
 			FrameLayout labelRow = (FrameLayout)getSherlockActivity().getLayoutInflater().inflate(R.layout.data_table_label_row, null);
 			FrameLayout valueRow = (FrameLayout)getSherlockActivity().getLayoutInflater().inflate(R.layout.data_table_value_row, null);
 			
@@ -650,7 +650,7 @@ public class FragmentReviewOptions extends SherlockFragment {
 	}
 	
 	private void deleteData() {
-		mMainReview.deleteData();
+		mMainReview.deleteFacts();
 		updateDataTable();
 	}
 	

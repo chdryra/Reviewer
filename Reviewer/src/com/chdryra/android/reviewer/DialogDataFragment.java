@@ -8,7 +8,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.chdryra.android.mygenerallibrary.IntentObjectHolder;
-import com.chdryra.android.reviewer.ReviewData.Datum;
+import com.chdryra.android.reviewer.ReviewFacts.Datum;
 
 public class DialogDataFragment extends DialogBasicFragment {
 
@@ -21,7 +21,7 @@ public class DialogDataFragment extends DialogBasicFragment {
 		
 		mMainReview = (MainReview)IntentObjectHolder.getObject(FragmentReviewOptions.REVIEW_OBJECT);
 		boolean dark = true;
-		for(Datum datum: mMainReview.getData()) {
+		for(Datum datum: mMainReview.getFacts()) {
 			View datumRow = getSherlockActivity().getLayoutInflater().inflate(R.layout.datum_linear_row, null);
 			TextView label = (TextView)datumRow.findViewById(R.id.datum_label_text_view);
 			TextView value = (TextView)datumRow.findViewById(R.id.datum_value_text_view);

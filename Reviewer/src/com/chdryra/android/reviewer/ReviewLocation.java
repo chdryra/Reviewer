@@ -6,14 +6,11 @@ import com.google.android.gms.maps.model.LatLng;
 
 public class ReviewLocation {
 	private static final String LOCATION_DELIMITER = ",|.";
-	private LatLng mLatLng;
 	
+	private LatLng mLatLng = null;
 	private Bitmap mMapSnapshot = null;
 	private float mMapSnapshotZoom;
 	private String mName = null;
-	
-	private ReviewLocation() {
-	}
 	
 	public ReviewLocation(LatLng latLng) {
 		mLatLng = latLng;
@@ -24,10 +21,6 @@ public class ReviewLocation {
 		setName(name);
 	}
 
-	public static ReviewLocation getNullLocation() {
-		return new ReviewLocation();
-	}
-	
 	public LatLng getLatLng() {
 		return mLatLng;
 	}
@@ -72,4 +65,5 @@ public class ReviewLocation {
 		} else
 			return null;
 	}
+	
 }
