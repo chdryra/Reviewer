@@ -1,5 +1,5 @@
 package com.chdryra.android.reviewer;
 
-public interface ReviewNodeVisitor{
+public interface VisitorReviewNode{
 	public void visit(ReviewNode reviewNode);
 }

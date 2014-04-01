@@ -11,16 +11,14 @@ public class UserReview implements ReviewNode{
 	private ReviewID mID;
 	private String mTitle;
 	private float mRating;
-	
-	private ReviewNode mNode;
 
 	private ReviewComment mComment;
 	private ReviewImage mImage;
 	private ReviewLocation mLocation;	
 	private ReviewFacts mFacts;
 
-	private Date mDate;	
-	private boolean mDateWithTime = false;
+	//Holds the structural information e.g. criteria
+	private ReviewNode mNode;
 
 	public UserReview(String title) {
 		mID = ReviewID.generateID();
@@ -39,9 +37,6 @@ public class UserReview implements ReviewNode{
 		mImage = in.readParcelable(ReviewImage.class.getClassLoader());
 		mLocation = in.readParcelable(ReviewLocation.class.getClassLoader());	
 		mFacts = in.readParcelable(ReviewFacts.class.getClassLoader());
-
-		mDate = new Date(in.readLong());	
-		mDateWithTime = in.readByte() != 0;
 	}
 
 	@Override
@@ -72,22 +67,6 @@ public class UserReview implements ReviewNode{
 	@Override
 	public float getRating() {
 		return mRating;
-	}
-
-	public void setDate(Date date) {
-		mDate = date;
-	}
-
-	public Date getDate() {
-		return mDate;
-	}
-	
-	public boolean isDateWithTime() {
-		return mDateWithTime;
-	}
-
-	public void setDateWithTime(boolean dateWithTime) {
-		mDateWithTime = dateWithTime;
 	}
 
 	public ReviewNodeCollection getCriteria() {
@@ -147,8 +126,8 @@ public class UserReview implements ReviewNode{
 	}
 	
 	@Override
-	public void acceptVisitor(ReviewNodeVisitor reviewNodeVisitor) {
-		reviewNodeVisitor.visit(this);
+	public void acceptVisitor(VisitorReviewNode visitorReviewNode) {
+		visitorReviewNode.visit(mNode);
 	}
 
 	@Override
@@ -229,9 +208,6 @@ public class UserReview implements ReviewNode{
 		dest.writeParcelable(mImage, flags);
 		dest.writeParcelable(mLocation, flags);	
 		dest.writeParcelable(mFacts, flags);
-
-		dest.writeLong(mDate.getTime());	
-		dest.writeByte((byte) (mDateWithTime? 1 : 0));
 	}
 	
 	public static final Parcelable.Creator<UserReview> CREATOR 

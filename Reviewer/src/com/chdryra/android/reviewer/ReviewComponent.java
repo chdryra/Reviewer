@@ -165,8 +165,8 @@ public class ReviewComponent implements ReviewNode {
 	}
 
 	@Override
-	public void acceptVisitor(ReviewNodeVisitor reviewNodeVisitor) {
-		reviewNodeVisitor.visit(this);
+	public void acceptVisitor(VisitorReviewNode visitorReviewNode) {
+		visitorReviewNode.visit(this);
 	}
 
 	@Override

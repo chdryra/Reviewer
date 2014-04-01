@@ -3,16 +3,16 @@ package com.chdryra.android.reviewer;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class SingleComment implements ReviewComment{
+public class ReviewCommentSingle implements ReviewComment{
 	private String mTitle;
 	private String mComment;
 	
-	public SingleComment(String title, String comment) {
+	public ReviewCommentSingle(String title, String comment) {
 		mTitle = title;
 		mComment = comment;
 	}
 	
-	public SingleComment(Parcel in) {
+	public ReviewCommentSingle(Parcel in) {
 		mTitle = in.readString();
 		mComment = in.readString();
 	}
@@ -46,14 +46,14 @@ public class SingleComment implements ReviewComment{
 		dest.writeString(mComment);
 	}
 	
-	public static final Parcelable.Creator<SingleComment> CREATOR 
-	= new Parcelable.Creator<SingleComment>() {
-	    public SingleComment createFromParcel(Parcel in) {
-	        return new SingleComment(in);
+	public static final Parcelable.Creator<ReviewCommentSingle> CREATOR 
+	= new Parcelable.Creator<ReviewCommentSingle>() {
+	    public ReviewCommentSingle createFromParcel(Parcel in) {
+	        return new ReviewCommentSingle(in);
 	    }
 
-	    public SingleComment[] newArray(int size) {
-	        return new SingleComment[size];
+	    public ReviewCommentSingle[] newArray(int size) {
+	        return new ReviewCommentSingle[size];
 	    }
 	};
 }

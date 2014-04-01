@@ -14,5 +14,5 @@ public interface ReviewNode extends Review {
 	public void addChildren(ReviewNodeCollection children);
 	public ReviewNodeCollection getChildren();
 	
-	public void acceptVisitor(ReviewNodeVisitor reviewNodeVisitor);
+	public void acceptVisitor(VisitorReviewNode visitorReviewNode);
 }

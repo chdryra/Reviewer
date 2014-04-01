@@ -1,6 +1,6 @@
 package com.chdryra.android.reviewer;
 
-public class VisitorCommentCollector implements ReviewNodeVisitor {
+public class VisitorCommentCollector implements VisitorReviewNode {
 	private ReviewCommentCollection mData = new ReviewCommentCollection();
 	
 	@Override
