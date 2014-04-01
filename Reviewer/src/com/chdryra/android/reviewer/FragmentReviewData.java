@@ -35,7 +35,7 @@ public class FragmentReviewData extends SherlockFragment {
 	private static final int DELETE_CONFIRM = DialogBasicFragment.DELETE_CONFIRM;
 	private static final int DATUM_EDIT = DELETE_CONFIRM + 1;
 	
-	private MainReview mMainReview;
+	private UserReview mUserReview;
 	private ReviewFacts mReviewFacts = new ReviewFacts();
 	
 	private ClearableEditText mDatumLabel;
@@ -54,9 +54,9 @@ public class FragmentReviewData extends SherlockFragment {
 		super.onCreate(savedInstanceState);
 		setRetainInstance(true);
 		setHasOptionsMenu(true);
-		mMainReview = (MainReview)IntentObjectHolder.getObject(FragmentReviewOptions.REVIEW_OBJECT);
-		if(mMainReview.hasFacts())
-			mReviewFacts = mMainReview.getFacts();
+		mUserReview = (UserReview)IntentObjectHolder.getObject(FragmentReviewOptions.REVIEW_OBJECT);
+		if(mUserReview.hasFacts())
+			mReviewFacts = mUserReview.getFacts();
 	}
 	
 	@Override
@@ -171,9 +171,9 @@ public class FragmentReviewData extends SherlockFragment {
 	}
 	
 	private void sendResult(int resultCode) {
-		if (resultCode == RESULT_DELETE && mMainReview.hasFacts()) {
+		if (resultCode == RESULT_DELETE && mUserReview.hasFacts()) {
 			if(mDeleteConfirmed)
-				mMainReview.deleteFacts();
+				mUserReview.deleteFacts();
 			else {
 				DialogBasicFragment.showDeleteConfirmDialog(getResources().getString(R.string.data_activity_title), 
 						FragmentReviewData.this, getFragmentManager());
@@ -182,10 +182,10 @@ public class FragmentReviewData extends SherlockFragment {
 		}
 		
 		if(resultCode == Activity.RESULT_OK && mReviewFacts.size() > 0) {
-			mMainReview.setFacts(mReviewFacts);
+			mUserReview.setFacts(mReviewFacts);
 		}
 		
-		IntentObjectHolder.addObject(FragmentReviewOptions.REVIEW_OBJECT, mMainReview);		
+		IntentObjectHolder.addObject(FragmentReviewOptions.REVIEW_OBJECT, mUserReview);		
 		getSherlockActivity().setResult(resultCode);		 
 		getSherlockActivity().finish();	
 	}
@@ -225,7 +225,7 @@ public class FragmentReviewData extends SherlockFragment {
 				break;
 		}
 		
-		mMainReview.setFacts(mReviewFacts);
+		mUserReview.setFacts(mReviewFacts);
 		updateUI();				
 	}
 

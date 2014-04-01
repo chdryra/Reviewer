@@ -2,9 +2,12 @@ package com.chdryra.android.reviewer;
 
 import java.util.StringTokenizer;
 import android.graphics.Bitmap;
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.android.gms.maps.model.LatLng;
 
-public class ReviewLocation {
+public class ReviewLocation implements Parcelable{
 	private static final String LOCATION_DELIMITER = ",|.";
 	
 	private LatLng mLatLng = null;
@@ -19,6 +22,13 @@ public class ReviewLocation {
 	public ReviewLocation(LatLng latLng, String name) {
 		mLatLng = latLng;
 		setName(name);
+	}
+
+	public ReviewLocation(Parcel in) {
+		mLatLng = in.readParcelable(LatLng.class.getClassLoader());
+		mMapSnapshot = in.readParcelable(Bitmap.class.getClassLoader());
+		mMapSnapshotZoom = in.readFloat();
+		mName = in.readString();
 	}
 
 	public LatLng getLatLng() {
@@ -65,5 +75,29 @@ public class ReviewLocation {
 		} else
 			return null;
 	}
-	
+
+	@Override
+	public int describeContents() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void writeToParcel(Parcel dest, int flags) {
+		dest.writeParcelable(mLatLng, flags);
+		dest.writeParcelable(mMapSnapshot, flags);
+		dest.writeFloat(mMapSnapshotZoom);
+		dest.writeString(mName);
+	}
+
+	public static final Parcelable.Creator<ReviewLocation> CREATOR 
+	= new Parcelable.Creator<ReviewLocation>() {
+	    public ReviewLocation createFromParcel(Parcel in) {
+	        return new ReviewLocation(in);
+	    }
+
+	    public ReviewLocation[] newArray(int size) {
+	        return new ReviewLocation[size];
+	    }
+	};	
 }

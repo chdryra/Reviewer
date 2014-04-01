@@ -15,15 +15,19 @@ public class ReviewFactory {
 		return sFactory;
 	}
 	
-	public Review createSimpleReview(String title) {
-		return new SimpleReview(title);
+	private Review newUserReview(String title) {
+		return new UserReview(title);	
 	}
 	
-	public Review createMainReview(String title) {
-		return new MainReview(title);
-	}
-	
-	public Review createReviewNode(Review review) {
+	private ReviewNode newReviewNode(Review review) {
 		return new ReviewComponent(review);
+	}
+	
+	public static Review createUserReview(String title) {
+		return getInstance().newUserReview(title);
+	}
+	
+	public static ReviewNode createReviewNode(Review review) {
+		return getInstance().newReviewNode(review);
 	}
 }

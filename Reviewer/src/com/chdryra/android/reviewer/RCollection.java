@@ -4,13 +4,10 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.NoSuchElementException;
 
-import com.chdryra.android.reviewer.ReviewIDGenerator.ReviewID;
-
-public class RCollection<T> implements Iterable<T>{
-	protected LinkedHashMap<ReviewID, T> mData;
+public class RCollection<T> implements Iterable<T> {
+	protected LinkedHashMap<ReviewID, T> mData = new LinkedHashMap<ReviewID, T>();
 
 	public RCollection() {
-		mData = new LinkedHashMap<ReviewID, T>();
 	}
 	
 	public void put(ReviewID id, T t) {
@@ -74,4 +71,5 @@ public class RCollection<T> implements Iterable<T>{
 				RCollection.this.remove(getID(position));
 		}
 	}
+	
 }

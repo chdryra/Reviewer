@@ -69,7 +69,7 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 	public final static String MAP_SNAPSHOT = "com.chdryra.android.reviewer.map_snapshot";
 	public final static int NUMBER_DEFAULT_NAMES= 5;
 
-	private MainReview mMainReview;
+	private UserReview mUserReview;
 	private ImageButton mButton;
 	
 	private LocationClient mLocationClient;
@@ -99,9 +99,9 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 		super.onCreate(savedInstanceState);
 		setRetainInstance(true);
 		mLocationClient = new LocationClient(getSherlockActivity(), this, this);
-		mMainReview = (MainReview)IntentObjectHolder.getObject(FragmentReviewOptions.REVIEW_OBJECT);
+		mUserReview = (UserReview)IntentObjectHolder.getObject(FragmentReviewOptions.REVIEW_OBJECT);
 		mButton = (ImageButton)IntentObjectHolder.getObject(FragmentReviewOptions.LOCATION_BUTTON);
-		mRevertMapSnapshotZoom =  mMainReview.getLocation().hasMapSnapshot() ? mMainReview.getLocation().getMapSnapshotZoom() : DEFAULT_ZOOM;
+		mRevertMapSnapshotZoom =  mUserReview.getLocation().hasMapSnapshot() ? mUserReview.getLocation().getMapSnapshotZoom() : DEFAULT_ZOOM;
 	    mPhotoLatLng = getSherlockActivity().getIntent().getParcelableExtra(FragmentReviewOptions.IMAGE_LATLNG);
 	    setHasOptionsMenu(true);		
 	}
@@ -131,12 +131,12 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 	    	    
 	    mLocationName = (ClearableAutoCompleteTextView)v.findViewById(R.id.edit_text_name_location);
 
-	    if (mMainReview.hasLocation()) {
-	    	mRevertLatLng = mMainReview.getLocation().getLatLng();
+	    if (mUserReview.hasLocation()) {
+	    	mRevertLatLng = mUserReview.getLocation().getLatLng();
 	    	setLatLng(mRevertLatLng);
 	    	zoomToLatLng(mRevertMapSnapshotZoom);
-	    	if(mMainReview != null)
-	    		mLocationName.setText(mMainReview.getLocation().getName());
+	    	if(mUserReview != null)
+	    		mLocationName.setText(mUserReview.getLocation().getName());
 	    	mLocationName.hideChrome();
 	    }
 	    else if (mPhotoLatLng != null) {
@@ -178,11 +178,11 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 	
 	private void sendResult(int resultCode) {
 		if(resultCode == Activity.RESULT_OK)
-			mMainReview.setLocation(new ReviewLocation(mLatLng, mLocationName.getText().toString()));
+			mUserReview.setLocation(new ReviewLocation(mLatLng, mLocationName.getText().toString()));
 		
-		if(resultCode == RESULT_DELETE && mMainReview.hasLocation()) {
+		if(resultCode == RESULT_DELETE && mUserReview.hasLocation()) {
 			if(mDeleteConfirmed) {
-				mMainReview.deleteLocation();
+				mUserReview.deleteLocation();
 			} else {
 				DialogBasicFragment.showDeleteConfirmDialog(getResources().getString(R.string.location_activity_title), 
 						FragmentReviewLocation.this, getFragmentManager());
@@ -190,7 +190,7 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 			}
 		}
 		
-		IntentObjectHolder.addObject(FragmentReviewOptions.REVIEW_OBJECT, mMainReview);
+		IntentObjectHolder.addObject(FragmentReviewOptions.REVIEW_OBJECT, mUserReview);
 		getSherlockActivity().setResult(resultCode);		 
 		getSherlockActivity().finish();	
 	}
@@ -304,7 +304,7 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 			mSearchLocationName = null;
 			setLatLng(mRevertLatLng);
 			zoomToLatLng(mRevertMapSnapshotZoom);
-			mLocationName.setText(mMainReview.getLocation().getName());
+			mLocationName.setText(mUserReview.getLocation().getName());
 			mLocationName.hideChrome();
 			break;
 		case R.id.menu_item_image_location:
@@ -331,7 +331,7 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 		
 		if(mLocationName != null) {
 			mLocationName.setText(null);
-			String primaryDefaultSuggestion = mSearchLocationName != null? mSearchLocationName : mMainReview.getSubject();
+			String primaryDefaultSuggestion = mSearchLocationName != null? mSearchLocationName : mUserReview.getSubject();
 			mLocationName.setAdapter(new LocationNameAdapter(getSherlockActivity(), 
 					android.R.layout.simple_list_item_1, mLatLng, NUMBER_DEFAULT_NAMES, primaryDefaultSuggestion));
 		}
@@ -444,7 +444,7 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 		
 		@Override
 		protected void onPostExecute(Bitmap bitmap) {
-			mMainReview.getLocation().setMapSnapshot(bitmap, mZoom);
+			mUserReview.getLocation().setMapSnapshot(bitmap, mZoom);
 			if(bitmap == null)
 				mButton.setImageResource(R.drawable.ic_menu_camera);
 			else

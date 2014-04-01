@@ -1,94 +1,118 @@
 package com.chdryra.android.reviewer;
 
-import java.util.Collection;
-import com.chdryra.android.reviewer.ReviewIDGenerator.ReviewID;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 public class ReviewComponent implements ReviewNode {
 	
-	private TreeNode<Review> mNode;
+	private Review mReview;
+	private ReviewNode mParent;
+	private ReviewNodeCollection mChildren;
 	
 	public ReviewComponent(Review node) {
-		mNode = new TreeNode<Review>(node);
+		mReview = node;
 	}
 	
-	private ReviewComponent(TreeNode<Review> node) {
-		mNode = node;
-	} 
+	@Override
+	public Review getReview() {
+		return mReview;
+	}
 	
 	@Override
 	public void setParent(Review parent) {
-		mNode.setParent(parent);
+	    setParent(new ReviewComponent(parent));
+	}
+	
+	@Override
+	public void setParent(ReviewNode parentNode) {
+		if(mParent != null && mParent.getID().equals(parentNode.getID()))
+			return;
+		mParent = parentNode;
+		mParent.addChild(this);
 	}
 	
 	@Override
 	public ReviewNode getParent() {
-		return new ReviewComponent(mNode.getParent());
+		return mParent;
 	}
 	
 	@Override
 	public void addChild(Review child) {
-		mNode.addChild(child);
+		addChild(new ReviewComponent(child));
+	}
+
+	@Override
+	public void addChild(ReviewNode childNode) {
+	    if(mChildren.containsID(childNode.getID()))
+	    	return;
+		mChildren.put(childNode.getID(), childNode);
+	    childNode.setParent(this);
 	}
 	
 	@Override
-	public void addChildren(ReviewCollection children) {
+	public void removeChild(Review child) {
+		mChildren.remove(child.getID());
+	}
+	
+	@Override
+	public void addChildren(ReviewNodeCollection children) {
 		for(Review child: children)
 			addChild(child);
 	}
 	
 	@Override
-	public ReviewCollection getChildren() {
-		Collection<TreeNode<Review>> children = mNode.getChildren();
-		ReviewCollection rc = new ReviewCollection();
-		for(TreeNode<Review> child: children)
-			rc.add(new ReviewComponent(child));
-		return rc;
+	public ReviewNodeCollection getChildren() {
+		return mChildren;
 	}
 	
 	@Override
 	public ReviewID getID() {
-		return mNode.getHead().getID();
+		return mReview.getID();
 	}
 
 	@Override
 	public String getTitle() {
-		return mNode.getHead().getTitle();
+		return mReview.getTitle();
 	}
 
 	@Override
 	public void setTitle(String title) {
+		mReview.setTitle(title);
 	}
 
 	@Override
 	public float getRating() {
-		return mNode.getHead().getRating();
+		return mReview.getRating();
 	}
 
 	@Override
 	public void setRating(float rating) {
+		mReview.setRating(rating);
 	}
 
 	@Override
 	public void setComment(ReviewComment comment) {
+		mReview.setComment(comment);
 	}
 
 	@Override
 	public ReviewComment getComment() {
-		return mNode.getHead().getComment();
+		return mReview.getComment();
 	}
 
 	@Override
 	public void deleteComment() {
+		mReview.deleteComment();
 	}
 
 	@Override
 	public boolean hasComment() {
-		return mNode.getHead().hasComment();
+		return mReview.hasComment();
 	}
 
 	@Override
 	public ReviewImage getImage() {
-		return mNode.getHead().getImage();
+		return mReview.getImage();
 	}
 
 	@Override
@@ -101,12 +125,12 @@ public class ReviewComponent implements ReviewNode {
 
 	@Override
 	public boolean hasImage() {
-		return mNode.getHead().hasImage();
+		return mReview.hasImage();
 	}
 
 	@Override
 	public ReviewLocation getLocation() {
-		return mNode.getHead().getLocation();
+		return mReview.getLocation();
 	}
 
 	@Override
@@ -119,12 +143,12 @@ public class ReviewComponent implements ReviewNode {
 
 	@Override
 	public boolean hasLocation() {
-		return mNode.getHead().hasLocation();
+		return mReview.hasLocation();
 	}
 
 	@Override
 	public ReviewFacts getFacts() {
-		return mNode.getHead().getFacts();
+		return mReview.getFacts();
 	}
 
 	@Override
@@ -137,11 +161,40 @@ public class ReviewComponent implements ReviewNode {
 
 	@Override
 	public boolean hasFacts() {
-		return mNode.getHead().hasFacts();
+		return mReview.hasFacts();
 	}
 
 	@Override
-	public void acceptVisitor(ReviewVisitor reviewVisitor) {
-		mNode.getHead().acceptVisitor(reviewVisitor);
+	public void acceptVisitor(ReviewNodeVisitor reviewNodeVisitor) {
+		reviewNodeVisitor.visit(this);
 	}
+
+	@Override
+	public int describeContents() {
+		return 0;
+	}
+
+	@Override
+	public void writeToParcel(Parcel dest, int flags) {
+		dest.writeParcelable(mReview, flags);
+		dest.writeParcelable(mParent, flags);
+		dest.writeParcelable(mChildren, flags);
+	}
+
+	public ReviewComponent(Parcel in) {
+		mReview = in.readParcelable(null);
+		mParent = in.readParcelable(null);
+		mChildren = in.readParcelable(null);
+	}
+	
+	public static final Parcelable.Creator<ReviewComponent> CREATOR 
+	= new Parcelable.Creator<ReviewComponent>() {
+	    public ReviewComponent createFromParcel(Parcel in) {
+	        return new ReviewComponent(in);
+	    }
+
+	    public ReviewComponent[] newArray(int size) {
+	        return new ReviewComponent[size];
+	    }
+	};
 }

@@ -45,7 +45,7 @@ public class FragmentReviewComment extends SherlockFragment {
 	
 	private Drawable mClearCommentIcon;  
 
-	private MainReview mMainReview;
+	private UserReview mUserReview;
 	
 	private Button mDeleteButton;
 	private Button mCancelButton;
@@ -67,7 +67,7 @@ public class FragmentReviewComment extends SherlockFragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		mMainReview = (MainReview)IntentObjectHolder.getObject(FragmentReviewOptions.REVIEW_OBJECT);
+		mUserReview = (UserReview)IntentObjectHolder.getObject(FragmentReviewOptions.REVIEW_OBJECT);
 		setRetainInstance(true);
 		setHasOptionsMenu(true);
 	}
@@ -83,7 +83,7 @@ public class FragmentReviewComment extends SherlockFragment {
 		setHeadlineCommentsView();
 
 		mCriteriaCommentsLinearLayout = (LinearLayout)v.findViewById(R.id.criteria_comments_linear_layout);
-		LinkedHashMap<String, SimpleReview> criteria = mMainReview.getChildren().getCriterionHashMap();
+		LinkedHashMap<String, SimpleReview> criteria = mUserReview.getChildren().getCriterionHashMap();
 		Iterator<SimpleReview> it = criteria.values().iterator();
 		while (it.hasNext()) {
 			SimpleReview c = it.next();
@@ -121,7 +121,7 @@ public class FragmentReviewComment extends SherlockFragment {
 	}
 	
 	private void setHeadlineCommentsView() {
-		mHeadlineCommentsView = getCommentLineView(mMainReview, mHeadlineCommentsView);
+		mHeadlineCommentsView = getCommentLineView(mUserReview, mHeadlineCommentsView);
 		EditText comment = (EditText)mHeadlineCommentsView.findViewById(R.id.comment_edit_text);
 		comment.setMinLines(MIN_HEADLINE_EDITTEXT_LINES);
 		comment.setGravity(Gravity.TOP);
@@ -284,9 +284,9 @@ public class FragmentReviewComment extends SherlockFragment {
 	}
 	
 	private void sendResult(int resultCode) {
-		if (resultCode == RESULT_DELETE && mMainReview.hasComment()) {
+		if (resultCode == RESULT_DELETE && mUserReview.hasComment()) {
 			if(mDeleteConfirmed)
-				mMainReview.deleteCommentIncludingCriteria();
+				mUserReview.deleteCommentIncludingCriteria();
 			else {
 				DialogBasicFragment.showDeleteConfirmDialog(getResources().getString(R.string.comment_activity_title), 
 						FragmentReviewComment.this, getFragmentManager());
@@ -295,15 +295,15 @@ public class FragmentReviewComment extends SherlockFragment {
 		}
 		
 		if(resultCode == Activity.RESULT_OK) {
-			mMainReview.setComment(mEditTexts.get(mMainReview.getCommentTitle()).getText().toString());
+			mUserReview.setComment(mEditTexts.get(mUserReview.getCommentTitle()).getText().toString());
 			for (HashMap.Entry<String, EditText> entry : mEditTexts.entrySet())
 			{
 				String title = entry.getKey();
 				
-				if(title.equals(mMainReview.getCommentTitle()))
+				if(title.equals(mUserReview.getCommentTitle()))
 			    	continue;
 				
-				SimpleReview c = mMainReview.getChildren().get(title);
+				SimpleReview c = mUserReview.getChildren().get(title);
 				if(mAddCriteriaComments) 
 					c.setCommentString(entry.getValue().getText().toString());
 				else
@@ -311,7 +311,7 @@ public class FragmentReviewComment extends SherlockFragment {
 			}
 		}	
 		
-		IntentObjectHolder.addObject(FragmentReviewOptions.REVIEW_OBJECT, mMainReview);
+		IntentObjectHolder.addObject(FragmentReviewOptions.REVIEW_OBJECT, mUserReview);
 		getSherlockActivity().setResult(resultCode);		 
 		getSherlockActivity().finish();	
 	}
@@ -338,7 +338,7 @@ public class FragmentReviewComment extends SherlockFragment {
 		updateClearCommentMenuItemVisibility();
 
 		mAddCriteriaCommentsMenuItem = menu.findItem(R.id.menu_item_add_criteria_comments);
-		if(mMainReview.getChildren().size() == 0)
+		if(mUserReview.getChildren().size() == 0)
 			mAddCriteriaCommentsMenuItem.setVisible(false);
     }
 	

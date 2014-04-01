@@ -4,13 +4,20 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.NoSuchElementException;
 
-public class ReviewFacts implements Iterable<ReviewFacts.Datum>{
-	private LinkedHashMap<String, Datum> mData;
-	
-	public ReviewFacts() {
-		mData = new LinkedHashMap<String, Datum>();
-	}
+import android.os.Bundle;
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class ReviewFacts implements Iterable<Datum>, Parcelable{
+	private static final String DATA = "FACTS DATA";
+	private LinkedHashMap<String, Datum> mData = new LinkedHashMap<String, Datum>();
 		
+	@SuppressWarnings("unchecked")
+	public ReviewFacts(Parcel in) {
+		Bundle args = in.readBundle();
+		mData = (LinkedHashMap<String, Datum>) args.getSerializable(DATA);
+	}
+
 	public void put(String label, String value) {
 		if(label != null && value != null)
 			mData.put(label, new Datum(label, value));
@@ -40,24 +47,6 @@ public class ReviewFacts implements Iterable<ReviewFacts.Datum>{
 			return 0;
 	}
 	
-	class Datum {
-		private String mLabel;
-		private String mValue;
-		
-		public Datum(String label, String value) {	
-			mLabel = label;
-			mValue = value;			
-		}
-		
-		public String getLabel() {
-			return mLabel;
-		}
-
-		public String getValue() {
-			return mValue;
-		}
-	}
-
 	@Override
 	public Iterator<Datum> iterator() {
 		return new DataIterator();
@@ -84,7 +73,31 @@ public class ReviewFacts implements Iterable<ReviewFacts.Datum>{
 			if(position <= 0) {
 				throw new IllegalStateException("Have to do at least one next() before you can delete");
 			} else
-				ReviewFacts.this.remove(getItem(position-1).mLabel);
+				ReviewFacts.this.remove(getItem(position-1).getLabel());
 		}
 	}
+
+	@Override
+	public int describeContents() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void writeToParcel(Parcel dest, int flags) {
+		Bundle args = new Bundle();
+		args.putSerializable(DATA, mData);
+	}
+	
+	public static final Parcelable.Creator<ReviewFacts> CREATOR 
+	= new Parcelable.Creator<ReviewFacts>() {
+	    public ReviewFacts createFromParcel(Parcel in) {
+	        return new ReviewFacts(in);
+	    }
+
+	    public ReviewFacts[] newArray(int size) {
+	        return new ReviewFacts[size];
+	    }
+	};
+
 }

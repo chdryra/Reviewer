@@ -16,13 +16,9 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.TextView;
 
 public class DialogCriterionFragment extends DialogBasicFragment {
-
-	public static final String EXTRA_CRITERION_NEW_NAME = "com.chdryra.android.reviewer.criterion_new_name";
-	public static final String EXTRA_CRITERION_OLD_NAME = "com.chdryra.android.reviewer.criterion_old_name";
-
 	public static final int RESULT_DELETE_CRITERION = Activity.RESULT_FIRST_USER;
 	
-	private String mCriterionOldName;
+	private Review mCriterion;
 	private ClearableEditText mCriterionName;
 	
 	@Override
@@ -31,8 +27,8 @@ public class DialogCriterionFragment extends DialogBasicFragment {
 		mCriterionName = (ClearableEditText)v.findViewById(R.id.criterion_name_edit_text);
 		if( getTargetRequestCode() == FragmentReviewCreate.CRITERION_EDIT )
 		{
-			mCriterionOldName = (String)getArguments().getSerializable(FragmentReviewCreate.CRITERION_NAME);
-			mCriterionName.setText(mCriterionOldName);
+			mCriterion = getArguments().getParcelable(FragmentReviewCreate.CRITERION);
+			mCriterionName.setText(mCriterion.getTitle());
 		}
 		
 		final AlertDialog dialog = buildDialog(v);
@@ -57,17 +53,12 @@ public class DialogCriterionFragment extends DialogBasicFragment {
 		if (getTargetFragment() == null || resultCode == Activity.RESULT_CANCELED)
 			return;
 		
+		if(resultCode == Activity.RESULT_OK)
+			mCriterion.setTitle(mCriterionName.getText().toString());
+			
 		Intent i = new Intent();
-		
-		if (resultCode== RESULT_DELETE_CRITERION)
-			i.putExtra(EXTRA_CRITERION_OLD_NAME, mCriterionOldName);	
-		
-		if (resultCode == Activity.RESULT_OK)
-		{
-			i.putExtra(EXTRA_CRITERION_OLD_NAME, mCriterionOldName);	
-			i.putExtra(EXTRA_CRITERION_NEW_NAME, mCriterionName.getText().toString());
-		}
-		
+		Bundle args = new Bundle();
+		args.putParcelable(FragmentReviewCreate.CRITERION, mCriterion);
 		getTargetFragment().onActivityResult(getTargetRequestCode(), resultCode, i);
 	}
 	

@@ -1,8 +1,8 @@
 package com.chdryra.android.reviewer;
 
-import com.chdryra.android.reviewer.ReviewIDGenerator.ReviewID;
+import android.os.Parcelable;
 
-public interface Review{
+public interface Review extends Parcelable{
 	
 	//Core data
 	public ReviewID getID();
@@ -33,6 +33,4 @@ public interface Review{
 	public void setFacts(ReviewFacts facts);
 	public void deleteFacts();	
 	public boolean hasFacts();
-
-	public void acceptVisitor(ReviewVisitor reviewVisitor);
 }

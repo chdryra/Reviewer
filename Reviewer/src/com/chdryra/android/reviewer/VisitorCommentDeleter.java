@@ -1,8 +1,8 @@
 package com.chdryra.android.reviewer;
 
-public class VisitorCommentDeleter implements ReviewVisitor{
+public class VisitorCommentDeleter implements ReviewNodeVisitor{
 	@Override
-	public void visit(Review review) {
+	public void visit(ReviewNode review) {
 		review.deleteComment();
 	}
 }

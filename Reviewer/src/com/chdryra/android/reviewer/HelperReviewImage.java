@@ -21,26 +21,26 @@ public class HelperReviewImage extends ImageHelper{
 	private static final String ERROR_NO_STORAGE_MESSAGE = "No storage available!";
 	
 	private long fileCounter = 0;
-	private MainReview mMainReview;
+	private UserReview mUserReview;
 	
-	public static HelperReviewImage getInstance(MainReview mReview) {
+	public static HelperReviewImage getInstance(UserReview mReview) {
 		if(!sHelperReviewImages.containsKey(mReview.getID().toString()))
 			sHelperReviewImages.put(mReview.getID().toString(), new HelperReviewImage(mReview));
 		
 		return sHelperReviewImages.get(mReview.getID().toString());
 	}
 	
-	private HelperReviewImage(MainReview mainReview) {
-		mMainReview = mainReview;
+	private HelperReviewImage(UserReview userReview) {
+		mUserReview = userReview;
 	}
 			
 	public void deleteImage() {
-		mMainReview.setImage(null);
+		mUserReview.setImage(null);
 		setImageFilePath(null);
 	}
 	
 	public void createNewImageFile() throws IOException{
-	    String imageFileName = mMainReview.getSubject() + "_" + fileCounter++;
+	    String imageFileName = mUserReview.getSubject() + "_" + fileCounter++;
 	    String path = null;
 	    
         if(Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
@@ -83,7 +83,7 @@ public class HelperReviewImage extends ImageHelper{
 		
 		@Override
 		protected void onPostExecute(Bitmap bitmap) {
-			mMainReview.setImage(new ReviewImage(bitmap));
+			mUserReview.setImage(new ReviewImage(bitmap));
 			if(bitmap == null) {
 				mThumbnailView.setImageResource(R.drawable.ic_menu_camera);
 			}

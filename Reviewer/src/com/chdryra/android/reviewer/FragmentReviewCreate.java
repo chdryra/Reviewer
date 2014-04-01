@@ -29,26 +29,28 @@ import com.chdryra.android.myandroidwidgets.ClearableEditText;
 public class FragmentReviewCreate extends SherlockFragment{
 	private final static String TAG = "ReviewerFragment";
 	private final static String DIALOG_CRITERION_TAG = "CriterionDialog";
-	public final static String CRITERION_NAME = "com.chdryra.android.reviewer.criterion_name";
+	public final static String CRITERION = "com.chdryra.android.reviewer.criterion";
 	public final static String REVIEW_OBJECT = "com.chdryra.android.reviewer.review_object";
 	public final static int CRITERION_EDIT = 0;
 	public static enum Result {TOTAL_IS_AVERAGE, TOTAL_IS_USER};
 	
-	private Review mMainReview;
-	private ReviewCollection mCriteria = new ReviewCollection();
+	private ReviewNode mReview;
+	private ReviewNodeCollection mCriteria = new ReviewNodeCollection();
+
 	private ClearableEditText mSubject;
 	private ClearableEditText mCriterionName;
 	private ImageButton mAddCriterionButton;
 	private ImageButton mCalcAverageRatingButton;
 	private ListView mCriteriaListView;
 	private RatingBar mTotalRatingBar;
+	
 	private boolean mTotalRatingIsAverage = false;
 	private float mTotalRatingUser;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		mMainReview = (MainReview)IntentObjectHolder.getObject(FragmentReviewOptions.REVIEW_OBJECT);
+		mReview = (UserReview)IntentObjectHolder.getObject(FragmentReviewOptions.REVIEW_OBJECT);
 		setHasOptionsMenu(true);		
 		setRetainInstance(true);		
 	}
@@ -85,17 +87,8 @@ public class FragmentReviewCreate extends SherlockFragment{
 		
 			@Override
 			public boolean onItemLongClick(AdapterView<?> parent, View v, int pos, long id) {
-				SimpleReview c = (SimpleReview)parent.getItemAtPosition(pos);
-				Log.i(TAG, "SimpleReview: " + c.getTitle());
-				
-				DialogCriterionFragment dialog = new DialogCriterionFragment();
-				dialog.setTargetFragment(FragmentReviewCreate.this, CRITERION_EDIT);
-				Bundle args = new Bundle();
-				args.putSerializable(CRITERION_NAME, c.getTitle());
-				dialog.setArguments(args);
-				dialog.show(getFragmentManager(), DIALOG_CRITERION_TAG);
-				
-				return true;
+					showCriterionDialog((Review)parent.getItemAtPosition(pos));
+					return true;
 			}
 		});
 				
@@ -127,6 +120,16 @@ public class FragmentReviewCreate extends SherlockFragment{
 		return v;		
 	}
 	
+	private void showCriterionDialog(Review criterion) {
+		DialogCriterionFragment dialog = new DialogCriterionFragment();
+		dialog.setTargetFragment(FragmentReviewCreate.this, CRITERION_EDIT);
+		Bundle args = new Bundle();
+		
+		args.putParcelable(CRITERION, criterion);
+		dialog.setArguments(args);
+		dialog.show(getFragmentManager(), DIALOG_CRITERION_TAG);
+	}
+	
 	private void setTotalRatingIsAverage() {
 		mTotalRatingIsAverage = true;
 		mCalcAverageRatingButton.setImageResource(android.R.drawable.ic_input_add);
@@ -145,9 +148,9 @@ public class FragmentReviewCreate extends SherlockFragment{
 	}
 	
 	class CriterionAdaptor extends BaseAdapter {	
-		private ReviewCollection mCriteria;
+		private ReviewNodeCollection mCriteria;
 	
-		public CriterionAdaptor(ReviewCollection criteria){
+		public CriterionAdaptor(ReviewNodeCollection criteria){
 		    mCriteria  = criteria;
 		}
 			
@@ -186,7 +189,7 @@ public class FragmentReviewCreate extends SherlockFragment{
 				vh = (ViewHolder)convertView.getTag();
 			}
 				
-			SimpleReview c = (SimpleReview)getItem(position);
+			Review c = (Review)getItem(position);
 			
 			vh.ratingBar.setTag(Integer.valueOf(position));			
 			vh.ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
@@ -195,7 +198,7 @@ public class FragmentReviewCreate extends SherlockFragment{
 				public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
 					if (fromUser) {
 						Review c = (Review)getItem((Integer)ratingBar.getTag()) ;
-						mCriteria.changeRating(c.getTitle(), rating);
+						mCriteria.get(c.getID()).setRating(rating);
 						recomputeTotalRating();
 					}					
 				}
@@ -226,7 +229,7 @@ public class FragmentReviewCreate extends SherlockFragment{
 		if (mCriteria.size() == 0 && criterionName.length() > 0)
 			setTotalRatingIsAverage();		      		
 		
-		mCriteria.add(new SimpleReview(criterionName));		
+		mCriteria.add(new UserReview(criterionName));		
 		mCriterionName.setText(null);
 		
 		updateUI();
@@ -241,20 +244,16 @@ public class FragmentReviewCreate extends SherlockFragment{
 		if (resultCode == Activity.RESULT_OK) {
 			switch (requestCode) {
 			case CRITERION_EDIT:
-				String oldName = (String)data.getSerializableExtra(DialogCriterionFragment.EXTRA_CRITERION_OLD_NAME);
-				String newName = (String)data.getSerializableExtra(DialogCriterionFragment.EXTRA_CRITERION_NEW_NAME);				
-				if(!oldName.equals(newName))
-					mCriteria.changeTitle(oldName, newName);
+				mCriteria.add((Review)data.getParcelableExtra(CRITERION));
 				break;
-
 			default:
 				break;
 			};
 		}
 			
 		if (resultCode == DialogCriterionFragment.RESULT_DELETE_CRITERION) {
-			String toDelete = (String)data.getSerializableExtra(DialogCriterionFragment.EXTRA_CRITERION_OLD_NAME);
-			mCriteria.remove(toDelete);
+			Review criterion = (Review)data.getParcelableExtra(CRITERION);
+			mCriteria.remove(criterion.getID());
 			if(mCriteria.size() == 0)
 				setTotalRatingIsUser();
 		}		
@@ -275,11 +274,12 @@ public class FragmentReviewCreate extends SherlockFragment{
 			if (mSubject == null || mSubject.length() < 1)
 				Toast.makeText(getSherlockActivity(), "Please enter a subject name...", Toast.LENGTH_SHORT).show();
 			else {
-				mMainReview = ReviewFactory.getInstance().createMainReview(mSubject.getText().toString());
-				mMainReview.setChildren(mCriteria);
-				mMainReview.setRating(mTotalRatingBar.getRating());
-				mMainReview.setRatingIsAverage(mTotalRatingIsAverage);
-				IntentObjectHolder.addObject(REVIEW_OBJECT, mMainReview);
+				Review review = ReviewFactory.createUserReview(mSubject.getText().toString());
+				mReview = ReviewFactory.createReviewNode(review);
+				mReview.addChildren(mCriteria);
+				mReview.setRating(mTotalRatingBar.getRating());
+				mReview.setRatingIsAverage(mTotalRatingIsAverage);
+				IntentObjectHolder.addObject(REVIEW_OBJECT, mReview);
 				Intent i = new Intent(getSherlockActivity(), ActivityReviewOptions.class);
 				startActivity(i);
 			}
