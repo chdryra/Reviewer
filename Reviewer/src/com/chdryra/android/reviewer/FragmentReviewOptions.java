@@ -40,7 +40,6 @@ import com.actionbarsherlock.view.MenuItem;
 import com.chdryra.android.mygenerallibrary.ImageHelper;
 import com.chdryra.android.mygenerallibrary.IntentObjectHolder;
 import com.chdryra.android.mygenerallibrary.RandomTextUtils;
-import com.chdryra.android.reviewer.ReviewFacts.Datum;
 
 public class FragmentReviewOptions extends SherlockFragment {
 	private final static String TAG = "ReviewerFinishFragment";
@@ -116,10 +115,9 @@ public class FragmentReviewOptions extends SherlockFragment {
 		super.onCreate(savedInstanceState);
 		setHasOptionsMenu(true);		
 		setRetainInstance(true);
-		mUserReview = (UserReview)IntentObjectHolder.getObject(FragmentReviewCreate.REVIEW_OBJECT);
+		mUserReview = getArguments().getParcelable(FragmentReviewCreate.REVIEW_OBJECT);
 		if(mUserReview.hasImage())
 			mHelperReviewImage = HelperReviewImage.getInstance(mUserReview);
-		mUserReview.setDate(new Date());
 	}
 
 	@Override
@@ -144,7 +142,7 @@ public class FragmentReviewOptions extends SherlockFragment {
 		mDateTextView = (TextView)v.findViewById(R.id.date_text_view);
 		
 		//***Subject Heading***//
-		mSubject.setText(mUserReview.getSubject());
+		mSubject.setText(mUserReview.getTitle());
 	
 		//***Total Rating Bar***//
 		mRatingBar.setRating(mUserReview.getRating());
@@ -169,10 +167,9 @@ public class FragmentReviewOptions extends SherlockFragment {
 	
 		
 		//***Criteria Rating Bars***//
-		Iterator<SimpleReview> it = mUserReview.getChildren().getCriterionHashMap().values().iterator();
+		ReviewNodeCollection criteria = mUserReview.getCriteria();
 		boolean dark = false;
-		while (it.hasNext()) {
-			SimpleReview c = it.next();
+		for(ReviewNode c : criteria) {
 			View criteriaView = getSherlockActivity().getLayoutInflater().inflate(R.layout.criterion_row_stars_small, null);
 			
 			criteriaView.setBackgroundResource(dark == true? android.R.drawable.divider_horizontal_bright: android.R.drawable.divider_horizontal_dark);
@@ -188,6 +185,7 @@ public class FragmentReviewOptions extends SherlockFragment {
 			ratingBar.setFocusable(false);
 			mCriteriaLayout.addView(criteriaView);
 		}
+		
 		if(numCriteria > 0) {
 			View divider = getSherlockActivity().getLayoutInflater().inflate(R.layout.horizontal_divider, null);
 			mCriteriaLayout.addView(divider);
@@ -244,10 +242,12 @@ public class FragmentReviewOptions extends SherlockFragment {
 		mCommentTextView.getLayoutParams().height = maxHeight;
 		mCommentTextView.getLayoutParams().width = maxWidth;		
 		if(mUserReview.getComment() != null) {
-			mCommentTextView.setText(mUserReview.getCommentHeadline());
+			ReviewCommentFormatter formatter = new ReviewCommentFormatter(mUserReview.getComment());
+			mCommentTextView.setText(formatter.getHeadline());
 			setVisibleGoneView(mCommentTextView, mAddCommentImageButton);
 		} else
 			setVisibleGoneView(mAddCommentImageButton, mCommentTextView);
+		
 		mCommentTextView.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -262,7 +262,7 @@ public class FragmentReviewOptions extends SherlockFragment {
 			@Override
 			public void onClick(View v) {
 				if (!mUserReview.hasFacts())
-					requestDataAddIntent();
+					requestFactsAddIntent();
 				else
 					showDataEditDialog();
 				
@@ -299,14 +299,14 @@ public class FragmentReviewOptions extends SherlockFragment {
 	}
 
 	private void requestCommentMakeIntent() {
-		IntentObjectHolder.addObject(REVIEW_OBJECT, mUserReview);
 		Intent i = new Intent(getSherlockActivity(), ActivityReviewComment.class);
+		i.putExtras(getBundledReview());
 		startActivityForResult(i, COMMENT_REQUEST);
 	}
 	
-	private void requestDataAddIntent() {
-		IntentObjectHolder.addObject(REVIEW_OBJECT, mUserReview);
+	private void requestFactsAddIntent() {
 		Intent i = new Intent(getSherlockActivity(), ActivityReviewData.class);
+		i.putExtras(getBundledReview());
 		startActivityForResult(i, DATA_REQUEST);
 	}
 	
@@ -324,7 +324,7 @@ public class FragmentReviewOptions extends SherlockFragment {
 		}
 		File imageFile = new File(mHelperReviewImage.getImageFilePath());
 		Uri imageUri = Uri.fromFile(imageFile);		
-
+		
 	    //Create intents
 		final List<Intent> cameraIntents = new ArrayList<Intent>();
 		final Intent captureIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
@@ -351,51 +351,43 @@ public class FragmentReviewOptions extends SherlockFragment {
 		
 		if (mUserReview.hasImage() && mHelperReviewImage.hasGPSTag())					
 			i.putExtra(IMAGE_LATLNG, mHelperReviewImage.getLatLngFromEXIF());
-		IntentObjectHolder.addObject(REVIEW_OBJECT, mUserReview);
+		
+		i.putExtras(getBundledReview());
 		IntentObjectHolder.addObject(LOCATION_BUTTON, mAddLocationImageButton);
 		startActivityForResult(i, LOCATION_REQUEST);
 	}
 	
 	private void showImageEditDialog() {
-		Bundle args = new Bundle();
-		args.putParcelable(DIALOG_IMAGE, mUserReview.getImage().getBitmap());						
-		args.putString(DIALOG_IMAGE_CAPTION, mUserReview.getImage().getCaption());
-		args.putString(DIALOG_IMAGE_CAPTION_HINT, getResources().getString(R.string.edit_text_image_caption_hint));
-		showDialog(new DialogImageFragment(), IMAGE_EDIT, DIALOG_IMAGE_TAG, args);
+		showDialog(new DialogImageFragment(), IMAGE_EDIT, DIALOG_IMAGE_TAG);
 	}
 
 	private void showLocationEditDialog() {
-		Bundle args = new Bundle();
-		args.putParcelable(DIALOG_IMAGE, mUserReview.getLocation().getMapSnapshot());
-		args.putString(DIALOG_IMAGE_CAPTION, mUserReview.getLocation().getName());
-		args.putString(DIALOG_IMAGE_CAPTION_HINT, getResources().getString(R.string.edit_text_name_location_hint));		
-		showDialog(new DialogLocationFragment(), LOCATION_EDIT, DIALOG_LOCATION_TAG, args);
+		showDialog(new DialogLocationFragment(), LOCATION_EDIT, DIALOG_LOCATION_TAG);
 	}
 
 	private void showCommentEditDialog() {
-		Bundle args = new Bundle();
-		args.putString(DIALOG_COMMENT, mUserReview.getCommentIncludingCriteria());						
-		showDialog(new DialogCommentFragment(), COMMENT_EDIT, DIALOG_COMMENT_TAG, args);
+		showDialog(new DialogCommentFragment(), COMMENT_EDIT, DIALOG_COMMENT_TAG);
 	}
 
 	private void showDataEditDialog() {
-		IntentObjectHolder.addObject(REVIEW_OBJECT, mUserReview);
-		showDialog(new DialogDataFragment(), DATA_EDIT, DIALOG_DATA_TAG, null);
+		showDialog(new DialogDataFragment(), DATA_EDIT, DIALOG_DATA_TAG);
 	}
 
 	private void showDateEditDialog() {
-		Bundle args = new Bundle();
-		args.putSerializable(REVIEW_DATE, mUserReview.getDate());						
-		args.putBoolean(REVIEW_DATE_INC_TIME, mUserReview.isDateWithTime());
-		showDialog(new DialogDateFragment(), DATE_EDIT, DIALOG_DATE_TAG, args);
 	}
 	
-	private void showDialog(DialogBasicFragment dialog, int requestCode, String tag, Bundle args) {
+	private void showDialog(DialogBasicFragment dialog, int requestCode, String tag) {
 		dialog.setTargetFragment(FragmentReviewOptions.this, requestCode);
-		dialog.setArguments(args);
+		dialog.setArguments(getBundledReview());
 		dialog.show(getFragmentManager(), tag);
 	}
 
+	private Bundle getBundledReview() {
+		Bundle args = new Bundle();
+		args.putParcelable(REVIEW_OBJECT, mUserReview);
+		return args;
+	}
+	
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 		super.onCreateOptionsMenu(menu, inflater);
@@ -555,7 +547,7 @@ public class FragmentReviewOptions extends SherlockFragment {
 			case DATA_EDIT:
 				switch (resultCode) {
 					case Activity.RESULT_OK:
-						requestDataAddIntent();
+						requestFactsAddIntent();
 						break;
 					case DialogDataFragment.RESULT_DELETE:
 						deleteData();
@@ -565,11 +557,11 @@ public class FragmentReviewOptions extends SherlockFragment {
 				}
 				break;
 					
-			case DATE_EDIT:
-				mUserReview.setDate((Date)data.getSerializableExtra(REVIEW_DATE));
-				mUserReview.setDateWithTime(data.getBooleanExtra(REVIEW_DATE_INC_TIME, false));
-				updateDateDisplay();
-				break;		
+//			case DATE_EDIT:
+//				mUserReview.setDate((Date)data.getSerializableExtra(REVIEW_DATE));
+//				mUserReview.setDateWithTime(data.getBooleanExtra(REVIEW_DATE_INC_TIME, false));
+//				updateDateDisplay();
+//				break;		
 		}
 	}
 
@@ -607,7 +599,8 @@ public class FragmentReviewOptions extends SherlockFragment {
 	}
 	
 	private void updateComment() {
-		String headline = mUserReview.getCommentHeadline();
+		ReviewCommentFormatter formatter = new ReviewCommentFormatter(mUserReview.getComment());
+		String headline = formatter.getHeadline();
 		mCommentTextView.setText(headline);
 
 		//Have to ellipsise here as can't get it to work in XML
@@ -660,19 +653,19 @@ public class FragmentReviewOptions extends SherlockFragment {
 	}
 	
 	private void updateDateDisplay() {
-		SimpleDateFormat format = mDateFormat;
-		if(mUserReview.isDateWithTime()) {
-			if(DateFormat.is24HourFormat(getSherlockActivity()))
-				format = mDateFormat24HrIncTime;
-			else
-				format = mDateFormat12HrIncTime;
-		}
-		
-		String dateString = "@";
-		if(mUserReview.getLocation().hasName())
-			dateString += mUserReview.getLocation().getShortenedName() +", ";
-		
-		dateString += format.format(mUserReview.getDate());
-		mDateTextView.setText(dateString);
+//		SimpleDateFormat format = mDateFormat;
+//		if(mUserReview.isDateWithTime()) {
+//			if(DateFormat.is24HourFormat(getSherlockActivity()))
+//				format = mDateFormat24HrIncTime;
+//			else
+//				format = mDateFormat12HrIncTime;
+//		}
+//		
+//		String dateString = "@";
+//		if(mUserReview.getLocation().hasName())
+//			dateString += mUserReview.getLocation().getShortenedName() +", ";
+//		
+//		dateString += format.format(mUserReview.getDate());
+//		mDateTextView.setText(dateString);
 	}
 }

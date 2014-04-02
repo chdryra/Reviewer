@@ -40,7 +40,7 @@ public class HelperReviewImage extends ImageHelper{
 	}
 	
 	public void createNewImageFile() throws IOException{
-	    String imageFileName = mUserReview.getSubject() + "_" + fileCounter++;
+	    String imageFileName = mUserReview.getTitle() + "_" + fileCounter++;
 	    String path = null;
 	    
         if(Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {

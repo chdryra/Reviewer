@@ -1,36 +1,23 @@
 package com.chdryra.android.reviewer;
 
-import java.util.Date;
 import android.os.Parcel;
 import android.os.Parcelable;
-
 
 public class UserReview implements ReviewNode{	
 	private static final String TAG = "UserReview";
 	
-	private ReviewID mID;
-	private String mTitle;
-	private float mRating;
-
 	private ReviewComment mComment;
 	private ReviewImage mImage;
 	private ReviewLocation mLocation;	
 	private ReviewFacts mFacts;
 
-	//Holds the structural information e.g. criteria
 	private ReviewNode mNode;
 
 	public UserReview(String title) {
-		mID = ReviewID.generateID();
-		mTitle = title;
-		mNode = (ReviewNode)ReviewFactory.createReviewNode(this);
+		mNode = (ReviewNode)ReviewFactory.createReviewNode(title);
 	}
 
 	public UserReview(Parcel in) {
-		mID = in.readParcelable(ReviewID.class.getClassLoader());
-		mTitle = in.readString();
-		mRating = in.readFloat();
-		
 		mNode = in.readParcelable(null);
 
 		mComment = in.readParcelable(null);
@@ -46,27 +33,27 @@ public class UserReview implements ReviewNode{
 	
 	@Override
 	public ReviewID getID() {
-		return mID;
+		return mNode.getID();
 	}
 
 	@Override
 	public String getTitle() {
-		return mTitle;
+		return mNode.getTitle();
 	}
 
 	@Override
 	public void setTitle(String title) {
-		mTitle = title;
+		mNode.setTitle(title);
 	}
 
 	@Override
 	public void setRating(float rating) {
-		mRating = rating;
+		mNode.setRating(rating);
 	}
 
 	@Override
 	public float getRating() {
-		return mRating;
+		return mNode.getRating();
 	}
 
 	public ReviewNodeCollection getCriteria() {
@@ -145,6 +132,13 @@ public class UserReview implements ReviewNode{
 		setComment(null);
 	}
 
+	public void deleteCommentIncludingCriteria() {
+		deleteComment();
+		VisitorCommentDeleter deleter = new VisitorCommentDeleter();
+		for(ReviewNode c : getCriteria())
+			c.acceptVisitor(deleter);
+	}
+	
 	@Override
 	public boolean hasComment() {
 		return mComment != null;
@@ -198,10 +192,6 @@ public class UserReview implements ReviewNode{
 
 	@Override
 	public void writeToParcel(Parcel dest, int flags) {
-		dest.writeParcelable(mID, flags);
-		dest.writeString(mTitle);
-		dest.writeFloat(mRating);
-		
 		dest.writeParcelable(mNode, flags);
 
 		dest.writeParcelable(mComment, flags);

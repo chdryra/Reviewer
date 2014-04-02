@@ -143,8 +143,10 @@ public class FragmentReviewCreate extends SherlockFragment{
 	}
 	
 	private void recomputeTotalRating() {
-		if(mTotalRatingIsAverage)
-			mTotalRatingBar.setRating(mCriteria.getRating());
+		if(mTotalRatingIsAverage) {
+			MetaReview meta = new MetaReview("Criteria", mCriteria);
+			mTotalRatingBar.setRating(meta.getRating());
+		}
 	}
 	
 	class CriterionAdaptor extends BaseAdapter {	
@@ -228,10 +230,9 @@ public class FragmentReviewCreate extends SherlockFragment{
 		
 		if (mCriteria.size() == 0 && criterionName.length() > 0)
 			setTotalRatingIsAverage();		      		
-		
+
 		mCriteria.add(new UserReview(criterionName));		
-		mCriterionName.setText(null);
-		
+		mCriterionName.setText(null);		
 		updateUI();
 	}
 	
@@ -244,7 +245,7 @@ public class FragmentReviewCreate extends SherlockFragment{
 		if (resultCode == Activity.RESULT_OK) {
 			switch (requestCode) {
 			case CRITERION_EDIT:
-				mCriteria.add((Review)data.getParcelableExtra(CRITERION));
+				mCriteria.add(((ReviewNode)data.getParcelableExtra(CRITERION)));
 				break;
 			default:
 				break;
@@ -274,13 +275,14 @@ public class FragmentReviewCreate extends SherlockFragment{
 			if (mSubject == null || mSubject.length() < 1)
 				Toast.makeText(getSherlockActivity(), "Please enter a subject name...", Toast.LENGTH_SHORT).show();
 			else {
-				Review review = ReviewFactory.createUserReview(mSubject.getText().toString());
-				mReview = ReviewFactory.createReviewNode(review);
+				mReview = ReviewFactory.createReviewNode(mSubject.getText().toString());
 				mReview.addChildren(mCriteria);
 				mReview.setRating(mTotalRatingBar.getRating());
-				mReview.setRatingIsAverage(mTotalRatingIsAverage);
-				IntentObjectHolder.addObject(REVIEW_OBJECT, mReview);
+				
 				Intent i = new Intent(getSherlockActivity(), ActivityReviewOptions.class);
+				Bundle args = new Bundle();
+				args.putParcelable(REVIEW_OBJECT, mReview);
+				i.putExtras(args);
 				startActivity(i);
 			}
 			break;

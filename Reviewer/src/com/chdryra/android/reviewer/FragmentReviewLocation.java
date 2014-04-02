@@ -99,7 +99,7 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 		super.onCreate(savedInstanceState);
 		setRetainInstance(true);
 		mLocationClient = new LocationClient(getSherlockActivity(), this, this);
-		mUserReview = (UserReview)IntentObjectHolder.getObject(FragmentReviewOptions.REVIEW_OBJECT);
+		mUserReview = getArguments().getParcelable(FragmentReviewOptions.REVIEW_OBJECT);
 		mButton = (ImageButton)IntentObjectHolder.getObject(FragmentReviewOptions.LOCATION_BUTTON);
 		mRevertMapSnapshotZoom =  mUserReview.getLocation().hasMapSnapshot() ? mUserReview.getLocation().getMapSnapshotZoom() : DEFAULT_ZOOM;
 	    mPhotoLatLng = getSherlockActivity().getIntent().getParcelableExtra(FragmentReviewOptions.IMAGE_LATLNG);
@@ -331,7 +331,7 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 		
 		if(mLocationName != null) {
 			mLocationName.setText(null);
-			String primaryDefaultSuggestion = mSearchLocationName != null? mSearchLocationName : mUserReview.getSubject();
+			String primaryDefaultSuggestion = mSearchLocationName != null? mSearchLocationName : mUserReview.getTitle();
 			mLocationName.setAdapter(new LocationNameAdapter(getSherlockActivity(), 
 					android.R.layout.simple_list_item_1, mLatLng, NUMBER_DEFAULT_NAMES, primaryDefaultSuggestion));
 		}

@@ -18,6 +18,9 @@ public class ReviewFacts implements Iterable<Datum>, Parcelable{
 		mData = (LinkedHashMap<String, Datum>) args.getSerializable(DATA);
 	}
 
+	public ReviewFacts() {
+	}
+
 	public void put(String label, String value) {
 		if(label != null && value != null)
 			mData.put(label, new Datum(label, value));

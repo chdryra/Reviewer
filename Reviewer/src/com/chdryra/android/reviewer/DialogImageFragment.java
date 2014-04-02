@@ -16,22 +16,24 @@ public class DialogImageFragment extends DialogBasicFragment {
 		
 	public static final int CAPTION_CHANGED = 2;
 	
+	private Review mReview;
 	protected ClearableEditText mImageCaption;
 	private String mOriginalCaption;
+	protected String mCaptionHint = getResources().getString(R.string.edit_text_image_caption_hint);
 	
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		View v = getActivity().getLayoutInflater().inflate(R.layout.dialog_image, null);
+		mReview = getArguments().getParcelable(FragmentReviewOptions.REVIEW_OBJECT);
 		
 		ImageView imageView = (ImageView)v.findViewById(R.id.dialog_image_image_view);
 		mImageCaption = (ClearableEditText)v.findViewById(R.id.dialog_image_caption_edit_text);
 		
-		Bitmap image = getArguments().getParcelable(FragmentReviewOptions.DIALOG_IMAGE);
-		mOriginalCaption = getArguments().getString(FragmentReviewOptions.DIALOG_IMAGE_CAPTION);
-		String captionHint = getArguments().getString(FragmentReviewOptions.DIALOG_IMAGE_CAPTION_HINT);
+		Bitmap image = mReview.getImage().getBitmap();
+		mOriginalCaption = mReview.getImage().getCaption();
 		
 		imageView.setImageBitmap(image);
-		mImageCaption.setHint(captionHint);
+		mImageCaption.setHint(mCaptionHint);
 		mImageCaption.setText(mOriginalCaption);
 		//For some reason setSelection(0) doesn't work unless I force set the span of the selection
 		if(mOriginalCaption != null && mOriginalCaption.length() > 0) {

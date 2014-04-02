@@ -11,16 +11,14 @@ import com.chdryra.android.mygenerallibrary.IntentObjectHolder;
 
 public class DialogDataFragment extends DialogBasicFragment {
 
-	private UserReview mUserReview;
-	
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		View v = getActivity().getLayoutInflater().inflate(R.layout.dialog_data, null);
 		LinearLayout dataLinearLayout = (LinearLayout)v.findViewById(R.id.data_linear_layout);
 		
-		mUserReview = (UserReview)IntentObjectHolder.getObject(FragmentReviewOptions.REVIEW_OBJECT);
+		Review review = getArguments().getParcelable(FragmentReviewOptions.REVIEW_OBJECT);
 		boolean dark = true;
-		for(Datum datum: mUserReview.getFacts()) {
+		for(Datum datum: review.getFacts()) {
 			View datumRow = getSherlockActivity().getLayoutInflater().inflate(R.layout.datum_linear_row, null);
 			TextView label = (TextView)datumRow.findViewById(R.id.datum_label_text_view);
 			TextView value = (TextView)datumRow.findViewById(R.id.datum_value_text_view);

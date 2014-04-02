@@ -6,7 +6,7 @@ public class ActivityReviewData extends ActivitySingleFragment {
 
 	@Override
 	protected Fragment createFragment() {
-		return new FragmentReviewData();
+		return new FragmentReviewFacts();
 	}
 
 }

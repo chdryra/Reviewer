@@ -21,11 +21,9 @@ import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.view.MenuItem;
-import com.chdryra.android.mygenerallibrary.IntentObjectHolder;
 import com.chdryra.android.myandroidwidgets.ClearableEditText;
-import com.chdryra.android.reviewer.ReviewFacts.Datum;
 
-public class FragmentReviewData extends SherlockFragment {
+public class FragmentReviewFacts extends SherlockFragment {
 	public static final int RESULT_DELETE = Activity.RESULT_FIRST_USER;
 	
 	public static final String DATUM_LABEL = "com.chdryra.android.reviewer.datum_label";
@@ -54,7 +52,7 @@ public class FragmentReviewData extends SherlockFragment {
 		super.onCreate(savedInstanceState);
 		setRetainInstance(true);
 		setHasOptionsMenu(true);
-		mUserReview = (UserReview)IntentObjectHolder.getObject(FragmentReviewOptions.REVIEW_OBJECT);
+		mUserReview = getArguments().getParcelable(FragmentReviewOptions.REVIEW_OBJECT);
 		if(mUserReview.hasFacts())
 			mReviewFacts = mUserReview.getFacts();
 	}
@@ -91,7 +89,7 @@ public class FragmentReviewData extends SherlockFragment {
 				Datum datum = (Datum)parent.getItemAtPosition(pos);
 				
 				DialogDatumFragment dialog = new DialogDatumFragment();
-				dialog.setTargetFragment(FragmentReviewData.this, DATUM_EDIT);
+				dialog.setTargetFragment(FragmentReviewFacts.this, DATUM_EDIT);
 				Bundle args = new Bundle();
 				args.putString(DATUM_LABEL, datum.getLabel());
 				args.putString(DATUM_VALUE, datum.getValue());
@@ -176,7 +174,7 @@ public class FragmentReviewData extends SherlockFragment {
 				mUserReview.deleteFacts();
 			else {
 				DialogBasicFragment.showDeleteConfirmDialog(getResources().getString(R.string.data_activity_title), 
-						FragmentReviewData.this, getFragmentManager());
+						FragmentReviewFacts.this, getFragmentManager());
 				return;
 			}
 		}
@@ -184,8 +182,7 @@ public class FragmentReviewData extends SherlockFragment {
 		if(resultCode == Activity.RESULT_OK && mReviewFacts.size() > 0) {
 			mUserReview.setFacts(mReviewFacts);
 		}
-		
-		IntentObjectHolder.addObject(FragmentReviewOptions.REVIEW_OBJECT, mUserReview);		
+			
 		getSherlockActivity().setResult(resultCode);		 
 		getSherlockActivity().finish();	
 	}

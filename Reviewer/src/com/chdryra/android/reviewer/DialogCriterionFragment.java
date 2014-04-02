@@ -59,6 +59,7 @@ public class DialogCriterionFragment extends DialogBasicFragment {
 		Intent i = new Intent();
 		Bundle args = new Bundle();
 		args.putParcelable(FragmentReviewCreate.CRITERION, mCriterion);
+		i.putExtras(args);
 		getTargetFragment().onActivityResult(getTargetRequestCode(), resultCode, i);
 	}
 	

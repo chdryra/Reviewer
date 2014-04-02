@@ -30,4 +30,9 @@ public class ReviewFactory {
 	public static ReviewNode createReviewNode(Review review) {
 		return getInstance().newReviewNode(review);
 	}
+	
+	public static ReviewNode createReviewNode(String title) {
+		Review review = getInstance().newUserReview(title);
+		return getInstance().newReviewNode(review);
+	}
 }

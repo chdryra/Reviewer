@@ -24,7 +24,7 @@ public class ReviewCommentSingle implements ReviewComment{
 	public String getCommentString() {
 		return mComment;
 	}
-	
+
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
 		sb.append(mTitle);
@@ -36,7 +36,6 @@ public class ReviewCommentSingle implements ReviewComment{
 
 	@Override
 	public int describeContents() {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 

@@ -62,12 +62,12 @@ public class FragmentReviewComment extends SherlockFragment {
 	
 	private EditText mCurrentFocusedEditText;
 
-	private HashMap<String, EditText> mEditTexts = new HashMap<String, EditText>();
+	private HashMap<ReviewID, EditText> mEditTexts = new HashMap<ReviewID, EditText>();
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		mUserReview = (UserReview)IntentObjectHolder.getObject(FragmentReviewOptions.REVIEW_OBJECT);
+		mUserReview = getArguments().getParcelable(FragmentReviewOptions.REVIEW_OBJECT);
 		setRetainInstance(true);
 		setHasOptionsMenu(true);
 	}
@@ -83,12 +83,9 @@ public class FragmentReviewComment extends SherlockFragment {
 		setHeadlineCommentsView();
 
 		mCriteriaCommentsLinearLayout = (LinearLayout)v.findViewById(R.id.criteria_comments_linear_layout);
-		LinkedHashMap<String, SimpleReview> criteria = mUserReview.getChildren().getCriterionHashMap();
-		Iterator<SimpleReview> it = criteria.values().iterator();
-		while (it.hasNext()) {
-			SimpleReview c = it.next();
+		for(ReviewNode c : mUserReview.getCriteria()) {
 			mCriteriaCommentsLinearLayout.addView(getCommentLineView(c, null));
-			if( c.getComment() != null && c.getComment().length() > 0)
+			if( c.getComment() != null && c.getComment().toString().length() > 0)
 				mAddCriteriaComments = true;
 		}
 		updateCriteriaCommentsDisplay();
@@ -136,21 +133,22 @@ public class FragmentReviewComment extends SherlockFragment {
 		});
 	}
 	
-	private View getCommentLineView(final Commentable commentable, View v) {
+	private View getCommentLineView(final Review review, View v) {
 		if(v == null)
 			v = getSherlockActivity().getLayoutInflater().inflate(R.layout.comment_line_view, null);
 		
-		String commentTitle = commentable.getCommentTitle();
+		ReviewComment comment = review.getComment();
+		String commentTitle = comment.getCommentTitle();
 		TextView criterionName = (TextView)v.findViewById(R.id.comment_text_view);
 		criterionName.setText(commentTitle);
 		
-		EditText comment = (EditText)v.findViewById(R.id.comment_edit_text);
-		comment.setHorizontallyScrolling(false);
-		comment.setMaxLines(MAX_COMMENT_EDITTEXT_LINES);
+		EditText commentET = (EditText)v.findViewById(R.id.comment_edit_text);
+		commentET.setHorizontallyScrolling(false);
+		commentET.setMaxLines(MAX_COMMENT_EDITTEXT_LINES);
 		
 		//To allow scrolling within edit text 
 		//if contains string by disallowing scrollview scrolling.
-		comment.setOnTouchListener(new View.OnTouchListener() {
+		commentET.setOnTouchListener(new View.OnTouchListener() {
              @Override
              public boolean onTouch(View v, MotionEvent event) {
                  if (v.getId() == R.id.comment_edit_text) {
@@ -171,10 +169,10 @@ public class FragmentReviewComment extends SherlockFragment {
              }
          });
 		
-		if( commentable.getCommentString() != null )
-			comment.setText(commentable.getCommentString());
+		if( comment.getCommentString() != null )
+			commentET.setText(comment.getCommentString());
 		
-		comment.addTextChangedListener(new TextWatcher() {
+		commentET.addTextChangedListener(new TextWatcher() {
 			
 			@Override
 			public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -192,7 +190,7 @@ public class FragmentReviewComment extends SherlockFragment {
 			}	
 		});
 		
-		comment.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+		commentET.setOnFocusChangeListener(new View.OnFocusChangeListener() {
 		    @Override
 		    public void onFocusChange(View v, boolean hasFocus) {
 		        if (hasFocus) {
@@ -202,7 +200,7 @@ public class FragmentReviewComment extends SherlockFragment {
 		    }
 		});
 		
-		mEditTexts.put(commentTitle, comment);
+		mEditTexts.put(review.getID(), commentET);
 		
 		return v;
 	}
@@ -295,23 +293,24 @@ public class FragmentReviewComment extends SherlockFragment {
 		}
 		
 		if(resultCode == Activity.RESULT_OK) {
-			mUserReview.setComment(mEditTexts.get(mUserReview.getCommentTitle()).getText().toString());
-			for (HashMap.Entry<String, EditText> entry : mEditTexts.entrySet())
+			ReviewComment comment = 
+					new ReviewCommentSingle(mUserReview.getComment().getCommentTitle(), mEditTexts.get(mUserReview.getID()).getText().toString());
+			mUserReview.setComment(comment);
+			for (HashMap.Entry<ReviewID, EditText> entry : mEditTexts.entrySet())
 			{
-				String title = entry.getKey();
+				ReviewID id = entry.getKey();
 				
-				if(title.equals(mUserReview.getCommentTitle()))
+				if(id.equals(mUserReview.getID()))
 			    	continue;
 				
-				SimpleReview c = mUserReview.getChildren().get(title);
-				if(mAddCriteriaComments) 
-					c.setCommentString(entry.getValue().getText().toString());
+				Review c = mUserReview.getCriteria().get(id);
+				if(mAddCriteriaComments)
+					c.setComment(new ReviewCommentSingle(c.getComment().getCommentTitle(), entry.getValue().getText().toString()));
 				else
 					c.deleteComment();
 			}
 		}	
 		
-		IntentObjectHolder.addObject(FragmentReviewOptions.REVIEW_OBJECT, mUserReview);
 		getSherlockActivity().setResult(resultCode);		 
 		getSherlockActivity().finish();	
 	}

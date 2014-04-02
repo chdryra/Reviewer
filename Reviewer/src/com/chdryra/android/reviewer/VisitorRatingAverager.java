@@ -12,6 +12,9 @@ public class VisitorRatingAverager implements VisitorRatingCalculator{
 		mNumberRatings = in.readInt();
 	}
 
+	public VisitorRatingAverager() {
+	}
+
 	@Override
 	public void visit(ReviewNode reviewNode) {
 		mRatingTotal += reviewNode.getRating();
