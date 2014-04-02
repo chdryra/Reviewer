@@ -19,6 +19,10 @@ public class ReviewFactory {
 		return new UserReview(title);	
 	}
 	
+	private Review newSimpleReview(String title) {
+		return new SimpleReview(title);	
+	}
+	
 	private ReviewNode newReviewNode(Review review) {
 		return new ReviewComponent(review);
 	}
@@ -27,12 +31,21 @@ public class ReviewFactory {
 		return getInstance().newUserReview(title);
 	}
 	
+	public static Review createSimpleReview(String title) {
+		return getInstance().newSimpleReview(title);
+	}
+	
 	public static ReviewNode createReviewNode(Review review) {
 		return getInstance().newReviewNode(review);
 	}
 	
-	public static ReviewNode createReviewNode(String title) {
-		Review review = getInstance().newUserReview(title);
-		return getInstance().newReviewNode(review);
+	public static ReviewNode createSimpleReviewNode(String title) {
+		Review review = createSimpleReview(title);
+		return createReviewNode(review);
+	}
+	
+	public static ReviewNode createUserReviewNode(String title) {
+		Review review = createUserReview(title);
+		return createReviewNode(review);
 	}
 }

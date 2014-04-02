@@ -115,7 +115,7 @@ public class FragmentReviewOptions extends SherlockFragment {
 		super.onCreate(savedInstanceState);
 		setHasOptionsMenu(true);		
 		setRetainInstance(true);
-		mUserReview = getArguments().getParcelable(FragmentReviewCreate.REVIEW_OBJECT);
+		mUserReview = getActivity().getIntent().getParcelableExtra(FragmentReviewCreate.REVIEW_OBJECT);
 		if(mUserReview.hasImage())
 			mHelperReviewImage = HelperReviewImage.getInstance(mUserReview);
 	}
@@ -146,7 +146,7 @@ public class FragmentReviewOptions extends SherlockFragment {
 	
 		//***Total Rating Bar***//
 		mRatingBar.setRating(mUserReview.getRating());
-		int numCriteria = mUserReview.getChildren().size();
+		int numCriteria = mUserReview.getCriteria().size();
 		mTouchStarsText = numCriteria == 0? NO_CRITERIA : TOGGLE_CRITERIA;
 		mTouchStarsTextView.setText(mTouchStarsText);
 		if(numCriteria > 0) {
@@ -412,7 +412,8 @@ public class FragmentReviewOptions extends SherlockFragment {
 			if (NavUtils.getParentActivityName(getSherlockActivity()) != null) {
 				IntentObjectHolder.addObject(REVIEW_OBJECT, mUserReview);
 				Intent intent = NavUtils.getParentActivityIntent(getSherlockActivity()); 
-				intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_SINGLE_TOP); 
+				intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_SINGLE_TOP);
+				intent.putExtras(getBundledReview());
 				NavUtils.navigateUpTo(getSherlockActivity(), intent);
 			}
 			return true;
@@ -485,7 +486,6 @@ public class FragmentReviewOptions extends SherlockFragment {
 				break;
 							
 			case LOCATION_REQUEST:
-				mUserReview = (UserReview)IntentObjectHolder.getObject(REVIEW_OBJECT);
 				if(resultCode == FragmentReviewLocation.RESULT_DELETE)
 					deleteLocation();
 				updateDateDisplay();
@@ -513,7 +513,6 @@ public class FragmentReviewOptions extends SherlockFragment {
 				break;
 
 			case COMMENT_REQUEST:
-				mUserReview = (UserReview)IntentObjectHolder.getObject(REVIEW_OBJECT);
 				switch (resultCode) {
 					case Activity.RESULT_OK:
 						updateComment();	
@@ -573,7 +572,7 @@ public class FragmentReviewOptions extends SherlockFragment {
 	}
 	
 	private void setLocationButtonImage() {		
-		if(mUserReview.getLocation().hasMapSnapshot())
+		if(mUserReview.hasLocation() && mUserReview.getLocation().hasMapSnapshot())
 			mAddLocationImageButton.setImageBitmap(mUserReview.getLocation().getMapSnapshot());
 		else
 			mAddLocationImageButton.setImageResource(R.drawable.ic_menu_mylocation);

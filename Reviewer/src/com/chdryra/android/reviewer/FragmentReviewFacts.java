@@ -52,7 +52,7 @@ public class FragmentReviewFacts extends SherlockFragment {
 		super.onCreate(savedInstanceState);
 		setRetainInstance(true);
 		setHasOptionsMenu(true);
-		mUserReview = getArguments().getParcelable(FragmentReviewOptions.REVIEW_OBJECT);
+		mUserReview = getActivity().getIntent().getParcelableExtra(FragmentReviewOptions.REVIEW_OBJECT);
 		if(mUserReview.hasFacts())
 			mReviewFacts = mUserReview.getFacts();
 	}

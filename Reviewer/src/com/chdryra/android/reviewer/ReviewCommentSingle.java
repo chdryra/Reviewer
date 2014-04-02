@@ -4,6 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public class ReviewCommentSingle implements ReviewComment{
+	private ReviewID mID;
 	private String mTitle;
 	private String mComment;
 	

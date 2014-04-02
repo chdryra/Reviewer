@@ -1,6 +1,6 @@
 package com.chdryra.android.reviewer;
 
-import java.util.LinkedHashMap;
+import java.util.Map;
 
 import android.os.Bundle;
 import android.os.Parcel;
@@ -16,7 +16,8 @@ public class ReviewCommentCollection extends RCollection<ReviewComment> implemen
 	@SuppressWarnings("unchecked")
 	public ReviewCommentCollection(Parcel in) {
 		Bundle args = in.readBundle();
-		mData = (LinkedHashMap<ReviewID, ReviewComment>) args.getSerializable(DATA);
+		Map<ReviewID, ReviewComment> map = (Map<ReviewID, ReviewComment>) args.getSerializable(DATA);
+		mData.putAll(map);
 	}
 
 	@Override
@@ -42,7 +43,6 @@ public class ReviewCommentCollection extends RCollection<ReviewComment> implemen
 
 	@Override
 	public int describeContents() {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
@@ -50,6 +50,7 @@ public class ReviewCommentCollection extends RCollection<ReviewComment> implemen
 	public void writeToParcel(Parcel dest, int flags) {
 		Bundle args = new Bundle();
 		args.putSerializable(DATA, mData);
+		dest.writeBundle(args);
 	}
 	
 	public static final Parcelable.Creator<ReviewCommentCollection> CREATOR 

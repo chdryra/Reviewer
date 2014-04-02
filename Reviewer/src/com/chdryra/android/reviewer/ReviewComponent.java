@@ -11,6 +11,7 @@ public class ReviewComponent implements ReviewNode {
 	
 	public ReviewComponent(Review node) {
 		mReview = node;
+		mChildren = new ReviewNodeCollection();
 	}
 	
 	@Override
@@ -177,14 +178,21 @@ public class ReviewComponent implements ReviewNode {
 	@Override
 	public void writeToParcel(Parcel dest, int flags) {
 		dest.writeParcelable(mReview, flags);
-		dest.writeParcelable(mParent, flags);
+		if(mParent != null)
+			dest.writeParcelable(mParent.getReview(), flags);
+		else
+			dest.writeParcelable(null, flags);
 		dest.writeParcelable(mChildren, flags);
 	}
 
 	public ReviewComponent(Parcel in) {
-		mReview = in.readParcelable(null);
-		mParent = in.readParcelable(null);
-		mChildren = in.readParcelable(null);
+		mReview = in.readParcelable(Review.class.getClassLoader());
+		Review parent = in.readParcelable(ReviewNode.class.getClassLoader()); 
+		if(parent != null)
+			setParent(parent);
+		else
+			mParent = null;
+		mChildren = in.readParcelable(ReviewNodeCollection.class.getClassLoader());
 	}
 	
 	public static final Parcelable.Creator<ReviewComponent> CREATOR 

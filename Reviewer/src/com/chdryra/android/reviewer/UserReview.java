@@ -3,32 +3,27 @@ package com.chdryra.android.reviewer;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class UserReview implements ReviewNode{	
+public class UserReview implements Review{	
 	private static final String TAG = "UserReview";
-	
+
+	private ReviewNode mNode;
+
 	private ReviewComment mComment;
 	private ReviewImage mImage;
 	private ReviewLocation mLocation;	
 	private ReviewFacts mFacts;
 
-	private ReviewNode mNode;
-
 	public UserReview(String title) {
-		mNode = (ReviewNode)ReviewFactory.createReviewNode(title);
+		mNode = (ReviewNode)ReviewFactory.createSimpleReviewNode(title);
 	}
 
 	public UserReview(Parcel in) {
-		mNode = in.readParcelable(null);
-
+		mNode = in.readParcelable(ReviewNode.class.getClassLoader());
+		
 		mComment = in.readParcelable(null);
 		mImage = in.readParcelable(ReviewImage.class.getClassLoader());
 		mLocation = in.readParcelable(ReviewLocation.class.getClassLoader());	
 		mFacts = in.readParcelable(ReviewFacts.class.getClassLoader());
-	}
-
-	@Override
-	public Review getReview() {
-		return mNode.getReview();
 	}
 	
 	@Override
@@ -57,11 +52,11 @@ public class UserReview implements ReviewNode{
 	}
 
 	public ReviewNodeCollection getCriteria() {
-		return getChildren();
+		return mNode.getChildren();
 	}
 	
 	public void setCriteria(ReviewNodeCollection criteria) {
-		addChildren(criteria);
+		mNode.addChildren(criteria);
 	}
 		
 	public ReviewImage getImage() {
@@ -113,11 +108,6 @@ public class UserReview implements ReviewNode{
 	}
 	
 	@Override
-	public void acceptVisitor(VisitorReviewNode visitorReviewNode) {
-		visitorReviewNode.visit(mNode);
-	}
-
-	@Override
 	public void setComment(ReviewComment comment){
 		mComment = comment;
 	}
@@ -145,48 +135,7 @@ public class UserReview implements ReviewNode{
 	}
 
 	@Override
-	public void setParent(Review parent) {
-		mNode.setParent(parent);
-	}
-
-	@Override
-	public void setParent(ReviewNode parentNode) {
-		mNode.setParent(parentNode);
-	}
-
-	@Override
-	public void addChild(ReviewNode childNode) {
-		mNode.addChild(childNode);
-	}
-	
-	@Override
-	public ReviewNode getParent() {
-		return mNode.getParent();
-	}
-
-	@Override
-	public void addChild(Review child) {
-		mNode.addChild(child);
-	}
-
-	@Override
-	public void removeChild(Review child) {
-		mNode.removeChild(child);
-	}
-	
-	@Override
-	public void addChildren(ReviewNodeCollection children) {
-		mNode.addChildren(children);
-	}
-
-	@Override
-	public ReviewNodeCollection getChildren() {
-		return mNode.getChildren();
-	}
-
-	@Override
 	public int describeContents() {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 

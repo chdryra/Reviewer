@@ -1,50 +1,51 @@
 package com.chdryra.android.reviewer;
 
 import android.os.Parcel;
+import android.os.Parcelable;
 
-public class MetaReview implements Review {
-	private static final String REVIEWS = "Reviews";
+public class SimpleReview implements Review {
+	private static final String TAG = "SimpleReview";
+
+	private ReviewID mID;
+	private String mTitle;
+	private float mRating;
+
+	public SimpleReview(String title) {
+		mID = ReviewID.generateID();
+		mTitle = title;
+	}
 	
-	private ReviewNode mNode;
-	
-	public MetaReview(String title, ReviewNodeCollection reviewNodes) {
-		mNode = ReviewFactory.createSimpleReviewNode(title);
-		mNode.addChildren(reviewNodes);
+	public SimpleReview(Parcel in) {
+		mID = in.readParcelable(ReviewID.class.getClassLoader());
+		mTitle = in.readString();
+		mRating = in.readFloat();
 	}
 
-	//Review methods
 	@Override
 	public ReviewID getID() {
-		return mNode.getID();
+		return mID;
 	}
 
 	@Override
-	public float getRating() {
-		return getAverageRating();
-	}
-	
-	@Override
 	public String getTitle() {
-		StringBuilder sb = new StringBuilder();
-		sb.append(getTitle());
-		sb.append(": ");
-		sb.append(mNode.getChildren().size());
-		sb.append(" ");
-		sb.append(REVIEWS);
-		
-		return sb.toString();
-	}
-	
-	@Override
-	public void setRating(float rating) {
-		throw new UnsupportedOperationException();
+		return mTitle;
 	}
 
 	@Override
 	public void setTitle(String title) {
-		mNode.setTitle(title);
+		mTitle = title;
 	}
-	
+
+	@Override
+	public float getRating() {
+		return mRating;
+	}
+
+	@Override
+	public void setRating(float rating) {
+		mRating = rating;
+	}
+
 	@Override
 	public void setComment(ReviewComment comment) {
 		throw new UnsupportedOperationException();
@@ -76,12 +77,11 @@ public class MetaReview implements Review {
 
 	@Override
 	public void deleteImage() {
-		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public boolean hasImage() {
-		throw new UnsupportedOperationException();
+		return false;
 	}
 
 	@Override
@@ -96,7 +96,6 @@ public class MetaReview implements Review {
 
 	@Override
 	public void deleteLocation() {
-		throw new UnsupportedOperationException();
 	}
 
 	@Override
@@ -110,13 +109,12 @@ public class MetaReview implements Review {
 	}
 
 	@Override
-	public void setFacts(ReviewFacts data) {
+	public void setFacts(ReviewFacts facts) {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public void deleteFacts() {
-		throw new UnsupportedOperationException();
 	}
 
 	@Override
@@ -131,14 +129,19 @@ public class MetaReview implements Review {
 
 	@Override
 	public void writeToParcel(Parcel dest, int flags) {
-		dest.writeParcelable(mNode, flags);
+		dest.writeParcelable(mID, flags);
+		dest.writeString(mTitle);
+		dest.writeFloat(mRating);
 	}
+	
+	public static final Parcelable.Creator<SimpleReview> CREATOR 
+	= new Parcelable.Creator<SimpleReview>() {
+	    public SimpleReview createFromParcel(Parcel in) {
+	        return new SimpleReview(in);
+	    }
 
-	private float getAverageRating() {
-		VisitorRatingAverager averager = new VisitorRatingAverager();
-		ReviewNodeCollection reviews = mNode.getChildren();
-		for(ReviewNode r : reviews)
-			r.acceptVisitor(averager);
-		return averager.getRating();
-	}
+	    public SimpleReview[] newArray(int size) {
+	        return new SimpleReview[size];
+	    }
+	};
 }

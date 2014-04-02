@@ -99,7 +99,7 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 		super.onCreate(savedInstanceState);
 		setRetainInstance(true);
 		mLocationClient = new LocationClient(getSherlockActivity(), this, this);
-		mUserReview = getArguments().getParcelable(FragmentReviewOptions.REVIEW_OBJECT);
+		mUserReview = getActivity().getIntent().getParcelableExtra(FragmentReviewOptions.REVIEW_OBJECT);
 		mButton = (ImageButton)IntentObjectHolder.getObject(FragmentReviewOptions.LOCATION_BUTTON);
 		mRevertMapSnapshotZoom =  mUserReview.getLocation().hasMapSnapshot() ? mUserReview.getLocation().getMapSnapshotZoom() : DEFAULT_ZOOM;
 	    mPhotoLatLng = getSherlockActivity().getIntent().getParcelableExtra(FragmentReviewOptions.IMAGE_LATLNG);

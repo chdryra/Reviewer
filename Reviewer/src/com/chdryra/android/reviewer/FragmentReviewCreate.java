@@ -1,11 +1,10 @@
 package com.chdryra.android.reviewer;
 
-import java.util.LinkedHashMap;
+import java.util.ArrayList;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,20 +22,22 @@ import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
-import com.chdryra.android.mygenerallibrary.IntentObjectHolder;
 import com.chdryra.android.myandroidwidgets.ClearableEditText;
+import com.google.android.gms.internal.cr;
 
 public class FragmentReviewCreate extends SherlockFragment{
 	private final static String TAG = "ReviewerFragment";
 	private final static String DIALOG_CRITERION_TAG = "CriterionDialog";
 	public final static String CRITERION = "com.chdryra.android.reviewer.criterion";
 	public final static String REVIEW_OBJECT = "com.chdryra.android.reviewer.review_object";
+	public final static String TOAST_ENTER_SUBJECT = "Please enter a subject name...";
+	public final static String TOAST_ENTER_CRITERION = "Please enter a criterion name...";
 	public final static int CRITERION_EDIT = 0;
-	public static enum Result {TOTAL_IS_AVERAGE, TOTAL_IS_USER};
 	
-	private ReviewNode mReview;
-	private ReviewNodeCollection mCriteria = new ReviewNodeCollection();
-
+	private UserReview mReview;
+	private ReviewNodeCollection mCriteria;
+	private ArrayList<String> mCriteriaNames;
+	
 	private ClearableEditText mSubject;
 	private ClearableEditText mCriterionName;
 	private ImageButton mAddCriterionButton;
@@ -50,7 +51,18 @@ public class FragmentReviewCreate extends SherlockFragment{
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		mReview = (UserReview)IntentObjectHolder.getObject(FragmentReviewOptions.REVIEW_OBJECT);
+		mCriteriaNames = new ArrayList<String>();
+		
+		Bundle args = getArguments();
+		if(args == null) {
+			mCriteria = new ReviewNodeCollection();
+		} else {
+			mReview = args.getParcelable(FragmentReviewOptions.REVIEW_OBJECT);
+			mCriteria = mReview.getCriteria();
+			for(ReviewNode c : mCriteria)
+				mCriteriaNames.add(c.getTitle());
+		}
+		
 		setHasOptionsMenu(true);		
 		setRetainInstance(true);		
 	}
@@ -143,7 +155,7 @@ public class FragmentReviewCreate extends SherlockFragment{
 	}
 	
 	private void recomputeTotalRating() {
-		if(mTotalRatingIsAverage) {
+		if(mTotalRatingIsAverage && mCriteria.size() > 0) {
 			MetaReview meta = new MetaReview("Criteria", mCriteria);
 			mTotalRatingBar.setRating(meta.getRating());
 		}
@@ -228,12 +240,30 @@ public class FragmentReviewCreate extends SherlockFragment{
 	private void addCriterion() {
 		String criterionName = mCriterionName.getText().toString();
 		
+		if(criterionName == null || criterionName.length() == 0) {
+			Toast.makeText(getSherlockActivity(), TOAST_ENTER_CRITERION, Toast.LENGTH_SHORT).show();
+			return;
+		}
+		
+		if(mCriteriaNames.contains(criterionName)) {
+			Toast.makeText(getSherlockActivity(), "Criterion: " + criterionName + " already exists...", Toast.LENGTH_SHORT).show();
+			return;
+		}
+		
 		if (mCriteria.size() == 0 && criterionName.length() > 0)
 			setTotalRatingIsAverage();		      		
 
-		mCriteria.add(new UserReview(criterionName));		
+		mCriteria.add(ReviewFactory.createUserReviewNode(criterionName));
+		mCriteriaNames.add(criterionName);
 		mCriterionName.setText(null);		
 		updateUI();
+	}
+	
+	private void deleteCriterion(ReviewNode criterion) {
+		mCriteria.remove(criterion.getID());
+		mCriteriaNames.remove(criterion.getTitle());
+		if(mCriteria.size() == 0)
+			setTotalRatingIsUser();
 	}
 	
 	@Override
@@ -245,7 +275,17 @@ public class FragmentReviewCreate extends SherlockFragment{
 		if (resultCode == Activity.RESULT_OK) {
 			switch (requestCode) {
 			case CRITERION_EDIT:
-				mCriteria.add(((ReviewNode)data.getParcelableExtra(CRITERION)));
+				ReviewNode criterion = (ReviewNode)data.getParcelableExtra(CRITERION);
+				String criterionName = criterion.getTitle();
+				if(mCriteriaNames.contains(criterionName)) {
+					String newName = criterionName;
+					int i = 1;
+					while(mCriteriaNames.contains(newName))
+						newName = criterionName + "_" + String.valueOf(i++);
+					criterion.setTitle(newName);
+					mCriteriaNames.add(newName);
+					Toast.makeText(getSherlockActivity(), "Criterion: " + criterionName + " already exists, changing name to " + newName, Toast.LENGTH_SHORT).show();
+				}
 				break;
 			default:
 				break;
@@ -253,10 +293,8 @@ public class FragmentReviewCreate extends SherlockFragment{
 		}
 			
 		if (resultCode == DialogCriterionFragment.RESULT_DELETE_CRITERION) {
-			Review criterion = (Review)data.getParcelableExtra(CRITERION);
-			mCriteria.remove(criterion.getID());
-			if(mCriteria.size() == 0)
-				setTotalRatingIsUser();
+			ReviewNode criterion = (ReviewNode)data.getParcelableExtra(CRITERION);
+			deleteCriterion(criterion);
 		}		
 
 		updateUI();				
@@ -273,10 +311,11 @@ public class FragmentReviewCreate extends SherlockFragment{
 		switch (item.getItemId()) {
 		case R.id.menu_item_next_screen:
 			if (mSubject == null || mSubject.length() < 1)
-				Toast.makeText(getSherlockActivity(), "Please enter a subject name...", Toast.LENGTH_SHORT).show();
+				Toast.makeText(getSherlockActivity(), TOAST_ENTER_SUBJECT, Toast.LENGTH_SHORT).show();
 			else {
-				mReview = ReviewFactory.createReviewNode(mSubject.getText().toString());
-				mReview.addChildren(mCriteria);
+				if(mReview == null)
+					mReview = (UserReview)ReviewFactory.createUserReview(mSubject.getText().toString());
+				mReview.setCriteria(mCriteria);
 				mReview.setRating(mTotalRatingBar.getRating());
 				
 				Intent i = new Intent(getSherlockActivity(), ActivityReviewOptions.class);

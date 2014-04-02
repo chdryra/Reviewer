@@ -20,6 +20,7 @@ public class DialogCriterionFragment extends DialogBasicFragment {
 	
 	private Review mCriterion;
 	private ClearableEditText mCriterionName;
+	private String mOldName;
 	
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -27,8 +28,9 @@ public class DialogCriterionFragment extends DialogBasicFragment {
 		mCriterionName = (ClearableEditText)v.findViewById(R.id.criterion_name_edit_text);
 		if( getTargetRequestCode() == FragmentReviewCreate.CRITERION_EDIT )
 		{
-			mCriterion = getArguments().getParcelable(FragmentReviewCreate.CRITERION);
-			mCriterionName.setText(mCriterion.getTitle());
+			mCriterion = getActivity().getIntent().getParcelableExtra(FragmentReviewCreate.CRITERION);
+			mOldName = mCriterion.getTitle();
+			mCriterionName.setText(mOldName);
 		}
 		
 		final AlertDialog dialog = buildDialog(v);

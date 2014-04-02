@@ -1,21 +1,12 @@
 package com.chdryra.android.reviewer;
 
-import java.util.LinkedHashMap;
-
-import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
 
 public class ReviewNodeCollection extends RCollection<ReviewNode> implements Parcelable {
 	private static final String REVIEWS = "REVIEWS";
-	private static final String DATA = "REVIEW COLLECTION DATA";
+	private static final String DATA = "com.chdryra.android.reviewer.review_node_collection_data";
 	
-	@SuppressWarnings("unchecked")
-	public ReviewNodeCollection(Parcel in) {
-		Bundle args = in.readBundle();
-		mData = (LinkedHashMap<ReviewID, ReviewNode>) args.getSerializable(DATA);
-	}
-
 	public ReviewNodeCollection() {
 	}
 	
@@ -28,10 +19,18 @@ public class ReviewNodeCollection extends RCollection<ReviewNode> implements Par
 		return 0;
 	}
 
+	public ReviewNodeCollection(Parcel in) {
+		Parcelable[] nodes = in.readParcelableArray(ReviewNode.class.getClassLoader());
+		for(int i = 0; i < nodes.length; ++i) {
+			ReviewNode node = (ReviewNode)nodes[i];
+			mData.put(node.getID(), node);
+		}
+	}
+
 	@Override
 	public void writeToParcel(Parcel dest, int flags) {
-		Bundle args = new Bundle();
-		args.putSerializable(DATA, mData);
+		ReviewNode[] nodes = mData.values().toArray(new ReviewNode[mData.size()]);
+		dest.writeParcelableArray(nodes, flags);
 	}
 	
 	public static final Parcelable.Creator<ReviewNodeCollection> CREATOR 

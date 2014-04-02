@@ -67,7 +67,7 @@ public class FragmentReviewComment extends SherlockFragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		mUserReview = getArguments().getParcelable(FragmentReviewOptions.REVIEW_OBJECT);
+		mUserReview = getActivity().getIntent().getParcelableExtra(FragmentReviewOptions.REVIEW_OBJECT);
 		setRetainInstance(true);
 		setHasOptionsMenu(true);
 	}
@@ -137,8 +137,7 @@ public class FragmentReviewComment extends SherlockFragment {
 		if(v == null)
 			v = getSherlockActivity().getLayoutInflater().inflate(R.layout.comment_line_view, null);
 		
-		ReviewComment comment = review.getComment();
-		String commentTitle = comment.getCommentTitle();
+		String commentTitle = review.hasComment()? review.getComment().getCommentTitle() : review.getTitle();
 		TextView criterionName = (TextView)v.findViewById(R.id.comment_text_view);
 		criterionName.setText(commentTitle);
 		
@@ -169,8 +168,8 @@ public class FragmentReviewComment extends SherlockFragment {
              }
          });
 		
-		if( comment.getCommentString() != null )
-			commentET.setText(comment.getCommentString());
+		if( review.hasComment() && review.getComment().getCommentString() != null )
+			commentET.setText(review.getComment().getCommentString());
 		
 		commentET.addTextChangedListener(new TextWatcher() {
 			
@@ -293,8 +292,9 @@ public class FragmentReviewComment extends SherlockFragment {
 		}
 		
 		if(resultCode == Activity.RESULT_OK) {
+			String commentTitle = mUserReview.hasComment()? mUserReview.getComment().getCommentTitle() : mUserReview.getTitle();
 			ReviewComment comment = 
-					new ReviewCommentSingle(mUserReview.getComment().getCommentTitle(), mEditTexts.get(mUserReview.getID()).getText().toString());
+					new ReviewCommentSingle(commentTitle, mEditTexts.get(mUserReview.getID()).getText().toString());
 			mUserReview.setComment(comment);
 			for (HashMap.Entry<ReviewID, EditText> entry : mEditTexts.entrySet())
 			{
@@ -304,8 +304,9 @@ public class FragmentReviewComment extends SherlockFragment {
 			    	continue;
 				
 				Review c = mUserReview.getCriteria().get(id);
+				String cTitle = c.hasComment()? c.getComment().getCommentTitle() : c.getTitle();
 				if(mAddCriteriaComments)
-					c.setComment(new ReviewCommentSingle(c.getComment().getCommentTitle(), entry.getValue().getText().toString()));
+					c.setComment(new ReviewCommentSingle(cTitle, entry.getValue().getText().toString()));
 				else
 					c.deleteComment();
 			}
@@ -337,7 +338,7 @@ public class FragmentReviewComment extends SherlockFragment {
 		updateClearCommentMenuItemVisibility();
 
 		mAddCriteriaCommentsMenuItem = menu.findItem(R.id.menu_item_add_criteria_comments);
-		if(mUserReview.getChildren().size() == 0)
+		if(mUserReview.getCriteria().size() == 0)
 			mAddCriteriaCommentsMenuItem.setVisible(false);
     }
 	
