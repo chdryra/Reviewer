@@ -23,8 +23,8 @@ public class DialogDateFragment extends DialogBasicFragment {
 	private TimePicker mTimePicker;
 	private CheckBox mCheckBoxIncludeTime;
 	private Date mCurrentDate;
-	private boolean mIncludeTime;
-	
+	private boolean mIncludeTime = false;
+
 	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -32,10 +32,11 @@ public class DialogDateFragment extends DialogBasicFragment {
 		mDatePicker = (DatePicker)v.findViewById(R.id.date_picker);
 		mTimePicker = (TimePicker)v.findViewById(R.id.time_picker);
 		mCheckBoxIncludeTime = (CheckBox)v.findViewById(R.id.checkbox_include_time);
-		
-		mCurrentDate = (Date)getArguments().getSerializable(FragmentReviewOptions.REVIEW_DATE);
-		mIncludeTime = getArguments().getBoolean(FragmentReviewOptions.REVIEW_DATE_INC_TIME);
-		
+
+		//mCurrentDate = (Date)getArguments().getSerializable(FragmentReviewOptions.REVIEW_DATE);
+		//mIncludeTime = getArguments().getBoolean(FragmentReviewOptions.REVIEW_DATE_INC_TIME);
+		mCurrentDate = new Date();
+
 		final Calendar calendar = Calendar.getInstance(Locale.getDefault());
 		calendar.setTime(mCurrentDate);
 		final int year = calendar.get(Calendar.YEAR);
@@ -43,13 +44,13 @@ public class DialogDateFragment extends DialogBasicFragment {
 		final int day = calendar.get(Calendar.DAY_OF_MONTH);
 		final int hour = calendar.get(Calendar.HOUR_OF_DAY);
 		final int min = calendar.get(Calendar.MINUTE);
-		
+
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
 			mDatePicker.updateDate(year, month, day);
 			mDatePicker.setMaxDate(Calendar.getInstance(Locale.getDefault()).getTimeInMillis());
 		} else {
 			mDatePicker.init(year, month, day, new DatePicker.OnDateChangedListener() {
-	
+
 				@Override
 				public void onDateChanged(DatePicker view, int newYear, int newMonth, int newDay) {
 		            Calendar newDate = Calendar.getInstance(Locale.getDefault());
@@ -60,7 +61,7 @@ public class DialogDateFragment extends DialogBasicFragment {
 		        }
 		    });
 		}
-		
+
 		mTimePicker.setIs24HourView(DateFormat.is24HourFormat(getActivity()));
 		mTimePicker.setCurrentHour(hour);
 		mTimePicker.setCurrentMinute(min);
@@ -70,7 +71,7 @@ public class DialogDateFragment extends DialogBasicFragment {
 			disableTimePicker();
 		mCheckBoxIncludeTime.setChecked(mIncludeTime);
 		mCheckBoxIncludeTime.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-			
+
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 				if(isChecked) {
@@ -83,7 +84,7 @@ public class DialogDateFragment extends DialogBasicFragment {
 				}
 			}
 		});
-		
+
 		return buildDialog(v, getResources().getString(R.string.dialog_date_title));
 	}
 
@@ -93,37 +94,37 @@ public class DialogDateFragment extends DialogBasicFragment {
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
 			mTimePicker.setAlpha(100);
 	}
-	
+
 	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 	private void disableTimePicker() {
 		mTimePicker.setEnabled(false);
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
 			mTimePicker.setAlpha(25);
 	}
-	
+
 	@Override
 	protected void sendResult(int resultCode) {
 		if (getTargetFragment() == null || resultCode == Activity.RESULT_CANCELED) {
 			return;
 		}
-		
+
 		Intent i = new Intent();
 		int day = mDatePicker.getDayOfMonth();
 		int month = mDatePicker.getMonth();
 		int year =  mDatePicker.getYear();
 		int hour = mTimePicker.getCurrentHour();
 		int minute = mTimePicker.getCurrentMinute();
-		 
+
 		Calendar calendar = Calendar.getInstance();
 		calendar.set(year, month, day, hour, minute);
 		Date newDate = calendar.getTime();
-		
-		i.putExtra(FragmentReviewOptions.REVIEW_DATE_INC_TIME, mCheckBoxIncludeTime.isChecked());
-		if(resultCode == Activity.RESULT_OK && newDate.before(new Date()))
-			i.putExtra(FragmentReviewOptions.REVIEW_DATE, newDate);
-		else 
-			i.putExtra(FragmentReviewOptions.REVIEW_DATE, mCurrentDate);
-			
+//
+//		i.putExtra(FragmentReviewOptions.REVIEW_DATE_INC_TIME, mCheckBoxIncludeTime.isChecked());
+//		if(resultCode == Activity.RESULT_OK && newDate.before(new Date()))
+//			i.putExtra(FragmentReviewOptions.REVIEW_DATE, newDate);
+//		else 
+//			i.putExtra(FragmentReviewOptions.REVIEW_DATE, mCurrentDate);
+
 		getTargetFragment().onActivityResult(getTargetRequestCode(), resultCode, i);
 	}
 }

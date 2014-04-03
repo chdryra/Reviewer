@@ -23,6 +23,11 @@
     <string name="image_activity_title">image</string>
     <string name="review_define_activity_title">create</string>
     <string name="review_optionals_activity_title">options</string>
+
+    <!-- TextViews -->
+    <string name="text_view_no_criteria">no criteria</string>
+    <string name="text_view_touch_criteria">touch stars to toggle criteria</string>
+    <string name="text_view_link">http://</string>
     
     <!-- EditTexts -->
     <string name="edit_text_subject_hint">subject</string>
@@ -69,6 +74,12 @@
     <string name="menu_search_location">search for location</string>
     <string name="menu_criteria_comments">criteria comments</string>
     <string name="menu_clear_comment">clear comment</string>
+    
+    <!-- Toasts -->
+    <string name="toast_enter_subject">Please enter a subject&#8230;</string>
+    <string name="toast_enter_criterion">Please enter a criterion name&#8230;</string>
+    <string name="toast_enter_label">Please enter a label&#8230;</string>
+    <string name="toast_enter_value">Please enter a value&#8230;</string>
     
     <!-- Social -->
     <string name="facebook">facebook</string>

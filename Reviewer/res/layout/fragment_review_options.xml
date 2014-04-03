@@ -60,21 +60,37 @@
         layout="@layout/optional_image_buttons"
         android:layout_width="match_parent"
     	android:layout_height="wrap_content"
-     	/>
-   	<View style="@style/HorizontalDivider"/>
+     />
    	
-    <TextView
-	    android:id="@+id/date_text_view"
+   	<View style="@style/HorizontalDivider"/>
+
+   	<TextView
+	    android:id="@+id/url_text_view"
 	    android:layout_width="match_parent"
 	    android:layout_height="wrap_content"
-	    style="?android:textAppearanceMedium"
+	    style="?android:textAppearanceSmall"
 	    android:textColor="@color/WhiteSmoke"
 	    android:gravity="center"
-	    android:maxLines="2"
+	    android:maxLines="1"
+	    android:ellipsize="end"
+	    android:background="@drawable/image_button_selected"
+	    android:text="@string/text_view_link"
+   	/>	
+   	
+   	<View style="@style/HorizontalDivider"/>
+    
+    <TextView
+	    android:id="@+id/location_name_text_view"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    style="?android:textAppearanceSmall"
+	    android:textColor="@color/WhiteSmoke"
+	    android:gravity="center"
+	    android:maxLines="1"
 	    android:ellipsize="end"
 	    android:background="@drawable/image_button_selected"
    />
-   	
+   
    <View style="@style/HorizontalDivider"/>
 </LinearLayout>
 

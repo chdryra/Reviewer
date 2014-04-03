@@ -1,8 +1,6 @@
 package com.chdryra.android.reviewer;
 
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
@@ -30,7 +28,6 @@ import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
-import com.chdryra.android.mygenerallibrary.IntentObjectHolder;
 import com.chdryra.android.mygenerallibrary.RandomTextUtils;
 
 public class FragmentReviewComment extends SherlockFragment {
@@ -43,10 +40,8 @@ public class FragmentReviewComment extends SherlockFragment {
 
 	private static final int DELETE_CONFIRM = DialogBasicFragment.DELETE_CONFIRM;
 	
-	private Drawable mClearCommentIcon;  
-
 	private UserReview mUserReview;
-	
+
 	private Button mDeleteButton;
 	private Button mCancelButton;
 	private Button mDoneButton;
@@ -57,11 +52,10 @@ public class FragmentReviewComment extends SherlockFragment {
 	private MenuItem mAddCriteriaCommentsMenuItem;
 	private MenuItem mClearCommentMenuItem;
 
+	private Drawable mClearCommentIcon;  
 	private View mHeadlineCommentsView;
 	private LinearLayout mCriteriaCommentsLinearLayout;
-	
 	private EditText mCurrentFocusedEditText;
-
 	private HashMap<ReviewID, EditText> mEditTexts = new HashMap<ReviewID, EditText>();
 	
 	@Override
@@ -137,7 +131,7 @@ public class FragmentReviewComment extends SherlockFragment {
 		if(v == null)
 			v = getSherlockActivity().getLayoutInflater().inflate(R.layout.comment_line_view, null);
 		
-		String commentTitle = review.hasComment()? review.getComment().getCommentTitle() : review.getTitle();
+		String commentTitle = review.hasComment()? review.getComment().getCommentTitle() : review.getTitle().get();
 		TextView criterionName = (TextView)v.findViewById(R.id.comment_text_view);
 		criterionName.setText(commentTitle);
 		
@@ -292,9 +286,9 @@ public class FragmentReviewComment extends SherlockFragment {
 		}
 		
 		if(resultCode == Activity.RESULT_OK) {
-			String commentTitle = mUserReview.hasComment()? mUserReview.getComment().getCommentTitle() : mUserReview.getTitle();
+			String commentTitle = mUserReview.hasComment()? mUserReview.getComment().getCommentTitle() : mUserReview.getTitle().get();
 			ReviewComment comment = 
-					new ReviewCommentSingle(commentTitle, mEditTexts.get(mUserReview.getID()).getText().toString());
+					new ReviewCommentSingle(mEditTexts.get(mUserReview.getID()).getText().toString());
 			mUserReview.setComment(comment);
 			for (HashMap.Entry<ReviewID, EditText> entry : mEditTexts.entrySet())
 			{
@@ -304,15 +298,19 @@ public class FragmentReviewComment extends SherlockFragment {
 			    	continue;
 				
 				Review c = mUserReview.getCriteria().get(id);
-				String cTitle = c.hasComment()? c.getComment().getCommentTitle() : c.getTitle();
+				String cTitle = c.hasComment()? c.getComment().getCommentTitle() : c.getTitle().get();
 				if(mAddCriteriaComments)
-					c.setComment(new ReviewCommentSingle(cTitle, entry.getValue().getText().toString()));
+					c.setComment(new ReviewCommentSingle(entry.getValue().getText().toString()));
 				else
 					c.deleteComment();
 			}
 		}	
-		
-		getSherlockActivity().setResult(resultCode);		 
+
+		Bundle args = new Bundle();
+		args.putParcelable(FragmentReviewOptions.REVIEW_OBJECT, mUserReview);
+		Intent i = new Intent();
+		i.putExtras(args);
+		getSherlockActivity().setResult(resultCode, i);		 
 		getSherlockActivity().finish();	
 	}
 

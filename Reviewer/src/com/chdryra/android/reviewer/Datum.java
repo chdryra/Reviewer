@@ -28,18 +28,16 @@ public class Datum implements Parcelable {
 
 	@Override
 	public int describeContents() {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
 	public void writeToParcel(Parcel dest, int flags) {
+		dest.writeString(mLabel);
 		dest.writeString(mValue);
-		dest.writeValue(mValue);
 	}
 
-	public static final Parcelable.Creator<Datum> CREATOR 
-	= new Parcelable.Creator<Datum>() {
+	public static final Parcelable.Creator<Datum> CREATOR = new Parcelable.Creator<Datum>() {
 	    public Datum createFromParcel(Parcel in) {
 	        return new Datum(in);
 	    }

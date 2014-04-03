@@ -83,13 +83,13 @@ public class HelperReviewImage extends ImageHelper{
 		
 		@Override
 		protected void onPostExecute(Bitmap bitmap) {
-			mUserReview.setImage(new ReviewImage(bitmap));
-			if(bitmap == null) {
+			ReviewImage image = new ReviewImage(bitmap);
+			image.setLatLng(getLatLngFromEXIF());
+			mUserReview.setImage(image);
+			if(bitmap == null)
 				mThumbnailView.setImageResource(R.drawable.ic_menu_camera);
-			}
-			else {
+			else
 				mThumbnailView.setImageBitmap(bitmap);
-			}
 		}	
 	}
 }

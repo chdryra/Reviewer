@@ -14,12 +14,9 @@ import android.widget.TextView;
 
 public class DialogImageFragment extends DialogBasicFragment {
 		
-	public static final int CAPTION_CHANGED = 2;
-	
-	private Review mReview;
+	public static final int CAPTION_CHANGED = 2;	
+	protected Review mReview;
 	protected ClearableEditText mImageCaption;
-	private String mOriginalCaption;
-	protected String mCaptionHint = getResources().getString(R.string.edit_text_image_caption_hint);
 	
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -27,17 +24,16 @@ public class DialogImageFragment extends DialogBasicFragment {
 		mReview = getArguments().getParcelable(FragmentReviewOptions.REVIEW_OBJECT);
 		
 		ImageView imageView = (ImageView)v.findViewById(R.id.dialog_image_image_view);
+		imageView.setImageBitmap(getImageBitmap());
+		
+		String originalCaption = getImageCaption();
 		mImageCaption = (ClearableEditText)v.findViewById(R.id.dialog_image_caption_edit_text);
+		mImageCaption.setText(originalCaption);
+		mImageCaption.setHint(getCaptionHint());
 		
-		Bitmap image = mReview.getImage().getBitmap();
-		mOriginalCaption = mReview.getImage().getCaption();
-		
-		imageView.setImageBitmap(image);
-		mImageCaption.setHint(mCaptionHint);
-		mImageCaption.setText(mOriginalCaption);
 		//For some reason setSelection(0) doesn't work unless I force set the span of the selection
-		if(mOriginalCaption != null && mOriginalCaption.length() > 0) {
-			mImageCaption.setSelection(0, mOriginalCaption.length());
+		if(originalCaption != null && originalCaption.length() > 0) {
+			mImageCaption.setSelection(0, originalCaption.length());
 			mImageCaption.setSelection(0);
 		}
 		
@@ -53,31 +49,43 @@ public class DialogImageFragment extends DialogBasicFragment {
 			}
 		});
 		
-		setDeleteConfirmation(getResources().getString(R.string.image_activity_title));
-		
 		return buildDialog(v);
-		}
+	}
 
 	@Override
 	protected void sendResult(int resultCode) {
-		if (getTargetFragment() == null || resultCode == Activity.RESULT_CANCELED) {
-			return;
-		}
-		
-		if(resultCode == RESULT_DELETE) {
+		if(getTargetFragment() == null || resultCode == Activity.RESULT_CANCELED || resultCode == RESULT_DELETE) {
 			super.sendResult(resultCode);
 			return;
 		}
 		
-		Intent i = new Intent();
-		String currentCaption = mImageCaption.getText().toString();
+		if(resultCode == CAPTION_CHANGED)
+			changeCaption();
 		
-		if(resultCode == CAPTION_CHANGED && currentCaption != mOriginalCaption)
-			i.putExtra(FragmentReviewOptions.DIALOG_IMAGE_CAPTION, currentCaption);
-		
-		getTargetFragment().onActivityResult(getTargetRequestCode(), resultCode, i);
+		getTargetFragment().onActivityResult(getTargetRequestCode(), resultCode, new Intent());
 		
 		if(resultCode == CAPTION_CHANGED)
 			getDialog().dismiss();
+	}
+	
+	protected Bitmap getImageBitmap() {
+		return mReview.getImage().getBitmap();
+	}
+
+	protected String getImageCaption() {
+		return mReview.getImage().getCaption();
+	}
+	
+	protected String getCaptionHint() {
+		return getResources().getString(R.string.edit_text_image_caption_hint);
+	}
+	
+	protected void changeCaption() {
+		mReview.getImage().setCaption(mImageCaption.getText().toString());
+	}
+	
+	@Override
+	protected String getDeleteWhat() {
+		return getResources().getString(R.string.image_activity_title);
 	}
 }

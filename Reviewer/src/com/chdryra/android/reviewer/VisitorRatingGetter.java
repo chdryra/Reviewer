@@ -17,7 +17,7 @@ public class VisitorRatingGetter implements VisitorRatingCalculator {
 
 	@Override
 	public void visit(ReviewNode reviewNode) {
-		mRating = reviewNode.getRating();
+		mRating = reviewNode.getRating().get();
 	}
 
 
@@ -46,4 +46,9 @@ public class VisitorRatingGetter implements VisitorRatingCalculator {
 	        return new VisitorRatingGetter[size];
 	    }
 	};
+
+	@Override
+	public void clear() {
+		mRating = 0;
+	}
 }

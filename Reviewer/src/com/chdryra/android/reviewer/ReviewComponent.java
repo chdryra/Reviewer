@@ -1,5 +1,7 @@
 package com.chdryra.android.reviewer;
 
+import java.net.URL;
+
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -72,7 +74,7 @@ public class ReviewComponent implements ReviewNode {
 	}
 
 	@Override
-	public String getTitle() {
+	public ReviewTitle getTitle() {
 		return mReview.getTitle();
 	}
 
@@ -82,7 +84,7 @@ public class ReviewComponent implements ReviewNode {
 	}
 
 	@Override
-	public float getRating() {
+	public ReviewRating getRating() {
 		return mReview.getRating();
 	}
 
@@ -205,4 +207,24 @@ public class ReviewComponent implements ReviewNode {
 	        return new ReviewComponent[size];
 	    }
 	};
+
+	@Override
+	public URL getURL() {
+		return mReview.getURL();
+	}
+
+	@Override
+	public void setURL(URL url) {
+		mReview.setURL(url);
+	}
+
+	@Override
+	public void deleteURL() {
+		mReview.deleteURL();
+	}
+
+	@Override
+	public boolean hasURL() {
+		return mReview.hasURL();
+	}
 }

@@ -1,5 +1,7 @@
 package com.chdryra.android.reviewer;
 
+import java.net.URL;
+
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -12,6 +14,7 @@ public class UserReview implements Review{
 	private ReviewImage mImage;
 	private ReviewLocation mLocation;	
 	private ReviewFacts mFacts;
+	private URL mURL;
 
 	public UserReview(String title) {
 		mNode = (ReviewNode)ReviewFactory.createSimpleReviewNode(title);
@@ -20,10 +23,10 @@ public class UserReview implements Review{
 	public UserReview(Parcel in) {
 		mNode = in.readParcelable(ReviewNode.class.getClassLoader());
 		
-		mComment = in.readParcelable(null);
-		mImage = in.readParcelable(ReviewImage.class.getClassLoader());
-		mLocation = in.readParcelable(ReviewLocation.class.getClassLoader());	
-		mFacts = in.readParcelable(ReviewFacts.class.getClassLoader());
+		setComment((ReviewComment)in.readParcelable(ReviewComment.class.getClassLoader()));
+		setImage((ReviewImage)in.readParcelable(ReviewImage.class.getClassLoader()));
+		setLocation((ReviewLocation)in.readParcelable(ReviewLocation.class.getClassLoader()));	
+		setFacts((ReviewFacts)in.readParcelable(ReviewFacts.class.getClassLoader()));
 	}
 	
 	@Override
@@ -32,7 +35,7 @@ public class UserReview implements Review{
 	}
 
 	@Override
-	public String getTitle() {
+	public ReviewTitle getTitle() {
 		return mNode.getTitle();
 	}
 
@@ -47,7 +50,7 @@ public class UserReview implements Review{
 	}
 
 	@Override
-	public float getRating() {
+	public ReviewRating getRating() {
 		return mNode.getRating();
 	}
 
@@ -110,6 +113,8 @@ public class UserReview implements Review{
 	@Override
 	public void setComment(ReviewComment comment){
 		mComment = comment;
+		if(mComment != null)
+			mComment.setHoldingReview(this);
 	}
 
 	@Override
@@ -134,6 +139,27 @@ public class UserReview implements Review{
 		return mComment != null;
 	}
 
+
+	@Override
+	public URL getURL() {
+		return mURL;
+	}
+
+	@Override
+	public void setURL(URL url) {
+		mURL = url;
+	}
+
+	@Override
+	public void deleteURL() {
+		setURL(null);
+	}
+
+	@Override
+	public boolean hasURL() {
+		return mURL != null;
+	}
+	
 	@Override
 	public int describeContents() {
 		return 0;

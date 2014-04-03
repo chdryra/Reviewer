@@ -8,17 +8,18 @@ import android.widget.TextView;
 public class DialogCommentFragment extends DialogBasicFragment {
 	
 	@Override
-	public Dialog onCreateDialog(Bundle savedInstanceState) {
-		Review review = getArguments().getParcelable(FragmentReviewOptions.REVIEW_OBJECT);
-		
+	public Dialog onCreateDialog(Bundle savedInstanceState) {		
 		View v = getActivity().getLayoutInflater().inflate(R.layout.dialog_comment, null);
+		Review review = getArguments().getParcelable(FragmentReviewOptions.REVIEW_OBJECT);
 		
 		TextView textView= (TextView)v.findViewById(R.id.comment_text_view);
 		textView.setText(review.getComment().toString());
 	
-		setDeleteConfirmation(getResources().getString(R.string.comment_activity_title));
-		
 		return buildDialog(v);
 	}
 
+	@Override
+	protected String getDeleteWhat() {
+		return getResources().getString(R.string.comment_activity_title);
+	}
 }

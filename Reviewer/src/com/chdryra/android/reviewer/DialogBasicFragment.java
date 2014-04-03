@@ -18,15 +18,13 @@ public abstract class DialogBasicFragment extends SherlockDialogFragment {
 	public static final int RESULT_DELETE = Activity.RESULT_FIRST_USER;
 	static final int DELETE_CONFIRM = 0;
 	private static final String DELETE_CONFIRM_TAG = "DeleteConfirm";
-	
 	private boolean mDeleteConfirmed = false;
-	private String mDeleteWhat = null;
 	
 	@Override
 	public abstract Dialog onCreateDialog(Bundle savedInstanceState); 
-
-	protected void setDeleteConfirmation(String deleteWhat) {
-		mDeleteWhat = deleteWhat;
+	
+	protected String getDeleteWhat() {
+		return null;
 	}
 	
 	@Override
@@ -40,18 +38,16 @@ public abstract class DialogBasicFragment extends SherlockDialogFragment {
 			return;
 		}
 		
-		if(resultCode == RESULT_DELETE && !mDeleteConfirmed && mDeleteWhat != null) {
+		if(resultCode == RESULT_DELETE && !mDeleteConfirmed && getDeleteWhat() != null) {
 			showDeleteConfirmDialog();
 			return;
 		}
 			
-		Intent i = new Intent();
-		getTargetFragment().onActivityResult(getTargetRequestCode(), resultCode, i);
+		getTargetFragment().onActivityResult(getTargetRequestCode(), resultCode, new Intent());
 	}
 	
 	@Override
-	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {	
 		switch(requestCode) {
 			case DELETE_CONFIRM:
 				if(resultCode == Activity.RESULT_OK) {
@@ -62,12 +58,11 @@ public abstract class DialogBasicFragment extends SherlockDialogFragment {
 			default:
 				break;
 		}
-		
 		super.onActivityResult(requestCode, resultCode, data);
 	}
 	
 	private void showDeleteConfirmDialog() {
-		showDeleteConfirmDialog(mDeleteWhat, DialogBasicFragment.this, getFragmentManager());
+		showDeleteConfirmDialog(getDeleteWhat(), DialogBasicFragment.this, getFragmentManager());
 	}
 
 	public static void showDeleteConfirmDialog(String deleteWhat, Fragment targetFragment, FragmentManager fragmentManager) {

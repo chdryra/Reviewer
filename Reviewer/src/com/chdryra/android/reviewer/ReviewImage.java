@@ -4,10 +4,13 @@ import android.graphics.Bitmap;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.android.gms.maps.model.LatLng;
+
 public class ReviewImage implements Parcelable{
 
-	private Bitmap mBitmap = null;
-	private String mCaption = null;
+	private Bitmap mBitmap;
+	private String mCaption;
+	private LatLng mLatLng;
 	
 	public ReviewImage(Bitmap bitmap) {
 		mBitmap = bitmap;
@@ -16,6 +19,7 @@ public class ReviewImage implements Parcelable{
 	public ReviewImage(Parcel in) {
 		mBitmap = in.readParcelable(Bitmap.class.getClassLoader());
 		mCaption = in.readString();
+		mLatLng = in.readParcelable(LatLng.class.getClassLoader());
 	}
 
 	public Bitmap getBitmap() {
@@ -34,9 +38,20 @@ public class ReviewImage implements Parcelable{
 		return mCaption != null;
 	}
 
+	public LatLng getLatLng() {
+		return mLatLng;
+	}
+
+	public void setLatLng(LatLng latLng) {
+		mLatLng = latLng;
+	}
+
+	public boolean hasLatLng() {
+		return mLatLng != null;
+	}
+
 	@Override
 	public int describeContents() {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
@@ -44,6 +59,7 @@ public class ReviewImage implements Parcelable{
 	public void writeToParcel(Parcel dest, int flags) {
 		dest.writeParcelable(mBitmap, flags);
 		dest.writeString(mCaption);
+		dest.writeParcelable(mLatLng, flags);
 	}
 	
 	public static final Parcelable.Creator<ReviewImage> CREATOR 
@@ -56,6 +72,4 @@ public class ReviewImage implements Parcelable{
 	        return new ReviewImage[size];
 	    }
 	};
-
-	
 }

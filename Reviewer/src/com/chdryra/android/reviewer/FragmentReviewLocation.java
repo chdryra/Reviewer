@@ -62,11 +62,12 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 	private final static int DEFAULT_ZOOM = 15;
 
 	private static final int DELETE_CONFIRM = DialogBasicFragment.DELETE_CONFIRM;
-
 	public static final int RESULT_DELETE = Activity.RESULT_FIRST_USER;
+	
 	public final static String LOCATION_LATLNG = "com.chdryra.android.reviewer.location_latlng";
 	public final static String LOCATION_NAME = "com.chdryra.android.reviewer.location_name";
 	public final static String MAP_SNAPSHOT = "com.chdryra.android.reviewer.map_snapshot";
+	
 	public final static int NUMBER_DEFAULT_NAMES= 5;
 
 	private UserReview mUserReview;
@@ -102,7 +103,7 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 		mUserReview = getActivity().getIntent().getParcelableExtra(FragmentReviewOptions.REVIEW_OBJECT);
 		mButton = (ImageButton)IntentObjectHolder.getObject(FragmentReviewOptions.LOCATION_BUTTON);
 		mRevertMapSnapshotZoom =  mUserReview.getLocation().hasMapSnapshot() ? mUserReview.getLocation().getMapSnapshotZoom() : DEFAULT_ZOOM;
-	    mPhotoLatLng = getSherlockActivity().getIntent().getParcelableExtra(FragmentReviewOptions.IMAGE_LATLNG);
+	    mPhotoLatLng = mUserReview.hasImage()? mUserReview.getImage().getLatLng() : null;
 	    setHasOptionsMenu(true);		
 	}
 	
@@ -190,7 +191,6 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 			}
 		}
 		
-		IntentObjectHolder.addObject(FragmentReviewOptions.REVIEW_OBJECT, mUserReview);
 		getSherlockActivity().setResult(resultCode);		 
 		getSherlockActivity().finish();	
 	}
@@ -221,20 +221,23 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 			mMapView.onPause(); 
 	}
 	
-	@Override public void onDestroy() { 
+	@Override 
+	public void onDestroy() { 
 		super.onDestroy();
 		mLocationClient.disconnect();
 		if(mMapView != null) 
 			mMapView.onDestroy(); 
 	}
 	
-	@Override public void onSaveInstanceState(Bundle outState) { 
+	@Override 
+	public void onSaveInstanceState(Bundle outState) { 
 		if(mMapView != null) 
 			mMapView.onSaveInstanceState(outState); 
 		super.onSaveInstanceState(outState); 
 	}
 	
-	@Override public void onLowMemory() { 
+	@Override 
+	public void onLowMemory() { 
 		if(mMapView != null) 
 			mMapView.onLowMemory(); 
 		super.onLowMemory(); 
@@ -248,13 +251,11 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 		mSearchView = new ArrayAdapterSearchView(getSherlockActivity().getSupportActionBar().getThemedContext());
 		mSearchView.setQueryHint(getResources().getString(R.string.search_view_location_hint));
 		mSearchView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
 	        @Override
 	        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 	            mSearchView.setText(parent.getItemAtPosition(position).toString());
 	            mSearchView.clearFocus();
 	            gotoSearchLocation();
-
 	        }
 	    });
 	    
@@ -331,7 +332,7 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 		
 		if(mLocationName != null) {
 			mLocationName.setText(null);
-			String primaryDefaultSuggestion = mSearchLocationName != null? mSearchLocationName : mUserReview.getTitle();
+			String primaryDefaultSuggestion = mSearchLocationName != null? mSearchLocationName : mUserReview.getTitle().get();
 			mLocationName.setAdapter(new LocationNameAdapter(getSherlockActivity(), 
 					android.R.layout.simple_list_item_1, mLatLng, NUMBER_DEFAULT_NAMES, primaryDefaultSuggestion));
 		}
@@ -615,6 +616,7 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 				  if(namesFromGoogle.size() > 0)
 					  return namesFromGoogle;
 				  else {
+					  //Try using Geocoder
 					  Geocoder geocoder = new Geocoder(mContext, Locale.getDefault());
 				
 					  List<Address> addresses = null;
@@ -622,26 +624,21 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 					      addresses = geocoder.getFromLocation(mLatLng.latitude, mLatLng.longitude, numberToGet);
 					  } catch (IOException e1) {
 						  Log.e(TAG, "IO Exception trying to get address");
+						  e1.printStackTrace();
 					  } catch (IllegalArgumentException e2) {
-					  String errorString = "Illegal arguments " +
-					          Double.toString(mLatLng.latitude) +
-					          " , " +
-					          Double.toString(mLatLng.longitude) +
-					          " passed to address service";
-					  Log.e("LocationSampleActivity", errorString);
-					  e2.printStackTrace();
-					  Log.e(TAG, errorString);
-				  }
+						  Log.e(TAG, "Illegal Argument Exception trying to get address");
+						  e2.printStackTrace();
+					  }
 					  
-				  if(addresses != null && addresses.size() > 0) {
-					  ArrayList<String> addressesList = new ArrayList<String>();
-					  for(int i = 0; i<addressesList.size(); ++i)
-						  addressesList.add(formatAddress(addresses.get(i)));
-					  return addressesList;
-				  }				  
-				  else
-					  return null;
-				  }
+					  if(addresses != null && addresses.size() > 0) {
+						  ArrayList<String> addressesList = new ArrayList<String>();
+						  for(int i = 0; i<addressesList.size(); ++i)
+							  addressesList.add(formatAddress(addresses.get(i)));
+						  return addressesList;
+					  }				  
+					  else
+						  return null;
+					  }
 			  }
 		  
 			  private String formatAddress(Address address) {
@@ -669,6 +666,6 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 				mLocationSuggestions = new ArrayList<String>(mLocationDefaultSuggestions);
 			}
 		}
-		}
 	}
+}
 }

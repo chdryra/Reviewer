@@ -10,6 +10,8 @@ public class ReviewCommentCollection extends RCollection<ReviewComment> implemen
 	private static final String COMMENTS = "Comments"; 
 	private static final String DATA = "COMMENTS DATA";
 
+	private Review mHoldingReview;
+	
 	public ReviewCommentCollection() {
 	}
 
@@ -20,6 +22,16 @@ public class ReviewCommentCollection extends RCollection<ReviewComment> implemen
 		mData.putAll(map);
 	}
 
+	@Override
+	public void setHoldingReview(Review review) {
+		mHoldingReview = review;
+	}
+	
+	@Override
+	public Review getHoldingReview() {
+		return mHoldingReview;
+	}
+	
 	@Override
 	public String getCommentTitle() {
 		StringBuilder sb = new StringBuilder();

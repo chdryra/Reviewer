@@ -17,7 +17,7 @@ public class VisitorRatingAverager implements VisitorRatingCalculator{
 
 	@Override
 	public void visit(ReviewNode reviewNode) {
-		mRatingTotal += reviewNode.getRating();
+		mRatingTotal += reviewNode.getRating().get();
 		mNumberRatings++;
 	}
 
@@ -51,5 +51,11 @@ public class VisitorRatingAverager implements VisitorRatingCalculator{
 	        return new VisitorRatingAverager[size];
 	    }
 	};
+
+	@Override
+	public void clear() {
+		mRatingTotal = 0;
+		mNumberRatings = 0;
+	}
 
 }

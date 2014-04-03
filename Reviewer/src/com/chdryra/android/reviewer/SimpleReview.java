@@ -1,5 +1,7 @@
 package com.chdryra.android.reviewer;
 
+import java.net.URL;
+
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -7,18 +9,21 @@ public class SimpleReview implements Review {
 	private static final String TAG = "SimpleReview";
 
 	private ReviewID mID;
-	private String mTitle;
-	private float mRating;
+	private ReviewTitle mTitle;
+	private ReviewRating mRating;
 
 	public SimpleReview(String title) {
 		mID = ReviewID.generateID();
-		mTitle = title;
+		mTitle = new ReviewTitle(title, this);
+		mRating = new ReviewRating(0, this);
 	}
 	
 	public SimpleReview(Parcel in) {
 		mID = in.readParcelable(ReviewID.class.getClassLoader());
-		mTitle = in.readString();
-		mRating = in.readFloat();
+		mTitle = in.readParcelable(ReviewTitle.class.getClassLoader());
+		mTitle.setHoldingReview(this);
+		mRating = in.readParcelable(ReviewRating.class.getClassLoader());
+		mRating.setHoldingReview(this);
 	}
 
 	@Override
@@ -27,28 +32,27 @@ public class SimpleReview implements Review {
 	}
 
 	@Override
-	public String getTitle() {
+	public ReviewTitle getTitle() {
 		return mTitle;
 	}
 
 	@Override
 	public void setTitle(String title) {
-		mTitle = title;
+		mTitle.set(title);
 	}
 
 	@Override
-	public float getRating() {
+	public ReviewRating getRating() {
 		return mRating;
 	}
 
 	@Override
 	public void setRating(float rating) {
-		mRating = rating;
+		mRating.set(rating);
 	}
 
 	@Override
 	public void setComment(ReviewComment comment) {
-		throw new UnsupportedOperationException();
 	}
 
 	@Override
@@ -72,7 +76,6 @@ public class SimpleReview implements Review {
 
 	@Override
 	public void setImage(ReviewImage image) {
-		throw new UnsupportedOperationException();
 	}
 
 	@Override
@@ -91,7 +94,6 @@ public class SimpleReview implements Review {
 
 	@Override
 	public void setLocation(ReviewLocation location) {
-		throw new UnsupportedOperationException();
 	}
 
 	@Override
@@ -110,7 +112,6 @@ public class SimpleReview implements Review {
 
 	@Override
 	public void setFacts(ReviewFacts facts) {
-		throw new UnsupportedOperationException();
 	}
 
 	@Override
@@ -123,6 +124,24 @@ public class SimpleReview implements Review {
 	}
 
 	@Override
+	public URL getURL() {
+		return null;
+	}
+
+	@Override
+	public void setURL(URL url) {
+	}
+
+	@Override
+	public void deleteURL() {
+	}
+
+	@Override
+	public boolean hasURL() {
+		return false;
+	}
+	
+	@Override
 	public int describeContents() {
 		return 0;
 	}
@@ -130,8 +149,8 @@ public class SimpleReview implements Review {
 	@Override
 	public void writeToParcel(Parcel dest, int flags) {
 		dest.writeParcelable(mID, flags);
-		dest.writeString(mTitle);
-		dest.writeFloat(mRating);
+		dest.writeParcelable(mTitle, flags);
+		dest.writeParcelable(mRating, flags);
 	}
 	
 	public static final Parcelable.Creator<SimpleReview> CREATOR 

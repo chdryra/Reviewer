@@ -1,15 +1,29 @@
 package com.chdryra.android.reviewer;
 
-import android.app.Dialog;
-import android.os.Bundle;
+import android.graphics.Bitmap;
 
 public class DialogLocationFragment extends DialogImageFragment {
+	@Override
+	protected Bitmap getImageBitmap() {
+		return mReview.getLocation().getMapSnapshot();
+	}
+
+	protected String getImageCaption() {
+		return mReview.getLocation().getName();
+	}
+	
+	@Override
+	protected String getCaptionHint() {
+		return getResources().getString(R.string.edit_text_name_location_hint);
+	}
 
 	@Override
-	public Dialog onCreateDialog(Bundle savedInstanceState) {
-		mCaptionHint = getResources().getString(R.string.edit_text_name_location_hint);
-		Dialog dialog = super.onCreateDialog(savedInstanceState);
-		setDeleteConfirmation(getResources().getString(R.string.location_activity_title));
-		return dialog;
+	protected void changeCaption() {
+		mReview.getLocation().setName(mImageCaption.getText().toString());
+	}
+	
+	@Override
+	protected String getDeleteWhat() {
+		return getResources().getString(R.string.location_activity_title);
 	}
 }

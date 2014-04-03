@@ -96,7 +96,7 @@ public class FragmentReviewFacts extends SherlockFragment {
 				dialog.setArguments(args);
 				dialog.show(getFragmentManager(), DIALOG_DATUM_TAG);
 				
-				return false;
+				return true;
 			}
 		});
 	
@@ -153,9 +153,9 @@ public class FragmentReviewFacts extends SherlockFragment {
 			return;
 		
 		if(label == null || label.length() == 0)
-			Toast.makeText(getSherlockActivity(), "Please enter a label...", Toast.LENGTH_SHORT).show();
+			Toast.makeText(getSherlockActivity(), getResources().getString(R.string.toast_enter_label), Toast.LENGTH_SHORT).show();
 		else if(value == null || value.length() == 0)
-			Toast.makeText(getSherlockActivity(), "Please enter a value...", Toast.LENGTH_SHORT).show();
+			Toast.makeText(getSherlockActivity(), getResources().getString(R.string.toast_enter_value), Toast.LENGTH_SHORT).show();
 		else {
 			mReviewFacts.put(label, value);
 			mDatumLabel.setText(null);
@@ -179,9 +179,8 @@ public class FragmentReviewFacts extends SherlockFragment {
 			}
 		}
 		
-		if(resultCode == Activity.RESULT_OK && mReviewFacts.size() > 0) {
+		if(resultCode == Activity.RESULT_OK && mReviewFacts.size() > 0)
 			mUserReview.setFacts(mReviewFacts);
-		}
 			
 		getSherlockActivity().setResult(resultCode);		 
 		getSherlockActivity().finish();	
