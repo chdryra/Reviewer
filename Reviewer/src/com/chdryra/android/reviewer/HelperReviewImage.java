@@ -83,7 +83,7 @@ public class HelperReviewImage extends ImageHelper{
 		
 		@Override
 		protected void onPostExecute(Bitmap bitmap) {
-			ReviewImage image = new ReviewImage(bitmap);
+			RDImage image = new RDImage(bitmap, mUserReview);
 			image.setLatLng(getLatLngFromEXIF());
 			mUserReview.setImage(image);
 			if(bitmap == null)

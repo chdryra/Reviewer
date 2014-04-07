@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<com.chdryra.android.myandroidwidgets.ClearableEditText
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/url_edit_text" 
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:hint="@string/edit_text_url_hint"
+    android:text="@string/edit_text_url_text" 
+    android:inputType="textUri"
+    android:imeOptions="actionDone"
+ /> 
+

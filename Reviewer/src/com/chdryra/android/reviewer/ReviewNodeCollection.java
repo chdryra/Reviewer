@@ -4,9 +4,6 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public class ReviewNodeCollection extends RCollection<ReviewNode> implements Parcelable {
-	private static final String REVIEWS = "REVIEWS";
-	private static final String DATA = "com.chdryra.android.reviewer.review_node_collection_data";
-	
 	public ReviewNodeCollection() {
 	}
 	

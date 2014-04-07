@@ -68,6 +68,5 @@ public class DialogDatumFragment extends DialogBasicFragment {
 			i.putExtra(DATUM_OLD_LABEL, mOldLabel);
 		
 		getTargetFragment().onActivityResult(getTargetRequestCode(), resultCode, i);
-	}
-	
+	}	
 }

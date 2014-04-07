@@ -33,8 +33,8 @@ public class FragmentReviewFacts extends SherlockFragment {
 	private static final int DELETE_CONFIRM = DialogBasicFragment.DELETE_CONFIRM;
 	private static final int DATUM_EDIT = DELETE_CONFIRM + 1;
 	
-	private UserReview mUserReview;
-	private ReviewFacts mReviewFacts = new ReviewFacts();
+	private Review mUserReview;
+	private RDFacts mRDFacts;
 	
 	private ClearableEditText mDatumLabel;
 	private ClearableEditText mDatumValue;
@@ -52,9 +52,8 @@ public class FragmentReviewFacts extends SherlockFragment {
 		super.onCreate(savedInstanceState);
 		setRetainInstance(true);
 		setHasOptionsMenu(true);
-		mUserReview = getActivity().getIntent().getParcelableExtra(FragmentReviewOptions.REVIEW_OBJECT);
-		if(mUserReview.hasFacts())
-			mReviewFacts = mUserReview.getFacts();
+		mUserReview = UtilReviewPackager.get(getActivity().getIntent());
+		mRDFacts = mUserReview.hasFacts()? mUserReview.getFacts() :  new RDFacts(mUserReview);
 	}
 	
 	@Override
@@ -67,7 +66,7 @@ public class FragmentReviewFacts extends SherlockFragment {
 		mDatumLabel = (ClearableEditText)v.findViewById(R.id.datum_label_edit_text);
 		mDatumValue = (ClearableEditText)v.findViewById(R.id.datum_value_edit_text);
 		mDataListView = (ListView)v.findViewById(R.id.data_listview);
-		mDataListView.setAdapter(new ReviewDataAdaptor(mReviewFacts));
+		mDataListView.setAdapter(new ReviewDataAdaptor(mRDFacts));
 		updateUI();
 		
 		mDatumValue.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -86,13 +85,13 @@ public class FragmentReviewFacts extends SherlockFragment {
 			
 			@Override
 			public boolean onItemLongClick(AdapterView<?> parent, View v, int pos, long id) {
-				Datum datum = (Datum)parent.getItemAtPosition(pos);
+				RDFact rDFact = (RDFact)parent.getItemAtPosition(pos);
 				
 				DialogDatumFragment dialog = new DialogDatumFragment();
 				dialog.setTargetFragment(FragmentReviewFacts.this, DATUM_EDIT);
 				Bundle args = new Bundle();
-				args.putString(DATUM_LABEL, datum.getLabel());
-				args.putString(DATUM_VALUE, datum.getValue());
+				args.putString(DATUM_LABEL, rDFact.getLabel());
+				args.putString(DATUM_VALUE, rDFact.getValue());
 				dialog.setArguments(args);
 				dialog.show(getFragmentManager(), DIALOG_DATUM_TAG);
 				
@@ -157,7 +156,7 @@ public class FragmentReviewFacts extends SherlockFragment {
 		else if(value == null || value.length() == 0)
 			Toast.makeText(getSherlockActivity(), getResources().getString(R.string.toast_enter_value), Toast.LENGTH_SHORT).show();
 		else {
-			mReviewFacts.put(label, value);
+			mRDFacts.put(label, value);
 			mDatumLabel.setText(null);
 			mDatumValue.setText(null);
 			updateUI();
@@ -179,8 +178,8 @@ public class FragmentReviewFacts extends SherlockFragment {
 			}
 		}
 		
-		if(resultCode == Activity.RESULT_OK && mReviewFacts.size() > 0)
-			mUserReview.setFacts(mReviewFacts);
+		if(resultCode == Activity.RESULT_OK && mRDFacts.size() > 0)
+			mUserReview.setFacts(mRDFacts);
 			
 		getSherlockActivity().setResult(resultCode);		 
 		getSherlockActivity().finish();	
@@ -197,12 +196,12 @@ public class FragmentReviewFacts extends SherlockFragment {
 						String oldLabel = (String)data.getSerializableExtra(DialogDatumFragment.DATUM_OLD_LABEL);
 						String newLabel = (String)data.getSerializableExtra(DATUM_LABEL);
 						String newValue = (String)data.getSerializableExtra(DATUM_VALUE);
-						mReviewFacts.remove(oldLabel);
-						mReviewFacts.put(newLabel, newValue);
+						mRDFacts.remove(oldLabel);
+						mRDFacts.put(newLabel, newValue);
 						break;
 					case DialogDatumFragment.RESULT_DELETE:
 						String toDelete = (String)data.getSerializableExtra(DialogDatumFragment.DATUM_OLD_LABEL);
-						mReviewFacts.remove(toDelete);
+						mRDFacts.remove(toDelete);
 						break;
 					default:
 						return;
@@ -221,7 +220,7 @@ public class FragmentReviewFacts extends SherlockFragment {
 				break;
 		}
 		
-		mUserReview.setFacts(mReviewFacts);
+		mUserReview.setFacts(mRDFacts);
 		updateUI();				
 	}
 
@@ -238,9 +237,9 @@ public class FragmentReviewFacts extends SherlockFragment {
 	}
 
 	class ReviewDataAdaptor extends BaseAdapter {	
-		private ReviewFacts mData;
+		private RDFacts mData;
 	
-		public ReviewDataAdaptor(ReviewFacts data){
+		public ReviewDataAdaptor(RDFacts data){
 		    mData = data;
 		}
 			
@@ -280,10 +279,10 @@ public class FragmentReviewFacts extends SherlockFragment {
 				vh = (ViewHolder)convertView.getTag();
 			}
 				
-			Datum datum = (Datum)getItem(position);
+			RDFact rDFact = (RDFact)getItem(position);
 			
-			vh.datumName.setText(datum.getLabel() +":");
-			vh.datumValue.setText(datum.getValue());
+			vh.datumName.setText(rDFact.getLabel() +":");
+			vh.datumValue.setText(rDFact.getValue());
 	
 			return(convertView);
 		};

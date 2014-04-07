@@ -23,7 +23,12 @@ public class DialogLocationFragment extends DialogImageFragment {
 	}
 	
 	@Override
-	protected String getDeleteWhat() {
+	protected String getDeleteConfirmationTitle() {
 		return getResources().getString(R.string.location_activity_title);
+	}
+	
+	@Override
+	protected void deleteData() {
+		mReview.deleteLocation();
 	}
 }

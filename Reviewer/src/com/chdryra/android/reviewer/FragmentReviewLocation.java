@@ -70,7 +70,7 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 	
 	public final static int NUMBER_DEFAULT_NAMES= 5;
 
-	private UserReview mUserReview;
+	private Review mUserReview;
 	private ImageButton mButton;
 	
 	private LocationClient mLocationClient;
@@ -98,12 +98,14 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setRetainInstance(true);
 		mLocationClient = new LocationClient(getSherlockActivity(), this, this);
-		mUserReview = getActivity().getIntent().getParcelableExtra(FragmentReviewOptions.REVIEW_OBJECT);
+		mUserReview = UtilReviewPackager.get(getActivity().getIntent());
 		mButton = (ImageButton)IntentObjectHolder.getObject(FragmentReviewOptions.LOCATION_BUTTON);
-		mRevertMapSnapshotZoom =  mUserReview.getLocation().hasMapSnapshot() ? mUserReview.getLocation().getMapSnapshotZoom() : DEFAULT_ZOOM;
+		mRevertMapSnapshotZoom =  DEFAULT_ZOOM;
+		if(mUserReview.hasLocation() && mUserReview.getLocation().hasMapSnapshot())
+			mUserReview.getLocation().getMapSnapshotZoom();
 	    mPhotoLatLng = mUserReview.hasImage()? mUserReview.getImage().getLatLng() : null;
+	    setRetainInstance(true);
 	    setHasOptionsMenu(true);		
 	}
 	
@@ -178,9 +180,6 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 	}
 	
 	private void sendResult(int resultCode) {
-		if(resultCode == Activity.RESULT_OK)
-			mUserReview.setLocation(new ReviewLocation(mLatLng, mLocationName.getText().toString()));
-		
 		if(resultCode == RESULT_DELETE && mUserReview.hasLocation()) {
 			if(mDeleteConfirmed) {
 				mUserReview.deleteLocation();
@@ -189,6 +188,12 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 						FragmentReviewLocation.this, getFragmentManager());
 				return;
 			}
+		}
+		
+		if(resultCode == Activity.RESULT_OK) {
+			RDLocation location = new RDLocation(mLatLng, mUserReview);
+			location.setName(mLocationName.getText().toString());
+			mUserReview.setLocation(location);
 		}
 		
 		getSherlockActivity().setResult(resultCode);		 

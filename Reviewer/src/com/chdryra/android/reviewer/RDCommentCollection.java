@@ -6,19 +6,19 @@ import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class ReviewCommentCollection extends RCollection<ReviewComment> implements ReviewComment{
+public class RDCommentCollection extends RCollection<RDComment> implements RDComment{
 	private static final String COMMENTS = "Comments"; 
 	private static final String DATA = "COMMENTS DATA";
 
 	private Review mHoldingReview;
 	
-	public ReviewCommentCollection() {
+	public RDCommentCollection() {
 	}
 
 	@SuppressWarnings("unchecked")
-	public ReviewCommentCollection(Parcel in) {
+	public RDCommentCollection(Parcel in) {
 		Bundle args = in.readBundle();
-		Map<ReviewID, ReviewComment> map = (Map<ReviewID, ReviewComment>) args.getSerializable(DATA);
+		Map<ReviewID, RDComment> map = (Map<ReviewID, RDComment>) args.getSerializable(DATA);
 		mData.putAll(map);
 	}
 
@@ -30,6 +30,11 @@ public class ReviewCommentCollection extends RCollection<ReviewComment> implemen
 	@Override
 	public Review getHoldingReview() {
 		return mHoldingReview;
+	}
+	
+	@Override
+	public boolean hasData() {
+		return size() > 0;
 	}
 	
 	@Override
@@ -49,8 +54,7 @@ public class ReviewCommentCollection extends RCollection<ReviewComment> implemen
 
 	@Override
 	public String toString() {
-		
-		return super.toString();
+		return getCommentTitle();
 	}
 
 	@Override
@@ -65,14 +69,14 @@ public class ReviewCommentCollection extends RCollection<ReviewComment> implemen
 		dest.writeBundle(args);
 	}
 	
-	public static final Parcelable.Creator<ReviewCommentCollection> CREATOR 
-	= new Parcelable.Creator<ReviewCommentCollection>() {
-	    public ReviewCommentCollection createFromParcel(Parcel in) {
-	        return new ReviewCommentCollection(in);
+	public static final Parcelable.Creator<RDCommentCollection> CREATOR 
+	= new Parcelable.Creator<RDCommentCollection>() {
+	    public RDCommentCollection createFromParcel(Parcel in) {
+	        return new RDCommentCollection(in);
 	    }
 
-	    public ReviewCommentCollection[] newArray(int size) {
-	        return new ReviewCommentCollection[size];
+	    public RDCommentCollection[] newArray(int size) {
+	        return new RDCommentCollection[size];
 	    }
 	};
 }

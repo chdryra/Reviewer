@@ -24,18 +24,16 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.chdryra.android.myandroidwidgets.ClearableEditText;
-import com.chdryra.android.mygenerallibrary.IntentObjectHolder;
 
 public class FragmentReviewCreate extends SherlockFragment{
 	private final static String DIALOG_CRITERION_TAG = "CriterionDialog";
 
 	public final static String CRITERION = "com.chdryra.android.reviewer.criterion";
-	public final static String REVIEW_OBJECT = "com.chdryra.android.reviewer.review_object";
 
 	public final static int CRITERION_EDIT = 0;
 	
 	private UserReview mReview;
-	private ReviewNodeCollection mCriteria;
+	private ReviewCollection mCriteria;
 	private ArrayList<String> mCriteriaNames = new ArrayList<String>();
 	
 	private ClearableEditText mSubject;
@@ -52,10 +50,10 @@ public class FragmentReviewCreate extends SherlockFragment{
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
-		mReview = getActivity().getIntent().getParcelableExtra(REVIEW_OBJECT);
-		mCriteria = mReview == null? new ReviewNodeCollection() : mReview.getCriteria();  
-		for(ReviewNode c : mCriteria)
-			mCriteriaNames.add(c.getTitle().get());
+		mReview = (UserReview)UtilReviewPackager.get(getActivity().getIntent());
+		mCriteria = mReview == null? new ReviewCollection() : mReview.getCriteria();  
+		for(Review criterion : mCriteria)
+			mCriteriaNames.add(criterion.getTitle().get());
 		
 		setHasOptionsMenu(true);		
 		setRetainInstance(true);		
@@ -130,11 +128,7 @@ public class FragmentReviewCreate extends SherlockFragment{
 	private void showCriterionDialog(Review criterion) {
 		DialogCriterionFragment dialog = new DialogCriterionFragment();
 		dialog.setTargetFragment(FragmentReviewCreate.this, CRITERION_EDIT);
-		
-		Bundle args = new Bundle();
-		args.putParcelable(CRITERION, criterion);
-		dialog.setArguments(args);
-		
+		dialog.setArguments(UtilReviewPackager.pack(criterion));
 		dialog.show(getFragmentManager(), DIALOG_CRITERION_TAG);
 	}
 	
@@ -158,9 +152,9 @@ public class FragmentReviewCreate extends SherlockFragment{
 	}
 	
 	class CriterionAdaptor extends BaseAdapter {	
-		private ReviewNodeCollection mCriteria;
+		private ReviewCollection mCriteria;
 	
-		public CriterionAdaptor(ReviewNodeCollection criteria){
+		public CriterionAdaptor(ReviewCollection criteria){
 		    mCriteria  = criteria;
 		}
 			
@@ -250,14 +244,14 @@ public class FragmentReviewCreate extends SherlockFragment{
 		if (mCriteria.size() == 0 && criterionName.length() > 0)
 			setTotalRatingIsAverage();		      		
 
-		mCriteria.add(ReviewFactory.createUserReviewNode(criterionName));
+		mCriteria.add(ReviewFactory.createUserReview(criterionName));
 		mCriteriaNames.add(criterionName);
 		mCriterionName.setText(null);		
 		
 		updateUI();
 	}
 	
-	private void deleteCriterion(ReviewNode criterion) {
+	private void deleteCriterion(Review criterion) {
 		mCriteria.remove(criterion.getID());
 		mCriteriaNames.remove(criterion.getTitle());
 		if(mCriteria.size() == 0)
@@ -269,7 +263,7 @@ public class FragmentReviewCreate extends SherlockFragment{
 		if (resultCode == Activity.RESULT_CANCELED)
 			return;
 		
-		ReviewNode criterion = (ReviewNode)data.getParcelableExtra(CRITERION);
+		Review criterion = UtilReviewPackager.get(data);
 		if (resultCode == DialogCriterionFragment.RESULT_DELETE_CRITERION)
 			deleteCriterion(criterion);
 
@@ -326,8 +320,9 @@ public class FragmentReviewCreate extends SherlockFragment{
 				mReview.setRating(mTotalRatingBar.getRating());
 				mReview.setCriteria(mCriteria);
 				
-				IntentObjectHolder.addObject(REVIEW_OBJECT, mReview);
-				startActivity(new Intent(getSherlockActivity(), ActivityReviewOptions.class));
+				Intent i = new Intent(getSherlockActivity(), ActivityReviewOptions.class);
+				UtilReviewPackager.pack(mReview, i);
+				startActivity(i);
 			}
 			break;
 

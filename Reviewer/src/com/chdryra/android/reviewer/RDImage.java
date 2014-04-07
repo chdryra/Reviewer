@@ -6,20 +6,42 @@ import android.os.Parcelable;
 
 import com.google.android.gms.maps.model.LatLng;
 
-public class ReviewImage implements Parcelable{
-
+public class RDImage implements ReviewData{
+	
+	private Review mHoldingReview;
+	
 	private Bitmap mBitmap;
 	private String mCaption;
 	private LatLng mLatLng;
-	
-	public ReviewImage(Bitmap bitmap) {
+
+
+	public RDImage() {
+	}
+
+	public RDImage(Bitmap bitmap, Review holdingReview) {
 		mBitmap = bitmap;
+		mHoldingReview = holdingReview;
 	}
 	
-	public ReviewImage(Parcel in) {
+	public RDImage(Parcel in) {
 		mBitmap = in.readParcelable(Bitmap.class.getClassLoader());
 		mCaption = in.readString();
 		mLatLng = in.readParcelable(LatLng.class.getClassLoader());
+	}
+
+	@Override
+	public void setHoldingReview(Review review) {
+		mHoldingReview = review;
+	}
+
+	@Override
+	public Review getHoldingReview() {
+		return mHoldingReview;
+	}	
+	
+	@Override
+	public boolean hasData() {
+		return mBitmap != null;
 	}
 
 	public Bitmap getBitmap() {
@@ -62,14 +84,14 @@ public class ReviewImage implements Parcelable{
 		dest.writeParcelable(mLatLng, flags);
 	}
 	
-	public static final Parcelable.Creator<ReviewImage> CREATOR 
-	= new Parcelable.Creator<ReviewImage>() {
-	    public ReviewImage createFromParcel(Parcel in) {
-	        return new ReviewImage(in);
+	public static final Parcelable.Creator<RDImage> CREATOR 
+	= new Parcelable.Creator<RDImage>() {
+	    public RDImage createFromParcel(Parcel in) {
+	        return new RDImage(in);
 	    }
 
-	    public ReviewImage[] newArray(int size) {
-	        return new ReviewImage[size];
+	    public RDImage[] newArray(int size) {
+	        return new RDImage[size];
 	    }
 	};
 }

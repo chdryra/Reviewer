@@ -14,7 +14,8 @@
     <string name="dialog_button_yes_text">yes</string>
     <string name="dialog_button_cancel_text">cancel</string>
     <string name="dialog_image_content_description">Review image</string>
-    <string name="dialog_date_title">When</string>
+    <string name="dialog_date_title">Date</string>
+    <string name="dialog_URL_title">Link</string>
     
     <!-- Activities -->
     <string name="location_activity_title">location</string>
@@ -28,6 +29,7 @@
     <string name="text_view_no_criteria">no criteria</string>
     <string name="text_view_touch_criteria">touch stars to toggle criteria</string>
     <string name="text_view_link">http://</string>
+    <string name="text_view_location_date_hint">Date</string>
     
     <!-- EditTexts -->
     <string name="edit_text_subject_hint">subject</string>
@@ -41,6 +43,8 @@
     <string name="edit_text_datum_name_hint">label (e.g. \'price\', \'director\' etc. )&#8230;</string>
     <string name="edit_text_datum_value_hint">value&#8230;</string>
     <string name="edit_text_datum_unit_hint">unit&#8230;</string>
+    <string name="edit_text_url_hint">link&#8230;</string>
+    <string name="edit_text_url_text">http://</string>
     
     <!--  SearchViews -->
     <string name="search_view_location_hint">search for location&#8230;</string>
@@ -62,7 +66,7 @@
 
     <!-- Checkboxes -->
     <string name="checkbox_add_criteria_comments">add criteria comments</string>
-    <string name="checkbox_include_time">time</string>
+    <string name="checkbox_include_date">include date</string>
     
     <!-- Menus -->
     <string name="menu_next">next</string>
@@ -80,6 +84,7 @@
     <string name="toast_enter_criterion">Please enter a criterion name&#8230;</string>
     <string name="toast_enter_label">Please enter a label&#8230;</string>
     <string name="toast_enter_value">Please enter a value&#8230;</string>
+    <string name="toast_bad_url">Link does not make sense&#8230;</string>
     
     <!-- Social -->
     <string name="facebook">facebook</string>

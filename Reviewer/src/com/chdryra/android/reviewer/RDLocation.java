@@ -7,30 +7,46 @@ import android.os.Parcelable;
 
 import com.google.android.gms.maps.model.LatLng;
 
-public class ReviewLocation implements Parcelable{
+public class RDLocation implements ReviewData{
 	private static final String LOCATION_DELIMITER = ",|.";
+	
+	private Review mHoldingReview;
 	
 	private LatLng mLatLng = null;
 	private Bitmap mMapSnapshot = null;
 	private float mMapSnapshotZoom;
 	private String mName = null;
-	
-	public ReviewLocation(LatLng latLng) {
-		mLatLng = latLng;
+
+	public RDLocation() {
 	}
 
-	public ReviewLocation(LatLng latLng, String name) {
+	public RDLocation(LatLng latLng, Review holdingReview) {
 		mLatLng = latLng;
-		setName(name);
+		mHoldingReview = holdingReview;
 	}
 
-	public ReviewLocation(Parcel in) {
+	public RDLocation(Parcel in) {
 		mLatLng = in.readParcelable(LatLng.class.getClassLoader());
 		mMapSnapshot = in.readParcelable(Bitmap.class.getClassLoader());
 		mMapSnapshotZoom = in.readFloat();
 		mName = in.readString();
 	}
 
+	@Override
+	public void setHoldingReview(Review review) {
+		mHoldingReview = review;
+	}
+
+	@Override
+	public Review getHoldingReview() {
+		return mHoldingReview;
+	}	
+	
+	@Override
+	public boolean hasData() {
+		return mLatLng != null;
+	}
+	
 	public LatLng getLatLng() {
 		return mLatLng;
 	}
@@ -78,7 +94,6 @@ public class ReviewLocation implements Parcelable{
 
 	@Override
 	public int describeContents() {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
@@ -90,14 +105,14 @@ public class ReviewLocation implements Parcelable{
 		dest.writeString(mName);
 	}
 
-	public static final Parcelable.Creator<ReviewLocation> CREATOR 
-	= new Parcelable.Creator<ReviewLocation>() {
-	    public ReviewLocation createFromParcel(Parcel in) {
-	        return new ReviewLocation(in);
+	public static final Parcelable.Creator<RDLocation> CREATOR 
+	= new Parcelable.Creator<RDLocation>() {
+	    public RDLocation createFromParcel(Parcel in) {
+	        return new RDLocation(in);
 	    }
 
-	    public ReviewLocation[] newArray(int size) {
-	        return new ReviewLocation[size];
+	    public RDLocation[] newArray(int size) {
+	        return new RDLocation[size];
 	    }
-	};	
+	};
 }

@@ -3,17 +3,20 @@ package com.chdryra.android.reviewer;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class ReviewCommentSingle implements ReviewComment{
+public class RDCommentSingle implements RDComment{
 	private static final String DEFAULT_TITLE = "Comment";
 	
 	private Review mHoldingReview;
 	private String mComment;
 	
-	public ReviewCommentSingle(String comment) {
+	public RDCommentSingle() {
+	}
+	
+	public RDCommentSingle(String comment) {
 		mComment = comment;
 	}
 	
-	public ReviewCommentSingle(Parcel in) {
+	public RDCommentSingle(Parcel in) {
 		mComment = in.readString();
 	}
 
@@ -25,6 +28,11 @@ public class ReviewCommentSingle implements ReviewComment{
 	@Override
 	public Review getHoldingReview() {
 		return mHoldingReview;
+	}
+
+	@Override
+	public boolean hasData() {
+		return mComment != null && mComment.length() > 0;
 	}
 	
 	public String getCommentTitle() {
@@ -54,14 +62,14 @@ public class ReviewCommentSingle implements ReviewComment{
 		dest.writeString(mComment);
 	}
 	
-	public static final Parcelable.Creator<ReviewCommentSingle> CREATOR 
-	= new Parcelable.Creator<ReviewCommentSingle>() {
-	    public ReviewCommentSingle createFromParcel(Parcel in) {
-	        return new ReviewCommentSingle(in);
+	public static final Parcelable.Creator<RDCommentSingle> CREATOR 
+	= new Parcelable.Creator<RDCommentSingle>() {
+	    public RDCommentSingle createFromParcel(Parcel in) {
+	        return new RDCommentSingle(in);
 	    }
 
-	    public ReviewCommentSingle[] newArray(int size) {
-	        return new ReviewCommentSingle[size];
+	    public RDCommentSingle[] newArray(int size) {
+	        return new RDCommentSingle[size];
 	    }
 	};
 }

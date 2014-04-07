@@ -4,9 +4,6 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.NoSuchElementException;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
 public class RCollection<T> implements Iterable<T> {
 	protected LinkedHashMap<ReviewID, T> mData = new LinkedHashMap<ReviewID, T>();
 

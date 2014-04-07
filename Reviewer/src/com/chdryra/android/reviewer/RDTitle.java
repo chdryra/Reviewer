@@ -3,16 +3,16 @@ package com.chdryra.android.reviewer;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class ReviewTitle implements ReviewData {
+public class RDTitle implements ReviewData {
 	private Review mHoldingReview;
 	private String mTitle;
 	
-	public ReviewTitle(String title, Review review) {
+	public RDTitle(String title, Review review) {
 		mTitle = title;
 		mHoldingReview = review;
 	}
 	
-	public ReviewTitle(Parcel in) {
+	public RDTitle(Parcel in) {
 		mTitle = in.readString();
 	}
 
@@ -35,6 +35,11 @@ public class ReviewTitle implements ReviewData {
 	}
 
 	@Override
+	public boolean hasData() {
+		return mTitle != null && mTitle.length() > 0;
+	}
+	
+	@Override
 	public int describeContents() {
 		return 0;
 	}
@@ -44,13 +49,13 @@ public class ReviewTitle implements ReviewData {
 		dest.writeString(mTitle);
 	}
 
-	public static final Parcelable.Creator<ReviewTitle> CREATOR = new Parcelable.Creator<ReviewTitle>() {
-	    public ReviewTitle createFromParcel(Parcel in) {
-	        return new ReviewTitle(in);
+	public static final Parcelable.Creator<RDTitle> CREATOR = new Parcelable.Creator<RDTitle>() {
+	    public RDTitle createFromParcel(Parcel in) {
+	        return new RDTitle(in);
 	    }
 
-	    public ReviewTitle[] newArray(int size) {
-	        return new ReviewTitle[size];
+	    public RDTitle[] newArray(int size) {
+	        return new RDTitle[size];
 	    }
 	};
 }

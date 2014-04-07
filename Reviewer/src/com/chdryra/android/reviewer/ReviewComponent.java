@@ -1,7 +1,5 @@
 package com.chdryra.android.reviewer;
 
-import java.net.URL;
-
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -53,14 +51,44 @@ public class ReviewComponent implements ReviewNode {
 	}
 	
 	@Override
-	public void removeChild(Review child) {
+	public ReviewNode getChild(ReviewID id) {
+		return mChildren.get(id);
+	}
+	
+	@Override
+	public void removeChild(ReviewID id) {
+		ReviewNode child = getChild(id);
+		child.setParent(null);
 		mChildren.remove(child.getID());
 	}
 	
 	@Override
-	public void addChildren(ReviewNodeCollection children) {
+	public void addChildren(ReviewCollection children) {
 		for(Review child: children)
 			addChild(child);
+	}
+	
+	@Override
+	public void addChildren(ReviewNodeCollection children) {
+		for(ReviewNode childNode: children)
+			addChild(childNode);
+	}
+
+	@Override
+	public void removeChildren(ReviewNodeCollection children) {
+		for(Review child: children)
+			removeChild(child.getID());
+	}
+	
+	@Override
+	public void removeChildren(ReviewCollection children) {
+		for(Review child: children)
+			removeChild(child.getID());
+	}
+	
+	@Override
+	public void clearChildren() {
+		removeChildren(getChildren());
 	}
 	
 	@Override
@@ -69,12 +97,22 @@ public class ReviewComponent implements ReviewNode {
 	}
 	
 	@Override
+	public ReviewCollection getChildrenReviews() {
+		ReviewNodeCollection childNodes = getChildren();
+		ReviewCollection childReviews = new ReviewCollection();
+		for(ReviewNode child : childNodes)
+			childReviews.add(child.getReview());
+		
+		return childReviews;
+	}
+	
+	@Override
 	public ReviewID getID() {
 		return mReview.getID();
 	}
 
 	@Override
-	public ReviewTitle getTitle() {
+	public RDTitle getTitle() {
 		return mReview.getTitle();
 	}
 
@@ -84,7 +122,7 @@ public class ReviewComponent implements ReviewNode {
 	}
 
 	@Override
-	public ReviewRating getRating() {
+	public RDRating getRating() {
 		return mReview.getRating();
 	}
 
@@ -94,12 +132,12 @@ public class ReviewComponent implements ReviewNode {
 	}
 
 	@Override
-	public void setComment(ReviewComment comment) {
+	public void setComment(RDComment comment) {
 		mReview.setComment(comment);
 	}
 
 	@Override
-	public ReviewComment getComment() {
+	public RDComment getComment() {
 		return mReview.getComment();
 	}
 
@@ -114,12 +152,12 @@ public class ReviewComponent implements ReviewNode {
 	}
 
 	@Override
-	public ReviewImage getImage() {
+	public RDImage getImage() {
 		return mReview.getImage();
 	}
 
 	@Override
-	public void setImage(ReviewImage image) {
+	public void setImage(RDImage image) {
 	}
 
 	@Override
@@ -132,12 +170,12 @@ public class ReviewComponent implements ReviewNode {
 	}
 
 	@Override
-	public ReviewLocation getLocation() {
+	public RDLocation getLocation() {
 		return mReview.getLocation();
 	}
 
 	@Override
-	public void setLocation(ReviewLocation location) {
+	public void setLocation(RDLocation location) {
 	}
 
 	@Override
@@ -150,12 +188,12 @@ public class ReviewComponent implements ReviewNode {
 	}
 
 	@Override
-	public ReviewFacts getFacts() {
+	public RDFacts getFacts() {
 		return mReview.getFacts();
 	}
 
 	@Override
-	public void setFacts(ReviewFacts facts) {
+	public void setFacts(RDFacts facts) {
 	}
 
 	@Override
@@ -209,12 +247,12 @@ public class ReviewComponent implements ReviewNode {
 	};
 
 	@Override
-	public URL getURL() {
+	public RDUrl getURL() {
 		return mReview.getURL();
 	}
 
 	@Override
-	public void setURL(URL url) {
+	public void setURL(RDUrl url) {
 		mReview.setURL(url);
 	}
 
@@ -226,5 +264,25 @@ public class ReviewComponent implements ReviewNode {
 	@Override
 	public boolean hasURL() {
 		return mReview.hasURL();
+	}
+
+	@Override
+	public RDDate getDate() {
+		return mReview.getDate();
+	}
+
+	@Override
+	public void setDate(RDDate date) {
+		mReview.setDate(date);
+	}
+
+	@Override
+	public void deleteDate() {
+		mReview.deleteDate();
+	}
+
+	@Override
+	public boolean hasDate() {
+		return mReview.hasDate();
 	}
 }

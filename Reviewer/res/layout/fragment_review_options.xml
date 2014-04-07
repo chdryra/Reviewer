@@ -80,7 +80,7 @@
    	<View style="@style/HorizontalDivider"/>
     
     <TextView
-	    android:id="@+id/location_name_text_view"
+	    android:id="@+id/date_location_text_view"
 	    android:layout_width="match_parent"
 	    android:layout_height="wrap_content"
 	    style="?android:textAppearanceSmall"

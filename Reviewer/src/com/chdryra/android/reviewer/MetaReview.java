@@ -1,28 +1,28 @@
 package com.chdryra.android.reviewer;
 
-import java.net.URL;
-
 import android.os.Parcel;
 import android.os.Parcelable;
 
 public class MetaReview implements Review {
 	private static final String REVIEWS = "Reviews";
 
-	private ReviewRating mRating;
+	private RDRating mRating;
 	private ReviewNode mNode;
-	private VisitorRatingCalculator mRatingCalculator;
-	
-	public MetaReview(String title, ReviewNodeCollection reviewNodes) {
+
+	public MetaReview(String title) {
 		mNode = ReviewFactory.createSimpleReviewNode(title);
-		mNode.addChildren(reviewNodes);
-		mRating = new ReviewRating(0, this);
-		mRatingCalculator = new VisitorRatingAverager();
+		mRating = new RDRating(0, this);
+	}
+
+	public MetaReview(String title, ReviewCollection reviews) {
+		mNode = ReviewFactory.createSimpleReviewNode(title);
+		mNode.addChildren(reviews);
+		mRating = new RDRating(0, this);
 	}
 
 	public MetaReview(Parcel in) {
 		mNode = in.readParcelable(ReviewNode.class.getClassLoader());
-		mRating = in.readParcelable(ReviewRating.class.getClassLoader());
-		mRatingCalculator = new VisitorRatingAverager();
+		mRating = in.readParcelable(RDRating.class.getClassLoader());
 	}
 
 	//Review methods
@@ -32,21 +32,45 @@ public class MetaReview implements Review {
 	}
 
 	@Override
-	public ReviewRating getRating() {
-		calculateRating();
+	public RDRating getRating() {
+		mRating.set(calculateRating(new VisitorRatingAverager()));
 		return mRating;
+	}
+
+	public RDRating getRating(VisitorRatingCalculator calculator) {
+		return new RDRating(calculateRating(calculator), this);
 	}
 	
 	@Override
-	public ReviewTitle getTitle() {
+	public RDTitle getTitle() {
 		StringBuilder sb = new StringBuilder();
-		sb.append(getTitle());
+		sb.append(mNode.getTitle());
 		sb.append(": ");
 		sb.append(mNode.getChildren().size());
 		sb.append(" ");
 		sb.append(REVIEWS);
 		
-		return new ReviewTitle(sb.toString(), this);
+		return new RDTitle(sb.toString(), this);
+	}
+
+	public void addReview(Review review) {
+		mNode.addChild(review);
+	}
+	
+	public void addReviews(ReviewCollection reviews) {
+		mNode.addChildren(reviews);
+	}
+	
+	public void removeReview(ReviewID id) {
+		mNode.removeChild(id);
+	}
+	
+	public void removeReviews(ReviewCollection reviews) {
+		mNode.removeChildren(reviews);
+	}
+	
+	public ReviewCollection getReviews() {
+		return mNode.getChildrenReviews();
 	}
 	
 	@Override
@@ -54,22 +78,18 @@ public class MetaReview implements Review {
 		throw new UnsupportedOperationException();
 	}
 
-	public void setRatingCalculator(VisitorRatingCalculator ratingCalculator) {
-		mRatingCalculator = ratingCalculator;
-	}
-	
 	@Override
 	public void setTitle(String title) {
 		mNode.setTitle(title);
 	}
 	
 	@Override
-	public void setComment(ReviewComment comment) {
+	public void setComment(RDComment comment) {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public ReviewComment getComment() {
+	public RDComment getComment() {
 		return null;
 	}
 
@@ -83,12 +103,12 @@ public class MetaReview implements Review {
 	}
 
 	@Override
-	public ReviewImage getImage() {
+	public RDImage getImage() {
 		return null;
 	}
 
 	@Override
-	public void setImage(ReviewImage image) {
+	public void setImage(RDImage image) {
 	}
 
 	@Override
@@ -101,12 +121,12 @@ public class MetaReview implements Review {
 	}
 
 	@Override
-	public ReviewLocation getLocation() {
+	public RDLocation getLocation() {
 		return null;
 	}
 
 	@Override
-	public void setLocation(ReviewLocation location) {
+	public void setLocation(RDLocation location) {
 	}
 
 	@Override
@@ -119,12 +139,12 @@ public class MetaReview implements Review {
 	}
 
 	@Override
-	public ReviewFacts getFacts() {
+	public RDFacts getFacts() {
 		return null;
 	}
 
 	@Override
-	public void setFacts(ReviewFacts data) {
+	public void setFacts(RDFacts data) {
 	}
 
 	@Override
@@ -137,12 +157,12 @@ public class MetaReview implements Review {
 	}
 
 	@Override
-	public URL getURL() {
+	public RDUrl getURL() {
 		return null;
 	}
 
 	@Override
-	public void setURL(URL url) {
+	public void setURL(RDUrl url) {
 	}
 
 	@Override
@@ -154,6 +174,25 @@ public class MetaReview implements Review {
 		return false;
 	}
 	
+
+	@Override
+	public RDDate getDate() {
+		return null;
+	}
+
+	@Override
+	public void setDate(RDDate date) {
+	}
+
+	@Override
+	public void deleteDate() {
+	}
+
+	@Override
+	public boolean hasDate() {
+		return false;
+	}
+
 	@Override
 	public int describeContents() {
 		return 0;
@@ -165,17 +204,15 @@ public class MetaReview implements Review {
 		dest.writeParcelable(mRating, flags);
 	}
 
-	private void calculateRating() {
-		if(mRatingCalculator != null) {
+	private float calculateRating(VisitorRatingCalculator calculator) {
+		if(calculator != null) {
 			for(ReviewNode r : mNode.getChildren())
-				r.acceptVisitor(mRatingCalculator);
-			
-			mRating.set(mRatingCalculator.getRating());
-			mRatingCalculator.clear();
-		} else
-			mRating.set(0);
+				r.acceptVisitor(calculator);
+		}
+
+		return calculator.getRating();
 	}
-	
+
 	public static final Parcelable.Creator<MetaReview> CREATOR 
 	= new Parcelable.Creator<MetaReview>() {
 	    public MetaReview createFromParcel(Parcel in) {
@@ -186,5 +223,4 @@ public class MetaReview implements Review {
 	        return new MetaReview[size];
 	    }
 	};
-
 }

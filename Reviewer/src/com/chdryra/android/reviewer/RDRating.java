@@ -3,16 +3,16 @@ package com.chdryra.android.reviewer;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class ReviewRating implements ReviewData {
+public class RDRating implements ReviewData {
 	private Review mHoldingReview;
 	private float mRating;
 	
-	public ReviewRating(float rating, Review holdingReview) {
+	public RDRating(float rating, Review holdingReview) {
 		mRating = rating;
 		mHoldingReview = holdingReview;
 	}
 	
-	public ReviewRating(Parcel in) {
+	public RDRating(Parcel in) {
 		mRating = in.readFloat();
 	}
 
@@ -35,6 +35,11 @@ public class ReviewRating implements ReviewData {
 	}
 	
 	@Override
+	public boolean hasData() {
+		return true ;
+	}
+	
+	@Override
 	public int describeContents() {
 		return 0;
 	}
@@ -44,13 +49,13 @@ public class ReviewRating implements ReviewData {
 		dest.writeFloat(mRating);
 	}
 
-	public static final Parcelable.Creator<ReviewRating> CREATOR = new Parcelable.Creator<ReviewRating>() {
-	    public ReviewRating createFromParcel(Parcel in) {
-	        return new ReviewRating(in);
+	public static final Parcelable.Creator<RDRating> CREATOR = new Parcelable.Creator<RDRating>() {
+	    public RDRating createFromParcel(Parcel in) {
+	        return new RDRating(in);
 	    }
 
-	    public ReviewRating[] newArray(int size) {
-	        return new ReviewRating[size];
+	    public RDRating[] newArray(int size) {
+	        return new RDRating[size];
 	    }
 	};
 

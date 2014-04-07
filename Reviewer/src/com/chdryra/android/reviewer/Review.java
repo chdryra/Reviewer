@@ -1,7 +1,5 @@
 package com.chdryra.android.reviewer;
 
-import java.net.URL;
-
 import android.os.Parcelable;
 
 public interface Review extends Parcelable{
@@ -9,35 +7,40 @@ public interface Review extends Parcelable{
 	//Core data
 	public ReviewID getID();
 	
-	public ReviewTitle getTitle();
+	public RDTitle getTitle();
 	public void setTitle(String title);
 	
-	public ReviewRating getRating();
+	public RDRating getRating();
 	public void setRating(float rating);
 
 	//Optional data
-	public void setComment(ReviewComment comment);
-	public ReviewComment getComment();
+	public void setComment(RDComment comment);
+	public RDComment getComment();
 	public void deleteComment();
 	public boolean hasComment();
 
-	public ReviewImage getImage();
-	public void setImage(ReviewImage image);
+	public RDImage getImage();
+	public void setImage(RDImage image);
 	public void deleteImage();
 	public boolean hasImage();
 	
-	public ReviewLocation getLocation();
-	public void setLocation(ReviewLocation location);
+	public RDLocation getLocation();
+	public void setLocation(RDLocation location);
 	public void deleteLocation();	
 	public boolean hasLocation();
 
-	public ReviewFacts getFacts();
-	public void setFacts(ReviewFacts facts);
+	public RDFacts getFacts();
+	public void setFacts(RDFacts facts);
 	public void deleteFacts();	
 	public boolean hasFacts();
 	
-	public URL getURL();
-	public void setURL(URL url);
+	public RDUrl getURL();
+	public void setURL(RDUrl url);
 	public void deleteURL();	
 	public boolean hasURL();
+	
+	public RDDate getDate();
+	public void setDate(RDDate date);
+	public void deleteDate();	
+	public boolean hasDate();
 }

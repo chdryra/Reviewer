@@ -61,7 +61,7 @@ public class FragmentReviewComment extends SherlockFragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		mUserReview = getActivity().getIntent().getParcelableExtra(FragmentReviewOptions.REVIEW_OBJECT);
+		mUserReview = (UserReview)UtilReviewPackager.get(getActivity().getIntent());
 		setRetainInstance(true);
 		setHasOptionsMenu(true);
 	}
@@ -77,10 +77,10 @@ public class FragmentReviewComment extends SherlockFragment {
 		setHeadlineCommentsView();
 
 		mCriteriaCommentsLinearLayout = (LinearLayout)v.findViewById(R.id.criteria_comments_linear_layout);
-		for(ReviewNode c : mUserReview.getCriteria()) {
-			mCriteriaCommentsLinearLayout.addView(getCommentLineView(c, null));
-			if( c.getComment() != null && c.getComment().toString().length() > 0)
-				mAddCriteriaComments = true;
+		for(Review criterion : mUserReview.getCriteria()) {
+			mCriteriaCommentsLinearLayout.addView(getCommentLineView(criterion, null));
+			if(!mAddCriteriaComments)
+				mAddCriteriaComments = criterion.hasComment();
 		}
 		updateCriteriaCommentsDisplay();
 		
@@ -286,9 +286,8 @@ public class FragmentReviewComment extends SherlockFragment {
 		}
 		
 		if(resultCode == Activity.RESULT_OK) {
-			String commentTitle = mUserReview.hasComment()? mUserReview.getComment().getCommentTitle() : mUserReview.getTitle().get();
-			ReviewComment comment = 
-					new ReviewCommentSingle(mEditTexts.get(mUserReview.getID()).getText().toString());
+			RDComment comment = 
+					new RDCommentSingle(mEditTexts.get(mUserReview.getID()).getText().toString());
 			mUserReview.setComment(comment);
 			for (HashMap.Entry<ReviewID, EditText> entry : mEditTexts.entrySet())
 			{
@@ -298,19 +297,14 @@ public class FragmentReviewComment extends SherlockFragment {
 			    	continue;
 				
 				Review c = mUserReview.getCriteria().get(id);
-				String cTitle = c.hasComment()? c.getComment().getCommentTitle() : c.getTitle().get();
 				if(mAddCriteriaComments)
-					c.setComment(new ReviewCommentSingle(entry.getValue().getText().toString()));
+					c.setComment(new RDCommentSingle(entry.getValue().getText().toString()));
 				else
 					c.deleteComment();
 			}
 		}	
 
-		Bundle args = new Bundle();
-		args.putParcelable(FragmentReviewOptions.REVIEW_OBJECT, mUserReview);
-		Intent i = new Intent();
-		i.putExtras(args);
-		getSherlockActivity().setResult(resultCode, i);		 
+		getSherlockActivity().setResult(resultCode);		 
 		getSherlockActivity().finish();	
 	}
 

@@ -25,7 +25,7 @@ public class DialogCriterionFragment extends DialogBasicFragment {
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		View v = getActivity().getLayoutInflater().inflate(R.layout.dialog_criterion, null);
-		mCriterion = getArguments().getParcelable(FragmentReviewCreate.CRITERION);
+		mCriterion = UtilReviewPackager.get(getArguments());
 		
 		mCriterionEditText = (ClearableEditText)v.findViewById(R.id.criterion_name_edit_text);
 		mCriterionEditText.setText(mCriterion.getTitle().get());
@@ -53,14 +53,10 @@ public class DialogCriterionFragment extends DialogBasicFragment {
 			return;
 
 		Intent i = new Intent();		
-		Bundle args = new Bundle();
-		args.putString(OLD_NAME, mCriterion.getTitle().get());		
-
+		i.putExtra(OLD_NAME, mCriterion.getTitle().get());		
 		if(resultCode == Activity.RESULT_OK)
 			mCriterion.setTitle(mCriterionEditText.getText().toString());
-
-		args.putParcelable(FragmentReviewCreate.CRITERION, mCriterion);
-		i.putExtras(args);
+		UtilReviewPackager.pack(mCriterion, i);
 		getTargetFragment().onActivityResult(getTargetRequestCode(), resultCode, i);
 	}
 	

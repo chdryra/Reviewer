@@ -1,28 +1,24 @@
 package com.chdryra.android.reviewer;
 
-import java.net.URL;
-
 import android.os.Parcel;
 import android.os.Parcelable;
 
 public class SimpleReview implements Review {
-	private static final String TAG = "SimpleReview";
-
 	private ReviewID mID;
-	private ReviewTitle mTitle;
-	private ReviewRating mRating;
+	private RDTitle mTitle;
+	private RDRating mRating;
 
 	public SimpleReview(String title) {
 		mID = ReviewID.generateID();
-		mTitle = new ReviewTitle(title, this);
-		mRating = new ReviewRating(0, this);
+		mTitle = new RDTitle(title, this);
+		mRating = new RDRating(0, this);
 	}
 	
 	public SimpleReview(Parcel in) {
 		mID = in.readParcelable(ReviewID.class.getClassLoader());
-		mTitle = in.readParcelable(ReviewTitle.class.getClassLoader());
+		mTitle = in.readParcelable(RDTitle.class.getClassLoader());
 		mTitle.setHoldingReview(this);
-		mRating = in.readParcelable(ReviewRating.class.getClassLoader());
+		mRating = in.readParcelable(RDRating.class.getClassLoader());
 		mRating.setHoldingReview(this);
 	}
 
@@ -32,7 +28,7 @@ public class SimpleReview implements Review {
 	}
 
 	@Override
-	public ReviewTitle getTitle() {
+	public RDTitle getTitle() {
 		return mTitle;
 	}
 
@@ -42,7 +38,7 @@ public class SimpleReview implements Review {
 	}
 
 	@Override
-	public ReviewRating getRating() {
+	public RDRating getRating() {
 		return mRating;
 	}
 
@@ -52,11 +48,11 @@ public class SimpleReview implements Review {
 	}
 
 	@Override
-	public void setComment(ReviewComment comment) {
+	public void setComment(RDComment comment) {
 	}
 
 	@Override
-	public ReviewComment getComment() {
+	public RDComment getComment() {
 		return null;
 	}
 
@@ -70,12 +66,12 @@ public class SimpleReview implements Review {
 	}
 
 	@Override
-	public ReviewImage getImage() {
+	public RDImage getImage() {
 		return null;
 	}
 
 	@Override
-	public void setImage(ReviewImage image) {
+	public void setImage(RDImage image) {
 	}
 
 	@Override
@@ -88,12 +84,12 @@ public class SimpleReview implements Review {
 	}
 
 	@Override
-	public ReviewLocation getLocation() {
+	public RDLocation getLocation() {
 		return null;
 	}
 
 	@Override
-	public void setLocation(ReviewLocation location) {
+	public void setLocation(RDLocation location) {
 	}
 
 	@Override
@@ -106,12 +102,12 @@ public class SimpleReview implements Review {
 	}
 
 	@Override
-	public ReviewFacts getFacts() {
+	public RDFacts getFacts() {
 		return null;
 	}
 
 	@Override
-	public void setFacts(ReviewFacts facts) {
+	public void setFacts(RDFacts facts) {
 	}
 
 	@Override
@@ -124,12 +120,12 @@ public class SimpleReview implements Review {
 	}
 
 	@Override
-	public URL getURL() {
+	public RDUrl getURL() {
 		return null;
 	}
 
 	@Override
-	public void setURL(URL url) {
+	public void setURL(RDUrl url) {
 	}
 
 	@Override
@@ -138,6 +134,24 @@ public class SimpleReview implements Review {
 
 	@Override
 	public boolean hasURL() {
+		return false;
+	}
+
+	@Override
+	public RDDate getDate() {
+		return null;
+	}
+	
+	@Override
+	public void setDate(RDDate date) {
+	}
+
+	@Override
+	public void deleteDate() {
+	}
+
+	@Override
+	public boolean hasDate() {
 		return false;
 	}
 	

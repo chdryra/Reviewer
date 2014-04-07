@@ -21,7 +21,7 @@ public class DialogImageFragment extends DialogBasicFragment {
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		View v = getActivity().getLayoutInflater().inflate(R.layout.dialog_image, null);
-		mReview = getArguments().getParcelable(FragmentReviewOptions.REVIEW_OBJECT);
+		mReview = UtilReviewPackager.get(getArguments());
 		
 		ImageView imageView = (ImageView)v.findViewById(R.id.dialog_image_image_view);
 		imageView.setImageBitmap(getImageBitmap());
@@ -85,7 +85,12 @@ public class DialogImageFragment extends DialogBasicFragment {
 	}
 	
 	@Override
-	protected String getDeleteWhat() {
+	protected String getDeleteConfirmationTitle() {
 		return getResources().getString(R.string.image_activity_title);
+	}
+	
+	@Override
+	protected void deleteData() {
+		mReview.deleteImage();
 	}
 }
