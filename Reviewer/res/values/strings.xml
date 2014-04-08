@@ -16,6 +16,7 @@
     <string name="dialog_image_content_description">Review image</string>
     <string name="dialog_date_title">Date</string>
     <string name="dialog_URL_title">Link</string>
+    <string name="dialog_delete_criteria_title">Criteria Comments</string>
     
     <!-- Activities -->
     <string name="location_activity_title">location</string>

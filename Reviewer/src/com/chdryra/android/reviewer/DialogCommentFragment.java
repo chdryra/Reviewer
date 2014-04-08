@@ -28,6 +28,8 @@ public class DialogCommentFragment extends DialogBasicFragment {
 	
 	@Override
 	protected void deleteData() {
-		ReviewNode reviewTree = mReview.getReviewNode();
+		ReviewNodeTraverser traverser = new ReviewNodeTraverser(mReview.getReviewNode());
+		traverser.setVisitor(new VisitorCommentDeleter());
+		traverser.traverse();	
 	}
 }
