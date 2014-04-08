@@ -2,12 +2,12 @@ package com.chdryra.android.reviewer;
 
 import java.util.StringTokenizer;
 
-public class RDCommentFormatter {
+public class CommentFormatter {
 	private static final String COMMENT_HEADLINE_DELIMITER = ".!?";
 	
 	private RDComment mRDComment;
 	
-	public RDCommentFormatter(RDComment rDComment) {
+	public CommentFormatter(RDComment rDComment) {
 		mRDComment = rDComment;
 	}
 	

@@ -185,7 +185,7 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 				mUserReview.deleteLocation();
 			} else {
 				DialogBasicFragment.showDeleteConfirmDialog(getResources().getString(R.string.location_activity_title), 
-						FragmentReviewLocation.this, getFragmentManager());
+						FragmentReviewLocation.this, DELETE_CONFIRM, getFragmentManager());
 				return;
 			}
 		}

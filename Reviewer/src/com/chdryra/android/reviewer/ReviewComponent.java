@@ -7,11 +7,16 @@ public class ReviewComponent implements ReviewNode {
 	
 	private Review mReview;
 	private ReviewNode mParent;
-	private ReviewNodeCollection mChildren;
+	private CollectionReviewNode mChildren;
 	
 	public ReviewComponent(Review node) {
 		mReview = node;
-		mChildren = new ReviewNodeCollection();
+		mChildren = new CollectionReviewNode();
+	}
+	
+	@Override
+	public ReviewNode getReviewNode() {
+		return this;
 	}
 	
 	@Override
@@ -26,10 +31,12 @@ public class ReviewComponent implements ReviewNode {
 	
 	@Override
 	public void setParent(ReviewNode parentNode) {
-		if(mParent != null && mParent.getID().equals(parentNode.getID()))
+		if(mParent != null && parentNode != null && mParent.getID().equals(parentNode.getID()))
 			return;
+		
 		mParent = parentNode;
-		mParent.addChild(this);
+		if(mParent != null)
+			mParent.addChild(this);
 	}
 	
 	@Override
@@ -51,37 +58,37 @@ public class ReviewComponent implements ReviewNode {
 	}
 	
 	@Override
-	public ReviewNode getChild(ReviewID id) {
+	public ReviewNode getChild(RDId id) {
 		return mChildren.get(id);
 	}
 	
 	@Override
-	public void removeChild(ReviewID id) {
+	public void removeChild(RDId id) {
 		ReviewNode child = getChild(id);
 		child.setParent(null);
 		mChildren.remove(child.getID());
 	}
 	
 	@Override
-	public void addChildren(ReviewCollection children) {
+	public void addChildren(CollectionReview children) {
 		for(Review child: children)
 			addChild(child);
 	}
 	
 	@Override
-	public void addChildren(ReviewNodeCollection children) {
+	public void addChildren(CollectionReviewNode children) {
 		for(ReviewNode childNode: children)
 			addChild(childNode);
 	}
 
 	@Override
-	public void removeChildren(ReviewNodeCollection children) {
+	public void removeChildren(CollectionReviewNode children) {
 		for(Review child: children)
 			removeChild(child.getID());
 	}
 	
 	@Override
-	public void removeChildren(ReviewCollection children) {
+	public void removeChildren(CollectionReview children) {
 		for(Review child: children)
 			removeChild(child.getID());
 	}
@@ -92,14 +99,14 @@ public class ReviewComponent implements ReviewNode {
 	}
 	
 	@Override
-	public ReviewNodeCollection getChildren() {
+	public CollectionReviewNode getChildren() {
 		return mChildren;
 	}
 	
 	@Override
-	public ReviewCollection getChildrenReviews() {
-		ReviewNodeCollection childNodes = getChildren();
-		ReviewCollection childReviews = new ReviewCollection();
+	public CollectionReview getChildrenReviews() {
+		CollectionReviewNode childNodes = getChildren();
+		CollectionReview childReviews = new CollectionReview();
 		for(ReviewNode child : childNodes)
 			childReviews.add(child.getReview());
 		
@@ -107,7 +114,7 @@ public class ReviewComponent implements ReviewNode {
 	}
 	
 	@Override
-	public ReviewID getID() {
+	public RDId getID() {
 		return mReview.getID();
 	}
 
@@ -232,7 +239,7 @@ public class ReviewComponent implements ReviewNode {
 			setParent(parent);
 		else
 			mParent = null;
-		mChildren = in.readParcelable(ReviewNodeCollection.class.getClassLoader());
+		mChildren = in.readParcelable(CollectionReviewNode.class.getClassLoader());
 	}
 	
 	public static final Parcelable.Creator<ReviewComponent> CREATOR 

@@ -7,7 +7,7 @@ import android.os.Parcelable;
 
 import com.google.android.gms.maps.model.LatLng;
 
-public class RDLocation implements ReviewData{
+public class RDLocation implements RData{
 	private static final String LOCATION_DELIMITER = ",|.";
 	
 	private Review mHoldingReview;

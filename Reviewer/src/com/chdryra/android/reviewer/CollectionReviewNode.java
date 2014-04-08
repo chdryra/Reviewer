@@ -3,8 +3,13 @@ package com.chdryra.android.reviewer;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class ReviewNodeCollection extends RCollection<ReviewNode> implements Parcelable {
-	public ReviewNodeCollection() {
+public class CollectionReviewNode extends RCollection<ReviewNode> implements Parcelable {
+	public CollectionReviewNode() {
+	}
+
+	public CollectionReviewNode(CollectionReview reviews) {
+		for(Review r : reviews)
+			add(FactoryReview.createReviewNode(r));
 	}
 	
 	public void add(ReviewNode reviewNode) {
@@ -16,7 +21,7 @@ public class ReviewNodeCollection extends RCollection<ReviewNode> implements Par
 		return 0;
 	}
 
-	public ReviewNodeCollection(Parcel in) {
+	public CollectionReviewNode(Parcel in) {
 		Parcelable[] nodes = in.readParcelableArray(ReviewNode.class.getClassLoader());
 		for(int i = 0; i < nodes.length; ++i) {
 			ReviewNode node = (ReviewNode)nodes[i];
@@ -30,14 +35,14 @@ public class ReviewNodeCollection extends RCollection<ReviewNode> implements Par
 		dest.writeParcelableArray(nodes, flags);
 	}
 	
-	public static final Parcelable.Creator<ReviewNodeCollection> CREATOR 
-	= new Parcelable.Creator<ReviewNodeCollection>() {
-	    public ReviewNodeCollection createFromParcel(Parcel in) {
-	        return new ReviewNodeCollection(in);
+	public static final Parcelable.Creator<CollectionReviewNode> CREATOR 
+	= new Parcelable.Creator<CollectionReviewNode>() {
+	    public CollectionReviewNode createFromParcel(Parcel in) {
+	        return new CollectionReviewNode(in);
 	    }
 
-	    public ReviewNodeCollection[] newArray(int size) {
-	        return new ReviewNodeCollection[size];
+	    public CollectionReviewNode[] newArray(int size) {
+	        return new CollectionReviewNode[size];
 	    }
 	};
 }	

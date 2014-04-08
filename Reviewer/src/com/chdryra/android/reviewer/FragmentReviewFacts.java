@@ -173,7 +173,7 @@ public class FragmentReviewFacts extends SherlockFragment {
 				mUserReview.deleteFacts();
 			else {
 				DialogBasicFragment.showDeleteConfirmDialog(getResources().getString(R.string.data_activity_title), 
-						FragmentReviewFacts.this, getFragmentManager());
+						FragmentReviewFacts.this, DELETE_CONFIRM, getFragmentManager());
 				return;
 			}
 		}

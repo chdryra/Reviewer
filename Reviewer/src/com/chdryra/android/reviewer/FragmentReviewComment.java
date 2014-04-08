@@ -39,8 +39,9 @@ public class FragmentReviewComment extends SherlockFragment {
 	private static final int MAX_COMMENT_EDITTEXT_LINES = 5;
 
 	private static final int DELETE_CONFIRM = DialogBasicFragment.DELETE_CONFIRM;
+	private static final int DELETE_CRITERIA_CONFIRM = DELETE_CONFIRM + 1;
 	
-	private UserReview mUserReview;
+	private ReviewUser mReviewUser;
 
 	private Button mDeleteButton;
 	private Button mCancelButton;
@@ -56,12 +57,12 @@ public class FragmentReviewComment extends SherlockFragment {
 	private View mHeadlineCommentsView;
 	private LinearLayout mCriteriaCommentsLinearLayout;
 	private EditText mCurrentFocusedEditText;
-	private HashMap<ReviewID, EditText> mEditTexts = new HashMap<ReviewID, EditText>();
+	private HashMap<RDId, EditText> mEditTexts = new HashMap<RDId, EditText>();
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		mUserReview = (UserReview)UtilReviewPackager.get(getActivity().getIntent());
+		mReviewUser = (ReviewUser)UtilReviewPackager.get(getActivity().getIntent());
 		setRetainInstance(true);
 		setHasOptionsMenu(true);
 	}
@@ -77,7 +78,7 @@ public class FragmentReviewComment extends SherlockFragment {
 		setHeadlineCommentsView();
 
 		mCriteriaCommentsLinearLayout = (LinearLayout)v.findViewById(R.id.criteria_comments_linear_layout);
-		for(Review criterion : mUserReview.getCriteria()) {
+		for(Review criterion : mReviewUser.getCriteria()) {
 			mCriteriaCommentsLinearLayout.addView(getCommentLineView(criterion, null));
 			if(!mAddCriteriaComments)
 				mAddCriteriaComments = criterion.hasComment();
@@ -112,7 +113,7 @@ public class FragmentReviewComment extends SherlockFragment {
 	}
 	
 	private void setHeadlineCommentsView() {
-		mHeadlineCommentsView = getCommentLineView(mUserReview, mHeadlineCommentsView);
+		mHeadlineCommentsView = getCommentLineView(mReviewUser, mHeadlineCommentsView);
 		EditText comment = (EditText)mHeadlineCommentsView.findViewById(R.id.comment_edit_text);
 		comment.setMinLines(MIN_HEADLINE_EDITTEXT_LINES);
 		comment.setGravity(Gravity.TOP);
@@ -275,32 +276,33 @@ public class FragmentReviewComment extends SherlockFragment {
 	}
 	
 	private void sendResult(int resultCode) {
-		if (resultCode == RESULT_DELETE && mUserReview.hasComment()) {
-			if(mDeleteConfirmed)
-				mUserReview.deleteCommentIncludingCriteria();
-			else {
-				DialogBasicFragment.showDeleteConfirmDialog(getResources().getString(R.string.comment_activity_title), 
-						FragmentReviewComment.this, getFragmentManager());
+		if (resultCode == RESULT_DELETE && reviewHasComments(false)) {
+			checkAndDeleteComments(DELETE_CONFIRM, getResources().getString(R.string.comment_activity_title));
+			if(!mDeleteConfirmed)
 				return;
-			}
 		}
 		
 		if(resultCode == Activity.RESULT_OK) {
+			if(!mAddCriteriaComments && reviewHasComments(true)) {
+				checkAndDeleteComments(DELETE_CRITERIA_CONFIRM, getResources().getString(R.string.dialog_delete_criteria_title));
+				if(!mDeleteConfirmed)
+					return;
+			}
+			
 			RDComment comment = 
-					new RDCommentSingle(mEditTexts.get(mUserReview.getID()).getText().toString());
-			mUserReview.setComment(comment);
-			for (HashMap.Entry<ReviewID, EditText> entry : mEditTexts.entrySet())
-			{
-				ReviewID id = entry.getKey();
-				
-				if(id.equals(mUserReview.getID()))
-			    	continue;
-				
-				Review c = mUserReview.getCriteria().get(id);
-				if(mAddCriteriaComments)
-					c.setComment(new RDCommentSingle(entry.getValue().getText().toString()));
-				else
-					c.deleteComment();
+					new RDCommentSingle(mEditTexts.get(mReviewUser.getID()).getText().toString());
+			mReviewUser.setComment(comment);
+			
+			if(mAddCriteriaComments) {
+				for (HashMap.Entry<RDId, EditText> entry : mEditTexts.entrySet())
+				{
+					RDId id = entry.getKey();
+					
+					if(id.equals(mReviewUser.getID()))
+				    	continue;
+					
+					mReviewUser.getCriterion(id).setComment(new RDCommentSingle(entry.getValue().getText().toString()));
+				}
 			}
 		}	
 
@@ -308,6 +310,33 @@ public class FragmentReviewComment extends SherlockFragment {
 		getSherlockActivity().finish();	
 	}
 
+	private void checkAndDeleteComments(int requestCode, String dialogTitle) {
+		if(mDeleteConfirmed)
+			deleteAllComments(mReviewUser.getReviewNode());
+		else
+			DialogBasicFragment.showDeleteConfirmDialog(dialogTitle, FragmentReviewComment.this, requestCode, getFragmentManager());
+	}
+	
+	private void deleteAllComments(ReviewNode node) {
+		ReviewNodeTraverser traverser = new ReviewNodeTraverser(node);
+		traverser.setVisitor(new VisitorCommentDeleter());
+		traverser.traverse();	
+	}
+
+	private boolean reviewHasComments(boolean criteriaOnly) {
+		int reviewComment = mReviewUser.hasComment()? 1 :0;
+		int numberComments = numberOfComments();
+		return criteriaOnly?  numberComments - reviewComment > 0 : numberComments > 0;
+	}
+
+	private int numberOfComments() {
+		ReviewNodeTraverser traverser = new ReviewNodeTraverser(mReviewUser.getReviewNode());
+		VisitorCommentCollector collector = new VisitorCommentCollector();
+		traverser.setVisitor(collector);
+		traverser.traverse();
+		return collector.getComments().size();
+	}
+	
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 	    switch (requestCode) {
@@ -317,6 +346,13 @@ public class FragmentReviewComment extends SherlockFragment {
 					sendResult(RESULT_DELETE);
 				}
 				break;
+	        case DELETE_CRITERIA_CONFIRM:
+				if(resultCode == Activity.RESULT_OK) {
+					mDeleteConfirmed = true;
+					sendResult(resultCode);
+				}
+				break;
+				
 			default:
 				break;
 		    }
@@ -330,7 +366,7 @@ public class FragmentReviewComment extends SherlockFragment {
 		updateClearCommentMenuItemVisibility();
 
 		mAddCriteriaCommentsMenuItem = menu.findItem(R.id.menu_item_add_criteria_comments);
-		if(mUserReview.getCriteria().size() == 0)
+		if(mReviewUser.getCriteria().size() == 0)
 			mAddCriteriaCommentsMenuItem.setVisible(false);
     }
 	

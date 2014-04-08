@@ -32,8 +32,8 @@ public class FragmentReviewCreate extends SherlockFragment{
 
 	public final static int CRITERION_EDIT = 0;
 	
-	private UserReview mReview;
-	private ReviewCollection mCriteria;
+	private ReviewUser mReview;
+	private CollectionReview mCriteria;
 	private ArrayList<String> mCriteriaNames = new ArrayList<String>();
 	
 	private ClearableEditText mSubject;
@@ -50,8 +50,8 @@ public class FragmentReviewCreate extends SherlockFragment{
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
-		mReview = (UserReview)UtilReviewPackager.get(getActivity().getIntent());
-		mCriteria = mReview == null? new ReviewCollection() : mReview.getCriteria();  
+		mReview = (ReviewUser)UtilReviewPackager.get(getActivity().getIntent());
+		mCriteria = mReview == null? new CollectionReview() : mReview.getCriteria();  
 		for(Review criterion : mCriteria)
 			mCriteriaNames.add(criterion.getTitle().get());
 		
@@ -64,8 +64,6 @@ public class FragmentReviewCreate extends SherlockFragment{
 		View v = inflater.inflate(R.layout.fragment_review_create, container, false);		
 		
 		mSubject = (ClearableEditText)v.findViewById(R.id.review_subject);
-		if(mReview != null)
-			mSubject.setText(mReview.getTitle().get());
 		
 		mAddCriterionButton = (ImageButton)v.findViewById(R.id.criterion_add_button);
 		mAddCriterionButton.setOnClickListener(new View.OnClickListener() {			
@@ -99,8 +97,6 @@ public class FragmentReviewCreate extends SherlockFragment{
 		});
 				
 		mTotalRatingBar = (RatingBar)v.findViewById(R.id.total_rating_bar);
-		if(mReview != null)
-			mTotalRatingBar.setRating(mReview.getRating().get());
 		mTotalRatingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
 			@Override
 			public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
@@ -117,11 +113,20 @@ public class FragmentReviewCreate extends SherlockFragment{
 			public void onClick(View v) {
 				if(mTotalRatingIsAverage)
 					setTotalRatingIsUser();
-				else
+				else if(mCriteria.size() > 0)
 					setTotalRatingIsAverage();
 			}
 		});
 		
+		if(mReview != null) {
+			mSubject.setText(mReview.getTitle().get());
+			mTotalRatingUser = mReview.getRating().get();
+			if(mReview.isRatingAverageOfCriteria())
+				setTotalRatingIsAverage();
+			else
+				setTotalRatingIsUser();
+		}
+
 		return v;		
 	}
 	
@@ -146,15 +151,15 @@ public class FragmentReviewCreate extends SherlockFragment{
 	
 	private void recomputeTotalRating() {
 		if(mTotalRatingIsAverage && mCriteria.size() > 0) {
-			MetaReview meta = new MetaReview("Criteria", mCriteria);
+			ReviewMeta meta = new ReviewMeta("Criteria", mCriteria);
 			mTotalRatingBar.setRating(meta.getRating().get());
 		}
 	}
 	
 	class CriterionAdaptor extends BaseAdapter {	
-		private ReviewCollection mCriteria;
+		private CollectionReview mCriteria;
 	
-		public CriterionAdaptor(ReviewCollection criteria){
+		public CriterionAdaptor(CollectionReview criteria){
 		    mCriteria  = criteria;
 		}
 			
@@ -244,7 +249,7 @@ public class FragmentReviewCreate extends SherlockFragment{
 		if (mCriteria.size() == 0 && criterionName.length() > 0)
 			setTotalRatingIsAverage();		      		
 
-		mCriteria.add(ReviewFactory.createUserReview(criterionName));
+		mCriteria.add(FactoryReview.createUserReview(criterionName));
 		mCriteriaNames.add(criterionName);
 		mCriterionName.setText(null);		
 		
@@ -313,12 +318,13 @@ public class FragmentReviewCreate extends SherlockFragment{
 				String subject = mSubject.getText().toString();
 				
 				if(mReview == null)
-					mReview = (UserReview)ReviewFactory.createUserReview(subject);
+					mReview = (ReviewUser)FactoryReview.createUserReview(subject);
 				else
 					mReview.setTitle(subject);
 				
 				mReview.setRating(mTotalRatingBar.getRating());
 				mReview.setCriteria(mCriteria);
+				mReview.setRatingAverageOfCriteria(mTotalRatingIsAverage);
 				
 				Intent i = new Intent(getSherlockActivity(), ActivityReviewOptions.class);
 				UtilReviewPackager.pack(mReview, i);

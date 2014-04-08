@@ -3,7 +3,7 @@ package com.chdryra.android.reviewer;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class RDTitle implements ReviewData {
+public class RDTitle implements RData {
 	private Review mHoldingReview;
 	private String mTitle;
 	

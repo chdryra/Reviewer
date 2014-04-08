@@ -1,6 +1,6 @@
 package com.chdryra.android.reviewer;
 
-public interface RDComment extends ReviewData{
+public interface RDComment extends RData{
 	public String getCommentTitle();
 	public String getCommentString();
 	public String toString();

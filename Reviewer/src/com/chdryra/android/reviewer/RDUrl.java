@@ -8,7 +8,7 @@ import java.net.URL;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class RDUrl implements ReviewData {
+public class RDUrl implements RData {
 	private Review mHoldingReview;
 	private URL mURL;
 

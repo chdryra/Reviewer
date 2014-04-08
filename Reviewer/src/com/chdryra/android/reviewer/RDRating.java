@@ -3,7 +3,7 @@ package com.chdryra.android.reviewer;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class RDRating implements ReviewData {
+public class RDRating implements RData {
 	private Review mHoldingReview;
 	private float mRating;
 	

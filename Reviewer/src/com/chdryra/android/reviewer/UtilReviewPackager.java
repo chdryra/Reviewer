@@ -21,13 +21,13 @@ public class UtilReviewPackager {
 	}
 
 	public static Review get(Intent addressedTo) {
-		ReviewID reviewId = addressedTo.getParcelableExtra(REVIEW_ID);
+		RDId reviewId = addressedTo.getParcelableExtra(REVIEW_ID);
 		Review review = reviewId != null? (Review)IntentObjectHolder.getObject(reviewId.toString()) : null;
 		return review;
 	}
 	
 	public static Review get(Bundle addressedTo) {
-		ReviewID reviewId = addressedTo.getParcelable(REVIEW_ID);
+		RDId reviewId = addressedTo.getParcelable(REVIEW_ID);
 		Review review = reviewId != null? (Review)IntentObjectHolder.getObject(reviewId.toString()) : null;
 		return review;
 	}

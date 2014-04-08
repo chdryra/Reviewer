@@ -3,7 +3,7 @@ package com.chdryra.android.reviewer;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class RDFact implements Parcelable, ReviewData{
+public class RDFact implements Parcelable, RData{
 
 	private Review mHoldingReview;
 	private String mLabel;

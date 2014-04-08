@@ -7,7 +7,7 @@ import java.util.NoSuchElementException;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class RDFacts implements Iterable<RDFact>, ReviewData{
+public class RDFacts implements Iterable<RDFact>, RData{
 
 	private Review mHoldingReview;
 	private LinkedHashMap<String, RDFact> mData = new LinkedHashMap<String, RDFact>();

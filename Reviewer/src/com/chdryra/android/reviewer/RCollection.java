@@ -5,27 +5,31 @@ import java.util.LinkedHashMap;
 import java.util.NoSuchElementException;
 
 public class RCollection<T> implements Iterable<T> {
-	protected LinkedHashMap<ReviewID, T> mData = new LinkedHashMap<ReviewID, T>();
+	protected LinkedHashMap<RDId, T> mData = new LinkedHashMap<RDId, T>();
 
 	public RCollection() {
 	}
 	
-	public void put(ReviewID id, T t) {
+	public void put(RDId id, T t) {
 		if(!containsID(id))
 			mData.put(id, t);
 	}
+
+	public void add(RCollection<T> items) {
+		mData.putAll(items.mData);
+	}
 	
-	public void remove(ReviewID id) {
+	public void remove(RDId id) {
 		if(containsID(id)) {
 			mData.remove(id);
 		} 
 	}
 
-	public T get(ReviewID id) {
+	public T get(RDId id) {
 		return mData.get(id);
 	}
 	
-	public boolean containsID(ReviewID id) {
+	public boolean containsID(RDId id) {
 		return mData.containsKey(id);
 	}
 
@@ -37,8 +41,8 @@ public class RCollection<T> implements Iterable<T> {
 		return get(getID(position));
 	}
 
-	public ReviewID getID(int position) {
-		ReviewID[] keys = mData.keySet().toArray(new ReviewID[mData.size()]);
+	public RDId getID(int position) {
+		RDId[] keys = mData.keySet().toArray(new RDId[mData.size()]);
 		return keys[position];
 	}
 

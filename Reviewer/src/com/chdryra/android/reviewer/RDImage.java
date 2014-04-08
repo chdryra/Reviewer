@@ -6,7 +6,7 @@ import android.os.Parcelable;
 
 import com.google.android.gms.maps.model.LatLng;
 
-public class RDImage implements ReviewData{
+public class RDImage implements RData{
 	
 	private Review mHoldingReview;
 	

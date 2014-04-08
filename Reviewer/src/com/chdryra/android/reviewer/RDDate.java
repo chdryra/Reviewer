@@ -5,7 +5,7 @@ import java.util.Date;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class RDDate implements ReviewData {
+public class RDDate implements RData {
 
 	private Review mHoldingReview;
 	private Date mDate;

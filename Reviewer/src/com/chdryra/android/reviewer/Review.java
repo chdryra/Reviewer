@@ -5,7 +5,7 @@ import android.os.Parcelable;
 public interface Review extends Parcelable{
 	
 	//Core data
-	public ReviewID getID();
+	public RDId getID();
 	
 	public RDTitle getTitle();
 	public void setTitle(String title);
@@ -13,6 +13,8 @@ public interface Review extends Parcelable{
 	public RDRating getRating();
 	public void setRating(float rating);
 
+	public ReviewNode getReviewNode();
+	
 	//Optional data
 	public void setComment(RDComment comment);
 	public RDComment getComment();

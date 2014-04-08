@@ -18,7 +18,7 @@ public class RDCommentCollection extends RCollection<RDComment> implements RDCom
 	@SuppressWarnings("unchecked")
 	public RDCommentCollection(Parcel in) {
 		Bundle args = in.readBundle();
-		Map<ReviewID, RDComment> map = (Map<ReviewID, RDComment>) args.getSerializable(DATA);
+		Map<RDId, RDComment> map = (Map<RDId, RDComment>) args.getSerializable(DATA);
 		mData.putAll(map);
 	}
 

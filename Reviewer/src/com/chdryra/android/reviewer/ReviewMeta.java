@@ -3,37 +3,52 @@ package com.chdryra.android.reviewer;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class MetaReview implements Review {
-	private static final String REVIEWS = "Reviews";
-
+public class ReviewMeta implements Review {
+	private RDId mID;
+	private RDTitle mTitle;
 	private RDRating mRating;
+	
+	private CollectionReview mReviews;
+	private boolean mRatingIsValid = false;
+	
 	private ReviewNode mNode;
-
-	public MetaReview(String title) {
-		mNode = ReviewFactory.createSimpleReviewNode(title);
-		mRating = new RDRating(0, this);
+	
+	public ReviewMeta(String title) {
+		mReviews = new CollectionReview();
+		init(title);
 	}
 
-	public MetaReview(String title, ReviewCollection reviews) {
-		mNode = ReviewFactory.createSimpleReviewNode(title);
-		mNode.addChildren(reviews);
-		mRating = new RDRating(0, this);
+	public ReviewMeta(String title, CollectionReview reviews) {
+		mReviews = reviews;
+		init(title);
 	}
-
-	public MetaReview(Parcel in) {
-		mNode = in.readParcelable(ReviewNode.class.getClassLoader());
-		mRating = in.readParcelable(RDRating.class.getClassLoader());
+	
+	private void init(String title) {
+		mID = RDId.generateID(this);
+		mTitle = new RDTitle(title, this);
+		mRating = new RDRating(0, this);
+		mNode = FactoryReview.createReviewNode(this);
+	}
+	
+	public ReviewMeta(Parcel in) {
+		mID = (RDId)in.readParcelable(RDId.class.getClassLoader());
+		mTitle = (RDTitle)in.readParcelable(RDTitle.class.getClassLoader());
+		mRating = (RDRating)in.readParcelable(RDRating.class.getClassLoader());
+		mReviews = (CollectionReview)in.readParcelable(CollectionReview.class.getClassLoader());
+		mNode = FactoryReview.createReviewNode(this);
 	}
 
 	//Review methods
 	@Override
-	public ReviewID getID() {
-		return mNode.getID();
+	public RDId getID() {
+		return mID;
 	}
 
 	@Override
 	public RDRating getRating() {
-		mRating.set(calculateRating(new VisitorRatingAverager()));
+		if(!mRatingIsValid)
+			mRating = getRating(new VisitorRatingAverager());
+		
 		return mRating;
 	}
 
@@ -43,36 +58,38 @@ public class MetaReview implements Review {
 	
 	@Override
 	public RDTitle getTitle() {
-		StringBuilder sb = new StringBuilder();
-		sb.append(mNode.getTitle());
-		sb.append(": ");
-		sb.append(mNode.getChildren().size());
-		sb.append(" ");
-		sb.append(REVIEWS);
-		
-		return new RDTitle(sb.toString(), this);
+		return mTitle;
 	}
 
+	@Override
+	public ReviewNode getReviewNode() {
+		return mNode;
+	}
+	
 	public void addReview(Review review) {
-		mNode.addChild(review);
+		mReviews.add(review);
+		mRatingIsValid = false;
 	}
 	
-	public void addReviews(ReviewCollection reviews) {
-		mNode.addChildren(reviews);
+	public void addReviews(CollectionReview reviews) {
+		mReviews.add(reviews);
+		mRatingIsValid = false;
 	}
 	
-	public void removeReview(ReviewID id) {
-		mNode.removeChild(id);
+	public void removeReview(RDId id) {
+		mReviews.remove(id);
+		mRatingIsValid = false;
 	}
 	
-	public void removeReviews(ReviewCollection reviews) {
-		mNode.removeChildren(reviews);
+	public void removeReviews(CollectionReview reviews) {
+		mReviews.remove(reviews);
+		mRatingIsValid = false;
 	}
-	
-	public ReviewCollection getReviews() {
-		return mNode.getChildrenReviews();
+
+	public CollectionReview getReviews() {
+		return mReviews;
 	}
-	
+
 	@Override
 	public void setRating(float rating) {
 		throw new UnsupportedOperationException();
@@ -80,7 +97,7 @@ public class MetaReview implements Review {
 
 	@Override
 	public void setTitle(String title) {
-		mNode.setTitle(title);
+		mTitle.set(title);
 	}
 	
 	@Override
@@ -200,27 +217,30 @@ public class MetaReview implements Review {
 
 	@Override
 	public void writeToParcel(Parcel dest, int flags) {
-		dest.writeParcelable(mNode, flags);
+		dest.writeParcelable(mID, flags);
+		dest.writeParcelable(mTitle, flags);
 		dest.writeParcelable(mRating, flags);
+		dest.writeParcelable(mReviews, flags);
 	}
 
 	private float calculateRating(VisitorRatingCalculator calculator) {
 		if(calculator != null) {
-			for(ReviewNode r : mNode.getChildren())
+			CollectionReviewNode nodes = new CollectionReviewNode(mReviews);
+			for(ReviewNode r : nodes)
 				r.acceptVisitor(calculator);
 		}
 
 		return calculator.getRating();
 	}
 
-	public static final Parcelable.Creator<MetaReview> CREATOR 
-	= new Parcelable.Creator<MetaReview>() {
-	    public MetaReview createFromParcel(Parcel in) {
-	        return new MetaReview(in);
+	public static final Parcelable.Creator<ReviewMeta> CREATOR 
+	= new Parcelable.Creator<ReviewMeta>() {
+	    public ReviewMeta createFromParcel(Parcel in) {
+	        return new ReviewMeta(in);
 	    }
 
-	    public MetaReview[] newArray(int size) {
-	        return new MetaReview[size];
+	    public ReviewMeta[] newArray(int size) {
+	        return new ReviewMeta[size];
 	    }
 	};
 }

@@ -3,9 +3,12 @@ package com.chdryra.android.reviewer;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class UserReview implements Review{	
-	private ReviewNode mNode;
-
+public class ReviewUser implements Review{	
+	private RDId mID;
+	private RDTitle mTitle;
+	private RDRating mRating;
+	private boolean mRatingIsAverage = false;
+	
 	private RDComment mComment;
 	private RDImage mImage;
 	private RDLocation mLocation;	
@@ -13,8 +16,12 @@ public class UserReview implements Review{
 	private RDUrl mURL;
 	private RDDate mDate;
 
-	public UserReview(String title) {
-		mNode = (ReviewNode)ReviewFactory.createSimpleReviewNode(title);
+	private ReviewNode mNode;
+	
+	public ReviewUser(String title) {	
+		mID = RDId.generateID(this);
+		mTitle = new RDTitle(title, this);
+		mRating = new RDRating(0, this);
 		
 		//Null option data
 		mComment = new RDCommentSingle();
@@ -23,10 +30,16 @@ public class UserReview implements Review{
 		mFacts = new RDFacts();
 		mURL = new RDUrl();
 		mDate = new RDDate();
+		
+		mNode = FactoryReview.createReviewNode(this);
 	}
 
-	public UserReview(Parcel in) {
-		mNode = in.readParcelable(ReviewNode.class.getClassLoader());
+	public ReviewUser(Parcel in) {
+		mID = (RDId)in.readParcelable(RDId.class.getClassLoader());
+		mTitle = (RDTitle)in.readParcelable(RDTitle.class.getClassLoader());
+		mRating = (RDRating)in.readParcelable(RDRating.class.getClassLoader());
+		mTitle.setHoldingReview(this);
+		mRating.setHoldingReview(this);
 		
 		setComment((RDComment)in.readParcelable(RDComment.class.getClassLoader()));
 		setImage((RDImage)in.readParcelable(RDImage.class.getClassLoader()));
@@ -34,49 +47,75 @@ public class UserReview implements Review{
 		setFacts((RDFacts)in.readParcelable(RDFacts.class.getClassLoader()));
 		setURL((RDUrl)in.readParcelable(RDUrl.class.getClassLoader()));
 		setDate((RDDate)in.readParcelable(RDDate.class.getClassLoader()));
+		
+		mNode = (ReviewNode)in.readParcelable(ReviewNode.class.getClassLoader());
 	}
 	
 	@Override
-	public ReviewID getID() {
-		return mNode.getID();
+	public RDId getID() {
+		return mID;
 	}
 
 	@Override
 	public RDTitle getTitle() {
-		return mNode.getTitle();
+		return mTitle;
 	}
 
 	@Override
 	public void setTitle(String title) {
-		mNode.setTitle(title);
-		mNode.getTitle().setHoldingReview(this);
+		mTitle.set(title);
 	}
 
 	@Override
 	public void setRating(float rating) {
-		mNode.setRating(rating);
-		mNode.getRating().setHoldingReview(this);
+		mRating.set(rating);
 	}
 
 	@Override
 	public RDRating getRating() {
-		return mNode.getRating();
+		RDRating rating = mRating;
+		
+		if(isRatingAverageOfCriteria()) {
+			ReviewMeta criteria = (ReviewMeta)FactoryReview.createMetaReview("Criteria");
+			criteria.addReviews(getCriteria());
+			rating = criteria.getRating();
+		} 
+		
+		return rating;
 	}
 
-	public ReviewCollection getCriteria() {
+	public void setRatingAverageOfCriteria(boolean ratingIsAverage) {
+		mRatingIsAverage = ratingIsAverage;
+	}
+	
+	public boolean isRatingAverageOfCriteria() {
+		return mRatingIsAverage;
+	}
+	
+	public CollectionReview getCriteria() {
 		return mNode.getChildrenReviews();
 	}
 	
-	public ReviewNodeCollection getCriteriaNodes() {
-		return mNode.getChildren();
+	public Review getCriterion(RDId id) {
+		return mNode.getChild(id).getReview();
 	}
 	
-	public void setCriteria(ReviewCollection criteria) {
+	public CollectionReviewNode getCriteriaNodes() {
+		return mNode.getChildren();
+	}
+
+	@Override
+	public ReviewNode getReviewNode() {
+		return mNode;
+	}
+	
+	public void setCriteria(CollectionReview criteria) {
+		mNode.clearChildren();
 		mNode.addChildren(criteria);
 	}
 		
-	private ReviewData processData(ReviewData newData, ReviewData ifNull) {
-		ReviewData member;
+	private RData processData(RData newData, RData ifNull) {
+		RData member;
 		if(newData != null)
 			member = newData;
 		else
@@ -149,13 +188,6 @@ public class UserReview implements Review{
 	public void deleteComment() {
 		setComment(null);
 	}
-
-	public void deleteCommentIncludingCriteria() {
-		deleteComment();
-		VisitorCommentDeleter deleter = new VisitorCommentDeleter();
-		for(ReviewNode c : mNode.getChildren())
-			c.acceptVisitor(deleter);
-	}
 	
 	@Override
 	public boolean hasComment() {
@@ -210,24 +242,28 @@ public class UserReview implements Review{
 
 	@Override
 	public void writeToParcel(Parcel dest, int flags) {
-		dest.writeParcelable(mNode, flags);
-
+		dest.writeParcelable(mID, flags);
+		dest.writeParcelable(mTitle, flags);
+		dest.writeParcelable(mRating, flags);
+		
 		dest.writeParcelable(mComment, flags);
 		dest.writeParcelable(mImage, flags);
 		dest.writeParcelable(mLocation, flags);	
 		dest.writeParcelable(mFacts, flags);
 		dest.writeParcelable(mURL, flags);
 		dest.writeParcelable(mDate, flags);
+		
+		mNode.writeToParcel(dest, flags);
 	}
 	
-	public static final Parcelable.Creator<UserReview> CREATOR 
-	= new Parcelable.Creator<UserReview>() {
-	    public UserReview createFromParcel(Parcel in) {
-	        return new UserReview(in);
+	public static final Parcelable.Creator<ReviewUser> CREATOR 
+	= new Parcelable.Creator<ReviewUser>() {
+	    public ReviewUser createFromParcel(Parcel in) {
+	        return new ReviewUser(in);
 	    }
 
-	    public UserReview[] newArray(int size) {
-	        return new UserReview[size];
+	    public ReviewUser[] newArray(int size) {
+	        return new ReviewUser[size];
 	    }
 	};
 }

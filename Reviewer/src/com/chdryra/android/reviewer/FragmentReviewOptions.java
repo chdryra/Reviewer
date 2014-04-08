@@ -66,7 +66,7 @@ public class FragmentReviewOptions extends SherlockFragment {
 	private final static SimpleDateFormat mDateFormat = 
 			new SimpleDateFormat("dd/MM/yy", Locale.getDefault());
 	
-	private UserReview mUserReview;
+	private ReviewUser mReviewUser;
 	private HelperReviewImage mHelperReviewImage;
 	
 	private TextView mSubject;
@@ -90,8 +90,8 @@ public class FragmentReviewOptions extends SherlockFragment {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		unpackReviewForIntent(getActivity().getIntent());
-		if(mUserReview.hasImage())
-			mHelperReviewImage = HelperReviewImage.getInstance(mUserReview);
+		if(mReviewUser.hasImage())
+			mHelperReviewImage = HelperReviewImage.getInstance(mReviewUser);
 		setHasOptionsMenu(true);		
 		setRetainInstance(true);
 	}
@@ -119,11 +119,11 @@ public class FragmentReviewOptions extends SherlockFragment {
 		mURLTextView = (TextView)v.findViewById(R.id.url_text_view);
 		
 		//***Subject Heading***//
-		mSubject.setText(mUserReview.getTitle().get());
+		mSubject.setText(mReviewUser.getTitle().get());
 	
 		//***Total Rating Bar***//
-		mRatingBar.setRating(mUserReview.getRating().get());
-		int numCriteria = mUserReview.getCriteria().size();
+		mRatingBar.setRating(mReviewUser.getRating().get());
+		int numCriteria = mReviewUser.getCriteria().size();
 		mTouchStarsText = numCriteria == 0? getResources().getString(R.string.text_view_no_criteria) : getResources().getString(R.string.text_view_touch_criteria);
 		mTouchStarsTextView.setText(mTouchStarsText);
 		if(numCriteria > 0) {
@@ -144,7 +144,7 @@ public class FragmentReviewOptions extends SherlockFragment {
 	
 		
 		//***Criteria Rating Bars***//
-		ReviewCollection criteria = mUserReview.getCriteria();
+		CollectionReview criteria = mReviewUser.getCriteria();
 		boolean dark = false;
 		for(Review criterion : criteria) {
 			View criteriaView = getSherlockActivity().getLayoutInflater().inflate(R.layout.criterion_row_stars_small, null);
@@ -180,7 +180,7 @@ public class FragmentReviewOptions extends SherlockFragment {
 		mAddPhotoImageButton.setOnClickListener(new View.OnClickListener() {			
 			@Override
 			public void onClick(View v) {
-				if (!mUserReview.hasImage())
+				if (!mReviewUser.hasImage())
 					requestImageCaptureIntent();
 				else
 					showImageEditDialog();			
@@ -193,7 +193,7 @@ public class FragmentReviewOptions extends SherlockFragment {
 		mAddLocationImageButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {	
-				if (!mUserReview.hasLocation())
+				if (!mReviewUser.hasLocation())
 					requestLocationFindIntent();
 				else
 					showLocationEditDialog();
@@ -206,7 +206,7 @@ public class FragmentReviewOptions extends SherlockFragment {
 		mAddCommentImageButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				if (!mUserReview.hasComment())
+				if (!mReviewUser.hasComment())
 					requestCommentMakeIntent();
 				else
 					showCommentEditDialog();
@@ -229,7 +229,7 @@ public class FragmentReviewOptions extends SherlockFragment {
 		mAddDataImageButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				if (!mUserReview.hasFacts())
+				if (!mReviewUser.hasFacts())
 					requestFactsAddIntent();
 				else
 					showDataEditDialog();
@@ -272,17 +272,17 @@ public class FragmentReviewOptions extends SherlockFragment {
 	}
 
 	private void packReviewForIntent(Intent i) {
-		UtilReviewPackager.pack(mUserReview, i);
+		UtilReviewPackager.pack(mReviewUser, i);
 	}
 	
 	private Bundle packReview() {
-		return UtilReviewPackager.pack(mUserReview);
+		return UtilReviewPackager.pack(mReviewUser);
 	}
 
 	private void unpackReviewForIntent(Intent i) {
-		UserReview r = (UserReview)UtilReviewPackager.get(i);
+		ReviewUser r = (ReviewUser)UtilReviewPackager.get(i);
 		if(r != null)
-			mUserReview = r;
+			mReviewUser = r;
 	}
 	
 	private <T> void requestIntent(Class<T> c, int requestCode) {
@@ -306,7 +306,7 @@ public class FragmentReviewOptions extends SherlockFragment {
 	
 	private void requestImageCaptureIntent() {
 		if(mHelperReviewImage == null)
-			mHelperReviewImage = HelperReviewImage.getInstance(mUserReview);
+			mHelperReviewImage = HelperReviewImage.getInstance(mReviewUser);
 		
 		//Set up image file
 		try {
@@ -508,15 +508,15 @@ public class FragmentReviewOptions extends SherlockFragment {
 	}
 
 	private void updateImageButtonImage() {
-		if( mUserReview.hasImage() )
-			mAddPhotoImageButton.setImageBitmap(mUserReview.getImage().getBitmap());
+		if( mReviewUser.hasImage() )
+			mAddPhotoImageButton.setImageBitmap(mReviewUser.getImage().getBitmap());
 		else
 			mAddPhotoImageButton.setImageResource(R.drawable.ic_menu_camera);
 	}
 	
 	private void updateLocationButtonImage() {		
-		if(mUserReview.hasLocation() && mUserReview.getLocation().hasMapSnapshot())
-			mAddLocationImageButton.setImageBitmap(mUserReview.getLocation().getMapSnapshot());
+		if(mReviewUser.hasLocation() && mReviewUser.getLocation().hasMapSnapshot())
+			mAddLocationImageButton.setImageBitmap(mReviewUser.getLocation().getMapSnapshot());
 		else
 			mAddLocationImageButton.setImageResource(R.drawable.ic_menu_mylocation);
 	}
@@ -526,12 +526,12 @@ public class FragmentReviewOptions extends SherlockFragment {
 	}
 	
 	private void updateCommentHeadline() {
-		if(!mUserReview.hasComment()) {
+		if(!mReviewUser.hasComment()) {
 			setVisibleGoneView(mAddCommentImageButton, mCommentTextView);
 			return;
 		}
 		
-		RDCommentFormatter formatter = new RDCommentFormatter(mUserReview.getComment());
+		CommentFormatter formatter = new CommentFormatter(mReviewUser.getComment());
 		mCommentTextView.setText(formatter.getHeadline());
 
 		//Have to ellipsise here as can't get it to work in XML
@@ -543,7 +543,7 @@ public class FragmentReviewOptions extends SherlockFragment {
 	}	
 	
 	private void updateDataTable() {
-		if(!mUserReview.hasFacts()) {
+		if(!mReviewUser.hasFacts()) {
 			setVisibleGoneView(mAddDataImageButton, mDataLinearLayout);
 			return;
 		}
@@ -551,7 +551,7 @@ public class FragmentReviewOptions extends SherlockFragment {
 		mDataLinearLayout.removeAllViews();
 		setVisibleGoneView(mDataLinearLayout, mAddDataImageButton);
 		int i = 0;
-		for(RDFact rDFact: mUserReview.getFacts()) {
+		for(RDFact rDFact: mReviewUser.getFacts()) {
 			FrameLayout labelRow = (FrameLayout)getSherlockActivity().getLayoutInflater().inflate(R.layout.data_table_label_row, null);
 			FrameLayout valueRow = (FrameLayout)getSherlockActivity().getLayoutInflater().inflate(R.layout.data_table_value_row, null);
 			
@@ -579,17 +579,17 @@ public class FragmentReviewOptions extends SherlockFragment {
 		SimpleDateFormat format = mDateFormat;
 		StringBuilder locationDate = new StringBuilder("@");
 		
-		if(!mUserReview.hasLocation() && !mUserReview.hasDate()) {
+		if(!mReviewUser.hasLocation() && !mReviewUser.hasDate()) {
 			locationDate.append(getResources().getString(R.string.text_view_location_date_hint));
 		} else {
-			if(mUserReview.hasLocation() && mUserReview.getLocation().hasName()) {
-				locationDate.append(mUserReview.getLocation().getShortenedName());
-				if(mUserReview.hasDate()) {
+			if(mReviewUser.hasLocation() && mReviewUser.getLocation().hasName()) {
+				locationDate.append(mReviewUser.getLocation().getShortenedName());
+				if(mReviewUser.hasDate()) {
 					locationDate.append(", ");
-					locationDate.append(format.format(mUserReview.getDate().get()));
+					locationDate.append(format.format(mReviewUser.getDate().get()));
 				}
 			} else {
-				locationDate.append(format.format(mUserReview.getDate().get()));
+				locationDate.append(format.format(mReviewUser.getDate().get()));
 			}
 		}
 					
@@ -597,8 +597,8 @@ public class FragmentReviewOptions extends SherlockFragment {
 	}
 	
 	private void updateURLDisplay() {
-		if(mUserReview.hasURL())
-			mURLTextView.setText(mUserReview.getURL().toShortenedString());
+		if(mReviewUser.hasURL())
+			mURLTextView.setText(mReviewUser.getURL().toShortenedString());
 		else
 			mURLTextView.setText(getResources().getString(R.string.text_view_link));
 	}

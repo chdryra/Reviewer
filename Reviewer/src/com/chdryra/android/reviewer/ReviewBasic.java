@@ -3,27 +3,32 @@ package com.chdryra.android.reviewer;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class SimpleReview implements Review {
-	private ReviewID mID;
+public class ReviewBasic implements Review {
+	
+	private RDId mID;
 	private RDTitle mTitle;
 	private RDRating mRating;
-
-	public SimpleReview(String title) {
-		mID = ReviewID.generateID();
+	
+	private ReviewNode mNode;
+	
+	public ReviewBasic(String title) {
+		mID = RDId.generateID(this);
 		mTitle = new RDTitle(title, this);
 		mRating = new RDRating(0, this);
+		mNode = FactoryReview.createReviewNode(this);
 	}
 	
-	public SimpleReview(Parcel in) {
-		mID = in.readParcelable(ReviewID.class.getClassLoader());
+	public ReviewBasic(Parcel in) {
+		mID = in.readParcelable(RDId.class.getClassLoader());
 		mTitle = in.readParcelable(RDTitle.class.getClassLoader());
 		mTitle.setHoldingReview(this);
 		mRating = in.readParcelable(RDRating.class.getClassLoader());
 		mRating.setHoldingReview(this);
+		mNode = FactoryReview.createReviewNode(this);
 	}
 
 	@Override
-	public ReviewID getID() {
+	public RDId getID() {
 		return mID;
 	}
 
@@ -47,6 +52,11 @@ public class SimpleReview implements Review {
 		mRating.set(rating);
 	}
 
+	@Override
+	public ReviewNode getReviewNode() {
+		return mNode;
+	}
+	
 	@Override
 	public void setComment(RDComment comment) {
 	}
@@ -167,14 +177,14 @@ public class SimpleReview implements Review {
 		dest.writeParcelable(mRating, flags);
 	}
 	
-	public static final Parcelable.Creator<SimpleReview> CREATOR 
-	= new Parcelable.Creator<SimpleReview>() {
-	    public SimpleReview createFromParcel(Parcel in) {
-	        return new SimpleReview(in);
+	public static final Parcelable.Creator<ReviewBasic> CREATOR 
+	= new Parcelable.Creator<ReviewBasic>() {
+	    public ReviewBasic createFromParcel(Parcel in) {
+	        return new ReviewBasic(in);
 	    }
 
-	    public SimpleReview[] newArray(int size) {
-	        return new SimpleReview[size];
+	    public ReviewBasic[] newArray(int size) {
+	        return new ReviewBasic[size];
 	    }
 	};
 }

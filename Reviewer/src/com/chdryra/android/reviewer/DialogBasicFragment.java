@@ -67,14 +67,14 @@ public abstract class DialogBasicFragment extends SherlockDialogFragment {
 	}
 	
 	private void showDeleteConfirmDialog() {
-		showDeleteConfirmDialog(getDeleteConfirmationTitle(), DialogBasicFragment.this, getFragmentManager());
+		showDeleteConfirmDialog(getDeleteConfirmationTitle(), DialogBasicFragment.this, DELETE_CONFIRM, getFragmentManager());
 	}
 
-	public static void showDeleteConfirmDialog(String deleteWhat, Fragment targetFragment, FragmentManager fragmentManager) {
+	public static void showDeleteConfirmDialog(String deleteWhat, Fragment targetFragment, int requestCode, FragmentManager fragmentManager) {
 		DialogDeleteConfirmFragment dialog = new DialogDeleteConfirmFragment();
 		Bundle args = new Bundle();
 		args.putString(DialogDeleteConfirmFragment.DELETE_WHAT, deleteWhat);
-		dialog.setTargetFragment(targetFragment, DELETE_CONFIRM);
+		dialog.setTargetFragment(targetFragment, requestCode);
 		dialog.setArguments(args);
 		dialog.show(fragmentManager, DELETE_CONFIRM_TAG);
 	}

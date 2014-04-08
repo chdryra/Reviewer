@@ -3,13 +3,18 @@ package com.chdryra.android.reviewer;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class ReviewCollection extends RCollection<Review> implements Parcelable {
+public class CollectionReview extends RCollection<Review> implements Parcelable {
 	
-	public ReviewCollection() {
+	public CollectionReview() {
 	}
 	
 	public void add(Review review) {
 		put(review.getID(), review);
+	}
+
+	public void remove(CollectionReview reviews) {
+		for(Review r : reviews)
+			remove(r.getID());
 	}
 	
 	@Override
@@ -17,7 +22,7 @@ public class ReviewCollection extends RCollection<Review> implements Parcelable 
 		return 0;
 	}
 
-	public ReviewCollection(Parcel in) {
+	public CollectionReview(Parcel in) {
 		Parcelable[] reviews = in.readParcelableArray(ReviewNode.class.getClassLoader());
 		for(int i = 0; i < reviews.length; ++i) {
 			Review review = (ReviewNode)reviews[i];
@@ -31,13 +36,13 @@ public class ReviewCollection extends RCollection<Review> implements Parcelable 
 		dest.writeParcelableArray(reviews, flags);
 	}
 	
-	public static final Parcelable.Creator<ReviewCollection> CREATOR 
-	= new Parcelable.Creator<ReviewCollection>() {
-	    public ReviewCollection createFromParcel(Parcel in) {
-	        return new ReviewCollection(in);
+	public static final Parcelable.Creator<CollectionReview> CREATOR 
+	= new Parcelable.Creator<CollectionReview>() {
+	    public CollectionReview createFromParcel(Parcel in) {
+	        return new CollectionReview(in);
 	    }
 
-	    public ReviewCollection[] newArray(int size) {
-	        return new ReviewCollection[size];
+	    public CollectionReview[] newArray(int size) {
+	        return new CollectionReview[size];
 	    }
 	};}

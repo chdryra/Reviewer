@@ -5,7 +5,8 @@ public class VisitorCommentCollector implements VisitorReviewNode {
 	
 	@Override
 	public void visit(ReviewNode reviewNode) {
-		mData.put(reviewNode.getID(), reviewNode.getComment());
+		if(reviewNode.hasComment())
+			mData.put(reviewNode.getID(), reviewNode.getComment());
 	}
 	
 	public RDCommentCollection getComments() {
