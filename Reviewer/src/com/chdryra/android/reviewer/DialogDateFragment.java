@@ -17,7 +17,8 @@ import android.widget.DatePicker;
 
 public class DialogDateFragment extends DialogBasicFragment {
 
-	private Review mReview;
+	private Controller mController = Controller.getInstance();
+	private RDId mReviewID;
 	
 	private DatePicker mDatePicker;
 	private CheckBox mCheckBoxIncludeDate;
@@ -27,12 +28,12 @@ public class DialogDateFragment extends DialogBasicFragment {
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		View v = getActivity().getLayoutInflater().inflate(R.layout.dialog_date, null);
+		mReviewID = (RDId)getArguments().getParcelable(FragmentReviewOptions.REVIEW_ID);
+		
 		mDatePicker = (DatePicker)v.findViewById(R.id.date_picker);
 		mCheckBoxIncludeDate = (CheckBox)v.findViewById(R.id.checkbox_include_date);
-
-		mReview = UtilReviewPackager.get(getArguments());
 		
-		mCurrentDate = mReview.hasDate()? mReview.getDate().get() : new Date();
+		mCurrentDate = mController.hasDate(mReviewID)? mController.getDate(mReviewID) : new Date();
 
 		final Calendar calendar = Calendar.getInstance(Locale.getDefault());
 		calendar.setTime(mCurrentDate);
@@ -45,7 +46,6 @@ public class DialogDateFragment extends DialogBasicFragment {
 			mDatePicker.setMaxDate(Calendar.getInstance(Locale.getDefault()).getTimeInMillis());
 		} else {
 			mDatePicker.init(year, month, day, new DatePicker.OnDateChangedListener() {
-
 				@Override
 				public void onDateChanged(DatePicker view, int newYear, int newMonth, int newDay) {
 		            Calendar newDate = Calendar.getInstance(Locale.getDefault());
@@ -87,15 +87,13 @@ public class DialogDateFragment extends DialogBasicFragment {
 		calendar.set(year, month, day);
 		Date newDate = calendar.getTime();
 		
-		mReview.setDate(new RDDate(newDate, mReview));
-		Intent i = new Intent();
-		UtilReviewPackager.pack(mReview, i);
-		getTargetFragment().onActivityResult(getTargetRequestCode(), resultCode, i);
+		mController.setDate(mReviewID, newDate);
+		getTargetFragment().onActivityResult(getTargetRequestCode(), resultCode, new Intent());
 	}
 	
 	@Override
 	protected void deleteData() {
-		mReview.deleteDate();
+		mController.deleteDate(mReviewID);
 	}
 	
 	@Override

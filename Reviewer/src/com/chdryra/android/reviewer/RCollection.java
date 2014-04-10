@@ -3,6 +3,7 @@ package com.chdryra.android.reviewer;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.NoSuchElementException;
+import java.util.Set;
 
 public class RCollection<T> implements Iterable<T> {
 	protected LinkedHashMap<RDId, T> mData = new LinkedHashMap<RDId, T>();
@@ -27,6 +28,10 @@ public class RCollection<T> implements Iterable<T> {
 
 	public T get(RDId id) {
 		return mData.get(id);
+	}
+	
+	public Set<RDId> getIDs() {
+		return mData.keySet();
 	}
 	
 	public boolean containsID(RDId id) {

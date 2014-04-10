@@ -12,7 +12,7 @@ public class RDCommentSingle implements RDComment{
 	public RDCommentSingle() {
 	}
 	
-	public RDCommentSingle(String comment) {
+	public RDCommentSingle(String comment, Review holdingReview) {
 		mComment = comment;
 	}
 	

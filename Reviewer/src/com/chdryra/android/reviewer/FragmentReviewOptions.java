@@ -4,8 +4,10 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map.Entry;
 
 import android.app.Activity;
 import android.content.ComponentName;
@@ -14,6 +16,7 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.ParcelUuid;
 import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.support.v4.app.NavUtils;
@@ -49,6 +52,7 @@ public class FragmentReviewOptions extends SherlockFragment {
 	private final static String DIALOG_DATE_TAG = "DateDialog";
 	
 	public static final String LOCATION_BUTTON = "com.chdryra.android.reviewer.location_button";
+	public static final String REVIEW_ID = "com.chdryra.android.reviewer.review_id";
 	
 	public final static int IMAGE_REQUEST = 0;
 	public final static int IMAGE_EDIT = 1;
@@ -66,14 +70,17 @@ public class FragmentReviewOptions extends SherlockFragment {
 	private final static SimpleDateFormat mDateFormat = 
 			new SimpleDateFormat("dd/MM/yy", Locale.getDefault());
 	
-	private ReviewUser mReviewUser;
+	private Controller mController = Controller.getInstance();
+	private Controller mChildrenController;
+	private RDId mReviewID;
+	
 	private HelperReviewImage mHelperReviewImage;
 	
 	private TextView mSubject;
 	private RatingBar mRatingBar;
 	private TextView mTouchStarsTextView;
-	private LinearLayout mCriteriaLayout;
-	private boolean mCriteriaLayoutVisible = true;
+	private LinearLayout mChildrenLayout;
+	private boolean mChildrenLayoutVisible = true;
 	private String mTouchStarsText;
 	
 	private ImageButton mAddPhotoImageButton;
@@ -88,10 +95,12 @@ public class FragmentReviewOptions extends SherlockFragment {
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		unpackReviewForIntent(getActivity().getIntent());
-		if(mReviewUser.hasImage())
-			mHelperReviewImage = HelperReviewImage.getInstance(mReviewUser);
+		super.onCreate(savedInstanceState);	
+		ParcelUuid a = getActivity().getIntent().getParcelableExtra(REVIEW_ID);
+		mReviewID = getActivity().getIntent().getParcelableExtra(REVIEW_ID);
+		mChildrenController = mController.getChildReviewsControllerFor(mReviewID);
+		if(mController.hasImage(mReviewID))
+			mHelperReviewImage = HelperReviewImage.getInstance(mReviewID);
 		setHasOptionsMenu(true);		
 		setRetainInstance(true);
 	}
@@ -105,7 +114,7 @@ public class FragmentReviewOptions extends SherlockFragment {
 		mSubject = (TextView)v.findViewById(R.id.review_subject_text_view);
 		mRatingBar = (RatingBar)v.findViewById(R.id.total_rating_bar);
 		mTouchStarsTextView = (TextView)v.findViewById(R.id.stars_touch_text_view);
-		mCriteriaLayout = (LinearLayout)v.findViewById(R.id.linear_layout_criteria_rating_bars);
+		mChildrenLayout = (LinearLayout)v.findViewById(R.id.linear_layout_criteria_rating_bars);
 		
 		mAddPhotoImageButton = (ImageButton)v.findViewById(R.id.add_photo_image_button);	
 		mAddLocationImageButton = (ImageButton)v.findViewById(R.id.add_location_image_button);
@@ -118,56 +127,21 @@ public class FragmentReviewOptions extends SherlockFragment {
 		mLocationDateTextView = (TextView)v.findViewById(R.id.date_location_text_view);
 		mURLTextView = (TextView)v.findViewById(R.id.url_text_view);
 		
-		//***Subject Heading***//
-		mSubject.setText(mReviewUser.getTitle().get());
-	
 		//***Total Rating Bar***//
-		mRatingBar.setRating(mReviewUser.getRating().get());
-		int numCriteria = mReviewUser.getCriteria().size();
-		mTouchStarsText = numCriteria == 0? getResources().getString(R.string.text_view_no_criteria) : getResources().getString(R.string.text_view_touch_criteria);
-		mTouchStarsTextView.setText(mTouchStarsText);
-		if(numCriteria > 0) {
-			mRatingBar.setOnTouchListener(new View.OnTouchListener() {
-				@Override
-				public boolean onTouch(View v, MotionEvent event) {
-					if(event.getAction() == MotionEvent.ACTION_UP) {
-					mCriteriaLayoutVisible = !mCriteriaLayoutVisible;
-					if(mCriteriaLayoutVisible)
-						mCriteriaLayout.setVisibility(View.VISIBLE);
-					else
-						mCriteriaLayout.setVisibility(View.GONE);
-					}
-					return true;
+		mRatingBar.setOnTouchListener(new View.OnTouchListener() {
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				if(event.getAction() == MotionEvent.ACTION_UP) {
+				mChildrenLayoutVisible = !mChildrenLayoutVisible;
+				if(mChildrenLayoutVisible)
+					mChildrenLayout.setVisibility(View.VISIBLE);
+				else
+					mChildrenLayout.setVisibility(View.GONE);
 				}
-			});
-		}
-	
-		
-		//***Criteria Rating Bars***//
-		CollectionReview criteria = mReviewUser.getCriteria();
-		boolean dark = false;
-		for(Review criterion : criteria) {
-			View criteriaView = getSherlockActivity().getLayoutInflater().inflate(R.layout.criterion_row_stars_small, null);
+				return true;
+			}
+		});
 			
-			criteriaView.setBackgroundResource(dark == true? android.R.drawable.divider_horizontal_bright: android.R.drawable.divider_horizontal_dark);
-			dark = !dark;
-			
-			TextView criterionTextView = (TextView)criteriaView.findViewById(R.id.criterion_name_text_view);				
-			RatingBar ratingBar = (RatingBar)criteriaView.findViewById(R.id.criterion_rating_bar);		
-			
-			criterionTextView.setText(criterion.getTitle().get());
-			criterionTextView.setTextColor(mTouchStarsTextView.getTextColors().getDefaultColor());
-			ratingBar.setRating(criterion.getRating().get());
-			ratingBar.setIsIndicator(true);
-			ratingBar.setFocusable(false);
-			mCriteriaLayout.addView(criteriaView);
-		}
-		
-		if(numCriteria > 0) {
-			View divider = getSherlockActivity().getLayoutInflater().inflate(R.layout.horizontal_divider, null);
-			mCriteriaLayout.addView(divider);
-		}
-		
 		//***Get display metrics to ensure square buttons***//
 		DisplayMetrics displaymetrics = new DisplayMetrics();
 		getSherlockActivity().getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
@@ -180,7 +154,7 @@ public class FragmentReviewOptions extends SherlockFragment {
 		mAddPhotoImageButton.setOnClickListener(new View.OnClickListener() {			
 			@Override
 			public void onClick(View v) {
-				if (!mReviewUser.hasImage())
+				if (!mController.hasImage(mReviewID))
 					requestImageCaptureIntent();
 				else
 					showImageEditDialog();			
@@ -193,7 +167,7 @@ public class FragmentReviewOptions extends SherlockFragment {
 		mAddLocationImageButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {	
-				if (!mReviewUser.hasLocation())
+				if (!mController.hasLocation(mReviewID))
 					requestLocationFindIntent();
 				else
 					showLocationEditDialog();
@@ -206,7 +180,7 @@ public class FragmentReviewOptions extends SherlockFragment {
 		mAddCommentImageButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				if (!mReviewUser.hasComment())
+				if (!mController.hasComment(mReviewID))
 					requestCommentMakeIntent();
 				else
 					showCommentEditDialog();
@@ -229,7 +203,7 @@ public class FragmentReviewOptions extends SherlockFragment {
 		mAddDataImageButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				if (!mReviewUser.hasFacts())
+				if (!mController.hasFacts(mReviewID))
 					requestFactsAddIntent();
 				else
 					showDataEditDialog();
@@ -247,6 +221,7 @@ public class FragmentReviewOptions extends SherlockFragment {
 			}
 		});
 		
+		//***URL Text View***//
 		mURLTextView.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -254,40 +229,178 @@ public class FragmentReviewOptions extends SherlockFragment {
 			}
 		});
 		
+		//***Location Date Text View***//
 		mLocationDateTextView.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				showDateEditDialog();
 			}
 		});
+
 		
+		updateUI();
+		
+		return v;
+	}
+
+	private void updateUI() {
+		updateSubjectText();
+		updateRatingBar();
+		updateTouchStarsText();
+		updateChildrenLayout();
 		updateCommentHeadline();
 		updateLocationButtonImage();
 		updateImageButtonImage();
 		updateDataTable();
 		updateLocationAndDateDisplay();
-		updateURLDisplay();
-		
-		return v;
+		updateURLDisplay();		
 	}
 
-	private void packReviewForIntent(Intent i) {
-		UtilReviewPackager.pack(mReviewUser, i);
+	private void updateSubjectText() {
+		mSubject.setText(mController.getTitle(mReviewID));
+	}
+	
+	private void updateRatingBar() {
+		mRatingBar.setRating(mController.getRating(mReviewID));
+	}
+	
+	private void updateTouchStarsText() {
+		int numChildren = mChildrenController.size();
+		mTouchStarsText = numChildren == 0? getResources().getString(R.string.text_view_no_criteria) : getResources().getString(R.string.text_view_touch_criteria);
+		mTouchStarsTextView.setText(mTouchStarsText);		
+	}
+
+	private void updateChildrenLayout() {
+		mChildrenLayout.removeAllViews();
+		boolean dark = false;
+		for(RDId id : mChildrenController.getIDs()) {
+			View reviewView = getSherlockActivity().getLayoutInflater().inflate(R.layout.criterion_row_stars_small, null);
+			
+			reviewView.setBackgroundResource(dark == true? android.R.drawable.divider_horizontal_bright: android.R.drawable.divider_horizontal_dark);
+			dark = !dark;
+			
+			TextView criterionTextView = (TextView)reviewView.findViewById(R.id.criterion_name_text_view);				
+			RatingBar ratingBar = (RatingBar)reviewView.findViewById(R.id.criterion_rating_bar);		
+			
+			criterionTextView.setText(mChildrenController.getTitle(id));
+			criterionTextView.setTextColor(mTouchStarsTextView.getTextColors().getDefaultColor());
+			ratingBar.setRating(mChildrenController.getRating(id));
+			ratingBar.setIsIndicator(true);
+			ratingBar.setFocusable(false);
+			mChildrenLayout.addView(reviewView);
+		}
+		
+		if(mChildrenController.size() > 0) {
+			View divider = getSherlockActivity().getLayoutInflater().inflate(R.layout.horizontal_divider, null);
+			mChildrenLayout.addView(divider);
+		}	
+	}
+	
+	private void updateImageButtonImage() {
+		if( mController.hasImage(mReviewID) )
+			mAddPhotoImageButton.setImageBitmap(mController.getImageBitmap(mReviewID));
+		else
+			mAddPhotoImageButton.setImageResource(R.drawable.ic_menu_camera);
+	}
+	
+	private void updateLocationButtonImage() {		
+		if(mController.hasMapSnapshot(mReviewID))
+			mAddLocationImageButton.setImageBitmap(mController.getMapSnapshot(mReviewID));
+		else
+			mAddLocationImageButton.setImageResource(R.drawable.ic_menu_mylocation);
+	}
+	
+	private void updateReviewImage() {
+        mHelperReviewImage.setReviewImage(getSherlockActivity(), mAddPhotoImageButton);
+	}
+	
+	private void updateCommentHeadline() {
+		if(!mController.hasComment(mReviewID)) {
+			setVisibleGoneView(mAddCommentImageButton, mCommentTextView);
+			return;
+		}
+		
+		mCommentTextView.setText(mController.getCommentHeadline(mReviewID));
+
+		//Have to ellipsise here as can't get it to work in XML
+		int maxLines = RandomTextUtils.getMaxNumberLines(mCommentTextView);
+		mCommentTextView.setMaxLines(maxLines > 1? maxLines - 1 : 1);
+		mCommentTextView.setEllipsize(TextUtils.TruncateAt.END);
+		
+		setVisibleGoneView(mCommentTextView, mAddCommentImageButton);
+	}	
+	
+	private void updateDataTable() {
+		if(!mController.hasFacts(mReviewID)) {
+			setVisibleGoneView(mAddDataImageButton, mDataLinearLayout);
+			return;
+		}
+				
+		mDataLinearLayout.removeAllViews();
+		setVisibleGoneView(mDataLinearLayout, mAddDataImageButton);
+		int i = 0;
+		LinkedHashMap<String, String> factMap = mController.getFacts(mReviewID);
+		for(Entry<String, String> entry : factMap.entrySet()) {
+			FrameLayout labelRow = (FrameLayout)getSherlockActivity().getLayoutInflater().inflate(R.layout.data_table_label_row, null);
+			FrameLayout valueRow = (FrameLayout)getSherlockActivity().getLayoutInflater().inflate(R.layout.data_table_value_row, null);
+			
+			TextView label = (TextView)labelRow.findViewById(R.id.data_table_label_text_view);
+			TextView value = (TextView)valueRow.findViewById(R.id.data_table_value_text_view);			
+			
+			label.setText(entry.getKey());
+			value.setText(entry.getValue());
+			
+			mDataLinearLayout.addView(labelRow);
+			mDataLinearLayout.addView(valueRow);
+			
+			++i;
+			if(i == DATA_TABLE_MAX_VALUES)
+				break;
+		}
+	}
+	
+	private void updateLocationAndDateDisplay() {
+		SimpleDateFormat format = mDateFormat;
+		StringBuilder locationDate = new StringBuilder("@");
+		
+		if(!mController.hasLocation(mReviewID) && !mController.hasDate(mReviewID)) {
+			locationDate.append(getResources().getString(R.string.text_view_location_date_hint));
+		} else {
+			if(mController.hasLocationName(mReviewID)) {
+				locationDate.append(mController.getShortLocationName(mReviewID));
+				if(mController.hasDate(mReviewID)) {
+					locationDate.append(", ");
+					locationDate.append(format.format(mController.getDate(mReviewID)));
+				}
+			} else {
+				locationDate.append(format.format(mController.getDate(mReviewID)));
+			}
+		}
+					
+		mLocationDateTextView.setText(locationDate.toString());
+	}
+	
+	private void updateURLDisplay() {
+		if(mController.hasURL(mReviewID))
+			mURLTextView.setText(mController.getURLShortenedString(mReviewID));
+		else
+			mURLTextView.setText(getResources().getString(R.string.text_view_link));
+	}
+	
+	private void setVisibleGoneView(View visibleView, View goneView) {
+		visibleView.setVisibility(View.VISIBLE);
+		goneView.setVisibility(View.GONE);
 	}
 	
 	private Bundle packReview() {
-		return UtilReviewPackager.pack(mReviewUser);
-	}
-
-	private void unpackReviewForIntent(Intent i) {
-		ReviewUser r = (ReviewUser)UtilReviewPackager.get(i);
-		if(r != null)
-			mReviewUser = r;
-	}
+		Bundle args = new Bundle();
+		args.putParcelable(REVIEW_ID, mReviewID);
+		return args;
+	}	
 	
 	private <T> void requestIntent(Class<T> c, int requestCode) {
 		Intent i = new Intent(getSherlockActivity(), c);
-		packReviewForIntent(i);
+		i.putExtras(packReview());
 		startActivityForResult(i, requestCode);
 	}
 	
@@ -306,7 +419,7 @@ public class FragmentReviewOptions extends SherlockFragment {
 	
 	private void requestImageCaptureIntent() {
 		if(mHelperReviewImage == null)
-			mHelperReviewImage = HelperReviewImage.getInstance(mReviewUser);
+			mHelperReviewImage = HelperReviewImage.getInstance(mReviewID);
 		
 		//Set up image file
 		try {
@@ -384,7 +497,7 @@ public class FragmentReviewOptions extends SherlockFragment {
 		case android.R.id.home:
 			if (NavUtils.getParentActivityName(getSherlockActivity()) != null) {
 				Intent i = NavUtils.getParentActivityIntent(getSherlockActivity());
-				packReviewForIntent(i);
+				i.putExtras(packReview());
 				NavUtils.navigateUpTo(getSherlockActivity(), i);
 			}
 			return true;
@@ -505,101 +618,5 @@ public class FragmentReviewOptions extends SherlockFragment {
 				updateURLDisplay();
 				break;
 		}
-	}
-
-	private void updateImageButtonImage() {
-		if( mReviewUser.hasImage() )
-			mAddPhotoImageButton.setImageBitmap(mReviewUser.getImage().getBitmap());
-		else
-			mAddPhotoImageButton.setImageResource(R.drawable.ic_menu_camera);
-	}
-	
-	private void updateLocationButtonImage() {		
-		if(mReviewUser.hasLocation() && mReviewUser.getLocation().hasMapSnapshot())
-			mAddLocationImageButton.setImageBitmap(mReviewUser.getLocation().getMapSnapshot());
-		else
-			mAddLocationImageButton.setImageResource(R.drawable.ic_menu_mylocation);
-	}
-	
-	private void updateReviewImage() {
-        mHelperReviewImage.setReviewImage(getSherlockActivity(), mAddPhotoImageButton);
-	}
-	
-	private void updateCommentHeadline() {
-		if(!mReviewUser.hasComment()) {
-			setVisibleGoneView(mAddCommentImageButton, mCommentTextView);
-			return;
-		}
-		
-		CommentFormatter formatter = new CommentFormatter(mReviewUser.getComment());
-		mCommentTextView.setText(formatter.getHeadline());
-
-		//Have to ellipsise here as can't get it to work in XML
-		int maxLines = RandomTextUtils.getMaxNumberLines(mCommentTextView);
-		mCommentTextView.setMaxLines(maxLines > 1? maxLines - 1 : 1);
-		mCommentTextView.setEllipsize(TextUtils.TruncateAt.END);
-		
-		setVisibleGoneView(mCommentTextView, mAddCommentImageButton);
-	}	
-	
-	private void updateDataTable() {
-		if(!mReviewUser.hasFacts()) {
-			setVisibleGoneView(mAddDataImageButton, mDataLinearLayout);
-			return;
-		}
-				
-		mDataLinearLayout.removeAllViews();
-		setVisibleGoneView(mDataLinearLayout, mAddDataImageButton);
-		int i = 0;
-		for(RDFact rDFact: mReviewUser.getFacts()) {
-			FrameLayout labelRow = (FrameLayout)getSherlockActivity().getLayoutInflater().inflate(R.layout.data_table_label_row, null);
-			FrameLayout valueRow = (FrameLayout)getSherlockActivity().getLayoutInflater().inflate(R.layout.data_table_value_row, null);
-			
-			TextView label = (TextView)labelRow.findViewById(R.id.data_table_label_text_view);
-			TextView value = (TextView)valueRow.findViewById(R.id.data_table_value_text_view);			
-			
-			label.setText(rDFact.getLabel());
-			value.setText(rDFact.getValue());
-			
-			mDataLinearLayout.addView(labelRow);
-			mDataLinearLayout.addView(valueRow);
-			
-			++i;
-			if(i == DATA_TABLE_MAX_VALUES)
-				break;
-		}
-	}
-	
-	private void setVisibleGoneView(View visibleView, View goneView) {
-		visibleView.setVisibility(View.VISIBLE);
-		goneView.setVisibility(View.GONE);
-	}
-	
-	private void updateLocationAndDateDisplay() {
-		SimpleDateFormat format = mDateFormat;
-		StringBuilder locationDate = new StringBuilder("@");
-		
-		if(!mReviewUser.hasLocation() && !mReviewUser.hasDate()) {
-			locationDate.append(getResources().getString(R.string.text_view_location_date_hint));
-		} else {
-			if(mReviewUser.hasLocation() && mReviewUser.getLocation().hasName()) {
-				locationDate.append(mReviewUser.getLocation().getShortenedName());
-				if(mReviewUser.hasDate()) {
-					locationDate.append(", ");
-					locationDate.append(format.format(mReviewUser.getDate().get()));
-				}
-			} else {
-				locationDate.append(format.format(mReviewUser.getDate().get()));
-			}
-		}
-					
-		mLocationDateTextView.setText(locationDate.toString());
-	}
-	
-	private void updateURLDisplay() {
-		if(mReviewUser.hasURL())
-			mURLTextView.setText(mReviewUser.getURL().toShortenedString());
-		else
-			mURLTextView.setText(getResources().getString(R.string.text_view_link));
 	}
 }

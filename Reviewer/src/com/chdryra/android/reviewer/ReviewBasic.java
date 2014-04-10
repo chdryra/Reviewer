@@ -12,7 +12,7 @@ public class ReviewBasic implements Review {
 	private ReviewNode mNode;
 	
 	public ReviewBasic(String title) {
-		mID = RDId.generateID(this);
+		mID = RDId.generateID();
 		mTitle = new RDTitle(title, this);
 		mRating = new RDRating(0, this);
 		mNode = FactoryReview.createReviewNode(this);

@@ -15,24 +15,25 @@ import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.widget.TextView;
 
-public class DialogCriterionFragment extends DialogBasicFragment {
-	public static final int RESULT_DELETE_CRITERION = Activity.RESULT_FIRST_USER;
+public class DialogReviewTitleEditFragment extends DialogBasicFragment {
+	public static final int RESULT_DELETE = Activity.RESULT_FIRST_USER;
 	public static final String OLD_NAME = "com.chdryra.android.reviewer.criterion_old_name";
 	
-	private Review mCriterion;
-	private ClearableEditText mCriterionEditText;
+	private Controller mController = Controller.getInstance();
+	private RDId mReviewID;
+	private ClearableEditText mReviewTitleEditText;
 	
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		View v = getActivity().getLayoutInflater().inflate(R.layout.dialog_criterion, null);
-		mCriterion = UtilReviewPackager.get(getArguments());
+		mReviewID = (RDId)getArguments().getParcelable(FragmentReviewCreate.CHILD);
 		
-		mCriterionEditText = (ClearableEditText)v.findViewById(R.id.criterion_name_edit_text);
-		mCriterionEditText.setText(mCriterion.getTitle().get());
+		mReviewTitleEditText = (ClearableEditText)v.findViewById(R.id.criterion_name_edit_text);
+		mReviewTitleEditText.setText(mController.getTitle(mReviewID));
 		
 		final AlertDialog dialog = buildDialog(v);
 		
-		mCriterionEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+		mReviewTitleEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
 	        @Override
 	        public boolean onEditorAction(TextView v, int actionId, KeyEvent event)
 	        {
@@ -53,10 +54,10 @@ public class DialogCriterionFragment extends DialogBasicFragment {
 			return;
 
 		Intent i = new Intent();		
-		i.putExtra(OLD_NAME, mCriterion.getTitle().get());		
+		i.putExtra(FragmentReviewCreate.CHILD, mReviewID);
+		i.putExtra(OLD_NAME, mController.getTitle(mReviewID));		
 		if(resultCode == Activity.RESULT_OK)
-			mCriterion.setTitle(mCriterionEditText.getText().toString());
-		UtilReviewPackager.pack(mCriterion, i);
+			mController.setTitle(mReviewID, mReviewTitleEditText.getText().toString());
 		getTargetFragment().onActivityResult(getTargetRequestCode(), resultCode, i);
 	}
 	

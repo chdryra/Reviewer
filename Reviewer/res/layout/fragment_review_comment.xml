@@ -18,7 +18,7 @@
         
         <include 
             android:id="@+id/headline_comment_line_view"
-            layout="@layout/comment_line_view"
+            layout="@layout/comment_line_view_headline"
         />
         
         <LinearLayout 
@@ -32,6 +32,7 @@
 </ScrollView>
 
 <include layout="@layout/dialog_button_layout"
- 	    android:id="@+id/comment_buttons"/>
+ 	    android:id="@+id/comment_buttons"
+ 	    android:textColor="@color/WhiteSmoke"/>
 
 </LinearLayout>

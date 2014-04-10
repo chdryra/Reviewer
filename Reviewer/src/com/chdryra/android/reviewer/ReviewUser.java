@@ -19,7 +19,7 @@ public class ReviewUser implements Review{
 	private ReviewNode mNode;
 	
 	public ReviewUser(String title) {	
-		mID = RDId.generateID(this);
+		mID = RDId.generateID();
 		mTitle = new RDTitle(title, this);
 		mRating = new RDRating(0, this);
 		
@@ -73,17 +73,15 @@ public class ReviewUser implements Review{
 
 	@Override
 	public RDRating getRating() {
-		RDRating rating = mRating;
-		
-		if(isRatingAverageOfCriteria()) {
-			ReviewMeta criteria = (ReviewMeta)FactoryReview.createMetaReview("Criteria");
-			criteria.addReviews(getCriteria());
-			rating = criteria.getRating();
-		} 
-		
-		return rating;
+		return isRatingAverageOfCriteria()? getCriteriaMetaReview().getRating() : mRating;
 	}
 
+	private ReviewMeta getCriteriaMetaReview() {
+		ReviewMeta criteria = (ReviewMeta)FactoryReview.createMetaReview("Criteria");
+		criteria.addReviews(getCriteria());
+		return criteria;
+	}
+	
 	public void setRatingAverageOfCriteria(boolean ratingIsAverage) {
 		mRatingIsAverage = ratingIsAverage;
 	}
@@ -113,7 +111,11 @@ public class ReviewUser implements Review{
 		mNode.clearChildren();
 		mNode.addChildren(criteria);
 	}
-		
+
+	public void addCriterion(Review criterion) {
+		mNode.addChild(criterion);
+	}
+	
 	private RData processData(RData newData, RData ifNull) {
 		RData member;
 		if(newData != null)
@@ -193,7 +195,6 @@ public class ReviewUser implements Review{
 	public boolean hasComment() {
 		return mComment.hasData();
 	}
-
 
 	@Override
 	public RDUrl getURL() {

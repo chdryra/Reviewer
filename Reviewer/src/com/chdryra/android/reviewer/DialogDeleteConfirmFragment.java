@@ -40,11 +40,9 @@ public class DialogDeleteConfirmFragment extends SherlockDialogFragment {
 	}
 	
 	protected void sendResult(int resultCode) {
-		if (getTargetFragment() == null || resultCode == Activity.RESULT_CANCELED) {
+		if (getTargetFragment() == null || resultCode == Activity.RESULT_CANCELED)
 			return;
-		}
 		
-		Intent i = new Intent();
-		getTargetFragment().onActivityResult(getTargetRequestCode(), resultCode, i);
+		getTargetFragment().onActivityResult(getTargetRequestCode(), resultCode, new Intent());
 	}
 }

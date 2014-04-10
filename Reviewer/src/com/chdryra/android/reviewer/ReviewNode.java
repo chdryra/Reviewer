@@ -22,5 +22,14 @@ public interface ReviewNode extends Review {
 	public void removeChildren(CollectionReviewNode children);
 	public void clearChildren();
 	
+	public ReviewNode getRoot();
+	
+	public int getDepth();
+	public int getHeight();
+	
+	public boolean isRoot();
+	public boolean isLeaf();
+	public boolean isInternal();
+	
 	public void acceptVisitor(VisitorReviewNode visitorReviewNode);
 }

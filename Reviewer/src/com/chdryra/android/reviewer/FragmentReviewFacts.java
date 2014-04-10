@@ -1,5 +1,7 @@
 package com.chdryra.android.reviewer;
 
+import java.util.LinkedHashMap;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Rect;
@@ -33,8 +35,10 @@ public class FragmentReviewFacts extends SherlockFragment {
 	private static final int DELETE_CONFIRM = DialogBasicFragment.DELETE_CONFIRM;
 	private static final int DATUM_EDIT = DELETE_CONFIRM + 1;
 	
-	private Review mUserReview;
-	private RDFacts mRDFacts;
+	private Controller mController = Controller.getInstance();
+	private RDId mReviewID;
+	
+	private LinkedHashMap<String, String> mFacts; 
 	
 	private ClearableEditText mDatumLabel;
 	private ClearableEditText mDatumValue;
@@ -52,8 +56,8 @@ public class FragmentReviewFacts extends SherlockFragment {
 		super.onCreate(savedInstanceState);
 		setRetainInstance(true);
 		setHasOptionsMenu(true);
-		mUserReview = UtilReviewPackager.get(getActivity().getIntent());
-		mRDFacts = mUserReview.hasFacts()? mUserReview.getFacts() :  new RDFacts(mUserReview);
+		mReviewID = (RDId)getArguments().getParcelable(FragmentReviewOptions.REVIEW_ID);
+		mFacts = mController.hasFacts(mReviewID)? mController.getFacts(mReviewID) :  new LinkedHashMap<String, String>();
 	}
 	
 	@Override
@@ -66,7 +70,7 @@ public class FragmentReviewFacts extends SherlockFragment {
 		mDatumLabel = (ClearableEditText)v.findViewById(R.id.datum_label_edit_text);
 		mDatumValue = (ClearableEditText)v.findViewById(R.id.datum_value_edit_text);
 		mDataListView = (ListView)v.findViewById(R.id.data_listview);
-		mDataListView.setAdapter(new ReviewDataAdaptor(mRDFacts));
+		mDataListView.setAdapter(new ReviewDataAdaptor(mFacts));
 		updateUI();
 		
 		mDatumValue.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -156,7 +160,7 @@ public class FragmentReviewFacts extends SherlockFragment {
 		else if(value == null || value.length() == 0)
 			Toast.makeText(getSherlockActivity(), getResources().getString(R.string.toast_enter_value), Toast.LENGTH_SHORT).show();
 		else {
-			mRDFacts.put(label, value);
+			mFacts.put(label, value);
 			mDatumLabel.setText(null);
 			mDatumValue.setText(null);
 			updateUI();
@@ -168,9 +172,9 @@ public class FragmentReviewFacts extends SherlockFragment {
 	}
 	
 	private void sendResult(int resultCode) {
-		if (resultCode == RESULT_DELETE && mUserReview.hasFacts()) {
+		if (resultCode == RESULT_DELETE && mController.hasFacts(mReviewID)) {
 			if(mDeleteConfirmed)
-				mUserReview.deleteFacts();
+				mController.deleteFacts(mReviewID);
 			else {
 				DialogBasicFragment.showDeleteConfirmDialog(getResources().getString(R.string.data_activity_title), 
 						FragmentReviewFacts.this, DELETE_CONFIRM, getFragmentManager());
@@ -178,8 +182,8 @@ public class FragmentReviewFacts extends SherlockFragment {
 			}
 		}
 		
-		if(resultCode == Activity.RESULT_OK && mRDFacts.size() > 0)
-			mUserReview.setFacts(mRDFacts);
+		if(resultCode == Activity.RESULT_OK && mFacts.size() > 0)
+			mController.setFacts(mReviewID, mFacts);
 			
 		getSherlockActivity().setResult(resultCode);		 
 		getSherlockActivity().finish();	
@@ -196,12 +200,12 @@ public class FragmentReviewFacts extends SherlockFragment {
 						String oldLabel = (String)data.getSerializableExtra(DialogDatumFragment.DATUM_OLD_LABEL);
 						String newLabel = (String)data.getSerializableExtra(DATUM_LABEL);
 						String newValue = (String)data.getSerializableExtra(DATUM_VALUE);
-						mRDFacts.remove(oldLabel);
-						mRDFacts.put(newLabel, newValue);
+						mFacts.remove(oldLabel);
+						mFacts.put(newLabel, newValue);
 						break;
 					case DialogDatumFragment.RESULT_DELETE:
 						String toDelete = (String)data.getSerializableExtra(DialogDatumFragment.DATUM_OLD_LABEL);
-						mRDFacts.remove(toDelete);
+						mFacts.remove(toDelete);
 						break;
 					default:
 						return;
@@ -220,7 +224,7 @@ public class FragmentReviewFacts extends SherlockFragment {
 				break;
 		}
 		
-		mUserReview.setFacts(mRDFacts);
+		mController.setFacts(mReviewID, mFacts);
 		updateUI();				
 	}
 
@@ -237,9 +241,9 @@ public class FragmentReviewFacts extends SherlockFragment {
 	}
 
 	class ReviewDataAdaptor extends BaseAdapter {	
-		private RDFacts mData;
+		private LinkedHashMap<String, String> mData;
 	
-		public ReviewDataAdaptor(RDFacts data){
+		public ReviewDataAdaptor(LinkedHashMap<String, String> data){
 		    mData = data;
 		}
 			
@@ -255,7 +259,12 @@ public class FragmentReviewFacts extends SherlockFragment {
 		
 		@Override
 		public Object getItem(int position) {
-			return mData.getItem(position);
+			return mData.get(getKey(position));
+		}
+		
+		public String getKey(int position) {
+			String[] keys = mData.keySet().toArray(new String[mData.size()]);
+			return keys[position];
 		}
 		
 		@Override
@@ -279,10 +288,11 @@ public class FragmentReviewFacts extends SherlockFragment {
 				vh = (ViewHolder)convertView.getTag();
 			}
 				
-			RDFact rDFact = (RDFact)getItem(position);
+			String label = (String)getKey(position);
+			String value = (String)getItem(position);
 			
-			vh.datumName.setText(rDFact.getLabel() +":");
-			vh.datumValue.setText(rDFact.getValue());
+			vh.datumName.setText(label +":");
+			vh.datumValue.setText(value);
 	
 			return(convertView);
 		};

@@ -14,11 +14,7 @@ public class ReviewComponent implements ReviewNode {
 		mChildren = new CollectionReviewNode();
 	}
 	
-	@Override
-	public ReviewNode getReviewNode() {
-		return this;
-	}
-	
+	//ReviewNode methods
 	@Override
 	public Review getReview() {
 		return mReview;
@@ -114,6 +110,59 @@ public class ReviewComponent implements ReviewNode {
 	}
 	
 	@Override
+	public ReviewNode getRoot() {
+		ReviewNode root = this;
+		while(root != null)
+			root = root.getParent();
+		
+		return root;
+	}
+
+	@Override
+	public int getDepth() {
+		int depth = 0;
+		if(mParent != null)
+			depth = 1 + mParent.getDepth();
+		
+		return depth;
+	}
+
+	@Override
+	public int getHeight() {
+		int height = 0;
+		for(ReviewNode child : getChildren())
+			height = Math.max(height, child.getHeight());
+		
+		return height;
+	}
+
+	@Override
+	public boolean isRoot() {
+		return mParent == null;
+	}
+
+	@Override
+	public boolean isLeaf() {
+		return getChildren().size() == 0;
+	}
+
+	@Override
+	public boolean isInternal() {
+		return !(isRoot() || isLeaf());
+	}
+
+	@Override
+	public void acceptVisitor(VisitorReviewNode visitorReviewNode) {
+		visitorReviewNode.visit(this);
+	}
+	
+	//Review methods
+	@Override
+	public ReviewNode getReviewNode() {
+		return this;
+	}
+
+	@Override
 	public RDId getID() {
 		return mReview.getID();
 	}
@@ -165,10 +214,12 @@ public class ReviewComponent implements ReviewNode {
 
 	@Override
 	public void setImage(RDImage image) {
+		mReview.setImage(image);
 	}
 
 	@Override
 	public void deleteImage() {
+		mReview.deleteImage();
 	}
 
 	@Override
@@ -183,10 +234,12 @@ public class ReviewComponent implements ReviewNode {
 
 	@Override
 	public void setLocation(RDLocation location) {
+		mReview.setLocation(location);
 	}
 
 	@Override
 	public void deleteLocation() {
+		mReview.deleteLocation();
 	}
 
 	@Override
@@ -201,57 +254,18 @@ public class ReviewComponent implements ReviewNode {
 
 	@Override
 	public void setFacts(RDFacts facts) {
+		mReview.setFacts(facts);
 	}
 
 	@Override
 	public void deleteFacts() {
+		mReview.deleteFacts();
 	}
 
 	@Override
 	public boolean hasFacts() {
 		return mReview.hasFacts();
 	}
-
-	@Override
-	public void acceptVisitor(VisitorReviewNode visitorReviewNode) {
-		visitorReviewNode.visit(this);
-	}
-
-	@Override
-	public int describeContents() {
-		return 0;
-	}
-
-	@Override
-	public void writeToParcel(Parcel dest, int flags) {
-		dest.writeParcelable(mReview, flags);
-		if(mParent != null)
-			dest.writeParcelable(mParent.getReview(), flags);
-		else
-			dest.writeParcelable(null, flags);
-		dest.writeParcelable(mChildren, flags);
-	}
-
-	public ReviewComponent(Parcel in) {
-		mReview = in.readParcelable(Review.class.getClassLoader());
-		Review parent = in.readParcelable(ReviewNode.class.getClassLoader()); 
-		if(parent != null)
-			setParent(parent);
-		else
-			mParent = null;
-		mChildren = in.readParcelable(CollectionReviewNode.class.getClassLoader());
-	}
-	
-	public static final Parcelable.Creator<ReviewComponent> CREATOR 
-	= new Parcelable.Creator<ReviewComponent>() {
-	    public ReviewComponent createFromParcel(Parcel in) {
-	        return new ReviewComponent(in);
-	    }
-
-	    public ReviewComponent[] newArray(int size) {
-	        return new ReviewComponent[size];
-	    }
-	};
 
 	@Override
 	public RDUrl getURL() {
@@ -292,4 +306,41 @@ public class ReviewComponent implements ReviewNode {
 	public boolean hasDate() {
 		return mReview.hasDate();
 	}
+
+	//Parcelable methods
+	@Override
+	public int describeContents() {
+		return 0;
+	}
+
+	@Override
+	public void writeToParcel(Parcel dest, int flags) {
+		dest.writeParcelable(mReview, flags);
+		if(mParent != null)
+			dest.writeParcelable(mParent.getReview(), flags);
+		else
+			dest.writeParcelable(null, flags);
+		dest.writeParcelable(mChildren, flags);
+	}
+
+	public ReviewComponent(Parcel in) {
+		mReview = in.readParcelable(Review.class.getClassLoader());
+		Review parent = in.readParcelable(ReviewNode.class.getClassLoader()); 
+		if(parent != null)
+			setParent(parent);
+		else
+			mParent = null;
+		mChildren = in.readParcelable(CollectionReviewNode.class.getClassLoader());
+	}
+	
+	public static final Parcelable.Creator<ReviewComponent> CREATOR 
+	= new Parcelable.Creator<ReviewComponent>() {
+	    public ReviewComponent createFromParcel(Parcel in) {
+	        return new ReviewComponent(in);
+	    }
+
+	    public ReviewComponent[] newArray(int size) {
+	        return new ReviewComponent[size];
+	    }
+	};
 }

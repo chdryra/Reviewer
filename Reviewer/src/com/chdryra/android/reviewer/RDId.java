@@ -7,18 +7,15 @@ import android.os.ParcelUuid;
 import android.os.Parcelable;
 
 public class RDId implements RData{
-	private Review mHoldingReview;
 	private ParcelUuid mID;
 	
-	private RDId(Review holdingReview) {
+	private RDId() {
 		mID = new ParcelUuid(UUID.randomUUID());
-		mHoldingReview = holdingReview;
 	}
 	
-	public static RDId generateID(Review holdingReview) {
-		return new RDId(holdingReview);
+	public static RDId generateID() {
+		return new RDId();
 	}
-
 
 	@Override
 	public void setHoldingReview(Review review) {
@@ -27,7 +24,7 @@ public class RDId implements RData{
 
 	@Override
 	public Review getHoldingReview() {
-		return mHoldingReview;
+		return FactoryReview.createNullReview();
 	}
 
 	@Override

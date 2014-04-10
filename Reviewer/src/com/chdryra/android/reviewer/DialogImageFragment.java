@@ -15,13 +15,15 @@ import android.widget.TextView;
 public class DialogImageFragment extends DialogBasicFragment {
 		
 	public static final int CAPTION_CHANGED = 2;	
-	protected Review mReview;
+	
+	protected Controller mController = Controller.getInstance();
+	protected RDId mReviewID;
 	protected ClearableEditText mImageCaption;
 	
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		View v = getActivity().getLayoutInflater().inflate(R.layout.dialog_image, null);
-		mReview = UtilReviewPackager.get(getArguments());
+		mReviewID = (RDId)getArguments().getParcelable(FragmentReviewOptions.REVIEW_ID);
 		
 		ImageView imageView = (ImageView)v.findViewById(R.id.dialog_image_image_view);
 		imageView.setImageBitmap(getImageBitmap());
@@ -69,11 +71,11 @@ public class DialogImageFragment extends DialogBasicFragment {
 	}
 	
 	protected Bitmap getImageBitmap() {
-		return mReview.getImage().getBitmap();
+		return mController.getImageBitmap(mReviewID);
 	}
 
 	protected String getImageCaption() {
-		return mReview.getImage().getCaption();
+		return mController.getImageCaption(mReviewID);
 	}
 	
 	protected String getCaptionHint() {
@@ -81,7 +83,7 @@ public class DialogImageFragment extends DialogBasicFragment {
 	}
 	
 	protected void changeCaption() {
-		mReview.getImage().setCaption(mImageCaption.getText().toString());
+		mController.setImageCaption(mReviewID, mImageCaption.getText().toString());
 	}
 	
 	@Override
@@ -91,6 +93,6 @@ public class DialogImageFragment extends DialogBasicFragment {
 	
 	@Override
 	protected void deleteData() {
-		mReview.deleteImage();
+		mController.deleteImage(mReviewID);
 	}
 }

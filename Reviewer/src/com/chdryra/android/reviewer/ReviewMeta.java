@@ -24,7 +24,7 @@ public class ReviewMeta implements Review {
 	}
 	
 	private void init(String title) {
-		mID = RDId.generateID(this);
+		mID = RDId.generateID();
 		mTitle = new RDTitle(title, this);
 		mRating = new RDRating(0, this);
 		mNode = FactoryReview.createReviewNode(this);
@@ -102,12 +102,15 @@ public class ReviewMeta implements Review {
 	
 	@Override
 	public void setComment(RDComment comment) {
-		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public RDComment getComment() {
-		return null;
+		ReviewNodeTraverser traverser = new ReviewNodeTraverser(getReviewNode());
+		VisitorCommentCollector collector = new VisitorCommentCollector();
+		traverser.setVisitor(collector);
+		traverser.traverse();
+		return collector.getComments();
 	}
 
 	@Override
@@ -116,7 +119,8 @@ public class ReviewMeta implements Review {
 
 	@Override
 	public boolean hasComment() {
-		return false;
+		RDCommentCollection comments = (RDCommentCollection)getComment();
+		return comments.size() > 0;
 	}
 
 	@Override
