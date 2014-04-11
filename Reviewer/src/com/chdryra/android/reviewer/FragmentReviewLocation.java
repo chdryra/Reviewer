@@ -66,8 +66,7 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 	
 	public final static int NUMBER_DEFAULT_NAMES= 5;
 
-	private Controller mController = Controller.getInstance();
-	private RDId mReviewID;
+	private ControllerReviewNode mController;
 	
 	private ImageButton mButton;
 	
@@ -96,11 +95,11 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		mController = Controller.getControllerFor(getActivity().getIntent().getStringExtra(FragmentReviewOptions.REVIEW_ID));
 		mLocationClient = new LocationClient(getSherlockActivity(), this, this);
-		mReviewID = (RDId)getArguments().getParcelable(FragmentReviewOptions.REVIEW_ID);
 		mButton = (ImageButton)IntentObjectHolder.getObject(FragmentReviewOptions.LOCATION_BUTTON);
-		mRevertMapSnapshotZoom =  mController.hasMapSnapshot(mReviewID)? mController.getMapSnapshotZoom(mReviewID) : DEFAULT_ZOOM;
-	    mPhotoLatLng = mController.getImageLatLng(mReviewID);
+		mRevertMapSnapshotZoom =  mController.hasMapSnapshot()? mController.getMapSnapshotZoom() : DEFAULT_ZOOM;
+	    mPhotoLatLng = mController.getImageLatLng();
 	    setRetainInstance(true);
 	    setHasOptionsMenu(true);		
 	}
@@ -130,12 +129,12 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 	    	    
 	    mLocationName = (ClearableAutoCompleteTextView)v.findViewById(R.id.edit_text_name_location);
 
-	    if (mController.hasLocation(mReviewID)) {
-	    	mRevertLatLng = mController.getLocationLatLng(mReviewID);
+	    if (mController.hasLocation()) {
+	    	mRevertLatLng = mController.getLocationLatLng();
 	    	setLatLng(mRevertLatLng);
 	    	zoomToLatLng(mRevertMapSnapshotZoom);
-	    	if(mController.hasLocationName(mReviewID))
-	    		mLocationName.setText(mController.getLocationName(mReviewID));
+	    	if(mController.hasLocationName())
+	    		mLocationName.setText(mController.getLocationName());
 	    	mLocationName.hideChrome();
 	    }
 	    else if (mPhotoLatLng != null) {
@@ -176,9 +175,9 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 	}
 	
 	private void sendResult(int resultCode) {
-		if(resultCode == RESULT_DELETE && mController.hasLocation(mReviewID)) {
+		if(resultCode == RESULT_DELETE && mController.hasLocation()) {
 			if(mDeleteConfirmed) {
-				mController.deleteLocation(mReviewID);
+				mController.deleteLocation();
 			} else {
 				DialogBasicFragment.showDeleteConfirmDialog(getResources().getString(R.string.location_activity_title), 
 						FragmentReviewLocation.this, DELETE_CONFIRM, getFragmentManager());
@@ -187,8 +186,8 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 		}
 		
 		if(resultCode == Activity.RESULT_OK) {
-			mController.setLocationLatLng(mReviewID, mLatLng);
-			mController.setLocationName(mReviewID, mLocationName.getText().toString());
+			mController.setLocationLatLng(mLatLng);
+			mController.setLocationName(mLocationName.getText().toString());
 		}
 		
 		getSherlockActivity().setResult(resultCode);		 
@@ -305,7 +304,7 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 			mSearchLocationName = null;
 			setLatLng(mRevertLatLng);
 			zoomToLatLng(mRevertMapSnapshotZoom);
-			mLocationName.setText(mController.getLocationName(mReviewID));
+			mLocationName.setText(mController.getLocationName());
 			mLocationName.hideChrome();
 			break;
 		case R.id.menu_item_image_location:
@@ -332,7 +331,7 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 		
 		if(mLocationName != null) {
 			mLocationName.setText(null);
-			String primaryDefaultSuggestion = mSearchLocationName != null? mSearchLocationName : mController.getTitle(mReviewID);
+			String primaryDefaultSuggestion = mSearchLocationName != null? mSearchLocationName : mController.getTitle();
 			mLocationName.setAdapter(new LocationNameAdapter(getSherlockActivity(), 
 					android.R.layout.simple_list_item_1, mLatLng, NUMBER_DEFAULT_NAMES, primaryDefaultSuggestion));
 		}
@@ -445,7 +444,7 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 		
 		@Override
 		protected void onPostExecute(Bitmap bitmap) {
-			mController.setMapSnapshot(mReviewID, bitmap, mZoom);
+			mController.setMapSnapshot(bitmap, mZoom);
 			if(bitmap == null)
 				mButton.setImageResource(R.drawable.ic_menu_camera);
 			else

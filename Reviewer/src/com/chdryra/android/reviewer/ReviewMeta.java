@@ -28,16 +28,9 @@ public class ReviewMeta implements Review {
 		mTitle = new RDTitle(title, this);
 		mRating = new RDRating(0, this);
 		mNode = FactoryReview.createReviewNode(this);
+		mNode.setRatingIsAverageOfChildren(true);
 	}
 	
-	public ReviewMeta(Parcel in) {
-		mID = (RDId)in.readParcelable(RDId.class.getClassLoader());
-		mTitle = (RDTitle)in.readParcelable(RDTitle.class.getClassLoader());
-		mRating = (RDRating)in.readParcelable(RDRating.class.getClassLoader());
-		mReviews = (CollectionReview)in.readParcelable(CollectionReview.class.getClassLoader());
-		mNode = FactoryReview.createReviewNode(this);
-	}
-
 	//Review methods
 	@Override
 	public RDId getID() {
@@ -231,19 +224,6 @@ public class ReviewMeta implements Review {
 		return mID.hashCode();
 	}
 
-	@Override
-	public int describeContents() {
-		return 0;
-	}
-
-	@Override
-	public void writeToParcel(Parcel dest, int flags) {
-		dest.writeParcelable(mID, flags);
-		dest.writeParcelable(mTitle, flags);
-		dest.writeParcelable(mRating, flags);
-		dest.writeParcelable(mReviews, flags);
-	}
-
 	private float calculateRating(VisitorRatingCalculator calculator) {
 		if(calculator != null) {
 			CollectionReviewNode nodes = new CollectionReviewNode(mReviews);
@@ -254,14 +234,4 @@ public class ReviewMeta implements Review {
 		return calculator.getRating();
 	}
 
-	public static final Parcelable.Creator<ReviewMeta> CREATOR 
-	= new Parcelable.Creator<ReviewMeta>() {
-	    public ReviewMeta createFromParcel(Parcel in) {
-	        return new ReviewMeta(in);
-	    }
-
-	    public ReviewMeta[] newArray(int size) {
-	        return new ReviewMeta[size];
-	    }
-	};
 }

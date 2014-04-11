@@ -16,14 +16,14 @@ public class DialogImageFragment extends DialogBasicFragment {
 		
 	public static final int CAPTION_CHANGED = 2;	
 	
-	protected Controller mController = Controller.getInstance();
-	protected RDId mReviewID;
+	protected ControllerReviewNode mController;
 	protected ClearableEditText mImageCaption;
 	
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
+		mController = Controller.getControllerFor(getArguments().getString(FragmentReviewOptions.REVIEW_ID));
+		
 		View v = getActivity().getLayoutInflater().inflate(R.layout.dialog_image, null);
-		mReviewID = (RDId)getArguments().getParcelable(FragmentReviewOptions.REVIEW_ID);
 		
 		ImageView imageView = (ImageView)v.findViewById(R.id.dialog_image_image_view);
 		imageView.setImageBitmap(getImageBitmap());
@@ -71,11 +71,11 @@ public class DialogImageFragment extends DialogBasicFragment {
 	}
 	
 	protected Bitmap getImageBitmap() {
-		return mController.getImageBitmap(mReviewID);
+		return mController.getImageBitmap();
 	}
 
 	protected String getImageCaption() {
-		return mController.getImageCaption(mReviewID);
+		return mController.getImageCaption();
 	}
 	
 	protected String getCaptionHint() {
@@ -83,7 +83,7 @@ public class DialogImageFragment extends DialogBasicFragment {
 	}
 	
 	protected void changeCaption() {
-		mController.setImageCaption(mReviewID, mImageCaption.getText().toString());
+		mController.setImageCaption(mImageCaption.getText().toString());
 	}
 	
 	@Override
@@ -93,6 +93,6 @@ public class DialogImageFragment extends DialogBasicFragment {
 	
 	@Override
 	protected void deleteData() {
-		mController.deleteImage(mReviewID);
+		mController.deleteImage();
 	}
 }

@@ -1,8 +1,6 @@
 package com.chdryra.android.reviewer;
 
-import android.os.Parcelable;
-
-public interface Review extends Parcelable{
+public interface Review {
 	
 	//Core data
 	public RDId getID();

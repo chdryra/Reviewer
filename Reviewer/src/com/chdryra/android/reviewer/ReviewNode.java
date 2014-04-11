@@ -31,5 +31,8 @@ public interface ReviewNode extends Review {
 	public boolean isLeaf();
 	public boolean isInternal();
 	
+	public void setRatingIsAverageOfChildren(boolean ratingIsAverage);
+	public boolean isRatingIsAverageOfChildren();
+	
 	public void acceptVisitor(VisitorReviewNode visitorReviewNode);
 }

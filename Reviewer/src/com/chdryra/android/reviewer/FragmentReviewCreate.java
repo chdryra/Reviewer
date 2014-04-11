@@ -32,14 +32,13 @@ import com.chdryra.android.myandroidwidgets.ClearableEditText;
 public class FragmentReviewCreate extends SherlockFragment {
 	private final static String DIALOG_CHILD_TAG = "CriterionDialog";
 
-	public final static String CHILD = "com.chdryra.android.reviewer.child_review";
+	public final static String CHILD_ID = "com.chdryra.android.reviewer.child_review";
 
 	public final static int CHILD_EDIT = 0;
 	
-	private Controller mController = Controller.getInstance();
-	private Controller mChildrenController;
+	private ControllerReviewNode mController;
+	private ControllerReviewNodeChildren mChildrenController;
 	
-	private RDId mReviewID;
 	private ArrayList<String> mChildNames = new ArrayList<String>();
 	
 	private ClearableEditText mSubjectEditText;
@@ -52,21 +51,18 @@ public class FragmentReviewCreate extends SherlockFragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		String reviewID = getActivity().getIntent().getParcelableExtra(FragmentReviewOptions.REVIEW_ID);
+		if(reviewID != null)
+			mController = Controller.getControllerFor(reviewID);
+		else
+			mController = Controller.createNewUserReview("");
 		
-		mReviewID = getActivity().getIntent().getParcelableExtra(FragmentReviewOptions.REVIEW_ID);
-		if(mReviewID == null)
-			createNewUserReview();
-		
-		mChildrenController = mController.getChildReviewsControllerFor(mReviewID);
-		for(RDId id : mChildrenController.getIDs())
+		mChildrenController = mController.getChildrenController();
+		for(String id : mChildrenController.getIDs())
 			mChildNames.add(mChildrenController.getTitle(id));
 		
 		setHasOptionsMenu(true);		
 		setRetainInstance(true);		
-	}
-	
-	private void createNewUserReview() {
-		mReviewID = mController.addUserReview("");
 	}
 	
 	@Override
@@ -88,7 +84,7 @@ public class FragmentReviewCreate extends SherlockFragment {
 			
 			@Override
 			public void afterTextChanged(Editable s) {
-				mController.setTitle(mReviewID, s.toString());
+				mController.setTitle(s.toString());
 			}
 		});
 		
@@ -115,7 +111,7 @@ public class FragmentReviewCreate extends SherlockFragment {
 		mChildListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {	
 			@Override
 			public boolean onItemLongClick(AdapterView<?> parent, View v, int pos, long id) {
-					showChildDialog((Review)parent.getItemAtPosition(pos));
+					showChildDialog((String)parent.getItemAtPosition(pos));
 					return true;
 			}
 		});
@@ -124,7 +120,7 @@ public class FragmentReviewCreate extends SherlockFragment {
 			@Override
 			public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
 				if(fromUser) {
-					mController.setRating(mReviewID, rating);
+					mController.setRating(rating);
 					setTotalRatingIsUser();
 				}
 			}
@@ -134,7 +130,7 @@ public class FragmentReviewCreate extends SherlockFragment {
 		mCalcAverageRatingButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				if(mController.isReviewRatingAverage(mReviewID))
+				if(mController.isReviewRatingAverage())
 					setTotalRatingIsUser();
 				else if(mChildrenController.size() > 0)
 					setTotalRatingIsAverage();
@@ -142,7 +138,7 @@ public class FragmentReviewCreate extends SherlockFragment {
 		});
 		
 		updateSubjectText();
-		if(mController.isReviewRatingAverage(mReviewID))
+		if(mController.isReviewRatingAverage())
 			setTotalRatingIsAverage();
 		else
 			setTotalRatingIsUser();
@@ -151,29 +147,30 @@ public class FragmentReviewCreate extends SherlockFragment {
 	}
 
 	private void updateSubjectText() {
-		mSubjectEditText.setText(mController.getTitle(mReviewID));
+		mSubjectEditText.setText(mController.getTitle());
 	}
 	
 	private void updateRatingBar() {
-		mTotalRatingBar.setRating(mController.getRating(mReviewID));
+		mTotalRatingBar.setRating(mController.getRating());
 	}
 	
-	private void showChildDialog(Review child) {
+	private void showChildDialog(String childRDId) {
 		DialogReviewTitleEditFragment dialog = new DialogReviewTitleEditFragment();
 		dialog.setTargetFragment(FragmentReviewCreate.this, CHILD_EDIT);
 		Bundle args = new Bundle();
-		args.putParcelable(CHILD, child.getID());
+		args.putString(CHILD_ID, childRDId);
+		args.putString(FragmentReviewOptions.REVIEW_ID, mController.getID());
 		dialog.show(getFragmentManager(), DIALOG_CHILD_TAG);
 	}
 	
 	private void setTotalRatingIsAverage() {
-		mController.setReviewRatingAverage(mReviewID, true);
+		mController.setReviewRatingAverage(true);
 		mCalcAverageRatingButton.setImageResource(android.R.drawable.ic_input_add);
 		updateRatingBar();
 	}
 	
 	private void setTotalRatingIsUser() {
-		mController.setReviewRatingAverage(mReviewID, false);
+		mController.setReviewRatingAverage(false);
 		mCalcAverageRatingButton.setImageResource(android.R.drawable.ic_menu_add);
 		updateRatingBar();
 	}
@@ -200,16 +197,16 @@ public class FragmentReviewCreate extends SherlockFragment {
 		if (mChildrenController.size() == 0 && childName.length() > 0)
 			setTotalRatingIsAverage();		      		
 
-		mChildrenController.addUserReview(childName);
+		mChildrenController.addChild(childName);
 		mChildNames.add(childName);
 		mChildNameEditText.setText(null);		
 		
 		update();
 	}
 	
-	private void deleteChild(RDId childID) {
+	private void deleteChild(String childID) {
 		mChildNames.remove(mChildrenController.getTitle(childID));
-		mChildrenController.remove(childID);
+		mChildrenController.removeChild(childID);
 		if(mChildrenController.size() == 0)
 			setTotalRatingIsUser();
 		update();
@@ -220,7 +217,7 @@ public class FragmentReviewCreate extends SherlockFragment {
 		if (resultCode == Activity.RESULT_CANCELED)
 			return;
 		
-		RDId childID = data.getParcelableExtra(CHILD);
+		String childID = data.getStringExtra(CHILD_ID);
 		if (resultCode == DialogReviewTitleEditFragment.RESULT_DELETE)
 			deleteChild(childID);
 
@@ -268,7 +265,7 @@ public class FragmentReviewCreate extends SherlockFragment {
 				Toast.makeText(getSherlockActivity(), getResources().getString(R.string.toast_enter_subject), Toast.LENGTH_SHORT).show();
 			else {
 				Intent i = new Intent(getSherlockActivity(), ActivityReviewOptions.class);
-				i.putExtra(FragmentReviewOptions.REVIEW_ID, mReviewID);
+				i.putExtra(FragmentReviewOptions.REVIEW_ID, mController.getID());
 				startActivity(i);
 			}
 			break;
@@ -282,9 +279,9 @@ public class FragmentReviewCreate extends SherlockFragment {
 
 
 	class ChildReviewsAdaptor extends BaseAdapter {	
-		private Controller mChildren;
+		private ControllerReviewNodeChildren mChildren;
 	
-		public ChildReviewsAdaptor(Controller children){
+		public ChildReviewsAdaptor(ControllerReviewNodeChildren children){
 		    mChildren  = children;
 		}
 			
@@ -323,7 +320,7 @@ public class FragmentReviewCreate extends SherlockFragment {
 				vh = (ViewHolder)convertView.getTag();
 			}
 				
-			RDId id = (RDId)getItem(position);
+			String id = (String)getItem(position);
 			
 			vh.ratingBar.setTag(Integer.valueOf(position));			
 			vh.ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
@@ -331,7 +328,7 @@ public class FragmentReviewCreate extends SherlockFragment {
 				@Override
 				public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
 					if (fromUser) {
-						RDId id = (RDId)getItem((Integer)ratingBar.getTag()) ;
+						String id = (String)getItem((Integer)ratingBar.getTag()) ;
 						mChildren.setRating(id, rating);
 						updateRatingBar();
 					}					

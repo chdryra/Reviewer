@@ -70,9 +70,8 @@ public class FragmentReviewOptions extends SherlockFragment {
 	private final static SimpleDateFormat mDateFormat = 
 			new SimpleDateFormat("dd/MM/yy", Locale.getDefault());
 	
-	private Controller mController = Controller.getInstance();
-	private Controller mChildrenController;
-	private RDId mReviewID;
+	private ControllerReviewNode mController;
+	private ControllerReviewNodeChildren mChildrenController;
 	
 	private HelperReviewImage mHelperReviewImage;
 	
@@ -96,10 +95,12 @@ public class FragmentReviewOptions extends SherlockFragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);	
-		mReviewID = getActivity().getIntent().getParcelableExtra(REVIEW_ID);
-		mChildrenController = mController.getChildReviewsControllerFor(mReviewID);
-		if(mController.hasImage(mReviewID))
-			mHelperReviewImage = HelperReviewImage.getInstance(mReviewID);
+		String reviewID = getActivity().getIntent().getStringExtra(REVIEW_ID);
+		mController = Controller.getInstance().getControllerFor(reviewID);
+		mChildrenController = mController.getChildrenController();
+		
+		if(mController.hasImage())
+			mHelperReviewImage = HelperReviewImage.getInstance(reviewID);
 		setHasOptionsMenu(true);		
 		setRetainInstance(true);
 	}
@@ -153,7 +154,7 @@ public class FragmentReviewOptions extends SherlockFragment {
 		mAddPhotoImageButton.setOnClickListener(new View.OnClickListener() {			
 			@Override
 			public void onClick(View v) {
-				if (!mController.hasImage(mReviewID))
+				if (!mController.hasImage())
 					requestImageCaptureIntent();
 				else
 					showImageEditDialog();			
@@ -166,7 +167,7 @@ public class FragmentReviewOptions extends SherlockFragment {
 		mAddLocationImageButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {	
-				if (!mController.hasLocation(mReviewID))
+				if (!mController.hasLocation())
 					requestLocationFindIntent();
 				else
 					showLocationEditDialog();
@@ -179,7 +180,7 @@ public class FragmentReviewOptions extends SherlockFragment {
 		mAddCommentImageButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				if (!mController.hasComment(mReviewID))
+				if (!mController.hasComment())
 					requestCommentMakeIntent();
 				else
 					showCommentEditDialog();
@@ -202,7 +203,7 @@ public class FragmentReviewOptions extends SherlockFragment {
 		mAddDataImageButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				if (!mController.hasFacts(mReviewID))
+				if (!mController.hasFacts())
 					requestFactsAddIntent();
 				else
 					showDataEditDialog();
@@ -256,11 +257,11 @@ public class FragmentReviewOptions extends SherlockFragment {
 	}
 
 	private void updateSubjectText() {
-		mSubject.setText(mController.getTitle(mReviewID));
+		mSubject.setText(mController.getTitle());
 	}
 	
 	private void updateRatingBar() {
-		mRatingBar.setRating(mController.getRating(mReviewID));
+		mRatingBar.setRating(mController.getRating());
 	}
 	
 	private void updateTouchStarsText() {
@@ -272,7 +273,7 @@ public class FragmentReviewOptions extends SherlockFragment {
 	private void updateChildrenLayout() {
 		mChildrenLayout.removeAllViews();
 		boolean dark = false;
-		for(RDId id : mChildrenController.getIDs()) {
+		for(String id : mChildrenController.getIDs()) {
 			View reviewView = getSherlockActivity().getLayoutInflater().inflate(R.layout.criterion_row_stars_small, null);
 			
 			reviewView.setBackgroundResource(dark == true? android.R.drawable.divider_horizontal_bright: android.R.drawable.divider_horizontal_dark);
@@ -296,15 +297,15 @@ public class FragmentReviewOptions extends SherlockFragment {
 	}
 	
 	private void updateImageButtonImage() {
-		if( mController.hasImage(mReviewID) )
-			mAddPhotoImageButton.setImageBitmap(mController.getImageBitmap(mReviewID));
+		if( mController.hasImage() )
+			mAddPhotoImageButton.setImageBitmap(mController.getImageBitmap());
 		else
 			mAddPhotoImageButton.setImageResource(R.drawable.ic_menu_camera);
 	}
 	
 	private void updateLocationButtonImage() {		
-		if(mController.hasMapSnapshot(mReviewID))
-			mAddLocationImageButton.setImageBitmap(mController.getMapSnapshot(mReviewID));
+		if(mController.hasMapSnapshot())
+			mAddLocationImageButton.setImageBitmap(mController.getMapSnapshot());
 		else
 			mAddLocationImageButton.setImageResource(R.drawable.ic_menu_mylocation);
 	}
@@ -314,12 +315,12 @@ public class FragmentReviewOptions extends SherlockFragment {
 	}
 	
 	private void updateCommentHeadline() {
-		if(!mController.hasComment(mReviewID)) {
+		if(!mController.hasComment()) {
 			setVisibleGoneView(mAddCommentImageButton, mCommentTextView);
 			return;
 		}
 		
-		mCommentTextView.setText(mController.getCommentHeadline(mReviewID));
+		mCommentTextView.setText(mController.getCommentHeadline());
 
 		//Have to ellipsise here as can't get it to work in XML
 		int maxLines = RandomTextUtils.getMaxNumberLines(mCommentTextView);
@@ -330,7 +331,7 @@ public class FragmentReviewOptions extends SherlockFragment {
 	}	
 	
 	private void updateDataTable() {
-		if(!mController.hasFacts(mReviewID)) {
+		if(!mController.hasFacts()) {
 			setVisibleGoneView(mAddDataImageButton, mDataLinearLayout);
 			return;
 		}
@@ -338,7 +339,7 @@ public class FragmentReviewOptions extends SherlockFragment {
 		mDataLinearLayout.removeAllViews();
 		setVisibleGoneView(mDataLinearLayout, mAddDataImageButton);
 		int i = 0;
-		LinkedHashMap<String, String> factMap = mController.getFacts(mReviewID);
+		LinkedHashMap<String, String> factMap = mController.getFacts();
 		for(Entry<String, String> entry : factMap.entrySet()) {
 			FrameLayout labelRow = (FrameLayout)getSherlockActivity().getLayoutInflater().inflate(R.layout.data_table_label_row, null);
 			FrameLayout valueRow = (FrameLayout)getSherlockActivity().getLayoutInflater().inflate(R.layout.data_table_value_row, null);
@@ -362,17 +363,17 @@ public class FragmentReviewOptions extends SherlockFragment {
 		SimpleDateFormat format = mDateFormat;
 		StringBuilder locationDate = new StringBuilder("@");
 		
-		if(!mController.hasLocation(mReviewID) && !mController.hasDate(mReviewID)) {
+		if(!mController.hasLocation() && !mController.hasDate()) {
 			locationDate.append(getResources().getString(R.string.text_view_location_date_hint));
 		} else {
-			if(mController.hasLocationName(mReviewID)) {
-				locationDate.append(mController.getShortLocationName(mReviewID));
-				if(mController.hasDate(mReviewID)) {
+			if(mController.hasLocationName()) {
+				locationDate.append(mController.getShortLocationName());
+				if(mController.hasDate()) {
 					locationDate.append(", ");
-					locationDate.append(format.format(mController.getDate(mReviewID)));
+					locationDate.append(format.format(mController.getDate()));
 				}
 			} else {
-				locationDate.append(format.format(mController.getDate(mReviewID)));
+				locationDate.append(format.format(mController.getDate()));
 			}
 		}
 					
@@ -380,8 +381,8 @@ public class FragmentReviewOptions extends SherlockFragment {
 	}
 	
 	private void updateURLDisplay() {
-		if(mController.hasURL(mReviewID))
-			mURLTextView.setText(mController.getURLShortenedString(mReviewID));
+		if(mController.hasURL())
+			mURLTextView.setText(mController.getURLShortenedString());
 		else
 			mURLTextView.setText(getResources().getString(R.string.text_view_link));
 	}
@@ -393,7 +394,7 @@ public class FragmentReviewOptions extends SherlockFragment {
 	
 	private Bundle packReview() {
 		Bundle args = new Bundle();
-		args.putParcelable(REVIEW_ID, mReviewID);
+		args.putString(REVIEW_ID, mController.getID());
 		return args;
 	}	
 	
@@ -418,7 +419,7 @@ public class FragmentReviewOptions extends SherlockFragment {
 	
 	private void requestImageCaptureIntent() {
 		if(mHelperReviewImage == null)
-			mHelperReviewImage = HelperReviewImage.getInstance(mReviewID);
+			mHelperReviewImage = HelperReviewImage.getInstance(mController.getID());
 		
 		//Set up image file
 		try {

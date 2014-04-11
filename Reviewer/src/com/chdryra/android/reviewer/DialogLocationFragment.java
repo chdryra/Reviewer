@@ -5,11 +5,11 @@ import android.graphics.Bitmap;
 public class DialogLocationFragment extends DialogImageFragment {
 	@Override
 	protected Bitmap getImageBitmap() {
-		return mController.getMapSnapshot(mReviewID);
+		return mController.getMapSnapshot();
 	}
 
 	protected String getImageCaption() {
-		return mController.getLocationName(mReviewID);
+		return mController.getLocationName();
 	}
 	
 	@Override
@@ -19,7 +19,7 @@ public class DialogLocationFragment extends DialogImageFragment {
 
 	@Override
 	protected void changeCaption() {
-		mController.setLocationName(mReviewID, mImageCaption.getText().toString());
+		mController.setLocationName(mImageCaption.getText().toString());
 	}
 	
 	@Override
@@ -29,6 +29,6 @@ public class DialogLocationFragment extends DialogImageFragment {
 	
 	@Override
 	protected void deleteData() {
-		mController.deleteLocation(mReviewID);
+		mController.deleteLocation();
 	}
 }

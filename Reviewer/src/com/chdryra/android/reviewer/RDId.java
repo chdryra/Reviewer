@@ -13,8 +13,16 @@ public class RDId implements RData{
 		mID = new ParcelUuid(UUID.randomUUID());
 	}
 	
+	private RDId(String rDId) {
+		mID = ParcelUuid.fromString(rDId);
+	}
+	
 	public static RDId generateID() {
 		return new RDId();
+	}
+
+	public static RDId generateID(String rDId) {
+		return new RDId(rDId);
 	}
 
 	@Override
@@ -81,5 +89,4 @@ public class RDId implements RData{
 	        return new RDId[size];
 	    }
 	};
-
 }

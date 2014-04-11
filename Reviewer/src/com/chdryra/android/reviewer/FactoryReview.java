@@ -69,4 +69,9 @@ public class FactoryReview {
 		Review review = createMetaReview(title);
 		return createReviewNode(review);
 	}
+	
+	public static ReviewNode createNullReviewNode() {
+		Review review = createNullReview();
+		return createReviewNode(review);
+	}
 }

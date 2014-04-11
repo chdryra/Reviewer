@@ -6,17 +6,17 @@ import android.view.View;
 import android.widget.TextView;
 
 public class DialogCommentFragment extends DialogBasicFragment {
-	private Controller mController = Controller.getInstance();
-	private RDId mReviewID;
+	private ControllerReviewNode mController;
 	
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {		
+		mController = Controller.getControllerFor(getArguments().getString(FragmentReviewOptions.REVIEW_ID));
+		
 		View v = getActivity().getLayoutInflater().inflate(R.layout.dialog_comment, null);
-		mReviewID = (RDId)getArguments().getParcelable(FragmentReviewOptions.REVIEW_ID);
 		
 		TextView textView= (TextView)v.findViewById(R.id.comment_text_view);
-		if(mController.hasComment(mReviewID)) {
- 			textView.setText(mController.getCommentString(mReviewID));
+		if(mController.hasComment()) {
+ 			textView.setText(mController.getCommentString());
 		}
 	
 		return buildDialog(v);
@@ -29,6 +29,6 @@ public class DialogCommentFragment extends DialogBasicFragment {
 	
 	@Override
 	protected void deleteData() {
-		mController.deleteComment(mReviewID, true);	
+		mController.deleteComment();	
 	}
 }

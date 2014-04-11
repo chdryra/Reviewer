@@ -18,15 +18,6 @@ public class ReviewBasic implements Review {
 		mNode = FactoryReview.createReviewNode(this);
 	}
 	
-	public ReviewBasic(Parcel in) {
-		mID = in.readParcelable(RDId.class.getClassLoader());
-		mTitle = in.readParcelable(RDTitle.class.getClassLoader());
-		mTitle.setHoldingReview(this);
-		mRating = in.readParcelable(RDRating.class.getClassLoader());
-		mRating.setHoldingReview(this);
-		mNode = FactoryReview.createReviewNode(this);
-	}
-
 	@Override
 	public RDId getID() {
 		return mID;
@@ -181,27 +172,4 @@ public class ReviewBasic implements Review {
 	public int hashCode() {
 		return mID.hashCode();
 	}
-
-	@Override
-	public int describeContents() {
-		return 0;
-	}
-
-	@Override
-	public void writeToParcel(Parcel dest, int flags) {
-		dest.writeParcelable(mID, flags);
-		dest.writeParcelable(mTitle, flags);
-		dest.writeParcelable(mRating, flags);
-	}
-	
-	public static final Parcelable.Creator<ReviewBasic> CREATOR 
-	= new Parcelable.Creator<ReviewBasic>() {
-	    public ReviewBasic createFromParcel(Parcel in) {
-	        return new ReviewBasic(in);
-	    }
-
-	    public ReviewBasic[] newArray(int size) {
-	        return new ReviewBasic[size];
-	    }
-	};
 }

@@ -12,17 +12,17 @@ import android.widget.TextView;
 
 public class DialogDataFragment extends DialogBasicFragment {
 
-	private Controller mController = Controller.getInstance();
-	private RDId mReviewID;
+	private ControllerReviewNode mController;
 	
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
-		View v = getActivity().getLayoutInflater().inflate(R.layout.dialog_data, null);
-		LinearLayout dataLinearLayout = (LinearLayout)v.findViewById(R.id.data_linear_layout);
-		mReviewID = (RDId)getArguments().getParcelable(FragmentReviewOptions.REVIEW_ID);
+		mController = Controller.getControllerFor(getArguments().getString(FragmentReviewOptions.REVIEW_ID));
 		
+		View v = getActivity().getLayoutInflater().inflate(R.layout.dialog_data, null);
+		
+		LinearLayout dataLinearLayout = (LinearLayout)v.findViewById(R.id.data_linear_layout);
 		boolean dark = true;
-		LinkedHashMap<String, String> factsMap = mController.getFacts(mReviewID);
+		LinkedHashMap<String, String> factsMap = mController.getFacts();
 		for(Entry<String, String> entry: factsMap.entrySet()) {
 			View datumRow = getSherlockActivity().getLayoutInflater().inflate(R.layout.datum_linear_row, null);
 			TextView label = (TextView)datumRow.findViewById(R.id.datum_label_text_view);
@@ -48,6 +48,6 @@ public class DialogDataFragment extends DialogBasicFragment {
 	
 	@Override
 	protected void deleteData() {
-		mController.deleteFacts(mReviewID);
+		mController.deleteFacts();
 	}
 }

@@ -16,33 +16,32 @@ import android.widget.ImageButton;
 public class HelperReviewImage extends ImageHelper{
 
 	private static final String TAG = "ImageHelper";
-	private static HashMap<RDId, HelperReviewImage> sHelperReviewImages = new HashMap<RDId, HelperReviewImage>();
+	private static HashMap<String, HelperReviewImage> sHelperReviewImages = new HashMap<String, HelperReviewImage>();
 	private static final String IMAGE_DIRECTORY = "Reviewer";
 	private static final String ERROR_NO_STORAGE_MESSAGE = "No storage available!";
 	
 	private long fileCounter = 0;
 	
-	private Controller mController = Controller.getInstance();
-	private RDId mReviewID;
+	private ControllerReviewNode mController;
 	
-	public static HelperReviewImage getInstance(RDId id) {
-		if(!sHelperReviewImages.containsKey(id))
-			sHelperReviewImages.put(id, new HelperReviewImage(id));
-		
-		return sHelperReviewImages.get(id);
+	public static HelperReviewImage getInstance(String rDId) {
+		if(!sHelperReviewImages.containsKey(rDId))
+			sHelperReviewImages.put(rDId, new HelperReviewImage(rDId));
+
+		return sHelperReviewImages.get(rDId);
+	}
+
+	private HelperReviewImage(String rDId) {
+		mController = Controller.getInstance().getControllerFor(rDId);
 	}
 	
-	private HelperReviewImage(RDId id) {
-		mReviewID = id;
-	}
-			
 	public void deleteImage() {
-		mController.setImageBitmap(mReviewID, null);
+		mController.setImageBitmap(null);
 		setImageFilePath(null);
 	}
 	
 	public void createNewImageFile() throws IOException{
-	    String imageFileName = mController.getTitle(mReviewID) + "_" + fileCounter++;
+	    String imageFileName = mController.getTitle() + "_" + fileCounter++;
 	    String path = null;
 	    
         if(Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
@@ -85,8 +84,8 @@ public class HelperReviewImage extends ImageHelper{
 		
 		@Override
 		protected void onPostExecute(Bitmap bitmap) {
-			mController.setImageBitmap(mReviewID, bitmap);
-			mController.setImageLatLng(mReviewID, getLatLngFromEXIF());
+			mController.setImageBitmap(bitmap);
+			mController.setImageLatLng(getLatLngFromEXIF());
 			
 			if(bitmap == null)
 				mThumbnailView.setImageResource(R.drawable.ic_menu_camera);

@@ -35,8 +35,7 @@ public class FragmentReviewFacts extends SherlockFragment {
 	private static final int DELETE_CONFIRM = DialogBasicFragment.DELETE_CONFIRM;
 	private static final int DATUM_EDIT = DELETE_CONFIRM + 1;
 	
-	private Controller mController = Controller.getInstance();
-	private RDId mReviewID;
+	private ControllerReviewNode mController;
 	
 	private LinkedHashMap<String, String> mFacts; 
 	
@@ -54,10 +53,10 @@ public class FragmentReviewFacts extends SherlockFragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		mController = Controller.getControllerFor(getActivity().getIntent().getStringExtra(FragmentReviewOptions.REVIEW_ID));
 		setRetainInstance(true);
 		setHasOptionsMenu(true);
-		mReviewID = (RDId)getArguments().getParcelable(FragmentReviewOptions.REVIEW_ID);
-		mFacts = mController.hasFacts(mReviewID)? mController.getFacts(mReviewID) :  new LinkedHashMap<String, String>();
+		mFacts = mController.hasFacts()? mController.getFacts() :  new LinkedHashMap<String, String>();
 	}
 	
 	@Override
@@ -172,9 +171,9 @@ public class FragmentReviewFacts extends SherlockFragment {
 	}
 	
 	private void sendResult(int resultCode) {
-		if (resultCode == RESULT_DELETE && mController.hasFacts(mReviewID)) {
+		if (resultCode == RESULT_DELETE && mController.hasFacts()) {
 			if(mDeleteConfirmed)
-				mController.deleteFacts(mReviewID);
+				mController.deleteFacts();
 			else {
 				DialogBasicFragment.showDeleteConfirmDialog(getResources().getString(R.string.data_activity_title), 
 						FragmentReviewFacts.this, DELETE_CONFIRM, getFragmentManager());
@@ -183,7 +182,7 @@ public class FragmentReviewFacts extends SherlockFragment {
 		}
 		
 		if(resultCode == Activity.RESULT_OK && mFacts.size() > 0)
-			mController.setFacts(mReviewID, mFacts);
+			mController.setFacts(mFacts);
 			
 		getSherlockActivity().setResult(resultCode);		 
 		getSherlockActivity().finish();	
@@ -224,7 +223,7 @@ public class FragmentReviewFacts extends SherlockFragment {
 				break;
 		}
 		
-		mController.setFacts(mReviewID, mFacts);
+		mController.setFacts(mFacts);
 		updateUI();				
 	}
 

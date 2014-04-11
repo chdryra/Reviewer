@@ -19,17 +19,20 @@ public class DialogReviewTitleEditFragment extends DialogBasicFragment {
 	public static final int RESULT_DELETE = Activity.RESULT_FIRST_USER;
 	public static final String OLD_NAME = "com.chdryra.android.reviewer.criterion_old_name";
 	
-	private Controller mController = Controller.getInstance();
+	private ControllerReviewNode mController;
 	private RDId mReviewID;
 	private ClearableEditText mReviewTitleEditText;
 	
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
+		String reviewID = getArguments().getString(FragmentReviewOptions.REVIEW_ID);
+		String childID = getArguments().getString(FragmentReviewCreate.CHILD_ID);
+		mController = Controller.getControllerFor(reviewID).getControllerForChild(childID);
+		
 		View v = getActivity().getLayoutInflater().inflate(R.layout.dialog_criterion, null);
-		mReviewID = (RDId)getArguments().getParcelable(FragmentReviewCreate.CHILD);
 		
 		mReviewTitleEditText = (ClearableEditText)v.findViewById(R.id.criterion_name_edit_text);
-		mReviewTitleEditText.setText(mController.getTitle(mReviewID));
+		mReviewTitleEditText.setText(mController.getTitle());
 		
 		final AlertDialog dialog = buildDialog(v);
 		
@@ -54,10 +57,10 @@ public class DialogReviewTitleEditFragment extends DialogBasicFragment {
 			return;
 
 		Intent i = new Intent();		
-		i.putExtra(FragmentReviewCreate.CHILD, mReviewID);
-		i.putExtra(OLD_NAME, mController.getTitle(mReviewID));		
+		i.putExtra(FragmentReviewCreate.CHILD_ID, mReviewID);
+		i.putExtra(OLD_NAME, mController.getTitle());		
 		if(resultCode == Activity.RESULT_OK)
-			mController.setTitle(mReviewID, mReviewTitleEditText.getText().toString());
+			mController.setTitle(mReviewTitleEditText.getText().toString());
 		getTargetFragment().onActivityResult(getTargetRequestCode(), resultCode, i);
 	}
 	

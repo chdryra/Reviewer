@@ -10,6 +10,8 @@ public class ReviewComponent implements ReviewNode {
 	private Review mReview;
 	private ReviewNode mParent;
 	private CollectionReviewNode mChildren;
+
+	private boolean mRatingIsAverage = false;
 	
 	public ReviewComponent(Review node) {
 		mID = RDId.generateID();
@@ -113,6 +115,16 @@ public class ReviewComponent implements ReviewNode {
 	}
 	
 	@Override
+	public boolean isRatingIsAverageOfChildren() {
+		return mRatingIsAverage;
+	}
+	
+	@Override
+	public void setRatingIsAverageOfChildren(boolean ratingIsAverage) {
+		mRatingIsAverage = ratingIsAverage;
+	}
+	
+	@Override
 	public ReviewNode getRoot() {
 		ReviewNode root = this;
 		while(root != null)
@@ -182,7 +194,13 @@ public class ReviewComponent implements ReviewNode {
 
 	@Override
 	public RDRating getRating() {
-		return mReview.getRating();
+		return isRatingIsAverageOfChildren()? getAverageRatingOfChildren() : mReview.getRating();
+	}
+
+	private RDRating getAverageRatingOfChildren() {
+		ReviewMeta metaReview = (ReviewMeta)FactoryReview.createMetaReview("Children");
+		metaReview.addReviews(getChildrenReviews());
+		return metaReview.getRating();
 	}
 
 	@Override
@@ -326,41 +344,4 @@ public class ReviewComponent implements ReviewNode {
 	public int hashCode() {
 		return mID.hashCode();
 	}
-
-	//Parcelable methods
-	@Override
-	public int describeContents() {
-		return 0;
-	}
-
-	@Override
-	public void writeToParcel(Parcel dest, int flags) {
-		dest.writeParcelable(mReview, flags);
-		if(mParent != null)
-			dest.writeParcelable(mParent.getReview(), flags);
-		else
-			dest.writeParcelable(null, flags);
-		dest.writeParcelable(mChildren, flags);
-	}
-
-	public ReviewComponent(Parcel in) {
-		mReview = in.readParcelable(Review.class.getClassLoader());
-		Review parent = in.readParcelable(ReviewNode.class.getClassLoader()); 
-		if(parent != null)
-			setParent(parent);
-		else
-			mParent = null;
-		mChildren = in.readParcelable(CollectionReviewNode.class.getClassLoader());
-	}
-	
-	public static final Parcelable.Creator<ReviewComponent> CREATOR 
-	= new Parcelable.Creator<ReviewComponent>() {
-	    public ReviewComponent createFromParcel(Parcel in) {
-	        return new ReviewComponent(in);
-	    }
-
-	    public ReviewComponent[] newArray(int size) {
-	        return new ReviewComponent[size];
-	    }
-	};
 }

@@ -17,8 +17,7 @@ import android.widget.DatePicker;
 
 public class DialogDateFragment extends DialogBasicFragment {
 
-	private Controller mController = Controller.getInstance();
-	private RDId mReviewID;
+	private ControllerReviewNode mController;
 	
 	private DatePicker mDatePicker;
 	private CheckBox mCheckBoxIncludeDate;
@@ -27,13 +26,14 @@ public class DialogDateFragment extends DialogBasicFragment {
 	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
+		mController = Controller.getControllerFor(getArguments().getString(FragmentReviewOptions.REVIEW_ID));
+		
 		View v = getActivity().getLayoutInflater().inflate(R.layout.dialog_date, null);
-		mReviewID = (RDId)getArguments().getParcelable(FragmentReviewOptions.REVIEW_ID);
 		
 		mDatePicker = (DatePicker)v.findViewById(R.id.date_picker);
 		mCheckBoxIncludeDate = (CheckBox)v.findViewById(R.id.checkbox_include_date);
 		
-		mCurrentDate = mController.hasDate(mReviewID)? mController.getDate(mReviewID) : new Date();
+		mCurrentDate = mController.hasDate()? mController.getDate() : new Date();
 
 		final Calendar calendar = Calendar.getInstance(Locale.getDefault());
 		calendar.setTime(mCurrentDate);
@@ -87,13 +87,13 @@ public class DialogDateFragment extends DialogBasicFragment {
 		calendar.set(year, month, day);
 		Date newDate = calendar.getTime();
 		
-		mController.setDate(mReviewID, newDate);
+		mController.setDate(newDate);
 		getTargetFragment().onActivityResult(getTargetRequestCode(), resultCode, new Intent());
 	}
 	
 	@Override
 	protected void deleteData() {
-		mController.deleteDate(mReviewID);
+		mController.deleteDate();
 	}
 	
 	@Override

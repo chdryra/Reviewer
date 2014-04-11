@@ -40,11 +40,8 @@ public class FragmentReviewComment extends SherlockFragment {
 	private static final int MAX_COMMENT_EDITTEXT_LINES = 5;
 
 	private static final int DELETE_CONFIRM = DialogBasicFragment.DELETE_CONFIRM;
-	private static final int DELETE_CRITERIA_CONFIRM = DELETE_CONFIRM + 1;
 	
-	private Controller mController = Controller.getInstance();
-	private Controller mChildrenController;
-	private RDId mReviewID;
+	private ControllerReviewNode mController;
 
 	private Button mDeleteButton;
 	private Button mCancelButton;
@@ -52,21 +49,16 @@ public class FragmentReviewComment extends SherlockFragment {
 
 	private boolean mDeleteConfirmed = false;
 	
-	private boolean mAddChildComments = false;
-	private MenuItem mAddChildCommentsMenuItem;
 	private MenuItem mClearCommentMenuItem;
-
 	private Drawable mClearCommentIcon;  
 	private View mHeadlineCommentsView;
-	private LinearLayout mChildCommentsLinearLayout;
 	private EditText mCurrentFocusedEditText;
-	private HashMap<RDId, EditText> mEditTexts = new HashMap<RDId, EditText>();
+	private EditText mCommentEditText;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		mReviewID = (RDId)getArguments().getParcelable(FragmentReviewOptions.REVIEW_ID);
-		mChildrenController = mController.getChildReviewsControllerFor(mReviewID);
+		mController = Controller.getControllerFor(getActivity().getIntent().getStringExtra(FragmentReviewOptions.REVIEW_ID));
 		setRetainInstance(true);
 		setHasOptionsMenu(true);
 	}
@@ -81,15 +73,6 @@ public class FragmentReviewComment extends SherlockFragment {
 		mHeadlineCommentsView = v.findViewById(R.id.headline_comment_line_view);
 		setHeadlineCommentsView();
 
-		mChildCommentsLinearLayout = (LinearLayout)v.findViewById(R.id.criteria_comments_linear_layout);
-		for(RDId childID : mChildrenController.getIDs()) {
-			mChildCommentsLinearLayout.addView(getCommentLineView(childID, mChildrenController, null));
-			if(!mAddChildComments && mChildrenController.hasComment(childID))
-				mAddChildComments = true;
-				
-		}
-		updateCriteriaCommentsDisplay();
-		
 	    mDeleteButton = (Button)v.findViewById(R.id.button_map_delete);
 	    mDeleteButton.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -118,7 +101,7 @@ public class FragmentReviewComment extends SherlockFragment {
 	}
 	
 	private void setHeadlineCommentsView() {
-		mHeadlineCommentsView = getCommentLineView(mReviewID, mController, mHeadlineCommentsView);
+		mHeadlineCommentsView = getCommentLineView(mHeadlineCommentsView);
 		EditText comment = (EditText)mHeadlineCommentsView.findViewById(R.id.comment_edit_text);
 		comment.setMinLines(MIN_HEADLINE_EDITTEXT_LINES);
 		comment.setGravity(Gravity.TOP);
@@ -133,24 +116,21 @@ public class FragmentReviewComment extends SherlockFragment {
 		});
 	}
 	
-	private View getCommentLineView(final RDId id, Controller controller, View v) {
-		if(v == null)
-			v = getSherlockActivity().getLayoutInflater().inflate(R.layout.comment_line_view, null);
-		
-		String commentTitle = controller.hasComment(id)? controller.getCommentTitle(id) : controller.getTitle(id);
+	private View getCommentLineView(View v) {
+		String commentTitle = mController.hasComment()? mController.getCommentTitle() : mController.getTitle();
 		
 		TextView criterionName = (TextView)v.findViewById(R.id.comment_text_view);
 		criterionName.setText(commentTitle);
 		RatingBar ratingBar = (RatingBar)v.findViewById(R.id.comment_rating_bar);
-		ratingBar.setRating(controller.getRating(id));
+		ratingBar.setRating(mController.getRating());
 		
-		EditText commentET = (EditText)v.findViewById(R.id.comment_edit_text);
-		commentET.setHorizontallyScrolling(false);
-		commentET.setMaxLines(MAX_COMMENT_EDITTEXT_LINES);
+		mCommentEditText = (EditText)v.findViewById(R.id.comment_edit_text);
+		mCommentEditText.setHorizontallyScrolling(false);
+		mCommentEditText.setMaxLines(MAX_COMMENT_EDITTEXT_LINES);
 		
 		//To allow scrolling within edit text 
 		//if contains string by disallowing scrollview scrolling.
-		commentET.setOnTouchListener(new View.OnTouchListener() {
+		mCommentEditText.setOnTouchListener(new View.OnTouchListener() {
              @Override
              public boolean onTouch(View v, MotionEvent event) {
                  if (v.getId() == R.id.comment_edit_text) {
@@ -171,8 +151,8 @@ public class FragmentReviewComment extends SherlockFragment {
              }
          });
 		
-		commentET.setText(controller.getCommentString(id));
-		commentET.addTextChangedListener(new TextWatcher() {
+		mCommentEditText.setText(mController.getCommentString());
+		mCommentEditText.addTextChangedListener(new TextWatcher() {
 			@Override
 			public void onTextChanged(CharSequence s, int start, int before, int count) {}
 			
@@ -185,7 +165,7 @@ public class FragmentReviewComment extends SherlockFragment {
 			}	
 		});
 		
-		commentET.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+		mCommentEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
 		    @Override
 		    public void onFocusChange(View v, boolean hasFocus) {
 		        if (hasFocus) {
@@ -194,8 +174,6 @@ public class FragmentReviewComment extends SherlockFragment {
 		        }
 		    }
 		});
-		
-		mEditTexts.put(id, commentET);
 		
 		return v;
 	}
@@ -220,112 +198,25 @@ public class FragmentReviewComment extends SherlockFragment {
 		mClearCommentMenuItem.setIcon(mClearCommentIcon);
 	}
 	
-	private void updateCriteriaCommentsDisplay() {
-		if(mAddChildComments) {
-			showCriteriaComments();
-			mAddChildCommentsMenuItem.setIcon(R.drawable.ic_delete);
-		} else {
-			hideCriteriaComments();
-			mAddChildCommentsMenuItem.setIcon(R.drawable.ic_input_add);
-		}
-	}
-	
-	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
-	private void hideCriteriaComments() {
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-			mChildCommentsLinearLayout.setAlpha((float) 0.5);
-			setEditTextsEnabled(mChildCommentsLinearLayout, false);
-		} else
-			mChildCommentsLinearLayout.setVisibility(View.GONE);
-		
-		//Hacky crap to get keyboard to show Done instead of Next due to caching issues;
-		EditText et = (EditText)mHeadlineCommentsView.findViewById(R.id.comment_edit_text);
-		int it = et.getInputType();
-		et.setInputType(InputType.TYPE_NULL);
-		et.setImeOptions(EditorInfo.IME_ACTION_DONE);
-		et.setInputType(it);
-		et.requestFocus();
-		RandomTextUtils.showKeyboard(getSherlockActivity(), et);
-	}
-	
-	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
-	private void showCriteriaComments() {
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-			mChildCommentsLinearLayout.setAlpha((float) 1);
-			setEditTextsEnabled(mChildCommentsLinearLayout, true);
-		} else
-			mChildCommentsLinearLayout.setVisibility(View.VISIBLE);
-		
-		//Hacky crap to get keyboard to show Next instead of Done due to caching issues;
-		EditText et = (EditText)mHeadlineCommentsView.findViewById(R.id.comment_edit_text);
-		int it = et.getInputType();
-		et.setInputType(InputType.TYPE_NULL);
-		et.setImeOptions(EditorInfo.IME_ACTION_NEXT);
-		et.setInputType(it);
-	}
-
-	private void setEditTextsEnabled(ViewGroup vg, boolean enabled) {
-	    int numberChildren = vg.getChildCount();
-		for (int i = 0; i < numberChildren; ++i ){
-			View v = vg.getChildAt(i);
-	        if(v instanceof EditText){
-	            EditText editText = (EditText)v;
-	            editText.setEnabled(enabled);
-	            if(enabled)
-	            	editText.setVisibility(View.VISIBLE);
-	            else
-	            	editText.setVisibility(View.GONE);
-	        } else if(v instanceof ViewGroup)
-	        	setEditTextsEnabled((ViewGroup)v, enabled);
-	    }
-	}
-	
 	private void sendResult(int resultCode) {
-		if (resultCode == RESULT_DELETE && reviewHasComments(false)) {
-			checkAndDeleteComments(DELETE_CONFIRM, getResources().getString(R.string.comment_activity_title));
-			if(!mDeleteConfirmed)
+		if (resultCode == RESULT_DELETE && mController.hasComment()) {
+			if(mDeleteConfirmed)
+				mController.deleteComment();
+			else {
+				DialogBasicFragment.showDeleteConfirmDialog(getResources().getString(R.string.comment_activity_title), 
+						FragmentReviewComment.this, DELETE_CONFIRM, getFragmentManager());
 				return;
+			}
 		}
 		
-		if(resultCode == Activity.RESULT_OK) {
-			if(!mAddChildComments && reviewHasComments(true)) {
-				checkAndDeleteComments(DELETE_CRITERIA_CONFIRM, getResources().getString(R.string.dialog_delete_criteria_title));
-				if(!mDeleteConfirmed)
-					return;
-			}
-			
-			mController.setComment(mReviewID, mEditTexts.get(mReviewID).getText().toString());
-			
-			if(mAddChildComments) {
-				for (HashMap.Entry<RDId, EditText> entry : mEditTexts.entrySet())
-				{
-					RDId id = entry.getKey();
-					
-					if(id.equals(mReviewID))
-				    	continue;
-					
-					mChildrenController.setComment(id, entry.getValue().getText().toString());
-				}
-			}
-		}	
+		if(resultCode == Activity.RESULT_OK)			
+			mController.setComment(mCommentEditText.getText().toString());
 
 		getSherlockActivity().setResult(resultCode);		 
 		getSherlockActivity().finish();	
 	}
 
-	private void checkAndDeleteComments(int requestCode, String dialogTitle) {
-		if(mDeleteConfirmed)
-			mController.deleteComment(mReviewID, true);
-		else
-			DialogBasicFragment.showDeleteConfirmDialog(dialogTitle, FragmentReviewComment.this, requestCode, getFragmentManager());
-	}
 	
-	private boolean reviewHasComments(boolean criteriaOnly) {
-		int reviewComment = mController.hasComment(mReviewID)? 1 :0;
-		int numberComments = mController.numberOfComments(mReviewID);
-		return criteriaOnly?  numberComments - reviewComment > 0 : numberComments > 0;
-	}
-
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 	    switch (requestCode) {
@@ -334,14 +225,7 @@ public class FragmentReviewComment extends SherlockFragment {
 					mDeleteConfirmed = true;
 					sendResult(RESULT_DELETE);
 				}
-				break;
-	        case DELETE_CRITERIA_CONFIRM:
-				if(resultCode == Activity.RESULT_OK) {
-					mDeleteConfirmed = true;
-					sendResult(resultCode);
-				}
-				break;
-				
+				break;			
 			default:
 				break;
 		    }
@@ -353,10 +237,6 @@ public class FragmentReviewComment extends SherlockFragment {
     	mClearCommentMenuItem = menu.findItem(R.id.menu_item_clear_comment);
     	mClearCommentIcon = getResources().getDrawable(R.drawable.ic_clear_search_api_holo_light);
 		updateClearCommentMenuItemVisibility();
-
-		mAddChildCommentsMenuItem = menu.findItem(R.id.menu_item_add_criteria_comments);
-		if(mChildrenController.size() == 0)
-			mAddChildCommentsMenuItem.setVisible(false);
     }
 	
 	@Override
@@ -371,10 +251,6 @@ public class FragmentReviewComment extends SherlockFragment {
 		case android.R.id.home:
 			mCancelButton.performClick();
 			return true;
-		case R.id.menu_item_add_criteria_comments:
-			mAddChildComments = !mAddChildComments;
-			updateCriteriaCommentsDisplay();
-			break;
 		case R.id.menu_item_clear_comment:
 			if(mCurrentFocusedEditText != null)
 				mCurrentFocusedEditText.setText(null);

@@ -7,7 +7,6 @@ public class ReviewUser implements Review{
 	private RDId mID;
 	private RDTitle mTitle;
 	private RDRating mRating;
-	private boolean mRatingIsAverage = false;
 	
 	private RDComment mComment;
 	private RDImage mImage;
@@ -34,23 +33,6 @@ public class ReviewUser implements Review{
 		mNode = FactoryReview.createReviewNode(this);
 	}
 
-	public ReviewUser(Parcel in) {
-		mID = (RDId)in.readParcelable(RDId.class.getClassLoader());
-		mTitle = (RDTitle)in.readParcelable(RDTitle.class.getClassLoader());
-		mRating = (RDRating)in.readParcelable(RDRating.class.getClassLoader());
-		mTitle.setHoldingReview(this);
-		mRating.setHoldingReview(this);
-		
-		setComment((RDComment)in.readParcelable(RDComment.class.getClassLoader()));
-		setImage((RDImage)in.readParcelable(RDImage.class.getClassLoader()));
-		setLocation((RDLocation)in.readParcelable(RDLocation.class.getClassLoader()));	
-		setFacts((RDFacts)in.readParcelable(RDFacts.class.getClassLoader()));
-		setURL((RDUrl)in.readParcelable(RDUrl.class.getClassLoader()));
-		setDate((RDDate)in.readParcelable(RDDate.class.getClassLoader()));
-		
-		mNode = (ReviewNode)in.readParcelable(ReviewNode.class.getClassLoader());
-	}
-	
 	@Override
 	public RDId getID() {
 		return mID;
@@ -73,21 +55,15 @@ public class ReviewUser implements Review{
 
 	@Override
 	public RDRating getRating() {
-		return isRatingAverageOfCriteria()? getCriteriaMetaReview().getRating() : mRating;
-	}
-
-	private ReviewMeta getCriteriaMetaReview() {
-		ReviewMeta criteria = (ReviewMeta)FactoryReview.createMetaReview("Criteria");
-		criteria.addReviews(getCriteria());
-		return criteria;
+		return isRatingAverageOfCriteria()? mNode.getRating() : mRating;
 	}
 	
 	public void setRatingAverageOfCriteria(boolean ratingIsAverage) {
-		mRatingIsAverage = ratingIsAverage;
+		mNode.setRatingIsAverageOfChildren(ratingIsAverage);
 	}
 	
 	public boolean isRatingAverageOfCriteria() {
-		return mRatingIsAverage;
+		return mNode.isRatingIsAverageOfChildren();
 	}
 	
 	public CollectionReview getCriteria() {
@@ -253,35 +229,4 @@ public class ReviewUser implements Review{
 		return mID.hashCode();
 	}
 
-	@Override
-	public int describeContents() {
-		return 0;
-	}
-
-	@Override
-	public void writeToParcel(Parcel dest, int flags) {
-		dest.writeParcelable(mID, flags);
-		dest.writeParcelable(mTitle, flags);
-		dest.writeParcelable(mRating, flags);
-		
-		dest.writeParcelable(mComment, flags);
-		dest.writeParcelable(mImage, flags);
-		dest.writeParcelable(mLocation, flags);	
-		dest.writeParcelable(mFacts, flags);
-		dest.writeParcelable(mURL, flags);
-		dest.writeParcelable(mDate, flags);
-		
-		mNode.writeToParcel(dest, flags);
-	}
-	
-	public static final Parcelable.Creator<ReviewUser> CREATOR 
-	= new Parcelable.Creator<ReviewUser>() {
-	    public ReviewUser createFromParcel(Parcel in) {
-	        return new ReviewUser(in);
-	    }
-
-	    public ReviewUser[] newArray(int size) {
-	        return new ReviewUser[size];
-	    }
-	};
 }

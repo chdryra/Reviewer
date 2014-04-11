@@ -19,18 +19,18 @@ import com.chdryra.android.myandroidwidgets.ClearableEditText;
 public class DialogURLFragment extends DialogBasicFragment {
 	private static final String TAG = "DialogURLFragment";
 	
-	private Controller mController = Controller.getInstance();
-	private RDId mReviewID;
+	private ControllerReviewNode mController;
 	ClearableEditText mURLEditText;
 	
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {		
+		mController = Controller.getControllerFor(getArguments().getString(FragmentReviewOptions.REVIEW_ID));
+		
 		View v = getActivity().getLayoutInflater().inflate(R.layout.dialog_url, null);
 		
 		mURLEditText = (ClearableEditText)v.findViewById(R.id.url_edit_text);
-		mReviewID = (RDId)getArguments().getParcelable(FragmentReviewOptions.REVIEW_ID);
-		if(mController.hasURL(mReviewID))
-			mURLEditText.setText(mController.getURLString(mReviewID));
+		if(mController.hasURL())
+			mURLEditText.setText(mController.getURLString());
 	
 		final AlertDialog dialog = buildDialog(v);
 		
@@ -60,7 +60,7 @@ public class DialogURLFragment extends DialogBasicFragment {
 		String urlText = mURLEditText.getText().toString();
 		if( urlText.length() > 0) {
 			try {
-				mController.setURL(mReviewID, urlText);
+				mController.setURL(urlText);
 			} catch (Exception e) {
 				Log.e(TAG, "Malformed URL", e);
 				Toast.makeText(getSherlockActivity(), getResources().getString(R.string.toast_bad_url), Toast.LENGTH_SHORT).show();
@@ -74,7 +74,7 @@ public class DialogURLFragment extends DialogBasicFragment {
 	
 	@Override
 	protected void deleteData() {
-		mController.deleteURL(mReviewID);
+		mController.deleteURL();
 	}
 	
 	@Override
