@@ -215,6 +215,23 @@ public class ReviewMeta implements Review {
 	}
 
 	@Override
+	public boolean equals(Object obj) {
+		if(obj == null || obj.getClass() != getClass())
+			return false;
+		
+		ReviewMeta objReview = (ReviewMeta)obj;
+		if(mID.equals(objReview.mID))
+			return true;
+		
+		return false;
+	}
+	
+	@Override
+	public int hashCode() {
+		return mID.hashCode();
+	}
+
+	@Override
 	public int describeContents() {
 		return 0;
 	}

@@ -164,7 +164,24 @@ public class ReviewBasic implements Review {
 	public boolean hasDate() {
 		return false;
 	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if(obj == null || obj.getClass() != getClass())
+			return false;
+		
+		ReviewBasic objReview = (ReviewBasic)obj;
+		if(mID.equals(objReview.mID))
+			return true;
+		
+		return false;
+	}
 	
+	@Override
+	public int hashCode() {
+		return mID.hashCode();
+	}
+
 	@Override
 	public int describeContents() {
 		return 0;

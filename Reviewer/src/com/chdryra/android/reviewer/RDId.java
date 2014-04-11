@@ -41,6 +41,23 @@ public class RDId implements RData{
 	}
 
 	@Override
+	public boolean equals(Object obj) {
+		if(obj == null || obj.getClass() != getClass())
+			return false;
+		
+		RDId objId = (RDId)obj;
+		if(this.mID.equals(objId.mID))
+			return true;
+		
+		return false;
+	}
+	
+	@Override
+	public int hashCode() {
+		return mID.hashCode();
+	}
+	
+	@Override
 	public int describeContents() {
 		return 0;
 	}

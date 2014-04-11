@@ -39,7 +39,7 @@ public class Controller {
 	
 	public RDId addUserReview(String title) {
 		Review r = FactoryReview.createUserReview(title);
-		mReviews.add(r);
+		mReviews.put(r.getID(), r);
 		return r.getID();
 	}
 	
@@ -68,7 +68,7 @@ public class Controller {
 	}
 	
 	
-	//***Accessors***
+	//***Accessesors***
 	
 	//Title
 	public void setTitle(RDId id, String title) {

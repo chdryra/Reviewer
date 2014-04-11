@@ -4,12 +4,15 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public class ReviewComponent implements ReviewNode {
+
+	private RDId mID;
 	
 	private Review mReview;
 	private ReviewNode mParent;
 	private CollectionReviewNode mChildren;
 	
 	public ReviewComponent(Review node) {
+		mID = RDId.generateID();
 		mReview = node;
 		mChildren = new CollectionReviewNode();
 	}
@@ -164,7 +167,7 @@ public class ReviewComponent implements ReviewNode {
 
 	@Override
 	public RDId getID() {
-		return mReview.getID();
+		return mID;
 	}
 
 	@Override
@@ -305,6 +308,23 @@ public class ReviewComponent implements ReviewNode {
 	@Override
 	public boolean hasDate() {
 		return mReview.hasDate();
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if(obj == null || obj.getClass() != getClass())
+			return false;
+		
+		ReviewComponent objNode = (ReviewComponent)obj;
+		if(mID.equals(objNode.mID))
+			return true;
+		
+		return false;
+	}
+	
+	@Override
+	public int hashCode() {
+		return mID.hashCode();
 	}
 
 	//Parcelable methods

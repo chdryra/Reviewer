@@ -96,7 +96,6 @@ public class FragmentReviewOptions extends SherlockFragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);	
-		ParcelUuid a = getActivity().getIntent().getParcelableExtra(REVIEW_ID);
 		mReviewID = getActivity().getIntent().getParcelableExtra(REVIEW_ID);
 		mChildrenController = mController.getChildReviewsControllerFor(mReviewID);
 		if(mController.hasImage(mReviewID))

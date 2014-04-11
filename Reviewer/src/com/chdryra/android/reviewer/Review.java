@@ -45,4 +45,10 @@ public interface Review extends Parcelable{
 	public void setDate(RDDate date);
 	public void deleteDate();	
 	public boolean hasDate();
+
+	//For speed and comparison
+	@Override
+	public boolean equals(Object o);
+	@Override
+	public int hashCode();
 }

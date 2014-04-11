@@ -268,11 +268,7 @@ public class FragmentReviewCreate extends SherlockFragment {
 				Toast.makeText(getSherlockActivity(), getResources().getString(R.string.toast_enter_subject), Toast.LENGTH_SHORT).show();
 			else {
 				Intent i = new Intent(getSherlockActivity(), ActivityReviewOptions.class);
-				ParcelUuid a = new ParcelUuid(UUID.randomUUID());
-				i.putExtra(FragmentReviewOptions.REVIEW_ID, a);
-				ParcelUuid id = i.getParcelableExtra(FragmentReviewOptions.REVIEW_ID);
-				String r1 = mController.getTitle(mReviewID);
-				//String r2 = mController.getTitle(id);
+				i.putExtra(FragmentReviewOptions.REVIEW_ID, mReviewID);
 				startActivity(i);
 			}
 			break;
