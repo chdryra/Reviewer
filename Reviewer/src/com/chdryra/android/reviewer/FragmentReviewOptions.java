@@ -52,7 +52,6 @@ public class FragmentReviewOptions extends SherlockFragment {
 	private final static String DIALOG_DATE_TAG = "DateDialog";
 	
 	public static final String LOCATION_BUTTON = "com.chdryra.android.reviewer.location_button";
-	public static final String REVIEW_ID = "com.chdryra.android.reviewer.review_id";
 	
 	public final static int IMAGE_REQUEST = 0;
 	public final static int IMAGE_EDIT = 1;
@@ -95,12 +94,12 @@ public class FragmentReviewOptions extends SherlockFragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);	
-		String reviewID = getActivity().getIntent().getStringExtra(REVIEW_ID);
-		mController = Controller.getInstance().getControllerFor(reviewID);
+		mController = Controller.unpack(getActivity().getIntent().getExtras());
 		mChildrenController = mController.getChildrenController();
 		
 		if(mController.hasImage())
-			mHelperReviewImage = HelperReviewImage.getInstance(reviewID);
+			mHelperReviewImage = HelperReviewImage.getInstance(mController.getID());
+		
 		setHasOptionsMenu(true);		
 		setRetainInstance(true);
 	}
@@ -390,17 +389,11 @@ public class FragmentReviewOptions extends SherlockFragment {
 	private void setVisibleGoneView(View visibleView, View goneView) {
 		visibleView.setVisibility(View.VISIBLE);
 		goneView.setVisibility(View.GONE);
-	}
 	
-	private Bundle packReview() {
-		Bundle args = new Bundle();
-		args.putString(REVIEW_ID, mController.getID());
-		return args;
 	}	
-	
 	private <T> void requestIntent(Class<T> c, int requestCode) {
 		Intent i = new Intent(getSherlockActivity(), c);
-		i.putExtras(packReview());
+		Controller.pack(mController, i);
 		startActivityForResult(i, requestCode);
 	}
 	
@@ -479,7 +472,7 @@ public class FragmentReviewOptions extends SherlockFragment {
 	
 	private void showDialog(DialogBasicFragment dialog, int requestCode, String tag) {
 		dialog.setTargetFragment(FragmentReviewOptions.this, requestCode);
-		dialog.setArguments(packReview());
+		dialog.setArguments(Controller.pack(mController));
 		dialog.show(getFragmentManager(), tag);
 	}
 
@@ -497,7 +490,7 @@ public class FragmentReviewOptions extends SherlockFragment {
 		case android.R.id.home:
 			if (NavUtils.getParentActivityName(getSherlockActivity()) != null) {
 				Intent i = NavUtils.getParentActivityIntent(getSherlockActivity());
-				i.putExtras(packReview());
+				Controller.pack(mController, i);
 				NavUtils.navigateUpTo(getSherlockActivity(), i);
 			}
 			return true;

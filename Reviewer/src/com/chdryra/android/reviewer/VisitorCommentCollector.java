@@ -9,7 +9,7 @@ public class VisitorCommentCollector implements VisitorReviewNode {
 			mData.put(reviewNode.getID(), reviewNode.getComment());
 	}
 	
-	public RDCommentCollection getComments() {
+	public RDCommentCollection get() {
 		return mData;
 	}
 }

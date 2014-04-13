@@ -1,8 +1,5 @@
 package com.chdryra.android.reviewer;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
 public class ReviewComponent implements ReviewNode {
 
 	private RDId mID;
@@ -13,9 +10,9 @@ public class ReviewComponent implements ReviewNode {
 
 	private boolean mRatingIsAverage = false;
 	
-	public ReviewComponent(Review node) {
+	public ReviewComponent(Review review) {
 		mID = RDId.generateID();
-		mReview = node;
+		mReview = review;
 		mChildren = new CollectionReviewNode();
 	}
 	
@@ -102,6 +99,16 @@ public class ReviewComponent implements ReviewNode {
 	@Override
 	public CollectionReviewNode getChildren() {
 		return mChildren;
+	}
+	
+	@Override
+	public CollectionReviewNode getDescendents() {
+		ReviewNodeTraverser traverser = new ReviewNodeTraverser(this);
+		VisitorNodeCollector collector = new VisitorNodeCollector();
+		traverser.setVisitor(collector);
+		traverser.traverse();
+		
+		return collector.get();
 	}
 	
 	@Override

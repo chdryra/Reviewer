@@ -8,6 +8,7 @@ import java.util.LinkedHashMap;
 import java.util.Map.Entry;
 
 import android.graphics.Bitmap;
+import android.os.Bundle;
 
 import com.google.android.gms.maps.model.LatLng;
 
@@ -105,7 +106,7 @@ public class ControllerReviewNode{
 		VisitorCommentCollector collector = new VisitorCommentCollector();
 		traverser.setVisitor(collector);
 		traverser.traverse();
-		return collector.getComments().size();
+		return collector.get().size();
 	}
 	
 	//Facts

@@ -25,9 +25,8 @@ public class DialogReviewTitleEditFragment extends DialogBasicFragment {
 	
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
-		String reviewID = getArguments().getString(FragmentReviewOptions.REVIEW_ID);
 		String childID = getArguments().getString(FragmentReviewCreate.CHILD_ID);
-		mController = Controller.getControllerFor(reviewID).getControllerForChild(childID);
+		mController = Controller.unpack(getArguments()).getControllerForChild(childID);
 		
 		View v = getActivity().getLayoutInflater().inflate(R.layout.dialog_criterion, null);
 		

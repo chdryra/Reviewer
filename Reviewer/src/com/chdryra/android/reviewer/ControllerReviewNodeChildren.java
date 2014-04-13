@@ -146,7 +146,7 @@ public class ControllerReviewNodeChildren {
 		VisitorCommentCollector collector = new VisitorCommentCollector();
 		traverser.setVisitor(collector);
 		traverser.traverse();
-		return collector.getComments().size();
+		return collector.get().size();
 	}
 	
 	//Facts

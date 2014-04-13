@@ -17,6 +17,8 @@ public interface ReviewNode extends Review {
 	public CollectionReviewNode getChildren();
 	public CollectionReview getChildrenReviews();
 	
+	public CollectionReviewNode getDescendents();
+	
 	public void removeChild(RDId id);
 	public void removeChildren(CollectionReview children);
 	public void removeChildren(CollectionReviewNode children);

@@ -51,11 +51,9 @@ public class FragmentReviewCreate extends SherlockFragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		String reviewID = getActivity().getIntent().getParcelableExtra(FragmentReviewOptions.REVIEW_ID);
-		if(reviewID != null)
-			mController = Controller.getControllerFor(reviewID);
-		else
-			mController = Controller.createNewUserReview("");
+		mController = Controller.unpack(getActivity().getIntent().getExtras());
+		if(mController == null)
+			mController = Controller.addNewReviewInProgress();
 		
 		mChildrenController = mController.getChildrenController();
 		for(String id : mChildrenController.getIDs())
@@ -157,9 +155,8 @@ public class FragmentReviewCreate extends SherlockFragment {
 	private void showChildDialog(String childRDId) {
 		DialogReviewTitleEditFragment dialog = new DialogReviewTitleEditFragment();
 		dialog.setTargetFragment(FragmentReviewCreate.this, CHILD_EDIT);
-		Bundle args = new Bundle();
+		Bundle args = Controller.pack(mController);
 		args.putString(CHILD_ID, childRDId);
-		args.putString(FragmentReviewOptions.REVIEW_ID, mController.getID());
 		dialog.show(getFragmentManager(), DIALOG_CHILD_TAG);
 	}
 	
@@ -265,7 +262,7 @@ public class FragmentReviewCreate extends SherlockFragment {
 				Toast.makeText(getSherlockActivity(), getResources().getString(R.string.toast_enter_subject), Toast.LENGTH_SHORT).show();
 			else {
 				Intent i = new Intent(getSherlockActivity(), ActivityReviewOptions.class);
-				i.putExtra(FragmentReviewOptions.REVIEW_ID, mController.getID());
+				Controller.pack(mController, i);
 				startActivity(i);
 			}
 			break;

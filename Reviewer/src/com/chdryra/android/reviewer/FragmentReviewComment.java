@@ -58,7 +58,7 @@ public class FragmentReviewComment extends SherlockFragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		mController = Controller.getControllerFor(getActivity().getIntent().getStringExtra(FragmentReviewOptions.REVIEW_ID));
+		mController = Controller.unpack(getActivity().getIntent().getExtras());
 		setRetainInstance(true);
 		setHasOptionsMenu(true);
 	}

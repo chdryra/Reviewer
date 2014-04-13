@@ -95,7 +95,7 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		mController = Controller.getControllerFor(getActivity().getIntent().getStringExtra(FragmentReviewOptions.REVIEW_ID));
+		mController = Controller.unpack(getActivity().getIntent().getExtras());
 		mLocationClient = new LocationClient(getSherlockActivity(), this, this);
 		mButton = (ImageButton)IntentObjectHolder.getObject(FragmentReviewOptions.LOCATION_BUTTON);
 		mRevertMapSnapshotZoom =  mController.hasMapSnapshot()? mController.getMapSnapshotZoom() : DEFAULT_ZOOM;

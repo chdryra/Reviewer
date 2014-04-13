@@ -26,7 +26,7 @@ public class DialogDateFragment extends DialogBasicFragment {
 	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
-		mController = Controller.getControllerFor(getArguments().getString(FragmentReviewOptions.REVIEW_ID));
+		mController = Controller.unpack(getArguments());
 		
 		View v = getActivity().getLayoutInflater().inflate(R.layout.dialog_date, null);
 		

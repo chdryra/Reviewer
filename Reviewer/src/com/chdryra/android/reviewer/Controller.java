@@ -2,13 +2,20 @@ package com.chdryra.android.reviewer;
 
 import java.util.HashMap;
 
+import android.content.Intent;
+import android.os.Bundle;
+
 public class Controller {
+	public static final String CONTROLLER_ID = "com.chdryra.android.reviewer.review_id";
+	
 	private static Controller sController;
 	
-	private HashMap<String, ControllerReviewNode> mControllers;
+	private CollectionReviewNode mReviews;
+	private HashMap<String, ControllerReviewNode> mRNControllers;
 	
 	private Controller() {
-		mControllers = new HashMap<String, ControllerReviewNode>();
+		mReviews = new CollectionReviewNode();
+		mRNControllers = new HashMap<String, ControllerReviewNode>();
 	}
 	
 	public static Controller getInstance() {
@@ -22,20 +29,49 @@ public class Controller {
 		return getInstance().get(id);
 	}
 	
-	public void add(ControllerReviewNode controller) {
-		mControllers.put(controller.getID(), controller);
+	public void add(ReviewNode review) {
+		mReviews.add(review);
 	}
 	
-	public ControllerReviewNode get(String id) {
+	private ControllerReviewNode get(String id) {
 		RDId rDId = RDId.generateID(id);
-		return mControllers.get(rDId);
+		ControllerReviewNode controller = null;
+		if(!mRNControllers.containsKey(id)) {
+			if(mReviews.containsID(rDId)) {
+				controller = new ControllerReviewNode(mReviews.get(rDId));
+				mRNControllers.put(id, controller);
+			}
+		}
+		else
+			controller = mRNControllers.get(id);
+				
+		return controller;
 	}
 	
-	public static ControllerReviewNode createNewUserReview(String title) {
-		Review r = FactoryReview.createUserReview(title);
-		ControllerReviewNode controller = new ControllerReviewNode(r.getReviewNode());
-		getInstance().add(controller);
+	public static ControllerReviewNode addNewReviewInProgress() {
+		Review r = FactoryReview.createUserReview("");
+		ReviewNode node = r.getReviewNode();
+		getInstance().add(node);
+		
+		return getControllerFor(node.getID().toString());
+	}
+	
+	public static void pack(ControllerReviewNode controller, Intent i) {
+			i.putExtra(CONTROLLER_ID, controller.getID());
+	}
+	
+	public static Bundle pack(ControllerReviewNode controller) {
+		Bundle args = new Bundle();
+		args.putString(CONTROLLER_ID, controller.getID());
+		return args;
+	}
+
+	public static ControllerReviewNode unpack(Bundle args) {
+		ControllerReviewNode controller = null;
+		if(args != null)
+			controller = getControllerFor(args.getString(CONTROLLER_ID));
 		
 		return controller;
 	}
+	
 }

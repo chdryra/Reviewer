@@ -103,7 +103,7 @@ public class ReviewMeta implements Review {
 		VisitorCommentCollector collector = new VisitorCommentCollector();
 		traverser.setVisitor(collector);
 		traverser.traverse();
-		return collector.getComments();
+		return collector.get();
 	}
 
 	@Override

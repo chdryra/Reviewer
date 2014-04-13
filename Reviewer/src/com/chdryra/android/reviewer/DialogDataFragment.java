@@ -16,7 +16,7 @@ public class DialogDataFragment extends DialogBasicFragment {
 	
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
-		mController = Controller.getControllerFor(getArguments().getString(FragmentReviewOptions.REVIEW_ID));
+		mController = Controller.unpack(getArguments());
 		
 		View v = getActivity().getLayoutInflater().inflate(R.layout.dialog_data, null);
 		
