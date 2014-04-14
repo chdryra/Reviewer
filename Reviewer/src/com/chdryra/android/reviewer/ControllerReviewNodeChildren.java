@@ -135,14 +135,14 @@ public class ControllerReviewNodeChildren {
 		if(!includingDescendents)
 			getChild(id).deleteComment();
 		else {
-			ReviewNodeTraverser traverser = new ReviewNodeTraverser(getChild(id).getReviewNode());
+			TraverserReviewNode traverser = new TraverserReviewNode(getChild(id).getReviewNode());
 			traverser.setVisitor(new VisitorCommentDeleter());
 			traverser.traverse();			
 		}
 	}
 	
 	public int numberOfComments(String id) {
-		ReviewNodeTraverser traverser = new ReviewNodeTraverser(getChild(id).getReviewNode());
+		TraverserReviewNode traverser = new TraverserReviewNode(getChild(id).getReviewNode());
 		VisitorCommentCollector collector = new VisitorCommentCollector();
 		traverser.setVisitor(collector);
 		traverser.traverse();

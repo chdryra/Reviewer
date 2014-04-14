@@ -1,12 +1,10 @@
 package com.chdryra.android.reviewer;
 
 import java.util.ArrayList;
-import java.util.UUID;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.ParcelUuid;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
@@ -30,9 +28,7 @@ import com.actionbarsherlock.view.MenuItem;
 import com.chdryra.android.myandroidwidgets.ClearableEditText;
 
 public class FragmentReviewCreate extends SherlockFragment {
-	private final static String DIALOG_CHILD_TAG = "CriterionDialog";
-
-	public final static String CHILD_ID = "com.chdryra.android.reviewer.child_review";
+	private final static String DIALOG_CHILD_TAG = "ChildDialog";
 
 	public final static int CHILD_EDIT = 0;
 	
@@ -173,7 +169,7 @@ public class FragmentReviewCreate extends SherlockFragment {
 		updateRatingBar();
 	}
 	
-	public void update() {
+	private void updateUI() {
 		((ChildReviewsAdaptor)mChildListView.getAdapter()).notifyDataSetChanged();
  		updateSubjectText();
 		updateRatingBar();
@@ -188,7 +184,7 @@ public class FragmentReviewCreate extends SherlockFragment {
 		}
 		
 		if(mChildNames.contains(childName)) {
-			Toast.makeText(getSherlockActivity(), "Criterion: " + childName + " already exists...", Toast.LENGTH_SHORT).show();
+			Toast.makeText(getSherlockActivity(), childName + ": " + getResources().getString(R.string.toast_exists_criterion), Toast.LENGTH_SHORT).show();
 			return;
 		}
 		
@@ -199,7 +195,7 @@ public class FragmentReviewCreate extends SherlockFragment {
 		mChildNames.add(childName);
 		mChildNameEditText.setText(null);		
 		
-		update();
+		updateUI();
 	}
 	
 	private void deleteChild(String childID) {
@@ -207,7 +203,7 @@ public class FragmentReviewCreate extends SherlockFragment {
 		mChildrenController.removeChild(childID);
 		if(mChildrenController.size() == 0)
 			setTotalRatingIsUser();
-		update();
+		updateUI();
 	}
 	
 	@Override
@@ -246,7 +242,7 @@ public class FragmentReviewCreate extends SherlockFragment {
 			};
 		}
 
-		update();				
+		updateUI();				
 	}
 	
 	@Override
@@ -310,7 +306,7 @@ public class FragmentReviewCreate extends SherlockFragment {
 				RatingBar ratingBar = (RatingBar)convertView.findViewById(R.id.criterion_rating_bar);		
 				
 				vh = new ViewHolder();
-				vh.criterionText = criterionText;
+				vh.childSubject = criterionText;
 				vh.ratingBar = ratingBar;
 				
 				convertView.setTag(vh);
@@ -335,8 +331,8 @@ public class FragmentReviewCreate extends SherlockFragment {
 			
 			vh.ratingBar.setRating(mChildrenController.getRating(id));
 									
-			vh.criterionText.setTag(Integer.valueOf(position));
-			vh.criterionText.setText(mChildrenController.getTitle(id));		
+			vh.childSubject.setTag(Integer.valueOf(position));
+			vh.childSubject.setText(mChildrenController.getTitle(id));		
 	
 			return(convertView);
 		};
@@ -344,6 +340,6 @@ public class FragmentReviewCreate extends SherlockFragment {
 
 	static class ViewHolder {
 	    public RatingBar ratingBar;
-	    public TextView criterionText;
+	    public TextView childSubject;
 	}
 }

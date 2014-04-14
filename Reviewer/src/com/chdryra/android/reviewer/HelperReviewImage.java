@@ -32,7 +32,7 @@ public class HelperReviewImage extends ImageHelper{
 	}
 
 	private HelperReviewImage(String rDId) {
-		mController = Controller.getInstance().getControllerFor(rDId);
+		mController = Controller.getControllerFor(rDId);
 	}
 	
 	public void deleteImage() {

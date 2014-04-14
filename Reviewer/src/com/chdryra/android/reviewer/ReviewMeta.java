@@ -1,8 +1,5 @@
 package com.chdryra.android.reviewer;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
 public class ReviewMeta implements Review {
 	private RDId mID;
 	private RDTitle mTitle;
@@ -99,7 +96,7 @@ public class ReviewMeta implements Review {
 
 	@Override
 	public RDComment getComment() {
-		ReviewNodeTraverser traverser = new ReviewNodeTraverser(getReviewNode());
+		TraverserReviewNode traverser = new TraverserReviewNode(getReviewNode());
 		VisitorCommentCollector collector = new VisitorCommentCollector();
 		traverser.setVisitor(collector);
 		traverser.traverse();

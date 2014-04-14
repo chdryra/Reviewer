@@ -83,6 +83,7 @@
     <!-- Toasts -->
     <string name="toast_enter_subject">Please enter a subject&#8230;</string>
     <string name="toast_enter_criterion">Please enter a criterion name&#8230;</string>
+    <string name="toast_exists_criterion">Already exists&#8230;</string>
     <string name="toast_enter_label">Please enter a label&#8230;</string>
     <string name="toast_enter_value">Please enter a value&#8230;</string>
     <string name="toast_bad_url">Link does not make sense&#8230;</string>

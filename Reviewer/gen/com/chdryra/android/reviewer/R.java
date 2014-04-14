@@ -1631,12 +1631,12 @@ containing a value of this type.
         public static final int edit_text_subject_hint=0x7f06003d;
         public static final int edit_text_url_hint=0x7f060048;
         public static final int edit_text_url_text=0x7f060049;
-        public static final int email=0x7f060068;
+        public static final int email=0x7f060069;
         /**  Social 
          */
-        public static final int facebook=0x7f060066;
-        public static final int flickr=0x7f06006a;
-        public static final int foursquare=0x7f06006b;
+        public static final int facebook=0x7f060067;
+        public static final int flickr=0x7f06006b;
+        public static final int foursquare=0x7f06006c;
         public static final int image_activity_title=0x7f060036;
         /**  Activities 
          */
@@ -1667,15 +1667,16 @@ containing a value of this type.
          */
         public static final int text_view_no_criteria=0x7f060039;
         public static final int text_view_touch_criteria=0x7f06003a;
-        public static final int toast_bad_url=0x7f060065;
+        public static final int toast_bad_url=0x7f060066;
         public static final int toast_enter_criterion=0x7f060062;
-        public static final int toast_enter_label=0x7f060063;
+        public static final int toast_enter_label=0x7f060064;
         /**  Toasts 
          */
         public static final int toast_enter_subject=0x7f060061;
-        public static final int toast_enter_value=0x7f060064;
-        public static final int tumblr=0x7f060069;
-        public static final int twitter=0x7f060067;
+        public static final int toast_enter_value=0x7f060065;
+        public static final int toast_exists_criterion=0x7f060063;
+        public static final int tumblr=0x7f06006a;
+        public static final int twitter=0x7f060068;
     }
     public static final class style {
         /** 

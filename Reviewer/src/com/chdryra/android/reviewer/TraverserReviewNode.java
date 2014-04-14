@@ -1,19 +1,19 @@
 package com.chdryra.android.reviewer;
 
-public class ReviewNodeTraverser {
+public class TraverserReviewNode {
 	private ReviewNode mHead;
 	private TraverserSearchMethod mSearchMethod;	
 	private VisitorReviewNode mVisitor;
 	private RCollection<Integer> mDepthMap;
 	private boolean mRelativeDepth = true;
 
-	public ReviewNodeTraverser(ReviewNode head) {
+	public TraverserReviewNode(ReviewNode head) {
 		mHead = head;
 		mSearchMethod = new TraverserSearchDepthFirstPre();
 		setVisitor(null);
 	}
 
-	public ReviewNodeTraverser(ReviewNode head, TraverserSearchMethod method) {
+	public TraverserReviewNode(ReviewNode head, TraverserSearchMethod method) {
 		mHead = head;
 		mSearchMethod = method;
 		setVisitor(null);

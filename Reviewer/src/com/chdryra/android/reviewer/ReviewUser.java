@@ -1,8 +1,5 @@
 package com.chdryra.android.reviewer;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
 public class ReviewUser implements Review{	
 	private RDId mID;
 	private RDTitle mTitle;

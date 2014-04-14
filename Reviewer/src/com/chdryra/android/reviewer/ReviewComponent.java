@@ -103,7 +103,7 @@ public class ReviewComponent implements ReviewNode {
 	
 	@Override
 	public CollectionReviewNode getDescendents() {
-		ReviewNodeTraverser traverser = new ReviewNodeTraverser(this);
+		TraverserReviewNode traverser = new TraverserReviewNode(this);
 		VisitorNodeCollector collector = new VisitorNodeCollector();
 		traverser.setVisitor(collector);
 		traverser.traverse();
