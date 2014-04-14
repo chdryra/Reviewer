@@ -17,16 +17,16 @@ import android.widget.TextView;
 
 public class DialogReviewTitleEditFragment extends DialogBasicFragment {
 	public static final int RESULT_DELETE = Activity.RESULT_FIRST_USER;
+	
+	public static final String REVIEW_ID = "com.chdryra.android.reviewer.review_edit_id";
 	public static final String OLD_NAME = "com.chdryra.android.reviewer.criterion_old_name";
 	
 	private ControllerReviewNode mController;
-	private RDId mReviewID;
 	private ClearableEditText mReviewTitleEditText;
 	
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
-		String childID = getArguments().getString(FragmentReviewCreate.CHILD_ID);
-		mController = Controller.unpack(getArguments()).getControllerForChild(childID);
+		mController = Controller.unpack(getArguments()).getControllerForChild(getArguments().getString(REVIEW_ID));
 		
 		View v = getActivity().getLayoutInflater().inflate(R.layout.dialog_criterion, null);
 		
@@ -56,7 +56,7 @@ public class DialogReviewTitleEditFragment extends DialogBasicFragment {
 			return;
 
 		Intent i = new Intent();		
-		i.putExtra(FragmentReviewCreate.CHILD_ID, mReviewID);
+		i.putExtra(REVIEW_ID, mController.getID());
 		i.putExtra(OLD_NAME, mController.getTitle());		
 		if(resultCode == Activity.RESULT_OK)
 			mController.setTitle(mReviewTitleEditText.getText().toString());

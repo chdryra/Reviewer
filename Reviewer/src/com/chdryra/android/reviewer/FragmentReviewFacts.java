@@ -69,7 +69,7 @@ public class FragmentReviewFacts extends SherlockFragment {
 		mDatumLabel = (ClearableEditText)v.findViewById(R.id.datum_label_edit_text);
 		mDatumValue = (ClearableEditText)v.findViewById(R.id.datum_value_edit_text);
 		mDataListView = (ListView)v.findViewById(R.id.data_listview);
-		mDataListView.setAdapter(new ReviewDataAdaptor(mFacts));
+		mDataListView.setAdapter(new ReviewFactsAdaptor(mFacts));
 		updateUI();
 		
 		mDatumValue.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -88,13 +88,15 @@ public class FragmentReviewFacts extends SherlockFragment {
 			
 			@Override
 			public boolean onItemLongClick(AdapterView<?> parent, View v, int pos, long id) {
-				RDFact rDFact = (RDFact)parent.getItemAtPosition(pos);
+				ReviewFactsAdaptor adapter = (ReviewFactsAdaptor)parent.getAdapter();
+				String label = (String)adapter.getKey(pos);
+				String value = (String)adapter.getItem(pos);
 				
 				DialogDatumFragment dialog = new DialogDatumFragment();
 				dialog.setTargetFragment(FragmentReviewFacts.this, DATUM_EDIT);
 				Bundle args = new Bundle();
-				args.putString(DATUM_LABEL, rDFact.getLabel());
-				args.putString(DATUM_VALUE, rDFact.getValue());
+				args.putString(DATUM_LABEL, label);
+				args.putString(DATUM_VALUE, value);
 				dialog.setArguments(args);
 				dialog.show(getFragmentManager(), DIALOG_DATUM_TAG);
 				
@@ -167,7 +169,7 @@ public class FragmentReviewFacts extends SherlockFragment {
 	}
 	
 	private void updateUI() {
-		((ReviewDataAdaptor)mDataListView.getAdapter()).notifyDataSetChanged();
+		((ReviewFactsAdaptor)mDataListView.getAdapter()).notifyDataSetChanged();
 	}
 	
 	private void sendResult(int resultCode) {
@@ -239,10 +241,10 @@ public class FragmentReviewFacts extends SherlockFragment {
 		return super.onOptionsItemSelected(item);
 	}
 
-	class ReviewDataAdaptor extends BaseAdapter {	
+	class ReviewFactsAdaptor extends BaseAdapter {	
 		private LinkedHashMap<String, String> mData;
 	
-		public ReviewDataAdaptor(LinkedHashMap<String, String> data){
+		public ReviewFactsAdaptor(LinkedHashMap<String, String> data){
 		    mData = data;
 		}
 			

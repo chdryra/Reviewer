@@ -152,11 +152,12 @@ public class FragmentReviewCreate extends SherlockFragment {
 		mTotalRatingBar.setRating(mController.getRating());
 	}
 	
-	private void showChildDialog(String childRDId) {
+	private void showChildDialog(String childId) {
 		DialogReviewTitleEditFragment dialog = new DialogReviewTitleEditFragment();
 		dialog.setTargetFragment(FragmentReviewCreate.this, CHILD_EDIT);
 		Bundle args = Controller.pack(mController);
-		args.putString(CHILD_ID, childRDId);
+		args.putString(DialogReviewTitleEditFragment.REVIEW_ID, childId);
+		dialog.setArguments(args);
 		dialog.show(getFragmentManager(), DIALOG_CHILD_TAG);
 	}
 	
@@ -214,7 +215,7 @@ public class FragmentReviewCreate extends SherlockFragment {
 		if (resultCode == Activity.RESULT_CANCELED)
 			return;
 		
-		String childID = data.getStringExtra(CHILD_ID);
+		String childID = data.getStringExtra(DialogReviewTitleEditFragment.REVIEW_ID);
 		if (resultCode == DialogReviewTitleEditFragment.RESULT_DELETE)
 			deleteChild(childID);
 
