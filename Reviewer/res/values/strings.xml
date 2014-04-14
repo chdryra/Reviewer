@@ -23,14 +23,15 @@
     <string name="comment_activity_title">comment</string>
     <string name="data_activity_title">facts</string>
     <string name="image_activity_title">image</string>
-    <string name="review_define_activity_title">create</string>
-    <string name="review_optionals_activity_title">options</string>
+    <string name="review_children_activity_title">criteria</string>
+    <string name="review_edit_activity_title">review</string>
 
     <!-- TextViews -->
     <string name="text_view_no_criteria">no criteria</string>
     <string name="text_view_touch_criteria">touch stars to toggle criteria</string>
     <string name="text_view_link">http://</string>
     <string name="text_view_location_date_hint">Date</string>
+    <string name="text_view_number_children">(%1$d)</string>
     
     <!-- EditTexts -->
     <string name="edit_text_subject_hint">subject</string>
@@ -72,6 +73,7 @@
     <!-- Menus -->
     <string name="menu_next">next</string>
     <string name="menu_done">done</string>
+    <string name="menu_delete">delete</string>
     <string name="menu_share">share</string>
     <string name="menu_tags">tags</string>
     <string name="menu_current_location">current location</string>

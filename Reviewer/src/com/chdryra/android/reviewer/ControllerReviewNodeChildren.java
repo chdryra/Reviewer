@@ -16,7 +16,6 @@ import com.google.android.gms.maps.model.LatLng;
 
 public class ControllerReviewNodeChildren {	
 	private ReviewNode mParent;
-	private Set<String> mChildIDs;
 	private HashMap<String, ControllerReviewNode> mChildControllers;
 	
 	public ControllerReviewNodeChildren(ReviewNode parentNode) {

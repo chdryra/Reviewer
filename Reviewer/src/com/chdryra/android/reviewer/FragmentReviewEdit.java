@@ -19,7 +19,9 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.support.v4.app.NavUtils;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -36,11 +38,12 @@ import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
+import com.chdryra.android.myandroidwidgets.ClearableEditText;
 import com.chdryra.android.mygenerallibrary.ImageHelper;
 import com.chdryra.android.mygenerallibrary.IntentObjectHolder;
 import com.chdryra.android.mygenerallibrary.RandomTextUtils;
 
-public class FragmentReviewOptions extends SherlockFragment {
+public class FragmentReviewEdit extends SherlockFragment {
 	private final static String TAG = "ReviewerFinishFragment";
 	
 	private final static String DIALOG_COMMENT_TAG = "CommentDialog";
@@ -62,6 +65,7 @@ public class FragmentReviewOptions extends SherlockFragment {
 	public final static int DATA_EDIT = 7;
 	public final static int URL_EDIT = 8;
 	public final static int DATE_EDIT = 9;
+	public final static int CHILDREN_REQUEST = 10;
 
 	public final static int DATA_TABLE_MAX_VALUES = 1;
 
@@ -73,12 +77,12 @@ public class FragmentReviewOptions extends SherlockFragment {
 	
 	private HelperReviewImage mHelperReviewImage;
 	
-	private TextView mSubject;
-	private RatingBar mRatingBar;
-	private TextView mTouchStarsTextView;
+	private ClearableEditText mSubjectEditText;
+	private RatingBar mTotalRatingBar;
+	private TextView mNumChildrenTextView;
 	private LinearLayout mChildrenLayout;
 	private boolean mChildrenLayoutVisible = true;
-	private String mTouchStarsText;
+	private ImageButton mCalcAverageRatingButton;
 	
 	private ImageButton mAddPhotoImageButton;
 	private ImageButton mAddLocationImageButton;
@@ -94,6 +98,9 @@ public class FragmentReviewOptions extends SherlockFragment {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);	
 		mController = Controller.unpack(getActivity().getIntent().getExtras());
+		if(mController == null)
+			mController = Controller.addNewReviewInProgress();
+
 		mChildrenController = mController.getChildrenController();
 		
 		if(mController.hasImage())
@@ -105,13 +112,14 @@ public class FragmentReviewOptions extends SherlockFragment {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {		
-		View v = inflater.inflate(R.layout.fragment_review_options, container, false);			
+		View v = inflater.inflate(R.layout.fragment_review_edit, container, false);			
 		getSherlockActivity().getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		
 		//***Get all view objects***//
-		mSubject = (TextView)v.findViewById(R.id.review_subject_text_view);
-		mRatingBar = (RatingBar)v.findViewById(R.id.total_rating_bar);
-		mTouchStarsTextView = (TextView)v.findViewById(R.id.stars_touch_text_view);
+		mSubjectEditText = (ClearableEditText)v.findViewById(R.id.review_subject_edit_text);
+		mTotalRatingBar = (RatingBar)v.findViewById(R.id.total_rating_bar);
+		mCalcAverageRatingButton = (ImageButton)v.findViewById(R.id.children_avg_button);
+		mNumChildrenTextView = (TextView)v.findViewById(R.id.num_children_text_view);
 		mChildrenLayout = (LinearLayout)v.findViewById(R.id.linear_layout_criteria_rating_bars);
 		
 		mAddPhotoImageButton = (ImageButton)v.findViewById(R.id.add_photo_image_button);	
@@ -125,21 +133,70 @@ public class FragmentReviewOptions extends SherlockFragment {
 		mLocationDateTextView = (TextView)v.findViewById(R.id.date_location_text_view);
 		mURLTextView = (TextView)v.findViewById(R.id.url_text_view);
 		
-		//***Total Rating Bar***//
-		mRatingBar.setOnTouchListener(new View.OnTouchListener() {
+
+		mSubjectEditText.addTextChangedListener(new TextWatcher() {
 			@Override
-			public boolean onTouch(View v, MotionEvent event) {
-				if(event.getAction() == MotionEvent.ACTION_UP) {
-				mChildrenLayoutVisible = !mChildrenLayoutVisible;
-				if(mChildrenLayoutVisible)
-					mChildrenLayout.setVisibility(View.VISIBLE);
-				else
-					mChildrenLayout.setVisibility(View.GONE);
+			public void onTextChanged(CharSequence s, int start, int before, int count) {}
+			
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+			
+			@Override
+			public void afterTextChanged(Editable s) {
+				mController.setTitle(s.toString());
+			}
+		});
+
+		mTotalRatingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+			@Override
+			public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+				if(fromUser) {
+					mController.setRating(rating);
+					setTotalRatingIsUser();
 				}
+			}
+		});
+		
+		mCalcAverageRatingButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				if(mController.isReviewRatingAverage())
+					setTotalRatingIsUser();
+				else if(mChildrenController.size() > 0)
+					setTotalRatingIsAverage();
+			}
+		});
+
+		mNumChildrenTextView.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				if(mChildrenController.size() > 0) {
+					mChildrenLayoutVisible = !mChildrenLayoutVisible;
+					if(mChildrenLayoutVisible)
+						mChildrenLayout.setVisibility(View.VISIBLE);
+					else
+						mChildrenLayout.setVisibility(View.GONE);
+				} else
+					requestChildrenDefineIntent();
+			}
+		});
+
+		mNumChildrenTextView.setOnLongClickListener(new View.OnLongClickListener() {
+			
+			@Override
+			public boolean onLongClick(View v) {
+				requestChildrenDefineIntent();
 				return true;
 			}
 		});
+
+		mChildrenLayout.setOnClickListener(new View.OnClickListener() {
 			
+			@Override
+			public void onClick(View v) {
+				requestChildrenDefineIntent();				
+			}
+		});
 		//***Get display metrics to ensure square buttons***//
 		DisplayMetrics displaymetrics = new DisplayMetrics();
 		getSherlockActivity().getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
@@ -244,7 +301,8 @@ public class FragmentReviewOptions extends SherlockFragment {
 	private void updateUI() {
 		updateSubjectText();
 		updateRatingBar();
-		updateTouchStarsText();
+		updateRatingIsAverageButton();
+		updateNumChildrenText();
 		updateChildrenLayout();
 		updateCommentHeadline();
 		updateLocationButtonImage();
@@ -255,17 +313,34 @@ public class FragmentReviewOptions extends SherlockFragment {
 	}
 
 	private void updateSubjectText() {
-		mSubject.setText(mController.getTitle());
+		mSubjectEditText.setText(mController.getTitle());
 	}
 	
 	private void updateRatingBar() {
-		mRatingBar.setRating(mController.getRating());
+		mTotalRatingBar.setRating(mController.getRating());
 	}
 	
-	private void updateTouchStarsText() {
+	private void updateNumChildrenText() {
 		int numChildren = mChildrenController.size();
-		mTouchStarsText = numChildren == 0? getResources().getString(R.string.text_view_no_criteria) : getResources().getString(R.string.text_view_touch_criteria);
-		mTouchStarsTextView.setText(mTouchStarsText);		
+		String text = getActivity().getString(R.string.text_view_number_children, numChildren);
+		mNumChildrenTextView.setText(text);
+	}
+
+	private void updateRatingIsAverageButton() {
+		int visibility = View.INVISIBLE;
+		boolean enabled = false;
+		if(mChildrenController.size() > 0) {
+			visibility = View.VISIBLE;
+			enabled = true;
+		}
+		
+		mCalcAverageRatingButton.setVisibility(visibility);
+		mCalcAverageRatingButton.setEnabled(enabled);
+		
+		if(mController.isReviewRatingAverage())
+			setTotalRatingIsAverage();
+		else
+			setTotalRatingIsUser();
 	}
 
 	private void updateChildrenLayout() {
@@ -281,7 +356,7 @@ public class FragmentReviewOptions extends SherlockFragment {
 			RatingBar ratingBar = (RatingBar)reviewView.findViewById(R.id.criterion_rating_bar);		
 			
 			criterionTextView.setText(mChildrenController.getTitle(id));
-			criterionTextView.setTextColor(mTouchStarsTextView.getTextColors().getDefaultColor());
+			criterionTextView.setTextColor(mSubjectEditText.getTextColors().getDefaultColor());
 			ratingBar.setRating(mChildrenController.getRating(id));
 			ratingBar.setIsIndicator(true);
 			ratingBar.setFocusable(false);
@@ -384,6 +459,18 @@ public class FragmentReviewOptions extends SherlockFragment {
 		else
 			mURLTextView.setText(getResources().getString(R.string.text_view_link));
 	}
+
+	private void setTotalRatingIsAverage() {
+		mController.setReviewRatingAverage(true);
+		mCalcAverageRatingButton.setImageResource(android.R.drawable.ic_input_add);
+		updateRatingBar();
+	}
+	
+	private void setTotalRatingIsUser() {
+		mController.setReviewRatingAverage(false);
+		mCalcAverageRatingButton.setImageResource(android.R.drawable.ic_menu_add);
+		updateRatingBar();
+	}
 	
 	private void setVisibleGoneView(View visibleView, View goneView) {
 		visibleView.setVisibility(View.VISIBLE);
@@ -394,6 +481,10 @@ public class FragmentReviewOptions extends SherlockFragment {
 		Intent i = new Intent(getSherlockActivity(), c);
 		Controller.pack(mController, i);
 		startActivityForResult(i, requestCode);
+	}
+	
+	private void requestChildrenDefineIntent() {
+		requestIntent(ActivityReviewChildren.class, CHILDREN_REQUEST);
 	}
 	
 	private void requestCommentMakeIntent() {
@@ -470,7 +561,7 @@ public class FragmentReviewOptions extends SherlockFragment {
 	}
 	
 	private void showDialog(DialogBasicFragment dialog, int requestCode, String tag) {
-		dialog.setTargetFragment(FragmentReviewOptions.this, requestCode);
+		dialog.setTargetFragment(FragmentReviewEdit.this, requestCode);
 		dialog.setArguments(Controller.pack(mController));
 		dialog.show(getFragmentManager(), tag);
 	}
@@ -478,7 +569,7 @@ public class FragmentReviewOptions extends SherlockFragment {
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 		super.onCreateOptionsMenu(menu, inflater);
-		inflater.inflate(R.menu.fragment_review_options, menu);
+		inflater.inflate(R.menu.fragment_review_edit, menu);
 	}
 
 	@Override

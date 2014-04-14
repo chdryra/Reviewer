@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
@@ -27,7 +28,7 @@ import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.chdryra.android.myandroidwidgets.ClearableEditText;
 
-public class FragmentReviewCreate extends SherlockFragment {
+public class FragmentReviewChildren extends SherlockFragment {
 	private final static String DIALOG_CHILD_TAG = "ChildDialog";
 
 	public final static int CHILD_EDIT = 0;
@@ -37,7 +38,7 @@ public class FragmentReviewCreate extends SherlockFragment {
 	
 	private ArrayList<String> mChildNames = new ArrayList<String>();
 	
-	private ClearableEditText mSubjectEditText;
+	private TextView mSubjectTextView;
 	private ClearableEditText mChildNameEditText;
 	private ImageButton mAddChildButton;
 	private ImageButton mCalcAverageRatingButton;
@@ -48,8 +49,6 @@ public class FragmentReviewCreate extends SherlockFragment {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		mController = Controller.unpack(getActivity().getIntent().getExtras());
-		if(mController == null)
-			mController = Controller.addNewReviewInProgress();
 		
 		mChildrenController = mController.getChildrenController();
 		for(String id : mChildrenController.getIDs())
@@ -61,26 +60,13 @@ public class FragmentReviewCreate extends SherlockFragment {
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View v = inflater.inflate(R.layout.fragment_review_create, container, false);		
+		View v = inflater.inflate(R.layout.fragment_review_children, container, false);		
 		
-		mSubjectEditText = (ClearableEditText)v.findViewById(R.id.review_subject);
+		mSubjectTextView = (TextView)v.findViewById(R.id.review_subject);
 		mAddChildButton = (ImageButton)v.findViewById(R.id.criterion_add_button);
 		mChildNameEditText = (ClearableEditText)v.findViewById(R.id.criterion_add_edit_text);
 		mChildListView = (ListView) v.findViewById(R.id.criterion_listview);
 		mTotalRatingBar = (RatingBar)v.findViewById(R.id.total_rating_bar);
-		
-		mSubjectEditText.addTextChangedListener(new TextWatcher() {
-			@Override
-			public void onTextChanged(CharSequence s, int start, int before, int count) {}
-			
-			@Override
-			public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-			
-			@Override
-			public void afterTextChanged(Editable s) {
-				mController.setTitle(s.toString());
-			}
-		});
 		
 		mAddChildButton.setOnClickListener(new View.OnClickListener() {			
 			@Override
@@ -141,7 +127,7 @@ public class FragmentReviewCreate extends SherlockFragment {
 	}
 
 	private void updateSubjectText() {
-		mSubjectEditText.setText(mController.getTitle());
+		mSubjectTextView.setText(mController.getTitle());
 	}
 	
 	private void updateRatingBar() {
@@ -150,7 +136,7 @@ public class FragmentReviewCreate extends SherlockFragment {
 	
 	private void showChildDialog(String childId) {
 		DialogReviewTitleEditFragment dialog = new DialogReviewTitleEditFragment();
-		dialog.setTargetFragment(FragmentReviewCreate.this, CHILD_EDIT);
+		dialog.setTargetFragment(FragmentReviewChildren.this, CHILD_EDIT);
 		Bundle args = Controller.pack(mController);
 		args.putString(DialogReviewTitleEditFragment.REVIEW_ID, childId);
 		dialog.setArguments(args);
@@ -248,21 +234,25 @@ public class FragmentReviewCreate extends SherlockFragment {
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 		super.onCreateOptionsMenu(menu, inflater);
-		inflater.inflate(R.menu.fragment_review_define, menu);
+		inflater.inflate(R.menu.fragment_review_children, menu);
 	}
 	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-		case R.id.menu_item_next_screen:
-			if (mSubjectEditText == null || mSubjectEditText.length() == 0)
-				Toast.makeText(getSherlockActivity(), getResources().getString(R.string.toast_enter_subject), Toast.LENGTH_SHORT).show();
-			else {
-				Intent i = new Intent(getSherlockActivity(), ActivityReviewOptions.class);
-				Controller.pack(mController, i);
-				startActivity(i);
+		case android.R.id.home:
+			if (NavUtils.getParentActivityName(getSherlockActivity()) != null) {
+				Intent i = NavUtils.getParentActivityIntent(getSherlockActivity());
+				NavUtils.navigateUpTo(getSherlockActivity(), i);
 			}
-			break;
+			return true;
+		case R.id.menu_item_done:
+			if (NavUtils.getParentActivityName(getSherlockActivity()) != null) {
+				Intent i = NavUtils.getParentActivityIntent(getSherlockActivity());
+				Controller.pack(mController, i);
+				NavUtils.navigateUpTo(getSherlockActivity(), i);
+			}
+			return true;
 
 		default:
 			break;
@@ -333,6 +323,7 @@ public class FragmentReviewCreate extends SherlockFragment {
 									
 			vh.childSubject.setTag(Integer.valueOf(position));
 			vh.childSubject.setText(mChildrenController.getTitle(id));		
+			vh.childSubject.setTextColor(mSubjectTextView.getTextColors().getDefaultColor());
 	
 			return(convertView);
 		};

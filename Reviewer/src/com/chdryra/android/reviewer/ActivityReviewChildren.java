@@ -2,11 +2,11 @@ package com.chdryra.android.reviewer;
 
 import android.support.v4.app.Fragment;
 
-public class ActivityReviewOptions extends ActivitySingleFragment {
+public class ActivityReviewChildren extends ActivitySingleFragment {
 
 	@Override
 	protected Fragment createFragment() {
-		return new FragmentReviewOptions();
+		return new FragmentReviewChildren();
 	}
 
 }
