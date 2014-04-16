@@ -3,7 +3,8 @@
     android:id="@+id/mapLinearLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical" 
+    android:background="@color/LightSlateGray">
      	 	     	
  	<com.chdryra.android.myandroidwidgets.ClearableAutoCompleteTextView
  	    android:id="@+id/edit_text_name_location"
@@ -13,6 +14,8 @@
  	    android:inputType="textCapSentences"
  	    android:imeOptions="actionDone"
  	    android:cursorVisible="false"
+ 	    android:textColor="@color/WhiteSmoke"
+ 	    android:textColorHint="@color/WhiteSmoke"
  	    android:completionThreshold="1"
  	    />
 
@@ -24,13 +27,32 @@
         android:clickable="true"
         android:layout_weight="1"/>
  	
- 	<ProgressBar
-		android:id="@+id/location_progress_bar"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:indeterminate="true"
-		android:visibility="gone" />
+ 	<View style="@style/HorizontalDivider" />
  	
- 	<include layout="@layout/dialog_button_layout"
- 	    android:id="@+id/map_buttons"/>
+ 	<LinearLayout 
+ 	    android:layout_width="match_parent"
+ 	    android:layout_height="wrap_content"
+ 	    android:orientation="horizontal">
+ 	    
+ 	    <ImageButton 
+ 	    	android:id="@+id/photo_location_image_button"
+ 	        android:layout_width="0dp"
+ 	        android:layout_height="wrap_content"
+ 	        android:src="@drawable/ic_menu_camera"
+ 	        android:background="@drawable/image_button_selected"
+ 	        style="@style/SquareImageButton"
+ 	        android:layout_weight="1"/>
+ 	    
+ 	    
+ 	     <View style="@style/VerticalDivider" />
+ 	     
+ 	    <ImageButton 
+ 	        android:id="@+id/revert_location_image_button"
+ 	        android:layout_width="0dp"
+ 	        android:layout_height="wrap_content"
+ 	        android:src="@drawable/ic_menu_revert"
+ 	        style="@style/SquareImageButton"
+ 	        android:background="@drawable/image_button_selected"
+ 	        android:layout_weight="1"/>
+ 	</LinearLayout>
 </LinearLayout>

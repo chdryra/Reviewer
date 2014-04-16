@@ -29,23 +29,16 @@ public class FragmentReviewComment extends SherlockFragment {
 	public static final String EXTRA_COMMENT_STRING = "com.chdryra.android.reviewer.comment_string";
 	public static final int RESULT_DELETE = Activity.RESULT_FIRST_USER;
 	
-	private static final int MIN_HEADLINE_EDITTEXT_LINES = 2;
-	private static final int MAX_COMMENT_EDITTEXT_LINES = 5;
+	private static final int MIN_COMMENT_EDITTEXT_LINES = 5;
+	private static final int MAX_COMMENT_EDITTEXT_LINES = 10;
 
 	private static final int DELETE_CONFIRM = DialogBasicFragment.DELETE_CONFIRM;
+	private boolean mDeleteConfirmed = false;
 	
 	private ControllerReviewNode mController;
-
-	private Button mDeleteButton;
-	private Button mCancelButton;
-	private Button mDoneButton;
-
-	private boolean mDeleteConfirmed = false;
 	
 	private MenuItem mClearCommentMenuItem;
 	private Drawable mClearCommentIcon;  
-	private View mHeadlineCommentsView;
-	private EditText mCurrentFocusedEditText;
 	private EditText mCommentEditText;
 	
 	@Override
@@ -63,63 +56,9 @@ public class FragmentReviewComment extends SherlockFragment {
 		getSherlockActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);		
 		getSherlockActivity().getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 	
-		mHeadlineCommentsView = v.findViewById(R.id.headline_comment_line_view);
-		setHeadlineCommentsView();
-
-	    mDeleteButton = (Button)v.findViewById(R.id.button_map_delete);
-	    mDeleteButton.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				sendResult(RESULT_DELETE);
-			}
-		});
-	    
-	    mCancelButton = (Button)v.findViewById(R.id.button_map_cancel);
-	    mCancelButton.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				sendResult(Activity.RESULT_CANCELED);
-			}
-		});
-	    
-	    mDoneButton = (Button)v.findViewById(R.id.button_map_done);
-	    mDoneButton.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				sendResult(Activity.RESULT_OK);
-			}
-		});
-	    
-		return v;
-	}
-	
-	private void setHeadlineCommentsView() {
-		mHeadlineCommentsView = getCommentLineView(mHeadlineCommentsView);
-		EditText comment = (EditText)mHeadlineCommentsView.findViewById(R.id.comment_edit_text);
-		comment.setMinLines(MIN_HEADLINE_EDITTEXT_LINES);
-		comment.setGravity(Gravity.TOP);
-		comment.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-			@Override
-			public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-		     	if(actionId == EditorInfo.IME_ACTION_DONE) {
-            		mDoneButton.performClick();
-            	}        
-				return false;
-			}
-		});
-	}
-	
-	private View getCommentLineView(View v) {
-		String commentTitle = mController.hasComment()? mController.getCommentTitle() : mController.getTitle();
-		
-		TextView criterionName = (TextView)v.findViewById(R.id.comment_text_view);
-		criterionName.setText(commentTitle);
-		RatingBar ratingBar = (RatingBar)v.findViewById(R.id.comment_rating_bar);
-		ratingBar.setRating(mController.getRating());
-		
 		mCommentEditText = (EditText)v.findViewById(R.id.comment_edit_text);
 		mCommentEditText.setHorizontallyScrolling(false);
-		mCommentEditText.setMaxLines(MAX_COMMENT_EDITTEXT_LINES);
+		mCommentEditText.setMinLines(MIN_COMMENT_EDITTEXT_LINES);
 		
 		//To allow scrolling within edit text 
 		//if contains string by disallowing scrollview scrolling.
@@ -161,26 +100,19 @@ public class FragmentReviewComment extends SherlockFragment {
 		mCommentEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
 		    @Override
 		    public void onFocusChange(View v, boolean hasFocus) {
-		        if (hasFocus) {
+		        if (hasFocus)
 		            getSherlockActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
-		            setCurrentFocussedEditText((EditText)v);
-		        }
 		    }
 		});
 		
 		return v;
-	}
 
-	
-	private void setCurrentFocussedEditText(EditText v) {
-		mCurrentFocusedEditText = v;
-		updateClearCommentMenuItemVisibility();
 	}
-
+		
 	private void updateClearCommentMenuItemVisibility() {
 		//Have to hack as setting visibility relegates icon to overflow
-		if(mCurrentFocusedEditText != null &&  mCurrentFocusedEditText.getText().toString() != null
-				&& mCurrentFocusedEditText.getText().toString().length() > 0) {
+		if(mCommentEditText != null &&  mCommentEditText.getText().toString() != null
+				&& mCommentEditText.getText().toString().length() > 0) {
 			mClearCommentIcon.setAlpha(100);
 			mClearCommentMenuItem.setEnabled(true);
 		} else {
@@ -241,15 +173,25 @@ public class FragmentReviewComment extends SherlockFragment {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-		case android.R.id.home:
-			mCancelButton.performClick();
-			return true;
-		case R.id.menu_item_clear_comment:
-			if(mCurrentFocusedEditText != null)
-				mCurrentFocusedEditText.setText(null);
-			break;
-		default:
-			break;
+			case R.id.menu_item_clear_comment:
+				if(mCommentEditText != null)
+					mCommentEditText.setText(null);
+				break;
+			
+			case android.R.id.home:
+				sendResult(Activity.RESULT_CANCELED);
+				break;
+		
+			case R.id.menu_item_delete:
+				sendResult(RESULT_DELETE);
+				break;
+			
+			case R.id.menu_item_done:
+				sendResult(Activity.RESULT_OK);
+				break;
+			
+			default:
+				break;
 		}
 		return super.onOptionsItemSelected(item);
 	}

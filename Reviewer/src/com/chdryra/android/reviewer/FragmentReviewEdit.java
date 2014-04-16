@@ -61,8 +61,8 @@ public class FragmentReviewEdit extends SherlockFragment {
 	public final static int LOCATION_EDIT = 3;
 	public final static int COMMENT_REQUEST = 4;
 	public final static int COMMENT_EDIT = 5;
-	public final static int DATA_REQUEST = 6;
-	public final static int DATA_EDIT = 7;
+	public final static int FACTS_REQUEST = 6;
+	public final static int FACTS_EDIT = 7;
 	public final static int URL_EDIT = 8;
 	public final static int DATE_EDIT = 9;
 	public final static int CHILDREN_REQUEST = 10;
@@ -92,7 +92,9 @@ public class FragmentReviewEdit extends SherlockFragment {
 	private TextView mCommentTextView;
 	private LinearLayout mDataLinearLayout;
 	private TextView mURLTextView;
-	private TextView mLocationDateTextView;
+	private TextView mLocationTextView;
+	private TextView mDateTextView;
+	private TextView mFactsTextView;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -130,8 +132,10 @@ public class FragmentReviewEdit extends SherlockFragment {
 		mCommentTextView = (TextView)v.findViewById(R.id.comment_text_view);
 		mDataLinearLayout= (LinearLayout)v.findViewById(R.id.data_table_linear_layout);
 		
-		mLocationDateTextView = (TextView)v.findViewById(R.id.date_location_text_view);
+		mLocationTextView = (TextView)v.findViewById(R.id.location_text_view);
+		mDateTextView = (TextView)v.findViewById(R.id.date_text_view);
 		mURLTextView = (TextView)v.findViewById(R.id.url_text_view);
+		mFactsTextView = (TextView)v.findViewById(R.id.facts_text_view);
 		
 
 		mSubjectEditText.addTextChangedListener(new TextWatcher() {
@@ -261,7 +265,7 @@ public class FragmentReviewEdit extends SherlockFragment {
 				if (!mController.hasFacts())
 					requestFactsAddIntent();
 				else
-					showDataEditDialog();
+					showFactsEditDialog();
 				
 			}
 		});
@@ -284,15 +288,36 @@ public class FragmentReviewEdit extends SherlockFragment {
 			}
 		});
 		
-		//***Location Date Text View***//
-		mLocationDateTextView.setOnClickListener(new View.OnClickListener() {
+		//***Date Text View***//
+		mDateTextView.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				showDateEditDialog();
 			}
 		});
 
+		//***Location Text View***//
+		mLocationTextView.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				if (!mController.hasLocation())
+					requestLocationFindIntent();
+				else
+					showLocationEditDialog();
+			}
+		});
 		
+		//***Location Date Text View***//
+		mFactsTextView.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				if (!mController.hasFacts())
+					requestFactsAddIntent();
+				else
+					showFactsEditDialog();
+			}
+		});
+				
 		updateUI();
 		
 		return v;
@@ -308,8 +333,10 @@ public class FragmentReviewEdit extends SherlockFragment {
 		updateLocationButtonImage();
 		updateImageButtonImage();
 		updateDataTable();
-		updateLocationAndDateDisplay();
+		updateLocationDisplay();
+		updateDateDisplay();
 		updateURLDisplay();		
+		updateFactsDisplay();
 	}
 
 	private void updateSubjectText() {
@@ -431,33 +458,46 @@ public class FragmentReviewEdit extends SherlockFragment {
 				break;
 		}
 	}
-	
-	private void updateLocationAndDateDisplay() {
-		SimpleDateFormat format = mDateFormat;
-		StringBuilder locationDate = new StringBuilder("@");
+
+	private void updateFactsDisplay() {
+		StringBuilder facts = new StringBuilder();
 		
-		if(!mController.hasLocation() && !mController.hasDate()) {
-			locationDate.append(getResources().getString(R.string.text_view_location_date_hint));
-		} else {
-			if(mController.hasLocationName()) {
-				locationDate.append(mController.getShortLocationName());
-				if(mController.hasDate()) {
-					locationDate.append(", ");
-					locationDate.append(format.format(mController.getDate()));
-				}
-			} else {
-				locationDate.append(format.format(mController.getDate()));
-			}
-		}
+		if(!mController.hasFacts())
+			facts.append(getResources().getString(R.string.text_view_facts_hint));
+		else
+			facts.append(mController.getNumberOfFacts() + " facts");
 					
-		mLocationDateTextView.setText(locationDate.toString());
+		mFactsTextView.setText(facts.toString());
+	}
+
+	private void updateLocationDisplay() {
+		StringBuilder location = new StringBuilder("@");
+		
+		if(!mController.hasLocationName())
+			location.append(getResources().getString(R.string.text_view_location_hint));
+		else
+			location.append(mController.getShortLocationName());
+					
+		mLocationTextView.setText(location.toString());
+	}
+
+	private void updateDateDisplay() {
+		SimpleDateFormat format = mDateFormat;
+		StringBuilder date = new StringBuilder("@");
+		
+		if(!mController.hasDate())
+			date.append(getResources().getString(R.string.text_view_date_hint));
+		else
+			date.append(format.format(mController.getDate()));
+					
+		mDateTextView.setText(date.toString());
 	}
 	
 	private void updateURLDisplay() {
 		if(mController.hasURL())
 			mURLTextView.setText(mController.getURLShortenedString());
 		else
-			mURLTextView.setText(getResources().getString(R.string.text_view_link));
+			mURLTextView.setText(getResources().getString(R.string.text_view_link_hint));
 	}
 
 	private void setTotalRatingIsAverage() {
@@ -492,7 +532,7 @@ public class FragmentReviewEdit extends SherlockFragment {
 	}
 	
 	private void requestFactsAddIntent() {
-		requestIntent(ActivityReviewData.class, DATA_REQUEST);
+		requestIntent(ActivityReviewData.class, FACTS_REQUEST);
 	}
 	
 	private void requestLocationFindIntent() {
@@ -548,8 +588,8 @@ public class FragmentReviewEdit extends SherlockFragment {
 		showDialog(new DialogCommentFragment(), COMMENT_EDIT, DIALOG_COMMENT_TAG);
 	}
 
-	private void showDataEditDialog() {
-		showDialog(new DialogDataFragment(), DATA_EDIT, DIALOG_DATA_TAG);
+	private void showFactsEditDialog() {
+		showDialog(new DialogDataFragment(), FACTS_EDIT, DIALOG_DATA_TAG);
 	}
 
 	private void showURLEditDialog() {
@@ -644,10 +684,16 @@ public class FragmentReviewEdit extends SherlockFragment {
 						updateImageButtonImage();
 				}
 				break;
-							
+			
+			case CHILDREN_REQUEST:
+				updateRatingIsAverageButton();
+				updateNumChildrenText();
+				updateChildrenLayout();	
+				break;
+				
 			case LOCATION_REQUEST:
 				updateLocationButtonImage();
-				updateLocationAndDateDisplay();
+				updateLocationDisplay();
 				break;
 			
 			case LOCATION_EDIT:
@@ -658,7 +704,7 @@ public class FragmentReviewEdit extends SherlockFragment {
 					case DialogLocationFragment.RESULT_DELETE:
 						updateLocationButtonImage();
 					default:
-						updateLocationAndDateDisplay();
+						updateLocationDisplay();
 						break;
 				}
 				break;
@@ -678,23 +724,25 @@ public class FragmentReviewEdit extends SherlockFragment {
 				}
 				break;
 				
-			case DATA_REQUEST:
+			case FACTS_REQUEST:
 				updateDataTable();	
+				updateFactsDisplay();
 				break;
 				
-			case DATA_EDIT:
+			case FACTS_EDIT:
 				switch (resultCode) {
 					case Activity.RESULT_OK:
 						requestFactsAddIntent();
 						break;
 					default:
 						updateDataTable();
+						updateFactsDisplay();
 						break;
 				}
 				break;
 					
 			case DATE_EDIT:
-				updateLocationAndDateDisplay();
+				updateDateDisplay();
 				break;
 				
 			case URL_EDIT:

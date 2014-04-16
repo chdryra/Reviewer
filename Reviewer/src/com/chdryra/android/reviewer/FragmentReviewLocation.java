@@ -16,7 +16,6 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.NavUtils;
 import android.support.v4.widget.CursorAdapter;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -27,12 +26,12 @@ import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
+import android.widget.Toast;
 
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
@@ -68,7 +67,7 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 
 	private ControllerReviewNode mController;
 	
-	private ImageButton mButton;
+	private ImageButton mSnapshotButton;
 	
 	private LocationClient mLocationClient;
 	
@@ -77,9 +76,8 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 	private ArrayAdapterSearchView mSearchView;
 	private ClearableAutoCompleteTextView mLocationName;
 
-	private Button mDeleteButton;
-	private Button mCancelButton;
-	private Button mDoneButton;
+	private ImageButton mPhotoLocationButton;
+	private ImageButton mRevertButton;
 	
 	private String mSearchLocationName;
 	
@@ -90,14 +88,13 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 	private float mRevertMapSnapshotZoom;
 	
 	private boolean mDeleteConfirmed = false;
-	private boolean mImageLocationIconIsVisible = true;
 		
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		mController = Controller.unpack(getActivity().getIntent().getExtras());
 		mLocationClient = new LocationClient(getSherlockActivity(), this, this);
-		mButton = (ImageButton)IntentObjectHolder.getObject(FragmentReviewEdit.LOCATION_BUTTON);
+		mSnapshotButton = (ImageButton)IntentObjectHolder.getObject(FragmentReviewEdit.LOCATION_BUTTON);
 		mRevertMapSnapshotZoom =  mController.hasMapSnapshot()? mController.getMapSnapshotZoom() : DEFAULT_ZOOM;
 	    mPhotoLatLng = mController.getImageLatLng();
 	    setRetainInstance(true);
@@ -142,27 +139,26 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 	    	setLatLng(mRevertLatLng);
 	    }
 
-	    mDeleteButton = (Button)v.findViewById(R.id.button_map_delete);
-	    mDeleteButton.setOnClickListener(new View.OnClickListener() {
+	    mPhotoLocationButton = (ImageButton)v.findViewById(R.id.photo_location_image_button);
+	    mPhotoLocationButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				sendResult(RESULT_DELETE);
+				if(mPhotoLatLng == null)
+					Toast.makeText(getSherlockActivity(), getResources().getString(R.string.toast_no_image_gps_tag), Toast.LENGTH_SHORT).show();
+				else
+					setLatLng(mPhotoLatLng);
 			}
 		});
 	    
-	    mCancelButton = (Button)v.findViewById(R.id.button_map_cancel);
-	    mCancelButton.setOnClickListener(new View.OnClickListener() {
+	    mRevertButton = (ImageButton)v.findViewById(R.id.revert_location_image_button);
+	    mRevertButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				sendResult(Activity.RESULT_CANCELED);
-			}
-		});
-	    
-	    mDoneButton = (Button)v.findViewById(R.id.button_map_done);
-	    mDoneButton.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				captureMapSnapshotAndSetLocationAndSendOK();
+				mSearchLocationName = null;
+				setLatLng(mRevertLatLng);
+				zoomToLatLng(mRevertMapSnapshotZoom);
+				mLocationName.setText(mController.getLocationName());
+				mLocationName.hideChrome();
 			}
 		});
 	        
@@ -273,22 +269,19 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 
 	    mSearchView.setAdapter(new LocationNameAdapter(getSherlockActivity(), android.R.layout.simple_list_item_1, mLatLng, 0, null));
 	    
-	    final MenuItem imageLocationIcon = menu.findItem(R.id.menu_item_image_location);
-		final MenuItem revertLocationIcon = menu.findItem(R.id.menu_item_revert_location);
+	    final MenuItem deleteIcon = menu.findItem(R.id.menu_item_delete);
+		final MenuItem doneIcon = menu.findItem(R.id.menu_item_done);
 		final MenuItem searchViewMenuItem = menu.findItem(R.id.action_search);
-		if(mPhotoLatLng == null)
-			mImageLocationIconIsVisible = false;
-	    imageLocationIcon.setVisible(mImageLocationIconIsVisible);
 		
 		mSearchView.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
 			@Override
 			public void onFocusChange(View v, boolean hasFocus) {
 				if(hasFocus) {	
-					imageLocationIcon.setVisible(false);
-					revertLocationIcon.setVisible(false);
+					deleteIcon.setVisible(false);
+					doneIcon.setVisible(false);
 				} else {
-					imageLocationIcon.setVisible(mImageLocationIconIsVisible);
-					revertLocationIcon.setVisible(true);	
+					deleteIcon.setVisible(true);
+					doneIcon.setVisible(true);	
 					searchViewMenuItem.collapseActionView();
 				}
 			}
@@ -300,26 +293,23 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-		case R.id.menu_item_revert_location:
-			mSearchLocationName = null;
-			setLatLng(mRevertLatLng);
-			zoomToLatLng(mRevertMapSnapshotZoom);
-			mLocationName.setText(mController.getLocationName());
-			mLocationName.hideChrome();
-			break;
-		case R.id.menu_item_image_location:
-			setLatLng(mPhotoLatLng);
-			break;
-		case android.R.id.home:
-			if (NavUtils.getParentActivityName(getSherlockActivity()) != null) {
-				Intent intent = NavUtils.getParentActivityIntent(getSherlockActivity()); 
-				intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_SINGLE_TOP); 
-				NavUtils.navigateUpTo(getSherlockActivity(), intent);
-			}
-			return true;
+			
+			case android.R.id.home:
+				sendResult(Activity.RESULT_CANCELED);
+				break;
+				
+			case R.id.menu_item_delete:
+				sendResult(RESULT_DELETE);
+				break;
+				
+			case R.id.menu_item_done:
+				captureMapSnapshotAndSetLocationAndSendOK();
+				break;
+				
 		default:
 			break;
 		}
+		
 		return super.onOptionsItemSelected(item);
 	}
 
@@ -446,9 +436,9 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 		protected void onPostExecute(Bitmap bitmap) {
 			mController.setMapSnapshot(bitmap, mZoom);
 			if(bitmap == null)
-				mButton.setImageResource(R.drawable.ic_menu_camera);
+				mSnapshotButton.setImageResource(R.drawable.ic_menu_camera);
 			else
-				mButton.setImageBitmap(bitmap);
+				mSnapshotButton.setImageBitmap(bitmap);
 		}	
 	}
 	

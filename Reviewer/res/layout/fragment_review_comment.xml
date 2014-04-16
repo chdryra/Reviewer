@@ -1,38 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" 
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android" 
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
-
-<ScrollView 
+    android:background="@color/LightSlateGray">
+    
+<EditText 
+    android:id="@+id/comment_edit_text"
     android:layout_width="match_parent"
-    android:layout_height="0dp"
-    android:layout_weight="1">
-     	
- 	<LinearLayout
-        android:id="@+id/comment_linear_layout"
-        android:layout_width="match_parent"
-        android:layout_height="0dip"
-        android:orientation="vertical">
-        
-        <include 
-            android:id="@+id/headline_comment_line_view"
-            layout="@layout/comment_line_view_headline"
-        />
-        
-        <LinearLayout 
-            android:id="@+id/criteria_comments_linear_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-            
-        </LinearLayout>
-    </LinearLayout>
+    android:layout_height="wrap_content"
+    android:hint="@string/edit_text_add_comment_hint"
+    android:inputType="textCapSentences|textAutoCorrect|textMultiLine"
+    android:gravity="top"
+    android:textColor="@color/WhiteSmoke"
+    android:textColorHint="@color/WhiteSmoke"
+ />
+
 </ScrollView>
 
-<include layout="@layout/dialog_button_layout"
- 	    android:id="@+id/comment_buttons"
- 	    android:textColor="@color/WhiteSmoke"/>
 
-</LinearLayout>
+

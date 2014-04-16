@@ -6,5 +6,5 @@
          android:drawable="@color/WhiteSmoke" />
 
    <item android:drawable="@android:color/transparent" />
-
+   
 </selector>

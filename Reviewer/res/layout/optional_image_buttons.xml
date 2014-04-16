@@ -5,7 +5,22 @@
     android:layout_height="wrap_content">
     
     <TableRow android:layout_weight="1">
-        
+       
+	   <FrameLayout 
+		    android:layout_width="match_parent"
+		    android:layout_height="match_parent"
+		    android:layout_weight="1">
+		
+		 	<ImageButton 
+		 	    android:id="@+id/add_photo_image_button"
+		 	    android:src="@drawable/ic_menu_camera"
+		 	    android:contentDescription="@string/button_add_image_text"
+		 	    style="@style/SquareImageButton"/> 	
+		 	
+		</FrameLayout>
+		       			
+	 	<View style="@style/VerticalDivider" />
+	 
 	    <RelativeLayout
 	        android:layout_width="match_parent"
 		    android:layout_height="match_parent" 
@@ -31,10 +46,14 @@
 	       		android:visibility="gone"/>
 		
 		</RelativeLayout>
-			
-	 	<View style="@style/VerticalDivider" />
+ 
+ 	</TableRow>
 	 
-		<FrameLayout 
+    <View style="@style/HorizontalDivider"/>
+    
+	 <TableRow android:layout_weight="1" >
+	 
+	   <FrameLayout 
 		   android:layout_width="match_parent"
 		   android:layout_height="match_parent" 
 		   android:layout_weight="1">
@@ -47,25 +66,7 @@
 		    />
 
 		</FrameLayout>
- 
- 	</TableRow>
-	 
-    <View style="@style/HorizontalDivider"/>
-    
-	 <TableRow android:layout_weight="1" >
-	 	<FrameLayout 
-		    android:layout_width="match_parent"
-		    android:layout_height="match_parent"
-		    android:layout_weight="1">
-		
-		 	<ImageButton 
-		 	    android:id="@+id/add_photo_image_button"
-		 	    android:src="@drawable/ic_menu_camera"
-		 	    android:contentDescription="@string/button_add_image_text"
-		 	    style="@style/SquareImageButton"/> 	
-		 	
-		</FrameLayout>
-		
+	     
 	 	<View style="@style/VerticalDivider" />
 	 	
 	 	<RelativeLayout 

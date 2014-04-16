@@ -1,5 +1,7 @@
 package com.chdryra.android.reviewer;
 
+import java.util.Set;
+
 public class ReviewComponent implements ReviewNode {
 
 	private RDId mID;
@@ -93,7 +95,10 @@ public class ReviewComponent implements ReviewNode {
 	
 	@Override
 	public void clearChildren() {
-		removeChildren(getChildren());
+		CollectionReviewNode children = new CollectionReviewNode();
+		children.add(getChildren());
+		for(ReviewNode child : children)
+			removeChild(child.getID());
 	}
 	
 	@Override

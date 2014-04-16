@@ -16,7 +16,7 @@
     <string name="dialog_image_content_description">Review image</string>
     <string name="dialog_date_title">Date</string>
     <string name="dialog_URL_title">Link</string>
-    <string name="dialog_delete_criteria_title">Criteria Comments</string>
+    <string name="dialog_delete_criteria_title">Criteria</string>
     
     <!-- Activities -->
     <string name="location_activity_title">location</string>
@@ -29,8 +29,10 @@
     <!-- TextViews -->
     <string name="text_view_no_criteria">no criteria</string>
     <string name="text_view_touch_criteria">touch stars to toggle criteria</string>
-    <string name="text_view_link">http://</string>
-    <string name="text_view_location_date_hint">Date</string>
+    <string name="text_view_link_hint">http://</string>
+    <string name="text_view_location_hint">location</string>
+    <string name="text_view_date_hint">date</string>
+    <string name="text_view_facts_hint">facts</string>
     <string name="text_view_number_children">(%1$d)</string>
     
     <!-- EditTexts -->
@@ -89,6 +91,7 @@
     <string name="toast_enter_label">Please enter a label&#8230;</string>
     <string name="toast_enter_value">Please enter a value&#8230;</string>
     <string name="toast_bad_url">Link does not make sense&#8230;</string>
+    <string name="toast_no_image_gps_tag">No image GPS tag&#8230;</string>
     
     <!-- Social -->
     <string name="facebook">facebook</string>

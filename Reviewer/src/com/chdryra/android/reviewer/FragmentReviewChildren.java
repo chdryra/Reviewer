@@ -1,13 +1,11 @@
 package com.chdryra.android.reviewer;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.NavUtils;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,10 +30,15 @@ public class FragmentReviewChildren extends SherlockFragment {
 	private final static String DIALOG_CHILD_TAG = "ChildDialog";
 
 	public final static int CHILD_EDIT = 0;
+	private static final int DELETE_CONFIRM = 1;
 	
+	public static final int RESULT_DELETE = Activity.RESULT_FIRST_USER;
+	
+	private boolean mDeleteConfirmed = false;
+		
 	private ControllerReviewNode mController;
 	private ControllerReviewNodeChildren mChildrenController;
-	
+
 	private ArrayList<String> mChildNames = new ArrayList<String>();
 	
 	private TextView mSubjectTextView;
@@ -44,6 +47,9 @@ public class FragmentReviewChildren extends SherlockFragment {
 	private ImageButton mCalcAverageRatingButton;
 	private ListView mChildListView;
 	private RatingBar mTotalRatingBar;
+	
+	private float mOldRating;
+	private boolean mOldRatingIsAverage;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -56,11 +62,26 @@ public class FragmentReviewChildren extends SherlockFragment {
 		
 		setHasOptionsMenu(true);		
 		setRetainInstance(true);		
+		
+		backup();
+	}
+	
+	private void backup() {
+		mOldRating = mController.getRating();
+		mOldRatingIsAverage = mController.isReviewRatingAverage();
+		mChildrenController.backupChildrenNamesAndRatings();
+	}
+
+	private void revertToBackup() {
+		mController.setRating(mOldRating);
+		mController.setReviewRatingAverage(mOldRatingIsAverage);
+		mChildrenController.revertToBackUp();
 	}
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View v = inflater.inflate(R.layout.fragment_review_children, container, false);		
+		getSherlockActivity().getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		
 		mSubjectTextView = (TextView)v.findViewById(R.id.review_subject);
 		mAddChildButton = (ImageButton)v.findViewById(R.id.criterion_add_button);
@@ -192,6 +213,24 @@ public class FragmentReviewChildren extends SherlockFragment {
 		updateUI();
 	}
 	
+	private void sendResult(int resultCode) {
+		if (resultCode == RESULT_DELETE && mChildrenController.size() > 0) {
+			if(mDeleteConfirmed)
+				mChildrenController.clear();
+			else {
+				DialogBasicFragment.showDeleteConfirmDialog(getResources().getString(R.string.dialog_delete_criteria_title), 
+						FragmentReviewChildren.this, DELETE_CONFIRM, getFragmentManager());
+				return;
+			}
+		}
+		
+		if (resultCode == Activity.RESULT_CANCELED)
+			revertToBackup();
+		
+		getSherlockActivity().setResult(resultCode);		 
+		getSherlockActivity().finish();	
+	}
+	
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (resultCode == Activity.RESULT_CANCELED)
@@ -223,6 +262,13 @@ public class FragmentReviewChildren extends SherlockFragment {
 					mChildNames.add(mChildrenController.getTitle(childID));
 					break;
 
+				case DELETE_CONFIRM:
+					if(resultCode == Activity.RESULT_OK) {
+						mDeleteConfirmed = true;
+						sendResult(RESULT_DELETE);
+					}
+					break;
+					
 				default:
 					break;
 			};
@@ -241,17 +287,15 @@ public class FragmentReviewChildren extends SherlockFragment {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case android.R.id.home:
-			if (NavUtils.getParentActivityName(getSherlockActivity()) != null) {
-				Intent i = NavUtils.getParentActivityIntent(getSherlockActivity());
-				NavUtils.navigateUpTo(getSherlockActivity(), i);
-			}
+			sendResult(Activity.RESULT_CANCELED);
 			return true;
+		
+		case R.id.menu_item_delete:
+			sendResult(RESULT_DELETE);
+			return true;
+
 		case R.id.menu_item_done:
-			if (NavUtils.getParentActivityName(getSherlockActivity()) != null) {
-				Intent i = NavUtils.getParentActivityIntent(getSherlockActivity());
-				Controller.pack(mController, i);
-				NavUtils.navigateUpTo(getSherlockActivity(), i);
-			}
+			sendResult(Activity.RESULT_OK);
 			return true;
 
 		default:

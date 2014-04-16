@@ -26,8 +26,29 @@ public class ControllerReviewNode{
 		return mChildrenController;
 	}
 	
+	public ControllerReviewNodeCollection getCollectionController() {
+		return new ControllerReviewNodeCollection(mNode.getChildren());
+	}
+	
 	public ControllerReviewNode getControllerForChild(String id) {
-		return getChildrenController().getControllerForChild(id);
+		return getChildrenController().getControllerFor(id);
+	}
+	
+	public void clearChildren() {
+		getChildrenController().clear();
+	}
+	
+	public void removeChild(String childId) {
+		mNode.removeChild(Controller.convertID(childId));
+	}
+	
+	public void addChild(String title) {
+		Review r = FactoryReview.createUserReview(title);
+		mNode.addChild(r);
+	}
+	
+	public void clear() {
+		mNode.clearChildren();
 	}
 	
 	private Review getReview() {
@@ -100,7 +121,7 @@ public class ControllerReviewNode{
 		getReview().deleteComment();
 	}
 	
-	public int numberOfComments() {
+	public int getNumberOfComments() {
 		TraverserReviewNode traverser = new TraverserReviewNode(getReview().getReviewNode());
 		VisitorCommentCollector collector = new VisitorCommentCollector();
 		traverser.setVisitor(collector);
@@ -127,6 +148,14 @@ public class ControllerReviewNode{
 			factsMap.put(fact.getLabel(), fact.getValue());
 		
 		return factsMap;
+	}
+	
+	public int getNumberOfFacts() {
+		int numFacts = 0;
+		if(getFacts() != null)
+			numFacts = getFacts().size();
+		
+		return numFacts;
 	}
 	
 	public void setFacts(LinkedHashMap<String, String> factsMap) {

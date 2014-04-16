@@ -24,6 +24,10 @@ public class Controller {
 		
 		return sController;
 	}
+	
+	static RDId convertID(String id) {
+		return RDId.generateID(id);
+	}
 
 	public static ControllerReviewNode getControllerFor(String id) {
 		return getInstance().get(id);
