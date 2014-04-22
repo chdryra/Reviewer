@@ -6,7 +6,7 @@ import android.os.Parcel;
 import android.os.ParcelUuid;
 import android.os.Parcelable;
 
-public class RDId implements RData{
+public class RDId implements RData, Parcelable{
 	private ParcelUuid mID;
 	
 	private RDId() {

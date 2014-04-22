@@ -203,7 +203,25 @@ public class ReviewMeta implements Review {
 	public boolean hasDate() {
 		return false;
 	}
+	
+	@Override
+	public void deleteProsCons() {
+	}
 
+	@Override
+	public RDProsCons getProsCons() {
+		return null;
+	}
+
+	@Override
+	public boolean hasProsCons() {
+		return false;
+	}
+	
+	@Override
+	public void setProsCons(RDProsCons prosCons) {
+	}
+	
 	@Override
 	public boolean equals(Object obj) {
 		if(obj == null || obj.getClass() != getClass())

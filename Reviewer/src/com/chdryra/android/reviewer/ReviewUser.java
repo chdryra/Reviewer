@@ -11,6 +11,7 @@ public class ReviewUser implements Review{
 	private RDFacts mFacts;
 	private RDUrl mURL;
 	private RDDate mDate;
+	private RDProsCons mProsCons;
 
 	private ReviewNode mNode;
 	
@@ -207,6 +208,26 @@ public class ReviewUser implements Review{
 	@Override
 	public boolean hasDate() {
 		return mDate.hasData();
+	}
+
+	@Override
+	public void deleteProsCons() {
+		setProsCons(null);
+	}
+	
+	@Override
+	public RDProsCons getProsCons() {
+		return mProsCons;
+	}
+	
+	@Override
+	public boolean hasProsCons() {
+		return mProsCons.hasData();
+	}
+	
+	@Override
+	public void setProsCons(RDProsCons prosCons) {
+		mProsCons = (RDProsCons)processData(prosCons, new RDProsCons());
 	}
 	
 	@Override

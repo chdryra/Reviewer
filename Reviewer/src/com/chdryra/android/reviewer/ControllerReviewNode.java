@@ -3,6 +3,7 @@ package com.chdryra.android.reviewer;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.Map.Entry;
@@ -356,5 +357,47 @@ public class ControllerReviewNode{
 	
 	public void deleteURL() {
 		getReview().deleteURL();
+	}
+	
+	//ProsCons
+	public boolean hasProsCons() {
+		return getReview().hasProsCons();
+	}
+	
+	public ArrayList<String> getPros() {
+		return getProsCons(true);
+	}
+	
+	public ArrayList<String> getCons() {
+		return getProsCons(false);
+	}
+	
+	private ArrayList<String> getProsCons(boolean getPros) {
+		ArrayList<String> prosConsList = new ArrayList<String>();
+		if(!hasProsCons())
+			return prosConsList;
+		
+		RDProsCons prosCons = getPros? getReview().getProsCons().getPros() : getReview().getProsCons().getCons();
+		for(RDProCon proCon : prosCons)
+			prosConsList.add(proCon.getProCon());
+		
+		return prosConsList;
+	}
+	
+	public void setProsCons(ArrayList<String> pros, ArrayList<String> cons) {
+		Review r = getReview();
+		RDProsCons prosCons = new RDProsCons(r);
+		
+		for(String pro : pros)
+			prosCons.addPro(pro);
+		
+		for(String con : cons)
+			prosCons.addCon(con);
+		
+		r.setProsCons(prosCons);
+	}
+	
+	public void deleteProsCons() {
+		getReview().deleteProsCons();
 	}
 }

@@ -1,8 +1,5 @@
 package com.chdryra.android.reviewer;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
 public class RDCommentSingle implements RDComment{
 	private static final String DEFAULT_TITLE = "Comment";
 	
@@ -16,10 +13,6 @@ public class RDCommentSingle implements RDComment{
 		mComment = comment;
 	}
 	
-	public RDCommentSingle(Parcel in) {
-		mComment = in.readString();
-	}
-
 	@Override
 	public void setHoldingReview(Review review) {
 		mHoldingReview = review;
@@ -51,25 +44,4 @@ public class RDCommentSingle implements RDComment{
 		
 		return sb.toString();
 	}
-
-	@Override
-	public int describeContents() {
-		return 0;
-	}
-
-	@Override
-	public void writeToParcel(Parcel dest, int flags) {
-		dest.writeString(mComment);
-	}
-	
-	public static final Parcelable.Creator<RDCommentSingle> CREATOR 
-	= new Parcelable.Creator<RDCommentSingle>() {
-	    public RDCommentSingle createFromParcel(Parcel in) {
-	        return new RDCommentSingle(in);
-	    }
-
-	    public RDCommentSingle[] newArray(int size) {
-	        return new RDCommentSingle[size];
-	    }
-	};
 }

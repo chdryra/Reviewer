@@ -5,9 +5,6 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
 public class RDUrl implements RData {
 	private Review mHoldingReview;
 	private URL mURL;
@@ -18,10 +15,6 @@ public class RDUrl implements RData {
 	public RDUrl(String url, Review holdingReview) throws MalformedURLException, URISyntaxException{
 		setURL(url);
 		mHoldingReview = holdingReview;
-	}
-	
-	public RDUrl(Parcel in) throws MalformedURLException, URISyntaxException{
-		setURL(in.readString());
 	}
 
 	public URL get() {
@@ -64,32 +57,4 @@ public class RDUrl implements RData {
 	public boolean hasData() {
 		return mURL != null;
 	}
-	
-	@Override
-	public int describeContents() {
-		return 0;
-	}
-
-	@Override
-	public void writeToParcel(Parcel dest, int flags) {
-		dest.writeString(mURL.toExternalForm());
-	}
-
-	public static final Parcelable.Creator<RDUrl> CREATOR 
-	= new Parcelable.Creator<RDUrl>() {
-	    public RDUrl createFromParcel(Parcel in) {
-	    	RDUrl url = null;
-	    	try {
-				url = new RDUrl(in);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-	    	
-	        return url;
-	    }
-
-	    public RDUrl[] newArray(int size) {
-	        return new RDUrl[size];
-	    }
-	};
 }

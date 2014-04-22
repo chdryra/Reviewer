@@ -1,7 +1,6 @@
 package com.chdryra.android.reviewer;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import android.app.Activity;
 import android.content.Intent;

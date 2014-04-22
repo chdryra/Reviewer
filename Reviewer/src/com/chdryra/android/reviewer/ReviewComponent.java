@@ -1,7 +1,5 @@
 package com.chdryra.android.reviewer;
 
-import java.util.Set;
-
 public class ReviewComponent implements ReviewNode {
 
 	private RDId mID;
@@ -340,6 +338,26 @@ public class ReviewComponent implements ReviewNode {
 		return mReview.hasDate();
 	}
 
+	@Override
+	public void deleteProsCons() {
+		mReview.deleteProsCons();
+	}
+	
+	@Override
+	public RDProsCons getProsCons() {
+		return mReview.getProsCons();
+	}
+	
+	@Override
+	public boolean hasProsCons() {
+		return mReview.hasProsCons();
+	}
+	
+	@Override
+	public void setProsCons(RDProsCons prosCons) {
+		mReview.setProsCons(prosCons);
+	}
+	
 	@Override
 	public boolean equals(Object obj) {
 		if(obj == null || obj.getClass() != getClass())

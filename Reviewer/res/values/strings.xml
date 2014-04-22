@@ -62,11 +62,16 @@
     <string name="button_delete_text">delete</string>
     <string name="button_cancel_text">cancel</string>
     <string name="button_add_criterion_text">add</string>
-    <string name="button_change_photo_text">change</string>
-    <string name="button_add_image_text">add image</string>
-    <string name="button_add_comment_text">add comment</string>
-    <string name="button_add_location_text">add location</string>
-    <string name="button_add_info_text">add some info</string>
+    <string name="button_edit_text">edit</string>
+    
+    <!-- Image Buttons -->
+    <string name="button_add_image_cd">add image</string>
+    <string name="button_add_comment_cd">add comment</string>
+    <string name="button_add_location_cd">add location</string>
+    <string name="button_add_facts_cd">add some facts</string>
+    <string name="button_add_pros_cd">add some pros</string>
+    <string name="button_add_cons_cd">add some cons</string>
+    <string name="button_children_rating_avg_cd">criterion averaging on or off</string>
 
     <!-- Checkboxes -->
     <string name="checkbox_add_criteria_comments">add criteria comments</string>

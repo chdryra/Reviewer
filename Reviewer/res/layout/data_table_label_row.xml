@@ -3,17 +3,16 @@
     android:id="@+id/data_table_label_frame_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/LightSlateGray"
-    >
-	<TextView 
-	    android:id="@+id/data_table_label_text_view"
-	    android:layout_width="wrap_content"
-    	android:layout_height="wrap_content"
-    	android:ellipsize="marquee"
-		android:singleLine="true"
-	    android:textSize="@dimen/list_item_textSize"
-	    android:textColor="@color/WhiteSmoke"
-	    android:layout_gravity="left"/>
-	    
+    android:background="@color/LightSlateGray" >
+
+    <TextView
+        android:id="@+id/data_table_label_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="left"
+        android:ellipsize="marquee"
+        android:singleLine="true"
+        android:textColor="@color/WhiteSmoke"
+        android:textSize="@dimen/list_item_textSize" />
+
 </FrameLayout>
-        

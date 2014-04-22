@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" 
+    android:background="@color/LightSlateGray">
+
+    <LinearLayout
+        android:id="@+id/datum_linear_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <com.chdryra.android.myandroidwidgets.ClearableEditText
+            android:id="@+id/datum_label_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/edit_text_datum_name_hint"
+            android:imeOptions="actionNext"
+            android:inputType="textCapSentences" 
+            android:textColor="@color/WhiteSmoke"
+            android:textColorHint="@color/WhiteSmoke"/>
+
+        <com.chdryra.android.myandroidwidgets.ClearableEditText
+            android:id="@+id/datum_value_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/edit_text_datum_value_hint"
+            android:imeOptions="actionGo"
+            android:inputType="textCapSentences" 
+            android:textColor="@color/WhiteSmoke"
+            android:textColorHint="@color/WhiteSmoke"/>
+    </LinearLayout>
+
+    <View
+        android:id="@+id/datum_separator"
+        style="@style/HorizontalDivider"
+        android:layout_below="@id/datum_linear_layout" />
+
+    <LinearLayout
+        android:id="@+id/data_listview_and_buttons_linear_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_below="@id/datum_separator"
+        android:orientation="vertical" >
+
+        <ListView
+            android:id="@+id/data_listview"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+    </LinearLayout>
+
+</RelativeLayout>

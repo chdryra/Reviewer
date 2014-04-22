@@ -3,19 +3,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal" >
-    
-    <ImageView 
+
+    <ImageView
         android:id="@+id/icon_sharing_service"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@android:drawable/ic_menu_upload"
-        android:layout_weight="1"/>
-    
-    <TextView 
+        android:layout_weight="1"
+        android:src="@android:drawable/ic_menu_upload" />
+
+    <TextView
         android:id="@+id/text_sharing_service"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="facebook"
-        android:layout_weight="1"/>
+        android:layout_weight="1"
+        android:text="facebook" />
 
 </LinearLayout>

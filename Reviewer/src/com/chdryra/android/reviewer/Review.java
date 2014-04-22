@@ -44,6 +44,11 @@ public interface Review {
 	public void deleteDate();	
 	public boolean hasDate();
 
+	public RDProsCons getProsCons();
+	public void setProsCons(RDProsCons prosCons);
+	public void deleteProsCons();	
+	public boolean hasProsCons();
+
 	//For speed and comparison
 	@Override
 	public boolean equals(Object o);

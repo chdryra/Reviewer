@@ -2,168 +2,147 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/LightSlateGray">
+    android:background="@color/LightSlateGray" >
 
     <LinearLayout
         android:layout_width="match_parent"
-    	android:layout_height="wrap_content"
-    	android:orientation="vertical" >
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
 
-	    <com.chdryra.android.myandroidwidgets.ClearableEditText
-	        android:id="@+id/review_subject_edit_text" 
-	        android:layout_width="match_parent"
-	        android:layout_height="wrap_content"
-	        android:hint="@string/edit_text_subject_hint" 
-	        style="?android:textAppearanceLarge"
-	        android:gravity="center"
-	        android:cursorVisible="false"
-	        android:inputType="textCapSentences"
-	        android:imeOptions="actionDone"        
-	        android:textColor="@color/WhiteSmoke"
-	        android:textColorHint="@color/WhiteSmoke"
-	        android:background="@null"/>        
-	
-	    <View style="@style/HorizontalDivider"/>
-	        
+        <com.chdryra.android.myandroidwidgets.ClearableEditText
+            android:id="@+id/review_subject_edit_text"
+            style="?android:textAppearanceLarge"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:cursorVisible="false"
+            android:gravity="center"
+            android:hint="@string/edit_text_subject_hint"
+            android:imeOptions="actionDone"
+            android:inputType="textCapSentences"
+            android:textColor="@color/WhiteSmoke"
+            android:textColorHint="@color/WhiteSmoke" />
+
+        <View style="@style/HorizontalDivider" />
+
         <RelativeLayout
-	   		android:layout_width="match_parent"
-			android:layout_height="wrap_content">
-	  
-	        <RatingBar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <RatingBar
                 android:id="@+id/total_rating_bar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
                 android:clickable="true"
                 android:numStars="5"
                 android:rating="0.0"
-                android:stepSize="0.5"
-                android:layout_centerHorizontal="true"/>
-	
-		   	<ImageButton
-		   	    android:id="@+id/children_avg_button"
-		      	android:layout_width="wrap_content"
-		      	android:layout_height="wrap_content"
-		      	android:background="@color/LightSlateGray"
-		      	android:src="@android:drawable/ic_menu_add" 
-		      	android:layout_gravity="center"
-		      	android:layout_toLeftOf="@id/total_rating_bar"
-		      	android:layout_centerVertical="true"
-                android:visibility="invisible"/>
-	
+                android:stepSize="0.5" />
 
-	        <TextView 
-	            android:id="@+id/num_children_text_view"
-    	        android:layout_width="wrap_content"
-    	        android:layout_height="wrap_content"
-    	        style="?android:textAppearanceLarge"
-    	        android:textColor="@color/Gold"
-    	        android:text="@string/text_view_number_children"
-		      	android:layout_toRightOf="@id/total_rating_bar"
-		      	android:layout_centerInParent="true"
-		      	android:background="@drawable/image_button_selected"/>
-	
-	    </RelativeLayout>
- 
-	    <LinearLayout 
-	        android:id="@+id/linear_layout_criteria_rating_bars"
-	        android:layout_width="match_parent"
-	        android:layout_height="wrap_content"
-	        android:orientation="vertical"
-	        android:clickable="true"
-	  		android:descendantFocusability="blocksDescendants"
-	        android:textColor="@color/WhiteSmoke"
-			android:visibility="gone">
-			
-		    <View style="@style/HorizontalDivider"/>
-		    <View style="@style/HorizontalDivider"/>
-    
-	    </LinearLayout>	
+            <ImageButton
+                android:id="@+id/children_avg_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center"
+                android:layout_toLeftOf="@id/total_rating_bar"
+                android:background="@color/LightSlateGray"
+                android:src="@android:drawable/ic_menu_add"
+                android:visibility="invisible"
+                android:contentDescription="@string/button_children_rating_avg_cd" />
 
-		    <View style="@style/HorizontalDivider"/>
-    
-		     <include  
-		        layout="@layout/optional_image_buttons"
-		        android:layout_width="match_parent"
-		    	android:layout_height="wrap_content"
-		     />
-		   	
-		   	<View style="@style/HorizontalDivider"/>
-		
-		   	<LinearLayout 
-		   	    android:layout_width="match_parent"
-		   	    android:layout_height="wrap_content"
-		   	    android:orientation="horizontal">
-		    
-			   	<TextView
-				    android:id="@+id/location_text_view"
-				    android:layout_width="match_parent"
-				    android:layout_height="wrap_content"
-				    style="?android:textAppearanceMedium"
-				    android:textColor="@color/WhiteSmoke"
-				    android:text="@string/text_view_location_hint"
-				    android:gravity="center"
-				    android:maxLines="1"
-				    android:ellipsize="end"
-				    android:layout_weight="1"
-				    android:background="@drawable/image_button_selected"/>
-			   	    
-			   	<View style="@style/VerticalDivider"/>
-			   	
-			   	<TextView
-				    android:id="@+id/date_text_view"
-				    android:layout_width="match_parent"
-				    android:layout_height="wrap_content"
-				    style="?android:textAppearanceMedium"
-				    android:textColor="@color/WhiteSmoke"
-				    android:gravity="center"
-				    android:maxLines="1"
-				    android:ellipsize="end"
-				    android:text="@string/text_view_date_hint"
-				    android:layout_weight="1"
-				    android:background="@drawable/image_button_selected"/>
-			   	
-		   	</LinearLayout>
-		    
-		   	<View style="@style/HorizontalDivider"/>
-		    
-		    <LinearLayout 
-		   	    android:layout_width="match_parent"
-		   	    android:layout_height="wrap_content"
-		   	    android:orientation="horizontal">
-		    
-			    <TextView
-				    android:id="@+id/url_text_view"
-				    android:layout_width="match_parent"
-				    android:layout_height="wrap_content"
-				    style="?android:textAppearanceMedium"
-				    android:textColor="@color/WhiteSmoke"
-				    android:gravity="center"
-				    android:maxLines="1"
-				    android:ellipsize="end"
-				    android:layout_weight="1"
-				    android:background="@drawable/image_button_selected"
-				    android:text="@string/text_view_link_hint"
-			   	/>	
-		   
-			   	<View style="@style/VerticalDivider"/>
-			   	
-			   	<TextView
-				    android:id="@+id/facts_text_view"
-				    android:layout_width="match_parent"
-				    android:layout_height="wrap_content"
-				    style="?android:textAppearanceMedium"
-				    android:textColor="@color/WhiteSmoke"
-				    android:gravity="center"
-				    android:maxLines="1"
-				    android:ellipsize="end"
-				    android:layout_weight="1"
-				    android:text="@string/text_view_facts_hint"
-				    android:background="@drawable/image_button_selected"/>
-			   	
-		   	</LinearLayout>
-		    
-		   <View style="@style/HorizontalDivider"/>
-		   
-		   </LinearLayout>
+            <TextView
+                android:id="@+id/num_children_text_view"
+                style="?android:textAppearanceLarge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_toRightOf="@id/total_rating_bar"
+                android:background="@drawable/image_button_selected"
+                android:text="@string/text_view_number_children"
+                android:textColor="@color/Gold" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/linear_layout_criteria_rating_bars"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:descendantFocusability="blocksDescendants"
+            android:orientation="vertical"
+            android:textColor="@color/WhiteSmoke"
+            android:visibility="gone" >
+
+            <View style="@style/HorizontalDivider" />
+
+            <View style="@style/HorizontalDivider" />
+        </LinearLayout>
+
+        <View style="@style/HorizontalDivider" />
+
+        <include
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            layout="@layout/optional_image_buttons" />
+
+        <View style="@style/HorizontalDivider" />
+
+        <!-- 
+        <TextView
+            android:id="@+id/location_text_view"
+            style="?android:textAppearanceMedium"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/image_button_selected"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:maxLines="1"
+            android:text="@string/text_view_location_hint"
+            android:textColor="@color/WhiteSmoke" />
+        
+        <View style="@style/HorizontalDivider" />
+        
+        <TextView
+            android:id="@+id/date_text_view"
+            style="?android:textAppearanceMedium"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/image_button_selected"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:maxLines="1"
+            android:text="@string/text_view_date_hint"
+            android:textColor="@color/WhiteSmoke" />
+
+        <View style="@style/HorizontalDivider" />
+ -->
+        <TextView
+            android:id="@+id/url_text_view"
+            style="?android:textAppearanceMedium"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/image_button_selected"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:maxLines="1"
+            android:text="@string/text_view_link_hint"
+            android:textColor="@color/WhiteSmoke" />
+<!-- 
+        <View style="@style/HorizontalDivider" />
+        
+        <TextView
+            android:id="@+id/facts_text_view"
+            style="?android:textAppearanceMedium"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/image_button_selected"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:maxLines="1"
+            android:text="@string/text_view_facts_hint"
+            android:textColor="@color/WhiteSmoke" />
+ -->
+        <View style="@style/HorizontalDivider" />
+    </LinearLayout>
 
 </ScrollView>

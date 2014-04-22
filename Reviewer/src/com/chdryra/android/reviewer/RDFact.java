@@ -1,9 +1,6 @@
 package com.chdryra.android.reviewer;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
-public class RDFact implements Parcelable, RData{
+public class RDFact implements RData{
 
 	private Review mHoldingReview;
 	private String mLabel;
@@ -18,11 +15,6 @@ public class RDFact implements Parcelable, RData{
 		mLabel = label;
 		mValue = value;			
 		mHoldingReview = holdingReview;
-	}
-	
-	public RDFact(Parcel in) {
-		mLabel = in.readString();
-		mValue = in.readString();
 	}
 
 	public String getLabel() {
@@ -47,26 +39,4 @@ public class RDFact implements Parcelable, RData{
 	public boolean hasData() {
 		return mLabel != null && mValue != null;
 	}
-	
-	@Override
-	public int describeContents() {
-		return 0;
-	}
-
-	@Override
-	public void writeToParcel(Parcel dest, int flags) {
-		dest.writeString(mLabel);
-		dest.writeString(mValue);
-	}
-
-	public static final Parcelable.Creator<RDFact> CREATOR = new Parcelable.Creator<RDFact>() {
-	    public RDFact createFromParcel(Parcel in) {
-	        return new RDFact(in);
-	    }
-
-	    public RDFact[] newArray(int size) {
-	        return new RDFact[size];
-	    }
-	};
-
 }

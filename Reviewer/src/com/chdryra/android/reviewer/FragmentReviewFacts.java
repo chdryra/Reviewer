@@ -4,24 +4,23 @@ import java.util.LinkedHashMap;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Rect;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockFragment;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.chdryra.android.myandroidwidgets.ClearableEditText;
 
@@ -43,12 +42,7 @@ public class FragmentReviewFacts extends SherlockFragment {
 	private ClearableEditText mDatumValue;
 	private ListView mDataListView;
 	
-	private Button mDeleteButton;
-	private Button mCancelButton;
-	private Button mDoneButton;
-
 	private boolean mDeleteConfirmed = false;
-	private boolean mIsKeyboardVisible = false;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -61,7 +55,7 @@ public class FragmentReviewFacts extends SherlockFragment {
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		final View v = inflater.inflate(R.layout.fragment_review_data, container, false);		
+		final View v = inflater.inflate(R.layout.fragment_review_facts, container, false);		
 				
 		getSherlockActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);		
 		getSherlockActivity().getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -104,49 +98,6 @@ public class FragmentReviewFacts extends SherlockFragment {
 			}
 		});
 	
-		mDeleteButton = (Button)v.findViewById(R.id.button_map_delete);
-	    mDeleteButton.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				sendResult(RESULT_DELETE);
-			}
-		});
-	    
-	    mCancelButton = (Button)v.findViewById(R.id.button_map_cancel);
-	    mCancelButton.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				sendResult(Activity.RESULT_CANCELED);
-			}
-		});
-	    
-	    mDoneButton = (Button)v.findViewById(R.id.button_map_done);
-	    mDoneButton.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				if(mIsKeyboardVisible)
-					addDatum();
-
-				sendResult(Activity.RESULT_OK);
-			}
-		});
-	    
-		v.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-			
-			@Override
-			public void onGlobalLayout() {
-				 Rect r = new Rect();
-				    //r will be populated with the coordinates of your view that area still visible.
-				    v.getWindowVisibleDisplayFrame(r);
-
-				    int heightDiff = v.getRootView().getHeight() - (r.bottom - r.top);
-				    if (heightDiff > 100) // if more than 100 pixels, its probably a keyboard...
-				    	mIsKeyboardVisible = true;
-				    else
-				    	mIsKeyboardVisible = false;
-			}
-		});
-
 		return v;
 	}
 	
@@ -230,11 +181,23 @@ public class FragmentReviewFacts extends SherlockFragment {
 	}
 
 	@Override
+	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+		super.onCreateOptionsMenu(menu, inflater);
+		inflater.inflate(R.menu.fragment_review_facts, menu);
+	}
+	
+	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case android.R.id.home:
 			sendResult(Activity.RESULT_CANCELED);
-			return true;
+			break;
+		case R.id.menu_item_delete:
+			sendResult(RESULT_DELETE);
+			break;
+		case R.id.menu_item_done:
+			sendResult(Activity.RESULT_OK);
+			break;
 		default:
 			break;
 		}
@@ -294,7 +257,10 @@ public class FragmentReviewFacts extends SherlockFragment {
 			
 			vh.datumName.setText(label +":");
 			vh.datumValue.setText(value);
-	
+			
+			vh.datumName.setTextColor(mDatumLabel.getTextColors().getDefaultColor());
+			vh.datumValue.setTextColor(mDatumLabel.getTextColors().getDefaultColor());
+			
 			return(convertView);
 		};
 	};

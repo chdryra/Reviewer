@@ -2,8 +2,6 @@ package com.chdryra.android.reviewer;
 
 import java.util.StringTokenizer;
 import android.graphics.Bitmap;
-import android.os.Parcel;
-import android.os.Parcelable;
 
 import com.google.android.gms.maps.model.LatLng;
 
@@ -23,13 +21,6 @@ public class RDLocation implements RData{
 	public RDLocation(LatLng latLng, Review holdingReview) {
 		mLatLng = latLng;
 		mHoldingReview = holdingReview;
-	}
-
-	public RDLocation(Parcel in) {
-		mLatLng = in.readParcelable(LatLng.class.getClassLoader());
-		mMapSnapshot = in.readParcelable(Bitmap.class.getClassLoader());
-		mMapSnapshotZoom = in.readFloat();
-		mName = in.readString();
 	}
 
 	@Override
@@ -91,28 +82,4 @@ public class RDLocation implements RData{
 		} else
 			return null;
 	}
-
-	@Override
-	public int describeContents() {
-		return 0;
-	}
-
-	@Override
-	public void writeToParcel(Parcel dest, int flags) {
-		dest.writeParcelable(mLatLng, flags);
-		dest.writeParcelable(mMapSnapshot, flags);
-		dest.writeFloat(mMapSnapshotZoom);
-		dest.writeString(mName);
-	}
-
-	public static final Parcelable.Creator<RDLocation> CREATOR 
-	= new Parcelable.Creator<RDLocation>() {
-	    public RDLocation createFromParcel(Parcel in) {
-	        return new RDLocation(in);
-	    }
-
-	    public RDLocation[] newArray(int size) {
-	        return new RDLocation[size];
-	    }
-	};
 }

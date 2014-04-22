@@ -1,49 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
 
-
-    <LinearLayout 
-	    android:orientation="vertical"
-	    android:layout_width="match_parent"
-	    android:layout_height="wrap_content"
-	    android:background="@color/LightSlateGray">
-	    
-    <TextView
-        android:id="@+id/comment_text_view" 
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" 
-        style="?android:textAppearanceLarge"
-        android:gravity="center"
-        android:textColor="@color/WhiteSmoke"/>        
-
-    <View style="@style/HorizontalDivider"/>
-   
-    <RatingBar
-        android:id="@+id/comment_rating_bar"
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-    	android:layout_gravity="center_horizontal"
-        android:numStars="5"
-        android:rating="0.0"
-        android:stepSize="0.5" 
-        android:isIndicator="true"
-        android:clickable="false"/>
-    
-   	<View style="@style/HorizontalDivider"/>
-	
-	</LinearLayout>   	
-	
-	<EditText 
+        android:background="@color/LightSlateGray"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/comment_text_view"
+            style="?android:textAppearanceLarge"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textColor="@color/WhiteSmoke" />
+
+        <View style="@style/HorizontalDivider" />
+
+        <RatingBar
+            android:id="@+id/comment_rating_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:clickable="false"
+            android:isIndicator="true"
+            android:numStars="5"
+            android:rating="0.0"
+            android:stepSize="0.5" />
+
+        <View style="@style/HorizontalDivider" />
+    </LinearLayout>
+
+    <EditText
         android:id="@+id/comment_edit_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/edit_text_add_comment_hint"
-        android:inputType="textCapSentences|textAutoCorrect"
         android:imeOptions="actionNext"
-        android:maxLines="3"	       />
-	
-	<View style="@style/HorizontalDivider"/>
+        android:inputType="textCapSentences|textAutoCorrect"
+        android:maxLines="3" />
+
+    <View style="@style/HorizontalDivider" />
+
 </LinearLayout>

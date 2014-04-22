@@ -3,56 +3,55 @@
     android:id="@+id/mapLinearLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" 
-    android:background="@color/LightSlateGray">
-     	 	     	
- 	<com.chdryra.android.myandroidwidgets.ClearableAutoCompleteTextView
- 	    android:id="@+id/edit_text_name_location"
- 	    android:layout_width="match_parent"
- 	    android:layout_height="wrap_content" 
- 	    android:hint="@string/edit_text_name_location_hint"
- 	    android:inputType="textCapSentences"
- 	    android:imeOptions="actionDone"
- 	    android:cursorVisible="false"
- 	    android:textColor="@color/WhiteSmoke"
- 	    android:textColorHint="@color/WhiteSmoke"
- 	    android:completionThreshold="1"
- 	    />
+    android:background="@color/LightSlateGray"
+    android:orientation="vertical" >
 
- 	<com.google.android.gms.maps.MapView
-        android:id="@+id/mapView"
+    <com.chdryra.android.myandroidwidgets.ClearableAutoCompleteTextView
+        android:id="@+id/edit_text_name_location"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:completionThreshold="1"
+        android:cursorVisible="false"
+        android:hint="@string/edit_text_name_location_hint"
+        android:imeOptions="actionDone"
+        android:inputType="textCapSentences"
+        android:textColor="@color/WhiteSmoke"
+        android:textColorHint="@color/WhiteSmoke" />
+
+    <com.google.android.gms.maps.MapView
         xmlns:map="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/mapView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:clickable="true"
-        android:layout_weight="1"/>
- 	
- 	<View style="@style/HorizontalDivider" />
- 	
- 	<LinearLayout 
- 	    android:layout_width="match_parent"
- 	    android:layout_height="wrap_content"
- 	    android:orientation="horizontal">
- 	    
- 	    <ImageButton 
- 	    	android:id="@+id/photo_location_image_button"
- 	        android:layout_width="0dp"
- 	        android:layout_height="wrap_content"
- 	        android:src="@drawable/ic_menu_camera"
- 	        android:background="@drawable/image_button_selected"
- 	        style="@style/SquareImageButton"
- 	        android:layout_weight="1"/>
- 	    
- 	    
- 	     <View style="@style/VerticalDivider" />
- 	     
- 	    <ImageButton 
- 	        android:id="@+id/revert_location_image_button"
- 	        android:layout_width="0dp"
- 	        android:layout_height="wrap_content"
- 	        android:src="@drawable/ic_menu_revert"
- 	        style="@style/SquareImageButton"
- 	        android:background="@drawable/image_button_selected"
- 	        android:layout_weight="1"/>
- 	</LinearLayout>
+        android:layout_weight="1"
+        android:clickable="true" />
+
+    <View style="@style/HorizontalDivider" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <ImageButton
+            android:id="@+id/photo_location_image_button"
+            style="@style/SquareImageButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/image_button_selected"
+            android:src="@drawable/ic_menu_camera" />
+
+        <View style="@style/VerticalDivider" />
+
+        <ImageButton
+            android:id="@+id/revert_location_image_button"
+            style="@style/SquareImageButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/image_button_selected"
+            android:src="@drawable/ic_menu_revert" />
+    </LinearLayout>
+
 </LinearLayout>

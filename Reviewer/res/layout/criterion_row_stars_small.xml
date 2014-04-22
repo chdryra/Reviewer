@@ -3,34 +3,33 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginLeft="@dimen/list_item_leftPadding"
-	android:layout_marginRight="@dimen/list_item_rightPadding"    
-    android:orientation="horizontal" 
+    android:layout_marginRight="@dimen/list_item_rightPadding"
+    android:background="@drawable/list_long_click_background_activated"
     android:longClickable="true"
-    android:background="@drawable/list_long_click_background_activated">
+    android:orientation="horizontal" >
 
     <TextView
         android:id="@+id/criterion_name_text_view"
+        style="?android:attr/listViewStyle"
         android:layout_width="0dip"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:textSize="@dimen/list_item_textSize"
-        style="?android:attr/listViewStyle"
         android:layout_marginLeft="@dimen/list_item_leftPadding"
         android:layout_marginRight="@dimen/list_item_rightPadding"
-        android:layout_weight="1" 
-       />
+        android:layout_weight="1"
+        android:textSize="@dimen/list_item_textSize" />
 
     <RatingBar
         android:id="@+id/criterion_rating_bar"
         style="?android:attr/ratingBarStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical|center_vertical"
+        android:layout_marginLeft="@dimen/list_item_leftPadding"
+        android:layout_marginRight="@dimen/list_item_rightPadding"
         android:isIndicator="true"
         android:numStars="5"
-        android:layout_marginRight="@dimen/list_item_rightPadding"
-        android:layout_marginLeft="@dimen/list_item_leftPadding"
         android:rating="0.0"
-        android:stepSize="0.5" 
-        android:layout_gravity="center_vertical|center_vertical"/>
-    		      
-	</LinearLayout>
+        android:stepSize="0.5" />
+
+</LinearLayout>

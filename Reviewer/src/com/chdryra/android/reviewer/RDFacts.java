@@ -4,10 +4,7 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.NoSuchElementException;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
-public class RDFacts implements Iterable<RDFact>, RData{
+public class RDFacts implements RData, Iterable<RDFact> {
 
 	private Review mHoldingReview;
 	private LinkedHashMap<String, RDFact> mData = new LinkedHashMap<String, RDFact>();
@@ -17,14 +14,6 @@ public class RDFacts implements Iterable<RDFact>, RData{
 
 	public RDFacts(Review holdingReview) {
 		mHoldingReview = holdingReview;
-	}
-
-	public RDFacts(Parcel in) {
-		Parcelable[] data = in.readParcelableArray(RDFact.class.getClassLoader());
-		for(int i = 0; i < data.length; ++i) {
-			RDFact rDFact = (RDFact)data[i];
-			mData.put(rDFact.getLabel(), rDFact);
-		}
 	}
 
 	@Override
@@ -73,10 +62,10 @@ public class RDFacts implements Iterable<RDFact>, RData{
 	
 	@Override
 	public Iterator<RDFact> iterator() {
-		return new DataIterator();
+		return new FactIterator();
 	}
 	
-	class DataIterator implements Iterator<RDFact> {
+	class FactIterator implements Iterator<RDFact> {
 		int position = 0;
 		
 		@Override
@@ -100,27 +89,4 @@ public class RDFacts implements Iterable<RDFact>, RData{
 				RDFacts.this.remove(getItem(position-1).getLabel());
 		}
 	}
-
-	@Override
-	public int describeContents() {
-		return 0;
-	}
-
-	@Override
-	public void writeToParcel(Parcel dest, int flags) {
-		RDFact[] data = mData.values().toArray(new RDFact[mData.size()]);
-		dest.writeParcelableArray(data, flags);
-	}
-	
-	public static final Parcelable.Creator<RDFacts> CREATOR 
-	= new Parcelable.Creator<RDFacts>() {
-	    public RDFacts createFromParcel(Parcel in) {
-	        return new RDFacts(in);
-	    }
-
-	    public RDFacts[] newArray(int size) {
-	        return new RDFacts[size];
-	    }
-	};
-
 }

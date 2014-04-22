@@ -3,80 +3,75 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center_horizontal"
-    android:background="@color/LightSlateGray">
-   	
+    android:background="@color/LightSlateGray" >
+
     <TextView
-        android:id="@+id/review_subject" 
+        android:id="@+id/review_subject"
+        style="?android:textAppearanceLarge"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        style="?android:textAppearanceLarge"
         android:gravity="center"
-        android:textColor="@color/WhiteSmoke"
-        android:text="text"
-       />        
-    
+        android:textColor="@color/WhiteSmoke" />
+
     <View
         android:id="@+id/review_subject_separator"
-    	style="@style/HorizontalDivider"
-    	android:layout_below="@id/review_subject"/>
-        
+        style="@style/HorizontalDivider"
+        android:layout_below="@id/review_subject" />
+
     <RatingBar
         android:id="@+id/total_rating_bar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
         android:layout_below="@+id/review_subject_separator"
-    	android:layout_alignParentRight="true"
         android:numStars="5"
         android:rating="0.0"
         android:stepSize="0.5" />
 
     <View
         android:id="@+id/total_rating_bar_separator"
-    	style="@style/HorizontalDivider"
-    	android:layout_below="@id/total_rating_bar"/>
-        
+        style="@style/HorizontalDivider"
+        android:layout_below="@id/total_rating_bar" />
 
-	 <com.chdryra.android.myandroidwidgets.ClearableEditText
-	        android:id="@+id/criterion_add_edit_text"
-	        android:hint="@string/edit_text_add_criterion_hint"
-	        android:layout_height="wrap_content"
-	        android:layout_width="match_parent"
-	        android:layout_below="@id/total_rating_bar_separator"
-	 	    android:layout_alignLeft="@id/total_rating_bar"
-	        android:cursorVisible="false"
-        	android:inputType="textCapSentences"
-        	android:imeOptions="actionDone"
-        	android:textColor="@color/WhiteSmoke"
-	        android:textColorHint="@color/WhiteSmoke"
-	        />
+    <com.chdryra.android.myandroidwidgets.ClearableEditText
+        android:id="@+id/criterion_add_edit_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/total_rating_bar"
+        android:layout_below="@id/total_rating_bar_separator"
+        android:cursorVisible="false"
+        android:hint="@string/edit_text_add_criterion_hint"
+        android:imeOptions="actionDone"
+        android:inputType="textCapSentences"
+        android:textColor="@color/WhiteSmoke"
+        android:textColorHint="@color/WhiteSmoke" />
 
- 	    <ListView
- 	        android:id="@+id/criterion_listview"
- 	    	android:layout_below="@id/criterion_add_edit_text"
- 	        android:layout_width="match_parent"
- 	        android:layout_height="wrap_content" 
- 	        >
- 	    </ListView>
- 	    
- 	  <ImageButton
- 	      android:id="@+id/criterion_add_button"
- 	      android:layout_width="wrap_content"
- 	      android:layout_height="wrap_content"
- 	      android:layout_above="@+id/criterion_listview"
- 	      android:layout_alignParentLeft="true"
- 	      android:paddingLeft="@dimen/list_item_leftPadding"
- 	      android:background="@null"
- 	      android:src="@android:drawable/ic_input_add" />
+    <ListView
+        android:id="@+id/criterion_listview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/criterion_add_edit_text" >
+    </ListView>
 
- 	  <ImageButton
- 	      android:id="@+id/criterion_avg_button"
- 	      android:layout_width="wrap_content"
- 	      android:layout_height="wrap_content"
- 	      android:layout_below="@+id/review_subject"
- 	      android:layout_above="@+id/total_rating_bar_separator"
- 	      android:layout_alignLeft="@+id/criterion_add_button"
- 	      android:paddingLeft="@dimen/list_item_leftPadding"
- 	      android:background="@null"
- 	      android:src="@android:drawable/ic_menu_add" />
+    <ImageButton
+        android:id="@+id/criterion_add_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/criterion_listview"
+        android:layout_alignParentLeft="true"
+        android:background="@null"
+        android:paddingLeft="@dimen/list_item_leftPadding"
+        android:src="@android:drawable/ic_input_add" />
+
+    <ImageButton
+        android:id="@+id/criterion_avg_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/total_rating_bar_separator"
+        android:layout_alignLeft="@+id/criterion_add_button"
+        android:layout_below="@+id/review_subject"
+        android:background="@null"
+        android:paddingLeft="@dimen/list_item_leftPadding"
+        android:src="@android:drawable/ic_menu_add" />
 
 </RelativeLayout>

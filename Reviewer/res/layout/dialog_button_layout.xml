@@ -1,44 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-  	android:layout_height="wrap_content"
-  	android:orientation="vertical">
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
 
-    <View style="@style/HorizontalDivider"/>
- 
-<LinearLayout 
-    android:layout_width="match_parent"
-  	android:layout_height="wrap_content"
-  	android:orientation="horizontal" >
+    <View style="@style/HorizontalDivider" />
 
-    <Button 
-        android:id="@+id/button_map_delete"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_width="0dp"
-        android:text="@string/button_delete_text"
-        style="@style/Widget.Sherlock.ActionButton"
-        android:layout_weight="1"/>
-    
-    <View style="@style/VerticalDivider" />
-    
-    <Button 
-        android:id="@+id/button_map_cancel"
-        android:layout_height="wrap_content"
-        android:layout_width="0dp"
-        android:text="@string/button_cancel_text"
-        style="@style/Widget.Sherlock.ActionButton"
-        android:layout_weight="1"/>
-    
-    <View style="@style/VerticalDivider" />
-    
-    <Button 
-        android:id="@+id/button_map_done"
-        android:layout_height="wrap_content"
-        android:layout_width="0dp"
-        android:text="@string/button_done_text"
-        style="@style/Widget.Sherlock.ActionButton"
-        android:layout_weight="1"/>
+        android:orientation="horizontal" >
 
-</LinearLayout>
+        <Button
+            android:id="@+id/button_map_delete"
+            style="@style/Widget.Sherlock.ActionButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/button_delete_text" />
+
+        <View style="@style/VerticalDivider" />
+
+        <Button
+            android:id="@+id/button_map_cancel"
+            style="@style/Widget.Sherlock.ActionButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/button_cancel_text" />
+
+        <View style="@style/VerticalDivider" />
+
+        <Button
+            android:id="@+id/button_map_done"
+            style="@style/Widget.Sherlock.ActionButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/button_done_text" />
+    </LinearLayout>
+
 </LinearLayout>

@@ -154,6 +154,24 @@ public class ReviewBasic implements Review {
 	}
 
 	@Override
+	public void deleteProsCons() {
+	}
+	
+	@Override
+	public RDProsCons getProsCons() {
+		return null;
+	}
+
+	@Override
+	public boolean hasProsCons() {
+		return false;
+	}
+	
+	@Override
+	public void setProsCons(RDProsCons prosCons) {
+	}
+	
+	@Override
 	public boolean equals(Object obj) {
 		if(obj == null || obj.getClass() != getClass())
 			return false;

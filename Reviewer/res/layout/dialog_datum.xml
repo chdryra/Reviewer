@@ -3,25 +3,22 @@
     android:id="@+id/datum_linear_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
-    
+    android:orientation="vertical" >
+
     <com.chdryra.android.myandroidwidgets.ClearableEditText
-        android:id="@+id/datum_label_edit_text" 
+        android:id="@+id/datum_label_edit_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/edit_text_datum_name_hint" 
-        android:inputType="textCapSentences"
+        android:hint="@string/edit_text_datum_name_hint"
         android:imeOptions="actionNext"
-     />        
-    
-     <com.chdryra.android.myandroidwidgets.ClearableEditText
-        android:id="@+id/datum_value_edit_text" 
+        android:inputType="textCapSentences" />
+
+    <com.chdryra.android.myandroidwidgets.ClearableEditText
+        android:id="@+id/datum_value_edit_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/edit_text_datum_value_hint" 
-        android:inputType="textCapSentences"
+        android:hint="@string/edit_text_datum_value_hint"
         android:imeOptions="actionDone"
-     />
-	    
+        android:inputType="textCapSentences" />
+
 </LinearLayout>
-       
