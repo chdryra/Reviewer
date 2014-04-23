@@ -86,7 +86,7 @@ public abstract class DialogBasicFragment extends SherlockDialogFragment {
 	protected AlertDialog buildDialog(View v, String title) {
 		AlertDialog dialog = new AlertDialog.Builder(getActivity()).
 				setView(v).
-				setPositiveButton(R.string.dialog_button_change_text, new DialogInterface.OnClickListener() {
+				setPositiveButton(R.string.dialog_button_edit_text, new DialogInterface.OnClickListener() {
 					
 					@Override
 					public void onClick(DialogInterface dialog, int which) {

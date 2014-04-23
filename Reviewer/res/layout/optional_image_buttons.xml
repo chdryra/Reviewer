@@ -5,6 +5,7 @@
     android:layout_height="wrap_content" >
 
     <!-- Image and comment -->
+
     <TableRow android:layout_weight="1" >
 
         <FrameLayout
@@ -16,7 +17,7 @@
                 android:id="@+id/add_photo_image_button"
                 style="@style/SquareImageButton"
                 android:contentDescription="@string/button_add_image_cd"
-                android:src="@drawable/ic_menu_camera" />
+                android:src="@drawable/ic_action_photo" />
         </FrameLayout>
 
         <View style="@style/VerticalDivider" />
@@ -49,19 +50,35 @@
 
     <View style="@style/HorizontalDivider" />
 
-    <!-- Pros and cons -->
+    <!-- Location and Pros -->
+
     <TableRow android:layout_weight="1" >
 
-            <RelativeLayout
-	            android:layout_width="match_parent"
-	            android:layout_height="match_parent"
-	            android:layout_weight="1" >
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1" >
+
+            <ImageButton
+                android:id="@+id/add_location_image_button"
+                style="@style/SquareImageButton"
+                android:contentDescription="@string/button_add_location_cd"
+                android:scaleType="center"
+                android:src="@drawable/ic_menu_mylocation" />
+        </FrameLayout>
+
+        <View style="@style/VerticalDivider" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1" >
 
             <ImageButton
                 android:id="@+id/add_pros_image_button"
                 style="@style/SquareImageButton"
-                android:src="@drawable/ic_input_add" 
-                android:contentDescription="@string/button_add_pros_cd" />
+                android:contentDescription="@string/button_add_pros_cd"
+                android:src="@drawable/ic_action_new" />
 
             <TextView
                 android:id="@+id/pros_text_view"
@@ -76,53 +93,11 @@
                 android:textColor="@color/Green"
                 android:visibility="gone" />
         </RelativeLayout>
-
-        <View style="@style/VerticalDivider" />
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1" >
-
-            <ImageButton
-                android:id="@+id/add_cons_image_button"
-                style="@style/SquareImageButton"
-                android:src="@drawable/ic_delete" 
-                android:contentDescription="@string/button_add_cons_cd"/>
-
-            <TextView
-                android:id="@+id/cons_text_view"
-                style="?android:textAppearanceLarge"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:background="@drawable/image_button_selected"
-                android:ellipsize="marquee"
-                android:gravity="center"
-                android:textAlignment="center"
-                android:textColor="@color/WhiteSmoke"
-                android:visibility="gone" />
-        </RelativeLayout>
     </TableRow>
-    
+
     <View style="@style/HorizontalDivider" />
-    
+
     <TableRow android:layout_weight="1" >
-
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1" >
-
-            <ImageButton
-                android:id="@+id/add_location_image_button"
-                style="@style/SquareImageButton"
-                android:contentDescription="@string/button_add_location_cd"
-                android:src="@drawable/ic_menu_mylocation" 
-                android:scaleType="center"/>
-        </FrameLayout>
-
-        <View style="@style/VerticalDivider" />
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -142,6 +117,33 @@
                 android:background="@drawable/image_button_selected"
                 android:gravity="center"
                 android:orientation="vertical" />
+        </RelativeLayout>
+
+        <View style="@style/VerticalDivider" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1" >
+
+            <ImageButton
+                android:id="@+id/add_cons_image_button"
+                style="@style/SquareImageButton"
+                android:contentDescription="@string/button_add_cons_cd"
+                android:src="@drawable/ic_action_cancel" />
+
+            <TextView
+                android:id="@+id/cons_text_view"
+                style="?android:textAppearanceLarge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:background="@drawable/image_button_selected"
+                android:ellipsize="marquee"
+                android:gravity="center"
+                android:textAlignment="center"
+                android:textColor="@color/WhiteSmoke"
+                android:visibility="gone" />
         </RelativeLayout>
     </TableRow>
 

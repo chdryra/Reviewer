@@ -36,19 +36,10 @@
         style="@style/HorizontalDivider"
         android:layout_below="@id/datum_linear_layout" />
 
-    <LinearLayout
-        android:id="@+id/data_listview_and_buttons_linear_layout"
+    <ListView
+        android:id="@+id/data_listview"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_below="@id/datum_separator"
-        android:orientation="vertical" >
-
-        <ListView
-            android:id="@+id/data_listview"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1" />
-    </LinearLayout>
+        android:layout_height="match_parent"
+        android:layout_below="@id/datum_linear_layout"/>
 
 </RelativeLayout>

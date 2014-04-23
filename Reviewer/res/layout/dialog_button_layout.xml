@@ -12,32 +12,32 @@
         android:orientation="horizontal" >
 
         <Button
-            android:id="@+id/button_map_delete"
+            android:id="@+id/button_left"
             style="@style/Widget.Sherlock.ActionButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/button_delete_text" />
+            android:text="@string/dialog_button_cancel_text" />
 
         <View style="@style/VerticalDivider" />
 
         <Button
-            android:id="@+id/button_map_cancel"
+            android:id="@+id/button_middle"
             style="@style/Widget.Sherlock.ActionButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/button_cancel_text" />
+            android:text="@string/dialog_button_add_text" />
 
         <View style="@style/VerticalDivider" />
 
         <Button
-            android:id="@+id/button_map_done"
+            android:id="@+id/button_right"
             style="@style/Widget.Sherlock.ActionButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/button_done_text" />
+            android:text="@string/dialog_button_done_text" />
     </LinearLayout>
 
 </LinearLayout>

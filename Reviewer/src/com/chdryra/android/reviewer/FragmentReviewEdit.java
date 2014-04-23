@@ -41,6 +41,7 @@ import com.chdryra.android.myandroidwidgets.ClearableEditText;
 import com.chdryra.android.mygenerallibrary.ImageHelper;
 import com.chdryra.android.mygenerallibrary.IntentObjectHolder;
 import com.chdryra.android.mygenerallibrary.RandomTextUtils;
+import com.chdryra.android.reviewer.RDProsCons.ProConIterator;
 
 public class FragmentReviewEdit extends SherlockFragment {
 	private final static String TAG = "ReviewerFinishFragment";
@@ -50,7 +51,7 @@ public class FragmentReviewEdit extends SherlockFragment {
 	private final static String DIALOG_LOCATION_TAG = "LocationDialog";
 	private final static String DIALOG_DATA_TAG = "DataDialog";
 	private final static String DIALOG_URL_TAG = "URLDialog";
-	//private final static String DIALOG_DATE_TAG = "DateDialog";
+	private final static String DIALOG_CHILD_TAG = "ChildDialog";
 	
 	public static final String LOCATION_BUTTON = "com.chdryra.android.reviewer.location_button";
 	
@@ -65,6 +66,9 @@ public class FragmentReviewEdit extends SherlockFragment {
 	public final static int URL_EDIT = 8;
 	public final static int DATE_EDIT = 9;
 	public final static int CHILDREN_REQUEST = 10;
+	public final static int CHILDREN_EDIT = 11;
+	public final static int PROSCONS_REQUEST = 12;
+	public final static int PROSCONS_EDIT = 13;
 
 	public final static int DATA_TABLE_MAX_VALUES = 1;
 
@@ -95,10 +99,10 @@ public class FragmentReviewEdit extends SherlockFragment {
 	private TextView mConsTextView;
 	private LinearLayout mDataLinearLayout;
 	private TextView mURLTextView;
-	//private TextView mLocationTextView;
-	//private TextView mDateTextView;
-	//private TextView mFactsTextView;
-	
+
+	int mProTextColour;
+	int mConTextColour;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);	
@@ -110,7 +114,10 @@ public class FragmentReviewEdit extends SherlockFragment {
 		
 		if(mController.hasImage())
 			mHelperReviewImage = HelperReviewImage.getInstance(mController.getID());
-		
+
+		mProTextColour = getResources().getColor(R.color.Chartreuse);
+		mConTextColour = getResources().getColor(R.color.Crimson);
+
 		setHasOptionsMenu(true);		
 		setRetainInstance(true);
 	}
@@ -181,11 +188,7 @@ public class FragmentReviewEdit extends SherlockFragment {
 		mNumChildrenTextView.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				if(mChildrenController.size() > 0) {
-					mChildrenLayoutVisible = !mChildrenLayoutVisible;
-					updateChildrenLayoutVisibility();
-				} else
-					requestChildrenDefineIntent();
+				showProConEditDialog();
 			}
 		});
 
@@ -337,20 +340,21 @@ public class FragmentReviewEdit extends SherlockFragment {
 		mAddProsImageButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				
+				requestProsConsAddIntent();
 			}
 		});
 		
 		mAddProsImageButton.setOnLongClickListener(new View.OnLongClickListener() {
 			@Override
 			public boolean onLongClick(View v) {
-				return true;
+				return mAddProsImageButton.performClick();
 			}
 		});
 		
 		//***Pros Text View***//
 		mProsTextView.getLayoutParams().height = maxHeight/2;
 		mProsTextView.getLayoutParams().width = maxWidth;		
+		mProsTextView.setTextColor(mProTextColour);
 		mProsTextView.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -371,20 +375,21 @@ public class FragmentReviewEdit extends SherlockFragment {
 		mAddConsImageButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				
+				requestProsConsAddIntent();
 			}
 		});
 		
 		mAddConsImageButton.setOnLongClickListener(new View.OnLongClickListener() {
 			@Override
 			public boolean onLongClick(View v) {
-				return true;
+				return mAddConsImageButton.performClick();
 			}
 		});
 		
 		//***Cons Text View***//
 		mConsTextView.getLayoutParams().height = maxHeight/2;
-		mConsTextView.getLayoutParams().width = maxWidth;		
+		mConsTextView.getLayoutParams().width = maxWidth;
+		mConsTextView.setTextColor(mConTextColour);
 		mConsTextView.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -415,37 +420,7 @@ public class FragmentReviewEdit extends SherlockFragment {
 				return true;
 			}
 		});
-//		
-//		//***Date Text View***//
-//		mDateTextView.setOnClickListener(new View.OnClickListener() {
-//			@Override
-//			public void onClick(View v) {
-//				showDateEditDialog();
-//			}
-//		});
-//
-//		//***Location Text View***//
-//		mLocationTextView.setOnClickListener(new View.OnClickListener() {
-//			@Override
-//			public void onClick(View v) {
-//				if (!mController.hasLocation())
-//					requestLocationFindIntent();
-//				else
-//					showLocationEditDialog();
-//			}
-//		});
-//		
-//		//***Location Date Text View***//
-//		mFactsTextView.setOnClickListener(new View.OnClickListener() {
-//			@Override
-//			public void onClick(View v) {
-//				if (!mController.hasFacts())
-//					requestFactsAddIntent();
-//				else
-//					showFactsEditDialog();
-//			}
-//		});
-				
+
 		updateUI();
 		
 		return v;
@@ -465,6 +440,7 @@ public class FragmentReviewEdit extends SherlockFragment {
 		updateDateDisplay();
 		updateURLDisplay();		
 		updateFactsDisplay();
+		updateProsConsDisplay();
 	}
 
 	private void updateSubjectText() {
@@ -557,16 +533,39 @@ public class FragmentReviewEdit extends SherlockFragment {
 			setVisibleGoneView(mAddCommentImageButton, mCommentTextView);
 			return;
 		}
-		
-		mCommentTextView.setText(mController.getCommentHeadline());
 
-		//Have to ellipsise here as can't get it to work in XML
-		int maxLines = RandomTextUtils.getMaxNumberLines(mCommentTextView);
-		mCommentTextView.setMaxLines(maxLines > 1? maxLines - 1 : 1);
-		mCommentTextView.setEllipsize(TextUtils.TruncateAt.END);
-		
-		setVisibleGoneView(mCommentTextView, mAddCommentImageButton);
+		switchImageButtonToTextView(mCommentTextView, mAddCommentImageButton, mController.getCommentHeadline());
 	}	
+	
+	private void updateProsConsDisplay() {
+		if(!mController.hasProsCons()) {
+			setVisibleGoneView(mAddProsImageButton, mProsTextView);
+			setVisibleGoneView(mAddConsImageButton, mConsTextView);
+			return;
+		}
+		
+		
+		if(mController.hasPros())
+			switchImageButtonToTextView(mProsTextView, mAddProsImageButton, mController.getPros().get(0));
+		else
+			setVisibleGoneView(mAddProsImageButton, mProsTextView);
+		
+		if(mController.hasCons())
+			switchImageButtonToTextView(mConsTextView, mAddConsImageButton, mController.getCons().get(0));
+		else
+			setVisibleGoneView(mAddConsImageButton, mConsTextView);
+	}
+	
+	private void switchImageButtonToTextView(TextView textView, ImageButton imageButton, String text) {
+		textView.setText(text);
+		
+		//Have to ellipsise here as can't get it to work in XML
+		int maxLines = RandomTextUtils.getMaxNumberLines(textView);
+		textView.setMaxLines(maxLines > 1? maxLines - 1 : 1);
+		textView.setEllipsize(TextUtils.TruncateAt.END);
+		
+		setVisibleGoneView(textView, imageButton);
+	}
 	
 	private void updateDataTable() {
 		if(!mController.hasFacts()) {
@@ -670,7 +669,11 @@ public class FragmentReviewEdit extends SherlockFragment {
 	}
 	
 	private void requestFactsAddIntent() {
-		requestIntent(ActivityReviewData.class, FACTS_REQUEST);
+		requestIntent(ActivityReviewFacts.class, FACTS_REQUEST);
+	}
+
+	private void requestProsConsAddIntent() {
+		requestIntent(ActivityReviewProsCons.class, PROSCONS_REQUEST);
 	}
 	
 	private void requestLocationFindIntent() {
@@ -734,10 +737,13 @@ public class FragmentReviewEdit extends SherlockFragment {
 		showDialog(new DialogURLFragment(), URL_EDIT, DIALOG_URL_TAG);
 	}
 	
-//	private void showDateEditDialog() {
-//		showDialog(new DialogDateFragment(), DATE_EDIT, DIALOG_DATE_TAG);
-//	}
-//	
+	private void showProConEditDialog() {
+		DialogChildAdd dialog = new DialogChildAdd();
+		dialog.setTargetFragment(FragmentReviewEdit.this, CHILDREN_EDIT);
+		dialog.setArguments(Controller.pack(mController));
+		dialog.show(getFragmentManager(), DIALOG_CHILD_TAG);
+	}
+	
 	private void showDialog(DialogBasicFragment dialog, int requestCode, String tag) {
 		dialog.setTargetFragment(FragmentReviewEdit.this, requestCode);
 		dialog.setArguments(Controller.pack(mController));
@@ -828,6 +834,12 @@ public class FragmentReviewEdit extends SherlockFragment {
 				updateNumChildrenText();
 				updateChildrenLayout();	
 				break;
+			
+			case CHILDREN_EDIT:
+				updateRatingIsAverageButton();
+				updateNumChildrenText();
+				updateChildrenLayout();	
+				break;
 				
 			case LOCATION_REQUEST:
 				updateLocationButtonImage();
@@ -878,11 +890,22 @@ public class FragmentReviewEdit extends SherlockFragment {
 						break;
 				}
 				break;
-					
-			case DATE_EDIT:
-				updateDateDisplay();
+
+			case PROSCONS_REQUEST:
+				updateProsConsDisplay();	
 				break;
 				
+			case PROSCONS_EDIT:
+				switch (resultCode) {
+					case Activity.RESULT_OK:
+						requestProsConsAddIntent();
+						break;
+					default:
+						updateProsConsDisplay();
+						break;
+				}
+				break;
+					
 			case URL_EDIT:
 				updateURLDisplay();
 				break;

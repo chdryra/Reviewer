@@ -28,7 +28,7 @@ public class FragmentReviewFacts extends SherlockFragment {
 	public static final int RESULT_DELETE = Activity.RESULT_FIRST_USER;
 	
 	public static final String DATUM_LABEL = "com.chdryra.android.reviewer.datum_label";
-	public static final String DATUM_VALUE = "com.chdryra.android.reviewer.datum_vallue";	
+	public static final String DATUM_VALUE = "com.chdryra.android.reviewer.datum_value";	
 	public static final String DIALOG_DATUM_TAG = "DatumDialog";
 
 	private static final int DELETE_CONFIRM = DialogBasicFragment.DELETE_CONFIRM;
@@ -128,7 +128,7 @@ public class FragmentReviewFacts extends SherlockFragment {
 			if(mDeleteConfirmed)
 				mController.deleteFacts();
 			else {
-				DialogBasicFragment.showDeleteConfirmDialog(getResources().getString(R.string.data_activity_title), 
+				DialogBasicFragment.showDeleteConfirmDialog(getResources().getString(R.string.facts_activity_title), 
 						FragmentReviewFacts.this, DELETE_CONFIRM, getFragmentManager());
 				return;
 			}
@@ -176,7 +176,6 @@ public class FragmentReviewFacts extends SherlockFragment {
 				break;
 		}
 		
-		mController.setFacts(mFacts);
 		updateUI();				
 	}
 

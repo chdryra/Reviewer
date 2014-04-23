@@ -11,12 +11,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.widget.CursorAdapter;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -29,6 +32,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageButton;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 import android.widget.Toast;
@@ -37,19 +41,23 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.widget.SearchView;
+import com.chdryra.android.myandroidwidgets.ClearableAutoCompleteTextView;
 import com.chdryra.android.mygenerallibrary.IntentObjectHolder;
 import com.chdryra.android.mygenerallibrary.SherlockMapFragment;
-import com.chdryra.android.myandroidwidgets.ClearableAutoCompleteTextView;
 import com.chdryra.android.remoteapifetchers.FetcherPlacesAPI;
-
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesClient;
 import com.google.android.gms.location.LocationClient;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.GoogleMap.InfoWindowAdapter;
+import com.google.android.gms.maps.GoogleMap.OnInfoWindowClickListener;
 import com.google.android.gms.maps.GoogleMap.SnapshotReadyCallback;
 import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 public class FragmentReviewLocation extends SherlockMapFragment implements
@@ -86,7 +94,6 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 	private LatLng mRevertLatLng;
 
 	private float mRevertMapSnapshotZoom;
-	
 	private boolean mDeleteConfirmed = false;
 		
 	@Override
@@ -123,9 +130,50 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 				return false;
 			}
 		});
-	    	    
+	    mGoogleMap.setOnInfoWindowClickListener(new OnInfoWindowClickListener() {
+			
+			@Override
+			public void onInfoWindowClick(Marker marker) {
+				marker.hideInfoWindow();
+			}
+		});
+	    mGoogleMap.setOnMarkerDragListener(new GoogleMap.OnMarkerDragListener() {
+			
+			@Override
+			public void onMarkerDragStart(Marker marker) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void onMarkerDragEnd(Marker marker) {
+				setLatLng(marker.getPosition());
+			}
+			
+			@Override
+			public void onMarkerDrag(Marker arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+	    
+	    //mGoogleMap.setInfoWindowAdapter(new InfoWindowAdapterRated());
+	    
 	    mLocationName = (ClearableAutoCompleteTextView)v.findViewById(R.id.edit_text_name_location);
-
+	    mLocationName.addTextChangedListener(new TextWatcher() {
+			
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before, int count) {}
+			
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+			
+			@Override
+			public void afterTextChanged(Editable s) {
+				updateMapMarker();
+			}
+		});
+	    
 	    if (mController.hasLocation()) {
 	    	mRevertLatLng = mController.getLocationLatLng();
 	    	setLatLng(mRevertLatLng);
@@ -161,7 +209,7 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 				mLocationName.hideChrome();
 			}
 		});
-	        
+
 	    return v;
 	}
 	
@@ -362,10 +410,18 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 			 return;
 	 
 		 mGoogleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(mLatLng, zoomLevel));
+		 updateMapMarker();
+	 }
+	 
+	 private Marker updateMapMarker() {
 		 MarkerOptions markerOptions = new MarkerOptions().position(mLatLng);
+		 markerOptions.title(mLocationName.getText().toString());
+		 markerOptions.draggable(true);
 		 mGoogleMap.clear();
-		 mGoogleMap.addMarker(markerOptions);
+		 Marker marker = mGoogleMap.addMarker(markerOptions);
+		 marker.showInfoWindow();
 		 
+		 return marker;
 	 }
 	 
 	@Override
@@ -400,6 +456,11 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 
 	public void captureMapSnapshotAndSetLocationAndSendOK() 
 	{
+		Bitmap noMarker = BitmapFactory.decodeResource(getResources(), R.drawable.micro_marker);;
+		Marker marker = updateMapMarker();
+		marker.setIcon(BitmapDescriptorFactory.fromBitmap(noMarker));
+		marker.showInfoWindow();
+		mGoogleMap.setMyLocationEnabled(false);
 		mGoogleMap.snapshot( new SnapshotReadyCallback() {
             @Override
             public void onSnapshotReady(Bitmap snapshot) {
@@ -527,7 +588,7 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 			super(context, textViewResourceId);
 			mLatLng = latlng;
 			if(numberDefaultSuggestions > 0) {
-				if(primaryDefaultSuggestion != null) {
+				if(primaryDefaultSuggestion != null && primaryDefaultSuggestion.length() > 0) {
 					mPrimaryDefaultSuggestion = primaryDefaultSuggestion;
 					numberDefaultSuggestions--;
 				}
@@ -657,4 +718,32 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 		}
 	}
 }
+	
+	private class InfoWindowAdapterRated implements InfoWindowAdapter {
+
+		@Override
+		public View getInfoContents(Marker arg0) {
+			View v = getSherlockActivity().getLayoutInflater().inflate(R.layout.infoe_window_adapter_rated, null);
+			TextView titleTextView = (TextView)v.findViewById(R.id.info_window_title);
+			RatingBar ratingBar = (RatingBar)v.findViewById(R.id.info_window_rating_bar);
+			
+			String title = mLocationName.getText().toString();
+			if(title != null && title.length() > 0) {
+				titleTextView.setText(title);
+				titleTextView.setVisibility(View.VISIBLE);
+			} else
+				titleTextView.setVisibility(View.GONE);
+			
+			ratingBar.setRating(mController.getRating());
+			
+			return v;
+		}
+
+		@Override
+		public View getInfoWindow(Marker arg0) {
+			// TODO Auto-generated method stub
+			return null;
+		}
+		
+	}
 }

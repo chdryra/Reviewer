@@ -9,7 +9,7 @@
     <string name="dialog_criterion_title">Edit criterion</string>
     <string name="dialog_comment_title">Edit comment</string>
     <string name="dialog_choose_social">Share</string>
-    <string name="dialog_button_change_text">change</string>
+    <string name="dialog_button_edit_text">edit</string>
     <string name="dialog_button_delete_text">delete</string>
     <string name="dialog_button_yes_text">yes</string>
     <string name="dialog_button_cancel_text">cancel</string>
@@ -17,13 +17,17 @@
     <string name="dialog_date_title">Date</string>
     <string name="dialog_URL_title">Link</string>
     <string name="dialog_delete_criteria_title">Criteria</string>
+    <string name="dialog_add_criteria_title">Add Criterion</string>
+    <string name="dialog_button_done_text">done</string>
+    <string name="dialog_button_add_text">add</string>
     
     <!-- Activities -->
     <string name="location_activity_title">location</string>
     <string name="comment_activity_title">comment</string>
-    <string name="data_activity_title">facts</string>
+    <string name="facts_activity_title">facts</string>
     <string name="image_activity_title">image</string>
-    <string name="review_children_activity_title">criteria</string>
+    <string name="procon_activity_title">pros and cons</string>
+    <string name="children_activity_title">criteria</string>
     <string name="review_edit_activity_title">review</string>
 
     <!-- TextViews -->
@@ -49,6 +53,8 @@
     <string name="edit_text_datum_unit_hint">unit&#8230;</string>
     <string name="edit_text_url_hint">link&#8230;</string>
     <string name="edit_text_url_text">http://</string>
+    <string name="edit_text_pro_hint">pro&#8230;</string>
+    <string name="edit_text_con_hint">con&#8230;</string>
     
     <!--  SearchViews -->
     <string name="search_view_location_hint">search for location&#8230;</string>
@@ -97,6 +103,7 @@
     <string name="toast_enter_value">Please enter a value&#8230;</string>
     <string name="toast_bad_url">Link does not make sense&#8230;</string>
     <string name="toast_no_image_gps_tag">No image GPS tag&#8230;</string>
+    <string name="toast_enter_procon">Please enter a pro or con&#8230;</string>
     
     <!-- Social -->
     <string name="facebook">facebook</string>

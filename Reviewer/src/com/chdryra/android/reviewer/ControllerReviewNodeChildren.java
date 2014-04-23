@@ -19,6 +19,12 @@ public class ControllerReviewNodeChildren extends ControllerReviewNodeCollection
 		Review r = FactoryReview.createUserReview(title);
 		mParent.addChild(r);
 	}
+
+	public void addChild(String title, float rating) {
+		Review r = FactoryReview.createUserReview(title);
+		r.setRating(rating);
+		mParent.addChild(r);
+	}
 	
 	public void clear() {
 		mParent.clearChildren();

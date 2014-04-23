@@ -14,27 +14,25 @@ import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.widget.TextView;
 
-public class DialogDatumFragment extends DialogBasicFragment {
-	public static final String DATUM_OLD_LABEL = "com.chdryra.android.reviewer.datum_old_label";
-	public static final String DATUM_OLD_VALUE = "com.chdryra.android.reviewer.datum_old_label";
+public class DialogProConFragment extends DialogBasicFragment {
+	public static final String PROCON_OLD = "com.chdryra.android.reviewer.procon_old";
 	
-	private ClearableEditText mLabel;
-	private ClearableEditText mValue;
-	private String mOldLabel;
+	private ClearableEditText mProCon;
+	private String mOldProCon;
 	
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
-		View v = getActivity().getLayoutInflater().inflate(R.layout.dialog_datum, null);
-		mLabel = (ClearableEditText)v.findViewById(R.id.datum_label_edit_text);
-		mValue = (ClearableEditText)v.findViewById(R.id.datum_value_edit_text);
+		View v = getActivity().getLayoutInflater().inflate(R.layout.dialog_procon, null);
+		mProCon = (ClearableEditText)v.findViewById(R.id.procon_edit_text);
 		
-		mOldLabel = getArguments().getString(FragmentReviewFacts.DATUM_LABEL);
-		mLabel.setText(mOldLabel);		
-		mValue.setText(getArguments().getString(FragmentReviewFacts.DATUM_VALUE));
+		mOldProCon = getArguments().getString(FragmentReviewProsCons.PROCON);
+		String proConHint = getArguments().getString(FragmentReviewProsCons.PROCON_HINT);
+		mProCon.setText(mOldProCon);		
+		mProCon.setHint(proConHint);
 		
 		final AlertDialog dialog = buildDialog(v); 
 
-		mValue.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+		mProCon.setOnEditorActionListener(new TextView.OnEditorActionListener() {
 	        @Override
 	        public boolean onEditorAction(TextView v, int actionId, KeyEvent event)
 	        {
@@ -58,13 +56,12 @@ public class DialogDatumFragment extends DialogBasicFragment {
 		
 		Intent i = new Intent();
 		if(resultCode == Activity.RESULT_OK) {
-			i.putExtra(DATUM_OLD_LABEL, mOldLabel);
-			i.putExtra(FragmentReviewFacts.DATUM_LABEL, mLabel.getText().toString());
-			i.putExtra(FragmentReviewFacts.DATUM_VALUE, mValue.getText().toString());
+			i.putExtra(PROCON_OLD, mOldProCon);
+			i.putExtra(FragmentReviewProsCons.PROCON, mProCon.getText().toString());
 		}
 		
 		if(resultCode == RESULT_DELETE)
-			i.putExtra(DATUM_OLD_LABEL, mOldLabel);
+			i.putExtra(PROCON_OLD, mOldProCon);
 		
 		getTargetFragment().onActivityResult(getTargetRequestCode(), resultCode, i);
 	}	

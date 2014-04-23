@@ -25,6 +25,7 @@ public class ReviewUser implements Review{
 		mImage = new RDImage();
 		mLocation = new RDLocation();
 		mFacts = new RDFacts();
+		mProsCons = new RDProsCons();
 		mURL = new RDUrl();
 		mDate = new RDDate();
 		

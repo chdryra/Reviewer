@@ -1,8 +1,19 @@
 package com.chdryra.android.reviewer;
 
+import android.app.Dialog;
 import android.graphics.Bitmap;
+import android.os.Bundle;
+import android.view.View;
 
 public class DialogLocationFragment extends DialogImageFragment {
+
+	@Override
+	public Dialog onCreateDialog(Bundle savedInstanceState) {
+		Dialog dialog = super.onCreateDialog(savedInstanceState);
+		mImageCaption.setVisibility(View.GONE);
+		return dialog;
+	}
+	
 	@Override
 	protected Bitmap getImageBitmap() {
 		return mController.getMapSnapshot();

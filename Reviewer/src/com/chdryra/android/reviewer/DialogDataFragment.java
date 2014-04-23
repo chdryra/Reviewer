@@ -43,7 +43,7 @@ public class DialogDataFragment extends DialogBasicFragment {
 	
 	@Override
 	protected String getDeleteConfirmationTitle() {
-		return getResources().getString(R.string.data_activity_title);
+		return getResources().getString(R.string.facts_activity_title);
 	}
 	
 	@Override

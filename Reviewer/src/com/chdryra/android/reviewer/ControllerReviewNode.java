@@ -364,6 +364,14 @@ public class ControllerReviewNode{
 		return getReview().hasProsCons();
 	}
 	
+	public boolean hasPros() {
+		return getPros().size() > 0;
+	}
+	
+	public boolean hasCons() {
+		return getCons().size() > 0;
+	}
+	
 	public ArrayList<String> getPros() {
 		return getProsCons(true);
 	}
