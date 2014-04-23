@@ -97,7 +97,8 @@ public class FragmentReviewEdit extends SherlockFragment {
 	private TextView mCommentTextView;
 	private TextView mProsTextView;
 	private TextView mConsTextView;
-	private LinearLayout mDataLinearLayout;
+	private TextView mLocationTextView;
+	private LinearLayout mFactsLinearLayout;
 	private TextView mURLTextView;
 
 	int mProTextColour;
@@ -142,9 +143,10 @@ public class FragmentReviewEdit extends SherlockFragment {
 		mAddConsImageButton = (ImageButton)v.findViewById(R.id.add_cons_image_button);
 		
 		mCommentTextView = (TextView)v.findViewById(R.id.comment_text_view);
+		mLocationTextView = (TextView)v.findViewById(R.id.location_text_view);
 		mProsTextView = (TextView)v.findViewById(R.id.pros_text_view);
 		mConsTextView = (TextView)v.findViewById(R.id.cons_text_view);
-		mDataLinearLayout= (LinearLayout)v.findViewById(R.id.data_table_linear_layout);
+		mFactsLinearLayout= (LinearLayout)v.findViewById(R.id.data_table_linear_layout);
 		
 		//mLocationTextView = (TextView)v.findViewById(R.id.location_text_view);
 		//mDateTextView = (TextView)v.findViewById(R.id.date_text_view);
@@ -256,6 +258,23 @@ public class FragmentReviewEdit extends SherlockFragment {
 			}
 		});
 		
+		//***Location Text View***//
+		mLocationTextView.getLayoutParams().height = maxHeight/2;
+		mLocationTextView.getLayoutParams().width = maxWidth;		
+		mLocationTextView.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				mAddLocationImageButton.performClick();
+			}
+		});
+		
+		mLocationTextView.setOnLongClickListener(new View.OnLongClickListener() {
+			@Override
+			public boolean onLongClick(View v) {
+				return mAddLocationImageButton.performLongClick();
+			}
+		});
+
 		
 		//***Comment Image Button***//
 		mAddCommentImageButton.getLayoutParams().height = maxHeight;
@@ -317,17 +336,17 @@ public class FragmentReviewEdit extends SherlockFragment {
 			}
 		});
 
-		//***Comment Text View***//
-		mDataLinearLayout.getLayoutParams().height = maxHeight/2;
-		mDataLinearLayout.getLayoutParams().width = maxWidth;
-		mDataLinearLayout.setOnClickListener(new View.OnClickListener() {
+		//***Facts Text View***//
+		mFactsLinearLayout.getLayoutParams().height = maxHeight/2;
+		mFactsLinearLayout.getLayoutParams().width = maxWidth;
+		mFactsLinearLayout.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				mAddFactsImageButton.performClick();
 			}
 		});
 		
-		mDataLinearLayout.setOnLongClickListener(new View.OnLongClickListener() {
+		mFactsLinearLayout.setOnLongClickListener(new View.OnLongClickListener() {
 			@Override
 			public boolean onLongClick(View v) {
 				return mAddFactsImageButton.performLongClick();
@@ -437,7 +456,6 @@ public class FragmentReviewEdit extends SherlockFragment {
 		updateImageButtonImage();
 		updateDataTable();
 		updateLocationDisplay();
-		updateDateDisplay();
 		updateURLDisplay();		
 		updateFactsDisplay();
 		updateProsConsDisplay();
@@ -569,12 +587,12 @@ public class FragmentReviewEdit extends SherlockFragment {
 	
 	private void updateDataTable() {
 		if(!mController.hasFacts()) {
-			setVisibleGoneView(mAddFactsImageButton, mDataLinearLayout);
+			setVisibleGoneView(mAddFactsImageButton, mFactsLinearLayout);
 			return;
 		}
 				
-		mDataLinearLayout.removeAllViews();
-		setVisibleGoneView(mDataLinearLayout, mAddFactsImageButton);
+		mFactsLinearLayout.removeAllViews();
+		setVisibleGoneView(mFactsLinearLayout, mAddFactsImageButton);
 		int i = 0;
 		LinkedHashMap<String, String> factMap = mController.getFacts();
 		for(Entry<String, String> entry : factMap.entrySet()) {
@@ -587,8 +605,8 @@ public class FragmentReviewEdit extends SherlockFragment {
 			label.setText(entry.getKey());
 			value.setText(entry.getValue());
 			
-			mDataLinearLayout.addView(labelRow);
-			mDataLinearLayout.addView(valueRow);
+			mFactsLinearLayout.addView(labelRow);
+			mFactsLinearLayout.addView(valueRow);
 			
 			++i;
 			if(i == DATA_TABLE_MAX_VALUES)
@@ -608,6 +626,11 @@ public class FragmentReviewEdit extends SherlockFragment {
 	}
 
 	private void updateLocationDisplay() {
+		if(!mController.hasLocation()) {
+			setVisibleGoneView(mAddLocationImageButton, mLocationTextView);
+			return;
+		}
+
 		StringBuilder location = new StringBuilder("@");
 		
 		if(!mController.hasLocationName())
@@ -615,19 +638,7 @@ public class FragmentReviewEdit extends SherlockFragment {
 		else
 			location.append(mController.getShortLocationName());
 					
-		//mLocationTextView.setText(location.toString());
-	}
-
-	private void updateDateDisplay() {
-		SimpleDateFormat format = mDateFormat;
-		StringBuilder date = new StringBuilder("@");
-		
-		if(!mController.hasDate())
-			date.append(getResources().getString(R.string.text_view_date_hint));
-		else
-			date.append(format.format(mController.getDate()));
-					
-		//mDateTextView.setText(date.toString());
+		switchImageButtonToTextView(mLocationTextView, mAddLocationImageButton, location.toString());
 	}
 	
 	private void updateURLDisplay() {
@@ -853,8 +864,8 @@ public class FragmentReviewEdit extends SherlockFragment {
 						break;
 					case DialogLocationFragment.RESULT_DELETE:
 						updateLocationButtonImage();
-					default:
 						updateLocationDisplay();
+					default:
 						break;
 				}
 				break;
