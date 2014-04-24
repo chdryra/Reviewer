@@ -333,7 +333,7 @@ public class FragmentReviewChildren extends SherlockFragment {
 			
 			if (convertView == null) {						
 				LayoutInflater inflater = getSherlockActivity().getLayoutInflater();
-				convertView = inflater.inflate(R.layout.criterion_row_stars, parent, false);
+				convertView = inflater.inflate(R.layout.child_row_stars, parent, false);
 				
 				TextView criterionText = (TextView)convertView.findViewById(R.id.criterion_name_text_view);				
 				RatingBar ratingBar = (RatingBar)convertView.findViewById(R.id.child_rating_bar);		

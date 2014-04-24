@@ -575,7 +575,7 @@ public class FragmentReviewEdit extends SherlockFragment {
 		mChildrenLayout.removeAllViews();
 		boolean dark = false;
 		for(String id : mChildrenController.getIDs()) {
-			View reviewView = getSherlockActivity().getLayoutInflater().inflate(R.layout.criterion_row_stars_small, null);
+			View reviewView = getSherlockActivity().getLayoutInflater().inflate(R.layout.child_row_stars_small, null);
 			
 			reviewView.setBackgroundResource(dark == true? android.R.drawable.divider_horizontal_bright: android.R.drawable.divider_horizontal_dark);
 			dark = !dark;
@@ -666,8 +666,8 @@ public class FragmentReviewEdit extends SherlockFragment {
 		int i = 0;
 		LinkedHashMap<String, String> factMap = mController.getFacts();
 		for(Entry<String, String> entry : factMap.entrySet()) {
-			FrameLayout labelRow = (FrameLayout)getSherlockActivity().getLayoutInflater().inflate(R.layout.data_table_label_row, null);
-			FrameLayout valueRow = (FrameLayout)getSherlockActivity().getLayoutInflater().inflate(R.layout.data_table_value_row, null);
+			FrameLayout labelRow = (FrameLayout)getSherlockActivity().getLayoutInflater().inflate(R.layout.facts_table_label_row, null);
+			FrameLayout valueRow = (FrameLayout)getSherlockActivity().getLayoutInflater().inflate(R.layout.facts_table_value_row, null);
 			
 			TextView label = (TextView)labelRow.findViewById(R.id.data_table_label_text_view);
 			TextView value = (TextView)valueRow.findViewById(R.id.data_table_value_text_view);			

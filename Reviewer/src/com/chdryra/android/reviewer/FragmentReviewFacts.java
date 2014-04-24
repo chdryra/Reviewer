@@ -236,7 +236,7 @@ public class FragmentReviewFacts extends SherlockFragment {
 			
 			if (convertView == null) {						
 				LayoutInflater inflater = getSherlockActivity().getLayoutInflater();
-				convertView = inflater.inflate(R.layout.datum_linear_row, parent, false);
+				convertView = inflater.inflate(R.layout.fact_linear_row, parent, false);
 				
 				TextView datumName = (TextView)convertView.findViewById(R.id.datum_label_text_view);
 				TextView datumValue = (TextView)convertView.findViewById(R.id.datum_value_text_view);

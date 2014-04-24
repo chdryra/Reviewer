@@ -29,7 +29,7 @@ public class DialogFactsFragment extends DialogBasicFragment {
 		boolean dark = true;
 		LinkedHashMap<String, String> factsMap = mController.getFacts();
 		for(Entry<String, String> entry: factsMap.entrySet()) {
-			View datumRow = getSherlockActivity().getLayoutInflater().inflate(R.layout.datum_linear_row, null);
+			View datumRow = getSherlockActivity().getLayoutInflater().inflate(R.layout.fact_linear_row, null);
 			TextView label = (TextView)datumRow.findViewById(R.id.datum_label_text_view);
 			TextView value = (TextView)datumRow.findViewById(R.id.datum_value_text_view);
 			value.setGravity(Gravity.RIGHT);
