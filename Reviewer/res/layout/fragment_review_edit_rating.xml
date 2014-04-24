@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" >
+
+    <RatingBar
+        android:id="@+id/total_rating_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:clickable="true"
+        android:numStars="5"
+        android:rating="0.0"
+        android:stepSize="0.5" />
+
+    <ImageButton
+        android:id="@+id/children_avg_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_gravity="center"
+        android:layout_toLeftOf="@id/total_rating_bar"
+        android:background="@color/LightSlateGray"
+        android:contentDescription="@string/button_children_rating_avg_cd"
+        android:src="@android:drawable/ic_menu_add"
+        android:visibility="invisible" />
+
+    <TextView
+        android:id="@+id/num_children_text_view"
+        style="?android:textAppearanceLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_toRightOf="@id/total_rating_bar"
+        android:background="@drawable/image_button_selected"
+        android:text="@string/text_view_number_children"
+        android:textColor="@color/Gold" />
+
+</RelativeLayout>

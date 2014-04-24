@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.chdryra.android.myandroidwidgets.ClearableEditText xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/review_subject_edit_text"
+    style="?android:textAppearanceLarge"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@null"
+    android:cursorVisible="false"
+    android:gravity="center"
+    android:hint="@string/edit_text_subject_hint"
+    android:imeOptions="actionDone"
+    android:inputType="textCapSentences"
+    android:textColor="@color/WhiteSmoke"
+    android:textColorHint="@color/WhiteSmoke" />

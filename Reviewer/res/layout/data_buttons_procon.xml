@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/procon_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_weight="1"
+    android:orientation="vertical" >
+
+    <!-- Pros -->
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1" >
+
+        <ImageButton
+            android:id="@+id/add_pros_image_button"
+            style="@style/SquareImageButton"
+            android:contentDescription="@string/button_add_pros_cd"
+            android:src="@drawable/ic_action_new" />
+
+        <TextView
+            android:id="@+id/pros_text_view"
+            style="?android:textAppearanceMedium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:background="@drawable/image_button_selected"
+            android:ellipsize="marquee"
+            android:gravity="center"
+            android:textAlignment="center"
+            android:textColor="@color/Green"
+            android:visibility="gone" />
+    </RelativeLayout>
+
+    <View style="@style/HorizontalDivider" />
+
+    <!-- Cons -->
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1" >
+
+        <ImageButton
+            android:id="@+id/add_cons_image_button"
+            style="@style/SquareImageButton"
+            android:contentDescription="@string/button_add_cons_cd"
+            android:src="@drawable/ic_action_cancel" />
+
+        <TextView
+            android:id="@+id/cons_text_view"
+            style="?android:textAppearanceMedium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:background="@drawable/image_button_selected"
+            android:ellipsize="marquee"
+            android:gravity="center"
+            android:textAlignment="center"
+            android:textColor="@color/WhiteSmoke"
+            android:visibility="gone" />
+    </RelativeLayout>
+
+</LinearLayout>

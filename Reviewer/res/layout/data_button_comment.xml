@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_weight="1" >
+
+    <ImageButton
+        android:id="@+id/add_comment_image_button"
+        style="@style/SquareImageButton"
+        android:contentDescription="@string/button_add_comment_cd"
+        android:src="@drawable/ic_menu_edit" />
+
+    <TextView
+        android:id="@+id/comment_text_view"
+        style="?android:textAppearanceMedium"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:background="@drawable/image_button_selected"
+        android:ellipsize="marquee"
+        android:gravity="center"
+        android:padding="@dimen/data_button_padding"
+        android:textAlignment="center"
+        android:textColor="@color/WhiteSmoke"
+        android:visibility="gone" />
+
+    <EditText
+        android:id="@+id/comment_edit_text"
+        style="?android:textAppearanceMedium"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:background="@null"
+        android:gravity="center"
+        android:imeOptions="actionDone"
+        android:inputType="textCapSentences|textAutoComplete"
+        android:padding="@dimen/data_button_padding"
+        android:textAlignment="center"
+        android:textColor="@color/WhiteSmoke"
+        android:textCursorDrawable="@null"
+        android:visibility="gone" />
+
+</RelativeLayout>
