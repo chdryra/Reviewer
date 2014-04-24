@@ -40,10 +40,10 @@ public class DialogChildAdd extends SherlockDialogFragment{
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 	
 		final Dialog dialog = new Dialog(getSherlockActivity());
-		dialog.setContentView(R.layout.dialog_criterion_add);
+		dialog.setContentView(R.layout.dialog_child_add);
 
-		mChildNameEditText = (ClearableEditText)dialog.findViewById(R.id.criterion_name_edit_text);
-		mChildRatingBar = (RatingBar)dialog.findViewById(R.id.criterion_rating_bar);
+		mChildNameEditText = (ClearableEditText)dialog.findViewById(R.id.child_name_edit_text);
+		mChildRatingBar = (RatingBar)dialog.findViewById(R.id.child_rating_bar);
 		final Button cancelButton = (Button)dialog.findViewById(R.id.button_left);
 		final Button addButton = (Button)dialog.findViewById(R.id.button_middle);
 		final Button doneButton = (Button)dialog.findViewById(R.id.button_right);

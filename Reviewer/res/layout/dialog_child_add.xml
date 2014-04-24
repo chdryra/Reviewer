@@ -5,7 +5,7 @@
     android:orientation="vertical">
     
 	<com.chdryra.android.myandroidwidgets.ClearableEditText 
-	    android:id="@+id/criterion_name_edit_text"
+	    android:id="@+id/child_name_edit_text"
 	    android:layout_width="match_parent"
 	    android:layout_height="wrap_content"
 	    android:hint="@string/edit_text_add_criterion_hint"
@@ -15,7 +15,7 @@
         <View style="@style/HorizontalDivider" />
 
         <RatingBar
-            android:id="@+id/criterion_rating_bar"
+            android:id="@+id/child_rating_bar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"

@@ -75,8 +75,6 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 
 	private ControllerReviewNode mController;
 	
-	//private ImageButton mSnapshotButton;
-	
 	private LocationClient mLocationClient;
 	
 	private GoogleMap mGoogleMap;
@@ -101,7 +99,6 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 		super.onCreate(savedInstanceState);
 		mController = Controller.unpack(getActivity().getIntent().getExtras());
 		mLocationClient = new LocationClient(getSherlockActivity(), this, this);
-		//mSnapshotButton = (ImageButton)IntentObjectHolder.getObject(FragmentReviewEdit.LOCATION_BUTTON);
 		mRevertMapSnapshotZoom =  mController.hasMapSnapshot()? mController.getMapSnapshotZoom() : DEFAULT_ZOOM;
 	    mPhotoLatLng = mController.getImageLatLng();
 	    setRetainInstance(true);
@@ -141,10 +138,7 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 	    mGoogleMap.setOnMarkerDragListener(new GoogleMap.OnMarkerDragListener() {
 			
 			@Override
-			public void onMarkerDragStart(Marker marker) {
-				// TODO Auto-generated method stub
-				
-			}
+			public void onMarkerDragStart(Marker marker) {}
 			
 			@Override
 			public void onMarkerDragEnd(Marker marker) {
@@ -152,10 +146,7 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 			}
 			
 			@Override
-			public void onMarkerDrag(Marker arg0) {
-				// TODO Auto-generated method stub
-				
-			}
+			public void onMarkerDrag(Marker arg0) {}
 		});
 	    
 	    //mGoogleMap.setInfoWindowAdapter(new InfoWindowAdapterRated());
@@ -497,10 +488,6 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 		@Override
 		protected void onPostExecute(Bitmap bitmap) {
 			mController.setMapSnapshot(bitmap, mZoom);
-//			if(bitmap == null)
-//				mSnapshotButton.setImageResource(R.drawable.ic_menu_camera);
-//			else
-//				mSnapshotButton.setImageBitmap(bitmap);
 		}	
 	}
 	

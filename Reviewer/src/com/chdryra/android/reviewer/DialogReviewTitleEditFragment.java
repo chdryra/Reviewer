@@ -30,7 +30,7 @@ public class DialogReviewTitleEditFragment extends DialogBasicFragment {
 		
 		View v = getActivity().getLayoutInflater().inflate(R.layout.dialog_criterion, null);
 		
-		mReviewTitleEditText = (ClearableEditText)v.findViewById(R.id.criterion_name_edit_text);
+		mReviewTitleEditText = (ClearableEditText)v.findViewById(R.id.child_name_edit_text);
 		mReviewTitleEditText.setText(mController.getTitle());
 		
 		final AlertDialog dialog = buildDialog(v);

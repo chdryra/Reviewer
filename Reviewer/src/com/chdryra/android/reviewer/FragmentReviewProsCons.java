@@ -222,7 +222,7 @@ public class FragmentReviewProsCons extends SherlockFragment{
 				proCons.remove(oldPro);
 				proCons.add(newPro);
 				break;
-			case DialogDatumFragment.RESULT_DELETE:
+			case DialogFactFragment.RESULT_DELETE:
 				String toDelete = (String)data.getSerializableExtra(DialogProConFragment.PROCON_OLD);
 				proCons.remove(toDelete);
 				break;

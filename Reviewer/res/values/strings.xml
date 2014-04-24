@@ -18,6 +18,8 @@
     <string name="dialog_URL_title">Link</string>
     <string name="dialog_delete_criteria_title">Criteria</string>
     <string name="dialog_add_criteria_title">Add Criterion</string>
+    <string name="dialog_add_fact_title">Add Fact</string>
+    <string name="dialog_add_procon_title">Add Pros and Cons</string>
     <string name="dialog_button_done_text">done</string>
     <string name="dialog_button_add_text">add</string>
     
@@ -48,8 +50,8 @@
     <string name="edit_text_search_location_hint">search for location&#8230;</string>
     <string name="edit_text_map_caption_hint">location&#8230;</string>
     <string name="edit_text_image_caption_hint">caption&#8230;</string>
-    <string name="edit_text_datum_name_hint">label (e.g. \'price\', \'director\' etc. )&#8230;</string>
-    <string name="edit_text_datum_value_hint">value&#8230;</string>
+    <string name="edit_text_fact_name_hint">label (e.g. \'price\', \'director\' etc. )&#8230;</string>
+    <string name="edit_text_fact_value_hint">value&#8230;</string>
     <string name="edit_text_datum_unit_hint">unit&#8230;</string>
     <string name="edit_text_url_hint">link&#8230;</string>
     <string name="edit_text_url_text">http://</string>

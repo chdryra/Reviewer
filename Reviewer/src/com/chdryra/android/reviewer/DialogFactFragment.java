@@ -14,7 +14,7 @@ import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.widget.TextView;
 
-public class DialogDatumFragment extends DialogBasicFragment {
+public class DialogFactFragment extends DialogBasicFragment {
 	public static final String DATUM_OLD_LABEL = "com.chdryra.android.reviewer.datum_old_label";
 	public static final String DATUM_OLD_VALUE = "com.chdryra.android.reviewer.datum_old_label";
 	

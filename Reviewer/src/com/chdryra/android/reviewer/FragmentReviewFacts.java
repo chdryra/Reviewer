@@ -38,9 +38,9 @@ public class FragmentReviewFacts extends SherlockFragment {
 	
 	private LinkedHashMap<String, String> mFacts; 
 	
-	private ClearableEditText mDatumLabel;
-	private ClearableEditText mDatumValue;
-	private ListView mDataListView;
+	private ClearableEditText mFactLabel;
+	private ClearableEditText mFactValue;
+	private ListView mFactsListView;
 	
 	private boolean mDeleteConfirmed = false;
 	
@@ -60,25 +60,25 @@ public class FragmentReviewFacts extends SherlockFragment {
 		getSherlockActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);		
 		getSherlockActivity().getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		
-		mDatumLabel = (ClearableEditText)v.findViewById(R.id.datum_label_edit_text);
-		mDatumValue = (ClearableEditText)v.findViewById(R.id.datum_value_edit_text);
-		mDataListView = (ListView)v.findViewById(R.id.data_listview);
-		mDataListView.setAdapter(new ReviewFactsAdaptor(mFacts));
+		mFactLabel = (ClearableEditText)v.findViewById(R.id.datum_label_edit_text);
+		mFactValue = (ClearableEditText)v.findViewById(R.id.datum_value_edit_text);
+		mFactsListView = (ListView)v.findViewById(R.id.data_listview);
+		mFactsListView.setAdapter(new ReviewFactsAdaptor(mFacts));
 		updateUI();
 		
-		mDatumValue.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+		mFactValue.setOnEditorActionListener(new TextView.OnEditorActionListener() {
 	        @Override
 	        public boolean onEditorAction(TextView v, int actionId, KeyEvent event)
 	        {
 	            if(actionId == EditorInfo.IME_ACTION_GO)
-					addDatum();
+					addFact();
 					
-	            mDatumLabel.requestFocus();
+	            mFactLabel.requestFocus();
 	            return true;
 	        }
 	    });
 
-		mDataListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+		mFactsListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
 			
 			@Override
 			public boolean onItemLongClick(AdapterView<?> parent, View v, int pos, long id) {
@@ -86,7 +86,7 @@ public class FragmentReviewFacts extends SherlockFragment {
 				String label = (String)adapter.getKey(pos);
 				String value = (String)adapter.getItem(pos);
 				
-				DialogDatumFragment dialog = new DialogDatumFragment();
+				DialogFactFragment dialog = new DialogFactFragment();
 				dialog.setTargetFragment(FragmentReviewFacts.this, DATUM_EDIT);
 				Bundle args = new Bundle();
 				args.putString(DATUM_LABEL, label);
@@ -101,9 +101,9 @@ public class FragmentReviewFacts extends SherlockFragment {
 		return v;
 	}
 	
-	private void addDatum() {
-		String label = mDatumLabel.getText().toString();
-		String value = mDatumValue.getText().toString();
+	private void addFact() {
+		String label = mFactLabel.getText().toString();
+		String value = mFactValue.getText().toString();
 		if((label == null || label.length() == 0) && (value == null || value.length() == 0))
 			return;
 		
@@ -113,14 +113,14 @@ public class FragmentReviewFacts extends SherlockFragment {
 			Toast.makeText(getSherlockActivity(), getResources().getString(R.string.toast_enter_value), Toast.LENGTH_SHORT).show();
 		else {
 			mFacts.put(label, value);
-			mDatumLabel.setText(null);
-			mDatumValue.setText(null);
+			mFactLabel.setText(null);
+			mFactValue.setText(null);
 			updateUI();
 		}
 	}
 	
 	private void updateUI() {
-		((ReviewFactsAdaptor)mDataListView.getAdapter()).notifyDataSetChanged();
+		((ReviewFactsAdaptor)mFactsListView.getAdapter()).notifyDataSetChanged();
 	}
 	
 	private void sendResult(int resultCode) {
@@ -149,14 +149,14 @@ public class FragmentReviewFacts extends SherlockFragment {
 			case DATUM_EDIT:
 				switch(resultCode) {
 					case Activity.RESULT_OK:
-						String oldLabel = (String)data.getSerializableExtra(DialogDatumFragment.DATUM_OLD_LABEL);
+						String oldLabel = (String)data.getSerializableExtra(DialogFactFragment.DATUM_OLD_LABEL);
 						String newLabel = (String)data.getSerializableExtra(DATUM_LABEL);
 						String newValue = (String)data.getSerializableExtra(DATUM_VALUE);
 						mFacts.remove(oldLabel);
 						mFacts.put(newLabel, newValue);
 						break;
-					case DialogDatumFragment.RESULT_DELETE:
-						String toDelete = (String)data.getSerializableExtra(DialogDatumFragment.DATUM_OLD_LABEL);
+					case DialogFactFragment.RESULT_DELETE:
+						String toDelete = (String)data.getSerializableExtra(DialogFactFragment.DATUM_OLD_LABEL);
 						mFacts.remove(toDelete);
 						break;
 					default:
@@ -257,8 +257,8 @@ public class FragmentReviewFacts extends SherlockFragment {
 			vh.datumName.setText(label +":");
 			vh.datumValue.setText(value);
 			
-			vh.datumName.setTextColor(mDatumLabel.getTextColors().getDefaultColor());
-			vh.datumValue.setTextColor(mDatumLabel.getTextColors().getDefaultColor());
+			vh.datumName.setTextColor(mFactLabel.getTextColors().getDefaultColor());
+			vh.datumValue.setTextColor(mFactLabel.getTextColors().getDefaultColor());
 			
 			return(convertView);
 		};
