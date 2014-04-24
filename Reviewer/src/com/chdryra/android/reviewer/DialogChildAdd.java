@@ -110,7 +110,7 @@ public class DialogChildAdd extends SherlockDialogFragment{
 		if (getTargetFragment() == null || resultCode == Activity.RESULT_CANCELED)
 			return;
 		
-		if(resultCode == Activity.RESULT_OK && mChildNameEditText.getText().toString().length() > 0)
+		if(resultCode == Activity.RESULT_OK)
 			addChild();
 		
 		getTargetFragment().onActivityResult(getTargetRequestCode(), resultCode, new Intent());	

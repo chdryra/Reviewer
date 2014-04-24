@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/add_optionals_buttons"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" >
+
+    <TableRow android:layout_weight="1" >
+
+        <include
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            layout="@layout/data_button_comment" />
+
+        <View style="@style/VerticalDivider" />
+
+        <include
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            layout="@layout/data_buttons_procon" />
+    </TableRow>
+
+    <View style="@style/HorizontalDivider" />
+
+    <TableRow android:layout_weight="1" >
+
+        <include
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            layout="@layout/data_button_image" />
+
+        <View style="@style/VerticalDivider" />
+
+        <include
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            layout="@layout/data_button_facts" />
+    </TableRow>
+
+</TableLayout>

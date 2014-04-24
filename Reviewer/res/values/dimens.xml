@@ -7,6 +7,7 @@
 	<dimen name="list_item_rightPadding">10dp</dimen>
 	<dimen name="list_item_intraPadding">2dp</dimen>
 	<dimen name="list_item_textSize">16dp</dimen>
+	<dimen name="data_button_padding">8dp</dimen>
 	<dimen name="imageMaxWidth">480px</dimen>
 	<dimen name="imageMaxHeight">480px</dimen>
 	<dimen name="mapMaxWidth">480px</dimen>

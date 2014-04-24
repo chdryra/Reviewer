@@ -10,7 +10,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-public class DialogDataFragment extends DialogBasicFragment {
+public class DialogFactsFragment extends DialogBasicFragment {
 
 	private ControllerReviewNode mController;
 	

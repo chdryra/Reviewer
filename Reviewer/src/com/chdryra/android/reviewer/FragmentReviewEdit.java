@@ -64,16 +64,12 @@ public class FragmentReviewEdit extends SherlockFragment {
 	public final static int FACTS_REQUEST = 6;
 	public final static int FACTS_EDIT = 7;
 	public final static int URL_EDIT = 8;
-	public final static int DATE_EDIT = 9;
-	public final static int CHILDREN_REQUEST = 10;
-	public final static int CHILDREN_EDIT = 11;
-	public final static int PROSCONS_REQUEST = 12;
-	public final static int PROSCONS_EDIT = 13;
+	public final static int CHILDREN_REQUEST = 9;
+	public final static int CHILDREN_EDIT = 10;
+	public final static int PROSCONS_REQUEST = 11;
+	public final static int PROSCONS_EDIT = 12;
 
-	public final static int DATA_TABLE_MAX_VALUES = 1;
-
-	private final static SimpleDateFormat mDateFormat = 
-			new SimpleDateFormat("dd/MM/yy", Locale.getDefault());
+	public final static int FACTS_TABLE_MAX_VALUES = 3;
 	
 	private ControllerReviewNode mController;
 	private ControllerReviewNodeChildren mChildrenController;
@@ -88,7 +84,7 @@ public class FragmentReviewEdit extends SherlockFragment {
 	private ImageButton mCalcAverageRatingButton;
 	
 	private ImageButton mAddPhotoImageButton;
-	private ImageButton mAddLocationImageButton;
+	//private ImageButton mAddLocationImageButton;
 	private ImageButton mAddCommentImageButton;
 	private ImageButton mAddFactsImageButton;
 	private ImageButton mAddProsImageButton;
@@ -136,7 +132,7 @@ public class FragmentReviewEdit extends SherlockFragment {
 		mChildrenLayout = (LinearLayout)v.findViewById(R.id.linear_layout_criteria_rating_bars);
 		
 		mAddPhotoImageButton = (ImageButton)v.findViewById(R.id.add_photo_image_button);	
-		mAddLocationImageButton = (ImageButton)v.findViewById(R.id.add_location_image_button);
+		//mAddLocationImageButton = (ImageButton)v.findViewById(R.id.add_location_image_button);
 		mAddCommentImageButton = (ImageButton)v.findViewById(R.id.add_comment_image_button);	
 		mAddFactsImageButton = (ImageButton)v.findViewById(R.id.add_data_image_button);
 		mAddProsImageButton = (ImageButton)v.findViewById(R.id.add_pros_image_button);	
@@ -146,14 +142,10 @@ public class FragmentReviewEdit extends SherlockFragment {
 		mLocationTextView = (TextView)v.findViewById(R.id.location_text_view);
 		mProsTextView = (TextView)v.findViewById(R.id.pros_text_view);
 		mConsTextView = (TextView)v.findViewById(R.id.cons_text_view);
-		mFactsLinearLayout= (LinearLayout)v.findViewById(R.id.data_table_linear_layout);
-		
-		//mLocationTextView = (TextView)v.findViewById(R.id.location_text_view);
-		//mDateTextView = (TextView)v.findViewById(R.id.date_text_view);
 		mURLTextView = (TextView)v.findViewById(R.id.url_text_view);
-		//mFactsTextView = (TextView)v.findViewById(R.id.facts_text_view);
-		
+		mFactsLinearLayout= (LinearLayout)v.findViewById(R.id.data_table_linear_layout);		
 
+		
 		mSubjectEditText.addTextChangedListener(new TextWatcher() {
 			@Override
 			public void onTextChanged(CharSequence s, int start, int before, int count) {}
@@ -237,41 +229,45 @@ public class FragmentReviewEdit extends SherlockFragment {
 			}
 		});
 		
-		//***Location image button***//
-		mAddLocationImageButton.getLayoutParams().height = maxHeight/2;
-		mAddLocationImageButton.getLayoutParams().width = maxWidth;	
-		mAddLocationImageButton.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {	
-				if (mController.hasLocation())
-					showLocationEditDialog();
-				else
-					mAddLocationImageButton.performLongClick();
-			}
-		});
-		
-		mAddLocationImageButton.setOnLongClickListener(new View.OnLongClickListener() {
-			@Override
-			public boolean onLongClick(View v) {	
-				requestLocationFindIntent();
-				return true;
-			}
-		});
-		
+//		//***Location image button***//
+//		mAddLocationImageButton.getLayoutParams().height = maxHeight/2;
+//		mAddLocationImageButton.getLayoutParams().width = maxWidth;	
+//		mAddLocationImageButton.setOnClickListener(new View.OnClickListener() {
+//			@Override
+//			public void onClick(View v) {	
+//				if (mController.hasLocation())
+//					showLocationEditDialog();
+//				else
+//					mAddLocationImageButton.performLongClick();
+//			}
+//		});
+//		
+//		mAddLocationImageButton.setOnLongClickListener(new View.OnLongClickListener() {
+//			@Override
+//			public boolean onLongClick(View v) {	
+//				requestLocationFindIntent();
+//				return true;
+//			}
+//		});
+//		
 		//***Location Text View***//
-		mLocationTextView.getLayoutParams().height = maxHeight/2;
-		mLocationTextView.getLayoutParams().width = maxWidth;		
+		//mLocationTextView.getLayoutParams().height = maxHeight/2;
+		//mLocationTextView.getLayoutParams().width = maxWidth;		
 		mLocationTextView.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				mAddLocationImageButton.performClick();
+				if (mController.hasLocation())
+					showLocationEditDialog();
+				else
+					mLocationTextView.performLongClick();
 			}
 		});
 		
 		mLocationTextView.setOnLongClickListener(new View.OnLongClickListener() {
 			@Override
 			public boolean onLongClick(View v) {
-				return mAddLocationImageButton.performLongClick();
+				requestLocationFindIntent();
+				return true;
 			}
 		});
 
@@ -314,8 +310,8 @@ public class FragmentReviewEdit extends SherlockFragment {
 			}
 		});
 		
-		//***Data Image Button***//
-		mAddFactsImageButton.getLayoutParams().height = maxHeight/2;
+		//***Facts Image Button***//
+		mAddFactsImageButton.getLayoutParams().height = maxHeight;
 		mAddFactsImageButton.getLayoutParams().width = maxWidth;		
 		mAddFactsImageButton.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -337,8 +333,8 @@ public class FragmentReviewEdit extends SherlockFragment {
 		});
 
 		//***Facts Text View***//
-		mFactsLinearLayout.getLayoutParams().height = maxHeight/2;
-		mFactsLinearLayout.getLayoutParams().width = maxWidth;
+		mFactsLinearLayout.getLayoutParams().height = mAddFactsImageButton.getLayoutParams().height;
+		mFactsLinearLayout.getLayoutParams().width = mAddFactsImageButton.getLayoutParams().width;
 		mFactsLinearLayout.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -452,12 +448,10 @@ public class FragmentReviewEdit extends SherlockFragment {
 		updateNumChildrenText();
 		updateChildrenLayout();
 		updateCommentHeadline();
-		updateLocationButtonImage();
 		updateImageButtonImage();
-		updateDataTable();
+		updateFactsTable();
 		updateLocationDisplay();
 		updateURLDisplay();		
-		updateFactsDisplay();
 		updateProsConsDisplay();
 	}
 
@@ -513,9 +507,11 @@ public class FragmentReviewEdit extends SherlockFragment {
 			
 			criterionTextView.setText(mChildrenController.getTitle(id));
 			criterionTextView.setTextColor(mSubjectEditText.getTextColors().getDefaultColor());
+
 			ratingBar.setRating(mChildrenController.getRating(id));
 			ratingBar.setIsIndicator(true);
 			ratingBar.setFocusable(false);
+			
 			mChildrenLayout.addView(reviewView);
 		}
 		
@@ -535,12 +531,12 @@ public class FragmentReviewEdit extends SherlockFragment {
 			mAddPhotoImageButton.setImageResource(R.drawable.ic_menu_camera);
 	}
 	
-	private void updateLocationButtonImage() {		
-		if(mController.hasMapSnapshot())
-			mAddLocationImageButton.setImageBitmap(mController.getMapSnapshot());
-		else
-			mAddLocationImageButton.setImageResource(R.drawable.ic_menu_mylocation);
-	}
+//	private void updateLocationButtonImage() {		
+//		if(mController.hasMapSnapshot())
+//			mAddLocationImageButton.setImageBitmap(mController.getMapSnapshot());
+//		else
+//			mAddLocationImageButton.setImageResource(R.drawable.ic_menu_mylocation);
+//	}
 	
 	private void updateReviewImage() {
         mHelperReviewImage.setReviewImage(getSherlockActivity(), mAddPhotoImageButton);
@@ -585,7 +581,7 @@ public class FragmentReviewEdit extends SherlockFragment {
 		setVisibleGoneView(textView, imageButton);
 	}
 	
-	private void updateDataTable() {
+	private void updateFactsTable() {
 		if(!mController.hasFacts()) {
 			setVisibleGoneView(mAddFactsImageButton, mFactsLinearLayout);
 			return;
@@ -608,28 +604,16 @@ public class FragmentReviewEdit extends SherlockFragment {
 			mFactsLinearLayout.addView(labelRow);
 			mFactsLinearLayout.addView(valueRow);
 			
-			++i;
-			if(i == DATA_TABLE_MAX_VALUES)
+			if(i++ == FACTS_TABLE_MAX_VALUES)
 				break;
 		}
 	}
 
-	private void updateFactsDisplay() {
-		StringBuilder facts = new StringBuilder();
-		
-		if(!mController.hasFacts())
-			facts.append(getResources().getString(R.string.text_view_facts_hint));
-		else
-			facts.append(mController.getNumberOfFacts() + " facts");
-					
-		//mFactsTextView.setText(facts.toString());
-	}
-
 	private void updateLocationDisplay() {
-		if(!mController.hasLocation()) {
-			setVisibleGoneView(mAddLocationImageButton, mLocationTextView);
-			return;
-		}
+//		if(!mController.hasLocation()) {
+//			setVisibleGoneView(mAddLocationImageButton, mLocationTextView);
+//			return;
+//		}
 
 		StringBuilder location = new StringBuilder("@");
 		
@@ -637,8 +621,10 @@ public class FragmentReviewEdit extends SherlockFragment {
 			location.append(getResources().getString(R.string.text_view_location_hint));
 		else
 			location.append(mController.getShortLocationName());
-					
-		switchImageButtonToTextView(mLocationTextView, mAddLocationImageButton, location.toString());
+
+		mLocationTextView.setText(location.toString());
+//		updateLocationButtonImage();
+//		switchImageButtonToTextView(mLocationTextView, mAddLocationImageButton, location.toString());
 	}
 	
 	private void updateURLDisplay() {
@@ -688,7 +674,7 @@ public class FragmentReviewEdit extends SherlockFragment {
 	}
 	
 	private void requestLocationFindIntent() {
-		IntentObjectHolder.addObject(LOCATION_BUTTON, mAddLocationImageButton);
+		//IntentObjectHolder.addObject(LOCATION_BUTTON, mAddLocationImageButton);
 		requestIntent(ActivityReviewLocation.class, LOCATION_REQUEST);
 	}
 	
@@ -741,7 +727,7 @@ public class FragmentReviewEdit extends SherlockFragment {
 	}
 
 	private void showFactsEditDialog() {
-		showDialog(new DialogDataFragment(), FACTS_EDIT, DIALOG_DATA_TAG);
+		showDialog(new DialogFactsFragment(), FACTS_EDIT, DIALOG_DATA_TAG);
 	}
 
 	private void showURLEditDialog() {
@@ -853,7 +839,6 @@ public class FragmentReviewEdit extends SherlockFragment {
 				break;
 				
 			case LOCATION_REQUEST:
-				updateLocationButtonImage();
 				updateLocationDisplay();
 				break;
 			
@@ -863,7 +848,6 @@ public class FragmentReviewEdit extends SherlockFragment {
 						requestLocationFindIntent();
 						break;
 					case DialogLocationFragment.RESULT_DELETE:
-						updateLocationButtonImage();
 						updateLocationDisplay();
 					default:
 						break;
@@ -886,8 +870,7 @@ public class FragmentReviewEdit extends SherlockFragment {
 				break;
 				
 			case FACTS_REQUEST:
-				updateDataTable();	
-				updateFactsDisplay();
+				updateFactsTable();	
 				break;
 				
 			case FACTS_EDIT:
@@ -896,8 +879,7 @@ public class FragmentReviewEdit extends SherlockFragment {
 						requestFactsAddIntent();
 						break;
 					default:
-						updateDataTable();
-						updateFactsDisplay();
+						updateFactsTable();
 						break;
 				}
 				break;

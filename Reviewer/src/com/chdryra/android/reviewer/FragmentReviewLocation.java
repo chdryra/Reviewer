@@ -75,7 +75,7 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 
 	private ControllerReviewNode mController;
 	
-	private ImageButton mSnapshotButton;
+	//private ImageButton mSnapshotButton;
 	
 	private LocationClient mLocationClient;
 	
@@ -101,7 +101,7 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 		super.onCreate(savedInstanceState);
 		mController = Controller.unpack(getActivity().getIntent().getExtras());
 		mLocationClient = new LocationClient(getSherlockActivity(), this, this);
-		mSnapshotButton = (ImageButton)IntentObjectHolder.getObject(FragmentReviewEdit.LOCATION_BUTTON);
+		//mSnapshotButton = (ImageButton)IntentObjectHolder.getObject(FragmentReviewEdit.LOCATION_BUTTON);
 		mRevertMapSnapshotZoom =  mController.hasMapSnapshot()? mController.getMapSnapshotZoom() : DEFAULT_ZOOM;
 	    mPhotoLatLng = mController.getImageLatLng();
 	    setRetainInstance(true);
@@ -126,7 +126,8 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 			@Override
 			public boolean onMyLocationButtonClick() {
 				Location location = mLocationClient.getLastLocation();
-				setLatLng(new LatLng(location.getLatitude(), location.getLongitude()));
+				if(location != null)
+					setLatLng(new LatLng(location.getLatitude(), location.getLongitude()));
 				return false;
 			}
 		});
@@ -496,10 +497,10 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 		@Override
 		protected void onPostExecute(Bitmap bitmap) {
 			mController.setMapSnapshot(bitmap, mZoom);
-			if(bitmap == null)
-				mSnapshotButton.setImageResource(R.drawable.ic_menu_camera);
-			else
-				mSnapshotButton.setImageBitmap(bitmap);
+//			if(bitmap == null)
+//				mSnapshotButton.setImageResource(R.drawable.ic_menu_camera);
+//			else
+//				mSnapshotButton.setImageBitmap(bitmap);
 		}	
 	}
 	
