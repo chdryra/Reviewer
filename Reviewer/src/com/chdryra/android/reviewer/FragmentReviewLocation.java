@@ -711,7 +711,7 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 
 		@Override
 		public View getInfoContents(Marker arg0) {
-			View v = getSherlockActivity().getLayoutInflater().inflate(R.layout.infoe_window_adapter_rated, null);
+			View v = getSherlockActivity().getLayoutInflater().inflate(R.layout.info_window_adapter_rated, null);
 			TextView titleTextView = (TextView)v.findViewById(R.id.info_window_title);
 			RatingBar ratingBar = (RatingBar)v.findViewById(R.id.info_window_rating_bar);
 			

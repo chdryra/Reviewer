@@ -29,6 +29,7 @@
             android:ellipsize="marquee"
             android:gravity="center"
             android:textAlignment="center"
+            android:padding="@dimen/data_button_padding"
             android:textColor="@color/Green"
             android:visibility="gone" />
     </RelativeLayout>
@@ -58,6 +59,7 @@
             android:ellipsize="marquee"
             android:gravity="center"
             android:textAlignment="center"
+            android:padding="@dimen/data_button_padding"
             android:textColor="@color/WhiteSmoke"
             android:visibility="gone" />
     </RelativeLayout>

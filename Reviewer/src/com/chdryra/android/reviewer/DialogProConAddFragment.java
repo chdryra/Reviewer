@@ -11,44 +11,43 @@ import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
-import android.widget.RatingBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockDialogFragment;
 import com.chdryra.android.myandroidwidgets.ClearableEditText;
 
-public class DialogChildAdd extends SherlockDialogFragment{
+public class DialogProConAddFragment extends SherlockDialogFragment{
 
 	private ControllerReviewNode mController;
-	private ControllerReviewNodeChildren mChildrenController;
-	private ArrayList<String> mChildNames = new ArrayList<String>();
 	
-	private ClearableEditText mChildNameEditText;
-	private RatingBar mChildRatingBar;
+	private ArrayList<String> mPros;
+	private ArrayList<String> mCons;
+	
+	private ClearableEditText mProEditText;
+	private ClearableEditText mConEditText;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		mController = Controller.unpack(getArguments());
-		mChildrenController = mController.getChildrenController();
-		for(String id : mChildrenController.getIDs())
-			mChildNames.add(mChildrenController.getTitle(id));
+		mPros = mController.hasProsCons()? mController.getPros() : new ArrayList<String>();
+		mCons = mController.hasProsCons()? mController.getCons() : new ArrayList<String>();
 	}
 	
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 	
 		final Dialog dialog = new Dialog(getSherlockActivity());
-		dialog.setContentView(R.layout.dialog_child_add);
+		dialog.setContentView(R.layout.dialog_procon_add);
 
-		mChildNameEditText = (ClearableEditText)dialog.findViewById(R.id.child_name_edit_text);
-		mChildRatingBar = (RatingBar)dialog.findViewById(R.id.child_rating_bar);
+		mProEditText = (ClearableEditText)dialog.findViewById(R.id.pro_edit_text);
+		mConEditText = (ClearableEditText)dialog.findViewById(R.id.con_edit_text);
+
 		final Button cancelButton = (Button)dialog.findViewById(R.id.button_left);
 		final Button addButton = (Button)dialog.findViewById(R.id.button_middle);
 		final Button doneButton = (Button)dialog.findViewById(R.id.button_right);
 		
-		mChildNameEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+		mProEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
 	        @Override
 	        public boolean onEditorAction(TextView v, int actionId, KeyEvent event)
 	        {
@@ -58,6 +57,16 @@ public class DialogChildAdd extends SherlockDialogFragment{
 	        }
 	    });
 
+		mConEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+	        @Override
+	        public boolean onEditorAction(TextView v, int actionId, KeyEvent event)
+	        {
+	            if(actionId == EditorInfo.IME_ACTION_GO)
+	            	addButton.performClick();
+	            return false;
+	        }
+	    });
+		
 		cancelButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -69,7 +78,7 @@ public class DialogChildAdd extends SherlockDialogFragment{
 		addButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				addChild();
+				addProCon();
 			}
 		});
 		
@@ -81,37 +90,43 @@ public class DialogChildAdd extends SherlockDialogFragment{
 			}
 		});
 		
-		dialog.setTitle(getResources().getString(R.string.dialog_add_criteria_title));
+		dialog.setTitle(getResources().getString(R.string.dialog_add_procon_title));
 		dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
 
 		return dialog;
 	}
 
-	private void addChild() {
-		String childName = mChildNameEditText.getText().toString();
-		
-		if(childName == null || childName.length() == 0)
+	private void addProCon() {
+		String pro = mProEditText.getText().toString();
+		String con = mConEditText.getText().toString();
+		if((pro == null || pro.length() == 0) && (con == null || con.length() == 0))
 			return;
 		
-		if(mChildNames.contains(childName)) {
-			Toast.makeText(getSherlockActivity(), childName + ": " + getResources().getString(R.string.toast_exists_criterion), Toast.LENGTH_SHORT).show();
-			return;
-		}
+		if(pro.length() > 0)
+			mPros.add(pro);
 		
-		mChildrenController.addChild(childName, mChildRatingBar.getRating());
-		mChildNames.add(childName);
-		mChildNameEditText.setText(null);		
-		mChildRatingBar.setRating(0);
+		if(con.length() > 0)
+			mCons.add(con);
 		
-		getDialog().setTitle("Added " + childName);
+		mProEditText.setText(null);
+		mConEditText.setText(null);
+		
+		if(pro.length() > 0 && con.length() > 0)
+			getDialog().setTitle("Added Pro: " + pro + ", Con: " + con);
+		else if(pro.length() > 0)
+			getDialog().setTitle("Added Pro: " + pro);
+		else 
+			getDialog().setTitle("Added Con: " + con);
 	}
 
 	private void sendResult(int resultCode) {
 		if (getTargetFragment() == null || resultCode == Activity.RESULT_CANCELED)
 			return;
 		
-		if(resultCode == Activity.RESULT_OK)
-			addChild();
+		if(resultCode == Activity.RESULT_OK) {
+			addProCon();
+			mController.setProsCons(mPros, mCons);
+		}
 		
 		getTargetFragment().onActivityResult(getTargetRequestCode(), resultCode, new Intent());	
 	}

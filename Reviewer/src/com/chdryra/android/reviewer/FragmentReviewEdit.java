@@ -69,7 +69,7 @@ public class FragmentReviewEdit extends SherlockFragment {
 	public final static int FACTS_ADD_REQUEST = 8;
 	public final static int URL_EDIT = 9;
 	public final static int CHILDREN_REQUEST = 10;
-	public final static int CHILDREN_DIALOG_REQUEST = 11;
+	public final static int CHILD_ADD_REQUEST = 11;
 	public final static int PROSCONS_REQUEST = 12;
 	public final static int PROSCONS_EDIT = 13;
 	public final static int PROSCONS_ADD_REQUEST = 14;
@@ -436,7 +436,10 @@ public class FragmentReviewEdit extends SherlockFragment {
 		mAddProsImageButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				showProConAddDialog();
+				if (mController.hasProsCons())
+					showProsConsEditDialog();					
+				else
+					showProConAddDialog();
 			}
 		});
 		
@@ -472,14 +475,18 @@ public class FragmentReviewEdit extends SherlockFragment {
 		mAddConsImageButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				requestProsConsAddIntent();
+				if (mController.hasProsCons())
+					showProsConsEditDialog();					
+				else
+					showProConAddDialog();
 			}
 		});
 		
 		mAddConsImageButton.setOnLongClickListener(new View.OnLongClickListener() {
 			@Override
 			public boolean onLongClick(View v) {
-				return mAddConsImageButton.performClick();
+				requestProsConsAddIntent();
+				return true;
 			}
 		});
 		
@@ -805,6 +812,10 @@ public class FragmentReviewEdit extends SherlockFragment {
 		showDialog(new DialogFactsFragment(), FACTS_EDIT, DIALOG_DATA_TAG);
 	}
 
+	private void showProsConsEditDialog() {
+		showDialog(new DialogProsConsFragment(), PROSCONS_EDIT, DIALOG_PROSCONS_TAG);
+	}
+
 	private void showURLEditDialog() {
 		showDialog(new DialogURLFragment(), URL_EDIT, DIALOG_URL_TAG);
 	}
@@ -816,21 +827,15 @@ public class FragmentReviewEdit extends SherlockFragment {
 	}
 
 	private void showChildAddDialog() {
-		DialogChildAdd dialog = new DialogChildAdd();
-		dialog.setTargetFragment(FragmentReviewEdit.this, CHILDREN_DIALOG_REQUEST);
-		dialog.setArguments(Controller.pack(mController));
-		dialog.show(getFragmentManager(), DIALOG_CHILD_TAG);
+		showAddDialog(new DialogChildAddFragment(), CHILD_ADD_REQUEST, DIALOG_CHILD_TAG);
 	}
 
 	private void showFactsAddDialog() {
-		DialogFactAdd dialog = new DialogFactAdd();
-		dialog.setTargetFragment(FragmentReviewEdit.this, FACTS_ADD_REQUEST);
-		dialog.setArguments(Controller.pack(mController));
-		dialog.show(getFragmentManager(), DIALOG_FACTS_TAG);
+		showAddDialog(new DialogFactAddFragment(), FACTS_ADD_REQUEST, DIALOG_FACTS_TAG);
 	}
 
 	private void showProConAddDialog() {
-		showAddDialog(new DialogProConAdd(), PROSCONS_ADD_REQUEST, DIALOG_PROSCONS_TAG);
+		showAddDialog(new DialogProConAddFragment(), PROSCONS_ADD_REQUEST, DIALOG_PROSCONS_TAG);
 	}
 	
 	private void showAddDialog(SherlockDialogFragment dialog, int requestCode, String tag) {
@@ -924,7 +929,7 @@ public class FragmentReviewEdit extends SherlockFragment {
 				updateChildrenLayout();	
 				break;
 			
-			case CHILDREN_DIALOG_REQUEST:
+			case CHILD_ADD_REQUEST:
 				updateRatingIsAverageButton();
 				updateNumChildrenText();
 				updateChildrenLayout();	
@@ -996,6 +1001,9 @@ public class FragmentReviewEdit extends SherlockFragment {
 					case Activity.RESULT_OK:
 						requestProsConsAddIntent();
 						break;
+					case DialogProsConsFragment.RESULT_ADD:
+						showProConAddDialog();
+						break;	
 					default:
 						updateProsConsDisplay();
 						break;

@@ -17,7 +17,7 @@ import android.widget.Toast;
 import com.actionbarsherlock.app.SherlockDialogFragment;
 import com.chdryra.android.myandroidwidgets.ClearableEditText;
 
-public class DialogFactAdd extends SherlockDialogFragment{
+public class DialogFactAddFragment extends SherlockDialogFragment{
 
 	private ControllerReviewNode mController;
 	private LinkedHashMap<String, String> mFacts;
