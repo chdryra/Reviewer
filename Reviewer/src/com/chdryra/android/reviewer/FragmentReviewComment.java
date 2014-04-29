@@ -153,7 +153,7 @@ public class FragmentReviewComment extends SherlockFragment {
 	@Override
     public void onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
-    	mClearCommentMenuItem = menu.findItem(R.id.menu_item_clear_comment);
+    	mClearCommentMenuItem = menu.findItem(R.id.menu_item_clear);
     	mClearCommentIcon = getResources().getDrawable(R.drawable.ic_clear_search_api_holo_light);
 		updateClearCommentMenuItemVisibility();
     }
@@ -161,13 +161,13 @@ public class FragmentReviewComment extends SherlockFragment {
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 		super.onCreateOptionsMenu(menu, inflater);		
-		inflater.inflate(R.menu.fragment_review_comment, menu);
+		inflater.inflate(R.menu.menu_clear_delete_done, menu);
 	}
 	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-			case R.id.menu_item_clear_comment:
+			case R.id.menu_item_clear:
 				if(mCommentEditText != null)
 					mCommentEditText.setText(null);
 				break;

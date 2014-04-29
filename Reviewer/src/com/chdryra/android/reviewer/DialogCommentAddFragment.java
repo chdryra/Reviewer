@@ -34,7 +34,7 @@ public class DialogCommentAddFragment extends SherlockDialogFragment{
 			mCommentEditText.setText(mController.getCommentString());
 
 		final Button cancelButton = (Button)dialog.findViewById(R.id.button_left);
-		final Button addButton = (Button)dialog.findViewById(R.id.button_middle);
+		final Button clearButton = (Button)dialog.findViewById(R.id.button_middle);
 		final Button doneButton = (Button)dialog.findViewById(R.id.button_right);
 
 		cancelButton.setOnClickListener(new View.OnClickListener() {
@@ -45,7 +45,13 @@ public class DialogCommentAddFragment extends SherlockDialogFragment{
 			}
 		});
 		
-		addButton.setVisibility(View.GONE);
+		clearButton.setText(getResources().getString(R.string.button_clear_text));
+		clearButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				clearText();
+			}
+		});
 		
 		doneButton.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -61,6 +67,10 @@ public class DialogCommentAddFragment extends SherlockDialogFragment{
 		return dialog;
 	}
 
+	private void clearText() {
+		mCommentEditText.setText(null);
+	}
+	
 	private void sendResult(int resultCode) {
 		if (getTargetFragment() == null || resultCode == Activity.RESULT_CANCELED)
 			return;

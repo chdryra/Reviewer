@@ -60,7 +60,8 @@ public class FragmentReviewEdit extends SherlockFragment {
 	public final static int COMMENT_EDIT = 31;
 	public final static int FACTS_REQUEST = 40;
 	public final static int FACTS_EDIT = 41;
-	public final static int URL_EDIT = 50;
+	public final static int URL_REQUEST = 50;
+	public final static int URL_EDIT = 51;
 	public final static int CHILDREN_REQUEST = 60;
 	public final static int PROSCONS_REQUEST = 70;
 	public final static int PROSCONS_EDIT = 71;
@@ -459,7 +460,7 @@ public class FragmentReviewEdit extends SherlockFragment {
 		mURLTextView.setOnLongClickListener(new View.OnLongClickListener() {
 			@Override
 			public boolean onLongClick(View v) {
-				mURLTextView.performClick();
+				requestURIBrowserintent();
 				return true;
 			}
 		});
@@ -688,6 +689,10 @@ public class FragmentReviewEdit extends SherlockFragment {
 		requestIntent(ActivityReviewLocation.class, LOCATION_REQUEST);
 	}
 	
+	private void requestURIBrowserintent() {
+		requestIntent(ActivityReviewURL.class, URL_REQUEST);
+	}
+	
 	private void requestImageCaptureIntent() {
 		if(mHelperReviewImage == null)
 			mHelperReviewImage = HelperReviewImage.getInstance(mController.getID());
@@ -785,7 +790,7 @@ public class FragmentReviewEdit extends SherlockFragment {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-		case R.id.menu_item_review_done:
+		case R.id.menu_item_done:
 			break;
 		case android.R.id.home:
 			if (NavUtils.getParentActivityName(getSherlockActivity()) != null) {
@@ -927,7 +932,11 @@ public class FragmentReviewEdit extends SherlockFragment {
 						break;
 				}
 				break;
-					
+			
+			case URL_REQUEST:
+				updateURLDisplay();
+				break;
+				
 			case URL_EDIT:
 				updateURLDisplay();
 				break;

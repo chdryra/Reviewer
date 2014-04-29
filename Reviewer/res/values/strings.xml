@@ -25,6 +25,7 @@
     
     <!-- Activities -->
     <string name="location_activity_title">location</string>
+    <string name="url_activity_title">link</string>
     <string name="comment_activity_title">comment</string>
     <string name="facts_activity_title">facts</string>
     <string name="image_activity_title">image</string>
@@ -71,6 +72,7 @@
     <string name="button_cancel_text">cancel</string>
     <string name="button_add_criterion_text">add</string>
     <string name="button_edit_text">edit</string>
+    <string name="button_clear_text">clear</string>
     
     <!-- Image Buttons -->
     <string name="button_add_image_cd">add image</string>
@@ -91,9 +93,10 @@
     <string name="menu_delete">delete</string>
     <string name="menu_share">share</string>
     <string name="menu_tags">tags</string>
+    <string name="menu_options">options</string>
     <string name="menu_current_location">current location</string>
     <string name="menu_location_from_photo">location_from_photo</string>
-    <string name="menu_search_location">search for location</string>
+    <string name="menu_item_search">search for location</string>
     <string name="menu_criteria_comments">criteria comments</string>
     <string name="menu_clear_comment">clear comment</string>
     

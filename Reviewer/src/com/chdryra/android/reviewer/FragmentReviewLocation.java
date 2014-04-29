@@ -175,8 +175,8 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 	    else if (mPhotoLatLng != null) {
 	    	mRevertLatLng = mPhotoLatLng;
 	    	setLatLng(mRevertLatLng);
-	    }
-
+	    } 
+	    
 	    mPhotoLocationButton = (ImageButton)v.findViewById(R.id.photo_location_image_button);
 	    mPhotoLocationButton.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -192,6 +192,9 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 	    mRevertButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				if(mRevertLatLng == null)
+					return;
+							
 				mSearchLocationName = null;
 				setLatLng(mRevertLatLng);
 				zoomToLatLng(mRevertMapSnapshotZoom);
@@ -279,7 +282,7 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 		super.onCreateOptionsMenu(menu, inflater);
-		inflater.inflate(R.menu.fragment_review_location, menu);
+		inflater.inflate(R.menu.menu_search_delete_done, menu);
 		
 		mSearchView = new ArrayAdapterSearchView(getSherlockActivity().getSupportActionBar().getThemedContext());
 		mSearchView.setQueryHint(getResources().getString(R.string.search_view_location_hint));
@@ -331,7 +334,6 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-			
 			case android.R.id.home:
 				sendResult(Activity.RESULT_CANCELED);
 				break;
