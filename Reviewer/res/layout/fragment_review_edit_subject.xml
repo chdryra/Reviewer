@@ -11,4 +11,5 @@
     android:imeOptions="actionDone"
     android:inputType="textCapSentences"
     android:textColor="@color/WhiteSmoke"
-    android:textColorHint="@color/WhiteSmoke" />
+    android:textColorHint="@color/WhiteSmoke"
+    android:textCursorDrawable="@null" />

@@ -22,13 +22,9 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.EditorInfo;
-import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -56,26 +52,20 @@ public class FragmentReviewEdit extends SherlockFragment {
 	private final static String DIALOG_FACTS_TAG = "FactsDialog";
 	private final static String DIALOG_PROSCONS_TAG = "ProConDialog";
 	
-	public static final String LOCATION_BUTTON = "com.chdryra.android.reviewer.location_button";
-	
-	public final static int IMAGE_REQUEST = 0;
-	public final static int IMAGE_EDIT = 1;
-	public final static int LOCATION_REQUEST = 2;
-	public final static int LOCATION_EDIT = 3;
-	public final static int COMMENT_REQUEST = 4;
-	public final static int COMMENT_EDIT = 5;
-	public final static int FACTS_REQUEST = 6;
-	public final static int FACTS_EDIT = 7;
-	public final static int FACTS_ADD_REQUEST = 8;
-	public final static int URL_EDIT = 9;
-	public final static int CHILDREN_REQUEST = 10;
-	public final static int CHILD_ADD_REQUEST = 11;
-	public final static int PROSCONS_REQUEST = 12;
-	public final static int PROSCONS_EDIT = 13;
-	public final static int PROSCONS_ADD_REQUEST = 14;
+	public final static int IMAGE_REQUEST = 10;
+	public final static int IMAGE_EDIT = 11;
+	public final static int LOCATION_REQUEST = 20;
+	public final static int LOCATION_EDIT = 21;
+	public final static int COMMENT_REQUEST = 30;
+	public final static int COMMENT_EDIT = 31;
+	public final static int FACTS_REQUEST = 40;
+	public final static int FACTS_EDIT = 41;
+	public final static int URL_EDIT = 50;
+	public final static int CHILDREN_REQUEST = 60;
+	public final static int PROSCONS_REQUEST = 70;
+	public final static int PROSCONS_EDIT = 71;
 
 	public final static int FACTS_TABLE_MAX_VALUES = 3;
-	public final static int MAX_COMMENT_EDITTEXT_LINES = 6;
 	
 	private ControllerReviewNode mController;
 	private ControllerReviewNodeChildren mChildrenController;
@@ -94,9 +84,6 @@ public class FragmentReviewEdit extends SherlockFragment {
 	private ImageButton mAddFactsImageButton;
 	private ImageButton mAddProsImageButton;
 	private ImageButton mAddConsImageButton;
-	private LinearLayout mProConLayout;
-	
-	private EditText mCommentEditText;
 	
 	private TextView mCommentTextView;
 	private TextView mProsTextView;
@@ -148,9 +135,6 @@ public class FragmentReviewEdit extends SherlockFragment {
 		mAddProsImageButton = (ImageButton)v.findViewById(R.id.add_pros_image_button);	
 		mAddConsImageButton = (ImageButton)v.findViewById(R.id.add_cons_image_button);
 	
-		mProConLayout = (LinearLayout)v.findViewById(R.id.procon_layout);
-		mCommentEditText = (EditText)v.findViewById(R.id.comment_edit_text);
-		
 		mCommentTextView = (TextView)v.findViewById(R.id.comment_text_view);
 		mLocationTextView = (TextView)v.findViewById(R.id.location_text_view);
 		mProsTextView = (TextView)v.findViewById(R.id.pros_text_view);
@@ -195,9 +179,11 @@ public class FragmentReviewEdit extends SherlockFragment {
 			
 			@Override
 			public void afterTextChanged(Editable s) {
-				mController.setTitle(s.toString());
+				if(s.toString().length() > 0)
+					mController.setTitle(s.toString());
 			}
 		});
+		
 	}
 	
 	private void initRatingBarUI() {
@@ -242,10 +228,17 @@ public class FragmentReviewEdit extends SherlockFragment {
 	}
 	
 	private void initChildrenUI(){
+		mChildrenLayout.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				requestChildrenDefineIntent();		
+			}
+		});
+		
 		mChildrenLayout.setOnLongClickListener(new View.OnLongClickListener() {
 			@Override
 			public boolean onLongClick(View v) {
-				requestChildrenDefineIntent();		
+				requestChildrenDefineIntent();
 				return true;
 			}
 		});
@@ -303,7 +296,7 @@ public class FragmentReviewEdit extends SherlockFragment {
 				if(mController.hasComment())
 					showCommentEditDialog();
 				else
-					showCommentEditText();
+					showCommentAddDialog();
 			}
 		});
 
@@ -331,60 +324,6 @@ public class FragmentReviewEdit extends SherlockFragment {
 				return mAddCommentImageButton.performLongClick();
 			}
 		});
-
-		mCommentEditText.getLayoutParams().height = mAddCommentImageButton.getLayoutParams().height;
-		mCommentEditText.getLayoutParams().width = mAddCommentImageButton.getLayoutParams().width;
-		mCommentEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-	        @Override
-	        public boolean onEditorAction(TextView v, int actionId, KeyEvent event)
-	        {
-	            if(actionId == EditorInfo.IME_ACTION_DONE) {
-	            	String comment = mCommentEditText.getText().toString();
-	            	if(comment.length() > 0)
-	            		mController.setComment(comment);
-	            	
-	            	updateCommentHeadline();	        		
-	            	RandomTextUtils.hideKeyboard(getSherlockActivity(), mCommentEditText);
-	            }
-	            return false;
-	        }
-	    });
-
-		mCommentEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-			@Override
-			public void onFocusChange(View v, boolean hasFocus) {
-				if(hasFocus) {
-					mCommentEditText.setSelection(mCommentEditText.getText().length());
-					RandomTextUtils.showKeyboard(getSherlockActivity(), mCommentEditText);		
-				}
-			}
-		});
-		
-		//To allow scrolling within edit text 
-		//if contains string by disallowing scrollview scrolling.
-		mCommentEditText.setOnTouchListener(new View.OnTouchListener() {
-             @Override
-             public boolean onTouch(View v, MotionEvent event) {
-                 if (v.getId() == R.id.comment_edit_text) {
-                	 
-                	 EditText et = (EditText)v;
-                	 
-                	 if(et.getLineCount() <= MAX_COMMENT_EDITTEXT_LINES)
-                		 return false;
-                     
-                	 et.getParent().requestDisallowInterceptTouchEvent(true);
-                     switch (event.getAction() & MotionEvent.ACTION_MASK) {
-                     case MotionEvent.ACTION_UP:
-                         et.getParent().requestDisallowInterceptTouchEvent(false);
-                         break;
-                     }
-                 }
-                 return false;
-             }
-         });
-
-	    mCommentEditText.setHorizontallyScrolling(false);
-	    mCommentEditText.setLines(MAX_COMMENT_EDITTEXT_LINES);
 	}
 
 	private void initFactsUI() {
@@ -621,10 +560,8 @@ public class FragmentReviewEdit extends SherlockFragment {
 	}
 	
 	private void updateCommentHeadline() {
-		mCommentEditText.setVisibility(View.GONE);
 		if(!mController.hasComment()) {
 			setVisibleGoneView(mAddCommentImageButton, mCommentTextView);
-			mCommentEditText.setText(null);
 			return;
 		}
 
@@ -787,15 +724,6 @@ public class FragmentReviewEdit extends SherlockFragment {
         startActivityForResult(chooserIntent, IMAGE_REQUEST);
 	}
 
-	private void showCommentEditText() {
-		mCommentTextView.setVisibility(View.GONE);
-		mAddCommentImageButton.setVisibility(View.GONE);
-		mCommentEditText.setVisibility(View.VISIBLE);
-		if(mController.hasComment())
-			mCommentEditText.setText(mController.getCommentString());
-		mCommentEditText.requestFocus();
-	}
-
 	private void showImageEditDialog() {
 		showDialog(new DialogImageFragment(), IMAGE_EDIT, DIALOG_IMAGE_TAG);
 	}
@@ -827,15 +755,19 @@ public class FragmentReviewEdit extends SherlockFragment {
 	}
 
 	private void showChildAddDialog() {
-		showAddDialog(new DialogChildAddFragment(), CHILD_ADD_REQUEST, DIALOG_CHILD_TAG);
+		showAddDialog(new DialogChildAddFragment(), CHILDREN_REQUEST, DIALOG_CHILD_TAG);
+	}
+
+	private void showCommentAddDialog() {
+		showAddDialog(new DialogCommentAddFragment(), COMMENT_REQUEST, DIALOG_COMMENT_TAG);
 	}
 
 	private void showFactsAddDialog() {
-		showAddDialog(new DialogFactAddFragment(), FACTS_ADD_REQUEST, DIALOG_FACTS_TAG);
+		showAddDialog(new DialogFactAddFragment(), FACTS_REQUEST, DIALOG_FACTS_TAG);
 	}
 
 	private void showProConAddDialog() {
-		showAddDialog(new DialogProConAddFragment(), PROSCONS_ADD_REQUEST, DIALOG_PROSCONS_TAG);
+		showAddDialog(new DialogProConAddFragment(), PROSCONS_REQUEST, DIALOG_PROSCONS_TAG);
 	}
 	
 	private void showAddDialog(SherlockDialogFragment dialog, int requestCode, String tag) {
@@ -928,12 +860,6 @@ public class FragmentReviewEdit extends SherlockFragment {
 				updateNumChildrenText();
 				updateChildrenLayout();	
 				break;
-			
-			case CHILD_ADD_REQUEST:
-				updateRatingIsAverageButton();
-				updateNumChildrenText();
-				updateChildrenLayout();	
-				break;
 				
 			case LOCATION_REQUEST:
 				updateLocationDisplay();
@@ -950,7 +876,7 @@ public class FragmentReviewEdit extends SherlockFragment {
 						break;
 				}
 				break;
-
+				
 			case COMMENT_REQUEST:
 				updateCommentHeadline();
 				break;
@@ -958,7 +884,7 @@ public class FragmentReviewEdit extends SherlockFragment {
 			case COMMENT_EDIT:
 				switch (resultCode) {
 					case Activity.RESULT_OK:
-						showCommentEditText();
+						showCommentAddDialog();
 						break;
 					default:
 						updateCommentHeadline();
@@ -967,10 +893,6 @@ public class FragmentReviewEdit extends SherlockFragment {
 				break;
 				
 			case FACTS_REQUEST:
-				updateFactsTable();	
-				break;
-			
-			case FACTS_ADD_REQUEST:
 				updateFactsTable();	
 				break;
 				
@@ -989,10 +911,6 @@ public class FragmentReviewEdit extends SherlockFragment {
 				break;
 
 			case PROSCONS_REQUEST:
-				updateProsConsDisplay();	
-				break;
-			
-			case PROSCONS_ADD_REQUEST:
 				updateProsConsDisplay();	
 				break;
 			

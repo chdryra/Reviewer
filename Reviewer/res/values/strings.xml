@@ -7,7 +7,6 @@
    
     <!-- Dialogs -->
     <string name="dialog_criterion_title">Edit criterion</string>
-    <string name="dialog_comment_title">Edit comment</string>
     <string name="dialog_choose_social">Share</string>
     <string name="dialog_button_edit_text">edit</string>
     <string name="dialog_button_delete_text">delete</string>
@@ -17,6 +16,7 @@
     <string name="dialog_date_title">Date</string>
     <string name="dialog_URL_title">Link</string>
     <string name="dialog_delete_criteria_title">Criteria</string>
+    <string name="dialog_edit_comment_title">Edit comment</string>
     <string name="dialog_add_criteria_title">Add Criterion</string>
     <string name="dialog_add_fact_title">Add Fact</string>
     <string name="dialog_add_procon_title">Add Pros and Cons</string>
@@ -44,7 +44,7 @@
     <!-- EditTexts -->
     <string name="edit_text_subject_hint">subject</string>
     <string name="edit_text_add_criterion_hint">criterion name&#8230;</string>
-    <string name="edit_text_add_comment_hint">add comment&#8230;</string>
+    <string name="edit_text_add_comment_hint">comment&#8230;</string>
     <string name="edit_text_add_comment_dialog_hint">comment&#8230;</string>
     <string name="edit_text_name_location_hint">name this location&#8230;</string>
     <string name="edit_text_search_location_hint">search for location&#8230;</string>

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content" 
-    android:background="@color/LightSlateGray">
+    android:layout_height="wrap_content"
+    android:background="@color/LightSlateGray" >
 
     <LinearLayout
         android:id="@+id/datum_linear_layout"
@@ -16,9 +16,10 @@
             android:layout_height="wrap_content"
             android:hint="@string/edit_text_fact_name_hint"
             android:imeOptions="actionNext"
-            android:inputType="textCapSentences" 
+            android:inputType="textCapSentences"
             android:textColor="@color/WhiteSmoke"
-            android:textColorHint="@color/WhiteSmoke"/>
+            android:textColorHint="@color/WhiteSmoke"
+            android:textCursorDrawable="@null" />
 
         <com.chdryra.android.myandroidwidgets.ClearableEditText
             android:id="@+id/datum_value_edit_text"
@@ -26,9 +27,10 @@
             android:layout_height="wrap_content"
             android:hint="@string/edit_text_fact_value_hint"
             android:imeOptions="actionGo"
-            android:inputType="textCapSentences" 
+            android:inputType="textCapSentences"
             android:textColor="@color/WhiteSmoke"
-            android:textColorHint="@color/WhiteSmoke"/>
+            android:textColorHint="@color/WhiteSmoke"
+            android:textCursorDrawable="@null" />
     </LinearLayout>
 
     <View
@@ -40,6 +42,6 @@
         android:id="@+id/data_listview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/datum_linear_layout"/>
+        android:layout_below="@id/datum_linear_layout" />
 
 </RelativeLayout>

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content" 
-    android:background="@color/LightSlateGray">
+    android:layout_height="wrap_content"
+    android:background="@color/LightSlateGray" >
 
     <LinearLayout
         android:id="@+id/linear_layout"
@@ -10,13 +10,14 @@
         android:layout_height="wrap_content"
         android:orientation="vertical" >
 
-       	<com.chdryra.android.myandroidwidgets.ClearableEditText
+        <com.chdryra.android.myandroidwidgets.ClearableEditText
             android:id="@+id/procon_edit_text"
+            style="?android:textAppearanceMedium"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:imeOptions="actionGo"
             android:inputType="textCapSentences"
-            style="?android:textAppearanceMedium" />
+            android:textCursorDrawable="@null" />
     </LinearLayout>
 
     <View
@@ -28,6 +29,6 @@
         android:id="@+id/procon_listview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/linear_layout_separator"/>
+        android:layout_below="@id/linear_layout_separator" />
 
 </RelativeLayout>

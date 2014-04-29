@@ -4,8 +4,7 @@
     android:layout_height="wrap_content"
     android:layout_marginLeft="@dimen/list_item_leftPadding"
     android:layout_marginRight="@dimen/list_item_rightPadding"
-    android:background="@drawable/list_long_click_background_activated"
-    android:longClickable="true"
+    android:focusable="false"
     android:orientation="horizontal" >
 
     <TextView
@@ -17,6 +16,7 @@
         android:layout_marginLeft="@dimen/list_item_leftPadding"
         android:layout_marginRight="@dimen/list_item_rightPadding"
         android:layout_weight="1"
+        android:focusable="false"
         android:textSize="@dimen/list_item_textSize" />
 
     <RatingBar
@@ -27,6 +27,7 @@
         android:layout_gravity="center_vertical|center_vertical"
         android:layout_marginLeft="@dimen/list_item_leftPadding"
         android:layout_marginRight="@dimen/list_item_rightPadding"
+        android:focusable="false"
         android:isIndicator="true"
         android:numStars="5"
         android:rating="0.0"

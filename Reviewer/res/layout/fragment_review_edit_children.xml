@@ -6,7 +6,7 @@
     android:clickable="true"
     android:descendantFocusability="blocksDescendants"
     android:orientation="vertical"
-    android:textColor="@color/WhiteSmoke"
+    android:background="@drawable/image_button_selected"
     android:visibility="gone" >
 
     <View style="@style/HorizontalDivider" />

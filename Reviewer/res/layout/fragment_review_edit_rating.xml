@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content" >
+    android:layout_height="match_parent" >
 
     <RatingBar
         android:id="@+id/total_rating_bar"
@@ -28,8 +28,8 @@
     <TextView
         android:id="@+id/num_children_text_view"
         style="?android:textAppearanceLarge"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_centerInParent="true"
         android:layout_toRightOf="@id/total_rating_bar"
         android:background="@drawable/image_button_selected"

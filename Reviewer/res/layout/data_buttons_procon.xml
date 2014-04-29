@@ -17,7 +17,7 @@
             android:id="@+id/add_pros_image_button"
             style="@style/SquareImageButton"
             android:contentDescription="@string/button_add_pros_cd"
-            android:src="@drawable/ic_action_new" />
+            android:src="@drawable/expander_close_holo_dark" />
 
         <TextView
             android:id="@+id/pros_text_view"
@@ -47,7 +47,7 @@
             android:id="@+id/add_cons_image_button"
             style="@style/SquareImageButton"
             android:contentDescription="@string/button_add_cons_cd"
-            android:src="@drawable/ic_action_cancel" />
+            android:src="@drawable/expander_open_holo_dark" />
 
         <TextView
             android:id="@+id/cons_text_view"
