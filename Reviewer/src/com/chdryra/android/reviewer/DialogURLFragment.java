@@ -17,10 +17,12 @@ import android.widget.Toast;
 import com.chdryra.android.myandroidwidgets.ClearableEditText;
 
 public class DialogURLFragment extends DialogBasicFragment {
+	public static final int RESULT_BROWSE = 4;
+	
 	private static final String TAG = "DialogURLFragment";
 	
 	private ControllerReviewNode mController;
-	ClearableEditText mURLEditText;
+	private ClearableEditText mURLEditText;
 	
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {		
@@ -39,7 +41,7 @@ public class DialogURLFragment extends DialogBasicFragment {
 	        public boolean onEditorAction(TextView v, int actionId, KeyEvent event)
 	        {
 	            if(actionId == EditorInfo.IME_ACTION_DONE)
-	            	dialog.getButton(DialogInterface.BUTTON_POSITIVE).performClick();	            	     
+	            	sendResult(Activity.RESULT_OK);	            	     
 	            
 	            return true;
 	        }
@@ -52,7 +54,7 @@ public class DialogURLFragment extends DialogBasicFragment {
 	
 	@Override
 	protected void sendResult(int resultCode) {
-		if (resultCode != Activity.RESULT_OK) {
+		if (resultCode != Activity.RESULT_OK || resultCode != RESULT_BROWSE) {
 			super.sendResult(resultCode);
 			return;
 		}
@@ -80,5 +82,37 @@ public class DialogURLFragment extends DialogBasicFragment {
 	@Override
 	protected String getDeleteConfirmationTitle() {
 		return getResources().getString(R.string.dialog_URL_title);
+	}
+	
+	@Override
+	protected AlertDialog buildDialog(View v, String title) {
+		AlertDialog dialog = new AlertDialog.Builder(getActivity()).
+				setView(v).
+				setPositiveButton(R.string.dialog_button_done_text, new DialogInterface.OnClickListener() {
+					
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						sendResult(Activity.RESULT_OK);
+					}
+				}).
+				setNeutralButton(R.string.dialog_button_browse_text, new DialogInterface.OnClickListener() {
+					
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						sendResult(RESULT_BROWSE);
+					}
+				}).
+				setNegativeButton(R.string.dialog_button_delete_text, new DialogInterface.OnClickListener() {
+					
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						sendResult(RESULT_DELETE);
+					}
+				}).
+				create(); 
+		if(title != null)
+			dialog.setTitle(title);
+		
+		return dialog;
 	}
 }

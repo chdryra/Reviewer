@@ -22,6 +22,7 @@
     <string name="dialog_add_procon_title">Add Pros and Cons</string>
     <string name="dialog_button_done_text">done</string>
     <string name="dialog_button_add_text">add</string>
+    <string name="dialog_button_browse_text">WWW</string>
     
     <!-- Activities -->
     <string name="location_activity_title">location</string>
@@ -117,5 +118,8 @@
     <string name="tumblr">tumblr</string>
     <string name="flickr">flickr</string>
     <string name="foursquare">foursquare</string>
+    
+    <!-- URLs -->
+    <string name="google_search">http://www.google.com</string>
     
 </resources>

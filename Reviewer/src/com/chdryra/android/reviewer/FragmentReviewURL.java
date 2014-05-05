@@ -2,9 +2,10 @@ package com.chdryra.android.reviewer;
 
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
-import java.net.URL;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -32,14 +33,12 @@ public class FragmentReviewURL extends SherlockFragment {
 	private ClearableEditText mURLEditText;
 	private WebView mWebView;
 
-	private String mOldURL;
 	private boolean mDeleteConfirmed = false;
+	private String mSearchURL;
 	
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		mController = Controller.unpack(getActivity().getIntent().getExtras());
-	    if(mController.hasURL())
-	    	mOldURL = mController.getURLString();
 		setRetainInstance(true);
 	    setHasOptionsMenu(true);		
 	}
@@ -55,10 +54,43 @@ public class FragmentReviewURL extends SherlockFragment {
 	    mURLEditText= (ClearableEditText)v.findViewById(R.id.edit_text_url);
 	    
 	    mWebView.setWebViewClient(new URLWebViewClient());
+	    mWebView.setOnKeyListener(new View.OnKeyListener()
+	    {
+	        @Override
+	        public boolean onKey(View v, int keyCode, KeyEvent event)
+	        {
+	            if(event.getAction() == KeyEvent.ACTION_UP && keyCode == KeyEvent.KEYCODE_BACK)
+	            {
+	                WebView webView = (WebView) v;
+	                if(webView.canGoBack())
+                    {
+                        webView.goBack();
+                        return true;
+                    } else {
+                    	new AlertDialog.Builder(getActivity())
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .setTitle("Return")
+                        .setMessage("Return to review?")
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener()
+                        {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                sendResult(Activity.RESULT_CANCELED);    
+                            }
+
+                        })
+                        .setNegativeButton("No", null)
+                        .show();   
+                    	return true;
+                    }
+	            }
+	            return false;
+	        }
+	    });
 	    
-	    String urlString = "http://www.google.com";
-	    if (mController.hasURL())
-	    	urlString = mController.getURLString();
+	    
+	    mSearchURL = getResources().getString(R.string.google_search);
+	    String urlString = mController.hasURL()? mController.getURLString() : mSearchURL;
 	    	
 	    mURLEditText.setText(urlString);
     	mWebView.loadUrl(urlString);
@@ -136,6 +168,11 @@ public class FragmentReviewURL extends SherlockFragment {
 				sendResult(Activity.RESULT_OK);
 				break;
 			
+			case R.id.action_search:
+				mURLEditText.setText(mSearchURL);
+				loadURL();
+				break;
+			
 			default:
 				break;
 		}
@@ -146,9 +183,9 @@ public class FragmentReviewURL extends SherlockFragment {
 	
 	private class URLWebViewClient extends WebViewClient {
 		@Override
-		public void onLoadResource(WebView view, String url) {
+		public void onPageFinished(WebView view, String url) {
 			mURLEditText.setText(view.getUrl());
-			super.onLoadResource(view, url);
+			super.onPageFinished(view, url);
 		}
 	}
 }

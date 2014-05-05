@@ -33,6 +33,10 @@ public class RDUrl implements RData {
         if (result.startsWith("//"))
             result = result.substring(2);
         
+        result = result.trim();
+        if(result.endsWith("/"))
+        	result = (String)result.subSequence(0, result.length() - 1);
+        
         return result;
 	}
 	

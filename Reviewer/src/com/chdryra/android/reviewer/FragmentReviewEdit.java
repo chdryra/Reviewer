@@ -938,8 +938,14 @@ public class FragmentReviewEdit extends SherlockFragment {
 				break;
 				
 			case URL_EDIT:
-				updateURLDisplay();
-				break;
+				switch (resultCode) {
+				case DialogURLFragment.RESULT_BROWSE:
+					requestURIBrowserintent();
+					break;
+				default:
+					updateURLDisplay();
+					break;
+			}
 		}
 	}
 }

@@ -8,5 +8,4 @@ public class ActivityReviewURL extends ActivitySingleFragment {
 	protected Fragment createFragment() {
 		return new FragmentReviewURL();
 	}
-
 }
