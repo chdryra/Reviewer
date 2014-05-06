@@ -57,7 +57,6 @@ public class DialogCommentAddFragment extends SherlockDialogFragment{
 			@Override
 			public void onClick(View v) {
 				sendResult(Activity.RESULT_OK);
-				dialog.dismiss();
 			}
 		});
 		
@@ -72,18 +71,16 @@ public class DialogCommentAddFragment extends SherlockDialogFragment{
 	}
 	
 	private void sendResult(int resultCode) {
-		if (getTargetFragment() == null || resultCode == Activity.RESULT_CANCELED)
+		if (getTargetFragment() == null)
 			return;
 		
 		if(resultCode == Activity.RESULT_OK) {
 			String comment = mCommentEditText.getText().toString();
-			if(comment == null || comment.length() == 0)
-				return;
-			
-			mController.setComment(comment);
+			if(comment != null && comment.length() > 0)
+				mController.setComment(comment);
 		}
 		
-		getTargetFragment().onActivityResult(getTargetRequestCode(), resultCode, new Intent());	
+		getTargetFragment().onActivityResult(getTargetRequestCode(), resultCode, new Intent());
+		getDialog().dismiss();
 	}
-
 }

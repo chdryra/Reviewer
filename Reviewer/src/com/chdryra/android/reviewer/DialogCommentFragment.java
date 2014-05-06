@@ -31,4 +31,9 @@ public class DialogCommentFragment extends DialogBasicFragment {
 	protected void deleteData() {
 		mController.deleteComment();	
 	}
+	
+	@Override
+	protected boolean hasData() {
+		return mController.hasComment();
+	}
 }

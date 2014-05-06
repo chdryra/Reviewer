@@ -62,7 +62,6 @@ public class DialogChildAddFragment extends SherlockDialogFragment{
 			@Override
 			public void onClick(View v) {
 				sendResult(Activity.RESULT_CANCELED);
-				dialog.dismiss();
 			}
 		});
 		
@@ -77,7 +76,6 @@ public class DialogChildAddFragment extends SherlockDialogFragment{
 			@Override
 			public void onClick(View v) {
 				sendResult(Activity.RESULT_OK);
-				dialog.dismiss();
 			}
 		});
 		
@@ -107,13 +105,13 @@ public class DialogChildAddFragment extends SherlockDialogFragment{
 	}
 
 	private void sendResult(int resultCode) {
-		if (getTargetFragment() == null || resultCode == Activity.RESULT_CANCELED)
+		if (getTargetFragment() == null)
 			return;
 		
 		if(resultCode == Activity.RESULT_OK)
 			addChild();
 		
-		getTargetFragment().onActivityResult(getTargetRequestCode(), resultCode, new Intent());	
+		getTargetFragment().onActivityResult(getTargetRequestCode(), resultCode, new Intent());
+		getDialog().dismiss();
 	}
-	
 }

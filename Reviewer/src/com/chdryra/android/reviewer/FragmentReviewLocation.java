@@ -2,13 +2,11 @@ package com.chdryra.android.reviewer;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,28 +21,23 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.chdryra.android.myandroidwidgets.ClearableAutoCompleteTextView;
-import com.chdryra.android.mygenerallibrary.LocationNameAdapter;
-import com.chdryra.android.mygenerallibrary.SherlockMapFragment;
 import com.chdryra.android.mygenerallibrary.ArrayAdapterSearchView;
-import com.chdryra.android.mygenerallibrary.Locatable;
 import com.chdryra.android.mygenerallibrary.LocationClientConnector;
+import com.chdryra.android.mygenerallibrary.LocationNameAdapter;
 import com.chdryra.android.remoteapifetchers.FetcherPlacesAPI;
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMap.OnInfoWindowClickListener;
-import com.google.android.gms.maps.GoogleMap.SnapshotReadyCallback;
 import com.google.android.gms.maps.MapView;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-public class FragmentReviewLocation extends SherlockMapFragment implements Locatable {
+public class FragmentReviewLocation extends FragmentReviewBasic implements LocationClientConnector.Locatable {
 
-	public static final int RESULT_DELETE = Activity.RESULT_FIRST_USER;
-	
 	private static final int DEFAULT_ZOOM = 15;
-	private static final int DELETE_CONFIRM = DialogBasicFragment.DELETE_CONFIRM;
 	private static final int NUMBER_DEFAULT_NAMES= 5;
 
 	private ControllerReviewNode mController;
@@ -63,32 +56,30 @@ public class FragmentReviewLocation extends SherlockMapFragment implements Locat
 	private LocationClientConnector mLocationClient;
 	private String mSearchLocationName;
 	
-	private float mRevertMapSnapshotZoom;
-	private boolean mDeleteConfirmed = false;
-		
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		mController = Controller.unpack(getActivity().getIntent().getExtras());
-		mRevertMapSnapshotZoom =  mController.hasMapSnapshot()? mController.getMapSnapshotZoom() : DEFAULT_ZOOM;
 	    mPhotoLatLng = mController.getImageLatLng();
 	    mLocationClient = new LocationClientConnector(getSherlockActivity(), this);
-	    setRetainInstance(true);
-	    setHasOptionsMenu(true);		
+	    
+	    //Not sure why I have to do this. Was working without this at some point...
+	    try {
+	        MapsInitializer.initialize(getActivity());
+	    } catch (GooglePlayServicesNotAvailableException e) {
+	        Log.e("Test", "Have GoogleMap but then error", e);
+	    }
 	}
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		super.onCreateView(inflater, container, savedInstanceState);		
+		mLocationClient.connect();
 		
 		View v = inflater.inflate(R.layout.fragment_review_location, container, false);
 		getSherlockActivity().getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-		mLocationClient.connect();
-		
 		mMapView = (MapView)v.findViewById(R.id.mapView);
-	    mMapView.onCreate(savedInstanceState);
-	    
+	    mMapView.onCreate(savedInstanceState);	    
 	    mGoogleMap = ((MapView) v.findViewById(R.id.mapView)).getMap();
 	    mGoogleMap.setMyLocationEnabled(true);
 	    mGoogleMap.setOnMyLocationButtonClickListener(new GoogleMap.OnMyLocationButtonClickListener() {
@@ -136,19 +127,6 @@ public class FragmentReviewLocation extends SherlockMapFragment implements Locat
 			}
 		});
 	    
-	    if (mController.hasLocation()) {
-	    	mRevertLatLng = mController.getLocationLatLng();
-	    	setLatLng(mRevertLatLng);
-	    	zoomToLatLng(mRevertMapSnapshotZoom);
-	    	if(mController.hasLocationName())
-	    		mLocationName.setText(mController.getLocationName());
-	    	mLocationName.hideChrome();
-	    }
-	    else if (mPhotoLatLng != null) {
-	    	mRevertLatLng = mPhotoLatLng;
-	    	setLatLng(mRevertLatLng);
-	    } 
-	    
 	    mPhotoLocationButton = (ImageButton)v.findViewById(R.id.photo_location_image_button);
 	    mPhotoLocationButton.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -160,6 +138,11 @@ public class FragmentReviewLocation extends SherlockMapFragment implements Locat
 			}
 		});
 	    
+	    if (mController.hasLocation())
+	    	mRevertLatLng = mController.getLocationLatLng();
+	    else if (mPhotoLatLng != null)
+	    	mRevertLatLng = mPhotoLatLng;
+	    
 	    mRevertButton = (ImageButton)v.findViewById(R.id.revert_location_image_button);
 	    mRevertButton.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -169,12 +152,12 @@ public class FragmentReviewLocation extends SherlockMapFragment implements Locat
 							
 				mSearchLocationName = null;
 				setLatLng(mRevertLatLng);
-				zoomToLatLng(mRevertMapSnapshotZoom);
 				mLocationName.setText(mController.getLocationName());
 				mLocationName.hideChrome();
 			}
 		});
 
+	    mRevertButton.performClick();
 	    return v;
 	}
 	
@@ -183,29 +166,19 @@ public class FragmentReviewLocation extends SherlockMapFragment implements Locat
 		new MapSearchTask().execute(mSearchLocationName);
 	}
 	
-	private void sendResult(int resultCode) {
-		if(resultCode == RESULT_DELETE && mController.hasLocation()) {
-			if(mDeleteConfirmed) {
-				mController.deleteLocation();
-			} else {
-				DialogBasicFragment.showDeleteConfirmDialog(getResources().getString(R.string.location_activity_title), 
-						FragmentReviewLocation.this, DELETE_CONFIRM, getFragmentManager());
-				return;
-			}
-		}
-		
+	@Override
+	protected void sendResult(int resultCode) {
 		if(resultCode == Activity.RESULT_OK) {
-			mController.setLocationLatLng(mLatLng);
-			mController.setLocationName(mLocationName.getText().toString());
+			String name = mLocationName.getText().toString();
+			if(name.length() > 0)
+				mController.setLocation(mLatLng, name);
 		}
 		
-		getSherlockActivity().setResult(resultCode);		 
-		getSherlockActivity().finish();	
+		super.sendResult(resultCode);
 	}
 	
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-		super.onCreateOptionsMenu(menu, inflater);
 		inflater.inflate(R.menu.menu_search_delete_done, menu);
 		
 		mSearchView = new ArrayAdapterSearchView(getSherlockActivity().getSupportActionBar().getThemedContext());
@@ -255,28 +228,6 @@ public class FragmentReviewLocation extends SherlockMapFragment implements Locat
 	    searchViewMenuItem.setActionView(mSearchView);
 	}
 	
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-			case android.R.id.home:
-				sendResult(Activity.RESULT_CANCELED);
-				break;
-				
-			case R.id.menu_item_delete:
-				sendResult(RESULT_DELETE);
-				break;
-				
-			case R.id.menu_item_done:
-				captureMapSnapshotAndSetLocationAndSendOK();
-				break;
-				
-		default:
-			break;
-		}
-		
-		return super.onOptionsItemSelected(item);
-	}
-
 	private void setLatLng(LatLng latlang) {
 		if(latlang == null)
 			return;
@@ -295,27 +246,6 @@ public class FragmentReviewLocation extends SherlockMapFragment implements Locat
 	
 		zoomToLatLng();
 	}
-	
-	@Override
-	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        switch (requestCode) {
-            case LocationClientConnector.CONNECTION_FAILURE_RESOLUTION_REQUEST:
-                switch (resultCode) {
-                    case Activity.RESULT_OK :
-                    	break;
-                    default:
-                    	break;
-                }
-            case DELETE_CONFIRM:
-				if(resultCode == Activity.RESULT_OK) {
-					mDeleteConfirmed = true;
-					sendResult(RESULT_DELETE);
-				}
-				break;
-			default:
-				break;
-        }
-	 }
 	 
 	 private void zoomToLatLng() {
 		 zoomToLatLng(DEFAULT_ZOOM);
@@ -340,52 +270,7 @@ public class FragmentReviewLocation extends SherlockMapFragment implements Locat
 		 return marker;
 	 }
 
-	public void captureMapSnapshotAndSetLocationAndSendOK() 
-	{
-		Bitmap noMarker = BitmapFactory.decodeResource(getResources(), R.drawable.micro_marker);;
-		Marker marker = updateMapMarker();
-		marker.setIcon(BitmapDescriptorFactory.fromBitmap(noMarker));
-		marker.showInfoWindow();
-		mGoogleMap.setMyLocationEnabled(false);
-		mGoogleMap.snapshot( new SnapshotReadyCallback() {
-            @Override
-            public void onSnapshotReady(Bitmap snapshot) {
-                try {
-                	MapSnapshotScalerTask scaler = new MapSnapshotScalerTask(mLatLng, 
-                			mLocationName.getText().toString(), mGoogleMap.getCameraPosition().zoom);
-                	scaler.execute(snapshot);
-                	sendResult(Activity.RESULT_OK);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-		
-	}
-	
-	private class MapSnapshotScalerTask extends AsyncTask<Bitmap, Void, Bitmap> {		
-		private float mZoom;
-		
-		public MapSnapshotScalerTask(LatLng latLng, String locationName, float zoom) {
-			mZoom = zoom;
-			
-		}
-		
-		@Override
-	    protected Bitmap doInBackground(Bitmap... params) {
-			Bitmap snapshot = params[0];
-			int width = (int)getSherlockActivity().getResources().getDimension(R.dimen.mapMaxWidth);				
-    		int height = (int)getSherlockActivity().getResources().getDimension(R.dimen.mapMaxHeight);
-        	return Bitmap.createScaledBitmap(snapshot, width, height, true);
-	    }
-		
-		@Override
-		protected void onPostExecute(Bitmap bitmap) {
-			mController.setMapSnapshot(bitmap, mZoom);
-		}	
-	}
-	
-	private class MapSearchTask extends AsyncTask<String, Void, LatLng> {		
+	 private class MapSearchTask extends AsyncTask<String, Void, LatLng> {		
 
 		private ProgressDialog pd;
 		
@@ -411,13 +296,20 @@ public class FragmentReviewLocation extends SherlockMapFragment implements Locat
 		}	
 	}
 
+
 	@Override
-	public void setLocationLatLng(LatLng latLng) {
-		if(mRevertLatLng == null)
-			mRevertLatLng = latLng;
+	public void onLocated(LatLng latLng) {
 		setLatLng(latLng);
 	}
 
+	@Override
+	public void onLocationClientConnected(LatLng latLng) {
+		if(mRevertLatLng == null) {
+			mRevertLatLng = latLng;
+			mRevertButton.performClick();
+			setLatLng(mRevertLatLng);
+		}
+	}
 
 	@Override
 	public void onStart() {
@@ -465,6 +357,21 @@ public class FragmentReviewLocation extends SherlockMapFragment implements Locat
 		if(mMapView != null) 
 			mMapView.onLowMemory(); 
 		super.onLowMemory(); 
+	}
+
+	@Override
+	protected void deleteData() {
+		mController.deleteLocation();
+	}
+
+	@Override
+	protected boolean hasData() {
+		return mController.hasLocation();
+	}
+
+	@Override
+	protected String getDeleteConfirmationTitle() {
+		return getResources().getString(R.string.location_activity_title);
 	}
 
 //	import android.widget.RatingBar;

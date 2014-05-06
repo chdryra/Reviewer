@@ -30,6 +30,10 @@ public abstract class DialogBasicFragment extends SherlockDialogFragment {
 	protected void deleteData() {	
 	}
 	
+	protected boolean hasData() {
+		return false;
+	}
+	
 	@Override
 	public void onStop() {
 		getSherlockActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
@@ -37,15 +41,19 @@ public abstract class DialogBasicFragment extends SherlockDialogFragment {
 	}
 	
 	protected void sendResult(int resultCode) {
-		if (getTargetFragment() == null || resultCode == Activity.RESULT_CANCELED)
+		if (getTargetFragment() == null)
 			return;
 
 		if(resultCode == RESULT_DELETE) {
-			if(!mDeleteConfirmed && getDeleteConfirmationTitle() != null) {
+			if(hasData() && !mDeleteConfirmed && getDeleteConfirmationTitle() != null) {
 				showDeleteConfirmDialog();
 				return;
-			} else
+			} else if(hasData() && mDeleteConfirmed) {
 				deleteData();
+			} else {
+				sendResult(Activity.RESULT_CANCELED);
+				return;
+			}
 		}
 			
 		getTargetFragment().onActivityResult(getTargetRequestCode(), resultCode, new Intent());
@@ -61,9 +69,9 @@ public abstract class DialogBasicFragment extends SherlockDialogFragment {
 				}
 				break;
 			default:
+				super.onActivityResult(requestCode, resultCode, data);
 				break;
 		}
-		super.onActivityResult(requestCode, resultCode, data);
 	}
 	
 	private void showDeleteConfirmDialog() {
@@ -113,4 +121,5 @@ public abstract class DialogBasicFragment extends SherlockDialogFragment {
 		
 		return dialog;
 	}
+
 }

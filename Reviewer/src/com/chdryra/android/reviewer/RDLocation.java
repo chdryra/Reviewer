@@ -1,18 +1,15 @@
 package com.chdryra.android.reviewer;
 
 import java.util.StringTokenizer;
-import android.graphics.Bitmap;
 
 import com.google.android.gms.maps.model.LatLng;
 
 public class RDLocation implements RData{
-	private static final String LOCATION_DELIMITER = ",|.";
+	private static final String LOCATION_DELIMITER = ",|";
 	
 	private Review mHoldingReview;
 	
 	private LatLng mLatLng = null;
-	private Bitmap mMapSnapshot = null;
-	private float mMapSnapshotZoom;
 	private String mName = null;
 
 	public RDLocation() {
@@ -42,19 +39,6 @@ public class RDLocation implements RData{
 		return mLatLng;
 	}
 
-	public Bitmap getMapSnapshot() {
-		return mMapSnapshot;
-	}
-
-	public void setMapSnapshot(Bitmap mapSnapshot, float zoom) {
-		mMapSnapshot = mapSnapshot;
-		mMapSnapshotZoom = zoom;
-	}
-
-	public float getMapSnapshotZoom() {
-		return mMapSnapshotZoom;
-	}
-
 	public String getName() {
 		return mName;
 	}
@@ -65,11 +49,7 @@ public class RDLocation implements RData{
 		else
 			mName = null;
 	}
-	
-	public boolean hasMapSnapshot() {
-		return mMapSnapshot != null;
-	}
-	
+		
 	public boolean hasName() {
 		return mName != null;
 	}

@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -54,13 +53,8 @@ public class DialogURLFragment extends DialogBasicFragment {
 	
 	@Override
 	protected void sendResult(int resultCode) {
-		if (resultCode != Activity.RESULT_OK && resultCode != RESULT_BROWSE) {
-			super.sendResult(resultCode);
-			return;
-		}
-
 		String urlText = mURLEditText.getText().toString();
-		if( resultCode == Activity.RESULT_OK && urlText.length() > 0) {
+		if( resultCode == Activity.RESULT_OK && urlText.length() > 0) {			
 			try {
 				mController.setURL(urlText);
 			} catch (Exception e) {
@@ -70,12 +64,18 @@ public class DialogURLFragment extends DialogBasicFragment {
 			}
 		}
 
-		getTargetFragment().onActivityResult(getTargetRequestCode(), resultCode, new Intent());
+		super.sendResult(resultCode);
+		dismiss();
 	}
 	
 	@Override
 	protected void deleteData() {
 		mController.deleteURL();
+	}
+	
+	@Override
+	protected boolean hasData() {
+		return mController.hasURL();
 	}
 	
 	@Override

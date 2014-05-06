@@ -279,32 +279,6 @@ public class ControllerReviewNodeCollection {
 		Review r = getChild(id);
 		r.setLocation(new RDLocation(latLng, r));
 	}
-	
-	public boolean hasMapSnapshot(String id) {
-		if(hasLocation(id))
-			return getChild(id).getLocation().hasMapSnapshot();
-		else
-			return false;
-	}
-	
-	public Bitmap getMapSnapshot(String id) {
-		if(hasMapSnapshot(id))
-			return getChild(id).getLocation().getMapSnapshot();
-		else
-			return null;
-	}
-
-	public void setMapSnapshot(String id, Bitmap snapshot, float zoom) {
-		if(hasLocation(id))
-			getChild(id).getLocation().setMapSnapshot(snapshot, zoom);
-	}
-
-	public float getMapSnapshotZoom(String id) {
-		if(hasMapSnapshot(id))
-			return getChild(id).getLocation().getMapSnapshotZoom();
-		else
-			return 0;
-	}
 
 	public boolean hasLocationName(String id) {
 		if(hasLocation(id))

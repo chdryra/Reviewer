@@ -95,4 +95,9 @@ public class DialogImageFragment extends DialogBasicFragment {
 	protected void deleteData() {
 		mController.deleteImage();
 	}
+	
+	@Override
+	protected boolean hasData() {
+		return mController.hasImage();
+	}
 }

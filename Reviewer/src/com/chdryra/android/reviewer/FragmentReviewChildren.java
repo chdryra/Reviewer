@@ -19,21 +19,12 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.actionbarsherlock.app.SherlockFragment;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuInflater;
-import com.actionbarsherlock.view.MenuItem;
 import com.chdryra.android.myandroidwidgets.ClearableEditText;
 
-public class FragmentReviewChildren extends SherlockFragment {
+public class FragmentReviewChildren extends FragmentReviewBasic {
 	private final static String DIALOG_CHILD_TAG = "ChildDialog";
 
-	public final static int CHILD_EDIT = 0;
-	private static final int DELETE_CONFIRM = 1;
-	
-	public static final int RESULT_DELETE = Activity.RESULT_FIRST_USER;
-	
-	private boolean mDeleteConfirmed = false;
+	public final static int CHILD_EDIT = 4;
 		
 	private ControllerReviewNode mController;
 	private ControllerReviewNodeChildren mChildrenController;
@@ -53,14 +44,11 @@ public class FragmentReviewChildren extends SherlockFragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		mController = Controller.unpack(getActivity().getIntent().getExtras());
 		
+		mController = Controller.unpack(getActivity().getIntent().getExtras());		
 		mChildrenController = mController.getChildrenController();
 		for(String id : mChildrenController.getIDs())
 			mChildNames.add(mChildrenController.getTitle(id));
-		
-		setHasOptionsMenu(true);		
-		setRetainInstance(true);		
 		
 		backup();
 	}
@@ -155,10 +143,10 @@ public class FragmentReviewChildren extends SherlockFragment {
 	}
 	
 	private void showChildDialog(String childId) {
-		DialogReviewTitleEditFragment dialog = new DialogReviewTitleEditFragment();
+		DialogChildTitleEditFragment dialog = new DialogChildTitleEditFragment();
 		dialog.setTargetFragment(FragmentReviewChildren.this, CHILD_EDIT);
 		Bundle args = Controller.pack(mController);
-		args.putString(DialogReviewTitleEditFragment.REVIEW_ID, childId);
+		args.putString(DialogChildTitleEditFragment.REVIEW_ID, childId);
 		dialog.setArguments(args);
 		dialog.show(getFragmentManager(), DIALOG_CHILD_TAG);
 	}
@@ -212,99 +200,74 @@ public class FragmentReviewChildren extends SherlockFragment {
 		updateUI();
 	}
 	
-	private void sendResult(int resultCode) {
-		if (resultCode == RESULT_DELETE && mChildrenController.size() > 0) {
-			if(mDeleteConfirmed)
-				mChildrenController.clear();
-			else {
-				DialogBasicFragment.showDeleteConfirmDialog(getResources().getString(R.string.dialog_delete_criteria_title), 
-						FragmentReviewChildren.this, DELETE_CONFIRM, getFragmentManager());
-				return;
-			}
-		}
-		
+	@Override
+	protected void sendResult(int resultCode) {
 		if (resultCode == Activity.RESULT_CANCELED)
 			revertToBackup();
 		
-		getSherlockActivity().setResult(resultCode);		 
-		getSherlockActivity().finish();	
+		super.sendResult(resultCode);
 	}
 	
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		if (resultCode == Activity.RESULT_CANCELED)
-			return;
-		
-		String childID = data.getStringExtra(DialogReviewTitleEditFragment.REVIEW_ID);
-		if (resultCode == DialogReviewTitleEditFragment.RESULT_DELETE)
-			deleteChild(childID);
-
-		if (resultCode == Activity.RESULT_OK) {
-			switch (requestCode) {
-				case CHILD_EDIT:
-					String childName = mChildrenController.getTitle(childID);
-					String oldName = data.getStringExtra(DialogReviewTitleEditFragment.OLD_NAME);
-					
-					if(childName.equals(oldName))
-						break;
-					
-					if(mChildNames.contains(childName)) {
-						String newName = childName;
-						int i = 1;
-						while(mChildNames.contains(newName))
-							newName = childName + "_" + String.valueOf(i++);
-						Toast.makeText(getSherlockActivity(), "Criterion: " + childName + " already exists, changing name to " + newName, Toast.LENGTH_SHORT).show();
-						mChildrenController.setTitle(childID, newName);
-					}
-					
-					mChildNames.remove(oldName);
-					mChildNames.add(mChildrenController.getTitle(childID));
+		String childID = data.getStringExtra(DialogChildTitleEditFragment.REVIEW_ID);
+		switch (requestCode) {
+		case CHILD_EDIT:
+			switch (resultCode) {
+			case Activity.RESULT_OK:
+				String childName = mChildrenController.getTitle(childID);
+				String oldName = data.getStringExtra(DialogChildTitleEditFragment.OLD_NAME);
+				
+				if(childName.equals(oldName))
 					break;
-
-				case DELETE_CONFIRM:
-					if(resultCode == Activity.RESULT_OK) {
-						mDeleteConfirmed = true;
-						sendResult(RESULT_DELETE);
-					}
-					break;
-					
-				default:
-					break;
-			};
+				
+				if(mChildNames.contains(childName)) {
+					String newName = childName;
+					int i = 1;
+					while(mChildNames.contains(newName))
+						newName = childName + "_" + String.valueOf(i++);
+					Toast.makeText(getSherlockActivity(), "Criterion: " + childName + " already exists, changing name to " + newName, Toast.LENGTH_SHORT).show();
+					mChildrenController.setTitle(childID, newName);
+				}
+				
+				mChildNames.remove(oldName);
+				mChildNames.add(mChildrenController.getTitle(childID));
+				break;
+			
+			case DialogChildTitleEditFragment.RESULT_DELETE:
+				deleteChild(childID);
+				break;
+			
+			case Activity.RESULT_CANCELED:
+				return;
+				
+			default:
+				break;
+			}
+			break;
+		default:
+			super.onActivityResult(requestCode, resultCode, data);
+			break;
 		}
 
 		updateUI();				
 	}
-	
+
 	@Override
-	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-		super.onCreateOptionsMenu(menu, inflater);
-		inflater.inflate(R.menu.menu_delete_done, menu);
+	protected void deleteData() {
+		mChildrenController.clear();		
+	}
+
+	@Override
+	protected boolean hasData() {
+		return mChildrenController.size() > 0;
 	}
 	
 	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-		case android.R.id.home:
-			sendResult(Activity.RESULT_CANCELED);
-			return true;
-		
-		case R.id.menu_item_delete:
-			sendResult(RESULT_DELETE);
-			return true;
-
-		case R.id.menu_item_done:
-			sendResult(Activity.RESULT_OK);
-			return true;
-
-		default:
-			break;
-		}
-		
-		return super.onOptionsItemSelected(item);
+	protected String getDeleteConfirmationTitle() {
+		return getResources().getString(R.string.children_activity_title);
 	}
-
-
+	
 	class ChildReviewsAdaptor extends BaseAdapter {	
 		private ControllerReviewNodeChildren mChildren;
 	

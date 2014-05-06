@@ -261,37 +261,13 @@ public class ControllerReviewNode{
 			return null;
 	}
 	
-	public void setLocationLatLng(LatLng latLng) {
+	public void setLocation(LatLng latLng, String name) {
 		Review r = getReview();
-		r.setLocation(new RDLocation(latLng, r));
+		RDLocation location = new RDLocation(latLng, r);
+		location.setName(name);
+		r.setLocation(location);
 	}
 	
-	public boolean hasMapSnapshot() {
-		if(hasLocation())
-			return getReview().getLocation().hasMapSnapshot();
-		else
-			return false;
-	}
-	
-	public Bitmap getMapSnapshot() {
-		if(hasMapSnapshot())
-			return getReview().getLocation().getMapSnapshot();
-		else
-			return null;
-	}
-
-	public void setMapSnapshot(Bitmap snapshot, float zoom) {
-		if(hasLocation())
-			getReview().getLocation().setMapSnapshot(snapshot, zoom);
-	}
-
-	public float getMapSnapshotZoom() {
-		if(hasMapSnapshot())
-			return getReview().getLocation().getMapSnapshotZoom();
-		else
-			return 0;
-	}
-
 	public boolean hasLocationName() {
 		if(hasLocation())
 			return getReview().getLocation().hasName();
@@ -311,11 +287,6 @@ public class ControllerReviewNode{
 			return getReview().getLocation().getShortenedName();
 		else
 			return null;
-	}
-	
-	public void setLocationName(String name) {
-		if(hasLocation())
-			getReview().getLocation().setName(name);
 	}
 
 	public void deleteLocation() {

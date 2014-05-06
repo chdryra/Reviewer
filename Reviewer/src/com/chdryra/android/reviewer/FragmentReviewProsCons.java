@@ -18,22 +18,15 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.actionbarsherlock.app.SherlockFragment;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuInflater;
-import com.actionbarsherlock.view.MenuItem;
 import com.chdryra.android.myandroidwidgets.ClearableEditText;
 
-public class FragmentReviewProsCons extends SherlockFragment{
-	public static final int RESULT_DELETE = Activity.RESULT_FIRST_USER;
-	
+public class FragmentReviewProsCons extends FragmentReviewBasic{
 	public static final String PROCON = "com.chdryra.android.reviewer.pro_con";
 	public static final String PROCON_HINT = "com.chdryra.android.reviewer.pro_con_hint";
 	public static final String DIALOG_PROCON_TAG = "ProConDialog";
 	
-	private static final int DELETE_CONFIRM = DialogBasicFragment.DELETE_CONFIRM;
-	private static final int PRO_EDIT = DELETE_CONFIRM + 1;
-	private static final int CON_EDIT = PRO_EDIT + 1;
+	private static final int PRO_EDIT = 4;
+	private static final int CON_EDIT = 5;
 	
 	private ControllerReviewNode mController;
 	
@@ -45,8 +38,6 @@ public class FragmentReviewProsCons extends SherlockFragment{
 	private ListView mProsListView;
 	private ListView mConsListView;
 	
-	private boolean mDeleteConfirmed = false;
-	
 	private int mProTextColour;
 	private int mConTextColour;
 	private String mProHint;
@@ -55,17 +46,15 @@ public class FragmentReviewProsCons extends SherlockFragment{
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
 		mController = Controller.unpack(getActivity().getIntent().getExtras());
-		setRetainInstance(true);
-		setHasOptionsMenu(true);
+		
 		mPros = mController.hasProsCons()? mController.getPros() :  new ArrayList<String>();
 		mCons = mController.hasProsCons()? mController.getCons() :  new ArrayList<String>();
-		
 		mProTextColour = getResources().getColor(R.color.Chartreuse);
 		mConTextColour = getResources().getColor(R.color.Crimson);
 		mProHint = getResources().getString(R.string.edit_text_pro_hint);
 		mConHint = getResources().getString(R.string.edit_text_con_hint);
-		
 	}
 	
 	@Override
@@ -168,23 +157,13 @@ public class FragmentReviewProsCons extends SherlockFragment{
 		((ReviewProConAdaptor)mProsListView.getAdapter()).notifyDataSetChanged();
 		((ReviewProConAdaptor)mConsListView.getAdapter()).notifyDataSetChanged();
 	}
-	
-	private void sendResult(int resultCode) {
-		if (resultCode == RESULT_DELETE && mController.hasProsCons()) {
-			if(mDeleteConfirmed)
-				mController.deleteProsCons();
-			else {
-				DialogBasicFragment.showDeleteConfirmDialog(getResources().getString(R.string.procon_activity_title), 
-						FragmentReviewProsCons.this, DELETE_CONFIRM, getFragmentManager());
-				return;
-			}
-		}
-		
+
+	@Override
+	protected void sendResult(int resultCode) {
 		if(resultCode == Activity.RESULT_OK)
 				mController.setProsCons(mPros, mCons);
-			
-		getSherlockActivity().setResult(resultCode);		 
-		getSherlockActivity().finish();	
+
+		super.sendResult(resultCode);
 	}
 
 	@Override
@@ -198,16 +177,8 @@ public class FragmentReviewProsCons extends SherlockFragment{
 			case CON_EDIT:
 				updateProCon(resultCode, data, mCons);
 				break;
-			case DELETE_CONFIRM:
-				switch(resultCode) {
-					case Activity.RESULT_OK:
-						mDeleteConfirmed = true;
-						sendResult(RESULT_DELETE);
-						return;
-					default:
-						return;
-				}
 			default:
+				super.onActivityResult(requestCode, resultCode, data);
 				break;
 		}
 		
@@ -232,27 +203,18 @@ public class FragmentReviewProsCons extends SherlockFragment{
 	}
 	
 	@Override
-	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-		super.onCreateOptionsMenu(menu, inflater);
-		inflater.inflate(R.menu.menu_delete_done, menu);
+	protected void deleteData() {
+		mController.deleteProsCons();
 	}
-	
+
 	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-		case android.R.id.home:
-			sendResult(Activity.RESULT_CANCELED);
-			break;
-		case R.id.menu_item_delete:
-			sendResult(RESULT_DELETE);
-			break;
-		case R.id.menu_item_done:
-			sendResult(Activity.RESULT_OK);
-			break;
-		default:
-			break;
-		}
-		return super.onOptionsItemSelected(item);
+	protected boolean hasData() {
+		return mController.hasProsCons();
+	}
+
+	@Override
+	protected String getDeleteConfirmationTitle() {
+		return getResources().getString(R.string.procon_activity_title);
 	}
 
 	class ReviewProConAdaptor extends BaseAdapter {	
@@ -309,5 +271,4 @@ public class FragmentReviewProsCons extends SherlockFragment{
 	static class ViewHolder {
 	    public TextView proCon;
 	}
-
 }

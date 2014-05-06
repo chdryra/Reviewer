@@ -15,6 +15,7 @@
     <string name="dialog_image_content_description">Review image</string>
     <string name="dialog_date_title">Date</string>
     <string name="dialog_URL_title">Link</string>
+    <string name="dialog_location_title">Location</string>
     <string name="dialog_delete_criteria_title">Criteria</string>
     <string name="dialog_edit_comment_title">Edit comment</string>
     <string name="dialog_add_criteria_title">Add Criterion</string>
@@ -23,6 +24,7 @@
     <string name="dialog_button_done_text">done</string>
     <string name="dialog_button_add_text">add</string>
     <string name="dialog_button_browse_text">WWW</string>
+    <string name="dialog_button_map_text">map</string>
     
     <!-- Activities -->
     <string name="location_activity_title">location</string>

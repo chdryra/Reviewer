@@ -1,7 +1,6 @@
 package com.chdryra.android.reviewer;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.Editable;
@@ -13,22 +12,17 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.EditText;
 
-import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 
-public class FragmentReviewComment extends SherlockFragment {
+public class FragmentReviewComment extends FragmentReviewBasic {
 	
 	public static final String EXTRA_COMMENT_STRING = "com.chdryra.android.reviewer.comment_string";
-	public static final int RESULT_DELETE = Activity.RESULT_FIRST_USER;
 	
 	private static final int MIN_COMMENT_EDITTEXT_LINES = 5;
 	private static final int MAX_COMMENT_EDITTEXT_LINES = 10;
 
-	private static final int DELETE_CONFIRM = DialogBasicFragment.DELETE_CONFIRM;
-	private boolean mDeleteConfirmed = false;
-	
 	private ControllerReviewNode mController;
 	
 	private MenuItem mClearCommentMenuItem;
@@ -39,8 +33,6 @@ public class FragmentReviewComment extends SherlockFragment {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		mController = Controller.unpack(getActivity().getIntent().getExtras());
-		setRetainInstance(true);
-		setHasOptionsMenu(true);
 	}
 	
 	@Override
@@ -117,37 +109,22 @@ public class FragmentReviewComment extends SherlockFragment {
 		mClearCommentMenuItem.setIcon(mClearCommentIcon);
 	}
 	
-	private void sendResult(int resultCode) {
-		if (resultCode == RESULT_DELETE && mController.hasComment()) {
-			if(mDeleteConfirmed)
-				mController.deleteComment();
-			else {
-				DialogBasicFragment.showDeleteConfirmDialog(getResources().getString(R.string.comment_activity_title), 
-						FragmentReviewComment.this, DELETE_CONFIRM, getFragmentManager());
-				return;
-			}
-		}
-		
+	@Override
+	protected void sendResult(int resultCode) {
 		if(resultCode == Activity.RESULT_OK)			
 			mController.setComment(mCommentEditText.getText().toString());
 
-		getSherlockActivity().setResult(resultCode);		 
-		getSherlockActivity().finish();	
+		super.sendResult(resultCode);
 	}
-
 	
 	@Override
-	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-	    switch (requestCode) {
-	        case DELETE_CONFIRM:
-				if(resultCode == Activity.RESULT_OK) {
-					mDeleteConfirmed = true;
-					sendResult(RESULT_DELETE);
-				}
-				break;			
-			default:
-				break;
-		    }
+	protected void deleteData() {
+		mController.deleteComment();
+	}
+	
+	@Override
+	protected boolean hasData() {
+		return mController.hasComment();
 	}
 	
 	@Override
@@ -160,7 +137,6 @@ public class FragmentReviewComment extends SherlockFragment {
 	
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-		super.onCreateOptionsMenu(menu, inflater);		
 		inflater.inflate(R.menu.menu_clear_delete_done, menu);
 	}
 	
@@ -170,23 +146,15 @@ public class FragmentReviewComment extends SherlockFragment {
 			case R.id.menu_item_clear:
 				if(mCommentEditText != null)
 					mCommentEditText.setText(null);
-				break;
-			
-			case android.R.id.home:
-				sendResult(Activity.RESULT_CANCELED);
-				break;
-		
-			case R.id.menu_item_delete:
-				sendResult(RESULT_DELETE);
-				break;
-			
-			case R.id.menu_item_done:
-				sendResult(Activity.RESULT_OK);
-				break;
-			
+				return true;
+				
 			default:
-				break;
+				return super.onOptionsItemSelected(item);
 		}
-		return super.onOptionsItemSelected(item);
+	}
+
+	@Override
+	protected String getDeleteConfirmationTitle() {
+		return getResources().getString(R.string.comment_activity_title);
 	}
 }

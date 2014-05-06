@@ -15,7 +15,7 @@ import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.widget.TextView;
 
-public class DialogReviewTitleEditFragment extends DialogBasicFragment {
+public class DialogChildTitleEditFragment extends DialogBasicFragment {
 	public static final int RESULT_DELETE = Activity.RESULT_FIRST_USER;
 	
 	public static final String REVIEW_ID = "com.chdryra.android.reviewer.review_edit_id";
@@ -60,6 +60,7 @@ public class DialogReviewTitleEditFragment extends DialogBasicFragment {
 		i.putExtra(OLD_NAME, mController.getTitle());		
 		if(resultCode == Activity.RESULT_OK)
 			mController.setTitle(mReviewTitleEditText.getText().toString());
+		
 		getTargetFragment().onActivityResult(getTargetRequestCode(), resultCode, i);
 	}
 	

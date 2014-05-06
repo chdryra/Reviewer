@@ -69,6 +69,11 @@ public class DialogProsConsFragment extends DialogBasicFragment {
 	}
 
 	@Override
+	protected boolean hasData() {
+		return mController.hasProsCons();
+	}
+	
+	@Override
 	protected AlertDialog buildDialog(View v, String title) {
 		AlertDialog dialog = new AlertDialog.Builder(getActivity()).
 				setView(v).

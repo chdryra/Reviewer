@@ -18,21 +18,14 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.actionbarsherlock.app.SherlockFragment;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuInflater;
-import com.actionbarsherlock.view.MenuItem;
 import com.chdryra.android.myandroidwidgets.ClearableEditText;
 
-public class FragmentReviewFacts extends SherlockFragment {
-	public static final int RESULT_DELETE = Activity.RESULT_FIRST_USER;
-	
+public class FragmentReviewFacts extends FragmentReviewBasic {
 	public static final String DATUM_LABEL = "com.chdryra.android.reviewer.datum_label";
 	public static final String DATUM_VALUE = "com.chdryra.android.reviewer.datum_value";	
 	public static final String DIALOG_DATUM_TAG = "DatumDialog";
 
-	private static final int DELETE_CONFIRM = DialogBasicFragment.DELETE_CONFIRM;
-	private static final int DATUM_EDIT = DELETE_CONFIRM + 1;
+	private static final int DATUM_EDIT = 4;
 	
 	private ControllerReviewNode mController;
 	
@@ -42,14 +35,10 @@ public class FragmentReviewFacts extends SherlockFragment {
 	private ClearableEditText mFactValue;
 	private ListView mFactsListView;
 	
-	private boolean mDeleteConfirmed = false;
-	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		mController = Controller.unpack(getActivity().getIntent().getExtras());
-		setRetainInstance(true);
-		setHasOptionsMenu(true);
 		mFacts = mController.hasFacts()? mController.getFacts() :  new LinkedHashMap<String, String>();
 	}
 	
@@ -123,28 +112,16 @@ public class FragmentReviewFacts extends SherlockFragment {
 		((ReviewFactsAdaptor)mFactsListView.getAdapter()).notifyDataSetChanged();
 	}
 	
-	private void sendResult(int resultCode) {
-		if (resultCode == RESULT_DELETE && mController.hasFacts()) {
-			if(mDeleteConfirmed)
-				mController.deleteFacts();
-			else {
-				DialogBasicFragment.showDeleteConfirmDialog(getResources().getString(R.string.facts_activity_title), 
-						FragmentReviewFacts.this, DELETE_CONFIRM, getFragmentManager());
-				return;
-			}
-		}
-		
+	@Override
+	protected void sendResult(int resultCode) {		
 		if(resultCode == Activity.RESULT_OK && mFacts.size() > 0)
 			mController.setFacts(mFacts);
 			
-		getSherlockActivity().setResult(resultCode);		 
-		getSherlockActivity().finish();	
+		super.sendResult(resultCode);
 	}
 
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		getSherlockActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-	
 		switch(requestCode) {
 			case DATUM_EDIT:
 				switch(resultCode) {
@@ -163,16 +140,9 @@ public class FragmentReviewFacts extends SherlockFragment {
 						return;
 				}
 				break;
-			case DELETE_CONFIRM:
-				switch(resultCode) {
-					case Activity.RESULT_OK:
-						mDeleteConfirmed = true;
-						sendResult(RESULT_DELETE);
-						return;
-					default:
-						return;
-				}
+			
 			default:
+				super.onActivityResult(requestCode, resultCode, data);
 				break;
 		}
 		
@@ -180,29 +150,20 @@ public class FragmentReviewFacts extends SherlockFragment {
 	}
 
 	@Override
-	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-		super.onCreateOptionsMenu(menu, inflater);
-		inflater.inflate(R.menu.menu_delete_done, menu);
-	}
-	
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-		case android.R.id.home:
-			sendResult(Activity.RESULT_CANCELED);
-			break;
-		case R.id.menu_item_delete:
-			sendResult(RESULT_DELETE);
-			break;
-		case R.id.menu_item_done:
-			sendResult(Activity.RESULT_OK);
-			break;
-		default:
-			break;
-		}
-		return super.onOptionsItemSelected(item);
+	protected void deleteData() {
+		mController.deleteFacts();
 	}
 
+	@Override
+	protected boolean hasData() {
+		return mController.hasFacts();
+	}
+
+	@Override
+	protected String getDeleteConfirmationTitle() {
+		return getResources().getString(R.string.facts_activity_title);
+	}
+	
 	class ReviewFactsAdaptor extends BaseAdapter {	
 		private LinkedHashMap<String, String> mData;
 	

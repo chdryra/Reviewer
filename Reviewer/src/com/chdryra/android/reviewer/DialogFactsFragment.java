@@ -57,6 +57,11 @@ public class DialogFactsFragment extends DialogBasicFragment {
 	}
 
 	@Override
+	protected boolean hasData() {
+		return mController.hasFacts();
+	}
+
+	@Override
 	protected AlertDialog buildDialog(View v, String title) {
 		AlertDialog dialog = new AlertDialog.Builder(getActivity()).
 				setView(v).

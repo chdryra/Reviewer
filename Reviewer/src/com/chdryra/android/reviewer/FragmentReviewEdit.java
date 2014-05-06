@@ -271,10 +271,7 @@ public class FragmentReviewEdit extends SherlockFragment {
 		mLocationTextView.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				if (mController.hasLocation())
-					showLocationEditDialog();
-				else
-					mLocationTextView.performLongClick();
+				showLocationEditDialog();
 			}
 		});
 		
@@ -872,12 +869,11 @@ public class FragmentReviewEdit extends SherlockFragment {
 			
 			case LOCATION_EDIT:
 				switch (resultCode) {
-					case Activity.RESULT_OK:
+					case DialogLocationFragment.RESULT_MAP:
 						requestLocationFindIntent();
 						break;
-					case DialogLocationFragment.RESULT_DELETE:
-						updateLocationDisplay();
 					default:
+						updateLocationDisplay();
 						break;
 				}
 				break;
