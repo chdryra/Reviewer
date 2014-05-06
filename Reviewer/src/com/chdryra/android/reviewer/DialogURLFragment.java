@@ -54,13 +54,13 @@ public class DialogURLFragment extends DialogBasicFragment {
 	
 	@Override
 	protected void sendResult(int resultCode) {
-		if (resultCode != Activity.RESULT_OK || resultCode != RESULT_BROWSE) {
+		if (resultCode != Activity.RESULT_OK && resultCode != RESULT_BROWSE) {
 			super.sendResult(resultCode);
 			return;
 		}
 
 		String urlText = mURLEditText.getText().toString();
-		if( urlText.length() > 0) {
+		if( resultCode == Activity.RESULT_OK && urlText.length() > 0) {
 			try {
 				mController.setURL(urlText);
 			} catch (Exception e) {
@@ -69,9 +69,8 @@ public class DialogURLFragment extends DialogBasicFragment {
 				return;
 			}
 		}
-		
+
 		getTargetFragment().onActivityResult(getTargetRequestCode(), resultCode, new Intent());
-	
 	}
 	
 	@Override
