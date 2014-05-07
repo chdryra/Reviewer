@@ -15,10 +15,10 @@ import android.graphics.Bitmap;
 import com.google.android.gms.maps.model.LatLng;
 
 public class ControllerReviewNodeCollection {
-	protected CollectionReviewNode mReviewNodes;
+	protected RCollectionReviewNode mReviewNodes;
 	protected HashMap<String, ControllerReviewNode> mControllers;
 	
-	public ControllerReviewNodeCollection(CollectionReviewNode reviewNodes) {
+	public ControllerReviewNodeCollection(RCollectionReviewNode reviewNodes) {
 		mReviewNodes = reviewNodes;
 		mControllers = new HashMap<String, ControllerReviewNode>();
 	} 
@@ -39,7 +39,7 @@ public class ControllerReviewNodeCollection {
 		return mControllers.get(id);
 	}
 	
-	protected CollectionReviewNode get() {
+	protected RCollectionReviewNode get() {
 		return mReviewNodes;
 	}
 	

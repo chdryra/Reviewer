@@ -2,7 +2,7 @@ package com.chdryra.android.reviewer;
 
 public class ControllerReviewNodeChildren extends ControllerReviewNodeCollection{	
 	private ReviewNode mParent;
-	private CollectionReviewNode mChildrenBackup;
+	private RCollectionReviewNode mChildrenBackup;
 	private RCollection<String> mOriginalChildNames;
 	private RCollection<Float> mOriginalChildRatings;
 	
@@ -31,8 +31,8 @@ public class ControllerReviewNodeChildren extends ControllerReviewNodeCollection
 	}
 	
 	public void backupChildrenNamesAndRatings() {
-		CollectionReviewNode children = mParent.getChildren();
-		mChildrenBackup = new CollectionReviewNode();
+		RCollectionReviewNode children = mParent.getChildren();
+		mChildrenBackup = new RCollectionReviewNode();
 		mChildrenBackup.add(children);
 		
 		mOriginalChildNames = new RCollection<String>();

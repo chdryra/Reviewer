@@ -6,14 +6,14 @@ public class ReviewComponent implements ReviewNode {
 	
 	private Review mReview;
 	private ReviewNode mParent;
-	private CollectionReviewNode mChildren;
+	private RCollectionReviewNode mChildren;
 
 	private boolean mRatingIsAverage = false;
 	
 	public ReviewComponent(Review review) {
 		mID = RDId.generateID();
 		mReview = review;
-		mChildren = new CollectionReviewNode();
+		mChildren = new RCollectionReviewNode();
 	}
 	
 	//ReviewNode methods
@@ -68,44 +68,44 @@ public class ReviewComponent implements ReviewNode {
 	}
 	
 	@Override
-	public void addChildren(CollectionReview children) {
+	public void addChildren(RCollectionReview children) {
 		for(Review child: children)
 			addChild(child);
 	}
 	
 	@Override
-	public void addChildren(CollectionReviewNode children) {
+	public void addChildren(RCollectionReviewNode children) {
 		for(ReviewNode childNode: children)
 			addChild(childNode);
 	}
 
 	@Override
-	public void removeChildren(CollectionReviewNode children) {
+	public void removeChildren(RCollectionReviewNode children) {
 		for(Review child: children)
 			removeChild(child.getID());
 	}
 	
 	@Override
-	public void removeChildren(CollectionReview children) {
+	public void removeChildren(RCollectionReview children) {
 		for(Review child: children)
 			removeChild(child.getID());
 	}
 	
 	@Override
 	public void clearChildren() {
-		CollectionReviewNode children = new CollectionReviewNode();
+		RCollectionReviewNode children = new RCollectionReviewNode();
 		children.add(getChildren());
 		for(ReviewNode child : children)
 			removeChild(child.getID());
 	}
 	
 	@Override
-	public CollectionReviewNode getChildren() {
+	public RCollectionReviewNode getChildren() {
 		return mChildren;
 	}
 	
 	@Override
-	public CollectionReviewNode getDescendents() {
+	public RCollectionReviewNode getDescendents() {
 		TraverserReviewNode traverser = new TraverserReviewNode(this);
 		VisitorNodeCollector collector = new VisitorNodeCollector();
 		traverser.setVisitor(collector);
@@ -115,9 +115,9 @@ public class ReviewComponent implements ReviewNode {
 	}
 	
 	@Override
-	public CollectionReview getChildrenReviews() {
-		CollectionReviewNode childNodes = getChildren();
-		CollectionReview childReviews = new CollectionReview();
+	public RCollectionReview getChildrenReviews() {
+		RCollectionReviewNode childNodes = getChildren();
+		RCollectionReview childReviews = new RCollectionReview();
 		for(ReviewNode child : childNodes)
 			childReviews.add(child.getReview());
 		
@@ -373,5 +373,10 @@ public class ReviewComponent implements ReviewNode {
 	@Override
 	public int hashCode() {
 		return mID.hashCode();
+	}
+
+	@Override
+	public ReviewTagCollection getTags() {
+		return mReview.getTags();
 	}
 }

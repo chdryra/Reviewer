@@ -56,7 +56,12 @@ public class ReviewUser implements Review{
 	public RDRating getRating() {
 		return isRatingAverageOfCriteria()? mNode.getRating() : mRating;
 	}
-	
+
+	@Override
+	public ReviewTagCollection getTags() {
+		return ReviewTagsManager.getTags(this);
+	}
+
 	public void setRatingAverageOfCriteria(boolean ratingIsAverage) {
 		mNode.setRatingIsAverageOfChildren(ratingIsAverage);
 	}
@@ -65,7 +70,7 @@ public class ReviewUser implements Review{
 		return mNode.isRatingIsAverageOfChildren();
 	}
 	
-	public CollectionReview getCriteria() {
+	public RCollectionReview getCriteria() {
 		return mNode.getChildrenReviews();
 	}
 	
@@ -73,7 +78,7 @@ public class ReviewUser implements Review{
 		return mNode.getChild(id).getReview();
 	}
 	
-	public CollectionReviewNode getCriteriaNodes() {
+	public RCollectionReviewNode getCriteriaNodes() {
 		return mNode.getChildren();
 	}
 
@@ -82,7 +87,7 @@ public class ReviewUser implements Review{
 		return mNode;
 	}
 	
-	public void setCriteria(CollectionReview criteria) {
+	public void setCriteria(RCollectionReview criteria) {
 		mNode.clearChildren();
 		mNode.addChildren(criteria);
 	}
@@ -247,5 +252,4 @@ public class ReviewUser implements Review{
 	public int hashCode() {
 		return mID.hashCode();
 	}
-
 }

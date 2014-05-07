@@ -43,12 +43,12 @@ public class DialogFactsFragment extends DialogBasicFragment {
 			dark = !dark;
 		}
 		
-		return buildDialog(v, getResources().getString(R.string.facts_activity_title));
+		return buildDialog(v, getResources().getString(R.string.activity_title_facts));
 	}
 	
 	@Override
 	protected String getDeleteConfirmationTitle() {
-		return getResources().getString(R.string.facts_activity_title);
+		return getResources().getString(R.string.activity_title_facts);
 	}
 	
 	@Override

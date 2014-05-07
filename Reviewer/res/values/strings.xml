@@ -27,14 +27,15 @@
     <string name="dialog_button_map_text">map</string>
     
     <!-- Activities -->
-    <string name="location_activity_title">location</string>
-    <string name="url_activity_title">link</string>
-    <string name="comment_activity_title">comment</string>
-    <string name="facts_activity_title">facts</string>
-    <string name="image_activity_title">image</string>
-    <string name="procon_activity_title">pros and cons</string>
-    <string name="children_activity_title">criteria</string>
-    <string name="review_edit_activity_title">review</string>
+    <string name="activity_title_location">location</string>
+    <string name="activity_title_url">link</string>
+    <string name="activity_title_comment">comment</string>
+    <string name="activity_title_facts">facts</string>
+    <string name="activity_title_image">image</string>
+    <string name="activity_title_procon">pros and cons</string>
+    <string name="activity_title_children">criteria</string>
+    <string name="activity_title_review_edit">options</string>
+    <string name="activity_title_review_create">review</string>
 
     <!-- TextViews -->
     <string name="text_view_no_criteria">no criteria</string>
@@ -44,6 +45,7 @@
     <string name="text_view_date_hint">date</string>
     <string name="text_view_facts_hint">facts</string>
     <string name="text_view_number_children">(%1$d)</string>
+    <string name="text_view_tag">tag</string>
     
     <!-- EditTexts -->
     <string name="edit_text_subject_hint">subject</string>
@@ -76,6 +78,7 @@
     <string name="button_add_criterion_text">add</string>
     <string name="button_edit_text">edit</string>
     <string name="button_clear_text">clear</string>
+    <string name="button_tags_text">tags</string>
     
     <!-- Image Buttons -->
     <string name="button_add_image_cd">add image</string>

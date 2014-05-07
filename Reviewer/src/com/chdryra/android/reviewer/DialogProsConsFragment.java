@@ -55,12 +55,12 @@ public class DialogProsConsFragment extends DialogBasicFragment {
 			consLinearLayout.addView(conTextView);
 		}
 		
-		return buildDialog(v, getResources().getString(R.string.procon_activity_title));
+		return buildDialog(v, getResources().getString(R.string.activity_title_procon));
 	}
 	
 	@Override
 	protected String getDeleteConfirmationTitle() {
-		return getResources().getString(R.string.procon_activity_title);
+		return getResources().getString(R.string.activity_title_procon);
 	}
 	
 	@Override

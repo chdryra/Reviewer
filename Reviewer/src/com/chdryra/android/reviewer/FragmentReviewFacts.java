@@ -161,7 +161,7 @@ public class FragmentReviewFacts extends FragmentReviewBasic {
 
 	@Override
 	protected String getDeleteConfirmationTitle() {
-		return getResources().getString(R.string.facts_activity_title);
+		return getResources().getString(R.string.activity_title_facts);
 	}
 	
 	class ReviewFactsAdaptor extends BaseAdapter {	

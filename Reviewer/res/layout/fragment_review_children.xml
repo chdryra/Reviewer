@@ -18,15 +18,13 @@
         style="@style/HorizontalDivider"
         android:layout_below="@id/review_subject" />
 
-    <RatingBar
+      <include 
         android:id="@+id/total_rating_bar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/review_subject_separator"
-        android:numStars="5"
-        android:rating="0.0"
-        android:stepSize="0.5" />
+		layout="@layout/fragment_review_rating"/>
 
     <View
         android:id="@+id/total_rating_bar_separator"

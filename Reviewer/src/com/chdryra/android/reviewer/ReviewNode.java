@@ -10,18 +10,18 @@ public interface ReviewNode extends Review {
 	public void addChild(Review child);	
 	public void addChild(ReviewNode childNode);
 	
-	public void addChildren(CollectionReview children);
-	public void addChildren(CollectionReviewNode children);
+	public void addChildren(RCollectionReview children);
+	public void addChildren(RCollectionReviewNode children);
 	
 	public ReviewNode getChild(RDId id);
-	public CollectionReviewNode getChildren();
-	public CollectionReview getChildrenReviews();
+	public RCollectionReviewNode getChildren();
+	public RCollectionReview getChildrenReviews();
 	
-	public CollectionReviewNode getDescendents();
+	public RCollectionReviewNode getDescendents();
 	
 	public void removeChild(RDId id);
-	public void removeChildren(CollectionReview children);
-	public void removeChildren(CollectionReviewNode children);
+	public void removeChildren(RCollectionReview children);
+	public void removeChildren(RCollectionReviewNode children);
 	public void clearChildren();
 	
 	public ReviewNode getRoot();

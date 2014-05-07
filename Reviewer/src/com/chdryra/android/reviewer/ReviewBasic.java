@@ -187,4 +187,9 @@ public class ReviewBasic implements Review {
 	public int hashCode() {
 		return mID.hashCode();
 	}
+
+	@Override
+	public ReviewTagCollection getTags() {
+		return ReviewTagsManager.getTags(this);
+	}
 }

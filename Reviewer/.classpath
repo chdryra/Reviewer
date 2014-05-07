@@ -7,5 +7,7 @@
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.DEPENDENCIES"/>
 	<classpathentry kind="lib" path="/actionbarsherlock/libs/android-support-v4.jar"/>
 	<classpathentry kind="lib" path="/google-play-services_lib/libs/google-play-services.jar"/>
+	<classpathentry kind="lib" path="C:/Dev/commons-lang3-3.3.2-bin/commons-lang3-3.3.2/commons-lang3-3.3.2.jar"/>
+	<classpathentry kind="lib" path="C:/Dev/commons-lang3-3.3.2-bin/commons-lang3-3.3.2/commons-lang3-3.3.2-javadoc.jar"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>

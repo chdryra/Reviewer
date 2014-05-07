@@ -88,7 +88,7 @@ public class DialogImageFragment extends DialogBasicFragment {
 	
 	@Override
 	protected String getDeleteConfirmationTitle() {
-		return getResources().getString(R.string.image_activity_title);
+		return getResources().getString(R.string.activity_title_image);
 	}
 	
 	@Override

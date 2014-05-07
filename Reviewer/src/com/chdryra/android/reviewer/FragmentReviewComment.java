@@ -155,6 +155,6 @@ public class FragmentReviewComment extends FragmentReviewBasic {
 
 	@Override
 	protected String getDeleteConfirmationTitle() {
-		return getResources().getString(R.string.comment_activity_title);
+		return getResources().getString(R.string.activity_title_comment);
 	}
 }

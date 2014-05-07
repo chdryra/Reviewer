@@ -1,15 +1,15 @@
 package com.chdryra.android.reviewer;
 
-public class CollectionReview extends RCollection<Review> {
+public class RCollectionReview extends RCollection<Review> {
 	
-	public CollectionReview() {
+	public RCollectionReview() {
 	}
 	
 	public void add(Review review) {
 		put(review.getID(), review);
 	}
 
-	public void remove(CollectionReview reviews) {
+	public void remove(RCollectionReview reviews) {
 		for(Review r : reviews)
 			remove(r.getID());
 	}

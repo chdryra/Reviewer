@@ -10,11 +10,11 @@ public class Controller {
 	
 	private static Controller sController;
 	
-	private CollectionReviewNode mReviews;
+	private RCollectionReviewNode mReviews;
 	private HashMap<String, ControllerReviewNode> mRNControllers;
 	
 	private Controller() {
-		mReviews = new CollectionReviewNode();
+		mReviews = new RCollectionReviewNode();
 		mRNControllers = new HashMap<String, ControllerReviewNode>();
 	}
 	

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/LightSlateGray"
+    android:orientation="vertical" >
+
+    <include
+        android:id="@+id/review_subject_edit_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        layout="@layout/fragment_review_subject" />
+
+    <View style="@style/HorizontalDivider" />
+
+    <include
+        android:id="@+id/total_rating_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        layout="@layout/fragment_review_rating" />
+
+    <View style="@style/HorizontalDivider" />
+
+    <GridView
+        android:id="@+id/tags_gridview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:numColumns="2"
+        android:stretchMode="columnWidth" />
+
+</LinearLayout>

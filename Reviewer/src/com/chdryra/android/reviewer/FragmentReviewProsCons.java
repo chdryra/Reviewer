@@ -214,7 +214,7 @@ public class FragmentReviewProsCons extends FragmentReviewBasic{
 
 	@Override
 	protected String getDeleteConfirmationTitle() {
-		return getResources().getString(R.string.procon_activity_title);
+		return getResources().getString(R.string.activity_title_procon);
 	}
 
 	class ReviewProConAdaptor extends BaseAdapter {	

@@ -371,7 +371,7 @@ public class FragmentReviewLocation extends FragmentReviewBasic implements Locat
 
 	@Override
 	protected String getDeleteConfirmationTitle() {
-		return getResources().getString(R.string.location_activity_title);
+		return getResources().getString(R.string.activity_title_location);
 	}
 
 //	import android.widget.RatingBar;

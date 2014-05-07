@@ -1,10 +1,10 @@
 package com.chdryra.android.reviewer;
 
-public class CollectionReviewNode extends RCollection<ReviewNode> {
-	public CollectionReviewNode() {
+public class RCollectionReviewNode extends RCollection<ReviewNode> {
+	public RCollectionReviewNode() {
 	}
 
-	public CollectionReviewNode(CollectionReview reviews) {
+	public RCollectionReviewNode(RCollectionReview reviews) {
 		for(Review r : reviews)
 			add(FactoryReview.createReviewNode(r));
 	}

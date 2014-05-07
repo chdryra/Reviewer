@@ -20,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.chdryra.android.myandroidwidgets.ClearableEditText;
+import com.chdryra.android.mygenerallibrary.FunctionPointer;
 
 public class FragmentReviewChildren extends FragmentReviewBasic {
 	private final static String DIALOG_CHILD_TAG = "ChildDialog";
@@ -95,7 +96,19 @@ public class FragmentReviewChildren extends FragmentReviewBasic {
 	        }
 	    });
 		
-		mChildListView.setAdapter(new ChildReviewsAdaptor(mChildrenController));
+		AdapterChildReviews adapter = new AdapterChildReviews(mChildrenController, 
+				mSubjectTextView.getTextColors().getDefaultColor(), 
+				new FunctionPointer<Void>() {
+
+			@Override
+			public void execute(Void data) {
+				updateRatingBar();
+			}
+
+		});
+		
+		mChildListView.setAdapter(adapter);
+		
 		mChildListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {	
 			@Override
 			public boolean onItemLongClick(AdapterView<?> parent, View v, int pos, long id) {
@@ -164,7 +177,7 @@ public class FragmentReviewChildren extends FragmentReviewBasic {
 	}
 	
 	private void updateUI() {
-		((ChildReviewsAdaptor)mChildListView.getAdapter()).notifyDataSetChanged();
+		((AdapterChildReviews)mChildListView.getAdapter()).notifyDataSetChanged();
  		updateSubjectText();
 		updateRatingBar();
 	}
@@ -265,14 +278,18 @@ public class FragmentReviewChildren extends FragmentReviewBasic {
 	
 	@Override
 	protected String getDeleteConfirmationTitle() {
-		return getResources().getString(R.string.children_activity_title);
+		return getResources().getString(R.string.activity_title_children);
 	}
 	
-	class ChildReviewsAdaptor extends BaseAdapter {	
+	class AdapterChildReviews extends BaseAdapter {	
 		private ControllerReviewNodeChildren mChildren;
+		private FunctionPointer<Void> mRatingBarUpdater;
+		private int mTextColour;
 	
-		public ChildReviewsAdaptor(ControllerReviewNodeChildren children){
+		public AdapterChildReviews(ControllerReviewNodeChildren children, int textColour, FunctionPointer<Void> ratingBarUpdater){
 		    mChildren  = children;
+		    mRatingBarUpdater = ratingBarUpdater;
+		    mTextColour = textColour;
 		}
 			
 		@Override
@@ -320,19 +337,25 @@ public class FragmentReviewChildren extends FragmentReviewBasic {
 					if (fromUser) {
 						String id = (String)getItem((Integer)ratingBar.getTag()) ;
 						mChildren.setRating(id, rating);
-						updateRatingBar();
+						notifyDataSetChanged();
 					}					
 				}
 			});
 			
-			vh.ratingBar.setRating(mChildrenController.getRating(id));
+			vh.ratingBar.setRating(mChildren.getRating(id));
 									
 			vh.childSubject.setTag(Integer.valueOf(position));
-			vh.childSubject.setText(mChildrenController.getTitle(id));		
-			vh.childSubject.setTextColor(mSubjectTextView.getTextColors().getDefaultColor());
+			vh.childSubject.setText(mChildren.getTitle(id));		
+			vh.childSubject.setTextColor(mTextColour);
 	
 			return(convertView);
 		};
+		
+		@Override
+		public void notifyDataSetChanged() {
+			super.notifyDataSetChanged();
+			mRatingBarUpdater.execute(null);
+		}
 	};
 
 	static class ViewHolder {

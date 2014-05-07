@@ -2,11 +2,9 @@ package com.chdryra.android.reviewer;
 
 import java.util.UUID;
 
-import android.os.Parcel;
 import android.os.ParcelUuid;
-import android.os.Parcelable;
 
-public class RDId implements RData, Parcelable{
+public class RDId implements RData{
 	private ParcelUuid mID;
 	
 	private RDId() {
@@ -65,28 +63,4 @@ public class RDId implements RData, Parcelable{
 		return mID.hashCode();
 	}
 	
-	@Override
-	public int describeContents() {
-		return 0;
-	}
-
-	@Override
-	public void writeToParcel(Parcel dest, int flags) {
-		dest.writeParcelable(mID, flags);
-	}
-	
-	public RDId(Parcel in) {
-		mID = in.readParcelable(ParcelUuid.class.getClassLoader());
-	}
-	
-	public static final Parcelable.Creator<RDId> CREATOR 
-	= new Parcelable.Creator<RDId>() {
-	    public RDId createFromParcel(Parcel in) {
-	        return new RDId(in);
-	    }
-
-	    public RDId[] newArray(int size) {
-	        return new RDId[size];
-	    }
-	};
 }

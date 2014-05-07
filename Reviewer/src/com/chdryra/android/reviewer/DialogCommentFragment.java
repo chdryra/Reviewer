@@ -24,7 +24,7 @@ public class DialogCommentFragment extends DialogBasicFragment {
 
 	@Override
 	protected String getDeleteConfirmationTitle() {
-		return getResources().getString(R.string.comment_activity_title);
+		return getResources().getString(R.string.activity_title_comment);
 	}
 	
 	@Override

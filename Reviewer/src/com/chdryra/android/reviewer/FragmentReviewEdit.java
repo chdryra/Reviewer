@@ -102,10 +102,8 @@ public class FragmentReviewEdit extends SherlockFragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);	
+		
 		mController = Controller.unpack(getActivity().getIntent().getExtras());
-		if(mController == null)
-			mController = Controller.addNewReviewInProgress();
-
 		mChildrenController = mController.getChildrenController();
 		
 		if(mController.hasImage())
@@ -660,6 +658,7 @@ public class FragmentReviewEdit extends SherlockFragment {
 		goneView.setVisibility(View.GONE);
 	
 	}	
+	
 	private <T> void requestIntent(Class<T> c, int requestCode) {
 		Intent i = new Intent(getSherlockActivity(), c);
 		Controller.pack(mController, i);

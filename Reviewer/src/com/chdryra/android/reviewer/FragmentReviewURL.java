@@ -164,6 +164,6 @@ public class FragmentReviewURL extends FragmentReviewBasic {
 
 	@Override
 	protected String getDeleteConfirmationTitle() {
-		return getResources().getString(R.string.url_activity_title);
+		return getResources().getString(R.string.activity_title_url);
 	}
 }

@@ -11,6 +11,8 @@ public interface Review {
 	public RDRating getRating();
 	public void setRating(float rating);
 
+	public ReviewTagCollection getTags();
+	
 	public ReviewNode getReviewNode();
 	
 	//Optional data

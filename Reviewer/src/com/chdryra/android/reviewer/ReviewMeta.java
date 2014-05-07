@@ -5,17 +5,17 @@ public class ReviewMeta implements Review {
 	private RDTitle mTitle;
 	private RDRating mRating;
 	
-	private CollectionReview mReviews;
+	private RCollectionReview mReviews;
 	private boolean mRatingIsValid = false;
 	
 	private ReviewNode mNode;
 	
 	public ReviewMeta(String title) {
-		mReviews = new CollectionReview();
+		mReviews = new RCollectionReview();
 		init(title);
 	}
 
-	public ReviewMeta(String title, CollectionReview reviews) {
+	public ReviewMeta(String title, RCollectionReview reviews) {
 		mReviews = reviews;
 		init(title);
 	}
@@ -50,7 +50,12 @@ public class ReviewMeta implements Review {
 	public RDTitle getTitle() {
 		return mTitle;
 	}
-
+	
+	@Override
+	public ReviewTagCollection getTags() {
+		return ReviewTagsManager.getManager().getTags(mReviews);
+	}
+		
 	@Override
 	public ReviewNode getReviewNode() {
 		return mNode;
@@ -61,7 +66,7 @@ public class ReviewMeta implements Review {
 		mRatingIsValid = false;
 	}
 	
-	public void addReviews(CollectionReview reviews) {
+	public void addReviews(RCollectionReview reviews) {
 		mReviews.add(reviews);
 		mRatingIsValid = false;
 	}
@@ -71,12 +76,12 @@ public class ReviewMeta implements Review {
 		mRatingIsValid = false;
 	}
 	
-	public void removeReviews(CollectionReview reviews) {
+	public void removeReviews(RCollectionReview reviews) {
 		mReviews.remove(reviews);
 		mRatingIsValid = false;
 	}
 
-	public CollectionReview getReviews() {
+	public RCollectionReview getReviews() {
 		return mReviews;
 	}
 
@@ -241,12 +246,11 @@ public class ReviewMeta implements Review {
 
 	private float calculateRating(VisitorRatingCalculator calculator) {
 		if(calculator != null) {
-			CollectionReviewNode nodes = new CollectionReviewNode(mReviews);
+			RCollectionReviewNode nodes = new RCollectionReviewNode(mReviews);
 			for(ReviewNode r : nodes)
 				r.acceptVisitor(calculator);
 		}
 
 		return calculator.getRating();
 	}
-
 }

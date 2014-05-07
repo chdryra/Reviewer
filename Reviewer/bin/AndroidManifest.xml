@@ -31,9 +31,9 @@
         android:theme="@style/Theme.Sherlock.Light" >
         
         <activity
-            android:name="com.chdryra.android.reviewer.ActivityReviewEdit"            
+            android:name="com.chdryra.android.reviewer.ActivityReviewCreate"            
             android:windowSoftInputMode="adjustPan"
-            android:label="@string/review_edit_activity_title" 
+            android:label="@string/activity_title_review_create" 
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -41,11 +41,21 @@
             </intent-filter>
         </activity>
         
+        <activity android:name="com.chdryra.android.reviewer.ActivityReviewEdit"
+		    android:windowSoftInputMode="adjustPan"
+		    android:configChanges="orientation"
+		    android:exported="true"
+            android:label="@string/activity_title_review_edit" 
+            android:screenOrientation="portrait">
+            <meta-data android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.chdryra.android.reviewer.ActivityReviewCreate" />
+        </activity>
+        
         <activity android:name="com.chdryra.android.reviewer.ActivityReviewChildren"
 		    android:windowSoftInputMode="adjustPan"
 		    android:configChanges="orientation"
 		    android:exported="true"
-            android:label="@string/children_activity_title" 
+            android:label="@string/activity_title_children" 
             android:screenOrientation="portrait">
             <meta-data android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.chdryra.android.reviewer.ActivityReviewEdit" />
@@ -55,7 +65,7 @@
 		    android:windowSoftInputMode="adjustPan"
 		    android:configChanges="orientation"
 		    android:exported="true"
-            android:label="@string/location_activity_title" 
+            android:label="@string/activity_title_location" 
             android:screenOrientation="portrait">
             <meta-data android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.chdryra.android.reviewer.ActivityReviewEdit" />
@@ -65,7 +75,7 @@
 		    android:windowSoftInputMode="adjustPan"
 		    android:configChanges="orientation"
 		    android:exported="true"
-            android:label="@string/comment_activity_title" 
+            android:label="@string/activity_title_comment" 
             android:screenOrientation="portrait">
             <meta-data android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.chdryra.android.reviewer.ActivityReviewEdit" />
@@ -75,7 +85,7 @@
 		    android:windowSoftInputMode="adjustPan"
 		    android:configChanges="orientation"
 		    android:exported="true"
-            android:label="@string/facts_activity_title" 
+            android:label="@string/activity_title_facts" 
             android:screenOrientation="portrait">
             <meta-data android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.chdryra.android.reviewer.ActivityReviewEdit" />
@@ -85,7 +95,7 @@
 		    android:windowSoftInputMode="adjustPan"
 		    android:configChanges="orientation"
 		    android:exported="true"
-            android:label="@string/procon_activity_title" 
+            android:label="@string/activity_title_procon" 
             android:screenOrientation="portrait">
             <meta-data android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.chdryra.android.reviewer.ActivityReviewEdit" />
@@ -95,7 +105,7 @@
 		    android:windowSoftInputMode="adjustPan"
 		    android:configChanges="orientation"
 		    android:exported="true"
-            android:label="@string/url_activity_title" 
+            android:label="@string/activity_title_url" 
             android:screenOrientation="portrait">
             <meta-data android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.chdryra.android.reviewer.ActivityReviewEdit" />
@@ -105,5 +115,4 @@
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="AIzaSyCZ_ArQmEClJYtDtvbcbSQQbvUcCZf3KWg"/>
     </application>
-<!-- android:windowSoftInputMode="stateHidden" -->
 </manifest>
