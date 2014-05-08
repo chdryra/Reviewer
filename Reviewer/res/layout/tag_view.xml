@@ -1,7 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
-    style="?android:textAppearanceLarge"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
-    android:text="@string/text_view_tag" />
+    android:orientation="vertical"
+    android:background="@color/LightSlateGray" >    
+        
+        <TextView
+	        android:id="@+id/tag_text_view "
+	        style="?android:textAppearanceMedium"
+	        android:layout_width="match_parent"
+	        android:layout_height="match_parent"
+	        android:gravity="center"
+	        android:background="@drawable/image_button_selected"
+	        android:text="@string/text_view_tag" />
+	        
+    
+</LinearLayout>

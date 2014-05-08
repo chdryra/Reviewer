@@ -10,6 +10,7 @@ import java.util.Map.Entry;
 
 import android.graphics.Bitmap;
 
+import com.chdryra.android.reviewer.ReviewTagsManager.ReviewTag;
 import com.google.android.gms.maps.model.LatLng;
 
 public class ControllerReviewNode{
@@ -378,5 +379,26 @@ public class ControllerReviewNode{
 	
 	public void deleteProsCons() {
 		getReview().deleteProsCons();
+	}
+	
+	public boolean hasTags() {
+		return ReviewTagsManager.hasTags(getReview());
+	}
+	
+	public ArrayList<String> getTags() {
+		ReviewTagCollection tags = ReviewTagsManager.getTags(getReview());
+		ArrayList<String> tagsList = new ArrayList<String>();
+		for(ReviewTag tag : tags)
+			tagsList.add(tag.toString());
+		
+		return tagsList;
+	}
+	
+	public void addTags(ArrayList<String> tags) {
+		ReviewTagsManager.tag(getReview(), tags);
+	}
+	
+	public void removeTags() {
+		ReviewTagsManager.untag(getReview());
 	}
 }

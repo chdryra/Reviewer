@@ -1,6 +1,8 @@
 package com.chdryra.android.reviewer;
 
-import org.apache.commons.lang3.text.WordUtils;
+import java.util.ArrayList;
+
+//import org.apache.commons.lang3.text.WordUtils;
 
 public class ReviewTagsManager {
 	private static ReviewTagsManager sInstance;
@@ -17,7 +19,6 @@ public class ReviewTagsManager {
 		return sInstance;
 	}
 	
-
 	public static ReviewTagCollection getTags() {
 		return getManager().mTags;
 	}
@@ -31,6 +32,25 @@ public class ReviewTagsManager {
 		
 		return tags;
 	}
+
+	public static void tag(Review review, ArrayList<String> tags) {
+		for(String tag : tags)
+			getManager().tag(review, tag);
+	}
+
+
+	public static void untag(Review review) {
+		ReviewTagCollection reviewTags = getTags(review);
+		for(ReviewTag reviewTag : reviewTags) {
+			reviewTag.removeReview(review);
+			if(!reviewTag.isValid())
+				getTags().remove(reviewTag);
+		}
+	}
+	
+	public static boolean hasTags(Review review) {
+		return getTags(review).size() > 0;
+	}
 	
 	public void tag(Review review, String tag) {
 		ReviewTag reviewTag = getTags().get(tag);
@@ -40,30 +60,19 @@ public class ReviewTagsManager {
 		} else
 			reviewTag.addReview(review);
 	}
-	
+
 	public void tag(Review review, ReviewTag tag) {
 		tag.addReview(review);
 	}
 		
-	public void copyTags(Review toReview, Review fromReview) {
-		ReviewTagCollection reviewTags = getTags(fromReview);
-		for(ReviewTag reviewTag : reviewTags)
-			tag(toReview, reviewTag);
-	}
-	
 	public void untag(Review review, ReviewTag tag) {
 		tag.removeReview(review);
 	}
 
-	public void untag(Review review) {
-		ReviewTagCollection reviewTags = getTags(review);
-		for(ReviewTag reviewTag : reviewTags) {
-			reviewTag.removeReview(review);
-			if(!reviewTag.isValid())
-				getTags().remove(reviewTag);
-		}
+	public void untag(Review review, String tag) {
+		untag(review, mTags.get(tag));
 	}
-	
+
 	public ReviewTagCollection getTags(RCollectionReview reviews) {
 		ReviewTagCollection tags = new ReviewTagCollection();
 		for(ReviewTag tag : getTags()) {
@@ -75,12 +84,21 @@ public class ReviewTagsManager {
 		return tags;
 	}
 	
+	public boolean hasTag(Review review, ReviewTag tag) {
+		return mTags.contains(tag);
+	}
+	
+	public boolean hasTag(Review review, String tag) {
+		return mTags.contains(tag);
+	}
+	
 	public class ReviewTag implements Comparable<ReviewTag> {
 		private RCollectionReview mReviews;
 		private String mTag;
 		
 		private ReviewTag(String tag, Review review) {
-			mTag = WordUtils.capitalize(tag);
+			//mTag = WordUtils.capitalize(tag);
+			mTag = tag;
 			mReviews = new RCollectionReview();
 			mReviews.add(review);
 		}

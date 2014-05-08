@@ -749,34 +749,28 @@ public class FragmentReviewEdit extends SherlockFragment {
 		showDialog(new DialogURLFragment(), URL_EDIT, DIALOG_URL_TAG);
 	}
 
-	private void showDialog(DialogBasicFragment dialog, int requestCode, String tag) {
-		dialog.setTargetFragment(FragmentReviewEdit.this, requestCode);
-		dialog.setArguments(Controller.pack(mController));
-		dialog.show(getFragmentManager(), tag);
-	}
-
 	private void showChildAddDialog() {
-		showAddDialog(new DialogChildAddFragment(), CHILDREN_REQUEST, DIALOG_CHILD_TAG);
+		showDialog(new DialogChildAddFragment(), CHILDREN_REQUEST, DIALOG_CHILD_TAG);
 	}
 
 	private void showCommentAddDialog() {
-		showAddDialog(new DialogCommentAddFragment(), COMMENT_REQUEST, DIALOG_COMMENT_TAG);
+		showDialog(new DialogCommentAddFragment(), COMMENT_REQUEST, DIALOG_COMMENT_TAG);
 	}
 
 	private void showFactsAddDialog() {
-		showAddDialog(new DialogFactAddFragment(), FACTS_REQUEST, DIALOG_FACTS_TAG);
+		showDialog(new DialogFactAddFragment(), FACTS_REQUEST, DIALOG_FACTS_TAG);
 	}
 
 	private void showProConAddDialog() {
-		showAddDialog(new DialogProConAddFragment(), PROSCONS_REQUEST, DIALOG_PROSCONS_TAG);
+		showDialog(new DialogProConAddFragment(), PROSCONS_REQUEST, DIALOG_PROSCONS_TAG);
 	}
-	
-	private void showAddDialog(SherlockDialogFragment dialog, int requestCode, String tag) {
+
+	private void showDialog(SherlockDialogFragment dialog, int requestCode, String tag) {
 		dialog.setTargetFragment(FragmentReviewEdit.this, requestCode);
 		dialog.setArguments(Controller.pack(mController));
 		dialog.show(getFragmentManager(), tag);
 	}
-
+	
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 		super.onCreateOptionsMenu(menu, inflater);
