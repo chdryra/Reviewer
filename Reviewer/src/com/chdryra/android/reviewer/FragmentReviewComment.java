@@ -16,7 +16,7 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 
-public class FragmentReviewComment extends FragmentReviewBasic {
+public class FragmentReviewComment extends FragmentReviewGrid {
 	
 	public static final String EXTRA_COMMENT_STRING = "com.chdryra.android.reviewer.comment_string";
 	
@@ -37,12 +37,20 @@ public class FragmentReviewComment extends FragmentReviewBasic {
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View v = inflater.inflate(R.layout.fragment_review_comment, container, false);		
-		
-		getSherlockActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);		
+		View v = inflater.inflate(R.layout.fragment_review_comment, container, false);						
 		getSherlockActivity().getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 	
 		mCommentEditText = (EditText)v.findViewById(R.id.comment_edit_text);
+		
+		initUI();
+		updateUI();
+		
+		return v;
+	}
+
+	@Override
+	protected void initUI() {
+		getSherlockActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
 		mCommentEditText.setHorizontallyScrolling(false);
 		mCommentEditText.setMinLines(MIN_COMMENT_EDITTEXT_LINES);
 		
@@ -69,7 +77,6 @@ public class FragmentReviewComment extends FragmentReviewBasic {
              }
          });
 		
-		mCommentEditText.setText(mController.getCommentString());
 		mCommentEditText.addTextChangedListener(new TextWatcher() {
 			@Override
 			public void onTextChanged(CharSequence s, int start, int before, int count) {}
@@ -91,10 +98,13 @@ public class FragmentReviewComment extends FragmentReviewBasic {
 		    }
 		});
 		
-		return v;
-
 	}
-		
+
+	@Override
+	protected void updateUI() {
+		mCommentEditText.setText(mController.getCommentString());
+	}
+	
 	private void updateClearCommentMenuItemVisibility() {
 		//Have to hack as setting visibility relegates icon to overflow
 		if(mCommentEditText != null &&  mCommentEditText.getText().toString() != null

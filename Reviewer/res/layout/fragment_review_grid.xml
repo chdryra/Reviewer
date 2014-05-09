@@ -22,8 +22,17 @@
 
     <View style="@style/HorizontalDivider" />
 
+    <include
+        android:id="@+id/add_data_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        
+        layout="@layout/data_button_add" />
+
+    <View style="@style/HorizontalDivider" />
+    
     <GridView
-        android:id="@+id/tags_gridview"
+        android:id="@+id/data_gridview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
@@ -35,6 +44,4 @@
         android:paddingRight="2dp"
         android:stretchMode="none"/>
     
-    <View style="@style/HorizontalDivider" />
-
 </LinearLayout>

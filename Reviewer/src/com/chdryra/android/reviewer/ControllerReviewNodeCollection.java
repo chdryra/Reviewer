@@ -7,14 +7,17 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
-import java.util.Set;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import android.graphics.Bitmap;
+import android.view.View;
+import android.widget.RatingBar;
+import android.widget.TextView;
 
 import com.google.android.gms.maps.model.LatLng;
 
-public class ControllerReviewNodeCollection {
+public class ControllerReviewNodeCollection implements GridViewable {
 	protected RCollectionReviewNode mReviewNodes;
 	protected HashMap<String, ControllerReviewNode> mControllers;
 	
@@ -25,6 +28,11 @@ public class ControllerReviewNodeCollection {
 	
 	public void remove(String id) {
 		get().remove(Controller.convertID(id));
+	}
+	
+	public void removeAll() {
+		for(String id : getIDs())
+			remove(id);
 	}
 	
 	public void add(String title) {
@@ -55,8 +63,8 @@ public class ControllerReviewNodeCollection {
 		Set<String> stringIDs = new LinkedHashSet<String>();
 		Set<RDId> ids = get().getIDs();
 		for(RDId id : ids)
-		
 			stringIDs.add(id.toString());
+		
 		return stringIDs;
 	}
 	
@@ -65,7 +73,7 @@ public class ControllerReviewNodeCollection {
 	}
 	
 	public Object getItem(int position) {
-		return get().getItem(position).getID().toString();
+		return getControllerFor(get().getItem(position).getID().toString());
 	}
 	
 	private ReviewNode getChild(String id) {
@@ -345,6 +353,49 @@ public class ControllerReviewNodeCollection {
 	
 	public void deleteURL(String id) {
 		getChild(id).deleteURL();
+	}
+
+	@Override
+	public GridViewData getGridViewData() {
+		return new GVDReviewNodeCollection();
+	}
+	
+	class GVDReviewNodeCollection implements GridViewData{
+		@Override
+		public int size() {
+			return ControllerReviewNodeCollection.this.size();
+		}
+
+		@Override
+		public Object getItem(int position) {
+			return ControllerReviewNodeCollection.this.getItem(position);
+		}
+
+		@Override
+		public ViewHolder getViewHolder(View convertView) {
+			TextView subject = (TextView)convertView.findViewById(R.id.review_subject_text_view);
+			RatingBar rating = (RatingBar)convertView.findViewById(R.id.total_rating_bar);
+			
+			return new VHReviewNodeCollection(subject, rating);
+		}
+		
+		class VHReviewNodeCollection implements ViewHolder{
+		    private TextView mSubject;
+		    private RatingBar mRating;
+		    
+		    public VHReviewNodeCollection(TextView subject, RatingBar rating) {
+		    	mSubject = subject;
+		    	mRating = rating;
+		    }
+		    
+			@Override
+			public void updateView(Object data, int textColour) {
+				ControllerReviewNode controller = (ControllerReviewNode) data;
+				mSubject.setText(controller.getTitle());
+				mSubject.setTextColor(textColour);
+				mRating.setRating(controller.getRating());
+			}
+		}
 	}
 }
 

@@ -23,7 +23,7 @@ import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.chdryra.android.myandroidwidgets.ClearableEditText;
 
-public class FragmentReviewURL extends FragmentReviewBasic {
+public class FragmentReviewURL extends FragmentReviewGrid {
 
 	private ControllerReviewNode mController;
 	private ClearableEditText mURLEditText;
@@ -165,5 +165,17 @@ public class FragmentReviewURL extends FragmentReviewBasic {
 	@Override
 	protected String getDeleteConfirmationTitle() {
 		return getResources().getString(R.string.activity_title_url);
+	}
+
+	@Override
+	protected void initUI() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	protected void updateUI() {
+		// TODO Auto-generated method stub
+		
 	}
 }

@@ -20,7 +20,7 @@ import android.widget.Toast;
 
 import com.chdryra.android.myandroidwidgets.ClearableEditText;
 
-public class FragmentReviewFacts extends FragmentReviewBasic {
+public class FragmentReviewFacts extends FragmentReviewGrid {
 	public static final String DATUM_LABEL = "com.chdryra.android.reviewer.datum_label";
 	public static final String DATUM_VALUE = "com.chdryra.android.reviewer.datum_value";	
 	public static final String DIALOG_DATUM_TAG = "DatumDialog";
@@ -44,17 +44,23 @@ public class FragmentReviewFacts extends FragmentReviewBasic {
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		final View v = inflater.inflate(R.layout.fragment_review_facts, container, false);		
-				
-		getSherlockActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);		
+		View v = inflater.inflate(R.layout.fragment_review_facts, container, false);			
 		getSherlockActivity().getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		
 		mFactLabel = (ClearableEditText)v.findViewById(R.id.datum_label_edit_text);
 		mFactValue = (ClearableEditText)v.findViewById(R.id.datum_value_edit_text);
 		mFactsListView = (ListView)v.findViewById(R.id.data_listview);
-		mFactsListView.setAdapter(new ReviewFactsAdaptor(mFacts));
-		updateUI();
 		
+		initUI();
+		updateUI();
+
+		return v;
+	}
+
+	@Override
+	protected void initUI() {
+		getSherlockActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+		mFactsListView.setAdapter(new ReviewFactsAdaptor(mFacts));
 		mFactValue.setOnEditorActionListener(new TextView.OnEditorActionListener() {
 	        @Override
 	        public boolean onEditorAction(TextView v, int actionId, KeyEvent event)
@@ -74,20 +80,21 @@ public class FragmentReviewFacts extends FragmentReviewBasic {
 				ReviewFactsAdaptor adapter = (ReviewFactsAdaptor)parent.getAdapter();
 				String label = (String)adapter.getKey(pos);
 				String value = (String)adapter.getItem(pos);
-				
-				DialogFactFragment dialog = new DialogFactFragment();
-				dialog.setTargetFragment(FragmentReviewFacts.this, DATUM_EDIT);
-				Bundle args = new Bundle();
-				args.putString(DATUM_LABEL, label);
-				args.putString(DATUM_VALUE, value);
-				dialog.setArguments(args);
-				dialog.show(getFragmentManager(), DIALOG_DATUM_TAG);
+				showFactEditDialog(label, value);
 				
 				return true;
 			}
 		});
+	}
 	
-		return v;
+	private void showFactEditDialog(String label, String value) {
+		DialogFactFragment dialog = new DialogFactFragment();
+		dialog.setTargetFragment(FragmentReviewFacts.this, DATUM_EDIT);
+		Bundle args = new Bundle();
+		args.putString(DATUM_LABEL, label);
+		args.putString(DATUM_VALUE, value);
+		dialog.setArguments(args);
+		dialog.show(getFragmentManager(), DIALOG_DATUM_TAG);	
 	}
 	
 	private void addFact() {
@@ -108,7 +115,8 @@ public class FragmentReviewFacts extends FragmentReviewBasic {
 		}
 	}
 	
-	private void updateUI() {
+	@Override
+	protected void updateUI() {
 		((ReviewFactsAdaptor)mFactsListView.getAdapter()).notifyDataSetChanged();
 	}
 	

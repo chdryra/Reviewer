@@ -112,6 +112,6 @@ public class DialogChildAddFragment extends SherlockDialogFragment{
 			addChild();
 		
 		getTargetFragment().onActivityResult(getTargetRequestCode(), resultCode, new Intent());
-		getDialog().dismiss();
+		dismiss();
 	}
 }

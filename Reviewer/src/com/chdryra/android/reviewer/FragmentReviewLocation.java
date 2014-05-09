@@ -81,7 +81,24 @@ public class FragmentReviewLocation extends FragmentReviewBasic implements Locat
 		mMapView = (MapView)v.findViewById(R.id.mapView);
 	    mMapView.onCreate(savedInstanceState);	    
 	    mGoogleMap = ((MapView) v.findViewById(R.id.mapView)).getMap();
-	    mGoogleMap.setMyLocationEnabled(true);
+	    mLocationName = (ClearableAutoCompleteTextView)v.findViewById(R.id.edit_text_name_location);
+	    mPhotoLocationButton = (ImageButton)v.findViewById(R.id.photo_location_image_button);
+	    mRevertButton = (ImageButton)v.findViewById(R.id.revert_location_image_button);
+	    
+	    initUI();
+	    	    
+	    return v;
+	}
+
+	private void initUI() {
+		initLocationNameUI();
+		initGoogleMapUI();
+		initPhotoButtonUI();
+		initRevertButtonUI();
+	}
+
+	private void initGoogleMapUI() {
+		mGoogleMap.setMyLocationEnabled(true);
 	    mGoogleMap.setOnMyLocationButtonClickListener(new GoogleMap.OnMyLocationButtonClickListener() {
 			@Override
 			public boolean onMyLocationButtonClick() {
@@ -111,23 +128,25 @@ public class FragmentReviewLocation extends FragmentReviewBasic implements Locat
 		});
 	    
 	    //mGoogleMap.setInfoWindowAdapter(new InfoWindowAdapterRated());
-	    
-	    mLocationName = (ClearableAutoCompleteTextView)v.findViewById(R.id.edit_text_name_location);
+	}
+
+	private void initLocationNameUI() {
 	    mLocationName.addTextChangedListener(new TextWatcher() {
 			
-			@Override
-			public void onTextChanged(CharSequence s, int start, int before, int count) {}
-			
-			@Override
-			public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-			
-			@Override
-			public void afterTextChanged(Editable s) {
-				updateMapMarker();
-			}
-		});
-	    
-	    mPhotoLocationButton = (ImageButton)v.findViewById(R.id.photo_location_image_button);
+				@Override
+				public void onTextChanged(CharSequence s, int start, int before, int count) {}
+				
+				@Override
+				public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+				
+				@Override
+				public void afterTextChanged(Editable s) {
+					updateMapMarker();
+				}
+			});
+	}
+	
+	private void initPhotoButtonUI() {
 	    mPhotoLocationButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -137,13 +156,14 @@ public class FragmentReviewLocation extends FragmentReviewBasic implements Locat
 					setLatLng(mPhotoLatLng);
 			}
 		});
-	    
+	}
+	
+	private void initRevertButtonUI() {
 	    if (mController.hasLocation())
 	    	mRevertLatLng = mController.getLocationLatLng();
 	    else if (mPhotoLatLng != null)
 	    	mRevertLatLng = mPhotoLatLng;
 	    
-	    mRevertButton = (ImageButton)v.findViewById(R.id.revert_location_image_button);
 	    mRevertButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -158,7 +178,6 @@ public class FragmentReviewLocation extends FragmentReviewBasic implements Locat
 		});
 
 	    mRevertButton.performClick();
-	    return v;
 	}
 	
 	private void gotoSearchLocation() {
@@ -271,7 +290,6 @@ public class FragmentReviewLocation extends FragmentReviewBasic implements Locat
 	 }
 
 	 private class MapSearchTask extends AsyncTask<String, Void, LatLng> {		
-
 		private ProgressDialog pd;
 		
 		@Override

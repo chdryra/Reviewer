@@ -20,7 +20,7 @@ import android.widget.Toast;
 
 import com.chdryra.android.myandroidwidgets.ClearableEditText;
 
-public class FragmentReviewProsCons extends FragmentReviewBasic{
+public class FragmentReviewProsCons extends FragmentReviewGrid {
 	public static final String PROCON = "com.chdryra.android.reviewer.pro_con";
 	public static final String PROCON_HINT = "com.chdryra.android.reviewer.pro_con_hint";
 	public static final String DIALOG_PROCON_TAG = "ProConDialog";
@@ -59,9 +59,7 @@ public class FragmentReviewProsCons extends FragmentReviewBasic{
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		final View v = inflater.inflate(R.layout.fragment_review_proscons, container, false);		
-				
-		getSherlockActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);		
+		final View v = inflater.inflate(R.layout.fragment_review_proscons, container, false);				
 		getSherlockActivity().getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		
 		RelativeLayout prosLayout = (RelativeLayout)v.findViewById(R.id.pros_layout);
@@ -73,6 +71,15 @@ public class FragmentReviewProsCons extends FragmentReviewBasic{
 		mProsListView = (ListView)prosLayout.findViewById(R.id.procon_listview);
 		mConsListView = (ListView)consLayout.findViewById(R.id.procon_listview);
 		
+		initUI();
+		updateUI();
+		
+		return v;
+	}
+	
+	@Override
+	protected void initUI() {
+		getSherlockActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
 		mProEditText.setHint(R.string.edit_text_pro_hint);
 		mProEditText.setTextColor(mProTextColour);
 		mProEditText.setHintTextColor(mProTextColour);
@@ -126,10 +133,14 @@ public class FragmentReviewProsCons extends FragmentReviewBasic{
 		
 		mProsListView.setAdapter(new ReviewProConAdaptor(mPros, mProTextColour));
 		mConsListView.setAdapter(new ReviewProConAdaptor(mCons, mConTextColour));
-
-		return v;
 	}
-	
+
+	@Override
+	protected void updateUI() {
+		((ReviewProConAdaptor)mProsListView.getAdapter()).notifyDataSetChanged();
+		((ReviewProConAdaptor)mConsListView.getAdapter()).notifyDataSetChanged();
+	}
+
 	private void showProConDialog(String proCon, int requestCode, String proConHint) {
 		DialogProConFragment dialog = new DialogProConFragment();
 		dialog.setTargetFragment(FragmentReviewProsCons.this, requestCode);
@@ -151,11 +162,6 @@ public class FragmentReviewProsCons extends FragmentReviewBasic{
 		editText.setText(null);
 
 		updateUI();
-	}
-	
-	private void updateUI() {
-		((ReviewProConAdaptor)mProsListView.getAdapter()).notifyDataSetChanged();
-		((ReviewProConAdaptor)mConsListView.getAdapter()).notifyDataSetChanged();
 	}
 
 	@Override

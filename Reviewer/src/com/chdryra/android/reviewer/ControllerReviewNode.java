@@ -37,7 +37,7 @@ public class ControllerReviewNode{
 	}
 	
 	public void clearChildren() {
-		getChildrenController().clear();
+		getChildrenController().removeAll();
 	}
 	
 	public void removeChild(String childId) {

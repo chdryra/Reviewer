@@ -26,7 +26,7 @@ public class ControllerReviewNodeChildren extends ControllerReviewNodeCollection
 		mParent.addChild(r);
 	}
 	
-	public void clear() {
+	public void removeAll() {
 		mParent.clearChildren();
 	}
 	
@@ -45,7 +45,7 @@ public class ControllerReviewNodeChildren extends ControllerReviewNodeCollection
 	
 	public void revertToBackUp() {
 		if(mChildrenBackup != null) {
-			clear();
+			removeAll();
 			mParent.addChildren(mChildrenBackup);
 		}
 		
