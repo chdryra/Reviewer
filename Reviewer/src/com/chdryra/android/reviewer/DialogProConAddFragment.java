@@ -43,8 +43,8 @@ public class DialogProConAddFragment extends SherlockDialogFragment{
 		mProEditText = (ClearableEditText)dialog.findViewById(R.id.pro_edit_text);
 		mConEditText = (ClearableEditText)dialog.findViewById(R.id.con_edit_text);
 
-		final Button cancelButton = (Button)dialog.findViewById(R.id.button_left);
-		final Button addButton = (Button)dialog.findViewById(R.id.button_middle);
+		final Button addButton = (Button)dialog.findViewById(R.id.button_left);
+		final Button cancelButton = (Button)dialog.findViewById(R.id.button_middle);
 		final Button doneButton = (Button)dialog.findViewById(R.id.button_right);
 		
 		mProEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {

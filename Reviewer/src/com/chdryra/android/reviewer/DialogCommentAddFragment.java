@@ -33,8 +33,8 @@ public class DialogCommentAddFragment extends SherlockDialogFragment{
 		if(mController.hasComment())
 			mCommentEditText.setText(mController.getCommentString());
 
-		final Button cancelButton = (Button)dialog.findViewById(R.id.button_left);
-		final Button clearButton = (Button)dialog.findViewById(R.id.button_middle);
+		final Button clearButton = (Button)dialog.findViewById(R.id.button_left);
+		final Button cancelButton = (Button)dialog.findViewById(R.id.button_middle);
 		final Button doneButton = (Button)dialog.findViewById(R.id.button_right);
 
 		cancelButton.setOnClickListener(new View.OnClickListener() {

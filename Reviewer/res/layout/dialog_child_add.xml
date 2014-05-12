@@ -12,21 +12,21 @@
 	    android:inputType="textCapSentences"
 	    android:imeOptions="actionGo" />
 	
-        <View style="@style/HorizontalDivider" />
+    <View style="@style/HorizontalDivider" />
 
-        <RatingBar
-            android:id="@+id/child_rating_bar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:numStars="5"
-            android:rating="0.0"
-            android:stepSize="0.5" />
+    <RatingBar
+        android:id="@+id/child_rating_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:numStars="5"
+        android:rating="0.0"
+        android:stepSize="0.5" />
 
-        <include 
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            layout="@layout/dialog_button_layout" />
+    <include 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        layout="@layout/dialog_button_layout" />
             
         
 </LinearLayout>

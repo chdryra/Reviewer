@@ -41,8 +41,8 @@ public class DialogFactAddFragment extends SherlockDialogFragment{
 		mFactLabelEditText = (ClearableEditText)dialog.findViewById(R.id.fact_label_edit_text);
 		mFactValueEditText = (ClearableEditText)dialog.findViewById(R.id.fact_value_edit_text);
 
-		final Button cancelButton = (Button)dialog.findViewById(R.id.button_left);
-		final Button addButton = (Button)dialog.findViewById(R.id.button_middle);
+		final Button addButton = (Button)dialog.findViewById(R.id.button_left);
+		final Button cancelButton = (Button)dialog.findViewById(R.id.button_middle);
 		final Button doneButton = (Button)dialog.findViewById(R.id.button_right);
 		
 		mFactValueEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {

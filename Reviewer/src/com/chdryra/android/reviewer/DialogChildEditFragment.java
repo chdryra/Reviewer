@@ -13,16 +13,15 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.RatingBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockDialogFragment;
 import com.chdryra.android.myandroidwidgets.ClearableEditText;
 
-public class DialogChildAddFragment extends SherlockDialogFragment{
-
-	private ControllerReviewNode mController;
-	private ControllerReviewNodeChildren mChildrenController;
-	private ArrayList<String> mChildNames = new ArrayList<String>();
+public class DialogChildEditFragment extends SherlockDialogFragment{
+	public static final int RESULT_DELETE = Activity.RESULT_FIRST_USER;
+	public static final String CHILD_ID = "com.chdryra.android.reviewer.child_id";
+	
+	private ControllerReviewNode mChildController;
 	
 	private ClearableEditText mChildNameEditText;
 	private RatingBar mChildRatingBar;
@@ -30,10 +29,7 @@ public class DialogChildAddFragment extends SherlockDialogFragment{
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		mController = Controller.unpack(getArguments());
-		mChildrenController = mController.getChildrenController();
-		for(String id : mChildrenController.getIDs())
-			mChildNames.add(mChildrenController.getTitle(id));
+		mChildController = Controller.unpack(getArguments());
 	}
 	
 	@Override
@@ -44,16 +40,21 @@ public class DialogChildAddFragment extends SherlockDialogFragment{
 
 		mChildNameEditText = (ClearableEditText)dialog.findViewById(R.id.child_name_edit_text);
 		mChildRatingBar = (RatingBar)dialog.findViewById(R.id.child_rating_bar);
-		final Button addButton = (Button)dialog.findViewById(R.id.button_left);
+		
+		mChildNameEditText.setText(mChildController.getTitle());
+		mChildRatingBar.setRating(mChildController.getRating());
+		
+		final Button deleteButton = (Button)dialog.findViewById(R.id.button_left);
 		final Button cancelButton = (Button)dialog.findViewById(R.id.button_middle);
 		final Button doneButton = (Button)dialog.findViewById(R.id.button_right);
 		
+		mChildNameEditText.setImeOptions(EditorInfo.IME_ACTION_DONE);
 		mChildNameEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
 	        @Override
 	        public boolean onEditorAction(TextView v, int actionId, KeyEvent event)
 	        {
-	            if(actionId == EditorInfo.IME_ACTION_GO)
-	            	addButton.performClick();
+	            if(actionId == EditorInfo.IME_ACTION_DONE)
+	            	doneButton.performClick();
 	            return false;
 	        }
 	    });
@@ -65,10 +66,11 @@ public class DialogChildAddFragment extends SherlockDialogFragment{
 			}
 		});
 		
-		addButton.setOnClickListener(new View.OnClickListener() {
+		deleteButton.setText(getResources().getString(R.string.button_delete_text));
+		deleteButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				addChild();
+				sendResult(RESULT_DELETE);
 			}
 		});
 		
@@ -79,39 +81,27 @@ public class DialogChildAddFragment extends SherlockDialogFragment{
 			}
 		});
 		
-		dialog.setTitle(getResources().getString(R.string.dialog_add_criteria_title));
+		dialog.setTitle(getResources().getString(R.string.dialog_edit_criteria_title));
 		dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
 
 		return dialog;
-	}
-
-	private void addChild() {
-		String childName = mChildNameEditText.getText().toString();
-		
-		if(childName == null || childName.length() == 0)
-			return;
-		
-		if(mChildNames.contains(childName)) {
-			Toast.makeText(getSherlockActivity(), childName + ": " + getResources().getString(R.string.toast_exists_criterion), Toast.LENGTH_SHORT).show();
-			return;
-		}
-		
-		mChildrenController.addChild(childName, mChildRatingBar.getRating());
-		mChildNames.add(childName);
-		mChildNameEditText.setText(null);		
-		mChildRatingBar.setRating(0);
-		
-		getDialog().setTitle("Added " + childName);
 	}
 
 	private void sendResult(int resultCode) {
 		if (getTargetFragment() == null)
 			return;
 		
-		if(resultCode == Activity.RESULT_OK)
-			addChild();
+		if(resultCode == Activity.RESULT_OK) {
+			String childName = mChildNameEditText.getText().toString();
+			if(childName == null || childName.length() == 0)
+				return;
+			mChildController.setTitle(childName);
+			mChildController.setRating(mChildRatingBar.getRating());
+		}
 		
-		getTargetFragment().onActivityResult(getTargetRequestCode(), resultCode, new Intent());
+		Intent i = new Intent();
+		Controller.pack(mChildController, i);
+		getTargetFragment().onActivityResult(getTargetRequestCode(), resultCode, i);
 		dismiss();
 	}
 }

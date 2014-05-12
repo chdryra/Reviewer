@@ -37,8 +37,8 @@ public class DialogTagAddFragment extends SherlockDialogFragment{
 
 		mTagEditText = (ClearableAutoCompleteTextView)dialog.findViewById(R.id.tag_edit_text);
 
-		final Button cancelButton = (Button)dialog.findViewById(R.id.button_left);
-		final Button addButton = (Button)dialog.findViewById(R.id.button_middle);
+		final Button addButton = (Button)dialog.findViewById(R.id.button_left);
+		final Button cancelButton = (Button)dialog.findViewById(R.id.button_middle);
 		final Button doneButton = (Button)dialog.findViewById(R.id.button_right);
 		
 		mTagEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {

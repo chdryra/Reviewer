@@ -2,7 +2,6 @@ package com.chdryra.android.reviewer;
 
 import java.util.ArrayList;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -13,13 +12,13 @@ import android.widget.Toast;
 import com.actionbarsherlock.app.SherlockDialogFragment;
 
 public class FragmentReviewChildren extends FragmentReviewGrid {
-	private final static String DIALOG_CHILD_TAG = "ChildDialog";
-
+	private static final String DIALOG_CHILD_TAG = "ChildDialog";
+	
 	public final static int REVIEW_REQUEST = 60;
 	public final static int REVIEW_EDIT = 61;
 		
 	private ControllerReviewNode mController;
-	private ControllerReviewNodeCollection mReviewsController;
+	private ControllerReviewNodeCollection mCollectionController;
 
 	private ArrayList<String> mReviewTitles = new ArrayList<String>();
 	
@@ -30,9 +29,9 @@ public class FragmentReviewChildren extends FragmentReviewGrid {
 		super.onCreate(savedInstanceState);
 		
 		mController = Controller.unpack(getActivity().getIntent().getExtras());		
-		mReviewsController = mController.getCollectionController();
-		for(String id : mReviewsController.getIDs())
-			mReviewTitles.add(mReviewsController.getTitle(id));
+		mCollectionController = mController.getCollectionController();
+		for(String id : mCollectionController.getIDs())
+			mReviewTitles.add(mCollectionController.getTitle(id));
 		
 		mTotalRatingIsAverage = mController.isReviewRatingAverage();
 	}
@@ -42,12 +41,13 @@ public class FragmentReviewChildren extends FragmentReviewGrid {
 		initSubjectTextUI();
 		initRatingBarUI();
 		initAddReviewUI();
-		initReviewsGridViewUI();
+		initReviewCollectionGridViewUI();
 	}
 	
 	@Override
 	protected void updateUI() {
 		updateRatingBarUI();
+		updateReviewCollectionGridViewUI();
 	}
 
 	private void initSubjectTextUI() {
@@ -62,6 +62,8 @@ public class FragmentReviewChildren extends FragmentReviewGrid {
 			public void onClick(View v) {
 				mTotalRatingIsAverage = !mTotalRatingIsAverage;
 				setTotalRatingIsAverage(mTotalRatingIsAverage);
+				String ratingType = mTotalRatingIsAverage? "average" : "user";
+				Toast.makeText(getActivity(), "Rating is " + ratingType, Toast.LENGTH_SHORT).show();
 			}
 		});
 		
@@ -78,9 +80,9 @@ public class FragmentReviewChildren extends FragmentReviewGrid {
 		});		
 	}
 	
-	private void initReviewsGridViewUI() {
+	private void initReviewCollectionGridViewUI() {
 		getGridView().setAdapter(new GridViewCellAdapter(getActivity(), 
-				mReviewsController.getGridViewData(), 
+				mCollectionController.getGridViewData(), 
 				R.layout.grid_view_cell_review, 
 				getGridCellWidth(), getGridCellHeight(), 
 				getSubjectView().getTextColors().getDefaultColor()));
@@ -99,12 +101,16 @@ public class FragmentReviewChildren extends FragmentReviewGrid {
 		getTotalRatingBar().setRating(mController.getRating());
 	}
 	
+	private void updateReviewCollectionGridViewUI() {
+		((GridViewCellAdapter)getGridView().getAdapter()).notifyDataSetChanged();
+	}
+	
 	private void showChildDialog() {
 		showDialog(new DialogChildAddFragment(), REVIEW_REQUEST, DIALOG_CHILD_TAG, Controller.pack(mController));
 	}
 
 	private void showChildDialog(ControllerReviewNode childController) {
-		showDialog(new DialogChildAddFragment(), REVIEW_REQUEST, DIALOG_CHILD_TAG, Controller.pack(mController));
+		showDialog(new DialogChildEditFragment(), REVIEW_EDIT, DIALOG_CHILD_TAG, Controller.pack(childController));
 	}
 	
 	private void showDialog(SherlockDialogFragment dialog, int requestCode, String tag, Bundle args) {
@@ -115,57 +121,22 @@ public class FragmentReviewChildren extends FragmentReviewGrid {
 	
 	private void setTotalRatingIsAverage(boolean isAverage) {
 		mController.setReviewRatingAverage(isAverage);
-		String ratingType = isAverage? "average" : "user";
-		Toast.makeText(getActivity(), "Rating is " + ratingType, Toast.LENGTH_SHORT).show();
 		updateRatingBarUI();
-	}
-		
-	private void deleteChild(String childID) {
-		mReviewTitles.remove(mReviewsController.getTitle(childID));
-		mReviewsController.remove(childID);
-		if(mReviewsController.size() == 0)
-			setTotalRatingIsAverage(false);
-		
-		updateUI();
 	}
 
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		String childID = data.getStringExtra(DialogChildTitleEditFragment.REVIEW_ID);
 		switch (requestCode) {
 		case REVIEW_EDIT:
-			switch (resultCode) {
-			case Activity.RESULT_OK:
-				String childName = mReviewsController.getTitle(childID);
-				String oldName = data.getStringExtra(DialogChildTitleEditFragment.OLD_NAME);
-				
-				if(childName.equals(oldName))
-					break;
-				
-				if(mReviewTitles.contains(childName)) {
-					String newName = childName;
-					int i = 1;
-					while(mReviewTitles.contains(newName))
-						newName = childName + "_" + String.valueOf(i++);
-					Toast.makeText(getSherlockActivity(), "Criterion: " + childName + " already exists, changing name to " + newName, Toast.LENGTH_SHORT).show();
-					mReviewsController.setTitle(childID, newName);
-				}
-				
-				mReviewTitles.remove(oldName);
-				mReviewTitles.add(mReviewsController.getTitle(childID));
-				break;
-			
-			case DialogChildTitleEditFragment.RESULT_DELETE:
-				deleteChild(childID);
-				break;
-			
-			case Activity.RESULT_CANCELED:
-				return;
-				
-			default:
-				break;
+			switch(resultCode) {
+			case DialogChildEditFragment.RESULT_DELETE:
+				ControllerReviewNode childController = Controller.unpack(data.getExtras());
+				mController.removeChild(childController.getID());
 			}
+			if(mCollectionController.size() == 0)
+				setTotalRatingIsAverage(false);
 			break;
+			
 		default:
 			super.onActivityResult(requestCode, resultCode, data);
 			break;
@@ -176,12 +147,13 @@ public class FragmentReviewChildren extends FragmentReviewGrid {
 
 	@Override
 	protected void deleteData() {
-		mReviewsController.removeAll();		
+		mCollectionController.removeAll();		
+		setTotalRatingIsAverage(false);
 	}
 
 	@Override
 	protected boolean hasData() {
-		return mReviewsController.size() > 0;
+		return mCollectionController.size() > 0;
 	}
 	
 	@Override

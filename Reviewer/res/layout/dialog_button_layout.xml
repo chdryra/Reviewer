@@ -17,7 +17,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/dialog_button_cancel_text" />
+            android:text="@string/dialog_button_add_text" />
 
         <View style="@style/VerticalDivider" />
 
@@ -27,7 +27,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/dialog_button_add_text" />
+            android:text="@string/dialog_button_cancel_text" />
 
         <View style="@style/VerticalDivider" />
 

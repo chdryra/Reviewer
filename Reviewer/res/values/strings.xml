@@ -20,6 +20,7 @@
     <string name="dialog_delete_tags_title">Tags</string>
     <string name="dialog_edit_comment_title">Edit comment</string>
     <string name="dialog_add_criteria_title">Add Criterion</string>
+    <string name="dialog_edit_criteria_title">Edit Criterion</string>
     <string name="dialog_add_fact_title">Add Fact</string>
     <string name="dialog_add_procon_title">Add Pros and Cons</string>
     <string name="dialog_add_tag_title">Add Tags</string>
