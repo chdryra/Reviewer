@@ -20,7 +20,7 @@ import com.actionbarsherlock.view.MenuItem;
 public abstract class FragmentReviewBasic extends SherlockFragment{
 
 	public static final int RESULT_DELETE = Activity.RESULT_FIRST_USER;
-	private static final int DELETE_CONFIRM = DialogBasicFragment.DELETE_CONFIRM;
+	private static final int DELETE_CONFIRM = DialogEditFragment.DELETE_CONFIRM;
 	private boolean mDeleteConfirmed = false;
 
 	protected abstract void deleteData();
@@ -59,7 +59,7 @@ public abstract class FragmentReviewBasic extends SherlockFragment{
 			if(mDeleteConfirmed)
 				deleteData();
 			else {
-				DialogBasicFragment.showDeleteConfirmDialog(getDeleteConfirmationTitle(), FragmentReviewBasic.this, DELETE_CONFIRM, getFragmentManager());
+				DialogEditFragment.showDeleteConfirmDialog(getDeleteConfirmationTitle(), FragmentReviewBasic.this, DELETE_CONFIRM, getFragmentManager());
 				return;
 			}
 		}

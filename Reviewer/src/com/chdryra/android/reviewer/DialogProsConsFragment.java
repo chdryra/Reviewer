@@ -11,7 +11,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-public class DialogProsConsFragment extends DialogBasicFragment {
+public class DialogProsConsFragment extends DialogEditFragment {
 
 	public static final int RESULT_ADD = 5;
 	

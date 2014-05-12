@@ -2,23 +2,14 @@ package com.chdryra.android.reviewer;
 
 import java.util.ArrayList;
 
-import android.app.Activity;
-import android.app.Dialog;
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.KeyEvent;
 import android.view.View;
-import android.view.WindowManager;
-import android.view.inputmethod.EditorInfo;
-import android.widget.Button;
-import android.widget.TextView;
 
-import com.actionbarsherlock.app.SherlockDialogFragment;
 import com.chdryra.android.myandroidwidgets.ClearableAutoCompleteTextView;
 
-public class DialogTagAddFragment extends SherlockDialogFragment{
-	private ControllerReviewNode mController;
+public class DialogTagAddFragment extends DialogAddFragment{
 	
+	private ControllerReviewNode mController;
 	private ArrayList<String> mTags;	
 	private ClearableAutoCompleteTextView mTagEditText;
 	
@@ -30,55 +21,16 @@ public class DialogTagAddFragment extends SherlockDialogFragment{
 	}
 	
 	@Override
-	public Dialog onCreateDialog(Bundle savedInstanceState) {
-	
-		final Dialog dialog = new Dialog(getSherlockActivity());
-		dialog.setContentView(R.layout.dialog_tag);
-
-		mTagEditText = (ClearableAutoCompleteTextView)dialog.findViewById(R.id.tag_edit_text);
-
-		final Button addButton = (Button)dialog.findViewById(R.id.button_left);
-		final Button cancelButton = (Button)dialog.findViewById(R.id.button_middle);
-		final Button doneButton = (Button)dialog.findViewById(R.id.button_right);
+	protected View getDialogUI() {
+		View v = getActivity().getLayoutInflater().inflate(R.layout.dialog_tag, null);
+		mTagEditText = (ClearableAutoCompleteTextView)v.findViewById(R.id.tag_edit_text);
+		setIMEDoAction(mTagEditText);
 		
-		mTagEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-	        @Override
-	        public boolean onEditorAction(TextView v, int actionId, KeyEvent event)
-	        {
-	            if(actionId == EditorInfo.IME_ACTION_GO)
-	            	addButton.performClick();
-	            return false;
-	        }
-	    });
-		
-		cancelButton.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				sendResult(Activity.RESULT_CANCELED);
-			}
-		});
-		
-		addButton.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				addTag();
-			}
-		});
-		
-		doneButton.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				sendResult(Activity.RESULT_OK);
-			}
-		});
-		
-		dialog.setTitle(getResources().getString(R.string.dialog_add_tag_title));
-		dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
-
-		return dialog;
+		return v;
 	}
 
-	private void addTag() {
+	@Override
+	protected void doActionButtonClick() {
 		String tag = mTagEditText.getText().toString();
 		if(tag == null || tag.length() == 0)
 			return;
@@ -91,18 +43,16 @@ public class DialogTagAddFragment extends SherlockDialogFragment{
 		getDialog().setTitle("Added tag: " + tag);
 	}
 
-	private void sendResult(int resultCode) {
-		if (getTargetFragment() == null)
-			return;
-		
-		if(resultCode == Activity.RESULT_OK) {
-			addTag();
-			mController.removeTags();
-			mController.addTags(mTags);
-		}
-		
-		getTargetFragment().onActivityResult(getTargetRequestCode(), resultCode, new Intent());
-		dismiss();
+	@Override
+	protected void doDoneButtonClick() {
+		doActionButtonClick();
+		mController.removeTags();
+		mController.addTags(mTags);
+		super.doDoneButtonClick();
 	}
-
+	
+	@Override
+	protected String getDialogTitle() {
+		return getResources().getString(R.string.dialog_add_tag_title);
+	}
 }

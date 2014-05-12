@@ -14,7 +14,7 @@ import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.widget.TextView;
 
-public class DialogProConFragment extends DialogBasicFragment {
+public class DialogProConFragment extends DialogEditFragment {
 	public static final String PROCON_OLD = "com.chdryra.android.reviewer.procon_old";
 	
 	private ClearableEditText mProCon;

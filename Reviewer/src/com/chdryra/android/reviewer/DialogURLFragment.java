@@ -15,7 +15,7 @@ import android.widget.Toast;
 
 import com.chdryra.android.myandroidwidgets.ClearableEditText;
 
-public class DialogURLFragment extends DialogBasicFragment {
+public class DialogURLFragment extends DialogEditFragment {
 	public static final int RESULT_BROWSE = 4;
 	
 	private static final String TAG = "DialogURLFragment";

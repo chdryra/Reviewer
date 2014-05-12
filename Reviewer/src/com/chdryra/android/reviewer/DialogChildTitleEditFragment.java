@@ -15,7 +15,7 @@ import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.widget.TextView;
 
-public class DialogChildTitleEditFragment extends DialogBasicFragment {
+public class DialogChildTitleEditFragment extends DialogEditFragment {
 	public static final int RESULT_DELETE = Activity.RESULT_FIRST_USER;
 	
 	public static final String REVIEW_ID = "com.chdryra.android.reviewer.review_edit_id";

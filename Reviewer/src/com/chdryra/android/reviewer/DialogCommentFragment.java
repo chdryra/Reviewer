@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
-public class DialogCommentFragment extends DialogBasicFragment {
+public class DialogCommentFragment extends DialogEditFragment {
 	private ControllerReviewNode mController;
 	
 	@Override

@@ -15,7 +15,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.DatePicker;
 
-public class DialogDateFragment extends DialogBasicFragment {
+public class DialogDateFragment extends DialogEditFragment {
 
 	private ControllerReviewNode mController;
 	

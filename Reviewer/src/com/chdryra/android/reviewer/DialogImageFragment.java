@@ -12,7 +12,7 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class DialogImageFragment extends DialogBasicFragment {
+public class DialogImageFragment extends DialogEditFragment {
 		
 	public static final int CAPTION_CHANGED = 2;	
 	

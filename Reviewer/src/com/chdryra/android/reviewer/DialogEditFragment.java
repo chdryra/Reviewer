@@ -13,7 +13,7 @@ import android.view.WindowManager;
 
 import com.actionbarsherlock.app.SherlockDialogFragment;
 
-public abstract class DialogBasicFragment extends SherlockDialogFragment {
+public abstract class DialogEditFragment extends SherlockDialogFragment {
 
 	public static final int RESULT_DELETE = Activity.RESULT_FIRST_USER;
 	static final int DELETE_CONFIRM = 0;
@@ -75,7 +75,7 @@ public abstract class DialogBasicFragment extends SherlockDialogFragment {
 	}
 	
 	private void showDeleteConfirmDialog() {
-		showDeleteConfirmDialog(getDeleteConfirmationTitle(), DialogBasicFragment.this, DELETE_CONFIRM, getFragmentManager());
+		showDeleteConfirmDialog(getDeleteConfirmationTitle(), DialogEditFragment.this, DELETE_CONFIRM, getFragmentManager());
 	}
 
 	public static void showDeleteConfirmDialog(String deleteWhat, Fragment targetFragment, int requestCode, FragmentManager fragmentManager) {

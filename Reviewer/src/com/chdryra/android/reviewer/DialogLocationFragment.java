@@ -21,7 +21,7 @@ import com.chdryra.android.mygenerallibrary.LocationClientConnector.Locatable;
 import com.chdryra.android.mygenerallibrary.LocationNameAdapter;
 import com.google.android.gms.maps.model.LatLng;
 
-public class DialogLocationFragment extends DialogBasicFragment implements Locatable{
+public class DialogLocationFragment extends DialogEditFragment implements Locatable{
 	public static final int RESULT_MAP = 4;
 	
 	private ControllerReviewNode mController;

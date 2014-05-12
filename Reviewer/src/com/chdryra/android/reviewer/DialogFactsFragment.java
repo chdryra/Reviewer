@@ -13,7 +13,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-public class DialogFactsFragment extends DialogBasicFragment {
+public class DialogFactsFragment extends DialogEditFragment {
 
 	public static final int RESULT_ADD = 4;
 	
