@@ -2,7 +2,6 @@ package com.chdryra.android.reviewer;
 
 import java.util.LinkedHashMap;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -40,6 +39,7 @@ public class FragmentReviewFacts extends FragmentReviewGrid {
 		super.onCreate(savedInstanceState);
 		mController = Controller.unpack(getActivity().getIntent().getExtras());
 		mFacts = mController.hasFacts()? mController.getFacts() :  new LinkedHashMap<String, String>();
+		setDeleteWhatTitle(getResources().getString(R.string.activity_title_facts));
 	}
 	
 	@Override
@@ -88,7 +88,7 @@ public class FragmentReviewFacts extends FragmentReviewGrid {
 	}
 	
 	private void showFactEditDialog(String label, String value) {
-		DialogFactFragment dialog = new DialogFactFragment();
+		DialogFactEditFragment dialog = new DialogFactEditFragment();
 		dialog.setTargetFragment(FragmentReviewFacts.this, DATUM_EDIT);
 		Bundle args = new Bundle();
 		args.putString(DATUM_LABEL, label);
@@ -119,29 +119,29 @@ public class FragmentReviewFacts extends FragmentReviewGrid {
 	protected void updateUI() {
 		((ReviewFactsAdaptor)mFactsListView.getAdapter()).notifyDataSetChanged();
 	}
-	
-	@Override
-	protected void sendResult(int resultCode) {		
-		if(resultCode == Activity.RESULT_OK && mFacts.size() > 0)
-			mController.setFacts(mFacts);
-			
-		super.sendResult(resultCode);
-	}
 
+	@Override
+	protected void onDoneSelected() {
+		if(mFacts.size() > 0)
+			mController.setFacts(mFacts);
+	
+		super.onDoneSelected();
+	}
+	
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		switch(requestCode) {
 			case DATUM_EDIT:
-				switch(resultCode) {
-					case Activity.RESULT_OK:
-						String oldLabel = (String)data.getSerializableExtra(DialogFactFragment.DATUM_OLD_LABEL);
+				switch(ActivityResultCode.get(requestCode)) {
+					case OK:
+						String oldLabel = (String)data.getSerializableExtra(DialogFactEditFragment.DATUM_OLD_LABEL);
 						String newLabel = (String)data.getSerializableExtra(DATUM_LABEL);
 						String newValue = (String)data.getSerializableExtra(DATUM_VALUE);
 						mFacts.remove(oldLabel);
 						mFacts.put(newLabel, newValue);
 						break;
-					case DialogFactFragment.RESULT_DELETE:
-						String toDelete = (String)data.getSerializableExtra(DialogFactFragment.DATUM_OLD_LABEL);
+					case DELETE:
+						String toDelete = (String)data.getSerializableExtra(DialogFactEditFragment.DATUM_OLD_LABEL);
 						mFacts.remove(toDelete);
 						break;
 					default:
@@ -158,20 +158,16 @@ public class FragmentReviewFacts extends FragmentReviewGrid {
 	}
 
 	@Override
-	protected void deleteData() {
+	protected void onDeleteSelected() {
 		mController.deleteFacts();
+		mFacts.clear();
 	}
 
 	@Override
-	protected boolean hasData() {
+	protected boolean hasDataToDelete() {
 		return mController.hasFacts();
 	}
 
-	@Override
-	protected String getDeleteConfirmationTitle() {
-		return getResources().getString(R.string.activity_title_facts);
-	}
-	
 	class ReviewFactsAdaptor extends BaseAdapter {	
 		private LinkedHashMap<String, String> mData;
 	

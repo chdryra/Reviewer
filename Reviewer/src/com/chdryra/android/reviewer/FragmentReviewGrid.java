@@ -1,5 +1,7 @@
 package com.chdryra.android.reviewer;
 
+import com.actionbarsherlock.view.MenuItem;
+
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
@@ -96,4 +98,10 @@ public enum CellDimension{FULL, HALF, QUARTER};
 		return mGridView;
 	}
 	
+	@Override
+		public boolean onOptionsItemSelected(MenuItem item) {
+			boolean ret = super.onOptionsItemSelected(item);
+			updateUI();
+			return ret;
+		}
 }

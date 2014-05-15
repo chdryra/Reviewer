@@ -46,7 +46,7 @@ public class FragmentReviewEdit extends SherlockFragment {
 	private final static String DIALOG_COMMENT_TAG = "CommentDialog";
 	private final static String DIALOG_IMAGE_TAG = "ImageDialog";
 	private final static String DIALOG_LOCATION_TAG = "LocationDialog";
-	private final static String DIALOG_DATA_TAG = "DataDialog";
+	//private final static String DIALOG_DATA_TAG = "DataDialog";
 	private final static String DIALOG_URL_TAG = "URLDialog";
 	private final static String DIALOG_CHILD_TAG = "ChildDialog";
 	private final static String DIALOG_FACTS_TAG = "FactsDialog";
@@ -107,7 +107,7 @@ public class FragmentReviewEdit extends SherlockFragment {
 		mChildrenController = mController.getChildrenController();
 		
 		if(mController.hasImage())
-			mHelperReviewImage = HelperReviewImage.getInstance(mController.getID());
+			mHelperReviewImage = HelperReviewImage.getInstance(mController);
 
 		mProTextColour = getResources().getColor(R.color.Chartreuse);
 		mConTextColour = getResources().getColor(R.color.Crimson);
@@ -289,10 +289,7 @@ public class FragmentReviewEdit extends SherlockFragment {
 		mAddCommentImageButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				if(mController.hasComment())
-					showCommentEditDialog();
-				else
-					showCommentAddDialog();
+				showCommentAddDialog();
 			}
 		});
 
@@ -330,7 +327,7 @@ public class FragmentReviewEdit extends SherlockFragment {
 			@Override
 			public void onClick(View v) {
 				if (mController.hasFacts())
-					showFactsEditDialog();					
+					requestFactsAddIntent();					
 				else
 					showFactsAddDialog();
 				
@@ -372,7 +369,7 @@ public class FragmentReviewEdit extends SherlockFragment {
 			@Override
 			public void onClick(View v) {
 				if (mController.hasProsCons())
-					showProsConsEditDialog();					
+					requestProsConsAddIntent();					
 				else
 					showProConAddDialog();
 			}
@@ -411,7 +408,7 @@ public class FragmentReviewEdit extends SherlockFragment {
 			@Override
 			public void onClick(View v) {
 				if (mController.hasProsCons())
-					showProsConsEditDialog();					
+					requestProsConsAddIntent();					
 				else
 					showProConAddDialog();
 			}
@@ -691,7 +688,7 @@ public class FragmentReviewEdit extends SherlockFragment {
 	
 	private void requestImageCaptureIntent() {
 		if(mHelperReviewImage == null)
-			mHelperReviewImage = HelperReviewImage.getInstance(mController.getID());
+			mHelperReviewImage = HelperReviewImage.getInstance(mController);
 		
 		//Set up image file
 		try {
@@ -737,14 +734,6 @@ public class FragmentReviewEdit extends SherlockFragment {
 		showDialog(new DialogCommentFragment(), COMMENT_EDIT, DIALOG_COMMENT_TAG);
 	}
 
-	private void showFactsEditDialog() {
-		showDialog(new DialogFactsFragment(), FACTS_EDIT, DIALOG_DATA_TAG);
-	}
-
-	private void showProsConsEditDialog() {
-		showDialog(new DialogProsConsFragment(), PROSCONS_EDIT, DIALOG_PROSCONS_TAG);
-	}
-
 	private void showURLEditDialog() {
 		showDialog(new DialogURLFragment(), URL_EDIT, DIALOG_URL_TAG);
 	}
@@ -754,7 +743,7 @@ public class FragmentReviewEdit extends SherlockFragment {
 	}
 
 	private void showCommentAddDialog() {
-		showDialog(new DialogCommentAddFragment(), COMMENT_REQUEST, DIALOG_COMMENT_TAG);
+		showDialog(new DialogCommentEditFragment(), COMMENT_REQUEST, DIALOG_COMMENT_TAG);
 	}
 
 	private void showFactsAddDialog() {
@@ -797,8 +786,10 @@ public class FragmentReviewEdit extends SherlockFragment {
 
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		if (requestCode != IMAGE_REQUEST && resultCode == Activity.RESULT_CANCELED)
-			return;
+		ActivityResultCode resCode = ActivityResultCode.get(resultCode);
+		if (requestCode != IMAGE_REQUEST)
+			if(resultCode == Activity.RESULT_CANCELED || resCode.equals(ActivityResultCode.CANCEL))
+				return;
 		
 		switch (requestCode) {
 			case IMAGE_REQUEST:
@@ -841,8 +832,8 @@ public class FragmentReviewEdit extends SherlockFragment {
 				break;
 			
 			case IMAGE_EDIT:
-				switch (resultCode) {
-					case Activity.RESULT_OK:
+				switch (resCode) {
+					case OK:
 						requestImageCaptureIntent();
 						break;
 					default:
@@ -861,14 +852,10 @@ public class FragmentReviewEdit extends SherlockFragment {
 				break;
 			
 			case LOCATION_EDIT:
-				switch (resultCode) {
-					case DialogLocationFragment.RESULT_MAP:
-						requestLocationFindIntent();
-						break;
-					default:
-						updateLocationDisplay();
-						break;
-				}
+				if(resCode.equals(DialogLocationFragment.RESULT_MAP))
+					requestLocationFindIntent();
+				else
+					updateLocationDisplay();
 				break;
 				
 			case COMMENT_REQUEST:
@@ -876,8 +863,8 @@ public class FragmentReviewEdit extends SherlockFragment {
 				break;
 				
 			case COMMENT_EDIT:
-				switch (resultCode) {
-					case Activity.RESULT_OK:
+				switch (resCode) {
+					case OK:
 						showCommentAddDialog();
 						break;
 					default:
@@ -891,11 +878,11 @@ public class FragmentReviewEdit extends SherlockFragment {
 				break;
 				
 			case FACTS_EDIT:
-				switch (resultCode) {
-					case Activity.RESULT_OK:
+				switch (resCode) {
+					case OK:
 						requestFactsAddIntent();
 						break;
-					case DialogFactsFragment.RESULT_ADD:
+					case ADD:
 						showFactsAddDialog();
 						break;
 					default:
@@ -909,11 +896,11 @@ public class FragmentReviewEdit extends SherlockFragment {
 				break;
 			
 			case PROSCONS_EDIT:
-				switch (resultCode) {
-					case Activity.RESULT_OK:
+				switch (resCode) {
+					case OK:
 						requestProsConsAddIntent();
 						break;
-					case DialogProsConsFragment.RESULT_ADD:
+					case ADD:
 						showProConAddDialog();
 						break;	
 					default:
@@ -927,14 +914,10 @@ public class FragmentReviewEdit extends SherlockFragment {
 				break;
 				
 			case URL_EDIT:
-				switch (resultCode) {
-				case DialogURLFragment.RESULT_BROWSE:
+				if(resCode.equals(DialogURLFragment.RESULT_BROWSE))
 					requestURIBrowserintent();
-					break;
-				default:
+				else
 					updateURLDisplay();
-					break;
-			}
 		}
 	}
 }

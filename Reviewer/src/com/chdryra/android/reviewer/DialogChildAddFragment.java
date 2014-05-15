@@ -2,23 +2,14 @@ package com.chdryra.android.reviewer;
 
 import java.util.ArrayList;
 
-import android.app.Activity;
-import android.app.Dialog;
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.KeyEvent;
 import android.view.View;
-import android.view.WindowManager;
-import android.view.inputmethod.EditorInfo;
-import android.widget.Button;
 import android.widget.RatingBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.actionbarsherlock.app.SherlockDialogFragment;
 import com.chdryra.android.myandroidwidgets.ClearableEditText;
 
-public class DialogChildAddFragment extends SherlockDialogFragment{
+public class DialogChildAddFragment extends DialogAddCancelDoneFragment{
 
 	private ControllerReviewNode mController;
 	private ControllerReviewNodeChildren mChildrenController;
@@ -34,58 +25,24 @@ public class DialogChildAddFragment extends SherlockDialogFragment{
 		mChildrenController = mController.getChildrenController();
 		for(String id : mChildrenController.getIDs())
 			mChildNames.add(mChildrenController.getTitle(id));
-	}
 	
-	@Override
-	public Dialog onCreateDialog(Bundle savedInstanceState) {	
-		final Dialog dialog = new Dialog(getSherlockActivity());
-		dialog.setContentView(R.layout.dialog_child_add);
-
-		mChildNameEditText = (ClearableEditText)dialog.findViewById(R.id.child_name_edit_text);
-		mChildRatingBar = (RatingBar)dialog.findViewById(R.id.child_rating_bar);
-		
-		final Button addButton = (Button)dialog.findViewById(R.id.button_left);
-		final Button cancelButton = (Button)dialog.findViewById(R.id.button_middle);
-		final Button doneButton = (Button)dialog.findViewById(R.id.button_right);
-		
-		mChildNameEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-	        @Override
-	        public boolean onEditorAction(TextView v, int actionId, KeyEvent event)
-	        {
-	            if(actionId == EditorInfo.IME_ACTION_GO)
-	            	addButton.performClick();
-	            return false;
-	        }
-	    });
-
-		cancelButton.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				sendResult(Activity.RESULT_CANCELED);
-			}
-		});
-		
-		addButton.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				addChild();
-			}
-		});
-		
-		doneButton.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				sendResult(Activity.RESULT_OK);
-			}
-		});
-		
-		dialog.setTitle(getResources().getString(R.string.dialog_add_criteria_title));
-		dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
-
-		return dialog;
+		setDialogTitle(getResources().getString(R.string.dialog_add_criteria_title));
 	}
 
-	private void addChild() {
+	@Override
+	protected View createDialogUI() {
+		View v = getActivity().getLayoutInflater().inflate(R.layout.dialog_child_add, null);
+
+		mChildNameEditText = (ClearableEditText)v.findViewById(R.id.child_name_edit_text);
+		mChildRatingBar = (RatingBar)v.findViewById(R.id.child_rating_bar);
+		
+		setKeyboardIMEDoAction(mChildNameEditText);
+		
+		return v;
+	}
+
+	@Override
+	protected void OnAddButtonClick() {
 		String childName = mChildNameEditText.getText().toString();
 		
 		if(childName == null || childName.length() == 0)
@@ -103,15 +60,9 @@ public class DialogChildAddFragment extends SherlockDialogFragment{
 		
 		getDialog().setTitle("Added " + childName);
 	}
-
-	private void sendResult(int resultCode) {
-		if (getTargetFragment() == null)
-			return;
-		
-		if(resultCode == Activity.RESULT_OK)
-			addChild();
-		
-		getTargetFragment().onActivityResult(getTargetRequestCode(), resultCode, new Intent());
-		dismiss();
+	
+	@Override
+	protected void onDoneButtonClick() {
+		OnAddButtonClick();
 	}
 }

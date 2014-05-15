@@ -22,9 +22,4 @@
         android:imeOptions="actionGo"
         android:inputType="textCapSentences" />
 
-    <include
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        layout="@layout/dialog_button_layout" />
-
 </LinearLayout>

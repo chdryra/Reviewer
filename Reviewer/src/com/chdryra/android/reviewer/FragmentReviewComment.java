@@ -1,6 +1,5 @@
 package com.chdryra.android.reviewer;
 
-import android.app.Activity;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.Editable;
@@ -33,6 +32,7 @@ public class FragmentReviewComment extends FragmentReviewGrid {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		mController = Controller.unpack(getActivity().getIntent().getExtras());
+		setDeleteWhatTitle(getResources().getString(R.string.activity_title_comment));
 	}
 	
 	@Override
@@ -120,20 +120,20 @@ public class FragmentReviewComment extends FragmentReviewGrid {
 	}
 	
 	@Override
-	protected void sendResult(int resultCode) {
-		if(resultCode == Activity.RESULT_OK)			
+	protected void sendResult(ActivityResultCode resultCode) {
+		if(resultCode.equals(ActivityResultCode.OK))			
 			mController.setComment(mCommentEditText.getText().toString());
 
 		super.sendResult(resultCode);
 	}
 	
 	@Override
-	protected void deleteData() {
+	protected void onDeleteSelected() {
 		mController.deleteComment();
 	}
 	
 	@Override
-	protected boolean hasData() {
+	protected boolean hasDataToDelete() {
 		return mController.hasComment();
 	}
 	
@@ -161,10 +161,5 @@ public class FragmentReviewComment extends FragmentReviewGrid {
 			default:
 				return super.onOptionsItemSelected(item);
 		}
-	}
-
-	@Override
-	protected String getDeleteConfirmationTitle() {
-		return getResources().getString(R.string.activity_title_comment);
 	}
 }

@@ -1,32 +1,24 @@
 package com.chdryra.android.reviewer;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.GridView;
-import android.widget.RatingBar;
-import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 
-public abstract class FragmentReviewBasic extends SherlockFragment{
+public class FragmentReviewBasic extends SherlockFragment {
 
-	public static final int RESULT_DELETE = Activity.RESULT_FIRST_USER;
-	private static final int DELETE_CONFIRM = DialogEditFragment.DELETE_CONFIRM;
-	private boolean mDeleteConfirmed = false;
+	private static final int DELETE_CONFIRM = 0;
 
-	protected abstract void deleteData();
-	protected abstract boolean hasData();
-	protected abstract String getDeleteConfirmationTitle();
-	
+	private boolean mDismissOnDone = true;
+	private boolean mDismissOnDelete = false;
+	private boolean mDeleteConfirmation = true;
+	private String mDeleteWhat;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -36,63 +28,110 @@ public abstract class FragmentReviewBasic extends SherlockFragment{
 	}
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		return super.onCreateView(inflater, container, savedInstanceState);		
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
+		return super.onCreateView(inflater, container, savedInstanceState);
 	}
-	
+
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-	    switch (requestCode) {
-	        case DELETE_CONFIRM:
-				if(resultCode == Activity.RESULT_OK) {
-					mDeleteConfirmed = true;
-					sendResult(RESULT_DELETE);
-				}
-				break;			
-			default:
-				break;
-		    }
+
+		switch (requestCode) {
+		case DELETE_CONFIRM:
+			if (ActivityResultCode.OK.equals(resultCode))
+				doDeleteSelected();
+			break;
+		default:
+			break;
+		}
+	}
+
+	protected void sendResult(ActivityResultCode resultCode) {
+		getActivity().setResult(resultCode.get());
+	}
+
+	protected void setDeleteWhatTitle(String deleteWhat) {
+		mDeleteWhat = deleteWhat;
+	}
+
+	protected void setDeleteConfirmation(boolean deleteConfirmation) {
+		mDeleteConfirmation = deleteConfirmation;
+	}
+
+	protected boolean hasDataToDelete() {
+		return false;
 	}
 	
-	protected void sendResult(int resultCode) {
-		if (resultCode == RESULT_DELETE && hasData()) {
-			if(mDeleteConfirmed)
-				deleteData();
-			else {
-				DialogEditFragment.showDeleteConfirmDialog(getDeleteConfirmationTitle(), FragmentReviewBasic.this, DELETE_CONFIRM, getFragmentManager());
-				return;
-			}
-		}
+	protected void onDeleteSelected() {
+	}
 
-		getActivity().setResult(resultCode);
-		getActivity().finish();	
+	protected void onDoneSelected() {
+	}
+
+	protected void onUpSelected() {
+	}
+
+	protected void setDismissOnDone(boolean dismiss) {
+		mDismissOnDone = dismiss;
+	}
+	
+	protected void setDismissOnDelete(boolean dismiss) {
+		mDismissOnDelete = dismiss;
 	}
 	
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-		super.onCreateOptionsMenu(menu, inflater);		
+		super.onCreateOptionsMenu(menu, inflater);
 		inflater.inflate(R.menu.menu_delete_done, menu);
 	}
-	
+
+	private void showDeleteConfirmDialog() {
+		DialogDeleteConfirmFragment.showDeleteConfirmDialog(mDeleteWhat,
+				FragmentReviewBasic.this, DELETE_CONFIRM, getFragmentManager());
+	}
+
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-			case android.R.id.home:
-				sendResult(Activity.RESULT_CANCELED);
-				return true;
-		
-			case R.id.menu_item_delete:
-				sendResult(RESULT_DELETE);
-				return true;
-			
-			case R.id.menu_item_done:
-				sendResult(Activity.RESULT_OK);
-				return true;
-				
-			default:
-				return super.onOptionsItemSelected(item);
-		}
-		
-	}
+		case android.R.id.home:
+			doUpSelected();
+			return true;
 
+		case R.id.menu_item_delete:
+			if (hasDataToDelete() && mDeleteConfirmation)
+				showDeleteConfirmDialog();
+			else
+				doDeleteSelected();
+			return true;
+
+		case R.id.menu_item_done:
+			doDoneSelected();
+			return true;
+
+		default:
+			return super.onOptionsItemSelected(item);
+		}
+	}
+	
+	private void doDeleteSelected() {
+		if (hasDataToDelete()) {
+			onDeleteSelected();
+			sendResult(ActivityResultCode.DELETE);
+			if(mDismissOnDelete)
+				getActivity().finish();
+		}
+	}
+	
+	private void doDoneSelected() {
+		onDoneSelected();
+		sendResult(ActivityResultCode.DONE);
+		if(mDismissOnDone)
+			getActivity().finish();
+	}
+	
+	private void doUpSelected() {
+		onUpSelected();
+		sendResult(ActivityResultCode.UP);
+		getActivity().finish();
+	}
 }

@@ -2,7 +2,6 @@ package com.chdryra.android.reviewer;
 
 import java.util.ArrayList;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -55,6 +54,8 @@ public class FragmentReviewProsCons extends FragmentReviewGrid {
 		mConTextColour = getResources().getColor(R.color.Crimson);
 		mProHint = getResources().getString(R.string.edit_text_pro_hint);
 		mConHint = getResources().getString(R.string.edit_text_con_hint);
+		
+		setDeleteWhatTitle(getResources().getString(R.string.activity_title_procon));
 	}
 	
 	@Override
@@ -165,13 +166,10 @@ public class FragmentReviewProsCons extends FragmentReviewGrid {
 	}
 
 	@Override
-	protected void sendResult(int resultCode) {
-		if(resultCode == Activity.RESULT_OK)
-				mController.setProsCons(mPros, mCons);
-
-		super.sendResult(resultCode);
+	protected void onDoneSelected() {
+		mController.setProsCons(mPros, mCons);
 	}
-
+	
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		getSherlockActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
@@ -192,14 +190,14 @@ public class FragmentReviewProsCons extends FragmentReviewGrid {
 	}
 
 	private void updateProCon(int resultCode, Intent data, ArrayList<String> proCons) {
-		switch(resultCode) {
-			case Activity.RESULT_OK:
+		switch(ActivityResultCode.get(resultCode)) {
+			case OK:
 				String oldPro = (String)data.getSerializableExtra(DialogProConFragment.PROCON_OLD);
 				String newPro = (String)data.getSerializableExtra(PROCON);
 				proCons.remove(oldPro);
 				proCons.add(newPro);
 				break;
-			case DialogFactFragment.RESULT_DELETE:
+			case DELETE:
 				String toDelete = (String)data.getSerializableExtra(DialogProConFragment.PROCON_OLD);
 				proCons.remove(toDelete);
 				break;
@@ -209,18 +207,15 @@ public class FragmentReviewProsCons extends FragmentReviewGrid {
 	}
 	
 	@Override
-	protected void deleteData() {
+	protected void onDeleteSelected() {
 		mController.deleteProsCons();
+		mPros.clear();
+		mCons.clear();
 	}
 
 	@Override
-	protected boolean hasData() {
+	protected boolean hasDataToDelete() {
 		return mController.hasProsCons();
-	}
-
-	@Override
-	protected String getDeleteConfirmationTitle() {
-		return getResources().getString(R.string.activity_title_procon);
 	}
 
 	class ReviewProConAdaptor extends BaseAdapter {	

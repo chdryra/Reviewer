@@ -34,6 +34,7 @@ public class FragmentReviewChildren extends FragmentReviewGrid {
 			mReviewTitles.add(mCollectionController.getTitle(id));
 		
 		mTotalRatingIsAverage = mController.isReviewRatingAverage();
+		setDeleteWhatTitle(getResources().getString(R.string.activity_title_children));
 	}
 	
 	@Override
@@ -128,14 +129,16 @@ public class FragmentReviewChildren extends FragmentReviewGrid {
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		switch (requestCode) {
 		case REVIEW_EDIT:
-			switch(resultCode) {
-			case DialogChildEditFragment.RESULT_DELETE:
+			switch(ActivityResultCode.get(resultCode)) {
+			case DELETE:
 				ControllerReviewNode childController = Controller.unpack(data.getExtras());
 				mController.removeChild(childController.getID());
-			}
-			if(mCollectionController.size() == 0)
-				setTotalRatingIsAverage(false);
+				if(mCollectionController.size() == 0)
+					setTotalRatingIsAverage(false);
 			break;
+			default:
+				break;
+			}
 			
 		default:
 			super.onActivityResult(requestCode, resultCode, data);
@@ -146,18 +149,13 @@ public class FragmentReviewChildren extends FragmentReviewGrid {
 	}
 
 	@Override
-	protected void deleteData() {
+	protected void onDeleteSelected() {
 		mCollectionController.removeAll();		
 		setTotalRatingIsAverage(false);
 	}
 
 	@Override
-	protected boolean hasData() {
+	protected boolean hasDataToDelete() {
 		return mCollectionController.size() > 0;
-	}
-	
-	@Override
-	protected String getDeleteConfirmationTitle() {
-		return getResources().getString(R.string.activity_title_children);
 	}
 }

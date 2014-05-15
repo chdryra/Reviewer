@@ -1,10 +1,6 @@
 package com.chdryra.android.reviewer;
 import com.chdryra.android.myandroidwidgets.ClearableEditText;
 
-import android.app.Activity;
-import android.app.Dialog;
-import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
@@ -12,26 +8,31 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class DialogImageFragment extends DialogEditFragment {
-		
-	public static final int CAPTION_CHANGED = 2;	
-	
+public class DialogImageFragment extends DialogDeleteCancelDoneFragment {
 	protected ControllerReviewNode mController;
 	protected ClearableEditText mImageCaption;
 	
 	@Override
-	public Dialog onCreateDialog(Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
 		mController = Controller.unpack(getArguments());
-		
+		setRightButtonAction(ActionType.EDIT);
+		setDismissDialogOnRightClick(true);
+		setDeleteConfirmation(true);
+		setDeleteWhatTitle(getResources().getString(R.string.activity_title_image));
+	}
+
+	@Override
+	protected View createDialogUI() {
 		View v = getActivity().getLayoutInflater().inflate(R.layout.dialog_image, null);
 		
 		ImageView imageView = (ImageView)v.findViewById(R.id.dialog_image_image_view);
-		imageView.setImageBitmap(getImageBitmap());
+		imageView.setImageBitmap(mController.getImageBitmap());
 		
-		String originalCaption = getImageCaption();
+		String originalCaption = mController.getImageCaption();
 		mImageCaption = (ClearableEditText)v.findViewById(R.id.dialog_image_caption_edit_text);
 		mImageCaption.setText(originalCaption);
-		mImageCaption.setHint(getCaptionHint());
+		mImageCaption.setHint(getResources().getString(R.string.edit_text_image_caption_hint));
 		
 		//For some reason setSelection(0) doesn't work unless I force set the span of the selection
 		if(originalCaption != null && originalCaption.length() > 0) {
@@ -44,60 +45,26 @@ public class DialogImageFragment extends DialogEditFragment {
 			public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
 	            if(event == null) {
 	            	if(actionId == EditorInfo.IME_ACTION_DONE) {
-	            		sendResult(CAPTION_CHANGED);
+	            		mController.setImageCaption(mImageCaption.getText().toString());
+	            		sendResult(ActivityResultCode.DONE);
+	            		dismiss();
 	            	}
 	            } 		            
 	            return false;
 			}
 		});
-		
-		return buildDialog(v);
-	}
 
-	@Override
-	protected void sendResult(int resultCode) {
-		if(getTargetFragment() == null || resultCode == Activity.RESULT_CANCELED || resultCode == RESULT_DELETE) {
-			super.sendResult(resultCode);
-			return;
-		}
+		return v;
+	}
 		
-		if(resultCode == CAPTION_CHANGED)
-			changeCaption();
-		
-		getTargetFragment().onActivityResult(getTargetRequestCode(), resultCode, new Intent());
-		
-		if(resultCode == CAPTION_CHANGED)
-			getDialog().dismiss();
-	}
-	
-	protected Bitmap getImageBitmap() {
-		return mController.getImageBitmap();
-	}
-
-	protected String getImageCaption() {
-		return mController.getImageCaption();
-	}
-	
-	protected String getCaptionHint() {
-		return getResources().getString(R.string.edit_text_image_caption_hint);
-	}
-	
-	protected void changeCaption() {
-		mController.setImageCaption(mImageCaption.getText().toString());
-	}
-	
 	@Override
-	protected String getDeleteConfirmationTitle() {
-		return getResources().getString(R.string.activity_title_image);
-	}
-	
-	@Override
-	protected void deleteData() {
+	protected void onDeleteButtonClick() {
 		mController.deleteImage();
+		super.onDeleteButtonClick();
 	}
 	
 	@Override
-	protected boolean hasData() {
+	protected boolean hasDataToDelete() {
 		return mController.hasImage();
 	}
 }

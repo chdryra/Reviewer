@@ -24,15 +24,15 @@ public class HelperReviewImage extends ImageHelper{
 	
 	private ControllerReviewNode mController;
 	
-	public static HelperReviewImage getInstance(String rDId) {
-		if(!sHelperReviewImages.containsKey(rDId))
-			sHelperReviewImages.put(rDId, new HelperReviewImage(rDId));
+	public static HelperReviewImage getInstance(ControllerReviewNode controller) {
+		if(!sHelperReviewImages.containsKey(controller.getID()))
+			sHelperReviewImages.put(controller.getID(), new HelperReviewImage(controller));
 
-		return sHelperReviewImages.get(rDId);
+		return sHelperReviewImages.get(controller.getID());
 	}
 
-	private HelperReviewImage(String rDId) {
-		mController = Controller.getControllerFor(rDId);
+	private HelperReviewImage(ControllerReviewNode controller) {
+		mController = controller;
 	}
 	
 	public void deleteImage() {

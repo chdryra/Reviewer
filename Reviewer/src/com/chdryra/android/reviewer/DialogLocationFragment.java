@@ -1,19 +1,11 @@
 package com.chdryra.android.reviewer;
 
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.KeyEvent;
 import android.view.View;
-import android.view.WindowManager;
-import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.chdryra.android.myandroidwidgets.ClearableEditText;
 import com.chdryra.android.mygenerallibrary.LocationClientConnector;
@@ -21,8 +13,8 @@ import com.chdryra.android.mygenerallibrary.LocationClientConnector.Locatable;
 import com.chdryra.android.mygenerallibrary.LocationNameAdapter;
 import com.google.android.gms.maps.model.LatLng;
 
-public class DialogLocationFragment extends DialogEditFragment implements Locatable{
-	public static final int RESULT_MAP = 4;
+public class DialogLocationFragment extends DialogDeleteCancelDoneFragment implements Locatable{
+	public static final ActivityResultCode RESULT_MAP = ActivityResultCode.OTHER;
 	
 	private ControllerReviewNode mController;
 	private ClearableEditText mNameEditText;
@@ -32,11 +24,22 @@ public class DialogLocationFragment extends DialogEditFragment implements Locata
 	private LocationNameAdapter mAdapter;
 	
 	@Override
-	public Dialog onCreateDialog(Bundle savedInstanceState) {		
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		mController = Controller.unpack(getArguments());
 		mLocationClient = new LocationClientConnector(getSherlockActivity(), this);
 		
-		mController = Controller.unpack(getArguments());
+		setMiddleButtonAction(ActionType.OTHER);
+		setMiddleButtonText(getResources().getString(R.string.button_map_text));
+		setDismissDialogOnMiddleClick(true);
 		
+		setDialogTitle(getResources().getString(R.string.dialog_location_title));
+		setDeleteConfirmation(true);
+		setDeleteWhatTitle(getResources().getString(R.string.dialog_location_title));
+	}
+	
+	@Override
+	protected View createDialogUI() {
 		View v = getActivity().getLayoutInflater().inflate(R.layout.dialog_location, null);
 		
 		mNameEditText = (ClearableEditText)v.findViewById(R.id.location_edit_text);
@@ -64,16 +67,7 @@ public class DialogLocationFragment extends DialogEditFragment implements Locata
 			public void afterTextChanged(Editable s) {}
 		});
 
-		mNameEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-	        @Override
-	        public boolean onEditorAction(TextView v, int actionId, KeyEvent event)
-	        {
-	            if(actionId == EditorInfo.IME_ACTION_DONE)
-	            	sendResult(Activity.RESULT_OK);	            	     
-	            
-	            return true;
-	        }
-	    });
+		setKeyboardIMEDoDone(mNameEditText);
 		
 		mLocationNameSuggestions = (ListView)v.findViewById(R.id.suggestions_list_view);
 		mLocationNameSuggestions.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -86,9 +80,7 @@ public class DialogLocationFragment extends DialogEditFragment implements Locata
 
 		setSuggestionsAdapter();
 
-		final AlertDialog dialog = buildDialog(v);
-		dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
-		return dialog;
+		return v;
 	}
 	
 	@Override
@@ -104,62 +96,22 @@ public class DialogLocationFragment extends DialogEditFragment implements Locata
 	}
 	
 	@Override
-	protected void sendResult(int resultCode) {
-		if( resultCode == Activity.RESULT_OK ) {
-			String locationName = mNameEditText.getText().toString();
-			if(mLatLng != null && locationName.length() > 0)
-				mController.setLocation(mLatLng, locationName);
-		}
-
-		super.sendResult(resultCode);
-		dismiss();
+	protected void onDoneButtonClick() {
+		String locationName = mNameEditText.getText().toString();
+		if(mLatLng != null && locationName.length() > 0)
+			mController.setLocation(mLatLng, locationName);
+		super.onDoneButtonClick();
 	}
-	
-	@Override
-	protected void deleteData() {
-		mController.deleteLocation();
-	}
-
-	@Override
-	protected boolean hasData() {
-		return mController.hasLocation();
-	}
-	
-	@Override
-	protected String getDeleteConfirmationTitle() {
-		return getResources().getString(R.string.dialog_location_title);
-	}
-	
-	@Override
-	protected AlertDialog buildDialog(View v, String title) {
-		AlertDialog dialog = new AlertDialog.Builder(getActivity()).
-				setView(v).
-				setPositiveButton(R.string.dialog_button_done_text, new DialogInterface.OnClickListener() {
-					
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						sendResult(Activity.RESULT_OK);
-					}
-				}).
-				setNeutralButton(R.string.dialog_button_map_text, new DialogInterface.OnClickListener() {
-					
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						sendResult(RESULT_MAP);
-					}
-				}).
-				setNegativeButton(R.string.dialog_button_delete_text, new DialogInterface.OnClickListener() {
-					
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						sendResult(RESULT_DELETE);
-					}
-				}).
-				create(); 
-		if(title != null)
-			dialog.setTitle(title);
 		
-		return dialog;
+	@Override
+	protected void onDeleteButtonClick() {
+		mController.deleteLocation();
+		super.onDeleteButtonClick();
+	}
+	
+	@Override
+	protected boolean hasDataToDelete() {
+		return mController.hasLocation();
 	}
 	
 	private void setSuggestionsAdapter() {
@@ -176,4 +128,5 @@ public class DialogLocationFragment extends DialogEditFragment implements Locata
 		mLatLng = latLng;
 		setSuggestionsAdapter();
 	}
+
 }

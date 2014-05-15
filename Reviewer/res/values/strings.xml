@@ -4,32 +4,28 @@
     <!-- App level -->
     <string name="app_name">Reviewer</string>
     <string name="action_settings">Settings</string>
-   
+
     <!-- Dialogs -->
-    <string name="dialog_criterion_title">Edit criterion</string>
-    <string name="dialog_choose_social">Share</string>
-    <string name="dialog_button_edit_text">edit</string>
-    <string name="dialog_button_delete_text">delete</string>
-    <string name="dialog_button_yes_text">yes</string>
-    <string name="dialog_button_cancel_text">cancel</string>
-    <string name="dialog_image_content_description">Review image</string>
-    <string name="dialog_date_title">Date</string>
+    <string name="dialog_add_criteria_title">Add Criterion</string>
+    <string name="dialog_edit_criterion_title">Edit criterion</string>
+    <string name="dialog_edit_criteria_title">Edit Criteria</string>
+    <string name="dialog_delete_criteria_title">Criteria</string>
+    <string name="dialog_delete_criterion_title">Criterion</string>
     <string name="dialog_URL_title">Link</string>
     <string name="dialog_location_title">Location</string>
-    <string name="dialog_delete_criteria_title">Criteria</string>
+	<string name="dialog_add_tag_title">Add Tags</string>
+	<string name="dialog_edit_tag_title">Edit Tag</string>
     <string name="dialog_delete_tags_title">Tags</string>
+    <string name="dialog_delete_tag_title">Tag</string>
     <string name="dialog_edit_comment_title">Edit comment</string>
-    <string name="dialog_add_criteria_title">Add Criterion</string>
-    <string name="dialog_edit_criteria_title">Edit Criterion</string>
+    <string name="dialog_choose_social">Share</string>
+    <string name="dialog_image_content_description">Review image</string>
     <string name="dialog_add_fact_title">Add Fact</string>
+    <string name="dialog_delete_fact_title">Fact</string>
     <string name="dialog_add_procon_title">Add Pros and Cons</string>
-    <string name="dialog_add_tag_title">Add Tags</string>
-    <string name="dialog_edit_tag_title">Edit Tag</string>
-    <string name="dialog_button_done_text">done</string>
-    <string name="dialog_button_add_text">add</string>
-    <string name="dialog_button_browse_text">WWW</string>
-    <string name="dialog_button_map_text">map</string>
-    
+    <string name="dialog_edit_procon_title">Edit Pros and Cons</string>
+    <string name="dialog_delete_procon_title">Pro/Con</string>
+
     <!-- Activities -->
     <string name="activity_title_location">location</string>
     <string name="activity_title_url">link</string>
@@ -49,7 +45,7 @@
     <string name="text_view_date_hint">date</string>
     <string name="text_view_facts_hint">facts</string>
     <string name="text_view_number_children">(%1$d)</string>
-    
+
     <!-- EditTexts -->
     <string name="edit_text_subject_hint">subject</string>
     <string name="edit_text_add_criterion_hint">criterion name&#8230;</string>
@@ -67,25 +63,29 @@
     <string name="edit_text_pro_hint">pro&#8230;</string>
     <string name="edit_text_con_hint">con&#8230;</string>
     <string name="edit_text_add_tag_hint">add tag&#8230;</string>
-    
-    <!--  SearchViews -->
+
+    <!-- SearchViews -->
     <string name="search_view_location_hint">search for location&#8230;</string>
 
     <!-- ProgressDialogs -->
     <string name="progress_bar_search_location_title">searching&#8230;</string>
     <string name="progress_bar_search_location_message">please wait&#8230;</string>
-    
+
     <!-- Buttons -->
     <string name="button_done_text">done</string>
     <string name="button_delete_text">delete</string>
     <string name="button_cancel_text">cancel</string>
-    <string name="button_add_criterion_text">add</string>
+    <string name="button_add_text">add</string>
     <string name="button_edit_text">edit</string>
     <string name="button_clear_text">clear</string>
+    <string name="button_ok_text">ok</string>
     <string name="button_tags_text">tags</string>
+    <string name="button_browse_text">WWW</string>
+    <string name="button_map_text">map</string>
+    <string name="button_yes_text">yes</string>
     <string name="button_add_tag">add tag</string>
     <string name="button_add_criteria">add criteria</string>
-    
+
     <!-- Image Buttons -->
     <string name="button_add_image_cd">add image</string>
     <string name="button_add_comment_cd">add comment</string>
@@ -98,7 +98,7 @@
     <!-- Checkboxes -->
     <string name="checkbox_add_criteria_comments">add criteria comments</string>
     <string name="checkbox_include_date">include date</string>
-    
+
     <!-- Menus -->
     <string name="menu_next">next</string>
     <string name="menu_done">done</string>
@@ -111,7 +111,7 @@
     <string name="menu_item_search">search for location</string>
     <string name="menu_criteria_comments">criteria comments</string>
     <string name="menu_clear_comment">clear comment</string>
-    
+
     <!-- Toasts -->
     <string name="toast_enter_subject">Please enter a subject&#8230;</string>
     <string name="toast_enter_criterion">Please enter a criterion name&#8230;</string>
@@ -122,7 +122,7 @@
     <string name="toast_no_image_gps_tag">No image GPS tag&#8230;</string>
     <string name="toast_enter_procon">Please enter a pro or con&#8230;</string>
     <string name="toast_enter_tag">Please enter at least one tag&#8230;</string>
-    
+
     <!-- Social -->
     <string name="facebook">facebook</string>
     <string name="twitter">twitter</string>
@@ -130,8 +130,8 @@
     <string name="tumblr">tumblr</string>
     <string name="flickr">flickr</string>
     <string name="foursquare">foursquare</string>
-    
+
     <!-- URLs -->
     <string name="google_search">http://www.google.com</string>
-    
+
 </resources>

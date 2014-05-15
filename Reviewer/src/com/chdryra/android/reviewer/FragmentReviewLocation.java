@@ -1,6 +1,5 @@
 package com.chdryra.android.reviewer;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -69,6 +68,8 @@ public class FragmentReviewLocation extends FragmentReviewBasic implements Locat
 	    } catch (GooglePlayServicesNotAvailableException e) {
 	        Log.e("Test", "Have GoogleMap but then error", e);
 	    }
+	    
+	    setDeleteWhatTitle(getResources().getString(R.string.activity_title_location));
 	}
 	
 	@Override
@@ -186,14 +187,12 @@ public class FragmentReviewLocation extends FragmentReviewBasic implements Locat
 	}
 	
 	@Override
-	protected void sendResult(int resultCode) {
-		if(resultCode == Activity.RESULT_OK) {
-			String name = mLocationName.getText().toString();
-			if(name.length() > 0)
-				mController.setLocation(mLatLng, name);
-		}
-		
-		super.sendResult(resultCode);
+	protected void onDoneSelected() {
+		String name = mLocationName.getText().toString();
+		if(name.length() > 0)
+			mController.setLocation(mLatLng, name);
+
+		super.onDoneSelected();
 	}
 	
 	@Override
@@ -378,18 +377,13 @@ public class FragmentReviewLocation extends FragmentReviewBasic implements Locat
 	}
 
 	@Override
-	protected void deleteData() {
+	protected void onDeleteSelected() {
 		mController.deleteLocation();
 	}
 
 	@Override
-	protected boolean hasData() {
+	protected boolean hasDataToDelete() {
 		return mController.hasLocation();
-	}
-
-	@Override
-	protected String getDeleteConfirmationTitle() {
-		return getResources().getString(R.string.activity_title_location);
 	}
 
 //	import android.widget.RatingBar;

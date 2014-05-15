@@ -1,22 +1,14 @@
 package com.chdryra.android.reviewer;
 
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
-import android.view.WindowManager;
-import android.view.inputmethod.EditorInfo;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.chdryra.android.myandroidwidgets.ClearableEditText;
 
-public class DialogURLFragment extends DialogEditFragment {
-	public static final int RESULT_BROWSE = 4;
+public class DialogURLFragment extends DialogDeleteCancelDoneFragment {
+	public static final ActivityResultCode RESULT_BROWSE = ActivityResultCode.OTHER;
 	
 	private static final String TAG = "DialogURLFragment";
 	
@@ -24,37 +16,36 @@ public class DialogURLFragment extends DialogEditFragment {
 	private ClearableEditText mURLEditText;
 	
 	@Override
-	public Dialog onCreateDialog(Bundle savedInstanceState) {		
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
 		mController = Controller.unpack(getArguments());
 		
+		setMiddleButtonAction(ActionType.OTHER);
+		setMiddleButtonText(getResources().getString(R.string.button_browse_text));
+		setDismissDialogOnMiddleClick(true);
+
+		setDialogTitle(getResources().getString(R.string.dialog_URL_title));
+		setDeleteConfirmation(true);
+		setDeleteWhatTitle(getResources().getString(R.string.dialog_URL_title));
+	}
+	
+	@Override
+	protected View createDialogUI() {
 		View v = getActivity().getLayoutInflater().inflate(R.layout.dialog_url, null);
 		
 		mURLEditText = (ClearableEditText)v.findViewById(R.id.url_edit_text);
 		if(mController.hasURL())
 			mURLEditText.setText(mController.getURLString());
 	
-		final AlertDialog dialog = buildDialog(v);
+		setKeyboardIMEDoDone(mURLEditText);
 		
-		mURLEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-	        @Override
-	        public boolean onEditorAction(TextView v, int actionId, KeyEvent event)
-	        {
-	            if(actionId == EditorInfo.IME_ACTION_DONE)
-	            	sendResult(Activity.RESULT_OK);	            	     
-	            
-	            return true;
-	        }
-	    });
-
-		dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
-		return dialog;
-
+		return v;
 	}
 	
 	@Override
-	protected void sendResult(int resultCode) {
+	protected void onDoneButtonClick() {
 		String urlText = mURLEditText.getText().toString();
-		if( resultCode == Activity.RESULT_OK && urlText.length() > 0) {			
+		if(urlText.length() > 0) {			
 			try {
 				mController.setURL(urlText);
 			} catch (Exception e) {
@@ -63,55 +54,16 @@ public class DialogURLFragment extends DialogEditFragment {
 				return;
 			}
 		}
-
-		super.sendResult(resultCode);
-		dismiss();
+		super.onDoneButtonClick();
 	}
-	
+		
 	@Override
-	protected void deleteData() {
+	protected void onDeleteButtonClick() {
 		mController.deleteURL();
 	}
 	
 	@Override
-	protected boolean hasData() {
+	protected boolean hasDataToDelete() {
 		return mController.hasURL();
-	}
-	
-	@Override
-	protected String getDeleteConfirmationTitle() {
-		return getResources().getString(R.string.dialog_URL_title);
-	}
-	
-	@Override
-	protected AlertDialog buildDialog(View v, String title) {
-		AlertDialog dialog = new AlertDialog.Builder(getActivity()).
-				setView(v).
-				setPositiveButton(R.string.dialog_button_done_text, new DialogInterface.OnClickListener() {
-					
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						sendResult(Activity.RESULT_OK);
-					}
-				}).
-				setNeutralButton(R.string.dialog_button_browse_text, new DialogInterface.OnClickListener() {
-					
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						sendResult(RESULT_BROWSE);
-					}
-				}).
-				setNegativeButton(R.string.dialog_button_delete_text, new DialogInterface.OnClickListener() {
-					
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						sendResult(RESULT_DELETE);
-					}
-				}).
-				create(); 
-		if(title != null)
-			dialog.setTitle(title);
-		
-		return dialog;
 	}
 }

@@ -21,11 +21,6 @@
 	    android:hint="@string/edit_text_fact_value_hint"
 	    android:inputType="textCapSentences"
 	    android:imeOptions="actionGo" />
-
-     <include 
-         android:layout_width="match_parent"
-         android:layout_height="wrap_content"
-         layout="@layout/dialog_button_layout" />
             
         
 </LinearLayout>

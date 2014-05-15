@@ -3,7 +3,6 @@ package com.chdryra.android.reviewer;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -23,7 +22,7 @@ import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.chdryra.android.myandroidwidgets.ClearableEditText;
 
-public class FragmentReviewURL extends FragmentReviewGrid {
+public class FragmentReviewURL extends FragmentReviewBasic {
 
 	private ControllerReviewNode mController;
 	private ClearableEditText mURLEditText;
@@ -33,6 +32,7 @@ public class FragmentReviewURL extends FragmentReviewGrid {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		mController = Controller.unpack(getActivity().getIntent().getExtras());
+		setDeleteWhatTitle(getResources().getString(R.string.activity_title_url));
 	}
 	
 	@Override
@@ -65,7 +65,7 @@ public class FragmentReviewURL extends FragmentReviewGrid {
                         {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                sendResult(Activity.RESULT_CANCELED);    
+                                onUpSelected();    
                             }
 
                         })
@@ -99,13 +99,14 @@ public class FragmentReviewURL extends FragmentReviewGrid {
     	
 	    return v;
 	}
-
+	
 	private void loadURL() {
 		String urlString = URLUtil.guessUrl(mURLEditText.getText().toString()); 		
 		mWebView.loadUrl(urlString);
 	}
 	
-	private void setURL() {
+	@Override
+	protected void onDoneSelected() {
 		String url = mWebView.getUrl();
 		try {
 			mController.setURL(url);
@@ -116,14 +117,8 @@ public class FragmentReviewURL extends FragmentReviewGrid {
 			Toast.makeText(getSherlockActivity(), getResources().getString(R.string.toast_bad_url), Toast.LENGTH_SHORT).show();
 			e.printStackTrace();
 		}
-	}
-	
-	@Override
-	protected void sendResult(int resultCode) {
-		if(resultCode == Activity.RESULT_OK)
-			setURL();
 		
-		super.sendResult(resultCode);
+		super.onDoneSelected();
 	}
 	
 	@Override
@@ -153,29 +148,12 @@ public class FragmentReviewURL extends FragmentReviewGrid {
 	}
 
 	@Override
-	protected void deleteData() {
+	protected void onDeleteSelected() {
 		mController.deleteURL();
 	}
 
 	@Override
-	protected boolean hasData() {
+	protected boolean hasDataToDelete() {
 		return mController.hasURL();
-	}
-
-	@Override
-	protected String getDeleteConfirmationTitle() {
-		return getResources().getString(R.string.activity_title_url);
-	}
-
-	@Override
-	protected void initUI() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	protected void updateUI() {
-		// TODO Auto-generated method stub
-		
 	}
 }

@@ -3,31 +3,18 @@ package com.chdryra.android.reviewer;
 import java.util.ArrayList;
 import java.util.Collections;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.DisplayMetrics;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.BaseAdapter;
-import android.widget.Button;
-import android.widget.GridView;
 import android.widget.RatingBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockDialogFragment;
-import com.actionbarsherlock.app.SherlockFragment;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuInflater;
-import com.actionbarsherlock.view.MenuItem;
-import com.chdryra.android.myandroidwidgets.ClearableEditText;
 
 public class FragmentReviewCreate  extends FragmentReviewGrid {
 	public final static String TAG_EDIT_STRING = "com.chdryra.android.reviewer.tag_edit_string";
@@ -46,6 +33,9 @@ public class FragmentReviewCreate  extends FragmentReviewGrid {
 		mController = Controller.unpack(getActivity().getIntent().getExtras());
 		if(mController == null)
 			mController = Controller.addNewReviewInProgress();
+		
+		setDismissOnDone(false);
+		setDeleteWhatTitle(getResources().getString(R.string.dialog_delete_tags_title));
 	}
 	
 	@Override
@@ -145,47 +135,39 @@ public class FragmentReviewCreate  extends FragmentReviewGrid {
 	}
 
 	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-		case R.id.menu_item_done:
-			if(mController.getTags().size() == 0) {
-				Toast.makeText(getActivity(), R.string.toast_enter_tag, Toast.LENGTH_SHORT).show();
-				return true;
-			}
-			Intent i = new Intent(getActivity(), ActivityReviewEdit.class);
-			Controller.pack(mController, i);
-			startActivity(i);
-			return true;
-		case android.R.id.home:
-			if (NavUtils.getParentActivityName(getSherlockActivity()) != null) {
-				Intent j = NavUtils.getParentActivityIntent(getSherlockActivity());
-				NavUtils.navigateUpTo(getActivity(), j);
-			}
-			return true;
-		default:
-			return super.onOptionsItemSelected(item);
+	protected void onUpSelected() {
+		if (NavUtils.getParentActivityName(getSherlockActivity()) != null) {
+			Intent j = NavUtils.getParentActivityIntent(getSherlockActivity());
+			NavUtils.navigateUpTo(getActivity(), j);
 		}
-	}
 
-	@Override
-	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		super.onActivityResult(requestCode, resultCode, data);
-		updateTagsUI();
+		super.onUpSelected();
 	}
 	
 	@Override
-	protected void deleteData() {
+	protected void onDoneSelected() {
+		if(mController.getTags().size() == 0) {
+			Toast.makeText(getActivity(), R.string.toast_enter_tag, Toast.LENGTH_SHORT).show();
+			return;
+		}
+		
+		Intent i = new Intent(getActivity(), ActivityReviewEdit.class);
+		Controller.pack(mController, i);
+		startActivity(i);
+	}
+	
+	@Override
+	protected void onDeleteSelected() {
 		mController.removeTags();
 	}
 
 	@Override
-	protected boolean hasData() {
+	protected boolean hasDataToDelete() {
 		return mController.hasTags();
 	}
-
+	
 	@Override
-	protected String getDeleteConfirmationTitle() {
-		return getResources().getString(R.string.dialog_delete_tags_title);
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		updateUI();
 	}
-
 }
