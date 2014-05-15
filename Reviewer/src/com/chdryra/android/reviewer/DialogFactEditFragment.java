@@ -1,6 +1,7 @@
 package com.chdryra.android.reviewer;
 
 import com.chdryra.android.myandroidwidgets.ClearableEditText;
+import com.chdryra.android.mygenerallibrary.DialogDeleteCancelDoneFragment;
 
 import android.content.Intent;
 import android.os.Bundle;

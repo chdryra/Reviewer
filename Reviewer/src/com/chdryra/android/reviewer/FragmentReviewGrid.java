@@ -1,7 +1,9 @@
 package com.chdryra.android.reviewer;
 
 import com.actionbarsherlock.view.MenuItem;
+import com.chdryra.android.mygenerallibrary.FragmentDeleteDone;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
@@ -12,7 +14,7 @@ import android.widget.GridView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
-public abstract class FragmentReviewGrid extends FragmentReviewBasic{
+public abstract class FragmentReviewGrid extends FragmentDeleteDone{
 
 public enum CellDimension{FULL, HALF, QUARTER}; 
 	
@@ -99,9 +101,15 @@ public enum CellDimension{FULL, HALF, QUARTER};
 	}
 	
 	@Override
-		public boolean onOptionsItemSelected(MenuItem item) {
-			boolean ret = super.onOptionsItemSelected(item);
-			updateUI();
-			return ret;
-		}
+	public boolean onOptionsItemSelected(MenuItem item) {
+		boolean ret = super.onOptionsItemSelected(item);
+		updateUI();
+		return ret;
+	}
+	
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		updateUI();
+	}
 }

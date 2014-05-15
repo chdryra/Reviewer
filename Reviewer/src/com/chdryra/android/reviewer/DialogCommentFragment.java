@@ -1,5 +1,7 @@
 package com.chdryra.android.reviewer;
 
+import com.chdryra.android.mygenerallibrary.DialogDeleteCancelDoneFragment;
+
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;

@@ -21,6 +21,7 @@ import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.chdryra.android.myandroidwidgets.ClearableAutoCompleteTextView;
 import com.chdryra.android.mygenerallibrary.ArrayAdapterSearchView;
+import com.chdryra.android.mygenerallibrary.FragmentDeleteDone;
 import com.chdryra.android.mygenerallibrary.LocationClientConnector;
 import com.chdryra.android.mygenerallibrary.LocationNameAdapter;
 import com.chdryra.android.remoteapifetchers.FetcherPlacesAPI;
@@ -34,7 +35,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-public class FragmentReviewLocation extends FragmentReviewBasic implements LocationClientConnector.Locatable {
+public class FragmentReviewLocation extends FragmentDeleteDone implements LocationClientConnector.Locatable {
 
 	private static final int DEFAULT_ZOOM = 15;
 	private static final int NUMBER_DEFAULT_NAMES= 5;

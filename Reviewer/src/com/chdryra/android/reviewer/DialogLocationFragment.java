@@ -8,6 +8,8 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.chdryra.android.myandroidwidgets.ClearableEditText;
+import com.chdryra.android.mygenerallibrary.ActivityResultCode;
+import com.chdryra.android.mygenerallibrary.DialogDeleteCancelDoneFragment;
 import com.chdryra.android.mygenerallibrary.LocationClientConnector;
 import com.chdryra.android.mygenerallibrary.LocationClientConnector.Locatable;
 import com.chdryra.android.mygenerallibrary.LocationNameAdapter;

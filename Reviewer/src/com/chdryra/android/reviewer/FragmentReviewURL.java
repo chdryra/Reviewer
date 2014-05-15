@@ -21,8 +21,9 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.chdryra.android.myandroidwidgets.ClearableEditText;
+import com.chdryra.android.mygenerallibrary.FragmentDeleteDone;
 
-public class FragmentReviewURL extends FragmentReviewBasic {
+public class FragmentReviewURL extends FragmentDeleteDone {
 
 	private ControllerReviewNode mController;
 	private ClearableEditText mURLEditText;

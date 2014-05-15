@@ -18,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.chdryra.android.myandroidwidgets.ClearableEditText;
+import com.chdryra.android.mygenerallibrary.ActivityResultCode;
 
 public class FragmentReviewProsCons extends FragmentReviewGrid {
 	public static final String PROCON = "com.chdryra.android.reviewer.pro_con";

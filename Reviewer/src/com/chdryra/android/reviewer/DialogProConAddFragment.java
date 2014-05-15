@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.chdryra.android.myandroidwidgets.ClearableEditText;
+import com.chdryra.android.mygenerallibrary.DialogAddCancelDoneFragment;
 
 public class DialogProConAddFragment extends DialogAddCancelDoneFragment{
 

@@ -14,6 +14,7 @@ import android.widget.EditText;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
+import com.chdryra.android.mygenerallibrary.ActivityResultCode;
 
 public class FragmentReviewComment extends FragmentReviewGrid {
 	

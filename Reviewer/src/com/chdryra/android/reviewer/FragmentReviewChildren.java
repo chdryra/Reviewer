@@ -10,6 +10,8 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockDialogFragment;
+import com.chdryra.android.mygenerallibrary.ActivityResultCode;
+import com.chdryra.android.mygenerallibrary.GridViewCellAdapter;
 
 public class FragmentReviewChildren extends FragmentReviewGrid {
 	private static final String DIALOG_CHILD_TAG = "ChildDialog";

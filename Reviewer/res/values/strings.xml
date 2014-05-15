@@ -79,10 +79,10 @@
     <string name="button_edit_text">edit</string>
     <string name="button_clear_text">clear</string>
     <string name="button_ok_text">ok</string>
+    <string name="button_yes_text">yes</string>
     <string name="button_tags_text">tags</string>
     <string name="button_browse_text">WWW</string>
     <string name="button_map_text">map</string>
-    <string name="button_yes_text">yes</string>
     <string name="button_add_tag">add tag</string>
     <string name="button_add_criteria">add criteria</string>
 

@@ -5,6 +5,7 @@ import android.view.View;
 import android.widget.RatingBar;
 
 import com.chdryra.android.myandroidwidgets.ClearableEditText;
+import com.chdryra.android.mygenerallibrary.DialogDeleteCancelDoneFragment;
 
 public class DialogChildEditFragment extends DialogDeleteCancelDoneFragment{
 	public static final String CHILD_ID = "com.chdryra.android.reviewer.child_id";

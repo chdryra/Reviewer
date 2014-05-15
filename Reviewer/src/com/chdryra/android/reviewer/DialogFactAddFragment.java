@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.chdryra.android.myandroidwidgets.ClearableEditText;
+import com.chdryra.android.mygenerallibrary.DialogAddCancelDoneFragment;
 
 public class DialogFactAddFragment extends DialogAddCancelDoneFragment{
 

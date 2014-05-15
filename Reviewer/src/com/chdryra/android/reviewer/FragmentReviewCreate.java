@@ -15,6 +15,8 @@ import android.widget.RatingBar;
 import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockDialogFragment;
+import com.chdryra.android.mygenerallibrary.GVDStrings;
+import com.chdryra.android.mygenerallibrary.GridViewCellAdapter;
 
 public class FragmentReviewCreate  extends FragmentReviewGrid {
 	public final static String TAG_EDIT_STRING = "com.chdryra.android.reviewer.tag_edit_string";
@@ -164,10 +166,5 @@ public class FragmentReviewCreate  extends FragmentReviewGrid {
 	@Override
 	protected boolean hasDataToDelete() {
 		return mController.hasTags();
-	}
-	
-	@Override
-	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		updateUI();
 	}
 }

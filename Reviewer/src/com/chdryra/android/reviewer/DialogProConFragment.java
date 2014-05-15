@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.view.View;
 
 import com.chdryra.android.myandroidwidgets.ClearableEditText;
+import com.chdryra.android.mygenerallibrary.DialogDeleteCancelDoneFragment;
 
 public class DialogProConFragment extends DialogDeleteCancelDoneFragment {
 	public static final String PROCON_OLD = "com.chdryra.android.reviewer.procon_old";

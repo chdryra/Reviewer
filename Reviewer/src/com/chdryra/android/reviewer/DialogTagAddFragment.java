@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.chdryra.android.myandroidwidgets.ClearableAutoCompleteTextView;
+import com.chdryra.android.mygenerallibrary.DialogAddCancelDoneFragment;
 
 public class DialogTagAddFragment extends DialogAddCancelDoneFragment{
 	private ControllerReviewNode mController;

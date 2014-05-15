@@ -6,6 +6,8 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.chdryra.android.myandroidwidgets.ClearableEditText;
+import com.chdryra.android.mygenerallibrary.ActivityResultCode;
+import com.chdryra.android.mygenerallibrary.DialogDeleteCancelDoneFragment;
 
 public class DialogURLFragment extends DialogDeleteCancelDoneFragment {
 	public static final ActivityResultCode RESULT_BROWSE = ActivityResultCode.OTHER;
