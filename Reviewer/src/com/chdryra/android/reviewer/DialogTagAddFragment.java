@@ -1,23 +1,22 @@
 package com.chdryra.android.reviewer;
 
-import java.util.ArrayList;
-
 import android.os.Bundle;
 import android.view.View;
 
 import com.chdryra.android.myandroidwidgets.ClearableAutoCompleteTextView;
 import com.chdryra.android.mygenerallibrary.DialogAddCancelDoneFragment;
+import com.chdryra.android.mygenerallibrary.GVStrings;
 
 public class DialogTagAddFragment extends DialogAddCancelDoneFragment{
 	private ControllerReviewNode mController;
-	private ArrayList<String> mTags;	
+	private GVStrings mTags;	
 	private ClearableAutoCompleteTextView mTagEditText;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		mController = Controller.unpack(getArguments());
-		mTags = mController.hasTags()? mController.getTags() : new ArrayList<String>();
+		mTags = mController.getTags();
 		setDialogTitle(getResources().getString(R.string.dialog_add_tag_title));
 	}
 	

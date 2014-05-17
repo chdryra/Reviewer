@@ -3,9 +3,7 @@ package com.chdryra.android.reviewer;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map.Entry;
 
 import android.app.Activity;
 import android.content.ComponentName;
@@ -40,6 +38,7 @@ import com.chdryra.android.myandroidwidgets.ClearableEditText;
 import com.chdryra.android.mygenerallibrary.ActivityResultCode;
 import com.chdryra.android.mygenerallibrary.ImageHelper;
 import com.chdryra.android.mygenerallibrary.RandomTextUtils;
+import com.chdryra.android.reviewer.GVFacts.GVFact;
 
 public class FragmentReviewEdit extends SherlockFragment {
 	private final static String TAG = "ReviewerFinishFragment";
@@ -602,16 +601,16 @@ public class FragmentReviewEdit extends SherlockFragment {
 		mFactsLinearLayout.removeAllViews();
 		setVisibleGoneView(mFactsLinearLayout, mAddFactsImageButton);
 		int i = 0;
-		LinkedHashMap<String, String> factMap = mController.getFacts();
-		for(Entry<String, String> entry : factMap.entrySet()) {
+		GVFacts facts = mController.getFacts();
+		for(GVFact fact : facts) {
 			FrameLayout labelRow = (FrameLayout)getSherlockActivity().getLayoutInflater().inflate(R.layout.facts_table_label_row, null);
 			FrameLayout valueRow = (FrameLayout)getSherlockActivity().getLayoutInflater().inflate(R.layout.facts_table_value_row, null);
 			
 			TextView label = (TextView)labelRow.findViewById(R.id.data_table_label_text_view);
 			TextView value = (TextView)valueRow.findViewById(R.id.data_table_value_text_view);			
 			
-			label.setText(entry.getKey());
-			value.setText(entry.getValue());
+			label.setText(fact.getLabel());
+			value.setText(fact.getValue());
 			
 			mFactsLinearLayout.addView(labelRow);
 			mFactsLinearLayout.addView(valueRow);
@@ -792,6 +791,8 @@ public class FragmentReviewEdit extends SherlockFragment {
 			if(resultCode == Activity.RESULT_CANCELED || resCode.equals(ActivityResultCode.CANCEL))
 				return;
 		
+		updateSubjectText();
+		updateRatingBar();
 		switch (requestCode) {
 			case IMAGE_REQUEST:
 				switch (resultCode) {

@@ -4,12 +4,13 @@ import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
-import java.util.LinkedHashMap;
-import java.util.Map.Entry;
 
 import android.graphics.Bitmap;
 
+import com.chdryra.android.mygenerallibrary.GVStrings;
+import com.chdryra.android.reviewer.GVFacts.GVFact;
 import com.chdryra.android.reviewer.ReviewTagsManager.ReviewTag;
 import com.google.android.gms.maps.model.LatLng;
 
@@ -140,16 +141,13 @@ public class ControllerReviewNode{
 		getReview().deleteFacts();
 	}
 	
-	public LinkedHashMap<String, String> getFacts() {
-		LinkedHashMap<String, String> factsMap = new LinkedHashMap<String, String>();
-		if(!hasFacts())
-			return factsMap;
-		
+	public GVFacts getFacts() {
+		GVFacts gvFacts = new GVFacts();
 		RDFacts facts = getReview().getFacts();
 		for(RDFact fact : facts)
-			factsMap.put(fact.getLabel(), fact.getValue());
+			gvFacts.add(fact.getLabel(), fact.getValue());
 		
-		return factsMap;
+		return gvFacts;
 	}
 	
 	public int getNumberOfFacts() {
@@ -160,11 +158,11 @@ public class ControllerReviewNode{
 		return numFacts;
 	}
 	
-	public void setFacts(LinkedHashMap<String, String> factsMap) {
+	public void setFacts(GVFacts gvFacts) {
 		Review r = getReview();
 		RDFacts facts = new RDFacts(r);
-		for(Entry<String, String> entry: factsMap.entrySet())
-			facts.put(entry.getKey(), entry.getValue());
+		for(GVFact fact: gvFacts)
+			facts.put(fact.getLabel(), fact.getValue());
 		
 		r.setFacts(facts);
 	}
@@ -385,17 +383,22 @@ public class ControllerReviewNode{
 		return ReviewTagsManager.hasTags(getReview());
 	}
 	
-	public ArrayList<String> getTags() {
+	public GVStrings getTags() {
 		ReviewTagCollection tags = ReviewTagsManager.getTags(getReview());
-		ArrayList<String> tagsList = new ArrayList<String>();
+		GVStrings gvTags = new GVStrings();
 		for(ReviewTag tag : tags)
-			tagsList.add(tag.toString());
+			gvTags.add(tag.toString());
 		
-		return tagsList;
+		return gvTags;
 	}
 	
-	public void addTags(ArrayList<String> tags) {
-		ReviewTagsManager.tag(getReview(), tags);
+	public void addTags(GVStrings tags) {
+		ArrayList<String> tagsList = new ArrayList<String>();
+		for(String tag : tags)
+			tagsList.add(tag);
+		
+		Collections.sort(tagsList);
+		ReviewTagsManager.tag(getReview(), tagsList);
 	}
 	
 	public void removeTags() {

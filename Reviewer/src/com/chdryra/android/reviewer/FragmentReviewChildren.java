@@ -1,140 +1,79 @@
 package com.chdryra.android.reviewer;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.Toast;
 
-import com.actionbarsherlock.app.SherlockDialogFragment;
 import com.chdryra.android.mygenerallibrary.ActivityResultCode;
 import com.chdryra.android.mygenerallibrary.GridViewCellAdapter;
 
 public class FragmentReviewChildren extends FragmentReviewGrid {
-	private static final String DIALOG_CHILD_TAG = "ChildDialog";
+	private static final String DIALOG_CHILD_ADD_TAG = "ChildAddDialog";
+	private static final String DIALOG_CHILD_EDIT_TAG = "ChildEditDialog";
 	
-	public final static int REVIEW_REQUEST = 60;
-	public final static int REVIEW_EDIT = 61;
+	public final static int CHILD_ADD = 60;
+	public final static int CHILD_EDIT = 61;
 		
-	private ControllerReviewNode mController;
 	private ControllerReviewNodeCollection mCollectionController;
 
 	private ArrayList<String> mReviewTitles = new ArrayList<String>();
-	
+	private LinkedHashMap<String, Float> mBackup = new LinkedHashMap<String, Float>();
 	private boolean mTotalRatingIsAverage = false;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
-		mController = Controller.unpack(getActivity().getIntent().getExtras());		
-		mCollectionController = mController.getCollectionController();
-		for(String id : mCollectionController.getIDs())
-			mReviewTitles.add(mCollectionController.getTitle(id));
+		mCollectionController = getController().getCollectionController();
+		for(String id : mCollectionController.getIDs()) {
+			String title = mCollectionController.getTitle(id);
+			mReviewTitles.add(title);
+			mBackup.put(title, mCollectionController.getRating(id));
+		}
 		
-		mTotalRatingIsAverage = mController.isReviewRatingAverage();
+		mTotalRatingIsAverage = getController().isReviewRatingAverage();
+		
 		setDeleteWhatTitle(getResources().getString(R.string.activity_title_children));
-	}
-	
-	@Override
-	protected void initUI() {
-		initSubjectTextUI();
-		initRatingBarUI();
-		initAddReviewUI();
-		initReviewCollectionGridViewUI();
-	}
-	
-	@Override
-	protected void updateUI() {
-		updateRatingBarUI();
-		updateReviewCollectionGridViewUI();
-	}
-
-	private void initSubjectTextUI() {
-		getSubjectView().setText(mController.getTitle());
-	}
-	
-	private void initRatingBarUI() {
-		getTotalRatingBar().setIsIndicator(true);
-		setTotalRatingIsAverage(mController.isReviewRatingAverage());
-		getTotalRatingBar().setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				mTotalRatingIsAverage = !mTotalRatingIsAverage;
-				setTotalRatingIsAverage(mTotalRatingIsAverage);
-				String ratingType = mTotalRatingIsAverage? "average" : "user";
-				Toast.makeText(getActivity(), "Rating is " + ratingType, Toast.LENGTH_SHORT).show();
-			}
-		});
+		setGridCellDimension(CellDimension.HALF, CellDimension.QUARTER);
+		setAddDataButtonText(getResources().getString(R.string.button_add_criteria));
 		
+		setIsEditable(true);
 	}
 	
-	private void initAddReviewUI() {
-		getAddDataButton().setText(getResources().getString(R.string.button_add_criteria));
-		getAddDataButton().setTextColor(getSubjectView().getTextColors().getDefaultColor());
-		getAddDataButton().setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				showChildDialog();
-			}
-		});		
+	@Override
+	protected void onAddDataButtonClick() {
+		DialogShower.show(new DialogChildAddFragment(), FragmentReviewChildren.this, CHILD_ADD, DIALOG_CHILD_ADD_TAG, Controller.pack(getController()));
 	}
 	
-	private void initReviewCollectionGridViewUI() {
-		getGridView().setAdapter(new GridViewCellAdapter(getActivity(), 
-				mCollectionController.getGridViewData(), 
-				R.layout.grid_view_cell_review, 
+	@Override
+	protected void onGridItemClick(AdapterView<?> parent, View v, int position,
+			long id) {
+		ControllerReviewNode childController = (ControllerReviewNode)parent.getItemAtPosition(position);
+		DialogShower.show(new DialogChildEditFragment(), FragmentReviewChildren.this, CHILD_EDIT, DIALOG_CHILD_EDIT_TAG, Controller.pack(childController));
+	}
+	
+	@Override
+	protected GridViewCellAdapter getGridViewCellAdapter() {
+		return new GridViewCellAdapter(getActivity(), 
+				mCollectionController.getGridViewiableCollection(), 
+				R.layout.grid_cell_review, 
 				getGridCellWidth(), getGridCellHeight(), 
-				getSubjectView().getTextColors().getDefaultColor()));
-		
-		getGridView().setColumnWidth(getGridCellWidth());
-		getGridView().setNumColumns(getNumberColumns());
-		
-		getGridView().setOnItemClickListener(new OnItemClickListener() {
-	        public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-	            showChildDialog((ControllerReviewNode)parent.getItemAtPosition(position));
-	        }
-	    });	
+				getSubjectView().getTextColors().getDefaultColor());
 	}
 		
-	private void updateRatingBarUI() {	
-		getTotalRatingBar().setRating(mController.getRating());
-	}
-	
-	private void updateReviewCollectionGridViewUI() {
-		((GridViewCellAdapter)getGridView().getAdapter()).notifyDataSetChanged();
-	}
-	
-	private void showChildDialog() {
-		showDialog(new DialogChildAddFragment(), REVIEW_REQUEST, DIALOG_CHILD_TAG, Controller.pack(mController));
-	}
-
-	private void showChildDialog(ControllerReviewNode childController) {
-		showDialog(new DialogChildEditFragment(), REVIEW_EDIT, DIALOG_CHILD_TAG, Controller.pack(childController));
-	}
-	
-	private void showDialog(SherlockDialogFragment dialog, int requestCode, String tag, Bundle args) {
-		dialog.setTargetFragment(FragmentReviewChildren.this, requestCode);
-		dialog.setArguments(args);
-		dialog.show(getFragmentManager(), tag);
-	}
-	
-	private void setTotalRatingIsAverage(boolean isAverage) {
-		mController.setReviewRatingAverage(isAverage);
-		updateRatingBarUI();
-	}
-
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		switch (requestCode) {
-		case REVIEW_EDIT:
+		case CHILD_EDIT:
 			switch(ActivityResultCode.get(resultCode)) {
 			case DELETE:
 				ControllerReviewNode childController = Controller.unpack(data.getExtras());
-				mController.removeChild(childController.getID());
+				getController().removeChild(childController.getID());
 				if(mCollectionController.size() == 0)
 					setTotalRatingIsAverage(false);
 			break;
@@ -159,5 +98,23 @@ public class FragmentReviewChildren extends FragmentReviewGrid {
 	@Override
 	protected boolean hasDataToDelete() {
 		return mCollectionController.size() > 0;
+	}
+
+	private void setTotalRatingIsAverage(boolean isAverage) {
+		getController().setReviewRatingAverage(isAverage);
+		updateRatingBarUI();
+	}
+	
+	private void revertToBackup() {
+		ControllerReviewNodeChildren controller = getController().getChildrenController();
+		controller.removeAll();
+		for (Map.Entry<String,Float> child : mBackup.entrySet())
+			controller.addChild(child.getKey(), child.getValue());
+	}
+	
+	@Override
+	protected void onUpSelected() {
+		revertToBackup();
+		super.onUpSelected();
 	}
 }

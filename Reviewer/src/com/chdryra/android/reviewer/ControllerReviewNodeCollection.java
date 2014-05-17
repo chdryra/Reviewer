@@ -15,7 +15,7 @@ import android.view.View;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
-import com.chdryra.android.mygenerallibrary.GridViewableData;
+import com.chdryra.android.mygenerallibrary.GridViewCellAdapter.GridViewable;
 import com.chdryra.android.mygenerallibrary.ViewHolder;
 import com.google.android.gms.maps.model.LatLng;
 
@@ -357,11 +357,11 @@ public class ControllerReviewNodeCollection {
 		getChild(id).deleteURL();
 	}
 
-	public GridViewableData getGridViewData() {
-		return new GVDReviewNodeCollection();
+	public GridViewable getGridViewiableCollection() {
+		return new GVReviewNodeCollection();
 	}
 	
-	class GVDReviewNodeCollection implements GridViewableData{
+	class GVReviewNodeCollection implements GridViewable{
 		@Override
 		public int size() {
 			return ControllerReviewNodeCollection.this.size();

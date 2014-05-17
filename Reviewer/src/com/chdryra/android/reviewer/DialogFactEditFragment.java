@@ -8,44 +8,56 @@ import android.os.Bundle;
 import android.view.View;
 
 public class DialogFactEditFragment extends DialogDeleteCancelDoneFragment {
-	public static final String DATUM_OLD_LABEL = "com.chdryra.android.reviewer.datum_old_label";
-	public static final String DATUM_OLD_VALUE = "com.chdryra.android.reviewer.datum_old_label";
+	public static final String FACT_OLD_LABEL = "com.chdryra.android.reviewer.datum_old_label";
+	public static final String FACT_OLD_VALUE = "com.chdryra.android.reviewer.datum_old_value";
 	
 	private ClearableEditText mLabel;
 	private ClearableEditText mValue;
 	private String mOldLabel;
+	private String mOldValue;
 			
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setDeleteConfirmation(true);
+		setDeleteConfirmation(false);
 		setDeleteWhatTitle(getResources().getString(R.string.dialog_delete_fact_title));
+		setDialogTitle(getResources().getString(R.string.dialog_edit_fact_title));
 	}
 	
 	@Override
 	protected void onDoneButtonClick() {
 		Intent i = getReturnData();
-		i.putExtra(DATUM_OLD_LABEL, mOldLabel);
-		i.putExtra(FragmentReviewFacts.DATUM_LABEL, mLabel.getText().toString());
-		i.putExtra(FragmentReviewFacts.DATUM_VALUE, mValue.getText().toString());
-		super.onDoneButtonClick();
+		i.putExtra(FACT_OLD_LABEL, mOldLabel);
+		i.putExtra(FACT_OLD_VALUE, mOldValue);
+		i.putExtra(FragmentReviewFacts.FACT_LABEL, mLabel.getText().toString());
+		i.putExtra(FragmentReviewFacts.FACT_VALUE, mValue.getText().toString());
 	}
 	
 	@Override
 	protected void onDeleteButtonClick() {
-		getReturnData().putExtra(DATUM_OLD_LABEL, mOldLabel);
-		super.onDeleteButtonClick();
+		Intent i = getReturnData();
+		i.putExtra(FACT_OLD_LABEL, mOldLabel);
+		i.putExtra(FACT_OLD_VALUE, mOldValue);
+	}
+	
+	@Override
+	protected boolean hasDataToDelete() {
+		return true;
 	}
 	
 	@Override
 	protected View createDialogUI() {
 		View v = getActivity().getLayoutInflater().inflate(R.layout.dialog_datum, null);
+		
 		mLabel = (ClearableEditText)v.findViewById(R.id.datum_label_edit_text);
 		mValue = (ClearableEditText)v.findViewById(R.id.datum_value_edit_text);
 		
-		mOldLabel = getArguments().getString(FragmentReviewFacts.DATUM_LABEL);
+		mOldLabel = getArguments().getString(FragmentReviewFacts.FACT_LABEL);
+		mOldValue = getArguments().getString(FragmentReviewFacts.FACT_VALUE);
+		
 		mLabel.setText(mOldLabel);		
-		mValue.setText(getArguments().getString(FragmentReviewFacts.DATUM_VALUE));
+		mValue.setText(mOldValue);
+		
 		setKeyboardIMEDoDone(mValue);
 		
 		return v;

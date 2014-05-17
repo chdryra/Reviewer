@@ -15,6 +15,7 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.chdryra.android.mygenerallibrary.ActivityResultCode;
+import com.chdryra.android.mygenerallibrary.GridViewCellAdapter;
 
 public class FragmentReviewComment extends FragmentReviewGrid {
 	
@@ -162,5 +163,11 @@ public class FragmentReviewComment extends FragmentReviewGrid {
 			default:
 				return super.onOptionsItemSelected(item);
 		}
+	}
+
+	@Override
+	protected GridViewCellAdapter getGridViewCellAdapter() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

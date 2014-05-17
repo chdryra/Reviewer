@@ -1,152 +1,80 @@
 package com.chdryra.android.reviewer;
 
-import java.util.LinkedHashMap;
-
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Gravity;
-import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.WindowManager;
-import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
-import android.widget.BaseAdapter;
-import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import com.chdryra.android.myandroidwidgets.ClearableEditText;
 import com.chdryra.android.mygenerallibrary.ActivityResultCode;
+import com.chdryra.android.mygenerallibrary.GridViewCellAdapter;
+import com.chdryra.android.reviewer.GVFacts.GVFact;
 
 public class FragmentReviewFacts extends FragmentReviewGrid {
-	public static final String DATUM_LABEL = "com.chdryra.android.reviewer.datum_label";
-	public static final String DATUM_VALUE = "com.chdryra.android.reviewer.datum_value";	
-	public static final String DIALOG_DATUM_TAG = "DatumDialog";
+	public static final String FACT_LABEL = "com.chdryra.android.reviewer.datum_label";
+	public static final String FACT_VALUE = "com.chdryra.android.reviewer.datum_value";	
+	public static final String DIALOG_FACT_ADD_TAG = "FactAddDialog";
+	public static final String DIALOG_FACT_EDIT_TAG = "FactEditDialog";
 
-	private static final int DATUM_EDIT = 4;
+	public final static int FACTS_ADD = 40;
+	public final static int FACT_EDIT = 41;
 	
-	private ControllerReviewNode mController;
-	
-	private LinkedHashMap<String, String> mFacts; 
-	
-	private ClearableEditText mFactLabel;
-	private ClearableEditText mFactValue;
-	private ListView mFactsListView;
+	private GVFacts mFacts; 
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		mController = Controller.unpack(getActivity().getIntent().getExtras());
-		mFacts = mController.hasFacts()? mController.getFacts() :  new LinkedHashMap<String, String>();
+		
+		mFacts = getController().getFacts();
 		setDeleteWhatTitle(getResources().getString(R.string.activity_title_facts));
+		setGridCellDimension(CellDimension.HALF, CellDimension.QUARTER);
+		setAddDataButtonText(getResources().getString(R.string.button_add_facts));
+		
+		setIsEditable(true);
+	}
+		
+	@Override
+	protected void onAddDataButtonClick() {
+		DialogShower.show(new DialogFactAddFragment(), FragmentReviewFacts.this, FACTS_ADD, DIALOG_FACT_ADD_TAG, Controller.pack(getController()));
 	}
 	
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View v = inflater.inflate(R.layout.fragment_review_facts, container, false);			
-		getSherlockActivity().getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-		
-		mFactLabel = (ClearableEditText)v.findViewById(R.id.datum_label_edit_text);
-		mFactValue = (ClearableEditText)v.findViewById(R.id.datum_value_edit_text);
-		mFactsListView = (ListView)v.findViewById(R.id.data_listview);
-		
-		initUI();
-		updateUI();
-
-		return v;
+	protected void onGridItemClick(AdapterView<?> parent, View v, int position, long id) {
+		Bundle args = Controller.pack(getController());
+		GVFact fact = (GVFact)parent.getItemAtPosition(position);
+		args.putString(FACT_LABEL, fact.getLabel());
+		args.putString(FACT_VALUE, fact.getValue());
+		DialogShower.show(new DialogFactEditFragment(), FragmentReviewFacts.this, FACT_EDIT, DIALOG_FACT_EDIT_TAG, args);
 	}
-
-	@Override
-	protected void initUI() {
-		getSherlockActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
-		mFactsListView.setAdapter(new ReviewFactsAdaptor(mFacts));
-		mFactValue.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-	        @Override
-	        public boolean onEditorAction(TextView v, int actionId, KeyEvent event)
-	        {
-	            if(actionId == EditorInfo.IME_ACTION_GO)
-					addFact();
-					
-	            mFactLabel.requestFocus();
-	            return true;
-	        }
-	    });
-
-		mFactsListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
 			
-			@Override
-			public boolean onItemLongClick(AdapterView<?> parent, View v, int pos, long id) {
-				ReviewFactsAdaptor adapter = (ReviewFactsAdaptor)parent.getAdapter();
-				String label = (String)adapter.getKey(pos);
-				String value = (String)adapter.getItem(pos);
-				showFactEditDialog(label, value);
-				
-				return true;
-			}
-		});
-	}
-	
-	private void showFactEditDialog(String label, String value) {
-		DialogFactEditFragment dialog = new DialogFactEditFragment();
-		dialog.setTargetFragment(FragmentReviewFacts.this, DATUM_EDIT);
-		Bundle args = new Bundle();
-		args.putString(DATUM_LABEL, label);
-		args.putString(DATUM_VALUE, value);
-		dialog.setArguments(args);
-		dialog.show(getFragmentManager(), DIALOG_DATUM_TAG);	
-	}
-	
-	private void addFact() {
-		String label = mFactLabel.getText().toString();
-		String value = mFactValue.getText().toString();
-		if((label == null || label.length() == 0) && (value == null || value.length() == 0))
-			return;
-		
-		if(label == null || label.length() == 0)
-			Toast.makeText(getSherlockActivity(), getResources().getString(R.string.toast_enter_label), Toast.LENGTH_SHORT).show();
-		else if(value == null || value.length() == 0)
-			Toast.makeText(getSherlockActivity(), getResources().getString(R.string.toast_enter_value), Toast.LENGTH_SHORT).show();
-		else {
-			mFacts.put(label, value);
-			mFactLabel.setText(null);
-			mFactValue.setText(null);
-			updateUI();
-		}
-	}
-	
-	@Override
-	protected void updateUI() {
-		((ReviewFactsAdaptor)mFactsListView.getAdapter()).notifyDataSetChanged();
-	}
-
-	@Override
-	protected void onDoneSelected() {
-		if(mFacts.size() > 0)
-			mController.setFacts(mFacts);
-	
-		super.onDoneSelected();
-	}
-	
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		switch(requestCode) {
-			case DATUM_EDIT:
-				switch(ActivityResultCode.get(requestCode)) {
-					case OK:
-						String oldLabel = (String)data.getSerializableExtra(DialogFactEditFragment.DATUM_OLD_LABEL);
-						String newLabel = (String)data.getSerializableExtra(DATUM_LABEL);
-						String newValue = (String)data.getSerializableExtra(DATUM_VALUE);
-						mFacts.remove(oldLabel);
-						mFacts.put(newLabel, newValue);
-						break;
-					case DELETE:
-						String toDelete = (String)data.getSerializableExtra(DialogFactEditFragment.DATUM_OLD_LABEL);
-						mFacts.remove(toDelete);
+			case FACTS_ADD:
+				switch(ActivityResultCode.get(resultCode)) {
+					case DONE:
+						mFacts = getController().getFacts();
 						break;
 					default:
-						return;
+						break;
+				}
+				break;
+			case FACT_EDIT:
+				switch(ActivityResultCode.get(resultCode)) {
+					case DONE:
+						String oldLabel = (String)data.getSerializableExtra(DialogFactEditFragment.FACT_OLD_LABEL);
+						String oldValue = (String)data.getSerializableExtra(DialogFactEditFragment.FACT_OLD_VALUE);
+						String newLabel = (String)data.getSerializableExtra(FACT_LABEL);
+						String newValue = (String)data.getSerializableExtra(FACT_VALUE);
+						mFacts.remove(oldLabel, oldValue);
+						mFacts.add(newLabel, newValue);
+						break;
+					case DELETE:
+						String deleteLabel = (String)data.getSerializableExtra(DialogFactEditFragment.FACT_OLD_LABEL);
+						String deleteValue = (String)data.getSerializableExtra(DialogFactEditFragment.FACT_OLD_VALUE);
+						mFacts.remove(deleteLabel, deleteValue);
+						break;
+					default:
+						break;
 				}
 				break;
 			
@@ -159,79 +87,33 @@ public class FragmentReviewFacts extends FragmentReviewGrid {
 	}
 
 	@Override
+	protected void onDoneSelected() {
+		if(mFacts.size() > 0)
+			getController().setFacts(mFacts);
+	}
+
+	@Override
 	protected void onDeleteSelected() {
-		mController.deleteFacts();
-		mFacts.clear();
+		getController().deleteFacts();
+		mFacts.removeAll();
 	}
 
 	@Override
 	protected boolean hasDataToDelete() {
-		return mController.hasFacts();
+		return getController().hasFacts();
 	}
-
-	class ReviewFactsAdaptor extends BaseAdapter {	
-		private LinkedHashMap<String, String> mData;
 	
-		public ReviewFactsAdaptor(LinkedHashMap<String, String> data){
-		    mData = data;
-		}
-			
-		@Override
-		public int getCount() {
-			return mData.size();
-		}
-		
-		@Override
-		public long getItemId(int position) {
-			return position;
-		}
-		
-		@Override
-		public Object getItem(int position) {
-			return mData.get(getKey(position));
-		}
-		
-		public String getKey(int position) {
-			String[] keys = mData.keySet().toArray(new String[mData.size()]);
-			return keys[position];
-		}
-		
-		@Override
-		public View getView(int position, View convertView, ViewGroup parent) {
-			ViewHolder vh;
-			
-			if (convertView == null) {						
-				LayoutInflater inflater = getSherlockActivity().getLayoutInflater();
-				convertView = inflater.inflate(R.layout.fact_linear_row, parent, false);
-				
-				TextView datumName = (TextView)convertView.findViewById(R.id.datum_label_text_view);
-				TextView datumValue = (TextView)convertView.findViewById(R.id.datum_value_text_view);
-				datumValue.setGravity(Gravity.RIGHT);
-				
-				vh = new ViewHolder();
-				vh.datumName = datumName;
-				vh.datumValue = datumValue;
-				
-				convertView.setTag(vh);
-			} else {
-				vh = (ViewHolder)convertView.getTag();
-			}
-				
-			String label = (String)getKey(position);
-			String value = (String)getItem(position);
-			
-			vh.datumName.setText(label +":");
-			vh.datumValue.setText(value);
-			
-			vh.datumName.setTextColor(mFactLabel.getTextColors().getDefaultColor());
-			vh.datumValue.setTextColor(mFactLabel.getTextColors().getDefaultColor());
-			
-			return(convertView);
-		};
-	};
+	@Override
+	protected void updateGridDataUI() {
+		((GridViewCellAdapter)getGridView().getAdapter()).setData(mFacts);
+	}
 	
-	static class ViewHolder {
-	    public TextView datumName;
-	    public TextView datumValue;
+	@Override
+	protected GridViewCellAdapter getGridViewCellAdapter() {
+		return new GridViewCellAdapter(getActivity(), 
+				getController().getFacts(), 
+				R.layout.grid_cell_fact, 
+				getGridCellWidth(), getGridCellHeight(), 
+				getSubjectView().getTextColors().getDefaultColor());
 	}
 }

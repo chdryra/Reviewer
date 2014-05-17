@@ -2,9 +2,6 @@ package com.chdryra.android.reviewer;
 
 public class ControllerReviewNodeChildren extends ControllerReviewNodeCollection{	
 	private ReviewNode mParent;
-	private RCollectionReviewNode mChildrenBackup;
-	private RCollection<String> mOriginalChildNames;
-	private RCollection<Float> mOriginalChildRatings;
 	
 	public ControllerReviewNodeChildren(ReviewNode parentNode) {
 		super(parentNode.getChildren());
@@ -28,33 +25,5 @@ public class ControllerReviewNodeChildren extends ControllerReviewNodeCollection
 	
 	public void removeAll() {
 		mParent.clearChildren();
-	}
-	
-	public void backupChildrenNamesAndRatings() {
-		RCollectionReviewNode children = mParent.getChildren();
-		mChildrenBackup = new RCollectionReviewNode();
-		mChildrenBackup.add(children);
-		
-		mOriginalChildNames = new RCollection<String>();
-		mOriginalChildRatings = new RCollection<Float>();
-		for(ReviewNode child : children) {
-			mOriginalChildNames.put(child.getID(), child.getTitle().get());
-			mOriginalChildRatings.put(child.getID(), child.getRating().get());
-		}
-	}
-	
-	public void revertToBackUp() {
-		if(mChildrenBackup != null) {
-			removeAll();
-			mParent.addChildren(mChildrenBackup);
-		}
-		
-		for(ReviewNode child : mParent.getChildren()) {
-			child.setTitle(mOriginalChildNames.get(child.getID()));
-			child.setRating(mOriginalChildRatings.get(child.getID()));
-		}
-		
-		mOriginalChildNames = null;
-		mOriginalChildRatings = null;
 	}
 }
