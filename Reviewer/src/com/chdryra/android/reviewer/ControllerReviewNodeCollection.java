@@ -390,10 +390,9 @@ public class ControllerReviewNodeCollection {
 		    }
 		    
 			@Override
-			public void updateView(Object data, int textColour) {
+			public void updateView(Object data) {
 				ControllerReviewNode controller = (ControllerReviewNode) data;
 				mSubject.setText(controller.getTitle());
-				mSubject.setTextColor(textColour);
 				mRating.setRating(controller.getRating());
 			}
 		}

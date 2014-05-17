@@ -27,13 +27,13 @@ public class FragmentReviewFacts extends FragmentReviewGrid {
 		mFacts = getController().getFacts();
 		setDeleteWhatTitle(getResources().getString(R.string.activity_title_facts));
 		setGridCellDimension(CellDimension.HALF, CellDimension.QUARTER);
-		setAddDataButtonText(getResources().getString(R.string.button_add_facts));
+		setBannerButtonText(getResources().getString(R.string.button_add_facts));
 		
 		setIsEditable(true);
 	}
 		
 	@Override
-	protected void onAddDataButtonClick() {
+	protected void onBannerButtonClick() {
 		DialogShower.show(new DialogFactAddFragment(), FragmentReviewFacts.this, FACTS_ADD, DIALOG_FACT_ADD_TAG, Controller.pack(getController()));
 	}
 	
@@ -113,7 +113,6 @@ public class FragmentReviewFacts extends FragmentReviewGrid {
 		return new GridViewCellAdapter(getActivity(), 
 				getController().getFacts(), 
 				R.layout.grid_cell_fact, 
-				getGridCellWidth(), getGridCellHeight(), 
-				getSubjectView().getTextColors().getDefaultColor());
+				getGridCellWidth(), getGridCellHeight());
 	}
 }

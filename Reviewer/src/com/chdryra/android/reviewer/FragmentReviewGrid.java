@@ -27,7 +27,7 @@ public enum CellDimension{FULL, HALF, QUARTER};
 	
 	private TextView mSubjectView;
 	private RatingBar mTotalRatingBar;
-	private Button mAddDataButton;
+	private Button mBannerButton;
 	private GridView mGridView;
 
 	int mMaxGridCellWidth;
@@ -37,7 +37,7 @@ public enum CellDimension{FULL, HALF, QUARTER};
 	int mCellHeightDivider = 1;
 
 	private boolean mIsEditable = false;
-	private String mAddDataButtonText;
+	private String mBannerButtonText;
 	
 	protected abstract GridViewCellAdapter getGridViewCellAdapter();
 
@@ -47,7 +47,7 @@ public enum CellDimension{FULL, HALF, QUARTER};
 		
 		mController = Controller.unpack(getActivity().getIntent().getExtras());
 		setGridCellDimension(CellDimension.HALF, CellDimension.QUARTER);
-		setAddDataButtonText(getResources().getString(R.string.button_add_text));
+		setBannerButtonText(getResources().getString(R.string.button_add_text));
 	}
 
 	@Override
@@ -58,13 +58,11 @@ public enum CellDimension{FULL, HALF, QUARTER};
 
 		mSubjectView = (TextView)v.findViewById(R.id.review_subject_edit_text);
 		mTotalRatingBar = (RatingBar)v.findViewById(R.id.total_rating_bar);
-		mAddDataButton = (Button)v.findViewById(R.id.add_data_button);
+		mBannerButton = (Button)v.findViewById(R.id.banner_button);
 		mGridView = (GridView)v.findViewById(R.id.data_gridview);
 		
-		//***Get display metrics for reviewTag display size***//
 		DisplayMetrics displaymetrics = new DisplayMetrics();
-		getActivity().getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
-		
+		getActivity().getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);		
 		mMaxGridCellWidth = Math.min(displaymetrics.widthPixels, displaymetrics.heightPixels);				
 		mMaxGridCellHeight = mMaxGridCellWidth;
 		
@@ -77,7 +75,7 @@ public enum CellDimension{FULL, HALF, QUARTER};
 	protected void initUI() {
 		initSubjectUI();
 		initRatingBarUI();
-		initAddDataUI();
+		initBannerDataUI();
 		initDataGridUI();
 	}
 	
@@ -110,18 +108,15 @@ public enum CellDimension{FULL, HALF, QUARTER};
 		}
 	}
 
-	protected void initAddDataUI() {
-		if(isEditable()) {
-			getAddDataButton().setText(getAddDataButtonText());
-			getAddDataButton().setTextColor(getSubjectView().getTextColors().getDefaultColor());
-			getAddDataButton().setOnClickListener(new View.OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					onAddDataButtonClick();
-				}
-			});
-		} else
-			getAddDataButton().setVisibility(View.GONE);
+	protected void initBannerDataUI() {
+		getBannerButton().setText(getBannerButtonText());
+		getBannerButton().setTextColor(getSubjectView().getTextColors().getDefaultColor());
+		getBannerButton().setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				onBannerButtonClick();
+			}
+		});
 	}
 	
 	protected void initDataGridUI(){
@@ -133,18 +128,24 @@ public enum CellDimension{FULL, HALF, QUARTER};
 	            onGridItemClick(parent, v, position, id);
 	        }
 	    });
+		getGridView().setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+	        public boolean onItemLongClick(AdapterView<?> parent, View v, int position, long id) {
+	            getGridView().performItemClick(v, position, id);
+	            return true;
+	        }
+	    });
 	};
 
-	protected void onAddDataButtonClick() {
+	protected void onBannerButtonClick() {
 		
 	}
 	
-	protected void setAddDataButtonText(String addDataButtonText) {
-		mAddDataButtonText = addDataButtonText;
+	protected void setBannerButtonText(String buttonText) {
+		mBannerButtonText = buttonText;
 	}
 	
-	protected String getAddDataButtonText() {
-		return mAddDataButtonText;
+	protected String getBannerButtonText() {
+		return mBannerButtonText;
 	}
 	
 	protected void setIsEditable(boolean isEditable) {
@@ -162,6 +163,7 @@ public enum CellDimension{FULL, HALF, QUARTER};
 	protected void updateUI() {
 		updateSubjectTextUI();
 		updateRatingBarUI();
+		updateBannerButtonUI();
 		updateGridDataUI();
 	}
 
@@ -175,6 +177,10 @@ public enum CellDimension{FULL, HALF, QUARTER};
 			getTotalRatingBar().setRating(getController().getRating());
 	}
 
+	protected void updateBannerButtonUI() {
+		
+	}
+	
 	protected void updateGridDataUI() {
 		((GridViewCellAdapter)getGridView().getAdapter()).notifyDataSetChanged();
 	}
@@ -214,8 +220,8 @@ public enum CellDimension{FULL, HALF, QUARTER};
 		return mTotalRatingBar;
 	}
 	
-	protected Button getAddDataButton() {
-		return mAddDataButton;
+	protected Button getBannerButton() {
+		return mBannerButton;
 	}
 	
 	protected GridView getGridView() {

@@ -23,7 +23,7 @@ public class DialogTagEditFragment extends DialogDeleteCancelDoneFragment{
 		
 		mController = Controller.unpack(getArguments());
 		mTags = mController.getTags();
-		mCurrentTag = getArguments().getString(FragmentReviewCreate.TAG_EDIT_STRING);
+		mCurrentTag = getArguments().getString(FragmentReviewTags.TAG_EDIT_STRING);
 	}
 
 	@Override

@@ -14,20 +14,24 @@
         <TextView
             android:id="@+id/fact_label_text_view "
             style="?android:textAppearanceMedium"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:gravity="center"
             android:layout_weight="1"
-            android:layout_gravity="center"/>
+            android:background="@color/Silver"
+            android:textColor="@color/WhiteSmoke" />
 
         <TextView
             android:id="@+id/fact_value_text_view "
             style="?android:textAppearanceMedium"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:gravity="center"
             android:layout_weight="1"
-            android:layout_gravity="center"/>
-
-        
+            android:background="@color/LightSlateGray"
+            android:textColor="@color/WhiteSmoke" />
     </LinearLayout>
 
 </FrameLayout>

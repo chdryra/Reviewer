@@ -14,20 +14,22 @@
         <TextView
             android:id="@+id/review_subject_text_view "
             style="?android:textAppearanceMedium"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
             android:layout_weight="1"
-            android:layout_gravity="center"/>
-
+            android:gravity="center"
+            android:textColor="@color/WhiteSmoke" />
 
         <RatingBar
             android:id="@+id/total_rating_bar"
             style="?android:attr/ratingBarStyleSmall"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_height="match_parent"
             android:layout_gravity="center"
+            android:layout_weight="1"
             android:focusable="false"
+            android:gravity="center"
             android:isIndicator="true"
             android:numStars="5"
             android:rating="0.0"

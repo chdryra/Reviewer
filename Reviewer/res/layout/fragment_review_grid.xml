@@ -23,11 +23,10 @@
     <View style="@style/HorizontalDivider" />
 
     <include
-        android:id="@+id/add_data_button"
+        android:id="@+id/banner_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        
-        layout="@layout/data_button_add" />
+        layout="@layout/banner_button" />
 
     <View style="@style/HorizontalDivider" />
     

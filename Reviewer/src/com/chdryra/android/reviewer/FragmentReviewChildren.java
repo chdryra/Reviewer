@@ -40,13 +40,13 @@ public class FragmentReviewChildren extends FragmentReviewGrid {
 		
 		setDeleteWhatTitle(getResources().getString(R.string.activity_title_children));
 		setGridCellDimension(CellDimension.HALF, CellDimension.QUARTER);
-		setAddDataButtonText(getResources().getString(R.string.button_add_criteria));
+		setBannerButtonText(getResources().getString(R.string.button_add_criteria));
 		
 		setIsEditable(true);
 	}
 	
 	@Override
-	protected void onAddDataButtonClick() {
+	protected void onBannerButtonClick() {
 		DialogShower.show(new DialogChildAddFragment(), FragmentReviewChildren.this, CHILD_ADD, DIALOG_CHILD_ADD_TAG, Controller.pack(getController()));
 	}
 	
@@ -62,8 +62,7 @@ public class FragmentReviewChildren extends FragmentReviewGrid {
 		return new GridViewCellAdapter(getActivity(), 
 				mCollectionController.getGridViewiableCollection(), 
 				R.layout.grid_cell_review, 
-				getGridCellWidth(), getGridCellHeight(), 
-				getSubjectView().getTextColors().getDefaultColor());
+				getGridCellWidth(), getGridCellHeight());
 	}
 		
 	@Override

@@ -63,12 +63,10 @@ public class GVFacts implements GridViewable, Iterable<GVFacts.GVFact> {
 		}
 		
 		@Override
-		public void updateView(Object data, int textColour) {
+		public void updateView(Object data) {
 			GVFact fact = (GVFact)data;
 			mLabel.setText(fact.getLabel());
-			mLabel.setTextColor(textColour);
 			mValue.setText(fact.getValue());
-			mValue.setTextColor(textColour);
 		}
 		
 	}

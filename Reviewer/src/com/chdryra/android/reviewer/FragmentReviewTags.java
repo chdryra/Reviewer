@@ -9,7 +9,7 @@ import android.widget.Toast;
 
 import com.chdryra.android.mygenerallibrary.GridViewCellAdapter;
 
-public class FragmentReviewCreate  extends FragmentReviewGrid {
+public class FragmentReviewTags  extends FragmentReviewGrid {
 	public final static String TAG_EDIT_STRING = "com.chdryra.android.reviewer.tag_edit_string";
 	
 	private final static String DIALOG_TAG_ADD_TAG = "TagAddDialog";
@@ -29,20 +29,20 @@ public class FragmentReviewCreate  extends FragmentReviewGrid {
 		setDeleteWhatTitle(getResources().getString(R.string.dialog_delete_tags_title));
 		
 		setGridCellDimension(CellDimension.HALF, CellDimension.QUARTER);
-		setAddDataButtonText(getResources().getString(R.string.button_add_tag));
+		setBannerButtonText(getResources().getString(R.string.button_add_tag));
 		setIsEditable(true);
 	}
 
 	@Override
-	protected void onAddDataButtonClick() {
-		DialogShower.show(new DialogTagAddFragment(), FragmentReviewCreate.this, TAG_ADD, DIALOG_TAG_ADD_TAG, Controller.pack(getController()));
+	protected void onBannerButtonClick() {
+		DialogShower.show(new DialogTagAddFragment(), FragmentReviewTags.this, TAG_ADD, DIALOG_TAG_ADD_TAG, Controller.pack(getController()));
 	}
 
 	@Override
 	protected void onGridItemClick(AdapterView<?> parent, View v, int position, long id) {
 		Bundle args = Controller.pack(getController());
 		args.putString(TAG_EDIT_STRING, (String)parent.getItemAtPosition(position));
-		DialogShower.show(new DialogTagEditFragment(), FragmentReviewCreate.this, TAG_EDIT, DIALOG_TAG_EDIT_TAG, args);
+		DialogShower.show(new DialogTagEditFragment(), FragmentReviewTags.this, TAG_EDIT, DIALOG_TAG_EDIT_TAG, args);
 	}
 	
 	@Override
@@ -53,7 +53,7 @@ public class FragmentReviewCreate  extends FragmentReviewGrid {
 	@Override
 	protected GridViewCellAdapter getGridViewCellAdapter() {
 		return new GridViewCellAdapter(getActivity(), getController().getTags(), 
-				R.layout.grid_cell_text_view, getGridCellWidth(), getGridCellHeight(), getSubjectView().getTextColors().getDefaultColor());
+				R.layout.grid_cell_tag, getGridCellWidth(), getGridCellHeight());
 	}
 
 	@Override
