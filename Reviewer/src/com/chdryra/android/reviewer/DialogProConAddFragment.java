@@ -1,19 +1,18 @@
 package com.chdryra.android.reviewer;
 
-import java.util.ArrayList;
-
 import android.os.Bundle;
 import android.view.View;
 
 import com.chdryra.android.myandroidwidgets.ClearableEditText;
 import com.chdryra.android.mygenerallibrary.DialogAddCancelDoneFragment;
+import com.chdryra.android.mygenerallibrary.GVStrings;
 
 public class DialogProConAddFragment extends DialogAddCancelDoneFragment{
 
 	private ControllerReviewNode mController;
 	
-	private ArrayList<String> mPros;
-	private ArrayList<String> mCons;
+	private GVStrings mPros;
+	private GVStrings mCons;
 	
 	private ClearableEditText mProEditText;
 	private ClearableEditText mConEditText;
@@ -22,8 +21,8 @@ public class DialogProConAddFragment extends DialogAddCancelDoneFragment{
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		mController = Controller.unpack(getArguments());
-		mPros = mController.hasProsCons()? mController.getPros() : new ArrayList<String>();
-		mCons = mController.hasProsCons()? mController.getCons() : new ArrayList<String>();
+		mPros = mController.getPros();
+		mCons = mController.getCons();
 		setDialogTitle(getResources().getString(R.string.dialog_add_procon_title));
 	}
 

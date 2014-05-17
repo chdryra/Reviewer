@@ -342,27 +342,25 @@ public class ControllerReviewNode{
 		return getCons().size() > 0;
 	}
 	
-	public ArrayList<String> getPros() {
+	public GVStrings getPros() {
 		return getProsCons(true);
 	}
 	
-	public ArrayList<String> getCons() {
+	public GVStrings getCons() {
 		return getProsCons(false);
 	}
 	
-	private ArrayList<String> getProsCons(boolean getPros) {
-		ArrayList<String> prosConsList = new ArrayList<String>();
-		if(!hasProsCons())
-			return prosConsList;
+	private GVStrings getProsCons(boolean getPros) {
+		GVStrings gvProsCons = new GVStrings();
 		
 		RDProsCons prosCons = getPros? getReview().getProsCons().getPros() : getReview().getProsCons().getCons();
 		for(RDProCon proCon : prosCons)
-			prosConsList.add(proCon.getProCon());
+			gvProsCons.add(proCon.getProCon());
 		
-		return prosConsList;
+		return gvProsCons;
 	}
 	
-	public void setProsCons(ArrayList<String> pros, ArrayList<String> cons) {
+	public void setProsCons(GVStrings pros, GVStrings cons) {
 		Review r = getReview();
 		RDProsCons prosCons = new RDProsCons(r);
 		

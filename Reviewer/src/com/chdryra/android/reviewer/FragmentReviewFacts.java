@@ -83,7 +83,7 @@ public class FragmentReviewFacts extends FragmentReviewGrid {
 				break;
 		}
 		
-		updateUI();				
+		updateGridDataUI();				
 	}
 
 	@Override
@@ -104,14 +104,9 @@ public class FragmentReviewFacts extends FragmentReviewGrid {
 	}
 	
 	@Override
-	protected void updateGridDataUI() {
-		((GridViewCellAdapter)getGridView().getAdapter()).setData(mFacts);
-	}
-	
-	@Override
 	protected GridViewCellAdapter getGridViewCellAdapter() {
 		return new GridViewCellAdapter(getActivity(), 
-				getController().getFacts(), 
+				mFacts, 
 				R.layout.grid_cell_fact, 
 				getGridCellWidth(), getGridCellHeight());
 	}

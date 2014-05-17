@@ -571,12 +571,12 @@ public class FragmentReviewEdit extends SherlockFragment {
 		
 		
 		if(mController.hasPros())
-			switchImageButtonToTextView(mProsTextView, mAddProsImageButton, mController.getPros().get(0));
+			switchImageButtonToTextView(mProsTextView, mAddProsImageButton, (String)mController.getPros().getItem(0));
 		else
 			setVisibleGoneView(mAddProsImageButton, mProsTextView);
 		
 		if(mController.hasCons())
-			switchImageButtonToTextView(mConsTextView, mAddConsImageButton, mController.getCons().get(0));
+			switchImageButtonToTextView(mConsTextView, mAddConsImageButton, (String)mController.getCons().getItem(0));
 		else
 			setVisibleGoneView(mAddConsImageButton, mConsTextView);
 	}

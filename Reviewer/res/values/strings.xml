@@ -87,6 +87,8 @@
     <string name="button_add_tag">add tag</string>
     <string name="button_add_criteria">add criteria</string>
     <string name="button_add_facts">add facts</string>
+    <string name="button_add_pros">add pros</string>
+    <string name="button_add_cons">add cons</string>
 
     <!-- Image Buttons -->
     <string name="button_add_image_cd">add image</string>
