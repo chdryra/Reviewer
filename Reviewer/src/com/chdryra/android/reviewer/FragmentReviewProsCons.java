@@ -11,8 +11,7 @@ import com.chdryra.android.mygenerallibrary.GVStrings;
 import com.chdryra.android.mygenerallibrary.GridViewCellAdapter;
 
 public class FragmentReviewProsCons extends FragmentReviewGridDouble {
-	public static final String PRO = "com.chdryra.android.reviewer.pro";
-	public static final String CON = "com.chdryra.android.reviewer.con";
+	public static final String PROCON = "com.chdryra.android.reviewer.pro_con";
 	public static final String PROCON_HINT = "com.chdryra.android.reviewer.pro_con_hint";
 	public static final String DIALOG_PROCON_ADD_TAG = "ProConAddDialog";
 	public static final String DIALOG_PROCON_EDIT_TAG = "ProConEditDialog";
@@ -52,7 +51,7 @@ public class FragmentReviewProsCons extends FragmentReviewGridDouble {
 	protected void onGridItemClickLeft(AdapterView<?> parent, View v, int position, long id) {
 		Bundle args = Controller.pack(getController());
 		String pro = (String)parent.getItemAtPosition(position);
-		args.putString(PRO, pro);
+		args.putString(PROCON, pro);
 		DialogShower.show(new DialogProConEditFragment(), FragmentReviewProsCons.this, PRO_EDIT, DIALOG_PROCON_EDIT_TAG, args);
 	}
 
@@ -60,63 +59,10 @@ public class FragmentReviewProsCons extends FragmentReviewGridDouble {
 	protected void onGridItemClickRight(AdapterView<?> parent, View v, int position, long id) {
 		Bundle args = Controller.pack(getController());
 		String con = (String)parent.getItemAtPosition(position);
-		args.putString(CON, con);
+		args.putString(PROCON, con);
 		DialogShower.show(new DialogProConEditFragment(), FragmentReviewProsCons.this, CON_EDIT, DIALOG_PROCON_EDIT_TAG, args);
 	}
 	
-	@Override
-	protected void onDoneSelected() {
-		getController().setProsCons(mPros, mCons);
-	}
-	
-	@Override
-	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		getSherlockActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-	
-		switch(requestCode) {
-			case PRO_EDIT:
-				updateProCon(resultCode, data, mPros);
-				break;
-			case CON_EDIT:
-				updateProCon(resultCode, data, mCons);
-				break;
-			default:
-				super.onActivityResult(requestCode, resultCode, data);
-				break;
-		}
-		
-		updateUI();				
-	}
-
-	private void updateProCon(int resultCode, Intent data, GVStrings proCons) {
-		switch(ActivityResultCode.get(resultCode)) {
-			case DONE:
-				String oldPro = (String)data.getSerializableExtra(DialogProConEditFragment.PROCON_OLD);
-				String newPro = (String)data.getSerializableExtra(DialogProConEditFragment.PROCON);
-				proCons.remove(oldPro);
-				proCons.add(newPro);
-				break;
-			case DELETE:
-				String toDelete = (String)data.getSerializableExtra(DialogProConEditFragment.PROCON_OLD);
-				proCons.remove(toDelete);
-				break;
-			default:
-				return;
-		}
-	}
-	
-	@Override
-	protected void onDeleteSelected() {
-		getController().deleteProsCons();
-		mPros.removeAll();
-		mCons.removeAll();
-	}
-
-	@Override
-	protected boolean hasDataToDelete() {
-		return getController().hasProsCons();
-	}
-
 	@Override
 	protected GridViewCellAdapter getGridViewCellAdapterLeft() {
 		return new GridViewCellAdapter(getActivity(), 
@@ -131,5 +77,75 @@ public class FragmentReviewProsCons extends FragmentReviewGridDouble {
 				mCons, 
 				R.layout.grid_cell_con, 
 				getGridCellWidth(), getGridCellHeight());
+	}
+	
+	@Override
+	protected void onDoneSelected() {
+		getController().setProsCons(mPros, mCons);
+	}
+		
+	@Override
+	protected void onDeleteSelected() {
+		mPros.removeAll();
+		mCons.removeAll();
+	}
+
+	@Override
+	protected boolean hasDataToDelete() {
+		return mPros.size() > 0 || mCons.size() > 0;
+	}
+
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		getSherlockActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+	
+		switch(requestCode) {
+		case PROS_ADD:
+			addProCon(resultCode, data, mPros);
+			break;
+		case CONS_ADD:
+			addProCon(resultCode, data, mCons);
+			break;
+		case PRO_EDIT:
+			editProCon(resultCode, data, mPros);
+			break;
+		case CON_EDIT:
+			editProCon(resultCode, data, mCons);
+			break;
+		default:
+			super.onActivityResult(requestCode, resultCode, data);
+			break;
+		}
+		
+		updateUI();				
+	}
+
+	private void addProCon(int resultCode, Intent data, GVStrings proCons) {
+		switch(ActivityResultCode.get(resultCode)) {
+		case ADD:
+			String procon = (String)data.getSerializableExtra(DialogProConAddFragment.PROCON);
+			if(procon != null && procon.length() > 0)
+				proCons.add(procon);
+			break;
+		default:
+			return;
+		}
+	}
+	
+	private void editProCon(int resultCode, Intent data, GVStrings proCons) {
+		switch(ActivityResultCode.get(resultCode)) {
+		case DONE:
+			String oldPro = (String)data.getSerializableExtra(DialogProConEditFragment.PROCON_OLD);
+			String newPro = (String)data.getSerializableExtra(DialogProConEditFragment.PROCON);
+			proCons.remove(oldPro);
+			proCons.add(newPro);
+			break;
+		case DELETE:
+			String toDelete = (String)data.getSerializableExtra(DialogProConEditFragment.PROCON_OLD);
+			proCons.remove(toDelete);
+			break;
+		default:
+			return;
+		}
 	}
 }

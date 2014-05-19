@@ -2,16 +2,15 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/LightSlateGray" >    
-        
-        <TextView
-	        android:id="@+id/text_view "
-	        style="?android:textAppearanceMedium"
-	        android:layout_width="match_parent"
-	        android:layout_height="match_parent"
-	        android:gravity="center"
-	        android:background="@drawable/image_button_selected"
-	        android:textColor="@color/Chartreuse"/>
-	        
-    
+    android:background="@color/LightSlateGray" >
+
+    <TextView
+        android:id="@+id/text_view "
+        style="?android:textAppearanceMedium"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/image_button_selected"
+        android:gravity="center"
+        android:textColor="@color/Crimson" />
+
 </FrameLayout>

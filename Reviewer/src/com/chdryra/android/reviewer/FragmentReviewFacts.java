@@ -3,6 +3,7 @@ package com.chdryra.android.reviewer;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 
 import com.chdryra.android.mygenerallibrary.ActivityResultCode;
@@ -23,12 +24,10 @@ public class FragmentReviewFacts extends FragmentReviewGrid {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
 		mFacts = getController().getFacts();
 		setDeleteWhatTitle(getResources().getString(R.string.activity_title_facts));
 		setGridCellDimension(CellDimension.HALF, CellDimension.QUARTER);
 		setBannerButtonText(getResources().getString(R.string.button_add_facts));
-		
 		setIsEditable(true);
 	}
 		
@@ -47,46 +46,6 @@ public class FragmentReviewFacts extends FragmentReviewGrid {
 	}
 			
 	@Override
-	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		switch(requestCode) {
-			case FACTS_ADD:
-				switch(ActivityResultCode.get(resultCode)) {
-					case DONE:
-						mFacts = getController().getFacts();
-						break;
-					default:
-						break;
-				}
-				break;
-			case FACT_EDIT:
-				switch(ActivityResultCode.get(resultCode)) {
-					case DONE:
-						String oldLabel = (String)data.getSerializableExtra(DialogFactEditFragment.FACT_OLD_LABEL);
-						String oldValue = (String)data.getSerializableExtra(DialogFactEditFragment.FACT_OLD_VALUE);
-						String newLabel = (String)data.getSerializableExtra(FACT_LABEL);
-						String newValue = (String)data.getSerializableExtra(FACT_VALUE);
-						mFacts.remove(oldLabel, oldValue);
-						mFacts.add(newLabel, newValue);
-						break;
-					case DELETE:
-						String deleteLabel = (String)data.getSerializableExtra(DialogFactEditFragment.FACT_OLD_LABEL);
-						String deleteValue = (String)data.getSerializableExtra(DialogFactEditFragment.FACT_OLD_VALUE);
-						mFacts.remove(deleteLabel, deleteValue);
-						break;
-					default:
-						break;
-				}
-				break;
-			
-			default:
-				super.onActivityResult(requestCode, resultCode, data);
-				break;
-		}
-		
-		updateGridDataUI();				
-	}
-
-	@Override
 	protected void onDoneSelected() {
 		if(mFacts.size() > 0)
 			getController().setFacts(mFacts);
@@ -94,13 +53,12 @@ public class FragmentReviewFacts extends FragmentReviewGrid {
 
 	@Override
 	protected void onDeleteSelected() {
-		getController().deleteFacts();
 		mFacts.removeAll();
 	}
 
 	@Override
 	protected boolean hasDataToDelete() {
-		return getController().hasFacts();
+		return mFacts.size() > 0;
 	}
 	
 	@Override
@@ -109,5 +67,57 @@ public class FragmentReviewFacts extends FragmentReviewGrid {
 				mFacts, 
 				R.layout.grid_cell_fact, 
 				getGridCellWidth(), getGridCellHeight());
+	}
+	
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		getSherlockActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+	
+		switch(requestCode) {
+		case FACTS_ADD:
+			addFact(resultCode, data);
+			break;
+		case FACT_EDIT:
+			editFact(resultCode, data);
+			break;
+		default:
+			super.onActivityResult(requestCode, resultCode, data);
+			break;
+		}
+		
+		updateUI();				
+	}
+
+	private void addFact(int resultCode, Intent data) {
+		switch(ActivityResultCode.get(resultCode)) {
+		case ADD:
+			String label = (String)data.getSerializableExtra(DialogFactAddFragment.FACT_LABEL);
+			String value = (String)data.getSerializableExtra(DialogFactAddFragment.FACT_VALUE);
+			if(label != null && label.length() > 0 && value != null && value.length() > 0)
+				mFacts.add(label, value);
+			break;
+		default:
+			return;
+		}
+	}
+	
+	private void editFact(int resultCode, Intent data) {
+		switch(ActivityResultCode.get(resultCode)) {
+		case DONE:
+			String oldLabel = (String)data.getSerializableExtra(DialogFactEditFragment.FACT_OLD_LABEL);
+			String oldValue = (String)data.getSerializableExtra(DialogFactEditFragment.FACT_OLD_VALUE);
+			String newLabel = (String)data.getSerializableExtra(FACT_LABEL);
+			String newValue = (String)data.getSerializableExtra(FACT_VALUE);
+			mFacts.remove(oldLabel, oldValue);
+			mFacts.add(newLabel, newValue);
+			break;
+		case DELETE:
+			String deleteLabel = (String)data.getSerializableExtra(DialogFactEditFragment.FACT_OLD_LABEL);
+			String deleteValue = (String)data.getSerializableExtra(DialogFactEditFragment.FACT_OLD_VALUE);
+			mFacts.remove(deleteLabel, deleteValue);
+			break;
+		default:
+			return;
+		}
 	}
 }

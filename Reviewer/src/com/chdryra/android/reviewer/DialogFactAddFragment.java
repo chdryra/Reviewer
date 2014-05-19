@@ -1,5 +1,6 @@
 package com.chdryra.android.reviewer;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
@@ -8,19 +9,19 @@ import com.chdryra.android.myandroidwidgets.ClearableEditText;
 import com.chdryra.android.mygenerallibrary.DialogAddCancelDoneFragment;
 
 public class DialogFactAddFragment extends DialogAddCancelDoneFragment{
-
-	private ControllerReviewNode mController;
-	private GVFacts mFacts;
+	public static final String FACT_LABEL = "com.chdryra.android.reviewer.fact_label";
+	public static final String FACT_VALUE = "com.chdryra.android.reviewer.fact_value";
 	
+	private GVFacts mFacts;	
 	private ClearableEditText mFactLabelEditText;
 	private ClearableEditText mFactValueEditText;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		mFacts = Controller.unpack(getArguments()).getFacts();
 		setDialogTitle(getResources().getString(R.string.dialog_add_fact_title));
-		mController = Controller.unpack(getArguments());
-		mFacts = mController.getFacts();
+		setAddOnDone(true);
 	}
 
 	@Override
@@ -35,17 +36,6 @@ public class DialogFactAddFragment extends DialogAddCancelDoneFragment{
 
 	@Override
 	protected void OnAddButtonClick() {
-		addFact();
-		mFactLabelEditText.requestFocus();
-	}
-	
-	@Override
-	protected void onDoneButtonClick() {
-		addFact();
-		mController.setFacts(mFacts);
-	}
-	
-	private void addFact() {
 		String label = mFactLabelEditText.getText().toString();
 		String value = mFactValueEditText.getText().toString();
 		if((label == null || label.length() == 0) && (value == null || value.length() == 0))
@@ -59,9 +49,13 @@ public class DialogFactAddFragment extends DialogAddCancelDoneFragment{
 			Toast.makeText(getSherlockActivity(), getResources().getString(R.string.toast_has_fact), Toast.LENGTH_SHORT).show();
 		} else {
 			mFacts.add(label, value);
+			Intent i = getNewReturnData(); 
+			i.putExtra(FACT_LABEL, label);
+			i.putExtra(FACT_VALUE, value);
 			mFactLabelEditText.setText(null);
 			mFactValueEditText.setText(null);
 			getDialog().setTitle("Added " + label + ": " + value);
+			mFactLabelEditText.requestFocus();
 		}
 	}
 }

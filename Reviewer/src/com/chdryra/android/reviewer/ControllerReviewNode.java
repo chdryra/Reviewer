@@ -359,7 +359,7 @@ public class ControllerReviewNode{
 		
 		return gvProsCons;
 	}
-	
+
 	public void setProsCons(GVStrings pros, GVStrings cons) {
 		Review r = getReview();
 		RDProsCons prosCons = new RDProsCons(r);
@@ -401,5 +401,10 @@ public class ControllerReviewNode{
 	
 	public void removeTags() {
 		ReviewTagsManager.untag(getReview());
+	}
+	
+	public void setTags(GVStrings tags) {
+		removeTags();
+		addTags(tags);
 	}
 }

@@ -1,67 +1,50 @@
 package com.chdryra.android.reviewer;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
 import com.chdryra.android.myandroidwidgets.ClearableAutoCompleteTextView;
 import com.chdryra.android.mygenerallibrary.DialogDeleteCancelDoneFragment;
-import com.chdryra.android.mygenerallibrary.GVStrings;
 
 public class DialogTagEditFragment extends DialogDeleteCancelDoneFragment{
-	private ControllerReviewNode mController;
+	public static final String TAG_NEW = "com.chdryra.android.reviewer.tag_new";
+	public static final String TAG_OLD = "com.chdryra.android.reviewer.tag_old";
 	
-	private String mCurrentTag;
-	private GVStrings mTags;	
+	private String mOldTag;
 	private ClearableAutoCompleteTextView mTagEditText;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		
-		setDialogTitle(getResources().getString(R.string.dialog_edit_tag_title));
+		super.onCreate(savedInstanceState);		
+		mOldTag = getArguments().getString(FragmentReviewTags.TAG_STRING);
 		setDeleteConfirmation(false);
-		
-		mController = Controller.unpack(getArguments());
-		mTags = mController.getTags();
-		mCurrentTag = getArguments().getString(FragmentReviewTags.TAG_EDIT_STRING);
+		setDialogTitle(getResources().getString(R.string.dialog_edit_tag_title));
 	}
-
+	
 	@Override
 	protected View createDialogUI() {
 		View v = getActivity().getLayoutInflater().inflate(R.layout.dialog_tag, null);
 		mTagEditText = (ClearableAutoCompleteTextView)v.findViewById(R.id.tag_edit_text);
-		mTagEditText.setText(mCurrentTag);
+		mTagEditText.setText(mOldTag);		
 		setKeyboardIMEDoDone(mTagEditText);
-		
 		return v;
-	}
-	
-	@Override
-	protected void onDoneButtonClick() {
-		editTag();
-		super.onDoneButtonClick();
 	}
 
 	@Override
+	protected void onDoneButtonClick() {
+		Intent i = getNewReturnData();
+		i.putExtra(TAG_OLD, mOldTag);
+		i.putExtra(TAG_NEW, mTagEditText.getText().toString());
+	}
+	
+	@Override
 	protected void onDeleteButtonClick() {
-		mTagEditText.setText(null);
-		editTag();
-		super.onDeleteButtonClick();
+		getNewReturnData().putExtra(TAG_OLD, mOldTag);
 	}
 
 	@Override
 	protected boolean hasDataToDelete() {
-		return mCurrentTag != null;
-	}
-	
-	private void editTag() {
-		String tag = mTagEditText.getText().toString();
-		
-		mTags.remove(mCurrentTag);
-		if(tag.length() > 0)
-			mTags.add(tag);
-
-		mController.removeTags();
-		mController.addTags(mTags);	
-	}
+		return true;
+	}	
 }

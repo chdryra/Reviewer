@@ -751,7 +751,7 @@ public class FragmentReviewEdit extends SherlockFragment {
 	}
 
 	private void showProConAddDialog() {
-		showDialog(new DialogProConAddFragment(), PROSCONS_REQUEST, DIALOG_PROSCONS_TAG);
+		showDialog(new DialogProAndConAddFragment(), PROSCONS_REQUEST, DIALOG_PROSCONS_TAG);
 	}
 
 	private void showDialog(SherlockDialogFragment dialog, int requestCode, String tag) {

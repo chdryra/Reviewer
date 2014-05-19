@@ -19,14 +19,27 @@ public class DialogFactEditFragment extends DialogDeleteCancelDoneFragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		mOldLabel = getArguments().getString(FragmentReviewFacts.FACT_LABEL);
+		mOldValue = getArguments().getString(FragmentReviewFacts.FACT_VALUE);
 		setDeleteConfirmation(false);
-		setDeleteWhatTitle(getResources().getString(R.string.dialog_delete_fact_title));
 		setDialogTitle(getResources().getString(R.string.dialog_edit_fact_title));
 	}
 	
 	@Override
+	protected View createDialogUI() {
+		View v = getActivity().getLayoutInflater().inflate(R.layout.dialog_datum, null);
+		mLabel = (ClearableEditText)v.findViewById(R.id.datum_label_edit_text);
+		mValue = (ClearableEditText)v.findViewById(R.id.datum_value_edit_text);
+		mLabel.setText(mOldLabel);		
+		mValue.setText(mOldValue);
+		setKeyboardIMEDoDone(mValue);
+		
+		return v;
+	}	
+
+	@Override
 	protected void onDoneButtonClick() {
-		Intent i = getReturnData();
+		Intent i = getNewReturnData();
 		i.putExtra(FACT_OLD_LABEL, mOldLabel);
 		i.putExtra(FACT_OLD_VALUE, mOldValue);
 		i.putExtra(FragmentReviewFacts.FACT_LABEL, mLabel.getText().toString());
@@ -35,7 +48,7 @@ public class DialogFactEditFragment extends DialogDeleteCancelDoneFragment {
 	
 	@Override
 	protected void onDeleteButtonClick() {
-		Intent i = getReturnData();
+		Intent i = getNewReturnData();
 		i.putExtra(FACT_OLD_LABEL, mOldLabel);
 		i.putExtra(FACT_OLD_VALUE, mOldValue);
 	}
@@ -44,22 +57,4 @@ public class DialogFactEditFragment extends DialogDeleteCancelDoneFragment {
 	protected boolean hasDataToDelete() {
 		return true;
 	}
-	
-	@Override
-	protected View createDialogUI() {
-		View v = getActivity().getLayoutInflater().inflate(R.layout.dialog_datum, null);
-		
-		mLabel = (ClearableEditText)v.findViewById(R.id.datum_label_edit_text);
-		mValue = (ClearableEditText)v.findViewById(R.id.datum_value_edit_text);
-		
-		mOldLabel = getArguments().getString(FragmentReviewFacts.FACT_LABEL);
-		mOldValue = getArguments().getString(FragmentReviewFacts.FACT_VALUE);
-		
-		mLabel.setText(mOldLabel);		
-		mValue.setText(mOldValue);
-		
-		setKeyboardIMEDoDone(mValue);
-		
-		return v;
-	}	
 }

@@ -21,25 +21,52 @@
         layout="@layout/fragment_review_rating" />
 
     <View style="@style/HorizontalDivider" />
+    
+    <LinearLayout 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+	    
+        <include
+            android:id="@+id/banner_button_left"
+	      	android:layout_width="0dp"
+	      	android:layout_height="wrap_content"
+	      	android:layout_weight="1"
+	      	layout="@layout/banner_button" />
 
+    	<View style="@style/VerticalDivider" />
+    	<View style="@style/VerticalDivider" />
+
+    	<include
+            android:id="@+id/banner_button_right"
+	      	android:layout_width="0dp"
+	      	android:layout_height="wrap_content"
+	      	android:layout_weight="1"
+	      	layout="@layout/banner_button" />
+	</LinearLayout>
+
+    <View style="@style/HorizontalDivider" />
+    
     <LinearLayout 
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal"
         android:baselineAligned="false">
 	    
-        <include layout="@layout/banner_gridview"
-            android:id="@+id/banner_gridview_left"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"/>
-        
-        <include layout="@layout/banner_gridview"
-            android:id="@+id/banner_gridview_right"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"/>
-        
-    </LinearLayout>
+    	<include
+	        android:id="@+id/data_gridview_left"
+	        android:layout_width="match_parent"
+	        android:layout_height="match_parent"
+	        android:layout_weight="1"
+	        layout="@layout/grid_view_data" />
+	    
+    	<include
+	        android:id="@+id/data_gridview_right"
+	        android:layout_width="match_parent"
+	        android:layout_height="match_parent"
+	        android:layout_weight="1"
+	        layout="@layout/grid_view_data" />
+	</LinearLayout>
+    
     
 </LinearLayout>

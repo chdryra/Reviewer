@@ -66,12 +66,10 @@ public enum CellDimension{FULL, HALF, QUARTER};
 		mSubjectView = (TextView)v.findViewById(R.id.review_subject_edit_text);
 		mTotalRatingBar = (RatingBar)v.findViewById(R.id.total_rating_bar);
 		
-		View vl = v.findViewById(R.id.banner_gridview_left);
-		View vr = v.findViewById(R.id.banner_gridview_right);
-		mBannerButtonLeft = (Button)vl.findViewById(R.id.banner_button);
-		mGridViewLeft = (GridView)vl.findViewById(R.id.data_gridview);
-		mBannerButtonRight = (Button)vr.findViewById(R.id.banner_button);
-		mGridViewRight = (GridView)vr.findViewById(R.id.data_gridview);
+		mBannerButtonLeft = (Button)v.findViewById(R.id.banner_button_left);
+		mGridViewLeft = (GridView)v.findViewById(R.id.data_gridview_left);
+		mBannerButtonRight = (Button)v.findViewById(R.id.banner_button_right);
+		mGridViewRight = (GridView)v.findViewById(R.id.data_gridview_right);
 		
 		DisplayMetrics displaymetrics = new DisplayMetrics();
 		getActivity().getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);		

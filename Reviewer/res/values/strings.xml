@@ -24,7 +24,11 @@
     <string name="dialog_edit_fact_title">Edit Fact</string>
     <string name="dialog_delete_fact_title">Fact</string>
     <string name="dialog_add_procon_title">Add Pros and Cons</string>
+    <string name="dialog_add_pros_title">Add Pros</string>
+    <string name="dialog_add_cons_title">Add Cons</string>
     <string name="dialog_edit_procon_title">Edit Pros and Cons</string>
+    <string name="dialog_edit_pro_title">Edit Pro</string>
+    <string name="dialog_edit_con_title">Edit Con</string>
     <string name="dialog_delete_procon_title">Pro/Con</string>
 
     <!-- Activities -->
@@ -119,14 +123,17 @@
     <!-- Toasts -->
     <string name="toast_enter_subject">Please enter a subject&#8230;</string>
     <string name="toast_enter_criterion">Please enter a criterion name&#8230;</string>
-    <string name="toast_exists_criterion">Already exists&#8230;</string>
-    <string name="toast_enter_label">Please enter a label&#8230;</string>
-    <string name="toast_enter_value">Please enter a value&#8230;</string>
-    <string name="toast_has_fact">You have already entered that before&#8230;</string>
+    <string name="toast_exists_criterion">You\'ve already added this criterion&#8230;</string>
+    <string name="toast_enter_label">Please enter a label e.g. price, director etc.&#8230;</string>
+    <string name="toast_enter_value">Please enter a value e.g. 10, A.N. Other etc.&#8230;</string>
+    <string name="toast_has_fact">You\'ve already added this fact. Must be really important&#8230;</string>
+    <string name="toast_has_pro">You\'ve already added this pro. Must be really good&#8230;</string>
+    <string name="toast_has_con">You\'ve already added this con. Must be really bad&#8230;</string>
+    <string name="toast_has_tag">You\'ve already added this tag&#8230;</string>
     <string name="toast_bad_url">Link does not make sense&#8230;</string>
     <string name="toast_no_image_gps_tag">No image GPS tag&#8230;</string>
     <string name="toast_enter_procon">Please enter a pro or con&#8230;</string>
-    <string name="toast_enter_tag">Please enter at least one tag&#8230;</string>
+    <string name="toast_enter_tag">Please enter at least one tag to help categorise it&#8230;</string>
 
     <!-- Social -->
     <string name="facebook">facebook</string>

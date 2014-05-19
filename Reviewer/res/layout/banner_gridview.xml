@@ -11,18 +11,11 @@
         layout="@layout/banner_button" />
 
     <View style="@style/HorizontalDivider" />
-    
-    <GridView
+
+    <include
         android:id="@+id/data_gridview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center"
-        android:numColumns="2"
-        android:background="?android:attr/listDivider"
-        android:horizontalSpacing="1dp"
-        android:verticalSpacing="1dp"
-        android:paddingLeft="2dp"
-        android:paddingRight="2dp"
-        android:stretchMode="none"/>
+        layout="@layout/grid_view_data" />
 	        
 </LinearLayout>

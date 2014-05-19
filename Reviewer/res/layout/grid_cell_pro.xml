@@ -11,7 +11,7 @@
 	        android:layout_height="match_parent"
 	        android:gravity="center"
 	        android:background="@drawable/image_button_selected"
-	        android:textColor="@color/Crimson"/>
+	        android:textColor="@color/Chartreuse"/>
 	        
     
 </FrameLayout>

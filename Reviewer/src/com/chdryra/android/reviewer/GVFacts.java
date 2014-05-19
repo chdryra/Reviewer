@@ -12,6 +12,14 @@ import com.chdryra.android.mygenerallibrary.ViewHolder;
 
 public class GVFacts implements GridViewable, Iterable<GVFacts.GVFact> {
 	private LinkedList<GVFact> mData = new LinkedList<GVFact>();
+
+	public GVFacts() {
+	}
+	
+	public GVFacts(GVFacts facts) {
+		for(GVFact fact : facts)
+			add(fact.getLabel(), fact.getValue());
+	}
 	
 	public void add(String label, String value) {
 		if(!(label != null && label.length() > 0 && value != null && value.length() > 0))
