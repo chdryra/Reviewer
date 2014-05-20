@@ -1,5 +1,7 @@
 package com.chdryra.android.reviewer;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.NoSuchElementException;
@@ -10,9 +12,11 @@ import android.widget.TextView;
 import com.chdryra.android.mygenerallibrary.GridViewCellAdapter.GridViewable;
 import com.chdryra.android.mygenerallibrary.ViewHolder;
 
-public class GVFacts implements GridViewable, Iterable<GVFacts.GVFact> {
+public class GVFacts implements GridViewable<GVFacts.GVFact>, Iterable<GVFacts.GVFact> {
 	private LinkedList<GVFact> mData = new LinkedList<GVFact>();
-
+	private static final Comparator<GVFact> COMPARATOR = getDefaultComparator();
+	private boolean mIsSorted = false;
+	
 	public GVFacts() {
 	}
 	
@@ -28,11 +32,14 @@ public class GVFacts implements GridViewable, Iterable<GVFacts.GVFact> {
 		GVFact fact = new GVFact(label, value);
 		if(!mData.contains(fact))
 			mData.add(fact);
+		
+		mIsSorted = false;
 	}
 	
 	public void remove(String label, String value) {
 		GVFact fact = new GVFact(label, value);
 		mData.remove(fact);
+		mIsSorted = false;
 	}
 	
 	public void removeAll() {
@@ -50,7 +57,7 @@ public class GVFacts implements GridViewable, Iterable<GVFacts.GVFact> {
 	}
 
 	@Override
-	public Object getItem(int position) {
+	public GVFact getItem(int position) {
 		return mData.get(position);
 	}
 
@@ -77,6 +84,37 @@ public class GVFacts implements GridViewable, Iterable<GVFacts.GVFact> {
 			mValue.setText(fact.getValue());
 		}
 		
+	}
+	
+	@Override
+	public boolean isSorted() {
+		return mIsSorted;
+	}
+
+	@Override
+	public void sort() {
+		if(!isSorted())
+			sort(COMPARATOR);
+	}
+
+	@Override
+	public void sort(Comparator<GVFact> comparator) {
+		if(!isSorted())
+			Collections.sort(mData, comparator);
+		mIsSorted = true;
+	}
+	private static Comparator<GVFact> getDefaultComparator() {
+		
+		return new Comparator<GVFacts.GVFact>() {
+			@Override
+			public int compare(GVFact lhs, GVFact rhs) {
+				int comp = lhs.getLabel().compareTo(rhs.getLabel());
+				if(comp == 0)
+					comp = lhs.getValue().compareTo(rhs.getValue());
+				
+				return comp;
+			}
+		};
 	}
 	
 	class GVFact {

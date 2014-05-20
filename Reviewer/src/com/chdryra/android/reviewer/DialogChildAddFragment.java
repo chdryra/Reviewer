@@ -1,7 +1,8 @@
 package com.chdryra.android.reviewer;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.RatingBar;
@@ -11,34 +12,30 @@ import com.chdryra.android.myandroidwidgets.ClearableEditText;
 import com.chdryra.android.mygenerallibrary.DialogAddCancelDoneFragment;
 
 public class DialogChildAddFragment extends DialogAddCancelDoneFragment{
-
-	private ControllerReviewNode mController;
-	private ControllerReviewNodeChildren mChildrenController;
-	private ArrayList<String> mChildNames = new ArrayList<String>();
+	public static final String SUBJECT = "com.chdryra.android.reviewer.subject";
+	public static final String RATING = "com.chdryra.android.reviewer.rating";
 	
+	private LinkedList<String> mChildNames = new LinkedList<String>();	
 	private ClearableEditText mChildNameEditText;
 	private RatingBar mChildRatingBar;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		mController = Controller.unpack(getArguments());
-		mChildrenController = mController.getChildrenController();
-		for(String id : mChildrenController.getIDs())
-			mChildNames.add(mChildrenController.getTitle(id));
+		ControllerReviewNodeChildren controller = Controller.unpack(getArguments()).getChildrenController();
+		for(String id : controller.getIDs())
+			mChildNames.add(controller.getTitle(id));
 	
 		setDialogTitle(getResources().getString(R.string.dialog_add_criteria_title));
+		setAddOnDone(true);
 	}
 
 	@Override
 	protected View createDialogUI() {
 		View v = getActivity().getLayoutInflater().inflate(R.layout.dialog_child_add, null);
-
 		mChildNameEditText = (ClearableEditText)v.findViewById(R.id.child_name_edit_text);
 		mChildRatingBar = (RatingBar)v.findViewById(R.id.child_rating_bar);
-		
 		setKeyboardIMEDoAction(mChildNameEditText);
-		
 		return v;
 	}
 
@@ -54,16 +51,14 @@ public class DialogChildAddFragment extends DialogAddCancelDoneFragment{
 			return;
 		}
 		
-		mChildrenController.addChild(childName, mChildRatingBar.getRating());
+		Intent i = getNewReturnData();
+		i.putExtra(SUBJECT, childName);
+		i.putExtra(RATING, mChildRatingBar.getRating());
+		
 		mChildNames.add(childName);
 		mChildNameEditText.setText(null);		
 		mChildRatingBar.setRating(0);
 		
 		getDialog().setTitle("Added " + childName);
-	}
-	
-	@Override
-	protected void onDoneButtonClick() {
-		OnAddButtonClick();
 	}
 }

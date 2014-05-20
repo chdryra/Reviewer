@@ -11,12 +11,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 import android.graphics.Bitmap;
-import android.view.View;
-import android.widget.RatingBar;
-import android.widget.TextView;
 
-import com.chdryra.android.mygenerallibrary.GridViewCellAdapter.GridViewable;
-import com.chdryra.android.mygenerallibrary.ViewHolder;
 import com.google.android.gms.maps.model.LatLng;
 
 public class ControllerReviewNodeCollection {
@@ -74,7 +69,7 @@ public class ControllerReviewNodeCollection {
 		return get().size();
 	}
 	
-	public Object getItem(int position) {
+	public ControllerReviewNode getItem(int position) {
 		return getControllerFor(get().getItem(position).getID().toString());
 	}
 	
@@ -357,45 +352,13 @@ public class ControllerReviewNodeCollection {
 		getChild(id).deleteURL();
 	}
 
-	public GridViewable getGridViewiableCollection() {
-		return new GVReviewNodeCollection();
+	public GVReviewSubjectRatings getGridViewiableData() {
+		GVReviewSubjectRatings data = new GVReviewSubjectRatings();
+		for(Review r : get())
+			data.add(r.getTitle().get(), r.getRating().get());
+		
+		return data;
 	}
 	
-	class GVReviewNodeCollection implements GridViewable{
-		@Override
-		public int size() {
-			return ControllerReviewNodeCollection.this.size();
-		}
-
-		@Override
-		public Object getItem(int position) {
-			return ControllerReviewNodeCollection.this.getItem(position);
-		}
-
-		@Override
-		public ViewHolder getViewHolder(View convertView) {
-			TextView subject = (TextView)convertView.findViewById(R.id.review_subject_text_view);
-			RatingBar rating = (RatingBar)convertView.findViewById(R.id.total_rating_bar);
-			
-			return new VHReviewNodeCollection(subject, rating);
-		}
-		
-		class VHReviewNodeCollection implements ViewHolder{
-		    private TextView mSubject;
-		    private RatingBar mRating;
-		    
-		    public VHReviewNodeCollection(TextView subject, RatingBar rating) {
-		    	mSubject = subject;
-		    	mRating = rating;
-		    }
-		    
-			@Override
-			public void updateView(Object data) {
-				ControllerReviewNode controller = (ControllerReviewNode) data;
-				mSubject.setText(controller.getTitle());
-				mRating.setRating(controller.getRating());
-			}
-		}
-	}
 }
 
