@@ -2,16 +2,26 @@ package com.chdryra.android.reviewer;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
-import com.chdryra.android.mygenerallibrary.ImageHelper;
-
+import android.app.Activity;
+import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Environment;
+import android.os.Parcelable;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.widget.ImageButton;
+
+import com.chdryra.android.mygenerallibrary.ImageHelper;
 
 public class HelperReviewImage extends ImageHelper{
 
@@ -92,5 +102,38 @@ public class HelperReviewImage extends ImageHelper{
 			else
 				mThumbnailView.setImageBitmap(bitmap);
 		}	
+	}
+	
+	public static Intent getImageChooserIntents(Activity activity, HelperReviewImage helperReviewImageInstance) {
+		//Set up image file
+		try {
+			helperReviewImageInstance.createNewImageFile();
+		} catch (IOException e) {
+			Log.e(TAG, e.getMessage(), e);
+			e.printStackTrace();
+			return null;
+		}
+		File imageFile = new File(helperReviewImageInstance.getImageFilePath());
+		Uri imageUri = Uri.fromFile(imageFile);		
+		
+	    //Create intents
+		final List<Intent> cameraIntents = new ArrayList<Intent>();
+		final Intent captureIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+		final PackageManager packageManager = activity.getPackageManager();
+		final List<ResolveInfo> listCam = packageManager.queryIntentActivities(captureIntent, 0);
+		for(ResolveInfo res : listCam) {
+	        final String packageName = res.activityInfo.packageName;
+	        final Intent intent = new Intent(captureIntent);
+	        intent.setComponent(new ComponentName(res.activityInfo.packageName, res.activityInfo.name));
+	        intent.setPackage(packageName);
+	        intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+	        cameraIntents.add(intent);
+	    }
+        
+		final Intent galleryIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+		final Intent chooserIntent = Intent.createChooser(galleryIntent, "Select Source");		
+		chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, cameraIntents.toArray(new Parcelable[]{}));
+		
+		return chooserIntent;
 	}
 }

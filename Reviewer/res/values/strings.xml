@@ -106,6 +106,9 @@
     <string name="button_add_cons_cd">add some cons</string>
     <string name="button_children_rating_avg_cd">criterion averaging on or off</string>
 
+    <!-- Image Views -->
+    <string name="image_review_cd">review image</string>
+    
     <!-- Checkboxes -->
     <string name="checkbox_split_comment">split comment</string>
     <string name="checkbox_include_date">include date</string>
@@ -134,6 +137,8 @@
     <string name="toast_has_con">You\'ve already added this con. Must be really bad&#8230;</string>
     <string name="toast_has_tag">You\'ve already added this tag&#8230;</string>
     <string name="toast_has_comment">You\'ve already added this comment&#8230;</string>
+    <string name="toast_split_comment">Showing sentences&#8230;</string>
+    <string name="toast_unsplit_comment">Showing headlines&#8230;</string>
     <string name="toast_bad_url">Link does not make sense&#8230;</string>
     <string name="toast_no_image_gps_tag">No image GPS tag&#8230;</string>
     <string name="toast_enter_procon">Please enter a pro or con&#8230;</string>

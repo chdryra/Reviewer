@@ -1,25 +1,16 @@
 package com.chdryra.android.reviewer;
 
 import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import android.app.Activity;
-import android.content.ComponentName;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Parcelable;
-import android.provider.MediaStore;
 import android.support.v4.app.NavUtils;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,8 +32,6 @@ import com.chdryra.android.mygenerallibrary.RandomTextUtils;
 import com.chdryra.android.reviewer.GVFacts.GVFact;
 
 public class FragmentReviewEdit extends SherlockFragment {
-	private final static String TAG = "ReviewerFinishFragment";
-	
 	private final static String DIALOG_COMMENT_TAG = "CommentDialog";
 	private final static String DIALOG_IMAGE_TAG = "ImageDialog";
 	private final static String DIALOG_LOCATION_TAG = "LocationDialog";
@@ -63,6 +52,7 @@ public class FragmentReviewEdit extends SherlockFragment {
 	public final static int URL_REQUEST = 50;
 	public final static int URL_EDIT = 51;
 	public final static int CHILDREN_REQUEST = 60;
+	public final static int CHILDREN_EDIT = 61;
 	public final static int PROSCONS_REQUEST = 70;
 	public final static int PROSCONS_EDIT = 71;
 
@@ -693,35 +683,7 @@ public class FragmentReviewEdit extends SherlockFragment {
 		if(mHelperReviewImage == null)
 			mHelperReviewImage = HelperReviewImage.getInstance(mController);
 		
-		//Set up image file
-		try {
-			mHelperReviewImage.createNewImageFile();
-		} catch (IOException e) {
-			Log.e(TAG, e.getMessage(), e);
-			e.printStackTrace();
-			return;
-		}
-		File imageFile = new File(mHelperReviewImage.getImageFilePath());
-		Uri imageUri = Uri.fromFile(imageFile);		
-		
-	    //Create intents
-		final List<Intent> cameraIntents = new ArrayList<Intent>();
-		final Intent captureIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-		final PackageManager packageManager = getSherlockActivity().getPackageManager();
-		final List<ResolveInfo> listCam = packageManager.queryIntentActivities(captureIntent, 0);
-		for(ResolveInfo res : listCam) {
-	        final String packageName = res.activityInfo.packageName;
-	        final Intent intent = new Intent(captureIntent);
-	        intent.setComponent(new ComponentName(res.activityInfo.packageName, res.activityInfo.name));
-	        intent.setPackage(packageName);
-	        intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
-	        cameraIntents.add(intent);
-	    }
-        
-		final Intent galleryIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-		final Intent chooserIntent = Intent.createChooser(galleryIntent, "Select Source");		
-		chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, cameraIntents.toArray(new Parcelable[]{}));
-
+		Intent chooserIntent = HelperReviewImage.getImageChooserIntents(getActivity(), mHelperReviewImage);
         startActivityForResult(chooserIntent, IMAGE_REQUEST);
 	}
 

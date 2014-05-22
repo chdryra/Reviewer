@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
+import android.widget.Toast;
 
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
@@ -128,8 +129,7 @@ public class FragmentReviewComment extends FragmentReviewGrid {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.menu_item_split_comment:
-			mCommentsAreSplit = !mCommentsAreSplit;
-			updateGridDataUI();
+			splitOrUnsplitComments(item);
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);
@@ -143,5 +143,15 @@ public class FragmentReviewComment extends FragmentReviewGrid {
 			((GridViewCellAdapter)getGridView().getAdapter()).setData(mComments.getSplitComments());
 		else
 			((GridViewCellAdapter)getGridView().getAdapter()).setData(mComments);
+	}
+	
+	private void splitOrUnsplitComments(MenuItem item) {
+		mCommentsAreSplit = !mCommentsAreSplit;
+		item.setIcon(mCommentsAreSplit? R.drawable.ic_action_return_from_full_screen : R.drawable.ic_action_full_screen);
+		if(mCommentsAreSplit)
+			Toast.makeText(getActivity(), R.string.toast_split_comment, Toast.LENGTH_SHORT).show();
+		else
+			Toast.makeText(getActivity(), R.string.toast_unsplit_comment, Toast.LENGTH_SHORT).show();
+		updateGridDataUI();
 	}
 }

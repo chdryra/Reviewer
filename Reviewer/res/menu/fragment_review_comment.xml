@@ -6,6 +6,11 @@
         android:title="@string/menu_options"
         android:showAsAction="always|withText" />
     
+    <item android:id="@+id/menu_item_delete"
+        android:icon="@drawable/ic_menu_delete"
+        android:title="@string/menu_delete"
+        android:showAsAction="always|withText" />
+    
     <item android:id="@+id/menu_item_done"
         android:icon="@drawable/ic_checkmark_holo_light"
         android:title="@string/menu_done"
