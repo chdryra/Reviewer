@@ -5,7 +5,7 @@ public class ReviewUser implements Review{
 	private RDTitle mTitle;
 	private RDRating mRating;
 	
-	private RDComment mComment;
+	private RDComments mComments;
 	private RDImage mImage;
 	private RDLocation mLocation;	
 	private RDFacts mFacts;
@@ -21,7 +21,7 @@ public class ReviewUser implements Review{
 		mRating = new RDRating(0, this);
 		
 		//Null option data
-		mComment = new RDCommentSingle();
+		mComments = new RDComments();
 		mImage = new RDImage();
 		mLocation = new RDLocation();
 		mFacts = new RDFacts();
@@ -157,23 +157,23 @@ public class ReviewUser implements Review{
 	}
 	
 	@Override
-	public void setComment(RDComment comment){
-		mComment = (RDComment) processData(comment, new RDCommentSingle());
+	public void setComments(RDComments comments){
+		mComments = (RDComments) processData(comments, new RDComments());
 	}
 
 	@Override
-	public RDComment getComment() {
-		return mComment;
+	public RDComments getComments() {
+		return mComments;
 	}
 
 	@Override
-	public void deleteComment() {
-		setComment(null);
+	public void deleteComments() {
+		setComments(null);
 	}
 	
 	@Override
-	public boolean hasComment() {
-		return mComment.hasData();
+	public boolean hasComments() {
+		return mComments.hasData();
 	}
 
 	@Override

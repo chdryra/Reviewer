@@ -10,6 +10,7 @@ import java.util.Date;
 import android.graphics.Bitmap;
 
 import com.chdryra.android.mygenerallibrary.GVStrings;
+import com.chdryra.android.reviewer.GVComments.GVComment;
 import com.chdryra.android.reviewer.GVFacts.GVFact;
 import com.chdryra.android.reviewer.ReviewTagsManager.ReviewTag;
 import com.google.android.gms.maps.model.LatLng;
@@ -92,36 +93,30 @@ public class ControllerReviewNode{
 	}
 	
 	//Comment
-	public boolean hasComment() {
-		return getReview().hasComment();
+	public boolean hasComments() {
+		return getReview().hasComments();
 	}
 	
-	public void setComment(String comment) {
+	public void setComments(GVComments comments) {
+		if(comments.size() == 0)
+			return;
 		Review r = getReview();
-		r.setComment(new RDCommentSingle(comment, r));
+		RDComments rdComments = new RDComments();
+		for(GVComment comment : comments)
+			rdComments.add(new RDComment(comment.getComment(), r));
+		
+		r.setComments(rdComments);
 	}
 	
-	public String getCommentString() {
-		if(hasComment())
-			return getReview().getComment().getCommentString();
-		else
-			return null;
-	}
-
-	public String getCommentTitle() {
-		if(hasComment())
-			return getReview().getComment().getCommentTitle();
-		else
-			return null;
-	}
-
-	public String getCommentHeadline() {
-		CommentFormatter formatter = new CommentFormatter(getReview().getComment());
-		return formatter.getHeadline();	
+	public GVComments getComments() {
+		GVComments comments = new GVComments();
+		for(RDComment comment : getReview().getComments())
+			comments.add(comment.get());
+		return comments;
 	}
 	
-	public void deleteComment() {
-		getReview().deleteComment();
+	public void deleteComments() {
+		getReview().deleteComments();
 	}
 	
 	public int getNumberOfComments() {

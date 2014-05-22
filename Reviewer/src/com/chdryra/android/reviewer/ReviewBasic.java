@@ -46,20 +46,20 @@ public class ReviewBasic implements Review {
 	}
 	
 	@Override
-	public void setComment(RDComment comment) {
+	public void setComments(RDComments comments) {
 	}
 
 	@Override
-	public RDComment getComment() {
+	public RDComments getComments() {
 		return null;
 	}
 
 	@Override
-	public void deleteComment() {
+	public void deleteComments() {
 	}
 
 	@Override
-	public boolean hasComment() {
+	public boolean hasComments() {
 		return false;
 	}
 

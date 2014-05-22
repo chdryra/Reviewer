@@ -5,9 +5,7 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
-import java.util.Map.Entry;
 import java.util.Set;
 
 import android.graphics.Bitmap;
@@ -85,22 +83,13 @@ public class ControllerReviewNodeCollection {
 	
 	//Title
 	public void setTitle(String id, String title) {
-		getChild(id).getTitle().set(title);
+		getControllerFor(id).setTitle(title);
 	}
 	
 	public String getTitle(String id) {
-		return getChild(id).getTitle().get();
+		return getControllerFor(id).getTitle();
 	}
 
-	//Rating
-	public void setRating(String id, float rating) {
-		getChild(id).setRating(rating);
-	}
-	
-	public float getRating(String id) {
-		return getChild(id).getRating().get();
-	}
-	
 	//RatingISAverage
 	public void setReviewRatingAverage(String id, boolean isAverage) {
 		getChild(id).getReviewNode().setRatingIsAverageOfChildren(isAverage);
@@ -109,247 +98,161 @@ public class ControllerReviewNodeCollection {
 	public boolean isReviewRatingAverage(String id) {
 		return getChild(id).getReviewNode().isRatingIsAverageOfChildren();
 	}
+
+	//Rating
+	public void setRating(String id, float rating) {
+		getControllerFor(id).setRating(rating);
+	}
+	
+	public float getRating(String id) {
+		return getControllerFor(id).getRating();
+	}
 	
 	//Comment
-	public boolean hasComment(String id) {
-		return getChild(id).hasComment();
+	public boolean hasComments(String id) {
+		return getControllerFor(id).hasComments();
 	}
 	
-	public void setComment(String id, String comment) {
-		Review r = getChild(id);
-		r.setComment(new RDCommentSingle(comment, r));
+	public void setComments(String id, GVComments comments) {
+		getControllerFor(id).setComments(comments);
 	}
 	
-	public String getCommentString(String id) {
-		if(hasComment(id))
-			return getChild(id).getComment().getCommentString();
-		else
-			return null;
-	}
-
-	public String getCommentTitle(String id) {
-		if(hasComment(id))
-			return getChild(id).getComment().getCommentTitle();
-		else
-			return null;
-	}
-
-	public String getCommentHeadline(String id) {
-		CommentFormatter formatter = new CommentFormatter(getChild(id).getComment());
-		return formatter.getHeadline();	
+	public GVComments getComments(String id) {
+		return getControllerFor(id).getComments();
 	}
 	
-	public void deleteComment(String id, boolean includingDescendents) {
-		if(!includingDescendents)
-			getChild(id).deleteComment();
-		else {
-			TraverserReviewNode traverser = new TraverserReviewNode(getChild(id).getReviewNode());
-			traverser.setVisitor(new VisitorCommentDeleter());
-			traverser.traverse();			
-		}
-	}
-	
-	public int numberOfComments(String id) {
-		TraverserReviewNode traverser = new TraverserReviewNode(getChild(id).getReviewNode());
-		VisitorCommentCollector collector = new VisitorCommentCollector();
-		traverser.setVisitor(collector);
-		traverser.traverse();
-		return collector.get().size();
+	public void deleteComments(String id) {
+		getControllerFor(id).deleteComments();
 	}
 	
 	//Facts
 	public boolean hasFacts(String id) {
-		return getChild(id).hasFacts();
+		return getControllerFor(id).hasFacts();
 	}
 	
 	public void deleteFacts(String id) {
-		getChild(id).deleteFacts();
+		getControllerFor(id).deleteFacts();
 	}
 	
-	public LinkedHashMap<String, String> getFacts(String id) {
-		LinkedHashMap<String, String> factsMap = new LinkedHashMap<String, String>();
-		if(!hasFacts(id))
-			return factsMap;
-		
-		RDFacts facts = getChild(id).getFacts();
-		for(RDFact fact : facts)
-			factsMap.put(fact.getLabel(), fact.getValue());
-		
-		return factsMap;
+	public GVFacts getFacts(String id) {
+		return getControllerFor(id).getFacts();
 	}
 	
-	public void setFacts(String id, LinkedHashMap<String, String> factsMap) {
-		Review r = getChild(id);
-		RDFacts facts = new RDFacts(r);
-		for(Entry<String, String> entry: factsMap.entrySet())
-			facts.put(entry.getKey(), entry.getValue());
-		
-		r.setFacts(facts);
+	public void setFacts(String id, GVFacts facts) {
+		getControllerFor(id).setFacts(facts);
 	}
 
 	//Date
 	public boolean hasDate(String id) {
-		return getChild(id).hasDate();
+		return getControllerFor(id).hasDate();
 	}
 	
 	public Date getDate(String id) {
-		if(hasDate(id))
-			return getChild(id).getDate().get();
-		else
-			return null;
+		return getControllerFor(id).getDate();
 	}
 	
 	public void setDate(String id, Date date) {
-		Review r =getChild(id);
-		r.setDate(new RDDate(date, r));
+		getControllerFor(id).setDate(date);
 	}
 	
 	public void deleteDate(String id) {
-		getChild(id).deleteDate();
+		getControllerFor(id).deleteDate();
 	}
 
 	//Image
 	public boolean hasImage(String id) {
-		return getChild(id).hasImage();
+		return getControllerFor(id).hasImage();
 	}
 	
 	public Bitmap getImageBitmap(String id) {
-		if(hasImage(id))
-			return getChild(id).getImage().getBitmap();
-		else
-			return null;
+		return getControllerFor(id).getImageBitmap();
 	}
 	
 	public void setImageBitmap(String id, Bitmap image) {
-		Review r = getChild(id);
-		r.setImage(new RDImage(image, r));
+		getControllerFor(id).setImageBitmap(image);
 	}
 	
 	public boolean hasImageCaption(String id) {
-		if(hasImage(id))
-			return getChild(id).getImage().hasCaption();
-		else
-			return false;
+		return getControllerFor(id).hasImageCaption();
 	}
 	
 	public String getImageCaption(String id) {
-		if(hasImageCaption(id))
-			return getChild(id).getImage().getCaption();
-		else
-			return null;
+		return getControllerFor(id).getImageCaption();
 	}
 	
 	public void setImageCaption(String id, String caption) {
-		if(hasImage(id))
-			getChild(id).getImage().setCaption(caption);
+		getControllerFor(id).setImageCaption(caption);
 	}
 
 	public boolean hasImageLatLng(String id) {
-		if(hasImage(id))
-			return getChild(id).getImage().hasLatLng();
-		else
-			return false;
+		return getControllerFor(id).hasImageLatLng();
 	}
 	
 	public LatLng getImageLatLng(String id) {
-		if(hasImageCaption(id))
-			return getChild(id).getImage().getLatLng();
-		else
-			return null;
+		return getControllerFor(id).getImageLatLng();
 	}
 	
 	public void setImageLatLng(String id, LatLng latLng) {
-		if(hasImage(id))
-			getChild(id).getImage().setLatLng(latLng);
+		getControllerFor(id).setImageLatLng(latLng);
 	}
 	
 	public void deleteImage(String id) {
-		getChild(id).deleteImage();
+		getControllerFor(id).deleteImage();
 	}
 
 	
 	//Location
 	public boolean hasLocation(String id) {
-		return getChild(id).hasLocation();
+		return getControllerFor(id).hasLocation();
 	}
 	
 	public LatLng getLocationLatLng(String id) {
-		if(hasLocation(id))
-			return getChild(id).getLocation().getLatLng();
-		else
-			return null;
+		return getControllerFor(id).getLocationLatLng();
 	}
 	
-	public void setLocationLatLng(String id, LatLng latLng) {
-		Review r = getChild(id);
-		r.setLocation(new RDLocation(latLng, r));
+	public void setLocation(String id, LatLng latLng, String name) {
+		getControllerFor(id).setLocation(latLng, name);
 	}
 
 	public boolean hasLocationName(String id) {
-		if(hasLocation(id))
-			return getChild(id).getLocation().hasName();
-		else
-			return false;
+		return getControllerFor(id).hasLocationName();
 	}
 	
 	public String getLocationName(String id) {
-		if(hasLocationName(id))
-			return getChild(id).getLocation().getName();
-		else
-			return null;
+		return getControllerFor(id).getLocationName();
 	}
 
 	public String getShortLocationName(String id) {
-		if(hasLocationName(id))
-			return getChild(id).getLocation().getShortenedName();
-		else
-			return null;
+		return getControllerFor(id).getShortLocationName();
 	}
 	
-	public void setLocationName(String id, String name) {
-		if(hasLocation(id))
-			getChild(id).getLocation().setName(name);
-	}
-
 	public void deleteLocation(String id) {
-		getChild(id).deleteLocation();
+		getControllerFor(id).deleteLocation();
 	}
 	
 	//URL
 	public boolean hasURL(String id) {
-		return getChild(id).hasURL();
+		return getControllerFor(id).hasURL();
 	}
 	
 	public URL getURL(String id) {
-		if(hasURL(id))
-			return getChild(id).getURL().get();
-		else
-			return null;
+		return getControllerFor(id).getURL();
 	}
 	
 	public void setURL(String id, String urlString) throws MalformedURLException, URISyntaxException{
-		Review r = getChild(id);
-		RDUrl url;
-		url = new RDUrl(urlString, r);
-		r.setURL(url);
+		getControllerFor(id).setURL(urlString);
 	}
 	
 	public String getURLString(String id) {
-		if(hasURL(id))
-			return getChild(id).getURL().toString();
-		else 
-			return null;
+		return getControllerFor(id).getURLString();
 	}
 	
 	public String getURLShortenedString(String id) {
-		if(hasURL(id))
-			return getChild(id).getURL().toShortenedString();
-		else 
-			return null;
+		return getControllerFor(id).getURLShortenedString();
 	}
 	
 	public void deleteURL(String id) {
-		getChild(id).deleteURL();
+		getControllerFor(id).deleteURL();
 	}
 
 	public GVReviewSubjectRatings getGridViewiableData() {
@@ -359,6 +262,4 @@ public class ControllerReviewNodeCollection {
 		
 		return data;
 	}
-	
 }
-

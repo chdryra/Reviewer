@@ -96,11 +96,11 @@ public class ReviewMeta implements Review {
 	}
 	
 	@Override
-	public void setComment(RDComment comment) {
+	public void setComments(RDComments comments) {
 	}
 
 	@Override
-	public RDComment getComment() {
+	public RDComments getComments() {
 		TraverserReviewNode traverser = new TraverserReviewNode(getReviewNode());
 		VisitorCommentCollector collector = new VisitorCommentCollector();
 		traverser.setVisitor(collector);
@@ -109,12 +109,12 @@ public class ReviewMeta implements Review {
 	}
 
 	@Override
-	public void deleteComment() {
+	public void deleteComments() {
 	}
 
 	@Override
-	public boolean hasComment() {
-		RDCommentCollection comments = (RDCommentCollection)getComment();
+	public boolean hasComments() {
+		RDComments comments = (RDComments)getComments();
 		return comments.size() > 0;
 	}
 

@@ -219,23 +219,23 @@ public class ReviewComponent implements ReviewNode {
 	}
 
 	@Override
-	public void setComment(RDComment comment) {
-		mReview.setComment(comment);
+	public void setComments(RDComments comments) {
+		mReview.setComments(comments);
 	}
 
 	@Override
-	public RDComment getComment() {
-		return mReview.getComment();
+	public RDComments getComments() {
+		return mReview.getComments();
 	}
 
 	@Override
-	public void deleteComment() {
-		mReview.deleteComment();
+	public void deleteComments() {
+		mReview.deleteComments();
 	}
 
 	@Override
-	public boolean hasComment() {
-		return mReview.hasComment();
+	public boolean hasComments() {
+		return mReview.hasComments();
 	}
 
 	@Override

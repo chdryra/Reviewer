@@ -25,7 +25,7 @@ public class FragmentReviewFacts extends FragmentReviewGrid {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		mFacts = getController().getFacts();
-		setDeleteWhatTitle(getResources().getString(R.string.activity_title_facts));
+		setDeleteWhatTitle(getResources().getString(R.string.dialog_delete_fact_title));
 		setGridCellDimension(CellDimension.HALF, CellDimension.QUARTER);
 		setBannerButtonText(getResources().getString(R.string.button_add_facts));
 		setIsEditable(true);

@@ -289,7 +289,10 @@ public class FragmentReviewEdit extends SherlockFragment {
 		mAddCommentImageButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				showCommentAddDialog();
+				if(mController.hasComments())
+					requestCommentMakeIntent();
+				else
+					showCommentAddDialog();
 			}
 		});
 
@@ -553,13 +556,13 @@ public class FragmentReviewEdit extends SherlockFragment {
 	}
 	
 	private void updateCommentHeadline() {
-		if(!mController.hasComment()) {
+		if(!mController.hasComments()) {
 			setVisibleGoneView(mAddCommentImageButton, mCommentTextView);
 			return;
 		}
 
 
-		switchImageButtonToTextView(mCommentTextView, mAddCommentImageButton, mController.getCommentHeadline());
+		switchImageButtonToTextView(mCommentTextView, mAddCommentImageButton, "Comments: " + mController.getComments().size());
 	}	
 	
 	private void updateProsConsDisplay() {
@@ -730,10 +733,6 @@ public class FragmentReviewEdit extends SherlockFragment {
 		showDialog(new DialogLocationFragment(), LOCATION_EDIT, DIALOG_LOCATION_TAG);
 	}
 
-	private void showCommentEditDialog() {
-		showDialog(new DialogCommentFragment(), COMMENT_EDIT, DIALOG_COMMENT_TAG);
-	}
-
 	private void showURLEditDialog() {
 		showDialog(new DialogURLFragment(), URL_EDIT, DIALOG_URL_TAG);
 	}
@@ -763,7 +762,7 @@ public class FragmentReviewEdit extends SherlockFragment {
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 		super.onCreateOptionsMenu(menu, inflater);
-		inflater.inflate(R.menu.fragment_review_edit, menu);
+		inflater.inflate(R.menu.menu_delete_done, menu);
 	}
 
 	@Override

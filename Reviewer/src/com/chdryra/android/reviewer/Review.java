@@ -16,10 +16,10 @@ public interface Review {
 	public ReviewNode getReviewNode();
 	
 	//Optional data
-	public void setComment(RDComment comment);
-	public RDComment getComment();
-	public void deleteComment();
-	public boolean hasComment();
+	public void setComments(RDComments comment);
+	public RDComments getComments();
+	public void deleteComments();
+	public boolean hasComments();
 
 	public RDImage getImage();
 	public void setImage(RDImage image);

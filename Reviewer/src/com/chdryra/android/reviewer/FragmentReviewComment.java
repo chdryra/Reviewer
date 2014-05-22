@@ -1,173 +1,147 @@
 package com.chdryra.android.reviewer;
 
-import android.graphics.drawable.Drawable;
+import android.content.Intent;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.EditText;
+import android.widget.AdapterView;
 
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.chdryra.android.mygenerallibrary.ActivityResultCode;
 import com.chdryra.android.mygenerallibrary.GridViewCellAdapter;
+import com.chdryra.android.reviewer.GVComments.GVComment;
 
 public class FragmentReviewComment extends FragmentReviewGrid {
-	
-	public static final String EXTRA_COMMENT_STRING = "com.chdryra.android.reviewer.comment_string";
-	
-	private static final int MIN_COMMENT_EDITTEXT_LINES = 5;
-	private static final int MAX_COMMENT_EDITTEXT_LINES = 10;
+	public static final String COMMENT = "com.chdryra.android.reviewer.comment";	
+	public static final String DIALOG_COMMENT_ADD_TAG = "CommentAddDialog";
+	public static final String DIALOG_COMMENT_EDIT_TAG = "CommentEditDialog";
 
-	private ControllerReviewNode mController;
+	public final static int COMMENT_ADD = 10;
+	public final static int COMMENT_EDIT = 11;
 	
-	private MenuItem mClearCommentMenuItem;
-	private Drawable mClearCommentIcon;  
-	private EditText mCommentEditText;
+	private GVComments mComments; 	
+	private boolean mCommentsAreSplit = false;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		mController = Controller.unpack(getActivity().getIntent().getExtras());
-		setDeleteWhatTitle(getResources().getString(R.string.activity_title_comment));
+		mComments = getController().getComments();
+		setDeleteWhatTitle(getResources().getString(R.string.dialog_delete_comment_title));
+		setGridCellDimension(CellDimension.HALF, CellDimension.QUARTER);
+		setBannerButtonText(getResources().getString(R.string.button_add_comment));
+		setIsEditable(true);
+	}
+		
+	@Override
+	protected void onBannerButtonClick() {
+		DialogShower.show(new DialogCommentAddFragment(), FragmentReviewComment.this, COMMENT_ADD, DIALOG_COMMENT_ADD_TAG, Controller.pack(getController()));
 	}
 	
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View v = inflater.inflate(R.layout.fragment_review_comment, container, false);						
-		getSherlockActivity().getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-	
-		mCommentEditText = (EditText)v.findViewById(R.id.comment_edit_text);
-		
-		initUI();
-		updateUI();
-		
-		return v;
+	protected void onGridItemClick(AdapterView<?> parent, View v, int position, long id) {
+		GVComment comment = (GVComment)parent.getItemAtPosition(position);
+		Bundle args = new Bundle();
+		args.putString(COMMENT, comment.getUnSplitComment().getComment());
+		DialogShower.show(new DialogCommentEditFragment(), FragmentReviewComment.this, COMMENT_EDIT, DIALOG_COMMENT_EDIT_TAG, args);
 	}
-
-	@Override
-	protected void initUI() {
-		getSherlockActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
-		mCommentEditText.setHorizontallyScrolling(false);
-		mCommentEditText.setMinLines(MIN_COMMENT_EDITTEXT_LINES);
-		
-		//To allow scrolling within edit text 
-		//if contains string by disallowing scrollview scrolling.
-		mCommentEditText.setOnTouchListener(new View.OnTouchListener() {
-             @Override
-             public boolean onTouch(View v, MotionEvent event) {
-                 if (v.getId() == R.id.comment_edit_text) {
-                	 
-                	 EditText et = (EditText)v;
-                	 
-                	 if(et.getLineCount() <= MAX_COMMENT_EDITTEXT_LINES)
-                		 return false;
-                     
-                	 et.getParent().requestDisallowInterceptTouchEvent(true);
-                     switch (event.getAction() & MotionEvent.ACTION_MASK) {
-                     case MotionEvent.ACTION_UP:
-                         et.getParent().requestDisallowInterceptTouchEvent(false);
-                         break;
-                     }
-                 }
-                 return false;
-             }
-         });
-		
-		mCommentEditText.addTextChangedListener(new TextWatcher() {
-			@Override
-			public void onTextChanged(CharSequence s, int start, int before, int count) {}
 			
-			@Override
-			public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-			
-			@Override
-			public void afterTextChanged(Editable s) {
-				updateClearCommentMenuItemVisibility();
-			}	
-		});
-		
-		mCommentEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-		    @Override
-		    public void onFocusChange(View v, boolean hasFocus) {
-		        if (hasFocus)
-		            getSherlockActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
-		    }
-		});
-		
+	@Override
+	protected void onDoneSelected() {
+		if(mComments.size() > 0)
+			getController().setComments(mComments);
 	}
 
-	@Override
-	protected void updateUI() {
-		mCommentEditText.setText(mController.getCommentString());
-	}
-	
-	private void updateClearCommentMenuItemVisibility() {
-		//Have to hack as setting visibility relegates icon to overflow
-		if(mCommentEditText != null &&  mCommentEditText.getText().toString() != null
-				&& mCommentEditText.getText().toString().length() > 0) {
-			mClearCommentIcon.setAlpha(100);
-			mClearCommentMenuItem.setEnabled(true);
-		} else {
-			mClearCommentIcon.setAlpha(0);
-			mClearCommentMenuItem.setEnabled(false);
-		}
-		
-		mClearCommentMenuItem.setIcon(mClearCommentIcon);
-	}
-	
-	@Override
-	protected void sendResult(ActivityResultCode resultCode) {
-		if(resultCode.equals(ActivityResultCode.OK))			
-			mController.setComment(mCommentEditText.getText().toString());
-
-		super.sendResult(resultCode);
-	}
-	
 	@Override
 	protected void onDeleteSelected() {
-		mController.deleteComment();
+		mComments.removeAll();
 	}
-	
+
 	@Override
 	protected boolean hasDataToDelete() {
-		return mController.hasComment();
+		return mComments.size() > 0;
 	}
 	
 	@Override
-    public void onPrepareOptionsMenu(Menu menu) {
-        super.onPrepareOptionsMenu(menu);
-    	mClearCommentMenuItem = menu.findItem(R.id.menu_item_clear);
-    	mClearCommentIcon = getResources().getDrawable(R.drawable.ic_clear_search_api_holo_light);
-		updateClearCommentMenuItemVisibility();
-    }
+	protected GridViewCellAdapter getGridViewCellAdapter() {
+		return new GridViewCellAdapter(getActivity(), 
+				mComments, 
+				R.layout.grid_cell_comment, 
+				getGridCellWidth(), getGridCellHeight());
+	}
+	
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		getSherlockActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+	
+		switch(requestCode) {
+		case COMMENT_ADD:
+			addComment(resultCode, data);
+			break;
+		case COMMENT_EDIT:
+			editComment(resultCode, data);
+			break;
+		default:
+			super.onActivityResult(requestCode, resultCode, data);
+			break;
+		}
+		
+		updateUI();				
+	}
+
+	private void addComment(int resultCode, Intent data) {
+		switch(ActivityResultCode.get(resultCode)) {
+		case ADD:
+			String comment = (String)data.getSerializableExtra(DialogCommentAddFragment.COMMENT);
+			if(comment != null && comment.length() > 0)
+				mComments.add(comment);
+			break;
+		default:
+			return;
+		}
+	}
+	
+	private void editComment(int resultCode, Intent data) {
+		switch(ActivityResultCode.get(resultCode)) {
+		case DONE:
+			String oldComment = (String)data.getSerializableExtra(DialogCommentEditFragment.COMMENT_OLD);
+			String newComment = (String)data.getSerializableExtra(DialogCommentEditFragment.COMMENT_NEW);
+			mComments.remove(oldComment);
+			mComments.add(newComment);
+			break;
+		case DELETE:
+			String toDelete = (String)data.getSerializableExtra(DialogCommentEditFragment.COMMENT_OLD);
+			mComments.remove(toDelete);
+			break;
+		default:
+			return;
+		}
+	}
 	
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-		inflater.inflate(R.menu.menu_clear_delete_done, menu);
+		inflater.inflate(R.menu.fragment_review_comment, menu);
 	}
 	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-			case R.id.menu_item_clear:
-				if(mCommentEditText != null)
-					mCommentEditText.setText(null);
-				return true;
-				
-			default:
-				return super.onOptionsItemSelected(item);
+		case R.id.menu_item_split_comment:
+			mCommentsAreSplit = !mCommentsAreSplit;
+			updateGridDataUI();
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
 		}
+		
 	}
-
+	
 	@Override
-	protected GridViewCellAdapter getGridViewCellAdapter() {
-		// TODO Auto-generated method stub
-		return null;
+	protected void updateGridDataUI() {
+		if(mCommentsAreSplit)
+			((GridViewCellAdapter)getGridView().getAdapter()).setData(mComments.getSplitComments());
+		else
+			((GridViewCellAdapter)getGridView().getAdapter()).setData(mComments);
 	}
 }
