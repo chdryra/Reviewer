@@ -7,11 +7,9 @@ import com.google.android.gms.maps.model.LatLng;
 public class RDImage implements RData{
 	
 	private Review mHoldingReview;
-	
 	private Bitmap mBitmap;
 	private String mCaption;
 	private LatLng mLatLng;
-
 
 	public RDImage() {
 	}

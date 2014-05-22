@@ -96,11 +96,11 @@ public class ReviewMeta implements Review {
 	}
 	
 	@Override
-	public void setComments(RDComments comments) {
+	public void setComments(RDCommentCollection comments) {
 	}
 
 	@Override
-	public RDComments getComments() {
+	public RDCommentCollection getComments() {
 		TraverserReviewNode traverser = new TraverserReviewNode(getReviewNode());
 		VisitorCommentCollector collector = new VisitorCommentCollector();
 		traverser.setVisitor(collector);
@@ -114,7 +114,7 @@ public class ReviewMeta implements Review {
 
 	@Override
 	public boolean hasComments() {
-		RDComments comments = (RDComments)getComments();
+		RDCommentCollection comments = (RDCommentCollection)getComments();
 		return comments.size() > 0;
 	}
 
@@ -155,12 +155,12 @@ public class ReviewMeta implements Review {
 	}
 
 	@Override
-	public RDFacts getFacts() {
+	public RDFactCollection getFacts() {
 		return null;
 	}
 
 	@Override
-	public void setFacts(RDFacts data) {
+	public void setFacts(RDFactCollection data) {
 	}
 
 	@Override
@@ -214,7 +214,7 @@ public class ReviewMeta implements Review {
 	}
 
 	@Override
-	public RDProsCons getProsCons() {
+	public RDProCons getProsCons() {
 		return null;
 	}
 
@@ -224,7 +224,7 @@ public class ReviewMeta implements Review {
 	}
 	
 	@Override
-	public void setProsCons(RDProsCons prosCons) {
+	public void setProsCons(RDProCons prosCons) {
 	}
 	
 	@Override

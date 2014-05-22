@@ -46,11 +46,11 @@ public class ReviewBasic implements Review {
 	}
 	
 	@Override
-	public void setComments(RDComments comments) {
+	public void setComments(RDCommentCollection comments) {
 	}
 
 	@Override
-	public RDComments getComments() {
+	public RDCommentCollection getComments() {
 		return null;
 	}
 
@@ -100,12 +100,12 @@ public class ReviewBasic implements Review {
 	}
 
 	@Override
-	public RDFacts getFacts() {
+	public RDFactCollection getFacts() {
 		return null;
 	}
 
 	@Override
-	public void setFacts(RDFacts facts) {
+	public void setFacts(RDFactCollection facts) {
 	}
 
 	@Override
@@ -158,7 +158,7 @@ public class ReviewBasic implements Review {
 	}
 	
 	@Override
-	public RDProsCons getProsCons() {
+	public RDProCons getProsCons() {
 		return null;
 	}
 
@@ -168,7 +168,7 @@ public class ReviewBasic implements Review {
 	}
 	
 	@Override
-	public void setProsCons(RDProsCons prosCons) {
+	public void setProsCons(RDProCons prosCons) {
 	}
 	
 	@Override

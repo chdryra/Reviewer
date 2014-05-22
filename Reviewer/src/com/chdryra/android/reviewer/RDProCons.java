@@ -4,16 +4,16 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-public class RDProsCons implements RData, Iterable<RDProCon> {
+public class RDProCons implements RData, Iterable<RDProCon> {
 
 	private Review mHoldingReview;
 	private ArrayList<RDProCon> mProsCons;
 	
-	public RDProsCons() {
+	public RDProCons() {
 		mProsCons = new ArrayList<RDProCon>();
 	}
 	
-	public RDProsCons(Review holdingReview) {
+	public RDProCons(Review holdingReview) {
 		mHoldingReview = holdingReview;
 		mProsCons = new ArrayList<RDProCon>();
 	}
@@ -42,8 +42,8 @@ public class RDProsCons implements RData, Iterable<RDProCon> {
 		return mProsCons.size();
 	}
 	
-	private RDProsCons get(boolean getPros) {
-		RDProsCons prosOrCons = new RDProsCons(mHoldingReview);
+	private RDProCons get(boolean getPros) {
+		RDProCons prosOrCons = new RDProCons(mHoldingReview);
 		for(RDProCon pc : this)
 			if(pc.isPro() == getPros)
 				prosOrCons.add(pc);
@@ -51,11 +51,11 @@ public class RDProsCons implements RData, Iterable<RDProCon> {
 		return prosOrCons;
 	}
 
-	public RDProsCons getPros() {
+	public RDProCons getPros() {
 		return get(true);
 	}
 	
-	public RDProsCons getCons() {
+	public RDProCons getCons() {
 		return get(false);
 	}
 	

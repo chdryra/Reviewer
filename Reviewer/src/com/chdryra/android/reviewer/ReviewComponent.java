@@ -219,12 +219,12 @@ public class ReviewComponent implements ReviewNode {
 	}
 
 	@Override
-	public void setComments(RDComments comments) {
+	public void setComments(RDCommentCollection comments) {
 		mReview.setComments(comments);
 	}
 
 	@Override
-	public RDComments getComments() {
+	public RDCommentCollection getComments() {
 		return mReview.getComments();
 	}
 
@@ -279,12 +279,12 @@ public class ReviewComponent implements ReviewNode {
 	}
 
 	@Override
-	public RDFacts getFacts() {
+	public RDFactCollection getFacts() {
 		return mReview.getFacts();
 	}
 
 	@Override
-	public void setFacts(RDFacts facts) {
+	public void setFacts(RDFactCollection facts) {
 		mReview.setFacts(facts);
 	}
 
@@ -344,7 +344,7 @@ public class ReviewComponent implements ReviewNode {
 	}
 	
 	@Override
-	public RDProsCons getProsCons() {
+	public RDProCons getProsCons() {
 		return mReview.getProsCons();
 	}
 	
@@ -354,7 +354,7 @@ public class ReviewComponent implements ReviewNode {
 	}
 	
 	@Override
-	public void setProsCons(RDProsCons prosCons) {
+	public void setProsCons(RDProCons prosCons) {
 		mReview.setProsCons(prosCons);
 	}
 	

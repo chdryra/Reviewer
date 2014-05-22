@@ -16,8 +16,8 @@ public interface Review {
 	public ReviewNode getReviewNode();
 	
 	//Optional data
-	public void setComments(RDComments comment);
-	public RDComments getComments();
+	public void setComments(RDCollection<RDComment> comment);
+	public RDCollection<RDComment> getComments();
 	public void deleteComments();
 	public boolean hasComments();
 
@@ -31,8 +31,8 @@ public interface Review {
 	public void deleteLocation();	
 	public boolean hasLocation();
 
-	public RDFacts getFacts();
-	public void setFacts(RDFacts facts);
+	public RDCollection<RDFact> getFacts();
+	public void setFacts(RDCollection<RDFact> facts);
 	public void deleteFacts();	
 	public boolean hasFacts();
 	
@@ -46,8 +46,8 @@ public interface Review {
 	public void deleteDate();	
 	public boolean hasDate();
 
-	public RDProsCons getProsCons();
-	public void setProsCons(RDProsCons prosCons);
+	public RDProCons getProsCons();
+	public void setProsCons(RDProCons prosCons);
 	public void deleteProsCons();	
 	public boolean hasProsCons();
 

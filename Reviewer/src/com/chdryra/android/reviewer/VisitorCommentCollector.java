@@ -1,15 +1,15 @@
 package com.chdryra.android.reviewer;
 
 public class VisitorCommentCollector implements VisitorReviewNode {
-	private RDComments mData = new RDComments();
+	private RDCommentCollection mData = new RDCommentCollection();
 	
 	@Override
 	public void visit(ReviewNode reviewNode) {
 		if(reviewNode.hasComments())
-			mData.add(new RDComments(reviewNode.getComments(), reviewNode.getReview()));
+			mData.add(new RDCommentCollection(reviewNode.getComments(), reviewNode.getReview()));
 	}
 	
-	public RDComments get() {
+	public RDCommentCollection get() {
 		return mData;
 	}
 }

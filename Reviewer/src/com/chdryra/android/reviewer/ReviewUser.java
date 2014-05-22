@@ -5,13 +5,13 @@ public class ReviewUser implements Review{
 	private RDTitle mTitle;
 	private RDRating mRating;
 	
-	private RDComments mComments;
+	private RDCommentCollection mComments;
 	private RDImage mImage;
 	private RDLocation mLocation;	
-	private RDFacts mFacts;
+	private RDFactCollection mFacts;
 	private RDUrl mURL;
 	private RDDate mDate;
-	private RDProsCons mProsCons;
+	private RDProCons mProsCons;
 
 	private ReviewNode mNode;
 	
@@ -21,11 +21,11 @@ public class ReviewUser implements Review{
 		mRating = new RDRating(0, this);
 		
 		//Null option data
-		mComments = new RDComments();
+		mComments = new RDCommentCollection();
 		mImage = new RDImage();
 		mLocation = new RDLocation();
-		mFacts = new RDFacts();
-		mProsCons = new RDProsCons();
+		mFacts = new RDFactCollection();
+		mProsCons = new RDProCons();
 		mURL = new RDUrl();
 		mDate = new RDDate();
 		
@@ -140,12 +140,12 @@ public class ReviewUser implements Review{
 		return mLocation.hasData();
 	}
 
-	public RDFacts getFacts() {
+	public RDFactCollection getFacts() {
 		return mFacts;
 	}
 
-	public void setFacts(RDFacts facts) {
-		mFacts = (RDFacts) processData(facts, new RDFacts());
+	public void setFacts(RDFactCollection facts) {
+		mFacts = (RDFactCollection) processData(facts, new RDFactCollection());
 	}
 	
 	public void deleteFacts() {
@@ -157,12 +157,12 @@ public class ReviewUser implements Review{
 	}
 	
 	@Override
-	public void setComments(RDComments comments){
-		mComments = (RDComments) processData(comments, new RDComments());
+	public void setComments(RDCommentCollection comments){
+		mComments = (RDCommentCollection) processData(comments, new RDCommentCollection());
 	}
 
 	@Override
-	public RDComments getComments() {
+	public RDCommentCollection getComments() {
 		return mComments;
 	}
 
@@ -222,7 +222,7 @@ public class ReviewUser implements Review{
 	}
 	
 	@Override
-	public RDProsCons getProsCons() {
+	public RDProCons getProsCons() {
 		return mProsCons;
 	}
 	
@@ -232,8 +232,8 @@ public class ReviewUser implements Review{
 	}
 	
 	@Override
-	public void setProsCons(RDProsCons prosCons) {
-		mProsCons = (RDProsCons)processData(prosCons, new RDProsCons());
+	public void setProsCons(RDProCons prosCons) {
+		mProsCons = (RDProCons)processData(prosCons, new RDProCons());
 	}
 	
 	@Override
