@@ -8,8 +8,9 @@ import com.chdryra.android.myandroidwidgets.ClearableEditText;
 import com.chdryra.android.mygenerallibrary.DialogDeleteCancelDoneFragment;
 
 public class DialogProConEditFragment extends DialogDeleteCancelDoneFragment {
-	public static final String PROCON = "com.chdryra.android.reviewer.procon";
-	public static final String PROCON_OLD = "com.chdryra.android.reviewer.procon_old";
+	public static final String PROCON = "com.chdryra.android.reviewer.pro_con";
+	public static final String PRO_MODE = "com.chdryra.android.reviewer.pro_mode";
+	public static final String OLD = "com.chdryra.android.reviewer.procon_old";
 	
 	private ClearableEditText mProCon;
 	private String mOldProCon;
@@ -20,7 +21,7 @@ public class DialogProConEditFragment extends DialogDeleteCancelDoneFragment {
 		super.onCreate(savedInstanceState);		
 		setDeleteConfirmation(false);
 		mOldProCon = getArguments().getString(FragmentReviewProsCons.PROCON);
-		mProMode = getTargetRequestCode() == FragmentReviewProsCons.PRO_EDIT ? true : false;
+		mProMode = getArguments().getBoolean(FragmentReviewProsCons.PRO_MODE);
 		String title = mProMode? getResources().getString(R.string.dialog_edit_pro_title) : getResources().getString(R.string.dialog_edit_con_title); 
 		setDialogTitle(title);
 	}
@@ -39,13 +40,16 @@ public class DialogProConEditFragment extends DialogDeleteCancelDoneFragment {
 	@Override
 	protected void onDoneButtonClick() {
 		Intent i = getNewReturnData();
-		i.putExtra(PROCON_OLD, mOldProCon);
+		i.putExtra(OLD, mOldProCon);
 		i.putExtra(PROCON, mProCon.getText().toString());
+		i.putExtra(PRO_MODE, mProMode);
 	}
 	
 	@Override
 	protected void onDeleteButtonClick() {
-		getNewReturnData().putExtra(PROCON_OLD, mOldProCon);
+		Intent i = getNewReturnData();
+		i.putExtra(OLD, mOldProCon);
+		i.putExtra(PRO_MODE, mProMode);
 	}
 
 	@Override

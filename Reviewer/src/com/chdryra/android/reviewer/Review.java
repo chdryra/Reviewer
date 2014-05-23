@@ -16,10 +16,20 @@ public interface Review {
 	public ReviewNode getReviewNode();
 	
 	//Optional data
-	public void setComments(RDCollection<RDComment> comment);
 	public RDCollection<RDComment> getComments();
+	public void setComments(RDCollection<RDComment> comment);
 	public void deleteComments();
 	public boolean hasComments();
+
+	public RDCollection<RDFact> getFacts();
+	public void setFacts(RDCollection<RDFact> facts);
+	public void deleteFacts();	
+	public boolean hasFacts();
+
+	public RDCollection<RDProCon> getProCons();
+	public void setProCons(RDCollection<RDProCon> proCons);
+	public void deleteProCons();	
+	public boolean hasProCons();
 
 	public RDImage getImage();
 	public void setImage(RDImage image);
@@ -30,11 +40,6 @@ public interface Review {
 	public void setLocation(RDLocation location);
 	public void deleteLocation();	
 	public boolean hasLocation();
-
-	public RDCollection<RDFact> getFacts();
-	public void setFacts(RDCollection<RDFact> facts);
-	public void deleteFacts();	
-	public boolean hasFacts();
 	
 	public RDUrl getURL();
 	public void setURL(RDUrl url);
@@ -45,11 +50,6 @@ public interface Review {
 	public void setDate(RDDate date);
 	public void deleteDate();	
 	public boolean hasDate();
-
-	public RDProCons getProsCons();
-	public void setProsCons(RDProCons prosCons);
-	public void deleteProsCons();	
-	public boolean hasProsCons();
 
 	//For speed and comparison
 	@Override

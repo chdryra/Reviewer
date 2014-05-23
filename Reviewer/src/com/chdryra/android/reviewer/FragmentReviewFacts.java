@@ -47,8 +47,7 @@ public class FragmentReviewFacts extends FragmentReviewGrid {
 			
 	@Override
 	protected void onDoneSelected() {
-		if(mFacts.size() > 0)
-			getController().setFacts(mFacts);
+		getController().setFacts(mFacts);
 	}
 
 	@Override

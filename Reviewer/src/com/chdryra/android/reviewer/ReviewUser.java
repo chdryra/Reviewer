@@ -5,13 +5,13 @@ public class ReviewUser implements Review{
 	private RDTitle mTitle;
 	private RDRating mRating;
 	
-	private RDCommentCollection mComments;
+	private RDCollection<RDComment> mComments;
 	private RDImage mImage;
 	private RDLocation mLocation;	
-	private RDFactCollection mFacts;
+	private RDCollection<RDFact> mFacts;
 	private RDUrl mURL;
 	private RDDate mDate;
-	private RDProCons mProsCons;
+	private RDCollection<RDProCon> mProCons;
 
 	private ReviewNode mNode;
 	
@@ -21,11 +21,11 @@ public class ReviewUser implements Review{
 		mRating = new RDRating(0, this);
 		
 		//Null option data
-		mComments = new RDCommentCollection();
+		mComments = new RDCollection<RDComment>();
 		mImage = new RDImage();
 		mLocation = new RDLocation();
-		mFacts = new RDFactCollection();
-		mProsCons = new RDProCons();
+		mFacts = new RDCollection<RDFact>();
+		mProCons = new RDCollection<RDProCon>();
 		mURL = new RDUrl();
 		mDate = new RDDate();
 		
@@ -108,6 +108,18 @@ public class ReviewUser implements Review{
 		return member;
 	}
 	
+	private <T extends RData> RDCollection<T> processData(RDCollection<T> newData, RDCollection<T> ifNull) {
+		RDCollection<T> member;
+		if(newData != null)
+			member = newData;
+		else
+			member = ifNull;
+		
+		member.setHoldingReview(this);
+		
+		return member;
+	}
+	
 	public RDImage getImage() {
 		return mImage;
 	}
@@ -140,12 +152,12 @@ public class ReviewUser implements Review{
 		return mLocation.hasData();
 	}
 
-	public RDFactCollection getFacts() {
+	public RDCollection<RDFact> getFacts() {
 		return mFacts;
 	}
 
-	public void setFacts(RDFactCollection facts) {
-		mFacts = (RDFactCollection) processData(facts, new RDFactCollection());
+	public void setFacts(RDCollection<RDFact> facts) {
+		mFacts = (RDCollection<RDFact>) processData(facts, new RDCollection<RDFact>());
 	}
 	
 	public void deleteFacts() {
@@ -157,12 +169,12 @@ public class ReviewUser implements Review{
 	}
 	
 	@Override
-	public void setComments(RDCommentCollection comments){
-		mComments = (RDCommentCollection) processData(comments, new RDCommentCollection());
+	public void setComments(RDCollection<RDComment> comments){
+		mComments = (RDCollection<RDComment>) processData(comments, new RDCollection<RDComment>());
 	}
 
 	@Override
-	public RDCommentCollection getComments() {
+	public RDCollection<RDComment> getComments() {
 		return mComments;
 	}
 
@@ -217,23 +229,23 @@ public class ReviewUser implements Review{
 	}
 
 	@Override
-	public void deleteProsCons() {
-		setProsCons(null);
+	public void deleteProCons() {
+		setProCons(null);
 	}
 	
 	@Override
-	public RDProCons getProsCons() {
-		return mProsCons;
+	public RDCollection<RDProCon> getProCons() {
+		return mProCons;
 	}
 	
 	@Override
-	public boolean hasProsCons() {
-		return mProsCons.hasData();
+	public boolean hasProCons() {
+		return mProCons.hasData();
 	}
 	
 	@Override
-	public void setProsCons(RDProCons prosCons) {
-		mProsCons = (RDProCons)processData(prosCons, new RDProCons());
+	public void setProCons(RDCollection<RDProCon> proCons) {
+		mProCons = (RDCollection<RDProCon>)processData(proCons, new RDCollection<RDProCon>());
 	}
 	
 	@Override

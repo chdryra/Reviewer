@@ -219,12 +219,12 @@ public class ReviewComponent implements ReviewNode {
 	}
 
 	@Override
-	public void setComments(RDCommentCollection comments) {
+	public void setComments(RDCollection<RDComment> comments) {
 		mReview.setComments(comments);
 	}
 
 	@Override
-	public RDCommentCollection getComments() {
+	public RDCollection<RDComment> getComments() {
 		return mReview.getComments();
 	}
 
@@ -279,12 +279,12 @@ public class ReviewComponent implements ReviewNode {
 	}
 
 	@Override
-	public RDFactCollection getFacts() {
+	public RDCollection<RDFact> getFacts() {
 		return mReview.getFacts();
 	}
 
 	@Override
-	public void setFacts(RDFactCollection facts) {
+	public void setFacts(RDCollection<RDFact> facts) {
 		mReview.setFacts(facts);
 	}
 
@@ -339,23 +339,23 @@ public class ReviewComponent implements ReviewNode {
 	}
 
 	@Override
-	public void deleteProsCons() {
-		mReview.deleteProsCons();
+	public void deleteProCons() {
+		mReview.deleteProCons();
 	}
 	
 	@Override
-	public RDProCons getProsCons() {
-		return mReview.getProsCons();
+	public RDCollection<RDProCon> getProCons() {
+		return mReview.getProCons();
 	}
 	
 	@Override
-	public boolean hasProsCons() {
-		return mReview.hasProsCons();
+	public boolean hasProCons() {
+		return mReview.hasProCons();
 	}
 	
 	@Override
-	public void setProsCons(RDProCons prosCons) {
-		mReview.setProsCons(prosCons);
+	public void setProCons(RDCollection<RDProCon> proCons) {
+		mReview.setProCons(proCons);
 	}
 	
 	@Override

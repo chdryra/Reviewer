@@ -9,7 +9,8 @@ import com.chdryra.android.mygenerallibrary.DialogAddCancelDoneFragment;
 import com.chdryra.android.mygenerallibrary.GVStrings;
 
 public class DialogProConAddFragment extends DialogAddCancelDoneFragment{
-	public static final String PROCON = "com.chdryra.android.reviewer.pro_con";
+	public static final String PRO = "com.chdryra.android.reviewer.pro";
+	public static final String CON = "com.chdryra.android.reviewer.con";
 	
 	private GVStrings mProCons;
 	private ClearableEditText mProConEditText;
@@ -44,7 +45,7 @@ public class DialogProConAddFragment extends DialogAddCancelDoneFragment{
 			Toast.makeText(getActivity(), mProMode? R.string.toast_has_pro : R.string.toast_has_con, Toast.LENGTH_SHORT).show();
 		else {
 			mProCons.add(procon);
-			getNewReturnData().putExtra(PROCON, procon);
+			getNewReturnData().putExtra(mProMode? PRO : CON, procon);
 			mProConEditText.setText(null);
 			String label = mProMode? "Pro" : "Con";
 			getDialog().setTitle("Added " + label + ": " + procon);

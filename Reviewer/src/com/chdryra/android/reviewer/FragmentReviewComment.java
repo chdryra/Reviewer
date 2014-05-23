@@ -50,8 +50,7 @@ public class FragmentReviewComment extends FragmentReviewGrid {
 			
 	@Override
 	protected void onDoneSelected() {
-		if(mComments.size() > 0)
-			getController().setComments(mComments);
+		getController().setComments(mComments);
 	}
 
 	@Override
