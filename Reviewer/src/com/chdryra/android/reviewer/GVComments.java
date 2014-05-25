@@ -12,7 +12,7 @@ import android.widget.TextView;
 import com.chdryra.android.mygenerallibrary.GridViewCellAdapter.GridViewable;
 import com.chdryra.android.mygenerallibrary.ViewHolder;
 
-public class GVComments implements GridViewable<GVComments.GVComment>, Iterable<GVComments.GVComment> {
+public class GVComments implements GridViewable<GVComments.GVComment> {
 	private LinkedList<GVComment> mData = new LinkedList<GVComment>();
 	private boolean mIsSorted = false;
 	

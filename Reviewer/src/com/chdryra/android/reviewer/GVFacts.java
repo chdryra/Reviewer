@@ -12,7 +12,7 @@ import android.widget.TextView;
 import com.chdryra.android.mygenerallibrary.GridViewCellAdapter.GridViewable;
 import com.chdryra.android.mygenerallibrary.ViewHolder;
 
-public class GVFacts implements GridViewable<GVFacts.GVFact>, Iterable<GVFacts.GVFact> {
+public class GVFacts implements GridViewable<GVFacts.GVFact> {
 	private LinkedList<GVFact> mData = new LinkedList<GVFact>();
 	private static final Comparator<GVFact> COMPARATOR = getDefaultComparator();
 	private boolean mIsSorted = false;

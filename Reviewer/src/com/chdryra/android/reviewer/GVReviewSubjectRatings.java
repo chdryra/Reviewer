@@ -13,8 +13,7 @@ import android.widget.TextView;
 import com.chdryra.android.mygenerallibrary.GridViewCellAdapter.GridViewable;
 import com.chdryra.android.mygenerallibrary.ViewHolder;
 
-public class GVReviewSubjectRatings implements GridViewable<GVReviewSubjectRatings.GVReviewSubjectRating>, 
-	Iterable<GVReviewSubjectRatings.GVReviewSubjectRating>{
+public class GVReviewSubjectRatings implements GridViewable<GVReviewSubjectRatings.GVReviewSubjectRating> {
 	private LinkedList<GVReviewSubjectRating> mData = new LinkedList<GVReviewSubjectRating>();
 	private static final Comparator<GVReviewSubjectRating> COMPARATOR = getDefaultComparator();
 	private boolean mIsSorted = false;
@@ -53,6 +52,24 @@ public class GVReviewSubjectRatings implements GridViewable<GVReviewSubjectRatin
 	@Override
 	public GVReviewSubjectRating getItem(int position) {
 		return mData.get(position);
+	}
+
+	@Override
+	public boolean isSorted() {
+		return mIsSorted;
+	}
+
+	@Override
+	public void sort() {
+		sort(COMPARATOR);
+	}
+
+	@Override
+	public void sort(Comparator<GVReviewSubjectRating> comparator) {
+		if(!isSorted()) {
+			Collections.sort(mData, comparator);
+			mIsSorted = true;
+		}
 	}
 
 	@Override
@@ -164,23 +181,4 @@ public class GVReviewSubjectRatings implements GridViewable<GVReviewSubjectRatin
 				mData.remove((GVReviewSubjectRating)getItem(position-1));
 		}
 	}
-
-
-		@Override
-		public boolean isSorted() {
-			return mIsSorted;
-		}
-
-		@Override
-		public void sort() {
-			sort(COMPARATOR);
-		}
-
-		@Override
-		public void sort(Comparator<GVReviewSubjectRating> comparator) {
-			if(!isSorted()) {
-				Collections.sort(mData, comparator);
-				mIsSorted = true;
-			}
-		}
-	}
+}

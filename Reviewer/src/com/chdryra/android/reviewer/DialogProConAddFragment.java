@@ -1,5 +1,6 @@
 package com.chdryra.android.reviewer;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
@@ -9,9 +10,6 @@ import com.chdryra.android.mygenerallibrary.DialogAddCancelDoneFragment;
 import com.chdryra.android.mygenerallibrary.GVStrings;
 
 public class DialogProConAddFragment extends DialogAddCancelDoneFragment{
-	public static final String PRO = "com.chdryra.android.reviewer.pro";
-	public static final String CON = "com.chdryra.android.reviewer.con";
-	
 	private GVStrings mProCons;
 	private ClearableEditText mProConEditText;
 	private boolean mProMode = true;
@@ -45,7 +43,9 @@ public class DialogProConAddFragment extends DialogAddCancelDoneFragment{
 			Toast.makeText(getActivity(), mProMode? R.string.toast_has_pro : R.string.toast_has_con, Toast.LENGTH_SHORT).show();
 		else {
 			mProCons.add(procon);
-			getNewReturnData().putExtra(mProMode? PRO : CON, procon);
+			Intent i = getNewReturnData();
+			i.putExtra(FragmentReviewProsCons.PROCON, procon);
+			i.putExtra(FragmentReviewProsCons.PRO_MODE, mProMode);
 			mProConEditText.setText(null);
 			String label = mProMode? "Pro" : "Con";
 			getDialog().setTitle("Added " + label + ": " + procon);
