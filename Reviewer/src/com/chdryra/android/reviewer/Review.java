@@ -16,25 +16,25 @@ public interface Review {
 	public ReviewNode getReviewNode();
 	
 	//Optional data
-	public RDCollection<RDComment> getComments();
-	public void setComments(RDCollection<RDComment> comment);
+	public RDList<RDComment> getComments();
+	public void setComments(RDList<RDComment> comment);
 	public void deleteComments();
 	public boolean hasComments();
 
-	public RDCollection<RDFact> getFacts();
-	public void setFacts(RDCollection<RDFact> facts);
+	public RDList<RDFact> getFacts();
+	public void setFacts(RDList<RDFact> facts);
 	public void deleteFacts();	
 	public boolean hasFacts();
 
-	public RDCollection<RDProCon> getProCons();
-	public void setProCons(RDCollection<RDProCon> proCons);
+	public RDList<RDProCon> getProCons();
+	public void setProCons(RDList<RDProCon> proCons);
 	public void deleteProCons();	
 	public boolean hasProCons();
 
-	public RDImage getImage();
-	public void setImage(RDImage image);
-	public void deleteImage();
-	public boolean hasImage();
+	public RDList<RDImage> getImages();
+	public void setImages(RDList<RDImage> images);
+	public void deleteImages();
+	public boolean hasImages();
 	
 	public RDLocation getLocation();
 	public void setLocation(RDLocation location);

@@ -101,7 +101,7 @@ public class ControllerReviewNode{
 		if(comments.size() == 0)
 			return;
 		Review r = getReview();
-		RDCollection<RDComment> rdComments = new RDCollection<RDComment>();
+		RDList<RDComment> rdComments = new RDList<RDComment>();
 		for(GVComment comment : comments)
 			rdComments.add(new RDComment(comment.getComment(), r));
 		
@@ -138,7 +138,7 @@ public class ControllerReviewNode{
 	
 	public GVFacts getFacts() {
 		GVFacts gvFacts = new GVFacts();
-		RDCollection<RDFact> facts = getReview().getFacts();
+		RDList<RDFact> facts = getReview().getFacts();
 		for(RDFact fact : facts)
 			gvFacts.add(fact.getLabel(), fact.getValue());
 		
@@ -155,7 +155,7 @@ public class ControllerReviewNode{
 	
 	public void setFacts(GVFacts gvFacts) {
 		Review r = getReview();
-		RDCollection<RDFact> facts = new RDCollection<RDFact>(r);
+		RDList<RDFact> facts = new RDList<RDFact>(r);
 		for(GVFact fact: gvFacts)
 			facts.add(new RDFact(fact.getLabel(), fact.getValue()));
 		
@@ -184,8 +184,8 @@ public class ControllerReviewNode{
 	}
 
 	//Image
-	public boolean hasImage() {
-		return getReview().hasImage();
+	public boolean hasImages() {
+		return getReview().hasImages();
 	}
 	
 	public Bitmap getImageBitmap() {
@@ -348,7 +348,7 @@ public class ControllerReviewNode{
 	private GVStrings getProsCons(boolean getPros) {
 		GVStrings gvProsCons = new GVStrings();
 		
-		RDCollection<RDProCon> proCons = getReview().getProCons();
+		RDList<RDProCon> proCons = getReview().getProCons();
 		
 		for(RDProCon proCon : proCons)
 			if(proCon.isPro() == getPros)
@@ -359,7 +359,7 @@ public class ControllerReviewNode{
 
 	public void setProsCons(GVStrings pros, GVStrings cons) {
 		Review r = getReview();
-		RDCollection<RDProCon> proCons = new RDCollection<RDProCon>(r);
+		RDList<RDProCon> proCons = new RDList<RDProCon>(r);
 		
 		for(String pro : pros)
 			proCons.add(new RDProCon(pro, true, r));

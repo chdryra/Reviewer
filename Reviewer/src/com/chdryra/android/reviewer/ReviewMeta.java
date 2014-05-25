@@ -96,44 +96,51 @@ public class ReviewMeta implements Review {
 	}
 	
 	@Override
-	public void setComments(RDCollection<RDComment> comments) {
+	public void setComments(RDList<RDComment> comments) {
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public RDCollection<RDComment> getComments() {
-		TraverserReviewNode traverser = new TraverserReviewNode(getReviewNode());
-		VisitorCommentCollector collector = new VisitorCommentCollector();
-		traverser.setVisitor(collector);
-		traverser.traverse();
-		return collector.get();
+	public RDList<RDComment> getComments() {
+		RDList<RDComment> comments = new RDList<RDComment>();
+		for(Review r : mReviews)
+			comments.add(r.getComments());
+		
+		return comments;
 	}
 
 	@Override
 	public void deleteComments() {
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public boolean hasComments() {
-		RDCollection<RDComment> comments = (RDCollection<RDComment>)getComments();
-		return comments.size() > 0;
+		return getComments().hasData();
 	}
 
 	@Override
-	public RDImage getImage() {
-		return null;
+	public RDList<RDImage> getImages() {
+		RDList<RDImage> images = new RDList<RDImage>();
+		for(Review r : mReviews)
+			images.add(r.getImages());
+		
+		return images;
 	}
 
 	@Override
-	public void setImage(RDImage image) {
+	public void setImages(RDList<RDImage> image) {
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public void deleteImage() {
+	public void deleteImages() {
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public boolean hasImage() {
-		return false;
+	public boolean hasImages() {
+		return getImages().hasData();
 	}
 
 	@Override
@@ -155,21 +162,27 @@ public class ReviewMeta implements Review {
 	}
 
 	@Override
-	public RDCollection<RDFact> getFacts() {
-		return null;
+	public RDList<RDFact> getFacts() {
+		RDList<RDFact> facts = new RDList<RDFact>();
+		for(Review r : mReviews)
+			facts.add(r.getFacts());
+		
+		return facts;
 	}
 
 	@Override
-	public void setFacts(RDCollection<RDFact> data) {
+	public void setFacts(RDList<RDFact> data) {
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public void deleteFacts() {
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public boolean hasFacts() {
-		return false;
+		return getFacts().hasData();
 	}
 
 	@Override
@@ -179,10 +192,12 @@ public class ReviewMeta implements Review {
 
 	@Override
 	public void setURL(RDUrl url) {
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public void deleteURL() {
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
@@ -198,10 +213,12 @@ public class ReviewMeta implements Review {
 
 	@Override
 	public void setDate(RDDate date) {
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public void deleteDate() {
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
@@ -211,20 +228,26 @@ public class ReviewMeta implements Review {
 	
 	@Override
 	public void deleteProCons() {
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public RDCollection<RDProCon> getProCons() {
-		return null;
+	public RDList<RDProCon> getProCons() {
+		RDList<RDProCon> proCons = new RDList<RDProCon>();
+		for(Review r : mReviews)
+			proCons.add(r.getProCons());
+		
+		return proCons;
 	}
 
 	@Override
 	public boolean hasProCons() {
-		return false;
+		return getProCons().hasData();
 	}
 	
 	@Override
-	public void setProCons(RDCollection<RDProCon> proCons) {
+	public void setProCons(RDList<RDProCon> proCons) {
+		throw new UnsupportedOperationException();
 	}
 	
 	@Override

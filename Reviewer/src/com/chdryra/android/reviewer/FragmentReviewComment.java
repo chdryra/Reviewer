@@ -11,7 +11,6 @@ import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.chdryra.android.mygenerallibrary.ActivityResultCode;
 import com.chdryra.android.mygenerallibrary.GridViewCellAdapter;
-import com.chdryra.android.reviewer.GVComments.GVComment;
 
 public class FragmentReviewComment extends FragmentReviewGridAddEdit {
 	public static final String COMMENT = "com.chdryra.android.reviewer.comment";	

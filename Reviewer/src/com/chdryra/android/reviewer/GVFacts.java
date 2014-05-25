@@ -22,22 +22,18 @@ public class GVFacts implements GridViewable<GVFacts.GVFact> {
 	
 	public GVFacts(GVFacts facts) {
 		for(GVFact fact : facts)
-			add(fact.getLabel(), fact.getValue());
+			add(fact);
 	}
 	
-	public void add(String label, String value) {
-		if(!(label != null && label.length() > 0 && value != null && value.length() > 0))
+	public void add(GVFact fact) {
+		if(fact == null)
 			return;
 		
-		GVFact fact = new GVFact(label, value);
-		if(!mData.contains(fact))
-			mData.add(fact);
-		
+		mData.add(fact);
 		mIsSorted = false;
 	}
 	
-	public void remove(String label, String value) {
-		GVFact fact = new GVFact(label, value);
+	public void remove(GVFact fact) {
 		mData.remove(fact);
 		mIsSorted = false;
 	}
@@ -46,8 +42,7 @@ public class GVFacts implements GridViewable<GVFacts.GVFact> {
 		mData.clear();
 	}
 	
-	public boolean hasFact(String label, String value) {
-		GVFact fact = new GVFact(label, value);
+	public boolean contains(GVFact fact) {
 		return mData.contains(fact);
 	}
 	
@@ -103,6 +98,7 @@ public class GVFacts implements GridViewable<GVFacts.GVFact> {
 			Collections.sort(mData, comparator);
 		mIsSorted = true;
 	}
+	
 	private static Comparator<GVFact> getDefaultComparator() {
 		
 		return new Comparator<GVFacts.GVFact>() {
@@ -121,7 +117,7 @@ public class GVFacts implements GridViewable<GVFacts.GVFact> {
 		private String mLabel;
 		private String mValue;
 		
-		private GVFact(String label, String value) {
+		public GVFact(String label, String value) {
 			mLabel = label;
 			mValue = value;
 		}
@@ -136,21 +132,42 @@ public class GVFacts implements GridViewable<GVFacts.GVFact> {
 
 		@Override
 		public boolean equals(Object obj) {
-			if(obj == null || obj.getClass() != getClass())
-				return false;
-			
-			GVFact objFact = (GVFact)obj;
-			if(this.mLabel == objFact.mLabel && this.mValue == objFact.mValue)
+			if (this == obj)
 				return true;
-			
-			return false;
+			if (obj == null)
+				return false;
+			if (getClass() != obj.getClass())
+				return false;
+			GVFact other = (GVFact) obj;
+			if (!getOuterType().equals(other.getOuterType()))
+				return false;
+			if (mLabel == null) {
+				if (other.mLabel != null)
+					return false;
+			} else if (!mLabel.equals(other.mLabel))
+				return false;
+			if (mValue == null) {
+				if (other.mValue != null)
+					return false;
+			} else if (!mValue.equals(other.mValue))
+				return false;
+			return true;
 		}
 		
 		@Override
 		public int hashCode() {
-			String combined = mLabel + ":" + mValue;
-			
-			return combined.hashCode();
+			final int prime = 31;
+			int result = 1;
+			result = prime * result + getOuterType().hashCode();
+			result = prime * result
+					+ ((mLabel == null) ? 0 : mLabel.hashCode());
+			result = prime * result
+					+ ((mValue == null) ? 0 : mValue.hashCode());
+			return result;
+		}
+
+		private GVFacts getOuterType() {
+			return GVFacts.this;
 		}
 	}
 	
@@ -180,7 +197,7 @@ public class GVFacts implements GridViewable<GVFacts.GVFact> {
 			if(position <= 0) {
 				throw new IllegalStateException("Have to do at least one next() before you can delete");
 			} else
-				mData.remove(((GVFact)getItem(position-1)).getLabel());
+				mData.remove(((GVFact)getItem(position-1)));
 		}
 	}
 }

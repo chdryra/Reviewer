@@ -36,7 +36,7 @@ public class DialogCommentAddFragment extends DialogAddCancelDoneFragment{
 		if(comment == null || comment.length() == 0)
 			return;
 		
-		if(mComments.hasComment(comment))
+		if(mComments.has(comment))
 			Toast.makeText(getActivity(), R.string.toast_has_comment, Toast.LENGTH_SHORT).show();
 		else {
 			mComments.add(comment);

@@ -69,7 +69,7 @@ public class FragmentReviewFacts extends FragmentReviewGridAddEdit {
 			String label = (String)data.getSerializableExtra(DialogFactAddFragment.FACT_LABEL);
 			String value = (String)data.getSerializableExtra(DialogFactAddFragment.FACT_VALUE);
 			if(label != null && label.length() > 0 && value != null && value.length() > 0)
-				mFacts.add(label, value);
+				mFacts.add(new GVFact(label, value));
 			break;
 		default:
 			return;

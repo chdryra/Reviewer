@@ -134,21 +134,39 @@ public class GVReviewSubjectRatings implements GridViewable<GVReviewSubjectRatin
 
 		@Override
 		public boolean equals(Object obj) {
-			if(obj == null || obj.getClass() != getClass())
-				return false;
-			
-			GVReviewSubjectRating objFact = (GVReviewSubjectRating)obj;
-			if(this.mSubject == objFact.mSubject)
+			if (this == obj)
 				return true;
-			
-			return false;
+			if (obj == null)
+				return false;
+			if (getClass() != obj.getClass())
+				return false;
+			GVReviewSubjectRating other = (GVReviewSubjectRating) obj;
+			if (!getOuterType().equals(other.getOuterType()))
+				return false;
+			if (Float.floatToIntBits(mRating) != Float
+					.floatToIntBits(other.mRating))
+				return false;
+			if (mSubject == null) {
+				if (other.mSubject != null)
+					return false;
+			} else if (!mSubject.equals(other.mSubject))
+				return false;
+			return true;
 		}
 		
 		@Override
 		public int hashCode() {
-			String combined = mSubject + ":" + mRating;
-			
-			return combined.hashCode();
+			final int prime = 31;
+			int result = 1;
+			result = prime * result + getOuterType().hashCode();
+			result = prime * result + Float.floatToIntBits(mRating);
+			result = prime * result
+					+ ((mSubject == null) ? 0 : mSubject.hashCode());
+			return result;
+		}
+
+		private GVReviewSubjectRatings getOuterType() {
+			return GVReviewSubjectRatings.this;
 		}
 	}
 	

@@ -22,11 +22,7 @@ public class FactoryReview {
 	private Review newNullReview() {
 		return new ReviewNull();	
 	}
-	
-	private Review newBasicReview(String title) {
-		return new ReviewBasic(title);	
-	}
-	
+
 	private Review newMetaReview(String title) {
 		return new ReviewMeta(title);
 	}
@@ -43,21 +39,12 @@ public class FactoryReview {
 		return getInstance().newNullReview();
 	}
 	
-	public static Review createBasicReview(String title) {
-		return getInstance().newBasicReview(title);
-	}
-	
 	public static Review createMetaReview(String title) {
 		return getInstance().newMetaReview(title);
 	}
 	
 	public static ReviewNode createReviewNode(Review review) {
 		return getInstance().newReviewNode(review);
-	}
-	
-	public static ReviewNode createBasicReviewNode(String title) {
-		Review review = createBasicReview(title);
-		return createReviewNode(review);
 	}
 	
 	public static ReviewNode createUserReviewNode(String title) {
