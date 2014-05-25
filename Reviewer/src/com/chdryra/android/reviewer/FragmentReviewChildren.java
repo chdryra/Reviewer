@@ -3,22 +3,16 @@ package com.chdryra.android.reviewer;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.AdapterView;
 
 import com.chdryra.android.mygenerallibrary.ActivityResultCode;
 import com.chdryra.android.mygenerallibrary.GridViewCellAdapter;
 import com.chdryra.android.reviewer.GVReviewSubjectRatings.GVReviewSubjectRating;
 
-public class FragmentReviewChildren extends FragmentReviewGrid {
-	private static final String DIALOG_CHILD_ADD_TAG = "ChildAddDialog";
-	private static final String DIALOG_CHILD_EDIT_TAG = "ChildEditDialog";
+public class FragmentReviewChildren extends FragmentReviewGridAddEdit {
 	public static final String CHILD_SUBJECT = "com.chdryra.android.reviewer.child_subject";
 	public static final String CHILD_RATING = "com.chdryra.android.reviewer.child_rating";
 	
-	public final static int CHILD_ADD = 60;
-	public final static int CHILD_EDIT = 61;
-		
 	private GVReviewSubjectRatings mReviewData;
 	private boolean mTotalRatingIsAverage = false;
 	
@@ -37,7 +31,7 @@ public class FragmentReviewChildren extends FragmentReviewGrid {
 	
 	@Override
 	protected void onBannerButtonClick() {
-		DialogShower.show(new DialogChildAddFragment(), FragmentReviewChildren.this, CHILD_ADD, DIALOG_CHILD_ADD_TAG, Controller.pack(getController()));
+		DialogShower.show(new DialogChildAddFragment(), FragmentReviewChildren.this, DATA_ADD, DATA_ADD_TAG, Controller.pack(getController()));
 	}
 	
 	@Override
@@ -47,7 +41,7 @@ public class FragmentReviewChildren extends FragmentReviewGrid {
 		Bundle args = new Bundle();
 		args.putString(CHILD_SUBJECT, reviewData.getSubject());
 		args.putFloat(CHILD_RATING, reviewData.getRating());
-		DialogShower.show(new DialogChildEditFragment(), FragmentReviewChildren.this, CHILD_EDIT, DIALOG_CHILD_EDIT_TAG, args);
+		DialogShower.show(new DialogChildEditFragment(), FragmentReviewChildren.this, DATA_EDIT, DATA_EDIT_TAG, args);
 	}
 	
 	@Override
@@ -59,25 +53,7 @@ public class FragmentReviewChildren extends FragmentReviewGrid {
 	}
 
 	@Override
-	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		getSherlockActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-	
-		switch(requestCode) {
-		case CHILD_ADD:
-			addChild(resultCode, data);
-			break;
-		case CHILD_EDIT:
-			editChild(resultCode, data);
-			break;
-		default:
-			super.onActivityResult(requestCode, resultCode, data);
-			break;
-		}
-		
-		updateUI();				
-	}
-
-	private void addChild(int resultCode, Intent data) {
+	protected void addData(int resultCode, Intent data) {
 		switch(ActivityResultCode.get(resultCode)) {
 		case ADD:
 			String subject = (String)data.getSerializableExtra(DialogChildAddFragment.SUBJECT);
@@ -90,7 +66,8 @@ public class FragmentReviewChildren extends FragmentReviewGrid {
 		}
 	}
 	
-	private void editChild(int resultCode, Intent data) {
+	@Override
+	protected void editData(int resultCode, Intent data) {
 		switch(ActivityResultCode.get(resultCode)) {
 		case DONE:
 			String oldSubject = (String)data.getSerializableExtra(DialogChildEditFragment.SUBJECT_OLD);

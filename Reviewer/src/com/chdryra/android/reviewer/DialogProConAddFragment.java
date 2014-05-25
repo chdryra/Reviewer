@@ -20,7 +20,7 @@ public class DialogProConAddFragment extends DialogAddCancelDoneFragment{
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		ControllerReviewNode controller = Controller.unpack(getArguments());
-		mProMode = getTargetRequestCode() == FragmentReviewProsCons.PROS_ADD ? true : false;
+		mProMode = getArguments().getBoolean(FragmentReviewProsCons.PRO_MODE);
 		mProCons = mProMode? controller.getPros() : controller.getCons();
 		String title = mProMode? getResources().getString(R.string.dialog_add_pros_title) : getResources().getString(R.string.dialog_add_cons_title); 
 		setDialogTitle(title);

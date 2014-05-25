@@ -3,7 +3,6 @@ package com.chdryra.android.reviewer;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.Toast;
 
@@ -14,14 +13,9 @@ import com.chdryra.android.mygenerallibrary.ActivityResultCode;
 import com.chdryra.android.mygenerallibrary.GridViewCellAdapter;
 import com.chdryra.android.reviewer.GVComments.GVComment;
 
-public class FragmentReviewComment extends FragmentReviewGrid {
+public class FragmentReviewComment extends FragmentReviewGridAddEdit {
 	public static final String COMMENT = "com.chdryra.android.reviewer.comment";	
-	public static final String DIALOG_COMMENT_ADD_TAG = "CommentAddDialog";
-	public static final String DIALOG_COMMENT_EDIT_TAG = "CommentEditDialog";
 
-	public final static int COMMENT_ADD = 10;
-	public final static int COMMENT_EDIT = 11;
-	
 	private GVComments mComments; 	
 	private boolean mCommentsAreSplit = false;
 	
@@ -37,7 +31,7 @@ public class FragmentReviewComment extends FragmentReviewGrid {
 		
 	@Override
 	protected void onBannerButtonClick() {
-		DialogShower.show(new DialogCommentAddFragment(), FragmentReviewComment.this, COMMENT_ADD, DIALOG_COMMENT_ADD_TAG, Controller.pack(getController()));
+		DialogShower.show(new DialogCommentAddFragment(), FragmentReviewComment.this, DATA_ADD, DATA_ADD_TAG, Controller.pack(getController()));
 	}
 	
 	@Override
@@ -45,7 +39,7 @@ public class FragmentReviewComment extends FragmentReviewGrid {
 		GVComment comment = (GVComment)parent.getItemAtPosition(position);
 		Bundle args = new Bundle();
 		args.putString(COMMENT, comment.getUnSplitComment().getComment());
-		DialogShower.show(new DialogCommentEditFragment(), FragmentReviewComment.this, COMMENT_EDIT, DIALOG_COMMENT_EDIT_TAG, args);
+		DialogShower.show(new DialogCommentEditFragment(), FragmentReviewComment.this, DATA_EDIT, DATA_EDIT_TAG, args);
 	}
 			
 	@Override
@@ -72,25 +66,7 @@ public class FragmentReviewComment extends FragmentReviewGrid {
 	}
 	
 	@Override
-	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		getSherlockActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-	
-		switch(requestCode) {
-		case COMMENT_ADD:
-			addComment(resultCode, data);
-			break;
-		case COMMENT_EDIT:
-			editComment(resultCode, data);
-			break;
-		default:
-			super.onActivityResult(requestCode, resultCode, data);
-			break;
-		}
-		
-		updateUI();				
-	}
-
-	private void addComment(int resultCode, Intent data) {
+	protected void addData(int resultCode, Intent data) {
 		switch(ActivityResultCode.get(resultCode)) {
 		case ADD:
 			String comment = (String)data.getSerializableExtra(DialogCommentAddFragment.COMMENT);
@@ -102,7 +78,8 @@ public class FragmentReviewComment extends FragmentReviewGrid {
 		}
 	}
 	
-	private void editComment(int resultCode, Intent data) {
+	@Override
+	protected void editData(int resultCode, Intent data) {
 		switch(ActivityResultCode.get(resultCode)) {
 		case DONE:
 			String oldComment = (String)data.getSerializableExtra(DialogCommentEditFragment.COMMENT_OLD);

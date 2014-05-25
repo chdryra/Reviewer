@@ -46,7 +46,7 @@ public class FragmentReviewProsCons extends FragmentReviewGridDouble {
 	@Override
 	protected void onBannerButtonClickRight() {
 		Bundle args = Controller.pack(getController());
-		args.putBoolean(PRO_MODE, true);
+		args.putBoolean(PRO_MODE, false);
 		DialogShower.show(new DialogProConAddFragment(), FragmentReviewProsCons.this, DATA_ADD, DIALOG_PROCON_ADD_TAG, args);
 	}
 	
@@ -65,7 +65,7 @@ public class FragmentReviewProsCons extends FragmentReviewGridDouble {
 		String con = (String)parent.getItemAtPosition(position);
 		args.putBoolean(PRO_MODE, false);
 		args.putString(PROCON, con);
-		DialogShower.show(new DialogProConEditFragment(), FragmentReviewProsCons.this,DATA_EDIT, DIALOG_PROCON_EDIT_TAG, args);
+		DialogShower.show(new DialogProConEditFragment(), FragmentReviewProsCons.this, DATA_EDIT, DIALOG_PROCON_EDIT_TAG, args);
 	}
 	
 	@Override
@@ -106,10 +106,10 @@ public class FragmentReviewProsCons extends FragmentReviewGridDouble {
 	
 		switch(requestCode) {
 		case DATA_ADD:
-			addProCon(resultCode, data);
+			addData(resultCode, data);
 			break;
 		case DATA_EDIT:
-			editProCon(resultCode, data);
+			editData(resultCode, data);
 			break;
 		default:
 			super.onActivityResult(requestCode, resultCode, data);
@@ -119,7 +119,7 @@ public class FragmentReviewProsCons extends FragmentReviewGridDouble {
 		updateUI();				
 	}
 
-	private void addProCon(int resultCode, Intent data) {
+	private void addData(int resultCode, Intent data) {
 		switch(ActivityResultCode.get(resultCode)) {
 		case ADD:
 			String procon = (String)data.getSerializableExtra(DialogProConAddFragment.PRO);
@@ -137,23 +137,18 @@ public class FragmentReviewProsCons extends FragmentReviewGridDouble {
 		}
 	}
 	
-	private void editProCon(int resultCode, Intent data) {
+	private void editData(int resultCode, Intent data) {
 		switch(ActivityResultCode.get(resultCode)) {
 		case DONE:
-			String oldProcon = (String)data.getSerializableExtra(DialogProConEditFragment.OLD);
-			String newProcon = (String)data.getSerializableExtra(DialogProConEditFragment.PRO);
-			if(newProcon == null) {
-				newProcon = (String)data.getSerializableExtra(DialogProConEditFragment.CON);
-				mCons.remove(oldProcon);
-				mCons.add(newProcon);
-			} else {
-				mPros.remove(oldProcon);
-				mPros.add(newProcon);
-			}
+			GVStrings procons = data.getBooleanExtra(DialogProConEditFragment.PRO_MODE, true)? mPros : mCons;
+			procons.remove((String)data.getSerializableExtra(DialogProConEditFragment.OLD));
+			procons.add((String)data.getSerializableExtra(DialogProConEditFragment.PROCON));
 			break;
 		case DELETE:
-			String toDelete = (String)data.getSerializableExtra(DialogProConEditFragment.OLD);
-			proCons.remove(toDelete);
+			if(data.getBooleanExtra(DialogProConEditFragment.PRO_MODE, true))
+				mPros.remove((String)data.getSerializableExtra(DialogProConEditFragment.OLD));
+			else
+				mCons.remove((String)data.getSerializableExtra(DialogProConEditFragment.OLD));
 			break;
 		default:
 			return;

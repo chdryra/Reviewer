@@ -3,21 +3,15 @@ package com.chdryra.android.reviewer;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.AdapterView;
 
 import com.chdryra.android.mygenerallibrary.ActivityResultCode;
 import com.chdryra.android.mygenerallibrary.GridViewCellAdapter;
 import com.chdryra.android.reviewer.GVFacts.GVFact;
 
-public class FragmentReviewFacts extends FragmentReviewGrid {
+public class FragmentReviewFacts extends FragmentReviewGridAddEdit {
 	public static final String FACT_LABEL = "com.chdryra.android.reviewer.datum_label";
 	public static final String FACT_VALUE = "com.chdryra.android.reviewer.datum_value";	
-	public static final String DIALOG_FACT_ADD_TAG = "FactAddDialog";
-	public static final String DIALOG_FACT_EDIT_TAG = "FactEditDialog";
-
-	public final static int FACTS_ADD = 40;
-	public final static int FACT_EDIT = 41;
 	
 	private GVFacts mFacts; 
 	
@@ -33,7 +27,7 @@ public class FragmentReviewFacts extends FragmentReviewGrid {
 		
 	@Override
 	protected void onBannerButtonClick() {
-		DialogShower.show(new DialogFactAddFragment(), FragmentReviewFacts.this, FACTS_ADD, DIALOG_FACT_ADD_TAG, Controller.pack(getController()));
+		DialogShower.show(new DialogFactAddFragment(), FragmentReviewFacts.this, DATA_ADD, DATA_ADD_TAG, Controller.pack(getController()));
 	}
 	
 	@Override
@@ -42,7 +36,7 @@ public class FragmentReviewFacts extends FragmentReviewGrid {
 		GVFact fact = (GVFact)parent.getItemAtPosition(position);
 		args.putString(FACT_LABEL, fact.getLabel());
 		args.putString(FACT_VALUE, fact.getValue());
-		DialogShower.show(new DialogFactEditFragment(), FragmentReviewFacts.this, FACT_EDIT, DIALOG_FACT_EDIT_TAG, args);
+		DialogShower.show(new DialogFactEditFragment(), FragmentReviewFacts.this, DATA_EDIT, DATA_EDIT_TAG, args);
 	}
 			
 	@Override
@@ -67,27 +61,9 @@ public class FragmentReviewFacts extends FragmentReviewGrid {
 				R.layout.grid_cell_fact, 
 				getGridCellWidth(), getGridCellHeight());
 	}
-	
-	@Override
-	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		getSherlockActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-	
-		switch(requestCode) {
-		case FACTS_ADD:
-			addFact(resultCode, data);
-			break;
-		case FACT_EDIT:
-			editFact(resultCode, data);
-			break;
-		default:
-			super.onActivityResult(requestCode, resultCode, data);
-			break;
-		}
-		
-		updateUI();				
-	}
 
-	private void addFact(int resultCode, Intent data) {
+	@Override
+	protected void addData(int resultCode, Intent data) {
 		switch(ActivityResultCode.get(resultCode)) {
 		case ADD:
 			String label = (String)data.getSerializableExtra(DialogFactAddFragment.FACT_LABEL);
@@ -100,7 +76,8 @@ public class FragmentReviewFacts extends FragmentReviewGrid {
 		}
 	}
 	
-	private void editFact(int resultCode, Intent data) {
+	@Override
+	protected void editData(int resultCode, Intent data) {
 		switch(ActivityResultCode.get(resultCode)) {
 		case DONE:
 			String oldLabel = (String)data.getSerializableExtra(DialogFactEditFragment.FACT_OLD_LABEL);

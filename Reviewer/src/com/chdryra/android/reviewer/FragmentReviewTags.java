@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.Toast;
 
@@ -12,15 +11,8 @@ import com.chdryra.android.mygenerallibrary.ActivityResultCode;
 import com.chdryra.android.mygenerallibrary.GVStrings;
 import com.chdryra.android.mygenerallibrary.GridViewCellAdapter;
 
-public class FragmentReviewTags  extends FragmentReviewGrid {
+public class FragmentReviewTags  extends FragmentReviewGridAddEdit {
 	public final static String TAG_STRING = "com.chdryra.android.reviewer.tag_string";
-	
-	private final static String DIALOG_TAG_ADD_TAG = "TagAddDialog";
-	private final static String DIALOG_TAG_EDIT_TAG = "TagEditDialog";
-	
-	public final static int TAG_ADD = 10;
-	public final static int TAG_EDIT = 11;
-
 	private GVStrings mTags;
 	
 	@Override
@@ -41,14 +33,14 @@ public class FragmentReviewTags  extends FragmentReviewGrid {
 
 	@Override
 	protected void onBannerButtonClick() {
-		DialogShower.show(new DialogTagAddFragment(), FragmentReviewTags.this, TAG_ADD, DIALOG_TAG_ADD_TAG, Controller.pack(getController()));
+		DialogShower.show(new DialogTagAddFragment(), FragmentReviewTags.this, DATA_ADD, DATA_ADD_TAG, Controller.pack(getController()));
 	}
 
 	@Override
 	protected void onGridItemClick(AdapterView<?> parent, View v, int position, long id) {
 		Bundle args = Controller.pack(getController());
 		args.putString(TAG_STRING, (String)parent.getItemAtPosition(position));
-		DialogShower.show(new DialogTagEditFragment(), FragmentReviewTags.this, TAG_EDIT, DIALOG_TAG_EDIT_TAG, args);
+		DialogShower.show(new DialogTagEditFragment(), FragmentReviewTags.this, DATA_EDIT, DATA_EDIT_TAG, args);
 	}
 
 	@Override
@@ -89,25 +81,7 @@ public class FragmentReviewTags  extends FragmentReviewGrid {
 	}
 	
 	@Override
-	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		getSherlockActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-	
-		switch(requestCode) {
-		case TAG_ADD:
-			addTag(resultCode, data);
-			break;
-		case TAG_EDIT:
-			editTag(resultCode, data);
-			break;
-		default:
-			super.onActivityResult(requestCode, resultCode, data);
-			break;
-		}
-		
-		updateUI();				
-	}
-
-	private void addTag(int resultCode, Intent data) {
+	protected void addData(int resultCode, Intent data) {
 		switch(ActivityResultCode.get(resultCode)) {
 		case ADD:
 			String tag = (String)data.getSerializableExtra(DialogTagAddFragment.TAG);
@@ -119,7 +93,8 @@ public class FragmentReviewTags  extends FragmentReviewGrid {
 		}
 	}
 	
-	private void editTag(int resultCode, Intent data) {
+	@Override
+	protected void editData(int resultCode, Intent data) {
 		switch(ActivityResultCode.get(resultCode)) {
 		case DONE:
 			String oldTag = (String)data.getSerializableExtra(DialogTagEditFragment.TAG_OLD);
