@@ -1,9 +1,11 @@
 package com.chdryra.android.reviewer;
 
+import com.chdryra.android.mygenerallibrary.GVData;
+
 import android.content.Intent;
 import android.view.WindowManager;
 
-public abstract class FragmentReviewGridAddEdit  extends FragmentReviewGrid {
+public abstract class FragmentReviewGridAddEditDone<T extends GVData>  extends FragmentReviewGrid<T> {
 	protected final static String DATA_ADD_TAG = "DataAddTag";
 	protected final static String DATA_EDIT_TAG = "DataEditTag";
 	

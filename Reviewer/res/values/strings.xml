@@ -32,13 +32,15 @@
     <string name="dialog_edit_pro_title">Edit Pro</string>
     <string name="dialog_edit_con_title">Edit Con</string>
     <string name="dialog_delete_procon_title">Pro/Con</string>
+    <string name="dialog_delete_image_title">Image</string>
+    <string name="dialog_delete_images_title">Images</string>
 
     <!-- Activities -->
     <string name="activity_title_location">location</string>
-    <string name="activity_title_url">link</string>
-    <string name="activity_title_comment">comment</string>
+    <string name="activity_title_url">links</string>
+    <string name="activity_title_comment">comments</string>
     <string name="activity_title_facts">facts</string>
-    <string name="activity_title_image">image</string>
+    <string name="activity_title_image">images</string>
     <string name="activity_title_procon">pros and cons</string>
     <string name="activity_title_children">criteria</string>
     <string name="activity_title_review_edit">options</string>
@@ -96,6 +98,7 @@
     <string name="button_add_pros">add pros</string>
     <string name="button_add_cons">add cons</string>
     <string name="button_add_comment">add comment</string>
+    <string name="button_add_image">add image</string>
 
     <!-- Image Buttons -->
     <string name="button_add_image_cd">add image</string>

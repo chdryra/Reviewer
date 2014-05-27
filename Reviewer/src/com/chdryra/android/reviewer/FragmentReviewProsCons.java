@@ -7,7 +7,7 @@ import android.view.WindowManager;
 import android.widget.AdapterView;
 
 import com.chdryra.android.mygenerallibrary.ActivityResultCode;
-import com.chdryra.android.mygenerallibrary.GVStrings;
+import com.chdryra.android.mygenerallibrary.GVStringList;
 import com.chdryra.android.mygenerallibrary.GridViewCellAdapter;
 
 public class FragmentReviewProsCons extends FragmentReviewGridDouble {
@@ -21,8 +21,8 @@ public class FragmentReviewProsCons extends FragmentReviewGridDouble {
 	public static final int DATA_ADD = 10;
 	public static final int DATA_EDIT = 20;
 	
-	private GVStrings mPros; 
-	private GVStrings mCons;
+	private GVStringList mPros; 
+	private GVStringList mCons;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -136,7 +136,7 @@ public class FragmentReviewProsCons extends FragmentReviewGridDouble {
 	private void editData(int resultCode, Intent data) {
 		switch(ActivityResultCode.get(resultCode)) {
 		case DONE:
-			GVStrings procons = data.getBooleanExtra(PRO_MODE, true)? mPros : mCons;
+			GVStringList procons = data.getBooleanExtra(PRO_MODE, true)? mPros : mCons;
 			procons.remove((String)data.getSerializableExtra(DialogProConEditFragment.OLD));
 			procons.add((String)data.getSerializableExtra(PROCON));
 			break;

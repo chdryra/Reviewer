@@ -8,12 +8,12 @@ import android.widget.AdapterView;
 import android.widget.Toast;
 
 import com.chdryra.android.mygenerallibrary.ActivityResultCode;
-import com.chdryra.android.mygenerallibrary.GVStrings;
-import com.chdryra.android.mygenerallibrary.GridViewCellAdapter;
+import com.chdryra.android.mygenerallibrary.GVStringList;
+import com.chdryra.android.mygenerallibrary.GVStringList.GVString;
 
-public class FragmentReviewTags  extends FragmentReviewGridAddEdit {
+public class FragmentReviewTags  extends FragmentReviewGridAddEditDone<GVString> {
 	public final static String TAG_STRING = "com.chdryra.android.reviewer.tag_string";
-	private GVStrings mTags;
+	private GVStringList mTags;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -26,6 +26,8 @@ public class FragmentReviewTags  extends FragmentReviewGridAddEdit {
 		
 		setDismissOnDone(false);
 		setDeleteWhatTitle(getResources().getString(R.string.dialog_delete_tags_title));
+		setGridViewData(mTags);
+		setGridCellLayout(R.layout.grid_cell_tag);
 		setGridCellDimension(CellDimension.HALF, CellDimension.QUARTER);
 		setBannerButtonText(getResources().getString(R.string.button_add_tag));
 		setIsEditable(true);
@@ -39,14 +41,8 @@ public class FragmentReviewTags  extends FragmentReviewGridAddEdit {
 	@Override
 	protected void onGridItemClick(AdapterView<?> parent, View v, int position, long id) {
 		Bundle args = Controller.pack(getController());
-		args.putString(TAG_STRING, (String)parent.getItemAtPosition(position));
+		args.putString(TAG_STRING, ((GVString)parent.getItemAtPosition(position)).toString());
 		DialogShower.show(new DialogTagEditFragment(), FragmentReviewTags.this, DATA_EDIT, DATA_EDIT_TAG, args);
-	}
-
-	@Override
-	protected GridViewCellAdapter getGridViewCellAdapter() {
-		return new GridViewCellAdapter(getActivity(), mTags, 
-				R.layout.grid_cell_tag, getGridCellWidth(), getGridCellHeight());
 	}
 
 	@Override

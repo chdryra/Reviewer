@@ -60,7 +60,7 @@ public class FragmentReviewLocation extends FragmentDeleteDone implements Locati
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		mController = Controller.unpack(getActivity().getIntent().getExtras());
-	    mPhotoLatLng = mController.getImageLatLng();
+	    //mPhotoLatLng = mController.getImageLatLng();
 	    mLocationClient = new LocationClientConnector(getSherlockActivity(), this);
 	    
 	    //Not sure why I have to do this. Was working without this at some point...

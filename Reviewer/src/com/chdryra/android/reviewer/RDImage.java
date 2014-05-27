@@ -14,8 +14,10 @@ public class RDImage implements RData{
 	public RDImage() {
 	}
 
-	public RDImage(Bitmap bitmap, Review holdingReview) {
+	public RDImage(Bitmap bitmap, LatLng latLng, String caption, Review holdingReview) {
 		mBitmap = bitmap;
+		mLatLng = latLng;
+		mCaption = caption;
 		mHoldingReview = holdingReview;
 	}
 

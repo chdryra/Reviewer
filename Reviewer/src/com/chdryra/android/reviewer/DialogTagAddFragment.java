@@ -6,12 +6,12 @@ import android.widget.Toast;
 
 import com.chdryra.android.myandroidwidgets.ClearableAutoCompleteTextView;
 import com.chdryra.android.mygenerallibrary.DialogAddCancelDoneFragment;
-import com.chdryra.android.mygenerallibrary.GVStrings;
+import com.chdryra.android.mygenerallibrary.GVStringList;
 
 public class DialogTagAddFragment extends DialogAddCancelDoneFragment{
 	public static final String TAG = "com.chdryra.android.review.TAG";
 	
-	private GVStrings mTags;	
+	private GVStringList mTags;	
 	private ClearableAutoCompleteTextView mTagEditText;
 	
 	@Override

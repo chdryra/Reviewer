@@ -18,7 +18,6 @@ public class DialogCommentEditFragment extends DialogDeleteCancelDoneFragment{
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);		
 		mOldComment = getArguments().getString(FragmentReviewComment.COMMENT);
-		setDeleteConfirmation(true);
 		setDeleteWhatTitle(getResources().getString(R.string.dialog_delete_comment_title));
 		setDialogTitle(getResources().getString(R.string.dialog_edit_comment_title));
 	}

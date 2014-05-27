@@ -113,11 +113,11 @@ public class ControllerReviewNodeCollection {
 		return getControllerFor(id).hasComments();
 	}
 	
-	public void setComments(String id, GVComments comments) {
+	public void setComments(String id, GVCommentList comments) {
 		getControllerFor(id).setComments(comments);
 	}
 	
-	public GVComments getComments(String id) {
+	public GVCommentList getComments(String id) {
 		return getControllerFor(id).getComments();
 	}
 	
@@ -134,11 +134,11 @@ public class ControllerReviewNodeCollection {
 		getControllerFor(id).deleteFacts();
 	}
 	
-	public GVFacts getFacts(String id) {
+	public GVFactList getFacts(String id) {
 		return getControllerFor(id).getFacts();
 	}
 	
-	public void setFacts(String id, GVFacts facts) {
+	public void setFacts(String id, GVFactList facts) {
 		getControllerFor(id).setFacts(facts);
 	}
 
@@ -160,44 +160,16 @@ public class ControllerReviewNodeCollection {
 	}
 
 	//Image
-	public boolean hasImage(String id) {
-		return getControllerFor(id).hasImage();
+	public boolean hasImages(String id) {
+		return getControllerFor(id).hasImages();
 	}
 	
-	public Bitmap getImageBitmap(String id) {
-		return getControllerFor(id).getImageBitmap();
-	}
-	
-	public void setImageBitmap(String id, Bitmap image) {
-		getControllerFor(id).setImageBitmap(image);
-	}
-	
-	public boolean hasImageCaption(String id) {
-		return getControllerFor(id).hasImageCaption();
-	}
-	
-	public String getImageCaption(String id) {
-		return getControllerFor(id).getImageCaption();
-	}
-	
-	public void setImageCaption(String id, String caption) {
-		getControllerFor(id).setImageCaption(caption);
-	}
-
-	public boolean hasImageLatLng(String id) {
-		return getControllerFor(id).hasImageLatLng();
-	}
-	
-	public LatLng getImageLatLng(String id) {
-		return getControllerFor(id).getImageLatLng();
-	}
-	
-	public void setImageLatLng(String id, LatLng latLng) {
-		getControllerFor(id).setImageLatLng(latLng);
+	public GVImageList getImages(String id) {
+		return getControllerFor(id).getImages();
 	}
 	
 	public void deleteImage(String id) {
-		getControllerFor(id).deleteImage();
+		getControllerFor(id).deleteImages();
 	}
 
 	
@@ -255,8 +227,8 @@ public class ControllerReviewNodeCollection {
 		getControllerFor(id).deleteURL();
 	}
 
-	public GVReviewSubjectRatings getGridViewiableData() {
-		GVReviewSubjectRatings data = new GVReviewSubjectRatings();
+	public GVCriterionList getGridViewiableData() {
+		GVCriterionList data = new GVCriterionList();
 		for(Review r : get())
 			data.add(r.getTitle().get(), r.getRating().get());
 		

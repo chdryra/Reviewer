@@ -47,8 +47,8 @@ public class DialogLocationFragment extends DialogDeleteCancelDoneFragment imple
 		mNameEditText = (ClearableEditText)v.findViewById(R.id.location_edit_text);
 		if(mController.hasLocation())
 			mLatLng = mController.getLocationLatLng();
-		else if(mController.hasImageLatLng())
-			mLatLng = mController.getImageLatLng();
+//		else if(mController.hasImageLatLng())
+//			mLatLng = mController.getImageLatLng();
 		else
 			mLocationClient.connect();
 

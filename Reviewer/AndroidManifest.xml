@@ -61,6 +61,16 @@
                 android:value="com.chdryra.android.reviewer.ActivityReviewEdit" />
         </activity>
 
+        <activity android:name="com.chdryra.android.reviewer.ActivityReviewImage"
+		    android:windowSoftInputMode="adjustPan"
+		    android:configChanges="orientation"
+		    android:exported="true"
+            android:label="@string/activity_title_image" 
+            android:screenOrientation="portrait">
+            <meta-data android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.chdryra.android.reviewer.ActivityReviewEdit" />
+        </activity>
+        
         <activity android:name="com.chdryra.android.reviewer.ActivityReviewLocation"
 		    android:windowSoftInputMode="adjustPan"
 		    android:configChanges="orientation"

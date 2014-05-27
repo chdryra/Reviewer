@@ -17,9 +17,12 @@ import android.widget.TextView;
 
 import com.actionbarsherlock.view.MenuItem;
 import com.chdryra.android.mygenerallibrary.FragmentDeleteDone;
+import com.chdryra.android.mygenerallibrary.GVData;
+import com.chdryra.android.mygenerallibrary.GVList;
 import com.chdryra.android.mygenerallibrary.GridViewCellAdapter;
+import com.chdryra.android.mygenerallibrary.GridViewCellAdapter.GridViewable;
 
-public abstract class FragmentReviewGrid extends FragmentDeleteDone{
+public abstract class FragmentReviewGrid<T extends GVData> extends FragmentDeleteDone{
 
 public enum CellDimension{FULL, HALF, QUARTER}; 
 
@@ -38,9 +41,10 @@ public enum CellDimension{FULL, HALF, QUARTER};
 
 	private boolean mIsEditable = false;
 	private String mBannerButtonText;
-	
-	protected abstract GridViewCellAdapter getGridViewCellAdapter();
 
+	private int mGridCellLayout;
+	private GVList<T> mGridData;
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -156,6 +160,14 @@ public enum CellDimension{FULL, HALF, QUARTER};
 		return mIsEditable;
 	}
 	
+	protected void setGridViewData(GVList<T> gridData) {
+		mGridData = gridData;
+	}
+	
+	protected void setGridCellLayout(int resId) {
+		mGridCellLayout = resId;
+	}
+	
 	protected void onGridItemClick(AdapterView<?> parent, View v, int position, long id) {
 		
 	}
@@ -227,7 +239,19 @@ public enum CellDimension{FULL, HALF, QUARTER};
 	protected GridView getGridView() {
 		return mGridView;
 	}
+	
+	protected GVList<T> getGridData() {
+		return mGridData;
+	}
 
+	protected GridViewCellAdapter getGridViewCellAdapter() {
+		return new GridViewCellAdapter(getActivity(), 
+				mGridData, 
+				mGridCellLayout, 
+				getGridCellWidth(), 
+				getGridCellHeight());
+	}
+	
 	protected ControllerReviewNode getController() {
 		return mController;
 	}
@@ -247,5 +271,15 @@ public enum CellDimension{FULL, HALF, QUARTER};
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 		updateUI();
+	}
+	
+	@Override
+	protected void onDeleteSelected() {
+		mGridData.removeAll();
+	}
+	
+	@Override
+	protected boolean hasDataToDelete() {
+		return mGridData.size() > 0;
 	}
 }

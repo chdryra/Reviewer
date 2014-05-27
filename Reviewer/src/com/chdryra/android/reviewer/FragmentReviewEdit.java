@@ -29,7 +29,7 @@ import com.chdryra.android.myandroidwidgets.ClearableEditText;
 import com.chdryra.android.mygenerallibrary.ActivityResultCode;
 import com.chdryra.android.mygenerallibrary.ImageHelper;
 import com.chdryra.android.mygenerallibrary.RandomTextUtils;
-import com.chdryra.android.reviewer.GVFacts.GVFact;
+import com.chdryra.android.reviewer.GVFactList.GVFact;
 
 public class FragmentReviewEdit extends SherlockFragment {
 	private final static String DIALOG_COMMENT_TAG = "CommentDialog";
@@ -96,7 +96,7 @@ public class FragmentReviewEdit extends SherlockFragment {
 		mController = Controller.unpack(getActivity().getIntent().getExtras());
 		mChildrenController = mController.getChildrenController();
 		
-		if(mController.hasImage())
+		if(mController.hasImages())
 			mHelperReviewImage = HelperReviewImage.getInstance(mController);
 
 		mProTextColour = getResources().getColor(R.color.Chartreuse);
@@ -239,10 +239,10 @@ public class FragmentReviewEdit extends SherlockFragment {
 		mAddPhotoImageButton.setOnClickListener(new View.OnClickListener() {			
 			@Override
 			public void onClick(View v) {
-				if (mController.hasImage())
-					showImageEditDialog();			
+				if (mController.hasImages())
+					requestImageCaptureIntent();		
 				else
-					mAddPhotoImageButton.performLongClick();
+					showImageEditDialog();
 			}
 		});
 
@@ -535,14 +535,11 @@ public class FragmentReviewEdit extends SherlockFragment {
 	}
 	
 	private void updateImageButtonImage() {
-		if( mController.hasImage() )
-			mAddPhotoImageButton.setImageBitmap(mController.getImageBitmap());
+		GVImageList images = mController.getImages();
+		if(images.size() > 0)
+			mAddPhotoImageButton.setImageBitmap(mController.getImages().getItem(0).getBitmap());
 		else
 			mAddPhotoImageButton.setImageResource(R.drawable.ic_menu_camera);
-	}
-	
-	private void updateReviewImage() {
-        mHelperReviewImage.setReviewImage(getSherlockActivity(), mAddPhotoImageButton);
 	}
 	
 	private void updateCommentHeadline() {
@@ -564,12 +561,12 @@ public class FragmentReviewEdit extends SherlockFragment {
 		
 		
 		if(mController.hasPros())
-			switchImageButtonToTextView(mProsTextView, mAddProsImageButton, (String)mController.getPros().getItem(0));
+			switchImageButtonToTextView(mProsTextView, mAddProsImageButton, mController.getPros().getItem(0).toString());
 		else
 			setVisibleGoneView(mAddProsImageButton, mProsTextView);
 		
 		if(mController.hasCons())
-			switchImageButtonToTextView(mConsTextView, mAddConsImageButton, (String)mController.getCons().getItem(0));
+			switchImageButtonToTextView(mConsTextView, mAddConsImageButton, mController.getCons().getItem(0).toString());
 		else
 			setVisibleGoneView(mAddConsImageButton, mConsTextView);
 	}
@@ -594,7 +591,7 @@ public class FragmentReviewEdit extends SherlockFragment {
 		mFactsLinearLayout.removeAllViews();
 		setVisibleGoneView(mFactsLinearLayout, mAddFactsImageButton);
 		int i = 0;
-		GVFacts facts = mController.getFacts();
+		GVFactList facts = mController.getFacts();
 		for(GVFact fact : facts) {
 			FrameLayout labelRow = (FrameLayout)getSherlockActivity().getLayoutInflater().inflate(R.layout.facts_table_label_row, null);
 			FrameLayout valueRow = (FrameLayout)getSherlockActivity().getLayoutInflater().inflate(R.layout.facts_table_value_row, null);
@@ -680,15 +677,15 @@ public class FragmentReviewEdit extends SherlockFragment {
 	}
 	
 	private void requestImageCaptureIntent() {
+		requestIntent(ActivityReviewImage.class, IMAGE_EDIT);
+	}
+
+	private void showImageEditDialog() {
 		if(mHelperReviewImage == null)
 			mHelperReviewImage = HelperReviewImage.getInstance(mController);
 		
 		Intent chooserIntent = HelperReviewImage.getImageChooserIntents(getActivity(), mHelperReviewImage);
         startActivityForResult(chooserIntent, IMAGE_REQUEST);
-	}
-
-	private void showImageEditDialog() {
-		showDialog(new DialogImageFragment(), IMAGE_EDIT, DIALOG_IMAGE_TAG);
 	}
 
 	private void showLocationEditDialog() {
@@ -782,7 +779,7 @@ public class FragmentReviewEdit extends SherlockFragment {
 					        	getSherlockActivity().sendBroadcast(
 					        			new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, imageUri));
 				        	}
-				        	updateReviewImage();
+				        	updateImageButtonImage();
 				        }
 						break;		
 					case Activity.RESULT_CANCELED:

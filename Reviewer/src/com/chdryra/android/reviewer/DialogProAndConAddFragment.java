@@ -5,14 +5,14 @@ import android.view.View;
 
 import com.chdryra.android.myandroidwidgets.ClearableEditText;
 import com.chdryra.android.mygenerallibrary.DialogAddCancelDoneFragment;
-import com.chdryra.android.mygenerallibrary.GVStrings;
+import com.chdryra.android.mygenerallibrary.GVStringList;
 
 public class DialogProAndConAddFragment extends DialogAddCancelDoneFragment{
 
 	private ControllerReviewNode mController;
 	
-	private GVStrings mPros;
-	private GVStrings mCons;
+	private GVStringList mPros;
+	private GVStringList mCons;
 	
 	private ClearableEditText mProEditText;
 	private ClearableEditText mConEditText;

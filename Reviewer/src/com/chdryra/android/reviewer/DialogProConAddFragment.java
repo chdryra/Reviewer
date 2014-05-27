@@ -7,10 +7,10 @@ import android.widget.Toast;
 
 import com.chdryra.android.myandroidwidgets.ClearableEditText;
 import com.chdryra.android.mygenerallibrary.DialogAddCancelDoneFragment;
-import com.chdryra.android.mygenerallibrary.GVStrings;
+import com.chdryra.android.mygenerallibrary.GVStringList;
 
 public class DialogProConAddFragment extends DialogAddCancelDoneFragment{
-	private GVStrings mProCons;
+	private GVStringList mProCons;
 	private ClearableEditText mProConEditText;
 	private boolean mProMode = true;
 	

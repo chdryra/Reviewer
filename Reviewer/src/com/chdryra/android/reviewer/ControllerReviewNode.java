@@ -7,11 +7,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 
-import android.graphics.Bitmap;
-
-import com.chdryra.android.mygenerallibrary.GVStrings;
-import com.chdryra.android.reviewer.GVComments.GVComment;
-import com.chdryra.android.reviewer.GVFacts.GVFact;
+import com.chdryra.android.mygenerallibrary.GVStringList;
+import com.chdryra.android.mygenerallibrary.GVStringList.GVString;
+import com.chdryra.android.reviewer.GVCommentList.GVComment;
+import com.chdryra.android.reviewer.GVFactList.GVFact;
+import com.chdryra.android.reviewer.GVImageList.GVImage;
 import com.chdryra.android.reviewer.ReviewTagsManager.ReviewTag;
 import com.google.android.gms.maps.model.LatLng;
 
@@ -97,7 +97,7 @@ public class ControllerReviewNode{
 		return getReview().hasComments();
 	}
 	
-	public void setComments(GVComments comments) {
+	public void setComments(GVCommentList comments) {
 		if(comments.size() == 0)
 			return;
 		Review r = getReview();
@@ -108,8 +108,8 @@ public class ControllerReviewNode{
 		r.setComments(rdComments);
 	}
 	
-	public GVComments getComments() {
-		GVComments comments = new GVComments();
+	public GVCommentList getComments() {
+		GVCommentList comments = new GVCommentList();
 		for(RDComment comment : getReview().getComments())
 			comments.add(comment.get());
 		return comments;
@@ -117,14 +117,6 @@ public class ControllerReviewNode{
 	
 	public void deleteComments() {
 		getReview().deleteComments();
-	}
-	
-	public int getNumberOfComments() {
-		TraverserReviewNode traverser = new TraverserReviewNode(getReview().getReviewNode());
-		VisitorCommentCollector collector = new VisitorCommentCollector();
-		traverser.setVisitor(collector);
-		traverser.traverse();
-		return collector.get().size();
 	}
 	
 	//Facts
@@ -136,8 +128,8 @@ public class ControllerReviewNode{
 		getReview().deleteFacts();
 	}
 	
-	public GVFacts getFacts() {
-		GVFacts gvFacts = new GVFacts();
+	public GVFactList getFacts() {
+		GVFactList gvFacts = new GVFactList();
 		RDList<RDFact> facts = getReview().getFacts();
 		for(RDFact fact : facts)
 			gvFacts.add(fact.getLabel(), fact.getValue());
@@ -153,7 +145,7 @@ public class ControllerReviewNode{
 		return numFacts;
 	}
 	
-	public void setFacts(GVFacts gvFacts) {
+	public void setFacts(GVFactList gvFacts) {
 		Review r = getReview();
 		RDList<RDFact> facts = new RDList<RDFact>(r);
 		for(GVFact fact: gvFacts)
@@ -188,60 +180,29 @@ public class ControllerReviewNode{
 		return getReview().hasImages();
 	}
 	
-	public Bitmap getImageBitmap() {
-		if(hasImage())
-			return getReview().getImage().getBitmap();
-		else
-			return null;
-	}
-	
-	public void setImageBitmap(Bitmap image) {
+	public void setImages(GVImageList images) {
+		if(images.size() == 0)
+			return;
+		
 		Review r = getReview();
-		r.setImage(new RDImage(image, r));
+		RDList<RDImage> rdImages = new RDList<RDImage>();
+		for(GVImage image : images)
+			rdImages.add(new RDImage(image.getBitmap(), image.getLatLng(), image.getCaption(), r));
+		
+		r.setImages(rdImages);
 	}
 	
-	public boolean hasImageCaption() {
-		if(hasImage())
-			return getReview().getImage().hasCaption();
-		else
-			return false;
+	public GVImageList getImages() {
+		GVImageList images = new GVImageList();
+		for(RDImage image : getReview().getImages())
+			images.add(image.getBitmap(), image.getLatLng(), image.getCaption());
+		
+		return images;
 	}
 	
-	public String getImageCaption() {
-		if(hasImageCaption())
-			return getReview().getImage().getCaption();
-		else
-			return null;
+	public void deleteImages() {
+		getReview().deleteImages();
 	}
-	
-	public void setImageCaption(String caption) {
-		if(hasImage())
-			getReview().getImage().setCaption(caption);
-	}
-
-	public boolean hasImageLatLng() {
-		if(hasImage())
-			return getReview().getImage().hasLatLng();
-		else
-			return false;
-	}
-	
-	public LatLng getImageLatLng() {
-		if(hasImageCaption())
-			return getReview().getImage().getLatLng();
-		else
-			return null;
-	}
-	
-	public void setImageLatLng(LatLng latLng) {
-		if(hasImage())
-			getReview().getImage().setLatLng(latLng);
-	}
-	
-	public void deleteImage() {
-		getReview().deleteImage();
-	}
-
 	
 	//Location
 	public boolean hasLocation() {
@@ -337,16 +298,16 @@ public class ControllerReviewNode{
 		return getCons().size() > 0;
 	}
 	
-	public GVStrings getPros() {
+	public GVStringList getPros() {
 		return getProsCons(true);
 	}
 	
-	public GVStrings getCons() {
+	public GVStringList getCons() {
 		return getProsCons(false);
 	}
 	
-	private GVStrings getProsCons(boolean getPros) {
-		GVStrings gvProsCons = new GVStrings();
+	private GVStringList getProsCons(boolean getPros) {
+		GVStringList gvProsCons = new GVStringList();
 		
 		RDList<RDProCon> proCons = getReview().getProCons();
 		
@@ -357,15 +318,15 @@ public class ControllerReviewNode{
 		return gvProsCons;
 	}
 
-	public void setProsCons(GVStrings pros, GVStrings cons) {
+	public void setProsCons(GVStringList pros, GVStringList cons) {
 		Review r = getReview();
 		RDList<RDProCon> proCons = new RDList<RDProCon>(r);
 		
-		for(String pro : pros)
-			proCons.add(new RDProCon(pro, true, r));
+		for(GVString pro : pros)
+			proCons.add(new RDProCon(pro.toString(), true, r));
 		
-		for(String con : cons)
-			proCons.add(new RDProCon(con, false, r));
+		for(GVString con : cons)
+			proCons.add(new RDProCon(con.toString(), false, r));
 		
 		r.setProCons(proCons);
 	}
@@ -378,19 +339,19 @@ public class ControllerReviewNode{
 		return ReviewTagsManager.hasTags(getReview());
 	}
 	
-	public GVStrings getTags() {
+	public GVStringList getTags() {
 		ReviewTagCollection tags = ReviewTagsManager.getTags(getReview());
-		GVStrings gvTags = new GVStrings();
+		GVStringList gvTags = new GVStringList();
 		for(ReviewTag tag : tags)
 			gvTags.add(tag.toString());
 		
 		return gvTags;
 	}
 	
-	public void addTags(GVStrings tags) {
+	public void addTags(GVStringList tags) {
 		ArrayList<String> tagsList = new ArrayList<String>();
-		for(String tag : tags)
-			tagsList.add(tag);
+		for(GVString tag : tags)
+			tagsList.add(tag.toString());
 		
 		Collections.sort(tagsList);
 		ReviewTagsManager.tag(getReview(), tagsList);
@@ -400,7 +361,7 @@ public class ControllerReviewNode{
 		ReviewTagsManager.untag(getReview());
 	}
 	
-	public void setTags(GVStrings tags) {
+	public void setTags(GVStringList tags) {
 		removeTags();
 		addTags(tags);
 	}

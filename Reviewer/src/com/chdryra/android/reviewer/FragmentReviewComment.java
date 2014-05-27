@@ -11,11 +11,12 @@ import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.chdryra.android.mygenerallibrary.ActivityResultCode;
 import com.chdryra.android.mygenerallibrary.GridViewCellAdapter;
+import com.chdryra.android.reviewer.GVCommentList.GVComment;
 
-public class FragmentReviewComment extends FragmentReviewGridAddEdit {
+public class FragmentReviewComment extends FragmentReviewGridAddEditDone<GVComment> {
 	public static final String COMMENT = "com.chdryra.android.reviewer.comment";	
 
-	private GVComments mComments; 	
+	private GVCommentList mComments; 	
 	private boolean mCommentsAreSplit = false;
 	
 	@Override
@@ -23,6 +24,8 @@ public class FragmentReviewComment extends FragmentReviewGridAddEdit {
 		super.onCreate(savedInstanceState);
 		mComments = getController().getComments();
 		setDeleteWhatTitle(getResources().getString(R.string.dialog_delete_comment_title));
+		setGridViewData(mComments);
+		setGridCellLayout(R.layout.grid_cell_comment);
 		setGridCellDimension(CellDimension.HALF, CellDimension.QUARTER);
 		setBannerButtonText(getResources().getString(R.string.button_add_comment));
 		setIsEditable(true);
@@ -46,24 +49,6 @@ public class FragmentReviewComment extends FragmentReviewGridAddEdit {
 		getController().setComments(mComments);
 	}
 
-	@Override
-	protected void onDeleteSelected() {
-		mComments.removeAll();
-	}
-
-	@Override
-	protected boolean hasDataToDelete() {
-		return mComments.size() > 0;
-	}
-	
-	@Override
-	protected GridViewCellAdapter getGridViewCellAdapter() {
-		return new GridViewCellAdapter(getActivity(), 
-				mComments, 
-				R.layout.grid_cell_comment, 
-				getGridCellWidth(), getGridCellHeight());
-	}
-	
 	@Override
 	protected void addData(int resultCode, Intent data) {
 		switch(ActivityResultCode.get(resultCode)) {

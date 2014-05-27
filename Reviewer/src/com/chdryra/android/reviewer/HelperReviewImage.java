@@ -19,8 +19,8 @@ import android.os.Environment;
 import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.util.Log;
-import android.widget.ImageButton;
 
+import com.chdryra.android.mygenerallibrary.FunctionPointer;
 import com.chdryra.android.mygenerallibrary.ImageHelper;
 
 public class HelperReviewImage extends ImageHelper{
@@ -46,7 +46,6 @@ public class HelperReviewImage extends ImageHelper{
 	}
 	
 	public void deleteImage() {
-		mController.setImageBitmap(null);
 		setImageFilePath(null);
 	}
 	
@@ -72,19 +71,21 @@ public class HelperReviewImage extends ImageHelper{
         Log.i(TAG, "Created file " + path);
 	}
 	
-	public void setReviewImage(Context context, ImageButton thumbnailView) {
+	public void addReviewImage(Context context, GVImageList imageList, FunctionPointer<Void> updateUI) {
 		int maxWidth = (int)context.getResources().getDimension(R.dimen.imageMaxWidth);				
 		int maxHeight = (int)context.getResources().getDimension(R.dimen.imageMaxHeight);
 		
-		BitmapLoaderTask loader = new BitmapLoaderTask(thumbnailView);
+		BitmapLoaderTask loader = new BitmapLoaderTask(imageList, updateUI);
 		loader.execute(maxWidth, maxHeight);
 	}
 
 	private class BitmapLoaderTask extends AsyncTask<Integer, Void, Bitmap> {		
-		private ImageButton mThumbnailView;
+		private GVImageList mImageList;
+		private FunctionPointer<Void> mUpdateUI;
 		
-		public BitmapLoaderTask(ImageButton thumbnailView) {
-			mThumbnailView = thumbnailView;
+		public BitmapLoaderTask(GVImageList imageList, FunctionPointer<Void> updateUI) {
+			mImageList = imageList;
+			mUpdateUI = updateUI;
 		}
 		
 		@Override
@@ -94,13 +95,8 @@ public class HelperReviewImage extends ImageHelper{
 		
 		@Override
 		protected void onPostExecute(Bitmap bitmap) {
-			mController.setImageBitmap(bitmap);
-			mController.setImageLatLng(getLatLngFromEXIF());
-			
-			if(bitmap == null)
-				mThumbnailView.setImageResource(R.drawable.ic_menu_camera);
-			else
-				mThumbnailView.setImageBitmap(bitmap);
+			mImageList.add(bitmap, getLatLngFromEXIF(), null);
+			mUpdateUI.execute(null);
 		}	
 	}
 	

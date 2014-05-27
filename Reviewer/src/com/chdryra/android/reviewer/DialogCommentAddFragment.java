@@ -10,7 +10,7 @@ import com.chdryra.android.mygenerallibrary.DialogAddCancelDoneFragment;
 public class DialogCommentAddFragment extends DialogAddCancelDoneFragment{
 	public static final String COMMENT = "com.chdryra.android.review.comment";
 	
-	private GVComments mComments;	
+	private GVCommentList mComments;	
 	private EditText mCommentEditText;
 	
 	@Override
@@ -36,7 +36,7 @@ public class DialogCommentAddFragment extends DialogAddCancelDoneFragment{
 		if(comment == null || comment.length() == 0)
 			return;
 		
-		if(mComments.has(comment))
+		if(mComments.contains(comment))
 			Toast.makeText(getActivity(), R.string.toast_has_comment, Toast.LENGTH_SHORT).show();
 		else {
 			mComments.add(comment);
