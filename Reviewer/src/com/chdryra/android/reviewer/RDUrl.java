@@ -5,6 +5,8 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 
+import com.chdryra.android.mygenerallibrary.RandomTextUtils;
+
 public class RDUrl implements RData {
 	private Review mHoldingReview;
 	private URL mURL;
@@ -12,6 +14,11 @@ public class RDUrl implements RData {
 	public RDUrl() {
 	}
 
+	public RDUrl(URL url, Review holdingReview) {
+		mURL = url;
+		mHoldingReview = holdingReview;
+	}
+	
 	public RDUrl(String url, Review holdingReview) throws MalformedURLException, URISyntaxException{
 		setURL(url);
 		mHoldingReview = holdingReview;
@@ -22,22 +29,11 @@ public class RDUrl implements RData {
 	}
 
 	public String toString() {
-		String url = mURL != null? mURL.toExternalForm() : null;
-		return url;
+		return RandomTextUtils.toStringURL(mURL);
 	}
 	
 	public String toShortenedString() {
-		String url = toString();
-	    String protocol = mURL.getProtocol();
-        String result = url.replaceFirst(protocol + ":", "");
-        if (result.startsWith("//"))
-            result = result.substring(2);
-        
-        result = result.trim();
-        if(result.endsWith("/"))
-        	result = (String)result.subSequence(0, result.length() - 1);
-        
-        return result;
+		return RandomTextUtils.toShortenedStringURL(mURL);
 	}
 	
 	private void setURL(String stringUrl) throws MalformedURLException, URISyntaxException {

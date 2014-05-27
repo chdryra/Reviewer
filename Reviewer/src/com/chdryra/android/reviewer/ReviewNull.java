@@ -1,5 +1,7 @@
 package com.chdryra.android.reviewer;
 
+import java.util.Date;
+
 public class ReviewNull implements Review {
 	
 	public ReviewNull() {
@@ -26,6 +28,15 @@ public class ReviewNull implements Review {
 
 	@Override
 	public void setRating(float rating) {
+	}
+
+	@Override
+	public RDDate getDate() {
+		return null;
+	}
+	
+	@Override
+	public void setDate(Date date) {
 	}
 
 	@Override
@@ -106,38 +117,20 @@ public class ReviewNull implements Review {
 	}
 
 	@Override
-	public RDUrl getURL() {
+	public RDList<RDUrl> getURLs() {
 		return null;
 	}
 
 	@Override
-	public void setURL(RDUrl url) {
+	public void setURLs(RDList<RDUrl> urls) {
 	}
 
 	@Override
-	public void deleteURL() {
+	public void deleteURLs() {
 	}
 
 	@Override
-	public boolean hasURL() {
-		return false;
-	}
-
-	@Override
-	public RDDate getDate() {
-		return null;
-	}
-	
-	@Override
-	public void setDate(RDDate date) {
-	}
-
-	@Override
-	public void deleteDate() {
-	}
-
-	@Override
-	public boolean hasDate() {
+	public boolean hasURLs() {
 		return false;
 	}
 

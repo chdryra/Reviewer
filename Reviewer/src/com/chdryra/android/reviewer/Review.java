@@ -1,5 +1,7 @@
 package com.chdryra.android.reviewer;
 
+import java.util.Date;
+
 public interface Review {
 	
 	//Core data
@@ -11,8 +13,10 @@ public interface Review {
 	public RDRating getRating();
 	public void setRating(float rating);
 
+	public RDDate getDate();
+	public void setDate(Date date);
+
 	public ReviewTagCollection getTags();
-	
 	public ReviewNode getReviewNode();
 	
 	//Optional data
@@ -36,21 +40,16 @@ public interface Review {
 	public void deleteImages();
 	public boolean hasImages();
 	
+	public RDList<RDUrl> getURLs();
+	public void setURLs(RDList<RDUrl> url);
+	public void deleteURLs();	
+	public boolean hasURLs();
+	
 	public RDLocation getLocation();
 	public void setLocation(RDLocation location);
 	public void deleteLocation();	
 	public boolean hasLocation();
 	
-	public RDUrl getURL();
-	public void setURL(RDUrl url);
-	public void deleteURL();	
-	public boolean hasURL();
-	
-	public RDDate getDate();
-	public void setDate(RDDate date);
-	public void deleteDate();	
-	public boolean hasDate();
-
 	//For speed and comparison
 	@Override
 	public boolean equals(Object o);

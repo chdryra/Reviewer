@@ -1,10 +1,11 @@
 package com.chdryra.android.reviewer;
 
 import java.net.MalformedURLException;
-import java.net.URISyntaxException;
+import java.net.URL;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -23,17 +24,20 @@ import com.actionbarsherlock.view.MenuItem;
 import com.chdryra.android.myandroidwidgets.ClearableEditText;
 import com.chdryra.android.mygenerallibrary.FragmentDeleteDone;
 
-public class FragmentReviewURL extends FragmentDeleteDone {
-
-	private ControllerReviewNode mController;
+public class FragmentReviewURLBrowser extends FragmentDeleteDone {
+	public static final String URL = "com.chdryra.android.reviewer.url";
+	public static final String URL_OLD = "com.chdryra.android.reviewer.url_old";
+	
+	private URL mURL;
 	private ClearableEditText mURLEditText;
 	private WebView mWebView;
 	private String mSearchURL;
 	
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		mController = Controller.unpack(getActivity().getIntent().getExtras());
-		setDeleteWhatTitle(getResources().getString(R.string.activity_title_url));
+		mURL =(URL) getActivity().getIntent().getSerializableExtra(URL);
+		setDeleteWhatTitle(getResources().getString(R.string.dialog_delete_url_title));
+		setDismissOnDelete(true);
 	}
 	
 	@Override
@@ -81,7 +85,7 @@ public class FragmentReviewURL extends FragmentDeleteDone {
 	    
 	    
 	    mSearchURL = getResources().getString(R.string.google_search);
-	    String urlString = mController.hasURL()? mController.getURLString() : mSearchURL;
+	    String urlString = mURL != null? mURL.toExternalForm() : mSearchURL;
 	    	
 	    mURLEditText.setText(urlString);
     	mWebView.loadUrl(urlString);
@@ -108,18 +112,16 @@ public class FragmentReviewURL extends FragmentDeleteDone {
 	
 	@Override
 	protected void onDoneSelected() {
-		String url = mWebView.getUrl();
+		String urlString = mWebView.getUrl();
 		try {
-			mController.setURL(url);
+			URL url = new URL(URLUtil.guessUrl(urlString));
+			Intent i = getNewReturnData();
+			i.putExtra(URL, url);
+			i.putExtra(URL_OLD, mURL);
 		} catch (MalformedURLException e) {
 			Toast.makeText(getSherlockActivity(), getResources().getString(R.string.toast_bad_url), Toast.LENGTH_SHORT).show();
 			e.printStackTrace();
-		} catch (URISyntaxException e) {
-			Toast.makeText(getSherlockActivity(), getResources().getString(R.string.toast_bad_url), Toast.LENGTH_SHORT).show();
-			e.printStackTrace();
 		}
-		
-		super.onDoneSelected();
 	}
 	
 	@Override
@@ -150,11 +152,13 @@ public class FragmentReviewURL extends FragmentDeleteDone {
 
 	@Override
 	protected void onDeleteSelected() {
-		mController.deleteURL();
+		Intent i = getNewReturnData();
+		i.putExtra(URL_OLD, mURL);
+    	mWebView.loadUrl(mSearchURL);		
 	}
 
 	@Override
 	protected boolean hasDataToDelete() {
-		return mController.hasURL();
+		return mURL != null;
 	}
 }

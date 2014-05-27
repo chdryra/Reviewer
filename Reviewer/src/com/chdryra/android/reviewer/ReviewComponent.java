@@ -1,5 +1,7 @@
 package com.chdryra.android.reviewer;
 
+import java.util.Date;
+
 public class ReviewComponent implements ReviewNode {
 
 	private RDId mID;
@@ -219,6 +221,16 @@ public class ReviewComponent implements ReviewNode {
 	}
 
 	@Override
+	public RDDate getDate() {
+		return mReview.getDate();
+	}
+
+	@Override
+	public void setDate(Date date) {
+		mReview.setDate(date);
+	}
+
+	@Override
 	public void setComments(RDList<RDComment> comments) {
 		mReview.setComments(comments);
 	}
@@ -299,43 +311,23 @@ public class ReviewComponent implements ReviewNode {
 	}
 
 	@Override
-	public RDUrl getURL() {
-		return mReview.getURL();
+	public RDList<RDUrl> getURLs() {
+		return mReview.getURLs();
 	}
 
 	@Override
-	public void setURL(RDUrl url) {
-		mReview.setURL(url);
+	public void setURLs(RDList<RDUrl> urls) {
+		mReview.setURLs(urls);
 	}
 
 	@Override
-	public void deleteURL() {
-		mReview.deleteURL();
+	public void deleteURLs() {
+		mReview.deleteURLs();
 	}
 
 	@Override
-	public boolean hasURL() {
-		return mReview.hasURL();
-	}
-
-	@Override
-	public RDDate getDate() {
-		return mReview.getDate();
-	}
-
-	@Override
-	public void setDate(RDDate date) {
-		mReview.setDate(date);
-	}
-
-	@Override
-	public void deleteDate() {
-		mReview.deleteDate();
-	}
-
-	@Override
-	public boolean hasDate() {
-		return mReview.hasDate();
+	public boolean hasURLs() {
+		return mReview.hasURLs();
 	}
 
 	@Override

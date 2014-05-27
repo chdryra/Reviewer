@@ -1,34 +1,41 @@
 package com.chdryra.android.reviewer;
 
+import java.net.URL;
+
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.webkit.URLUtil;
 import android.widget.Toast;
 
 import com.chdryra.android.myandroidwidgets.ClearableEditText;
-import com.chdryra.android.mygenerallibrary.ActivityResultCode;
 import com.chdryra.android.mygenerallibrary.DialogDeleteCancelDoneFragment;
+import com.chdryra.android.mygenerallibrary.RandomTextUtils;
 
 public class DialogURLFragment extends DialogDeleteCancelDoneFragment {
-	public static final ActivityResultCode RESULT_BROWSE = ActivityResultCode.OTHER;
+	public static final ActionType RESULT_BROWSE = ActionType.OTHER;
+	public static final String URL = FragmentReviewURLBrowser.URL;
+	public static final String URL_OLD = FragmentReviewURLBrowser.URL_OLD;
 	
 	private static final String TAG = "DialogURLFragment";
 	
-	private ControllerReviewNode mController;
+	private URL mUrl;
 	private ClearableEditText mURLEditText;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		mController = Controller.unpack(getArguments());
 		
-		setMiddleButtonAction(ActionType.OTHER);
+		mUrl = getArguments().getParcelable(URL);
+		
+		setMiddleButtonAction(RESULT_BROWSE);
 		setMiddleButtonText(getResources().getString(R.string.button_browse_text));
 		setDismissDialogOnMiddleClick(true);
 
-		setDialogTitle(getResources().getString(R.string.dialog_URL_title));
+		setDialogTitle(getResources().getString(R.string.dialog_url_title));
 		setDeleteConfirmation(true);
-		setDeleteWhatTitle(getResources().getString(R.string.dialog_URL_title));
+		setDeleteWhatTitle(getResources().getString(R.string.dialog_url_title));
 	}
 	
 	@Override
@@ -36,8 +43,8 @@ public class DialogURLFragment extends DialogDeleteCancelDoneFragment {
 		View v = getActivity().getLayoutInflater().inflate(R.layout.dialog_url, null);
 		
 		mURLEditText = (ClearableEditText)v.findViewById(R.id.url_edit_text);
-		if(mController.hasURL())
-			mURLEditText.setText(mController.getURLString());
+		if(mUrl != null)
+			mURLEditText.setText(RandomTextUtils.toShortenedStringURL(mUrl));
 	
 		setKeyboardIMEDoDone(mURLEditText);
 		
@@ -46,10 +53,13 @@ public class DialogURLFragment extends DialogDeleteCancelDoneFragment {
 	
 	@Override
 	protected void onDoneButtonClick() {
-		String urlText = mURLEditText.getText().toString();
-		if(urlText.length() > 0) {			
+		String urlString = mURLEditText.getText().toString();
+		if(urlString.length() > 0) {			
 			try {
-				mController.setURL(urlText);
+				URL url = new URL(URLUtil.guessUrl(urlString));
+				Intent i = getNewReturnData();
+				i.putExtra(URL, url);
+				i.putExtra(URL_OLD, mUrl);
 			} catch (Exception e) {
 				Log.e(TAG, "Malformed URL", e);
 				Toast.makeText(getSherlockActivity(), getResources().getString(R.string.toast_bad_url), Toast.LENGTH_SHORT).show();
@@ -61,11 +71,11 @@ public class DialogURLFragment extends DialogDeleteCancelDoneFragment {
 		
 	@Override
 	protected void onDeleteButtonClick() {
-		mController.deleteURL();
+		getNewReturnData().putExtra(URL_OLD, mUrl);
 	}
 	
 	@Override
 	protected boolean hasDataToDelete() {
-		return mController.hasURL();
+		return mUrl != null;
 	}
 }

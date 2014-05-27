@@ -8,8 +8,6 @@ import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
-import android.graphics.Bitmap;
-
 import com.google.android.gms.maps.model.LatLng;
 
 public class ControllerReviewNodeCollection {
@@ -143,20 +141,12 @@ public class ControllerReviewNodeCollection {
 	}
 
 	//Date
-	public boolean hasDate(String id) {
-		return getControllerFor(id).hasDate();
-	}
-	
 	public Date getDate(String id) {
 		return getControllerFor(id).getDate();
 	}
 	
 	public void setDate(String id, Date date) {
 		getControllerFor(id).setDate(date);
-	}
-	
-	public void deleteDate(String id) {
-		getControllerFor(id).deleteDate();
 	}
 
 	//Image
@@ -203,28 +193,21 @@ public class ControllerReviewNodeCollection {
 	}
 	
 	//URL
-	public boolean hasURL(String id) {
-		return getControllerFor(id).hasURL();
+	public boolean hasURLs(String id) {
+		return getControllerFor(id).hasURLs();
 	}
 	
-	public URL getURL(String id) {
-		return getControllerFor(id).getURL();
+	public GVUrlList getURLs(String id) {
+		return getControllerFor(id).getURLs();
 	}
 	
-	public void setURL(String id, String urlString) throws MalformedURLException, URISyntaxException{
-		getControllerFor(id).setURL(urlString);
+	public void setURLs(String id, GVUrlList urls) {
+		getControllerFor(id).setURLs(urls);
 	}
 	
-	public String getURLString(String id) {
-		return getControllerFor(id).getURLString();
-	}
 	
-	public String getURLShortenedString(String id) {
-		return getControllerFor(id).getURLShortenedString();
-	}
-	
-	public void deleteURL(String id) {
-		getControllerFor(id).deleteURL();
+	public void deleteURLs(String id) {
+		getControllerFor(id).deleteURLs();
 	}
 
 	public GVCriterionList getGridViewiableData() {

@@ -20,7 +20,6 @@ import com.chdryra.android.mygenerallibrary.FragmentDeleteDone;
 import com.chdryra.android.mygenerallibrary.GVData;
 import com.chdryra.android.mygenerallibrary.GVList;
 import com.chdryra.android.mygenerallibrary.GridViewCellAdapter;
-import com.chdryra.android.mygenerallibrary.GridViewCellAdapter.GridViewable;
 
 public abstract class FragmentReviewGrid<T extends GVData> extends FragmentDeleteDone{
 

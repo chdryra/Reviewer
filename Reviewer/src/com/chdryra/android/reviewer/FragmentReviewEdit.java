@@ -51,6 +51,7 @@ public class FragmentReviewEdit extends SherlockFragment {
 	public final static int FACTS_EDIT = 41;
 	public final static int URL_REQUEST = 50;
 	public final static int URL_EDIT = 51;
+	public final static int URL_BROWSE = 52;
 	public final static int CHILDREN_REQUEST = 60;
 	public final static int CHILDREN_EDIT = 61;
 	public final static int PROSCONS_REQUEST = 70;
@@ -445,7 +446,7 @@ public class FragmentReviewEdit extends SherlockFragment {
 		mURLTextView.setOnLongClickListener(new View.OnLongClickListener() {
 			@Override
 			public boolean onLongClick(View v) {
-				requestURIBrowserintent();
+				requestURLintent();
 				return true;
 			}
 		});
@@ -622,8 +623,10 @@ public class FragmentReviewEdit extends SherlockFragment {
 	}
 	
 	private void updateURLDisplay() {
-		if(mController.hasURL())
-			mURLTextView.setText(mController.getURLShortenedString());
+		if(mController.hasURLs()) {
+			String url = mController.getURLs().getItem(0).toShortenedString();
+			mURLTextView.setText(mController.getURLs().getItem(0).toShortenedString());
+		}
 		else
 			mURLTextView.setText(getResources().getString(R.string.text_view_link_hint));
 	}
@@ -647,7 +650,7 @@ public class FragmentReviewEdit extends SherlockFragment {
 	}	
 	
 	private <T> void requestIntent(Class<T> c, int requestCode) {
-		Intent i = new Intent(getSherlockActivity(), c);
+		Intent i = new Intent(getActivity(), c);
 		Controller.pack(mController, i);
 		startActivityForResult(i, requestCode);
 	}
@@ -672,8 +675,12 @@ public class FragmentReviewEdit extends SherlockFragment {
 		requestIntent(ActivityReviewLocation.class, LOCATION_REQUEST);
 	}
 	
-	private void requestURIBrowserintent() {
+	private void requestURLintent() {
 		requestIntent(ActivityReviewURL.class, URL_REQUEST);
+	}
+	
+	private void requestURIBrowserintent() {
+		requestIntent(ActivityReviewURLBrowser.class, URL_REQUEST);
 	}
 	
 	private void requestImageCaptureIntent() {
@@ -878,6 +885,10 @@ public class FragmentReviewEdit extends SherlockFragment {
 					requestURIBrowserintent();
 				else
 					updateURLDisplay();
+				
+			case URL_BROWSE:
+				updateURLDisplay();
+				break;
 		}
 	}
 }

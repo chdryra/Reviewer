@@ -6,7 +6,6 @@ import android.view.View;
 import android.widget.AdapterView;
 
 import com.chdryra.android.mygenerallibrary.ActivityResultCode;
-import com.chdryra.android.mygenerallibrary.GridViewCellAdapter;
 import com.chdryra.android.reviewer.GVFactList.GVFact;
 
 public class FragmentReviewFacts extends FragmentReviewGridAddEditDone<GVFact> {

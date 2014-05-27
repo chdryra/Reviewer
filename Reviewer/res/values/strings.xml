@@ -11,7 +11,9 @@
     <string name="dialog_edit_criteria_title">Edit Criteria</string>
     <string name="dialog_delete_criteria_title">Criteria</string>
     <string name="dialog_delete_criterion_title">Criterion</string>
-    <string name="dialog_URL_title">Link</string>
+    <string name="dialog_url_title">Link</string>
+    <string name="dialog_delete_url_title">Link</string>
+    <string name="dialog_delete_urls_title">Links</string>
     <string name="dialog_location_title">Location</string>
 	<string name="dialog_add_tag_title">Add Tags</string>
 	<string name="dialog_edit_tag_title">Edit Tag</string>
@@ -99,6 +101,7 @@
     <string name="button_add_cons">add cons</string>
     <string name="button_add_comment">add comment</string>
     <string name="button_add_image">add image</string>
+    <string name="button_add_url">add link</string>
 
     <!-- Image Buttons -->
     <string name="button_add_image_cd">add image</string>

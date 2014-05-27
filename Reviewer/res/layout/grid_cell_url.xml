@@ -11,8 +11,8 @@
 	        android:layout_height="match_parent"
 	        android:gravity="center"
 	        android:padding="5dp"
+	        android:maxLines="2"
 	        android:background="@drawable/image_button_selected"
 	        android:textColor="@color/WhiteSmoke"/>
-	        
     
 </FrameLayout>

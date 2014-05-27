@@ -67,16 +67,6 @@ public class FragmentReviewTags  extends FragmentReviewGridAddEditDone<GVString>
 	}
 	
 	@Override
-	protected void onDeleteSelected() {
-		mTags.removeAll();
-	}
-
-	@Override
-	protected boolean hasDataToDelete() {
-		return mTags.size() > 0;
-	}
-	
-	@Override
 	protected void addData(int resultCode, Intent data) {
 		switch(ActivityResultCode.get(resultCode)) {
 		case ADD:

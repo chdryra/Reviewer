@@ -1,17 +1,19 @@
 package com.chdryra.android.reviewer;
 
+import java.util.Date;
+
 public class ReviewUser implements Review{	
 	private RDId mID;
 	private RDTitle mTitle;
 	private RDRating mRating;
+	private RDDate mDate;
 	
 	private RDList<RDComment> mComments;
-	private RDList<RDImage> mImages;
-	private RDLocation mLocation;	
+	private RDList<RDImage> mImages;	
 	private RDList<RDFact> mFacts;
-	private RDUrl mURL;
-	private RDDate mDate;
 	private RDList<RDProCon> mProCons;
+	private RDList<RDUrl> mURLs;
+	private RDLocation mLocation;
 
 	private ReviewNode mNode;
 	
@@ -19,6 +21,7 @@ public class ReviewUser implements Review{
 		mID = RDId.generateID();
 		mTitle = new RDTitle(title, this);
 		mRating = new RDRating(0, this);
+		mDate = new RDDate();
 		
 		//Null option data
 		mComments = new RDList<RDComment>();
@@ -26,8 +29,7 @@ public class ReviewUser implements Review{
 		mLocation = new RDLocation();
 		mFacts = new RDList<RDFact>();
 		mProCons = new RDList<RDProCon>();
-		mURL = new RDUrl();
-		mDate = new RDDate();
+		mURLs = new RDList<RDUrl>();
 		
 		mNode = FactoryReview.createReviewNode(this);
 	}
@@ -57,6 +59,16 @@ public class ReviewUser implements Review{
 		return isRatingAverageOfCriteria()? mNode.getRating() : mRating;
 	}
 
+	@Override
+	public RDDate getDate() {
+		return mDate;
+	}
+	
+	@Override
+	public void setDate(Date date) {
+		mDate = new RDDate(date, this);
+	}
+	
 	@Override
 	public ReviewTagCollection getTags() {
 		return ReviewTagsManager.getTags(this);
@@ -191,43 +203,23 @@ public class ReviewUser implements Review{
 	}
 
 	@Override
-	public RDUrl getURL() {
-		return mURL;
+	public RDList<RDUrl> getURLs() {
+		return mURLs;
 	}
 
 	@Override
-	public void setURL(RDUrl url) {
-		mURL = (RDUrl) processData(url, new RDUrl());
+	public void setURLs(RDList<RDUrl> urls) {
+		mURLs = (RDList<RDUrl>) processData(urls, new RDList<RDUrl>());
 	}
 
 	@Override
-	public void deleteURL() {
-		setURL(null);
+	public void deleteURLs() {
+		setURLs(null);
 	}
 
 	@Override
-	public boolean hasURL() {
-		return mURL.hasData();
-	}
-
-	@Override
-	public RDDate getDate() {
-		return mDate;
-	}
-	
-	@Override
-	public void setDate(RDDate date) {
-		mDate = (RDDate) processData(date, new RDDate());
-	}
-	
-	@Override
-	public void deleteDate() {
-		setDate(null);
-	}
-	
-	@Override
-	public boolean hasDate() {
-		return mDate.hasData();
+	public boolean hasURLs() {
+		return mURLs.hasData();
 	}
 
 	@Override

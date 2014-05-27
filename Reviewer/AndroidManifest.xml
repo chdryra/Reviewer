@@ -71,6 +71,16 @@
                 android:value="com.chdryra.android.reviewer.ActivityReviewEdit" />
         </activity>
         
+        <activity android:name="com.chdryra.android.reviewer.ActivityReviewURL"
+		    android:windowSoftInputMode="adjustPan"
+		    android:configChanges="orientation"
+		    android:exported="true"
+            android:label="@string/activity_title_url" 
+            android:screenOrientation="portrait">
+            <meta-data android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.chdryra.android.reviewer.ActivityReviewEdit" />
+        </activity>
+        
         <activity android:name="com.chdryra.android.reviewer.ActivityReviewLocation"
 		    android:windowSoftInputMode="adjustPan"
 		    android:configChanges="orientation"
@@ -111,7 +121,7 @@
                 android:value="com.chdryra.android.reviewer.ActivityReviewEdit" />
         </activity>
 
-        <activity android:name="com.chdryra.android.reviewer.ActivityReviewURL"
+        <activity android:name="com.chdryra.android.reviewer.ActivityReviewURLBrowser"
 		    android:windowSoftInputMode="adjustPan"
 		    android:configChanges="orientation"
 		    android:exported="true"

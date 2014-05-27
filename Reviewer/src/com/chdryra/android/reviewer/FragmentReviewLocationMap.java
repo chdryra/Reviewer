@@ -35,7 +35,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-public class FragmentReviewLocation extends FragmentDeleteDone implements LocationClientConnector.Locatable {
+public class FragmentReviewLocationMap extends FragmentDeleteDone implements LocationClientConnector.Locatable {
 
 	private static final int DEFAULT_ZOOM = 15;
 	private static final int NUMBER_DEFAULT_NAMES= 5;

@@ -1,5 +1,8 @@
 package com.chdryra.android.reviewer;
 
+import java.util.Comparator;
+import java.util.Date;
+
 public class ReviewMeta implements Review {
 	private RDId mID;
 	private RDTitle mTitle;
@@ -46,9 +49,33 @@ public class ReviewMeta implements Review {
 		return new RDRating(calculateRating(calculator), this);
 	}
 	
+	public RDList<RDRating> getRatings() {
+		RDList<RDRating> ratings = new RDList<RDRating>();
+		for(Review r : mReviews)
+			ratings.add(r.getRating());
+		
+		return ratings;
+	}
+	
 	@Override
 	public RDTitle getTitle() {
 		return mTitle;
+	}
+	
+	public RDList<RDTitle> getTitles() {
+		RDList<RDTitle> titles = new RDList<RDTitle>();
+		for(Review r : mReviews)
+			titles.add(r.getTitle());
+		
+		return titles;
+	}
+
+	public RDList<RDDate> getDates() {
+		RDList<RDDate> dates = new RDList<RDDate>();
+		for(Review r : mReviews)
+			dates.add(r.getDate());
+		
+		return dates;
 	}
 	
 	@Override
@@ -186,44 +213,48 @@ public class ReviewMeta implements Review {
 	}
 
 	@Override
-	public RDUrl getURL() {
-		return null;
+	public RDList<RDUrl> getURLs() {
+		RDList<RDUrl> urls = new RDList<RDUrl>();
+		for(Review r : mReviews)
+			urls.add(r.getURLs());
+		
+		return urls;
 	}
 
 	@Override
-	public void setURL(RDUrl url) {
+	public void setURLs(RDList<RDUrl> urls) {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public void deleteURL() {
+	public void deleteURLs() {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public boolean hasURL() {
-		return false;
+	public boolean hasURLs() {
+		return getURLs().hasData();
 	}
 	
 
 	@Override
 	public RDDate getDate() {
-		return null;
+		//Returns most recent date;
+		RDList<RDDate> dates = getDates();
+		dates.sort(new Comparator<RDDate>() {
+			
+			@Override
+			public int compare(RDDate lhs, RDDate rhs) {
+				return -lhs.get().compareTo(rhs.get());
+			}
+		});
+		
+		return dates.getItem(0);
 	}
 
 	@Override
-	public void setDate(RDDate date) {
+	public void setDate(Date date) {
 		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public void deleteDate() {
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public boolean hasDate() {
-		return false;
 	}
 	
 	@Override

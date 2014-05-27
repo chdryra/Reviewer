@@ -12,6 +12,7 @@ import com.chdryra.android.mygenerallibrary.GVStringList.GVString;
 import com.chdryra.android.reviewer.GVCommentList.GVComment;
 import com.chdryra.android.reviewer.GVFactList.GVFact;
 import com.chdryra.android.reviewer.GVImageList.GVImage;
+import com.chdryra.android.reviewer.GVUrlList.GVUrl;
 import com.chdryra.android.reviewer.ReviewTagsManager.ReviewTag;
 import com.google.android.gms.maps.model.LatLng;
 
@@ -153,28 +154,16 @@ public class ControllerReviewNode{
 		
 		r.setFacts(facts);
 	}
-
-	//Date
-	public boolean hasDate() {
-		return getReview().hasDate();
-	}
 	
 	public Date getDate() {
-		if(hasDate())
-			return getReview().getDate().get();
-		else
-			return null;
+		return getReview().getDate().get();
 	}
 	
 	public void setDate(Date date) {
 		Review r =getReview();
-		r.setDate(new RDDate(date, r));
+		r.setDate(date);
 	}
 	
-	public void deleteDate() {
-		getReview().deleteDate();
-	}
-
 	//Image
 	public boolean hasImages() {
 		return getReview().hasImages();
@@ -249,40 +238,32 @@ public class ControllerReviewNode{
 	}
 	
 	//URL
-	public boolean hasURL() {
-		return getReview().hasURL();
+	public boolean hasURLs() {
+		return getReview().hasURLs();
 	}
 	
-	public URL getURL() {
-		if(hasURL())
-			return getReview().getURL().get();
-		else
-			return null;
+	public GVUrlList getURLs() {
+		GVUrlList urlList = new GVUrlList();
+		for(RDUrl url : getReview().getURLs())
+			urlList.add(url.get());
+		
+		return urlList;
 	}
 	
-	public void setURL(String urlString) throws MalformedURLException, URISyntaxException{
+	public void setURLs(GVUrlList urlList) {
+		if(urlList.size() == 0)
+			return;
+		
 		Review r = getReview();
-		RDUrl url;
-		url = new RDUrl(urlString, r);
-		r.setURL(url);
+		RDList<RDUrl> rdUrls = new RDList<RDUrl>();
+		for(GVUrl url : urlList)
+			rdUrls.add(new RDUrl(url.getUrl(), r));
+		
+		r.setURLs(rdUrls);
 	}
 	
-	public String getURLString() {
-		if(hasURL())
-			return getReview().getURL().toString();
-		else 
-			return null;
-	}
-	
-	public String getURLShortenedString() {
-		if(hasURL())
-			return getReview().getURL().toShortenedString();
-		else 
-			return null;
-	}
-	
-	public void deleteURL() {
-		getReview().deleteURL();
+	public void deleteURLs() {
+		getReview().deleteURLs();
 	}
 	
 	//ProsCons
