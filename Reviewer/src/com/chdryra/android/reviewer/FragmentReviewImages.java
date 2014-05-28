@@ -16,7 +16,7 @@ import com.chdryra.android.mygenerallibrary.ImageHelper;
 import com.chdryra.android.reviewer.GVImageList.GVImage;
 import com.google.android.gms.maps.model.LatLng;
 
-public class FragmentReviewImage extends FragmentReviewGridAddEditDone<GVImage> {
+public class FragmentReviewImages extends FragmentReviewGridAddEditDone<GVImage> {
 	public static final String BITMAP = "com.chdryra.android.reviewer.bitmap";
 	public static final String CAPTION = "com.chdryra.android.reviewer.caption";
 	public static final String LATLNG = "com.chdryra.android.reviewer.latlng";
@@ -51,7 +51,7 @@ public class FragmentReviewImage extends FragmentReviewGridAddEditDone<GVImage> 
 		args.putParcelable(BITMAP, image.getBitmap());
 		args.putParcelable(LATLNG, image.getLatLng());
 		args.putString(CAPTION, image.getCaption());
-		DialogShower.show(new DialogImageEditFragment(), FragmentReviewImage.this, DATA_EDIT, DATA_EDIT_TAG, args);
+		DialogShower.show(new DialogImageEditFragment(), FragmentReviewImages.this, DATA_EDIT, DATA_EDIT_TAG, args);
 	}
 			
 	@Override

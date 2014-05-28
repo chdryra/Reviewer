@@ -13,7 +13,7 @@ import com.chdryra.android.mygenerallibrary.ActivityResultCode;
 import com.chdryra.android.mygenerallibrary.GridViewCellAdapter;
 import com.chdryra.android.reviewer.GVCommentList.GVComment;
 
-public class FragmentReviewComment extends FragmentReviewGridAddEditDone<GVComment> {
+public class FragmentReviewComments extends FragmentReviewGridAddEditDone<GVComment> {
 	public static final String COMMENT = "com.chdryra.android.reviewer.comment";	
 
 	private GVCommentList mComments; 	
@@ -33,7 +33,7 @@ public class FragmentReviewComment extends FragmentReviewGridAddEditDone<GVComme
 		
 	@Override
 	protected void onBannerButtonClick() {
-		DialogShower.show(new DialogCommentAddFragment(), FragmentReviewComment.this, DATA_ADD, DATA_ADD_TAG, Controller.pack(getController()));
+		DialogShower.show(new DialogCommentAddFragment(), FragmentReviewComments.this, DATA_ADD, DATA_ADD_TAG, Controller.pack(getController()));
 	}
 	
 	@Override
@@ -41,7 +41,7 @@ public class FragmentReviewComment extends FragmentReviewGridAddEditDone<GVComme
 		GVComment comment = (GVComment)parent.getItemAtPosition(position);
 		Bundle args = new Bundle();
 		args.putString(COMMENT, comment.getUnSplitComment().getComment());
-		DialogShower.show(new DialogCommentEditFragment(), FragmentReviewComment.this, DATA_EDIT, DATA_EDIT_TAG, args);
+		DialogShower.show(new DialogCommentEditFragment(), FragmentReviewComments.this, DATA_EDIT, DATA_EDIT_TAG, args);
 	}
 			
 	@Override

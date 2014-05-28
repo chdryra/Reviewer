@@ -28,30 +28,12 @@
 
     <View style="@style/HorizontalDivider" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal" >
-
-        <ImageButton
-            android:id="@+id/photo_location_image_button"
-            style="@style/SquareImageButton"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@drawable/image_button_selected"
-            android:src="@drawable/ic_menu_camera" />
-
-        <View style="@style/VerticalDivider" />
-
-        <ImageButton
+    <ImageButton
             android:id="@+id/revert_location_image_button"
-            style="@style/SquareImageButton"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:background="@drawable/image_button_selected"
+            android:contentDescription="@string/button_revert_location_cd"
             android:src="@drawable/ic_menu_revert" />
-    </LinearLayout>
-
+    
 </LinearLayout>

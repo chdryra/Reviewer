@@ -81,20 +81,20 @@ public class ReviewNull implements Review {
 	}
 
 	@Override
-	public RDLocation getLocation() {
+	public RDList<RDLocation> getLocations() {
 		return null;
 	}
 
 	@Override
-	public void setLocation(RDLocation location) {
+	public void setLocations(RDList<RDLocation> location) {
 	}
 
 	@Override
-	public void deleteLocation() {
+	public void deleteLocations() {
 	}
 
 	@Override
-	public boolean hasLocation() {
+	public boolean hasLocations() {
 		return false;
 	}
 

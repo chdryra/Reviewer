@@ -614,19 +614,17 @@ public class FragmentReviewEdit extends SherlockFragment {
 	private void updateLocationDisplay() {
 		StringBuilder location = new StringBuilder("@");
 		
-		if(!mController.hasLocationName())
+		if(!mController.hasLocations())
 			location.append(getResources().getString(R.string.text_view_location_hint));
 		else
-			location.append(mController.getShortLocationName());
+			location.append(mController.getLocations().getItem(0).getShortenedName());
 
 		mLocationTextView.setText(location.toString());
 	}
 	
 	private void updateURLDisplay() {
-		if(mController.hasURLs()) {
-			String url = mController.getURLs().getItem(0).toShortenedString();
+		if(mController.hasURLs())
 			mURLTextView.setText(mController.getURLs().getItem(0).toShortenedString());
-		}
 		else
 			mURLTextView.setText(getResources().getString(R.string.text_view_link_hint));
 	}
@@ -660,7 +658,7 @@ public class FragmentReviewEdit extends SherlockFragment {
 	}
 	
 	private void requestCommentMakeIntent() {
-		requestIntent(ActivityReviewComment.class, COMMENT_REQUEST);
+		requestIntent(ActivityReviewComments.class, COMMENT_REQUEST);
 	}
 	
 	private void requestFactsAddIntent() {
@@ -672,11 +670,11 @@ public class FragmentReviewEdit extends SherlockFragment {
 	}
 	
 	private void requestLocationFindIntent() {
-		requestIntent(ActivityReviewLocation.class, LOCATION_REQUEST);
+		requestIntent(ActivityReviewLocations.class, LOCATION_REQUEST);
 	}
 	
 	private void requestURLintent() {
-		requestIntent(ActivityReviewURL.class, URL_REQUEST);
+		requestIntent(ActivityReviewURLs.class, URL_REQUEST);
 	}
 	
 	private void requestURIBrowserintent() {
@@ -684,7 +682,7 @@ public class FragmentReviewEdit extends SherlockFragment {
 	}
 	
 	private void requestImageCaptureIntent() {
-		requestIntent(ActivityReviewImage.class, IMAGE_EDIT);
+		requestIntent(ActivityReviewImages.class, IMAGE_EDIT);
 	}
 
 	private void showImageEditDialog() {

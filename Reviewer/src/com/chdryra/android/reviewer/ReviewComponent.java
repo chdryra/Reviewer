@@ -271,23 +271,23 @@ public class ReviewComponent implements ReviewNode {
 	}
 
 	@Override
-	public RDLocation getLocation() {
-		return mReview.getLocation();
+	public RDList<RDLocation> getLocations() {
+		return mReview.getLocations();
 	}
 
 	@Override
-	public void setLocation(RDLocation location) {
-		mReview.setLocation(location);
+	public void setLocations(RDList<RDLocation> location) {
+		mReview.setLocations(location);
 	}
 
 	@Override
-	public void deleteLocation() {
-		mReview.deleteLocation();
+	public void deleteLocations() {
+		mReview.deleteLocations();
 	}
 
 	@Override
-	public boolean hasLocation() {
-		return mReview.hasLocation();
+	public boolean hasLocations() {
+		return mReview.hasLocations();
 	}
 
 	@Override

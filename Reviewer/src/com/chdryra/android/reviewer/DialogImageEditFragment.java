@@ -20,9 +20,9 @@ public class DialogImageEditFragment extends DialogDeleteCancelDoneFragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		mBitmap = getArguments().getParcelable(FragmentReviewImage.BITMAP);
-		mLatLng = getArguments().getParcelable(FragmentReviewImage.LATLNG);
-		mCaption = getArguments().getString(FragmentReviewImage.CAPTION);
+		mBitmap = getArguments().getParcelable(FragmentReviewImages.BITMAP);
+		mLatLng = getArguments().getParcelable(FragmentReviewImages.LATLNG);
+		mCaption = getArguments().getString(FragmentReviewImages.CAPTION);
 		setDialogTitle(null);
 		showKeyboardOnLaunch(false);
 		setDeleteWhatTitle(getResources().getString(R.string.dialog_delete_image_title));
@@ -51,18 +51,18 @@ public class DialogImageEditFragment extends DialogDeleteCancelDoneFragment {
 	@Override
 	protected void onDoneButtonClick() {
 		Intent i = getNewReturnData();
-		i.putExtra(FragmentReviewImage.BITMAP, mBitmap);
-		i.putExtra(FragmentReviewImage.LATLNG, mLatLng);
-		i.putExtra(FragmentReviewImage.CAPTION, mImageCaption.getText().toString());
+		i.putExtra(FragmentReviewImages.BITMAP, mBitmap);
+		i.putExtra(FragmentReviewImages.LATLNG, mLatLng);
+		i.putExtra(FragmentReviewImages.CAPTION, mImageCaption.getText().toString());
 		i.putExtra(OLD_CAPTION, mCaption);
 	}
 	
 	@Override
 	protected void onDeleteButtonClick() {
 		Intent i = getNewReturnData();
-		i.putExtra(FragmentReviewImage.BITMAP, mBitmap);
-		i.putExtra(FragmentReviewImage.LATLNG, mLatLng);
-		i.putExtra(FragmentReviewImage.CAPTION, mCaption);
+		i.putExtra(FragmentReviewImages.BITMAP, mBitmap);
+		i.putExtra(FragmentReviewImages.LATLNG, mLatLng);
+		i.putExtra(FragmentReviewImages.CAPTION, mCaption);
 	}
 	
 	@Override

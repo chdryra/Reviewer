@@ -1,14 +1,9 @@
 package com.chdryra.android.reviewer;
 
-import java.net.MalformedURLException;
-import java.net.URISyntaxException;
-import java.net.URL;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.Set;
-
-import com.google.android.gms.maps.model.LatLng;
 
 public class ControllerReviewNodeCollection {
 	protected RCollectionReviewNode mReviewNodes;
@@ -164,32 +159,20 @@ public class ControllerReviewNodeCollection {
 
 	
 	//Location
-	public boolean hasLocation(String id) {
-		return getControllerFor(id).hasLocation();
+	public boolean hasLocations(String id) {
+		return getControllerFor(id).hasLocations();
 	}
 	
-	public LatLng getLocationLatLng(String id) {
-		return getControllerFor(id).getLocationLatLng();
+	public GVLocationList getLocations(String id) {
+		return getControllerFor(id).getLocations();
 	}
 	
-	public void setLocation(String id, LatLng latLng, String name) {
-		getControllerFor(id).setLocation(latLng, name);
-	}
-
-	public boolean hasLocationName(String id) {
-		return getControllerFor(id).hasLocationName();
+	public void setLocations(String id, GVLocationList locations) {
+		getControllerFor(id).setLocations(locations);
 	}
 	
-	public String getLocationName(String id) {
-		return getControllerFor(id).getLocationName();
-	}
-
-	public String getShortLocationName(String id) {
-		return getControllerFor(id).getShortLocationName();
-	}
-	
-	public void deleteLocation(String id) {
-		getControllerFor(id).deleteLocation();
+	public void deleteLocations(String id) {
+		getControllerFor(id).deleteLocations();
 	}
 	
 	//URL

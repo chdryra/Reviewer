@@ -4,11 +4,10 @@ import com.chdryra.android.mygenerallibrary.ActivitySingleFragment;
 
 import android.support.v4.app.Fragment;
 
-public class ActivityReviewComment extends ActivitySingleFragment {
+public class ActivityReviewLocationMap extends ActivitySingleFragment {
 
 	@Override
 	protected Fragment createFragment() {
-		return new FragmentReviewComment();
+		return new FragmentReviewLocationMap();
 	}
-
 }

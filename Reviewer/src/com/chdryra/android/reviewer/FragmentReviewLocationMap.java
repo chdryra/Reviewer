@@ -1,6 +1,7 @@
 package com.chdryra.android.reviewer;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Editable;
@@ -14,7 +15,6 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
@@ -36,32 +36,38 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 public class FragmentReviewLocationMap extends FragmentDeleteDone implements LocationClientConnector.Locatable {
-
+	public final static String SUBJECT = "com.chdryra.android.reviewer.subject";
+	public final static String LATLNG = "com.chdryra.android.reviewer.latlng";
+	public final static String NAME = "com.chdryra.android.reviewer.location_name";
+	public final static String LATLNG_OLD = "com.chdryra.android.reviewer.latlng_old";
+	public final static String NAME_OLD = "com.chdryra.android.reviewer.location_name_old";
+	
 	private static final int DEFAULT_ZOOM = 15;
 	private static final int NUMBER_DEFAULT_NAMES= 5;
 
-	private ControllerReviewNode mController;
-	
 	private GoogleMap mGoogleMap;
 	private MapView mMapView;
 	private ArrayAdapterSearchView mSearchView;
 	private ClearableAutoCompleteTextView mLocationName;
-	private ImageButton mPhotoLocationButton;
 	private ImageButton mRevertButton;
 	
 	private LatLng mLatLng;
-	private LatLng mPhotoLatLng;
 	private LatLng mRevertLatLng;
-
+	private String mRevertName;
+	private String mReviewSubject;
+	
 	private LocationClientConnector mLocationClient;
 	private String mSearchLocationName;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		mController = Controller.unpack(getActivity().getIntent().getExtras());
-	    //mPhotoLatLng = mController.getImageLatLng();
-	    mLocationClient = new LocationClientConnector(getSherlockActivity(), this);
+
+		mRevertLatLng =(LatLng)getActivity().getIntent().getParcelableExtra(LATLNG);
+	    mRevertName = (String)getActivity().getIntent().getSerializableExtra(NAME);
+	    mReviewSubject = (String)getActivity().getIntent().getSerializableExtra(SUBJECT);
+	    
+		mLocationClient = new LocationClientConnector(getSherlockActivity(), this);
 	    
 	    //Not sure why I have to do this. Was working without this at some point...
 	    try {
@@ -70,7 +76,8 @@ public class FragmentReviewLocationMap extends FragmentDeleteDone implements Loc
 	        Log.e("Test", "Have GoogleMap but then error", e);
 	    }
 	    
-	    setDeleteWhatTitle(getResources().getString(R.string.activity_title_location));
+	    setDeleteWhatTitle(getResources().getString(R.string.dialog_delete_location_title));
+	    setDismissOnDelete(true);
 	}
 	
 	@Override
@@ -84,7 +91,6 @@ public class FragmentReviewLocationMap extends FragmentDeleteDone implements Loc
 	    mMapView.onCreate(savedInstanceState);	    
 	    mGoogleMap = ((MapView) v.findViewById(R.id.mapView)).getMap();
 	    mLocationName = (ClearableAutoCompleteTextView)v.findViewById(R.id.edit_text_name_location);
-	    mPhotoLocationButton = (ImageButton)v.findViewById(R.id.photo_location_image_button);
 	    mRevertButton = (ImageButton)v.findViewById(R.id.revert_location_image_button);
 	    
 	    initUI();
@@ -95,7 +101,6 @@ public class FragmentReviewLocationMap extends FragmentDeleteDone implements Loc
 	private void initUI() {
 		initLocationNameUI();
 		initGoogleMapUI();
-		initPhotoButtonUI();
 		initRevertButtonUI();
 	}
 
@@ -148,24 +153,7 @@ public class FragmentReviewLocationMap extends FragmentDeleteDone implements Loc
 			});
 	}
 	
-	private void initPhotoButtonUI() {
-	    mPhotoLocationButton.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				if(mPhotoLatLng == null)
-					Toast.makeText(getSherlockActivity(), getResources().getString(R.string.toast_no_image_gps_tag), Toast.LENGTH_SHORT).show();
-				else
-					setLatLng(mPhotoLatLng);
-			}
-		});
-	}
-	
 	private void initRevertButtonUI() {
-	    if (mController.hasLocation())
-	    	mRevertLatLng = mController.getLocationLatLng();
-	    else if (mPhotoLatLng != null)
-	    	mRevertLatLng = mPhotoLatLng;
-	    
 	    mRevertButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -174,7 +162,7 @@ public class FragmentReviewLocationMap extends FragmentDeleteDone implements Loc
 							
 				mSearchLocationName = null;
 				setLatLng(mRevertLatLng);
-				mLocationName.setText(mController.getLocationName());
+				mLocationName.setText(mRevertName);
 				mLocationName.hideChrome();
 			}
 		});
@@ -189,11 +177,11 @@ public class FragmentReviewLocationMap extends FragmentDeleteDone implements Loc
 	
 	@Override
 	protected void onDoneSelected() {
-		String name = mLocationName.getText().toString();
-		if(name.length() > 0)
-			mController.setLocation(mLatLng, name);
-
-		super.onDoneSelected();
+		Intent i = getNewReturnData();
+		i.putExtra(LATLNG, mLatLng);
+		i.putExtra(LATLNG_OLD, mRevertLatLng);
+		i.putExtra(NAME, mLocationName.getText().toString());
+		i.putExtra(NAME_OLD, mRevertName);
 	}
 	
 	@Override
@@ -255,7 +243,7 @@ public class FragmentReviewLocationMap extends FragmentDeleteDone implements Loc
 		
 		if(mLocationName != null) {
 			mLocationName.setText(null);
-			String primaryDefaultSuggestion = mSearchLocationName != null? mSearchLocationName : mController.getTitle();
+			String primaryDefaultSuggestion = mSearchLocationName != null? mSearchLocationName : mReviewSubject;
 			mLocationName.setAdapter(new LocationNameAdapter(getSherlockActivity(), 
 					android.R.layout.simple_list_item_1, mLatLng, NUMBER_DEFAULT_NAMES, primaryDefaultSuggestion));
 		}
@@ -379,12 +367,14 @@ public class FragmentReviewLocationMap extends FragmentDeleteDone implements Loc
 
 	@Override
 	protected void onDeleteSelected() {
-		mController.deleteLocation();
+		Intent i = getNewReturnData();
+		i.putExtra(LATLNG_OLD, mRevertLatLng);
+		i.putExtra(NAME_OLD, mRevertName);
 	}
 
 	@Override
 	protected boolean hasDataToDelete() {
-		return mController.hasLocation();
+		return mRevertLatLng != null;
 	}
 
 //	import android.widget.RatingBar;

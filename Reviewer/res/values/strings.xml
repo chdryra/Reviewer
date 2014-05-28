@@ -14,7 +14,6 @@
     <string name="dialog_url_title">Link</string>
     <string name="dialog_delete_url_title">Link</string>
     <string name="dialog_delete_urls_title">Links</string>
-    <string name="dialog_location_title">Location</string>
 	<string name="dialog_add_tag_title">Add Tags</string>
 	<string name="dialog_edit_tag_title">Edit Tag</string>
     <string name="dialog_delete_tags_title">Tags</string>
@@ -36,9 +35,12 @@
     <string name="dialog_delete_procon_title">Pro/Con</string>
     <string name="dialog_delete_image_title">Image</string>
     <string name="dialog_delete_images_title">Images</string>
+    <string name="dialog_location_title">Location</string>
+    <string name="dialog_delete_location_title">Location</string>
+    <string name="dialog_delete_locations_title">Locations</string>
 
     <!-- Activities -->
-    <string name="activity_title_location">location</string>
+    <string name="activity_title_location">locations</string>
     <string name="activity_title_url">links</string>
     <string name="activity_title_comment">comments</string>
     <string name="activity_title_facts">facts</string>
@@ -102,11 +104,13 @@
     <string name="button_add_comment">add comment</string>
     <string name="button_add_image">add image</string>
     <string name="button_add_url">add link</string>
+    <string name="button_add_location">add location</string>
 
     <!-- Image Buttons -->
     <string name="button_add_image_cd">add image</string>
     <string name="button_add_comment_cd">add comment</string>
     <string name="button_add_location_cd">add location</string>
+    <string name="button_revert_location_cd">revert location</string>
     <string name="button_add_facts_cd">add some facts</string>
     <string name="button_add_pros_cd">add some pros</string>
     <string name="button_add_cons_cd">add some cons</string>

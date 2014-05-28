@@ -45,15 +45,15 @@ public class DialogLocationFragment extends DialogDeleteCancelDoneFragment imple
 		View v = getActivity().getLayoutInflater().inflate(R.layout.dialog_location, null);
 		
 		mNameEditText = (ClearableEditText)v.findViewById(R.id.location_edit_text);
-		if(mController.hasLocation())
-			mLatLng = mController.getLocationLatLng();
+		if(mController.hasLocations())
+			mLatLng = mController.getLocations().getItem(0).getLatLng();
 //		else if(mController.hasImageLatLng())
 //			mLatLng = mController.getImageLatLng();
 		else
 			mLocationClient.connect();
 
-		if(mController.hasLocationName())
-			mNameEditText.setText(mController.getLocationName());
+		if(mController.hasLocations())
+			mNameEditText.setText(mController.getLocations().getItem(0).getName());
 
 		mNameEditText.addTextChangedListener(new TextWatcher() {
 			@Override
@@ -100,20 +100,20 @@ public class DialogLocationFragment extends DialogDeleteCancelDoneFragment imple
 	@Override
 	protected void onDoneButtonClick() {
 		String locationName = mNameEditText.getText().toString();
-		if(mLatLng != null && locationName.length() > 0)
-			mController.setLocation(mLatLng, locationName);
+//		if(mLatLng != null && locationName.length() > 0)
+//			mController.setLocation(mLatLng, locationName);
 		super.onDoneButtonClick();
 	}
 		
 	@Override
 	protected void onDeleteButtonClick() {
-		mController.deleteLocation();
+		mController.deleteLocations();
 		super.onDeleteButtonClick();
 	}
 	
 	@Override
 	protected boolean hasDataToDelete() {
-		return mController.hasLocation();
+		return mController.hasLocations();
 	}
 	
 	private void setSuggestionsAdapter() {

@@ -13,7 +13,7 @@ public class ReviewUser implements Review{
 	private RDList<RDFact> mFacts;
 	private RDList<RDProCon> mProCons;
 	private RDList<RDUrl> mURLs;
-	private RDLocation mLocation;
+	private RDList<RDLocation> mLocations;
 
 	private ReviewNode mNode;
 	
@@ -26,7 +26,7 @@ public class ReviewUser implements Review{
 		//Null option data
 		mComments = new RDList<RDComment>();
 		mImages = new RDList<RDImage>();
-		mLocation = new RDLocation();
+		mLocations = new RDList<RDLocation>();
 		mFacts = new RDList<RDFact>();
 		mProCons = new RDList<RDProCon>();
 		mURLs = new RDList<RDUrl>();
@@ -108,18 +108,6 @@ public class ReviewUser implements Review{
 		mNode.addChild(criterion);
 	}
 	
-	private RData processData(RData newData, RData ifNull) {
-		RData member;
-		if(newData != null)
-			member = newData;
-		else
-			member = ifNull;
-		
-		member.setHoldingReview(this);
-		
-		return member;
-	}
-	
 	private <T extends RData> RDList<T> processData(RDList<T> newData, RDList<T> ifNull) {
 		RDList<T> member;
 		if(newData != null)
@@ -142,42 +130,52 @@ public class ReviewUser implements Review{
 		mImages = (RDList<RDImage>)processData(images, new RDList<RDImage>());
 	}
 	
+	@Override
 	public void deleteImages() {
 		setImages(null);
 	}
 	
+	@Override
 	public boolean hasImages() {
 		return mImages.hasData();
 	}
 	
-	public RDLocation getLocation() {
-		return mLocation;
+	@Override
+	public RDList<RDLocation> getLocations() {
+		return mLocations;
 	}
 	
-	public void setLocation(RDLocation location) {
-		mLocation = (RDLocation) processData(location, new RDLocation());
+	@Override
+	public void setLocations(RDList<RDLocation> locations) {
+		mLocations = (RDList<RDLocation>) processData(locations, new RDList<RDLocation>());
 	}
 	
-	public void deleteLocation() {
-		setLocation(null);
+	@Override
+	public void deleteLocations() {
+		setLocations(null);
 	}
 	
-	public boolean hasLocation() {
-		return mLocation.hasData();
+	@Override
+	public boolean hasLocations() {
+		return mLocations.hasData();
 	}
 
+	@Override
 	public RDList<RDFact> getFacts() {
 		return mFacts;
 	}
 
+	@Override
 	public void setFacts(RDList<RDFact> facts) {
 		mFacts = (RDList<RDFact>) processData(facts, new RDList<RDFact>());
 	}
 	
+	@Override
 	public void deleteFacts() {
 		setFacts(null);
 	}
 	
+	@Override
 	public boolean hasFacts() {
 		return mFacts.hasData();
 	}

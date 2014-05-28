@@ -45,10 +45,10 @@ public interface Review {
 	public void deleteURLs();	
 	public boolean hasURLs();
 	
-	public RDLocation getLocation();
-	public void setLocation(RDLocation location);
-	public void deleteLocation();	
-	public boolean hasLocation();
+	public RDList<RDLocation> getLocations();
+	public void setLocations(RDList<RDLocation> locations);
+	public void deleteLocations();	
+	public boolean hasLocations();
 	
 	//For speed and comparison
 	@Override

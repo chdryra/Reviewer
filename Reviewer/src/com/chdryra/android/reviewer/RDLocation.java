@@ -1,11 +1,10 @@
 package com.chdryra.android.reviewer;
 
-import java.util.StringTokenizer;
-
+import com.chdryra.android.mygenerallibrary.RandomTextUtils;
 import com.google.android.gms.maps.model.LatLng;
 
 public class RDLocation implements RData{
-	private static final String LOCATION_DELIMITER = ",|";
+	public static final String LOCATION_DELIMITER = ",|";
 	
 	private Review mHoldingReview;
 	
@@ -13,6 +12,12 @@ public class RDLocation implements RData{
 	private String mName = null;
 
 	public RDLocation() {
+	}
+
+	public RDLocation(LatLng latLng, String name, Review holdingReview) {
+		mLatLng = latLng;
+		mName = name;
+		mHoldingReview = holdingReview;
 	}
 
 	public RDLocation(LatLng latLng, Review holdingReview) {
@@ -55,11 +60,6 @@ public class RDLocation implements RData{
 	}
 	
 	public String getShortenedName() {
-		if(mName != null) {
-			StringTokenizer tokens = new StringTokenizer(mName, LOCATION_DELIMITER);
-			String shortened = tokens.nextToken();
-			return shortened != null? shortened.trim() : shortened;
-		} else
-			return null;
+		return RandomTextUtils.shortened(mName, LOCATION_DELIMITER);
 	}
 }

@@ -1,8 +1,5 @@
 package com.chdryra.android.reviewer;
 
-import java.net.MalformedURLException;
-import java.net.URISyntaxException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -12,9 +9,9 @@ import com.chdryra.android.mygenerallibrary.GVStringList.GVString;
 import com.chdryra.android.reviewer.GVCommentList.GVComment;
 import com.chdryra.android.reviewer.GVFactList.GVFact;
 import com.chdryra.android.reviewer.GVImageList.GVImage;
+import com.chdryra.android.reviewer.GVLocationList.GVLocation;
 import com.chdryra.android.reviewer.GVUrlList.GVUrl;
 import com.chdryra.android.reviewer.ReviewTagsManager.ReviewTag;
-import com.google.android.gms.maps.model.LatLng;
 
 public class ControllerReviewNode{
 	private ReviewNode mNode;
@@ -194,47 +191,32 @@ public class ControllerReviewNode{
 	}
 	
 	//Location
-	public boolean hasLocation() {
-		return getReview().hasLocation();
+	public boolean hasLocations() {
+		return getReview().hasLocations();
 	}
 	
-	public LatLng getLocationLatLng() {
-		if(hasLocation())
-			return getReview().getLocation().getLatLng();
-		else
-			return null;
+	public GVLocationList getLocations() {
+		GVLocationList locations = new GVLocationList();
+		for(RDLocation location : getReview().getLocations())
+			locations.add(location.getLatLng(), location.getName());
+		
+		return locations;
 	}
 	
-	public void setLocation(LatLng latLng, String name) {
+	public void setLocations(GVLocationList locations) {
+		if(locations.size() == 0)
+			return;
+		
 		Review r = getReview();
-		RDLocation location = new RDLocation(latLng, r);
-		location.setName(name);
-		r.setLocation(location);
+		RDList<RDLocation> rdLocations = new RDList<RDLocation>();
+		for(GVLocation location : locations)
+			rdLocations.add(new RDLocation(location.getLatLng(), location.getName(), r));
+		
+		r.setLocations(rdLocations);
 	}
 	
-	public boolean hasLocationName() {
-		if(hasLocation())
-			return getReview().getLocation().hasName();
-		else
-			return false;
-	}
-	
-	public String getLocationName() {
-		if(hasLocationName())
-			return getReview().getLocation().getName();
-		else
-			return null;
-	}
-
-	public String getShortLocationName() {
-		if(hasLocationName())
-			return getReview().getLocation().getShortenedName();
-		else
-			return null;
-	}
-
-	public void deleteLocation() {
-		getReview().deleteLocation();
+	public void deleteLocations() {
+		getReview().deleteLocations();
 	}
 	
 	//URL
