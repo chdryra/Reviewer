@@ -4,8 +4,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 
+import com.chdryra.android.mygenerallibrary.GVData;
+import com.chdryra.android.mygenerallibrary.GVList;
 import com.chdryra.android.mygenerallibrary.GVStringList;
 import com.chdryra.android.mygenerallibrary.GVStringList.GVString;
+import com.chdryra.android.reviewer.Controller.GVType;
 import com.chdryra.android.reviewer.GVCommentList.GVComment;
 import com.chdryra.android.reviewer.GVFactList.GVFact;
 import com.chdryra.android.reviewer.GVImageList.GVImage;
@@ -327,5 +330,28 @@ public class ControllerReviewNode{
 	public void setTags(GVStringList tags) {
 		removeTags();
 		addTags(tags);
+	}
+	
+	public int getNumberOf(Controller.GVType dataType) {
+		if (dataType == GVType.COMMENTS)
+			return getComments().size();
+		else if (dataType == GVType.IMAGES)
+			return getImages().size();
+		else if (dataType == GVType.FACTS)
+			return getFacts().size();
+		else if (dataType == GVType.PROS)
+			return getPros().size();
+		else if (dataType == GVType.CONS)
+			return getCons().size();
+		else if (dataType == GVType.URLS)
+			return getURLs().size();
+		else if (dataType == GVType.LOCATIONS)
+			return getLocations().size();
+		else if (dataType == GVType.TAGS)
+			return getTags().size();
+		else if (dataType == GVType.CRITERIA)
+			return getChildrenController().size();
+		else
+			return 0;
 	}
 }

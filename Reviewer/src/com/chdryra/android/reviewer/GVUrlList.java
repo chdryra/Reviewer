@@ -72,7 +72,6 @@ public class GVUrlList extends GVList<GVUrlList.GVUrl> {
 		
 		@Override
 		public void updateView(Object data) {
-			String text = ((GVUrl)data).toShortenedString();
 			mTextView.setText(((GVUrl)data).toShortenedString());
 		}
 	}

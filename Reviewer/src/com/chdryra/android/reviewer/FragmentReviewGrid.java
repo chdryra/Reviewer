@@ -2,6 +2,7 @@ package com.chdryra.android.reviewer;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.DisplayMetrics;
@@ -280,5 +281,14 @@ public enum CellDimension{FULL, HALF, QUARTER};
 	@Override
 	protected boolean hasDataToDelete() {
 		return mGridData.size() > 0;
+	}
+	
+	@Override
+	protected void onUpSelected() {
+		if (NavUtils.getParentActivityName(getSherlockActivity()) != null) {
+			Intent i = NavUtils.getParentActivityIntent(getSherlockActivity());
+			Controller.pack(getController(), i);
+			NavUtils.navigateUpTo(getActivity(), i);
+		}
 	}
 }

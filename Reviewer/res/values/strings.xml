@@ -14,8 +14,8 @@
     <string name="dialog_url_title">Link</string>
     <string name="dialog_delete_url_title">Link</string>
     <string name="dialog_delete_urls_title">Links</string>
-	<string name="dialog_add_tag_title">Add Tags</string>
-	<string name="dialog_edit_tag_title">Edit Tag</string>
+    <string name="dialog_add_tag_title">Add Tags</string>
+    <string name="dialog_edit_tag_title">Edit Tag</string>
     <string name="dialog_delete_tags_title">Tags</string>
     <string name="dialog_delete_tag_title">Tag</string>
     <string name="dialog_add_comments_title">Add comments</string>
@@ -49,6 +49,7 @@
     <string name="activity_title_children">criteria</string>
     <string name="activity_title_review_edit">options</string>
     <string name="activity_title_review_create">review</string>
+    <string name="activity_title_tags">tags</string>
 
     <!-- TextViews -->
     <string name="text_view_no_criteria">no criteria</string>
@@ -105,6 +106,7 @@
     <string name="button_add_image">add image</string>
     <string name="button_add_url">add link</string>
     <string name="button_add_location">add location</string>
+    <string name="button_add_review_data">optional details</string>
 
     <!-- Image Buttons -->
     <string name="button_add_image_cd">add image</string>
@@ -118,7 +120,7 @@
 
     <!-- Image Views -->
     <string name="image_review_cd">review image</string>
-    
+
     <!-- Checkboxes -->
     <string name="checkbox_split_comment">split comment</string>
     <string name="checkbox_include_date">include date</string>
@@ -164,5 +166,27 @@
 
     <!-- URLs -->
     <string name="google_search">http://www.google.com</string>
+
+    <!-- Review Data List -->
+    <string name="comment">comment</string>
+    <string name="comments">comments</string>
+    <string name="image">image</string>
+    <string name="images">images</string>
+    <string name="location">location</string>
+    <string name="locations">locations</string>
+    <string name="link">link</string>
+    <string name="links">links</string>
+    <string name="tag">tag</string>
+    <string name="tags">tags</string>
+    <string name="criterion">criterion</string>
+    <string name="criteria">criteria</string>
+    <string name="pro">pro</string>
+    <string name="pros">pros</string>
+    <string name="con">con</string>
+    <string name="cons">cons</string>
+    <string name="fact">fact</string>
+    <string name="facts">facts</string>
+    
+    
 
 </resources>

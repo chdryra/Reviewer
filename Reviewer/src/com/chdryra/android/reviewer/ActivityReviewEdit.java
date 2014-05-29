@@ -8,7 +8,7 @@ public class ActivityReviewEdit extends ActivitySingleFragment {
 
 	@Override
 	protected Fragment createFragment() {
-		return new FragmentReviewEdit();
+		return new FragmentReviewOptions();
 	}
 
 }

@@ -4,7 +4,6 @@ import java.net.URL;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.NavUtils;
 import android.view.View;
 import android.widget.AdapterView;
 
@@ -44,14 +43,6 @@ public class FragmentReviewURLs  extends FragmentReviewGridAddEditDone<GVUrl> {
 		i.putExtra(URL, url);
 		startActivityForResult(i, requestCode);
 		
-	}
-
-	@Override
-	protected void onUpSelected() {
-		if (NavUtils.getParentActivityName(getSherlockActivity()) != null) {
-			Intent j = NavUtils.getParentActivityIntent(getSherlockActivity());
-			NavUtils.navigateUpTo(getActivity(), j);
-		}
 	}
 	
 	@Override

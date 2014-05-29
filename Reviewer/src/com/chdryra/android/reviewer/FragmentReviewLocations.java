@@ -2,7 +2,6 @@ package com.chdryra.android.reviewer;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.NavUtils;
 import android.view.View;
 import android.widget.AdapterView;
 
@@ -49,14 +48,6 @@ public class FragmentReviewLocations  extends FragmentReviewGridAddEditDone<GVLo
 		i.putExtra(SUBJECT, getController().getTitle());
 		startActivityForResult(i, requestCode);
 		
-	}
-	
-	@Override
-	protected void onUpSelected() {
-		if (NavUtils.getParentActivityName(getSherlockActivity()) != null) {
-			Intent j = NavUtils.getParentActivityIntent(getSherlockActivity());
-			NavUtils.navigateUpTo(getActivity(), j);
-		}
 	}
 	
 	@Override

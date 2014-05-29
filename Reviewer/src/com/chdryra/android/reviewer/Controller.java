@@ -11,6 +11,19 @@ public class Controller {
 	private static Controller sController;	
 	private HashMap<String, ControllerReviewNode> mRNControllers;
 	
+	public enum GVType {
+		COMMENTS,
+		CRITERIA,
+		IMAGES,	
+		FACTS,
+		PROS,
+		CONS,
+		PROSCONS,
+		URLS,
+		LOCATIONS,
+		TAGS
+	}
+
 	private Controller() {
 		mRNControllers = new HashMap<String, ControllerReviewNode>();
 	}

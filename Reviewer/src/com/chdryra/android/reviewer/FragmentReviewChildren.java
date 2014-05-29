@@ -87,6 +87,7 @@ public class FragmentReviewChildren extends FragmentReviewGridAddEditDone<GVCrit
 
 	@Override
 	protected void onDoneSelected() {
+		getController().getChildrenController().removeAll();
 		for(GVCriterion reviewData : mReviewData)
 			getController().getChildrenController().addChild(reviewData.getSubject(), reviewData.getRating());
 	}

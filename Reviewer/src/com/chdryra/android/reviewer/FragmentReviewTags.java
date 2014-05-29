@@ -14,13 +14,16 @@ import com.chdryra.android.mygenerallibrary.GVStringList.GVString;
 public class FragmentReviewTags  extends FragmentReviewGridAddEditDone<GVString> {
 	public final static String TAG_STRING = "com.chdryra.android.reviewer.tag_string";
 	private GVStringList mTags;
+	private boolean mReviewInProgress = false;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);	
 		
-		if(getController() == null)
+		if(getController() == null) {
 			setController(Controller.addNewReviewInProgress());
+			mReviewInProgress = true;
+		}
 		
 		mTags = getController().getTags();
 		
@@ -48,8 +51,10 @@ public class FragmentReviewTags  extends FragmentReviewGridAddEditDone<GVString>
 	@Override
 	protected void onUpSelected() {
 		if (NavUtils.getParentActivityName(getSherlockActivity()) != null) {
-			Intent j = NavUtils.getParentActivityIntent(getSherlockActivity());
-			NavUtils.navigateUpTo(getActivity(), j);
+			Intent i = NavUtils.getParentActivityIntent(getSherlockActivity());
+			if(!mReviewInProgress)
+				Controller.pack(getController(), i);
+			NavUtils.navigateUpTo(getActivity(), i);
 		}
 	}
 	
