@@ -37,26 +37,12 @@ public class GVImageList extends GVList<GVImageList.GVImage> {
 		return new VHImageView(convertView);
 	}
 
-	class VHImageView implements ViewHolder {
-		private ImageView mImage;
-		
-		public VHImageView(View convertView) {
-			mImage = (ImageView)convertView.findViewById(R.id.image_view);
-		}
-		
-		@Override
-		public void updateView(Object data) {
-			GVImage image = (GVImage)data;
-			mImage.setImageBitmap(image.getBitmap());
-		}
-	}
-	
 	class GVImage implements GVData{
 		private Bitmap mBitmap;
 		private String mCaption;
 		private LatLng mLatLng;
 		
-		private GVImage(Bitmap bitmap, LatLng latLng, String caption) {
+		public GVImage(Bitmap bitmap, LatLng latLng, String caption) {
 			mBitmap = bitmap;
 			mCaption = caption;
 			mLatLng = latLng;

@@ -12,4 +12,12 @@ public class RCollectionReviewNode extends RCollection<ReviewNode> {
 	public void add(ReviewNode reviewNode) {
 		put(reviewNode.getID(), reviewNode);
 	}
+	
+	public RCollectionReview getReviews() {
+		RCollectionReview reviews = new RCollectionReview();
+		for(ReviewNode node : this)
+			reviews.add(node.getReview());
+		
+		return reviews;
+	}
 }	

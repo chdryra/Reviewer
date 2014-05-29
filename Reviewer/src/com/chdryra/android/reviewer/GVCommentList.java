@@ -33,20 +33,6 @@ public class GVCommentList extends GVList<GVCommentList.GVComment> {
 	public ViewHolder getViewHolder(View convertView) {		
 		return new VHCommentView(convertView);
 	}
-
-	class VHCommentView implements ViewHolder {
-		private TextView mComment;
-		
-		public VHCommentView(View convertView) {
-			mComment = (TextView)convertView.findViewById(R.id.text_view);
-		}
-		
-		@Override
-		public void updateView(Object data) {
-			GVComment comment = (GVComment)data;
-			mComment.setText(comment.getCommentHeadline());
-		}
-	}
 	
 	public class GVComment implements GVData {
 		private GVComment mUnsplitParent;

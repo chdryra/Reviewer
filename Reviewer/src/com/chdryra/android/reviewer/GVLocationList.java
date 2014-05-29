@@ -41,20 +41,6 @@ public class GVLocationList extends GVList<GVLocationList.GVLocation> {
 		return new VHLocationView(convertView);
 	}
 
-	class VHLocationView implements ViewHolder {
-		private TextView mLocation;
-		
-		public VHLocationView(View convertView) {
-			mLocation = (TextView)convertView.findViewById(R.id.text_view);
-		}
-		
-		@Override
-		public void updateView(Object data) {
-			GVLocation location = (GVLocation)data;
-			mLocation.setText(location.getShortenedName());
-		}
-	}
-	
 	class GVLocation implements GVData{
 		private LatLng mLatLng;
 		private String mName;

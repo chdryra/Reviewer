@@ -18,7 +18,7 @@ public class Controller {
 		FACTS,
 		PROS,
 		CONS,
-		PROSCONS,
+		PROCONS,
 		URLS,
 		LOCATIONS,
 		TAGS

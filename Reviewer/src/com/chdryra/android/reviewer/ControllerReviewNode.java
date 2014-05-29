@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 
-import com.chdryra.android.mygenerallibrary.GVData;
-import com.chdryra.android.mygenerallibrary.GVList;
 import com.chdryra.android.mygenerallibrary.GVStringList;
 import com.chdryra.android.mygenerallibrary.GVStringList.GVString;
 import com.chdryra.android.reviewer.Controller.GVType;
@@ -305,9 +303,9 @@ public class ControllerReviewNode{
 		return ReviewTagsManager.hasTags(getReview());
 	}
 	
-	public GVStringList getTags() {
+	public GVTagList getTags() {
 		ReviewTagCollection tags = ReviewTagsManager.getTags(getReview());
-		GVStringList gvTags = new GVStringList();
+		GVTagList gvTags = new GVTagList();
 		for(ReviewTag tag : tags)
 			gvTags.add(tag.toString());
 		

@@ -63,19 +63,6 @@ public class GVUrlList extends GVList<GVUrlList.GVUrl> {
 		return new VHUrlView(convertView);
 	}
 
-	class VHUrlView implements ViewHolder {
-		private TextView mTextView;
-		
-		public VHUrlView(View convertView) {
-			mTextView = (TextView)convertView.findViewById(R.id.text_view);
-		}
-		
-		@Override
-		public void updateView(Object data) {
-			mTextView.setText(((GVUrl)data).toShortenedString());
-		}
-	}
-	
 	class GVUrl implements GVData{
 		URL mUrl;
 		

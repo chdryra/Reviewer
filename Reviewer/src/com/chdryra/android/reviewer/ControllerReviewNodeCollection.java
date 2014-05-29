@@ -72,6 +72,12 @@ public class ControllerReviewNodeCollection {
 		return r; 
 	}
 	
+	public float getRating() {
+		ReviewMeta r = (ReviewMeta)FactoryReview.createMetaReview("");
+		r.addReviews(mReviewNodes.getReviews());
+		return r.getRating().get();
+	}
+	
 	//***Accessesors***
 	
 	//Title

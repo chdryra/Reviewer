@@ -24,7 +24,7 @@ public class FragmentReviewLocations  extends FragmentReviewGridAddEditDone<GVLo
 		
 		setDeleteWhatTitle(getResources().getString(R.string.dialog_delete_locations_title));
 		setGridViewData(mLocations);
-		setGridCellLayout(R.layout.grid_cell_location);
+		setGridCellLayout(VHLocationView.LAYOUT);
 		setGridCellDimension(CellDimension.HALF, CellDimension.QUARTER);
 		setBannerButtonText(getResources().getString(R.string.button_add_location));
 		setIsEditable(true);

@@ -20,7 +20,7 @@ public class FragmentReviewFacts extends FragmentReviewGridAddEditDone<GVFact> {
 		mFacts = getController().getFacts();
 		setDeleteWhatTitle(getResources().getString(R.string.dialog_delete_fact_title));
 		setGridViewData(mFacts);
-		setGridCellLayout(R.layout.grid_cell_fact);
+		setGridCellLayout(VHFactView.LAYOUT);
 		setGridCellDimension(CellDimension.HALF, CellDimension.QUARTER);
 		setBannerButtonText(getResources().getString(R.string.button_add_facts));
 		setIsEditable(true);

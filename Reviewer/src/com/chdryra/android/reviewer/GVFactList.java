@@ -30,23 +30,6 @@ public class GVFactList extends GVList<GVFactList.GVFact> {
 	public ViewHolder getViewHolder(View convertView) {
 		return new VHFactView(convertView);
 	}
-
-	class VHFactView implements ViewHolder {
-		private TextView mLabel;
-		private TextView mValue;
-		
-		public VHFactView(View convertView) {
-			mLabel = (TextView)convertView.findViewById(R.id.fact_label_text_view);
-			mValue = (TextView)convertView.findViewById(R.id.fact_value_text_view);
-		}
-		
-		@Override
-		public void updateView(Object data) {
-			GVFact fact = (GVFact)data;
-			mLabel.setText(fact.getLabel());
-			mValue.setText(fact.getValue());
-		}
-	}
 		
 	@Override
 	protected Comparator<GVFact> getDefaultComparator() {

@@ -3,8 +3,6 @@ package com.chdryra.android.reviewer;
 import java.util.Comparator;
 
 import android.view.View;
-import android.widget.RatingBar;
-import android.widget.TextView;
 
 import com.chdryra.android.mygenerallibrary.GVData;
 import com.chdryra.android.mygenerallibrary.GVList;
@@ -29,23 +27,6 @@ public class GVCriterionList extends GVList<GVCriterionList.GVCriterion> {
 	@Override
 	public ViewHolder getViewHolder(View convertView) {
 		return new VHReviewNodeCollection(convertView);
-	}
-	
-	class VHReviewNodeCollection implements ViewHolder{
-	    private TextView mSubject;
-	    private RatingBar mRating;
-	    
-	    public VHReviewNodeCollection(View convertView) {
-	    	mSubject = (TextView)convertView.findViewById(R.id.review_subject_text_view);
-	    	mRating = (RatingBar)convertView.findViewById(R.id.total_rating_bar);
-	    }
-	    
-		@Override
-		public void updateView(Object data) {
-			GVCriterion criterion = (GVCriterion) data;
-			mSubject.setText(criterion.getSubject());
-			mRating.setRating(criterion.getRating());
-		}
 	}
 	
 	@Override

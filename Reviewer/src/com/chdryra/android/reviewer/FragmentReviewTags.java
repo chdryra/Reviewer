@@ -13,7 +13,7 @@ import com.chdryra.android.mygenerallibrary.GVStringList.GVString;
 
 public class FragmentReviewTags  extends FragmentReviewGridAddEditDone<GVString> {
 	public final static String TAG_STRING = "com.chdryra.android.reviewer.tag_string";
-	private GVStringList mTags;
+	private GVTagList mTags;
 	private boolean mReviewInProgress = false;
 	
 	@Override
@@ -30,7 +30,7 @@ public class FragmentReviewTags  extends FragmentReviewGridAddEditDone<GVString>
 		setDismissOnDone(false);
 		setDeleteWhatTitle(getResources().getString(R.string.dialog_delete_tags_title));
 		setGridViewData(mTags);
-		setGridCellLayout(R.layout.grid_cell_tag);
+		setGridCellLayout(VHTagView.LAYOUT);
 		setGridCellDimension(CellDimension.HALF, CellDimension.QUARTER);
 		setBannerButtonText(getResources().getString(R.string.button_add_tag));
 		setIsEditable(true);
