@@ -1504,9 +1504,9 @@ containing a value of this type.
         public static final int grid_cell_pro=0x7f03004a;
         public static final int grid_cell_procon=0x7f03004b;
         public static final int grid_cell_review=0x7f03004c;
-        public static final int grid_cell_tag=0x7f03004d;
-        public static final int grid_cell_url=0x7f03004e;
-        public static final int grid_view_cell_text_view=0x7f03004f;
+        public static final int grid_cell_string_view=0x7f03004d;
+        public static final int grid_cell_tag=0x7f03004e;
+        public static final int grid_cell_url=0x7f03004f;
         public static final int grid_view_data=0x7f030050;
         public static final int horizontal_divider=0x7f030051;
         public static final int info_window_adapter_rated=0x7f030052;

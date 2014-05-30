@@ -4,8 +4,8 @@ import android.content.Context;
 import android.view.View;
 import android.widget.TextView;
 
+import com.chdryra.android.mygenerallibrary.GVString;
 import com.chdryra.android.mygenerallibrary.ViewHolder;
-import com.chdryra.android.mygenerallibrary.GVStringList.GVString;
 
 class VHProConView implements ViewHolder {
 	public static final int LAYOUT = R.layout.grid_cell_procon;

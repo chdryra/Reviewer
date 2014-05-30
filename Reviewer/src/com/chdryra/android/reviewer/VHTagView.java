@@ -4,7 +4,7 @@ import android.content.Context;
 import android.view.View;
 import android.widget.TextView;
 
-import com.chdryra.android.mygenerallibrary.GVStringList.GVString;
+import com.chdryra.android.mygenerallibrary.GVString;
 import com.chdryra.android.mygenerallibrary.ViewHolder;
 
 class VHTagView implements ViewHolder {

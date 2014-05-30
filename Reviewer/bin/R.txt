@@ -723,9 +723,9 @@ int layout grid_cell_options 0x7f030049
 int layout grid_cell_pro 0x7f03004a
 int layout grid_cell_procon 0x7f03004b
 int layout grid_cell_review 0x7f03004c
-int layout grid_cell_tag 0x7f03004d
-int layout grid_cell_url 0x7f03004e
-int layout grid_view_cell_text_view 0x7f03004f
+int layout grid_cell_string_view 0x7f03004d
+int layout grid_cell_tag 0x7f03004e
+int layout grid_cell_url 0x7f03004f
 int layout grid_view_data 0x7f030050
 int layout horizontal_divider 0x7f030051
 int layout info_window_adapter_rated 0x7f030052

@@ -45,7 +45,7 @@ public class GVLocationList extends GVList<GVLocationList.GVLocation> {
 		private LatLng mLatLng;
 		private String mName;
 		
-		private GVLocation(LatLng latLng, String name) {
+		public GVLocation(LatLng latLng, String name) {
 			mLatLng = latLng;
 			mName = name;
 		}

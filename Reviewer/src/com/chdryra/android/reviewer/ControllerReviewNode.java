@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.Date;
 
 import com.chdryra.android.mygenerallibrary.GVStringList;
-import com.chdryra.android.mygenerallibrary.GVStringList.GVString;
+import com.chdryra.android.mygenerallibrary.GVString;
 import com.chdryra.android.reviewer.Controller.GVType;
 import com.chdryra.android.reviewer.GVCommentList.GVComment;
 import com.chdryra.android.reviewer.GVFactList.GVFact;

@@ -8,8 +8,7 @@ import android.widget.AdapterView;
 import android.widget.Toast;
 
 import com.chdryra.android.mygenerallibrary.ActivityResultCode;
-import com.chdryra.android.mygenerallibrary.GVStringList;
-import com.chdryra.android.mygenerallibrary.GVStringList.GVString;
+import com.chdryra.android.mygenerallibrary.GVString;
 
 public class FragmentReviewTags  extends FragmentReviewGridAddEditDone<GVString> {
 	public final static String TAG_STRING = "com.chdryra.android.reviewer.tag_string";

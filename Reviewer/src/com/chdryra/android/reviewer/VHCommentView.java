@@ -16,7 +16,7 @@ class VHCommentView implements ViewHolder {
 	}
 	
 	public VHCommentView(Context context) {
-		View.inflate(context, LAYOUT, null);
+		init(View.inflate(context, LAYOUT, null));
 	}
 	
 	private void init(View view) {
