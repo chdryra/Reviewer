@@ -10,7 +10,6 @@ import android.widget.AdapterView;
 import com.chdryra.android.mygenerallibrary.GVData;
 import com.chdryra.android.mygenerallibrary.GVList;
 import com.chdryra.android.mygenerallibrary.GVString;
-import com.chdryra.android.mygenerallibrary.GridViewCellAdapter;
 import com.chdryra.android.mygenerallibrary.VHStringView;
 import com.chdryra.android.mygenerallibrary.ViewHolder;
 import com.chdryra.android.reviewer.Controller.GVType;
@@ -81,40 +80,16 @@ public class FragmentReviewOptions extends FragmentReviewGrid<GVCellManager> {
 	}
 	
 	private CellManager getCellManager(GVType dataType) {
-		if(dataType == GVType.TAGS) return new CellManager(GVType.TAGS, ActivityReviewTags.class, TAGS_REQUEST);
-		if(dataType == GVType.PROCONS) return new CellManager(GVType.PROCONS, ActivityReviewProsCons.class, PROSCONS_REQUEST);
-		if(dataType == GVType.CRITERIA) return new CellManager(GVType.CRITERIA, ActivityReviewChildren.class, CHILDREN_REQUEST);
-		if(dataType == GVType.COMMENTS) return new CellManager(GVType.COMMENTS, ActivityReviewComments.class, COMMENT_REQUEST);
-		if(dataType == GVType.IMAGES) return new CellManager(GVType.IMAGES, ActivityReviewImages.class, IMAGE_REQUEST);
-		if(dataType == GVType.FACTS) return new CellManager(GVType.FACTS, ActivityReviewFacts.class, FACTS_REQUEST);
-		if(dataType == GVType.LOCATIONS) return new CellManager(GVType.LOCATIONS, ActivityReviewLocations.class, LOCATION_REQUEST);
-		if(dataType == GVType.URLS) return new CellManager(GVType.URLS, ActivityReviewURLs.class, URL_REQUEST);
+		if(dataType == GVType.TAGS) return new CellManager(GVType.TAGS, ActivityReviewTags.class, TAGS_REQUEST, new VHTagView());
+		if(dataType == GVType.PROCONS) return new CellManager(GVType.PROCONS, ActivityReviewProsCons.class, PROSCONS_REQUEST, new VHProConView());
+		if(dataType == GVType.CRITERIA) return new CellManager(GVType.CRITERIA, ActivityReviewChildren.class, CHILDREN_REQUEST, new VHReviewNodeCollection());
+		if(dataType == GVType.COMMENTS) return new CellManager(GVType.COMMENTS, ActivityReviewComments.class, COMMENT_REQUEST, new VHCommentView());
+		if(dataType == GVType.IMAGES) return new CellManager(GVType.IMAGES, ActivityReviewImages.class, IMAGE_REQUEST, new VHImageView());
+		if(dataType == GVType.FACTS) return new CellManager(GVType.FACTS, ActivityReviewFacts.class, FACTS_REQUEST, new VHFactView());
+		if(dataType == GVType.LOCATIONS) return new CellManager(GVType.LOCATIONS, ActivityReviewLocations.class, LOCATION_REQUEST, new VHStringView(R.layout.grid_cell_location, R.id.text_view));
+		if(dataType == GVType.URLS) return new CellManager(GVType.URLS, ActivityReviewURLs.class, URL_REQUEST, new VHStringView(R.layout.grid_cell_url, R.id.text_view));
 		
 		return null;
-	}
-
-	private ViewHolder getCellViewHolder(GVType dataType, View convertView) {
-		if(dataType == GVType.TAGS) return new VHTagView(convertView);
-		if(dataType == GVType.PROCONS) return new VHProConView(convertView);
-		if(dataType == GVType.CRITERIA) return new VHReviewNodeCollection(convertView);
-		if(dataType == GVType.COMMENTS) return new VHCommentView(convertView);
-		if(dataType == GVType.IMAGES) return new VHImageView(convertView);
-		if(dataType == GVType.FACTS) return new VHFactView(convertView);
-		if(dataType == GVType.LOCATIONS) return new VHStringView(convertView);
-		if(dataType == GVType.URLS) return new VHStringView(convertView);
-		
-		return null;
-	}
-
-	private int getCellLayout(GVType dataType) {
-		if(dataType == GVType.TAGS) return VHTagView.LAYOUT;
-		if(dataType == GVType.PROCONS) return VHProConView.LAYOUT;
-		if(dataType == GVType.CRITERIA) return VHReviewNodeCollection.LAYOUT;
-		if(dataType == GVType.COMMENTS) return VHCommentView.LAYOUT;
-		if(dataType == GVType.IMAGES) return VHImageView.LAYOUT;
-		if(dataType == GVType.FACTS) return VHFactView.LAYOUT;
-		if(dataType == GVType.LOCATIONS) return VHStringView.LAYOUT;
-		else return VHStringView.LAYOUT;
 	}
 	
 	private GVData getCellUpdateData(GVType dataType) {
@@ -214,7 +189,7 @@ public class FragmentReviewOptions extends FragmentReviewGrid<GVCellManager> {
 		String title = getResources().getString(R.string.locations);
 		int size = locations.size();
 		if(size > 1)
-			title = "@" + " " + size + " " + title;
+			title = "@" + size + " " + title;
 		else if(size == 1)
 			title = "@" + locations.getItem(0).getShortenedName();
 		
@@ -257,52 +232,21 @@ public class FragmentReviewOptions extends FragmentReviewGrid<GVCellManager> {
 		Controller.pack(getController(), i);
 		startActivityForResult(i, requestCode);
 	}
-
-	@Override
-	protected GridViewCellAdapter getGridViewCellAdapter() {
-		return new ReviewOptionsAdapter(getActivity(), getGridData(), getGridCellWidth(), getGridCellHeight());
-	}
 	
-	class ReviewOptionsAdapter extends GridViewCellAdapter {
-
-		public ReviewOptionsAdapter(Activity activity, GridViewable<?> data, int cellWidth, int cellHeight) {
-			super(activity, data, 0, cellWidth, cellHeight);
-		}
-		
-		@Override
-		public View getView(int position, View convertView, ViewGroup parent) {
-			ViewHolder vh = null;
-			
-			if (convertView == null) {		
-				GVCellManager manager = (GVCellManager)getItem(position);
-				convertView = getActivity().getLayoutInflater().inflate(getCellLayout(manager.getDataType()), parent, false);
-				convertView.getLayoutParams().height = getGridCellHeight();
-				convertView.getLayoutParams().width = getGridCellWidth();
-				vh = getGridData().getViewHolder(convertView);
-				convertView.setTag(vh);
-			} else
-				vh = (ViewHolder)convertView.getTag();
-			
-			vh.updateView(getItem(position));
-			
-			return(convertView);
-		}
-		
-	}
-	
-	class CellManager {
+	private class CellManager {
 		private Controller.GVType mDataType;
 		private Class<?> mRequestDataActivity;
 		private int mRequestCode;
 		private ViewHolder mViewholder;
 		
-		private CellManager(Controller.GVType dataType,  Class<?> requestDataActivity, int requestCode) {
+		private CellManager(Controller.GVType dataType,  Class<?> requestDataActivity, int requestCode, ViewHolder viewHolder) {
 			mDataType = dataType;
 			mRequestDataActivity = requestDataActivity;
 			mRequestCode = requestCode;
+			mViewholder = viewHolder;
 		}
 		
-		public Controller.GVType getDataType() {
+		private Controller.GVType getDataType() {
 			return mDataType;
 		}
 
@@ -310,10 +254,11 @@ public class FragmentReviewOptions extends FragmentReviewGrid<GVCellManager> {
 			requestIntent(mRequestDataActivity, mRequestCode);
 		}
 		
-		private void updateView(View convertView) {
-			if(mViewholder == null)
-				mViewholder = getCellViewHolder(mDataType, convertView);
-			
+		private ViewHolder getViewHolder() {
+			return mViewholder;
+		}
+		
+		private void updateView() {
 			mViewholder.updateView(getCellUpdateData(mDataType));
 		}
 	}
@@ -325,24 +270,32 @@ public class FragmentReviewOptions extends FragmentReviewGrid<GVCellManager> {
 		}
 		
 		@Override
-		public ViewHolder getViewHolder(View convertView) {
-			return new VHReviewOptionsView(convertView);
+		public ViewHolder getViewHolder(int position) {
+			return new VHReviewOptionView(getItem(position));
 		}
-	
-		class VHReviewOptionsView implements ViewHolder {
-			private View mConvertView;
 			
-			private VHReviewOptionsView(View convertView) {
-				mConvertView = convertView;
+		private class VHReviewOptionView implements ViewHolder {
+			private GVCellManager mManager;
+			
+			private VHReviewOptionView(GVCellManager manager) {
+				mManager = manager;
 			}
 			
 			@Override
-			public void updateView(Object data) {
-				((GVCellManager)data).updateCellDisplay(mConvertView);
+			public View inflate(Activity activity, ViewGroup parent) {
+				View view = mManager.getViewHolder().inflate(activity, parent);
+				view .setTag(this);
+				return view;
 			}
+
+			@Override
+			public void updateView(GVData data) {
+				mManager.updateCellDisplay();
+			}
+			
 		}
 		
-		class GVCellManager implements GVData{
+		class GVCellManager implements GVData {
 			private CellManager mCellManager;
 			
 			private GVCellManager(Controller.GVType dataType) {
@@ -358,10 +311,14 @@ public class FragmentReviewOptions extends FragmentReviewGrid<GVCellManager> {
 					mCellManager.requestGetDataIntent();
 			}
 
-			private void updateCellDisplay(View convertView) {
-				mCellManager.updateView(convertView);
+			private void updateCellDisplay() {
+				mCellManager.updateView();
 			}
 
+			private ViewHolder getViewHolder() {
+				return mCellManager.getViewHolder();
+			}
+			
 			@Override
 			public int hashCode() {
 				final int prime = 31;

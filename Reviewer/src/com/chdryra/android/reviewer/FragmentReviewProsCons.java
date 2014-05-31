@@ -71,18 +71,12 @@ public class FragmentReviewProsCons extends FragmentReviewGridDouble {
 	
 	@Override
 	protected GridViewCellAdapter getGridViewCellAdapterLeft() {
-		return new GridViewCellAdapter(getActivity(), 
-				mPros, 
-				R.layout.grid_cell_pro, 
-				getGridCellWidth(), getGridCellHeight());
+		return new GridViewCellAdapter(getActivity(), mPros, getGridCellWidth(), getGridCellHeight());
 	}
 
 	@Override
 	protected GridViewCellAdapter getGridViewCellAdapterRight() {
-		return new GridViewCellAdapter(getActivity(), 
-				mCons, 
-				R.layout.grid_cell_con, 
-				getGridCellWidth(), getGridCellHeight());
+		return new GridViewCellAdapter(getActivity(), mCons, getGridCellWidth(), getGridCellHeight());
 	}
 	
 	@Override

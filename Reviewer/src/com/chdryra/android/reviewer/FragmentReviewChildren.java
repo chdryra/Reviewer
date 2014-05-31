@@ -25,7 +25,6 @@ public class FragmentReviewChildren extends FragmentReviewGridAddEditDone<GVCrit
 		setDeleteWhatTitle(getResources().getString(R.string.activity_title_children));
 		
 		setGridViewData(mReviewData);
-		setGridCellLayout(VHReviewNodeCollection.LAYOUT);
 		setGridCellDimension(CellDimension.HALF, CellDimension.QUARTER);
 	
 		setBannerButtonText(getResources().getString(R.string.button_add_criteria));

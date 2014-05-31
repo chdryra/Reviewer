@@ -33,7 +33,6 @@ public class FragmentReviewImages extends FragmentReviewGridAddEditDone<GVImage>
 		
 		setDeleteWhatTitle(getResources().getString(R.string.dialog_delete_images_title));
 		setGridViewData(mImages);
-		setGridCellLayout(R.layout.grid_cell_image);
 		setGridCellDimension(CellDimension.HALF, CellDimension.HALF);
 		setBannerButtonText(getResources().getString(R.string.button_add_image));
 		setIsEditable(true);

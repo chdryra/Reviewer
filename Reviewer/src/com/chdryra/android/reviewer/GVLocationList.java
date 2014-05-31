@@ -1,8 +1,5 @@
 package com.chdryra.android.reviewer;
 
-import android.view.View;
-import android.widget.TextView;
-
 import com.chdryra.android.mygenerallibrary.GVData;
 import com.chdryra.android.mygenerallibrary.GVList;
 import com.chdryra.android.mygenerallibrary.RandomTextUtils;
@@ -37,8 +34,8 @@ public class GVLocationList extends GVList<GVLocationList.GVLocation> {
 	}
 	
 	@Override
-	public ViewHolder getViewHolder(View convertView) {
-		return new VHLocationView(convertView);
+	public ViewHolder getViewHolder(int position) {
+		return new VHLocationView();
 	}
 
 	class GVLocation implements GVData{

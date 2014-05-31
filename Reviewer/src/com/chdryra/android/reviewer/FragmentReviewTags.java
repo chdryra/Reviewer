@@ -29,7 +29,6 @@ public class FragmentReviewTags  extends FragmentReviewGridAddEditDone<GVString>
 		setDismissOnDone(false);
 		setDeleteWhatTitle(getResources().getString(R.string.dialog_delete_tags_title));
 		setGridViewData(mTags);
-		setGridCellLayout(VHTagView.LAYOUT);
 		setGridCellDimension(CellDimension.HALF, CellDimension.QUARTER);
 		setBannerButtonText(getResources().getString(R.string.button_add_tag));
 		setIsEditable(true);

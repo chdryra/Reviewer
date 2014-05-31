@@ -1,8 +1,6 @@
 package com.chdryra.android.reviewer;
 
 import android.graphics.Bitmap;
-import android.view.View;
-import android.widget.ImageView;
 
 import com.chdryra.android.mygenerallibrary.GVData;
 import com.chdryra.android.mygenerallibrary.GVList;
@@ -33,8 +31,8 @@ public class GVImageList extends GVList<GVImageList.GVImage> {
 	}
 	
 	@Override
-	public ViewHolder getViewHolder(View convertView) {
-		return new VHImageView(convertView);
+	public ViewHolder getViewHolder(int position) {
+		return new VHImageView();
 	}
 
 	class GVImage implements GVData{

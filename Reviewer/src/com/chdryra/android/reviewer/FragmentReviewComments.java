@@ -25,7 +25,6 @@ public class FragmentReviewComments extends FragmentReviewGridAddEditDone<GVComm
 		mComments = getController().getComments();
 		setDeleteWhatTitle(getResources().getString(R.string.dialog_delete_comment_title));
 		setGridViewData(mComments);
-		setGridCellLayout(VHCommentView.LAYOUT);
 		setGridCellDimension(CellDimension.HALF, CellDimension.QUARTER);
 		setBannerButtonText(getResources().getString(R.string.button_add_comment));
 		setIsEditable(true);

@@ -1,32 +1,19 @@
 package com.chdryra.android.reviewer;
 
-import android.content.Context;
-import android.view.View;
-import android.widget.TextView;
-
-import com.chdryra.android.mygenerallibrary.ViewHolder;
+import com.chdryra.android.mygenerallibrary.GVData;
+import com.chdryra.android.mygenerallibrary.VHStringView;
 import com.chdryra.android.reviewer.GVLocationList.GVLocation;
 
-class VHLocationView implements ViewHolder {
-	public static final int LAYOUT = R.layout.grid_cell_location;
+class VHLocationView extends VHStringView {
+	private static final int LAYOUT = R.layout.grid_cell_location;
+	private static final int TEXTVIEW = R.id.text_view;
 	
-	private TextView mLocation;
-	
-	public VHLocationView(View convertView) {
-		init(convertView);
-	}
-	
-	public VHLocationView(Context context) {
-		init(View.inflate(context, LAYOUT, null));
-	}
-	
-	private void init(View view) {
-		mLocation = (TextView)view.findViewById(R.id.text_view);
-	}
-	
-	@Override
-	public void updateView(Object data) {
-		GVLocation location = (GVLocation)data;
-		mLocation.setText(location.getShortenedName());
+	public VHLocationView() {
+		super(LAYOUT, TEXTVIEW, new GVDataStringGetter() {
+			@Override
+			public String getString(GVData data) {
+				return ((GVLocation)data).getShortenedName();
+			}
+		});
 	}
 }

@@ -1,8 +1,5 @@
 package com.chdryra.android.reviewer;
 
-import android.view.View;
-import android.widget.TextView;
-
 import com.chdryra.android.mygenerallibrary.GVData;
 import com.chdryra.android.mygenerallibrary.GVList;
 import com.chdryra.android.mygenerallibrary.ViewHolder;
@@ -30,8 +27,8 @@ public class GVCommentList extends GVList<GVCommentList.GVComment> {
 	}
 	
 	@Override
-	public ViewHolder getViewHolder(View convertView) {		
-		return new VHCommentView(convertView);
+	public ViewHolder getViewHolder(int position) {		
+		return new VHCommentView();
 	}
 	
 	public class GVComment implements GVData {

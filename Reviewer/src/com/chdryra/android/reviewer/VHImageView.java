@@ -1,35 +1,34 @@
 package com.chdryra.android.reviewer;
 
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.chdryra.android.mygenerallibrary.ViewHolder;
+import com.chdryra.android.mygenerallibrary.GVData;
+import com.chdryra.android.mygenerallibrary.ViewHolderBasic;
 import com.chdryra.android.reviewer.GVImageList.GVImage;
 
-class VHImageView implements ViewHolder {
-	public static final int LAYOUT = R.layout.grid_cell_image;
+public class VHImageView extends ViewHolderBasic {
+	private static final int LAYOUT = R.layout.grid_cell_image;
+	private static final int IMAGE = R.id.image_view;
+	private static final int CAPTION = R.id.text_view;
 	
 	private ImageView mImage;
 	private TextView mCaption;
 	
-	public VHImageView(View convertView) {
-		init(convertView);
-	}
-	
-	public VHImageView(Context context) {
-		init(View.inflate(context, LAYOUT, null));
-	}
-	
-	private void init(View view) {
-		mImage = (ImageView)view.findViewById(R.id.image_view);
-		mCaption = (TextView)view.findViewById(R.id.text_view);
+	public VHImageView() {
+		super(LAYOUT);
 	}
 	
 	@Override
-	public void updateView(Object data) {
+	protected void initViewsToUpdate() {
+		mImage = (ImageView)getView(IMAGE);
+		mCaption = (TextView)getView(CAPTION);
+	}
+	
+	@Override
+	public void updateView(GVData data) {
 		GVImage image = (GVImage)data;
 		Bitmap bitmap = image.getBitmap();
 		if(bitmap != null) {

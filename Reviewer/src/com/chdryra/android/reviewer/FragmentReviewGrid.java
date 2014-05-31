@@ -42,7 +42,6 @@ public enum CellDimension{FULL, HALF, QUARTER};
 	private boolean mIsEditable = false;
 	private String mBannerButtonText;
 
-	private int mGridCellLayout;
 	private GVList<T> mGridData;
 	
 	@Override
@@ -164,10 +163,6 @@ public enum CellDimension{FULL, HALF, QUARTER};
 		mGridData = gridData;
 	}
 	
-	protected void setGridCellLayout(int resId) {
-		mGridCellLayout = resId;
-	}
-	
 	protected void onGridItemClick(AdapterView<?> parent, View v, int position, long id) {
 		
 	}
@@ -245,11 +240,7 @@ public enum CellDimension{FULL, HALF, QUARTER};
 	}
 
 	protected GridViewCellAdapter getGridViewCellAdapter() {
-		return new GridViewCellAdapter(getActivity(), 
-				mGridData, 
-				mGridCellLayout, 
-				getGridCellWidth(), 
-				getGridCellHeight());
+		return new GridViewCellAdapter(getActivity(), mGridData, getGridCellWidth(), getGridCellHeight());
 	}
 	
 	protected ControllerReviewNode getController() {

@@ -1,35 +1,21 @@
 package com.chdryra.android.reviewer;
 
-import android.content.Context;
-import android.view.View;
-import android.widget.TextView;
-
-import com.chdryra.android.mygenerallibrary.ViewHolder;
+import com.chdryra.android.mygenerallibrary.GVData;
 import com.chdryra.android.reviewer.GVFactList.GVFact;
 
-class VHFactView implements ViewHolder {
-	public static final int LAYOUT = R.layout.grid_cell_fact;
+public class VHFactView extends VHDualStringView {
+	private static final int LAYOUT = R.layout.grid_cell_fact;
+	private static final int UPPER = R.id.fact_label_text_view;
+	private static final int LOWER = R.id.fact_value_text_view;
 	
-	private TextView mLabel;
-	private TextView mValue;
-	
-	public VHFactView(View convertView) {
-		init(convertView);
-	}
-	
-	public VHFactView(Context context) {
-		init(View.inflate(context, LAYOUT, null));
-	}
-	
-	private void init(View view) {
-		mLabel = (TextView)view.findViewById(R.id.fact_label_text_view);
-		mValue = (TextView)view.findViewById(R.id.fact_value_text_view);	
+	public VHFactView() {
+		super(LAYOUT, UPPER, LOWER);
 	}
 	
 	@Override
-	public void updateView(Object data) {
+	public void updateView(GVData data) {
 		GVFact fact = (GVFact)data;
-		mLabel.setText(fact.getLabel());
-		mValue.setText(fact.getValue());
+		mUpper.setText(fact.getLabel());
+		mLower.setText(fact.getValue());
 	}
 }

@@ -22,7 +22,6 @@ public class FragmentReviewURLs  extends FragmentReviewGridAddEditDone<GVUrl> {
 		
 		setDeleteWhatTitle(getResources().getString(R.string.dialog_delete_urls_title));
 		setGridViewData(mUrls);
-		setGridCellLayout(VHUrlView.LAYOUT);
 		setGridCellDimension(CellDimension.HALF, CellDimension.QUARTER);
 		setBannerButtonText(getResources().getString(R.string.button_add_url));
 		setIsEditable(true);

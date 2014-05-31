@@ -2,9 +2,6 @@ package com.chdryra.android.reviewer;
 
 import java.util.Comparator;
 
-import android.view.View;
-import android.widget.TextView;
-
 import com.chdryra.android.mygenerallibrary.GVData;
 import com.chdryra.android.mygenerallibrary.GVList;
 import com.chdryra.android.mygenerallibrary.ViewHolder;
@@ -27,8 +24,8 @@ public class GVFactList extends GVList<GVFactList.GVFact> {
 	}
 	
 	@Override
-	public ViewHolder getViewHolder(View convertView) {
-		return new VHFactView(convertView);
+	public ViewHolder getViewHolder(int position) {
+		return new VHFactView();
 	}
 		
 	@Override

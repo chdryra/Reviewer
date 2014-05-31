@@ -5,12 +5,8 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 
-import android.view.View;
-import android.widget.TextView;
-
 import com.chdryra.android.mygenerallibrary.GVData;
 import com.chdryra.android.mygenerallibrary.GVList;
-import com.chdryra.android.mygenerallibrary.R;
 import com.chdryra.android.mygenerallibrary.RandomTextUtils;
 import com.chdryra.android.mygenerallibrary.ViewHolder;
 
@@ -59,8 +55,8 @@ public class GVUrlList extends GVList<GVUrlList.GVUrl> {
 	}
 	
 	@Override
-	public ViewHolder getViewHolder(View convertView) {
-		return new VHUrlView(convertView);
+	public ViewHolder getViewHolder(int position) {
+		return new VHUrlView();
 	}
 
 	class GVUrl implements GVData{

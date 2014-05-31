@@ -2,8 +2,6 @@ package com.chdryra.android.reviewer;
 
 import java.util.Comparator;
 
-import android.view.View;
-
 import com.chdryra.android.mygenerallibrary.GVData;
 import com.chdryra.android.mygenerallibrary.GVList;
 import com.chdryra.android.mygenerallibrary.ViewHolder;
@@ -25,8 +23,8 @@ public class GVCriterionList extends GVList<GVCriterionList.GVCriterion> {
 	}
 	
 	@Override
-	public ViewHolder getViewHolder(View convertView) {
-		return new VHReviewNodeCollection(convertView);
+	public ViewHolder getViewHolder(int position) {
+		return new VHReviewNodeCollection();
 	}
 	
 	@Override

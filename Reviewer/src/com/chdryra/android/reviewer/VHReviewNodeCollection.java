@@ -1,33 +1,32 @@
 package com.chdryra.android.reviewer;
 
-import android.content.Context;
-import android.view.View;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
-import com.chdryra.android.mygenerallibrary.ViewHolder;
+import com.chdryra.android.mygenerallibrary.GVData;
+import com.chdryra.android.mygenerallibrary.ViewHolderBasic;
 import com.chdryra.android.reviewer.GVCriterionList.GVCriterion;
 
-public class VHReviewNodeCollection implements ViewHolder{
-	public static final int LAYOUT = R.layout.grid_cell_review;
+public class VHReviewNodeCollection extends ViewHolderBasic {
+	private static final int LAYOUT = R.layout.grid_cell_review;
+	private static final int SUBJECT = R.id.review_subject_text_view;
+	private static final int RATING = R.id.total_rating_bar;
+	
 	private TextView mSubject;
     private RatingBar mRating;
     
-    public VHReviewNodeCollection(View convertView) {
-    	init(convertView);
+    public VHReviewNodeCollection() {
+    	super(LAYOUT);
     }
     
-    public VHReviewNodeCollection(Context context) {
-    	init(View.inflate(context, LAYOUT, null));
-    }
-    
-    public void init(View view) {
-    	mSubject = (TextView)view.findViewById(R.id.review_subject_text_view);
-    	mRating = (RatingBar)view.findViewById(R.id.total_rating_bar);
+    @Override
+    protected void initViewsToUpdate() {
+    	mSubject = (TextView)getView(SUBJECT);
+    	mRating = (RatingBar)getView(RATING);
     }
     
 	@Override
-	public void updateView(Object data) {
+	public void updateView(GVData data) {
 		GVCriterion criterion = (GVCriterion) data;
 		mSubject.setText(criterion.getSubject());
 		mRating.setRating(criterion.getRating());
