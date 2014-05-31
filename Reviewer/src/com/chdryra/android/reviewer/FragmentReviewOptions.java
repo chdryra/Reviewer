@@ -10,6 +10,7 @@ import android.widget.AdapterView;
 import com.chdryra.android.mygenerallibrary.GVData;
 import com.chdryra.android.mygenerallibrary.GVList;
 import com.chdryra.android.mygenerallibrary.GVString;
+import com.chdryra.android.mygenerallibrary.GVStringList;
 import com.chdryra.android.mygenerallibrary.VHStringView;
 import com.chdryra.android.mygenerallibrary.ViewHolder;
 import com.chdryra.android.reviewer.Controller.GVType;
@@ -48,7 +49,7 @@ public class FragmentReviewOptions extends FragmentReviewGrid<GVCellManager> {
 		
 		setGridViewData(mCellManagerList);
 		setGridCellDimension(CellDimension.HALF, CellDimension.QUARTER);
-
+		setDismissOnDone(false);
 		setBannerButtonText(getResources().getString(R.string.button_add_review_data));
 		setIsEditable(true);
 	}
@@ -81,7 +82,7 @@ public class FragmentReviewOptions extends FragmentReviewGrid<GVCellManager> {
 	
 	private CellManager getCellManager(GVType dataType) {
 		if(dataType == GVType.TAGS) return new CellManager(GVType.TAGS, ActivityReviewTags.class, TAGS_REQUEST, new VHTagView());
-		if(dataType == GVType.PROCONS) return new CellManager(GVType.PROCONS, ActivityReviewProsCons.class, PROSCONS_REQUEST, new VHProConView());
+		if(dataType == GVType.PROCONS) return new CellManager(GVType.PROCONS, ActivityReviewProsCons.class, PROSCONS_REQUEST, new VHFactView(R.layout.grid_cell_procon_summary, R.id.pros_text_view, R.id.cons_text_view));
 		if(dataType == GVType.CRITERIA) return new CellManager(GVType.CRITERIA, ActivityReviewChildren.class, CHILDREN_REQUEST, new VHReviewNodeCollection());
 		if(dataType == GVType.COMMENTS) return new CellManager(GVType.COMMENTS, ActivityReviewComments.class, COMMENT_REQUEST, new VHCommentView());
 		if(dataType == GVType.IMAGES) return new CellManager(GVType.IMAGES, ActivityReviewImages.class, IMAGE_REQUEST, new VHImageView());
@@ -208,23 +209,25 @@ public class FragmentReviewOptions extends FragmentReviewGrid<GVCellManager> {
 		return new GVString(title);
 	}
 	
-	private GVString getProConCellUpdateData() {
-		int pros = getController().getPros().size();
-		int cons = getController().getCons().size();
-		String title = null;
-		if(pros == 0 && cons == 0)
-			title = "+" + getResources().getString(R.string.pros) + " -" + getResources().getString(R.string.cons);
-		else {
-			String prosTitle = null;
-			String consTitle = null;
+	private GVFact getProConCellUpdateData() {
+		//Hack to have similar dual string look to GVFact
+		GVStringList prosList = getController().getPros(); 
+		GVStringList consList = getController().getCons();
+		int pros = prosList.size();
+		int cons = consList.size();
+		String prosTitle = null;
+		String consTitle = null;
+		if(pros == 0 && cons == 0) {
+			prosTitle = "+" + getResources().getString(R.string.pros);
+			consTitle = "-" + getResources().getString(R.string.cons);
+		} else {
 			if(pros > 0)
-				prosTitle = "+" + pros;
+				prosTitle = pros == 1? "+" + prosList.getItem(0).toString() : "+" + pros;
 			if(cons > 0)
-				consTitle = "-" + cons;
-			title = prosTitle + (cons > 0? " " : null) + consTitle;
+				consTitle = cons == 1? "-" + consList.getItem(0).toString() : "-" + cons;
 		}
 	
-		return new GVString(title);
+		return getController().getFacts().new GVFact(prosTitle, consTitle);
 	}
 	
 	private <T> void requestIntent(Class<T> c, int requestCode) {

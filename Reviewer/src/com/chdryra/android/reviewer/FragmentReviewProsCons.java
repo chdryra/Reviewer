@@ -21,8 +21,8 @@ public class FragmentReviewProsCons extends FragmentReviewGridDouble {
 	public static final int DATA_ADD = 10;
 	public static final int DATA_EDIT = 20;
 	
-	private GVStringList mPros; 
-	private GVStringList mCons;
+	private GVProConList mPros; 
+	private GVProConList mCons;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {

@@ -81,7 +81,7 @@
                 android:src="@drawable/ic_action_new" />
 
             <TextView
-                android:id="@+id/pros_text_view"
+                android:id="@+id/prosim_text_view"
                 style="?android:textAppearanceLarge"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -133,7 +133,7 @@
                 android:src="@drawable/ic_action_cancel" />
 
             <TextView
-                android:id="@+id/cons_text_view"
+                android:id="@+id/consim_text_view"
                 style="?android:textAppearanceLarge"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

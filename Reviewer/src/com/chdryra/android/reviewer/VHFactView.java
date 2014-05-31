@@ -12,6 +12,10 @@ public class VHFactView extends VHDualStringView {
 		super(LAYOUT, UPPER, LOWER);
 	}
 	
+	public VHFactView(int layoutID, int upperTextViewID, int lowerTextViewID) {
+		super(layoutID, upperTextViewID, lowerTextViewID);
+	}
+	
 	@Override
 	public void updateView(GVData data) {
 		GVFact fact = (GVFact)data;

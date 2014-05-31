@@ -262,16 +262,16 @@ public class ControllerReviewNode{
 		return getCons().size() > 0;
 	}
 	
-	public GVStringList getPros() {
+	public GVProConList getPros() {
 		return getProsCons(true);
 	}
 	
-	public GVStringList getCons() {
+	public GVProConList getCons() {
 		return getProsCons(false);
 	}
 	
-	private GVStringList getProsCons(boolean getPros) {
-		GVStringList gvProsCons = new GVStringList();
+	private GVProConList getProsCons(boolean getPros) {
+		GVProConList gvProsCons = new GVProConList(getPros);
 		
 		RDList<RDProCon> proCons = getReview().getProCons();
 		
