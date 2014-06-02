@@ -10,6 +10,10 @@ public class GVProConList extends GVStringList {
 		mIsProList = isProList;
 	}
 	
+	public boolean isPros() {
+		return mIsProList;
+	}
+	
 	@Override
 	public ViewHolder getViewHolder(int position) {
 		return new VHProConView(mIsProList);

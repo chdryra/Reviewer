@@ -28,7 +28,9 @@ public class VHReviewNodeCollection extends ViewHolderBasic {
 	@Override
 	public void updateView(GVData data) {
 		GVCriterion criterion = (GVCriterion) data;
-		mSubject.setText(criterion.getSubject());
-		mRating.setRating(criterion.getRating());
+		if(criterion != null) {
+			mSubject.setText(criterion.getSubject());
+			mRating.setRating(criterion.getRating());
+		}
 	}
 }

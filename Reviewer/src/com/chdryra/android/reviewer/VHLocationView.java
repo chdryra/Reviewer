@@ -12,7 +12,8 @@ class VHLocationView extends VHStringView {
 		super(LAYOUT, TEXTVIEW, new GVDataStringGetter() {
 			@Override
 			public String getString(GVData data) {
-				return ((GVLocation)data).getShortenedName();
+				GVLocation location = (GVLocation)data;
+				return location != null? location.getShortenedName() : null;
 			}
 		});
 	}

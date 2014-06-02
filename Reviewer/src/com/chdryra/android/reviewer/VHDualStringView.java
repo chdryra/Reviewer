@@ -5,7 +5,7 @@ import android.widget.TextView;
 import com.chdryra.android.mygenerallibrary.GVData;
 import com.chdryra.android.mygenerallibrary.ViewHolderBasic;
 
-public abstract class VHDualStringView extends ViewHolderBasic {
+public class VHDualStringView extends ViewHolderBasic {
 	private static final int LAYOUT = R.layout.grid_cell_dual_string;
 	private static final int UPPER = R.id.upper_text_view;
 	private static final int LOWER = R.id.lower_text_view;
@@ -32,5 +32,11 @@ public abstract class VHDualStringView extends ViewHolderBasic {
 	}
 	
 	@Override
-	public abstract void updateView(GVData data);
+	public void updateView(GVData data) {
+		GVDualString dual = (GVDualString)data;
+		if(dual != null) {
+			mUpper.setText(dual.getUpper());
+			mLower.setText(dual.getLower());
+		}
+	}
 }

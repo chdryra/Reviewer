@@ -30,13 +30,15 @@ public class VHImageView extends ViewHolderBasic {
 	@Override
 	public void updateView(GVData data) {
 		GVImage image = (GVImage)data;
-		Bitmap bitmap = image.getBitmap();
-		if(bitmap != null) {
-			mImage.setImageBitmap(image.getBitmap());
-			mCaption.setVisibility(View.GONE);
-		} else {
-			mImage.setVisibility(View.GONE);
-			mCaption.setText(image.getCaption());
+		if(image != null) {
+			Bitmap bitmap = image.getBitmap();
+			if(bitmap != null) {
+				mImage.setImageBitmap(image.getBitmap());
+				mCaption.setVisibility(View.GONE);
+			} else {
+				mImage.setVisibility(View.GONE);
+				mCaption.setText(image.getCaption());
+			}
 		}
 	}
 }

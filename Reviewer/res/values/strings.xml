@@ -184,6 +184,7 @@
     <string name="pros">pros</string>
     <string name="con">con</string>
     <string name="cons">cons</string>
+    <string name="procons">+pros -cons</string>
     <string name="fact">fact</string>
     <string name="facts">facts</string>
     

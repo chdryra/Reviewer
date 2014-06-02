@@ -4,8 +4,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 
-import com.chdryra.android.mygenerallibrary.GVStringList;
+import com.chdryra.android.mygenerallibrary.GVData;
+import com.chdryra.android.mygenerallibrary.GVList;
 import com.chdryra.android.mygenerallibrary.GVString;
+import com.chdryra.android.mygenerallibrary.GVStringList;
 import com.chdryra.android.reviewer.Controller.GVType;
 import com.chdryra.android.reviewer.GVCommentList.GVComment;
 import com.chdryra.android.reviewer.GVFactList.GVFact;
@@ -281,7 +283,11 @@ public class ControllerReviewNode{
 		
 		return gvProsCons;
 	}
-
+	
+	private GVProConSummaryList getProConSummary() {
+		return new GVProConSummaryList(getPros(), getCons());
+	}
+	
 	public void setProsCons(GVStringList pros, GVStringList cons) {
 		Review r = getReview();
 		RDList<RDProCon> proCons = new RDList<RDProCon>(r);
@@ -330,26 +336,28 @@ public class ControllerReviewNode{
 		addTags(tags);
 	}
 	
-	public int getNumberOf(Controller.GVType dataType) {
+	public GVList<? extends GVData> getData(Controller.GVType dataType) {
 		if (dataType == GVType.COMMENTS)
-			return getComments().size();
+			return getComments();
 		else if (dataType == GVType.IMAGES)
-			return getImages().size();
+			return getImages();
 		else if (dataType == GVType.FACTS)
-			return getFacts().size();
+			return getFacts();
 		else if (dataType == GVType.PROS)
-			return getPros().size();
+			return getPros();
 		else if (dataType == GVType.CONS)
-			return getCons().size();
+			return getCons();
+		else if (dataType == GVType.PROCONS)
+			return getProConSummary();
 		else if (dataType == GVType.URLS)
-			return getURLs().size();
+			return getURLs();
 		else if (dataType == GVType.LOCATIONS)
-			return getLocations().size();
+			return getLocations();
 		else if (dataType == GVType.TAGS)
-			return getTags().size();
+			return getTags();
 		else if (dataType == GVType.CRITERIA)
-			return getChildrenController().size();
+			return getChildrenController().getGridViewiableData();
 		else
-			return 0;
+			return null;
 	}
 }

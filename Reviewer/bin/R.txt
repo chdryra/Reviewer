@@ -885,8 +885,8 @@ int string edit_text_url_hint 0x7f06006e
 int string edit_text_url_text 0x7f06006f
 int string email 0x7f0600a9
 int string facebook 0x7f0600a7
-int string fact 0x7f0600be
-int string facts 0x7f0600bf
+int string fact 0x7f0600bf
+int string facts 0x7f0600c0
 int string flickr 0x7f0600ab
 int string foursquare 0x7f0600ac
 int string google_search 0x7f0600ad
@@ -909,6 +909,7 @@ int string menu_options 0x7f060091
 int string menu_share 0x7f06008f
 int string menu_tags 0x7f060090
 int string pro 0x7f0600ba
+int string procons 0x7f0600be
 int string progress_bar_search_location_message 0x7f060075
 int string progress_bar_search_location_title 0x7f060074
 int string pros 0x7f0600bb

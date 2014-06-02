@@ -12,7 +12,8 @@ public class VHUrlView extends VHStringView {
 		super(LAYOUT, TEXTVIEW, new GVDataStringGetter() {
 			@Override
 			public String getString(GVData data) {
-				return ((GVUrl)data).toShortenedString();
+				GVUrl url = (GVUrl)data;
+				return url != null? url.toShortenedString() : null;
 			}
 		});
 	}

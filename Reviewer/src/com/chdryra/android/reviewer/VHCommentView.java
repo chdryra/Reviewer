@@ -12,7 +12,8 @@ public class VHCommentView extends VHStringView {
 		super(LAYOUT, TEXTVIEW, new GVDataStringGetter() {
 			@Override
 			public String getString(GVData data) {
-				return ((GVComment)data).getCommentHeadline();
+				GVComment comment = (GVComment)data;
+				return comment != null? comment.getCommentHeadline() : null;
 			}
 		});
 	}

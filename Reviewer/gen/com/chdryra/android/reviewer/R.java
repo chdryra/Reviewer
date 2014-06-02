@@ -1780,8 +1780,8 @@ containing a value of this type.
         /**  Social 
          */
         public static final int facebook=0x7f0600a7;
-        public static final int fact=0x7f0600be;
-        public static final int facts=0x7f0600bf;
+        public static final int fact=0x7f0600bf;
+        public static final int facts=0x7f0600c0;
         public static final int flickr=0x7f0600ab;
         public static final int foursquare=0x7f0600ac;
         /**  URLs 
@@ -1812,6 +1812,7 @@ containing a value of this type.
         public static final int menu_share=0x7f06008f;
         public static final int menu_tags=0x7f060090;
         public static final int pro=0x7f0600ba;
+        public static final int procons=0x7f0600be;
         public static final int progress_bar_search_location_message=0x7f060075;
         /**  ProgressDialogs 
          */

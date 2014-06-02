@@ -19,7 +19,9 @@ public class VHFactView extends VHDualStringView {
 	@Override
 	public void updateView(GVData data) {
 		GVFact fact = (GVFact)data;
-		mUpper.setText(fact.getLabel());
-		mLower.setText(fact.getValue());
+		if(fact != null) {
+			mUpper.setText(fact.getLabel());
+			mLower.setText(fact.getValue());
+		}
 	}
 }
