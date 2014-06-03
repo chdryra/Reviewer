@@ -26,11 +26,6 @@ public class GVCommentList extends GVList<GVCommentList.GVComment> {
 		return splitComments;
 	}
 	
-	@Override
-	public ViewHolder getViewHolder(int position) {		
-		return new VHCommentView();
-	}
-	
 	public class GVComment implements GVData {
 		private GVComment mUnsplitParent;
 		private String mComment;
@@ -66,7 +61,12 @@ public class GVCommentList extends GVList<GVCommentList.GVComment> {
 		public String getCommentHeadline() {
 			return CommentFormatter.getHeadline(mComment);
 		}
-
+		
+		@Override
+		public ViewHolder getViewHolder() {
+			return new VHCommentView();
+		}
+		
 		@Override
 		public int hashCode() {
 			final int prime = 31;

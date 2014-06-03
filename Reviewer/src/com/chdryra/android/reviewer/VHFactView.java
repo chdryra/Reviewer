@@ -1,5 +1,7 @@
 package com.chdryra.android.reviewer;
 
+import android.view.View;
+
 import com.chdryra.android.mygenerallibrary.GVData;
 import com.chdryra.android.reviewer.GVFactList.GVFact;
 
@@ -17,11 +19,13 @@ public class VHFactView extends VHDualStringView {
 	}
 	
 	@Override
-	public void updateView(GVData data) {
+	public View updateView(GVData data) {
 		GVFact fact = (GVFact)data;
 		if(fact != null) {
 			mUpper.setText(fact.getLabel());
 			mLower.setText(fact.getValue());
 		}
+		
+		return mInflated;
 	}
 }

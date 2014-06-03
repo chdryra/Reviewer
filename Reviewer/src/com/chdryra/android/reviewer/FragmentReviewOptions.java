@@ -11,34 +11,30 @@ import android.widget.AdapterView;
 import com.chdryra.android.mygenerallibrary.GVData;
 import com.chdryra.android.mygenerallibrary.GVList;
 import com.chdryra.android.mygenerallibrary.GVString;
-import com.chdryra.android.mygenerallibrary.GVStringList;
+import com.chdryra.android.mygenerallibrary.GridViewCellAdapter;
 import com.chdryra.android.mygenerallibrary.VHStringView;
 import com.chdryra.android.mygenerallibrary.ViewHolder;
 import com.chdryra.android.reviewer.Controller.GVType;
 import com.chdryra.android.reviewer.FragmentReviewOptions.GVCellManagerList.GVCellManager;
-import com.chdryra.android.reviewer.GVCommentList.GVComment;
-import com.chdryra.android.reviewer.GVCriterionList.GVCriterion;
-import com.chdryra.android.reviewer.GVFactList.GVFact;
-import com.chdryra.android.reviewer.GVImageList.GVImage;
 
 public class FragmentReviewOptions extends FragmentReviewGrid<GVCellManager> {
 	public final static int IMAGE_REQUEST = 10;
-	public final static int IMAGE_EDIT = 11;
+	public final static int IMAGE_ADD = 11;
 	public final static int LOCATION_REQUEST = 20;
-	public final static int LOCATION_EDIT = 21;
+	public final static int LOCATION_ADD = 21;
 	public final static int COMMENT_REQUEST = 30;
-	public final static int COMMENT_EDIT = 31;
+	public final static int COMMENT_ADD = 31;
 	public final static int FACTS_REQUEST = 40;
-	public final static int FACTS_EDIT = 41;
+	public final static int FACTS_ADD = 41;
 	public final static int URL_REQUEST = 50;
-	public final static int URL_EDIT = 51;
+	public final static int URL_ADD = 51;
 	public final static int URL_BROWSE = 52;
 	public final static int CHILDREN_REQUEST = 60;
-	public final static int CHILDREN_EDIT = 61;
+	public final static int CHILDREN_ADD = 61;
 	public final static int PROSCONS_REQUEST = 70;
-	public final static int PROSCONS_EDIT = 71;
+	public final static int PROSCONS_ADD = 71;
 	public final static int TAGS_REQUEST = 80;
-	public final static int TAGS_EDIT = 81;
+	public final static int TAGS_ADD = 81;
 	
 	private GVCellManagerList mCellManagerList;
 		
@@ -109,6 +105,19 @@ public class FragmentReviewOptions extends FragmentReviewGrid<GVCellManager> {
 		return null;	
 	}
 	
+	private ViewHolder getDatumViewHolder(GVType dataType) {
+		if(dataType == GVType.TAGS) return new VHTagView(); 
+		if(dataType == GVType.PROCONS) return new VHProConSummaryView();
+		if(dataType == GVType.CRITERIA) return new VHReviewNodeCollection();
+		if(dataType == GVType.COMMENTS) return new VHCommentView();
+		if(dataType == GVType.IMAGES) return new VHImageView();
+		if(dataType == GVType.FACTS) return new VHFactView();
+		if(dataType == GVType.LOCATIONS) return new VHLocationView();
+		if(dataType == GVType.URLS) return new VHUrlView();
+		
+		return null;	
+	}
+	
 	private void initCellManagerList() {
 		mCellManagerList = new GVCellManagerList();
 		mCellManagerList.add(GVType.TAGS);
@@ -127,95 +136,78 @@ public class FragmentReviewOptions extends FragmentReviewGrid<GVCellManager> {
 		startActivityForResult(i, requestCode);
 	}
 	
+	@Override
+	protected GridViewCellAdapter getGridViewCellAdapter() {
+		return new ReviewOptionsGridCellAdapter();
+	}
+	
+	class ReviewOptionsGridCellAdapter extends GridViewCellAdapter {
+		public ReviewOptionsGridCellAdapter() {
+			super(getActivity(), getGridData(), getGridCellWidth(), getGridCellHeight());
+		}
+
+		@Override
+		public View getView(int position, View convertView, ViewGroup parent) {
+			convertView = getGridData().getItem(position).updateView(parent);
+			convertView.getLayoutParams().height = getGridCellHeight();
+			convertView.getLayoutParams().width = getGridCellWidth();
+			
+			return convertView;
+		}
+	}
+	
 	class GVCellManagerList extends GVList<GVCellManagerList.GVCellManager> {
 
 		private void add(GVType dataType) {
 			add(new GVCellManager(dataType));
 		}
-		
-		@Override
-		public ViewHolder getViewHolder(int position) {
-			return getItem(position).getViewHolder();
-		}
 					
 		class GVCellManager implements GVData {
 			private Controller.GVType mDataType;
-			private VHSummaryCellView mViewholder;
-			
+
 			private GVCellManager(Controller.GVType dataType) {
 				mDataType = dataType;
-				mViewholder = new VHSummaryCellView(getDataString(dataType), getController().getData(dataType).getViewHolder(0));
 			}
-		
-			public GVType getDataType() {
-				return mDataType;
-			}
-			
+
 			private void executeIntent() {
 				requestIntent(getRequestDataClass(mDataType), getRequestCode(mDataType));
 			}
 
-			private ViewHolder getViewHolder() {
-				return mViewholder;
+			@Override
+			public ViewHolder getViewHolder() {
+				return null;
+			}
+			
+			public View updateView(ViewGroup parent) {
+				int size = getController().getData(mDataType).size();
+				if(size == 0)
+					return getNoDatumView(parent);
+				else if(size == 1)
+					return getSingleDatumView(parent, 0);
+				else
+					return getMultiDataView(parent);
+			}
+			
+			public View getNoDatumView(ViewGroup parent) {
+				ViewHolder vh = new VHStringView(R.layout.grid_cell_options, R.id.text_view);
+				vh.inflate(getActivity(), parent);
+				return vh.updateView(new GVString(getDataString(mDataType)));
+			}
+
+			public View getSingleDatumView(ViewGroup parent, int position) {
+				if(position > getController().getData(mDataType).size())
+					return getNoDatumView(parent);
+
+				ViewHolder vh = getDatumViewHolder(mDataType);
+				vh.inflate(getActivity(), parent);
+				return vh.updateView(getController().getData(mDataType).getItem(position));
+			}
+						
+			public View getMultiDataView(ViewGroup parent) {
+				ViewHolder vh = new VHDualStringView();
+				vh.inflate(getActivity(), parent);
+				return vh.updateView(new GVDualString(String.valueOf(getController().getData(mDataType).size()), getDataString(mDataType)));
 			}
 		}
 	}
-
-	private class VHSummaryCellView implements ViewHolder {
-		private String mDataString;
-		
-		private ViewHolder mNoDataVH;
-		private ViewHolder mSingleDatumVH;
-		private ViewHolder mSummaryDataVH;
-		
-		private View mNoDataView;
-		private View mSingleDatumView;
-		private View mSummaryDataView;
-		
-		private View mCurrentView;
-		
-		private VHSummaryCellView(String dataString, ViewHolder singleDatumVH) {
-			mDataString = dataString;
-			mNoDataVH = new VHStringView(R.layout.grid_cell_options, R.id.text_view);
-			mSummaryDataVH = new VHDualStringView();
-			mSingleDatumVH = singleDatumVH;
-		}
-		
-		@Override
-		public View inflate(Activity activity, ViewGroup parent) {
-			mNoDataView = mNoDataVH.inflate(activity, parent);
-			mNoDataVH.updateView(new GVString(mDataString));
-			mSingleDatumView = mSingleDatumVH.inflate(activity, parent);
-			mSummaryDataView = mSummaryDataVH.inflate(activity, parent);
-			
-			mNoDataView.setTag(this);
-			mSingleDatumView.setTag(this);
-			mSummaryDataView.setTag(this);
-			
-			mCurrentView = mNoDataView;
-			
-			return mCurrentView;
-		}
-
-		@Override
-		public void updateView(GVData data) {
-			GVCellManager manager = (GVCellManager)data;
-			if(manager != null)
-				updateView(manager.getDataType());
-		}
-
-		public void updateView(GVType dataType) {
-			GVList<? extends GVData> data = getController().getData(dataType); 
-			int size = data.size();
-			if(size == 0) {
-				mCurrentView = mNoDataView;
-			} else if(size > 1) {
-				mSummaryDataVH.updateView(new GVDualString(String.valueOf(size), mDataString));
-				mCurrentView = mSummaryDataView;
-			} else {
-				mSingleDatumVH.updateView(data.getItem(0));
-				mCurrentView = mSingleDatumView;
-			}	
-		}
-	}	
 }

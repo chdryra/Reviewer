@@ -99,8 +99,6 @@ public class ControllerReviewNode{
 	}
 	
 	public void setComments(GVCommentList comments) {
-		if(comments.size() == 0)
-			return;
 		Review r = getReview();
 		RDList<RDComment> rdComments = new RDList<RDComment>();
 		for(GVComment comment : comments)

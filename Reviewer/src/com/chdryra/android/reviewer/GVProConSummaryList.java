@@ -4,7 +4,7 @@ import com.chdryra.android.mygenerallibrary.GVList;
 import com.chdryra.android.mygenerallibrary.GVString;
 import com.chdryra.android.mygenerallibrary.ViewHolder;
 
-public class GVProConSummaryList extends GVList<GVDualString> {
+public class GVProConSummaryList extends GVList<GVProConSummaryList.GVProConSummary> {
 	private GVProConList mPros = new GVProConList(true);
 	private GVProConList mCons = new GVProConList(false);
 	
@@ -18,17 +18,18 @@ public class GVProConSummaryList extends GVList<GVDualString> {
 		if(!cons.isPros())
 			mCons.add(cons);
 	}
+
+	@Override
+	public int size() {
+		return mPros.size() == 0 && mCons.size() == 0? 0 : 1;
+	}
 	
 	@Override
-	public GVDualString getItem(int position) {
-		String upper = null;
-		String lower = null;
-		if(mPros.size() > 0)
-			upper = mPros.size() == 1? mPros.getItem(position).toString() : String.valueOf(mPros.size());
-		if(mCons.size() > 0)
-			lower = mCons.size() == 1? mCons.getItem(position).toString() : String.valueOf(mCons.size());
+	public GVProConSummary getItem(int position) {
+		String upper = mPros.size() == 1? "+" + mPros.getItem(position).toString() : "+" + String.valueOf(mPros.size());
+		String lower = mCons.size() == 1? "-" + mCons.getItem(position).toString() : "-" + String.valueOf(mCons.size());
 		
-		return new GVDualString(upper, lower);
+		return new GVProConSummary(upper, lower);
 	}
 	
 	public GVString getFirstPro() {
@@ -53,9 +54,15 @@ public class GVProConSummaryList extends GVList<GVDualString> {
 		return mCons.size();
 	}
 	
-	@Override
-	public ViewHolder getViewHolder(int position) {
-		return new VHProConSummaryView();
+	class GVProConSummary extends GVDualString {
+		
+		private GVProConSummary(String upper, String lower) {
+			super(upper, lower);
+		}
+		
+		@Override
+		public ViewHolder getViewHolder() {
+			return new VHProConSummaryView();
+		}
 	}
-
 }

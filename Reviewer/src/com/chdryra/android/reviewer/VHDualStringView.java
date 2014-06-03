@@ -1,5 +1,6 @@
 package com.chdryra.android.reviewer;
 
+import android.view.View;
 import android.widget.TextView;
 
 import com.chdryra.android.mygenerallibrary.GVData;
@@ -32,11 +33,13 @@ public class VHDualStringView extends ViewHolderBasic {
 	}
 	
 	@Override
-	public void updateView(GVData data) {
+	public View updateView(GVData data) {
 		GVDualString dual = (GVDualString)data;
 		if(dual != null) {
 			mUpper.setText(dual.getUpper());
 			mLower.setText(dual.getLower());
 		}
+		
+		return mInflated;
 	}
 }

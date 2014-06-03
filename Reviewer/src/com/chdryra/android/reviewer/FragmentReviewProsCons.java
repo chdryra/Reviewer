@@ -7,6 +7,7 @@ import android.view.WindowManager;
 import android.widget.AdapterView;
 
 import com.chdryra.android.mygenerallibrary.ActivityResultCode;
+import com.chdryra.android.mygenerallibrary.GVString;
 import com.chdryra.android.mygenerallibrary.GVStringList;
 import com.chdryra.android.mygenerallibrary.GridViewCellAdapter;
 
@@ -54,18 +55,18 @@ public class FragmentReviewProsCons extends FragmentReviewGridDouble {
 	@Override
 	protected void onGridItemClickLeft(AdapterView<?> parent, View v, int position, long id) {
 		Bundle args = Controller.pack(getController());
-		String pro = (String)parent.getItemAtPosition(position);
+		GVString pro = (GVString)parent.getItemAtPosition(position);
 		args.putBoolean(PRO_MODE, true);
-		args.putString(PROCON, pro);
+		args.putString(PROCON, pro.toString());
 		DialogShower.show(new DialogProConEditFragment(), FragmentReviewProsCons.this, DATA_EDIT, DATA_EDIT_TAG, args);
 	}
 
 	@Override
 	protected void onGridItemClickRight(AdapterView<?> parent, View v, int position, long id) {
 		Bundle args = Controller.pack(getController());
-		String con = (String)parent.getItemAtPosition(position);
+		GVString con = (GVString)parent.getItemAtPosition(position);
 		args.putBoolean(PRO_MODE, false);
-		args.putString(PROCON, con);
+		args.putString(PROCON, con.toString());
 		DialogShower.show(new DialogProConEditFragment(), FragmentReviewProsCons.this, DATA_EDIT, DATA_EDIT_TAG, args);
 	}
 	

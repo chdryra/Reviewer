@@ -33,12 +33,7 @@ public class GVLocationList extends GVList<GVLocationList.GVLocation> {
 		return contains(new GVLocation(latLng, name));
 	}
 	
-	@Override
-	public ViewHolder getViewHolder(int position) {
-		return new VHLocationView();
-	}
-
-	class GVLocation implements GVData{
+	class GVLocation implements GVData {
 		private LatLng mLatLng;
 		private String mName;
 		
@@ -62,7 +57,12 @@ public class GVLocationList extends GVList<GVLocationList.GVLocation> {
 		public void setName(String name) {
 			mName = name;
 		}
-		
+	
+		@Override
+		public ViewHolder getViewHolder() {
+			return new VHLocationView();
+		}
+
 		@Override
 		public int hashCode() {
 			final int prime = 31;

@@ -29,11 +29,6 @@ public class GVImageList extends GVList<GVImageList.GVImage> {
 		GVImage image = getItem(indexOf(new GVImage(bitmap, latLng, oldCaption)));
 		image.setCaption(newCaption);
 	}
-	
-	@Override
-	public ViewHolder getViewHolder(int position) {
-		return new VHImageView();
-	}
 
 	class GVImage implements GVData{
 		private Bitmap mBitmap;
@@ -62,6 +57,10 @@ public class GVImageList extends GVList<GVImageList.GVImage> {
 			mCaption = caption;
 		}
 		
+		@Override
+		public ViewHolder getViewHolder() {
+			return new VHImageView();
+		}
 		
 		@Override
 		public boolean equals(Object obj) {

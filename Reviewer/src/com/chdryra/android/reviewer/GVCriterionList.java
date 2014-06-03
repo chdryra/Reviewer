@@ -23,11 +23,6 @@ public class GVCriterionList extends GVList<GVCriterionList.GVCriterion> {
 	}
 	
 	@Override
-	public ViewHolder getViewHolder(int position) {
-		return new VHReviewNodeCollection();
-	}
-	
-	@Override
 	protected Comparator<GVCriterion> getDefaultComparator() {
 		
 		return new Comparator<GVCriterionList.GVCriterion>() {
@@ -61,6 +56,11 @@ public class GVCriterionList extends GVList<GVCriterionList.GVCriterion> {
 		
 		public float getRating() {
 			return mRating;
+		}
+
+		@Override
+		public ViewHolder getViewHolder() {
+			return new VHReviewNodeCollection();
 		}
 
 		@Override

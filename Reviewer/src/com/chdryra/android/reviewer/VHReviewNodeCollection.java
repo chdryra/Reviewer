@@ -1,5 +1,6 @@
 package com.chdryra.android.reviewer;
 
+import android.view.View;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
@@ -26,11 +27,13 @@ public class VHReviewNodeCollection extends ViewHolderBasic {
     }
     
 	@Override
-	public void updateView(GVData data) {
+	public View updateView(GVData data) {
 		GVCriterion criterion = (GVCriterion) data;
 		if(criterion != null) {
 			mSubject.setText(criterion.getSubject());
 			mRating.setRating(criterion.getRating());
 		}
+		
+		return mInflated;
 	}
 }

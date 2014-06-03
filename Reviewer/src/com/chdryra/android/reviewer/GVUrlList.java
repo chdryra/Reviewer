@@ -54,12 +54,7 @@ public class GVUrlList extends GVList<GVUrlList.GVUrl> {
 		remove(new GVUrl(url));
 	}
 	
-	@Override
-	public ViewHolder getViewHolder(int position) {
-		return new VHUrlView();
-	}
-
-	class GVUrl implements GVData{
+	class GVUrl implements GVData {
 		URL mUrl;
 		
 		private GVUrl(URL url) {
@@ -83,7 +78,12 @@ public class GVUrlList extends GVList<GVUrlList.GVUrl> {
 		public String toShortenedString() {
 			return RandomTextUtils.toShortenedStringURL(mUrl);
 		}
-		
+	
+		@Override
+		public ViewHolder getViewHolder() {
+			return new VHUrlView();
+		}
+
 		@Override
 		public int hashCode() {
 			final int prime = 31;

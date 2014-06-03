@@ -3,7 +3,6 @@ package com.chdryra.android.reviewer;
 import java.util.Comparator;
 
 import com.chdryra.android.mygenerallibrary.GVList;
-import com.chdryra.android.mygenerallibrary.ViewHolder;
 
 public class GVDualStringList extends GVList<GVDualString>{
 
@@ -35,10 +34,5 @@ public class GVDualStringList extends GVList<GVDualString>{
 				return comp;
 			}
 		};
-	}
-
-	@Override
-	public ViewHolder getViewHolder(int position) {
-		return new VHDualStringView();
 	}
 }
