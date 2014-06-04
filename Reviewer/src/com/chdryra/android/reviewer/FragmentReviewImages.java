@@ -1,19 +1,16 @@
 package com.chdryra.android.reviewer;
 
-import java.io.File;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 
 import com.chdryra.android.mygenerallibrary.ActivityResultCode;
 import com.chdryra.android.mygenerallibrary.FunctionPointer;
-import com.chdryra.android.mygenerallibrary.ImageHelper;
 import com.chdryra.android.reviewer.GVImageList.GVImage;
+import com.chdryra.android.reviewer.GVReviewDataList.GVType;
 import com.google.android.gms.maps.model.LatLng;
 
 public class FragmentReviewImages extends FragmentReviewGridAddEditDone<GVImage> {
@@ -27,20 +24,16 @@ public class FragmentReviewImages extends FragmentReviewGridAddEditDone<GVImage>
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
-		mImages = getController().getImages();
+		mImages = (GVImageList) setAndInitData(GVType.IMAGES);
 		mHelperReviewImage = HelperReviewImage.getInstance(getController());
-		
 		setDeleteWhatTitle(getResources().getString(R.string.dialog_delete_images_title));
-		setGridViewData(mImages);
 		setGridCellDimension(CellDimension.HALF, CellDimension.HALF);
 		setBannerButtonText(getResources().getString(R.string.button_add_image));
-		setIsEditable(true);
 	}
 		
 	@Override
 	protected void onBannerButtonClick() {
-		startActivityForResult(HelperReviewImage.getImageChooserIntents(getActivity(), mHelperReviewImage), DATA_ADD);
+		startActivityForResult(mHelperReviewImage.getImageChooserIntents(getActivity()), DATA_ADD);
 	}
 	
 	@Override
@@ -52,55 +45,16 @@ public class FragmentReviewImages extends FragmentReviewGridAddEditDone<GVImage>
 		args.putString(CAPTION, image.getCaption());
 		DialogShower.show(new DialogImageEditFragment(), FragmentReviewImages.this, DATA_EDIT, DATA_EDIT_TAG, args);
 	}
-			
-	@Override
-	protected void onDoneSelected() {
-		getController().setImages(mImages);
-	}
 	
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		switch (requestCode) {
-		case DATA_ADD:
-			switch (resultCode) {
-			case Activity.RESULT_OK:
-				final boolean isCamera;
-		        if(data == null)
-		            isCamera = true;
-		        else {
-		        	final String action = data.getAction();
-		            if(action == null)
-		                isCamera = false;
-		            else
-		                isCamera = action.equals(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-		        }
-		        
-		        if(!isCamera) {
-		        	Uri uri = data == null ? null : data.getData();
-		        	String path = ImageHelper.getRealPathFromURI(getSherlockActivity(), uri);
-		        	mHelperReviewImage.setImageFilePath(path);
-		        }
-		     
-		        if(mHelperReviewImage.bitmapExists())
-		        {
-		        	if(isCamera) {
-			    		Uri imageUri = Uri.fromFile(new File(mHelperReviewImage.getImageFilePath()));
-			        	getSherlockActivity().sendBroadcast(
-			        			new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, imageUri));
-		        	}
-		        	addData(resultCode, data);
-		        }
-				break;		
-			case Activity.RESULT_CANCELED:
-				if(!mHelperReviewImage.bitmapExists())
-					mHelperReviewImage.deleteImageFile();
-				break;
-			default:
-				break;
-			}
+		case DATA_ADD:	
+			if(mHelperReviewImage.processOnActivityResult(getActivity(), resultCode, data))
+				addData(resultCode, data);
 			break;
-			default:
-				super.onActivityResult(requestCode, resultCode, data);
+		default:
+			super.onActivityResult(requestCode, resultCode, data);
 		}
 	}
 	

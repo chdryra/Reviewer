@@ -6,14 +6,14 @@ import java.net.URISyntaxException;
 import java.net.URL;
 
 import com.chdryra.android.mygenerallibrary.GVData;
-import com.chdryra.android.mygenerallibrary.GVList;
 import com.chdryra.android.mygenerallibrary.RandomTextUtils;
 import com.chdryra.android.mygenerallibrary.ViewHolder;
 
-public class GVUrlList extends GVList<GVUrlList.GVUrl> {
+public class GVUrlList extends GVReviewDataList<GVUrlList.GVUrl> {
 
-	public GVUrlList() {
-		
+	@Override
+	public GVType getDataType() {
+		return GVType.URLS;
 	}
 	
 	public void add(String urlString) throws MalformedURLException, URISyntaxException {

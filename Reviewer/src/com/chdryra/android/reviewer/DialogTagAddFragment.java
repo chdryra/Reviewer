@@ -5,21 +5,19 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.chdryra.android.myandroidwidgets.ClearableAutoCompleteTextView;
-import com.chdryra.android.mygenerallibrary.DialogAddCancelDoneFragment;
-import com.chdryra.android.mygenerallibrary.GVStringList;
+import com.chdryra.android.reviewer.GVReviewDataList.GVType;
 
-public class DialogTagAddFragment extends DialogAddCancelDoneFragment{
+public class DialogTagAddFragment extends DialogAddReviewDataFragment{
 	public static final String TAG = "com.chdryra.android.review.TAG";
 	
-	private GVStringList mTags;	
+	private GVTagList mTags;	
 	private ClearableAutoCompleteTextView mTagEditText;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		mTags = Controller.unpack(getArguments()).getTags();
+		mTags = (GVTagList) setAndInitData(GVType.TAGS);
 		setDialogTitle(getResources().getString(R.string.dialog_add_tag_title));
-		setAddOnDone(true);
 	}
 	
 	@Override

@@ -12,6 +12,7 @@ import com.actionbarsherlock.view.MenuItem;
 import com.chdryra.android.mygenerallibrary.ActivityResultCode;
 import com.chdryra.android.mygenerallibrary.GridViewCellAdapter;
 import com.chdryra.android.reviewer.GVCommentList.GVComment;
+import com.chdryra.android.reviewer.GVReviewDataList.GVType;
 
 public class FragmentReviewComments extends FragmentReviewGridAddEditDone<GVComment> {
 	public static final String COMMENT = "com.chdryra.android.reviewer.comment";	
@@ -22,12 +23,9 @@ public class FragmentReviewComments extends FragmentReviewGridAddEditDone<GVComm
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		mComments = getController().getComments();
+		mComments = (GVCommentList) setAndInitData(GVType.COMMENTS);
 		setDeleteWhatTitle(getResources().getString(R.string.dialog_delete_comment_title));
-		setGridViewData(mComments);
-		setGridCellDimension(CellDimension.HALF, CellDimension.QUARTER);
 		setBannerButtonText(getResources().getString(R.string.button_add_comment));
-		setIsEditable(true);
 	}
 		
 	@Override
@@ -43,11 +41,7 @@ public class FragmentReviewComments extends FragmentReviewGridAddEditDone<GVComm
 		DialogShower.show(new DialogCommentEditFragment(), FragmentReviewComments.this, DATA_EDIT, DATA_EDIT_TAG, args);
 	}
 			
-	@Override
-	protected void onDoneSelected() {
-		getController().setComments(mComments);
-	}
-
+	
 	@Override
 	protected void addData(int resultCode, Intent data) {
 		switch(ActivityResultCode.get(resultCode)) {

@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import com.chdryra.android.mygenerallibrary.ActivityResultCode;
 import com.chdryra.android.mygenerallibrary.GVString;
+import com.chdryra.android.reviewer.GVReviewDataList.GVType;
 
 public class FragmentReviewTags  extends FragmentReviewGridAddEditDone<GVString> {
 	public final static String TAG_STRING = "com.chdryra.android.reviewer.tag_string";
@@ -24,12 +25,10 @@ public class FragmentReviewTags  extends FragmentReviewGridAddEditDone<GVString>
 			mReviewInProgress = true;
 		}
 		
-		mTags = getController().getTags();
+		mTags = (GVTagList) setAndInitData(GVType.TAGS);
 		
 		setDismissOnDone(false);
 		setDeleteWhatTitle(getResources().getString(R.string.dialog_delete_tags_title));
-		setGridViewData(mTags);
-		setGridCellDimension(CellDimension.HALF, CellDimension.QUARTER);
 		setBannerButtonText(getResources().getString(R.string.button_add_tag));
 		setIsEditable(true);
 	}
@@ -63,7 +62,8 @@ public class FragmentReviewTags  extends FragmentReviewGridAddEditDone<GVString>
 			return;
 		}
 		
-		getController().setTags(mTags);
+		super.onDoneSelected();
+		
 		Intent i = new Intent(getActivity(), ActivityReviewEdit.class);
 		Controller.pack(getController(), i);
 		startActivity(i);

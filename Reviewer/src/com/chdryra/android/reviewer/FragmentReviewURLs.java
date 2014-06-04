@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.AdapterView;
 
 import com.chdryra.android.mygenerallibrary.ActivityResultCode;
+import com.chdryra.android.reviewer.GVReviewDataList.GVType;
 import com.chdryra.android.reviewer.GVUrlList.GVUrl;
 
 public class FragmentReviewURLs  extends FragmentReviewGridAddEditDone<GVUrl> {
@@ -18,13 +19,9 @@ public class FragmentReviewURLs  extends FragmentReviewGridAddEditDone<GVUrl> {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);	
-		mUrls = getController().getURLs();
-		
+		mUrls = (GVUrlList) setAndInitData(GVType.URLS);
 		setDeleteWhatTitle(getResources().getString(R.string.dialog_delete_urls_title));
-		setGridViewData(mUrls);
-		setGridCellDimension(CellDimension.HALF, CellDimension.QUARTER);
 		setBannerButtonText(getResources().getString(R.string.button_add_url));
-		setIsEditable(true);
 	}
 
 	@Override
@@ -41,14 +38,8 @@ public class FragmentReviewURLs  extends FragmentReviewGridAddEditDone<GVUrl> {
 		Intent i = new Intent(getActivity(), ActivityReviewURLBrowser.class);
 		i.putExtra(URL, url);
 		startActivityForResult(i, requestCode);
-		
 	}
 	
-	@Override
-	protected void onDoneSelected() {
-		getController().setURLs(mUrls);
-	}
-
 	@Override
 	protected void addData(int resultCode, Intent data) {
 		switch(ActivityResultCode.get(resultCode)) {

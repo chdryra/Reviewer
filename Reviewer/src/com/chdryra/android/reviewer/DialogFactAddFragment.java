@@ -6,9 +6,9 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.chdryra.android.myandroidwidgets.ClearableEditText;
-import com.chdryra.android.mygenerallibrary.DialogAddCancelDoneFragment;
+import com.chdryra.android.reviewer.GVReviewDataList.GVType;
 
-public class DialogFactAddFragment extends DialogAddCancelDoneFragment{
+public class DialogFactAddFragment extends DialogAddReviewDataFragment{
 	public static final String FACT_LABEL = "com.chdryra.android.reviewer.fact_label";
 	public static final String FACT_VALUE = "com.chdryra.android.reviewer.fact_value";
 	
@@ -19,9 +19,8 @@ public class DialogFactAddFragment extends DialogAddCancelDoneFragment{
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		mFacts = Controller.unpack(getArguments()).getFacts();
+		mFacts = (GVFactList) setAndInitData(GVType.FACTS);
 		setDialogTitle(getResources().getString(R.string.dialog_add_fact_title));
-		setAddOnDone(true);
 	}
 
 	@Override

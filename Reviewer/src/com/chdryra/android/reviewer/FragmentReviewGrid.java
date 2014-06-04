@@ -42,7 +42,7 @@ public enum CellDimension{FULL, HALF, QUARTER};
 	private boolean mIsEditable = false;
 	private String mBannerButtonText;
 
-	private GVList<T> mGridData;
+	private GVReviewDataList<T> mGridData;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -133,7 +133,7 @@ public enum CellDimension{FULL, HALF, QUARTER};
 	    });
 		getGridView().setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
 	        public boolean onItemLongClick(AdapterView<?> parent, View v, int position, long id) {
-	            getGridView().performItemClick(v, position, id);
+	            onGridItemLongClick(parent, v, position, id);
 	            return true;
 	        }
 	    });
@@ -159,12 +159,16 @@ public enum CellDimension{FULL, HALF, QUARTER};
 		return mIsEditable;
 	}
 	
-	protected void setGridViewData(GVList<T> gridData) {
+	protected void setGridViewData(GVReviewDataList<T> gridData) {
 		mGridData = gridData;
 	}
 	
 	protected void onGridItemClick(AdapterView<?> parent, View v, int position, long id) {
 		
+	}
+	
+	protected void onGridItemLongClick(AdapterView<?> parent, View v, int position, long id) {
+		getGridView().performItemClick(v, position, id);
 	}
 	
 	protected void updateUI() {
@@ -264,6 +268,11 @@ public enum CellDimension{FULL, HALF, QUARTER};
 		updateUI();
 	}
 	
+	@Override
+	protected void onDoneSelected() {
+		getController().setData(mGridData);
+	}
+
 	@Override
 	protected void onDeleteSelected() {
 		mGridData.removeAll();

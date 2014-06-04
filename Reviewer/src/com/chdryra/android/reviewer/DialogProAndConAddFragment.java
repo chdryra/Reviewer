@@ -4,15 +4,11 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.chdryra.android.myandroidwidgets.ClearableEditText;
-import com.chdryra.android.mygenerallibrary.DialogAddCancelDoneFragment;
-import com.chdryra.android.mygenerallibrary.GVStringList;
+import com.chdryra.android.reviewer.GVReviewDataList.GVType;
 
-public class DialogProAndConAddFragment extends DialogAddCancelDoneFragment{
+public class DialogProAndConAddFragment extends DialogAddReviewDataFragment{
 
-	private ControllerReviewNode mController;
-	
-	private GVStringList mPros;
-	private GVStringList mCons;
+	private GVProConList mProCons = new GVProConList();
 	
 	private ClearableEditText mProEditText;
 	private ClearableEditText mConEditText;
@@ -20,9 +16,7 @@ public class DialogProAndConAddFragment extends DialogAddCancelDoneFragment{
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		mController = Controller.unpack(getArguments());
-		mPros = mController.getPros();
-		mCons = mController.getCons();
+		mProCons = (GVProConList) setAndInitData(GVType.PROCONS);
 		setDialogTitle(getResources().getString(R.string.dialog_add_procon_title));
 	}
 
@@ -46,10 +40,10 @@ public class DialogProAndConAddFragment extends DialogAddCancelDoneFragment{
 			return;
 		
 		if(pro.length() > 0)
-			mPros.add(pro);
+			mProCons.add(pro, true);
 		
 		if(con.length() > 0)
-			mCons.add(con);
+			mProCons.add(con, false);
 		
 		mProEditText.setText(null);
 		mConEditText.setText(null);
@@ -60,12 +54,5 @@ public class DialogProAndConAddFragment extends DialogAddCancelDoneFragment{
 			getDialog().setTitle("Added Pro: " + pro);
 		else 
 			getDialog().setTitle("Added Con: " + con);
-	
-	}
-	
-	@Override
-	protected void onDoneButtonClick() {
-		OnAddButtonClick();
-		mController.setProsCons(mPros, mCons);
 	}
 }

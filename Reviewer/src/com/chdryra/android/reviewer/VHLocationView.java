@@ -8,12 +8,13 @@ class VHLocationView extends VHStringView {
 	private static final int LAYOUT = R.layout.grid_cell_location;
 	private static final int TEXTVIEW = R.id.text_view;
 	
-	public VHLocationView() {
+	public VHLocationView(final boolean showAt) {
 		super(LAYOUT, TEXTVIEW, new GVDataStringGetter() {
 			@Override
 			public String getString(GVData data) {
 				GVLocation location = (GVLocation)data;
-				return location != null? location.getShortenedName() : null;
+				String at = showAt? "@" : "";
+				return location != null? at + location.getShortenedName() : null;
 			}
 		});
 	}

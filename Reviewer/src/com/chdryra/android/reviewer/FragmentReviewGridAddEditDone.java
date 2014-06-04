@@ -1,9 +1,10 @@
 package com.chdryra.android.reviewer;
 
-import com.chdryra.android.mygenerallibrary.GVData;
-
 import android.content.Intent;
 import android.view.WindowManager;
+
+import com.chdryra.android.mygenerallibrary.GVData;
+import com.chdryra.android.reviewer.GVReviewDataList.GVType;
 
 public abstract class FragmentReviewGridAddEditDone<T extends GVData>  extends FragmentReviewGrid<T> {
 	protected final static String DATA_ADD_TAG = "DataAddTag";
@@ -14,6 +15,14 @@ public abstract class FragmentReviewGridAddEditDone<T extends GVData>  extends F
 
 	protected abstract void addData(int resultCode, Intent data);
 	protected abstract void editData(int resultCode, Intent data);
+	
+	@SuppressWarnings("unchecked")
+	protected GVReviewDataList<T> setAndInitData(GVType dataType) {
+		//Not sure how to make sure this setup is type safe
+		GVReviewDataList<T> data = (GVReviewDataList<T>) getController().getData(dataType);
+		setGridViewData(data);
+		return data;
+	}
 	
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {

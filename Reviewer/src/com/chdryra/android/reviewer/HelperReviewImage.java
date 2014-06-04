@@ -100,16 +100,16 @@ public class HelperReviewImage extends ImageHelper{
 		}	
 	}
 	
-	public static Intent getImageChooserIntents(Activity activity, HelperReviewImage helperReviewImageInstance) {
+	public Intent getImageChooserIntents(Activity activity) {
 		//Set up image file
 		try {
-			helperReviewImageInstance.createNewImageFile();
+			createNewImageFile();
 		} catch (IOException e) {
 			Log.e(TAG, e.getMessage(), e);
 			e.printStackTrace();
 			return null;
 		}
-		File imageFile = new File(helperReviewImageInstance.getImageFilePath());
+		File imageFile = new File(getImageFilePath());
 		Uri imageUri = Uri.fromFile(imageFile);		
 		
 	    //Create intents
@@ -131,5 +131,50 @@ public class HelperReviewImage extends ImageHelper{
 		chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, cameraIntents.toArray(new Parcelable[]{}));
 		
 		return chooserIntent;
+	}
+	
+	public boolean processOnActivityResult(Activity activity, int resultCode, Intent data) {
+		//Returns true if bitmap exists.
+		switch (resultCode) {
+		case Activity.RESULT_OK:
+			final boolean isCamera;
+	        if(data == null)
+	            isCamera = true;
+	        else {
+	        	final String action = data.getAction();
+	            if(action == null)
+	                isCamera = false;
+	            else
+	                isCamera = action.equals(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+	        }
+	        
+	        if(!isCamera) {
+	        	Uri uri = data == null ? null : data.getData();
+	        	String path = ImageHelper.getRealPathFromURI(activity, uri);
+	        	setImageFilePath(path);
+	        }
+	     
+	        if(bitmapExists())
+	        {
+	        	if(isCamera) {
+		    		Uri imageUri = Uri.fromFile(new File(getImageFilePath()));
+		        	activity.sendBroadcast(
+		        			new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, imageUri));
+	        	}
+	        	
+	        	return true;
+	        }
+					
+	        return false;
+
+		case Activity.RESULT_CANCELED:
+			if(!bitmapExists())
+				deleteImageFile();
+			
+			return false;
+			
+		default:
+			return false;
+		}
 	}
 }

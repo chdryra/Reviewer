@@ -1,11 +1,15 @@
 package com.chdryra.android.reviewer;
 
 import com.chdryra.android.mygenerallibrary.GVData;
-import com.chdryra.android.mygenerallibrary.GVList;
 import com.chdryra.android.mygenerallibrary.ViewHolder;
 
-public class GVCommentList extends GVList<GVCommentList.GVComment> {
+public class GVCommentList extends GVReviewDataList<GVCommentList.GVComment> {
 
+	@Override
+	public GVType getDataType() {
+		return GVType.COMMENTS;
+	}
+	
 	public void add(String comment) {
 		add(new GVComment(comment));
 	}

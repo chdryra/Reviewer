@@ -5,14 +5,13 @@ import java.util.Collections;
 import java.util.Date;
 
 import com.chdryra.android.mygenerallibrary.GVData;
-import com.chdryra.android.mygenerallibrary.GVList;
 import com.chdryra.android.mygenerallibrary.GVString;
-import com.chdryra.android.mygenerallibrary.GVStringList;
-import com.chdryra.android.reviewer.Controller.GVType;
 import com.chdryra.android.reviewer.GVCommentList.GVComment;
 import com.chdryra.android.reviewer.GVFactList.GVFact;
 import com.chdryra.android.reviewer.GVImageList.GVImage;
 import com.chdryra.android.reviewer.GVLocationList.GVLocation;
+import com.chdryra.android.reviewer.GVProConList.GVProCon;
+import com.chdryra.android.reviewer.GVReviewDataList.GVType;
 import com.chdryra.android.reviewer.GVUrlList.GVUrl;
 import com.chdryra.android.reviewer.ReviewTagsManager.ReviewTag;
 
@@ -44,16 +43,23 @@ public class ControllerReviewNode{
 	}
 	
 	public void removeChild(String childId) {
-		mNode.removeChild(Controller.convertID(childId));
+		getChildrenController().removeChild(childId);
 	}
 	
 	public void addChild(String title) {
-		Review r = FactoryReview.createUserReview(title);
-		mNode.addChild(r);
+		getChildrenController().addChild(title);
 	}
 	
+	public void addChildren(GVCriterionList children) {
+		getChildrenController().addChildren(children);
+	}
+
+	public void setChildren(GVCriterionList children) {
+		getChildrenController().setChildren(children);
+	}
+
 	public void clear() {
-		mNode.clearChildren();
+		getChildrenController().removeAll();
 	}
 	
 	private Review getReview() {
@@ -84,6 +90,15 @@ public class ControllerReviewNode{
 		return getReview().getRating().get();
 	}
 	
+	public Date getDate() {
+		return getReview().getDate().get();
+	}
+	
+	public void setDate(Date date) {
+		Review r =getReview();
+		r.setDate(date);
+	}
+	
 	//RatingISAverage
 	public void setReviewRatingAverage(boolean isAverage) {
 		getReview().getReviewNode().setRatingIsAverageOfChildren(isAverage);
@@ -94,11 +109,11 @@ public class ControllerReviewNode{
 	}
 	
 	//Comment
-	public boolean hasComments() {
+	private boolean hasComments() {
 		return getReview().hasComments();
 	}
 	
-	public void setComments(GVCommentList comments) {
+	private void setComments(GVCommentList comments) {
 		Review r = getReview();
 		RDList<RDComment> rdComments = new RDList<RDComment>();
 		for(GVComment comment : comments)
@@ -107,27 +122,27 @@ public class ControllerReviewNode{
 		r.setComments(rdComments);
 	}
 	
-	public GVCommentList getComments() {
+	private GVCommentList getComments() {
 		GVCommentList comments = new GVCommentList();
 		for(RDComment comment : getReview().getComments())
 			comments.add(comment.get());
 		return comments;
 	}
 	
-	public void deleteComments() {
+	private void deleteComments() {
 		getReview().deleteComments();
 	}
 	
 	//Facts
-	public boolean hasFacts() {
+	private boolean hasFacts() {
 		return getReview().hasFacts();
 	}
 	
-	public void deleteFacts() {
+	private void deleteFacts() {
 		getReview().deleteFacts();
 	}
 	
-	public GVFactList getFacts() {
+	private GVFactList getFacts() {
 		GVFactList gvFacts = new GVFactList();
 		RDList<RDFact> facts = getReview().getFacts();
 		for(RDFact fact : facts)
@@ -135,16 +150,8 @@ public class ControllerReviewNode{
 		
 		return gvFacts;
 	}
-	
-	public int getNumberOfFacts() {
-		int numFacts = 0;
-		if(getFacts() != null)
-			numFacts = getFacts().size();
 		
-		return numFacts;
-	}
-	
-	public void setFacts(GVFactList gvFacts) {
+	private void setFacts(GVFactList gvFacts) {
 		Review r = getReview();
 		RDList<RDFact> facts = new RDList<RDFact>(r);
 		for(GVFact fact: gvFacts)
@@ -153,24 +160,12 @@ public class ControllerReviewNode{
 		r.setFacts(facts);
 	}
 	
-	public Date getDate() {
-		return getReview().getDate().get();
-	}
-	
-	public void setDate(Date date) {
-		Review r =getReview();
-		r.setDate(date);
-	}
-	
 	//Image
-	public boolean hasImages() {
+	private boolean hasImages() {
 		return getReview().hasImages();
 	}
 	
-	public void setImages(GVImageList images) {
-		if(images.size() == 0)
-			return;
-		
+	private void setImages(GVImageList images) {
 		Review r = getReview();
 		RDList<RDImage> rdImages = new RDList<RDImage>();
 		for(GVImage image : images)
@@ -179,7 +174,7 @@ public class ControllerReviewNode{
 		r.setImages(rdImages);
 	}
 	
-	public GVImageList getImages() {
+	private GVImageList getImages() {
 		GVImageList images = new GVImageList();
 		for(RDImage image : getReview().getImages())
 			images.add(image.getBitmap(), image.getLatLng(), image.getCaption());
@@ -187,16 +182,16 @@ public class ControllerReviewNode{
 		return images;
 	}
 	
-	public void deleteImages() {
+	private void deleteImages() {
 		getReview().deleteImages();
 	}
 	
 	//Location
-	public boolean hasLocations() {
+	private boolean hasLocations() {
 		return getReview().hasLocations();
 	}
 	
-	public GVLocationList getLocations() {
+	private GVLocationList getLocations() {
 		GVLocationList locations = new GVLocationList();
 		for(RDLocation location : getReview().getLocations())
 			locations.add(location.getLatLng(), location.getName());
@@ -204,7 +199,7 @@ public class ControllerReviewNode{
 		return locations;
 	}
 	
-	public void setLocations(GVLocationList locations) {
+	private void setLocations(GVLocationList locations) {
 		if(locations.size() == 0)
 			return;
 		
@@ -216,16 +211,16 @@ public class ControllerReviewNode{
 		r.setLocations(rdLocations);
 	}
 	
-	public void deleteLocations() {
+	private void deleteLocations() {
 		getReview().deleteLocations();
 	}
 	
 	//URL
-	public boolean hasURLs() {
+	private boolean hasURLs() {
 		return getReview().hasURLs();
 	}
 	
-	public GVUrlList getURLs() {
+	private GVUrlList getURLs() {
 		GVUrlList urlList = new GVUrlList();
 		for(RDUrl url : getReview().getURLs())
 			urlList.add(url.get());
@@ -233,7 +228,7 @@ public class ControllerReviewNode{
 		return urlList;
 	}
 	
-	public void setURLs(GVUrlList urlList) {
+	private void setURLs(GVUrlList urlList) {
 		if(urlList.size() == 0)
 			return;
 		
@@ -245,69 +240,75 @@ public class ControllerReviewNode{
 		r.setURLs(rdUrls);
 	}
 	
-	public void deleteURLs() {
+	private void deleteURLs() {
 		getReview().deleteURLs();
 	}
 	
 	//ProsCons
-	public boolean hasProsCons() {
+	private boolean hasProCons() {
 		return getReview().hasProCons();
 	}
 	
-	public boolean hasPros() {
+	private boolean hasPros() {
 		return getPros().size() > 0;
 	}
 	
-	public boolean hasCons() {
+	private boolean hasCons() {
 		return getCons().size() > 0;
 	}
 	
-	public GVProConList getPros() {
-		return getProsCons(true);
+	private GVProConList getPros() {
+		return getProCons(true);
 	}
 	
-	public GVProConList getCons() {
-		return getProsCons(false);
+	private GVProConList getCons() {
+		return getProCons(false);
 	}
 	
-	private GVProConList getProsCons(boolean getPros) {
-		GVProConList gvProsCons = new GVProConList(getPros);
-		
+	private GVProConList getProCons(boolean getPros) {
+		GVProConList gvProsCons = new GVProConList();
 		RDList<RDProCon> proCons = getReview().getProCons();
 		
 		for(RDProCon proCon : proCons)
 			if(proCon.isPro() == getPros)
-				gvProsCons.add(proCon.getProCon());
+				gvProsCons.add(proCon.getProCon(), proCon.isPro());
 		
 		return gvProsCons;
 	}
 	
-	private GVProConSummaryList getProConSummary() {
+	private GVProConList getProCons() {
+		GVProConList gvProsCons = new GVProConList();
+		RDList<RDProCon> proCons = getReview().getProCons();
+		
+		for(RDProCon proCon : proCons)
+			gvProsCons.add(proCon.getProCon(), proCon.isPro());
+		
+		return gvProsCons;
+	}
+	
+	public GVProConSummaryList getProConSummary() {
 		return new GVProConSummaryList(getPros(), getCons());
 	}
 	
-	public void setProsCons(GVStringList pros, GVStringList cons) {
+	private void setProsCons(GVProConList proCons) {
 		Review r = getReview();
-		RDList<RDProCon> proCons = new RDList<RDProCon>(r);
+		RDList<RDProCon> rdProCons = new RDList<RDProCon>(r);
 		
-		for(GVString pro : pros)
-			proCons.add(new RDProCon(pro.toString(), true, r));
+		for(GVProCon proCon : proCons)
+			rdProCons.add(new RDProCon(proCon.toString(), proCon.isPro(), r));
 		
-		for(GVString con : cons)
-			proCons.add(new RDProCon(con.toString(), false, r));
-		
-		r.setProCons(proCons);
+		r.setProCons(rdProCons);
 	}
 	
-	public void deleteProsCons() {
+	private void deleteProCons() {
 		getReview().deleteProCons();
 	}
 	
-	public boolean hasTags() {
+	private boolean hasTags() {
 		return ReviewTagsManager.hasTags(getReview());
 	}
 	
-	public GVTagList getTags() {
+	private GVTagList getTags() {
 		ReviewTagCollection tags = ReviewTagsManager.getTags(getReview());
 		GVTagList gvTags = new GVTagList();
 		for(ReviewTag tag : tags)
@@ -316,7 +317,7 @@ public class ControllerReviewNode{
 		return gvTags;
 	}
 	
-	public void addTags(GVStringList tags) {
+	public void addTags(GVTagList tags) {
 		ArrayList<String> tagsList = new ArrayList<String>();
 		for(GVString tag : tags)
 			tagsList.add(tag.toString());
@@ -325,16 +326,60 @@ public class ControllerReviewNode{
 		ReviewTagsManager.tag(getReview(), tagsList);
 	}
 	
-	public void removeTags() {
+	private void removeTags() {
 		ReviewTagsManager.untag(getReview());
 	}
 	
-	public void setTags(GVStringList tags) {
+	private void setTags(GVTagList tags) {
 		removeTags();
 		addTags(tags);
 	}
-	
-	public GVList<? extends GVData> getData(Controller.GVType dataType) {
+
+	public boolean hasData(GVType dataType) {
+		if (dataType == GVType.COMMENTS)
+			return hasComments();
+		else if (dataType == GVType.IMAGES)
+			return hasImages();
+		else if (dataType == GVType.FACTS)
+			return hasFacts();
+		else if (dataType == GVType.PROS)
+			return hasPros();
+		else if (dataType == GVType.CONS)
+			return hasCons();
+		else if (dataType == GVType.PROCONS)
+			return hasProCons();
+		else if (dataType == GVType.URLS)
+			return hasURLs();
+		else if (dataType == GVType.LOCATIONS)
+			return hasLocations();
+		else if (dataType == GVType.TAGS)
+			return hasTags();
+		else if (dataType == GVType.CRITERIA)
+			return getChildrenController().size() > 0;
+		else
+			return false;
+	}
+
+	public void deleteData(GVType dataType) {
+		if (dataType == GVType.COMMENTS)
+			deleteComments();
+		else if (dataType == GVType.IMAGES)
+			deleteImages();
+		else if (dataType == GVType.FACTS)
+			deleteFacts();
+		else if (dataType == GVType.PROCONS)
+			deleteProCons();
+		else if (dataType == GVType.URLS)
+			deleteURLs();
+		else if (dataType == GVType.LOCATIONS)
+			deleteLocations();
+		else if (dataType == GVType.TAGS)
+			removeTags();
+		else if (dataType == GVType.CRITERIA)
+			getChildrenController().removeAll();
+	}
+
+	public GVReviewDataList<? extends GVData> getData(GVType dataType) {
 		if (dataType == GVType.COMMENTS)
 			return getComments();
 		else if (dataType == GVType.IMAGES)
@@ -346,7 +391,7 @@ public class ControllerReviewNode{
 		else if (dataType == GVType.CONS)
 			return getCons();
 		else if (dataType == GVType.PROCONS)
-			return getProConSummary();
+			return getProCons();
 		else if (dataType == GVType.URLS)
 			return getURLs();
 		else if (dataType == GVType.LOCATIONS)
@@ -357,5 +402,25 @@ public class ControllerReviewNode{
 			return getChildrenController().getGridViewiableData();
 		else
 			return null;
+	}
+	
+	public <T extends GVReviewDataList<? extends GVData>> void setData(T data) {
+		GVType dataType = data.getDataType();
+		if (dataType == GVType.COMMENTS)
+			setComments((GVCommentList) data);
+		else if (dataType == GVType.IMAGES)
+			setImages((GVImageList) data);
+		else if (dataType == GVType.FACTS)
+			setFacts((GVFactList) data);
+		else if (dataType == GVType.URLS)
+			setURLs((GVUrlList) data);
+		else if (dataType == GVType.PROCONS)
+			setProsCons((GVProConList) data);
+		else if (dataType == GVType.LOCATIONS)
+			setLocations((GVLocationList) data);
+		else if (dataType == GVType.TAGS)
+			setTags((GVTagList) data);
+		else if (dataType == GVType.CRITERIA)
+			setChildren((GVCriterionList) data);
 	}
 }

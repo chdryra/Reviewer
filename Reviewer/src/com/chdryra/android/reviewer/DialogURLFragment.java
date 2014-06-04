@@ -1,8 +1,5 @@
 package com.chdryra.android.reviewer;
 
-import java.net.URL;
-
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -11,7 +8,8 @@ import android.widget.Toast;
 
 import com.chdryra.android.myandroidwidgets.ClearableEditText;
 import com.chdryra.android.mygenerallibrary.DialogDeleteCancelDoneFragment;
-import com.chdryra.android.mygenerallibrary.RandomTextUtils;
+import com.chdryra.android.reviewer.GVReviewDataList.GVType;
+import com.chdryra.android.reviewer.GVUrlList.GVUrl;
 
 public class DialogURLFragment extends DialogDeleteCancelDoneFragment {
 	public static final ActionType RESULT_BROWSE = ActionType.OTHER;
@@ -20,14 +18,14 @@ public class DialogURLFragment extends DialogDeleteCancelDoneFragment {
 	
 	private static final String TAG = "DialogURLFragment";
 	
-	private URL mUrl;
+	private ControllerReviewNode mController;
 	private ClearableEditText mURLEditText;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
-		mUrl = getArguments().getParcelable(URL);
+		mController = Controller.unpack(getArguments());
 		
 		setMiddleButtonAction(RESULT_BROWSE);
 		setMiddleButtonText(getResources().getString(R.string.button_browse_text));
@@ -43,8 +41,8 @@ public class DialogURLFragment extends DialogDeleteCancelDoneFragment {
 		View v = getActivity().getLayoutInflater().inflate(R.layout.dialog_url, null);
 		
 		mURLEditText = (ClearableEditText)v.findViewById(R.id.url_edit_text);
-		if(mUrl != null)
-			mURLEditText.setText(RandomTextUtils.toShortenedStringURL(mUrl));
+		if(mController.getData(GVType.URLS).size() == 1)
+			mURLEditText.setText(((GVUrl)mController.getData(GVType.URLS).getItem(0)).toShortenedString());
 	
 		setKeyboardIMEDoDone(mURLEditText);
 		
@@ -56,26 +54,26 @@ public class DialogURLFragment extends DialogDeleteCancelDoneFragment {
 		String urlString = mURLEditText.getText().toString();
 		if(urlString.length() > 0) {			
 			try {
-				URL url = new URL(URLUtil.guessUrl(urlString));
-				Intent i = getNewReturnData();
-				i.putExtra(URL, url);
-				i.putExtra(URL_OLD, mUrl);
+				GVUrlList singleURL = new GVUrlList();
+				singleURL.add(URLUtil.guessUrl(urlString));
+				mController.setData(singleURL);
 			} catch (Exception e) {
 				Log.e(TAG, "Malformed URL", e);
 				Toast.makeText(getSherlockActivity(), getResources().getString(R.string.toast_bad_url), Toast.LENGTH_SHORT).show();
 				return;
 			}
 		}
-		super.onDoneButtonClick();
 	}
 		
 	@Override
 	protected void onDeleteButtonClick() {
-		getNewReturnData().putExtra(URL_OLD, mUrl);
+		GVUrlList urls = (GVUrlList) mController.getData(GVType.URLS);
+		if(urls.size() == 1)
+			urls.remove(urls.getItem(0));
 	}
 	
 	@Override
 	protected boolean hasDataToDelete() {
-		return mUrl != null;
+		return mController.hasData(GVType.URLS);
 	}
 }

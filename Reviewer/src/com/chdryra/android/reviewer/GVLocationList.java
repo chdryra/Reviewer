@@ -1,16 +1,20 @@
 package com.chdryra.android.reviewer;
 
 import com.chdryra.android.mygenerallibrary.GVData;
-import com.chdryra.android.mygenerallibrary.GVList;
 import com.chdryra.android.mygenerallibrary.RandomTextUtils;
 import com.chdryra.android.mygenerallibrary.ViewHolder;
 import com.google.android.gms.maps.model.LatLng;
 
-public class GVLocationList extends GVList<GVLocationList.GVLocation> {
+public class GVLocationList extends GVReviewDataList<GVLocationList.GVLocation> {
 	
 	public GVLocationList() {
 	}
-
+	
+	@Override
+	public GVType getDataType() {
+		return GVType.LOCATIONS;
+	}
+	
 	public GVLocationList(GVLocationList locations) {
 		for(GVLocation location : locations)
 			add(location);
@@ -60,7 +64,7 @@ public class GVLocationList extends GVList<GVLocationList.GVLocation> {
 	
 		@Override
 		public ViewHolder getViewHolder() {
-			return new VHLocationView();
+			return new VHLocationView(false);
 		}
 
 		@Override

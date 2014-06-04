@@ -7,6 +7,7 @@ import android.widget.AdapterView;
 
 import com.chdryra.android.mygenerallibrary.ActivityResultCode;
 import com.chdryra.android.reviewer.GVFactList.GVFact;
+import com.chdryra.android.reviewer.GVReviewDataList.GVType;
 
 public class FragmentReviewFacts extends FragmentReviewGridAddEditDone<GVFact> {
 	public static final String FACT_LABEL = "com.chdryra.android.reviewer.datum_label";
@@ -17,12 +18,9 @@ public class FragmentReviewFacts extends FragmentReviewGridAddEditDone<GVFact> {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		mFacts = getController().getFacts();
+		mFacts = (GVFactList) setAndInitData(GVType.FACTS);
 		setDeleteWhatTitle(getResources().getString(R.string.dialog_delete_fact_title));
-		setGridViewData(mFacts);
-		setGridCellDimension(CellDimension.HALF, CellDimension.QUARTER);
 		setBannerButtonText(getResources().getString(R.string.button_add_facts));
-		setIsEditable(true);
 	}
 		
 	@Override
@@ -37,11 +35,6 @@ public class FragmentReviewFacts extends FragmentReviewGridAddEditDone<GVFact> {
 		args.putString(FACT_LABEL, fact.getLabel());
 		args.putString(FACT_VALUE, fact.getValue());
 		DialogShower.show(new DialogFactEditFragment(), FragmentReviewFacts.this, DATA_EDIT, DATA_EDIT_TAG, args);
-	}
-			
-	@Override
-	protected void onDoneSelected() {
-		getController().setFacts(mFacts);
 	}
 	
 	@Override

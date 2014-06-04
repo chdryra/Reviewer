@@ -3,6 +3,7 @@ package com.chdryra.android.reviewer;
 import android.view.View;
 
 import com.chdryra.android.mygenerallibrary.GVData;
+import com.chdryra.android.mygenerallibrary.VHDualStringView;
 import com.chdryra.android.reviewer.GVFactList.GVFact;
 
 public class VHFactView extends VHDualStringView {

@@ -8,8 +8,8 @@ import android.widget.AdapterView;
 
 import com.chdryra.android.mygenerallibrary.ActivityResultCode;
 import com.chdryra.android.mygenerallibrary.GVString;
-import com.chdryra.android.mygenerallibrary.GVStringList;
 import com.chdryra.android.mygenerallibrary.GridViewCellAdapter;
+import com.chdryra.android.reviewer.GVReviewDataList.GVType;
 
 public class FragmentReviewProsCons extends FragmentReviewGridDouble {
 	public static final String PROCON = "com.chdryra.android.reviewer.pro_con";
@@ -28,14 +28,11 @@ public class FragmentReviewProsCons extends FragmentReviewGridDouble {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
-		mPros = getController().getPros();
-		mCons = getController().getCons();
-		
+		mPros = (GVProConList) getController().getData(GVType.PROS);
+		mCons = (GVProConList) getController().getData(GVType.CONS);
 		setDeleteWhatTitle(getResources().getString(R.string.activity_title_procon));
 		setBannerButtonTextLeft(getResources().getString(R.string.button_add_pros));
 		setBannerButtonTextRight(getResources().getString(R.string.button_add_cons));
-		setIsEditable(true);
 	}
 		
 	@Override
@@ -82,7 +79,10 @@ public class FragmentReviewProsCons extends FragmentReviewGridDouble {
 	
 	@Override
 	protected void onDoneSelected() {
-		getController().setProsCons(mPros, mCons);
+		GVProConList proCons = new GVProConList();
+		proCons.add(mPros);
+		proCons.add(mCons);
+		getController().setData(proCons);
 	}
 		
 	@Override
@@ -119,9 +119,9 @@ public class FragmentReviewProsCons extends FragmentReviewGridDouble {
 		switch(ActivityResultCode.get(resultCode)) {
 		case ADD:
 			if(data.getBooleanExtra(PRO_MODE, true))
-				mPros.add((String)data.getSerializableExtra(PROCON));
+				mPros.add((String)data.getSerializableExtra(PROCON), true);
 			else
-				mCons.add((String)data.getSerializableExtra(PROCON));
+				mCons.add((String)data.getSerializableExtra(PROCON), false);
 			break;
 		default:
 			return;
@@ -131,15 +131,16 @@ public class FragmentReviewProsCons extends FragmentReviewGridDouble {
 	private void editData(int resultCode, Intent data) {
 		switch(ActivityResultCode.get(resultCode)) {
 		case DONE:
-			GVStringList procons = data.getBooleanExtra(PRO_MODE, true)? mPros : mCons;
-			procons.remove((String)data.getSerializableExtra(DialogProConEditFragment.OLD));
-			procons.add((String)data.getSerializableExtra(PROCON));
+			boolean isPro = data.getBooleanExtra(PRO_MODE, true);
+			GVProConList procons = isPro? mPros : mCons;
+			procons.remove((String)data.getSerializableExtra(DialogProConEditFragment.OLD), isPro);
+			procons.add((String)data.getSerializableExtra(PROCON), isPro);
 			break;
 		case DELETE:
 			if(data.getBooleanExtra(PRO_MODE, true))
-				mPros.remove((String)data.getSerializableExtra(DialogProConEditFragment.OLD));
+				mPros.remove((String)data.getSerializableExtra(DialogProConEditFragment.OLD), true);
 			else
-				mCons.remove((String)data.getSerializableExtra(DialogProConEditFragment.OLD));
+				mCons.remove((String)data.getSerializableExtra(DialogProConEditFragment.OLD), false);
 			break;
 		default:
 			return;

@@ -5,6 +5,9 @@ import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
+import com.chdryra.android.mygenerallibrary.GVData;
+import com.chdryra.android.reviewer.GVReviewDataList.GVType;
+
 public class ControllerReviewNodeCollection {
 	protected RCollectionReviewNode mReviewNodes;
 	protected HashMap<String, ControllerReviewNode> mControllers;
@@ -107,40 +110,6 @@ public class ControllerReviewNodeCollection {
 		return getControllerFor(id).getRating();
 	}
 	
-	//Comment
-	public boolean hasComments(String id) {
-		return getControllerFor(id).hasComments();
-	}
-	
-	public void setComments(String id, GVCommentList comments) {
-		getControllerFor(id).setComments(comments);
-	}
-	
-	public GVCommentList getComments(String id) {
-		return getControllerFor(id).getComments();
-	}
-	
-	public void deleteComments(String id) {
-		getControllerFor(id).deleteComments();
-	}
-	
-	//Facts
-	public boolean hasFacts(String id) {
-		return getControllerFor(id).hasFacts();
-	}
-	
-	public void deleteFacts(String id) {
-		getControllerFor(id).deleteFacts();
-	}
-	
-	public GVFactList getFacts(String id) {
-		return getControllerFor(id).getFacts();
-	}
-	
-	public void setFacts(String id, GVFactList facts) {
-		getControllerFor(id).setFacts(facts);
-	}
-
 	//Date
 	public Date getDate(String id) {
 		return getControllerFor(id).getDate();
@@ -150,55 +119,23 @@ public class ControllerReviewNodeCollection {
 		getControllerFor(id).setDate(date);
 	}
 
-	//Image
-	public boolean hasImages(String id) {
-		return getControllerFor(id).hasImages();
+	//Optional data
+	public boolean hasData(String id, GVType dataType) {
+		return getControllerFor(id).hasData(dataType);
 	}
 	
-	public GVImageList getImages(String id) {
-		return getControllerFor(id).getImages();
+	public <T extends GVReviewDataList<? extends GVData>> void setData(String id, T data) {
+		getControllerFor(id).setData(data);
 	}
 	
-	public void deleteImage(String id) {
-		getControllerFor(id).deleteImages();
-	}
-
-	
-	//Location
-	public boolean hasLocations(String id) {
-		return getControllerFor(id).hasLocations();
+	public GVReviewDataList<? extends GVData> getData(String id, GVType dataType) {
+		return getControllerFor(id).getData(dataType);
 	}
 	
-	public GVLocationList getLocations(String id) {
-		return getControllerFor(id).getLocations();
+	public void deleteData(String id, GVType dataType) {
+		getControllerFor(id).deleteData(dataType);
 	}
 	
-	public void setLocations(String id, GVLocationList locations) {
-		getControllerFor(id).setLocations(locations);
-	}
-	
-	public void deleteLocations(String id) {
-		getControllerFor(id).deleteLocations();
-	}
-	
-	//URL
-	public boolean hasURLs(String id) {
-		return getControllerFor(id).hasURLs();
-	}
-	
-	public GVUrlList getURLs(String id) {
-		return getControllerFor(id).getURLs();
-	}
-	
-	public void setURLs(String id, GVUrlList urls) {
-		getControllerFor(id).setURLs(urls);
-	}
-	
-	
-	public void deleteURLs(String id) {
-		getControllerFor(id).deleteURLs();
-	}
-
 	public GVCriterionList getGridViewiableData() {
 		GVCriterionList data = new GVCriterionList();
 		for(Review r : get())

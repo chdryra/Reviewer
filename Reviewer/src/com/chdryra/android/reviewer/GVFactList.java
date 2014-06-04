@@ -2,14 +2,16 @@ package com.chdryra.android.reviewer;
 
 import java.util.Comparator;
 
-import com.chdryra.android.mygenerallibrary.GVList;
+import com.chdryra.android.mygenerallibrary.GVDualString;
 import com.chdryra.android.mygenerallibrary.ViewHolder;
 
-public class GVFactList extends GVList<GVFactList.GVFact> {
+public class GVFactList extends GVReviewDataList<GVFactList.GVFact> {
 	
-	public GVFactList() {
+	@Override
+	public GVType getDataType() {
+		return GVType.FACTS;
 	}
-
+	
 	public void add(String label, String value) {
 		add(new GVFact(label, value));
 	}

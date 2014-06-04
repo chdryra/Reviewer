@@ -7,6 +7,7 @@ import android.widget.AdapterView;
 
 import com.chdryra.android.mygenerallibrary.ActivityResultCode;
 import com.chdryra.android.reviewer.GVCriterionList.GVCriterion;
+import com.chdryra.android.reviewer.GVReviewDataList.GVType;
 
 public class FragmentReviewChildren extends FragmentReviewGridAddEditDone<GVCriterion> {
 	public static final String CHILD_SUBJECT = "com.chdryra.android.reviewer.child_subject";
@@ -18,17 +19,10 @@ public class FragmentReviewChildren extends FragmentReviewGridAddEditDone<GVCrit
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
-		mReviewData = getController().getCollectionController().getGridViewiableData();
+		mReviewData = (GVCriterionList) setAndInitData(GVType.CRITERIA);
 		mTotalRatingIsAverage = getController().isReviewRatingAverage();
-
-		setDeleteWhatTitle(getResources().getString(R.string.activity_title_children));
-		
-		setGridViewData(mReviewData);
-		setGridCellDimension(CellDimension.HALF, CellDimension.QUARTER);
-	
+		setDeleteWhatTitle(getResources().getString(R.string.activity_title_children));		
 		setBannerButtonText(getResources().getString(R.string.button_add_criteria));
-		
 		setIsEditable(true);
 	}
 	
@@ -38,8 +32,7 @@ public class FragmentReviewChildren extends FragmentReviewGridAddEditDone<GVCrit
 	}
 	
 	@Override
-	protected void onGridItemClick(AdapterView<?> parent, View v, int position,
-			long id) {
+	protected void onGridItemClick(AdapterView<?> parent, View v, int position, long id) {
 		GVCriterion reviewData = (GVCriterion)parent.getItemAtPosition(position);
 		Bundle args = new Bundle();
 		args.putString(CHILD_SUBJECT, reviewData.getSubject());
@@ -84,13 +77,6 @@ public class FragmentReviewChildren extends FragmentReviewGridAddEditDone<GVCrit
 		}
 	}
 
-	@Override
-	protected void onDoneSelected() {
-		getController().getChildrenController().removeAll();
-		for(GVCriterion reviewData : mReviewData)
-			getController().getChildrenController().addChild(reviewData.getSubject(), reviewData.getRating());
-	}
-	
 	@Override
 	protected void onDeleteSelected() {
 		super.onDeleteSelected();		

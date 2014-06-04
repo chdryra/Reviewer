@@ -13,6 +13,9 @@ import com.chdryra.android.mygenerallibrary.DialogDeleteCancelDoneFragment;
 import com.chdryra.android.mygenerallibrary.LocationClientConnector;
 import com.chdryra.android.mygenerallibrary.LocationClientConnector.Locatable;
 import com.chdryra.android.mygenerallibrary.LocationNameAdapter;
+import com.chdryra.android.reviewer.GVImageList.GVImage;
+import com.chdryra.android.reviewer.GVLocationList.GVLocation;
+import com.chdryra.android.reviewer.GVReviewDataList.GVType;
 import com.google.android.gms.maps.model.LatLng;
 
 public class DialogLocationFragment extends DialogDeleteCancelDoneFragment implements Locatable{
@@ -29,15 +32,15 @@ public class DialogLocationFragment extends DialogDeleteCancelDoneFragment imple
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		mController = Controller.unpack(getArguments());
-		mLocationClient = new LocationClientConnector(getSherlockActivity(), this);
+		mLocationClient = new LocationClientConnector(getActivity(), this);
 		
 		setMiddleButtonAction(ActionType.OTHER);
 		setMiddleButtonText(getResources().getString(R.string.button_map_text));
 		setDismissDialogOnMiddleClick(true);
 		
-		setDialogTitle(getResources().getString(R.string.dialog_location_title));
+		setDialogTitle(getResources().getString(R.string.dialog_name_location_title));
 		setDeleteConfirmation(true);
-		setDeleteWhatTitle(getResources().getString(R.string.dialog_location_title));
+		setDeleteWhatTitle(getResources().getString(R.string.dialog_delete_location_title));
 	}
 	
 	@Override
@@ -45,16 +48,19 @@ public class DialogLocationFragment extends DialogDeleteCancelDoneFragment imple
 		View v = getActivity().getLayoutInflater().inflate(R.layout.dialog_location, null);
 		
 		mNameEditText = (ClearableEditText)v.findViewById(R.id.location_edit_text);
-		if(mController.hasLocations())
-			mLatLng = mController.getLocations().getItem(0).getLatLng();
-//		else if(mController.hasImageLatLng())
-//			mLatLng = mController.getImageLatLng();
+		if(mController.hasData(GVType.LOCATIONS)) {
+			GVLocation location = (GVLocation) mController.getData(GVType.LOCATIONS).getItem(0); 
+			mLatLng = location.getLatLng();
+			mNameEditText.setText(location.getName());
+		} else if(mController.getData(GVType.IMAGES).size() == 1) {
+			GVImage image = (GVImage)mController.getData(GVType.IMAGES).getItem(0);
+			LatLng latLng = image.getLatLng();
+			if(latLng != null)
+				mLatLng = latLng;
+		}
 		else
 			mLocationClient.connect();
-
-		if(mController.hasLocations())
-			mNameEditText.setText(mController.getLocations().getItem(0).getName());
-
+		
 		mNameEditText.addTextChangedListener(new TextWatcher() {
 			@Override
 			public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -100,24 +106,25 @@ public class DialogLocationFragment extends DialogDeleteCancelDoneFragment imple
 	@Override
 	protected void onDoneButtonClick() {
 		String locationName = mNameEditText.getText().toString();
-//		if(mLatLng != null && locationName.length() > 0)
-//			mController.setLocation(mLatLng, locationName);
-		super.onDoneButtonClick();
+		if(mLatLng != null) {
+			GVLocationList location = new GVLocationList();
+			location.add(mLatLng, locationName);
+			mController.setData(location);
+		}
 	}
 		
 	@Override
 	protected void onDeleteButtonClick() {
-		mController.deleteLocations();
-		super.onDeleteButtonClick();
+		mController.deleteData(GVType.LOCATIONS);
 	}
 	
 	@Override
 	protected boolean hasDataToDelete() {
-		return mController.hasLocations();
+		return mController.hasData(GVType.LOCATIONS);
 	}
 	
 	private void setSuggestionsAdapter() {
-		mAdapter = new LocationNameAdapter(getSherlockActivity(), android.R.layout.simple_list_item_1, mLatLng, 10, mController.getTitle());
+		mAdapter = new LocationNameAdapter(getActivity(), android.R.layout.simple_list_item_1, mLatLng, 10, mController.getTitle());
 		mLocationNameSuggestions.setAdapter(mAdapter);
 	}
 

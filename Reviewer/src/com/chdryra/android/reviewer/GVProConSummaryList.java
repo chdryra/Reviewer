@@ -1,22 +1,21 @@
 package com.chdryra.android.reviewer;
 
+import com.chdryra.android.mygenerallibrary.GVDualString;
 import com.chdryra.android.mygenerallibrary.GVList;
-import com.chdryra.android.mygenerallibrary.GVString;
 import com.chdryra.android.mygenerallibrary.ViewHolder;
+import com.chdryra.android.reviewer.GVProConList.GVProCon;
 
 public class GVProConSummaryList extends GVList<GVProConSummaryList.GVProConSummary> {
-	private GVProConList mPros = new GVProConList(true);
-	private GVProConList mCons = new GVProConList(false);
+	private GVProConList mPros = new GVProConList();
+	private GVProConList mCons = new GVProConList();
 	
 	public GVProConSummaryList(GVProConList pros, GVProConList cons) {
 		add(pros, cons);
 	}
 	
 	public void add(GVProConList pros, GVProConList cons) {
-		if(pros.isPros())
-			mPros.add(pros);
-		if(!cons.isPros())
-			mCons.add(cons);
+		mPros.add(pros);
+		mCons.add(cons);
 	}
 
 	@Override
@@ -32,14 +31,14 @@ public class GVProConSummaryList extends GVList<GVProConSummaryList.GVProConSumm
 		return new GVProConSummary(upper, lower);
 	}
 	
-	public GVString getFirstPro() {
+	public GVProCon getFirstPro() {
 		if(mPros.size() > 0)
 			return mPros.getItem(0);
 		else
 			return null;
 	}
 	
-	public GVString getFirstCon() {
+	public GVProCon getFirstCon() {
 		if(mCons.size() > 0)
 			return mCons.getItem(0);
 		else

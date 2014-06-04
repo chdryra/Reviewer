@@ -1,13 +1,13 @@
 package com.chdryra.android.reviewer;
 
+import com.chdryra.android.reviewer.GVReviewDataList.GVType;
+
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.chdryra.android.mygenerallibrary.DialogAddCancelDoneFragment;
-
-public class DialogCommentAddFragment extends DialogAddCancelDoneFragment{
+public class DialogCommentAddFragment extends DialogAddReviewDataFragment{
 	public static final String COMMENT = "com.chdryra.android.review.comment";
 	
 	private GVCommentList mComments;	
@@ -16,9 +16,8 @@ public class DialogCommentAddFragment extends DialogAddCancelDoneFragment{
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		mComments = Controller.unpack(getArguments()).getComments();
+		mComments = (GVCommentList) setAndInitData(GVType.COMMENTS);
 		setDialogTitle(getResources().getString(R.string.dialog_add_comments_title));
-		setAddOnDone(true);
 	}
 	
 	@Override

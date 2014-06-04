@@ -7,6 +7,7 @@ import android.widget.AdapterView;
 
 import com.chdryra.android.mygenerallibrary.ActivityResultCode;
 import com.chdryra.android.reviewer.GVLocationList.GVLocation;
+import com.chdryra.android.reviewer.GVReviewDataList.GVType;
 import com.google.android.gms.maps.model.LatLng;
 
 public class FragmentReviewLocations  extends FragmentReviewGridAddEditDone<GVLocation> {
@@ -19,14 +20,9 @@ public class FragmentReviewLocations  extends FragmentReviewGridAddEditDone<GVLo
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);	
-		
-		mLocations = getController().getLocations();
-		
+		mLocations = (GVLocationList) setAndInitData(GVType.LOCATIONS);
 		setDeleteWhatTitle(getResources().getString(R.string.dialog_delete_locations_title));
-		setGridViewData(mLocations);
-		setGridCellDimension(CellDimension.HALF, CellDimension.QUARTER);
 		setBannerButtonText(getResources().getString(R.string.button_add_location));
-		setIsEditable(true);
 	}
 
 	@Override
@@ -47,11 +43,6 @@ public class FragmentReviewLocations  extends FragmentReviewGridAddEditDone<GVLo
 		i.putExtra(SUBJECT, getController().getTitle());
 		startActivityForResult(i, requestCode);
 		
-	}
-	
-	@Override
-	protected void onDoneSelected() {
-		getController().setLocations(mLocations);
 	}
 	
 	@Override
