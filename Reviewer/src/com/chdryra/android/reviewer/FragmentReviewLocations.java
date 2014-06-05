@@ -42,9 +42,8 @@ public class FragmentReviewLocations  extends FragmentReviewGridAddEditDone<GVLo
 		i.putExtra(NAME, name);
 		i.putExtra(SUBJECT, getController().getTitle());
 		startActivityForResult(i, requestCode);
-		
 	}
-	
+
 	@Override
 	protected void addData(int resultCode, Intent data) {
 		switch(ActivityResultCode.get(resultCode)) {

@@ -19,7 +19,7 @@
             android:layout_gravity="center"
             android:gravity="center"
             android:layout_weight="1"
-            android:textColor="@color/Chartreuse" />
+            android:textColor="@color/WhiteSmoke" />
 
         <TextView
             android:id="@+id/cons_text_view "
@@ -29,7 +29,7 @@
             android:layout_gravity="center"
             android:gravity="center"
             android:layout_weight="1"
-            android:textColor="@color/Crimson" />
+            android:textColor="@color/WhiteSmoke" />
     </LinearLayout>
 
 </FrameLayout>

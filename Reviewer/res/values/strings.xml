@@ -35,7 +35,7 @@
     <string name="dialog_delete_procon_title">Pro/Con</string>
     <string name="dialog_delete_image_title">Image</string>
     <string name="dialog_delete_images_title">Images</string>
-    <string name="dialog_location_title">Location</string>
+    <string name="dialog_name_location_title">Name Location</string>
     <string name="dialog_delete_location_title">Location</string>
     <string name="dialog_delete_locations_title">Locations</string>
 
@@ -59,6 +59,8 @@
     <string name="text_view_date_hint">date</string>
     <string name="text_view_facts_hint">facts</string>
     <string name="text_view_number_children">(%1$d)</string>
+    <string name="text_view_pro_prefix">+</string>
+    <string name="text_view_con_prefix">-</string>
 
     <!-- EditTexts -->
     <string name="edit_text_subject_hint">subject</string>
@@ -137,6 +139,7 @@
     <string name="menu_item_search">search for location</string>
     <string name="menu_criteria_comments">criteria comments</string>
     <string name="menu_clear_comment">clear comment</string>
+    <string name="menu_average_rating">average rating</string>
 
     <!-- Toasts -->
     <string name="toast_enter_subject">Please enter a subject&#8230;</string>

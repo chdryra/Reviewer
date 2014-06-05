@@ -2,6 +2,7 @@ package com.chdryra.android.reviewer;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.DisplayMetrics;
@@ -17,9 +18,10 @@ import android.widget.TextView;
 
 import com.actionbarsherlock.view.MenuItem;
 import com.chdryra.android.mygenerallibrary.FragmentDeleteDone;
+import com.chdryra.android.mygenerallibrary.GVData;
 import com.chdryra.android.mygenerallibrary.GridViewCellAdapter;
 
-public abstract class FragmentReviewGridDouble extends FragmentDeleteDone{
+public abstract class FragmentReviewGridDouble<TLeft extends GVData, TRight extends GVData> extends FragmentDeleteDone{
 
 public enum CellDimension{FULL, HALF, QUARTER}; 
 
@@ -43,6 +45,8 @@ public enum CellDimension{FULL, HALF, QUARTER};
 
 	private boolean mIsEditable = false;
 	
+	private GVReviewDataList<TLeft> mGridDataLeft;
+	private GVReviewDataList<TRight> mGridDataRight;
 	
 	protected abstract GridViewCellAdapter getGridViewCellAdapterLeft();
 	protected abstract GridViewCellAdapter getGridViewCellAdapterRight();
@@ -208,6 +212,14 @@ public enum CellDimension{FULL, HALF, QUARTER};
 		return mIsEditable;
 	}
 	
+	protected void setGridViewDataLeft(GVReviewDataList<TLeft> gridData) {
+		mGridDataLeft = gridData;
+	}
+	
+	protected void setGridViewDataRight(GVReviewDataList<TRight> gridData) {
+		mGridDataRight = gridData;
+	}
+	
 	protected void onGridItemClickLeft(AdapterView<?> parent, View v, int position, long id) {
 		
 	}
@@ -282,6 +294,14 @@ public enum CellDimension{FULL, HALF, QUARTER};
 		return mSubjectView;
 	}
 	
+	protected String getSubjectText() {
+		return getSubjectView().getText().toString();
+	}
+	
+	protected float getRating() {
+		return getTotalRatingBar().getRating();
+	}
+	
 	protected RatingBar getTotalRatingBar() {
 		return mTotalRatingBar;
 	}
@@ -300,6 +320,14 @@ public enum CellDimension{FULL, HALF, QUARTER};
 
 	protected GridView getGridViewRight() {
 		return mGridViewRight;
+	}
+
+	protected GVReviewDataList<TLeft> getGridDataLeft() {
+		return mGridDataLeft;
+	}
+
+	protected GVReviewDataList<TRight> getGridDataRight() {
+		return mGridDataRight;
 	}
 
 	protected ControllerReviewNode getController() {
@@ -322,4 +350,31 @@ public enum CellDimension{FULL, HALF, QUARTER};
 		super.onActivityResult(requestCode, resultCode, data);
 		updateUI();
 	}
+	
+	@Override
+	protected void onDoneSelected() {
+		getController().setData(mGridDataLeft);
+		getController().setData(mGridDataRight);
+	}
+
+	@Override
+	protected void onDeleteSelected() {
+		mGridDataLeft.removeAll();
+		mGridDataRight.removeAll();
+	}
+	
+	@Override
+	protected boolean hasDataToDelete() {
+		return mGridDataLeft.size() > 0 || mGridDataRight.size() > 0;
+	}
+	
+	@Override
+	protected void onUpSelected() {
+		if (NavUtils.getParentActivityName(getSherlockActivity()) != null) {
+			Intent i = NavUtils.getParentActivityIntent(getSherlockActivity());
+			Controller.pack(getController(), i);
+			NavUtils.navigateUpTo(getActivity(), i);
+		}
+	}
+
 }

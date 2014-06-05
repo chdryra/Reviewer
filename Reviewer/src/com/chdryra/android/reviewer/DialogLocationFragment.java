@@ -1,5 +1,6 @@
 package com.chdryra.android.reviewer;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -8,8 +9,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.chdryra.android.myandroidwidgets.ClearableEditText;
-import com.chdryra.android.mygenerallibrary.ActivityResultCode;
-import com.chdryra.android.mygenerallibrary.DialogDeleteCancelDoneFragment;
+import com.chdryra.android.mygenerallibrary.DialogActionCancelDoneFragment;
 import com.chdryra.android.mygenerallibrary.LocationClientConnector;
 import com.chdryra.android.mygenerallibrary.LocationClientConnector.Locatable;
 import com.chdryra.android.mygenerallibrary.LocationNameAdapter;
@@ -18,8 +18,10 @@ import com.chdryra.android.reviewer.GVLocationList.GVLocation;
 import com.chdryra.android.reviewer.GVReviewDataList.GVType;
 import com.google.android.gms.maps.model.LatLng;
 
-public class DialogLocationFragment extends DialogDeleteCancelDoneFragment implements Locatable{
-	public static final ActivityResultCode RESULT_MAP = ActivityResultCode.OTHER;
+public class DialogLocationFragment extends DialogActionCancelDoneFragment implements Locatable{
+	public static final ActionType RESULT_MAP = ActionType.OTHER;
+	public final static String LATLNG = FragmentReviewLocationMap.LATLNG;
+	public final static String NAME = FragmentReviewLocationMap.NAME;
 	
 	private ControllerReviewNode mController;
 	private ClearableEditText mNameEditText;
@@ -33,14 +35,11 @@ public class DialogLocationFragment extends DialogDeleteCancelDoneFragment imple
 		super.onCreate(savedInstanceState);
 		mController = Controller.unpack(getArguments());
 		mLocationClient = new LocationClientConnector(getActivity(), this);
-		
-		setMiddleButtonAction(ActionType.OTHER);
-		setMiddleButtonText(getResources().getString(R.string.button_map_text));
-		setDismissDialogOnMiddleClick(true);
-		
+		mLocationClient.connect();
+		setLeftButtonAction(RESULT_MAP);
+		setLeftButtonText(getResources().getString(R.string.button_map_text));
+		setDismissDialogOnLeftClick(true);
 		setDialogTitle(getResources().getString(R.string.dialog_name_location_title));
-		setDeleteConfirmation(true);
-		setDeleteWhatTitle(getResources().getString(R.string.dialog_delete_location_title));
 	}
 	
 	@Override
@@ -58,8 +57,6 @@ public class DialogLocationFragment extends DialogDeleteCancelDoneFragment imple
 			if(latLng != null)
 				mLatLng = latLng;
 		}
-		else
-			mLocationClient.connect();
 		
 		mNameEditText.addTextChangedListener(new TextWatcher() {
 			@Override
@@ -114,13 +111,10 @@ public class DialogLocationFragment extends DialogDeleteCancelDoneFragment imple
 	}
 		
 	@Override
-	protected void onDeleteButtonClick() {
-		mController.deleteData(GVType.LOCATIONS);
-	}
-	
-	@Override
-	protected boolean hasDataToDelete() {
-		return mController.hasData(GVType.LOCATIONS);
+	protected void onActionButtonClick() {
+		Intent i = getNewReturnData();
+		i.putExtra(LATLNG, mLatLng);
+		i.putExtra(NAME, mNameEditText.getText().toString());
 	}
 	
 	private void setSuggestionsAdapter() {
@@ -137,5 +131,4 @@ public class DialogLocationFragment extends DialogDeleteCancelDoneFragment imple
 		mLatLng = latLng;
 		setSuggestionsAdapter();
 	}
-
 }

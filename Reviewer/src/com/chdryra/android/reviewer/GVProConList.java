@@ -2,7 +2,7 @@ package com.chdryra.android.reviewer;
 
 import java.util.Comparator;
 
-import com.chdryra.android.mygenerallibrary.GVData;
+import com.chdryra.android.mygenerallibrary.GVString;
 import com.chdryra.android.mygenerallibrary.ViewHolder;
 
 public class GVProConList extends GVReviewDataList<GVProConList.GVProCon> {
@@ -43,17 +43,12 @@ public class GVProConList extends GVReviewDataList<GVProConList.GVProCon> {
 		return GVType.PROCONS;
 	}	
 	
-	class GVProCon implements GVData {
-		private String mProCon;
+	class GVProCon extends GVString {
 		private boolean mIsPro;
 		
 		public GVProCon(String proCon, boolean isPro) {
-			mProCon = proCon;
+			super(proCon);
 			mIsPro = isPro;
-		}
-		
-		public String toString() {
-			return mProCon;
 		}
 		
 		public boolean isPro() {

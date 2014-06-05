@@ -1,5 +1,6 @@
 package com.chdryra.android.reviewer;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
@@ -19,12 +20,10 @@ import android.widget.TextView;
 import com.actionbarsherlock.view.MenuItem;
 import com.chdryra.android.mygenerallibrary.FragmentDeleteDone;
 import com.chdryra.android.mygenerallibrary.GVData;
-import com.chdryra.android.mygenerallibrary.GVList;
 import com.chdryra.android.mygenerallibrary.GridViewCellAdapter;
 
 public abstract class FragmentReviewGrid<T extends GVData> extends FragmentDeleteDone{
-
-public enum CellDimension{FULL, HALF, QUARTER}; 
+	public enum CellDimension{FULL, HALF, QUARTER}; 
 
 	private ControllerReviewNode mController;
 	
@@ -43,12 +42,20 @@ public enum CellDimension{FULL, HALF, QUARTER};
 	private String mBannerButtonText;
 
 	private GVReviewDataList<T> mGridData;
+	private boolean mReviewInProgress = false;
+	private Class<? extends Activity> mOnDoneActivity;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
 		mController = Controller.unpack(getActivity().getIntent().getExtras());
+		
+		if(mController == null) {
+			setController(Controller.addNewReviewInProgress());
+			mReviewInProgress = true;
+		}
+		
 		setGridCellDimension(CellDimension.HALF, CellDimension.QUARTER);
 		setBannerButtonText(getResources().getString(R.string.button_add_text));
 	}
@@ -84,6 +91,7 @@ public enum CellDimension{FULL, HALF, QUARTER};
 	
 	protected void initSubjectUI() {
 		if(isEditable()) {
+			getSubjectView().setFocusable(true);
 			getSubjectView().addTextChangedListener(new TextWatcher() {
 				@Override
 				public void onTextChanged(CharSequence s, int start, int before, int count) {}
@@ -97,18 +105,21 @@ public enum CellDimension{FULL, HALF, QUARTER};
 						getController().setTitle(s.toString());
 				}
 			});
-		}
+		} else
+			getSubjectView().setFocusable(false);
 	}
 	
 	protected void initRatingBarUI() {
 		if(isEditable()) {
+			getTotalRatingBar().setIsIndicator(false);
 			getTotalRatingBar().setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
 				@Override
 				public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
 						getController().setRating(rating);
 				}
 			});
-		}
+		} else
+			getTotalRatingBar().setIsIndicator(true);
 	}
 
 	protected void initBannerDataUI() {
@@ -227,6 +238,14 @@ public enum CellDimension{FULL, HALF, QUARTER};
 		return mSubjectView;
 	}
 	
+	protected String getSubjectText() {
+		return getSubjectView().getText().toString();
+	}
+	
+	protected float getRating() {
+		return getTotalRatingBar().getRating();
+	}
+	
 	protected RatingBar getTotalRatingBar() {
 		return mTotalRatingBar;
 	}
@@ -239,7 +258,7 @@ public enum CellDimension{FULL, HALF, QUARTER};
 		return mGridView;
 	}
 	
-	protected GVList<T> getGridData() {
+	protected GVReviewDataList<T> getGridData() {
 		return mGridData;
 	}
 
@@ -271,8 +290,18 @@ public enum CellDimension{FULL, HALF, QUARTER};
 	@Override
 	protected void onDoneSelected() {
 		getController().setData(mGridData);
+		
+		if(mOnDoneActivity != null) {
+			Intent i = new Intent(getActivity(), ActivityReviewEdit.class);
+			Controller.pack(getController(), i);
+			startActivity(i);
+		}
 	}
 
+	protected void setOnDoneActivity(Class<? extends Activity> onDoneActivity) {
+		mOnDoneActivity = onDoneActivity;
+	}
+	
 	@Override
 	protected void onDeleteSelected() {
 		mGridData.removeAll();
@@ -287,7 +316,8 @@ public enum CellDimension{FULL, HALF, QUARTER};
 	protected void onUpSelected() {
 		if (NavUtils.getParentActivityName(getSherlockActivity()) != null) {
 			Intent i = NavUtils.getParentActivityIntent(getSherlockActivity());
-			Controller.pack(getController(), i);
+			if(!mReviewInProgress)
+				Controller.pack(getController(), i);
 			NavUtils.navigateUpTo(getActivity(), i);
 		}
 	}

@@ -2,7 +2,6 @@ package com.chdryra.android.reviewer;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.NavUtils;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Toast;
@@ -14,23 +13,13 @@ import com.chdryra.android.reviewer.GVReviewDataList.GVType;
 public class FragmentReviewTags  extends FragmentReviewGridAddEditDone<GVString> {
 	public final static String TAG_STRING = "com.chdryra.android.reviewer.tag_string";
 	private GVTagList mTags;
-	private boolean mReviewInProgress = false;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);	
-		
-		if(getController() == null) {
-			setController(Controller.addNewReviewInProgress());
-			mReviewInProgress = true;
-		}
-		
 		mTags = (GVTagList) setAndInitData(GVType.TAGS);
-		
-		setDismissOnDone(false);
 		setDeleteWhatTitle(getResources().getString(R.string.dialog_delete_tags_title));
 		setBannerButtonText(getResources().getString(R.string.button_add_tag));
-		setIsEditable(true);
 	}
 
 	@Override
@@ -46,27 +35,15 @@ public class FragmentReviewTags  extends FragmentReviewGridAddEditDone<GVString>
 	}
 
 	@Override
-	protected void onUpSelected() {
-		if (NavUtils.getParentActivityName(getSherlockActivity()) != null) {
-			Intent i = NavUtils.getParentActivityIntent(getSherlockActivity());
-			if(!mReviewInProgress)
-				Controller.pack(getController(), i);
-			NavUtils.navigateUpTo(getActivity(), i);
-		}
-	}
-	
-	@Override
 	protected void onDoneSelected() {
 		if(mTags.size() == 0) {
 			Toast.makeText(getActivity(), R.string.toast_enter_tag, Toast.LENGTH_SHORT).show();
+			setDismissOnDone(false);
 			return;
-		}
-		
+		} else
+			setDismissOnDone(true);
+
 		super.onDoneSelected();
-		
-		Intent i = new Intent(getActivity(), ActivityReviewEdit.class);
-		Controller.pack(getController(), i);
-		startActivity(i);
 	}
 	
 	@Override

@@ -1,5 +1,7 @@
 package com.chdryra.android.reviewer;
 
+import java.net.URL;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Resources;
@@ -9,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 
+import com.chdryra.android.mygenerallibrary.ActivityResultCode;
 import com.chdryra.android.mygenerallibrary.FunctionPointer;
 import com.chdryra.android.mygenerallibrary.GVData;
 import com.chdryra.android.mygenerallibrary.GVDualString;
@@ -19,6 +22,7 @@ import com.chdryra.android.mygenerallibrary.VHStringView;
 import com.chdryra.android.mygenerallibrary.ViewHolder;
 import com.chdryra.android.reviewer.FragmentReviewOptions.GVCellManagerList.GVCellManager;
 import com.chdryra.android.reviewer.GVReviewDataList.GVType;
+import com.google.android.gms.maps.model.LatLng;
 
 public class FragmentReviewOptions extends FragmentReviewGrid<GVCellManager> {
 	private final static String DIALOG_TAG_TAG = "TagDialog";
@@ -34,6 +38,7 @@ public class FragmentReviewOptions extends FragmentReviewGrid<GVCellManager> {
 	public final static int IMAGE_ADD = 11;
 	public final static int LOCATION_REQUEST = 20;
 	public final static int LOCATION_ADD = 21;
+	public final static int LOCATION_MAP = 22;
 	public final static int COMMENT_REQUEST = 30;
 	public final static int COMMENT_ADD = 31;
 	public final static int FACTS_REQUEST = 40;
@@ -47,7 +52,7 @@ public class FragmentReviewOptions extends FragmentReviewGrid<GVCellManager> {
 	public final static int PROSCONS_ADD = 71;
 	public final static int TAGS_REQUEST = 80;
 	public final static int TAGS_ADD = 81;
-	
+
 	private GVCellManagerList mCellManagerList;
 	private HelperReviewImage mHelperReviewImage;
 	
@@ -152,7 +157,6 @@ public class FragmentReviewOptions extends FragmentReviewGrid<GVCellManager> {
 	
 	private ViewHolder getDatumViewHolder(GVType dataType) {
 		if(dataType == GVType.TAGS) return new VHTagView(); 
-		if(dataType == GVType.PROCONS) return new VHProConSummaryView();
 		if(dataType == GVType.CRITERIA) return new VHReviewNodeCollection();
 		if(dataType == GVType.COMMENTS) return new VHCommentView();
 		if(dataType == GVType.IMAGES) return new VHImageView();
@@ -181,6 +185,12 @@ public class FragmentReviewOptions extends FragmentReviewGrid<GVCellManager> {
 		startActivityForResult(i, requestCode);
 	}
 
+	private <T> void requestIntent(Class<T> c, int requestCode, Intent data) {
+		Intent i = new Intent(getActivity(), c);
+		i.putExtras(data);
+		startActivityForResult(i, requestCode);
+	}
+
 	private void showQuickDialog(DialogFragment dialog, int requestCode, String tag) {
 		dialog.setTargetFragment(FragmentReviewOptions.this, requestCode);
 		Bundle args = Controller.pack(getController());
@@ -198,14 +208,32 @@ public class FragmentReviewOptions extends FragmentReviewGrid<GVCellManager> {
 
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		ActivityResultCode resCode = ActivityResultCode.get(resultCode);
 		switch (requestCode) {
 		case IMAGE_REQUEST:	
 			if(mHelperReviewImage.processOnActivityResult(getActivity(), resultCode, data))
 				addImage();
 			break;
+		case LOCATION_ADD:
+			if(resCode.equals(DialogLocationFragment.RESULT_MAP.getResultCode()))
+				requestIntent(ActivityReviewLocationMap.class, LOCATION_MAP, data);
+			break;
+		case URL_ADD:
+			if(resCode.equals(DialogURLFragment.RESULT_BROWSE.getResultCode()))
+				requestIntent(ActivityReviewURLBrowser.class, URL_BROWSE, data);
+			break;
+		case LOCATION_MAP:
+			if(resCode.equals(ActivityResultCode.DONE))
+				addLocation(data);
+			break;
+		case URL_BROWSE:
+			if(resCode.equals(ActivityResultCode.DONE))
+				addURL(data);
+			break;
 		default:
 			super.onActivityResult(requestCode, resultCode, data);
 		}
+		updateUI();
 	}
 	
 	private void addImage() {
@@ -217,6 +245,25 @@ public class FragmentReviewOptions extends FragmentReviewGrid<GVCellManager> {
 				updateUI();
 			}
 		});
+	}
+	
+	private void addLocation(Intent data) {
+		LatLng latLng = data.getParcelableExtra(FragmentReviewLocationMap.LATLNG);
+		String name = (String)data.getSerializableExtra(FragmentReviewLocationMap.NAME);
+		if(latLng != null && name != null) {
+			GVLocationList list = new GVLocationList();
+			list.add(latLng, name);
+			getController().setData(list);
+		}
+	}
+	
+	private void addURL(Intent data) {
+		URL url = (URL)data.getSerializableExtra(FragmentReviewURLBrowser.URL);
+		if(url != null) {
+			GVUrlList urls = new GVUrlList();
+			urls.add(url);
+			getController().setData(urls);
+		}
 	}
 	
 	@Override
@@ -270,12 +317,14 @@ public class FragmentReviewOptions extends FragmentReviewGrid<GVCellManager> {
 			
 			public View updateView(ViewGroup parent) {
 				int size = getController().getData(mDataType).size();
+				
 				if(size == 0)
 					return getNoDatumView(parent);
-				else if(size == 1)
-					return getSingleDatumView(parent, 0);
+
+				if(mDataType == GVType.PROCONS)
+					return getProConSummaryView(parent);
 				else
-					return getMultiDataView(parent);
+					return size == 1? getSingleDatumView(parent, 0) : getMultiDataView(parent);
 			}
 			
 			public View getNoDatumView(ViewGroup parent) {
@@ -297,6 +346,29 @@ public class FragmentReviewOptions extends FragmentReviewGrid<GVCellManager> {
 				ViewHolder vh = new VHDualStringView();
 				vh.inflate(getActivity(), parent);
 				return vh.updateView(new GVDualString(String.valueOf(getController().getData(mDataType).size()), getDataString(mDataType)));
+			}
+			
+			public View getProConSummaryView(ViewGroup parent) {
+				GVProConList pros = (GVProConList) getController().getData(GVType.PROS);
+				GVProConList cons = (GVProConList) getController().getData(GVType.CONS);
+				
+				String proString = getResources().getString(R.string.text_view_pro_prefix);
+				String conString = getResources().getString(R.string.text_view_con_prefix);
+				
+				if(pros.size() == 0)
+					proString += getResources().getString(R.string.pros);
+				else
+					proString += pros.size() == 1? pros.getItem(0).toString() : String.valueOf(pros.size()) + " " + getResources().getString(R.string.pros);
+				
+				if(cons.size() == 0)
+					conString += getResources().getString(R.string.cons);
+				else
+					conString += cons.size() == 1? cons.getItem(0).toString() : String.valueOf(cons.size()) + " " + getResources().getString(R.string.cons);
+				
+				ViewHolder vh = new VHDualStringView();
+				vh.inflate(getActivity(), parent);
+				
+				return vh.updateView(new GVDualString(proString, conString));
 			}
 		}
 
