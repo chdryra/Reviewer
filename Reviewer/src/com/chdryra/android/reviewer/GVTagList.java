@@ -7,6 +7,10 @@ import com.chdryra.android.mygenerallibrary.ViewHolder;
 
 public class GVTagList extends GVReviewDataList<GVString> {
 
+	public GVTagList() {
+		super(GVType.TAGS);
+	}
+	
 	public void add(String string) {
 		if(string != null && string.length() > 0)
 			mData.add(new GVString(string));
@@ -29,11 +33,6 @@ public class GVTagList extends GVReviewDataList<GVString> {
 				return lhs.toString().compareTo(rhs.toString());
 			}
 		};
-	}
-
-	@Override
-	public GVType getDataType() {
-		return GVType.TAGS;
 	}
 	
 	@Override

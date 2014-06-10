@@ -8,18 +8,9 @@ import com.google.android.gms.maps.model.LatLng;
 public class GVLocationList extends GVReviewDataList<GVLocationList.GVLocation> {
 	
 	public GVLocationList() {
+		super(GVType.LOCATIONS);
 	}
 	
-	@Override
-	public GVType getDataType() {
-		return GVType.LOCATIONS;
-	}
-	
-	public GVLocationList(GVLocationList locations) {
-		for(GVLocation location : locations)
-			add(location);
-	}
-
 	public void add(LatLng latLng, String name) {
 		add(new GVLocation(latLng, name));
 	}

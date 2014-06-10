@@ -14,10 +14,12 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.GridView;
+import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.actionbarsherlock.view.MenuItem;
+import com.chdryra.android.myandroidwidgets.ClearableEditText;
 import com.chdryra.android.mygenerallibrary.FragmentDeleteDone;
 import com.chdryra.android.mygenerallibrary.GVData;
 import com.chdryra.android.mygenerallibrary.GridViewCellAdapter;
@@ -27,6 +29,7 @@ public abstract class FragmentReviewGrid<T extends GVData> extends FragmentDelet
 
 	private ControllerReviewNode mController;
 	
+	private LinearLayout mLayout;
 	private TextView mSubjectView;
 	private RatingBar mTotalRatingBar;
 	private Button mBannerButton;
@@ -43,6 +46,7 @@ public abstract class FragmentReviewGrid<T extends GVData> extends FragmentDelet
 
 	private GVReviewDataList<T> mGridData;
 	private boolean mReviewInProgress = false;
+	private boolean mCancelUpdateUIOnActivityResult = false;
 	private Class<? extends Activity> mOnDoneActivity;
 	
 	@Override
@@ -65,8 +69,9 @@ public abstract class FragmentReviewGrid<T extends GVData> extends FragmentDelet
 		super.onCreateView(inflater, container, savedInstanceState);
 		
 		View v = inflater.inflate(R.layout.fragment_review_grid, container, false);			
-
-		mSubjectView = (TextView)v.findViewById(R.id.review_subject_edit_text);
+		
+		mLayout = (LinearLayout)v.findViewById(R.id.review_grid_linearlayout);
+		mSubjectView = (ClearableEditText)v.findViewById(R.id.review_subject_edit_text);
 		mTotalRatingBar = (RatingBar)v.findViewById(R.id.total_rating_bar);
 		mBannerButton = (Button)v.findViewById(R.id.banner_button);
 		mGridView = (GridView)v.findViewById(R.id.data_gridview);
@@ -92,6 +97,7 @@ public abstract class FragmentReviewGrid<T extends GVData> extends FragmentDelet
 	protected void initSubjectUI() {
 		if(isEditable()) {
 			getSubjectView().setFocusable(true);
+			((ClearableEditText)getSubjectView()).makeClearable(true);
 			getSubjectView().addTextChangedListener(new TextWatcher() {
 				@Override
 				public void onTextChanged(CharSequence s, int start, int before, int count) {}
@@ -105,8 +111,10 @@ public abstract class FragmentReviewGrid<T extends GVData> extends FragmentDelet
 						getController().setTitle(s.toString());
 				}
 			});
-		} else
+		} else {
 			getSubjectView().setFocusable(false);
+			((ClearableEditText)getSubjectView()).makeClearable(false);
+		}
 	}
 	
 	protected void initRatingBarUI() {
@@ -234,6 +242,10 @@ public abstract class FragmentReviewGrid<T extends GVData> extends FragmentDelet
 		return mCellWidthDivider;
 	}
 	
+	protected LinearLayout getLayout() {
+		return mLayout;
+	}
+	
 	protected TextView getSubjectView() {
 		return mSubjectView;
 	}
@@ -277,16 +289,21 @@ public abstract class FragmentReviewGrid<T extends GVData> extends FragmentDelet
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		boolean ret = super.onOptionsItemSelected(item);
-		updateUI();
 		return ret;
 	}
 	
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-		updateUI();
+		if(!mCancelUpdateUIOnActivityResult)
+			updateUI();
+		mCancelUpdateUIOnActivityResult = false;
 	}
 	
+	public void cancelUpdateUIOnActivityResult() {
+		mCancelUpdateUIOnActivityResult = true;
+	}
+		
 	@Override
 	protected void onDoneSelected() {
 		getController().setData(mGridData);

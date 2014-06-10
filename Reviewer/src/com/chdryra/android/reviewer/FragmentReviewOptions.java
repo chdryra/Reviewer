@@ -2,15 +2,18 @@ package com.chdryra.android.reviewer;
 
 import java.net.URL;
 
-import android.app.Activity;
+import android.annotation.TargetApi;
 import android.content.Intent;
-import android.content.res.Resources;
+import android.graphics.drawable.BitmapDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
 import com.chdryra.android.mygenerallibrary.ActivityResultCode;
 import com.chdryra.android.mygenerallibrary.FunctionPointer;
 import com.chdryra.android.mygenerallibrary.GVData;
@@ -21,38 +24,15 @@ import com.chdryra.android.mygenerallibrary.VHDualStringView;
 import com.chdryra.android.mygenerallibrary.VHStringView;
 import com.chdryra.android.mygenerallibrary.ViewHolder;
 import com.chdryra.android.reviewer.FragmentReviewOptions.GVCellManagerList.GVCellManager;
+import com.chdryra.android.reviewer.GVImageList.GVImage;
 import com.chdryra.android.reviewer.GVReviewDataList.GVType;
+import com.chdryra.android.reviewer.ReviewDataOptions.ReviewDataOption;
 import com.google.android.gms.maps.model.LatLng;
 
 public class FragmentReviewOptions extends FragmentReviewGrid<GVCellManager> {
-	private final static String DIALOG_TAG_TAG = "TagDialog";
-	private final static String DIALOG_COMMENT_TAG = "CommentDialog";
-	private final static String DIALOG_IMAGE_TAG = "ImageDialog";
-	private final static String DIALOG_LOCATION_TAG = "LocationDialog";
-	private final static String DIALOG_URL_TAG = "URLDialog";
-	private final static String DIALOG_CHILD_TAG = "ChildDialog";
-	private final static String DIALOG_FACTS_TAG = "FactsDialog";
-	private final static String DIALOG_PROSCONS_TAG = "ProConDialog";
-	
-	public final static int IMAGE_REQUEST = 10;
-	public final static int IMAGE_ADD = 11;
-	public final static int LOCATION_REQUEST = 20;
-	public final static int LOCATION_ADD = 21;
 	public final static int LOCATION_MAP = 22;
-	public final static int COMMENT_REQUEST = 30;
-	public final static int COMMENT_ADD = 31;
-	public final static int FACTS_REQUEST = 40;
-	public final static int FACTS_ADD = 41;
-	public final static int URL_REQUEST = 50;
-	public final static int URL_ADD = 51;
 	public final static int URL_BROWSE = 52;
-	public final static int CHILDREN_REQUEST = 60;
-	public final static int CHILDREN_ADD = 61;
-	public final static int PROSCONS_REQUEST = 70;
-	public final static int PROSCONS_ADD = 71;
-	public final static int TAGS_REQUEST = 80;
-	public final static int TAGS_ADD = 81;
-
+	
 	private GVCellManagerList mCellManagerList;
 	private HelperReviewImage mHelperReviewImage;
 	
@@ -67,6 +47,26 @@ public class FragmentReviewOptions extends FragmentReviewGrid<GVCellManager> {
 		setDismissOnDone(false);
 		setBannerButtonText(getResources().getString(R.string.button_add_review_data));
 		setIsEditable(true);
+	}
+
+	@Override
+	protected void updateUI() {
+		super.updateUI();
+		updateBackground();
+	}
+	
+	@SuppressWarnings("deprecation")
+	@TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+	private void updateBackground() {
+		if(getController().hasData(GVType.IMAGES)) {
+			GVImage image = (GVImage) getController().getData(GVType.IMAGES).getItem(0);
+			BitmapDrawable bitmap = new BitmapDrawable(getResources(), image.getBitmap());
+			if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+				getLayout().setBackground(bitmap);
+			} else {
+				getLayout().setBackgroundDrawable(bitmap);
+			}
+		}
 	}
 	
 	@Override
@@ -86,87 +86,14 @@ public class FragmentReviewOptions extends FragmentReviewGrid<GVCellManager> {
 	}
 	
 	@Override
-	protected void onDeleteSelected() {
+	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+		inflater.inflate(R.menu.fragment_review_options, menu);
 	}
 
-	private DialogFragment getDialogFragment(GVType dataType) {
-		if(dataType == GVType.TAGS) return new DialogTagAddFragment(); 
-		if(dataType == GVType.PROCONS) return new DialogProAndConAddFragment();
-		if(dataType == GVType.CRITERIA) return new DialogChildAddFragment();
-		if(dataType == GVType.COMMENTS) return new DialogCommentAddFragment();
-		if(dataType == GVType.IMAGES) return new DialogImageEditFragment();
-		if(dataType == GVType.FACTS) return new DialogFactAddFragment();
-		if(dataType == GVType.LOCATIONS) return new DialogLocationFragment();
-		if(dataType == GVType.URLS) return new DialogURLFragment();
-		
-		return null;
+	private ReviewDataOption getOption(GVType dataType) {
+		return ReviewDataOptions.get(dataType);
 	}
 	
-	private Class<? extends Activity> getRequestDataClass(GVType dataType) {
-		if(dataType == GVType.TAGS) return ActivityReviewTags.class;
-		if(dataType == GVType.PROCONS) return ActivityReviewProsCons.class;
-		if(dataType == GVType.CRITERIA) return ActivityReviewChildren.class;
-		if(dataType == GVType.COMMENTS) return ActivityReviewComments.class;
-		if(dataType == GVType.IMAGES) return ActivityReviewImages.class;
-		if(dataType == GVType.FACTS) return ActivityReviewFacts.class;
-		if(dataType == GVType.LOCATIONS) return ActivityReviewLocations.class;
-		if(dataType == GVType.URLS) return ActivityReviewURLs.class;
-		
-		return null;
-	}
-	
-	private int getRequestCode(GVType dataType, boolean isDialog) {
-		if(dataType == GVType.TAGS) return isDialog? TAGS_ADD : TAGS_REQUEST;
-		if(dataType == GVType.PROCONS) return isDialog? PROSCONS_ADD : PROSCONS_REQUEST;
-		if(dataType == GVType.CRITERIA) return isDialog? CHILDREN_ADD : CHILDREN_REQUEST;
-		if(dataType == GVType.COMMENTS) return isDialog? COMMENT_ADD : COMMENT_REQUEST;
-		if(dataType == GVType.IMAGES) return isDialog? IMAGE_ADD : IMAGE_REQUEST;
-		if(dataType == GVType.FACTS) return isDialog? FACTS_ADD : FACTS_REQUEST;
-		if(dataType == GVType.LOCATIONS) return isDialog? LOCATION_ADD : LOCATION_REQUEST;
-		if(dataType == GVType.URLS) return isDialog? URL_ADD : URL_REQUEST;
-		
-		return 0;
-	}
-
-	private String getDialogTag(GVType dataType) {
-		if(dataType == GVType.TAGS) return DIALOG_TAG_TAG;
-		if(dataType == GVType.PROCONS) return DIALOG_PROSCONS_TAG;
-		if(dataType == GVType.CRITERIA) return DIALOG_CHILD_TAG;
-		if(dataType == GVType.COMMENTS) return DIALOG_COMMENT_TAG;
-		if(dataType == GVType.IMAGES) return DIALOG_IMAGE_TAG;
-		if(dataType == GVType.FACTS) return DIALOG_FACTS_TAG;
-		if(dataType == GVType.LOCATIONS) return DIALOG_LOCATION_TAG;
-		if(dataType == GVType.URLS) return DIALOG_URL_TAG;
-		
-		return null;
-	}
-	
-	private String getDataString(GVType dataType) {
-		Resources r = getResources();
-		if(dataType == GVType.TAGS) return r.getString(R.string.tags); 
-		if(dataType == GVType.PROCONS) return r.getString(R.string.procons);
-		if(dataType == GVType.CRITERIA) return r.getString(R.string.criteria);
-		if(dataType == GVType.COMMENTS) return r.getString(R.string.comments);
-		if(dataType == GVType.IMAGES) return r.getString(R.string.images);
-		if(dataType == GVType.FACTS) return r.getString(R.string.facts);
-		if(dataType == GVType.LOCATIONS) return r.getString(R.string.locations);
-		if(dataType == GVType.URLS) return r.getString(R.string.links);
-		
-		return null;	
-	}
-	
-	private ViewHolder getDatumViewHolder(GVType dataType) {
-		if(dataType == GVType.TAGS) return new VHTagView(); 
-		if(dataType == GVType.CRITERIA) return new VHReviewNodeCollection();
-		if(dataType == GVType.COMMENTS) return new VHCommentView();
-		if(dataType == GVType.IMAGES) return new VHImageView();
-		if(dataType == GVType.FACTS) return new VHFactView();
-		if(dataType == GVType.LOCATIONS) return new VHLocationView(true);
-		if(dataType == GVType.URLS) return new VHUrlView();
-		
-		return null;	
-	}
-
 	private void initCellManagerList() {
 		mCellManagerList = new GVCellManagerList();
 		mCellManagerList.add(GVType.TAGS);
@@ -179,10 +106,10 @@ public class FragmentReviewOptions extends FragmentReviewGrid<GVCellManager> {
 		mCellManagerList.add(GVType.URLS);
 	}
 	
-	private <T> void requestIntent(Class<T> c, int requestCode) {
-		Intent i = new Intent(getActivity(), c);
+	private void requestIntent(ReviewDataOption option) {
+		Intent i = new Intent(getActivity(), option.getActivityRequestClass());
 		Controller.pack(getController(), i);
-		startActivityForResult(i, requestCode);
+		startActivityForResult(i, option.getActivityRequestCode());
 	}
 
 	private <T> void requestIntent(Class<T> c, int requestCode, Intent data) {
@@ -191,46 +118,42 @@ public class FragmentReviewOptions extends FragmentReviewGrid<GVCellManager> {
 		startActivityForResult(i, requestCode);
 	}
 
-	private void showQuickDialog(DialogFragment dialog, int requestCode, String tag) {
-		dialog.setTargetFragment(FragmentReviewOptions.this, requestCode);
+	private void showQuickDialog(ReviewDataOption option) {
+		DialogFragment dialog = option.getDialogFragment();
+		dialog.setTargetFragment(FragmentReviewOptions.this, option.getDialogRequestCode());
 		Bundle args = Controller.pack(getController());
 		args.putBoolean(DialogAddReviewDataFragment.QUICK_SET, true);
 		dialog.setArguments(args);
-		dialog.show(getFragmentManager(), tag);
+		dialog.show(getFragmentManager(), option.getDialogTag());
 	}
 	
 	private void showQuickImageDialog() {
 		if(mHelperReviewImage == null)
 			mHelperReviewImage = HelperReviewImage.getInstance(getController());
 		
-        startActivityForResult(mHelperReviewImage.getImageChooserIntents(getActivity()), IMAGE_REQUEST);
+        startActivityForResult(mHelperReviewImage.getImageChooserIntents(getActivity()), 
+        		getOption(GVType.IMAGES).getActivityRequestCode());
 	}
 
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		ActivityResultCode resCode = ActivityResultCode.get(resultCode);
-		switch (requestCode) {
-		case IMAGE_REQUEST:	
+		if (requestCode == getOption(GVType.IMAGES).getActivityRequestCode()) {
 			if(mHelperReviewImage.processOnActivityResult(getActivity(), resultCode, data))
 				addImage();
-			break;
-		case LOCATION_ADD:
+		} else if (requestCode == getOption(GVType.LOCATIONS).getDialogRequestCode()) {
 			if(resCode.equals(DialogLocationFragment.RESULT_MAP.getResultCode()))
 				requestIntent(ActivityReviewLocationMap.class, LOCATION_MAP, data);
-			break;
-		case URL_ADD:
+		} else if (requestCode == getOption(GVType.URLS).getDialogRequestCode()) {
 			if(resCode.equals(DialogURLFragment.RESULT_BROWSE.getResultCode()))
 				requestIntent(ActivityReviewURLBrowser.class, URL_BROWSE, data);
-			break;
-		case LOCATION_MAP:
+		} else if (requestCode == LOCATION_MAP) {
 			if(resCode.equals(ActivityResultCode.DONE))
 				addLocation(data);
-			break;
-		case URL_BROWSE:
+		} else if (requestCode == URL_BROWSE) {
 			if(resCode.equals(ActivityResultCode.DONE))
 				addURL(data);
-			break;
-		default:
+		} else {
 			super.onActivityResult(requestCode, resultCode, data);
 		}
 		updateUI();
@@ -287,7 +210,10 @@ public class FragmentReviewOptions extends FragmentReviewGrid<GVCellManager> {
 	}
 	
 	class GVCellManagerList extends GVReviewDataList<GVCellManagerList.GVCellManager> {
-
+		public GVCellManagerList() {
+			super(null);
+		}
+		
 		private void add(GVType dataType) {
 			add(new GVCellManager(dataType));
 		}
@@ -304,10 +230,10 @@ public class FragmentReviewOptions extends FragmentReviewGrid<GVCellManager> {
 					if(mDataType == GVType.IMAGES)
 						showQuickImageDialog();
 					else
-						showQuickDialog(getDialogFragment(mDataType), getRequestCode(mDataType, true), getDialogTag(mDataType));
+						showQuickDialog(getOption(mDataType));
 				}
 				else
-					requestIntent(getRequestDataClass(mDataType), getRequestCode(mDataType, false));
+					requestIntent(getOption(mDataType));
 			}
 
 			@Override
@@ -330,14 +256,14 @@ public class FragmentReviewOptions extends FragmentReviewGrid<GVCellManager> {
 			public View getNoDatumView(ViewGroup parent) {
 				ViewHolder vh = new VHStringView(R.layout.grid_cell_options, R.id.text_view);
 				vh.inflate(getActivity(), parent);
-				return vh.updateView(new GVString(getDataString(mDataType)));
+				return vh.updateView(new GVString(mDataType.getDataString()));
 			}
 
 			public View getSingleDatumView(ViewGroup parent, int position) {
 				if(position > getController().getData(mDataType).size())
 					return getNoDatumView(parent);
 
-				ViewHolder vh = getDatumViewHolder(mDataType);
+				ViewHolder vh = getOption(mDataType).getViewHolder();
 				vh.inflate(getActivity(), parent);
 				return vh.updateView(getController().getData(mDataType).getItem(position));
 			}
@@ -345,7 +271,7 @@ public class FragmentReviewOptions extends FragmentReviewGrid<GVCellManager> {
 			public View getMultiDataView(ViewGroup parent) {
 				ViewHolder vh = new VHDualStringView();
 				vh.inflate(getActivity(), parent);
-				return vh.updateView(new GVDualString(String.valueOf(getController().getData(mDataType).size()), getDataString(mDataType)));
+				return vh.updateView(new GVDualString(String.valueOf(getController().getData(mDataType).size()), mDataType.getDataString()));
 			}
 			
 			public View getProConSummaryView(ViewGroup parent) {
@@ -356,25 +282,20 @@ public class FragmentReviewOptions extends FragmentReviewGrid<GVCellManager> {
 				String conString = getResources().getString(R.string.text_view_con_prefix);
 				
 				if(pros.size() == 0)
-					proString += getResources().getString(R.string.pros);
+					proString += GVType.PROS.getDataString();
 				else
-					proString += pros.size() == 1? pros.getItem(0).toString() : String.valueOf(pros.size()) + " " + getResources().getString(R.string.pros);
+					proString += pros.size() == 1? pros.getItem(0).toString() : String.valueOf(pros.size()) + " " + GVType.PROS.getDataString();
 				
 				if(cons.size() == 0)
-					conString += getResources().getString(R.string.cons);
+					conString += GVType.CONS.getDataString();
 				else
-					conString += cons.size() == 1? cons.getItem(0).toString() : String.valueOf(cons.size()) + " " + getResources().getString(R.string.cons);
+					conString += cons.size() == 1? cons.getItem(0).toString() : String.valueOf(cons.size()) + " " + GVType.CONS.getDataString();
 				
 				ViewHolder vh = new VHDualStringView();
 				vh.inflate(getActivity(), parent);
 				
 				return vh.updateView(new GVDualString(proString, conString));
 			}
-		}
-
-		@Override
-		public GVType getDataType() {
-			return null;
 		}
 	}
 }

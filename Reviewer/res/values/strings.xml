@@ -158,6 +158,7 @@
     <string name="toast_no_image_gps_tag">No image GPS tag&#8230;</string>
     <string name="toast_enter_procon">Please enter a pro or con&#8230;</string>
     <string name="toast_enter_tag">Please enter at least one tag to help categorise it&#8230;</string>
+    <string name="toast_enter_location">Please enter a location name&#8230;</string>
 
     <!-- Social -->
     <string name="facebook">facebook</string>
@@ -170,7 +171,8 @@
     <!-- URLs -->
     <string name="google_search">http://www.google.com</string>
 
-    <!-- Review Data List -->
+    <!-- 
+    Review Data List 
     <string name="comment">comment</string>
     <string name="comments">comments</string>
     <string name="image">image</string>
@@ -191,6 +193,6 @@
     <string name="fact">fact</string>
     <string name="facts">facts</string>
     
-    
+     -->
 
 </resources>

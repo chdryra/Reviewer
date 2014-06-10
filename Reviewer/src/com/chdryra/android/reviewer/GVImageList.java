@@ -9,16 +9,7 @@ import com.google.android.gms.maps.model.LatLng;
 public class GVImageList extends GVReviewDataList<GVImageList.GVImage> {
 	
 	public GVImageList() {
-	}
-
-	@Override
-	public GVType getDataType() {
-		return GVType.IMAGES;
-	}
-	
-	public GVImageList(GVImageList images) {
-		for(GVImage image : images)
-			add(image);
+		super(GVType.IMAGES);
 	}
 
 	public void add(Bitmap bitmap, LatLng latLng, String caption) {

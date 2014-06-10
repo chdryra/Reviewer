@@ -117,7 +117,6 @@ public class FragmentReviewChildren extends FragmentReviewGridAddEditDone<GVCrit
 		default:
 			return super.onOptionsItemSelected(item);
 		}
-		
 	}
 	
 	@Override
@@ -125,6 +124,7 @@ public class FragmentReviewChildren extends FragmentReviewGridAddEditDone<GVCrit
 		if(getSubjectText().length() == 0) {
 			Toast.makeText(getActivity(), R.string.toast_enter_subject, Toast.LENGTH_SHORT).show();
 			setDismissOnDone(false);
+			cancelUpdateUIOnActivityResult();
 			return;
 		} else
 			setDismissOnDone(true);

@@ -7,9 +7,8 @@ import com.chdryra.android.mygenerallibrary.ViewHolder;
 
 public class GVCriterionList extends GVReviewDataList<GVCriterionList.GVCriterion> {
 	
-	@Override
-	public GVType getDataType() {
-		return GVType.CRITERIA;
+	public GVCriterionList() {
+		super(GVType.CRITERIA);
 	}
 	
 	public void add(String subject, float rating) {

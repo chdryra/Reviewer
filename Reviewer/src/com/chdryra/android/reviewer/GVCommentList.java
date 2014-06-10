@@ -5,9 +5,8 @@ import com.chdryra.android.mygenerallibrary.ViewHolder;
 
 public class GVCommentList extends GVReviewDataList<GVCommentList.GVComment> {
 
-	@Override
-	public GVType getDataType() {
-		return GVType.COMMENTS;
+	public GVCommentList() {
+		super(GVType.COMMENTS);
 	}
 	
 	public void add(String comment) {

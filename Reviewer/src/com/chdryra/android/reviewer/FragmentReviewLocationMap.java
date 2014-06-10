@@ -15,6 +15,7 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
@@ -177,6 +178,13 @@ public class FragmentReviewLocationMap extends FragmentDeleteDone implements Loc
 	
 	@Override
 	protected void onDoneSelected() {
+		if(mLocationName.length() == 0) {
+			Toast.makeText(getActivity(), R.string.toast_enter_location, Toast.LENGTH_SHORT).show();
+			setDismissOnDone(false);
+			return;
+		} else
+			setDismissOnDone(true);
+
 		Intent i = getNewReturnData();
 		i.putExtra(LATLNG, mLatLng);
 		i.putExtra(LATLNG_OLD, mRevertLatLng);

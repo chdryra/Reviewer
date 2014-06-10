@@ -7,6 +7,10 @@ import com.chdryra.android.mygenerallibrary.ViewHolder;
 
 public class GVProConList extends GVReviewDataList<GVProConList.GVProCon> {
 	
+	public GVProConList() {
+		super(GVType.PROCONS);
+	}
+	
 	public void add(String string, boolean isPro) {
 		if(string != null && string.length() > 0)
 			mData.add(new GVProCon(string, isPro));
@@ -38,11 +42,6 @@ public class GVProConList extends GVReviewDataList<GVProConList.GVProCon> {
 		};
 	}
 
-	@Override
-	public GVType getDataType() {
-		return GVType.PROCONS;
-	}	
-	
 	class GVProCon extends GVString {
 		private boolean mIsPro;
 		

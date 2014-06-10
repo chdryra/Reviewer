@@ -1311,18 +1311,18 @@ containing a value of this type.
         public static final int abs__textButton=0x7f050017;
         public static final int abs__title=0x7f05001f;
         public static final int abs__up=0x7f05000f;
-        public static final int action_search=0x7f050096;
-        public static final int add_comment_image_button=0x7f05007c;
-        public static final int add_cons_image_button=0x7f050082;
-        public static final int add_data_image_button=0x7f050080;
-        public static final int add_location_image_button=0x7f05007d;
-        public static final int add_optionals_buttons=0x7f05007a;
-        public static final int add_photo_image_button=0x7f05007b;
-        public static final int add_pros_image_button=0x7f05007e;
+        public static final int action_search=0x7f050097;
+        public static final int add_comment_image_button=0x7f05007d;
+        public static final int add_cons_image_button=0x7f050083;
+        public static final int add_data_image_button=0x7f050081;
+        public static final int add_location_image_button=0x7f05007e;
+        public static final int add_optionals_buttons=0x7f05007b;
+        public static final int add_photo_image_button=0x7f05007c;
+        public static final int add_pros_image_button=0x7f05007f;
         public static final int banner_button=0x7f050037;
-        public static final int banner_button_left=0x7f050063;
-        public static final int banner_button_right=0x7f050064;
-        public static final int banner_gridview=0x7f050062;
+        public static final int banner_button_left=0x7f050064;
+        public static final int banner_button_right=0x7f050065;
+        public static final int banner_gridview=0x7f050063;
         public static final int button_left=0x7f05003f;
         public static final int button_middle=0x7f050040;
         public static final int button_right=0x7f050041;
@@ -1334,16 +1334,16 @@ containing a value of this type.
         public static final int comment_text_view=0x7f05003c;
         public static final int con_edit_text=0x7f050050;
         public static final int cons_linear_layout=0x7f050054;
-        public static final int cons_text_view =0x7f050074;
-        public static final int consim_text_view=0x7f050083;
+        public static final int cons_text_view =0x7f050075;
+        public static final int consim_text_view=0x7f050084;
         public static final int criterion_name_text_view=0x7f050039;
         public static final int data_gridview=0x7f050038;
-        public static final int data_gridview_left=0x7f050065;
-        public static final int data_gridview_right=0x7f050066;
+        public static final int data_gridview_left=0x7f050066;
+        public static final int data_gridview_right=0x7f050067;
         public static final int data_linear_layout=0x7f05004a;
         public static final int data_table_label_frame_layout=0x7f05005b;
         public static final int data_table_label_text_view=0x7f05005c;
-        public static final int data_table_linear_layout=0x7f050081;
+        public static final int data_table_linear_layout=0x7f050082;
         public static final int data_table_value_frame_layout=0x7f05005d;
         public static final int data_table_value_text_view=0x7f05005e;
         public static final int date_picker=0x7f050043;
@@ -1359,69 +1359,70 @@ containing a value of this type.
         public static final int dialog_image_image_view=0x7f05004b;
         public static final int disableHome=0x7f05000d;
         public static final int edit_query=0x7f05002a;
-        public static final int edit_text_name_location=0x7f050068;
-        public static final int edit_text_url=0x7f05006b;
-        public static final int email=0x7f05008c;
-        public static final int facebook=0x7f050089;
+        public static final int edit_text_name_location=0x7f050069;
+        public static final int edit_text_url=0x7f05006c;
+        public static final int email=0x7f05008d;
+        public static final int facebook=0x7f05008a;
         public static final int fact_label_edit_text=0x7f050048;
-        public static final int fact_label_text_view =0x7f050070;
+        public static final int fact_label_text_view =0x7f050071;
         public static final int fact_value_edit_text=0x7f050049;
-        public static final int fact_value_text_view =0x7f050071;
-        public static final int flickr=0x7f05008f;
-        public static final int foursquare=0x7f050090;
+        public static final int fact_value_text_view =0x7f050072;
+        public static final int flickr=0x7f050090;
+        public static final int foursquare=0x7f050091;
         public static final int fragmentContainer=0x7f050036;
         public static final int homeAsUp=0x7f05000a;
         public static final int hybrid=0x7f050004;
-        public static final int icon_sharing_service=0x7f050078;
-        public static final int image_view=0x7f050072;
-        public static final int info_window_rating_bar=0x7f050077;
-        public static final int info_window_title=0x7f050076;
-        public static final int linear_layout=0x7f050085;
+        public static final int icon_sharing_service=0x7f050079;
+        public static final int image_view=0x7f050073;
+        public static final int info_window_rating_bar=0x7f050078;
+        public static final int info_window_title=0x7f050077;
+        public static final int linear_layout=0x7f050086;
         public static final int linear_layout_criteria_rating_bars=0x7f05005f;
-        public static final int linear_layout_separator=0x7f050086;
+        public static final int linear_layout_separator=0x7f050087;
         public static final int listMode=0x7f050006;
         public static final int location_edit_text=0x7f05004d;
-        public static final int lower_text_view =0x7f05006f;
-        public static final int mapLinearLayout=0x7f050067;
-        public static final int mapView=0x7f050069;
-        public static final int menu_item_average_rating=0x7f050091;
-        public static final int menu_item_clear=0x7f050095;
-        public static final int menu_item_delete=0x7f050092;
-        public static final int menu_item_done=0x7f050093;
-        public static final int menu_item_split_comment=0x7f050094;
+        public static final int lower_text_view =0x7f050070;
+        public static final int mapLinearLayout=0x7f050068;
+        public static final int mapView=0x7f05006a;
+        public static final int menu_item_average_rating=0x7f050092;
+        public static final int menu_item_clear=0x7f050096;
+        public static final int menu_item_delete=0x7f050093;
+        public static final int menu_item_done=0x7f050094;
+        public static final int menu_item_split_comment=0x7f050095;
         public static final int none=0x7f050000;
         public static final int normal=0x7f050001;
         public static final int pro_edit_text=0x7f05004f;
         public static final int procon_edit_text=0x7f050051;
-        public static final int procon_listview=0x7f050087;
-        public static final int procon_text_view=0x7f050084;
+        public static final int procon_listview=0x7f050088;
+        public static final int procon_text_view=0x7f050085;
         public static final int pros_linear_layout=0x7f050053;
-        public static final int pros_text_view =0x7f050073;
+        public static final int pros_text_view =0x7f050074;
         public static final int proscons_linear_layout=0x7f050052;
-        public static final int prosim_text_view=0x7f05007f;
-        public static final int revert_location_image_button=0x7f05006a;
-        public static final int review_subject_edit_text=0x7f050060;
-        public static final int review_subject_text_view =0x7f050075;
+        public static final int prosim_text_view=0x7f050080;
+        public static final int revert_location_image_button=0x7f05006b;
+        public static final int review_grid_linearlayout=0x7f050060;
+        public static final int review_subject_edit_text=0x7f050061;
+        public static final int review_subject_text_view =0x7f050076;
         public static final int satellite=0x7f050002;
         public static final int showCustom=0x7f05000c;
         public static final int showHome=0x7f050009;
         public static final int showTitle=0x7f05000b;
         public static final int suggestions_list_view=0x7f05004e;
         public static final int tabMode=0x7f050007;
-        public static final int tableRow1=0x7f050088;
-        public static final int tableRow2=0x7f05008b;
-        public static final int tableRow3=0x7f05008e;
+        public static final int tableRow1=0x7f050089;
+        public static final int tableRow2=0x7f05008c;
+        public static final int tableRow3=0x7f05008f;
         public static final int tag_edit_text=0x7f050055;
         public static final int terrain=0x7f050003;
-        public static final int text_sharing_service=0x7f050079;
-        public static final int text_view =0x7f05006d;
-        public static final int total_rating_bar=0x7f050061;
-        public static final int tumblr=0x7f05008d;
-        public static final int twitter=0x7f05008a;
-        public static final int upper_text_view =0x7f05006e;
+        public static final int text_sharing_service=0x7f05007a;
+        public static final int text_view =0x7f05006e;
+        public static final int total_rating_bar=0x7f050062;
+        public static final int tumblr=0x7f05008e;
+        public static final int twitter=0x7f05008b;
+        public static final int upper_text_view =0x7f05006f;
         public static final int url_edit_text=0x7f050056;
         public static final int useLogo=0x7f050008;
-        public static final int web_view=0x7f05006c;
+        public static final int web_view=0x7f05006d;
         public static final int wrap_content=0x7f050005;
     }
     public static final class integer {
@@ -1514,9 +1515,10 @@ containing a value of this type.
     public static final class menu {
         public static final int fragment_review_children=0x7f0b0000;
         public static final int fragment_review_comment=0x7f0b0001;
-        public static final int menu_clear_delete_done=0x7f0b0002;
-        public static final int menu_delete_done=0x7f0b0003;
-        public static final int menu_search_delete_done=0x7f0b0004;
+        public static final int fragment_review_options=0x7f0b0002;
+        public static final int menu_clear_delete_done=0x7f0b0003;
+        public static final int menu_delete_done=0x7f0b0004;
+        public static final int menu_search_delete_done=0x7f0b0005;
     }
     public static final class string {
         /**  Content description for the action bar "home" affordance. [CHAR LIMIT=NONE] 
@@ -1635,10 +1637,6 @@ containing a value of this type.
         /**  Checkboxes 
          */
         public static final int checkbox_split_comment=0x7f06008e;
-        /**  Review Data List 
-         */
-        public static final int comment=0x7f0600b1;
-        public static final int comments=0x7f0600b2;
         /**  Button in confirmation dialog to enable Google Play services.  Clicking it
         will direct user to application settings of Google Play services where they
         can enable it [CHAR LIMIT=40] 
@@ -1706,10 +1704,6 @@ containing a value of this type.
         /**  Long form sign-in button text [CHAR LIMIT=30] 
          */
         public static final int common_signin_button_text_long=0x7f060012;
-        public static final int con=0x7f0600bf;
-        public static final int cons=0x7f0600c0;
-        public static final int criteria=0x7f0600bc;
-        public static final int criterion=0x7f0600bb;
         public static final int dialog_add_comments_title=0x7f06003e;
         public static final int dialog_add_cons_title=0x7f060048;
         /**  Dialogs 
@@ -1762,26 +1756,18 @@ containing a value of this type.
         public static final int edit_text_subject_hint=0x7f060065;
         public static final int edit_text_url_hint=0x7f060070;
         public static final int edit_text_url_text=0x7f060071;
-        public static final int email=0x7f0600ac;
+        public static final int email=0x7f0600ad;
         /**  Social 
          */
-        public static final int facebook=0x7f0600aa;
-        public static final int fact=0x7f0600c2;
-        public static final int facts=0x7f0600c3;
-        public static final int flickr=0x7f0600ae;
-        public static final int foursquare=0x7f0600af;
+        public static final int facebook=0x7f0600ab;
+        public static final int flickr=0x7f0600af;
+        public static final int foursquare=0x7f0600b0;
         /**  URLs 
          */
-        public static final int google_search=0x7f0600b0;
-        public static final int image=0x7f0600b3;
+        public static final int google_search=0x7f0600b1;
         /**  Image Views 
          */
         public static final int image_review_cd=0x7f06008d;
-        public static final int images=0x7f0600b4;
-        public static final int link=0x7f0600b7;
-        public static final int links=0x7f0600b8;
-        public static final int location=0x7f0600b5;
-        public static final int locations=0x7f0600b6;
         public static final int menu_average_rating=0x7f060099;
         public static final int menu_clear_comment=0x7f060098;
         public static final int menu_criteria_comments=0x7f060097;
@@ -1798,18 +1784,13 @@ containing a value of this type.
         public static final int menu_options=0x7f060093;
         public static final int menu_share=0x7f060091;
         public static final int menu_tags=0x7f060092;
-        public static final int pro=0x7f0600bd;
-        public static final int procons=0x7f0600c1;
         public static final int progress_bar_search_location_message=0x7f060077;
         /**  ProgressDialogs 
          */
         public static final int progress_bar_search_location_title=0x7f060076;
-        public static final int pros=0x7f0600be;
         /**  SearchViews 
          */
         public static final int search_view_location_hint=0x7f060075;
-        public static final int tag=0x7f0600b9;
-        public static final int tags=0x7f0600ba;
         public static final int text_view_con_prefix=0x7f060064;
         public static final int text_view_date_hint=0x7f060060;
         public static final int text_view_facts_hint=0x7f060061;
@@ -1824,6 +1805,7 @@ containing a value of this type.
         public static final int toast_bad_url=0x7f0600a6;
         public static final int toast_enter_criterion=0x7f06009b;
         public static final int toast_enter_label=0x7f06009d;
+        public static final int toast_enter_location=0x7f0600aa;
         public static final int toast_enter_procon=0x7f0600a8;
         /**  Toasts 
          */
@@ -1839,8 +1821,8 @@ containing a value of this type.
         public static final int toast_no_image_gps_tag=0x7f0600a7;
         public static final int toast_split_comment=0x7f0600a4;
         public static final int toast_unsplit_comment=0x7f0600a5;
-        public static final int tumblr=0x7f0600ad;
-        public static final int twitter=0x7f0600ab;
+        public static final int tumblr=0x7f0600ae;
+        public static final int twitter=0x7f0600ac;
     }
     public static final class style {
         /** 

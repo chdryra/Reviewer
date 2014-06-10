@@ -7,9 +7,8 @@ import com.chdryra.android.mygenerallibrary.ViewHolder;
 
 public class GVFactList extends GVReviewDataList<GVFactList.GVFact> {
 	
-	@Override
-	public GVType getDataType() {
-		return GVType.FACTS;
+	public GVFactList() {
+		super(GVType.FACTS);
 	}
 	
 	public void add(String label, String value) {

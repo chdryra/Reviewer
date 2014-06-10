@@ -11,9 +11,8 @@ import com.chdryra.android.mygenerallibrary.ViewHolder;
 
 public class GVUrlList extends GVReviewDataList<GVUrlList.GVUrl> {
 
-	@Override
-	public GVType getDataType() {
-		return GVType.URLS;
+	public GVUrlList() {
+		super(GVType.URLS);
 	}
 	
 	public void add(String urlString) throws MalformedURLException, URISyntaxException {
