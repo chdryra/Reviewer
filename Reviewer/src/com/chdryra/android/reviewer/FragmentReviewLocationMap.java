@@ -85,7 +85,7 @@ public class FragmentReviewLocationMap extends FragmentDeleteDone implements Loc
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		mLocationClient.connect();
 		
-		View v = inflater.inflate(R.layout.fragment_review_location, container, false);
+		View v = inflater.inflate(R.layout.fragment_review_location_map, container, false);
 		getSherlockActivity().getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 		mMapView = (MapView)v.findViewById(R.id.mapView);

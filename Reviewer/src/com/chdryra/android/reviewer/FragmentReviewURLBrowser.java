@@ -42,7 +42,7 @@ public class FragmentReviewURLBrowser extends FragmentDeleteDone {
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View v = inflater.inflate(R.layout.fragment_review_url, container, false);
+		View v = inflater.inflate(R.layout.fragment_review_url_browse, container, false);
 		getSherlockActivity().getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 		mWebView = (WebView)v.findViewById(R.id.web_view);

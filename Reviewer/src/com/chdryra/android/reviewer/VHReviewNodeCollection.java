@@ -11,7 +11,7 @@ import com.chdryra.android.reviewer.GVCriterionList.GVCriterion;
 public class VHReviewNodeCollection extends ViewHolderBasic {
 	private static final int LAYOUT = R.layout.grid_cell_review;
 	private static final int SUBJECT = R.id.review_subject_text_view;
-	private static final int RATING = R.id.total_rating_bar;
+	private static final int RATING = R.id.review_rating_bar;
 	
 	private TextView mSubject;
     private RatingBar mRating;

@@ -29,11 +29,11 @@
     <View style="@style/HorizontalDivider" />
 
     <ImageButton
-            android:id="@+id/revert_location_image_button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/image_button_selected"
-            android:contentDescription="@string/button_revert_location_cd"
-            android:src="@drawable/ic_menu_revert" />
-    
+        android:id="@+id/revert_location_image_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/image_button_selected"
+        android:contentDescription="@string/button_revert_location_cd"
+        android:src="@drawable/ic_menu_revert" />
+
 </LinearLayout>

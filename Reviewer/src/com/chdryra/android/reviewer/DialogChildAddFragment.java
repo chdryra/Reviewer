@@ -26,7 +26,7 @@ public class DialogChildAddFragment extends DialogAddReviewDataFragment{
 
 	@Override
 	protected View createDialogUI() {
-		View v = getActivity().getLayoutInflater().inflate(R.layout.dialog_child_add, null);
+		View v = getActivity().getLayoutInflater().inflate(R.layout.dialog_criterion, null);
 		mChildNameEditText = (ClearableEditText)v.findViewById(R.id.child_name_edit_text);
 		mChildRatingBar = (RatingBar)v.findViewById(R.id.child_rating_bar);
 		setKeyboardIMEDoAction(mChildNameEditText);

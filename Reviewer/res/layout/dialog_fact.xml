@@ -1,24 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/datum_linear_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical" >
 
     <com.chdryra.android.myandroidwidgets.ClearableEditText
-        android:id="@+id/datum_label_edit_text"
+        android:id="@+id/fact_label_edit_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/edit_text_fact_name_hint"
         android:imeOptions="actionNext"
         android:inputType="textCapSentences" />
 
+    <View style="@style/HorizontalDivider" />
+
     <com.chdryra.android.myandroidwidgets.ClearableEditText
-        android:id="@+id/datum_value_edit_text"
+        android:id="@+id/fact_value_edit_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/edit_text_fact_value_hint"
-        android:imeOptions="actionDone"
+        android:imeOptions="actionGo"
         android:inputType="textCapSentences" />
 
 </LinearLayout>

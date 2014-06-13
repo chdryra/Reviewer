@@ -22,7 +22,7 @@
             android:textColor="@color/WhiteSmoke" />
 
         <RatingBar
-            android:id="@+id/total_rating_bar"
+            android:id="@+id/review_rating_bar"
             style="?android:attr/ratingBarStyleSmall"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"

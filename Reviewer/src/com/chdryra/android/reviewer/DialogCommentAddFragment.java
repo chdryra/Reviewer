@@ -22,7 +22,7 @@ public class DialogCommentAddFragment extends DialogAddReviewDataFragment{
 	
 	@Override
 	protected View createDialogUI() {
-		View v = getActivity().getLayoutInflater().inflate(R.layout.dialog_comment_add, null);
+		View v = getActivity().getLayoutInflater().inflate(R.layout.dialog_comment, null);
 		mCommentEditText = (EditText)v.findViewById(R.id.comment_edit_text);
 		setKeyboardIMEDoAction(mCommentEditText);
 		

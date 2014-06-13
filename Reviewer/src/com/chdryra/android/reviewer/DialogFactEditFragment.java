@@ -27,9 +27,9 @@ public class DialogFactEditFragment extends DialogDeleteCancelDoneFragment {
 	
 	@Override
 	protected View createDialogUI() {
-		View v = getActivity().getLayoutInflater().inflate(R.layout.dialog_datum, null);
-		mLabel = (ClearableEditText)v.findViewById(R.id.datum_label_edit_text);
-		mValue = (ClearableEditText)v.findViewById(R.id.datum_value_edit_text);
+		View v = getActivity().getLayoutInflater().inflate(R.layout.dialog_fact, null);
+		mLabel = (ClearableEditText)v.findViewById(R.id.fact_label_edit_text);
+		mValue = (ClearableEditText)v.findViewById(R.id.fact_value_edit_text);
 		mLabel.setText(mOldLabel);		
 		mValue.setText(mOldValue);
 		setKeyboardIMEDoDone(mValue);

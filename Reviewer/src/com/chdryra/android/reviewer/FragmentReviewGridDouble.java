@@ -68,7 +68,7 @@ public enum CellDimension{FULL, HALF, QUARTER};
 		View v = inflater.inflate(R.layout.fragment_review_grid_double, container, false);			
 
 		mSubjectView = (TextView)v.findViewById(R.id.review_subject_edit_text);
-		mTotalRatingBar = (RatingBar)v.findViewById(R.id.total_rating_bar);
+		mTotalRatingBar = (RatingBar)v.findViewById(R.id.review_rating_bar);
 		
 		mBannerButtonLeft = (Button)v.findViewById(R.id.banner_button_left);
 		mGridViewLeft = (GridView)v.findViewById(R.id.data_gridview_left);

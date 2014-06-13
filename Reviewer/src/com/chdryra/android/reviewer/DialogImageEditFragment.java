@@ -30,7 +30,7 @@ public class DialogImageEditFragment extends DialogDeleteCancelDoneFragment {
 
 	@Override
 	protected View createDialogUI() {
-		View v = getActivity().getLayoutInflater().inflate(R.layout.dialog_image_edit, null);
+		View v = getActivity().getLayoutInflater().inflate(R.layout.dialog_image_view, null);
 		
 		ImageView imageView = (ImageView)v.findViewById(R.id.dialog_image_image_view);
 		imageView.setImageBitmap(mBitmap);

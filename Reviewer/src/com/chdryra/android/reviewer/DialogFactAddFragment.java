@@ -25,7 +25,7 @@ public class DialogFactAddFragment extends DialogAddReviewDataFragment{
 
 	@Override
 	protected View createDialogUI() {
-		View v = getActivity().getLayoutInflater().inflate(R.layout.dialog_fact_add, null);
+		View v = getActivity().getLayoutInflater().inflate(R.layout.dialog_fact, null);
 		mFactLabelEditText = (ClearableEditText)v.findViewById(R.id.fact_label_edit_text);
 		mFactValueEditText = (ClearableEditText)v.findViewById(R.id.fact_value_edit_text);
 		setKeyboardIMEDoAction(mFactValueEditText);

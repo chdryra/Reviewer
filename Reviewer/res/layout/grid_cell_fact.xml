@@ -17,9 +17,9 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:gravity="center"
             android:layout_weight="1"
             android:background="@color/Silver"
+            android:gravity="center"
             android:textColor="@color/WhiteSmoke" />
 
         <TextView
@@ -28,9 +28,9 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:gravity="center"
             android:layout_weight="1"
             android:background="@color/LightSlateGray"
+            android:gravity="center"
             android:textColor="@color/WhiteSmoke" />
     </LinearLayout>
 

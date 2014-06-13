@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/comment_text_view"
-    style="?android:textAppearanceMedium"
+<EditText xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/comment_edit_text"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:scrollHorizontally="false"
-    android:scrollbars="vertical" />
+    android:layout_height="wrap_content"
+    android:gravity="top"
+    android:hint="@string/edit_text_add_comment_hint"
+    android:inputType="textCapSentences|textAutoCorrect|textMultiLine"
+    android:minLines="5" />

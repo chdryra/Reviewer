@@ -22,7 +22,7 @@ public class DialogProAndConAddFragment extends DialogAddReviewDataFragment{
 
 	@Override
 	protected View createDialogUI() {
-		View v = getActivity().getLayoutInflater().inflate(R.layout.dialog_pro_and_con_add, null);
+		View v = getActivity().getLayoutInflater().inflate(R.layout.dialog_pro_and_con, null);
 
 		mProEditText = (ClearableEditText)v.findViewById(R.id.pro_edit_text);
 		mConEditText = (ClearableEditText)v.findViewById(R.id.con_edit_text);

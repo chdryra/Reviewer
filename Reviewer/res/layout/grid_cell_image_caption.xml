@@ -9,16 +9,16 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/image_button_selected"
-        android:contentDescription="@string/image_review_cd"/>
+        android:contentDescription="@string/image_review_cd" />
 
-      <TextView
-	        android:id="@+id/text_view "
-	        style="?android:textAppearanceMedium"
-	        android:layout_width="match_parent"
-	        android:layout_height="match_parent"
-	        android:gravity="center"
-	        android:padding="5dp"
-	        android:background="@drawable/image_button_selected"
-	        android:textColor="@color/WhiteSmoke"/>
-      
+    <TextView
+        android:id="@+id/text_view "
+        style="?android:textAppearanceMedium"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/image_button_selected"
+        android:gravity="center"
+        android:padding="5dp"
+        android:textColor="@color/WhiteSmoke" />
+
 </FrameLayout>

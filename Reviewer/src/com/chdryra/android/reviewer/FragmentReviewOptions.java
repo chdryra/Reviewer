@@ -66,7 +66,8 @@ public class FragmentReviewOptions extends FragmentReviewGrid<GVCellManager> {
 			} else {
 				getLayout().setBackgroundDrawable(bitmap);
 			}
-		}
+		} else
+			getLayout().setBackgroundColor(getResources().getColor(R.color.LightSlateGray));
 	}
 	
 	@Override

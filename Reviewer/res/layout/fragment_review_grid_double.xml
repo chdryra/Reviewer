@@ -9,64 +9,64 @@
         android:id="@+id/review_subject_edit_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        layout="@layout/fragment_review_subject" />
+        layout="@layout/review_subject" />
 
     <View style="@style/HorizontalDivider" />
 
     <include
-        android:id="@+id/total_rating_bar"
+        android:id="@+id/review_rating_bar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        layout="@layout/fragment_review_rating" />
+        layout="@layout/review_rating" />
 
     <View style="@style/HorizontalDivider" />
-    
-    <LinearLayout 
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
-	    
+        android:orientation="horizontal" >
+
         <include
             android:id="@+id/banner_button_left"
-	      	android:layout_width="0dp"
-	      	android:layout_height="wrap_content"
-	      	android:layout_weight="1"
-	      	layout="@layout/banner_button" />
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            layout="@layout/review_banner_button" />
 
-    	<View style="@style/VerticalDivider" />
-    	<View style="@style/VerticalDivider" />
+        <View style="@style/VerticalDivider" />
 
-    	<include
+        <View style="@style/VerticalDivider" />
+
+        <include
             android:id="@+id/banner_button_right"
-	      	android:layout_width="0dp"
-	      	android:layout_height="wrap_content"
-	      	android:layout_weight="1"
-	      	layout="@layout/banner_button" />
-	</LinearLayout>
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            layout="@layout/review_banner_button" />
+    </LinearLayout>
 
     <View style="@style/HorizontalDivider" />
-    
-    <LinearLayout 
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="horizontal"
-        android:baselineAligned="false">
-	    
-    	<include
-	        android:id="@+id/data_gridview_left"
-	        android:layout_width="match_parent"
-	        android:layout_height="match_parent"
-	        android:layout_weight="1"
-	        layout="@layout/grid_view_data" />
-	    
-    	<include
-	        android:id="@+id/data_gridview_right"
-	        android:layout_width="match_parent"
-	        android:layout_height="match_parent"
-	        android:layout_weight="1"
-	        layout="@layout/grid_view_data" />
-	</LinearLayout>
-    
-    
+        android:baselineAligned="false"
+        android:orientation="horizontal" >
+
+        <include
+            android:id="@+id/data_gridview_left"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            layout="@layout/review_data_grid" />
+
+        <include
+            android:id="@+id/data_gridview_right"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            layout="@layout/review_data_grid" />
+    </LinearLayout>
+
 </LinearLayout>

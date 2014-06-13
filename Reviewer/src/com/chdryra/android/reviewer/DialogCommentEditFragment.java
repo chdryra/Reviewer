@@ -24,7 +24,7 @@ public class DialogCommentEditFragment extends DialogDeleteCancelDoneFragment{
 	
 	@Override
 	protected View createDialogUI() {
-		View v = getActivity().getLayoutInflater().inflate(R.layout.dialog_comment_edit, null);
+		View v = getActivity().getLayoutInflater().inflate(R.layout.dialog_comment, null);
 		mCommentEditText = (EditText)v.findViewById(R.id.comment_edit_text);
 		mCommentEditText.setText(mOldComment);		
 
