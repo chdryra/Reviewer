@@ -1,26 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical" >
+    style="@style/LineaLayoutWrappedVertical" >
 
     <com.chdryra.android.myandroidwidgets.ClearableEditText
         android:id="@+id/child_name_edit_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/edit_text_add_criterion_hint"
-        android:imeOptions="actionGo"
-        android:inputType="textCapSentences" />
-
-    <View style="@style/HorizontalDivider" />
+        style="@style/EditTextCapSentences.Go"
+        android:hint="@string/edit_text_add_criterion_hint"/>
 
     <RatingBar
         android:id="@+id/child_rating_bar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:numStars="5"
-        android:rating="0.0"
-        android:stepSize="0.5" />
+    	style="@style/RatingBarFiveStar.PointFiveStep"/>
 
 </LinearLayout>

@@ -1,25 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical" >
+    style="@style/LineaLayoutWrappedVertical" >
 
     <com.chdryra.android.myandroidwidgets.ClearableEditText
         android:id="@+id/pro_edit_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/edit_text_pro_hint"
-        android:imeOptions="actionGo"
-        android:inputType="textCapSentences" />
+        style="@style/EditTextCapSentences.Go"
+        android:hint="@string/edit_text_pro_hint" />
 
     <View style="@style/HorizontalDivider" />
 
     <com.chdryra.android.myandroidwidgets.ClearableEditText
         android:id="@+id/con_edit_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/edit_text_con_hint"
-        android:imeOptions="actionGo"
-        android:inputType="textCapSentences" />
+        style="@style/EditTextCapSentences.Go"
+        android:hint="@string/edit_text_con_hint" />
 
 </LinearLayout>

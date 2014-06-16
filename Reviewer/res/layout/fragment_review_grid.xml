@@ -3,7 +3,6 @@
     android:id="@+id/review_grid_linearlayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/LightSlateGray"
     android:orientation="vertical" >
 
     <include

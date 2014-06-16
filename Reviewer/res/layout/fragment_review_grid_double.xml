@@ -2,8 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/LightSlateGray"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
     <include
         android:id="@+id/review_subject_edit_text"
@@ -23,9 +22,7 @@
     <View style="@style/HorizontalDivider" />
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal" >
+        style="@style/LineaLayoutWrappedHorizontal" >
 
         <include
             android:id="@+id/banner_button_left"
@@ -50,9 +47,9 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:baselineAligned="false"
-        android:orientation="horizontal" >
+    	android:layout_height="match_parent"
+    	android:orientation="horizontal"
+        android:baselineAligned="false">
 
         <include
             android:id="@+id/data_gridview_left"

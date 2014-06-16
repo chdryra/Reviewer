@@ -17,7 +17,8 @@
     <style name="AppTheme" parent="AppBaseTheme">
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
     </style>
-
+    	  
+    <!-- Dividers -->
     <style name="HorizontalDivider">
 	    <item name="android:layout_width">match_parent</item>
 	    <item name="android:layout_height">1dp</item>
@@ -32,6 +33,7 @@
 	    <item name="android:gravity">center_horizontal</item>
 	</style>
 
+    <!-- Buttons -->
     <style name="SquareImageButton">
         <item name="android:layout_width">match_parent</item>
 	    <item name="android:layout_height">match_parent</item>
@@ -48,9 +50,70 @@
 	    <item name="android:background">@android:color/transparent</item>
     </style>
     
-    <style name="SlateSmoke">
-        <item name="android:background">@color/LightSlateGray</item>
-	    <item name="android:textColor">@color/WhiteSmoke</item>
+    <!-- EditTexts -->
+    <style name="EditTextCapSentences">
+    	<item name="android:layout_width">match_parent</item>    
+    	<item name="android:layout_height">wrap_content</item>
+    	<item name="android:inputType">textCapSentences</item>
+    	<item name="android:completionThreshold">1</item>
+    </style>
+
+    <style name="EditTextCapSentences.Go">
+    	<item name="android:imeOptions">actionGo</item>
     </style>
     
+   	<style name="EditTextCapSentences.Next">
+    	<item name="android:imeOptions">actionNext</item>
+    </style>
+    
+   	<style name="EditTextCapSentences.Done">
+    	<item name="android:imeOptions">actionDone</item>
+    </style>
+    
+     <style name="EditTextCapSentences.AutoComplete">
+    	<item name="android:completionThreshold">1</item>
+    </style>
+   
+    <style name="EditTextCapSentences.AutoComplete.Go">
+    	<item name="android:imeOptions">actionGo</item>
+    </style>
+    
+   	<style name="EditTextCapSentences.AutoComplete.Next">
+    	<item name="android:imeOptions">actionNext</item>
+    </style>
+    
+   	<style name="EditTextCapSentences.AutoComplete.Done">
+    	<item name="android:imeOptions">actionDone</item>
+    </style>
+
+   	<!-- Rating bars -->
+   	<style name="RatingBarFiveStar">
+   	    <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:numStars">5</item>
+        <item name="android:rating">0.0</item>
+   	</style>
+   	
+   	<style name="RatingBarFiveStar.PointFiveStep">
+        <item name="android:stepSize">0.5</item>    
+   	</style>
+
+   	<style name="RatingBarFiveStar.PointOneStep">
+        <item name="android:stepSize">0.1</item>    
+   	</style>
+   		
+   	<!-- Linear Layouts -->
+   	<style name="LineaLayoutWrappedVertical">
+   	    <item name="android:layout_width">match_parent</item>
+    	<item name="android:layout_height">wrap_content</item>
+    	<item name="android:orientation">vertical</item> 
+   	</style>
+   	
+   	<style name="LineaLayoutWrappedHorizontal">
+   	    <item name="android:layout_width">match_parent</item>
+    	<item name="android:layout_height">wrap_content</item>
+    	<item name="android:orientation">horizontal</item> 
+   	</style>
+   	    
 </resources>

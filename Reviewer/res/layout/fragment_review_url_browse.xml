@@ -3,20 +3,12 @@
     android:id="@+id/mapLinearLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/LightSlateGray"
     android:orientation="vertical" >
 
     <com.chdryra.android.myandroidwidgets.ClearableEditText
         android:id="@+id/edit_text_url"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:completionThreshold="1"
-        android:cursorVisible="false"
-        android:hint="@string/edit_text_url_hint"
-        android:imeOptions="actionGo"
-        android:inputType="textCapSentences"
-        android:textColor="@color/WhiteSmoke"
-        android:textColorHint="@color/WhiteSmoke" />
+        style="@style/EditTextCapSentences.Go"
+        android:hint="@string/edit_text_url_hint"/>
 
     <WebView
         android:id="@+id/web_view"

@@ -1,30 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/mapLinearLayout"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/LightSlateGray"
-    android:orientation="vertical" >
+    style="@style/LineaLayoutWrappedVertical" >
 
     <com.chdryra.android.myandroidwidgets.ClearableAutoCompleteTextView
         android:id="@+id/edit_text_name_location"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:completionThreshold="1"
-        android:cursorVisible="false"
-        android:hint="@string/edit_text_name_location_hint"
-        android:imeOptions="actionDone"
-        android:inputType="textCapSentences"
-        android:textColor="@color/WhiteSmoke"
-        android:textColorHint="@color/WhiteSmoke" />
+        style="@style/EditTextCapSentences.AutoComplete.Done"
+        android:hint="@string/edit_text_name_location_hint" />
 
     <com.google.android.gms.maps.MapView
         xmlns:map="http://schemas.android.com/apk/res-auto"
+    	xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/mapView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:clickable="true" />
+        android:clickable="true"
+        tools:ignore="InefficientWeight" />
 
     <View style="@style/HorizontalDivider" />
 
