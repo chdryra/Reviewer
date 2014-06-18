@@ -1,37 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.chdryra.android.reviewer.GridCellLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/LightSlateGray" >
+    android:layout_height="match_parent" >
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center"
-        android:background="@drawable/image_button_selected"
         android:orientation="vertical" >
 
         <TextView
-            android:id="@+id/fact_label_text_view "
-            style="?android:textAppearanceMedium"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:layout_weight="1"
-            android:background="@color/Silver"
-            android:gravity="center"
-            android:textColor="@color/WhiteSmoke" />
+            android:id="@+id/fact_label"
+            style="@style/TextViewGridCell"
+            android:layout_weight="1" />
 
         <TextView
-            android:id="@+id/fact_value_text_view "
-            style="?android:textAppearanceMedium"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:layout_weight="1"
-            android:background="@color/LightSlateGray"
-            android:gravity="center"
-            android:textColor="@color/WhiteSmoke" />
+            android:id="@+id/fact_value"
+            style="@style/TextViewGridCell"
+            android:layout_weight="1" />
     </LinearLayout>
 
-</FrameLayout>
+</com.chdryra.android.reviewer.GridCellLayout>

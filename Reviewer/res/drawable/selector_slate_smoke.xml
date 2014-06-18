@@ -2,9 +2,7 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android" 
           android:exitFadeDuration="@android:integer/config_shortAnimTime">
           
-   <item android:state_pressed="true"
-         android:drawable="@color/WhiteSmoke" />
-
-   <item android:drawable="@android:color/transparent" />
+    <item android:state_pressed="true" android:drawable="@color/Smoke" />
+    <item android:drawable="@color/Slate" />
    
 </selector>

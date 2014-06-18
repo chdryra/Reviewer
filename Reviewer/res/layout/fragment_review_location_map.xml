@@ -24,7 +24,7 @@
         android:id="@+id/revert_location_image_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/image_button_selected"
+        android:background="@drawable/selector_slate_smoke"
         android:contentDescription="@string/button_revert_location_cd"
         android:src="@drawable/ic_menu_revert" />
 

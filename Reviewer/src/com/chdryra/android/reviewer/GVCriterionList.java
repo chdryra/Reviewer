@@ -25,6 +25,24 @@ public class GVCriterionList extends GVReviewDataList<GVCriterionList.GVCriterio
 		return mData.contains(criterion);
 	}
 	
+	public void set(String subject, float rating) {
+		GVCriterion c = getItem(subject);
+		if(c != null)
+			c.setRating(rating);
+	}
+	
+	private GVCriterion getItem(String subject) {
+		GVCriterion criterion = null;
+		for(GVCriterion c : mData) {
+			if(c.getSubject().equals(subject)) {
+				criterion = c;
+				break;
+			}
+		}
+		
+		return criterion;
+	}
+	
 	@Override
 	protected Comparator<GVCriterion> getDefaultComparator() {
 		
@@ -61,6 +79,10 @@ public class GVCriterionList extends GVReviewDataList<GVCriterionList.GVCriterio
 			return mRating;
 		}
 
+		public void setRating(float rating) {
+			mRating = rating;
+		}
+		
 		@Override
 		public ViewHolder getViewHolder() {
 			return new VHReviewNodeCollection();

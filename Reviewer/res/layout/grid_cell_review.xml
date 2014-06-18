@@ -1,25 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.chdryra.android.reviewer.GridCellLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/LightSlateGray" >
+    android:layout_height="match_parent" >
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center"
-        android:background="@drawable/image_button_selected"
         android:orientation="vertical" >
 
         <TextView
-            android:id="@+id/review_subject_text_view "
-            style="?android:textAppearanceMedium"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:textColor="@color/WhiteSmoke" />
+            android:id="@+id/review_subject"
+            style="@style/TextViewGridCell"
+            android:layout_weight="1" />
 
         <RatingBar
             android:id="@+id/review_rating_bar"
@@ -36,4 +29,4 @@
             android:stepSize="0.5" />
     </LinearLayout>
 
-</FrameLayout>
+</com.chdryra.android.reviewer.GridCellLayout>

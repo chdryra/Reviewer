@@ -75,6 +75,7 @@ public abstract class FragmentReviewGrid<T extends GVData> extends FragmentDelet
 		mTotalRatingBar = (RatingBar)v.findViewById(R.id.review_rating_bar);
 		mBannerButton = (Button)v.findViewById(R.id.banner_button);
 		mGridView = (GridView)v.findViewById(R.id.gridview_data);
+		mGridView.setDrawSelectorOnTop(true);
 		
 		DisplayMetrics displaymetrics = new DisplayMetrics();
 		getActivity().getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);		

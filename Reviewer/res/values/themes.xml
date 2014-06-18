@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
-	<!-- Themes -->
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Themes -->
     <color name="Slate">@color/LightSlateGray</color>
     <color name="Smoke">@color/WhiteSmoke</color>
     <style name="ThemeSlateSmoke"
@@ -13,6 +14,8 @@
 	   	<item name="android:textViewStyle">@style/TextViewSlateSmoke</item>
         <item name="android:editTextStyle">@style/EditTextSlateSmoke</item>
         <item name="android:buttonStyle">@style/ButtonSlateSmoke</item>
+        <item name="android:gridViewStyle">@style/GridViewSlateSmoke</item>
+        <item name="gridCellStyle">@style/GridCellSlateSmoke</item>
         <item name="android:alertDialogTheme">@style/DialogThemeSlateSmoke</item>
         <item name="android:dialogTheme">@style/DialogThemeSlateSmoke</item>
     </style>
@@ -41,6 +44,14 @@
         <item name="android:textAppearance">?android:attr/textAppearanceMediumInverse</item>
     </style>
     
+    <style name="GridCellSlateSmoke">
+        <item name="android:background">@color/Slate</item>
+    </style>
+    
+    <style name="GridViewSlateSmoke" parent="@android:style/Widget.GridView">
+        <item name="android:listSelector">@drawable/grid_cell_selector_slate_smoke</item>
+    </style>
+     
    	<style name="DialogThemeSlateSmoke" parent="@android:style/Theme.Dialog">
 		<item name="android:textColor">@color/Smoke</item>
 		<item name="android:textColorPrimaryInverse">@color/Slate</item>

@@ -86,9 +86,14 @@ public class FragmentReviewChildren extends FragmentReviewGridAddEditDone<GVCrit
 			String oldSubject = (String)data.getSerializableExtra(DialogChildEditFragment.SUBJECT_OLD);
 			String newSubject = (String)data.getSerializableExtra(DialogChildEditFragment.SUBJECT);
 			float newRating = data.getFloatExtra(DialogChildEditFragment.RATING, 0);
-			if(!mReviewData.contains(newSubject)) {
-				mReviewData.remove(oldSubject);
-				mReviewData.add(newSubject, newRating);
+			if(oldSubject.equals(newSubject))
+				mReviewData.set(oldSubject, newRating);
+			else {
+				if(!mReviewData.contains(newSubject)) {
+					mReviewData.remove(oldSubject);
+					mReviewData.add(newSubject, newRating);
+				} else
+					Toast.makeText(getActivity(), R.string.toast_exists_criterion, Toast.LENGTH_SHORT).show();
 			}
 			break;
 		case DELETE:

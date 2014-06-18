@@ -37,7 +37,7 @@
     <style name="SquareImageButton">
         <item name="android:layout_width">match_parent</item>
 	    <item name="android:layout_height">match_parent</item>
-	    <item name="android:background">@drawable/image_button_selected</item>
+	    <item name="android:background">@drawable/selector_slate_smoke</item>
 	    <item name="android:scaleType">centerInside</item>
 	    <item name="android:layout_gravity">center_horizontal|center_vertical</item>
 	    <item name="android:layout_weight">1</item>
@@ -48,6 +48,15 @@
         <item name="android:layout_width">match_parent</item>
 	    <item name="android:layout_height">wrap_content</item>
 	    <item name="android:background">@android:color/transparent</item>
+    </style>
+    
+    <!-- TextViews -->
+    <style name="TextViewGridCell">
+    	<item name="android:layout_width">match_parent</item>    
+    	<item name="android:layout_height">match_parent</item>
+    	<item name="android:gravity">center</item>
+    	<item name="android:padding">@dimen/grid_item_text_padding</item>
+    	<item name="android:textAppearance">?android:attr/textAppearanceMedium</item>
     </style>
     
     <!-- EditTexts -->
@@ -102,7 +111,7 @@
    	<style name="RatingBarFiveStar.PointOneStep">
         <item name="android:stepSize">0.1</item>    
    	</style>
-   		
+   	
    	<!-- Linear Layouts -->
    	<style name="LineaLayoutWrappedVertical">
    	    <item name="android:layout_width">match_parent</item>

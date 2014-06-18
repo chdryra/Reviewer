@@ -1,16 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.chdryra.android.reviewer.GridCellLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/LightSlateGray" >
+    android:layout_height="match_parent" >
 
     <TextView
-        android:id="@+id/text_view "
-        style="?android:textAppearanceMedium"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/image_button_selected"
-        android:gravity="center"
+        android:id="@+id/con"
+        style="@style/TextViewGridCell"
         android:textColor="@color/Crimson" />
 
-</FrameLayout>
+</com.chdryra.android.reviewer.GridCellLayout>

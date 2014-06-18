@@ -21,7 +21,6 @@ import com.chdryra.android.mygenerallibrary.GVDualString;
 import com.chdryra.android.mygenerallibrary.GVString;
 import com.chdryra.android.mygenerallibrary.GridViewCellAdapter;
 import com.chdryra.android.mygenerallibrary.VHDualStringView;
-import com.chdryra.android.mygenerallibrary.VHStringView;
 import com.chdryra.android.mygenerallibrary.ViewHolder;
 import com.chdryra.android.reviewer.FragmentReviewOptions.GVCellManagerList.GVCellManager;
 import com.chdryra.android.reviewer.GVImageList.GVImage;
@@ -47,6 +46,8 @@ public class FragmentReviewOptions extends FragmentReviewGrid<GVCellManager> {
 		setDismissOnDone(false);
 		setBannerButtonText(getResources().getString(R.string.button_add_review_data));
 		setIsEditable(true);
+		
+		mHelperReviewImage = HelperReviewImage.getInstance(getController());
 	}
 
 	@Override
@@ -128,10 +129,7 @@ public class FragmentReviewOptions extends FragmentReviewGrid<GVCellManager> {
 		dialog.show(getFragmentManager(), option.getDialogTag());
 	}
 	
-	private void showQuickImageDialog() {
-		if(mHelperReviewImage == null)
-			mHelperReviewImage = HelperReviewImage.getInstance(getController());
-		
+	private void showQuickImageDialog() {	
         startActivityForResult(mHelperReviewImage.getImageChooserIntents(getActivity()), 
         		getOption(GVType.IMAGES).getActivityRequestCode());
 	}
@@ -255,7 +253,7 @@ public class FragmentReviewOptions extends FragmentReviewGrid<GVCellManager> {
 			}
 			
 			public View getNoDatumView(ViewGroup parent) {
-				ViewHolder vh = new VHStringView(R.layout.grid_cell_options, R.id.text_view);
+				ViewHolder vh = new VHTextView();
 				vh.inflate(getActivity(), parent);
 				return vh.updateView(new GVString(mDataType.getDataString()));
 			}
