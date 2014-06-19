@@ -1,5 +1,7 @@
 package com.chdryra.android.reviewer;
 
+import java.text.DecimalFormat;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -55,6 +57,11 @@ public class DialogChildAddFragment extends DialogAddReviewDataFragment{
 		mChildNameEditText.setText(null);		
 		mChildRatingBar.setRating(0);
 		
-		getDialog().setTitle("Added " + childName);
+		double d = childRating;
+		DecimalFormat formatter = new DecimalFormat("0");
+		DecimalFormat decimalFormatter = new DecimalFormat("0.0");
+		String rating = d % 1L > 0L? decimalFormatter.format(d) : formatter.format(d);
+
+		getDialog().setTitle("+ " + childName + ": " + rating + "/" + "5");
 	}
 }

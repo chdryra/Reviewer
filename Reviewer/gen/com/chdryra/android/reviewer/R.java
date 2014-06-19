@@ -1777,7 +1777,7 @@ containing a value of this type.
         public static final int twitter=0x7f0600ad;
     }
     public static final class style {
-        public static final int ACTextViewSlateSmoke=0x7f07006e;
+        public static final int ACTextViewSlateSmoke=0x7f070079;
         /** 
         Base application theme, dependent on API level. This theme is replaced
         by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
@@ -1870,33 +1870,50 @@ containing a value of this type.
  All customizations that are NOT specific to a particular API-level can go here. 
          */
         public static final int AppTheme=0x7f070001;
-        public static final int ButtonSlateSmoke=0x7f070071;
-        public static final int DialogThemeSlateSmoke=0x7f070074;
+        /**  ImageViews 
+         */
+        public static final int Button=0x7f070061;
+        public static final int ButtonSlateSmoke=0x7f07007c;
+        public static final int DialogThemeSlateSmoke=0x7f07007f;
         /**  EditTexts 
          */
-        public static final int EditTextCapSentences=0x7f070060;
-        public static final int EditTextCapSentences_AutoComplete=0x7f070064;
-        public static final int EditTextCapSentences_AutoComplete_Done=0x7f070067;
-        public static final int EditTextCapSentences_AutoComplete_Go=0x7f070065;
-        public static final int EditTextCapSentences_AutoComplete_Next=0x7f070066;
-        public static final int EditTextCapSentences_Done=0x7f070063;
-        public static final int EditTextCapSentences_Go=0x7f070061;
-        public static final int EditTextCapSentences_Next=0x7f070062;
-        public static final int EditTextSlateSmoke=0x7f070070;
-        public static final int GridCellSlateSmoke=0x7f070072;
-        public static final int GridViewSlateSmoke=0x7f070073;
+        public static final int EditTextCapSentences=0x7f070063;
+        public static final int EditTextCapSentences_AutoComplete=0x7f070067;
+        public static final int EditTextCapSentences_AutoComplete_Done=0x7f07006a;
+        public static final int EditTextCapSentences_AutoComplete_Go=0x7f070068;
+        public static final int EditTextCapSentences_AutoComplete_Next=0x7f070069;
+        public static final int EditTextCapSentences_Done=0x7f070066;
+        public static final int EditTextCapSentences_Go=0x7f070064;
+        public static final int EditTextCapSentences_Next=0x7f070065;
+        public static final int EditTextSlateSmoke=0x7f07007b;
+        /**  GridCells 
+         */
+        public static final int GridCell=0x7f07005f;
+        public static final int GridCellSlateSmoke=0x7f07007d;
+        public static final int GridViewSlateSmoke=0x7f07007e;
         /**  Dividers 
          */
         public static final int HorizontalDivider=0x7f07005b;
-        public static final int LineaLayoutWrappedHorizontal=0x7f07006c;
+        /**  ImageViews 
+         */
+        public static final int ImageView=0x7f070060;
+        public static final int LineaLayoutHorizontal=0x7f070072;
+        public static final int LineaLayoutHorizontal_GridCell=0x7f070074;
+        public static final int LineaLayoutHorizontal_WrappedVertical=0x7f070076;
         /**  Linear Layouts 
          */
-        public static final int LineaLayoutWrappedVertical=0x7f07006b;
+        public static final int LineaLayoutVertical=0x7f070071;
+        public static final int LineaLayoutVertical_GridCell=0x7f070073;
+        public static final int LineaLayoutVertical_WrappedVertical=0x7f070075;
+        public static final int MyApp_Widget_Holo_DropDownItem=0x7f070078;
         /**  Rating bars 
          */
-        public static final int RatingBarFiveStar=0x7f070068;
-        public static final int RatingBarFiveStar_PointFiveStep=0x7f070069;
-        public static final int RatingBarFiveStar_PointOneStep=0x7f07006a;
+        public static final int RatingBarFiveStar=0x7f07006b;
+        public static final int RatingBarFiveStar_Indicator=0x7f07006c;
+        public static final int RatingBarFiveStar_Indicator_PointFiveStep=0x7f07006f;
+        public static final int RatingBarFiveStar_Indicator_PointOneStep=0x7f070070;
+        public static final int RatingBarFiveStar_PointFiveStep=0x7f07006d;
+        public static final int RatingBarFiveStar_PointOneStep=0x7f07006e;
         public static final int Sherlock___TextAppearance_Small=0x7f070048;
         public static final int Sherlock___Theme=0x7f070053;
         public static final int Sherlock___Theme_DarkActionBar=0x7f070055;
@@ -1940,14 +1957,14 @@ containing a value of this type.
         public static final int TextAppearance_Sherlock_Widget_TextView_SpinnerItem=0x7f070046;
         /**  TextViews 
          */
-        public static final int TextViewGridCell=0x7f07005f;
-        public static final int TextViewSlateSmoke=0x7f07006f;
+        public static final int TextViewGridCell=0x7f070062;
+        public static final int TextViewSlateSmoke=0x7f07007a;
         public static final int Theme_Sherlock=0x7f070056;
         public static final int Theme_Sherlock_Light=0x7f070057;
         public static final int Theme_Sherlock_Light_DarkActionBar=0x7f070058;
         public static final int Theme_Sherlock_Light_NoActionBar=0x7f07005a;
         public static final int Theme_Sherlock_NoActionBar=0x7f070059;
-        public static final int ThemeSlateSmoke=0x7f07006d;
+        public static final int ThemeSlateSmoke=0x7f070077;
         public static final int VerticalDivider=0x7f07005c;
         public static final int Widget=0x7f070002;
         public static final int Widget_Sherlock_ActionBar=0x7f070004;

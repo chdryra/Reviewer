@@ -108,7 +108,7 @@
     <string name="button_add_image">add image</string>
     <string name="button_add_url">add link</string>
     <string name="button_add_location">add location</string>
-    <string name="button_add_review_data">optional details</string>
+    <string name="button_add_review_data">details</string>
 
     <!-- Image Buttons -->
     <string name="button_add_image_cd">add image</string>

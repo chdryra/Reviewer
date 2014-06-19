@@ -41,7 +41,7 @@ public class DialogTagAddFragment extends DialogAddReviewDataFragment{
 			mTags.add(tag);
 			getNewReturnData().putExtra(TAG, tag);
 			mTagEditText.setText(null);
-			getDialog().setTitle("Added tag: " + tag);
+			getDialog().setTitle("+ : " + tag);
 		}
 	}
 }

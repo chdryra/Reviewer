@@ -1,28 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    style="@style/LineaLayoutVertical">
 
     <include
         android:id="@+id/review_subject_edit_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         layout="@layout/review_subject" />
 
     <View style="@style/HorizontalDivider" />
 
     <include
         android:id="@+id/review_rating_bar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
         layout="@layout/review_rating" />
 
     <View style="@style/HorizontalDivider" />
 
     <LinearLayout
-        style="@style/LineaLayoutWrappedHorizontal" >
+        style="@style/LineaLayoutHorizontal.WrappedVertical" >
 
         <include
             android:id="@+id/banner_button_left"
@@ -46,22 +39,16 @@
     <View style="@style/HorizontalDivider" />
 
     <LinearLayout
-        android:layout_width="match_parent"
-    	android:layout_height="match_parent"
-    	android:orientation="horizontal"
+        style="@style/LineaLayoutHorizontal"
         android:baselineAligned="false">
 
         <include
             android:id="@+id/data_gridview_left"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
             android:layout_weight="1"
             layout="@layout/review_data_grid" />
 
         <include
             android:id="@+id/data_gridview_right"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
             android:layout_weight="1"
             layout="@layout/review_data_grid" />
     </LinearLayout>

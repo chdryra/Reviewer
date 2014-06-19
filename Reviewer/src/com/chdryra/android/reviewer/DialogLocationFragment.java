@@ -39,7 +39,7 @@ public class DialogLocationFragment extends DialogActionCancelDoneFragment imple
 		setLeftButtonAction(RESULT_MAP);
 		setLeftButtonText(getResources().getString(R.string.button_map_text));
 		setDismissDialogOnLeftClick(true);
-		setDialogTitle(getResources().getString(R.string.dialog_name_location_title));
+		//setDialogTitle(getResources().getString(R.string.dialog_name_location_title));
 	}
 	
 	@Override

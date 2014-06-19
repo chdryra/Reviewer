@@ -50,6 +50,24 @@
 	    <item name="android:background">@android:color/transparent</item>
     </style>
     
+    <!-- GridCells -->
+    <style name="GridCell">
+    	<item name="android:layout_width">match_parent</item>    
+    	<item name="android:layout_height">match_parent</item>
+    </style>
+
+    <!-- ImageViews -->
+    <style name="ImageView">
+    	<item name="android:layout_width">match_parent</item>    
+    	<item name="android:layout_height">match_parent</item>
+    </style>
+    
+    <!-- ImageViews -->
+    <style name="Button">
+    	<item name="android:layout_width">match_parent</item>    
+    	<item name="android:layout_height">wrap_content</item>
+    </style>
+    
     <!-- TextViews -->
     <style name="TextViewGridCell">
     	<item name="android:layout_width">match_parent</item>    
@@ -63,8 +81,7 @@
     <style name="EditTextCapSentences">
     	<item name="android:layout_width">match_parent</item>    
     	<item name="android:layout_height">wrap_content</item>
-    	<item name="android:inputType">textCapSentences</item>
-    	<item name="android:completionThreshold">1</item>
+    	<item name="android:inputType">textCapSentences|textAutoCorrect</item>
     </style>
 
     <style name="EditTextCapSentences.Go">
@@ -80,7 +97,7 @@
     </style>
     
      <style name="EditTextCapSentences.AutoComplete">
-    	<item name="android:completionThreshold">1</item>
+    	<item name="android:completionThreshold">2</item>
     </style>
    
     <style name="EditTextCapSentences.AutoComplete.Go">
@@ -104,25 +121,55 @@
         <item name="android:rating">0.0</item>
    	</style>
    	
+   	<style name="RatingBarFiveStar.Indicator">
+        <item name="android:focusable">false</item>
+        <item name="android:gravity">center</item>
+		<item name="android:isIndicator">true</item>
+   	</style>
+   	
    	<style name="RatingBarFiveStar.PointFiveStep">
         <item name="android:stepSize">0.5</item>    
    	</style>
-
+   	
    	<style name="RatingBarFiveStar.PointOneStep">
         <item name="android:stepSize">0.1</item>    
    	</style>
    	
+   	<style name="RatingBarFiveStar.Indicator.PointFiveStep">
+        <item name="android:stepSize">0.5</item>    
+   	</style>
+   	
+   	<style name="RatingBarFiveStar.Indicator.PointOneStep">
+        <item name="android:stepSize">0.1</item>    
+   	</style>
+   	
    	<!-- Linear Layouts -->
-   	<style name="LineaLayoutWrappedVertical">
+   	<style name="LineaLayoutVertical">
    	    <item name="android:layout_width">match_parent</item>
-    	<item name="android:layout_height">wrap_content</item>
+    	<item name="android:layout_height">match_parent</item>
     	<item name="android:orientation">vertical</item> 
    	</style>
    	
-   	<style name="LineaLayoutWrappedHorizontal">
+   	<style name="LineaLayoutHorizontal">
    	    <item name="android:layout_width">match_parent</item>
-    	<item name="android:layout_height">wrap_content</item>
+    	<item name="android:layout_height">match_parent</item>
     	<item name="android:orientation">horizontal</item> 
+   	</style>
+   	
+   	<style name="LineaLayoutVertical.GridCell">
+		<item name="android:layout_gravity">center</item>
+   	</style>
+   	
+   	<style name="LineaLayoutHorizontal.GridCell">
+   	    <item name="android:layout_gravity">center</item> 
+   	</style>
+   	
+   	<style name="LineaLayoutVertical.WrappedVertical">
+    	<item name="android:layout_height">wrap_content</item>
+   	</style>
+   	
+   	<style name="LineaLayoutHorizontal.WrappedVertical">
+    	<item name="android:layout_height">wrap_content</item>
    	</style>
    	    
 </resources>

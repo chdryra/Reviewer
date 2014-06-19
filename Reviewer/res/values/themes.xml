@@ -4,8 +4,7 @@
     <!-- Themes -->
     <color name="Slate">@color/LightSlateGray</color>
     <color name="Smoke">@color/WhiteSmoke</color>
-    <style name="ThemeSlateSmoke"
-        parent="@style/Theme.Sherlock.Light">
+    <style name="ThemeSlateSmoke" parent="@style/Theme.Sherlock.Light">
         <item name="android:windowBackground">@color/Slate</item>
         <item name="android:colorBackground">@color/Slate</item>
         <item name="android:textColor">@color/Smoke</item>
@@ -18,12 +17,20 @@
         <item name="gridCellStyle">@style/GridCellSlateSmoke</item>
         <item name="android:alertDialogTheme">@style/DialogThemeSlateSmoke</item>
         <item name="android:dialogTheme">@style/DialogThemeSlateSmoke</item>
+        <item name="android:spinnerDropDownItemStyle">@style/MyApp.Widget.Holo.DropDownItem</item>
+        <item name="spinnerDropDownItemStyle">@style/MyApp.Widget.Holo.DropDownItem</item>
     </style>
 
+    
+<style name="MyApp.Widget.Holo.DropDownItem" parent="Widget.Sherlock.Light.DropDownItem.Spinner">
+       <item name="android:background">@color/Slate</item>
+    </style>
+        
     <style name="ACTextViewSlateSmoke" parent="@android:style/Widget.AutoCompleteTextView">
         <item name="android:textColor">@color/Smoke</item>
         <item name="android:textColorHint">@color/Smoke</item>
-        <item name="android:textColorPrimaryInverse">@color/Slate</item>
+        <item name="android:dropDownSelector">@drawable/selector_slate_smoke</item>
+        <item name="android:popupBackground">@color/Slate</item>
     </style>
     
     <style name="TextViewSlateSmoke" parent="@android:style/Widget.TextView">
@@ -42,6 +49,7 @@
         <item name="android:textColor">@color/Smoke</item>
         <item name="android:textColorPrimaryInverse">@color/Slate</item>
         <item name="android:textAppearance">?android:attr/textAppearanceMediumInverse</item>
+        <item name="android:background">@drawable/selector_slate_smoke</item>
     </style>
     
     <style name="GridCellSlateSmoke">

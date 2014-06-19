@@ -41,7 +41,7 @@ public class DialogCommentAddFragment extends DialogAddReviewDataFragment{
 			mComments.add(comment);
 			getNewReturnData().putExtra(COMMENT, comment);
 			mCommentEditText.setText(null);
-			getDialog().setTitle("Added comment: " + comment);
+			getDialog().setTitle("+ " + comment);
 		}
 	}
 }

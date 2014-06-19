@@ -4,7 +4,7 @@
     android:versionCode="1"
     android:versionName="1.0" >
 
-    <uses-sdk android:minSdkVersion="12" android:targetSdkVersion="19" />
+    <uses-sdk android:minSdkVersion="14" android:targetSdkVersion="19" />
 	 <permission 
         android:name="com.chdryra.android.reviewer.permission.MAPS_RECEIVE"
         android:protectionLevel="signature"/>
@@ -93,7 +93,6 @@
 
         <!-- Browser choose link -->
         <activity android:name="com.chdryra.android.reviewer.ActivityReviewURLBrowser"
-            android:theme="@style/ThemeSlateSmoke"
 		    android:windowSoftInputMode="adjustPan"
 		    android:configChanges="orientation"
 		    android:exported="true"
@@ -105,7 +104,6 @@
         
         <!-- Map choose location -->
         <activity android:name="com.chdryra.android.reviewer.ActivityReviewLocationMap"
-		    android:theme="@style/ThemeSlateSmoke"
 		    android:windowSoftInputMode="adjustPan"
 		    android:configChanges="orientation"
 		    android:exported="true"

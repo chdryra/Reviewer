@@ -1,39 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/review_grid_linearlayout"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical" >
+    style="@style/LineaLayoutVertical" >
 
     <include
         android:id="@+id/review_subject_edit_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         layout="@layout/review_subject" />
 
     <View style="@style/HorizontalDivider" />
 
     <include
         android:id="@+id/review_rating_bar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
         layout="@layout/review_rating" />
 
     <View style="@style/HorizontalDivider" />
 
     <include
         android:id="@+id/banner_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         layout="@layout/review_banner_button" />
 
     <View style="@style/HorizontalDivider" />
 
     <include
         android:id="@+id/gridview_data"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
         layout="@layout/review_data_grid" />
 
 </LinearLayout>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/LineaLayoutWrappedVertical" >
+    style="@style/LineaLayoutVertical.WrappedVertical" >
 
     <com.chdryra.android.myandroidwidgets.ClearableEditText
         android:id="@+id/child_name_edit_text"

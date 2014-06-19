@@ -200,9 +200,6 @@ public class ControllerReviewNode{
 	}
 	
 	private void setLocations(GVLocationList locations) {
-		if(locations.size() == 0)
-			return;
-		
 		Review r = getReview();
 		RDList<RDLocation> rdLocations = new RDList<RDLocation>();
 		for(GVLocation location : locations)

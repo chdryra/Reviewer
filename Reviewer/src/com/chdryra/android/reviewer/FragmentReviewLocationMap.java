@@ -64,7 +64,7 @@ public class FragmentReviewLocationMap extends FragmentDeleteDone implements Loc
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		mRevertLatLng =(LatLng)getActivity().getIntent().getParcelableExtra(LATLNG);
+		mRevertLatLng = (LatLng)getActivity().getIntent().getParcelableExtra(LATLNG);
 	    mRevertName = (String)getActivity().getIntent().getSerializableExtra(NAME);
 	    mReviewSubject = (String)getActivity().getIntent().getSerializableExtra(SUBJECT);
 	    
@@ -155,20 +155,24 @@ public class FragmentReviewLocationMap extends FragmentDeleteDone implements Loc
 	}
 	
 	private void initRevertButtonUI() {
-	    mRevertButton.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				if(mRevertLatLng == null)
-					return;
-							
-				mSearchLocationName = null;
-				setLatLng(mRevertLatLng);
-				mLocationName.setText(mRevertName);
-				mLocationName.hideChrome();
-			}
-		});
-
-	    mRevertButton.performClick();
+		if(mRevertLatLng != null) {
+		    mRevertButton.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					if(mRevertLatLng == null)
+						return;
+								
+					mSearchLocationName = null;
+					setLatLng(mRevertLatLng);
+					mLocationName.setText(mRevertName);
+					mLocationName.hideChrome();
+				}
+			});
+	
+		    mRevertButton.performClick();
+		} else
+			mRevertButton.setVisibility(View.GONE);
+		
 	}
 	
 	private void gotoSearchLocation() {
@@ -318,11 +322,8 @@ public class FragmentReviewLocationMap extends FragmentDeleteDone implements Loc
 
 	@Override
 	public void onLocationClientConnected(LatLng latLng) {
-		if(mRevertLatLng == null) {
-			mRevertLatLng = latLng;
-			mRevertButton.performClick();
-			setLatLng(mRevertLatLng);
-		}
+		if(mLatLng == null)
+			setLatLng(latLng);
 	}
 
 	@Override

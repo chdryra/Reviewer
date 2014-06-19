@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/mapLinearLayout"
-    style="@style/LineaLayoutWrappedVertical" >
+    style="@style/LineaLayoutVertical.WrappedVertical" >
 
     <com.chdryra.android.myandroidwidgets.ClearableAutoCompleteTextView
         android:id="@+id/edit_text_name_location"
@@ -24,7 +24,6 @@
         android:id="@+id/revert_location_image_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/selector_slate_smoke"
         android:contentDescription="@string/button_revert_location_cd"
         android:src="@drawable/ic_menu_revert" />
 
