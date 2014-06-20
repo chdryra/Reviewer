@@ -2,15 +2,15 @@ package com.chdryra.android.reviewer;
 
 import java.net.URL;
 
-import android.annotation.TargetApi;
+import android.app.ActionBar.LayoutParams;
 import android.content.Intent;
-import android.graphics.drawable.BitmapDrawable;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
@@ -20,10 +20,8 @@ import com.chdryra.android.mygenerallibrary.GVData;
 import com.chdryra.android.mygenerallibrary.GVDualString;
 import com.chdryra.android.mygenerallibrary.GVString;
 import com.chdryra.android.mygenerallibrary.GridViewCellAdapter;
-import com.chdryra.android.mygenerallibrary.VHDualStringView;
 import com.chdryra.android.mygenerallibrary.ViewHolder;
 import com.chdryra.android.reviewer.FragmentReviewOptions.GVCellManagerList.GVCellManager;
-import com.chdryra.android.reviewer.GVImageList.GVImage;
 import com.chdryra.android.reviewer.GVReviewDataList.GVType;
 import com.chdryra.android.reviewer.ReviewDataOptions.ReviewDataOption;
 import com.google.android.gms.maps.model.LatLng;
@@ -34,6 +32,7 @@ public class FragmentReviewOptions extends FragmentReviewGrid<GVCellManager> {
 	
 	private GVCellManagerList mCellManagerList;
 	private HelperReviewImage mHelperReviewImage;
+	private Button mPublishButton;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -51,24 +50,35 @@ public class FragmentReviewOptions extends FragmentReviewGrid<GVCellManager> {
 	}
 
 	@Override
-	protected void updateUI() {
-		super.updateUI();
-		updateBackground();
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		View v = super.onCreateView(inflater, container, savedInstanceState);
+		mPublishButton = (Button)inflater.inflate(R.layout.review_banner_button, container, false);
+		View divider = inflater.inflate(R.layout.horizontal_divider, container, false);
+		mPublishButton.setText(getResources().getString(R.string.button_publish));
+		mPublishButton.getLayoutParams().height = LayoutParams.MATCH_PARENT;
+		mPublishButton.setOnClickListener(new View.OnClickListener() {		
+			@Override
+			public void onClick(View v) {
+			}
+		});
+		
+		getGridView().getLayoutParams().height = LayoutParams.WRAP_CONTENT;
+		getLayout().addView(mPublishButton);
+		getLayout().addView(divider);
+		
+		return v;
 	}
 	
-	@SuppressWarnings("deprecation")
-	@TargetApi(Build.VERSION_CODES.JELLY_BEAN)
-	private void updateBackground() {
-		if(getController().hasData(GVType.IMAGES)) {
-			GVImage image = (GVImage) getController().getData(GVType.IMAGES).getItem(0);
-			BitmapDrawable bitmap = new BitmapDrawable(getResources(), image.getBitmap());
-			if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-				getLayout().setBackground(bitmap);
-			} else {
-				getLayout().setBackgroundDrawable(bitmap);
-			}
-		} else
-			getLayout().setBackgroundColor(getResources().getColor(R.color.LightSlateGray));
+	private void initCellManagerList() {
+		mCellManagerList = new GVCellManagerList();
+		mCellManagerList.add(GVType.TAGS);
+		mCellManagerList.add(GVType.CRITERIA);
+		mCellManagerList.add(GVType.IMAGES);
+		mCellManagerList.add(GVType.COMMENTS);
+		mCellManagerList.add(GVType.LOCATIONS);
+		mCellManagerList.add(GVType.FACTS);
+		//mCellManagerList.add(GVType.PROCONS);
+		//mCellManagerList.add(GVType.URLS);
 	}
 	
 	@Override
@@ -94,18 +104,6 @@ public class FragmentReviewOptions extends FragmentReviewGrid<GVCellManager> {
 
 	private ReviewDataOption getOption(GVType dataType) {
 		return ReviewDataOptions.get(dataType);
-	}
-	
-	private void initCellManagerList() {
-		mCellManagerList = new GVCellManagerList();
-		mCellManagerList.add(GVType.TAGS);
-		mCellManagerList.add(GVType.CRITERIA);
-		mCellManagerList.add(GVType.IMAGES);
-		mCellManagerList.add(GVType.COMMENTS);
-		mCellManagerList.add(GVType.LOCATIONS);
-		mCellManagerList.add(GVType.PROCONS);
-		mCellManagerList.add(GVType.FACTS);
-		mCellManagerList.add(GVType.URLS);
 	}
 	
 	private void requestIntent(ReviewDataOption option) {
@@ -268,7 +266,7 @@ public class FragmentReviewOptions extends FragmentReviewGrid<GVCellManager> {
 			}
 						
 			public View getMultiDataView(ViewGroup parent) {
-				ViewHolder vh = new VHDualStringView();
+				ViewHolder vh = new VHTextDualView();
 				vh.inflate(getActivity(), parent);
 				return vh.updateView(new GVDualString(String.valueOf(getController().getData(mDataType).size()), mDataType.getDataString()));
 			}
@@ -290,7 +288,7 @@ public class FragmentReviewOptions extends FragmentReviewGrid<GVCellManager> {
 				else
 					conString += cons.size() == 1? cons.getItem(0).toString() : String.valueOf(cons.size()) + " " + GVType.CONS.getDataString();
 				
-				ViewHolder vh = new VHDualStringView();
+				ViewHolder vh = new VHTextDualView();
 				vh.inflate(getActivity(), parent);
 				
 				return vh.updateView(new GVDualString(proString, conString));

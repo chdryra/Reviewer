@@ -1,7 +1,11 @@
 package com.chdryra.android.reviewer;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.text.Editable;
@@ -23,6 +27,8 @@ import com.chdryra.android.myandroidwidgets.ClearableEditText;
 import com.chdryra.android.mygenerallibrary.FragmentDeleteDone;
 import com.chdryra.android.mygenerallibrary.GVData;
 import com.chdryra.android.mygenerallibrary.GridViewCellAdapter;
+import com.chdryra.android.reviewer.GVImageList.GVImage;
+import com.chdryra.android.reviewer.GVReviewDataList.GVType;
 
 public abstract class FragmentReviewGrid<T extends GVData> extends FragmentDeleteDone{
 	public enum CellDimension{FULL, HALF, QUARTER}; 
@@ -86,7 +92,7 @@ public abstract class FragmentReviewGrid<T extends GVData> extends FragmentDelet
 		updateUI();
 		
 		return v;		
-	}
+	} 
 	
 	protected void initUI() {
 		initSubjectUI();
@@ -196,8 +202,26 @@ public abstract class FragmentReviewGrid<T extends GVData> extends FragmentDelet
 		updateRatingBarUI();
 		updateBannerButtonUI();
 		updateGridDataUI();
+		updateBackground();
 	}
 
+	@SuppressWarnings("deprecation")
+	@TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+	private void updateBackground() {
+		if(getController().hasData(GVType.IMAGES)) {
+			GVImage image = (GVImage) getController().getData(GVType.IMAGES).getItem(0);
+			BitmapDrawable bitmap = new BitmapDrawable(getResources(), image.getBitmap());
+			if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN)
+				getLayout().setBackground(bitmap);
+			else
+				getLayout().setBackgroundDrawable(bitmap);
+			getGridView().getBackground().setAlpha(0);
+		} else {
+			getLayout().setBackgroundColor(Color.TRANSPARENT);
+			getGridView().getBackground().setAlpha(255);
+		}
+	}
+	
 	protected void updateSubjectTextUI() {
 		if(getController() != null)
 			getSubjectView().setText(getController().getTitle());

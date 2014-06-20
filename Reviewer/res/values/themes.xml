@@ -1,69 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <!-- Themes -->
-    <color name="Slate">@color/LightSlateGray</color>
-    <color name="Smoke">@color/WhiteSmoke</color>
-    <style name="ThemeSlateSmoke" parent="@style/Theme.Sherlock.Light">
-        <item name="android:windowBackground">@color/Slate</item>
-        <item name="android:colorBackground">@color/Slate</item>
-        <item name="android:textColor">@color/Smoke</item>
-	    <item name="android:textColorPrimaryInverse">@color/Slate</item>
-		<item name="android:autoCompleteTextViewStyle">@style/ACTextViewSlateSmoke</item>
-	   	<item name="android:textViewStyle">@style/TextViewSlateSmoke</item>
-        <item name="android:editTextStyle">@style/EditTextSlateSmoke</item>
-        <item name="android:buttonStyle">@style/ButtonSlateSmoke</item>
-        <item name="android:gridViewStyle">@style/GridViewSlateSmoke</item>
-        <item name="gridCellStyle">@style/GridCellSlateSmoke</item>
-        <item name="android:alertDialogTheme">@style/DialogThemeSlateSmoke</item>
-        <item name="android:dialogTheme">@style/DialogThemeSlateSmoke</item>
-        <item name="android:spinnerDropDownItemStyle">@style/MyApp.Widget.Holo.DropDownItem</item>
-        <item name="spinnerDropDownItemStyle">@style/MyApp.Widget.Holo.DropDownItem</item>
-    </style>
-
+    <color name="Slate">#778899</color>
+    <color name="TransSlate">#CC778899</color>
+    <color name="DarkSlate">#708090</color>
+    <color name="TransDarkSlate">#FF708090</color>
+    <color name="Smoke">#F5F5F5</color>
+    <color name="TransSmoke">#CCF5F5F5</color>
+    <color name="DarkSmoke">#D3D3D3</color>
+    <color name="TransDarkSmoke">#CCD3D3D3</color>
     
-<style name="MyApp.Widget.Holo.DropDownItem" parent="Widget.Sherlock.Light.DropDownItem.Spinner">
-       <item name="android:background">@color/Slate</item>
-    </style>
-        
-    <style name="ACTextViewSlateSmoke" parent="@android:style/Widget.AutoCompleteTextView">
-        <item name="android:textColor">@color/Smoke</item>
-        <item name="android:textColorHint">@color/Smoke</item>
-        <item name="android:dropDownSelector">@drawable/selector_slate_smoke</item>
-        <item name="android:popupBackground">@color/Slate</item>
+    <style name="Theme.Reviewer" parent="@style/Theme.Sherlock.Light">
     </style>
     
-    <style name="TextViewSlateSmoke" parent="@android:style/Widget.TextView">
-        <item name="android:textColor">@color/Smoke</item>
-        <item name="android:textColorPrimaryInverse">@color/Slate</item>
-    </style>
-
-    <style name="EditTextSlateSmoke" parent="@android:style/Widget.EditText">
-        <item name="android:textColor">@color/Smoke</item>
-        <item name="android:textColorPrimaryInverse">@color/Slate</item>
-        <item name="android:textColorHint">@color/Smoke</item>
+    <style name="Widget.AutoCompleteTextView" parent="@android:style/Widget.AutoCompleteTextView">
         <item name="android:textCursorDrawable">@null</item>
     </style>
     
-    <style name="ButtonSlateSmoke" parent="@style/Widget.Sherlock.ActionButton">
-        <item name="android:textColor">@color/Smoke</item>
-        <item name="android:textColorPrimaryInverse">@color/Slate</item>
+    <style name="Widget.TextView" parent="@android:style/Widget.TextView">
+    </style>
+
+    <style name="Widget.EditText" parent="@android:style/Widget.EditText">
+        <item name="android:textCursorDrawable">@null</item>
+    </style>
+    
+    <style name="Widget.Button" parent="@style/Widget.Sherlock.ActionButton">
         <item name="android:textAppearance">?android:attr/textAppearanceMediumInverse</item>
-        <item name="android:background">@drawable/selector_slate_smoke</item>
     </style>
     
-    <style name="GridCellSlateSmoke">
-        <item name="android:background">@color/Slate</item>
+    <style name="Widget.GridCell" parent="@android:style/Widget">
+        <item name="android:background">@android:color/transparent</item>
     </style>
     
-    <style name="GridViewSlateSmoke" parent="@android:style/Widget.GridView">
-        <item name="android:listSelector">@drawable/grid_cell_selector_slate_smoke</item>
+    <style name="Widget.GridView" parent="@android:style/Widget.GridView">
     </style>
      
-   	<style name="DialogThemeSlateSmoke" parent="@android:style/Theme.Dialog">
-		<item name="android:textColor">@color/Smoke</item>
-		<item name="android:textColorPrimaryInverse">@color/Slate</item>
-		<item name="android:background">@color/Slate</item>
+   	<style name="Theme.Dialog" parent="@android:style/Theme.Dialog">
    	</style>
-    
+   	
 </resources>

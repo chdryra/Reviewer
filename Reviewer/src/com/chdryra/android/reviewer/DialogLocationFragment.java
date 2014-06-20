@@ -112,9 +112,12 @@ public class DialogLocationFragment extends DialogActionCancelDoneFragment imple
 		
 	@Override
 	protected void onActionButtonClick() {
-		Intent i = getNewReturnData();
-		i.putExtra(LATLNG, mLatLng);
-		i.putExtra(NAME, mNameEditText.getText().toString());
+		String locationName = mNameEditText.getText().toString();
+		if(mLatLng != null && locationName.length() > 0) {
+			Intent i = getNewReturnData();
+			i.putExtra(LATLNG, mLatLng);
+			i.putExtra(NAME, mNameEditText.getText().toString());
+		}
 	}
 	
 	private void setSuggestionsAdapter() {

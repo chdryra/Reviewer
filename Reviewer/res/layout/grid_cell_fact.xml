@@ -1,17 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<com.chdryra.android.reviewer.GridCellLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/GridCell" >
-
-    <LinearLayout style="@style/LineaLayoutVertical.GridCell" >
-        <TextView
-            android:id="@+id/fact_label"
-            style="@style/TextViewGridCell"
-            android:layout_weight="1" />
-
-        <TextView
-            android:id="@+id/fact_value"
-            style="@style/TextViewGridCell"
-            android:layout_weight="1" />
-    </LinearLayout>
-
-</com.chdryra.android.reviewer.GridCellLayout>

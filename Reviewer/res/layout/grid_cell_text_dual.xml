@@ -3,14 +3,13 @@
     style="@style/GridCell" >
 
     <LinearLayout style="@style/LineaLayoutVertical.GridCell" >
-
-        <TextView
-            android:id="@+id/pros"
+        <TextView
+            android:id="@+id/upper_text"
             style="@style/TextViewGridCell"
             android:layout_weight="1" />
 
         <TextView
-            android:id="@+id/cons"
+            android:id="@+id/lower_text"
             style="@style/TextViewGridCell"
             android:layout_weight="1" />
     </LinearLayout>

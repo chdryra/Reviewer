@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+   	
+    <!-- Slate Smoke -->
+    <style name="Theme.Reviewer.SlateSmoke">
+        <item name="android:windowBackground">@color/Slate</item>
+        <item name="android:colorBackground">@color/Slate</item>
+		<item name="android:autoCompleteTextViewStyle">@style/Widget.AutoCompleteTextView.SlateSmoke</item>
+	   	<item name="android:textViewStyle">@style/Widget.TextView.SlateSmoke</item>
+        <item name="android:editTextStyle">@style/Widget.EditText.SlateSmoke</item>
+        <item name="android:buttonStyle">@style/Widget.Button.SlateSmoke</item>
+        <item name="android:gridViewStyle">@style/Widget.GridView.SlateSmoke</item>
+        <item name="gridCellStyle">@style/Widget.GridCell.SlateSmoke</item>
+        <item name="android:alertDialogTheme">@style/Theme.Dialog.SlateSmoke</item>
+        <item name="android:dialogTheme">@style/Theme.Dialog.SlateSmoke</item>
+    </style>
+            
+    <style name="Widget.AutoCompleteTextView.SlateSmoke">
+        <item name="android:textColor">@color/Smoke</item>
+        <item name="android:textColorPrimaryInverse">@color/Slate</item>
+        <item name="android:textColorHint">@color/Smoke</item>
+    </style>
+    
+    <style name="Widget.TextView.SlateSmoke">
+        <item name="android:textColor">@color/Smoke</item>
+        <item name="android:textColorPrimaryInverse">@color/Slate</item>
+    </style>
+
+    <style name="Widget.EditText.SlateSmoke">
+        <item name="android:textColor">@color/Smoke</item>
+        <item name="android:textColorPrimaryInverse">@color/Slate</item>
+        <item name="android:textColorHint">@color/Smoke</item>
+    </style>
+    
+    <style name="Widget.Button.SlateSmoke">
+        <item name="android:textColor">@color/Smoke</item>
+        <item name="android:textColorPrimaryInverse">@color/Slate</item>
+        <item name="android:background">@drawable/selector_slate_smoke</item>
+    </style>
+    
+    <style name="Widget.GridCell.SlateSmoke">
+        <item name="android:background">@color/TransSlate</item>
+    </style>
+    
+    <style name="Widget.GridView.SlateSmoke">
+        <item name="android:listSelector">@drawable/selector_slate_smoke_grid_cell</item>
+        <item name="android:background">@color/DarkSlate</item>
+    </style>
+     
+   	<style name="Theme.Dialog.SlateSmoke">
+		<item name="android:textColor">@color/Smoke</item>
+		<item name="android:textColorPrimaryInverse">@color/Slate</item>
+		<item name="android:background">@color/TransSlate</item>
+   	</style>
+    
+</resources>

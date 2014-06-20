@@ -8,9 +8,9 @@ import com.chdryra.android.reviewer.GVProConSummaryList.GVProConSummary;
 
 
 public class VHProConSummaryView extends VHDualStringView {
-	private final static int LAYOUT = R.layout.grid_cell_procon_summary;
-	private final static int UPPER = R.id.pros;
-	private final static int LOWER = R.id.cons;
+	private final static int LAYOUT = R.layout.grid_cell_text_dual;
+	private final static int UPPER = R.id.upper_text;
+	private final static int LOWER = R.id.lower_text;
 	
 	public VHProConSummaryView() {
 		super(LAYOUT, UPPER, LOWER);

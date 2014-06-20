@@ -4,6 +4,10 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
 	<dimen name="grid_item_text_padding">5dp</dimen>
+	<dimen name="grid_view_left_padding">2dp</dimen>
+	<dimen name="grid_view_right_padding">2dp</dimen>
+	<dimen name="grid_view_vertical_spacing">2dp</dimen>
+	<dimen name="grid_view_horizontal_spacing">2dp</dimen>
 	<dimen name="subject_text_padding">3dp</dimen>
 	<dimen name="imageMaxWidth">480px</dimen>
 	<dimen name="imageMaxHeight">480px</dimen>

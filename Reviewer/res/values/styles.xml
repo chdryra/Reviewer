@@ -50,6 +50,19 @@
 	    <item name="android:background">@android:color/transparent</item>
     </style>
     
+    <!-- GridViews -->
+    <style name="GridView">
+        <item name="android:layout_width">match_parent</item>
+	    <item name="android:layout_height">match_parent</item>
+    	<item name="android:gravity">center</item>
+    	<item name ="android:numColumns">2</item>
+    	<item name="android:paddingLeft">@dimen/grid_view_left_padding</item>
+    	<item name="android:paddingRight">@dimen/grid_view_right_padding</item>
+    	<item name="android:stretchMode">none</item>
+    	<item name="android:horizontalSpacing">@dimen/grid_view_horizontal_spacing</item>
+    	<item name="android:verticalSpacing">@dimen/grid_view_vertical_spacing</item>
+    </style>
+    
     <!-- GridCells -->
     <style name="GridCell">
     	<item name="android:layout_width">match_parent</item>    
