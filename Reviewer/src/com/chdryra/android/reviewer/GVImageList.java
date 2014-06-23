@@ -1,5 +1,7 @@
 package com.chdryra.android.reviewer;
 
+import java.util.Random;
+
 import android.graphics.Bitmap;
 
 import com.chdryra.android.mygenerallibrary.GVData;
@@ -16,6 +18,10 @@ public class GVImageList extends GVReviewDataList<GVImageList.GVImage> {
 		add(new GVImage(bitmap, latLng, caption));
 	}
 
+	public void add(Bitmap bitmap, LatLng latLng, String caption, boolean isCover) {
+		add(new GVImage(bitmap, latLng, caption, isCover));
+	}
+
 	public void remove(Bitmap bitmap, LatLng latLng, String caption) {
 		remove(new GVImage(bitmap, latLng, caption));
 	}
@@ -25,10 +31,37 @@ public class GVImageList extends GVReviewDataList<GVImageList.GVImage> {
 		image.setCaption(newCaption);
 	}
 
+	public GVImageList getCovers() {
+		GVImageList covers = new GVImageList();
+		for(GVImage image : this)
+			if(image.isCover())
+				covers.add(image);
+		
+		return covers;
+	}
+	
+	public GVImage getRandomCover() {
+		GVImageList covers = getCovers();
+		if(covers.size() == 0)
+			return null;
+		
+		Random r = new Random();
+		
+		return covers.getItem(r.nextInt(covers.size()));
+	}
+	
 	class GVImage implements GVData{
 		private Bitmap mBitmap;
 		private String mCaption;
 		private LatLng mLatLng;
+		private boolean mIsCover = false;
+		
+		public GVImage(Bitmap bitmap, LatLng latLng, String caption, boolean isCover) {
+			mBitmap = bitmap;
+			mCaption = caption;
+			mLatLng = latLng;
+			mIsCover = isCover;
+		}
 		
 		public GVImage(Bitmap bitmap, LatLng latLng, String caption) {
 			mBitmap = bitmap;
@@ -50,6 +83,14 @@ public class GVImageList extends GVReviewDataList<GVImageList.GVImage> {
 		
 		public void setCaption(String caption) {
 			mCaption = caption;
+		}
+		
+		public void setIsCover(boolean isCover) {
+			mIsCover = isCover;
+		}
+		
+		public boolean isCover() {
+			return mIsCover;
 		}
 		
 		@Override

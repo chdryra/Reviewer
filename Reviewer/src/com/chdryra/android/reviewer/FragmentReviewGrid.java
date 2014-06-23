@@ -54,6 +54,7 @@ public abstract class FragmentReviewGrid<T extends GVData> extends FragmentDelet
 	private boolean mReviewInProgress = false;
 	private boolean mCancelUpdateUIOnActivityResult = false;
 	private Class<? extends Activity> mOnDoneActivity;
+	int mImageAlpha = 200;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -202,24 +203,37 @@ public abstract class FragmentReviewGrid<T extends GVData> extends FragmentDelet
 		updateRatingBarUI();
 		updateBannerButtonUI();
 		updateGridDataUI();
-		updateBackground();
+		updateCover();
 	}
 
+	protected void updateCover() {
+		updateCover((GVImageList)getController().getData(GVType.IMAGES));
+	}
+	
 	@SuppressWarnings("deprecation")
 	@TargetApi(Build.VERSION_CODES.JELLY_BEAN)
-	private void updateBackground() {
-		if(getController().hasData(GVType.IMAGES)) {
-			GVImage image = (GVImage) getController().getData(GVType.IMAGES).getItem(0);
-			BitmapDrawable bitmap = new BitmapDrawable(getResources(), image.getBitmap());
+	protected void updateCover(GVImageList images) {
+		if(images.getCovers().size() > 0) {
+			GVImage cover = images.getRandomCover();
+			BitmapDrawable bitmap = new BitmapDrawable(getResources(), cover.getBitmap());
 			if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN)
 				getLayout().setBackground(bitmap);
 			else
 				getLayout().setBackgroundDrawable(bitmap);
-			getGridView().getBackground().setAlpha(0);
+			getGridView().getBackground().setAlpha(mImageAlpha);
 		} else {
 			getLayout().setBackgroundColor(Color.TRANSPARENT);
 			getGridView().getBackground().setAlpha(255);
 		}
+	}
+	
+	protected void setBackgroundImageAlpha(int alpha) {
+		if(alpha > 255)
+			alpha = 255;
+		else if(alpha < 0)
+			alpha = 0;
+		
+		mImageAlpha = alpha;
 	}
 	
 	protected void updateSubjectTextUI() {

@@ -169,7 +169,7 @@ public class ControllerReviewNode{
 		Review r = getReview();
 		RDList<RDImage> rdImages = new RDList<RDImage>();
 		for(GVImage image : images)
-			rdImages.add(new RDImage(image.getBitmap(), image.getLatLng(), image.getCaption(), r));
+			rdImages.add(new RDImage(image.getBitmap(), image.getLatLng(), image.getCaption(), image.isCover(), r));
 		
 		r.setImages(rdImages);
 	}
@@ -177,7 +177,7 @@ public class ControllerReviewNode{
 	private GVImageList getImages() {
 		GVImageList images = new GVImageList();
 		for(RDImage image : getReview().getImages())
-			images.add(image.getBitmap(), image.getLatLng(), image.getCaption());
+			images.add(image.getBitmap(), image.getLatLng(), image.getCaption(), image.isCover());
 		
 		return images;
 	}

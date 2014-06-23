@@ -32,7 +32,7 @@
         
         <!-- Create Review -->
         <activity
-            android:name="com.chdryra.android.reviewer.ActivityReviewCreate"
+            android:name="com.chdryra.android.reviewer.ActivityReviewEdit"
             android:windowSoftInputMode="adjustPan"
             android:label="@string/activity_title_review_create" 
             android:screenOrientation="portrait">
@@ -42,7 +42,7 @@
             </intent-filter>
         </activity>
         
-        <!-- Review optional data -->
+        <!-- Review optional data 
         <activity android:name="com.chdryra.android.reviewer.ActivityReviewEdit"
 		    android:windowSoftInputMode="adjustPan"
 		    android:configChanges="orientation"
@@ -52,6 +52,7 @@
             <meta-data android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.chdryra.android.reviewer.ActivityReviewCreate" />
         </activity>
+        -->
         
         <!-- Criteria -->
         <activity android:name="com.chdryra.android.reviewer.ActivityReviewChildren"

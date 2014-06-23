@@ -10,14 +10,16 @@ public class RDImage implements RData{
 	private Bitmap mBitmap;
 	private String mCaption;
 	private LatLng mLatLng;
+	private boolean mIsCover = false;
 
 	public RDImage() {
 	}
 
-	public RDImage(Bitmap bitmap, LatLng latLng, String caption, Review holdingReview) {
+	public RDImage(Bitmap bitmap, LatLng latLng, String caption, boolean isCover, Review holdingReview) {
 		mBitmap = bitmap;
 		mLatLng = latLng;
 		mCaption = caption;
+		mIsCover = isCover;
 		mHoldingReview = holdingReview;
 	}
 
@@ -62,5 +64,9 @@ public class RDImage implements RData{
 
 	public boolean hasLatLng() {
 		return mLatLng != null;
+	}
+	
+	public boolean isCover() {
+		return mIsCover;
 	}
 }

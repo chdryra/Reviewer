@@ -1,7 +1,5 @@
 package com.chdryra.android.reviewer;
 
-import java.net.URL;
-
 import android.app.ActionBar.LayoutParams;
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,9 +9,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
 import com.chdryra.android.mygenerallibrary.ActivityResultCode;
 import com.chdryra.android.mygenerallibrary.FunctionPointer;
 import com.chdryra.android.mygenerallibrary.GVData;
@@ -45,6 +45,7 @@ public class FragmentReviewOptions extends FragmentReviewGrid<GVCellManager> {
 		setDismissOnDone(false);
 		setBannerButtonText(getResources().getString(R.string.button_add_review_data));
 		setIsEditable(true);
+		setBackgroundImageAlpha(0);
 		
 		mHelperReviewImage = HelperReviewImage.getInstance(getController());
 	}
@@ -52,13 +53,17 @@ public class FragmentReviewOptions extends FragmentReviewGrid<GVCellManager> {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View v = super.onCreateView(inflater, container, savedInstanceState);
-		mPublishButton = (Button)inflater.inflate(R.layout.review_banner_button, container, false);
+		getBannerButton().setClickable(false);
 		View divider = inflater.inflate(R.layout.horizontal_divider, container, false);
+		mPublishButton = (Button)inflater.inflate(R.layout.review_banner_button, container, false);
 		mPublishButton.setText(getResources().getString(R.string.button_publish));
 		mPublishButton.getLayoutParams().height = LayoutParams.MATCH_PARENT;
 		mPublishButton.setOnClickListener(new View.OnClickListener() {		
 			@Override
 			public void onClick(View v) {
+				if(getController().getData(GVType.TAGS).size() == 0) {
+					Toast.makeText(getActivity(), R.string.toast_enter_tag, Toast.LENGTH_SHORT).show();
+				} 
 			}
 		});
 		
@@ -77,8 +82,6 @@ public class FragmentReviewOptions extends FragmentReviewGrid<GVCellManager> {
 		mCellManagerList.add(GVType.COMMENTS);
 		mCellManagerList.add(GVType.LOCATIONS);
 		mCellManagerList.add(GVType.FACTS);
-		//mCellManagerList.add(GVType.PROCONS);
-		//mCellManagerList.add(GVType.URLS);
 	}
 	
 	@Override
@@ -102,6 +105,18 @@ public class FragmentReviewOptions extends FragmentReviewGrid<GVCellManager> {
 		inflater.inflate(R.menu.fragment_review_options, menu);
 	}
 
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case R.id.menu_item_average_rating:
+			getController().setReviewRatingAverage(true);
+			getTotalRatingBar().setRating(getController().getRating());
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
+		}
+	}
+	
 	private ReviewDataOption getOption(GVType dataType) {
 		return ReviewDataOptions.get(dataType);
 	}
@@ -141,15 +156,9 @@ public class FragmentReviewOptions extends FragmentReviewGrid<GVCellManager> {
 		} else if (requestCode == getOption(GVType.LOCATIONS).getDialogRequestCode()) {
 			if(resCode.equals(DialogLocationFragment.RESULT_MAP.getResultCode()))
 				requestIntent(ActivityReviewLocationMap.class, LOCATION_MAP, data);
-		} else if (requestCode == getOption(GVType.URLS).getDialogRequestCode()) {
-			if(resCode.equals(DialogURLFragment.RESULT_BROWSE.getResultCode()))
-				requestIntent(ActivityReviewURLBrowser.class, URL_BROWSE, data);
 		} else if (requestCode == LOCATION_MAP) {
 			if(resCode.equals(ActivityResultCode.DONE))
 				addLocation(data);
-		} else if (requestCode == URL_BROWSE) {
-			if(resCode.equals(ActivityResultCode.DONE))
-				addURL(data);
 		} else {
 			super.onActivityResult(requestCode, resultCode, data);
 		}
@@ -161,6 +170,7 @@ public class FragmentReviewOptions extends FragmentReviewGrid<GVCellManager> {
 		mHelperReviewImage.addReviewImage(getActivity(), images, new FunctionPointer<Void>() {
 			@Override
 			public void execute(Void data) {
+				images.getItem(0).setIsCover(true);
 				getController().setData(images);
 				updateUI();
 			}
@@ -177,14 +187,14 @@ public class FragmentReviewOptions extends FragmentReviewGrid<GVCellManager> {
 		}
 	}
 	
-	private void addURL(Intent data) {
-		URL url = (URL)data.getSerializableExtra(FragmentReviewURLBrowser.URL);
-		if(url != null) {
-			GVUrlList urls = new GVUrlList();
-			urls.add(url);
-			getController().setData(urls);
-		}
-	}
+//	private void addURL(Intent data) {
+//		URL url = (URL)data.getSerializableExtra(FragmentReviewURLBrowser.URL);
+//		if(url != null) {
+//			GVUrlList urls = new GVUrlList();
+//			urls.add(url);
+//			getController().setData(urls);
+//		}
+//	}
 	
 	@Override
 	protected GridViewCellAdapter getGridViewCellAdapter() {
@@ -244,10 +254,7 @@ public class FragmentReviewOptions extends FragmentReviewGrid<GVCellManager> {
 				if(size == 0)
 					return getNoDatumView(parent);
 
-				if(mDataType == GVType.PROCONS)
-					return getProConSummaryView(parent);
-				else
-					return size == 1? getSingleDatumView(parent, 0) : getMultiDataView(parent);
+				return size > 1 || mDataType == GVType.IMAGES? getMultiDataView(parent) : getSingleDatumView(parent, 0); 
 			}
 			
 			public View getNoDatumView(ViewGroup parent) {
@@ -266,9 +273,12 @@ public class FragmentReviewOptions extends FragmentReviewGrid<GVCellManager> {
 			}
 						
 			public View getMultiDataView(ViewGroup parent) {
+				int number = getController().getData(mDataType).size();
+				String type = number == 1? mDataType.getDatumString() : mDataType.getDataString();
+				
 				ViewHolder vh = new VHTextDualView();
 				vh.inflate(getActivity(), parent);
-				return vh.updateView(new GVDualString(String.valueOf(getController().getData(mDataType).size()), mDataType.getDataString()));
+				return vh.updateView(new GVDualString(String.valueOf(number), type));
 			}
 			
 			public View getProConSummaryView(ViewGroup parent) {

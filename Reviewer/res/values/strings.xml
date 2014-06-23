@@ -38,6 +38,7 @@
     <string name="dialog_name_location_title">Name Location</string>
     <string name="dialog_delete_location_title">Location</string>
     <string name="dialog_delete_locations_title">Locations</string>
+    <string name="dialog_set_image_as_background">Set image as cover?</string>
 
     <!-- Activities -->
     <string name="activity_title_location">locations</string>
@@ -68,6 +69,7 @@
     <string name="edit_text_add_comment_hint">comment&#8230;</string>
     <string name="edit_text_add_comment_dialog_hint">comment&#8230;</string>
     <string name="edit_text_name_location_hint">name this location&#8230;</string>
+    <string name="edit_text_name_current_location_hint">name current location&#8230;</string>
     <string name="edit_text_search_location_hint">search for location&#8230;</string>
     <string name="edit_text_map_caption_hint">location&#8230;</string>
     <string name="edit_text_image_caption_hint">caption&#8230;</string>
@@ -125,7 +127,7 @@
     <string name="image_review_cd">review image</string>
 
     <!-- Checkboxes -->
-    <string name="checkbox_split_comment">split comment</string>
+    <string name="checkbox_image_cover">set as review background</string>
     <string name="checkbox_include_date">include date</string>
 
     <!-- Menus -->

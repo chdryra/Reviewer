@@ -12,10 +12,10 @@ import com.google.android.gms.maps.model.LatLng;
 public class DialogImageEditFragment extends DialogDeleteCancelDoneFragment {
 	public static final String OLD_CAPTION = "com.chdryra.android.reviewer.old_caption";
 	
-	protected Bitmap mBitmap;
-	protected LatLng mLatLng;
-	protected String mCaption;
-	protected ClearableEditText mImageCaption;
+	private Bitmap mBitmap;
+	private LatLng mLatLng;
+	private String mCaption;
+	private ClearableEditText mImageCaption;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -59,10 +59,7 @@ public class DialogImageEditFragment extends DialogDeleteCancelDoneFragment {
 	
 	@Override
 	protected void onDeleteButtonClick() {
-		Intent i = getNewReturnData();
-		i.putExtra(FragmentReviewImages.BITMAP, mBitmap);
-		i.putExtra(FragmentReviewImages.LATLNG, mLatLng);
-		i.putExtra(FragmentReviewImages.CAPTION, mCaption);
+		getNewReturnData().putExtras(getArguments());
 	}
 	
 	@Override
