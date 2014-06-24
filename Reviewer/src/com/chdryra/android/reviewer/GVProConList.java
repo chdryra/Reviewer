@@ -13,11 +13,11 @@ public class GVProConList extends GVReviewDataList<GVProConList.GVProCon> {
 	
 	public void add(String string, boolean isPro) {
 		if(string != null && string.length() > 0)
-			mData.add(new GVProCon(string, isPro));
+			add(new GVProCon(string, isPro));
 	}
 	
 	public boolean contains(String string, boolean isPro) {
-		return mData.contains(new GVProCon(string, isPro));
+		return contains(new GVProCon(string, isPro));
 	}
 	
 	public void remove(String string, boolean isPro) {

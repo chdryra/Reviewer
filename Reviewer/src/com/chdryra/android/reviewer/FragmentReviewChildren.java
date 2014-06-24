@@ -123,20 +123,7 @@ public class FragmentReviewChildren extends FragmentReviewGridAddEditDone<GVCrit
 			return super.onOptionsItemSelected(item);
 		}
 	}
-	
-	@Override
-	protected void onDoneSelected() {
-		if(getSubjectText().length() == 0) {
-			Toast.makeText(getActivity(), R.string.toast_enter_subject, Toast.LENGTH_SHORT).show();
-			setDismissOnDone(false);
-			cancelUpdateUIOnActivityResult();
-			return;
-		} else
-			setDismissOnDone(true);
-
-		super.onDoneSelected();
-	}
-	
+		
 	@Override
 	protected void onDeleteSelected() {
 		super.onDeleteSelected();		

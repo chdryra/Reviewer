@@ -13,11 +13,11 @@ public class GVTagList extends GVReviewDataList<GVString> {
 	
 	public void add(String string) {
 		if(string != null && string.length() > 0)
-			mData.add(new GVString(string));
+			add(new GVString(string));
 	}
 	
 	public boolean contains(String string) {
-		return mData.contains(new GVString(string));
+		return contains(new GVString(string));
 	}
 	
 	public void remove(String string) {

@@ -52,7 +52,6 @@ public abstract class FragmentReviewGrid<T extends GVData> extends FragmentDelet
 
 	private GVReviewDataList<T> mGridData;
 	private boolean mReviewInProgress = false;
-	private boolean mCancelUpdateUIOnActivityResult = false;
 	private Class<? extends Activity> mOnDoneActivity;
 	int mImageAlpha = 200;
 	
@@ -334,15 +333,9 @@ public abstract class FragmentReviewGrid<T extends GVData> extends FragmentDelet
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-		if(!mCancelUpdateUIOnActivityResult)
-			updateUI();
-		mCancelUpdateUIOnActivityResult = false;
+		updateUI();
 	}
 	
-	public void cancelUpdateUIOnActivityResult() {
-		mCancelUpdateUIOnActivityResult = true;
-	}
-		
 	@Override
 	protected void onDoneSelected() {
 		getController().setData(mGridData);

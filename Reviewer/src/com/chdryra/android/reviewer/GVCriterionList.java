@@ -22,7 +22,7 @@ public class GVCriterionList extends GVReviewDataList<GVCriterionList.GVCriterio
 	
 	public boolean contains(String subject) {
 		GVCriterion criterion = new GVCriterion(subject, 0);
-		return mData.contains(criterion);
+		return contains(criterion);
 	}
 	
 	public void set(String subject, float rating) {
@@ -33,7 +33,7 @@ public class GVCriterionList extends GVReviewDataList<GVCriterionList.GVCriterio
 	
 	private GVCriterion getItem(String subject) {
 		GVCriterion criterion = null;
-		for(GVCriterion c : mData) {
+		for(GVCriterion c : this) {
 			if(c.getSubject().equals(subject)) {
 				criterion = c;
 				break;
