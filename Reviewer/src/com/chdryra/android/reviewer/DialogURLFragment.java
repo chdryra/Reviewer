@@ -59,7 +59,7 @@ public class DialogURLFragment extends DialogDeleteCancelDoneFragment {
 				mController.setData(singleURL);
 			} catch (Exception e) {
 				Log.e(TAG, "Malformed URL", e);
-				Toast.makeText(getSherlockActivity(), getResources().getString(R.string.toast_bad_url), Toast.LENGTH_SHORT).show();
+				Toast.makeText(getActivity(), getResources().getString(R.string.toast_bad_url), Toast.LENGTH_SHORT).show();
 				return;
 			}
 		}

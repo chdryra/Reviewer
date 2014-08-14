@@ -1,8 +1,9 @@
 package com.chdryra.android.reviewer;
 
+import android.app.Fragment;
+
 import com.chdryra.android.mygenerallibrary.ActivitySingleFragment;
 
-import android.support.v4.app.Fragment;
 
 public class ActivityReviewLocations extends ActivitySingleFragment {
 

@@ -26,7 +26,7 @@ public abstract class FragmentReviewGridAddEditDone<T extends GVData>  extends F
 	
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		getSherlockActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+		getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 	
 		switch(requestCode) {
 		case DATA_ADD:

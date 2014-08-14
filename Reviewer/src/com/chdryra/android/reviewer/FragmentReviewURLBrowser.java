@@ -9,6 +9,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
@@ -18,9 +21,6 @@ import android.webkit.WebViewClient;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuInflater;
-import com.actionbarsherlock.view.MenuItem;
 import com.chdryra.android.myandroidwidgets.ClearableEditText;
 import com.chdryra.android.mygenerallibrary.FragmentDeleteDone;
 
@@ -43,7 +43,7 @@ public class FragmentReviewURLBrowser extends FragmentDeleteDone {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View v = inflater.inflate(R.layout.fragment_review_url_browse, container, false);
-		getSherlockActivity().getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
 
 		mWebView = (WebView)v.findViewById(R.id.web_view);
 	    mURLEditText= (ClearableEditText)v.findViewById(R.id.edit_text_url);
@@ -119,7 +119,7 @@ public class FragmentReviewURLBrowser extends FragmentDeleteDone {
 			i.putExtra(URL, url);
 			i.putExtra(URL_OLD, mURL);
 		} catch (MalformedURLException e) {
-			Toast.makeText(getSherlockActivity(), getResources().getString(R.string.toast_bad_url), Toast.LENGTH_SHORT).show();
+			Toast.makeText(getActivity(), getResources().getString(R.string.toast_bad_url), Toast.LENGTH_SHORT).show();
 			e.printStackTrace();
 		}
 	}

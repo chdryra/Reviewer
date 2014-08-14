@@ -2,7 +2,7 @@ package com.chdryra.android.reviewer;
 
 import com.chdryra.android.mygenerallibrary.ActivitySingleFragment;
 
-import android.support.v4.app.Fragment;
+import android.app.Fragment;
 
 public class ActivityReviewChildren extends ActivitySingleFragment {
 

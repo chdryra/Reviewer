@@ -3,7 +3,7 @@ package com.chdryra.android.reviewer;
 import java.util.HashMap;
 
 import android.app.Activity;
-import android.support.v4.app.DialogFragment;
+import android.app.DialogFragment;
 
 import com.chdryra.android.mygenerallibrary.VHDualStringView;
 import com.chdryra.android.mygenerallibrary.ViewHolder;

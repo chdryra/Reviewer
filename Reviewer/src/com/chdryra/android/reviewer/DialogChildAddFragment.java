@@ -44,7 +44,7 @@ public class DialogChildAddFragment extends DialogAddReviewDataFragment{
 			return;
 		
 		if(mChildren.contains(childName)) {
-			Toast.makeText(getSherlockActivity(), childName + ": " + getResources().getString(R.string.toast_exists_criterion), Toast.LENGTH_SHORT).show();
+			Toast.makeText(getActivity(), childName + ": " + getResources().getString(R.string.toast_exists_criterion), Toast.LENGTH_SHORT).show();
 			return;
 		}
 		

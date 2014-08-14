@@ -1,8 +1,8 @@
 package com.chdryra.android.reviewer;
 
-import com.chdryra.android.mygenerallibrary.ActivitySingleFragment;
+import android.app.Fragment;
 
-import android.support.v4.app.Fragment;
+import com.chdryra.android.mygenerallibrary.ActivitySingleFragment;
 
 public class ActivityReviewComments extends ActivitySingleFragment {
 

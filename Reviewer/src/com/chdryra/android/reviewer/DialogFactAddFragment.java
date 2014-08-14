@@ -41,11 +41,11 @@ public class DialogFactAddFragment extends DialogAddReviewDataFragment{
 			return;
 		
 		if(label == null || label.length() == 0)
-			Toast.makeText(getSherlockActivity(), getResources().getString(R.string.toast_enter_label), Toast.LENGTH_SHORT).show();
+			Toast.makeText(getActivity(), getResources().getString(R.string.toast_enter_label), Toast.LENGTH_SHORT).show();
 		else if(value == null || value.length() == 0)
-			Toast.makeText(getSherlockActivity(), getResources().getString(R.string.toast_enter_value), Toast.LENGTH_SHORT).show();
+			Toast.makeText(getActivity(), getResources().getString(R.string.toast_enter_value), Toast.LENGTH_SHORT).show();
 		else if (mFacts.contains(label, value)) {
-			Toast.makeText(getSherlockActivity(), getResources().getString(R.string.toast_has_fact), Toast.LENGTH_SHORT).show();
+			Toast.makeText(getActivity(), getResources().getString(R.string.toast_has_fact), Toast.LENGTH_SHORT).show();
 		} else {
 			mFacts.add(label, value);
 			Intent i = getNewReturnData(); 

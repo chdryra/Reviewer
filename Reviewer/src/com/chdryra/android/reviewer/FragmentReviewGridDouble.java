@@ -7,6 +7,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -16,7 +17,6 @@ import android.widget.GridView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
-import com.actionbarsherlock.view.MenuItem;
 import com.chdryra.android.mygenerallibrary.FragmentDeleteDone;
 import com.chdryra.android.mygenerallibrary.GVData;
 import com.chdryra.android.mygenerallibrary.GridViewCellAdapter;
@@ -370,8 +370,8 @@ public enum CellDimension{FULL, HALF, QUARTER};
 	
 	@Override
 	protected void onUpSelected() {
-		if (NavUtils.getParentActivityName(getSherlockActivity()) != null) {
-			Intent i = NavUtils.getParentActivityIntent(getSherlockActivity());
+		if (NavUtils.getParentActivityName(getActivity()) != null) {
+			Intent i = NavUtils.getParentActivityIntent(getActivity());
 			Controller.pack(getController(), i);
 			NavUtils.navigateUpTo(getActivity(), i);
 		}

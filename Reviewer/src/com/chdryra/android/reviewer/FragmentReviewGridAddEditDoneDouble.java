@@ -41,7 +41,7 @@ public abstract class FragmentReviewGridAddEditDoneDouble<TLeft extends GVData, 
 	
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		getSherlockActivity().getWindow().setSoftInputMode(
+		getActivity().getWindow().setSoftInputMode(
 				WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
 		switch (requestCode) {

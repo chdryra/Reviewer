@@ -9,6 +9,9 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
@@ -17,9 +20,6 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuInflater;
-import com.actionbarsherlock.view.MenuItem;
 import com.chdryra.android.myandroidwidgets.ClearableAutoCompleteTextView;
 import com.chdryra.android.mygenerallibrary.ArrayAdapterSearchView;
 import com.chdryra.android.mygenerallibrary.FragmentDeleteDone;
@@ -68,7 +68,7 @@ public class FragmentReviewLocationMap extends FragmentDeleteDone implements Loc
 	    mRevertName = (String)getActivity().getIntent().getSerializableExtra(NAME);
 	    mReviewSubject = (String)getActivity().getIntent().getSerializableExtra(SUBJECT);
 	    
-		mLocationClient = new LocationClientConnector(getSherlockActivity(), this);
+		mLocationClient = new LocationClientConnector(getActivity(), this);
 	    
 	    //Not sure why I have to do this. Was working without this at some point...
 	    try {
@@ -86,7 +86,7 @@ public class FragmentReviewLocationMap extends FragmentDeleteDone implements Loc
 		mLocationClient.connect();
 		
 		View v = inflater.inflate(R.layout.fragment_review_location_map, container, false);
-		getSherlockActivity().getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
 
 		mMapView = (MapView)v.findViewById(R.id.mapView);
 	    mMapView.onCreate(savedInstanceState);	    
@@ -200,7 +200,7 @@ public class FragmentReviewLocationMap extends FragmentDeleteDone implements Loc
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 		inflater.inflate(R.menu.menu_search_delete_done, menu);
 		
-		mSearchView = new ArrayAdapterSearchView(getSherlockActivity().getSupportActionBar().getThemedContext());
+		mSearchView = new ArrayAdapterSearchView(getActivity().getActionBar().getThemedContext());
 		mSearchView.setQueryHint(getResources().getString(R.string.search_view_location_hint));
 		mSearchView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 	        @Override
@@ -224,7 +224,7 @@ public class FragmentReviewLocationMap extends FragmentDeleteDone implements Loc
 				}
 		});
 
-	    mSearchView.setAdapter(new LocationNameAdapter(getSherlockActivity(), android.R.layout.simple_list_item_1, mLatLng, 0, null));
+	    mSearchView.setAdapter(new LocationNameAdapter(getActivity(), android.R.layout.simple_list_item_1, mLatLng, 0, null));
 	    
 	    final MenuItem deleteIcon = menu.findItem(R.id.menu_item_delete);
 		final MenuItem doneIcon = menu.findItem(R.id.menu_item_done);
@@ -256,12 +256,12 @@ public class FragmentReviewLocationMap extends FragmentDeleteDone implements Loc
 		if(mLocationName != null) {
 			mLocationName.setText(null);
 			String primaryDefaultSuggestion = mSearchLocationName != null? mSearchLocationName : mReviewSubject;
-			mLocationName.setAdapter(new LocationNameAdapter(getSherlockActivity(), 
+			mLocationName.setAdapter(new LocationNameAdapter(getActivity(), 
 					android.R.layout.simple_list_item_1, mLatLng, NUMBER_DEFAULT_NAMES, primaryDefaultSuggestion));
 		}
 
 		if(mSearchView != null)
-			mSearchView.setAdapter(new LocationNameAdapter(getSherlockActivity(), android.R.layout.simple_list_item_1, mLatLng, 0, null));
+			mSearchView.setAdapter(new LocationNameAdapter(getActivity(), android.R.layout.simple_list_item_1, mLatLng, 0, null));
 	
 		zoomToLatLng();
 	}
@@ -295,7 +295,7 @@ public class FragmentReviewLocationMap extends FragmentDeleteDone implements Loc
 		@Override
 		protected void onPreExecute() {
 			super.onPreExecute();
-			pd = new ProgressDialog(getSherlockActivity());
+			pd = new ProgressDialog(getActivity());
 			pd.setTitle(getResources().getString(R.string.progress_bar_search_location_title));
 			pd.setMessage(getResources().getString(R.string.progress_bar_search_location_message));
 			pd.setCancelable(false);

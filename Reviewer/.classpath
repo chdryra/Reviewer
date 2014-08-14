@@ -7,5 +7,6 @@
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.DEPENDENCIES"/>
 	<classpathentry kind="lib" path="/actionbarsherlock/libs/android-support-v4.jar"/>
 	<classpathentry kind="lib" path="/google-play-services_lib/libs/google-play-services.jar"/>
+	<classpathentry kind="src" path="/MyGeneralLibrary"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>
