@@ -4,6 +4,7 @@
     <!-- App level -->
     <string name="app_name">Reviewer</string>
     <string name="action_settings">Settings</string>
+    <string name="search_hint">Search</string>
 
     <!-- Dialogs -->
     <string name="dialog_add_criteria_title">Add Criterion</string>
@@ -139,7 +140,7 @@
     <string name="menu_options">options</string>
     <string name="menu_current_location">current location</string>
     <string name="menu_location_from_photo">location_from_photo</string>
-    <string name="menu_item_search">search for location</string>
+    <string name="menu_search">search</string>
     <string name="menu_criteria_comments">criteria comments</string>
     <string name="menu_clear_comment">clear comment</string>
     <string name="menu_average_rating">average rating</string>

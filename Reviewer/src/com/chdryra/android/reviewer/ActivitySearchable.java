@@ -5,20 +5,15 @@ import android.content.Intent;
 
 import com.chdryra.android.mygenerallibrary.ActivitySingleFragment;
 
+public class ActivitySearchable extends ActivitySingleFragment {
 
-public class ActivityReviewLocationMap extends ActivitySingleFragment {
-
-	private FragmentReviewLocationMap mFragment;
-	
 	@Override
 	protected Fragment createFragment() {
-		mFragment = new FragmentReviewLocationMap();
-		return mFragment;
+		return new FragmentSearchable();
 	}
-	
+
 	@Override
 	protected void onNewIntent(Intent intent) {
 	    setIntent(intent);
-	    mFragment.handleSearch();
 	}
 }

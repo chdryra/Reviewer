@@ -132,7 +132,7 @@ public class FragmentReviewURLBrowser extends FragmentDeleteDone {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {			
-			case R.id.action_search:
+			case R.id.menu_item_search:
 				mURLEditText.setText(mSearchURL);
 				loadURL();
 				return true;

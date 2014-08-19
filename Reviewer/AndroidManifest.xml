@@ -102,13 +102,19 @@
         <!-- Map choose location -->
         <activity android:name="com.chdryra.android.reviewer.ActivityReviewLocationMap"
 		    android:theme="@style/Theme.Reviewer"
+		    android:launchMode="singleTop"
 		    android:windowSoftInputMode="adjustPan"
 		    android:configChanges="orientation"
 		    android:exported="true"
             android:label="@string/activity_title_location" 
             android:screenOrientation="portrait">
+	        <intent-filter>
+	            <action android:name="android.intent.action.SEARCH" />
+	        </intent-filter>
             <meta-data android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.chdryra.android.reviewer.ActivityReviewLocations" />
+            <meta-data android:name="android.app.searchable"
+                   android:resource="@xml/searchable_location_map"/>
         </activity>
 
         <!-- Locations -->
@@ -120,6 +126,7 @@
             android:screenOrientation="portrait">
             <meta-data android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.chdryra.android.reviewer.ActivityReviewEdit" />
+            
         </activity>
         
         <!-- Comments -->
@@ -165,7 +172,7 @@
             <meta-data android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.chdryra.android.reviewer.ActivityReviewEdit" />
         </activity>
-        
+
         <meta-data 
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="AIzaSyCZ_ArQmEClJYtDtvbcbSQQbvUcCZf3KWg"/>

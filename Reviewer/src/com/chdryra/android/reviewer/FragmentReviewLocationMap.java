@@ -1,27 +1,28 @@
 package com.chdryra.android.reviewer;
 
 import android.app.ProgressDialog;
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
+import android.database.MatrixCursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.EditorInfo;
-import android.widget.AdapterView;
+import android.widget.CursorAdapter;
 import android.widget.ImageButton;
-import android.widget.TextView;
+import android.widget.SearchView;
+import android.widget.SimpleCursorAdapter;
 import android.widget.Toast;
 
 import com.chdryra.android.myandroidwidgets.ClearableAutoCompleteTextView;
-import com.chdryra.android.mygenerallibrary.ArrayAdapterSearchView;
 import com.chdryra.android.mygenerallibrary.FragmentDeleteDone;
 import com.chdryra.android.mygenerallibrary.LocationClientConnector;
 import com.chdryra.android.mygenerallibrary.LocationNameAdapter;
@@ -48,7 +49,8 @@ public class FragmentReviewLocationMap extends FragmentDeleteDone implements Loc
 
 	private GoogleMap mGoogleMap;
 	private MapView mMapView;
-	private ArrayAdapterSearchView mSearchView;
+	private SearchView mSearchView;
+	private MenuItem mSearchViewMenuItem;
 	private ClearableAutoCompleteTextView mLocationName;
 	private ImageButton mRevertButton;
 	
@@ -175,11 +177,26 @@ public class FragmentReviewLocationMap extends FragmentDeleteDone implements Loc
 		
 	}
 	
-	private void gotoSearchLocation() {
-		mSearchLocationName = mSearchView.getText();
-		new MapSearchTask().execute(mSearchLocationName);
+	public void handleSearch() {
+	    Intent intent = getActivity().getIntent(); 
+		String query = null;
+	    if (Intent.ACTION_SEARCH.equals(intent.getAction()))
+	    	query = intent.getStringExtra(SearchManager.QUERY);
+	    else if(Intent.ACTION_PICK.equals(intent.getAction()))
+	    	query = intent.getData().getLastPathSegment();
+	    else
+	    	return;
+	    
+	    gotoSearchLocation(query);
 	}
-	
+
+	private void gotoSearchLocation(String query) {
+		mSearchLocationName = query;
+		new MapSearchTask().execute(mSearchLocationName);
+		mSearchView.setQuery(null, false);
+		mSearchViewMenuItem.collapseActionView();
+	}
+
 	@Override
 	protected void onDoneSelected() {
 		if(mLocationName.length() == 0) {
@@ -199,37 +216,17 @@ public class FragmentReviewLocationMap extends FragmentDeleteDone implements Loc
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 		inflater.inflate(R.menu.menu_search_delete_done, menu);
-		
-		mSearchView = new ArrayAdapterSearchView(getActivity().getActionBar().getThemedContext());
-		mSearchView.setQueryHint(getResources().getString(R.string.search_view_location_hint));
-		mSearchView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-	        @Override
-	        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-	            mSearchView.setText(parent.getItemAtPosition(position).toString());
-	            mSearchView.clearFocus();
-	            gotoSearchLocation();
-	        }
-	    });
-	    
-	    mSearchView.setOnEditorActionListener(new TextView.OnEditorActionListener() {			
-				@Override
-				public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-		            if(event == null) {
-		            	if(actionId == EditorInfo.IME_ACTION_SEARCH) {
-		            		mSearchView.clearFocus();
-		            		gotoSearchLocation();
-		            	}
-		            } 		            
-		            return false;
-				}
-		});
 
-	    mSearchView.setAdapter(new LocationNameAdapter(getActivity(), android.R.layout.simple_list_item_1, mLatLng, 0, null));
-	    
 	    final MenuItem deleteIcon = menu.findItem(R.id.menu_item_delete);
 		final MenuItem doneIcon = menu.findItem(R.id.menu_item_done);
-		final MenuItem searchViewMenuItem = menu.findItem(R.id.action_search);
+		mSearchViewMenuItem = menu.findItem(R.id.menu_item_search);
+
+		SearchManager searchManager = (SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
 		
+		mSearchView = (SearchView) mSearchViewMenuItem.getActionView();
+		mSearchView.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName()));		
+		mSearchView.setIconifiedByDefault(false); 
+		mSearchView.setQueryHint(getResources().getString(R.string.search_view_location_hint));
 		mSearchView.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
 			@Override
 			public void onFocusChange(View v, boolean hasFocus) {
@@ -239,12 +236,39 @@ public class FragmentReviewLocationMap extends FragmentDeleteDone implements Loc
 				} else {
 					deleteIcon.setVisible(true);
 					doneIcon.setVisible(true);	
-					searchViewMenuItem.collapseActionView();
+					mSearchViewMenuItem.collapseActionView();
 				}
 			}
 		});
-	    	    
-	    searchViewMenuItem.setActionView(mSearchView);
+
+		final LocationNameAdapter adapter = new LocationNameAdapter(getActivity(), android.R.layout.simple_list_item_1, mLatLng, 0, null);
+		
+		mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+			@Override
+			public boolean onQueryTextSubmit(String query) {
+				return false;
+			}
+			
+			@Override
+			public boolean onQueryTextChange(String newText) {
+			    adapter.getFilter().filter(newText);
+			    
+			    String[] columnNames = {"_id",SearchManager.SUGGEST_COLUMN_INTENT_DATA};
+			    String[] suggestion_row = new String[columnNames.length];
+			    MatrixCursor suggestions_cursor = new MatrixCursor(columnNames);
+			    for(int i = 0; i < adapter.getCount(); ++i){
+			    	suggestion_row[0] = String.valueOf(adapter.getItemId(i));
+			    	suggestion_row[1] = adapter.getItem(i);
+			    	suggestions_cursor.addRow(suggestion_row);
+			    }              
+			    
+			    String[] from = {SearchManager.SUGGEST_COLUMN_INTENT_DATA};
+			    int[] to = {android.R.id.text1};
+			    mSearchView.setSuggestionsAdapter(new SimpleCursorAdapter(getActivity(), android.R.layout.simple_list_item_1, suggestions_cursor, from, to, 0));
+				
+			    return false;
+			}
+		});
 	}
 	
 	private void setLatLng(LatLng latlang) {
@@ -260,8 +284,8 @@ public class FragmentReviewLocationMap extends FragmentDeleteDone implements Loc
 					android.R.layout.simple_list_item_1, mLatLng, NUMBER_DEFAULT_NAMES, primaryDefaultSuggestion));
 		}
 
-		if(mSearchView != null)
-			mSearchView.setAdapter(new LocationNameAdapter(getActivity(), android.R.layout.simple_list_item_1, mLatLng, 0, null));
+//		if(mSearchView != null)
+//			mSearchView.setAdapter(new LocationNameAdapter(getActivity(), android.R.layout.simple_list_item_1, mLatLng, 0, null));
 	
 		zoomToLatLng();
 	}

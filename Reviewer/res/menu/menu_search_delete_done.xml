@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android" 
-   	  xmlns:myapp="http://schemas.android.com/apk/lib/com.chdryra.android.reviewer.SearchView">
-    
-    <item android:id="@+id/action_search"
-          android:title="@string/menu_item_search"
-          android:icon="@drawable/ic_menu_search"
-          android:showAsAction="always|collapseActionView"
-          myapp:actionViewClass="com.chdryra.android.reviewr.ArrayAdapterSearchView" />
-    
-    <item android:id="@+id/menu_item_delete"
-	    android:icon="@drawable/ic_menu_delete"
-	    android:title="@string/menu_delete"
-	    android:showAsAction="always|withText" />
-	
-	<item android:id="@+id/menu_item_done"
-	    android:icon="@drawable/ic_checkmark_holo_light"
-	    android:title="@string/menu_done"
-	    android:showAsAction="always|withText" />
-    
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item
+        android:id="@+id/menu_item_search"
+        android:icon="@drawable/ic_menu_search"
+        android:showAsAction="always|collapseActionView"
+        android:actionViewClass="android.widget.SearchView"
+        android:title="@string/menu_search"/>
+    <item
+        android:id="@+id/menu_item_delete"
+        android:icon="@drawable/ic_menu_delete"
+        android:showAsAction="always|withText"
+        android:title="@string/menu_delete"/>
+    <item
+        android:id="@+id/menu_item_done"
+        android:icon="@drawable/ic_checkmark_holo_light"
+        android:showAsAction="always|withText"
+        android:title="@string/menu_done"/>
+
 </menu>
