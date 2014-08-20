@@ -62,7 +62,7 @@ public class DialogLocationFragment extends DialogActionCancelDoneFragment imple
 			@Override
 			public void onTextChanged(CharSequence s, int start, int before, int count) {
 				if(mAdapter != null)
-					mAdapter.getFilter().filter(s);
+					mAdapter.findSuggestions(s);
 			}
 			
 			@Override

@@ -11,6 +11,7 @@ import android.support.v4.app.NavUtils;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.DisplayMetrics;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -220,6 +221,7 @@ public abstract class FragmentReviewGrid<T extends GVData> extends FragmentDelet
 			else
 				getLayout().setBackgroundDrawable(bitmap);
 			getGridView().getBackground().setAlpha(mImageAlpha);
+			
 		} else {
 			getLayout().setBackgroundColor(Color.TRANSPARENT);
 			getGridView().getBackground().setAlpha(255);

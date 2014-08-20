@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
+import android.database.DataSetObserver;
 import android.database.MatrixCursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -38,6 +39,8 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 public class FragmentReviewLocationMap extends FragmentDeleteDone implements LocationClientConnector.Locatable {
+	private final static String TAG = "FragmentReviewLocationMap";
+	
 	public final static String SUBJECT = "com.chdryra.android.reviewer.subject";
 	public final static String LATLNG = "com.chdryra.android.reviewer.latlng";
 	public final static String NAME = "com.chdryra.android.reviewer.location_name";
@@ -49,8 +52,11 @@ public class FragmentReviewLocationMap extends FragmentDeleteDone implements Loc
 
 	private GoogleMap mGoogleMap;
 	private MapView mMapView;
+
 	private SearchView mSearchView;
 	private MenuItem mSearchViewMenuItem;
+	private LocationNameAdapter mSuggestionsAdapter;
+	
 	private ClearableAutoCompleteTextView mLocationName;
 	private ImageButton mRevertButton;
 	
@@ -241,7 +247,8 @@ public class FragmentReviewLocationMap extends FragmentDeleteDone implements Loc
 			}
 		});
 
-		final LocationNameAdapter adapter = new LocationNameAdapter(getActivity(), android.R.layout.simple_list_item_1, mLatLng, 0, null);
+		mSuggestionsAdapter = new LocationNameAdapter(getActivity(), android.R.layout.simple_list_item_1, mLatLng, 0, null);
+		mSuggestionsAdapter.registerDataSetObserver(new LocationSuggestionsObserver());
 		
 		mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
 			@Override
@@ -251,24 +258,41 @@ public class FragmentReviewLocationMap extends FragmentDeleteDone implements Loc
 			
 			@Override
 			public boolean onQueryTextChange(String newText) {
-			    adapter.getFilter().filter(newText);
-			    
-			    String[] columnNames = {"_id",SearchManager.SUGGEST_COLUMN_INTENT_DATA};
-			    String[] suggestion_row = new String[columnNames.length];
-			    MatrixCursor suggestions_cursor = new MatrixCursor(columnNames);
-			    for(int i = 0; i < adapter.getCount(); ++i){
-			    	suggestion_row[0] = String.valueOf(adapter.getItemId(i));
-			    	suggestion_row[1] = adapter.getItem(i);
-			    	suggestions_cursor.addRow(suggestion_row);
-			    }              
-			    
-			    String[] from = {SearchManager.SUGGEST_COLUMN_INTENT_DATA};
-			    int[] to = {android.R.id.text1};
-			    mSearchView.setSuggestionsAdapter(new SimpleCursorAdapter(getActivity(), android.R.layout.simple_list_item_1, suggestions_cursor, from, to, 0));
+				if(newText.length() > 0)
+					findSuggestions(newText);
+				else
+					invalidateSuggestions();
 				
 			    return false;
 			}
 		});
+	}
+	
+	private void findSuggestions(String query) {
+		mSuggestionsAdapter.findSuggestions(query);
+	}
+	
+	private void invalidateSuggestions() {
+		mSearchView.setSuggestionsAdapter(null);
+	}
+	
+	private CursorAdapter getSuggestionsCursorAdapter() {
+		//For some inexplicable reason SearchView only accepts CursorAdapters for suggestions.
+		//Place name suggestions are fetched using the ArrayAdapter LocationNameAdapter.
+		//This is a (clunky) way of taking suggestions from LocationNameAdapter and putting in a CurserAdapter.
+	    String[] columnNames = {"_id",SearchManager.SUGGEST_COLUMN_INTENT_DATA};
+	    String[] suggestion_row = new String[columnNames.length];
+	    MatrixCursor suggestions_cursor = new MatrixCursor(columnNames);
+	    for(int i = 0; i < mSuggestionsAdapter.getCount(); ++i){
+	    	suggestion_row[0] = String.valueOf(mSuggestionsAdapter.getItemId(i));
+	    	suggestion_row[1] = mSuggestionsAdapter.getItem(i);
+	    	suggestions_cursor.addRow(suggestion_row);
+	    	Log.i(TAG, suggestion_row[0] + ", " + suggestion_row[1]);
+	    }              
+	    
+	    String[] from = {SearchManager.SUGGEST_COLUMN_INTENT_DATA};
+	    int[] to = {android.R.id.text1};
+	    return new SimpleCursorAdapter(getActivity(), android.R.layout.simple_list_item_1, suggestions_cursor, from, to, 0);
 	}
 	
 	private void setLatLng(LatLng latlang) {
@@ -284,9 +308,6 @@ public class FragmentReviewLocationMap extends FragmentDeleteDone implements Loc
 					android.R.layout.simple_list_item_1, mLatLng, NUMBER_DEFAULT_NAMES, primaryDefaultSuggestion));
 		}
 
-//		if(mSearchView != null)
-//			mSearchView.setAdapter(new LocationNameAdapter(getActivity(), android.R.layout.simple_list_item_1, mLatLng, 0, null));
-	
 		zoomToLatLng();
 	}
 	 
@@ -410,6 +431,16 @@ public class FragmentReviewLocationMap extends FragmentDeleteDone implements Loc
 		return mRevertLatLng != null;
 	}
 
+	private class LocationSuggestionsObserver extends DataSetObserver {
+	    public void onChanged() {
+	    	mSearchView.setSuggestionsAdapter(getSuggestionsCursorAdapter());
+	    }
+
+	    public void onInvalidated() {
+	    	invalidateSuggestions();
+	    }
+
+	}
 //	import android.widget.RatingBar;
 //	import com.google.android.gms.maps.GoogleMap.InfoWindowAdapter;
 //	private class InfoWindowAdapterRated implements InfoWindowAdapter {
