@@ -19,6 +19,8 @@ public interface Review {
 	public ReviewTagCollection getTags();
 	public ReviewNode getReviewNode();
 	
+	public Author getAuthor();
+	
 	//Optional data
 	public RDList<RDComment> getComments();
 	public void setComments(RDList<RDComment> comment);

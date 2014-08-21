@@ -13,22 +13,25 @@ public class ReviewMeta implements Review {
 	
 	private ReviewNode mNode;
 	
-	public ReviewMeta(String title) {
+	private Author mAuthor;
+	
+	public ReviewMeta(String title, Author author) {
 		mReviews = new RCollectionReview();
-		init(title);
+		init(title, author);
 	}
 
-	public ReviewMeta(String title, RCollectionReview reviews) {
+	public ReviewMeta(String title, Author author, RCollectionReview reviews) {
 		mReviews = reviews;
-		init(title);
+		init(title, author);
 	}
 	
-	private void init(String title) {
+	private void init(String title, Author author) {
 		mID = RDId.generateID();
 		mTitle = new RDTitle(title, this);
 		mRating = new RDRating(0, this);
 		mNode = FactoryReview.createReviewNode(this);
 		mNode.setRatingIsAverageOfChildren(true);
+		mAuthor = author;
 	}
 	
 	//Review methods
@@ -37,6 +40,11 @@ public class ReviewMeta implements Review {
 		return mID;
 	}
 
+	@Override
+	public Author getAuthor() {
+		return mAuthor;
+	}
+	
 	@Override
 	public RDRating getRating() {
 		if(!mRatingIsValid)

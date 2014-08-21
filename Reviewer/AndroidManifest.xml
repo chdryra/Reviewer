@@ -32,7 +32,7 @@
         
         <!-- Create Review -->
         <activity
-            android:name="com.chdryra.android.reviewer.ActivityReviewEdit"
+            android:name="com.chdryra.android.reviewer.ActivityReviewBuild"
             android:windowSoftInputMode="adjustPan"
             android:label="@string/activity_title_review_create" 
             android:screenOrientation="portrait">
@@ -41,28 +41,27 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        
-        <!-- Review optional data 
-        <activity android:name="com.chdryra.android.reviewer.ActivityReviewEdit"
+
+        <!-- Share -->
+        <activity android:name="com.chdryra.android.reviewer.ActivityReviewShare"
 		    android:windowSoftInputMode="adjustPan"
 		    android:configChanges="orientation"
 		    android:exported="true"
-            android:label="@string/activity_title_review_edit" 
+            android:label="@string/activity_title_share" 
             android:screenOrientation="portrait">
             <meta-data android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.chdryra.android.reviewer.ActivityReviewCreate" />
+                android:value="com.chdryra.android.reviewer.ActivityReviewBuild" />
         </activity>
-        -->
         
         <!-- Criteria -->
-        <activity android:name="com.chdryra.android.reviewer.ActivityReviewChildren"
+        <activity android:name="com.chdryra.android.reviewer.ActivityReviewCriteria"
 		    android:windowSoftInputMode="adjustPan"
 		    android:configChanges="orientation"
 		    android:exported="true"
             android:label="@string/activity_title_children" 
             android:screenOrientation="portrait">
             <meta-data android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.chdryra.android.reviewer.ActivityReviewEdit" />
+                android:value="com.chdryra.android.reviewer.ActivityReviewBuild" />
         </activity>
 
         <!-- Images -->
@@ -73,7 +72,7 @@
             android:label="@string/activity_title_image" 
             android:screenOrientation="portrait">
             <meta-data android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.chdryra.android.reviewer.ActivityReviewEdit" />
+                android:value="com.chdryra.android.reviewer.ActivityReviewBuild" />
         </activity>
         
         <!-- Links -->
@@ -84,7 +83,7 @@
             android:label="@string/activity_title_url" 
             android:screenOrientation="portrait">
             <meta-data android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.chdryra.android.reviewer.ActivityReviewEdit" />
+                android:value="com.chdryra.android.reviewer.ActivityReviewBuild" />
         </activity>
 
         <!-- Browser choose link -->
@@ -125,7 +124,7 @@
             android:label="@string/activity_title_location" 
             android:screenOrientation="portrait">
             <meta-data android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.chdryra.android.reviewer.ActivityReviewEdit" />
+                android:value="com.chdryra.android.reviewer.ActivityReviewBuild" />
             
         </activity>
         
@@ -137,7 +136,7 @@
             android:label="@string/activity_title_comment" 
             android:screenOrientation="portrait">
             <meta-data android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.chdryra.android.reviewer.ActivityReviewEdit" />
+                android:value="com.chdryra.android.reviewer.ActivityReviewBuild" />
         </activity>
 
         <!-- Facts -->
@@ -148,7 +147,7 @@
             android:label="@string/activity_title_facts" 
             android:screenOrientation="portrait">
             <meta-data android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.chdryra.android.reviewer.ActivityReviewEdit" />
+                android:value="com.chdryra.android.reviewer.ActivityReviewBuild" />
         </activity>
 
         <!-- ProCons -->
@@ -159,7 +158,7 @@
             android:label="@string/activity_title_procon" 
             android:screenOrientation="portrait">
             <meta-data android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.chdryra.android.reviewer.ActivityReviewEdit" />
+                android:value="com.chdryra.android.reviewer.ActivityReviewBuild" />
         </activity>
 
         <!-- Tags -->
@@ -170,7 +169,7 @@
             android:label="@string/activity_title_tags" 
             android:screenOrientation="portrait">
             <meta-data android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.chdryra.android.reviewer.ActivityReviewEdit" />
+                android:value="com.chdryra.android.reviewer.ActivityReviewBuild" />
         </activity>
 
         <meta-data 

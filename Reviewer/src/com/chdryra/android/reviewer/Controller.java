@@ -49,7 +49,7 @@ public class Controller {
 	}
 	
 	public static ControllerReviewNode addNewReviewInProgress() {
-		Review r = FactoryReview.createUserReview("");
+		Review r = FactoryReview.createUserReviewInProgress();
 		
 		return new ControllerReviewNode(r.getReviewNode());
 	}

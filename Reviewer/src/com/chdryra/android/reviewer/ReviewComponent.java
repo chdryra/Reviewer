@@ -195,6 +195,11 @@ public class ReviewComponent implements ReviewNode {
 	}
 
 	@Override
+	public Author getAuthor() {
+		return mReview.getAuthor();
+	}
+	
+	@Override
 	public RDTitle getTitle() {
 		return mReview.getTitle();
 	}
@@ -210,7 +215,7 @@ public class ReviewComponent implements ReviewNode {
 	}
 
 	private RDRating getAverageRatingOfChildren() {
-		ReviewMeta metaReview = (ReviewMeta)FactoryReview.createMetaReview("Children");
+		ReviewMeta metaReview = (ReviewMeta)FactoryReview.createAnonymousMetaReview("Children");
 		metaReview.addReviews(getChildrenReviews());
 		return metaReview.getRating();
 	}

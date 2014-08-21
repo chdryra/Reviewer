@@ -49,7 +49,7 @@
     <string name="activity_title_image">images</string>
     <string name="activity_title_procon">pros and cons</string>
     <string name="activity_title_children">criteria</string>
-    <string name="activity_title_review_edit">options</string>
+    <string name="activity_title_share">share</string>
     <string name="activity_title_review_create">review</string>
     <string name="activity_title_tags">tags</string>
 
@@ -112,7 +112,9 @@
     <string name="button_add_url">add link</string>
     <string name="button_add_location">add location</string>
     <string name="button_add_review_data">details</string>
+    <string name="button_share">Share</string>
     <string name="button_publish">Publish</string>
+    <string name="button_social">Social</string>
 
     <!-- Image Buttons -->
     <string name="button_add_image_cd">add image</string>

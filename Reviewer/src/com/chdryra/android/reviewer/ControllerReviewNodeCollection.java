@@ -26,11 +26,6 @@ public class ControllerReviewNodeCollection {
 			remove(id);
 	}
 	
-	public void add(String title) {
-		Review r = FactoryReview.createUserReview(title);
-		mReviewNodes.add(r.getReviewNode());
-	}
-	
 	public ControllerReviewNode getControllerFor(String id) {
 		if(mControllers.get(id) == null)
 			mControllers.put(id, new ControllerReviewNode(get(id)));
@@ -76,7 +71,7 @@ public class ControllerReviewNodeCollection {
 	}
 	
 	public float getRating() {
-		ReviewMeta r = (ReviewMeta)FactoryReview.createMetaReview("");
+		ReviewMeta r = (ReviewMeta)FactoryReview.createAnonymousMetaReview("");
 		r.addReviews(mReviewNodes.getReviews());
 		return r.getRating().get();
 	}

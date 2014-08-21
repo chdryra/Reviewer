@@ -16,7 +16,8 @@ public abstract class GVReviewDataList<T extends GVData> extends GVList<T>{
 		PROCONS("+pro -con"),
 		URLS("link"),
 		LOCATIONS("location"),
-		TAGS("tag");
+		TAGS("tag"),
+		SOCIAL("social");
 		
 		private String mDatumString;
 		private String mDataString;

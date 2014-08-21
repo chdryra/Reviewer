@@ -17,7 +17,9 @@ public class ReviewUser implements Review{
 
 	private ReviewNode mNode;
 	
-	public ReviewUser(String title) {	
+	private Author mAuthor;
+	
+	public ReviewUser(String title, Author author) {	
 		mID = RDId.generateID();
 		mTitle = new RDTitle(title, this);
 		mRating = new RDRating(0, this);
@@ -32,6 +34,8 @@ public class ReviewUser implements Review{
 		mURLs = new RDList<RDUrl>();
 		
 		mNode = FactoryReview.createReviewNode(this);
+		
+		mAuthor = author;
 	}
 
 	@Override
@@ -39,6 +43,11 @@ public class ReviewUser implements Review{
 		return mID;
 	}
 
+	@Override
+	public Author getAuthor() {
+		return mAuthor;
+	}
+	
 	@Override
 	public RDTitle getTitle() {
 		return mTitle;

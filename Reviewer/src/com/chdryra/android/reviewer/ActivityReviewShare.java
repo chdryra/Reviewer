@@ -4,11 +4,11 @@ import android.app.Fragment;
 
 import com.chdryra.android.mygenerallibrary.ActivitySingleFragment;
 
-public class ActivityReviewCreate extends ActivitySingleFragment {
+public class ActivityReviewShare extends ActivitySingleFragment {
 
 	@Override
 	protected Fragment createFragment() {
-		return new FragmentReviewChildren();
+		return new FragmentReviewShare();
 	}
 
 }

@@ -21,18 +21,18 @@ import com.chdryra.android.mygenerallibrary.GVDualString;
 import com.chdryra.android.mygenerallibrary.GVString;
 import com.chdryra.android.mygenerallibrary.GridViewCellAdapter;
 import com.chdryra.android.mygenerallibrary.ViewHolder;
-import com.chdryra.android.reviewer.FragmentReviewOptions.GVCellManagerList.GVCellManager;
+import com.chdryra.android.reviewer.FragmentReviewBuild.GVCellManagerList.GVCellManager;
 import com.chdryra.android.reviewer.GVReviewDataList.GVType;
 import com.chdryra.android.reviewer.ReviewDataOptions.ReviewDataOption;
 import com.google.android.gms.maps.model.LatLng;
 
-public class FragmentReviewOptions extends FragmentReviewGrid<GVCellManager> {
+public class FragmentReviewBuild extends FragmentReviewGrid<GVCellManager> {
 	public final static int LOCATION_MAP = 22;
 	public final static int URL_BROWSE = 52;
 	
 	private GVCellManagerList mCellManagerList;
 	private HelperReviewImage mHelperReviewImage;
-	private Button mPublishButton;
+	private Button mShareButton;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -53,22 +53,33 @@ public class FragmentReviewOptions extends FragmentReviewGrid<GVCellManager> {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View v = super.onCreateView(inflater, container, savedInstanceState);
+		
 		getBannerButton().setClickable(false);
 		View divider = inflater.inflate(R.layout.horizontal_divider, container, false);
-		mPublishButton = (Button)inflater.inflate(R.layout.review_banner_button, container, false);
-		mPublishButton.setText(getResources().getString(R.string.button_publish));
-		mPublishButton.getLayoutParams().height = LayoutParams.MATCH_PARENT;
-		mPublishButton.setOnClickListener(new View.OnClickListener() {		
+		mShareButton = (Button)inflater.inflate(R.layout.review_banner_button, container, false);
+		mShareButton.setText(getResources().getString(R.string.button_share));
+		mShareButton.getLayoutParams().height = LayoutParams.MATCH_PARENT;
+		mShareButton.setOnClickListener(new View.OnClickListener() {		
 			@Override
 			public void onClick(View v) {
+				if(getSubjectText().length() == 0) {
+					Toast.makeText(getActivity(), R.string.toast_enter_subject, Toast.LENGTH_SHORT).show();
+					return;
+				} 
+				
 				if(getController().getData(GVType.TAGS).size() == 0) {
 					Toast.makeText(getActivity(), R.string.toast_enter_tag, Toast.LENGTH_SHORT).show();
+					return;
 				} 
+				
+				Intent i = new Intent(getActivity(), ActivityReviewShare.class);
+				Controller.pack(getController(), i);
+				startActivity(i);
 			}
 		});
 		
 		getGridView().getLayoutParams().height = LayoutParams.WRAP_CONTENT;
-		getLayout().addView(mPublishButton);
+		getLayout().addView(mShareButton);
 		getLayout().addView(divider);
 		
 		return v;
@@ -135,7 +146,7 @@ public class FragmentReviewOptions extends FragmentReviewGrid<GVCellManager> {
 
 	private void showQuickDialog(ReviewDataOption option) {
 		DialogFragment dialog = option.getDialogFragment();
-		dialog.setTargetFragment(FragmentReviewOptions.this, option.getDialogRequestCode());
+		dialog.setTargetFragment(FragmentReviewBuild.this, option.getDialogRequestCode());
 		Bundle args = Controller.pack(getController());
 		args.putBoolean(DialogAddReviewDataFragment.QUICK_SET, true);
 		dialog.setArguments(args);

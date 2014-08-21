@@ -13,6 +13,11 @@ public class ReviewNull implements Review {
 	}
 
 	@Override
+	public Author getAuthor() {
+		return null;
+	}
+	
+	@Override
 	public RDTitle getTitle() {
 		return null;
 	}

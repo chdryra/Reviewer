@@ -29,7 +29,7 @@ public class FragmentReviewChildren extends FragmentReviewGridAddEditDone<GVCrit
 		setDeleteWhatTitle(getResources().getString(R.string.activity_title_children));		
 		setBannerButtonText(getResources().getString(R.string.button_add_criteria));
 		setIsEditable(true);
-		setOnDoneActivity(ActivityReviewEdit.class);
+		setOnDoneActivity(ActivityReviewBuild.class);
 	}
 	
 	protected void initRatingBarUI() {
