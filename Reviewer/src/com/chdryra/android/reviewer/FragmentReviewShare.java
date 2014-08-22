@@ -1,8 +1,8 @@
 package com.chdryra.android.reviewer;
 
-import com.chdryra.android.mygenerallibrary.ViewHolderBasic;
-
 import android.app.ActionBar.LayoutParams;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -12,10 +12,13 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 
+import com.chdryra.android.reviewer.GVSocialPlatformList.GVSocialPlatform;
+
 public class FragmentReviewShare extends FragmentReviewGrid<GVSocialPlatformList.GVSocialPlatform> {
 	public final static String TAG_STRING = "com.chdryra.android.reviewer.tag_string";
 	private GVSocialPlatformList mSocialList;
 	private Button mPublishButton;
+	private Drawable mDefault;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -60,8 +63,16 @@ public class FragmentReviewShare extends FragmentReviewGrid<GVSocialPlatformList
 	
 	@Override
 	protected void onGridItemClick(AdapterView<?> parent, View v, int position, long id) {
-		ViewHolderBasic vh = (ViewHolderBasic)getGridData().getViewHolder(position);
-		vh.getView().setBackgroundColor(getResources().getColor(R.color.aqua));
+		GVSocialPlatform platform = (GVSocialPlatform)parent.getItemAtPosition(position);
+		if(mDefault == null && !platform.isChosen())
+			mDefault = v.getBackground();
+		
+		platform.press();
+		
+		if(platform.isChosen())
+			v.setActivated(true);
+		else
+			v.setActivated(false);
 	}
 	
 	@Override

@@ -54,7 +54,7 @@
         </activity>
         
         <!-- Criteria -->
-        <activity android:name="com.chdryra.android.reviewer.ActivityReviewCriteria"
+        <activity android:name="com.chdryra.android.reviewer.ActivityReviewChildren"
 		    android:windowSoftInputMode="adjustPan"
 		    android:configChanges="orientation"
 		    android:exported="true"

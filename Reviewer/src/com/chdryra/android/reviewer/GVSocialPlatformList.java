@@ -46,7 +46,7 @@ public class GVSocialPlatformList extends GVReviewDataList<GVSocialPlatformList.
 	
 	class GVSocialPlatform extends GVDualString{
 		private int mFollowers = 0;
-		private ViewHolder mHolder = new VHSocialView();
+		private boolean mIsChosen = false;
 		
 		public GVSocialPlatform(String name, int followers) {
 			super(name, String.valueOf(followers));
@@ -61,9 +61,17 @@ public class GVSocialPlatformList extends GVReviewDataList<GVSocialPlatformList.
 			return mFollowers;
 		}
 		
+		public boolean isChosen() {
+			return mIsChosen;
+		}
+		
+		public void press() {
+			mIsChosen = !mIsChosen;
+		}
+		
 		@Override
 		public ViewHolder getViewHolder() {
-			return mHolder;
+			return new VHSocialView();
 		}
 	}	
 }

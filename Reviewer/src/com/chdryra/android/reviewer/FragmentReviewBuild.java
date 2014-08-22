@@ -62,15 +62,16 @@ public class FragmentReviewBuild extends FragmentReviewGrid<GVCellManager> {
 		mShareButton.setOnClickListener(new View.OnClickListener() {		
 			@Override
 			public void onClick(View v) {
-				if(getSubjectText().length() == 0) {
-					Toast.makeText(getActivity(), R.string.toast_enter_subject, Toast.LENGTH_SHORT).show();
-					return;
-				} 
-				
-				if(getController().getData(GVType.TAGS).size() == 0) {
-					Toast.makeText(getActivity(), R.string.toast_enter_tag, Toast.LENGTH_SHORT).show();
-					return;
-				} 
+
+//				if(getSubjectText().length() == 0) {
+//					Toast.makeText(getActivity(), R.string.toast_enter_subject, Toast.LENGTH_SHORT).show();
+//					return;
+//				} 
+//				
+//				if(getController().getData(GVType.TAGS).size() == 0) {
+//					Toast.makeText(getActivity(), R.string.toast_enter_tag, Toast.LENGTH_SHORT).show();
+//					return;
+//				} 
 				
 				Intent i = new Intent(getActivity(), ActivityReviewShare.class);
 				Controller.pack(getController(), i);

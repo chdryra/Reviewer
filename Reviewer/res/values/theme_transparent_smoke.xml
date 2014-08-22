@@ -43,7 +43,7 @@
     </style>
     
     <style name="Widget.GridView.TransSmoke">
-        <item name="android:listSelector">@drawable/selector_smoke_slate_grid_cell</item>
+        <item name="android:listSelector">@drawable/selector_smoke_slate_grid_view</item>
         <item name="android:background">@color/TransSlate</item>
     </style>
      

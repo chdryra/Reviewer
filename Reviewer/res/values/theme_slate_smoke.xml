@@ -37,13 +37,13 @@
         <item name="android:textColorPrimaryInverse">@color/Slate</item>
         <item name="android:background">@drawable/selector_slate_smoke</item>
     </style>
-    
+
     <style name="Widget.GridCell.SlateSmoke">
-        <item name="android:background">@color/TransSlate</item>
+        <item name="android:background">@drawable/selector_slate_smoke_grid_cell</item>
     </style>
     
     <style name="Widget.GridView.SlateSmoke">
-        <item name="android:listSelector">@drawable/selector_slate_smoke_grid_cell</item>
+        <item name="android:listSelector">@drawable/selector_slate_smoke_grid_view</item>
         <item name="android:background">@color/DarkSlate</item>
     </style>
      

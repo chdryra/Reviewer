@@ -242,8 +242,10 @@ int drawable ic_plusone_tall_off_client 0x7f020025
 int drawable image_button_selected 0x7f020026
 int drawable selector_slate_smoke 0x7f020027
 int drawable selector_slate_smoke_grid_cell 0x7f020028
-int drawable selector_smoke_slate 0x7f020029
-int drawable selector_smoke_slate_grid_cell 0x7f02002a
+int drawable selector_slate_smoke_grid_view 0x7f020029
+int drawable selector_smoke_slate 0x7f02002a
+int drawable selector_smoke_slate_grid_cell 0x7f02002b
+int drawable selector_smoke_slate_grid_view 0x7f02002c
 int id banner_button 0x7f06001c
 int id banner_button_left 0x7f06001e
 int id banner_button_right 0x7f06001f

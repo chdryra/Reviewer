@@ -39,11 +39,11 @@
     </style>
     
     <style name="Widget.GridCell.SmokeSlate">
-        <item name="android:background">@color/TransSmoke</item>
+        <item name="android:background">@drawable/selector_smoke_slate_grid_cell</item>
     </style>
     
     <style name="Widget.GridView.SmokeSlate">
-        <item name="android:listSelector">@drawable/selector_smoke_slate_grid_cell</item>
+        <item name="android:listSelector">@drawable/selector_smoke_slate_grid_view</item>
         <item name="android:background">@color/DarkSmoke</item>
     </style>
      

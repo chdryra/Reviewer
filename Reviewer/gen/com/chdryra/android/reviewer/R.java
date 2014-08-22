@@ -374,8 +374,10 @@ containing a value of this type.
         public static final int image_button_selected=0x7f020026;
         public static final int selector_slate_smoke=0x7f020027;
         public static final int selector_slate_smoke_grid_cell=0x7f020028;
-        public static final int selector_smoke_slate=0x7f020029;
-        public static final int selector_smoke_slate_grid_cell=0x7f02002a;
+        public static final int selector_slate_smoke_grid_view=0x7f020029;
+        public static final int selector_smoke_slate=0x7f02002a;
+        public static final int selector_smoke_slate_grid_cell=0x7f02002b;
+        public static final int selector_smoke_slate_grid_view=0x7f02002c;
     }
     public static final class id {
         public static final int banner_button=0x7f06001c;
