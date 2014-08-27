@@ -1,6 +1,5 @@
 package com.chdryra.android.reviewer;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -71,7 +70,7 @@ public class ControllerReviewNodeCollection {
 	}
 	
 	public float getRating() {
-		ReviewMeta r = (ReviewMeta)FactoryReview.createAnonymousMetaReview("");
+		ReviewMeta r = (ReviewMeta)FactoryReview.createMetaReview("");
 		r.addReviews(mReviewNodes.getReviews());
 		return r.getRating().get();
 	}
@@ -105,15 +104,6 @@ public class ControllerReviewNodeCollection {
 		return getControllerFor(id).getRating();
 	}
 	
-	//Date
-	public Date getDate(String id) {
-		return getControllerFor(id).getDate();
-	}
-	
-	public void setDate(String id, Date date) {
-		getControllerFor(id).setDate(date);
-	}
-
 	//Optional data
 	public boolean hasData(String id, GVType dataType) {
 		return getControllerFor(id).hasData(dataType);
@@ -134,7 +124,7 @@ public class ControllerReviewNodeCollection {
 	public GVCriterionList getGridViewiableData() {
 		GVCriterionList data = new GVCriterionList();
 		for(Review r : get())
-			data.add(r.getTitle().get(), r.getRating().get());
+			data.add(r.getTitle().toString(), r.getRating().get());
 		
 		return data;
 	}

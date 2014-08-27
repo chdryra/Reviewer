@@ -1,7 +1,5 @@
 package com.chdryra.android.reviewer;
 
-import java.util.Date;
-
 public class ReviewComponent implements ReviewNode {
 
 	private RDId mID;
@@ -183,7 +181,7 @@ public class ReviewComponent implements ReviewNode {
 		visitorReviewNode.visit(this);
 	}
 	
-	//Review methods
+	//ReviewEditable methods
 	@Override
 	public ReviewNode getReviewNode() {
 		return this;
@@ -193,20 +191,10 @@ public class ReviewComponent implements ReviewNode {
 	public RDId getID() {
 		return mID;
 	}
-
-	@Override
-	public Author getAuthor() {
-		return mReview.getAuthor();
-	}
 	
 	@Override
 	public RDTitle getTitle() {
 		return mReview.getTitle();
-	}
-
-	@Override
-	public void setTitle(String title) {
-		mReview.setTitle(title);
 	}
 
 	@Override
@@ -215,39 +203,14 @@ public class ReviewComponent implements ReviewNode {
 	}
 
 	private RDRating getAverageRatingOfChildren() {
-		ReviewMeta metaReview = (ReviewMeta)FactoryReview.createAnonymousMetaReview("Children");
+		ReviewMeta metaReview = (ReviewMeta)FactoryReview.createMetaReview("Children");
 		metaReview.addReviews(getChildrenReviews());
 		return metaReview.getRating();
 	}
 
 	@Override
-	public void setRating(float rating) {
-		mReview.setRating(rating);
-	}
-
-	@Override
-	public RDDate getDate() {
-		return mReview.getDate();
-	}
-
-	@Override
-	public void setDate(Date date) {
-		mReview.setDate(date);
-	}
-
-	@Override
-	public void setComments(RDList<RDComment> comments) {
-		mReview.setComments(comments);
-	}
-
-	@Override
 	public RDList<RDComment> getComments() {
 		return mReview.getComments();
-	}
-
-	@Override
-	public void deleteComments() {
-		mReview.deleteComments();
 	}
 
 	@Override
@@ -261,16 +224,6 @@ public class ReviewComponent implements ReviewNode {
 	}
 
 	@Override
-	public void setImages(RDList<RDImage> images) {
-		mReview.setImages(images);
-	}
-
-	@Override
-	public void deleteImages() {
-		mReview.deleteImages();
-	}
-
-	@Override
 	public boolean hasImages() {
 		return mReview.hasImages();
 	}
@@ -278,16 +231,6 @@ public class ReviewComponent implements ReviewNode {
 	@Override
 	public RDList<RDLocation> getLocations() {
 		return mReview.getLocations();
-	}
-
-	@Override
-	public void setLocations(RDList<RDLocation> location) {
-		mReview.setLocations(location);
-	}
-
-	@Override
-	public void deleteLocations() {
-		mReview.deleteLocations();
 	}
 
 	@Override
@@ -301,16 +244,6 @@ public class ReviewComponent implements ReviewNode {
 	}
 
 	@Override
-	public void setFacts(RDList<RDFact> facts) {
-		mReview.setFacts(facts);
-	}
-
-	@Override
-	public void deleteFacts() {
-		mReview.deleteFacts();
-	}
-
-	@Override
 	public boolean hasFacts() {
 		return mReview.hasFacts();
 	}
@@ -321,23 +254,8 @@ public class ReviewComponent implements ReviewNode {
 	}
 
 	@Override
-	public void setURLs(RDList<RDUrl> urls) {
-		mReview.setURLs(urls);
-	}
-
-	@Override
-	public void deleteURLs() {
-		mReview.deleteURLs();
-	}
-
-	@Override
 	public boolean hasURLs() {
 		return mReview.hasURLs();
-	}
-
-	@Override
-	public void deleteProCons() {
-		mReview.deleteProCons();
 	}
 	
 	@Override
@@ -348,11 +266,6 @@ public class ReviewComponent implements ReviewNode {
 	@Override
 	public boolean hasProCons() {
 		return mReview.hasProCons();
-	}
-	
-	@Override
-	public void setProCons(RDList<RDProCon> proCons) {
-		mReview.setProCons(proCons);
 	}
 	
 	@Override

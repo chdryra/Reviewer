@@ -2,17 +2,15 @@ package com.chdryra.android.reviewer;
 
 import java.util.UUID;
 
-import android.os.ParcelUuid;
-
 public class RDId implements RData{
-	private ParcelUuid mID;
+	private UUID mID;
 	
 	private RDId() {
-		mID = new ParcelUuid(UUID.randomUUID());
+		mID = UUID.randomUUID();
 	}
 	
 	private RDId(String rDId) {
-		mID = ParcelUuid.fromString(rDId);
+		mID = UUID.fromString(rDId);
 	}
 	
 	public static RDId generateID() {
@@ -29,7 +27,7 @@ public class RDId implements RData{
 	}
 
 	@Override
-	public Review getHoldingReview() {
+	public ReviewEditable getHoldingReview() {
 		return FactoryReview.createNullReview();
 	}
 

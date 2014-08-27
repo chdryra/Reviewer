@@ -12,10 +12,6 @@ public class RDRating implements RData {
 	public float get() {
 		return mRating;
 	}
-
-	public void set(float rating) {
-		mRating = rating;
-	}
 	
 	@Override
 	public void setHoldingReview(Review review) {

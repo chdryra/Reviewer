@@ -62,7 +62,7 @@ public abstract class FragmentReviewGrid<T extends GVData> extends FragmentDelet
 		mController = Controller.unpack(getActivity().getIntent().getExtras());
 		
 		if(mController == null) {
-			setController(Controller.addNewReviewInProgress());
+			setController(Controller.createNewEditableReview());
 			mReviewInProgress = true;
 		}
 		

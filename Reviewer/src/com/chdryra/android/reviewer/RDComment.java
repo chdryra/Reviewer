@@ -9,6 +9,7 @@ public class RDComment implements RData{
 	
 	public RDComment(String comment, Review holdingReview) {
 		mComment = comment;
+		mHoldingReview = holdingReview;
 	}
 	
 	@Override

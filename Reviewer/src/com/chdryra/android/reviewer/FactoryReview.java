@@ -15,44 +15,40 @@ public class FactoryReview {
 		return sFactory;
 	}
 	
-	private Review newUserReview(String title, Author author) {
-		return new ReviewUser(title, author);	
+	private ReviewEditable newUserReview(String title) {
+		return new ReviewUser(title);	
 	}
 	
-	private Review newNullReview() {
+	private ReviewEditable newNullReview() {
 		return new ReviewNull();	
 	}
 
-	private Review newMetaReview(String title, Author author) {
-		return new ReviewMeta(title, author);
+	private Review newMetaReview(String title) {
+		return new ReviewMeta(title);
 	}
 	
 	private ReviewNode newReviewNode(Review review) {
 		return new ReviewComponent(review);
 	}
 	
-	public static Review createAuthoredReview(String title) {
-		return getInstance().newUserReview(title, Administrator.getCurrentAuthor());
+	public static ReviewEditable createAuthoredReview(String title) {
+		return getInstance().newUserReview(title);
 	}
 	
-	public static Review createAnonymousReview(String title) {
-		return getInstance().newUserReview(title, Administrator.getAnonymousAuthor());
+	public static ReviewEditable createAnonymousReview(String title) {
+		return getInstance().newUserReview(title);
 	}
 	
-	public static Review createChildReview(String title, Review review) {
-		return getInstance().newUserReview(title, review.getAuthor());
+	public static ReviewEditable createChildReview(String title, Review reviewEditable) {
+		return getInstance().newUserReview(title);
 	}
 	
-	public static Review createNullReview() {
+	public static ReviewEditable createNullReview() {
 		return getInstance().newNullReview();
 	}
 	
-	public static Review createAuthoredMetaReview(String title) {
-		return getInstance().newMetaReview(title, Administrator.getCurrentAuthor());
-	}
-	
-	public static Review createAnonymousMetaReview(String title) {
-		return getInstance().newMetaReview(title, Administrator.getAnonymousAuthor());
+	public static Review createMetaReview(String title) {
+		return getInstance().newMetaReview(title);
 	}
 	
 	public static ReviewNode createReviewNode(Review review) {
@@ -60,31 +56,26 @@ public class FactoryReview {
 	}
 	
 	public static ReviewNode createAuthoredUserReviewNode(String title) {
-		Review review = createAuthoredReview(title);
-		return createReviewNode(review);
+		ReviewEditable reviewEditable = createAuthoredReview(title);
+		return createReviewNode(reviewEditable);
 	}
 	
 	public static ReviewNode createAnonymousUserReviewNode(String title) {
-		Review review = createAnonymousReview(title);
-		return createReviewNode(review);
+		ReviewEditable reviewEditable = createAnonymousReview(title);
+		return createReviewNode(reviewEditable);
 	}
 	
-	public static ReviewNode createAuthoredMetaReviewNode(String title) {
-		Review review = createAuthoredMetaReview(title);
-		return createReviewNode(review);
-	}
-	
-	public static ReviewNode createAnonymousMetaReviewNode(String title) {
-		Review review = createAnonymousMetaReview(title);
+	public static ReviewNode createMetaReviewNode(String title) {
+		Review review = createMetaReview(title);
 		return createReviewNode(review);
 	}
 	
 	public static ReviewNode createNullReviewNode() {
-		Review review = createNullReview();
-		return createReviewNode(review);
+		ReviewEditable reviewEditable = createNullReview();
+		return createReviewNode(reviewEditable);
 	}
 	
-	public static Review createUserReviewInProgress() {
+	public static ReviewEditable createEditableReview() {
 		return createAnonymousReview("");
 	}
 }

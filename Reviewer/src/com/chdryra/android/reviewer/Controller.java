@@ -48,10 +48,10 @@ public class Controller {
 		return isRegistered(id)? mRNControllers.get(id) : null;
 	}
 	
-	public static ControllerReviewNode addNewReviewInProgress() {
-		Review r = FactoryReview.createUserReviewInProgress();
+	public static ControllerReviewNode createNewEditableReview() {
+		ReviewEditable r = FactoryReview.createEditableReview();
 		
-		return new ControllerReviewNode(r.getReviewNode());
+		return new ControllerReviewNode(r);
 	}
 	
 	public static void pack(ControllerReviewNode controller, Intent i) {
@@ -72,5 +72,4 @@ public class Controller {
 		
 		return controller;
 	}
-	
 }

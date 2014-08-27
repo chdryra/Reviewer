@@ -121,7 +121,7 @@ public class DialogLocationFragment extends DialogActionCancelDoneFragment imple
 	}
 	
 	private void setSuggestionsAdapter() {
-		mAdapter = new LocationNameAdapter(getActivity(), android.R.layout.simple_list_item_1, mLatLng, 10, mController.getTitle());
+		mAdapter = new LocationNameAdapter(getActivity(), android.R.layout.simple_list_item_1, mLatLng, 10, null);
 		mLocationNameSuggestions.setAdapter(mAdapter);
 	}
 

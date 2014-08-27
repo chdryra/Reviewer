@@ -1,12 +1,10 @@
 package com.chdryra.android.reviewer;
 
-import java.util.Date;
 
-public class ReviewUser implements Review{	
+public class ReviewUser implements ReviewEditable{	
 	private RDId mID;
 	private RDTitle mTitle;
 	private RDRating mRating;
-	private RDDate mDate;
 	
 	private RDList<RDComment> mComments;
 	private RDList<RDImage> mImages;	
@@ -17,13 +15,10 @@ public class ReviewUser implements Review{
 
 	private ReviewNode mNode;
 	
-	private Author mAuthor;
-	
-	public ReviewUser(String title, Author author) {	
+	public ReviewUser(String title) {	
 		mID = RDId.generateID();
 		mTitle = new RDTitle(title, this);
 		mRating = new RDRating(0, this);
-		mDate = new RDDate();
 		
 		//Null option data
 		mComments = new RDList<RDComment>();
@@ -34,18 +29,11 @@ public class ReviewUser implements Review{
 		mURLs = new RDList<RDUrl>();
 		
 		mNode = FactoryReview.createReviewNode(this);
-		
-		mAuthor = author;
 	}
 
 	@Override
 	public RDId getID() {
 		return mID;
-	}
-
-	@Override
-	public Author getAuthor() {
-		return mAuthor;
 	}
 	
 	@Override
@@ -55,27 +43,17 @@ public class ReviewUser implements Review{
 
 	@Override
 	public void setTitle(String title) {
-		mTitle.set(title);
+		mTitle = new RDTitle(title, this);
 	}
 
 	@Override
 	public void setRating(float rating) {
-		mRating.set(rating);
+		mRating = new RDRating(rating, this);
 	}
 
 	@Override
 	public RDRating getRating() {
 		return isRatingAverageOfCriteria()? mNode.getRating() : mRating;
-	}
-
-	@Override
-	public RDDate getDate() {
-		return mDate;
-	}
-	
-	@Override
-	public void setDate(Date date) {
-		mDate = new RDDate(date, this);
 	}
 	
 	@Override
@@ -113,7 +91,7 @@ public class ReviewUser implements Review{
 		mNode.addChildren(criteria);
 	}
 
-	public void addCriterion(Review criterion) {
+	public void addCriterion(ReviewEditable criterion) {
 		mNode.addChild(criterion);
 	}
 	

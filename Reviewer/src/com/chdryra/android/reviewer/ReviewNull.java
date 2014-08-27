@@ -1,19 +1,13 @@
 package com.chdryra.android.reviewer;
 
-import java.util.Date;
 
-public class ReviewNull implements Review {
+public class ReviewNull implements ReviewEditable {
 	
 	public ReviewNull() {
 	}
 	
 	@Override
 	public RDId getID() {
-		return null;
-	}
-
-	@Override
-	public Author getAuthor() {
 		return null;
 	}
 	
@@ -33,15 +27,6 @@ public class ReviewNull implements Review {
 
 	@Override
 	public void setRating(float rating) {
-	}
-
-	@Override
-	public RDDate getDate() {
-		return null;
-	}
-	
-	@Override
-	public void setDate(Date date) {
 	}
 
 	@Override

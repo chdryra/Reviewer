@@ -9,12 +9,8 @@ public class RDTitle implements RData {
 		mHoldingReview = review;
 	}
 	
-	public String get() {
+	public String toString() {
 		return mTitle;
-	}
-
-	public void set(String title) {
-		mTitle = title;
 	}
 
 	@Override

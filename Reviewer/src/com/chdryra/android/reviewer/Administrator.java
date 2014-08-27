@@ -1,38 +1,39 @@
 package com.chdryra.android.reviewer;
 
+import android.content.Context;
+
 public class Administrator {
 
 	private static Administrator sAdministrator;
-	private static final Author sAnonymousAuthor = new Author();
+	private Context mContext;
+	
+	private static Author sAnonymousAuthor = new Author();
 	private Author mCurrentAuthor;
 	
-	private Administrator() {
+	private Administrator(Context c) {
 		mCurrentAuthor = sAnonymousAuthor;
+		mContext = c.getApplicationContext();
 	}
 	
-	public static Administrator getInstance() {
+	public static Administrator get(Context c) {
 		if(sAdministrator == null)
-			sAdministrator = new Administrator();
+			sAdministrator = new Administrator(c);
 		
 		return sAdministrator;
 	}
 	
 	public void setCurrentAuthor(Author author) {
-		getInstance().mCurrentAuthor = author;
+		mCurrentAuthor = author;
 	}
 	
-	public static Author getCurrentAuthor() {
-		return getInstance().mCurrentAuthor;
+	public Author getCurrentAuthor() {
+		return mCurrentAuthor;
 	}
 	
-	public static Author getAnonymousAuthor() {
-		return sAnonymousAuthor;
-	}
-	
-	public static GVSocialPlatformList getSocialPlatformList(boolean updated) {
-		if(updated)
-			return GVSocialPlatformList.getCurrent();
-		else
+	public static GVSocialPlatformList getSocialPlatformList(boolean latest) {
+		if(latest)
 			return GVSocialPlatformList.getLatest();
+		else
+			return GVSocialPlatformList.getCurrent();
 	}
 }
