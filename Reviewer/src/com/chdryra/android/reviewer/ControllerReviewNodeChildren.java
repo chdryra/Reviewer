@@ -1,6 +1,6 @@
 package com.chdryra.android.reviewer;
 
-import com.chdryra.android.reviewer.GVCriterionList.GVCriterion;
+import com.chdryra.android.reviewer.GVReviewList.GVReview;
 
 public class ControllerReviewNodeChildren extends ControllerReviewNodeCollection{	
 	private ReviewNode mParent;
@@ -15,22 +15,22 @@ public class ControllerReviewNodeChildren extends ControllerReviewNodeCollection
 	}
 	
 	public void addChild(String title) {
-		ReviewEditable r = FactoryReview.createChildReview(title, mParent);
+		ReviewEditable r = FactoryReview.createReviewTreeEditable(title);
 		mParent.addChild(r);
 	}
 
 	public void addChild(String title, float rating) {
-		ReviewEditable r = FactoryReview.createChildReview(title, mParent);
+		ReviewEditable r = FactoryReview.createReviewTreeEditable(title);
 		r.setRating(rating);
 		mParent.addChild(r);
 	}
 	
-	public void addChildren(GVCriterionList children) {
-		for(GVCriterion child : children)
+	public void addChildren(GVReviewList children) {
+		for(GVReview child : children)
 			addChild(child.getSubject(), child.getRating());
 	}
 	
-	public void setChildren(GVCriterionList children) {
+	public void setChildren(GVReviewList children) {
 		removeAll();
 		addChildren(children);
 	}

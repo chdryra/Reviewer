@@ -1,7 +1,8 @@
 package com.chdryra.android.reviewer;
 
-public class ReviewComponent implements ReviewNode {
+import java.util.Date;
 
+public class ReviewComponent implements ReviewNode {
 	private RDId mID;
 	
 	private Review mReview;
@@ -189,12 +190,13 @@ public class ReviewComponent implements ReviewNode {
 
 	@Override
 	public RDId getID() {
-		return mID;
+		//return mID;
+		return mReview.getID();
 	}
 	
 	@Override
-	public RDTitle getTitle() {
-		return mReview.getTitle();
+	public RDSubject getSubject() {
+		return mReview.getSubject();
 	}
 
 	@Override
@@ -203,9 +205,11 @@ public class ReviewComponent implements ReviewNode {
 	}
 
 	private RDRating getAverageRatingOfChildren() {
-		ReviewMeta metaReview = (ReviewMeta)FactoryReview.createMetaReview("Children");
-		metaReview.addReviews(getChildrenReviews());
-		return metaReview.getRating();
+		VisitorRatingAverager visitor = new VisitorRatingAverager();
+		for(ReviewNode child : getChildren())
+			child.acceptVisitor(visitor);
+		
+		return new RDRating(visitor.getRating(), this);
 	}
 
 	@Override
@@ -259,16 +263,6 @@ public class ReviewComponent implements ReviewNode {
 	}
 	
 	@Override
-	public RDList<RDProCon> getProCons() {
-		return mReview.getProCons();
-	}
-	
-	@Override
-	public boolean hasProCons() {
-		return mReview.hasProCons();
-	}
-	
-	@Override
 	public boolean equals(Object obj) {
 		if(obj == null || obj.getClass() != getClass())
 			return false;
@@ -288,5 +282,25 @@ public class ReviewComponent implements ReviewNode {
 	@Override
 	public ReviewTagCollection getTags() {
 		return mReview.getTags();
+	}
+	
+	@Override
+	public Author getAuthor() {
+		return mReview.getAuthor();
+	}
+	
+	@Override
+	public Date getPublishDate() {
+		return mReview.getPublishDate();
+	}
+	
+	@Override
+	public boolean isPublished() {
+		return mReview.isPublished();
+	}
+
+	@Override
+	public ReviewNode publish(ReviewPublisher publisher) {
+		return mReview.publish(publisher);
 	}
 }

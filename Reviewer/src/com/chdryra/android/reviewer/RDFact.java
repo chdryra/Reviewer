@@ -5,18 +5,19 @@ public class RDFact implements RData{
 	private Review mHoldingReview;
 	private String mLabel;
 	private String mValue;
-	
-	public RDFact(String label, String value) {	
-		mLabel = label;
-		mValue = value;			
-	}
-	
+
 	public RDFact(String label, String value, Review holdingReview) {	
 		mLabel = label;
 		mValue = value;			
 		mHoldingReview = holdingReview;
 	}
 
+	public RDFact(RDFact fact, Review holdingReview) {	
+		mLabel = fact.getLabel();
+		mValue = fact.getValue();			
+		mHoldingReview = holdingReview;
+	}
+	
 	public String getLabel() {
 		return mLabel;
 	}

@@ -1,7 +1,6 @@
 package com.chdryra.android.reviewer;
 
 import android.os.Parcel;
-import android.os.Parcelable;
 
 public class VisitorRatingAverager implements VisitorRatingCalculator{
 	private float mRatingTotal = 0;
@@ -28,29 +27,6 @@ public class VisitorRatingAverager implements VisitorRatingCalculator{
 		else
 			return 0;
 	}
-
-	@Override
-	public int describeContents() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public void writeToParcel(Parcel dest, int flags) {
-		dest.writeFloat(mRatingTotal);
-		dest.writeInt(mNumberRatings);
-	}
-	
-	public static final Parcelable.Creator<VisitorRatingAverager> CREATOR 
-	= new Parcelable.Creator<VisitorRatingAverager>() {
-	    public VisitorRatingAverager createFromParcel(Parcel in) {
-	        return new VisitorRatingAverager(in);
-	    }
-
-	    public VisitorRatingAverager[] newArray(int size) {
-	        return new VisitorRatingAverager[size];
-	    }
-	};
 
 	@Override
 	public void clear() {

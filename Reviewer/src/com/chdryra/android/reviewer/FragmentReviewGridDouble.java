@@ -55,7 +55,7 @@ public enum CellDimension{FULL, HALF, QUARTER};
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
-		mController = Controller.unpack(getActivity().getIntent().getExtras());
+		mController = Administrator.get(getActivity()).unpack(getActivity().getIntent().getExtras());
 		setGridCellDimension(CellDimension.FULL, CellDimension.HALF);
 		setBannerButtonTextLeft(getResources().getString(R.string.button_add_text));
 		setBannerButtonTextRight(getResources().getString(R.string.button_add_text));
@@ -107,7 +107,7 @@ public enum CellDimension{FULL, HALF, QUARTER};
 				@Override
 				public void afterTextChanged(Editable s) {
 					if(s.toString().length() > 0)
-						getController().setTitle(s.toString());
+						getController().setSubject(s.toString());
 				}
 			});
 		}
@@ -239,7 +239,7 @@ public enum CellDimension{FULL, HALF, QUARTER};
 
 	protected void updateSubjectTextUI() {
 		if(getController() != null)
-			getSubjectView().setText(getController().getTitle());
+			getSubjectView().setText(getController().getSubject());
 	}
 	
 	protected void updateRatingBarUI() {
@@ -372,7 +372,7 @@ public enum CellDimension{FULL, HALF, QUARTER};
 	protected void onUpSelected() {
 		if (NavUtils.getParentActivityName(getActivity()) != null) {
 			Intent i = NavUtils.getParentActivityIntent(getActivity());
-			Controller.pack(getController(), i);
+			Administrator.get(getActivity()).pack(getController(), i);
 			NavUtils.navigateUpTo(getActivity(), i);
 		}
 	}

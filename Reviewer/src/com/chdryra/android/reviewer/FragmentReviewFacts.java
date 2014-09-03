@@ -25,12 +25,12 @@ public class FragmentReviewFacts extends FragmentReviewGridAddEditDone<GVFact> {
 		
 	@Override
 	protected void onBannerButtonClick() {
-		DialogShower.show(new DialogFactAddFragment(), FragmentReviewFacts.this, DATA_ADD, DATA_ADD_TAG, Controller.pack(getController()));
+		DialogShower.show(new DialogFactAddFragment(), FragmentReviewFacts.this, DATA_ADD, DATA_ADD_TAG, Administrator.get(getActivity()).pack(getController()));
 	}
 	
 	@Override
 	protected void onGridItemClick(AdapterView<?> parent, View v, int position, long id) {
-		Bundle args = Controller.pack(getController());
+		Bundle args = Administrator.get(getActivity()).pack(getController());
 		GVFact fact = (GVFact)parent.getItemAtPosition(position);
 		args.putString(FACT_LABEL, fact.getLabel());
 		args.putString(FACT_VALUE, fact.getValue());

@@ -24,12 +24,12 @@ public class FragmentReviewTags  extends FragmentReviewGridAddEditDone<GVString>
 
 	@Override
 	protected void onBannerButtonClick() {
-		DialogShower.show(new DialogTagAddFragment(), FragmentReviewTags.this, DATA_ADD, DATA_ADD_TAG, Controller.pack(getController()));
+		DialogShower.show(new DialogTagAddFragment(), FragmentReviewTags.this, DATA_ADD, DATA_ADD_TAG, Administrator.get(getActivity()).pack(getController()));
 	}
 
 	@Override
 	protected void onGridItemClick(AdapterView<?> parent, View v, int position, long id) {
-		Bundle args = Controller.pack(getController());
+		Bundle args = Administrator.get(getActivity()).pack(getController());
 		args.putString(TAG_STRING, ((GVString)parent.getItemAtPosition(position)).toString());
 		DialogShower.show(new DialogTagEditFragment(), FragmentReviewTags.this, DATA_EDIT, DATA_EDIT_TAG, args);
 	}

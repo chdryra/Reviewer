@@ -74,7 +74,7 @@ public class FragmentReviewBuild extends FragmentReviewGrid<GVCellManager> {
 				} 
 				
 				Intent i = new Intent(getActivity(), ActivityReviewShare.class);
-				Controller.pack(getController(), i);
+				Administrator.get(getActivity()).pack(getController(), i);
 				startActivity(i);
 			}
 		});
@@ -135,7 +135,7 @@ public class FragmentReviewBuild extends FragmentReviewGrid<GVCellManager> {
 	
 	private void requestIntent(ReviewDataOption option) {
 		Intent i = new Intent(getActivity(), option.getActivityRequestClass());
-		Controller.pack(getController(), i);
+		Administrator.get(getActivity()).pack(getController(), i);
 		startActivityForResult(i, option.getActivityRequestCode());
 	}
 
@@ -148,7 +148,7 @@ public class FragmentReviewBuild extends FragmentReviewGrid<GVCellManager> {
 	private void showQuickDialog(ReviewDataOption option) {
 		DialogFragment dialog = option.getDialogFragment();
 		dialog.setTargetFragment(FragmentReviewBuild.this, option.getDialogRequestCode());
-		Bundle args = Controller.pack(getController());
+		Bundle args = Administrator.get(getActivity()).pack(getController());
 		args.putBoolean(DialogAddReviewDataFragment.QUICK_SET, true);
 		dialog.setArguments(args);
 		dialog.show(getFragmentManager(), option.getDialogTag());
@@ -291,29 +291,6 @@ public class FragmentReviewBuild extends FragmentReviewGrid<GVCellManager> {
 				ViewHolder vh = new VHTextDualView();
 				vh.inflate(getActivity(), parent);
 				return vh.updateView(new GVDualString(String.valueOf(number), type));
-			}
-			
-			public View getProConSummaryView(ViewGroup parent) {
-				GVProConList pros = (GVProConList) getController().getData(GVType.PROS);
-				GVProConList cons = (GVProConList) getController().getData(GVType.CONS);
-				
-				String proString = getResources().getString(R.string.text_view_pro_prefix);
-				String conString = getResources().getString(R.string.text_view_con_prefix);
-				
-				if(pros.size() == 0)
-					proString += GVType.PROS.getDataString();
-				else
-					proString += pros.size() == 1? pros.getItem(0).toString() : String.valueOf(pros.size()) + " " + GVType.PROS.getDataString();
-				
-				if(cons.size() == 0)
-					conString += GVType.CONS.getDataString();
-				else
-					conString += cons.size() == 1? cons.getItem(0).toString() : String.valueOf(cons.size()) + " " + GVType.CONS.getDataString();
-				
-				ViewHolder vh = new VHTextDualView();
-				vh.inflate(getActivity(), parent);
-				
-				return vh.updateView(new GVDualString(proString, conString));
 			}
 		}
 	}

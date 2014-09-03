@@ -58,7 +58,7 @@ public class FragmentReviewShare extends FragmentReviewGrid<GVSocialPlatformList
 	}
 	
 	private void initSocialSharingList() {
-		mSocialList = Administrator.getSocialPlatformList(true);
+		mSocialList = Administrator.get(getActivity()).getSocialPlatformList(true);
 	}
 	
 	@Override

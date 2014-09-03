@@ -1,125 +1,76 @@
 package com.chdryra.android.reviewer;
 
+import java.util.Date;
 
-public class ReviewUser implements ReviewEditable{	
+public class ReviewUser implements Review{	
+	
 	private RDId mID;
-	private RDTitle mTitle;
+	private RDSubject mSubject;
 	private RDRating mRating;
+	
+	private Author mAuthor;
+	private Date mPublishDate;
 	
 	private RDList<RDComment> mComments;
 	private RDList<RDImage> mImages;	
 	private RDList<RDFact> mFacts;
-	private RDList<RDProCon> mProCons;
 	private RDList<RDUrl> mURLs;
 	private RDList<RDLocation> mLocations;
 
-	private ReviewNode mNode;
+	public ReviewUser(Author author, Date publishDate, String subject, float rating) {
+		init(author, publishDate, subject, rating, null, null, null, null, null);
+	}
 	
-	public ReviewUser(String title) {	
-		mID = RDId.generateID();
-		mTitle = new RDTitle(title, this);
-		mRating = new RDRating(0, this);
-		
-		//Null option data
-		mComments = new RDList<RDComment>();
-		mImages = new RDList<RDImage>();
-		mLocations = new RDList<RDLocation>();
-		mFacts = new RDList<RDFact>();
-		mProCons = new RDList<RDProCon>();
-		mURLs = new RDList<RDUrl>();
-		
-		mNode = FactoryReview.createReviewNode(this);
+	public ReviewUser(Author author, Date publishDate, String subject, float rating, 
+			RDList<RDComment> comments, RDList<RDImage> images, RDList<RDFact> facts, RDList<RDUrl> urls, RDList<RDLocation> locations) {
+		init(author, publishDate, subject, rating, comments, images, facts, urls, locations);
+	}
+	
+	public ReviewUser(Author author, Date publishDate, ReviewEditable review) {	
+		init(review.isPublished()? review.getAuthor() : author, review.isPublished()? review.getPublishDate() : publishDate, review.getSubject().get(), review.getRating().get(), 
+				review.getComments(), review.getImages(), review.getFacts(), review.getURLs(), review.getLocations());
 	}
 
+	private void init(Author author, Date publishDate, String subject, float rating, 
+			RDList<RDComment> comments, RDList<RDImage> images, RDList<RDFact> facts, RDList<RDUrl> urls, RDList<RDLocation> locations) {
+		mID = RDId.generateID();
+
+		mAuthor = author;
+		mPublishDate = publishDate;
+		
+		mSubject = new RDSubject(subject, this);
+		mRating = new RDRating(rating, this);
+		
+		mComments = comments != null? new RDList<RDComment>(comments, this) : new RDList<RDComment>();
+		mImages = images != null? new RDList<RDImage>(images, this) : new RDList<RDImage>();
+		mFacts = facts != null? new RDList<RDFact>(facts, this) : new RDList<RDFact>();
+		mURLs = urls != null? new RDList<RDUrl>(urls, this) : new RDList<RDUrl>();
+		mLocations = locations != null? new RDList<RDLocation>(locations, this) : new RDList<RDLocation>();
+	}
+	
 	@Override
 	public RDId getID() {
 		return mID;
 	}
 	
 	@Override
-	public RDTitle getTitle() {
-		return mTitle;
-	}
-
-	@Override
-	public void setTitle(String title) {
-		mTitle = new RDTitle(title, this);
-	}
-
-	@Override
-	public void setRating(float rating) {
-		mRating = new RDRating(rating, this);
+	public RDSubject getSubject() {
+		return mSubject;
 	}
 
 	@Override
 	public RDRating getRating() {
-		return isRatingAverageOfCriteria()? mNode.getRating() : mRating;
+		return mRating;
 	}
 	
 	@Override
 	public ReviewTagCollection getTags() {
 		return ReviewTagsManager.getTags(this);
 	}
-
-	public void setRatingAverageOfCriteria(boolean ratingIsAverage) {
-		mNode.setRatingIsAverageOfChildren(ratingIsAverage);
-	}
 	
-	public boolean isRatingAverageOfCriteria() {
-		return mNode.isRatingIsAverageOfChildren();
-	}
-	
-	public RCollectionReview getCriteria() {
-		return mNode.getChildrenReviews();
-	}
-	
-	public Review getCriterion(RDId id) {
-		return mNode.getChild(id).getReview();
-	}
-	
-	public RCollectionReviewNode getCriteriaNodes() {
-		return mNode.getChildren();
-	}
-
-	@Override
-	public ReviewNode getReviewNode() {
-		return mNode;
-	}
-	
-	public void setCriteria(RCollectionReview criteria) {
-		mNode.clearChildren();
-		mNode.addChildren(criteria);
-	}
-
-	public void addCriterion(ReviewEditable criterion) {
-		mNode.addChild(criterion);
-	}
-	
-	private <T extends RData> RDList<T> processData(RDList<T> newData, RDList<T> ifNull) {
-		RDList<T> member;
-		if(newData != null)
-			member = newData;
-		else
-			member = ifNull;
-		
-		member.setHoldingReview(this);
-		
-		return member;
-	}
-
 	@Override
 	public RDList<RDImage> getImages() {
 		return mImages;
-	}
-	
-	@Override
-	public void setImages(RDList<RDImage> images) {
-		mImages = (RDList<RDImage>)processData(images, new RDList<RDImage>());
-	}
-	
-	@Override
-	public void deleteImages() {
-		setImages(null);
 	}
 	
 	@Override
@@ -133,16 +84,6 @@ public class ReviewUser implements ReviewEditable{
 	}
 	
 	@Override
-	public void setLocations(RDList<RDLocation> locations) {
-		mLocations = (RDList<RDLocation>) processData(locations, new RDList<RDLocation>());
-	}
-	
-	@Override
-	public void deleteLocations() {
-		setLocations(null);
-	}
-	
-	@Override
 	public boolean hasLocations() {
 		return mLocations.hasData();
 	}
@@ -153,35 +94,15 @@ public class ReviewUser implements ReviewEditable{
 	}
 
 	@Override
-	public void setFacts(RDList<RDFact> facts) {
-		mFacts = (RDList<RDFact>) processData(facts, new RDList<RDFact>());
-	}
-	
-	@Override
-	public void deleteFacts() {
-		setFacts(null);
-	}
-	
-	@Override
 	public boolean hasFacts() {
 		return mFacts.hasData();
 	}
 	
 	@Override
-	public void setComments(RDList<RDComment> comments){
-		mComments = (RDList<RDComment>) processData(comments, new RDList<RDComment>());
-	}
-
-	@Override
 	public RDList<RDComment> getComments() {
 		return mComments;
 	}
 
-	@Override
-	public void deleteComments() {
-		setComments(null);
-	}
-	
 	@Override
 	public boolean hasComments() {
 		return mComments.hasData();
@@ -193,38 +114,8 @@ public class ReviewUser implements ReviewEditable{
 	}
 
 	@Override
-	public void setURLs(RDList<RDUrl> urls) {
-		mURLs = (RDList<RDUrl>) processData(urls, new RDList<RDUrl>());
-	}
-
-	@Override
-	public void deleteURLs() {
-		setURLs(null);
-	}
-
-	@Override
 	public boolean hasURLs() {
 		return mURLs.hasData();
-	}
-
-	@Override
-	public void deleteProCons() {
-		setProCons(null);
-	}
-	
-	@Override
-	public RDList<RDProCon> getProCons() {
-		return mProCons;
-	}
-	
-	@Override
-	public boolean hasProCons() {
-		return mProCons.hasData();
-	}
-	
-	@Override
-	public void setProCons(RDList<RDProCon> proCons) {
-		mProCons = (RDList<RDProCon>)processData(proCons, new RDList<RDProCon>());
 	}
 	
 	@Override
@@ -242,5 +133,35 @@ public class ReviewUser implements ReviewEditable{
 	@Override
 	public int hashCode() {
 		return mID.hashCode();
+	}
+
+	@Override
+	public Author getAuthor() {
+		return mAuthor;
+	}
+
+	@Override
+	public Date getPublishDate() {
+		return mPublishDate;
+	}
+
+	@Override
+	public boolean isPublished() {
+		return mAuthor != null && mPublishDate != null;
+	}
+	
+	@Override
+	public ReviewNode publish(ReviewPublisher publisher) {
+		if(!isPublished()) {
+			mAuthor = publisher.getAuthor();
+			mPublishDate = publisher.getPublishDate();
+		}
+		
+		return getReviewNode();
+	}
+
+	@Override
+	public ReviewNode getReviewNode() {
+		return FactoryReview.createReviewNode(this);
 	}
 }

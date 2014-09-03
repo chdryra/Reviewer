@@ -1,15 +1,20 @@
 package com.chdryra.android.reviewer;
 
-public class RDTitle implements RData {
+public class RDSubject implements RData {
 	private Review mHoldingReview;
 	private String mTitle;
 	
-	public RDTitle(String title, Review review) {
+	public RDSubject(String title, Review review) {
 		mTitle = title;
 		mHoldingReview = review;
 	}
 	
-	public String toString() {
+	public RDSubject(RDSubject title, Review review) {
+		mTitle = title.toString();
+		mHoldingReview = review;
+	}
+	
+	public String get() {
 		return mTitle;
 	}
 

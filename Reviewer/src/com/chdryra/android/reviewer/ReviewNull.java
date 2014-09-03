@@ -1,7 +1,6 @@
 package com.chdryra.android.reviewer;
 
-
-public class ReviewNull implements ReviewEditable {
+public class ReviewNull extends ReviewEditable {
 	
 	public ReviewNull() {
 	}
@@ -12,12 +11,12 @@ public class ReviewNull implements ReviewEditable {
 	}
 	
 	@Override
-	public RDTitle getTitle() {
+	public RDSubject getSubject() {
 		return null;
 	}
 
 	@Override
-	public void setTitle(String title) {
+	public void setSubject(String title) {
 	}
 
 	@Override
@@ -123,24 +122,6 @@ public class ReviewNull implements ReviewEditable {
 	public boolean hasURLs() {
 		return false;
 	}
-
-	@Override
-	public void deleteProCons() {
-	}
-	
-	@Override
-	public RDList<RDProCon> getProCons() {
-		return null;
-	}
-
-	@Override
-	public boolean hasProCons() {
-		return false;
-	}
-	
-	@Override
-	public void setProCons(RDList<RDProCon> proCons) {
-	}
 	
 	@Override
 	public boolean equals(Object obj) {
@@ -161,4 +142,8 @@ public class ReviewNull implements ReviewEditable {
 		return null;
 	}
 
+	@Override
+	public ReviewNode publish(ReviewPublisher publisher) {
+		return FactoryReview.createNullReviewNode();
+	}
 }

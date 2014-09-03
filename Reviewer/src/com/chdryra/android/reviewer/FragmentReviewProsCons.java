@@ -42,7 +42,7 @@ public class FragmentReviewProsCons extends FragmentReviewGridAddEditDoneDouble<
 	}
 	
 	private void onBannerButtonClick(boolean isPro) {
-		Bundle args = Controller.pack(getController());
+		Bundle args = Administrator.get(getActivity()).pack(getController());
 		args.putBoolean(PRO_MODE, isPro);
 		int requestCode = isPro? DATA_ADD_LEFT : DATA_ADD_RIGHT;
 		DialogShower.show(new DialogProConAddFragment(), FragmentReviewProsCons.this, requestCode, DATA_ADD_TAG, args);
@@ -59,7 +59,7 @@ public class FragmentReviewProsCons extends FragmentReviewGridAddEditDoneDouble<
 	}
 	
 	private void onGridItemClick(boolean isPro, AdapterView<?> parent, View v, int position, long id) {
-		Bundle args = Controller.pack(getController());
+		Bundle args = Administrator.get(getActivity()).pack(getController());
 		GVProCon proCon = (GVProCon)parent.getItemAtPosition(position);
 		args.putBoolean(PRO_MODE, isPro);
 		args.putString(PROCON, proCon.toString());

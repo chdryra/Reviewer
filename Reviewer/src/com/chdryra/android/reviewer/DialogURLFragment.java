@@ -25,7 +25,7 @@ public class DialogURLFragment extends DialogDeleteCancelDoneFragment {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
-		mController = Controller.unpack(getArguments());
+		mController = Administrator.get(getActivity()).unpack(getArguments());
 		
 		setLeftButtonAction(RESULT_BROWSE);
 		setLeftButtonText(getResources().getString(R.string.button_browse_text));

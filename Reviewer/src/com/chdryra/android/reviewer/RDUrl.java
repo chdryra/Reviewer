@@ -24,6 +24,11 @@ public class RDUrl implements RData {
 		mHoldingReview = holdingReview;
 	}
 
+	public RDUrl(RDUrl url, Review holdingReview) throws MalformedURLException, URISyntaxException{
+		setURL(url.toString());
+		mHoldingReview = holdingReview;
+	}
+	
 	public URL get() {
 		return mURL;
 	}

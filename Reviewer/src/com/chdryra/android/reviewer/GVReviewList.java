@@ -5,50 +5,50 @@ import java.util.Comparator;
 import com.chdryra.android.mygenerallibrary.GVData;
 import com.chdryra.android.mygenerallibrary.ViewHolder;
 
-public class GVCriterionList extends GVReviewDataList<GVCriterionList.GVCriterion> {
+public class GVReviewList extends GVReviewDataList<GVReviewList.GVReview> {
 	
-	public GVCriterionList() {
+	public GVReviewList() {
 		super(GVType.CRITERIA);
 	}
 	
 	public void add(String subject, float rating) {
 		if(!contains(subject))
-			add(new GVCriterion(subject, rating));
+			add(new GVReview(subject, rating));
 	}
 	
 	public void remove(String subject) {
-		remove(new GVCriterion(subject, 0));
+		remove(new GVReview(subject, 0));
 	}
 	
 	public boolean contains(String subject) {
-		GVCriterion criterion = new GVCriterion(subject, 0);
-		return contains(criterion);
+		GVReview review = new GVReview(subject, 0);
+		return contains(review);
 	}
 	
 	public void set(String subject, float rating) {
-		GVCriterion c = getItem(subject);
-		if(c != null)
-			c.setRating(rating);
+		GVReview r = getItem(subject);
+		if(r != null)
+			r.setRating(rating);
 	}
 	
-	private GVCriterion getItem(String subject) {
-		GVCriterion criterion = null;
-		for(GVCriterion c : this) {
-			if(c.getSubject().equals(subject)) {
-				criterion = c;
+	private GVReview getItem(String subject) {
+		GVReview review = null;
+		for(GVReview r : this) {
+			if(r.getSubject().equals(subject)) {
+				review = r;
 				break;
 			}
 		}
 		
-		return criterion;
+		return review;
 	}
 	
 	@Override
-	protected Comparator<GVCriterion> getDefaultComparator() {
+	protected Comparator<GVReview> getDefaultComparator() {
 		
-		return new Comparator<GVCriterionList.GVCriterion>() {
+		return new Comparator<GVReviewList.GVReview>() {
 			@Override
-			public int compare(GVCriterion lhs, GVCriterion rhs) {
+			public int compare(GVReview lhs, GVReview rhs) {
 				int comp = lhs.getSubject().compareTo(rhs.getSubject());
 				if(comp == 0) {
 					if(lhs.getRating() > rhs.getRating())
@@ -62,11 +62,11 @@ public class GVCriterionList extends GVReviewDataList<GVCriterionList.GVCriterio
 		};
 	}
 	
-	public class GVCriterion implements GVData{
+	public class GVReview implements GVData{
 		private String mSubject;
 		private float mRating;
 		
-		public GVCriterion(String subject, float rating) {
+		public GVReview(String subject, float rating) {
 			mSubject = subject;
 			mRating = rating;
 		}
@@ -96,7 +96,7 @@ public class GVCriterionList extends GVReviewDataList<GVCriterionList.GVCriterio
 				return false;
 			if (getClass() != obj.getClass())
 				return false;
-			GVCriterion other = (GVCriterion) obj;
+			GVReview other = (GVReview) obj;
 			if (!getOuterType().equals(other.getOuterType()))
 				return false;
 			if (mSubject == null) {
@@ -118,8 +118,8 @@ public class GVCriterionList extends GVReviewDataList<GVCriterionList.GVCriterio
 			return result;
 		}
 
-		private GVCriterionList getOuterType() {
-			return GVCriterionList.this;
+		private GVReviewList getOuterType() {
+			return GVReviewList.this;
 		}
 	}
 }

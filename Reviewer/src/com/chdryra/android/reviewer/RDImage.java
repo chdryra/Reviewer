@@ -23,6 +23,14 @@ public class RDImage implements RData{
 		mHoldingReview = holdingReview;
 	}
 
+	public RDImage(RDImage image, Review holdingReview) {
+		mBitmap = image.getBitmap();
+		mLatLng = image.getLatLng();
+		mCaption = image.getCaption();
+		mIsCover = image.isCover();
+		mHoldingReview = holdingReview;
+	}
+	
 	@Override
 	public void setHoldingReview(Review review) {
 		mHoldingReview = review;

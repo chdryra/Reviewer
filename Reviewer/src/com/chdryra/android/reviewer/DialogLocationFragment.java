@@ -33,7 +33,7 @@ public class DialogLocationFragment extends DialogActionCancelDoneFragment imple
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		mController = Controller.unpack(getArguments());
+		mController = Administrator.get(getActivity()).unpack(getArguments());
 		mLocationClient = new LocationClientConnector(getActivity(), this);
 		mLocationClient.connect();
 		setLeftButtonAction(RESULT_MAP);

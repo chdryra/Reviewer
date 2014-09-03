@@ -1,16 +1,21 @@
 package com.chdryra.android.reviewer;
 
+import java.util.Date;
+
 public interface Review {
 	
 	//Core data
-	public RDId getID();
-	
-	public RDTitle getTitle();
-	
+	public RDId getID();	
+	public RDSubject getSubject();
 	public RDRating getRating();
 
 	public ReviewTagCollection getTags();
 	public ReviewNode getReviewNode();
+	
+	public ReviewNode publish(ReviewPublisher publisher);
+	public Author getAuthor();
+	public Date getPublishDate();
+	public boolean isPublished();
 	
 	//Optional data
 	public RDList<RDComment> getComments();
@@ -18,9 +23,6 @@ public interface Review {
 
 	public RDList<RDFact> getFacts();
 	public boolean hasFacts();
-
-	public RDList<RDProCon> getProCons();
-	public boolean hasProCons();
 
 	public RDList<RDImage> getImages();
 	public boolean hasImages();

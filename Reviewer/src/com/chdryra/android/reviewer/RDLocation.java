@@ -20,6 +20,12 @@ public class RDLocation implements RData{
 		mHoldingReview = holdingReview;
 	}
 
+	public RDLocation(RDLocation location, Review holdingReview) {
+		mLatLng = location.getLatLng();
+		mName = location.getName();
+		mHoldingReview = holdingReview;
+	}
+	
 	public RDLocation(LatLng latLng, Review holdingReview) {
 		mLatLng = latLng;
 		mHoldingReview = holdingReview;

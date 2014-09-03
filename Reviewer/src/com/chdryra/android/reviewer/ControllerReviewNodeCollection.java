@@ -61,38 +61,32 @@ public class ControllerReviewNodeCollection {
 		return getControllerFor(get().getItem(position).getID().toString());
 	}
 	
-	private ReviewNode getChild(String id) {
-		ReviewNode r = get().get(Controller.convertID(id));
-		if(r == null)
-			r = FactoryReview.createNullReviewNode();
-		
-		return r; 
-	}
-	
 	public float getRating() {
-		ReviewMeta r = (ReviewMeta)FactoryReview.createMetaReview("");
-		r.addReviews(mReviewNodes.getReviews());
-		return r.getRating().get();
+		VisitorRatingAverager visitor = new VisitorRatingAverager();
+		for(ReviewNode child : mReviewNodes)
+			child.acceptVisitor(visitor);
+		
+		return visitor.getRating();
 	}
 	
 	//***Accessesors***
 	
 	//Title
-	public void setTitle(String id, String title) {
-		getControllerFor(id).setTitle(title);
+	public void setSubject(String id, String subject) {
+		getControllerFor(id).setSubject(subject);
 	}
 	
-	public String getTitle(String id) {
-		return getControllerFor(id).getTitle();
+	public String getSubject(String id) {
+		return getControllerFor(id).getSubject();
 	}
 
 	//RatingISAverage
 	public void setReviewRatingAverage(String id, boolean isAverage) {
-		getChild(id).getReviewNode().setRatingIsAverageOfChildren(isAverage);
+		getControllerFor(id).setReviewRatingAverage(isAverage);
 	}
 	
 	public boolean isReviewRatingAverage(String id) {
-		return getChild(id).getReviewNode().isRatingIsAverageOfChildren();
+		return getControllerFor(id).isReviewRatingAverage();
 	}
 
 	//Rating
@@ -121,10 +115,10 @@ public class ControllerReviewNodeCollection {
 		getControllerFor(id).deleteData(dataType);
 	}
 	
-	public GVCriterionList getGridViewiableData() {
-		GVCriterionList data = new GVCriterionList();
+	public GVReviewList getGridViewiableData() {
+		GVReviewList data = new GVReviewList();
 		for(Review r : get())
-			data.add(r.getTitle().toString(), r.getRating().get());
+			data.add(r.getSubject().get(), r.getRating().get());
 		
 		return data;
 	}

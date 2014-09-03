@@ -59,10 +59,10 @@ public abstract class FragmentReviewGrid<T extends GVData> extends FragmentDelet
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
-		mController = Controller.unpack(getActivity().getIntent().getExtras());
+		mController = Administrator.get(getActivity()).unpack(getActivity().getIntent().getExtras());
 		
 		if(mController == null) {
-			setController(Controller.createNewEditableReview());
+			setController(Controller.createNewReviewInProgress());
 			mReviewInProgress = true;
 		}
 		
@@ -115,7 +115,7 @@ public abstract class FragmentReviewGrid<T extends GVData> extends FragmentDelet
 				@Override
 				public void afterTextChanged(Editable s) {
 					if(s.toString().length() > 0)
-						getController().setTitle(s.toString());
+						getController().setSubject(s.toString());
 				}
 			});
 		} else {
@@ -238,7 +238,7 @@ public abstract class FragmentReviewGrid<T extends GVData> extends FragmentDelet
 	
 	protected void updateSubjectTextUI() {
 		if(getController() != null)
-			getSubjectView().setText(getController().getTitle());
+			getSubjectView().setText(getController().getSubject());
 	}
 	
 	protected void updateRatingBarUI() {
@@ -343,7 +343,7 @@ public abstract class FragmentReviewGrid<T extends GVData> extends FragmentDelet
 		
 		if(mOnDoneActivity != null) {
 			Intent i = new Intent(getActivity(), ActivityReviewBuild.class);
-			Controller.pack(getController(), i);
+			Administrator.get(getActivity()).pack(getController(), i);
 			startActivity(i);
 		}
 	}
@@ -367,7 +367,7 @@ public abstract class FragmentReviewGrid<T extends GVData> extends FragmentDelet
 		if (NavUtils.getParentActivityName(getActivity()) != null) {
 			Intent i = NavUtils.getParentActivityIntent(getActivity());
 			if(!mReviewInProgress)
-				Controller.pack(getController(), i);
+				Administrator.get(getActivity()).pack(getController(), i);
 			NavUtils.navigateUpTo(getActivity(), i);
 		}
 	}

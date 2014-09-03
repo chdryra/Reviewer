@@ -9,6 +9,15 @@ public class RDRating implements RData {
 		mHoldingReview = holdingReview;
 	}
 	
+	public RDRating(RDRating rating, Review holdingReview) {
+		mRating = rating.get();
+		mHoldingReview = holdingReview;
+	}
+	
+	public void set(float rating) {
+		mRating = rating;
+	}
+	
 	public float get() {
 		return mRating;
 	}

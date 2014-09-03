@@ -40,7 +40,7 @@ public class FragmentReviewLocations  extends FragmentReviewGridAddEditDone<GVLo
 		Intent i = new Intent(getActivity(), ActivityReviewLocationMap.class);
 		i.putExtra(LATLNG, latLng);
 		i.putExtra(NAME, name);
-		i.putExtra(SUBJECT, getController().getTitle());
+		i.putExtra(SUBJECT, getController().getSubject());
 		startActivityForResult(i, requestCode);
 	}
 

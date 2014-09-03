@@ -12,6 +12,11 @@ public class RDComment implements RData{
 		mHoldingReview = holdingReview;
 	}
 	
+	public RDComment(RDComment comment, Review holdingReview) {
+		mComment = comment.get();
+		mHoldingReview = holdingReview;
+	}
+	
 	@Override
 	public void setHoldingReview(Review review) {
 		mHoldingReview = review;

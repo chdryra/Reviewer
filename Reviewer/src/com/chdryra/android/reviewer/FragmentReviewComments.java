@@ -30,7 +30,7 @@ public class FragmentReviewComments extends FragmentReviewGridAddEditDone<GVComm
 		
 	@Override
 	protected void onBannerButtonClick() {
-		DialogShower.show(new DialogCommentAddFragment(), FragmentReviewComments.this, DATA_ADD, DATA_ADD_TAG, Controller.pack(getController()));
+		DialogShower.show(new DialogCommentAddFragment(), FragmentReviewComments.this, DATA_ADD, DATA_ADD_TAG, Administrator.get(getActivity()).pack(getController()));
 	}
 	
 	@Override
