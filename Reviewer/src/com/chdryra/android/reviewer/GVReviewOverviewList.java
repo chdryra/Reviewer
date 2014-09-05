@@ -14,9 +14,9 @@ public class GVReviewOverviewList extends GVReviewDataList<GVReviewOverviewList.
 		super(GVType.REVIEW);
 	}
 	
-	public void add(String id, String subject, float rating, Bitmap coverImage, String locationName, String author, Date publishDate) {
+	public void add(String id, String subject, float rating, Bitmap coverImage, String headline, String locationName, String author, Date publishDate) {
 		if(!contains(id))
-			add(new GVReviewOverview(id, subject, rating, coverImage, locationName, author, publishDate));
+			add(new GVReviewOverview(id, subject, rating, coverImage, headline, locationName, author, publishDate));
 	}
 	
 	public boolean contains(String id) {
@@ -39,20 +39,22 @@ public class GVReviewOverviewList extends GVReviewDataList<GVReviewOverviewList.
 		private String mId;
 		private String mSubject;
 		private float mRating;
+		private Bitmap mCoverImage;
+		private String mHeadline;
 		private String mLocationName;
 		private String mAuthor;
 		private Date mPublishDate;
-		private Bitmap mCoverImage;
 		
 		private GVReviewOverview(String id) {
 			mId = id;
 		}
 		
-		public GVReviewOverview(String id, String subject, float rating, Bitmap coverImage, String locationName, String Author, Date publishDate) {
+		public GVReviewOverview(String id, String subject, float rating, Bitmap coverImage, String headline, String locationName, String Author, Date publishDate) {
 			mId = id;
 			mSubject = subject;
 			mRating = rating;
 			mCoverImage = coverImage;
+			mHeadline = headline;
 			mLocationName = locationName;
 			mAuthor = Author;
 			mPublishDate = publishDate;
@@ -76,6 +78,10 @@ public class GVReviewOverviewList extends GVReviewDataList<GVReviewOverviewList.
 
 		public String getLocationName() {
 			return mLocationName;
+		}
+		
+		public String getHeadline() {
+			return mHeadline;
 		}
 		
 		public String getAuthor() {

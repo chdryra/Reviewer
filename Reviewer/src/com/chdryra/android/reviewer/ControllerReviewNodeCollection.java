@@ -132,9 +132,11 @@ public class ControllerReviewNodeCollection {
 				ControllerReviewNode c = getControllerFor(r.getID().toString());
 				GVImageList images = (GVImageList)c.getData(GVType.IMAGES);
 				Bitmap cover = images.size() > 0? images.getRandomCover().getBitmap() : null;
+				GVCommentList comments = (GVCommentList)c.getData(GVType.COMMENTS);
+				String headline = comments.size() > 0 ? comments.getItem(0).getCommentHeadline() : null;
 				GVLocationList locations = (GVLocationList)c.getData(GVType.LOCATIONS);
 				String location = locations.size() > 0 ? locations.getItem(0).getName() : null;
-				data.add(c.getID(), c.getSubject(), c.getRating(), cover, location, c.getAuthor(), c.getPublishDate());
+				data.add(c.getID(), c.getSubject(), c.getRating(), cover, headline, location, c.getAuthor(), c.getPublishDate());
 			}
 		
 		return data;

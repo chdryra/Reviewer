@@ -1,7 +1,6 @@
 package com.chdryra.android.reviewer;
 
 import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import android.view.View;
@@ -18,12 +17,14 @@ public class VHReviewNodeOverview extends ViewHolderBasic {
 	private static final int SUBJECT = R.id.review_subject;
 	private static final int RATING = R.id.review_rating_bar;
 	private static final int IMAGE = R.id.review_image;
+	private static final int HEADLINE = R.id.review_headline;
 	private static final int LOCATION = R.id.review_location;
 	private static final int PUBLISH = R.id.review_publish_data;
 	
 	private TextView mSubject;
     private RatingBar mRating;
     private ImageView mImage;
+    private TextView mHeadline;
     private TextView mLocation;
     private TextView mPublishData;
     
@@ -36,6 +37,7 @@ public class VHReviewNodeOverview extends ViewHolderBasic {
     	mSubject = (TextView)getView(SUBJECT);
     	mRating = (RatingBar)getView(RATING);
     	mImage = (ImageView)getView(IMAGE);
+    	mHeadline = (TextView)getView(HEADLINE);
     	mLocation = (TextView)getView(LOCATION);
     	mPublishData = (TextView)getView(PUBLISH);
     }
@@ -50,20 +52,17 @@ public class VHReviewNodeOverview extends ViewHolderBasic {
 		
 		String location = review.getLocationName();
 		String author = review.getAuthor();
-		Date publishDate = review.getPublishDate();
-		
+		String headline = review.getHeadline();
+		String date = DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.SHORT).format(review.getPublishDate());
+	
+		mPublishData.setText(date + " by " + author);
 		if(location != null && location.length() > 0)
 			mLocation.setText("@" + location);
+		if(headline != null && headline.length() > 0)
+			mHeadline.setText("\"" + headline + "\"");
 		
-		DateFormat df = SimpleDateFormat.getDateInstance();
-		DateFormat tf = SimpleDateFormat.getTimeInstance();
-		String date = df.format(publishDate);
-		String time = tf.format(publishDate);
-		
-		mPublishData.setText("on " + date + " at " + time + " by " + author);
-
 		mImage.setImageBitmap(review.getCoverImage());
-		
+
 		return mInflated;
 	}
 }

@@ -47,9 +47,9 @@ public class FragmentReviewShare extends FragmentReviewGrid<GVSocialPlatformList
 			@Override
 			public void onClick(View v) {
 				Administrator.get(getActivity()).publishReviewInProgress();
-				Intent feedIntent = new Intent(getActivity(), ActivityFeed.class);
-		        feedIntent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-		        startActivity(feedIntent);
+				Intent intent = new Intent(getActivity(), ActivityFeed.class);
+		        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+		        startActivity(intent);
 			}
 		});
 		

@@ -2,29 +2,34 @@ package com.chdryra.android.reviewer;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 
 import com.chdryra.android.mygenerallibrary.GridViewCellAdapter;
 import com.chdryra.android.reviewer.GVReviewOverviewList.GVReviewOverview;
 
 public class FragmentFeed extends FragmentReviewGrid<GVReviewOverview> {
-	private Administrator mAdmin;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		mAdmin = Administrator.get(getActivity());
 		setGridViewData(Administrator.get(getActivity()).getFeed());
 		setGridCellDimension(CellDimension.FULL, CellDimension.FULL);
 		setBackgroundImageAlpha(0);
 		setController(null);
+		setDisplayHomeAsUp(false);
 	}
+
 	
+	@Override
+	protected void initSubjectUI() {
+		super.initSubjectUI();
+		getSubjectView().setHint(R.string.search_hint);
+	}
+
 	@Override
 	protected void initRatingBarUI() {
 		getTotalRatingBar().setVisibility(View.GONE);
