@@ -2,13 +2,12 @@ package com.chdryra.android.reviewer;
 
 import java.util.Date;
 
-public class ReviewPublisher {
+public class ReviewTreePublisher {
 	private Author mAuthor;
 	private Date mPublishDate;
 	
-	public ReviewPublisher(Author author) {
+	public ReviewTreePublisher(Author author) {
 		mAuthor = author;
-		mPublishDate = new Date();
 	}
 	
 	public Author getAuthor() {
@@ -20,10 +19,9 @@ public class ReviewPublisher {
 	}
 
 	public ReviewNode publish(Review review) {
-		ReviewNode reviewTree = review.getReviewNode();
-		
-		VisitorTreePublisher publisher = new VisitorTreePublisher(this);
-		publisher.visit(reviewTree);
+		mPublishDate = new Date();
+		VisitorTreePublisher publisher = new VisitorTreePublisher(this);		
+		review.getReviewNode().acceptVisitor(publisher);
 		
 		return publisher.getPublishedTree();
 	}

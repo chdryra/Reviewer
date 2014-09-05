@@ -195,7 +195,7 @@ public class ReviewUserEditable extends ReviewEditable {
 	}
 
 	@Override
-	public ReviewNode publish(ReviewPublisher publisher) {
+	public ReviewNode publish(ReviewTreePublisher publisher) {
 		Review review = new ReviewUser(publisher.getAuthor(), publisher.getPublishDate(), this); 
 		
 		return publisher.publish(review);

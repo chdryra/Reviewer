@@ -2,10 +2,10 @@ package com.chdryra.android.reviewer;
 
 public class VisitorTreePublisher implements VisitorReviewNode {
 
-	private ReviewPublisher mPublisher;
+	private ReviewTreePublisher mPublisher;
 	private ReviewNode mPublishedNode;
 	
-	public VisitorTreePublisher(ReviewPublisher publisher) {
+	public VisitorTreePublisher(ReviewTreePublisher publisher) {
 		mPublisher = publisher;
 	}
 	

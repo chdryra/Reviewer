@@ -5,35 +5,35 @@ import java.util.Comparator;
 import com.chdryra.android.mygenerallibrary.GVData;
 import com.chdryra.android.mygenerallibrary.ViewHolder;
 
-public class GVReviewList extends GVReviewDataList<GVReviewList.GVReview> {
+public class GVReviewSubjectRatingList extends GVReviewDataList<GVReviewSubjectRatingList.GVReviewSubjectRating> {
 	
-	public GVReviewList() {
+	public GVReviewSubjectRatingList() {
 		super(GVType.CRITERIA);
 	}
 	
 	public void add(String subject, float rating) {
 		if(!contains(subject))
-			add(new GVReview(subject, rating));
+			add(new GVReviewSubjectRating(subject, rating));
 	}
 	
 	public void remove(String subject) {
-		remove(new GVReview(subject, 0));
+		remove(new GVReviewSubjectRating(subject, 0));
 	}
 	
 	public boolean contains(String subject) {
-		GVReview review = new GVReview(subject, 0);
+		GVReviewSubjectRating review = new GVReviewSubjectRating(subject, 0);
 		return contains(review);
 	}
 	
 	public void set(String subject, float rating) {
-		GVReview r = getItem(subject);
+		GVReviewSubjectRating r = getItem(subject);
 		if(r != null)
 			r.setRating(rating);
 	}
 	
-	private GVReview getItem(String subject) {
-		GVReview review = null;
-		for(GVReview r : this) {
+	private GVReviewSubjectRating getItem(String subject) {
+		GVReviewSubjectRating review = null;
+		for(GVReviewSubjectRating r : this) {
 			if(r.getSubject().equals(subject)) {
 				review = r;
 				break;
@@ -44,11 +44,11 @@ public class GVReviewList extends GVReviewDataList<GVReviewList.GVReview> {
 	}
 	
 	@Override
-	protected Comparator<GVReview> getDefaultComparator() {
+	protected Comparator<GVReviewSubjectRating> getDefaultComparator() {
 		
-		return new Comparator<GVReviewList.GVReview>() {
+		return new Comparator<GVReviewSubjectRatingList.GVReviewSubjectRating>() {
 			@Override
-			public int compare(GVReview lhs, GVReview rhs) {
+			public int compare(GVReviewSubjectRating lhs, GVReviewSubjectRating rhs) {
 				int comp = lhs.getSubject().compareTo(rhs.getSubject());
 				if(comp == 0) {
 					if(lhs.getRating() > rhs.getRating())
@@ -62,11 +62,11 @@ public class GVReviewList extends GVReviewDataList<GVReviewList.GVReview> {
 		};
 	}
 	
-	public class GVReview implements GVData{
+	public class GVReviewSubjectRating implements GVData{
 		private String mSubject;
 		private float mRating;
 		
-		public GVReview(String subject, float rating) {
+		public GVReviewSubjectRating(String subject, float rating) {
 			mSubject = subject;
 			mRating = rating;
 		}
@@ -85,7 +85,7 @@ public class GVReviewList extends GVReviewDataList<GVReviewList.GVReview> {
 		
 		@Override
 		public ViewHolder getViewHolder() {
-			return new VHReviewNodeCollection();
+			return new VHReviewNodeSubjectRating();
 		}
 
 		@Override
@@ -96,7 +96,7 @@ public class GVReviewList extends GVReviewDataList<GVReviewList.GVReview> {
 				return false;
 			if (getClass() != obj.getClass())
 				return false;
-			GVReview other = (GVReview) obj;
+			GVReviewSubjectRating other = (GVReviewSubjectRating) obj;
 			if (!getOuterType().equals(other.getOuterType()))
 				return false;
 			if (mSubject == null) {
@@ -118,8 +118,8 @@ public class GVReviewList extends GVReviewDataList<GVReviewList.GVReview> {
 			return result;
 		}
 
-		private GVReviewList getOuterType() {
-			return GVReviewList.this;
+		private GVReviewSubjectRatingList getOuterType() {
+			return GVReviewSubjectRatingList.this;
 		}
 	}
 }

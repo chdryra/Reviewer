@@ -143,7 +143,7 @@ public class ReviewNull extends ReviewEditable {
 	}
 
 	@Override
-	public ReviewNode publish(ReviewPublisher publisher) {
+	public ReviewNode publish(ReviewTreePublisher publisher) {
 		return FactoryReview.createNullReviewNode();
 	}
 }

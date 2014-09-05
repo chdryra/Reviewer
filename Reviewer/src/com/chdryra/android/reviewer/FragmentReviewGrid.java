@@ -62,7 +62,7 @@ public abstract class FragmentReviewGrid<T extends GVData> extends FragmentDelet
 		mController = Administrator.get(getActivity()).unpack(getActivity().getIntent().getExtras());
 		
 		if(mController == null) {
-			setController(Controller.createNewReviewInProgress());
+			setController(Administrator.get(getActivity()).createNewReviewInProgress());
 			mReviewInProgress = true;
 		}
 		
@@ -97,7 +97,7 @@ public abstract class FragmentReviewGrid<T extends GVData> extends FragmentDelet
 	protected void initUI() {
 		initSubjectUI();
 		initRatingBarUI();
-		initBannerDataUI();
+		initBannerButtonUI();
 		initDataGridUI();
 	}
 	
@@ -137,7 +137,7 @@ public abstract class FragmentReviewGrid<T extends GVData> extends FragmentDelet
 			getTotalRatingBar().setIsIndicator(true);
 	}
 
-	protected void initBannerDataUI() {
+	protected void initBannerButtonUI() {
 		getBannerButton().setText(getBannerButtonText());
 		getBannerButton().setTextColor(getSubjectView().getTextColors().getDefaultColor());
 		getBannerButton().setOnClickListener(new View.OnClickListener() {
@@ -206,7 +206,8 @@ public abstract class FragmentReviewGrid<T extends GVData> extends FragmentDelet
 	}
 
 	protected void updateCover() {
-		updateCover((GVImageList)getController().getData(GVType.IMAGES));
+		if(getController() != null)
+			updateCover((GVImageList)getController().getData(GVType.IMAGES));
 	}
 	
 	@SuppressWarnings("deprecation")
@@ -366,7 +367,7 @@ public abstract class FragmentReviewGrid<T extends GVData> extends FragmentDelet
 	protected void onUpSelected() {
 		if (NavUtils.getParentActivityName(getActivity()) != null) {
 			Intent i = NavUtils.getParentActivityIntent(getActivity());
-			if(!mReviewInProgress)
+			if(!mReviewInProgress && getController() != null)
 				Administrator.get(getActivity()).pack(getController(), i);
 			NavUtils.navigateUpTo(getActivity(), i);
 		}

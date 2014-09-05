@@ -1,6 +1,7 @@
 package com.chdryra.android.reviewer;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import com.chdryra.android.mygenerallibrary.GVData;
 import com.chdryra.android.mygenerallibrary.GVString;
@@ -40,6 +41,14 @@ public class ControllerReviewNode{
 		return mChildrenController;
 	}
 	
+	public ControllerReviewNodeCollection getDescendentsController(boolean incRoot) {
+		RCollectionReviewNode descendents = mNode.getDescendents();
+		if(!incRoot)
+			descendents.remove(mNode.getID());
+		
+		return new ControllerReviewNodeCollection(descendents);
+	}
+	
 	public ControllerReviewNode getControllerForChild(String id) {
 		return getChildrenController().getControllerFor(id);
 	}
@@ -56,11 +65,11 @@ public class ControllerReviewNode{
 		getChildrenController().addChild(title);
 	}
 	
-	public void addChildren(GVReviewList children) {
+	public void addChildren(GVReviewSubjectRatingList children) {
 		getChildrenController().addChildren(children);
 	}
 
-	public void setChildren(GVReviewList children) {
+	public void setChildren(GVReviewSubjectRatingList children) {
 		getChildrenController().setChildren(children);
 	}
 
@@ -68,12 +77,15 @@ public class ControllerReviewNode{
 		getChildrenController().removeAll();
 	}
 
+	public ReviewNode publish(ReviewTreePublisher publisher) {
+		return publisher.publish(mNode.getReview());
+	}
+	
 	private ReviewEditable getEditableReview() {
 		return mEditableReview; 
 	}
 	
-	//***Accessesors***
-	
+	//***Accessesors***	
 	public String getID() {
 		return mNode.getID().toString();
 	}
@@ -86,6 +98,14 @@ public class ControllerReviewNode{
 		return mNode.getRating().get();
 	}
 	
+	public String getAuthor() {
+		return mNode.getAuthor().getName();
+	}
+	
+	public Date getPublishDate() {
+		return mNode.getPublishDate();
+	}
+	
 	//RatingISAverage
 	public void setReviewRatingAverage(boolean isAverage) {
 		mNode.setRatingIsAverageOfChildren(isAverage);
@@ -94,7 +114,80 @@ public class ControllerReviewNode{
 	public boolean isReviewRatingAverage() {
 		return mNode.isRatingIsAverageOfChildren();
 	}
+
+	public boolean hasData(GVType dataType) {
+		if (dataType == GVType.COMMENTS)
+			return hasComments();
+		else if (dataType == GVType.IMAGES)
+			return hasImages();
+		else if (dataType == GVType.FACTS)
+			return hasFacts();
+		else if (dataType == GVType.URLS)
+			return hasURLs();
+		else if (dataType == GVType.LOCATIONS)
+			return hasLocations();
+		else if (dataType == GVType.TAGS)
+			return hasTags();
+		else if (dataType == GVType.CRITERIA)
+			return getChildrenController().size() > 0;
+		else
+			return false;
+	}
+
+	public void deleteData(GVType dataType) {
+		if (dataType == GVType.COMMENTS)
+			deleteComments();
+		else if (dataType == GVType.IMAGES)
+			deleteImages();
+		else if (dataType == GVType.FACTS)
+			deleteFacts();
+		else if (dataType == GVType.URLS)
+			deleteURLs();
+		else if (dataType == GVType.LOCATIONS)
+			deleteLocations();
+		else if (dataType == GVType.TAGS)
+			removeTags();
+		else if (dataType == GVType.CRITERIA)
+			getChildrenController().removeAll();
+	}
+
+	public GVReviewDataList<? extends GVData> getData(GVType dataType) {
+		if (dataType == GVType.COMMENTS)
+			return getComments();
+		else if (dataType == GVType.IMAGES)
+			return getImages();
+		else if (dataType == GVType.FACTS)
+			return getFacts();
+		else if (dataType == GVType.URLS)
+			return getURLs();
+		else if (dataType == GVType.LOCATIONS)
+			return getLocations();
+		else if (dataType == GVType.TAGS)
+			return getTags();
+		else if (dataType == GVType.CRITERIA)
+			return getChildrenController().getGridViewableData();
+		else
+			return null;
+	}
 	
+	public <T extends GVReviewDataList<? extends GVData>> void setData(T data) {
+		GVType dataType = data.getDataType();
+		if (dataType == GVType.COMMENTS)
+			setComments((GVCommentList) data);
+		else if (dataType == GVType.IMAGES)
+			setImages((GVImageList) data);
+		else if (dataType == GVType.FACTS)
+			setFacts((GVFactList) data);
+		else if (dataType == GVType.URLS)
+			setURLs((GVUrlList) data);
+		else if (dataType == GVType.LOCATIONS)
+			setLocations((GVLocationList) data);
+		else if (dataType == GVType.TAGS)
+			setTags((GVTagList) data);
+		else if (dataType == GVType.CRITERIA)
+			setChildren((GVReviewSubjectRatingList) data);
+	}
+
 	//Comment
 	private boolean hasComments() {
 		return mNode.hasComments();
@@ -186,79 +279,7 @@ public class ControllerReviewNode{
 		addTags(tags);
 	}
 
-	public boolean hasData(GVType dataType) {
-		if (dataType == GVType.COMMENTS)
-			return hasComments();
-		else if (dataType == GVType.IMAGES)
-			return hasImages();
-		else if (dataType == GVType.FACTS)
-			return hasFacts();
-		else if (dataType == GVType.URLS)
-			return hasURLs();
-		else if (dataType == GVType.LOCATIONS)
-			return hasLocations();
-		else if (dataType == GVType.TAGS)
-			return hasTags();
-		else if (dataType == GVType.CRITERIA)
-			return getChildrenController().size() > 0;
-		else
-			return false;
-	}
-
-	public void deleteData(GVType dataType) {
-		if (dataType == GVType.COMMENTS)
-			deleteComments();
-		else if (dataType == GVType.IMAGES)
-			deleteImages();
-		else if (dataType == GVType.FACTS)
-			deleteFacts();
-		else if (dataType == GVType.URLS)
-			deleteURLs();
-		else if (dataType == GVType.LOCATIONS)
-			deleteLocations();
-		else if (dataType == GVType.TAGS)
-			removeTags();
-		else if (dataType == GVType.CRITERIA)
-			getChildrenController().removeAll();
-	}
-
-	public GVReviewDataList<? extends GVData> getData(GVType dataType) {
-		if (dataType == GVType.COMMENTS)
-			return getComments();
-		else if (dataType == GVType.IMAGES)
-			return getImages();
-		else if (dataType == GVType.FACTS)
-			return getFacts();
-		else if (dataType == GVType.URLS)
-			return getURLs();
-		else if (dataType == GVType.LOCATIONS)
-			return getLocations();
-		else if (dataType == GVType.TAGS)
-			return getTags();
-		else if (dataType == GVType.CRITERIA)
-			return getChildrenController().getGridViewiableData();
-		else
-			return null;
-	}
-	
-	public <T extends GVReviewDataList<? extends GVData>> void setData(T data) {
-		GVType dataType = data.getDataType();
-		if (dataType == GVType.COMMENTS)
-			setComments((GVCommentList) data);
-		else if (dataType == GVType.IMAGES)
-			setImages((GVImageList) data);
-		else if (dataType == GVType.FACTS)
-			setFacts((GVFactList) data);
-		else if (dataType == GVType.URLS)
-			setURLs((GVUrlList) data);
-		else if (dataType == GVType.LOCATIONS)
-			setLocations((GVLocationList) data);
-		else if (dataType == GVType.TAGS)
-			setTags((GVTagList) data);
-		else if (dataType == GVType.CRITERIA)
-			setChildren((GVReviewList) data);
-	}
-	
+		
 	//Title
 	public void setSubject(String subject) {
 		getEditableReview().setSubject(subject);

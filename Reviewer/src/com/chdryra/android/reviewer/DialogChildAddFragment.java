@@ -15,14 +15,14 @@ public class DialogChildAddFragment extends DialogAddReviewDataFragment{
 	public static final String SUBJECT = "com.chdryra.android.reviewer.subject";
 	public static final String RATING = "com.chdryra.android.reviewer.rating";
 	
-	private GVReviewList mChildren;	
+	private GVReviewSubjectRatingList mChildren;	
 	private ClearableEditText mChildNameEditText;
 	private RatingBar mChildRatingBar;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		mChildren = (GVReviewList) setAndInitData(GVType.CRITERIA);
+		mChildren = (GVReviewSubjectRatingList) setAndInitData(GVType.CRITERIA);
 		setDialogTitle(getResources().getString(R.string.dialog_add_criteria_title));
 	}
 

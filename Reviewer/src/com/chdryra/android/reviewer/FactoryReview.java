@@ -18,10 +18,6 @@ public class FactoryReview {
 		return new ReviewTreeEditable(subject);	
 	}
 	
-	private ReviewEditable newReviewTreeEditable(String subject, VisitorRatingCalculator ratingCalculator) {
-		return new ReviewTreeEditable(subject, ratingCalculator);	
-	}
-	
 	private ReviewEditable newReviewUserEditable(String subject) {
 		return new ReviewUserEditable(subject);	
 	}
@@ -40,10 +36,6 @@ public class FactoryReview {
 	
 	public static ReviewEditable createReviewTreeEditable(String subject) {
 		return getInstance().newReviewTreeEditable(subject);
-	}
-	
-	public static ReviewEditable createReviewTreeEditable(String subject, VisitorRatingCalculator ratingCalculator) {
-		return getInstance().newReviewTreeEditable(subject, ratingCalculator);
 	}
 	
 	public static ReviewEditable createReviewUserEditable(String subject) {

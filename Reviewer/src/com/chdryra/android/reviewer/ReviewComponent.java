@@ -205,10 +205,8 @@ public class ReviewComponent implements ReviewNode {
 	}
 
 	private RDRating getAverageRatingOfChildren() {
-		VisitorRatingAverager visitor = new VisitorRatingAverager();
-		for(ReviewNode child : getChildren())
-			child.acceptVisitor(visitor);
-		
+		VisitorRatingCalculator visitor = new VisitorRatingAverageOfChildren();
+		acceptVisitor(visitor);
 		return new RDRating(visitor.getRating(), this);
 	}
 
@@ -300,7 +298,7 @@ public class ReviewComponent implements ReviewNode {
 	}
 
 	@Override
-	public ReviewNode publish(ReviewPublisher publisher) {
+	public ReviewNode publish(ReviewTreePublisher publisher) {
 		return mReview.publish(publisher);
 	}
 }

@@ -7,55 +7,67 @@ import android.os.Bundle;
 public class Administrator {
 
 	private static Administrator sAdministrator;
-	private static ControllerReviewNode sRoot; 
-	private static Author sAnonymousAuthor = new Author();
+	private static Author sAnonymousAuthor = new Author("Anon");
 
+	private ReviewNode mRoot;
 	private Context mContext;
 	private Controller mController;
 	private Author mCurrentAuthor;
-	private ReviewPublisher mPublisher;
 	
 	private Administrator(Context c) {
 		setCurrentAuthor(sAnonymousAuthor);
-		mContext = c.getApplicationContext();
-		mController = new Controller();
-		sRoot = new ControllerReviewNode(FactoryReview.createReviewNode(FactoryReview.createReviewTreeEditable("ROOT")));
+		mContext = c;
+		mRoot = FactoryReview.createReviewNode(FactoryReview.createReviewTreeEditable("ROOT"));
 	}
 	
 	public static Administrator get(Context c) {
 		if(sAdministrator == null)
-			sAdministrator = new Administrator(c);
+			sAdministrator = new Administrator(c.getApplicationContext());
 		
 		return sAdministrator;
 	}
+
+	public GVReviewOverviewList getFeed() {
+		return new ControllerReviewNodeCollection(mRoot.getChildren()).getGridViewablePublished();
+	}
+	
+	public ControllerReviewNode createNewReviewInProgress() {
+		mController = new Controller();
+		return mController.getReviewInProgress();
+	}
 	
 	public ControllerReviewNode unpack(Bundle args) {
-		return getController().unpack(args);
+		if(mController != null)
+			return mController.unpack(args);
+		else
+			return null;
 	}
 	
 	public void pack(ControllerReviewNode controller, Intent intent) {
-		getController().pack(controller, intent);
+		if(mController != null)
+			mController.pack(controller, intent);
 	}
 	
 	public Bundle pack(ControllerReviewNode controller) {
-		return getController().pack(controller);
-	}
-	
-	public Controller getController() {
-		return mController;
+		if(mController != null)
+			return mController.pack(controller);
+		else
+			return null;
 	}
 	
 	public void setCurrentAuthor(Author author) {
 		mCurrentAuthor = author;
-		mPublisher = new ReviewPublisher(mCurrentAuthor);
+		
 	}
 	
 	public Author getCurrentAuthor() {
 		return mCurrentAuthor;
 	}
 	
-	public ReviewNode publish(Review review) {
-		return mPublisher.publish(review);
+	public void publishReviewInProgress() {
+		ReviewTreePublisher publisher = new ReviewTreePublisher(mCurrentAuthor);
+		ReviewNode published = mController.getReviewInProgress().publish(publisher);
+		mRoot.addChild(published);
 	}
 	
 	public GVSocialPlatformList getSocialPlatformList(boolean latest) {

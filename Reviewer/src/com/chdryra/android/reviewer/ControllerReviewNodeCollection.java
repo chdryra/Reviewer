@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
+import android.graphics.Bitmap;
+
 import com.chdryra.android.mygenerallibrary.GVData;
 import com.chdryra.android.reviewer.GVReviewDataList.GVType;
 
@@ -62,7 +64,7 @@ public class ControllerReviewNodeCollection {
 	}
 	
 	public float getRating() {
-		VisitorRatingAverager visitor = new VisitorRatingAverager();
+		VisitorRatingAverageOverDescendents visitor = new VisitorRatingAverageOverDescendents();
 		for(ReviewNode child : mReviewNodes)
 			child.acceptVisitor(visitor);
 		
@@ -115,10 +117,25 @@ public class ControllerReviewNodeCollection {
 		getControllerFor(id).deleteData(dataType);
 	}
 	
-	public GVReviewList getGridViewiableData() {
-		GVReviewList data = new GVReviewList();
+	public GVReviewSubjectRatingList getGridViewableData() {
+		GVReviewSubjectRatingList data = new GVReviewSubjectRatingList();
 		for(Review r : get())
 			data.add(r.getSubject().get(), r.getRating().get());
+		
+		return data;
+	}
+	
+	public GVReviewOverviewList getGridViewablePublished() {
+		GVReviewOverviewList data = new GVReviewOverviewList();
+		for(Review r : get())
+			if(r.isPublished()) {
+				ControllerReviewNode c = getControllerFor(r.getID().toString());
+				GVImageList images = (GVImageList)c.getData(GVType.IMAGES);
+				Bitmap cover = images.size() > 0? images.getRandomCover().getBitmap() : null;
+				GVLocationList locations = (GVLocationList)c.getData(GVType.LOCATIONS);
+				String location = locations.size() > 0 ? locations.getItem(0).getName() : null;
+				data.add(c.getID(), c.getSubject(), c.getRating(), cover, location, c.getAuthor(), c.getPublishDate());
+			}
 		
 		return data;
 	}

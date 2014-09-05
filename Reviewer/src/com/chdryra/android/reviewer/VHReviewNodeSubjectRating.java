@@ -6,17 +6,17 @@ import android.widget.TextView;
 
 import com.chdryra.android.mygenerallibrary.GVData;
 import com.chdryra.android.mygenerallibrary.ViewHolderBasic;
-import com.chdryra.android.reviewer.GVReviewList.GVReview;
+import com.chdryra.android.reviewer.GVReviewSubjectRatingList.GVReviewSubjectRating;
 
-public class VHReviewNodeCollection extends ViewHolderBasic {
-	private static final int LAYOUT = R.layout.grid_cell_review;
+public class VHReviewNodeSubjectRating extends ViewHolderBasic {
+	private static final int LAYOUT = R.layout.grid_cell_review_subject_rating;
 	private static final int SUBJECT = R.id.review_subject;
 	private static final int RATING = R.id.review_rating_bar;
 	
 	private TextView mSubject;
     private RatingBar mRating;
     
-    public VHReviewNodeCollection() {
+    public VHReviewNodeSubjectRating() {
     	super(LAYOUT);
     }
     
@@ -28,7 +28,7 @@ public class VHReviewNodeCollection extends ViewHolderBasic {
     
 	@Override
 	public View updateView(GVData data) {
-		GVReview criterion = (GVReview) data;
+		GVReviewSubjectRating criterion = (GVReviewSubjectRating) data;
 		if(criterion != null) {
 			mSubject.setText(criterion.getSubject());
 			mRating.setRating(criterion.getRating());

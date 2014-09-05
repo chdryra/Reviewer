@@ -1,7 +1,7 @@
 package com.chdryra.android.reviewer;
 
 import android.app.ActionBar.LayoutParams;
-import android.graphics.Color;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -46,7 +46,10 @@ public class FragmentReviewShare extends FragmentReviewGrid<GVSocialPlatformList
 		mPublishButton.setOnClickListener(new View.OnClickListener() {		
 			@Override
 			public void onClick(View v) {
-				
+				Administrator.get(getActivity()).publishReviewInProgress();
+				Intent feedIntent = new Intent(getActivity(), ActivityFeed.class);
+		        feedIntent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+		        startActivity(feedIntent);
 			}
 		});
 		

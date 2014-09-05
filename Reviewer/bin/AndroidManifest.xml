@@ -29,17 +29,26 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/Theme.Reviewer.SlateSmoke" >
-        
-        <!-- Create Review -->
+
         <activity
-            android:name="com.chdryra.android.reviewer.ActivityReviewBuild"
+            android:name="com.chdryra.android.reviewer.ActivityFeed"
             android:windowSoftInputMode="adjustPan"
-            android:label="@string/activity_title_review_create" 
+            android:label="@string/activity_title_feed" 
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        
+        <!-- Create Review -->
+        <activity
+            android:name="com.chdryra.android.reviewer.ActivityReviewBuild"
+            android:windowSoftInputMode="adjustPan"
+            android:label="@string/activity_title_review_build" 
+            android:screenOrientation="portrait">
+            <meta-data android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.chdryra.android.reviewer.ActivityFeed" />
         </activity>
 
         <!-- Share -->

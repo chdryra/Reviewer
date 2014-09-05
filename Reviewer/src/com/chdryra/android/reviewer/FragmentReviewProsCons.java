@@ -42,10 +42,6 @@ public class FragmentReviewProsCons extends FragmentReviewGridAddEditDoneDouble<
 	}
 	
 	private void onBannerButtonClick(boolean isPro) {
-		Bundle args = Administrator.get(getActivity()).pack(getController());
-		args.putBoolean(PRO_MODE, isPro);
-		int requestCode = isPro? DATA_ADD_LEFT : DATA_ADD_RIGHT;
-		DialogShower.show(new DialogProConAddFragment(), FragmentReviewProsCons.this, requestCode, DATA_ADD_TAG, args);
 	}
 	
 	@Override
@@ -59,12 +55,7 @@ public class FragmentReviewProsCons extends FragmentReviewGridAddEditDoneDouble<
 	}
 	
 	private void onGridItemClick(boolean isPro, AdapterView<?> parent, View v, int position, long id) {
-		Bundle args = Administrator.get(getActivity()).pack(getController());
-		GVProCon proCon = (GVProCon)parent.getItemAtPosition(position);
-		args.putBoolean(PRO_MODE, isPro);
-		args.putString(PROCON, proCon.toString());
-		int requestCode = isPro? DATA_EDIT_LEFT : DATA_EDIT_RIGHT;
-		DialogShower.show(new DialogProConEditFragment(), FragmentReviewProsCons.this, requestCode, DATA_EDIT_TAG, args);
+		
 	}
 	
 	@Override
@@ -108,17 +99,5 @@ public class FragmentReviewProsCons extends FragmentReviewGridAddEditDoneDouble<
 	}
 	
 	private void editData(boolean isPro, int resultCode, Intent data) {
-		GVProConList proCons = isPro? mPros : mCons;
-		switch(ActivityResultCode.get(resultCode)) {
-		case DONE:
-			proCons.remove((String)data.getSerializableExtra(DialogProConEditFragment.OLD), isPro);
-			proCons.add((String)data.getSerializableExtra(PROCON), isPro);
-			break;
-		case DELETE:
-			proCons.remove((String)data.getSerializableExtra(DialogProConEditFragment.OLD), isPro);
-			break;
-		default:
-			return;
-		}
 	}
 }

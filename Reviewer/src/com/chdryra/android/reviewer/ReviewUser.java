@@ -151,7 +151,7 @@ public class ReviewUser implements Review{
 	}
 	
 	@Override
-	public ReviewNode publish(ReviewPublisher publisher) {
+	public ReviewNode publish(ReviewTreePublisher publisher) {
 		if(!isPublished()) {
 			mAuthor = publisher.getAuthor();
 			mPublishDate = publisher.getPublishDate();

@@ -12,7 +12,7 @@ public interface Review {
 	public ReviewTagCollection getTags();
 	public ReviewNode getReviewNode();
 	
-	public ReviewNode publish(ReviewPublisher publisher);
+	public ReviewNode publish(ReviewTreePublisher publisher);
 	public Author getAuthor();
 	public Date getPublishDate();
 	public boolean isPublished();

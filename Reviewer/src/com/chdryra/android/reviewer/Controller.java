@@ -7,42 +7,21 @@ import android.os.Bundle;
 
 public class Controller {
 	public static final String CONTROLLER_ID = "com.chdryra.android.reviewer.review_id";	
+	private ControllerReviewNode mReviewInProgress;
 	private HashMap<String, ControllerReviewNode> mRNControllers;
 
 	public Controller() {
+		ReviewEditable r = FactoryReview.createReviewInProgress();
+		mReviewInProgress = new ControllerReviewNode(r);
 		mRNControllers = new HashMap<String, ControllerReviewNode>();
 	}
 	
 	static RDId convertID(String id) {
 		return RDId.generateID(id);
 	}
-	
-	public ControllerReviewNode getControllerFor(String id) {
-		return get(id);
-	}
-		
-	private void register(ControllerReviewNode controller) {
-		if(!isRegistered(controller.getID()))
-			mRNControllers.put(controller.getID(), controller);
-	}
-	
-	private void unregister(ControllerReviewNode controller) {
-		if(controller != null && isRegistered(controller.getID()))
-			mRNControllers.remove(controller.getID());
-	}
-	
-	private boolean isRegistered(String id) {
-		return mRNControllers.containsKey(id);
-	}
-	
-	private ControllerReviewNode get(String id) {
-		return isRegistered(id)? mRNControllers.get(id) : null;
-	}
-	
-	public static ControllerReviewNode createNewReviewInProgress() {
-		ReviewEditable r = FactoryReview.createReviewInProgress();
-		
-		return new ControllerReviewNode(r);
+
+	public ControllerReviewNode getReviewInProgress() {
+		return mReviewInProgress;
 	}
 	
 	public void pack(ControllerReviewNode controller, Intent i) {
@@ -62,5 +41,27 @@ public class Controller {
 		unregister(controller);
 		
 		return controller;
+	}
+
+	private ControllerReviewNode getControllerFor(String id) {
+		return get(id);
+	}
+		
+	private void register(ControllerReviewNode controller) {
+		if(!isRegistered(controller.getID()))
+			mRNControllers.put(controller.getID(), controller);
+	}
+	
+	private void unregister(ControllerReviewNode controller) {
+		if(controller != null && isRegistered(controller.getID()))
+			mRNControllers.remove(controller.getID());
+	}
+	
+	private boolean isRegistered(String id) {
+		return mRNControllers.containsKey(id);
+	}
+	
+	private ControllerReviewNode get(String id) {
+		return isRegistered(id)? mRNControllers.get(id) : null;
 	}
 }

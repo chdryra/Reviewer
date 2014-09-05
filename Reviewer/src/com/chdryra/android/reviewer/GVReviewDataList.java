@@ -14,6 +14,7 @@ public abstract class GVReviewDataList<T extends GVData> extends GVList<T>{
 		PROS("pro"),
 		CONS("con"),
 		PROCONS("+pro -con"),
+		REVIEW("review"),
 		URLS("link"),
 		LOCATIONS("location"),
 		TAGS("tag"),

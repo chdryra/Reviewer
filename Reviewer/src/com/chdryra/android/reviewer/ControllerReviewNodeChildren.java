@@ -1,6 +1,6 @@
 package com.chdryra.android.reviewer;
 
-import com.chdryra.android.reviewer.GVReviewList.GVReview;
+import com.chdryra.android.reviewer.GVReviewSubjectRatingList.GVReviewSubjectRating;
 
 public class ControllerReviewNodeChildren extends ControllerReviewNodeCollection{	
 	private ReviewNode mParent;
@@ -25,12 +25,12 @@ public class ControllerReviewNodeChildren extends ControllerReviewNodeCollection
 		mParent.addChild(r);
 	}
 	
-	public void addChildren(GVReviewList children) {
-		for(GVReview child : children)
+	public void addChildren(GVReviewSubjectRatingList children) {
+		for(GVReviewSubjectRating child : children)
 			addChild(child.getSubject(), child.getRating());
 	}
 	
-	public void setChildren(GVReviewList children) {
+	public void setChildren(GVReviewSubjectRatingList children) {
 		removeAll();
 		addChildren(children);
 	}

@@ -5,7 +5,6 @@ import java.util.HashMap;
 import android.app.Activity;
 import android.app.DialogFragment;
 
-import com.chdryra.android.mygenerallibrary.VHDualStringView;
 import com.chdryra.android.mygenerallibrary.ViewHolder;
 import com.chdryra.android.reviewer.GVReviewDataList.GVType;
 
@@ -17,7 +16,6 @@ public class ReviewDataOptions {
 	private final static String DIALOG_URL_TAG = "URLDialog";
 	private final static String DIALOG_CHILD_TAG = "ChildDialog";
 	private final static String DIALOG_FACTS_TAG = "FactsDialog";
-	private final static String DIALOG_PROSCONS_TAG = "ProConDialog";
 	
 	public final static int IMAGE_REQUEST = 10;
 	public final static int IMAGE_ADD = 11;
@@ -31,8 +29,6 @@ public class ReviewDataOptions {
 	public final static int URL_ADD = 51;
 	public final static int CHILDREN_REQUEST = 60;
 	public final static int CHILDREN_ADD = 61;
-	public final static int PROSCONS_REQUEST = 70;
-	public final static int PROSCONS_ADD = 71;
 	public final static int TAGS_REQUEST = 80;
 	public final static int TAGS_ADD = 81;
 
@@ -44,10 +40,8 @@ public class ReviewDataOptions {
 		mReviewDataOptions = new HashMap<GVReviewDataList.GVType, ReviewDataOptions.ReviewDataOption>();
 		mReviewDataOptions.put(GVType.TAGS, 
 				new ReviewDataOption(GVType.TAGS, DialogTagAddFragment.class, TAGS_ADD, DIALOG_TAG_TAG, ActivityReviewTags.class, TAGS_REQUEST, new VHTagView()));
-		mReviewDataOptions.put(GVType.PROCONS, 
-				new ReviewDataOption(GVType.PROCONS, DialogProAndConAddFragment.class, PROSCONS_ADD, DIALOG_PROSCONS_TAG, ActivityReviewProsCons.class, PROSCONS_REQUEST, new VHDualStringView()));
 		mReviewDataOptions.put(GVType.CRITERIA, 
-				new ReviewDataOption(GVType.CRITERIA, DialogChildAddFragment.class, CHILDREN_ADD, DIALOG_CHILD_TAG, ActivityReviewChildren.class, CHILDREN_REQUEST, new VHReviewNodeCollection()));
+				new ReviewDataOption(GVType.CRITERIA, DialogChildAddFragment.class, CHILDREN_ADD, DIALOG_CHILD_TAG, ActivityReviewChildren.class, CHILDREN_REQUEST, new VHReviewNodeSubjectRating()));
 		mReviewDataOptions.put(GVType.COMMENTS, 
 				new ReviewDataOption(GVType.COMMENTS, DialogCommentAddFragment.class, COMMENT_ADD, DIALOG_COMMENT_TAG, ActivityReviewComments.class, COMMENT_REQUEST, new VHCommentView()));
 		mReviewDataOptions.put(GVType.IMAGES, 

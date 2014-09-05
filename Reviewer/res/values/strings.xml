@@ -50,8 +50,9 @@
     <string name="activity_title_procon">pros and cons</string>
     <string name="activity_title_children">criteria</string>
     <string name="activity_title_share">share</string>
-    <string name="activity_title_review_create">review</string>
+    <string name="activity_title_review_build">review</string>
     <string name="activity_title_tags">tags</string>
+    <string name="activity_title_feed">feed</string>
 
     <!-- TextViews -->
     <string name="text_view_no_criteria">no criteria</string>
@@ -146,6 +147,7 @@
     <string name="menu_criteria_comments">criteria comments</string>
     <string name="menu_clear_comment">clear comment</string>
     <string name="menu_average_rating">average rating</string>
+    <string name="menu_new_review">new review</string>
 
     <!-- Toasts -->
     <string name="toast_enter_subject">Please enter a subject&#8230;</string>

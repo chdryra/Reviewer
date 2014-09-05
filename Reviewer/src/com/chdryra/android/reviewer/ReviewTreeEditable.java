@@ -4,24 +4,13 @@ public class ReviewTreeEditable extends ReviewEditable {
 
 	private ReviewNode mNode;
 	
-	private VisitorRatingCalculator mRatingCalculator = new VisitorRatingGetter();
-	private RDRating mRatingCache;
-	private boolean mRatingIsValid = false;
-	
 	public ReviewTreeEditable(String subject) {	
 		init(subject);
 	}
-	
-	public ReviewTreeEditable(String subject, VisitorRatingCalculator ratingCalculator) {
-		mRatingCalculator = ratingCalculator;
-		init(subject);
-	}
-	
+		
 	private void init(String subject) {
 		mNode = FactoryReview.createReviewNode(FactoryReview.createReviewUserEditable(subject));
 		mNode.setRatingIsAverageOfChildren(false);
-		mRatingCache = new RDRating(0, this);
-		calculateRating();	
 	}
 	
 	private ReviewEditable getReviewEditable() {
@@ -50,16 +39,7 @@ public class ReviewTreeEditable extends ReviewEditable {
 
 	@Override
 	public RDRating getRating() {
-		if(!mRatingIsValid)
-			calculateRating();
-			
-		return mRatingCache;
-	}
-	
-	private void calculateRating() {
-		mRatingCalculator.clear();
-		mNode.acceptVisitor(mRatingCalculator);
-		mRatingCache.set(mRatingCalculator.getRating());
+		return mNode.getRating();
 	}
 	
 	@Override
@@ -190,7 +170,7 @@ public class ReviewTreeEditable extends ReviewEditable {
 	}
 
 	@Override
-	public ReviewNode publish(ReviewPublisher publisher) {
+	public ReviewNode publish(ReviewTreePublisher publisher) {
 		return publisher.publish(this);
 	}
 }

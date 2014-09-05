@@ -11,20 +11,20 @@ import android.widget.RatingBar;
 import android.widget.Toast;
 
 import com.chdryra.android.mygenerallibrary.ActivityResultCode;
-import com.chdryra.android.reviewer.GVReviewList.GVReview;
+import com.chdryra.android.reviewer.GVReviewSubjectRatingList.GVReviewSubjectRating;
 import com.chdryra.android.reviewer.GVReviewDataList.GVType;
 
-public class FragmentReviewChildren extends FragmentReviewGridAddEditDone<GVReview> {
+public class FragmentReviewChildren extends FragmentReviewGridAddEditDone<GVReviewSubjectRating> {
 	public static final String CHILD_SUBJECT = "com.chdryra.android.reviewer.child_subject";
 	public static final String CHILD_RATING = "com.chdryra.android.reviewer.child_rating";
 	
-	private GVReviewList mReviewData;
+	private GVReviewSubjectRatingList mReviewData;
 	private boolean mTotalRatingIsAverage;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		mReviewData = (GVReviewList) setAndInitData(GVType.CRITERIA);
+		mReviewData = (GVReviewSubjectRatingList) setAndInitData(GVType.CRITERIA);
 		mTotalRatingIsAverage = getController().isReviewRatingAverage();
 		setDeleteWhatTitle(getResources().getString(R.string.activity_title_children));		
 		setBannerButtonText(getResources().getString(R.string.button_add_criteria));
@@ -51,7 +51,7 @@ public class FragmentReviewChildren extends FragmentReviewGridAddEditDone<GVRevi
 	
 	@Override
 	protected void onGridItemClick(AdapterView<?> parent, View v, int position, long id) {
-		GVReview reviewData = (GVReview)parent.getItemAtPosition(position);
+		GVReviewSubjectRating reviewData = (GVReviewSubjectRating)parent.getItemAtPosition(position);
 		Bundle args = new Bundle();
 		args.putString(CHILD_SUBJECT, reviewData.getSubject());
 		args.putFloat(CHILD_RATING, reviewData.getRating());
@@ -139,7 +139,7 @@ public class FragmentReviewChildren extends FragmentReviewGridAddEditDone<GVRevi
 	
 	private void setAverageRating() {
 		float rating = 0;
-		for(GVReview child : mReviewData)
+		for(GVReviewSubjectRating child : mReviewData)
 			rating += child.getRating() / mReviewData.size();
 		getTotalRatingBar().setRating(rating);
 	}
