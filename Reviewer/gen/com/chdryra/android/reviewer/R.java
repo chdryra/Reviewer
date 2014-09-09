@@ -359,25 +359,27 @@ containing a value of this type.
         public static final int common_signin_btn_text_pressed_light=0x7f020017;
         public static final int dialog_ic_close_normal_holo_light=0x7f020018;
         public static final int ic_action_add_to_queue=0x7f020019;
-        public static final int ic_action_full_screen=0x7f02001a;
-        public static final int ic_action_return_from_full_screen=0x7f02001b;
-        public static final int ic_checkmark_holo_light=0x7f02001c;
-        public static final int ic_launcher=0x7f02001d;
-        public static final int ic_menu_delete=0x7f02001e;
-        public static final int ic_menu_revert=0x7f02001f;
-        public static final int ic_menu_search=0x7f020020;
-        public static final int ic_menu_share_holo_light=0x7f020021;
-        public static final int ic_plusone_medium_off_client=0x7f020022;
-        public static final int ic_plusone_small_off_client=0x7f020023;
-        public static final int ic_plusone_standard_off_client=0x7f020024;
-        public static final int ic_plusone_tall_off_client=0x7f020025;
-        public static final int image_button_selected=0x7f020026;
-        public static final int selector_slate_smoke=0x7f020027;
-        public static final int selector_slate_smoke_grid_cell=0x7f020028;
-        public static final int selector_slate_smoke_grid_view=0x7f020029;
-        public static final int selector_smoke_slate=0x7f02002a;
-        public static final int selector_smoke_slate_grid_cell=0x7f02002b;
-        public static final int selector_smoke_slate_grid_view=0x7f02002c;
+        public static final int ic_action_forward=0x7f02001a;
+        public static final int ic_action_full_screen=0x7f02001b;
+        public static final int ic_action_new=0x7f02001c;
+        public static final int ic_action_return_from_full_screen=0x7f02001d;
+        public static final int ic_checkmark_holo_light=0x7f02001e;
+        public static final int ic_launcher=0x7f02001f;
+        public static final int ic_menu_delete=0x7f020020;
+        public static final int ic_menu_revert=0x7f020021;
+        public static final int ic_menu_search=0x7f020022;
+        public static final int ic_menu_share_holo_light=0x7f020023;
+        public static final int ic_plusone_medium_off_client=0x7f020024;
+        public static final int ic_plusone_small_off_client=0x7f020025;
+        public static final int ic_plusone_standard_off_client=0x7f020026;
+        public static final int ic_plusone_tall_off_client=0x7f020027;
+        public static final int image_button_selected=0x7f020028;
+        public static final int selector_slate_smoke=0x7f020029;
+        public static final int selector_slate_smoke_grid_cell=0x7f02002a;
+        public static final int selector_slate_smoke_grid_view=0x7f02002b;
+        public static final int selector_smoke_slate=0x7f02002c;
+        public static final int selector_smoke_slate_grid_cell=0x7f02002d;
+        public static final int selector_smoke_slate_grid_view=0x7f02002e;
     }
     public static final class id {
         public static final int banner_button=0x7f060019;
@@ -397,57 +399,58 @@ containing a value of this type.
         public static final int date_picker=0x7f060009;
         public static final int dialog_image_caption_edit_text=0x7f06000e;
         public static final int dialog_image_image_view=0x7f06000d;
-        public static final int divider=0x7f060035;
+        public static final int divider=0x7f060036;
         public static final int edit_text_name_location=0x7f060020;
         public static final int edit_text_url=0x7f060023;
-        public static final int email=0x7f06003c;
-        public static final int facebook=0x7f060039;
+        public static final int email=0x7f06003d;
+        public static final int facebook=0x7f06003a;
         public static final int fact_label_edit_text=0x7f06000b;
         public static final int fact_value_edit_text=0x7f06000c;
-        public static final int flickr=0x7f06003f;
-        public static final int foursquare=0x7f060040;
+        public static final int flickr=0x7f060040;
+        public static final int foursquare=0x7f060041;
         public static final int fragmentContainer=0x7f060005;
-        public static final int grid_cell_text_view=0x7f060031;
+        public static final int grid_cell_text_view=0x7f060032;
         public static final int gridview_data=0x7f06001a;
         public static final int hybrid=0x7f060004;
         public static final int image_view=0x7f060029;
-        public static final int info_window_rating_bar=0x7f060037;
-        public static final int info_window_title=0x7f060036;
-        public static final int link=0x7f060034;
+        public static final int info_window_rating_bar=0x7f060038;
+        public static final int info_window_title=0x7f060037;
+        public static final int link=0x7f060035;
         public static final int location_edit_text=0x7f06000f;
-        public static final int lower_text=0x7f060033;
+        public static final int lower_text=0x7f060034;
         public static final int lower_text_view =0x7f060028;
         public static final int mapLinearLayout=0x7f06001f;
         public static final int mapView=0x7f060021;
-        public static final int menu_item_average_rating=0x7f060042;
-        public static final int menu_item_delete=0x7f060043;
-        public static final int menu_item_done=0x7f060044;
-        public static final int menu_item_new_review=0x7f060041;
-        public static final int menu_item_search=0x7f060046;
-        public static final int menu_item_split_comment=0x7f060045;
+        public static final int menu_item_average_rating=0x7f060043;
+        public static final int menu_item_delete=0x7f060044;
+        public static final int menu_item_done=0x7f060045;
+        public static final int menu_item_new_review=0x7f060042;
+        public static final int menu_item_search=0x7f060047;
+        public static final int menu_item_split_comment=0x7f060046;
         public static final int none=0x7f060000;
         public static final int normal=0x7f060001;
         public static final int pro=0x7f06002b;
         public static final int revert_location_image_button=0x7f060022;
         public static final int review_grid_linearlayout=0x7f060016;
+        public static final int review_headline=0x7f06002e;
         public static final int review_image=0x7f06002c;
-        public static final int review_location=0x7f06002e;
-        public static final int review_publish_data=0x7f06002f;
+        public static final int review_location=0x7f06002f;
+        public static final int review_publish_data=0x7f060030;
         public static final int review_rating_bar=0x7f060018;
         public static final int review_subject=0x7f06002d;
         public static final int review_subject_edit_text=0x7f060017;
         public static final int satellite=0x7f060002;
         public static final int searchable_listview=0x7f060025;
         public static final int suggestions_list_view=0x7f060010;
-        public static final int tableRow1=0x7f060038;
-        public static final int tableRow2=0x7f06003b;
-        public static final int tableRow3=0x7f06003e;
+        public static final int tableRow1=0x7f060039;
+        public static final int tableRow2=0x7f06003c;
+        public static final int tableRow3=0x7f06003f;
         public static final int tag_edit_text=0x7f060011;
         public static final int terrain=0x7f060003;
-        public static final int text_view =0x7f060030;
-        public static final int tumblr=0x7f06003d;
-        public static final int twitter=0x7f06003a;
-        public static final int upper_text=0x7f060032;
+        public static final int text_view =0x7f060031;
+        public static final int tumblr=0x7f06003e;
+        public static final int twitter=0x7f06003b;
+        public static final int upper_text=0x7f060033;
         public static final int upper_text_view =0x7f060027;
         public static final int url_edit_text=0x7f060015;
         public static final int web_view=0x7f060024;
@@ -869,14 +872,14 @@ containing a value of this type.
         public static final int Button=0x7f080009;
         /**  EditTexts 
          */
-        public static final int EditTextCapSentences=0x7f08000b;
-        public static final int EditTextCapSentences_AutoComplete=0x7f08000f;
-        public static final int EditTextCapSentences_AutoComplete_Done=0x7f080012;
-        public static final int EditTextCapSentences_AutoComplete_Go=0x7f080010;
-        public static final int EditTextCapSentences_AutoComplete_Next=0x7f080011;
-        public static final int EditTextCapSentences_Done=0x7f08000e;
-        public static final int EditTextCapSentences_Go=0x7f08000c;
-        public static final int EditTextCapSentences_Next=0x7f08000d;
+        public static final int EditTextCapSentences=0x7f08000d;
+        public static final int EditTextCapSentences_AutoComplete=0x7f080011;
+        public static final int EditTextCapSentences_AutoComplete_Done=0x7f080014;
+        public static final int EditTextCapSentences_AutoComplete_Go=0x7f080012;
+        public static final int EditTextCapSentences_AutoComplete_Next=0x7f080013;
+        public static final int EditTextCapSentences_Done=0x7f080010;
+        public static final int EditTextCapSentences_Go=0x7f08000e;
+        public static final int EditTextCapSentences_Next=0x7f08000f;
         /**  GridCells 
          */
         public static final int GridCell=0x7f080007;
@@ -889,22 +892,22 @@ containing a value of this type.
         /**  ImageViews 
          */
         public static final int ImageView=0x7f080008;
-        public static final int LineaLayoutHorizontal=0x7f08001a;
-        public static final int LineaLayoutHorizontal_GridCell=0x7f08001c;
-        public static final int LineaLayoutHorizontal_WrappedVertical=0x7f08001e;
+        public static final int LineaLayoutHorizontal=0x7f08001c;
+        public static final int LineaLayoutHorizontal_GridCell=0x7f08001e;
+        public static final int LineaLayoutHorizontal_WrappedVertical=0x7f080020;
         /**  Linear Layouts 
          */
-        public static final int LineaLayoutVertical=0x7f080019;
-        public static final int LineaLayoutVertical_GridCell=0x7f08001b;
-        public static final int LineaLayoutVertical_WrappedVertical=0x7f08001d;
+        public static final int LineaLayoutVertical=0x7f08001b;
+        public static final int LineaLayoutVertical_GridCell=0x7f08001d;
+        public static final int LineaLayoutVertical_WrappedVertical=0x7f08001f;
         /**  Rating bars 
          */
-        public static final int RatingBarFiveStar=0x7f080013;
-        public static final int RatingBarFiveStar_Indicator=0x7f080014;
-        public static final int RatingBarFiveStar_Indicator_PointFiveStep=0x7f080017;
-        public static final int RatingBarFiveStar_Indicator_PointOneStep=0x7f080018;
-        public static final int RatingBarFiveStar_PointFiveStep=0x7f080015;
-        public static final int RatingBarFiveStar_PointOneStep=0x7f080016;
+        public static final int RatingBarFiveStar=0x7f080015;
+        public static final int RatingBarFiveStar_Indicator=0x7f080016;
+        public static final int RatingBarFiveStar_Indicator_PointFiveStep=0x7f080019;
+        public static final int RatingBarFiveStar_Indicator_PointOneStep=0x7f08001a;
+        public static final int RatingBarFiveStar_PointFiveStep=0x7f080017;
+        public static final int RatingBarFiveStar_PointOneStep=0x7f080018;
         public static final int SimpleTransparentButton=0x7f080005;
         /**  Buttons 
          */
@@ -912,45 +915,47 @@ containing a value of this type.
         /**  TextViews 
          */
         public static final int TextViewGridCell=0x7f08000a;
-        public static final int Theme_Dialog=0x7f08003e;
-        public static final int Theme_Dialog_SlateSmoke=0x7f080026;
-        public static final int Theme_Dialog_SmokeSlate=0x7f08002e;
-        public static final int Theme_Dialog_TransSmoke=0x7f080036;
-        public static final int Theme_Reviewer=0x7f080037;
+        public static final int TextViewGridCell_Large=0x7f08000b;
+        public static final int TextViewGridCell_Small=0x7f08000c;
+        public static final int Theme_Dialog=0x7f080040;
+        public static final int Theme_Dialog_SlateSmoke=0x7f080028;
+        public static final int Theme_Dialog_SmokeSlate=0x7f080030;
+        public static final int Theme_Dialog_TransSmoke=0x7f080038;
+        public static final int Theme_Reviewer=0x7f080039;
         /**  Slate Smoke 
          */
-        public static final int Theme_Reviewer_SlateSmoke=0x7f08001f;
+        public static final int Theme_Reviewer_SlateSmoke=0x7f080021;
         /**  Slate Smoke 
          */
-        public static final int Theme_Reviewer_SmokeSlate=0x7f080027;
+        public static final int Theme_Reviewer_SmokeSlate=0x7f080029;
         /**  Slate Smoke 
          */
-        public static final int Theme_Reviewer_TransSmoke=0x7f08002f;
+        public static final int Theme_Reviewer_TransSmoke=0x7f080031;
         public static final int VerticalDivider=0x7f080003;
-        public static final int Widget_AutoCompleteTextView=0x7f080038;
-        public static final int Widget_AutoCompleteTextView_SlateSmoke=0x7f080020;
-        public static final int Widget_AutoCompleteTextView_SmokeSlate=0x7f080028;
-        public static final int Widget_AutoCompleteTextView_TransSmoke=0x7f080030;
-        public static final int Widget_Button=0x7f08003b;
-        public static final int Widget_Button_SlateSmoke=0x7f080023;
-        public static final int Widget_Button_SmokeSlate=0x7f08002b;
-        public static final int Widget_Button_TransSmoke=0x7f080033;
-        public static final int Widget_EditText=0x7f08003a;
-        public static final int Widget_EditText_SlateSmoke=0x7f080022;
-        public static final int Widget_EditText_SmokeSlate=0x7f08002a;
-        public static final int Widget_EditText_TransSmoke=0x7f080032;
-        public static final int Widget_GridCell=0x7f08003c;
-        public static final int Widget_GridCell_SlateSmoke=0x7f080024;
-        public static final int Widget_GridCell_SmokeSlate=0x7f08002c;
-        public static final int Widget_GridCell_TransSmoke=0x7f080034;
-        public static final int Widget_GridView=0x7f08003d;
-        public static final int Widget_GridView_SlateSmoke=0x7f080025;
-        public static final int Widget_GridView_SmokeSlate=0x7f08002d;
-        public static final int Widget_GridView_TransSmoke=0x7f080035;
-        public static final int Widget_TextView=0x7f080039;
-        public static final int Widget_TextView_SlateSmoke=0x7f080021;
-        public static final int Widget_TextView_SmokeSlate=0x7f080029;
-        public static final int Widget_TextView_TransSmoke=0x7f080031;
+        public static final int Widget_AutoCompleteTextView=0x7f08003a;
+        public static final int Widget_AutoCompleteTextView_SlateSmoke=0x7f080022;
+        public static final int Widget_AutoCompleteTextView_SmokeSlate=0x7f08002a;
+        public static final int Widget_AutoCompleteTextView_TransSmoke=0x7f080032;
+        public static final int Widget_Button=0x7f08003d;
+        public static final int Widget_Button_SlateSmoke=0x7f080025;
+        public static final int Widget_Button_SmokeSlate=0x7f08002d;
+        public static final int Widget_Button_TransSmoke=0x7f080035;
+        public static final int Widget_EditText=0x7f08003c;
+        public static final int Widget_EditText_SlateSmoke=0x7f080024;
+        public static final int Widget_EditText_SmokeSlate=0x7f08002c;
+        public static final int Widget_EditText_TransSmoke=0x7f080034;
+        public static final int Widget_GridCell=0x7f08003e;
+        public static final int Widget_GridCell_SlateSmoke=0x7f080026;
+        public static final int Widget_GridCell_SmokeSlate=0x7f08002e;
+        public static final int Widget_GridCell_TransSmoke=0x7f080036;
+        public static final int Widget_GridView=0x7f08003f;
+        public static final int Widget_GridView_SlateSmoke=0x7f080027;
+        public static final int Widget_GridView_SmokeSlate=0x7f08002f;
+        public static final int Widget_GridView_TransSmoke=0x7f080037;
+        public static final int Widget_TextView=0x7f08003b;
+        public static final int Widget_TextView_SlateSmoke=0x7f080023;
+        public static final int Widget_TextView_SmokeSlate=0x7f08002b;
+        public static final int Widget_TextView_TransSmoke=0x7f080033;
     }
     public static final class xml {
         public static final int searchable_location_map=0x7f040000;

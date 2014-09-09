@@ -90,6 +90,14 @@
     	<item name="android:textAppearance">?android:attr/textAppearanceMedium</item>
     </style>
     
+    <style name="TextViewGridCell.Large">
+    	<item name="android:textAppearance">?android:attr/textAppearanceLarge</item>
+    </style>
+    
+    <style name="TextViewGridCell.Small">
+    	<item name="android:textAppearance">?android:attr/textAppearanceSmall</item>
+    </style>
+    
     <!-- EditTexts -->
     <style name="EditTextCapSentences">
     	<item name="android:layout_width">match_parent</item>    
