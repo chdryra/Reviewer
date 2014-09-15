@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:background="@drawable/image_button_selected"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/upper_text_view "
+            style="?android:textAppearanceMedium"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_weight="1"/>
+
+        <TextView
+            android:id="@+id/lower_text_view "
+            style="?android:textAppearanceMedium"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_weight="1"/>
+    </LinearLayout>
+
+</FrameLayout><!-- From: file:/C:/Dev/git/com.chdryra.android.mygenerallibrary/MyGeneralLibrary/res/layout/grid_cell_dual_string.xml -->

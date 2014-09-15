@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="GradleSettings">
+    <option name="linkedExternalProjectsSettings">
+      <GradleProjectSettings>
+        <option name="distributionType" value="LOCAL" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="gradleHome" value="C:\Users\User 1\.gradle\wrapper\dists\gradle-1.12-all\2apkk7d25miauqf1pdjp1bm0uo\gradle-1.12" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$/../../.." />
+            <option value="$PROJECT_DIR$/../../../adt-bundle-windows-x86_64-20130717/adt-bundle-windows-x86_64-20130717/sdk/samples/android-19/ui/CustomNotifications/CustomNotificationsSample" />
+            <option value="$PROJECT_DIR$/../.." />
+            <option value="$PROJECT_DIR$/../../com.chdryra.android.myandroidwidgets" />
+            <option value="$PROJECT_DIR$/../../com.chdryra.android.myandroidwidgets/MyAndroidWidgets" />
+            <option value="$PROJECT_DIR$/../../com.chdryra.android.mygenerallibrary" />
+            <option value="$PROJECT_DIR$/../../com.chdryra.android.mygenerallibrary/MyGeneralLibrary" />
+            <option value="$PROJECT_DIR$/../../com.chdryra.android.remoteapifetchers" />
+            <option value="$PROJECT_DIR$/../../com.chdryra.android.remoteapifetchers/RemoteAPIFetchers" />
+            <option value="$PROJECT_DIR$/.." />
+            <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/../../../workspace" />
+            <option value="$PROJECT_DIR$/../../../workspace/google-play-services_lib" />
+          </set>
+        </option>
+      </GradleProjectSettings>
+    </option>
+  </component>
+</project>
+
