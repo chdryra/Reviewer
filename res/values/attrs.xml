@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="CustomTheme">
+    	<attr name="gridCellStyle" format="reference"/>
+	</declare-styleable>
+    	
+    <declare-styleable name="GridCellLayout">
+  		<attr name="android:background" />
+	</declare-styleable>
+</resources>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.chdryra.android.reviewer.GridCellLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/GridCell" >
+
+    <TextView
+        android:id="@+id/pro"
+        style="@style/TextViewGridCell"
+        android:textColor="@color/Chartreuse" />
+
+</com.chdryra.android.reviewer.GridCellLayout>

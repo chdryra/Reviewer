@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- App level -->
+    <string name="app_name">Reviewer</string>
+    <string name="action_settings">Settings</string>
+    <string name="search_hint">Search</string>
+
+    <!-- Dialogs -->
+    <string name="dialog_add_criteria_title">Add Criterion</string>
+    <string name="dialog_edit_criterion_title">Edit criterion</string>
+    <string name="dialog_edit_criteria_title">Edit Criteria</string>
+    <string name="dialog_delete_criteria_title">Criteria</string>
+    <string name="dialog_delete_criterion_title">Criterion</string>
+    <string name="dialog_url_title">Link</string>
+    <string name="dialog_delete_url_title">Link</string>
+    <string name="dialog_delete_urls_title">Links</string>
+    <string name="dialog_add_tag_title">Add Tags</string>
+    <string name="dialog_edit_tag_title">Edit Tag</string>
+    <string name="dialog_delete_tags_title">Tags</string>
+    <string name="dialog_delete_tag_title">Tag</string>
+    <string name="dialog_add_comments_title">Add comments</string>
+    <string name="dialog_edit_comment_title">Edit comment</string>
+    <string name="dialog_choose_social">Share</string>
+    <string name="dialog_image_content_description">Review image</string>
+    <string name="dialog_add_fact_title">Add Fact</string>
+    <string name="dialog_edit_fact_title">Edit Fact</string>
+    <string name="dialog_delete_fact_title">Fact</string>
+    <string name="dialog_delete_comment_title">Comment</string>
+    <string name="dialog_add_procon_title">Add Pros and Cons</string>
+    <string name="dialog_add_pros_title">Add Pros</string>
+    <string name="dialog_add_cons_title">Add Cons</string>
+    <string name="dialog_edit_procon_title">Edit Pros and Cons</string>
+    <string name="dialog_edit_pro_title">Edit Pro</string>
+    <string name="dialog_edit_con_title">Edit Con</string>
+    <string name="dialog_delete_procon_title">Pro/Con</string>
+    <string name="dialog_delete_image_title">Image</string>
+    <string name="dialog_delete_images_title">Images</string>
+    <string name="dialog_name_location_title">Name Location</string>
+    <string name="dialog_delete_location_title">Location</string>
+    <string name="dialog_delete_locations_title">Locations</string>
+    <string name="dialog_set_image_as_background">Set image as cover?</string>
+
+    <!-- Activities -->
+    <string name="activity_title_location">locations</string>
+    <string name="activity_title_url">links</string>
+    <string name="activity_title_comment">comments</string>
+    <string name="activity_title_facts">facts</string>
+    <string name="activity_title_image">images</string>
+    <string name="activity_title_procon">pros and cons</string>
+    <string name="activity_title_children">criteria</string>
+    <string name="activity_title_share">share</string>
+    <string name="activity_title_review_build">review</string>
+    <string name="activity_title_tags">tags</string>
+    <string name="activity_title_feed">feed</string>
+
+    <!-- TextViews -->
+    <string name="text_view_no_criteria">no criteria</string>
+    <string name="text_view_touch_criteria">touch stars to toggle criteria</string>
+    <string name="text_view_link_hint">http://</string>
+    <string name="text_view_location_hint">location</string>
+    <string name="text_view_date_hint">date</string>
+    <string name="text_view_facts_hint">facts</string>
+    <string name="text_view_number_children">(%1$d)</string>
+    <string name="text_view_pro_prefix">+</string>
+    <string name="text_view_con_prefix">-</string>
+
+    <!-- EditTexts -->
+    <string name="edit_text_subject_hint">subject</string>
+    <string name="edit_text_add_criterion_hint">criterion name&#8230;</string>
+    <string name="edit_text_add_comment_hint">comment&#8230;</string>
+    <string name="edit_text_add_comment_dialog_hint">comment&#8230;</string>
+    <string name="edit_text_name_location_hint">name this location&#8230;</string>
+    <string name="edit_text_name_current_location_hint">name current location&#8230;</string>
+    <string name="edit_text_search_location_hint">search for location&#8230;</string>
+    <string name="edit_text_map_caption_hint">location&#8230;</string>
+    <string name="edit_text_image_caption_hint">caption&#8230;</string>
+    <string name="edit_text_fact_name_hint">label (e.g. \'price\', \'director\' etc. )&#8230;</string>
+    <string name="edit_text_fact_value_hint">value&#8230;</string>
+    <string name="edit_text_datum_unit_hint">unit&#8230;</string>
+    <string name="edit_text_url_hint">link&#8230;</string>
+    <string name="edit_text_url_text">http://</string>
+    <string name="edit_text_pro_hint">pro&#8230;</string>
+    <string name="edit_text_con_hint">con&#8230;</string>
+    <string name="edit_text_add_tag_hint">add tag&#8230;</string>
+
+    <!-- SearchViews -->
+    <string name="search_view_location_hint">search for location&#8230;</string>
+
+    <!-- ProgressDialogs -->
+    <string name="progress_bar_search_location_title">searching&#8230;</string>
+    <string name="progress_bar_search_location_message">please wait&#8230;</string>
+
+    <!-- Buttons -->
+    <string name="button_done_text">done</string>
+    <string name="button_delete_text">delete</string>
+    <string name="button_cancel_text">cancel</string>
+    <string name="button_add_text">add</string>
+    <string name="button_edit_text">edit</string>
+    <string name="button_clear_text">clear</string>
+    <string name="button_ok_text">ok</string>
+    <string name="button_yes_text">yes</string>
+    <string name="button_tags_text">tags</string>
+    <string name="button_browse_text">WWW</string>
+    <string name="button_map_text">map</string>
+    <string name="button_add_tag">add tag</string>
+    <string name="button_add_criteria">add criteria</string>
+    <string name="button_add_facts">add facts</string>
+    <string name="button_add_pros">add pros</string>
+    <string name="button_add_cons">add cons</string>
+    <string name="button_add_comment">add comment</string>
+    <string name="button_add_image">add image</string>
+    <string name="button_add_url">add link</string>
+    <string name="button_add_location">add location</string>
+    <string name="button_add_review_data">details</string>
+    <string name="button_share">Share</string>
+    <string name="button_publish">Publish</string>
+    <string name="button_social">Social</string>
+
+    <!-- Image Buttons -->
+    <string name="button_add_image_cd">add image</string>
+    <string name="button_add_comment_cd">add comment</string>
+    <string name="button_add_location_cd">add location</string>
+    <string name="button_revert_location_cd">revert location</string>
+    <string name="button_add_facts_cd">add some facts</string>
+    <string name="button_add_pros_cd">add some pros</string>
+    <string name="button_add_cons_cd">add some cons</string>
+    <string name="button_children_rating_avg_cd">criterion averaging on or off</string>
+
+    <!-- Image Views -->
+    <string name="image_review_cd">review image</string>
+
+    <!-- Checkboxes -->
+    <string name="checkbox_image_cover">set as review background</string>
+    <string name="checkbox_include_date">include date</string>
+
+    <!-- Menus -->
+    <string name="menu_next">next</string>
+    <string name="menu_done">done</string>
+    <string name="menu_delete">delete</string>
+    <string name="menu_share">share</string>
+    <string name="menu_tags">tags</string>
+    <string name="menu_options">options</string>
+    <string name="menu_current_location">current location</string>
+    <string name="menu_location_from_photo">location_from_photo</string>
+    <string name="menu_search">search</string>
+    <string name="menu_criteria_comments">criteria comments</string>
+    <string name="menu_clear_comment">clear comment</string>
+    <string name="menu_average_rating">average rating</string>
+    <string name="menu_new_review">new review</string>
+
+    <!-- Toasts -->
+    <string name="toast_enter_subject">Please enter a subject&#8230;</string>
+    <string name="toast_enter_criterion">Please enter a criterion name&#8230;</string>
+    <string name="toast_exists_criterion">You\'ve already added this criterion&#8230;</string>
+    <string name="toast_enter_label">Please enter a label e.g. price, director etc.&#8230;</string>
+    <string name="toast_enter_value">Please enter a value e.g. 10, A.N. Other etc.&#8230;</string>
+    <string name="toast_has_fact">You\'ve already added this fact. Must be really important&#8230;</string>
+    <string name="toast_has_pro">You\'ve already added this pro. Must be really good&#8230;</string>
+    <string name="toast_has_con">You\'ve already added this con. Must be really bad&#8230;</string>
+    <string name="toast_has_tag">You\'ve already added this tag&#8230;</string>
+    <string name="toast_has_comment">You\'ve already added this comment&#8230;</string>
+    <string name="toast_split_comment">Showing sentences&#8230;</string>
+    <string name="toast_unsplit_comment">Showing headlines&#8230;</string>
+    <string name="toast_bad_url">Link does not make sense&#8230;</string>
+    <string name="toast_no_image_gps_tag">No image GPS tag&#8230;</string>
+    <string name="toast_enter_procon">Please enter a pro or con&#8230;</string>
+    <string name="toast_enter_tag">Please enter at least one tag to help categorise it&#8230;</string>
+    <string name="toast_enter_location">Please enter a location name&#8230;</string>
+
+    <!-- Social -->
+    <string name="facebook">facebook</string>
+    <string name="twitter">twitter</string>
+    <string name="email">email</string>
+    <string name="tumblr">tumblr</string>
+    <string name="flickr">flickr</string>
+    <string name="foursquare">foursquare</string>
+
+    <!-- URLs -->
+    <string name="google_search">http://www.google.com</string>
+
+    <!-- 
+    Review Data List 
+    <string name="comment">comment</string>
+    <string name="comments">comments</string>
+    <string name="image">image</string>
+    <string name="images">images</string>
+    <string name="location">location</string>
+    <string name="locations">locations</string>
+    <string name="link">link</string>
+    <string name="links">links</string>
+    <string name="tag">tag</string>
+    <string name="tags">tags</string>
+    <string name="criterion">criterion</string>
+    <string name="criteria">criteria</string>
+    <string name="pro">pro</string>
+    <string name="pros">pros</string>
+    <string name="con">con</string>
+    <string name="cons">cons</string>
+    <string name="procons">+pros -cons</string>
+    <string name="fact">fact</string>
+    <string name="facts">facts</string>
+    
+     -->
+
+</resources>

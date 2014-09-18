@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <color name="Slate">#778899</color>
+    <color name="TransSlate">#CC778899</color>
+    <color name="DarkSlate">#708090</color>
+    <color name="TransDarkSlate">#FF708090</color>
+    <color name="Smoke">#F5F5F5</color>
+    <color name="TransSmoke">#CCF5F5F5</color>
+    <color name="DarkSmoke">#D3D3D3</color>
+    <color name="TransDarkSmoke">#CCD3D3D3</color>
+    
+    <style name="Theme.Reviewer" parent="android:Theme.Holo.Light">
+    </style>
+    
+    <style name="Widget.AutoCompleteTextView" parent="@android:style/Widget.AutoCompleteTextView">
+        <item name="android:textCursorDrawable">@null</item>
+    </style>
+    
+    <style name="Widget.TextView" parent="@android:style/Widget.TextView">
+    </style>
+
+    <style name="Widget.EditText" parent="@android:style/Widget.EditText">
+        <item name="android:textCursorDrawable">@null</item>
+    </style>
+    
+    <style name="Widget.Button" parent="android:Widget.Holo.ActionButton">
+        <item name="android:textAppearance">?android:attr/textAppearanceMediumInverse</item>
+    </style>
+    
+    <style name="Widget.GridCell" parent="@android:style/Widget">
+        <item name="android:background">@android:color/transparent</item>
+    </style>
+    
+    <style name="Widget.GridView" parent="@android:style/Widget.GridView">
+    </style>
+     
+   	<style name="Theme.Dialog" parent="@android:style/Theme.Dialog">
+   	</style>
+   	
+</resources>
