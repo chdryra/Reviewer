@@ -31,7 +31,7 @@
         android:theme="@style/Theme.Reviewer.SlateSmoke" >
 
         <activity
-            android:name="com.chdryra.android.reviewer.ActivityFeed"
+            android:name=".ActivityFeed"
             android:windowSoftInputMode="adjustPan"
             android:label="@string/activity_title_feed" 
             android:screenOrientation="portrait">
@@ -43,7 +43,7 @@
         
         <!-- Create Review -->
         <activity
-            android:name="com.chdryra.android.reviewer.ActivityReviewBuild"
+            android:name=".ActivityReviewBuild"
             android:windowSoftInputMode="adjustPan"
             android:label="@string/activity_title_review_build" 
             android:screenOrientation="portrait">
@@ -52,7 +52,7 @@
         </activity>
 
         <!-- Share -->
-        <activity android:name="com.chdryra.android.reviewer.ActivityReviewShare"
+        <activity android:name=".ActivityReviewShare"
 		    android:windowSoftInputMode="adjustPan"
 		    android:configChanges="orientation"
 		    android:exported="true"
@@ -63,7 +63,7 @@
         </activity>
         
         <!-- Criteria -->
-        <activity android:name="com.chdryra.android.reviewer.ActivityReviewChildren"
+        <activity android:name=".ActivityReviewChildren"
 		    android:windowSoftInputMode="adjustPan"
 		    android:configChanges="orientation"
 		    android:exported="true"
@@ -74,7 +74,7 @@
         </activity>
 
         <!-- Images -->
-        <activity android:name="com.chdryra.android.reviewer.ActivityReviewImages"
+        <activity android:name=".ActivityReviewImages"
 		    android:windowSoftInputMode="adjustPan"
 		    android:configChanges="orientation"
 		    android:exported="true"
@@ -85,7 +85,7 @@
         </activity>
         
         <!-- Links -->
-        <activity android:name="com.chdryra.android.reviewer.ActivityReviewURLs"
+        <activity android:name=".ActivityReviewURLs"
 		    android:windowSoftInputMode="adjustPan"
 		    android:configChanges="orientation"
 		    android:exported="true"
@@ -96,7 +96,7 @@
         </activity>
 
         <!-- Browser choose link -->
-        <activity android:name="com.chdryra.android.reviewer.ActivityReviewURLBrowser"
+        <activity android:name=".ActivityReviewURLBrowser"
 		    android:theme="@style/Theme.Reviewer"
 		    android:windowSoftInputMode="adjustPan"
 		    android:configChanges="orientation"
@@ -108,7 +108,7 @@
         </activity>
         
         <!-- Map choose location -->
-        <activity android:name="com.chdryra.android.reviewer.ActivityReviewLocationMap"
+        <activity android:name=".ActivityReviewLocationMap"
 		    android:theme="@style/Theme.Reviewer"
 		    android:launchMode="singleTop"
 		    android:windowSoftInputMode="adjustPan"
@@ -126,7 +126,7 @@
         </activity>
 
         <!-- Locations -->
-        <activity android:name="com.chdryra.android.reviewer.ActivityReviewLocations"
+        <activity android:name=".ActivityReviewLocations"
 		    android:windowSoftInputMode="adjustPan"
 		    android:configChanges="orientation"
 		    android:exported="true"
@@ -138,7 +138,7 @@
         </activity>
         
         <!-- Comments -->
-        <activity android:name="com.chdryra.android.reviewer.ActivityReviewComments"
+        <activity android:name=".ActivityReviewComments"
 		    android:windowSoftInputMode="adjustPan"
 		    android:configChanges="orientation"
 		    android:exported="true"
@@ -149,7 +149,7 @@
         </activity>
 
         <!-- Facts -->
-        <activity android:name="com.chdryra.android.reviewer.ActivityReviewFacts"
+        <activity android:name=".ActivityReviewFacts"
 		    android:windowSoftInputMode="adjustPan"
 		    android:configChanges="orientation"
 		    android:exported="true"
@@ -160,7 +160,7 @@
         </activity>
 
         <!-- ProCons -->
-        <activity android:name="com.chdryra.android.reviewer.ActivityReviewProsCons"
+        <activity android:name=".ActivityReviewProsCons"
 		    android:windowSoftInputMode="adjustPan"
 		    android:configChanges="orientation"
 		    android:exported="true"
@@ -171,7 +171,7 @@
         </activity>
 
         <!-- Tags -->
-        <activity android:name="com.chdryra.android.reviewer.ActivityReviewTags"
+        <activity android:name=".ActivityReviewTags"
 		    android:windowSoftInputMode="adjustPan"
 		    android:configChanges="orientation"
 		    android:exported="true"
