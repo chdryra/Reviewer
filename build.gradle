@@ -4,12 +4,14 @@ dependencies {
     compile project(':MyAndroidWidgets')
     compile project(':MyGeneralLibrary')
     compile project(':RemoteAPIFetchers')
+    //compile 'com.android.support:support-v4:19.1.0'
 }
 
 android {
     compileSdkVersion 20
     buildToolsVersion "20.0"
 
+    //If I can be bothered, can set up dirs using Gradle convention so won't have to have this bit.
     sourceSets {
         main {
             manifest.srcFile 'AndroidManifest.xml'
