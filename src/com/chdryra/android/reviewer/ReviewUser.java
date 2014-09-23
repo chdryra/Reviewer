@@ -1,3 +1,11 @@
+/*
+ * Copyright (c) 2014, Rizwan Choudrey - All Rights Reserved
+ * Unauthorized copying of this file, via any medium is strictly prohibited
+ * Proprietary and confidential
+ * Author: Rizwan Choudrey
+ * Date: 23 September, 2014
+ */
+
 package com.chdryra.android.reviewer;
 
 import java.util.Date;
@@ -17,15 +25,6 @@ public class ReviewUser implements Review{
 	private RDList<RDUrl> mURLs;
 	private RDList<RDLocation> mLocations;
 
-	public ReviewUser(Author author, Date publishDate, String subject, float rating) {
-		init(author, publishDate, subject, rating, null, null, null, null, null);
-	}
-	
-	public ReviewUser(Author author, Date publishDate, String subject, float rating, 
-			RDList<RDComment> comments, RDList<RDImage> images, RDList<RDFact> facts, RDList<RDUrl> urls, RDList<RDLocation> locations) {
-		init(author, publishDate, subject, rating, comments, images, facts, urls, locations);
-	}
-	
 	public ReviewUser(Author author, Date publishDate, ReviewEditable review) {	
 		init(review.isPublished()? review.getAuthor() : author, review.isPublished()? review.getPublishDate() : publishDate, review.getSubject().get(), review.getRating().get(), 
 				review.getComments(), review.getImages(), review.getFacts(), review.getURLs(), review.getLocations());
@@ -124,10 +123,7 @@ public class ReviewUser implements Review{
 			return false;
 		
 		ReviewUser objReview = (ReviewUser)obj;
-		if(mID.equals(objReview.mID))
-			return true;
-		
-		return false;
+		return mID.equals(objReview.mID)? true : false;
 	}
 	
 	@Override

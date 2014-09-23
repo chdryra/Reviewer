@@ -1,3 +1,11 @@
+/*
+ * Copyright (c) 2014, Rizwan Choudrey - All Rights Reserved
+ * Unauthorized copying of this file, via any medium is strictly prohibited
+ * Proprietary and confidential
+ * Author: Rizwan Choudrey
+ * Date: 23 September, 2014
+ */
+
 package com.chdryra.android.reviewer;
 
 import android.content.Intent;
@@ -8,8 +16,6 @@ import com.chdryra.android.reviewer.GVReviewDataList.GVType;
 
 public abstract class FragmentReviewGridAddEditDoneDouble<TLeft extends GVData, TRight extends GVData>
 		extends FragmentReviewGridDouble<TLeft, TRight> {
-	protected final static String DATA_ADD_TAG = "DataAddTag";
-	protected final static String DATA_EDIT_TAG = "DataEditTag";
 
 	public final static int DATA_ADD_LEFT = 10;
 	public final static int DATA_EDIT_LEFT = 11;

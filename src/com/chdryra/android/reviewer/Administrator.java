@@ -1,3 +1,11 @@
+/*
+ * Copyright (c) 2014, Rizwan Choudrey - All Rights Reserved
+ * Unauthorized copying of this file, via any medium is strictly prohibited
+ * Proprietary and confidential
+ * Author: Rizwan Choudrey
+ * Date: 23 September, 2014
+ */
+
 package com.chdryra.android.reviewer;
 
 import android.content.Context;
@@ -13,7 +21,7 @@ public class Administrator {
 	private Context mContext;
 	private Controller mController;
 	private Author mCurrentAuthor;
-	
+
 	private Administrator(Context c) {
 		setCurrentAuthor(sAnonymousAuthor);
 		mContext = c;
@@ -59,11 +67,7 @@ public class Administrator {
 		mCurrentAuthor = author;
 		
 	}
-	
-	public Author getCurrentAuthor() {
-		return mCurrentAuthor;
-	}
-	
+
 	public void publishReviewInProgress() {
 		ReviewTreePublisher publisher = new ReviewTreePublisher(mCurrentAuthor);
 		ReviewNode published = mController.getReviewInProgress().publish(publisher);

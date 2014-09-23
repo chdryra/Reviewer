@@ -1,3 +1,11 @@
+/*
+ * Copyright (c) 2014, Rizwan Choudrey - All Rights Reserved
+ * Unauthorized copying of this file, via any medium is strictly prohibited
+ * Proprietary and confidential
+ * Author: Rizwan Choudrey
+ * Date: 23 September, 2014
+ */
+
 package com.chdryra.android.reviewer;
 
 import java.util.LinkedList;
@@ -5,17 +13,7 @@ import java.util.StringTokenizer;
 
 public class CommentFormatter {
 	private static final String COMMENT_HEADLINE_DELIMITER = ".!?";
-	
-	private RDComment mRDComment;
-	
-	public CommentFormatter(RDComment rDComment) {
-		mRDComment = rDComment;
-	}
-	
-	public String getHeadline() {
-		return getHeadline(mRDComment.get());
-	}
-	
+
 	public static String getHeadline(String comment) {
 		if(comment != null && comment.length() > 0) {
 			StringTokenizer tokens = new StringTokenizer(comment, COMMENT_HEADLINE_DELIMITER);

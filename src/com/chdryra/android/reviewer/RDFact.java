@@ -1,3 +1,11 @@
+/*
+ * Copyright (c) 2014, Rizwan Choudrey - All Rights Reserved
+ * Unauthorized copying of this file, via any medium is strictly prohibited
+ * Proprietary and confidential
+ * Author: Rizwan Choudrey
+ * Date: 23 September, 2014
+ */
+
 package com.chdryra.android.reviewer;
 
 public class RDFact implements RData{
@@ -12,12 +20,6 @@ public class RDFact implements RData{
 		mHoldingReview = holdingReview;
 	}
 
-	public RDFact(RDFact fact, Review holdingReview) {	
-		mLabel = fact.getLabel();
-		mValue = fact.getValue();			
-		mHoldingReview = holdingReview;
-	}
-	
 	public String getLabel() {
 		return mLabel;
 	}

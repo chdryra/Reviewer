@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android" 
+<!--
+  ~ Copyright (c) 2014, Rizwan Choudrey - All Rights Reserved
+  ~ Unauthorized copying of this file, via any medium is strictly prohibited
+  ~ Proprietary and confidential
+  ~ Author: Rizwan Choudrey
+  ~ Date: 23 September, 2014
+  -->
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	    android:id="@+id/divider"
 	    style="@style/HorizontalDivider" >
 </FrameLayout>

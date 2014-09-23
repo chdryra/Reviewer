@@ -1,6 +1,13 @@
+/*
+ * Copyright (c) 2014, Rizwan Choudrey - All Rights Reserved
+ * Unauthorized copying of this file, via any medium is strictly prohibited
+ * Proprietary and confidential
+ * Author: Rizwan Choudrey
+ * Date: 23 September, 2014
+ */
+
 package com.chdryra.android.reviewer;
 
-import com.chdryra.android.mygenerallibrary.RandomTextUtils;
 import com.google.android.gms.maps.model.LatLng;
 
 public class RDLocation implements RData{
@@ -11,23 +18,9 @@ public class RDLocation implements RData{
 	private LatLng mLatLng = null;
 	private String mName = null;
 
-	public RDLocation() {
-	}
-
 	public RDLocation(LatLng latLng, String name, Review holdingReview) {
 		mLatLng = latLng;
 		mName = name;
-		mHoldingReview = holdingReview;
-	}
-
-	public RDLocation(RDLocation location, Review holdingReview) {
-		mLatLng = location.getLatLng();
-		mName = location.getName();
-		mHoldingReview = holdingReview;
-	}
-	
-	public RDLocation(LatLng latLng, Review holdingReview) {
-		mLatLng = latLng;
 		mHoldingReview = holdingReview;
 	}
 
@@ -59,13 +52,5 @@ public class RDLocation implements RData{
 			mName = locationName;
 		else
 			mName = null;
-	}
-		
-	public boolean hasName() {
-		return mName != null;
-	}
-	
-	public String getShortenedName() {
-		return RandomTextUtils.shortened(mName, LOCATION_DELIMITER);
 	}
 }

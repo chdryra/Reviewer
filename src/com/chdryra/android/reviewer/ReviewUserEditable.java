@@ -1,3 +1,11 @@
+/*
+ * Copyright (c) 2014, Rizwan Choudrey - All Rights Reserved
+ * Unauthorized copying of this file, via any medium is strictly prohibited
+ * Proprietary and confidential
+ * Author: Rizwan Choudrey
+ * Date: 23 September, 2014
+ */
+
 package com.chdryra.android.reviewer;
 
 public class ReviewUserEditable extends ReviewEditable {	
@@ -11,15 +19,8 @@ public class ReviewUserEditable extends ReviewEditable {
 	private RDList<RDUrl> mURLs;
 	private RDList<RDLocation> mLocations;
 
-	private boolean mOptionsSettable = true;
-	
 	public ReviewUserEditable(String subject) {	
 		init(subject);
-	}
-	
-	public ReviewUserEditable(String subject, boolean optionsSettable) {	
-		init(subject);
-		mOptionsSettable = optionsSettable;
 	}
 
 	private void init(String subject) {
@@ -67,7 +68,7 @@ public class ReviewUserEditable extends ReviewEditable {
 	
 	private <T extends RData> RDList<T> processData(RDList<T> newData, RDList<T> ifNull) {
 		RDList<T> member;
-		if(newData != null && mOptionsSettable)
+		if(newData != null)
 			member = newData;
 		else
 			member = ifNull;
@@ -84,7 +85,7 @@ public class ReviewUserEditable extends ReviewEditable {
 	
 	@Override
 	public void setImages(RDList<RDImage> images) {
-		mImages = (RDList<RDImage>)processData(images, new RDList<RDImage>());
+		mImages = processData(images, new RDList<RDImage>());
 	}
 	
 	@Override
@@ -104,7 +105,7 @@ public class ReviewUserEditable extends ReviewEditable {
 	
 	@Override
 	public void setLocations(RDList<RDLocation> locations) {
-		mLocations = (RDList<RDLocation>) processData(locations, new RDList<RDLocation>());
+		mLocations = processData(locations, new RDList<RDLocation>());
 	}
 	
 	@Override
@@ -124,7 +125,7 @@ public class ReviewUserEditable extends ReviewEditable {
 
 	@Override
 	public void setFacts(RDList<RDFact> facts) {
-		mFacts = (RDList<RDFact>) processData(facts, new RDList<RDFact>());
+		mFacts = processData(facts, new RDList<RDFact>());
 	}
 	
 	@Override
@@ -139,7 +140,7 @@ public class ReviewUserEditable extends ReviewEditable {
 	
 	@Override
 	public void setComments(RDList<RDComment> comments){
-		mComments = (RDList<RDComment>) processData(comments, new RDList<RDComment>());
+		mComments = processData(comments, new RDList<RDComment>());
 	}
 
 	@Override
@@ -164,7 +165,7 @@ public class ReviewUserEditable extends ReviewEditable {
 
 	@Override
 	public void setURLs(RDList<RDUrl> urls) {
-		mURLs = (RDList<RDUrl>) processData(urls, new RDList<RDUrl>());
+		mURLs = processData(urls, new RDList<RDUrl>());
 	}
 
 	@Override
@@ -183,10 +184,7 @@ public class ReviewUserEditable extends ReviewEditable {
 			return false;
 		
 		ReviewUserEditable objReview = (ReviewUserEditable)obj;
-		if(mID.equals(objReview.mID))
-			return true;
-		
-		return false;
+		return mID.equals(objReview.mID)? true : false;
 	}
 	
 	@Override
