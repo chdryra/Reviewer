@@ -25,7 +25,6 @@ import com.chdryra.android.reviewer.GVSocialPlatformList.GVSocialPlatform;
 public class FragmentReviewShare extends FragmentReviewGrid<GVSocialPlatformList.GVSocialPlatform> {
 	public final static String TAG_STRING = "com.chdryra.android.reviewer.tag_string";
 	private GVSocialPlatformList mSocialList;
-	private Button mPublishButton;
 	private Drawable mDefault;
 	
 	@Override
@@ -48,10 +47,10 @@ public class FragmentReviewShare extends FragmentReviewGrid<GVSocialPlatformList
 		
 		getBannerButton().setClickable(false);
 		View divider = inflater.inflate(R.layout.horizontal_divider, container, false);
-		mPublishButton = (Button)inflater.inflate(R.layout.review_banner_button, container, false);
-		mPublishButton.setText(getResources().getString(R.string.button_publish));
-		mPublishButton.getLayoutParams().height = LayoutParams.MATCH_PARENT;
-		mPublishButton.setOnClickListener(new View.OnClickListener() {		
+		Button publishButton = (Button)inflater.inflate(R.layout.review_banner_button, container, false);
+	    publishButton.setText(getResources().getString(R.string.button_publish));
+		publishButton.getLayoutParams().height = LayoutParams.MATCH_PARENT;
+		publishButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				Administrator.get(getActivity()).publishReviewInProgress();
@@ -62,7 +61,7 @@ public class FragmentReviewShare extends FragmentReviewGrid<GVSocialPlatformList
 		});
 		
 		getGridView().getLayoutParams().height = LayoutParams.WRAP_CONTENT;
-		getLayout().addView(mPublishButton);
+		getLayout().addView(publishButton);
 		getLayout().addView(divider);
 		
 		return v;

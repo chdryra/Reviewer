@@ -107,7 +107,8 @@ public class GVReviewOverviewList extends GVReviewDataList<GVReviewOverviewList.
 
 		@Override
 		public boolean equals(Object obj) {
-			return mId.equals(obj);
+			GVReviewOverview overview = (GVReviewOverview)obj;
+            return mId.equals(overview.getId());
 		}
 		
 		@Override

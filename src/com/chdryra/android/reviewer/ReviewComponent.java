@@ -146,7 +146,7 @@ public class ReviewComponent implements ReviewNode {
 	@Override
 	public ReviewNode getRoot() {
 		ReviewNode root = this;
-		while(root != null)
+		while(root.getParent() != null)
 			root = root.getParent();
 		
 		return root;

@@ -18,19 +18,17 @@ public class Administrator {
 	private static Author sAnonymousAuthor = new Author("Anon");
 
 	private ReviewNode mRoot;
-	private Context mContext;
 	private Controller mController;
 	private Author mCurrentAuthor;
 
-	private Administrator(Context c) {
+	private Administrator() {
 		setCurrentAuthor(sAnonymousAuthor);
-		mContext = c;
 		mRoot = FactoryReview.createReviewNode(FactoryReview.createReviewTreeEditable("ROOT"));
 	}
 	
 	public static Administrator get(Context c) {
 		if(sAdministrator == null)
-			sAdministrator = new Administrator(c.getApplicationContext());
+			sAdministrator = new Administrator();
 		
 		return sAdministrator;
 	}

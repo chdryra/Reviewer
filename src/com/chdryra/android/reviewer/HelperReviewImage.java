@@ -57,26 +57,25 @@ public class HelperReviewImage extends ImageHelper{
 		setImageFilePath(null);
 	}
 	
-	public void createNewImageFile() throws IOException{
+	public boolean createNewImageFile() throws IOException{
 	    String imageFileName = mController.getSubject() + "_" + fileCounter++;
 	    String path = null;
-	    
+	    boolean success = false;
         if(Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
         	File dcimDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM);
             File reviewerDir = new File(dcimDir, IMAGE_DIRECTORY);
             File file = new File(reviewerDir, imageFileName + ".jpg");
             if(file.exists()) {
-            	createNewImageFile();
-            	return;
+            	return createNewImageFile();
             }
             path = file.toString();
             setImageFilePath(path);
-            createImageFile();
+            success = createImageFile();
         } else {
         	throw new IOException(ERROR_NO_STORAGE_MESSAGE);
         }
-        
-        Log.i(TAG, "Created file " + path);
+
+        return success;
 	}
 	
 	public void addReviewImage(Context context, GVImageList imageList, FunctionPointer<Void> updateUI) {
@@ -110,8 +109,9 @@ public class HelperReviewImage extends ImageHelper{
 	
 	public Intent getImageChooserIntents(Activity activity) {
 		//Set up image file
-		try {
-			createNewImageFile();
+		boolean success = false;
+        try {
+			success = createNewImageFile();
 		} catch (IOException e) {
 			Log.e(TAG, e.getMessage(), e);
 			e.printStackTrace();
@@ -136,8 +136,8 @@ public class HelperReviewImage extends ImageHelper{
         
 		final Intent galleryIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 		final Intent chooserIntent = Intent.createChooser(galleryIntent, "Select Source");		
-		chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, cameraIntents.toArray(new Parcelable[]{}));
-		
+		chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, cameraIntents.toArray(new Parcelable[cameraIntents.size()]));
+
 		return chooserIntent;
 	}
 	
@@ -150,14 +150,11 @@ public class HelperReviewImage extends ImageHelper{
 	            isCamera = true;
 	        else {
 	        	final String action = data.getAction();
-	            if(action == null)
-	                isCamera = false;
-	            else
-	                isCamera = action.equals(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                isCamera = action != null && action.equals(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
 	        }
 	        
 	        if(!isCamera) {
-	        	Uri uri = data == null ? null : data.getData();
+	        	Uri uri = data.getData();
 	        	String path = ImageHelper.getRealPathFromURI(activity, uri);
 	        	setImageFilePath(path);
 	        }

@@ -336,8 +336,7 @@ public abstract class FragmentReviewGrid<T extends GVData> extends FragmentDelet
 	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		boolean ret = super.onOptionsItemSelected(item);
-		return ret;
+		return super.onOptionsItemSelected(item);
 	}
 	
 	@Override

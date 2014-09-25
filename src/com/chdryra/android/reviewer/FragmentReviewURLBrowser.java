@@ -50,9 +50,9 @@ public class FragmentReviewURLBrowser extends FragmentDeleteDone {
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View v = inflater.inflate(R.layout.fragment_review_url_browse, container, false);
-		getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
+		setDisplayHomeAsUp(true);
 
+        View v = inflater.inflate(R.layout.fragment_review_url_browse, container, false);
 		mWebView = (WebView)v.findViewById(R.id.web_view);
 	    mURLEditText= (ClearableEditText)v.findViewById(R.id.edit_text_url);
 	    

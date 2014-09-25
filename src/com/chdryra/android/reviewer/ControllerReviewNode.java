@@ -136,10 +136,7 @@ public class ControllerReviewNode{
 			return hasLocations();
 		else if (dataType == GVType.TAGS)
 			return hasTags();
-		else if (dataType == GVType.CRITERIA)
-			return getChildrenController().size() > 0;
-		else
-			return false;
+		else return dataType == GVType.CRITERIA && getChildrenController().size() > 0;
 	}
 
 	public void deleteData(GVType dataType) {

@@ -65,10 +65,9 @@ public class DialogChildAddFragment extends DialogAddReviewDataFragment{
 		mChildNameEditText.setText(null);		
 		mChildRatingBar.setRating(0);
 		
-		double d = childRating;
 		DecimalFormat formatter = new DecimalFormat("0");
 		DecimalFormat decimalFormatter = new DecimalFormat("0.0");
-		String rating = d % 1L > 0L? decimalFormatter.format(d) : formatter.format(d);
+		String rating = childRating % 1L > 0L? decimalFormatter.format(childRating) : formatter.format(childRating);
 
 		getDialog().setTitle("+ " + childName + ": " + rating + "/" + "5");
 	}

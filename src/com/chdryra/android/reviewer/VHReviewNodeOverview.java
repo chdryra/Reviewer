@@ -52,11 +52,12 @@ public class VHReviewNodeOverview extends ViewHolderBasic {
 	@Override
 	public View updateView(GVData data) {
 		GVReviewOverview review = (GVReviewOverview) data;
-		if(review != null) {
-			mSubject.setText(review.getSubject());
-			mRating.setRating(review.getRating());
-		}
-		
+        if(review == null)
+            return null;
+
+        mSubject.setText(review.getSubject());
+        mRating.setRating(review.getRating());
+
 		String location = review.getLocationName();
 		String author = review.getAuthor();
 		String headline = review.getHeadline();

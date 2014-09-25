@@ -79,7 +79,7 @@ public class FragmentReviewLocationMap extends FragmentDeleteDone implements Loc
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		mRevertLatLng = (LatLng)getActivity().getIntent().getParcelableExtra(LATLNG);
+		mRevertLatLng = getActivity().getIntent().getParcelableExtra(LATLNG);
 	    mRevertName = (String)getActivity().getIntent().getSerializableExtra(NAME);
 	    mReviewSubject = (String)getActivity().getIntent().getSerializableExtra(SUBJECT);
 	    
@@ -94,9 +94,9 @@ public class FragmentReviewLocationMap extends FragmentDeleteDone implements Loc
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		mLocationClient.connect();
-		
+        setDisplayHomeAsUp(true);
+
 		View v = inflater.inflate(R.layout.fragment_review_location_map, container, false);
-		getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
 
 		mMapView = (MapView)v.findViewById(R.id.mapView);
 	    mMapView.onCreate(savedInstanceState);	    

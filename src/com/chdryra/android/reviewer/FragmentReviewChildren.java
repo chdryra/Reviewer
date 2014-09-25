@@ -78,7 +78,7 @@ public class FragmentReviewChildren extends FragmentReviewGridAddEditDone<GVRevi
 		switch(ActivityResultCode.get(resultCode)) {
 		case ADD:
 			String subject = (String)data.getSerializableExtra(DialogChildAddFragment.SUBJECT);
-			float rating = (float)data.getFloatExtra(DialogChildAddFragment.RATING, 0);
+			float rating = data.getFloatExtra(DialogChildAddFragment.RATING, 0);
 			if(subject != null && subject.length() > 0 && !mReviewData.contains(subject))
 				mReviewData.add(subject, rating);
 			break;

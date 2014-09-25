@@ -20,8 +20,6 @@ import android.widget.Toast;
 
 public class FragmentSearchable extends ListFragment {
 
-	private ListView mListView;
-	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -32,7 +30,7 @@ public class FragmentSearchable extends ListFragment {
 		super.onCreateView(inflater, container, savedInstanceState);
 		View v = inflater.inflate(R.layout.fragment_searchable, container, false);
 		
-		mListView = (ListView)v.findViewById(R.id.searchable_listview);
+		ListView listView = (ListView)v.findViewById(R.id.searchable_listview);
 		
 		handleSearch();
 		return v;

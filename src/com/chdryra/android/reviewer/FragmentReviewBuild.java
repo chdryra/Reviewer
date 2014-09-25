@@ -40,8 +40,7 @@ public class FragmentReviewBuild extends FragmentReviewGrid<GVCellManager> {
 	
 	private GVCellManagerList mCellManagerList;
 	private HelperReviewImage mHelperReviewImage;
-	private Button mShareButton;
-	
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -64,10 +63,10 @@ public class FragmentReviewBuild extends FragmentReviewGrid<GVCellManager> {
 		
 		getBannerButton().setClickable(false);
 		View divider = inflater.inflate(R.layout.horizontal_divider, container, false);
-		mShareButton = (Button)inflater.inflate(R.layout.review_banner_button, container, false);
-		mShareButton.setText(getResources().getString(R.string.button_share));
-		mShareButton.getLayoutParams().height = LayoutParams.MATCH_PARENT;
-		mShareButton.setOnClickListener(new View.OnClickListener() {		
+		Button shareButton = (Button)inflater.inflate(R.layout.review_banner_button, container, false);
+		shareButton.setText(getResources().getString(R.string.button_share));
+		shareButton.getLayoutParams().height = LayoutParams.MATCH_PARENT;
+		shareButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 
@@ -88,7 +87,7 @@ public class FragmentReviewBuild extends FragmentReviewGrid<GVCellManager> {
 		});
 		
 		getGridView().getLayoutParams().height = LayoutParams.WRAP_CONTENT;
-		getLayout().addView(mShareButton);
+		getLayout().addView(shareButton);
 		getLayout().addView(divider);
 		
 		return v;
