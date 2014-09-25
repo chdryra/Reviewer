@@ -15,11 +15,11 @@ import android.webkit.URLUtil;
 import android.widget.Toast;
 
 import com.chdryra.android.myandroidwidgets.ClearableEditText;
-import com.chdryra.android.mygenerallibrary.DialogDeleteCancelDoneFragment;
+import com.chdryra.android.mygenerallibrary.DialogCancelDeleteDoneFragment;
 import com.chdryra.android.reviewer.GVReviewDataList.GVType;
 import com.chdryra.android.reviewer.GVUrlList.GVUrl;
 
-public class DialogURLFragment extends DialogDeleteCancelDoneFragment {
+public class DialogURLFragment extends DialogCancelDeleteDoneFragment {
 	public static final ActionType RESULT_BROWSE = ActionType.OTHER;
 	public static final String URL = FragmentReviewURLBrowser.URL;
 	public static final String URL_OLD = FragmentReviewURLBrowser.URL_OLD;

@@ -11,11 +11,11 @@ package com.chdryra.android.reviewer;
 import android.os.Bundle;
 import android.view.View;
 
-import com.chdryra.android.mygenerallibrary.DialogAddCancelDoneFragment;
+import com.chdryra.android.mygenerallibrary.DialogCancelAddDoneFragment;
 import com.chdryra.android.mygenerallibrary.GVData;
 import com.chdryra.android.reviewer.GVReviewDataList.GVType;
 
-public abstract class DialogAddReviewDataFragment extends DialogAddCancelDoneFragment {
+public abstract class DialogAddReviewDataFragment extends DialogCancelAddDoneFragment {
 	public static final String QUICK_SET = "com.chdryra.android.reviewer.dialog_quick_mode";
 	
 	private ControllerReviewNode mController;
@@ -28,10 +28,6 @@ public abstract class DialogAddReviewDataFragment extends DialogAddCancelDoneFra
 		mQuickSet = getArguments().getBoolean(QUICK_SET);
 		mController = Administrator.get(getActivity()).unpack(getArguments());
 		setAddOnDone(true);
-	}
-	
-	protected void setQuickSet(boolean quickSet) {
-		mQuickSet = quickSet;
 	}
 	
 	protected boolean isQuickSet() {

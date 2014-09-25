@@ -14,9 +14,9 @@ import android.view.View;
 import android.widget.RatingBar;
 
 import com.chdryra.android.myandroidwidgets.ClearableEditText;
-import com.chdryra.android.mygenerallibrary.DialogDeleteCancelDoneFragment;
+import com.chdryra.android.mygenerallibrary.DialogCancelDeleteDoneFragment;
 
-public class DialogChildEditFragment extends DialogDeleteCancelDoneFragment{
+public class DialogChildEditFragment extends DialogCancelDeleteDoneFragment {
 	public static final String SUBJECT = "com.chdryra.android.reviewer.subject_edit";
 	public static final String SUBJECT_OLD = "com.chdryra.android.reviewer.subject_edit_old";
 	public static final String RATING = "com.chdryra.android.reviewer.rating_edit";

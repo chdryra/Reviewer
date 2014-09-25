@@ -43,18 +43,6 @@ public class FragmentReviewTags  extends FragmentReviewGridAddEditDone<GVString>
 	}
 
 	@Override
-	protected void onDoneSelected() {
-		if(mTags.size() == 0) {
-			Toast.makeText(getActivity(), R.string.toast_enter_tag, Toast.LENGTH_SHORT).show();
-			setDismissOnDone(false);
-			return;
-		} else
-			setDismissOnDone(true);
-
-		super.onDoneSelected();
-	}
-	
-	@Override
 	protected void addData(int resultCode, Intent data) {
 		switch(ActivityResultCode.get(resultCode)) {
 		case ADD:

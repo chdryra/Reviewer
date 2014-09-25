@@ -17,7 +17,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.chdryra.android.myandroidwidgets.ClearableEditText;
-import com.chdryra.android.mygenerallibrary.DialogActionCancelDoneFragment;
+import com.chdryra.android.mygenerallibrary.DialogCancelActionDoneFragment;
 import com.chdryra.android.mygenerallibrary.LocationClientConnector;
 import com.chdryra.android.mygenerallibrary.LocationClientConnector.Locatable;
 import com.chdryra.android.mygenerallibrary.LocationNameAdapter;
@@ -26,7 +26,7 @@ import com.chdryra.android.reviewer.GVLocationList.GVLocation;
 import com.chdryra.android.reviewer.GVReviewDataList.GVType;
 import com.google.android.gms.maps.model.LatLng;
 
-public class DialogLocationFragment extends DialogActionCancelDoneFragment implements Locatable{
+public class DialogLocationFragment extends DialogCancelActionDoneFragment implements Locatable{
 	public static final ActionType RESULT_MAP = ActionType.OTHER;
 	public final static String LATLNG = FragmentReviewLocationMap.LATLNG;
 	public final static String NAME = FragmentReviewLocationMap.NAME;
@@ -41,12 +41,14 @@ public class DialogLocationFragment extends DialogActionCancelDoneFragment imple
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		mController = Administrator.get(getActivity()).unpack(getArguments());
+
+        mController = Administrator.get(getActivity()).unpack(getArguments());
 		mLocationClient = new LocationClientConnector(getActivity(), this);
 		mLocationClient.connect();
-		setLeftButtonAction(RESULT_MAP);
-		setLeftButtonText(getResources().getString(R.string.button_map_text));
-		setDismissDialogOnLeftClick(true);
+
+        setActionButtonAction(RESULT_MAP);
+		setActionButtonText(getResources().getString(R.string.button_map_text));
+		setDismissDialogOnActionClick(true);
 		//setDialogTitle(getResources().getString(R.string.dialog_name_location_title));
 	}
 	

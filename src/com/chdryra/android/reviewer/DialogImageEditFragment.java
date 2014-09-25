@@ -14,10 +14,10 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.chdryra.android.myandroidwidgets.ClearableEditText;
-import com.chdryra.android.mygenerallibrary.DialogDeleteCancelDoneFragment;
+import com.chdryra.android.mygenerallibrary.DialogCancelDeleteDoneFragment;
 import com.google.android.gms.maps.model.LatLng;
 
-public class DialogImageEditFragment extends DialogDeleteCancelDoneFragment {
+public class DialogImageEditFragment extends DialogCancelDeleteDoneFragment {
 	public static final String OLD_CAPTION = "com.chdryra.android.reviewer.old_caption";
 	
 	private Bitmap mBitmap;

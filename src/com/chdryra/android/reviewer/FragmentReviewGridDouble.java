@@ -65,8 +65,8 @@ public enum CellDimension{FULL, HALF, QUARTER};
 		
 		mController = Administrator.get(getActivity()).unpack(getActivity().getIntent().getExtras());
 		setGridCellDimension(CellDimension.FULL, CellDimension.HALF);
-		setBannerButtonTextLeft(getResources().getString(R.string.button_add_text));
-		setBannerButtonTextRight(getResources().getString(R.string.button_add_text));
+		setBannerButtonTextLeft(getResources().getString(R.string.gl_button_add_text));
+		setBannerButtonTextRight(getResources().getString(R.string.gl_button_add_text));
 	}
 
 	@Override

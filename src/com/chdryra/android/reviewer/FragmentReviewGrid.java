@@ -75,7 +75,7 @@ public abstract class FragmentReviewGrid<T extends GVData> extends FragmentDelet
 		}
 		
 		setGridCellDimension(CellDimension.HALF, CellDimension.QUARTER);
-		setBannerButtonText(getResources().getString(R.string.button_add_text));
+		setBannerButtonText(getResources().getString(R.string.gl_button_add_text));
 	}
 
 	@Override

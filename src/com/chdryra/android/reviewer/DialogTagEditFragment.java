@@ -13,9 +13,9 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.chdryra.android.myandroidwidgets.ClearableAutoCompleteTextView;
-import com.chdryra.android.mygenerallibrary.DialogDeleteCancelDoneFragment;
+import com.chdryra.android.mygenerallibrary.DialogCancelDeleteDoneFragment;
 
-public class DialogTagEditFragment extends DialogDeleteCancelDoneFragment{
+public class DialogTagEditFragment extends DialogCancelDeleteDoneFragment {
 	public static final String TAG_NEW = "com.chdryra.android.reviewer.tag_new";
 	public static final String TAG_OLD = "com.chdryra.android.reviewer.tag_old";
 	

@@ -9,13 +9,13 @@
 package com.chdryra.android.reviewer;
 
 import com.chdryra.android.myandroidwidgets.ClearableEditText;
-import com.chdryra.android.mygenerallibrary.DialogDeleteCancelDoneFragment;
+import com.chdryra.android.mygenerallibrary.DialogCancelDeleteDoneFragment;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
-public class DialogFactEditFragment extends DialogDeleteCancelDoneFragment {
+public class DialogFactEditFragment extends DialogCancelDeleteDoneFragment {
 	public static final String FACT_OLD_LABEL = "com.chdryra.android.reviewer.datum_old_label";
 	public static final String FACT_OLD_VALUE = "com.chdryra.android.reviewer.datum_old_value";
 	

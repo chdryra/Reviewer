@@ -110,7 +110,7 @@
     <string name="button_yes_text">yes</string>
     <string name="button_tags_text">tags</string>
     <string name="button_browse_text">WWW</string>
-    <string name="button_map_text">map</string>
+    <string name="button_map_text">Map</string>
     <string name="button_add_tag">add tag</string>
     <string name="button_add_criteria">add criteria</string>
     <string name="button_add_facts">add facts</string>

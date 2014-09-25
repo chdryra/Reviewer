@@ -13,9 +13,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 
-import com.chdryra.android.mygenerallibrary.DialogDeleteCancelDoneFragment;
+import com.chdryra.android.mygenerallibrary.DialogCancelDeleteDoneFragment;
 
-public class DialogCommentEditFragment extends DialogDeleteCancelDoneFragment{
+public class DialogCommentEditFragment extends DialogCancelDeleteDoneFragment {
 	public static final String COMMENT_NEW = "com.chdryra.android.reviewer.comment_new";
 	public static final String COMMENT_OLD = "com.chdryra.android.reviewer.comment_old";
 	
