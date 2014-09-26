@@ -22,19 +22,15 @@ public class GVImageList extends GVReviewDataList<GVImageList.GVImage> {
 		super(GVType.IMAGES);
 	}
 
-	public void add(Bitmap bitmap, LatLng latLng, String caption) {
-		add(new GVImage(bitmap, latLng, caption));
+	public void add(Bitmap bitmap, LatLng latLng) {
+		add(new GVImage(bitmap, latLng, null));
 	}
 
 	public void add(Bitmap bitmap, LatLng latLng, String caption, boolean isCover) {
 		add(new GVImage(bitmap, latLng, caption, isCover));
 	}
 
-	public void remove(Bitmap bitmap, LatLng latLng, String caption) {
-		remove(new GVImage(bitmap, latLng, caption));
-	}
-
-	public void updateCaption(Bitmap bitmap, LatLng latLng, String oldCaption, String newCaption) {
+    public void updateCaption(Bitmap bitmap, LatLng latLng, String oldCaption, String newCaption) {
 		GVImage image = getItem(indexOf(new GVImage(bitmap, latLng, oldCaption)));
 		image.setCaption(newCaption);
 	}
@@ -59,9 +55,9 @@ public class GVImageList extends GVReviewDataList<GVImageList.GVImage> {
 	}
 	
 	class GVImage implements GVData{
-		private Bitmap mBitmap;
+		private final Bitmap mBitmap;
 		private String mCaption;
-		private LatLng mLatLng;
+		private final LatLng mLatLng;
 		private boolean mIsCover = false;
 		
 		public GVImage(Bitmap bitmap, LatLng latLng, String caption, boolean isCover) {

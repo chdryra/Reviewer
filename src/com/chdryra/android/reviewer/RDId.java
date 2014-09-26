@@ -11,7 +11,7 @@ package com.chdryra.android.reviewer;
 import java.util.UUID;
 
 public class RDId implements RData{
-	private UUID mID;
+	private final UUID mID;
 	
 	private RDId() {
 		mID = UUID.randomUUID();
@@ -58,10 +58,7 @@ public class RDId implements RData{
 			return false;
 		
 		RDId objId = (RDId)obj;
-		if(this.mID.equals(objId.mID))
-			return true;
-		
-		return false;
+		return this.mID.equals(objId.mID);
 	}
 	
 	@Override

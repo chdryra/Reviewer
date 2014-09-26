@@ -10,6 +10,7 @@ package com.chdryra.android.reviewer;
 
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.chdryra.android.myandroidwidgets.ClearableAutoCompleteTextView;
@@ -29,7 +30,7 @@ public class DialogTagAddFragment extends DialogAddReviewDataFragment{
 	}
 	
 	@Override
-	protected View createDialogUI() {
+	protected View createDialogUI(ViewGroup parent) {
 		View v = getActivity().getLayoutInflater().inflate(R.layout.dialog_tag, null);
 		mTagEditText = (ClearableAutoCompleteTextView)v.findViewById(R.id.tag_edit_text);
 		setKeyboardIMEDoAction(mTagEditText);

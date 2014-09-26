@@ -10,7 +10,7 @@ package com.chdryra.android.reviewer;
 
 public class RDComment implements RData{
 	private Review mHoldingReview;
-	private String mComment;
+	private final String mComment;
 
 	public RDComment(String comment, Review holdingReview) {
 		mComment = comment;

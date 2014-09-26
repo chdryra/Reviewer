@@ -12,7 +12,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Toast;
 
 import com.chdryra.android.mygenerallibrary.ActivityResultCode;
 import com.chdryra.android.mygenerallibrary.GVString;
@@ -51,7 +50,6 @@ public class FragmentReviewTags  extends FragmentReviewGridAddEditDone<GVString>
 				mTags.add(tag);
 			break;
 		default:
-			return;
 		}
 	}
 	
@@ -69,7 +67,6 @@ public class FragmentReviewTags  extends FragmentReviewGridAddEditDone<GVString>
 			mTags.remove(toDelete);
 			break;
 		default:
-			return;
 		}
 	}
 }

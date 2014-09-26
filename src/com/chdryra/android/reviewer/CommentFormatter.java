@@ -11,7 +11,7 @@ package com.chdryra.android.reviewer;
 import java.util.LinkedList;
 import java.util.StringTokenizer;
 
-public class CommentFormatter {
+class CommentFormatter {
 	private static final String COMMENT_HEADLINE_DELIMITER = ".!?";
 
 	public static String getHeadline(String comment) {

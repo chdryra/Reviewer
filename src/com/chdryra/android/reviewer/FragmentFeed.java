@@ -26,9 +26,9 @@ public class FragmentFeed extends FragmentReviewGrid<GVReviewOverview> {
 		super.onCreate(savedInstanceState);
 		setGridViewData(Administrator.get(getActivity()).getFeed());
 		setGridCellDimension(CellDimension.FULL, CellDimension.FULL);
-		setBackgroundImageAlpha(0);
 		setController(null);
 		setDisplayHomeAsUp(false);
+        setBackgroundImageAlpha(0);
 	}
 
 	
@@ -60,11 +60,6 @@ public class FragmentFeed extends FragmentReviewGrid<GVReviewOverview> {
 		((GridViewCellAdapter)getGridView().getAdapter()).setData(getGridData());
 	}
 
-	@Override
-	protected void onGridItemClick(AdapterView<?> parent, View v, int position, long id) {
-	
-	}
-	
 	@Override
 	protected void onGridItemLongClick(AdapterView<?> parent, View v, int position, long id) {
 	

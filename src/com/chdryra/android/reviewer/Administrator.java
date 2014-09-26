@@ -15,20 +15,21 @@ import android.os.Bundle;
 public class Administrator {
 
 	private static Administrator sAdministrator;
-	private static Author sAnonymousAuthor = new Author("Anon");
 
-	private ReviewNode mRoot;
+	private final ReviewNode mRoot;
 	private Controller mController;
-	private Author mCurrentAuthor;
+	private Author mCurrentAuthor = new Author("Rizwan Choudrey");
+    private final Context mContext;
 
-	private Administrator() {
-		setCurrentAuthor(sAnonymousAuthor);
+	private Administrator(Context context) {
+		setCurrentAuthor(mCurrentAuthor);
 		mRoot = FactoryReview.createReviewNode(FactoryReview.createReviewTreeEditable("ROOT"));
+        mContext = context;
 	}
 	
 	public static Administrator get(Context c) {
 		if(sAdministrator == null)
-			sAdministrator = new Administrator();
+			sAdministrator = new Administrator(c.getApplicationContext());
 		
 		return sAdministrator;
 	}
@@ -61,21 +62,18 @@ public class Administrator {
 			return null;
 	}
 	
-	public void setCurrentAuthor(Author author) {
+	void setCurrentAuthor(Author author) {
 		mCurrentAuthor = author;
 		
 	}
 
 	public void publishReviewInProgress() {
 		ReviewTreePublisher publisher = new ReviewTreePublisher(mCurrentAuthor);
-		ReviewNode published = mController.getReviewInProgress().publish(publisher);
+		ReviewNode published = mController.getReviewInProgress().publishAndTag(publisher);
 		mRoot.addChild(published);
 	}
 	
-	public GVSocialPlatformList getSocialPlatformList(boolean latest) {
-		if(latest)
-			return GVSocialPlatformList.getLatest();
-		else
-			return GVSocialPlatformList.getCurrent();
+	public GVSocialPlatformList getSocialPlatformList() {
+		return GVSocialPlatformList.getLatest(mContext);
 	}
 }

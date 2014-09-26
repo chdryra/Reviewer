@@ -11,10 +11,12 @@ package com.chdryra.android.reviewer;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 
 import com.chdryra.android.myandroidwidgets.ClearableAutoCompleteTextView;
 import com.chdryra.android.mygenerallibrary.DialogCancelDeleteDoneFragment;
 
+@SuppressWarnings("WeakerAccess")
 public class DialogTagEditFragment extends DialogCancelDeleteDoneFragment {
 	public static final String TAG_NEW = "com.chdryra.android.reviewer.tag_new";
 	public static final String TAG_OLD = "com.chdryra.android.reviewer.tag_old";
@@ -26,12 +28,11 @@ public class DialogTagEditFragment extends DialogCancelDeleteDoneFragment {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);		
 		mOldTag = getArguments().getString(FragmentReviewTags.TAG_STRING);
-		setDeleteConfirmation(false);
 		setDialogTitle(getResources().getString(R.string.dialog_edit_tag_title));
 	}
 	
 	@Override
-	protected View createDialogUI() {
+	protected View createDialogUI(ViewGroup parent) {
 		View v = getActivity().getLayoutInflater().inflate(R.layout.dialog_tag, null);
 		mTagEditText = (ClearableAutoCompleteTextView)v.findViewById(R.id.tag_edit_text);
 		mTagEditText.setText(mOldTag);		

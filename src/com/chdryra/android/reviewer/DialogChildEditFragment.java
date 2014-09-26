@@ -11,11 +11,13 @@ package com.chdryra.android.reviewer;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.RatingBar;
 
 import com.chdryra.android.myandroidwidgets.ClearableEditText;
 import com.chdryra.android.mygenerallibrary.DialogCancelDeleteDoneFragment;
 
+@SuppressWarnings("WeakerAccess")
 public class DialogChildEditFragment extends DialogCancelDeleteDoneFragment {
 	public static final String SUBJECT = "com.chdryra.android.reviewer.subject_edit";
 	public static final String SUBJECT_OLD = "com.chdryra.android.reviewer.subject_edit_old";
@@ -31,12 +33,12 @@ public class DialogChildEditFragment extends DialogCancelDeleteDoneFragment {
 		super.onCreate(savedInstanceState);
 		mSubject = getArguments().getString(FragmentReviewChildren.CHILD_SUBJECT);
 		mRating = getArguments().getFloat(FragmentReviewChildren.CHILD_RATING);
-		setDialogTitle(getResources().getString(R.string.dialog_edit_criteria_title));
+		setDialogTitle(getResources().getString(R.string.dialog_edit_criterion_title));
 		setDeleteWhatTitle(getResources().getString(R.string.dialog_delete_criterion_title));
 	}
 
 	@Override
-	protected View createDialogUI() {
+	protected View createDialogUI(ViewGroup parent) {
 		View v = getActivity().getLayoutInflater().inflate(R.layout.dialog_criterion, null);
 		mChildNameEditText = (ClearableEditText)v.findViewById(R.id.child_name_edit_text);
 		mChildRatingBar = (RatingBar)v.findViewById(R.id.child_rating_bar);

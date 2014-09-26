@@ -11,10 +11,9 @@ package com.chdryra.android.reviewer;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.NoSuchElementException;
-import java.util.Set;
 
 public class RCollection<T> implements Iterable<T> {
-	protected LinkedHashMap<RDId, T> mData = new LinkedHashMap<RDId, T>();
+	private final LinkedHashMap<RDId, T> mData = new LinkedHashMap<RDId, T>();
 
 	public RCollection() {
 	}
@@ -37,12 +36,8 @@ public class RCollection<T> implements Iterable<T> {
 	public T get(RDId id) {
 		return mData.get(id);
 	}
-	
-	public Set<RDId> getIDs() {
-		return mData.keySet();
-	}
-	
-	public boolean containsID(RDId id) {
+
+    public boolean containsID(RDId id) {
 		return mData.containsKey(id);
 	}
 
@@ -50,11 +45,11 @@ public class RCollection<T> implements Iterable<T> {
 		return mData.size();
 	}
 
-	public T getItem(int position) {
+	T getItem(int position) {
 		return get(getID(position));
 	}
 
-	public RDId getID(int position) {
+	RDId getID(int position) {
 		RDId[] keys = mData.keySet().toArray(new RDId[mData.size()]);
 		return keys[position];
 	}

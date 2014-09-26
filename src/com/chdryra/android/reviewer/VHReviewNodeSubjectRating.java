@@ -16,7 +16,7 @@ import com.chdryra.android.mygenerallibrary.GVData;
 import com.chdryra.android.mygenerallibrary.ViewHolderBasic;
 import com.chdryra.android.reviewer.GVReviewSubjectRatingList.GVReviewSubjectRating;
 
-public class VHReviewNodeSubjectRating extends ViewHolderBasic {
+class VHReviewNodeSubjectRating extends ViewHolderBasic {
 	private static final int LAYOUT = R.layout.grid_cell_review_subject_rating;
 	private static final int SUBJECT = R.id.review_subject;
 	private static final int RATING = R.id.review_rating_bar;

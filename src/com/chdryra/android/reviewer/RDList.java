@@ -11,7 +11,7 @@ package com.chdryra.android.reviewer;
 import com.chdryra.android.mygenerallibrary.SortableList;
 
 public class RDList<T extends RData> extends SortableList<T> implements RData {
-	protected Review mHoldingReview;
+	private Review mHoldingReview;
 	
 	public RDList() {
 	}

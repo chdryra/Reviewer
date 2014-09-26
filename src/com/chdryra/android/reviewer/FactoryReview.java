@@ -8,14 +8,14 @@
 
 package com.chdryra.android.reviewer;
 
-public class FactoryReview {
+class FactoryReview {
 
 	private static FactoryReview sFactory = null;
 	
 	private FactoryReview() {
 	}
 	
-	public static FactoryReview getInstance() {
+	private static FactoryReview getInstance() {
 		if(sFactory == null)
 			sFactory = new FactoryReview();
 		

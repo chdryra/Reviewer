@@ -14,7 +14,7 @@ import com.chdryra.android.mygenerallibrary.GVData;
 import com.chdryra.android.mygenerallibrary.VHDualStringView;
 import com.chdryra.android.reviewer.GVFactList.GVFact;
 
-public class VHFactView extends VHDualStringView {
+class VHFactView extends VHDualStringView {
 	private static final int LAYOUT = R.layout.grid_cell_text_dual;
 	private static final int UPPER = R.id.upper_text;
 	private static final int LOWER = R.id.lower_text;

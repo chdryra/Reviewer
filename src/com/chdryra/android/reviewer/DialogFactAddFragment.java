@@ -11,6 +11,7 @@ package com.chdryra.android.reviewer;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.chdryra.android.myandroidwidgets.ClearableEditText;
@@ -32,7 +33,7 @@ public class DialogFactAddFragment extends DialogAddReviewDataFragment{
 	}
 
 	@Override
-	protected View createDialogUI() {
+	protected View createDialogUI(ViewGroup parent) {
 		View v = getActivity().getLayoutInflater().inflate(R.layout.dialog_fact, null);
 		mFactLabelEditText = (ClearableEditText)v.findViewById(R.id.fact_label_edit_text);
 		mFactValueEditText = (ClearableEditText)v.findViewById(R.id.fact_value_edit_text);

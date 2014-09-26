@@ -10,12 +10,13 @@ package com.chdryra.android.reviewer;
 
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 
 import com.chdryra.android.mygenerallibrary.DialogCancelAddDoneFragment;
 import com.chdryra.android.mygenerallibrary.GVData;
 import com.chdryra.android.reviewer.GVReviewDataList.GVType;
 
-public abstract class DialogAddReviewDataFragment extends DialogCancelAddDoneFragment {
+abstract class DialogAddReviewDataFragment extends DialogCancelAddDoneFragment {
 	public static final String QUICK_SET = "com.chdryra.android.reviewer.dialog_quick_mode";
 	
 	private ControllerReviewNode mController;
@@ -30,15 +31,11 @@ public abstract class DialogAddReviewDataFragment extends DialogCancelAddDoneFra
 		setAddOnDone(true);
 	}
 	
-	protected boolean isQuickSet() {
+	boolean isQuickSet() {
 		return mQuickSet;
 	}
-	
-	protected ControllerReviewNode getController() {
-		return mController;
-	}
-	
-	protected GVReviewDataList<? extends GVData> setAndInitData(GVType dataType) {
+
+    GVReviewDataList<? extends GVData> setAndInitData(GVType dataType) {
 		mData = mController.getData(dataType);
 		return mData;
 	}
@@ -50,5 +47,5 @@ public abstract class DialogAddReviewDataFragment extends DialogCancelAddDoneFra
 	}
 	
 	@Override
-	protected abstract View createDialogUI();
+	protected abstract View createDialogUI(ViewGroup parent);
 }

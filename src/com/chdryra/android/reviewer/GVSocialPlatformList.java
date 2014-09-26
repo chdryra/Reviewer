@@ -8,6 +8,8 @@
 
 package com.chdryra.android.reviewer;
 
+import android.content.Context;
+
 import java.util.Comparator;
 
 import com.chdryra.android.mygenerallibrary.GVDualString;
@@ -15,24 +17,19 @@ import com.chdryra.android.mygenerallibrary.ViewHolder;
 import com.chdryra.android.reviewer.SocialPlatformList.SocialPlatform;
 
 public class GVSocialPlatformList extends GVReviewDataList<GVSocialPlatformList.GVSocialPlatform> {
-	private static GVSocialPlatformList sGVList;
-	
-	private GVSocialPlatformList(boolean latest) {
+
+	private GVSocialPlatformList(Context context, boolean latest) {
 		super(GVType.SOCIAL);
-		for(SocialPlatform platform : SocialPlatformList.get(latest))
+		for(SocialPlatform platform : SocialPlatformList.get(context, latest))
 			add(new GVSocialPlatform(platform.getName(), platform.getFollowers()));
 	}
 
-	public static GVSocialPlatformList getCurrent() {
-		if(sGVList == null)
-			sGVList = new GVSocialPlatformList(false);
-		
-		return sGVList;
-	}
-	
-	public static GVSocialPlatformList getLatest() {
-		sGVList = new GVSocialPlatformList(true);
-		return sGVList;
+    public static GVSocialPlatformList getCurrent(Context context) {
+        return new GVSocialPlatformList(context, false);
+    }
+
+	public static GVSocialPlatformList getLatest(Context context) {
+		return new GVSocialPlatformList(context, true);
 	}
 	
 	@Override

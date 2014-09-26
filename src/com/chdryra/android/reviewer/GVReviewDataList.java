@@ -19,17 +19,14 @@ public abstract class GVReviewDataList<T extends GVData> extends GVList<T>{
 		CRITERIA("criterion", "criteria"),
 		IMAGES("image"),	
 		FACTS("fact"),
-		PROS("pro"),
-		CONS("con"),
-		PROCONS("+pro -con"),
 		REVIEW("review"),
 		URLS("link"),
 		LOCATIONS("location"),
 		TAGS("tag"),
 		SOCIAL("social");
 		
-		private String mDatumString;
-		private String mDataString;
+		private final String mDatumString;
+		private final String mDataString;
 		
 		GVType(String datum) {
 			mDatumString = datum;
@@ -50,9 +47,9 @@ public abstract class GVReviewDataList<T extends GVData> extends GVList<T>{
 		}
 	}
 	
-	private GVType mDataType;
+	private final GVType mDataType;
 	
-	protected GVReviewDataList(GVType dataType) {
+	GVReviewDataList(GVType dataType) {
 		mDataType = dataType;
 	}
 	

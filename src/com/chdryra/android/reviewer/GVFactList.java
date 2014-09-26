@@ -13,7 +13,7 @@ import java.util.Comparator;
 import com.chdryra.android.mygenerallibrary.GVDualString;
 import com.chdryra.android.mygenerallibrary.ViewHolder;
 
-public class GVFactList extends GVReviewDataList<GVFactList.GVFact> {
+class GVFactList extends GVReviewDataList<GVFactList.GVFact> {
 	
 	public GVFactList() {
 		super(GVType.FACTS);

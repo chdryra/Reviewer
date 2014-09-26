@@ -45,6 +45,9 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import org.jetbrains.annotations.NotNull;
+
+@SuppressWarnings("WeakerAccess")
 public class FragmentReviewLocationMap extends FragmentDeleteDone implements LocationClientConnector.Locatable {
 	private final static String TAG = "FragmentReviewLocationMap";
 	
@@ -187,7 +190,7 @@ public class FragmentReviewLocationMap extends FragmentDeleteDone implements Loc
 	
 	public void handleSearch() {
 	    Intent intent = getActivity().getIntent(); 
-		String query = null;
+		String query;
 	    if (Intent.ACTION_SEARCH.equals(intent.getAction()))
 	    	query = intent.getStringExtra(SearchManager.QUERY);
 	    else if(Intent.ACTION_PICK.equals(intent.getAction()))
@@ -314,26 +317,20 @@ public class FragmentReviewLocationMap extends FragmentDeleteDone implements Loc
 	}
 	 
 	 private void zoomToLatLng() {
-		 zoomToLatLng(DEFAULT_ZOOM);
-	 }
-
-	 private void zoomToLatLng(float zoomLevel) {
 		 if(mLatLng == null)
 			 return;
 	 
-		 mGoogleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(mLatLng, zoomLevel));
+		 mGoogleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(mLatLng, (float) FragmentReviewLocationMap.DEFAULT_ZOOM));
 		 updateMapMarker();
 	 }
 	 
-	 private Marker updateMapMarker() {
+	 private void updateMapMarker() {
 		 MarkerOptions markerOptions = new MarkerOptions().position(mLatLng);
 		 markerOptions.title(mLocationName.getText().toString());
 		 markerOptions.draggable(true);
 		 mGoogleMap.clear();
 		 Marker marker = mGoogleMap.addMarker(markerOptions);
 		 marker.showInfoWindow();
-		 
-		 return marker;
 	 }
 
 	 private class MapSearchTask extends AsyncTask<String, Void, LatLng> {		
@@ -408,7 +405,7 @@ public class FragmentReviewLocationMap extends FragmentDeleteDone implements Loc
 	}
 	
 	@Override 
-	public void onSaveInstanceState(Bundle outState) { 
+	public void onSaveInstanceState(@NotNull Bundle outState) {
 		if(mMapView != null) 
 			mMapView.onSaveInstanceState(outState); 
 		super.onSaveInstanceState(outState); 

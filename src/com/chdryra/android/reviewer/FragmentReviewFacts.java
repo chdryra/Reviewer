@@ -55,7 +55,6 @@ public class FragmentReviewFacts extends FragmentReviewGridAddEditDone<GVFact> {
 				mFacts.add(label, value);
 			break;
 		default:
-			return;
 		}
 	}
 	
@@ -76,7 +75,6 @@ public class FragmentReviewFacts extends FragmentReviewGridAddEditDone<GVFact> {
 			mFacts.remove(deleteLabel, deleteValue);
 			break;
 		default:
-			return;
 		}
 	}
 }

@@ -39,7 +39,7 @@ public class GVCommentList extends GVReviewDataList<GVCommentList.GVComment> {
 	
 	public class GVComment implements GVData {
 		private GVComment mUnsplitParent;
-		private String mComment;
+		private final String mComment;
 		
 		private GVComment(String comment, GVComment unsplitParent) {
 			mComment = comment;

@@ -20,7 +20,6 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -38,8 +37,9 @@ import com.chdryra.android.mygenerallibrary.GridViewCellAdapter;
 import com.chdryra.android.reviewer.GVImageList.GVImage;
 import com.chdryra.android.reviewer.GVReviewDataList.GVType;
 
+@SuppressWarnings("EmptyMethod")
 public abstract class FragmentReviewGrid<T extends GVData> extends FragmentDeleteDone{
-	public enum CellDimension{FULL, HALF, QUARTER}; 
+	public enum CellDimension{FULL, HALF, QUARTER}
 
 	private ControllerReviewNode mController;
 	
@@ -49,11 +49,11 @@ public abstract class FragmentReviewGrid<T extends GVData> extends FragmentDelet
 	private Button mBannerButton;
 	private GridView mGridView;
 
-	int mMaxGridCellWidth;
-	int mMaxGridCellHeight;
+	private int mMaxGridCellWidth;
+	private int mMaxGridCellHeight;
 	
-	int mCellWidthDivider = 1;
-	int mCellHeightDivider = 1;
+	private int mCellWidthDivider = 1;
+	private int mCellHeightDivider = 1;
 
 	private boolean mIsEditable = false;
 	private String mBannerButtonText;
@@ -61,9 +61,10 @@ public abstract class FragmentReviewGrid<T extends GVData> extends FragmentDelet
 	private GVReviewDataList<T> mGridData;
 	private boolean mReviewInProgress = false;
 	private Class<? extends Activity> mOnDoneActivity;
-	int mImageAlpha = 200;
-	
-	@Override
+
+    int mImageAlpha = 200;
+
+    @Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
@@ -93,8 +94,9 @@ public abstract class FragmentReviewGrid<T extends GVData> extends FragmentDelet
 		
 		DisplayMetrics displaymetrics = new DisplayMetrics();
 		getActivity().getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);		
-		mMaxGridCellWidth = Math.min(displaymetrics.widthPixels, displaymetrics.heightPixels);				
-		mMaxGridCellHeight = mMaxGridCellWidth;
+		mMaxGridCellWidth = Math.min(displaymetrics.widthPixels, displaymetrics.heightPixels);
+        //noinspection SuspiciousNameCombination
+        mMaxGridCellHeight = mMaxGridCellWidth;
 		
 		initUI();
 		updateUI();
@@ -102,14 +104,14 @@ public abstract class FragmentReviewGrid<T extends GVData> extends FragmentDelet
 		return v;		
 	} 
 	
-	protected void initUI() {
+	void initUI() {
 		initSubjectUI();
 		initRatingBarUI();
 		initBannerButtonUI();
 		initDataGridUI();
 	}
 	
-	protected void initSubjectUI() {
+	void initSubjectUI() {
 		if(isEditable()) {
 			getSubjectView().setFocusable(true);
 			((ClearableEditText)getSubjectView()).makeClearable(true);
@@ -132,7 +134,7 @@ public abstract class FragmentReviewGrid<T extends GVData> extends FragmentDelet
 		}
 	}
 	
-	protected void initRatingBarUI() {
+	void initRatingBarUI() {
 		if(isEditable()) {
 			getTotalRatingBar().setIsIndicator(false);
 			getTotalRatingBar().setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
@@ -145,7 +147,7 @@ public abstract class FragmentReviewGrid<T extends GVData> extends FragmentDelet
 			getTotalRatingBar().setIsIndicator(true);
 	}
 
-	protected void initBannerButtonUI() {
+	void initBannerButtonUI() {
 		getBannerButton().setText(getBannerButtonText());
 		getBannerButton().setTextColor(getSubjectView().getTextColors().getDefaultColor());
 		getBannerButton().setOnClickListener(new View.OnClickListener() {
@@ -156,7 +158,7 @@ public abstract class FragmentReviewGrid<T extends GVData> extends FragmentDelet
 		});
 	}
 	
-	protected void initDataGridUI(){
+	void initDataGridUI(){
 		getGridView().setAdapter(getGridViewCellAdapter());
 		getGridView().setColumnWidth(getGridCellWidth());
 		getGridView().setNumColumns(getNumberColumns());
@@ -171,41 +173,42 @@ public abstract class FragmentReviewGrid<T extends GVData> extends FragmentDelet
 	            return true;
 	        }
 	    });
-	};
+	}
 
-	protected void onBannerButtonClick() {
+	void onBannerButtonClick() {
 		
 	}
 	
-	protected void setBannerButtonText(String buttonText) {
+	void setBannerButtonText(String buttonText) {
 		mBannerButtonText = buttonText;
 	}
 	
-	protected String getBannerButtonText() {
+	String getBannerButtonText() {
 		return mBannerButtonText;
 	}
 	
-	protected void setIsEditable(boolean isEditable) {
+	void setIsEditable(boolean isEditable) {
 		mIsEditable = isEditable;
 	}
 	
-	protected boolean isEditable() {
+	boolean isEditable() {
 		return mIsEditable;
 	}
 	
-	protected void setGridViewData(GVReviewDataList<T> gridData) {
+	void setGridViewData(GVReviewDataList<T> gridData) {
 		mGridData = gridData;
 	}
 	
-	protected void onGridItemClick(AdapterView<?> parent, View v, int position, long id) {
+	@SuppressWarnings("UnusedParameters")
+    void onGridItemClick(AdapterView<?> parent, View v, int position, long id) {
 		
 	}
 	
-	protected void onGridItemLongClick(AdapterView<?> parent, View v, int position, long id) {
+	void onGridItemLongClick(AdapterView<?> parent, View v, int position, long id) {
 		getGridView().performItemClick(v, position, id);
 	}
 	
-	protected void updateUI() {
+	void updateUI() {
 		updateSubjectTextUI();
 		updateRatingBarUI();
 		updateBannerButtonUI();
@@ -213,14 +216,14 @@ public abstract class FragmentReviewGrid<T extends GVData> extends FragmentDelet
 		updateCover();
 	}
 
-	protected void updateCover() {
+	void updateCover() {
 		if(getController() != null)
 			updateCover((GVImageList)getController().getData(GVType.IMAGES));
 	}
 	
 	@SuppressWarnings("deprecation")
 	@TargetApi(Build.VERSION_CODES.JELLY_BEAN)
-	protected void updateCover(GVImageList images) {
+    void updateCover(GVImageList images) {
 		if(images.getCovers().size() > 0) {
 			GVImage cover = images.getRandomCover();
 			BitmapDrawable bitmap = new BitmapDrawable(getResources(), cover.getBitmap());
@@ -228,42 +231,42 @@ public abstract class FragmentReviewGrid<T extends GVData> extends FragmentDelet
 				getLayout().setBackground(bitmap);
 			else
 				getLayout().setBackgroundDrawable(bitmap);
-			getGridView().getBackground().setAlpha(mImageAlpha);
+            getGridView().getBackground().setAlpha(mImageAlpha);
 			
 		} else {
 			getLayout().setBackgroundColor(Color.TRANSPARENT);
 			getGridView().getBackground().setAlpha(255);
 		}
 	}
-	
-	protected void setBackgroundImageAlpha(int alpha) {
-		if(alpha > 255)
-			alpha = 255;
-		else if(alpha < 0)
-			alpha = 0;
-		
-		mImageAlpha = alpha;
-	}
-	
-	protected void updateSubjectTextUI() {
+
+    protected void setBackgroundImageAlpha(int alpha) {
+        if(alpha > 255)
+            alpha = 255;
+        else if(alpha < 0)
+            alpha = 0;
+
+        mImageAlpha = alpha;
+    }
+
+	void updateSubjectTextUI() {
 		if(getController() != null)
 			getSubjectView().setText(getController().getSubject());
 	}
 	
-	protected void updateRatingBarUI() {
+	void updateRatingBarUI() {
 		if(getController() != null)
 			getTotalRatingBar().setRating(getController().getRating());
 	}
 
-	protected void updateBannerButtonUI() {
+	void updateBannerButtonUI() {
 		
 	}
 	
-	protected void updateGridDataUI() {
+	void updateGridDataUI() {
 		((GridViewCellAdapter)getGridView().getAdapter()).notifyDataSetChanged();
 	}
 
-	protected void setGridCellDimension(CellDimension width, CellDimension height) {
+	void setGridCellDimension(CellDimension width, CellDimension height) {
 		mCellWidthDivider = 1;
 		mCellHeightDivider = 1;
 		
@@ -278,27 +281,27 @@ public abstract class FragmentReviewGrid<T extends GVData> extends FragmentDelet
 			mCellHeightDivider = 4;
 	}
 	
-	protected int getGridCellWidth() {
+	int getGridCellWidth() {
 		return mMaxGridCellWidth / mCellWidthDivider;
 	}
 
-	protected int getGridCellHeight() {
+	int getGridCellHeight() {
 		return mMaxGridCellHeight / mCellHeightDivider;
 	}
 	
-	protected int getNumberColumns() {
+	int getNumberColumns() {
 		return mCellWidthDivider;
 	}
 	
-	protected LinearLayout getLayout() {
+	LinearLayout getLayout() {
 		return mLayout;
 	}
 	
-	protected TextView getSubjectView() {
+	TextView getSubjectView() {
 		return mSubjectView;
 	}
 	
-	protected String getSubjectText() {
+	String getSubjectText() {
 		return getSubjectView().getText().toString();
 	}
 	
@@ -306,39 +309,34 @@ public abstract class FragmentReviewGrid<T extends GVData> extends FragmentDelet
 		return getTotalRatingBar().getRating();
 	}
 	
-	protected RatingBar getTotalRatingBar() {
+	RatingBar getTotalRatingBar() {
 		return mTotalRatingBar;
 	}
 	
-	protected Button getBannerButton() {
+	Button getBannerButton() {
 		return mBannerButton;
 	}
 	
-	protected GridView getGridView() {
+	GridView getGridView() {
 		return mGridView;
 	}
 	
-	protected GVReviewDataList<T> getGridData() {
+	GVReviewDataList<T> getGridData() {
 		return mGridData;
 	}
 
-	protected GridViewCellAdapter getGridViewCellAdapter() {
+	GridViewCellAdapter getGridViewCellAdapter() {
 		return new GridViewCellAdapter(getActivity(), mGridData, getGridCellWidth(), getGridCellHeight());
 	}
 	
-	protected ControllerReviewNode getController() {
+	ControllerReviewNode getController() {
 		return mController;
 	}
 	
-	protected void setController(ControllerReviewNode controller) {
+	void setController(ControllerReviewNode controller) {
 		mController = controller;
 	}
-	
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		return super.onOptionsItemSelected(item);
-	}
-	
+
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
@@ -356,7 +354,7 @@ public abstract class FragmentReviewGrid<T extends GVData> extends FragmentDelet
 		}
 	}
 
-	protected void setOnDoneActivity(Class<? extends Activity> onDoneActivity) {
+	void setOnDoneActivity(Class<? extends Activity> onDoneActivity) {
 		mOnDoneActivity = onDoneActivity;
 	}
 	

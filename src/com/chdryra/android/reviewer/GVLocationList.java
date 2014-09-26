@@ -13,7 +13,7 @@ import com.chdryra.android.mygenerallibrary.RandomTextUtils;
 import com.chdryra.android.mygenerallibrary.ViewHolder;
 import com.google.android.gms.maps.model.LatLng;
 
-public class GVLocationList extends GVReviewDataList<GVLocationList.GVLocation> {
+class GVLocationList extends GVReviewDataList<GVLocationList.GVLocation> {
 	
 	public GVLocationList() {
 		super(GVType.LOCATIONS);
@@ -27,18 +27,13 @@ public class GVLocationList extends GVReviewDataList<GVLocationList.GVLocation> 
 		remove(new GVLocation(latLng, name));
 	}
 
-	public void updateName(LatLng latLng, String oldName, String newName) {
-		GVLocation location = getItem(indexOf(new GVLocation(latLng, oldName)));
-		location.setName(newName);
-	}
-	
-	public boolean contains(LatLng latLng, String name) {
+    public boolean contains(LatLng latLng, String name) {
 		return contains(new GVLocation(latLng, name));
 	}
 	
 	class GVLocation implements GVData {
-		private LatLng mLatLng;
-		private String mName;
+		private final LatLng mLatLng;
+		private final String mName;
 		
 		public GVLocation(LatLng latLng, String name) {
 			mLatLng = latLng;
@@ -57,11 +52,7 @@ public class GVLocationList extends GVReviewDataList<GVLocationList.GVLocation> 
 			return RandomTextUtils.shortened(mName, RDLocation.LOCATION_DELIMITER);
 		}
 
-		public void setName(String name) {
-			mName = name;
-		}
-	
-		@Override
+        @Override
 		public ViewHolder getViewHolder() {
 			return new VHLocationView(false);
 		}

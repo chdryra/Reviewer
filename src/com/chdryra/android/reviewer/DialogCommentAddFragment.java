@@ -12,6 +12,7 @@ import com.chdryra.android.reviewer.GVReviewDataList.GVType;
 
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -29,8 +30,8 @@ public class DialogCommentAddFragment extends DialogAddReviewDataFragment{
 	}
 	
 	@Override
-	protected View createDialogUI() {
-		View v = getActivity().getLayoutInflater().inflate(R.layout.dialog_comment, null);
+	protected View createDialogUI(ViewGroup parent) {
+		View v = getActivity().getLayoutInflater().inflate(R.layout.dialog_comment, parent, false);
 		mCommentEditText = (EditText)v.findViewById(R.id.comment_edit_text);
 		setKeyboardIMEDoAction(mCommentEditText);
 		

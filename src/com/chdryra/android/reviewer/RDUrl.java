@@ -14,7 +14,7 @@ import com.chdryra.android.mygenerallibrary.RandomTextUtils;
 
 public class RDUrl implements RData {
 	private Review mHoldingReview;
-	private URL mURL;
+	private final URL mURL;
 
 	public RDUrl(URL url, Review holdingReview) {
 		mURL = url;

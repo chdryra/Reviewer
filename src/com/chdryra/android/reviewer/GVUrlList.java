@@ -17,7 +17,7 @@ import com.chdryra.android.mygenerallibrary.GVData;
 import com.chdryra.android.mygenerallibrary.RandomTextUtils;
 import com.chdryra.android.mygenerallibrary.ViewHolder;
 
-public class GVUrlList extends GVReviewDataList<GVUrlList.GVUrl> {
+class GVUrlList extends GVReviewDataList<GVUrlList.GVUrl> {
 
 	public GVUrlList() {
 		super(GVType.URLS);
@@ -30,34 +30,12 @@ public class GVUrlList extends GVReviewDataList<GVUrlList.GVUrl> {
 	public void add(URL url) {
 		add(new GVUrl(url));
 	}
-	
-	public boolean contains(String urlString) {
-		try {
-			return contains(new GVUrl(urlString));
-		} catch (MalformedURLException e) {
-			e.printStackTrace();
-		} catch (URISyntaxException e) {
-			e.printStackTrace();
-		}
-		
-		return false;
-	}
-	
-	public boolean contains(URL url) {
+
+    public boolean contains(URL url) {
 		return contains(new GVUrl(url));
 	}
-	
-	public void remove(String urlString) {
-		try {
-			remove(new GVUrl(urlString));
-		} catch (MalformedURLException e) {
-			e.printStackTrace();
-		} catch (URISyntaxException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	public void remove(URL url) {
+
+    public void remove(URL url) {
 		remove(new GVUrl(url));
 	}
 	

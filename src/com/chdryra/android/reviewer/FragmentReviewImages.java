@@ -26,7 +26,7 @@ public class FragmentReviewImages extends FragmentReviewGridAddEditDone<GVImage>
 	public static final String BITMAP = "com.chdryra.android.reviewer.bitmap";
 	public static final String CAPTION = "com.chdryra.android.reviewer.caption";
 	public static final String LATLNG = "com.chdryra.android.reviewer.latlng";
-	public static final String POSITION = "com.chdryra.android.reviewer.image_position";
+	private static final String POSITION = "com.chdryra.android.reviewer.image_position";
 	
 	private static final String IMAGE_BACKGROUND_TAG = "DataEditTag";
 	private static final int IMAGE_AS_BACKGROUND = 20;
@@ -100,7 +100,6 @@ public class FragmentReviewImages extends FragmentReviewGridAddEditDone<GVImage>
 			});
 			break;
 		default:
-			return;
 		}
 	}
 	
@@ -121,7 +120,6 @@ public class FragmentReviewImages extends FragmentReviewGridAddEditDone<GVImage>
 				setCover(0);
 			break;
 		default:
-			return;
 		}
 	}
 	
@@ -136,7 +134,8 @@ public class FragmentReviewImages extends FragmentReviewGridAddEditDone<GVImage>
 		updateCover();
 	}
 	
-	@Override
+	@SuppressWarnings("WeakerAccess")
+    @Override
 	protected void updateCover() {
 		updateCover(mImages);
 	}

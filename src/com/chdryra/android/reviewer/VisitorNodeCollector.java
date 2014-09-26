@@ -10,7 +10,7 @@ package com.chdryra.android.reviewer;
 
 public class VisitorNodeCollector implements VisitorReviewNode {
 
-	private RCollectionReviewNode mNodes = new RCollectionReviewNode();
+	private final RCollectionReviewNode mNodes = new RCollectionReviewNode();
 	
 	@Override
 	public void visit(ReviewNode reviewNode) {

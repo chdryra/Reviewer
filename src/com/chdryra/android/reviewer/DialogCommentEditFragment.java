@@ -11,10 +11,12 @@ package com.chdryra.android.reviewer;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
 
 import com.chdryra.android.mygenerallibrary.DialogCancelDeleteDoneFragment;
 
+@SuppressWarnings("WeakerAccess")
 public class DialogCommentEditFragment extends DialogCancelDeleteDoneFragment {
 	public static final String COMMENT_NEW = "com.chdryra.android.reviewer.comment_new";
 	public static final String COMMENT_OLD = "com.chdryra.android.reviewer.comment_old";
@@ -31,8 +33,8 @@ public class DialogCommentEditFragment extends DialogCancelDeleteDoneFragment {
 	}
 	
 	@Override
-	protected View createDialogUI() {
-		View v = getActivity().getLayoutInflater().inflate(R.layout.dialog_comment, null);
+	protected View createDialogUI(ViewGroup parent) {
+		View v = getActivity().getLayoutInflater().inflate(R.layout.dialog_comment, parent, false);
 		mCommentEditText = (EditText)v.findViewById(R.id.comment_edit_text);
 		mCommentEditText.setText(mOldComment);		
 

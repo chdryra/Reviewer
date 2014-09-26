@@ -25,45 +25,46 @@ public class ReviewDataOptions {
 	private final static String DIALOG_CHILD_TAG = "ChildDialog";
 	private final static String DIALOG_FACTS_TAG = "FactsDialog";
 	
-	public final static int IMAGE_REQUEST = 10;
-	public final static int IMAGE_ADD = 11;
-	public final static int LOCATION_REQUEST = 20;
-	public final static int LOCATION_ADD = 21;
-	public final static int COMMENT_REQUEST = 30;
-	public final static int COMMENT_ADD = 31;
-	public final static int FACTS_REQUEST = 40;
-	public final static int FACTS_ADD = 41;
-	public final static int URL_REQUEST = 50;
-	public final static int URL_ADD = 51;
-	public final static int CHILDREN_REQUEST = 60;
-	public final static int CHILDREN_ADD = 61;
-	public final static int TAGS_REQUEST = 80;
-	public final static int TAGS_ADD = 81;
+	private final static int IMAGE_REQUEST = 10;
+	private final static int IMAGE_ADD = 11;
+	private final static int LOCATION_REQUEST = 20;
+	private final static int LOCATION_ADD = 21;
+	private final static int COMMENT_REQUEST = 30;
+	private final static int COMMENT_ADD = 31;
+	private final static int FACTS_REQUEST = 40;
+	private final static int FACTS_ADD = 41;
+	private final static int URL_REQUEST = 50;
+	private final static int URL_ADD = 51;
+	private final static int CHILDREN_REQUEST = 60;
+	private final static int CHILDREN_ADD = 61;
+	private final static int TAGS_REQUEST = 80;
+	private final static int TAGS_ADD = 81;
 
 	
-	private HashMap<GVType, ReviewDataOption> mReviewDataOptions;
+	private final HashMap<GVType, ReviewDataOption> mReviewDataOptions;
 	private static  ReviewDataOptions sReviewDataOptions;
 	
 	private ReviewDataOptions() {
 		mReviewDataOptions = new HashMap<GVReviewDataList.GVType, ReviewDataOptions.ReviewDataOption>();
-		mReviewDataOptions.put(GVType.TAGS, 
-				new ReviewDataOption(GVType.TAGS, DialogTagAddFragment.class, TAGS_ADD, DIALOG_TAG_TAG, ActivityReviewTags.class, TAGS_REQUEST, new VHTagView()));
+		mReviewDataOptions.put(GVType.TAGS,
+                new ReviewDataOption(DialogTagAddFragment.class, TAGS_ADD, DIALOG_TAG_TAG,
+                ActivityReviewTags.class, TAGS_REQUEST, new VHTagView()));
 		mReviewDataOptions.put(GVType.CRITERIA, 
-				new ReviewDataOption(GVType.CRITERIA, DialogChildAddFragment.class, CHILDREN_ADD, DIALOG_CHILD_TAG, ActivityReviewChildren.class, CHILDREN_REQUEST, new VHReviewNodeSubjectRating()));
+				new ReviewDataOption(DialogChildAddFragment.class, CHILDREN_ADD, DIALOG_CHILD_TAG, ActivityReviewChildren.class, CHILDREN_REQUEST, new VHReviewNodeSubjectRating()));
 		mReviewDataOptions.put(GVType.COMMENTS, 
-				new ReviewDataOption(GVType.COMMENTS, DialogCommentAddFragment.class, COMMENT_ADD, DIALOG_COMMENT_TAG, ActivityReviewComments.class, COMMENT_REQUEST, new VHCommentView()));
+				new ReviewDataOption(DialogCommentAddFragment.class, COMMENT_ADD, DIALOG_COMMENT_TAG, ActivityReviewComments.class, COMMENT_REQUEST, new VHCommentView()));
 		mReviewDataOptions.put(GVType.IMAGES, 
-				new ReviewDataOption(GVType.IMAGES, DialogImageEditFragment.class, IMAGE_ADD, DIALOG_IMAGE_TAG, ActivityReviewImages.class, IMAGE_REQUEST, new VHImageView()));
+				new ReviewDataOption(DialogImageEditFragment.class, IMAGE_ADD, DIALOG_IMAGE_TAG, ActivityReviewImages.class, IMAGE_REQUEST, new VHImageView()));
 		mReviewDataOptions.put(GVType.FACTS, 
-				new ReviewDataOption(GVType.FACTS, DialogFactAddFragment.class, FACTS_ADD, DIALOG_FACTS_TAG, ActivityReviewFacts.class, FACTS_REQUEST, new VHFactView()));
+				new ReviewDataOption(DialogFactAddFragment.class, FACTS_ADD, DIALOG_FACTS_TAG, ActivityReviewFacts.class, FACTS_REQUEST, new VHFactView()));
 		mReviewDataOptions.put(GVType.LOCATIONS, 
-				new ReviewDataOption(GVType.LOCATIONS, DialogLocationFragment.class, LOCATION_ADD, DIALOG_LOCATION_TAG, ActivityReviewLocations.class, LOCATION_REQUEST, new VHLocationView(true)));
+				new ReviewDataOption(DialogLocationFragment.class, LOCATION_ADD, DIALOG_LOCATION_TAG, ActivityReviewLocations.class, LOCATION_REQUEST, new VHLocationView(true)));
 		mReviewDataOptions.put(GVType.URLS, 
-				new ReviewDataOption(GVType.URLS, DialogURLFragment.class, URL_ADD, DIALOG_URL_TAG, ActivityReviewURLs.class, URL_REQUEST, new VHUrlView()));
+				new ReviewDataOption(DialogURLFragment.class, URL_ADD, DIALOG_URL_TAG, ActivityReviewURLs.class, URL_REQUEST, new VHUrlView()));
 	
 	}
 
-	public static ReviewDataOptions getOptions() {
+	private static ReviewDataOptions getOptions() {
 		if(sReviewDataOptions == null)
 			sReviewDataOptions = new ReviewDataOptions();
 		
@@ -75,31 +76,25 @@ public class ReviewDataOptions {
 	}
 	
 	class ReviewDataOption {
-		
-		private GVType mDataType;
-		private Class<? extends DialogFragment> mDialogClass;
-		private Class<? extends Activity> mActivityClass;
-		private int mActivityRequestCode;
-		private int mDialogRequestCode;
-		private String mDialogTag;
-		private ViewHolder mViewHolder;
 
-		private ReviewDataOption(GVType dataType, Class<? extends DialogFragment> dialogClass, int dialogRequestCode, String dialogTag, 
+        private final Class<? extends DialogFragment> mDialogClass;
+		private final Class<? extends Activity> mActivityClass;
+		private final int mActivityRequestCode;
+		private final int mDialogRequestCode;
+		private final String mDialogTag;
+		private final ViewHolder mViewHolder;
+
+		private ReviewDataOption(Class<? extends DialogFragment> dialogClass, int dialogRequestCode, String dialogTag,
 				Class<? extends Activity> activityClass, int activityRequestCode, ViewHolder viewHolder) {
-			mDataType = dataType;
-			mDialogClass = dialogClass;
+            mDialogClass = dialogClass;
 			mDialogRequestCode = dialogRequestCode;
 			mDialogTag = dialogTag;
 			mActivityClass = activityClass;
 			mActivityRequestCode = activityRequestCode;
 			mViewHolder = viewHolder;
 		}
-	
-		public GVType getDataType() {
-			return mDataType;
-		}
-		
-		public DialogFragment getDialogFragment() {
+
+        public DialogFragment getDialogFragment() {
 			try {
 				return mDialogClass.newInstance();
 			} catch (java.lang.InstantiationException e) {
@@ -126,16 +121,8 @@ public class ReviewDataOptions {
 		public String getDialogTag() {
 			return mDialogTag;
 		}
-		
-		public String getDatumString() {
-			return mDataType.getDatumString();
-		}
-		
-		public String getDataString() {
-			return mDataType.getDataString();
-		}
-		
-		public ViewHolder getViewHolder() {
+
+        public ViewHolder getViewHolder() {
 			return mViewHolder;
 		}
 	}

@@ -166,10 +166,7 @@ public class ReviewTreeEditable extends ReviewEditable {
 			return false;
 		
 		ReviewTreeEditable objReview = (ReviewTreeEditable)obj;
-		if(mNode.equals(objReview.mNode))
-			return true;
-		
-		return false;
+		return mNode.equals(objReview.mNode);
 	}
 	
 	@Override

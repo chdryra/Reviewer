@@ -16,7 +16,7 @@ import com.chdryra.android.reviewer.ReviewTagsManager.ReviewTag;
 
 public class ReviewTagCollection implements Iterable<ReviewTag> {
 
-	private ArrayList<ReviewTag> mTags;
+	private final ArrayList<ReviewTag> mTags;
 	
 	public ReviewTagCollection() {
 		mTags = new ArrayList<ReviewTag>();
@@ -27,7 +27,7 @@ public class ReviewTagCollection implements Iterable<ReviewTag> {
 			mTags.add(tag);
 	}
 
-	public void remove(ReviewTag tag) {
+	void remove(ReviewTag tag) {
 		mTags.remove(tag);
 	}
 	
@@ -42,20 +42,12 @@ public class ReviewTagCollection implements Iterable<ReviewTag> {
 		
 		return rTag;
 	}
-	
-	public boolean contains(ReviewTag tag) {
-		return mTags.contains(tag);
-	}
-	
-	public boolean contains(String tag) {
-		return get(tag) != null;
-	}
 
-	public int size() {
+    int size() {
 		return mTags.size();
 	}
 
-	public ReviewTag getItem(int position) {
+	ReviewTag getItem(int position) {
 		return mTags.get(position);
 	}
 

@@ -9,19 +9,34 @@
 package com.chdryra.android.reviewer;
 
 public class Author {
-	private UserId mId;
-	private String mName;
+	private final UserId mId;
+	private final String mName;
 	
 	public Author(String name) {
 		mId = UserId.generateID();
 		mName = name;
 	}
-	
-	public UserId getId() {
-		return mId;
-	}
-	
+
 	public String getName() {
 		return mName;
 	}
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Author)) return false;
+
+        Author author = (Author) o;
+
+        return !(mId != null ? !mId.equals(author.mId) : author.mId != null)
+                && !(mName != null ? !mName.equals(author.mName) : author.mName != null);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = mId != null ? mId.hashCode() : 0;
+        result = 31 * result + (mName != null ? mName.hashCode() : 0);
+        return result;
+    }
 }

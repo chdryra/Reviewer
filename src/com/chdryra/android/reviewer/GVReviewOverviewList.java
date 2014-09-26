@@ -27,7 +27,7 @@ public class GVReviewOverviewList extends GVReviewDataList<GVReviewOverviewList.
 			add(new GVReviewOverview(id, subject, rating, coverImage, headline, locationName, author, publishDate));
 	}
 	
-	public boolean contains(String id) {
+	boolean contains(String id) {
 		GVReviewOverview review = new GVReviewOverview(id);
 		return contains(review);
 	}
@@ -44,7 +44,7 @@ public class GVReviewOverviewList extends GVReviewDataList<GVReviewOverviewList.
 	}
 	
 	public class GVReviewOverview implements GVData{
-		private String mId;
+		private final String mId;
 		private String mSubject;
 		private float mRating;
 		private Bitmap mCoverImage;
@@ -107,6 +107,9 @@ public class GVReviewOverviewList extends GVReviewDataList<GVReviewOverviewList.
 
 		@Override
 		public boolean equals(Object obj) {
+            if(obj == null || getClass() != obj.getClass())
+                return false;
+
 			GVReviewOverview overview = (GVReviewOverview)obj;
             return mId.equals(overview.getId());
 		}

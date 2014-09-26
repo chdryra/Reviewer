@@ -11,6 +11,7 @@ package com.chdryra.android.reviewer;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.webkit.URLUtil;
 import android.widget.Toast;
 
@@ -19,12 +20,11 @@ import com.chdryra.android.mygenerallibrary.DialogCancelDeleteDoneFragment;
 import com.chdryra.android.reviewer.GVReviewDataList.GVType;
 import com.chdryra.android.reviewer.GVUrlList.GVUrl;
 
+@SuppressWarnings("WeakerAccess")
 public class DialogURLFragment extends DialogCancelDeleteDoneFragment {
-	public static final ActionType RESULT_BROWSE = ActionType.OTHER;
-	public static final String URL = FragmentReviewURLBrowser.URL;
-	public static final String URL_OLD = FragmentReviewURLBrowser.URL_OLD;
-	
-	private static final String TAG = "DialogURLFragment";
+	private static final ActionType RESULT_BROWSE = ActionType.OTHER;
+
+    private static final String TAG = "DialogURLFragment";
 	
 	private ControllerReviewNode mController;
 	private ClearableEditText mURLEditText;
@@ -45,7 +45,7 @@ public class DialogURLFragment extends DialogCancelDeleteDoneFragment {
 	}
 	
 	@Override
-	protected View createDialogUI() {
+	protected View createDialogUI(ViewGroup parent) {
 		View v = getActivity().getLayoutInflater().inflate(R.layout.dialog_url, null);
 		
 		mURLEditText = (ClearableEditText)v.findViewById(R.id.url_edit_text);
@@ -68,7 +68,6 @@ public class DialogURLFragment extends DialogCancelDeleteDoneFragment {
 			} catch (Exception e) {
 				Log.e(TAG, "Malformed URL", e);
 				Toast.makeText(getActivity(), getResources().getString(R.string.toast_bad_url), Toast.LENGTH_SHORT).show();
-				return;
 			}
 		}
 	}

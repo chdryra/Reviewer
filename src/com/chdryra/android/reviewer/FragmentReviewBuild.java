@@ -35,10 +35,9 @@ import com.chdryra.android.reviewer.ReviewDataOptions.ReviewDataOption;
 import com.google.android.gms.maps.model.LatLng;
 
 public class FragmentReviewBuild extends FragmentReviewGrid<GVCellManager> {
-	public final static int LOCATION_MAP = 22;
-	public final static int URL_BROWSE = 52;
-	
-	private GVCellManagerList mCellManagerList;
+	private final static int LOCATION_MAP = 22;
+
+    private GVCellManagerList mCellManagerList;
 	private HelperReviewImage mHelperReviewImage;
 
 	@Override
@@ -52,8 +51,8 @@ public class FragmentReviewBuild extends FragmentReviewGrid<GVCellManager> {
 		setDismissOnDone(false);
 		setBannerButtonText(getResources().getString(R.string.button_add_review_data));
 		setIsEditable(true);
-		setBackgroundImageAlpha(0);
-		
+        setBackgroundImageAlpha(0);
+
 		mHelperReviewImage = HelperReviewImage.getInstance(getController());
 	}
 
@@ -146,11 +145,11 @@ public class FragmentReviewBuild extends FragmentReviewGrid<GVCellManager> {
 		startActivityForResult(i, option.getActivityRequestCode());
 	}
 
-	private <T> void requestIntent(Class<T> c, int requestCode, Intent data) {
-		Intent i = new Intent(getActivity(), c);
-		i.putExtras(data);
-		startActivityForResult(i, requestCode);
-	}
+    private void requestMapIntent(Intent data) {
+        Intent i = new Intent(getActivity(), ActivityReviewLocationMap.class);
+        i.putExtras(data);
+        startActivityForResult(i, LOCATION_MAP);
+    }
 
 	private void showQuickDialog(ReviewDataOption option) {
 		DialogFragment dialog = option.getDialogFragment();
@@ -174,7 +173,7 @@ public class FragmentReviewBuild extends FragmentReviewGrid<GVCellManager> {
 				addImage();
 		} else if (requestCode == getOption(GVType.LOCATIONS).getDialogRequestCode()) {
 			if(resCode.equals(DialogLocationFragment.RESULT_MAP.getResultCode()))
-				requestIntent(ActivityReviewLocationMap.class, LOCATION_MAP, data);
+				requestMapIntent(data);
 		} else if (requestCode == LOCATION_MAP) {
 			if(resCode.equals(ActivityResultCode.DONE))
 				addLocation(data);
@@ -205,16 +204,7 @@ public class FragmentReviewBuild extends FragmentReviewGrid<GVCellManager> {
 			getController().setData(list);
 		}
 	}
-	
-//	private void addURL(Intent data) {
-//		URL url = (URL)data.getSerializableExtra(FragmentReviewURLBrowser.URL);
-//		if(url != null) {
-//			GVUrlList urls = new GVUrlList();
-//			urls.add(url);
-//			getController().setData(urls);
-//		}
-//	}
-	
+
 	@Override
 	protected GridViewCellAdapter getGridViewCellAdapter() {
 		return new ReviewOptionsGridCellAdapter();
@@ -245,7 +235,7 @@ public class FragmentReviewBuild extends FragmentReviewGrid<GVCellManager> {
 		}
 					
 		class GVCellManager implements GVData {
-			private GVType mDataType;
+			private final GVType mDataType;
 
 			private GVCellManager(GVType dataType) {
 				mDataType = dataType;
@@ -273,7 +263,7 @@ public class FragmentReviewBuild extends FragmentReviewGrid<GVCellManager> {
 				if(size == 0)
 					return getNoDatumView(parent);
 
-				return size > 1 || mDataType == GVType.IMAGES? getMultiDataView(parent) : getSingleDatumView(parent, 0); 
+				return size > 1 || mDataType == GVType.IMAGES? getMultiDataView(parent) : getSingleDatumView(parent);
 			}
 			
 			public View getNoDatumView(ViewGroup parent) {
@@ -282,13 +272,10 @@ public class FragmentReviewBuild extends FragmentReviewGrid<GVCellManager> {
 				return vh.updateView(new GVString(mDataType.getDataString()));
 			}
 
-			public View getSingleDatumView(ViewGroup parent, int position) {
-				if(position > getController().getData(mDataType).size())
-					return getNoDatumView(parent);
-
+			public View getSingleDatumView(ViewGroup parent) {
 				ViewHolder vh = getOption(mDataType).getViewHolder();
 				vh.inflate(getActivity(), parent);
-				return vh.updateView(getController().getData(mDataType).getItem(position));
+				return vh.updateView(getController().getData(mDataType).getItem(0));
 			}
 						
 			public View getMultiDataView(ViewGroup parent) {

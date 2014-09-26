@@ -20,7 +20,7 @@ import com.chdryra.android.reviewer.GVReviewDataList.GVType;
 import com.chdryra.android.reviewer.GVUrlList.GVUrl;
 
 public class FragmentReviewURLs  extends FragmentReviewGridAddEditDone<GVUrl> {
-	public final static String URL = FragmentReviewURLBrowser.URL;
+	private final static String URL = FragmentReviewURLBrowser.URL;
 	
 	private GVUrlList mUrls;
 	
@@ -57,7 +57,6 @@ public class FragmentReviewURLs  extends FragmentReviewGridAddEditDone<GVUrl> {
 				mUrls.add(url);
 			break;
 		default:
-			return;
 		}
 	}
 	
@@ -75,7 +74,6 @@ public class FragmentReviewURLs  extends FragmentReviewGridAddEditDone<GVUrl> {
 			mUrls.remove(toDelete);
 			break;
 		default:
-			return;
 		}
 	}
 }

@@ -33,7 +33,7 @@ public class FragmentReviewComments extends FragmentReviewGridAddEditDone<GVComm
 		super.onCreate(savedInstanceState);
 		mComments = (GVCommentList) setAndInitData(GVType.COMMENTS);
 		setDeleteWhatTitle(getResources().getString(R.string.dialog_delete_comment_title));
-		setBannerButtonText(getResources().getString(R.string.button_add_comment));
+		setBannerButtonText(getResources().getString(R.string.button_add_comments));
 	}
 		
 	@Override
@@ -59,7 +59,6 @@ public class FragmentReviewComments extends FragmentReviewGridAddEditDone<GVComm
 				mComments.add(comment);
 			break;
 		default:
-			return;
 		}
 	}
 	
@@ -77,7 +76,6 @@ public class FragmentReviewComments extends FragmentReviewGridAddEditDone<GVComm
 			mComments.remove(toDelete);
 			break;
 		default:
-			return;
 		}
 	}
 	
@@ -98,7 +96,8 @@ public class FragmentReviewComments extends FragmentReviewGridAddEditDone<GVComm
 		
 	}
 	
-	@Override
+	@SuppressWarnings("WeakerAccess")
+    @Override
 	protected void updateGridDataUI() {
 		if(mCommentsAreSplit)
 			((GridViewCellAdapter)getGridView().getAdapter()).setData(mComments.getSplitComments());

@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
@@ -26,10 +27,11 @@ import com.chdryra.android.reviewer.GVLocationList.GVLocation;
 import com.chdryra.android.reviewer.GVReviewDataList.GVType;
 import com.google.android.gms.maps.model.LatLng;
 
+@SuppressWarnings("WeakerAccess")
 public class DialogLocationFragment extends DialogCancelActionDoneFragment implements Locatable{
 	public static final ActionType RESULT_MAP = ActionType.OTHER;
-	public final static String LATLNG = FragmentReviewLocationMap.LATLNG;
-	public final static String NAME = FragmentReviewLocationMap.NAME;
+	private final static String LATLNG = FragmentReviewLocationMap.LATLNG;
+	private final static String NAME = FragmentReviewLocationMap.NAME;
 	
 	private ControllerReviewNode mController;
 	private ClearableEditText mNameEditText;
@@ -49,11 +51,10 @@ public class DialogLocationFragment extends DialogCancelActionDoneFragment imple
         setActionButtonAction(RESULT_MAP);
 		setActionButtonText(getResources().getString(R.string.button_map_text));
 		setDismissDialogOnActionClick(true);
-		//setDialogTitle(getResources().getString(R.string.dialog_name_location_title));
 	}
 	
 	@Override
-	protected View createDialogUI() {
+	protected View createDialogUI(ViewGroup parent) {
 		View v = getActivity().getLayoutInflater().inflate(R.layout.dialog_location, null);
 		
 		mNameEditText = (ClearableEditText)v.findViewById(R.id.location_edit_text);

@@ -11,7 +11,8 @@ apply plugin: 'com.android.application'
 dependencies {
     compile project(':MyAndroidWidgets')
     compile project(':MyGeneralLibrary')
-compile project(':RemoteAPIFetchers')
+    compile project(':RemoteAPIFetchers')
+    compile fileTree(dir: '../libs', include: '*.jar')
 }
 
 android {

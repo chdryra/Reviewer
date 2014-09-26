@@ -46,11 +46,4 @@ public class RDLocation implements RData{
 	public String getName() {
 		return mName;
 	}
-
-	public void setName(String locationName) {
-		if(locationName != null && locationName.length() > 0)
-			mName = locationName;
-		else
-			mName = null;
-	}
 }

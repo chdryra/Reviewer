@@ -11,12 +11,14 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.chdryra.android.myandroidwidgets.ClearableEditText;
 import com.chdryra.android.mygenerallibrary.DialogCancelDeleteDoneFragment;
 import com.google.android.gms.maps.model.LatLng;
 
+@SuppressWarnings("WeakerAccess")
 public class DialogImageEditFragment extends DialogCancelDeleteDoneFragment {
 	public static final String OLD_CAPTION = "com.chdryra.android.reviewer.old_caption";
 	
@@ -37,7 +39,7 @@ public class DialogImageEditFragment extends DialogCancelDeleteDoneFragment {
 	}
 
 	@Override
-	protected View createDialogUI() {
+	protected View createDialogUI(ViewGroup parent) {
 		View v = getActivity().getLayoutInflater().inflate(R.layout.dialog_image_view, null);
 		
 		ImageView imageView = (ImageView)v.findViewById(R.id.dialog_image_image_view);

@@ -34,13 +34,13 @@ import com.chdryra.android.mygenerallibrary.ImageHelper;
 public class HelperReviewImage extends ImageHelper{
 
 	private static final String TAG = "ImageHelper";
-	private static HashMap<String, HelperReviewImage> sHelperReviewImages = new HashMap<String, HelperReviewImage>();
+	private static final HashMap<String, HelperReviewImage> sHelperReviewImages = new HashMap<String, HelperReviewImage>();
 	private static final String IMAGE_DIRECTORY = "Reviewer";
 	private static final String ERROR_NO_STORAGE_MESSAGE = "No storage available!";
 	
 	private long fileCounter = 0;
 	
-	private ControllerReviewNode mController;
+	private final ControllerReviewNode mController;
 	
 	public static HelperReviewImage getInstance(ControllerReviewNode controller) {
 		if(!sHelperReviewImages.containsKey(controller.getID()))
@@ -52,15 +52,11 @@ public class HelperReviewImage extends ImageHelper{
 	private HelperReviewImage(ControllerReviewNode controller) {
 		mController = controller;
 	}
-	
-	public void deleteImage() {
-		setImageFilePath(null);
-	}
-	
-	public boolean createNewImageFile() throws IOException{
+
+    boolean createNewImageFile() throws IOException{
 	    String imageFileName = mController.getSubject() + "_" + fileCounter++;
-	    String path = null;
-	    boolean success = false;
+	    String path;
+	    boolean success;
         if(Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
         	File dcimDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM);
             File reviewerDir = new File(dcimDir, IMAGE_DIRECTORY);
@@ -87,8 +83,8 @@ public class HelperReviewImage extends ImageHelper{
 	}
 
 	private class BitmapLoaderTask extends AsyncTask<Integer, Void, Bitmap> {		
-		private GVImageList mImageList;
-		private FunctionPointer<Void> mUpdateUI;
+		private final GVImageList mImageList;
+		private final FunctionPointer<Void> mUpdateUI;
 		
 		public BitmapLoaderTask(GVImageList imageList, FunctionPointer<Void> updateUI) {
 			mImageList = imageList;
@@ -102,21 +98,25 @@ public class HelperReviewImage extends ImageHelper{
 		
 		@Override
 		protected void onPostExecute(Bitmap bitmap) {
-			mImageList.add(bitmap, getLatLngFromEXIF(), null);
+			mImageList.add(bitmap, getLatLngFromEXIF());
 			mUpdateUI.execute(null);
 		}	
 	}
 	
 	public Intent getImageChooserIntents(Activity activity) {
 		//Set up image file
-		boolean success = false;
         try {
-			success = createNewImageFile();
+            if(!createNewImageFile()) {
+                //TODO handle this better
+                Log.i(TAG, "Problems creating image file...");
+                return null;
+            }
 		} catch (IOException e) {
 			Log.e(TAG, e.getMessage(), e);
 			e.printStackTrace();
 			return null;
 		}
+
 		File imageFile = new File(getImageFilePath());
 		Uri imageUri = Uri.fromFile(imageFile);		
 		

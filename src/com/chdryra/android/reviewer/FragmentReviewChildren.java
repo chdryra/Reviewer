@@ -83,7 +83,6 @@ public class FragmentReviewChildren extends FragmentReviewGridAddEditDone<GVRevi
 				mReviewData.add(subject, rating);
 			break;
 		default:
-			return;
 		}
 	}
 	
@@ -111,7 +110,6 @@ public class FragmentReviewChildren extends FragmentReviewGridAddEditDone<GVRevi
 				setTotalRatingIsAverage(false);
 			break;
 		default:
-			return;
 		}
 	}
 

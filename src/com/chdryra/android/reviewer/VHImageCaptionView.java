@@ -17,7 +17,7 @@ import com.chdryra.android.mygenerallibrary.GVData;
 import com.chdryra.android.mygenerallibrary.ViewHolderBasic;
 import com.chdryra.android.reviewer.GVImageList.GVImage;
 
-public class VHImageCaptionView extends ViewHolderBasic {
+class VHImageCaptionView extends ViewHolderBasic {
 	private static final int LAYOUT = R.layout.grid_cell_image_caption;
 	private static final int IMAGE = R.id.image_view;
 	private static final int CAPTION = R.id.caption;

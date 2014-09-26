@@ -10,7 +10,7 @@ package com.chdryra.android.reviewer;
 
 public class RDSubject implements RData {
 	private Review mHoldingReview;
-	private String mTitle;
+	private final String mTitle;
 	
 	public RDSubject(String title, Review review) {
 		mTitle = title;

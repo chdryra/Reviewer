@@ -8,14 +8,13 @@
 
 package com.chdryra.android.reviewer;
 
-public class TraverserReviewNode {
-	private ReviewNode mHead;
-	private TraverserSearchMethod mSearchMethod;	
+class TraverserReviewNode {
+	private final ReviewNode mHead;
+	private final TraverserSearchMethod mSearchMethod;
 	private VisitorReviewNode mVisitor;
 	private RCollection<Integer> mDepthMap;
-	private boolean mRelativeDepth = true;
 
-	public TraverserReviewNode(ReviewNode head) {
+    public TraverserReviewNode(ReviewNode head) {
 		mHead = head;
 		mSearchMethod = new TraverserSearchDepthFirstPre();
 		setVisitor(null);
@@ -25,16 +24,8 @@ public class TraverserReviewNode {
 		mVisitor = visitor == null? new VisitorNull() : visitor; 
 	}
 	
-	public boolean isRelativeDepth() {
-		return mRelativeDepth;
-	}
-
-	public void setRelativeDepthMapping() {
-		mRelativeDepth = true;
-	}
-
-	public void setAbsoluteDepthMapping() {
-		mRelativeDepth = false;
+	boolean isRelativeDepth() {
+        return true;
 	}
 
 	public RCollection<Integer> getDepthMap() {

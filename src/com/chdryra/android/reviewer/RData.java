@@ -8,7 +8,7 @@
 
 package com.chdryra.android.reviewer;
 
-public interface RData{
+interface RData{
 	public void setHoldingReview(Review review);
 	public Review getHoldingReview();
 	public boolean hasData();

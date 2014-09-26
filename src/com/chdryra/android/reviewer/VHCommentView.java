@@ -11,7 +11,7 @@ package com.chdryra.android.reviewer;
 import com.chdryra.android.mygenerallibrary.GVData;
 import com.chdryra.android.reviewer.GVCommentList.GVComment;
 
-public class VHCommentView extends VHTextView {
+class VHCommentView extends VHTextView {
 
 	public VHCommentView() {
 		super(new GVDataStringGetter() {

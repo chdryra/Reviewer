@@ -10,8 +10,8 @@ package com.chdryra.android.reviewer;
 
 import java.util.Date;
 
-public class ReviewTreePublisher {
-	private Author mAuthor;
+class ReviewTreePublisher {
+	private final Author mAuthor;
 	private Date mPublishDate;
 	
 	public ReviewTreePublisher(Author author) {

@@ -10,6 +10,7 @@ package com.chdryra.android.reviewer;
 
 import com.chdryra.android.mygenerallibrary.DialogAlert;
 
+@SuppressWarnings("WeakerAccess")
 public class DialogSetImageAsBackgroundFragment extends DialogAlert {
 	@Override
 	protected String getAlertString() {

@@ -87,12 +87,7 @@ public class ReviewUserEditable extends ReviewEditable {
 	public void setImages(RDList<RDImage> images) {
 		mImages = processData(images, new RDList<RDImage>());
 	}
-	
-	@Override
-	public void deleteImages() {
-		setImages(null);
-	}
-	
+
 	@Override
 	public boolean hasImages() {
 		return mImages.hasData();
@@ -107,12 +102,7 @@ public class ReviewUserEditable extends ReviewEditable {
 	public void setLocations(RDList<RDLocation> locations) {
 		mLocations = processData(locations, new RDList<RDLocation>());
 	}
-	
-	@Override
-	public void deleteLocations() {
-		setLocations(null);
-	}
-	
+
 	@Override
 	public boolean hasLocations() {
 		return mLocations.hasData();
@@ -127,12 +117,7 @@ public class ReviewUserEditable extends ReviewEditable {
 	public void setFacts(RDList<RDFact> facts) {
 		mFacts = processData(facts, new RDList<RDFact>());
 	}
-	
-	@Override
-	public void deleteFacts() {
-		setFacts(null);
-	}
-	
+
 	@Override
 	public boolean hasFacts() {
 		return mFacts.hasData();
@@ -146,11 +131,6 @@ public class ReviewUserEditable extends ReviewEditable {
 	@Override
 	public RDList<RDComment> getComments() {
 		return mComments;
-	}
-
-	@Override
-	public void deleteComments() {
-		setComments(null);
 	}
 	
 	@Override
@@ -169,11 +149,6 @@ public class ReviewUserEditable extends ReviewEditable {
 	}
 
 	@Override
-	public void deleteURLs() {
-		setURLs(null);
-	}
-
-	@Override
 	public boolean hasURLs() {
 		return mURLs.hasData();
 	}
@@ -184,7 +159,7 @@ public class ReviewUserEditable extends ReviewEditable {
 			return false;
 		
 		ReviewUserEditable objReview = (ReviewUserEditable)obj;
-		return mID.equals(objReview.mID)? true : false;
+		return mID.equals(objReview.mID);
 	}
 	
 	@Override

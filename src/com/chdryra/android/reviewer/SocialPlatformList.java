@@ -8,42 +8,45 @@
 
 package com.chdryra.android.reviewer;
 
+import android.content.Context;
+
 import java.util.Iterator;
 import java.util.LinkedList;
 
 public class SocialPlatformList implements Iterable<SocialPlatformList.SocialPlatform>{
 	public enum Platform {
-		TWITTER("twitter"),
-		FACEBOOK("facebook"),
-		TUMBLR("tumblr"),
-		FOURSQUARE("foursquare"),
-		WHATSAPP("whatsapp"),
-		EMAIL("email");
+		//Cannot access string resources without a context
+        TWITTER(R.string.twitter),
+		FACEBOOK(R.string.facebook),
+		TUMBLR(R.string.tumblr),
+		FOURSQUARE(R.string.foursquare),
+		WHATSAPP(R.string.whatsapp),
+		EMAIL(R.string.email);
 		
-		private String mPlatform;
+		private final int mPlatformId;
 		
-		Platform(String platform) {
-			mPlatform = platform;
+		Platform(int platformId) {
+			mPlatformId = platformId;
 		}
 		
-		public String toString() {
-			return mPlatform;
+		public String toString(Context context) {
+			return context.getResources().getString(mPlatformId);
 		}		
 	}
 
 	private static SocialPlatformList sList;
-	private LinkedList<SocialPlatform> mPlatforms;
+	private final LinkedList<SocialPlatform> mPlatforms;
 	
-	private SocialPlatformList() {
+	private SocialPlatformList(Context context) {
 		mPlatforms = new LinkedList<SocialPlatformList.SocialPlatform>();
 		Platform[] platforms = Platform.values();
 		for(Platform platform : platforms)
-			mPlatforms.add(new SocialPlatform(platform.toString()));
+			mPlatforms.add(new SocialPlatform(platform.toString(context)));
 	}
 
-	public static SocialPlatformList get(boolean latest) {
+	public static SocialPlatformList get(Context context, boolean latest) {
 		if(sList == null)
-			sList = new SocialPlatformList();
+			sList = new SocialPlatformList(context);
 
 		if(latest)
 			sList.update();
@@ -57,7 +60,7 @@ public class SocialPlatformList implements Iterable<SocialPlatformList.SocialPla
 	}
 	
 	class SocialPlatform {
-		private String mName;
+		private final String mName;
 		private int mFollowers;
 		
 		public SocialPlatform(String name) {

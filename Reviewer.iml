@@ -76,6 +76,7 @@
     <orderEntry type="jdk" jdkName="Android API 20 Platform" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" exported="" name="support-v4-19.1.0" level="project" />
+    <orderEntry type="library" exported="" name="annotations" level="project" />
     <orderEntry type="module" module-name="MyGeneralLibrary" exported="" />
     <orderEntry type="module" module-name="MyAndroidWidgets" exported="" />
     <orderEntry type="module" module-name="RemoteAPIFetchers" exported="" />

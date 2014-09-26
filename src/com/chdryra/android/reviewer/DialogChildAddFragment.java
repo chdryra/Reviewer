@@ -13,6 +13,7 @@ import java.text.DecimalFormat;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.RatingBar;
 import android.widget.Toast;
 
@@ -35,8 +36,8 @@ public class DialogChildAddFragment extends DialogAddReviewDataFragment{
 	}
 
 	@Override
-	protected View createDialogUI() {
-		View v = getActivity().getLayoutInflater().inflate(R.layout.dialog_criterion, null);
+	protected View createDialogUI(ViewGroup parent) {
+		View v = getActivity().getLayoutInflater().inflate(R.layout.dialog_criterion, parent, false);
 		mChildNameEditText = (ClearableEditText)v.findViewById(R.id.child_name_edit_text);
 		mChildRatingBar = (RatingBar)v.findViewById(R.id.child_rating_bar);
 		setKeyboardIMEDoAction(mChildNameEditText);

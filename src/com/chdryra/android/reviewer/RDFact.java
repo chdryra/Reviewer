@@ -11,8 +11,8 @@ package com.chdryra.android.reviewer;
 public class RDFact implements RData{
 
 	private Review mHoldingReview;
-	private String mLabel;
-	private String mValue;
+	private final String mLabel;
+	private final String mValue;
 
 	public RDFact(String label, String value, Review holdingReview) {	
 		mLabel = label;

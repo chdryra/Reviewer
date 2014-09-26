@@ -14,7 +14,9 @@ import com.chdryra.android.mygenerallibrary.DialogCancelDeleteDoneFragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 
+@SuppressWarnings("WeakerAccess")
 public class DialogFactEditFragment extends DialogCancelDeleteDoneFragment {
 	public static final String FACT_OLD_LABEL = "com.chdryra.android.reviewer.datum_old_label";
 	public static final String FACT_OLD_VALUE = "com.chdryra.android.reviewer.datum_old_value";
@@ -34,7 +36,7 @@ public class DialogFactEditFragment extends DialogCancelDeleteDoneFragment {
 	}
 	
 	@Override
-	protected View createDialogUI() {
+	protected View createDialogUI(ViewGroup parent) {
 		View v = getActivity().getLayoutInflater().inflate(R.layout.dialog_fact, null);
 		mLabel = (ClearableEditText)v.findViewById(R.id.fact_label_edit_text);
 		mValue = (ClearableEditText)v.findViewById(R.id.fact_value_edit_text);

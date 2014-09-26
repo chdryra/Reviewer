@@ -11,11 +11,11 @@ package com.chdryra.android.reviewer;
 import java.util.Date;
 
 public class ReviewComponent implements ReviewNode {
-	private RDId mID;
+	private final RDId mID;
 	
-	private Review mReview;
+	private final Review mReview;
 	private ReviewNode mParent;
-	private RCollectionReviewNode mChildren;
+	private final RCollectionReviewNode mChildren;
 
 	private boolean mRatingIsAverage = false;
 	
@@ -274,10 +274,7 @@ public class ReviewComponent implements ReviewNode {
 			return false;
 		
 		ReviewComponent objNode = (ReviewComponent)obj;
-		if(mID.equals(objNode.mID))
-			return true;
-		
-		return false;
+		return mID.equals(objNode.mID);
 	}
 	
 	@Override

@@ -11,7 +11,7 @@ package com.chdryra.android.reviewer;
 import java.util.UUID;
 
 public class UserId {
-	private UUID mID;
+	private final UUID mID;
 	
 	private UserId() {
 		mID = UUID.randomUUID();
@@ -35,10 +35,7 @@ public class UserId {
 			return false;
 		
 		UserId		 objId = (UserId)obj;
-		if(this.mID.equals(objId.mID))
-			return true;
-		
-		return false;
+		return this.mID.equals(objId.mID);
 	}
 	
 	@Override

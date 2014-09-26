@@ -11,12 +11,9 @@ package com.chdryra.android.reviewer;
 import com.chdryra.android.mygenerallibrary.GVData;
 import com.chdryra.android.reviewer.GVUrlList.GVUrl;
 
-public class VHUrlView extends VHTextView {
-	private static final int LAYOUT = R.layout.grid_cell_url;
-	private static final int TEXTVIEW = R.id.link;
-	
+class VHUrlView extends VHTextView {
 	public VHUrlView() {
-		super(LAYOUT, TEXTVIEW, new GVDataStringGetter() {
+		super(new GVDataStringGetter() {
 			@Override
 			public String getString(GVData data) {
 				GVUrl url = (GVUrl)data;

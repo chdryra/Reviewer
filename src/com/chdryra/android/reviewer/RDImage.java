@@ -15,9 +15,9 @@ import com.google.android.gms.maps.model.LatLng;
 public class RDImage implements RData{
 	
 	private Review mHoldingReview;
-	private Bitmap mBitmap;
-	private String mCaption;
-	private LatLng mLatLng;
+	private final Bitmap mBitmap;
+	private final String mCaption;
+	private final LatLng mLatLng;
 	private boolean mIsCover = false;
 
 	public RDImage(Bitmap bitmap, LatLng latLng, String caption, boolean isCover, Review holdingReview) {

@@ -16,10 +16,4 @@ public class RCollectionReview extends RCollection<Review> {
 	public void add(Review review) {
 		put(review.getID(), review);
 	}
-
-	public void remove(RCollectionReview reviews) {
-		for(Review r : reviews)
-			remove(r.getID());
-	}
-	
 }

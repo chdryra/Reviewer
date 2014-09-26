@@ -23,8 +23,7 @@ import android.widget.Button;
 import com.chdryra.android.reviewer.GVSocialPlatformList.GVSocialPlatform;
 
 public class FragmentReviewShare extends FragmentReviewGrid<GVSocialPlatformList.GVSocialPlatform> {
-	public final static String TAG_STRING = "com.chdryra.android.reviewer.tag_string";
-	private GVSocialPlatformList mSocialList;
+    private GVSocialPlatformList mSocialList;
 	private Drawable mDefault;
 	
 	@Override
@@ -38,7 +37,7 @@ public class FragmentReviewShare extends FragmentReviewGrid<GVSocialPlatformList
 		setDismissOnDone(false);
 		setBannerButtonText(getResources().getString(R.string.button_social));
 		setIsEditable(false);
-		setBackgroundImageAlpha(0);
+        setBackgroundImageAlpha(0);
 	}
 
 	@Override
@@ -68,7 +67,7 @@ public class FragmentReviewShare extends FragmentReviewGrid<GVSocialPlatformList
 	}
 	
 	private void initSocialSharingList() {
-		mSocialList = Administrator.get(getActivity()).getSocialPlatformList(true);
+		mSocialList = Administrator.get(getActivity()).getSocialPlatformList();
 	}
 	
 	@Override

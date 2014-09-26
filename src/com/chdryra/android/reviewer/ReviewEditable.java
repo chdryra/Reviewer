@@ -18,19 +18,30 @@ public abstract class ReviewEditable implements Review {
 
 	//Optional data
 	public abstract void setComments(RDList<RDComment> comment);
-	public abstract void deleteComments();
+    public abstract void setFacts(RDList<RDFact> facts);
+    public abstract void setImages(RDList<RDImage> images);
+    public abstract void setURLs(RDList<RDUrl> url);
+    public abstract void setLocations(RDList<RDLocation> locations);
 
-	public abstract void setFacts(RDList<RDFact> facts);
-	public abstract void deleteFacts();	
+    void deleteComments() {
+        setComments(new RDList<RDComment>());
+    }
 
-	public abstract void setImages(RDList<RDImage> images);
-	public abstract void deleteImages();
+	void deleteFacts() {
+        setFacts(new RDList<RDFact>());
+    }
+
+	void deleteImages() {
+        setImages(new RDList<RDImage>());
+    }
 	
-	public abstract void setURLs(RDList<RDUrl> url);
-	public abstract void deleteURLs();	
-	
-	public abstract void setLocations(RDList<RDLocation> locations);
-	public abstract void deleteLocations();	
+	void deleteURLs() {
+        setURLs(new RDList<RDUrl>());
+    }
+
+	void deleteLocations() {
+        setLocations(new RDList<RDLocation>());
+    }
 	
 	@Override
 	public final Author getAuthor() {

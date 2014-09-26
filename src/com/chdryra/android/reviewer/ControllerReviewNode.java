@@ -22,10 +22,10 @@ import com.chdryra.android.reviewer.GVUrlList.GVUrl;
 import com.chdryra.android.reviewer.ReviewTagsManager.ReviewTag;
 
 public class ControllerReviewNode{
-	private ReviewNode mNode;
+	private final ReviewNode mNode;
 	private ControllerReviewNodeChildren mChildrenController;
-	private ReviewEditable mEditableReview;
-	ArrayList<String> mTagsList = new ArrayList<String>();
+	private final ReviewEditable mEditableReview;
+	private final ArrayList<String> mTagsList = new ArrayList<String>();
 	
 	public ControllerReviewNode(ReviewNode node) {
 		mNode = node;
@@ -42,51 +42,24 @@ public class ControllerReviewNode{
 				mTagsList.add(tag.toString());
 	}
 	
-	public ControllerReviewNodeChildren getChildrenController() {
+	ControllerReviewNodeChildren getChildrenController() {
 		if(mChildrenController == null)
 			mChildrenController = new ControllerReviewNodeChildren(mNode);
 		
 		return mChildrenController;
 	}
-	
-	public ControllerReviewNodeCollection getDescendentsController(boolean incRoot) {
-		RCollectionReviewNode descendents = mNode.getDescendents();
-		if(!incRoot)
-			descendents.remove(mNode.getID());
-		
-		return new ControllerReviewNodeCollection(descendents);
-	}
-	
-	public ControllerReviewNode getControllerForChild(String id) {
-		return getChildrenController().getControllerFor(id);
-	}
-	
-	public void clearChildren() {
-		getChildrenController().removeAll();
-	}
-	
-	public void removeChild(String childId) {
-		getChildrenController().removeChild(childId);
-	}
-	
-	public void addChild(String title) {
-		getChildrenController().addChild(title);
-	}
-	
-	public void addChildren(GVReviewSubjectRatingList children) {
-		getChildrenController().addChildren(children);
-	}
 
-	public void setChildren(GVReviewSubjectRatingList children) {
+	void setChildren(GVReviewSubjectRatingList children) {
 		getChildrenController().setChildren(children);
 	}
 
-	public void clear() {
-		getChildrenController().removeAll();
-	}
+	public ReviewNode publishAndTag(ReviewTreePublisher publisher) {
+        ReviewNode finalReview = publisher.publish(mNode.getReview());
+        for(ReviewNode node : finalReview.getDescendents()) {
+            ReviewTagsManager.tag(node.getReview(), mTagsList);
+        }
 
-	public ReviewNode publish(ReviewTreePublisher publisher) {
-		return publisher.publish(mNode.getReview());
+        return finalReview;
 	}
 	
 	private ReviewEditable getEditableReview() {
@@ -139,24 +112,7 @@ public class ControllerReviewNode{
 		else return dataType == GVType.CRITERIA && getChildrenController().size() > 0;
 	}
 
-	public void deleteData(GVType dataType) {
-		if (dataType == GVType.COMMENTS)
-			deleteComments();
-		else if (dataType == GVType.IMAGES)
-			deleteImages();
-		else if (dataType == GVType.FACTS)
-			deleteFacts();
-		else if (dataType == GVType.URLS)
-			deleteURLs();
-		else if (dataType == GVType.LOCATIONS)
-			deleteLocations();
-		else if (dataType == GVType.TAGS)
-			removeTags();
-		else if (dataType == GVType.CRITERIA)
-			getChildrenController().removeAll();
-	}
-
-	public GVReviewDataList<? extends GVData> getData(GVType dataType) {
+    public GVReviewDataList<? extends GVData> getData(GVType dataType) {
 		if (dataType == GVType.COMMENTS)
 			return getComments();
 		else if (dataType == GVType.IMAGES)
@@ -270,7 +226,7 @@ public class ControllerReviewNode{
 		return gvTags;
 	}
 	
-	public void addTags(GVTagList tags) {
+	void addTags(GVTagList tags) {
 		for(GVString tag : tags)
 			mTagsList.add(tag.toString());
 	}
@@ -304,15 +260,7 @@ public class ControllerReviewNode{
 		r.setComments(rdComments);
 	}
 
-	private void deleteComments() {
-		getEditableReview().deleteComments();
-	}
-
-	private void deleteFacts() {
-		getEditableReview().deleteFacts();
-	}
-
-	private void setFacts(GVFactList gvFacts) {
+    private void setFacts(GVFactList gvFacts) {
 		ReviewEditable r = getEditableReview();
 		RDList<RDFact> facts = new RDList<RDFact>(r);
 		for(GVFact fact: gvFacts)
@@ -329,12 +277,8 @@ public class ControllerReviewNode{
 		
 		r.setImages(rdImages);
 	}
-	
-	private void deleteImages() {
-		getEditableReview().deleteImages();
-	}
 
-	private void setLocations(GVLocationList locations) {
+    private void setLocations(GVLocationList locations) {
 		ReviewEditable r = getEditableReview();
 		RDList<RDLocation> rdLocations = new RDList<RDLocation>();
 		for(GVLocation location : locations)
@@ -343,12 +287,8 @@ public class ControllerReviewNode{
 		r.setLocations(rdLocations);
 	}
 
-	
-	private void deleteLocations() {
-		getEditableReview().deleteLocations();
-	}
 
-	private void setURLs(GVUrlList urlList) {
+    private void setURLs(GVUrlList urlList) {
 		if(urlList.size() == 0)
 			return;
 		
@@ -359,8 +299,5 @@ public class ControllerReviewNode{
 		
 		r.setURLs(rdUrls);
 	}
-	
-	private void deleteURLs() {
-		getEditableReview().deleteURLs();
-	}
+
 }

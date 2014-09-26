@@ -19,9 +19,9 @@ import com.chdryra.android.reviewer.GVReviewDataList.GVType;
 import com.google.android.gms.maps.model.LatLng;
 
 public class FragmentReviewLocations  extends FragmentReviewGridAddEditDone<GVLocation> {
-	public final static String LATLNG = FragmentReviewLocationMap.LATLNG;
-	public final static String NAME = FragmentReviewLocationMap.NAME;
-	public final static String SUBJECT = FragmentReviewLocationMap.SUBJECT;
+	private final static String LATLNG = FragmentReviewLocationMap.LATLNG;
+	private final static String NAME = FragmentReviewLocationMap.NAME;
+	private final static String SUBJECT = FragmentReviewLocationMap.SUBJECT;
 	
 	private GVLocationList mLocations;
 	
@@ -62,7 +62,6 @@ public class FragmentReviewLocations  extends FragmentReviewGridAddEditDone<GVLo
 				mLocations.add(latLng, name);			
 			break;
 		default:
-			return;
 		}
 	}
 	
@@ -83,7 +82,6 @@ public class FragmentReviewLocations  extends FragmentReviewGridAddEditDone<GVLo
 			mLocations.remove(deleteLatLng, deleteName);
 			break;
 		default:
-			return;
 		}
 	}
 }

@@ -10,18 +10,14 @@ package com.chdryra.android.reviewer;
 
 public class RDRating implements RData {
 	private Review mHoldingReview;
-	private float mRating;
+	private final float mRating;
 	
 	public RDRating(float rating, Review holdingReview) {
 		mRating = rating;
 		mHoldingReview = holdingReview;
 	}
 
-	public void set(float rating) {
-		mRating = rating;
-	}
-	
-	public float get() {
+    public float get() {
 		return mRating;
 	}
 	

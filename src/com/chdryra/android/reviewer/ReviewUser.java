@@ -123,7 +123,7 @@ public class ReviewUser implements Review{
 			return false;
 		
 		ReviewUser objReview = (ReviewUser)obj;
-		return mID.equals(objReview.mID)? true : false;
+		return mID.equals(objReview.mID);
 	}
 	
 	@Override

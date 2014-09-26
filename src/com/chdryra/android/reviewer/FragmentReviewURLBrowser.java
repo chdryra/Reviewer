@@ -32,6 +32,7 @@ import android.widget.Toast;
 import com.chdryra.android.myandroidwidgets.ClearableEditText;
 import com.chdryra.android.mygenerallibrary.FragmentDeleteDone;
 
+@SuppressWarnings("WeakerAccess")
 public class FragmentReviewURLBrowser extends FragmentDeleteDone {
 	public static final String URL = "com.chdryra.android.reviewer.url";
 	public static final String URL_OLD = "com.chdryra.android.reviewer.url_old";

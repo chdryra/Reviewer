@@ -13,10 +13,10 @@ import java.util.HashMap;
 import android.content.Intent;
 import android.os.Bundle;
 
-public class Controller {
-	public static final String CONTROLLER_ID = "com.chdryra.android.reviewer.review_id";	
-	private ControllerReviewNode mReviewInProgress;
-	private HashMap<String, ControllerReviewNode> mRNControllers;
+class Controller {
+	private static final String CONTROLLER_ID = "com.chdryra.android.reviewer.review_id";
+	private final ControllerReviewNode mReviewInProgress;
+	private final HashMap<String, ControllerReviewNode> mRNControllers;
 
 	public Controller() {
 		ReviewEditable r = FactoryReview.createReviewInProgress();

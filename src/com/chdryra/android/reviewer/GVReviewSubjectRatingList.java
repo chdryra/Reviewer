@@ -71,7 +71,7 @@ public class GVReviewSubjectRatingList extends GVReviewDataList<GVReviewSubjectR
 	}
 	
 	public class GVReviewSubjectRating implements GVData{
-		private String mSubject;
+		private final String mSubject;
 		private float mRating;
 		
 		public GVReviewSubjectRating(String subject, float rating) {

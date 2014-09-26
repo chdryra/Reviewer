@@ -8,6 +8,6 @@
 
 package com.chdryra.android.reviewer;
 
-public interface VisitorReviewNode{
+interface VisitorReviewNode{
 	public void visit(ReviewNode reviewNode);
 }
