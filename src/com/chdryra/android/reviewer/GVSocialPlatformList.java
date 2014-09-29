@@ -24,10 +24,6 @@ public class GVSocialPlatformList extends GVReviewDataList<GVSocialPlatformList.
 			add(new GVSocialPlatform(platform.getName(), platform.getFollowers()));
 	}
 
-    public static GVSocialPlatformList getCurrent(Context context) {
-        return new GVSocialPlatformList(context, false);
-    }
-
 	public static GVSocialPlatformList getLatest(Context context) {
 		return new GVSocialPlatformList(context, true);
 	}

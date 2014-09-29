@@ -34,7 +34,7 @@ public class DialogChildEditFragment extends DialogCancelDeleteDoneFragment {
 		mSubject = getArguments().getString(FragmentReviewChildren.CHILD_SUBJECT);
 		mRating = getArguments().getFloat(FragmentReviewChildren.CHILD_RATING);
 		setDialogTitle(getResources().getString(R.string.dialog_edit_criterion_title));
-		setDeleteWhatTitle(getResources().getString(R.string.dialog_delete_criterion_title));
+		setDeleteWhatTitle(mSubject);
 	}
 
 	@Override

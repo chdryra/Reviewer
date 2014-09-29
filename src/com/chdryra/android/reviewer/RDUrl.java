@@ -10,8 +10,6 @@ package com.chdryra.android.reviewer;
 
 import java.net.URL;
 
-import com.chdryra.android.mygenerallibrary.RandomTextUtils;
-
 public class RDUrl implements RData {
 	private Review mHoldingReview;
 	private final URL mURL;
@@ -23,10 +21,6 @@ public class RDUrl implements RData {
 
 	public URL get() {
 		return mURL;
-	}
-
-	public String toString() {
-		return RandomTextUtils.toStringURL(mURL);
 	}
 
 	@Override

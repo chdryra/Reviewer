@@ -28,7 +28,7 @@ public class FragmentFeed extends FragmentReviewGrid<GVReviewOverview> {
 		setGridCellDimension(CellDimension.FULL, CellDimension.FULL);
 		setController(null);
 		setDisplayHomeAsUp(false);
-        setBackgroundImageAlpha(0);
+        setTransparentGridCellBackground();
 	}
 
 	

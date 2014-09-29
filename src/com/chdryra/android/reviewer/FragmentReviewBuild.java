@@ -51,7 +51,7 @@ public class FragmentReviewBuild extends FragmentReviewGrid<GVCellManager> {
 		setDismissOnDone(false);
 		setBannerButtonText(getResources().getString(R.string.button_add_review_data));
 		setIsEditable(true);
-        setBackgroundImageAlpha(0);
+        setTransparentGridCellBackground();
 
 		mHelperReviewImage = HelperReviewImage.getInstance(getController());
 	}

@@ -31,9 +31,9 @@ public class DialogFactEditFragment extends DialogCancelDeleteDoneFragment {
 		super.onCreate(savedInstanceState);
 		mOldLabel = getArguments().getString(FragmentReviewFacts.FACT_LABEL);
 		mOldValue = getArguments().getString(FragmentReviewFacts.FACT_VALUE);
-		setDeleteConfirmation(false);
 		setDialogTitle(getResources().getString(R.string.dialog_edit_fact_title));
-	}
+        setDeleteWhatTitle(mOldLabel + ": " + mOldValue);
+    }
 	
 	@Override
 	protected View createDialogUI(ViewGroup parent) {

@@ -12,7 +12,6 @@ public class VisitorRatingAverageOverDescendents implements VisitorRatingCalcula
 	private float mRatingTotal = 0;
 	private int mNumberRatings = 0;
 	
-	@SuppressWarnings("WeakerAccess")
     public VisitorRatingAverageOverDescendents() {
 	}
 

@@ -16,7 +16,6 @@
     <!-- Dialogs -->
     <string name="dialog_add_criteria_title">Add Criterion</string>
     <string name="dialog_edit_criterion_title">Edit criterion</string>
-    <string name="dialog_delete_criterion_title">Criterion</string>
     <string name="dialog_url_title">Link</string>
     <string name="dialog_delete_url_title">Link</string>
     <string name="dialog_delete_urls_title">Links</string>
@@ -47,6 +46,7 @@
     <string name="activity_title_review_build">review</string>
     <string name="activity_title_tags">tags</string>
     <string name="activity_title_feed">feed</string>
+    <string name="activity_title_search">search</string>
 
     <!-- EditTexts -->
     <string name="edit_text_subject_hint">subject</string>

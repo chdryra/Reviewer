@@ -11,7 +11,6 @@ package com.chdryra.android.reviewer;
 import com.chdryra.android.mygenerallibrary.GVData;
 import com.chdryra.android.mygenerallibrary.GVList;
 
-
 public abstract class GVReviewDataList<T extends GVData> extends GVList<T>{
 	
 	public enum GVType {
@@ -27,7 +26,7 @@ public abstract class GVReviewDataList<T extends GVData> extends GVList<T>{
 		
 		private final String mDatumString;
 		private final String mDataString;
-		
+
 		GVType(String datum) {
 			mDatumString = datum;
 			mDataString = datum + "s";

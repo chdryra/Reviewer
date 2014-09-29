@@ -30,13 +30,8 @@ public class ReviewComponent implements ReviewNode {
 	public Review getReview() {
 		return mReview;
 	}
-	
-	@Override
-	public void setParent(Review parent) {
-	    setParent(new ReviewComponent(parent));
-	}
-	
-	@Override
+
+    @Override
 	public void setParent(ReviewNode parentNode) {
 		if(mParent != null && parentNode != null && mParent.getID().equals(parentNode.getID()))
 			return;
@@ -44,11 +39,6 @@ public class ReviewComponent implements ReviewNode {
 		mParent = parentNode;
 		if(mParent != null)
 			mParent.addChild(this);
-	}
-	
-	@Override
-	public ReviewNode getParent() {
-		return mParent;
 	}
 	
 	@Override
@@ -63,43 +53,13 @@ public class ReviewComponent implements ReviewNode {
 		mChildren.put(childNode.getID(), childNode);
 	    childNode.setParent(this);
 	}
-	
-	@Override
-	public ReviewNode getChild(RDId id) {
-		return mChildren.get(id);
-	}
-	
-	@Override
+
 	public void removeChild(RDId id) {
-		ReviewNode child = getChild(id);
+		ReviewNode child = mChildren.get(id);
 		child.setParent(null);
 		mChildren.remove(child.getID());
 	}
-	
-	@Override
-	public void addChildren(RCollectionReview children) {
-		for(Review child: children)
-			addChild(child);
-	}
-	
-	@Override
-	public void addChildren(RCollectionReviewNode children) {
-		for(ReviewNode childNode: children)
-			addChild(childNode);
-	}
 
-	@Override
-	public void removeChildren(RCollectionReviewNode children) {
-		for(Review child: children)
-			removeChild(child.getID());
-	}
-	
-	@Override
-	public void removeChildren(RCollectionReview children) {
-		for(Review child: children)
-			removeChild(child.getID());
-	}
-	
 	@Override
 	public void clearChildren() {
 		RCollectionReviewNode children = new RCollectionReviewNode();
@@ -114,7 +74,7 @@ public class ReviewComponent implements ReviewNode {
 	}
 	
 	@Override
-	public RCollectionReviewNode getDescendents() {
+	public RCollectionReviewNode getDescendants() {
 		TraverserReviewNode traverser = new TraverserReviewNode(this);
 		VisitorNodeCollector collector = new VisitorNodeCollector();
 		traverser.setVisitor(collector);
@@ -122,17 +82,7 @@ public class ReviewComponent implements ReviewNode {
 		
 		return collector.get();
 	}
-	
-	@Override
-	public RCollectionReview getChildrenReviews() {
-		RCollectionReviewNode childNodes = getChildren();
-		RCollectionReview childReviews = new RCollectionReview();
-		for(ReviewNode child : childNodes)
-			childReviews.add(child.getReview());
-		
-		return childReviews;
-	}
-	
+
 	@Override
 	public boolean isRatingIsAverageOfChildren() {
 		return mRatingIsAverage;
@@ -141,48 +91,6 @@ public class ReviewComponent implements ReviewNode {
 	@Override
 	public void setRatingIsAverageOfChildren(boolean ratingIsAverage) {
 		mRatingIsAverage = ratingIsAverage;
-	}
-	
-	@Override
-	public ReviewNode getRoot() {
-		ReviewNode root = this;
-		while(root.getParent() != null)
-			root = root.getParent();
-		
-		return root;
-	}
-
-	@Override
-	public int getDepth() {
-		int depth = 0;
-		if(mParent != null)
-			depth = 1 + mParent.getDepth();
-		
-		return depth;
-	}
-
-	@Override
-	public int getHeight() {
-		int height = 0;
-		for(ReviewNode child : getChildren())
-			height = Math.max(height, child.getHeight());
-		
-		return height;
-	}
-
-	@Override
-	public boolean isRoot() {
-		return mParent == null;
-	}
-
-	@Override
-	public boolean isLeaf() {
-		return getChildren().size() == 0;
-	}
-
-	@Override
-	public boolean isInternal() {
-		return !(isRoot() || isLeaf());
 	}
 
 	@Override

@@ -47,7 +47,6 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import org.jetbrains.annotations.NotNull;
 
-@SuppressWarnings("WeakerAccess")
 public class FragmentReviewLocationMap extends FragmentDeleteDone implements LocationClientConnector.Locatable {
 	private final static String TAG = "FragmentReviewLocationMap";
 	
@@ -91,7 +90,7 @@ public class FragmentReviewLocationMap extends FragmentDeleteDone implements Loc
 	    MapsInitializer.initialize(getActivity());
 
 	    setDeleteWhatTitle(getResources().getString(R.string.dialog_delete_location_title));
-	    setDismissOnDelete(true);
+        setDismissOnDelete(true);
 	}
 	
 	@Override
@@ -252,7 +251,7 @@ public class FragmentReviewLocationMap extends FragmentDeleteDone implements Loc
 			}
 		});
 
-		mSuggestionsAdapter = new LocationNameAdapter(getActivity(), android.R.layout.simple_list_item_1, mLatLng, 0, null);
+		mSuggestionsAdapter = new LocationNameAdapter(getActivity(), mLatLng, 0, null);
 		mSuggestionsAdapter.registerDataSetObserver(new LocationSuggestionsObserver());
 		
 		mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -282,9 +281,9 @@ public class FragmentReviewLocationMap extends FragmentDeleteDone implements Loc
 	}
 	
 	private CursorAdapter getSuggestionsCursorAdapter() {
-		//For some inexplicable reason SearchView only accepts CursorAdapters for suggestions.
+		//TODO For some inexplicable reason SearchView only accepts CursorAdapters for suggestions.
 		//Place name suggestions are fetched using the ArrayAdapter LocationNameAdapter.
-		//This is a (clunky) way of taking suggestions from LocationNameAdapter and putting in a CurserAdapter.
+		//This is a (clunky) way of taking suggestions from LocationNameAdapter and putting in a CursorAdapter.
 	    String[] columnNames = {"_id",SearchManager.SUGGEST_COLUMN_INTENT_DATA};
 	    String[] suggestion_row = new String[columnNames.length];
 	    MatrixCursor suggestions_cursor = new MatrixCursor(columnNames);
@@ -309,8 +308,7 @@ public class FragmentReviewLocationMap extends FragmentDeleteDone implements Loc
 		if(mLocationName != null) {
 			mLocationName.setText(null);
 			String primaryDefaultSuggestion = mSearchLocationName != null? mSearchLocationName : mReviewSubject;
-			mLocationName.setAdapter(new LocationNameAdapter(getActivity(), 
-					android.R.layout.simple_list_item_1, mLatLng, NUMBER_DEFAULT_NAMES, primaryDefaultSuggestion));
+			mLocationName.setAdapter(new LocationNameAdapter(getActivity(), mLatLng, NUMBER_DEFAULT_NAMES, primaryDefaultSuggestion));
 		}
 
 		zoomToLatLng();
@@ -440,33 +438,4 @@ public class FragmentReviewLocationMap extends FragmentDeleteDone implements Loc
 	    }
 
 	}
-//	import android.widget.RatingBar;
-//	import com.google.android.gms.maps.GoogleMap.InfoWindowAdapter;
-//	private class InfoWindowAdapterRated implements InfoWindowAdapter {
-//
-//		@Override
-//		public View getInfoContents(Marker arg0) {
-//			View v = getSherlockActivity().getLayoutInflater().inflate(R.layout.info_window_adapter_rated, null);
-//			TextView titleTextView = (TextView)v.findViewById(R.id.info_window_title);
-//			RatingBar ratingBar = (RatingBar)v.findViewById(R.id.info_window_rating_bar);
-//			
-//			String title = mLocationName.getText().toString();
-//			if(title != null && title.length() > 0) {
-//				titleTextView.setText(title);
-//				titleTextView.setVisibility(View.VISIBLE);
-//			} else
-//				titleTextView.setVisibility(View.GONE);
-//			
-//			ratingBar.setRating(mController.getRating());
-//			
-//			return v;
-//		}
-//
-//		@Override
-//		public View getInfoWindow(Marker arg0) {
-//			// TODO Auto-generated method stub
-//			return null;
-//		}
-//		
-//	}
 }

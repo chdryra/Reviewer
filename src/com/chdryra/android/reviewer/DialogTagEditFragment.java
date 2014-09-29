@@ -29,6 +29,7 @@ public class DialogTagEditFragment extends DialogCancelDeleteDoneFragment {
 		super.onCreate(savedInstanceState);		
 		mOldTag = getArguments().getString(FragmentReviewTags.TAG_STRING);
 		setDialogTitle(getResources().getString(R.string.dialog_edit_tag_title));
+        setDeleteWhatTitle(mOldTag);
 	}
 	
 	@Override

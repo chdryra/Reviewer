@@ -14,7 +14,6 @@ import java.net.URISyntaxException;
 import java.net.URL;
 
 import com.chdryra.android.mygenerallibrary.GVData;
-import com.chdryra.android.mygenerallibrary.RandomTextUtils;
 import com.chdryra.android.mygenerallibrary.ViewHolder;
 
 class GVUrlList extends GVReviewDataList<GVUrlList.GVUrl> {
@@ -57,11 +56,20 @@ class GVUrlList extends GVReviewDataList<GVUrlList.GVUrl> {
 		}
 		
 		public String toString() {
-			return RandomTextUtils.toStringURL(mUrl);
+			return mUrl != null? mUrl.toExternalForm() : null;
 		}
 		
 		public String toShortenedString() {
-			return RandomTextUtils.toShortenedStringURL(mUrl);
+            String protocol = mUrl.getProtocol();
+            String result = toString().replaceFirst(protocol + ":", "");
+            if (result.startsWith("//"))
+                result = result.substring(2);
+
+            result = result.trim();
+            if(result.endsWith("/"))
+                result = (String)result.subSequence(0, result.length() - 1);
+
+            return result;
 		}
 	
 		@Override

@@ -28,7 +28,6 @@ abstract class DialogAddReviewDataFragment extends DialogCancelAddDoneFragment {
 		super.onCreate(savedInstanceState);
 		mQuickSet = getArguments().getBoolean(QUICK_SET);
 		mController = Administrator.get(getActivity()).unpack(getArguments());
-		setAddOnDone(true);
 	}
 	
 	boolean isQuickSet() {

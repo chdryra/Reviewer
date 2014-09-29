@@ -39,7 +39,23 @@ import com.chdryra.android.reviewer.GVReviewDataList.GVType;
 
 @SuppressWarnings("EmptyMethod")
 public abstract class FragmentReviewGrid<T extends GVData> extends FragmentDeleteDone{
-	public enum CellDimension{FULL, HALF, QUARTER}
+    public enum GridViewImageAlpha {
+        TRANSPARENT(0),
+        MEDIUM(200),
+        OPAQUE(255);
+
+        private final int mAlpha;
+
+        private GridViewImageAlpha(int alpha) {
+            this.mAlpha= alpha;
+        }
+
+        public int getAlpha() {
+            return mAlpha;
+        }
+    }
+
+    public enum CellDimension{FULL, HALF, QUARTER}
 
 	private ControllerReviewNode mController;
 	
@@ -62,19 +78,19 @@ public abstract class FragmentReviewGrid<T extends GVData> extends FragmentDelet
 	private boolean mReviewInProgress = false;
 	private Class<? extends Activity> mOnDoneActivity;
 
-    int mImageAlpha = 200;
+    private GridViewImageAlpha mGridViewImageAlpha = GridViewImageAlpha.MEDIUM;
 
     @Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
+
 		mController = Administrator.get(getActivity()).unpack(getActivity().getIntent().getExtras());
-		
+
 		if(mController == null) {
 			setController(Administrator.get(getActivity()).createNewReviewInProgress());
 			mReviewInProgress = true;
 		}
-		
+
 		setGridCellDimension(CellDimension.HALF, CellDimension.QUARTER);
 		setBannerButtonText(getResources().getString(R.string.gl_button_add_text));
 	}
@@ -231,21 +247,16 @@ public abstract class FragmentReviewGrid<T extends GVData> extends FragmentDelet
 				getLayout().setBackground(bitmap);
 			else
 				getLayout().setBackgroundDrawable(bitmap);
-            getGridView().getBackground().setAlpha(mImageAlpha);
+            getGridView().getBackground().setAlpha(mGridViewImageAlpha.getAlpha());
 			
 		} else {
 			getLayout().setBackgroundColor(Color.TRANSPARENT);
-			getGridView().getBackground().setAlpha(255);
+			getGridView().getBackground().setAlpha(GridViewImageAlpha.OPAQUE.getAlpha());
 		}
 	}
 
-    protected void setBackgroundImageAlpha(int alpha) {
-        if(alpha > 255)
-            alpha = 255;
-        else if(alpha < 0)
-            alpha = 0;
-
-        mImageAlpha = alpha;
+    void setTransparentGridCellBackground() {
+        mGridViewImageAlpha = GridViewImageAlpha.TRANSPARENT;
     }
 
 	void updateSubjectTextUI() {
@@ -305,10 +316,6 @@ public abstract class FragmentReviewGrid<T extends GVData> extends FragmentDelet
 		return getSubjectView().getText().toString();
 	}
 	
-	protected float getRating() {
-		return getTotalRatingBar().getRating();
-	}
-	
 	RatingBar getTotalRatingBar() {
 		return mTotalRatingBar;
 	}
@@ -336,6 +343,11 @@ public abstract class FragmentReviewGrid<T extends GVData> extends FragmentDelet
 	void setController(ControllerReviewNode controller) {
 		mController = controller;
 	}
+
+    @Override
+    protected void setDeleteWhatTitle(String deleteWhat) {
+        super.setDeleteWhatTitle("all " + deleteWhat);
+    }
 
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {

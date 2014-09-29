@@ -9,9 +9,10 @@
 package com.chdryra.android.reviewer;
 
 import com.chdryra.android.mygenerallibrary.GVData;
-import com.chdryra.android.mygenerallibrary.RandomTextUtils;
 import com.chdryra.android.mygenerallibrary.ViewHolder;
 import com.google.android.gms.maps.model.LatLng;
+
+import java.util.StringTokenizer;
 
 class GVLocationList extends GVReviewDataList<GVLocationList.GVLocation> {
 	
@@ -49,7 +50,12 @@ class GVLocationList extends GVReviewDataList<GVLocationList.GVLocation> {
 		}
 
 		public String getShortenedName() {
-			return RandomTextUtils.shortened(mName, RDLocation.LOCATION_DELIMITER);
+            if(mName != null) {
+                StringTokenizer tokens = new StringTokenizer(mName, RDLocation.LOCATION_DELIMITER);
+                String shortened = tokens.nextToken();
+                return shortened != null? shortened.trim() : null;
+            } else
+                return null;
 		}
 
         @Override

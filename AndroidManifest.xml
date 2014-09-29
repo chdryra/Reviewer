@@ -178,6 +178,15 @@
                 android:value="com.chdryra.android.reviewer.ActivityReviewBuild" />
         </activity>
 
+        <!-- Search Activity (unified search - not finished) -->
+        <activity
+            android:name=".ActivitySearchable"
+            android:windowSoftInputMode="adjustPan"
+            android:label="@string/activity_title_search"
+            android:screenOrientation="portrait">
+        </activity>
+
+        <!-- Key for GMaps and setting up Google Play -->
         <meta-data 
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="AIzaSyCZ_ArQmEClJYtDtvbcbSQQbvUcCZf3KWg"/>

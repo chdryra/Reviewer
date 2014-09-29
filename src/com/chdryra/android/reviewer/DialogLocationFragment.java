@@ -50,7 +50,7 @@ public class DialogLocationFragment extends DialogCancelActionDoneFragment imple
 
         setActionButtonAction(RESULT_MAP);
 		setActionButtonText(getResources().getString(R.string.button_map_text));
-		setDismissDialogOnActionClick(true);
+		dismissDialogOnActionClick();
 	}
 	
 	@Override
@@ -132,7 +132,7 @@ public class DialogLocationFragment extends DialogCancelActionDoneFragment imple
 	}
 	
 	private void setSuggestionsAdapter() {
-		mAdapter = new LocationNameAdapter(getActivity(), android.R.layout.simple_list_item_1, mLatLng, 10, null);
+		mAdapter = new LocationNameAdapter(getActivity(), mLatLng, 10, null);
 		mLocationNameSuggestions.setAdapter(mAdapter);
 	}
 

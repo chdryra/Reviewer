@@ -37,7 +37,7 @@ public class FragmentReviewShare extends FragmentReviewGrid<GVSocialPlatformList
 		setDismissOnDone(false);
 		setBannerButtonText(getResources().getString(R.string.button_social));
 		setIsEditable(false);
-        setBackgroundImageAlpha(0);
+        setTransparentGridCellBackground();
 	}
 
 	@Override

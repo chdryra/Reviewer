@@ -34,7 +34,7 @@ public class DialogImageEditFragment extends DialogCancelDeleteDoneFragment {
 		mLatLng = getArguments().getParcelable(FragmentReviewImages.LATLNG);
 		mCaption = getArguments().getString(FragmentReviewImages.CAPTION);
 		setDialogTitle(null);
-		showKeyboardOnLaunch(false);
+		hideKeyboardOnLaunch();
 		setDeleteWhatTitle(getResources().getString(R.string.dialog_delete_image_title));
 	}
 

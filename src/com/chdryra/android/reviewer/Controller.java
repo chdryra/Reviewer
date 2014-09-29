@@ -8,20 +8,19 @@
 
 package com.chdryra.android.reviewer;
 
-import java.util.HashMap;
-
 import android.content.Intent;
 import android.os.Bundle;
+
+import com.chdryra.android.mygenerallibrary.IntentObjectHolder;
 
 class Controller {
 	private static final String CONTROLLER_ID = "com.chdryra.android.reviewer.review_id";
 	private final ControllerReviewNode mReviewInProgress;
-	private final HashMap<String, ControllerReviewNode> mRNControllers;
+    private final IntentObjectHolder mRNControllers;
 
 	public Controller() {
-		ReviewEditable r = FactoryReview.createReviewInProgress();
-		mReviewInProgress = new ControllerReviewNode(r);
-		mRNControllers = new HashMap<String, ControllerReviewNode>();
+		mReviewInProgress = new ControllerReviewNode(FactoryReview.createReviewInProgress());
+        mRNControllers = new IntentObjectHolder();
 	}
 	
 	static RDId convertID(String id) {
@@ -56,20 +55,15 @@ class Controller {
 	}
 		
 	private void register(ControllerReviewNode controller) {
-		if(!isRegistered(controller.getID()))
-			mRNControllers.put(controller.getID(), controller);
+		mRNControllers.addObject(controller.getID(), controller);
 	}
 	
 	private void unregister(ControllerReviewNode controller) {
-		if(controller != null && isRegistered(controller.getID()))
-			mRNControllers.remove(controller.getID());
-	}
-	
-	private boolean isRegistered(String id) {
-		return mRNControllers.containsKey(id);
+		if(controller != null)
+			mRNControllers.removeObject(controller.getID());
 	}
 	
 	private ControllerReviewNode get(String id) {
-		return isRegistered(id)? mRNControllers.get(id) : null;
+		return (ControllerReviewNode)mRNControllers.getObject(id);
 	}
 }

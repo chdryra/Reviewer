@@ -55,7 +55,7 @@ public class ControllerReviewNode{
 
 	public ReviewNode publishAndTag(ReviewTreePublisher publisher) {
         ReviewNode finalReview = publisher.publish(mNode.getReview());
-        for(ReviewNode node : finalReview.getDescendents()) {
+        for(ReviewNode node : finalReview.getDescendants()) {
             ReviewTagsManager.tag(node.getReview(), mTagsList);
         }
 

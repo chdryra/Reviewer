@@ -37,7 +37,7 @@ public class DialogURLFragment extends DialogCancelDeleteDoneFragment {
 		
 		setLeftButtonAction(RESULT_BROWSE);
 		setLeftButtonText(getResources().getString(R.string.button_browse_text));
-		setDismissDialogOnLeftClick(true);
+		dismissDialogOnLeftClick();
 
 		setDialogTitle(getResources().getString(R.string.dialog_url_title));
 		setDeleteConfirmation(true);

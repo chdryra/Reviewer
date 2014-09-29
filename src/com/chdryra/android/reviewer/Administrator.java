@@ -13,7 +13,6 @@ import android.content.Intent;
 import android.os.Bundle;
 
 public class Administrator {
-
 	private static Administrator sAdministrator;
 
 	private final ReviewNode mRoot;
