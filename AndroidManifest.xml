@@ -103,7 +103,7 @@
 
         <!-- Links -->
         <activity
-            android:name=".ActivityReviewUrls"
+            android:name=".ActivityReviewURLs"
             android:configChanges="orientation"
             android:exported="true"
             android:label="@string/activity_title_url"
@@ -116,7 +116,7 @@
 
         <!-- Browser choose link -->
         <activity
-            android:name=".ActivityReviewUrlBrowser"
+            android:name=".ActivityReviewURLBrowser"
             android:configChanges="orientation"
             android:exported="true"
             android:label="@string/activity_title_url"

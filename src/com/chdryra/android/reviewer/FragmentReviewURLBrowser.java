@@ -33,7 +33,7 @@ import com.chdryra.android.mygenerallibrary.FragmentDeleteDone;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-public class FragmentReviewUrlBrowser extends FragmentDeleteDone {
+public class FragmentReviewURLBrowser extends FragmentDeleteDone {
     public static final  String URL     = "com.chdryra.android.reviewer.url";
     public static final  String URL_OLD = "com.chdryra.android.reviewer.url_old";
     private static final String TAG     = "FragmentReviewUrlBrowser";
