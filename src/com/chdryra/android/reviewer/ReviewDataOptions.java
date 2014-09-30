@@ -71,7 +71,7 @@ public class ReviewDataOptions {
                         new VHLocationView(true)));
         mReviewDataOptions.put(GVType.URLS,
                 new ReviewDataOption(DialogURLFragment.class, URL_ADD, DIALOG_URL_TAG,
-                        ActivityReviewURLs.class, URL_REQUEST, new VHUrlView()));
+                        ActivityReviewUrls.class, URL_REQUEST, new VHUrlView()));
 
     }
 

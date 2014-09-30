@@ -103,7 +103,7 @@
 
         <!-- Links -->
         <activity
-            android:name=".ActivityReviewURLs"
+            android:name=".ActivityReviewUrls"
             android:configChanges="orientation"
             android:exported="true"
             android:label="@string/activity_title_url"
