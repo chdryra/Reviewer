@@ -20,7 +20,7 @@ import com.chdryra.android.mygenerallibrary.DialogCancelDeleteDoneFragment;
 import com.chdryra.android.reviewer.GVReviewDataList.GVType;
 import com.chdryra.android.reviewer.GVUrlList.GVUrl;
 
-public class DialogURLFragment extends DialogCancelDeleteDoneFragment {
+public class DialogUrlFragment extends DialogCancelDeleteDoneFragment {
     private static final ActionType RESULT_BROWSE = ActionType.OTHER;
 
     private static final String TAG = "DialogURLFragment";

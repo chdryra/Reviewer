@@ -116,7 +116,7 @@
 
         <!-- Browser choose link -->
         <activity
-            android:name=".ActivityReviewURLBrowser"
+            android:name=".ActivityReviewUrlBrowser"
             android:configChanges="orientation"
             android:exported="true"
             android:label="@string/activity_title_url"

@@ -12,10 +12,10 @@ import android.app.Fragment;
 
 import com.chdryra.android.mygenerallibrary.ActivitySingleFragment;
 
-public class ActivityReviewURLBrowser extends ActivitySingleFragment {
+public class ActivityReviewUrlBrowser extends ActivitySingleFragment {
 
     @Override
     protected Fragment createFragment() {
-        return new FragmentReviewURLBrowser();
+        return new FragmentReviewUrlBrowser();
     }
 }

@@ -19,8 +19,8 @@ import com.chdryra.android.reviewer.GVUrlList.GVUrl;
 
 import java.net.URL;
 
-public class FragmentReviewURLs extends FragmentReviewGridAddEditDone<GVUrl> {
-    private final static String URL = FragmentReviewURLBrowser.URL;
+public class FragmentReviewUrls extends FragmentReviewGridAddEditDone<GVUrl> {
+    private final static String URL = FragmentReviewUrlBrowser.URL;
 
     private GVUrlList mUrls;
 
@@ -43,7 +43,7 @@ public class FragmentReviewURLs extends FragmentReviewGridAddEditDone<GVUrl> {
     }
 
     private void requestBrowserIntent(int requestCode, URL url) {
-        Intent i = new Intent(getActivity(), ActivityReviewURLBrowser.class);
+        Intent i = new Intent(getActivity(), ActivityReviewUrlBrowser.class);
         i.putExtra(URL, url);
         startActivityForResult(i, requestCode);
     }
@@ -52,7 +52,7 @@ public class FragmentReviewURLs extends FragmentReviewGridAddEditDone<GVUrl> {
     protected void addData(int resultCode, Intent data) {
         switch (ActivityResultCode.get(resultCode)) {
             case DONE:
-                URL url = (URL) data.getSerializableExtra(FragmentReviewURLBrowser.URL);
+                URL url = (URL) data.getSerializableExtra(FragmentReviewUrlBrowser.URL);
                 if (url != null && !mUrls.contains(url)) {
                     mUrls.add(url);
                 }
@@ -65,13 +65,13 @@ public class FragmentReviewURLs extends FragmentReviewGridAddEditDone<GVUrl> {
     protected void editData(int resultCode, Intent data) {
         switch (ActivityResultCode.get(resultCode)) {
             case DONE:
-                URL oldUrl = (URL) data.getSerializableExtra(FragmentReviewURLBrowser.URL_OLD);
-                URL newUrl = (URL) data.getSerializableExtra(FragmentReviewURLBrowser.URL);
+                URL oldUrl = (URL) data.getSerializableExtra(FragmentReviewUrlBrowser.URL_OLD);
+                URL newUrl = (URL) data.getSerializableExtra(FragmentReviewUrlBrowser.URL);
                 mUrls.remove(oldUrl);
                 mUrls.add(newUrl);
                 break;
             case DELETE:
-                URL toDelete = (URL) data.getSerializableExtra(FragmentReviewURLBrowser.URL_OLD);
+                URL toDelete = (URL) data.getSerializableExtra(FragmentReviewUrlBrowser.URL_OLD);
                 mUrls.remove(toDelete);
                 break;
             default:

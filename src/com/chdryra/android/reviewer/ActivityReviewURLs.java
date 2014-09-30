@@ -16,7 +16,7 @@ public class ActivityReviewUrls extends ActivitySingleFragment {
 
     @Override
     protected Fragment createFragment() {
-        return new FragmentReviewURLs();
+        return new FragmentReviewUrls();
     }
 
 }
