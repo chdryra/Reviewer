@@ -26,19 +26,15 @@ public abstract class ReviewEditable implements Review {
     void deleteComments() {
         setComments(new RDList<RDComment>());
     }
-
 	void deleteFacts() {
         setFacts(new RDList<RDFact>());
     }
-
 	void deleteImages() {
         setImages(new RDList<RDImage>());
     }
-	
 	void deleteURLs() {
         setURLs(new RDList<RDUrl>());
     }
-
 	void deleteLocations() {
         setLocations(new RDList<RDLocation>());
     }

@@ -12,10 +12,10 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.NoSuchElementException;
 
-public class RCollection<T> implements Iterable<T> {
+class RCollection<T> implements Iterable<T> {
 	private final LinkedHashMap<RDId, T> mData = new LinkedHashMap<RDId, T>();
 
-	public RCollection() {
+	RCollection() {
 	}
 	
 	public void put(RDId id, T t) {

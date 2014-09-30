@@ -8,7 +8,7 @@
 
 package com.chdryra.android.reviewer;
 
-public class RCollectionReview extends RCollection<Review> {
+class RCollectionReview extends RCollection<Review> {
 	
 	public RCollectionReview() {
 	}

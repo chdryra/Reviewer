@@ -18,14 +18,15 @@ import com.chdryra.android.reviewer.SocialPlatformList.SocialPlatform;
 
 public class GVSocialPlatformList extends GVReviewDataList<GVSocialPlatformList.GVSocialPlatform> {
 
-	private GVSocialPlatformList(Context context, boolean latest) {
+	private GVSocialPlatformList(Context context) {
 		super(GVType.SOCIAL);
-		for(SocialPlatform platform : SocialPlatformList.get(context, latest))
+		for(SocialPlatform platform : SocialPlatformList.get(context))
 			add(new GVSocialPlatform(platform.getName(), platform.getFollowers()));
 	}
 
 	public static GVSocialPlatformList getLatest(Context context) {
-		return new GVSocialPlatformList(context, true);
+        SocialPlatformList.get(context).update();
+		return new GVSocialPlatformList(context);
 	}
 	
 	@Override

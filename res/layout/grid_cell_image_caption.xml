@@ -7,7 +7,7 @@
   ~ Date: 23 September, 2014
   -->
 
-<com.chdryra.android.reviewer.GridCellLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.chdryra.android.mygenerallibrary.GridCellLayout xmlns:android="http://schemas.android.com/apk/res/android"
     style="@style/GridCell" >
 
     <ImageView
@@ -19,4 +19,4 @@
         android:id="@+id/caption "
         style="@style/TextViewGridCell" />
 
-</com.chdryra.android.reviewer.GridCellLayout>
+</com.chdryra.android.mygenerallibrary.GridCellLayout>

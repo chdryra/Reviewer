@@ -40,7 +40,6 @@ public class DialogURLFragment extends DialogCancelDeleteDoneFragment {
 		dismissDialogOnLeftClick();
 
 		setDialogTitle(getResources().getString(R.string.dialog_url_title));
-		setDeleteConfirmation(true);
 		setDeleteWhatTitle(getResources().getString(R.string.dialog_url_title));
 	}
 	

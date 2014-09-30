@@ -44,17 +44,14 @@ public class SocialPlatformList implements Iterable<SocialPlatformList.SocialPla
 			mPlatforms.add(new SocialPlatform(platform.toString(context)));
 	}
 
-	public static SocialPlatformList get(Context context, boolean latest) {
+	public static SocialPlatformList get(Context context) {
 		if(sList == null)
 			sList = new SocialPlatformList(context);
 
-		if(latest)
-			sList.update();
-		
 		return sList;
 	}
 	
-	private void update() {
+	public void update() {
 		for(SocialPlatform platform : this)
 			platform.update();
 	}

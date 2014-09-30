@@ -7,7 +7,7 @@
   ~ Date: 23 September, 2014
   -->
 
-<com.chdryra.android.reviewer.GridCellLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.chdryra.android.mygenerallibrary.GridCellLayout xmlns:android="http://schemas.android.com/apk/res/android"
     style="@style/GridCell" >
 
     <RelativeLayout 
@@ -61,4 +61,4 @@
 	            android:layout_height="wrap_content"/>
 	    </LinearLayout>
     </RelativeLayout>
-</com.chdryra.android.reviewer.GridCellLayout>
+</com.chdryra.android.mygenerallibrary.GridCellLayout>

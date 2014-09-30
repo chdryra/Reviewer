@@ -54,7 +54,7 @@ public class ReviewComponent implements ReviewNode {
 	    childNode.setParent(this);
 	}
 
-	public void removeChild(RDId id) {
+	void removeChild(RDId id) {
 		ReviewNode child = mChildren.get(id);
 		child.setParent(null);
 		mChildren.remove(child.getID());
