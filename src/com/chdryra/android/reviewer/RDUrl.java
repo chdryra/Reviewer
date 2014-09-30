@@ -11,31 +11,30 @@ package com.chdryra.android.reviewer;
 import java.net.URL;
 
 public class RDUrl implements RData {
-	private Review mHoldingReview;
-	private final URL mURL;
+    private final URL    mUrl;
+    private       Review mHoldingReview;
 
-	public RDUrl(URL url, Review holdingReview) {
-		mURL = url;
-		mHoldingReview = holdingReview;
-	}
+    public RDUrl(URL url, Review holdingReview) {
+        mUrl = url;
+        mHoldingReview = holdingReview;
+    }
 
-	public URL get() {
-		return mURL;
-	}
+    public URL get() {
+        return mUrl;
+    }
 
-	@Override
-	public void setHoldingReview(Review review) {
-		mHoldingReview = review;
-	}
+    @Override
+    public Review getHoldingReview() {
+        return mHoldingReview;
+    }
 
-	@Override
-	public Review getHoldingReview() {
-		return mHoldingReview;
-	}
+    @Override
+    public void setHoldingReview(Review review) {
+        mHoldingReview = review;
+    }
 
-
-	@Override
-	public boolean hasData() {
-		return mURL != null;
-	}
+    @Override
+    public boolean hasData() {
+        return mUrl != null;
+    }
 }
