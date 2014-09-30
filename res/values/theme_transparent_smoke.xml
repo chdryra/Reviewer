@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (c) 2014, Rizwan Choudrey - All Rights Reserved
   ~ Unauthorized copying of this file, via any medium is strictly prohibited
   ~ Proprietary and confidential
@@ -8,13 +7,15 @@
   -->
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
-   	
+
     <!-- Slate Smoke -->
     <style name="Theme.Reviewer.TransSmoke">
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:colorBackground">@android:color/transparent</item>
-		<item name="android:autoCompleteTextViewStyle">@style/Widget.AutoCompleteTextView.TransSmoke</item>
-	   	<item name="android:textViewStyle">@style/Widget.TextView.TransSmoke</item>
+        <item name="android:autoCompleteTextViewStyle">
+            @style/Widget.AutoCompleteTextView.TransSmoke
+        </item>
+        <item name="android:textViewStyle">@style/Widget.TextView.TransSmoke</item>
         <item name="android:editTextStyle">@style/Widget.EditText.TransSmoke</item>
         <item name="android:buttonStyle">@style/Widget.Button.TransSmoke</item>
         <item name="android:gridViewStyle">@style/Widget.GridView.TransSmoke</item>
@@ -22,13 +23,13 @@
         <item name="android:alertDialogTheme">@style/Theme.Dialog.TransSmoke</item>
         <item name="android:dialogTheme">@style/Theme.Dialog.TransSmoke</item>
     </style>
-            
+
     <style name="Widget.AutoCompleteTextView.TransSmoke">
         <item name="android:textColor">@color/Smoke</item>
         <item name="android:textColorPrimaryInverse">@color/Slate</item>
         <item name="android:textColorHint">@color/Smoke</item>
     </style>
-    
+
     <style name="Widget.TextView.TransSmoke">
         <item name="android:textColor">@color/Smoke</item>
         <item name="android:textColorPrimaryInverse">@color/Slate</item>
@@ -39,26 +40,26 @@
         <item name="android:textColorPrimaryInverse">@color/Slate</item>
         <item name="android:textColorHint">@color/Smoke</item>
     </style>
-    
+
     <style name="Widget.Button.TransSmoke">
         <item name="android:textColor">@color/Smoke</item>
         <item name="android:textColorPrimaryInverse">@color/Slate</item>
         <item name="android:background">@drawable/selector_smoke_slate</item>
     </style>
-    
+
     <style name="Widget.GridCell.TransSmoke">
         <item name="android:background">@android:color/transparent</item>
     </style>
-    
+
     <style name="Widget.GridView.TransSmoke">
         <item name="android:listSelector">@drawable/selector_smoke_slate_grid_view</item>
         <item name="android:background">@color/TransSlate</item>
     </style>
-     
-   	<style name="Theme.Dialog.TransSmoke">
-		<item name="android:textColor">@color/Smoke</item>
-		<item name="android:textColorPrimaryInverse">@color/Slate</item>
-		<item name="android:background">@android:color/transparent</item>
-   	</style>
-    
+
+    <style name="Theme.Dialog.TransSmoke">
+        <item name="android:textColor">@color/Smoke</item>
+        <item name="android:textColorPrimaryInverse">@color/Slate</item>
+        <item name="android:background">@android:color/transparent</item>
+    </style>
+
 </resources>

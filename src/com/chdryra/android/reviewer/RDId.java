@@ -10,60 +10,61 @@ package com.chdryra.android.reviewer;
 
 import java.util.UUID;
 
-public class RDId implements RData{
-	private final UUID mID;
-	
-	private RDId() {
-		mID = UUID.randomUUID();
-	}
-	
-	private RDId(String rDId) {
-		mID = UUID.fromString(rDId);
-	}
-	
-	public static RDId generateID() {
-		return new RDId();
-	}
+public class RDId implements RData {
+    private final UUID mId;
 
-	public static RDId generateID(String rDId) {
-		return new RDId(rDId);
-	}
+    private RDId() {
+        mId = UUID.randomUUID();
+    }
 
-	@Override
-	public void setHoldingReview(Review review) {
-		throw new UnsupportedOperationException();
-	}
+    private RDId(String rdId) {
+        mId = UUID.fromString(rdId);
+    }
 
-	@Override
-	public ReviewEditable getHoldingReview() {
-		return FactoryReview.createNullReview();
-	}
+    public static RDId generateId() {
+        return new RDId();
+    }
 
-	@Override
-	public boolean hasData() {
-		return true;
-	}
-	
-	public boolean equals(RDId rDId) {
-		return mID.equals(rDId.mID);
-	}
-	
-	public String toString() {
-		return mID.toString();
-	}
+    public static RDId generateId(String rdId) {
+        return new RDId(rdId);
+    }
 
-	@Override
-	public boolean equals(Object obj) {
-		if(obj == null || obj.getClass() != getClass())
-			return false;
-		
-		RDId objId = (RDId)obj;
-		return this.mID.equals(objId.mID);
-	}
-	
-	@Override
-	public int hashCode() {
-		return mID.hashCode();
-	}
-	
+    @Override
+    public ReviewEditable getHoldingReview() {
+        return FactoryReview.createNullReview();
+    }
+
+    @Override
+    public void setHoldingReview(Review review) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public boolean hasData() {
+        return true;
+    }
+
+    public boolean equals(RDId rdId) {
+        return mId.equals(rdId.mId);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null || obj.getClass() != getClass()) {
+            return false;
+        }
+
+        RDId objId = (RDId) obj;
+        return this.mId.equals(objId.mId);
+    }
+
+    @Override
+    public int hashCode() {
+        return mId.hashCode();
+    }
+
+    public String toString() {
+        return mId.toString();
+    }
+
 }

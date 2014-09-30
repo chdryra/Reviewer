@@ -16,17 +16,17 @@ import com.chdryra.android.mygenerallibrary.ActivitySingleFragment;
 
 public class ActivityReviewLocationMap extends ActivitySingleFragment {
 
-	private FragmentReviewLocationMap mFragment;
-	
-	@Override
-	protected Fragment createFragment() {
-		mFragment = new FragmentReviewLocationMap();
-		return mFragment;
-	}
-	
-	@Override
-	protected void onNewIntent(Intent intent) {
-	    setIntent(intent);
-	    mFragment.handleSearch();
-	}
+    private FragmentReviewLocationMap mFragment;
+
+    @Override
+    protected Fragment createFragment() {
+        mFragment = new FragmentReviewLocationMap();
+        return mFragment;
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        setIntent(intent);
+        mFragment.handleSearch();
+    }
 }

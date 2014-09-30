@@ -8,174 +8,176 @@
 
 package com.chdryra.android.reviewer;
 
-public class ReviewUserEditable extends ReviewEditable {	
-	private RDId mID;
-	private RDSubject mSubject;
-	private RDRating mRating;
-	
-	private RDList<RDComment> mComments;
-	private RDList<RDImage> mImages;	
-	private RDList<RDFact> mFacts;
-	private RDList<RDUrl> mURLs;
-	private RDList<RDLocation> mLocations;
+public class ReviewUserEditable extends ReviewEditable {
+    private RDId      mID;
+    private RDSubject mSubject;
+    private RDRating  mRating;
 
-	public ReviewUserEditable(String subject) {	
-		init(subject);
-	}
+    private RDList<RDComment>  mComments;
+    private RDList<RDImage>    mImages;
+    private RDList<RDFact>     mFacts;
+    private RDList<RDUrl>      mURLs;
+    private RDList<RDLocation> mLocations;
 
-	private void init(String subject) {
-		mID = RDId.generateID();
-		mSubject = new RDSubject(subject, this);
-		mRating = new RDRating(0, this);
-		
-		//Null option data
-		mComments = new RDList<RDComment>();
-		mImages = new RDList<RDImage>();
-		mLocations = new RDList<RDLocation>();
-		mFacts = new RDList<RDFact>();
-		mURLs = new RDList<RDUrl>();		
-	}
-	
-	@Override
-	public RDId getID() {
-		return mID;
-	}
-	
-	@Override
-	public RDSubject getSubject() {
-		return mSubject;
-	}
+    public ReviewUserEditable(String subject) {
+        init(subject);
+    }
 
-	@Override
-	public void setSubject(String subject) {
-		mSubject = new RDSubject(subject, this);
-	}
+    private void init(String subject) {
+        mID = RDId.generateId();
+        mSubject = new RDSubject(subject, this);
+        mRating = new RDRating(0, this);
 
-	@Override
-	public void setRating(float rating) {
-		mRating = new RDRating(rating, this);
-	}
+        //Null option data
+        mComments = new RDList<RDComment>();
+        mImages = new RDList<RDImage>();
+        mLocations = new RDList<RDLocation>();
+        mFacts = new RDList<RDFact>();
+        mURLs = new RDList<RDUrl>();
+    }
 
-	@Override
-	public RDRating getRating() {
-		return mRating;
-	}
-	
-	@Override
-	public ReviewTagCollection getTags() {
-		return ReviewTagsManager.getTags(this);
-	}
-	
-	private <T extends RData> RDList<T> processData(RDList<T> newData, RDList<T> ifNull) {
-		RDList<T> member;
-		if(newData != null)
-			member = newData;
-		else
-			member = ifNull;
-		
-		member.setHoldingReview(this);
-		
-		return member;
-	}
+    @Override
+    public RDId getId() {
+        return mID;
+    }
 
-	@Override
-	public RDList<RDImage> getImages() {
-		return mImages;
-	}
-	
-	@Override
-	public void setImages(RDList<RDImage> images) {
-		mImages = processData(images, new RDList<RDImage>());
-	}
+    @Override
+    public RDSubject getSubject() {
+        return mSubject;
+    }
 
-	@Override
-	public boolean hasImages() {
-		return mImages.hasData();
-	}
-	
-	@Override
-	public RDList<RDLocation> getLocations() {
-		return mLocations;
-	}
-	
-	@Override
-	public void setLocations(RDList<RDLocation> locations) {
-		mLocations = processData(locations, new RDList<RDLocation>());
-	}
+    @Override
+    public void setSubject(String subject) {
+        mSubject = new RDSubject(subject, this);
+    }
 
-	@Override
-	public boolean hasLocations() {
-		return mLocations.hasData();
-	}
+    @Override
+    public RDRating getRating() {
+        return mRating;
+    }
 
-	@Override
-	public RDList<RDFact> getFacts() {
-		return mFacts;
-	}
+    @Override
+    public void setRating(float rating) {
+        mRating = new RDRating(rating, this);
+    }
 
-	@Override
-	public void setFacts(RDList<RDFact> facts) {
-		mFacts = processData(facts, new RDList<RDFact>());
-	}
+    @Override
+    public ReviewTagCollection getTags() {
+        return ReviewTagsManager.getTags(this);
+    }
 
-	@Override
-	public boolean hasFacts() {
-		return mFacts.hasData();
-	}
-	
-	@Override
-	public void setComments(RDList<RDComment> comments){
-		mComments = processData(comments, new RDList<RDComment>());
-	}
+    @Override
+    public ReviewNode getReviewNode() {
+        return FactoryReview.createReviewNode(this);
+    }
 
-	@Override
-	public RDList<RDComment> getComments() {
-		return mComments;
-	}
-	
-	@Override
-	public boolean hasComments() {
-		return mComments.hasData();
-	}
+    @Override
+    public ReviewNode publish(ReviewTreePublisher publisher) {
+        Review review = new ReviewUser(publisher.getAuthor(), publisher.getPublishDate(), this);
 
-	@Override
-	public RDList<RDUrl> getURLs() {
-		return mURLs;
-	}
+        return publisher.publish(review);
+    }
 
-	@Override
-	public void setURLs(RDList<RDUrl> urls) {
-		mURLs = processData(urls, new RDList<RDUrl>());
-	}
+    @Override
+    public RDList<RDComment> getComments() {
+        return mComments;
+    }
 
-	@Override
-	public boolean hasURLs() {
-		return mURLs.hasData();
-	}
-	
-	@Override
-	public boolean equals(Object obj) {
-		if(obj == null || obj.getClass() != getClass())
-			return false;
-		
-		ReviewUserEditable objReview = (ReviewUserEditable)obj;
-		return mID.equals(objReview.mID);
-	}
-	
-	@Override
-	public int hashCode() {
-		return mID.hashCode();
-	}
+    @Override
+    public void setComments(RDList<RDComment> comments) {
+        mComments = processData(comments, new RDList<RDComment>());
+    }
 
-	@Override
-	public ReviewNode publish(ReviewTreePublisher publisher) {
-		Review review = new ReviewUser(publisher.getAuthor(), publisher.getPublishDate(), this); 
-		
-		return publisher.publish(review);
-	}
+    private <T extends RData> RDList<T> processData(RDList<T> newData, RDList<T> ifNull) {
+        RDList<T> member;
+        if (newData != null) {
+            member = newData;
+        } else {
+            member = ifNull;
+        }
 
-	@Override
-	public ReviewNode getReviewNode() {
-		return FactoryReview.createReviewNode(this);
-	}
+        member.setHoldingReview(this);
+
+        return member;
+    }
+
+    @Override
+    public boolean hasComments() {
+        return mComments.hasData();
+    }
+
+    @Override
+    public RDList<RDFact> getFacts() {
+        return mFacts;
+    }
+
+    @Override
+    public void setFacts(RDList<RDFact> facts) {
+        mFacts = processData(facts, new RDList<RDFact>());
+    }
+
+    @Override
+    public boolean hasFacts() {
+        return mFacts.hasData();
+    }
+
+    @Override
+    public RDList<RDImage> getImages() {
+        return mImages;
+    }
+
+    @Override
+    public void setImages(RDList<RDImage> images) {
+        mImages = processData(images, new RDList<RDImage>());
+    }
+
+    @Override
+    public boolean hasImages() {
+        return mImages.hasData();
+    }
+
+    @Override
+    public RDList<RDUrl> getURLs() {
+        return mURLs;
+    }
+
+    @Override
+    public void setURLs(RDList<RDUrl> urls) {
+        mURLs = processData(urls, new RDList<RDUrl>());
+    }
+
+    @Override
+    public boolean hasURLs() {
+        return mURLs.hasData();
+    }
+
+    @Override
+    public RDList<RDLocation> getLocations() {
+        return mLocations;
+    }
+
+    @Override
+    public void setLocations(RDList<RDLocation> locations) {
+        mLocations = processData(locations, new RDList<RDLocation>());
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null || obj.getClass() != getClass()) {
+            return false;
+        }
+
+        ReviewUserEditable objReview = (ReviewUserEditable) obj;
+        return mID.equals(objReview.mID);
+    }
+
+    @Override
+    public int hashCode() {
+        return mID.hashCode();
+    }
+
+    @Override
+    public boolean hasLocations() {
+        return mLocations.hasData();
+    }
 }

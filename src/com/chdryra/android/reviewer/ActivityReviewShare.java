@@ -14,9 +14,9 @@ import com.chdryra.android.mygenerallibrary.ActivitySingleFragment;
 
 public class ActivityReviewShare extends ActivitySingleFragment {
 
-	@Override
-	protected Fragment createFragment() {
-		return new FragmentReviewShare();
-	}
+    @Override
+    protected Fragment createFragment() {
+        return new FragmentReviewShare();
+    }
 
 }

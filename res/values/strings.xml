@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (c) 2014, Rizwan Choudrey - All Rights Reserved
   ~ Unauthorized copying of this file, via any medium is strictly prohibited
   ~ Proprietary and confidential
@@ -14,25 +13,26 @@
     <string name="search_hint">Search</string>
 
     <!-- Dialogs -->
-    <string name="dialog_add_criteria_title">Add Criterion</string>
-    <string name="dialog_edit_criterion_title">Edit criterion</string>
-    <string name="dialog_url_title">Link</string>
-    <string name="dialog_delete_url_title">Link</string>
-    <string name="dialog_delete_urls_title">Links</string>
-    <string name="dialog_add_tag_title">Add Tags</string>
-    <string name="dialog_edit_tag_title">Edit Tag</string>
-    <string name="dialog_delete_tags_title">Tags</string>
+    <string name="dialog_add_criteria_title">Add criterion</string>
     <string name="dialog_add_comments_title">Add comments</string>
+    <string name="dialog_add_fact_title">Add fact</string>
+    <string name="dialog_add_tag_title">Add tags</string>
+    <string name="dialog_url_title">Link</string>
+    <string name="dialog_edit_tag_title">Edit tag</string>
+    <string name="dialog_edit_criterion_title">Edit criterion</string>
     <string name="dialog_edit_comment_title">Edit comment</string>
+    <string name="dialog_edit_fact_title">Edit fact</string>
+    <string name="dialog_delete_facts_title">facts</string>
+    <string name="dialog_delete_comment_title">comment</string>
+    <string name="dialog_delete_comments_title">comments</string>
+    <string name="dialog_delete_image_title">image</string>
+    <string name="dialog_delete_images_title">images</string>
+    <string name="dialog_delete_location_title">location</string>
+    <string name="dialog_delete_locations_title">locations</string>
+    <string name="dialog_delete_url_title">link</string>
+    <string name="dialog_delete_urls_title">links</string>
+    <string name="dialog_delete_tags_title">tags</string>
     <string name="dialog_image_content_description">Review image</string>
-    <string name="dialog_add_fact_title">Add Fact</string>
-    <string name="dialog_edit_fact_title">Edit Fact</string>
-    <string name="dialog_delete_fact_title">Fact</string>
-    <string name="dialog_delete_comment_title">Comment</string>
-    <string name="dialog_delete_image_title">Image</string>
-    <string name="dialog_delete_images_title">Images</string>
-    <string name="dialog_delete_location_title">Location</string>
-    <string name="dialog_delete_locations_title">Locations</string>
     <string name="dialog_set_image_as_background">Set image as cover?</string>
 
     <!-- Activities -->
@@ -99,13 +99,14 @@
     <string name="toast_enter_subject">Please enter a subject&#8230;</string>
     <string name="toast_exists_criterion">You\'ve already added this criterion&#8230;</string>
     <string name="toast_enter_label">Please enter a label e.g. price, director etc.&#8230;</string>
-    <string name="toast_enter_value">Please enter a value e.g. 10, A.N. Other etc.&#8230;</string>
-    <string name="toast_has_fact">You\'ve already added this fact. Must be really important&#8230;</string>
+    <string name="toast_enter_value">Please enter a value&#8230;</string>
+    <string name="toast_has_fact">You\'ve already added this label&#8230;</string>
     <string name="toast_has_tag">You\'ve already added this tag&#8230;</string>
     <string name="toast_has_comment">You\'ve already added this comment&#8230;</string>
     <string name="toast_split_comment">Showing sentences&#8230;</string>
     <string name="toast_unsplit_comment">Showing headlines&#8230;</string>
     <string name="toast_bad_url">Link does not make sense&#8230;</string>
+    <string name="toast_map_search_failed">Couldn\'t find location&#8230;</string>
     <string name="toast_enter_tag">Please enter at least one tag to help categorise it&#8230;</string>
     <string name="toast_enter_location">Please enter a location name&#8230;</string>
 

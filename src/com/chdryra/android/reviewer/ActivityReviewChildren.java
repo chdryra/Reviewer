@@ -8,15 +8,15 @@
 
 package com.chdryra.android.reviewer;
 
-import com.chdryra.android.mygenerallibrary.ActivitySingleFragment;
-
 import android.app.Fragment;
+
+import com.chdryra.android.mygenerallibrary.ActivitySingleFragment;
 
 public class ActivityReviewChildren extends ActivitySingleFragment {
 
-	@Override
-	protected Fragment createFragment() {
-		return new FragmentReviewChildren();
-	}
+    @Override
+    protected Fragment createFragment() {
+        return new FragmentReviewChildren();
+    }
 
 }

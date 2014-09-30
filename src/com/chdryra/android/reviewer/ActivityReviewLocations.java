@@ -15,8 +15,8 @@ import com.chdryra.android.mygenerallibrary.ActivitySingleFragment;
 
 public class ActivityReviewLocations extends ActivitySingleFragment {
 
-	@Override
-	protected Fragment createFragment() {
-		return new FragmentReviewLocations();
-	}
+    @Override
+    protected Fragment createFragment() {
+        return new FragmentReviewLocations();
+    }
 }

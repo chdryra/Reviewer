@@ -9,25 +9,25 @@
 package com.chdryra.android.reviewer;
 
 class TraverserReviewNode {
-	private final ReviewNode mHead;
-	private final TraverserSearchMethod mSearchMethod;
-	private VisitorReviewNode mVisitor;
+    private final ReviewNode            mHead;
+    private final TraverserSearchMethod mSearchMethod;
+    private       VisitorReviewNode     mVisitor;
 
     public TraverserReviewNode(ReviewNode head) {
-		mHead = head;
-		mSearchMethod = new TraverserSearchDepthFirstPre();
-		setVisitor(null);
-	}
+        mHead = head;
+        mSearchMethod = new TraverserSearchDepthFirstPre();
+        setVisitor(null);
+    }
 
-	public void setVisitor(VisitorReviewNode visitor) {
-		mVisitor = visitor == null? new VisitorNull() : visitor; 
-	}
+    public void setVisitor(VisitorReviewNode visitor) {
+        mVisitor = visitor == null ? new VisitorNull() : visitor;
+    }
 
-	public void traverse() {
-		traverse(mVisitor);
-	}
+    public void traverse() {
+        traverse(mVisitor);
+    }
 
-	private void traverse(VisitorReviewNode visitor) {
-		mSearchMethod.search(mHead, visitor, 0);
-	}
+    private void traverse(VisitorReviewNode visitor) {
+        mSearchMethod.search(mHead, visitor, 0);
+    }
 }

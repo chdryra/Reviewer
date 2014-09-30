@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (c) 2014, Rizwan Choudrey - All Rights Reserved
   ~ Unauthorized copying of this file, via any medium is strictly prohibited
   ~ Proprietary and confidential
@@ -10,9 +9,9 @@
 <com.chdryra.android.myandroidwidgets.ClearableEditText xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/review_subject_edit_text"
     style="@style/EditTextCapSentences.Done"
+    android:background="@null"
     android:cursorVisible="false"
     android:gravity="center"
     android:hint="@string/edit_text_subject_hint"
-    android:background="@null"
     android:padding="@dimen/subject_text_padding"
-    android:textAppearance="?android:attr/textAppearanceLarge"/>
+    android:textAppearance="?android:attr/textAppearanceLarge" />

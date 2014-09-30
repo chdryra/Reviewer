@@ -9,5 +9,5 @@
 package com.chdryra.android.reviewer;
 
 interface TraverserSearchMethod {
-	public void search(ReviewNode node, VisitorReviewNode visitor, int depth);
+    public void search(ReviewNode node, VisitorReviewNode visitor, int depth);
 }

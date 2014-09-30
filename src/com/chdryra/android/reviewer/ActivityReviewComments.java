@@ -14,9 +14,9 @@ import com.chdryra.android.mygenerallibrary.ActivitySingleFragment;
 
 public class ActivityReviewComments extends ActivitySingleFragment {
 
-	@Override
-	protected Fragment createFragment() {
-		return new FragmentReviewComments();
-	}
+    @Override
+    protected Fragment createFragment() {
+        return new FragmentReviewComments();
+    }
 
 }

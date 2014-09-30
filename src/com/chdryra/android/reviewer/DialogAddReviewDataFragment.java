@@ -17,34 +17,35 @@ import com.chdryra.android.mygenerallibrary.GVData;
 import com.chdryra.android.reviewer.GVReviewDataList.GVType;
 
 abstract class DialogAddReviewDataFragment extends DialogCancelAddDoneFragment {
-	public static final String QUICK_SET = "com.chdryra.android.reviewer.dialog_quick_mode";
-	
-	private ControllerReviewNode mController;
-	private boolean mQuickSet = false;
-	private GVReviewDataList<? extends GVData> mData;
-	
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		mQuickSet = getArguments().getBoolean(QUICK_SET);
-		mController = Administrator.get(getActivity()).unpack(getArguments());
-	}
-	
-	boolean isQuickSet() {
-		return mQuickSet;
-	}
+    public static final String QUICK_SET = "com.chdryra.android.reviewer.dialog_quick_mode";
+
+    private ControllerReviewNode mController;
+    private boolean mQuickSet = false;
+    private GVReviewDataList<? extends GVData> mData;
 
     GVReviewDataList<? extends GVData> setAndInitData(GVType dataType) {
-		mData = mController.getData(dataType);
-		return mData;
-	}
-	
-	@Override
-	protected void onDoneButtonClick() {
-		if(isQuickSet())
-			mController.setData(mData);
-	}
-	
-	@Override
-	protected abstract View createDialogUI(ViewGroup parent);
+        mData = mController.getData(dataType);
+        return mData;
+    }
+
+    @Override
+    protected void onDoneButtonClick() {
+        if (isQuickSet()) {
+            mController.setData(mData);
+        }
+    }
+
+    boolean isQuickSet() {
+        return mQuickSet;
+    }
+
+    @Override
+    protected abstract View createDialogUI(ViewGroup parent);
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mQuickSet = getArguments().getBoolean(QUICK_SET);
+        mController = Administrator.get(getActivity()).unpack(getArguments());
+    }
 }

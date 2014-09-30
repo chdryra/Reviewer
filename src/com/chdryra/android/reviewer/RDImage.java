@@ -12,50 +12,53 @@ import android.graphics.Bitmap;
 
 import com.google.android.gms.maps.model.LatLng;
 
-public class RDImage implements RData{
-	
-	private Review mHoldingReview;
-	private final Bitmap mBitmap;
-	private final String mCaption;
-	private final LatLng mLatLng;
-	private boolean mIsCover = false;
+public class RDImage implements RData {
 
-	public RDImage(Bitmap bitmap, LatLng latLng, String caption, boolean isCover, Review holdingReview) {
-		mBitmap = bitmap;
-		mLatLng = latLng;
-		mCaption = caption;
-		mIsCover = isCover;
-		mHoldingReview = holdingReview;
-	}
-	
-	@Override
-	public void setHoldingReview(Review review) {
-		mHoldingReview = review;
-	}
+    private final Bitmap mBitmap;
+    private final String mCaption;
+    private final LatLng mLatLng;
+    private       Review mHoldingReview;
+    private boolean mIsCover = false;
 
-	@Override
-	public Review getHoldingReview() {
-		return mHoldingReview;
-	}	
-	
-	@Override
-	public boolean hasData() {
-		return mBitmap != null;
-	}
+    public RDImage(Bitmap bitmap, LatLng latLng, String caption, boolean isCover,
+                   Review holdingReview) {
+        mBitmap = bitmap;
+        mLatLng = latLng;
+        mCaption = caption;
+        mIsCover = isCover;
+        mHoldingReview = holdingReview;
+    }
 
-	public Bitmap getBitmap() {
-		return mBitmap;
-	}
-	
-	public String getCaption() {
-		return mCaption;
-	}
+    public Bitmap getBitmap() {
+        return mBitmap;
+    }
 
-	public LatLng getLatLng() {
-		return mLatLng;
-	}
+    public String getCaption() {
+        return mCaption;
+    }
 
-	public boolean isCover() {
-		return mIsCover;
-	}
+    @Override
+    public Review getHoldingReview() {
+        return mHoldingReview;
+    }
+
+    @Override
+    public void setHoldingReview(Review review) {
+        mHoldingReview = review;
+    }
+
+    @Override
+    public boolean hasData() {
+        return mBitmap != null;
+    }
+
+    public LatLng getLatLng() {
+        return mLatLng;
+    }
+
+    public boolean isCover() {
+        return mIsCover;
+    }
+
+
 }

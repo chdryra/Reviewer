@@ -19,27 +19,27 @@ import android.widget.Toast;
 
 import org.jetbrains.annotations.NotNull;
 
-@SuppressWarnings("WeakerAccess")
 public class FragmentSearchable extends ListFragment {
 
-	@Override
-	public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		super.onCreateView(inflater, container, savedInstanceState);
-		View v = inflater.inflate(R.layout.fragment_searchable, container, false);
-		
-		handleSearch();
-		return v;
-	}
-	
-	private void handleSearch() {
-	    Intent intent = getActivity().getIntent(); 
-		if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
-	      String query = intent.getStringExtra(SearchManager.QUERY);
-	      doSearch(query);
-	    }
-	}
+    @Override
+    public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        super.onCreateView(inflater, container, savedInstanceState);
+        View v = inflater.inflate(R.layout.fragment_searchable, container, false);
 
-	private void doSearch(String query) {
-		Toast.makeText(getActivity(), query, Toast.LENGTH_SHORT).show();
-	}
+        handleSearch();
+        return v;
+    }
+
+    private void handleSearch() {
+        Intent intent = getActivity().getIntent();
+        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+            String query = intent.getStringExtra(SearchManager.QUERY);
+            doSearch(query);
+        }
+    }
+
+    private void doSearch(String query) {
+        Toast.makeText(getActivity(), query, Toast.LENGTH_SHORT).show();
+    }
 }

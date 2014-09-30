@@ -9,30 +9,30 @@
 package com.chdryra.android.reviewer;
 
 public class RDSubject implements RData {
-	private Review mHoldingReview;
-	private final String mTitle;
-	
-	public RDSubject(String title, Review review) {
-		mTitle = title;
-		mHoldingReview = review;
-	}
+    private final String mTitle;
+    private       Review mHoldingReview;
 
-	public String get() {
-		return mTitle;
-	}
+    public RDSubject(String title, Review review) {
+        mTitle = title;
+        mHoldingReview = review;
+    }
 
-	@Override
-	public void setHoldingReview(Review review) {
-		mHoldingReview = review;
-	}
+    public String get() {
+        return mTitle;
+    }
 
-	@Override
-	public Review getHoldingReview() {
-		return mHoldingReview;
-	}
+    @Override
+    public Review getHoldingReview() {
+        return mHoldingReview;
+    }
 
-	@Override
-	public boolean hasData() {
-		return mTitle != null && mTitle.length() > 0;
-	}
+    @Override
+    public void setHoldingReview(Review review) {
+        mHoldingReview = review;
+    }
+
+    @Override
+    public boolean hasData() {
+        return mTitle != null && mTitle.length() > 0;
+    }
 }

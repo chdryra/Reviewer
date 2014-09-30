@@ -9,10 +9,10 @@
 package com.chdryra.android.reviewer;
 
 public class RCollectionReviewNode extends RCollection<ReviewNode> {
-	public RCollectionReviewNode() {
-	}
-	
-	public void add(ReviewNode reviewNode) {
-		put(reviewNode.getID(), reviewNode);
-	}
+    public RCollectionReviewNode() {
+    }
+
+    public void add(ReviewNode reviewNode) {
+        put(reviewNode.getId(), reviewNode);
+    }
 }	

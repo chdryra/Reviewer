@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (c) 2014, Rizwan Choudrey - All Rights Reserved
   ~ Unauthorized copying of this file, via any medium is strictly prohibited
   ~ Proprietary and confidential
@@ -9,4 +8,4 @@
 
 <GridView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/gridview_data"
-   	style="@style/GridView" />
+    style="@style/GridView" />

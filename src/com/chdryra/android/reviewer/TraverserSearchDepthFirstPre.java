@@ -10,12 +10,13 @@ package com.chdryra.android.reviewer;
 
 public class TraverserSearchDepthFirstPre implements TraverserSearchMethod {
 
-	@Override
-	public void search(ReviewNode node, VisitorReviewNode visitor, int depth) {
-		node.acceptVisitor(visitor);
-		depth++;
-		for(ReviewNode child : node.getChildren())
-			search(child, visitor, depth);
-	}
+    @Override
+    public void search(ReviewNode node, VisitorReviewNode visitor, int depth) {
+        node.acceptVisitor(visitor);
+        depth++;
+        for (ReviewNode child : node.getChildren()) {
+            search(child, visitor, depth);
+        }
+    }
 
 }

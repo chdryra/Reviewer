@@ -14,8 +14,8 @@ import com.chdryra.android.mygenerallibrary.ActivitySingleFragment;
 
 public class ActivityReviewURLBrowser extends ActivitySingleFragment {
 
-	@Override
-	protected Fragment createFragment() {
-		return new FragmentReviewURLBrowser();
-	}
+    @Override
+    protected Fragment createFragment() {
+        return new FragmentReviewURLBrowser();
+    }
 }

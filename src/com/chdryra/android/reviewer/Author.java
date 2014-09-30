@@ -9,17 +9,17 @@
 package com.chdryra.android.reviewer;
 
 public class Author {
-	private final UserId mId;
-	private final String mName;
-	
-	public Author(String name) {
-		mId = UserId.generateID();
-		mName = name;
-	}
+    private final UserId mId;
+    private final String mName;
 
-	public String getName() {
-		return mName;
-	}
+    public Author(String name) {
+        mId = UserId.generateId();
+        mName = name;
+    }
+
+    public String getName() {
+        return mName;
+    }
 
     @Override
     public boolean equals(Object o) {

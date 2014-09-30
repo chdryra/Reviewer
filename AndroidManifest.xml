@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (c) 2014, Rizwan Choudrey - All Rights Reserved
   ~ Unauthorized copying of this file, via any medium is strictly prohibited
   ~ Proprietary and confidential
@@ -10,187 +9,213 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.chdryra.android.reviewer"
     android:versionCode="1"
-    android:versionName="1.0" >
+    android:versionName="1.0">
 
-    <uses-sdk android:minSdkVersion="14" android:targetSdkVersion="20" />
-	 <permission 
+    <uses-sdk
+        android:minSdkVersion="14"
+        android:targetSdkVersion="20" />
+    <permission
         android:name="com.chdryra.android.reviewer.permission.MAPS_RECEIVE"
-        android:protectionLevel="signature"/>
+        android:protectionLevel="signature" />
+
     <uses-permission android:name="com.chdryra.android.reviewer.permission.MAPS_RECEIVE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.CAMERA" />
-	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-	
-	<uses-feature 
-	    android:name="android.harware.location.gps"
-	    android:required="false"/>
-	<uses-feature 
-	    android:required="true"
-	    android:glEsVersion="0x00020000"/>
-	
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <uses-feature
+        android:name="android.harware.location.gps"
+        android:required="false" />
+    <uses-feature
+        android:glEsVersion="0x00020000"
+        android:required="true" />
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/Theme.Reviewer.SlateSmoke" >
+        android:theme="@style/Theme.Reviewer.SlateSmoke">
 
         <activity
             android:name=".ActivityFeed"
-            android:windowSoftInputMode="adjustPan"
-            android:label="@string/activity_title_feed" 
-            android:screenOrientation="portrait">
+            android:label="@string/activity_title_feed"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        
+
         <!-- Create Review -->
         <activity
             android:name=".ActivityReviewBuild"
-            android:windowSoftInputMode="adjustPan"
-            android:label="@string/activity_title_review_build" 
-            android:screenOrientation="portrait">
-            <meta-data android:name="android.support.PARENT_ACTIVITY"
+            android:label="@string/activity_title_review_build"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.chdryra.android.reviewer.ActivityFeed" />
         </activity>
 
         <!-- Share -->
-        <activity android:name=".ActivityReviewShare"
-		    android:windowSoftInputMode="adjustPan"
-		    android:configChanges="orientation"
-		    android:exported="true"
-            android:label="@string/activity_title_share" 
-            android:screenOrientation="portrait">
-            <meta-data android:name="android.support.PARENT_ACTIVITY"
+        <activity
+            android:name=".ActivityReviewShare"
+            android:configChanges="orientation"
+            android:exported="true"
+            android:label="@string/activity_title_share"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.chdryra.android.reviewer.ActivityReviewBuild" />
         </activity>
-        
+
         <!-- Criteria -->
-        <activity android:name=".ActivityReviewChildren"
-		    android:windowSoftInputMode="adjustPan"
-		    android:configChanges="orientation"
-		    android:exported="true"
-            android:label="@string/activity_title_children" 
-            android:screenOrientation="portrait">
-            <meta-data android:name="android.support.PARENT_ACTIVITY"
+        <activity
+            android:name=".ActivityReviewChildren"
+            android:configChanges="orientation"
+            android:exported="true"
+            android:label="@string/activity_title_children"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.chdryra.android.reviewer.ActivityReviewBuild" />
         </activity>
 
         <!-- Images -->
-        <activity android:name=".ActivityReviewImages"
-		    android:windowSoftInputMode="adjustPan"
-		    android:configChanges="orientation"
-		    android:exported="true"
-            android:label="@string/activity_title_image" 
-            android:screenOrientation="portrait">
-            <meta-data android:name="android.support.PARENT_ACTIVITY"
+        <activity
+            android:name=".ActivityReviewImages"
+            android:configChanges="orientation"
+            android:exported="true"
+            android:label="@string/activity_title_image"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.chdryra.android.reviewer.ActivityReviewBuild" />
         </activity>
-        
+
         <!-- Links -->
-        <activity android:name=".ActivityReviewURLs"
-		    android:windowSoftInputMode="adjustPan"
-		    android:configChanges="orientation"
-		    android:exported="true"
-            android:label="@string/activity_title_url" 
-            android:screenOrientation="portrait">
-            <meta-data android:name="android.support.PARENT_ACTIVITY"
+        <activity
+            android:name=".ActivityReviewURLs"
+            android:configChanges="orientation"
+            android:exported="true"
+            android:label="@string/activity_title_url"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.chdryra.android.reviewer.ActivityReviewBuild" />
         </activity>
 
         <!-- Browser choose link -->
-        <activity android:name=".ActivityReviewURLBrowser"
-		    android:theme="@style/Theme.Reviewer"
-		    android:windowSoftInputMode="adjustPan"
-		    android:configChanges="orientation"
-		    android:exported="true"
-            android:label="@string/activity_title_url" 
-            android:screenOrientation="portrait">
-            <meta-data android:name="android.support.PARENT_ACTIVITY"
+        <activity
+            android:name=".ActivityReviewURLBrowser"
+            android:configChanges="orientation"
+            android:exported="true"
+            android:label="@string/activity_title_url"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Reviewer"
+            android:windowSoftInputMode="adjustPan">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.chdryra.android.reviewer.ActivityReviewURLs" />
         </activity>
-        
+
         <!-- Map choose location -->
-        <activity android:name=".ActivityReviewLocationMap"
-		    android:theme="@style/Theme.Reviewer"
-		    android:launchMode="singleTop"
-		    android:windowSoftInputMode="adjustPan"
-		    android:configChanges="orientation"
-		    android:exported="true"
-            android:label="@string/activity_title_location" 
-            android:screenOrientation="portrait">
-	        <intent-filter>
-	            <action android:name="android.intent.action.SEARCH" />
-	        </intent-filter>
-            <meta-data android:name="android.support.PARENT_ACTIVITY"
+        <activity
+            android:name=".ActivityReviewLocationMap"
+            android:configChanges="orientation"
+            android:exported="true"
+            android:label="@string/activity_title_location"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Reviewer"
+            android:windowSoftInputMode="adjustPan">
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.chdryra.android.reviewer.ActivityReviewLocations" />
-            <meta-data android:name="android.app.searchable"
-                   android:resource="@xml/searchable_location_map"/>
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable_location_map" />
         </activity>
 
         <!-- Locations -->
-        <activity android:name=".ActivityReviewLocations"
-		    android:windowSoftInputMode="adjustPan"
-		    android:configChanges="orientation"
-		    android:exported="true"
-            android:label="@string/activity_title_location" 
-            android:screenOrientation="portrait">
-            <meta-data android:name="android.support.PARENT_ACTIVITY"
+        <activity
+            android:name=".ActivityReviewLocations"
+            android:configChanges="orientation"
+            android:exported="true"
+            android:label="@string/activity_title_location"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.chdryra.android.reviewer.ActivityReviewBuild" />
-            
+
         </activity>
-        
+
         <!-- Comments -->
-        <activity android:name=".ActivityReviewComments"
-		    android:windowSoftInputMode="adjustPan"
-		    android:configChanges="orientation"
-		    android:exported="true"
-            android:label="@string/activity_title_comment" 
-            android:screenOrientation="portrait">
-            <meta-data android:name="android.support.PARENT_ACTIVITY"
+        <activity
+            android:name=".ActivityReviewComments"
+            android:configChanges="orientation"
+            android:exported="true"
+            android:label="@string/activity_title_comment"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.chdryra.android.reviewer.ActivityReviewBuild" />
         </activity>
 
         <!-- Facts -->
-        <activity android:name=".ActivityReviewFacts"
-		    android:windowSoftInputMode="adjustPan"
-		    android:configChanges="orientation"
-		    android:exported="true"
-            android:label="@string/activity_title_facts" 
-            android:screenOrientation="portrait">
-            <meta-data android:name="android.support.PARENT_ACTIVITY"
+        <activity
+            android:name=".ActivityReviewFacts"
+            android:configChanges="orientation"
+            android:exported="true"
+            android:label="@string/activity_title_facts"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.chdryra.android.reviewer.ActivityReviewBuild" />
         </activity>
 
         <!-- Tags -->
-        <activity android:name=".ActivityReviewTags"
-		    android:windowSoftInputMode="adjustPan"
-		    android:configChanges="orientation"
-		    android:exported="true"
-            android:label="@string/activity_title_tags" 
-            android:screenOrientation="portrait">
-            <meta-data android:name="android.support.PARENT_ACTIVITY"
+        <activity
+            android:name=".ActivityReviewTags"
+            android:configChanges="orientation"
+            android:exported="true"
+            android:label="@string/activity_title_tags"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.chdryra.android.reviewer.ActivityReviewBuild" />
         </activity>
 
         <!-- Search Activity (unified search - not finished) -->
         <activity
             android:name=".ActivitySearchable"
-            android:windowSoftInputMode="adjustPan"
             android:label="@string/activity_title_search"
-            android:screenOrientation="portrait">
-        </activity>
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
 
         <!-- Key for GMaps and setting up Google Play -->
-        <meta-data 
+        <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
-            android:value="AIzaSyCZ_ArQmEClJYtDtvbcbSQQbvUcCZf3KWg"/>
-        <meta-data android:name="com.google.android.gms.version"
+            android:value="AIzaSyCZ_ArQmEClJYtDtvbcbSQQbvUcCZf3KWg" />
+        <meta-data
+            android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
     </application>
 </manifest>

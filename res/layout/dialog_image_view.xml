@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (c) 2014, Rizwan Choudrey - All Rights Reserved
   ~ Unauthorized copying of this file, via any medium is strictly prohibited
   ~ Proprietary and confidential
@@ -8,7 +7,7 @@
   -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/LineaLayoutVertical.WrappedVertical" >
+    style="@style/LineaLayoutVertical.WrappedVertical">
 
     <ImageView
         android:id="@+id/dialog_image_image_view"
@@ -20,8 +19,8 @@
 
     <com.chdryra.android.myandroidwidgets.ClearableEditText
         android:id="@+id/dialog_image_caption_edit_text"
-		style="@style/EditTextCapSentences.Done"
-		android:cursorVisible="false"
-	    android:hint="@string/edit_text_image_caption_hint"/>
+        style="@style/EditTextCapSentences.Done"
+        android:cursorVisible="false"
+        android:hint="@string/edit_text_image_caption_hint" />
 
 </LinearLayout>

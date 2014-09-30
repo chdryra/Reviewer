@@ -13,9 +13,9 @@ import android.app.Fragment;
 
 import com.chdryra.android.mygenerallibrary.ActivitySingleFragment;
 
-public class ActivityReviewImages extends ActivitySingleFragment{
-	@Override
-	protected Fragment createFragment() {
-		return new FragmentReviewImages();
-	}
+public class ActivityReviewImages extends ActivitySingleFragment {
+    @Override
+    protected Fragment createFragment() {
+        return new FragmentReviewImages();
+    }
 }

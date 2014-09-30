@@ -20,66 +20,69 @@ import com.chdryra.android.mygenerallibrary.DialogCancelDeleteDoneFragment;
 import com.chdryra.android.reviewer.GVReviewDataList.GVType;
 import com.chdryra.android.reviewer.GVUrlList.GVUrl;
 
-@SuppressWarnings("WeakerAccess")
 public class DialogURLFragment extends DialogCancelDeleteDoneFragment {
-	private static final ActionType RESULT_BROWSE = ActionType.OTHER;
+    private static final ActionType RESULT_BROWSE = ActionType.OTHER;
 
     private static final String TAG = "DialogURLFragment";
-	
-	private ControllerReviewNode mController;
-	private ClearableEditText mURLEditText;
-	
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		
-		mController = Administrator.get(getActivity()).unpack(getArguments());
-		
-		setLeftButtonAction(RESULT_BROWSE);
-		setLeftButtonText(getResources().getString(R.string.button_browse_text));
-		dismissDialogOnLeftClick();
 
-		setDialogTitle(getResources().getString(R.string.dialog_url_title));
-		setDeleteWhatTitle(getResources().getString(R.string.dialog_url_title));
-	}
-	
-	@Override
-	protected View createDialogUI(ViewGroup parent) {
-		View v = getActivity().getLayoutInflater().inflate(R.layout.dialog_url, null);
-		
-		mURLEditText = (ClearableEditText)v.findViewById(R.id.url_edit_text);
-		if(mController.getData(GVType.URLS).size() == 1)
-			mURLEditText.setText(((GVUrl)mController.getData(GVType.URLS).getItem(0)).toShortenedString());
-	
-		setKeyboardIMEDoDone(mURLEditText);
-		
-		return v;
-	}
-	
-	@Override
-	protected void onDoneButtonClick() {
-		String urlString = mURLEditText.getText().toString();
-		if(urlString.length() > 0) {			
-			try {
-				GVUrlList singleURL = new GVUrlList();
-				singleURL.add(URLUtil.guessUrl(urlString));
-				mController.setData(singleURL);
-			} catch (Exception e) {
-				Log.e(TAG, "Malformed URL", e);
-				Toast.makeText(getActivity(), getResources().getString(R.string.toast_bad_url), Toast.LENGTH_SHORT).show();
-			}
-		}
-	}
-		
-	@Override
-	protected void onDeleteButtonClick() {
-		GVUrlList urls = (GVUrlList) mController.getData(GVType.URLS);
-		if(urls.size() == 1)
-			urls.remove(urls.getItem(0));
-	}
-	
-	@Override
-	protected boolean hasDataToDelete() {
-		return mController.hasData(GVType.URLS);
-	}
+    private ControllerReviewNode mController;
+    private ClearableEditText    mUrlEditText;
+
+    @Override
+    protected View createDialogUI(ViewGroup parent) {
+        View v = getActivity().getLayoutInflater().inflate(R.layout.dialog_url, null);
+
+        mUrlEditText = (ClearableEditText) v.findViewById(R.id.url_edit_text);
+        if (mController.getData(GVType.URLS).size() == 1) {
+            mUrlEditText.setText(((GVUrl) mController.getData(GVType.URLS).getItem(0))
+                    .toShortenedString());
+        }
+
+        setKeyboardIMEDoDone(mUrlEditText);
+
+        return v;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        mController = Administrator.get(getActivity()).unpack(getArguments());
+
+        setLeftButtonAction(RESULT_BROWSE);
+        setLeftButtonText(getResources().getString(R.string.button_browse_text));
+        dismissDialogOnLeftClick();
+
+        setDialogTitle(getResources().getString(R.string.dialog_url_title));
+        setDeleteWhatTitle(getResources().getString(R.string.dialog_url_title));
+    }
+
+    @Override
+    protected void onDeleteButtonClick() {
+        GVUrlList urls = (GVUrlList) mController.getData(GVType.URLS);
+        if (urls.size() == 1) {
+            urls.remove(urls.getItem(0));
+        }
+    }
+
+    @Override
+    protected boolean hasDataToDelete() {
+        return mController.hasData(GVType.URLS);
+    }
+
+    @Override
+    protected void onDoneButtonClick() {
+        String urlString = mUrlEditText.getText().toString();
+        if (urlString.length() > 0) {
+            try {
+                GVUrlList singleURL = new GVUrlList();
+                singleURL.add(URLUtil.guessUrl(urlString));
+                mController.setData(singleURL);
+            } catch (Exception e) {
+                Log.i(TAG, "Malformed URL or incorrect syntax: " + urlString, e);
+                Toast.makeText(getActivity(), getResources().getString(R.string.toast_bad_url),
+                        Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
 }

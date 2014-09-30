@@ -8,38 +8,38 @@
 
 package com.chdryra.android.reviewer;
 
-public class RDFact implements RData{
+public class RDFact implements RData {
 
-	private Review mHoldingReview;
-	private final String mLabel;
-	private final String mValue;
+    private final String mLabel;
+    private final String mValue;
+    private       Review mHoldingReview;
 
-	public RDFact(String label, String value, Review holdingReview) {	
-		mLabel = label;
-		mValue = value;			
-		mHoldingReview = holdingReview;
-	}
+    public RDFact(String label, String value, Review holdingReview) {
+        mLabel = label;
+        mValue = value;
+        mHoldingReview = holdingReview;
+    }
 
-	public String getLabel() {
-		return mLabel;
-	}
+    public String getLabel() {
+        return mLabel;
+    }
 
-	public String getValue() {
-		return mValue;
-	}
+    public String getValue() {
+        return mValue;
+    }
 
-	@Override
-	public Review getHoldingReview() {
-		return mHoldingReview;
-	}
-	
-	@Override
-	public void setHoldingReview(Review review) {
-		mHoldingReview = review;
-	}
-	
-	@Override
-	public boolean hasData() {
-		return mLabel != null && mValue != null;
-	}
+    @Override
+    public Review getHoldingReview() {
+        return mHoldingReview;
+    }
+
+    @Override
+    public void setHoldingReview(Review review) {
+        mHoldingReview = review;
+    }
+
+    @Override
+    public boolean hasData() {
+        return mLabel != null && mValue != null;
+    }
 }

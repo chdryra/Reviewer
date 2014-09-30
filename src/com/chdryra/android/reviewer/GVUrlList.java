@@ -8,105 +8,114 @@
 
 package com.chdryra.android.reviewer;
 
+import com.chdryra.android.mygenerallibrary.GVData;
+import com.chdryra.android.mygenerallibrary.ViewHolder;
+
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 
-import com.chdryra.android.mygenerallibrary.GVData;
-import com.chdryra.android.mygenerallibrary.ViewHolder;
-
 class GVUrlList extends GVReviewDataList<GVUrlList.GVUrl> {
 
-	public GVUrlList() {
-		super(GVType.URLS);
-	}
-	
-	public void add(String urlString) throws MalformedURLException, URISyntaxException {
-		add(new GVUrl(urlString));	
-	}
-	
-	public void add(URL url) {
-		add(new GVUrl(url));
-	}
+    public GVUrlList() {
+        super(GVType.URLS);
+    }
+
+    public void add(String urlString) throws MalformedURLException, URISyntaxException {
+        add(new GVUrl(urlString));
+    }
+
+    public void add(URL url) {
+        add(new GVUrl(url));
+    }
 
     public boolean contains(URL url) {
-		return contains(new GVUrl(url));
-	}
+        return contains(new GVUrl(url));
+    }
 
     public void remove(URL url) {
-		remove(new GVUrl(url));
-	}
-	
-	class GVUrl implements GVData {
-		URL mUrl;
-		
-		private GVUrl(URL url) {
-			mUrl = url;
-		}
-		
-		private GVUrl(String stringUrl) throws MalformedURLException, URISyntaxException{
-			URL url = new URL(stringUrl);
-			URI uri = new URI(url.getProtocol(), url.getUserInfo(), url.getHost(), url.getPort(), url.getPath(), url.getQuery(), url.getRef());
-			mUrl = uri.toURL();
-		}
+        remove(new GVUrl(url));
+    }
 
-		public URL getUrl() {
-			return mUrl;
-		}
-		
-		public String toString() {
-			return mUrl != null? mUrl.toExternalForm() : null;
-		}
-		
-		public String toShortenedString() {
+    class GVUrl implements GVData {
+        URL mUrl;
+
+        private GVUrl(URL url) {
+            mUrl = url;
+        }
+
+        private GVUrl(String stringUrl) throws MalformedURLException, URISyntaxException {
+            URL url = new URL(stringUrl);
+            URI uri = new URI(url.getProtocol(), url.getUserInfo(), url.getHost(), url.getPort(),
+                    url.getPath(), url.getQuery(), url.getRef());
+            mUrl = uri.toURL();
+        }
+
+        public URL getUrl() {
+            return mUrl;
+        }
+
+        public String toShortenedString() {
             String protocol = mUrl.getProtocol();
             String result = toString().replaceFirst(protocol + ":", "");
-            if (result.startsWith("//"))
+            if (result.startsWith("//")) {
                 result = result.substring(2);
+            }
 
             result = result.trim();
-            if(result.endsWith("/"))
-                result = (String)result.subSequence(0, result.length() - 1);
+            if (result.endsWith("/")) {
+                result = (String) result.subSequence(0, result.length() - 1);
+            }
 
             return result;
-		}
-	
-		@Override
-		public ViewHolder getViewHolder() {
-			return new VHUrlView();
-		}
+        }
 
-		@Override
-		public int hashCode() {
-			final int prime = 31;
-			int result = 1;
-			result = prime * result + getOuterType().hashCode();
-			result = prime * result + ((mUrl == null) ? 0 : mUrl.hashCode());
-			return result;
-		}
+        @Override
+        public ViewHolder getViewHolder() {
+            return new VHUrlView();
+        }
 
-		@Override
-		public boolean equals(Object obj) {
-			if (this == obj)
-				return true;
-			if (obj == null)
-				return false;
-			if (getClass() != obj.getClass())
-				return false;
-			GVUrl other = (GVUrl) obj;
-			if (!getOuterType().equals(other.getOuterType()))
-				return false;
-			if (mUrl == null) {
-				if (other.mUrl != null)
-					return false;
-			} else if (!mUrl.equals(other.mUrl))
-				return false;
-			return true;
-		}
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            GVUrl other = (GVUrl) obj;
+            if (!getOuterType().equals(other.getOuterType())) {
+                return false;
+            }
+            if (mUrl == null) {
+                if (other.mUrl != null) {
+                    return false;
+                }
+            } else if (!mUrl.equals(other.mUrl)) {
+                return false;
+            }
+            return true;
+        }
 
-		private GVUrlList getOuterType() {
-			return GVUrlList.this;
-		}
-	}
+        @Override
+        public int hashCode() {
+            final int prime = 31;
+            int result = 1;
+            result = prime * result + getOuterType().hashCode();
+            result = prime * result + ((mUrl == null) ? 0 : mUrl.hashCode());
+            return result;
+        }
+
+        public String toString() {
+            return mUrl != null ? mUrl.toExternalForm() : null;
+        }
+
+        private GVUrlList getOuterType() {
+            return GVUrlList.this;
+        }
+    }
 }

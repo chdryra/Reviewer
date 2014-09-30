@@ -13,75 +13,79 @@ import java.util.LinkedHashMap;
 import java.util.NoSuchElementException;
 
 class RCollection<T> implements Iterable<T> {
-	private final LinkedHashMap<RDId, T> mData = new LinkedHashMap<RDId, T>();
+    private final LinkedHashMap<RDId, T> mData = new LinkedHashMap<RDId, T>();
 
-	RCollection() {
-	}
-	
-	public void put(RDId id, T t) {
-		if(!containsID(id))
-			mData.put(id, t);
-	}
+    RCollection() {
+    }
 
-	public void add(RCollection<T> items) {
-		mData.putAll(items.mData);
-	}
-	
-	public void remove(RDId id) {
-		if(containsID(id)) {
-			mData.remove(id);
-		} 
-	}
-
-	public T get(RDId id) {
-		return mData.get(id);
-	}
+    public void put(RDId id, T t) {
+        if (!containsID(id)) {
+            mData.put(id, t);
+        }
+    }
 
     public boolean containsID(RDId id) {
-		return mData.containsKey(id);
-	}
+        return mData.containsKey(id);
+    }
 
-	public int size() {
-		return mData.size();
-	}
+    public void add(RCollection<T> items) {
+        mData.putAll(items.mData);
+    }
 
-	T getItem(int position) {
-		return get(getID(position));
-	}
+    public void remove(RDId id) {
+        if (containsID(id)) {
+            mData.remove(id);
+        }
+    }
 
-	RDId getID(int position) {
-		RDId[] keys = mData.keySet().toArray(new RDId[mData.size()]);
-		return keys[position];
-	}
+    public int size() {
+        return mData.size();
+    }
 
-	@Override
-	public Iterator<T> iterator() {
-		return new CollectionIterator();
-	}
-	
-	class CollectionIterator implements Iterator<T> {
-		int position = 0;
-		
-		@Override
-		public boolean hasNext() {
-			return position < size() && getItem(position) != null;
-		}
+    T getItem(int position) {
+        return get(getID(position));
+    }
 
-		@Override
-		public T next() {
-			if(hasNext())
-				return getItem(position++);
-			else
-				throw new NoSuchElementException("No more elements left");
-		}
+    public T get(RDId id) {
+        return mData.get(id);
+    }
 
-		@Override
-		public void remove() {
-			if(position <= 0) {
-				throw new IllegalStateException("Have to do at least one next() before you can delete");
-			} else
-				RCollection.this.remove(getID(position));
-		}
-	}
-	
+    RDId getID(int position) {
+        RDId[] keys = mData.keySet().toArray(new RDId[mData.size()]);
+        return keys[position];
+    }
+
+    @Override
+    public Iterator<T> iterator() {
+        return new CollectionIterator();
+    }
+
+    class CollectionIterator implements Iterator<T> {
+        int position = 0;
+
+        @Override
+        public boolean hasNext() {
+            return position < size() && getItem(position) != null;
+        }
+
+        @Override
+        public T next() {
+            if (hasNext()) {
+                return getItem(position++);
+            } else {
+                throw new NoSuchElementException("No more elements left");
+            }
+        }
+
+        @Override
+        public void remove() {
+            if (position <= 0) {
+                throw new IllegalStateException("Have to do at least one next() before you can " +
+                        "delete");
+            } else {
+                RCollection.this.remove(getID(position));
+            }
+        }
+    }
+
 }

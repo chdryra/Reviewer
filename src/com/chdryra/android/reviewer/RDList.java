@@ -11,32 +11,32 @@ package com.chdryra.android.reviewer;
 import com.chdryra.android.mygenerallibrary.SortableList;
 
 public class RDList<T extends RData> extends SortableList<T> implements RData {
-	private Review mHoldingReview;
-	
-	public RDList() {
-	}
+    private Review mHoldingReview;
 
-	public RDList(Review holdingReview) {
-		mHoldingReview = holdingReview;
-	}
+    public RDList() {
+    }
 
-	public RDList(RDList<T> data, Review holdingReview) {
-		add(data);
-		mHoldingReview = holdingReview;
-	}
+    public RDList(Review holdingReview) {
+        mHoldingReview = holdingReview;
+    }
 
-	@Override
-	public void setHoldingReview(Review holdingReview) {
-		mHoldingReview = holdingReview;
-	}
-	
-	@Override
-	public Review getHoldingReview() {
-		return mHoldingReview;
-	}
-	
-	@Override
-	public boolean hasData() {
-		return mData.size() > 0;
-	}
+    public RDList(RDList<T> data, Review holdingReview) {
+        add(data);
+        mHoldingReview = holdingReview;
+    }
+
+    @Override
+    public Review getHoldingReview() {
+        return mHoldingReview;
+    }
+
+    @Override
+    public void setHoldingReview(Review holdingReview) {
+        mHoldingReview = holdingReview;
+    }
+
+    @Override
+    public boolean hasData() {
+        return mData.size() > 0;
+    }
 }

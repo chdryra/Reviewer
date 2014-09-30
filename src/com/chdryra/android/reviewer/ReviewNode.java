@@ -9,18 +9,23 @@
 package com.chdryra.android.reviewer;
 
 public interface ReviewNode extends Review {
-	public Review getReview();
+    public Review getReview();
 
     public void setParent(ReviewNode parentNode);
 
-	public void addChild(Review child);	
-	public void addChild(ReviewNode childNode);
-	public RCollectionReviewNode getChildren();
-    public void clearChildren();
-	public RCollectionReviewNode getDescendants();
+    public void addChild(Review child);
 
-	public void setRatingIsAverageOfChildren(boolean ratingIsAverage);
-	public boolean isRatingIsAverageOfChildren();
-	
-	public void acceptVisitor(VisitorReviewNode visitorReviewNode);
+    public void addChild(ReviewNode childNode);
+
+    public RCollectionReviewNode getChildren();
+
+    public void clearChildren();
+
+    public RCollectionReviewNode getDescendants();
+
+    public boolean isRatingIsAverageOfChildren();
+
+    public void setRatingIsAverageOfChildren(boolean ratingIsAverage);
+
+    public void acceptVisitor(VisitorReviewNode visitorReviewNode);
 }

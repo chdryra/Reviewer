@@ -11,35 +11,36 @@ package com.chdryra.android.reviewer;
 import java.util.UUID;
 
 public class UserId {
-	private final UUID mID;
-	
-	private UserId() {
-		mID = UUID.randomUUID();
-	}
-	
-	public static UserId generateID() {
-		return new UserId();
-	}
-	
-	public boolean equals(UserId userId) {
-		return mID.equals(userId.mID);
-	}
-	
-	public String toString() {
-		return mID.toString();
-	}
+    private final UUID mId;
 
-	@Override
-	public boolean equals(Object obj) {
-		if(obj == null || obj.getClass() != getClass())
-			return false;
-		
-		UserId		 objId = (UserId)obj;
-		return this.mID.equals(objId.mID);
-	}
-	
-	@Override
-	public int hashCode() {
-		return mID.hashCode();
-	}
+    private UserId() {
+        mId = UUID.randomUUID();
+    }
+
+    public static UserId generateId() {
+        return new UserId();
+    }
+
+    public boolean equals(UserId userId) {
+        return mId.equals(userId.mId);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null || obj.getClass() != getClass()) {
+            return false;
+        }
+
+        UserId objId = (UserId) obj;
+        return this.mId.equals(objId.mId);
+    }
+
+    @Override
+    public int hashCode() {
+        return mId.hashCode();
+    }
+
+    public String toString() {
+        return mId.toString();
+    }
 }
