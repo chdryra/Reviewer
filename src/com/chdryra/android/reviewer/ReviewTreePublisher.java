@@ -23,11 +23,14 @@ class ReviewTreePublisher {
     }
 
     public Date getPublishDate() {
+        if(mPublishDate == null) {
+            mPublishDate = new Date();
+        }
+
         return mPublishDate;
     }
 
     public ReviewNode publish(ReviewNode reviewTreeRoot) {
-        mPublishDate = new Date();
         VisitorTreePublisher publisher = new VisitorTreePublisher(this);
         reviewTreeRoot.acceptVisitor(publisher);
 

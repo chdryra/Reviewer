@@ -10,8 +10,15 @@ package com.chdryra.android.reviewer;
 
 import java.util.Date;
 
+/**
+ * Primary implementation of ReviewNode.
+ * Wraps a Review object in a node structure with potential children and a parent.
+ * Note: this is not necessarily the same node internal to the Review and returned by its
+ * getReviewNode() method. A Review may decide to represent itself with its own internal tree
+ * structure.
+ */
 public class ReviewComponent implements ReviewNode {
-    private final RDId mID;
+    private final RDId mId;
 
     private final Review                mReview;
     private final RCollectionReviewNode mChildren;
@@ -19,7 +26,7 @@ public class ReviewComponent implements ReviewNode {
     private boolean mRatingIsAverage = false;
 
     public ReviewComponent(Review review) {
-        mID = RDId.generateId();
+        mId = RDId.generateId();
         mReview = review;
         mChildren = new RCollectionReviewNode();
     }
@@ -34,6 +41,10 @@ public class ReviewComponent implements ReviewNode {
     public void setParent(ReviewNode parentNode) {
         if (mParent != null && parentNode != null && mParent.getId().equals(parentNode.getId())) {
             return;
+        }
+
+        if(mParent != null) {
+            mParent.removeChild(this);
         }
 
         mParent = parentNode;
@@ -57,6 +68,15 @@ public class ReviewComponent implements ReviewNode {
     }
 
     @Override
+    public void removeChild(ReviewNode childNode) {
+        if (!mChildren.containsID(childNode.getId())) {
+            return;
+        }
+        mChildren.remove(childNode.getId());
+        childNode.setParent(null);
+    }
+
+    @Override
     public RCollectionReviewNode getChildren() {
         return mChildren;
     }
@@ -66,12 +86,12 @@ public class ReviewComponent implements ReviewNode {
         RCollectionReviewNode children = new RCollectionReviewNode();
         children.add(getChildren());
         for (ReviewNode child : children) {
-            removeChild(child.getId());
+            removeChild(child);
         }
     }
 
     @Override
-    public RCollectionReviewNode flatten() {
+    public RCollectionReviewNode flattenTree() {
         TraverserReviewNode traverser = new TraverserReviewNode(this);
         VisitorNodeCollector collector = new VisitorNodeCollector();
         traverser.setVisitor(collector);
@@ -95,15 +115,9 @@ public class ReviewComponent implements ReviewNode {
         visitorReviewNode.visit(this);
     }
 
-    void removeChild(RDId id) {
-        ReviewNode child = mChildren.get(id);
-        child.setParent(null);
-        mChildren.remove(child.getId());
-    }
-
     @Override
     public RDId getId() {
-        return mReview.getId();
+        return mId;
     }
 
     @Override
@@ -116,11 +130,6 @@ public class ReviewComponent implements ReviewNode {
         return isRatingIsAverageOfChildren() ? getAverageRatingOfChildren() : mReview.getRating();
     }
 
-    @Override
-    public ReviewTagCollection getTags() {
-        return mReview.getTags();
-    }
-
     //ReviewEditable methods
     @Override
     public ReviewNode getReviewNode() {
@@ -129,7 +138,7 @@ public class ReviewComponent implements ReviewNode {
 
     @Override
     public ReviewNode publish(ReviewTreePublisher publisher) {
-        return mReview.publish(publisher);
+        return publisher.publish(this);
     }
 
     @Override
@@ -210,12 +219,12 @@ public class ReviewComponent implements ReviewNode {
         }
 
         ReviewComponent objNode = (ReviewComponent) obj;
-        return mID.equals(objNode.mID);
+        return mId.equals(objNode.mId);
     }
 
     @Override
     public int hashCode() {
-        return mID.hashCode();
+        return mId.hashCode();
     }
 
 

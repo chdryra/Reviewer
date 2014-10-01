@@ -62,11 +62,6 @@ public class ReviewUserEditable extends ReviewEditable {
     }
 
     @Override
-    public ReviewTagCollection getTags() {
-        return ReviewTagsManager.getTags(this);
-    }
-
-    @Override
     public ReviewNode getReviewNode() {
         return FactoryReview.createReviewNode(this);
     }
@@ -74,8 +69,7 @@ public class ReviewUserEditable extends ReviewEditable {
     @Override
     public ReviewNode publish(ReviewTreePublisher publisher) {
         Review review = new ReviewUser(publisher.getAuthor(), publisher.getPublishDate(), this);
-
-        return publisher.publish(review.getReviewNode());
+        return review.getReviewNode();
     }
 
     @Override

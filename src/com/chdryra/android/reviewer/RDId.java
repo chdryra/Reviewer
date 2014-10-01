@@ -10,7 +10,10 @@ package com.chdryra.android.reviewer;
 
 import java.util.UUID;
 
-public class RDId implements RData {
+/**
+ * Wrapper for a UUID
+ */
+class RDId implements RData {
     private final UUID mId;
 
     private RDId() {

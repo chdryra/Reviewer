@@ -17,7 +17,7 @@ public class ReviewTreeEditable extends ReviewEditable {
     }
 
     private void init(String subject) {
-        mNode = FactoryReview.createReviewNode(FactoryReview.createReviewUserEditable(subject));
+        mNode = FactoryReview.createReviewUserEditable(subject).getReviewNode();
         mNode.setRatingIsAverageOfChildren(false);
     }
 
@@ -49,11 +49,6 @@ public class ReviewTreeEditable extends ReviewEditable {
     @Override
     public void deleteComments() {
         getReviewEditable().deleteComments();
-    }
-
-    @Override
-    public ReviewTagCollection getTags() {
-        return ReviewTagsManager.getTags(this);
     }
 
     @Override

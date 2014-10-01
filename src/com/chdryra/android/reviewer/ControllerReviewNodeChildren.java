@@ -34,7 +34,7 @@ class ControllerReviewNodeChildren extends ControllerReviewNodeCollection {
     }
 
     void addChild(String title, float rating) {
-        ReviewEditable r = FactoryReview.createReviewTreeEditable(title);
+        ReviewEditable r = FactoryReview.createReviewInProgress(title);
         r.setRating(rating);
         mParent.addChild(r);
     }

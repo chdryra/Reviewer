@@ -41,11 +41,6 @@ public class ReviewNull extends ReviewEditable {
     }
 
     @Override
-    public ReviewTagCollection getTags() {
-        return null;
-    }
-
-    @Override
     public ReviewNode getReviewNode() {
         return null;
     }

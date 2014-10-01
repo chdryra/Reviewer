@@ -26,31 +26,19 @@ public class ReviewUser implements Review {
     private RDList<RDLocation> mLocations;
 
     public ReviewUser(Author author, Date publishDate, ReviewEditable review) {
-        init(review.isPublished() ? review.getAuthor() : author, review.isPublished() ? review
-                        .getPublishDate() : publishDate, review.getSubject().get(),
-                review.getRating().get(),
-                review.getComments(), review.getImages(), review.getFacts(), review.getURLs(),
-                review.getLocations());
-    }
-
-    private void init(Author author, Date publishDate, String subject, float rating,
-                      RDList<RDComment> comments, RDList<RDImage> images, RDList<RDFact> facts,
-                      RDList<RDUrl> urls, RDList<RDLocation> locations) {
         mID = RDId.generateId();
 
         mAuthor = author;
         mPublishDate = publishDate;
 
-        mSubject = new RDSubject(subject, this);
-        mRating = new RDRating(rating, this);
+        mSubject = new RDSubject(review.getSubject().get(), this);
+        mRating = new RDRating(review.getRating().get(), this);
 
-        mComments = comments != null ? new RDList<RDComment>(comments,
-                this) : new RDList<RDComment>();
-        mImages = images != null ? new RDList<RDImage>(images, this) : new RDList<RDImage>();
-        mFacts = facts != null ? new RDList<RDFact>(facts, this) : new RDList<RDFact>();
-        mURLs = urls != null ? new RDList<RDUrl>(urls, this) : new RDList<RDUrl>();
-        mLocations = locations != null ? new RDList<RDLocation>(locations,
-                this) : new RDList<RDLocation>();
+        mComments = new RDList<RDComment>(review.getComments(), this);
+        mImages = new RDList<RDImage>(review.getImages(), this);
+        mFacts = new RDList<RDFact>(review.getFacts(), this);
+        mURLs = new RDList<RDUrl>(review.getURLs(), this);
+        mLocations = new RDList<RDLocation>(review.getLocations(),this);
     }
 
     @Override
@@ -66,11 +54,6 @@ public class ReviewUser implements Review {
     @Override
     public RDRating getRating() {
         return mRating;
-    }
-
-    @Override
-    public ReviewTagCollection getTags() {
-        return ReviewTagsManager.getTags(this);
     }
 
     @Override

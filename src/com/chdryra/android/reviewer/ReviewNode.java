@@ -8,6 +8,13 @@
 
 package com.chdryra.android.reviewer;
 
+/**
+ * Node representation of a review. Can add other reviews as children or as a parent allowing a
+ * structured representation of how reviews may relate to each other e.g. in a user review with
+ * sub-criteria or a meta review.
+ * @see ReviewComponent
+ * @see ReviewTreeEditable
+ */
 public interface ReviewNode extends Review {
     public Review getReview();
 
@@ -17,11 +24,16 @@ public interface ReviewNode extends Review {
 
     public void addChild(ReviewNode childNode);
 
+    public void removeChild(ReviewNode childNode);
+
     public RCollectionReviewNode getChildren();
 
     public void clearChildren();
 
-    public RCollectionReviewNode flatten();
+    /**
+     * Collects itself and all descendants into a collection of nodes.
+     */
+    public RCollectionReviewNode flattenTree();
 
     public boolean isRatingIsAverageOfChildren();
 

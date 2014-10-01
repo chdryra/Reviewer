@@ -9,9 +9,34 @@
 package com.chdryra.android.reviewer;
 
 import java.util.Date;
+/**
+ * The fundamental interface for all review classes.
+ *
+ * All reviews are expected to have 3 items of core data:
+ * <ul>
+ *     <li>A unique identifier</li>
+ *     <li>A subject </li>
+ *     <li>A rating</li>
+ * </ul>
+ *
+ * In addition, reviews may have some optional data:
+ * <ul>
+ *     <li>Comments</li>
+ *     <li>Images</li>
+ *     <li>Locations</li>
+ *     <li>Facts</li>
+ *     <li>URLs</li>
+ * </ul>
+ *
+ * Reviews can be nodes in a review tree with children sub-reviews and/or be a sub-review of a
+ * parent review. They can be represented as a ReviewNode with zero or more children and/or a
+ * parent if necessary.
+ *
+ * Reviews may or may not be published (have non-null @see Author and Publish Date)
+ * @see ReviewNode
+ */
 
 public interface Review {
-
     //Core data
     public RDId getId();
 
@@ -19,10 +44,19 @@ public interface Review {
 
     public RDRating getRating();
 
-    public ReviewTagCollection getTags();
-
+    //Core methods
+    /**
+     *
+     * @return ReviewNode: tree representation of the review
+     */
     public ReviewNode getReviewNode();
 
+    /**
+     *
+     * @param publisher: @see ReviewTreePublisher stamps an unpublished review (and descendants if
+     *                 necessary) with an Author and Date.
+     * @return ReviewNode: a new uneditable review tree representation stamped with Author and Date.
+     */
     public ReviewNode publish(ReviewTreePublisher publisher);
 
     public Author getAuthor();

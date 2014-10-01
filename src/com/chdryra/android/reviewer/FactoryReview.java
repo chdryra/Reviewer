@@ -16,10 +16,10 @@ class FactoryReview {
     }
 
     public static ReviewEditable createReviewInProgress() {
-        return createReviewTreeEditable("");
+        return createReviewInProgress("");
     }
 
-    public static ReviewEditable createReviewTreeEditable(String subject) {
+    public static ReviewEditable createReviewInProgress(String subject) {
         return getInstance().newReviewTreeEditable(subject);
     }
 
