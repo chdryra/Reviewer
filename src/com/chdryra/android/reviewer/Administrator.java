@@ -15,32 +15,26 @@ import android.os.Bundle;
 public class Administrator {
     private static Administrator sAdministrator;
 
-    private final ReviewNode mRoot;
+    private final Author mCurrentAuthor = new Author("Rizwan Choudrey");
+    private final RCollectionReviewNode mPublishedReviews;
     private final Context    mContext;
     private       Controller mController;
-    private Author mCurrentAuthor = new Author("Rizwan Choudrey");
 
     private Administrator(Context context) {
-        setCurrentAuthor(mCurrentAuthor);
-        mRoot = FactoryReview.createReviewNode(FactoryReview.createReviewTreeEditable("ROOT"));
+        mPublishedReviews = new RCollectionReviewNode();
         mContext = context;
     }
 
     public static Administrator get(Context c) {
-        if (sAdministrator == null) {
+        if (sAdministrator == null || c.getApplicationContext() != sAdministrator.mContext) {
             sAdministrator = new Administrator(c.getApplicationContext());
         }
 
         return sAdministrator;
     }
 
-    void setCurrentAuthor(Author author) {
-        mCurrentAuthor = author;
-
-    }
-
     public GVReviewOverviewList getFeed() {
-        return new ControllerReviewNodeCollection(mRoot.getChildren()).getGridViewablePublished();
+        return new ControllerReviewNodeCollection(mPublishedReviews).getGridViewablePublished();
     }
 
     public ControllerReviewNode createNewReviewInProgress() {
@@ -73,7 +67,7 @@ public class Administrator {
     public void publishReviewInProgress() {
         ReviewTreePublisher publisher = new ReviewTreePublisher(mCurrentAuthor);
         ReviewNode published = mController.getReviewInProgress().publishAndTag(publisher);
-        mRoot.addChild(published);
+        mPublishedReviews.add(published);
     }
 
     public GVSocialPlatformList getSocialPlatformList() {

@@ -17,11 +17,11 @@ public abstract class ReviewEditable implements Review {
 
     public abstract void setRating(float rating);
 
+    //Optional data
     void deleteComments() {
         setComments(new RDList<RDComment>());
     }
 
-    //Optional data
     public abstract void setComments(RDList<RDComment> comment);
 
     void deleteFacts() {
