@@ -63,7 +63,7 @@ public class ReviewTreeEditable extends ReviewEditable {
 
     @Override
     public ReviewNode publish(ReviewTreePublisher publisher) {
-        return publisher.publish(this);
+        return publisher.publish(mNode);
     }
 
     @Override

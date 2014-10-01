@@ -21,7 +21,7 @@ public interface ReviewNode extends Review {
 
     public void clearChildren();
 
-    public RCollectionReviewNode getDescendants();
+    public RCollectionReviewNode flatten();
 
     public boolean isRatingIsAverageOfChildren();
 

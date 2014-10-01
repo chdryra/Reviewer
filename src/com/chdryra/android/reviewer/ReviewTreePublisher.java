@@ -26,10 +26,10 @@ class ReviewTreePublisher {
         return mPublishDate;
     }
 
-    public ReviewNode publish(Review review) {
+    public ReviewNode publish(ReviewNode reviewTreeRoot) {
         mPublishDate = new Date();
         VisitorTreePublisher publisher = new VisitorTreePublisher(this);
-        review.getReviewNode().acceptVisitor(publisher);
+        reviewTreeRoot.acceptVisitor(publisher);
 
         return publisher.getPublishedTree();
     }

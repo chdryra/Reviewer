@@ -52,7 +52,7 @@ public class ReviewComponent implements ReviewNode {
         if (mChildren.containsID(childNode.getId())) {
             return;
         }
-        mChildren.put(childNode.getId(), childNode);
+        mChildren.add(childNode);
         childNode.setParent(this);
     }
 
@@ -71,7 +71,7 @@ public class ReviewComponent implements ReviewNode {
     }
 
     @Override
-    public RCollectionReviewNode getDescendants() {
+    public RCollectionReviewNode flatten() {
         TraverserReviewNode traverser = new TraverserReviewNode(this);
         VisitorNodeCollector collector = new VisitorNodeCollector();
         traverser.setVisitor(collector);
@@ -103,7 +103,6 @@ public class ReviewComponent implements ReviewNode {
 
     @Override
     public RDId getId() {
-        //return mID;
         return mReview.getId();
     }
 
