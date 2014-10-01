@@ -36,10 +36,6 @@ public class ReviewTreeEditable extends ReviewEditable {
         getReviewEditable().setSubject(subject);
     }
 
-    private ReviewEditable getReviewEditable() {
-        return (ReviewEditable) mNode.getReview();
-    }
-
     @Override
     public RDRating getRating() {
         return mNode.getRating();
@@ -178,5 +174,9 @@ public class ReviewTreeEditable extends ReviewEditable {
     @Override
     public boolean hasLocations() {
         return mNode.hasLocations();
+    }
+
+    private ReviewEditable getReviewEditable() {
+        return (ReviewEditable) mNode.getReview();
     }
 }

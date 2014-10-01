@@ -6,21 +6,21 @@
   ~ Date: 23 September, 2014
   -->
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/mapLinearLayout"
-    style="@style/LineaLayoutVertical">
+<LinearLayout android:id="@+id/mapLinearLayout"
+              style="@style/LineaLayoutVertical"
+              xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools">
 
     <com.chdryra.android.myandroidwidgets.ClearableEditText
         android:id="@+id/edit_text_url"
         style="@style/EditTextCapSentences.Go"
-        android:hint="@string/edit_text_url_hint" />
+        android:hint="@string/edit_text_url_hint"/>
 
     <WebView
         android:id="@+id/web_view"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        tools:ignore="InefficientWeight" />
+        tools:ignore="InefficientWeight"/>
 
 </LinearLayout>

@@ -6,8 +6,8 @@
   ~ Date: 23 September, 2014
   -->
 
-<com.chdryra.android.mygenerallibrary.GridCellLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/GridCell">
+<com.chdryra.android.mygenerallibrary.GridCellLayout style="@style/GridCell"
+                                                     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -18,14 +18,14 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:contentDescription="@string/image_review_cd"
-            android:scaleType="centerCrop" />
+            android:scaleType="centerCrop"/>
 
         <LinearLayout style="@style/LineaLayoutVertical.GridCell">
 
             <TextView
                 android:id="@+id/review_subject"
                 style="@style/TextViewGridCell.Large"
-                android:layout_weight="1.5" />
+                android:layout_weight="1.5"/>
 
             <RatingBar
                 android:id="@+id/review_rating_bar"
@@ -39,25 +39,25 @@
                 android:isIndicator="true"
                 android:numStars="5"
                 android:rating="0.0"
-                android:stepSize="0.5" />
+                android:stepSize="0.5"/>
 
             <TextView
                 android:id="@+id/review_headline"
                 style="@style/TextViewGridCell"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"/>
 
             <TextView
                 android:id="@+id/review_location"
                 style="@style/TextViewGridCell.Small"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"/>
 
             <TextView
                 android:id="@+id/review_publish_data"
                 style="@style/TextViewGridCell.Small"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"/>
         </LinearLayout>
     </RelativeLayout>
 </com.chdryra.android.mygenerallibrary.GridCellLayout>

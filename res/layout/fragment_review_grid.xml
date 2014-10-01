@@ -6,31 +6,31 @@
   ~ Date: 23 September, 2014
   -->
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/review_grid_linearlayout"
-    style="@style/LineaLayoutVertical">
+<LinearLayout android:id="@+id/review_grid_linearlayout"
+              style="@style/LineaLayoutVertical"
+              xmlns:android="http://schemas.android.com/apk/res/android">
 
     <include
         android:id="@+id/review_subject_edit_text"
-        layout="@layout/review_subject" />
+        layout="@layout/review_subject"/>
 
-    <View style="@style/HorizontalDivider" />
+    <View style="@style/HorizontalDivider"/>
 
     <include
         android:id="@+id/review_rating_bar"
-        layout="@layout/review_rating" />
+        layout="@layout/review_rating"/>
 
-    <View style="@style/HorizontalDivider" />
+    <View style="@style/HorizontalDivider"/>
 
     <include
         android:id="@+id/banner_button"
-        layout="@layout/review_banner_button" />
+        layout="@layout/review_banner_button"/>
 
-    <View style="@style/HorizontalDivider" />
+    <View style="@style/HorizontalDivider"/>
 
     <include
         android:id="@+id/gridview_data"
-        layout="@layout/review_data_grid" />
+        layout="@layout/review_data_grid"/>
 
-    <View style="@style/HorizontalDivider" />
+    <View style="@style/HorizontalDivider"/>
 </LinearLayout>

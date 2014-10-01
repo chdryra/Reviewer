@@ -26,17 +26,17 @@ public class Administrator {
         mContext = context;
     }
 
-    void setCurrentAuthor(Author author) {
-        mCurrentAuthor = author;
-
-    }
-
     public static Administrator get(Context c) {
         if (sAdministrator == null) {
             sAdministrator = new Administrator(c.getApplicationContext());
         }
 
         return sAdministrator;
+    }
+
+    void setCurrentAuthor(Author author) {
+        mCurrentAuthor = author;
+
     }
 
     public GVReviewOverviewList getFeed() {

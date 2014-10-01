@@ -70,12 +70,6 @@ public class ReviewComponent implements ReviewNode {
         }
     }
 
-    void removeChild(RDId id) {
-        ReviewNode child = mChildren.get(id);
-        child.setParent(null);
-        mChildren.remove(child.getId());
-    }
-
     @Override
     public RCollectionReviewNode getDescendants() {
         TraverserReviewNode traverser = new TraverserReviewNode(this);
@@ -101,6 +95,12 @@ public class ReviewComponent implements ReviewNode {
         visitorReviewNode.visit(this);
     }
 
+    void removeChild(RDId id) {
+        ReviewNode child = mChildren.get(id);
+        child.setParent(null);
+        mChildren.remove(child.getId());
+    }
+
     @Override
     public RDId getId() {
         //return mID;
@@ -115,12 +115,6 @@ public class ReviewComponent implements ReviewNode {
     @Override
     public RDRating getRating() {
         return isRatingIsAverageOfChildren() ? getAverageRatingOfChildren() : mReview.getRating();
-    }
-
-    private RDRating getAverageRatingOfChildren() {
-        VisitorRatingCalculator visitor = new VisitorRatingAverageOfChildren();
-        acceptVisitor(visitor);
-        return new RDRating(visitor.getRating(), this);
     }
 
     @Override
@@ -202,6 +196,12 @@ public class ReviewComponent implements ReviewNode {
     @Override
     public boolean hasLocations() {
         return mReview.hasLocations();
+    }
+
+    private RDRating getAverageRatingOfChildren() {
+        VisitorRatingCalculator visitor = new VisitorRatingAverageOfChildren();
+        acceptVisitor(visitor);
+        return new RDRating(visitor.getRating(), this);
     }
 
     @Override

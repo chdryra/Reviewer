@@ -116,13 +116,13 @@ public class GVReviewOverviewList extends GVReviewDataList<GVReviewOverviewList.
             return mId.equals(overview.getId());
         }
 
-        public String getId() {
-            return mId;
-        }
-
         @Override
         public int hashCode() {
             return mId.hashCode();
+        }
+
+        public String getId() {
+            return mId;
         }
     }
 }

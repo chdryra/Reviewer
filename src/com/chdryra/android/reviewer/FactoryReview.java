@@ -23,10 +23,6 @@ class FactoryReview {
         return getInstance().newReviewTreeEditable(subject);
     }
 
-    private ReviewEditable newReviewTreeEditable(String subject) {
-        return new ReviewTreeEditable(subject);
-    }
-
     private static FactoryReview getInstance() {
         if (sFactory == null) {
             sFactory = new FactoryReview();
@@ -37,10 +33,6 @@ class FactoryReview {
 
     public static ReviewEditable createReviewUserEditable(String subject) {
         return getInstance().newReviewUserEditable(subject);
-    }
-
-    private ReviewEditable newReviewUserEditable(String subject) {
-        return new ReviewUserEditable(subject);
     }
 
     public static ReviewNode createNullReviewNode() {
@@ -54,6 +46,14 @@ class FactoryReview {
 
     public static ReviewNode createReviewNode(Review review) {
         return getInstance().newReviewNode(review);
+    }
+
+    private ReviewEditable newReviewTreeEditable(String subject) {
+        return new ReviewTreeEditable(subject);
+    }
+
+    private ReviewEditable newReviewUserEditable(String subject) {
+        return new ReviewUserEditable(subject);
     }
 
     private ReviewEditable newNullReview() {

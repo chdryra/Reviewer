@@ -12,5 +12,5 @@
         android:id="@+id/menu_item_new_review"
         android:icon="@drawable/ic_action_new"
         android:showAsAction="always|withText"
-        android:title="@string/menu_new_review" />
+        android:title="@string/menu_new_review"/>
 </menu>

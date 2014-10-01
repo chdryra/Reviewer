@@ -110,11 +110,6 @@ public class FragmentReviewURLBrowser extends FragmentDeleteDone {
         return v;
     }
 
-    private void loadUrl() {
-        String urlString = URLUtil.guessUrl(mUrlEditText.getText().toString());
-        mWebView.loadUrl(urlString);
-    }
-
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_search_delete_done, menu);
@@ -157,6 +152,11 @@ public class FragmentReviewURLBrowser extends FragmentDeleteDone {
             Toast.makeText(getActivity(), getResources().getString(R.string.toast_bad_url),
                     Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private void loadUrl() {
+        String urlString = URLUtil.guessUrl(mUrlEditText.getText().toString());
+        mWebView.loadUrl(urlString);
     }
 
     private class URLWebViewClient extends WebViewClient {

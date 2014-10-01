@@ -88,19 +88,6 @@ public class ReviewUserEditable extends ReviewEditable {
         mComments = processData(comments, new RDList<RDComment>());
     }
 
-    private <T extends RData> RDList<T> processData(RDList<T> newData, RDList<T> ifNull) {
-        RDList<T> member;
-        if (newData != null) {
-            member = newData;
-        } else {
-            member = ifNull;
-        }
-
-        member.setHoldingReview(this);
-
-        return member;
-    }
-
     @Override
     public boolean hasComments() {
         return mComments.hasData();
@@ -179,5 +166,18 @@ public class ReviewUserEditable extends ReviewEditable {
     @Override
     public boolean hasLocations() {
         return mLocations.hasData();
+    }
+
+    private <T extends RData> RDList<T> processData(RDList<T> newData, RDList<T> ifNull) {
+        RDList<T> member;
+        if (newData != null) {
+            member = newData;
+        } else {
+            member = ifNull;
+        }
+
+        member.setHoldingReview(this);
+
+        return member;
     }
 }

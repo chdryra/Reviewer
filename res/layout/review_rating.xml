@@ -6,4 +6,4 @@
   ~ Date: 23 September, 2014
   -->
 
-<RatingBar style="@style/RatingBarFiveStar.PointFiveStep" />
+<RatingBar style="@style/RatingBarFiveStar.PointFiveStep"/>

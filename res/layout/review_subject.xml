@@ -6,12 +6,12 @@
   ~ Date: 23 September, 2014
   -->
 
-<com.chdryra.android.myandroidwidgets.ClearableEditText xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/review_subject_edit_text"
-    style="@style/EditTextCapSentences.Done"
-    android:background="@null"
-    android:cursorVisible="false"
-    android:gravity="center"
-    android:hint="@string/edit_text_subject_hint"
-    android:padding="@dimen/subject_text_padding"
-    android:textAppearance="?android:attr/textAppearanceLarge" />
+<com.chdryra.android.myandroidwidgets.ClearableEditText android:id="@+id/review_subject_edit_text"
+                                                        style="@style/EditTextCapSentences.Done"
+                                                        xmlns:android="http://schemas.android.com/apk/res/android"
+                                                        android:background="@null"
+                                                        android:cursorVisible="false"
+                                                        android:gravity="center"
+                                                        android:hint="@string/edit_text_subject_hint"
+                                                        android:padding="@dimen/subject_text_padding"
+                                                        android:textAppearance="?android:attr/textAppearanceLarge"/>

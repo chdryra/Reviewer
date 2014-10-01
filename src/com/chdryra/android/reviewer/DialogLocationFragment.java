@@ -108,7 +108,7 @@ public class DialogLocationFragment extends DialogCancelActionDoneFragment imple
         mLocationClient.connect();
 
         setActionButtonAction(RESULT_MAP);
-        setActionButtonText(getResources().getString(R.string.button_map_text));
+        setActionButtonText(getResources().getString(R.string.button_map));
         dismissDialogOnActionClick();
     }
 

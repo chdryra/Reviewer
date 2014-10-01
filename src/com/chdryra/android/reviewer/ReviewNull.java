@@ -37,12 +37,22 @@ public class ReviewNull extends ReviewEditable {
     }
 
     @Override
+    public void deleteComments() {
+    }
+
+    @Override
+    public ReviewTagCollection getTags() {
+        return null;
+    }
+
+    @Override
     public ReviewNode getReviewNode() {
         return null;
     }
 
     @Override
-    public void setComments(RDList<RDComment> comments) {
+    public ReviewNode publish(ReviewTreePublisher publisher) {
+        return FactoryReview.createNullReviewNode();
     }
 
     @Override
@@ -51,47 +61,15 @@ public class ReviewNull extends ReviewEditable {
     }
 
     @Override
-    public void deleteComments() {
+    public void setComments(RDList<RDComment> comments) {
+    }
+
+    @Override
+    public void deleteFacts() {
     }
 
     @Override
     public boolean hasComments() {
-        return false;
-    }
-
-    @Override
-    public RDList<RDImage> getImages() {
-        return null;
-    }
-
-    @Override
-    public void setImages(RDList<RDImage> images) {
-    }
-
-    @Override
-    public void deleteImages() {
-    }
-
-    @Override
-    public boolean hasImages() {
-        return false;
-    }
-
-    @Override
-    public RDList<RDLocation> getLocations() {
-        return null;
-    }
-
-    @Override
-    public void setLocations(RDList<RDLocation> location) {
-    }
-
-    @Override
-    public void deleteLocations() {
-    }
-
-    @Override
-    public boolean hasLocations() {
         return false;
     }
 
@@ -105,11 +83,29 @@ public class ReviewNull extends ReviewEditable {
     }
 
     @Override
-    public void deleteFacts() {
+    public void deleteImages() {
     }
 
     @Override
     public boolean hasFacts() {
+        return false;
+    }
+
+    @Override
+    public RDList<RDImage> getImages() {
+        return null;
+    }
+
+    @Override
+    public void setImages(RDList<RDImage> images) {
+    }
+
+    @Override
+    public void deleteUrls() {
+    }
+
+    @Override
+    public boolean hasImages() {
         return false;
     }
 
@@ -123,12 +119,21 @@ public class ReviewNull extends ReviewEditable {
     }
 
     @Override
-    public void deleteUrls() {
+    public void deleteLocations() {
     }
 
     @Override
     public boolean hasURLs() {
         return false;
+    }
+
+    @Override
+    public RDList<RDLocation> getLocations() {
+        return null;
+    }
+
+    @Override
+    public void setLocations(RDList<RDLocation> location) {
     }
 
     @Override
@@ -147,12 +152,7 @@ public class ReviewNull extends ReviewEditable {
     }
 
     @Override
-    public ReviewTagCollection getTags() {
-        return null;
-    }
-
-    @Override
-    public ReviewNode publish(ReviewTreePublisher publisher) {
-        return FactoryReview.createNullReviewNode();
+    public boolean hasLocations() {
+        return false;
     }
 }

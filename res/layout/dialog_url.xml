@@ -6,9 +6,9 @@
   ~ Date: 23 September, 2014
   -->
 
-<com.chdryra.android.myandroidwidgets.ClearableEditText xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/url_edit_text"
-    style="@style/EditTextCapSentences.Done"
-    android:hint="@string/edit_text_url_hint"
-    android:inputType="textUri"
-    android:text="@string/edit_text_url_text" />
+<com.chdryra.android.myandroidwidgets.ClearableEditText android:id="@+id/url_edit_text"
+                                                        style="@style/EditTextCapSentences.Done"
+                                                        xmlns:android="http://schemas.android.com/apk/res/android"
+                                                        android:hint="@string/edit_text_url_hint"
+                                                        android:inputType="textUri"
+                                                        android:text="@string/edit_text_url_text"/>

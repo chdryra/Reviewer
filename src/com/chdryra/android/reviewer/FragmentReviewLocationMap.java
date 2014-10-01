@@ -86,6 +86,8 @@ public class FragmentReviewLocationMap extends FragmentDeleteDone implements
         mRevertName = (String) getActivity().getIntent().getSerializableExtra(NAME);
         mReviewSubject = (String) getActivity().getIntent().getSerializableExtra(SUBJECT);
 
+        //TODO maybe move connector to Activity to create more reliable connection when stuff
+        // starts? Or maybe OnAttach()?
         mLocationClient = new LocationClientConnector(getActivity(), this);
 
         MapsInitializer.initialize(getActivity());
@@ -166,14 +168,6 @@ public class FragmentReviewLocationMap extends FragmentDeleteDone implements
         });
     }
 
-    private void findSuggestions(String query) {
-        mSuggestionsAdapter.findSuggestions(query);
-    }
-
-    private void invalidateSuggestions() {
-        mSearchView.setSuggestionsAdapter(null);
-    }
-
     @Override
     protected boolean hasDataToDelete() {
         return mRevertLatLng != null;
@@ -201,6 +195,14 @@ public class FragmentReviewLocationMap extends FragmentDeleteDone implements
         i.putExtra(LATLNG_OLD, mRevertLatLng);
         i.putExtra(NAME, mLocationName.getText().toString());
         i.putExtra(NAME_OLD, mRevertName);
+    }
+
+    private void findSuggestions(String query) {
+        mSuggestionsAdapter.findSuggestions(query);
+    }
+
+    private void invalidateSuggestions() {
+        mSearchView.setSuggestionsAdapter(null);
     }
 
     private void initUI() {
@@ -333,6 +335,13 @@ public class FragmentReviewLocationMap extends FragmentDeleteDone implements
         setLatLng(latLng);
     }
 
+    @Override
+    public void onLocationClientConnected(LatLng latLng) {
+        if (mLatLng == null) {
+            setLatLng(latLng);
+        }
+    }
+
     private void setLatLng(LatLng latlang) {
         if (latlang == null) {
             return;
@@ -368,13 +377,6 @@ public class FragmentReviewLocationMap extends FragmentDeleteDone implements
         mGoogleMap.clear();
         Marker marker = mGoogleMap.addMarker(markerOptions);
         marker.showInfoWindow();
-    }
-
-    @Override
-    public void onLocationClientConnected(LatLng latLng) {
-        if (mLatLng == null) {
-            setLatLng(latLng);
-        }
     }
 
     @Override

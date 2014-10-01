@@ -6,12 +6,12 @@
   ~ Date: 23 September, 2014
   -->
 
-<com.chdryra.android.mygenerallibrary.GridCellLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/GridCell">
+<com.chdryra.android.mygenerallibrary.GridCellLayout style="@style/GridCell"
+                                                     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <ImageView
         android:id="@+id/image_view"
         style="@style/ImageView"
-        android:contentDescription="@string/image_review_cd" />
+        android:contentDescription="@string/image_review_cd"/>
 
 </com.chdryra.android.mygenerallibrary.GridCellLayout>

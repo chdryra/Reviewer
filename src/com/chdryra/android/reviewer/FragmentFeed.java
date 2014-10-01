@@ -31,6 +31,9 @@ public class FragmentFeed extends FragmentReviewGrid<GVReviewOverview> {
         setTransparentGridCellBackground();
     }
 
+    @Override
+    protected void onDoneSelected() {
+    }
 
     @Override
     protected void initSubjectUI() {
@@ -51,10 +54,6 @@ public class FragmentFeed extends FragmentReviewGrid<GVReviewOverview> {
     @Override
     protected void onGridItemLongClick(AdapterView<?> parent, View v, int position, long id) {
 
-    }
-
-    @Override
-    protected void onDoneSelected() {
     }
 
     @Override

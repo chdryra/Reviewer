@@ -12,5 +12,5 @@
         android:id="@+id/menu_item_average_rating"
         android:icon="@drawable/ic_action_add_to_queue"
         android:showAsAction="always|withText"
-        android:title="@string/menu_average_rating" />
+        android:title="@string/menu_average_rating"/>
 </menu>

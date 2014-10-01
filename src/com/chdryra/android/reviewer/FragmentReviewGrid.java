@@ -69,24 +69,7 @@ public abstract class FragmentReviewGrid<T extends GVData> extends FragmentDelet
         }
 
         setGridCellDimension(CellDimension.HALF, CellDimension.QUARTER);
-        setBannerButtonText(getResources().getString(R.string.gl_button_add_text));
-    }
-
-    void setGridCellDimension(CellDimension width, CellDimension height) {
-        mCellWidthDivider = 1;
-        mCellHeightDivider = 1;
-
-        if (width == CellDimension.HALF) {
-            mCellWidthDivider = 2;
-        } else if (width == CellDimension.QUARTER) {
-            mCellWidthDivider = 4;
-        }
-
-        if (height == CellDimension.HALF) {
-            mCellHeightDivider = 2;
-        } else if (height == CellDimension.QUARTER) {
-            mCellHeightDivider = 4;
-        }
+        setBannerButtonText(getResources().getString(R.string.button_add));
     }
 
     @Override
@@ -119,6 +102,60 @@ public abstract class FragmentReviewGrid<T extends GVData> extends FragmentDelet
         updateUI();
 
         return v;
+    }
+
+    @Override
+    protected boolean hasDataToDelete() {
+        return mGridData.size() > 0;
+    }
+
+    @Override
+    protected void onDeleteSelected() {
+        mGridData.removeAll();
+    }
+
+    @Override
+    protected void setDeleteWhatTitle(String deleteWhat) {
+        super.setDeleteWhatTitle("all " + deleteWhat);
+    }
+
+    @Override
+    protected void onDoneSelected() {
+        getController().setData(mGridData);
+
+        if (mOnDoneActivity != null) {
+            Intent i = new Intent(getActivity(), ActivityReviewBuild.class);
+            Administrator.get(getActivity()).pack(getController(), i);
+            startActivity(i);
+        }
+    }
+
+    @Override
+    protected void onUpSelected() {
+        if (NavUtils.getParentActivityName(getActivity()) != null) {
+            Intent i = NavUtils.getParentActivityIntent(getActivity());
+            if (!mReviewInProgress && getController() != null) {
+                Administrator.get(getActivity()).pack(getController(), i);
+            }
+            NavUtils.navigateUpTo(getActivity(), i);
+        }
+    }
+
+    void setGridCellDimension(CellDimension width, CellDimension height) {
+        mCellWidthDivider = 1;
+        mCellHeightDivider = 1;
+
+        if (width == CellDimension.HALF) {
+            mCellWidthDivider = 2;
+        } else if (width == CellDimension.QUARTER) {
+            mCellWidthDivider = 4;
+        }
+
+        if (height == CellDimension.HALF) {
+            mCellHeightDivider = 2;
+        } else if (height == CellDimension.QUARTER) {
+            mCellHeightDivider = 4;
+        }
     }
 
     void initUI() {
@@ -209,6 +246,10 @@ public abstract class FragmentReviewGrid<T extends GVData> extends FragmentDelet
         return mBannerButtonText;
     }
 
+    void setBannerButtonText(String buttonText) {
+        mBannerButtonText = buttonText;
+    }
+
     void onBannerButtonClick() {
 
     }
@@ -236,47 +277,6 @@ public abstract class FragmentReviewGrid<T extends GVData> extends FragmentDelet
 
     int getGridCellHeight() {
         return mMaxGridCellHeight / mCellHeightDivider;
-    }
-
-    void setBannerButtonText(String buttonText) {
-        mBannerButtonText = buttonText;
-    }
-
-    @Override
-    protected boolean hasDataToDelete() {
-        return mGridData.size() > 0;
-    }
-
-    @Override
-    protected void onDeleteSelected() {
-        mGridData.removeAll();
-    }
-
-    @Override
-    protected void setDeleteWhatTitle(String deleteWhat) {
-        super.setDeleteWhatTitle("all " + deleteWhat);
-    }
-
-    @Override
-    protected void onDoneSelected() {
-        getController().setData(mGridData);
-
-        if (mOnDoneActivity != null) {
-            Intent i = new Intent(getActivity(), ActivityReviewBuild.class);
-            Administrator.get(getActivity()).pack(getController(), i);
-            startActivity(i);
-        }
-    }
-
-    @Override
-    protected void onUpSelected() {
-        if (NavUtils.getParentActivityName(getActivity()) != null) {
-            Intent i = NavUtils.getParentActivityIntent(getActivity());
-            if (!mReviewInProgress && getController() != null) {
-                Administrator.get(getActivity()).pack(getController(), i);
-            }
-            NavUtils.navigateUpTo(getActivity(), i);
-        }
     }
 
     void updateUI() {
@@ -317,6 +317,10 @@ public abstract class FragmentReviewGrid<T extends GVData> extends FragmentDelet
         return mController;
     }
 
+    void setController(ControllerReviewNode controller) {
+        mController = controller;
+    }
+
     TextView getSubjectView() {
         return mSubjectView;
     }
@@ -350,10 +354,6 @@ public abstract class FragmentReviewGrid<T extends GVData> extends FragmentDelet
 
     LinearLayout getLayout() {
         return mLayout;
-    }
-
-    void setController(ControllerReviewNode controller) {
-        mController = controller;
     }
 
     void setIsEditable(boolean isEditable) {

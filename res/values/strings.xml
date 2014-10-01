@@ -69,8 +69,8 @@
     <string name="progress_bar_search_location_message">please wait&#8230;</string>
 
     <!-- Buttons -->
-    <string name="button_browse_text">WWW</string>
-    <string name="button_map_text">Map</string>
+    <string name="button_browse">WWW</string>
+    <string name="button_map">Map</string>
     <string name="button_add_tag">Add tag</string>
     <string name="button_add_criteria">Add criteria</string>
     <string name="button_add_comments">Add comments</string>
@@ -82,6 +82,7 @@
     <string name="button_share">Share</string>
     <string name="button_publish">Publish</string>
     <string name="button_social">Social</string>
+    <string name="button_add">Add</string>
 
     <!-- Image Buttons -->
     <string name="button_revert_location_cd">revert location</string>

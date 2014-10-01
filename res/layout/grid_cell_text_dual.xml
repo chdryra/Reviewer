@@ -6,20 +6,20 @@
   ~ Date: 23 September, 2014
   -->
 
-<com.chdryra.android.mygenerallibrary.GridCellLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/GridCell">
+<com.chdryra.android.mygenerallibrary.GridCellLayout style="@style/GridCell"
+                                                     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <LinearLayout style="@style/LineaLayoutVertical.GridCell">
 
         <TextView
             android:id="@+id/upper_text"
             style="@style/TextViewGridCell"
-            android:layout_weight="1" />
+            android:layout_weight="1"/>
 
         <TextView
             android:id="@+id/lower_text"
             style="@style/TextViewGridCell"
-            android:layout_weight="1" />
+            android:layout_weight="1"/>
     </LinearLayout>
 
 </com.chdryra.android.mygenerallibrary.GridCellLayout>
