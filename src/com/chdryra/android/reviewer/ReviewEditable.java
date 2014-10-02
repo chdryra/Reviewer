@@ -10,6 +10,13 @@ package com.chdryra.android.reviewer;
 
 import java.util.Date;
 
+/**
+ * Base class for reviews that allow editing of the data they hold. Adds setters and deleters to
+ * the Review interface.
+ * ReviewEditables are by definition not published themselves.
+ * Use the publish method to return a published ReviewNode of its current data.
+ *
+ */
 public abstract class ReviewEditable implements Review {
 
     //Core data
@@ -62,11 +69,4 @@ public abstract class ReviewEditable implements Review {
     public final boolean isPublished() {
         return false;
     }
-
-    //For speed and comparison
-    @Override
-    public abstract boolean equals(Object o);
-
-    @Override
-    public abstract int hashCode();
 }

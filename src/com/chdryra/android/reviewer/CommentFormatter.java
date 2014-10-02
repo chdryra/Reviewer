@@ -11,10 +11,17 @@ package com.chdryra.android.reviewer;
 import java.util.LinkedList;
 import java.util.StringTokenizer;
 
+/**
+ * Helper class for comment processing:
+ * <ul>
+ *     <li>Extraction of 1st sentence as a headline</li>
+ *     <li>Splitting of comments into sentences</li>
+ * </ul>
+ */
 class CommentFormatter {
     private static final String COMMENT_HEADLINE_DELIMITER = ".!?";
 
-    public static String getHeadline(String comment) {
+    static String getHeadline(String comment) {
         if (comment != null && comment.length() > 0) {
             StringTokenizer tokens = new StringTokenizer(comment, COMMENT_HEADLINE_DELIMITER);
             return tokens.nextToken();
@@ -23,7 +30,7 @@ class CommentFormatter {
         }
     }
 
-    public static LinkedList<String> split(String comment) {
+    static LinkedList<String> split(String comment) {
         LinkedList<String> comments = new LinkedList<String>();
 
         if (comment != null && comment.length() > 0) {

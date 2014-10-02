@@ -42,7 +42,7 @@ public class ReviewNull extends ReviewEditable {
 
     @Override
     public ReviewNode getReviewNode() {
-        return null;
+        return FactoryReview.createReviewNode(this);
     }
 
     @Override

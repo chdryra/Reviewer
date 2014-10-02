@@ -69,7 +69,7 @@ class ControllerReviewNodeCollection {
         return mControllers.get(id);
     }
 
-    ReviewNode get(String id) {
+    private ReviewNode get(String id) {
         ReviewNode r = get().get(Controller.convertID(id));
         if (r == null) {
             r = FactoryReview.createNullReviewNode();

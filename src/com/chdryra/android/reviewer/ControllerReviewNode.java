@@ -37,14 +37,6 @@ public class ControllerReviewNode {
         }
     }
 
-    public ControllerReviewNode(ReviewEditable editableReview) {
-        mEditableReview = editableReview;
-        mNode = editableReview.getReviewNode();
-        for (ReviewTag tag : ReviewTagsManager.getTags(editableReview)) {
-            mTagsList.add(tag.toString());
-        }
-    }
-
     public ReviewNode publishAndTag(ReviewTreePublisher publisher) {
         ReviewNode finalReview = publisher.publish(mNode);
         for (ReviewNode node : finalReview.flattenTree()) {

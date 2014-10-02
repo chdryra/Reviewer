@@ -8,16 +8,22 @@
 
 package com.chdryra.android.reviewer;
 
-public class Author {
+/**
+ * Object that holds Author data.
+ * Currently on wraps a name and unique ID.
+ *
+ * @see com.chdryra.android.reviewer.UserId
+ */
+class Author {
     private final UserId mId;
     private final String mName;
 
-    public Author(String name) {
+    Author(String name) {
         mId = UserId.generateId();
         mName = name;
     }
 
-    public String getName() {
+    String getName() {
         return mName;
     }
 

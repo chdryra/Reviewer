@@ -12,7 +12,7 @@ import java.util.Date;
 /**
  * The fundamental interface for all review classes.
  *
- * All reviews are expected to have 3 items of core data:
+ * All reviews are primarily data holders that are expected to have 3 items of core data:
  * <ul>
  *     <li>A unique identifier</li>
  *     <li>A subject </li>
@@ -34,6 +34,8 @@ import java.util.Date;
  *
  * Reviews may or may not be published (have non-null @see Author and Publish Date)
  * @see ReviewNode
+ * @see ReviewEditable
+ * @see ReviewUser
  */
 
 public interface Review {
@@ -53,7 +55,7 @@ public interface Review {
 
     /**
      *
-     * @param publisher: @see ReviewTreePublisher stamps an unpublished review (and descendants if
+     * @param publisher: ReviewTreePublisher stamps an unpublished review (and descendants if
      *                 necessary) with an Author and Date.
      * @return ReviewNode: a new uneditable review tree representation stamped with Author and Date.
      */

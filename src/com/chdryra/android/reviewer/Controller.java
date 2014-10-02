@@ -13,13 +13,23 @@ import android.os.Bundle;
 
 import com.chdryra.android.mygenerallibrary.IntentObjectHolder;
 
+/**
+ * Controls editing of new reviews. Holds 2 objects:
+ * <ul>
+ *     <li>Review controller: controls access to the review in progress</li>
+ *     <li>Collection of controllers being passed back and forth between activities: There
+ *     maybe multiple controllers associated with the potential tree structure of the review in
+ *     progress that may need to be passed back and forth between activities.
+ *     </li>
+ * </ul>
+ */
 class Controller {
     private static final String CONTROLLER_ID = "com.chdryra.android.reviewer.review_id";
     private final ControllerReviewNode mReviewInProgress;
     private final IntentObjectHolder   mRNControllers;
 
-    public Controller() {
-        mReviewInProgress = new ControllerReviewNode(FactoryReview.createReviewInProgress());
+    Controller() {
+        mReviewInProgress = new ControllerReviewNode(FactoryReview.createReviewInProgress().getReviewNode());
         mRNControllers = new IntentObjectHolder();
     }
 
@@ -27,32 +37,33 @@ class Controller {
         return RDId.generateId(id);
     }
 
-    public ControllerReviewNode getReviewInProgress() {
+    ControllerReviewNode getReviewInProgress() {
         return mReviewInProgress;
     }
 
-    public void pack(ControllerReviewNode controller, Intent i) {
-        i.putExtra(CONTROLLER_ID, controller.getId());
-        register(controller);
-    }
 
-    private void register(ControllerReviewNode controller) {
-        mRNControllers.addObject(controller.getId(), controller);
-    }
-
-    public Bundle pack(ControllerReviewNode controller) {
+    Bundle pack(ControllerReviewNode controller) {
         Bundle args = new Bundle();
         args.putString(CONTROLLER_ID, controller.getId());
         register(controller);
         return args;
     }
 
-    public ControllerReviewNode unpack(Bundle args) {
+    ControllerReviewNode unpack(Bundle args) {
         ControllerReviewNode controller = args != null ? getControllerFor(args.getString
                 (CONTROLLER_ID)) : null;
         unregister(controller);
 
         return controller;
+    }
+
+    void pack(ControllerReviewNode controller, Intent i) {
+        i.putExtra(CONTROLLER_ID, controller.getId());
+        register(controller);
+    }
+
+    private void register(ControllerReviewNode controller) {
+        mRNControllers.addObject(controller.getId(), controller);
     }
 
     private ControllerReviewNode getControllerFor(String id) {
