@@ -45,7 +45,7 @@ public class FragmentReviewChildren extends FragmentReviewGridAddEditDone<GVRevi
         getTotalRatingBar().setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
             public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-                getController().setRating(rating);
+                getController().getEditableReview().setRating(rating);
                 if (fromUser) {
                     setTotalRatingIsAverage(false);
                 }

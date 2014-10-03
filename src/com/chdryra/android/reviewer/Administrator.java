@@ -56,7 +56,8 @@ class Administrator {
     }
 
     GVReviewOverviewList getPublishedReviewsFeed() {
-        return new ControllerReviewNodeCollection(mPublishedReviews).getGridViewablePublished();
+        return new ControllerReviewCollection<ReviewNode>(mPublishedReviews)
+                .getGridViewablePublished();
     }
 
     ControllerReviewNode createNewReviewInProgress() {

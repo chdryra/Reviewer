@@ -1,0 +1,104 @@
+/*
+ * Copyright (c) 2014, Rizwan Choudrey - All Rights Reserved
+ * Unauthorized copying of this file, via any medium is strictly prohibited
+ * Proprietary and confidential
+ * Author: Rizwan Choudrey
+ * Date: 3 October, 2014
+ */
+
+package com.chdryra.android.reviewer;
+
+import com.chdryra.android.mygenerallibrary.GVData;
+
+/**
+ * Created by: Rizwan Choudrey
+ * On: 03/10/2014
+ * Email: rizwan.choudrey@gmail.com
+ */
+public class ControllerReviewEditable extends ControllerReview<ReviewEditable>{
+    public ControllerReviewEditable(ReviewEditable review) {
+        super(review);
+    }
+
+    //Title
+    public void setSubject(String subject) {
+        getReview().setSubject(subject);
+    }
+
+    //Rating
+    public void setRating(float rating) {
+        getReview().setRating(rating);
+    }
+
+    private void setComments(GVCommentList comments) {
+        ReviewEditable r = getReview();
+        RDList<RDComment> rdComments = new RDList<RDComment>();
+        for (GVCommentList.GVComment comment : comments) {
+            rdComments.add(new RDComment(comment.getComment(), r));
+        }
+
+        r.setComments(rdComments);
+    }
+
+    private void setImages(GVImageList images) {
+        ReviewEditable r = getReview();
+        RDList<RDImage> rdImages = new RDList<RDImage>();
+        for (GVImageList.GVImage image : images) {
+            rdImages.add(new RDImage(image.getBitmap(), image.getLatLng(), image.getCaption(),
+                    image.isCover(), r));
+        }
+
+        r.setImages(rdImages);
+    }
+
+    private void setFacts(GVFactList gvFacts) {
+        ReviewEditable r = getReview();
+        RDList<RDFact> facts = new RDList<RDFact>(r);
+        for (GVFactList.GVFact fact : gvFacts) {
+            facts.add(new RDFact(fact.getLabel(), fact.getValue(), r));
+        }
+
+        r.setFacts(facts);
+    }
+
+    private void setUrls(GVUrlList urlList) {
+        if (urlList.size() == 0) {
+            return;
+        }
+
+        ReviewEditable r = getReview();
+        RDList<RDUrl> rdUrls = new RDList<RDUrl>();
+        for (GVUrlList.GVUrl url : urlList) {
+            rdUrls.add(new RDUrl(url.getUrl(), r));
+        }
+
+        r.setURLs(rdUrls);
+    }
+
+    private void setLocations(GVLocationList locations) {
+        ReviewEditable r = getReview();
+        RDList<RDLocation> rdLocations = new RDList<RDLocation>();
+        for (GVLocationList.GVLocation location : locations) {
+            rdLocations.add(new RDLocation(location.getLatLng(), location.getName(), r));
+        }
+
+        r.setLocations(rdLocations);
+    }
+
+    public <T extends GVReviewDataList<? extends GVData>> void setData(T data) {
+        GVReviewDataList.GVType dataType = data.getDataType();
+        if (dataType == GVReviewDataList.GVType.COMMENTS) {
+            setComments((GVCommentList) data);
+        } else if (dataType == GVReviewDataList.GVType.IMAGES) {
+            setImages((GVImageList) data);
+        } else if (dataType == GVReviewDataList.GVType.FACTS) {
+            setFacts((GVFactList) data);
+        } else if (dataType == GVReviewDataList.GVType.URLS) {
+            setUrls((GVUrlList) data);
+        } else if (dataType == GVReviewDataList.GVType.LOCATIONS) {
+            setLocations((GVLocationList) data);
+        } else if (dataType == GVReviewDataList.GVType.TAGS) {
+            setTags((GVTagList) data);
+        }
+    }
+}

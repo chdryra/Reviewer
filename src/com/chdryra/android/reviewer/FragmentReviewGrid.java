@@ -181,7 +181,7 @@ public abstract class FragmentReviewGrid<T extends GVData> extends FragmentDelet
                 @Override
                 public void afterTextChanged(Editable s) {
                     if (s.toString().length() > 0) {
-                        getController().setSubject(s.toString());
+                        getController().getEditableReview().setSubject(s.toString());
                     }
                 }
             });
@@ -198,7 +198,7 @@ public abstract class FragmentReviewGrid<T extends GVData> extends FragmentDelet
                     .OnRatingBarChangeListener() {
                 @Override
                 public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-                    getController().setRating(rating);
+                    getController().getEditableReview().setRating(rating);
                 }
             });
         } else {
