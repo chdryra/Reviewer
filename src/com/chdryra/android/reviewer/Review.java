@@ -58,7 +58,7 @@ public interface Review extends RDId.RDIdAble {
      *
      * @param publisher: ReviewTreePublisher stamps an unpublished review (and descendants if
      *                 necessary) with an Author and Date.
-     * @return ReviewNode: a new uneditable review tree representation stamped with Author and Date.
+     * @return Review: a new uneditable review stamped with Author and Date.
      */
     public Review publish(ReviewTreePublisher publisher);
 

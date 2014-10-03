@@ -43,8 +43,11 @@ public class ReviewTree implements Review {
     }
 
     @Override
-    public ReviewNode publish(ReviewTreePublisher publisher) {
-        return getReviewNode();
+    public Review publish(ReviewTreePublisher publisher) {
+        if(!mNode.isPublished())
+            mNode = publisher.publish(mNode);
+
+        return this;
     }
 
     @Override

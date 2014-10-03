@@ -68,7 +68,7 @@ public class ReviewUser implements Review {
             mPublishDate = publisher.getPublishDate();
         }
 
-        return FactoryReview.createReview(getReviewNode());
+        return this;
     }
 
     @Override

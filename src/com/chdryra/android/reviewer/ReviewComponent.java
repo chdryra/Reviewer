@@ -163,6 +163,11 @@ public class ReviewComponent implements ReviewNodeExpandable {
 
     @Override
     public boolean isPublished() {
+        for(ReviewNode node : getChildren()) {
+            if(!node.isPublished())
+                return false;
+        }
+
         return mReview.isPublished();
     }
 
