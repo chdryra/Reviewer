@@ -38,12 +38,12 @@ class Administrator {
     private static Administrator sAdministrator;
 
     private final Author mCurrentAuthor = new Author("Rizwan Choudrey");
-    private final RCollectionReviewNode mPublishedReviews;
+    private final RCollectionReview<ReviewNode> mPublishedReviews;
     private final Context    mContext;
     private       Controller mController;
 
     private Administrator(Context context) {
-        mPublishedReviews = new RCollectionReviewNode();
+        mPublishedReviews = new RCollectionReview<ReviewNode>();
         mContext = context;
     }
 

@@ -26,14 +26,14 @@ public interface ReviewNode extends Review {
 
     public void removeChild(ReviewNode childNode);
 
-    public RCollectionReviewNode getChildren();
-
     public void clearChildren();
 
     /**
      * Collects itself and all descendants into a collection of nodes.
      */
-    public RCollectionReviewNode flattenTree();
+    public RCollectionReview<ReviewNode> flattenTree();
+
+    public RCollectionReview<ReviewNode> getChildren();
 
     public boolean isRatingIsAverageOfChildren();
 

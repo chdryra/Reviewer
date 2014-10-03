@@ -8,12 +8,8 @@
 
 package com.chdryra.android.reviewer;
 
-class RCollectionReview extends RCollection<Review> {
-
-    public RCollectionReview() {
-    }
-
-    public void add(Review review) {
+class RCollectionReview<T extends RDId.RDIdAble> extends RCollection<T> {
+    public void add(T review) {
         put(review.getId(), review);
     }
 }

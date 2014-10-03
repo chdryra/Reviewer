@@ -38,8 +38,9 @@ import java.util.Date;
  * @see ReviewUser
  */
 
-public interface Review {
+public interface Review extends RDId.RDIdAble {
     //Core data
+    @Override
     public RDId getId();
 
     public RDSubject getSubject();

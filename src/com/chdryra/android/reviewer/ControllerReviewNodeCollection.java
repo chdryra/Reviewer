@@ -15,10 +15,10 @@ import com.chdryra.android.reviewer.GVReviewDataList.GVType;
 import java.util.HashMap;
 
 class ControllerReviewNodeCollection {
-    private final RCollectionReviewNode                 mReviewNodes;
+    private final RCollectionReview<ReviewNode>                 mReviewNodes;
     private final HashMap<String, ControllerReviewNode> mControllers;
 
-    public ControllerReviewNodeCollection(RCollectionReviewNode reviewNodes) {
+    public ControllerReviewNodeCollection(RCollectionReview<ReviewNode> reviewNodes) {
         mReviewNodes = reviewNodes;
         mControllers = new HashMap<String, ControllerReviewNode>();
     }
@@ -27,7 +27,7 @@ class ControllerReviewNodeCollection {
         return get().size();
     }
 
-    RCollectionReviewNode get() {
+    private RCollectionReview<ReviewNode> get() {
         return mReviewNodes;
     }
 

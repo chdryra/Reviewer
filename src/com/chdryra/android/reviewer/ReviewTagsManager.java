@@ -69,13 +69,13 @@ public class ReviewTagsManager {
     }
 
     public class ReviewTag implements Comparable<ReviewTag> {
-        private final RCollectionReview mReviews;
+        private final RCollectionReview<Review> mReviews;
         private final String            mTag;
 
         private ReviewTag(String tag, Review review) {
             //mTag = WordUtils.capitalize(tag);
             mTag = tag;
-            mReviews = new RCollectionReview();
+            mReviews = new RCollectionReview<Review>();
             mReviews.add(review);
         }
 
@@ -84,7 +84,7 @@ public class ReviewTagsManager {
         }
 
         public boolean hasReview(Review r) {
-            return mReviews.containsID(r.getId());
+            return mReviews.containsId(r.getId());
         }
 
         public boolean equals(String tag) {

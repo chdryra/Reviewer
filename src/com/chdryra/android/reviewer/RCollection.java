@@ -19,12 +19,12 @@ class RCollection<T> implements Iterable<T> {
     }
 
     public void put(RDId id, T t) {
-        if (!containsID(id)) {
+        if (!containsId(id)) {
             mData.put(id, t);
         }
     }
 
-    public boolean containsID(RDId id) {
+    public boolean containsId(RDId id) {
         return mData.containsKey(id);
     }
 
@@ -33,7 +33,7 @@ class RCollection<T> implements Iterable<T> {
     }
 
     public void remove(RDId id) {
-        if (containsID(id)) {
+        if (containsId(id)) {
             mData.remove(id);
         }
     }
@@ -43,14 +43,14 @@ class RCollection<T> implements Iterable<T> {
     }
 
     T getItem(int position) {
-        return get(getID(position));
+        return get(getId(position));
     }
 
     public T get(RDId id) {
         return mData.get(id);
     }
 
-    RDId getID(int position) {
+    RDId getId(int position) {
         RDId[] keys = mData.keySet().toArray(new RDId[mData.size()]);
         return keys[position];
     }
@@ -83,7 +83,7 @@ class RCollection<T> implements Iterable<T> {
                 throw new IllegalStateException("Have to do at least one next() before you can " +
                         "delete");
             } else {
-                RCollection.this.remove(getID(position));
+                RCollection.this.remove(getId(position));
             }
         }
     }

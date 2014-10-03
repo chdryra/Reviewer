@@ -21,14 +21,14 @@ public class ReviewComponent implements ReviewNode {
     private final RDId mId;
 
     private final Review                mReview;
-    private final RCollectionReviewNode mChildren;
+    private final RCollectionReview<ReviewNode> mChildren;
     private       ReviewNode            mParent;
     private boolean mRatingIsAverage = false;
 
     public ReviewComponent(Review review) {
         mId = RDId.generateId();
         mReview = review;
-        mChildren = new RCollectionReviewNode();
+        mChildren = new RCollectionReview<ReviewNode>();
     }
 
     //ReviewNode methods
@@ -60,7 +60,7 @@ public class ReviewComponent implements ReviewNode {
 
     @Override
     public void addChild(ReviewNode childNode) {
-        if (mChildren.containsID(childNode.getId())) {
+        if (mChildren.containsId(childNode.getId())) {
             return;
         }
         mChildren.add(childNode);
@@ -69,7 +69,7 @@ public class ReviewComponent implements ReviewNode {
 
     @Override
     public void removeChild(ReviewNode childNode) {
-        if (!mChildren.containsID(childNode.getId())) {
+        if (!mChildren.containsId(childNode.getId())) {
             return;
         }
         mChildren.remove(childNode.getId());
@@ -77,13 +77,13 @@ public class ReviewComponent implements ReviewNode {
     }
 
     @Override
-    public RCollectionReviewNode getChildren() {
+    public RCollectionReview<ReviewNode> getChildren() {
         return mChildren;
     }
 
     @Override
     public void clearChildren() {
-        RCollectionReviewNode children = new RCollectionReviewNode();
+        RCollectionReview<ReviewNode> children = new RCollectionReview<ReviewNode>();
         children.add(getChildren());
         for (ReviewNode child : children) {
             removeChild(child);
@@ -91,7 +91,7 @@ public class ReviewComponent implements ReviewNode {
     }
 
     @Override
-    public RCollectionReviewNode flattenTree() {
+    public RCollectionReview<ReviewNode> flattenTree() {
         TraverserReviewNode traverser = new TraverserReviewNode(this);
         VisitorNodeCollector collector = new VisitorNodeCollector();
         traverser.setVisitor(collector);
