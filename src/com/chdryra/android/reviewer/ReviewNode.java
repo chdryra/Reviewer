@@ -18,20 +18,12 @@ package com.chdryra.android.reviewer;
 public interface ReviewNode extends Review {
     public Review getReview();
 
-    public void setParent(ReviewNode parentNode);
-
-    public void addChild(Review child);
-
-    public void addChild(ReviewNode childNode);
-
-    public void removeChild(ReviewNode childNode);
-
-    public void clearChildren();
-
     /**
      * Collects itself and all descendants into a collection of nodes.
      */
     public RCollectionReview<ReviewNode> flattenTree();
+
+    public ReviewNode getParent();
 
     public RCollectionReview<ReviewNode> getChildren();
 

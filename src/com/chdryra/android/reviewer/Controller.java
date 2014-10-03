@@ -25,11 +25,13 @@ import com.chdryra.android.mygenerallibrary.IntentObjectHolder;
  */
 class Controller {
     private static final String CONTROLLER_ID = "com.chdryra.android.reviewer.review_id";
-    private final ControllerReviewNode mReviewInProgress;
-    private final IntentObjectHolder   mRNControllers;
+    private final ControllerReviewNodeExpandable mReviewInProgress;
+    private final IntentObjectHolder             mRNControllers;
 
     Controller() {
-        mReviewInProgress = new ControllerReviewNode(FactoryReview.createReviewInProgress().getReviewNode());
+        mReviewInProgress = new ControllerReviewNodeExpandable(FactoryReview
+                .createReviewInProgress()
+                .getReviewTree());
         mRNControllers = new IntentObjectHolder();
     }
 
@@ -37,46 +39,46 @@ class Controller {
         return RDId.generateId(id);
     }
 
-    ControllerReviewNode getReviewInProgress() {
+    ControllerReviewNodeExpandable getReviewInProgress() {
         return mReviewInProgress;
     }
 
 
-    Bundle pack(ControllerReviewNode controller) {
+    Bundle pack(ControllerReview controller) {
         Bundle args = new Bundle();
         args.putString(CONTROLLER_ID, controller.getId());
         register(controller);
         return args;
     }
 
-    ControllerReviewNode unpack(Bundle args) {
-        ControllerReviewNode controller = args != null ? getControllerFor(args.getString
+    ControllerReview unpack(Bundle args) {
+        ControllerReview controller = args != null ? getControllerFor(args.getString
                 (CONTROLLER_ID)) : null;
         unregister(controller);
 
         return controller;
     }
 
-    void pack(ControllerReviewNode controller, Intent i) {
+    void pack(ControllerReview controller, Intent i) {
         i.putExtra(CONTROLLER_ID, controller.getId());
         register(controller);
     }
 
-    private void register(ControllerReviewNode controller) {
+    private void register(ControllerReview controller) {
         mRNControllers.addObject(controller.getId(), controller);
     }
 
-    private ControllerReviewNode getControllerFor(String id) {
+    private ControllerReview getControllerFor(String id) {
         return get(id);
     }
 
-    private void unregister(ControllerReviewNode controller) {
+    private void unregister(ControllerReview controller) {
         if (controller != null) {
             mRNControllers.removeObject(controller.getId());
         }
     }
 
-    private ControllerReviewNode get(String id) {
-        return (ControllerReviewNode) mRNControllers.getObject(id);
+    private ControllerReview get(String id) {
+        return (ControllerReview) mRNControllers.getObject(id);
     }
 }

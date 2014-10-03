@@ -9,15 +9,15 @@
 package com.chdryra.android.reviewer;
 
 public class ReviewTreeEditable extends ReviewEditable {
-
-    private ReviewNode mNode;
+    private ReviewNodeExpandable mNode;
 
     public ReviewTreeEditable(String subject) {
         init(subject);
     }
 
     private void init(String subject) {
-        mNode = FactoryReview.createReviewUserEditable(subject).getReviewNode();
+        mNode = FactoryReview.createReviewNodeExpandable(FactoryReview.createReviewEditable
+                (subject));
         mNode.setRatingIsAverageOfChildren(false);
     }
 
@@ -56,9 +56,13 @@ public class ReviewTreeEditable extends ReviewEditable {
         return mNode;
     }
 
+    public ReviewNodeExpandable getReviewTree() {
+        return mNode;
+    }
+
     @Override
-    public ReviewNode publish(ReviewTreePublisher publisher) {
-        return publisher.publish(mNode);
+    public Review publish(ReviewTreePublisher publisher) {
+        return FactoryReview.createReview(publisher.publish(mNode));
     }
 
     @Override
@@ -137,8 +141,8 @@ public class ReviewTreeEditable extends ReviewEditable {
     }
 
     @Override
-    public boolean hasURLs() {
-        return mNode.hasURLs();
+    public boolean hasUrls() {
+        return mNode.hasUrls();
     }
 
     @Override

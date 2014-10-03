@@ -32,12 +32,12 @@ public class DialogLocationFragment extends DialogCancelActionDoneFragment imple
     private final static String     LATLNG     = FragmentReviewLocationMap.LATLNG;
     private final static String     NAME       = FragmentReviewLocationMap.NAME;
 
-    private ControllerReviewNode    mController;
-    private ClearableEditText       mNameEditText;
-    private ListView                mLocationNameSuggestions;
-    private LatLng                  mLatLng;
-    private LocationClientConnector mLocationClient;
-    private LocationNameAdapter     mAdapter;
+    private ControllerReviewNodeExpandable mController;
+    private ClearableEditText              mNameEditText;
+    private ListView                       mLocationNameSuggestions;
+    private LatLng                         mLatLng;
+    private LocationClientConnector        mLocationClient;
+    private LocationNameAdapter            mAdapter;
 
     @Override
     protected View createDialogUI(ViewGroup parent) {
@@ -103,7 +103,7 @@ public class DialogLocationFragment extends DialogCancelActionDoneFragment imple
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mController = Administrator.get(getActivity()).unpack(getArguments());
+        mController = (ControllerReviewNodeExpandable) Administrator.get(getActivity()).unpack(getArguments());
         mLocationClient = new LocationClientConnector(getActivity(), this);
         mLocationClient.connect();
 

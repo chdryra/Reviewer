@@ -25,8 +25,8 @@ public class DialogURLFragment extends DialogCancelDeleteDoneFragment {
 
     private static final String TAG = "DialogURLFragment";
 
-    private ControllerReviewNode mController;
-    private ClearableEditText    mUrlEditText;
+    private ControllerReviewNodeExpandable mController;
+    private ClearableEditText              mUrlEditText;
 
     @Override
     protected View createDialogUI(ViewGroup parent) {
@@ -47,7 +47,8 @@ public class DialogURLFragment extends DialogCancelDeleteDoneFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mController = Administrator.get(getActivity()).unpack(getArguments());
+        mController = (ControllerReviewNodeExpandable) Administrator.get(getActivity()).unpack
+                (getArguments());
 
         setLeftButtonAction(RESULT_BROWSE);
         setLeftButtonText(getResources().getString(R.string.button_browse));

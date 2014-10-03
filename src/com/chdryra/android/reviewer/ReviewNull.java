@@ -42,7 +42,7 @@ public class ReviewNull extends ReviewEditable {
 
     @Override
     public ReviewNode getReviewNode() {
-        return FactoryReview.createReviewNode(this);
+        return FactoryReview.createReviewNodeExpandable(this);
     }
 
     @Override
@@ -118,7 +118,7 @@ public class ReviewNull extends ReviewEditable {
     }
 
     @Override
-    public boolean hasURLs() {
+    public boolean hasUrls() {
         return false;
     }
 

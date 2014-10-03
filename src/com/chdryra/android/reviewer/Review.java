@@ -60,7 +60,7 @@ public interface Review extends RDId.RDIdAble {
      *                 necessary) with an Author and Date.
      * @return ReviewNode: a new uneditable review tree representation stamped with Author and Date.
      */
-    public ReviewNode publish(ReviewTreePublisher publisher);
+    public Review publish(ReviewTreePublisher publisher);
 
     public Author getAuthor();
 
@@ -83,7 +83,7 @@ public interface Review extends RDId.RDIdAble {
 
     public RDList<RDUrl> getURLs();
 
-    public boolean hasURLs();
+    public boolean hasUrls();
 
     public RDList<RDLocation> getLocations();
 

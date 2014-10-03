@@ -17,18 +17,18 @@ import java.util.Date;
  * getReviewNode() method. A Review may decide to represent itself with its own internal tree
  * structure.
  */
-public class ReviewComponent implements ReviewNode {
+public class ReviewComponent implements ReviewNodeExpandable {
     private final RDId mId;
 
-    private final Review                mReview;
-    private final RCollectionReview<ReviewNode> mChildren;
-    private       ReviewNode            mParent;
+    private final Review                                  mReview;
+    private final RCollectionReview<ReviewNodeExpandable> mChildren;
+    private       ReviewNodeExpandable                    mParent;
     private boolean mRatingIsAverage = false;
 
     public ReviewComponent(Review review) {
         mId = RDId.generateId();
         mReview = review;
-        mChildren = new RCollectionReview<ReviewNode>();
+        mChildren = new RCollectionReview<ReviewNodeExpandable>();
     }
 
     //ReviewNode methods
@@ -38,12 +38,17 @@ public class ReviewComponent implements ReviewNode {
     }
 
     @Override
-    public void setParent(ReviewNode parentNode) {
+    public ReviewNode getParent() {
+        return mParent;
+    }
+
+    @Override
+    public void setParent(ReviewNodeExpandable parentNode) {
         if (mParent != null && parentNode != null && mParent.getId().equals(parentNode.getId())) {
             return;
         }
 
-        if(mParent != null) {
+        if (mParent != null) {
             mParent.removeChild(this);
         }
 
@@ -59,7 +64,7 @@ public class ReviewComponent implements ReviewNode {
     }
 
     @Override
-    public void addChild(ReviewNode childNode) {
+    public void addChild(ReviewNodeExpandable childNode) {
         if (mChildren.containsId(childNode.getId())) {
             return;
         }
@@ -68,7 +73,7 @@ public class ReviewComponent implements ReviewNode {
     }
 
     @Override
-    public void removeChild(ReviewNode childNode) {
+    public void removeChild(ReviewNodeExpandable childNode) {
         if (!mChildren.containsId(childNode.getId())) {
             return;
         }
@@ -78,14 +83,19 @@ public class ReviewComponent implements ReviewNode {
 
     @Override
     public RCollectionReview<ReviewNode> getChildren() {
-        return mChildren;
+        RCollectionReview<ReviewNode> children = new RCollectionReview<ReviewNode>();
+        for(ReviewNodeExpandable child : mChildren) {
+            children.add(child);
+        }
+
+        return children;
     }
 
     @Override
     public void clearChildren() {
-        RCollectionReview<ReviewNode> children = new RCollectionReview<ReviewNode>();
-        children.add(getChildren());
-        for (ReviewNode child : children) {
+        RCollectionReview<ReviewNodeExpandable> children = new RCollectionReview<ReviewNodeExpandable>();
+        children.add(mChildren);
+        for (ReviewNodeExpandable child : children) {
             removeChild(child);
         }
     }
@@ -192,8 +202,8 @@ public class ReviewComponent implements ReviewNode {
     }
 
     @Override
-    public boolean hasURLs() {
-        return mReview.hasURLs();
+    public boolean hasUrls() {
+        return mReview.hasUrls();
     }
 
     @Override

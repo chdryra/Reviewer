@@ -39,14 +39,14 @@ import com.chdryra.android.reviewer.GVReviewDataList.GVType;
 
 @SuppressWarnings("EmptyMethod")
 public abstract class FragmentReviewGrid<T extends GVData> extends FragmentDeleteDone {
-    private ControllerReviewNode mController;
-    private LinearLayout         mLayout;
-    private TextView             mSubjectView;
-    private RatingBar            mTotalRatingBar;
-    private Button               mBannerButton;
-    private GridView             mGridView;
-    private int                  mMaxGridCellWidth;
-    private int                  mMaxGridCellHeight;
+    private ControllerReviewNodeExpandable mController;
+    private LinearLayout                   mLayout;
+    private TextView                       mSubjectView;
+    private RatingBar                      mTotalRatingBar;
+    private Button                         mBannerButton;
+    private GridView                       mGridView;
+    private int                            mMaxGridCellWidth;
+    private int                            mMaxGridCellHeight;
     private int     mCellWidthDivider  = 1;
     private int     mCellHeightDivider = 1;
     private boolean mIsEditable        = false;
@@ -60,8 +60,9 @@ public abstract class FragmentReviewGrid<T extends GVData> extends FragmentDelet
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mController = Administrator.get(getActivity()).unpack(getActivity().getIntent().getExtras
-                ());
+        mController = (ControllerReviewNodeExpandable) Administrator.get(getActivity()).unpack
+                (getActivity()
+                .getIntent().getExtras());
 
         if (mController == null) {
             setController(Administrator.get(getActivity()).createNewReviewInProgress());
@@ -181,7 +182,7 @@ public abstract class FragmentReviewGrid<T extends GVData> extends FragmentDelet
                 @Override
                 public void afterTextChanged(Editable s) {
                     if (s.toString().length() > 0) {
-                        getController().getEditableReview().setSubject(s.toString());
+                        getController().setSubject(s.toString());
                     }
                 }
             });
@@ -198,7 +199,7 @@ public abstract class FragmentReviewGrid<T extends GVData> extends FragmentDelet
                     .OnRatingBarChangeListener() {
                 @Override
                 public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-                    getController().getEditableReview().setRating(rating);
+                    getController().setRating(rating);
                 }
             });
         } else {
@@ -313,11 +314,11 @@ public abstract class FragmentReviewGrid<T extends GVData> extends FragmentDelet
         }
     }
 
-    ControllerReviewNode getController() {
+    ControllerReviewNodeExpandable getController() {
         return mController;
     }
 
-    void setController(ControllerReviewNode controller) {
+    void setController(ControllerReviewNodeExpandable controller) {
         mController = controller;
     }
 

@@ -10,8 +10,8 @@ package com.chdryra.android.reviewer;
 
 public class VisitorTreePublisher implements VisitorReviewNode {
 
-    private final ReviewTreePublisher mPublisher;
-    private       ReviewNode          mPublishedNode;
+    private final ReviewTreePublisher  mPublisher;
+    private       ReviewNodeExpandable mPublishedNode;
 
     public VisitorTreePublisher(ReviewTreePublisher publisher) {
         mPublisher = publisher;
@@ -20,7 +20,8 @@ public class VisitorTreePublisher implements VisitorReviewNode {
     @Override
     public void visit(ReviewNode reviewNode) {
         if (mPublishedNode == null) {
-            mPublishedNode = reviewNode.getReview().publish(mPublisher);
+            mPublishedNode = FactoryReview.createReviewNodeExpandable(reviewNode.getReview().publish
+                    (mPublisher));
         }
 
         for (ReviewNode child : reviewNode.getChildren()) {

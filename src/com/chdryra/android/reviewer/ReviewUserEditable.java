@@ -8,7 +8,11 @@
 
 package com.chdryra.android.reviewer;
 
+import java.util.Date;
+
 public class ReviewUserEditable extends ReviewEditable {
+    private ReviewNode mNode;
+
     private RDId      mID;
     private RDSubject mSubject;
     private RDRating  mRating;
@@ -34,6 +38,8 @@ public class ReviewUserEditable extends ReviewEditable {
         mLocations = new RDList<RDLocation>();
         mFacts = new RDList<RDFact>();
         mURLs = new RDList<RDUrl>();
+
+        mNode = FactoryReview.createReviewNodeAlone(this);
     }
 
     @Override
@@ -63,13 +69,12 @@ public class ReviewUserEditable extends ReviewEditable {
 
     @Override
     public ReviewNode getReviewNode() {
-        return FactoryReview.createReviewNode(this);
+        return mNode;
     }
 
     @Override
-    public ReviewNode publish(ReviewTreePublisher publisher) {
-        Review review = new ReviewUser(publisher.getAuthor(), publisher.getPublishDate(), this);
-        return review.getReviewNode();
+    public Review publish(ReviewTreePublisher publisher) {
+        return FactoryReview.createReviewUser(this).publish(publisher);
     }
 
     @Override
@@ -128,7 +133,7 @@ public class ReviewUserEditable extends ReviewEditable {
     }
 
     @Override
-    public boolean hasURLs() {
+    public boolean hasUrls() {
         return mURLs.hasData();
     }
 

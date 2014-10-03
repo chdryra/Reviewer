@@ -31,7 +31,7 @@ public class ControllerReview<T extends Review> {
     }
 
     //***Accessesors***
-    protected T getReview() {
+    protected T getControlledReview() {
         return mReview;
     }
 
@@ -90,7 +90,7 @@ public class ControllerReview<T extends Review> {
 
     //URL
     private boolean hasUrls() {
-        return mReview.hasURLs();
+        return mReview.hasUrls();
     }
 
     //Location

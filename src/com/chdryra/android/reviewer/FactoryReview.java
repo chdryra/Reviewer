@@ -15,14 +15,6 @@ class FactoryReview {
     private FactoryReview() {
     }
 
-    public static ReviewEditable createReviewInProgress() {
-        return createReviewInProgress("");
-    }
-
-    public static ReviewEditable createReviewInProgress(String subject) {
-        return getInstance().newReviewTreeEditable(subject);
-    }
-
     private static FactoryReview getInstance() {
         if (sFactory == null) {
             sFactory = new FactoryReview();
@@ -31,24 +23,46 @@ class FactoryReview {
         return sFactory;
     }
 
-    public static ReviewEditable createReviewUserEditable(String subject) {
+    //Reviews
+    public static ReviewTreeEditable createReviewInProgress() {
+        return createReviewInProgress("");
+    }
+
+    public static ReviewTreeEditable createReviewInProgress(String subject) {
+        return getInstance().newReviewTreeEditable(subject);
+    }
+
+    public static ReviewEditable createReviewEditable(String subject) {
         return getInstance().newReviewUserEditable(subject);
     }
 
-    public static ReviewNode createNullReviewNode() {
-        ReviewEditable reviewEditable = createNullReview();
-        return createReviewNode(reviewEditable);
+    public static Review createReviewUser(ReviewUserEditable reviewEditable) {
+        return getInstance().newReviewUser(reviewEditable);
+    }
+
+    public static Review createReview(ReviewNode reviewNode) {
+        return getInstance().newReview(reviewNode);
     }
 
     public static ReviewEditable createNullReview() {
         return getInstance().newNullReview();
     }
 
-    public static ReviewNode createReviewNode(Review review) {
-        return getInstance().newReviewNode(review);
+    //Nodes
+    public static ReviewNode createNullReviewNode() {
+        return createReviewNodeAlone(createNullReview());
     }
 
-    private ReviewEditable newReviewTreeEditable(String subject) {
+    public static ReviewNodeExpandable createReviewNodeExpandable(Review review) {
+        return getInstance().newReviewNodeExpandable(review);
+    }
+
+    public static ReviewNode createReviewNodeAlone(Review review) {
+        return getInstance().newReviewNodeAlone(review);
+    }
+
+    //Constructors
+    private ReviewTreeEditable newReviewTreeEditable(String subject) {
         return new ReviewTreeEditable(subject);
     }
 
@@ -56,11 +70,23 @@ class FactoryReview {
         return new ReviewUserEditable(subject);
     }
 
+    private Review newReviewUser(ReviewUserEditable reviewEditable) {
+        return new ReviewUser(reviewEditable);
+    }
+
+    private Review newReview(ReviewNode node) {
+        return new ReviewTree(node);
+    }
+
     private ReviewEditable newNullReview() {
         return new ReviewNull();
     }
 
-    private ReviewNode newReviewNode(Review review) {
+    private ReviewNodeExpandable newReviewNodeExpandable(Review review) {
         return new ReviewComponent(review);
+    }
+
+    private ReviewNode newReviewNodeAlone(Review review) {
+        return new ReviewNodeAlone(review);
     }
 }

@@ -30,7 +30,7 @@ import android.os.Bundle;
  * </ul>
  *
  * @see com.chdryra.android.reviewer.Author
- * @see com.chdryra.android.reviewer.RCollectionReviewNode
+ * @see com.chdryra.android.reviewer.RCollectionReview
  * @see com.chdryra.android.reviewer.Controller
  *
  */
@@ -60,12 +60,12 @@ class Administrator {
                 .getGridViewablePublished();
     }
 
-    ControllerReviewNode createNewReviewInProgress() {
+    ControllerReviewNodeExpandable createNewReviewInProgress() {
         mController = new Controller();
         return mController.getReviewInProgress();
     }
 
-    ControllerReviewNode unpack(Bundle args) {
+    ControllerReview unpack(Bundle args) {
         if (mController != null) {
             return mController.unpack(args);
         } else {

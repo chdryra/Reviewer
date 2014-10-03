@@ -11,6 +11,7 @@ package com.chdryra.android.reviewer;
 import java.util.Date;
 
 public class ReviewUser implements Review {
+    private ReviewNode mNode;
 
     private RDId      mID;
     private RDSubject mSubject;
@@ -25,11 +26,8 @@ public class ReviewUser implements Review {
     private RDList<RDUrl>      mURLs;
     private RDList<RDLocation> mLocations;
 
-    public ReviewUser(Author author, Date publishDate, ReviewEditable review) {
+    public ReviewUser(ReviewEditable review) {
         mID = RDId.generateId();
-
-        mAuthor = author;
-        mPublishDate = publishDate;
 
         mSubject = new RDSubject(review.getSubject().get(), this);
         mRating = new RDRating(review.getRating().get(), this);
@@ -39,6 +37,8 @@ public class ReviewUser implements Review {
         mFacts = new RDList<RDFact>(review.getFacts(), this);
         mURLs = new RDList<RDUrl>(review.getURLs(), this);
         mLocations = new RDList<RDLocation>(review.getLocations(),this);
+
+        mNode = FactoryReview.createReviewNodeAlone(this);
     }
 
     @Override
@@ -58,17 +58,17 @@ public class ReviewUser implements Review {
 
     @Override
     public ReviewNode getReviewNode() {
-        return FactoryReview.createReviewNode(this);
+        return mNode;
     }
 
     @Override
-    public ReviewNode publish(ReviewTreePublisher publisher) {
+    public Review publish(ReviewTreePublisher publisher) {
         if (!isPublished()) {
             mAuthor = publisher.getAuthor();
             mPublishDate = publisher.getPublishDate();
         }
 
-        return getReviewNode();
+        return FactoryReview.createReview(getReviewNode());
     }
 
     @Override
@@ -122,7 +122,7 @@ public class ReviewUser implements Review {
     }
 
     @Override
-    public boolean hasURLs() {
+    public boolean hasUrls() {
         return mURLs.hasData();
     }
 

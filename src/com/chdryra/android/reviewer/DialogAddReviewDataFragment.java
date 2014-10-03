@@ -19,7 +19,7 @@ import com.chdryra.android.reviewer.GVReviewDataList.GVType;
 abstract class DialogAddReviewDataFragment extends DialogCancelAddDoneFragment {
     public static final String QUICK_SET = "com.chdryra.android.reviewer.dialog_quick_mode";
 
-    private ControllerReviewNode mController;
+    private ControllerReviewNodeExpandable mController;
     private boolean mQuickSet = false;
     private GVReviewDataList<? extends GVData> mData;
 
@@ -46,6 +46,6 @@ abstract class DialogAddReviewDataFragment extends DialogCancelAddDoneFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mQuickSet = getArguments().getBoolean(QUICK_SET);
-        mController = Administrator.get(getActivity()).unpack(getArguments());
+        mController = (ControllerReviewNodeExpandable) Administrator.get(getActivity()).unpack(getArguments());
     }
 }

@@ -22,16 +22,16 @@ public class ControllerReviewEditable extends ControllerReview<ReviewEditable>{
 
     //Title
     public void setSubject(String subject) {
-        getReview().setSubject(subject);
+        getControlledReview().setSubject(subject);
     }
 
     //Rating
     public void setRating(float rating) {
-        getReview().setRating(rating);
+        getControlledReview().setRating(rating);
     }
 
     private void setComments(GVCommentList comments) {
-        ReviewEditable r = getReview();
+        ReviewEditable r = getControlledReview();
         RDList<RDComment> rdComments = new RDList<RDComment>();
         for (GVCommentList.GVComment comment : comments) {
             rdComments.add(new RDComment(comment.getComment(), r));
@@ -41,7 +41,7 @@ public class ControllerReviewEditable extends ControllerReview<ReviewEditable>{
     }
 
     private void setImages(GVImageList images) {
-        ReviewEditable r = getReview();
+        ReviewEditable r = getControlledReview();
         RDList<RDImage> rdImages = new RDList<RDImage>();
         for (GVImageList.GVImage image : images) {
             rdImages.add(new RDImage(image.getBitmap(), image.getLatLng(), image.getCaption(),
@@ -52,7 +52,7 @@ public class ControllerReviewEditable extends ControllerReview<ReviewEditable>{
     }
 
     private void setFacts(GVFactList gvFacts) {
-        ReviewEditable r = getReview();
+        ReviewEditable r = getControlledReview();
         RDList<RDFact> facts = new RDList<RDFact>(r);
         for (GVFactList.GVFact fact : gvFacts) {
             facts.add(new RDFact(fact.getLabel(), fact.getValue(), r));
@@ -66,7 +66,7 @@ public class ControllerReviewEditable extends ControllerReview<ReviewEditable>{
             return;
         }
 
-        ReviewEditable r = getReview();
+        ReviewEditable r = getControlledReview();
         RDList<RDUrl> rdUrls = new RDList<RDUrl>();
         for (GVUrlList.GVUrl url : urlList) {
             rdUrls.add(new RDUrl(url.getUrl(), r));
@@ -76,7 +76,7 @@ public class ControllerReviewEditable extends ControllerReview<ReviewEditable>{
     }
 
     private void setLocations(GVLocationList locations) {
-        ReviewEditable r = getReview();
+        ReviewEditable r = getControlledReview();
         RDList<RDLocation> rdLocations = new RDList<RDLocation>();
         for (GVLocationList.GVLocation location : locations) {
             rdLocations.add(new RDLocation(location.getLatLng(), location.getName(), r));
