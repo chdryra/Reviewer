@@ -46,7 +46,7 @@ public class DialogChildAddFragment extends DialogAddReviewDataFragment {
     }
 
     @Override
-    protected void OnAddButtonClick() {
+    protected void onAddButtonClick() {
         String childName = mChildNameEditText.getText().toString();
         float childRating = mChildRatingBar.getRating();
 

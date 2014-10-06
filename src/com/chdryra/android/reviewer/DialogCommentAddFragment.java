@@ -39,7 +39,7 @@ public class DialogCommentAddFragment extends DialogAddReviewDataFragment {
     }
 
     @Override
-    protected void OnAddButtonClick() {
+    protected void onAddButtonClick() {
         String comment = mCommentEditText.getText().toString();
         if (comment == null || comment.length() == 0) {
             return;

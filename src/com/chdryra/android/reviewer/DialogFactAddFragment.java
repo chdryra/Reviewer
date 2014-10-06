@@ -43,7 +43,7 @@ public class DialogFactAddFragment extends DialogAddReviewDataFragment {
     }
 
     @Override
-    protected void OnAddButtonClick() {
+    protected void onAddButtonClick() {
         String label = mFactLabelEditText.getText().toString();
         String value = mFactValueEditText.getText().toString();
         if ((label == null || label.length() == 0) && (value == null || value.length() == 0)) {

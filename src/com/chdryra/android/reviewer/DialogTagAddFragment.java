@@ -39,7 +39,7 @@ public class DialogTagAddFragment extends DialogAddReviewDataFragment {
     }
 
     @Override
-    protected void OnAddButtonClick() {
+    protected void onAddButtonClick() {
         String tag = mTagEditText.getText().toString();
         if (tag == null || tag.length() == 0) {
             return;
