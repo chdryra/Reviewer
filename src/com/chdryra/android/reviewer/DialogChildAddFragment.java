@@ -34,7 +34,7 @@ public class DialogChildAddFragment extends DialogAddReviewDataFragment {
                 false);
         mChildNameEditText = (ClearableEditText) v.findViewById(R.id.child_name_edit_text);
         mChildRatingBar = (RatingBar) v.findViewById(R.id.child_rating_bar);
-        setKeyboardIMEDoAction(mChildNameEditText);
+        setKeyboardDoActionOnEditText(mChildNameEditText);
         return v;
     }
 
@@ -62,7 +62,7 @@ public class DialogChildAddFragment extends DialogAddReviewDataFragment {
 
         mChildren.add(childName, childRating);
 
-        Intent i = getNewReturnData();
+        Intent i = getNewReturnDataIntent();
         i.putExtra(SUBJECT, childName);
         i.putExtra(RATING, childRating);
 

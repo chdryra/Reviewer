@@ -175,7 +175,7 @@ public class FragmentReviewLocationMap extends FragmentDeleteDone implements
 
     @Override
     protected void onDeleteSelected() {
-        Intent i = getNewReturnData();
+        Intent i = getNewReturnDataIntent();
         i.putExtra(LATLNG_OLD, mRevertLatLng);
         i.putExtra(NAME_OLD, mRevertName);
     }
@@ -190,7 +190,7 @@ public class FragmentReviewLocationMap extends FragmentDeleteDone implements
             setDismissOnDone(true);
         }
 
-        Intent i = getNewReturnData();
+        Intent i = getNewReturnDataIntent();
         i.putExtra(LATLNG, mLatLng);
         i.putExtra(LATLNG_OLD, mRevertLatLng);
         i.putExtra(NAME, mLocationName.getText().toString());
@@ -386,20 +386,6 @@ public class FragmentReviewLocationMap extends FragmentDeleteDone implements
     }
 
     @Override
-    public void onSaveInstanceState(@NotNull Bundle outState) {
-        if (mMapView != null) {
-            mMapView.onSaveInstanceState(outState);
-        }
-        super.onSaveInstanceState(outState);
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        mLocationClient.disconnect();
-    }
-
-    @Override
     public void onResume() {
         super.onResume();
         if (mMapView != null) {
@@ -408,11 +394,25 @@ public class FragmentReviewLocationMap extends FragmentDeleteDone implements
     }
 
     @Override
+    public void onSaveInstanceState(@NotNull Bundle outState) {
+        if (mMapView != null) {
+            mMapView.onSaveInstanceState(outState);
+        }
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
     public void onPause() {
         super.onPause();
         if (mMapView != null) {
             mMapView.onPause();
         }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        mLocationClient.disconnect();
     }
 
     @Override

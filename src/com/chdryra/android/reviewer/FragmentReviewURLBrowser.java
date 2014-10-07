@@ -134,7 +134,7 @@ public class FragmentReviewURLBrowser extends FragmentDeleteDone {
 
     @Override
     protected void onDeleteSelected() {
-        Intent i = getNewReturnData();
+        Intent i = getNewReturnDataIntent();
         i.putExtra(URL_OLD, mUrl);
         mWebView.loadUrl(mSearchUrl);
     }
@@ -144,7 +144,7 @@ public class FragmentReviewURLBrowser extends FragmentDeleteDone {
         String urlString = mWebView.getUrl();
         try {
             URL url = new URL(URLUtil.guessUrl(urlString));
-            Intent i = getNewReturnData();
+            Intent i = getNewReturnDataIntent();
             i.putExtra(URL, url);
             i.putExtra(URL_OLD, mUrl);
         } catch (MalformedURLException e) {

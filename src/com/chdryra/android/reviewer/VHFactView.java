@@ -8,9 +8,8 @@
 
 package com.chdryra.android.reviewer;
 
-import android.view.View;
-
 import com.chdryra.android.mygenerallibrary.GVData;
+import com.chdryra.android.mygenerallibrary.GVDualString;
 import com.chdryra.android.mygenerallibrary.VHDualStringView;
 import com.chdryra.android.reviewer.GVFactList.GVFact;
 
@@ -24,13 +23,8 @@ class VHFactView extends VHDualStringView {
     }
 
     @Override
-    public View updateView(GVData data) {
+    public void updateView(GVData data) {
         GVFact fact = (GVFact) data;
-        if (fact != null) {
-            mUpper.setText(fact.getLabel());
-            mLower.setText(fact.getValue());
-        }
-
-        return mInflated;
+        if (fact != null) super.updateView(new GVDualString(fact.getLabel(), fact.getValue()));
     }
 }

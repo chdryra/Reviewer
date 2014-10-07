@@ -30,7 +30,7 @@ public class DialogFactAddFragment extends DialogAddReviewDataFragment {
         View v = getActivity().getLayoutInflater().inflate(R.layout.dialog_fact, null);
         mFactLabelEditText = (ClearableEditText) v.findViewById(R.id.fact_label_edit_text);
         mFactValueEditText = (ClearableEditText) v.findViewById(R.id.fact_value_edit_text);
-        setKeyboardIMEDoAction(mFactValueEditText);
+        setKeyboardDoActionOnEditText(mFactValueEditText);
 
         return v;
     }
@@ -61,7 +61,7 @@ public class DialogFactAddFragment extends DialogAddReviewDataFragment {
                     Toast.LENGTH_SHORT).show();
         } else {
             mFacts.add(label, value);
-            Intent i = getNewReturnData();
+            Intent i = getNewReturnDataIntent();
             i.putExtra(FACT_LABEL, label);
             i.putExtra(FACT_VALUE, value);
             mFactLabelEditText.setText(null);

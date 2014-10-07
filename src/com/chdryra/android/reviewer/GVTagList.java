@@ -39,7 +39,7 @@ class GVTagList extends GVReviewDataList<GVString> {
 
             @Override
             public int compare(GVString lhs, GVString rhs) {
-                return lhs.toString().compareTo(rhs.toString());
+                return lhs.get().compareTo(rhs.get());
             }
         };
     }

@@ -118,6 +118,10 @@ public class FragmentReviewBuild extends FragmentReviewGrid<GVCellManager> {
     }
 
     @Override
+    protected void onDoneSelected() {
+    }
+
+    @Override
     protected GridViewCellAdapter getGridViewCellAdapter() {
         return new ReviewOptionsGridCellAdapter();
     }
@@ -132,10 +136,6 @@ public class FragmentReviewBuild extends FragmentReviewGrid<GVCellManager> {
     protected void onGridItemLongClick(AdapterView<?> parent, View v, int position, long id) {
         GVCellManager cellManager = (GVCellManager) parent.getItemAtPosition(position);
         cellManager.executeIntent(true);
-    }
-
-    @Override
-    protected void onDoneSelected() {
     }
 
     private ReviewDataOption getOption(GVType dataType) {
@@ -279,7 +279,8 @@ public class FragmentReviewBuild extends FragmentReviewGrid<GVCellManager> {
             public View getNoDatumView(ViewGroup parent) {
                 ViewHolder vh = new VHTextView();
                 vh.inflate(getActivity(), parent);
-                return vh.updateView(new GVString(mDataType.getDataString()));
+                vh.updateView(new GVString(mDataType.getDataString()));
+                return vh.getView();
             }
 
             public View getMultiDataView(ViewGroup parent) {
@@ -288,13 +289,15 @@ public class FragmentReviewBuild extends FragmentReviewGrid<GVCellManager> {
 
                 ViewHolder vh = new VHTextDualView();
                 vh.inflate(getActivity(), parent);
-                return vh.updateView(new GVDualString(String.valueOf(number), type));
+                vh.updateView(new GVDualString(String.valueOf(number), type));
+                return vh.getView();
             }
 
             public View getSingleDatumView(ViewGroup parent) {
                 ViewHolder vh = getOption(mDataType).getViewHolder();
-                vh.inflate(getActivity(), parent);
-                return vh.updateView(getController().getData(mDataType).getItem(0));
+                if (vh.getView() == null) vh.inflate(getActivity(), parent);
+                vh.updateView(getController().getData(mDataType).getItem(0));
+                return vh.getView();
             }
         }
     }

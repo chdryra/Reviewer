@@ -26,7 +26,7 @@ public class DialogCommentAddFragment extends DialogAddReviewDataFragment {
     protected View createDialogUI(ViewGroup parent) {
         View v = getActivity().getLayoutInflater().inflate(R.layout.dialog_comment, parent, false);
         mCommentEditText = (EditText) v.findViewById(R.id.comment_edit_text);
-        setKeyboardIMEDoAction(mCommentEditText);
+        setKeyboardDoActionOnEditText(mCommentEditText);
 
         return v;
     }
@@ -49,7 +49,7 @@ public class DialogCommentAddFragment extends DialogAddReviewDataFragment {
             Toast.makeText(getActivity(), R.string.toast_has_comment, Toast.LENGTH_SHORT).show();
         } else {
             mComments.add(comment);
-            getNewReturnData().putExtra(COMMENT, comment);
+            getNewReturnDataIntent().putExtra(COMMENT, comment);
             mCommentEditText.setText(null);
             getDialog().setTitle("+ " + comment);
         }

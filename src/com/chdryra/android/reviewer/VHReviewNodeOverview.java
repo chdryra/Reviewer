@@ -8,7 +8,6 @@
 
 package com.chdryra.android.reviewer;
 
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -33,48 +32,41 @@ class VHReviewNodeOverview extends ViewHolderBasic {
     private ImageView mImage;
     private TextView  mHeadline;
     private TextView  mLocation;
-    private TextView  mPublishData;
+    private TextView  mPublishDate;
 
     public VHReviewNodeOverview() {
-        super(LAYOUT);
+        super(LAYOUT, new int[]{LAYOUT, SUBJECT, RATING, IMAGE, HEADLINE, LOCATION, PUBLISH});
     }
 
     @Override
-    public View updateView(GVData data) {
+    public void updateView(GVData data) {
+        if (mSubject == null) mSubject = (TextView) getView(SUBJECT);
+        if (mRating == null) mRating = (RatingBar) getView(RATING);
+        if (mImage == null) mImage = (ImageView) getView(IMAGE);
+        if (mHeadline == null) mHeadline = (TextView) getView(HEADLINE);
+        if (mLocation == null) mLocation = (TextView) getView(LOCATION);
+        if (mPublishDate == null) mPublishDate = (TextView) getView(PUBLISH);
+
         GVReviewOverview review = (GVReviewOverview) data;
-        if (review == null) {
-            return null;
-        }
+        if (review == null) return;
 
         mSubject.setText(review.getSubject());
         mRating.setRating(review.getRating());
+        mImage.setImageBitmap(review.getCoverImage());
 
-        String location = review.getLocationName();
         String author = review.getAuthor();
-        String headline = review.getHeadline();
         String date = DateFormat.getDateTimeInstance(DateFormat.MEDIUM,
                 DateFormat.SHORT).format(review.getPublishDate());
+        mPublishDate.setText(date + " by " + author);
 
-        mPublishData.setText(date + " by " + author);
+        String location = review.getLocationName();
         if (location != null && location.length() > 0) {
             mLocation.setText("@" + location);
         }
+
+        String headline = review.getHeadline();
         if (headline != null && headline.length() > 0) {
             mHeadline.setText("\"" + headline + "\"");
         }
-
-        mImage.setImageBitmap(review.getCoverImage());
-
-        return mInflated;
-    }
-
-    @Override
-    protected void initViewsToUpdate() {
-        mSubject = (TextView) getView(SUBJECT);
-        mRating = (RatingBar) getView(RATING);
-        mImage = (ImageView) getView(IMAGE);
-        mHeadline = (TextView) getView(HEADLINE);
-        mLocation = (TextView) getView(LOCATION);
-        mPublishData = (TextView) getView(PUBLISH);
     }
 }

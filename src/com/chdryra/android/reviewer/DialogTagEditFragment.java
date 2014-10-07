@@ -28,7 +28,7 @@ public class DialogTagEditFragment extends DialogCancelDeleteDoneFragment {
         View v = getActivity().getLayoutInflater().inflate(R.layout.dialog_tag, null);
         mTagEditText = (ClearableAutoCompleteTextView) v.findViewById(R.id.tag_edit_text);
         mTagEditText.setText(mOldTag);
-        setKeyboardIMEDoDone(mTagEditText);
+        setKeyboardDoDoneOnEditText(mTagEditText);
         return v;
     }
 
@@ -42,7 +42,7 @@ public class DialogTagEditFragment extends DialogCancelDeleteDoneFragment {
 
     @Override
     protected void onDeleteButtonClick() {
-        getNewReturnData().putExtra(TAG_OLD, mOldTag);
+        getNewReturnDataIntent().putExtra(TAG_OLD, mOldTag);
     }
 
     @Override
@@ -52,7 +52,7 @@ public class DialogTagEditFragment extends DialogCancelDeleteDoneFragment {
 
     @Override
     protected void onDoneButtonClick() {
-        Intent i = getNewReturnData();
+        Intent i = getNewReturnDataIntent();
         i.putExtra(TAG_OLD, mOldTag);
         i.putExtra(TAG_NEW, mTagEditText.getText().toString());
     }

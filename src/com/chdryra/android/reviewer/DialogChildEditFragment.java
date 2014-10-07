@@ -34,7 +34,7 @@ public class DialogChildEditFragment extends DialogCancelDeleteDoneFragment {
         mChildRatingBar = (RatingBar) v.findViewById(R.id.child_rating_bar);
         mChildNameEditText.setText(mSubject);
         mChildRatingBar.setRating(mRating);
-        setKeyboardIMEDoDone(mChildNameEditText);
+        setKeyboardDoDoneOnEditText(mChildNameEditText);
 
         return v;
     }
@@ -50,7 +50,7 @@ public class DialogChildEditFragment extends DialogCancelDeleteDoneFragment {
 
     @Override
     protected void onDeleteButtonClick() {
-        Intent i = getNewReturnData();
+        Intent i = getNewReturnDataIntent();
         i.putExtra(SUBJECT_OLD, mSubject);
     }
 
@@ -66,7 +66,7 @@ public class DialogChildEditFragment extends DialogCancelDeleteDoneFragment {
             return;
         }
 
-        Intent i = getNewReturnData();
+        Intent i = getNewReturnDataIntent();
         i.putExtra(SUBJECT_OLD, mSubject);
         i.putExtra(SUBJECT, childName);
         i.putExtra(RATING, mChildRatingBar.getRating());

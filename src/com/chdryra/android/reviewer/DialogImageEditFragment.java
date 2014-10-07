@@ -60,7 +60,7 @@ public class DialogImageEditFragment extends DialogCancelDeleteDoneFragment {
 
     @Override
     protected void onDeleteButtonClick() {
-        getNewReturnData().putExtras(getArguments());
+        getNewReturnDataIntent().putExtras(getArguments());
     }
 
     @Override
@@ -70,7 +70,7 @@ public class DialogImageEditFragment extends DialogCancelDeleteDoneFragment {
 
     @Override
     protected void onDoneButtonClick() {
-        Intent i = getNewReturnData();
+        Intent i = getNewReturnDataIntent();
         i.putExtra(FragmentReviewImages.BITMAP, mBitmap);
         i.putExtra(FragmentReviewImages.LATLNG, mLatLng);
         i.putExtra(FragmentReviewImages.CAPTION, mImageCaption.getText().toString());

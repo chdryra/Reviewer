@@ -18,7 +18,7 @@ public class DialogSetImageAsBackgroundFragment extends DialogAlert {
 
     @Override
     protected void onRightButtonClick() {
-        getNewReturnData().putExtras(getArguments());
+        getNewReturnDataIntent().putExtras(getArguments());
         super.onRightButtonClick();
     }
 }

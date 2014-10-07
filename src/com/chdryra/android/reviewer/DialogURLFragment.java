@@ -38,7 +38,7 @@ public class DialogURLFragment extends DialogCancelDeleteDoneFragment {
                     .toShortenedString());
         }
 
-        setKeyboardIMEDoDone(mUrlEditText);
+        setKeyboardDoDoneOnEditText(mUrlEditText);
 
         return v;
     }

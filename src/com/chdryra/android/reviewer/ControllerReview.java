@@ -174,18 +174,18 @@ public class ControllerReview<T extends Review> {
         return gvTags;
     }
 
+    void setTags(GVTagList tags) {
+        removeTags();
+        addTags(tags);
+    }
+
     void removeTags() {
         mTagsList.clear();
     }
 
     void addTags(GVTagList tags) {
         for (GVString tag : tags) {
-            mTagsList.add(tag.toString());
+            mTagsList.add(tag.get());
         }
-    }
-
-    void setTags(GVTagList tags) {
-        removeTags();
-        addTags(tags);
     }
 }

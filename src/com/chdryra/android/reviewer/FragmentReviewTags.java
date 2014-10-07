@@ -37,8 +37,9 @@ public class FragmentReviewTags extends FragmentReviewGridAddEditDone<GVString> 
 
     @Override
     protected void onGridItemClick(AdapterView<?> parent, View v, int position, long id) {
+        GVString tag = (GVString) parent.getItemAtPosition(position);
         Bundle args = Administrator.get(getActivity()).pack(getController());
-        args.putString(TAG_STRING, (parent.getItemAtPosition(position)).toString());
+        args.putString(TAG_STRING, tag.get());
         DialogShower.show(new DialogTagEditFragment(), FragmentReviewTags.this, DATA_EDIT,
                 DATA_EDIT_TAG, args);
     }

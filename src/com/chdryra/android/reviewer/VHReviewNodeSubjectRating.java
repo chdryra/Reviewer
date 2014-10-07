@@ -8,7 +8,6 @@
 
 package com.chdryra.android.reviewer;
 
-import android.view.View;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
@@ -25,23 +24,18 @@ class VHReviewNodeSubjectRating extends ViewHolderBasic {
     private RatingBar mRating;
 
     public VHReviewNodeSubjectRating() {
-        super(LAYOUT);
+        super(LAYOUT, new int[]{SUBJECT, RATING});
     }
 
     @Override
-    public View updateView(GVData data) {
+    public void updateView(GVData data) {
+        if (mSubject == null) mSubject = (TextView) getView(SUBJECT);
+        if (mRating == null) mRating = (RatingBar) getView(RATING);
+
         GVReviewSubjectRating criterion = (GVReviewSubjectRating) data;
         if (criterion != null) {
             mSubject.setText(criterion.getSubject());
             mRating.setRating(criterion.getRating());
         }
-
-        return mInflated;
-    }
-
-    @Override
-    protected void initViewsToUpdate() {
-        mSubject = (TextView) getView(SUBJECT);
-        mRating = (RatingBar) getView(RATING);
     }
 }

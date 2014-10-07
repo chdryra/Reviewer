@@ -8,7 +8,6 @@
 
 package com.chdryra.android.reviewer;
 
-import android.view.View;
 import android.widget.ImageView;
 
 import com.chdryra.android.mygenerallibrary.GVData;
@@ -22,21 +21,14 @@ class VHImageView extends ViewHolderBasic {
     private ImageView mImage;
 
     public VHImageView() {
-        super(LAYOUT);
+        super(LAYOUT, new int[]{IMAGE});
     }
 
     @Override
-    public View updateView(GVData data) {
+    public void updateView(GVData data) {
+        if (mImage == null) mImage = (ImageView) getView(IMAGE);
+
         GVImage image = (GVImage) data;
-        if (image != null) {
-            mImage.setImageBitmap(image.getBitmap());
-        }
-
-        return mInflated;
-    }
-
-    @Override
-    protected void initViewsToUpdate() {
-        mImage = (ImageView) getView(IMAGE);
+        if (image != null) mImage.setImageBitmap(image.getBitmap());
     }
 }

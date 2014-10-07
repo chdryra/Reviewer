@@ -32,7 +32,7 @@ public class DialogFactEditFragment extends DialogCancelDeleteDoneFragment {
         mValue = (ClearableEditText) v.findViewById(R.id.fact_value_edit_text);
         mLabel.setText(mOldLabel);
         mValue.setText(mOldValue);
-        setKeyboardIMEDoDone(mValue);
+        setKeyboardDoDoneOnEditText(mValue);
 
         return v;
     }
@@ -48,7 +48,7 @@ public class DialogFactEditFragment extends DialogCancelDeleteDoneFragment {
 
     @Override
     protected void onDeleteButtonClick() {
-        Intent i = getNewReturnData();
+        Intent i = getNewReturnDataIntent();
         i.putExtra(FACT_OLD_LABEL, mOldLabel);
         i.putExtra(FACT_OLD_VALUE, mOldValue);
     }
@@ -60,7 +60,7 @@ public class DialogFactEditFragment extends DialogCancelDeleteDoneFragment {
 
     @Override
     protected void onDoneButtonClick() {
-        Intent i = getNewReturnData();
+        Intent i = getNewReturnDataIntent();
         i.putExtra(FACT_OLD_LABEL, mOldLabel);
         i.putExtra(FACT_OLD_VALUE, mOldValue);
         i.putExtra(FragmentReviewFacts.FACT_LABEL, mLabel.getText().toString());

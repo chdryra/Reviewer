@@ -73,7 +73,7 @@ public class DialogLocationFragment extends DialogCancelActionDoneFragment imple
             }
         });
 
-        setKeyboardIMEDoDone(mNameEditText);
+        setKeyboardDoDoneOnEditText(mNameEditText);
 
         mLocationNameSuggestions = (ListView) v.findViewById(R.id.suggestions_list_view);
         mLocationNameSuggestions.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -93,7 +93,17 @@ public class DialogLocationFragment extends DialogCancelActionDoneFragment imple
     protected void onActionButtonClick() {
         String locationName = mNameEditText.getText().toString();
         if (mLatLng != null && locationName.length() > 0) {
-            Intent i = getNewReturnData();
+            Intent i = getNewReturnDataIntent();
+            i.putExtra(LATLNG, mLatLng);
+            i.putExtra(NAME, mNameEditText.getText().toString());
+        }
+    }
+
+    @Override
+    protected void onActionButtonClick() {
+        String locationName = mNameEditText.getText().toString();
+        if (mLatLng != null && locationName.length() > 0) {
+            Intent i = getNewReturnDataIntent();
             i.putExtra(LATLNG, mLatLng);
             i.putExtra(NAME, mNameEditText.getText().toString());
         }
@@ -103,7 +113,8 @@ public class DialogLocationFragment extends DialogCancelActionDoneFragment imple
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mController = (ControllerReviewNodeExpandable) Administrator.get(getActivity()).unpack(getArguments());
+        mController = (ControllerReviewNodeExpandable) Administrator.get(getActivity()).unpack
+                (getArguments());
         mLocationClient = new LocationClientConnector(getActivity(), this);
         mLocationClient.connect();
 

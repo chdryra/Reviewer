@@ -8,9 +8,8 @@
 
 package com.chdryra.android.reviewer;
 
-import android.view.View;
-
 import com.chdryra.android.mygenerallibrary.GVData;
+import com.chdryra.android.mygenerallibrary.GVDualString;
 import com.chdryra.android.mygenerallibrary.VHDualStringView;
 import com.chdryra.android.reviewer.GVSocialPlatformList.GVSocialPlatform;
 
@@ -25,13 +24,11 @@ class VHSocialView extends VHDualStringView {
     }
 
     @Override
-    public View updateView(GVData data) {
+    public void updateView(GVData data) {
         GVSocialPlatform platform = (GVSocialPlatform) data;
         if (platform != null) {
-            mUpper.setText(platform.getName());
-            mLower.setText(String.valueOf(platform.getFollowers()));
+            super.updateView(new GVDualString(platform.getName(),
+                    String.valueOf(platform.getFollowers())));
         }
-
-        return mInflated;
     }
 }

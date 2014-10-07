@@ -26,7 +26,7 @@ public class DialogTagAddFragment extends DialogAddReviewDataFragment {
     protected View createDialogUI(ViewGroup parent) {
         View v = getActivity().getLayoutInflater().inflate(R.layout.dialog_tag, null);
         mTagEditText = (ClearableAutoCompleteTextView) v.findViewById(R.id.tag_edit_text);
-        setKeyboardIMEDoAction(mTagEditText);
+        setKeyboardDoActionOnEditText(mTagEditText);
 
         return v;
     }
@@ -49,7 +49,7 @@ public class DialogTagAddFragment extends DialogAddReviewDataFragment {
             Toast.makeText(getActivity(), R.string.toast_has_tag, Toast.LENGTH_SHORT).show();
         } else {
             mTags.add(tag);
-            getNewReturnData().putExtra(TAG, tag);
+            getNewReturnDataIntent().putExtra(TAG, tag);
             mTagEditText.setText(null);
             getDialog().setTitle("+ #" + tag);
         }
