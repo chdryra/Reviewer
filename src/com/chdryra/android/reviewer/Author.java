@@ -9,7 +9,7 @@
 package com.chdryra.android.reviewer;
 
 /**
- * Object that holds Author data.
+ * Class that holds Author data.
  * Currently only wraps a name and unique ID.
  *
  * @see com.chdryra.android.reviewer.UserId

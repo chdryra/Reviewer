@@ -27,17 +27,20 @@ import com.chdryra.android.reviewer.GVLocationList.GVLocation;
 import com.chdryra.android.reviewer.GVReviewDataList.GVType;
 import com.google.android.gms.maps.model.LatLng;
 
+/**
+ * Asks user to choose from location names found closest to the passed LatLng.
+ */
 public class DialogLocationFragment extends DialogCancelActionDoneFragment implements Locatable {
     public static final  ActionType RESULT_MAP = ActionType.OTHER;
     private final static String     LATLNG     = FragmentReviewLocationMap.LATLNG;
     private final static String     NAME       = FragmentReviewLocationMap.NAME;
 
-    private ControllerReviewNodeExpandable mController;
-    private ClearableEditText              mNameEditText;
-    private ListView                       mLocationNameSuggestions;
-    private LatLng                         mLatLng;
-    private LocationClientConnector        mLocationClient;
-    private LocationNameAdapter            mAdapter;
+    private ControllerReviewEditable mController;
+    private ClearableEditText        mNameEditText;
+    private ListView                 mLocationNameSuggestions;
+    private LatLng                   mLatLng;
+    private LocationClientConnector  mLocationClient;
+    private LocationNameAdapter      mAdapter;
 
     @Override
     protected View createDialogUI(ViewGroup parent) {
@@ -93,7 +96,7 @@ public class DialogLocationFragment extends DialogCancelActionDoneFragment imple
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mController = (ControllerReviewNodeExpandable) Administrator.get(getActivity()).unpack
+        mController = (ControllerReviewEditable) Administrator.get(getActivity()).unpack
                 (getArguments());
         mLocationClient = new LocationClientConnector(getActivity(), this);
         mLocationClient.connect();

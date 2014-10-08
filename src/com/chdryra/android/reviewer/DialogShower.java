@@ -12,6 +12,9 @@ import android.app.DialogFragment;
 import android.app.Fragment;
 import android.os.Bundle;
 
+/**
+ * Takes care of showing requested dialogs via a static <code>show(.)</code> method.
+ */
 class DialogShower {
     public static void show(DialogFragment dialog, Fragment targetFragment, int requestCode,
                             String tag, Bundle args) {

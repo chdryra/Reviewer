@@ -41,6 +41,7 @@ import java.util.Date;
 class ControllerReview<T extends Review> {
     protected final ArrayList<String>   mTagsList       = new ArrayList<String>();
     private final T mReview;
+    private ControllerReviewNode mReviewNode;
 
     public ControllerReview(T review) {
         mReview = review;
@@ -52,6 +53,14 @@ class ControllerReview<T extends Review> {
     //***Accessesors***
     protected T getControlledReview() {
         return mReview;
+    }
+
+    ControllerReviewNode getReviewNode() {
+        if (mReviewNode == null) {
+            mReviewNode = new ControllerReviewNode(mReview.getReviewNode());
+        }
+
+        return mReviewNode;
     }
 
     String getId() {

@@ -12,7 +12,9 @@ import android.app.Fragment;
 
 import com.chdryra.android.mygenerallibrary.ActivitySingleFragment;
 
-
+/**
+ * Locations editing screen.
+ */
 public class ActivityReviewLocations extends ActivitySingleFragment {
 
     @Override

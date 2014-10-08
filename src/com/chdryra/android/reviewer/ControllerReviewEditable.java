@@ -19,7 +19,7 @@ import com.chdryra.android.mygenerallibrary.GVData;
 /**
  * Expands on ControllerReview to include setters on ReviewEditables.
  */
-public class ControllerReviewEditable extends ControllerReview<ReviewEditable>{
+public class ControllerReviewEditable extends ControllerReview<ReviewEditable> {
     public ControllerReviewEditable(ReviewEditable review) {
         super(review);
     }
@@ -89,7 +89,7 @@ public class ControllerReviewEditable extends ControllerReview<ReviewEditable>{
         r.setLocations(rdLocations);
     }
 
-    public <T extends GVReviewDataList<? extends GVData>> void setData(T data) {
+    <T extends GVReviewDataList<? extends GVData>> void setData(T data) {
         GVReviewDataList.GVType dataType = data.getDataType();
         if (dataType == GVReviewDataList.GVType.COMMENTS) {
             setComments((GVCommentList) data);

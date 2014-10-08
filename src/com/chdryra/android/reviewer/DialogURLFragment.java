@@ -20,13 +20,19 @@ import com.chdryra.android.mygenerallibrary.DialogCancelDeleteDoneFragment;
 import com.chdryra.android.reviewer.GVReviewDataList.GVType;
 import com.chdryra.android.reviewer.GVUrlList.GVUrl;
 
+/**
+ * Allows user to enter a review URL. Can forward request to a browser window where user can
+ * search then specify a URL.
+ *
+ * @see com.chdryra.android.reviewer.FragmentReviewURLBrowser
+ */
 public class DialogURLFragment extends DialogCancelDeleteDoneFragment {
     private static final ActionType RESULT_BROWSE = ActionType.OTHER;
 
     private static final String TAG = "DialogURLFragment";
 
-    private ControllerReviewNodeExpandable mController;
-    private ClearableEditText              mUrlEditText;
+    private ControllerReviewEditable mController;
+    private ClearableEditText        mUrlEditText;
 
     @Override
     protected View createDialogUI(ViewGroup parent) {
@@ -47,7 +53,7 @@ public class DialogURLFragment extends DialogCancelDeleteDoneFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mController = (ControllerReviewNodeExpandable) Administrator.get(getActivity()).unpack
+        mController = (ControllerReviewEditable) Administrator.get(getActivity()).unpack
                 (getArguments());
 
         setLeftButtonAction(RESULT_BROWSE);

@@ -8,8 +8,6 @@
 
 package com.chdryra.android.reviewer;
 
-import com.chdryra.android.mygenerallibrary.GVData;
-
 /**
  * Created by: Rizwan Choudrey
  * On: 03/10/2014
@@ -17,68 +15,21 @@ import com.chdryra.android.mygenerallibrary.GVData;
  */
 
 /**
- * Expands on ControllerReviewNode to include setters on ReviewNodeExpandable and ReviewEditables.
- *
+ * Expands on ControllerReviewNode to include setters on ReviewNodeExpandable.
  */
-public class ControllerReviewNodeExpandable extends ControllerReviewNode {
-    private final ControllerReviewEditable     mEditableController;
+class ControllerReviewNodeExpandable extends ControllerReviewNode {
 
-    public ControllerReviewNodeExpandable(ReviewNodeExpandable node) {
+    ControllerReviewNodeExpandable(ReviewNodeExpandable node) {
         super(node);
         mChildrenController = new ControllerReviewNodeChildren(node);
-        Review review = getControlledReview().getReview();
-        ReviewEditable editable = review instanceof ReviewEditable ? (ReviewEditable) review :
-                FactoryReview.createNullReview();
-        mEditableController = new ControllerReviewEditable(editable);
-    }
-
-    private ControllerReviewEditable getEditableReview() {
-        return mEditableController;
-    }
-
-    public ReviewNode publishAndTag(ReviewTreePublisher publisher) {
-        ReviewNode finalReview = publisher.publish(getControlledReview());
-        for (ReviewNode node : finalReview.flattenTree()) {
-            ReviewTagsManager.tag(node.getReview(), getEditableReview().mTagsList);
-        }
-
-        return finalReview;
-    }
-
-    public GVReviewDataList<? extends GVData> getData(GVReviewDataList.GVType dataType) {
-        if (dataType == GVReviewDataList.GVType.TAGS) {
-            //Tags are not set on underlying Review object until publishing stage so still need
-            // to retrieve from Editable.
-            return getEditableReview().getData(dataType);
-        } else {
-            return super.getData(dataType);
-        }
-    }
-
-    <D extends GVReviewDataList<? extends GVData>> void setData(D data) {
-        GVReviewDataList.GVType dataType = data.getDataType();
-        if (dataType == GVReviewDataList.GVType.CHILDREN) {
-            setChildren((GVReviewSubjectRatingList) data);
-        } else {
-            getEditableReview().setData(data);
-        }
-    }
-
-    void setRating(float rating) {
-        getEditableReview().setRating(rating);
-    }
-
-    void setSubject(String subject) {
-        getEditableReview().setSubject(subject);
     }
 
     void setChildren(GVReviewSubjectRatingList children) {
-        ((ControllerReviewNodeChildren)mChildrenController).setChildren(children);
+        ((ControllerReviewNodeChildren) mChildrenController).setChildren(children);
     }
 
     /**
      * Controls the expansion of the parent ReviewNodeExpandable.
-     *
      */
     class ControllerReviewNodeChildren extends ControllerReviewCollection<ReviewNode> {
         private final ReviewNodeExpandable mParent;

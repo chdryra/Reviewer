@@ -12,6 +12,9 @@ import android.app.Fragment;
 
 import com.chdryra.android.mygenerallibrary.ActivitySingleFragment;
 
+/**
+ * Tags editing screen.
+ */
 public class ActivityReviewTags extends ActivitySingleFragment {
 
     @Override

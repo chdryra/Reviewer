@@ -40,14 +40,14 @@ public class HelperReviewImage extends ImageHelper {
     private static final String                             IMAGE_DIRECTORY          = "Reviewer";
     private static final String                             ERROR_NO_STORAGE_MESSAGE = "No " +
             "storage available!";
-    private final ControllerReviewNode mController;
+    private final ControllerReview mController;
     private long fileCounter = 0;
 
-    private HelperReviewImage(ControllerReviewNode controller) {
+    private HelperReviewImage(ControllerReview controller) {
         mController = controller;
     }
 
-    public static HelperReviewImage getInstance(ControllerReviewNode controller) {
+    public static HelperReviewImage getInstance(ControllerReview controller) {
         if (!sHelperReviewImages.containsKey(controller.getId())) {
             sHelperReviewImages.put(controller.getId(), new HelperReviewImage(controller));
         }

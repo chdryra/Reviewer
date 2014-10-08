@@ -12,6 +12,9 @@ import android.app.Fragment;
 
 import com.chdryra.android.mygenerallibrary.ActivitySingleFragment;
 
+/**
+ * Sub-reviews editing screen.
+ */
 public class ActivityReviewChildren extends ActivitySingleFragment {
 
     @Override

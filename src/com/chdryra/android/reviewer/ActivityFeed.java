@@ -12,6 +12,9 @@ import android.app.Fragment;
 
 import com.chdryra.android.mygenerallibrary.ActivitySingleFragment;
 
+/**
+ * Published feed screen.
+ */
 public class ActivityFeed extends ActivitySingleFragment {
 
     @Override

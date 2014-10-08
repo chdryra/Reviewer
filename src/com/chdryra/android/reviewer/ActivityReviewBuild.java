@@ -12,6 +12,9 @@ import android.app.Fragment;
 
 import com.chdryra.android.mygenerallibrary.ActivitySingleFragment;
 
+/**
+ * Review creating screen.
+ */
 public class ActivityReviewBuild extends ActivitySingleFragment {
 
     @Override

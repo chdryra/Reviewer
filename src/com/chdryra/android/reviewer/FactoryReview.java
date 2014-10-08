@@ -8,6 +8,15 @@
 
 package com.chdryra.android.reviewer;
 
+/**
+ * Factory for creating Reviews and ReviewNodes.
+ * <p/>
+ * <p>
+ * Not a "classic" factory that returns top level interfaces/classes, but a convenient place to
+ * put constructors so as to minimise the use of constructors in multiple places. Plus the range
+ * of return types is relatively small so not too cumbersome.
+ * </p>
+ */
 class FactoryReview {
 
     private static FactoryReview sFactory = null;

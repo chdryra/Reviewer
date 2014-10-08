@@ -12,6 +12,9 @@ import android.app.Fragment;
 
 import com.chdryra.android.mygenerallibrary.ActivitySingleFragment;
 
+/**
+ * Facts editing screen.
+ */
 public class ActivityReviewFacts extends ActivitySingleFragment {
 
     @Override

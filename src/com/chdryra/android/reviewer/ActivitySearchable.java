@@ -13,6 +13,9 @@ import android.content.Intent;
 
 import com.chdryra.android.mygenerallibrary.ActivitySingleFragment;
 
+/**
+ * Unified search screen (currently disabled - work in progress)
+ */
 public class ActivitySearchable extends ActivitySingleFragment {
 
     @Override

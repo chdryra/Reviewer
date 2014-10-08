@@ -22,6 +22,10 @@ import com.chdryra.android.mygenerallibrary.ActivityResultCode;
 import com.chdryra.android.reviewer.GVReviewDataList.GVType;
 import com.chdryra.android.reviewer.GVReviewSubjectRatingList.GVReviewSubjectRating;
 
+/**
+ * Screen for interacting with and editing a collection of reviews. Currently used for editing
+ * sub-reviews.
+ */
 public class FragmentReviewChildren extends FragmentReviewGridAddEditDone<GVReviewSubjectRating> {
     public static final String CHILD_SUBJECT = "com.chdryra.android.reviewer.child_subject";
     public static final String CHILD_RATING  = "com.chdryra.android.reviewer.child_rating";
@@ -33,7 +37,7 @@ public class FragmentReviewChildren extends FragmentReviewGridAddEditDone<GVRevi
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mReviewData = (GVReviewSubjectRatingList) setAndInitData(GVType.CHILDREN);
-        mTotalRatingIsAverage = getController().isReviewRatingAverage();
+        mTotalRatingIsAverage = getNodeController().isReviewRatingAverage();
         setDeleteWhatTitle(getResources().getString(R.string.activity_title_children));
         setBannerButtonText(getResources().getString(R.string.button_add_criteria));
         setIsEditable(true);
@@ -51,7 +55,7 @@ public class FragmentReviewChildren extends FragmentReviewGridAddEditDone<GVRevi
         getTotalRatingBar().setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
             public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-                getController().setRating(rating);
+                getEditableController().setRating(rating);
                 if (fromUser) {
                     setTotalRatingIsAverage(false);
                 }
@@ -78,7 +82,7 @@ public class FragmentReviewChildren extends FragmentReviewGridAddEditDone<GVRevi
 
     private void setTotalRatingIsAverage(boolean isAverage) {
         mTotalRatingIsAverage = isAverage;
-        getController().setReviewRatingAverage(mTotalRatingIsAverage);
+        getNodeController().setReviewRatingAverage(mTotalRatingIsAverage);
         if (mTotalRatingIsAverage) {
             setAverageRating();
         }

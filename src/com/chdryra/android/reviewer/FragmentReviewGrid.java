@@ -39,14 +39,14 @@ import com.chdryra.android.reviewer.GVReviewDataList.GVType;
 
 @SuppressWarnings("EmptyMethod")
 public abstract class FragmentReviewGrid<T extends GVData> extends FragmentDeleteDone {
-    private ControllerReviewNodeExpandable mController;
-    private LinearLayout                   mLayout;
-    private TextView                       mSubjectView;
-    private RatingBar                      mTotalRatingBar;
-    private Button                         mBannerButton;
-    private GridView                       mGridView;
-    private int                            mMaxGridCellWidth;
-    private int                            mMaxGridCellHeight;
+    private ControllerReviewTreeEditable mController;
+    private LinearLayout                 mLayout;
+    private TextView                     mSubjectView;
+    private RatingBar                    mTotalRatingBar;
+    private Button                       mBannerButton;
+    private GridView                     mGridView;
+    private int                          mMaxGridCellWidth;
+    private int                          mMaxGridCellHeight;
     private int     mCellWidthDivider  = 1;
     private int     mCellHeightDivider = 1;
     private boolean mIsEditable        = false;
@@ -57,12 +57,18 @@ public abstract class FragmentReviewGrid<T extends GVData> extends FragmentDelet
     private GridViewImageAlpha mGridViewImageAlpha = GridViewImageAlpha.MEDIUM;
 
     @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        updateUI();
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mController = (ControllerReviewNodeExpandable) Administrator.get(getActivity()).unpack
+        mController = (ControllerReviewTreeEditable) Administrator.get(getActivity()).unpack
                 (getActivity()
-                .getIntent().getExtras());
+                        .getIntent().getExtras());
 
         if (mController == null) {
             setController(Administrator.get(getActivity()).createNewReviewInProgress());
@@ -71,12 +77,6 @@ public abstract class FragmentReviewGrid<T extends GVData> extends FragmentDelet
 
         setGridCellDimension(CellDimension.HALF, CellDimension.QUARTER);
         setBannerButtonText(getResources().getString(R.string.button_add));
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        updateUI();
     }
 
     @Override
@@ -111,18 +111,18 @@ public abstract class FragmentReviewGrid<T extends GVData> extends FragmentDelet
     }
 
     @Override
-    protected void onDeleteSelected() {
-        mGridData.removeAll();
-    }
-
-    @Override
     protected void setDeleteWhatTitle(String deleteWhat) {
         super.setDeleteWhatTitle("all " + deleteWhat);
     }
 
     @Override
+    protected void onDeleteSelected() {
+        mGridData.removeAll();
+    }
+
+    @Override
     protected void onDoneSelected() {
-        getController().setData(mGridData);
+        getEditableController().setData(mGridData);
 
         if (mOnDoneActivity != null) {
             Intent i = new Intent(getActivity(), ActivityReviewBuild.class);
@@ -182,7 +182,7 @@ public abstract class FragmentReviewGrid<T extends GVData> extends FragmentDelet
                 @Override
                 public void afterTextChanged(Editable s) {
                     if (s.toString().length() > 0) {
-                        getController().setSubject(s.toString());
+                        getEditableController().setSubject(s.toString());
                     }
                 }
             });
@@ -199,7 +199,7 @@ public abstract class FragmentReviewGrid<T extends GVData> extends FragmentDelet
                     .OnRatingBarChangeListener() {
                 @Override
                 public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-                    getController().setRating(rating);
+                    getEditableController().setRating(rating);
                 }
             });
         } else {
@@ -314,12 +314,20 @@ public abstract class FragmentReviewGrid<T extends GVData> extends FragmentDelet
         }
     }
 
-    ControllerReviewNodeExpandable getController() {
+    ControllerReviewEditable getEditableController() {
         return mController;
     }
 
-    void setController(ControllerReviewNodeExpandable controller) {
+    ControllerReview getController() {
+        return mController;
+    }
+
+    void setController(ControllerReviewTreeEditable controller) {
         mController = controller;
+    }
+
+    ControllerReviewNode getNodeController() {
+        return mController.getReviewNode();
     }
 
     TextView getSubjectView() {

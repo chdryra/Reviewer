@@ -16,6 +16,9 @@ import android.view.ViewGroup;
 import com.chdryra.android.myandroidwidgets.ClearableAutoCompleteTextView;
 import com.chdryra.android.mygenerallibrary.DialogCancelDeleteDoneFragment;
 
+/**
+ * Allows user to edit or delete review tags.
+ */
 public class DialogTagEditFragment extends DialogCancelDeleteDoneFragment {
     public static final String TAG_NEW = "com.chdryra.android.reviewer.tag_new";
     public static final String TAG_OLD = "com.chdryra.android.reviewer.tag_old";

@@ -15,35 +15,34 @@ import android.os.Bundle;
 /**
  * Singleton that controls app-wide duties. Holds 4 main objects:
  * <ul>
- *     <li>Author: author credentials</li>
- *     <li>Published reviews: collection of published reviews to display on feed activity</li>
- *     <li>Review controller: controls editing of new reviews</li>
- *     <li>Context: application context for retrieving app data</li>
+ * <li>Author: author credentials</li>
+ * <li>Published reviews: collection of published reviews to display on feed activity</li>
+ * <li>Review controller: controls editing of new reviews</li>
+ * <li>Context: application context for retrieving app data</li>
  * </ul>
- *
+ * <p/>
  * Also manages:
  * <ul>
- *     <li>The creation of new reviews</li>
- *     <li>The packing/unpacking of review data needed to pass between activities</li>
- *     <li>Publishing of reviews</li>
- *     <li>List of social platforms</li>
+ * <li>The creation of new reviews</li>
+ * <li>The packing/unpacking of review data needed to pass between activities</li>
+ * <li>Publishing of reviews</li>
+ * <li>List of social platforms</li>
  * </ul>
  *
  * @see com.chdryra.android.reviewer.Author
  * @see com.chdryra.android.reviewer.RCollectionReview
- * @see ControllerReviewInProgress
- *
+ * @see ControllerReviewTreeEditable
  */
 class Administrator {
     private static Administrator sAdministrator;
 
     private final Author mCurrentAuthor = new Author("Rizwan Choudrey");
-    private final RCollectionReview<Review>  mPublishedReviews;
-    private final Context                    mContext;
-    private       ControllerReviewInProgress mController;
+    private final RCollectionReview<ReviewNode> mPublishedReviews;
+    private final Context                       mContext;
+    private       ControllerReviewTreeEditable  mControllerRip;
 
     private Administrator(Context context) {
-        mPublishedReviews = new RCollectionReview<Review>();
+        mPublishedReviews = new RCollectionReview<ReviewNode>();
         mContext = context;
     }
 
@@ -56,31 +55,32 @@ class Administrator {
     }
 
     GVReviewOverviewList getPublishedReviewsFeed() {
-        return new ControllerReviewCollection<Review>(mPublishedReviews).getGridViewablePublished();
+        return new ControllerReviewCollection<ReviewNode>(mPublishedReviews)
+                .getGridViewablePublished();
     }
 
-    ControllerReviewNodeExpandable createNewReviewInProgress() {
-        mController = new ControllerReviewInProgress();
-        return mController.getReviewInProgress();
+    ControllerReviewTreeEditable createNewReviewInProgress() {
+        mControllerRip = new ControllerReviewTreeEditable();
+        return mControllerRip;
     }
 
     ControllerReview unpack(Bundle args) {
-        if (mController != null) {
-            return mController.unpack(args);
+        if (mControllerRip != null) {
+            return mControllerRip.unpack(args);
         } else {
             return null;
         }
     }
 
-    void pack(ControllerReviewNode controller, Intent intent) {
-        if (mController != null) {
-            mController.pack(controller, intent);
+    void pack(ControllerReview controller, Intent intent) {
+        if (mControllerRip != null) {
+            mControllerRip.pack(controller, intent);
         }
     }
 
-    Bundle pack(ControllerReviewNode controller) {
-        if (mController != null) {
-            return mController.pack(controller);
+    Bundle pack(ControllerReview controller) {
+        if (mControllerRip != null) {
+            return mControllerRip.pack(controller);
         } else {
             return null;
         }
@@ -88,8 +88,8 @@ class Administrator {
 
     void publishReviewInProgress() {
         ReviewTreePublisher publisher = new ReviewTreePublisher(mCurrentAuthor);
-        ReviewNode publishedTree = mController.getReviewInProgress().publishAndTag(publisher);
-        mPublishedReviews.add(FactoryReview.createReview(publishedTree));
+        ReviewNode publishedTree = mControllerRip.publishAndTag(publisher);
+        mPublishedReviews.add(mControllerRip.publishAndTag(publisher));
     }
 
     GVSocialPlatformList getSocialPlatformList() {

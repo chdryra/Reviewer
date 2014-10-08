@@ -12,6 +12,9 @@ import android.app.Fragment;
 
 import com.chdryra.android.mygenerallibrary.ActivitySingleFragment;
 
+/**
+ * Social sharing editing screen.
+ */
 public class ActivityReviewShare extends ActivitySingleFragment {
 
     @Override

@@ -14,6 +14,9 @@ import android.content.Intent;
 import com.chdryra.android.mygenerallibrary.ActivitySingleFragment;
 
 
+/**
+ * Location map view editing screen.
+ */
 public class ActivityReviewLocationMap extends ActivitySingleFragment {
 
     private FragmentReviewLocationMap mFragment;

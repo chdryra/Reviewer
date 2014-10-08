@@ -12,6 +12,9 @@ import android.app.Fragment;
 
 import com.chdryra.android.mygenerallibrary.ActivitySingleFragment;
 
+/**
+ * URLs editing screen (currently disabled).
+ */
 public class ActivityReviewURLs extends ActivitySingleFragment {
 
     @Override

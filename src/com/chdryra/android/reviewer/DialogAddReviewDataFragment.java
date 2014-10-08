@@ -16,10 +16,22 @@ import com.chdryra.android.mygenerallibrary.DialogCancelAddDoneFragment;
 import com.chdryra.android.mygenerallibrary.GVData;
 import com.chdryra.android.reviewer.GVReviewDataList.GVType;
 
+/**
+ * Base class for all dialogs that can add data to reviews.
+ * <p/>
+ * <p>
+ * By default the dialog won't add any data to reviews. It is assumed that implementations
+ * will update the return data intent to forward any data entered to the fragment or activity
+ * that commissioned the dialog. It is then up to that fragment/activity to decide what to do
+ * with the entered data. However, if the QUICK_SET boolean in the dialog arguments is set to
+ * true, the dialog will forward the data directly to the ControllerReviewEditable packed in
+ * the arguments by the Administrator.
+ * </p>
+ */
 abstract class DialogAddReviewDataFragment extends DialogCancelAddDoneFragment {
     public static final String QUICK_SET = "com.chdryra.android.reviewer.dialog_quick_mode";
 
-    private ControllerReviewNodeExpandable mController;
+    private ControllerReviewEditable mController;
     private boolean mQuickSet = false;
     private GVReviewDataList<? extends GVData> mData;
 
@@ -30,7 +42,7 @@ abstract class DialogAddReviewDataFragment extends DialogCancelAddDoneFragment {
 
     @Override
     protected void onDoneButtonClick() {
-        if (isQuickSet()) {
+        if (isQuickSet() && mController != null) {
             mController.setData(mData);
         }
     }
@@ -46,6 +58,7 @@ abstract class DialogAddReviewDataFragment extends DialogCancelAddDoneFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mQuickSet = getArguments().getBoolean(QUICK_SET);
-        mController = (ControllerReviewNodeExpandable) Administrator.get(getActivity()).unpack(getArguments());
+        mController = (ControllerReviewEditable) Administrator.get(getActivity()).unpack
+                (getArguments());
     }
 }

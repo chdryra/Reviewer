@@ -16,6 +16,9 @@ import android.widget.Toast;
 
 import com.chdryra.android.reviewer.GVReviewDataList.GVType;
 
+/**
+ * Asks user for review comments.
+ */
 public class DialogCommentAddFragment extends DialogAddReviewDataFragment {
     public static final String COMMENT = "com.chdryra.android.review.comment";
 
@@ -41,9 +44,7 @@ public class DialogCommentAddFragment extends DialogAddReviewDataFragment {
     @Override
     protected void onAddButtonClick() {
         String comment = mCommentEditText.getText().toString();
-        if (comment == null || comment.length() == 0) {
-            return;
-        }
+        if (comment == null || comment.length() == 0) return;
 
         if (mComments.contains(comment)) {
             Toast.makeText(getActivity(), R.string.toast_has_comment, Toast.LENGTH_SHORT).show();

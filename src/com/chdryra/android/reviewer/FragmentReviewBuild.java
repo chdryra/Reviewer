@@ -34,6 +34,40 @@ import com.chdryra.android.reviewer.GVReviewDataList.GVType;
 import com.chdryra.android.reviewer.ReviewDataOptions.ReviewDataOption;
 import com.google.android.gms.maps.model.LatLng;
 
+/**
+ * The primary screen where the user builds the review.
+ * <p/>
+ * <p>
+ * Consists of:
+ * <ul>
+ * <li>EditText for entering a subject</li>
+ * <li>RatingBar to enter score</li>
+ * <li>6 Tiles for entering:
+ * <ul>
+ * <li>Tags</li>
+ * <li>Criteria (sub-reviews)</li>
+ * <li>Images</li>
+ * <li>Comments</li>
+ * <li>Locations</li>
+ * <li>Facts</li>
+ * </ul>
+ * </li>
+ * <li>ActionBar icon for setting review score as an average of the sub-reviews</li>
+ * <li>"Share" button for moving to the next screen</li>
+ * </ul>
+ * </p>
+ * <p/>
+ * <p>
+ * Standard press of the tiles will call up a "quick-set" dialog if no data is present. This
+ * will ask the user to enter appropriate data which will be set on the review. If data is
+ * present, or for a long press, pressing a tile will take the user to an appropriate
+ * data-specific activity for querying, adding or editing data.
+ * </p>
+ * <p/>
+ * <p>
+ * "Up" button returns the user to the feed screen.
+ * </p>
+ */
 public class FragmentReviewBuild extends FragmentReviewGrid<GVCellManager> {
     private final static int LOCATION_MAP = 22;
 
@@ -148,7 +182,7 @@ public class FragmentReviewBuild extends FragmentReviewGrid<GVCellManager> {
             @Override
             public void execute(Void data) {
                 images.getItem(0).setIsCover(true);
-                getController().setData(images);
+                getEditableController().setData(images);
                 updateUI();
             }
         });
@@ -166,7 +200,7 @@ public class FragmentReviewBuild extends FragmentReviewGrid<GVCellManager> {
         if (latLng != null && name != null) {
             GVLocationList list = new GVLocationList();
             list.add(latLng, name);
-            getController().setData(list);
+            getEditableController().setData(list);
         }
     }
 
@@ -189,7 +223,7 @@ public class FragmentReviewBuild extends FragmentReviewGrid<GVCellManager> {
     public boolean onOptionsItemSelected(MenuItem item) {
         int i = item.getItemId();
         if (i == R.id.menu_item_average_rating) {
-            getController().setReviewRatingAverage(true);
+            getNodeController().setReviewRatingAverage(true);
             getTotalRatingBar().setRating(getController().getRating());
             return true;
         } else {
@@ -217,6 +251,11 @@ public class FragmentReviewBuild extends FragmentReviewGrid<GVCellManager> {
                 getOption(GVType.IMAGES).getActivityRequestCode());
     }
 
+    /**
+     * Provides the adapter for the GridView of data tiles. Can't use the ViewHolder pattern here
+     * because each cell can have its own unique look so reuse is not an option. The view update
+     * requests are forwarded to underlying the GVCellManagers to handle.
+     */
     class ReviewOptionsGridCellAdapter extends GridViewCellAdapter {
         public ReviewOptionsGridCellAdapter() {
             super(getActivity(), getGridData(), getGridCellWidth(), getGridCellHeight());
@@ -232,8 +271,12 @@ public class FragmentReviewBuild extends FragmentReviewGrid<GVCellManager> {
         }
     }
 
+    /**
+     * Holds the list of cells that manage data display and respond to user interaction for the data
+     * tiles. This is what <code>getGridViewData()</code> returns for this fragment.
+     */
     class GVCellManagerList extends GVReviewDataList<GVCellManagerList.GVCellManager> {
-        public GVCellManagerList() {
+        private GVCellManagerList() {
             super(null);
         }
 
@@ -241,6 +284,10 @@ public class FragmentReviewBuild extends FragmentReviewGrid<GVCellManager> {
             add(new GVCellManager(dataType));
         }
 
+        /**
+         * Encapsulates the range of responses and displays available to each data tile depending
+         * on the underlying data and user interaction.
+         */
         class GVCellManager implements GVData {
             private final GVType mDataType;
 
@@ -265,25 +312,23 @@ public class FragmentReviewBuild extends FragmentReviewGrid<GVCellManager> {
                 return null;
             }
 
-            public View updateView(ViewGroup parent) {
+            private View updateView(ViewGroup parent) {
                 int size = getController().getData(mDataType).size();
 
-                if (size == 0) {
-                    return getNoDatumView(parent);
-                }
+                if (size == 0) return getNoDatumView(parent);
 
                 return size > 1 || mDataType == GVType.IMAGES ? getMultiDataView(parent) :
                         getSingleDatumView(parent);
             }
 
-            public View getNoDatumView(ViewGroup parent) {
+            private View getNoDatumView(ViewGroup parent) {
                 ViewHolder vh = new VHTextView();
                 vh.inflate(getActivity(), parent);
                 vh.updateView(new GVString(mDataType.getDataString()));
                 return vh.getView();
             }
 
-            public View getMultiDataView(ViewGroup parent) {
+            private View getMultiDataView(ViewGroup parent) {
                 int number = getController().getData(mDataType).size();
                 String type = number == 1 ? mDataType.getDatumString() : mDataType.getDataString();
 
@@ -293,10 +338,10 @@ public class FragmentReviewBuild extends FragmentReviewGrid<GVCellManager> {
                 return vh.getView();
             }
 
-            public View getSingleDatumView(ViewGroup parent) {
+            private View getSingleDatumView(ViewGroup parent) {
                 ViewHolder vh = getOption(mDataType).getViewHolder();
                 if (vh.getView() == null) vh.inflate(getActivity(), parent);
-                vh.updateView(getController().getData(mDataType).getItem(0));
+                vh.updateView((GVData) getController().getData(mDataType).getItem(0));
                 return vh.getView();
             }
         }

@@ -19,6 +19,9 @@ import com.chdryra.android.myandroidwidgets.ClearableEditText;
 import com.chdryra.android.mygenerallibrary.DialogCancelDeleteDoneFragment;
 import com.google.android.gms.maps.model.LatLng;
 
+/**
+ * Allows user to edit or delete image data including bitmap and caption.
+ */
 public class DialogImageEditFragment extends DialogCancelDeleteDoneFragment {
     public static final String OLD_CAPTION = "com.chdryra.android.reviewer.old_caption";
 

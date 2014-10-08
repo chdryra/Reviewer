@@ -16,6 +16,9 @@ import android.widget.EditText;
 
 import com.chdryra.android.mygenerallibrary.DialogCancelDeleteDoneFragment;
 
+/**
+ * Allows user to edit or delete review comments.
+ */
 public class DialogCommentEditFragment extends DialogCancelDeleteDoneFragment {
     public static final String COMMENT_NEW = "com.chdryra.android.reviewer.comment_new";
     public static final String COMMENT_OLD = "com.chdryra.android.reviewer.comment_old";
