@@ -17,7 +17,7 @@ public class GVReviewSubjectRatingList extends GVReviewDataList<GVReviewSubjectR
         .GVReviewSubjectRating> {
 
     public GVReviewSubjectRatingList() {
-        super(GVType.CRITERIA);
+        super(GVType.CHILDREN);
     }
 
     public void add(String subject, float rating) {

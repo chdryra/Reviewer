@@ -13,11 +13,12 @@ import java.util.Date;
 /**
  * Base class for reviews that allow editing of the data they hold. Adds setters and deleters to
  * the Review interface.
- * ReviewEditables are by definition not published themselves.
- * Use the publish method to return a published ReviewNode of its current data.
  *
+ * <p> ReviewEditables are - by definition - not published themselves. Use the publish method to
+ *     return a published uneditable Review encapsulating its current data.
+ * </p>
  */
-public abstract class ReviewEditable implements Review {
+abstract class ReviewEditable implements Review {
 
     //Core data
     public abstract void setSubject(String subject);

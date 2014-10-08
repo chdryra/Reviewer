@@ -8,9 +8,14 @@
 
 package com.chdryra.android.reviewer;
 
-import java.util.Date;
-
-public class ReviewUserEditable extends ReviewEditable {
+/**
+ * Editable version of ReviewUser. Returns a ReviewUser when published. ReviewTreeEditable uses
+ * this as the root node.
+ *
+ * @see com.chdryra.android.reviewer.ReviewUser
+ * @see com.chdryra.android.reviewer.ReviewTreeEditable
+ */
+class ReviewUserEditable extends ReviewEditable {
     private ReviewNode mNode;
 
     private RDId      mID;
@@ -148,6 +153,11 @@ public class ReviewUserEditable extends ReviewEditable {
     }
 
     @Override
+    public boolean hasLocations() {
+        return mLocations.hasData();
+    }
+
+    @Override
     public boolean equals(Object obj) {
         if (obj == null || obj.getClass() != getClass()) {
             return false;
@@ -160,11 +170,6 @@ public class ReviewUserEditable extends ReviewEditable {
     @Override
     public int hashCode() {
         return mID.hashCode();
-    }
-
-    @Override
-    public boolean hasLocations() {
-        return mLocations.hasData();
     }
 
     private <T extends RData> RDList<T> processData(RDList<T> newData, RDList<T> ifNull) {

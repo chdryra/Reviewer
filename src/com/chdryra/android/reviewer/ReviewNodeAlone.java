@@ -15,25 +15,25 @@ import java.util.Date;
  * On: 03/10/2014
  * Email: rizwan.choudrey@gmail.com
  */
-public class ReviewNodeAlone implements ReviewNode {
+
+/**
+ * Wrapper for a single review without children or a parent. Has same RDId as the review it wraps.
+ * Used primarily as the tree representation for ReviewUser and ReviewUserEditable.
+ *
+ * @see com.chdryra.android.reviewer.ReviewUser
+ * @see com.chdryra.android.reviewer.ReviewUserEditable
+ */
+class ReviewNodeAlone implements ReviewNode {
     private Review mReview;
     private RCollectionReview<ReviewNode> mChildren = new RCollectionReview<ReviewNode>();
 
-    public ReviewNodeAlone(Review review) {
+    ReviewNodeAlone(Review review) {
         mReview = review;
     }
 
     @Override
     public Review getReview() {
         return mReview;
-    }
-
-    @Override
-    public RCollectionReview<ReviewNode> flattenTree() {
-        RCollectionReview<ReviewNode> nodes = new RCollectionReview<ReviewNode>();
-        nodes.add(this);
-
-        return nodes;
     }
 
     @Override
@@ -53,6 +53,14 @@ public class ReviewNodeAlone implements ReviewNode {
 
     @Override
     public void setRatingIsAverageOfChildren(boolean ratingIsAverage) {
+    }
+
+    @Override
+    public RCollectionReview<ReviewNode> flattenTree() {
+        RCollectionReview<ReviewNode> nodes = new RCollectionReview<ReviewNode>();
+        nodes.add(this);
+
+        return nodes;
     }
 
     @Override

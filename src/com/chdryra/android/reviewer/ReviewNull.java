@@ -8,6 +8,9 @@
 
 package com.chdryra.android.reviewer;
 
+/**
+ * Null review to use to avoid returning null pointers in some situations.
+ */
 public class ReviewNull extends ReviewEditable {
 
     public ReviewNull() {
@@ -132,6 +135,11 @@ public class ReviewNull extends ReviewEditable {
     }
 
     @Override
+    public boolean hasLocations() {
+        return false;
+    }
+
+    @Override
     public boolean equals(Object obj) {
         if (obj == null || obj.getClass() != getClass()) {
             return false;
@@ -144,10 +152,5 @@ public class ReviewNull extends ReviewEditable {
     @Override
     public int hashCode() {
         return 0;
-    }
-
-    @Override
-    public boolean hasLocations() {
-        return false;
     }
 }

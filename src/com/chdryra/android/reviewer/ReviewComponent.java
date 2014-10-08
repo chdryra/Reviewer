@@ -11,11 +11,20 @@ package com.chdryra.android.reviewer;
 import java.util.Date;
 
 /**
- * Primary implementation of ReviewNode.
- * Wraps a Review object in a node structure with potential children and a parent.
- * Note: this is not necessarily the same node internal to the Review and returned by its
- * getReviewNode() method. A Review may decide to represent itself with its own internal tree
- * structure.
+ * Primary implementation of ReviewNodeExpandable.
+ *
+ * <p>
+ *     Creates a new unique RDId so represents a new review structure even though it wraps an
+ *     existing review. Generally used for reviews that only make sense when considering the tree
+ *     as a whole, for example reviews with rated sub-criteria, metareviews etc.
+ * </p>
+ *
+ * <p>
+ *     Wraps a Review object in a node structure with potential children and a parent.
+ *     Note: this is not necessarily the same node internal to the wrapped Review and returned by
+ *     its getReviewNode() method. A Review may decide to represent itself with its own internal
+ *     tree structure which will share the same RDId as the review.
+ * </p>
  */
 public class ReviewComponent implements ReviewNodeExpandable {
     private final RDId mId;
@@ -82,6 +91,15 @@ public class ReviewComponent implements ReviewNodeExpandable {
     }
 
     @Override
+    public void clearChildren() {
+        RCollectionReview<ReviewNodeExpandable> children = new RCollectionReview<ReviewNodeExpandable>();
+        children.add(mChildren);
+        for (ReviewNodeExpandable child : children) {
+            removeChild(child);
+        }
+    }
+
+    @Override
     public RCollectionReview<ReviewNode> getChildren() {
         RCollectionReview<ReviewNode> children = new RCollectionReview<ReviewNode>();
         for(ReviewNodeExpandable child : mChildren) {
@@ -92,12 +110,13 @@ public class ReviewComponent implements ReviewNodeExpandable {
     }
 
     @Override
-    public void clearChildren() {
-        RCollectionReview<ReviewNodeExpandable> children = new RCollectionReview<ReviewNodeExpandable>();
-        children.add(mChildren);
-        for (ReviewNodeExpandable child : children) {
-            removeChild(child);
-        }
+    public boolean isRatingIsAverageOfChildren() {
+        return mRatingIsAverage;
+    }
+
+    @Override
+    public void setRatingIsAverageOfChildren(boolean ratingIsAverage) {
+        mRatingIsAverage = ratingIsAverage;
     }
 
     @Override
@@ -108,16 +127,6 @@ public class ReviewComponent implements ReviewNodeExpandable {
         traverser.traverse();
 
         return collector.get();
-    }
-
-    @Override
-    public boolean isRatingIsAverageOfChildren() {
-        return mRatingIsAverage;
-    }
-
-    @Override
-    public void setRatingIsAverageOfChildren(boolean ratingIsAverage) {
-        mRatingIsAverage = ratingIsAverage;
     }
 
     @Override
@@ -241,6 +250,4 @@ public class ReviewComponent implements ReviewNodeExpandable {
     public int hashCode() {
         return mId.hashCode();
     }
-
-
 }

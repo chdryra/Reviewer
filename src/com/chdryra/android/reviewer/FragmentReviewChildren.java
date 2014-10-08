@@ -32,12 +32,18 @@ public class FragmentReviewChildren extends FragmentReviewGridAddEditDone<GVRevi
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mReviewData = (GVReviewSubjectRatingList) setAndInitData(GVType.CRITERIA);
+        mReviewData = (GVReviewSubjectRatingList) setAndInitData(GVType.CHILDREN);
         mTotalRatingIsAverage = getController().isReviewRatingAverage();
         setDeleteWhatTitle(getResources().getString(R.string.activity_title_children));
         setBannerButtonText(getResources().getString(R.string.button_add_criteria));
         setIsEditable(true);
         setOnDoneActivity(ActivityReviewBuild.class);
+    }
+
+    @Override
+    protected void onDeleteSelected() {
+        super.onDeleteSelected();
+        setTotalRatingIsAverage(false);
     }
 
     protected void initRatingBarUI() {
@@ -68,12 +74,6 @@ public class FragmentReviewChildren extends FragmentReviewGridAddEditDone<GVRevi
         args.putFloat(CHILD_RATING, reviewData.getRating());
         DialogShower.show(new DialogChildEditFragment(), FragmentReviewChildren.this, DATA_EDIT,
                 DATA_EDIT_TAG, args);
-    }
-
-    @Override
-    protected void onDeleteSelected() {
-        super.onDeleteSelected();
-        setTotalRatingIsAverage(false);
     }
 
     private void setTotalRatingIsAverage(boolean isAverage) {

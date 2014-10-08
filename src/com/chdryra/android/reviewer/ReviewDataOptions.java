@@ -17,7 +17,13 @@ import com.chdryra.android.reviewer.GVReviewDataList.GVType;
 
 import java.util.HashMap;
 
-public class ReviewDataOptions {
+/**
+ * Encapsulates the range of responses available to return to the user when the user chooses a
+ * data type to edit on the Review build screen (UI in FragmentReviewBuild).
+ *
+ * @see com.chdryra.android.reviewer.FragmentReviewBuild;
+ */
+class ReviewDataOptions {
     private final static String TAG = "ReviewDataOptions";
 
     private final static String DIALOG_TAG_TAG      = "TagDialog";
@@ -40,18 +46,19 @@ public class ReviewDataOptions {
     private final static int URL_ADD          = 51;
     private final static int CHILDREN_REQUEST = 60;
     private final static int CHILDREN_ADD     = 61;
-    private final static int TAGS_REQUEST     = 80;
-    private final static int TAGS_ADD         = 81;
+    private final static int TAGS_REQUEST     = 70;
+    private final static int TAGS_ADD         = 71;
     private static ReviewDataOptions                 sReviewDataOptions;
     private final  HashMap<GVType, ReviewDataOption> mReviewDataOptions;
 
     private ReviewDataOptions() {
         mReviewDataOptions = new HashMap<GVReviewDataList.GVType,
                 ReviewDataOptions.ReviewDataOption>();
+
         mReviewDataOptions.put(GVType.TAGS,
                 new ReviewDataOption(DialogTagAddFragment.class, TAGS_ADD, DIALOG_TAG_TAG,
                         ActivityReviewTags.class, TAGS_REQUEST, new VHTagView()));
-        mReviewDataOptions.put(GVType.CRITERIA,
+        mReviewDataOptions.put(GVType.CHILDREN,
                 new ReviewDataOption(DialogChildAddFragment.class, CHILDREN_ADD,
                         DIALOG_CHILD_TAG, ActivityReviewChildren.class, CHILDREN_REQUEST,
                         new VHReviewNodeSubjectRating()));
@@ -75,7 +82,7 @@ public class ReviewDataOptions {
 
     }
 
-    public static ReviewDataOption get(GVType dataType) {
+    static ReviewDataOption get(GVType dataType) {
         return getOptions().mReviewDataOptions.get(dataType);
     }
 
@@ -108,7 +115,7 @@ public class ReviewDataOptions {
             mViewHolder = viewHolder;
         }
 
-        public DialogFragment getDialogFragment() throws RuntimeException {
+        DialogFragment getDialogFragment() throws RuntimeException {
             try {
                 return mDialogClass.newInstance();
             } catch (java.lang.InstantiationException e) {
@@ -122,23 +129,23 @@ public class ReviewDataOptions {
             }
         }
 
-        public Class<? extends Activity> getActivityRequestClass() {
+        Class<? extends Activity> getActivityRequestClass() {
             return mActivityClass;
         }
 
-        public int getActivityRequestCode() {
+        int getActivityRequestCode() {
             return mActivityRequestCode;
         }
 
-        public int getDialogRequestCode() {
+        int getDialogRequestCode() {
             return mDialogRequestCode;
         }
 
-        public String getDialogTag() {
+        String getDialogTag() {
             return mDialogTag;
         }
 
-        public ViewHolder getViewHolder() {
+        ViewHolder getViewHolder() {
             return mViewHolder;
         }
     }

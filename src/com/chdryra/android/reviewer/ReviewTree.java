@@ -15,11 +15,52 @@ import java.util.Date;
  * On: 03/10/2014
  * Email: rizwan.choudrey@gmail.com
  */
-public class ReviewTree implements Review {
+
+/**
+ * A non-editable and non-expandable ReviewNode wrapper for a review tree. The published version of
+ * ReviewTreeEditable. Has the same RDId as the root node. Getters forward requests to the
+ * internal node.
+ */
+class ReviewTree implements ReviewNode {
     private ReviewNode mNode;
 
     public ReviewTree(ReviewNode node) {
         mNode = node;
+    }
+
+    @Override
+    public Review getReview() {
+        return mNode.getReview();
+    }
+
+    @Override
+    public ReviewNode getParent() {
+        return mNode.getParent();
+    }
+
+    @Override
+    public RCollectionReview<ReviewNode> getChildren() {
+        return mNode.getChildren();
+    }
+
+    @Override
+    public boolean isRatingIsAverageOfChildren() {
+        return mNode.isRatingIsAverageOfChildren();
+    }
+
+    @Override
+    public void setRatingIsAverageOfChildren(boolean ratingIsAverage) {
+        mNode.setRatingIsAverageOfChildren(ratingIsAverage);
+    }
+
+    @Override
+    public RCollectionReview<ReviewNode> flattenTree() {
+        return mNode.flattenTree();
+    }
+
+    @Override
+    public void acceptVisitor(VisitorReviewNode visitorReviewNode) {
+        mNode.acceptVisitor(visitorReviewNode);
     }
 
     @Override
@@ -39,7 +80,7 @@ public class ReviewTree implements Review {
 
     @Override
     public ReviewNode getReviewNode() {
-        return mNode;
+        return this;
     }
 
     @Override

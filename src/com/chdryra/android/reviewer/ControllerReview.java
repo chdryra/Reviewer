@@ -19,8 +19,27 @@ import java.util.Date;
  * On: 03/10/2014
  * Email: rizwan.choudrey@gmail.com
  */
-public class ControllerReview<T extends Review> {
-    protected final ArrayList<String> mTagsList = new ArrayList<String>();
+
+/**
+ * Translation and indirection layer between Model (review data) and View (android). The "C" in the
+ * MVC pattern. The View layer consist of the activities and fragments in android.
+ *
+ * <p>
+ *     Not a "Controller" as such - more of an adapter - but didn't want to confuse with
+ *     Android's use of the word "Adapter". Translates between model data types and view data types:
+ *     <ul>
+ *         <li>Model data type: Review types and the data they return</li>
+ *         <li>View data type: GVData types, java types</li>
+ *     </ul>
+ * </p>
+ *
+ * @param <T>: the Review type being accessed
+ *
+ * @see Review
+ * @see com.chdryra.android.mygenerallibrary.GVData
+ */
+class ControllerReview<T extends Review> {
+    protected final ArrayList<String>   mTagsList       = new ArrayList<String>();
     private final T mReview;
 
     public ControllerReview(T review) {
@@ -35,74 +54,55 @@ public class ControllerReview<T extends Review> {
         return mReview;
     }
 
-    public String getId() {
+    String getId() {
         return mReview.getId().toString();
     }
 
-    public String getSubject() {
+    String getSubject() {
         return mReview.getSubject().get();
     }
 
-    public float getRating() {
+    float getRating() {
         return mReview.getRating().get();
     }
 
-    public String getAuthor() {
+    String getAuthor() {
         return mReview.getAuthor().getName();
     }
 
-    public Date getPublishDate() {
+    Date getPublishDate() {
         return mReview.getPublishDate();
     }
 
-    public boolean hasData(GVReviewDataList.GVType dataType) {
+    void removeTags() {
+        mTagsList.clear();
+    }
+
+    void addTags(GVTagList tags) {
+        for (GVString tag : tags) {
+            mTagsList.add(tag.get());
+        }
+    }
+
+    boolean hasData(GVReviewDataList.GVType dataType) {
         if (dataType == GVReviewDataList.GVType.COMMENTS) {
-            return hasComments();
+            return mReview.hasComments();
         } else if (dataType == GVReviewDataList.GVType.IMAGES) {
-            return hasImages();
+            return mReview.hasImages();
         } else if (dataType == GVReviewDataList.GVType.FACTS) {
-            return hasFacts();
+            return mReview.hasFacts();
         } else if (dataType == GVReviewDataList.GVType.URLS) {
-            return hasUrls();
+            return mReview.hasUrls();
         } else if (dataType == GVReviewDataList.GVType.LOCATIONS) {
-            return hasLocations();
+            return mReview.hasLocations();
         } else if (dataType == GVReviewDataList.GVType.TAGS) {
-            return hasTags();
+            return mTagsList.size() > 0;
         } else {
             return false;
         }
     }
 
-    //Comment
-    private boolean hasComments() {
-        return mReview.hasComments();
-    }
-
-    //Image
-    private boolean hasImages() {
-        return mReview.hasImages();
-    }
-
-    //Facts
-    private boolean hasFacts() {
-        return mReview.hasFacts();
-    }
-
-    //URL
-    private boolean hasUrls() {
-        return mReview.hasUrls();
-    }
-
-    //Location
-    private boolean hasLocations() {
-        return mReview.hasLocations();
-    }
-
-    private boolean hasTags() {
-        return mTagsList.size() > 0;
-    }
-
-    public GVReviewDataList<? extends GVData> getData(GVReviewDataList.GVType dataType) {
+    GVReviewDataList<? extends GVData> getData(GVReviewDataList.GVType dataType) {
         if (dataType == GVReviewDataList.GVType.COMMENTS) {
             return getComments();
         } else if (dataType == GVReviewDataList.GVType.IMAGES) {
@@ -177,15 +177,5 @@ public class ControllerReview<T extends Review> {
     void setTags(GVTagList tags) {
         removeTags();
         addTags(tags);
-    }
-
-    void removeTags() {
-        mTagsList.clear();
-    }
-
-    void addTags(GVTagList tags) {
-        for (GVString tag : tags) {
-            mTagsList.add(tag.get());
-        }
     }
 }

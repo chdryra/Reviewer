@@ -9,34 +9,41 @@
 package com.chdryra.android.reviewer;
 
 import com.chdryra.android.mygenerallibrary.GVData;
-import com.chdryra.android.reviewer.GVReviewDataList.GVType;
 
-public class ControllerReviewNode extends ControllerReview<ReviewNode> {
+/**
+ * Expands on ControllerReview to include the ReviewNode interface.
+ *
+ * @see com.chdryra.android.reviewer.ControllerReview
+ * @see com.chdryra.android.reviewer.ReviewNode
+ *
+ */
+class ControllerReviewNode extends ControllerReview<ReviewNode> {
     protected ControllerReviewCollection<ReviewNode> mChildrenController;
 
-    public ControllerReviewNode(ReviewNode node) {
+    ControllerReviewNode(ReviewNode node) {
         super(node);
         mChildrenController = new ControllerReviewCollection<ReviewNode>(node.getChildren());
     }
 
     @Override
-    public boolean hasData(GVReviewDataList.GVType dataType) {
-        if (dataType == GVReviewDataList.GVType.CRITERIA) {
+    boolean hasData(GVReviewDataList.GVType dataType) {
+        if (dataType == GVReviewDataList.GVType.CHILDREN) {
             return getControlledReview().getChildren().size() > 0;
         } else  {
             return super.hasData(dataType);
         }
     }
 
-    public GVReviewDataList<? extends GVData> getData(GVReviewDataList.GVType dataType) {
-        if (dataType == GVReviewDataList.GVType.CRITERIA) {
+    @Override
+    GVReviewDataList<? extends GVData> getData(GVReviewDataList.GVType dataType) {
+        if (dataType == GVReviewDataList.GVType.CHILDREN) {
             return mChildrenController.getGridViewableData();
         } else {
             return super.getData(dataType);
         }
     }
 
-    public boolean isReviewRatingAverage() {
+    boolean isReviewRatingAverage() {
         return getControlledReview().isRatingIsAverageOfChildren();
     }
 

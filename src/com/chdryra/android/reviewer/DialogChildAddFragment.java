@@ -41,7 +41,7 @@ public class DialogChildAddFragment extends DialogAddReviewDataFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mChildren = (GVReviewSubjectRatingList) setAndInitData(GVType.CRITERIA);
+        mChildren = (GVReviewSubjectRatingList) setAndInitData(GVType.CHILDREN);
         setDialogTitle(getResources().getString(R.string.dialog_add_criteria_title));
     }
 

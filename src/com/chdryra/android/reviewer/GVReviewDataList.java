@@ -25,7 +25,7 @@ public abstract class GVReviewDataList<T extends GVData> extends GVList<T> {
 
     public enum GVType {
         COMMENTS("comment"),
-        CRITERIA("criterion", "criteria"),
+        CHILDREN("criterion", "criteria"),
         IMAGES("image"),
         FACTS("fact"),
         REVIEW("review"),

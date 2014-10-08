@@ -9,27 +9,34 @@
 package com.chdryra.android.reviewer;
 
 /**
- * Node representation of a review. Can add other reviews as children or as a parent allowing a
- * structured representation of how reviews may relate to each other e.g. in a user review with
- * sub-criteria or a meta review.
- * @see ReviewComponent
- * @see ReviewTreeEditable
+ * Tree representation of a review.
+ *
+ * <p>
+ *     Can add other reviews as children or as a parent allowing a
+ *     structured representation of how reviews may relate to each other, for example a user review
+ *     with sub-criteria as children or a meta review with other reviews as children.
+ * </p>
+ *
  */
-public interface ReviewNode extends Review {
-    public Review getReview();
+interface ReviewNode extends Review {
+    Review getReview();
+
+    ReviewNode getParent();
+
+    RCollectionReview<ReviewNode> getChildren();
+
+    boolean isRatingIsAverageOfChildren();
+
+    void setRatingIsAverageOfChildren(boolean ratingIsAverage);
 
     /**
      * Collects itself and all descendants into a collection of nodes.
      */
-    public RCollectionReview<ReviewNode> flattenTree();
+    RCollectionReview<ReviewNode> flattenTree();
 
-    public ReviewNode getParent();
-
-    public RCollectionReview<ReviewNode> getChildren();
-
-    public boolean isRatingIsAverageOfChildren();
-
-    public void setRatingIsAverageOfChildren(boolean ratingIsAverage);
-
-    public void acceptVisitor(VisitorReviewNode visitorReviewNode);
+    /**
+     * For operations to be carried out on the tree.
+     * @param visitorReviewNode
+     */
+    void acceptVisitor(VisitorReviewNode visitorReviewNode);
 }

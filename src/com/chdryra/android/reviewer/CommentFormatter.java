@@ -12,7 +12,7 @@ import java.util.LinkedList;
 import java.util.StringTokenizer;
 
 /**
- * Helper class for comment processing:
+ * Helper class for comment string processing.
  * <ul>
  *     <li>Extraction of 1st sentence as a headline</li>
  *     <li>Splitting of comments into sentences</li>

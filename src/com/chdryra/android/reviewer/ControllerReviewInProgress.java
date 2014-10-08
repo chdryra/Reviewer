@@ -14,35 +14,38 @@ import android.os.Bundle;
 import com.chdryra.android.mygenerallibrary.IntentObjectHolder;
 
 /**
- * Controls editing of new reviews. Holds 2 objects:
- * <ul>
- *     <li>Review controller: controls access to the review in progress</li>
- *     <li>Collection of controllers being passed back and forth between activities: There
- *     maybe multiple controllers associated with the potential tree structure of the review in
- *     progress that may need to be passed back and forth between activities.
- *     </li>
- * </ul>
+ * Controls editing of new reviews in the android activities/fragments layer (the View layer in an
+ * MVC framework).
+ *
+ * <p>
+ *     Holds 2 objects:
+ *     <ul>
+ *         <li>Review controller: controls access to the review-in-progress model data</li>
+ *         <li>Collection of sub-review controllers: There maybe multiple controllers associated
+ *         with the potential tree structure of the review in progress that may need to be passed
+ *         back and forth between activities.
+ *         </li>
+ *     </ul>
+ * </p>
+ *
+ * @see ControllerReview
+ * @see ControllerReviewNodeExpandable
  */
-class Controller {
+class ControllerReviewInProgress {
     private static final String CONTROLLER_ID = "com.chdryra.android.reviewer.review_id";
+
     private final ControllerReviewNodeExpandable mReviewInProgress;
-    private final IntentObjectHolder             mRNControllers;
+    private final IntentObjectHolder             mControllers;
 
-    Controller() {
+    ControllerReviewInProgress() {
         mReviewInProgress = new ControllerReviewNodeExpandable(FactoryReview
-                .createReviewInProgress()
-                .getReviewTree());
-        mRNControllers = new IntentObjectHolder();
-    }
-
-    static RDId convertID(String id) {
-        return RDId.generateId(id);
+                .createReviewInProgress());
+        mControllers = new IntentObjectHolder();
     }
 
     ControllerReviewNodeExpandable getReviewInProgress() {
         return mReviewInProgress;
     }
-
 
     Bundle pack(ControllerReview controller) {
         Bundle args = new Bundle();
@@ -65,7 +68,7 @@ class Controller {
     }
 
     private void register(ControllerReview controller) {
-        mRNControllers.addObject(controller.getId(), controller);
+        mControllers.addObject(controller.getId(), controller);
     }
 
     private ControllerReview getControllerFor(String id) {
@@ -74,11 +77,11 @@ class Controller {
 
     private void unregister(ControllerReview controller) {
         if (controller != null) {
-            mRNControllers.removeObject(controller.getId());
+            mControllers.removeObject(controller.getId());
         }
     }
 
     private ControllerReview get(String id) {
-        return (ControllerReview) mRNControllers.getObject(id);
+        return (ControllerReview) mControllers.getObject(id);
     }
 }

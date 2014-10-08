@@ -32,62 +32,67 @@ import java.util.Date;
  * parent review. They can be represented as a ReviewNode with zero or more children and/or a
  * parent if necessary.
  *
- * Reviews may or may not be published (have non-null @see Author and Publish Date)
+ * Reviews may or may not be published (have non-null Author and Publish Date). Published reviews
+ * should not be editable reviews or expandable nodes themselves. They may, however, be passed to a
+ * ReviewNodeExpandable as the root review for a different review structure that may be expanded.
+ *
  * @see ReviewNode
+ * @see ReviewNodeExpandable
  * @see ReviewEditable
- * @see ReviewUser
  */
 
-public interface Review extends RDId.RDIdAble {
+interface Review extends RDId.RDIdAble {
+
     //Core data
     @Override
-    public RDId getId();
+    RDId getId();
 
-    public RDSubject getSubject();
+    RDSubject getSubject();
 
-    public RDRating getRating();
+    RDRating getRating();
 
     //Core methods
     /**
-     *
-     * @return ReviewNode: tree representation of the review
+     * Returns a tree representation of the review. Has the same RDId as the review it represents.
+     * //TODO work out a way of ensuring this without further complicating inheritance.
      */
-    public ReviewNode getReviewNode();
+    ReviewNode getReviewNode();
 
     /**
+     * Stamps an unpublished review (and descendants if necessary) with an Author and Date.
+     * Returns an uneditable published review.
      *
-     * @param publisher: ReviewTreePublisher stamps an unpublished review (and descendants if
-     *                 necessary) with an Author and Date.
+     * @param publisher: holds publishing data and publishes unpublished descendants if necessary.
      * @return Review: a new uneditable review stamped with Author and Date.
      */
-    public Review publish(ReviewTreePublisher publisher);
+    Review publish(ReviewTreePublisher publisher);
 
-    public Author getAuthor();
+    Author getAuthor();
 
-    public Date getPublishDate();
+    Date getPublishDate();
 
-    public boolean isPublished();
+    boolean isPublished();
 
     //Optional data
-    public RDList<RDComment> getComments();
+    RDList<RDComment> getComments();
 
-    public boolean hasComments();
+    boolean hasComments();
 
-    public RDList<RDFact> getFacts();
+    RDList<RDFact> getFacts();
 
-    public boolean hasFacts();
+    boolean hasFacts();
 
-    public RDList<RDImage> getImages();
+    RDList<RDImage> getImages();
 
-    public boolean hasImages();
+    boolean hasImages();
 
-    public RDList<RDUrl> getURLs();
+    RDList<RDUrl> getURLs();
 
-    public boolean hasUrls();
+    boolean hasUrls();
 
-    public RDList<RDLocation> getLocations();
+    RDList<RDLocation> getLocations();
 
-    public boolean hasLocations();
+    boolean hasLocations();
 
     //For speed and comparison
     @Override

@@ -173,7 +173,7 @@ public class FragmentReviewBuild extends FragmentReviewGrid<GVCellManager> {
     private void initCellManagerList() {
         mCellManagerList = new GVCellManagerList();
         mCellManagerList.add(GVType.TAGS);
-        mCellManagerList.add(GVType.CRITERIA);
+        mCellManagerList.add(GVType.CHILDREN);
         mCellManagerList.add(GVType.IMAGES);
         mCellManagerList.add(GVType.COMMENTS);
         mCellManagerList.add(GVType.LOCATIONS);

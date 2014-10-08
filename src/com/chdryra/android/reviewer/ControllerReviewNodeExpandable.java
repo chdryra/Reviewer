@@ -15,6 +15,11 @@ import com.chdryra.android.mygenerallibrary.GVData;
  * On: 03/10/2014
  * Email: rizwan.choudrey@gmail.com
  */
+
+/**
+ * Expands on ControllerReviewNode to include setters on ReviewNodeExpandable and ReviewEditables.
+ *
+ */
 public class ControllerReviewNodeExpandable extends ControllerReviewNode {
     private final ControllerReviewEditable     mEditableController;
 
@@ -52,7 +57,7 @@ public class ControllerReviewNodeExpandable extends ControllerReviewNode {
 
     <D extends GVReviewDataList<? extends GVData>> void setData(D data) {
         GVReviewDataList.GVType dataType = data.getDataType();
-        if (dataType == GVReviewDataList.GVType.CRITERIA) {
+        if (dataType == GVReviewDataList.GVType.CHILDREN) {
             setChildren((GVReviewSubjectRatingList) data);
         } else {
             getEditableReview().setData(data);
@@ -71,6 +76,10 @@ public class ControllerReviewNodeExpandable extends ControllerReviewNode {
         ((ControllerReviewNodeChildren)mChildrenController).setChildren(children);
     }
 
+    /**
+     * Controls the expansion of the parent ReviewNodeExpandable.
+     *
+     */
     class ControllerReviewNodeChildren extends ControllerReviewCollection<ReviewNode> {
         private final ReviewNodeExpandable mParent;
 
@@ -86,7 +95,7 @@ public class ControllerReviewNodeExpandable extends ControllerReviewNode {
 
         void removeAll() {
             mParent.clearChildren();
-            init(mParent.getChildren());
+            reinitialise(mParent.getChildren());
         }
 
         void addChildren(GVReviewSubjectRatingList children) {

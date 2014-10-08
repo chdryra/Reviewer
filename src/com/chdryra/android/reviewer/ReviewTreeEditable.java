@@ -8,19 +8,94 @@
 
 package com.chdryra.android.reviewer;
 
-public class ReviewTreeEditable extends ReviewEditable {
+/**
+ * Primary review object the user edits in the review creation process. An editable and expandable
+ * review tree.
+ *
+ * <p>
+ *     This essentially wraps a ReviewNodeExpandable where the root node is a ReviewUserEditable.
+ *     The getters and setters forward requests and data to the ReviewUserEditable. The tree
+ *     editing requests are forwarded to the internal node.
+ * </p>
+ *
+ * <p>
+ *     The <code>publish(.)</code> method returns a ReviewTree object that wraps a published
+ *     version of the internal tree to stop further editing and expanding.
+ * </p>
+ *
+ * @see com.chdryra.android.reviewer.ReviewUserEditable
+ * @see com.chdryra.android.reviewer.ReviewTree
+ */
+class ReviewTreeEditable extends ReviewEditable implements ReviewNodeExpandable{
     private ReviewNodeExpandable mNode;
 
-    public ReviewTreeEditable(String subject) {
-        init(subject);
+    ReviewTreeEditable(String subject) {
+        ReviewEditable editableRoot = FactoryReview.createReviewEditable(subject);
+        mNode = FactoryReview.createReviewNodeExpandable(editableRoot);
     }
 
-    private void init(String subject) {
-        mNode = FactoryReview.createReviewNodeExpandable(FactoryReview.createReviewEditable
-                (subject));
-        mNode.setRatingIsAverageOfChildren(false);
+    @Override
+    public Review getReview() {
+        return mNode.getReview();
     }
 
+    @Override
+    public ReviewNode getParent() {
+        return mNode.getParent();
+    }
+
+    //ReviewNodeExpandable methods
+    @Override
+    public void setParent(ReviewNodeExpandable parentNode) {
+        mNode.setParent(parentNode);
+    }
+
+    @Override
+    public void addChild(Review child) {
+        mNode.addChild(child);
+    }
+
+    @Override
+    public void addChild(ReviewNodeExpandable childNode) {
+        mNode.addChild(childNode);
+    }
+
+    @Override
+    public void removeChild(ReviewNodeExpandable childNode) {
+        mNode.removeChild(childNode);
+    }
+
+    @Override
+    public void clearChildren() {
+        mNode.clearChildren();
+    }
+
+    @Override
+    public RCollectionReview<ReviewNode> getChildren() {
+        return mNode.getChildren();
+    }
+
+    @Override
+    public boolean isRatingIsAverageOfChildren() {
+        return mNode.isRatingIsAverageOfChildren();
+    }
+
+    @Override
+    public void setRatingIsAverageOfChildren(boolean ratingIsAverage) {
+        mNode.setRatingIsAverageOfChildren(ratingIsAverage);
+    }
+
+    @Override
+    public RCollectionReview<ReviewNode> flattenTree() {
+        return mNode.flattenTree();
+    }
+
+    @Override
+    public void acceptVisitor(VisitorReviewNode visitorReviewNode) {
+        mNode.acceptVisitor(visitorReviewNode);
+    }
+
+    //ReviewEditable methods
     @Override
     public RDId getId() {
         return mNode.getId();
@@ -53,10 +128,6 @@ public class ReviewTreeEditable extends ReviewEditable {
 
     @Override
     public ReviewNode getReviewNode() {
-        return mNode;
-    }
-
-    public ReviewNodeExpandable getReviewTree() {
         return mNode;
     }
 
@@ -156,26 +227,28 @@ public class ReviewTreeEditable extends ReviewEditable {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (obj == null || obj.getClass() != getClass()) {
-            return false;
-        }
-
-        ReviewTreeEditable objReview = (ReviewTreeEditable) obj;
-        return mNode.equals(objReview.mNode);
-    }
-
-    @Override
-    public int hashCode() {
-        return mNode.hashCode();
-    }
-
-    @Override
     public boolean hasLocations() {
         return mNode.hasLocations();
     }
 
     private ReviewEditable getReviewEditable() {
         return (ReviewEditable) mNode.getReview();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ReviewTreeEditable)) return false;
+
+        ReviewTreeEditable that = (ReviewTreeEditable) o;
+
+        if (mNode != null ? !mNode.equals(that.mNode) : that.mNode != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return mNode != null ? mNode.hashCode() : 0;
     }
 }

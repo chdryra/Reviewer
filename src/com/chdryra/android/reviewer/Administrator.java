@@ -31,19 +31,19 @@ import android.os.Bundle;
  *
  * @see com.chdryra.android.reviewer.Author
  * @see com.chdryra.android.reviewer.RCollectionReview
- * @see com.chdryra.android.reviewer.Controller
+ * @see ControllerReviewInProgress
  *
  */
 class Administrator {
     private static Administrator sAdministrator;
 
     private final Author mCurrentAuthor = new Author("Rizwan Choudrey");
-    private final RCollectionReview<ReviewNode> mPublishedReviews;
-    private final Context    mContext;
-    private       Controller mController;
+    private final RCollectionReview<Review>  mPublishedReviews;
+    private final Context                    mContext;
+    private       ControllerReviewInProgress mController;
 
     private Administrator(Context context) {
-        mPublishedReviews = new RCollectionReview<ReviewNode>();
+        mPublishedReviews = new RCollectionReview<Review>();
         mContext = context;
     }
 
@@ -56,12 +56,11 @@ class Administrator {
     }
 
     GVReviewOverviewList getPublishedReviewsFeed() {
-        return new ControllerReviewCollection<ReviewNode>(mPublishedReviews)
-                .getGridViewablePublished();
+        return new ControllerReviewCollection<Review>(mPublishedReviews).getGridViewablePublished();
     }
 
     ControllerReviewNodeExpandable createNewReviewInProgress() {
-        mController = new Controller();
+        mController = new ControllerReviewInProgress();
         return mController.getReviewInProgress();
     }
 
@@ -89,8 +88,8 @@ class Administrator {
 
     void publishReviewInProgress() {
         ReviewTreePublisher publisher = new ReviewTreePublisher(mCurrentAuthor);
-        ReviewNode published = mController.getReviewInProgress().publishAndTag(publisher);
-        mPublishedReviews.add(published);
+        ReviewNode publishedTree = mController.getReviewInProgress().publishAndTag(publisher);
+        mPublishedReviews.add(FactoryReview.createReview(publishedTree));
     }
 
     GVSocialPlatformList getSocialPlatformList() {

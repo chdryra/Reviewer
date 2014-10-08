@@ -90,26 +90,6 @@ public class DialogLocationFragment extends DialogCancelActionDoneFragment imple
     }
 
     @Override
-    protected void onActionButtonClick() {
-        String locationName = mNameEditText.getText().toString();
-        if (mLatLng != null && locationName.length() > 0) {
-            Intent i = getNewReturnDataIntent();
-            i.putExtra(LATLNG, mLatLng);
-            i.putExtra(NAME, mNameEditText.getText().toString());
-        }
-    }
-
-    @Override
-    protected void onActionButtonClick() {
-        String locationName = mNameEditText.getText().toString();
-        if (mLatLng != null && locationName.length() > 0) {
-            Intent i = getNewReturnDataIntent();
-            i.putExtra(LATLNG, mLatLng);
-            i.putExtra(NAME, mNameEditText.getText().toString());
-        }
-    }
-
-    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
@@ -121,6 +101,16 @@ public class DialogLocationFragment extends DialogCancelActionDoneFragment imple
         setActionButtonAction(RESULT_MAP);
         setActionButtonText(getResources().getString(R.string.button_map));
         dismissDialogOnActionClick();
+    }
+
+    @Override
+    protected void onActionButtonClick() {
+        String locationName = mNameEditText.getText().toString();
+        if (mLatLng != null && locationName.length() > 0) {
+            Intent i = getNewReturnDataIntent();
+            i.putExtra(LATLNG, mLatLng);
+            i.putExtra(NAME, mNameEditText.getText().toString());
+        }
     }
 
     @Override

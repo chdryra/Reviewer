@@ -15,6 +15,10 @@ import com.chdryra.android.mygenerallibrary.GVData;
  * On: 03/10/2014
  * Email: rizwan.choudrey@gmail.com
  */
+
+/**
+ * Expands on ControllerReview to include setters on ReviewEditables.
+ */
 public class ControllerReviewEditable extends ControllerReview<ReviewEditable>{
     public ControllerReviewEditable(ReviewEditable review) {
         super(review);

@@ -10,6 +10,17 @@ package com.chdryra.android.reviewer;
 
 import java.util.Date;
 
+/**
+ * The fundamental Review implementation. All published reviews and review nodes are ultimately
+ * built out of combinations of this fundamental building block.
+ * <p/>
+ * <p>
+ * This is just a data store. It cannot be edited. The editable version is ReviewUserEditable
+ * which will return one of these when published.
+ * </p>
+ *
+ * @see com.chdryra.android.reviewer.ReviewUserEditable
+ */
 public class ReviewUser implements Review {
     private ReviewNode mNode;
 
@@ -36,7 +47,7 @@ public class ReviewUser implements Review {
         mImages = new RDList<RDImage>(review.getImages(), this);
         mFacts = new RDList<RDFact>(review.getFacts(), this);
         mURLs = new RDList<RDUrl>(review.getURLs(), this);
-        mLocations = new RDList<RDLocation>(review.getLocations(),this);
+        mLocations = new RDList<RDLocation>(review.getLocations(), this);
 
         mNode = FactoryReview.createReviewNodeAlone(this);
     }
