@@ -13,8 +13,6 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.RatingBar;
 import android.widget.Toast;
 
@@ -23,8 +21,27 @@ import com.chdryra.android.reviewer.GVReviewDataList.GVType;
 import com.chdryra.android.reviewer.GVReviewSubjectRatingList.GVReviewSubjectRating;
 
 /**
- * Screen for interacting with and editing a collection of reviews. Currently used for editing
- * sub-reviews.
+ * UI Fragment: collection of reviews. Currently used for editing sub-reviews (criteria). Each
+ * grid cell shows a subject and rating.
+ * <p/>
+ * <p>
+ * FragmentReviewGrid functionality:
+ * <ul>
+ * <li>Subject: enabled</li>
+ * <li>RatingBar: enabled</li>
+ * <li>Banner button: launches DialogChildAddFragment</li>
+ * <li>Grid cell click: launches DialogChildEditFragment</li>
+ * <li>Grid cell long click: same as click</li>
+ * </ul>
+ * </p>
+ * <p/>
+ * <p>
+ * Also an ActionBar icon for setting the review score as an average of the sub-reviews.
+ * </p>
+ *
+ * @see com.chdryra.android.reviewer.ActivityReviewChildren
+ * @see com.chdryra.android.reviewer.DialogChildAddFragment
+ * @see com.chdryra.android.reviewer.DialogChildEditFragment
  */
 public class FragmentReviewChildren extends FragmentReviewGridAddEditDone<GVReviewSubjectRating> {
     public static final String CHILD_SUBJECT = "com.chdryra.android.reviewer.child_subject";
@@ -36,12 +53,14 @@ public class FragmentReviewChildren extends FragmentReviewGridAddEditDone<GVRevi
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         mReviewData = (GVReviewSubjectRatingList) setAndInitData(GVType.CHILDREN);
         mTotalRatingIsAverage = getNodeController().isReviewRatingAverage();
         setDeleteWhatTitle(getResources().getString(R.string.activity_title_children));
         setBannerButtonText(getResources().getString(R.string.button_add_criteria));
         setIsEditable(true);
         setOnDoneActivity(ActivityReviewBuild.class);
+        setAddEditDialogs(DialogChildAddFragment.class, DialogChildEditFragment.class);
     }
 
     @Override
@@ -56,28 +75,9 @@ public class FragmentReviewChildren extends FragmentReviewGridAddEditDone<GVRevi
             @Override
             public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
                 getEditableController().setRating(rating);
-                if (fromUser) {
-                    setTotalRatingIsAverage(false);
-                }
+                if (fromUser) setTotalRatingIsAverage(false);
             }
         });
-    }
-
-    @Override
-    protected void onBannerButtonClick() {
-        DialogShower.show(new DialogChildAddFragment(), FragmentReviewChildren.this, DATA_ADD,
-                DATA_ADD_TAG, Administrator.get(getActivity()).pack(getController()));
-    }
-
-    @Override
-    protected void onGridItemClick(AdapterView<?> parent, View v, int position, long id) {
-        GVReviewSubjectRating reviewData = (GVReviewSubjectRating) parent.getItemAtPosition
-                (position);
-        Bundle args = new Bundle();
-        args.putString(CHILD_SUBJECT, reviewData.getSubject());
-        args.putFloat(CHILD_RATING, reviewData.getRating());
-        DialogShower.show(new DialogChildEditFragment(), FragmentReviewChildren.this, DATA_EDIT,
-                DATA_EDIT_TAG, args);
     }
 
     private void setTotalRatingIsAverage(boolean isAverage) {
@@ -94,14 +94,6 @@ public class FragmentReviewChildren extends FragmentReviewGridAddEditDone<GVRevi
             rating += child.getRating() / mReviewData.size();
         }
         getTotalRatingBar().setRating(rating);
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (mTotalRatingIsAverage) {
-            setAverageRating();
-        }
     }
 
     @Override
@@ -148,6 +140,22 @@ public class FragmentReviewChildren extends FragmentReviewGridAddEditDone<GVRevi
                 }
                 break;
             default:
+        }
+    }
+
+    @Override
+    protected Bundle packGridCellData(GVReviewSubjectRating reviewData, Bundle args) {
+        args.putString(CHILD_SUBJECT, reviewData.getSubject());
+        args.putFloat(CHILD_RATING, reviewData.getRating());
+
+        return args;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (mTotalRatingIsAverage) {
+            setAverageRating();
         }
     }
 

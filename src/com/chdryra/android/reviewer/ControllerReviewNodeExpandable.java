@@ -34,12 +34,12 @@ class ControllerReviewNodeExpandable extends ControllerReviewNode {
     class ControllerReviewNodeChildren extends ControllerReviewCollection<ReviewNode> {
         private final ReviewNodeExpandable mParent;
 
-        public ControllerReviewNodeChildren(ReviewNodeExpandable parentNode) {
+        ControllerReviewNodeChildren(ReviewNodeExpandable parentNode) {
             super(parentNode.getChildren());
             mParent = parentNode;
         }
 
-        public void setChildren(GVReviewSubjectRatingList children) {
+        void setChildren(GVReviewSubjectRatingList children) {
             removeAll();
             addChildren(children);
         }

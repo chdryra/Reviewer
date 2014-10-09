@@ -13,7 +13,9 @@ import android.app.Fragment;
 import com.chdryra.android.mygenerallibrary.ActivitySingleFragment;
 
 /**
- * Facts editing screen.
+ * UI Activity holding FragmentReviewFacts: editing facts.
+ *
+ * @see com.chdryra.android.reviewer.FragmentReviewFacts
  */
 public class ActivityReviewFacts extends ActivitySingleFragment {
 

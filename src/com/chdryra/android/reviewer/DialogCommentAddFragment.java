@@ -17,7 +17,7 @@ import android.widget.Toast;
 import com.chdryra.android.reviewer.GVReviewDataList.GVType;
 
 /**
- * Asks user for review comments.
+ * Dialog for adding comments.
  */
 public class DialogCommentAddFragment extends DialogAddReviewDataFragment {
     public static final String COMMENT = "com.chdryra.android.review.comment";

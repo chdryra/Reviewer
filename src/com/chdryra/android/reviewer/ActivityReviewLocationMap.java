@@ -15,7 +15,9 @@ import com.chdryra.android.mygenerallibrary.ActivitySingleFragment;
 
 
 /**
- * Location map view editing screen.
+ * UI Activity holding FragmentReviewLocationMap: mapping and editing a location.
+ *
+ * @see com.chdryra.android.reviewer.FragmentReviewLocationMap
  */
 public class ActivityReviewLocationMap extends ActivitySingleFragment {
 

@@ -13,9 +13,7 @@ import com.chdryra.android.mygenerallibrary.GVData;
 /**
  * Expands on ControllerReview to include the ReviewNode interface.
  *
- * @see com.chdryra.android.reviewer.ControllerReview
  * @see com.chdryra.android.reviewer.ReviewNode
- *
  */
 class ControllerReviewNode extends ControllerReview<ReviewNode> {
     protected ControllerReviewCollection<ReviewNode> mChildrenController;
@@ -29,7 +27,7 @@ class ControllerReviewNode extends ControllerReview<ReviewNode> {
     boolean hasData(GVReviewDataList.GVType dataType) {
         if (dataType == GVReviewDataList.GVType.CHILDREN) {
             return getControlledReview().getChildren().size() > 0;
-        } else  {
+        } else {
             return super.hasData(dataType);
         }
     }
@@ -47,8 +45,7 @@ class ControllerReviewNode extends ControllerReview<ReviewNode> {
         return getControlledReview().isRatingIsAverageOfChildren();
     }
 
-    //RatingISAverage
-    public void setReviewRatingAverage(boolean isAverage) {
+    void setReviewRatingAverage(boolean isAverage) {
         getControlledReview().setRatingIsAverageOfChildren(isAverage);
     }
 }

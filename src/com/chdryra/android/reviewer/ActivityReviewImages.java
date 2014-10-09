@@ -14,7 +14,9 @@ import android.app.Fragment;
 import com.chdryra.android.mygenerallibrary.ActivitySingleFragment;
 
 /**
- * Images editing screen.
+ * UI Activity holding FragmentReviewImages: editing images.
+ *
+ * @see com.chdryra.android.reviewer.FragmentReviewImages
  */
 public class ActivityReviewImages extends ActivitySingleFragment {
     @Override

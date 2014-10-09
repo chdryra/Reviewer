@@ -17,7 +17,7 @@ import com.chdryra.android.myandroidwidgets.ClearableEditText;
 import com.chdryra.android.mygenerallibrary.DialogCancelDeleteDoneFragment;
 
 /**
- * Allows user to edit or delete review facts.
+ * Dialog for editing facts: edit/delete label and value.
  */
 public class DialogFactEditFragment extends DialogCancelDeleteDoneFragment {
     public static final String FACT_OLD_LABEL = "com.chdryra.android.reviewer.datum_old_label";

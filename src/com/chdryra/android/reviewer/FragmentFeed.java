@@ -20,7 +20,14 @@ import com.chdryra.android.mygenerallibrary.GridViewCellAdapter;
 import com.chdryra.android.reviewer.GVReviewOverviewList.GVReviewOverview;
 
 /**
- * The UI for showing the feed of published reviews. A work in progress.
+ * UI Fragment: published reviews.
+ * <p/>
+ * <p>
+ * The feed is a list of grid cells each showing an overview of each review. A bit basic at
+ * the moment. Most of the FragmentReviewGrid functionality is disabled.
+ * </p>
+ *
+ * @see com.chdryra.android.reviewer.ActivityFeed
  */
 public class FragmentFeed extends FragmentReviewGrid<GVReviewOverview> {
 

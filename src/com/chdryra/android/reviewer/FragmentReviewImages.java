@@ -22,6 +22,25 @@ import com.chdryra.android.reviewer.GVImageList.GVImage;
 import com.chdryra.android.reviewer.GVReviewDataList.GVType;
 import com.google.android.gms.maps.model.LatLng;
 
+/**
+ * UI Fragment: images. Each grid cell shows an image.
+ * <p/>
+ * <p>
+ * FragmentReviewGrid functionality:
+ * <ul>
+ * <li>Subject: disabled</li>
+ * <li>RatingBar: disabled</li>
+ * <li>Banner button: calls <code>mHelperReviewImage.getImageChooserIntents(.)</code></li>
+ * <li>Grid cell click: launches DialogImageEditFragment</li>
+ * <li>Grid cell long click: launches DialogSetImageAsBackgroundFragment</li>
+ * </ul>
+ * </p>
+ *
+ * @see com.chdryra.android.reviewer.ActivityReviewImages
+ * @see com.chdryra.android.reviewer.HelperReviewImage
+ * @see com.chdryra.android.reviewer.DialogImageEditFragment
+ * @see com.chdryra.android.reviewer.DialogSetImageAsBackgroundFragment
+ */
 public class FragmentReviewImages extends FragmentReviewGridAddEditDone<GVImage> {
     public static final  String BITMAP   = "com.chdryra.android.reviewer.bitmap";
     public static final  String CAPTION  = "com.chdryra.android.reviewer.caption";
@@ -42,23 +61,7 @@ public class FragmentReviewImages extends FragmentReviewGridAddEditDone<GVImage>
         setDeleteWhatTitle(getResources().getString(R.string.dialog_delete_images_title));
         setGridCellDimension(CellDimension.HALF, CellDimension.HALF);
         setBannerButtonText(getResources().getString(R.string.button_add_image));
-    }
-
-    @Override
-    protected void onBannerButtonClick() {
-        startActivityForResult(mHelperReviewImage.getImageChooserIntents(getActivity()), DATA_ADD);
-    }
-
-    @Override
-    protected void onGridItemClick(AdapterView<?> parent, View v, int position, long id) {
-        Bundle args = new Bundle();
-        GVImage image = (GVImage) parent.getItemAtPosition(position);
-        args.putParcelable(BITMAP, image.getBitmap());
-        args.putParcelable(LATLNG, image.getLatLng());
-        args.putString(CAPTION, image.getCaption());
-        args.putInt(POSITION, position);
-        DialogShower.show(new DialogImageEditFragment(), FragmentReviewImages.this, DATA_EDIT,
-                DATA_EDIT_TAG, args);
+        setAddEditDialogs(null, DialogImageEditFragment.class);
     }
 
     @Override
@@ -76,24 +79,6 @@ public class FragmentReviewImages extends FragmentReviewGridAddEditDone<GVImage>
     @Override
     void updateCover() {
         updateCover(mImages);
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        switch (requestCode) {
-            case DATA_ADD:
-                if (mHelperReviewImage.processOnActivityResult(getActivity(), resultCode, data)) {
-                    addData(resultCode, data);
-                }
-                break;
-            case IMAGE_AS_BACKGROUND:
-                if (ActionType.YES.getResultCode().equals(resultCode)) {
-                    setCover(data.getIntExtra(POSITION, 0));
-                }
-                break;
-            default:
-                super.onActivityResult(requestCode, resultCode, data);
-        }
     }
 
     @Override
@@ -137,6 +122,38 @@ public class FragmentReviewImages extends FragmentReviewGridAddEditDone<GVImage>
                 break;
             default:
         }
+    }
+
+    @Override
+    protected Bundle packGridCellData(GVImage image, Bundle args) {
+        args.putParcelable(BITMAP, image.getBitmap());
+        args.putParcelable(LATLNG, image.getLatLng());
+        args.putString(CAPTION, image.getCaption());
+
+        return args;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == getRequestCode(DataAddEdit.ADD)) {
+            if (mHelperReviewImage.processOnActivityResult(getActivity(), resultCode, data)) {
+                addData(resultCode, data);
+            }
+
+        } else if (requestCode == IMAGE_AS_BACKGROUND) {
+            if (ActionType.YES.getResultCode().equals(resultCode)) {
+                setCover(data.getIntExtra(POSITION, 0));
+            }
+
+        } else {
+            super.onActivityResult(requestCode, resultCode, data);
+        }
+    }
+
+    @Override
+    protected void onBannerButtonClick() {
+        startActivityForResult(mHelperReviewImage.getImageChooserIntents(getActivity()),
+                getRequestCode(DataAddEdit.ADD));
     }
 
     private void setCover(int position) {

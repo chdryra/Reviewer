@@ -19,6 +19,23 @@ import com.chdryra.android.reviewer.GVUrlList.GVUrl;
 
 import java.net.URL;
 
+/**
+ * UI Fragment: URLs (currently disabled). Each grid cell shows a URL.
+ * <p/>
+ * <p>
+ * FragmentReviewGrid functionality:
+ * <ul>
+ * <li>Subject: disabled</li>
+ * <li>RatingBar: disabled</li>
+ * <li>Banner button: launches ActivityReviewURLBrowser with Google home</li>
+ * <li>Grid cell click: launches ActivityReviewURLBrowser with selected link</li>
+ * <li>Grid cell long click: same as click</li>
+ * </ul>
+ * </p>
+ *
+ * @see com.chdryra.android.reviewer.ActivityReviewURLs
+ * @see com.chdryra.android.reviewer.ActivityReviewURLBrowser
+ */
 public class FragmentReviewURLs extends FragmentReviewGridAddEditDone<GVUrl> {
     private final static String URL = FragmentReviewURLBrowser.URL;
 
@@ -30,16 +47,6 @@ public class FragmentReviewURLs extends FragmentReviewGridAddEditDone<GVUrl> {
         mUrls = (GVUrlList) setAndInitData(GVType.URLS);
         setDeleteWhatTitle(getResources().getString(R.string.dialog_delete_urls_title));
         setBannerButtonText(getResources().getString(R.string.button_add_url));
-    }
-
-    @Override
-    protected void onBannerButtonClick() {
-        requestBrowserIntent(DATA_ADD, null);
-    }
-
-    @Override
-    protected void onGridItemClick(AdapterView<?> parent, View v, int position, long id) {
-        requestBrowserIntent(DATA_EDIT, ((GVUrl) parent.getItemAtPosition(position)).getUrl());
     }
 
     private void requestBrowserIntent(int requestCode, URL url) {
@@ -76,5 +83,22 @@ public class FragmentReviewURLs extends FragmentReviewGridAddEditDone<GVUrl> {
                 break;
             default:
         }
+    }
+
+    @Override
+    protected Bundle packGridCellData(GVUrl data, Bundle args) {
+        return args;
+    }
+
+    @Override
+    protected void onBannerButtonClick() {
+        requestBrowserIntent(getRequestCode(DataAddEdit.ADD), null);
+    }
+
+    @Override
+    protected void onGridItemClick(AdapterView<?> parent, View v, int position, long id) {
+        requestBrowserIntent(getRequestCode(DataAddEdit.EDIT), ((GVUrl) parent.getItemAtPosition
+                (position))
+                .getUrl());
     }
 }

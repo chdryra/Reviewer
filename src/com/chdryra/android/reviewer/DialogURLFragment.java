@@ -21,8 +21,8 @@ import com.chdryra.android.reviewer.GVReviewDataList.GVType;
 import com.chdryra.android.reviewer.GVUrlList.GVUrl;
 
 /**
- * Allows user to enter a review URL. Can forward request to a browser window where user can
- * search then specify a URL.
+ * Dialog for adding URLs (disabled): Allows user to enter a URL or can forward request to a
+ * browser window where user can search then specify a URL.
  *
  * @see com.chdryra.android.reviewer.FragmentReviewURLBrowser
  */

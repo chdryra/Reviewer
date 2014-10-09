@@ -18,6 +18,23 @@ import com.chdryra.android.reviewer.GVLocationList.GVLocation;
 import com.chdryra.android.reviewer.GVReviewDataList.GVType;
 import com.google.android.gms.maps.model.LatLng;
 
+/**
+ * UI Fragment: review locations. Each grid cell shows a location name.
+ * <p/>
+ * <p>
+ * FragmentReviewGrid functionality:
+ * <ul>
+ * <li>Subject: disabled</li>
+ * <li>RatingBar: disabled</li>
+ * <li>Banner button: launches ActivityReviewLocationMap showing current location</li>
+ * <li>Grid cell click: launches ActivityReviewLocationMap showing clicked location</li>
+ * <li>Grid cell long click: same as click</li>
+ * </ul>
+ * </p>
+ *
+ * @see com.chdryra.android.reviewer.ActivityReviewLocations
+ * @see com.chdryra.android.reviewer.ActivityReviewLocationMap
+ */
 public class FragmentReviewLocations extends FragmentReviewGridAddEditDone<GVLocation> {
     private final static String LATLNG  = FragmentReviewLocationMap.LATLNG;
     private final static String NAME    = FragmentReviewLocationMap.NAME;
@@ -31,17 +48,6 @@ public class FragmentReviewLocations extends FragmentReviewGridAddEditDone<GVLoc
         mLocations = (GVLocationList) setAndInitData(GVType.LOCATIONS);
         setDeleteWhatTitle(getResources().getString(R.string.dialog_delete_locations_title));
         setBannerButtonText(getResources().getString(R.string.button_add_location));
-    }
-
-    @Override
-    protected void onBannerButtonClick() {
-        requestMapIntent(DATA_ADD, null, null);
-    }
-
-    @Override
-    protected void onGridItemClick(AdapterView<?> parent, View v, int position, long id) {
-        GVLocation location = (GVLocation) parent.getItemAtPosition(position);
-        requestMapIntent(DATA_EDIT, location.getLatLng(), location.getName());
     }
 
     private void requestMapIntent(int requestCode, LatLng latLng, String name) {
@@ -86,5 +92,22 @@ public class FragmentReviewLocations extends FragmentReviewGridAddEditDone<GVLoc
                 break;
             default:
         }
+    }
+
+    @Override
+    protected Bundle packGridCellData(GVLocation data, Bundle args) {
+        return args;
+    }
+
+    @Override
+    protected void onBannerButtonClick() {
+        requestMapIntent(getRequestCode(DataAddEdit.ADD), null, null);
+    }
+
+    @Override
+    protected void onGridItemClick(AdapterView<?> parent, View v, int position, long id) {
+        GVLocation location = (GVLocation) parent.getItemAtPosition(position);
+        requestMapIntent(getRequestCode(DataAddEdit.EDIT), location.getLatLng(),
+                location.getName());
     }
 }

@@ -18,7 +18,7 @@ import com.chdryra.android.myandroidwidgets.ClearableEditText;
 import com.chdryra.android.reviewer.GVReviewDataList.GVType;
 
 /**
- * Asks user for review facts consisting of a label and value.
+ * Dialog for adding facts: asks for a label and value.
  */
 public class DialogFactAddFragment extends DialogAddReviewDataFragment {
     public static final String FACT_LABEL = "com.chdryra.android.reviewer.fact_label";

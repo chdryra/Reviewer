@@ -21,7 +21,7 @@ import com.chdryra.android.reviewer.GVReviewDataList.GVType;
 import java.text.DecimalFormat;
 
 /**
- * Asks user for sub-review information. Currently asks for a subject and rating.
+ * Dialog for adding sub-reviews: asks for a subject and rating.
  */
 public class DialogChildAddFragment extends DialogAddReviewDataFragment {
     public static final String SUBJECT = "com.chdryra.android.reviewer.subject";

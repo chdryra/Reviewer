@@ -10,14 +10,30 @@ package com.chdryra.android.reviewer;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Toast;
 
 import com.chdryra.android.mygenerallibrary.ActivityResultCode;
 import com.chdryra.android.reviewer.GVFactList.GVFact;
 import com.chdryra.android.reviewer.GVReviewDataList.GVType;
 
+/**
+ * UI Fragment: facts. Each grid cell shows a fact label and value.
+ * <p/>
+ * <p>
+ * FragmentReviewGrid functionality:
+ * <ul>
+ * <li>Subject: disabled</li>
+ * <li>RatingBar: disabled</li>
+ * <li>Banner button: launches DialogFactAddFragment</li>
+ * <li>Grid cell click: launches DialogFactEditFragment</li>
+ * <li>Grid cell long click: same as click</li>
+ * </ul>
+ * </p>
+ *
+ * @see com.chdryra.android.reviewer.ActivityReviewFacts
+ * @see com.chdryra.android.reviewer.DialogFactAddFragment
+ * @see com.chdryra.android.reviewer.DialogFactEditFragment
+ */
 public class FragmentReviewFacts extends FragmentReviewGridAddEditDone<GVFact> {
     public static final String FACT_LABEL = "com.chdryra.android.reviewer.datum_label";
     public static final String FACT_VALUE = "com.chdryra.android.reviewer.datum_value";
@@ -30,22 +46,7 @@ public class FragmentReviewFacts extends FragmentReviewGridAddEditDone<GVFact> {
         mFacts = (GVFactList) setAndInitData(GVType.FACTS);
         setDeleteWhatTitle(getResources().getString(R.string.dialog_delete_facts_title));
         setBannerButtonText(getResources().getString(R.string.button_add_facts));
-    }
-
-    @Override
-    protected void onBannerButtonClick() {
-        DialogShower.show(new DialogFactAddFragment(), FragmentReviewFacts.this, DATA_ADD,
-                DATA_ADD_TAG, Administrator.get(getActivity()).pack(getController()));
-    }
-
-    @Override
-    protected void onGridItemClick(AdapterView<?> parent, View v, int position, long id) {
-        Bundle args = Administrator.get(getActivity()).pack(getController());
-        GVFact fact = (GVFact) parent.getItemAtPosition(position);
-        args.putString(FACT_LABEL, fact.getLabel());
-        args.putString(FACT_VALUE, fact.getValue());
-        DialogShower.show(new DialogFactEditFragment(), FragmentReviewFacts.this, DATA_EDIT,
-                DATA_EDIT_TAG, args);
+        setAddEditDialogs(DialogFactAddFragment.class, DialogFactEditFragment.class);
     }
 
     @Override
@@ -91,5 +92,12 @@ public class FragmentReviewFacts extends FragmentReviewGridAddEditDone<GVFact> {
                 break;
             default:
         }
+    }
+
+    @Override
+    protected Bundle packGridCellData(GVFact fact, Bundle args) {
+        args.putString(FACT_LABEL, fact.getLabel());
+        args.putString(FACT_VALUE, fact.getValue());
+        return args;
     }
 }

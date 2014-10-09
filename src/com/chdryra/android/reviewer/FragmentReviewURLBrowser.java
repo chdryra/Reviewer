@@ -33,6 +33,18 @@ import com.chdryra.android.mygenerallibrary.FragmentDeleteDone;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+/**
+ * UI Fragment: web browser. Browser shows URL passed in the arguments,
+ * or Google home if null. By clicking "Done" icon, current URL is added to/edited into review.
+ * <p/>
+ * <p>
+ * In addition:
+ * <ul>
+ * <li>Text entry for URL.</li>
+ * <li>Search icon in ActionBar sends user to Google search.</li>
+ * </ul>
+ * </p>
+ */
 public class FragmentReviewURLBrowser extends FragmentDeleteDone {
     public static final  String URL     = "com.chdryra.android.reviewer.url";
     public static final  String URL_OLD = "com.chdryra.android.reviewer.url_old";

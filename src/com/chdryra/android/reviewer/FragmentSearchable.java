@@ -19,6 +19,10 @@ import android.widget.Toast;
 
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * UI Fragment: unified search (currently disabled). Work in progress for constructing a unified
+ * search for all review data.
+ */
 public class FragmentSearchable extends ListFragment {
 
     @Override

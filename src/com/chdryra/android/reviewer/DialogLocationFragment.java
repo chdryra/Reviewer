@@ -28,7 +28,8 @@ import com.chdryra.android.reviewer.GVReviewDataList.GVType;
 import com.google.android.gms.maps.model.LatLng;
 
 /**
- * Asks user to choose from location names found closest to the passed LatLng.
+ * Dialog for adding location name: populates with suggestions found near current location. Comes
+ * up with autocomplete suggestions as user types name.
  */
 public class DialogLocationFragment extends DialogCancelActionDoneFragment implements Locatable {
     public static final  ActionType RESULT_MAP = ActionType.OTHER;

@@ -18,7 +18,7 @@ import com.chdryra.android.myandroidwidgets.ClearableEditText;
 import com.chdryra.android.mygenerallibrary.DialogCancelDeleteDoneFragment;
 
 /**
- * Allows user to edit or delete child review information. Currently can edit subject and/or rating.
+ * Dialog for editing sub-reviews: edit/delete subject and rating.
  */
 public class DialogChildEditFragment extends DialogCancelDeleteDoneFragment {
     public static final String SUBJECT     = "com.chdryra.android.reviewer.subject_edit";

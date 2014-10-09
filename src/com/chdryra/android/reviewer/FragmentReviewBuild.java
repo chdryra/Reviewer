@@ -35,14 +35,15 @@ import com.chdryra.android.reviewer.ReviewDataOptions.ReviewDataOption;
 import com.google.android.gms.maps.model.LatLng;
 
 /**
- * The primary screen where the user builds the review.
+ * UI Fragment: editing and building reviews. The primary screen where the user builds the review.
  * <p/>
  * <p>
- * Consists of:
+ * FragmentReviewGrid functionality:
  * <ul>
- * <li>EditText for entering a subject</li>
- * <li>RatingBar to enter score</li>
- * <li>6 Tiles for entering:
+ * <li>Subject: enabled</li>
+ * <li>RatingBar: enabled</li>
+ * <li>Banner button: disabled</li>
+ * <li>Grid cells represent
  * <ul>
  * <li>Tags</li>
  * <li>Criteria (sub-reviews)</li>
@@ -50,23 +51,26 @@ import com.google.android.gms.maps.model.LatLng;
  * <li>Comments</li>
  * <li>Locations</li>
  * <li>Facts</li>
+ * </ul></li>
+ * <li>Grid cell click:
+ * <ul>
+ * <li>No data: launches appropriate DialogAddReviewDataFragment with QUICK_SET = true</li>
+ * <li>Has data: same as long-click</li>
  * </ul>
- * </li>
- * <li>ActionBar icon for setting review score as an average of the sub-reviews</li>
- * <li>"Share" button for moving to the next screen</li>
+ * <li>Grid cell long click: takes user to appropriate activity for that data</li>
  * </ul>
  * </p>
  * <p/>
  * <p>
- * Standard press of the tiles will call up a "quick-set" dialog if no data is present. This
- * will ask the user to enter appropriate data which will be set on the review. If data is
- * present, or for a long press, pressing a tile will take the user to an appropriate
- * data-specific activity for querying, adding or editing data.
+ * On top of standard FragmentReviewGrid functionality, there is also:
+ * <ul>
+ * <li>An ActionBar icon for setting the review score as an average of the sub-reviews</li>
+ * <li>A "Share" button for moving to the next screen</li>
+ * </ul>
  * </p>
- * <p/>
- * <p>
- * "Up" button returns the user to the feed screen.
- * </p>
+ *
+ * @see com.chdryra.android.reviewer.ActivityReviewBuild
+ * @see com.chdryra.android.reviewer.DialogAddReviewDataFragment
  */
 public class FragmentReviewBuild extends FragmentReviewGrid<GVCellManager> {
     private final static int LOCATION_MAP = 22;
@@ -88,27 +92,6 @@ public class FragmentReviewBuild extends FragmentReviewGrid<GVCellManager> {
         setTransparentGridCellBackground();
 
         mHelperReviewImage = HelperReviewImage.getInstance(getController());
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        ActivityResultCode resCode = ActivityResultCode.get(resultCode);
-        if (requestCode == getOption(GVType.IMAGES).getActivityRequestCode()) {
-            if (mHelperReviewImage.processOnActivityResult(getActivity(), resultCode, data)) {
-                addImage();
-            }
-        } else if (requestCode == getOption(GVType.LOCATIONS).getDialogRequestCode()) {
-            if (resCode.equals(DialogLocationFragment.RESULT_MAP.getResultCode())) {
-                requestMapIntent(data);
-            }
-        } else if (requestCode == LOCATION_MAP) {
-            if (resCode.equals(ActivityResultCode.DONE)) {
-                addLocation(data);
-            }
-        } else {
-            super.onActivityResult(requestCode, resultCode, data);
-        }
-        updateUI();
     }
 
     @Override
@@ -149,6 +132,27 @@ public class FragmentReviewBuild extends FragmentReviewGrid<GVCellManager> {
         getLayout().addView(divider);
 
         return v;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        ActivityResultCode resCode = ActivityResultCode.get(resultCode);
+        if (requestCode == getOption(GVType.IMAGES).getActivityRequestCode()) {
+            if (mHelperReviewImage.processOnActivityResult(getActivity(), resultCode, data)) {
+                addImage();
+            }
+        } else if (requestCode == getOption(GVType.LOCATIONS).getDialogRequestCode()) {
+            if (resCode.equals(DialogLocationFragment.RESULT_MAP.getResultCode())) {
+                requestMapIntent(data);
+            }
+        } else if (requestCode == LOCATION_MAP) {
+            if (resCode.equals(ActivityResultCode.DONE)) {
+                addLocation(data);
+            }
+        } else {
+            super.onActivityResult(requestCode, resultCode, data);
+        }
+        updateUI();
     }
 
     @Override

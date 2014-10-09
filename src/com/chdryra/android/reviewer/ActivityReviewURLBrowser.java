@@ -13,7 +13,9 @@ import android.app.Fragment;
 import com.chdryra.android.mygenerallibrary.ActivitySingleFragment;
 
 /**
- * URL browser editing screen (currently disabled).
+ * UI Activity holding FragmentReviewURLBrowser: browsing and searching URLs (currently disabled).
+ *
+ * @see com.chdryra.android.reviewer.FragmentReviewURLBrowser
  */
 public class ActivityReviewURLBrowser extends ActivitySingleFragment {
 

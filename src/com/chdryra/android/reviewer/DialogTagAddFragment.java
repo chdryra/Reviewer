@@ -17,7 +17,7 @@ import com.chdryra.android.myandroidwidgets.ClearableAutoCompleteTextView;
 import com.chdryra.android.reviewer.GVReviewDataList.GVType;
 
 /**
- * Asks user for review tags.
+ * Dialog for adding tags.
  */
 public class DialogTagAddFragment extends DialogAddReviewDataFragment {
     public static final String TAG = "com.chdryra.android.review.TAG";

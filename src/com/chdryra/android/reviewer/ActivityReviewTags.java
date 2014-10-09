@@ -13,7 +13,9 @@ import android.app.Fragment;
 import com.chdryra.android.mygenerallibrary.ActivitySingleFragment;
 
 /**
- * Tags editing screen.
+ * UI Activity holding FragmentReviewTags: editing tags.
+ *
+ * @see com.chdryra.android.reviewer.FragmentReviewTags
  */
 public class ActivityReviewTags extends ActivitySingleFragment {
 

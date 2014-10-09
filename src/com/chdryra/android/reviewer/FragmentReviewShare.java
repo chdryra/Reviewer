@@ -22,6 +22,7 @@ import android.widget.Button;
 
 import com.chdryra.android.reviewer.GVSocialPlatformList.GVSocialPlatform;
 
+
 public class FragmentReviewShare extends FragmentReviewGrid<GVSocialPlatformList.GVSocialPlatform> {
     private GVSocialPlatformList mSocialList;
     private Drawable             mDefault;

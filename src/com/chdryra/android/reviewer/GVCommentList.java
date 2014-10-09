@@ -11,25 +11,32 @@ package com.chdryra.android.reviewer;
 import com.chdryra.android.mygenerallibrary.GVData;
 import com.chdryra.android.mygenerallibrary.ViewHolder;
 
-public class GVCommentList extends GVReviewDataList<GVCommentList.GVComment> {
+/**
+ * GVReviewDataList: GVComment
+ * <p/>
+ * <p>
+ * Includes method for generating split comments GVCommentList from current list.
+ * </p>
+ */
+class GVCommentList extends GVReviewDataList<GVCommentList.GVComment> {
 
-    public GVCommentList() {
+    GVCommentList() {
         super(GVType.COMMENTS);
     }
 
-    public void add(String comment) {
+    void add(String comment) {
         add(new GVComment(comment));
     }
 
-    public void remove(String comment) {
+    void remove(String comment) {
         remove(new GVComment(comment));
     }
 
-    public boolean contains(String comment) {
+    boolean contains(String comment) {
         return contains(new GVComment(comment));
     }
 
-    public GVCommentList getSplitComments() {
+    GVCommentList getSplitComments() {
         GVCommentList splitComments = new GVCommentList();
         for (GVComment comment : this) {
             splitComments.add(comment.getSplitComments());
@@ -38,7 +45,17 @@ public class GVCommentList extends GVReviewDataList<GVCommentList.GVComment> {
         return splitComments;
     }
 
-    public class GVComment implements GVData {
+    /**
+     * GVData version of: RDComment
+     * <p/>
+     * <p>
+     * Methods for getting the comment headline and for splitting and unsplitting comments.
+     * </p>
+     *
+     * @see com.chdryra.android.mygenerallibrary.GVData
+     * @see com.chdryra.android.reviewer.RDComment
+     */
+    class GVComment implements GVData {
         private final String    mComment;
         private       GVComment mUnsplitParent;
 
@@ -47,15 +64,15 @@ public class GVCommentList extends GVReviewDataList<GVCommentList.GVComment> {
             mUnsplitParent = unsplitParent;
         }
 
-        public GVComment(String comment) {
+        GVComment(String comment) {
             mComment = comment;
         }
 
-        public String getComment() {
+        String getComment() {
             return mComment;
         }
 
-        public GVCommentList getSplitComments() {
+        GVCommentList getSplitComments() {
             GVCommentList splitComments = new GVCommentList();
             for (String comment : CommentFormatter.split(mComment)) {
                 splitComments.add(new GVComment(comment, this));
@@ -64,7 +81,7 @@ public class GVCommentList extends GVReviewDataList<GVCommentList.GVComment> {
             return splitComments;
         }
 
-        public GVComment getUnSplitComment() {
+        GVComment getUnSplitComment() {
             if (mUnsplitParent != null) {
                 return mUnsplitParent.getUnSplitComment();
             } else {
@@ -72,7 +89,7 @@ public class GVCommentList extends GVReviewDataList<GVCommentList.GVComment> {
             }
         }
 
-        public String getCommentHeadline() {
+        String getCommentHeadline() {
             return CommentFormatter.getHeadline(mComment);
         }
 

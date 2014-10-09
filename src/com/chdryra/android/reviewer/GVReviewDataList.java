@@ -11,7 +11,28 @@ package com.chdryra.android.reviewer;
 import com.chdryra.android.mygenerallibrary.GVData;
 import com.chdryra.android.mygenerallibrary.GVList;
 
-public abstract class GVReviewDataList<T extends GVData> extends GVList<T> {
+/**
+ * The View layer (V) equivalent of the Model layer (M) RDList. Implementation of GVList tailored
+ * for Review data accessed via a ControllerReview (C) that translates between them (MVC pattern).
+ * <p/>
+ * <p>
+ * Access of Review data via a ControllerReview requires passing one of the enums of GVType
+ * specified in this class. The same enum also provides a singular and plural readable text
+ * label for that type of data.
+ * </p>
+ * <p/>
+ * <p>
+ * Of course having this enum violates the 100% decoupling between model and view layers as
+ * it encodes types of review data that can be accessed. However the convenience it brings in
+ * terms of gating access and labeling is worth the modest maintenance increase. It doesn't
+ * need to know about the implementations of the model data, just that they exist.
+ * </p>
+ *
+ * @param <T>: the GVData type in the list.
+ * @see com.chdryra.android.reviewer.RDList
+ * @see com.chdryra.android.reviewer.ControllerReview
+ */
+abstract class GVReviewDataList<T extends GVData> extends GVList<T> {
 
     private final GVType mDataType;
 
@@ -19,11 +40,14 @@ public abstract class GVReviewDataList<T extends GVData> extends GVList<T> {
         mDataType = dataType;
     }
 
-    public GVType getDataType() {
+    GVType getDataType() {
         return mDataType;
     }
 
-    public enum GVType {
+    /**
+     * Enum that enumerates and labels the type of review data that is GridViewable
+     */
+    enum GVType {
         COMMENTS("comment"),
         CHILDREN("criterion", "criteria"),
         IMAGES("image"),
@@ -47,11 +71,11 @@ public abstract class GVReviewDataList<T extends GVData> extends GVList<T> {
             mDataString = data;
         }
 
-        public String getDatumString() {
+        String getDatumString() {
             return mDatumString;
         }
 
-        public String getDataString() {
+        String getDataString() {
             return mDataString;
         }
     }

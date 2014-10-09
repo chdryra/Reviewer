@@ -48,6 +48,20 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
 
+/**
+ * UI Fragment: location map. Google Map of location passed in the arguments, or current location
+ * if null.
+ * <p/>
+ * <p>
+ * In addition:
+ * <ul>
+ * <li>Text entry for location name. Autocompletes with nearby suggestions.</li>
+ * <li>Search icon in ActionBar to perform search.</li>
+ * <li>If location passed to Fragment, then also a revert button to revert back to
+ * passed location.</li>
+ * </ul>
+ * </p>
+ */
 public class FragmentReviewLocationMap extends FragmentDeleteDone implements
         LocationClientConnector.Locatable {
     public final static  String SUBJECT              = "com.chdryra.android.reviewer.subject";
@@ -285,7 +299,6 @@ public class FragmentReviewLocationMap extends FragmentDeleteDone implements
         } else {
             mRevertButton.setVisibility(View.GONE);
         }
-
     }
 
     public void handleSearch() {
@@ -310,7 +323,8 @@ public class FragmentReviewLocationMap extends FragmentDeleteDone implements
     }
 
     private CursorAdapter getSuggestionsCursorAdapter() {
-        //TODO For some inexplicable reason SearchView only accepts CursorAdapters for suggestions.
+        //TODO More efficient way of constructing an appropriate Suggestions Cursor Adapter.
+        //For some inexplicable reason SearchView only accepts CursorAdapters for suggestions.
         //Place name suggestions are fetched using the ArrayAdapter LocationNameAdapter.
         //This is a (clunky) way of taking suggestions from LocationNameAdapter and putting in a
         // CursorAdapter.
@@ -432,6 +446,9 @@ public class FragmentReviewLocationMap extends FragmentDeleteDone implements
         }
     }
 
+    /**
+     * Fragment performs search on a separate thread using this task.
+     */
     private class MapSearchTask extends AsyncTask<String, Void, LatLng> {
         private ProgressDialog pd;
 

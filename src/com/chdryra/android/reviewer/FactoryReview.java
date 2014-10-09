@@ -33,40 +33,40 @@ class FactoryReview {
     }
 
     //Reviews
-    public static ReviewTreeEditable createReviewInProgress() {
+    static ReviewTreeEditable createReviewInProgress() {
         return createReviewInProgress("");
     }
 
-    public static ReviewTreeEditable createReviewInProgress(String subject) {
+    static ReviewTreeEditable createReviewInProgress(String subject) {
         return getInstance().newReviewTreeEditable(subject);
     }
 
-    public static ReviewEditable createReviewEditable(String subject) {
+    static ReviewEditable createReviewEditable(String subject) {
         return getInstance().newReviewUserEditable(subject);
     }
 
-    public static Review createReviewUser(ReviewUserEditable reviewEditable) {
+    static Review createReviewUser(ReviewUserEditable reviewEditable) {
         return getInstance().newReviewUser(reviewEditable);
     }
 
-    public static Review createReview(ReviewNode reviewNode) {
+    static Review createReview(ReviewNode reviewNode) {
         return getInstance().newReview(reviewNode);
     }
 
-    public static ReviewEditable createNullReview() {
+    static ReviewEditable createNullReview() {
         return getInstance().newNullReview();
     }
 
     //Nodes
-    public static ReviewNode createNullReviewNode() {
+    static ReviewNode createNullReviewNode() {
         return createReviewNodeAlone(createNullReview());
     }
 
-    public static ReviewNodeExpandable createReviewNodeExpandable(Review review) {
+    static ReviewNodeExpandable createReviewNodeExpandable(Review review) {
         return getInstance().newReviewNodeExpandable(review);
     }
 
-    public static ReviewNode createReviewNodeAlone(Review review) {
+    static ReviewNode createReviewNodeAlone(Review review) {
         return getInstance().newReviewNodeAlone(review);
     }
 

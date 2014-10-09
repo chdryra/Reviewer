@@ -37,6 +37,34 @@ import com.chdryra.android.mygenerallibrary.GridViewCellAdapter;
 import com.chdryra.android.reviewer.GVImageList.GVImage;
 import com.chdryra.android.reviewer.GVReviewDataList.GVType;
 
+/**
+ * UI Fragment: base class for all the review data interaction UIs. Knows how to present GVData
+ * in a GVReviewDataLists as grid cells in a GridView.
+ * <p/>
+ * <p>
+ * Constructed out of 5 UI components that are populated by data from a
+ * ControllerReviewTreeEditable:
+ * <ul>
+ * <li>EditText/TextView: displaying/editing review subject.</li>
+ * <li>RatingBar: displaying/editing the review rating.</li>
+ * <li>Banner button: button that can be allocated a function.</li>
+ * <li>GridView: for displaying some review data.</li>
+ * <li>ActionBar: Delete, Done and Up that delete or confirm editing of review data,
+ * or cancel back to parent activity.</li>
+ * </ul>
+ * </p>
+ * <p/>
+ * <p>
+ * A bunch of behaviour can be set or defined by calling the appropriate setters on the
+ * overridden <code>onCreate(.)</code> method or by overriding the appropriate protected
+ * methods that govern actions to perform on user interaction.
+ * </p>
+ *
+ * @param <T>: type of GVData to display.
+ */
+
+//TODO abstract FragmentReviewGrid into data-editing and data-viewing versions.
+
 @SuppressWarnings("EmptyMethod")
 public abstract class FragmentReviewGrid<T extends GVData> extends FragmentDeleteDone {
     private ControllerReviewTreeEditable mController;
@@ -67,8 +95,7 @@ public abstract class FragmentReviewGrid<T extends GVData> extends FragmentDelet
         super.onCreate(savedInstanceState);
 
         mController = (ControllerReviewTreeEditable) Administrator.get(getActivity()).unpack
-                (getActivity()
-                        .getIntent().getExtras());
+                (getActivity().getIntent().getExtras());
 
         if (mController == null) {
             setController(Administrator.get(getActivity()).createNewReviewInProgress());
@@ -389,6 +416,9 @@ public abstract class FragmentReviewGrid<T extends GVData> extends FragmentDelet
         mOnDoneActivity = onDoneActivity;
     }
 
+    /**
+     * Settings for GridView transpareny with respect to background image.
+     */
     public enum GridViewImageAlpha {
         TRANSPARENT(0),
         MEDIUM(200),
@@ -405,5 +435,10 @@ public abstract class FragmentReviewGrid<T extends GVData> extends FragmentDelet
         }
     }
 
-    public enum CellDimension {FULL, HALF, QUARTER}
+    /**
+     * Settings for grid cell dimensions with respect to screen width size.
+     */
+    public enum CellDimension {
+        FULL, HALF, QUARTER
+    }
 }

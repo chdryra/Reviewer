@@ -58,7 +58,7 @@ class ControllerReviewTreeEditable extends ControllerReviewEditable {
         }
     }
 
-    public ReviewNode publishAndTag(ReviewTreePublisher publisher) {
+    ReviewNode publishAndTag(ReviewTreePublisher publisher) {
         ReviewNode finalReview = publisher.publish(getReviewNodeExpandable());
         for (ReviewNode node : finalReview.flattenTree()) {
             ReviewTagsManager.tag(node.getReview(), mTagsList);

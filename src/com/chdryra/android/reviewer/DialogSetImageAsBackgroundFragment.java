@@ -11,7 +11,8 @@ package com.chdryra.android.reviewer;
 import com.chdryra.android.mygenerallibrary.DialogAlert;
 
 /**
- * Asks whether user wants to set currently selected image as review cover (background).
+ * Alert Dialog for confirming whether user wants to set currently selected image as review cover
+ * (background).
  */
 public class DialogSetImageAsBackgroundFragment extends DialogAlert {
     @Override

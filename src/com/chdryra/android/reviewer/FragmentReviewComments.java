@@ -13,8 +13,6 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Toast;
 
 import com.chdryra.android.mygenerallibrary.ActivityResultCode;
@@ -22,6 +20,29 @@ import com.chdryra.android.mygenerallibrary.GridViewCellAdapter;
 import com.chdryra.android.reviewer.GVCommentList.GVComment;
 import com.chdryra.android.reviewer.GVReviewDataList.GVType;
 
+/**
+ * UI Fragment: comments. Each grid cell shows a comment headline or comment sentence depending
+ * whether the "Show sentences" ActionBar icon is pressed.
+ * <p/>
+ * <p>
+ * FragmentReviewGrid functionality:
+ * <ul>
+ * <li>Subject: disabled</li>
+ * <li>RatingBar: disabled</li>
+ * <li>Banner button: launches DialogCommentAddFragment</li>
+ * <li>Grid cell click: launches DialogCommentEditFragment</li>
+ * <li>Grid cell long click: same as click</li>
+ * </ul>
+ * </p>
+ * <p/>
+ * <p>
+ * Also an ActionBar icon for switching between comment headlines and comment sentences.
+ * </p>
+ *
+ * @see com.chdryra.android.reviewer.ActivityReviewComments
+ * @see com.chdryra.android.reviewer.DialogCommentAddFragment
+ * @see com.chdryra.android.reviewer.DialogCommentEditFragment
+ */
 public class FragmentReviewComments extends FragmentReviewGridAddEditDone<GVComment> {
     public static final String COMMENT = "com.chdryra.android.reviewer.comment";
 
@@ -34,21 +55,7 @@ public class FragmentReviewComments extends FragmentReviewGridAddEditDone<GVComm
         mComments = (GVCommentList) setAndInitData(GVType.COMMENTS);
         setDeleteWhatTitle(getResources().getString(R.string.dialog_delete_comments_title));
         setBannerButtonText(getResources().getString(R.string.button_add_comments));
-    }
-
-    @Override
-    protected void onBannerButtonClick() {
-        DialogShower.show(new DialogCommentAddFragment(), FragmentReviewComments.this, DATA_ADD,
-                DATA_ADD_TAG, Administrator.get(getActivity()).pack(getController()));
-    }
-
-    @Override
-    protected void onGridItemClick(AdapterView<?> parent, View v, int position, long id) {
-        GVComment comment = (GVComment) parent.getItemAtPosition(position);
-        Bundle args = new Bundle();
-        args.putString(COMMENT, comment.getUnSplitComment().getComment());
-        DialogShower.show(new DialogCommentEditFragment(), FragmentReviewComments.this,
-                DATA_EDIT, DATA_EDIT_TAG, args);
+        setAddEditDialogs(DialogCommentAddFragment.class, DialogCommentEditFragment.class);
     }
 
     @Override
@@ -93,6 +100,12 @@ public class FragmentReviewComments extends FragmentReviewGridAddEditDone<GVComm
                 break;
             default:
         }
+    }
+
+    @Override
+    protected Bundle packGridCellData(GVComment comment, Bundle args) {
+        args.putString(COMMENT, comment.getUnSplitComment().getComment());
+        return args;
     }
 
     @Override

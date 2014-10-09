@@ -13,7 +13,9 @@ import android.app.Fragment;
 import com.chdryra.android.mygenerallibrary.ActivitySingleFragment;
 
 /**
- * Locations editing screen.
+ * UI Activity holding FragmentReviewLocations: editing locations.
+ *
+ * @see com.chdryra.android.reviewer.FragmentReviewLocations
  */
 public class ActivityReviewLocations extends ActivitySingleFragment {
 

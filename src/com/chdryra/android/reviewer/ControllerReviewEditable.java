@@ -19,19 +19,37 @@ import com.chdryra.android.mygenerallibrary.GVData;
 /**
  * Expands on ControllerReview to include setters on ReviewEditables.
  */
-public class ControllerReviewEditable extends ControllerReview<ReviewEditable> {
-    public ControllerReviewEditable(ReviewEditable review) {
+class ControllerReviewEditable extends ControllerReview<ReviewEditable> {
+    ControllerReviewEditable(ReviewEditable review) {
         super(review);
     }
 
     //Title
-    public void setSubject(String subject) {
+    void setSubject(String subject) {
         getControlledReview().setSubject(subject);
     }
 
     //Rating
-    public void setRating(float rating) {
+    void setRating(float rating) {
         getControlledReview().setRating(rating);
+    }
+
+    //Other data
+    <T extends GVReviewDataList<? extends GVData>> void setData(T data) {
+        GVReviewDataList.GVType dataType = data.getDataType();
+        if (dataType == GVReviewDataList.GVType.COMMENTS) {
+            setComments((GVCommentList) data);
+        } else if (dataType == GVReviewDataList.GVType.IMAGES) {
+            setImages((GVImageList) data);
+        } else if (dataType == GVReviewDataList.GVType.FACTS) {
+            setFacts((GVFactList) data);
+        } else if (dataType == GVReviewDataList.GVType.URLS) {
+            setUrls((GVUrlList) data);
+        } else if (dataType == GVReviewDataList.GVType.LOCATIONS) {
+            setLocations((GVLocationList) data);
+        } else if (dataType == GVReviewDataList.GVType.TAGS) {
+            setTags((GVTagList) data);
+        }
     }
 
     private void setComments(GVCommentList comments) {
@@ -87,22 +105,5 @@ public class ControllerReviewEditable extends ControllerReview<ReviewEditable> {
         }
 
         r.setLocations(rdLocations);
-    }
-
-    <T extends GVReviewDataList<? extends GVData>> void setData(T data) {
-        GVReviewDataList.GVType dataType = data.getDataType();
-        if (dataType == GVReviewDataList.GVType.COMMENTS) {
-            setComments((GVCommentList) data);
-        } else if (dataType == GVReviewDataList.GVType.IMAGES) {
-            setImages((GVImageList) data);
-        } else if (dataType == GVReviewDataList.GVType.FACTS) {
-            setFacts((GVFactList) data);
-        } else if (dataType == GVReviewDataList.GVType.URLS) {
-            setUrls((GVUrlList) data);
-        } else if (dataType == GVReviewDataList.GVType.LOCATIONS) {
-            setLocations((GVLocationList) data);
-        } else if (dataType == GVReviewDataList.GVType.TAGS) {
-            setTags((GVTagList) data);
-        }
     }
 }
