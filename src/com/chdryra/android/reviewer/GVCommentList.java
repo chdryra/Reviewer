@@ -13,10 +13,14 @@ import com.chdryra.android.mygenerallibrary.ViewHolder;
 
 /**
  * GVReviewDataList: GVComment
+ * ViewHolder: VHCommentView
  * <p/>
  * <p>
  * Includes method for generating split comments GVCommentList from current list.
  * </p>
+ *
+ * @see com.chdryra.android.reviewer.FragmentReviewComments
+ * @see com.chdryra.android.reviewer.VHCommentView
  */
 class GVCommentList extends GVReviewDataList<GVCommentList.GVComment> {
 
@@ -47,13 +51,14 @@ class GVCommentList extends GVReviewDataList<GVCommentList.GVComment> {
 
     /**
      * GVData version of: RDComment
-     * <p/>
+     * ViewHolder: VHCommentView
      * <p>
      * Methods for getting the comment headline and for splitting and unsplitting comments.
      * </p>
      *
      * @see com.chdryra.android.mygenerallibrary.GVData
      * @see com.chdryra.android.reviewer.RDComment
+     * @see com.chdryra.android.reviewer.VHCommentView
      */
     class GVComment implements GVData {
         private final String    mComment;

@@ -17,15 +17,28 @@ import java.util.Date;
  */
 
 /**
- * A non-editable and non-expandable ReviewNode wrapper for a review tree. The published version of
- * ReviewTreeEditable. Has the same RDId as the root node. Getters forward requests to the
- * internal node.
+ * A non-editable and non-expandable ReviewNode wrapper for another node that guarantees no more
+ * editing or expanding of the node. Has the same RDId as the wrapped node.
+ * <p/>
+ * <p>
+ * Primarily used as a publishing wrapper to add an author and date stamp to an editable
+ * review and to protect it from further change.
+ * </p>
+ * <p/>
+ * <p>
+ * Although a ReviewTree is unchangeable it may still be wrapped by another ReviewNodeExpandable,
+ * thus acting as a fixed, published component of a new review tree with its own RDId.
+ * </p>
  */
 class ReviewTree implements ReviewNode {
     private ReviewNode mNode;
+    private Author     mAuthor;
+    private Date       mPublishDate;
 
-    public ReviewTree(ReviewNode node) {
+    public ReviewTree(Author author, Date publishDate, ReviewNode node) {
         mNode = node;
+        mAuthor = author;
+        mPublishDate = publishDate;
     }
 
     @Override
@@ -85,25 +98,28 @@ class ReviewTree implements ReviewNode {
 
     @Override
     public Review publish(ReviewTreePublisher publisher) {
-        if(!mNode.isPublished())
+        if (!isPublished()) {
             mNode = publisher.publish(mNode);
+            mAuthor = mNode.getAuthor();
+            mPublishDate = mNode.getPublishDate();
+        }
 
         return this;
     }
 
     @Override
     public Author getAuthor() {
-        return mNode.getAuthor();
+        return mAuthor;
     }
 
     @Override
     public Date getPublishDate() {
-        return mNode.getPublishDate();
+        return mPublishDate;
     }
 
     @Override
     public boolean isPublished() {
-        return mNode.isPublished();
+        return mAuthor != null && mPublishDate != null;
     }
 
     @Override

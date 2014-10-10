@@ -13,17 +13,23 @@ import com.chdryra.android.mygenerallibrary.ViewHolder;
 
 import java.util.Comparator;
 
+/**
+ * GVReviewDataList: GVFact
+ *
+ * @see com.chdryra.android.reviewer.FragmentReviewFacts
+ * @see com.chdryra.android.reviewer.VHFactView
+ */
 class GVFactList extends GVReviewDataList<GVFactList.GVFact> {
 
-    public GVFactList() {
+    GVFactList() {
         super(GVType.FACTS);
     }
 
-    public void add(String label, String value) {
+    void add(String label, String value) {
         add(new GVFact(label, value));
     }
 
-    public boolean containsLabel(String label) {
+    boolean containsLabel(String label) {
         boolean contains = false;
         for (GVFact fact : this) {
             contains = fact.getLabel().equalsIgnoreCase(label);
@@ -33,7 +39,7 @@ class GVFactList extends GVReviewDataList<GVFactList.GVFact> {
         return contains;
     }
 
-    public void remove(String label, String value) {
+    void remove(String label, String value) {
         remove(new GVFact(label, value));
     }
 
@@ -53,16 +59,29 @@ class GVFactList extends GVReviewDataList<GVFactList.GVFact> {
         };
     }
 
+    /**
+     * GVData version of: RDFact
+     * ViewHolder: VHFactView
+     * <p/>
+     * <p>
+     * Really just a GVDualString with label as upper and value as lower.
+     * </p>
+     *
+     * @see com.chdryra.android.mygenerallibrary.GVDualString
+     * @see com.chdryra.android.reviewer.RDFact
+     * @see com.chdryra.android.reviewer.VHFactView
+     */
+
     class GVFact extends GVDualString {
-        public GVFact(String label, String value) {
+        GVFact(String label, String value) {
             super(label, value);
         }
 
-        public String getLabel() {
+        String getLabel() {
             return getUpper();
         }
 
-        public String getValue() {
+        String getValue() {
             return getLower();
         }
 
@@ -70,7 +89,5 @@ class GVFactList extends GVReviewDataList<GVFactList.GVFact> {
         public ViewHolder getViewHolder() {
             return new VHFactView();
         }
-
-
     }
 }

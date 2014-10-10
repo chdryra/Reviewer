@@ -8,10 +8,21 @@
 
 package com.chdryra.android.reviewer;
 
+/**
+ * Defines interface for Review Data, data that reviews hold and can return.
+ * <p/>
+ * <p>
+ * Review Data hold a reference to the review they belong to and can confirm that they have
+ * data.
+ * </p>
+ */
+
+//TODO need to make sure holding review is consistent for all the node wrapping etc. going on.
+// Possibly better to calculate this on the fly using a node visitor as and when needed.
 interface RData {
-    public Review getHoldingReview();
+    Review getHoldingReview();
 
-    public void setHoldingReview(Review review);
+    void setHoldingReview(Review review);
 
-    public boolean hasData();
+    boolean hasData();
 }

@@ -19,12 +19,12 @@ import java.util.HashMap;
 
 /**
  * Encapsulates the range of responses available to return to the user when the user chooses a
- * data type to edit on the Review build screen (UI in FragmentReviewBuild).
+ * data type tile on the Review build screen (FragmentReviewBuild).
  *
  * @see com.chdryra.android.reviewer.FragmentReviewBuild;
  */
-class ReviewDataOptions {
-    private final static String TAG = "ReviewDataOptions";
+class OptionsReviewBuild {
+    private final static String TAG = "OptionsReviewBuild";
 
     private final static String DIALOG_TAG_TAG      = "TagDialog";
     private final static String DIALOG_COMMENT_TAG  = "CommentDialog";
@@ -48,50 +48,49 @@ class ReviewDataOptions {
     private final static int CHILDREN_ADD     = 61;
     private final static int TAGS_REQUEST     = 70;
     private final static int TAGS_ADD         = 71;
-    private static ReviewDataOptions                 sReviewDataOptions;
-    private final  HashMap<GVType, ReviewDataOption> mReviewDataOptions;
+    private static OptionsReviewBuild                sOptionsReviewBuild;
+    private final  HashMap<GVType, ReviewDataOption> mOptionsMap;
 
-    private ReviewDataOptions() {
-        mReviewDataOptions = new HashMap<GVReviewDataList.GVType,
-                ReviewDataOptions.ReviewDataOption>();
+    private OptionsReviewBuild() {
+        mOptionsMap = new HashMap<GVReviewDataList.GVType, OptionsReviewBuild.ReviewDataOption>();
 
-        mReviewDataOptions.put(GVType.TAGS,
+        mOptionsMap.put(GVType.TAGS,
                 new ReviewDataOption(DialogTagAddFragment.class, TAGS_ADD, DIALOG_TAG_TAG,
                         ActivityReviewTags.class, TAGS_REQUEST, new VHTagView()));
-        mReviewDataOptions.put(GVType.CHILDREN,
+        mOptionsMap.put(GVType.CHILDREN,
                 new ReviewDataOption(DialogChildAddFragment.class, CHILDREN_ADD,
                         DIALOG_CHILD_TAG, ActivityReviewChildren.class, CHILDREN_REQUEST,
                         new VHReviewNodeSubjectRating()));
-        mReviewDataOptions.put(GVType.COMMENTS,
+        mOptionsMap.put(GVType.COMMENTS,
                 new ReviewDataOption(DialogCommentAddFragment.class, COMMENT_ADD,
                         DIALOG_COMMENT_TAG, ActivityReviewComments.class, COMMENT_REQUEST,
                         new VHCommentView()));
-        mReviewDataOptions.put(GVType.IMAGES,
+        mOptionsMap.put(GVType.IMAGES,
                 new ReviewDataOption(DialogImageEditFragment.class, IMAGE_ADD, DIALOG_IMAGE_TAG,
                         ActivityReviewImages.class, IMAGE_REQUEST, new VHImageView()));
-        mReviewDataOptions.put(GVType.FACTS,
+        mOptionsMap.put(GVType.FACTS,
                 new ReviewDataOption(DialogFactAddFragment.class, FACTS_ADD, DIALOG_FACTS_TAG,
                         ActivityReviewFacts.class, FACTS_REQUEST, new VHFactView()));
-        mReviewDataOptions.put(GVType.LOCATIONS,
+        mOptionsMap.put(GVType.LOCATIONS,
                 new ReviewDataOption(DialogLocationFragment.class, LOCATION_ADD,
                         DIALOG_LOCATION_TAG, ActivityReviewLocations.class, LOCATION_REQUEST,
                         new VHLocationView(true)));
-        mReviewDataOptions.put(GVType.URLS,
+        mOptionsMap.put(GVType.URLS,
                 new ReviewDataOption(DialogURLFragment.class, URL_ADD, DIALOG_URL_TAG,
                         ActivityReviewURLs.class, URL_REQUEST, new VHUrlView()));
 
     }
 
     static ReviewDataOption get(GVType dataType) {
-        return getOptions().mReviewDataOptions.get(dataType);
+        return getOptions().mOptionsMap.get(dataType);
     }
 
-    private static ReviewDataOptions getOptions() {
-        if (sReviewDataOptions == null) {
-            sReviewDataOptions = new ReviewDataOptions();
+    private static OptionsReviewBuild getOptions() {
+        if (sOptionsReviewBuild == null) {
+            sOptionsReviewBuild = new OptionsReviewBuild();
         }
 
-        return sReviewDataOptions;
+        return sOptionsReviewBuild;
     }
 
     class ReviewDataOption {

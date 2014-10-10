@@ -31,7 +31,7 @@ import com.chdryra.android.mygenerallibrary.GridViewCellAdapter;
 import com.chdryra.android.mygenerallibrary.ViewHolder;
 import com.chdryra.android.reviewer.FragmentReviewBuild.GVCellManagerList.GVCellManager;
 import com.chdryra.android.reviewer.GVReviewDataList.GVType;
-import com.chdryra.android.reviewer.ReviewDataOptions.ReviewDataOption;
+import com.chdryra.android.reviewer.OptionsReviewBuild.ReviewDataOption;
 import com.google.android.gms.maps.model.LatLng;
 
 /**
@@ -70,6 +70,7 @@ import com.google.android.gms.maps.model.LatLng;
  * </p>
  *
  * @see com.chdryra.android.reviewer.ActivityReviewBuild
+ * @see com.chdryra.android.reviewer.OptionsReviewBuild
  * @see com.chdryra.android.reviewer.DialogAddReviewDataFragment
  */
 public class FragmentReviewBuild extends FragmentReviewGrid<GVCellManager> {
@@ -77,6 +78,27 @@ public class FragmentReviewBuild extends FragmentReviewGrid<GVCellManager> {
 
     private GVCellManagerList mCellManagerList;
     private HelperReviewImage mHelperReviewImage;
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        ActivityResultCode resCode = ActivityResultCode.get(resultCode);
+        if (requestCode == getOption(GVType.IMAGES).getActivityRequestCode()) {
+            if (mHelperReviewImage.processOnActivityResult(getActivity(), resultCode, data)) {
+                addImage();
+            }
+        } else if (requestCode == getOption(GVType.LOCATIONS).getDialogRequestCode()) {
+            if (resCode.equals(DialogLocationFragment.RESULT_MAP.getResultCode())) {
+                requestMapIntent(data);
+            }
+        } else if (requestCode == LOCATION_MAP) {
+            if (resCode.equals(ActivityResultCode.DONE)) {
+                addLocation(data);
+            }
+        } else {
+            super.onActivityResult(requestCode, resultCode, data);
+        }
+        updateUI();
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -135,27 +157,6 @@ public class FragmentReviewBuild extends FragmentReviewGrid<GVCellManager> {
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        ActivityResultCode resCode = ActivityResultCode.get(resultCode);
-        if (requestCode == getOption(GVType.IMAGES).getActivityRequestCode()) {
-            if (mHelperReviewImage.processOnActivityResult(getActivity(), resultCode, data)) {
-                addImage();
-            }
-        } else if (requestCode == getOption(GVType.LOCATIONS).getDialogRequestCode()) {
-            if (resCode.equals(DialogLocationFragment.RESULT_MAP.getResultCode())) {
-                requestMapIntent(data);
-            }
-        } else if (requestCode == LOCATION_MAP) {
-            if (resCode.equals(ActivityResultCode.DONE)) {
-                addLocation(data);
-            }
-        } else {
-            super.onActivityResult(requestCode, resultCode, data);
-        }
-        updateUI();
-    }
-
-    @Override
     protected void onDoneSelected() {
     }
 
@@ -177,7 +178,7 @@ public class FragmentReviewBuild extends FragmentReviewGrid<GVCellManager> {
     }
 
     private ReviewDataOption getOption(GVType dataType) {
-        return ReviewDataOptions.get(dataType);
+        return OptionsReviewBuild.get(dataType);
     }
 
     private void addImage() {

@@ -12,29 +12,30 @@ import java.util.Date;
 
 /**
  * Primary implementation of ReviewNodeExpandable.
- *
+ * <p/>
  * <p>
- *     Creates a new unique RDId so represents a new review structure even though it wraps an
- *     existing review. Generally used for reviews that only make sense when considering the tree
- *     as a whole, for example reviews with rated sub-criteria, metareviews etc.
+ * Creates a new unique RDId so represents a new review structure even though it wraps an
+ * existing review. Generally used for reviews that only make sense when considering the tree
+ * as a whole, for example reviews with rated sub-criteria, metareviews etc.
  * </p>
- *
+ * <p/>
  * <p>
- *     Wraps a Review object in a node structure with potential children and a parent.
- *     Note: this is not necessarily the same node internal to the wrapped Review and returned by
- *     its getReviewNode() method. A Review may decide to represent itself with its own internal
- *     tree structure which will share the same RDId as the review.
+ * Wraps a Review object in a node structure with potential children and a parent.
+ * Note: this is not necessarily the same node internal to the wrapped Review and returned by
+ * its getReviewNode() method. A Review may decide to represent itself with its own internal
+ * tree structure which will share the same RDId as the review.
  * </p>
  */
-public class ReviewComponent implements ReviewNodeExpandable {
+class ReviewComponent implements ReviewNodeExpandable {
     private final RDId mId;
 
     private final Review                                  mReview;
     private final RCollectionReview<ReviewNodeExpandable> mChildren;
     private       ReviewNodeExpandable                    mParent;
+
     private boolean mRatingIsAverage = false;
 
-    public ReviewComponent(Review review) {
+    ReviewComponent(Review review) {
         mId = RDId.generateId();
         mReview = review;
         mChildren = new RCollectionReview<ReviewNodeExpandable>();
@@ -92,7 +93,8 @@ public class ReviewComponent implements ReviewNodeExpandable {
 
     @Override
     public void clearChildren() {
-        RCollectionReview<ReviewNodeExpandable> children = new RCollectionReview<ReviewNodeExpandable>();
+        RCollectionReview<ReviewNodeExpandable> children = new
+                RCollectionReview<ReviewNodeExpandable>();
         children.add(mChildren);
         for (ReviewNodeExpandable child : children) {
             removeChild(child);
@@ -102,7 +104,7 @@ public class ReviewComponent implements ReviewNodeExpandable {
     @Override
     public RCollectionReview<ReviewNode> getChildren() {
         RCollectionReview<ReviewNode> children = new RCollectionReview<ReviewNode>();
-        for(ReviewNodeExpandable child : mChildren) {
+        for (ReviewNodeExpandable child : mChildren) {
             children.add(child);
         }
 
@@ -134,6 +136,7 @@ public class ReviewComponent implements ReviewNodeExpandable {
         visitorReviewNode.visit(this);
     }
 
+    //Review methods
     @Override
     public RDId getId() {
         return mId;
@@ -149,7 +152,6 @@ public class ReviewComponent implements ReviewNodeExpandable {
         return isRatingIsAverageOfChildren() ? getAverageRatingOfChildren() : mReview.getRating();
     }
 
-    //ReviewEditable methods
     @Override
     public ReviewNode getReviewNode() {
         return this;
@@ -172,9 +174,10 @@ public class ReviewComponent implements ReviewNodeExpandable {
 
     @Override
     public boolean isPublished() {
-        for(ReviewNode node : getChildren()) {
-            if(!node.isPublished())
+        for (ReviewNode node : getChildren()) {
+            if (!node.isPublished()) {
                 return false;
+            }
         }
 
         return mReview.isPublished();

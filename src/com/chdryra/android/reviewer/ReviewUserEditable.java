@@ -9,11 +9,15 @@
 package com.chdryra.android.reviewer;
 
 /**
- * Editable version of ReviewUser. Returns a ReviewUser when published. ReviewTreeEditable uses
- * this as the root node.
+ * Fundamental implementation of review that holds the review data. Every node in a review tree
+ * eventually wraps one of these.
+ * <p/>
+ * <p>
+ * Gets wrapped in a non-editable Review when published along with an Author and publish date.
+ * </p>
  *
- * @see com.chdryra.android.reviewer.ReviewUser
- * @see com.chdryra.android.reviewer.ReviewTreeEditable
+ * @see com.chdryra.android.reviewer.ReviewNodeAlone
+ * @see com.chdryra.android.reviewer.ReviewTree
  */
 class ReviewUserEditable extends ReviewEditable {
     private ReviewNode mNode;
@@ -29,10 +33,7 @@ class ReviewUserEditable extends ReviewEditable {
     private RDList<RDLocation> mLocations;
 
     public ReviewUserEditable(String subject) {
-        init(subject);
-    }
-
-    private void init(String subject) {
+        //Core data
         mID = RDId.generateId();
         mSubject = new RDSubject(subject, this);
         mRating = new RDRating(0, this);
@@ -44,6 +45,7 @@ class ReviewUserEditable extends ReviewEditable {
         mFacts = new RDList<RDFact>();
         mURLs = new RDList<RDUrl>();
 
+        //Internal node representation
         mNode = FactoryReview.createReviewNodeAlone(this);
     }
 
@@ -79,7 +81,8 @@ class ReviewUserEditable extends ReviewEditable {
 
     @Override
     public Review publish(ReviewTreePublisher publisher) {
-        return FactoryReview.createReviewUser(this).publish(publisher);
+        return FactoryReview.createReview(publisher.getAuthor(), publisher.getPublishDate(),
+                getReviewNode());
     }
 
     @Override

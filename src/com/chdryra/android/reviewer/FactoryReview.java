@@ -8,6 +8,8 @@
 
 package com.chdryra.android.reviewer;
 
+import java.util.Date;
+
 /**
  * Factory for creating Reviews and ReviewNodes.
  * <p/>
@@ -41,54 +43,34 @@ class FactoryReview {
         return getInstance().newReviewTreeEditable(subject);
     }
 
-    static ReviewEditable createReviewEditable(String subject) {
-        return getInstance().newReviewUserEditable(subject);
-    }
-
-    static Review createReviewUser(ReviewUserEditable reviewEditable) {
-        return getInstance().newReviewUser(reviewEditable);
-    }
-
     static Review createReview(ReviewNode reviewNode) {
         return getInstance().newReview(reviewNode);
     }
 
-    static ReviewEditable createNullReview() {
-        return getInstance().newNullReview();
+    static Review createReview(Author author, Date publishDate, ReviewNode reviewNode) {
+        return getInstance().newReview(author, publishDate, reviewNode);
     }
 
     //Nodes
-    static ReviewNode createNullReviewNode() {
-        return createReviewNodeAlone(createNullReview());
+    static ReviewNode createReviewNodeAlone(Review review) {
+        return getInstance().newReviewNodeAlone(review);
     }
 
     static ReviewNodeExpandable createReviewNodeExpandable(Review review) {
         return getInstance().newReviewNodeExpandable(review);
     }
 
-    static ReviewNode createReviewNodeAlone(Review review) {
-        return getInstance().newReviewNodeAlone(review);
-    }
-
     //Constructors
     private ReviewTreeEditable newReviewTreeEditable(String subject) {
-        return new ReviewTreeEditable(subject);
-    }
-
-    private ReviewEditable newReviewUserEditable(String subject) {
-        return new ReviewUserEditable(subject);
-    }
-
-    private Review newReviewUser(ReviewUserEditable reviewEditable) {
-        return new ReviewUser(reviewEditable);
+        return new ReviewTreeEditable(new ReviewUserEditable(subject));
     }
 
     private Review newReview(ReviewNode node) {
-        return new ReviewTree(node);
+        return new ReviewTree(node.getAuthor(), node.getPublishDate(), node);
     }
 
-    private ReviewEditable newNullReview() {
-        return new ReviewNull();
+    private Review newReview(Author author, Date publishDate, ReviewNode node) {
+        return new ReviewTree(author, publishDate, node);
     }
 
     private ReviewNodeExpandable newReviewNodeExpandable(Review review) {

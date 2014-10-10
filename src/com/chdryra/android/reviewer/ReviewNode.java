@@ -10,13 +10,12 @@ package com.chdryra.android.reviewer;
 
 /**
  * Tree representation of a review.
- *
+ * <p/>
  * <p>
- *     Can add other reviews as children or as a parent allowing a
- *     structured representation of how reviews may relate to each other, for example a user review
- *     with sub-criteria as children or a meta review with other reviews as children.
+ * Can add other reviews as children or as a parent allowing a structured representation of how
+ * reviews may relate to each other, for example a user review with sub-criteria as children
+ * or a meta review with other reviews as children.
  * </p>
- *
  */
 interface ReviewNode extends Review {
     Review getReview();
@@ -36,7 +35,8 @@ interface ReviewNode extends Review {
 
     /**
      * For operations to be carried out on the tree.
-     * @param visitorReviewNode
+     *
+     * @param visitorReviewNode: visits this node to perform some operation
      */
     void acceptVisitor(VisitorReviewNode visitorReviewNode);
 }

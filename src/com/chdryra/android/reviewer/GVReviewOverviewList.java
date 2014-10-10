@@ -16,14 +16,26 @@ import com.chdryra.android.mygenerallibrary.ViewHolder;
 import java.util.Comparator;
 import java.util.Date;
 
-public class GVReviewOverviewList extends GVReviewDataList<GVReviewOverviewList.GVReviewOverview> {
+/**
+ * GVReviewDataList: GVReviewOverview
+ * ViewHolder: VHReviewNodeOverview
+ * <p/>
+ * <p>
+ * Used for Review summaries in published feed
+ * </p>
+ *
+ * @see com.chdryra.android.reviewer.Administrator
+ * @see com.chdryra.android.reviewer.FragmentFeed
+ * @see com.chdryra.android.reviewer.VHReviewNodeOverview
+ */
+class GVReviewOverviewList extends GVReviewDataList<GVReviewOverviewList.GVReviewOverview> {
 
-    public GVReviewOverviewList() {
+    GVReviewOverviewList() {
         super(GVType.REVIEW);
     }
 
-    public void add(String id, String subject, float rating, Bitmap coverImage, String headline,
-                    String locationName, String author, Date publishDate) {
+    void add(String id, String subject, float rating, Bitmap coverImage, String headline,
+             String locationName, String author, Date publishDate) {
         if (!contains(id)) {
             add(new GVReviewOverview(id, subject, rating, coverImage, headline, locationName,
                     author, publishDate));
@@ -46,7 +58,19 @@ public class GVReviewOverviewList extends GVReviewDataList<GVReviewOverviewList.
         };
     }
 
-    public class GVReviewOverview implements GVData {
+    /**
+     * GVData version of: Review
+     * ViewHolder: VHReviewNodeOverview
+     * <p>
+     * Methods for getting subject, rating, cover image, comment headline, location,
+     * publish author and date.
+     * </p>
+     *
+     * @see com.chdryra.android.mygenerallibrary.GVData
+     * @see com.chdryra.android.reviewer.Review
+     * @see com.chdryra.android.reviewer.VHReviewNodeSubjectRating
+     */
+    class GVReviewOverview implements GVData {
         private final String mId;
         private       String mSubject;
         private       float  mRating;
@@ -60,9 +84,9 @@ public class GVReviewOverviewList extends GVReviewDataList<GVReviewOverviewList.
             mId = id;
         }
 
-        public GVReviewOverview(String id, String subject, float rating, Bitmap coverImage,
-                                String headline, String locationName, String Author,
-                                Date publishDate) {
+        GVReviewOverview(String id, String subject, float rating, Bitmap coverImage,
+                         String headline, String locationName, String Author,
+                         Date publishDate) {
             mId = id;
             mSubject = subject;
             mRating = rating;
@@ -73,31 +97,31 @@ public class GVReviewOverviewList extends GVReviewDataList<GVReviewOverviewList.
             mPublishDate = publishDate;
         }
 
-        public String getSubject() {
+        String getSubject() {
             return mSubject;
         }
 
-        public float getRating() {
+        float getRating() {
             return mRating;
         }
 
-        public Bitmap getCoverImage() {
+        Bitmap getCoverImage() {
             return mCoverImage;
         }
 
-        public String getLocationName() {
+        String getLocationName() {
             return mLocationName;
         }
 
-        public String getHeadline() {
+        String getHeadline() {
             return mHeadline;
         }
 
-        public String getAuthor() {
+        String getAuthor() {
             return mAuthor;
         }
 
-        public Date getPublishDate() {
+        Date getPublishDate() {
             return mPublishDate;
         }
 
@@ -121,7 +145,7 @@ public class GVReviewOverviewList extends GVReviewDataList<GVReviewOverviewList.
             return mId.hashCode();
         }
 
-        public String getId() {
+        String getId() {
             return mId;
         }
     }

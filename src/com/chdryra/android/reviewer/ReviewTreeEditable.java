@@ -13,9 +13,9 @@ package com.chdryra.android.reviewer;
  * review tree.
  *
  * <p>
- *     This essentially wraps a ReviewNodeExpandable where the root node is a ReviewUserEditable.
- *     The getters and setters forward requests and data to the ReviewUserEditable. The tree
- *     editing requests are forwarded to the internal node.
+ *     This essentially wraps a ReviewNodeExpandable where the root node is a ReviewEditable.
+ *     The getters and setters forward requests and data to the ReviewEditable.
+ *     The tree editing requests are forwarded to the internal node.
  * </p>
  *
  * <p>
@@ -29,8 +29,7 @@ package com.chdryra.android.reviewer;
 class ReviewTreeEditable extends ReviewEditable implements ReviewNodeExpandable{
     private ReviewNodeExpandable mNode;
 
-    ReviewTreeEditable(String subject) {
-        ReviewEditable editableRoot = FactoryReview.createReviewEditable(subject);
+    ReviewTreeEditable(ReviewEditable editableRoot) {
         mNode = FactoryReview.createReviewNodeExpandable(editableRoot);
     }
 
@@ -122,11 +121,6 @@ class ReviewTreeEditable extends ReviewEditable implements ReviewNodeExpandable{
     }
 
     @Override
-    public void deleteComments() {
-        getReviewEditable().deleteComments();
-    }
-
-    @Override
     public ReviewNode getReviewNode() {
         return mNode;
     }
@@ -147,11 +141,6 @@ class ReviewTreeEditable extends ReviewEditable implements ReviewNodeExpandable{
     }
 
     @Override
-    public void deleteFacts() {
-        getReviewEditable().deleteFacts();
-    }
-
-    @Override
     public boolean hasComments() {
         return mNode.hasComments();
     }
@@ -164,11 +153,6 @@ class ReviewTreeEditable extends ReviewEditable implements ReviewNodeExpandable{
     @Override
     public void setFacts(RDList<RDFact> facts) {
         getReviewEditable().setFacts(facts);
-    }
-
-    @Override
-    public void deleteImages() {
-        getReviewEditable().deleteImages();
     }
 
     @Override
@@ -187,11 +171,6 @@ class ReviewTreeEditable extends ReviewEditable implements ReviewNodeExpandable{
     }
 
     @Override
-    public void deleteUrls() {
-        getReviewEditable().deleteUrls();
-    }
-
-    @Override
     public boolean hasImages() {
         return mNode.hasImages();
     }
@@ -207,11 +186,6 @@ class ReviewTreeEditable extends ReviewEditable implements ReviewNodeExpandable{
     }
 
     @Override
-    public void deleteLocations() {
-        getReviewEditable().deleteLocations();
-    }
-
-    @Override
     public boolean hasUrls() {
         return mNode.hasUrls();
     }
@@ -224,6 +198,31 @@ class ReviewTreeEditable extends ReviewEditable implements ReviewNodeExpandable{
     @Override
     public void setLocations(RDList<RDLocation> locations) {
         getReviewEditable().setLocations(locations);
+    }
+
+    @Override
+    public void deleteComments() {
+        getReviewEditable().deleteComments();
+    }
+
+    @Override
+    public void deleteFacts() {
+        getReviewEditable().deleteFacts();
+    }
+
+    @Override
+    public void deleteImages() {
+        getReviewEditable().deleteImages();
+    }
+
+    @Override
+    public void deleteUrls() {
+        getReviewEditable().deleteUrls();
+    }
+
+    @Override
+    public void deleteLocations() {
+        getReviewEditable().deleteLocations();
     }
 
     @Override

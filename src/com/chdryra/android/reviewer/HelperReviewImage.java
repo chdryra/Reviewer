@@ -31,7 +31,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class HelperReviewImage extends ImageHelper {
+/**
+ * A hotchpotch of image related tasks that can be performed for review images.
+ */
+class HelperReviewImage extends ImageHelper {
 
     private static final String                             TAG                      =
             "ImageHelper";
@@ -47,7 +50,7 @@ public class HelperReviewImage extends ImageHelper {
         mController = controller;
     }
 
-    public static HelperReviewImage getInstance(ControllerReview controller) {
+    static HelperReviewImage getInstance(ControllerReview controller) {
         if (!sHelperReviewImages.containsKey(controller.getId())) {
             sHelperReviewImages.put(controller.getId(), new HelperReviewImage(controller));
         }
@@ -77,8 +80,7 @@ public class HelperReviewImage extends ImageHelper {
         return success;
     }
 
-    public void addReviewImage(Context context, GVImageList imageList,
-                               FunctionPointer<Void> updateUI) {
+    void addReviewImage(Context context, GVImageList imageList, FunctionPointer<Void> updateUI) {
         int maxWidth = (int) context.getResources().getDimension(R.dimen.imageMaxWidth);
         int maxHeight = (int) context.getResources().getDimension(R.dimen.imageMaxHeight);
 
@@ -86,7 +88,7 @@ public class HelperReviewImage extends ImageHelper {
         loader.execute(maxWidth, maxHeight);
     }
 
-    public Intent getImageChooserIntents(Activity activity) {
+    Intent getImageChooserIntents(Activity activity) {
         //Set up image file
         try {
             if (!createNewImageFile()) {
@@ -126,7 +128,7 @@ public class HelperReviewImage extends ImageHelper {
         return chooserIntent;
     }
 
-    public boolean processOnActivityResult(Activity activity, int resultCode, Intent data) {
+    boolean processOnActivityResult(Activity activity, int resultCode, Intent data) {
         //Returns true if bitmap exists.
         switch (resultCode) {
             case Activity.RESULT_OK:
@@ -169,6 +171,9 @@ public class HelperReviewImage extends ImageHelper {
         }
     }
 
+    /**
+     * Loads bitmaps on a separate thread.
+     */
     private class BitmapLoaderTask extends AsyncTask<Integer, Void, Bitmap> {
         private final GVImageList           mImageList;
         private final FunctionPointer<Void> mUpdateUI;

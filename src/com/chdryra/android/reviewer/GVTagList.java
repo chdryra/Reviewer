@@ -13,23 +13,30 @@ import com.chdryra.android.mygenerallibrary.ViewHolder;
 
 import java.util.Comparator;
 
+/**
+ * GVReviewDataList: GVString
+ * ViewHolder: VHTagView
+ *
+ * @see com.chdryra.android.reviewer.FragmentReviewTags`
+ * @see com.chdryra.android.reviewer.VHTagView
+ */
 class GVTagList extends GVReviewDataList<GVString> {
 
-    public GVTagList() {
+    GVTagList() {
         super(GVType.TAGS);
     }
 
-    public void add(String string) {
+    void add(String string) {
         if (string != null && string.length() > 0) {
             add(new GVString(string));
         }
     }
 
-    public boolean contains(String string) {
+    boolean contains(String string) {
         return contains(new GVString(string));
     }
 
-    public void remove(String string) {
+    void remove(String string) {
         remove(new GVString(string));
     }
 

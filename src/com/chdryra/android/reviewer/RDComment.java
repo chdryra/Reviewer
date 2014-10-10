@@ -8,16 +8,23 @@
 
 package com.chdryra.android.reviewer;
 
-public class RDComment implements RData {
+/**
+ * Review Data: comment
+ * <p/>
+ * <p>
+ * <code>hasData()</code>: A string at least 1 character in length.
+ * </p>
+ */
+class RDComment implements RData {
     private final String mComment;
     private       Review mHoldingReview;
 
-    public RDComment(String comment, Review holdingReview) {
+    RDComment(String comment, Review holdingReview) {
         mComment = comment;
         mHoldingReview = holdingReview;
     }
 
-    public String get() {
+    String get() {
         return mComment;
     }
 
@@ -35,6 +42,4 @@ public class RDComment implements RData {
     public boolean hasData() {
         return mComment != null && mComment.length() > 0;
     }
-
-
 }

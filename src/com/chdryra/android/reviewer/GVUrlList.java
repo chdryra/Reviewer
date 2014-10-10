@@ -16,28 +16,46 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 
+/**
+ * GVReviewDataList: GVUrl
+ * ViewHolder: VHUrlView
+ *
+ * @see com.chdryra.android.reviewer.FragmentReviewURLs
+ * @see com.chdryra.android.reviewer.VHUrlView
+ */
 class GVUrlList extends GVReviewDataList<GVUrlList.GVUrl> {
 
-    public GVUrlList() {
+    GVUrlList() {
         super(GVType.URLS);
     }
 
-    public void add(String urlString) throws MalformedURLException, URISyntaxException {
+    void add(String urlString) throws MalformedURLException, URISyntaxException {
         add(new GVUrl(urlString));
     }
 
-    public void add(URL url) {
+    void add(URL url) {
         add(new GVUrl(url));
     }
 
-    public boolean contains(URL url) {
+    boolean contains(URL url) {
         return contains(new GVUrl(url));
     }
 
-    public void remove(URL url) {
+    void remove(URL url) {
         remove(new GVUrl(url));
     }
 
+    /**
+     * GVData version of: RDUrl
+     * ViewHolder: VHUrlView
+     * <p>
+     * Methods for getting full URL and shortened more readable version.
+     * </p>
+     *
+     * @see com.chdryra.android.mygenerallibrary.GVData
+     * @see com.chdryra.android.reviewer.RDUrl
+     * @see com.chdryra.android.reviewer.VHUrlView
+     */
     class GVUrl implements GVData {
         URL mUrl;
 

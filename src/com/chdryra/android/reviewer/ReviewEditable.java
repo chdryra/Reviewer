@@ -13,49 +13,52 @@ import java.util.Date;
 /**
  * Base class for reviews that allow editing of the data they hold. Adds setters and deleters to
  * the Review interface.
- *
- * <p> ReviewEditables are - by definition - not published themselves. Use the publish method to
- *     return a published uneditable Review encapsulating its current data.
+ * <p/>
+ * <p>
+ * ReviewEditables are - by definition - not published themselves. Use the publish method to
+ * return a published uneditable Review encapsulating its current data.
  * </p>
  */
 abstract class ReviewEditable implements Review {
 
     //Core data
-    public abstract void setSubject(String subject);
+    abstract void setSubject(String subject);
 
-    public abstract void setRating(float rating);
+    abstract void setRating(float rating);
 
     //Optional data
+    abstract void setComments(RDList<RDComment> comment);
+
+    abstract void setFacts(RDList<RDFact> facts);
+
+    abstract void setImages(RDList<RDImage> images);
+
+    abstract void setURLs(RDList<RDUrl> url);
+
+    abstract void setLocations(RDList<RDLocation> locations);
+
+    //Deleters
     void deleteComments() {
         setComments(new RDList<RDComment>());
     }
-
-    public abstract void setComments(RDList<RDComment> comment);
 
     void deleteFacts() {
         setFacts(new RDList<RDFact>());
     }
 
-    public abstract void setFacts(RDList<RDFact> facts);
-
     void deleteImages() {
         setImages(new RDList<RDImage>());
     }
-
-    public abstract void setImages(RDList<RDImage> images);
 
     void deleteUrls() {
         setURLs(new RDList<RDUrl>());
     }
 
-    public abstract void setURLs(RDList<RDUrl> url);
-
     void deleteLocations() {
         setLocations(new RDList<RDLocation>());
     }
 
-    public abstract void setLocations(RDList<RDLocation> locations);
-
+    //Unpublished
     @Override
     public final Author getAuthor() {
         return null;

@@ -8,23 +8,30 @@
 
 package com.chdryra.android.reviewer;
 
-public class RDFact implements RData {
+/**
+ * Review Data: fact
+ * <p/>
+ * <p>
+ * <code>hasData()</code>: Label and value strings at least 1 character in length
+ * </p>
+ */
+class RDFact implements RData {
 
     private final String mLabel;
     private final String mValue;
     private       Review mHoldingReview;
 
-    public RDFact(String label, String value, Review holdingReview) {
+    RDFact(String label, String value, Review holdingReview) {
         mLabel = label;
         mValue = value;
         mHoldingReview = holdingReview;
     }
 
-    public String getLabel() {
+    String getLabel() {
         return mLabel;
     }
 
-    public String getValue() {
+    String getValue() {
         return mValue;
     }
 
@@ -40,6 +47,6 @@ public class RDFact implements RData {
 
     @Override
     public boolean hasData() {
-        return mLabel != null && mValue != null;
+        return mLabel != null && mValue != null && mLabel.length() > 0 && mValue.length() > 0;
     }
 }

@@ -13,29 +13,40 @@ import com.chdryra.android.mygenerallibrary.ViewHolder;
 
 import java.util.Comparator;
 
-public class GVReviewSubjectRatingList extends GVReviewDataList<GVReviewSubjectRatingList
+/**
+ * GVReviewDataList: GVReviewSubjectRating
+ * ViewHolder: VHReviewNodeSubjectRating
+ * <p/>
+ * <p>
+ * Used for review children (sub-reviews).
+ * </p>
+ *
+ * @see com.chdryra.android.reviewer.FragmentReviewChildren
+ * @see com.chdryra.android.reviewer.VHReviewNodeSubjectRating
+ */
+class GVReviewSubjectRatingList extends GVReviewDataList<GVReviewSubjectRatingList
         .GVReviewSubjectRating> {
 
-    public GVReviewSubjectRatingList() {
+    GVReviewSubjectRatingList() {
         super(GVType.CHILDREN);
     }
 
-    public void add(String subject, float rating) {
+    void add(String subject, float rating) {
         if (!contains(subject)) {
             add(new GVReviewSubjectRating(subject, rating));
         }
     }
 
-    public boolean contains(String subject) {
+    boolean contains(String subject) {
         GVReviewSubjectRating review = new GVReviewSubjectRating(subject, 0);
         return contains(review);
     }
 
-    public void remove(String subject) {
+    void remove(String subject) {
         remove(new GVReviewSubjectRating(subject, 0));
     }
 
-    public void set(String subject, float rating) {
+    void set(String subject, float rating) {
         GVReviewSubjectRating r = getItem(subject);
         if (r != null) {
             r.setRating(rating);
@@ -74,24 +85,35 @@ public class GVReviewSubjectRatingList extends GVReviewDataList<GVReviewSubjectR
         };
     }
 
-    public class GVReviewSubjectRating implements GVData {
+    /**
+     * GVData version of: no equivalent as used for review children (sub-reviews).
+     * ViewHolder: VHReviewNodeSubjectRating
+     * <p/>
+     * <p>
+     * Methods for getting the subject and rating.
+     * </p>
+     *
+     * @see com.chdryra.android.mygenerallibrary.GVData
+     * @see com.chdryra.android.reviewer.VHReviewNodeSubjectRating
+     */
+    class GVReviewSubjectRating implements GVData {
         private final String mSubject;
         private       float  mRating;
 
-        public GVReviewSubjectRating(String subject, float rating) {
+        GVReviewSubjectRating(String subject, float rating) {
             mSubject = subject;
             mRating = rating;
         }
 
-        public String getSubject() {
+        String getSubject() {
             return mSubject;
         }
 
-        public float getRating() {
+        float getRating() {
             return mRating;
         }
 
-        public void setRating(float rating) {
+        void setRating(float rating) {
             mRating = rating;
         }
 

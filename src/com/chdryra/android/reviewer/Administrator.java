@@ -89,7 +89,7 @@ class Administrator {
     void publishReviewInProgress() {
         ReviewTreePublisher publisher = new ReviewTreePublisher(mCurrentAuthor);
         ReviewNode publishedTree = mControllerRip.publishAndTag(publisher);
-        mPublishedReviews.add(mControllerRip.publishAndTag(publisher));
+        mPublishedReviews.add(publishedTree);
     }
 
     GVSocialPlatformList getSocialPlatformList() {

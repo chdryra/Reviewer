@@ -34,7 +34,9 @@ import com.chdryra.android.reviewer.GVReviewDataList.GVType;
  * once the appropriate dialog or activity has returned the user input.
  * </p>
  *
- * @param <T>
+ * @param <T> //TODO Refactor this into something more akin to the
+ *           GVCellManager/ReviewDataOptions pattern
+ *            used in FragmentReviewBuild.
  */
 public abstract class FragmentReviewGridAddEditDone<T extends GVData> extends
         FragmentReviewGrid<T> {

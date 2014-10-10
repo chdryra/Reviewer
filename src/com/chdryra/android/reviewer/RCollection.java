@@ -12,6 +12,12 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.NoSuchElementException;
 
+/**
+ * An iterable collection of objects that can be referenced using an RDId.
+ *
+ * @param <T>: object type
+ * @see com.chdryra.android.reviewer.RDId
+ */
 class RCollection<T> implements Iterable<T> {
     private final LinkedHashMap<RDId, T> mData = new LinkedHashMap<RDId, T>();
 

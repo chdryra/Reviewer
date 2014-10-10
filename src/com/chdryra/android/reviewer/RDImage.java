@@ -12,7 +12,18 @@ import android.graphics.Bitmap;
 
 import com.google.android.gms.maps.model.LatLng;
 
-public class RDImage implements RData {
+/**
+ * Review Data: image
+ * <p/>
+ * <p>
+ * Consists of bitmap and optionally caption, LatLng. Also knows whether a cover image.
+ * </p>
+ * <p/>
+ * <p>
+ * <code>hasData()</code>: non-null bitmap.
+ * </p>
+ */
+class RDImage implements RData {
 
     private final Bitmap mBitmap;
     private final String mCaption;
@@ -20,8 +31,8 @@ public class RDImage implements RData {
     private       Review mHoldingReview;
     private boolean mIsCover = false;
 
-    public RDImage(Bitmap bitmap, LatLng latLng, String caption, boolean isCover,
-                   Review holdingReview) {
+    RDImage(Bitmap bitmap, LatLng latLng, String caption, boolean isCover,
+            Review holdingReview) {
         mBitmap = bitmap;
         mLatLng = latLng;
         mCaption = caption;
@@ -29,12 +40,20 @@ public class RDImage implements RData {
         mHoldingReview = holdingReview;
     }
 
-    public Bitmap getBitmap() {
+    Bitmap getBitmap() {
         return mBitmap;
     }
 
-    public String getCaption() {
+    String getCaption() {
         return mCaption;
+    }
+
+    LatLng getLatLng() {
+        return mLatLng;
+    }
+
+    boolean isCover() {
+        return mIsCover;
     }
 
     @Override
@@ -51,14 +70,4 @@ public class RDImage implements RData {
     public boolean hasData() {
         return mBitmap != null;
     }
-
-    public LatLng getLatLng() {
-        return mLatLng;
-    }
-
-    public boolean isCover() {
-        return mIsCover;
-    }
-
-
 }

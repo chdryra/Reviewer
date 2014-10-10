@@ -8,12 +8,15 @@
 
 package com.chdryra.android.reviewer;
 
-public class VisitorTreePublisher implements VisitorReviewNode {
+/**
+ * Uses a ReviewTreePublisher to publish review trees given a root node.
+ */
+class VisitorTreePublisher implements VisitorReviewNode {
 
     private final ReviewTreePublisher  mPublisher;
     private       ReviewNodeExpandable mPublishedNode;
 
-    public VisitorTreePublisher(ReviewTreePublisher publisher) {
+    VisitorTreePublisher(ReviewTreePublisher publisher) {
         mPublisher = publisher;
     }
 
@@ -27,11 +30,11 @@ public class VisitorTreePublisher implements VisitorReviewNode {
         for (ReviewNode child : reviewNode.getChildren()) {
             VisitorTreePublisher publisher = new VisitorTreePublisher(mPublisher);
             child.acceptVisitor(publisher);
-            mPublishedNode.addChild(publisher.getPublishedTree());
+            mPublishedNode.addChild(publisher.mPublishedNode);
         }
     }
 
-    public ReviewNode getPublishedTree() {
+    ReviewNode getPublishedTree() {
         return mPublishedNode;
     }
 

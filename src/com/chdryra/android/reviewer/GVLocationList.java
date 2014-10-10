@@ -14,42 +14,61 @@ import com.google.android.gms.maps.model.LatLng;
 
 import java.util.StringTokenizer;
 
+/**
+ * GVReviewDataList: GVLocation
+ * ViewHolder: VHLocationView
+ *
+ * @see com.chdryra.android.reviewer.FragmentReviewLocations
+ * @see com.chdryra.android.reviewer.VHLocationView
+ */
 class GVLocationList extends GVReviewDataList<GVLocationList.GVLocation> {
 
-    public GVLocationList() {
+    GVLocationList() {
         super(GVType.LOCATIONS);
     }
 
-    public void add(LatLng latLng, String name) {
+    void add(LatLng latLng, String name) {
         add(new GVLocation(latLng, name));
     }
 
-    public void remove(LatLng latLng, String name) {
+    void remove(LatLng latLng, String name) {
         remove(new GVLocation(latLng, name));
     }
 
-    public boolean contains(LatLng latLng, String name) {
+    boolean contains(LatLng latLng, String name) {
         return contains(new GVLocation(latLng, name));
     }
 
+    /**
+     * GVData version of: RDLocation
+     * ViewHolder: VHLocationView
+     * <p/>
+     * <p>
+     * Methods for getting the LatLng, name and shortened version of name.
+     * </p>
+     *
+     * @see com.chdryra.android.mygenerallibrary.GVData
+     * @see com.chdryra.android.reviewer.RDLocation
+     * @see com.chdryra.android.reviewer.VHLocationView
+     */
     class GVLocation implements GVData {
         private final LatLng mLatLng;
         private final String mName;
 
-        public GVLocation(LatLng latLng, String name) {
+        GVLocation(LatLng latLng, String name) {
             mLatLng = latLng;
             mName = name;
         }
 
-        public LatLng getLatLng() {
+        LatLng getLatLng() {
             return mLatLng;
         }
 
-        public String getName() {
+        String getName() {
             return mName;
         }
 
-        public String getShortenedName() {
+        String getShortenedName() {
             if (mName != null) {
                 StringTokenizer tokens = new StringTokenizer(mName, RDLocation.LOCATION_DELIMITER);
                 String shortened = tokens.nextToken();

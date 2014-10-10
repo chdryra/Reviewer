@@ -80,12 +80,7 @@ class ControllerReviewCollection<T extends Review> {
 
     private ControllerReview getControllerFor(String id) {
         if (mControllers.get(id) == null) {
-            Review review = get(id);
-            if(review == null) {
-                return new ControllerReview(FactoryReview.createNullReview());
-            } else {
-                mControllers.put(id, new ControllerReview(review));
-            }
+            mControllers.put(id, new ControllerReview(get(id)));
         }
 
         return mControllers.get(id);

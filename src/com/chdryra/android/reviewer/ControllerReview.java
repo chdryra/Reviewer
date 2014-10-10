@@ -23,30 +23,29 @@ import java.util.Date;
 /**
  * Translation and indirection layer between Model (review data) and View (android). The "C" in the
  * MVC pattern. The View layer consist of the activities and fragments in android.
- *
+ * <p/>
  * <p>
- *     Not a "Controller" as such - more of an adapter - but didn't want to confuse with
- *     Android's use of the word "Adapter". Translates between model data types and view data types:
- *     <ul>
- *         <li>Model data type: Review types and the data they return</li>
- *         <li>View data type: GVData types, java types</li>
- *     </ul>
+ * Not a "Controller" as such - more of an adapter - but didn't want to confuse with
+ * Android's use of the word "Adapter". Translates between model data types and view data types:
+ * <ul>
+ * <li>Model data type: Review types and the data they return</li>
+ * <li>View data type: GVData types, java types</li>
+ * </ul>
  * </p>
  *
  * @param <T>: the Review type being accessed
- *
  * @see Review
  * @see com.chdryra.android.mygenerallibrary.GVData
  */
 class ControllerReview<T extends Review> {
-    protected final ArrayList<String>   mTagsList       = new ArrayList<String>();
-    private final T mReview;
-    private ControllerReviewNode mReviewNode;
+    protected final ArrayList<String> mTagsList = new ArrayList<String>();
+    private final T                    mReview;
+    private       ControllerReviewNode mReviewNode;
 
     public ControllerReview(T review) {
         mReview = review;
-        for (ReviewTagsManager.ReviewTag tag : ReviewTagsManager.getTags(review)) {
-            mTagsList.add(tag.toString());
+        for (TagsManager.ReviewTag tag : TagsManager.getTags(review)) {
+            mTagsList.add(tag.get());
         }
     }
 

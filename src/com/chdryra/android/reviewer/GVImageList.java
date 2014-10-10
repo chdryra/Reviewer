@@ -16,26 +16,38 @@ import com.google.android.gms.maps.model.LatLng;
 
 import java.util.Random;
 
-public class GVImageList extends GVReviewDataList<GVImageList.GVImage> {
+/**
+ * GVReviewDataList: GVImage
+ * ViewHolder: VHImageView
+ * <p/>
+ * <p>
+ * Includes methods for adding captions and getting images designated as "covers" which can be
+ * used as a background image for a review.
+ * </p>
+ *
+ * @see com.chdryra.android.reviewer.FragmentReviewImages
+ * @see com.chdryra.android.reviewer.VHImageView
+ */
+class GVImageList extends GVReviewDataList<GVImageList.GVImage> {
 
-    public GVImageList() {
+    GVImageList() {
         super(GVType.IMAGES);
     }
 
-    public void add(Bitmap bitmap, LatLng latLng) {
+    void add(Bitmap bitmap, LatLng latLng) {
         add(new GVImage(bitmap, latLng, null));
     }
 
-    public void add(Bitmap bitmap, LatLng latLng, String caption, boolean isCover) {
+    void add(Bitmap bitmap, LatLng latLng, String caption, boolean isCover) {
         add(new GVImage(bitmap, latLng, caption, isCover));
     }
 
-    public void updateCaption(Bitmap bitmap, LatLng latLng, String oldCaption, String newCaption) {
+    void updateCaption(Bitmap bitmap, LatLng latLng, String oldCaption, String newCaption) {
         GVImage image = getItem(indexOf(new GVImage(bitmap, latLng, oldCaption)));
         image.setCaption(newCaption);
     }
 
-    public GVImage getRandomCover() {
+    GVImage getRandomCover() {
         GVImageList covers = getCovers();
         if (covers.size() == 0) {
             return null;
@@ -46,7 +58,7 @@ public class GVImageList extends GVReviewDataList<GVImageList.GVImage> {
         return covers.getItem(r.nextInt(covers.size()));
     }
 
-    public GVImageList getCovers() {
+    GVImageList getCovers() {
         GVImageList covers = new GVImageList();
         for (GVImage image : this) {
             if (image.isCover()) {
@@ -57,46 +69,58 @@ public class GVImageList extends GVReviewDataList<GVImageList.GVImage> {
         return covers;
     }
 
+    /**
+     * GVData version of: RDImage
+     * ViewHolder: VHImageView
+     * <p/>
+     * <p>
+     * Methods for getting the bitmap, caption, LatLng and whether a cover.
+     * </p>
+     *
+     * @see com.chdryra.android.mygenerallibrary.GVData
+     * @see com.chdryra.android.reviewer.RDImage
+     * @see com.chdryra.android.reviewer.VHImageView
+     */
     class GVImage implements GVData {
         private final Bitmap mBitmap;
         private final LatLng mLatLng;
         private       String mCaption;
         private boolean mIsCover = false;
 
-        public GVImage(Bitmap bitmap, LatLng latLng, String caption, boolean isCover) {
+        GVImage(Bitmap bitmap, LatLng latLng, String caption, boolean isCover) {
             mBitmap = bitmap;
             mCaption = caption;
             mLatLng = latLng;
             mIsCover = isCover;
         }
 
-        public GVImage(Bitmap bitmap, LatLng latLng, String caption) {
+        GVImage(Bitmap bitmap, LatLng latLng, String caption) {
             mBitmap = bitmap;
             mCaption = caption;
             mLatLng = latLng;
         }
 
-        public Bitmap getBitmap() {
+        Bitmap getBitmap() {
             return mBitmap;
         }
 
-        public String getCaption() {
+        String getCaption() {
             return mCaption;
         }
 
-        public void setCaption(String caption) {
+        void setCaption(String caption) {
             mCaption = caption;
         }
 
-        public LatLng getLatLng() {
+        LatLng getLatLng() {
             return mLatLng;
         }
 
-        public void setIsCover(boolean isCover) {
+        void setIsCover(boolean isCover) {
             mIsCover = isCover;
         }
 
-        public boolean isCover() {
+        boolean isCover() {
             return mIsCover;
         }
 

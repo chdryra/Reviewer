@@ -16,6 +16,19 @@ import com.chdryra.android.reviewer.SocialPlatformList.SocialPlatform;
 
 import java.util.Comparator;
 
+/**
+ * GVReviewDataList: GVReviewSocialPlatform
+ * ViewHolder: VHSocialView
+ * <p/>
+ * <p>
+ * Used for social sharing screen showing social platforms and number of followers.
+ * </p>
+ *
+ * @see com.chdryra.android.reviewer.Administrator
+ * @see com.chdryra.android.reviewer.SocialPlatformList
+ * @see com.chdryra.android.reviewer.FragmentReviewShare
+ * @see com.chdryra.android.reviewer.VHSocialView
+ */
 public class GVSocialPlatformList extends GVReviewDataList<GVSocialPlatformList.GVSocialPlatform> {
 
     private GVSocialPlatformList(Context context) {
@@ -25,7 +38,7 @@ public class GVSocialPlatformList extends GVReviewDataList<GVSocialPlatformList.
         }
     }
 
-    public static GVSocialPlatformList getLatest(Context context) {
+    static GVSocialPlatformList getLatest(Context context) {
         SocialPlatformList.get(context).update();
         return new GVSocialPlatformList(context);
     }
@@ -49,28 +62,39 @@ public class GVSocialPlatformList extends GVReviewDataList<GVSocialPlatformList.
         };
     }
 
+    /**
+     * GVData version of: no equivalent as used for review sharing screen.
+     * ViewHolder: VHSocialView
+     * <p/>
+     * <p>
+     * Methods for getting the name, number followers, and selection status.
+     * </p>
+     *
+     * @see com.chdryra.android.mygenerallibrary.GVData
+     * @see com.chdryra.android.reviewer.SocialPlatformList
+     */
     class GVSocialPlatform extends GVDualString {
         private int     mFollowers = 0;
         private boolean mIsChosen  = false;
 
-        public GVSocialPlatform(String name, int followers) {
+        GVSocialPlatform(String name, int followers) {
             super(name, String.valueOf(followers));
             mFollowers = followers;
         }
 
-        public String getName() {
+        String getName() {
             return getUpper();
         }
 
-        public int getFollowers() {
+        int getFollowers() {
             return mFollowers;
         }
 
-        public boolean isChosen() {
+        boolean isChosen() {
             return mIsChosen;
         }
 
-        public void press() {
+        void press() {
             mIsChosen = !mIsChosen;
         }
 

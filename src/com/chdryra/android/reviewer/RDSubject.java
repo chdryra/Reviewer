@@ -8,16 +8,23 @@
 
 package com.chdryra.android.reviewer;
 
-public class RDSubject implements RData {
+/**
+ * Review Data: subject
+ * <p/>
+ * <p>
+ * <code>hasData()</code>: string at least 1 character in length.
+ * </p>
+ */
+class RDSubject implements RData {
     private final String mTitle;
     private       Review mHoldingReview;
 
-    public RDSubject(String title, Review review) {
+    RDSubject(String title, Review review) {
         mTitle = title;
         mHoldingReview = review;
     }
 
-    public String get() {
+    String get() {
         return mTitle;
     }
 

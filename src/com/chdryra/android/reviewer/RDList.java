@@ -10,17 +10,26 @@ package com.chdryra.android.reviewer;
 
 import com.chdryra.android.mygenerallibrary.SortableList;
 
-public class RDList<T extends RData> extends SortableList<T> implements RData {
+/**
+ * Review Data: Sortable collection of RData objects that itself is considered Review Data.
+ * <p/>
+ * <p>
+ * <code>hasData()</code>: at least 1 object in collection.
+ * </p>
+ *
+ * @param <T>: RData type in collection.
+ */
+class RDList<T extends RData> extends SortableList<T> implements RData {
     private Review mHoldingReview;
 
-    public RDList() {
+    RDList() {
     }
 
-    public RDList(Review holdingReview) {
+    RDList(Review holdingReview) {
         mHoldingReview = holdingReview;
     }
 
-    public RDList(RDList<T> data, Review holdingReview) {
+    RDList(RDList<T> data, Review holdingReview) {
         add(data);
         mHoldingReview = holdingReview;
     }

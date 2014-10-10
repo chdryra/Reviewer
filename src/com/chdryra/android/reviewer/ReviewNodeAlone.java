@@ -18,9 +18,8 @@ import java.util.Date;
 
 /**
  * Wrapper for a single review without children or a parent. Has same RDId as the review it wraps.
- * Used primarily as the tree representation for ReviewUser and ReviewUserEditable.
+ * Used primarily as the tree representation for ReviewUserEditable.
  *
- * @see com.chdryra.android.reviewer.ReviewUser
  * @see com.chdryra.android.reviewer.ReviewUserEditable
  */
 class ReviewNodeAlone implements ReviewNode {

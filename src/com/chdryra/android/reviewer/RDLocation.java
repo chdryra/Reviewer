@@ -10,25 +10,32 @@ package com.chdryra.android.reviewer;
 
 import com.google.android.gms.maps.model.LatLng;
 
-public class RDLocation implements RData {
-    public static final String LOCATION_DELIMITER = ",|";
+/**
+ * Review Data: location
+ * <p/>
+ * <p>
+ * <code>hasData()</code>: A LatLng plus a name at least 1 character in length.
+ * </p>
+ */
+class RDLocation implements RData {
+    static final String LOCATION_DELIMITER = ",|";
 
     private Review mHoldingReview;
 
-    private LatLng mLatLng = null;
-    private String mName   = null;
+    private LatLng mLatLng;
+    private String mName;
 
-    public RDLocation(LatLng latLng, String name, Review holdingReview) {
+    RDLocation(LatLng latLng, String name, Review holdingReview) {
         mLatLng = latLng;
         mName = name;
         mHoldingReview = holdingReview;
     }
 
-    public LatLng getLatLng() {
+    LatLng getLatLng() {
         return mLatLng;
     }
 
-    public String getName() {
+    String getName() {
         return mName;
     }
 
@@ -44,8 +51,6 @@ public class RDLocation implements RData {
 
     @Override
     public boolean hasData() {
-        return mLatLng != null;
+        return mLatLng != null && mName != null && mName.length() > 0;
     }
-
-
 }

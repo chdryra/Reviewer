@@ -11,14 +11,20 @@ package com.chdryra.android.reviewer;
 import java.util.UUID;
 
 /**
- * Wrapper for a UUID
+ * Review Data: Wrapper for a UUID
+ *
+ * <p>
+ *     Use static methods <code>generateId(.)</code> to return a unique RDId.
+ * </p>
+ *
+ * <p>
+ *     <code>hasData()</code>: true
+ * </p>
+ *
+ * //TODO There's a reason couldn't use holding review but can't remember. Find out.
  */
 class RDId implements RData {
     private final UUID mId;
-
-    public interface RDIdAble {
-        public RDId getId();
-    }
 
     private RDId() {
         mId = UUID.randomUUID();
@@ -28,17 +34,17 @@ class RDId implements RData {
         mId = UUID.fromString(rdId);
     }
 
-    public static RDId generateId() {
+    static RDId generateId() {
         return new RDId();
     }
 
-    public static RDId generateId(String rdId) {
+    static RDId generateId(String rdId) {
         return new RDId(rdId);
     }
 
     @Override
-    public ReviewEditable getHoldingReview() {
-        return FactoryReview.createNullReview();
+    public Review getHoldingReview() {
+        throw new UnsupportedOperationException();
     }
 
     @Override
@@ -72,5 +78,12 @@ class RDId implements RData {
 
     public String toString() {
         return mId.toString();
+    }
+
+    /**
+     * To facilitate RCollectionReview
+     */
+    public interface RDIdAble {
+        public RDId getId();
     }
 }

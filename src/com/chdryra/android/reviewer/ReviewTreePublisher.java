@@ -10,27 +10,32 @@ package com.chdryra.android.reviewer;
 
 import java.util.Date;
 
+/**
+ * Holds publishing data and manages the publication of review trees given a root ReviewNode.
+ *
+ * @see com.chdryra.android.reviewer.VisitorTreePublisher
+ */
 class ReviewTreePublisher {
     private final Author mAuthor;
     private       Date   mPublishDate;
 
-    public ReviewTreePublisher(Author author) {
+    ReviewTreePublisher(Author author) {
         mAuthor = author;
     }
 
-    public Author getAuthor() {
+    Author getAuthor() {
         return mAuthor;
     }
 
-    public Date getPublishDate() {
-        if(mPublishDate == null) {
+    Date getPublishDate() {
+        if (mPublishDate == null) {
             mPublishDate = new Date();
         }
 
         return mPublishDate;
     }
 
-    public ReviewNode publish(ReviewNode reviewTreeRoot) {
+    ReviewNode publish(ReviewNode reviewTreeRoot) {
         VisitorTreePublisher publisher = new VisitorTreePublisher(this);
         reviewTreeRoot.acceptVisitor(publisher);
 
