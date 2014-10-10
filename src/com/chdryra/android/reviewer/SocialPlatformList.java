@@ -13,7 +13,11 @@ import android.content.Context;
 import java.util.Iterator;
 import java.util.LinkedList;
 
-public class SocialPlatformList implements Iterable<SocialPlatformList.SocialPlatform> {
+/**
+ * Singleton that holds the list of social platforms on which reviews can be shared. Placeholders
+ * for finding latest number of followers on each platform.
+ */
+class SocialPlatformList implements Iterable<SocialPlatformList.SocialPlatform> {
     private static SocialPlatformList         sList;
     private final  LinkedList<SocialPlatform> mPlatforms;
 
@@ -25,7 +29,7 @@ public class SocialPlatformList implements Iterable<SocialPlatformList.SocialPla
         }
     }
 
-    public static SocialPlatformList get(Context context) {
+    static SocialPlatformList get(Context context) {
         if (sList == null) {
             sList = new SocialPlatformList(context);
         }
@@ -33,8 +37,8 @@ public class SocialPlatformList implements Iterable<SocialPlatformList.SocialPla
         return sList;
     }
 
-    public void update() {
-        for (SocialPlatform platform : this) {
+    static void update(Context context) {
+        for (SocialPlatform platform : get(context)) {
             platform.update();
         }
     }
@@ -44,7 +48,10 @@ public class SocialPlatformList implements Iterable<SocialPlatformList.SocialPla
         return mPlatforms.iterator();
     }
 
-    public enum Platform {
+    /**
+     * Enum for specifying the social platforms available together with their text labels.
+     */
+    enum Platform {
         //Cannot access string resources without a context
         TWITTER(R.string.twitter),
         FACEBOOK(R.string.facebook),
@@ -59,30 +66,34 @@ public class SocialPlatformList implements Iterable<SocialPlatformList.SocialPla
             mPlatformId = platformId;
         }
 
-        public String toString(Context context) {
+        String toString(Context context) {
             return context.getResources().getString(mPlatformId);
         }
     }
 
+    /**
+     * Holds the name and number of followers for a social platform. Placeholder to update the
+     * number of followers.
+     */
     class SocialPlatform {
         private final String mName;
         private       int    mFollowers;
 
-        public SocialPlatform(String name) {
+        private SocialPlatform(String name) {
             mName = name;
             update();
         }
 
-        public void update() {
-            mFollowers = 0;
-        }
-
-        public String getName() {
+        String getName() {
             return mName;
         }
 
-        public int getFollowers() {
+        int getFollowers() {
             return mFollowers;
+        }
+
+        private void update() {
+            mFollowers = 0;
         }
     }
 }

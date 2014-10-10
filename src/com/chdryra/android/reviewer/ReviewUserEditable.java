@@ -32,7 +32,7 @@ class ReviewUserEditable extends ReviewEditable {
     private RDList<RDUrl>      mURLs;
     private RDList<RDLocation> mLocations;
 
-    public ReviewUserEditable(String subject) {
+    ReviewUserEditable(String subject) {
         //Core data
         mID = RDId.generateId();
         mSubject = new RDSubject(subject, this);
@@ -80,7 +80,7 @@ class ReviewUserEditable extends ReviewEditable {
     }
 
     @Override
-    public Review publish(ReviewTreePublisher publisher) {
+    public Review publish(PublisherReviewTree publisher) {
         return FactoryReview.createReview(publisher.getAuthor(), publisher.getPublishDate(),
                 getReviewNode());
     }

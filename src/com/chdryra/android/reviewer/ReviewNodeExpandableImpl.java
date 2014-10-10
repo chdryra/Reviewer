@@ -16,7 +16,7 @@ import java.util.Date;
  * <p>
  * Creates a new unique RDId so represents a new review structure even though it wraps an
  * existing review. Generally used for reviews that only make sense when considering the tree
- * as a whole, for example reviews with rated sub-criteria, metareviews etc.
+ * as a whole, for example reviews with rated sub-criteria, meta-reviews etc.
  * </p>
  * <p/>
  * <p>
@@ -26,7 +26,7 @@ import java.util.Date;
  * tree structure which will share the same RDId as the review.
  * </p>
  */
-class ReviewComponent implements ReviewNodeExpandable {
+class ReviewNodeExpandableImpl implements ReviewNodeExpandable {
     private final RDId mId;
 
     private final Review                                  mReview;
@@ -35,7 +35,7 @@ class ReviewComponent implements ReviewNodeExpandable {
 
     private boolean mRatingIsAverage = false;
 
-    ReviewComponent(Review review) {
+    ReviewNodeExpandableImpl(Review review) {
         mId = RDId.generateId();
         mReview = review;
         mChildren = new RCollectionReview<ReviewNodeExpandable>();
@@ -70,7 +70,7 @@ class ReviewComponent implements ReviewNodeExpandable {
 
     @Override
     public void addChild(Review child) {
-        addChild(new ReviewComponent(child));
+        addChild(new ReviewNodeExpandableImpl(child));
     }
 
     @Override
@@ -158,7 +158,7 @@ class ReviewComponent implements ReviewNodeExpandable {
     }
 
     @Override
-    public ReviewNode publish(ReviewTreePublisher publisher) {
+    public ReviewNode publish(PublisherReviewTree publisher) {
         return publisher.publish(this);
     }
 
@@ -245,7 +245,7 @@ class ReviewComponent implements ReviewNodeExpandable {
             return false;
         }
 
-        ReviewComponent objNode = (ReviewComponent) obj;
+        ReviewNodeExpandableImpl objNode = (ReviewNodeExpandableImpl) obj;
         return mId.equals(objNode.mId);
     }
 

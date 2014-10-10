@@ -11,6 +11,14 @@ package com.chdryra.android.reviewer;
 import com.chdryra.android.mygenerallibrary.GVData;
 import com.chdryra.android.reviewer.GVUrlList.GVUrl;
 
+/**
+ * ViewHolder: GVUrl. Shows shortened URL.
+ * <p>
+ * A VHTextView with an appropriately defined GVDataStringGetter.
+ * </p>
+ *
+ * @see com.chdryra.android.reviewer.GVUrlList.GVUrl
+ */
 class VHUrlView extends VHTextView {
     public VHUrlView() {
         super(new GVDataStringGetter() {

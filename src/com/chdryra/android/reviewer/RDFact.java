@@ -10,7 +10,6 @@ package com.chdryra.android.reviewer;
 
 /**
  * Review Data: fact
- * <p/>
  * <p>
  * <code>hasData()</code>: Label and value strings at least 1 character in length
  * </p>

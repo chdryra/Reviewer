@@ -8,11 +8,15 @@
 
 package com.chdryra.android.reviewer;
 
-public class VisitorRatingAverageOverDescendents implements VisitorRatingCalculator {
+/**
+ * For calculating the "average of averages" for the descendants of a node.
+ */
+//TODO reformulate using the TraverserReviewNode
+class VisitorRatingAverageOverDescendents implements VisitorRatingCalculator {
     private float mRatingTotal   = 0;
     private int   mNumberRatings = 0;
 
-    public VisitorRatingAverageOverDescendents() {
+    VisitorRatingAverageOverDescendents() {
     }
 
     @Override

@@ -74,7 +74,7 @@ class FactoryReview {
     }
 
     private ReviewNodeExpandable newReviewNodeExpandable(Review review) {
-        return new ReviewComponent(review);
+        return new ReviewNodeExpandableImpl(review);
     }
 
     private ReviewNode newReviewNodeAlone(Review review) {

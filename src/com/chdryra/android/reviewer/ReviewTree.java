@@ -35,7 +35,7 @@ class ReviewTree implements ReviewNode {
     private Author     mAuthor;
     private Date       mPublishDate;
 
-    public ReviewTree(Author author, Date publishDate, ReviewNode node) {
+    ReviewTree(Author author, Date publishDate, ReviewNode node) {
         mNode = node;
         mAuthor = author;
         mPublishDate = publishDate;
@@ -97,7 +97,7 @@ class ReviewTree implements ReviewNode {
     }
 
     @Override
-    public Review publish(ReviewTreePublisher publisher) {
+    public Review publish(PublisherReviewTree publisher) {
         if (!isPublished()) {
             mNode = publisher.publish(mNode);
             mAuthor = mNode.getAuthor();

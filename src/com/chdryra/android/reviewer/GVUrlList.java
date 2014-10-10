@@ -18,7 +18,9 @@ import java.net.URL;
 
 /**
  * GVReviewDataList: GVUrl
+ * <p>
  * ViewHolder: VHUrlView
+ * </p>
  *
  * @see com.chdryra.android.reviewer.FragmentReviewURLs
  * @see com.chdryra.android.reviewer.VHUrlView

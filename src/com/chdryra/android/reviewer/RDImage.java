@@ -14,7 +14,6 @@ import com.google.android.gms.maps.model.LatLng;
 
 /**
  * Review Data: image
- * <p/>
  * <p>
  * Consists of bitmap and optionally caption, LatLng. Also knows whether a cover image.
  * </p>

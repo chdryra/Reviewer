@@ -134,6 +134,9 @@ public abstract class FragmentReviewGridAddEditDone<T extends GVData> extends
         }
     }
 
+    /**
+     * Enum to chose whether to add or edit data, also encapsulating request code and request tag.
+     */
     protected enum DataAddEdit {
         ADD(DATA_ADD, DATA_ADD_TAG),
         EDIT(DATA_EDIT, DATA_EDIT_TAG);

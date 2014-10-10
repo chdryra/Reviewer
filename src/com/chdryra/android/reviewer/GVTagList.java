@@ -15,7 +15,9 @@ import java.util.Comparator;
 
 /**
  * GVReviewDataList: GVString
+ * <p>
  * ViewHolder: VHTagView
+ * </p>
  *
  * @see com.chdryra.android.reviewer.FragmentReviewTags`
  * @see com.chdryra.android.reviewer.VHTagView

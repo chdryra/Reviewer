@@ -8,6 +8,10 @@
 
 package com.chdryra.android.reviewer;
 
+/**
+ * Interface for defining a tree traversal algorithm given a node, visitor and node depth (for
+ * depth map calculations).
+ */
 interface TraverserSearchMethod {
-    public void search(ReviewNode node, VisitorReviewNode visitor, int depth);
+    void search(ReviewNode node, VisitorReviewNode visitor, int depth);
 }

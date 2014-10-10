@@ -11,6 +11,11 @@ package com.chdryra.android.reviewer;
 import com.chdryra.android.mygenerallibrary.GVData;
 import com.chdryra.android.reviewer.GVLocationList.GVLocation;
 
+/**
+ * ViewHolder: GVLocation. Shows shortened location name.
+ *
+ * @see com.chdryra.android.reviewer.GVLocationList.GVLocation
+ */
 class VHLocationView extends VHTextView {
 
     public VHLocationView(final boolean showAt) {

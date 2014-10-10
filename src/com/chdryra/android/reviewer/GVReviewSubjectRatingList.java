@@ -15,7 +15,9 @@ import java.util.Comparator;
 
 /**
  * GVReviewDataList: GVReviewSubjectRating
+ * <p>
  * ViewHolder: VHReviewNodeSubjectRating
+ * </p>
  * <p/>
  * <p>
  * Used for review children (sub-reviews).

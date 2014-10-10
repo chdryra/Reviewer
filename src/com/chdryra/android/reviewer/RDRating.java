@@ -10,7 +10,6 @@ package com.chdryra.android.reviewer;
 
 /**
  * Review Data: rating
- * <p/>
  * <p>
  * <code>hasData()</code>: true
  * </p>

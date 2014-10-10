@@ -8,7 +8,10 @@
 
 package com.chdryra.android.reviewer;
 
-public class TraverserSearchDepthFirstPre implements TraverserSearchMethod {
+/**
+ * Defines a depth-first pre-order tree traversal algorithm.
+ */
+class TraverserSearchDepthFirstPre implements TraverserSearchMethod {
 
     @Override
     public void search(ReviewNode node, VisitorReviewNode visitor, int depth) {

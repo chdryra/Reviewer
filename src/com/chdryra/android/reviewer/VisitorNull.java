@@ -8,7 +8,10 @@
 
 package com.chdryra.android.reviewer;
 
-public class VisitorNull implements VisitorReviewNode {
+/**
+ * Null visitor for pure traversal information, for example to build a depth map etc.
+ */
+class VisitorNull implements VisitorReviewNode {
 
     @Override
     public void visit(ReviewNode reviewNode) {

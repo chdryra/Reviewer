@@ -8,6 +8,9 @@
 
 package com.chdryra.android.reviewer;
 
+/**
+ * Visitor pattern for ReviewNodes
+ */
 interface VisitorReviewNode {
-    public void visit(ReviewNode reviewNode);
+    void visit(ReviewNode reviewNode);
 }

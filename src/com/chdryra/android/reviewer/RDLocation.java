@@ -12,7 +12,6 @@ import com.google.android.gms.maps.model.LatLng;
 
 /**
  * Review Data: location
- * <p/>
  * <p>
  * <code>hasData()</code>: A LatLng plus a name at least 1 character in length.
  * </p>

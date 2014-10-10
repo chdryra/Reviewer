@@ -10,18 +10,28 @@ package com.chdryra.android.reviewer;
 
 import java.util.UUID;
 
-public class UserId {
+/**
+ * Unique user ID for author credentials. A Wrapper for a UUID.
+ * <p/>
+ * <p>
+ * Use static method <code>generateId()</code> to return a unique UserId.
+ * </p>
+ *
+ * @see com.chdryra.android.reviewer.Author
+ */
+
+class UserId {
     private final UUID mId;
 
     private UserId() {
         mId = UUID.randomUUID();
     }
 
-    public static UserId generateId() {
+    static UserId generateId() {
         return new UserId();
     }
 
-    public boolean equals(UserId userId) {
+    boolean equals(UserId userId) {
         return mId.equals(userId.mId);
     }
 
@@ -40,6 +50,7 @@ public class UserId {
         return mId.hashCode();
     }
 
+    @Override
     public String toString() {
         return mId.toString();
     }

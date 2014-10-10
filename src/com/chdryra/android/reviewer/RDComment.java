@@ -10,7 +10,6 @@ package com.chdryra.android.reviewer;
 
 /**
  * Review Data: comment
- * <p/>
  * <p>
  * <code>hasData()</code>: A string at least 1 character in length.
  * </p>

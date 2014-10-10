@@ -16,7 +16,9 @@ import java.util.StringTokenizer;
 
 /**
  * GVReviewDataList: GVLocation
+ * <p>
  * ViewHolder: VHLocationView
+ * </p>
  *
  * @see com.chdryra.android.reviewer.FragmentReviewLocations
  * @see com.chdryra.android.reviewer.VHLocationView

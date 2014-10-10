@@ -12,15 +12,14 @@ import java.util.UUID;
 
 /**
  * Review Data: Wrapper for a UUID
- *
  * <p>
- *     Use static methods <code>generateId(.)</code> to return a unique RDId.
+ * Use static methods <code>generateId(.)</code> to return a unique RDId.
  * </p>
- *
+ * <p/>
  * <p>
- *     <code>hasData()</code>: true
+ * <code>hasData()</code>: true
  * </p>
- *
+ * <p/>
  * //TODO There's a reason couldn't use holding review but can't remember. Find out.
  */
 class RDId implements RData {

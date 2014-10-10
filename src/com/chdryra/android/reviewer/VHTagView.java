@@ -8,8 +8,12 @@
 
 package com.chdryra.android.reviewer;
 
-
+/**
+ * ViewHolder: ReviewTag (GVString). Shows tag string.
+ *
+ * @see com.chdryra.android.reviewer.TagsManager.ReviewTag
+ */
 class VHTagView extends VHTextView {
-    public VHTagView() {
+    VHTagView() {
     }
 }

@@ -18,7 +18,9 @@ import java.util.Date;
 
 /**
  * GVReviewDataList: GVReviewOverview
+ * <p>
  * ViewHolder: VHReviewNodeOverview
+ * </p>
  * <p/>
  * <p>
  * Used for Review summaries in published feed

@@ -8,22 +8,31 @@
 
 package com.chdryra.android.reviewer;
 
+/**
+ * Performs traverses of review trees. Can set a VisitorReviewNode to visit each node in the
+ * traversal.
+ * <p/>
+ * <p>
+ * Can potentially use a number of different search algorithms. Currently Only Depth First
+ * Pre-order used.
+ * </p>
+ */
 class TraverserReviewNode {
     private final ReviewNode            mHead;
     private final TraverserSearchMethod mSearchMethod;
     private       VisitorReviewNode     mVisitor;
 
-    public TraverserReviewNode(ReviewNode head) {
+    TraverserReviewNode(ReviewNode head) {
         mHead = head;
         mSearchMethod = new TraverserSearchDepthFirstPre();
         setVisitor(null);
     }
 
-    public void setVisitor(VisitorReviewNode visitor) {
+    void setVisitor(VisitorReviewNode visitor) {
         mVisitor = visitor == null ? new VisitorNull() : visitor;
     }
 
-    public void traverse() {
+    void traverse() {
         traverse(mVisitor);
     }
 

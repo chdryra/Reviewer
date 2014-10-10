@@ -88,7 +88,7 @@ class ReviewNodeAlone implements ReviewNode {
     }
 
     @Override
-    public Review publish(ReviewTreePublisher publisher) {
+    public Review publish(PublisherReviewTree publisher) {
         return mReview.publish(publisher);
     }
 

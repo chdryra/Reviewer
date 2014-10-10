@@ -8,7 +8,10 @@
 
 package com.chdryra.android.reviewer;
 
-public class VisitorNodeCollector implements VisitorReviewNode {
+/**
+ * Visitor for flattening a tree into a collection of nodes
+ */
+class VisitorNodeCollector implements VisitorReviewNode {
 
     private final RCollectionReview<ReviewNode> mNodes = new RCollectionReview<ReviewNode>();
 
@@ -17,7 +20,7 @@ public class VisitorNodeCollector implements VisitorReviewNode {
         mNodes.add(reviewNode);
     }
 
-    public RCollectionReview<ReviewNode> get() {
+    RCollectionReview<ReviewNode> get() {
         return mNodes;
     }
 }

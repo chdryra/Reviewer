@@ -18,6 +18,23 @@ import com.chdryra.android.reviewer.GVReviewOverviewList.GVReviewOverview;
 
 import java.text.DateFormat;
 
+/**
+ * ViewHolder: GVReviewOverview
+ * <p/>
+ * <p>
+ * Shows:
+ * <ul>
+ * <li>Subject at top</li>
+ * <li>Rating below the subject</li>
+ * <li>Comment headline in quotes near the bottom</li>
+ * <li>Location name below comment headline</li>
+ * <li>Publish author and date below location name</li>
+ * <li>Cover image as background</li>
+ * </ul>
+ * </p>
+ *
+ * @see com.chdryra.android.reviewer.GVReviewOverviewList.GVReviewOverview
+ */
 class VHReviewNodeOverview extends ViewHolderBasic {
     private static final int LAYOUT   = R.layout.grid_cell_review_overview;
     private static final int SUBJECT  = R.id.review_subject;
@@ -34,7 +51,7 @@ class VHReviewNodeOverview extends ViewHolderBasic {
     private TextView  mLocation;
     private TextView  mPublishDate;
 
-    public VHReviewNodeOverview() {
+    VHReviewNodeOverview() {
         super(LAYOUT, new int[]{LAYOUT, SUBJECT, RATING, IMAGE, HEADLINE, LOCATION, PUBLISH});
     }
 

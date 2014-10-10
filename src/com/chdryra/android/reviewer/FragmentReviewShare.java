@@ -22,7 +22,31 @@ import android.widget.Button;
 
 import com.chdryra.android.reviewer.GVSocialPlatformList.GVSocialPlatform;
 
-
+/**
+ * UI Fragment: sharing and publishing reviews. The screen where the user finishes the review.
+ * <p/>
+ * <p>
+ * FragmentReviewGrid functionality:
+ * <ul>
+ * <li>Subject: disabled</li>
+ * <li>RatingBar: disabled</li>
+ * <li>Banner button: disabled</li>
+ * <li>Grid cells represent social platforms with which to share the review showing name and
+ * number of followers</li>
+ * <li>Grid cell click: highlights/unhighlights selection</li>
+ * <li>Grid cell long click: same as click</li>
+ * </ul>
+ * </p>
+ * <p/>
+ * <p>
+ * On top of standard FragmentReviewGrid functionality, there is also a "Publish" button for
+ * finishing the review.
+ * </p>
+ *
+ * @see com.chdryra.android.reviewer.ActivityReviewShare
+ * @see com.chdryra.android.reviewer.SocialPlatformList
+ * @see com.chdryra.android.reviewer.GVSocialPlatformList
+ */
 public class FragmentReviewShare extends FragmentReviewGrid<GVSocialPlatformList.GVSocialPlatform> {
     private GVSocialPlatformList mSocialList;
     private Drawable             mDefault;

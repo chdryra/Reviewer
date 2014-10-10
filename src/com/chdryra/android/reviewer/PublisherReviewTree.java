@@ -15,11 +15,11 @@ import java.util.Date;
  *
  * @see com.chdryra.android.reviewer.VisitorTreePublisher
  */
-class ReviewTreePublisher {
+class PublisherReviewTree {
     private final Author mAuthor;
     private       Date   mPublishDate;
 
-    ReviewTreePublisher(Author author) {
+    PublisherReviewTree(Author author) {
         mAuthor = author;
     }
 

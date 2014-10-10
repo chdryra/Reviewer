@@ -11,6 +11,14 @@ package com.chdryra.android.reviewer;
 import com.chdryra.android.mygenerallibrary.GVData;
 import com.chdryra.android.reviewer.GVCommentList.GVComment;
 
+/**
+ * ViewHolder: GVComment. Shows comment headline
+ * <p>
+ * A VHTextView with an appropriately defined GVDataStringGetter.
+ * </p>
+ *
+ * @see com.chdryra.android.reviewer.GVCommentList.GVComment
+ */
 class VHCommentView extends VHTextView {
 
     public VHCommentView() {

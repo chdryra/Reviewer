@@ -11,12 +11,13 @@ package com.chdryra.android.reviewer;
 /**
  * Uses a ReviewTreePublisher to publish review trees given a root node.
  */
+//TODO reformulate using TraverserReviewNode
 class VisitorTreePublisher implements VisitorReviewNode {
 
-    private final ReviewTreePublisher  mPublisher;
+    private final PublisherReviewTree  mPublisher;
     private       ReviewNodeExpandable mPublishedNode;
 
-    VisitorTreePublisher(ReviewTreePublisher publisher) {
+    VisitorTreePublisher(PublisherReviewTree publisher) {
         mPublisher = publisher;
     }
 

@@ -13,8 +13,9 @@ import com.chdryra.android.mygenerallibrary.ViewHolder;
 
 /**
  * GVReviewDataList: GVComment
+ * <p>
  * ViewHolder: VHCommentView
- * <p/>
+ * </p>
  * <p>
  * Includes method for generating split comments GVCommentList from current list.
  * </p>

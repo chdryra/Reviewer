@@ -15,6 +15,9 @@ import java.util.Comparator;
 
 /**
  * GVReviewDataList: GVFact
+ * <p>
+ * ViewHolder: VHFactView
+ * </p>
  *
  * @see com.chdryra.android.reviewer.FragmentReviewFacts
  * @see com.chdryra.android.reviewer.VHFactView

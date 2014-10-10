@@ -18,7 +18,9 @@ import java.util.Random;
 
 /**
  * GVReviewDataList: GVImage
+ * <p>
  * ViewHolder: VHImageView
+ * </p>
  * <p/>
  * <p>
  * Includes methods for adding captions and getting images designated as "covers" which can be

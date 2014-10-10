@@ -11,22 +11,22 @@ package com.chdryra.android.reviewer;
 /**
  * Primary review object the user edits in the review creation process. An editable and expandable
  * review tree.
- *
+ * <p/>
  * <p>
- *     This essentially wraps a ReviewNodeExpandable where the root node is a ReviewEditable.
- *     The getters and setters forward requests and data to the ReviewEditable.
- *     The tree editing requests are forwarded to the internal node.
+ * This essentially wraps a ReviewNodeExpandable where the root node is a ReviewEditable.
+ * The getters and setters forward requests and data to the ReviewEditable.
+ * The tree editing requests are forwarded to the internal node.
  * </p>
- *
+ * <p/>
  * <p>
- *     The <code>publish(.)</code> method returns a ReviewTree object that wraps a published
- *     version of the internal tree to stop further editing and expanding.
+ * The <code>publish(.)</code> method returns a ReviewTree object that wraps a published
+ * version of the internal tree to stop further editing and expanding.
  * </p>
  *
  * @see com.chdryra.android.reviewer.ReviewUserEditable
  * @see com.chdryra.android.reviewer.ReviewTree
  */
-class ReviewTreeEditable extends ReviewEditable implements ReviewNodeExpandable{
+class ReviewTreeEditable extends ReviewEditable implements ReviewNodeExpandable {
     private ReviewNodeExpandable mNode;
 
     ReviewTreeEditable(ReviewEditable editableRoot) {
@@ -126,7 +126,7 @@ class ReviewTreeEditable extends ReviewEditable implements ReviewNodeExpandable{
     }
 
     @Override
-    public Review publish(ReviewTreePublisher publisher) {
+    public Review publish(PublisherReviewTree publisher) {
         return FactoryReview.createReview(publisher.publish(mNode));
     }
 

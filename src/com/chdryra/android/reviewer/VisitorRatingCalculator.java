@@ -9,6 +9,9 @@
 package com.chdryra.android.reviewer;
 
 
+/**
+ * Visitor pattern for ReviewNodes specifically targeted towards rating calculations.
+ */
 interface VisitorRatingCalculator extends VisitorReviewNode {
     public float getRating();
 }

@@ -8,7 +8,10 @@
 
 package com.chdryra.android.reviewer;
 
-public class VisitorRatingAverageOfChildren implements VisitorRatingCalculator {
+/**
+ * For calculating the average rating of the children of a node.
+ */
+class VisitorRatingAverageOfChildren implements VisitorRatingCalculator {
     private float mRating = 0;
 
     @Override

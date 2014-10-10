@@ -87,7 +87,7 @@ class Administrator {
     }
 
     void publishReviewInProgress() {
-        ReviewTreePublisher publisher = new ReviewTreePublisher(mCurrentAuthor);
+        PublisherReviewTree publisher = new PublisherReviewTree(mCurrentAuthor);
         ReviewNode publishedTree = mControllerRip.publishAndTag(publisher);
         mPublishedReviews.add(publishedTree);
     }

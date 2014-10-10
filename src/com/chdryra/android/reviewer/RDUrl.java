@@ -12,7 +12,6 @@ import java.net.URL;
 
 /**
  * Review Data: URL
- * <p/>
  * <p>
  * <code>hasData()</code>: non-null URL.
  * </p>

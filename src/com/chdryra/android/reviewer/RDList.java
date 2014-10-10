@@ -11,8 +11,7 @@ package com.chdryra.android.reviewer;
 import com.chdryra.android.mygenerallibrary.SortableList;
 
 /**
- * Review Data: Sortable collection of RData objects that itself is considered Review Data.
- * <p/>
+ * Review Data: Sortable collection of RData objects that itself is considered Review Data
  * <p>
  * <code>hasData()</code>: at least 1 object in collection.
  * </p>

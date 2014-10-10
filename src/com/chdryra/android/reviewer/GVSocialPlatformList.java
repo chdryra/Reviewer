@@ -18,7 +18,9 @@ import java.util.Comparator;
 
 /**
  * GVReviewDataList: GVReviewSocialPlatform
+ * <p>
  * ViewHolder: VHSocialView
+ * </p>
  * <p/>
  * <p>
  * Used for social sharing screen showing social platforms and number of followers.
@@ -39,7 +41,7 @@ public class GVSocialPlatformList extends GVReviewDataList<GVSocialPlatformList.
     }
 
     static GVSocialPlatformList getLatest(Context context) {
-        SocialPlatformList.get(context).update();
+        SocialPlatformList.update(context);
         return new GVSocialPlatformList(context);
     }
 

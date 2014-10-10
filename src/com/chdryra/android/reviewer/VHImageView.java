@@ -14,6 +14,11 @@ import com.chdryra.android.mygenerallibrary.GVData;
 import com.chdryra.android.mygenerallibrary.ViewHolderBasic;
 import com.chdryra.android.reviewer.GVImageList.GVImage;
 
+/**
+ * ViewHolder: GVImage. Shows image bitmap.
+ *
+ * @see com.chdryra.android.reviewer.GVImageList.GVImage
+ */
 class VHImageView extends ViewHolderBasic {
     private static final int LAYOUT = R.layout.grid_cell_image;
     private static final int IMAGE  = R.id.image_view;
