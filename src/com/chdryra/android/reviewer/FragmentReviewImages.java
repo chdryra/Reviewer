@@ -41,7 +41,7 @@ import com.google.android.gms.maps.model.LatLng;
  * @see com.chdryra.android.reviewer.DialogImageEditFragment
  * @see com.chdryra.android.reviewer.DialogSetImageAsBackgroundFragment
  */
-public class FragmentReviewImages extends FragmentReviewGridAddEditDone<GVImage> {
+public class FragmentReviewImages extends FragmentReviewGridAddEdit<GVImage> {
     public static final  String BITMAP   = "com.chdryra.android.reviewer.bitmap";
     public static final  String CAPTION  = "com.chdryra.android.reviewer.caption";
     public static final  String LATLNG   = "com.chdryra.android.reviewer.latlng";
@@ -54,31 +54,8 @@ public class FragmentReviewImages extends FragmentReviewGridAddEditDone<GVImage>
     private HelperReviewImage mHelperReviewImage;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        mImages = (GVImageList) setAndInitData(GVType.IMAGES);
-        mHelperReviewImage = HelperReviewImage.getInstance(getController());
-        setDeleteWhatTitle(getResources().getString(R.string.dialog_delete_images_title));
-        setGridCellDimension(CellDimension.HALF, CellDimension.HALF);
-        setBannerButtonText(getResources().getString(R.string.button_add_image));
-        setAddEditDialogs(null, DialogImageEditFragment.class);
-    }
-
-    @Override
-    protected void onGridItemLongClick(AdapterView<?> parent, View v, int position, long id) {
-        if (mImages.getItem(position).isCover()) {
-            return;
-        }
-
-        Bundle args = new Bundle();
-        args.putInt(POSITION, position);
-        DialogShower.show(new DialogSetImageAsBackgroundFragment(), FragmentReviewImages.this,
-                IMAGE_AS_BACKGROUND, IMAGE_BACKGROUND_TAG, args);
-    }
-
-    @Override
-    void updateCover() {
-        updateCover(mImages);
+    public GVType getGVType() {
+        return GVType.IMAGES;
     }
 
     @Override
@@ -134,8 +111,22 @@ public class FragmentReviewImages extends FragmentReviewGridAddEditDone<GVImage>
     }
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mImages = (GVImageList) getGridData();
+        mHelperReviewImage = HelperReviewImage.getInstance(getController());
+        setGridCellDimension(CellDimension.HALF, CellDimension.HALF);
+    }
+
+    @Override
+    protected void onBannerButtonClick() {
+        startActivityForResult(mHelperReviewImage.getImageChooserIntents(getActivity()),
+                getRequestCodeAdd());
+    }
+
+    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == getRequestCode(DataAddEdit.ADD)) {
+        if (requestCode == getRequestCodeAdd()) {
             if (mHelperReviewImage.processOnActivityResult(getActivity(), resultCode, data)) {
                 addData(resultCode, data);
             }
@@ -151,9 +142,20 @@ public class FragmentReviewImages extends FragmentReviewGridAddEditDone<GVImage>
     }
 
     @Override
-    protected void onBannerButtonClick() {
-        startActivityForResult(mHelperReviewImage.getImageChooserIntents(getActivity()),
-                getRequestCode(DataAddEdit.ADD));
+    protected void onGridItemLongClick(AdapterView<?> parent, View v, int position, long id) {
+        if (mImages.getItem(position).isCover()) {
+            return;
+        }
+
+        Bundle args = new Bundle();
+        args.putInt(POSITION, position);
+        DialogShower.show(new DialogSetImageAsBackgroundFragment(), FragmentReviewImages.this,
+                IMAGE_AS_BACKGROUND, IMAGE_BACKGROUND_TAG, args);
+    }
+
+    @Override
+    void updateCover() {
+        updateCover(mImages);
     }
 
     private void setCover(int position) {

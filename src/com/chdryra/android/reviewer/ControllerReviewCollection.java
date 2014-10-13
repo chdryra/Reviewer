@@ -74,13 +74,13 @@ class ControllerReviewCollection<T extends Review> {
         return data;
     }
 
-    private Review get(String id) {
+    private T get(String id) {
         return mReviews.get(RDId.generateId(id));
     }
 
     private ControllerReview getControllerFor(String id) {
         if (mControllers.get(id) == null) {
-            mControllers.put(id, new ControllerReview(get(id)));
+            mControllers.put(id, new ControllerReview<T>(get(id)));
         }
 
         return mControllers.get(id);

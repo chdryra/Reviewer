@@ -43,29 +43,15 @@ import com.chdryra.android.reviewer.GVReviewDataList.GVType;
  * @see com.chdryra.android.reviewer.DialogCommentAddFragment
  * @see com.chdryra.android.reviewer.DialogCommentEditFragment
  */
-public class FragmentReviewComments extends FragmentReviewGridAddEditDone<GVComment> {
+public class FragmentReviewComments extends FragmentReviewGridAddEdit<GVComment> {
     public static final String COMMENT = "com.chdryra.android.reviewer.comment";
 
     private GVCommentList mComments;
     private boolean mCommentsAreSplit = false;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        mComments = (GVCommentList) setAndInitData(GVType.COMMENTS);
-        setDeleteWhatTitle(getResources().getString(R.string.dialog_delete_comments_title));
-        setBannerButtonText(getResources().getString(R.string.button_add_comments));
-        setAddEditDialogs(DialogCommentAddFragment.class, DialogCommentEditFragment.class);
-    }
-
-    @Override
-    void updateGridDataUI() {
-        if (mCommentsAreSplit) {
-            ((GridViewCellAdapter) getGridView().getAdapter()).setData(mComments.getSplitComments
-                    ());
-        } else {
-            ((GridViewCellAdapter) getGridView().getAdapter()).setData(mComments);
-        }
+    public GVType getGVType() {
+        return GVType.COMMENTS;
     }
 
     @Override
@@ -106,6 +92,22 @@ public class FragmentReviewComments extends FragmentReviewGridAddEditDone<GVComm
     protected Bundle packGridCellData(GVComment comment, Bundle args) {
         args.putString(COMMENT, comment.getUnSplitComment().getComment());
         return args;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mComments = (GVCommentList) getGridData();
+    }
+
+    @Override
+    void updateGridDataUI() {
+        if (mCommentsAreSplit) {
+            ((GridViewCellAdapter) getGridView().getAdapter()).setData(mComments.getSplitComments
+                    ());
+        } else {
+            ((GridViewCellAdapter) getGridView().getAdapter()).setData(mComments);
+        }
     }
 
     @Override

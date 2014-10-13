@@ -33,17 +33,13 @@ import com.chdryra.android.reviewer.GVReviewDataList.GVType;
  * @see com.chdryra.android.reviewer.DialogTagAddFragment
  * @see com.chdryra.android.reviewer.DialogTagEditFragment
  */
-public class FragmentReviewTags extends FragmentReviewGridAddEditDone<GVString> {
+public class FragmentReviewTags extends FragmentReviewGridAddEdit<GVString> {
     public final static String TAG_STRING = "com.chdryra.android.reviewer.tag_string";
     private GVTagList mTags;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        mTags = (GVTagList) setAndInitData(GVType.TAGS);
-        setDeleteWhatTitle(getResources().getString(R.string.dialog_delete_tags_title));
-        setBannerButtonText(getResources().getString(R.string.button_add_tag));
-        setAddEditDialogs(DialogTagAddFragment.class, DialogTagEditFragment.class);
+    public GVType getGVType() {
+        return GVType.TAGS;
     }
 
     @Override
@@ -80,5 +76,11 @@ public class FragmentReviewTags extends FragmentReviewGridAddEditDone<GVString> 
     protected Bundle packGridCellData(GVString tag, Bundle args) {
         args.putString(TAG_STRING, tag.get());
         return args;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mTags = (GVTagList) getGridData();
     }
 }

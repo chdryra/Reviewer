@@ -9,7 +9,6 @@
 package com.chdryra.android.reviewer;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RatingBar;
@@ -27,9 +26,13 @@ public class DialogChildAddFragment extends DialogAddReviewDataFragment {
     public static final String SUBJECT = "com.chdryra.android.reviewer.subject";
     public static final String RATING  = "com.chdryra.android.reviewer.rating";
 
-    private GVReviewSubjectRatingList mChildren;
-    private ClearableEditText         mChildNameEditText;
-    private RatingBar                 mChildRatingBar;
+    private ClearableEditText mChildNameEditText;
+    private RatingBar         mChildRatingBar;
+
+    @Override
+    public GVType getGVType() {
+        return GVType.CHILDREN;
+    }
 
     @Override
     protected View createDialogUI(ViewGroup parent) {
@@ -42,13 +45,6 @@ public class DialogChildAddFragment extends DialogAddReviewDataFragment {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        mChildren = (GVReviewSubjectRatingList) setAndInitData(GVType.CHILDREN);
-        setDialogTitle(getResources().getString(R.string.dialog_add_criteria_title));
-    }
-
-    @Override
     protected void onAddButtonClick() {
         String childName = mChildNameEditText.getText().toString();
         float childRating = mChildRatingBar.getRating();
@@ -57,13 +53,14 @@ public class DialogChildAddFragment extends DialogAddReviewDataFragment {
             return;
         }
 
-        if (mChildren.contains(childName)) {
+        GVReviewSubjectRatingList children = (GVReviewSubjectRatingList) getData();
+        if (children.contains(childName)) {
             Toast.makeText(getActivity(), childName + ": " + getResources().getString(R.string
                     .toast_exists_criterion), Toast.LENGTH_SHORT).show();
             return;
         }
 
-        mChildren.add(childName, childRating);
+        children.add(childName, childRating);
 
         Intent i = getNewReturnDataIntent();
         i.putExtra(SUBJECT, childName);

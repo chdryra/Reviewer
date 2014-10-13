@@ -43,7 +43,7 @@ import com.chdryra.android.reviewer.GVReviewSubjectRatingList.GVReviewSubjectRat
  * @see com.chdryra.android.reviewer.DialogChildAddFragment
  * @see com.chdryra.android.reviewer.DialogChildEditFragment
  */
-public class FragmentReviewChildren extends FragmentReviewGridAddEditDone<GVReviewSubjectRating> {
+public class FragmentReviewChildren extends FragmentReviewGridAddEdit<GVReviewSubjectRating> {
     public static final String CHILD_SUBJECT = "com.chdryra.android.reviewer.child_subject";
     public static final String CHILD_RATING  = "com.chdryra.android.reviewer.child_rating";
 
@@ -51,49 +51,8 @@ public class FragmentReviewChildren extends FragmentReviewGridAddEditDone<GVRevi
     private boolean                   mTotalRatingIsAverage;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        mReviewData = (GVReviewSubjectRatingList) setAndInitData(GVType.CHILDREN);
-        mTotalRatingIsAverage = getNodeController().isReviewRatingAverage();
-        setDeleteWhatTitle(getResources().getString(R.string.activity_title_children));
-        setBannerButtonText(getResources().getString(R.string.button_add_criteria));
-        setIsEditable(true);
-        setOnDoneActivity(ActivityReviewBuild.class);
-        setAddEditDialogs(DialogChildAddFragment.class, DialogChildEditFragment.class);
-    }
-
-    @Override
-    protected void onDeleteSelected() {
-        super.onDeleteSelected();
-        setTotalRatingIsAverage(false);
-    }
-
-    protected void initRatingBarUI() {
-        getTotalRatingBar().setIsIndicator(false);
-        getTotalRatingBar().setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
-            @Override
-            public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-                getEditableController().setRating(rating);
-                if (fromUser) setTotalRatingIsAverage(false);
-            }
-        });
-    }
-
-    private void setTotalRatingIsAverage(boolean isAverage) {
-        mTotalRatingIsAverage = isAverage;
-        getNodeController().setReviewRatingAverage(mTotalRatingIsAverage);
-        if (mTotalRatingIsAverage) {
-            setAverageRating();
-        }
-    }
-
-    private void setAverageRating() {
-        float rating = 0;
-        for (GVReviewSubjectRating child : mReviewData) {
-            rating += child.getRating() / mReviewData.size();
-        }
-        getTotalRatingBar().setRating(rating);
+    public GVType getGVType() {
+        return GVType.CHILDREN;
     }
 
     @Override
@@ -152,11 +111,31 @@ public class FragmentReviewChildren extends FragmentReviewGridAddEditDone<GVRevi
     }
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mReviewData = (GVReviewSubjectRatingList) getGridData();
+        mTotalRatingIsAverage = getNodeController().isReviewRatingAverage();
+        setIsEditable(true);
+    }
+
+    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (mTotalRatingIsAverage) {
             setAverageRating();
         }
+    }
+
+    @Override
+    protected void initRatingBarUI() {
+        getTotalRatingBar().setIsIndicator(false);
+        getTotalRatingBar().setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+            @Override
+            public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+                getEditableController().setRating(rating);
+                if (fromUser) setTotalRatingIsAverage(false);
+            }
+        });
     }
 
     @Override
@@ -173,5 +152,21 @@ public class FragmentReviewChildren extends FragmentReviewGridAddEditDone<GVRevi
         } else {
             return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void setTotalRatingIsAverage(boolean isAverage) {
+        mTotalRatingIsAverage = isAverage;
+        getNodeController().setReviewRatingAverage(mTotalRatingIsAverage);
+        if (mTotalRatingIsAverage) {
+            setAverageRating();
+        }
+    }
+
+    private void setAverageRating() {
+        float rating = 0;
+        for (GVReviewSubjectRating child : mReviewData) {
+            rating += child.getRating() / mReviewData.size();
+        }
+        getTotalRatingBar().setRating(rating);
     }
 }

@@ -35,7 +35,7 @@ import com.google.android.gms.maps.model.LatLng;
  * @see com.chdryra.android.reviewer.ActivityReviewLocations
  * @see com.chdryra.android.reviewer.ActivityReviewLocationMap
  */
-public class FragmentReviewLocations extends FragmentReviewGridAddEditDone<GVLocation> {
+public class FragmentReviewLocations extends FragmentReviewGridAddEdit<GVLocation> {
     private final static String LATLNG  = FragmentReviewLocationMap.LATLNG;
     private final static String NAME    = FragmentReviewLocationMap.NAME;
     private final static String SUBJECT = FragmentReviewLocationMap.SUBJECT;
@@ -43,19 +43,8 @@ public class FragmentReviewLocations extends FragmentReviewGridAddEditDone<GVLoc
     private GVLocationList mLocations;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        mLocations = (GVLocationList) setAndInitData(GVType.LOCATIONS);
-        setDeleteWhatTitle(getResources().getString(R.string.dialog_delete_locations_title));
-        setBannerButtonText(getResources().getString(R.string.button_add_location));
-    }
-
-    private void requestMapIntent(int requestCode, LatLng latLng, String name) {
-        Intent i = new Intent(getActivity(), ActivityReviewLocationMap.class);
-        i.putExtra(LATLNG, latLng);
-        i.putExtra(NAME, name);
-        i.putExtra(SUBJECT, getController().getSubject());
-        startActivityForResult(i, requestCode);
+    public GVType getGVType() {
+        return GVType.LOCATIONS;
     }
 
     @Override
@@ -100,14 +89,28 @@ public class FragmentReviewLocations extends FragmentReviewGridAddEditDone<GVLoc
     }
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mLocations = (GVLocationList) getGridData();
+    }
+
+    @Override
     protected void onBannerButtonClick() {
-        requestMapIntent(getRequestCode(DataAddEdit.ADD), null, null);
+        requestMapIntent(getRequestCodeAdd(), null, null);
     }
 
     @Override
     protected void onGridItemClick(AdapterView<?> parent, View v, int position, long id) {
         GVLocation location = (GVLocation) parent.getItemAtPosition(position);
-        requestMapIntent(getRequestCode(DataAddEdit.EDIT), location.getLatLng(),
+        requestMapIntent(getRequestCodeEdit(), location.getLatLng(),
                 location.getName());
+    }
+
+    private void requestMapIntent(int requestCode, LatLng latLng, String name) {
+        Intent i = new Intent(getActivity(), ActivityReviewLocationMap.class);
+        i.putExtra(LATLNG, latLng);
+        i.putExtra(NAME, name);
+        i.putExtra(SUBJECT, getController().getSubject());
+        startActivityForResult(i, requestCode);
     }
 }

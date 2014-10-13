@@ -31,7 +31,6 @@ import com.chdryra.android.mygenerallibrary.GridViewCellAdapter;
 import com.chdryra.android.mygenerallibrary.ViewHolder;
 import com.chdryra.android.reviewer.FragmentReviewBuild.GVCellManagerList.GVCellManager;
 import com.chdryra.android.reviewer.GVReviewDataList.GVType;
-import com.chdryra.android.reviewer.OptionsReviewBuild.ReviewDataOption;
 import com.google.android.gms.maps.model.LatLng;
 
 /**
@@ -70,10 +69,10 @@ import com.google.android.gms.maps.model.LatLng;
  * </p>
  *
  * @see com.chdryra.android.reviewer.ActivityReviewBuild
- * @see com.chdryra.android.reviewer.OptionsReviewBuild
+ * @see ConfigReviewDataUI
  * @see com.chdryra.android.reviewer.DialogAddReviewDataFragment
  */
-public class FragmentReviewBuild extends FragmentReviewGrid<GVCellManager> {
+public class FragmentReviewBuild extends FragmentReviewGrid<FragmentReviewBuild.GVCellManagerList> {
     private final static int LOCATION_MAP = 22;
 
     private GVCellManagerList mCellManagerList;
@@ -82,11 +81,11 @@ public class FragmentReviewBuild extends FragmentReviewGrid<GVCellManager> {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         ActivityResultCode resCode = ActivityResultCode.get(resultCode);
-        if (requestCode == getOption(GVType.IMAGES).getActivityRequestCode()) {
+        if (requestCode == getUIConfig(GVType.IMAGES).getActivityRequestCode()) {
             if (mHelperReviewImage.processOnActivityResult(getActivity(), resultCode, data)) {
                 addImage();
             }
-        } else if (requestCode == getOption(GVType.LOCATIONS).getDialogRequestCode()) {
+        } else if (requestCode == getUIConfig(GVType.LOCATIONS).getDialogAddRequestCode()) {
             if (resCode.equals(DialogLocationFragment.RESULT_MAP.getResultCode())) {
                 requestMapIntent(data);
             }
@@ -177,8 +176,8 @@ public class FragmentReviewBuild extends FragmentReviewGrid<GVCellManager> {
         cellManager.executeIntent(true);
     }
 
-    private ReviewDataOption getOption(GVType dataType) {
-        return OptionsReviewBuild.get(dataType);
+    private ConfigReviewDataUI.ReviewDataConfig getUIConfig(GVType dataType) {
+        return ConfigReviewDataUI.get(dataType);
     }
 
     private void addImage() {
@@ -236,24 +235,24 @@ public class FragmentReviewBuild extends FragmentReviewGrid<GVCellManager> {
         }
     }
 
-    private void requestIntent(ReviewDataOption option) {
-        Intent i = new Intent(getActivity(), option.getActivityRequestClass());
+    private void requestIntent(ConfigReviewDataUI.ReviewDataConfig config) {
+        Intent i = config.requestActivityIntent(getActivity());
         Administrator.get(getActivity()).pack(getController(), i);
-        startActivityForResult(i, option.getActivityRequestCode());
+        startActivityForResult(i, config.getActivityRequestCode());
     }
 
-    private void showQuickDialog(ReviewDataOption option) {
-        DialogFragment dialog = option.getDialogFragment();
-        dialog.setTargetFragment(FragmentReviewBuild.this, option.getDialogRequestCode());
+    private void showQuickDialog(ConfigReviewDataUI.ReviewDataConfig config) {
+        DialogFragment dialog = config.getDialogAddFragment();
+        dialog.setTargetFragment(FragmentReviewBuild.this, config.getDialogAddRequestCode());
         Bundle args = Administrator.get(getActivity()).pack(getController());
         args.putBoolean(DialogAddReviewDataFragment.QUICK_SET, true);
         dialog.setArguments(args);
-        dialog.show(getFragmentManager(), option.getDialogTag());
+        dialog.show(getFragmentManager(), config.getDialogAddDataTag());
     }
 
     private void showQuickImageDialog() {
         startActivityForResult(mHelperReviewImage.getImageChooserIntents(getActivity()),
-                getOption(GVType.IMAGES).getActivityRequestCode());
+                getUIConfig(GVType.IMAGES).getActivityRequestCode());
     }
 
     /**
@@ -305,10 +304,10 @@ public class FragmentReviewBuild extends FragmentReviewGrid<GVCellManager> {
                     if (mDataType == GVType.IMAGES) {
                         showQuickImageDialog();
                     } else {
-                        showQuickDialog(getOption(mDataType));
+                        showQuickDialog(getUIConfig(mDataType));
                     }
                 } else {
-                    requestIntent(getOption(mDataType));
+                    requestIntent(getUIConfig(mDataType));
                 }
             }
 
@@ -344,7 +343,7 @@ public class FragmentReviewBuild extends FragmentReviewGrid<GVCellManager> {
             }
 
             private View getSingleDatumView(ViewGroup parent) {
-                ViewHolder vh = getOption(mDataType).getViewHolder();
+                ViewHolder vh = getUIConfig(mDataType).getViewHolder();
                 if (vh.getView() == null) vh.inflate(getActivity(), parent);
                 vh.updateView((GVData) getController().getData(mDataType).getItem(0));
                 return vh.getView();

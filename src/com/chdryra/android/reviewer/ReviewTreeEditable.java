@@ -241,9 +241,8 @@ class ReviewTreeEditable extends ReviewEditable implements ReviewNodeExpandable 
 
         ReviewTreeEditable that = (ReviewTreeEditable) o;
 
-        if (mNode != null ? !mNode.equals(that.mNode) : that.mNode != null) return false;
+        return !(mNode != null ? !mNode.equals(that.mNode) : that.mNode != null);
 
-        return true;
     }
 
     @Override

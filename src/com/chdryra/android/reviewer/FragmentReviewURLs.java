@@ -36,23 +36,14 @@ import java.net.URL;
  * @see com.chdryra.android.reviewer.ActivityReviewURLs
  * @see com.chdryra.android.reviewer.ActivityReviewURLBrowser
  */
-public class FragmentReviewURLs extends FragmentReviewGridAddEditDone<GVUrl> {
+public class FragmentReviewURLs extends FragmentReviewGridAddEdit<GVUrl> {
     private final static String URL = FragmentReviewURLBrowser.URL;
 
     private GVUrlList mUrls;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        mUrls = (GVUrlList) setAndInitData(GVType.URLS);
-        setDeleteWhatTitle(getResources().getString(R.string.dialog_delete_urls_title));
-        setBannerButtonText(getResources().getString(R.string.button_add_url));
-    }
-
-    private void requestBrowserIntent(int requestCode, URL url) {
-        Intent i = new Intent(getActivity(), ActivityReviewURLBrowser.class);
-        i.putExtra(URL, url);
-        startActivityForResult(i, requestCode);
+    public GVType getGVType() {
+        return GVType.URLS;
     }
 
     @Override
@@ -91,14 +82,26 @@ public class FragmentReviewURLs extends FragmentReviewGridAddEditDone<GVUrl> {
     }
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mUrls = (GVUrlList) getGridData();
+    }
+
+    @Override
     protected void onBannerButtonClick() {
-        requestBrowserIntent(getRequestCode(DataAddEdit.ADD), null);
+        requestBrowserIntent(getRequestCodeAdd(), null);
     }
 
     @Override
     protected void onGridItemClick(AdapterView<?> parent, View v, int position, long id) {
-        requestBrowserIntent(getRequestCode(DataAddEdit.EDIT), ((GVUrl) parent.getItemAtPosition
+        requestBrowserIntent(getRequestCodeEdit(), ((GVUrl) parent.getItemAtPosition
                 (position))
                 .getUrl());
+    }
+
+    private void requestBrowserIntent(int requestCode, URL url) {
+        Intent i = new Intent(getActivity(), ActivityReviewURLBrowser.class);
+        i.putExtra(URL, url);
+        startActivityForResult(i, requestCode);
     }
 }

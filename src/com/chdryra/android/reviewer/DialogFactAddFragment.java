@@ -9,7 +9,6 @@
 package com.chdryra.android.reviewer;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
@@ -24,9 +23,13 @@ public class DialogFactAddFragment extends DialogAddReviewDataFragment {
     public static final String FACT_LABEL = "com.chdryra.android.reviewer.fact_label";
     public static final String FACT_VALUE = "com.chdryra.android.reviewer.fact_value";
 
-    private GVFactList        mFacts;
     private ClearableEditText mFactLabelEditText;
     private ClearableEditText mFactValueEditText;
+
+    @Override
+    public GVType getGVType() {
+        return GVType.FACTS;
+    }
 
     @Override
     protected View createDialogUI(ViewGroup parent) {
@@ -39,13 +42,6 @@ public class DialogFactAddFragment extends DialogAddReviewDataFragment {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        mFacts = (GVFactList) setAndInitData(GVType.FACTS);
-        setDialogTitle(getResources().getString(R.string.dialog_add_fact_title));
-    }
-
-    @Override
     protected void onAddButtonClick() {
         String label = mFactLabelEditText.getText().toString();
         String value = mFactValueEditText.getText().toString();
@@ -53,17 +49,18 @@ public class DialogFactAddFragment extends DialogAddReviewDataFragment {
             return;
         }
 
+        GVFactList facts = (GVFactList) getData();
         if (label == null || label.length() == 0) {
             Toast.makeText(getActivity(), getResources().getString(R.string.toast_enter_label),
                     Toast.LENGTH_SHORT).show();
         } else if (value == null || value.length() == 0) {
             Toast.makeText(getActivity(), getResources().getString(R.string.toast_enter_value),
                     Toast.LENGTH_SHORT).show();
-        } else if (mFacts.containsLabel(label)) {
+        } else if (facts.containsLabel(label)) {
             Toast.makeText(getActivity(), getResources().getString(R.string.toast_has_fact),
                     Toast.LENGTH_SHORT).show();
         } else {
-            mFacts.add(label, value);
+            facts.add(label, value);
             Intent i = getNewReturnDataIntent();
             i.putExtra(FACT_LABEL, label);
             i.putExtra(FACT_VALUE, value);

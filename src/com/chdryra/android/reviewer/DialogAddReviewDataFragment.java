@@ -28,7 +28,8 @@ import com.chdryra.android.reviewer.GVReviewDataList.GVType;
  * the arguments by the Administrator.
  * </p>
  */
-public abstract class DialogAddReviewDataFragment extends DialogCancelAddDoneFragment {
+public abstract class DialogAddReviewDataFragment extends DialogCancelAddDoneFragment
+        implements GVTypable {
     public static final String QUICK_SET = "com.chdryra.android.reviewer.dialog_quick_mode";
 
     private ControllerReviewEditable mController;
@@ -36,18 +37,26 @@ public abstract class DialogAddReviewDataFragment extends DialogCancelAddDoneFra
     private GVReviewDataList<? extends GVData> mData;
 
     @Override
+    public abstract GVType getGVType();
+
+    @Override
     protected abstract View createDialogUI(ViewGroup parent);
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        GVType dataType = getGVType();
+
         mQuickSet = getArguments().getBoolean(QUICK_SET);
         mController = (ControllerReviewEditable) Administrator.get(getActivity()).unpack
                 (getArguments());
+
+        mData = mController.getData(dataType);
+        setDialogTitle(getResources().getString(R.string.add) + " " + dataType.getDatumString());
     }
 
-    GVReviewDataList<? extends GVData> setAndInitData(GVType dataType) {
-        mData = mController.getData(dataType);
+    GVReviewDataList<? extends GVData> getData() {
         return mData;
     }
 

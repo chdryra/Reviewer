@@ -11,27 +11,18 @@
     <!-- App level -->
     <string name="app_name">Reviewer</string>
     <string name="search_hint">Search</string>
+    <string name="add">Add</string>
 
     <!-- Dialogs -->
-    <string name="dialog_add_criteria_title">Add criterion</string>
-    <string name="dialog_add_comments_title">Add comments</string>
-    <string name="dialog_add_fact_title">Add fact</string>
-    <string name="dialog_add_tag_title">Add tags</string>
     <string name="dialog_url_title">Link</string>
     <string name="dialog_edit_tag_title">Edit tag</string>
     <string name="dialog_edit_criterion_title">Edit criterion</string>
     <string name="dialog_edit_comment_title">Edit comment</string>
     <string name="dialog_edit_fact_title">Edit fact</string>
-    <string name="dialog_delete_facts_title">facts</string>
     <string name="dialog_delete_comment_title">comment</string>
-    <string name="dialog_delete_comments_title">comments</string>
     <string name="dialog_delete_image_title">image</string>
-    <string name="dialog_delete_images_title">images</string>
     <string name="dialog_delete_location_title">location</string>
-    <string name="dialog_delete_locations_title">locations</string>
     <string name="dialog_delete_url_title">link</string>
-    <string name="dialog_delete_urls_title">links</string>
-    <string name="dialog_delete_tags_title">tags</string>
     <string name="dialog_image_content_description">Review image</string>
     <string name="dialog_set_image_as_background">Set image as cover?</string>
 
@@ -71,13 +62,6 @@
     <!-- Buttons -->
     <string name="button_browse">WWW</string>
     <string name="button_map">Map</string>
-    <string name="button_add_tag">Add tag</string>
-    <string name="button_add_criteria">Add criteria</string>
-    <string name="button_add_comments">Add comments</string>
-    <string name="button_add_facts">Add facts</string>
-    <string name="button_add_image">Add image</string>
-    <string name="button_add_url">Add link</string>
-    <string name="button_add_location">Add location</string>
     <string name="button_add_review_data">Details</string>
     <string name="button_share">Share</string>
     <string name="button_publish">Publish</string>

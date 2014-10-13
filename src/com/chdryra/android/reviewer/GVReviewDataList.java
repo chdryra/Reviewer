@@ -32,7 +32,7 @@ import com.chdryra.android.mygenerallibrary.GVList;
  * @see com.chdryra.android.reviewer.RDList
  * @see com.chdryra.android.reviewer.ControllerReview
  */
-abstract class GVReviewDataList<T extends GVData> extends GVList<T> {
+abstract class GVReviewDataList<T extends GVData> extends GVList<T> implements GVTypable {
 
     private final GVType mDataType;
 
@@ -40,7 +40,8 @@ abstract class GVReviewDataList<T extends GVData> extends GVList<T> {
         mDataType = dataType;
     }
 
-    GVType getDataType() {
+    @Override
+    public GVType getGVType() {
         return mDataType;
     }
 

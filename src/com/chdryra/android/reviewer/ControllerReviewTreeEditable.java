@@ -69,7 +69,7 @@ class ControllerReviewTreeEditable extends ControllerReviewEditable {
 
     @Override
     <D extends GVReviewDataList<? extends GVData>> void setData(D data) {
-        GVReviewDataList.GVType dataType = data.getDataType();
+        GVReviewDataList.GVType dataType = data.getGVType();
         if (dataType == GVReviewDataList.GVType.CHILDREN) {
             mReviewNodeExpandable.setChildren((GVReviewSubjectRatingList) data);
         } else {

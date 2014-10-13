@@ -34,19 +34,15 @@ import com.chdryra.android.reviewer.GVReviewDataList.GVType;
  * @see com.chdryra.android.reviewer.DialogFactAddFragment
  * @see com.chdryra.android.reviewer.DialogFactEditFragment
  */
-public class FragmentReviewFacts extends FragmentReviewGridAddEditDone<GVFact> {
+public class FragmentReviewFacts extends FragmentReviewGridAddEdit<GVFact> {
     public static final String FACT_LABEL = "com.chdryra.android.reviewer.datum_label";
     public static final String FACT_VALUE = "com.chdryra.android.reviewer.datum_value";
 
     private GVFactList mFacts;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        mFacts = (GVFactList) setAndInitData(GVType.FACTS);
-        setDeleteWhatTitle(getResources().getString(R.string.dialog_delete_facts_title));
-        setBannerButtonText(getResources().getString(R.string.button_add_facts));
-        setAddEditDialogs(DialogFactAddFragment.class, DialogFactEditFragment.class);
+    public GVType getGVType() {
+        return GVType.FACTS;
     }
 
     @Override
@@ -99,5 +95,11 @@ public class FragmentReviewFacts extends FragmentReviewGridAddEditDone<GVFact> {
         args.putString(FACT_LABEL, fact.getLabel());
         args.putString(FACT_VALUE, fact.getValue());
         return args;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mFacts = (GVFactList) getGridData();
     }
 }

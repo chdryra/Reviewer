@@ -47,7 +47,7 @@ import com.chdryra.android.reviewer.GVSocialPlatformList.GVSocialPlatform;
  * @see com.chdryra.android.reviewer.SocialPlatformList
  * @see com.chdryra.android.reviewer.GVSocialPlatformList
  */
-public class FragmentReviewShare extends FragmentReviewGrid<GVSocialPlatformList.GVSocialPlatform> {
+public class FragmentReviewShare extends FragmentReviewGrid<GVSocialPlatformList> {
     private GVSocialPlatformList mSocialList;
     private Drawable             mDefault;
 

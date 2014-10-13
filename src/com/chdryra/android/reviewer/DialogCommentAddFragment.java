@@ -8,7 +8,6 @@
 
 package com.chdryra.android.reviewer;
 
-import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
@@ -22,8 +21,12 @@ import com.chdryra.android.reviewer.GVReviewDataList.GVType;
 public class DialogCommentAddFragment extends DialogAddReviewDataFragment {
     public static final String COMMENT = "com.chdryra.android.review.comment";
 
-    private GVCommentList mComments;
-    private EditText      mCommentEditText;
+    private EditText mCommentEditText;
+
+    @Override
+    public GVType getGVType() {
+        return GVType.COMMENTS;
+    }
 
     @Override
     protected View createDialogUI(ViewGroup parent) {
@@ -35,21 +38,15 @@ public class DialogCommentAddFragment extends DialogAddReviewDataFragment {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        mComments = (GVCommentList) setAndInitData(GVType.COMMENTS);
-        setDialogTitle(getResources().getString(R.string.dialog_add_comments_title));
-    }
-
-    @Override
     protected void onAddButtonClick() {
         String comment = mCommentEditText.getText().toString();
         if (comment == null || comment.length() == 0) return;
 
-        if (mComments.contains(comment)) {
+        GVCommentList comments = (GVCommentList) getData();
+        if (comments.contains(comment)) {
             Toast.makeText(getActivity(), R.string.toast_has_comment, Toast.LENGTH_SHORT).show();
         } else {
-            mComments.add(comment);
+            comments.add(comment);
             getNewReturnDataIntent().putExtra(COMMENT, comment);
             mCommentEditText.setText(null);
             getDialog().setTitle("+ " + comment);

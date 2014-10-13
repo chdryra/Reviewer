@@ -17,7 +17,6 @@ import android.view.View;
 import android.widget.AdapterView;
 
 import com.chdryra.android.mygenerallibrary.GridViewCellAdapter;
-import com.chdryra.android.reviewer.GVReviewOverviewList.GVReviewOverview;
 
 /**
  * UI Fragment: published reviews.
@@ -29,7 +28,7 @@ import com.chdryra.android.reviewer.GVReviewOverviewList.GVReviewOverview;
  *
  * @see com.chdryra.android.reviewer.ActivityFeed
  */
-public class FragmentFeed extends FragmentReviewGrid<GVReviewOverview> {
+public class FragmentFeed extends FragmentReviewGrid<GVReviewOverviewList> {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

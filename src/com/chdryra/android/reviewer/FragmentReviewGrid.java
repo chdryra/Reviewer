@@ -32,7 +32,6 @@ import android.widget.TextView;
 
 import com.chdryra.android.myandroidwidgets.ClearableEditText;
 import com.chdryra.android.mygenerallibrary.FragmentDeleteDone;
-import com.chdryra.android.mygenerallibrary.GVData;
 import com.chdryra.android.mygenerallibrary.GridViewCellAdapter;
 import com.chdryra.android.reviewer.GVImageList.GVImage;
 import com.chdryra.android.reviewer.GVReviewDataList.GVType;
@@ -66,7 +65,7 @@ import com.chdryra.android.reviewer.GVReviewDataList.GVType;
 //TODO abstract FragmentReviewGrid into data-editing and data-viewing versions.
 
 @SuppressWarnings("EmptyMethod")
-public abstract class FragmentReviewGrid<T extends GVData> extends FragmentDeleteDone {
+public abstract class FragmentReviewGrid<T extends GVReviewDataList> extends FragmentDeleteDone {
     private ControllerReviewTreeEditable mController;
     private LinearLayout                 mLayout;
     private TextView                     mSubjectView;
@@ -78,8 +77,8 @@ public abstract class FragmentReviewGrid<T extends GVData> extends FragmentDelet
     private int     mCellWidthDivider  = 1;
     private int     mCellHeightDivider = 1;
     private boolean mIsEditable        = false;
-    private String              mBannerButtonText;
-    private GVReviewDataList<T> mGridData;
+    private String mBannerButtonText;
+    private T      mGridData;
     private boolean mReviewInProgress = false;
     private Class<? extends Activity> mOnDoneActivity;
     private GridViewImageAlpha mGridViewImageAlpha = GridViewImageAlpha.MEDIUM;
@@ -396,7 +395,7 @@ public abstract class FragmentReviewGrid<T extends GVData> extends FragmentDelet
         mIsEditable = isEditable;
     }
 
-    void setGridViewData(GVReviewDataList<T> gridData) {
+    void setGridViewData(T gridData) {
         mGridData = gridData;
     }
 
@@ -408,12 +407,8 @@ public abstract class FragmentReviewGrid<T extends GVData> extends FragmentDelet
         return getSubjectView().getText().toString();
     }
 
-    GVReviewDataList<T> getGridData() {
+    T getGridData() {
         return mGridData;
-    }
-
-    void setOnDoneActivity(Class<? extends Activity> onDoneActivity) {
-        mOnDoneActivity = onDoneActivity;
     }
 
     /**
