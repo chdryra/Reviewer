@@ -22,7 +22,7 @@ import java.util.Comparator;
  * @see com.chdryra.android.reviewer.FragmentReviewTags`
  * @see com.chdryra.android.reviewer.VHTagView
  */
-class GVTagList extends GVReviewDataList<GVString> {
+class GVTagList extends GVReviewDataList<GVTagList.GVTag> {
 
     GVTagList() {
         super(GVType.TAGS);
@@ -30,32 +30,37 @@ class GVTagList extends GVReviewDataList<GVString> {
 
     void add(String string) {
         if (string != null && string.length() > 0) {
-            add(new GVString(string));
+            add(new GVTag(string));
         }
     }
 
     boolean contains(String string) {
-        return contains(new GVString(string));
+        return contains(new GVTag(string));
     }
 
     void remove(String string) {
-        remove(new GVString(string));
+        remove(new GVTag(string));
     }
 
     @Override
-    protected Comparator<GVString> getDefaultComparator() {
-        return new Comparator<GVString>() {
+    protected Comparator<GVTag> getDefaultComparator() {
+        return new Comparator<GVTag>() {
 
             @Override
-            public int compare(GVString lhs, GVString rhs) {
+            public int compare(GVTag lhs, GVTag rhs) {
                 return lhs.get().compareTo(rhs.get());
             }
         };
     }
 
-    @Override
-    public ViewHolder getViewHolder(int position) {
-        return new VHTagView();
-    }
+    static class GVTag extends GVString {
+        GVTag(String tag) {
+            super(tag);
+        }
 
+        @Override
+        public ViewHolder getViewHolder() {
+            return new VHTagView();
+        }
+    }
 }

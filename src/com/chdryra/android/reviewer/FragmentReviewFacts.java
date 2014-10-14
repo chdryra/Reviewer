@@ -12,7 +12,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 
-import com.chdryra.android.mygenerallibrary.ActivityResultCode;
 import com.chdryra.android.reviewer.GVFactList.GVFact;
 import com.chdryra.android.reviewer.GVReviewDataList.GVType;
 
@@ -40,53 +39,44 @@ public class FragmentReviewFacts extends FragmentReviewGridAddEdit<GVFact> {
 
     private GVFactList mFacts;
 
-    @Override
-    public GVType getGVType() {
-        return GVType.FACTS;
+    public FragmentReviewFacts() {
+        super(GVType.FACTS);
     }
 
     @Override
-    protected void addData(int resultCode, Intent data) {
-        switch (ActivityResultCode.get(resultCode)) {
-            case ADD:
-                String label = (String) data.getSerializableExtra(DialogFactAddFragment.FACT_LABEL);
-                String value = (String) data.getSerializableExtra(DialogFactAddFragment.FACT_VALUE);
-                if (label != null && label.length() > 0 && value != null && value.length() > 0 &&
-                        !mFacts.containsLabel(label)) {
-                    mFacts.add(label, value);
-                }
-                break;
-            default:
+    protected void doAdd(Intent data) {
+        String label = (String) data.getSerializableExtra(DialogFactAddFragment.FACT_LABEL);
+        String value = (String) data.getSerializableExtra(DialogFactAddFragment.FACT_VALUE);
+        if (label != null && label.length() > 0 && value != null && value.length() > 0 &&
+                !mFacts.containsLabel(label)) {
+            mFacts.add(label, value);
         }
     }
 
     @Override
-    protected void editData(int resultCode, Intent data) {
-        switch (ActivityResultCode.get(resultCode)) {
-            case DONE:
-                String oldLabel = (String) data.getSerializableExtra(DialogFactEditFragment
-                        .FACT_OLD_LABEL);
-                String oldValue = (String) data.getSerializableExtra(DialogFactEditFragment
-                        .FACT_OLD_VALUE);
-                String newLabel = (String) data.getSerializableExtra(FACT_LABEL);
-                String newValue = (String) data.getSerializableExtra(FACT_VALUE);
-                if (!oldLabel.equalsIgnoreCase(newLabel) && mFacts.containsLabel(newLabel)) {
-                    Toast.makeText(getActivity(), getResources().getString(R.string
-                                    .toast_has_fact),
-                            Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                mFacts.remove(oldLabel, oldValue);
-                mFacts.add(newLabel, newValue);
-                break;
-            case DELETE:
-                String deleteLabel = (String) data.getSerializableExtra(DialogFactEditFragment
-                        .FACT_OLD_LABEL);
-                String deleteValue = (String) data.getSerializableExtra(DialogFactEditFragment
-                        .FACT_OLD_VALUE);
-                mFacts.remove(deleteLabel, deleteValue);
-                break;
-            default:
+    protected void doDelete(Intent data) {
+        String deleteLabel = (String) data.getSerializableExtra(DialogFactEditFragment
+                .FACT_OLD_LABEL);
+        String deleteValue = (String) data.getSerializableExtra(DialogFactEditFragment
+                .FACT_OLD_VALUE);
+        mFacts.remove(deleteLabel, deleteValue);
+    }
+
+    @Override
+    protected void doDone(Intent data) {
+        String oldLabel = (String) data.getSerializableExtra(DialogFactEditFragment
+                .FACT_OLD_LABEL);
+        String oldValue = (String) data.getSerializableExtra(DialogFactEditFragment
+                .FACT_OLD_VALUE);
+        String newLabel = (String) data.getSerializableExtra(FACT_LABEL);
+        String newValue = (String) data.getSerializableExtra(FACT_VALUE);
+        if (!oldLabel.equalsIgnoreCase(newLabel) && mFacts.containsLabel(newLabel)) {
+            Toast.makeText(getActivity(), getResources().getString(R.string
+                            .toast_has_fact),
+                    Toast.LENGTH_SHORT).show();
+        } else {
+            mFacts.remove(oldLabel, oldValue);
+            mFacts.add(newLabel, newValue);
         }
     }
 

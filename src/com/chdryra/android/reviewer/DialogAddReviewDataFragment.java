@@ -18,7 +18,10 @@ import com.chdryra.android.reviewer.GVReviewDataList.GVType;
 
 /**
  * Base class for all dialogs that can add data to reviews.
- * <p/>
+ * <p>
+ *     Need to override <code>createDialogUI(.)</code> to define the dialog's UI,
+ *     and <code>onAddButtonClick()</code> to specify the action when the add button is pressed.
+ * </p>
  * <p>
  * By default the dialog won't add any data to reviews. It is assumed that implementations
  * will update the return data intent to forward any data entered to the fragment or activity
@@ -28,16 +31,17 @@ import com.chdryra.android.reviewer.GVReviewDataList.GVType;
  * the arguments by the Administrator.
  * </p>
  */
-public abstract class DialogAddReviewDataFragment extends DialogCancelAddDoneFragment
-        implements GVTypable {
+public abstract class DialogAddReviewDataFragment extends DialogCancelAddDoneFragment {
     public static final String QUICK_SET = "com.chdryra.android.reviewer.dialog_quick_mode";
 
+    private GVType mDataType;
     private ControllerReviewEditable mController;
-    private boolean mQuickSet = false;
     private GVReviewDataList<? extends GVData> mData;
+    private boolean mQuickSet = false;
 
-    @Override
-    public abstract GVType getGVType();
+    protected DialogAddReviewDataFragment(GVType dataType) {
+        mDataType = dataType;
+    }
 
     @Override
     protected abstract View createDialogUI(ViewGroup parent);
@@ -46,15 +50,16 @@ public abstract class DialogAddReviewDataFragment extends DialogCancelAddDoneFra
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        GVType dataType = getGVType();
-
         mQuickSet = getArguments().getBoolean(QUICK_SET);
         mController = (ControllerReviewEditable) Administrator.get(getActivity()).unpack
                 (getArguments());
 
-        mData = mController.getData(dataType);
-        setDialogTitle(getResources().getString(R.string.add) + " " + dataType.getDatumString());
+        mData = mController.getData(mDataType);
+        setDialogTitle(getResources().getString(R.string.add) + " " + mDataType.getDatumString());
     }
+
+    @Override
+    protected abstract void onAddButtonClick();
 
     GVReviewDataList<? extends GVData> getData() {
         return mData;
@@ -62,12 +67,6 @@ public abstract class DialogAddReviewDataFragment extends DialogCancelAddDoneFra
 
     @Override
     protected void onDoneButtonClick() {
-        if (isQuickSet() && mController != null) {
-            mController.setData(mData);
-        }
-    }
-
-    boolean isQuickSet() {
-        return mQuickSet;
+        if (mQuickSet && mController != null) mController.setData(mData);
     }
 }

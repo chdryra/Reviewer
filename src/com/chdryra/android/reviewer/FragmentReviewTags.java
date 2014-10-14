@@ -11,8 +11,6 @@ package com.chdryra.android.reviewer;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.chdryra.android.mygenerallibrary.ActivityResultCode;
-import com.chdryra.android.mygenerallibrary.GVString;
 import com.chdryra.android.reviewer.GVReviewDataList.GVType;
 
 /**
@@ -33,54 +31,37 @@ import com.chdryra.android.reviewer.GVReviewDataList.GVType;
  * @see com.chdryra.android.reviewer.DialogTagAddFragment
  * @see com.chdryra.android.reviewer.DialogTagEditFragment
  */
-public class FragmentReviewTags extends FragmentReviewGridAddEdit<GVString> {
-    public final static String TAG_STRING = "com.chdryra.android.reviewer.tag_string";
-    private GVTagList mTags;
+public class FragmentReviewTags extends FragmentReviewGridAddEdit<GVTagList.GVTag> {
+    private IHTags mHandler;
 
-    @Override
-    public GVType getGVType() {
-        return GVType.TAGS;
+    public FragmentReviewTags() {
+        super(GVType.TAGS);
     }
 
     @Override
-    protected void addData(int resultCode, Intent data) {
-        switch (ActivityResultCode.get(resultCode)) {
-            case ADD:
-                String tag = (String) data.getSerializableExtra(DialogTagAddFragment.TAG);
-                if (tag != null && tag.length() > 0) {
-                    mTags.add(tag);
-                }
-                break;
-            default:
-        }
+    protected void doAdd(Intent data) {
+        mHandler.add(data, getActivity());
     }
 
     @Override
-    protected void editData(int resultCode, Intent data) {
-        switch (ActivityResultCode.get(resultCode)) {
-            case DONE:
-                String oldTag = (String) data.getSerializableExtra(DialogTagEditFragment.TAG_OLD);
-                String newTag = (String) data.getSerializableExtra(DialogTagEditFragment.TAG_NEW);
-                mTags.remove(oldTag);
-                mTags.add(newTag);
-                break;
-            case DELETE:
-                String toDelete = (String) data.getSerializableExtra(DialogTagEditFragment.TAG_OLD);
-                mTags.remove(toDelete);
-                break;
-            default:
-        }
+    protected void doDelete(Intent data) {
+        mHandler.delete(data);
     }
 
     @Override
-    protected Bundle packGridCellData(GVString tag, Bundle args) {
-        args.putString(TAG_STRING, tag.get());
+    protected void doDone(Intent data) {
+        mHandler.replace(data, getActivity());
+    }
+
+    @Override
+    protected Bundle packGridCellData(GVTagList.GVTag tag, Bundle args) {
+        mHandler.pack(InputHandlerReviewData.CurrentNewDatum.CURRENT, tag, args);
         return args;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mTags = (GVTagList) getGridData();
+        mHandler = new IHTags((GVTagList) getGridData());
     }
 }

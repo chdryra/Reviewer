@@ -8,6 +8,8 @@
 
 package com.chdryra.android.reviewer;
 
+import android.os.Parcelable;
+
 import com.chdryra.android.mygenerallibrary.GVData;
 import com.chdryra.android.mygenerallibrary.GVList;
 
@@ -32,7 +34,7 @@ import com.chdryra.android.mygenerallibrary.GVList;
  * @see com.chdryra.android.reviewer.RDList
  * @see com.chdryra.android.reviewer.ControllerReview
  */
-abstract class GVReviewDataList<T extends GVData> extends GVList<T> implements GVTypable {
+abstract class GVReviewDataList<T extends GVData> extends GVList<T> {
 
     private final GVType mDataType;
 
@@ -40,8 +42,7 @@ abstract class GVReviewDataList<T extends GVData> extends GVList<T> implements G
         mDataType = dataType;
     }
 
-    @Override
-    public GVType getGVType() {
+    GVType getGVType() {
         return mDataType;
     }
 
@@ -79,5 +80,9 @@ abstract class GVReviewDataList<T extends GVData> extends GVList<T> implements G
         String getDataString() {
             return mDataString;
         }
+    }
+
+    interface GVReviewData extends GVData, Parcelable {
+
     }
 }

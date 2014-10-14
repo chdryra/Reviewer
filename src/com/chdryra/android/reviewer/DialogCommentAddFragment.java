@@ -23,9 +23,8 @@ public class DialogCommentAddFragment extends DialogAddReviewDataFragment {
 
     private EditText mCommentEditText;
 
-    @Override
-    public GVType getGVType() {
-        return GVType.COMMENTS;
+    public DialogCommentAddFragment() {
+        super(GVType.COMMENTS);
     }
 
     @Override

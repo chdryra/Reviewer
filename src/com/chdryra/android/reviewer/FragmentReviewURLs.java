@@ -12,6 +12,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Toast;
 
 import com.chdryra.android.mygenerallibrary.ActivityResultCode;
 import com.chdryra.android.reviewer.GVReviewDataList.GVType;
@@ -41,38 +42,33 @@ public class FragmentReviewURLs extends FragmentReviewGridAddEdit<GVUrl> {
 
     private GVUrlList mUrls;
 
-    @Override
-    public GVType getGVType() {
-        return GVType.URLS;
+    public FragmentReviewURLs() {
+        super(GVType.URLS);
     }
 
     @Override
-    protected void addData(int resultCode, Intent data) {
-        switch (ActivityResultCode.get(resultCode)) {
-            case DONE:
-                URL url = (URL) data.getSerializableExtra(FragmentReviewURLBrowser.URL);
-                if (url != null && !mUrls.contains(url)) {
-                    mUrls.add(url);
-                }
-                break;
-            default:
+    protected void doAdd(Intent data) {
+        URL url = (URL) data.getSerializableExtra(FragmentReviewURLBrowser.URL);
+        if (url != null && !mUrls.contains(url)) {
+            mUrls.add(url);
         }
     }
 
     @Override
-    protected void editData(int resultCode, Intent data) {
-        switch (ActivityResultCode.get(resultCode)) {
-            case DONE:
-                URL oldUrl = (URL) data.getSerializableExtra(FragmentReviewURLBrowser.URL_OLD);
-                URL newUrl = (URL) data.getSerializableExtra(FragmentReviewURLBrowser.URL);
-                mUrls.remove(oldUrl);
-                mUrls.add(newUrl);
-                break;
-            case DELETE:
-                URL toDelete = (URL) data.getSerializableExtra(FragmentReviewURLBrowser.URL_OLD);
-                mUrls.remove(toDelete);
-                break;
-            default:
+    protected void doDelete(Intent data) {
+        mUrls.remove((URL) data.getSerializableExtra(FragmentReviewURLBrowser.URL_OLD));
+    }
+
+    @Override
+    protected void doDone(Intent data) {
+        URL oldUrl = (URL) data.getSerializableExtra(FragmentReviewURLBrowser.URL_OLD);
+        URL newUrl = (URL) data.getSerializableExtra(FragmentReviewURLBrowser.URL);
+        if (!oldUrl.equals(newUrl) && mUrls.contains(newUrl)) {
+            Toast.makeText(getActivity(), getResources().getString(R.string.toast_has_url),
+                    Toast.LENGTH_SHORT).show();
+        } else {
+            mUrls.remove(oldUrl);
+            mUrls.add(newUrl);
         }
     }
 
@@ -85,6 +81,7 @@ public class FragmentReviewURLs extends FragmentReviewGridAddEdit<GVUrl> {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mUrls = (GVUrlList) getGridData();
+        setResultCode(Action.ADD, ActivityResultCode.DONE);
     }
 
     @Override

@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 
+import com.chdryra.android.mygenerallibrary.ActivityResultCode;
 import com.chdryra.android.mygenerallibrary.GVData;
 import com.chdryra.android.reviewer.GVReviewDataList.GVType;
 
@@ -37,18 +38,42 @@ import com.chdryra.android.reviewer.GVReviewDataList.GVType;
  * @param <T>: GVData type shown in grid cell
  */
 public abstract class FragmentReviewGridAddEdit<T extends GVData> extends
-        FragmentReviewGrid<GVReviewDataList<T>> implements GVTypable {
+        FragmentReviewGrid<GVReviewDataList<T>> {
 
+    private ActivityResultCode mDoAdd    = ActivityResultCode.ADD;
+    private ActivityResultCode mDoDelete = ActivityResultCode.DELETE;
+    private ActivityResultCode mDoDone   = ActivityResultCode.DONE;
+
+    private GVType mDataType;
     private ConfigReviewDataUI.ReviewDataConfig mDataOption;
 
-    @Override
-    public abstract GVType getGVType();
+    protected FragmentReviewGridAddEdit(GVType dataType) {
+        mDataType = dataType;
+    }
 
-    protected abstract void addData(int resultCode, Intent data);
+    ;
 
-    protected abstract void editData(int resultCode, Intent data);
+    protected abstract void doAdd(Intent data);
+
+    protected abstract void doDelete(Intent data);
+
+    protected abstract void doDone(Intent data);
 
     protected abstract Bundle packGridCellData(T data, Bundle args);
+
+    protected void setResultCode(Action action, ActivityResultCode resultCode) {
+        switch (action) {
+            case ADD:
+                mDoAdd = resultCode;
+                break;
+            case DELETE:
+                mDoDelete = resultCode;
+                break;
+            case DONE:
+                mDoDone = resultCode;
+                break;
+        }
+    }
 
     protected final int getRequestCodeAdd() {
         return mDataOption.getDialogAddRequestCode();
@@ -58,20 +83,27 @@ public abstract class FragmentReviewGridAddEdit<T extends GVData> extends
         return mDataOption.getDialogEditRequestCode();
     }
 
+    protected void onAddRequested(int resultCode, Intent data) {
+        if (ActivityResultCode.get(resultCode) == mDoAdd) doAdd(data);
+    }
+
+    protected void onEditRequested(int resultCode, Intent data) {
+        ActivityResultCode result = ActivityResultCode.get(resultCode);
+        if (result == mDoDone) doDone(data);
+        if (result == mDoDelete) doDelete(data);
+    }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams
                 .SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
         if (requestCode == getRequestCodeAdd()) {
-            addData(resultCode, data);
-
+            onAddRequested(resultCode, data);
         } else if (requestCode == getRequestCodeEdit()) {
-            editData(resultCode, data);
-
+            onEditRequested(resultCode, data);
         } else {
             super.onActivityResult(requestCode, resultCode, data);
-
         }
 
         updateUI();
@@ -81,14 +113,13 @@ public abstract class FragmentReviewGridAddEdit<T extends GVData> extends
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        GVType dataType = getGVType();
-
-        mDataOption = ConfigReviewDataUI.get(dataType);
+        mDataOption = ConfigReviewDataUI.get(mDataType);
         //TODO how to make this type safe
-        @SuppressWarnings("unchecked") GVReviewDataList<T> data = getController().getData(dataType);
+        @SuppressWarnings("unchecked") GVReviewDataList<T> data = getController().getData
+                (mDataType);
         setGridViewData(data);
-        setDeleteWhatTitle(dataType.getDataString());
-        setBannerButtonText(getResources().getString(R.string.add) + " " + dataType.getDatumString
+        setDeleteWhatTitle(mDataType.getDataString());
+        setBannerButtonText(getResources().getString(R.string.add) + " " + mDataType.getDatumString
                 ());
     }
 
@@ -107,4 +138,6 @@ public abstract class FragmentReviewGridAddEdit<T extends GVData> extends
                 getRequestCodeEdit(), mDataOption.getDialogEditDataTag(),
                 packGridCellData(item, Administrator.get(getActivity()).pack(getController())));
     }
+
+    protected enum Action {ADD, DELETE, DONE}
 }

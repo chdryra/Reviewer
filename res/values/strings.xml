@@ -12,6 +12,7 @@
     <string name="app_name">Reviewer</string>
     <string name="search_hint">Search</string>
     <string name="add">Add</string>
+    <string name="edit">Edit</string>
 
     <!-- Dialogs -->
     <string name="dialog_url_title">Link</string>
@@ -87,6 +88,8 @@
     <string name="toast_enter_value">Please enter a value&#8230;</string>
     <string name="toast_has_fact">You\'ve already added this label&#8230;</string>
     <string name="toast_has_tag">You\'ve already added this tag&#8230;</string>
+    <string name="toast_has_location">You\'ve already added this location&#8230;</string>
+    <string name="toast_has_url">You\'ve already added this URL&#8230;</string>
     <string name="toast_has_comment">You\'ve already added this comment&#8230;</string>
     <string name="toast_split_comment">Showing sentences&#8230;</string>
     <string name="toast_unsplit_comment">Showing headlines&#8230;</string>

@@ -49,7 +49,6 @@ class ControllerReview<T extends Review> {
         }
     }
 
-    //***Accessesors***
     protected T getControlledReview() {
         return mReview;
     }
@@ -103,8 +102,10 @@ class ControllerReview<T extends Review> {
             return mReview.hasUrls();
         } else if (dataType == GVReviewDataList.GVType.LOCATIONS) {
             return mReview.hasLocations();
+        } else if (dataType == GVReviewDataList.GVType.TAGS) {
+            return mTagsList.size() > 0;
         } else {
-            return dataType == GVReviewDataList.GVType.TAGS && mTagsList.size() > 0;
+            return false;
         }
     }
 

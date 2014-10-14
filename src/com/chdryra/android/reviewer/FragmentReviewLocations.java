@@ -12,6 +12,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Toast;
 
 import com.chdryra.android.mygenerallibrary.ActivityResultCode;
 import com.chdryra.android.reviewer.GVLocationList.GVLocation;
@@ -42,44 +43,40 @@ public class FragmentReviewLocations extends FragmentReviewGridAddEdit<GVLocatio
 
     private GVLocationList mLocations;
 
-    @Override
-    public GVType getGVType() {
-        return GVType.LOCATIONS;
+    public FragmentReviewLocations() {
+        super(GVType.LOCATIONS);
     }
 
     @Override
-    protected void addData(int resultCode, Intent data) {
-        switch (ActivityResultCode.get(resultCode)) {
-            case DONE:
-                LatLng latLng = data.getParcelableExtra(FragmentReviewLocationMap.LATLNG);
-                String name = (String) data.getSerializableExtra(FragmentReviewLocationMap.NAME);
-                if (latLng != null && name != null && !mLocations.contains(latLng, name)) {
-                    mLocations.add(latLng, name);
-                }
-                break;
-            default:
+    protected void doAdd(Intent data) {
+        LatLng latLng = data.getParcelableExtra(FragmentReviewLocationMap.LATLNG);
+        String name = (String) data.getSerializableExtra(FragmentReviewLocationMap.NAME);
+        if (latLng != null && name != null && !mLocations.contains(latLng, name)) {
+            mLocations.add(latLng, name);
         }
     }
 
     @Override
-    protected void editData(int resultCode, Intent data) {
-        switch (ActivityResultCode.get(resultCode)) {
-            case DONE:
-                LatLng oldLatLng = data.getParcelableExtra(FragmentReviewLocationMap.LATLNG_OLD);
-                LatLng newLatLng = data.getParcelableExtra(FragmentReviewLocationMap.LATLNG);
-                String oldName = (String) data.getSerializableExtra(FragmentReviewLocationMap
-                        .NAME_OLD);
-                String newName = (String) data.getSerializableExtra(FragmentReviewLocationMap.NAME);
-                mLocations.remove(oldLatLng, oldName);
-                mLocations.add(newLatLng, newName);
-                break;
-            case DELETE:
-                LatLng deleteLatLng = data.getParcelableExtra(FragmentReviewLocationMap.LATLNG_OLD);
-                String deleteName = (String) data.getSerializableExtra(FragmentReviewLocationMap
-                        .NAME_OLD);
-                mLocations.remove(deleteLatLng, deleteName);
-                break;
-            default:
+    protected void doDelete(Intent data) {
+        LatLng deleteLatLng = data.getParcelableExtra(FragmentReviewLocationMap.LATLNG_OLD);
+        String deleteName = (String) data.getSerializableExtra(FragmentReviewLocationMap
+                .NAME_OLD);
+        mLocations.remove(deleteLatLng, deleteName);
+    }
+
+    @Override
+    protected void doDone(Intent data) {
+        LatLng oldLatLng = data.getParcelableExtra(FragmentReviewLocationMap.LATLNG_OLD);
+        String oldName = (String) data.getSerializableExtra(FragmentReviewLocationMap.NAME_OLD);
+        LatLng newLatLng = data.getParcelableExtra(FragmentReviewLocationMap.LATLNG);
+        String newName = (String) data.getSerializableExtra(FragmentReviewLocationMap.NAME);
+        if (!oldLatLng.equals(newLatLng) && mLocations.contains(newLatLng, newName)) {
+            Toast.makeText(getActivity(), getResources().getString(R.string
+                            .toast_has_location),
+                    Toast.LENGTH_SHORT).show();
+        } else {
+            mLocations.remove(oldLatLng, oldName);
+            mLocations.add(newLatLng, newName);
         }
     }
 
@@ -92,6 +89,7 @@ public class FragmentReviewLocations extends FragmentReviewGridAddEdit<GVLocatio
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mLocations = (GVLocationList) getGridData();
+        setResultCode(Action.ADD, ActivityResultCode.DONE);
     }
 
     @Override

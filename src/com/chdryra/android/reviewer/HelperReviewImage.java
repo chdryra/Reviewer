@@ -128,7 +128,7 @@ class HelperReviewImage extends ImageHelper {
         return chooserIntent;
     }
 
-    boolean processOnActivityResult(Activity activity, int resultCode, Intent data) {
+    boolean bitmapExistsOnActivityResult(Activity activity, int resultCode, Intent data) {
         //Returns true if bitmap exists.
         switch (resultCode) {
             case Activity.RESULT_OK:

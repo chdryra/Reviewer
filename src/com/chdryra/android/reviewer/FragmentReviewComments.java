@@ -15,7 +15,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.chdryra.android.mygenerallibrary.ActivityResultCode;
 import com.chdryra.android.mygenerallibrary.GridViewCellAdapter;
 import com.chdryra.android.reviewer.GVCommentList.GVComment;
 import com.chdryra.android.reviewer.GVReviewDataList.GVType;
@@ -49,42 +48,37 @@ public class FragmentReviewComments extends FragmentReviewGridAddEdit<GVComment>
     private GVCommentList mComments;
     private boolean mCommentsAreSplit = false;
 
-    @Override
-    public GVType getGVType() {
-        return GVType.COMMENTS;
+    public FragmentReviewComments() {
+        super(GVType.COMMENTS);
     }
 
     @Override
-    protected void addData(int resultCode, Intent data) {
-        switch (ActivityResultCode.get(resultCode)) {
-            case ADD:
-                String comment = (String) data.getSerializableExtra(DialogCommentAddFragment
-                        .COMMENT);
-                if (comment != null && comment.length() > 0) {
-                    mComments.add(comment);
-                }
-                break;
-            default:
+    protected void doAdd(Intent data) {
+        String comment = (String) data.getSerializableExtra(DialogCommentAddFragment
+                .COMMENT);
+        if (comment != null && comment.length() > 0 && !mComments.contains(comment)) {
+            mComments.add(comment);
         }
     }
 
     @Override
-    protected void editData(int resultCode, Intent data) {
-        switch (ActivityResultCode.get(resultCode)) {
-            case DONE:
-                String oldComment = (String) data.getSerializableExtra(DialogCommentEditFragment
-                        .COMMENT_OLD);
-                String newComment = (String) data.getSerializableExtra(DialogCommentEditFragment
-                        .COMMENT_NEW);
-                mComments.remove(oldComment);
-                mComments.add(newComment);
-                break;
-            case DELETE:
-                String toDelete = (String) data.getSerializableExtra(DialogCommentEditFragment
-                        .COMMENT_OLD);
-                mComments.remove(toDelete);
-                break;
-            default:
+    protected void doDelete(Intent data) {
+        mComments.remove((String) data.getSerializableExtra(DialogCommentEditFragment
+                .COMMENT_OLD));
+    }
+
+    @Override
+    protected void doDone(Intent data) {
+        String oldComment = (String) data.getSerializableExtra(DialogCommentEditFragment
+                .COMMENT_OLD);
+        String newComment = (String) data.getSerializableExtra(DialogCommentEditFragment
+                .COMMENT_NEW);
+        if (!oldComment.equalsIgnoreCase(newComment) && mComments.contains(newComment)) {
+            Toast.makeText(getActivity(), getResources().getString(R.string.toast_has_comment),
+                    Toast.LENGTH_SHORT).show();
+        } else {
+            mComments.remove(oldComment);
+            mComments.add(newComment);
         }
     }
 

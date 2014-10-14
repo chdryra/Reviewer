@@ -29,9 +29,8 @@ public class DialogChildAddFragment extends DialogAddReviewDataFragment {
     private ClearableEditText mChildNameEditText;
     private RatingBar         mChildRatingBar;
 
-    @Override
-    public GVType getGVType() {
-        return GVType.CHILDREN;
+    public DialogChildAddFragment() {
+        super(GVType.CHILDREN);
     }
 
     @Override

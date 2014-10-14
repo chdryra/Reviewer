@@ -26,9 +26,8 @@ public class DialogFactAddFragment extends DialogAddReviewDataFragment {
     private ClearableEditText mFactLabelEditText;
     private ClearableEditText mFactValueEditText;
 
-    @Override
-    public GVType getGVType() {
-        return GVType.FACTS;
+    public DialogFactAddFragment() {
+        super(GVType.FACTS);
     }
 
     @Override

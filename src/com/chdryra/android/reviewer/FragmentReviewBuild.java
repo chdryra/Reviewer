@@ -82,7 +82,7 @@ public class FragmentReviewBuild extends FragmentReviewGrid<FragmentReviewBuild.
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         ActivityResultCode resCode = ActivityResultCode.get(resultCode);
         if (requestCode == getUIConfig(GVType.IMAGES).getActivityRequestCode()) {
-            if (mHelperReviewImage.processOnActivityResult(getActivity(), resultCode, data)) {
+            if (mHelperReviewImage.bitmapExistsOnActivityResult(getActivity(), resultCode, data)) {
                 addImage();
             }
         } else if (requestCode == getUIConfig(GVType.LOCATIONS).getDialogAddRequestCode()) {

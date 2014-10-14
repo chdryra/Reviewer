@@ -10,7 +10,6 @@ package com.chdryra.android.reviewer;
 
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.chdryra.android.myandroidwidgets.ClearableAutoCompleteTextView;
 import com.chdryra.android.reviewer.GVReviewDataList.GVType;
@@ -19,13 +18,11 @@ import com.chdryra.android.reviewer.GVReviewDataList.GVType;
  * Dialog for adding tags.
  */
 public class DialogTagAddFragment extends DialogAddReviewDataFragment {
-    public static final String TAG = "com.chdryra.android.review.TAG";
-
     private ClearableAutoCompleteTextView mTagEditText;
+    private IHTags mTagsHandler;
 
-    @Override
-    public GVType getGVType() {
-        return GVType.TAGS;
+    public DialogTagAddFragment() {
+        super(GVType.TAGS);
     }
 
     @Override
@@ -33,23 +30,17 @@ public class DialogTagAddFragment extends DialogAddReviewDataFragment {
         View v = getActivity().getLayoutInflater().inflate(R.layout.dialog_tag, null);
         mTagEditText = (ClearableAutoCompleteTextView) v.findViewById(R.id.tag_edit_text);
         setKeyboardDoActionOnEditText(mTagEditText);
+        mTagsHandler = new IHTags((GVTagList) getData());
 
         return v;
     }
 
     @Override
     protected void onAddButtonClick() {
-        String tag = mTagEditText.getText().toString();
-        if (tag == null || tag.length() == 0) {
-            return;
-        }
-
-        GVTagList tags = (GVTagList) getData();
-        if (tags.contains(tag)) {
-            Toast.makeText(getActivity(), R.string.toast_has_tag, Toast.LENGTH_SHORT).show();
-        } else {
-            tags.add(tag);
-            getNewReturnDataIntent().putExtra(TAG, tag);
+        String tag = mTagEditText.getText().toString().trim();
+        if (mTagsHandler.addIfValid(tag, getActivity())) {
+            mTagsHandler.pack(InputHandlerReviewData.CurrentNewDatum.NEW, new GVTagList.GVTag(tag),
+                    getNewReturnDataIntent());
             mTagEditText.setText(null);
             getDialog().setTitle("+ #" + tag);
         }

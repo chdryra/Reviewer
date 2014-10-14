@@ -41,6 +41,16 @@ class GVLocationList extends GVReviewDataList<GVLocationList.GVLocation> {
         return contains(new GVLocation(latLng, name));
     }
 
+    boolean contains(LatLng latLng) {
+        boolean contains = false;
+        for (GVLocation location : this) {
+            contains = location.getLatLng().equals(latLng);
+            if (contains) break;
+        }
+
+        return contains;
+    }
+
     /**
      * GVData version of: RDLocation
      * ViewHolder: VHLocationView

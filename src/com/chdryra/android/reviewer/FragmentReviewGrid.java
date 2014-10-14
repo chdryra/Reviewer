@@ -9,7 +9,6 @@
 package com.chdryra.android.reviewer;
 
 import android.annotation.TargetApi;
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
@@ -79,8 +78,7 @@ public abstract class FragmentReviewGrid<T extends GVReviewDataList> extends Fra
     private boolean mIsEditable        = false;
     private String mBannerButtonText;
     private T      mGridData;
-    private boolean mReviewInProgress = false;
-    private Class<? extends Activity> mOnDoneActivity;
+    private boolean            mReviewInProgress   = false;
     private GridViewImageAlpha mGridViewImageAlpha = GridViewImageAlpha.MEDIUM;
 
     @Override
@@ -149,12 +147,12 @@ public abstract class FragmentReviewGrid<T extends GVReviewDataList> extends Fra
     @Override
     protected void onDoneSelected() {
         getEditableController().setData(mGridData);
-
-        if (mOnDoneActivity != null) {
-            Intent i = new Intent(getActivity(), ActivityReviewBuild.class);
-            Administrator.get(getActivity()).pack(getController(), i);
-            startActivity(i);
-        }
+//
+//        if (mOnDoneActivity != null) {
+//            Intent i = new Intent(getActivity(), ActivityReviewBuild.class);
+//            Administrator.get(getActivity()).pack(getController(), i);
+//            startActivity(i);
+//        }
     }
 
     @Override
