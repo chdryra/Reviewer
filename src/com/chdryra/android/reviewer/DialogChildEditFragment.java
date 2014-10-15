@@ -16,27 +16,26 @@ import android.widget.RatingBar;
 
 import com.chdryra.android.myandroidwidgets.ClearableEditText;
 import com.chdryra.android.mygenerallibrary.DialogCancelDeleteDoneFragment;
+import com.chdryra.android.reviewer.GVReviewSubjectRatingList.GVReviewSubjectRating;
 
 /**
  * Dialog for editing sub-reviews: edit/delete subject and rating.
  */
 public class DialogChildEditFragment extends DialogCancelDeleteDoneFragment {
-    public static final String SUBJECT     = "com.chdryra.android.reviewer.subject_edit";
-    public static final String SUBJECT_OLD = "com.chdryra.android.reviewer.subject_edit_old";
-    public static final String RATING      = "com.chdryra.android.reviewer.rating_edit";
-
-    private ClearableEditText mChildNameEditText;
-    private RatingBar         mChildRatingBar;
-    private String            mSubject;
-    private float             mRating;
+    private ClearableEditText                             mChildNameEditText;
+    private RatingBar                                     mChildRatingBar;
+    private GVReviewSubjectRating                         mDatum;
+    private InputHandlerReviewData<GVReviewSubjectRating> mHandler;
 
     @Override
     protected View createDialogUI(ViewGroup parent) {
         View v = getActivity().getLayoutInflater().inflate(R.layout.dialog_criterion, null);
+
         mChildNameEditText = (ClearableEditText) v.findViewById(R.id.child_name_edit_text);
         mChildRatingBar = (RatingBar) v.findViewById(R.id.child_rating_bar);
-        mChildNameEditText.setText(mSubject);
-        mChildRatingBar.setRating(mRating);
+        mChildNameEditText.setText(mDatum.getSubject());
+        mChildRatingBar.setRating(mDatum.getRating());
+
         setKeyboardDoDoneOnEditText(mChildNameEditText);
 
         return v;
@@ -45,16 +44,18 @@ public class DialogChildEditFragment extends DialogCancelDeleteDoneFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mSubject = getArguments().getString(FragmentReviewChildren.CHILD_SUBJECT);
-        mRating = getArguments().getFloat(FragmentReviewChildren.CHILD_RATING);
-        setDialogTitle(getResources().getString(R.string.dialog_edit_criterion_title));
-        setDeleteWhatTitle(mSubject);
+        mHandler = new IHChildren();
+        mDatum = mHandler.unpack(InputHandlerReviewData.CurrentNewDatum.CURRENT,
+                getArguments());
+        setDialogTitle(getResources().getString(R.string.edit) + " " + mHandler.getGVType()
+                .getDatumString());
+        setDeleteWhatTitle(mDatum.getSubject());
     }
 
     @Override
     protected void onDeleteButtonClick() {
-        Intent i = getNewReturnDataIntent();
-        i.putExtra(SUBJECT_OLD, mSubject);
+        mHandler.pack(InputHandlerReviewData.CurrentNewDatum.CURRENT, mDatum,
+                createNewReturnData());
     }
 
     @Override
@@ -64,14 +65,13 @@ public class DialogChildEditFragment extends DialogCancelDeleteDoneFragment {
 
     @Override
     protected void onDoneButtonClick() {
-        String childName = mChildNameEditText.getText().toString();
-        if (childName == null || childName.length() == 0) {
-            return;
-        }
+        Intent data = createNewReturnData();
+        mHandler.pack(InputHandlerReviewData.CurrentNewDatum.CURRENT, mDatum, data);
+        mHandler.pack(InputHandlerReviewData.CurrentNewDatum.NEW, createGVData(), data);
+    }
 
-        Intent i = getNewReturnDataIntent();
-        i.putExtra(SUBJECT_OLD, mSubject);
-        i.putExtra(SUBJECT, childName);
-        i.putExtra(RATING, mChildRatingBar.getRating());
+    protected GVReviewSubjectRating createGVData() {
+        return new GVReviewSubjectRating(mChildNameEditText.getText().toString().trim(),
+                mChildRatingBar.getRating());
     }
 }

@@ -316,6 +316,11 @@ public class FragmentReviewBuild extends FragmentReviewGrid<FragmentReviewBuild.
                 return null;
             }
 
+            @Override
+            public boolean isValidForDisplay() {
+                return true;
+            }
+
             private View updateView(ViewGroup parent) {
                 int size = getController().getData(mDataType).size();
 

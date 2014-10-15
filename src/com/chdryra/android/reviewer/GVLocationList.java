@@ -96,6 +96,11 @@ class GVLocationList extends GVReviewDataList<GVLocationList.GVLocation> {
         }
 
         @Override
+        public boolean isValidForDisplay() {
+            return mLatLng != null && mName != null && mName.length() > 0;
+        }
+
+        @Override
         public boolean equals(Object obj) {
             if (this == obj) {
                 return true;

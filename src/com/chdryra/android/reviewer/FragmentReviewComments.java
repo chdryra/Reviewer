@@ -53,7 +53,7 @@ public class FragmentReviewComments extends FragmentReviewGridAddEdit<GVComment>
     }
 
     @Override
-    protected void doAdd(Intent data) {
+    protected void doDatumAdd(Intent data) {
         String comment = (String) data.getSerializableExtra(DialogCommentAddFragment
                 .COMMENT);
         if (comment != null && comment.length() > 0 && !mComments.contains(comment)) {
@@ -62,13 +62,13 @@ public class FragmentReviewComments extends FragmentReviewGridAddEdit<GVComment>
     }
 
     @Override
-    protected void doDelete(Intent data) {
+    protected void doDatumDelete(Intent data) {
         mComments.remove((String) data.getSerializableExtra(DialogCommentEditFragment
                 .COMMENT_OLD));
     }
 
     @Override
-    protected void doDone(Intent data) {
+    protected void doDatumEdit(Intent data) {
         String oldComment = (String) data.getSerializableExtra(DialogCommentEditFragment
                 .COMMENT_OLD);
         String newComment = (String) data.getSerializableExtra(DialogCommentEditFragment

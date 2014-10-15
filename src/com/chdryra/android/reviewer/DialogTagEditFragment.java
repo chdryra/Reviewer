@@ -20,15 +20,15 @@ import com.chdryra.android.mygenerallibrary.DialogCancelDeleteDoneFragment;
  * Dialog for editing tags.
  */
 public class DialogTagEditFragment extends DialogCancelDeleteDoneFragment {
-    private GVTagList.GVTag mCurrentTag;
-    private ClearableAutoCompleteTextView mTagEditText;
-    private IHTags          mTagsHandler;
+    private GVTagList.GVTag                         mDatum;
+    private ClearableAutoCompleteTextView           mTagEditText;
+    private InputHandlerReviewData<GVTagList.GVTag> mHandler;
 
     @Override
     protected View createDialogUI(ViewGroup parent) {
         View v = getActivity().getLayoutInflater().inflate(R.layout.dialog_tag, null);
         mTagEditText = (ClearableAutoCompleteTextView) v.findViewById(R.id.tag_edit_text);
-        mTagEditText.setText(mCurrentTag.get());
+        mTagEditText.setText(mDatum.get());
         setKeyboardDoDoneOnEditText(mTagEditText);
         return v;
     }
@@ -36,18 +36,18 @@ public class DialogTagEditFragment extends DialogCancelDeleteDoneFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mTagsHandler = new IHTags();
-        mCurrentTag = mTagsHandler.unpack(InputHandlerReviewData.CurrentNewDatum.CURRENT,
+        mHandler = new IHTags();
+        mDatum = mHandler.unpack(InputHandlerReviewData.CurrentNewDatum.CURRENT,
                 getArguments());
-        setDialogTitle(getResources().getString(R.string.edit) + " "
-                + mTagsHandler.getGVType().getDatumString());
-        setDeleteWhatTitle(mCurrentTag.get());
+        setDialogTitle(getResources().getString(R.string.edit) + " " + mHandler.getGVType()
+                .getDatumString());
+        setDeleteWhatTitle(mDatum.get());
     }
 
     @Override
     protected void onDeleteButtonClick() {
-        mTagsHandler.pack(InputHandlerReviewData.CurrentNewDatum.CURRENT, mCurrentTag,
-                getNewReturnDataIntent());
+        mHandler.pack(InputHandlerReviewData.CurrentNewDatum.CURRENT, mDatum,
+                createNewReturnData());
     }
 
     @Override
@@ -57,9 +57,12 @@ public class DialogTagEditFragment extends DialogCancelDeleteDoneFragment {
 
     @Override
     protected void onDoneButtonClick() {
-        Intent i = getNewReturnDataIntent();
-        GVTagList.GVTag newTag = new GVTagList.GVTag(mTagEditText.getText().toString().trim());
-        mTagsHandler.pack(InputHandlerReviewData.CurrentNewDatum.CURRENT, mCurrentTag, i);
-        mTagsHandler.pack(InputHandlerReviewData.CurrentNewDatum.NEW, newTag, i);
+        Intent data = createNewReturnData();
+        mHandler.pack(InputHandlerReviewData.CurrentNewDatum.CURRENT, mDatum, data);
+        mHandler.pack(InputHandlerReviewData.CurrentNewDatum.NEW, createGVData(), data);
+    }
+
+    protected GVTagList.GVTag createGVData() {
+        return new GVTagList.GVTag(mTagEditText.getText().toString().trim());
     }
 }

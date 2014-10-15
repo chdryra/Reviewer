@@ -51,7 +51,7 @@ public class DialogFactEditFragment extends DialogCancelDeleteDoneFragment {
 
     @Override
     protected void onDeleteButtonClick() {
-        Intent i = getNewReturnDataIntent();
+        Intent i = createNewReturnData();
         i.putExtra(FACT_OLD_LABEL, mOldLabel);
         i.putExtra(FACT_OLD_VALUE, mOldValue);
     }
@@ -63,7 +63,7 @@ public class DialogFactEditFragment extends DialogCancelDeleteDoneFragment {
 
     @Override
     protected void onDoneButtonClick() {
-        Intent i = getNewReturnDataIntent();
+        Intent i = createNewReturnData();
         i.putExtra(FACT_OLD_LABEL, mOldLabel);
         i.putExtra(FACT_OLD_VALUE, mOldValue);
         i.putExtra(FragmentReviewFacts.FACT_LABEL, mLabel.getText().toString());

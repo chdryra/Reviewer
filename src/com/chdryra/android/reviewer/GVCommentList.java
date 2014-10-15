@@ -105,6 +105,11 @@ class GVCommentList extends GVReviewDataList<GVCommentList.GVComment> {
         }
 
         @Override
+        public boolean isValidForDisplay() {
+            return mComment != null && mComment.length() > 0;
+        }
+
+        @Override
         public boolean equals(Object obj) {
             if (this == obj) {
                 return true;

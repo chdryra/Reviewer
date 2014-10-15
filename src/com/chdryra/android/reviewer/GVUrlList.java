@@ -97,6 +97,11 @@ class GVUrlList extends GVReviewDataList<GVUrlList.GVUrl> {
         }
 
         @Override
+        public boolean isValidForDisplay() {
+            return toShortenedString() != null && toShortenedString().length() > 0;
+        }
+
+        @Override
         public boolean equals(Object obj) {
             if (this == obj) {
                 return true;

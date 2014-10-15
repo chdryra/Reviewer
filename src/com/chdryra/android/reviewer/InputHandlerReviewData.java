@@ -11,6 +11,7 @@ package com.chdryra.android.reviewer;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import com.chdryra.android.mygenerallibrary.GVData;
 
@@ -30,26 +31,7 @@ abstract class InputHandlerReviewData<T extends GVData> {
     }
 
     InputHandlerReviewData(GVReviewDataList<T> data) {
-        mDataType = data.getGVType();
-        mData = data;
-    }
-
-    protected static String getCurrentDataTag() {
-        return DATUM_CURRENT;
-    }
-
-    protected static String getNewDataTag() {
-        return DATUM_NEW;
-    }
-
-    ;
-
-    GVReviewDataList.GVType getGVType() {
-        return mDataType;
-    }
-
-    void setData(GVReviewDataList<T> data) {
-        mData = data;
+        setData(data);
     }
 
     abstract void pack(CurrentNewDatum currentNew, T item, Bundle args);
@@ -60,11 +42,62 @@ abstract class InputHandlerReviewData<T extends GVData> {
 
     abstract T unpack(CurrentNewDatum currentNew, Intent data);
 
-    abstract void add(Intent data, Context context);
+    GVReviewDataList<T> getData() {
+        return mData;
+    }
 
-    abstract void replace(Intent data, Context context);
+    void setData(GVReviewDataList<T> data) {
+        mData = data;
+        mDataType = data.getGVType();
+    }
 
-    abstract void delete(Intent data);
+    GVReviewDataList.GVType getGVType() {
+        return mDataType;
+    }
+
+    protected String getPackingTag(CurrentNewDatum currentNew) {
+        return currentNew.getPackingTag();
+    }
+
+    protected String getPackingTag(CurrentNewDatum currentNew, String modifier) {
+        return modifier == null ? getPackingTag(currentNew) :
+                currentNew.getPackingTag() + "_" + modifier;
+    }
+
+    void add(Intent data, Context context) {
+        T newDatum = unpack(CurrentNewDatum.NEW, data);
+        if (isNewAndValid(newDatum, context)) mData.add(newDatum);
+    }
+
+    void replace(Intent data, Context context) {
+        T oldDatum = unpack(CurrentNewDatum.CURRENT, data);
+        T newDatum = unpack(CurrentNewDatum.NEW, data);
+        if (isNewAndValid(newDatum, context)) {
+            mData.remove(oldDatum);
+            mData.add(newDatum);
+        }
+    }
+
+    void delete(Intent data) {
+        if (mData != null) mData.remove(unpack(CurrentNewDatum.CURRENT, data));
+    }
+
+    boolean contains(T datum, Context context) {
+        if (mData != null && mData.contains(datum)) {
+            if (context != null) {
+                String toast = context.getResources().getString(R.string.toast_has) + " " +
+                        getGVType().getDatumString();
+                Toast.makeText(context, toast, Toast.LENGTH_SHORT).show();
+            }
+            return true;
+        }
+
+        return false;
+    }
+
+    boolean isNewAndValid(T datum, Context context) {
+        return datum.isValidForDisplay() && !contains(datum, context);
+    }
 
     enum CurrentNewDatum {
         CURRENT(DATUM_CURRENT),
@@ -76,7 +109,7 @@ abstract class InputHandlerReviewData<T extends GVData> {
             mTag = tag;
         }
 
-        String getPackingTag() {
+        private String getPackingTag() {
             return mTag;
         }
     }

@@ -132,6 +132,11 @@ class GVImageList extends GVReviewDataList<GVImageList.GVImage> {
         }
 
         @Override
+        public boolean isValidForDisplay() {
+            return mBitmap != null;
+        }
+
+        @Override
         public boolean equals(Object obj) {
             if (this == obj) {
                 return true;

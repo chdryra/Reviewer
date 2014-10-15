@@ -47,7 +47,7 @@ public class FragmentReviewURLs extends FragmentReviewGridAddEdit<GVUrl> {
     }
 
     @Override
-    protected void doAdd(Intent data) {
+    protected void doDatumAdd(Intent data) {
         URL url = (URL) data.getSerializableExtra(FragmentReviewURLBrowser.URL);
         if (url != null && !mUrls.contains(url)) {
             mUrls.add(url);
@@ -55,12 +55,12 @@ public class FragmentReviewURLs extends FragmentReviewGridAddEdit<GVUrl> {
     }
 
     @Override
-    protected void doDelete(Intent data) {
+    protected void doDatumDelete(Intent data) {
         mUrls.remove((URL) data.getSerializableExtra(FragmentReviewURLBrowser.URL_OLD));
     }
 
     @Override
-    protected void doDone(Intent data) {
+    protected void doDatumEdit(Intent data) {
         URL oldUrl = (URL) data.getSerializableExtra(FragmentReviewURLBrowser.URL_OLD);
         URL newUrl = (URL) data.getSerializableExtra(FragmentReviewURLBrowser.URL);
         if (!oldUrl.equals(newUrl) && mUrls.contains(newUrl)) {

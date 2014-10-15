@@ -104,5 +104,10 @@ public class GVSocialPlatformList extends GVReviewDataList<GVSocialPlatformList.
         public ViewHolder getViewHolder() {
             return new VHSocialView();
         }
+
+        @Override
+        public boolean isValidForDisplay() {
+            return getName() != null && getName().length() > 0;
+        }
     }
 }

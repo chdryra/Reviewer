@@ -48,7 +48,7 @@ public class FragmentReviewLocations extends FragmentReviewGridAddEdit<GVLocatio
     }
 
     @Override
-    protected void doAdd(Intent data) {
+    protected void doDatumAdd(Intent data) {
         LatLng latLng = data.getParcelableExtra(FragmentReviewLocationMap.LATLNG);
         String name = (String) data.getSerializableExtra(FragmentReviewLocationMap.NAME);
         if (latLng != null && name != null && !mLocations.contains(latLng, name)) {
@@ -57,7 +57,7 @@ public class FragmentReviewLocations extends FragmentReviewGridAddEdit<GVLocatio
     }
 
     @Override
-    protected void doDelete(Intent data) {
+    protected void doDatumDelete(Intent data) {
         LatLng deleteLatLng = data.getParcelableExtra(FragmentReviewLocationMap.LATLNG_OLD);
         String deleteName = (String) data.getSerializableExtra(FragmentReviewLocationMap
                 .NAME_OLD);
@@ -65,7 +65,7 @@ public class FragmentReviewLocations extends FragmentReviewGridAddEdit<GVLocatio
     }
 
     @Override
-    protected void doDone(Intent data) {
+    protected void doDatumEdit(Intent data) {
         LatLng oldLatLng = data.getParcelableExtra(FragmentReviewLocationMap.LATLNG_OLD);
         String oldName = (String) data.getSerializableExtra(FragmentReviewLocationMap.NAME_OLD);
         LatLng newLatLng = data.getParcelableExtra(FragmentReviewLocationMap.LATLNG);

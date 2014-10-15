@@ -19,8 +19,8 @@ import com.chdryra.android.reviewer.GVReviewDataList.GVType;
 /**
  * Base class for all dialogs that can add data to reviews.
  * <p>
- *     Need to override <code>createDialogUI(.)</code> to define the dialog's UI,
- *     and <code>onAddButtonClick()</code> to specify the action when the add button is pressed.
+ * Need to override <code>createDialogUI(.)</code> to define the dialog's UI,
+ * and <code>onAddButtonClick()</code> to specify the action when the add button is pressed.
  * </p>
  * <p>
  * By default the dialog won't add any data to reviews. It is assumed that implementations
@@ -34,8 +34,8 @@ import com.chdryra.android.reviewer.GVReviewDataList.GVType;
 public abstract class DialogAddReviewDataFragment extends DialogCancelAddDoneFragment {
     public static final String QUICK_SET = "com.chdryra.android.reviewer.dialog_quick_mode";
 
-    private GVType mDataType;
-    private ControllerReviewEditable mController;
+    private GVType                             mDataType;
+    private ControllerReviewEditable           mController;
     private GVReviewDataList<? extends GVData> mData;
     private boolean mQuickSet = false;
 
@@ -54,7 +54,7 @@ public abstract class DialogAddReviewDataFragment extends DialogCancelAddDoneFra
         mController = (ControllerReviewEditable) Administrator.get(getActivity()).unpack
                 (getArguments());
 
-        mData = mController.getData(mDataType);
+        if (mController != null) mData = mController.getData(mDataType);
         setDialogTitle(getResources().getString(R.string.add) + " " + mDataType.getDatumString());
     }
 

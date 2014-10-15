@@ -111,7 +111,7 @@ public class DialogLocationFragment extends DialogCancelActionDoneFragment imple
     protected void onActionButtonClick() {
         String locationName = mNameEditText.getText().toString();
         if (mLatLng != null && locationName.length() > 0) {
-            Intent i = getNewReturnDataIntent();
+            Intent i = createNewReturnData();
             i.putExtra(LATLNG, mLatLng);
             i.putExtra(NAME, mNameEditText.getText().toString());
         }

@@ -8,8 +8,6 @@
 
 package com.chdryra.android.reviewer;
 
-import android.os.Parcelable;
-
 import com.chdryra.android.mygenerallibrary.GVData;
 import com.chdryra.android.mygenerallibrary.GVList;
 
@@ -80,9 +78,5 @@ abstract class GVReviewDataList<T extends GVData> extends GVList<T> {
         String getDataString() {
             return mDataString;
         }
-    }
-
-    interface GVReviewData extends GVData, Parcelable {
-
     }
 }

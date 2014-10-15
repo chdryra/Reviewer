@@ -60,7 +60,7 @@ public class DialogFactAddFragment extends DialogAddReviewDataFragment {
                     Toast.LENGTH_SHORT).show();
         } else {
             facts.add(label, value);
-            Intent i = getNewReturnDataIntent();
+            Intent i = createNewReturnData();
             i.putExtra(FACT_LABEL, label);
             i.putExtra(FACT_VALUE, value);
             mFactLabelEditText.setText(null);

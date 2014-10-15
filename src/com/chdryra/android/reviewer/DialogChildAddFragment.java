@@ -12,10 +12,10 @@ import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RatingBar;
-import android.widget.Toast;
 
 import com.chdryra.android.myandroidwidgets.ClearableEditText;
 import com.chdryra.android.reviewer.GVReviewDataList.GVType;
+import com.chdryra.android.reviewer.GVReviewSubjectRatingList.GVReviewSubjectRating;
 
 import java.text.DecimalFormat;
 
@@ -23,11 +23,9 @@ import java.text.DecimalFormat;
  * Dialog for adding sub-reviews: asks for a subject and rating.
  */
 public class DialogChildAddFragment extends DialogAddReviewDataFragment {
-    public static final String SUBJECT = "com.chdryra.android.reviewer.subject";
-    public static final String RATING  = "com.chdryra.android.reviewer.rating";
-
-    private ClearableEditText mChildNameEditText;
-    private RatingBar         mChildRatingBar;
+    private ClearableEditText                             mChildNameEditText;
+    private RatingBar                                     mChildRatingBar;
+    private InputHandlerReviewData<GVReviewSubjectRating> mInputHandler;
 
     public DialogChildAddFragment() {
         super(GVType.CHILDREN);
@@ -40,39 +38,41 @@ public class DialogChildAddFragment extends DialogAddReviewDataFragment {
         mChildNameEditText = (ClearableEditText) v.findViewById(R.id.child_name_edit_text);
         mChildRatingBar = (RatingBar) v.findViewById(R.id.child_rating_bar);
         setKeyboardDoActionOnEditText(mChildNameEditText);
+        mInputHandler = new IHChildren((GVReviewSubjectRatingList) getData());
+
         return v;
     }
 
     @Override
     protected void onAddButtonClick() {
-        String childName = mChildNameEditText.getText().toString();
+        GVReviewSubjectRating tag = createGVData();
+        if (mInputHandler.isNewAndValid(tag, getActivity())) {
+            Intent data = createNewReturnData();
+            mInputHandler.pack(InputHandlerReviewData.CurrentNewDatum.NEW, tag, data);
+            mInputHandler.add(data, getActivity());
+            resetDialog();
+            setDialogAddedTitle(tag);
+        }
+    }
+
+    GVReviewSubjectRating createGVData() {
+        String childName = mChildNameEditText.getText().toString().trim();
         float childRating = mChildRatingBar.getRating();
+        return new GVReviewSubjectRating(childName, childRating);
+    }
 
-        if (childName == null || childName.length() == 0) {
-            return;
-        }
-
-        GVReviewSubjectRatingList children = (GVReviewSubjectRatingList) getData();
-        if (children.contains(childName)) {
-            Toast.makeText(getActivity(), childName + ": " + getResources().getString(R.string
-                    .toast_exists_criterion), Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        children.add(childName, childRating);
-
-        Intent i = getNewReturnDataIntent();
-        i.putExtra(SUBJECT, childName);
-        i.putExtra(RATING, childRating);
-
+    void resetDialog() {
         mChildNameEditText.setText(null);
         mChildRatingBar.setRating(0);
+    }
 
+    void setDialogAddedTitle(GVReviewSubjectRating child) {
+        float childRating = child.getRating();
         DecimalFormat formatter = new DecimalFormat("0");
         DecimalFormat decimalFormatter = new DecimalFormat("0.0");
         String rating = childRating % 1L > 0L ? decimalFormatter.format(childRating) : formatter
                 .format(childRating);
 
-        getDialog().setTitle("+ " + childName + ": " + rating + "/" + "5");
+        getDialog().setTitle("+ " + child.getSubject() + ": " + rating + "/" + "5");
     }
 }

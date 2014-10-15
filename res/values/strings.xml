@@ -86,6 +86,7 @@
     <string name="toast_exists_criterion">You\'ve already added this criterion&#8230;</string>
     <string name="toast_enter_label">Please enter a label e.g. price, director etc.&#8230;</string>
     <string name="toast_enter_value">Please enter a value&#8230;</string>
+    <string name="toast_has">You\'ve already added this</string>
     <string name="toast_has_fact">You\'ve already added this label&#8230;</string>
     <string name="toast_has_tag">You\'ve already added this tag&#8230;</string>
     <string name="toast_has_location">You\'ve already added this location&#8230;</string>

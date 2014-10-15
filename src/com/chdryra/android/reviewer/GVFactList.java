@@ -92,5 +92,11 @@ class GVFactList extends GVReviewDataList<GVFactList.GVFact> {
         public ViewHolder getViewHolder() {
             return new VHFactView();
         }
+
+        @Override
+        public boolean isValidForDisplay() {
+            return getLabel() != null && getLabel().length() > 0 && getValue() != null &&
+                    getValue().length() > 0;
+        }
     }
 }

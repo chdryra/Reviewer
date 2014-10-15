@@ -45,7 +45,7 @@ public class DialogCommentEditFragment extends DialogCancelDeleteDoneFragment {
 
     @Override
     protected void onDeleteButtonClick() {
-        getNewReturnDataIntent().putExtra(COMMENT_OLD, mOldComment);
+        createNewReturnData().putExtra(COMMENT_OLD, mOldComment);
     }
 
     @Override
@@ -55,7 +55,7 @@ public class DialogCommentEditFragment extends DialogCancelDeleteDoneFragment {
 
     @Override
     protected void onDoneButtonClick() {
-        Intent i = getNewReturnDataIntent();
+        Intent i = createNewReturnData();
         i.putExtra(COMMENT_OLD, mOldComment);
         i.putExtra(COMMENT_NEW, mCommentEditText.getText().toString());
     }

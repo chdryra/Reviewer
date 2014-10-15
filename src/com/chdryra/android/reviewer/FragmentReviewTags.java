@@ -39,17 +39,17 @@ public class FragmentReviewTags extends FragmentReviewGridAddEdit<GVTagList.GVTa
     }
 
     @Override
-    protected void doAdd(Intent data) {
+    protected void doDatumAdd(Intent data) {
         mHandler.add(data, getActivity());
     }
 
     @Override
-    protected void doDelete(Intent data) {
+    protected void doDatumDelete(Intent data) {
         mHandler.delete(data);
     }
 
     @Override
-    protected void doDone(Intent data) {
+    protected void doDatumEdit(Intent data) {
         mHandler.replace(data, getActivity());
     }
 

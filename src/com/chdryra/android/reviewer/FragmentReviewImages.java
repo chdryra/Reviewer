@@ -57,7 +57,7 @@ public class FragmentReviewImages extends FragmentReviewGridAddEdit<GVImage> {
     }
 
     @Override
-    protected void doAdd(Intent data) {
+    protected void doDatumAdd(Intent data) {
         mHelperReviewImage.addReviewImage(getActivity(), mImages,
                 new FunctionPointer<Void>() {
                     @Override
@@ -70,7 +70,7 @@ public class FragmentReviewImages extends FragmentReviewGridAddEdit<GVImage> {
     }
 
     @Override
-    protected void doDelete(Intent data) {
+    protected void doDatumDelete(Intent data) {
         GVImage image = mImages.getItem(data.getIntExtra(POSITION, 0));
         boolean isCover = image.isCover();
         mImages.remove(image);
@@ -80,7 +80,7 @@ public class FragmentReviewImages extends FragmentReviewGridAddEdit<GVImage> {
     }
 
     @Override
-    protected void doDone(Intent data) {
+    protected void doDatumEdit(Intent data) {
         String newCaption = (String) data.getSerializableExtra(CAPTION);
         if (newCaption != null) {
             mImages.updateCaption((Bitmap) data.getParcelableExtra(BITMAP),
@@ -100,7 +100,7 @@ public class FragmentReviewImages extends FragmentReviewGridAddEdit<GVImage> {
     }
 
     protected void onAddRequested(int resultCode, Intent data) {
-        if (resultCode == Activity.RESULT_OK) doAdd(data);
+        if (resultCode == Activity.RESULT_OK) doDatumAdd(data);
     }
 
     @Override

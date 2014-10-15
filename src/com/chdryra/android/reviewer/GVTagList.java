@@ -14,7 +14,7 @@ import com.chdryra.android.mygenerallibrary.ViewHolder;
 import java.util.Comparator;
 
 /**
- * GVReviewDataList: GVString
+ * GVReviewDataList: GVTag
  * <p>
  * ViewHolder: VHTagView
  * </p>
@@ -53,6 +53,18 @@ class GVTagList extends GVReviewDataList<GVTagList.GVTag> {
         };
     }
 
+    /**
+     * GVData version of: ReviewTag
+     * ViewHolder: VHTagView
+     * <p/>
+     * <p>
+     * Ignores case when comparing tags.
+     * </p>
+     *
+     * @see com.chdryra.android.mygenerallibrary.GVData
+     * @see com.chdryra.android.reviewer.TagsManager.ReviewTag
+     * @see com.chdryra.android.reviewer.VHTagView
+     */
     static class GVTag extends GVString {
         GVTag(String tag) {
             super(tag);
@@ -61,6 +73,19 @@ class GVTagList extends GVReviewDataList<GVTagList.GVTag> {
         @Override
         public ViewHolder getViewHolder() {
             return new VHTagView();
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (!(o instanceof GVTag)) return false;
+            if (!super.equals(o)) return false;
+
+            GVTag gvTag = (GVTag) o;
+
+            if (!get().equalsIgnoreCase(gvTag.get())) return false;
+
+            return true;
         }
     }
 }

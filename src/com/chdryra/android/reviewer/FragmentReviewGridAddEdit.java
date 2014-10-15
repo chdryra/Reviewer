@@ -40,9 +40,9 @@ import com.chdryra.android.reviewer.GVReviewDataList.GVType;
 public abstract class FragmentReviewGridAddEdit<T extends GVData> extends
         FragmentReviewGrid<GVReviewDataList<T>> {
 
-    private ActivityResultCode mDoAdd    = ActivityResultCode.ADD;
-    private ActivityResultCode mDoDelete = ActivityResultCode.DELETE;
-    private ActivityResultCode mDoDone   = ActivityResultCode.DONE;
+    private ActivityResultCode mDoDatumAdd    = ActivityResultCode.ADD;
+    private ActivityResultCode mDoDatumDelete = ActivityResultCode.DELETE;
+    private ActivityResultCode mDoDatumEdit   = ActivityResultCode.DONE;
 
     private GVType mDataType;
     private ConfigReviewDataUI.ReviewDataConfig mDataOption;
@@ -51,26 +51,24 @@ public abstract class FragmentReviewGridAddEdit<T extends GVData> extends
         mDataType = dataType;
     }
 
-    ;
+    protected abstract void doDatumAdd(Intent data);
 
-    protected abstract void doAdd(Intent data);
+    protected abstract void doDatumDelete(Intent data);
 
-    protected abstract void doDelete(Intent data);
-
-    protected abstract void doDone(Intent data);
+    protected abstract void doDatumEdit(Intent data);
 
     protected abstract Bundle packGridCellData(T data, Bundle args);
 
     protected void setResultCode(Action action, ActivityResultCode resultCode) {
         switch (action) {
             case ADD:
-                mDoAdd = resultCode;
+                mDoDatumAdd = resultCode;
                 break;
             case DELETE:
-                mDoDelete = resultCode;
+                mDoDatumDelete = resultCode;
                 break;
             case DONE:
-                mDoDone = resultCode;
+                mDoDatumEdit = resultCode;
                 break;
         }
     }
@@ -84,13 +82,13 @@ public abstract class FragmentReviewGridAddEdit<T extends GVData> extends
     }
 
     protected void onAddRequested(int resultCode, Intent data) {
-        if (ActivityResultCode.get(resultCode) == mDoAdd) doAdd(data);
+        if (ActivityResultCode.get(resultCode) == mDoDatumAdd) doDatumAdd(data);
     }
 
     protected void onEditRequested(int resultCode, Intent data) {
         ActivityResultCode result = ActivityResultCode.get(resultCode);
-        if (result == mDoDone) doDone(data);
-        if (result == mDoDelete) doDelete(data);
+        if (result == mDoDatumEdit) doDatumEdit(data);
+        if (result == mDoDatumDelete) doDatumDelete(data);
     }
 
     @Override

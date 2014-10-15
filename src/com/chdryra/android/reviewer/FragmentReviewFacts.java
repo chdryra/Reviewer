@@ -44,7 +44,7 @@ public class FragmentReviewFacts extends FragmentReviewGridAddEdit<GVFact> {
     }
 
     @Override
-    protected void doAdd(Intent data) {
+    protected void doDatumAdd(Intent data) {
         String label = (String) data.getSerializableExtra(DialogFactAddFragment.FACT_LABEL);
         String value = (String) data.getSerializableExtra(DialogFactAddFragment.FACT_VALUE);
         if (label != null && label.length() > 0 && value != null && value.length() > 0 &&
@@ -54,7 +54,7 @@ public class FragmentReviewFacts extends FragmentReviewGridAddEdit<GVFact> {
     }
 
     @Override
-    protected void doDelete(Intent data) {
+    protected void doDatumDelete(Intent data) {
         String deleteLabel = (String) data.getSerializableExtra(DialogFactEditFragment
                 .FACT_OLD_LABEL);
         String deleteValue = (String) data.getSerializableExtra(DialogFactEditFragment
@@ -63,7 +63,7 @@ public class FragmentReviewFacts extends FragmentReviewGridAddEdit<GVFact> {
     }
 
     @Override
-    protected void doDone(Intent data) {
+    protected void doDatumEdit(Intent data) {
         String oldLabel = (String) data.getSerializableExtra(DialogFactEditFragment
                 .FACT_OLD_LABEL);
         String oldValue = (String) data.getSerializableExtra(DialogFactEditFragment

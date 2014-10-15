@@ -14,7 +14,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.RatingBar;
-import android.widget.Toast;
 
 import com.chdryra.android.reviewer.GVReviewDataList.GVType;
 import com.chdryra.android.reviewer.GVReviewSubjectRatingList.GVReviewSubjectRating;
@@ -46,7 +45,7 @@ public class FragmentReviewChildren extends FragmentReviewGridAddEdit<GVReviewSu
     public static final String CHILD_SUBJECT = "com.chdryra.android.reviewer.child_subject";
     public static final String CHILD_RATING  = "com.chdryra.android.reviewer.child_rating";
 
-    private GVReviewSubjectRatingList mReviewData;
+    private InputHandlerReviewData<GVReviewSubjectRating> mHandler;
     private boolean                   mTotalRatingIsAverage;
 
     public FragmentReviewChildren() {
@@ -54,60 +53,59 @@ public class FragmentReviewChildren extends FragmentReviewGridAddEdit<GVReviewSu
     }
 
     @Override
-    protected void doAdd(Intent data) {
-        String subject = (String) data.getSerializableExtra(DialogChildAddFragment.SUBJECT);
-        if (subject != null && subject.length() > 0 && !mReviewData.contains(subject)) {
-            mReviewData.add(subject, data.getFloatExtra(DialogChildAddFragment.RATING, 0));
-        }
+    protected void doDatumAdd(Intent data) {
+//        String subject = (String) data.getSerializableExtra(DialogChildAddFragment.SUBJECT);
+//        if (subject != null && subject.length() > 0 && !mReviewData.contains(subject)) {
+//            mReviewData.add(subject, data.getFloatExtra(DialogChildAddFragment.RATING, 0));
+//        }
+        mHandler.add(data, getActivity());
     }
 
     @Override
-    protected void doDelete(Intent data) {
-        mReviewData.remove((String) data.getSerializableExtra(DialogChildEditFragment
-                .SUBJECT_OLD));
-        if (mReviewData.size() == 0) setTotalRatingIsAverage(false);
+    protected void doDatumDelete(Intent data) {
+//        mReviewData.remove((String) data.getSerializableExtra(DialogChildEditFragment
+//                .SUBJECT_OLD));
+//        if (mReviewData.size() == 0) setTotalRatingIsAverage(false);
+        mHandler.delete(data);
     }
 
     @Override
-    protected void doDone(Intent data) {
-        String oldSubject = (String) data.getSerializableExtra(DialogChildEditFragment
-                .SUBJECT_OLD);
-        String newSubject = (String) data.getSerializableExtra(DialogChildEditFragment
-                .SUBJECT);
-        float newRating = data.getFloatExtra(DialogChildEditFragment.RATING, 0);
-        if (oldSubject.equals(newSubject)) {
-            mReviewData.set(oldSubject, newRating);
-        } else {
-            if (!mReviewData.contains(newSubject)) {
-                mReviewData.remove(oldSubject);
-                mReviewData.add(newSubject, newRating);
-            } else {
-                Toast.makeText(getActivity(), R.string.toast_exists_criterion,
-                        Toast.LENGTH_SHORT).show();
-            }
-        }
+    protected void doDatumEdit(Intent data) {
+//        String oldSubject = (String) data.getSerializableExtra(DialogChildEditFragment
+//                .SUBJECT_OLD);
+//        String newSubject = (String) data.getSerializableExtra(DialogChildEditFragment
+//                .SUBJECT);
+//        float newRating = data.getFloatExtra(DialogChildEditFragment.RATING, 0);
+//        if (oldSubject.equals(newSubject)) {
+//            mReviewData.set(oldSubject, newRating);
+//        } else {
+//            if (!mReviewData.contains(newSubject)) {
+//                mReviewData.remove(oldSubject);
+//                mReviewData.add(newSubject, newRating);
+//            } else {
+//                Toast.makeText(getActivity(), R.string.toast_exists_criterion,
+//                        Toast.LENGTH_SHORT).show();
+//            }
+//        }
+        mHandler.replace(data, getActivity());
     }
 
     @Override
     protected Bundle packGridCellData(GVReviewSubjectRating reviewData, Bundle args) {
-        args.putString(CHILD_SUBJECT, reviewData.getSubject());
-        args.putFloat(CHILD_RATING, reviewData.getRating());
-
+        mHandler.pack(InputHandlerReviewData.CurrentNewDatum.CURRENT, reviewData, args);
         return args;
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (mTotalRatingIsAverage) {
-            setAverageRating();
-        }
+        if (mTotalRatingIsAverage) setAverageRating();
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mReviewData = (GVReviewSubjectRatingList) getGridData();
+        mHandler = new IHChildren(getGridData());
         mTotalRatingIsAverage = getNodeController().isReviewRatingAverage();
         setIsEditable(true);
     }
@@ -143,15 +141,13 @@ public class FragmentReviewChildren extends FragmentReviewGridAddEdit<GVReviewSu
     private void setTotalRatingIsAverage(boolean isAverage) {
         mTotalRatingIsAverage = isAverage;
         getNodeController().setReviewRatingAverage(mTotalRatingIsAverage);
-        if (mTotalRatingIsAverage) {
-            setAverageRating();
-        }
+        if (mTotalRatingIsAverage) setAverageRating();
     }
 
     private void setAverageRating() {
         float rating = 0;
-        for (GVReviewSubjectRating child : mReviewData) {
-            rating += child.getRating() / mReviewData.size();
+        for (GVReviewSubjectRating child : mHandler.getData()) {
+            rating += child.getRating() / mHandler.getData().size();
         }
         getTotalRatingBar().setRating(rating);
     }

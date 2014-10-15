@@ -46,7 +46,7 @@ public class DialogCommentAddFragment extends DialogAddReviewDataFragment {
             Toast.makeText(getActivity(), R.string.toast_has_comment, Toast.LENGTH_SHORT).show();
         } else {
             comments.add(comment);
-            getNewReturnDataIntent().putExtra(COMMENT, comment);
+            createNewReturnData().putExtra(COMMENT, comment);
             mCommentEditText.setText(null);
             getDialog().setTitle("+ " + comment);
         }

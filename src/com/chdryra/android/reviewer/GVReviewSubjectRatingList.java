@@ -98,7 +98,7 @@ class GVReviewSubjectRatingList extends GVReviewDataList<GVReviewSubjectRatingLi
      * @see com.chdryra.android.mygenerallibrary.GVData
      * @see com.chdryra.android.reviewer.VHReviewNodeSubjectRating
      */
-    class GVReviewSubjectRating implements GVData {
+    static class GVReviewSubjectRating implements GVData {
         private final String mSubject;
         private       float  mRating;
 
@@ -125,43 +125,30 @@ class GVReviewSubjectRatingList extends GVReviewDataList<GVReviewSubjectRatingLi
         }
 
         @Override
-        public boolean equals(Object obj) {
-            if (this == obj) {
-                return true;
-            }
-            if (obj == null) {
+        public boolean isValidForDisplay() {
+            return mSubject != null && mSubject.length() > 0;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (!(o instanceof GVReviewSubjectRating)) return false;
+
+            GVReviewSubjectRating that = (GVReviewSubjectRating) o;
+
+            if (Float.compare(that.mRating, mRating) != 0) return false;
+            if (mSubject != null ? !mSubject.equals(that.mSubject) : that.mSubject != null) {
                 return false;
             }
-            if (getClass() != obj.getClass()) {
-                return false;
-            }
-            GVReviewSubjectRating other = (GVReviewSubjectRating) obj;
-            if (!getOuterType().equals(other.getOuterType())) {
-                return false;
-            }
-            if (mSubject == null) {
-                if (other.mSubject != null) {
-                    return false;
-                }
-            } else if (!mSubject.equals(other.mSubject)) {
-                return false;
-            }
+
             return true;
         }
 
         @Override
         public int hashCode() {
-            final int prime = 31;
-            int result = 1;
-            result = prime * result + getOuterType().hashCode();
-            result = prime * result + Float.floatToIntBits(mRating);
-            result = prime * result
-                    + ((mSubject == null) ? 0 : mSubject.hashCode());
+            int result = mSubject != null ? mSubject.hashCode() : 0;
+            result = 31 * result + (mRating != +0.0f ? Float.floatToIntBits(mRating) : 0);
             return result;
-        }
-
-        private GVReviewSubjectRatingList getOuterType() {
-            return GVReviewSubjectRatingList.this;
         }
     }
 }

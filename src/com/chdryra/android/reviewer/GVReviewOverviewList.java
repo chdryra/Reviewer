@@ -49,6 +49,10 @@ class GVReviewOverviewList extends GVReviewDataList<GVReviewOverviewList.GVRevie
         return contains(review);
     }
 
+    void remove(String id) {
+        remove(new GVReviewOverview(id));
+    }
+
     @Override
     protected Comparator<GVReviewOverview> getDefaultComparator() {
 
@@ -130,6 +134,12 @@ class GVReviewOverviewList extends GVReviewDataList<GVReviewOverviewList.GVRevie
         @Override
         public ViewHolder getViewHolder() {
             return new VHReviewNodeOverview();
+        }
+
+        @Override
+        public boolean isValidForDisplay() {
+            return mId != null && mId.length() > 0 && mSubject != null && mSubject.length() > 0
+                    && mAuthor != null && mAuthor.length() > 0 && mPublishDate != null;
         }
 
         @Override
