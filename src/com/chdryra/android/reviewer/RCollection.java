@@ -24,6 +24,34 @@ class RCollection<T> implements Iterable<T> {
     RCollection() {
     }
 
+    class CollectionIterator implements Iterator<T> {
+        int position = 0;
+
+        @Override
+        public boolean hasNext() {
+            return position < size() && getItem(position) != null;
+        }
+
+        @Override
+        public T next() {
+            if (hasNext()) {
+                return getItem(position++);
+            } else {
+                throw new NoSuchElementException("No more elements left");
+            }
+        }
+
+        @Override
+        public void remove() {
+            if (position <= 0) {
+                throw new IllegalStateException("Have to do at least one next() before you can " +
+                        "delete");
+            } else {
+                RCollection.this.remove(getId(position));
+            }
+        }
+    }
+
     public void put(RDId id, T t) {
         if (!containsId(id)) {
             mData.put(id, t);
@@ -64,34 +92,6 @@ class RCollection<T> implements Iterable<T> {
     @Override
     public Iterator<T> iterator() {
         return new CollectionIterator();
-    }
-
-    class CollectionIterator implements Iterator<T> {
-        int position = 0;
-
-        @Override
-        public boolean hasNext() {
-            return position < size() && getItem(position) != null;
-        }
-
-        @Override
-        public T next() {
-            if (hasNext()) {
-                return getItem(position++);
-            } else {
-                throw new NoSuchElementException("No more elements left");
-            }
-        }
-
-        @Override
-        public void remove() {
-            if (position <= 0) {
-                throw new IllegalStateException("Have to do at least one next() before you can " +
-                        "delete");
-            } else {
-                RCollection.this.remove(getId(position));
-            }
-        }
     }
 
 }

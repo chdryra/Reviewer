@@ -8,7 +8,6 @@
 
 package com.chdryra.android.reviewer;
 
-import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -19,9 +18,8 @@ import com.chdryra.android.reviewer.GVTagList.GVTag;
 /**
  * Dialog for adding tags.
  */
-public class DialogTagAddFragment extends DialogAddReviewDataFragment {
+public class DialogTagAddFragment extends DialogAddReviewDataFragment<GVTag> {
     private ClearableAutoCompleteTextView mTagEditText;
-    private InputHandlerReviewData<GVTag> mInputHandler;
 
     public DialogTagAddFragment() {
         super(GVType.TAGS);
@@ -32,33 +30,18 @@ public class DialogTagAddFragment extends DialogAddReviewDataFragment {
         View v = getActivity().getLayoutInflater().inflate(R.layout.dialog_tag, null);
         mTagEditText = (ClearableAutoCompleteTextView) v.findViewById(R.id.tag_edit_text);
         setKeyboardDoActionOnEditText(mTagEditText);
-        //TODO move creation of input handler to commissioning fragment to pass correct data.
-        mInputHandler = new IHTags((GVTagList) getData());
 
         return v;
     }
 
     @Override
-    protected void onAddButtonClick() {
-        GVTag tag = createGVData();
-        if (mInputHandler.isNewAndValid(tag, getActivity())) {
-            Intent data = createNewReturnData();
-            mInputHandler.pack(InputHandlerReviewData.CurrentNewDatum.NEW, tag, data);
-            mInputHandler.add(data, getActivity());
-            resetDialog();
-            setDialogAddedTitle(tag);
-        }
-    }
-
-    GVTag createGVData() {
+    protected GVTag createGVData() {
         return new GVTag(mTagEditText.getText().toString().trim());
     }
 
-    void resetDialog() {
+    @Override
+    protected void resetDialogOnAdd(GVTag tag) {
         mTagEditText.setText(null);
-    }
-
-    void setDialogAddedTitle(GVTag tag) {
         getDialog().setTitle("+ #" + tag.get());
     }
 }

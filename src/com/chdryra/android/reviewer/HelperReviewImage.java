@@ -58,6 +58,30 @@ class HelperReviewImage extends ImageHelper {
         return sHelperReviewImages.get(controller.getId());
     }
 
+    /**
+     * Loads bitmaps on a separate thread.
+     */
+    private class BitmapLoaderTask extends AsyncTask<Integer, Void, Bitmap> {
+        private final GVImageList           mImageList;
+        private final FunctionPointer<Void> mUpdateUI;
+
+        public BitmapLoaderTask(GVImageList imageList, FunctionPointer<Void> updateUI) {
+            mImageList = imageList;
+            mUpdateUI = updateUI;
+        }
+
+        @Override
+        protected Bitmap doInBackground(Integer... params) {
+            return getBitmap(params[0], params[1]);
+        }
+
+        @Override
+        protected void onPostExecute(Bitmap bitmap) {
+            mImageList.add(bitmap, getLatLngFromEXIF());
+            mUpdateUI.execute(null);
+        }
+    }
+
     boolean createNewImageFile() throws IOException {
         String imageFileName = mController.getSubject() + "_" + fileCounter++;
         String path;
@@ -168,30 +192,6 @@ class HelperReviewImage extends ImageHelper {
 
             default:
                 return false;
-        }
-    }
-
-    /**
-     * Loads bitmaps on a separate thread.
-     */
-    private class BitmapLoaderTask extends AsyncTask<Integer, Void, Bitmap> {
-        private final GVImageList           mImageList;
-        private final FunctionPointer<Void> mUpdateUI;
-
-        public BitmapLoaderTask(GVImageList imageList, FunctionPointer<Void> updateUI) {
-            mImageList = imageList;
-            mUpdateUI = updateUI;
-        }
-
-        @Override
-        protected Bitmap doInBackground(Integer... params) {
-            return getBitmap(params[0], params[1]);
-        }
-
-        @Override
-        protected void onPostExecute(Bitmap bitmap) {
-            mImageList.add(bitmap, getLatLngFromEXIF());
-            mUpdateUI.execute(null);
         }
     }
 }

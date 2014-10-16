@@ -12,6 +12,8 @@ import android.app.ActionBar.LayoutParams;
 import android.app.DialogFragment;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -31,7 +33,6 @@ import com.chdryra.android.mygenerallibrary.GridViewCellAdapter;
 import com.chdryra.android.mygenerallibrary.ViewHolder;
 import com.chdryra.android.reviewer.FragmentReviewBuild.GVCellManagerList.GVCellManager;
 import com.chdryra.android.reviewer.GVReviewDataList.GVType;
-import com.google.android.gms.maps.model.LatLng;
 
 /**
  * UI Fragment: editing and building reviews. The primary screen where the user builds the review.
@@ -77,6 +78,133 @@ public class FragmentReviewBuild extends FragmentReviewGrid<FragmentReviewBuild.
 
     private GVCellManagerList mCellManagerList;
     private HelperReviewImage mHelperReviewImage;
+
+    /**
+     * Provides the adapter for the GridView of data tiles. Can't use the ViewHolder pattern here
+     * because each cell can have its own unique look so reuse is not an option. The view update
+     * requests are forwarded to underlying the GVCellManagers to handle.
+     */
+    class ReviewOptionsGridCellAdapter extends GridViewCellAdapter {
+        public ReviewOptionsGridCellAdapter() {
+            super(getActivity(), getGridData(), getGridCellWidth(), getGridCellHeight());
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            convertView = getGridData().getItem(position).updateView(parent);
+            convertView.getLayoutParams().height = getGridCellHeight();
+            convertView.getLayoutParams().width = getGridCellWidth();
+
+            return convertView;
+        }
+    }
+
+    /**
+     * Holds the list of cells that manage data display and respond to user interaction for the data
+     * tiles. This is what <code>getGridViewData()</code> returns for this fragment.
+     */
+    class GVCellManagerList extends GVReviewDataList<GVCellManagerList.GVCellManager> {
+        private GVCellManagerList() {
+            super(null);
+        }
+
+        /**
+         * Encapsulates the range of responses and displays available to each data tile depending
+         * on the underlying data and user interaction.
+         */
+        class GVCellManager implements GVData {
+            //Doubt this will work without static declaration but can't because an inner class.
+            //Never need to parcel anyway.
+            public final Parcelable.Creator<GVCellManager> CREATOR = new Parcelable
+                    .Creator<GVCellManager>() {
+                public GVCellManager createFromParcel(Parcel in) {
+                    return new GVCellManager(in);
+                }
+
+                public GVCellManager[] newArray(int size) {
+                    return new GVCellManager[size];
+                }
+            };
+            private final GVType mDataType;
+
+            private GVCellManager(GVType dataType) {
+                mDataType = dataType;
+            }
+
+            private GVCellManager(Parcel in) {
+                mDataType = (GVType) in.readSerializable();
+            }
+
+            private void executeIntent(boolean forceRequestIntent) {
+                if (getController().getData(mDataType).size() == 0 && !forceRequestIntent) {
+                    if (mDataType == GVType.IMAGES) {
+                        showQuickImageDialog();
+                    } else {
+                        showQuickDialog(getUIConfig(mDataType));
+                    }
+                } else {
+                    requestIntent(getUIConfig(mDataType));
+                }
+            }
+
+            @Override
+            public ViewHolder getViewHolder() {
+                return null;
+            }
+
+            @Override
+            public boolean isValidForDisplay() {
+                return true;
+            }
+
+            private View updateView(ViewGroup parent) {
+                int size = getController().getData(mDataType).size();
+
+                if (size == 0) return getNoDatumView(parent);
+
+                return size > 1 || mDataType == GVType.IMAGES ? getMultiDataView(parent) :
+                        getSingleDatumView(parent);
+            }
+
+            private View getNoDatumView(ViewGroup parent) {
+                ViewHolder vh = new VHTextView();
+                vh.inflate(getActivity(), parent);
+                vh.updateView(new GVString(mDataType.getDataString()));
+                return vh.getView();
+            }
+
+            private View getMultiDataView(ViewGroup parent) {
+                int number = getController().getData(mDataType).size();
+                String type = number == 1 ? mDataType.getDatumString() : mDataType.getDataString();
+
+                ViewHolder vh = new VHTextDualView();
+                vh.inflate(getActivity(), parent);
+                vh.updateView(new GVDualString(String.valueOf(number), type));
+                return vh.getView();
+            }
+
+            private View getSingleDatumView(ViewGroup parent) {
+                ViewHolder vh = getUIConfig(mDataType).getViewHolder();
+                if (vh.getView() == null) vh.inflate(getActivity(), parent);
+                vh.updateView((GVData) getController().getData(mDataType).getItem(0));
+                return vh.getView();
+            }
+
+            @Override
+            public int describeContents() {
+                return 0;
+            }
+
+            @Override
+            public void writeToParcel(Parcel parcel, int i) {
+                parcel.writeSerializable(mDataType);
+            }
+        }
+
+        private void add(GVType dataType) {
+            add(new GVCellManager(dataType));
+        }
+    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -199,11 +327,13 @@ public class FragmentReviewBuild extends FragmentReviewGrid<FragmentReviewBuild.
     }
 
     private void addLocation(Intent data) {
-        LatLng latLng = data.getParcelableExtra(FragmentReviewLocationMap.LATLNG);
-        String name = (String) data.getSerializableExtra(FragmentReviewLocationMap.NAME);
-        if (latLng != null && name != null) {
+        InputHandlerReviewData<GVLocationList.GVLocation> handler = new InputHandlerReviewData
+                <GVLocationList.GVLocation>(GVType.LOCATIONS);
+        GVLocationList.GVLocation location = handler.unpack(InputHandlerReviewData
+                .CurrentNewDatum.NEW, data);
+        if (location.isValidForDisplay()) {
             GVLocationList list = new GVLocationList();
-            list.add(latLng, name);
+            list.add(location);
             getEditableController().setData(list);
         }
     }
@@ -253,106 +383,5 @@ public class FragmentReviewBuild extends FragmentReviewGrid<FragmentReviewBuild.
     private void showQuickImageDialog() {
         startActivityForResult(mHelperReviewImage.getImageChooserIntents(getActivity()),
                 getUIConfig(GVType.IMAGES).getActivityRequestCode());
-    }
-
-    /**
-     * Provides the adapter for the GridView of data tiles. Can't use the ViewHolder pattern here
-     * because each cell can have its own unique look so reuse is not an option. The view update
-     * requests are forwarded to underlying the GVCellManagers to handle.
-     */
-    class ReviewOptionsGridCellAdapter extends GridViewCellAdapter {
-        public ReviewOptionsGridCellAdapter() {
-            super(getActivity(), getGridData(), getGridCellWidth(), getGridCellHeight());
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            convertView = getGridData().getItem(position).updateView(parent);
-            convertView.getLayoutParams().height = getGridCellHeight();
-            convertView.getLayoutParams().width = getGridCellWidth();
-
-            return convertView;
-        }
-    }
-
-    /**
-     * Holds the list of cells that manage data display and respond to user interaction for the data
-     * tiles. This is what <code>getGridViewData()</code> returns for this fragment.
-     */
-    class GVCellManagerList extends GVReviewDataList<GVCellManagerList.GVCellManager> {
-        private GVCellManagerList() {
-            super(null);
-        }
-
-        private void add(GVType dataType) {
-            add(new GVCellManager(dataType));
-        }
-
-        /**
-         * Encapsulates the range of responses and displays available to each data tile depending
-         * on the underlying data and user interaction.
-         */
-        class GVCellManager implements GVData {
-            private final GVType mDataType;
-
-            private GVCellManager(GVType dataType) {
-                mDataType = dataType;
-            }
-
-            private void executeIntent(boolean forceRequestIntent) {
-                if (getController().getData(mDataType).size() == 0 && !forceRequestIntent) {
-                    if (mDataType == GVType.IMAGES) {
-                        showQuickImageDialog();
-                    } else {
-                        showQuickDialog(getUIConfig(mDataType));
-                    }
-                } else {
-                    requestIntent(getUIConfig(mDataType));
-                }
-            }
-
-            @Override
-            public ViewHolder getViewHolder() {
-                return null;
-            }
-
-            @Override
-            public boolean isValidForDisplay() {
-                return true;
-            }
-
-            private View updateView(ViewGroup parent) {
-                int size = getController().getData(mDataType).size();
-
-                if (size == 0) return getNoDatumView(parent);
-
-                return size > 1 || mDataType == GVType.IMAGES ? getMultiDataView(parent) :
-                        getSingleDatumView(parent);
-            }
-
-            private View getNoDatumView(ViewGroup parent) {
-                ViewHolder vh = new VHTextView();
-                vh.inflate(getActivity(), parent);
-                vh.updateView(new GVString(mDataType.getDataString()));
-                return vh.getView();
-            }
-
-            private View getMultiDataView(ViewGroup parent) {
-                int number = getController().getData(mDataType).size();
-                String type = number == 1 ? mDataType.getDatumString() : mDataType.getDataString();
-
-                ViewHolder vh = new VHTextDualView();
-                vh.inflate(getActivity(), parent);
-                vh.updateView(new GVDualString(String.valueOf(number), type));
-                return vh.getView();
-            }
-
-            private View getSingleDatumView(ViewGroup parent) {
-                ViewHolder vh = getUIConfig(mDataType).getViewHolder();
-                if (vh.getView() == null) vh.inflate(getActivity(), parent);
-                vh.updateView((GVData) getController().getData(mDataType).getItem(0));
-                return vh.getView();
-            }
-        }
     }
 }

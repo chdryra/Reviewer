@@ -8,6 +8,9 @@
 
 package com.chdryra.android.reviewer;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.chdryra.android.mygenerallibrary.GVData;
 import com.chdryra.android.mygenerallibrary.ViewHolder;
 
@@ -31,22 +34,6 @@ class GVUrlList extends GVReviewDataList<GVUrlList.GVUrl> {
         super(GVType.URLS);
     }
 
-    void add(String urlString) throws MalformedURLException, URISyntaxException {
-        add(new GVUrl(urlString));
-    }
-
-    void add(URL url) {
-        add(new GVUrl(url));
-    }
-
-    boolean contains(URL url) {
-        return contains(new GVUrl(url));
-    }
-
-    void remove(URL url) {
-        remove(new GVUrl(url));
-    }
-
     /**
      * GVData version of: RDUrl
      * ViewHolder: VHUrlView
@@ -58,11 +45,25 @@ class GVUrlList extends GVReviewDataList<GVUrlList.GVUrl> {
      * @see com.chdryra.android.reviewer.RDUrl
      * @see com.chdryra.android.reviewer.VHUrlView
      */
-    class GVUrl implements GVData {
+    static class GVUrl implements GVData {
+        public static final Parcelable.Creator<GVUrl> CREATOR = new Parcelable
+                .Creator<GVUrl>() {
+            public GVUrl createFromParcel(Parcel in) {
+                return new GVUrl(in);
+            }
+
+            public GVUrl[] newArray(int size) {
+                return new GVUrl[size];
+            }
+        };
         URL mUrl;
 
         private GVUrl(URL url) {
             mUrl = url;
+        }
+
+        private GVUrl(Parcel in) {
+            mUrl = (URL) in.readSerializable();
         }
 
         private GVUrl(String stringUrl) throws MalformedURLException, URISyntaxException {
@@ -102,45 +103,51 @@ class GVUrlList extends GVReviewDataList<GVUrlList.GVUrl> {
         }
 
         @Override
-        public boolean equals(Object obj) {
-            if (this == obj) {
-                return true;
-            }
-            if (obj == null) {
-                return false;
-            }
-            if (getClass() != obj.getClass()) {
-                return false;
-            }
-            GVUrl other = (GVUrl) obj;
-            if (!getOuterType().equals(other.getOuterType())) {
-                return false;
-            }
-            if (mUrl == null) {
-                if (other.mUrl != null) {
-                    return false;
-                }
-            } else if (!mUrl.equals(other.mUrl)) {
-                return false;
-            }
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (!(o instanceof GVUrl)) return false;
+
+            GVUrl gvUrl = (GVUrl) o;
+
+            if (mUrl != null ? !mUrl.equals(gvUrl.mUrl) : gvUrl.mUrl != null) return false;
+
             return true;
         }
 
         @Override
         public int hashCode() {
-            final int prime = 31;
-            int result = 1;
-            result = prime * result + getOuterType().hashCode();
-            result = prime * result + ((mUrl == null) ? 0 : mUrl.hashCode());
-            return result;
+            return mUrl != null ? mUrl.hashCode() : 0;
         }
 
+        @Override
         public String toString() {
             return mUrl != null ? mUrl.toExternalForm() : null;
         }
 
-        private GVUrlList getOuterType() {
-            return GVUrlList.this;
+        @Override
+        public int describeContents() {
+            return 0;
         }
+
+        @Override
+        public void writeToParcel(Parcel parcel, int i) {
+            parcel.writeSerializable(mUrl);
+        }
+    }
+
+    void add(String urlString) throws MalformedURLException, URISyntaxException {
+        add(new GVUrl(urlString));
+    }
+
+    void add(URL url) {
+        add(new GVUrl(url));
+    }
+
+    boolean contains(URL url) {
+        return contains(new GVUrl(url));
+    }
+
+    void remove(URL url) {
+        remove(new GVUrl(url));
     }
 }

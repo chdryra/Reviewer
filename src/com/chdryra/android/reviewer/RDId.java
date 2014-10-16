@@ -41,6 +41,13 @@ class RDId implements RData {
         return new RDId(rdId);
     }
 
+    /**
+     * To facilitate RCollectionReview
+     */
+    public interface RDIdAble {
+        public RDId getId();
+    }
+
     @Override
     public Review getHoldingReview() {
         throw new UnsupportedOperationException();
@@ -77,12 +84,5 @@ class RDId implements RData {
 
     public String toString() {
         return mId.toString();
-    }
-
-    /**
-     * To facilitate RCollectionReview
-     */
-    public interface RDIdAble {
-        public RDId getId();
     }
 }

@@ -43,7 +43,7 @@ public class FragmentReviewURLs extends FragmentReviewGridAddEdit<GVUrl> {
     private GVUrlList mUrls;
 
     public FragmentReviewURLs() {
-        super(GVType.URLS);
+        mDataType = GVType.URLS;
     }
 
     @Override

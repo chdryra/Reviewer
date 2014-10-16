@@ -40,10 +40,6 @@ abstract class GVReviewDataList<T extends GVData> extends GVList<T> {
         mDataType = dataType;
     }
 
-    GVType getGVType() {
-        return mDataType;
-    }
-
     /**
      * Enum that enumerates and labels the type of review data that is GridViewable
      */
@@ -78,5 +74,9 @@ abstract class GVReviewDataList<T extends GVData> extends GVList<T> {
         String getDataString() {
             return mDataString;
         }
+    }
+
+    GVType getGVType() {
+        return mDataType;
     }
 }

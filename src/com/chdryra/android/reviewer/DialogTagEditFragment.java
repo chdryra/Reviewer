@@ -8,60 +8,34 @@
 
 package com.chdryra.android.reviewer;
 
-import android.content.Intent;
-import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.chdryra.android.myandroidwidgets.ClearableAutoCompleteTextView;
-import com.chdryra.android.mygenerallibrary.DialogCancelDeleteDoneFragment;
+import com.chdryra.android.reviewer.GVTagList.GVTag;
 
 /**
  * Dialog for editing tags.
  */
-public class DialogTagEditFragment extends DialogCancelDeleteDoneFragment {
-    private GVTagList.GVTag                         mDatum;
-    private ClearableAutoCompleteTextView           mTagEditText;
-    private InputHandlerReviewData<GVTagList.GVTag> mHandler;
+public class DialogTagEditFragment extends DialogEditReviewDataFragment<GVTag> {
+    private ClearableAutoCompleteTextView mTagEditText;
+
+    public DialogTagEditFragment() {
+        super(GVReviewDataList.GVType.TAGS);
+    }
 
     @Override
     protected View createDialogUI(ViewGroup parent) {
         View v = getActivity().getLayoutInflater().inflate(R.layout.dialog_tag, null);
         mTagEditText = (ClearableAutoCompleteTextView) v.findViewById(R.id.tag_edit_text);
-        mTagEditText.setText(mDatum.get());
+        mTagEditText.setText(getDatum().get());
         setKeyboardDoDoneOnEditText(mTagEditText);
+        setDeleteWhatTitle(getDatum().get());
+
         return v;
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        mHandler = new IHTags();
-        mDatum = mHandler.unpack(InputHandlerReviewData.CurrentNewDatum.CURRENT,
-                getArguments());
-        setDialogTitle(getResources().getString(R.string.edit) + " " + mHandler.getGVType()
-                .getDatumString());
-        setDeleteWhatTitle(mDatum.get());
-    }
-
-    @Override
-    protected void onDeleteButtonClick() {
-        mHandler.pack(InputHandlerReviewData.CurrentNewDatum.CURRENT, mDatum,
-                createNewReturnData());
-    }
-
-    @Override
-    protected boolean hasDataToDelete() {
-        return true;
-    }
-
-    @Override
-    protected void onDoneButtonClick() {
-        Intent data = createNewReturnData();
-        mHandler.pack(InputHandlerReviewData.CurrentNewDatum.CURRENT, mDatum, data);
-        mHandler.pack(InputHandlerReviewData.CurrentNewDatum.NEW, createGVData(), data);
-    }
-
     protected GVTagList.GVTag createGVData() {
         return new GVTagList.GVTag(mTagEditText.getText().toString().trim());
     }

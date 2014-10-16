@@ -37,27 +37,41 @@ import com.chdryra.android.reviewer.GVReviewDataList.GVType;
  *
  * @param <T>: GVData type shown in grid cell
  */
-public abstract class FragmentReviewGridAddEdit<T extends GVData> extends
+public class FragmentReviewGridAddEdit<T extends GVData> extends
         FragmentReviewGrid<GVReviewDataList<T>> {
-
+    public static final String GVTYPE = "com.chdryra.android.review.gvtype";
+    protected GVType mDataType;
     private ActivityResultCode mDoDatumAdd    = ActivityResultCode.ADD;
     private ActivityResultCode mDoDatumDelete = ActivityResultCode.DELETE;
     private ActivityResultCode mDoDatumEdit   = ActivityResultCode.DONE;
-
-    private GVType mDataType;
+    private InputHandlerReviewData<T>           mHandler;
     private ConfigReviewDataUI.ReviewDataConfig mDataOption;
 
-    protected FragmentReviewGridAddEdit(GVType dataType) {
-        mDataType = dataType;
+    public FragmentReviewGridAddEdit() {
     }
 
-    protected abstract void doDatumAdd(Intent data);
+    protected enum Action {ADD, DELETE, DONE}
 
-    protected abstract void doDatumDelete(Intent data);
+    protected InputHandlerReviewData<T> getInputHandler() {
+        return mHandler;
+    }
 
-    protected abstract void doDatumEdit(Intent data);
+    protected void doDatumAdd(Intent data) {
+        mHandler.add(data, getActivity());
+    }
 
-    protected abstract Bundle packGridCellData(T data, Bundle args);
+    protected void doDatumDelete(Intent data) {
+        mHandler.delete(data);
+    }
+
+    protected void doDatumEdit(Intent data) {
+        mHandler.replace(data, getActivity());
+    }
+
+    protected Bundle packGridCellData(T item, Bundle args) {
+        mHandler.pack(InputHandlerReviewData.CurrentNewDatum.CURRENT, item, args);
+        return args;
+    }
 
     protected void setResultCode(Action action, ActivityResultCode resultCode) {
         switch (action) {
@@ -111,7 +125,10 @@ public abstract class FragmentReviewGridAddEdit<T extends GVData> extends
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        if (mDataType == null) mDataType = (GVType) getArguments().getSerializable(GVTYPE);
+        mHandler = new InputHandlerReviewData<T>(mDataType);
         mDataOption = ConfigReviewDataUI.get(mDataType);
+
         //TODO how to make this type safe
         @SuppressWarnings("unchecked") GVReviewDataList<T> data = getController().getData
                 (mDataType);
@@ -137,5 +154,9 @@ public abstract class FragmentReviewGridAddEdit<T extends GVData> extends
                 packGridCellData(item, Administrator.get(getActivity()).pack(getController())));
     }
 
-    protected enum Action {ADD, DELETE, DONE}
+    @Override
+    void setGridViewData(GVReviewDataList<T> gridData) {
+        super.setGridViewData(gridData);
+        mHandler.setData(gridData);
+    }
 }

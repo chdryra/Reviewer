@@ -57,7 +57,8 @@ class ControllerReviewCollection<T extends Review> {
                 ControllerReview c = getControllerFor(r.getId().toString());
 
                 GVImageList images = (GVImageList) c.getData(GVReviewDataList.GVType.IMAGES);
-                GVCommentList comments = (GVCommentList) c.getData(GVReviewDataList.GVType.COMMENTS);
+                GVCommentList comments = (GVCommentList) c.getData(GVReviewDataList.GVType
+                        .COMMENTS);
                 GVLocationList locations = (GVLocationList) c.getData(GVReviewDataList.GVType
                         .LOCATIONS);
 

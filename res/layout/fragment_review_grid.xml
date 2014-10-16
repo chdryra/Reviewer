@@ -6,9 +6,10 @@
   ~ Date: 23 September, 2014
   -->
 
-<LinearLayout android:id="@+id/review_grid_linearlayout"
-              style="@style/LineaLayoutVertical"
-              xmlns:android="http://schemas.android.com/apk/res/android">
+<LinearLayout
+    android:id="@+id/review_grid_linearlayout"
+    style="@style/LineaLayoutVertical"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
     <include
         android:id="@+id/review_subject_edit_text"

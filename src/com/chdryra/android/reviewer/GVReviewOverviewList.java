@@ -9,6 +9,8 @@
 package com.chdryra.android.reviewer;
 
 import android.graphics.Bitmap;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 import com.chdryra.android.mygenerallibrary.GVData;
 import com.chdryra.android.mygenerallibrary.ViewHolder;
@@ -36,34 +38,6 @@ class GVReviewOverviewList extends GVReviewDataList<GVReviewOverviewList.GVRevie
         super(GVType.REVIEW);
     }
 
-    void add(String id, String subject, float rating, Bitmap coverImage, String headline,
-             String locationName, String author, Date publishDate) {
-        if (!contains(id)) {
-            add(new GVReviewOverview(id, subject, rating, coverImage, headline, locationName,
-                    author, publishDate));
-        }
-    }
-
-    boolean contains(String id) {
-        GVReviewOverview review = new GVReviewOverview(id);
-        return contains(review);
-    }
-
-    void remove(String id) {
-        remove(new GVReviewOverview(id));
-    }
-
-    @Override
-    protected Comparator<GVReviewOverview> getDefaultComparator() {
-
-        return new Comparator<GVReviewOverviewList.GVReviewOverview>() {
-            @Override
-            public int compare(GVReviewOverview lhs, GVReviewOverview rhs) {
-                return lhs.getPublishDate().compareTo(rhs.getPublishDate());
-            }
-        };
-    }
-
     /**
      * GVData version of: Review
      * ViewHolder: VHReviewNodeOverview
@@ -76,7 +50,17 @@ class GVReviewOverviewList extends GVReviewDataList<GVReviewOverviewList.GVRevie
      * @see com.chdryra.android.reviewer.Review
      * @see com.chdryra.android.reviewer.VHReviewNodeSubjectRating
      */
-    class GVReviewOverview implements GVData {
+    static class GVReviewOverview implements GVData {
+        public static final Parcelable.Creator<GVReviewOverview> CREATOR = new Parcelable
+                .Creator<GVReviewOverview>() {
+            public GVReviewOverview createFromParcel(Parcel in) {
+                return new GVReviewOverview(in);
+            }
+
+            public GVReviewOverview[] newArray(int size) {
+                return new GVReviewOverview[size];
+            }
+        };
         private final String mId;
         private       String mSubject;
         private       float  mRating;
@@ -101,6 +85,21 @@ class GVReviewOverviewList extends GVReviewDataList<GVReviewOverviewList.GVRevie
             mLocationName = locationName;
             mAuthor = Author;
             mPublishDate = publishDate;
+        }
+
+        GVReviewOverview(Parcel in) {
+            mId = in.readString();
+            mSubject = in.readString();
+            mRating = in.readFloat();
+            mCoverImage = in.readParcelable(Bitmap.class.getClassLoader());
+            mHeadline = in.readString();
+            mLocationName = in.readString();
+            mAuthor = in.readString();
+            mPublishDate = (Date) in.readSerializable();
+        }
+
+        String getId() {
+            return mId;
         }
 
         String getSubject() {
@@ -143,22 +142,97 @@ class GVReviewOverviewList extends GVReviewDataList<GVReviewOverviewList.GVRevie
         }
 
         @Override
-        public boolean equals(Object obj) {
-            if (obj == null || getClass() != obj.getClass()) {
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (!(o instanceof GVReviewOverview)) return false;
+
+            GVReviewOverview overview = (GVReviewOverview) o;
+
+            if (Float.compare(overview.mRating, mRating) != 0) return false;
+            if (mAuthor != null ? !mAuthor.equals(overview.mAuthor) : overview.mAuthor != null) {
+                return false;
+            }
+            if (mCoverImage != null ? !mCoverImage.equals(overview.mCoverImage) : overview
+                    .mCoverImage != null) {
+                return false;
+            }
+            if (mHeadline != null ? !mHeadline.equals(overview.mHeadline) : overview.mHeadline !=
+                    null) {
+                return false;
+            }
+            if (mId != null ? !mId.equals(overview.mId) : overview.mId != null) return false;
+            if (mLocationName != null ? !mLocationName.equals(overview.mLocationName) : overview
+                    .mLocationName != null) {
+                return false;
+            }
+            if (mPublishDate != null ? !mPublishDate.equals(overview.mPublishDate) : overview
+                    .mPublishDate != null) {
+                return false;
+            }
+            if (mSubject != null ? !mSubject.equals(overview.mSubject) : overview.mSubject !=
+                    null) {
                 return false;
             }
 
-            GVReviewOverview overview = (GVReviewOverview) obj;
-            return mId.equals(overview.getId());
+            return true;
         }
 
         @Override
         public int hashCode() {
-            return mId.hashCode();
+            int result = mId != null ? mId.hashCode() : 0;
+            result = 31 * result + (mSubject != null ? mSubject.hashCode() : 0);
+            result = 31 * result + (mRating != +0.0f ? Float.floatToIntBits(mRating) : 0);
+            result = 31 * result + (mCoverImage != null ? mCoverImage.hashCode() : 0);
+            result = 31 * result + (mHeadline != null ? mHeadline.hashCode() : 0);
+            result = 31 * result + (mLocationName != null ? mLocationName.hashCode() : 0);
+            result = 31 * result + (mAuthor != null ? mAuthor.hashCode() : 0);
+            result = 31 * result + (mPublishDate != null ? mPublishDate.hashCode() : 0);
+            return result;
         }
 
-        String getId() {
-            return mId;
+        @Override
+        public int describeContents() {
+            return 0;
         }
+
+        @Override
+        public void writeToParcel(Parcel parcel, int i) {
+            parcel.writeString(mId);
+            parcel.writeString(mSubject);
+            parcel.writeFloat(mRating);
+            parcel.writeParcelable(mCoverImage, i);
+            parcel.writeString(mHeadline);
+            parcel.writeString(mLocationName);
+            parcel.writeString(mAuthor);
+            parcel.writeSerializable(mPublishDate);
+        }
+    }
+
+    void add(String id, String subject, float rating, Bitmap coverImage, String headline,
+             String locationName, String author, Date publishDate) {
+        if (!contains(id)) {
+            add(new GVReviewOverview(id, subject, rating, coverImage, headline, locationName,
+                    author, publishDate));
+        }
+    }
+
+    boolean contains(String id) {
+        GVReviewOverview review = new GVReviewOverview(id);
+        return contains(review);
+    }
+
+    void remove(String id) {
+        remove(new GVReviewOverview(id));
+    }
+
+    @Override
+    protected Comparator<GVReviewOverview> getDefaultComparator() {
+
+        return new Comparator<GVReviewOverviewList.GVReviewOverview>() {
+            @Override
+            public int compare(GVReviewOverview lhs, GVReviewOverview rhs) {
+                return lhs.getPublishDate().compareTo(rhs.getPublishDate());
+            }
+        };
     }
 }

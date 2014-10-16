@@ -54,6 +54,14 @@ public class FragmentReviewURLBrowser extends FragmentDeleteDone {
     private WebView           mWebView;
     private String            mSearchUrl;
 
+    private class URLWebViewClient extends WebViewClient {
+        @Override
+        public void onPageFinished(WebView view, String url) {
+            mUrlEditText.setText(view.getUrl());
+            super.onPageFinished(view, url);
+        }
+    }
+
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mUrl = (URL) getActivity().getIntent().getSerializableExtra(URL);
@@ -169,13 +177,5 @@ public class FragmentReviewURLBrowser extends FragmentDeleteDone {
     private void loadUrl() {
         String urlString = URLUtil.guessUrl(mUrlEditText.getText().toString());
         mWebView.loadUrl(urlString);
-    }
-
-    private class URLWebViewClient extends WebViewClient {
-        @Override
-        public void onPageFinished(WebView view, String url) {
-            mUrlEditText.setText(view.getUrl());
-            super.onPageFinished(view, url);
-        }
     }
 }

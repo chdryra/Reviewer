@@ -8,6 +8,9 @@
 
 package com.chdryra.android.reviewer;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.chdryra.android.mygenerallibrary.GVData;
 import com.chdryra.android.mygenerallibrary.ViewHolder;
 
@@ -29,27 +32,6 @@ class GVCommentList extends GVReviewDataList<GVCommentList.GVComment> {
         super(GVType.COMMENTS);
     }
 
-    void add(String comment) {
-        add(new GVComment(comment));
-    }
-
-    void remove(String comment) {
-        remove(new GVComment(comment));
-    }
-
-    boolean contains(String comment) {
-        return contains(new GVComment(comment));
-    }
-
-    GVCommentList getSplitComments() {
-        GVCommentList splitComments = new GVCommentList();
-        for (GVComment comment : this) {
-            splitComments.add(comment.getSplitComments());
-        }
-
-        return splitComments;
-    }
-
     /**
      * GVData version of: RDComment
      * ViewHolder: VHCommentView
@@ -61,7 +43,17 @@ class GVCommentList extends GVReviewDataList<GVCommentList.GVComment> {
      * @see com.chdryra.android.reviewer.RDComment
      * @see com.chdryra.android.reviewer.VHCommentView
      */
-    class GVComment implements GVData {
+    static class GVComment implements GVData {
+        public static final Parcelable.Creator<GVComment> CREATOR = new Parcelable
+                .Creator<GVComment>() {
+            public GVComment createFromParcel(Parcel in) {
+                return new GVComment(in);
+            }
+
+            public GVComment[] newArray(int size) {
+                return new GVComment[size];
+            }
+        };
         private final String    mComment;
         private       GVComment mUnsplitParent;
 
@@ -72,6 +64,11 @@ class GVCommentList extends GVReviewDataList<GVCommentList.GVComment> {
 
         GVComment(String comment) {
             mComment = comment;
+        }
+
+        GVComment(Parcel in) {
+            mComment = in.readString();
+            mUnsplitParent = in.readParcelable(GVComment.class.getClassLoader());
         }
 
         String getComment() {
@@ -110,52 +107,61 @@ class GVCommentList extends GVReviewDataList<GVCommentList.GVComment> {
         }
 
         @Override
-        public boolean equals(Object obj) {
-            if (this == obj) {
-                return true;
-            }
-            if (obj == null) {
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (!(o instanceof GVComment)) return false;
+
+            GVComment gvComment = (GVComment) o;
+
+            if (mComment != null ? !mComment.equals(gvComment.mComment) : gvComment.mComment !=
+                    null) {
                 return false;
             }
-            if (getClass() != obj.getClass()) {
+            if (mUnsplitParent != null ? !mUnsplitParent.equals(gvComment.mUnsplitParent) :
+                    gvComment.mUnsplitParent != null) {
                 return false;
             }
-            GVComment other = (GVComment) obj;
-            if (!getOuterType().equals(other.getOuterType())) {
-                return false;
-            }
-            if (mComment == null) {
-                if (other.mComment != null) {
-                    return false;
-                }
-            } else if (!mComment.equals(other.mComment)) {
-                return false;
-            }
-            if (mUnsplitParent == null) {
-                if (other.mUnsplitParent != null) {
-                    return false;
-                }
-            } else if (!mUnsplitParent.equals(other.mUnsplitParent)) {
-                return false;
-            }
+
             return true;
         }
 
         @Override
         public int hashCode() {
-            final int prime = 31;
-            int result = 1;
-            result = prime * result + getOuterType().hashCode();
-            result = prime * result
-                    + ((mComment == null) ? 0 : mComment.hashCode());
-            result = prime
-                    * result
-                    + ((mUnsplitParent == null) ? 0 : mUnsplitParent.hashCode());
+            int result = mComment != null ? mComment.hashCode() : 0;
+            result = 31 * result + (mUnsplitParent != null ? mUnsplitParent.hashCode() : 0);
             return result;
         }
 
-        private GVCommentList getOuterType() {
-            return GVCommentList.this;
+        @Override
+        public int describeContents() {
+            return 0;
         }
+
+        @Override
+        public void writeToParcel(Parcel parcel, int i) {
+            parcel.writeString(mComment);
+            parcel.writeParcelable(mUnsplitParent, i);
+        }
+    }
+
+    void add(String comment) {
+        add(new GVComment(comment));
+    }
+
+    void remove(String comment) {
+        remove(new GVComment(comment));
+    }
+
+    boolean contains(String comment) {
+        return contains(new GVComment(comment));
+    }
+
+    GVCommentList getSplitComments() {
+        GVCommentList splitComments = new GVCommentList();
+        for (GVComment comment : this) {
+            splitComments.add(comment.getSplitComments());
+        }
+
+        return splitComments;
     }
 }

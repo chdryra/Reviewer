@@ -8,21 +8,17 @@
 
 package com.chdryra.android.reviewer;
 
-import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.chdryra.android.myandroidwidgets.ClearableEditText;
+import com.chdryra.android.reviewer.GVFactList.GVFact;
 import com.chdryra.android.reviewer.GVReviewDataList.GVType;
 
 /**
  * Dialog for adding facts: asks for a label and value.
  */
-public class DialogFactAddFragment extends DialogAddReviewDataFragment {
-    public static final String FACT_LABEL = "com.chdryra.android.reviewer.fact_label";
-    public static final String FACT_VALUE = "com.chdryra.android.reviewer.fact_value";
-
+public class DialogFactAddFragment extends DialogAddReviewDataFragment<GVFact> {
     private ClearableEditText mFactLabelEditText;
     private ClearableEditText mFactValueEditText;
 
@@ -35,38 +31,23 @@ public class DialogFactAddFragment extends DialogAddReviewDataFragment {
         View v = getActivity().getLayoutInflater().inflate(R.layout.dialog_fact, null);
         mFactLabelEditText = (ClearableEditText) v.findViewById(R.id.fact_label_edit_text);
         mFactValueEditText = (ClearableEditText) v.findViewById(R.id.fact_value_edit_text);
+
         setKeyboardDoActionOnEditText(mFactValueEditText);
 
         return v;
     }
 
     @Override
-    protected void onAddButtonClick() {
-        String label = mFactLabelEditText.getText().toString();
-        String value = mFactValueEditText.getText().toString();
-        if ((label == null || label.length() == 0) && (value == null || value.length() == 0)) {
-            return;
-        }
+    protected GVFact createGVData() {
+        return new GVFact(mFactLabelEditText.getText().toString().trim(),
+                mFactValueEditText.getText().toString().trim());
+    }
 
-        GVFactList facts = (GVFactList) getData();
-        if (label == null || label.length() == 0) {
-            Toast.makeText(getActivity(), getResources().getString(R.string.toast_enter_label),
-                    Toast.LENGTH_SHORT).show();
-        } else if (value == null || value.length() == 0) {
-            Toast.makeText(getActivity(), getResources().getString(R.string.toast_enter_value),
-                    Toast.LENGTH_SHORT).show();
-        } else if (facts.containsLabel(label)) {
-            Toast.makeText(getActivity(), getResources().getString(R.string.toast_has_fact),
-                    Toast.LENGTH_SHORT).show();
-        } else {
-            facts.add(label, value);
-            Intent i = createNewReturnData();
-            i.putExtra(FACT_LABEL, label);
-            i.putExtra(FACT_VALUE, value);
-            mFactLabelEditText.setText(null);
-            mFactValueEditText.setText(null);
-            getDialog().setTitle("Added " + label + ": " + value);
-            mFactLabelEditText.requestFocus();
-        }
+    @Override
+    protected void resetDialogOnAdd(GVFact newDatum) {
+        mFactLabelEditText.setText(null);
+        mFactValueEditText.setText(null);
+        getDialog().setTitle("Added " + newDatum.getLabel() + ": " + newDatum.getValue());
+        mFactLabelEditText.requestFocus();
     }
 }

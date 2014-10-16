@@ -8,6 +8,9 @@
 
 package com.chdryra.android.reviewer;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.chdryra.android.mygenerallibrary.GVString;
 import com.chdryra.android.mygenerallibrary.ViewHolder;
 
@@ -26,6 +29,54 @@ class GVTagList extends GVReviewDataList<GVTagList.GVTag> {
 
     GVTagList() {
         super(GVType.TAGS);
+    }
+
+    /**
+     * GVData version of: ReviewTag
+     * ViewHolder: VHTagView
+     * <p/>
+     * <p>
+     * Ignores case when comparing tags.
+     * </p>
+     *
+     * @see com.chdryra.android.mygenerallibrary.GVData
+     * @see com.chdryra.android.reviewer.TagsManager.ReviewTag
+     * @see com.chdryra.android.reviewer.VHTagView
+     */
+    static class GVTag extends GVString {
+        public static final Parcelable.Creator<GVTag> CREATOR = new Parcelable
+                .Creator<GVTag>() {
+            public GVTag createFromParcel(Parcel in) {
+                return new GVTag(in);
+            }
+
+            public GVTag[] newArray(int size) {
+                return new GVTag[size];
+            }
+        };
+
+        GVTag(String tag) {
+            super(tag);
+        }
+
+        GVTag(Parcel in) {
+            super(in);
+        }
+
+        @Override
+        public ViewHolder getViewHolder() {
+            return new VHTagView();
+        }
+
+        @Override
+        public int describeContents() {
+            return super.describeContents();
+        }
+
+        @Override
+        public void writeToParcel(Parcel parcel, int i) {
+            super.writeToParcel(parcel, i);
+        }
     }
 
     void add(String string) {
@@ -51,41 +102,5 @@ class GVTagList extends GVReviewDataList<GVTagList.GVTag> {
                 return lhs.get().compareTo(rhs.get());
             }
         };
-    }
-
-    /**
-     * GVData version of: ReviewTag
-     * ViewHolder: VHTagView
-     * <p/>
-     * <p>
-     * Ignores case when comparing tags.
-     * </p>
-     *
-     * @see com.chdryra.android.mygenerallibrary.GVData
-     * @see com.chdryra.android.reviewer.TagsManager.ReviewTag
-     * @see com.chdryra.android.reviewer.VHTagView
-     */
-    static class GVTag extends GVString {
-        GVTag(String tag) {
-            super(tag);
-        }
-
-        @Override
-        public ViewHolder getViewHolder() {
-            return new VHTagView();
-        }
-
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) return true;
-            if (!(o instanceof GVTag)) return false;
-            if (!super.equals(o)) return false;
-
-            GVTag gvTag = (GVTag) o;
-
-            if (!get().equalsIgnoreCase(gvTag.get())) return false;
-
-            return true;
-        }
     }
 }

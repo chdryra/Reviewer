@@ -11,16 +11,14 @@ package com.chdryra.android.reviewer;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.Toast;
 
+import com.chdryra.android.reviewer.GVCommentList.GVComment;
 import com.chdryra.android.reviewer.GVReviewDataList.GVType;
 
 /**
  * Dialog for adding comments.
  */
-public class DialogCommentAddFragment extends DialogAddReviewDataFragment {
-    public static final String COMMENT = "com.chdryra.android.review.comment";
-
+public class DialogCommentAddFragment extends DialogAddReviewDataFragment<GVComment> {
     private EditText mCommentEditText;
 
     public DialogCommentAddFragment() {
@@ -31,24 +29,20 @@ public class DialogCommentAddFragment extends DialogAddReviewDataFragment {
     protected View createDialogUI(ViewGroup parent) {
         View v = getActivity().getLayoutInflater().inflate(R.layout.dialog_comment, parent, false);
         mCommentEditText = (EditText) v.findViewById(R.id.comment_edit_text);
+
         setKeyboardDoActionOnEditText(mCommentEditText);
 
         return v;
     }
 
     @Override
-    protected void onAddButtonClick() {
-        String comment = mCommentEditText.getText().toString();
-        if (comment == null || comment.length() == 0) return;
+    protected GVComment createGVData() {
+        return new GVComment(mCommentEditText.getText().toString().trim());
+    }
 
-        GVCommentList comments = (GVCommentList) getData();
-        if (comments.contains(comment)) {
-            Toast.makeText(getActivity(), R.string.toast_has_comment, Toast.LENGTH_SHORT).show();
-        } else {
-            comments.add(comment);
-            createNewReturnData().putExtra(COMMENT, comment);
-            mCommentEditText.setText(null);
-            getDialog().setTitle("+ " + comment);
-        }
+    @Override
+    protected void resetDialogOnAdd(GVComment comment) {
+        mCommentEditText.setText(null);
+        getDialog().setTitle("+ " + comment.getComment());
     }
 }

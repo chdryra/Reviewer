@@ -20,11 +20,12 @@ import com.chdryra.android.mygenerallibrary.GVData;
  * On: 14/10/2014
  * Email: rizwan.choudrey@gmail.com
  */
-abstract class InputHandlerReviewData<T extends GVData> {
+class InputHandlerReviewData<T extends GVData> {
     private static final String DATUM_CURRENT = "com.chdryra.android.reviewer.data_current";
     private static final String DATUM_NEW     = "com.chdryra.android.reviewer.data_new";
     protected GVReviewDataList<T>     mData;
     private   GVReviewDataList.GVType mDataType;
+    private Class<T> mTClass;
 
     InputHandlerReviewData(GVReviewDataList.GVType dataType) {
         mDataType = dataType;
@@ -34,13 +35,24 @@ abstract class InputHandlerReviewData<T extends GVData> {
         setData(data);
     }
 
-    abstract void pack(CurrentNewDatum currentNew, T item, Bundle args);
+    enum CurrentNewDatum {
+        CURRENT(DATUM_CURRENT),
+        NEW(DATUM_NEW);
 
-    abstract void pack(CurrentNewDatum currentNew, T item, Intent data);
+        private String mTag;
 
-    abstract T unpack(CurrentNewDatum currentNew, Bundle args);
+        CurrentNewDatum(String tag) {
+            mTag = tag;
+        }
 
-    abstract T unpack(CurrentNewDatum currentNew, Intent data);
+        private String getPackingTag() {
+            return mTag;
+        }
+    }
+
+    GVReviewDataList.GVType getGVType() {
+        return mDataType;
+    }
 
     GVReviewDataList<T> getData() {
         return mData;
@@ -51,17 +63,20 @@ abstract class InputHandlerReviewData<T extends GVData> {
         mDataType = data.getGVType();
     }
 
-    GVReviewDataList.GVType getGVType() {
-        return mDataType;
+    void pack(CurrentNewDatum currentNew, T item, Bundle args) {
+        args.putParcelable(currentNew.getPackingTag(), item);
     }
 
-    protected String getPackingTag(CurrentNewDatum currentNew) {
-        return currentNew.getPackingTag();
+    void pack(CurrentNewDatum currentNew, T item, Intent data) {
+        data.putExtra(currentNew.getPackingTag(), item);
     }
 
-    protected String getPackingTag(CurrentNewDatum currentNew, String modifier) {
-        return modifier == null ? getPackingTag(currentNew) :
-                currentNew.getPackingTag() + "_" + modifier;
+    T unpack(CurrentNewDatum currentNew, Bundle args) {
+        return args.getParcelable(currentNew.getPackingTag());
+    }
+
+    T unpack(CurrentNewDatum currentNew, Intent data) {
+        return data.getParcelableExtra(currentNew.getPackingTag());
     }
 
     void add(Intent data, Context context) {
@@ -97,20 +112,5 @@ abstract class InputHandlerReviewData<T extends GVData> {
 
     boolean isNewAndValid(T datum, Context context) {
         return datum.isValidForDisplay() && !contains(datum, context);
-    }
-
-    enum CurrentNewDatum {
-        CURRENT(DATUM_CURRENT),
-        NEW(DATUM_NEW);
-
-        private String mTag;
-
-        CurrentNewDatum(String tag) {
-            mTag = tag;
-        }
-
-        private String getPackingTag() {
-            return mTag;
-        }
     }
 }

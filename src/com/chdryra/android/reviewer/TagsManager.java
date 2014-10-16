@@ -63,16 +63,6 @@ class TagsManager {
         }
     }
 
-    private void tag(Review review, String tag) {
-        ReviewTag reviewTag = getTags().get(tag);
-        if (reviewTag == null) {
-            reviewTag = getManager().new ReviewTag(tag, review);
-            getTags().add(reviewTag);
-        } else {
-            reviewTag.addReview(review);
-        }
-    }
-
     /**
      * Wraps a string plus a collection of reviews tagged with that string. Comparable with
      * another ReviewTag alphabetically.
@@ -128,6 +118,35 @@ class TagsManager {
             mTags = new ArrayList<ReviewTag>();
         }
 
+        class ReviewTagIterator implements Iterator<ReviewTag> {
+            int position = 0;
+
+            @Override
+            public boolean hasNext() {
+                return position < size() && getItem(position) != null;
+            }
+
+            @Override
+            public ReviewTag next() {
+                if (hasNext()) {
+                    return getItem(position++);
+                } else {
+                    throw new NoSuchElementException("No more elements left");
+                }
+            }
+
+            @Override
+            public void remove() {
+                if (position <= 0) {
+                    throw new IllegalStateException("Have to do at least one next() before you " +
+                            "can " +
+                            "delete");
+                } else {
+                    ReviewTagCollection.this.remove(getItem(position));
+                }
+            }
+        }
+
         int size() {
             return mTags.size();
         }
@@ -162,34 +181,15 @@ class TagsManager {
         public Iterator<ReviewTag> iterator() {
             return new ReviewTagIterator();
         }
+    }
 
-        class ReviewTagIterator implements Iterator<ReviewTag> {
-            int position = 0;
-
-            @Override
-            public boolean hasNext() {
-                return position < size() && getItem(position) != null;
-            }
-
-            @Override
-            public ReviewTag next() {
-                if (hasNext()) {
-                    return getItem(position++);
-                } else {
-                    throw new NoSuchElementException("No more elements left");
-                }
-            }
-
-            @Override
-            public void remove() {
-                if (position <= 0) {
-                    throw new IllegalStateException("Have to do at least one next() before you " +
-                            "can " +
-                            "delete");
-                } else {
-                    ReviewTagCollection.this.remove(getItem(position));
-                }
-            }
+    private void tag(Review review, String tag) {
+        ReviewTag reviewTag = getTags().get(tag);
+        if (reviewTag == null) {
+            reviewTag = getManager().new ReviewTag(tag, review);
+            getTags().add(reviewTag);
+        } else {
+            reviewTag.addReview(review);
         }
     }
 }

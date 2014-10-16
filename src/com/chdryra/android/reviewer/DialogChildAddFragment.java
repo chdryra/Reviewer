@@ -8,7 +8,6 @@
 
 package com.chdryra.android.reviewer;
 
-import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RatingBar;
@@ -22,10 +21,9 @@ import java.text.DecimalFormat;
 /**
  * Dialog for adding sub-reviews: asks for a subject and rating.
  */
-public class DialogChildAddFragment extends DialogAddReviewDataFragment {
-    private ClearableEditText                             mChildNameEditText;
-    private RatingBar                                     mChildRatingBar;
-    private InputHandlerReviewData<GVReviewSubjectRating> mInputHandler;
+public class DialogChildAddFragment extends DialogAddReviewDataFragment<GVReviewSubjectRating> {
+    private ClearableEditText mChildNameEditText;
+    private RatingBar         mChildRatingBar;
 
     public DialogChildAddFragment() {
         super(GVType.CHILDREN);
@@ -37,42 +35,30 @@ public class DialogChildAddFragment extends DialogAddReviewDataFragment {
                 false);
         mChildNameEditText = (ClearableEditText) v.findViewById(R.id.child_name_edit_text);
         mChildRatingBar = (RatingBar) v.findViewById(R.id.child_rating_bar);
+
         setKeyboardDoActionOnEditText(mChildNameEditText);
-        mInputHandler = new IHChildren((GVReviewSubjectRatingList) getData());
 
         return v;
     }
 
     @Override
-    protected void onAddButtonClick() {
-        GVReviewSubjectRating tag = createGVData();
-        if (mInputHandler.isNewAndValid(tag, getActivity())) {
-            Intent data = createNewReturnData();
-            mInputHandler.pack(InputHandlerReviewData.CurrentNewDatum.NEW, tag, data);
-            mInputHandler.add(data, getActivity());
-            resetDialog();
-            setDialogAddedTitle(tag);
-        }
+    protected GVReviewSubjectRating createGVData() {
+        return new GVReviewSubjectRating(mChildNameEditText.getText().toString().trim(),
+                mChildRatingBar.getRating());
     }
 
-    GVReviewSubjectRating createGVData() {
-        String childName = mChildNameEditText.getText().toString().trim();
-        float childRating = mChildRatingBar.getRating();
-        return new GVReviewSubjectRating(childName, childRating);
-    }
-
-    void resetDialog() {
+    @Override
+    protected void resetDialogOnAdd(GVReviewSubjectRating newDatum) {
+        //Reset dialog inputs
         mChildNameEditText.setText(null);
         mChildRatingBar.setRating(0);
-    }
 
-    void setDialogAddedTitle(GVReviewSubjectRating child) {
-        float childRating = child.getRating();
+        //Set dialog title
+        float childRating = newDatum.getRating();
         DecimalFormat formatter = new DecimalFormat("0");
         DecimalFormat decimalFormatter = new DecimalFormat("0.0");
         String rating = childRating % 1L > 0L ? decimalFormatter.format(childRating) : formatter
                 .format(childRating);
-
-        getDialog().setTitle("+ " + child.getSubject() + ": " + rating + "/" + "5");
+        getDialog().setTitle("+ " + newDatum.getSubject() + ": " + rating + "/" + "5");
     }
 }

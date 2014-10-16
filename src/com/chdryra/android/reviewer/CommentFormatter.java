@@ -14,8 +14,8 @@ import java.util.StringTokenizer;
 /**
  * Helper class for comment string processing.
  * <ul>
- *     <li>Extraction of 1st sentence as a headline</li>
- *     <li>Splitting of comments into sentences</li>
+ * <li>Extraction of 1st sentence as a headline</li>
+ * <li>Splitting of comments into sentences</li>
  * </ul>
  */
 class CommentFormatter {

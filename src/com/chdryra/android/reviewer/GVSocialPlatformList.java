@@ -9,6 +9,8 @@
 package com.chdryra.android.reviewer;
 
 import android.content.Context;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 import com.chdryra.android.mygenerallibrary.GVDualString;
 import com.chdryra.android.mygenerallibrary.ViewHolder;
@@ -45,25 +47,6 @@ public class GVSocialPlatformList extends GVReviewDataList<GVSocialPlatformList.
         return new GVSocialPlatformList(context);
     }
 
-    @Override
-    protected Comparator<GVSocialPlatform> getDefaultComparator() {
-        return new Comparator<GVSocialPlatform>() {
-
-            @Override
-            public int compare(GVSocialPlatform lhs, GVSocialPlatform rhs) {
-                int ret = 0;
-                if (lhs.getFollowers() > rhs.getFollowers()) {
-                    ret = 1;
-                }
-                if (lhs.getFollowers() < rhs.getFollowers()) {
-                    ret = -1;
-                }
-
-                return ret;
-            }
-        };
-    }
-
     /**
      * GVData version of: no equivalent as used for review sharing screen.
      * ViewHolder: VHSocialView
@@ -75,13 +58,29 @@ public class GVSocialPlatformList extends GVReviewDataList<GVSocialPlatformList.
      * @see com.chdryra.android.mygenerallibrary.GVData
      * @see com.chdryra.android.reviewer.SocialPlatformList
      */
-    class GVSocialPlatform extends GVDualString {
-        private int     mFollowers = 0;
-        private boolean mIsChosen  = false;
+    static class GVSocialPlatform extends GVDualString {
+        public static final Parcelable.Creator<GVSocialPlatform> CREATOR    = new Parcelable
+                .Creator<GVSocialPlatform>() {
+            public GVSocialPlatform createFromParcel(Parcel in) {
+                return new GVSocialPlatform(in);
+            }
+
+            public GVSocialPlatform[] newArray(int size) {
+                return new GVSocialPlatform[size];
+            }
+        };
+        private             int                                  mFollowers = 0;
+        private             boolean                              mIsChosen  = false;
 
         GVSocialPlatform(String name, int followers) {
             super(name, String.valueOf(followers));
             mFollowers = followers;
+        }
+
+        public GVSocialPlatform(Parcel in) {
+            super(in);
+            mFollowers = in.readInt();
+            mIsChosen = in.readByte() != 0;
         }
 
         String getName() {
@@ -109,5 +108,58 @@ public class GVSocialPlatformList extends GVReviewDataList<GVSocialPlatformList.
         public boolean isValidForDisplay() {
             return getName() != null && getName().length() > 0;
         }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (!(o instanceof GVSocialPlatform)) return false;
+            if (!super.equals(o)) return false;
+
+            GVSocialPlatform that = (GVSocialPlatform) o;
+
+            if (mFollowers != that.mFollowers) return false;
+            if (mIsChosen != that.mIsChosen) return false;
+
+            return true;
+        }
+
+        @Override
+        public int hashCode() {
+            int result = super.hashCode();
+            result = 31 * result + mFollowers;
+            result = 31 * result + (mIsChosen ? 1 : 0);
+            return result;
+        }
+
+        @Override
+        public int describeContents() {
+            return super.describeContents();
+        }
+
+        @Override
+        public void writeToParcel(Parcel parcel, int i) {
+            super.writeToParcel(parcel, i);
+            parcel.writeInt(mFollowers);
+            parcel.writeByte((byte) (mIsChosen ? 1 : 0));
+        }
+    }
+
+    @Override
+    protected Comparator<GVSocialPlatform> getDefaultComparator() {
+        return new Comparator<GVSocialPlatform>() {
+
+            @Override
+            public int compare(GVSocialPlatform lhs, GVSocialPlatform rhs) {
+                int ret = 0;
+                if (lhs.getFollowers() > rhs.getFollowers()) {
+                    ret = 1;
+                }
+                if (lhs.getFollowers() < rhs.getFollowers()) {
+                    ret = -1;
+                }
+
+                return ret;
+            }
+        };
     }
 }

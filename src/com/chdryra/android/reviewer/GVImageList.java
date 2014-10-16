@@ -9,6 +9,8 @@
 package com.chdryra.android.reviewer;
 
 import android.graphics.Bitmap;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 import com.chdryra.android.mygenerallibrary.GVData;
 import com.chdryra.android.mygenerallibrary.ViewHolder;
@@ -36,41 +38,6 @@ class GVImageList extends GVReviewDataList<GVImageList.GVImage> {
         super(GVType.IMAGES);
     }
 
-    void add(Bitmap bitmap, LatLng latLng) {
-        add(new GVImage(bitmap, latLng, null));
-    }
-
-    void add(Bitmap bitmap, LatLng latLng, String caption, boolean isCover) {
-        add(new GVImage(bitmap, latLng, caption, isCover));
-    }
-
-    void updateCaption(Bitmap bitmap, LatLng latLng, String oldCaption, String newCaption) {
-        GVImage image = getItem(indexOf(new GVImage(bitmap, latLng, oldCaption)));
-        image.setCaption(newCaption);
-    }
-
-    GVImage getRandomCover() {
-        GVImageList covers = getCovers();
-        if (covers.size() == 0) {
-            return null;
-        }
-
-        Random r = new Random();
-
-        return covers.getItem(r.nextInt(covers.size()));
-    }
-
-    GVImageList getCovers() {
-        GVImageList covers = new GVImageList();
-        for (GVImage image : this) {
-            if (image.isCover()) {
-                covers.add(image);
-            }
-        }
-
-        return covers;
-    }
-
     /**
      * GVData version of: RDImage
      * ViewHolder: VHImageView
@@ -83,7 +50,17 @@ class GVImageList extends GVReviewDataList<GVImageList.GVImage> {
      * @see com.chdryra.android.reviewer.RDImage
      * @see com.chdryra.android.reviewer.VHImageView
      */
-    class GVImage implements GVData {
+    static class GVImage implements GVData {
+        public static final Parcelable.Creator<GVImage> CREATOR = new Parcelable
+                .Creator<GVImage>() {
+            public GVImage createFromParcel(Parcel in) {
+                return new GVImage(in);
+            }
+
+            public GVImage[] newArray(int size) {
+                return new GVImage[size];
+            }
+        };
         private final Bitmap mBitmap;
         private final LatLng mLatLng;
         private       String mCaption;
@@ -100,6 +77,13 @@ class GVImageList extends GVReviewDataList<GVImageList.GVImage> {
             mBitmap = bitmap;
             mCaption = caption;
             mLatLng = latLng;
+        }
+
+        GVImage(Parcel in) {
+            mBitmap = in.readParcelable(Bitmap.class.getClassLoader());
+            mCaption = in.readString();
+            mLatLng = in.readParcelable(LatLng.class.getClassLoader());
+            mIsCover = in.readByte() != 0;
         }
 
         Bitmap getBitmap() {
@@ -137,60 +121,81 @@ class GVImageList extends GVReviewDataList<GVImageList.GVImage> {
         }
 
         @Override
-        public boolean equals(Object obj) {
-            if (this == obj) {
-                return true;
-            }
-            if (obj == null) {
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (!(o instanceof GVImage)) return false;
+
+            GVImage gvImage = (GVImage) o;
+
+            if (mIsCover != gvImage.mIsCover) return false;
+            if (mBitmap != null ? !mBitmap.equals(gvImage.mBitmap) : gvImage.mBitmap != null) {
                 return false;
             }
-            if (getClass() != obj.getClass()) {
+            if (mCaption != null ? !mCaption.equals(gvImage.mCaption) : gvImage.mCaption != null) {
                 return false;
             }
-            GVImage other = (GVImage) obj;
-            if (!getOuterType().equals(other.getOuterType())) {
+            if (mLatLng != null ? !mLatLng.equals(gvImage.mLatLng) : gvImage.mLatLng != null) {
                 return false;
             }
-            if (mBitmap == null) {
-                if (other.mBitmap != null) {
-                    return false;
-                }
-            } else if (!mBitmap.equals(other.mBitmap)) {
-                return false;
-            }
-            if (mCaption == null) {
-                if (other.mCaption != null) {
-                    return false;
-                }
-            } else if (!mCaption.equals(other.mCaption)) {
-                return false;
-            }
-            if (mLatLng == null) {
-                if (other.mLatLng != null) {
-                    return false;
-                }
-            } else if (!mLatLng.equals(other.mLatLng)) {
-                return false;
-            }
+
             return true;
         }
 
         @Override
         public int hashCode() {
-            final int prime = 31;
-            int result = 1;
-            result = prime * result + getOuterType().hashCode();
-            result = prime * result
-                    + ((mBitmap == null) ? 0 : mBitmap.hashCode());
-            result = prime * result
-                    + ((mCaption == null) ? 0 : mCaption.hashCode());
-            result = prime * result
-                    + ((mLatLng == null) ? 0 : mLatLng.hashCode());
+            int result = mBitmap != null ? mBitmap.hashCode() : 0;
+            result = 31 * result + (mLatLng != null ? mLatLng.hashCode() : 0);
+            result = 31 * result + (mCaption != null ? mCaption.hashCode() : 0);
+            result = 31 * result + (mIsCover ? 1 : 0);
             return result;
         }
 
-        private GVImageList getOuterType() {
-            return GVImageList.this;
+        @Override
+        public int describeContents() {
+            return 0;
         }
+
+        @Override
+        public void writeToParcel(Parcel parcel, int i) {
+            parcel.writeParcelable(mBitmap, i);
+            parcel.writeString(mCaption);
+            parcel.writeParcelable(mLatLng, i);
+            parcel.writeByte((byte) (isCover() ? 1 : 0));
+        }
+    }
+
+    void add(Bitmap bitmap, LatLng latLng) {
+        add(new GVImage(bitmap, latLng, null));
+    }
+
+    void add(Bitmap bitmap, LatLng latLng, String caption, boolean isCover) {
+        add(new GVImage(bitmap, latLng, caption, isCover));
+    }
+
+    void updateCaption(Bitmap bitmap, LatLng latLng, String oldCaption, String newCaption) {
+        GVImage image = getItem(indexOf(new GVImage(bitmap, latLng, oldCaption)));
+        image.setCaption(newCaption);
+    }
+
+    GVImage getRandomCover() {
+        GVImageList covers = getCovers();
+        if (covers.size() == 0) {
+            return null;
+        }
+
+        Random r = new Random();
+
+        return covers.getItem(r.nextInt(covers.size()));
+    }
+
+    GVImageList getCovers() {
+        GVImageList covers = new GVImageList();
+        for (GVImage image : this) {
+            if (image.isCover()) {
+                covers.add(image);
+            }
+        }
+
+        return covers;
     }
 }

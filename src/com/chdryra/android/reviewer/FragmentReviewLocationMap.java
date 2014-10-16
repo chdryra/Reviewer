@@ -36,6 +36,7 @@ import com.chdryra.android.mygenerallibrary.FragmentDeleteDone;
 import com.chdryra.android.mygenerallibrary.LocationClientConnector;
 import com.chdryra.android.mygenerallibrary.LocationNameAdapter;
 import com.chdryra.android.remoteapifetchers.FetcherPlacesAPI;
+import com.chdryra.android.reviewer.GVLocationList.GVLocation;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMap.OnInfoWindowClickListener;
@@ -64,18 +65,13 @@ import org.json.JSONException;
  */
 public class FragmentReviewLocationMap extends FragmentDeleteDone implements
         LocationClientConnector.Locatable {
-    public final static  String SUBJECT              = "com.chdryra.android.reviewer.subject";
-    public final static  String LATLNG               = "com.chdryra.android.reviewer.latlng";
-    public final static  String NAME                 = "com.chdryra.android.reviewer.location_name";
-    public final static  String LATLNG_OLD           = "com.chdryra.android.reviewer.latlng_old";
-    public final static  String NAME_OLD             = "com.chdryra.android.reviewer" +
-            ".location_name_old";
     private final static String TAG                  = "FragmentReviewLocationMap";
     private static final int    DEFAULT_ZOOM         = 15;
     private static final int    NUMBER_DEFAULT_NAMES = 5;
 
-    private GoogleMap mGoogleMap;
-    private MapView   mMapView;
+    private GVLocationList.GVLocation mCurrent;
+    private GoogleMap                 mGoogleMap;
+    private MapView                   mMapView;
 
     private SearchView          mSearchView;
     private MenuItem            mSearchViewMenuItem;
@@ -84,21 +80,71 @@ public class FragmentReviewLocationMap extends FragmentDeleteDone implements
     private ClearableAutoCompleteTextView mLocationName;
     private ImageButton                   mRevertButton;
 
-    private LatLng mLatLng;
-    private LatLng mRevertLatLng;
-    private String mRevertName;
+    private LatLng mNewLatLng;
     private String mReviewSubject;
 
     private LocationClientConnector mLocationClient;
     private String                  mSearchLocationName;
 
+    private InputHandlerReviewData<GVLocationList.GVLocation> mHandler;
+
+    /**
+     * Fragment performs search on a separate thread using this task.
+     */
+    private class MapSearchTask extends AsyncTask<String, Void, LatLng> {
+        private ProgressDialog pd;
+
+        @Override
+        protected LatLng doInBackground(String... params) {
+            try {
+                return FetcherPlacesAPI.fetchLatLng(params[0]);
+            } catch (JSONException e) {
+                Toast.makeText(getActivity(), getResources().getString(R.string
+                        .toast_map_search_failed), Toast.LENGTH_SHORT).show();
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            pd = new ProgressDialog(getActivity());
+            pd.setTitle(getResources().getString(R.string.progress_bar_search_location_title));
+            pd.setMessage(getResources().getString(R.string.progress_bar_search_location_message));
+            pd.setCancelable(false);
+            pd.setIndeterminate(true);
+            pd.show();
+        }
+
+        @Override
+        protected void onPostExecute(LatLng latlng) {
+            setLatLng(latlng);
+            pd.dismiss();
+        }
+    }
+
+    private class LocationSuggestionsObserver extends DataSetObserver {
+        public void onChanged() {
+            mSearchView.setSuggestionsAdapter(getSuggestionsCursorAdapter());
+        }
+
+        public void onInvalidated() {
+            invalidateSuggestions();
+        }
+
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mRevertLatLng = getActivity().getIntent().getParcelableExtra(LATLNG);
-        mRevertName = (String) getActivity().getIntent().getSerializableExtra(NAME);
-        mReviewSubject = (String) getActivity().getIntent().getSerializableExtra(SUBJECT);
+        mHandler = new InputHandlerReviewData<GVLocationList.GVLocation>(GVReviewDataList.GVType
+                .LOCATIONS);
+        mCurrent = mHandler.unpack(InputHandlerReviewData.CurrentNewDatum.CURRENT,
+                getActivity().getIntent());
+
+        mReviewSubject = (String) getActivity().getIntent().getSerializableExtra
+                (FragmentReviewLocations.SUBJECT);
 
         //TODO maybe move connector to Activity to create more reliable connection when stuff
         // starts? Or maybe OnAttach()?
@@ -160,7 +206,7 @@ public class FragmentReviewLocationMap extends FragmentDeleteDone implements
             }
         });
 
-        mSuggestionsAdapter = new LocationNameAdapter(getActivity(), mLatLng, 0, null);
+        mSuggestionsAdapter = new LocationNameAdapter(getActivity(), mNewLatLng, 0, null);
         mSuggestionsAdapter.registerDataSetObserver(new LocationSuggestionsObserver());
 
         mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -184,14 +230,13 @@ public class FragmentReviewLocationMap extends FragmentDeleteDone implements
 
     @Override
     protected boolean hasDataToDelete() {
-        return mRevertLatLng != null;
+        return mCurrent != null;
     }
 
     @Override
     protected void onDeleteSelected() {
-        Intent i = getNewReturnDataIntent();
-        i.putExtra(LATLNG_OLD, mRevertLatLng);
-        i.putExtra(NAME_OLD, mRevertName);
+        mHandler.pack(InputHandlerReviewData.CurrentNewDatum.CURRENT, mCurrent,
+                getNewReturnDataIntent());
     }
 
     @Override
@@ -205,10 +250,12 @@ public class FragmentReviewLocationMap extends FragmentDeleteDone implements
         }
 
         Intent i = getNewReturnDataIntent();
-        i.putExtra(LATLNG, mLatLng);
-        i.putExtra(LATLNG_OLD, mRevertLatLng);
-        i.putExtra(NAME, mLocationName.getText().toString());
-        i.putExtra(NAME_OLD, mRevertName);
+        mHandler.pack(InputHandlerReviewData.CurrentNewDatum.CURRENT, mCurrent, i);
+        mHandler.pack(InputHandlerReviewData.CurrentNewDatum.NEW, createGVData(), i);
+    }
+
+    private GVLocation createGVData() {
+        return new GVLocation(mNewLatLng, mLocationName.getText().toString().trim());
     }
 
     private void findSuggestions(String query) {
@@ -280,21 +327,16 @@ public class FragmentReviewLocationMap extends FragmentDeleteDone implements
     }
 
     private void initRevertButtonUI() {
-        if (mRevertLatLng != null) {
+        if (mCurrent != null) {
             mRevertButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (mRevertLatLng == null) {
-                        return;
-                    }
-
                     mSearchLocationName = null;
-                    setLatLng(mRevertLatLng);
-                    mLocationName.setText(mRevertName);
+                    setLatLng(mCurrent.getLatLng());
+                    mLocationName.setText(mCurrent.getName());
                     mLocationName.hideChrome();
                 }
             });
-
             mRevertButton.performClick();
         } else {
             mRevertButton.setVisibility(View.GONE);
@@ -351,7 +393,7 @@ public class FragmentReviewLocationMap extends FragmentDeleteDone implements
 
     @Override
     public void onLocationClientConnected(LatLng latLng) {
-        if (mLatLng == null) {
+        if (mNewLatLng == null) {
             setLatLng(latLng);
         }
     }
@@ -361,13 +403,13 @@ public class FragmentReviewLocationMap extends FragmentDeleteDone implements
             return;
         }
 
-        mLatLng = latlang;
+        mNewLatLng = latlang;
 
         if (mLocationName != null) {
             mLocationName.setText(null);
             String primaryDefaultSuggestion = mSearchLocationName != null ? mSearchLocationName :
                     mReviewSubject;
-            mLocationName.setAdapter(new LocationNameAdapter(getActivity(), mLatLng,
+            mLocationName.setAdapter(new LocationNameAdapter(getActivity(), mNewLatLng,
                     NUMBER_DEFAULT_NAMES, primaryDefaultSuggestion));
         }
 
@@ -375,17 +417,17 @@ public class FragmentReviewLocationMap extends FragmentDeleteDone implements
     }
 
     private void zoomToLatLng() {
-        if (mLatLng == null) {
+        if (mNewLatLng == null) {
             return;
         }
 
-        mGoogleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(mLatLng,
+        mGoogleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(mNewLatLng,
                 (float) FragmentReviewLocationMap.DEFAULT_ZOOM));
         updateMapMarker();
     }
 
     private void updateMapMarker() {
-        MarkerOptions markerOptions = new MarkerOptions().position(mLatLng);
+        MarkerOptions markerOptions = new MarkerOptions().position(mNewLatLng);
         markerOptions.title(mLocationName.getText().toString());
         markerOptions.draggable(true);
         mGoogleMap.clear();
@@ -444,51 +486,5 @@ public class FragmentReviewLocationMap extends FragmentDeleteDone implements
         if (mMapView != null) {
             mMapView.onDestroy();
         }
-    }
-
-    /**
-     * Fragment performs search on a separate thread using this task.
-     */
-    private class MapSearchTask extends AsyncTask<String, Void, LatLng> {
-        private ProgressDialog pd;
-
-        @Override
-        protected LatLng doInBackground(String... params) {
-            try {
-                return FetcherPlacesAPI.fetchLatLng(params[0]);
-            } catch (JSONException e) {
-                Toast.makeText(getActivity(), getResources().getString(R.string
-                        .toast_map_search_failed), Toast.LENGTH_SHORT).show();
-                return null;
-            }
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            pd = new ProgressDialog(getActivity());
-            pd.setTitle(getResources().getString(R.string.progress_bar_search_location_title));
-            pd.setMessage(getResources().getString(R.string.progress_bar_search_location_message));
-            pd.setCancelable(false);
-            pd.setIndeterminate(true);
-            pd.show();
-        }
-
-        @Override
-        protected void onPostExecute(LatLng latlng) {
-            setLatLng(latlng);
-            pd.dismiss();
-        }
-    }
-
-    private class LocationSuggestionsObserver extends DataSetObserver {
-        public void onChanged() {
-            mSearchView.setSuggestionsAdapter(getSuggestionsCursorAdapter());
-        }
-
-        public void onInvalidated() {
-            invalidateSuggestions();
-        }
-
     }
 }

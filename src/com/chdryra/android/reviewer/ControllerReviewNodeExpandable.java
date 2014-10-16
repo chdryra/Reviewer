@@ -24,10 +24,6 @@ class ControllerReviewNodeExpandable extends ControllerReviewNode {
         mChildrenController = new ControllerReviewNodeChildren(node);
     }
 
-    void setChildren(GVReviewSubjectRatingList children) {
-        ((ControllerReviewNodeChildren) mChildrenController).setChildren(children);
-    }
-
     /**
      * Controls the expansion of the parent ReviewNodeExpandable.
      */
@@ -58,5 +54,9 @@ class ControllerReviewNodeExpandable extends ControllerReviewNode {
 
             mReviews = mParent.getChildren();
         }
+    }
+
+    void setChildren(GVReviewSubjectRatingList children) {
+        ((ControllerReviewNodeChildren) mChildrenController).setChildren(children);
     }
 }

@@ -6,9 +6,10 @@
   ~ Date: 23 September, 2014
   -->
 
-<LinearLayout style="@style/LineaLayoutVertical.WrappedVertical"
-              xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools">
+<LinearLayout
+    style="@style/LineaLayoutVertical.WrappedVertical"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <com.chdryra.android.myandroidwidgets.ClearableEditText
         android:id="@+id/location_edit_text"

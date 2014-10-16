@@ -43,11 +43,6 @@ class SocialPlatformList implements Iterable<SocialPlatformList.SocialPlatform> 
         }
     }
 
-    @Override
-    public Iterator<SocialPlatform> iterator() {
-        return mPlatforms.iterator();
-    }
-
     /**
      * Enum for specifying the social platforms available together with their text labels.
      */
@@ -95,5 +90,10 @@ class SocialPlatformList implements Iterable<SocialPlatformList.SocialPlatform> 
         private void update() {
             mFollowers = 0;
         }
+    }
+
+    @Override
+    public Iterator<SocialPlatform> iterator() {
+        return mPlatforms.iterator();
     }
 }

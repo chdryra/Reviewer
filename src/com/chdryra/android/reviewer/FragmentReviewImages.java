@@ -8,18 +8,16 @@
 
 package com.chdryra.android.reviewer;
 
-import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 
+import com.chdryra.android.mygenerallibrary.ActivityResultCode;
 import com.chdryra.android.mygenerallibrary.DialogTwoButtonFragment.ActionType;
 import com.chdryra.android.mygenerallibrary.FunctionPointer;
 import com.chdryra.android.reviewer.GVImageList.GVImage;
 import com.chdryra.android.reviewer.GVReviewDataList.GVType;
-import com.google.android.gms.maps.model.LatLng;
 
 /**
  * UI Fragment: images. Each grid cell shows an image.
@@ -41,9 +39,6 @@ import com.google.android.gms.maps.model.LatLng;
  * @see com.chdryra.android.reviewer.DialogSetImageAsBackgroundFragment
  */
 public class FragmentReviewImages extends FragmentReviewGridAddEdit<GVImage> {
-    public static final  String BITMAP   = "com.chdryra.android.reviewer.bitmap";
-    public static final  String CAPTION  = "com.chdryra.android.reviewer.caption";
-    public static final  String LATLNG   = "com.chdryra.android.reviewer.latlng";
     private static final String POSITION = "com.chdryra.android.reviewer.image_position";
 
     private static final String IMAGE_BACKGROUND_TAG = "DataEditTag";
@@ -53,7 +48,9 @@ public class FragmentReviewImages extends FragmentReviewGridAddEdit<GVImage> {
     private HelperReviewImage mHelperReviewImage;
 
     public FragmentReviewImages() {
-        super(GVType.IMAGES);
+        mDataType = GVType.IMAGES;
+        setGridCellDimension(CellDimension.HALF, CellDimension.HALF);
+        setResultCode(Action.ADD, ActivityResultCode.OK);
     }
 
     @Override
@@ -71,36 +68,10 @@ public class FragmentReviewImages extends FragmentReviewGridAddEdit<GVImage> {
 
     @Override
     protected void doDatumDelete(Intent data) {
-        GVImage image = mImages.getItem(data.getIntExtra(POSITION, 0));
-        boolean isCover = image.isCover();
-        mImages.remove(image);
-        if (isCover) {
-            setCover(0);
-        }
-    }
-
-    @Override
-    protected void doDatumEdit(Intent data) {
-        String newCaption = (String) data.getSerializableExtra(CAPTION);
-        if (newCaption != null) {
-            mImages.updateCaption((Bitmap) data.getParcelableExtra(BITMAP),
-                    (LatLng) data.getParcelableExtra(LATLNG),
-                    (String) data.getSerializableExtra(DialogImageEditFragment
-                            .OLD_CAPTION), newCaption);
-        }
-    }
-
-    @Override
-    protected Bundle packGridCellData(GVImage image, Bundle args) {
-        args.putParcelable(BITMAP, image.getBitmap());
-        args.putParcelable(LATLNG, image.getLatLng());
-        args.putString(CAPTION, image.getCaption());
-
-        return args;
-    }
-
-    protected void onAddRequested(int resultCode, Intent data) {
-        if (resultCode == Activity.RESULT_OK) doDatumAdd(data);
+        boolean isCover = getInputHandler().unpack(InputHandlerReviewData.CurrentNewDatum
+                .CURRENT, data).isCover();
+        super.doDatumDelete(data);
+        if (isCover) setCover(0);
     }
 
     @Override
@@ -123,7 +94,6 @@ public class FragmentReviewImages extends FragmentReviewGridAddEdit<GVImage> {
         super.onCreate(savedInstanceState);
         mImages = (GVImageList) getGridData();
         mHelperReviewImage = HelperReviewImage.getInstance(getController());
-        setGridCellDimension(CellDimension.HALF, CellDimension.HALF);
     }
 
     @Override

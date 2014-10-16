@@ -81,6 +81,32 @@ public abstract class FragmentReviewGrid<T extends GVReviewDataList> extends Fra
     private boolean            mReviewInProgress   = false;
     private GridViewImageAlpha mGridViewImageAlpha = GridViewImageAlpha.MEDIUM;
 
+    /**
+     * Settings for GridView transpareny with respect to background image.
+     */
+    public enum GridViewImageAlpha {
+        TRANSPARENT(0),
+        MEDIUM(200),
+        OPAQUE(255);
+
+        private final int mAlpha;
+
+        private GridViewImageAlpha(int alpha) {
+            this.mAlpha = alpha;
+        }
+
+        public int getAlpha() {
+            return mAlpha;
+        }
+    }
+
+    /**
+     * Settings for grid cell dimensions with respect to screen width size.
+     */
+    public enum CellDimension {
+        FULL, HALF, QUARTER
+    }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -407,31 +433,5 @@ public abstract class FragmentReviewGrid<T extends GVReviewDataList> extends Fra
 
     T getGridData() {
         return mGridData;
-    }
-
-    /**
-     * Settings for GridView transpareny with respect to background image.
-     */
-    public enum GridViewImageAlpha {
-        TRANSPARENT(0),
-        MEDIUM(200),
-        OPAQUE(255);
-
-        private final int mAlpha;
-
-        private GridViewImageAlpha(int alpha) {
-            this.mAlpha = alpha;
-        }
-
-        public int getAlpha() {
-            return mAlpha;
-        }
-    }
-
-    /**
-     * Settings for grid cell dimensions with respect to screen width size.
-     */
-    public enum CellDimension {
-        FULL, HALF, QUARTER
     }
 }

@@ -8,6 +8,7 @@
 
 package com.chdryra.android.reviewer;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,12 +32,14 @@ import com.chdryra.android.reviewer.GVReviewDataList.GVType;
  * the arguments by the Administrator.
  * </p>
  */
-public abstract class DialogAddReviewDataFragment extends DialogCancelAddDoneFragment {
+public abstract class DialogAddReviewDataFragment<T extends GVData> extends
+        DialogCancelAddDoneFragment {
     public static final String QUICK_SET = "com.chdryra.android.reviewer.dialog_quick_mode";
 
-    private GVType                             mDataType;
-    private ControllerReviewEditable           mController;
-    private GVReviewDataList<? extends GVData> mData;
+    private GVType                    mDataType;
+    private ControllerReviewEditable  mController;
+    private GVReviewDataList<T>       mData;
+    private InputHandlerReviewData<T> mHandler;
     private boolean mQuickSet = false;
 
     protected DialogAddReviewDataFragment(GVType dataType) {
@@ -54,14 +57,31 @@ public abstract class DialogAddReviewDataFragment extends DialogCancelAddDoneFra
         mController = (ControllerReviewEditable) Administrator.get(getActivity()).unpack
                 (getArguments());
 
-        if (mController != null) mData = mController.getData(mDataType);
+        //TODO move creation of input handler to commissioning fragment to pass correct data.
+        mHandler = new InputHandlerReviewData<T>(mDataType);
+        if (mController != null) {
+            mData = (GVReviewDataList<T>) mController.getData(mDataType);
+            mHandler.setData(mData);
+        }
         setDialogTitle(getResources().getString(R.string.add) + " " + mDataType.getDatumString());
     }
 
     @Override
-    protected abstract void onAddButtonClick();
+    protected void onAddButtonClick() {
+        T newDatum = createGVData();
+        if (mHandler.isNewAndValid(newDatum, getActivity())) {
+            Intent data = createNewReturnData();
+            mHandler.pack(InputHandlerReviewData.CurrentNewDatum.NEW, newDatum, data);
+            mHandler.add(data, getActivity());
+            resetDialogOnAdd(newDatum);
+        }
+    }
 
-    GVReviewDataList<? extends GVData> getData() {
+    protected abstract T createGVData();
+
+    protected abstract void resetDialogOnAdd(T newDatum);
+
+    GVReviewDataList<T> getData() {
         return mData;
     }
 

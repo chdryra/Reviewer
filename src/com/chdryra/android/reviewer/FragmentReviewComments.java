@@ -8,7 +8,6 @@
 
 package com.chdryra.android.reviewer;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -43,49 +42,16 @@ import com.chdryra.android.reviewer.GVReviewDataList.GVType;
  * @see com.chdryra.android.reviewer.DialogCommentEditFragment
  */
 public class FragmentReviewComments extends FragmentReviewGridAddEdit<GVComment> {
-    public static final String COMMENT = "com.chdryra.android.reviewer.comment";
-
     private GVCommentList mComments;
     private boolean mCommentsAreSplit = false;
 
     public FragmentReviewComments() {
-        super(GVType.COMMENTS);
-    }
-
-    @Override
-    protected void doDatumAdd(Intent data) {
-        String comment = (String) data.getSerializableExtra(DialogCommentAddFragment
-                .COMMENT);
-        if (comment != null && comment.length() > 0 && !mComments.contains(comment)) {
-            mComments.add(comment);
-        }
-    }
-
-    @Override
-    protected void doDatumDelete(Intent data) {
-        mComments.remove((String) data.getSerializableExtra(DialogCommentEditFragment
-                .COMMENT_OLD));
-    }
-
-    @Override
-    protected void doDatumEdit(Intent data) {
-        String oldComment = (String) data.getSerializableExtra(DialogCommentEditFragment
-                .COMMENT_OLD);
-        String newComment = (String) data.getSerializableExtra(DialogCommentEditFragment
-                .COMMENT_NEW);
-        if (!oldComment.equalsIgnoreCase(newComment) && mComments.contains(newComment)) {
-            Toast.makeText(getActivity(), getResources().getString(R.string.toast_has_comment),
-                    Toast.LENGTH_SHORT).show();
-        } else {
-            mComments.remove(oldComment);
-            mComments.add(newComment);
-        }
+        mDataType = GVType.COMMENTS;
     }
 
     @Override
     protected Bundle packGridCellData(GVComment comment, Bundle args) {
-        args.putString(COMMENT, comment.getUnSplitComment().getComment());
-        return args;
+        return super.packGridCellData(comment.getUnSplitComment(), args);
     }
 
     @Override
@@ -111,14 +77,12 @@ public class FragmentReviewComments extends FragmentReviewGridAddEdit<GVComment>
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int i = item.getItemId();
-        if (i == R.id.menu_item_split_comment) {
+        if (item.getItemId() == R.id.menu_item_split_comment) {
             splitOrUnsplitComments(item);
             return true;
         } else {
             return super.onOptionsItemSelected(item);
         }
-
     }
 
     private void splitOrUnsplitComments(MenuItem item) {

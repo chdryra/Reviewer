@@ -6,6 +6,7 @@
   ~ Date: 23 September, 2014
   -->
 
-<FrameLayout android:id="@+id/divider"
-             style="@style/HorizontalDivider"
-             xmlns:android="http://schemas.android.com/apk/res/android"/>
+<FrameLayout
+    android:id="@+id/divider"
+    style="@style/HorizontalDivider"
+    xmlns:android="http://schemas.android.com/apk/res/android"/>

@@ -8,65 +8,40 @@
 
 package com.chdryra.android.reviewer;
 
-import android.content.Intent;
-import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.chdryra.android.myandroidwidgets.ClearableEditText;
-import com.chdryra.android.mygenerallibrary.DialogCancelDeleteDoneFragment;
+import com.chdryra.android.reviewer.GVFactList.GVFact;
 
 /**
  * Dialog for editing facts: edit/delete label and value.
  */
-public class DialogFactEditFragment extends DialogCancelDeleteDoneFragment {
-    public static final String FACT_OLD_LABEL = "com.chdryra.android.reviewer.datum_old_label";
-    public static final String FACT_OLD_VALUE = "com.chdryra.android.reviewer.datum_old_value";
-
+public class DialogFactEditFragment extends DialogEditReviewDataFragment<GVFact> {
     private ClearableEditText mLabel;
     private ClearableEditText mValue;
-    private String            mOldLabel;
-    private String            mOldValue;
+
+    public DialogFactEditFragment() {
+        super(GVReviewDataList.GVType.FACTS);
+    }
 
     @Override
     protected View createDialogUI(ViewGroup parent) {
         View v = getActivity().getLayoutInflater().inflate(R.layout.dialog_fact, null);
         mLabel = (ClearableEditText) v.findViewById(R.id.fact_label_edit_text);
         mValue = (ClearableEditText) v.findViewById(R.id.fact_value_edit_text);
-        mLabel.setText(mOldLabel);
-        mValue.setText(mOldValue);
+
+        mLabel.setText(getDatum().getLabel());
+        mValue.setText(getDatum().getValue());
+
         setKeyboardDoDoneOnEditText(mValue);
+        setDeleteWhatTitle(getDatum().getLabel() + ": " + getDatum().getValue());
 
         return v;
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        mOldLabel = getArguments().getString(FragmentReviewFacts.FACT_LABEL);
-        mOldValue = getArguments().getString(FragmentReviewFacts.FACT_VALUE);
-        setDialogTitle(getResources().getString(R.string.dialog_edit_fact_title));
-        setDeleteWhatTitle(mOldLabel + ": " + mOldValue);
-    }
-
-    @Override
-    protected void onDeleteButtonClick() {
-        Intent i = createNewReturnData();
-        i.putExtra(FACT_OLD_LABEL, mOldLabel);
-        i.putExtra(FACT_OLD_VALUE, mOldValue);
-    }
-
-    @Override
-    protected boolean hasDataToDelete() {
-        return true;
-    }
-
-    @Override
-    protected void onDoneButtonClick() {
-        Intent i = createNewReturnData();
-        i.putExtra(FACT_OLD_LABEL, mOldLabel);
-        i.putExtra(FACT_OLD_VALUE, mOldValue);
-        i.putExtra(FragmentReviewFacts.FACT_LABEL, mLabel.getText().toString());
-        i.putExtra(FragmentReviewFacts.FACT_VALUE, mValue.getText().toString());
+    protected GVFact createGVData() {
+        return new GVFact(mLabel.getText().toString().trim(), mValue.getText().toString().trim());
     }
 }

@@ -8,7 +8,6 @@
 
 package com.chdryra.android.reviewer;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -32,9 +31,7 @@ import com.google.android.gms.maps.model.LatLng;
  * up with autocomplete suggestions as user types name.
  */
 public class DialogLocationFragment extends DialogCancelActionDoneFragment implements Locatable {
-    public static final  ActionType RESULT_MAP = ActionType.OTHER;
-    private final static String     LATLNG     = FragmentReviewLocationMap.LATLNG;
-    private final static String     NAME       = FragmentReviewLocationMap.NAME;
+    public static final ActionType RESULT_MAP = ActionType.OTHER;
 
     private ControllerReviewEditable mController;
     private ClearableEditText        mNameEditText;
@@ -46,13 +43,13 @@ public class DialogLocationFragment extends DialogCancelActionDoneFragment imple
     @Override
     protected View createDialogUI(ViewGroup parent) {
         View v = getActivity().getLayoutInflater().inflate(R.layout.dialog_location, null);
-
         mNameEditText = (ClearableEditText) v.findViewById(R.id.location_edit_text);
+
         if (mController.hasData(GVType.LOCATIONS)) {
             GVLocation location = (GVLocation) mController.getData(GVType.LOCATIONS).getItem(0);
             mLatLng = location.getLatLng();
             mNameEditText.setText(location.getName());
-        } else if (mController.getData(GVType.IMAGES).size() == 1) {
+        } else if (mController.hasData(GVType.IMAGES)) {
             GVImage image = (GVImage) mController.getData(GVType.IMAGES).getItem(0);
             LatLng latLng = image.getLatLng();
             if (latLng != null) {
@@ -109,22 +106,24 @@ public class DialogLocationFragment extends DialogCancelActionDoneFragment imple
 
     @Override
     protected void onActionButtonClick() {
-        String locationName = mNameEditText.getText().toString();
-        if (mLatLng != null && locationName.length() > 0) {
-            Intent i = createNewReturnData();
-            i.putExtra(LATLNG, mLatLng);
-            i.putExtra(NAME, mNameEditText.getText().toString());
-        }
+        InputHandlerReviewData<GVLocation> handler = new InputHandlerReviewData<GVLocation>
+                (GVType.LOCATIONS);
+        handler.pack(InputHandlerReviewData.CurrentNewDatum.CURRENT, createGVData(),
+                createNewReturnData());
     }
 
     @Override
     protected void onDoneButtonClick() {
-        String locationName = mNameEditText.getText().toString();
-        if (mLatLng != null && locationName.length() > 0) {
-            GVLocationList location = new GVLocationList();
-            location.add(mLatLng, locationName);
-            mController.setData(location);
+        GVLocation location = createGVData();
+        if (location.isValidForDisplay()) {
+            GVLocationList locations = new GVLocationList();
+            locations.add(location);
+            mController.setData(locations);
         }
+    }
+
+    protected GVLocation createGVData() {
+        return new GVLocation(mLatLng, mNameEditText.getText().toString().trim());
     }
 
     private void setSuggestionsAdapter() {

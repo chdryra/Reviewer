@@ -8,6 +8,9 @@
 
 package com.chdryra.android.reviewer;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.chdryra.android.mygenerallibrary.GVDualString;
 import com.chdryra.android.mygenerallibrary.ViewHolder;
 
@@ -26,6 +29,59 @@ class GVFactList extends GVReviewDataList<GVFactList.GVFact> {
 
     GVFactList() {
         super(GVType.FACTS);
+    }
+
+    /**
+     * GVData version of: RDFact
+     * ViewHolder: VHFactView
+     * <p/>
+     * <p>
+     * Really just a GVDualString with label as upper and value as lower.
+     * </p>
+     *
+     * @see com.chdryra.android.mygenerallibrary.GVDualString
+     * @see com.chdryra.android.reviewer.RDFact
+     * @see com.chdryra.android.reviewer.VHFactView
+     */
+
+    static class GVFact extends GVDualString {
+        public static final Parcelable.Creator<GVFact> CREATOR = new Parcelable
+                .Creator<GVFact>() {
+            public GVFact createFromParcel(Parcel in) {
+                return new GVFact(in);
+            }
+
+            public GVFact[] newArray(int size) {
+                return new GVFact[size];
+            }
+        };
+
+        GVFact(String label, String value) {
+            super(label, value);
+        }
+
+        GVFact(Parcel in) {
+            super(in);
+        }
+
+        String getLabel() {
+            return getUpper();
+        }
+
+        String getValue() {
+            return getLower();
+        }
+
+        @Override
+        public ViewHolder getViewHolder() {
+            return new VHFactView();
+        }
+
+        @Override
+        public boolean isValidForDisplay() {
+            return getLabel() != null && getLabel().length() > 0 && getValue() != null &&
+                    getValue().length() > 0;
+        }
     }
 
     void add(String label, String value) {
@@ -60,43 +116,5 @@ class GVFactList extends GVReviewDataList<GVFactList.GVFact> {
                 return comp;
             }
         };
-    }
-
-    /**
-     * GVData version of: RDFact
-     * ViewHolder: VHFactView
-     * <p/>
-     * <p>
-     * Really just a GVDualString with label as upper and value as lower.
-     * </p>
-     *
-     * @see com.chdryra.android.mygenerallibrary.GVDualString
-     * @see com.chdryra.android.reviewer.RDFact
-     * @see com.chdryra.android.reviewer.VHFactView
-     */
-
-    class GVFact extends GVDualString {
-        GVFact(String label, String value) {
-            super(label, value);
-        }
-
-        String getLabel() {
-            return getUpper();
-        }
-
-        String getValue() {
-            return getLower();
-        }
-
-        @Override
-        public ViewHolder getViewHolder() {
-            return new VHFactView();
-        }
-
-        @Override
-        public boolean isValidForDisplay() {
-            return getLabel() != null && getLabel().length() > 0 && getValue() != null &&
-                    getValue().length() > 0;
-        }
     }
 }

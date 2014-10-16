@@ -8,6 +8,9 @@
 
 package com.chdryra.android.reviewer;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.chdryra.android.mygenerallibrary.GVData;
 import com.chdryra.android.mygenerallibrary.ViewHolder;
 
@@ -31,6 +34,97 @@ class GVReviewSubjectRatingList extends GVReviewDataList<GVReviewSubjectRatingLi
 
     GVReviewSubjectRatingList() {
         super(GVType.CHILDREN);
+    }
+
+    /**
+     * GVData version of: no equivalent as used for review children (sub-reviews).
+     * ViewHolder: VHReviewNodeSubjectRating
+     * <p/>
+     * <p>
+     * Methods for getting the subject and rating.
+     * </p>
+     *
+     * @see com.chdryra.android.mygenerallibrary.GVData
+     * @see com.chdryra.android.reviewer.VHReviewNodeSubjectRating
+     */
+    static class GVReviewSubjectRating implements GVData {
+        public static final Parcelable.Creator<GVReviewSubjectRating> CREATOR = new Parcelable
+                .Creator<GVReviewSubjectRating>() {
+            public GVReviewSubjectRating createFromParcel(Parcel in) {
+                return new GVReviewSubjectRating(in);
+            }
+
+            public GVReviewSubjectRating[] newArray(int size) {
+                return new GVReviewSubjectRating[size];
+            }
+        };
+        private final String mSubject;
+        private       float  mRating;
+
+        GVReviewSubjectRating(String subject, float rating) {
+            mSubject = subject;
+            mRating = rating;
+        }
+
+        GVReviewSubjectRating(Parcel in) {
+            mSubject = in.readString();
+            mRating = in.readFloat();
+        }
+
+        String getSubject() {
+            return mSubject;
+        }
+
+        float getRating() {
+            return mRating;
+        }
+
+        void setRating(float rating) {
+            mRating = rating;
+        }
+
+        @Override
+        public ViewHolder getViewHolder() {
+            return new VHReviewNodeSubjectRating();
+        }
+
+        @Override
+        public boolean isValidForDisplay() {
+            return mSubject != null && mSubject.length() > 0;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (!(o instanceof GVReviewSubjectRating)) return false;
+
+            GVReviewSubjectRating that = (GVReviewSubjectRating) o;
+
+            if (Float.compare(that.mRating, mRating) != 0) return false;
+            if (mSubject != null ? !mSubject.equals(that.mSubject) : that.mSubject != null) {
+                return false;
+            }
+
+            return true;
+        }
+
+        @Override
+        public int hashCode() {
+            int result = mSubject != null ? mSubject.hashCode() : 0;
+            result = 31 * result + (mRating != +0.0f ? Float.floatToIntBits(mRating) : 0);
+            return result;
+        }
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel parcel, int i) {
+            parcel.writeString(mSubject);
+            parcel.writeFloat(mRating);
+        }
     }
 
     void add(String subject, float rating) {
@@ -85,70 +179,5 @@ class GVReviewSubjectRatingList extends GVReviewDataList<GVReviewSubjectRatingLi
                 return comp;
             }
         };
-    }
-
-    /**
-     * GVData version of: no equivalent as used for review children (sub-reviews).
-     * ViewHolder: VHReviewNodeSubjectRating
-     * <p/>
-     * <p>
-     * Methods for getting the subject and rating.
-     * </p>
-     *
-     * @see com.chdryra.android.mygenerallibrary.GVData
-     * @see com.chdryra.android.reviewer.VHReviewNodeSubjectRating
-     */
-    static class GVReviewSubjectRating implements GVData {
-        private final String mSubject;
-        private       float  mRating;
-
-        GVReviewSubjectRating(String subject, float rating) {
-            mSubject = subject;
-            mRating = rating;
-        }
-
-        String getSubject() {
-            return mSubject;
-        }
-
-        float getRating() {
-            return mRating;
-        }
-
-        void setRating(float rating) {
-            mRating = rating;
-        }
-
-        @Override
-        public ViewHolder getViewHolder() {
-            return new VHReviewNodeSubjectRating();
-        }
-
-        @Override
-        public boolean isValidForDisplay() {
-            return mSubject != null && mSubject.length() > 0;
-        }
-
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) return true;
-            if (!(o instanceof GVReviewSubjectRating)) return false;
-
-            GVReviewSubjectRating that = (GVReviewSubjectRating) o;
-
-            if (Float.compare(that.mRating, mRating) != 0) return false;
-            if (mSubject != null ? !mSubject.equals(that.mSubject) : that.mSubject != null) {
-                return false;
-            }
-
-            return true;
-        }
-
-        @Override
-        public int hashCode() {
-            int result = mSubject != null ? mSubject.hashCode() : 0;
-            result = 31 * result + (mRating != +0.0f ? Float.floatToIntBits(mRating) : 0);
-            return result;
-        }
     }
 }

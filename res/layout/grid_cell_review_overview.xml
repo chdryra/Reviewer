@@ -6,8 +6,9 @@
   ~ Date: 23 September, 2014
   -->
 
-<com.chdryra.android.mygenerallibrary.GridCellLayout style="@style/GridCell"
-                                                     xmlns:android="http://schemas.android.com/apk/res/android">
+<com.chdryra.android.mygenerallibrary.GridCellLayout
+    style="@style/GridCell"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
     <RelativeLayout
         android:layout_width="match_parent"

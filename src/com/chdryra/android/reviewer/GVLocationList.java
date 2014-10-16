@@ -8,6 +8,9 @@
 
 package com.chdryra.android.reviewer;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.chdryra.android.mygenerallibrary.GVData;
 import com.chdryra.android.mygenerallibrary.ViewHolder;
 import com.google.android.gms.maps.model.LatLng;
@@ -29,28 +32,6 @@ class GVLocationList extends GVReviewDataList<GVLocationList.GVLocation> {
         super(GVType.LOCATIONS);
     }
 
-    void add(LatLng latLng, String name) {
-        add(new GVLocation(latLng, name));
-    }
-
-    void remove(LatLng latLng, String name) {
-        remove(new GVLocation(latLng, name));
-    }
-
-    boolean contains(LatLng latLng, String name) {
-        return contains(new GVLocation(latLng, name));
-    }
-
-    boolean contains(LatLng latLng) {
-        boolean contains = false;
-        for (GVLocation location : this) {
-            contains = location.getLatLng().equals(latLng);
-            if (contains) break;
-        }
-
-        return contains;
-    }
-
     /**
      * GVData version of: RDLocation
      * ViewHolder: VHLocationView
@@ -63,13 +44,28 @@ class GVLocationList extends GVReviewDataList<GVLocationList.GVLocation> {
      * @see com.chdryra.android.reviewer.RDLocation
      * @see com.chdryra.android.reviewer.VHLocationView
      */
-    class GVLocation implements GVData {
+    static class GVLocation implements GVData {
+        public static final Parcelable.Creator<GVLocation> CREATOR = new Parcelable
+                .Creator<GVLocation>() {
+            public GVLocation createFromParcel(Parcel in) {
+                return new GVLocation(in);
+            }
+
+            public GVLocation[] newArray(int size) {
+                return new GVLocation[size];
+            }
+        };
         private final LatLng mLatLng;
         private final String mName;
 
         GVLocation(LatLng latLng, String name) {
             mLatLng = latLng;
             mName = name;
+        }
+
+        GVLocation(Parcel in) {
+            mLatLng = in.readParcelable(LatLng.class.getClassLoader());
+            mName = in.readString();
         }
 
         LatLng getLatLng() {
@@ -101,50 +97,58 @@ class GVLocationList extends GVReviewDataList<GVLocationList.GVLocation> {
         }
 
         @Override
-        public boolean equals(Object obj) {
-            if (this == obj) {
-                return true;
-            }
-            if (obj == null) {
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (!(o instanceof GVLocation)) return false;
+
+            GVLocation that = (GVLocation) o;
+
+            if (mLatLng != null ? !mLatLng.equals(that.mLatLng) : that.mLatLng != null) {
                 return false;
             }
-            if (getClass() != obj.getClass()) {
-                return false;
-            }
-            GVLocation other = (GVLocation) obj;
-            if (!getOuterType().equals(other.getOuterType())) {
-                return false;
-            }
-            if (mLatLng == null) {
-                if (other.mLatLng != null) {
-                    return false;
-                }
-            } else if (!mLatLng.equals(other.mLatLng)) {
-                return false;
-            }
-            if (mName == null) {
-                if (other.mName != null) {
-                    return false;
-                }
-            } else if (!mName.equals(other.mName)) {
-                return false;
-            }
+            if (mName != null ? !mName.equals(that.mName) : that.mName != null) return false;
+
             return true;
         }
 
         @Override
         public int hashCode() {
-            final int prime = 31;
-            int result = 1;
-            result = prime * result + getOuterType().hashCode();
-            result = prime * result
-                    + ((mLatLng == null) ? 0 : mLatLng.hashCode());
-            result = prime * result + ((mName == null) ? 0 : mName.hashCode());
+            int result = mLatLng != null ? mLatLng.hashCode() : 0;
+            result = 31 * result + (mName != null ? mName.hashCode() : 0);
             return result;
         }
 
-        private GVLocationList getOuterType() {
-            return GVLocationList.this;
+        @Override
+        public int describeContents() {
+            return 0;
         }
+
+        @Override
+        public void writeToParcel(Parcel parcel, int i) {
+            parcel.writeParcelable(mLatLng, i);
+            parcel.writeString(mName);
+        }
+    }
+
+    void add(LatLng latLng, String name) {
+        add(new GVLocation(latLng, name));
+    }
+
+    void remove(LatLng latLng, String name) {
+        remove(new GVLocation(latLng, name));
+    }
+
+    boolean contains(LatLng latLng, String name) {
+        return contains(new GVLocation(latLng, name));
+    }
+
+    boolean contains(LatLng latLng) {
+        boolean contains = false;
+        for (GVLocation location : this) {
+            contains = location.getLatLng().equals(latLng);
+            if (contains) break;
+        }
+
+        return contains;
     }
 }
