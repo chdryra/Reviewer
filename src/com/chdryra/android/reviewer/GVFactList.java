@@ -11,19 +11,14 @@ package com.chdryra.android.reviewer;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.chdryra.android.mygenerallibrary.GVDualString;
 import com.chdryra.android.mygenerallibrary.ViewHolder;
 
 import java.util.Comparator;
 
 /**
  * GVReviewDataList: GVFact
- * <p>
- * ViewHolder: VHFactView
- * </p>
  *
  * @see com.chdryra.android.reviewer.FragmentReviewFacts
- * @see com.chdryra.android.reviewer.VHFactView
  */
 class GVFactList extends GVReviewDataList<GVFactList.GVFact> {
 
@@ -32,19 +27,14 @@ class GVFactList extends GVReviewDataList<GVFactList.GVFact> {
     }
 
     /**
-     * GVData version of: RDFact
+     * GVReviewData version of: RDFact
      * ViewHolder: VHFactView
-     * <p/>
-     * <p>
-     * Really just a GVDualString with label as upper and value as lower.
-     * </p>
      *
-     * @see com.chdryra.android.mygenerallibrary.GVDualString
      * @see com.chdryra.android.reviewer.RDFact
-     * @see com.chdryra.android.reviewer.VHFactView
+     * @see VHFact
      */
 
-    static class GVFact extends GVDualString {
+    static class GVFact extends GVDualText {
         public static final Parcelable.Creator<GVFact> CREATOR = new Parcelable
                 .Creator<GVFact>() {
             public GVFact createFromParcel(Parcel in) {
@@ -61,7 +51,7 @@ class GVFactList extends GVReviewDataList<GVFactList.GVFact> {
         }
 
         GVFact(Parcel in) {
-            super(in);
+            super(in.readString(), in.readString());
         }
 
         String getLabel() {
@@ -74,7 +64,7 @@ class GVFactList extends GVReviewDataList<GVFactList.GVFact> {
 
         @Override
         public ViewHolder getViewHolder() {
-            return new VHFactView();
+            return new VHFact();
         }
 
         @Override
@@ -86,16 +76,6 @@ class GVFactList extends GVReviewDataList<GVFactList.GVFact> {
 
     void add(String label, String value) {
         add(new GVFact(label, value));
-    }
-
-    boolean containsLabel(String label) {
-        boolean contains = false;
-        for (GVFact fact : this) {
-            contains = fact.getLabel().equalsIgnoreCase(label);
-            if (contains) break;
-        }
-
-        return contains;
     }
 
     void remove(String label, String value) {

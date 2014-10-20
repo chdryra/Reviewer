@@ -12,7 +12,6 @@ import android.graphics.Bitmap;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.chdryra.android.mygenerallibrary.GVData;
 import com.chdryra.android.mygenerallibrary.ViewHolder;
 import com.google.android.gms.maps.model.LatLng;
 
@@ -21,16 +20,11 @@ import java.util.Random;
 /**
  * GVReviewDataList: GVImage
  * <p>
- * ViewHolder: VHImageView
- * </p>
- * <p/>
- * <p>
  * Includes methods for adding captions and getting images designated as "covers" which can be
  * used as a background image for a review.
  * </p>
  *
  * @see com.chdryra.android.reviewer.FragmentReviewImages
- * @see com.chdryra.android.reviewer.VHImageView
  */
 class GVImageList extends GVReviewDataList<GVImageList.GVImage> {
 
@@ -39,18 +33,17 @@ class GVImageList extends GVReviewDataList<GVImageList.GVImage> {
     }
 
     /**
-     * GVData version of: RDImage
+     * GVReviewData version of: RDImage
      * ViewHolder: VHImageView
      * <p/>
      * <p>
      * Methods for getting the bitmap, caption, LatLng and whether a cover.
      * </p>
      *
-     * @see com.chdryra.android.mygenerallibrary.GVData
      * @see com.chdryra.android.reviewer.RDImage
-     * @see com.chdryra.android.reviewer.VHImageView
+     * @see VHImage
      */
-    static class GVImage implements GVData {
+    static class GVImage implements GVReviewDataList.GVReviewData {
         public static final Parcelable.Creator<GVImage> CREATOR = new Parcelable
                 .Creator<GVImage>() {
             public GVImage createFromParcel(Parcel in) {
@@ -112,7 +105,7 @@ class GVImageList extends GVReviewDataList<GVImageList.GVImage> {
 
         @Override
         public ViewHolder getViewHolder() {
-            return new VHImageView();
+            return new VHImage();
         }
 
         @Override
@@ -170,11 +163,6 @@ class GVImageList extends GVReviewDataList<GVImageList.GVImage> {
 
     void add(Bitmap bitmap, LatLng latLng, String caption, boolean isCover) {
         add(new GVImage(bitmap, latLng, caption, isCover));
-    }
-
-    void updateCaption(Bitmap bitmap, LatLng latLng, String oldCaption, String newCaption) {
-        GVImage image = getItem(indexOf(new GVImage(bitmap, latLng, oldCaption)));
-        image.setCaption(newCaption);
     }
 
     GVImage getRandomCover() {

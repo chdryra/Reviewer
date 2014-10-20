@@ -8,9 +8,9 @@
 
 package com.chdryra.android.reviewer;
 
-import com.chdryra.android.mygenerallibrary.GVData;
-import com.chdryra.android.mygenerallibrary.GVDualString;
-import com.chdryra.android.mygenerallibrary.VHDualStringView;
+import com.chdryra.android.mygenerallibrary.VHDDualString;
+import com.chdryra.android.mygenerallibrary.VHDualString;
+import com.chdryra.android.mygenerallibrary.ViewHolderData;
 import com.chdryra.android.reviewer.GVSocialPlatformList.GVSocialPlatform;
 
 /**
@@ -18,20 +18,20 @@ import com.chdryra.android.reviewer.GVSocialPlatformList.GVSocialPlatform;
  *
  * @see com.chdryra.android.reviewer.GVSocialPlatformList.GVSocialPlatform
  */
-class VHSocialView extends VHDualStringView {
+class VHSocialPlatform extends VHDualString {
     private static final int LAYOUT = R.layout.grid_cell_text_dual;
     private static final int UPPER  = R.id.upper_text;
     private static final int LOWER  = R.id.lower_text;
 
-    VHSocialView() {
+    VHSocialPlatform() {
         super(LAYOUT, UPPER, LOWER);
     }
 
     @Override
-    public void updateView(GVData data) {
+    public void updateView(ViewHolderData data) {
         GVSocialPlatform platform = (GVSocialPlatform) data;
         if (platform != null) {
-            super.updateView(new GVDualString(platform.getName(),
+            super.updateView(new VHDDualString(platform.getName(),
                     String.valueOf(platform.getFollowers())));
         }
     }

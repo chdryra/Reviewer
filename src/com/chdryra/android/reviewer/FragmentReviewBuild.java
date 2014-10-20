@@ -26,11 +26,11 @@ import android.widget.Toast;
 
 import com.chdryra.android.mygenerallibrary.ActivityResultCode;
 import com.chdryra.android.mygenerallibrary.FunctionPointer;
-import com.chdryra.android.mygenerallibrary.GVData;
-import com.chdryra.android.mygenerallibrary.GVDualString;
-import com.chdryra.android.mygenerallibrary.GVString;
 import com.chdryra.android.mygenerallibrary.GridViewCellAdapter;
+import com.chdryra.android.mygenerallibrary.VHDDualString;
+import com.chdryra.android.mygenerallibrary.VHDString;
 import com.chdryra.android.mygenerallibrary.ViewHolder;
+import com.chdryra.android.mygenerallibrary.ViewHolderData;
 import com.chdryra.android.reviewer.FragmentReviewBuild.GVCellManagerList.GVCellManager;
 import com.chdryra.android.reviewer.GVReviewDataList.GVType;
 
@@ -112,7 +112,7 @@ public class FragmentReviewBuild extends FragmentReviewGrid<FragmentReviewBuild.
          * Encapsulates the range of responses and displays available to each data tile depending
          * on the underlying data and user interaction.
          */
-        class GVCellManager implements GVData {
+        class GVCellManager implements GVReviewDataList.GVReviewData {
             //Doubt this will work without static declaration but can't because an inner class.
             //Never need to parcel anyway.
             public final Parcelable.Creator<GVCellManager> CREATOR = new Parcelable
@@ -167,9 +167,9 @@ public class FragmentReviewBuild extends FragmentReviewGrid<FragmentReviewBuild.
             }
 
             private View getNoDatumView(ViewGroup parent) {
-                ViewHolder vh = new VHTextView();
+                ViewHolder vh = new VHText();
                 vh.inflate(getActivity(), parent);
-                vh.updateView(new GVString(mDataType.getDataString()));
+                vh.updateView(new VHDString(mDataType.getDataString()));
                 return vh.getView();
             }
 
@@ -177,16 +177,16 @@ public class FragmentReviewBuild extends FragmentReviewGrid<FragmentReviewBuild.
                 int number = getController().getData(mDataType).size();
                 String type = number == 1 ? mDataType.getDatumString() : mDataType.getDataString();
 
-                ViewHolder vh = new VHTextDualView();
+                ViewHolder vh = new VHDualText();
                 vh.inflate(getActivity(), parent);
-                vh.updateView(new GVDualString(String.valueOf(number), type));
+                vh.updateView(new VHDDualString(String.valueOf(number), type));
                 return vh.getView();
             }
 
             private View getSingleDatumView(ViewGroup parent) {
                 ViewHolder vh = getUIConfig(mDataType).getViewHolder();
                 if (vh.getView() == null) vh.inflate(getActivity(), parent);
-                vh.updateView((GVData) getController().getData(mDataType).getItem(0));
+                vh.updateView((ViewHolderData) getController().getData(mDataType).getItem(0));
                 return vh.getView();
             }
 

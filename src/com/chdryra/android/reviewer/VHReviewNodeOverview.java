@@ -12,8 +12,8 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
-import com.chdryra.android.mygenerallibrary.GVData;
 import com.chdryra.android.mygenerallibrary.ViewHolderBasic;
+import com.chdryra.android.mygenerallibrary.ViewHolderData;
 import com.chdryra.android.reviewer.GVReviewOverviewList.GVReviewOverview;
 
 import java.text.DateFormat;
@@ -56,7 +56,7 @@ class VHReviewNodeOverview extends ViewHolderBasic {
     }
 
     @Override
-    public void updateView(GVData data) {
+    public void updateView(ViewHolderData data) {
         if (mSubject == null) mSubject = (TextView) getView(SUBJECT);
         if (mRating == null) mRating = (RatingBar) getView(RATING);
         if (mImage == null) mImage = (ImageView) getView(IMAGE);
@@ -65,7 +65,7 @@ class VHReviewNodeOverview extends ViewHolderBasic {
         if (mPublishDate == null) mPublishDate = (TextView) getView(PUBLISH);
 
         GVReviewOverview review = (GVReviewOverview) data;
-        if (review == null) return;
+        if (review == null || !review.isValidForDisplay()) return;
 
         mSubject.setText(review.getSubject());
         mRating.setRating(review.getRating());

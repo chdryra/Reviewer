@@ -11,37 +11,29 @@ package com.chdryra.android.reviewer;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.chdryra.android.myandroidwidgets.ClearableEditText;
 import com.chdryra.android.reviewer.GVFactList.GVFact;
 
 /**
  * Dialog for editing facts: edit/delete label and value.
  */
 public class DialogFactEditFragment extends DialogEditReviewDataFragment<GVFact> {
-    private ClearableEditText mLabel;
-    private ClearableEditText mValue;
+    private DialogHolder<GVFact> mDialogHolder;
 
     public DialogFactEditFragment() {
         super(GVReviewDataList.GVType.FACTS);
+        mDialogHolder = new DHFact(this);
     }
 
     @Override
     protected View createDialogUI(ViewGroup parent) {
-        View v = getActivity().getLayoutInflater().inflate(R.layout.dialog_fact, null);
-        mLabel = (ClearableEditText) v.findViewById(R.id.fact_label_edit_text);
-        mValue = (ClearableEditText) v.findViewById(R.id.fact_value_edit_text);
+        mDialogHolder.inflate(getActivity());
+        mDialogHolder.initialiseView(getDatum());
 
-        mLabel.setText(getDatum().getLabel());
-        mValue.setText(getDatum().getValue());
-
-        setKeyboardDoDoneOnEditText(mValue);
-        setDeleteWhatTitle(getDatum().getLabel() + ": " + getDatum().getValue());
-
-        return v;
+        return mDialogHolder.getView();
     }
 
     @Override
     protected GVFact createGVData() {
-        return new GVFact(mLabel.getText().toString().trim(), mValue.getText().toString().trim());
+        return mDialogHolder.getGVData();
     }
 }

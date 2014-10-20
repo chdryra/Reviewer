@@ -8,7 +8,7 @@
 
 package com.chdryra.android.reviewer;
 
-import com.chdryra.android.mygenerallibrary.GVData;
+import com.chdryra.android.mygenerallibrary.ViewHolderData;
 import com.chdryra.android.reviewer.GVCommentList.GVComment;
 
 /**
@@ -19,12 +19,12 @@ import com.chdryra.android.reviewer.GVCommentList.GVComment;
  *
  * @see com.chdryra.android.reviewer.GVCommentList.GVComment
  */
-class VHCommentView extends VHTextView {
+class VHComment extends VHText {
 
-    public VHCommentView() {
-        super(new GVDataStringGetter() {
+    public VHComment() {
+        super(new VHDataStringGetter() {
             @Override
-            public String getString(GVData data) {
+            public String getString(ViewHolderData data) {
                 GVComment comment = (GVComment) data;
                 return comment != null ? comment.getCommentHeadline() : null;
             }

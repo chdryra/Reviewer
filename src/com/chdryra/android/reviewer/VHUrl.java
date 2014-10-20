@@ -8,7 +8,7 @@
 
 package com.chdryra.android.reviewer;
 
-import com.chdryra.android.mygenerallibrary.GVData;
+import com.chdryra.android.mygenerallibrary.ViewHolderData;
 import com.chdryra.android.reviewer.GVUrlList.GVUrl;
 
 /**
@@ -19,11 +19,11 @@ import com.chdryra.android.reviewer.GVUrlList.GVUrl;
  *
  * @see com.chdryra.android.reviewer.GVUrlList.GVUrl
  */
-class VHUrlView extends VHTextView {
-    public VHUrlView() {
-        super(new GVDataStringGetter() {
+class VHUrl extends VHText {
+    public VHUrl() {
+        super(new VHDataStringGetter() {
             @Override
-            public String getString(GVData data) {
+            public String getString(ViewHolderData data) {
                 GVUrl url = (GVUrl) data;
                 return url != null ? url.toShortenedString() : null;
             }

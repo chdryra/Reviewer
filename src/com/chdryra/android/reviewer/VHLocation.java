@@ -8,7 +8,7 @@
 
 package com.chdryra.android.reviewer;
 
-import com.chdryra.android.mygenerallibrary.GVData;
+import com.chdryra.android.mygenerallibrary.ViewHolderData;
 import com.chdryra.android.reviewer.GVLocationList.GVLocation;
 
 /**
@@ -16,12 +16,12 @@ import com.chdryra.android.reviewer.GVLocationList.GVLocation;
  *
  * @see com.chdryra.android.reviewer.GVLocationList.GVLocation
  */
-class VHLocationView extends VHTextView {
+class VHLocation extends VHText {
 
-    public VHLocationView(final boolean showAt) {
-        super(new GVDataStringGetter() {
+    public VHLocation(final boolean showAt) {
+        super(new VHDataStringGetter() {
             @Override
-            public String getString(GVData data) {
+            public String getString(ViewHolderData data) {
                 GVLocation location = (GVLocation) data;
                 String at = showAt ? "@" : "";
                 return location != null ? at + location.getShortenedName() : null;

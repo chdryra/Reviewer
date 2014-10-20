@@ -41,7 +41,7 @@ public class DialogCommentAddFragment extends DialogAddReviewDataFragment<GVComm
     }
 
     @Override
-    protected void resetDialogOnAdd(GVComment comment) {
+    protected void updateDialogOnAdd(GVComment comment) {
         mCommentEditText.setText(null);
         getDialog().setTitle("+ " + comment.getComment());
     }

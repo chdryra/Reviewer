@@ -13,7 +13,7 @@ package com.chdryra.android.reviewer;
  *
  * @see com.chdryra.android.reviewer.TagsManager.ReviewTag
  */
-class VHTagView extends VHTextView {
-    VHTagView() {
+class VHTag extends VHText {
+    VHTag() {
     }
 }

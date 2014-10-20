@@ -12,7 +12,6 @@ import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.chdryra.android.mygenerallibrary.GVDualString;
 import com.chdryra.android.mygenerallibrary.ViewHolder;
 import com.chdryra.android.reviewer.SocialPlatformList.SocialPlatform;
 
@@ -31,7 +30,7 @@ import java.util.Comparator;
  * @see com.chdryra.android.reviewer.Administrator
  * @see com.chdryra.android.reviewer.SocialPlatformList
  * @see com.chdryra.android.reviewer.FragmentReviewShare
- * @see com.chdryra.android.reviewer.VHSocialView
+ * @see VHSocialPlatform
  */
 public class GVSocialPlatformList extends GVReviewDataList<GVSocialPlatformList.GVSocialPlatform> {
 
@@ -55,10 +54,9 @@ public class GVSocialPlatformList extends GVReviewDataList<GVSocialPlatformList.
      * Methods for getting the name, number followers, and selection status.
      * </p>
      *
-     * @see com.chdryra.android.mygenerallibrary.GVData
      * @see com.chdryra.android.reviewer.SocialPlatformList
      */
-    static class GVSocialPlatform extends GVDualString {
+    static class GVSocialPlatform extends GVDualText {
         public static final Parcelable.Creator<GVSocialPlatform> CREATOR    = new Parcelable
                 .Creator<GVSocialPlatform>() {
             public GVSocialPlatform createFromParcel(Parcel in) {
@@ -101,7 +99,7 @@ public class GVSocialPlatformList extends GVReviewDataList<GVSocialPlatformList.
 
         @Override
         public ViewHolder getViewHolder() {
-            return new VHSocialView();
+            return new VHSocialPlatform();
         }
 
         @Override

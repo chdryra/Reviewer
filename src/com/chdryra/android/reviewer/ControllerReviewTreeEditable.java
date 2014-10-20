@@ -11,8 +11,8 @@ package com.chdryra.android.reviewer;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.chdryra.android.mygenerallibrary.GVData;
 import com.chdryra.android.mygenerallibrary.IntentObjectHolder;
+import com.chdryra.android.mygenerallibrary.ViewHolderData;
 
 /**
  * Controls editing of review trees in the android activities/fragments layer (the View layer in an
@@ -50,7 +50,7 @@ class ControllerReviewTreeEditable extends ControllerReviewEditable {
     }
 
     @Override
-    GVReviewDataList<? extends GVData> getData(GVReviewDataList.GVType dataType) {
+    GVReviewDataList<? extends ViewHolderData> getData(GVReviewDataList.GVType dataType) {
         if (dataType == GVReviewDataList.GVType.CHILDREN) {
             return mReviewNodeExpandable.getData(dataType);
         } else {
@@ -68,7 +68,7 @@ class ControllerReviewTreeEditable extends ControllerReviewEditable {
     }
 
     @Override
-    <D extends GVReviewDataList<? extends GVData>> void setData(D data) {
+    <D extends GVReviewDataList<? extends ViewHolderData>> void setData(D data) {
         GVReviewDataList.GVType dataType = data.getGVType();
         if (dataType == GVReviewDataList.GVType.CHILDREN) {
             mReviewNodeExpandable.setChildren((GVReviewSubjectRatingList) data);

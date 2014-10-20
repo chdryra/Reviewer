@@ -11,7 +11,6 @@ package com.chdryra.android.reviewer;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.chdryra.android.mygenerallibrary.GVData;
 import com.chdryra.android.mygenerallibrary.ViewHolder;
 
 import java.util.Comparator;
@@ -19,15 +18,10 @@ import java.util.Comparator;
 /**
  * GVReviewDataList: GVReviewSubjectRating
  * <p>
- * ViewHolder: VHReviewNodeSubjectRating
- * </p>
- * <p/>
- * <p>
  * Used for review children (sub-reviews).
  * </p>
  *
  * @see com.chdryra.android.reviewer.FragmentReviewChildren
- * @see com.chdryra.android.reviewer.VHReviewNodeSubjectRating
  */
 class GVReviewSubjectRatingList extends GVReviewDataList<GVReviewSubjectRatingList
         .GVReviewSubjectRating> {
@@ -44,10 +38,9 @@ class GVReviewSubjectRatingList extends GVReviewDataList<GVReviewSubjectRatingLi
      * Methods for getting the subject and rating.
      * </p>
      *
-     * @see com.chdryra.android.mygenerallibrary.GVData
      * @see com.chdryra.android.reviewer.VHReviewNodeSubjectRating
      */
-    static class GVReviewSubjectRating implements GVData {
+    static class GVReviewSubjectRating implements GVReviewDataList.GVReviewData {
         public static final Parcelable.Creator<GVReviewSubjectRating> CREATOR = new Parcelable
                 .Creator<GVReviewSubjectRating>() {
             public GVReviewSubjectRating createFromParcel(Parcel in) {

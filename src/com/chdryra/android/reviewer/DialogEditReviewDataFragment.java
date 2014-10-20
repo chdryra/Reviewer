@@ -14,14 +14,13 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.chdryra.android.mygenerallibrary.DialogCancelDeleteDoneFragment;
-import com.chdryra.android.mygenerallibrary.GVData;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 16/10/2014
  * Email: rizwan.choudrey@gmail.com
  */
-public abstract class DialogEditReviewDataFragment<T extends GVData> extends
+public abstract class DialogEditReviewDataFragment<T extends GVReviewDataList.GVReviewData> extends
         DialogCancelDeleteDoneFragment {
     private GVReviewDataList.GVType   mDataType;
     private InputHandlerReviewData<T> mHandler;

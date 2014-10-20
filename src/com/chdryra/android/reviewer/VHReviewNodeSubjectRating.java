@@ -11,8 +11,8 @@ package com.chdryra.android.reviewer;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
-import com.chdryra.android.mygenerallibrary.GVData;
 import com.chdryra.android.mygenerallibrary.ViewHolderBasic;
+import com.chdryra.android.mygenerallibrary.ViewHolderData;
 import com.chdryra.android.reviewer.GVReviewSubjectRatingList.GVReviewSubjectRating;
 
 /**
@@ -33,7 +33,7 @@ class VHReviewNodeSubjectRating extends ViewHolderBasic {
     }
 
     @Override
-    public void updateView(GVData data) {
+    public void updateView(ViewHolderData data) {
         if (mSubject == null) mSubject = (TextView) getView(SUBJECT);
         if (mRating == null) mRating = (RatingBar) getView(RATING);
 

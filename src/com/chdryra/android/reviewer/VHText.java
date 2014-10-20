@@ -8,7 +8,7 @@
 
 package com.chdryra.android.reviewer;
 
-import com.chdryra.android.mygenerallibrary.VHStringView;
+import com.chdryra.android.mygenerallibrary.VHString;
 
 /**
  * Simple ViewHolder for displaying strings on a grid cell.
@@ -18,15 +18,15 @@ import com.chdryra.android.mygenerallibrary.VHStringView;
  * purposes.
  * </p>
  */
-class VHTextView extends VHStringView {
+class VHText extends VHString {
     private static final int LAYOUT   = R.layout.grid_cell_text;
     private static final int TEXTVIEW = R.id.grid_cell_text_view;
 
-    public VHTextView() {
+    public VHText() {
         super(LAYOUT, TEXTVIEW);
     }
 
-    VHTextView(GVDataStringGetter getter) {
+    VHText(VHDataStringGetter getter) {
         super(LAYOUT, TEXTVIEW, getter);
     }
 

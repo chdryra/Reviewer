@@ -11,20 +11,15 @@ package com.chdryra.android.reviewer;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.chdryra.android.mygenerallibrary.GVData;
 import com.chdryra.android.mygenerallibrary.ViewHolder;
 
 /**
  * GVReviewDataList: GVComment
  * <p>
- * ViewHolder: VHCommentView
- * </p>
- * <p>
  * Includes method for generating split comments GVCommentList from current list.
  * </p>
  *
  * @see com.chdryra.android.reviewer.FragmentReviewComments
- * @see com.chdryra.android.reviewer.VHCommentView
  */
 class GVCommentList extends GVReviewDataList<GVCommentList.GVComment> {
 
@@ -33,17 +28,16 @@ class GVCommentList extends GVReviewDataList<GVCommentList.GVComment> {
     }
 
     /**
-     * GVData version of: RDComment
+     * GVReviewData version of: RDComment
      * ViewHolder: VHCommentView
      * <p>
      * Methods for getting the comment headline and for splitting and unsplitting comments.
      * </p>
      *
-     * @see com.chdryra.android.mygenerallibrary.GVData
      * @see com.chdryra.android.reviewer.RDComment
-     * @see com.chdryra.android.reviewer.VHCommentView
+     * @see VHComment
      */
-    static class GVComment implements GVData {
+    static class GVComment implements GVReviewDataList.GVReviewData {
         public static final Parcelable.Creator<GVComment> CREATOR = new Parcelable
                 .Creator<GVComment>() {
             public GVComment createFromParcel(Parcel in) {
@@ -98,7 +92,7 @@ class GVCommentList extends GVReviewDataList<GVCommentList.GVComment> {
 
         @Override
         public ViewHolder getViewHolder() {
-            return new VHCommentView();
+            return new VHComment();
         }
 
         @Override
@@ -150,10 +144,6 @@ class GVCommentList extends GVReviewDataList<GVCommentList.GVComment> {
 
     void remove(String comment) {
         remove(new GVComment(comment));
-    }
-
-    boolean contains(String comment) {
-        return contains(new GVComment(comment));
     }
 
     GVCommentList getSplitComments() {

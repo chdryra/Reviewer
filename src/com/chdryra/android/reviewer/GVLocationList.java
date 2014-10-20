@@ -11,7 +11,6 @@ package com.chdryra.android.reviewer;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.chdryra.android.mygenerallibrary.GVData;
 import com.chdryra.android.mygenerallibrary.ViewHolder;
 import com.google.android.gms.maps.model.LatLng;
 
@@ -24,7 +23,7 @@ import java.util.StringTokenizer;
  * </p>
  *
  * @see com.chdryra.android.reviewer.FragmentReviewLocations
- * @see com.chdryra.android.reviewer.VHLocationView
+ * @see VHLocation
  */
 class GVLocationList extends GVReviewDataList<GVLocationList.GVLocation> {
 
@@ -40,11 +39,10 @@ class GVLocationList extends GVReviewDataList<GVLocationList.GVLocation> {
      * Methods for getting the LatLng, name and shortened version of name.
      * </p>
      *
-     * @see com.chdryra.android.mygenerallibrary.GVData
      * @see com.chdryra.android.reviewer.RDLocation
-     * @see com.chdryra.android.reviewer.VHLocationView
+     * @see VHLocation
      */
-    static class GVLocation implements GVData {
+    static class GVLocation implements GVReviewDataList.GVReviewData {
         public static final Parcelable.Creator<GVLocation> CREATOR = new Parcelable
                 .Creator<GVLocation>() {
             public GVLocation createFromParcel(Parcel in) {
@@ -88,7 +86,7 @@ class GVLocationList extends GVReviewDataList<GVLocationList.GVLocation> {
 
         @Override
         public ViewHolder getViewHolder() {
-            return new VHLocationView(false);
+            return new VHLocation(false);
         }
 
         @Override
@@ -136,19 +134,5 @@ class GVLocationList extends GVReviewDataList<GVLocationList.GVLocation> {
 
     void remove(LatLng latLng, String name) {
         remove(new GVLocation(latLng, name));
-    }
-
-    boolean contains(LatLng latLng, String name) {
-        return contains(new GVLocation(latLng, name));
-    }
-
-    boolean contains(LatLng latLng) {
-        boolean contains = false;
-        for (GVLocation location : this) {
-            contains = location.getLatLng().equals(latLng);
-            if (contains) break;
-        }
-
-        return contains;
     }
 }

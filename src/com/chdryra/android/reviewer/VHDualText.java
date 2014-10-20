@@ -8,7 +8,7 @@
 
 package com.chdryra.android.reviewer;
 
-import com.chdryra.android.mygenerallibrary.VHDualStringView;
+import com.chdryra.android.mygenerallibrary.VHDualString;
 
 /**
  * Simple ViewHolder for GVDualString. Displays an upper and lower string.
@@ -18,12 +18,12 @@ import com.chdryra.android.mygenerallibrary.VHDualStringView;
  * purposes.
  * </p>
  */
-class VHTextDualView extends VHDualStringView {
+class VHDualText extends VHDualString {
     private static final int LAYOUT = R.layout.grid_cell_text_dual;
     private static final int UPPER  = R.id.upper_text;
     private static final int LOWER  = R.id.lower_text;
 
-    VHTextDualView() {
+    VHDualText() {
         super(LAYOUT, UPPER, LOWER);
     }
 }

@@ -13,27 +13,17 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 
-import com.chdryra.android.mygenerallibrary.GVData;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 14/10/2014
  * Email: rizwan.choudrey@gmail.com
  */
-class InputHandlerReviewData<T extends GVData> {
+class InputHandlerReviewData<T extends GVReviewDataList.GVReviewData> {
     private static final String DATUM_CURRENT = "com.chdryra.android.reviewer.data_current";
     private static final String DATUM_NEW     = "com.chdryra.android.reviewer.data_new";
     protected GVReviewDataList<T>     mData;
     private   GVReviewDataList.GVType mDataType;
-    private Class<T> mTClass;
-
-    InputHandlerReviewData(GVReviewDataList.GVType dataType) {
-        mDataType = dataType;
-    }
-
-    InputHandlerReviewData(GVReviewDataList<T> data) {
-        setData(data);
-    }
 
     enum CurrentNewDatum {
         CURRENT(DATUM_CURRENT),
@@ -48,6 +38,14 @@ class InputHandlerReviewData<T extends GVData> {
         private String getPackingTag() {
             return mTag;
         }
+    }
+
+    InputHandlerReviewData(GVReviewDataList.GVType dataType) {
+        mDataType = dataType;
+    }
+
+    InputHandlerReviewData(GVReviewDataList<T> data) {
+        setData(data);
     }
 
     GVReviewDataList.GVType getGVType() {

@@ -40,7 +40,7 @@ public class DialogTagAddFragment extends DialogAddReviewDataFragment<GVTag> {
     }
 
     @Override
-    protected void resetDialogOnAdd(GVTag tag) {
+    protected void updateDialogOnAdd(GVTag tag) {
         mTagEditText.setText(null);
         getDialog().setTitle("+ #" + tag.get());
     }

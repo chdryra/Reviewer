@@ -11,7 +11,6 @@ package com.chdryra.android.reviewer;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.chdryra.android.mygenerallibrary.GVData;
 import com.chdryra.android.mygenerallibrary.ViewHolder;
 
 import java.net.MalformedURLException;
@@ -21,12 +20,8 @@ import java.net.URL;
 
 /**
  * GVReviewDataList: GVUrl
- * <p>
- * ViewHolder: VHUrlView
- * </p>
  *
  * @see com.chdryra.android.reviewer.FragmentReviewURLs
- * @see com.chdryra.android.reviewer.VHUrlView
  */
 class GVUrlList extends GVReviewDataList<GVUrlList.GVUrl> {
 
@@ -41,11 +36,10 @@ class GVUrlList extends GVReviewDataList<GVUrlList.GVUrl> {
      * Methods for getting full URL and shortened more readable version.
      * </p>
      *
-     * @see com.chdryra.android.mygenerallibrary.GVData
      * @see com.chdryra.android.reviewer.RDUrl
-     * @see com.chdryra.android.reviewer.VHUrlView
+     * @see VHUrl
      */
-    static class GVUrl implements GVData {
+    static class GVUrl implements GVReviewDataList.GVReviewData {
         public static final Parcelable.Creator<GVUrl> CREATOR = new Parcelable
                 .Creator<GVUrl>() {
             public GVUrl createFromParcel(Parcel in) {
@@ -94,7 +88,7 @@ class GVUrlList extends GVReviewDataList<GVUrlList.GVUrl> {
 
         @Override
         public ViewHolder getViewHolder() {
-            return new VHUrlView();
+            return new VHUrl();
         }
 
         @Override

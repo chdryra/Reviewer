@@ -8,12 +8,11 @@
 
 package com.chdryra.android.reviewer;
 
-import com.chdryra.android.mygenerallibrary.GVData;
-import com.chdryra.android.mygenerallibrary.GVString;
+import com.chdryra.android.mygenerallibrary.VHDString;
+import com.chdryra.android.reviewer.GVReviewDataList.GVReviewData;
 
 import java.util.ArrayList;
 import java.util.Date;
-
 /**
  * Created by: Rizwan Choudrey
  * On: 03/10/2014
@@ -35,7 +34,7 @@ import java.util.Date;
  *
  * @param <T>: the Review type being accessed
  * @see Review
- * @see com.chdryra.android.mygenerallibrary.GVData
+ * @see com.chdryra.android.mygenerallibrary.ViewHolderData
  */
 class ControllerReview<T extends Review> {
     protected final ArrayList<String> mTagsList = new ArrayList<String>();
@@ -86,7 +85,7 @@ class ControllerReview<T extends Review> {
     }
 
     void addTags(GVTagList tags) {
-        for (GVString tag : tags) {
+        for (VHDString tag : tags) {
             mTagsList.add(tag.get());
         }
     }
@@ -109,7 +108,7 @@ class ControllerReview<T extends Review> {
         }
     }
 
-    GVReviewDataList<? extends GVData> getData(GVReviewDataList.GVType dataType) {
+    GVReviewDataList<? extends GVReviewData> getData(GVReviewDataList.GVType dataType) {
         if (dataType == GVReviewDataList.GVType.COMMENTS) {
             return getComments();
         } else if (dataType == GVReviewDataList.GVType.IMAGES) {

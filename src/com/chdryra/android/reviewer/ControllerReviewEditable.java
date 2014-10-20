@@ -8,7 +8,7 @@
 
 package com.chdryra.android.reviewer;
 
-import com.chdryra.android.mygenerallibrary.GVData;
+import com.chdryra.android.mygenerallibrary.ViewHolderData;
 
 /**
  * Created by: Rizwan Choudrey
@@ -35,7 +35,7 @@ class ControllerReviewEditable extends ControllerReview<ReviewEditable> {
     }
 
     //Other data
-    <T extends GVReviewDataList<? extends GVData>> void setData(T data) {
+    <T extends GVReviewDataList<? extends ViewHolderData>> void setData(T data) {
         GVReviewDataList.GVType dataType = data.getGVType();
         if (dataType == GVReviewDataList.GVType.COMMENTS) {
             setComments((GVCommentList) data);

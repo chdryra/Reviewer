@@ -63,7 +63,7 @@ class ConfigReviewDataUI {
         mOptionsMap.put(GVType.TAGS,
                 new ReviewDataConfig(DialogTagAddFragment.class, DATA_ADD, DIALOG_TAG_ADD_TAG,
                         DialogTagEditFragment.class, DATA_EDIT, DIALOG_TAG_EDIT_TAG,
-                        ActivityReviewTags.class, TAGS_REQUEST, new VHTagView()));
+                        ActivityReviewTags.class, TAGS_REQUEST, new VHTag()));
         mOptionsMap.put(GVType.CHILDREN,
                 new ReviewDataConfig(DialogChildAddFragment.class, DATA_ADD, DIALOG_CHILD_ADD_TAG,
                         DialogChildEditFragment.class, DATA_EDIT, DIALOG_CHILD_EDIT_TAG,
@@ -74,26 +74,26 @@ class ConfigReviewDataUI {
                         DIALOG_COMMENT_ADD_TAG,
                         DialogCommentEditFragment.class, DATA_EDIT, DIALOG_COMMENT_EDIT_TAG,
                         ActivityReviewComments.class, COMMENT_REQUEST,
-                        new VHCommentView()));
+                        new VHComment()));
         mOptionsMap.put(GVType.IMAGES,
                 new ReviewDataConfig(DialogImageEditFragment.class, DATA_ADD, DIALOG_IMAGE_ADD_TAG,
                         DialogImageEditFragment.class, DATA_EDIT, DIALOG_IMAGE_EDIT_TAG,
-                        ActivityReviewImages.class, IMAGE_REQUEST, new VHImageView()));
+                        ActivityReviewImages.class, IMAGE_REQUEST, new VHImage()));
         mOptionsMap.put(GVType.FACTS,
                 new ReviewDataConfig(DialogFactAddFragment.class, DATA_ADD, DIALOG_FACTS_ADD_TAG,
                         DialogFactEditFragment.class, DATA_EDIT, DIALOG_FACTS_EDIT_TAG,
-                        ActivityReviewFacts.class, FACTS_REQUEST, new VHFactView()));
+                        ActivityReviewFacts.class, FACTS_REQUEST, new VHFact()));
         mOptionsMap.put(GVType.LOCATIONS,
                 new ReviewDataConfig(DialogLocationFragment.class, LOCATION_ADD,
                         DIALOG_LOCATION_ADD_TAG,
                         DialogLocationFragment.class, DATA_EDIT,
                         DIALOG_LOCATION_EDIT_TAG,
                         ActivityReviewLocations.class, LOCATION_REQUEST,
-                        new VHLocationView(true)));
+                        new VHLocation(true)));
         mOptionsMap.put(GVType.URLS,
                 new ReviewDataConfig(DialogURLFragment.class, DATA_ADD, DIALOG_URL_ADD_TAG,
                         DialogURLFragment.class, DATA_EDIT, DIALOG_URL_EDIT_TAG,
-                        ActivityReviewURLs.class, URL_REQUEST, new VHUrlView()));
+                        ActivityReviewURLs.class, URL_REQUEST, new VHUrl()));
 
     }
 

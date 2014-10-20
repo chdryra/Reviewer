@@ -8,9 +8,9 @@
 
 package com.chdryra.android.reviewer;
 
-import com.chdryra.android.mygenerallibrary.GVData;
-import com.chdryra.android.mygenerallibrary.GVDualString;
-import com.chdryra.android.mygenerallibrary.VHDualStringView;
+import com.chdryra.android.mygenerallibrary.VHDDualString;
+import com.chdryra.android.mygenerallibrary.VHDualString;
+import com.chdryra.android.mygenerallibrary.ViewHolderData;
 import com.chdryra.android.reviewer.GVFactList.GVFact;
 
 /**
@@ -18,18 +18,18 @@ import com.chdryra.android.reviewer.GVFactList.GVFact;
  *
  * @see com.chdryra.android.reviewer.GVFactList.GVFact
  */
-class VHFactView extends VHDualStringView {
+class VHFact extends VHDualString {
     private static final int LAYOUT = R.layout.grid_cell_text_dual;
     private static final int UPPER  = R.id.upper_text;
     private static final int LOWER  = R.id.lower_text;
 
-    public VHFactView() {
+    public VHFact() {
         super(LAYOUT, UPPER, LOWER);
     }
 
     @Override
-    public void updateView(GVData data) {
+    public void updateView(ViewHolderData data) {
         GVFact fact = (GVFact) data;
-        if (fact != null) super.updateView(new GVDualString(fact.getLabel(), fact.getValue()));
+        if (fact != null) super.updateView(new VHDDualString(fact.getLabel(), fact.getValue()));
     }
 }

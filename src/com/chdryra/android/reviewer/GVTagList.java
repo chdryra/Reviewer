@@ -11,19 +11,14 @@ package com.chdryra.android.reviewer;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.chdryra.android.mygenerallibrary.GVString;
 import com.chdryra.android.mygenerallibrary.ViewHolder;
 
 import java.util.Comparator;
 
 /**
  * GVReviewDataList: GVTag
- * <p>
- * ViewHolder: VHTagView
- * </p>
  *
  * @see com.chdryra.android.reviewer.FragmentReviewTags`
- * @see com.chdryra.android.reviewer.VHTagView
  */
 class GVTagList extends GVReviewDataList<GVTagList.GVTag> {
 
@@ -39,11 +34,10 @@ class GVTagList extends GVReviewDataList<GVTagList.GVTag> {
      * Ignores case when comparing tags.
      * </p>
      *
-     * @see com.chdryra.android.mygenerallibrary.GVData
      * @see com.chdryra.android.reviewer.TagsManager.ReviewTag
-     * @see com.chdryra.android.reviewer.VHTagView
+     * @see VHTag
      */
-    static class GVTag extends GVString {
+    static class GVTag extends GVText {
         public static final Parcelable.Creator<GVTag> CREATOR = new Parcelable
                 .Creator<GVTag>() {
             public GVTag createFromParcel(Parcel in) {
@@ -65,17 +59,7 @@ class GVTagList extends GVReviewDataList<GVTagList.GVTag> {
 
         @Override
         public ViewHolder getViewHolder() {
-            return new VHTagView();
-        }
-
-        @Override
-        public int describeContents() {
-            return super.describeContents();
-        }
-
-        @Override
-        public void writeToParcel(Parcel parcel, int i) {
-            super.writeToParcel(parcel, i);
+            return new VHTag();
         }
     }
 
@@ -83,10 +67,6 @@ class GVTagList extends GVReviewDataList<GVTagList.GVTag> {
         if (string != null && string.length() > 0) {
             add(new GVTag(string));
         }
-    }
-
-    boolean contains(String string) {
-        return contains(new GVTag(string));
     }
 
     void remove(String string) {

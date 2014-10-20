@@ -15,7 +15,6 @@ import android.view.WindowManager;
 import android.widget.AdapterView;
 
 import com.chdryra.android.mygenerallibrary.ActivityResultCode;
-import com.chdryra.android.mygenerallibrary.GVData;
 import com.chdryra.android.reviewer.GVReviewDataList.GVType;
 
 /**
@@ -37,7 +36,7 @@ import com.chdryra.android.reviewer.GVReviewDataList.GVType;
  *
  * @param <T>: GVData type shown in grid cell
  */
-public class FragmentReviewGridAddEdit<T extends GVData> extends
+public class FragmentReviewGridAddEdit<T extends GVReviewDataList.GVReviewData> extends
         FragmentReviewGrid<GVReviewDataList<T>> {
     public static final String GVTYPE = "com.chdryra.android.review.gvtype";
     protected GVType mDataType;
@@ -47,10 +46,10 @@ public class FragmentReviewGridAddEdit<T extends GVData> extends
     private InputHandlerReviewData<T>           mHandler;
     private ConfigReviewDataUI.ReviewDataConfig mDataOption;
 
+    protected enum Action {ADD, DELETE, DONE}
+
     public FragmentReviewGridAddEdit() {
     }
-
-    protected enum Action {ADD, DELETE, DONE}
 
     protected InputHandlerReviewData<T> getInputHandler() {
         return mHandler;

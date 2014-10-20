@@ -12,7 +12,6 @@ import android.graphics.Bitmap;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.chdryra.android.mygenerallibrary.GVData;
 import com.chdryra.android.mygenerallibrary.ViewHolder;
 
 import java.util.Comparator;
@@ -21,16 +20,11 @@ import java.util.Date;
 /**
  * GVReviewDataList: GVReviewOverview
  * <p>
- * ViewHolder: VHReviewNodeOverview
- * </p>
- * <p/>
- * <p>
  * Used for Review summaries in published feed
  * </p>
  *
  * @see com.chdryra.android.reviewer.Administrator
  * @see com.chdryra.android.reviewer.FragmentFeed
- * @see com.chdryra.android.reviewer.VHReviewNodeOverview
  */
 class GVReviewOverviewList extends GVReviewDataList<GVReviewOverviewList.GVReviewOverview> {
 
@@ -46,11 +40,10 @@ class GVReviewOverviewList extends GVReviewDataList<GVReviewOverviewList.GVRevie
      * publish author and date.
      * </p>
      *
-     * @see com.chdryra.android.mygenerallibrary.GVData
      * @see com.chdryra.android.reviewer.Review
      * @see com.chdryra.android.reviewer.VHReviewNodeSubjectRating
      */
-    static class GVReviewOverview implements GVData {
+    static class GVReviewOverview implements GVReviewDataList.GVReviewData {
         public static final Parcelable.Creator<GVReviewOverview> CREATOR = new Parcelable
                 .Creator<GVReviewOverview>() {
             public GVReviewOverview createFromParcel(Parcel in) {

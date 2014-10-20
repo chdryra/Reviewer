@@ -11,7 +11,6 @@ package com.chdryra.android.reviewer;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.chdryra.android.myandroidwidgets.ClearableEditText;
 import com.chdryra.android.reviewer.GVFactList.GVFact;
 import com.chdryra.android.reviewer.GVReviewDataList.GVType;
 
@@ -19,35 +18,28 @@ import com.chdryra.android.reviewer.GVReviewDataList.GVType;
  * Dialog for adding facts: asks for a label and value.
  */
 public class DialogFactAddFragment extends DialogAddReviewDataFragment<GVFact> {
-    private ClearableEditText mFactLabelEditText;
-    private ClearableEditText mFactValueEditText;
+    private DialogHolder<GVFact> mDialogHolder;
 
     public DialogFactAddFragment() {
         super(GVType.FACTS);
+        mDialogHolder = new DHFact(this);
     }
 
     @Override
     protected View createDialogUI(ViewGroup parent) {
-        View v = getActivity().getLayoutInflater().inflate(R.layout.dialog_fact, null);
-        mFactLabelEditText = (ClearableEditText) v.findViewById(R.id.fact_label_edit_text);
-        mFactValueEditText = (ClearableEditText) v.findViewById(R.id.fact_value_edit_text);
+        mDialogHolder.inflate(getActivity());
+        mDialogHolder.initialiseView(null);
 
-        setKeyboardDoActionOnEditText(mFactValueEditText);
-
-        return v;
+        return mDialogHolder.getView();
     }
 
     @Override
     protected GVFact createGVData() {
-        return new GVFact(mFactLabelEditText.getText().toString().trim(),
-                mFactValueEditText.getText().toString().trim());
+        return mDialogHolder.getGVData();
     }
 
     @Override
-    protected void resetDialogOnAdd(GVFact newDatum) {
-        mFactLabelEditText.setText(null);
-        mFactValueEditText.setText(null);
-        getDialog().setTitle("Added " + newDatum.getLabel() + ": " + newDatum.getValue());
-        mFactLabelEditText.requestFocus();
+    protected void updateDialogOnAdd(GVFact newDatum) {
+        mDialogHolder.updateView(newDatum);
     }
 }

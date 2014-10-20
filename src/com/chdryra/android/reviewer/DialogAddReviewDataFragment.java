@@ -14,7 +14,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.chdryra.android.mygenerallibrary.DialogCancelAddDoneFragment;
-import com.chdryra.android.mygenerallibrary.GVData;
 import com.chdryra.android.reviewer.GVReviewDataList.GVType;
 
 /**
@@ -32,8 +31,8 @@ import com.chdryra.android.reviewer.GVReviewDataList.GVType;
  * the arguments by the Administrator.
  * </p>
  */
-public abstract class DialogAddReviewDataFragment<T extends GVData> extends
-        DialogCancelAddDoneFragment {
+public abstract class DialogAddReviewDataFragment<T extends GVReviewDataList.GVReviewData> extends
+DialogCancelAddDoneFragment {
     public static final String QUICK_SET = "com.chdryra.android.reviewer.dialog_quick_mode";
 
     private GVType                    mDataType;
@@ -44,6 +43,7 @@ public abstract class DialogAddReviewDataFragment<T extends GVData> extends
 
     protected DialogAddReviewDataFragment(GVType dataType) {
         mDataType = dataType;
+        //mDialogHolder = FactoryDialog.newDialogHolder(dataType);
     }
 
     @Override
@@ -73,13 +73,13 @@ public abstract class DialogAddReviewDataFragment<T extends GVData> extends
             Intent data = createNewReturnData();
             mHandler.pack(InputHandlerReviewData.CurrentNewDatum.NEW, newDatum, data);
             mHandler.add(data, getActivity());
-            resetDialogOnAdd(newDatum);
+            updateDialogOnAdd(newDatum);
         }
     }
 
     protected abstract T createGVData();
 
-    protected abstract void resetDialogOnAdd(T newDatum);
+    protected abstract void updateDialogOnAdd(T newDatum);
 
     GVReviewDataList<T> getData() {
         return mData;
