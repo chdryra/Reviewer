@@ -16,10 +16,10 @@ import android.view.View;
  * On: 20/10/2014
  * Email: rizwan.choudrey@gmail.com
  */
-public interface DialogHolder<T extends GVReviewDataList.GVReviewData> extends GVReviewDataUI<T> {
-    public void inflate(Activity activity);
+interface DialogHolder<T extends GVReviewDataList.GVReviewData> extends GVReviewDataUI<T> {
+    void inflate(Activity activity);
 
-    public View getView();
+    View getView();
 
     @Override
     void initialiseView(T data);

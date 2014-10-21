@@ -27,8 +27,8 @@ import com.chdryra.android.reviewer.GVReviewSubjectRatingList.GVReviewSubjectRat
  * <ul>
  * <li>Subject: enabled</li>
  * <li>RatingBar: enabled</li>
- * <li>Banner button: launches DialogChildAddFragment</li>
- * <li>Grid cell click: launches DialogChildEditFragment</li>
+ * <li>Banner button: launches AddChild dialog</li>
+ * <li>Grid cell click: launches EditChild dialog</li>
  * <li>Grid cell long click: same as click</li>
  * </ul>
  * </p>
@@ -38,8 +38,8 @@ import com.chdryra.android.reviewer.GVReviewSubjectRatingList.GVReviewSubjectRat
  * </p>
  *
  * @see com.chdryra.android.reviewer.ActivityReviewChildren
- * @see com.chdryra.android.reviewer.DialogChildAddFragment
- * @see com.chdryra.android.reviewer.DialogChildEditFragment
+ * @see com.chdryra.android.reviewer.ConfigAddEditActivity.AddChild
+ * @see com.chdryra.android.reviewer.ConfigAddEditActivity.EditChild
  */
 public class FragmentReviewChildren extends FragmentReviewGridAddEdit<GVReviewSubjectRating> {
     private boolean mTotalRatingIsAverage;

@@ -27,8 +27,8 @@ import com.chdryra.android.reviewer.GVReviewDataList.GVType;
  * <ul>
  * <li>Subject: disabled</li>
  * <li>RatingBar: disabled</li>
- * <li>Banner button: launches DialogCommentAddFragment</li>
- * <li>Grid cell click: launches DialogCommentEditFragment</li>
+ * <li>Banner button: launches AddComment dialog</li>
+ * <li>Grid cell click: launches EditComment dialog</li>
  * <li>Grid cell long click: same as click</li>
  * </ul>
  * </p>
@@ -38,8 +38,8 @@ import com.chdryra.android.reviewer.GVReviewDataList.GVType;
  * </p>
  *
  * @see com.chdryra.android.reviewer.ActivityReviewComments
- * @see com.chdryra.android.reviewer.DialogCommentAddFragment
- * @see com.chdryra.android.reviewer.DialogCommentEditFragment
+ * @see com.chdryra.android.reviewer.ConfigAddEditActivity.AddComment
+ * @see com.chdryra.android.reviewer.ConfigAddEditActivity.EditComment
  */
 public class FragmentReviewComments extends FragmentReviewGridAddEdit<GVComment> {
     private GVCommentList mComments;

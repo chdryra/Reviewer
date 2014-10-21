@@ -87,11 +87,11 @@ public class FragmentReviewGridAddEdit<T extends GVReviewDataList.GVReviewData> 
     }
 
     protected final int getRequestCodeAdd() {
-        return mDataOption.getDialogAddRequestCode();
+        return mDataOption.getDialogAddConfig().getRequestCode();
     }
 
     protected final int getRequestCodeEdit() {
-        return mDataOption.getDialogEditRequestCode();
+        return mDataOption.getDialogEditConfig().getRequestCode();
     }
 
     protected void onAddRequested(int resultCode, Intent data) {
@@ -139,8 +139,9 @@ public class FragmentReviewGridAddEdit<T extends GVReviewDataList.GVReviewData> 
 
     @Override
     protected void onBannerButtonClick() {
-        DialogShower.show(mDataOption.getDialogAddFragment(), FragmentReviewGridAddEdit.this,
-                getRequestCodeAdd(), mDataOption.getDialogAddDataTag(),
+        DialogShower.show(mDataOption.getDialogAddConfig().getDialogFragment(),
+                FragmentReviewGridAddEdit.this,
+                getRequestCodeAdd(), mDataOption.getDialogAddConfig().getTag(),
                 Administrator.get(getActivity()).pack(getController()));
     }
 
@@ -148,8 +149,9 @@ public class FragmentReviewGridAddEdit<T extends GVReviewDataList.GVReviewData> 
     protected void onGridItemClick(AdapterView<?> parent, View v, int position, long id) {
         //TODO how to make this type safe
         @SuppressWarnings("unchecked") T item = (T) parent.getItemAtPosition(position);
-        DialogShower.show(mDataOption.getDialogEditFragment(), FragmentReviewGridAddEdit.this,
-                getRequestCodeEdit(), mDataOption.getDialogEditDataTag(),
+        DialogShower.show(mDataOption.getDialogEditConfig().getDialogFragment(),
+                FragmentReviewGridAddEdit.this,
+                getRequestCodeEdit(), mDataOption.getDialogEditConfig().getTag(),
                 packGridCellData(item, Administrator.get(getActivity()).pack(getController())));
     }
 

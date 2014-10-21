@@ -20,17 +20,23 @@ import com.chdryra.android.mygenerallibrary.DialogCancelDeleteDoneFragment;
  * On: 16/10/2014
  * Email: rizwan.choudrey@gmail.com
  */
-public abstract class DialogEditReviewDataFragment<T extends GVReviewDataList.GVReviewData> extends
+public abstract class DialogReviewDataEditFragment<T extends GVReviewDataList.GVReviewData> extends
         DialogCancelDeleteDoneFragment {
     private GVReviewDataList.GVType   mDataType;
     private InputHandlerReviewData<T> mHandler;
     private T                         mDatum;
+    private DialogHolder<T> mDialogHolder;
 
-    protected DialogEditReviewDataFragment(GVReviewDataList.GVType dataType) {
+    protected DialogReviewDataEditFragment(GVReviewDataList.GVType dataType) {
         mDataType = dataType;
     }
 
-    protected abstract View createDialogUI(ViewGroup parent);
+    protected View createDialogUI(ViewGroup parent) {
+        mDialogHolder.inflate(getActivity());
+        mDialogHolder.initialiseView(getDatum());
+
+        return mDialogHolder.getView();
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -40,6 +46,7 @@ public abstract class DialogEditReviewDataFragment<T extends GVReviewDataList.GV
                 getArguments());
         setDialogTitle(getResources().getString(R.string.edit) + " " + mHandler.getGVType()
                 .getDatumString());
+        mDialogHolder = FactoryDialogHolder.newDialogHolder(this);
     }
 
     @Override
@@ -53,7 +60,9 @@ public abstract class DialogEditReviewDataFragment<T extends GVReviewDataList.GV
         return mDatum != null;
     }
 
-    protected abstract T createGVData();
+    protected T createGVData() {
+        return mDialogHolder.getGVData();
+    }
 
     protected GVReviewDataList.GVType getGVType() {
         return mDataType;

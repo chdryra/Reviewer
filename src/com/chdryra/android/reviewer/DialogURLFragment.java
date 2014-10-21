@@ -16,7 +16,7 @@ import android.webkit.URLUtil;
 import android.widget.Toast;
 
 import com.chdryra.android.myandroidwidgets.ClearableEditText;
-import com.chdryra.android.mygenerallibrary.DialogCancelDeleteDoneFragment;
+import com.chdryra.android.mygenerallibrary.DialogCancelActionDoneFragment;
 import com.chdryra.android.reviewer.GVReviewDataList.GVType;
 import com.chdryra.android.reviewer.GVUrlList.GVUrl;
 
@@ -26,7 +26,7 @@ import com.chdryra.android.reviewer.GVUrlList.GVUrl;
  *
  * @see com.chdryra.android.reviewer.FragmentReviewURLBrowser
  */
-public class DialogURLFragment extends DialogCancelDeleteDoneFragment {
+public class DialogURLFragment extends DialogCancelActionDoneFragment {
     private static final ActionType RESULT_BROWSE = ActionType.OTHER;
 
     private static final String TAG = "DialogURLFragment";
@@ -56,25 +56,11 @@ public class DialogURLFragment extends DialogCancelDeleteDoneFragment {
         mController = (ControllerReviewEditable) Administrator.get(getActivity()).unpack
                 (getArguments());
 
-        setLeftButtonAction(RESULT_BROWSE);
-        setLeftButtonText(getResources().getString(R.string.button_browse));
-        dismissDialogOnLeftClick();
+        setActionButtonAction(RESULT_BROWSE);
+        setActionButtonText(getResources().getString(R.string.button_map));
+        dismissDialogOnActionClick();
 
         setDialogTitle(getResources().getString(R.string.dialog_url_title));
-        setDeleteWhatTitle(getResources().getString(R.string.dialog_url_title));
-    }
-
-    @Override
-    protected void onDeleteButtonClick() {
-        GVUrlList urls = (GVUrlList) mController.getData(GVType.URLS);
-        if (urls.size() == 1) {
-            urls.remove(urls.getItem(0));
-        }
-    }
-
-    @Override
-    protected boolean hasDataToDelete() {
-        return mController.hasData(GVType.URLS);
     }
 
     @Override

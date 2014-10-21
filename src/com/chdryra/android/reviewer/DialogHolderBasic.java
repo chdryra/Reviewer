@@ -19,14 +19,13 @@ import com.chdryra.android.mygenerallibrary.DialogCancelActionDoneFragment;
  * On: 20/10/2014
  * Email: rizwan.choudrey@gmail.com
  */
-public class DialogHolderBasic<T extends GVReviewDataList.GVReviewData> implements
-        DialogHolder<T> {
+class DialogHolderBasic<T extends GVReviewDataList.GVReviewData> implements DialogHolder<T> {
     private final int               mLayout;
     private final int[]             mUpdateableViewIds;
     private final SparseArray<View> mUpdateableViews;
 
     protected View                                                  mInflated;
-    private   UIDialog<T, ? extends DialogCancelActionDoneFragment> mDialogUI;
+    private   DialogUI<T, ? extends DialogCancelActionDoneFragment> mDialogUI;
 
     protected DialogHolderBasic(int layoutId, int[] viewIds) {
         mLayout = layoutId;
@@ -34,7 +33,7 @@ public class DialogHolderBasic<T extends GVReviewDataList.GVReviewData> implemen
         mUpdateableViews = new SparseArray<View>(mUpdateableViewIds.length);
     }
 
-    protected void setDialogUI(UIDialog<T, ? extends DialogCancelActionDoneFragment>
+    protected void setDialogUI(DialogUI<T, ? extends DialogCancelActionDoneFragment>
                                        dialogUI) {
         mDialogUI = dialogUI;
     }

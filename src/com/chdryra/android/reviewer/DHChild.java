@@ -20,84 +20,27 @@ import java.text.DecimalFormat;
  * On: 20/10/2014
  * Email: rizwan.choudrey@gmail.com
  */
-public class DHChild extends DialogHolderBasic<GVReviewSubjectRating> {
+class DHChild extends DialogHolderAddEdit<GVReviewSubjectRating> {
     private static final int                   LAYOUT    = R.layout.dialog_criterion;
     private static final int                   SUBJECT   = R.id.child_name_edit_text;
     private static final int                   RATING    = R.id.child_rating_bar;
     private static final GVReviewSubjectRating NULL_DATA = new GVReviewSubjectRating(null, 0);
 
-    DHChild(DialogAddReviewDataFragment<GVReviewSubjectRating> dialogAdd) {
-        super(LAYOUT, new int[]{SUBJECT, RATING});
-        UIDialog.UIDialogManager<GVReviewSubjectRating,
-                DialogAddReviewDataFragment<GVReviewSubjectRating>> manager = new
-                UIDialog.UIDialogManager<GVReviewSubjectRating,
-                        DialogAddReviewDataFragment<GVReviewSubjectRating>>() {
-                    @Override
-                    public void initialise(GVReviewSubjectRating data,
-                                           DialogAddReviewDataFragment<GVReviewSubjectRating>
-                            dialog) {
-                        dialog.setKeyboardDoActionOnEditText(getEditTextKeyboardDoAction());
-                    }
-
-                    @Override
-                    public void update(GVReviewSubjectRating data,
-                                       DialogAddReviewDataFragment<GVReviewSubjectRating> dialog) {
-                        updateInputs(NULL_DATA);
-                        dialog.getDialog().setTitle(getDialogTitleOnAdd(data));
-                    }
-
-                    @Override
-                    public GVReviewSubjectRating getGVData() {
-                        return createGVData();
-                    }
-                };
-
-        setDialogUI(new UIDialog<GVReviewSubjectRating,
-                DialogAddReviewDataFragment<GVReviewSubjectRating>>(dialogAdd, manager));
+    DHChild(DialogReviewDataAddFragment<GVReviewSubjectRating> dialogAdd) {
+        super(LAYOUT, new int[]{SUBJECT, RATING}, dialogAdd, NULL_DATA);
     }
 
-    DHChild(DialogEditReviewDataFragment<GVReviewSubjectRating> dialogEdit) {
-        super(LAYOUT, new int[]{SUBJECT, RATING});
-        UIDialog.UIDialogManager<GVReviewSubjectRating,
-                DialogEditReviewDataFragment<GVReviewSubjectRating>> manager = new
-                UIDialog.UIDialogManager<GVReviewSubjectRating,
-                        DialogEditReviewDataFragment<GVReviewSubjectRating>>() {
-
-                    @Override
-                    public void initialise(GVReviewSubjectRating data,
-                                           DialogEditReviewDataFragment<GVReviewSubjectRating>
-                                                   dialog) {
-                        updateInputs(data);
-                        dialog.setKeyboardDoDoneOnEditText(getEditTextKeyboardDoDone());
-                        dialog.setDeleteWhatTitle(getDialogDeleteConfirmTitle(data));
-                    }
-
-                    @Override
-                    public void update(GVReviewSubjectRating data,
-                                       DialogEditReviewDataFragment<GVReviewSubjectRating> dialog) {
-
-                    }
-
-                    @Override
-                    public GVReviewSubjectRating getGVData() {
-                        return createGVData();
-                    }
-                };
-
-        setDialogUI(new UIDialog<GVReviewSubjectRating,
-                DialogEditReviewDataFragment<GVReviewSubjectRating>>(dialogEdit,
-                manager));
+    DHChild(DialogReviewDataEditFragment<GVReviewSubjectRating> dialogEdit) {
+        super(LAYOUT, new int[]{SUBJECT, RATING}, dialogEdit);
     }
 
-    protected EditText getEditTextKeyboardDoAction() {
+    @Override
+    protected EditText getEditTextForKeyboardAction() {
         return (EditText) getView(SUBJECT);
     }
 
-    protected EditText getEditTextKeyboardDoDone() {
-        return (EditText) getView(SUBJECT);
-    }
-
-    protected String getDialogTitleOnAdd(GVReviewSubjectRating data) {
+    @Override
+    protected String getDialogOnAddTitle(GVReviewSubjectRating data) {
         float childRating = data.getRating();
         DecimalFormat formatter = new DecimalFormat("0");
         DecimalFormat decimalFormatter = new DecimalFormat("0.0");
@@ -106,17 +49,20 @@ public class DHChild extends DialogHolderBasic<GVReviewSubjectRating> {
         return "+ " + data.getSubject() + ": " + rating + "/" + "5";
     }
 
+    @Override
     protected String getDialogDeleteConfirmTitle(GVReviewSubjectRating data) {
         return data.getSubject() + ": " + data.getRating();
 
     }
 
+    @Override
     protected GVReviewSubjectRating createGVData() {
         String subject = ((EditText) getView(SUBJECT)).getText().toString().trim();
         float rating = ((RatingBar) getView(RATING)).getRating();
         return new GVReviewSubjectRating(subject, rating);
     }
 
+    @Override
     protected void updateInputs(GVReviewSubjectRating data) {
         ((EditText) getView(SUBJECT)).setText(data.getSubject());
         ((RatingBar) getView(RATING)).setRating(data.getRating());

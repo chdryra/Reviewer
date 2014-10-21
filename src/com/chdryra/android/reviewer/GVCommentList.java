@@ -56,6 +56,10 @@ class GVCommentList extends GVReviewDataList<GVCommentList.GVComment> {
             mUnsplitParent = unsplitParent;
         }
 
+        GVComment() {
+            mComment = null;
+        }
+
         GVComment(String comment) {
             mComment = comment;
         }

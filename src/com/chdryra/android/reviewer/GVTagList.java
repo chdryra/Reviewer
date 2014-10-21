@@ -49,6 +49,10 @@ class GVTagList extends GVReviewDataList<GVTagList.GVTag> {
             }
         };
 
+        GVTag() {
+            super();
+        }
+
         GVTag(String tag) {
             super(tag);
         }

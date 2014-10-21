@@ -71,7 +71,7 @@ import com.chdryra.android.reviewer.GVReviewDataList.GVType;
  *
  * @see com.chdryra.android.reviewer.ActivityReviewBuild
  * @see ConfigReviewDataUI
- * @see com.chdryra.android.reviewer.DialogAddReviewDataFragment
+ * @see DialogReviewDataAddFragment
  */
 public class FragmentReviewBuild extends FragmentReviewGrid<FragmentReviewBuild.GVCellManagerList> {
     private final static int LOCATION_MAP = 22;
@@ -184,7 +184,7 @@ public class FragmentReviewBuild extends FragmentReviewGrid<FragmentReviewBuild.
             }
 
             private View getSingleDatumView(ViewGroup parent) {
-                ViewHolder vh = getUIConfig(mDataType).getViewHolder();
+                ViewHolder vh = getUIConfig(mDataType).getActivityConfig().getViewHolder();
                 if (vh.getView() == null) vh.inflate(getActivity(), parent);
                 vh.updateView((ViewHolderData) getController().getData(mDataType).getItem(0));
                 return vh.getView();
@@ -209,11 +209,12 @@ public class FragmentReviewBuild extends FragmentReviewGrid<FragmentReviewBuild.
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         ActivityResultCode resCode = ActivityResultCode.get(resultCode);
-        if (requestCode == getUIConfig(GVType.IMAGES).getActivityRequestCode()) {
+        if (requestCode == getUIConfig(GVType.IMAGES).getActivityConfig().getRequestCode()) {
             if (mHelperReviewImage.bitmapExistsOnActivityResult(getActivity(), resultCode, data)) {
                 addImage();
             }
-        } else if (requestCode == getUIConfig(GVType.LOCATIONS).getDialogAddRequestCode()) {
+        } else if (requestCode == getUIConfig(GVType.LOCATIONS).getDialogAddConfig()
+                .getRequestCode()) {
             if (resCode.equals(DialogLocationFragment.RESULT_MAP.getResultCode())) {
                 requestMapIntent(data);
             }
@@ -366,22 +367,23 @@ public class FragmentReviewBuild extends FragmentReviewGrid<FragmentReviewBuild.
     }
 
     private void requestIntent(ConfigReviewDataUI.ReviewDataConfig config) {
-        Intent i = config.requestActivityIntent(getActivity());
+        Intent i = config.getActivityConfig().requestIntent(getActivity());
         Administrator.get(getActivity()).pack(getController(), i);
-        startActivityForResult(i, config.getActivityRequestCode());
+        startActivityForResult(i, config.getActivityConfig().getRequestCode());
     }
 
     private void showQuickDialog(ConfigReviewDataUI.ReviewDataConfig config) {
-        DialogFragment dialog = config.getDialogAddFragment();
-        dialog.setTargetFragment(FragmentReviewBuild.this, config.getDialogAddRequestCode());
+        DialogFragment dialog = config.getDialogAddConfig().getDialogFragment();
+        dialog.setTargetFragment(FragmentReviewBuild.this, config.getDialogAddConfig()
+                .getRequestCode());
         Bundle args = Administrator.get(getActivity()).pack(getController());
-        args.putBoolean(DialogAddReviewDataFragment.QUICK_SET, true);
+        args.putBoolean(DialogReviewDataAddFragment.QUICK_SET, true);
         dialog.setArguments(args);
-        dialog.show(getFragmentManager(), config.getDialogAddDataTag());
+        dialog.show(getFragmentManager(), config.getDialogAddConfig().getTag());
     }
 
     private void showQuickImageDialog() {
         startActivityForResult(mHelperReviewImage.getImageChooserIntents(getActivity()),
-                getUIConfig(GVType.IMAGES).getActivityRequestCode());
+                getUIConfig(GVType.IMAGES).getActivityConfig().getRequestCode());
     }
 }

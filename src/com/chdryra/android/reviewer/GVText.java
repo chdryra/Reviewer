@@ -30,6 +30,10 @@ class GVText extends VHDString implements GVReviewDataList.GVReviewData {
         }
     };
 
+    GVText() {
+        super();
+    }
+
     GVText(String text) {
         super(text);
     }

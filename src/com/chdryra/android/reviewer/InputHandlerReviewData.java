@@ -85,7 +85,7 @@ class InputHandlerReviewData<T extends GVReviewDataList.GVReviewData> {
     void replace(Intent data, Context context) {
         T oldDatum = unpack(CurrentNewDatum.CURRENT, data);
         T newDatum = unpack(CurrentNewDatum.NEW, data);
-        if (isNewAndValid(newDatum, context)) {
+        if (!oldDatum.equals(newDatum) && isNewAndValid(newDatum, context)) {
             mData.remove(oldDatum);
             mData.add(newDatum);
         }
@@ -109,6 +109,6 @@ class InputHandlerReviewData<T extends GVReviewDataList.GVReviewData> {
     }
 
     boolean isNewAndValid(T datum, Context context) {
-        return datum.isValidForDisplay() && !contains(datum, context);
+        return datum != null && datum.isValidForDisplay() && !contains(datum, context);
     }
 }

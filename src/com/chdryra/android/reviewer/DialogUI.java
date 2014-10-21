@@ -16,24 +16,24 @@ import com.chdryra.android.mygenerallibrary.DialogCancelActionDoneFragment;
  * On: 17/10/2014
  * Email: rizwan.choudrey@gmail.com
  */
-class UIDialog<T extends GVReviewDataList.GVReviewData, D extends DialogCancelActionDoneFragment>
+class DialogUI<T extends GVReviewDataList.GVReviewData, D extends DialogCancelActionDoneFragment>
         implements GVReviewDataUI<T> {
 
     private D                     mDialog;
-    private UIDialogManager<T, D> mManager;
+    private DialogUIManager<T, D> mManager;
 
-    protected UIDialog(D dialog, UIDialogManager<T, D> manager) {
+    protected DialogUI(D dialog, DialogUIManager<T, D> manager) {
         mDialog = dialog;
         mManager = manager;
     }
 
-    public interface UIDialogManager<T extends GVReviewDataList.GVReviewData,
+    interface DialogUIManager<T extends GVReviewDataList.GVReviewData,
             D extends DialogCancelActionDoneFragment> {
-        public void initialise(T data, D dialog);
+        void initialise(T data, D dialog);
 
-        public void update(T data, D dialog);
+        void update(T data, D dialog);
 
-        public T getGVData();
+        T getGVData();
     }
 
     @Override

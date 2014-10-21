@@ -31,23 +31,32 @@ import com.chdryra.android.reviewer.GVReviewDataList.GVType;
  * the arguments by the Administrator.
  * </p>
  */
-public abstract class DialogAddReviewDataFragment<T extends GVReviewDataList.GVReviewData> extends
-DialogCancelAddDoneFragment {
+public abstract class DialogReviewDataAddFragment<T extends GVReviewDataList.GVReviewData> extends
+        DialogCancelAddDoneFragment {
     public static final String QUICK_SET = "com.chdryra.android.reviewer.dialog_quick_mode";
 
     private GVType                    mDataType;
     private ControllerReviewEditable  mController;
     private GVReviewDataList<T>       mData;
     private InputHandlerReviewData<T> mHandler;
+    private DialogHolder<T> mDialogHolder;
     private boolean mQuickSet = false;
 
-    protected DialogAddReviewDataFragment(GVType dataType) {
+    protected DialogReviewDataAddFragment(GVType dataType) {
         mDataType = dataType;
-        //mDialogHolder = FactoryDialog.newDialogHolder(dataType);
+    }
+
+    GVType getGVType() {
+        return mDataType;
     }
 
     @Override
-    protected abstract View createDialogUI(ViewGroup parent);
+    protected View createDialogUI(ViewGroup parent) {
+        mDialogHolder.inflate(getActivity());
+        mDialogHolder.initialiseView(null);
+
+        return mDialogHolder.getView();
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -60,15 +69,18 @@ DialogCancelAddDoneFragment {
         //TODO move creation of input handler to commissioning fragment to pass correct data.
         mHandler = new InputHandlerReviewData<T>(mDataType);
         if (mController != null) {
+            //TODO make typesafe
             mData = (GVReviewDataList<T>) mController.getData(mDataType);
             mHandler.setData(mData);
         }
+
         setDialogTitle(getResources().getString(R.string.add) + " " + mDataType.getDatumString());
+        mDialogHolder = FactoryDialogHolder.newDialogHolder(this);
     }
 
     @Override
     protected void onAddButtonClick() {
-        T newDatum = createGVData();
+        T newDatum = createGVDataFromInputs();
         if (mHandler.isNewAndValid(newDatum, getActivity())) {
             Intent data = createNewReturnData();
             mHandler.pack(InputHandlerReviewData.CurrentNewDatum.NEW, newDatum, data);
@@ -77,16 +89,20 @@ DialogCancelAddDoneFragment {
         }
     }
 
-    protected abstract T createGVData();
-
-    protected abstract void updateDialogOnAdd(T newDatum);
-
-    GVReviewDataList<T> getData() {
-        return mData;
-    }
-
     @Override
     protected void onDoneButtonClick() {
         if (mQuickSet && mController != null) mController.setData(mData);
+    }
+
+    protected T createGVDataFromInputs() {
+        return mDialogHolder.getGVData();
+    }
+
+    protected void updateDialogOnAdd(T newDatum) {
+        mDialogHolder.updateView(newDatum);
+    }
+
+    GVReviewDataList<T> getData() {
+        return mData;
     }
 }
