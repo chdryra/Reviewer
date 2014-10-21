@@ -32,7 +32,7 @@ class FactoryDialogHolder {
         mDHClassesMap.put(GVType.CHILDREN, DHChild.class);
         mDHClassesMap.put(GVType.COMMENTS, DHComment.class);
         mDHClassesMap.put(GVType.FACTS, DHFact.class);
-        mDHClassesMap.put(GVType.IMAGES, DHImage2.class);
+        mDHClassesMap.put(GVType.IMAGES, DHImageEdit.class);
         mDHClassesMap.put(GVType.TAGS, DHTag.class);
     }
 
