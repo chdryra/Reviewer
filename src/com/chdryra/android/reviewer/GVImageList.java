@@ -125,8 +125,8 @@ class GVImageList extends GVReviewDataList<GVImageList.GVImage> {
 
             GVImage gvImage = (GVImage) o;
 
-            if (mIsCover != gvImage.mIsCover) return false;
-            if (mBitmap != null ? !mBitmap.equals(gvImage.mBitmap) : gvImage.mBitmap != null) {
+            //if (mIsCover != gvImage.mIsCover) return false;
+            if (mBitmap != null ? !mBitmap.sameAs(gvImage.mBitmap) : gvImage.mBitmap != null) {
                 return false;
             }
             if (mCaption != null ? !mCaption.equals(gvImage.mCaption) : gvImage.mCaption != null) {
@@ -168,6 +168,14 @@ class GVImageList extends GVReviewDataList<GVImageList.GVImage> {
 
     void add(Bitmap bitmap, LatLng latLng, String caption, boolean isCover) {
         add(new GVImage(bitmap, latLng, caption, isCover));
+    }
+
+    boolean contains(Bitmap bitmap) {
+        for (GVImage image : this) {
+            if (image.getBitmap().sameAs(bitmap)) return true;
+        }
+
+        return false;
     }
 
     GVImage getRandomCover() {

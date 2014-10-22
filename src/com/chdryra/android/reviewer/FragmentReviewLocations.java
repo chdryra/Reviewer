@@ -37,8 +37,8 @@ public class FragmentReviewLocations extends FragmentReviewGridAddEdit<GVLocatio
     public static final String SUBJECT = "com.chdryra.android.reviewer.subject";
 
     public FragmentReviewLocations() {
-        mDataType = GVType.LOCATIONS;
-        setResultCode(Action.ADD, ActivityResultCode.DONE);
+        super(GVType.LOCATIONS);
+        setActivityResultCode(Action.ADD, ActivityResultCode.DONE);
     }
 
     @Override

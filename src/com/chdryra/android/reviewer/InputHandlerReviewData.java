@@ -22,7 +22,7 @@ import android.widget.Toast;
 class InputHandlerReviewData<T extends GVReviewDataList.GVReviewData> {
     private static final String DATUM_CURRENT = "com.chdryra.android.reviewer.data_current";
     private static final String DATUM_NEW     = "com.chdryra.android.reviewer.data_new";
-    protected GVReviewDataList<T>     mData;
+    private GVReviewDataList<T> mData;
     private   GVReviewDataList.GVType mDataType;
 
     enum CurrentNewDatum {
@@ -42,10 +42,6 @@ class InputHandlerReviewData<T extends GVReviewDataList.GVReviewData> {
 
     InputHandlerReviewData(GVReviewDataList.GVType dataType) {
         mDataType = dataType;
-    }
-
-    InputHandlerReviewData(GVReviewDataList<T> data) {
-        setData(data);
     }
 
     GVReviewDataList.GVType getGVType() {
@@ -77,18 +73,26 @@ class InputHandlerReviewData<T extends GVReviewDataList.GVReviewData> {
         return data.getParcelableExtra(currentNew.getPackingTag());
     }
 
-    void add(Intent data, Context context) {
+    boolean add(Intent data, Context context) {
         T newDatum = unpack(CurrentNewDatum.NEW, data);
-        if (isNewAndValid(newDatum, context)) mData.add(newDatum);
+        if (passesAddConstraint(newDatum, context)) {
+            mData.add(newDatum);
+            return true;
+        }
+
+        return false;
     }
 
-    void replace(Intent data, Context context) {
+    boolean replace(Intent data, Context context) {
         T oldDatum = unpack(CurrentNewDatum.CURRENT, data);
         T newDatum = unpack(CurrentNewDatum.NEW, data);
-        if (!oldDatum.equals(newDatum) && isNewAndValid(newDatum, context)) {
+        if (passesReplaceConstraint(oldDatum, newDatum, context)) {
             mData.remove(oldDatum);
             mData.add(newDatum);
+            return true;
         }
+
+        return false;
     }
 
     void delete(Intent data) {
@@ -97,18 +101,32 @@ class InputHandlerReviewData<T extends GVReviewDataList.GVReviewData> {
 
     boolean contains(T datum, Context context) {
         if (mData != null && mData.contains(datum)) {
-            if (context != null) {
-                String toast = context.getResources().getString(R.string.toast_has) + " " +
-                        getGVType().getDatumString();
-                Toast.makeText(context, toast, Toast.LENGTH_SHORT).show();
-            }
+            if (context != null) makeToastHasItem(context);
             return true;
         }
 
         return false;
     }
 
+    void makeToastHasItem(Context context) {
+        String toast = context.getResources().getString(R.string.toast_has) + " " +
+                getGVType().getDatumString();
+        Toast.makeText(context, toast, Toast.LENGTH_SHORT).show();
+    }
+
+    boolean isValid(T datum) {
+        return datum != null && datum.isValidForDisplay();
+    }
+
     boolean isNewAndValid(T datum, Context context) {
-        return datum != null && datum.isValidForDisplay() && !contains(datum, context);
+        return isValid(datum) && !contains(datum, context);
+    }
+
+    boolean passesAddConstraint(T datum, Context context) {
+        return isNewAndValid(datum, context);
+    }
+
+    boolean passesReplaceConstraint(T oldDatum, T newDatum, Context context) {
+        return isValid(oldDatum) && !oldDatum.equals(newDatum) && isNewAndValid(newDatum, context);
     }
 }

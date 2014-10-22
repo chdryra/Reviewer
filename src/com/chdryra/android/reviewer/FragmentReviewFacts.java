@@ -16,6 +16,6 @@ import com.chdryra.android.reviewer.GVReviewDataList.GVType;
  */
 public class FragmentReviewFacts extends FragmentReviewGridAddEdit<GVFact> {
     public FragmentReviewFacts() {
-        mDataType = GVType.FACTS;
+        super(GVType.FACTS);
     }
 }

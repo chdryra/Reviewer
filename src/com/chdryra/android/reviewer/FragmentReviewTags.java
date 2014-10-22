@@ -15,6 +15,6 @@ import com.chdryra.android.reviewer.GVReviewDataList.GVType;
  */
 public class FragmentReviewTags extends FragmentReviewGridAddEdit<GVTagList.GVTag> {
     public FragmentReviewTags() {
-        mDataType = GVType.TAGS;
+        super(GVType.TAGS);
     }
 }

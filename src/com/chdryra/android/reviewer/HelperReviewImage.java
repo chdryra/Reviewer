@@ -22,6 +22,7 @@ import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.util.Log;
 
+import com.chdryra.android.mygenerallibrary.ActivityResultCode;
 import com.chdryra.android.mygenerallibrary.FunctionPointer;
 import com.chdryra.android.mygenerallibrary.ImageHelper;
 
@@ -152,46 +153,44 @@ class HelperReviewImage extends ImageHelper {
         return chooserIntent;
     }
 
-    boolean bitmapExistsOnActivityResult(Activity activity, int resultCode, Intent data) {
+    boolean bitmapExistsOnActivityResult(Activity activity, ActivityResultCode resultCode,
+                                         Intent data) {
         //Returns true if bitmap exists.
-        switch (resultCode) {
-            case Activity.RESULT_OK:
-                final boolean isCamera;
-                if (data == null) {
-                    isCamera = true;
-                } else {
-                    final String action = data.getAction();
-                    isCamera = action != null && action.equals(android.provider.MediaStore
-                            .ACTION_IMAGE_CAPTURE);
+        if (resultCode.equals(ActivityResultCode.OK)) {
+            final boolean isCamera;
+            if (data == null) {
+                isCamera = true;
+            } else {
+                final String action = data.getAction();
+                isCamera = action != null && action.equals(MediaStore
+                        .ACTION_IMAGE_CAPTURE);
+            }
+
+            if (!isCamera) {
+                Uri uri = data.getData();
+                String path = ImageHelper.getRealPathFromURI(activity, uri);
+                setImageFilePath(path);
+            }
+
+            if (bitmapExists()) {
+                if (isCamera) {
+                    Uri imageUri = Uri.fromFile(new File(getImageFilePath()));
+                    activity.sendBroadcast(
+                            new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, imageUri));
                 }
 
-                if (!isCamera) {
-                    Uri uri = data.getData();
-                    String path = ImageHelper.getRealPathFromURI(activity, uri);
-                    setImageFilePath(path);
-                }
+                return true;
+            }
 
-                if (bitmapExists()) {
-                    if (isCamera) {
-                        Uri imageUri = Uri.fromFile(new File(getImageFilePath()));
-                        activity.sendBroadcast(
-                                new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, imageUri));
-                    }
+            return false;
+        } else if (resultCode.equals(ActivityResultCode.CANCEL)) {
+            if (!bitmapExists()) {
+                deleteImageFile();
+            }
 
-                    return true;
-                }
-
-                return false;
-
-            case Activity.RESULT_CANCELED:
-                if (!bitmapExists()) {
-                    deleteImageFile();
-                }
-
-                return false;
-
-            default:
-                return false;
+            return false;
+        } else {
+            return false;
         }
     }
 }

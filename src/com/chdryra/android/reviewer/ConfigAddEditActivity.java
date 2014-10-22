@@ -91,6 +91,7 @@ public class ConfigAddEditActivity {
             DialogReviewDataAddFragment<GVReviewSubjectRatingList.GVReviewSubjectRating> {
         public AddChild() {
             super(GVType.CHILDREN);
+            mHandler = new InputHandlerChildren();
         }
     }
 
@@ -121,6 +122,7 @@ public class ConfigAddEditActivity {
             .GVReviewSubjectRating> {
         public EditChild() {
             super(GVType.CHILDREN);
+            mHandler = new InputHandlerChildren();
         }
     }
 

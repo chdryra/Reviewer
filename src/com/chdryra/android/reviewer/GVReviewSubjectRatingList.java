@@ -94,11 +94,8 @@ class GVReviewSubjectRatingList extends GVReviewDataList<GVReviewSubjectRatingLi
             GVReviewSubjectRating that = (GVReviewSubjectRating) o;
 
             if (Float.compare(that.mRating, mRating) != 0) return false;
-            if (mSubject != null ? !mSubject.equals(that.mSubject) : that.mSubject != null) {
-                return false;
-            }
+            return !(mSubject != null ? !mSubject.equals(that.mSubject) : that.mSubject != null);
 
-            return true;
         }
 
         @Override
@@ -121,37 +118,15 @@ class GVReviewSubjectRatingList extends GVReviewDataList<GVReviewSubjectRatingLi
     }
 
     void add(String subject, float rating) {
-        if (!contains(subject)) {
-            add(new GVReviewSubjectRating(subject, rating));
-        }
+        add(new GVReviewSubjectRating(subject, rating));
     }
 
-    boolean contains(String subject) {
-        GVReviewSubjectRating review = new GVReviewSubjectRating(subject, 0);
-        return contains(review);
-    }
-
-    void remove(String subject) {
-        remove(new GVReviewSubjectRating(subject, 0));
-    }
-
-    void set(String subject, float rating) {
-        GVReviewSubjectRating r = getItem(subject);
-        if (r != null) {
-            r.setRating(rating);
-        }
-    }
-
-    private GVReviewSubjectRating getItem(String subject) {
-        GVReviewSubjectRating review = null;
-        for (GVReviewSubjectRating r : this) {
-            if (r.getSubject().equals(subject)) {
-                review = r;
-                break;
-            }
+    public boolean contains(String subject) {
+        for (GVReviewSubjectRating review : this) {
+            if (review.getSubject().equals(subject)) return true;
         }
 
-        return review;
+        return false;
     }
 
     @Override

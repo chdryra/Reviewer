@@ -45,7 +45,20 @@ public class FragmentReviewChildren extends FragmentReviewGridAddEdit<GVReviewSu
     private boolean mTotalRatingIsAverage;
 
     public FragmentReviewChildren() {
-        mDataType = GVType.CHILDREN;
+        super(GVType.CHILDREN);
+        mHandler = new InputHandlerChildren();
+    }
+
+    @Override
+    public boolean onDialogAddClick(Intent data) {
+        GVReviewSubjectRating item = getInputHandler().unpack(InputHandlerReviewData
+                .CurrentNewDatum.NEW, data);
+        if (((GVReviewSubjectRatingList) getGridData()).contains(item.getSubject())) {
+            getInputHandler().makeToastHasItem(getActivity());
+            return false;
+        } else {
+            return super.onDialogAddClick(data);
+        }
     }
 
     @Override

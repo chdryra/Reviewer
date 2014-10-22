@@ -146,10 +146,6 @@ class GVCommentList extends GVReviewDataList<GVCommentList.GVComment> {
         add(new GVComment(comment));
     }
 
-    void remove(String comment) {
-        remove(new GVComment(comment));
-    }
-
     GVCommentList getSplitComments() {
         GVCommentList splitComments = new GVCommentList();
         for (GVComment comment : this) {

@@ -34,20 +34,22 @@ import com.chdryra.android.reviewer.GVReviewDataList.GVType;
 public abstract class DialogReviewDataAddFragment<T extends GVReviewDataList.GVReviewData> extends
         DialogCancelAddDoneFragment {
     public static final String QUICK_SET = "com.chdryra.android.reviewer.dialog_quick_mode";
-
-    private GVType                    mDataType;
-    private ControllerReviewEditable  mController;
-    private GVReviewDataList<T>       mData;
-    private InputHandlerReviewData<T> mHandler;
-    private DialogHolder<T> mDialogHolder;
+    protected InputHandlerReviewData<T> mHandler;
+    private   ControllerReviewEditable  mController;
+    private   GVReviewDataList<T>       mData;
+    private   DialogHolder<T>           mDialogHolder;
     private boolean mQuickSet = false;
 
     protected DialogReviewDataAddFragment(GVType dataType) {
-        mDataType = dataType;
+        mHandler = new InputHandlerReviewData<T>(dataType);
+    }
+
+    interface DialogReviewDataAddListener {
+        boolean onDialogAddClick(Intent data);
     }
 
     GVType getGVType() {
-        return mDataType;
+        return mHandler.getGVType();
     }
 
     @Override
@@ -66,32 +68,48 @@ public abstract class DialogReviewDataAddFragment<T extends GVReviewDataList.GVR
         mController = (ControllerReviewEditable) Administrator.get(getActivity()).unpack
                 (getArguments());
 
-        //TODO move creation of input handler to commissioning fragment to pass correct data.
-        mHandler = new InputHandlerReviewData<T>(mDataType);
         if (mController != null) {
             //TODO make typesafe
-            mData = (GVReviewDataList<T>) mController.getData(mDataType);
+            mData = (GVReviewDataList<T>) mController.getData(getGVType());
             mHandler.setData(mData);
         }
 
-        setDialogTitle(getResources().getString(R.string.add) + " " + mDataType.getDatumString());
+        setDialogTitle(getResources().getString(R.string.add) + " " + getGVType().getDatumString());
         mDialogHolder = FactoryDialogHolder.newDialogHolder(this);
     }
 
     @Override
     protected void onAddButtonClick() {
         T newDatum = createGVDataFromInputs();
-        if (mHandler.isNewAndValid(newDatum, getActivity())) {
-            Intent data = createNewReturnData();
-            mHandler.pack(InputHandlerReviewData.CurrentNewDatum.NEW, newDatum, data);
-            mHandler.add(data, getActivity());
-            updateDialogOnAdd(newDatum);
+        Intent data = new Intent();
+        mHandler.pack(InputHandlerReviewData.CurrentNewDatum.NEW, newDatum, data);
+
+        if (isQuickSet()) {
+            if (mHandler.add(data, getActivity())) updateDialogOnAdd(newDatum);
+        } else {
+            try {
+                DialogReviewDataAddListener fragment = (DialogReviewDataAddListener)
+                        getTargetFragment();
+                if (fragment.onDialogAddClick(data)) updateDialogOnAdd(newDatum);
+            } catch (ClassCastException e) {
+                throw new ClassCastException(getTargetFragment().toString() + " must implement " +
+                        "reviewDataAddListener");
+            }
         }
     }
 
     @Override
     protected void onDoneButtonClick() {
-        if (mQuickSet && mController != null) mController.setData(mData);
+        if (isQuickSet()) mController.setData(mData);
+    }
+
+    @Override
+    protected Intent getReturnData() {
+        return null;
+    }
+
+    boolean isQuickSet() {
+        return mQuickSet && mController != null;
     }
 
     protected T createGVDataFromInputs() {

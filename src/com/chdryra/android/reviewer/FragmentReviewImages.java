@@ -48,42 +48,57 @@ public class FragmentReviewImages extends FragmentReviewGridAddEdit<GVImage> {
     private HelperReviewImage mHelperReviewImage;
 
     public FragmentReviewImages() {
-        mDataType = GVType.IMAGES;
+        super(GVType.IMAGES);
+        setActivityResultCode(Action.ADD, ActivityResultCode.OK);
         setGridCellDimension(CellDimension.HALF, CellDimension.HALF);
-        setResultCode(Action.ADD, ActivityResultCode.OK);
+        mHandler = new InputHandlerImage();
     }
 
     @Override
-    protected void doDatumAdd(Intent data) {
-        mHelperReviewImage.addReviewImage(getActivity(), mImages,
+    protected boolean doDatumAdd(Intent image) {
+        final GVImageList temp = new GVImageList();
+        final Intent newImage = new Intent();
+        mHelperReviewImage.addReviewImage(getActivity(), temp,
                 new FunctionPointer<Void>() {
                     @Override
                     public void execute(Void data) {
+                        if (temp.size() == 1) {
+                            getInputHandler().pack(InputHandlerReviewData.CurrentNewDatum.NEW,
+                                    temp.getItem(0), newImage);
+                            getInputHandler().add(newImage, getActivity());
+                        }
+
                         if (mImages.size() == 1) setCover(0);
                         updateUI();
                     }
                 }
         );
+
+        return true;
     }
 
     @Override
     protected void doDatumDelete(Intent data) {
-        boolean isCover = getInputHandler().unpack(InputHandlerReviewData.CurrentNewDatum
-                .CURRENT, data).isCover();
+        GVImage image = getInputHandler().unpack(InputHandlerReviewData.CurrentNewDatum
+                .CURRENT, data);
+        boolean isCover = image.isCover();
         super.doDatumDelete(data);
         if (isCover) setCover(0);
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == getRequestCodeAdd()) {
-            if (mHelperReviewImage.bitmapExistsOnActivityResult(getActivity(), resultCode, data)) {
-                onAddRequested(resultCode, data);
-            }
-        } else if (requestCode == IMAGE_AS_BACKGROUND) {
-            if (ActionType.YES.getResultCode().equals(resultCode)) {
-                setCover(data.getIntExtra(POSITION, 0));
-            }
+        if (data == null) return;
+
+        ActivityResultCode resCode = ActivityResultCode.get(resultCode);
+        if (requestCode == getRequestCodeAdd() && mHelperReviewImage.bitmapExistsOnActivityResult
+                (getActivity(), resCode, data)) {
+            onActivityAddRequested(resultCode, data);
+
+        } else if (requestCode == IMAGE_AS_BACKGROUND && resCode.equals(ActionType.YES
+                .getResultCode())) {
+            setCover(data.getIntExtra(POSITION, 0));
+            updateUI();
         } else {
             super.onActivityResult(requestCode, resultCode, data);
         }
@@ -92,7 +107,7 @@ public class FragmentReviewImages extends FragmentReviewGridAddEdit<GVImage> {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mImages = (GVImageList) getGridData();
+        mImages = (GVImageList) getInputHandler().getData();
         mHelperReviewImage = HelperReviewImage.getInstance(getController());
     }
 

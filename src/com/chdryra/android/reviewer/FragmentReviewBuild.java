@@ -209,19 +209,15 @@ public class FragmentReviewBuild extends FragmentReviewGrid<FragmentReviewBuild.
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         ActivityResultCode resCode = ActivityResultCode.get(resultCode);
-        if (requestCode == getUIConfig(GVType.IMAGES).getActivityConfig().getRequestCode()) {
-            if (mHelperReviewImage.bitmapExistsOnActivityResult(getActivity(), resultCode, data)) {
-                addImage();
-            }
+        if (requestCode == getUIConfig(GVType.IMAGES).getActivityConfig().getRequestCode() &&
+                mHelperReviewImage.bitmapExistsOnActivityResult(getActivity(), resCode, data)) {
+            addImage();
         } else if (requestCode == getUIConfig(GVType.LOCATIONS).getDialogAddConfig()
-                .getRequestCode()) {
-            if (resCode.equals(DialogLocationFragment.RESULT_MAP.getResultCode())) {
-                requestMapIntent(data);
-            }
-        } else if (requestCode == LOCATION_MAP) {
-            if (resCode.equals(ActivityResultCode.DONE)) {
-                addLocation(data);
-            }
+                .getRequestCode()
+                && resCode.equals(DialogLocationFragment.RESULT_MAP.getResultCode())) {
+            requestMapIntent(data);
+        } else if (requestCode == LOCATION_MAP && resCode.equals(ActivityResultCode.DONE)) {
+            addLocation(data);
         } else {
             super.onActivityResult(requestCode, resultCode, data);
         }

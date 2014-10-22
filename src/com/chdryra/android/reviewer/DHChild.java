@@ -46,7 +46,7 @@ class DHChild extends DialogHolderAddEdit<GVReviewSubjectRating> {
         DecimalFormat decimalFormatter = new DecimalFormat("0.0");
         String rating = childRating % 1L > 0L ? decimalFormatter.format(childRating) : formatter
                 .format(childRating);
-        return "+ " + data.getSubject() + ": " + rating + "/" + "5";
+        return data.getSubject() + ": " + rating + "/" + "5";
     }
 
     @Override

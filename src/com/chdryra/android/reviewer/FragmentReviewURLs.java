@@ -9,16 +9,12 @@
 package com.chdryra.android.reviewer;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Toast;
 
 import com.chdryra.android.mygenerallibrary.ActivityResultCode;
 import com.chdryra.android.reviewer.GVReviewDataList.GVType;
 import com.chdryra.android.reviewer.GVUrlList.GVUrl;
-
-import java.net.URL;
 
 /**
  * UI Fragment: URLs (currently disabled). Each grid cell shows a URL.
@@ -40,48 +36,9 @@ import java.net.URL;
 public class FragmentReviewURLs extends FragmentReviewGridAddEdit<GVUrl> {
     private final static String URL = FragmentReviewURLBrowser.URL;
 
-    private GVUrlList mUrls;
-
     public FragmentReviewURLs() {
-        mDataType = GVType.URLS;
-    }
-
-    @Override
-    protected void doDatumAdd(Intent data) {
-        URL url = (URL) data.getSerializableExtra(FragmentReviewURLBrowser.URL);
-        if (url != null && !mUrls.contains(url)) {
-            mUrls.add(url);
-        }
-    }
-
-    @Override
-    protected void doDatumDelete(Intent data) {
-        mUrls.remove((URL) data.getSerializableExtra(FragmentReviewURLBrowser.URL_OLD));
-    }
-
-    @Override
-    protected void doDatumEdit(Intent data) {
-        URL oldUrl = (URL) data.getSerializableExtra(FragmentReviewURLBrowser.URL_OLD);
-        URL newUrl = (URL) data.getSerializableExtra(FragmentReviewURLBrowser.URL);
-        if (!oldUrl.equals(newUrl) && mUrls.contains(newUrl)) {
-            Toast.makeText(getActivity(), getResources().getString(R.string.toast_has_url),
-                    Toast.LENGTH_SHORT).show();
-        } else {
-            mUrls.remove(oldUrl);
-            mUrls.add(newUrl);
-        }
-    }
-
-    @Override
-    protected Bundle packGridCellData(GVUrl data, Bundle args) {
-        return args;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        mUrls = (GVUrlList) getGridData();
-        setResultCode(Action.ADD, ActivityResultCode.DONE);
+        super(GVType.URLS);
+        setActivityResultCode(Action.ADD, ActivityResultCode.DONE);
     }
 
     @Override
@@ -91,14 +48,13 @@ public class FragmentReviewURLs extends FragmentReviewGridAddEdit<GVUrl> {
 
     @Override
     protected void onGridItemClick(AdapterView<?> parent, View v, int position, long id) {
-        requestBrowserIntent(getRequestCodeEdit(), ((GVUrl) parent.getItemAtPosition
-                (position))
-                .getUrl());
+        GVUrl url = (GVUrl) parent.getItemAtPosition(position);
+        requestBrowserIntent(getRequestCodeEdit(), url);
     }
 
-    private void requestBrowserIntent(int requestCode, URL url) {
+    private void requestBrowserIntent(int requestCode, GVUrl url) {
         Intent i = new Intent(getActivity(), ActivityReviewURLBrowser.class);
-        i.putExtra(URL, url);
+        getInputHandler().pack(InputHandlerReviewData.CurrentNewDatum.CURRENT, url, i);
         startActivityForResult(i, requestCode);
     }
 }

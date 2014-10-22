@@ -36,35 +36,60 @@ import com.chdryra.android.reviewer.GVReviewDataList.GVType;
  *
  * @param <T>: GVData type shown in grid cell
  */
-public class FragmentReviewGridAddEdit<T extends GVReviewDataList.GVReviewData> extends
-        FragmentReviewGrid<GVReviewDataList<T>> {
+abstract class FragmentReviewGridAddEdit<T extends GVReviewDataList.GVReviewData> extends
+        FragmentReviewGrid<GVReviewDataList<T>>
+        implements DialogReviewDataAddFragment.DialogReviewDataAddListener,
+        DialogReviewDataEditFragment.DialogReviewDataEditListener {
+
     public static final String GVTYPE = "com.chdryra.android.review.gvtype";
-    protected GVType mDataType;
+    protected InputHandlerReviewData<T> mHandler;
+    private   GVType                    mDataType;
     private ActivityResultCode mDoDatumAdd    = ActivityResultCode.ADD;
     private ActivityResultCode mDoDatumDelete = ActivityResultCode.DELETE;
     private ActivityResultCode mDoDatumEdit   = ActivityResultCode.DONE;
-    private InputHandlerReviewData<T>           mHandler;
     private ConfigReviewDataUI.ReviewDataConfig mDataOption;
 
     protected enum Action {ADD, DELETE, DONE}
 
-    public FragmentReviewGridAddEdit() {
+    public FragmentReviewGridAddEdit(GVType dataType) {
+        mDataType = dataType;
+        mHandler = new InputHandlerReviewData<T>(mDataType);
     }
 
     protected InputHandlerReviewData<T> getInputHandler() {
         return mHandler;
     }
 
-    protected void doDatumAdd(Intent data) {
-        mHandler.add(data, getActivity());
+    @Override
+    public boolean onDialogAddClick(Intent data) {
+        return doDatumAdd(data);
+    }
+
+    @Override
+    public void onDialogDeleteClick(Intent data) {
+        doDatumDelete(data);
+    }
+
+    @Override
+    public void onDialogDoneClick(Intent data) {
+        doDatumEdit(data);
+    }
+
+    protected boolean doDatumAdd(Intent data) {
+        boolean added = mHandler.add(data, getActivity());
+        updateUI();
+        return added;
     }
 
     protected void doDatumDelete(Intent data) {
         mHandler.delete(data);
+        updateUI();
     }
 
-    protected void doDatumEdit(Intent data) {
-        mHandler.replace(data, getActivity());
+    protected boolean doDatumEdit(Intent data) {
+        boolean replaced = mHandler.replace(data, getActivity());
+        updateUI();
+        return replaced;
     }
 
     protected Bundle packGridCellData(T item, Bundle args) {
@@ -72,7 +97,15 @@ public class FragmentReviewGridAddEdit<T extends GVReviewDataList.GVReviewData> 
         return args;
     }
 
-    protected void setResultCode(Action action, ActivityResultCode resultCode) {
+    protected final int getRequestCodeAdd() {
+        return mDataOption.getDialogAddConfig().getRequestCode();
+    }
+
+    protected final int getRequestCodeEdit() {
+        return mDataOption.getDialogEditConfig().getRequestCode();
+    }
+
+    protected void setActivityResultCode(Action action, ActivityResultCode resultCode) {
         switch (action) {
             case ADD:
                 mDoDatumAdd = resultCode;
@@ -86,22 +119,14 @@ public class FragmentReviewGridAddEdit<T extends GVReviewDataList.GVReviewData> 
         }
     }
 
-    protected final int getRequestCodeAdd() {
-        return mDataOption.getDialogAddConfig().getRequestCode();
+    protected void onActivityAddRequested(int resultCode, Intent data) {
+        if (data != null && ActivityResultCode.get(resultCode) == mDoDatumAdd) doDatumAdd(data);
     }
 
-    protected final int getRequestCodeEdit() {
-        return mDataOption.getDialogEditConfig().getRequestCode();
-    }
-
-    protected void onAddRequested(int resultCode, Intent data) {
-        if (ActivityResultCode.get(resultCode) == mDoDatumAdd) doDatumAdd(data);
-    }
-
-    protected void onEditRequested(int resultCode, Intent data) {
+    protected void onActivityEditRequested(int resultCode, Intent data) {
         ActivityResultCode result = ActivityResultCode.get(resultCode);
-        if (result == mDoDatumEdit) doDatumEdit(data);
-        if (result == mDoDatumDelete) doDatumDelete(data);
+        if (data != null && result == mDoDatumEdit) doDatumEdit(data);
+        if (data != null && result == mDoDatumDelete) doDatumDelete(data);
     }
 
     @Override
@@ -109,23 +134,23 @@ public class FragmentReviewGridAddEdit<T extends GVReviewDataList.GVReviewData> 
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams
                 .SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
+        if (data == null) return;
+
         if (requestCode == getRequestCodeAdd()) {
-            onAddRequested(resultCode, data);
+            onActivityAddRequested(resultCode, data);
         } else if (requestCode == getRequestCodeEdit()) {
-            onEditRequested(resultCode, data);
+            onActivityEditRequested(resultCode, data);
         } else {
             super.onActivityResult(requestCode, resultCode, data);
         }
-
-        updateUI();
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (mDataType == null) mDataType = (GVType) getArguments().getSerializable(GVTYPE);
-        mHandler = new InputHandlerReviewData<T>(mDataType);
+//        if (mDataType == null) mDataType = (GVType) getArguments().getSerializable(GVTYPE);
+//        mHandler = new InputHandlerReviewData<T>(mDataType);
         mDataOption = ConfigReviewDataUI.get(mDataType);
 
         //TODO how to make this type safe

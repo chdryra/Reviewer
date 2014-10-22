@@ -22,13 +22,21 @@ import com.chdryra.android.mygenerallibrary.DialogCancelDeleteDoneFragment;
  */
 public abstract class DialogReviewDataEditFragment<T extends GVReviewDataList.GVReviewData> extends
         DialogCancelDeleteDoneFragment {
-    private GVReviewDataList.GVType   mDataType;
-    private InputHandlerReviewData<T> mHandler;
-    private T                         mDatum;
-    private DialogHolder<T> mDialogHolder;
+    protected InputHandlerReviewData<T>    mHandler;
+    private   GVReviewDataList.GVType      mDataType;
+    private   T                            mDatum;
+    private   DialogHolder<T>              mDialogHolder;
+    private   DialogReviewDataEditListener mListener;
 
     protected DialogReviewDataEditFragment(GVReviewDataList.GVType dataType) {
         mDataType = dataType;
+        mHandler = new InputHandlerReviewData<T>(mDataType);
+    }
+
+    interface DialogReviewDataEditListener {
+        void onDialogDeleteClick(Intent data);
+
+        void onDialogDoneClick(Intent data);
     }
 
     protected View createDialogUI(ViewGroup parent) {
@@ -41,23 +49,44 @@ public abstract class DialogReviewDataEditFragment<T extends GVReviewDataList.GV
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mHandler = new InputHandlerReviewData<T>(mDataType);
+
         mDatum = mHandler.unpack(InputHandlerReviewData.CurrentNewDatum.CURRENT,
                 getArguments());
         setDialogTitle(getResources().getString(R.string.edit) + " " + mHandler.getGVType()
                 .getDatumString());
         mDialogHolder = FactoryDialogHolder.newDialogHolder(this);
+
+        try {
+            mListener = (DialogReviewDataEditListener) getTargetFragment();
+        } catch (ClassCastException e) {
+            throw new ClassCastException(getTargetFragment().toString() + " must implement " +
+                    "reviewDataEditListener");
+        }
     }
 
     @Override
     protected void onDeleteButtonClick() {
-        mHandler.pack(InputHandlerReviewData.CurrentNewDatum.CURRENT, mDatum,
-                createNewReturnData());
+        Intent data = new Intent();
+        mHandler.pack(InputHandlerReviewData.CurrentNewDatum.CURRENT, mDatum, data);
+        mListener.onDialogDeleteClick(data);
     }
 
     @Override
     protected boolean hasDataToDelete() {
         return mDatum != null;
+    }
+
+    @Override
+    protected void onDoneButtonClick() {
+        Intent data = new Intent();
+        mHandler.pack(InputHandlerReviewData.CurrentNewDatum.CURRENT, mDatum, data);
+        mHandler.pack(InputHandlerReviewData.CurrentNewDatum.NEW, createGVData(), data);
+        mListener.onDialogDoneClick(data);
+    }
+
+    @Override
+    protected Intent getReturnData() {
+        return null;
     }
 
     protected T createGVData() {
@@ -70,12 +99,5 @@ public abstract class DialogReviewDataEditFragment<T extends GVReviewDataList.GV
 
     protected T getDatum() {
         return mDatum;
-    }
-
-    @Override
-    protected void onDoneButtonClick() {
-        Intent data = createNewReturnData();
-        mHandler.pack(InputHandlerReviewData.CurrentNewDatum.CURRENT, mDatum, data);
-        mHandler.pack(InputHandlerReviewData.CurrentNewDatum.NEW, createGVData(), data);
     }
 }

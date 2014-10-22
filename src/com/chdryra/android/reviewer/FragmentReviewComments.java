@@ -46,7 +46,7 @@ public class FragmentReviewComments extends FragmentReviewGridAddEdit<GVComment>
     private boolean mCommentsAreSplit = false;
 
     public FragmentReviewComments() {
-        mDataType = GVType.COMMENTS;
+        super(GVType.COMMENTS);
     }
 
     @Override
