@@ -50,8 +50,8 @@ public class FragmentReviewComments extends FragmentReviewGridAddEdit<GVComment>
     }
 
     @Override
-    protected Bundle packGridCellData(GVComment comment, Bundle args) {
-        return super.packGridCellData(comment.getUnSplitComment(), args);
+    protected void packGridCellData(GVComment comment, Bundle args) {
+        super.packGridCellData(comment.getUnSplitComment(), args);
     }
 
     @Override

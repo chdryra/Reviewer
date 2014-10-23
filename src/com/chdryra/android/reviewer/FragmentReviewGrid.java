@@ -173,12 +173,6 @@ public abstract class FragmentReviewGrid<T extends GVReviewDataList> extends Fra
     @Override
     protected void onDoneSelected() {
         getEditableController().setData(mGridData);
-//
-//        if (mOnDoneActivity != null) {
-//            Intent i = new Intent(getActivity(), ActivityReviewBuild.class);
-//            Administrator.get(getActivity()).pack(getController(), i);
-//            startActivity(i);
-//        }
     }
 
     @Override

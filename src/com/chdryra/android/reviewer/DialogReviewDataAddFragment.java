@@ -32,20 +32,19 @@ import com.chdryra.android.reviewer.GVReviewDataList.GVType;
  * </p>
  */
 public abstract class DialogReviewDataAddFragment<T extends GVReviewDataList.GVReviewData> extends
-        DialogCancelAddDoneFragment {
+        DialogCancelAddDoneFragment implements ReviewDataAdder<T> {
     public static final String QUICK_SET = "com.chdryra.android.reviewer.dialog_quick_mode";
+
     protected InputHandlerReviewData<T> mHandler;
     private   ControllerReviewEditable  mController;
     private   GVReviewDataList<T>       mData;
     private   DialogHolder<T>           mDialogHolder;
+    private   ReviewDataAddListener<T>  mAddListener;
+
     private boolean mQuickSet = false;
 
     protected DialogReviewDataAddFragment(GVType dataType) {
         mHandler = new InputHandlerReviewData<T>(dataType);
-    }
-
-    interface DialogReviewDataAddListener {
-        boolean onDialogAddClick(Intent data);
     }
 
     GVType getGVType() {
@@ -69,9 +68,19 @@ public abstract class DialogReviewDataAddFragment<T extends GVReviewDataList.GVR
                 (getArguments());
 
         if (mController != null) {
-            //TODO make typesafe
+            //TODO make type safe
             mData = (GVReviewDataList<T>) mController.getData(getGVType());
             mHandler.setData(mData);
+        }
+
+        if (!isQuickSet()) {
+            try {
+                //TODO make type safe
+                mAddListener = (ReviewDataAddListener<T>) getTargetFragment();
+            } catch (ClassCastException e) {
+                throw new ClassCastException(getTargetFragment().toString() + " must implement " +
+                        "reviewDataAddListener");
+            }
         }
 
         setDialogTitle(getResources().getString(R.string.add) + " " + getGVType().getDatumString());
@@ -81,21 +90,17 @@ public abstract class DialogReviewDataAddFragment<T extends GVReviewDataList.GVR
     @Override
     protected void onAddButtonClick() {
         T newDatum = createGVDataFromInputs();
-        Intent data = new Intent();
-        mHandler.pack(InputHandlerReviewData.CurrentNewDatum.NEW, newDatum, data);
 
         if (isQuickSet()) {
-            if (mHandler.add(data, getActivity())) updateDialogOnAdd(newDatum);
+            if (mHandler.add(newDatum, getActivity())) updateDialogOnAdd(newDatum);
         } else {
-            try {
-                DialogReviewDataAddListener fragment = (DialogReviewDataAddListener)
-                        getTargetFragment();
-                if (fragment.onDialogAddClick(data)) updateDialogOnAdd(newDatum);
-            } catch (ClassCastException e) {
-                throw new ClassCastException(getTargetFragment().toString() + " must implement " +
-                        "reviewDataAddListener");
-            }
+            reviewDataAdd(mAddListener, newDatum);
         }
+    }
+
+    @Override
+    public void reviewDataAdd(ReviewDataAddListener<T> listener, T data) {
+        if (listener.onReviewDataAdd(data)) updateDialogOnAdd(data);
     }
 
     @Override
@@ -106,6 +111,11 @@ public abstract class DialogReviewDataAddFragment<T extends GVReviewDataList.GVR
     @Override
     protected Intent getReturnData() {
         return null;
+    }
+
+    @Override
+    public void launch(ReviewDataUILauncher launcher) {
+        launcher.launch(this);
     }
 
     boolean isQuickSet() {

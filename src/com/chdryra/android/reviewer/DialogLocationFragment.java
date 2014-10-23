@@ -30,7 +30,8 @@ import com.google.android.gms.maps.model.LatLng;
  * Dialog for adding location name: populates with suggestions found near current location. Comes
  * up with autocomplete suggestions as user types name.
  */
-public class DialogLocationFragment extends DialogCancelActionDoneFragment implements Locatable {
+public class DialogLocationFragment extends DialogCancelActionDoneFragment implements Locatable,
+        ReviewDataUI {
     public static final ActionType RESULT_MAP = ActionType.OTHER;
 
     private ControllerReviewEditable mController;
@@ -108,7 +109,7 @@ public class DialogLocationFragment extends DialogCancelActionDoneFragment imple
     protected void onActionButtonClick() {
         InputHandlerReviewData<GVLocation> handler = new InputHandlerReviewData<GVLocation>
                 (GVType.LOCATIONS);
-        handler.pack(InputHandlerReviewData.CurrentNewDatum.CURRENT, createGVData(),
+        handler.pack(InputHandlerReviewData.CurrentNewDatum.NEW, createGVData(),
                 createNewReturnData());
     }
 
@@ -151,5 +152,10 @@ public class DialogLocationFragment extends DialogCancelActionDoneFragment imple
     public void onLocationClientConnected(LatLng latLng) {
         mLatLng = latLng;
         setSuggestionsAdapter();
+    }
+
+    @Override
+    public void launch(ReviewDataUILauncher launcher) {
+        launcher.launch(this);
     }
 }

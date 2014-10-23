@@ -19,7 +19,7 @@ import com.chdryra.android.mygenerallibrary.ActivitySingleFragment;
  *
  * @see com.chdryra.android.reviewer.FragmentReviewLocationMap
  */
-public class ActivityReviewLocationMap extends ActivitySingleFragment {
+public class ActivityReviewLocationMap extends ActivitySingleFragment implements ReviewDataUI {
 
     private FragmentReviewLocationMap mFragment;
 
@@ -33,5 +33,10 @@ public class ActivityReviewLocationMap extends ActivitySingleFragment {
     protected void onNewIntent(Intent intent) {
         setIntent(intent);
         mFragment.handleSearch();
+    }
+
+    @Override
+    public void launch(ReviewDataUILauncher launcher) {
+        launcher.launch(this);
     }
 }

@@ -56,6 +56,18 @@ public class ConfigAddEditActivity {
                         AddFact.class,
                         EditFact.class,
                         ActivityReviewFacts.class));
+
+        mDialogAddEditMap.put(GVType.LOCATIONS,
+                new AddEditActivity<GVLocationList.GVLocation>(
+                        ActivityReviewLocationMap.class,
+                        ActivityReviewLocationMap.class,
+                        ActivityReviewLocations.class));
+
+        mDialogAddEditMap.put(GVType.URLS,
+                new AddEditActivity<GVUrlList.GVUrl>(
+                        ActivityReviewURLBrowser.class,
+                        ActivityReviewURLBrowser.class,
+                        ActivityReviewURLs.class));
     }
 
     private static ConfigAddEditActivity get() {
@@ -64,12 +76,12 @@ public class ConfigAddEditActivity {
         return sConfig;
     }
 
-    static Class<? extends DialogReviewDataAddFragment<? extends GVReviewData>>
+    static Class<? extends ReviewDataUI>
     getAddClass(GVType dataType) {
         return get().mDialogAddEditMap.get(dataType).getAdd();
     }
 
-    static Class<? extends DialogReviewDataEditFragment<? extends GVReviewData>>
+    static Class<? extends ReviewDataUI>
     getEditClass(GVType dataType) {
         return get().mDialogAddEditMap.get(dataType).getEdit();
     }
@@ -148,23 +160,23 @@ public class ConfigAddEditActivity {
     }
 
     class AddEditActivity<T extends GVReviewDataList.GVReviewData> {
-        private Class<? extends DialogReviewDataAddFragment<T>>  mAdd;
-        private Class<? extends DialogReviewDataEditFragment<T>> mEdit;
-        private Class<? extends Activity>                        mActivity;
+        private Class<? extends ReviewDataUI> mAdd;
+        private Class<? extends ReviewDataUI> mEdit;
+        private Class<? extends Activity>     mActivity;
 
-        private AddEditActivity(Class<? extends DialogReviewDataAddFragment<T>> add,
-                                Class<? extends DialogReviewDataEditFragment<T>> edit,
+        private AddEditActivity(Class<? extends ReviewDataUI> add,
+                                Class<? extends ReviewDataUI> edit,
                                 Class<? extends Activity> activity) {
             mAdd = add;
             mEdit = edit;
             mActivity = activity;
         }
 
-        Class<? extends DialogReviewDataAddFragment<T>> getAdd() {
+        Class<? extends ReviewDataUI> getAdd() {
             return mAdd;
         }
 
-        Class<? extends DialogReviewDataEditFragment<T>> getEdit() {
+        Class<? extends ReviewDataUI> getEdit() {
             return mEdit;
         }
 

@@ -55,19 +55,13 @@ public class FragmentReviewImages extends FragmentReviewGridAddEdit<GVImage> {
     }
 
     @Override
-    protected boolean doDatumAdd(Intent image) {
+    protected boolean doDatumAdd(final GVImage image) {
         final GVImageList temp = new GVImageList();
-        final Intent newImage = new Intent();
         mHelperReviewImage.addReviewImage(getActivity(), temp,
                 new FunctionPointer<Void>() {
                     @Override
                     public void execute(Void data) {
-                        if (temp.size() == 1) {
-                            getInputHandler().pack(InputHandlerReviewData.CurrentNewDatum.NEW,
-                                    temp.getItem(0), newImage);
-                            getInputHandler().add(newImage, getActivity());
-                        }
-
+                        if (temp.size() == 1) getInputHandler().add(temp.getItem(0), getActivity());
                         if (mImages.size() == 1) setCover(0);
                         updateUI();
                     }
@@ -78,12 +72,9 @@ public class FragmentReviewImages extends FragmentReviewGridAddEdit<GVImage> {
     }
 
     @Override
-    protected void doDatumDelete(Intent data) {
-        GVImage image = getInputHandler().unpack(InputHandlerReviewData.CurrentNewDatum
-                .CURRENT, data);
-        boolean isCover = image.isCover();
-        super.doDatumDelete(data);
-        if (isCover) setCover(0);
+    protected void doDatumDelete(GVImage image) {
+        super.doDatumDelete(image);
+        if (image.isCover()) setCover(0);
     }
 
     @Override

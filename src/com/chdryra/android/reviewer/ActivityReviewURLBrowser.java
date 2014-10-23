@@ -17,10 +17,15 @@ import com.chdryra.android.mygenerallibrary.ActivitySingleFragment;
  *
  * @see com.chdryra.android.reviewer.FragmentReviewURLBrowser
  */
-public class ActivityReviewURLBrowser extends ActivitySingleFragment {
+public class ActivityReviewURLBrowser extends ActivitySingleFragment implements ReviewDataUI {
 
     @Override
     protected Fragment createFragment() {
         return new FragmentReviewURLBrowser();
+    }
+
+    @Override
+    public void launch(ReviewDataUILauncher launcher) {
+        launcher.launch(this);
     }
 }

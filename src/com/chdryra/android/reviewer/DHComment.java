@@ -51,7 +51,7 @@ class DHComment extends DialogHolderAddEdit<GVComment> {
     }
 
     @Override
-    protected void updateInputs(GVComment fact) {
-
+    protected void updateInputs(GVComment comment) {
+        ((EditText) getView(COMMENT)).setText(comment.getComment());
     }
 }

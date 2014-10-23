@@ -26,7 +26,7 @@ import com.chdryra.android.reviewer.GVUrlList.GVUrl;
  *
  * @see com.chdryra.android.reviewer.FragmentReviewURLBrowser
  */
-public class DialogURLFragment extends DialogCancelActionDoneFragment {
+public class DialogURLFragment extends DialogCancelActionDoneFragment implements ReviewDataUI {
     private static final ActionType RESULT_BROWSE = ActionType.OTHER;
 
     private static final String TAG = "DialogURLFragment";
@@ -77,5 +77,10 @@ public class DialogURLFragment extends DialogCancelActionDoneFragment {
                         Toast.LENGTH_SHORT).show();
             }
         }
+    }
+
+    @Override
+    public void launch(ReviewDataUILauncher launcher) {
+        launcher.launch(this);
     }
 }

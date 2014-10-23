@@ -8,10 +8,6 @@
 
 package com.chdryra.android.reviewer;
 
-import android.content.Intent;
-import android.view.View;
-import android.widget.AdapterView;
-
 import com.chdryra.android.mygenerallibrary.ActivityResultCode;
 import com.chdryra.android.reviewer.GVLocationList.GVLocation;
 import com.chdryra.android.reviewer.GVReviewDataList.GVType;
@@ -34,28 +30,8 @@ import com.chdryra.android.reviewer.GVReviewDataList.GVType;
  * @see com.chdryra.android.reviewer.ActivityReviewLocationMap
  */
 public class FragmentReviewLocations extends FragmentReviewGridAddEdit<GVLocation> {
-    public static final String SUBJECT = "com.chdryra.android.reviewer.subject";
-
     public FragmentReviewLocations() {
         super(GVType.LOCATIONS);
         setActivityResultCode(Action.ADD, ActivityResultCode.DONE);
-    }
-
-    @Override
-    protected void onBannerButtonClick() {
-        requestMapIntent(getRequestCodeAdd(), null);
-    }
-
-    @Override
-    protected void onGridItemClick(AdapterView<?> parent, View v, int position, long id) {
-        GVLocation location = (GVLocation) parent.getItemAtPosition(position);
-        requestMapIntent(getRequestCodeEdit(), location);
-    }
-
-    private void requestMapIntent(int requestCode, GVLocation location) {
-        Intent i = new Intent(getActivity(), ActivityReviewLocationMap.class);
-        i.putExtra(SUBJECT, getController().getSubject());
-        getInputHandler().pack(InputHandlerReviewData.CurrentNewDatum.CURRENT, location, i);
-        startActivityForResult(i, requestCode);
     }
 }

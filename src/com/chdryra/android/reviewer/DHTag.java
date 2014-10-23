@@ -51,7 +51,7 @@ class DHTag extends DialogHolderAddEdit<GVTag> {
     }
 
     @Override
-    protected void updateInputs(GVTag fact) {
-        ((EditText) getView(TAG)).setText(fact.get());
+    protected void updateInputs(GVTag tag) {
+        ((EditText) getView(TAG)).setText(tag.get());
     }
 }

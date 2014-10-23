@@ -74,7 +74,10 @@ class InputHandlerReviewData<T extends GVReviewDataList.GVReviewData> {
     }
 
     boolean add(Intent data, Context context) {
-        T newDatum = unpack(CurrentNewDatum.NEW, data);
+        return add(unpack(CurrentNewDatum.NEW, data), context);
+    }
+
+    boolean add(T newDatum, Context context) {
         if (passesAddConstraint(newDatum, context)) {
             mData.add(newDatum);
             return true;
@@ -83,9 +86,7 @@ class InputHandlerReviewData<T extends GVReviewDataList.GVReviewData> {
         return false;
     }
 
-    boolean replace(Intent data, Context context) {
-        T oldDatum = unpack(CurrentNewDatum.CURRENT, data);
-        T newDatum = unpack(CurrentNewDatum.NEW, data);
+    boolean replace(T oldDatum, T newDatum, Context context) {
         if (passesReplaceConstraint(oldDatum, newDatum, context)) {
             mData.remove(oldDatum);
             mData.add(newDatum);
@@ -95,8 +96,8 @@ class InputHandlerReviewData<T extends GVReviewDataList.GVReviewData> {
         return false;
     }
 
-    void delete(Intent data) {
-        if (mData != null) mData.remove(unpack(CurrentNewDatum.CURRENT, data));
+    void delete(T data) {
+        if (mData != null) mData.remove(data);
     }
 
     boolean contains(T datum, Context context) {

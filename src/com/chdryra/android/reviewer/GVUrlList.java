@@ -10,6 +10,7 @@ package com.chdryra.android.reviewer;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.webkit.URLUtil;
 
 import com.chdryra.android.mygenerallibrary.ViewHolder;
 
@@ -60,8 +61,8 @@ class GVUrlList extends GVReviewDataList<GVUrlList.GVUrl> {
             mUrl = (URL) in.readSerializable();
         }
 
-        private GVUrl(String stringUrl) throws MalformedURLException, URISyntaxException {
-            URL url = new URL(stringUrl);
+        GVUrl(String stringUrl) throws MalformedURLException, URISyntaxException {
+            URL url = new URL(URLUtil.guessUrl(stringUrl));
             URI uri = new URI(url.getProtocol(), url.getUserInfo(), url.getHost(), url.getPort(),
                     url.getPath(), url.getQuery(), url.getRef());
             mUrl = uri.toURL();
@@ -135,13 +136,5 @@ class GVUrlList extends GVReviewDataList<GVUrlList.GVUrl> {
 
     void add(URL url) {
         add(new GVUrl(url));
-    }
-
-    boolean contains(URL url) {
-        return contains(new GVUrl(url));
-    }
-
-    void remove(URL url) {
-        remove(new GVUrl(url));
     }
 }

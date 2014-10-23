@@ -73,13 +73,13 @@ class FactoryDialogHolder {
             try {
                 return (DialogHolder<T>) ctor.newInstance(dialog);
             } catch (InstantiationException e) {
-                Log.e(TAG, "Problem constructing ReviewDataEdit dialog for " + dialog.getGVType()
+                Log.e(TAG, "Problem constructing edit dialog for " + dialog.getGVType()
                         .getDatumString(), e);
             } catch (IllegalAccessException e) {
-                Log.e(TAG, "Illegal access whilst constructing ReviewDataEdit dialog for " +
+                Log.e(TAG, "Illegal access whilst constructing edit dialog for " +
                         dialog.getGVType().getDatumString(), e);
             } catch (InvocationTargetException e) {
-                Log.e(TAG, "Invocation exception whilst constructing ReviewDataEdit dialog for" +
+                Log.e(TAG, "Invocation exception whilst constructing edit dialog for" +
                         " " + dialog.getGVType().getDatumString(), e);
             }
         } catch (NoSuchMethodException e) {

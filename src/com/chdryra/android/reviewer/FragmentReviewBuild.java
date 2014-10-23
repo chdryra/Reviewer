@@ -9,7 +9,6 @@
 package com.chdryra.android.reviewer;
 
 import android.app.ActionBar.LayoutParams;
-import android.app.DialogFragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcel;
@@ -78,6 +77,8 @@ public class FragmentReviewBuild extends FragmentReviewGrid<FragmentReviewBuild.
 
     private GVCellManagerList mCellManagerList;
     private HelperReviewImage mHelperReviewImage;
+
+    private InputHandlerReviewData<GVLocationList.GVLocation> mLocationInputHandler;
 
     /**
      * Provides the adapter for the GridView of data tiles. Can't use the ViewHolder pattern here
@@ -212,7 +213,7 @@ public class FragmentReviewBuild extends FragmentReviewGrid<FragmentReviewBuild.
         if (requestCode == getUIConfig(GVType.IMAGES).getActivityConfig().getRequestCode() &&
                 mHelperReviewImage.bitmapExistsOnActivityResult(getActivity(), resCode, data)) {
             addImage();
-        } else if (requestCode == getUIConfig(GVType.LOCATIONS).getDialogAddConfig()
+        } else if (requestCode == getUIConfig(GVType.LOCATIONS).getAdderConfig()
                 .getRequestCode()
                 && resCode.equals(DialogLocationFragment.RESULT_MAP.getResultCode())) {
             requestMapIntent(data);
@@ -238,6 +239,8 @@ public class FragmentReviewBuild extends FragmentReviewGrid<FragmentReviewBuild.
         setTransparentGridCellBackground();
 
         mHelperReviewImage = HelperReviewImage.getInstance(getController());
+        mLocationInputHandler = new InputHandlerReviewData<GVLocationList.GVLocation>(GVType
+                .LOCATIONS);
     }
 
     @Override
@@ -301,7 +304,7 @@ public class FragmentReviewBuild extends FragmentReviewGrid<FragmentReviewBuild.
         cellManager.executeIntent(true);
     }
 
-    private ConfigReviewDataUI.ReviewDataConfig getUIConfig(GVType dataType) {
+    private ConfigReviewDataUI.Config getUIConfig(GVType dataType) {
         return ConfigReviewDataUI.get(dataType);
     }
 
@@ -318,15 +321,17 @@ public class FragmentReviewBuild extends FragmentReviewGrid<FragmentReviewBuild.
     }
 
     private void requestMapIntent(Intent data) {
-        Intent i = new Intent(getActivity(), ActivityReviewLocationMap.class);
-        i.putExtras(data);
-        startActivityForResult(i, LOCATION_MAP);
+        GVLocationList.GVLocation location = mLocationInputHandler.unpack(InputHandlerReviewData
+                .CurrentNewDatum.NEW, data);
+        Bundle args = new Bundle();
+        mLocationInputHandler.pack(InputHandlerReviewData.CurrentNewDatum.CURRENT, location, args);
+
+        ReviewDataUI mapUi = ConfigReviewDataUI.getReviewDataUI(ActivityReviewLocationMap.class);
+        ReviewDataUILauncher.launch(mapUi, this, LOCATION_MAP, null, args);
     }
 
     private void addLocation(Intent data) {
-        InputHandlerReviewData<GVLocationList.GVLocation> handler = new InputHandlerReviewData
-                <GVLocationList.GVLocation>(GVType.LOCATIONS);
-        GVLocationList.GVLocation location = handler.unpack(InputHandlerReviewData
+        GVLocationList.GVLocation location = mLocationInputHandler.unpack(InputHandlerReviewData
                 .CurrentNewDatum.NEW, data);
         if (location.isValidForDisplay()) {
             GVLocationList list = new GVLocationList();
@@ -362,20 +367,25 @@ public class FragmentReviewBuild extends FragmentReviewGrid<FragmentReviewBuild.
         }
     }
 
-    private void requestIntent(ConfigReviewDataUI.ReviewDataConfig config) {
+    private void requestIntent(ConfigReviewDataUI.Config config) {
         Intent i = config.getActivityConfig().requestIntent(getActivity());
         Administrator.get(getActivity()).pack(getController(), i);
         startActivityForResult(i, config.getActivityConfig().getRequestCode());
     }
 
-    private void showQuickDialog(ConfigReviewDataUI.ReviewDataConfig config) {
-        DialogFragment dialog = config.getDialogAddConfig().getDialogFragment();
-        dialog.setTargetFragment(FragmentReviewBuild.this, config.getDialogAddConfig()
-                .getRequestCode());
+    private void showQuickDialog(ConfigReviewDataUI.Config config) {
         Bundle args = Administrator.get(getActivity()).pack(getController());
         args.putBoolean(DialogReviewDataAddFragment.QUICK_SET, true);
-        dialog.setArguments(args);
-        dialog.show(getFragmentManager(), config.getDialogAddConfig().getTag());
+
+        ConfigReviewDataUI.ReviewDataUIConfig adderConfig = config.getAdderConfig();
+
+        ReviewDataUI ui = adderConfig.getReviewDataUI();
+        if (adderConfig.getGVType() == GVType.LOCATIONS) {
+            ui = ConfigReviewDataUI.getReviewDataUI(DialogLocationFragment.class);
+        }
+
+        ReviewDataUILauncher.launch(ui, this, adderConfig.getRequestCode(), adderConfig.getTag(),
+                args);
     }
 
     private void showQuickImageDialog() {

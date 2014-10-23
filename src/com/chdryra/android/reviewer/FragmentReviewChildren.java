@@ -50,18 +50,6 @@ public class FragmentReviewChildren extends FragmentReviewGridAddEdit<GVReviewSu
     }
 
     @Override
-    public boolean onDialogAddClick(Intent data) {
-        GVReviewSubjectRating item = getInputHandler().unpack(InputHandlerReviewData
-                .CurrentNewDatum.NEW, data);
-        if (((GVReviewSubjectRatingList) getGridData()).contains(item.getSubject())) {
-            getInputHandler().makeToastHasItem(getActivity());
-            return false;
-        } else {
-            return super.onDialogAddClick(data);
-        }
-    }
-
-    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (mTotalRatingIsAverage) setAverageRating();

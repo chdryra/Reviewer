@@ -81,7 +81,6 @@ public class FragmentReviewLocationMap extends FragmentDeleteDone implements
     private ImageButton                   mRevertButton;
 
     private LatLng mNewLatLng;
-    private String mReviewSubject;
 
     private LocationClientConnector mLocationClient;
     private String                  mSearchLocationName;
@@ -140,11 +139,11 @@ public class FragmentReviewLocationMap extends FragmentDeleteDone implements
 
         mHandler = new InputHandlerReviewData<GVLocationList.GVLocation>(GVReviewDataList.GVType
                 .LOCATIONS);
-        mCurrent = mHandler.unpack(InputHandlerReviewData.CurrentNewDatum.CURRENT,
-                getActivity().getIntent());
 
-        mReviewSubject = (String) getActivity().getIntent().getSerializableExtra
-                (FragmentReviewLocations.SUBJECT);
+        Bundle args = ReviewDataUILauncher.getArgsForActivity(getActivity());
+        if (args != null) {
+            mCurrent = mHandler.unpack(InputHandlerReviewData.CurrentNewDatum.CURRENT, args);
+        }
 
         //TODO maybe move connector to Activity to create more reliable connection when stuff
         // starts? Or maybe OnAttach()?
@@ -152,7 +151,7 @@ public class FragmentReviewLocationMap extends FragmentDeleteDone implements
 
         MapsInitializer.initialize(getActivity());
 
-        setDeleteWhatTitle(getResources().getString(R.string.dialog_delete_location_title));
+        setDeleteWhatTitle(mHandler.getGVType().getDatumString());
         setDismissOnDelete(true);
     }
 
@@ -408,7 +407,7 @@ public class FragmentReviewLocationMap extends FragmentDeleteDone implements
         if (mLocationName != null) {
             mLocationName.setText(null);
             String primaryDefaultSuggestion = mSearchLocationName != null ? mSearchLocationName :
-                    mReviewSubject;
+                    null;
             mLocationName.setAdapter(new LocationNameAdapter(getActivity(), mNewLatLng,
                     NUMBER_DEFAULT_NAMES, primaryDefaultSuggestion));
         }
