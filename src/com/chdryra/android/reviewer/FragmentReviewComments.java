@@ -38,8 +38,8 @@ import com.chdryra.android.reviewer.GVReviewDataList.GVType;
  * </p>
  *
  * @see com.chdryra.android.reviewer.ActivityReviewComments
- * @see com.chdryra.android.reviewer.ConfigAddEditActivity.AddComment
- * @see com.chdryra.android.reviewer.ConfigAddEditActivity.EditComment
+ * @see ConfigAddEditDisplay.AddComment
+ * @see ConfigAddEditDisplay.EditComment
  */
 public class FragmentReviewComments extends FragmentReviewGridAddEdit<GVComment> {
     private GVCommentList mComments;
@@ -93,7 +93,7 @@ public class FragmentReviewComments extends FragmentReviewGridAddEdit<GVComment>
             Toast.makeText(getActivity(), R.string.toast_split_comment, Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(getActivity(), R.string.toast_unsplit_comment,
-                    Toast.LENGTH_SHORT).show();
+                           Toast.LENGTH_SHORT).show();
         }
         updateGridDataUI();
     }

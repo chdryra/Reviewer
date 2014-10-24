@@ -13,9 +13,8 @@ import android.app.Fragment;
 import com.chdryra.android.mygenerallibrary.ActivitySingleFragment;
 
 /**
- * UI Activity holding FragmentReviewURLBrowser: browsing and searching URLs (currently disabled).
- *
- * @see com.chdryra.android.reviewer.FragmentReviewURLBrowser
+ * UI Activity holding {@link FragmentReviewURLBrowser}: browsing and searching URLs (currently
+ * disabled).
  */
 public class ActivityReviewURLBrowser extends ActivitySingleFragment implements ReviewDataUI {
 

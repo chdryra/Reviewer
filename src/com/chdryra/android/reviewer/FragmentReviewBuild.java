@@ -185,9 +185,11 @@ public class FragmentReviewBuild extends FragmentReviewGrid<FragmentReviewBuild.
             }
 
             private View getSingleDatumView(ViewGroup parent) {
-                ViewHolder vh = getUIConfig(mDataType).getActivityConfig().getViewHolder();
+                ViewHolderData datum = (ViewHolderData) getController().getData(mDataType).getItem
+                        (0);
+                ViewHolder vh = datum.getViewHolder();
                 if (vh.getView() == null) vh.inflate(getActivity(), parent);
-                vh.updateView((ViewHolderData) getController().getData(mDataType).getItem(0));
+                vh.updateView(datum);
                 return vh.getView();
             }
 
@@ -210,8 +212,8 @@ public class FragmentReviewBuild extends FragmentReviewGrid<FragmentReviewBuild.
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         ActivityResultCode resCode = ActivityResultCode.get(resultCode);
-        if (requestCode == getUIConfig(GVType.IMAGES).getActivityConfig().getRequestCode() &&
-                mHelperReviewImage.bitmapExistsOnActivityResult(getActivity(), resCode, data)) {
+        if (requestCode == getUIConfig(GVType.IMAGES).getDisplayConfig().getRequestCode() &&
+            mHelperReviewImage.bitmapExistsOnActivityResult(getActivity(), resCode, data)) {
             addImage();
         } else if (requestCode == getUIConfig(GVType.LOCATIONS).getAdderConfig()
                 .getRequestCode()
@@ -310,12 +312,13 @@ public class FragmentReviewBuild extends FragmentReviewGrid<FragmentReviewBuild.
 
     private void addImage() {
         final GVImageList images = new GVImageList();
-        mHelperReviewImage.addReviewImage(getActivity(), images, new FunctionPointer<Void>() {
+        mHelperReviewImage.addReviewImage(getActivity(), images, new FunctionPointer<Void, Void>() {
             @Override
-            public void execute(Void data) {
+            public Void execute(Void data) {
                 images.getItem(0).setIsCover(true);
                 getEditableController().setData(images);
                 updateUI();
+                return null;
             }
         });
     }
@@ -368,9 +371,9 @@ public class FragmentReviewBuild extends FragmentReviewGrid<FragmentReviewBuild.
     }
 
     private void requestIntent(ConfigReviewDataUI.Config config) {
-        Intent i = config.getActivityConfig().requestIntent(getActivity());
+        Intent i = config.getDisplayConfig().requestIntent(getActivity());
         Administrator.get(getActivity()).pack(getController(), i);
-        startActivityForResult(i, config.getActivityConfig().getRequestCode());
+        startActivityForResult(i, config.getDisplayConfig().getRequestCode());
     }
 
     private void showQuickDialog(ConfigReviewDataUI.Config config) {
@@ -390,6 +393,6 @@ public class FragmentReviewBuild extends FragmentReviewGrid<FragmentReviewBuild.
 
     private void showQuickImageDialog() {
         startActivityForResult(mHelperReviewImage.getImageChooserIntents(getActivity()),
-                getUIConfig(GVType.IMAGES).getActivityConfig().getRequestCode());
+                               getUIConfig(GVType.IMAGES).getDisplayConfig().getRequestCode());
     }
 }

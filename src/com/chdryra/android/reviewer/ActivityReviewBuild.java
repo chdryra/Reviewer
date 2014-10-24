@@ -13,9 +13,7 @@ import android.app.Fragment;
 import com.chdryra.android.mygenerallibrary.ActivitySingleFragment;
 
 /**
- * UI Activity holding FragmentReviewBuild: editing new reviews.
- *
- * @see com.chdryra.android.reviewer.FragmentReviewBuild
+ * UI Activity holding {@link FragmentReviewBuild}: editing new reviews.
  */
 public class ActivityReviewBuild extends ActivitySingleFragment {
 

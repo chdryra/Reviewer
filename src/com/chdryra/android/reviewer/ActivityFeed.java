@@ -13,9 +13,7 @@ import android.app.Fragment;
 import com.chdryra.android.mygenerallibrary.ActivitySingleFragment;
 
 /**
- * UI Activity holding FragmentFeed: published reviews feed.
- *
- * @see com.chdryra.android.reviewer.FragmentFeed
+ * UI Activity holding {@link FragmentFeed}: published reviews feed.
  */
 public class ActivityFeed extends ActivitySingleFragment {
 

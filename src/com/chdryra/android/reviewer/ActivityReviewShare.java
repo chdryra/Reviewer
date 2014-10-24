@@ -13,9 +13,7 @@ import android.app.Fragment;
 import com.chdryra.android.mygenerallibrary.ActivitySingleFragment;
 
 /**
- * UI Activity holding FragmentReviewShare: choosing social platforms on which to publish.
- *
- * @see com.chdryra.android.reviewer.FragmentReviewShare
+ * UI Activity holding {@link FragmentReviewShare}: choosing social platforms on which to publish.
  */
 public class ActivityReviewShare extends ActivitySingleFragment {
 

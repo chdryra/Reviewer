@@ -13,9 +13,7 @@ import android.app.Fragment;
 import com.chdryra.android.mygenerallibrary.ActivitySingleFragment;
 
 /**
- * UI Activity holding FragmentReviewChildren: editing sub-reviews.
- *
- * @see com.chdryra.android.reviewer.FragmentReviewChildren
+ * UI Activity holding {@link FragmentReviewChildren}: editing sub-reviews.
  */
 public class ActivityReviewChildren extends ActivitySingleFragment {
 

@@ -43,7 +43,8 @@ class HelperReviewImage extends ImageHelper {
             HashMap<String, HelperReviewImage>();
     private static final String                             IMAGE_DIRECTORY          = "Reviewer";
     private static final String                             ERROR_NO_STORAGE_MESSAGE = "No " +
-            "storage available!";
+                                                                                       "storage " +
+                                                                                       "available!";
     private final ControllerReview mController;
     private long fileCounter = 0;
 
@@ -63,10 +64,10 @@ class HelperReviewImage extends ImageHelper {
      * Loads bitmaps on a separate thread.
      */
     private class BitmapLoaderTask extends AsyncTask<Integer, Void, Bitmap> {
-        private final GVImageList           mImageList;
-        private final FunctionPointer<Void> mUpdateUI;
+        private final GVImageList                 mImageList;
+        private final FunctionPointer<Void, Void> mUpdateUI;
 
-        public BitmapLoaderTask(GVImageList imageList, FunctionPointer<Void> updateUI) {
+        public BitmapLoaderTask(GVImageList imageList, FunctionPointer<Void, Void> updateUI) {
             mImageList = imageList;
             mUpdateUI = updateUI;
         }
@@ -89,7 +90,7 @@ class HelperReviewImage extends ImageHelper {
         boolean success;
         if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
             File dcimDir = Environment.getExternalStoragePublicDirectory(Environment
-                    .DIRECTORY_DCIM);
+                                                                                 .DIRECTORY_DCIM);
             File reviewerDir = new File(dcimDir, IMAGE_DIRECTORY);
             File file = new File(reviewerDir, imageFileName + ".jpg");
             if (file.exists()) {
@@ -105,7 +106,8 @@ class HelperReviewImage extends ImageHelper {
         return success;
     }
 
-    void addReviewImage(Context context, GVImageList imageList, FunctionPointer<Void> updateUI) {
+    void addReviewImage(Context context, GVImageList imageList, FunctionPointer<Void,
+            Void> updateUI) {
         int maxWidth = (int) context.getResources().getDimension(R.dimen.imageMaxWidth);
         int maxHeight = (int) context.getResources().getDimension(R.dimen.imageMaxHeight);
 
@@ -138,17 +140,18 @@ class HelperReviewImage extends ImageHelper {
             final String packageName = res.activityInfo.packageName;
             final Intent intent = new Intent(captureIntent);
             intent.setComponent(new ComponentName(res.activityInfo.packageName,
-                    res.activityInfo.name));
+                                                  res.activityInfo.name));
             intent.setPackage(packageName);
             intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
             cameraIntents.add(intent);
         }
 
         final Intent galleryIntent = new Intent(Intent.ACTION_PICK,
-                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                                                android.provider.MediaStore.Images.Media
+                                                        .EXTERNAL_CONTENT_URI);
         final Intent chooserIntent = Intent.createChooser(galleryIntent, "Select Source");
         chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, cameraIntents.toArray(new
-                Parcelable[cameraIntents.size()]));
+                                                                                           Parcelable[cameraIntents.size()]));
 
         return chooserIntent;
     }
@@ -163,7 +166,7 @@ class HelperReviewImage extends ImageHelper {
             } else {
                 final String action = data.getAction();
                 isCamera = action != null && action.equals(MediaStore
-                        .ACTION_IMAGE_CAPTURE);
+                                                                   .ACTION_IMAGE_CAPTURE);
             }
 
             if (!isCamera) {

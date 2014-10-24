@@ -8,160 +8,49 @@
 
 package com.chdryra.android.reviewer;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
-import com.chdryra.android.mygenerallibrary.ViewHolder;
 import com.chdryra.android.reviewer.GVReviewDataList.GVType;
 
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Encapsulates the range of dialogs and activities available to return to the user when the user
- * chooses to add, edit the data.
+ * chooses to add, edit or display the data.
+ *
+ * <p>
+ *     Retrieves relevant add, edit and display UIs for each {@link com.chdryra.android.reviewer
+ *     .GVReviewDataList.GVType} from {@link com.chdryra.android.reviewer.ConfigAddEditDisplay}
+ *     and packages them with request codes and tags so that they can be appropriately launched
+ *     by whichever UI needs them in response to a user interaction.
+ * </p>
  *
  * @see com.chdryra.android.reviewer.FragmentReviewBuild;
  */
 class ConfigReviewDataUI {
-    private final static String TAG = "OptionsReviewBuild";
-
-    private final static String DIALOG_TAG_ADD_TAG       = "TagAddDialog";
-    private final static String DIALOG_TAG_EDIT_TAG      = "TagEditDialog";
-    private final static String DIALOG_COMMENT_ADD_TAG   = "CommentAddDialog";
-    private final static String DIALOG_COMMENT_EDIT_TAG  = "CommentEditDialog";
-    private final static String DIALOG_IMAGE_ADD_TAG     = "ImageAddDialog";
-    private final static String DIALOG_IMAGE_EDIT_TAG    = "ImageEditDialog";
-    private final static String DIALOG_LOCATION_ADD_TAG  = "LocationAddDialog";
-    private final static String DIALOG_LOCATION_EDIT_TAG = "LocationEditDialog";
-    private final static String DIALOG_URL_ADD_TAG       = "URLAddDialog";
-    private final static String DIALOG_URL_EDIT_TAG      = "URLEditDialog";
-    private final static String DIALOG_CHILD_ADD_TAG     = "ChildAddDialog";
-    private final static String DIALOG_CHILD_EDIT_TAG    = "ChildEditDialog";
-    private final static String DIALOG_FACTS_ADD_TAG     = "FactsAddDialog";
-    private final static String DIALOG_FACTS_EDIT_TAG    = "FactsEditDialog";
-
-    private final static int DATA_ADD  = 1;
-    private final static int DATA_EDIT = 2;
-
-    private final static int IMAGE_REQUEST    = 10;
-    private final static int LOCATION_REQUEST = 20;
-    private final static int LOCATION_ADD     = 21;
-    private final static int COMMENT_REQUEST  = 30;
-    private final static int FACTS_REQUEST    = 40;
-    private final static int URL_REQUEST      = 50;
-    private final static int CHILD_REQUEST    = 60;
-    private final static int TAGS_REQUEST     = 70;
+    private final static String TAG             = "ConfigReviewDataUI";
+    private final static int    DATA_ADD        = 1;
+    private final static int    DATA_EDIT       = 2;
+    private static       int    REQUEST_COUNTER = 0;
     private static ConfigReviewDataUI sConfigReviewDataUI;
 
-    private HashMap<GVType, Config> mOptionsMap;
+    private final Map<GVType, Config> mConfigsMap = new HashMap<GVType, Config>();
 
     private ConfigReviewDataUI() {
-        mOptionsMap = new HashMap<GVReviewDataList.GVType, Config>();
-
-        ReviewDataUIConfig addConfig;
-        ReviewDataUIConfig editConfig;
-        ReviewDataActivityConfig activityConfig;
-
-        //Tags
-        addConfig = new ReviewDataUIConfig(GVType.TAGS,
-                ConfigAddEditActivity.getAddClass(GVType.TAGS), DATA_ADD, DIALOG_TAG_ADD_TAG);
-        editConfig = new ReviewDataUIConfig(GVType.TAGS,
-                ConfigAddEditActivity.getEditClass(GVType.TAGS), DATA_EDIT, DIALOG_TAG_EDIT_TAG);
-        activityConfig = new ReviewDataActivityConfig(GVType.TAGS,
-                ConfigAddEditActivity.getActivityClass(GVType.TAGS), TAGS_REQUEST, new VHTag());
-        Config tagConfig = new Config(addConfig, editConfig, activityConfig);
-
-        //Children
-        addConfig = new ReviewDataUIConfig(GVType.CHILDREN,
-                ConfigAddEditActivity.getAddClass(GVType.CHILDREN), DATA_ADD, DIALOG_CHILD_ADD_TAG);
-        editConfig = new ReviewDataUIConfig(GVType.CHILDREN,
-                ConfigAddEditActivity.getEditClass(GVType.CHILDREN), DATA_EDIT,
-                DIALOG_CHILD_EDIT_TAG);
-        activityConfig = new ReviewDataActivityConfig(GVType.CHILDREN,
-                ConfigAddEditActivity.getActivityClass(GVType.CHILDREN), CHILD_REQUEST,
-                new VHReviewNodeSubjectRating());
-        Config childConfig = new Config(addConfig, editConfig, activityConfig);
-
-        //Comments
-        addConfig = new ReviewDataUIConfig(GVType.COMMENTS,
-                ConfigAddEditActivity.getAddClass(GVType.COMMENTS), DATA_ADD,
-                DIALOG_COMMENT_ADD_TAG);
-        editConfig = new ReviewDataUIConfig(GVType.COMMENTS,
-                ConfigAddEditActivity.getEditClass(GVType.COMMENTS), DATA_EDIT,
-                DIALOG_COMMENT_EDIT_TAG);
-        activityConfig = new ReviewDataActivityConfig(GVType.COMMENTS,
-                ConfigAddEditActivity.getActivityClass(GVType.COMMENTS), COMMENT_REQUEST,
-                new VHComment());
-        Config commentConfig = new Config(addConfig, editConfig,
-                activityConfig);
-
-        //Images
-        addConfig = new ReviewDataUIConfig(GVType.IMAGES,
-                ConfigAddEditActivity.getAddClass(GVType.IMAGES), DATA_ADD, DIALOG_IMAGE_ADD_TAG);
-        editConfig = new ReviewDataUIConfig(GVType.IMAGES,
-                ConfigAddEditActivity.getEditClass(GVType.IMAGES), DATA_EDIT,
-                DIALOG_IMAGE_EDIT_TAG);
-        activityConfig = new ReviewDataActivityConfig(GVType.IMAGES,
-                ConfigAddEditActivity.getActivityClass(GVType.IMAGES), IMAGE_REQUEST,
-                new VHImage());
-        Config imageConfig = new Config(addConfig, editConfig,
-                activityConfig);
-
-        //Facts
-        addConfig = new ReviewDataUIConfig(GVType.FACTS,
-                ConfigAddEditActivity.getAddClass(GVType.FACTS), DATA_ADD, DIALOG_FACTS_ADD_TAG);
-        editConfig = new ReviewDataUIConfig(GVType.FACTS,
-                ConfigAddEditActivity.getEditClass(GVType.FACTS), DATA_EDIT, DIALOG_FACTS_EDIT_TAG);
-        activityConfig = new ReviewDataActivityConfig(GVType.FACTS,
-                ConfigAddEditActivity.getActivityClass(GVType.FACTS), FACTS_REQUEST, new VHFact());
-        Config factConfig = new Config(addConfig, editConfig,
-                activityConfig);
-
-        //***Locations/URLs work in a different way so don't fit withing the AddEdit framework***
-        //Locations
-        addConfig = new ReviewDataUIConfig(GVType.LOCATIONS,
-                ConfigAddEditActivity.getAddClass(GVType.LOCATIONS), LOCATION_ADD,
-                DIALOG_LOCATION_ADD_TAG);
-        editConfig = new ReviewDataUIConfig(GVType.LOCATIONS,
-                ConfigAddEditActivity.getEditClass(GVType.LOCATIONS), DATA_EDIT,
-                DIALOG_LOCATION_EDIT_TAG);
-        activityConfig = new ReviewDataActivityConfig(GVType.LOCATIONS,
-                ConfigAddEditActivity.getActivityClass(GVType.LOCATIONS), LOCATION_REQUEST,
-                new VHLocation(true));
-        Config locationConfig = new Config(addConfig, editConfig,
-                activityConfig);
-
-        //URLs
-        addConfig = new ReviewDataUIConfig(GVType.URLS,
-                ConfigAddEditActivity.getAddClass(GVType.URLS), DATA_ADD, DIALOG_URL_ADD_TAG);
-        editConfig = new ReviewDataUIConfig(GVType.URLS,
-                ConfigAddEditActivity.getEditClass(GVType.URLS), DATA_EDIT, DIALOG_URL_EDIT_TAG);
-        activityConfig = new ReviewDataActivityConfig(GVType.URLS,
-                ConfigAddEditActivity.getActivityClass(GVType.URLS), URL_REQUEST, new VHUrl());
-        Config UrlConfig = new Config(addConfig, editConfig,
-                activityConfig);
-
-        mOptionsMap.put(GVType.TAGS, tagConfig);
-        mOptionsMap.put(GVType.CHILDREN, childConfig);
-        mOptionsMap.put(GVType.COMMENTS, commentConfig);
-        mOptionsMap.put(GVType.IMAGES, imageConfig);
-        mOptionsMap.put(GVType.FACTS, factConfig);
-        mOptionsMap.put(GVType.LOCATIONS, locationConfig);
-        mOptionsMap.put(GVType.URLS, UrlConfig);
+        mConfigsMap.put(GVType.TAGS, new Config(GVType.TAGS));
+        mConfigsMap.put(GVType.CHILDREN, new Config(GVType.CHILDREN));
+        mConfigsMap.put(GVType.COMMENTS, new Config(GVType.COMMENTS));
+        mConfigsMap.put(GVType.IMAGES, new Config(GVType.IMAGES));
+        mConfigsMap.put(GVType.FACTS, new Config(GVType.FACTS));
+        mConfigsMap.put(GVType.LOCATIONS, new Config(GVType.LOCATIONS));
+        mConfigsMap.put(GVType.URLS, new Config(GVType.URLS));
     }
 
     static Config get(GVType dataType) {
-        return getOptionsMap().get(dataType);
-    }
-
-    private static HashMap<GVType, Config> getOptionsMap() {
-        if (sConfigReviewDataUI == null) {
-            sConfigReviewDataUI = new ConfigReviewDataUI();
-        }
-
-        return sConfigReviewDataUI.mOptionsMap;
+        return getConfigsMap().get(dataType);
     }
 
     static ReviewDataUI getReviewDataUI(Class<? extends ReviewDataUI> uiClass)
@@ -180,28 +69,33 @@ class ConfigReviewDataUI {
         }
     }
 
+    private static Map<GVType, Config> getConfigsMap() {
+        if (sConfigReviewDataUI == null) {
+            sConfigReviewDataUI = new ConfigReviewDataUI();
+        }
+
+        return sConfigReviewDataUI.mConfigsMap;
+    }
+
     /**
-     * Encapsulates UI configs for various data types.
+     * Encapsulates add, edit and display configs for a given
+     * {@link com.chdryra.android.reviewer.GVReviewDataList.GVType}.
      */
     class Config {
-        private final ReviewDataUIConfig       mAddConfig;
-        private final ReviewDataUIConfig       mEditConfig;
-        private final ReviewDataActivityConfig mActivityConfig;
+        private final GVType                  mDataType;
+        private final ReviewDataUIConfig      mAddConfig;
+        private final ReviewDataUIConfig      mEditConfig;
+        private final ReviewDataDisplayConfig mDisplayConfig;
 
-        private Config(ReviewDataUIConfig addConfig,
-                       ReviewDataUIConfig editConfig,
-                       ReviewDataActivityConfig activityConfig) {
-            if (!(addConfig.getGVType() == editConfig.getGVType() && editConfig.getGVType() ==
-                    activityConfig.getGVType())) {
-                throw new RuntimeException();
-            }
-            mAddConfig = addConfig;
-            mEditConfig = editConfig;
-            mActivityConfig = activityConfig;
+        private Config(GVType dataType) {
+            mDataType = dataType;
+            mAddConfig = initAddConfig();
+            mEditConfig = initEditConfig();
+            mDisplayConfig = initDisplayConfig();
         }
 
         GVType getGVType() {
-            return mActivityConfig.getGVType();
+            return mDataType;
         }
 
         ReviewDataUIConfig getAdderConfig() {
@@ -212,11 +106,40 @@ class ConfigReviewDataUI {
             return mEditConfig;
         }
 
-        ReviewDataActivityConfig getActivityConfig() {
-            return mActivityConfig;
+        ReviewDataDisplayConfig getDisplayConfig() {
+            return mDisplayConfig;
+        }
+
+        private ReviewDataUIConfig initAddConfig() {
+            String tag = "DIALOG_" + mDataType.getDatumString().toUpperCase() + "_ADD_TAG";
+            return new ReviewDataUIConfig(mDataType, ConfigAddEditDisplay.getAddClass
+                    (mDataType), DATA_ADD, tag);
+        }
+
+        private ReviewDataUIConfig initEditConfig() {
+            String tag = "DIALOG_" + mDataType.getDatumString().toUpperCase() + "_EDIT_TAG";
+            return new ReviewDataUIConfig(mDataType, ConfigAddEditDisplay.getEditClass
+                    (mDataType), DATA_EDIT, tag);
+        }
+
+        private ReviewDataDisplayConfig initDisplayConfig() {
+            REQUEST_COUNTER = REQUEST_COUNTER + 10;
+            return new ReviewDataDisplayConfig(mDataType, REQUEST_COUNTER);
         }
     }
 
+    /**
+     * Encapsulates a configuration for a UI that can add or edit review data of a certain
+     * {@link com.chdryra.android.reviewer.GVReviewDataList.GVType}. Packages together:
+     * <ul>
+     * <li>A {@link com.chdryra.android.reviewer.ReviewDataUI} implementation for
+     * adding/editing review data of a certain type</li>
+     * <li>An integer request code (required when one activity launches another)</li>
+     * <li>A String tag that may be used (if ultimately launching a dialog)</li>
+     * </ul>
+     * The ReviewDataUI is launched using a
+     * {@link com.chdryra.android.reviewer.ReviewDataUILauncher}
+     */
     class ReviewDataUIConfig {
         private final GVType                        mDataType;
         private final Class<? extends ReviewDataUI> mUIClass;
@@ -230,6 +153,7 @@ class ConfigReviewDataUI {
             mRequestCode = requestCode;
             mTag = tag;
         }
+
 
         GVType getGVType() {
             return mDataType;
@@ -248,18 +172,24 @@ class ConfigReviewDataUI {
         }
     }
 
-    class ReviewDataActivityConfig {
-        private final GVType                    mDataType;
-        private final Class<? extends Activity> mActivityClass;
-        private final int                       mActivityRequestCode;
-        private final ViewHolder                mViewHolder;
+    /**
+     * Encapsulates a configuration for displaying review data of a certain
+     * {@link com.chdryra.android.reviewer.GVReviewDataList.GVType}. Packages together:
+     * <ul>
+     *     <li>An activity class for displaying a collection of review data of a certain
+     * type</li>
+     *     <li>An integer request code (required when one activity launches another)</li>
+     * </ul>
+     * The display activity is accessed by requesting an Intent object which can be used to start
+     * activities via, for example, <code>startActivityForResult(.)</code> etc.
+     */
+    class ReviewDataDisplayConfig {
+        private final GVType mDataType;
+        private final int    mRequestCode;
 
-        private ReviewDataActivityConfig(GVType dataType, Class<? extends Activity> activityClass,
-                                         int requestCode, ViewHolder viewHolder) {
+        private ReviewDataDisplayConfig(GVType dataType, int requestCode) {
             mDataType = dataType;
-            mActivityClass = activityClass;
-            mActivityRequestCode = requestCode;
-            mViewHolder = viewHolder;
+            mRequestCode = requestCode;
         }
 
         GVType getGVType() {
@@ -267,15 +197,11 @@ class ConfigReviewDataUI {
         }
 
         Intent requestIntent(Context context) {
-            return new Intent(context, mActivityClass);
+            return new Intent(context, ConfigAddEditDisplay.getDisplayClass(mDataType));
         }
 
         int getRequestCode() {
-            return mActivityRequestCode;
-        }
-
-        ViewHolder getViewHolder() {
-            return mViewHolder;
+            return mRequestCode;
         }
     }
 }

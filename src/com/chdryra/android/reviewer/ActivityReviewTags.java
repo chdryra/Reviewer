@@ -13,9 +13,7 @@ import android.app.Fragment;
 import com.chdryra.android.mygenerallibrary.ActivitySingleFragment;
 
 /**
- * UI Activity holding FragmentReviewTags: editing tags.
- *
- * @see com.chdryra.android.reviewer.FragmentReviewTags
+ * UI Activity holding {@link FragmentReviewTags}: editing tags.
  */
 public class ActivityReviewTags extends ActivitySingleFragment {
 

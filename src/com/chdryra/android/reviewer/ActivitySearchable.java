@@ -14,9 +14,7 @@ import android.content.Intent;
 import com.chdryra.android.mygenerallibrary.ActivitySingleFragment;
 
 /**
- * UI Activity holding FragmentSearchable: unified search screen (currently disabled).
- *
- * @see com.chdryra.android.reviewer.FragmentSearchable
+ * UI Activity holding {@link FragmentSearchable}: unified search screen (currently disabled).
  */
 public class ActivitySearchable extends ActivitySingleFragment {
 

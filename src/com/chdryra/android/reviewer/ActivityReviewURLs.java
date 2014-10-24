@@ -13,9 +13,7 @@ import android.app.Fragment;
 import com.chdryra.android.mygenerallibrary.ActivitySingleFragment;
 
 /**
- * UI Activity holding FragmentReviewURLs: editing URLs (currently disabled).
- *
- * @see com.chdryra.android.reviewer.FragmentReviewURLs
+ * UI Activity holding {@link FragmentReviewURLs}: editing URLs (currently disabled).
  */
 public class ActivityReviewURLs extends ActivitySingleFragment {
 

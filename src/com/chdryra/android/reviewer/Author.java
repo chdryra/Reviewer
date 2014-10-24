@@ -9,9 +9,7 @@
 package com.chdryra.android.reviewer;
 
 /**
- * Holds Author data. Currently only wraps a name and unique UserId.
- *
- * @see com.chdryra.android.reviewer.UserId
+ * Holds Author data. Currently only wraps a name and unique {@link UserId}.
  */
 class Author {
     private final UserId mId;

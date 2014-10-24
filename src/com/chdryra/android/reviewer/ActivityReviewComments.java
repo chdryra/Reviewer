@@ -13,9 +13,7 @@ import android.app.Fragment;
 import com.chdryra.android.mygenerallibrary.ActivitySingleFragment;
 
 /**
- * UI Activity holding FragmentReviewComments: editing comments.
- *
- * @see com.chdryra.android.reviewer.FragmentReviewComments
+ * UI Activity holding {@link FragmentReviewComments}: editing comments.
  */
 public class ActivityReviewComments extends ActivitySingleFragment {
 

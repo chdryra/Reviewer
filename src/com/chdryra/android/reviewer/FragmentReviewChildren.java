@@ -38,8 +38,8 @@ import com.chdryra.android.reviewer.GVReviewSubjectRatingList.GVReviewSubjectRat
  * </p>
  *
  * @see com.chdryra.android.reviewer.ActivityReviewChildren
- * @see com.chdryra.android.reviewer.ConfigAddEditActivity.AddChild
- * @see com.chdryra.android.reviewer.ConfigAddEditActivity.EditChild
+ * @see ConfigAddEditDisplay.AddChild
+ * @see ConfigAddEditDisplay.EditChild
  */
 public class FragmentReviewChildren extends FragmentReviewGridAddEdit<GVReviewSubjectRating> {
     private boolean mTotalRatingIsAverage;

@@ -19,6 +19,10 @@ import android.os.Bundle;
  * On: 23/10/2014
  * Email: rizwan.choudrey@gmail.com
  */
+
+/**
+ * Knows how to launch a ReviewDataUI depending on whether it is a Dialog or Activity underneath.
+ */
 public class ReviewDataUILauncher {
     private static final String LAUNCHER_ARGS = "com.chdryra.android.review.args_key";
     private Fragment mCommissioner;

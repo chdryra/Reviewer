@@ -35,7 +35,7 @@ import com.chdryra.android.reviewer.GVReviewDataList.GVType;
  *
  * @see com.chdryra.android.reviewer.ActivityReviewImages
  * @see com.chdryra.android.reviewer.HelperReviewImage
- * @see com.chdryra.android.reviewer.ConfigAddEditActivity.EditImage
+ * @see ConfigAddEditDisplay.EditImage
  * @see com.chdryra.android.reviewer.DialogSetImageAsBackgroundFragment
  */
 public class FragmentReviewImages extends FragmentReviewGridAddEdit<GVImage> {
@@ -58,15 +58,19 @@ public class FragmentReviewImages extends FragmentReviewGridAddEdit<GVImage> {
     protected boolean doDatumAdd(final GVImage image) {
         final GVImageList temp = new GVImageList();
         mHelperReviewImage.addReviewImage(getActivity(), temp,
-                new FunctionPointer<Void>() {
-                    @Override
-                    public void execute(Void data) {
-                        if (temp.size() == 1) getInputHandler().add(temp.getItem(0), getActivity());
-                        if (mImages.size() == 1) setCover(0);
-                        updateUI();
-                    }
-                }
-        );
+                                          new FunctionPointer<Void, Void>() {
+                                              @Override
+                                              public Void execute(Void data) {
+                                                  if (temp.size() == 1) {
+                                                      getInputHandler().add(temp.getItem(0),
+                                                                            getActivity());
+                                                  }
+                                                  if (mImages.size() == 1) setCover(0);
+                                                  updateUI();
+                                                  return null;
+                                              }
+                                          }
+                                         );
 
         return true;
     }
@@ -87,7 +91,7 @@ public class FragmentReviewImages extends FragmentReviewGridAddEdit<GVImage> {
             onActivityAddRequested(resultCode, data);
 
         } else if (requestCode == IMAGE_AS_BACKGROUND && resCode.equals(ActionType.YES
-                .getResultCode())) {
+                                                                                .getResultCode())) {
             setCover(data.getIntExtra(POSITION, 0));
             updateUI();
         } else {
@@ -105,7 +109,7 @@ public class FragmentReviewImages extends FragmentReviewGridAddEdit<GVImage> {
     @Override
     protected void onBannerButtonClick() {
         startActivityForResult(mHelperReviewImage.getImageChooserIntents(getActivity()),
-                getRequestCodeAdd());
+                               getRequestCodeAdd());
     }
 
     @Override
@@ -115,7 +119,7 @@ public class FragmentReviewImages extends FragmentReviewGridAddEdit<GVImage> {
         Bundle args = new Bundle();
         args.putInt(POSITION, position);
         DialogShower.show(new DialogSetImageAsBackgroundFragment(), FragmentReviewImages.this,
-                IMAGE_AS_BACKGROUND, IMAGE_BACKGROUND_TAG, args);
+                          IMAGE_AS_BACKGROUND, IMAGE_BACKGROUND_TAG, args);
     }
 
     @Override
