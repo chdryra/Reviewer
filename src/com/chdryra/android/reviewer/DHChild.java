@@ -20,6 +20,10 @@ import java.text.DecimalFormat;
  * On: 20/10/2014
  * Email: rizwan.choudrey@gmail.com
  */
+
+/**
+ * {@link DialogHolderAddEdit}: child reviews
+ */
 class DHChild extends DialogHolderAddEdit<GVReviewSubjectRating> {
     private static final int                   LAYOUT    = R.layout.dialog_criterion;
     private static final int                   SUBJECT   = R.id.child_name_edit_text;
@@ -63,7 +67,7 @@ class DHChild extends DialogHolderAddEdit<GVReviewSubjectRating> {
     }
 
     @Override
-    protected void updateInputs(GVReviewSubjectRating data) {
+    protected void updateWithGVData(GVReviewSubjectRating data) {
         ((EditText) getView(SUBJECT)).setText(data.getSubject());
         ((RatingBar) getView(RATING)).setRating(data.getRating());
     }

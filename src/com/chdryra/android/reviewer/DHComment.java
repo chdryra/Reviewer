@@ -17,6 +17,10 @@ import com.chdryra.android.reviewer.GVCommentList.GVComment;
  * On: 21/10/2014
  * Email: rizwan.choudrey@gmail.com
  */
+
+/**
+ * {@link DialogHolderAddEdit}: comments
+ */
 class DHComment extends DialogHolderAddEdit<GVComment> {
     private static final int       LAYOUT    = R.layout.dialog_comment;
     private static final int       COMMENT   = R.id.comment_edit_text;
@@ -51,7 +55,7 @@ class DHComment extends DialogHolderAddEdit<GVComment> {
     }
 
     @Override
-    protected void updateInputs(GVComment comment) {
+    protected void updateWithGVData(GVComment comment) {
         ((EditText) getView(COMMENT)).setText(comment.getComment());
     }
 }

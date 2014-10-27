@@ -20,12 +20,28 @@ import com.chdryra.android.mygenerallibrary.DialogCancelDeleteDoneFragment;
  * On: 16/10/2014
  * Email: rizwan.choudrey@gmail.com
  */
+
+/**
+ * Base class for all dialogs that can edit data on reviews.
+ * <p>
+ * This class handles mainly button presses and view intialisation. All other functionality is
+ * outsourced to the appropriate classes:
+ * <ul>
+ * <li>UI updates and user input extraction: {@link com.chdryra.android.reviewer
+ * .ViewHolderUI} object</li>
+ * <li>Input validation and processing</li>: {@link com.chdryra.android
+ * .reviewer.ReviewDataEditListener} object.
+ * <li>Unpacking of received data: {@link com.chdryra.android.reviewer
+ * .InputHandlerReviewData} object.</li>
+ * </ul>
+ * </p>
+ */
 public abstract class DialogReviewDataEditFragment<T extends GVReviewDataList.GVReviewData> extends
-        DialogCancelDeleteDoneFragment implements ReviewDataEditor<T> {
+                                                                                            DialogCancelDeleteDoneFragment implements ReviewDataEditor<T> {
     protected InputHandlerReviewData<T> mHandler;
     private   GVReviewDataList.GVType   mDataType;
     private   T                         mDatum;
-    private   DialogHolder<T>           mDialogHolder;
+    private   ViewHolderUI<T>           mDialogHolder;
     private   ReviewDataEditListener<T> mListener;
 
     protected DialogReviewDataEditFragment(GVReviewDataList.GVType dataType) {
@@ -45,18 +61,18 @@ public abstract class DialogReviewDataEditFragment<T extends GVReviewDataList.GV
         super.onCreate(savedInstanceState);
 
         mDatum = mHandler.unpack(InputHandlerReviewData.CurrentNewDatum.CURRENT,
-                getArguments());
+                                 getArguments());
         mDialogHolder = FactoryDialogHolder.newDialogHolder(this);
 
         try {
             mListener = (ReviewDataEditListener<T>) getTargetFragment();
         } catch (ClassCastException e) {
             throw new ClassCastException(getTargetFragment().toString() + " must implement " +
-                    "reviewDataEditListener");
+                                         "reviewDataEditListener");
         }
 
         setDialogTitle(getResources().getString(R.string.edit) + " " + mHandler.getGVType()
-                .getDatumString());
+                                                                               .getDatumString());
     }
 
     @Override

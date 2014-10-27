@@ -16,15 +16,6 @@ import com.google.android.gms.maps.model.LatLng;
 
 import java.util.StringTokenizer;
 
-/**
- * GVReviewDataList: GVLocation
- * <p>
- * ViewHolder: VHLocationView
- * </p>
- *
- * @see com.chdryra.android.reviewer.FragmentReviewLocations
- * @see VHLocation
- */
 class GVLocationList extends GVReviewDataList<GVLocationList.GVLocation> {
 
     GVLocationList() {
@@ -32,15 +23,8 @@ class GVLocationList extends GVReviewDataList<GVLocationList.GVLocation> {
     }
 
     /**
-     * GVData version of: RDLocation
-     * ViewHolder: VHLocationView
-     * <p/>
-     * <p>
-     * Methods for getting the LatLng, name and shortened version of name.
-     * </p>
-     *
-     * @see com.chdryra.android.reviewer.RDLocation
-     * @see VHLocation
+     * {@link GVReviewData} version of: {@link RDLocation}
+     * {@link ViewHolder}: {@link VHLocation}
      */
     static class GVLocation implements GVReviewDataList.GVReviewData {
         public static final Parcelable.Creator<GVLocation> CREATOR = new Parcelable

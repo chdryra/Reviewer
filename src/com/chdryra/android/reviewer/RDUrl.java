@@ -13,7 +13,7 @@ import java.net.URL;
 /**
  * Review Data: URL
  * <p>
- * <code>hasData()</code>: non-null URL.
+ * {@link #hasData()}: non-null URL.
  * </p>
  */
 class RDUrl implements RData {

@@ -9,25 +9,79 @@
 package com.chdryra.android.reviewer;
 
 import android.app.Activity;
+import android.util.SparseArray;
 import android.view.View;
+
+import com.chdryra.android.mygenerallibrary.DialogCancelActionDoneFragment;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 20/10/2014
  * Email: rizwan.choudrey@gmail.com
  */
-interface DialogHolder<T extends GVReviewDataList.GVReviewData> extends GVReviewDataUI<T> {
-    void inflate(Activity activity);
 
-    View getView();
+/**
+ * Implementation of {@link ViewHolderUI} for Dialogs. Mainly
+ * concerned with inflating layouts and holding Views. Uses a
+ * {@link DialogHolderUI} to conform to the {@link com.chdryra
+ * .android.reviewer.GVReviewDataUI} part of the {@link com.chdryra.android.reviewer
+ * .ReviewDataUIHolder} interface.
+ * <p>
+ * Need to override {@link #getDialogHolderUI()} which returns a
+ * {@link DialogHolderUI}. This is a helper class that provides
+ * a link between the review data-specific UI, and the actual Dialog window itself.
+ * </p>
+ *
+ * @param <T>: {@link com.chdryra.android.reviewer.GVReviewDataList.GVReviewData} type.
+ */
+abstract class DialogHolder<T extends GVReviewDataList.GVReviewData> implements
+                                                                     ViewHolderUI<T> {
+    private final int               mLayout;
+    private final int[]             mUpdateableViewIds;
+    private final SparseArray<View> mUpdateableViews;
+
+    protected View mInflated;
+
+    protected DialogHolder(int layoutId, int[] viewIds) {
+        mLayout = layoutId;
+        mUpdateableViewIds = viewIds;
+        mUpdateableViews = new SparseArray<View>(mUpdateableViewIds.length);
+    }
+
+    protected abstract DialogHolderUI<T, ? extends DialogCancelActionDoneFragment>
+    getDialogHolderUI();
 
     @Override
-    void initialiseView(T data);
+    public void inflate(Activity activity) {
+        mInflated = activity.getLayoutInflater().inflate(mLayout, null);
+        if (mInflated != null) {
+            for (int viewId : mUpdateableViewIds) {
+                mUpdateableViews.put(viewId, mInflated.findViewById(viewId));
+            }
+        }
+    }
 
     @Override
-    void updateView(T data);
+    public View getView() {
+        return mInflated;
+    }
 
     @Override
-    T getGVData();
+    public void initialiseView(T data) {
+        getDialogHolderUI().initialiseView(data);
+    }
 
+    @Override
+    public void updateView(T data) {
+        getDialogHolderUI().updateView(data);
+    }
+
+    @Override
+    public T getGVData() {
+        return getDialogHolderUI().getGVData();
+    }
+
+    final View getView(int viewId) {
+        return mUpdateableViews.get(viewId);
+    }
 }

@@ -11,7 +11,8 @@ package com.chdryra.android.reviewer;
 import java.util.Date;
 
 /**
- * Holds publishing data and manages the publication of review trees given a root ReviewNode.
+ * Holds publishing data and manages the publication of review trees given a root {@link
+ * ReviewNode}.
  *
  * @see com.chdryra.android.reviewer.VisitorTreePublisher
  */

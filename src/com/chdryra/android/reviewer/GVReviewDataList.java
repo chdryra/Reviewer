@@ -14,12 +14,13 @@ import com.chdryra.android.mygenerallibrary.VHDataList;
 import com.chdryra.android.mygenerallibrary.ViewHolderData;
 
 /**
- * The (Grid) View layer (V) equivalent of the Model layer (M) RDList. Implementation of VHDataList
- * tailored for Review data accessed via a ControllerReview (C) that translates between them (MVC
- * pattern).
+ * The (Grid) View layer (V) equivalent of the Model layer (M) {@link RDList}. Implementation of
+ * {@link VHDataList} tailored for Review data accessed via a {@link ControllerReview} (C) that
+ * translates between
+ * them (MVC pattern).
  * <p/>
  * <p>
- * Access of Review data via a ControllerReview requires passing one of the enums of GVType
+ * Access of Review data via a {@link ControllerReview} requires passing a {@link GVType}
  * specified in this class. The same enum also provides a singular and plural readable text
  * label for that type of data.
  * </p>
@@ -31,9 +32,7 @@ import com.chdryra.android.mygenerallibrary.ViewHolderData;
  * need to know about the implementations of the model data, just that they exist.
  * </p>
  *
- * @param <T>: the GVData type in the list.
- * @see com.chdryra.android.reviewer.RDList
- * @see com.chdryra.android.reviewer.ControllerReview
+ * @param <T>: {@link com.chdryra.android.reviewer.GVReviewDataList.GVReviewData} type.
  */
 abstract class GVReviewDataList<T extends GVReviewDataList.GVReviewData> extends VHDataList<T> {
 
@@ -80,7 +79,7 @@ abstract class GVReviewDataList<T extends GVReviewDataList.GVReviewData> extends
     }
 
     /**
-     * Parcelable version of ViewHolderData
+     * Parcelable version of {@link ViewHolderData}
      */
     interface GVReviewData extends ViewHolderData, Parcelable {
     }

@@ -12,9 +12,8 @@ import com.chdryra.android.mygenerallibrary.ViewHolderData;
 import com.chdryra.android.reviewer.GVLocationList.GVLocation;
 
 /**
- * ViewHolder: GVLocation. Shows shortened location name.
- *
- * @see com.chdryra.android.reviewer.GVLocationList.GVLocation
+ * {@link com.chdryra.android.mygenerallibrary.ViewHolder}: {@link GVLocation}. Shows shortened
+ * location name.
  */
 class VHLocation extends VHText {
 

@@ -16,18 +16,12 @@ import com.chdryra.android.reviewer.GVReviewDataList.GVType;
  * UI Fragment: review locations. Each grid cell shows a location name.
  * <p/>
  * <p>
- * FragmentReviewGrid functionality:
+ * Base class functionality details:
  * <ul>
- * <li>Subject: disabled</li>
- * <li>RatingBar: disabled</li>
- * <li>Banner button: launches ActivityReviewLocationMap showing current location</li>
- * <li>Grid cell click: launches ActivityReviewLocationMap showing clicked location</li>
- * <li>Grid cell long click: same as click</li>
+ * <li>Banner button: launches {@link ActivityReviewLocationMap} showing current location</li>
+ * <li>Grid cell click: launches {@link ActivityReviewLocationMap} showing clicked location</li>
  * </ul>
  * </p>
- *
- * @see com.chdryra.android.reviewer.ActivityReviewLocations
- * @see com.chdryra.android.reviewer.ActivityReviewLocationMap
  */
 public class FragmentReviewLocations extends FragmentReviewGridAddEdit<GVLocation> {
     public FragmentReviewLocations() {

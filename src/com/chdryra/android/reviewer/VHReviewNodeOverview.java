@@ -19,7 +19,7 @@ import com.chdryra.android.reviewer.GVReviewOverviewList.GVReviewOverview;
 import java.text.DateFormat;
 
 /**
- * ViewHolder: GVReviewOverview
+ * {@link com.chdryra.android.mygenerallibrary.ViewHolder}: {@link GVReviewOverview}
  * <p/>
  * <p>
  * Shows:
@@ -32,8 +32,6 @@ import java.text.DateFormat;
  * <li>Cover image as background</li>
  * </ul>
  * </p>
- *
- * @see com.chdryra.android.reviewer.GVReviewOverviewList.GVReviewOverview
  */
 class VHReviewNodeOverview extends ViewHolderBasic {
     private static final int LAYOUT   = R.layout.grid_cell_review_overview;
@@ -73,7 +71,7 @@ class VHReviewNodeOverview extends ViewHolderBasic {
 
         String author = review.getAuthor();
         String date = DateFormat.getDateTimeInstance(DateFormat.MEDIUM,
-                DateFormat.SHORT).format(review.getPublishDate());
+                                                     DateFormat.SHORT).format(review.getPublishDate());
         mPublishDate.setText(date + " by " + author);
 
         String location = review.getLocationName();

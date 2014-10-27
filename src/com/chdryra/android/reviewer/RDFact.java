@@ -11,7 +11,7 @@ package com.chdryra.android.reviewer;
 /**
  * Review Data: fact
  * <p>
- * <code>hasData()</code>: Label and value strings at least 1 character in length
+ * {@link #hasData()}: Label and value strings at least 1 character in length
  * </p>
  */
 class RDFact implements RData {

@@ -9,7 +9,7 @@
 package com.chdryra.android.reviewer;
 
 /**
- * Performs traverses of review trees. Can set a VisitorReviewNode to visit each node in the
+ * Performs traverses of review trees. Can set a {@link VisitorReviewNode} to visit each node in the
  * traversal.
  * <p/>
  * <p>

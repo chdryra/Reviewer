@@ -18,13 +18,8 @@ import com.google.android.gms.maps.model.LatLng;
 import java.util.Random;
 
 /**
- * GVReviewDataList: GVImage
- * <p>
  * Includes methods for adding captions and getting images designated as "covers" which can be
  * used as a background image for a review.
- * </p>
- *
- * @see com.chdryra.android.reviewer.FragmentReviewImages
  */
 class GVImageList extends GVReviewDataList<GVImageList.GVImage> {
 
@@ -33,15 +28,8 @@ class GVImageList extends GVReviewDataList<GVImageList.GVImage> {
     }
 
     /**
-     * GVReviewData version of: RDImage
-     * ViewHolder: VHImageView
-     * <p/>
-     * <p>
-     * Methods for getting the bitmap, caption, LatLng and whether a cover.
-     * </p>
-     *
-     * @see com.chdryra.android.reviewer.RDImage
-     * @see VHImage
+     * {@link GVReviewData} version of: {@link RDImage}
+     * {@link ViewHolder}: {@link VHImage}
      */
     static class GVImage implements GVReviewDataList.GVReviewData {
         public static final Parcelable.Creator<GVImage> CREATOR = new Parcelable

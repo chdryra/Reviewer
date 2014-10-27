@@ -19,11 +19,6 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 
-/**
- * GVReviewDataList: GVUrl
- *
- * @see com.chdryra.android.reviewer.FragmentReviewURLs
- */
 class GVUrlList extends GVReviewDataList<GVUrlList.GVUrl> {
 
     GVUrlList() {
@@ -31,14 +26,11 @@ class GVUrlList extends GVReviewDataList<GVUrlList.GVUrl> {
     }
 
     /**
-     * GVData version of: RDUrl
-     * ViewHolder: VHUrlView
+     * {@link GVReviewData} version of: {@link RDUrl}
+     * {@link ViewHolder}: {@link VHUrl}
      * <p>
      * Methods for getting full URL and shortened more readable version.
      * </p>
-     *
-     * @see com.chdryra.android.reviewer.RDUrl
-     * @see VHUrl
      */
     static class GVUrl implements GVReviewDataList.GVReviewData {
         public static final Parcelable.Creator<GVUrl> CREATOR = new Parcelable
@@ -64,7 +56,7 @@ class GVUrlList extends GVReviewDataList<GVUrlList.GVUrl> {
         GVUrl(String stringUrl) throws MalformedURLException, URISyntaxException {
             URL url = new URL(URLUtil.guessUrl(stringUrl));
             URI uri = new URI(url.getProtocol(), url.getUserInfo(), url.getHost(), url.getPort(),
-                    url.getPath(), url.getQuery(), url.getRef());
+                              url.getPath(), url.getQuery(), url.getRef());
             mUrl = uri.toURL();
         }
 

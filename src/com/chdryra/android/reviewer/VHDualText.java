@@ -11,10 +11,14 @@ package com.chdryra.android.reviewer;
 import com.chdryra.android.mygenerallibrary.VHDualString;
 
 /**
- * Simple ViewHolder for GVDualString. Displays an upper and lower string.
+ * Simple {@link com.chdryra.android.mygenerallibrary.ViewHolder} for {@link VHDualString}.
+ * Displays an
+ * upper and
+ * lower string.
  * <p/>
  * <p>
- * Just VHDualStringView using a package-specific XML layout for separation and encapsulation
+ * Just {@link VHDualString} using a package-specific XML layout for separation and
+ * encapsulation
  * purposes.
  * </p>
  */

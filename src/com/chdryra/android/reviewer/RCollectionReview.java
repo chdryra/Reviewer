@@ -9,9 +9,10 @@
 package com.chdryra.android.reviewer;
 
 /**
- * An extension of RCollection for objects that have their own reference RDId such as Reviews.
+ * An extension of {@link RCollection} for objects that have their own reference {@link RDId} such
+ * as {@link Review}s.
  *
- * @param <T>: type that is RDIsAble
+ * @param <T>: type that is {@link com.chdryra.android.reviewer.RDId.RDIdAble}
  */
 class RCollectionReview<T extends RDId.RDIdAble> extends RCollection<T> {
     public void add(T review) {

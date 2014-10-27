@@ -17,6 +17,10 @@ import com.chdryra.android.reviewer.GVFactList.GVFact;
  * On: 17/10/2014
  * Email: rizwan.choudrey@gmail.com
  */
+
+/**
+ * {@link DialogHolderAddEdit}: facts
+ */
 class DHFact extends DialogHolderAddEdit<GVFact> {
     private static final int    LAYOUT    = R.layout.dialog_fact;
     private static final int    LABEL     = R.id.fact_label_edit_text;
@@ -54,7 +58,7 @@ class DHFact extends DialogHolderAddEdit<GVFact> {
     }
 
     @Override
-    protected void updateInputs(GVFact fact) {
+    protected void updateWithGVData(GVFact fact) {
         ((EditText) getView(LABEL)).setText(fact.getLabel());
         ((EditText) getView(VALUE)).setText(fact.getValue());
         getView(LABEL).requestFocus();

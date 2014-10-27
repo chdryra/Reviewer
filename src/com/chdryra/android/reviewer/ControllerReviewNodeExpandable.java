@@ -15,7 +15,7 @@ package com.chdryra.android.reviewer;
  */
 
 /**
- * Expands on ControllerReviewNode to include setters on ReviewNodeExpandable.
+ * Expands on {@link ControllerReviewNode} to include setters on {@link ReviewNodeExpandable}.
  */
 class ControllerReviewNodeExpandable extends ControllerReviewNode {
 
@@ -25,7 +25,7 @@ class ControllerReviewNodeExpandable extends ControllerReviewNode {
     }
 
     /**
-     * Controls the expansion of the parent ReviewNodeExpandable.
+     * Controls the expansion of the parent {link ReviewNodeExpandable}.
      */
     class ControllerReviewNodeChildren extends ControllerReviewCollection<ReviewNode> {
         private final ReviewNodeExpandable mParent;

@@ -17,7 +17,7 @@ import com.chdryra.android.mygenerallibrary.ViewHolderData;
  */
 
 /**
- * Expands on ControllerReview to include setters on ReviewEditables.
+ * Expands on {@link ControllerReview} to include setters on {@link ReviewEditable}.
  */
 class ControllerReviewEditable extends ControllerReview<ReviewEditable> {
     ControllerReviewEditable(ReviewEditable review) {
@@ -67,7 +67,7 @@ class ControllerReviewEditable extends ControllerReview<ReviewEditable> {
         RDList<RDImage> rdImages = new RDList<RDImage>();
         for (GVImageList.GVImage image : images) {
             rdImages.add(new RDImage(image.getBitmap(), image.getLatLng(), image.getCaption(),
-                    image.isCover(), r));
+                                     image.isCover(), r));
         }
 
         r.setImages(rdImages);

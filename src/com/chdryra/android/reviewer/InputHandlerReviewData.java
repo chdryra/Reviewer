@@ -19,11 +19,19 @@ import android.widget.Toast;
  * On: 14/10/2014
  * Email: rizwan.choudrey@gmail.com
  */
+
+/**
+ * Handles user inputs of review data. Checks validity of data and compares user input to current
+ * data set to check whether valid for addition, deletion or editing. Also takes care of
+ * packing and unpacking data into Bundles/Intents between different fragments.
+ *
+ * @param <T>: {@link com.chdryra.android.reviewer.GVReviewDataList.GVReviewData} type.
+ */
 class InputHandlerReviewData<T extends GVReviewDataList.GVReviewData> {
     private static final String DATUM_CURRENT = "com.chdryra.android.reviewer.data_current";
     private static final String DATUM_NEW     = "com.chdryra.android.reviewer.data_new";
-    private GVReviewDataList<T> mData;
-    private   GVReviewDataList.GVType mDataType;
+    private GVReviewDataList<T>     mData;
+    private GVReviewDataList.GVType mDataType;
 
     enum CurrentNewDatum {
         CURRENT(DATUM_CURRENT),
@@ -73,10 +81,6 @@ class InputHandlerReviewData<T extends GVReviewDataList.GVReviewData> {
         return data.getParcelableExtra(currentNew.getPackingTag());
     }
 
-    boolean add(Intent data, Context context) {
-        return add(unpack(CurrentNewDatum.NEW, data), context);
-    }
-
     boolean add(T newDatum, Context context) {
         if (passesAddConstraint(newDatum, context)) {
             mData.add(newDatum);
@@ -111,7 +115,7 @@ class InputHandlerReviewData<T extends GVReviewDataList.GVReviewData> {
 
     void makeToastHasItem(Context context) {
         String toast = context.getResources().getString(R.string.toast_has) + " " +
-                getGVType().getDatumString();
+                       getGVType().getDatumString();
         Toast.makeText(context, toast, Toast.LENGTH_SHORT).show();
     }
 

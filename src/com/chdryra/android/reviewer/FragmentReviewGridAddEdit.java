@@ -18,27 +18,23 @@ import com.chdryra.android.mygenerallibrary.ActivityResultCode;
 import com.chdryra.android.reviewer.GVReviewDataList.GVType;
 
 /**
- * UI Fragment: base class for adding/editing review data UIs.
+ * UI Fragment: base class for displaying review data. Generally the "Display" class in {@link
+ * com.chdryra.android.reviewer.ConfigAddEditDisplay}.
  * <p/>
  * <p>
- * By default assumes the banner button will launch an Add dialog and a grid cell click will
- * launch an edit dialog (as defined in OptionsReviewBuild). If using this default then need to
- * implement <code>packGridCellData(.)</code> to bundle the grid cell selected data for editing
- * so that it can be passed to the edit dialog.
+ * Banner button launches the "Add" class in {@link com.chdryra.android.reviewer
+ * .ConfigAddEditDisplay} and a grid cell click will the "Edit" class. Long click on grid cell
+ * usually does same as click.
  * </p>
  * <p>
- * Need to implement <code>getDataType()</code> for proper data initialisation.
- * </p>
- * <p>
- * Need to implement <code>addData(.)</code> and <code>editData(.)</code> to know what to do
- * once the appropriate dialog or activity has returned the user input.
+ * User input handled by a {@link com.chdryra.android.reviewer.InputHandlerReviewData}.
  * </p>
  *
- * @param <T>: GVData type shown in grid cell
+ * @param <T>: {@link com.chdryra.android.reviewer.GVReviewDataList.GVReviewData} type.
  */
 abstract class FragmentReviewGridAddEdit<T extends GVReviewDataList.GVReviewData> extends
-        FragmentReviewGrid<GVReviewDataList<T>> implements ReviewDataAddListener<T>,
-        ReviewDataEditListener<T> {
+                                                                                  FragmentReviewGrid<GVReviewDataList<T>> implements ReviewDataAddListener<T>,
+                                                                                                                                     ReviewDataEditListener<T> {
 
     protected InputHandlerReviewData<T> mHandler;
     private   GVType                    mDataType;
@@ -128,14 +124,14 @@ abstract class FragmentReviewGridAddEdit<T extends GVReviewDataList.GVReviewData
         ActivityResultCode result = ActivityResultCode.get(resultCode);
         if (data != null && result == mDoDatumEdit) {
             T oldDatum = getInputHandler().unpack(InputHandlerReviewData.CurrentNewDatum.CURRENT,
-                    data);
+                                                  data);
             T newDatum = getInputHandler().unpack(InputHandlerReviewData.CurrentNewDatum.NEW,
-                    data);
+                                                  data);
             doDatumEdit(oldDatum, newDatum);
         }
         if (data != null && result == mDoDatumDelete) {
             T datum = getInputHandler().unpack(InputHandlerReviewData.CurrentNewDatum.CURRENT,
-                    data);
+                                               data);
             doDatumDelete(datum);
         }
     }
@@ -143,7 +139,7 @@ abstract class FragmentReviewGridAddEdit<T extends GVReviewDataList.GVReviewData
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams
-                .SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+                                                           .SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
         if (data == null) return;
 
@@ -160,7 +156,7 @@ abstract class FragmentReviewGridAddEdit<T extends GVReviewDataList.GVReviewData
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        ConfigReviewDataUI.Config config = ConfigReviewDataUI.get(mDataType);
+        ConfigReviewDataUI.Config config = ConfigReviewDataUI.getConfig(mDataType);
         mAdderConfig = config.getAdderConfig();
         mEditorConfig = config.getEditorConfig();
 
@@ -176,7 +172,7 @@ abstract class FragmentReviewGridAddEdit<T extends GVReviewDataList.GVReviewData
         Bundle args = Administrator.get(getActivity()).pack(getController());
 
         ReviewDataUILauncher.launch(mAdderConfig.getReviewDataUI(), this,
-                mAdderConfig.getRequestCode(), mAdderConfig.getTag(), args);
+                                    mAdderConfig.getRequestCode(), mAdderConfig.getTag(), args);
     }
 
     @Override
@@ -187,7 +183,7 @@ abstract class FragmentReviewGridAddEdit<T extends GVReviewDataList.GVReviewData
         packGridCellData((T) parent.getItemAtPosition(position), args);
 
         ReviewDataUILauncher.launch(mEditorConfig.getReviewDataUI(), this,
-                mEditorConfig.getRequestCode(), mEditorConfig.getTag(), args);
+                                    mEditorConfig.getRequestCode(), mEditorConfig.getTag(), args);
     }
 
     @Override

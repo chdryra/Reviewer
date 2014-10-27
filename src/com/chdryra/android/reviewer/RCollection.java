@@ -13,10 +13,9 @@ import java.util.LinkedHashMap;
 import java.util.NoSuchElementException;
 
 /**
- * An iterable collection of objects that can be referenced using an RDId.
+ * An iterable collection of objects that can be referenced using an {@link RDId}.
  *
  * @param <T>: object type
- * @see com.chdryra.android.reviewer.RDId
  */
 class RCollection<T> implements Iterable<T> {
     private final LinkedHashMap<RDId, T> mData = new LinkedHashMap<RDId, T>();
@@ -45,7 +44,7 @@ class RCollection<T> implements Iterable<T> {
         public void remove() {
             if (position <= 0) {
                 throw new IllegalStateException("Have to do at least one next() before you can " +
-                        "delete");
+                                                "delete");
             } else {
                 RCollection.this.remove(getId(position));
             }

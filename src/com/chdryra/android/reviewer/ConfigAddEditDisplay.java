@@ -20,6 +20,9 @@ import java.util.HashMap;
  * Email: rizwan.choudrey@gmail.com
  */
 
+/**
+ * Defines the adder, editor and display UIs to use with each data type.
+ */
 public class ConfigAddEditDisplay {
     private static ConfigAddEditDisplay               sConfig;
     private final  HashMap<GVType, AddEditDisplayUIs> mDialogAddEditMap;
@@ -160,6 +163,9 @@ public class ConfigAddEditDisplay {
         }
     }
 
+    /**
+     * Packages together an add, edit and display UI.
+     */
     class AddEditDisplayUIs {
         private Class<? extends ReviewDataUI> mAdd;
         private Class<? extends ReviewDataUI> mEdit;

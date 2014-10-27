@@ -23,20 +23,14 @@ import com.chdryra.android.reviewer.GVReviewDataList.GVType;
  * UI Fragment: images. Each grid cell shows an image.
  * <p/>
  * <p>
- * FragmentReviewGrid functionality:
+ * Functionality that differs from base class:
  * <ul>
- * <li>Subject: disabled</li>
- * <li>RatingBar: disabled</li>
- * <li>Banner button: calls <code>mHelperReviewImage.getImageChooserIntents(.)</code></li>
- * <li>Grid cell click: launches EditImage dialog</li>
- * <li>Grid cell long click: launches DialogSetImageAsBackgroundFragment</li>
+ * <li>Banner button: calls {@link com.chdryra.android.reviewer
+ * .HelperReviewImage#getImageChooserIntents(android.app.Activity)}</li>
+ * <li>Grid cell long click: launches {@link com.chdryra.android.reviewer
+ * .DialogSetImageAsBackgroundFragment}</li>
  * </ul>
  * </p>
- *
- * @see com.chdryra.android.reviewer.ActivityReviewImages
- * @see com.chdryra.android.reviewer.HelperReviewImage
- * @see ConfigAddEditDisplay.EditImage
- * @see com.chdryra.android.reviewer.DialogSetImageAsBackgroundFragment
  */
 public class FragmentReviewImages extends FragmentReviewGridAddEdit<GVImage> {
     private static final String POSITION = "com.chdryra.android.reviewer.image_position";

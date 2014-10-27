@@ -13,6 +13,12 @@ package com.chdryra.android.reviewer;
  * On: 23/10/2014
  * Email: rizwan.choudrey@gmail.com
  */
+
+/**
+ * Provides a callback that can be called by {@link com.chdryra.android.reviewer.ReviewDataEditor}
+ *
+ * @param <T>:{@link com.chdryra.android.reviewer.GVReviewDataList.GVReviewData} type
+ */
 public interface ReviewDataEditListener<T extends GVReviewDataList.GVReviewData> {
     void onReviewDataDelete(T data);
 

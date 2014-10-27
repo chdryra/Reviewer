@@ -23,23 +23,8 @@ import com.chdryra.android.reviewer.GVReviewSubjectRatingList.GVReviewSubjectRat
  * grid cell shows a subject and rating.
  * <p/>
  * <p>
- * FragmentReviewGrid functionality:
- * <ul>
- * <li>Subject: enabled</li>
- * <li>RatingBar: enabled</li>
- * <li>Banner button: launches AddChild dialog</li>
- * <li>Grid cell click: launches EditChild dialog</li>
- * <li>Grid cell long click: same as click</li>
- * </ul>
- * </p>
- * <p/>
- * <p>
  * Also an ActionBar icon for setting the review score as an average of the sub-reviews.
  * </p>
- *
- * @see com.chdryra.android.reviewer.ActivityReviewChildren
- * @see ConfigAddEditDisplay.AddChild
- * @see ConfigAddEditDisplay.EditChild
  */
 public class FragmentReviewChildren extends FragmentReviewGridAddEdit<GVReviewSubjectRating> {
     private boolean mTotalRatingIsAverage;

@@ -22,13 +22,18 @@ import java.util.HashMap;
  * On: 21/10/2014
  * Email: rizwan.choudrey@gmail.com
  */
+
+/**
+ * Creates appropriate {@link com.chdryra.android.reviewer.DialogHolder} for given
+ * {@link com.chdryra.android.reviewer.GVReviewDataList.GVType}
+ */
 class FactoryDialogHolder {
     private static final String TAG = "FactoryDialogHolder";
     private static FactoryDialogHolder                               sFactory;
-    private        HashMap<GVType, Class<? extends DialogHolder<?>>> mDHClassesMap;
+    private        HashMap<GVType, Class<? extends ViewHolderUI<?>>> mDHClassesMap;
 
     private FactoryDialogHolder() {
-        mDHClassesMap = new HashMap<GVType, Class<? extends DialogHolder<?>>>();
+        mDHClassesMap = new HashMap<GVType, Class<? extends ViewHolderUI<?>>>();
         mDHClassesMap.put(GVType.CHILDREN, DHChild.class);
         mDHClassesMap.put(GVType.COMMENTS, DHComment.class);
         mDHClassesMap.put(GVType.FACTS, DHFact.class);
@@ -36,55 +41,57 @@ class FactoryDialogHolder {
         mDHClassesMap.put(GVType.TAGS, DHTag.class);
     }
 
-    static <T extends GVReviewDataList.GVReviewData> DialogHolder<T> newDialogHolder
+    static <T extends GVReviewDataList.GVReviewData> ViewHolderUI<T> newDialogHolder
             (DialogReviewDataAddFragment<T> dialog) {
         if (sFactory == null) sFactory = new FactoryDialogHolder();
         try {
             Constructor ctor = sFactory.mDHClassesMap.get(dialog.getGVType())
-                    .getDeclaredConstructor(DialogReviewDataAddFragment.class);
+                                                     .getDeclaredConstructor
+                                                             (DialogReviewDataAddFragment.class);
 
             try {
-                return (DialogHolder<T>) ctor.newInstance(dialog);
+                return (ViewHolderUI<T>) ctor.newInstance(dialog);
             } catch (InstantiationException e) {
                 Log.e(TAG, "Problem constructing ReviewDataAdd dialog for " + dialog.getGVType()
-                        .getDatumString(), e);
+                                                                                    .getDatumString(), e);
             } catch (IllegalAccessException e) {
                 Log.e(TAG, "Illegal access whilst constructing ReviewDataAdd dialog for " +
-                        dialog.getGVType().getDatumString(), e);
+                           dialog.getGVType().getDatumString(), e);
             } catch (InvocationTargetException e) {
                 Log.e(TAG, "Invocation exception whilst constructing ReviewDataAdd dialog for" +
-                        " " + dialog.getGVType().getDatumString(), e);
+                           " " + dialog.getGVType().getDatumString(), e);
             }
 
         } catch (NoSuchMethodException e) {
             Log.e(TAG, "DialogReviewDataAddFragment Constructor missing for DialogHolder for" +
-                    dialog.getGVType().getDatumString(), e);
+                       dialog.getGVType().getDatumString(), e);
         }
 
         return null;
     }
 
-    static <T extends GVReviewDataList.GVReviewData> DialogHolder<T> newDialogHolder
+    static <T extends GVReviewDataList.GVReviewData> ViewHolderUI<T> newDialogHolder
             (DialogReviewDataEditFragment<T> dialog) {
         if (sFactory == null) sFactory = new FactoryDialogHolder();
         try {
             Constructor ctor = sFactory.mDHClassesMap.get(dialog.getGVType())
-                    .getDeclaredConstructor(DialogReviewDataEditFragment.class);
+                                                     .getDeclaredConstructor
+                                                             (DialogReviewDataEditFragment.class);
             try {
-                return (DialogHolder<T>) ctor.newInstance(dialog);
+                return (ViewHolderUI<T>) ctor.newInstance(dialog);
             } catch (InstantiationException e) {
                 Log.e(TAG, "Problem constructing edit dialog for " + dialog.getGVType()
-                        .getDatumString(), e);
+                                                                           .getDatumString(), e);
             } catch (IllegalAccessException e) {
                 Log.e(TAG, "Illegal access whilst constructing edit dialog for " +
-                        dialog.getGVType().getDatumString(), e);
+                           dialog.getGVType().getDatumString(), e);
             } catch (InvocationTargetException e) {
                 Log.e(TAG, "Invocation exception whilst constructing edit dialog for" +
-                        " " + dialog.getGVType().getDatumString(), e);
+                           " " + dialog.getGVType().getDatumString(), e);
             }
         } catch (NoSuchMethodException e) {
             Log.e(TAG, "DialogReviewDataEditFragment Constructor missing for DialogHolder for" +
-                    dialog.getGVType().getDatumString(), e);
+                       dialog.getGVType().getDatumString(), e);
         }
 
         return null;

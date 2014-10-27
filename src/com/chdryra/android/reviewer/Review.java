@@ -55,17 +55,18 @@ interface Review extends RDId.RDIdAble {
     //Core methods
 
     /**
-     * Returns a tree representation of the review. Has the same RDId as the review it represents.
+     * Returns a tree representation of the review. Has the same {@link RDId} as the review it
+     * represents.
      * //TODO work out a way of ensuring this without further complicating inheritance.
      */
     ReviewNode getReviewNode();
 
     /**
-     * Stamps an unpublished review (and descendants if necessary) with an Author and Date.
+     * Stamps an unpublished review (and descendants if necessary) with an {@link Author} and Date.
      * Returns an uneditable published review.
      *
      * @param publisher: holds publishing data and publishes unpublished descendants if necessary.
-     * @return Review: a new uneditable review stamped with Author and Date.
+     * @return Review: a new uneditable review stamped with {@link Author} and Date.
      */
     Review publish(PublisherReviewTree publisher);
 

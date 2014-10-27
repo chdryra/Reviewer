@@ -17,6 +17,10 @@ import com.chdryra.android.reviewer.GVTagList.GVTag;
  * On: 21/10/2014
  * Email: rizwan.choudrey@gmail.com
  */
+
+/**
+ * {@link DialogHolderAddEdit}: tags
+ */
 class DHTag extends DialogHolderAddEdit<GVTag> {
     private static final int   LAYOUT    = R.layout.dialog_tag;
     private static final int   TAG       = R.id.tag_edit_text;
@@ -51,7 +55,7 @@ class DHTag extends DialogHolderAddEdit<GVTag> {
     }
 
     @Override
-    protected void updateInputs(GVTag tag) {
+    protected void updateWithGVData(GVTag tag) {
         ((EditText) getView(TAG)).setText(tag.get());
     }
 }

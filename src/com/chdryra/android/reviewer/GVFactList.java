@@ -15,11 +15,6 @@ import com.chdryra.android.mygenerallibrary.ViewHolder;
 
 import java.util.Comparator;
 
-/**
- * GVReviewDataList: GVFact
- *
- * @see com.chdryra.android.reviewer.FragmentReviewFacts
- */
 class GVFactList extends GVReviewDataList<GVFactList.GVFact> {
 
     GVFactList() {
@@ -27,11 +22,8 @@ class GVFactList extends GVReviewDataList<GVFactList.GVFact> {
     }
 
     /**
-     * GVReviewData version of: RDFact
-     * ViewHolder: VHFactView
-     *
-     * @see com.chdryra.android.reviewer.RDFact
-     * @see VHFact
+     * {@link GVReviewData} version of: {@link RDFact}
+     * {@link ViewHolder}: {@link VHFact}
      */
 
     static class GVFact extends GVDualText {
@@ -70,7 +62,7 @@ class GVFactList extends GVReviewDataList<GVFactList.GVFact> {
         @Override
         public boolean isValidForDisplay() {
             return getLabel() != null && getLabel().length() > 0 && getValue() != null &&
-                    getValue().length() > 0;
+                   getValue().length() > 0;
         }
     }
 

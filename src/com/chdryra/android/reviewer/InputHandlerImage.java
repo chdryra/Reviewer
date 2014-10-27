@@ -15,6 +15,11 @@ import android.content.Context;
  * On: 22/10/2014
  * Email: rizwan.choudrey@gmail.com
  */
+
+/**
+ * Additional constraint over base {@link com.chdryra.android.reviewer.InputHandlerReviewData} to
+ * ignore addition if current data already includes Bitmap.
+ */
 public class InputHandlerImage extends InputHandlerReviewData<GVImageList.GVImage> {
     InputHandlerImage() {
         super(GVReviewDataList.GVType.IMAGES);

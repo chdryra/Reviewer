@@ -13,6 +13,13 @@ package com.chdryra.android.reviewer;
  * On: 20/10/2014
  * Email: rizwan.choudrey@gmail.com
  */
+
+/**
+ * Defines the behaviour of any UI that acts as a view on some review data. Given some data,
+ * defines an ability to initialise and update the UI, and to extract review data from it.
+ *
+ * @param <T>
+ */
 public interface GVReviewDataUI<T extends GVReviewDataList.GVReviewData> {
     void initialiseView(T data);
 

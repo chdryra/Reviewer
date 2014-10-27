@@ -18,6 +18,11 @@ import com.chdryra.android.mygenerallibrary.VHDString;
  * On: 17/10/2014
  * Email: rizwan.choudrey@gmail.com
  */
+
+/**
+ * Parcelable version of {@link com.chdryra.android.mygenerallibrary.VHDString} to comply with
+ * {@link com.chdryra.android.reviewer.GVReviewDataList.GVReviewData}
+ */
 class GVText extends VHDString implements GVReviewDataList.GVReviewData {
     public static final Parcelable.Creator<GVText> CREATOR = new Parcelable
             .Creator<GVText>() {

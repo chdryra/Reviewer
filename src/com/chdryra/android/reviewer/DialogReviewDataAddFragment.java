@@ -19,26 +19,39 @@ import com.chdryra.android.reviewer.GVReviewDataList.GVType;
 /**
  * Base class for all dialogs that can add data to reviews.
  * <p>
- * Need to override <code>createDialogUI(.)</code> to define the dialog's UI,
- * and <code>onAddButtonClick()</code> to specify the action when the add button is pressed.
+ * This class handles mainly button presses and view initialisation. All other functionality is
+ * outsourced to the appropriate classes:
+ * <ul>
+ * <li>UI updates and user input extraction: {@link com.chdryra.android.reviewer
+ * .ViewHolderUI} object</li>
+ * <li>Input validation and processing if not QUICKSET</li>: {@link com.chdryra.android
+ * .reviewer.ReviewDataAddListener} object.
+ * <li>Input validation and processing if QUICKSET: {@link com.chdryra.android.reviewer
+ * .InputHandlerReviewData} object.</li>
+ * <li>Updating reviews if QUICKSET: {@link com.chdryra.android.reviewer
+ * .ControllerReviewEditable}</li> object
+ * </ul>
  * </p>
  * <p>
- * By default the dialog won't add any data to reviews. It is assumed that implementations
- * will update the return data intent to forward any data entered to the fragment or activity
- * that commissioned the dialog. It is then up to that fragment/activity to decide what to do
+ * By default the dialog won't add any data to reviews. It is assumed that data is updated using
+ * the {@link com.chdryra.android.reviewer.ReviewDataAdder#reviewDataAdd(ReviewDataAddListener,
+ * com.chdryra.android.reviewer.GVReviewDataList.GVReviewData)} method to callback to the {@link
+ * com.chdryra.android.reviewer.ReviewDataAddListener} that commissioned the dialog.
+ * It is then up to that fragment/activity to decide what to do
  * with the entered data. However, if the QUICK_SET boolean in the dialog arguments is set to
- * true, the dialog will forward the data directly to the ControllerReviewEditable packed in
+ * true, the dialog will validate using an {@link com.chdryra.android.reviewer
+ * .InputHandlerReviewData} and forward the data directly to the ControllerReviewEditable packed in
  * the arguments by the Administrator.
  * </p>
  */
 public abstract class DialogReviewDataAddFragment<T extends GVReviewDataList.GVReviewData> extends
-        DialogCancelAddDoneFragment implements ReviewDataAdder<T> {
+                                                                                           DialogCancelAddDoneFragment implements ReviewDataAdder<T> {
     public static final String QUICK_SET = "com.chdryra.android.reviewer.dialog_quick_mode";
 
     protected InputHandlerReviewData<T> mHandler;
     private   ControllerReviewEditable  mController;
     private   GVReviewDataList<T>       mData;
-    private   DialogHolder<T>           mDialogHolder;
+    private   ViewHolderUI<T>           mDialogHolder;
     private   ReviewDataAddListener<T>  mAddListener;
 
     private boolean mQuickSet = false;
@@ -79,7 +92,7 @@ public abstract class DialogReviewDataAddFragment<T extends GVReviewDataList.GVR
                 mAddListener = (ReviewDataAddListener<T>) getTargetFragment();
             } catch (ClassCastException e) {
                 throw new ClassCastException(getTargetFragment().toString() + " must implement " +
-                        "reviewDataAddListener");
+                                             "reviewDataAddListener");
             }
         }
 

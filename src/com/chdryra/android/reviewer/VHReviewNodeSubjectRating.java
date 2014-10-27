@@ -16,9 +16,10 @@ import com.chdryra.android.mygenerallibrary.ViewHolderData;
 import com.chdryra.android.reviewer.GVReviewSubjectRatingList.GVReviewSubjectRating;
 
 /**
- * ViewHolder: GVReviewSubjectRating. Shows subject and rating for review children (criteria).
- *
- * @see com.chdryra.android.reviewer.GVReviewSubjectRatingList.GVReviewSubjectRating
+ * {@link com.chdryra.android.mygenerallibrary.ViewHolder}: {@link GVReviewSubjectRating}. Shows
+ * subject
+ * and rating for review children
+ * (criteria).
  */
 class VHReviewNodeSubjectRating extends ViewHolderBasic {
     private static final int LAYOUT  = R.layout.grid_cell_review_subject_rating;

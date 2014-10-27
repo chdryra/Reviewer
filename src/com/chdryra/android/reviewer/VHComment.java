@@ -12,12 +12,12 @@ import com.chdryra.android.mygenerallibrary.ViewHolderData;
 import com.chdryra.android.reviewer.GVCommentList.GVComment;
 
 /**
- * ViewHolder: GVComment. Shows comment headline
+ * {@link com.chdryra.android.mygenerallibrary.ViewHolder}: {@link GVComment}. Shows comment
+ * headline
  * <p>
- * A VHTextView with an appropriately defined GVDataStringGetter.
+ * A {@link VHText} with an appropriately defined {@link com.chdryra.android.mygenerallibrary
+ * .VHDataStringGetter}.
  * </p>
- *
- * @see com.chdryra.android.reviewer.GVCommentList.GVComment
  */
 class VHComment extends VHText {
 

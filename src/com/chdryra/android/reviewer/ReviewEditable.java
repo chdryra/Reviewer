@@ -12,11 +12,11 @@ import java.util.Date;
 
 /**
  * Base class for reviews that allow editing of the data they hold. Adds setters and deleters to
- * the Review interface.
+ * the {@link Review} interface.
  * <p/>
  * <p>
  * ReviewEditables are - by definition - not published themselves. Use the publish method to
- * return a published uneditable Review encapsulating its current data.
+ * return a published uneditable {@link Review} encapsulating its current data.
  * </p>
  */
 abstract class ReviewEditable implements Review {

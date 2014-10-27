@@ -18,10 +18,7 @@ import java.util.Comparator;
 import java.util.Date;
 
 /**
- * GVReviewDataList: GVReviewOverview
- * <p>
  * Used for Review summaries in published feed
- * </p>
  *
  * @see com.chdryra.android.reviewer.Administrator
  * @see com.chdryra.android.reviewer.FragmentFeed
@@ -33,15 +30,8 @@ class GVReviewOverviewList extends GVReviewDataList<GVReviewOverviewList.GVRevie
     }
 
     /**
-     * GVData version of: Review
-     * ViewHolder: VHReviewNodeOverview
-     * <p>
-     * Methods for getting subject, rating, cover image, comment headline, location,
-     * publish author and date.
-     * </p>
-     *
-     * @see com.chdryra.android.reviewer.Review
-     * @see com.chdryra.android.reviewer.VHReviewNodeSubjectRating
+     * {@link GVReviewData} version of: {@link Review}
+     * {@link ViewHolder): {@link VHReviewNodeOverview}
      */
     static class GVReviewOverview implements GVReviewDataList.GVReviewData {
         public static final Parcelable.Creator<GVReviewOverview> CREATOR = new Parcelable
@@ -131,7 +121,7 @@ class GVReviewOverviewList extends GVReviewDataList<GVReviewOverviewList.GVRevie
         @Override
         public boolean isValidForDisplay() {
             return mId != null && mId.length() > 0 && mSubject != null && mSubject.length() > 0
-                    && mAuthor != null && mAuthor.length() > 0 && mPublishDate != null;
+                   && mAuthor != null && mAuthor.length() > 0 && mPublishDate != null;
         }
 
         @Override
@@ -146,24 +136,24 @@ class GVReviewOverviewList extends GVReviewDataList<GVReviewOverviewList.GVRevie
                 return false;
             }
             if (mCoverImage != null ? !mCoverImage.equals(overview.mCoverImage) : overview
-                    .mCoverImage != null) {
+                                                                                          .mCoverImage != null) {
                 return false;
             }
             if (mHeadline != null ? !mHeadline.equals(overview.mHeadline) : overview.mHeadline !=
-                    null) {
+                                                                            null) {
                 return false;
             }
             if (mId != null ? !mId.equals(overview.mId) : overview.mId != null) return false;
             if (mLocationName != null ? !mLocationName.equals(overview.mLocationName) : overview
-                    .mLocationName != null) {
+                                                                                                .mLocationName != null) {
                 return false;
             }
             if (mPublishDate != null ? !mPublishDate.equals(overview.mPublishDate) : overview
-                    .mPublishDate != null) {
+                                                                                             .mPublishDate != null) {
                 return false;
             }
             if (mSubject != null ? !mSubject.equals(overview.mSubject) : overview.mSubject !=
-                    null) {
+                                                                         null) {
                 return false;
             }
 
@@ -205,7 +195,7 @@ class GVReviewOverviewList extends GVReviewDataList<GVReviewOverviewList.GVRevie
              String locationName, String author, Date publishDate) {
         if (!contains(id)) {
             add(new GVReviewOverview(id, subject, rating, coverImage, headline, locationName,
-                    author, publishDate));
+                                     author, publishDate));
         }
     }
 

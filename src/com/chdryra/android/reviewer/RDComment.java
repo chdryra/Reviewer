@@ -11,7 +11,7 @@ package com.chdryra.android.reviewer;
 /**
  * Review Data: comment
  * <p>
- * <code>hasData()</code>: A string at least 1 character in length.
+ * {@link #hasData()}: A string at least 1 character in length.
  * </p>
  */
 class RDComment implements RData {

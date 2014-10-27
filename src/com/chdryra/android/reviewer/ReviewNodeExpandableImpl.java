@@ -11,19 +11,20 @@ package com.chdryra.android.reviewer;
 import java.util.Date;
 
 /**
- * Primary implementation of ReviewNodeExpandable.
+ * Primary implementation of {@link ReviewNodeExpandable}.
  * <p/>
  * <p>
- * Creates a new unique RDId so represents a new review structure even though it wraps an
+ * Creates a new unique {@link RDId} so represents a new review structure even though it wraps an
  * existing review. Generally used for reviews that only make sense when considering the tree
  * as a whole, for example reviews with rated sub-criteria, meta-reviews etc.
  * </p>
  * <p/>
  * <p>
- * Wraps a Review object in a node structure with potential children and a parent.
- * Note: this is not necessarily the same node internal to the wrapped Review and returned by
- * its getReviewNode() method. A Review may decide to represent itself with its own internal
- * tree structure which will share the same RDId as the review.
+ * Wraps a {@link Review} object in a node structure with potential children and a parent.
+ * Note: this is not necessarily the same node internal to the wrapped {@link Review} and
+ * returned by
+ * its {@link Review#getReviewNode()} method. A Review may decide to represent
+ * itself with its own internal tree structure which will share the same {@link RDId} as the review.
  * </p>
  */
 class ReviewNodeExpandableImpl implements ReviewNodeExpandable {

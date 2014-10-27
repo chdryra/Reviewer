@@ -18,6 +18,11 @@ import com.chdryra.android.mygenerallibrary.VHDDualString;
  * On: 17/10/2014
  * Email: rizwan.choudrey@gmail.com
  */
+
+/**
+ * Parcelable version of {@link com.chdryra.android.mygenerallibrary.VHDDualString} to comply with
+ * {@link com.chdryra.android.reviewer.GVReviewDataList.GVReviewData}
+ */
 class GVDualText extends VHDDualString implements GVReviewDataList.GVReviewData {
     public static final Parcelable.Creator<GVDualText> CREATOR = new Parcelable
             .Creator<GVDualText>() {

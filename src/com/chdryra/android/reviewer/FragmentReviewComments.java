@@ -21,25 +21,9 @@ import com.chdryra.android.reviewer.GVReviewDataList.GVType;
 /**
  * UI Fragment: comments. Each grid cell shows a comment headline or comment sentence depending
  * whether the "Show sentences" ActionBar icon is pressed.
- * <p/>
- * <p>
- * FragmentReviewGrid functionality:
- * <ul>
- * <li>Subject: disabled</li>
- * <li>RatingBar: disabled</li>
- * <li>Banner button: launches AddComment dialog</li>
- * <li>Grid cell click: launches EditComment dialog</li>
- * <li>Grid cell long click: same as click</li>
- * </ul>
- * </p>
- * <p/>
  * <p>
  * Also an ActionBar icon for switching between comment headlines and comment sentences.
  * </p>
- *
- * @see com.chdryra.android.reviewer.ActivityReviewComments
- * @see ConfigAddEditDisplay.AddComment
- * @see ConfigAddEditDisplay.EditComment
  */
 public class FragmentReviewComments extends FragmentReviewGridAddEdit<GVComment> {
     private GVCommentList mComments;

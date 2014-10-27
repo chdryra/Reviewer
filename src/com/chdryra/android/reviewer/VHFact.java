@@ -14,9 +14,8 @@ import com.chdryra.android.mygenerallibrary.ViewHolderData;
 import com.chdryra.android.reviewer.GVFactList.GVFact;
 
 /**
- * ViewHolder: GVFact. Shows fact label top, fact value bottom.
- *
- * @see com.chdryra.android.reviewer.GVFactList.GVFact
+ * {@link com.chdryra.android.mygenerallibrary.ViewHolder}: {@link GVFact}. Shows fact label top,
+ * fact value bottom.
  */
 class VHFact extends VHDualString {
     private static final int LAYOUT = R.layout.grid_cell_text_dual;

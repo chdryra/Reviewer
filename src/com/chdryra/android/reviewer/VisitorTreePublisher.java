@@ -9,7 +9,8 @@
 package com.chdryra.android.reviewer;
 
 /**
- * Uses a ReviewTreePublisher to publish review trees given a root node.
+ * Uses a {@link com.chdryra.android.reviewer.PublisherReviewTree} to publish review trees given
+ * a root node.
  */
 //TODO reformulate using TraverserReviewNode
 class VisitorTreePublisher implements VisitorReviewNode {

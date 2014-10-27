@@ -27,14 +27,13 @@ import java.util.Date;
  * Not a "Controller" as such - more of an adapter - but didn't want to confuse with
  * Android's use of the word "Adapter". Translates between model data types and view data types:
  * <ul>
- * <li>Model data type: Review types and the data they return</li>
- * <li>View data type: GVData types, java types</li>
+ * <li>Model data types: {@link com.chdryra.android.reviewer.RData} types</li>
+ * <li>View data types: {@link com.chdryra.android.reviewer.GVReviewDataList.GVType} types,
+ * java types</li>
  * </ul>
  * </p>
  *
- * @param <T>: the Review type being accessed
- * @see Review
- * @see com.chdryra.android.mygenerallibrary.ViewHolderData
+ * @param <T>: the {@link Review} type being accessed
  */
 class ControllerReview<T extends Review> {
     protected final ArrayList<String> mTagsList = new ArrayList<String>();

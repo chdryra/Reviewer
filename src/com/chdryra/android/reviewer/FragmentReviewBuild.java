@@ -102,7 +102,7 @@ public class FragmentReviewBuild extends FragmentReviewGrid<FragmentReviewBuild.
 
     /**
      * Holds the list of cells that manage data display and respond to user interaction for the data
-     * tiles. This is what <code>getGridViewData()</code> returns for this fragment.
+     * tiles. This is what {@link #getGridData()} returns for this fragment.
      */
     class GVCellManagerList extends GVReviewDataList<GVCellManagerList.GVCellManager> {
         private GVCellManagerList() {
@@ -164,7 +164,7 @@ public class FragmentReviewBuild extends FragmentReviewGrid<FragmentReviewBuild.
                 if (size == 0) return getNoDatumView(parent);
 
                 return size > 1 || mDataType == GVType.IMAGES ? getMultiDataView(parent) :
-                        getSingleDatumView(parent);
+                       getSingleDatumView(parent);
             }
 
             private View getNoDatumView(ViewGroup parent) {
@@ -216,8 +216,8 @@ public class FragmentReviewBuild extends FragmentReviewGrid<FragmentReviewBuild.
             mHelperReviewImage.bitmapExistsOnActivityResult(getActivity(), resCode, data)) {
             addImage();
         } else if (requestCode == getUIConfig(GVType.LOCATIONS).getAdderConfig()
-                .getRequestCode()
-                && resCode.equals(DialogLocationFragment.RESULT_MAP.getResultCode())) {
+                                                               .getRequestCode()
+                   && resCode.equals(DialogLocationFragment.RESULT_MAP.getResultCode())) {
             requestMapIntent(data);
         } else if (requestCode == LOCATION_MAP && resCode.equals(ActivityResultCode.DONE)) {
             addLocation(data);
@@ -242,7 +242,7 @@ public class FragmentReviewBuild extends FragmentReviewGrid<FragmentReviewBuild.
 
         mHelperReviewImage = HelperReviewImage.getInstance(getController());
         mLocationInputHandler = new InputHandlerReviewData<GVLocationList.GVLocation>(GVType
-                .LOCATIONS);
+                                                                                              .LOCATIONS);
     }
 
     @Override
@@ -253,7 +253,7 @@ public class FragmentReviewBuild extends FragmentReviewGrid<FragmentReviewBuild.
         getBannerButton().setClickable(false);
         View divider = inflater.inflate(R.layout.horizontal_divider, container, false);
         Button shareButton = (Button) inflater.inflate(R.layout.review_banner_button, container,
-                false);
+                                                       false);
         shareButton.setText(getResources().getString(R.string.button_share));
         shareButton.getLayoutParams().height = LayoutParams.MATCH_PARENT;
         shareButton.setOnClickListener(new View.OnClickListener() {
@@ -262,13 +262,13 @@ public class FragmentReviewBuild extends FragmentReviewGrid<FragmentReviewBuild.
 
                 if (getSubjectText().length() == 0) {
                     Toast.makeText(getActivity(), R.string.toast_enter_subject,
-                            Toast.LENGTH_SHORT).show();
+                                   Toast.LENGTH_SHORT).show();
                     return;
                 }
 
                 if (getController().getData(GVType.TAGS).size() == 0) {
                     Toast.makeText(getActivity(), R.string.toast_enter_tag,
-                            Toast.LENGTH_SHORT).show();
+                                   Toast.LENGTH_SHORT).show();
                     return;
                 }
 
@@ -307,7 +307,7 @@ public class FragmentReviewBuild extends FragmentReviewGrid<FragmentReviewBuild.
     }
 
     private ConfigReviewDataUI.Config getUIConfig(GVType dataType) {
-        return ConfigReviewDataUI.get(dataType);
+        return ConfigReviewDataUI.getConfig(dataType);
     }
 
     private void addImage() {
@@ -325,7 +325,7 @@ public class FragmentReviewBuild extends FragmentReviewGrid<FragmentReviewBuild.
 
     private void requestMapIntent(Intent data) {
         GVLocationList.GVLocation location = mLocationInputHandler.unpack(InputHandlerReviewData
-                .CurrentNewDatum.NEW, data);
+                                                                                  .CurrentNewDatum.NEW, data);
         Bundle args = new Bundle();
         mLocationInputHandler.pack(InputHandlerReviewData.CurrentNewDatum.CURRENT, location, args);
 
@@ -335,7 +335,7 @@ public class FragmentReviewBuild extends FragmentReviewGrid<FragmentReviewBuild.
 
     private void addLocation(Intent data) {
         GVLocationList.GVLocation location = mLocationInputHandler.unpack(InputHandlerReviewData
-                .CurrentNewDatum.NEW, data);
+                                                                                  .CurrentNewDatum.NEW, data);
         if (location.isValidForDisplay()) {
             GVLocationList list = new GVLocationList();
             list.add(location);
@@ -388,7 +388,7 @@ public class FragmentReviewBuild extends FragmentReviewGrid<FragmentReviewBuild.
         }
 
         ReviewDataUILauncher.launch(ui, this, adderConfig.getRequestCode(), adderConfig.getTag(),
-                args);
+                                    args);
     }
 
     private void showQuickImageDialog() {

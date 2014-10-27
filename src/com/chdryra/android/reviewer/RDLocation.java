@@ -13,7 +13,7 @@ import com.google.android.gms.maps.model.LatLng;
 /**
  * Review Data: location
  * <p>
- * <code>hasData()</code>: A LatLng plus a name at least 1 character in length.
+ * {@link #hasData()}: A LatLng plus a name at least 1 character in length.
  * </p>
  */
 class RDLocation implements RData {

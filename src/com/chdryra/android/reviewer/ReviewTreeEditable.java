@@ -13,18 +13,18 @@ package com.chdryra.android.reviewer;
  * review tree.
  * <p/>
  * <p>
- * This essentially wraps a ReviewNodeExpandable where the root node is a ReviewEditable.
- * The getters and setters forward requests and data to the ReviewEditable.
+ * This essentially wraps a {@link ReviewNodeExpandable} where the root node is a
+ * {@link ReviewEditable}.
+ * The getters and setters forward requests and data to the {@link ReviewEditable}.
  * The tree editing requests are forwarded to the internal node.
  * </p>
  * <p/>
  * <p>
- * The <code>publish(.)</code> method returns a ReviewTree object that wraps a published
+ * The {@link #publish(PublisherReviewTree)} method returns a {@link ReviewTree} object that
+ * wraps a
+ * published
  * version of the internal tree to stop further editing and expanding.
  * </p>
- *
- * @see com.chdryra.android.reviewer.ReviewUserEditable
- * @see com.chdryra.android.reviewer.ReviewTree
  */
 class ReviewTreeEditable extends ReviewEditable implements ReviewNodeExpandable {
     private ReviewNodeExpandable mNode;

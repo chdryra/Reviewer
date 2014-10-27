@@ -18,6 +18,10 @@ import com.chdryra.android.reviewer.GVImageList.GVImage;
  * On: 21/10/2014
  * Email: rizwan.choudrey@gmail.com
  */
+
+/**
+ * {@link DialogHolderAddEdit}: images
+ */
 class DHImageEdit extends DialogHolderAddEdit<GVImage> {
     private static final int     LAYOUT    = R.layout.dialog_image;
     private static final int     IMAGE     = R.id.dialog_image_image_view;
@@ -61,7 +65,7 @@ class DHImageEdit extends DialogHolderAddEdit<GVImage> {
     }
 
     @Override
-    protected void updateInputs(GVImage image) {
+    protected void updateWithGVData(GVImage image) {
         ImageView imageView = (ImageView) getView(IMAGE);
         EditText imageCaption = (EditText) getView(CAPTION);
 
@@ -71,7 +75,7 @@ class DHImageEdit extends DialogHolderAddEdit<GVImage> {
 
         if (mDialogEdit != null) {
             imageCaption.setHint(mDialogEdit.getActivity().getResources().getString(R.string
-                    .edit_text_image_caption_hint));
+                                                                                            .edit_text_image_caption_hint));
         }
 
         //For some reason setSelection(0) doesn't work unless I force set the span of the selection

@@ -9,11 +9,13 @@
 package com.chdryra.android.reviewer;
 
 /**
- * Fundamental implementation of review that holds the review data. Every node in a review tree
- * eventually wraps one of these.
+ * Fundamental implementation of {@link Review} that holds the review data. Every node in a review
+ * tree eventually wraps one of these.
  * <p/>
  * <p>
- * Gets wrapped in a non-editable Review when published along with an Author and publish date.
+ * Gets wrapped in a non-editable {@link Review} when published along with an {@link Author} and
+ * publish
+ * date.
  * </p>
  *
  * @see com.chdryra.android.reviewer.ReviewNodeAlone
@@ -82,7 +84,7 @@ class ReviewUserEditable extends ReviewEditable {
     @Override
     public Review publish(PublisherReviewTree publisher) {
         return FactoryReview.createReview(publisher.getAuthor(), publisher.getPublishDate(),
-                getReviewNode());
+                                          getReviewNode());
     }
 
     @Override

@@ -10,25 +10,50 @@ package com.chdryra.android.reviewer;
 
 import android.widget.EditText;
 
+import com.chdryra.android.mygenerallibrary.DialogCancelActionDoneFragment;
+
 /**
  * Created by: Rizwan Choudrey
  * On: 21/10/2014
  * Email: rizwan.choudrey@gmail.com
  */
-abstract class DialogHolderAddEdit<T extends GVReviewDataList.GVReviewData> extends
-        DialogHolderBasic<T> {
 
-    DialogHolderAddEdit(int layoutId, int[] viewIds, DialogReviewDataAddFragment<T> dialogAdd,
+/**
+ * An extension of {@link DialogHolder} concerned with dialogs that add and edit review data.
+ * This is the fundamental add and edit DialogHolder for all {@link com.chdryra.android.reviewer
+ * .GVReviewDataList.GVType}s except locations and URLs as they use activities for adding and
+ * editing.
+ * <p>
+ * Combined the two dialog types (adding and editing) into this one
+ * DialogHolder as not enough requirements in either to bother with 2 separate abstract classes.
+ * Kind of a hotchpotch class using constructor overloading to separate the two but does the job.
+ * </p>
+ * <p/>
+ * <p>
+ * Provides a {@link com.chdryra.android.reviewer.DialogHolderUI.DialogUIUpdater}
+ * for adder Dialogs, and a different one for editor Dialogs.
+ * </p>
+ *
+ * @param <T>: {@link com.chdryra.android.reviewer.GVReviewDataList.GVReviewData} type.
+ */
+abstract class DialogHolderAddEdit<T extends GVReviewDataList.GVReviewData> extends
+                                                                            DialogHolder<T> {
+
+    private DialogHolderUI<T, ? extends DialogCancelActionDoneFragment> mDialogUI;
+
+    DialogHolderAddEdit(int layoutId, int[] viewIds, DialogReviewDataAddFragment<T> parent,
                         final T nullData) {
         super(layoutId, viewIds);
-        setDialogUI(new DialogUI<T, DialogReviewDataAddFragment<T>>(dialogAdd,
-                getReviewDataAddManager(nullData)));
+        mDialogUI = new DialogHolderUI<T, DialogReviewDataAddFragment<T>>(parent,
+                                                                          getReviewDataAddUI
+                                                                                  (nullData));
     }
 
-    DialogHolderAddEdit(int layoutId, int[] viewIds, DialogReviewDataEditFragment<T> dialogEdit) {
+    DialogHolderAddEdit(int layoutId, int[] viewIds, DialogReviewDataEditFragment<T>
+            parent) {
         super(layoutId, viewIds);
-        setDialogUI(new DialogUI<T, DialogReviewDataEditFragment<T>>(dialogEdit,
-                getReviewDataEditManager()));
+        mDialogUI = new DialogHolderUI<T, DialogReviewDataEditFragment<T>>(parent,
+                                                                           getReviewDataEditUI());
     }
 
     protected abstract EditText getEditTextForKeyboardAction();
@@ -39,21 +64,26 @@ abstract class DialogHolderAddEdit<T extends GVReviewDataList.GVReviewData> exte
 
     protected abstract T createGVData();
 
-    protected abstract void updateInputs(T fact);
+    protected abstract void updateWithGVData(T data);
 
-    private DialogUI.DialogUIManager<T, DialogReviewDataAddFragment<T>> getReviewDataAddManager
+    @Override
+    protected DialogHolderUI<T, ? extends DialogCancelActionDoneFragment> getDialogHolderUI() {
+        return mDialogUI;
+    }
+
+    private DialogHolderUI.DialogUIUpdater<T, DialogReviewDataAddFragment<T>> getReviewDataAddUI
             (final T nullData) {
-        return new DialogUI.DialogUIManager<T, DialogReviewDataAddFragment<T>>() {
+        return new DialogHolderUI.DialogUIUpdater<T, DialogReviewDataAddFragment<T>>() {
 
             @Override
-            public void initialise(T data, DialogReviewDataAddFragment<T> dialog) {
-                dialog.setKeyboardDoActionOnEditText(getEditTextForKeyboardAction());
+            public void initialise(T data, DialogReviewDataAddFragment<T> parentDialog) {
+                parentDialog.setKeyboardDoActionOnEditText(getEditTextForKeyboardAction());
             }
 
             @Override
-            public void update(T data, DialogReviewDataAddFragment<T> dialog) {
-                updateInputs(nullData);
-                dialog.getDialog().setTitle("+ " + getDialogOnAddTitle(data));
+            public void update(T data, DialogReviewDataAddFragment<T> parentDialog) {
+                updateWithGVData(nullData);
+                parentDialog.getDialog().setTitle("+ " + getDialogOnAddTitle(data));
             }
 
             @Override
@@ -63,19 +93,19 @@ abstract class DialogHolderAddEdit<T extends GVReviewDataList.GVReviewData> exte
         };
     }
 
-    private DialogUI.DialogUIManager<T, DialogReviewDataEditFragment<T>> getReviewDataEditManager
+    private DialogHolderUI.DialogUIUpdater<T, DialogReviewDataEditFragment<T>> getReviewDataEditUI
             () {
-        return new DialogUI.DialogUIManager<T, DialogReviewDataEditFragment<T>>() {
+        return new DialogHolderUI.DialogUIUpdater<T, DialogReviewDataEditFragment<T>>() {
 
             @Override
-            public void initialise(T data, DialogReviewDataEditFragment<T> dialog) {
-                updateInputs(data);
-                dialog.setKeyboardDoDoneOnEditText(getEditTextForKeyboardAction());
-                dialog.setDeleteWhatTitle(getDialogDeleteConfirmTitle(data));
+            public void initialise(T data, DialogReviewDataEditFragment<T> parentDialog) {
+                updateWithGVData(data);
+                parentDialog.setKeyboardDoDoneOnEditText(getEditTextForKeyboardAction());
+                parentDialog.setDeleteWhatTitle(getDialogDeleteConfirmTitle(data));
             }
 
             @Override
-            public void update(T data, DialogReviewDataEditFragment<T> dialog) {
+            public void update(T data, DialogReviewDataEditFragment<T> parentDialog) {
             }
 
             @Override

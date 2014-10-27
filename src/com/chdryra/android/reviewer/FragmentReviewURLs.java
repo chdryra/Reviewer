@@ -16,18 +16,13 @@ import com.chdryra.android.reviewer.GVUrlList.GVUrl;
  * UI Fragment: URLs (currently disabled). Each grid cell shows a URL.
  * <p/>
  * <p>
- * FragmentReviewGrid functionality:
+ * Base class functionality details:
  * <ul>
- * <li>Subject: disabled</li>
- * <li>RatingBar: disabled</li>
- * <li>Banner button: launches ActivityReviewURLBrowser with Google home</li>
- * <li>Grid cell click: launches ActivityReviewURLBrowser with selected link</li>
+ * <li>Banner button: launches {@link ActivityReviewURLBrowser} with Google home</li>
+ * <li>Grid cell click: launches {@link ActivityReviewURLBrowser} with selected link</li>
  * <li>Grid cell long click: same as click</li>
  * </ul>
  * </p>
- *
- * @see com.chdryra.android.reviewer.ActivityReviewURLs
- * @see com.chdryra.android.reviewer.ActivityReviewURLBrowser
  */
 public class FragmentReviewURLs extends FragmentReviewGridAddEdit<GVUrl> {
     public FragmentReviewURLs() {

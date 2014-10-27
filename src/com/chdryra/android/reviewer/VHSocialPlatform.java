@@ -14,9 +14,9 @@ import com.chdryra.android.mygenerallibrary.ViewHolderData;
 import com.chdryra.android.reviewer.GVSocialPlatformList.GVSocialPlatform;
 
 /**
- * ViewHolder: GVSocialPlatform. Shows platform name above, number followers below.
- *
- * @see com.chdryra.android.reviewer.GVSocialPlatformList.GVSocialPlatform
+ * {@link com.chdryra.android.mygenerallibrary.ViewHolder}: {@link GVSocialPlatform}. Shows
+ * platform name
+ * above, number followers below.
  */
 class VHSocialPlatform extends VHDualString {
     private static final int LAYOUT = R.layout.grid_cell_text_dual;
@@ -32,7 +32,7 @@ class VHSocialPlatform extends VHDualString {
         GVSocialPlatform platform = (GVSocialPlatform) data;
         if (platform != null) {
             super.updateView(new VHDDualString(platform.getName(),
-                    String.valueOf(platform.getFollowers())));
+                                               String.valueOf(platform.getFollowers())));
         }
     }
 }

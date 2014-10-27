@@ -11,7 +11,7 @@ package com.chdryra.android.reviewer;
 /**
  * Review Data: rating
  * <p>
- * <code>hasData()</code>: true
+ * {@link #hasData()}: true
  * </p>
  */
 public class RDRating implements RData {

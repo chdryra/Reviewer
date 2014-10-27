@@ -14,12 +14,7 @@ import android.os.Parcelable;
 import com.chdryra.android.mygenerallibrary.ViewHolder;
 
 /**
- * GVReviewDataList: GVComment
- * <p>
- * Includes method for generating split comments GVCommentList from current list.
- * </p>
- *
- * @see com.chdryra.android.reviewer.FragmentReviewComments
+ * Includes method for generating split comments {@link GVCommentList} from current list.
  */
 class GVCommentList extends GVReviewDataList<GVCommentList.GVComment> {
 
@@ -28,14 +23,11 @@ class GVCommentList extends GVReviewDataList<GVCommentList.GVComment> {
     }
 
     /**
-     * GVReviewData version of: RDComment
-     * ViewHolder: VHCommentView
+     * {@link GVReviewData} version of: {@link RDComment}
+     * {@link ViewHolder}: {@link VHComment}
      * <p>
      * Methods for getting the comment headline and for splitting and unsplitting comments.
      * </p>
-     *
-     * @see com.chdryra.android.reviewer.RDComment
-     * @see VHComment
      */
     static class GVComment implements GVReviewDataList.GVReviewData {
         public static final Parcelable.Creator<GVComment> CREATOR = new Parcelable
@@ -112,11 +104,11 @@ class GVCommentList extends GVReviewDataList<GVCommentList.GVComment> {
             GVComment gvComment = (GVComment) o;
 
             if (mComment != null ? !mComment.equals(gvComment.mComment) : gvComment.mComment !=
-                    null) {
+                                                                          null) {
                 return false;
             }
             if (mUnsplitParent != null ? !mUnsplitParent.equals(gvComment.mUnsplitParent) :
-                    gvComment.mUnsplitParent != null) {
+                gvComment.mUnsplitParent != null) {
                 return false;
             }
 

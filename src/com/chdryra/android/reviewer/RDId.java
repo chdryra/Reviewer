@@ -17,7 +17,7 @@ import java.util.UUID;
  * </p>
  * <p/>
  * <p>
- * <code>hasData()</code>: true
+ * {@link #hasData()}: true
  * </p>
  * <p/>
  * //TODO There's a reason couldn't use holding review but can't remember. Find out.

@@ -19,7 +19,7 @@ import com.google.android.gms.maps.model.LatLng;
  * </p>
  * <p/>
  * <p>
- * <code>hasData()</code>: non-null bitmap.
+ * {@link #hasData()}: non-null bitmap.
  * </p>
  */
 class RDImage implements RData {

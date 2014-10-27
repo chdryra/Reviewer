@@ -17,8 +17,8 @@ import java.util.Date;
  */
 
 /**
- * A non-editable and non-expandable ReviewNode wrapper for another node that guarantees no more
- * editing or expanding of the node. Has the same RDId as the wrapped node.
+ * A non-editable and non-expandable {@link ReviewNode} wrapper for another node that guarantees no
+ * more editing or expanding of the node. Has the same {@link RDId} as the wrapped node.
  * <p/>
  * <p>
  * Primarily used as a publishing wrapper to add an author and date stamp to an editable
@@ -26,8 +26,9 @@ import java.util.Date;
  * </p>
  * <p/>
  * <p>
- * Although a ReviewTree is unchangeable it may still be wrapped by another ReviewNodeExpandable,
- * thus acting as a fixed, published component of a new review tree with its own RDId.
+ * Although a ReviewTree is unchangeable it may still be wrapped by another
+ * {@link ReviewNodeExpandable},
+ * thus acting as a fixed, published component of a new review tree with its own {@link RDId}.
  * </p>
  */
 class ReviewTree implements ReviewNode {

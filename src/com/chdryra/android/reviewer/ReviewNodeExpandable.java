@@ -15,7 +15,7 @@ package com.chdryra.android.reviewer;
  */
 
 /**
- * Extends ReviewNode to allow children to be added/removed and parents to be assigned.
+ * Extends {@link ReviewNode} to allow children to be added/removed and parents to be assigned.
  */
 public interface ReviewNodeExpandable extends ReviewNode {
     void setParent(ReviewNodeExpandable parentNode);

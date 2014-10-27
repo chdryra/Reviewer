@@ -11,9 +11,7 @@ package com.chdryra.android.reviewer;
 import com.chdryra.android.mygenerallibrary.ViewHolderData;
 
 /**
- * Expands on ControllerReview to include the ReviewNode interface.
- *
- * @see com.chdryra.android.reviewer.ReviewNode
+ * Expands on {@link ControllerReview} to include the {@link ReviewNode} interface.
  */
 class ControllerReviewNode extends ControllerReview<ReviewNode> {
     protected ControllerReviewCollection<ReviewNode> mChildrenController;

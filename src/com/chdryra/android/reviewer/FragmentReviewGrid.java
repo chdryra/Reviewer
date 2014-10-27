@@ -36,12 +36,12 @@ import com.chdryra.android.reviewer.GVImageList.GVImage;
 import com.chdryra.android.reviewer.GVReviewDataList.GVType;
 
 /**
- * UI Fragment: base class for all the review data interaction UIs. Knows how to present GVData
- * in a GVReviewDataLists as grid cells in a GridView.
+ * UI Fragment: base class for all the review data interaction UIs. Knows how to present a
+ * {@link GVReviewDataList} as grid cells in a GridView.
  * <p/>
  * <p>
  * Constructed out of 5 UI components that are populated by data from a
- * ControllerReviewTreeEditable:
+ * {@link ControllerReviewTreeEditable}:
  * <ul>
  * <li>EditText/TextView: displaying/editing review subject.</li>
  * <li>RatingBar: displaying/editing the review rating.</li>
@@ -58,7 +58,7 @@ import com.chdryra.android.reviewer.GVReviewDataList.GVType;
  * methods that govern actions to perform on user interaction.
  * </p>
  *
- * @param <T>: type of GVData to display.
+ * @param <T>: {@link com.chdryra.android.reviewer.GVReviewDataList.GVReviewData} type to display.
  */
 
 //TODO abstract FragmentReviewGrid into data-editing and data-viewing versions.
@@ -82,7 +82,7 @@ public abstract class FragmentReviewGrid<T extends GVReviewDataList> extends Fra
     private GridViewImageAlpha mGridViewImageAlpha = GridViewImageAlpha.MEDIUM;
 
     /**
-     * Settings for GridView transpareny with respect to background image.
+     * Settings for GridView transparency with respect to background image.
      */
     public enum GridViewImageAlpha {
         TRANSPARENT(0),
@@ -301,7 +301,7 @@ public abstract class FragmentReviewGrid<T extends GVReviewDataList> extends Fra
 
     GridViewCellAdapter getGridViewCellAdapter() {
         return new GridViewCellAdapter(getActivity(), mGridData, getGridCellWidth(),
-                getGridCellHeight());
+                                       getGridCellHeight());
     }
 
     int getGridCellWidth() {

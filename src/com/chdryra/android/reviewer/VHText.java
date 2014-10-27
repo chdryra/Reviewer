@@ -11,10 +11,11 @@ package com.chdryra.android.reviewer;
 import com.chdryra.android.mygenerallibrary.VHString;
 
 /**
- * Simple ViewHolder for displaying strings on a grid cell.
+ * Simple {@link com.chdryra.android.mygenerallibrary.ViewHolder} for displaying strings on a
+ * grid cell.
  * <p/>
  * <p>
- * Just VHStringView using a package-specific XML layout for separation and encapsulation
+ * Just {@link VHString} using a package-specific XML layout for separation and encapsulation
  * purposes.
  * </p>
  */
