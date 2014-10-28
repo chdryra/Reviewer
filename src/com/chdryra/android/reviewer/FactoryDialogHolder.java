@@ -30,7 +30,7 @@ import java.util.HashMap;
 class FactoryDialogHolder {
     private static final String TAG = "FactoryDialogHolder";
     private static FactoryDialogHolder                               sFactory;
-    private        HashMap<GVType, Class<? extends ViewHolderUI<?>>> mDHClassesMap;
+    private final  HashMap<GVType, Class<? extends ViewHolderUI<?>>> mDHClassesMap;
 
     private FactoryDialogHolder() {
         mDHClassesMap = new HashMap<GVType, Class<? extends ViewHolderUI<?>>>();
@@ -50,6 +50,7 @@ class FactoryDialogHolder {
                                                              (DialogReviewDataAddFragment.class);
 
             try {
+                //TODO make type safe
                 return (ViewHolderUI<T>) ctor.newInstance(dialog);
             } catch (InstantiationException e) {
                 Log.e(TAG, "Problem constructing ReviewDataAdd dialog for " + dialog.getGVType()
@@ -78,6 +79,7 @@ class FactoryDialogHolder {
                                                      .getDeclaredConstructor
                                                              (DialogReviewDataEditFragment.class);
             try {
+                //TODO make type safe
                 return (ViewHolderUI<T>) ctor.newInstance(dialog);
             } catch (InstantiationException e) {
                 Log.e(TAG, "Problem constructing edit dialog for " + dialog.getGVType()

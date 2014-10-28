@@ -85,12 +85,9 @@ class GVLocationList extends GVReviewDataList<GVLocationList.GVLocation> {
 
             GVLocation that = (GVLocation) o;
 
-            if (mLatLng != null ? !mLatLng.equals(that.mLatLng) : that.mLatLng != null) {
-                return false;
-            }
-            if (mName != null ? !mName.equals(that.mName) : that.mName != null) return false;
+            return !(mLatLng != null ? !mLatLng.equals(that.mLatLng) : that.mLatLng != null) && !
+                    (mName != null ? !mName.equals(that.mName) : that.mName != null);
 
-            return true;
         }
 
         @Override
@@ -114,9 +111,5 @@ class GVLocationList extends GVReviewDataList<GVLocationList.GVLocation> {
 
     void add(LatLng latLng, String name) {
         add(new GVLocation(latLng, name));
-    }
-
-    void remove(LatLng latLng, String name) {
-        remove(new GVLocation(latLng, name));
     }
 }

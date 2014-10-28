@@ -11,7 +11,6 @@ package com.chdryra.android.reviewer;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.chdryra.android.mygenerallibrary.DialogCancelDeleteDoneFragment;
 
@@ -36,20 +35,39 @@ import com.chdryra.android.mygenerallibrary.DialogCancelDeleteDoneFragment;
  * </ul>
  * </p>
  */
-public abstract class DialogReviewDataEditFragment<T extends GVReviewDataList.GVReviewData> extends
-                                                                                            DialogCancelDeleteDoneFragment implements ReviewDataEditor<T> {
-    protected InputHandlerReviewData<T> mHandler;
-    private   GVReviewDataList.GVType   mDataType;
-    private   T                         mDatum;
-    private   ViewHolderUI<T>           mDialogHolder;
-    private   ReviewDataEditListener<T> mListener;
+public abstract class DialogReviewDataEditFragment<T extends GVReviewDataList.GVReviewData>
+        extends DialogCancelDeleteDoneFragment implements ReviewDataUI {
 
-    protected DialogReviewDataEditFragment(GVReviewDataList.GVType dataType) {
-        mDataType = dataType;
-        mHandler = new InputHandlerReviewData<T>(mDataType);
+
+    private final InputHandlerReviewData<T> mHandler;
+    private final GVReviewDataList.GVType   mDataType;
+    private       T                         mDatum;
+    private       ViewHolderUI<T>           mDialogHolder;
+    private       ReviewDataEditListener<T> mListener;
+
+    DialogReviewDataEditFragment(GVReviewDataList.GVType dataType) {
+        this(dataType, new InputHandlerReviewData<T>(dataType));
     }
 
-    protected View createDialogUI(ViewGroup parent) {
+    DialogReviewDataEditFragment(GVReviewDataList.GVType dataType,
+                                 InputHandlerReviewData<T> handler) {
+        mDataType = dataType;
+        mHandler = handler;
+    }
+
+    /**
+     * Provides a callback that can be called delete or done buttons are pressed.
+     *
+     * @param <T>:{@link com.chdryra.android.reviewer.GVReviewDataList.GVReviewData} type
+     */
+    public interface ReviewDataEditListener<T extends GVReviewDataList.GVReviewData> {
+        void onReviewDataDelete(T data);
+
+        void onReviewDataEdit(T oldDatum, T newDatum);
+    }
+
+    @Override
+    protected View createDialogUI() {
         mDialogHolder.inflate(getActivity());
         mDialogHolder.initialiseView(getDatum());
 
@@ -65,6 +83,7 @@ public abstract class DialogReviewDataEditFragment<T extends GVReviewDataList.GV
         mDialogHolder = FactoryDialogHolder.newDialogHolder(this);
 
         try {
+            //TODO make type safe
             mListener = (ReviewDataEditListener<T>) getTargetFragment();
         } catch (ClassCastException e) {
             throw new ClassCastException(getTargetFragment().toString() + " must implement " +
@@ -77,7 +96,7 @@ public abstract class DialogReviewDataEditFragment<T extends GVReviewDataList.GV
 
     @Override
     protected void onDeleteButtonClick() {
-        reviewDataDelete(mListener, createGVData());
+        mListener.onReviewDataDelete(createGVDataFromInputs());
     }
 
     @Override
@@ -91,18 +110,8 @@ public abstract class DialogReviewDataEditFragment<T extends GVReviewDataList.GV
     }
 
     @Override
-    public void reviewDataDelete(ReviewDataEditListener<T> listener, T data) {
-        listener.onReviewDataDelete(data);
-    }
-
-    @Override
-    public void reviewDataEdit(ReviewDataEditListener<T> listener, T oldDatum, T newDatum) {
-        listener.onReviewDataEdit(oldDatum, newDatum);
-    }
-
-    @Override
     protected void onDoneButtonClick() {
-        reviewDataEdit(mListener, mDatum, createGVData());
+        mListener.onReviewDataEdit(mDatum, createGVDataFromInputs());
     }
 
     @Override
@@ -110,15 +119,15 @@ public abstract class DialogReviewDataEditFragment<T extends GVReviewDataList.GV
         return null;
     }
 
-    protected T createGVData() {
+    T createGVDataFromInputs() {
         return mDialogHolder.getGVData();
     }
 
-    protected GVReviewDataList.GVType getGVType() {
+    GVReviewDataList.GVType getGVType() {
         return mDataType;
     }
 
-    protected T getDatum() {
+    T getDatum() {
         return mDatum;
     }
 }

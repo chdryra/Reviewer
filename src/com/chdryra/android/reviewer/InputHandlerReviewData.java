@@ -37,7 +37,7 @@ class InputHandlerReviewData<T extends GVReviewDataList.GVReviewData> {
         CURRENT(DATUM_CURRENT),
         NEW(DATUM_NEW);
 
-        private String mTag;
+        private final String mTag;
 
         CurrentNewDatum(String tag) {
             mTag = tag;

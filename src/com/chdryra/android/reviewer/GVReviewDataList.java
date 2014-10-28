@@ -36,7 +36,7 @@ import com.chdryra.android.mygenerallibrary.ViewHolderData;
  */
 abstract class GVReviewDataList<T extends GVReviewDataList.GVReviewData> extends VHDataList<T> {
 
-    protected GVType mDataType;
+    private final GVType mDataType;
 
     /**
      * Enum that enumerates and labels the type of review data that will be viewable on a GridView

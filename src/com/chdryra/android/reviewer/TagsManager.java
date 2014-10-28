@@ -35,7 +35,7 @@ class TagsManager {
         return sInstance;
     }
 
-    static ReviewTagCollection getTags() {
+    private static ReviewTagCollection getTags() {
         return getManager().mTags;
     }
 
@@ -50,9 +50,9 @@ class TagsManager {
         return tags;
     }
 
-    static void tag(Review review, ArrayList<String> tags) {
-        for (String tag : tags) {
-            getManager().tag(review, tag);
+    static void tag(Review review, GVTagList tags) {
+        for (GVTagList.GVTag tag : tags) {
+            getManager().tag(review, tag.get());
         }
     }
 
@@ -139,8 +139,8 @@ class TagsManager {
             public void remove() {
                 if (position <= 0) {
                     throw new IllegalStateException("Have to do at least one next() before you " +
-                            "can " +
-                            "delete");
+                                                    "can " +
+                                                    "delete");
                 } else {
                     ReviewTagCollection.this.remove(getItem(position));
                 }

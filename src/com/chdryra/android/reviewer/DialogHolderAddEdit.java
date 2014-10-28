@@ -10,8 +10,6 @@ package com.chdryra.android.reviewer;
 
 import android.widget.EditText;
 
-import com.chdryra.android.mygenerallibrary.DialogCancelActionDoneFragment;
-
 /**
  * Created by: Rizwan Choudrey
  * On: 21/10/2014
@@ -39,7 +37,7 @@ import com.chdryra.android.mygenerallibrary.DialogCancelActionDoneFragment;
 abstract class DialogHolderAddEdit<T extends GVReviewDataList.GVReviewData> extends
                                                                             DialogHolder<T> {
 
-    private DialogHolderUI<T, ? extends DialogCancelActionDoneFragment> mDialogUI;
+    private final GVReviewDataUI<T> mDialogUI;
 
     DialogHolderAddEdit(int layoutId, int[] viewIds, DialogReviewDataAddFragment<T> parent,
                         final T nullData) {
@@ -67,7 +65,7 @@ abstract class DialogHolderAddEdit<T extends GVReviewDataList.GVReviewData> exte
     protected abstract void updateWithGVData(T data);
 
     @Override
-    protected DialogHolderUI<T, ? extends DialogCancelActionDoneFragment> getDialogHolderUI() {
+    protected GVReviewDataUI<T> getGVReviewDataUI() {
         return mDialogUI;
     }
 

@@ -18,11 +18,9 @@ import com.google.android.gms.maps.model.LatLng;
  */
 class RDLocation implements RData {
     static final String LOCATION_DELIMITER = ",|";
-
-    private Review mHoldingReview;
-
-    private LatLng mLatLng;
-    private String mName;
+    private final LatLng mLatLng;
+    private final String mName;
+    private       Review mHoldingReview;
 
     RDLocation(LatLng latLng, String name, Review holdingReview) {
         mLatLng = latLng;

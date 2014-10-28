@@ -64,7 +64,8 @@ import org.json.JSONException;
  * </p>
  */
 public class FragmentReviewLocationMap extends FragmentDeleteDone implements
-        LocationClientConnector.Locatable {
+                                                                  LocationClientConnector
+                                                                          .Locatable {
     private final static String TAG                  = "FragmentReviewLocationMap";
     private static final int    DEFAULT_ZOOM         = 15;
     private static final int    NUMBER_DEFAULT_NAMES = 5;
@@ -99,7 +100,7 @@ public class FragmentReviewLocationMap extends FragmentDeleteDone implements
                 return FetcherPlacesAPI.fetchLatLng(params[0]);
             } catch (JSONException e) {
                 Toast.makeText(getActivity(), getResources().getString(R.string
-                        .toast_map_search_failed), Toast.LENGTH_SHORT).show();
+                                                                               .toast_map_search_failed), Toast.LENGTH_SHORT).show();
                 return null;
             }
         }
@@ -138,7 +139,7 @@ public class FragmentReviewLocationMap extends FragmentDeleteDone implements
         super.onCreate(savedInstanceState);
 
         mHandler = new InputHandlerReviewData<GVLocationList.GVLocation>(GVReviewDataList.GVType
-                .LOCATIONS);
+                                                                                 .LOCATIONS);
 
         Bundle args = ReviewDataUILauncher.getArgsForActivity(getActivity());
         if (args != null) {
@@ -152,7 +153,7 @@ public class FragmentReviewLocationMap extends FragmentDeleteDone implements
         MapsInitializer.initialize(getActivity());
 
         setDeleteWhatTitle(mHandler.getGVType().getDatumString());
-        setDismissOnDelete(true);
+        dismissOnDelete();
     }
 
     @Override
@@ -167,7 +168,7 @@ public class FragmentReviewLocationMap extends FragmentDeleteDone implements
         mMapView.onCreate(savedInstanceState);
         mGoogleMap = ((MapView) v.findViewById(R.id.mapView)).getMap();
         mLocationName = (ClearableAutoCompleteTextView) v.findViewById(R.id
-                .edit_text_name_location);
+                                                                               .edit_text_name_location);
         mRevertButton = (ImageButton) v.findViewById(R.id.revert_location_image_button);
 
         initUI();
@@ -184,11 +185,11 @@ public class FragmentReviewLocationMap extends FragmentDeleteDone implements
         mSearchViewMenuItem = menu.findItem(R.id.menu_item_search);
 
         SearchManager searchManager = (SearchManager) getActivity().getSystemService(Context
-                .SEARCH_SERVICE);
+                                                                                             .SEARCH_SERVICE);
 
         mSearchView = (SearchView) mSearchViewMenuItem.getActionView();
         mSearchView.setSearchableInfo(searchManager.getSearchableInfo(getActivity()
-                .getComponentName()));
+                                                                              .getComponentName()));
         mSearchView.setIconifiedByDefault(false);
         mSearchView.setQueryHint(getResources().getString(R.string.search_view_location_hint));
         mSearchView.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
@@ -235,7 +236,7 @@ public class FragmentReviewLocationMap extends FragmentDeleteDone implements
     @Override
     protected void onDeleteSelected() {
         mHandler.pack(InputHandlerReviewData.CurrentNewDatum.CURRENT, mCurrent,
-                getNewReturnDataIntent());
+                      getNewReturnDataIntent());
     }
 
     @Override
@@ -382,7 +383,7 @@ public class FragmentReviewLocationMap extends FragmentDeleteDone implements
         String[] from = {SearchManager.SUGGEST_COLUMN_INTENT_DATA};
         int[] to = {android.R.id.text1};
         return new SimpleCursorAdapter(getActivity(), android.R.layout.simple_list_item_1,
-                suggestions_cursor, from, to, 0);
+                                       suggestions_cursor, from, to, 0);
     }
 
     @Override
@@ -407,9 +408,10 @@ public class FragmentReviewLocationMap extends FragmentDeleteDone implements
         if (mLocationName != null) {
             mLocationName.setText(null);
             String primaryDefaultSuggestion = mSearchLocationName != null ? mSearchLocationName :
-                    null;
+                                              null;
             mLocationName.setAdapter(new LocationNameAdapter(getActivity(), mNewLatLng,
-                    NUMBER_DEFAULT_NAMES, primaryDefaultSuggestion));
+                                                             NUMBER_DEFAULT_NAMES,
+                                                             primaryDefaultSuggestion));
         }
 
         zoomToLatLng();
@@ -421,7 +423,7 @@ public class FragmentReviewLocationMap extends FragmentDeleteDone implements
         }
 
         mGoogleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(mNewLatLng,
-                (float) FragmentReviewLocationMap.DEFAULT_ZOOM));
+                                                                   (float) FragmentReviewLocationMap.DEFAULT_ZOOM));
         updateMapMarker();
     }
 

@@ -23,7 +23,7 @@ import java.util.HashMap;
 /**
  * Defines the adder, editor and display UIs to use with each data type.
  */
-public class ConfigAddEditDisplay {
+class ConfigAddEditDisplay {
     private static ConfigAddEditDisplay               sConfig;
     private final  HashMap<GVType, AddEditDisplayUIs> mDialogAddEditMap;
 
@@ -106,8 +106,7 @@ public class ConfigAddEditDisplay {
                                  DialogReviewDataAddFragment<GVReviewSubjectRatingList
                                          .GVReviewSubjectRating> {
         public AddChild() {
-            super(GVType.CHILDREN);
-            mHandler = new InputHandlerChildren();
+            super(new InputHandlerChildren());
         }
     }
 
@@ -137,8 +136,7 @@ public class ConfigAddEditDisplay {
     public static class EditChild extends DialogReviewDataEditFragment<GVReviewSubjectRatingList
             .GVReviewSubjectRating> {
         public EditChild() {
-            super(GVType.CHILDREN);
-            mHandler = new InputHandlerChildren();
+            super(GVType.CHILDREN, new InputHandlerChildren());
         }
     }
 
@@ -167,9 +165,9 @@ public class ConfigAddEditDisplay {
      * Packages together an add, edit and display UI.
      */
     class AddEditDisplayUIs {
-        private Class<? extends ReviewDataUI> mAdd;
-        private Class<? extends ReviewDataUI> mEdit;
-        private Class<? extends Activity>     mActivity;
+        private final Class<? extends ReviewDataUI> mAdd;
+        private final Class<? extends ReviewDataUI> mEdit;
+        private final Class<? extends Activity>     mActivity;
 
         private AddEditDisplayUIs(Class<? extends ReviewDataUI> add,
                                   Class<? extends ReviewDataUI> edit,

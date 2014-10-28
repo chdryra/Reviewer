@@ -20,21 +20,21 @@ import java.util.Map;
 /**
  * Encapsulates the range of dialogs and activities available to return to the user when the user
  * chooses to add, edit or display the data.
- *
+ * <p/>
  * <p>
- *     Retrieves relevant add, edit and display UIs for each {@link com.chdryra.android.reviewer
- *     .GVReviewDataList.GVType} from {@link com.chdryra.android.reviewer.ConfigAddEditDisplay}
- *     and packages them with request codes and tags so that they can be appropriately launched
- *     by whichever UI needs them in response to a user interaction.
+ * Retrieves relevant add, edit and display UIs for each {@link com.chdryra.android.reviewer
+ * .GVReviewDataList.GVType} from {@link com.chdryra.android.reviewer.ConfigAddEditDisplay}
+ * and packages them with request codes and tags so that they can be appropriately launched
+ * by whichever UI needs them in response to a user interaction.
  * </p>
  *
  * @see com.chdryra.android.reviewer.FragmentReviewBuild;
  */
 class ConfigReviewDataUI {
     private final static String TAG             = "ConfigReviewDataUI";
-    private final static int DATA_ADD        = 0;
-    private final static int DATA_EDIT       = 1;
-    private static       int REQUEST_COUNTER = 2;
+    private final static int    DATA_ADD        = 0;
+    private final static int    DATA_EDIT       = 1;
+    private static       int    REQUEST_COUNTER = 2;
     private static ConfigReviewDataUI sConfigReviewDataUI;
 
     private final Map<GVType, Config> mConfigsMap = new HashMap<GVType, Config>();
@@ -94,10 +94,6 @@ class ConfigReviewDataUI {
             mDisplayConfig = initDisplayConfig();
         }
 
-        GVType getGVType() {
-            return mDataType;
-        }
-
         ReviewDataUIConfig getAdderConfig() {
             return mAddConfig;
         }
@@ -123,8 +119,7 @@ class ConfigReviewDataUI {
         }
 
         private ReviewDataDisplayConfig initDisplayConfig() {
-            REQUEST_COUNTER = REQUEST_COUNTER + 10;
-            return new ReviewDataDisplayConfig(mDataType, REQUEST_COUNTER);
+            return new ReviewDataDisplayConfig(mDataType, REQUEST_COUNTER++);
         }
     }
 
@@ -176,9 +171,9 @@ class ConfigReviewDataUI {
      * Encapsulates a configuration for displaying review data of a certain
      * {@link com.chdryra.android.reviewer.GVReviewDataList.GVType}. Packages together:
      * <ul>
-     *     <li>An activity class for displaying a collection of review data of a certain
+     * <li>An activity class for displaying a collection of review data of a certain
      * type</li>
-     *     <li>An integer request code (required when one activity launches another)</li>
+     * <li>An integer request code (required when one activity launches another)</li>
      * </ul>
      * The display activity is accessed by requesting an Intent object which can be used to start
      * activities via, for example, <code>startActivityForResult(.)</code> etc.
@@ -190,10 +185,6 @@ class ConfigReviewDataUI {
         private ReviewDataDisplayConfig(GVType dataType, int requestCode) {
             mDataType = dataType;
             mRequestCode = requestCode;
-        }
-
-        GVType getGVType() {
-            return mDataType;
         }
 
         Intent requestIntent(Context context) {

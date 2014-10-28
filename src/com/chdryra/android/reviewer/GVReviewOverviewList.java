@@ -81,10 +81,6 @@ class GVReviewOverviewList extends GVReviewDataList<GVReviewOverviewList.GVRevie
             mPublishDate = (Date) in.readSerializable();
         }
 
-        String getId() {
-            return mId;
-        }
-
         String getSubject() {
             return mSubject;
         }
@@ -124,54 +120,6 @@ class GVReviewOverviewList extends GVReviewDataList<GVReviewOverviewList.GVRevie
                    && mAuthor != null && mAuthor.length() > 0 && mPublishDate != null;
         }
 
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) return true;
-            if (!(o instanceof GVReviewOverview)) return false;
-
-            GVReviewOverview overview = (GVReviewOverview) o;
-
-            if (Float.compare(overview.mRating, mRating) != 0) return false;
-            if (mAuthor != null ? !mAuthor.equals(overview.mAuthor) : overview.mAuthor != null) {
-                return false;
-            }
-            if (mCoverImage != null ? !mCoverImage.equals(overview.mCoverImage) : overview
-                                                                                          .mCoverImage != null) {
-                return false;
-            }
-            if (mHeadline != null ? !mHeadline.equals(overview.mHeadline) : overview.mHeadline !=
-                                                                            null) {
-                return false;
-            }
-            if (mId != null ? !mId.equals(overview.mId) : overview.mId != null) return false;
-            if (mLocationName != null ? !mLocationName.equals(overview.mLocationName) : overview
-                                                                                                .mLocationName != null) {
-                return false;
-            }
-            if (mPublishDate != null ? !mPublishDate.equals(overview.mPublishDate) : overview
-                                                                                             .mPublishDate != null) {
-                return false;
-            }
-            if (mSubject != null ? !mSubject.equals(overview.mSubject) : overview.mSubject !=
-                                                                         null) {
-                return false;
-            }
-
-            return true;
-        }
-
-        @Override
-        public int hashCode() {
-            int result = mId != null ? mId.hashCode() : 0;
-            result = 31 * result + (mSubject != null ? mSubject.hashCode() : 0);
-            result = 31 * result + (mRating != +0.0f ? Float.floatToIntBits(mRating) : 0);
-            result = 31 * result + (mCoverImage != null ? mCoverImage.hashCode() : 0);
-            result = 31 * result + (mHeadline != null ? mHeadline.hashCode() : 0);
-            result = 31 * result + (mLocationName != null ? mLocationName.hashCode() : 0);
-            result = 31 * result + (mAuthor != null ? mAuthor.hashCode() : 0);
-            result = 31 * result + (mPublishDate != null ? mPublishDate.hashCode() : 0);
-            return result;
-        }
 
         @Override
         public int describeContents() {
@@ -202,10 +150,6 @@ class GVReviewOverviewList extends GVReviewDataList<GVReviewOverviewList.GVRevie
     boolean contains(String id) {
         GVReviewOverview review = new GVReviewOverview(id);
         return contains(review);
-    }
-
-    void remove(String id) {
-        remove(new GVReviewOverview(id));
     }
 
     @Override

@@ -20,9 +20,6 @@ import java.util.NoSuchElementException;
 class RCollection<T> implements Iterable<T> {
     private final LinkedHashMap<RDId, T> mData = new LinkedHashMap<RDId, T>();
 
-    RCollection() {
-    }
-
     class CollectionIterator implements Iterator<T> {
         int position = 0;
 
@@ -51,27 +48,27 @@ class RCollection<T> implements Iterable<T> {
         }
     }
 
-    public void put(RDId id, T t) {
+    void put(RDId id, T t) {
         if (!containsId(id)) {
             mData.put(id, t);
         }
     }
 
-    public boolean containsId(RDId id) {
+    boolean containsId(RDId id) {
         return mData.containsKey(id);
     }
 
-    public void add(RCollection<T> items) {
+    void add(RCollection<T> items) {
         mData.putAll(items.mData);
     }
 
-    public void remove(RDId id) {
+    void remove(RDId id) {
         if (containsId(id)) {
             mData.remove(id);
         }
     }
 
-    public int size() {
+    int size() {
         return mData.size();
     }
 
@@ -79,7 +76,7 @@ class RCollection<T> implements Iterable<T> {
         return get(getId(position));
     }
 
-    public T get(RDId id) {
+    T get(RDId id) {
         return mData.get(id);
     }
 

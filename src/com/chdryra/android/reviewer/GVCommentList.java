@@ -103,16 +103,11 @@ class GVCommentList extends GVReviewDataList<GVCommentList.GVComment> {
 
             GVComment gvComment = (GVComment) o;
 
-            if (mComment != null ? !mComment.equals(gvComment.mComment) : gvComment.mComment !=
-                                                                          null) {
-                return false;
-            }
-            if (mUnsplitParent != null ? !mUnsplitParent.equals(gvComment.mUnsplitParent) :
-                gvComment.mUnsplitParent != null) {
-                return false;
-            }
+            return !(mComment != null ? !mComment.equals(gvComment.mComment) : gvComment.mComment
+                                                                               != null) && !
+                           (mUnsplitParent != null ? !mUnsplitParent.equals(gvComment
+                                                                                    .mUnsplitParent) : gvComment.mUnsplitParent != null);
 
-            return true;
         }
 
         @Override

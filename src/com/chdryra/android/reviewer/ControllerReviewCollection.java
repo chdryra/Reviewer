@@ -22,20 +22,20 @@ import java.util.HashMap;
  * Similar to {@link ControllerReview} but for {@link RCollectionReview} data.
  */
 class ControllerReviewCollection<T extends Review> {
-    protected RCollectionReview<T>              mReviews;
-    protected HashMap<String, ControllerReview> mControllers;
+    private RCollectionReview<T>              mReviews;
+    private HashMap<String, ControllerReview> mControllers;
 
     ControllerReviewCollection(RCollectionReview<T> reviews) {
         reinitialise(reviews);
     }
 
-    protected void reinitialise(RCollectionReview<T> reviews) {
+    void reinitialise(RCollectionReview<T> reviews) {
         mReviews = reviews;
         mControllers = new HashMap<String, ControllerReview>();
     }
 
-    int size() {
-        return mReviews.size();
+    void addReview(T review) {
+        mReviews.add(review);
     }
 
     GVReviewSubjectRatingList getGridViewableData() {

@@ -22,11 +22,11 @@ package com.chdryra.android.reviewer;
  * @see com.chdryra.android.reviewer.ReviewTree
  */
 class ReviewUserEditable extends ReviewEditable {
-    private ReviewNode mNode;
+    private final ReviewNode mNode;
 
-    private RDId      mID;
-    private RDSubject mSubject;
-    private RDRating  mRating;
+    private final RDId      mID;
+    private       RDSubject mSubject;
+    private       RDRating  mRating;
 
     private RDList<RDComment>  mComments;
     private RDList<RDImage>    mImages;

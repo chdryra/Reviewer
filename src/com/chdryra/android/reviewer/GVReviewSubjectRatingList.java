@@ -41,7 +41,7 @@ class GVReviewSubjectRatingList extends GVReviewDataList<GVReviewSubjectRatingLi
             }
         };
         private final String mSubject;
-        private       float  mRating;
+        private final float  mRating;
 
         GVReviewSubjectRating(String subject, float rating) {
             mSubject = subject;
@@ -61,10 +61,6 @@ class GVReviewSubjectRatingList extends GVReviewDataList<GVReviewSubjectRatingLi
             return mRating;
         }
 
-        void setRating(float rating) {
-            mRating = rating;
-        }
-
         @Override
         public ViewHolder getViewHolder() {
             return new VHReviewNodeSubjectRating();
@@ -82,8 +78,8 @@ class GVReviewSubjectRatingList extends GVReviewDataList<GVReviewSubjectRatingLi
 
             GVReviewSubjectRating that = (GVReviewSubjectRating) o;
 
-            if (Float.compare(that.mRating, mRating) != 0) return false;
-            return !(mSubject != null ? !mSubject.equals(that.mSubject) : that.mSubject != null);
+            return Float.compare(that.mRating, mRating) == 0 && !(mSubject != null ? !mSubject
+                    .equals(that.mSubject) : that.mSubject != null);
 
         }
 

@@ -12,7 +12,6 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
@@ -31,7 +30,7 @@ import com.google.android.gms.maps.model.LatLng;
  * up with autocomplete suggestions as user types name.
  */
 public class DialogLocationFragment extends DialogCancelActionDoneFragment implements Locatable,
-        ReviewDataUI {
+                                                                                      ReviewDataUI {
     public static final ActionType RESULT_MAP = ActionType.OTHER;
 
     private ControllerReviewEditable mController;
@@ -42,7 +41,7 @@ public class DialogLocationFragment extends DialogCancelActionDoneFragment imple
     private LocationNameAdapter      mAdapter;
 
     @Override
-    protected View createDialogUI(ViewGroup parent) {
+    protected View createDialogUI() {
         View v = getActivity().getLayoutInflater().inflate(R.layout.dialog_location, null);
         mNameEditText = (ClearableEditText) v.findViewById(R.id.location_edit_text);
 
@@ -110,7 +109,7 @@ public class DialogLocationFragment extends DialogCancelActionDoneFragment imple
         InputHandlerReviewData<GVLocation> handler = new InputHandlerReviewData<GVLocation>
                 (GVType.LOCATIONS);
         handler.pack(InputHandlerReviewData.CurrentNewDatum.NEW, createGVData(),
-                createNewReturnData());
+                     createNewReturnData());
     }
 
     @Override
@@ -123,7 +122,7 @@ public class DialogLocationFragment extends DialogCancelActionDoneFragment imple
         }
     }
 
-    protected GVLocation createGVData() {
+    GVLocation createGVData() {
         return new GVLocation(mLatLng, mNameEditText.getText().toString().trim());
     }
 

@@ -11,7 +11,6 @@ package com.chdryra.android.reviewer;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.chdryra.android.mygenerallibrary.DialogCancelAddDoneFragment;
 import com.chdryra.android.reviewer.GVReviewDataList.GVType;
@@ -34,9 +33,7 @@ import com.chdryra.android.reviewer.GVReviewDataList.GVType;
  * </p>
  * <p>
  * By default the dialog won't add any data to reviews. It is assumed that data is updated using
- * the {@link com.chdryra.android.reviewer.ReviewDataAdder#reviewDataAdd(ReviewDataAddListener,
- * com.chdryra.android.reviewer.GVReviewDataList.GVReviewData)} method to callback to the {@link
- * com.chdryra.android.reviewer.ReviewDataAddListener} that commissioned the dialog.
+ * a callback to the commissioning fragment.
  * It is then up to that fragment/activity to decide what to do
  * with the entered data. However, if the QUICK_SET boolean in the dialog arguments is set to
  * true, the dialog will validate using an {@link com.chdryra.android.reviewer
@@ -44,20 +41,34 @@ import com.chdryra.android.reviewer.GVReviewDataList.GVType;
  * the arguments by the Administrator.
  * </p>
  */
-public abstract class DialogReviewDataAddFragment<T extends GVReviewDataList.GVReviewData> extends
-                                                                                           DialogCancelAddDoneFragment implements ReviewDataAdder<T> {
+public abstract class DialogReviewDataAddFragment<T extends GVReviewDataList.GVReviewData>
+        extends DialogCancelAddDoneFragment implements ReviewDataUI {
+
     public static final String QUICK_SET = "com.chdryra.android.reviewer.dialog_quick_mode";
 
-    protected InputHandlerReviewData<T> mHandler;
-    private   ControllerReviewEditable  mController;
-    private   GVReviewDataList<T>       mData;
-    private   ViewHolderUI<T>           mDialogHolder;
-    private   ReviewDataAddListener<T>  mAddListener;
+    private final InputHandlerReviewData<T> mHandler;
+    private       ControllerReviewEditable  mController;
+    private       GVReviewDataList<T>       mData;
+    private       ViewHolderUI<T>           mDialogHolder;
+    private       ReviewDataAddListener<T>  mAddListener;
 
     private boolean mQuickSet = false;
 
-    protected DialogReviewDataAddFragment(GVType dataType) {
-        mHandler = new InputHandlerReviewData<T>(dataType);
+    DialogReviewDataAddFragment(GVType dataType) {
+        this(new InputHandlerReviewData<T>(dataType));
+    }
+
+    DialogReviewDataAddFragment(InputHandlerReviewData<T> handler) {
+        mHandler = handler;
+    }
+
+    /**
+     * Provides a callback for when the add button is pressed
+     *
+     * @param <T>:{@link com.chdryra.android.reviewer.GVReviewDataList.GVReviewData} type
+     */
+    interface ReviewDataAddListener<T extends GVReviewDataList.GVReviewData> {
+        boolean onReviewDataAdd(T data);
     }
 
     GVType getGVType() {
@@ -65,7 +76,7 @@ public abstract class DialogReviewDataAddFragment<T extends GVReviewDataList.GVR
     }
 
     @Override
-    protected View createDialogUI(ViewGroup parent) {
+    protected View createDialogUI() {
         mDialogHolder.inflate(getActivity());
         mDialogHolder.initialiseView(null);
 
@@ -107,13 +118,8 @@ public abstract class DialogReviewDataAddFragment<T extends GVReviewDataList.GVR
         if (isQuickSet()) {
             if (mHandler.add(newDatum, getActivity())) updateDialogOnAdd(newDatum);
         } else {
-            reviewDataAdd(mAddListener, newDatum);
+            if (mAddListener.onReviewDataAdd(newDatum)) updateDialogOnAdd(newDatum);
         }
-    }
-
-    @Override
-    public void reviewDataAdd(ReviewDataAddListener<T> listener, T data) {
-        if (listener.onReviewDataAdd(data)) updateDialogOnAdd(data);
     }
 
     @Override
@@ -135,15 +141,11 @@ public abstract class DialogReviewDataAddFragment<T extends GVReviewDataList.GVR
         return mQuickSet && mController != null;
     }
 
-    protected T createGVDataFromInputs() {
+    T createGVDataFromInputs() {
         return mDialogHolder.getGVData();
     }
 
-    protected void updateDialogOnAdd(T newDatum) {
+    void updateDialogOnAdd(T newDatum) {
         mDialogHolder.updateView(newDatum);
-    }
-
-    GVReviewDataList<T> getData() {
-        return mData;
     }
 }

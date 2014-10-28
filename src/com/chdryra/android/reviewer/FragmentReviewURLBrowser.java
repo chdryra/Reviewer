@@ -46,11 +46,9 @@ import java.net.URISyntaxException;
  * </p>
  */
 public class FragmentReviewURLBrowser extends FragmentDeleteDone {
-    public static final  String URL     = "com.chdryra.android.reviewer.url";
-    public static final  String URL_OLD = "com.chdryra.android.reviewer.url_old";
-    private static final String TAG     = "FragmentReviewUrlBrowser";
+    private static final String TAG = "FragmentReviewUrlBrowser";
 
-    private GVUrlList.GVUrl mCurrent;
+    private GVUrlList.GVUrl   mCurrent;
     private ClearableEditText mUrlEditText;
     private WebView           mWebView;
     private String            mSearchUrl;
@@ -69,9 +67,9 @@ public class FragmentReviewURLBrowser extends FragmentDeleteDone {
         super.onCreate(savedInstanceState);
         mHandler = new InputHandlerReviewData<GVUrlList.GVUrl>(GVReviewDataList.GVType.URLS);
         mCurrent = mHandler.unpack(InputHandlerReviewData.CurrentNewDatum.CURRENT,
-                ReviewDataUILauncher.getArgsForActivity(getActivity()));
+                                   ReviewDataUILauncher.getArgsForActivity(getActivity()));
         setDeleteWhatTitle(mHandler.getGVType().getDatumString());
-        setDismissOnDelete(true);
+        dismissOnDelete();
     }
 
     @Override
@@ -160,7 +158,7 @@ public class FragmentReviewURLBrowser extends FragmentDeleteDone {
     @Override
     protected void onDeleteSelected() {
         mHandler.pack(InputHandlerReviewData.CurrentNewDatum.CURRENT, mCurrent,
-                getNewReturnDataIntent());
+                      getNewReturnDataIntent());
     }
 
     @Override
@@ -178,11 +176,11 @@ public class FragmentReviewURLBrowser extends FragmentDeleteDone {
         } catch (MalformedURLException e1) {
             Log.i(TAG, "MalformedURLException: " + urlString, e1);
             Toast.makeText(getActivity(), getResources().getString(R.string.toast_bad_url),
-                    Toast.LENGTH_SHORT).show();
+                           Toast.LENGTH_SHORT).show();
         } catch (URISyntaxException e2) {
             Log.i(TAG, "URLSyntaxException: " + urlString, e2);
             Toast.makeText(getActivity(), getResources().getString(R.string.toast_bad_url),
-                    Toast.LENGTH_SHORT).show();
+                           Toast.LENGTH_SHORT).show();
         }
 
         return url;

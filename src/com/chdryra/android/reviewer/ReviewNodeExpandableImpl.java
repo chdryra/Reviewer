@@ -70,8 +70,10 @@ class ReviewNodeExpandableImpl implements ReviewNodeExpandable {
     }
 
     @Override
-    public void addChild(Review child) {
-        addChild(new ReviewNodeExpandableImpl(child));
+    public ReviewNodeExpandable addChild(Review child) {
+        ReviewNodeExpandable node = new ReviewNodeExpandableImpl(child);
+        addChild(node);
+        return node;
     }
 
     @Override

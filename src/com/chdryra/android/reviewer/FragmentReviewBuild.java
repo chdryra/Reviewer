@@ -12,7 +12,6 @@ import android.app.ActionBar.LayoutParams;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcel;
-import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -114,26 +113,10 @@ public class FragmentReviewBuild extends FragmentReviewGrid<FragmentReviewBuild.
          * on the underlying data and user interaction.
          */
         class GVCellManager implements GVReviewDataList.GVReviewData {
-            //Doubt this will work without static declaration but can't because an inner class.
-            //Never need to parcel anyway.
-            public final Parcelable.Creator<GVCellManager> CREATOR = new Parcelable
-                    .Creator<GVCellManager>() {
-                public GVCellManager createFromParcel(Parcel in) {
-                    return new GVCellManager(in);
-                }
-
-                public GVCellManager[] newArray(int size) {
-                    return new GVCellManager[size];
-                }
-            };
             private final GVType mDataType;
 
             private GVCellManager(GVType dataType) {
                 mDataType = dataType;
-            }
-
-            private GVCellManager(Parcel in) {
-                mDataType = (GVType) in.readSerializable();
             }
 
             private void executeIntent(boolean forceRequestIntent) {
@@ -185,9 +168,10 @@ public class FragmentReviewBuild extends FragmentReviewGrid<FragmentReviewBuild.
             }
 
             private View getSingleDatumView(ViewGroup parent) {
-                ViewHolderData datum = (ViewHolderData) getController().getData(mDataType).getItem
-                        (0);
-                ViewHolder vh = datum.getViewHolder();
+                ViewHolderData datum = (ViewHolderData) getController().getData(mDataType)
+                                                                       .getItem(0);
+                ViewHolder vh = mDataType == GVType.LOCATIONS ? new VHLocation(true) : datum
+                        .getViewHolder();
                 if (vh.getView() == null) vh.inflate(getActivity(), parent);
                 vh.updateView(datum);
                 return vh.getView();

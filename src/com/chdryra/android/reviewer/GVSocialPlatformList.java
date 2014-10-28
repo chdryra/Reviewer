@@ -102,10 +102,8 @@ public class GVSocialPlatformList extends GVReviewDataList<GVSocialPlatformList.
 
             GVSocialPlatform that = (GVSocialPlatform) o;
 
-            if (mFollowers != that.mFollowers) return false;
-            if (mIsChosen != that.mIsChosen) return false;
+            return mFollowers == that.mFollowers && mIsChosen == that.mIsChosen;
 
-            return true;
         }
 
         @Override
@@ -114,11 +112,6 @@ public class GVSocialPlatformList extends GVReviewDataList<GVSocialPlatformList.
             result = 31 * result + mFollowers;
             result = 31 * result + (mIsChosen ? 1 : 0);
             return result;
-        }
-
-        @Override
-        public int describeContents() {
-            return super.describeContents();
         }
 
         @Override

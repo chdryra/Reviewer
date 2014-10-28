@@ -52,17 +52,16 @@ class GVImageList extends GVReviewDataList<GVImageList.GVImage> {
             mLatLng = null;
         }
 
+        GVImage(Bitmap bitmap, LatLng latLng) {
+            mBitmap = bitmap;
+            mLatLng = latLng;
+        }
+
         GVImage(Bitmap bitmap, LatLng latLng, String caption, boolean isCover) {
             mBitmap = bitmap;
             mCaption = caption;
             mLatLng = latLng;
             mIsCover = isCover;
-        }
-
-        GVImage(Bitmap bitmap, LatLng latLng, String caption) {
-            mBitmap = bitmap;
-            mCaption = caption;
-            mLatLng = latLng;
         }
 
         GVImage(Parcel in) {
@@ -113,8 +112,8 @@ class GVImageList extends GVReviewDataList<GVImageList.GVImage> {
 
             GVImage gvImage = (GVImage) o;
 
-            //if (mIsCover != gvImage.mIsCover) return false;
-            if (mBitmap != null ? !mBitmap.sameAs(gvImage.mBitmap) : gvImage.mBitmap != null) {
+            if (mIsCover != gvImage.mIsCover) return false;
+            if (mBitmap != null ? !mBitmap.equals(gvImage.mBitmap) : gvImage.mBitmap != null) {
                 return false;
             }
             if (mCaption != null ? !mCaption.equals(gvImage.mCaption) : gvImage.mCaption != null) {
@@ -151,7 +150,7 @@ class GVImageList extends GVReviewDataList<GVImageList.GVImage> {
     }
 
     void add(Bitmap bitmap, LatLng latLng) {
-        add(new GVImage(bitmap, latLng, null));
+        add(new GVImage(bitmap, latLng));
     }
 
     void add(Bitmap bitmap, LatLng latLng, String caption, boolean isCover) {

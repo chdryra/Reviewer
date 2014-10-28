@@ -42,10 +42,10 @@ class DialogHolderUI<T extends GVReviewDataList.GVReviewData,
         D extends DialogCancelActionDoneFragment>
         implements GVReviewDataUI<T> {
 
-    private D                     mDialog;
-    private DialogUIUpdater<T, D> mUpdater;
+    private final D                     mDialog;
+    private final DialogUIUpdater<T, D> mUpdater;
 
-    protected DialogHolderUI(D parentDialog, DialogUIUpdater<T, D> updater) {
+    DialogHolderUI(D parentDialog, DialogUIUpdater<T, D> updater) {
         mDialog = parentDialog;
         mUpdater = updater;
     }

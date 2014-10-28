@@ -65,10 +65,6 @@ class GVTagList extends GVReviewDataList<GVTagList.GVTag> {
         }
     }
 
-    void remove(String string) {
-        remove(new GVTag(string));
-    }
-
     @Override
     protected Comparator<GVTag> getDefaultComparator() {
         return new Comparator<GVTag>() {

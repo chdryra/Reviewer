@@ -14,11 +14,19 @@ import com.chdryra.android.mygenerallibrary.ViewHolderData;
  * Expands on {@link ControllerReview} to include the {@link ReviewNode} interface.
  */
 class ControllerReviewNode extends ControllerReview<ReviewNode> {
-    protected ControllerReviewCollection<ReviewNode> mChildrenController;
+    private ControllerReviewCollection<ReviewNode> mChildrenController;
 
     ControllerReviewNode(ReviewNode node) {
         super(node);
-        mChildrenController = new ControllerReviewCollection<ReviewNode>(node.getChildren());
+    }
+
+    ControllerReviewCollection<ReviewNode> createChildrenController() {
+        return new ControllerReviewCollection<ReviewNode>(getControlledReview().getChildren());
+    }
+
+    ControllerReviewCollection<ReviewNode> getChildrenController() {
+        if (mChildrenController == null) mChildrenController = createChildrenController();
+        return mChildrenController;
     }
 
     @Override
@@ -33,7 +41,7 @@ class ControllerReviewNode extends ControllerReview<ReviewNode> {
     @Override
     GVReviewDataList<? extends ViewHolderData> getData(GVReviewDataList.GVType dataType) {
         if (dataType == GVReviewDataList.GVType.CHILDREN) {
-            return mChildrenController.getGridViewableData();
+            return getChildrenController().getGridViewableData();
         } else {
             return super.getData(dataType);
         }

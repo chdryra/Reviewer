@@ -70,10 +70,6 @@ class GVFactList extends GVReviewDataList<GVFactList.GVFact> {
         add(new GVFact(label, value));
     }
 
-    void remove(String label, String value) {
-        remove(new GVFact(label, value));
-    }
-
     @Override
     protected Comparator<GVFact> getDefaultComparator() {
 

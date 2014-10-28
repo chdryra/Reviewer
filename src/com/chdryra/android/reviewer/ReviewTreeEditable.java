@@ -27,7 +27,7 @@ package com.chdryra.android.reviewer;
  * </p>
  */
 class ReviewTreeEditable extends ReviewEditable implements ReviewNodeExpandable {
-    private ReviewNodeExpandable mNode;
+    private final ReviewNodeExpandable mNode;
 
     ReviewTreeEditable(ReviewEditable editableRoot) {
         mNode = FactoryReview.createReviewNodeExpandable(editableRoot);
@@ -50,8 +50,8 @@ class ReviewTreeEditable extends ReviewEditable implements ReviewNodeExpandable 
     }
 
     @Override
-    public void addChild(Review child) {
-        mNode.addChild(child);
+    public ReviewNodeExpandable addChild(Review child) {
+        return mNode.addChild(child);
     }
 
     @Override

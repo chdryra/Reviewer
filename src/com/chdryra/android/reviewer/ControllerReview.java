@@ -36,7 +36,7 @@ import java.util.Date;
  * @param <T>: the {@link Review} type being accessed
  */
 class ControllerReview<T extends Review> {
-    protected final ArrayList<String> mTagsList = new ArrayList<String>();
+    private final ArrayList<String> mTagsList = new ArrayList<String>();
     private final T                    mReview;
     private       ControllerReviewNode mReviewNode;
 
@@ -100,10 +100,8 @@ class ControllerReview<T extends Review> {
             return mReview.hasUrls();
         } else if (dataType == GVReviewDataList.GVType.LOCATIONS) {
             return mReview.hasLocations();
-        } else if (dataType == GVReviewDataList.GVType.TAGS) {
-            return mTagsList.size() > 0;
         } else {
-            return false;
+            return dataType == GVReviewDataList.GVType.TAGS && mTagsList.size() > 0;
         }
     }
 

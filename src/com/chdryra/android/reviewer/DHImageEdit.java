@@ -23,11 +23,10 @@ import com.chdryra.android.reviewer.GVImageList.GVImage;
  * {@link DialogHolderAddEdit}: images
  */
 class DHImageEdit extends DialogHolderAddEdit<GVImage> {
-    private static final int     LAYOUT    = R.layout.dialog_image;
-    private static final int     IMAGE     = R.id.dialog_image_image_view;
-    private static final int     CAPTION   = R.id.dialog_image_caption_edit_text;
-    private static final GVImage NULL_DATA = new GVImage();
-    private DialogReviewDataEditFragment<GVImage> mDialogEdit;
+    private static final int LAYOUT  = R.layout.dialog_image;
+    private static final int IMAGE   = R.id.dialog_image_image_view;
+    private static final int CAPTION = R.id.dialog_image_caption_edit_text;
+    private final DialogReviewDataEditFragment<GVImage> mDialogEdit;
 
     DHImageEdit(DialogReviewDataEditFragment<GVImage> dialogEdit) {
         super(LAYOUT, new int[]{IMAGE, CAPTION}, dialogEdit);
@@ -54,14 +53,10 @@ class DHImageEdit extends DialogHolderAddEdit<GVImage> {
 
     @Override
     protected GVImage createGVData() {
-        if (mDialogEdit != null) {
-            GVImage currentDatum = mDialogEdit.getDatum();
-            String caption = ((EditText) getView(CAPTION)).getText().toString().trim();
-            currentDatum.setCaption(caption);
-            return currentDatum;
-        } else {
-            return NULL_DATA;
-        }
+        GVImage currentDatum = mDialogEdit.getDatum();
+        String caption = ((EditText) getView(CAPTION)).getText().toString().trim();
+        currentDatum.setCaption(caption);
+        return currentDatum;
     }
 
     @Override
@@ -72,11 +67,8 @@ class DHImageEdit extends DialogHolderAddEdit<GVImage> {
         imageView.setImageBitmap(image.getBitmap());
         String caption = image.getCaption();
         imageCaption.setText(image.getCaption());
-
-        if (mDialogEdit != null) {
-            imageCaption.setHint(mDialogEdit.getActivity().getResources().getString(R.string
-                                                                                            .edit_text_image_caption_hint));
-        }
+        imageCaption.setHint(mDialogEdit.getActivity().getResources().getString(R.string
+                                                                                        .edit_text_image_caption_hint));
 
         //For some reason setSelection(0) doesn't work unless I force set the span of the selection
         if (caption != null && caption.length() > 0) {

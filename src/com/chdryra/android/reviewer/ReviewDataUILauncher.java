@@ -23,12 +23,12 @@ import android.os.Bundle;
 /**
  * Knows how to launch a ReviewDataUI depending on whether it is a Dialog or Activity underneath.
  */
-public class ReviewDataUILauncher {
+class ReviewDataUILauncher {
     private static final String LAUNCHER_ARGS = "com.chdryra.android.review.args_key";
-    private Fragment mCommissioner;
-    private int      mRequestCode;
-    private String   mTag;
-    private Bundle   mArgs;
+    private final Fragment mCommissioner;
+    private final int      mRequestCode;
+    private final String   mTag;
+    private final Bundle   mArgs;
 
     private ReviewDataUILauncher(Fragment commissioner, int requestCode, String tag, Bundle args) {
         mCommissioner = commissioner;
@@ -40,7 +40,7 @@ public class ReviewDataUILauncher {
     static void launch(ReviewDataUI ui, Fragment commissioner, int requestCode, String tag,
                        Bundle args) {
         ui.launch(new ReviewDataUILauncher(commissioner, requestCode, tag,
-                args));
+                                           args));
     }
 
     static Bundle getArgsForActivity(Activity reviewDataUI) {

@@ -11,7 +11,6 @@ package com.chdryra.android.reviewer;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.webkit.URLUtil;
 import android.widget.Toast;
 
@@ -35,13 +34,13 @@ public class DialogURLFragment extends DialogCancelActionDoneFragment implements
     private ClearableEditText        mUrlEditText;
 
     @Override
-    protected View createDialogUI(ViewGroup parent) {
+    protected View createDialogUI() {
         View v = getActivity().getLayoutInflater().inflate(R.layout.dialog_url, null);
 
         mUrlEditText = (ClearableEditText) v.findViewById(R.id.url_edit_text);
         if (mController.getData(GVType.URLS).size() == 1) {
             mUrlEditText.setText(((GVUrl) mController.getData(GVType.URLS).getItem(0))
-                    .toShortenedString());
+                                         .toShortenedString());
         }
 
         setKeyboardDoDoneOnEditText(mUrlEditText);
@@ -57,7 +56,7 @@ public class DialogURLFragment extends DialogCancelActionDoneFragment implements
                 (getArguments());
 
         setActionButtonAction(RESULT_BROWSE);
-        setActionButtonText(getResources().getString(R.string.button_map));
+        setActionButtonText(getResources().getString(R.string.button_browse));
         dismissDialogOnActionClick();
 
         setDialogTitle(getResources().getString(R.string.dialog_url_title));
@@ -74,7 +73,7 @@ public class DialogURLFragment extends DialogCancelActionDoneFragment implements
             } catch (Exception e) {
                 Log.i(TAG, "Malformed URL or incorrect syntax: " + urlString, e);
                 Toast.makeText(getActivity(), getResources().getString(R.string.toast_bad_url),
-                        Toast.LENGTH_SHORT).show();
+                               Toast.LENGTH_SHORT).show();
             }
         }
     }

@@ -20,7 +20,7 @@ package com.chdryra.android.reviewer;
 public interface ReviewNodeExpandable extends ReviewNode {
     void setParent(ReviewNodeExpandable parentNode);
 
-    void addChild(Review child);
+    ReviewNodeExpandable addChild(Review child);
 
     void addChild(ReviewNodeExpandable childNode);
 

@@ -22,8 +22,8 @@ import java.util.Date;
  * Used primarily as the tree representation for {@link ReviewUserEditable}.
  */
 class ReviewNodeAlone implements ReviewNode {
-    private Review mReview;
-    private RCollectionReview<ReviewNode> mChildren = new RCollectionReview<ReviewNode>();
+    private final Review mReview;
+    private final RCollectionReview<ReviewNode> mChildren = new RCollectionReview<ReviewNode>();
 
     ReviewNodeAlone(Review review) {
         mReview = review;

@@ -96,9 +96,8 @@ class GVUrlList extends GVReviewDataList<GVUrlList.GVUrl> {
 
             GVUrl gvUrl = (GVUrl) o;
 
-            if (mUrl != null ? !mUrl.equals(gvUrl.mUrl) : gvUrl.mUrl != null) return false;
+            return !(mUrl != null ? !mUrl.equals(gvUrl.mUrl) : gvUrl.mUrl != null);
 
-            return true;
         }
 
         @Override

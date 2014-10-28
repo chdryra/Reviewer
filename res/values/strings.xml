@@ -16,14 +16,6 @@
 
     <!-- Dialogs -->
     <string name="dialog_url_title">Link</string>
-    <string name="dialog_edit_tag_title">Edit tag</string>
-    <string name="dialog_edit_criterion_title">Edit criterion</string>
-    <string name="dialog_edit_comment_title">Edit comment</string>
-    <string name="dialog_edit_fact_title">Edit fact</string>
-    <string name="dialog_delete_comment_title">comment</string>
-    <string name="dialog_delete_image_title">image</string>
-    <string name="dialog_delete_location_title">location</string>
-    <string name="dialog_delete_url_title">link</string>
     <string name="dialog_image_content_description">Review image</string>
     <string name="dialog_set_image_as_background">Set image as cover?</string>
 
@@ -83,15 +75,7 @@
 
     <!-- Toasts -->
     <string name="toast_enter_subject">Please enter a subject&#8230;</string>
-    <string name="toast_exists_criterion">You\'ve already added this criterion&#8230;</string>
-    <string name="toast_enter_label">Please enter a label e.g. price, director etc.&#8230;</string>
-    <string name="toast_enter_value">Please enter a value&#8230;</string>
     <string name="toast_has">You\'ve already added this</string>
-    <string name="toast_has_fact">You\'ve already added this label&#8230;</string>
-    <string name="toast_has_tag">You\'ve already added this tag&#8230;</string>
-    <string name="toast_has_location">You\'ve already added this location&#8230;</string>
-    <string name="toast_has_url">You\'ve already added this URL&#8230;</string>
-    <string name="toast_has_comment">You\'ve already added this comment&#8230;</string>
     <string name="toast_split_comment">Showing sentences&#8230;</string>
     <string name="toast_unsplit_comment">Showing headlines&#8230;</string>
     <string name="toast_bad_url">Link does not make sense&#8230;</string>

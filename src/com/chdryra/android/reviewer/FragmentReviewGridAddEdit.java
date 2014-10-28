@@ -33,11 +33,13 @@ import com.chdryra.android.reviewer.GVReviewDataList.GVType;
  * @param <T>: {@link com.chdryra.android.reviewer.GVReviewDataList.GVReviewData} type.
  */
 abstract class FragmentReviewGridAddEdit<T extends GVReviewDataList.GVReviewData> extends
-                                                                                  FragmentReviewGrid<GVReviewDataList<T>> implements ReviewDataAddListener<T>,
-                                                                                                                                     ReviewDataEditListener<T> {
+                                                                                  FragmentReviewGrid<GVReviewDataList<T>> implements DialogReviewDataAddFragment.ReviewDataAddListener<T>,
 
-    protected InputHandlerReviewData<T> mHandler;
-    private   GVType                    mDataType;
+                                                                                                                                     DialogReviewDataEditFragment.ReviewDataEditListener<T> {
+
+
+    private final GVType                    mDataType;
+    protected     InputHandlerReviewData<T> mHandler;
     private ActivityResultCode mDoDatumAdd    = ActivityResultCode.ADD;
     private ActivityResultCode mDoDatumDelete = ActivityResultCode.DELETE;
     private ActivityResultCode mDoDatumEdit   = ActivityResultCode.DONE;
@@ -81,10 +83,9 @@ abstract class FragmentReviewGridAddEdit<T extends GVReviewDataList.GVReviewData
         updateUI();
     }
 
-    protected boolean doDatumEdit(T oldDatum, T newDatum) {
-        boolean replaced = mHandler.replace(oldDatum, newDatum, getActivity());
+    protected void doDatumEdit(T oldDatum, T newDatum) {
+        mHandler.replace(oldDatum, newDatum, getActivity());
         updateUI();
-        return replaced;
     }
 
     protected void packGridCellData(T item, Bundle args) {
@@ -179,7 +180,7 @@ abstract class FragmentReviewGridAddEdit<T extends GVReviewDataList.GVReviewData
     protected void onGridItemClick(AdapterView<?> parent, View v, int position, long id) {
         Bundle args = Administrator.get(getActivity()).pack(getController());
 
-        //TODO how to make this type safe
+        //TODO make type safe
         packGridCellData((T) parent.getItemAtPosition(position), args);
 
         ReviewDataUILauncher.launch(mEditorConfig.getReviewDataUI(), this,
