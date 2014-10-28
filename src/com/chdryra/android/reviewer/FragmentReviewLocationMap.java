@@ -141,7 +141,7 @@ public class FragmentReviewLocationMap extends FragmentDeleteDone implements
         mHandler = new InputHandlerReviewData<GVLocationList.GVLocation>(GVReviewDataList.GVType
                                                                                  .LOCATIONS);
 
-        Bundle args = ReviewDataUILauncher.getArgsForActivity(getActivity());
+        Bundle args = LauncherUI.getArgsForActivity(getActivity());
         if (args != null) {
             mCurrent = mHandler.unpack(InputHandlerReviewData.CurrentNewDatum.CURRENT, args);
         }

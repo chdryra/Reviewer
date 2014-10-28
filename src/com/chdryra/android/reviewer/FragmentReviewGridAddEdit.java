@@ -172,8 +172,8 @@ abstract class FragmentReviewGridAddEdit<T extends GVReviewDataList.GVReviewData
     protected void onBannerButtonClick() {
         Bundle args = Administrator.get(getActivity()).pack(getController());
 
-        ReviewDataUILauncher.launch(mAdderConfig.getReviewDataUI(), this,
-                                    mAdderConfig.getRequestCode(), mAdderConfig.getTag(), args);
+        LauncherUI.launch(mAdderConfig.getReviewDataUI(), this,
+                          mAdderConfig.getRequestCode(), mAdderConfig.getTag(), args);
     }
 
     @Override
@@ -183,8 +183,8 @@ abstract class FragmentReviewGridAddEdit<T extends GVReviewDataList.GVReviewData
         //TODO make type safe
         packGridCellData((T) parent.getItemAtPosition(position), args);
 
-        ReviewDataUILauncher.launch(mEditorConfig.getReviewDataUI(), this,
-                                    mEditorConfig.getRequestCode(), mEditorConfig.getTag(), args);
+        LauncherUI.launch(mEditorConfig.getReviewDataUI(), this,
+                          mEditorConfig.getRequestCode(), mEditorConfig.getTag(), args);
     }
 
     @Override

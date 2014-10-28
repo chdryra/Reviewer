@@ -20,7 +20,7 @@ package com.chdryra.android.reviewer;
  *
  * @param <T>
  */
-public interface GVReviewDataUI<T extends GVReviewDataList.GVReviewData> {
+public interface UIReviewData<T extends GVReviewDataList.GVReviewData> {
     void initialiseView(T data);
 
     void updateView(T data);

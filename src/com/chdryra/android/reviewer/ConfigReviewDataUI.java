@@ -53,7 +53,7 @@ class ConfigReviewDataUI {
         return getConfigsMap().get(dataType);
     }
 
-    static ReviewDataUI getReviewDataUI(Class<? extends ReviewDataUI> uiClass)
+    static LaunchableUI getReviewDataUI(Class<? extends LaunchableUI> uiClass)
             throws RuntimeException {
         try {
             return uiClass.newInstance();
@@ -107,15 +107,13 @@ class ConfigReviewDataUI {
         }
 
         private ReviewDataUIConfig initAddConfig() {
-            String tag = "DIALOG_" + mDataType.getDatumString().toUpperCase() + "_ADD_TAG";
             return new ReviewDataUIConfig(mDataType, ConfigAddEditDisplay.getAddClass
-                    (mDataType), DATA_ADD, tag);
+                    (mDataType), DATA_ADD, mDataType.getDatumString().toUpperCase() + "_ADD_TAG");
         }
 
         private ReviewDataUIConfig initEditConfig() {
-            String tag = "DIALOG_" + mDataType.getDatumString().toUpperCase() + "_EDIT_TAG";
             return new ReviewDataUIConfig(mDataType, ConfigAddEditDisplay.getEditClass
-                    (mDataType), DATA_EDIT, tag);
+                    (mDataType), DATA_EDIT, mDataType.getDatumString().toUpperCase() + "_EDIT_TAG");
         }
 
         private ReviewDataDisplayConfig initDisplayConfig() {
@@ -127,21 +125,21 @@ class ConfigReviewDataUI {
      * Encapsulates a configuration for a UI that can add or edit review data of a certain
      * {@link com.chdryra.android.reviewer.GVReviewDataList.GVType}. Packages together:
      * <ul>
-     * <li>A {@link com.chdryra.android.reviewer.ReviewDataUI} implementation for
+     * <li>A {@link LaunchableUI} implementation for
      * adding/editing review data of a certain type</li>
      * <li>An integer request code (required when one activity launches another)</li>
      * <li>A String tag that may be used (if ultimately launching a dialog)</li>
      * </ul>
      * The ReviewDataUI is launched using a
-     * {@link com.chdryra.android.reviewer.ReviewDataUILauncher}
+     * {@link LauncherUI}
      */
     class ReviewDataUIConfig {
         private final GVType                        mDataType;
-        private final Class<? extends ReviewDataUI> mUIClass;
+        private final Class<? extends LaunchableUI> mUIClass;
         private final int                           mRequestCode;
         private final String                        mTag;
 
-        private ReviewDataUIConfig(GVType dataType, Class<? extends ReviewDataUI> UIClass,
+        private ReviewDataUIConfig(GVType dataType, Class<? extends LaunchableUI> UIClass,
                                    int requestCode, String tag) {
             mDataType = dataType;
             mUIClass = UIClass;
@@ -154,7 +152,7 @@ class ConfigReviewDataUI {
             return mDataType;
         }
 
-        ReviewDataUI getReviewDataUI() throws RuntimeException {
+        LaunchableUI getReviewDataUI() throws RuntimeException {
             return ConfigReviewDataUI.getReviewDataUI(mUIClass);
         }
 

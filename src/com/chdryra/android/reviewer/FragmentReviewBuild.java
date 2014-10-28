@@ -313,8 +313,8 @@ public class FragmentReviewBuild extends FragmentReviewGrid<FragmentReviewBuild.
         Bundle args = new Bundle();
         mLocationInputHandler.pack(InputHandlerReviewData.CurrentNewDatum.CURRENT, location, args);
 
-        ReviewDataUI mapUi = ConfigReviewDataUI.getReviewDataUI(ActivityReviewLocationMap.class);
-        ReviewDataUILauncher.launch(mapUi, this, LOCATION_MAP, null, args);
+        LaunchableUI mapUi = ConfigReviewDataUI.getReviewDataUI(ActivityReviewLocationMap.class);
+        LauncherUI.launch(mapUi, this, LOCATION_MAP, null, args);
     }
 
     private void addLocation(Intent data) {
@@ -366,13 +366,13 @@ public class FragmentReviewBuild extends FragmentReviewGrid<FragmentReviewBuild.
 
         ConfigReviewDataUI.ReviewDataUIConfig adderConfig = config.getAdderConfig();
 
-        ReviewDataUI ui = adderConfig.getReviewDataUI();
+        LaunchableUI ui = adderConfig.getReviewDataUI();
         if (adderConfig.getGVType() == GVType.LOCATIONS) {
             ui = ConfigReviewDataUI.getReviewDataUI(DialogLocationFragment.class);
         }
 
-        ReviewDataUILauncher.launch(ui, this, adderConfig.getRequestCode(), adderConfig.getTag(),
-                                    args);
+        LauncherUI.launch(ui, this, adderConfig.getRequestCode(), adderConfig.getTag(),
+                          args);
     }
 
     private void showQuickImageDialog() {

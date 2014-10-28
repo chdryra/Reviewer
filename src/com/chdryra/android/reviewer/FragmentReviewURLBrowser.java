@@ -67,7 +67,7 @@ public class FragmentReviewURLBrowser extends FragmentDeleteDone {
         super.onCreate(savedInstanceState);
         mHandler = new InputHandlerReviewData<GVUrlList.GVUrl>(GVReviewDataList.GVType.URLS);
         mCurrent = mHandler.unpack(InputHandlerReviewData.CurrentNewDatum.CURRENT,
-                                   ReviewDataUILauncher.getArgsForActivity(getActivity()));
+                                   LauncherUI.getArgsForActivity(getActivity()));
         setDeleteWhatTitle(mHandler.getGVType().getDatumString());
         dismissOnDelete();
     }

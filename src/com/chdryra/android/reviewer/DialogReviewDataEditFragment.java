@@ -36,13 +36,13 @@ import com.chdryra.android.mygenerallibrary.DialogCancelDeleteDoneFragment;
  * </p>
  */
 public abstract class DialogReviewDataEditFragment<T extends GVReviewDataList.GVReviewData>
-        extends DialogCancelDeleteDoneFragment implements ReviewDataUI {
+        extends DialogCancelDeleteDoneFragment implements LaunchableUI {
 
 
     private final InputHandlerReviewData<T> mHandler;
     private final GVReviewDataList.GVType   mDataType;
     private       T                         mDatum;
-    private       ViewHolderUI<T>           mDialogHolder;
+    private       UIHolder<T>               mDialogHolder;
     private       ReviewDataEditListener<T> mListener;
 
     DialogReviewDataEditFragment(GVReviewDataList.GVType dataType) {
@@ -105,7 +105,7 @@ public abstract class DialogReviewDataEditFragment<T extends GVReviewDataList.GV
     }
 
     @Override
-    public void launch(ReviewDataUILauncher launcher) {
+    public void launch(LauncherUI launcher) {
         launcher.launch(this);
     }
 

@@ -73,11 +73,11 @@ class ConfigAddEditDisplay {
                                       ActivityReviewURLs.class));
     }
 
-    static Class<? extends ReviewDataUI> getAddClass(GVType dataType) {
+    static Class<? extends LaunchableUI> getAddClass(GVType dataType) {
         return get().mDialogAddEditMap.get(dataType).getAddClass();
     }
 
-    static Class<? extends ReviewDataUI> getEditClass(GVType dataType) {
+    static Class<? extends LaunchableUI> getEditClass(GVType dataType) {
         return get().mDialogAddEditMap.get(dataType).getEditClass();
     }
 
@@ -165,23 +165,23 @@ class ConfigAddEditDisplay {
      * Packages together an add, edit and display UI.
      */
     class AddEditDisplayUIs {
-        private final Class<? extends ReviewDataUI> mAdd;
-        private final Class<? extends ReviewDataUI> mEdit;
+        private final Class<? extends LaunchableUI> mAdd;
+        private final Class<? extends LaunchableUI> mEdit;
         private final Class<? extends Activity>     mActivity;
 
-        private AddEditDisplayUIs(Class<? extends ReviewDataUI> add,
-                                  Class<? extends ReviewDataUI> edit,
+        private AddEditDisplayUIs(Class<? extends LaunchableUI> add,
+                                  Class<? extends LaunchableUI> edit,
                                   Class<? extends Activity> activity) {
             mAdd = add;
             mEdit = edit;
             mActivity = activity;
         }
 
-        Class<? extends ReviewDataUI> getAddClass() {
+        Class<? extends LaunchableUI> getAddClass() {
             return mAdd;
         }
 
-        Class<? extends ReviewDataUI> getEditClass() {
+        Class<? extends LaunchableUI> getEditClass() {
             return mEdit;
         }
 

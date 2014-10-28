@@ -37,7 +37,7 @@ import android.widget.EditText;
 abstract class DialogHolderAddEdit<T extends GVReviewDataList.GVReviewData> extends
                                                                             DialogHolder<T> {
 
-    private final GVReviewDataUI<T> mDialogUI;
+    private final UIReviewData<T> mDialogUI;
 
     DialogHolderAddEdit(int layoutId, int[] viewIds, DialogReviewDataAddFragment<T> parent,
                         final T nullData) {
@@ -65,7 +65,7 @@ abstract class DialogHolderAddEdit<T extends GVReviewDataList.GVReviewData> exte
     protected abstract void updateWithGVData(T data);
 
     @Override
-    protected GVReviewDataUI<T> getGVReviewDataUI() {
+    protected UIReviewData<T> getGVReviewDataUI() {
         return mDialogUI;
     }
 

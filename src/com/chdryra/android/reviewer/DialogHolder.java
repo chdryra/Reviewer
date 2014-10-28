@@ -19,7 +19,7 @@ import android.view.View;
  */
 
 /**
- * Implementation of {@link ViewHolderUI} for Dialogs. Mainly
+ * Implementation of {@link UIHolder} for Dialogs. Mainly
  * concerned with inflating layouts and holding Views. Uses a
  * {@link DialogHolderUI} to conform to the {@link com.chdryra
  * .android.reviewer.GVReviewDataUI} part of the {@link com.chdryra.android.reviewer
@@ -33,11 +33,11 @@ import android.view.View;
  * @param <T>: {@link com.chdryra.android.reviewer.GVReviewDataList.GVReviewData} type.
  */
 abstract class DialogHolder<T extends GVReviewDataList.GVReviewData> implements
-                                                                     ViewHolderUI<T> {
+                                                                     UIHolder<T> {
     private final int               mLayout;
     private final int[]             mUpdateableViewIds;
     private final SparseArray<View> mUpdateableViews;
-    private View mInflated;
+    private       View              mInflated;
 
     DialogHolder(int layoutId, int[] viewIds) {
         mLayout = layoutId;
@@ -45,7 +45,7 @@ abstract class DialogHolder<T extends GVReviewDataList.GVReviewData> implements
         mUpdateableViews = new SparseArray<View>(mUpdateableViewIds.length);
     }
 
-    protected abstract GVReviewDataUI<T> getGVReviewDataUI();
+    protected abstract UIReviewData<T> getGVReviewDataUI();
 
     @Override
     public void inflate(Activity activity) {

@@ -42,14 +42,14 @@ import com.chdryra.android.reviewer.GVReviewDataList.GVType;
  * </p>
  */
 public abstract class DialogReviewDataAddFragment<T extends GVReviewDataList.GVReviewData>
-        extends DialogCancelAddDoneFragment implements ReviewDataUI {
+        extends DialogCancelAddDoneFragment implements LaunchableUI {
 
     public static final String QUICK_SET = "com.chdryra.android.reviewer.dialog_quick_mode";
 
     private final InputHandlerReviewData<T> mHandler;
     private       ControllerReviewEditable  mController;
     private       GVReviewDataList<T>       mData;
-    private       ViewHolderUI<T>           mDialogHolder;
+    private UIHolder<T> mDialogHolder;
     private       ReviewDataAddListener<T>  mAddListener;
 
     private boolean mQuickSet = false;
@@ -133,7 +133,7 @@ public abstract class DialogReviewDataAddFragment<T extends GVReviewDataList.GVR
     }
 
     @Override
-    public void launch(ReviewDataUILauncher launcher) {
+    public void launch(LauncherUI launcher) {
         launcher.launch(this);
     }
 

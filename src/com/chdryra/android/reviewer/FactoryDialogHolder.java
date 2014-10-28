@@ -29,11 +29,11 @@ import java.util.HashMap;
  */
 class FactoryDialogHolder {
     private static final String TAG = "FactoryDialogHolder";
-    private static FactoryDialogHolder                               sFactory;
-    private final  HashMap<GVType, Class<? extends ViewHolderUI<?>>> mDHClassesMap;
+    private static FactoryDialogHolder                           sFactory;
+    private final  HashMap<GVType, Class<? extends UIHolder<?>>> mDHClassesMap;
 
     private FactoryDialogHolder() {
-        mDHClassesMap = new HashMap<GVType, Class<? extends ViewHolderUI<?>>>();
+        mDHClassesMap = new HashMap<GVType, Class<? extends UIHolder<?>>>();
         mDHClassesMap.put(GVType.CHILDREN, DHChild.class);
         mDHClassesMap.put(GVType.COMMENTS, DHComment.class);
         mDHClassesMap.put(GVType.FACTS, DHFact.class);
@@ -41,7 +41,7 @@ class FactoryDialogHolder {
         mDHClassesMap.put(GVType.TAGS, DHTag.class);
     }
 
-    static <T extends GVReviewDataList.GVReviewData> ViewHolderUI<T> newDialogHolder
+    static <T extends GVReviewDataList.GVReviewData> UIHolder<T> newDialogHolder
             (DialogReviewDataAddFragment<T> dialog) {
         if (sFactory == null) sFactory = new FactoryDialogHolder();
         try {
@@ -51,7 +51,7 @@ class FactoryDialogHolder {
 
             try {
                 //TODO make type safe
-                return (ViewHolderUI<T>) ctor.newInstance(dialog);
+                return (UIHolder<T>) ctor.newInstance(dialog);
             } catch (InstantiationException e) {
                 Log.e(TAG, "Problem constructing ReviewDataAdd dialog for " + dialog.getGVType()
                                                                                     .getDatumString(), e);
@@ -71,7 +71,7 @@ class FactoryDialogHolder {
         return null;
     }
 
-    static <T extends GVReviewDataList.GVReviewData> ViewHolderUI<T> newDialogHolder
+    static <T extends GVReviewDataList.GVReviewData> UIHolder<T> newDialogHolder
             (DialogReviewDataEditFragment<T> dialog) {
         if (sFactory == null) sFactory = new FactoryDialogHolder();
         try {
@@ -80,7 +80,7 @@ class FactoryDialogHolder {
                                                              (DialogReviewDataEditFragment.class);
             try {
                 //TODO make type safe
-                return (ViewHolderUI<T>) ctor.newInstance(dialog);
+                return (UIHolder<T>) ctor.newInstance(dialog);
             } catch (InstantiationException e) {
                 Log.e(TAG, "Problem constructing edit dialog for " + dialog.getGVType()
                                                                            .getDatumString(), e);

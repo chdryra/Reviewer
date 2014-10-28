@@ -17,7 +17,7 @@ import com.chdryra.android.mygenerallibrary.ActivitySingleFragment;
 /**
  * UI Activity holding {@link FragmentReviewLocationMap}: mapping and editing a location.
  */
-public class ActivityReviewLocationMap extends ActivitySingleFragment implements ReviewDataUI {
+public class ActivityReviewLocationMap extends ActivitySingleFragment implements LaunchableUI {
 
     private FragmentReviewLocationMap mFragment;
 
@@ -34,7 +34,7 @@ public class ActivityReviewLocationMap extends ActivitySingleFragment implements
     }
 
     @Override
-    public void launch(ReviewDataUILauncher launcher) {
+    public void launch(LauncherUI launcher) {
         launcher.launch(this);
     }
 }
