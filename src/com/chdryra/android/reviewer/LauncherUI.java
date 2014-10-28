@@ -44,16 +44,16 @@ class LauncherUI {
                                            args));
     }
 
-    static Bundle getArgsForActivity(Activity reviewDataUI) {
-        return reviewDataUI.getIntent().getBundleExtra(LAUNCHER_ARGS);
+    static Bundle getArgsForActivity(Activity launchableUI) {
+        return launchableUI.getIntent().getBundleExtra(LAUNCHER_ARGS);
     }
 
-    void launch(DialogFragment reviewDataUI) {
-        DialogShower.show(reviewDataUI, mCommissioner, mRequestCode, mTag, mArgs);
+    void launch(DialogFragment launchableUI) {
+        DialogShower.show(launchableUI, mCommissioner, mRequestCode, mTag, mArgs);
     }
 
-    void launch(Activity reviewDataUI) {
-        Intent i = new Intent(mCommissioner.getActivity(), reviewDataUI.getClass());
+    void launch(Activity launchableUI) {
+        Intent i = new Intent(mCommissioner.getActivity(), launchableUI.getClass());
         i.putExtra(LAUNCHER_ARGS, mArgs);
         mCommissioner.startActivityForResult(i, mRequestCode);
     }
