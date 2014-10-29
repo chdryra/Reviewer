@@ -21,28 +21,6 @@ class SocialPlatformList implements Iterable<SocialPlatformList.SocialPlatform> 
     private static SocialPlatformList         sList;
     private final  LinkedList<SocialPlatform> mPlatforms;
 
-    private SocialPlatformList(Context context) {
-        mPlatforms = new LinkedList<SocialPlatformList.SocialPlatform>();
-        Platform[] platforms = Platform.values();
-        for (Platform platform : platforms) {
-            mPlatforms.add(new SocialPlatform(platform.toString(context)));
-        }
-    }
-
-    static SocialPlatformList get(Context context) {
-        if (sList == null) {
-            sList = new SocialPlatformList(context);
-        }
-
-        return sList;
-    }
-
-    static void update(Context context) {
-        for (SocialPlatform platform : get(context)) {
-            platform.update();
-        }
-    }
-
     /**
      * Enum for specifying the social platforms available together with their text labels.
      */
@@ -63,6 +41,28 @@ class SocialPlatformList implements Iterable<SocialPlatformList.SocialPlatform> 
 
         String toString(Context context) {
             return context.getResources().getString(mPlatformId);
+        }
+    }
+
+    private SocialPlatformList(Context context) {
+        mPlatforms = new LinkedList<SocialPlatformList.SocialPlatform>();
+        Platform[] platforms = Platform.values();
+        for (Platform platform : platforms) {
+            mPlatforms.add(new SocialPlatform(platform.toString(context)));
+        }
+    }
+
+    static SocialPlatformList get(Context context) {
+        if (sList == null) {
+            sList = new SocialPlatformList(context);
+        }
+
+        return sList;
+    }
+
+    static void update(Context context) {
+        for (SocialPlatform platform : get(context)) {
+            platform.update();
         }
     }
 

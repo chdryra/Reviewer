@@ -32,7 +32,7 @@ class Author {
         Author author = (Author) o;
 
         return !(mId != null ? !mId.equals(author.mId) : author.mId != null)
-                && !(mName != null ? !mName.equals(author.mName) : author.mName != null);
+               && !(mName != null ? !mName.equals(author.mName) : author.mName != null);
 
     }
 

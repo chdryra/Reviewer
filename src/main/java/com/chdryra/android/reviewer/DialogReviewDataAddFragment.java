@@ -49,7 +49,7 @@ public abstract class DialogReviewDataAddFragment<T extends GVReviewDataList.GVR
     private final InputHandlerReviewData<T> mHandler;
     private       ControllerReviewEditable  mController;
     private       GVReviewDataList<T>       mData;
-    private UIHolder<T> mDialogHolder;
+    private       UIHolder<T>               mDialogHolder;
     private       ReviewDataAddListener<T>  mAddListener;
 
     private boolean mQuickSet = false;

@@ -73,7 +73,7 @@ public class FragmentReviewShare extends FragmentReviewGrid<GVSocialPlatformList
         getBannerButton().setClickable(false);
         View divider = inflater.inflate(R.layout.horizontal_divider, container, false);
         Button publishButton = (Button) inflater.inflate(R.layout.review_banner_button,
-                container, false);
+                                                         container, false);
         publishButton.setText(getResources().getString(R.string.button_publish));
         publishButton.getLayoutParams().height = LayoutParams.MATCH_PARENT;
         publishButton.setOnClickListener(new View.OnClickListener() {
