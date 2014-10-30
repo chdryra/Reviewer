@@ -8,14 +8,9 @@
 
 <manifest
     package="com.chdryra.android.reviewer"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:versionCode="1"
-    android:versionName="1.0">
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <uses-sdk
-        android:minSdkVersion="14"
-        android:targetSdkVersion="23"/>
-    <permission
+<permission
         android:name="com.chdryra.android.reviewer.permission.MAPS_RECEIVE"
         android:protectionLevel="signature"/>
 
