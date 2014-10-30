@@ -83,9 +83,9 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" exported="" name="annotations" level="project" />
     <orderEntry type="library" exported="" name="support-annotations-20.0.0" level="project" />
-    <orderEntry type="module" module-name="GeneralLib" exported="" />
-    <orderEntry type="module" module-name="WidgetsLib" exported="" />
-    <orderEntry type="module" module-name="RemoteAPIFetchersLib" exported="" />
+    <orderEntry type="module" module-name="MyGeneralLibrary" exported="" />
+    <orderEntry type="module" module-name="MyAndroidWidgets" exported="" />
+    <orderEntry type="module" module-name="RemoteAPIFetchers" exported="" />
   </component>
 </module>
 
