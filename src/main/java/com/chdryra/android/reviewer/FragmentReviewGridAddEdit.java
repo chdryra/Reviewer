@@ -33,9 +33,10 @@ import com.chdryra.android.reviewer.GVReviewDataList.GVType;
  * @param <T>: {@link com.chdryra.android.reviewer.GVReviewDataList.GVReviewData} type.
  */
 abstract class FragmentReviewGridAddEdit<T extends GVReviewDataList.GVReviewData> extends
-                                                                                  FragmentReviewGrid<GVReviewDataList<T>> implements DialogReviewDataAddFragment.ReviewDataAddListener<T>,
+        FragmentReviewGrid<GVReviewDataList<T>> implements DialogReviewDataAddFragment
+        .ReviewDataAddListener<T>,
 
-                                                                                                                                     DialogReviewDataEditFragment.ReviewDataEditListener<T> {
+        DialogReviewDataEditFragment.ReviewDataEditListener<T> {
 
 
     private final GVType                    mDataType;
@@ -125,14 +126,14 @@ abstract class FragmentReviewGridAddEdit<T extends GVReviewDataList.GVReviewData
         ActivityResultCode result = ActivityResultCode.get(resultCode);
         if (data != null && result == mDoDatumEdit) {
             T oldDatum = getInputHandler().unpack(InputHandlerReviewData.CurrentNewDatum.CURRENT,
-                                                  data);
+                    data);
             T newDatum = getInputHandler().unpack(InputHandlerReviewData.CurrentNewDatum.NEW,
-                                                  data);
+                    data);
             doDatumEdit(oldDatum, newDatum);
         }
         if (data != null && result == mDoDatumDelete) {
             T datum = getInputHandler().unpack(InputHandlerReviewData.CurrentNewDatum.CURRENT,
-                                               data);
+                    data);
             doDatumDelete(datum);
         }
     }
@@ -140,7 +141,7 @@ abstract class FragmentReviewGridAddEdit<T extends GVReviewDataList.GVReviewData
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams
-                                                           .SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+                .SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
         if (data == null) return;
 
@@ -173,7 +174,7 @@ abstract class FragmentReviewGridAddEdit<T extends GVReviewDataList.GVReviewData
         Bundle args = Administrator.get(getActivity()).pack(getController());
 
         LauncherUI.launch(mAdderConfig.getReviewDataUI(), this,
-                          mAdderConfig.getRequestCode(), mAdderConfig.getTag(), args);
+                mAdderConfig.getRequestCode(), mAdderConfig.getTag(), args);
     }
 
     @Override
@@ -184,7 +185,7 @@ abstract class FragmentReviewGridAddEdit<T extends GVReviewDataList.GVReviewData
         packGridCellData((T) parent.getItemAtPosition(position), args);
 
         LauncherUI.launch(mEditorConfig.getReviewDataUI(), this,
-                          mEditorConfig.getRequestCode(), mEditorConfig.getTag(), args);
+                mEditorConfig.getRequestCode(), mEditorConfig.getTag(), args);
     }
 
     @Override

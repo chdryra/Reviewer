@@ -17,7 +17,7 @@ import android.os.Bundle;
  */
 class DialogShower {
     public static void show(DialogFragment dialog, Fragment targetFragment, int requestCode,
-                            String tag, Bundle args) {
+            String tag, Bundle args) {
         dialog.setTargetFragment(targetFragment, requestCode);
         dialog.setArguments(args);
         dialog.show(targetFragment.getFragmentManager(), tag);

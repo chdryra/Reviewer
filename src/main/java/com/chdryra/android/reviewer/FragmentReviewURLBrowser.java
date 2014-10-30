@@ -67,14 +67,14 @@ public class FragmentReviewURLBrowser extends FragmentDeleteDone {
         super.onCreate(savedInstanceState);
         mHandler = new InputHandlerReviewData<GVUrlList.GVUrl>(GVReviewDataList.GVType.URLS);
         mCurrent = mHandler.unpack(InputHandlerReviewData.CurrentNewDatum.CURRENT,
-                                   LauncherUI.getArgsForActivity(getActivity()));
+                LauncherUI.getArgsForActivity(getActivity()));
         setDeleteWhatTitle(mHandler.getGVType().getDatumString());
         dismissOnDelete();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+            Bundle savedInstanceState) {
         setDisplayHomeAsUp(true);
 
         View v = inflater.inflate(R.layout.fragment_review_url_browse, container, false);
@@ -158,7 +158,7 @@ public class FragmentReviewURLBrowser extends FragmentDeleteDone {
     @Override
     protected void onDeleteSelected() {
         mHandler.pack(InputHandlerReviewData.CurrentNewDatum.CURRENT, mCurrent,
-                      getNewReturnDataIntent());
+                getNewReturnDataIntent());
     }
 
     @Override
@@ -176,11 +176,11 @@ public class FragmentReviewURLBrowser extends FragmentDeleteDone {
         } catch (MalformedURLException e1) {
             Log.i(TAG, "MalformedURLException: " + urlString, e1);
             Toast.makeText(getActivity(), getResources().getString(R.string.toast_bad_url),
-                           Toast.LENGTH_SHORT).show();
+                    Toast.LENGTH_SHORT).show();
         } catch (URISyntaxException e2) {
             Log.i(TAG, "URLSyntaxException: " + urlString, e2);
             Toast.makeText(getActivity(), getResources().getString(R.string.toast_bad_url),
-                           Toast.LENGTH_SHORT).show();
+                    Toast.LENGTH_SHORT).show();
         }
 
         return url;

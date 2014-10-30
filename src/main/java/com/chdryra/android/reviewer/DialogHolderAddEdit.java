@@ -35,23 +35,23 @@ import android.widget.EditText;
  * @param <T>: {@link com.chdryra.android.reviewer.GVReviewDataList.GVReviewData} type.
  */
 abstract class DialogHolderAddEdit<T extends GVReviewDataList.GVReviewData> extends
-                                                                            DialogHolder<T> {
+        DialogHolder<T> {
 
     private final UIReviewData<T> mDialogUI;
 
     DialogHolderAddEdit(int layoutId, int[] viewIds, DialogReviewDataAddFragment<T> parent,
-                        final T nullData) {
+            final T nullData) {
         super(layoutId, viewIds);
         mDialogUI = new DialogHolderUI<T, DialogReviewDataAddFragment<T>>(parent,
-                                                                          getReviewDataAddUI
-                                                                                  (nullData));
+                getReviewDataAddUI
+                        (nullData));
     }
 
     DialogHolderAddEdit(int layoutId, int[] viewIds, DialogReviewDataEditFragment<T>
             parent) {
         super(layoutId, viewIds);
         mDialogUI = new DialogHolderUI<T, DialogReviewDataEditFragment<T>>(parent,
-                                                                           getReviewDataEditUI());
+                getReviewDataEditUI());
     }
 
     protected abstract EditText getEditTextForKeyboardAction();

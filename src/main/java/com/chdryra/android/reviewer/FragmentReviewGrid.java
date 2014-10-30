@@ -131,7 +131,7 @@ public abstract class FragmentReviewGrid<T extends GVReviewDataList> extends Fra
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+            Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
 
         View v = inflater.inflate(R.layout.fragment_review_grid, container, false);
@@ -301,7 +301,7 @@ public abstract class FragmentReviewGrid<T extends GVReviewDataList> extends Fra
 
     GridViewCellAdapter getGridViewCellAdapter() {
         return new GridViewCellAdapter(getActivity(), mGridData, getGridCellWidth(),
-                                       getGridCellHeight());
+                getGridCellHeight());
     }
 
     int getGridCellWidth() {

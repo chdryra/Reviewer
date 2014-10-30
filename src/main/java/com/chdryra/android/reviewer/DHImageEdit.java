@@ -68,7 +68,7 @@ class DHImageEdit extends DialogHolderAddEdit<GVImage> {
         String caption = image.getCaption();
         imageCaption.setText(image.getCaption());
         imageCaption.setHint(mDialogEdit.getActivity().getResources().getString(R.string
-                                                                                        .edit_text_image_caption_hint));
+                .edit_text_image_caption_hint));
 
         //For some reason setSelection(0) doesn't work unless I force set the span of the selection
         if (caption != null && caption.length() > 0) {

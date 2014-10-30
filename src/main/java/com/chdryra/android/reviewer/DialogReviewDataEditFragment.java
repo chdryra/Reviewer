@@ -50,7 +50,7 @@ public abstract class DialogReviewDataEditFragment<T extends GVReviewDataList.GV
     }
 
     DialogReviewDataEditFragment(GVReviewDataList.GVType dataType,
-                                 InputHandlerReviewData<T> handler) {
+            InputHandlerReviewData<T> handler) {
         mDataType = dataType;
         mHandler = handler;
     }
@@ -79,7 +79,7 @@ public abstract class DialogReviewDataEditFragment<T extends GVReviewDataList.GV
         super.onCreate(savedInstanceState);
 
         mDatum = mHandler.unpack(InputHandlerReviewData.CurrentNewDatum.CURRENT,
-                                 getArguments());
+                getArguments());
         mDialogHolder = FactoryDialogHolder.newDialogHolder(this);
 
         try {
@@ -87,11 +87,11 @@ public abstract class DialogReviewDataEditFragment<T extends GVReviewDataList.GV
             mListener = (ReviewDataEditListener<T>) getTargetFragment();
         } catch (ClassCastException e) {
             throw new ClassCastException(getTargetFragment().toString() + " must implement " +
-                                         "reviewDataEditListener");
+                    "reviewDataEditListener");
         }
 
         setDialogTitle(getResources().getString(R.string.edit) + " " + mHandler.getGVType()
-                                                                               .getDatumString());
+                .getDatumString());
     }
 
     @Override

@@ -56,7 +56,7 @@ class GVUrlList extends GVReviewDataList<GVUrlList.GVUrl> {
         GVUrl(String stringUrl) throws MalformedURLException, URISyntaxException {
             URL url = new URL(URLUtil.guessUrl(stringUrl));
             URI uri = new URI(url.getProtocol(), url.getUserInfo(), url.getHost(), url.getPort(),
-                              url.getPath(), url.getQuery(), url.getRef());
+                    url.getPath(), url.getQuery(), url.getRef());
             mUrl = uri.toURL();
         }
 

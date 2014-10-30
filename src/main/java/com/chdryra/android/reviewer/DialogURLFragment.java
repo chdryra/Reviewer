@@ -40,7 +40,7 @@ public class DialogURLFragment extends DialogCancelActionDoneFragment implements
         mUrlEditText = (ClearableEditText) v.findViewById(R.id.url_edit_text);
         if (mController.getData(GVType.URLS).size() == 1) {
             mUrlEditText.setText(((GVUrl) mController.getData(GVType.URLS).getItem(0))
-                                         .toShortenedString());
+                    .toShortenedString());
         }
 
         setKeyboardDoDoneOnEditText(mUrlEditText);
@@ -73,7 +73,7 @@ public class DialogURLFragment extends DialogCancelActionDoneFragment implements
             } catch (Exception e) {
                 Log.i(TAG, "Malformed URL or incorrect syntax: " + urlString, e);
                 Toast.makeText(getActivity(), getResources().getString(R.string.toast_bad_url),
-                               Toast.LENGTH_SHORT).show();
+                        Toast.LENGTH_SHORT).show();
             }
         }
     }

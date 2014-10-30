@@ -41,7 +41,7 @@ class RCollection<T> implements Iterable<T> {
         public void remove() {
             if (position <= 0) {
                 throw new IllegalStateException("Have to do at least one next() before you can " +
-                                                "delete");
+                        "delete");
             } else {
                 RCollection.this.remove(getId(position));
             }

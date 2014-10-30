@@ -140,7 +140,7 @@ class ConfigReviewDataUI {
         private final String                        mTag;
 
         private ReviewDataUIConfig(GVType dataType, Class<? extends LaunchableUI> UIClass,
-                                   int requestCode, String tag) {
+                int requestCode, String tag) {
             mDataType = dataType;
             mUIClass = UIClass;
             mRequestCode = requestCode;

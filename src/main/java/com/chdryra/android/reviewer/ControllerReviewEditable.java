@@ -67,7 +67,7 @@ class ControllerReviewEditable extends ControllerReview<ReviewEditable> {
         RDList<RDImage> rdImages = new RDList<RDImage>();
         for (GVImageList.GVImage image : images) {
             rdImages.add(new RDImage(image.getBitmap(), image.getLatLng(), image.getCaption(),
-                                     image.isCover(), r));
+                    image.isCover(), r));
         }
 
         r.setImages(rdImages);

@@ -43,8 +43,8 @@ class HelperReviewImage extends ImageHelper {
             HashMap<String, HelperReviewImage>();
     private static final String                             IMAGE_DIRECTORY          = "Reviewer";
     private static final String                             ERROR_NO_STORAGE_MESSAGE = "No " +
-                                                                                       "storage " +
-                                                                                       "available!";
+            "storage " +
+            "available!";
     private final ControllerReview mController;
     private long fileCounter = 0;
 
@@ -90,7 +90,7 @@ class HelperReviewImage extends ImageHelper {
         boolean success;
         if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
             File dcimDir = Environment.getExternalStoragePublicDirectory(Environment
-                                                                                 .DIRECTORY_DCIM);
+                    .DIRECTORY_DCIM);
             File reviewerDir = new File(dcimDir, IMAGE_DIRECTORY);
             File file = new File(reviewerDir, imageFileName + ".jpg");
             if (file.exists()) {
@@ -140,24 +140,24 @@ class HelperReviewImage extends ImageHelper {
             final String packageName = res.activityInfo.packageName;
             final Intent intent = new Intent(captureIntent);
             intent.setComponent(new ComponentName(res.activityInfo.packageName,
-                                                  res.activityInfo.name));
+                    res.activityInfo.name));
             intent.setPackage(packageName);
             intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
             cameraIntents.add(intent);
         }
 
         final Intent galleryIntent = new Intent(Intent.ACTION_PICK,
-                                                android.provider.MediaStore.Images.Media
-                                                        .EXTERNAL_CONTENT_URI);
+                android.provider.MediaStore.Images.Media
+                        .EXTERNAL_CONTENT_URI);
         final Intent chooserIntent = Intent.createChooser(galleryIntent, "Select Source");
         chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, cameraIntents.toArray(new
-                                                                                           Parcelable[cameraIntents.size()]));
+                Parcelable[cameraIntents.size()]));
 
         return chooserIntent;
     }
 
     boolean bitmapExistsOnActivityResult(Activity activity, ActivityResultCode resultCode,
-                                         Intent data) {
+            Intent data) {
         //Returns true if bitmap exists.
         if (resultCode.equals(ActivityResultCode.OK)) {
             final boolean isCamera;
@@ -166,7 +166,7 @@ class HelperReviewImage extends ImageHelper {
             } else {
                 final String action = data.getAction();
                 isCamera = action != null && action.equals(MediaStore
-                                                                   .ACTION_IMAGE_CAPTURE);
+                        .ACTION_IMAGE_CAPTURE);
             }
 
             if (!isCamera) {

@@ -103,7 +103,7 @@ public abstract class DialogReviewDataAddFragment<T extends GVReviewDataList.GVR
                 mAddListener = (ReviewDataAddListener<T>) getTargetFragment();
             } catch (ClassCastException e) {
                 throw new ClassCastException(getTargetFragment().toString() + " must implement " +
-                                             "reviewDataAddListener");
+                        "reviewDataAddListener");
             }
         }
 

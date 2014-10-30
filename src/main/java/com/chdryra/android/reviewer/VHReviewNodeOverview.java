@@ -71,7 +71,7 @@ class VHReviewNodeOverview extends ViewHolderBasic {
 
         String author = review.getAuthor();
         String date = DateFormat.getDateTimeInstance(DateFormat.MEDIUM,
-                                                     DateFormat.SHORT).format(review.getPublishDate());
+                DateFormat.SHORT).format(review.getPublishDate());
         mPublishDate.setText(date + " by " + author);
 
         String location = review.getLocationName();

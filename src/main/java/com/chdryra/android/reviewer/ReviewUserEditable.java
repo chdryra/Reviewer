@@ -84,7 +84,7 @@ class ReviewUserEditable extends ReviewEditable {
     @Override
     public Review publish(PublisherReviewTree publisher) {
         return FactoryReview.createReview(publisher.getAuthor(), publisher.getPublishDate(),
-                                          getReviewNode());
+                getReviewNode());
     }
 
     @Override

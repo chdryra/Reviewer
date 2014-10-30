@@ -62,7 +62,7 @@ class GVFactList extends GVReviewDataList<GVFactList.GVFact> {
         @Override
         public boolean isValidForDisplay() {
             return getLabel() != null && getLabel().length() > 0 && getValue() != null &&
-                   getValue().length() > 0;
+                    getValue().length() > 0;
         }
     }
 

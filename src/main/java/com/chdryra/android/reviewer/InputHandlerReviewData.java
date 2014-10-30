@@ -115,7 +115,7 @@ class InputHandlerReviewData<T extends GVReviewDataList.GVReviewData> {
 
     void makeToastHasItem(Context context) {
         String toast = context.getResources().getString(R.string.toast_has) + " " +
-                       getGVType().getDatumString();
+                getGVType().getDatumString();
         Toast.makeText(context, toast, Toast.LENGTH_SHORT).show();
     }
 

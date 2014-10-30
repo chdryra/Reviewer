@@ -58,8 +58,8 @@ class GVReviewOverviewList extends GVReviewDataList<GVReviewOverviewList.GVRevie
         }
 
         GVReviewOverview(String id, String subject, float rating, Bitmap coverImage,
-                         String headline, String locationName, String Author,
-                         Date publishDate) {
+                String headline, String locationName, String Author,
+                Date publishDate) {
             mId = id;
             mSubject = subject;
             mRating = rating;
@@ -117,7 +117,7 @@ class GVReviewOverviewList extends GVReviewDataList<GVReviewOverviewList.GVRevie
         @Override
         public boolean isValidForDisplay() {
             return mId != null && mId.length() > 0 && mSubject != null && mSubject.length() > 0
-                   && mAuthor != null && mAuthor.length() > 0 && mPublishDate != null;
+                    && mAuthor != null && mAuthor.length() > 0 && mPublishDate != null;
         }
 
 
@@ -140,10 +140,10 @@ class GVReviewOverviewList extends GVReviewDataList<GVReviewOverviewList.GVRevie
     }
 
     void add(String id, String subject, float rating, Bitmap coverImage, String headline,
-             String locationName, String author, Date publishDate) {
+            String locationName, String author, Date publishDate) {
         if (!contains(id)) {
             add(new GVReviewOverview(id, subject, rating, coverImage, headline, locationName,
-                                     author, publishDate));
+                    author, publishDate));
         }
     }
 

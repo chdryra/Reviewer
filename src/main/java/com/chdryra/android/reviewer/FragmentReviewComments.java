@@ -77,7 +77,7 @@ public class FragmentReviewComments extends FragmentReviewGridAddEdit<GVComment>
             Toast.makeText(getActivity(), R.string.toast_split_comment, Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(getActivity(), R.string.toast_unsplit_comment,
-                           Toast.LENGTH_SHORT).show();
+                    Toast.LENGTH_SHORT).show();
         }
         updateGridDataUI();
     }

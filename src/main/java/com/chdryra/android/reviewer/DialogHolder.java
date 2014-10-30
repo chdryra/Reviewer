@@ -33,7 +33,7 @@ import android.view.View;
  * @param <T>: {@link com.chdryra.android.reviewer.GVReviewDataList.GVReviewData} type.
  */
 abstract class DialogHolder<T extends GVReviewDataList.GVReviewData> implements
-                                                                     UIHolder<T> {
+        UIHolder<T> {
     private final int               mLayout;
     private final int[]             mUpdateableViewIds;
     private final SparseArray<View> mUpdateableViews;

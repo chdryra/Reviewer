@@ -55,17 +55,17 @@ class ControllerReviewCollection<T extends Review> {
 
                 GVImageList images = (GVImageList) c.getData(GVReviewDataList.GVType.IMAGES);
                 GVCommentList comments = (GVCommentList) c.getData(GVReviewDataList.GVType
-                                                                           .COMMENTS);
+                        .COMMENTS);
                 GVLocationList locations = (GVLocationList) c.getData(GVReviewDataList.GVType
-                                                                              .LOCATIONS);
+                        .LOCATIONS);
 
                 Bitmap cover = images.size() > 0 ? images.getRandomCover().getBitmap() : null;
                 String headline = comments.size() > 0 ? comments.getItem(0).getCommentHeadline()
-                                                      : null;
+                        : null;
                 String location = locations.size() > 0 ? locations.getItem(0).getName() : null;
 
                 data.add(c.getId(), c.getSubject(), c.getRating(), cover, headline, location,
-                         c.getAuthor(), c.getPublishDate());
+                        c.getAuthor(), c.getPublishDate());
             }
         }
 

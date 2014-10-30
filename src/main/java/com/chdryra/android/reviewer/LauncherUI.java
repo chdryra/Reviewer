@@ -39,9 +39,9 @@ class LauncherUI {
     }
 
     static void launch(LaunchableUI ui, Fragment commissioner, int requestCode, String tag,
-                       Bundle args) {
+            Bundle args) {
         ui.launch(new LauncherUI(commissioner, requestCode, tag,
-                                 args));
+                args));
     }
 
     static Bundle getArgsForActivity(Activity launchableUI) {

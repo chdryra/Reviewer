@@ -30,7 +30,7 @@ import com.google.android.gms.maps.model.LatLng;
  * up with autocomplete suggestions as user types name.
  */
 public class DialogLocationFragment extends DialogCancelActionDoneFragment implements Locatable,
-                                                                                      LaunchableUI {
+        LaunchableUI {
     public static final ActionType RESULT_MAP = ActionType.OTHER;
 
     private ControllerReviewEditable mController;
@@ -109,7 +109,7 @@ public class DialogLocationFragment extends DialogCancelActionDoneFragment imple
         InputHandlerReviewData<GVLocation> handler = new InputHandlerReviewData<GVLocation>
                 (GVType.LOCATIONS);
         handler.pack(InputHandlerReviewData.CurrentNewDatum.NEW, createGVData(),
-                     createNewReturnData());
+                createNewReturnData());
     }
 
     @Override

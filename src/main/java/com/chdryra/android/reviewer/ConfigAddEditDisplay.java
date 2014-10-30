@@ -31,46 +31,46 @@ class ConfigAddEditDisplay {
         mDialogAddEditMap = new HashMap<GVType, AddEditDisplayUIs>();
 
         mDialogAddEditMap.put(GVType.TAGS,
-                              new AddEditDisplayUIs(
-                                      AddTag.class,
-                                      EditTag.class,
-                                      ActivityReviewTags.class));
+                new AddEditDisplayUIs(
+                        AddTag.class,
+                        EditTag.class,
+                        ActivityReviewTags.class));
 
         mDialogAddEditMap.put(GVType.CHILDREN,
-                              new AddEditDisplayUIs(
-                                      AddChild.class,
-                                      EditChild.class,
-                                      ActivityReviewChildren.class));
+                new AddEditDisplayUIs(
+                        AddChild.class,
+                        EditChild.class,
+                        ActivityReviewChildren.class));
 
         mDialogAddEditMap.put(GVType.COMMENTS,
-                              new AddEditDisplayUIs(
-                                      AddComment.class,
-                                      EditComment.class,
-                                      ActivityReviewComments.class));
+                new AddEditDisplayUIs(
+                        AddComment.class,
+                        EditComment.class,
+                        ActivityReviewComments.class));
 
         mDialogAddEditMap.put(GVType.IMAGES,
-                              new AddEditDisplayUIs(
-                                      null,
-                                      EditImage.class,
-                                      ActivityReviewImages.class));
+                new AddEditDisplayUIs(
+                        null,
+                        EditImage.class,
+                        ActivityReviewImages.class));
 
         mDialogAddEditMap.put(GVType.FACTS,
-                              new AddEditDisplayUIs(
-                                      AddFact.class,
-                                      EditFact.class,
-                                      ActivityReviewFacts.class));
+                new AddEditDisplayUIs(
+                        AddFact.class,
+                        EditFact.class,
+                        ActivityReviewFacts.class));
 
         mDialogAddEditMap.put(GVType.LOCATIONS,
-                              new AddEditDisplayUIs(
-                                      ActivityReviewLocationMap.class,
-                                      ActivityReviewLocationMap.class,
-                                      ActivityReviewLocations.class));
+                new AddEditDisplayUIs(
+                        ActivityReviewLocationMap.class,
+                        ActivityReviewLocationMap.class,
+                        ActivityReviewLocations.class));
 
         mDialogAddEditMap.put(GVType.URLS,
-                              new AddEditDisplayUIs(
-                                      ActivityReviewURLBrowser.class,
-                                      ActivityReviewURLBrowser.class,
-                                      ActivityReviewURLs.class));
+                new AddEditDisplayUIs(
+                        ActivityReviewURLBrowser.class,
+                        ActivityReviewURLBrowser.class,
+                        ActivityReviewURLs.class));
     }
 
     static Class<? extends LaunchableUI> getAddClass(GVType dataType) {
@@ -103,8 +103,8 @@ class ConfigAddEditDisplay {
 
     //Child
     public static class AddChild extends
-                                 DialogReviewDataAddFragment<GVReviewSubjectRatingList
-                                         .GVReviewSubjectRating> {
+            DialogReviewDataAddFragment<GVReviewSubjectRatingList
+                    .GVReviewSubjectRating> {
         public AddChild() {
             super(new InputHandlerChildren());
         }
@@ -170,8 +170,8 @@ class ConfigAddEditDisplay {
         private final Class<? extends Activity>     mActivity;
 
         private AddEditDisplayUIs(Class<? extends LaunchableUI> add,
-                                  Class<? extends LaunchableUI> edit,
-                                  Class<? extends Activity> activity) {
+                Class<? extends LaunchableUI> edit,
+                Class<? extends Activity> activity) {
             mAdd = add;
             mEdit = edit;
             mActivity = activity;

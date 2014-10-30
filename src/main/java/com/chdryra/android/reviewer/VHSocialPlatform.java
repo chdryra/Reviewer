@@ -32,7 +32,7 @@ class VHSocialPlatform extends VHDualString {
         GVSocialPlatform platform = (GVSocialPlatform) data;
         if (platform != null) {
             super.updateView(new VHDDualString(platform.getName(),
-                                               String.valueOf(platform.getFollowers())));
+                    String.valueOf(platform.getFollowers())));
         }
     }
 }
