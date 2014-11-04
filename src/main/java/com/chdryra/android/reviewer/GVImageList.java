@@ -47,11 +47,6 @@ class GVImageList extends GVReviewDataList<GVImageList.GVImage> {
         private       String mCaption;
         private boolean mIsCover = false;
 
-        GVImage() {
-            mBitmap = null;
-            mLatLng = null;
-        }
-
         GVImage(Bitmap bitmap, LatLng latLng) {
             mBitmap = bitmap;
             mLatLng = latLng;
