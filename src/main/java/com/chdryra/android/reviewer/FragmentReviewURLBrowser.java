@@ -158,12 +158,12 @@ public class FragmentReviewURLBrowser extends FragmentDeleteDone {
     @Override
     protected void onDeleteSelected() {
         mHandler.pack(InputHandlerReviewData.CurrentNewDatum.CURRENT, mCurrent,
-                getNewReturnDataIntent());
+                getNewReturnData());
     }
 
     @Override
     protected void onDoneSelected() {
-        Intent i = getNewReturnDataIntent();
+        Intent i = getNewReturnData();
         mHandler.pack(InputHandlerReviewData.CurrentNewDatum.CURRENT, mCurrent, i);
         mHandler.pack(InputHandlerReviewData.CurrentNewDatum.NEW, createGVData(), i);
     }

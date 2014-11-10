@@ -95,7 +95,7 @@ public abstract class DialogReviewDataEditFragment<T extends GVReviewDataList.GV
     }
 
     @Override
-    protected void onDeleteButtonClick() {
+    protected void onConfirmedDeleteButtonClick() {
         mListener.onReviewDataDelete(createGVDataFromInputs());
     }
 

@@ -236,7 +236,7 @@ public class FragmentReviewLocationMap extends FragmentDeleteDone implements
     @Override
     protected void onDeleteSelected() {
         mHandler.pack(InputHandlerReviewData.CurrentNewDatum.CURRENT, mCurrent,
-                getNewReturnDataIntent());
+                getNewReturnData());
     }
 
     @Override
@@ -249,7 +249,7 @@ public class FragmentReviewLocationMap extends FragmentDeleteDone implements
             setDismissOnDone(true);
         }
 
-        Intent i = getNewReturnDataIntent();
+        Intent i = getNewReturnData();
         mHandler.pack(InputHandlerReviewData.CurrentNewDatum.CURRENT, mCurrent, i);
         mHandler.pack(InputHandlerReviewData.CurrentNewDatum.NEW, createGVData(), i);
     }
