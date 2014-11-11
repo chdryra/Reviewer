@@ -19,7 +19,7 @@
         <item name="android:editTextStyle">@style/Widget.EditText.SlateSmoke</item>
         <item name="android:buttonStyle">@style/Widget.Button.SlateSmoke</item>
         <item name="android:gridViewStyle">@style/Widget.GridView.SlateSmoke</item>
-        <item name="gridCellStyle">@style/Widget.GridCell.SlateSmoke</item>
+        <item name="viewHolderStyle">@style/Widget.GridCell.SlateSmoke</item>
         <item name="android:alertDialogTheme">@style/Theme.Dialog.SlateSmoke</item>
         <item name="android:dialogTheme">@style/Theme.Dialog.SlateSmoke</item>
     </style>

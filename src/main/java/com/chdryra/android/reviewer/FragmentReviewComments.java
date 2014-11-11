@@ -14,7 +14,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.chdryra.android.mygenerallibrary.GridViewCellAdapter;
+import com.chdryra.android.mygenerallibrary.ViewHolderAdapter;
 import com.chdryra.android.reviewer.GVCommentList.GVComment;
 import com.chdryra.android.reviewer.GVReviewDataList.GVType;
 
@@ -47,10 +47,10 @@ public class FragmentReviewComments extends FragmentReviewGridAddEdit<GVComment>
     @Override
     void updateGridDataUI() {
         if (mCommentsAreSplit) {
-            ((GridViewCellAdapter) getGridView().getAdapter()).setData(mComments.getSplitComments
+            ((ViewHolderAdapter) getGridView().getAdapter()).setData(mComments.getSplitComments
                     ());
         } else {
-            ((GridViewCellAdapter) getGridView().getAdapter()).setData(mComments);
+            ((ViewHolderAdapter) getGridView().getAdapter()).setData(mComments);
         }
     }
 

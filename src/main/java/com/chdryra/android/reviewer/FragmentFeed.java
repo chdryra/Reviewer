@@ -16,7 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 
-import com.chdryra.android.mygenerallibrary.GridViewCellAdapter;
+import com.chdryra.android.mygenerallibrary.ViewHolderAdapter;
 
 /**
  * UI Fragment: published reviews.
@@ -68,7 +68,7 @@ public class FragmentFeed extends FragmentReviewGrid<GVReviewOverviewList> {
     @Override
     protected void updateGridDataUI() {
         setGridViewData(Administrator.get(getActivity()).getPublishedReviewsFeed());
-        ((GridViewCellAdapter) getGridView().getAdapter()).setData(getGridData());
+        ((ViewHolderAdapter) getGridView().getAdapter()).setData(getGridData());
     }
 
     @Override

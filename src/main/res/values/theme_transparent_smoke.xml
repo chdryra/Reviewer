@@ -19,7 +19,7 @@
         <item name="android:editTextStyle">@style/Widget.EditText.TransSmoke</item>
         <item name="android:buttonStyle">@style/Widget.Button.TransSmoke</item>
         <item name="android:gridViewStyle">@style/Widget.GridView.TransSmoke</item>
-        <item name="gridCellStyle">@style/Widget.GridCell.TransSmoke</item>
+        <item name="viewHolderStyle">@style/Widget.GridCell.TransSmoke</item>
         <item name="android:alertDialogTheme">@style/Theme.Dialog.TransSmoke</item>
         <item name="android:dialogTheme">@style/Theme.Dialog.TransSmoke</item>
     </style>

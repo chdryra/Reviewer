@@ -24,10 +24,10 @@ import android.widget.Toast;
 
 import com.chdryra.android.mygenerallibrary.ActivityResultCode;
 import com.chdryra.android.mygenerallibrary.FunctionPointer;
-import com.chdryra.android.mygenerallibrary.GridViewCellAdapter;
 import com.chdryra.android.mygenerallibrary.VHDDualString;
 import com.chdryra.android.mygenerallibrary.VHDString;
 import com.chdryra.android.mygenerallibrary.ViewHolder;
+import com.chdryra.android.mygenerallibrary.ViewHolderAdapter;
 import com.chdryra.android.mygenerallibrary.ViewHolderData;
 import com.chdryra.android.reviewer.FragmentReviewBuild.GVCellManagerList.GVCellManager;
 import com.chdryra.android.reviewer.GVReviewDataList.GVType;
@@ -84,7 +84,7 @@ public class FragmentReviewBuild extends FragmentReviewGrid<FragmentReviewBuild.
      * because each cell can have its own unique look so reuse is not an option. The view update
      * requests are forwarded to underlying the GVCellManagers to handle.
      */
-    class ReviewOptionsGridCellAdapter extends GridViewCellAdapter {
+    class ReviewOptionsGridCellAdapter extends ViewHolderAdapter {
         public ReviewOptionsGridCellAdapter() {
             super(getActivity(), getGridData(), getGridCellWidth(), getGridCellHeight());
         }
@@ -274,7 +274,7 @@ public class FragmentReviewBuild extends FragmentReviewGrid<FragmentReviewBuild.
     }
 
     @Override
-    protected GridViewCellAdapter getGridViewCellAdapter() {
+    protected ViewHolderAdapter getGridViewCellAdapter() {
         return new ReviewOptionsGridCellAdapter();
     }
 

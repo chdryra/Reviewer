@@ -31,7 +31,7 @@ import android.widget.TextView;
 
 import com.chdryra.android.myandroidwidgets.ClearableEditText;
 import com.chdryra.android.mygenerallibrary.FragmentDeleteDone;
-import com.chdryra.android.mygenerallibrary.GridViewCellAdapter;
+import com.chdryra.android.mygenerallibrary.ViewHolderAdapter;
 import com.chdryra.android.reviewer.GVImageList.GVImage;
 import com.chdryra.android.reviewer.GVReviewDataList.GVType;
 
@@ -299,8 +299,10 @@ public abstract class FragmentReviewGrid<T extends GVReviewDataList> extends Fra
 
     }
 
-    GridViewCellAdapter getGridViewCellAdapter() {
-        return new GridViewCellAdapter(getActivity(), mGridData, getGridCellWidth(),
+    ViewHolderAdapter getGridViewCellAdapter() {
+        //TODO shouldn't really complain because I think bounds are correct. Maybe because T
+        // extends GVReviewDataList (raw type) rather than parameterised type.
+        return new ViewHolderAdapter(getActivity(), mGridData, getGridCellWidth(),
                 getGridCellHeight());
     }
 
@@ -349,7 +351,7 @@ public abstract class FragmentReviewGrid<T extends GVReviewDataList> extends Fra
     }
 
     void updateGridDataUI() {
-        ((GridViewCellAdapter) getGridView().getAdapter()).notifyDataSetChanged();
+        ((ViewHolderAdapter) getGridView().getAdapter()).notifyDataSetChanged();
     }
 
     void updateCover() {

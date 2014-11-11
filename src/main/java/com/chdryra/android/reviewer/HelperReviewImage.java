@@ -14,6 +14,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -43,8 +44,7 @@ class HelperReviewImage extends ImageHelper {
             HashMap<String, HelperReviewImage>();
     private static final String                             IMAGE_DIRECTORY          = "Reviewer";
     private static final String                             ERROR_NO_STORAGE_MESSAGE = "No " +
-            "storage " +
-            "available!";
+            "storage available!";
     private final ControllerReview mController;
     private long fileCounter = 0;
 
@@ -82,37 +82,6 @@ class HelperReviewImage extends ImageHelper {
             mImageList.add(bitmap, getLatLngFromEXIF());
             mUpdateUI.execute(null);
         }
-    }
-
-    boolean createNewImageFile() throws IOException {
-        String imageFileName = mController.getSubject() + "_" + fileCounter++;
-        String path;
-        boolean success;
-        if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
-            File dcimDir = Environment.getExternalStoragePublicDirectory(Environment
-                    .DIRECTORY_DCIM);
-            File reviewerDir = new File(dcimDir, IMAGE_DIRECTORY);
-            File file = new File(reviewerDir, imageFileName + ".jpg");
-            if (file.exists()) {
-                return createNewImageFile();
-            }
-            path = file.toString();
-            setImageFilePath(path);
-            success = createImageFile();
-        } else {
-            throw new IOException(ERROR_NO_STORAGE_MESSAGE);
-        }
-
-        return success;
-    }
-
-    void addReviewImage(Context context, GVImageList imageList, FunctionPointer<Void,
-            Void> updateUI) {
-        int maxWidth = (int) context.getResources().getDimension(R.dimen.imageMaxWidth);
-        int maxHeight = (int) context.getResources().getDimension(R.dimen.imageMaxHeight);
-
-        BitmapLoaderTask loader = new BitmapLoaderTask(imageList, updateUI);
-        loader.execute(maxWidth, maxHeight);
     }
 
     Intent getImageChooserIntents(Activity activity) {
@@ -156,6 +125,37 @@ class HelperReviewImage extends ImageHelper {
         return chooserIntent;
     }
 
+    boolean createNewImageFile() throws IOException {
+        String imageFileName = mController.getSubject() + "_" + fileCounter++;
+        String path;
+        boolean success;
+        if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
+            File dcimDir = Environment.getExternalStoragePublicDirectory(Environment
+                    .DIRECTORY_DCIM);
+            File reviewerDir = new File(dcimDir, IMAGE_DIRECTORY);
+            File file = new File(reviewerDir, imageFileName + ".jpg");
+            if (file.exists()) {
+                return createNewImageFile();
+            }
+            path = file.toString();
+            setImageFilePath(path);
+            success = createImageFile();
+        } else {
+            throw new IOException(ERROR_NO_STORAGE_MESSAGE);
+        }
+
+        return success;
+    }
+
+    void addReviewImage(Context context, GVImageList imageList, FunctionPointer<Void,
+            Void> updateUI) {
+        int maxWidth = (int) context.getResources().getDimension(R.dimen.imageMaxWidth);
+        int maxHeight = (int) context.getResources().getDimension(R.dimen.imageMaxHeight);
+
+        BitmapLoaderTask loader = new BitmapLoaderTask(imageList, updateUI);
+        loader.execute(maxWidth, maxHeight);
+    }
+
     boolean bitmapExistsOnActivityResult(Activity activity, ActivityResultCode resultCode,
             Intent data) {
         //Returns true if bitmap exists.
@@ -171,7 +171,7 @@ class HelperReviewImage extends ImageHelper {
 
             if (!isCamera) {
                 Uri uri = data.getData();
-                String path = ImageHelper.getRealPathFromURI(activity, uri);
+                String path = getRealPathFromURI(activity, uri);
                 setImageFilePath(path);
             }
 
@@ -194,6 +194,22 @@ class HelperReviewImage extends ImageHelper {
             return false;
         } else {
             return false;
+        }
+    }
+
+
+    private String getRealPathFromURI(Context context, Uri contentUri) {
+        Cursor cursor = null;
+        try {
+            String[] proj = {MediaStore.Images.Media.DATA};
+            cursor = context.getContentResolver().query(contentUri, proj, null, null, null);
+            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+            cursor.moveToFirst();
+            return cursor.getString(column_index);
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
         }
     }
 }

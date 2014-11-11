@@ -6,7 +6,7 @@
   ~ Date: 23 September, 2014
   -->
 
-<com.chdryra.android.mygenerallibrary.GridCellLayout
+<com.chdryra.android.mygenerallibrary.ViewHolderLayout
     style="@style/GridCell"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
@@ -32,4 +32,4 @@
             android:stepSize="0.5"/>
     </LinearLayout>
 
-</com.chdryra.android.mygenerallibrary.GridCellLayout>
+</com.chdryra.android.mygenerallibrary.ViewHolderLayout>

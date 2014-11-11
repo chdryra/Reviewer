@@ -19,7 +19,7 @@
         <item name="android:editTextStyle">@style/Widget.EditText.SmokeSlate</item>
         <item name="android:buttonStyle">@style/Widget.Button.SmokeSlate</item>
         <item name="android:gridViewStyle">@style/Widget.GridView.SmokeSlate</item>
-        <item name="gridCellStyle">@style/Widget.GridCell.SmokeSlate</item>
+        <item name="viewHolderStyle">@style/Widget.GridCell.SmokeSlate</item>
         <item name="android:alertDialogTheme">@style/Theme.Dialog.SmokeSlate</item>
         <item name="android:dialogTheme">@style/Theme.Dialog.SmokeSlate</item>
     </style>
