@@ -54,6 +54,10 @@ class Administrator {
         return sAdministrator;
     }
 
+    String getApplicationName() {
+        return mContext.getString(mContext.getApplicationInfo().labelRes);
+    }
+
     GVReviewOverviewList getPublishedReviewsFeed() {
         return new ControllerReviewCollection<ReviewNode>(mPublishedReviews)
                 .getGridViewablePublished();

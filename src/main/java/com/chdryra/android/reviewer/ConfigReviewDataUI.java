@@ -32,9 +32,9 @@ import java.util.Map;
  */
 class ConfigReviewDataUI {
     private final static String TAG             = "ConfigReviewDataUI";
-    private final static int    DATA_ADD        = 0;
-    private final static int    DATA_EDIT       = 1;
-    private static       int    REQUEST_COUNTER = 2;
+    private final static int DATA_ADD        = 2718;
+    private final static int DATA_EDIT       = 2719;
+    private static       int REQUEST_COUNTER = 2720;
     private static ConfigReviewDataUI sConfigReviewDataUI;
 
     private final Map<GVType, Config> mConfigsMap = new HashMap<GVType, Config>();

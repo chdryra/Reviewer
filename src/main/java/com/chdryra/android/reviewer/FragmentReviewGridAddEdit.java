@@ -34,9 +34,7 @@ import com.chdryra.android.reviewer.GVReviewDataList.GVType;
  */
 abstract class FragmentReviewGridAddEdit<T extends GVReviewDataList.GVReviewData> extends
         FragmentReviewGrid<GVReviewDataList<T>> implements DialogReviewDataAddFragment
-        .ReviewDataAddListener<T>,
-
-        DialogReviewDataEditFragment.ReviewDataEditListener<T> {
+        .ReviewDataAddListener<T>, DialogReviewDataEditFragment.ReviewDataEditListener<T> {
 
 
     private final GVType                    mDataType;

@@ -10,7 +10,7 @@
     package="com.chdryra.android.reviewer"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-<permission
+    <permission
         android:name="com.chdryra.android.reviewer.permission.MAPS_RECEIVE"
         android:protectionLevel="signature"/>
 

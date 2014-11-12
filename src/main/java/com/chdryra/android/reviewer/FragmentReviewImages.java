@@ -38,8 +38,8 @@ public class FragmentReviewImages extends FragmentReviewGridAddEdit<GVImage> {
     private static final String IMAGE_BACKGROUND_TAG = "DataEditTag";
     private static final int    IMAGE_AS_BACKGROUND  = 20;
 
-    private GVImageList       mImages;
-    private HelperReviewImage mHelperReviewImage;
+    private GVImageList  mImages;
+    private ImageChooser mImageChooser;
 
     public FragmentReviewImages() {
         super(GVType.IMAGES);
@@ -51,7 +51,7 @@ public class FragmentReviewImages extends FragmentReviewGridAddEdit<GVImage> {
     @Override
     protected boolean doDatumAdd(final GVImage image) {
         final GVImageList temp = new GVImageList();
-        mHelperReviewImage.addReviewImage(getActivity(), temp,
+        mImageChooser.addReviewImage(temp,
                 new FunctionPointer<Void, Void>() {
                     @Override
                     public Void execute(Void data) {
@@ -77,12 +77,12 @@ public class FragmentReviewImages extends FragmentReviewGridAddEdit<GVImage> {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (data == null) return;
+        //if (data == null) return;
 
         ActivityResultCode resCode = ActivityResultCode.get(resultCode);
-        if (requestCode == getRequestCodeAdd() && mHelperReviewImage.bitmapExistsOnActivityResult
-                (getActivity(), resCode, data)) {
-            onActivityAddRequested(resultCode, data);
+        if (requestCode == getRequestCodeAdd() &&
+                mImageChooser.bitmapExistsFromChooserIntents(resCode, data)) {
+            doDatumAdd(null);
 
         } else if (requestCode == IMAGE_AS_BACKGROUND && resCode.equals(ActionType.YES
                 .getResultCode())) {
@@ -97,13 +97,13 @@ public class FragmentReviewImages extends FragmentReviewGridAddEdit<GVImage> {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mImages = (GVImageList) getInputHandler().getData();
-        mHelperReviewImage = HelperReviewImage.getInstance(getController());
+        mImageChooser = new ImageChooser(getController(), getActivity());
     }
 
     @Override
     protected void onBannerButtonClick() {
-        startActivityForResult(mHelperReviewImage.getImageChooserIntents(getActivity()),
-                getRequestCodeAdd());
+        Intent options = mImageChooser.getChooserIntents();
+        startActivityForResult(options, getRequestCodeAdd());
     }
 
     @Override

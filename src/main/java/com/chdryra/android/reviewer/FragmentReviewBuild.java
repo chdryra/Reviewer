@@ -75,7 +75,7 @@ public class FragmentReviewBuild extends FragmentReviewGrid<FragmentReviewBuild.
     private final static int LOCATION_MAP = 22;
 
     private GVCellManagerList mCellManagerList;
-    private HelperReviewImage mHelperReviewImage;
+    private ImageChooser mImageChooser;
 
     private InputHandlerReviewData<GVLocationList.GVLocation> mLocationInputHandler;
 
@@ -197,7 +197,7 @@ public class FragmentReviewBuild extends FragmentReviewGrid<FragmentReviewBuild.
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         ActivityResultCode resCode = ActivityResultCode.get(resultCode);
         if (requestCode == getUIConfig(GVType.IMAGES).getDisplayConfig().getRequestCode() &&
-                mHelperReviewImage.bitmapExistsOnActivityResult(getActivity(), resCode, data)) {
+                mImageChooser.bitmapExistsFromChooserIntents(resCode, data)) {
             addImage();
         } else if (requestCode == getUIConfig(GVType.LOCATIONS).getAdderConfig()
                 .getRequestCode()
@@ -224,7 +224,7 @@ public class FragmentReviewBuild extends FragmentReviewGrid<FragmentReviewBuild.
         setIsEditable(true);
         setTransparentGridCellBackground();
 
-        mHelperReviewImage = HelperReviewImage.getInstance(getController());
+        mImageChooser = new ImageChooser(getController(), getActivity());
         mLocationInputHandler = new InputHandlerReviewData<GVLocationList.GVLocation>(GVType
                 .LOCATIONS);
     }
@@ -296,7 +296,7 @@ public class FragmentReviewBuild extends FragmentReviewGrid<FragmentReviewBuild.
 
     private void addImage() {
         final GVImageList images = new GVImageList();
-        mHelperReviewImage.addReviewImage(getActivity(), images, new FunctionPointer<Void, Void>() {
+        mImageChooser.addReviewImage(images, new FunctionPointer<Void, Void>() {
             @Override
             public Void execute(Void data) {
                 images.getItem(0).setIsCover(true);
@@ -376,7 +376,7 @@ public class FragmentReviewBuild extends FragmentReviewGrid<FragmentReviewBuild.
     }
 
     private void showQuickImageDialog() {
-        startActivityForResult(mHelperReviewImage.getImageChooserIntents(getActivity()),
+        startActivityForResult(mImageChooser.getChooserIntents(),
                 getUIConfig(GVType.IMAGES).getDisplayConfig().getRequestCode());
     }
 }

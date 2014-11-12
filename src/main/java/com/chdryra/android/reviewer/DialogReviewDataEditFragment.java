@@ -77,7 +77,8 @@ public abstract class DialogReviewDataEditFragment<T extends GVReviewDataList.GV
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        setDialogTitle(getResources().getString(R.string.edit) + " " + mHandler.getGVType()
+                .getDatumString());
         mDatum = mHandler.unpack(InputHandlerReviewData.CurrentNewDatum.CURRENT,
                 getArguments());
         mDialogHolder = FactoryDialogHolder.newDialogHolder(this);
@@ -89,9 +90,6 @@ public abstract class DialogReviewDataEditFragment<T extends GVReviewDataList.GV
             throw new ClassCastException(getTargetFragment().toString() + " must implement " +
                     "reviewDataEditListener");
         }
-
-        setDialogTitle(getResources().getString(R.string.edit) + " " + mHandler.getGVType()
-                .getDatumString());
     }
 
     @Override
