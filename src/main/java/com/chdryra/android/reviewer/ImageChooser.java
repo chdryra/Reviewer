@@ -34,7 +34,6 @@ public class ImageChooser {
     private static final String TAG              = "ImageChooser";
     private static final String ERROR_CREATE     = "Couldn't create file";
     private static final String ERROR_NO_STORAGE = "No storage available";
-    private static final String ERROR_DELETE     = "Problems deleting file";
 
     private Activity        mActivity;
     private FileIncrementor mFileIncrementor;
@@ -50,23 +49,22 @@ public class ImageChooser {
     private class BitmapLoaderTask extends AsyncTask<Integer, Void, Bitmap> {
         private final GVImageList                 mImageList;
         private final FunctionPointer<Void, Void> mUpdateUI;
-        private       String                      mImageFile;
 
-        public BitmapLoaderTask(String imageFile, GVImageList imageList, FunctionPointer<Void,
+        public BitmapLoaderTask(GVImageList imageList, FunctionPointer<Void,
                 Void> updateUI) {
-            mImageFile = imageFile;
             mImageList = imageList;
             mUpdateUI = updateUI;
         }
 
         @Override
         protected Bitmap doInBackground(Integer... params) {
-            return ImageHelper.getBitmap(mImageFile, params[0], params[1]);
+            return ImageHelper.getBitmap(mCaptureFile, params[0], params[1]);
         }
 
         @Override
         protected void onPostExecute(Bitmap bitmap) {
-            mImageList.add(bitmap, ImageHelper.getLatLngFromEXIF(ImageHelper.getEXIF(mImageFile)));
+            mImageList.add(bitmap, ImageHelper.getLatLngFromEXIF(ImageHelper.getEXIF
+                    (mCaptureFile)));
             mUpdateUI.execute(null);
         }
     }
@@ -113,6 +111,7 @@ public class ImageChooser {
 
             if (ImageHelper.bitmapExists(mCaptureFile)) {
                 if (isCamera) {
+                    //Update android gallery
                     Uri imageUri = Uri.fromFile(new File(mCaptureFile));
                     mActivity.sendBroadcast(
                             new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, imageUri));
@@ -141,7 +140,7 @@ public class ImageChooser {
         if (mCaptureFile != null) {
             int maxWidth = (int) mActivity.getResources().getDimension(R.dimen.imageMaxWidth);
             int maxHeight = (int) mActivity.getResources().getDimension(R.dimen.imageMaxHeight);
-            BitmapLoaderTask loader = new BitmapLoaderTask(mCaptureFile, imageList, updateUI);
+            BitmapLoaderTask loader = new BitmapLoaderTask(imageList, updateUI);
             loader.execute(maxWidth, maxHeight);
         }
     }
