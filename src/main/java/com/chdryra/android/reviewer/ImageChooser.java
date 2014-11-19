@@ -13,17 +13,16 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.media.ExifInterface;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 
 import com.chdryra.android.mygenerallibrary.ActivityResultCode;
+import com.chdryra.android.mygenerallibrary.BitmapLoader;
 import com.chdryra.android.mygenerallibrary.FileIncrementor;
-import com.chdryra.android.mygenerallibrary.FunctionPointer;
 import com.chdryra.android.mygenerallibrary.ImageHelper;
+import com.google.android.gms.maps.model.LatLng;
 
 import java.io.File;
 import java.io.IOException;
@@ -42,53 +41,15 @@ public class ImageChooser {
     private FileIncrementor mFileIncrementor;
     private String          mCaptureFile;
 
+    public interface ImageChooserListener {
+        public void onImageChosen(GVImageList.GVImage image);
+    }
+
     public ImageChooser(ControllerReview controller, Activity activity) {
         mActivity = activity;
         String dir = Administrator.get(mActivity).getApplicationName();
         mFileIncrementor = new FileIncrementor(Environment.getExternalStoragePublicDirectory
                 (Environment.DIRECTORY_DCIM), dir, controller.getSubject(), "jpg");
-    }
-
-    private class BitmapLoaderTask extends AsyncTask<Integer, Void, Bitmap> {
-        private final GVImageList                 mImageList;
-        private final FunctionPointer<Void, Void> mUpdateUI;
-
-        public BitmapLoaderTask(GVImageList imageList, FunctionPointer<Void,
-                Void> updateUI) {
-            mImageList = imageList;
-            mUpdateUI = updateUI;
-        }
-
-        @Override
-        protected Bitmap doInBackground(Integer... params) {
-            int maxWidth = params[0];
-            int maxHeight = params[1];
-            Bitmap bitmap = ImageHelper.getBitmap(mCaptureFile, maxWidth, maxHeight);
-            Bitmap exactRescale = ImageHelper.rescalePreservingAspectRatio(bitmap, maxWidth,
-                    maxHeight);
-
-            ExifInterface exif = ImageHelper.getEXIF(mCaptureFile);
-            return ImageHelper.rotateBitmapUsingExif(exif, exactRescale);
-        }
-
-        @Override
-        protected void onPostExecute(Bitmap bitmap) {
-            mImageList.add(bitmap, ImageHelper.getLatLngFromEXIF(ImageHelper.getEXIF
-                    (mCaptureFile)));
-            mUpdateUI.execute(null);
-        }
-    }
-
-    private void createNewCaptureFile() throws IOException {
-        if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
-            try {
-                mCaptureFile = mFileIncrementor.createNewFile().getAbsolutePath();
-            } catch (IOException e) {
-                throw new IOException(ERROR_CREATE);
-            }
-        } else {
-            throw new IOException(ERROR_NO_STORAGE);
-        }
     }
 
     Intent getChooserIntents() {
@@ -102,7 +63,7 @@ public class ImageChooser {
         return null;
     }
 
-    boolean bitmapExistsFromChooserIntents(ActivityResultCode resultCode, Intent data) {
+    boolean chosenImageExists(ActivityResultCode resultCode, Intent data) {
         //Returns true if bitmap exists.
         if (resultCode.equals(ActivityResultCode.OK)) {
             final boolean isCamera;
@@ -141,7 +102,25 @@ public class ImageChooser {
         return false;
     }
 
-    public String getImagePathFromUri(Context context, Uri contentUri) {
+    void getChosenImage(final ImageChooserListener listener) {
+        if (mCaptureFile != null) {
+            int maxWidth = (int) mActivity.getResources().getDimension(R.dimen.imageMaxWidth);
+            int maxHeight = (int) mActivity.getResources().getDimension(R.dimen.imageMaxHeight);
+
+            final BitmapLoader.LoadListener loadListener = new BitmapLoader.LoadListener() {
+                @Override
+                public void onBitmapLoaded(Bitmap bitmap) {
+                    LatLng ll = ImageHelper.getLatLngFromEXIF(ImageHelper.getEXIF(mCaptureFile));
+                    listener.onImageChosen(new GVImageList.GVImage(bitmap, ll));
+                }
+            };
+
+            BitmapLoader loader = new BitmapLoader(mCaptureFile, loadListener);
+            loader.load(maxWidth, maxHeight);
+        }
+    }
+
+    private String getImagePathFromUri(Context context, Uri contentUri) {
         Cursor cursor = null;
         try {
             String[] proj = {MediaStore.Images.Media.DATA};
@@ -156,17 +135,20 @@ public class ImageChooser {
         }
     }
 
+    private void createNewCaptureFile() throws IOException {
+        if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
+            try {
+                mCaptureFile = mFileIncrementor.createNewFile().getAbsolutePath();
+            } catch (IOException e) {
+                throw new IOException(ERROR_CREATE);
+            }
+        } else {
+            throw new IOException(ERROR_NO_STORAGE);
+        }
+    }
+
     private void deleteCreatedCaptureFile() {
         mFileIncrementor.deleteLastFile();
         mCaptureFile = null;
-    }
-
-    void addReviewImage(GVImageList imageList, FunctionPointer<Void, Void> updateUI) {
-        if (mCaptureFile != null) {
-            int maxWidth = (int) mActivity.getResources().getDimension(R.dimen.imageMaxWidth);
-            int maxHeight = (int) mActivity.getResources().getDimension(R.dimen.imageMaxHeight);
-            BitmapLoaderTask loader = new BitmapLoaderTask(imageList, updateUI);
-            loader.execute(maxWidth, maxHeight);
-        }
     }
 }

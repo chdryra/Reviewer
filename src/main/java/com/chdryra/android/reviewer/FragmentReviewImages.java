@@ -15,7 +15,6 @@ import android.widget.AdapterView;
 
 import com.chdryra.android.mygenerallibrary.ActivityResultCode;
 import com.chdryra.android.mygenerallibrary.DialogTwoButtonFragment.ActionType;
-import com.chdryra.android.mygenerallibrary.FunctionPointer;
 import com.chdryra.android.reviewer.GVImageList.GVImage;
 import com.chdryra.android.reviewer.GVReviewDataList.GVType;
 
@@ -32,7 +31,8 @@ import com.chdryra.android.reviewer.GVReviewDataList.GVType;
  * </ul>
  * </p>
  */
-public class FragmentReviewImages extends FragmentReviewGridAddEdit<GVImage> {
+public class FragmentReviewImages extends FragmentReviewGridAddEdit<GVImage>
+        implements ImageChooser.ImageChooserListener {
     private static final String POSITION = "com.chdryra.android.reviewer.image_position";
 
     private static final String IMAGE_BACKGROUND_TAG = "DataEditTag";
@@ -49,24 +49,19 @@ public class FragmentReviewImages extends FragmentReviewGridAddEdit<GVImage> {
     }
 
     @Override
-    protected boolean doDatumAdd(final GVImage image) {
-        final GVImageList temp = new GVImageList();
-        mImageChooser.addReviewImage(temp,
-                new FunctionPointer<Void, Void>() {
-                    @Override
-                    public Void execute(Void data) {
-                        if (temp.size() == 1) {
-                            getInputHandler().add(temp.getItem(0),
-                                    getActivity());
-                        }
-                        if (mImages.size() == 1) setCover(0);
-                        updateUI();
-                        return null;
-                    }
-                }
-        );
+    public void onImageChosen(GVImage image) {
+        doDatumAdd(image);
+    }
 
-        return true;
+    @Override
+    protected boolean doDatumAdd(final GVImage image) {
+        boolean success = getInputHandler().add(image, getActivity());
+        if (success) {
+            if (mImages.size() == 1) setCover(0);
+            updateUI();
+        }
+
+        return success;
     }
 
     @Override
@@ -77,12 +72,10 @@ public class FragmentReviewImages extends FragmentReviewGridAddEdit<GVImage> {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        //if (data == null) return;
-
         ActivityResultCode resCode = ActivityResultCode.get(resultCode);
         if (requestCode == getRequestCodeAdd() &&
-                mImageChooser.bitmapExistsFromChooserIntents(resCode, data)) {
-            doDatumAdd(null);
+                mImageChooser.chosenImageExists(resCode, data)) {
+            mImageChooser.getChosenImage(this);
 
         } else if (requestCode == IMAGE_AS_BACKGROUND && resCode.equals(ActionType.YES
                 .getResultCode())) {
