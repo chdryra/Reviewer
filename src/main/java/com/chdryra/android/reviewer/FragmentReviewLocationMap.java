@@ -88,52 +88,6 @@ public class FragmentReviewLocationMap extends FragmentDeleteDone implements
 
     private InputHandlerReviewData<GVLocationList.GVLocation> mHandler;
 
-    /**
-     * Fragment performs search on a separate thread using this task.
-     */
-    private class MapSearchTask extends AsyncTask<String, Void, LatLng> {
-        private ProgressDialog pd;
-
-        @Override
-        protected LatLng doInBackground(String... params) {
-            try {
-                return FetcherPlacesAPI.fetchLatLng(params[0]);
-            } catch (JSONException e) {
-                Toast.makeText(getActivity(), getResources().getString(R.string
-                        .toast_map_search_failed), Toast.LENGTH_SHORT).show();
-                return null;
-            }
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            pd = new ProgressDialog(getActivity());
-            pd.setTitle(getResources().getString(R.string.progress_bar_search_location_title));
-            pd.setMessage(getResources().getString(R.string.progress_bar_search_location_message));
-            pd.setCancelable(false);
-            pd.setIndeterminate(true);
-            pd.show();
-        }
-
-        @Override
-        protected void onPostExecute(LatLng latlng) {
-            setLatLng(latlng);
-            pd.dismiss();
-        }
-    }
-
-    private class LocationSuggestionsObserver extends DataSetObserver {
-        public void onChanged() {
-            mSearchView.setSuggestionsAdapter(getSuggestionsCursorAdapter());
-        }
-
-        public void onInvalidated() {
-            invalidateSuggestions();
-        }
-
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -254,6 +208,85 @@ public class FragmentReviewLocationMap extends FragmentDeleteDone implements
         mHandler.pack(InputHandlerReviewData.CurrentNewDatum.NEW, createGVData(), i);
     }
 
+    public void handleSearch() {
+        Intent intent = getActivity().getIntent();
+        String query;
+        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+            query = intent.getStringExtra(SearchManager.QUERY);
+        } else if (Intent.ACTION_PICK.equals(intent.getAction())) {
+            query = intent.getData().getLastPathSegment();
+        } else {
+            return;
+        }
+
+        gotoSearchLocation(query);
+    }
+
+    @Override
+    public void onLocated(LatLng latLng) {
+        setLatLng(latLng);
+    }
+
+    @Override
+    public void onLocationClientConnected(LatLng latLng) {
+        if (mNewLatLng == null) {
+            onLocated(latLng);
+        }
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        mLocationClient.connect();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (mMapView != null) {
+            mMapView.onResume();
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(@NotNull Bundle outState) {
+        if (mMapView != null) {
+            mMapView.onSaveInstanceState(outState);
+        }
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (mMapView != null) {
+            mMapView.onPause();
+        }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        mLocationClient.disconnect();
+    }
+
+    @Override
+    public void onLowMemory() {
+        if (mMapView != null) {
+            mMapView.onLowMemory();
+        }
+        super.onLowMemory();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mLocationClient.disconnect();
+        if (mMapView != null) {
+            mMapView.onDestroy();
+        }
+    }
+
     private GVLocation createGVData() {
         return new GVLocation(mNewLatLng, mLocationName.getText().toString().trim());
     }
@@ -343,20 +376,6 @@ public class FragmentReviewLocationMap extends FragmentDeleteDone implements
         }
     }
 
-    public void handleSearch() {
-        Intent intent = getActivity().getIntent();
-        String query;
-        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
-            query = intent.getStringExtra(SearchManager.QUERY);
-        } else if (Intent.ACTION_PICK.equals(intent.getAction())) {
-            query = intent.getData().getLastPathSegment();
-        } else {
-            return;
-        }
-
-        gotoSearchLocation(query);
-    }
-
     private void gotoSearchLocation(String query) {
         mSearchLocationName = query;
         new MapSearchTask().execute(mSearchLocationName);
@@ -384,18 +403,6 @@ public class FragmentReviewLocationMap extends FragmentDeleteDone implements
         int[] to = {android.R.id.text1};
         return new SimpleCursorAdapter(getActivity(), android.R.layout.simple_list_item_1,
                 suggestions_cursor, from, to, 0);
-    }
-
-    @Override
-    public void onLocated(LatLng latLng) {
-        setLatLng(latLng);
-    }
-
-    @Override
-    public void onLocationClientConnected(LatLng latLng) {
-        if (mNewLatLng == null) {
-            setLatLng(latLng);
-        }
     }
 
     private void setLatLng(LatLng latlang) {
@@ -436,56 +443,49 @@ public class FragmentReviewLocationMap extends FragmentDeleteDone implements
         marker.showInfoWindow();
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        mLocationClient.connect();
-    }
+    /**
+     * Fragment performs search on a separate thread using this task.
+     */
+    private class MapSearchTask extends AsyncTask<String, Void, LatLng> {
+        private ProgressDialog pd;
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        if (mMapView != null) {
-            mMapView.onResume();
+        @Override
+        protected LatLng doInBackground(String... params) {
+            try {
+                return FetcherPlacesAPI.fetchLatLng(params[0]);
+            } catch (JSONException e) {
+                Toast.makeText(getActivity(), getResources().getString(R.string
+                        .toast_map_search_failed), Toast.LENGTH_SHORT).show();
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            pd = new ProgressDialog(getActivity());
+            pd.setTitle(getResources().getString(R.string.progress_bar_search_location_title));
+            pd.setMessage(getResources().getString(R.string.progress_bar_search_location_message));
+            pd.setCancelable(false);
+            pd.setIndeterminate(true);
+            pd.show();
+        }
+
+        @Override
+        protected void onPostExecute(LatLng latlng) {
+            setLatLng(latlng);
+            pd.dismiss();
         }
     }
 
-    @Override
-    public void onSaveInstanceState(@NotNull Bundle outState) {
-        if (mMapView != null) {
-            mMapView.onSaveInstanceState(outState);
+    private class LocationSuggestionsObserver extends DataSetObserver {
+        public void onChanged() {
+            mSearchView.setSuggestionsAdapter(getSuggestionsCursorAdapter());
         }
-        super.onSaveInstanceState(outState);
-    }
 
-    @Override
-    public void onPause() {
-        super.onPause();
-        if (mMapView != null) {
-            mMapView.onPause();
+        public void onInvalidated() {
+            invalidateSuggestions();
         }
-    }
 
-    @Override
-    public void onStop() {
-        super.onStop();
-        mLocationClient.disconnect();
-    }
-
-    @Override
-    public void onLowMemory() {
-        if (mMapView != null) {
-            mMapView.onLowMemory();
-        }
-        super.onLowMemory();
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        mLocationClient.disconnect();
-        if (mMapView != null) {
-            mMapView.onDestroy();
-        }
     }
 }

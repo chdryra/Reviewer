@@ -11,7 +11,7 @@ package com.chdryra.android.reviewer;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.chdryra.android.mygenerallibrary.IntentObjectHolder;
+import com.chdryra.android.mygenerallibrary.ObjectHolder;
 import com.chdryra.android.mygenerallibrary.ViewHolderData;
 
 /**
@@ -36,12 +36,12 @@ class ControllerReviewTreeEditable extends ControllerReviewEditable {
     private static final String CONTROLLER_ID = "com.chdryra.android.reviewer.review_id";
 
     private final ControllerReviewNodeExpandable mReviewNodeExpandable;
-    private final IntentObjectHolder             mControllers;
+    private final ObjectHolder                   mControllers;
 
     ControllerReviewTreeEditable() {
         super(FactoryReview.createReviewInProgress());
         mReviewNodeExpandable = new ControllerReviewNodeExpandable(getReviewNodeExpandable());
-        mControllers = new IntentObjectHolder();
+        mControllers = new ObjectHolder();
     }
 
     @Override
