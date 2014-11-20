@@ -8,6 +8,7 @@
 
 package com.chdryra.android.reviewer;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.app.SearchManager;
 import android.content.Context;
@@ -32,6 +33,8 @@ import android.widget.SimpleCursorAdapter;
 import android.widget.Toast;
 
 import com.chdryra.android.myandroidwidgets.ClearableAutoCompleteTextView;
+import com.chdryra.android.mygenerallibrary.FetcherPlaceSuggestions;
+import com.chdryra.android.mygenerallibrary.FetcherPlacesAutoComplete;
 import com.chdryra.android.mygenerallibrary.FragmentDeleteDone;
 import com.chdryra.android.mygenerallibrary.LocationClientConnector;
 import com.chdryra.android.mygenerallibrary.LocationNameAdapter;
@@ -64,8 +67,7 @@ import org.json.JSONException;
  * </p>
  */
 public class FragmentReviewLocationMap extends FragmentDeleteDone implements
-        LocationClientConnector
-                .Locatable {
+        LocationClientConnector.Locatable {
     private final static String TAG                  = "FragmentReviewLocationMap";
     private static final int    DEFAULT_ZOOM         = 15;
     private static final int    NUMBER_DEFAULT_NAMES = 5;
@@ -76,7 +78,7 @@ public class FragmentReviewLocationMap extends FragmentDeleteDone implements
 
     private SearchView          mSearchView;
     private MenuItem            mSearchViewMenuItem;
-    private LocationNameAdapter mSuggestionsAdapter;
+    private LocationNameAdapter mSearchSuggestionsAdapter;
 
     private ClearableAutoCompleteTextView mLocationName;
     private ImageButton                   mRevertButton;
@@ -87,6 +89,9 @@ public class FragmentReviewLocationMap extends FragmentDeleteDone implements
     private String                  mSearchLocationName;
 
     private InputHandlerReviewData<GVLocationList.GVLocation> mHandler;
+
+    private FetcherPlacesAutoComplete mAutoCompleteFetcher;
+    private FetcherPlaceSuggestions   mSuggestionsFetcher;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -100,10 +105,6 @@ public class FragmentReviewLocationMap extends FragmentDeleteDone implements
             mCurrent = mHandler.unpack(InputHandlerReviewData.CurrentNewDatum.CURRENT, args);
         }
 
-        //TODO maybe move connector to Activity to create more reliable connection when stuff
-        // starts? Or maybe OnAttach()?
-        mLocationClient = new LocationClientConnector(getActivity(), this);
-
         MapsInitializer.initialize(getActivity());
 
         setDeleteWhatTitle(mHandler.getGVType().getDatumString());
@@ -113,7 +114,7 @@ public class FragmentReviewLocationMap extends FragmentDeleteDone implements
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
-        mLocationClient.connect();
+        //mLocationClient.connect();
         setDisplayHomeAsUp(true);
 
         View v = inflater.inflate(R.layout.fragment_review_location_map, container, false);
@@ -160,9 +161,6 @@ public class FragmentReviewLocationMap extends FragmentDeleteDone implements
             }
         });
 
-        mSuggestionsAdapter = new LocationNameAdapter(getActivity(), mNewLatLng, 0, null);
-        mSuggestionsAdapter.registerDataSetObserver(new LocationSuggestionsObserver());
-
         mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -171,8 +169,8 @@ public class FragmentReviewLocationMap extends FragmentDeleteDone implements
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                if (newText.length() > 0) {
-                    findSuggestions(newText);
+                if (newText.length() > 0 && mSearchSuggestionsAdapter != null) {
+                    mSearchSuggestionsAdapter.findSuggestions(newText);
                 } else {
                     invalidateSuggestions();
                 }
@@ -208,30 +206,11 @@ public class FragmentReviewLocationMap extends FragmentDeleteDone implements
         mHandler.pack(InputHandlerReviewData.CurrentNewDatum.NEW, createGVData(), i);
     }
 
-    public void handleSearch() {
-        Intent intent = getActivity().getIntent();
-        String query;
-        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
-            query = intent.getStringExtra(SearchManager.QUERY);
-        } else if (Intent.ACTION_PICK.equals(intent.getAction())) {
-            query = intent.getData().getLastPathSegment();
-        } else {
-            return;
-        }
-
-        gotoSearchLocation(query);
-    }
-
     @Override
-    public void onLocated(LatLng latLng) {
-        setLatLng(latLng);
-    }
-
-    @Override
-    public void onLocationClientConnected(LatLng latLng) {
-        if (mNewLatLng == null) {
-            onLocated(latLng);
-        }
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        mLocationClient = new LocationClientConnector(activity, this);
+        mLocationClient.connect();
     }
 
     @Override
@@ -287,12 +266,34 @@ public class FragmentReviewLocationMap extends FragmentDeleteDone implements
         }
     }
 
-    private GVLocation createGVData() {
-        return new GVLocation(mNewLatLng, mLocationName.getText().toString().trim());
+    public void handleSearch() {
+        Intent intent = getActivity().getIntent();
+        String query;
+        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+            query = intent.getStringExtra(SearchManager.QUERY);
+        } else if (Intent.ACTION_PICK.equals(intent.getAction())) {
+            query = intent.getData().getLastPathSegment();
+        } else {
+            return;
+        }
+
+        gotoSearchLocation(query);
     }
 
-    private void findSuggestions(String query) {
-        mSuggestionsAdapter.findSuggestions(query);
+    @Override
+    public void onLocated(LatLng latLng) {
+        setLatLng(latLng);
+    }
+
+    @Override
+    public void onLocationClientConnected(LatLng latLng) {
+        if (mNewLatLng == null) {
+            onLocated(latLng);
+        }
+    }
+
+    private GVLocation createGVData() {
+        return new GVLocation(mNewLatLng, mLocationName.getText().toString().trim());
     }
 
     private void invalidateSuggestions() {
@@ -392,9 +393,9 @@ public class FragmentReviewLocationMap extends FragmentDeleteDone implements
         String[] columnNames = {"_id", SearchManager.SUGGEST_COLUMN_INTENT_DATA};
         String[] suggestion_row = new String[columnNames.length];
         MatrixCursor suggestions_cursor = new MatrixCursor(columnNames);
-        for (int i = 0; i < mSuggestionsAdapter.getCount(); ++i) {
-            suggestion_row[0] = String.valueOf(mSuggestionsAdapter.getItemId(i));
-            suggestion_row[1] = mSuggestionsAdapter.getItem(i);
+        for (int i = 0; i < mSearchSuggestionsAdapter.getCount(); ++i) {
+            suggestion_row[0] = String.valueOf(mSearchSuggestionsAdapter.getItemId(i));
+            suggestion_row[1] = mSearchSuggestionsAdapter.getItem(i);
             suggestions_cursor.addRow(suggestion_row);
             Log.i(TAG, suggestion_row[0] + ", " + suggestion_row[1]);
         }
@@ -411,17 +412,28 @@ public class FragmentReviewLocationMap extends FragmentDeleteDone implements
         }
 
         mNewLatLng = latlang;
+        mAutoCompleteFetcher = new FetcherPlacesAutoComplete(mNewLatLng);
+        mSuggestionsFetcher = new FetcherPlaceSuggestions(getActivity(), mNewLatLng);
+
+        mSearchSuggestionsAdapter = getNewSuggestionsAdapter(0, null);
+        mSearchSuggestionsAdapter.registerDataSetObserver(new LocationSuggestionsObserver());
 
         if (mLocationName != null) {
             mLocationName.setText(null);
             String primaryDefaultSuggestion = mSearchLocationName != null ? mSearchLocationName :
                     null;
-            mLocationName.setAdapter(new LocationNameAdapter(getActivity(), mNewLatLng,
-                    NUMBER_DEFAULT_NAMES,
+            mLocationName.setAdapter(getNewSuggestionsAdapter(NUMBER_DEFAULT_NAMES,
                     primaryDefaultSuggestion));
         }
 
         zoomToLatLng();
+    }
+
+    private LocationNameAdapter getNewSuggestionsAdapter(int numberSuggestions,
+            String primaryDefaultSuggestion) {
+        return new LocationNameAdapter(getActivity(),
+                mSuggestionsFetcher, mAutoCompleteFetcher, numberSuggestions,
+                primaryDefaultSuggestion);
     }
 
     private void zoomToLatLng() {

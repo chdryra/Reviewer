@@ -17,6 +17,8 @@ import android.widget.ListView;
 
 import com.chdryra.android.myandroidwidgets.ClearableEditText;
 import com.chdryra.android.mygenerallibrary.DialogCancelActionDoneFragment;
+import com.chdryra.android.mygenerallibrary.FetcherPlaceSuggestions;
+import com.chdryra.android.mygenerallibrary.FetcherPlacesAutoComplete;
 import com.chdryra.android.mygenerallibrary.LocationClientConnector;
 import com.chdryra.android.mygenerallibrary.LocationClientConnector.Locatable;
 import com.chdryra.android.mygenerallibrary.LocationNameAdapter;
@@ -32,6 +34,7 @@ import com.google.android.gms.maps.model.LatLng;
 public class DialogLocationFragment extends DialogCancelActionDoneFragment implements Locatable,
         LaunchableUI {
     public static final ActionType RESULT_MAP = ActionType.OTHER;
+    private static final int NUMBER_SUGGESTIONS = 10;
 
     private ControllerReviewEditable mController;
     private ClearableEditText        mNameEditText;
@@ -39,6 +42,35 @@ public class DialogLocationFragment extends DialogCancelActionDoneFragment imple
     private LatLng                   mLatLng;
     private LocationClientConnector  mLocationClient;
     private LocationNameAdapter      mAdapter;
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        mLocationClient.disconnect();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mLocationClient.disconnect();
+    }
+
+    @Override
+    public void onLocated(LatLng latLng) {
+        mLatLng = latLng;
+        setSuggestionsAdapter();
+    }
+
+    @Override
+    public void onLocationClientConnected(LatLng latLng) {
+        mLatLng = latLng;
+        setSuggestionsAdapter();
+    }
+
+    @Override
+    public void launch(LauncherUI launcher) {
+        launcher.launch(this);
+    }
 
     @Override
     protected View createDialogUI() {
@@ -85,8 +117,6 @@ public class DialogLocationFragment extends DialogCancelActionDoneFragment imple
             }
         });
 
-        setSuggestionsAdapter();
-
         return v;
     }
 
@@ -127,34 +157,10 @@ public class DialogLocationFragment extends DialogCancelActionDoneFragment imple
     }
 
     private void setSuggestionsAdapter() {
-        mAdapter = new LocationNameAdapter(getActivity(), mLatLng, 10, null);
+        FetcherPlaceSuggestions initial = new FetcherPlaceSuggestions(getActivity(), mLatLng);
+        FetcherPlacesAutoComplete autoComplete = new FetcherPlacesAutoComplete(mLatLng);
+        mAdapter = new LocationNameAdapter(getActivity(), initial, autoComplete, NUMBER_SUGGESTIONS,
+                null);
         mLocationNameSuggestions.setAdapter(mAdapter);
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        mLocationClient.disconnect();
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        mLocationClient.disconnect();
-    }
-
-    @Override
-    public void onLocated(LatLng latLng) {
-    }
-
-    @Override
-    public void onLocationClientConnected(LatLng latLng) {
-        mLatLng = latLng;
-        setSuggestionsAdapter();
-    }
-
-    @Override
-    public void launch(LauncherUI launcher) {
-        launcher.launch(this);
     }
 }

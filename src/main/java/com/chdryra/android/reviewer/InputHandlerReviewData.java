@@ -71,7 +71,7 @@ class InputHandlerReviewData<T extends GVReviewDataList.GVReviewData> {
     }
 
     void pack(CurrentNewDatum currentNew, T item, Intent data) {
-        if (item != null & !item.isValidForDisplay()) item = null;
+        if (item != null && !item.isValidForDisplay()) item = null;
         data.putExtra(currentNew.getPackingTag(), item);
     }
 
