@@ -16,32 +16,38 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.chdryra.android.myandroidwidgets.ClearableEditText;
+import com.chdryra.android.mygenerallibrary.AutoCompleteAdapter;
 import com.chdryra.android.mygenerallibrary.DialogCancelActionDoneFragment;
-import com.chdryra.android.mygenerallibrary.FetcherPlaceSuggestions;
-import com.chdryra.android.mygenerallibrary.FetcherPlacesAutoComplete;
 import com.chdryra.android.mygenerallibrary.LocationClientConnector;
 import com.chdryra.android.mygenerallibrary.LocationClientConnector.Locatable;
-import com.chdryra.android.mygenerallibrary.LocationNameAdapter;
+import com.chdryra.android.mygenerallibrary.PlaceAutoCompleteSuggester;
+import com.chdryra.android.mygenerallibrary.PlaceSuggester;
 import com.chdryra.android.reviewer.GVImageList.GVImage;
 import com.chdryra.android.reviewer.GVLocationList.GVLocation;
 import com.chdryra.android.reviewer.GVReviewDataList.GVType;
 import com.google.android.gms.maps.model.LatLng;
+
+import java.util.ArrayList;
 
 /**
  * Dialog for adding location name: populates with suggestions found near current location. Comes
  * up with autocomplete suggestions as user types name.
  */
 public class DialogLocationFragment extends DialogCancelActionDoneFragment implements Locatable,
-        LaunchableUI {
+        LaunchableUI, PlaceSuggester.FetchCompleteListener {
     public static final ActionType RESULT_MAP = ActionType.OTHER;
     private static final int NUMBER_SUGGESTIONS = 10;
+    private static final String SEARCHING   = "searching nearby...";
+    private static final String NO_LOCATION = "no suggestions found...";
 
     private ControllerReviewEditable mController;
     private ClearableEditText        mNameEditText;
     private ListView                 mLocationNameSuggestions;
     private LatLng                   mLatLng;
     private LocationClientConnector  mLocationClient;
-    private LocationNameAdapter      mAdapter;
+
+    private PlaceAutoCompleteSuggester mAutoCompleter;
+    private AutoCompleteAdapter        mAdapter;
 
     @Override
     public void onStop() {
@@ -70,6 +76,14 @@ public class DialogLocationFragment extends DialogCancelActionDoneFragment imple
     @Override
     public void launch(LauncherUI launcher) {
         launcher.launch(this);
+    }
+
+    @Override
+    public void onAddressesFound(ArrayList<String> addresses) {
+        if (addresses.size() == 0) addresses.add(NO_LOCATION);
+
+        mAdapter = new AutoCompleteAdapter(getActivity(), addresses, mAutoCompleter);
+        mLocationNameSuggestions.setAdapter(mAdapter);
     }
 
     @Override
@@ -157,10 +171,15 @@ public class DialogLocationFragment extends DialogCancelActionDoneFragment imple
     }
 
     private void setSuggestionsAdapter() {
-        FetcherPlaceSuggestions initial = new FetcherPlaceSuggestions(getActivity(), mLatLng);
-        FetcherPlacesAutoComplete autoComplete = new FetcherPlacesAutoComplete(mLatLng);
-        mAdapter = new LocationNameAdapter(getActivity(), initial, autoComplete, NUMBER_SUGGESTIONS,
-                null);
+        //A bit hacky....
+        ArrayList<String> message = new ArrayList<String>();
+        message.add(SEARCHING);
+
+        mAutoCompleter = new PlaceAutoCompleteSuggester(mLatLng);
+        mAdapter = new AutoCompleteAdapter(getActivity(), message, mAutoCompleter);
         mLocationNameSuggestions.setAdapter(mAdapter);
+
+        PlaceSuggester suggester = new PlaceSuggester(getActivity(), mLatLng, this);
+        suggester.fetch(NUMBER_SUGGESTIONS);
     }
 }
