@@ -33,11 +33,11 @@ import android.widget.SimpleCursorAdapter;
 import android.widget.Toast;
 
 import com.chdryra.android.myandroidwidgets.ClearableAutoCompleteTextView;
-import com.chdryra.android.mygenerallibrary.AutoCompleteAdapter;
 import com.chdryra.android.mygenerallibrary.FragmentDeleteDone;
 import com.chdryra.android.mygenerallibrary.LocationClientConnector;
 import com.chdryra.android.mygenerallibrary.PlaceAutoCompleteSuggester;
 import com.chdryra.android.mygenerallibrary.PlaceSuggester;
+import com.chdryra.android.mygenerallibrary.StringFilterAdapter;
 import com.chdryra.android.remoteapifetchers.FetcherPlacesAPI;
 import com.chdryra.android.reviewer.GVLocationList.GVLocation;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -69,11 +69,10 @@ import java.util.ArrayList;
  * </p>
  */
 public class FragmentReviewLocationMap extends FragmentDeleteDone implements
-        LocationClientConnector.Locatable, PlaceSuggester.FetchCompleteListener {
+        LocationClientConnector.Locatable, PlaceSuggester.SuggestionsListener {
     private final static String TAG                  = "FragmentReviewLocationMap";
     private static final String NO_LOCATION         = "no suggestions found...";
-    private static final int    SUGGESTIONS_TIMEOUT = 5;
-    private static final int    DEFAULT_ZOOM         = 15;
+    private static final float DEFAULT_ZOOM = 15;
     private static final int    NUMBER_DEFAULT_NAMES = 5;
 
     private GVLocationList.GVLocation mCurrent;
@@ -82,7 +81,7 @@ public class FragmentReviewLocationMap extends FragmentDeleteDone implements
 
     private SearchView          mSearchView;
     private MenuItem            mSearchViewMenuItem;
-    private AutoCompleteAdapter mSearchAdapter;
+    private StringFilterAdapter mSearchAdapter;
 
     private ClearableAutoCompleteTextView mLocationName;
     private ImageButton                   mRevertButton;
@@ -95,9 +94,6 @@ public class FragmentReviewLocationMap extends FragmentDeleteDone implements
     private InputHandlerReviewData<GVLocationList.GVLocation> mHandler;
 
     private PlaceAutoCompleteSuggester mAutoCompleter;
-    private PlaceSuggester             mSuggestions;
-
-    private ArrayList<String> mDefaultSuggestions;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -115,8 +111,6 @@ public class FragmentReviewLocationMap extends FragmentDeleteDone implements
 
         setDeleteWhatTitle(mHandler.getGVType().getDatumString());
         dismissOnDelete();
-
-        mDefaultSuggestions = new ArrayList<String>();
     }
 
     @Override
@@ -175,7 +169,7 @@ public class FragmentReviewLocationMap extends FragmentDeleteDone implements
             @Override
             public boolean onQueryTextChange(String newText) {
                 if (newText.length() > 0 && mSearchAdapter != null) {
-                    mSearchAdapter.findSuggestions(newText);
+                    mSearchAdapter.filter(newText);
                 } else {
                     invalidateSuggestions();
                 }
@@ -292,20 +286,18 @@ public class FragmentReviewLocationMap extends FragmentDeleteDone implements
 
     @Override
     public void onLocationClientConnected(LatLng latLng) {
-        if (mNewLatLng == null) {
-            onLocated(latLng);
-        }
+        if (mNewLatLng == null) onLocated(latLng);
     }
 
     @Override
-    public void onAddressesFound(ArrayList<String> addresses) {
+    public void onSuggestionsFound(ArrayList<String> addresses) {
         if (addresses.size() == 0) {
             addresses.add(NO_LOCATION);
         } else if (mSearchLocationName != null) {
             addresses.add(0, mSearchLocationName);
         }
 
-        mLocationName.setAdapter(new AutoCompleteAdapter(getActivity(), addresses,
+        mLocationName.setAdapter(new StringFilterAdapter(getActivity(), addresses,
                 mAutoCompleter));
     }
 
@@ -431,22 +423,18 @@ public class FragmentReviewLocationMap extends FragmentDeleteDone implements
 
     private void updateSuggestionAdapters() {
         mAutoCompleter = new PlaceAutoCompleteSuggester(mNewLatLng);
-        mSuggestions = new PlaceSuggester(getActivity(), mNewLatLng, this);
+        PlaceSuggester suggestions = new PlaceSuggester(getActivity(), mNewLatLng, this);
 
-        mSearchAdapter = new AutoCompleteAdapter(getActivity(), null, mAutoCompleter);
+        mSearchAdapter = new StringFilterAdapter(getActivity(), null, mAutoCompleter);
         mSearchAdapter.registerDataSetObserver(new LocationSuggestionsObserver());
 
         mLocationName.setText(null);
-        mSuggestions.fetch(NUMBER_DEFAULT_NAMES);
+        suggestions.getSuggestions(NUMBER_DEFAULT_NAMES);
     }
 
     private void zoomToLatLng() {
-        if (mNewLatLng == null) {
-            return;
-        }
-
-        mGoogleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(mNewLatLng,
-                (float) FragmentReviewLocationMap.DEFAULT_ZOOM));
+        if (mNewLatLng == null) return;
+        mGoogleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(mNewLatLng, DEFAULT_ZOOM));
         updateMapMarker();
     }
 

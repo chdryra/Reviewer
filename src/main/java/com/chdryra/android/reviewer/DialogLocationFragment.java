@@ -16,12 +16,12 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.chdryra.android.myandroidwidgets.ClearableEditText;
-import com.chdryra.android.mygenerallibrary.AutoCompleteAdapter;
 import com.chdryra.android.mygenerallibrary.DialogCancelActionDoneFragment;
 import com.chdryra.android.mygenerallibrary.LocationClientConnector;
 import com.chdryra.android.mygenerallibrary.LocationClientConnector.Locatable;
 import com.chdryra.android.mygenerallibrary.PlaceAutoCompleteSuggester;
 import com.chdryra.android.mygenerallibrary.PlaceSuggester;
+import com.chdryra.android.mygenerallibrary.StringFilterAdapter;
 import com.chdryra.android.reviewer.GVImageList.GVImage;
 import com.chdryra.android.reviewer.GVLocationList.GVLocation;
 import com.chdryra.android.reviewer.GVReviewDataList.GVType;
@@ -34,7 +34,7 @@ import java.util.ArrayList;
  * up with autocomplete suggestions as user types name.
  */
 public class DialogLocationFragment extends DialogCancelActionDoneFragment implements Locatable,
-        LaunchableUI, PlaceSuggester.FetchCompleteListener {
+        LaunchableUI, PlaceSuggester.SuggestionsListener {
     public static final ActionType RESULT_MAP = ActionType.OTHER;
     private static final int NUMBER_SUGGESTIONS = 10;
     private static final String SEARCHING   = "searching nearby...";
@@ -47,7 +47,7 @@ public class DialogLocationFragment extends DialogCancelActionDoneFragment imple
     private LocationClientConnector  mLocationClient;
 
     private PlaceAutoCompleteSuggester mAutoCompleter;
-    private AutoCompleteAdapter        mAdapter;
+    private StringFilterAdapter mAdapter;
 
     @Override
     public void onStop() {
@@ -79,10 +79,10 @@ public class DialogLocationFragment extends DialogCancelActionDoneFragment imple
     }
 
     @Override
-    public void onAddressesFound(ArrayList<String> addresses) {
+    public void onSuggestionsFound(ArrayList<String> addresses) {
         if (addresses.size() == 0) addresses.add(NO_LOCATION);
 
-        mAdapter = new AutoCompleteAdapter(getActivity(), addresses, mAutoCompleter);
+        mAdapter = new StringFilterAdapter(getActivity(), addresses, mAutoCompleter);
         mLocationNameSuggestions.setAdapter(mAdapter);
     }
 
@@ -110,9 +110,7 @@ public class DialogLocationFragment extends DialogCancelActionDoneFragment imple
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (mAdapter != null) {
-                    mAdapter.findSuggestions(s);
-                }
+                if (mAdapter != null) mAdapter.filter(s);
             }
 
             @Override
@@ -176,10 +174,10 @@ public class DialogLocationFragment extends DialogCancelActionDoneFragment imple
         message.add(SEARCHING);
 
         mAutoCompleter = new PlaceAutoCompleteSuggester(mLatLng);
-        mAdapter = new AutoCompleteAdapter(getActivity(), message, mAutoCompleter);
+        mAdapter = new StringFilterAdapter(getActivity(), message, mAutoCompleter);
         mLocationNameSuggestions.setAdapter(mAdapter);
 
         PlaceSuggester suggester = new PlaceSuggester(getActivity(), mLatLng, this);
-        suggester.fetch(NUMBER_SUGGESTIONS);
+        suggester.getSuggestions(NUMBER_SUGGESTIONS);
     }
 }
