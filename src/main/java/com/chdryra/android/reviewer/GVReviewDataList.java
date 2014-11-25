@@ -74,14 +74,14 @@ abstract class GVReviewDataList<T extends GVReviewDataList.GVReviewData> extends
         }
     }
 
-    GVReviewDataList(GVType dataType) {
-        mDataType = dataType;
-    }
-
     /**
      * Parcelable version of {@link ViewHolderData}
      */
     interface GVReviewData extends ViewHolderData, Parcelable {
+    }
+
+    GVReviewDataList(GVType dataType) {
+        mDataType = dataType;
     }
 
     GVType getGVType() {
