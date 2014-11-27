@@ -22,6 +22,10 @@ class GVLocationList extends GVReviewDataList<GVLocationList.GVLocation> {
         super(GVType.LOCATIONS);
     }
 
+    void add(LatLng latLng, String name) {
+        add(new GVLocation(latLng, name));
+    }
+
     /**
      * {@link GVReviewData} version of: {@link RDLocation}
      * {@link ViewHolder}: {@link VHLocation}
@@ -50,26 +54,8 @@ class GVLocationList extends GVReviewDataList<GVLocationList.GVLocation> {
             mName = in.readString();
         }
 
-        LatLng getLatLng() {
-            return mLatLng;
-        }
-
-        String getName() {
-            return mName;
-        }
-
-        String getShortenedName() {
-            if (mName != null) {
-                StringTokenizer tokens = new StringTokenizer(mName, RDLocation.LOCATION_DELIMITER);
-                String shortened = tokens.nextToken();
-                return shortened != null ? shortened.trim() : null;
-            } else {
-                return null;
-            }
-        }
-
         @Override
-        public ViewHolder getViewHolder() {
+        public ViewHolder newViewHolder() {
             return new VHLocation(false);
         }
 
@@ -107,9 +93,23 @@ class GVLocationList extends GVReviewDataList<GVLocationList.GVLocation> {
             parcel.writeParcelable(mLatLng, i);
             parcel.writeString(mName);
         }
-    }
 
-    void add(LatLng latLng, String name) {
-        add(new GVLocation(latLng, name));
+        LatLng getLatLng() {
+            return mLatLng;
+        }
+
+        String getName() {
+            return mName;
+        }
+
+        String getShortenedName() {
+            if (mName != null) {
+                StringTokenizer tokens = new StringTokenizer(mName, RDLocation.LOCATION_DELIMITER);
+                String shortened = tokens.nextToken();
+                return shortened != null ? shortened.trim() : null;
+            } else {
+                return null;
+            }
+        }
     }
 }

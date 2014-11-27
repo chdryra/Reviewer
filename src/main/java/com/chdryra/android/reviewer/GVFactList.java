@@ -21,6 +21,26 @@ class GVFactList extends GVReviewDataList<GVFactList.GVFact> {
         super(GVType.FACTS);
     }
 
+    @Override
+    protected Comparator<GVFact> getDefaultComparator() {
+
+        return new Comparator<GVFactList.GVFact>() {
+            @Override
+            public int compare(GVFact lhs, GVFact rhs) {
+                int comp = lhs.getLabel().compareTo(rhs.getLabel());
+                if (comp == 0) {
+                    comp = lhs.getValue().compareTo(rhs.getValue());
+                }
+
+                return comp;
+            }
+        };
+    }
+
+    void add(String label, String value) {
+        add(new GVFact(label, value));
+    }
+
     /**
      * {@link GVReviewData} version of: {@link RDFact}
      * {@link ViewHolder}: {@link VHFact}
@@ -46,16 +66,8 @@ class GVFactList extends GVReviewDataList<GVFactList.GVFact> {
             super(in.readString(), in.readString());
         }
 
-        String getLabel() {
-            return getUpper();
-        }
-
-        String getValue() {
-            return getLower();
-        }
-
         @Override
-        public ViewHolder getViewHolder() {
+        public ViewHolder newViewHolder() {
             return new VHFact();
         }
 
@@ -64,25 +76,13 @@ class GVFactList extends GVReviewDataList<GVFactList.GVFact> {
             return getLabel() != null && getLabel().length() > 0 && getValue() != null &&
                     getValue().length() > 0;
         }
-    }
 
-    void add(String label, String value) {
-        add(new GVFact(label, value));
-    }
+        String getLabel() {
+            return getUpper();
+        }
 
-    @Override
-    protected Comparator<GVFact> getDefaultComparator() {
-
-        return new Comparator<GVFactList.GVFact>() {
-            @Override
-            public int compare(GVFact lhs, GVFact rhs) {
-                int comp = lhs.getLabel().compareTo(rhs.getLabel());
-                if (comp == 0) {
-                    comp = lhs.getValue().compareTo(rhs.getValue());
-                }
-
-                return comp;
-            }
-        };
+        String getValue() {
+            return getLower();
+        }
     }
 }

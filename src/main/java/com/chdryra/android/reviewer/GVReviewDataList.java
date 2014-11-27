@@ -10,12 +10,13 @@ package com.chdryra.android.reviewer;
 
 import android.os.Parcelable;
 
-import com.chdryra.android.mygenerallibrary.VHDataList;
 import com.chdryra.android.mygenerallibrary.ViewHolderData;
+import com.chdryra.android.mygenerallibrary.ViewHolderDataList;
 
 /**
  * The (Grid) View layer (V) equivalent of the Model layer (M) {@link RDList}. Implementation of
- * {@link VHDataList} tailored for Review data accessed via a {@link ControllerReview} (C) that
+ * {@link ViewHolderDataList} tailored for Review data accessed via a {@link ControllerReview} (C)
+ * that
  * translates between
  * them (MVC pattern).
  * <p/>
@@ -34,7 +35,8 @@ import com.chdryra.android.mygenerallibrary.ViewHolderData;
  *
  * @param <T>: {@link com.chdryra.android.reviewer.GVReviewDataList.GVReviewData} type.
  */
-abstract class GVReviewDataList<T extends GVReviewDataList.GVReviewData> extends VHDataList<T> {
+abstract class GVReviewDataList<T extends GVReviewDataList.GVReviewData> extends
+        ViewHolderDataList<T> {
 
     private final GVType mDataType;
 

@@ -21,6 +21,23 @@ class GVTagList extends GVReviewDataList<GVTagList.GVTag> {
         super(GVType.TAGS);
     }
 
+    @Override
+    protected Comparator<GVTag> getDefaultComparator() {
+        return new Comparator<GVTag>() {
+
+            @Override
+            public int compare(GVTag lhs, GVTag rhs) {
+                return lhs.get().compareTo(rhs.get());
+            }
+        };
+    }
+
+    void add(String string) {
+        if (string != null && string.length() > 0) {
+            add(new GVTag(string));
+        }
+    }
+
     /**
      * {@link } version of: {@link com.chdryra.android.reviewer.TagsManager.ReviewTag}
      * {@link ViewHolder}: {@link VHTag}
@@ -54,25 +71,8 @@ class GVTagList extends GVReviewDataList<GVTagList.GVTag> {
         }
 
         @Override
-        public ViewHolder getViewHolder() {
+        public ViewHolder newViewHolder() {
             return new VHTag();
         }
-    }
-
-    void add(String string) {
-        if (string != null && string.length() > 0) {
-            add(new GVTag(string));
-        }
-    }
-
-    @Override
-    protected Comparator<GVTag> getDefaultComparator() {
-        return new Comparator<GVTag>() {
-
-            @Override
-            public int compare(GVTag lhs, GVTag rhs) {
-                return lhs.get().compareTo(rhs.get());
-            }
-        };
     }
 }

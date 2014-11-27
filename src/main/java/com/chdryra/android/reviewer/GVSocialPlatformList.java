@@ -37,6 +37,25 @@ public class GVSocialPlatformList extends GVReviewDataList<GVSocialPlatformList.
         return new GVSocialPlatformList(context);
     }
 
+    @Override
+    protected Comparator<GVSocialPlatform> getDefaultComparator() {
+        return new Comparator<GVSocialPlatform>() {
+
+            @Override
+            public int compare(GVSocialPlatform lhs, GVSocialPlatform rhs) {
+                int ret = 0;
+                if (lhs.getFollowers() > rhs.getFollowers()) {
+                    ret = 1;
+                }
+                if (lhs.getFollowers() < rhs.getFollowers()) {
+                    ret = -1;
+                }
+
+                return ret;
+            }
+        };
+    }
+
     /**
      * {@link } version of: no equivalent as used for review sharing screen.
      * {@link ViewHolder}: {@link VHSocialPlatform}
@@ -68,24 +87,8 @@ public class GVSocialPlatformList extends GVReviewDataList<GVSocialPlatformList.
             mIsChosen = in.readByte() != 0;
         }
 
-        String getName() {
-            return getUpper();
-        }
-
-        int getFollowers() {
-            return mFollowers;
-        }
-
-        boolean isChosen() {
-            return mIsChosen;
-        }
-
-        void press() {
-            mIsChosen = !mIsChosen;
-        }
-
         @Override
-        public ViewHolder getViewHolder() {
+        public ViewHolder newViewHolder() {
             return new VHSocialPlatform();
         }
 
@@ -120,24 +123,21 @@ public class GVSocialPlatformList extends GVReviewDataList<GVSocialPlatformList.
             parcel.writeInt(mFollowers);
             parcel.writeByte((byte) (mIsChosen ? 1 : 0));
         }
-    }
 
-    @Override
-    protected Comparator<GVSocialPlatform> getDefaultComparator() {
-        return new Comparator<GVSocialPlatform>() {
+        String getName() {
+            return getUpper();
+        }
 
-            @Override
-            public int compare(GVSocialPlatform lhs, GVSocialPlatform rhs) {
-                int ret = 0;
-                if (lhs.getFollowers() > rhs.getFollowers()) {
-                    ret = 1;
-                }
-                if (lhs.getFollowers() < rhs.getFollowers()) {
-                    ret = -1;
-                }
+        int getFollowers() {
+            return mFollowers;
+        }
 
-                return ret;
-            }
-        };
+        boolean isChosen() {
+            return mIsChosen;
+        }
+
+        void press() {
+            mIsChosen = !mIsChosen;
+        }
     }
 }

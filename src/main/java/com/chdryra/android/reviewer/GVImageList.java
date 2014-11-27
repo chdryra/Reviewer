@@ -27,6 +27,44 @@ class GVImageList extends GVReviewDataList<GVImageList.GVImage> {
         super(GVType.IMAGES);
     }
 
+    void add(Bitmap bitmap, LatLng latLng) {
+        add(new GVImage(bitmap, latLng));
+    }
+
+    void add(Bitmap bitmap, LatLng latLng, String caption, boolean isCover) {
+        add(new GVImage(bitmap, latLng, caption, isCover));
+    }
+
+    boolean contains(Bitmap bitmap) {
+        for (GVImage image : this) {
+            if (image.getBitmap().sameAs(bitmap)) return true;
+        }
+
+        return false;
+    }
+
+    GVImage getRandomCover() {
+        GVImageList covers = getCovers();
+        if (covers.size() == 0) {
+            return null;
+        }
+
+        Random r = new Random();
+
+        return covers.getItem(r.nextInt(covers.size()));
+    }
+
+    GVImageList getCovers() {
+        GVImageList covers = new GVImageList();
+        for (GVImage image : this) {
+            if (image.isCover()) {
+                covers.add(image);
+            }
+        }
+
+        return covers;
+    }
+
     /**
      * {@link GVReviewData} version of: {@link RDImage}
      * {@link ViewHolder}: {@link VHImage}
@@ -66,32 +104,8 @@ class GVImageList extends GVReviewDataList<GVImageList.GVImage> {
             mIsCover = in.readByte() != 0;
         }
 
-        Bitmap getBitmap() {
-            return mBitmap;
-        }
-
-        String getCaption() {
-            return mCaption;
-        }
-
-        void setCaption(String caption) {
-            mCaption = caption;
-        }
-
-        LatLng getLatLng() {
-            return mLatLng;
-        }
-
-        void setIsCover(boolean isCover) {
-            mIsCover = isCover;
-        }
-
-        boolean isCover() {
-            return mIsCover;
-        }
-
         @Override
-        public ViewHolder getViewHolder() {
+        public ViewHolder newViewHolder() {
             return new VHImage();
         }
 
@@ -142,43 +156,29 @@ class GVImageList extends GVReviewDataList<GVImageList.GVImage> {
             parcel.writeParcelable(mLatLng, i);
             parcel.writeByte((byte) (isCover() ? 1 : 0));
         }
-    }
 
-    void add(Bitmap bitmap, LatLng latLng) {
-        add(new GVImage(bitmap, latLng));
-    }
-
-    void add(Bitmap bitmap, LatLng latLng, String caption, boolean isCover) {
-        add(new GVImage(bitmap, latLng, caption, isCover));
-    }
-
-    boolean contains(Bitmap bitmap) {
-        for (GVImage image : this) {
-            if (image.getBitmap().sameAs(bitmap)) return true;
+        Bitmap getBitmap() {
+            return mBitmap;
         }
 
-        return false;
-    }
-
-    GVImage getRandomCover() {
-        GVImageList covers = getCovers();
-        if (covers.size() == 0) {
-            return null;
+        String getCaption() {
+            return mCaption;
         }
 
-        Random r = new Random();
-
-        return covers.getItem(r.nextInt(covers.size()));
-    }
-
-    GVImageList getCovers() {
-        GVImageList covers = new GVImageList();
-        for (GVImage image : this) {
-            if (image.isCover()) {
-                covers.add(image);
-            }
+        void setCaption(String caption) {
+            mCaption = caption;
         }
 
-        return covers;
+        LatLng getLatLng() {
+            return mLatLng;
+        }
+
+        void setIsCover(boolean isCover) {
+            mIsCover = isCover;
+        }
+
+        boolean isCover() {
+            return mIsCover;
+        }
     }
 }

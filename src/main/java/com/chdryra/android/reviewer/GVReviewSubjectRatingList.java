@@ -25,6 +25,38 @@ class GVReviewSubjectRatingList extends GVReviewDataList<GVReviewSubjectRatingLi
         super(GVType.CHILDREN);
     }
 
+    public boolean contains(String subject) {
+        for (GVReviewSubjectRating review : this) {
+            if (review.getSubject().equals(subject)) return true;
+        }
+
+        return false;
+    }
+
+    @Override
+    protected Comparator<GVReviewSubjectRating> getDefaultComparator() {
+
+        return new Comparator<GVReviewSubjectRatingList.GVReviewSubjectRating>() {
+            @Override
+            public int compare(GVReviewSubjectRating lhs, GVReviewSubjectRating rhs) {
+                int comp = lhs.getSubject().compareTo(rhs.getSubject());
+                if (comp == 0) {
+                    if (lhs.getRating() > rhs.getRating()) {
+                        comp = 1;
+                    } else if (lhs.getRating() < rhs.getRating()) {
+                        comp = -1;
+                    }
+                }
+
+                return comp;
+            }
+        };
+    }
+
+    void add(String subject, float rating) {
+        add(new GVReviewSubjectRating(subject, rating));
+    }
+
     /**
      * {@link GVReviewData} version of: no equivalent as used for review children (sub-reviews).
      * {@link ViewHolder}: {@link VHReviewNodeSubjectRating}
@@ -53,16 +85,8 @@ class GVReviewSubjectRatingList extends GVReviewDataList<GVReviewSubjectRatingLi
             mRating = in.readFloat();
         }
 
-        String getSubject() {
-            return mSubject;
-        }
-
-        float getRating() {
-            return mRating;
-        }
-
         @Override
-        public ViewHolder getViewHolder() {
+        public ViewHolder newViewHolder() {
             return new VHReviewNodeSubjectRating();
         }
 
@@ -100,37 +124,13 @@ class GVReviewSubjectRatingList extends GVReviewDataList<GVReviewSubjectRatingLi
             parcel.writeString(mSubject);
             parcel.writeFloat(mRating);
         }
-    }
 
-    void add(String subject, float rating) {
-        add(new GVReviewSubjectRating(subject, rating));
-    }
-
-    public boolean contains(String subject) {
-        for (GVReviewSubjectRating review : this) {
-            if (review.getSubject().equals(subject)) return true;
+        String getSubject() {
+            return mSubject;
         }
 
-        return false;
-    }
-
-    @Override
-    protected Comparator<GVReviewSubjectRating> getDefaultComparator() {
-
-        return new Comparator<GVReviewSubjectRatingList.GVReviewSubjectRating>() {
-            @Override
-            public int compare(GVReviewSubjectRating lhs, GVReviewSubjectRating rhs) {
-                int comp = lhs.getSubject().compareTo(rhs.getSubject());
-                if (comp == 0) {
-                    if (lhs.getRating() > rhs.getRating()) {
-                        comp = 1;
-                    } else if (lhs.getRating() < rhs.getRating()) {
-                        comp = -1;
-                    }
-                }
-
-                return comp;
-            }
-        };
+        float getRating() {
+            return mRating;
+        }
     }
 }

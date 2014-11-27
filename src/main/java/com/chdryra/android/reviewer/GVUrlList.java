@@ -25,6 +25,14 @@ class GVUrlList extends GVReviewDataList<GVUrlList.GVUrl> {
         super(GVType.URLS);
     }
 
+    void add(String urlString) throws MalformedURLException, URISyntaxException {
+        add(new GVUrl(urlString));
+    }
+
+    void add(URL url) {
+        add(new GVUrl(url));
+    }
+
     /**
      * {@link GVReviewData} version of: {@link RDUrl}
      * {@link ViewHolder}: {@link VHUrl}
@@ -80,7 +88,7 @@ class GVUrlList extends GVReviewDataList<GVUrlList.GVUrl> {
         }
 
         @Override
-        public ViewHolder getViewHolder() {
+        public ViewHolder newViewHolder() {
             return new VHUrl();
         }
 
@@ -119,13 +127,5 @@ class GVUrlList extends GVReviewDataList<GVUrlList.GVUrl> {
         public void writeToParcel(Parcel parcel, int i) {
             parcel.writeSerializable(mUrl);
         }
-    }
-
-    void add(String urlString) throws MalformedURLException, URISyntaxException {
-        add(new GVUrl(urlString));
-    }
-
-    void add(URL url) {
-        add(new GVUrl(url));
     }
 }

@@ -29,6 +29,30 @@ class GVReviewOverviewList extends GVReviewDataList<GVReviewOverviewList.GVRevie
         super(GVType.REVIEW);
     }
 
+    @Override
+    protected Comparator<GVReviewOverview> getDefaultComparator() {
+
+        return new Comparator<GVReviewOverviewList.GVReviewOverview>() {
+            @Override
+            public int compare(GVReviewOverview lhs, GVReviewOverview rhs) {
+                return lhs.getPublishDate().compareTo(rhs.getPublishDate());
+            }
+        };
+    }
+
+    void add(String id, String subject, float rating, Bitmap coverImage, String headline,
+            String locationName, String author, Date publishDate) {
+        if (!contains(id)) {
+            add(new GVReviewOverview(id, subject, rating, coverImage, headline, locationName,
+                    author, publishDate));
+        }
+    }
+
+    boolean contains(String id) {
+        GVReviewOverview review = new GVReviewOverview(id);
+        return contains(review);
+    }
+
     /**
      * {@link GVReviewData} version of: {@link Review}
      * {@link ViewHolder): {@link VHReviewNodeOverview}
@@ -81,6 +105,34 @@ class GVReviewOverviewList extends GVReviewDataList<GVReviewOverviewList.GVRevie
             mPublishDate = (Date) in.readSerializable();
         }
 
+        @Override
+        public ViewHolder newViewHolder() {
+            return new VHReviewNodeOverview();
+        }
+
+        @Override
+        public boolean isValidForDisplay() {
+            return mId != null && mId.length() > 0 && mSubject != null && mSubject.length() > 0
+                    && mAuthor != null && mAuthor.length() > 0 && mPublishDate != null;
+        }
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel parcel, int i) {
+            parcel.writeString(mId);
+            parcel.writeString(mSubject);
+            parcel.writeFloat(mRating);
+            parcel.writeParcelable(mCoverImage, i);
+            parcel.writeString(mHeadline);
+            parcel.writeString(mLocationName);
+            parcel.writeString(mAuthor);
+            parcel.writeSerializable(mPublishDate);
+        }
+
         String getSubject() {
             return mSubject;
         }
@@ -108,58 +160,5 @@ class GVReviewOverviewList extends GVReviewDataList<GVReviewOverviewList.GVRevie
         Date getPublishDate() {
             return mPublishDate;
         }
-
-        @Override
-        public ViewHolder getViewHolder() {
-            return new VHReviewNodeOverview();
-        }
-
-        @Override
-        public boolean isValidForDisplay() {
-            return mId != null && mId.length() > 0 && mSubject != null && mSubject.length() > 0
-                    && mAuthor != null && mAuthor.length() > 0 && mPublishDate != null;
-        }
-
-
-        @Override
-        public int describeContents() {
-            return 0;
-        }
-
-        @Override
-        public void writeToParcel(Parcel parcel, int i) {
-            parcel.writeString(mId);
-            parcel.writeString(mSubject);
-            parcel.writeFloat(mRating);
-            parcel.writeParcelable(mCoverImage, i);
-            parcel.writeString(mHeadline);
-            parcel.writeString(mLocationName);
-            parcel.writeString(mAuthor);
-            parcel.writeSerializable(mPublishDate);
-        }
-    }
-
-    void add(String id, String subject, float rating, Bitmap coverImage, String headline,
-            String locationName, String author, Date publishDate) {
-        if (!contains(id)) {
-            add(new GVReviewOverview(id, subject, rating, coverImage, headline, locationName,
-                    author, publishDate));
-        }
-    }
-
-    boolean contains(String id) {
-        GVReviewOverview review = new GVReviewOverview(id);
-        return contains(review);
-    }
-
-    @Override
-    protected Comparator<GVReviewOverview> getDefaultComparator() {
-
-        return new Comparator<GVReviewOverviewList.GVReviewOverview>() {
-            @Override
-            public int compare(GVReviewOverview lhs, GVReviewOverview rhs) {
-                return lhs.getPublishDate().compareTo(rhs.getPublishDate());
-            }
-        };
     }
 }

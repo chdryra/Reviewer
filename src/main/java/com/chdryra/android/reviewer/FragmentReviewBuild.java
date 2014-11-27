@@ -307,7 +307,7 @@ public class FragmentReviewBuild extends FragmentReviewGrid<FragmentReviewBuild
             }
 
             @Override
-            public ViewHolder getViewHolder() {
+            public ViewHolder newViewHolder() {
                 return null;
             }
 
@@ -368,7 +368,7 @@ public class FragmentReviewBuild extends FragmentReviewGrid<FragmentReviewBuild
                 ViewHolderData datum = (ViewHolderData) getController().getData(mDataType)
                         .getItem(0);
                 ViewHolder vh = mDataType == GVType.LOCATIONS ? new VHLocation(true) : datum
-                        .getViewHolder();
+                        .newViewHolder();
                 if (vh.getView() == null) vh.inflate(getActivity(), parent);
                 vh.updateView(datum);
                 return vh.getView();
