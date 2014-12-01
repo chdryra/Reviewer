@@ -25,10 +25,6 @@ class RDUrl implements RData {
         mHoldingReview = holdingReview;
     }
 
-    URL get() {
-        return mUrl;
-    }
-
     @Override
     public Review getHoldingReview() {
         return mHoldingReview;
@@ -42,5 +38,9 @@ class RDUrl implements RData {
     @Override
     public boolean hasData() {
         return mUrl != null;
+    }
+
+    URL get() {
+        return mUrl;
     }
 }

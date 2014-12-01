@@ -35,10 +35,10 @@ import java.util.ArrayList;
  */
 public class DialogLocationFragment extends DialogCancelActionDoneFragment implements Locatable,
         LaunchableUI, PlaceSuggester.SuggestionsListener {
-    public static final ActionType RESULT_MAP = ActionType.OTHER;
-    private static final int NUMBER_SUGGESTIONS = 10;
-    private static final String SEARCHING   = "searching nearby...";
-    private static final String NO_LOCATION = "no suggestions found...";
+    public static final  ActionType RESULT_MAP         = ActionType.OTHER;
+    private static final int        NUMBER_SUGGESTIONS = 10;
+    private static final String     SEARCHING          = "searching nearby...";
+    private static final String     NO_LOCATION        = "no suggestions found...";
 
     private ControllerReviewEditable mController;
     private ClearableEditText        mNameEditText;
@@ -47,7 +47,7 @@ public class DialogLocationFragment extends DialogCancelActionDoneFragment imple
     private LocationClientConnector  mLocationClient;
 
     private PlaceAutoCompleteSuggester mAutoCompleter;
-    private StringFilterAdapter mAdapter;
+    private StringFilterAdapter        mAdapter;
 
     @Override
     public void onStop() {

@@ -66,6 +66,11 @@ class SocialPlatformList implements Iterable<SocialPlatformList.SocialPlatform> 
         }
     }
 
+    @Override
+    public Iterator<SocialPlatform> iterator() {
+        return mPlatforms.iterator();
+    }
+
     /**
      * Holds the name and number of followers for a social platform. Placeholder to update the
      * number of followers.
@@ -90,10 +95,5 @@ class SocialPlatformList implements Iterable<SocialPlatformList.SocialPlatform> 
         private void update() {
             mFollowers = 0;
         }
-    }
-
-    @Override
-    public Iterator<SocialPlatform> iterator() {
-        return mPlatforms.iterator();
     }
 }

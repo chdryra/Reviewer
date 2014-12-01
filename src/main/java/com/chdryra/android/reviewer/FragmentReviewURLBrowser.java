@@ -55,14 +55,6 @@ public class FragmentReviewURLBrowser extends FragmentDeleteDone {
 
     private InputHandlerReviewData<GVUrlList.GVUrl> mHandler;
 
-    private class URLWebViewClient extends WebViewClient {
-        @Override
-        public void onPageFinished(WebView view, String url) {
-            mUrlEditText.setText(view.getUrl());
-            super.onPageFinished(view, url);
-        }
-    }
-
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mHandler = new InputHandlerReviewData<GVUrlList.GVUrl>(GVReviewDataList.GVType.URLS);
@@ -189,5 +181,13 @@ public class FragmentReviewURLBrowser extends FragmentDeleteDone {
     private void loadUrl() {
         String urlString = URLUtil.guessUrl(mUrlEditText.getText().toString());
         mWebView.loadUrl(urlString);
+    }
+
+    private class URLWebViewClient extends WebViewClient {
+        @Override
+        public void onPageFinished(WebView view, String url) {
+            mUrlEditText.setText(view.getUrl());
+            super.onPageFinished(view, url);
+        }
     }
 }

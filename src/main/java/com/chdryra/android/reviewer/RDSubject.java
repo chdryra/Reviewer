@@ -23,10 +23,6 @@ class RDSubject implements RData {
         mHoldingReview = review;
     }
 
-    String get() {
-        return mTitle;
-    }
-
     @Override
     public Review getHoldingReview() {
         return mHoldingReview;
@@ -40,5 +36,9 @@ class RDSubject implements RData {
     @Override
     public boolean hasData() {
         return mTitle != null && mTitle.length() > 0;
+    }
+
+    String get() {
+        return mTitle;
     }
 }

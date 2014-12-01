@@ -45,6 +45,17 @@ public abstract class DialogReviewDataEditFragment<T extends GVReviewDataList.GV
     private       UIHolder<T>               mDialogHolder;
     private       ReviewDataEditListener<T> mListener;
 
+    /**
+     * Provides a callback that can be called delete or done buttons are pressed.
+     *
+     * @param <T>:{@link com.chdryra.android.reviewer.GVReviewDataList.GVReviewData} type
+     */
+    public interface ReviewDataEditListener<T extends GVReviewDataList.GVReviewData> {
+        void onReviewDataDelete(T data);
+
+        void onReviewDataEdit(T oldDatum, T newDatum);
+    }
+
     DialogReviewDataEditFragment(GVReviewDataList.GVType dataType) {
         this(dataType, new InputHandlerReviewData<T>(dataType));
     }
@@ -55,15 +66,9 @@ public abstract class DialogReviewDataEditFragment<T extends GVReviewDataList.GV
         mHandler = handler;
     }
 
-    /**
-     * Provides a callback that can be called delete or done buttons are pressed.
-     *
-     * @param <T>:{@link com.chdryra.android.reviewer.GVReviewDataList.GVReviewData} type
-     */
-    public interface ReviewDataEditListener<T extends GVReviewDataList.GVReviewData> {
-        void onReviewDataDelete(T data);
-
-        void onReviewDataEdit(T oldDatum, T newDatum);
+    @Override
+    public void launch(LauncherUI launcher) {
+        launcher.launch(this);
     }
 
     @Override
@@ -100,11 +105,6 @@ public abstract class DialogReviewDataEditFragment<T extends GVReviewDataList.GV
     @Override
     protected boolean hasDataToDelete() {
         return mDatum != null;
-    }
-
-    @Override
-    public void launch(LauncherUI launcher) {
-        launcher.launch(this);
     }
 
     @Override

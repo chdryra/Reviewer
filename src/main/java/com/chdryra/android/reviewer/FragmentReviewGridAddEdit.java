@@ -37,23 +37,21 @@ abstract class FragmentReviewGridAddEdit<T extends GVReviewDataList.GVReviewData
         .ReviewDataAddListener<T>, DialogReviewDataEditFragment.ReviewDataEditListener<T> {
 
 
-    private final GVType                    mDataType;
-    protected     InputHandlerReviewData<T> mHandler;
-    private ActivityResultCode mDoDatumAdd    = ActivityResultCode.ADD;
-    private ActivityResultCode mDoDatumDelete = ActivityResultCode.DELETE;
-    private ActivityResultCode mDoDatumEdit   = ActivityResultCode.DONE;
+    private final GVType mDataType;
+    private final ActivityResultCode mDoDatumDelete = ActivityResultCode.DELETE;
+    private final ActivityResultCode mDoDatumEdit   = ActivityResultCode.DONE;
+    private final InputHandlerReviewData<T> mHandler;
+    private ActivityResultCode mDoDatumAdd = ActivityResultCode.ADD;
     private ConfigReviewDataUI.ReviewDataUIConfig mAdderConfig;
     private ConfigReviewDataUI.ReviewDataUIConfig mEditorConfig;
 
-    protected enum Action {ADD, DELETE, DONE}
-
-    public FragmentReviewGridAddEdit(GVType dataType) {
-        mDataType = dataType;
-        mHandler = new InputHandlerReviewData<T>(mDataType);
+    FragmentReviewGridAddEdit(GVType dataType) {
+        this(dataType, new InputHandlerReviewData<T>(dataType));
     }
 
-    protected InputHandlerReviewData<T> getInputHandler() {
-        return mHandler;
+    FragmentReviewGridAddEdit(GVType dataType, InputHandlerReviewData<T> inputHandler) {
+        mDataType = dataType;
+        mHandler = inputHandler;
     }
 
     @Override
@@ -69,71 +67,6 @@ abstract class FragmentReviewGridAddEdit<T extends GVReviewDataList.GVReviewData
     @Override
     public void onReviewDataEdit(T oldDatum, T newDatum) {
         doDatumEdit(oldDatum, newDatum);
-    }
-
-    protected boolean doDatumAdd(T data) {
-        boolean added = mHandler.add(data, getActivity());
-        updateUI();
-        return added;
-    }
-
-    protected void doDatumDelete(T data) {
-        mHandler.delete(data);
-        updateUI();
-    }
-
-    protected void doDatumEdit(T oldDatum, T newDatum) {
-        mHandler.replace(oldDatum, newDatum, getActivity());
-        updateUI();
-    }
-
-    protected void packGridCellData(T item, Bundle args) {
-        mHandler.pack(InputHandlerReviewData.CurrentNewDatum.CURRENT, item, args);
-    }
-
-    protected final int getRequestCodeAdd() {
-        return mAdderConfig.getRequestCode();
-    }
-
-    protected final int getRequestCodeEdit() {
-        return mEditorConfig.getRequestCode();
-    }
-
-    protected void setActivityResultCode(Action action, ActivityResultCode resultCode) {
-        switch (action) {
-            case ADD:
-                mDoDatumAdd = resultCode;
-                break;
-            case DELETE:
-                mDoDatumDelete = resultCode;
-                break;
-            case DONE:
-                mDoDatumEdit = resultCode;
-                break;
-        }
-    }
-
-    protected void onActivityAddRequested(int resultCode, Intent data) {
-        if (data != null && ActivityResultCode.get(resultCode) == mDoDatumAdd) {
-            T datum = getInputHandler().unpack(InputHandlerReviewData.CurrentNewDatum.NEW, data);
-            doDatumAdd(datum);
-        }
-    }
-
-    protected void onActivityEditRequested(int resultCode, Intent data) {
-        ActivityResultCode result = ActivityResultCode.get(resultCode);
-        if (data != null && result == mDoDatumEdit) {
-            T oldDatum = getInputHandler().unpack(InputHandlerReviewData.CurrentNewDatum.CURRENT,
-                    data);
-            T newDatum = getInputHandler().unpack(InputHandlerReviewData.CurrentNewDatum.NEW,
-                    data);
-            doDatumEdit(oldDatum, newDatum);
-        }
-        if (data != null && result == mDoDatumDelete) {
-            T datum = getInputHandler().unpack(InputHandlerReviewData.CurrentNewDatum.CURRENT,
-                    data);
-            doDatumDelete(datum);
-        }
     }
 
     @Override
@@ -163,32 +96,86 @@ abstract class FragmentReviewGridAddEdit<T extends GVReviewDataList.GVReviewData
         //TODO how to make this type safe
         setGridViewData(getController().getData(mDataType));
         setDeleteWhatTitle(mDataType.getDataString());
-        setBannerButtonText(getResources().getString(R.string.add) + " " + mDataType.getDatumString
-                ());
+        setBannerButtonText(getResources().getString(R.string.add) + " " + mDataType
+                .getDatumString());
     }
 
     @Override
-    protected void onBannerButtonClick() {
-        Bundle args = Administrator.get(getActivity()).pack(getController());
-
-        LauncherUI.launch(mAdderConfig.getReviewDataUI(), this,
-                mAdderConfig.getRequestCode(), mAdderConfig.getTag(), args);
+    void onBannerButtonClick() {
+        launchUi(mAdderConfig, null);
     }
 
     @Override
-    protected void onGridItemClick(AdapterView<?> parent, View v, int position, long id) {
-        Bundle args = Administrator.get(getActivity()).pack(getController());
-
+    void onGridItemClick(AdapterView<?> parent, View v, int position, long id) {
         //TODO make type safe
-        packGridCellData((T) parent.getItemAtPosition(position), args);
-
-        LauncherUI.launch(mEditorConfig.getReviewDataUI(), this,
-                mEditorConfig.getRequestCode(), mEditorConfig.getTag(), args);
+        launchUi(mEditorConfig, (T) parent.getItemAtPosition(position));
     }
 
     @Override
     void setGridViewData(GVReviewDataList<T> gridData) {
         super.setGridViewData(gridData);
         mHandler.setData(gridData);
+    }
+
+    InputHandlerReviewData<T> getInputHandler() {
+        return mHandler;
+    }
+
+    boolean doDatumAdd(T data) {
+        boolean added = mHandler.add(data, getActivity());
+        updateUI();
+        return added;
+    }
+
+    void doDatumDelete(T data) {
+        mHandler.delete(data);
+        updateUI();
+    }
+
+    void doDatumEdit(T oldDatum, T newDatum) {
+        mHandler.replace(oldDatum, newDatum, getActivity());
+        updateUI();
+    }
+
+    void packGridCellData(T item, Bundle args) {
+        mHandler.pack(InputHandlerReviewData.CurrentNewDatum.CURRENT, item, args);
+    }
+
+    final int getRequestCodeAdd() {
+        return mAdderConfig.getRequestCode();
+    }
+
+    final int getRequestCodeEdit() {
+        return mEditorConfig.getRequestCode();
+    }
+
+    void setAddResultCode(ActivityResultCode resultCode) {
+        mDoDatumAdd = resultCode;
+    }
+
+    void onActivityAddRequested(int resultCode, Intent data) {
+        if (data != null && ActivityResultCode.get(resultCode) == mDoDatumAdd) {
+            doDatumAdd(mHandler.unpack(InputHandlerReviewData.CurrentNewDatum.NEW, data));
+        }
+    }
+
+    void onActivityEditRequested(int resultCode, Intent data) {
+        ActivityResultCode result = ActivityResultCode.get(resultCode);
+        if (data != null && result == mDoDatumEdit) {
+            T oldDatum = mHandler.unpack(InputHandlerReviewData.CurrentNewDatum.CURRENT, data);
+            T newDatum = mHandler.unpack(InputHandlerReviewData.CurrentNewDatum.NEW, data);
+            doDatumEdit(oldDatum, newDatum);
+        } else if (data != null && result == mDoDatumDelete) {
+            doDatumDelete(mHandler.unpack(InputHandlerReviewData.CurrentNewDatum.CURRENT, data));
+        }
+    }
+
+    private void launchUi(ConfigReviewDataUI.ReviewDataUIConfig config, T dataToPack) {
+        Bundle args = Administrator.get(getActivity()).pack(getController());
+
+        if (dataToPack != null) packGridCellData(dataToPack, args);
+
+        LauncherUI.launch(config.getReviewDataUI(), this, config.getRequestCode(),
+                config.getTag(), args);
     }
 }

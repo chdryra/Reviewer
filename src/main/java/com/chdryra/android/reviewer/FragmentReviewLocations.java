@@ -26,6 +26,6 @@ import com.chdryra.android.reviewer.GVReviewDataList.GVType;
 public class FragmentReviewLocations extends FragmentReviewGridAddEdit<GVLocation> {
     public FragmentReviewLocations() {
         super(GVType.LOCATIONS);
-        setActivityResultCode(Action.ADD, ActivityResultCode.DONE);
+        setAddResultCode(ActivityResultCode.DONE);
     }
 }

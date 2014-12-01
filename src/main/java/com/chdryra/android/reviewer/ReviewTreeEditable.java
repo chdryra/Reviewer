@@ -230,10 +230,6 @@ class ReviewTreeEditable extends ReviewEditable implements ReviewNodeExpandable 
         return mNode.hasLocations();
     }
 
-    private ReviewEditable getReviewEditable() {
-        return (ReviewEditable) mNode.getReview();
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -248,5 +244,9 @@ class ReviewTreeEditable extends ReviewEditable implements ReviewNodeExpandable 
     @Override
     public int hashCode() {
         return mNode != null ? mNode.hashCode() : 0;
+    }
+
+    private ReviewEditable getReviewEditable() {
+        return (ReviewEditable) mNode.getReview();
     }
 }

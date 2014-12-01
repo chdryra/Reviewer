@@ -54,14 +54,6 @@ public abstract class DialogReviewDataAddFragment<T extends GVReviewDataList.GVR
 
     private boolean mQuickSet = false;
 
-    DialogReviewDataAddFragment(GVType dataType) {
-        this(new InputHandlerReviewData<T>(dataType));
-    }
-
-    DialogReviewDataAddFragment(InputHandlerReviewData<T> handler) {
-        mHandler = handler;
-    }
-
     /**
      * Provides a callback for when the add button is pressed
      *
@@ -71,8 +63,17 @@ public abstract class DialogReviewDataAddFragment<T extends GVReviewDataList.GVR
         boolean onReviewDataAdd(T data);
     }
 
-    GVType getGVType() {
-        return mHandler.getGVType();
+    DialogReviewDataAddFragment(GVType dataType) {
+        this(new InputHandlerReviewData<T>(dataType));
+    }
+
+    DialogReviewDataAddFragment(InputHandlerReviewData<T> handler) {
+        mHandler = handler;
+    }
+
+    @Override
+    public void launch(LauncherUI launcher) {
+        launcher.launch(this);
     }
 
     @Override
@@ -132,9 +133,8 @@ public abstract class DialogReviewDataAddFragment<T extends GVReviewDataList.GVR
         return null;
     }
 
-    @Override
-    public void launch(LauncherUI launcher) {
-        launcher.launch(this);
+    GVType getGVType() {
+        return mHandler.getGVType();
     }
 
     boolean isQuickSet() {

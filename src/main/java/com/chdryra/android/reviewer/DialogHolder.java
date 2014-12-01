@@ -32,20 +32,19 @@ import android.view.View;
  *
  * @param <T>: {@link com.chdryra.android.reviewer.GVReviewDataList.GVReviewData} type.
  */
-abstract class DialogHolder<T extends GVReviewDataList.GVReviewData> implements
-        UIHolder<T> {
+abstract class DialogHolder<T extends GVReviewDataList.GVReviewData> implements UIHolder<T> {
     private final int               mLayout;
     private final int[]             mUpdateableViewIds;
     private final SparseArray<View> mUpdateableViews;
     private       View              mInflated;
+
+    protected abstract UIReviewData<T> getGVReviewDataUI();
 
     DialogHolder(int layoutId, int[] viewIds) {
         mLayout = layoutId;
         mUpdateableViewIds = viewIds;
         mUpdateableViews = new SparseArray<View>(mUpdateableViewIds.length);
     }
-
-    protected abstract UIReviewData<T> getGVReviewDataUI();
 
     @Override
     public void inflate(Activity activity) {

@@ -47,7 +47,7 @@ class ControllerReview<T extends Review> {
         }
     }
 
-    protected T getControlledReview() {
+    T getControlledReview() {
         return mReview;
     }
 

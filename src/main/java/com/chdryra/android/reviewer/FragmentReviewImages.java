@@ -42,32 +42,14 @@ public class FragmentReviewImages extends FragmentReviewGridAddEdit<GVImage>
     private ImageChooser mImageChooser;
 
     public FragmentReviewImages() {
-        super(GVType.IMAGES);
-        setActivityResultCode(Action.ADD, ActivityResultCode.OK);
+        super(GVType.IMAGES, new InputHandlerImage());
+        setAddResultCode(ActivityResultCode.OK);
         setGridCellDimension(CellDimension.HALF, CellDimension.HALF);
-        mHandler = new InputHandlerImage();
     }
 
     @Override
     public void onImageChosen(GVImage image) {
         doDatumAdd(image);
-    }
-
-    @Override
-    protected boolean doDatumAdd(final GVImage image) {
-        boolean success = getInputHandler().add(image, getActivity());
-        if (success) {
-            if (mImages.size() == 1) setCover(0);
-            updateUI();
-        }
-
-        return success;
-    }
-
-    @Override
-    protected void doDatumDelete(GVImage image) {
-        super.doDatumDelete(image);
-        if (image.isCover()) setCover(0);
     }
 
     @Override
@@ -94,9 +76,26 @@ public class FragmentReviewImages extends FragmentReviewGridAddEdit<GVImage>
     }
 
     @Override
-    protected void onBannerButtonClick() {
+    void onBannerButtonClick() {
         Intent options = mImageChooser.getChooserIntents();
         startActivityForResult(options, getRequestCodeAdd());
+    }
+
+    @Override
+    boolean doDatumAdd(final GVImage image) {
+        boolean success = getInputHandler().add(image, getActivity());
+        if (success) {
+            if (mImages.size() == 1) setCover(0);
+            updateUI();
+        }
+
+        return success;
+    }
+
+    @Override
+    void doDatumDelete(GVImage image) {
+        super.doDatumDelete(image);
+        if (image.isCover()) setCover(0);
     }
 
     @Override

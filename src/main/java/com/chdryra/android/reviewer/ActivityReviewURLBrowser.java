@@ -19,12 +19,12 @@ import com.chdryra.android.mygenerallibrary.ActivitySingleFragment;
 public class ActivityReviewURLBrowser extends ActivitySingleFragment implements LaunchableUI {
 
     @Override
-    protected Fragment createFragment() {
-        return new FragmentReviewURLBrowser();
+    public void launch(LauncherUI launcher) {
+        launcher.launch(this);
     }
 
     @Override
-    public void launch(LauncherUI launcher) {
-        launcher.launch(this);
+    protected Fragment createFragment() {
+        return new FragmentReviewURLBrowser();
     }
 }

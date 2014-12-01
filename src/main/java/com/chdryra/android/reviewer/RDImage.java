@@ -39,6 +39,21 @@ class RDImage implements RData {
         mHoldingReview = holdingReview;
     }
 
+    @Override
+    public Review getHoldingReview() {
+        return mHoldingReview;
+    }
+
+    @Override
+    public void setHoldingReview(Review review) {
+        mHoldingReview = review;
+    }
+
+    @Override
+    public boolean hasData() {
+        return mBitmap != null;
+    }
+
     Bitmap getBitmap() {
         return mBitmap;
     }
@@ -53,20 +68,5 @@ class RDImage implements RData {
 
     boolean isCover() {
         return mIsCover;
-    }
-
-    @Override
-    public Review getHoldingReview() {
-        return mHoldingReview;
-    }
-
-    @Override
-    public void setHoldingReview(Review review) {
-        mHoldingReview = review;
-    }
-
-    @Override
-    public boolean hasData() {
-        return mBitmap != null;
     }
 }

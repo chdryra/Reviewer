@@ -20,32 +20,9 @@ import java.util.NoSuchElementException;
 class RCollection<T> implements Iterable<T> {
     private final LinkedHashMap<RDId, T> mData = new LinkedHashMap<RDId, T>();
 
-    class CollectionIterator implements Iterator<T> {
-        int position = 0;
-
-        @Override
-        public boolean hasNext() {
-            return position < size() && getItem(position) != null;
-        }
-
-        @Override
-        public T next() {
-            if (hasNext()) {
-                return getItem(position++);
-            } else {
-                throw new NoSuchElementException("No more elements left");
-            }
-        }
-
-        @Override
-        public void remove() {
-            if (position <= 0) {
-                throw new IllegalStateException("Have to do at least one next() before you can " +
-                        "delete");
-            } else {
-                RCollection.this.remove(getId(position));
-            }
-        }
+    @Override
+    public Iterator<T> iterator() {
+        return new CollectionIterator();
     }
 
     void put(RDId id, T t) {
@@ -85,9 +62,32 @@ class RCollection<T> implements Iterable<T> {
         return keys[position];
     }
 
-    @Override
-    public Iterator<T> iterator() {
-        return new CollectionIterator();
+    class CollectionIterator implements Iterator<T> {
+        int position = 0;
+
+        @Override
+        public boolean hasNext() {
+            return position < size() && getItem(position) != null;
+        }
+
+        @Override
+        public T next() {
+            if (hasNext()) {
+                return getItem(position++);
+            } else {
+                throw new NoSuchElementException("No more elements left");
+            }
+        }
+
+        @Override
+        public void remove() {
+            if (position <= 0) {
+                throw new IllegalStateException("Have to do at least one next() before you can " +
+                        "delete");
+            } else {
+                RCollection.this.remove(getId(position));
+            }
+        }
     }
 
 }

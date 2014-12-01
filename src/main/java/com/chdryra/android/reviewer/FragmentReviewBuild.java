@@ -75,7 +75,7 @@ public class FragmentReviewBuild extends FragmentReviewGrid<FragmentReviewBuild
     private final static int LOCATION_MAP = 22;
 
     private GVCellManagerList mCellManagerList;
-    private ImageChooser mImageChooser;
+    private ImageChooser      mImageChooser;
 
     private InputHandlerReviewData<GVLocationList.GVLocation> mLocationInputHandler;
 

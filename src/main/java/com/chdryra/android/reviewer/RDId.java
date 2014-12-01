@@ -25,6 +25,13 @@ import java.util.UUID;
 class RDId implements RData {
     private final UUID mId;
 
+    /**
+     * To facilitate RCollectionReview
+     */
+    public interface RDIdAble {
+        public RDId getId();
+    }
+
     private RDId() {
         mId = UUID.randomUUID();
     }
@@ -39,13 +46,6 @@ class RDId implements RData {
 
     static RDId generateId(String rdId) {
         return new RDId(rdId);
-    }
-
-    /**
-     * To facilitate RCollectionReview
-     */
-    public interface RDIdAble {
-        public RDId getId();
     }
 
     @Override

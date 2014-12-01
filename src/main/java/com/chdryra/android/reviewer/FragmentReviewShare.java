@@ -109,12 +109,12 @@ public class FragmentReviewShare extends FragmentReviewGrid<GVSocialPlatformList
         }
     }
 
-    private void initSocialSharingList() {
-        mSocialList = Administrator.get(getActivity()).getSocialPlatformList();
-    }
-
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 
+    }
+
+    private void initSocialSharingList() {
+        mSocialList = Administrator.get(getActivity()).getSocialPlatformList();
     }
 }

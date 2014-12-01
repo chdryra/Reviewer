@@ -22,6 +22,11 @@ public class ActivityReviewLocationMap extends ActivitySingleFragment implements
     private FragmentReviewLocationMap mFragment;
 
     @Override
+    public void launch(LauncherUI launcher) {
+        launcher.launch(this);
+    }
+
+    @Override
     protected Fragment createFragment() {
         mFragment = new FragmentReviewLocationMap();
         return mFragment;
@@ -31,10 +36,5 @@ public class ActivityReviewLocationMap extends ActivitySingleFragment implements
     protected void onNewIntent(Intent intent) {
         setIntent(intent);
         mFragment.handleSearch();
-    }
-
-    @Override
-    public void launch(LauncherUI launcher) {
-        launcher.launch(this);
     }
 }

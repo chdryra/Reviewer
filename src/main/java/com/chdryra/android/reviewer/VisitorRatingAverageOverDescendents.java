@@ -16,7 +16,7 @@ class VisitorRatingAverageOverDescendents implements VisitorRatingCalculator {
     private float mRatingTotal   = 0;
     private int   mNumberRatings = 0;
 
-    VisitorRatingAverageOverDescendents() {
+    private VisitorRatingAverageOverDescendents() {
     }
 
     @Override

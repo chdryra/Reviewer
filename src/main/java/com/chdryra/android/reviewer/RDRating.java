@@ -23,10 +23,6 @@ public class RDRating implements RData {
         mHoldingReview = holdingReview;
     }
 
-    float get() {
-        return mRating;
-    }
-
     @Override
     public Review getHoldingReview() {
         return mHoldingReview;
@@ -40,5 +36,9 @@ public class RDRating implements RData {
     @Override
     public boolean hasData() {
         return true;
+    }
+
+    float get() {
+        return mRating;
     }
 }

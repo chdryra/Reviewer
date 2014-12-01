@@ -92,14 +92,11 @@ class InputHandlerReviewData<T extends GVReviewDataList.GVReviewData> {
         return false;
     }
 
-    boolean replace(T oldDatum, T newDatum, Context context) {
+    void replace(T oldDatum, T newDatum, Context context) {
         if (passesReplaceConstraint(oldDatum, newDatum, context)) {
             mData.remove(oldDatum);
             mData.add(newDatum);
-            return true;
         }
-
-        return false;
     }
 
     void delete(T data) {

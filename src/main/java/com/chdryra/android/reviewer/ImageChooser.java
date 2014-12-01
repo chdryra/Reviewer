@@ -32,14 +32,14 @@ import java.io.IOException;
  * On: 12/11/2014
  * Email: rizwan.choudrey@gmail.com
  */
-public class ImageChooser {
+class ImageChooser {
     private static final String TAG              = "ImageChooser";
     private static final String ERROR_CREATE     = "Couldn't create file";
     private static final String ERROR_NO_STORAGE = "No storage available";
 
-    private Activity        mActivity;
-    private FileIncrementor mFileIncrementor;
-    private String          mCaptureFile;
+    private final Activity        mActivity;
+    private final FileIncrementor mFileIncrementor;
+    private       String          mCaptureFile;
 
     public interface ImageChooserListener {
         public void onImageChosen(GVImageList.GVImage image);

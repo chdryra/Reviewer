@@ -300,8 +300,6 @@ public abstract class FragmentReviewGrid<T extends GVReviewDataList> extends Fra
     }
 
     ViewHolderAdapter getGridViewCellAdapter() {
-        //TODO shouldn't really complain because I think bounds are correct. Maybe because T
-        // extends GVReviewDataList (raw type) rather than parameterised type.
         return new ViewHolderAdapter(getActivity(), mGridData, getGridCellWidth(),
                 getGridCellHeight());
     }

@@ -71,8 +71,8 @@ import java.util.ArrayList;
 public class FragmentReviewLocationMap extends FragmentDeleteDone implements
         LocationClientConnector.Locatable, PlaceSuggester.SuggestionsListener {
     private final static String TAG                  = "FragmentReviewLocationMap";
-    private static final String NO_LOCATION         = "no suggestions found...";
-    private static final float DEFAULT_ZOOM = 15;
+    private static final String NO_LOCATION          = "no suggestions found...";
+    private static final float  DEFAULT_ZOOM         = 15;
     private static final int    NUMBER_DEFAULT_NAMES = 5;
 
     private GVLocationList.GVLocation mCurrent;

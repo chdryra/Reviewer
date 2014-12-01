@@ -30,8 +30,7 @@ public class FragmentReviewChildren extends FragmentReviewGridAddEdit<GVReviewSu
     private boolean mTotalRatingIsAverage;
 
     public FragmentReviewChildren() {
-        super(GVType.CHILDREN);
-        mHandler = new InputHandlerChildren();
+        super(GVType.CHILDREN, new InputHandlerChildren());
     }
 
     @Override
@@ -48,18 +47,6 @@ public class FragmentReviewChildren extends FragmentReviewGridAddEdit<GVReviewSu
     }
 
     @Override
-    protected void initRatingBarUI() {
-        getTotalRatingBar().setIsIndicator(false);
-        getTotalRatingBar().setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
-            @Override
-            public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-                getEditableController().setRating(rating);
-                if (fromUser) setTotalRatingIsAverage(false);
-            }
-        });
-    }
-
-    @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.fragment_review_children, menu);
     }
@@ -73,6 +60,18 @@ public class FragmentReviewChildren extends FragmentReviewGridAddEdit<GVReviewSu
         } else {
             return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    protected void initRatingBarUI() {
+        getTotalRatingBar().setIsIndicator(false);
+        getTotalRatingBar().setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+            @Override
+            public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+                getEditableController().setRating(rating);
+                if (fromUser) setTotalRatingIsAverage(false);
+            }
+        });
     }
 
     private void setTotalRatingIsAverage(boolean isAverage) {

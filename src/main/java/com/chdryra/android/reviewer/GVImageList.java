@@ -27,10 +27,6 @@ class GVImageList extends GVReviewDataList<GVImageList.GVImage> {
         super(GVType.IMAGES);
     }
 
-    void add(Bitmap bitmap, LatLng latLng) {
-        add(new GVImage(bitmap, latLng));
-    }
-
     void add(Bitmap bitmap, LatLng latLng, String caption, boolean isCover) {
         add(new GVImage(bitmap, latLng, caption, isCover));
     }

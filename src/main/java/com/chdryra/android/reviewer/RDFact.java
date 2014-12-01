@@ -26,14 +26,6 @@ class RDFact implements RData {
         mHoldingReview = holdingReview;
     }
 
-    String getLabel() {
-        return mLabel;
-    }
-
-    String getValue() {
-        return mValue;
-    }
-
     @Override
     public Review getHoldingReview() {
         return mHoldingReview;
@@ -47,5 +39,13 @@ class RDFact implements RData {
     @Override
     public boolean hasData() {
         return mLabel != null && mValue != null && mLabel.length() > 0 && mValue.length() > 0;
+    }
+
+    String getLabel() {
+        return mLabel;
+    }
+
+    String getValue() {
+        return mValue;
     }
 }

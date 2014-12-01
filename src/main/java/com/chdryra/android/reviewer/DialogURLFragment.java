@@ -34,6 +34,11 @@ public class DialogURLFragment extends DialogCancelActionDoneFragment implements
     private ClearableEditText        mUrlEditText;
 
     @Override
+    public void launch(LauncherUI launcher) {
+        launcher.launch(this);
+    }
+
+    @Override
     protected View createDialogUI() {
         View v = getActivity().getLayoutInflater().inflate(R.layout.dialog_url, null);
 
@@ -76,10 +81,5 @@ public class DialogURLFragment extends DialogCancelActionDoneFragment implements
                         Toast.LENGTH_SHORT).show();
             }
         }
-    }
-
-    @Override
-    public void launch(LauncherUI launcher) {
-        launcher.launch(this);
     }
 }

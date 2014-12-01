@@ -8,7 +8,7 @@
 
 package com.chdryra.android.reviewer;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.StringTokenizer;
 
 /**
@@ -30,8 +30,8 @@ class CommentFormatter {
         }
     }
 
-    static LinkedList<String> split(String comment) {
-        LinkedList<String> comments = new LinkedList<String>();
+    static ArrayList<String> split(String comment) {
+        ArrayList<String> comments = new ArrayList<String>();
 
         if (comment != null && comment.length() > 0) {
             StringTokenizer tokens = new StringTokenizer(comment, COMMENT_HEADLINE_DELIMITER);

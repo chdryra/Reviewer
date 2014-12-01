@@ -28,14 +28,6 @@ class RDLocation implements RData {
         mHoldingReview = holdingReview;
     }
 
-    LatLng getLatLng() {
-        return mLatLng;
-    }
-
-    String getName() {
-        return mName;
-    }
-
     @Override
     public Review getHoldingReview() {
         return mHoldingReview;
@@ -49,5 +41,13 @@ class RDLocation implements RData {
     @Override
     public boolean hasData() {
         return mLatLng != null && mName != null && mName.length() > 0;
+    }
+
+    LatLng getLatLng() {
+        return mLatLng;
+    }
+
+    String getName() {
+        return mName;
     }
 }

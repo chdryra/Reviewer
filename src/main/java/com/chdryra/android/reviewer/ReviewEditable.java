@@ -37,6 +37,22 @@ abstract class ReviewEditable implements Review {
 
     abstract void setLocations(RDList<RDLocation> locations);
 
+    //Unpublished
+    @Override
+    public final Author getAuthor() {
+        return null;
+    }
+
+    @Override
+    public final Date getPublishDate() {
+        return null;
+    }
+
+    @Override
+    public final boolean isPublished() {
+        return false;
+    }
+
     //Deleters
     void deleteComments() {
         setComments(new RDList<RDComment>());
@@ -56,21 +72,5 @@ abstract class ReviewEditable implements Review {
 
     void deleteLocations() {
         setLocations(new RDList<RDLocation>());
-    }
-
-    //Unpublished
-    @Override
-    public final Author getAuthor() {
-        return null;
-    }
-
-    @Override
-    public final Date getPublishDate() {
-        return null;
-    }
-
-    @Override
-    public final boolean isPublished() {
-        return false;
     }
 }

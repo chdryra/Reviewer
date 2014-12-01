@@ -31,10 +31,6 @@ class UserId {
         return new UserId();
     }
 
-    boolean equals(UserId userId) {
-        return mId.equals(userId.mId);
-    }
-
     @Override
     public boolean equals(Object obj) {
         if (obj == null || obj.getClass() != getClass()) {
@@ -53,5 +49,9 @@ class UserId {
     @Override
     public String toString() {
         return mId.toString();
+    }
+
+    boolean equals(UserId userId) {
+        return mId.equals(userId.mId);
     }
 }

@@ -34,24 +34,14 @@ public class FragmentReviewComments extends FragmentReviewGridAddEdit<GVComment>
     }
 
     @Override
-    protected void packGridCellData(GVComment comment, Bundle args) {
-        super.packGridCellData(comment.getUnSplitComment(), args);
-    }
-
-    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mComments = (GVCommentList) getGridData();
     }
 
     @Override
-    void updateGridDataUI() {
-        if (mCommentsAreSplit) {
-            ((ViewHolderAdapter) getGridView().getAdapter()).setData(mComments.getSplitComments
-                    ());
-        } else {
-            ((ViewHolderAdapter) getGridView().getAdapter()).setData(mComments);
-        }
+    protected void packGridCellData(GVComment comment, Bundle args) {
+        super.packGridCellData(comment.getUnSplitComment(), args);
     }
 
     @Override
@@ -66,6 +56,16 @@ public class FragmentReviewComments extends FragmentReviewGridAddEdit<GVComment>
             return true;
         } else {
             return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+    void updateGridDataUI() {
+        if (mCommentsAreSplit) {
+            ((ViewHolderAdapter) getGridView().getAdapter()).setData(mComments.getSplitComments
+                    ());
+        } else {
+            ((ViewHolderAdapter) getGridView().getAdapter()).setData(mComments);
         }
     }
 

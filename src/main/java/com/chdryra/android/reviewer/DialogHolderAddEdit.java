@@ -39,6 +39,16 @@ abstract class DialogHolderAddEdit<T extends GVReviewDataList.GVReviewData> exte
 
     private final UIReviewData<T> mDialogUI;
 
+    protected abstract EditText getEditTextForKeyboardAction();
+
+    protected abstract String getDialogOnAddTitle(T data);
+
+    protected abstract String getDialogDeleteConfirmTitle(T data);
+
+    protected abstract T createGVData();
+
+    protected abstract void updateWithGVData(T data);
+
     DialogHolderAddEdit(int layoutId, int[] viewIds, DialogReviewDataAddFragment<T> parent,
             final T nullData) {
         super(layoutId, viewIds);
@@ -53,16 +63,6 @@ abstract class DialogHolderAddEdit<T extends GVReviewDataList.GVReviewData> exte
         mDialogUI = new DialogHolderUI<T, DialogReviewDataEditFragment<T>>(parent,
                 getReviewDataEditUI());
     }
-
-    protected abstract EditText getEditTextForKeyboardAction();
-
-    protected abstract String getDialogOnAddTitle(T data);
-
-    protected abstract String getDialogDeleteConfirmTitle(T data);
-
-    protected abstract T createGVData();
-
-    protected abstract void updateWithGVData(T data);
 
     @Override
     protected UIReviewData<T> getGVReviewDataUI() {

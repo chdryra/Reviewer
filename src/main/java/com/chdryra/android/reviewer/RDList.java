@@ -28,11 +28,6 @@ class RDList<T extends RData> extends SortableList<T> implements RData {
         mHoldingReview = holdingReview;
     }
 
-    RDList(RDList<T> data, Review holdingReview) {
-        add(data);
-        mHoldingReview = holdingReview;
-    }
-
     @Override
     public Review getHoldingReview() {
         return mHoldingReview;

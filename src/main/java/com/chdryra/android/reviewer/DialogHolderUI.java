@@ -45,11 +45,6 @@ class DialogHolderUI<T extends GVReviewDataList.GVReviewData,
     private final D                     mDialog;
     private final DialogUIUpdater<T, D> mUpdater;
 
-    DialogHolderUI(D parentDialog, DialogUIUpdater<T, D> updater) {
-        mDialog = parentDialog;
-        mUpdater = updater;
-    }
-
     /**
      * Defines the behaviour needed of a dialog updater that translates between the data within a
      * {@link com.chdryra.android.reviewer.GVReviewDataList.GVReviewData} object and the Dialog
@@ -70,6 +65,11 @@ class DialogHolderUI<T extends GVReviewDataList.GVReviewData,
         void update(T data, D parentDialog);
 
         T getGVData();
+    }
+
+    DialogHolderUI(D parentDialog, DialogUIUpdater<T, D> updater) {
+        mDialog = parentDialog;
+        mUpdater = updater;
     }
 
     @Override

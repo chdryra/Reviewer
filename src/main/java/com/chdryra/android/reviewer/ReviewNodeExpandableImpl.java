@@ -236,12 +236,6 @@ class ReviewNodeExpandableImpl implements ReviewNodeExpandable {
         return mReview.hasLocations();
     }
 
-    private RDRating getAverageRatingOfChildren() {
-        VisitorRatingCalculator visitor = new VisitorRatingAverageOfChildren();
-        acceptVisitor(visitor);
-        return new RDRating(visitor.getRating(), this);
-    }
-
     @Override
     public boolean equals(Object obj) {
         if (obj == null || obj.getClass() != getClass()) {
@@ -255,5 +249,11 @@ class ReviewNodeExpandableImpl implements ReviewNodeExpandable {
     @Override
     public int hashCode() {
         return mId.hashCode();
+    }
+
+    private RDRating getAverageRatingOfChildren() {
+        VisitorRatingCalculator visitor = new VisitorRatingAverageOfChildren();
+        acceptVisitor(visitor);
+        return new RDRating(visitor.getRating(), this);
     }
 }

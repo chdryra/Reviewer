@@ -30,11 +30,11 @@ import java.util.Map;
  *
  * @see com.chdryra.android.reviewer.FragmentReviewBuild;
  */
-class ConfigReviewDataUI {
+final class ConfigReviewDataUI {
     private final static String TAG             = "ConfigReviewDataUI";
-    private final static int DATA_ADD        = 2718;
-    private final static int DATA_EDIT       = 2719;
-    private static       int REQUEST_COUNTER = 2720;
+    private final static int    DATA_ADD        = 2718;
+    private final static int    DATA_EDIT       = 2719;
+    private static       int    REQUEST_COUNTER = 2720;
     private static ConfigReviewDataUI sConfigReviewDataUI;
 
     private final Map<GVType, Config> mConfigsMap = new HashMap<GVType, Config>();

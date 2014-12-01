@@ -23,7 +23,7 @@ import java.util.HashMap;
 /**
  * Defines the adder, editor and display UIs to use with each data type.
  */
-class ConfigAddEditDisplay {
+final class ConfigAddEditDisplay {
     private static ConfigAddEditDisplay               sConfig;
     private final  HashMap<GVType, AddEditDisplayUIs> mDialogAddEditMap;
 

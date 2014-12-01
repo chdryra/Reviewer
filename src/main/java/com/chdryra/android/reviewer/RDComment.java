@@ -23,10 +23,6 @@ class RDComment implements RData {
         mHoldingReview = holdingReview;
     }
 
-    String get() {
-        return mComment;
-    }
-
     @Override
     public Review getHoldingReview() {
         return mHoldingReview;
@@ -40,5 +36,9 @@ class RDComment implements RData {
     @Override
     public boolean hasData() {
         return mComment != null && mComment.length() > 0;
+    }
+
+    String get() {
+        return mComment;
     }
 }
