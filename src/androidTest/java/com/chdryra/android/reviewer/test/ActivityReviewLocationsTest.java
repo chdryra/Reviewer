@@ -11,17 +11,17 @@ package com.chdryra.android.reviewer.test;
 import android.test.SingleLaunchActivityTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.ActivityReviewChildren;
+import com.chdryra.android.reviewer.ActivityReviewLocations;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 02/12/2014
  * Email: rizwan.choudrey@gmail.com
  */
-public class ActivityReviewChildrenTest extends
-        SingleLaunchActivityTestCase<ActivityReviewChildren> {
-    public ActivityReviewChildrenTest() {
-        super("com.chdryra.android.reviewer", ActivityReviewChildren.class);
+public class ActivityReviewLocationsTest extends
+        SingleLaunchActivityTestCase<ActivityReviewLocations> {
+    public ActivityReviewLocationsTest() {
+        super("com.chdryra.android.reviewer", ActivityReviewLocations.class);
     }
 
     @SmallTest

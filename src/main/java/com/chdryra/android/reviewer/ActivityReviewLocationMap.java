@@ -32,6 +32,7 @@ public class ActivityReviewLocationMap extends ActivitySingleFragment implements
         return mFragment;
     }
 
+    //How the search widget passes back search data to the host activity
     @Override
     protected void onNewIntent(Intent intent) {
         setIntent(intent);

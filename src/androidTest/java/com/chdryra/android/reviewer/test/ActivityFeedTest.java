@@ -9,6 +9,7 @@
 package com.chdryra.android.reviewer.test;
 
 import android.test.SingleLaunchActivityTestCase;
+import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.ActivityFeed;
 
@@ -22,6 +23,7 @@ public class ActivityFeedTest extends SingleLaunchActivityTestCase<ActivityFeed>
         super("com.chdryra.android.reviewer", ActivityFeed.class);
     }
 
+    @SmallTest
     public void testActivityNotNull() {
         assertNotNull(getActivity());
     }

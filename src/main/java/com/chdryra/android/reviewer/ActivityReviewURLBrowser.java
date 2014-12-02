@@ -27,4 +27,5 @@ public class ActivityReviewURLBrowser extends ActivitySingleFragment implements 
     protected Fragment createFragment() {
         return new FragmentReviewURLBrowser();
     }
+
 }

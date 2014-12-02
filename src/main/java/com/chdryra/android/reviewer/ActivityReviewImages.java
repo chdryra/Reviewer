@@ -17,8 +17,10 @@ import com.chdryra.android.mygenerallibrary.ActivitySingleFragment;
  * UI Activity holding {@link FragmentReviewImages}: editing images.
  */
 public class ActivityReviewImages extends ActivitySingleFragment {
+
     @Override
     protected Fragment createFragment() {
         return new FragmentReviewImages();
     }
+
 }

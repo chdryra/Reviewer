@@ -9,6 +9,7 @@
 package com.chdryra.android.reviewer.test;
 
 import android.test.SingleLaunchActivityTestCase;
+import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.ActivityReviewComments;
 
@@ -23,6 +24,7 @@ public class ActivityReviewCommentsTest extends
         super("com.chdryra.android.reviewer", ActivityReviewComments.class);
     }
 
+    @SmallTest
     public void testActivityNotNull() {
         assertNotNull(getActivity());
     }

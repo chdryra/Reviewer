@@ -21,4 +21,5 @@ public class ActivityReviewLocations extends ActivitySingleFragment {
     protected Fragment createFragment() {
         return new FragmentReviewLocations();
     }
+
 }

@@ -17,7 +17,6 @@ import com.chdryra.android.mygenerallibrary.ActivitySingleFragment;
  */
 public class ActivityFeed extends ActivitySingleFragment {
 
-
     @Override
     protected Fragment createFragment() {
         return new FragmentFeed();

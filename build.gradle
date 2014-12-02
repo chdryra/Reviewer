@@ -27,4 +27,5 @@ android {
         applicationId "com.chdryra.android.reviewer"
     }
     //sourceSets { main { java.srcDirs = ['src/main/java', 'src/androidTest/java/'] } }
+    sourceSets { main { res.srcDirs = ['src/main/res', 'src/androidTest/res'] } }
 }
