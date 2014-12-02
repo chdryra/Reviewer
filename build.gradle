@@ -25,7 +25,8 @@ android {
         versionCode 1
         versionName "0.01"
         applicationId "com.chdryra.android.reviewer"
+        testApplicationId "com.chdryra.android.reviewer.test"
     }
     //sourceSets { main { java.srcDirs = ['src/main/java', 'src/androidTest/java/'] } }
-    sourceSets { main { res.srcDirs = ['src/main/res', 'src/androidTest/res'] } }
+    //sourceSets { main { res.srcDirs = ['src/main/res', 'src/androidTest/res'] } }
 }

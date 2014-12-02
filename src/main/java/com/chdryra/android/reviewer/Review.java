@@ -42,7 +42,7 @@ import java.util.Date;
  * @see ReviewEditable
  */
 
-interface Review extends RDId.RDIdAble {
+public interface Review extends RDId.RDIdAble {
 
     //Core data
     @Override

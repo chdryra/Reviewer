@@ -33,7 +33,7 @@ public class FragmentFeed extends FragmentReviewGrid<GVReviewOverviewList> {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setGridViewData(Administrator.get(getActivity()).getPublishedReviewsFeed());
+        setGridViewData(Administrator.get(getActivity()).getPublishedReviewsData());
         setGridCellDimension(CellDimension.FULL, CellDimension.FULL);
         setController(null);
         setDisplayHomeAsUp(false);
@@ -67,7 +67,7 @@ public class FragmentFeed extends FragmentReviewGrid<GVReviewOverviewList> {
 
     @Override
     protected void updateGridDataUI() {
-        setGridViewData(Administrator.get(getActivity()).getPublishedReviewsFeed());
+        setGridViewData(Administrator.get(getActivity()).getPublishedReviewsData());
         ((ViewHolderAdapter) getGridView().getAdapter()).setData(getGridData());
     }
 

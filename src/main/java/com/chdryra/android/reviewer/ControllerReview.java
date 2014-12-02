@@ -35,7 +35,7 @@ import java.util.Date;
  *
  * @param <T>: the {@link Review} type being accessed
  */
-class ControllerReview<T extends Review> {
+public class ControllerReview<T extends Review> {
     private final ArrayList<String> mTagsList = new ArrayList<String>();
     private final T                    mReview;
     private       ControllerReviewNode mReviewNode;

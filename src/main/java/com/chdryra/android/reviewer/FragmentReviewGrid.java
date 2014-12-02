@@ -118,7 +118,7 @@ public abstract class FragmentReviewGrid<T extends GVReviewDataList> extends Fra
         super.onCreate(savedInstanceState);
 
         mController = (ControllerReviewTreeEditable) Administrator.get(getActivity()).unpack
-                (getActivity().getIntent().getExtras());
+                (getActivity().getIntent());
 
         if (mController == null) {
             setController(Administrator.get(getActivity()).createNewReviewInProgress());

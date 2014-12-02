@@ -32,7 +32,7 @@ import com.chdryra.android.mygenerallibrary.ViewHolderData;
  * @see ControllerReview
  * @see ControllerReviewNodeExpandable
  */
-class ControllerReviewTreeEditable extends ControllerReviewEditable {
+public class ControllerReviewTreeEditable extends ControllerReviewEditable {
     private static final String CONTROLLER_ID = "com.chdryra.android.reviewer.review_id";
 
     private final ControllerReviewNodeExpandable mReviewNodeExpandable;
