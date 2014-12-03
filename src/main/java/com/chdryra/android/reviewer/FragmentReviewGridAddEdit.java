@@ -33,7 +33,7 @@ import com.chdryra.android.reviewer.GVReviewDataList.GVType;
  * @param <T>: {@link com.chdryra.android.reviewer.GVReviewDataList.GVReviewData} type.
  */
 abstract class FragmentReviewGridAddEdit<T extends GVReviewDataList.GVReviewData> extends
-        FragmentReviewGrid<GVReviewDataList<T>> implements DialogReviewDataAddFragment
+        FragmentReviewGrid implements DialogReviewDataAddFragment
         .ReviewDataAddListener<T>, DialogReviewDataEditFragment.ReviewDataEditListener<T> {
 
 
@@ -93,7 +93,6 @@ abstract class FragmentReviewGridAddEdit<T extends GVReviewDataList.GVReviewData
         mAdderConfig = config.getAdderConfig();
         mEditorConfig = config.getEditorConfig();
 
-        //TODO how to make this type safe
         setGridViewData(getController().getData(mDataType));
         setDeleteWhatTitle(mDataType.getDataString());
         setBannerButtonText(getResources().getString(R.string.add) + " " + mDataType
@@ -107,14 +106,13 @@ abstract class FragmentReviewGridAddEdit<T extends GVReviewDataList.GVReviewData
 
     @Override
     void onGridItemClick(AdapterView<?> parent, View v, int position, long id) {
-        //TODO make type safe
-        launchUi(mEditorConfig, (T) parent.getItemAtPosition(position));
+        launchUi(mEditorConfig, (T) parent.getItemAtPosition(position)); //TODO make type safe
     }
 
     @Override
-    void setGridViewData(GVReviewDataList<T> gridData) {
+    void setGridViewData(GVReviewDataList gridData) {
         super.setGridViewData(gridData);
-        mHandler.setData(gridData);
+        mHandler.setData(gridData); //TODO make type safe
     }
 
     InputHandlerReviewData<T> getInputHandler() {

@@ -21,11 +21,11 @@ public class PublishedReviews {
                 RCollectionReview<ReviewNode>());
     }
 
-    void add(ReviewNode review) {
-        if (review.isPublished()) mController.addReview(review);
+    public GVReviewDataList toGridViewable() {
+        return mController.toGridViewablePublished();
     }
 
-    GVReviewOverviewList getGridViewable() {
-        return mController.getGridViewablePublished();
+    void add(ReviewNode review) {
+        if (review.isPublished()) mController.addReview(review);
     }
 }

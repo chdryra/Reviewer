@@ -38,7 +38,7 @@ class ControllerReviewCollection<T extends Review> {
         mReviews.add(review);
     }
 
-    GVReviewSubjectRatingList getGridViewableData() {
+    GVReviewDataList toGridViewable() {
         GVReviewSubjectRatingList data = new GVReviewSubjectRatingList();
         for (Review r : mReviews) {
             data.add(r.getSubject().get(), r.getRating().get());
@@ -47,26 +47,23 @@ class ControllerReviewCollection<T extends Review> {
         return data;
     }
 
-    GVReviewOverviewList getGridViewablePublished() {
+    GVReviewDataList toGridViewablePublished() {
         GVReviewOverviewList data = new GVReviewOverviewList();
         for (Review r : mReviews) {
-            if (r.isPublished()) {
-                ControllerReview c = getControllerFor(r.getId().toString());
+            if (!r.isPublished()) continue;
+            ControllerReview c = getControllerFor(r.getId().toString());
 
-                GVImageList images = (GVImageList) c.getData(GVReviewDataList.GVType.IMAGES);
-                GVCommentList comments = (GVCommentList) c.getData(GVReviewDataList.GVType
-                        .COMMENTS);
-                GVLocationList locations = (GVLocationList) c.getData(GVReviewDataList.GVType
-                        .LOCATIONS);
+            GVImageList images = (GVImageList) c.getData(GVReviewDataList.GVType.IMAGES);
+            GVCommentList comments = (GVCommentList) c.getData(GVReviewDataList.GVType.COMMENTS);
+            GVLocationList locations = (GVLocationList) c.getData(GVReviewDataList.GVType
+                    .LOCATIONS);
 
-                Bitmap cover = images.size() > 0 ? images.getRandomCover().getBitmap() : null;
-                String headline = comments.size() > 0 ? comments.getItem(0).getCommentHeadline()
-                        : null;
-                String location = locations.size() > 0 ? locations.getItem(0).getName() : null;
+            Bitmap cover = images.size() > 0 ? images.getRandomCover().getBitmap() : null;
+            String headline = comments.size() > 0 ? comments.getItem(0).getCommentHeadline() : null;
+            String location = locations.size() > 0 ? locations.getItem(0).getName() : null;
 
-                data.add(c.getId(), c.getSubject(), c.getRating(), cover, headline, location,
-                        c.getAuthor(), c.getPublishDate());
-            }
+            data.add(c.getId(), c.getSubject(), c.getRating(), cover, headline, location,
+                    c.getAuthor(), c.getPublishDate());
         }
 
         return data;

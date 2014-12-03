@@ -64,8 +64,8 @@ public class FragmentReviewChildren extends FragmentReviewGridAddEdit<GVReviewSu
 
     @Override
     protected void initRatingBarUI() {
-        getTotalRatingBar().setIsIndicator(false);
-        getTotalRatingBar().setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+        getRatingBar().setIsIndicator(false);
+        getRatingBar().setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
             public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
                 getEditableController().setRating(rating);
@@ -81,10 +81,11 @@ public class FragmentReviewChildren extends FragmentReviewGridAddEdit<GVReviewSu
     }
 
     private void setAverageRating() {
+        GVReviewSubjectRatingList children = (GVReviewSubjectRatingList) getGridData();
         float rating = 0;
-        for (GVReviewSubjectRating child : getGridData()) {
+        for (GVReviewSubjectRating child : children) {
             rating += child.getRating() / getGridData().size();
         }
-        getTotalRatingBar().setRating(rating);
+        getRatingBar().setRating(rating);
     }
 }

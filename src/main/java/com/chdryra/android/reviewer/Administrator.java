@@ -12,6 +12,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.chdryra.android.mygenerallibrary.ObjectHolder;
+
 /**
  * Singleton that controls app-wide duties. Holds 4 main objects:
  * <ul>
@@ -34,16 +36,19 @@ import android.os.Bundle;
  * @see ControllerReviewTreeEditable
  */
 public class Administrator {
+    private static final String CONTROLLER_ID = "com.chdryra.android.reviewer.review_id";
     private static Administrator sAdministrator;
 
     private final Author mCurrentAuthor = new Author("Rizwan Choudrey");
-    private final PublishedReviews mPublishedReviews;
-    private final Context                       mContext;
-    private       ControllerReviewTreeEditable  mControllerRip;
+    private final Context                      mContext;
+    private final PublishedReviews             mPublishedReviews;
+    private final ObjectHolder                 mControllers;
+    private       ControllerReviewTreeEditable mControllerRip;
 
     private Administrator(Context context) {
         mPublishedReviews = new PublishedReviews();
         mContext = context;
+        mControllers = new ObjectHolder();
     }
 
     public static Administrator get(Context c) {
@@ -59,38 +64,12 @@ public class Administrator {
     }
 
     public ControllerReviewTreeEditable createNewReviewInProgress() {
-        mControllerRip = new ControllerReviewTreeEditable();
+        mControllerRip = new ControllerReviewTreeEditable(FactoryReview.createReviewInProgress());
         return mControllerRip;
     }
 
-    public GVReviewOverviewList getPublishedReviewsData() {
-        return mPublishedReviews.getGridViewable();
-    }
-
-    public void pack(ControllerReview controller, Intent intent) {
-        if (mControllerRip != null) {
-            mControllerRip.pack(controller, intent);
-        }
-    }
-
-    public Bundle pack(ControllerReview controller) {
-        if (mControllerRip != null) {
-            return mControllerRip.pack(controller);
-        } else {
-            return null;
-        }
-    }
-
-    public ControllerReview unpack(Intent i) {
-        return unpack(i.getExtras());
-    }
-
-    public ControllerReview unpack(Bundle args) {
-        if (mControllerRip != null) {
-            return mControllerRip.unpack(args);
-        } else {
-            return null;
-        }
+    public PublishedReviews getPublishedReviews() {
+        return mPublishedReviews;
     }
 
     public void publishReviewInProgress() {
@@ -101,5 +80,41 @@ public class Administrator {
 
     public GVSocialPlatformList getSocialPlatformList() {
         return GVSocialPlatformList.getLatest(mContext);
+    }
+
+    public void pack(ControllerReview controller, Intent i) {
+        i.putExtra(CONTROLLER_ID, controller.getId());
+        register(controller);
+    }
+
+    public Bundle pack(ControllerReview controller) {
+        Bundle args = new Bundle();
+        args.putString(CONTROLLER_ID, controller.getId());
+        register(controller);
+        return args;
+    }
+
+    public ControllerReview unpack(Intent i) {
+        return unpack(i.getExtras());
+    }
+
+    public ControllerReview unpack(Bundle args) {
+        ControllerReview controller = args != null ? getController(args.getString(CONTROLLER_ID))
+                : null;
+        unregister(controller);
+
+        return controller;
+    }
+
+    private void register(ControllerReview controller) {
+        mControllers.addObject(controller.getId(), controller);
+    }
+
+    private void unregister(ControllerReview controller) {
+        if (controller != null) mControllers.removeObject(controller.getId());
+    }
+
+    private ControllerReview getController(String id) {
+        return (ControllerReview) mControllers.getObject(id);
     }
 }

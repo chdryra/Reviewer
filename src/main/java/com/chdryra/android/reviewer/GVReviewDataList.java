@@ -35,7 +35,7 @@ import com.chdryra.android.mygenerallibrary.ViewHolderDataList;
  *
  * @param <T>: {@link com.chdryra.android.reviewer.GVReviewDataList.GVReviewData} type.
  */
-abstract class GVReviewDataList<T extends GVReviewDataList.GVReviewData> extends
+public abstract class GVReviewDataList<T extends GVReviewDataList.GVReviewData> extends
         ViewHolderDataList<T> {
 
     private final GVType mDataType;

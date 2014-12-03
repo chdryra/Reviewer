@@ -57,18 +57,16 @@ import com.chdryra.android.reviewer.GVReviewDataList.GVType;
  * overridden <code>onCreate(.)</code> method or by overriding the appropriate protected
  * methods that govern actions to perform on user interaction.
  * </p>
- *
- * @param <T>: {@link com.chdryra.android.reviewer.GVReviewDataList.GVReviewData} type to display.
  */
 
 //TODO abstract FragmentReviewGrid into data-editing and data-viewing versions.
 
 @SuppressWarnings("EmptyMethod")
-public abstract class FragmentReviewGrid<T extends GVReviewDataList> extends FragmentDeleteDone {
+public abstract class FragmentReviewGrid extends FragmentDeleteDone {
     private ControllerReviewTreeEditable mController;
     private LinearLayout                 mLayout;
     private TextView                     mSubjectView;
-    private RatingBar                    mTotalRatingBar;
+    private RatingBar                    mRatingBar;
     private Button                       mBannerButton;
     private GridView                     mGridView;
     private int                          mMaxGridCellWidth;
@@ -76,9 +74,8 @@ public abstract class FragmentReviewGrid<T extends GVReviewDataList> extends Fra
     private int     mCellWidthDivider  = 1;
     private int     mCellHeightDivider = 1;
     private boolean mIsEditable        = false;
-    private String mBannerButtonText;
-    private T      mGridData;
-    private boolean            mReviewInProgress   = false;
+    private String           mBannerButtonText;
+    private GVReviewDataList mGridData;
     private GridViewImageAlpha mGridViewImageAlpha = GridViewImageAlpha.MEDIUM;
 
     /**
@@ -101,7 +98,7 @@ public abstract class FragmentReviewGrid<T extends GVReviewDataList> extends Fra
     }
 
     /**
-     * Settings for grid cell dimensions with respect to screen width size.
+     * Settings for grid cell dimensions with respect to screen width.
      */
     public enum CellDimension {
         FULL, HALF, QUARTER
@@ -119,12 +116,6 @@ public abstract class FragmentReviewGrid<T extends GVReviewDataList> extends Fra
 
         mController = (ControllerReviewTreeEditable) Administrator.get(getActivity()).unpack
                 (getActivity().getIntent());
-
-        if (mController == null) {
-            setController(Administrator.get(getActivity()).createNewReviewInProgress());
-            mReviewInProgress = true;
-        }
-
         setGridCellDimension(CellDimension.HALF, CellDimension.QUARTER);
         setBannerButtonText(getResources().getString(R.string.button_add));
     }
@@ -138,7 +129,7 @@ public abstract class FragmentReviewGrid<T extends GVReviewDataList> extends Fra
 
         mLayout = (LinearLayout) v.findViewById(R.id.review_grid_linearlayout);
         mSubjectView = (ClearableEditText) v.findViewById(R.id.review_subject_edit_text);
-        mTotalRatingBar = (RatingBar) v.findViewById(R.id.review_rating_bar);
+        mRatingBar = (RatingBar) v.findViewById(R.id.review_rating_bar);
         mBannerButton = (Button) v.findViewById(R.id.banner_button);
         mGridView = (GridView) v.findViewById(R.id.gridview_data);
         mGridView.setDrawSelectorOnTop(true);
@@ -179,9 +170,7 @@ public abstract class FragmentReviewGrid<T extends GVReviewDataList> extends Fra
     protected void onUpSelected() {
         if (NavUtils.getParentActivityName(getActivity()) != null) {
             Intent i = NavUtils.getParentActivityIntent(getActivity());
-            if (!mReviewInProgress && getController() != null) {
-                Administrator.get(getActivity()).pack(getController(), i);
-            }
+            if (getController() != null) Administrator.get(getActivity()).pack(getController(), i);
             NavUtils.navigateUpTo(getActivity(), i);
         }
     }
@@ -238,8 +227,8 @@ public abstract class FragmentReviewGrid<T extends GVReviewDataList> extends Fra
 
     void initRatingBarUI() {
         if (isEditable()) {
-            getTotalRatingBar().setIsIndicator(false);
-            getTotalRatingBar().setOnRatingBarChangeListener(new RatingBar
+            getRatingBar().setIsIndicator(false);
+            getRatingBar().setOnRatingBarChangeListener(new RatingBar
                     .OnRatingBarChangeListener() {
                 @Override
                 public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
@@ -247,7 +236,7 @@ public abstract class FragmentReviewGrid<T extends GVReviewDataList> extends Fra
                 }
             });
         } else {
-            getTotalRatingBar().setIsIndicator(true);
+            getRatingBar().setIsIndicator(true);
         }
     }
 
@@ -308,6 +297,10 @@ public abstract class FragmentReviewGrid<T extends GVReviewDataList> extends Fra
         return mMaxGridCellWidth / mCellWidthDivider;
     }
 
+    int getGridCellHeight() {
+        return mMaxGridCellHeight / mCellHeightDivider;
+    }
+
     int getNumberColumns() {
         return mCellWidthDivider;
     }
@@ -318,10 +311,6 @@ public abstract class FragmentReviewGrid<T extends GVReviewDataList> extends Fra
 
     void onGridItemLongClick(AdapterView<?> parent, View v, int position, long id) {
         getGridView().performItemClick(v, position, id);
-    }
-
-    int getGridCellHeight() {
-        return mMaxGridCellHeight / mCellHeightDivider;
     }
 
     void updateUI() {
@@ -340,7 +329,7 @@ public abstract class FragmentReviewGrid<T extends GVReviewDataList> extends Fra
 
     void updateRatingBarUI() {
         if (getController() != null) {
-            getTotalRatingBar().setRating(getController().getRating());
+            getRatingBar().setRating(getController().getRating());
         }
     }
 
@@ -366,10 +355,6 @@ public abstract class FragmentReviewGrid<T extends GVReviewDataList> extends Fra
         return mController;
     }
 
-    void setController(ControllerReviewTreeEditable controller) {
-        mController = controller;
-    }
-
     ControllerReviewNode getNodeController() {
         return mController.getReviewNode();
     }
@@ -378,8 +363,8 @@ public abstract class FragmentReviewGrid<T extends GVReviewDataList> extends Fra
         return mSubjectView;
     }
 
-    RatingBar getTotalRatingBar() {
-        return mTotalRatingBar;
+    RatingBar getRatingBar() {
+        return mRatingBar;
     }
 
     GridView getGridView() {
@@ -413,7 +398,7 @@ public abstract class FragmentReviewGrid<T extends GVReviewDataList> extends Fra
         mIsEditable = isEditable;
     }
 
-    void setGridViewData(T gridData) {
+    void setGridViewData(GVReviewDataList gridData) {
         mGridData = gridData;
     }
 
@@ -425,7 +410,7 @@ public abstract class FragmentReviewGrid<T extends GVReviewDataList> extends Fra
         return getSubjectView().getText().toString();
     }
 
-    T getGridData() {
+    GVReviewDataList getGridData() {
         return mGridData;
     }
 }

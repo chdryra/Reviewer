@@ -29,16 +29,13 @@ class PublisherReviewTree {
     }
 
     Date getPublishDate() {
-        if (mPublishDate == null) {
-            mPublishDate = new Date();
-        }
-
+        if (mPublishDate == null) mPublishDate = new Date();
         return mPublishDate;
     }
 
-    ReviewNode publish(ReviewNode reviewTreeRoot) {
+    ReviewNode publish(ReviewNode root) {
         VisitorTreePublisher publisher = new VisitorTreePublisher(this);
-        reviewTreeRoot.acceptVisitor(publisher);
+        root.acceptVisitor(publisher);
 
         return publisher.getPublishedTree();
     }

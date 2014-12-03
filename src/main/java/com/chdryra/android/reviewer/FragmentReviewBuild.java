@@ -70,8 +70,8 @@ import com.chdryra.android.reviewer.GVReviewDataList.GVType;
  * @see ConfigReviewDataUI
  * @see DialogReviewDataAddFragment
  */
-public class FragmentReviewBuild extends FragmentReviewGrid<FragmentReviewBuild
-        .GVCellManagerList> implements ImageChooser.ImageChooserListener {
+public class FragmentReviewBuild extends FragmentReviewGrid implements ImageChooser
+        .ImageChooserListener {
     private final static int LOCATION_MAP = 22;
 
     private GVCellManagerList mCellManagerList;
@@ -104,7 +104,6 @@ public class FragmentReviewBuild extends FragmentReviewGrid<FragmentReviewBuild
         initCellManagerList();
 
         setGridViewData(mCellManagerList);
-        setGridCellDimension(CellDimension.HALF, CellDimension.QUARTER);
         setDismissOnDone(false);
         setBannerButtonText(getResources().getString(R.string.button_add_review_data));
         setIsEditable(true);
@@ -195,7 +194,7 @@ public class FragmentReviewBuild extends FragmentReviewGrid<FragmentReviewBuild
         int i = item.getItemId();
         if (i == R.id.menu_item_average_rating) {
             getNodeController().setReviewRatingAverage(true);
-            getTotalRatingBar().setRating(getController().getRating());
+            getRatingBar().setRating(getController().getRating());
             return true;
         } else {
             return super.onOptionsItemSelected(item);
@@ -274,7 +273,7 @@ public class FragmentReviewBuild extends FragmentReviewGrid<FragmentReviewBuild
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            convertView = getGridData().getItem(position).updateView(parent);
+            convertView = ((GVCellManagerList) getGridData()).getItem(position).updateView(parent);
             convertView.getLayoutParams().height = getGridCellHeight();
             convertView.getLayoutParams().width = getGridCellWidth();
 

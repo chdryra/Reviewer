@@ -9,7 +9,6 @@
 package com.chdryra.android.reviewer;
 
 import com.chdryra.android.mygenerallibrary.VHDString;
-import com.chdryra.android.reviewer.GVReviewDataList.GVReviewData;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -105,7 +104,7 @@ public class ControllerReview<T extends Review> {
         }
     }
 
-    GVReviewDataList<? extends GVReviewData> getData(GVReviewDataList.GVType dataType) {
+    GVReviewDataList getData(GVReviewDataList.GVType dataType) {
         if (dataType == GVReviewDataList.GVType.COMMENTS) {
             return getComments();
         } else if (dataType == GVReviewDataList.GVType.IMAGES) {

@@ -8,8 +8,6 @@
 
 package com.chdryra.android.reviewer;
 
-import com.chdryra.android.mygenerallibrary.ViewHolderData;
-
 /**
  * Expands on {@link ControllerReview} to include the {@link ReviewNode} interface.
  */
@@ -39,9 +37,9 @@ class ControllerReviewNode extends ControllerReview<ReviewNode> {
     }
 
     @Override
-    GVReviewDataList<? extends ViewHolderData> getData(GVReviewDataList.GVType dataType) {
+    GVReviewDataList getData(GVReviewDataList.GVType dataType) {
         if (dataType == GVReviewDataList.GVType.CHILDREN) {
-            return getChildrenController().getGridViewableData();
+            return getChildrenController().toGridViewable();
         } else {
             return super.getData(dataType);
         }

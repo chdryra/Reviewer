@@ -47,7 +47,7 @@ import com.chdryra.android.reviewer.GVSocialPlatformList.GVSocialPlatform;
  * @see com.chdryra.android.reviewer.SocialPlatformList
  * @see com.chdryra.android.reviewer.GVSocialPlatformList
  */
-public class FragmentReviewShare extends FragmentReviewGrid<GVSocialPlatformList> {
+public class FragmentReviewShare extends FragmentReviewGrid {
     private GVSocialPlatformList mSocialList;
     private Drawable             mDefault;
 
@@ -58,7 +58,6 @@ public class FragmentReviewShare extends FragmentReviewGrid<GVSocialPlatformList
         initSocialSharingList();
 
         setGridViewData(mSocialList);
-        setGridCellDimension(CellDimension.HALF, CellDimension.QUARTER);
         setDismissOnDone(false);
         setBannerButtonText(getResources().getString(R.string.button_social));
         setIsEditable(false);

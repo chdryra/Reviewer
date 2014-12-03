@@ -8,40 +8,22 @@
 
 package com.chdryra.android.reviewer;
 
-import android.content.Intent;
-import android.os.Bundle;
-
-import com.chdryra.android.mygenerallibrary.ObjectHolder;
-import com.chdryra.android.mygenerallibrary.ViewHolderData;
-
 /**
  * Controls editing of review trees in the android activities/fragments layer (the View layer in an
  * MVC framework).
  * <p/>
  * <p>
- * Holds 2 objects:
- * <ul>
- * <li>Node controller: controls access to the review-in-progress node model</li>
- * <li>Collection of sub-review controllers: There maybe multiple controllers associated
- * with the potential tree structure of the review in progress that may need to be passed
- * back and forth between activities.
- * </li>
- * </ul>
+ * Holds Node controller: controls access to the review-in-progress node model</li>
  * </p>
  *
- * @see ControllerReview
  * @see ControllerReviewNodeExpandable
  */
 public class ControllerReviewTreeEditable extends ControllerReviewEditable {
-    private static final String CONTROLLER_ID = "com.chdryra.android.reviewer.review_id";
-
     private final ControllerReviewNodeExpandable mReviewNodeExpandable;
-    private final ObjectHolder                   mControllers;
 
-    ControllerReviewTreeEditable() {
-        super(FactoryReview.createReviewInProgress());
+    ControllerReviewTreeEditable(ReviewTreeEditable reviewTree) {
+        super(reviewTree);
         mReviewNodeExpandable = new ControllerReviewNodeExpandable(getReviewNodeExpandable());
-        mControllers = new ObjectHolder();
     }
 
     @Override
@@ -50,72 +32,31 @@ public class ControllerReviewTreeEditable extends ControllerReviewEditable {
     }
 
     @Override
-    GVReviewDataList<? extends ViewHolderData> getData(GVReviewDataList.GVType dataType) {
-        if (dataType == GVReviewDataList.GVType.CHILDREN) {
-            return mReviewNodeExpandable.getData(dataType);
-        } else {
-            return super.getData(dataType);
-        }
-    }
-
-    ReviewNode publishAndTag(PublisherReviewTree publisher) {
-        ReviewNode finalReview = publisher.publish(getReviewNodeExpandable());
-        for (ReviewNode node : finalReview.flattenTree()) {
-            TagsManager.tag(node.getReview(), (GVTagList) getData(GVReviewDataList.GVType.TAGS));
-        }
-
-        return finalReview;
+    GVReviewDataList getData(GVReviewDataList.GVType dataType) {
+        return dataType == GVReviewDataList.GVType.CHILDREN ?
+                mReviewNodeExpandable.getData(dataType) : super.getData(dataType);
     }
 
     @Override
-    <D extends GVReviewDataList<? extends ViewHolderData>> void setData(D data) {
-        GVReviewDataList.GVType dataType = data.getGVType();
-        if (dataType == GVReviewDataList.GVType.CHILDREN) {
+    <T extends GVReviewDataList> void setData(T data) {
+        if (data.getGVType() == GVReviewDataList.GVType.CHILDREN) {
             mReviewNodeExpandable.setChildren((GVReviewSubjectRatingList) data);
         } else {
             super.setData(data);
         }
     }
 
-    Bundle pack(ControllerReview controller) {
-        Bundle args = new Bundle();
-        args.putString(CONTROLLER_ID, controller.getId());
-        register(controller);
-        return args;
-    }
+    ReviewNode publishAndTag(PublisherReviewTree publisher) {
+        ReviewNode finalReview = publisher.publish(getReviewNodeExpandable());
+        GVTagList tags = (GVTagList) getData(GVReviewDataList.GVType.TAGS);
+        for (ReviewNode node : finalReview.flattenTree()) {
+            TagsManager.tag(node.getReview(), tags);
+        }
 
-    ControllerReview unpack(Bundle args) {
-        ControllerReview controller = args != null ? getControllerFor(args.getString
-                (CONTROLLER_ID)) : null;
-        unregister(controller);
-
-        return controller;
-    }
-
-    void pack(ControllerReview controller, Intent i) {
-        i.putExtra(CONTROLLER_ID, controller.getId());
-        register(controller);
+        return finalReview;
     }
 
     private ReviewNodeExpandable getReviewNodeExpandable() {
         return (ReviewNodeExpandable) getControlledReview();
-    }
-
-    private void register(ControllerReview controller) {
-        mControllers.addObject(controller.getId(), controller);
-    }
-
-    private ControllerReview getControllerFor(String id) {
-        return getController(id);
-    }
-
-    private void unregister(ControllerReview controller) {
-        if (controller != null) {
-            mControllers.removeObject(controller.getId());
-        }
-    }
-
-    private ControllerReview getController(String id) {
-        return (ControllerReview) mControllers.getObject(id);
     }
 }

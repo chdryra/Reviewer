@@ -28,14 +28,13 @@ import com.chdryra.android.mygenerallibrary.ViewHolderAdapter;
  *
  * @see com.chdryra.android.reviewer.ActivityFeed
  */
-public class FragmentFeed extends FragmentReviewGrid<GVReviewOverviewList> {
+public class FragmentFeed extends FragmentReviewGrid {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setGridViewData(Administrator.get(getActivity()).getPublishedReviewsData());
+        setGridViewData(Administrator.get(getActivity()).getPublishedReviews().toGridViewable());
         setGridCellDimension(CellDimension.FULL, CellDimension.FULL);
-        setController(null);
         setDisplayHomeAsUp(false);
         setTransparentGridCellBackground();
     }
@@ -52,7 +51,7 @@ public class FragmentFeed extends FragmentReviewGrid<GVReviewOverviewList> {
 
     @Override
     protected void initRatingBarUI() {
-        getTotalRatingBar().setVisibility(View.GONE);
+        getRatingBar().setVisibility(View.GONE);
     }
 
     @Override
@@ -67,7 +66,7 @@ public class FragmentFeed extends FragmentReviewGrid<GVReviewOverviewList> {
 
     @Override
     protected void updateGridDataUI() {
-        setGridViewData(Administrator.get(getActivity()).getPublishedReviewsData());
+        setGridViewData(Administrator.get(getActivity()).getPublishedReviews().toGridViewable());
         ((ViewHolderAdapter) getGridView().getAdapter()).setData(getGridData());
     }
 
@@ -95,6 +94,8 @@ public class FragmentFeed extends FragmentReviewGrid<GVReviewOverviewList> {
 
     private void requestNewReviewIntent() {
         Intent i = new Intent(getActivity(), ActivityReviewBuild.class);
+        Administrator admin = Administrator.get(getActivity());
+        Administrator.get(getActivity()).pack(admin.createNewReviewInProgress(), i);
         startActivity(i);
     }
 }
