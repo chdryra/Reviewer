@@ -8,11 +8,16 @@
 
 apply plugin: 'com.android.application'
 
+repositories {
+    mavenCentral()
+}
+
 dependencies {
     compile project(':MyAndroidWidgets')
     compile project(':MyGeneralLibrary')
     compile project(':RemoteAPIFetchers')
     compile fileTree(dir: '../libs', include: '*.jar')
+    androidTestCompile 'org.apache.commons:commons-lang3:3.3.2'
 }
 
 android {

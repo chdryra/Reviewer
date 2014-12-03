@@ -23,7 +23,7 @@ import java.util.HashMap;
 /**
  * Defines the adder, editor and display UIs to use with each data type.
  */
-final class ConfigAddEditDisplay {
+public final class ConfigAddEditDisplay {
     private static ConfigAddEditDisplay               sConfig;
     private final  HashMap<GVType, AddEditDisplayUIs> mDialogAddEditMap;
 
@@ -71,17 +71,29 @@ final class ConfigAddEditDisplay {
                         ActivityReviewURLBrowser.class,
                         ActivityReviewURLBrowser.class,
                         ActivityReviewURLs.class));
+
+        mDialogAddEditMap.put(GVType.REVIEW,
+                new AddEditDisplayUIs(
+                        null,
+                        null,
+                        ActivityFeed.class));
+
+        mDialogAddEditMap.put(GVType.SOCIAL,
+                new AddEditDisplayUIs(
+                        null,
+                        null,
+                        ActivityReviewShare.class));
     }
 
-    static Class<? extends LaunchableUI> getAddClass(GVType dataType) {
+    public static Class<? extends LaunchableUI> getAddClass(GVType dataType) {
         return get().mDialogAddEditMap.get(dataType).getAddClass();
     }
 
-    static Class<? extends LaunchableUI> getEditClass(GVType dataType) {
+    public static Class<? extends LaunchableUI> getEditClass(GVType dataType) {
         return get().mDialogAddEditMap.get(dataType).getEditClass();
     }
 
-    static Class<? extends Activity> getDisplayClass(GVType dataType) {
+    public static Class<? extends Activity> getDisplayClass(GVType dataType) {
         return get().mDialogAddEditMap.get(dataType).getDisplayClass();
     }
 

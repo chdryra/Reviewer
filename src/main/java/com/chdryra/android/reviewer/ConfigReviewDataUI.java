@@ -47,6 +47,8 @@ final class ConfigReviewDataUI {
         mConfigsMap.put(GVType.FACTS, new Config(GVType.FACTS));
         mConfigsMap.put(GVType.LOCATIONS, new Config(GVType.LOCATIONS));
         mConfigsMap.put(GVType.URLS, new Config(GVType.URLS));
+        mConfigsMap.put(GVType.REVIEW, new Config(GVType.REVIEW));
+        mConfigsMap.put(GVType.SOCIAL, new Config(GVType.SOCIAL));
     }
 
     static Config getConfig(GVType dataType) {

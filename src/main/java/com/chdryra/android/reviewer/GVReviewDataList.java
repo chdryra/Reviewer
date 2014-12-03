@@ -43,15 +43,15 @@ public abstract class GVReviewDataList<T extends GVReviewDataList.GVReviewData> 
     /**
      * Enum that enumerates and labels the type of review data that will be viewable on a GridView
      */
-    enum GVType {
+    public enum GVType {
         COMMENTS("comment"),
         CHILDREN("criterion", "criteria"),
         IMAGES("image"),
         FACTS("fact"),
-        REVIEW("review"),
         URLS("link"),
         LOCATIONS("location"),
         TAGS("tag"),
+        REVIEW("review"),
         SOCIAL("social");
 
         private final String mDatumString;

@@ -141,9 +141,7 @@ public class FragmentReviewBuild extends FragmentReviewGrid implements ImageChoo
                     return;
                 }
 
-                Intent i = new Intent(getActivity(), ActivityReviewShare.class);
-                Administrator.get(getActivity()).pack(getController(), i);
-                startActivity(i);
+                requestIntent(getUIConfig(GVType.SOCIAL));
             }
         });
 
