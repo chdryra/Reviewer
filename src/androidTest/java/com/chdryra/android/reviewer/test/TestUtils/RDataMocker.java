@@ -9,9 +9,7 @@
 package com.chdryra.android.reviewer.test.TestUtils;
 
 import com.chdryra.android.reviewer.RDComment;
-import com.chdryra.android.reviewer.RDLocation;
 import com.chdryra.android.reviewer.Review;
-import com.chdryra.android.testutils.LatLngMocker;
 
 /**
  * Created by: Rizwan Choudrey
@@ -30,8 +28,8 @@ public class RDataMocker {
         return new RDComment(comment, REVIEW);
     }
 
-    public static RDLocation newLocation() {
-        return new RDLocation(LatLngMocker.newLatLng(), STRING_GENERATOR.nextWord(), REVIEW);
-    }
+//    public static RDLocation newLocation() {
+//        return new RDLocation(LatLngMocker.newLatLng(), STRING_GENERATOR.nextWord(), REVIEW);
+//    }
 
 }
