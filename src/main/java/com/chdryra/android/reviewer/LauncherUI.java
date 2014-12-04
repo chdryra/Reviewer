@@ -47,11 +47,11 @@ public class LauncherUI {
         return launchableUI.getIntent().getBundleExtra(LAUNCHER_ARGS);
     }
 
-    void launch(DialogFragment launchableUI) {
+    public void launch(DialogFragment launchableUI) {
         DialogShower.show(launchableUI, mCommissioner, mRequestCode, mTag, mArgs);
     }
 
-    void launch(Activity launchableUI) {
+    public void launch(Activity launchableUI) {
         Intent i = new Intent(mCommissioner.getActivity(), launchableUI.getClass());
         i.putExtra(LAUNCHER_ARGS, mArgs);
         mCommissioner.startActivityForResult(i, mRequestCode);

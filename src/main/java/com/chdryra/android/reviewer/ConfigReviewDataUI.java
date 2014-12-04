@@ -30,7 +30,7 @@ import java.util.Map;
  *
  * @see com.chdryra.android.reviewer.FragmentReviewBuild;
  */
-final class ConfigReviewDataUI {
+public final class ConfigReviewDataUI {
     private final static String TAG             = "ConfigReviewDataUI";
     private final static int    DATA_ADD        = 2718;
     private final static int    DATA_EDIT       = 2719;
@@ -51,12 +51,14 @@ final class ConfigReviewDataUI {
         mConfigsMap.put(GVType.SOCIAL, new Config(GVType.SOCIAL));
     }
 
-    static Config getConfig(GVType dataType) {
+    public static Config getConfig(GVType dataType) {
         return getConfigsMap().get(dataType);
     }
 
-    static LaunchableUI getReviewDataUI(Class<? extends LaunchableUI> uiClass)
-            throws RuntimeException {
+    public static LaunchableUI getReviewDataUI(Class<? extends LaunchableUI> uiClass) throws
+            RuntimeException {
+        if (uiClass == null) return null;
+
         try {
             return uiClass.newInstance();
         } catch (java.lang.InstantiationException e) {
@@ -83,7 +85,7 @@ final class ConfigReviewDataUI {
      * Encapsulates add, edit and display configs for a given
      * {@link com.chdryra.android.reviewer.GVReviewDataList.GVType}.
      */
-    class Config {
+    public class Config {
         private final GVType                  mDataType;
         private final ReviewDataUIConfig      mAddConfig;
         private final ReviewDataUIConfig      mEditConfig;
@@ -96,15 +98,15 @@ final class ConfigReviewDataUI {
             mDisplayConfig = initDisplayConfig();
         }
 
-        ReviewDataUIConfig getAdderConfig() {
+        public ReviewDataUIConfig getAdderConfig() {
             return mAddConfig;
         }
 
-        ReviewDataUIConfig getEditorConfig() {
+        public ReviewDataUIConfig getEditorConfig() {
             return mEditConfig;
         }
 
-        ReviewDataDisplayConfig getDisplayConfig() {
+        public ReviewDataDisplayConfig getDisplayConfig() {
             return mDisplayConfig;
         }
 
@@ -135,7 +137,7 @@ final class ConfigReviewDataUI {
      * The ReviewDataUI is launched using a
      * {@link LauncherUI}
      */
-    class ReviewDataUIConfig {
+    public class ReviewDataUIConfig {
         private final GVType                        mDataType;
         private final Class<? extends LaunchableUI> mUIClass;
         private final int                           mRequestCode;
@@ -150,19 +152,19 @@ final class ConfigReviewDataUI {
         }
 
 
-        GVType getGVType() {
+        public GVType getGVType() {
             return mDataType;
         }
 
-        LaunchableUI getReviewDataUI() throws RuntimeException {
+        public LaunchableUI getReviewDataUI() throws RuntimeException {
             return ConfigReviewDataUI.getReviewDataUI(mUIClass);
         }
 
-        int getRequestCode() {
+        public int getRequestCode() {
             return mRequestCode;
         }
 
-        String getTag() {
+        public String getTag() {
             return mTag;
         }
     }
@@ -178,7 +180,7 @@ final class ConfigReviewDataUI {
      * The display activity is accessed by requesting an Intent object which can be used to start
      * activities via, for example, <code>startActivityForResult(.)</code> etc.
      */
-    class ReviewDataDisplayConfig {
+    public class ReviewDataDisplayConfig {
         private final GVType mDataType;
         private final int    mRequestCode;
 
@@ -187,11 +189,11 @@ final class ConfigReviewDataUI {
             mRequestCode = requestCode;
         }
 
-        Intent requestIntent(Context context) {
+        public Intent requestIntent(Context context) {
             return new Intent(context, ConfigAddEditDisplay.getDisplayClass(mDataType));
         }
 
-        int getRequestCode() {
+        public int getRequestCode() {
             return mRequestCode;
         }
     }
