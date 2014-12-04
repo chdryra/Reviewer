@@ -14,11 +14,11 @@ package com.chdryra.android.reviewer;
  * {@link #hasData()}: string at least 1 character in length.
  * </p>
  */
-class RDSubject implements RData {
+public class RDSubject implements RData {
     private final String mTitle;
     private       Review mHoldingReview;
 
-    RDSubject(String title, Review review) {
+    public RDSubject(String title, Review review) {
         mTitle = title;
         mHoldingReview = review;
     }
@@ -38,7 +38,7 @@ class RDSubject implements RData {
         return mTitle != null && mTitle.length() > 0;
     }
 
-    String get() {
+    public String get() {
         return mTitle;
     }
 }

@@ -18,10 +18,10 @@ import com.chdryra.android.mygenerallibrary.SortableList;
  *
  * @param <T>: {@link RData} type in collection.
  */
-class RDList<T extends RData> extends SortableList<T> implements RData {
+public class RDList<T extends RData> extends SortableList<T> implements RData {
     private Review mHoldingReview;
 
-    RDList() {
+    public RDList() {
     }
 
     RDList(Review holdingReview) {

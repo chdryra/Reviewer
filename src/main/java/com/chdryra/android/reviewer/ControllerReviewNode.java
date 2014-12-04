@@ -11,11 +11,29 @@ package com.chdryra.android.reviewer;
 /**
  * Expands on {@link ControllerReview} to include the {@link ReviewNode} interface.
  */
-class ControllerReviewNode extends ControllerReview<ReviewNode> {
+public class ControllerReviewNode extends ControllerReview<ReviewNode> {
     private ControllerReviewCollection<ReviewNode> mChildrenController;
 
     ControllerReviewNode(ReviewNode node) {
         super(node);
+    }
+
+    @Override
+    public boolean hasData(GVReviewDataList.GVType dataType) {
+        if (dataType == GVReviewDataList.GVType.CHILDREN) {
+            return getControlledReview().getChildren().size() > 0;
+        } else {
+            return super.hasData(dataType);
+        }
+    }
+
+    @Override
+    public GVReviewDataList getData(GVReviewDataList.GVType dataType) {
+        if (dataType == GVReviewDataList.GVType.CHILDREN) {
+            return getChildrenController().toGridViewable();
+        } else {
+            return super.getData(dataType);
+        }
     }
 
     ControllerReviewCollection<ReviewNode> createChildrenController() {
@@ -25,24 +43,6 @@ class ControllerReviewNode extends ControllerReview<ReviewNode> {
     ControllerReviewCollection<ReviewNode> getChildrenController() {
         if (mChildrenController == null) mChildrenController = createChildrenController();
         return mChildrenController;
-    }
-
-    @Override
-    boolean hasData(GVReviewDataList.GVType dataType) {
-        if (dataType == GVReviewDataList.GVType.CHILDREN) {
-            return getControlledReview().getChildren().size() > 0;
-        } else {
-            return super.hasData(dataType);
-        }
-    }
-
-    @Override
-    GVReviewDataList getData(GVReviewDataList.GVType dataType) {
-        if (dataType == GVReviewDataList.GVType.CHILDREN) {
-            return getChildrenController().toGridViewable();
-        } else {
-            return super.getData(dataType);
-        }
     }
 
     boolean isReviewRatingAverage() {

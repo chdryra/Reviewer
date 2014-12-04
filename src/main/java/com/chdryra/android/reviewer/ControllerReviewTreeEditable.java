@@ -27,12 +27,12 @@ public class ControllerReviewTreeEditable extends ControllerReviewEditable {
     }
 
     @Override
-    ControllerReviewNode getReviewNode() {
+    public ControllerReviewNode getReviewNode() {
         return mReviewNodeExpandable;
     }
 
     @Override
-    GVReviewDataList getData(GVReviewDataList.GVType dataType) {
+    public GVReviewDataList getData(GVReviewDataList.GVType dataType) {
         return dataType == GVReviewDataList.GVType.CHILDREN ?
                 mReviewNodeExpandable.getData(dataType) : super.getData(dataType);
     }

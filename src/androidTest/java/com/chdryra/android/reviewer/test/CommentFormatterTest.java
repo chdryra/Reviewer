@@ -9,7 +9,7 @@
 package com.chdryra.android.reviewer.test;
 
 import com.chdryra.android.reviewer.CommentFormatter;
-import com.chdryra.android.reviewer.test.TestUtils.RandomCommentGenerator;
+import com.chdryra.android.reviewer.test.TestUtils.RandomStringGenerator;
 
 import junit.framework.TestCase;
 
@@ -22,11 +22,11 @@ import java.util.ArrayList;
  */
 public class CommentFormatterTest extends TestCase {
     private static int COMMENTS = 100;
-    private RandomCommentGenerator mGenerator;
+    private RandomStringGenerator mGenerator;
 
     public void testGetHeadline() {
         for (int c = 0; c < COMMENTS; ++c) {
-            String comment = mGenerator.nextComment();
+            String comment = mGenerator.nextParagraph();
             String[] sentences = mGenerator.getSentences();
             String headline = CommentFormatter.getHeadline(comment);
             String sentence = sentences[0];
@@ -39,7 +39,7 @@ public class CommentFormatterTest extends TestCase {
 
     public void testSplit() {
         for (int c = 0; c < COMMENTS; ++c) {
-            String comment = mGenerator.nextComment();
+            String comment = mGenerator.nextParagraph();
             String[] sentences = mGenerator.getSentences();
 
             ArrayList<String> split = CommentFormatter.split(comment);
@@ -56,6 +56,6 @@ public class CommentFormatterTest extends TestCase {
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        mGenerator = new RandomCommentGenerator(CommentFormatter.SENTENCE_DELIMITERS);
+        mGenerator = new RandomStringGenerator();
     }
 }

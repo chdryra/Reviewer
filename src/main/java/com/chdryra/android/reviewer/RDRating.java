@@ -18,7 +18,7 @@ public class RDRating implements RData {
     private final float  mRating;
     private       Review mHoldingReview;
 
-    RDRating(float rating, Review holdingReview) {
+    public RDRating(float rating, Review holdingReview) {
         mRating = rating;
         mHoldingReview = holdingReview;
     }
@@ -38,7 +38,7 @@ public class RDRating implements RData {
         return true;
     }
 
-    float get() {
+    public float get() {
         return mRating;
     }
 }

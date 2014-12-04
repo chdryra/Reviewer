@@ -16,7 +16,7 @@ import java.net.URL;
  * {@link #hasData()}: non-null URL.
  * </p>
  */
-class RDUrl implements RData {
+public class RDUrl implements RData {
     private final URL    mUrl;
     private       Review mHoldingReview;
 

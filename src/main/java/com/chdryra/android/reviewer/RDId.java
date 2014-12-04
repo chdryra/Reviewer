@@ -22,7 +22,7 @@ import java.util.UUID;
  * <p/>
  * //TODO There's a reason couldn't use holding review but can't remember. Find out.
  */
-class RDId implements RData {
+public class RDId implements RData {
     private final UUID mId;
 
     /**
@@ -40,7 +40,7 @@ class RDId implements RData {
         mId = UUID.fromString(rdId);
     }
 
-    static RDId generateId() {
+    public static RDId generateId() {
         return new RDId();
     }
 

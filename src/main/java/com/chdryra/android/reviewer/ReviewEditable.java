@@ -19,28 +19,28 @@ import java.util.Date;
  * return a published uneditable {@link Review} encapsulating its current data.
  * </p>
  */
-abstract class ReviewEditable implements Review {
+public abstract class ReviewEditable implements Review {
 
     //Core data
-    abstract void setSubject(String subject);
+    public abstract void setSubject(String subject);
 
-    abstract void setRating(float rating);
+    public abstract void setRating(float rating);
 
     //Optional data
-    abstract void setComments(RDList<RDComment> comment);
+    public abstract void setComments(RDList<RDComment> comment);
 
-    abstract void setFacts(RDList<RDFact> facts);
+    public abstract void setFacts(RDList<RDFact> facts);
 
-    abstract void setImages(RDList<RDImage> images);
+    public abstract void setImages(RDList<RDImage> images);
 
-    abstract void setURLs(RDList<RDUrl> url);
+    public abstract void setURLs(RDList<RDUrl> url);
 
-    abstract void setLocations(RDList<RDLocation> locations);
+    public abstract void setLocations(RDList<RDLocation> locations);
 
     //Unpublished
     @Override
     public final Author getAuthor() {
-        return null;
+        return Author.NULL_AUTHOR;
     }
 
     @Override
@@ -54,23 +54,23 @@ abstract class ReviewEditable implements Review {
     }
 
     //Deleters
-    void deleteComments() {
+    public void deleteComments() {
         setComments(new RDList<RDComment>());
     }
 
-    void deleteFacts() {
+    public void deleteFacts() {
         setFacts(new RDList<RDFact>());
     }
 
-    void deleteImages() {
+    public void deleteImages() {
         setImages(new RDList<RDImage>());
     }
 
-    void deleteUrls() {
+    public void deleteUrls() {
         setURLs(new RDList<RDUrl>());
     }
 
-    void deleteLocations() {
+    public void deleteLocations() {
         setLocations(new RDList<RDLocation>());
     }
 }

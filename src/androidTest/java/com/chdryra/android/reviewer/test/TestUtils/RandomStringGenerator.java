@@ -8,6 +8,8 @@
 
 package com.chdryra.android.reviewer.test.TestUtils;
 
+import com.chdryra.android.reviewer.CommentFormatter;
+
 import org.apache.commons.lang3.RandomStringUtils;
 
 import java.util.Random;
@@ -17,20 +19,19 @@ import java.util.Random;
  * On: 03/12/2014
  * Email: rizwan.choudrey@gmail.com
  */
-public class RandomCommentGenerator {
+public class RandomStringGenerator {
     private static final int MIN = 3;
     private static final int MAX = 8;
 
-    private final String   mDelimeters;
-    private       String[] mSentences;
-    private       Random   mRand;
+    private static final String DELIMITERS = CommentFormatter.SENTENCE_DELIMITERS;
+    private String[] mSentences;
+    private Random   mRand;
 
-    public RandomCommentGenerator(String delimeters) {
-        mDelimeters = delimeters;
+    public RandomStringGenerator() {
         mRand = new Random();
     }
 
-    public String nextComment() {
+    public String nextParagraph() {
         String comment = "";
         int numSentences = randomLength();
         mSentences = new String[numSentences];
@@ -47,7 +48,7 @@ public class RandomCommentGenerator {
         return mSentences;
     }
 
-    private String nextSentence() {
+    public String nextSentence() {
         String sentence = "";
         int numWords = randomLength();
         for (int w = 0; w < numWords; ++w) {
@@ -57,12 +58,12 @@ public class RandomCommentGenerator {
         return sentence.trim();
     }
 
-    private String nextWord() {
+    public String nextWord() {
         return RandomStringUtils.randomAlphanumeric(randomLength());
     }
 
     private char randomDelimiter() {
-        return mDelimeters.charAt(mRand.nextInt(mDelimeters.length()));
+        return DELIMITERS.charAt(mRand.nextInt(DELIMITERS.length()));
     }
 
     private int randomLength() {

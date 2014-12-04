@@ -14,11 +14,11 @@ package com.chdryra.android.reviewer;
  * {@link #hasData()}: A string at least 1 character in length.
  * </p>
  */
-class RDComment implements RData {
+public class RDComment implements RData {
     private final String mComment;
     private       Review mHoldingReview;
 
-    RDComment(String comment, Review holdingReview) {
+    public RDComment(String comment, Review holdingReview) {
         mComment = comment;
         mHoldingReview = holdingReview;
     }

@@ -19,7 +19,7 @@ import java.util.Date;
  * of return types is relatively small so not too cumbersome.
  * </p>
  */
-class FactoryReview {
+public class FactoryReview {
 
     private static FactoryReview sFactory = null;
 
@@ -35,28 +35,28 @@ class FactoryReview {
     }
 
     //Reviews
-    static ReviewTreeEditable createReviewInProgress() {
+    public static ReviewTreeEditable createReviewInProgress() {
         return createReviewInProgress("");
     }
 
-    static ReviewTreeEditable createReviewInProgress(String subject) {
+    public static ReviewTreeEditable createReviewInProgress(String subject) {
         return getInstance().newReviewTreeEditable(subject);
     }
 
-    static Review createReview(ReviewNode reviewNode) {
+    public static Review createReview(ReviewNode reviewNode) {
         return getInstance().newReview(reviewNode);
     }
 
-    static Review createReview(Author author, Date publishDate, ReviewNode reviewNode) {
+    public static Review createReview(Author author, Date publishDate, ReviewNode reviewNode) {
         return getInstance().newReview(author, publishDate, reviewNode);
     }
 
     //Nodes
-    static ReviewNode createReviewNodeAlone(Review review) {
+    public static ReviewNode createReviewNodeAlone(Review review) {
         return getInstance().newReviewNodeAlone(review);
     }
 
-    static ReviewNodeExpandable createReviewNodeExpandable(Review review) {
+    public static ReviewNodeExpandable createReviewNodeExpandable(Review review) {
         return getInstance().newReviewNodeExpandable(review);
     }
 

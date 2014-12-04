@@ -12,12 +12,17 @@ package com.chdryra.android.reviewer;
  * Holds Author data. Currently only wraps a name and unique {@link UserId}.
  */
 public class Author {
+    public final static Author NULL_AUTHOR = new Author("", UserId.NULL_ID);
     private final UserId mId;
     private final String mName;
 
     public Author(String name) {
-        mId = UserId.generateId();
+        this(name, UserId.generateId());
+    }
+
+    private Author(String name, UserId id) {
         mName = name;
+        mId = id;
     }
 
     public String getName() {

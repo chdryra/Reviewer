@@ -16,13 +16,13 @@ import com.google.android.gms.maps.model.LatLng;
  * {@link #hasData()}: A LatLng plus a name at least 1 character in length.
  * </p>
  */
-class RDLocation implements RData {
+public class RDLocation implements RData {
     static final String LOCATION_DELIMITER = ",|";
     private final LatLng mLatLng;
     private final String mName;
     private       Review mHoldingReview;
 
-    RDLocation(LatLng latLng, String name, Review holdingReview) {
+    public RDLocation(LatLng latLng, String name, Review holdingReview) {
         mLatLng = latLng;
         mName = name;
         mHoldingReview = holdingReview;

@@ -17,26 +17,26 @@ package com.chdryra.android.reviewer;
  * or a meta review with other reviews as children.
  * </p>
  */
-interface ReviewNode extends Review {
-    Review getReview();
+public interface ReviewNode extends Review {
+    public Review getReview();
 
-    ReviewNode getParent();
+    public ReviewNode getParent();
 
-    RCollectionReview<ReviewNode> getChildren();
+    public RCollectionReview<ReviewNode> getChildren();
 
-    boolean isRatingIsAverageOfChildren();
+    public boolean isRatingIsAverageOfChildren();
 
-    void setRatingIsAverageOfChildren(boolean ratingIsAverage);
+    public void setRatingIsAverageOfChildren(boolean ratingIsAverage);
 
     /**
      * Collects itself and all descendants into a collection of nodes.
      */
-    RCollectionReview<ReviewNode> flattenTree();
+    public RCollectionReview<ReviewNode> flattenTree();
 
     /**
      * For operations to be carried out on the tree.
      *
      * @param visitorReviewNode: visits this node to perform some operation
      */
-    void acceptVisitor(VisitorReviewNode visitorReviewNode);
+    public void acceptVisitor(VisitorReviewNode visitorReviewNode);
 }

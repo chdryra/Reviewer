@@ -26,10 +26,10 @@ package com.chdryra.android.reviewer;
  * version of the internal tree to stop further editing and expanding.
  * </p>
  */
-class ReviewTreeEditable extends ReviewEditable implements ReviewNodeExpandable {
+public class ReviewTreeEditable extends ReviewEditable implements ReviewNodeExpandable {
     private final ReviewNodeExpandable mNode;
 
-    ReviewTreeEditable(ReviewEditable editableRoot) {
+    public ReviewTreeEditable(ReviewEditable editableRoot) {
         mNode = FactoryReview.createReviewNodeExpandable(editableRoot);
     }
 

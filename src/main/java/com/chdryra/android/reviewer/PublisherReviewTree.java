@@ -16,12 +16,19 @@ import java.util.Date;
  *
  * @see com.chdryra.android.reviewer.VisitorTreePublisher
  */
-class PublisherReviewTree {
+public class PublisherReviewTree {
     private final Author mAuthor;
     private       Date   mPublishDate;
 
     PublisherReviewTree(Author author) {
         mAuthor = author;
+    }
+
+    public ReviewNode publish(ReviewNode root) {
+        VisitorTreePublisher publisher = new VisitorTreePublisher(this);
+        root.acceptVisitor(publisher);
+
+        return publisher.getPublishedTree();
     }
 
     Author getAuthor() {
@@ -31,12 +38,5 @@ class PublisherReviewTree {
     Date getPublishDate() {
         if (mPublishDate == null) mPublishDate = new Date();
         return mPublishDate;
-    }
-
-    ReviewNode publish(ReviewNode root) {
-        VisitorTreePublisher publisher = new VisitorTreePublisher(this);
-        root.acceptVisitor(publisher);
-
-        return publisher.getPublishedTree();
     }
 }

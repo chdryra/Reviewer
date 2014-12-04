@@ -46,11 +46,7 @@ public class ControllerReview<T extends Review> {
         }
     }
 
-    T getControlledReview() {
-        return mReview;
-    }
-
-    ControllerReviewNode getReviewNode() {
+    public ControllerReviewNode getReviewNode() {
         if (mReviewNode == null) {
             mReviewNode = new ControllerReviewNode(mReview.getReviewNode());
         }
@@ -58,37 +54,41 @@ public class ControllerReview<T extends Review> {
         return mReviewNode;
     }
 
-    String getId() {
+    public String getId() {
         return mReview.getId().toString();
     }
 
-    String getSubject() {
+    public String getSubject() {
         return mReview.getSubject().get();
     }
 
-    float getRating() {
+    public float getRating() {
         return mReview.getRating().get();
     }
 
-    String getAuthor() {
+    public String getAuthor() {
         return mReview.getAuthor().getName();
     }
 
-    Date getPublishDate() {
+    public Date getPublishDate() {
         return mReview.getPublishDate();
     }
 
-    void removeTags() {
-        mTagsList.clear();
+    public boolean isPublished() {
+        return mReview.isPublished();
     }
 
-    void addTags(GVTagList tags) {
+    public void addTags(GVTagList tags) {
         for (VHDString tag : tags) {
             mTagsList.add(tag.get());
         }
     }
 
-    boolean hasData(GVReviewDataList.GVType dataType) {
+    public void removeTags() {
+        mTagsList.clear();
+    }
+
+    public boolean hasData(GVReviewDataList.GVType dataType) {
         if (dataType == GVReviewDataList.GVType.COMMENTS) {
             return mReview.hasComments();
         } else if (dataType == GVReviewDataList.GVType.IMAGES) {
@@ -104,7 +104,7 @@ public class ControllerReview<T extends Review> {
         }
     }
 
-    GVReviewDataList getData(GVReviewDataList.GVType dataType) {
+    public GVReviewDataList getData(GVReviewDataList.GVType dataType) {
         if (dataType == GVReviewDataList.GVType.COMMENTS) {
             return getComments();
         } else if (dataType == GVReviewDataList.GVType.IMAGES) {
@@ -120,6 +120,10 @@ public class ControllerReview<T extends Review> {
         } else {
             return null;
         }
+    }
+
+    T getControlledReview() {
+        return mReview;
     }
 
     private GVCommentList getComments() {

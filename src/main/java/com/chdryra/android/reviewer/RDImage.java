@@ -22,7 +22,7 @@ import com.google.android.gms.maps.model.LatLng;
  * {@link #hasData()}: non-null bitmap.
  * </p>
  */
-class RDImage implements RData {
+public class RDImage implements RData {
 
     private final Bitmap mBitmap;
     private final String mCaption;
@@ -30,7 +30,7 @@ class RDImage implements RData {
     private       Review mHoldingReview;
     private boolean mIsCover = false;
 
-    RDImage(Bitmap bitmap, LatLng latLng, String caption, boolean isCover,
+    public RDImage(Bitmap bitmap, LatLng latLng, String caption, boolean isCover,
             Review holdingReview) {
         mBitmap = bitmap;
         mLatLng = latLng;

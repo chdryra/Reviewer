@@ -21,14 +21,15 @@ import java.util.UUID;
  */
 
 class UserId {
+    public final static UserId NULL_ID = new UserId(null);
     private final UUID mId;
 
-    private UserId() {
-        mId = UUID.randomUUID();
+    private UserId(UUID id) {
+        mId = id;
     }
 
     static UserId generateId() {
-        return new UserId();
+        return new UserId(UUID.randomUUID());
     }
 
     @Override
@@ -38,7 +39,14 @@ class UserId {
         }
 
         UserId objId = (UserId) obj;
-        return this.mId.equals(objId.mId);
+        UUID id = objId.mId;
+        if (id == null && mId == null) {
+            return true;
+        } else if (mId != null) {
+            return this.mId.equals(id);
+        }
+
+        return false;
     }
 
     @Override

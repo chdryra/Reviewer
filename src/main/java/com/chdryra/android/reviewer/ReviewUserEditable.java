@@ -179,12 +179,7 @@ class ReviewUserEditable extends ReviewEditable {
 
     private <T extends RData> RDList<T> processData(RDList<T> newData, RDList<T> ifNull) {
         RDList<T> member;
-        if (newData != null) {
-            member = newData;
-        } else {
-            member = ifNull;
-        }
-
+        member = newData == null ? ifNull : newData;
         member.setHoldingReview(this);
 
         return member;

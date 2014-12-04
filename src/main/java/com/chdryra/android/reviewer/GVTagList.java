@@ -15,10 +15,16 @@ import com.chdryra.android.mygenerallibrary.ViewHolder;
 
 import java.util.Comparator;
 
-class GVTagList extends GVReviewDataList<GVTagList.GVTag> {
+public class GVTagList extends GVReviewDataList<GVTagList.GVTag> {
 
-    GVTagList() {
+    public GVTagList() {
         super(GVType.TAGS);
+    }
+
+    public void add(String string) {
+        if (string != null && string.length() > 0) {
+            add(new GVTag(string));
+        }
     }
 
     @Override
@@ -32,12 +38,6 @@ class GVTagList extends GVReviewDataList<GVTagList.GVTag> {
         };
     }
 
-    void add(String string) {
-        if (string != null && string.length() > 0) {
-            add(new GVTag(string));
-        }
-    }
-
     /**
      * {@link } version of: {@link com.chdryra.android.reviewer.TagsManager.ReviewTag}
      * {@link ViewHolder}: {@link VHTag}
@@ -46,7 +46,7 @@ class GVTagList extends GVReviewDataList<GVTagList.GVTag> {
      * Ignores case when comparing tags.
      * </p>
      */
-    static class GVTag extends GVText {
+    public static class GVTag extends GVText {
         public static final Parcelable.Creator<GVTag> CREATOR = new Parcelable
                 .Creator<GVTag>() {
             public GVTag createFromParcel(Parcel in) {
