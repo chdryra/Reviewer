@@ -105,8 +105,6 @@ public class ControllerReviewTest extends AndroidTestCase {
         for (GVReviewDataList.GVType dataType : GVReviewDataList.GVType.values()) {
             assertFalse(controller.hasData(dataType));
         }
-
-
     }
 
     @Override
