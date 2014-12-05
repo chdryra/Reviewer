@@ -28,8 +28,5 @@ public class RDataMocker {
         return new RDComment(comment, REVIEW);
     }
 
-//    public static RDLocation newLocation() {
-//        return new RDLocation(LatLngMocker.newLatLng(), STRING_GENERATOR.nextWord(), REVIEW);
-//    }
-
+//
 }
