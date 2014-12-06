@@ -111,6 +111,6 @@ public class ControllerReviewTest extends AndroidTestCase {
     protected void setUp() throws Exception {
         super.setUp();
         mReview = ReviewMocker.newReview();
-        mController = new ControllerReview<Review>(mReview);
+        mController = new ControllerReview<>(mReview);
     }
 }
