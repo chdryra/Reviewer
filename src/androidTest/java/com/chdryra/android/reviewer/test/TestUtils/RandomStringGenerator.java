@@ -24,11 +24,25 @@ public class RandomStringGenerator {
     private static final int MAX = 8;
 
     private static final String DELIMITERS = CommentFormatter.SENTENCE_DELIMITERS;
+    private static       Random mRand      = new Random();
     private String[] mSentences;
-    private Random   mRand;
 
-    public RandomStringGenerator() {
-        mRand = new Random();
+    public static String nextSentence() {
+        String sentence = "";
+        int numWords = randomLength();
+        for (int w = 0; w < numWords; ++w) {
+            sentence += nextWord() + " ";
+        }
+
+        return sentence.trim();
+    }
+
+    public static String nextWord() {
+        return RandomStringUtils.randomAlphanumeric(randomLength());
+    }
+
+    private static int randomLength() {
+        return MIN + mRand.nextInt(MAX - MIN);
     }
 
     public String nextParagraph() {
@@ -44,29 +58,11 @@ public class RandomStringGenerator {
         return comment.trim();
     }
 
-    public String[] getSentences() {
+    public String[] getSentencesForParagraph() {
         return mSentences;
-    }
-
-    public String nextSentence() {
-        String sentence = "";
-        int numWords = randomLength();
-        for (int w = 0; w < numWords; ++w) {
-            sentence += nextWord() + " ";
-        }
-
-        return sentence.trim();
-    }
-
-    public String nextWord() {
-        return RandomStringUtils.randomAlphanumeric(randomLength());
     }
 
     private char randomDelimiter() {
         return DELIMITERS.charAt(mRand.nextInt(DELIMITERS.length()));
-    }
-
-    private int randomLength() {
-        return MIN + mRand.nextInt(MAX - MIN);
     }
 }

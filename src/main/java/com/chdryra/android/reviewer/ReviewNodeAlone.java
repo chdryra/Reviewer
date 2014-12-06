@@ -107,7 +107,7 @@ class ReviewNodeAlone implements ReviewNode {
     }
 
     @Override
-    public RDList<RDComment> getComments() {
+    public RDCommentList getComments() {
         return mReview.getComments();
     }
 
@@ -117,7 +117,7 @@ class ReviewNodeAlone implements ReviewNode {
     }
 
     @Override
-    public RDList<RDFact> getFacts() {
+    public RDFactList getFacts() {
         return mReview.getFacts();
     }
 
@@ -127,7 +127,7 @@ class ReviewNodeAlone implements ReviewNode {
     }
 
     @Override
-    public RDList<RDImage> getImages() {
+    public RDImageList getImages() {
         return mReview.getImages();
     }
 
@@ -137,7 +137,7 @@ class ReviewNodeAlone implements ReviewNode {
     }
 
     @Override
-    public RDList<RDUrl> getURLs() {
+    public RDUrlList getURLs() {
         return mReview.getURLs();
     }
 
@@ -147,7 +147,7 @@ class ReviewNodeAlone implements ReviewNode {
     }
 
     @Override
-    public RDList<RDLocation> getLocations() {
+    public RDLocationList getLocations() {
         return mReview.getLocations();
     }
 

@@ -106,15 +106,15 @@ public class ControllerReview<T extends Review> {
 
     public GVReviewDataList getData(GVReviewDataList.GVType dataType) {
         if (dataType == GVReviewDataList.GVType.COMMENTS) {
-            return getComments();
+            return RdGvConverter.convert(mReview.getComments());
         } else if (dataType == GVReviewDataList.GVType.IMAGES) {
-            return getImages();
+            return RdGvConverter.convert(mReview.getImages());
         } else if (dataType == GVReviewDataList.GVType.FACTS) {
-            return getFacts();
+            return RdGvConverter.convert(mReview.getFacts());
         } else if (dataType == GVReviewDataList.GVType.URLS) {
-            return getUrls();
+            return RdGvConverter.convert(mReview.getURLs());
         } else if (dataType == GVReviewDataList.GVType.LOCATIONS) {
-            return getLocations();
+            return RdGvConverter.convert(mReview.getLocations());
         } else if (dataType == GVReviewDataList.GVType.TAGS) {
             return getTags();
         } else {
@@ -124,51 +124,6 @@ public class ControllerReview<T extends Review> {
 
     T getControlledReview() {
         return mReview;
-    }
-
-    private GVCommentList getComments() {
-        GVCommentList comments = new GVCommentList();
-        for (RDComment comment : mReview.getComments()) {
-            comments.add(comment.get());
-        }
-        return comments;
-    }
-
-    private GVImageList getImages() {
-        GVImageList images = new GVImageList();
-        for (RDImage image : mReview.getImages()) {
-            images.add(image.getBitmap(), image.getLatLng(), image.getCaption(), image.isCover());
-        }
-
-        return images;
-    }
-
-    private GVFactList getFacts() {
-        GVFactList gvFacts = new GVFactList();
-        RDList<RDFact> facts = mReview.getFacts();
-        for (RDFact fact : facts) {
-            gvFacts.add(fact.getLabel(), fact.getValue());
-        }
-
-        return gvFacts;
-    }
-
-    private GVUrlList getUrls() {
-        GVUrlList urlList = new GVUrlList();
-        for (RDUrl url : mReview.getURLs()) {
-            urlList.add(url.get());
-        }
-
-        return urlList;
-    }
-
-    private GVLocationList getLocations() {
-        GVLocationList locations = new GVLocationList();
-        for (RDLocation location : mReview.getLocations()) {
-            locations.add(location.getLatLng(), location.getName());
-        }
-
-        return locations;
     }
 
     private GVTagList getTags() {

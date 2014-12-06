@@ -35,73 +35,19 @@ class ControllerReviewEditable extends ControllerReview<ReviewEditable> {
     //Other data
     <T extends GVReviewDataList> void setData(T data) {
         GVReviewDataList.GVType dataType = data.getGVType();
+        ReviewEditable r = getControlledReview();
         if (dataType == GVReviewDataList.GVType.COMMENTS) {
-            setComments((GVCommentList) data);
+            r.setComments(RdGvConverter.convert((GVCommentList) data, r));
         } else if (dataType == GVReviewDataList.GVType.IMAGES) {
-            setImages((GVImageList) data);
+            r.setImages(RdGvConverter.convert((GVImageList) data, r));
         } else if (dataType == GVReviewDataList.GVType.FACTS) {
-            setFacts((GVFactList) data);
+            r.setFacts(RdGvConverter.convert((GVFactList) data, r));
         } else if (dataType == GVReviewDataList.GVType.URLS) {
-            setUrls((GVUrlList) data);
+            r.setURLs(RdGvConverter.convert((GVUrlList) data, r));
         } else if (dataType == GVReviewDataList.GVType.LOCATIONS) {
-            setLocations((GVLocationList) data);
+            r.setLocations(RdGvConverter.convert((GVLocationList) data, r));
         } else if (dataType == GVReviewDataList.GVType.TAGS) {
             setTags((GVTagList) data);
         }
-    }
-
-    private void setComments(GVCommentList comments) {
-        ReviewEditable r = getControlledReview();
-        RDList<RDComment> rdComments = new RDList<RDComment>();
-        for (GVCommentList.GVComment comment : comments) {
-            rdComments.add(new RDComment(comment.getComment(), r));
-        }
-
-        r.setComments(rdComments);
-    }
-
-    private void setImages(GVImageList images) {
-        ReviewEditable r = getControlledReview();
-        RDList<RDImage> rdImages = new RDList<RDImage>();
-        for (GVImageList.GVImage image : images) {
-            rdImages.add(new RDImage(image.getBitmap(), image.getLatLng(), image.getCaption(),
-                    image.isCover(), r));
-        }
-
-        r.setImages(rdImages);
-    }
-
-    private void setFacts(GVFactList gvFacts) {
-        ReviewEditable r = getControlledReview();
-        RDList<RDFact> facts = new RDList<RDFact>(r);
-        for (GVFactList.GVFact fact : gvFacts) {
-            facts.add(new RDFact(fact.getLabel(), fact.getValue(), r));
-        }
-
-        r.setFacts(facts);
-    }
-
-    private void setUrls(GVUrlList urlList) {
-        if (urlList.size() == 0) {
-            return;
-        }
-
-        ReviewEditable r = getControlledReview();
-        RDList<RDUrl> rdUrls = new RDList<RDUrl>();
-        for (GVUrlList.GVUrl url : urlList) {
-            rdUrls.add(new RDUrl(url.getUrl(), r));
-        }
-
-        r.setURLs(rdUrls);
-    }
-
-    private void setLocations(GVLocationList locations) {
-        ReviewEditable r = getControlledReview();
-        RDList<RDLocation> rdLocations = new RDList<RDLocation>();
-        for (GVLocationList.GVLocation location : locations) {
-            rdLocations.add(new RDLocation(location.getLatLng(), location.getName(), r));
-        }
-
-        r.setLocations(rdLocations);
     }
 }

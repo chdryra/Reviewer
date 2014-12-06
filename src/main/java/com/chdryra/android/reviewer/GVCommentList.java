@@ -16,7 +16,7 @@ import com.chdryra.android.mygenerallibrary.ViewHolder;
 /**
  * Includes method for generating split comments {@link GVCommentList} from current list.
  */
-class GVCommentList extends GVReviewDataList<GVCommentList.GVComment> {
+public class GVCommentList extends GVReviewDataList<GVCommentList.GVComment> {
 
     GVCommentList() {
         super(GVType.COMMENTS);
@@ -42,7 +42,7 @@ class GVCommentList extends GVReviewDataList<GVCommentList.GVComment> {
      * Methods for getting the comment headline and for splitting and unsplitting comments.
      * </p>
      */
-    static class GVComment implements GVReviewDataList.GVReviewData {
+    public static class GVComment implements GVReviewDataList.GVReviewData {
         public static final Parcelable.Creator<GVComment> CREATOR = new Parcelable
                 .Creator<GVComment>() {
             public GVComment createFromParcel(Parcel in) {
@@ -116,7 +116,7 @@ class GVCommentList extends GVReviewDataList<GVCommentList.GVComment> {
             parcel.writeParcelable(mUnsplitParent, i);
         }
 
-        String getComment() {
+        public String getComment() {
             return mComment;
         }
 

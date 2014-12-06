@@ -77,23 +77,23 @@ public interface Review extends RDId.RDIdAble {
     boolean isPublished();
 
     //Optional data
-    RDList<RDComment> getComments();
+    RDCommentList getComments();
 
     boolean hasComments();
 
-    RDList<RDFact> getFacts();
+    RDFactList getFacts();
 
     boolean hasFacts();
 
-    RDList<RDImage> getImages();
+    RDImageList getImages();
 
     boolean hasImages();
 
-    RDList<RDUrl> getURLs();
+    RDUrlList getURLs();
 
     boolean hasUrls();
 
-    RDList<RDLocation> getLocations();
+    RDLocationList getLocations();
 
     boolean hasLocations();
 

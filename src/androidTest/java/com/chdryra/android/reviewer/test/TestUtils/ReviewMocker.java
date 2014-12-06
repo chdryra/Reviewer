@@ -10,15 +10,14 @@ package com.chdryra.android.reviewer.test.TestUtils;
 
 import com.chdryra.android.reviewer.FactoryReview;
 import com.chdryra.android.reviewer.PublisherReviewTree;
-import com.chdryra.android.reviewer.RDComment;
-import com.chdryra.android.reviewer.RDFact;
+import com.chdryra.android.reviewer.RDCommentList;
+import com.chdryra.android.reviewer.RDFactList;
 import com.chdryra.android.reviewer.RDId;
-import com.chdryra.android.reviewer.RDImage;
-import com.chdryra.android.reviewer.RDList;
-import com.chdryra.android.reviewer.RDLocation;
+import com.chdryra.android.reviewer.RDImageList;
+import com.chdryra.android.reviewer.RDLocationList;
 import com.chdryra.android.reviewer.RDRating;
 import com.chdryra.android.reviewer.RDSubject;
-import com.chdryra.android.reviewer.RDUrl;
+import com.chdryra.android.reviewer.RDUrlList;
 import com.chdryra.android.reviewer.Review;
 import com.chdryra.android.reviewer.ReviewEditable;
 import com.chdryra.android.reviewer.ReviewNode;
@@ -68,26 +67,26 @@ public class ReviewMocker {
     }
 
     static class MockReviewEditable extends ReviewEditable {
-        private RDId               mId;
-        private RDSubject          mSubject;
-        private RDRating           mRating;
-        private ReviewNode         mNode;
-        private RDList<RDComment>  mComments;
-        private RDList<RDFact>     mFacts;
-        private RDList<RDImage>    mImages;
-        private RDList<RDUrl>      mUrls;
-        private RDList<RDLocation> mLocations;
+        private RDId           mId;
+        private RDSubject      mSubject;
+        private RDRating       mRating;
+        private ReviewNode     mNode;
+        private RDCommentList  mComments;
+        private RDFactList     mFacts;
+        private RDImageList    mImages;
+        private RDUrlList      mUrls;
+        private RDLocationList mLocations;
 
         private MockReviewEditable() {
             mId = RDId.generateId();
             mSubject = new RDSubject("MockReviewEditable", this);
             mRating = new RDRating(3f, this);
             mNode = FactoryReview.createReviewNodeExpandable(this);
-            mComments = new RDList<RDComment>();
-            mFacts = new RDList<RDFact>();
-            mImages = new RDList<RDImage>();
-            mUrls = new RDList<RDUrl>();
-            mLocations = new RDList<RDLocation>();
+            mComments = new RDCommentList();
+            mFacts = new RDFactList();
+            mImages = new RDImageList();
+            mUrls = new RDUrlList();
+            mLocations = new RDLocationList();
         }
 
         @Override
@@ -116,7 +115,7 @@ public class ReviewMocker {
         }
 
         @Override
-        public RDList<RDComment> getComments() {
+        public RDCommentList getComments() {
             return mComments;
         }
 
@@ -126,7 +125,7 @@ public class ReviewMocker {
         }
 
         @Override
-        public RDList<RDFact> getFacts() {
+        public RDFactList getFacts() {
             return mFacts;
         }
 
@@ -136,7 +135,7 @@ public class ReviewMocker {
         }
 
         @Override
-        public RDList<RDImage> getImages() {
+        public RDImageList getImages() {
             return mImages;
         }
 
@@ -146,7 +145,7 @@ public class ReviewMocker {
         }
 
         @Override
-        public RDList<RDUrl> getURLs() {
+        public RDUrlList getURLs() {
             return mUrls;
         }
 
@@ -156,7 +155,7 @@ public class ReviewMocker {
         }
 
         @Override
-        public RDList<RDLocation> getLocations() {
+        public RDLocationList getLocations() {
             return mLocations;
         }
 
@@ -166,31 +165,31 @@ public class ReviewMocker {
         }
 
         @Override
-        public void setLocations(RDList<RDLocation> locations) {
+        public void setLocations(RDLocationList locations) {
             mLocations = locations;
             mLocations.setHoldingReview(this);
         }
 
         @Override
-        public void setURLs(RDList<RDUrl> url) {
+        public void setURLs(RDUrlList url) {
             mUrls = url;
             mUrls.setHoldingReview(this);
         }
 
         @Override
-        public void setImages(RDList<RDImage> images) {
+        public void setImages(RDImageList images) {
             mImages = images;
             mImages.setHoldingReview(this);
         }
 
         @Override
-        public void setFacts(RDList<RDFact> facts) {
+        public void setFacts(RDFactList facts) {
             mFacts = facts;
             mFacts.setHoldingReview(this);
         }
 
         @Override
-        public void setComments(RDList<RDComment> comment) {
+        public void setComments(RDCommentList comment) {
             mComments = comment;
             mComments.setHoldingReview(this);
         }

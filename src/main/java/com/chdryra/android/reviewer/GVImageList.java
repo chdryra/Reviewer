@@ -21,7 +21,7 @@ import java.util.Random;
  * Includes methods for adding captions and getting images designated as "covers" which can be
  * used as a background image for a review.
  */
-class GVImageList extends GVReviewDataList<GVImageList.GVImage> {
+public class GVImageList extends GVReviewDataList<GVImageList.GVImage> {
 
     GVImageList() {
         super(GVType.IMAGES);

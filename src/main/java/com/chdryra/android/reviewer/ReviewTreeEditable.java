@@ -131,12 +131,12 @@ public class ReviewTreeEditable extends ReviewEditable implements ReviewNodeExpa
     }
 
     @Override
-    public RDList<RDComment> getComments() {
+    public RDCommentList getComments() {
         return mNode.getComments();
     }
 
     @Override
-    public void setComments(RDList<RDComment> comments) {
+    public void setComments(RDCommentList comments) {
         getReviewEditable().setComments(comments);
     }
 
@@ -146,12 +146,12 @@ public class ReviewTreeEditable extends ReviewEditable implements ReviewNodeExpa
     }
 
     @Override
-    public RDList<RDFact> getFacts() {
+    public RDFactList getFacts() {
         return mNode.getFacts();
     }
 
     @Override
-    public void setFacts(RDList<RDFact> facts) {
+    public void setFacts(RDFactList facts) {
         getReviewEditable().setFacts(facts);
     }
 
@@ -161,12 +161,12 @@ public class ReviewTreeEditable extends ReviewEditable implements ReviewNodeExpa
     }
 
     @Override
-    public RDList<RDImage> getImages() {
+    public RDImageList getImages() {
         return mNode.getImages();
     }
 
     @Override
-    public void setImages(RDList<RDImage> images) {
+    public void setImages(RDImageList images) {
         getReviewEditable().setImages(images);
     }
 
@@ -176,12 +176,12 @@ public class ReviewTreeEditable extends ReviewEditable implements ReviewNodeExpa
     }
 
     @Override
-    public RDList<RDUrl> getURLs() {
+    public RDUrlList getURLs() {
         return mNode.getURLs();
     }
 
     @Override
-    public void setURLs(RDList<RDUrl> urls) {
+    public void setURLs(RDUrlList urls) {
         getReviewEditable().setURLs(urls);
     }
 
@@ -191,12 +191,12 @@ public class ReviewTreeEditable extends ReviewEditable implements ReviewNodeExpa
     }
 
     @Override
-    public RDList<RDLocation> getLocations() {
+    public RDLocationList getLocations() {
         return mNode.getLocations();
     }
 
     @Override
-    public void setLocations(RDList<RDLocation> locations) {
+    public void setLocations(RDLocationList locations) {
         getReviewEditable().setLocations(locations);
     }
 

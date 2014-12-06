@@ -79,7 +79,7 @@ public abstract class GVReviewDataList<T extends GVReviewDataList.GVReviewData> 
     /**
      * Parcelable version of {@link ViewHolderData}
      */
-    interface GVReviewData extends ViewHolderData, Parcelable {
+    public interface GVReviewData extends ViewHolderData, Parcelable {
     }
 
     GVReviewDataList(GVType dataType) {

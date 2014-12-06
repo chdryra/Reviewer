@@ -27,7 +27,7 @@ public class CommentFormatterTest extends TestCase {
     public void testGetHeadline() {
         for (int c = 0; c < COMMENTS; ++c) {
             String comment = mGenerator.nextParagraph();
-            String[] sentences = mGenerator.getSentences();
+            String[] sentences = mGenerator.getSentencesForParagraph();
             String headline = CommentFormatter.getHeadline(comment);
             String sentence = sentences[0];
             if (sentence.endsWith(".")) {
@@ -40,7 +40,7 @@ public class CommentFormatterTest extends TestCase {
     public void testSplit() {
         for (int c = 0; c < COMMENTS; ++c) {
             String comment = mGenerator.nextParagraph();
-            String[] sentences = mGenerator.getSentences();
+            String[] sentences = mGenerator.getSentencesForParagraph();
 
             ArrayList<String> split = CommentFormatter.split(comment);
             for (int i = 0; i < split.size(); ++i) {

@@ -17,8 +17,10 @@ dependencies {
     compile project(':MyGeneralLibrary')
     compile project(':RemoteAPIFetchers')
     compile fileTree(dir: '../libs', include: '*.jar')
+
     androidTestCompile 'org.apache.commons:commons-lang3:3.3.2'
-    //androidTestCompile project(':TestUtils')
+    androidTestCompile 'com.google.guava:guava:18.0'
+    androidTestCompile project(':TestUtils')
 }
 
 android {

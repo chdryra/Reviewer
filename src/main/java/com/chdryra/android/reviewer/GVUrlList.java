@@ -40,7 +40,7 @@ class GVUrlList extends GVReviewDataList<GVUrlList.GVUrl> {
      * Methods for getting full URL and shortened more readable version.
      * </p>
      */
-    static class GVUrl implements GVReviewDataList.GVReviewData {
+    public static class GVUrl implements GVReviewDataList.GVReviewData {
         public static final Parcelable.Creator<GVUrl> CREATOR = new Parcelable
                 .Creator<GVUrl>() {
             public GVUrl createFromParcel(Parcel in) {
@@ -51,7 +51,7 @@ class GVUrlList extends GVReviewDataList<GVUrlList.GVUrl> {
                 return new GVUrl[size];
             }
         };
-        URL mUrl;
+        private URL mUrl;
 
         private GVUrl(URL url) {
             mUrl = url;
@@ -61,7 +61,7 @@ class GVUrlList extends GVReviewDataList<GVUrlList.GVUrl> {
             mUrl = (URL) in.readSerializable();
         }
 
-        GVUrl(String stringUrl) throws MalformedURLException, URISyntaxException {
+        public GVUrl(String stringUrl) throws MalformedURLException, URISyntaxException {
             URL url = new URL(URLUtil.guessUrl(stringUrl));
             URI uri = new URI(url.getProtocol(), url.getUserInfo(), url.getHost(), url.getPort(),
                     url.getPath(), url.getQuery(), url.getRef());

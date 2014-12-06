@@ -28,11 +28,11 @@ class ReviewUserEditable extends ReviewEditable {
     private       RDSubject mSubject;
     private       RDRating  mRating;
 
-    private RDList<RDComment>  mComments;
-    private RDList<RDImage>    mImages;
-    private RDList<RDFact>     mFacts;
-    private RDList<RDUrl>      mURLs;
-    private RDList<RDLocation> mLocations;
+    private RDCommentList  mComments;
+    private RDImageList    mImages;
+    private RDFactList     mFacts;
+    private RDUrlList      mURLs;
+    private RDLocationList mLocations;
 
     ReviewUserEditable(String subject) {
         //Core data
@@ -41,11 +41,11 @@ class ReviewUserEditable extends ReviewEditable {
         mRating = new RDRating(0, this);
 
         //Null option data
-        mComments = new RDList<RDComment>();
-        mImages = new RDList<RDImage>();
-        mLocations = new RDList<RDLocation>();
-        mFacts = new RDList<RDFact>();
-        mURLs = new RDList<RDUrl>();
+        mComments = new RDCommentList();
+        mImages = new RDImageList();
+        mLocations = new RDLocationList();
+        mFacts = new RDFactList();
+        mURLs = new RDUrlList();
 
         //Internal node representation
         mNode = FactoryReview.createReviewNodeAlone(this);
@@ -88,13 +88,13 @@ class ReviewUserEditable extends ReviewEditable {
     }
 
     @Override
-    public RDList<RDComment> getComments() {
+    public RDCommentList getComments() {
         return mComments;
     }
 
     @Override
-    public void setComments(RDList<RDComment> comments) {
-        mComments = processData(comments, new RDList<RDComment>());
+    public void setComments(RDCommentList comments) {
+        mComments = processData(comments, new RDCommentList());
     }
 
     @Override
@@ -103,13 +103,13 @@ class ReviewUserEditable extends ReviewEditable {
     }
 
     @Override
-    public RDList<RDFact> getFacts() {
+    public RDFactList getFacts() {
         return mFacts;
     }
 
     @Override
-    public void setFacts(RDList<RDFact> facts) {
-        mFacts = processData(facts, new RDList<RDFact>());
+    public void setFacts(RDFactList facts) {
+        mFacts = processData(facts, new RDFactList());
     }
 
     @Override
@@ -118,13 +118,13 @@ class ReviewUserEditable extends ReviewEditable {
     }
 
     @Override
-    public RDList<RDImage> getImages() {
+    public RDImageList getImages() {
         return mImages;
     }
 
     @Override
-    public void setImages(RDList<RDImage> images) {
-        mImages = processData(images, new RDList<RDImage>());
+    public void setImages(RDImageList images) {
+        mImages = processData(images, new RDImageList());
     }
 
     @Override
@@ -133,13 +133,13 @@ class ReviewUserEditable extends ReviewEditable {
     }
 
     @Override
-    public RDList<RDUrl> getURLs() {
+    public RDUrlList getURLs() {
         return mURLs;
     }
 
     @Override
-    public void setURLs(RDList<RDUrl> urls) {
-        mURLs = processData(urls, new RDList<RDUrl>());
+    public void setURLs(RDUrlList urls) {
+        mURLs = processData(urls, new RDUrlList());
     }
 
     @Override
@@ -148,13 +148,13 @@ class ReviewUserEditable extends ReviewEditable {
     }
 
     @Override
-    public RDList<RDLocation> getLocations() {
+    public RDLocationList getLocations() {
         return mLocations;
     }
 
     @Override
-    public void setLocations(RDList<RDLocation> locations) {
-        mLocations = processData(locations, new RDList<RDLocation>());
+    public void setLocations(RDLocationList locations) {
+        mLocations = processData(locations, new RDLocationList());
     }
 
     @Override
@@ -177,8 +177,8 @@ class ReviewUserEditable extends ReviewEditable {
         return mID.hashCode();
     }
 
-    private <T extends RData> RDList<T> processData(RDList<T> newData, RDList<T> ifNull) {
-        RDList<T> member;
+    private <T extends RDList> T processData(T newData, T ifNull) {
+        T member;
         member = newData == null ? ifNull : newData;
         member.setHoldingReview(this);
 

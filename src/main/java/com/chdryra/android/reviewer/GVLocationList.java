@@ -27,7 +27,7 @@ class GVLocationList extends GVReviewDataList<GVLocationList.GVLocation> {
     }
 
     /**
-     * {@link GVReviewData} version of: {@link RDLocation}
+     * {@link GVReviewData} version of: {@link RDLocationList.RDLocation}
      * {@link ViewHolder}: {@link VHLocation}
      */
     static class GVLocation implements GVReviewDataList.GVReviewData {
@@ -104,7 +104,8 @@ class GVLocationList extends GVReviewDataList<GVLocationList.GVLocation> {
 
         String getShortenedName() {
             if (mName != null) {
-                StringTokenizer tokens = new StringTokenizer(mName, RDLocation.LOCATION_DELIMITER);
+                StringTokenizer tokens = new StringTokenizer(mName,
+                        RDLocationList.RDLocation.LOCATION_DELIMITER);
                 String shortened = tokens.nextToken();
                 return shortened != null ? shortened.trim() : null;
             } else {

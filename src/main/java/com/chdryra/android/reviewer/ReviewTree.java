@@ -124,7 +124,7 @@ class ReviewTree implements ReviewNode {
     }
 
     @Override
-    public RDList<RDComment> getComments() {
+    public RDCommentList getComments() {
         return mNode.getComments();
     }
 
@@ -134,7 +134,7 @@ class ReviewTree implements ReviewNode {
     }
 
     @Override
-    public RDList<RDFact> getFacts() {
+    public RDFactList getFacts() {
         return mNode.getFacts();
     }
 
@@ -144,7 +144,7 @@ class ReviewTree implements ReviewNode {
     }
 
     @Override
-    public RDList<RDImage> getImages() {
+    public RDImageList getImages() {
         return mNode.getImages();
     }
 
@@ -154,7 +154,7 @@ class ReviewTree implements ReviewNode {
     }
 
     @Override
-    public RDList<RDUrl> getURLs() {
+    public RDUrlList getURLs() {
         return mNode.getURLs();
     }
 
@@ -164,7 +164,7 @@ class ReviewTree implements ReviewNode {
     }
 
     @Override
-    public RDList<RDLocation> getLocations() {
+    public RDLocationList getLocations() {
         return mNode.getLocations();
     }
 

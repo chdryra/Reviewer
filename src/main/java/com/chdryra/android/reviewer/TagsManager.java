@@ -19,7 +19,7 @@ import java.util.NoSuchElementException;
 /**
  * The singleton that manages the tagging and untagging of Reviews.
  */
-class TagsManager {
+public class TagsManager {
     private static TagsManager         sInstance;
     private final  ReviewTagCollection mTags;
 

@@ -15,7 +15,7 @@ import com.chdryra.android.mygenerallibrary.ViewHolder;
 
 import java.util.Comparator;
 
-class GVFactList extends GVReviewDataList<GVFactList.GVFact> {
+public class GVFactList extends GVReviewDataList<GVFactList.GVFact> {
 
     GVFactList() {
         super(GVType.FACTS);
@@ -46,7 +46,7 @@ class GVFactList extends GVReviewDataList<GVFactList.GVFact> {
      * {@link ViewHolder}: {@link VHFact}
      */
 
-    static class GVFact extends GVDualText {
+    public static class GVFact extends GVDualText {
         public static final Parcelable.Creator<GVFact> CREATOR = new Parcelable
                 .Creator<GVFact>() {
             public GVFact createFromParcel(Parcel in) {
@@ -77,11 +77,11 @@ class GVFactList extends GVReviewDataList<GVFactList.GVFact> {
                     getValue().length() > 0;
         }
 
-        String getLabel() {
+        public String getLabel() {
             return getUpper();
         }
 
-        String getValue() {
+        public String getValue() {
             return getLower();
         }
     }
