@@ -20,24 +20,18 @@ public class ControllerReviewNode extends ControllerReview<ReviewNode> {
 
     @Override
     public boolean hasData(GVReviewDataList.GVType dataType) {
-        if (dataType == GVReviewDataList.GVType.CHILDREN) {
-            return getControlledReview().getChildren().size() > 0;
-        } else {
-            return super.hasData(dataType);
-        }
+        return dataType == GVReviewDataList.GVType.CHILDREN ? getControlledReview().getChildren()
+                .size() > 0 : super.hasData(dataType);
     }
 
     @Override
     public GVReviewDataList getData(GVReviewDataList.GVType dataType) {
-        if (dataType == GVReviewDataList.GVType.CHILDREN) {
-            return getChildrenController().toGridViewable();
-        } else {
-            return super.getData(dataType);
-        }
+        return dataType == GVReviewDataList.GVType.CHILDREN ? getChildrenController()
+                .toGridViewable() : super.getData(dataType);
     }
 
     ControllerReviewCollection<ReviewNode> createChildrenController() {
-        return new ControllerReviewCollection<ReviewNode>(getControlledReview().getChildren());
+        return new ControllerReviewCollection<>(getControlledReview().getChildren());
     }
 
     ControllerReviewCollection<ReviewNode> getChildrenController() {

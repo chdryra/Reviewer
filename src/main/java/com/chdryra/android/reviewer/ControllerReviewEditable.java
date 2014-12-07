@@ -22,18 +22,15 @@ class ControllerReviewEditable extends ControllerReview<ReviewEditable> {
         super(review);
     }
 
-    //Title
     void setSubject(String subject) {
         getControlledReview().setSubject(subject);
     }
 
-    //Rating
     void setRating(float rating) {
         getControlledReview().setRating(rating);
     }
 
-    //Other data
-    <T extends GVReviewDataList> void setData(T data) {
+    void setData(GVReviewDataList data) {
         GVReviewDataList.GVType dataType = data.getGVType();
         ReviewEditable r = getControlledReview();
         if (dataType == GVReviewDataList.GVType.COMMENTS) {

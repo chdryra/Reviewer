@@ -171,8 +171,8 @@ public class ReviewMocker {
         }
 
         @Override
-        public void setURLs(RDUrlList url) {
-            mUrls = url;
+        public void setURLs(RDUrlList urls) {
+            mUrls = urls;
             mUrls.setHoldingReview(this);
         }
 
@@ -189,8 +189,8 @@ public class ReviewMocker {
         }
 
         @Override
-        public void setComments(RDCommentList comment) {
-            mComments = comment;
+        public void setComments(RDCommentList comments) {
+            mComments = comments;
             mComments.setHoldingReview(this);
         }
 

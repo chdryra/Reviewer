@@ -33,7 +33,7 @@ class ControllerReviewNodeExpandable extends ControllerReviewNode {
     }
 
     /**
-     * Controls the expansion of the parent {link ReviewNodeExpandable}.
+     * Controls the expansion of the parent {@link ReviewNodeExpandable}.
      */
     static class ControllerReviewNodeChildren extends ControllerReviewCollection<ReviewNode> {
         private final ReviewNodeExpandable mParent;

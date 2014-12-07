@@ -27,13 +27,13 @@ public abstract class ReviewEditable implements Review {
     public abstract void setRating(float rating);
 
     //Optional data
-    public abstract void setComments(RDCommentList comment);
+    public abstract void setComments(RDCommentList comments);
 
     public abstract void setFacts(RDFactList facts);
 
     public abstract void setImages(RDImageList images);
 
-    public abstract void setURLs(RDUrlList url);
+    public abstract void setURLs(RDUrlList urls);
 
     public abstract void setLocations(RDLocationList locations);
 

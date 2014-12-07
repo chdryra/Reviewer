@@ -31,7 +31,7 @@ class ControllerReviewCollection<T extends Review> {
 
     void reinitialise(RCollectionReview<T> reviews) {
         mReviews = reviews;
-        mControllers = new HashMap<String, ControllerReview>();
+        mControllers = new HashMap<>();
     }
 
     void addReview(T review) {
