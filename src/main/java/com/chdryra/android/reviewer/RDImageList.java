@@ -75,5 +75,40 @@ public class RDImageList extends RDList<RDImageList.RDImage> {
         public boolean isCover() {
             return mIsCover;
         }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (!(o instanceof RDImage)) return false;
+
+            RDImage rdImage = (RDImage) o;
+
+            if (mIsCover != rdImage.mIsCover) return false;
+            if (mBitmap != null ? !mBitmap.sameAs(rdImage.mBitmap) : rdImage.mBitmap != null) {
+                return false;
+            }
+            if (mCaption != null ? !mCaption.equals(rdImage.mCaption) : rdImage.mCaption != null) {
+                return false;
+            }
+            if (mHoldingReview != null ? !mHoldingReview.equals(rdImage.mHoldingReview) : rdImage
+                    .mHoldingReview != null) {
+                return false;
+            }
+            if (mLatLng != null ? !mLatLng.equals(rdImage.mLatLng) : rdImage.mLatLng != null) {
+                return false;
+            }
+
+            return true;
+        }
+
+        @Override
+        public int hashCode() {
+            int result = mBitmap != null ? mBitmap.hashCode() : 0;
+            result = 31 * result + (mCaption != null ? mCaption.hashCode() : 0);
+            result = 31 * result + (mLatLng != null ? mLatLng.hashCode() : 0);
+            result = 31 * result + (mHoldingReview != null ? mHoldingReview.hashCode() : 0);
+            result = 31 * result + (mIsCover ? 1 : 0);
+            return result;
+        }
     }
 }

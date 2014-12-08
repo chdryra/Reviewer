@@ -17,22 +17,22 @@ package com.chdryra.android.reviewer;
 /**
  * Expands on {@link ControllerReview} to include setters on {@link ReviewEditable}.
  */
-class ControllerReviewEditable extends ControllerReview<ReviewEditable> {
-    ControllerReviewEditable(ReviewEditable review) {
+public class ControllerReviewEditable extends ControllerReview<ReviewEditable> {
+    public ControllerReviewEditable(ReviewEditable review) {
         super(review);
     }
 
-    void setSubject(String subject) {
+    public void setSubject(String subject) {
         getControlledReview().setSubject(subject);
     }
 
-    void setRating(float rating) {
+    public void setRating(float rating) {
         getControlledReview().setRating(rating);
     }
 
     // Can't do method overloading as can't convert from raw type to derived type using method
     // invocation conversion. Have to downcast using flag.
-    void setData(GVReviewDataList data) {
+    public void setData(GVReviewDataList data) {
         GVReviewDataList.GVType dataType = data.getGVType();
         ReviewEditable r = getControlledReview();
         if (dataType == GVReviewDataList.GVType.COMMENTS) {

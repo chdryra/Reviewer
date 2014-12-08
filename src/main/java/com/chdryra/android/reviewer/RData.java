@@ -25,4 +25,10 @@ public interface RData {
     void setHoldingReview(Review review);
 
     boolean hasData();
+
+    @Override
+    public boolean equals(Object obj);
+
+    @Override
+    public int hashCode();
 }

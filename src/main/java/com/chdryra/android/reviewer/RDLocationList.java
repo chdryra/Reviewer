@@ -57,5 +57,32 @@ public class RDLocationList extends RDList<RDLocationList.RDLocation> {
         public String getName() {
             return mName;
         }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (!(o instanceof RDLocation)) return false;
+
+            RDLocation that = (RDLocation) o;
+
+            if (mHoldingReview != null ? !mHoldingReview.equals(that.mHoldingReview) : that
+                    .mHoldingReview != null) {
+                return false;
+            }
+            if (mLatLng != null ? !mLatLng.equals(that.mLatLng) : that.mLatLng != null) {
+                return false;
+            }
+            if (mName != null ? !mName.equals(that.mName) : that.mName != null) return false;
+
+            return true;
+        }
+
+        @Override
+        public int hashCode() {
+            int result = mLatLng != null ? mLatLng.hashCode() : 0;
+            result = 31 * result + (mName != null ? mName.hashCode() : 0);
+            result = 31 * result + (mHoldingReview != null ? mHoldingReview.hashCode() : 0);
+            return result;
+        }
     }
 }

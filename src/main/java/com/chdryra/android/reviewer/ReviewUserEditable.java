@@ -177,7 +177,7 @@ public class ReviewUserEditable extends ReviewEditable {
         return mID.hashCode();
     }
 
-    private <T extends RDList> T processData(T newData, T ifNull) {
+    private <T extends RData> T processData(T newData, T ifNull) {
         T member;
         member = newData == null ? ifNull : newData;
         member.setHoldingReview(this);

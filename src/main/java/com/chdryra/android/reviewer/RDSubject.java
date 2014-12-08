@@ -41,4 +41,29 @@ public class RDSubject implements RData {
     public String get() {
         return mTitle;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof RDSubject)) return false;
+
+        RDSubject rdSubject = (RDSubject) o;
+
+        if (mHoldingReview != null ? !mHoldingReview.equals(rdSubject.mHoldingReview) : rdSubject
+                .mHoldingReview != null) {
+            return false;
+        }
+        if (mTitle != null ? !mTitle.equals(rdSubject.mTitle) : rdSubject.mTitle != null) {
+            return false;
+        }
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = mTitle != null ? mTitle.hashCode() : 0;
+        result = 31 * result + (mHoldingReview != null ? mHoldingReview.hashCode() : 0);
+        return result;
+    }
 }

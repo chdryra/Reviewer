@@ -49,5 +49,28 @@ public class RDUrlList extends RDList<RDUrlList.RDUrl> {
         public URL getUrl() {
             return mUrl;
         }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (!(o instanceof RDUrl)) return false;
+
+            RDUrl rdUrl = (RDUrl) o;
+
+            if (mHoldingReview != null ? !mHoldingReview.equals(rdUrl.mHoldingReview) : rdUrl
+                    .mHoldingReview != null) {
+                return false;
+            }
+            if (mUrl != null ? !mUrl.equals(rdUrl.mUrl) : rdUrl.mUrl != null) return false;
+
+            return true;
+        }
+
+        @Override
+        public int hashCode() {
+            int result = mUrl != null ? mUrl.hashCode() : 0;
+            result = 31 * result + (mHoldingReview != null ? mHoldingReview.hashCode() : 0);
+            return result;
+        }
     }
 }

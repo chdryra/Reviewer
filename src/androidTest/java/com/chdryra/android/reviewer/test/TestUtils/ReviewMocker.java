@@ -33,6 +33,8 @@ import junit.framework.Assert;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ReviewMocker {
+    public static final String SUBJECT = "MockReviewEditable";
+    public static final float  RATING  = 3.0f;
     private ReviewMocker mReviewMocker;
 
     private ReviewMocker() {
@@ -88,8 +90,8 @@ public class ReviewMocker {
 
         private MockReviewEditable() {
             mId = RDId.generateId();
-            mSubject = new RDSubject("MockReviewEditable", this);
-            mRating = new RDRating(3f, this);
+            mSubject = new RDSubject(SUBJECT, this);
+            mRating = new RDRating(RATING, this);
             mNode = FactoryReview.createReviewNodeAlone(this);
             mComments = new RDCommentList();
             mFacts = new RDFactList();

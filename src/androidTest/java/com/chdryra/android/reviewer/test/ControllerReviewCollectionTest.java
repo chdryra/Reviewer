@@ -51,17 +51,26 @@ public class ControllerReviewCollectionTest extends AndroidTestCase {
 
     public void testToGridViewableFalse() {
         Review[] reviews = addReviews(mController, false, getRandInt());
+        Review[] reviewsP = addReviews(mController, true, getRandInt());
         GVReviewSubjectRatingList rsList = (GVReviewSubjectRatingList) mController.toGridViewable
                 (false);
         assertNotNull(rsList);
-        assertEquals(reviews.length, rsList.size());
-        for (int i = 0; i < reviews.length; ++i) {
-            assertEquals(reviews[i].getRating().get(), rsList.getItem(i).getRating());
-            assertEquals(reviews[i].getSubject().get(), rsList.getItem(i).getSubject());
+
+        int rl = reviews.length;
+        int rpl = reviewsP.length;
+        assertEquals(rl + rpl, rsList.size());
+        Review[] all = new Review[rl + rpl];
+        System.arraycopy(reviews, 0, all, 0, rl);
+        System.arraycopy(reviewsP, 0, all, rl, rpl);
+
+        for (int i = 0; i < all.length; ++i) {
+            assertEquals(all[i].getRating().get(), rsList.getItem(i).getRating());
+            assertEquals(all[i].getSubject().get(), rsList.getItem(i).getSubject());
         }
     }
 
     public void testToGridViewableTrue() {
+        addReviews(mController, false, getRandInt());
         Review[] reviews = addReviews(mController, true, getRandInt());
         GVReviewOverviewList oList = (GVReviewOverviewList) mController.toGridViewable(true);
         assertNotNull(oList);

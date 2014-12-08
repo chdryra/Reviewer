@@ -47,5 +47,31 @@ public class RDCommentList extends RDList<RDCommentList.RDComment> {
         public String getComment() {
             return mComment;
         }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (!(o instanceof RDComment)) return false;
+
+            RDComment rdComment = (RDComment) o;
+
+            if (mComment != null ? !mComment.equals(rdComment.mComment) : rdComment.mComment !=
+                    null) {
+                return false;
+            }
+            if (mHoldingReview != null ? !mHoldingReview.equals(rdComment.mHoldingReview) :
+                    rdComment.mHoldingReview != null) {
+                return false;
+            }
+
+            return true;
+        }
+
+        @Override
+        public int hashCode() {
+            int result = mComment != null ? mComment.hashCode() : 0;
+            result = 31 * result + (mHoldingReview != null ? mHoldingReview.hashCode() : 0);
+            return result;
+        }
     }
 }
