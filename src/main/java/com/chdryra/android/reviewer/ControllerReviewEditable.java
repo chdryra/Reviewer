@@ -30,6 +30,8 @@ class ControllerReviewEditable extends ControllerReview<ReviewEditable> {
         getControlledReview().setRating(rating);
     }
 
+    // Can't do method overloading as can't convert from raw type to derived type using method
+    // invocation conversion. Have to downcast using flag.
     void setData(GVReviewDataList data) {
         GVReviewDataList.GVType dataType = data.getGVType();
         ReviewEditable r = getControlledReview();
@@ -40,7 +42,7 @@ class ControllerReviewEditable extends ControllerReview<ReviewEditable> {
         } else if (dataType == GVReviewDataList.GVType.FACTS) {
             r.setFacts(RdGvConverter.convert((GVFactList) data, r));
         } else if (dataType == GVReviewDataList.GVType.URLS) {
-            r.setURLs(RdGvConverter.convert((GVUrlList) data, r));
+            r.setUrls(RdGvConverter.convert((GVUrlList) data, r));
         } else if (dataType == GVReviewDataList.GVType.LOCATIONS) {
             r.setLocations(RdGvConverter.convert((GVLocationList) data, r));
         } else if (dataType == GVReviewDataList.GVType.TAGS) {

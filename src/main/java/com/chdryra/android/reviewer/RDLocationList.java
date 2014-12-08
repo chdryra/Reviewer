@@ -50,11 +50,11 @@ public class RDLocationList extends RDList<RDLocationList.RDLocation> {
             return mLatLng != null && mName != null && mName.length() > 0;
         }
 
-        LatLng getLatLng() {
+        public LatLng getLatLng() {
             return mLatLng;
         }
 
-        String getName() {
+        public String getName() {
             return mName;
         }
     }

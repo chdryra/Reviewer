@@ -128,6 +128,11 @@ class ReviewUserEditable extends ReviewEditable {
     }
 
     @Override
+    public void setUrls(RDUrlList urls) {
+        mURLs = processData(urls, new RDUrlList());
+    }
+
+    @Override
     public boolean hasImages() {
         return mImages.hasData();
     }
@@ -135,11 +140,6 @@ class ReviewUserEditable extends ReviewEditable {
     @Override
     public RDUrlList getURLs() {
         return mURLs;
-    }
-
-    @Override
-    public void setURLs(RDUrlList urls) {
-        mURLs = processData(urls, new RDUrlList());
     }
 
     @Override

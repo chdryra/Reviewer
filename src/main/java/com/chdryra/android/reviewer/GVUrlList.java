@@ -19,7 +19,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 
-class GVUrlList extends GVReviewDataList<GVUrlList.GVUrl> {
+public class GVUrlList extends GVReviewDataList<GVUrlList.GVUrl> {
 
     GVUrlList() {
         super(GVType.URLS);
@@ -53,7 +53,7 @@ class GVUrlList extends GVReviewDataList<GVUrlList.GVUrl> {
         };
         private URL mUrl;
 
-        private GVUrl(URL url) {
+        public GVUrl(URL url) {
             mUrl = url;
         }
 

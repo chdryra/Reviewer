@@ -44,7 +44,7 @@ public class RDCommentList extends RDList<RDCommentList.RDComment> {
             return mComment != null && mComment.length() > 0;
         }
 
-        public String get() {
+        public String getComment() {
             return mComment;
         }
     }

@@ -8,8 +8,6 @@
 
 package com.chdryra.android.reviewer.test.TestUtils;
 
-import android.graphics.Bitmap;
-
 import com.chdryra.android.reviewer.RDCommentList;
 import com.chdryra.android.reviewer.RDFactList;
 import com.chdryra.android.reviewer.RDImageList;
@@ -21,6 +19,7 @@ import com.chdryra.android.testutils.LatLngMocker;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Random;
 
 /**
  * Created by: Rizwan Choudrey
@@ -30,32 +29,14 @@ import java.net.URL;
 public class RDataMocker {
     private static final RandomStringGenerator STRING_GENERATOR = new RandomStringGenerator();
     private static final Review                REVIEW           = ReviewMocker.newReview();
-    private static final Bitmap BITMAP = BitmapMocker.getBitmap();
-    private static final String URL    = "http://www.google.co.uk";
+    private static final String URL  = "http://www.google.co.uk";
+    private static final Random RAND = new Random();
     private static URL sUrl;
 
     private RDataMocker() {
     }
-//
-//    public static <T extends RData> RDList<T> newRDList(Class<T> c, int size) {
-//        RDList<T> list = new RDList<>();
-//        for (int i = 0; i < size; ++i)
-//            list.add((T) newRData(c));
-//
-//        return list;
-//    }
-//
-//    public static <T extends RData> RData newRData(Class<T> c) {
-//        if (c == RDCommentList.RDComment.class) {
-//            return newComment();
-//        } else if (c == RDImageList.RDImage.class) {
-//            return newImage();
-//        } else {
-//            return null;
-//        }
-//    }
 
-    private static RDCommentList newCommentList(int size) {
+    public static RDCommentList newCommentList(int size) {
         RDCommentList list = new RDCommentList();
         for (int i = 0; i < size; ++i) {
             list.add(newComment());
@@ -64,28 +45,64 @@ public class RDataMocker {
         return list;
     }
 
-    private static RDCommentList.RDComment newComment() {
+    public static RDImageList newImageList(int size) {
+        RDImageList list = new RDImageList();
+        for (int i = 0; i < size; ++i) {
+            list.add(newImage());
+        }
+
+        return list;
+    }
+
+    public static RDLocationList newLocationList(int size) {
+        RDLocationList list = new RDLocationList();
+        for (int i = 0; i < size; ++i) {
+            list.add(newLocation());
+        }
+
+        return list;
+    }
+
+    public static RDFactList newFactList(int size) {
+        RDFactList list = new RDFactList();
+        for (int i = 0; i < size; ++i) {
+            list.add(newFact());
+        }
+
+        return list;
+    }
+
+    public static RDUrlList newUrlList(int size) {
+        RDUrlList list = new RDUrlList();
+        for (int i = 0; i < size; ++i) {
+            list.add(newUrl());
+        }
+
+        return list;
+    }
+
+    public static RDCommentList.RDComment newComment() {
         return new RDCommentList.RDComment(STRING_GENERATOR.nextParagraph(), REVIEW);
     }
 
-    private static RDImageList.RDImage newImage() {
-        return new RDImageList.RDImage(BITMAP, LatLngMocker.newLatLng(),
-                RandomStringGenerator.nextSentence(),
-                false, REVIEW);
+    public static RDImageList.RDImage newImage() {
+        return new RDImageList.RDImage(BitmapMocker.getBitmap(RAND.nextBoolean()),
+                LatLngMocker.newLatLng(), RandomStringGenerator.nextSentence(),
+                RAND.nextBoolean(), REVIEW);
     }
 
-    private static RDLocationList.RDLocation newLocation() {
+    public static RDLocationList.RDLocation newLocation() {
         return new RDLocationList.RDLocation(LatLngMocker.newLatLng(),
                 RandomStringGenerator.nextWord(), REVIEW);
     }
 
-    private static RDFactList.RDFact newFact() {
+    public static RDFactList.RDFact newFact() {
         return new RDFactList.RDFact(RandomStringGenerator.nextWord(),
                 RandomStringGenerator.nextWord(),
                 REVIEW);
     }
 
-    private static RDUrlList.RDUrl newUrl() {
+    public static RDUrlList.RDUrl newUrl() {
         if (sUrl == null) {
             try {
                 sUrl = new URL(URL);

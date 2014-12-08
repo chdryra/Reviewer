@@ -16,7 +16,7 @@ import com.google.android.gms.maps.model.LatLng;
 
 import java.util.StringTokenizer;
 
-class GVLocationList extends GVReviewDataList<GVLocationList.GVLocation> {
+public class GVLocationList extends GVReviewDataList<GVLocationList.GVLocation> {
 
     GVLocationList() {
         super(GVType.LOCATIONS);
@@ -30,7 +30,7 @@ class GVLocationList extends GVReviewDataList<GVLocationList.GVLocation> {
      * {@link GVReviewData} version of: {@link RDLocationList.RDLocation}
      * {@link ViewHolder}: {@link VHLocation}
      */
-    static class GVLocation implements GVReviewDataList.GVReviewData {
+    public static class GVLocation implements GVReviewDataList.GVReviewData {
         public static final Parcelable.Creator<GVLocation> CREATOR = new Parcelable
                 .Creator<GVLocation>() {
             public GVLocation createFromParcel(Parcel in) {
@@ -94,11 +94,11 @@ class GVLocationList extends GVReviewDataList<GVLocationList.GVLocation> {
             parcel.writeString(mName);
         }
 
-        LatLng getLatLng() {
+        public LatLng getLatLng() {
             return mLatLng;
         }
 
-        String getName() {
+        public String getName() {
             return mName;
         }
 

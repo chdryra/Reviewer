@@ -62,10 +62,10 @@ public class GVImageList extends GVReviewDataList<GVImageList.GVImage> {
     }
 
     /**
-     * {@link GVReviewData} version of: {@link RDImage}
+     * {@link GVReviewData} version of: {@link RDImageList.RDImage}
      * {@link ViewHolder}: {@link VHImage}
      */
-    static class GVImage implements GVReviewDataList.GVReviewData {
+    public static class GVImage implements GVReviewDataList.GVReviewData {
         public static final Parcelable.Creator<GVImage> CREATOR = new Parcelable
                 .Creator<GVImage>() {
             public GVImage createFromParcel(Parcel in) {
@@ -153,27 +153,27 @@ public class GVImageList extends GVReviewDataList<GVImageList.GVImage> {
             parcel.writeByte((byte) (isCover() ? 1 : 0));
         }
 
-        Bitmap getBitmap() {
+        public Bitmap getBitmap() {
             return mBitmap;
         }
 
-        String getCaption() {
+        public String getCaption() {
             return mCaption;
         }
 
-        void setCaption(String caption) {
+        public void setCaption(String caption) {
             mCaption = caption;
         }
 
-        LatLng getLatLng() {
+        public LatLng getLatLng() {
             return mLatLng;
         }
 
-        void setIsCover(boolean isCover) {
+        public void setIsCover(boolean isCover) {
             mIsCover = isCover;
         }
 
-        boolean isCover() {
+        public boolean isCover() {
             return mIsCover;
         }
     }

@@ -86,7 +86,7 @@ public abstract class GVReviewDataList<T extends GVReviewDataList.GVReviewData> 
         mDataType = dataType;
     }
 
-    GVType getGVType() {
+    public GVType getGVType() {
         return mDataType;
     }
 }

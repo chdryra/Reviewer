@@ -46,7 +46,7 @@ public class RDUrlList extends RDList<RDUrlList.RDUrl> {
             return mUrl != null;
         }
 
-        URL get() {
+        public URL getUrl() {
             return mUrl;
         }
     }

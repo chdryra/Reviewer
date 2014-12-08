@@ -171,6 +171,11 @@ public class ReviewTreeEditable extends ReviewEditable implements ReviewNodeExpa
     }
 
     @Override
+    public void setUrls(RDUrlList urls) {
+        getReviewEditable().setUrls(urls);
+    }
+
+    @Override
     public boolean hasImages() {
         return mNode.hasImages();
     }
@@ -178,11 +183,6 @@ public class ReviewTreeEditable extends ReviewEditable implements ReviewNodeExpa
     @Override
     public RDUrlList getURLs() {
         return mNode.getURLs();
-    }
-
-    @Override
-    public void setURLs(RDUrlList urls) {
-        getReviewEditable().setURLs(urls);
     }
 
     @Override

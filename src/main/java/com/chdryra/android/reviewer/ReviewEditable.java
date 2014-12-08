@@ -33,7 +33,7 @@ public abstract class ReviewEditable implements Review {
 
     public abstract void setImages(RDImageList images);
 
-    public abstract void setURLs(RDUrlList urls);
+    public abstract void setUrls(RDUrlList urls);
 
     public abstract void setLocations(RDLocationList locations);
 
@@ -67,7 +67,7 @@ public abstract class ReviewEditable implements Review {
     }
 
     public void deleteUrls() {
-        setURLs(new RDUrlList());
+        setUrls(new RDUrlList());
     }
 
     public void deleteLocations() {

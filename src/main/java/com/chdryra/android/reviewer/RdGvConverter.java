@@ -8,9 +8,6 @@
 
 package com.chdryra.android.reviewer;
 
-import java.net.MalformedURLException;
-import java.net.URISyntaxException;
-
 /**
  * Created by: Rizwan Choudrey
  * On: 06/12/2014
@@ -21,7 +18,7 @@ public class RdGvConverter {
 
     //Comments
     public static GVCommentList.GVComment convert(RDCommentList.RDComment comment) {
-        return new GVCommentList.GVComment(comment.get());
+        return new GVCommentList.GVComment(comment.getComment());
     }
 
     public static RDCommentList.RDComment convert(GVCommentList.GVComment comment, Review review) {
@@ -132,12 +129,7 @@ public class RdGvConverter {
 
     //Urls
     public static GVUrlList.GVUrl convert(RDUrlList.RDUrl url) {
-        try {
-            return new GVUrlList.GVUrl(url.toString());
-        } catch (MalformedURLException | URISyntaxException e) {
-            e.printStackTrace();
-            return null;
-        }
+        return new GVUrlList.GVUrl(url.getUrl());
     }
 
     public static RDUrlList.RDUrl convert(GVUrlList.GVUrl url, Review review) {

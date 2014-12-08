@@ -171,15 +171,15 @@ public class ReviewMocker {
         }
 
         @Override
-        public void setURLs(RDUrlList urls) {
-            mUrls = urls;
-            mUrls.setHoldingReview(this);
-        }
-
-        @Override
         public void setImages(RDImageList images) {
             mImages = images;
             mImages.setHoldingReview(this);
+        }
+
+        @Override
+        public void setUrls(RDUrlList urls) {
+            mUrls = urls;
+            mUrls.setHoldingReview(this);
         }
 
         @Override
