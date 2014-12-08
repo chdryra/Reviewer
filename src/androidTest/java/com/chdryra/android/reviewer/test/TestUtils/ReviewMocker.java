@@ -8,6 +8,7 @@
 
 package com.chdryra.android.reviewer.test.TestUtils;
 
+import com.chdryra.android.reviewer.Author;
 import com.chdryra.android.reviewer.FactoryReview;
 import com.chdryra.android.reviewer.PublisherReviewTree;
 import com.chdryra.android.reviewer.RDCommentList;
@@ -24,6 +25,8 @@ import com.chdryra.android.reviewer.ReviewNode;
 import com.chdryra.android.reviewer.ReviewNodeExpandable;
 import com.chdryra.android.reviewer.ReviewTreeEditable;
 
+import junit.framework.Assert;
+
 /**
  * Created by: Rizwan Choudrey
  * On: 04/12/2014
@@ -37,6 +40,12 @@ public class ReviewMocker {
 
     public static Review newReview() {
         return getNew();
+    }
+
+    public static Review newReviewPublished() {
+        Review r = getNew().publish(new PublisherReviewTree(new Author("Rizwan Choudrey")));
+        Assert.assertTrue(r.isPublished());
+        return r;
     }
 
     public static ReviewEditable newReviewEditable() {
@@ -81,7 +90,7 @@ public class ReviewMocker {
             mId = RDId.generateId();
             mSubject = new RDSubject("MockReviewEditable", this);
             mRating = new RDRating(3f, this);
-            mNode = FactoryReview.createReviewNodeExpandable(this);
+            mNode = FactoryReview.createReviewNodeAlone(this);
             mComments = new RDCommentList();
             mFacts = new RDFactList();
             mImages = new RDImageList();
@@ -111,7 +120,8 @@ public class ReviewMocker {
 
         @Override
         public Review publish(PublisherReviewTree publisher) {
-            return publisher.publish(mNode);
+            return FactoryReview.createReview(publisher.getAuthor(), publisher.getPublishDate(),
+                    mNode);
         }
 
         @Override

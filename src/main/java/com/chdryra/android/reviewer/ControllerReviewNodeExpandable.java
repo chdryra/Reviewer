@@ -50,7 +50,7 @@ class ControllerReviewNodeExpandable extends ControllerReviewNode {
 
         void removeAll() {
             mParent.clearChildren();
-            reinitialise(mParent.getChildren());
+            init(mParent.getChildren());
         }
 
         void addChildren(GVReviewSubjectRatingList children) {

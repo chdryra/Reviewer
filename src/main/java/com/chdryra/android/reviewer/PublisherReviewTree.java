@@ -20,7 +20,7 @@ public class PublisherReviewTree {
     private final Author mAuthor;
     private       Date   mPublishDate;
 
-    PublisherReviewTree(Author author) {
+    public PublisherReviewTree(Author author) {
         mAuthor = author;
     }
 
@@ -31,11 +31,11 @@ public class PublisherReviewTree {
         return publisher.getPublishedTree();
     }
 
-    Author getAuthor() {
+    public Author getAuthor() {
         return mAuthor;
     }
 
-    Date getPublishDate() {
+    public Date getPublishDate() {
         if (mPublishDate == null) mPublishDate = new Date();
         return mPublishDate;
     }

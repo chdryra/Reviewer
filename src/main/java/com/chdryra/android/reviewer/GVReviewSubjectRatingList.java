@@ -18,7 +18,7 @@ import java.util.Comparator;
 /**
  * Used for review children (sub-reviews).
  */
-class GVReviewSubjectRatingList extends GVReviewDataList<GVReviewSubjectRatingList
+public class GVReviewSubjectRatingList extends GVReviewDataList<GVReviewSubjectRatingList
         .GVReviewSubjectRating> {
 
     GVReviewSubjectRatingList() {
@@ -61,7 +61,7 @@ class GVReviewSubjectRatingList extends GVReviewDataList<GVReviewSubjectRatingLi
      * {@link GVReviewData} version of: no equivalent as used for review children (sub-reviews).
      * {@link ViewHolder}: {@link VHReviewNodeSubjectRating}
      */
-    static class GVReviewSubjectRating implements GVReviewDataList.GVReviewData {
+    public static class GVReviewSubjectRating implements GVReviewDataList.GVReviewData {
         public static final Parcelable.Creator<GVReviewSubjectRating> CREATOR = new Parcelable
                 .Creator<GVReviewSubjectRating>() {
             public GVReviewSubjectRating createFromParcel(Parcel in) {
@@ -125,11 +125,11 @@ class GVReviewSubjectRatingList extends GVReviewDataList<GVReviewSubjectRatingLi
             parcel.writeFloat(mRating);
         }
 
-        String getSubject() {
+        public String getSubject() {
             return mSubject;
         }
 
-        float getRating() {
+        public float getRating() {
             return mRating;
         }
     }

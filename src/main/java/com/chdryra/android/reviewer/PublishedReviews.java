@@ -17,12 +17,11 @@ public class PublishedReviews {
     private ControllerReviewCollection<ReviewNode> mController;
 
     PublishedReviews() {
-        mController = new ControllerReviewCollection<ReviewNode>(new
-                RCollectionReview<ReviewNode>());
+        mController = new ControllerReviewCollection<>(new RCollectionReview<ReviewNode>());
     }
 
     public GVReviewDataList toGridViewable() {
-        return mController.toGridViewablePublished();
+        return mController.toGridViewable(true);
     }
 
     void add(ReviewNode review) {

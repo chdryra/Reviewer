@@ -42,7 +42,7 @@ public class GVFactList extends GVReviewDataList<GVFactList.GVFact> {
     }
 
     /**
-     * {@link GVReviewData} version of: {@link RDFact}
+     * {@link GVReviewData} version of: {@link RDFactList.RDFact}
      * {@link ViewHolder}: {@link VHFact}
      */
 
@@ -62,7 +62,7 @@ public class GVFactList extends GVReviewDataList<GVFactList.GVFact> {
             super(label, value);
         }
 
-        GVFact(Parcel in) {
+        private GVFact(Parcel in) {
             super(in.readString(), in.readString());
         }
 

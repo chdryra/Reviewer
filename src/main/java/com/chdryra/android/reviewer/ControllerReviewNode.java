@@ -27,7 +27,7 @@ public class ControllerReviewNode extends ControllerReview<ReviewNode> {
     @Override
     public GVReviewDataList getData(GVReviewDataList.GVType dataType) {
         return dataType == GVReviewDataList.GVType.CHILDREN ? getChildrenController()
-                .toGridViewable() : super.getData(dataType);
+                .toGridViewable(false) : super.getData(dataType);
     }
 
     ControllerReviewCollection<ReviewNode> createChildrenController() {

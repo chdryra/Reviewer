@@ -57,7 +57,7 @@ public class GVReviewOverviewList extends GVReviewDataList<GVReviewOverviewList.
      * {@link GVReviewData} version of: {@link Review}
      * {@link ViewHolder): {@link VHReviewNodeOverview}
      */
-    static class GVReviewOverview implements GVReviewDataList.GVReviewData {
+    public static class GVReviewOverview implements GVReviewDataList.GVReviewData {
         public static final Parcelable.Creator<GVReviewOverview> CREATOR = new Parcelable
                 .Creator<GVReviewOverview>() {
             public GVReviewOverview createFromParcel(Parcel in) {
@@ -81,9 +81,8 @@ public class GVReviewOverviewList extends GVReviewDataList<GVReviewOverviewList.
             mId = id;
         }
 
-        GVReviewOverview(String id, String subject, float rating, Bitmap coverImage,
-                String headline, String locationName, String Author,
-                Date publishDate) {
+        private GVReviewOverview(String id, String subject, float rating, Bitmap coverImage,
+                String headline, String locationName, String Author, Date publishDate) {
             mId = id;
             mSubject = subject;
             mRating = rating;
@@ -94,7 +93,7 @@ public class GVReviewOverviewList extends GVReviewDataList<GVReviewOverviewList.
             mPublishDate = publishDate;
         }
 
-        GVReviewOverview(Parcel in) {
+        private GVReviewOverview(Parcel in) {
             mId = in.readString();
             mSubject = in.readString();
             mRating = in.readFloat();
@@ -133,31 +132,31 @@ public class GVReviewOverviewList extends GVReviewDataList<GVReviewOverviewList.
             parcel.writeSerializable(mPublishDate);
         }
 
-        String getSubject() {
+        public String getSubject() {
             return mSubject;
         }
 
-        float getRating() {
+        public float getRating() {
             return mRating;
         }
 
-        Bitmap getCoverImage() {
+        public Bitmap getCoverImage() {
             return mCoverImage;
         }
 
-        String getLocationName() {
+        public String getLocationName() {
             return mLocationName;
         }
 
-        String getHeadline() {
+        public String getHeadline() {
             return mHeadline;
         }
 
-        String getAuthor() {
+        public String getAuthor() {
             return mAuthor;
         }
 
-        Date getPublishDate() {
+        public Date getPublishDate() {
             return mPublishDate;
         }
     }

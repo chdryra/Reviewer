@@ -21,24 +21,28 @@ import java.util.HashMap;
 /**
  * Similar to {@link ControllerReview} but for {@link RCollectionReview} data.
  */
-class ControllerReviewCollection<T extends Review> {
+public class ControllerReviewCollection<T extends Review> {
     private RCollectionReview<T>              mReviews;
     private HashMap<String, ControllerReview> mControllers;
 
-    ControllerReviewCollection(RCollectionReview<T> reviews) {
-        reinitialise(reviews);
+    public ControllerReviewCollection(RCollectionReview<T> reviews) {
+        init(reviews);
     }
 
-    void reinitialise(RCollectionReview<T> reviews) {
+    public void addReview(T review) {
+        mReviews.add(review);
+    }
+
+    public GVReviewDataList toGridViewable(boolean publishedOnly) {
+        return publishedOnly ? toGridViewablePublished() : toGridViewableAll();
+    }
+
+    protected void init(RCollectionReview<T> reviews) {
         mReviews = reviews;
         mControllers = new HashMap<>();
     }
 
-    void addReview(T review) {
-        mReviews.add(review);
-    }
-
-    GVReviewDataList toGridViewable() {
+    private GVReviewDataList toGridViewableAll() {
         GVReviewSubjectRatingList data = new GVReviewSubjectRatingList();
         for (Review r : mReviews) {
             data.add(r.getSubject().get(), r.getRating().get());
@@ -47,7 +51,7 @@ class ControllerReviewCollection<T extends Review> {
         return data;
     }
 
-    GVReviewDataList toGridViewablePublished() {
+    private GVReviewDataList toGridViewablePublished() {
         GVReviewOverviewList data = new GVReviewOverviewList();
         for (Review r : mReviews) {
             if (!r.isPublished()) continue;

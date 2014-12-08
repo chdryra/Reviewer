@@ -36,7 +36,7 @@ public class GVCommentList extends GVReviewDataList<GVCommentList.GVComment> {
     }
 
     /**
-     * {@link GVReviewData} version of: {@link RDComment}
+     * {@link GVReviewData} version of: {@link RDCommentList.RDComment}
      * {@link ViewHolder}: {@link VHComment}
      * <p>
      * Methods for getting the comment headline and for splitting and unsplitting comments.
@@ -69,7 +69,7 @@ public class GVCommentList extends GVReviewDataList<GVCommentList.GVComment> {
             mComment = comment;
         }
 
-        GVComment(Parcel in) {
+        private GVComment(Parcel in) {
             mComment = in.readString();
             mUnsplitParent = in.readParcelable(GVComment.class.getClassLoader());
         }

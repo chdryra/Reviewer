@@ -14,7 +14,7 @@ package com.chdryra.android.reviewer;
  *
  * @param <T>: type that is {@link com.chdryra.android.reviewer.RDId.RDIdAble}
  */
-class RCollectionReview<T extends RDId.RDIdAble> extends RCollection<T> {
+public class RCollectionReview<T extends RDId.RDIdAble> extends RCollection<T> {
     public void add(T review) {
         put(review.getId(), review);
     }

@@ -21,7 +21,7 @@ package com.chdryra.android.reviewer;
  * @see com.chdryra.android.reviewer.ReviewNodeAlone
  * @see com.chdryra.android.reviewer.ReviewTree
  */
-class ReviewUserEditable extends ReviewEditable {
+public class ReviewUserEditable extends ReviewEditable {
     private final ReviewNode mNode;
 
     private final RDId      mID;
@@ -34,7 +34,7 @@ class ReviewUserEditable extends ReviewEditable {
     private RDUrlList      mURLs;
     private RDLocationList mLocations;
 
-    ReviewUserEditable(String subject) {
+    public ReviewUserEditable(String subject) {
         //Core data
         mID = RDId.generateId();
         mSubject = new RDSubject(subject, this);

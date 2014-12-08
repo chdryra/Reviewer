@@ -74,7 +74,7 @@ public interface Review extends RDId.RDIdAble {
 
     Date getPublishDate();
 
-    boolean isPublished();
+    public boolean isPublished();
 
     //Optional data
     RDCommentList getComments();
