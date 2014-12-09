@@ -21,9 +21,9 @@ import com.chdryra.android.mygenerallibrary.VHDString;
 
 /**
  * Parcelable version of {@link com.chdryra.android.mygenerallibrary.VHDString} to comply with
- * {@link com.chdryra.android.reviewer.GVReviewDataList.GVReviewData}
+ * {@link GVReviewDataList.GvData}
  */
-class GVText extends VHDString implements GVReviewDataList.GVReviewData {
+class GVText extends VHDString implements GVReviewDataList.GvData {
     public static final Parcelable.Creator<GVText> CREATOR = new Parcelable
             .Creator<GVText>() {
         public GVText createFromParcel(Parcel in) {

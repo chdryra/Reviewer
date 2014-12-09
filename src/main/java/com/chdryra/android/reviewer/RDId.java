@@ -22,7 +22,7 @@ import java.util.UUID;
  * <p/>
  * //TODO There's a reason couldn't use holding review but can't remember. Find out.
  */
-public class RDId implements RData {
+public class RDId implements MdData {
     private final UUID mId;
 
     /**
@@ -50,11 +50,6 @@ public class RDId implements RData {
 
     @Override
     public Review getHoldingReview() {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public void setHoldingReview(Review review) {
         throw new UnsupportedOperationException();
     }
 

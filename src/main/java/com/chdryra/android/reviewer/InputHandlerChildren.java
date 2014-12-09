@@ -10,7 +10,7 @@ package com.chdryra.android.reviewer;
 
 import android.content.Context;
 
-import com.chdryra.android.reviewer.GVReviewSubjectRatingList.GVReviewSubjectRating;
+import com.chdryra.android.reviewer.GVReviewSubjectRatingList.GvSubjectRating;
 
 /**
  * Created by: Rizwan Choudrey
@@ -22,18 +22,18 @@ import com.chdryra.android.reviewer.GVReviewSubjectRatingList.GVReviewSubjectRat
  * Additional constraint over base {@link com.chdryra.android.reviewer.InputHandlerReviewData} to
  * ignore addition if current data already contains the subject.
  */
-class InputHandlerChildren extends InputHandlerReviewData<GVReviewSubjectRating> {
+class InputHandlerChildren extends InputHandlerReviewData<GvSubjectRating> {
 
     InputHandlerChildren() {
-        super(GVReviewDataList.GVType.CHILDREN);
+        super(GVReviewDataList.GvType.CHILDREN);
     }
 
     @Override
-    boolean passesAddConstraint(GVReviewSubjectRating datum, Context context) {
+    boolean passesAddConstraint(GvSubjectRating datum, Context context) {
         return super.isNewAndValid(datum, context) && !constraint(datum, context);
     }
 
-    private boolean constraint(GVReviewSubjectRating datum, Context context) {
+    private boolean constraint(GvSubjectRating datum, Context context) {
         GVReviewSubjectRatingList data = (GVReviewSubjectRatingList) getData();
         if (data != null && data.contains(datum.getSubject())) {
             makeToastHasItem(context);

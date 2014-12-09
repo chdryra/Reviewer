@@ -17,7 +17,12 @@ import com.google.android.gms.maps.model.LatLng;
  * On: 06/12/2014
  * Email: rizwan.choudrey@gmail.com
  */
-public class RDImageList extends RDList<RDImageList.RDImage> {
+public class MdImageList extends MdList<MdImageList.MdImage> {
+
+    public MdImageList(Review holdingReview) {
+        super(holdingReview);
+    }
+
     /**
      * Review Data: image
      * <p>
@@ -28,7 +33,7 @@ public class RDImageList extends RDList<RDImageList.RDImage> {
      * {@link #hasData()}: non-null bitmap.
      * </p>
      */
-    public static class RDImage implements RData {
+    public static class MdImage implements MdData, DataImage {
 
         private final Bitmap mBitmap;
         private final String mCaption;
@@ -36,7 +41,7 @@ public class RDImageList extends RDList<RDImageList.RDImage> {
         private       Review mHoldingReview;
         private boolean mIsCover = false;
 
-        public RDImage(Bitmap bitmap, LatLng latLng, String caption, boolean isCover,
+        public MdImage(Bitmap bitmap, LatLng latLng, String caption, boolean isCover,
                 Review holdingReview) {
             mBitmap = bitmap;
             mLatLng = latLng;
@@ -51,50 +56,49 @@ public class RDImageList extends RDList<RDImageList.RDImage> {
         }
 
         @Override
-        public void setHoldingReview(Review review) {
-            mHoldingReview = review;
-        }
-
-        @Override
         public boolean hasData() {
             return mBitmap != null;
         }
 
+        @Override
         public Bitmap getBitmap() {
             return mBitmap;
         }
 
+        @Override
         public String getCaption() {
             return mCaption;
         }
 
-        public LatLng getLatLng() {
-            return mLatLng;
-        }
-
+        @Override
         public boolean isCover() {
             return mIsCover;
         }
 
         @Override
+        public LatLng getLatLng() {
+            return mLatLng;
+        }
+
+        @Override
         public boolean equals(Object o) {
             if (this == o) return true;
-            if (!(o instanceof RDImage)) return false;
+            if (!(o instanceof MdImage)) return false;
 
-            RDImage rdImage = (RDImage) o;
+            MdImage mdImage = (MdImage) o;
 
-            if (mIsCover != rdImage.mIsCover) return false;
-            if (mBitmap != null ? !mBitmap.sameAs(rdImage.mBitmap) : rdImage.mBitmap != null) {
+            if (mIsCover != mdImage.mIsCover) return false;
+            if (mBitmap != null ? !mBitmap.sameAs(mdImage.mBitmap) : mdImage.mBitmap != null) {
                 return false;
             }
-            if (mCaption != null ? !mCaption.equals(rdImage.mCaption) : rdImage.mCaption != null) {
+            if (mCaption != null ? !mCaption.equals(mdImage.mCaption) : mdImage.mCaption != null) {
                 return false;
             }
-            if (mHoldingReview != null ? !mHoldingReview.equals(rdImage.mHoldingReview) : rdImage
+            if (mHoldingReview != null ? !mHoldingReview.equals(mdImage.mHoldingReview) : mdImage
                     .mHoldingReview != null) {
                 return false;
             }
-            if (mLatLng != null ? !mLatLng.equals(rdImage.mLatLng) : rdImage.mLatLng != null) {
+            if (mLatLng != null ? !mLatLng.equals(mdImage.mLatLng) : mdImage.mLatLng != null) {
                 return false;
             }
 

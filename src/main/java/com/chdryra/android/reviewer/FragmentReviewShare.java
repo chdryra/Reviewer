@@ -20,8 +20,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 
-import com.chdryra.android.reviewer.GVSocialPlatformList.GVSocialPlatform;
-
 /**
  * UI Fragment: sharing and publishing reviews. The screen where the user finishes the review.
  * <p/>
@@ -94,7 +92,8 @@ public class FragmentReviewShare extends FragmentReviewGrid {
 
     @Override
     protected void onGridItemClick(AdapterView<?> parent, View v, int position, long id) {
-        GVSocialPlatform platform = (GVSocialPlatform) parent.getItemAtPosition(position);
+        GVSocialPlatformList.GVSocialPlatform platform = (GVSocialPlatformList.GVSocialPlatform)
+                parent.getItemAtPosition(position);
         if (mDefault == null && !platform.isChosen()) {
             mDefault = v.getBackground();
         }

@@ -15,7 +15,6 @@ import android.view.WindowManager;
 import android.widget.AdapterView;
 
 import com.chdryra.android.mygenerallibrary.ActivityResultCode;
-import com.chdryra.android.reviewer.GVReviewDataList.GVType;
 
 /**
  * UI Fragment: base class for displaying review data. Generally the "Display" class in {@link
@@ -30,14 +29,14 @@ import com.chdryra.android.reviewer.GVReviewDataList.GVType;
  * User input handled by a {@link com.chdryra.android.reviewer.InputHandlerReviewData}.
  * </p>
  *
- * @param <T>: {@link com.chdryra.android.reviewer.GVReviewDataList.GVReviewData} type.
+ * @param <T>: {@link GVReviewDataList.GvData} type.
  */
-abstract class FragmentReviewGridAddEdit<T extends GVReviewDataList.GVReviewData> extends
+abstract class FragmentReviewGridAddEdit<T extends GVReviewDataList.GvData> extends
         FragmentReviewGrid implements DialogReviewDataAddFragment
         .ReviewDataAddListener<T>, DialogReviewDataEditFragment.ReviewDataEditListener<T> {
 
 
-    private final GVType mDataType;
+    private final GVReviewDataList.GvType mDataType;
     private final ActivityResultCode mDoDatumDelete = ActivityResultCode.DELETE;
     private final ActivityResultCode mDoDatumEdit   = ActivityResultCode.DONE;
     private final InputHandlerReviewData<T> mHandler;
@@ -45,11 +44,12 @@ abstract class FragmentReviewGridAddEdit<T extends GVReviewDataList.GVReviewData
     private ConfigReviewDataUI.ReviewDataUIConfig mAdderConfig;
     private ConfigReviewDataUI.ReviewDataUIConfig mEditorConfig;
 
-    FragmentReviewGridAddEdit(GVType dataType) {
+    FragmentReviewGridAddEdit(GVReviewDataList.GvType dataType) {
         this(dataType, new InputHandlerReviewData<T>(dataType));
     }
 
-    FragmentReviewGridAddEdit(GVType dataType, InputHandlerReviewData<T> inputHandler) {
+    FragmentReviewGridAddEdit(GVReviewDataList.GvType dataType, InputHandlerReviewData<T>
+            inputHandler) {
         mDataType = dataType;
         mHandler = inputHandler;
     }

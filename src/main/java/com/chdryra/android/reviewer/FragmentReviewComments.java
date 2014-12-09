@@ -15,8 +15,6 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.chdryra.android.mygenerallibrary.ViewHolderAdapter;
-import com.chdryra.android.reviewer.GVCommentList.GVComment;
-import com.chdryra.android.reviewer.GVReviewDataList.GVType;
 
 /**
  * UI Fragment: comments. Each grid cell shows a comment headline or comment sentence depending
@@ -25,12 +23,12 @@ import com.chdryra.android.reviewer.GVReviewDataList.GVType;
  * Also an ActionBar icon for switching between comment headlines and comment sentences.
  * </p>
  */
-public class FragmentReviewComments extends FragmentReviewGridAddEdit<GVComment> {
+public class FragmentReviewComments extends FragmentReviewGridAddEdit<GVCommentList.GvComment> {
     private GVCommentList mComments;
     private boolean mCommentsAreSplit = false;
 
     public FragmentReviewComments() {
-        super(GVType.COMMENTS);
+        super(GVReviewDataList.GvType.COMMENTS);
     }
 
     @Override
@@ -40,7 +38,7 @@ public class FragmentReviewComments extends FragmentReviewGridAddEdit<GVComment>
     }
 
     @Override
-    protected void packGridCellData(GVComment comment, Bundle args) {
+    protected void packGridCellData(GVCommentList.GvComment comment, Bundle args) {
         super.packGridCellData(comment.getUnSplitComment(), args);
     }
 

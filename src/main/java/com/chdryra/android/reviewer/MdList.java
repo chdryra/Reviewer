@@ -11,31 +11,23 @@ package com.chdryra.android.reviewer;
 import com.chdryra.android.mygenerallibrary.SortableList;
 
 /**
- * Review Data: Sortable collection of {@link RData} objects that itself is considered Review Data
+ * Review Data: Sortable collection of {@link MdData} objects that itself is considered Review Data
  * <p>
  * {@link #hasData()}: at least 1 object in collection.
  * </p>
  *
- * @param <T>: {@link RData} type in collection.
+ * @param <T>: {@link MdData} type in collection.
  */
-public class RDList<T extends RData> extends SortableList<T> implements RData {
+public class MdList<T extends MdData> extends SortableList<T> implements MdData {
     private Review mHoldingReview;
 
-    public RDList() {
-    }
-
-    RDList(Review holdingReview) {
+    MdList(Review holdingReview) {
         mHoldingReview = holdingReview;
     }
 
     @Override
     public Review getHoldingReview() {
         return mHoldingReview;
-    }
-
-    @Override
-    public void setHoldingReview(Review holdingReview) {
-        mHoldingReview = holdingReview;
     }
 
     @Override

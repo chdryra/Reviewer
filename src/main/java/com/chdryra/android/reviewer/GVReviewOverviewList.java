@@ -23,18 +23,18 @@ import java.util.Date;
  * @see com.chdryra.android.reviewer.Administrator
  * @see com.chdryra.android.reviewer.FragmentFeed
  */
-public class GVReviewOverviewList extends GVReviewDataList<GVReviewOverviewList.GVReviewOverview> {
+public class GVReviewOverviewList extends GVReviewDataList<GVReviewOverviewList.GvOverview> {
 
     GVReviewOverviewList() {
-        super(GVType.REVIEW);
+        super(GvType.REVIEW);
     }
 
     @Override
-    protected Comparator<GVReviewOverview> getDefaultComparator() {
+    protected Comparator<GvOverview> getDefaultComparator() {
 
-        return new Comparator<GVReviewOverviewList.GVReviewOverview>() {
+        return new Comparator<GvOverview>() {
             @Override
-            public int compare(GVReviewOverview lhs, GVReviewOverview rhs) {
+            public int compare(GvOverview lhs, GvOverview rhs) {
                 return lhs.getPublishDate().compareTo(rhs.getPublishDate());
             }
         };
@@ -43,29 +43,29 @@ public class GVReviewOverviewList extends GVReviewDataList<GVReviewOverviewList.
     void add(String id, String subject, float rating, Bitmap coverImage, String headline,
             String locationName, String author, Date publishDate) {
         if (!contains(id)) {
-            add(new GVReviewOverview(id, subject, rating, coverImage, headline, locationName,
+            add(new GvOverview(id, subject, rating, coverImage, headline, locationName,
                     author, publishDate));
         }
     }
 
     boolean contains(String id) {
-        GVReviewOverview review = new GVReviewOverview(id);
+        GvOverview review = new GvOverview(id);
         return contains(review);
     }
 
     /**
-     * {@link GVReviewData} version of: {@link Review}
+     * {@link GVReviewDataList.GvData} version of: {@link Review}
      * {@link ViewHolder): {@link VHReviewNodeOverview}
      */
-    public static class GVReviewOverview implements GVReviewDataList.GVReviewData {
-        public static final Parcelable.Creator<GVReviewOverview> CREATOR = new Parcelable
-                .Creator<GVReviewOverview>() {
-            public GVReviewOverview createFromParcel(Parcel in) {
-                return new GVReviewOverview(in);
+    public static class GvOverview implements GVReviewDataList.GvData {
+        public static final Parcelable.Creator<GvOverview> CREATOR = new Parcelable
+                .Creator<GvOverview>() {
+            public GvOverview createFromParcel(Parcel in) {
+                return new GvOverview(in);
             }
 
-            public GVReviewOverview[] newArray(int size) {
-                return new GVReviewOverview[size];
+            public GvOverview[] newArray(int size) {
+                return new GvOverview[size];
             }
         };
         private final String mId;
@@ -77,11 +77,11 @@ public class GVReviewOverviewList extends GVReviewDataList<GVReviewOverviewList.
         private       String mAuthor;
         private       Date   mPublishDate;
 
-        private GVReviewOverview(String id) {
+        private GvOverview(String id) {
             mId = id;
         }
 
-        private GVReviewOverview(String id, String subject, float rating, Bitmap coverImage,
+        private GvOverview(String id, String subject, float rating, Bitmap coverImage,
                 String headline, String locationName, String Author, Date publishDate) {
             mId = id;
             mSubject = subject;
@@ -93,7 +93,7 @@ public class GVReviewOverviewList extends GVReviewDataList<GVReviewOverviewList.
             mPublishDate = publishDate;
         }
 
-        private GVReviewOverview(Parcel in) {
+        private GvOverview(Parcel in) {
             mId = in.readString();
             mSubject = in.readString();
             mRating = in.readFloat();

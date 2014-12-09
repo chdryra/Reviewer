@@ -19,14 +19,14 @@ import java.util.Comparator;
  * Used for review children (sub-reviews).
  */
 public class GVReviewSubjectRatingList extends GVReviewDataList<GVReviewSubjectRatingList
-        .GVReviewSubjectRating> {
+        .GvSubjectRating> {
 
     GVReviewSubjectRatingList() {
-        super(GVType.CHILDREN);
+        super(GvType.CHILDREN);
     }
 
     public boolean contains(String subject) {
-        for (GVReviewSubjectRating review : this) {
+        for (GvSubjectRating review : this) {
             if (review.getSubject().equals(subject)) return true;
         }
 
@@ -34,11 +34,11 @@ public class GVReviewSubjectRatingList extends GVReviewDataList<GVReviewSubjectR
     }
 
     @Override
-    protected Comparator<GVReviewSubjectRating> getDefaultComparator() {
+    protected Comparator<GvSubjectRating> getDefaultComparator() {
 
-        return new Comparator<GVReviewSubjectRatingList.GVReviewSubjectRating>() {
+        return new Comparator<GvSubjectRating>() {
             @Override
-            public int compare(GVReviewSubjectRating lhs, GVReviewSubjectRating rhs) {
+            public int compare(GvSubjectRating lhs, GvSubjectRating rhs) {
                 int comp = lhs.getSubject().compareTo(rhs.getSubject());
                 if (comp == 0) {
                     if (lhs.getRating() > rhs.getRating()) {
@@ -54,33 +54,34 @@ public class GVReviewSubjectRatingList extends GVReviewDataList<GVReviewSubjectR
     }
 
     void add(String subject, float rating) {
-        add(new GVReviewSubjectRating(subject, rating));
+        add(new GvSubjectRating(subject, rating));
     }
 
     /**
-     * {@link GVReviewData} version of: no equivalent as used for review children (sub-reviews).
+     * {@link GVReviewDataList.GvData} version of: no equivalent as used
+     * for review children (sub-reviews).
      * {@link ViewHolder}: {@link VHReviewNodeSubjectRating}
      */
-    public static class GVReviewSubjectRating implements GVReviewDataList.GVReviewData {
-        public static final Parcelable.Creator<GVReviewSubjectRating> CREATOR = new Parcelable
-                .Creator<GVReviewSubjectRating>() {
-            public GVReviewSubjectRating createFromParcel(Parcel in) {
-                return new GVReviewSubjectRating(in);
+    public static class GvSubjectRating implements GVReviewDataList.GvData {
+        public static final Parcelable.Creator<GvSubjectRating> CREATOR = new Parcelable
+                .Creator<GvSubjectRating>() {
+            public GvSubjectRating createFromParcel(Parcel in) {
+                return new GvSubjectRating(in);
             }
 
-            public GVReviewSubjectRating[] newArray(int size) {
-                return new GVReviewSubjectRating[size];
+            public GvSubjectRating[] newArray(int size) {
+                return new GvSubjectRating[size];
             }
         };
         private final String mSubject;
         private final float  mRating;
 
-        GVReviewSubjectRating(String subject, float rating) {
+        GvSubjectRating(String subject, float rating) {
             mSubject = subject;
             mRating = rating;
         }
 
-        GVReviewSubjectRating(Parcel in) {
+        GvSubjectRating(Parcel in) {
             mSubject = in.readString();
             mRating = in.readFloat();
         }
@@ -98,9 +99,9 @@ public class GVReviewSubjectRatingList extends GVReviewDataList<GVReviewSubjectR
         @Override
         public boolean equals(Object o) {
             if (this == o) return true;
-            if (!(o instanceof GVReviewSubjectRating)) return false;
+            if (!(o instanceof GvSubjectRating)) return false;
 
-            GVReviewSubjectRating that = (GVReviewSubjectRating) o;
+            GvSubjectRating that = (GvSubjectRating) o;
 
             return Float.compare(that.mRating, mRating) == 0 && !(mSubject != null ? !mSubject
                     .equals(that.mSubject) : that.mSubject != null);

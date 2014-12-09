@@ -14,7 +14,7 @@ package com.chdryra.android.reviewer;
  * {@link #hasData()}: string at least 1 character in length.
  * </p>
  */
-public class RDSubject implements RData {
+public class RDSubject implements MdData {
     private final String mTitle;
     private       Review mHoldingReview;
 
@@ -26,11 +26,6 @@ public class RDSubject implements RData {
     @Override
     public Review getHoldingReview() {
         return mHoldingReview;
-    }
-
-    @Override
-    public void setHoldingReview(Review review) {
-        mHoldingReview = review;
     }
 
     @Override

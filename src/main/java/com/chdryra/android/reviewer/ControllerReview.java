@@ -26,8 +26,8 @@ import java.util.Date;
  * Not a "Controller" as such - more of an adapter - but didn't want to confuse with
  * Android's use of the word "Adapter". Translates between model data types and view data types:
  * <ul>
- * <li>Model data types: {@link com.chdryra.android.reviewer.RData} types</li>
- * <li>View data types: {@link com.chdryra.android.reviewer.GVReviewDataList.GVType} types,
+ * <li>Model data types: {@link MdData} types</li>
+ * <li>View data types: {@link GVReviewDataList.GvType} types,
  * java types</li>
  * </ul>
  * </p>
@@ -88,34 +88,34 @@ public class ControllerReview<T extends Review> {
         mTagsList.clear();
     }
 
-    public boolean hasData(GVReviewDataList.GVType dataType) {
-        if (dataType == GVReviewDataList.GVType.COMMENTS) {
+    public boolean hasData(GVReviewDataList.GvType dataType) {
+        if (dataType == GVReviewDataList.GvType.COMMENTS) {
             return mReview.hasComments();
-        } else if (dataType == GVReviewDataList.GVType.IMAGES) {
+        } else if (dataType == GVReviewDataList.GvType.IMAGES) {
             return mReview.hasImages();
-        } else if (dataType == GVReviewDataList.GVType.FACTS) {
+        } else if (dataType == GVReviewDataList.GvType.FACTS) {
             return mReview.hasFacts();
-        } else if (dataType == GVReviewDataList.GVType.URLS) {
+        } else if (dataType == GVReviewDataList.GvType.URLS) {
             return mReview.hasUrls();
-        } else if (dataType == GVReviewDataList.GVType.LOCATIONS) {
+        } else if (dataType == GVReviewDataList.GvType.LOCATIONS) {
             return mReview.hasLocations();
         } else {
-            return dataType == GVReviewDataList.GVType.TAGS && mTagsList.size() > 0;
+            return dataType == GVReviewDataList.GvType.TAGS && mTagsList.size() > 0;
         }
     }
 
-    public GVReviewDataList getData(GVReviewDataList.GVType dataType) {
-        if (dataType == GVReviewDataList.GVType.COMMENTS) {
-            return RdGvConverter.convert(mReview.getComments());
-        } else if (dataType == GVReviewDataList.GVType.IMAGES) {
-            return RdGvConverter.convert(mReview.getImages());
-        } else if (dataType == GVReviewDataList.GVType.FACTS) {
-            return RdGvConverter.convert(mReview.getFacts());
-        } else if (dataType == GVReviewDataList.GVType.URLS) {
-            return RdGvConverter.convert(mReview.getURLs());
-        } else if (dataType == GVReviewDataList.GVType.LOCATIONS) {
-            return RdGvConverter.convert(mReview.getLocations());
-        } else if (dataType == GVReviewDataList.GVType.TAGS) {
+    public GVReviewDataList getData(GVReviewDataList.GvType dataType) {
+        if (dataType == GVReviewDataList.GvType.COMMENTS) {
+            return MdToGvConverter.convert(mReview.getComments());
+        } else if (dataType == GVReviewDataList.GvType.IMAGES) {
+            return MdToGvConverter.convert(mReview.getImages());
+        } else if (dataType == GVReviewDataList.GvType.FACTS) {
+            return MdToGvConverter.convert(mReview.getFacts());
+        } else if (dataType == GVReviewDataList.GvType.URLS) {
+            return MdToGvConverter.convert(mReview.getUrls());
+        } else if (dataType == GVReviewDataList.GvType.LOCATIONS) {
+            return MdToGvConverter.convert(mReview.getLocations());
+        } else if (dataType == GVReviewDataList.GvType.TAGS) {
             return getTags();
         } else {
             return null;

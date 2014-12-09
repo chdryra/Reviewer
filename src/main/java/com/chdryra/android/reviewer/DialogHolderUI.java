@@ -34,11 +34,11 @@ import com.chdryra.android.mygenerallibrary.DialogCancelActionDoneFragment;
  * .android.reviewer.DialogHolderAddEdit} as an example.
  * </p>
  *
- * @param <T>: {@link com.chdryra.android.reviewer.GVReviewDataList.GVReviewData} type
+ * @param <T>: {@link GVReviewDataList.GvData} type
  * @param <D>: {@link com.chdryra.android.mygenerallibrary.DialogCancelActionDoneFragment}
  *             reference to the parent Dialog window that contains the DialogHolder UI.
  */
-class DialogHolderUI<T extends GVReviewDataList.GVReviewData,
+class DialogHolderUI<T extends GVReviewDataList.GvData,
         D extends DialogCancelActionDoneFragment>
         implements UIReviewData<T> {
 
@@ -47,10 +47,10 @@ class DialogHolderUI<T extends GVReviewDataList.GVReviewData,
 
     /**
      * Defines the behaviour needed of a dialog updater that translates between the data within a
-     * {@link com.chdryra.android.reviewer.GVReviewDataList.GVReviewData} object and the Dialog
+     * {@link GVReviewDataList.GvData} object and the Dialog
      * updates that need to be performed.
      * <p>
-     * Given {@link com.chdryra.android.reviewer.GVReviewDataList.GVReviewData} and a
+     * Given {@link GVReviewDataList.GvData} and a
      * parent Dialog window, need to be able to initialise and update the content UI (and
      * parent dialog if necessary), and extract review data from the UI.
      * </p>
@@ -58,7 +58,7 @@ class DialogHolderUI<T extends GVReviewDataList.GVReviewData,
      * @param <T>
      * @param <D>
      */
-    interface DialogUIUpdater<T extends GVReviewDataList.GVReviewData,
+    interface DialogUIUpdater<T extends GVReviewDataList.GvData,
             D extends DialogCancelActionDoneFragment> {
         void initialise(T data, D parentDialog);
 

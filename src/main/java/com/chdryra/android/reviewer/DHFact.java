@@ -10,7 +10,7 @@ package com.chdryra.android.reviewer;
 
 import android.widget.EditText;
 
-import com.chdryra.android.reviewer.GVFactList.GVFact;
+import com.chdryra.android.reviewer.GVFactList.GvFact;
 
 /**
  * Created by: Rizwan Choudrey
@@ -21,17 +21,17 @@ import com.chdryra.android.reviewer.GVFactList.GVFact;
 /**
  * {@link DialogHolderAddEdit}: facts
  */
-class DHFact extends DialogHolderAddEdit<GVFact> {
-    private static final int    LAYOUT    = R.layout.dialog_fact;
-    private static final int    LABEL     = R.id.fact_label_edit_text;
-    private static final int    VALUE     = R.id.fact_value_edit_text;
-    private static final GVFact NULL_DATA = new GVFact(null, null);
+class DHFact extends DialogHolderAddEdit<GVFactList.GvFact> {
+    private static final int               LAYOUT    = R.layout.dialog_fact;
+    private static final int               LABEL     = R.id.fact_label_edit_text;
+    private static final int               VALUE     = R.id.fact_value_edit_text;
+    private static final GVFactList.GvFact NULL_DATA = new GVFactList.GvFact(null, null);
 
-    DHFact(DialogReviewDataAddFragment<GVFact> dialogAdd) {
+    DHFact(DialogReviewDataAddFragment<GVFactList.GvFact> dialogAdd) {
         super(LAYOUT, new int[]{LABEL, VALUE}, dialogAdd, NULL_DATA);
     }
 
-    DHFact(DialogReviewDataEditFragment<GVFact> dialogEdit) {
+    DHFact(DialogReviewDataEditFragment<GVFactList.GvFact> dialogEdit) {
         super(LAYOUT, new int[]{LABEL, VALUE}, dialogEdit);
     }
 
@@ -41,24 +41,24 @@ class DHFact extends DialogHolderAddEdit<GVFact> {
     }
 
     @Override
-    protected String getDialogOnAddTitle(GVFact data) {
+    protected String getDialogOnAddTitle(GvFact data) {
         return data.getLabel() + ": " + data.getValue();
     }
 
     @Override
-    protected String getDialogDeleteConfirmTitle(GVFact data) {
+    protected String getDialogDeleteConfirmTitle(GvFact data) {
         return data.getLabel() + ": " + data.getValue();
     }
 
     @Override
-    protected GVFact createGVData() {
+    protected GvFact createGVData() {
         String label = ((EditText) getView(LABEL)).getText().toString().trim();
         String value = ((EditText) getView(VALUE)).getText().toString().trim();
-        return new GVFact(label, value);
+        return new GvFact(label, value);
     }
 
     @Override
-    protected void updateWithGVData(GVFact fact) {
+    protected void updateWithGVData(GvFact fact) {
         ((EditText) getView(LABEL)).setText(fact.getLabel());
         ((EditText) getView(VALUE)).setText(fact.getValue());
         getView(LABEL).requestFocus();

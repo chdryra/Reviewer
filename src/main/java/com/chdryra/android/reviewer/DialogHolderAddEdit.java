@@ -32,9 +32,9 @@ import android.widget.EditText;
  * for adder Dialogs, and a different one for editor Dialogs.
  * </p>
  *
- * @param <T>: {@link com.chdryra.android.reviewer.GVReviewDataList.GVReviewData} type.
+ * @param <T>: {@link GVReviewDataList.GvData} type.
  */
-abstract class DialogHolderAddEdit<T extends GVReviewDataList.GVReviewData> extends
+abstract class DialogHolderAddEdit<T extends GVReviewDataList.GvData> extends
         DialogHolder<T> {
 
     private final UIReviewData<T> mDialogUI;

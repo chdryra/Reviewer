@@ -10,8 +10,6 @@ package com.chdryra.android.reviewer;
 
 import android.widget.EditText;
 
-import com.chdryra.android.reviewer.GVCommentList.GVComment;
-
 /**
  * Created by: Rizwan Choudrey
  * On: 21/10/2014
@@ -21,16 +19,16 @@ import com.chdryra.android.reviewer.GVCommentList.GVComment;
 /**
  * {@link DialogHolderAddEdit}: comments
  */
-class DHComment extends DialogHolderAddEdit<GVComment> {
-    private static final int       LAYOUT    = R.layout.dialog_comment;
-    private static final int       COMMENT   = R.id.comment_edit_text;
-    private static final GVComment NULL_DATA = new GVComment();
+class DHComment extends DialogHolderAddEdit<GVCommentList.GvComment> {
+    private static final int                     LAYOUT    = R.layout.dialog_comment;
+    private static final int                     COMMENT   = R.id.comment_edit_text;
+    private static final GVCommentList.GvComment NULL_DATA = new GVCommentList.GvComment();
 
-    DHComment(DialogReviewDataAddFragment<GVComment> dialogAdd) {
+    DHComment(DialogReviewDataAddFragment<GVCommentList.GvComment> dialogAdd) {
         super(LAYOUT, new int[]{COMMENT}, dialogAdd, NULL_DATA);
     }
 
-    DHComment(DialogReviewDataEditFragment<GVComment> dialogEdit) {
+    DHComment(DialogReviewDataEditFragment<GVCommentList.GvComment> dialogEdit) {
         super(LAYOUT, new int[]{COMMENT}, dialogEdit);
     }
 
@@ -40,22 +38,23 @@ class DHComment extends DialogHolderAddEdit<GVComment> {
     }
 
     @Override
-    protected String getDialogOnAddTitle(GVComment data) {
+    protected String getDialogOnAddTitle(GVCommentList.GvComment data) {
         return data.getCommentHeadline();
     }
 
     @Override
-    protected String getDialogDeleteConfirmTitle(GVComment data) {
+    protected String getDialogDeleteConfirmTitle(GVCommentList.GvComment data) {
         return data.getUnSplitComment().getComment();
     }
 
     @Override
-    protected GVComment createGVData() {
-        return new GVComment(getEditTextForKeyboardAction().getText().toString().trim());
+    protected GVCommentList.GvComment createGVData() {
+        return new GVCommentList.GvComment(getEditTextForKeyboardAction().getText().toString()
+                .trim());
     }
 
     @Override
-    protected void updateWithGVData(GVComment comment) {
+    protected void updateWithGVData(GVCommentList.GvComment comment) {
         ((EditText) getView(COMMENT)).setText(comment.getComment());
     }
 }

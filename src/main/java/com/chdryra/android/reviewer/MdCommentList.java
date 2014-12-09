@@ -13,18 +13,22 @@ package com.chdryra.android.reviewer;
  * On: 06/12/2014
  * Email: rizwan.choudrey@gmail.com
  */
-public class RDCommentList extends RDList<RDCommentList.RDComment> {
+public class MdCommentList extends MdList<MdCommentList.MdComment> {
     /**
      * Review Data: comment
      * <p>
      * {@link #hasData()}: A string at least 1 character in length.
      * </p>
      */
-    public static class RDComment implements RData {
+    public MdCommentList(Review holdingReview) {
+        super(holdingReview);
+    }
+
+    public static class MdComment implements MdData, DataComment {
         private final String mComment;
         private       Review mHoldingReview;
 
-        public RDComment(String comment, Review holdingReview) {
+        public MdComment(String comment, Review holdingReview) {
             mComment = comment;
             mHoldingReview = holdingReview;
         }
@@ -35,15 +39,11 @@ public class RDCommentList extends RDList<RDCommentList.RDComment> {
         }
 
         @Override
-        public void setHoldingReview(Review review) {
-            mHoldingReview = review;
-        }
-
-        @Override
         public boolean hasData() {
             return mComment != null && mComment.length() > 0;
         }
 
+        @Override
         public String getComment() {
             return mComment;
         }
@@ -51,16 +51,16 @@ public class RDCommentList extends RDList<RDCommentList.RDComment> {
         @Override
         public boolean equals(Object o) {
             if (this == o) return true;
-            if (!(o instanceof RDComment)) return false;
+            if (!(o instanceof MdComment)) return false;
 
-            RDComment rdComment = (RDComment) o;
+            MdComment mdComment = (MdComment) o;
 
-            if (mComment != null ? !mComment.equals(rdComment.mComment) : rdComment.mComment !=
+            if (mComment != null ? !mComment.equals(mdComment.mComment) : mdComment.mComment !=
                     null) {
                 return false;
             }
-            if (mHoldingReview != null ? !mHoldingReview.equals(rdComment.mHoldingReview) :
-                    rdComment.mHoldingReview != null) {
+            if (mHoldingReview != null ? !mHoldingReview.equals(mdComment.mHoldingReview) :
+                    mdComment.mHoldingReview != null) {
                 return false;
             }
 

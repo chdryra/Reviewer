@@ -35,12 +35,12 @@ import com.chdryra.android.mygenerallibrary.DialogCancelDeleteDoneFragment;
  * </ul>
  * </p>
  */
-public abstract class DialogReviewDataEditFragment<T extends GVReviewDataList.GVReviewData>
+public abstract class DialogReviewDataEditFragment<T extends GVReviewDataList.GvData>
         extends DialogCancelDeleteDoneFragment implements LaunchableUI {
 
 
     private final InputHandlerReviewData<T> mHandler;
-    private final GVReviewDataList.GVType   mDataType;
+    private final GVReviewDataList.GvType   mDataType;
     private       T                         mDatum;
     private       UIHolder<T>               mDialogHolder;
     private       ReviewDataEditListener<T> mListener;
@@ -48,19 +48,19 @@ public abstract class DialogReviewDataEditFragment<T extends GVReviewDataList.GV
     /**
      * Provides a callback that can be called delete or done buttons are pressed.
      *
-     * @param <T>:{@link com.chdryra.android.reviewer.GVReviewDataList.GVReviewData} type
+     * @param <T>:{@link GVReviewDataList.GvData} type
      */
-    public interface ReviewDataEditListener<T extends GVReviewDataList.GVReviewData> {
+    public interface ReviewDataEditListener<T extends GVReviewDataList.GvData> {
         void onReviewDataDelete(T data);
 
         void onReviewDataEdit(T oldDatum, T newDatum);
     }
 
-    DialogReviewDataEditFragment(GVReviewDataList.GVType dataType) {
+    DialogReviewDataEditFragment(GVReviewDataList.GvType dataType) {
         this(dataType, new InputHandlerReviewData<T>(dataType));
     }
 
-    DialogReviewDataEditFragment(GVReviewDataList.GVType dataType,
+    DialogReviewDataEditFragment(GVReviewDataList.GvType dataType,
             InputHandlerReviewData<T> handler) {
         mDataType = dataType;
         mHandler = handler;
@@ -121,7 +121,7 @@ public abstract class DialogReviewDataEditFragment<T extends GVReviewDataList.GV
         return mDialogHolder.getGVData();
     }
 
-    GVReviewDataList.GVType getGVType() {
+    GVReviewDataList.GvType getGVType() {
         return mDataType;
     }
 

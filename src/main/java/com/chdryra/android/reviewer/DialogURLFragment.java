@@ -16,8 +16,6 @@ import android.widget.Toast;
 
 import com.chdryra.android.myandroidwidgets.ClearableEditText;
 import com.chdryra.android.mygenerallibrary.DialogCancelActionDoneFragment;
-import com.chdryra.android.reviewer.GVReviewDataList.GVType;
-import com.chdryra.android.reviewer.GVUrlList.GVUrl;
 
 /**
  * Dialog for adding URLs (disabled): Allows user to enter a URL or can forward request to a
@@ -43,8 +41,10 @@ public class DialogURLFragment extends DialogCancelActionDoneFragment implements
         View v = getActivity().getLayoutInflater().inflate(R.layout.dialog_url, null);
 
         mUrlEditText = (ClearableEditText) v.findViewById(R.id.url_edit_text);
-        if (mController.getData(GVType.URLS).size() == 1) {
-            mUrlEditText.setText(((GVUrl) mController.getData(GVType.URLS).getItem(0))
+        if (mController.getData(GVReviewDataList.GvType.URLS).size() == 1) {
+            mUrlEditText.setText(((GVUrlList.GvUrl) mController.getData(GVReviewDataList.GvType
+                    .URLS)
+                    .getItem(0))
                     .toShortenedString());
         }
 

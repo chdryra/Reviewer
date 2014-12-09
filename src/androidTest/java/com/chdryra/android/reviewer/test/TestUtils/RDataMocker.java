@@ -8,11 +8,11 @@
 
 package com.chdryra.android.reviewer.test.TestUtils;
 
-import com.chdryra.android.reviewer.RDCommentList;
-import com.chdryra.android.reviewer.RDFactList;
-import com.chdryra.android.reviewer.RDImageList;
-import com.chdryra.android.reviewer.RDLocationList;
-import com.chdryra.android.reviewer.RDUrlList;
+import com.chdryra.android.reviewer.MdCommentList;
+import com.chdryra.android.reviewer.MdFactList;
+import com.chdryra.android.reviewer.MdImageList;
+import com.chdryra.android.reviewer.MdLocationList;
+import com.chdryra.android.reviewer.MdUrlList;
 import com.chdryra.android.reviewer.Review;
 import com.chdryra.android.testutils.BitmapMocker;
 import com.chdryra.android.testutils.LatLngMocker;
@@ -27,17 +27,19 @@ import java.util.Random;
  * Email: rizwan.choudrey@gmail.com
  */
 public class RDataMocker {
-    private static final RandomStringGenerator STRING_GENERATOR = new RandomStringGenerator();
-    private static final Review                REVIEW           = ReviewMocker.newReview();
-    private static final String URL  = "http://www.google.co.uk";
-    private static final Random RAND = new Random();
-    private static URL sUrl;
+    private final RandomStringGenerator STRING_GENERATOR = new RandomStringGenerator();
+    private final String                URL              = "http://www.google.co.uk";
+    private final Random                RAND             = new Random();
+    private URL sUrl;
 
-    private RDataMocker() {
+    private Review mReview;
+
+    public RDataMocker(Review review) {
+        mReview = review;
     }
 
-    public static RDCommentList newCommentList(int size) {
-        RDCommentList list = new RDCommentList();
+    public MdCommentList newCommentList(int size) {
+        MdCommentList list = new MdCommentList(mReview);
         for (int i = 0; i < size; ++i) {
             list.add(newComment());
         }
@@ -45,8 +47,8 @@ public class RDataMocker {
         return list;
     }
 
-    public static RDImageList newImageList(int size) {
-        RDImageList list = new RDImageList();
+    public MdImageList newImageList(int size) {
+        MdImageList list = new MdImageList(mReview);
         for (int i = 0; i < size; ++i) {
             list.add(newImage());
         }
@@ -54,8 +56,8 @@ public class RDataMocker {
         return list;
     }
 
-    public static RDLocationList newLocationList(int size) {
-        RDLocationList list = new RDLocationList();
+    public MdLocationList newLocationList(int size) {
+        MdLocationList list = new MdLocationList(mReview);
         for (int i = 0; i < size; ++i) {
             list.add(newLocation());
         }
@@ -63,8 +65,8 @@ public class RDataMocker {
         return list;
     }
 
-    public static RDFactList newFactList(int size) {
-        RDFactList list = new RDFactList();
+    public MdFactList newFactList(int size) {
+        MdFactList list = new MdFactList(mReview);
         for (int i = 0; i < size; ++i) {
             list.add(newFact());
         }
@@ -72,8 +74,8 @@ public class RDataMocker {
         return list;
     }
 
-    public static RDUrlList newUrlList(int size) {
-        RDUrlList list = new RDUrlList();
+    public MdUrlList newUrlList(int size) {
+        MdUrlList list = new MdUrlList(mReview);
         for (int i = 0; i < size; ++i) {
             list.add(newUrl());
         }
@@ -81,28 +83,28 @@ public class RDataMocker {
         return list;
     }
 
-    public static RDCommentList.RDComment newComment() {
-        return new RDCommentList.RDComment(STRING_GENERATOR.nextParagraph(), REVIEW);
+    public MdCommentList.MdComment newComment() {
+        return new MdCommentList.MdComment(STRING_GENERATOR.nextParagraph(), mReview);
     }
 
-    public static RDImageList.RDImage newImage() {
-        return new RDImageList.RDImage(BitmapMocker.getBitmap(RAND.nextBoolean()),
+    public MdImageList.MdImage newImage() {
+        return new MdImageList.MdImage(BitmapMocker.getBitmap(RAND.nextBoolean()),
                 LatLngMocker.newLatLng(), RandomStringGenerator.nextSentence(),
-                RAND.nextBoolean(), REVIEW);
+                RAND.nextBoolean(), mReview);
     }
 
-    public static RDLocationList.RDLocation newLocation() {
-        return new RDLocationList.RDLocation(LatLngMocker.newLatLng(),
-                RandomStringGenerator.nextWord(), REVIEW);
+    public MdLocationList.MdLocation newLocation() {
+        return new MdLocationList.MdLocation(LatLngMocker.newLatLng(),
+                RandomStringGenerator.nextWord(), mReview);
     }
 
-    public static RDFactList.RDFact newFact() {
-        return new RDFactList.RDFact(RandomStringGenerator.nextWord(),
+    public MdFactList.MdFact newFact() {
+        return new MdFactList.MdFact(RandomStringGenerator.nextWord(),
                 RandomStringGenerator.nextWord(),
-                REVIEW);
+                mReview);
     }
 
-    public static RDUrlList.RDUrl newUrl() {
+    public MdUrlList.MdUrl newUrl() {
         if (sUrl == null) {
             try {
                 sUrl = new URL(URL);
@@ -111,6 +113,6 @@ public class RDataMocker {
             }
         }
 
-        return new RDUrlList.RDUrl(sUrl, REVIEW);
+        return new MdUrlList.MdUrl(sUrl, mReview);
     }
 }

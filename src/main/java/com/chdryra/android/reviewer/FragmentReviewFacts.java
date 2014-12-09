@@ -8,14 +8,11 @@
 
 package com.chdryra.android.reviewer;
 
-import com.chdryra.android.reviewer.GVFactList.GVFact;
-import com.chdryra.android.reviewer.GVReviewDataList.GVType;
-
 /**
  * UI Fragment: facts. Each grid cell shows a fact label and value.
  */
-public class FragmentReviewFacts extends FragmentReviewGridAddEdit<GVFact> {
+public class FragmentReviewFacts extends FragmentReviewGridAddEdit<GVFactList.GvFact> {
     public FragmentReviewFacts() {
-        super(GVType.FACTS);
+        super(GVReviewDataList.GvType.FACTS);
     }
 }

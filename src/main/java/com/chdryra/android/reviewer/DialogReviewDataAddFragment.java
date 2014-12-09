@@ -13,7 +13,6 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.chdryra.android.mygenerallibrary.DialogCancelAddDoneFragment;
-import com.chdryra.android.reviewer.GVReviewDataList.GVType;
 
 /**
  * Base class for all dialogs that can add data to reviews.
@@ -41,7 +40,7 @@ import com.chdryra.android.reviewer.GVReviewDataList.GVType;
  * the arguments by the Administrator.
  * </p>
  */
-public abstract class DialogReviewDataAddFragment<T extends GVReviewDataList.GVReviewData>
+public abstract class DialogReviewDataAddFragment<T extends GVReviewDataList.GvData>
         extends DialogCancelAddDoneFragment implements LaunchableUI {
 
     public static final String QUICK_SET = "com.chdryra.android.reviewer.dialog_quick_mode";
@@ -57,13 +56,13 @@ public abstract class DialogReviewDataAddFragment<T extends GVReviewDataList.GVR
     /**
      * Provides a callback for when the add button is pressed
      *
-     * @param <T>:{@link com.chdryra.android.reviewer.GVReviewDataList.GVReviewData} type
+     * @param <T>:{@link GVReviewDataList.GvData} type
      */
-    interface ReviewDataAddListener<T extends GVReviewDataList.GVReviewData> {
+    interface ReviewDataAddListener<T extends GVReviewDataList.GvData> {
         boolean onReviewDataAdd(T data);
     }
 
-    DialogReviewDataAddFragment(GVType dataType) {
+    DialogReviewDataAddFragment(GVReviewDataList.GvType dataType) {
         this(new InputHandlerReviewData<T>(dataType));
     }
 
@@ -133,7 +132,7 @@ public abstract class DialogReviewDataAddFragment<T extends GVReviewDataList.GVR
         return null;
     }
 
-    GVType getGVType() {
+    GVReviewDataList.GvType getGVType() {
         return mHandler.getGVType();
     }
 

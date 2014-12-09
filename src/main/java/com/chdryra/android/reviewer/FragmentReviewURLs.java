@@ -9,8 +9,6 @@
 package com.chdryra.android.reviewer;
 
 import com.chdryra.android.mygenerallibrary.ActivityResultCode;
-import com.chdryra.android.reviewer.GVReviewDataList.GVType;
-import com.chdryra.android.reviewer.GVUrlList.GVUrl;
 
 /**
  * UI Fragment: URLs (currently disabled). Each grid cell shows a URL.
@@ -24,9 +22,9 @@ import com.chdryra.android.reviewer.GVUrlList.GVUrl;
  * </ul>
  * </p>
  */
-public class FragmentReviewURLs extends FragmentReviewGridAddEdit<GVUrl> {
+public class FragmentReviewURLs extends FragmentReviewGridAddEdit<GVUrlList.GvUrl> {
     public FragmentReviewURLs() {
-        super(GVType.URLS);
+        super(GVReviewDataList.GvType.URLS);
         setAddResultCode(ActivityResultCode.DONE);
     }
 }

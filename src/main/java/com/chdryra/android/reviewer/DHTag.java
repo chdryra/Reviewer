@@ -10,8 +10,6 @@ package com.chdryra.android.reviewer;
 
 import android.widget.EditText;
 
-import com.chdryra.android.reviewer.GVTagList.GVTag;
-
 /**
  * Created by: Rizwan Choudrey
  * On: 21/10/2014
@@ -21,16 +19,16 @@ import com.chdryra.android.reviewer.GVTagList.GVTag;
 /**
  * {@link DialogHolderAddEdit}: tags
  */
-class DHTag extends DialogHolderAddEdit<GVTag> {
-    private static final int   LAYOUT    = R.layout.dialog_tag;
-    private static final int   TAG       = R.id.tag_edit_text;
-    private static final GVTag NULL_DATA = new GVTag();
+class DHTag extends DialogHolderAddEdit<GVTagList.GVTag> {
+    private static final int             LAYOUT    = R.layout.dialog_tag;
+    private static final int             TAG       = R.id.tag_edit_text;
+    private static final GVTagList.GVTag NULL_DATA = new GVTagList.GVTag();
 
-    DHTag(DialogReviewDataAddFragment<GVTag> dialogAdd) {
+    DHTag(DialogReviewDataAddFragment<GVTagList.GVTag> dialogAdd) {
         super(LAYOUT, new int[]{TAG}, dialogAdd, NULL_DATA);
     }
 
-    DHTag(DialogReviewDataEditFragment<GVTag> dialogEdit) {
+    DHTag(DialogReviewDataEditFragment<GVTagList.GVTag> dialogEdit) {
         super(LAYOUT, new int[]{TAG}, dialogEdit);
     }
 
@@ -40,22 +38,22 @@ class DHTag extends DialogHolderAddEdit<GVTag> {
     }
 
     @Override
-    protected String getDialogOnAddTitle(GVTag data) {
+    protected String getDialogOnAddTitle(GVTagList.GVTag data) {
         return "#" + data.get();
     }
 
     @Override
-    protected String getDialogDeleteConfirmTitle(GVTag data) {
+    protected String getDialogDeleteConfirmTitle(GVTagList.GVTag data) {
         return data.get();
     }
 
     @Override
-    protected GVTag createGVData() {
-        return new GVTag(((EditText) getView(TAG)).getText().toString().trim());
+    protected GVTagList.GVTag createGVData() {
+        return new GVTagList.GVTag(((EditText) getView(TAG)).getText().toString().trim());
     }
 
     @Override
-    protected void updateWithGVData(GVTag tag) {
+    protected void updateWithGVData(GVTagList.GVTag tag) {
         ((EditText) getView(TAG)).setText(tag.get());
     }
 }

@@ -14,7 +14,7 @@ package com.chdryra.android.reviewer;
  * {@link #hasData()}: true
  * </p>
  */
-public class RDRating implements RData {
+public class RDRating implements MdData {
     private final float  mRating;
     private       Review mHoldingReview;
 
@@ -26,11 +26,6 @@ public class RDRating implements RData {
     @Override
     public Review getHoldingReview() {
         return mHoldingReview;
-    }
-
-    @Override
-    public void setHoldingReview(Review review) {
-        mHoldingReview = review;
     }
 
     @Override

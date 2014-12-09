@@ -19,55 +19,57 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 
-public class GVUrlList extends GVReviewDataList<GVUrlList.GVUrl> {
+public class GVUrlList extends GVReviewDataList<GVUrlList.GvUrl> {
 
     GVUrlList() {
-        super(GVType.URLS);
+        super(GvType.URLS);
     }
 
     void add(String urlString) throws MalformedURLException, URISyntaxException {
-        add(new GVUrl(urlString));
+        add(new GvUrl(urlString));
     }
 
     void add(URL url) {
-        add(new GVUrl(url));
+        add(new GvUrl(url));
     }
 
     /**
-     * {@link GVReviewData} version of: {@link RDUrl}
+     * {@link GVReviewDataList.GvData} version of: {@link com.chdryra
+     * .android.reviewer.MdUrlList.MdUrl}
      * {@link ViewHolder}: {@link VHUrl}
      * <p>
      * Methods for getting full URL and shortened more readable version.
      * </p>
      */
-    public static class GVUrl implements GVReviewDataList.GVReviewData {
-        public static final Parcelable.Creator<GVUrl> CREATOR = new Parcelable
-                .Creator<GVUrl>() {
-            public GVUrl createFromParcel(Parcel in) {
-                return new GVUrl(in);
+    public static class GvUrl implements GVReviewDataList.GvData, DataUrl {
+        public static final Parcelable.Creator<GvUrl> CREATOR = new Parcelable
+                .Creator<GvUrl>() {
+            public GvUrl createFromParcel(Parcel in) {
+                return new GvUrl(in);
             }
 
-            public GVUrl[] newArray(int size) {
-                return new GVUrl[size];
+            public GvUrl[] newArray(int size) {
+                return new GvUrl[size];
             }
         };
         private URL mUrl;
 
-        public GVUrl(URL url) {
+        public GvUrl(URL url) {
             mUrl = url;
         }
 
-        private GVUrl(Parcel in) {
+        private GvUrl(Parcel in) {
             mUrl = (URL) in.readSerializable();
         }
 
-        public GVUrl(String stringUrl) throws MalformedURLException, URISyntaxException {
+        public GvUrl(String stringUrl) throws MalformedURLException, URISyntaxException {
             URL url = new URL(URLUtil.guessUrl(stringUrl));
             URI uri = new URI(url.getProtocol(), url.getUserInfo(), url.getHost(), url.getPort(),
                     url.getPath(), url.getQuery(), url.getRef());
             mUrl = uri.toURL();
         }
 
+        @Override
         public URL getUrl() {
             return mUrl;
         }
@@ -100,9 +102,9 @@ public class GVUrlList extends GVReviewDataList<GVUrlList.GVUrl> {
         @Override
         public boolean equals(Object o) {
             if (this == o) return true;
-            if (!(o instanceof GVUrl)) return false;
+            if (!(o instanceof GvUrl)) return false;
 
-            GVUrl gvUrl = (GVUrl) o;
+            GvUrl gvUrl = (GvUrl) o;
 
             return !(mUrl != null ? !mUrl.equals(gvUrl.mUrl) : gvUrl.mUrl != null);
 

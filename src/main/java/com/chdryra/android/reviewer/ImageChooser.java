@@ -42,7 +42,7 @@ class ImageChooser {
     private       String          mCaptureFile;
 
     public interface ImageChooserListener {
-        public void onImageChosen(GVImageList.GVImage image);
+        public void onImageChosen(GVImageList.GvImage image);
     }
 
     public ImageChooser(ControllerReview controller, Activity activity) {
@@ -111,7 +111,7 @@ class ImageChooser {
                 @Override
                 public void onBitmapLoaded(Bitmap bitmap) {
                     LatLng ll = ImageHelper.getLatLngFromEXIF(ImageHelper.getEXIF(mCaptureFile));
-                    listener.onImageChosen(new GVImageList.GVImage(bitmap, ll));
+                    listener.onImageChosen(new GVImageList.GvImage(bitmap, ll));
                 }
             };
 

@@ -18,7 +18,7 @@ import java.util.Comparator;
 public class GVTagList extends GVReviewDataList<GVTagList.GVTag> {
 
     public GVTagList() {
-        super(GVType.TAGS);
+        super(GvType.TAGS);
     }
 
     public void add(String string) {

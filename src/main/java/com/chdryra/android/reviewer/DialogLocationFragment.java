@@ -22,9 +22,6 @@ import com.chdryra.android.mygenerallibrary.LocationClientConnector.Locatable;
 import com.chdryra.android.mygenerallibrary.PlaceAutoCompleteSuggester;
 import com.chdryra.android.mygenerallibrary.PlaceSuggester;
 import com.chdryra.android.mygenerallibrary.StringFilterAdapter;
-import com.chdryra.android.reviewer.GVImageList.GVImage;
-import com.chdryra.android.reviewer.GVLocationList.GVLocation;
-import com.chdryra.android.reviewer.GVReviewDataList.GVType;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
@@ -91,12 +88,14 @@ public class DialogLocationFragment extends DialogCancelActionDoneFragment imple
         View v = getActivity().getLayoutInflater().inflate(R.layout.dialog_location, null);
         mNameEditText = (ClearableEditText) v.findViewById(R.id.location_edit_text);
 
-        if (mController.hasData(GVType.LOCATIONS)) {
-            GVLocation location = (GVLocation) mController.getData(GVType.LOCATIONS).getItem(0);
+        if (mController.hasData(GVReviewDataList.GvType.LOCATIONS)) {
+            GVLocationList.GvLocation location = (GVLocationList.GvLocation) mController.getData
+                    (GVReviewDataList.GvType.LOCATIONS).getItem(0);
             mLatLng = location.getLatLng();
             mNameEditText.setText(location.getName());
-        } else if (mController.hasData(GVType.IMAGES)) {
-            GVImage image = (GVImage) mController.getData(GVType.IMAGES).getItem(0);
+        } else if (mController.hasData(GVReviewDataList.GvType.IMAGES)) {
+            GVImageList.GvImage image = (GVImageList.GvImage) mController.getData(GVReviewDataList
+                    .GvType.IMAGES).getItem(0);
             LatLng latLng = image.getLatLng();
             if (latLng != null) {
                 mLatLng = latLng;
@@ -148,15 +147,16 @@ public class DialogLocationFragment extends DialogCancelActionDoneFragment imple
 
     @Override
     protected void onActionButtonClick() {
-        InputHandlerReviewData<GVLocation> handler = new InputHandlerReviewData<GVLocation>
-                (GVType.LOCATIONS);
+        InputHandlerReviewData<GVLocationList.GvLocation> handler = new
+                InputHandlerReviewData<GVLocationList.GvLocation>
+                (GVReviewDataList.GvType.LOCATIONS);
         handler.pack(InputHandlerReviewData.CurrentNewDatum.NEW, createGVData(),
                 createNewReturnData());
     }
 
     @Override
     protected void onDoneButtonClick() {
-        GVLocation location = createGVData();
+        GVLocationList.GvLocation location = createGVData();
         if (location.isValidForDisplay()) {
             GVLocationList locations = new GVLocationList();
             locations.add(location);
@@ -164,8 +164,8 @@ public class DialogLocationFragment extends DialogCancelActionDoneFragment imple
         }
     }
 
-    GVLocation createGVData() {
-        return new GVLocation(mLatLng, mNameEditText.getText().toString().trim());
+    GVLocationList.GvLocation createGVData() {
+        return new GVLocationList.GvLocation(mLatLng, mNameEditText.getText().toString().trim());
     }
 
     private void setSuggestionsAdapter() {

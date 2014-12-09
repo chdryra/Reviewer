@@ -9,8 +9,6 @@
 package com.chdryra.android.reviewer;
 
 import com.chdryra.android.mygenerallibrary.ActivityResultCode;
-import com.chdryra.android.reviewer.GVLocationList.GVLocation;
-import com.chdryra.android.reviewer.GVReviewDataList.GVType;
 
 /**
  * UI Fragment: review locations. Each grid cell shows a location name.
@@ -23,9 +21,9 @@ import com.chdryra.android.reviewer.GVReviewDataList.GVType;
  * </ul>
  * </p>
  */
-public class FragmentReviewLocations extends FragmentReviewGridAddEdit<GVLocation> {
+public class FragmentReviewLocations extends FragmentReviewGridAddEdit<GVLocationList.GvLocation> {
     public FragmentReviewLocations() {
-        super(GVType.LOCATIONS);
+        super(GVReviewDataList.GvType.LOCATIONS);
         setAddResultCode(ActivityResultCode.DONE);
     }
 }

@@ -11,10 +11,10 @@ package com.chdryra.android.reviewer;
 import com.chdryra.android.mygenerallibrary.VHDDualString;
 import com.chdryra.android.mygenerallibrary.VHDualString;
 import com.chdryra.android.mygenerallibrary.ViewHolderData;
-import com.chdryra.android.reviewer.GVSocialPlatformList.GVSocialPlatform;
 
 /**
- * {@link com.chdryra.android.mygenerallibrary.ViewHolder}: {@link GVSocialPlatform}. Shows
+ * {@link com.chdryra.android.mygenerallibrary.ViewHolder}: {@link com.chdryra.android.reviewer
+ * .GVSocialPlatformList.GvSocialPlatform}. Shows
  * platform name
  * above, number followers below.
  */
@@ -29,7 +29,8 @@ class VHSocialPlatform extends VHDualString {
 
     @Override
     public void updateView(ViewHolderData data) {
-        GVSocialPlatform platform = (GVSocialPlatform) data;
+        GVSocialPlatformList.GVSocialPlatform platform = (GVSocialPlatformList.GVSocialPlatform)
+                data;
         if (platform != null) {
             super.updateView(new VHDDualString(platform.getName(),
                     String.valueOf(platform.getFollowers())));

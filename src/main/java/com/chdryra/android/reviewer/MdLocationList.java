@@ -15,7 +15,11 @@ import com.google.android.gms.maps.model.LatLng;
  * On: 06/12/2014
  * Email: rizwan.choudrey@gmail.com
  */
-public class RDLocationList extends RDList<RDLocationList.RDLocation> {
+public class MdLocationList extends MdList<MdLocationList.MdLocation> {
+
+    public MdLocationList(Review holdingReview) {
+        super(holdingReview);
+    }
 
     /**
      * Review Data: location
@@ -23,13 +27,13 @@ public class RDLocationList extends RDList<RDLocationList.RDLocation> {
      * {@link #hasData()}: A LatLng plus a name at least 1 character in length.
      * </p>
      */
-    public static class RDLocation implements RData {
+    public static class MdLocation implements MdData, DataLocation {
         static final String LOCATION_DELIMITER = ",|";
         private final LatLng mLatLng;
         private final String mName;
         private       Review mHoldingReview;
 
-        public RDLocation(LatLng latLng, String name, Review holdingReview) {
+        public MdLocation(LatLng latLng, String name, Review holdingReview) {
             mLatLng = latLng;
             mName = name;
             mHoldingReview = holdingReview;
@@ -41,19 +45,16 @@ public class RDLocationList extends RDList<RDLocationList.RDLocation> {
         }
 
         @Override
-        public void setHoldingReview(Review review) {
-            mHoldingReview = review;
-        }
-
-        @Override
         public boolean hasData() {
             return mLatLng != null && mName != null && mName.length() > 0;
         }
 
+        @Override
         public LatLng getLatLng() {
             return mLatLng;
         }
 
+        @Override
         public String getName() {
             return mName;
         }
@@ -61,9 +62,9 @@ public class RDLocationList extends RDList<RDLocationList.RDLocation> {
         @Override
         public boolean equals(Object o) {
             if (this == o) return true;
-            if (!(o instanceof RDLocation)) return false;
+            if (!(o instanceof MdLocation)) return false;
 
-            RDLocation that = (RDLocation) o;
+            MdLocation that = (MdLocation) o;
 
             if (mHoldingReview != null ? !mHoldingReview.equals(that.mHoldingReview) : that
                     .mHoldingReview != null) {

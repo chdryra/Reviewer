@@ -15,18 +15,18 @@ import com.chdryra.android.mygenerallibrary.ViewHolder;
 
 import java.util.Comparator;
 
-public class GVFactList extends GVReviewDataList<GVFactList.GVFact> {
+public class GVFactList extends GVReviewDataList<GVFactList.GvFact> {
 
     GVFactList() {
-        super(GVType.FACTS);
+        super(GvType.FACTS);
     }
 
     @Override
-    protected Comparator<GVFact> getDefaultComparator() {
+    protected Comparator<GvFact> getDefaultComparator() {
 
-        return new Comparator<GVFactList.GVFact>() {
+        return new Comparator<GvFact>() {
             @Override
-            public int compare(GVFact lhs, GVFact rhs) {
+            public int compare(GvFact lhs, GvFact rhs) {
                 int comp = lhs.getLabel().compareTo(rhs.getLabel());
                 if (comp == 0) {
                     comp = lhs.getValue().compareTo(rhs.getValue());
@@ -38,31 +38,32 @@ public class GVFactList extends GVReviewDataList<GVFactList.GVFact> {
     }
 
     void add(String label, String value) {
-        add(new GVFact(label, value));
+        add(new GvFact(label, value));
     }
 
     /**
-     * {@link GVReviewData} version of: {@link RDFactList.RDFact}
+     * {@link GVReviewDataList.GvData} version of: {@link com.chdryra
+     * .android.reviewer.MdFactList.MdFact}
      * {@link ViewHolder}: {@link VHFact}
      */
 
-    public static class GVFact extends GVDualText {
-        public static final Parcelable.Creator<GVFact> CREATOR = new Parcelable
-                .Creator<GVFact>() {
-            public GVFact createFromParcel(Parcel in) {
-                return new GVFact(in);
+    public static class GvFact extends GVDualText implements DataFact {
+        public static final Parcelable.Creator<GvFact> CREATOR = new Parcelable
+                .Creator<GvFact>() {
+            public GvFact createFromParcel(Parcel in) {
+                return new GvFact(in);
             }
 
-            public GVFact[] newArray(int size) {
-                return new GVFact[size];
+            public GvFact[] newArray(int size) {
+                return new GvFact[size];
             }
         };
 
-        GVFact(String label, String value) {
+        GvFact(String label, String value) {
             super(label, value);
         }
 
-        private GVFact(Parcel in) {
+        private GvFact(Parcel in) {
             super(in.readString(), in.readString());
         }
 
@@ -77,10 +78,12 @@ public class GVFactList extends GVReviewDataList<GVFactList.GVFact> {
                     getValue().length() > 0;
         }
 
+        @Override
         public String getLabel() {
             return getUpper();
         }
 
+        @Override
         public String getValue() {
             return getLower();
         }

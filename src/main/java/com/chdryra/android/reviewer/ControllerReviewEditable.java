@@ -30,22 +30,20 @@ public class ControllerReviewEditable extends ControllerReview<ReviewEditable> {
         getControlledReview().setRating(rating);
     }
 
-    // Can't do method overloading as can't convert from raw type to derived type using method
-    // invocation conversion. Have to downcast using flag.
     public void setData(GVReviewDataList data) {
-        GVReviewDataList.GVType dataType = data.getGVType();
+        GVReviewDataList.GvType dataType = data.getGvType();
         ReviewEditable r = getControlledReview();
-        if (dataType == GVReviewDataList.GVType.COMMENTS) {
-            r.setComments(RdGvConverter.convert((GVCommentList) data, r));
-        } else if (dataType == GVReviewDataList.GVType.IMAGES) {
-            r.setImages(RdGvConverter.convert((GVImageList) data, r));
-        } else if (dataType == GVReviewDataList.GVType.FACTS) {
-            r.setFacts(RdGvConverter.convert((GVFactList) data, r));
-        } else if (dataType == GVReviewDataList.GVType.URLS) {
-            r.setUrls(RdGvConverter.convert((GVUrlList) data, r));
-        } else if (dataType == GVReviewDataList.GVType.LOCATIONS) {
-            r.setLocations(RdGvConverter.convert((GVLocationList) data, r));
-        } else if (dataType == GVReviewDataList.GVType.TAGS) {
+        if (dataType == GVReviewDataList.GvType.COMMENTS) {
+            r.setComments(data);
+        } else if (dataType == GVReviewDataList.GvType.IMAGES) {
+            r.setImages(data);
+        } else if (dataType == GVReviewDataList.GvType.FACTS) {
+            r.setFacts(data);
+        } else if (dataType == GVReviewDataList.GvType.URLS) {
+            r.setUrls(data);
+        } else if (dataType == GVReviewDataList.GvType.LOCATIONS) {
+            r.setLocations(data);
+        } else if (dataType == GVReviewDataList.GvType.TAGS) {
             setTags((GVTagList) data);
         }
     }

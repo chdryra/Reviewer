@@ -187,7 +187,7 @@ class ReviewNodeExpandableImpl implements ReviewNodeExpandable {
     }
 
     @Override
-    public RDCommentList getComments() {
+    public MdCommentList getComments() {
         return mReview.getComments();
     }
 
@@ -197,7 +197,7 @@ class ReviewNodeExpandableImpl implements ReviewNodeExpandable {
     }
 
     @Override
-    public RDFactList getFacts() {
+    public MdFactList getFacts() {
         return mReview.getFacts();
     }
 
@@ -207,7 +207,7 @@ class ReviewNodeExpandableImpl implements ReviewNodeExpandable {
     }
 
     @Override
-    public RDImageList getImages() {
+    public MdImageList getImages() {
         return mReview.getImages();
     }
 
@@ -217,8 +217,8 @@ class ReviewNodeExpandableImpl implements ReviewNodeExpandable {
     }
 
     @Override
-    public RDUrlList getURLs() {
-        return mReview.getURLs();
+    public MdUrlList getUrls() {
+        return mReview.getUrls();
     }
 
     @Override
@@ -227,7 +227,7 @@ class ReviewNodeExpandableImpl implements ReviewNodeExpandable {
     }
 
     @Override
-    public RDLocationList getLocations() {
+    public MdLocationList getLocations() {
         return mReview.getLocations();
     }
 

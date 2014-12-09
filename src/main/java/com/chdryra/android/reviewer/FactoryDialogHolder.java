@@ -10,8 +10,6 @@ package com.chdryra.android.reviewer;
 
 import android.util.Log;
 
-import com.chdryra.android.reviewer.GVReviewDataList.GVType;
-
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
@@ -25,23 +23,23 @@ import java.util.HashMap;
 
 /**
  * Creates appropriate {@link com.chdryra.android.reviewer.DialogHolder} for given
- * {@link com.chdryra.android.reviewer.GVReviewDataList.GVType}
+ * {@link GVReviewDataList.GvType}
  */
 class FactoryDialogHolder {
     private static final String TAG = "FactoryDialogHolder";
-    private static FactoryDialogHolder                           sFactory;
-    private final  HashMap<GVType, Class<? extends UIHolder<?>>> mDHClassesMap;
+    private static FactoryDialogHolder                                            sFactory;
+    private final  HashMap<GVReviewDataList.GvType, Class<? extends UIHolder<?>>> mDHClassesMap;
 
     private FactoryDialogHolder() {
-        mDHClassesMap = new HashMap<GVType, Class<? extends UIHolder<?>>>();
-        mDHClassesMap.put(GVType.CHILDREN, DHChild.class);
-        mDHClassesMap.put(GVType.COMMENTS, DHComment.class);
-        mDHClassesMap.put(GVType.FACTS, DHFact.class);
-        mDHClassesMap.put(GVType.IMAGES, DHImageEdit.class);
-        mDHClassesMap.put(GVType.TAGS, DHTag.class);
+        mDHClassesMap = new HashMap<GVReviewDataList.GvType, Class<? extends UIHolder<?>>>();
+        mDHClassesMap.put(GVReviewDataList.GvType.CHILDREN, DHChild.class);
+        mDHClassesMap.put(GVReviewDataList.GvType.COMMENTS, DHComment.class);
+        mDHClassesMap.put(GVReviewDataList.GvType.FACTS, DHFact.class);
+        mDHClassesMap.put(GVReviewDataList.GvType.IMAGES, DHImageEdit.class);
+        mDHClassesMap.put(GVReviewDataList.GvType.TAGS, DHTag.class);
     }
 
-    static <T extends GVReviewDataList.GVReviewData> UIHolder<T> newDialogHolder
+    static <T extends GVReviewDataList.GvData> UIHolder<T> newDialogHolder
             (DialogReviewDataAddFragment<T> dialog) {
         if (sFactory == null) sFactory = new FactoryDialogHolder();
         try {
@@ -71,7 +69,7 @@ class FactoryDialogHolder {
         return null;
     }
 
-    static <T extends GVReviewDataList.GVReviewData> UIHolder<T> newDialogHolder
+    static <T extends GVReviewDataList.GvData> UIHolder<T> newDialogHolder
             (DialogReviewDataEditFragment<T> dialog) {
         if (sFactory == null) sFactory = new FactoryDialogHolder();
         try {

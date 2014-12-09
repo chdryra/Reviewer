@@ -15,18 +15,23 @@ import java.net.URL;
  * On: 06/12/2014
  * Email: rizwan.choudrey@gmail.com
  */
-public class RDUrlList extends RDList<RDUrlList.RDUrl> {
+public class MdUrlList extends MdList<MdUrlList.MdUrl> {
+
+    public MdUrlList(Review holdingReview) {
+        super(holdingReview);
+    }
+
     /**
      * Review Data: URL
      * <p>
      * {@link #hasData()}: non-null URL.
      * </p>
      */
-    public static class RDUrl implements RData {
+    public static class MdUrl implements MdData, DataUrl {
         private final URL    mUrl;
         private       Review mHoldingReview;
 
-        public RDUrl(URL url, Review holdingReview) {
+        public MdUrl(URL url, Review holdingReview) {
             mUrl = url;
             mHoldingReview = holdingReview;
         }
@@ -37,15 +42,11 @@ public class RDUrlList extends RDList<RDUrlList.RDUrl> {
         }
 
         @Override
-        public void setHoldingReview(Review review) {
-            mHoldingReview = review;
-        }
-
-        @Override
         public boolean hasData() {
             return mUrl != null;
         }
 
+        @Override
         public URL getUrl() {
             return mUrl;
         }
@@ -53,15 +54,15 @@ public class RDUrlList extends RDList<RDUrlList.RDUrl> {
         @Override
         public boolean equals(Object o) {
             if (this == o) return true;
-            if (!(o instanceof RDUrl)) return false;
+            if (!(o instanceof MdUrl)) return false;
 
-            RDUrl rdUrl = (RDUrl) o;
+            MdUrl mdUrl = (MdUrl) o;
 
-            if (mHoldingReview != null ? !mHoldingReview.equals(rdUrl.mHoldingReview) : rdUrl
+            if (mHoldingReview != null ? !mHoldingReview.equals(mdUrl.mHoldingReview) : mdUrl
                     .mHoldingReview != null) {
                 return false;
             }
-            if (mUrl != null ? !mUrl.equals(rdUrl.mUrl) : rdUrl.mUrl != null) return false;
+            if (mUrl != null ? !mUrl.equals(mdUrl.mUrl) : mdUrl.mUrl != null) return false;
 
             return true;
         }

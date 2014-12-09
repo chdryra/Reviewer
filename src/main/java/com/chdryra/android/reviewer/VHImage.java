@@ -12,10 +12,10 @@ import android.widget.ImageView;
 
 import com.chdryra.android.mygenerallibrary.ViewHolderBasic;
 import com.chdryra.android.mygenerallibrary.ViewHolderData;
-import com.chdryra.android.reviewer.GVImageList.GVImage;
 
 /**
- * {@link com.chdryra.android.mygenerallibrary.ViewHolder}: {@link GVImage}. Shows image bitmap.
+ * {@link com.chdryra.android.mygenerallibrary.ViewHolder}: {@link GVImageList.GvImage}. Shows
+ * image bitmap.
  */
 class VHImage extends ViewHolderBasic {
     private static final int LAYOUT = R.layout.grid_cell_image;
@@ -31,7 +31,7 @@ class VHImage extends ViewHolderBasic {
     public void updateView(ViewHolderData data) {
         if (mImage == null) mImage = (ImageView) getView(IMAGE);
 
-        GVImage image = (GVImage) data;
+        GVImageList.GvImage image = (GVImageList.GvImage) data;
         if (image != null && image.isValidForDisplay()) mImage.setImageBitmap(image.getBitmap());
     }
 }

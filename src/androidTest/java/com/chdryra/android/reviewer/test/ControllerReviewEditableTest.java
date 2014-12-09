@@ -13,8 +13,8 @@ import android.test.AndroidTestCase;
 import com.chdryra.android.reviewer.ControllerReviewEditable;
 import com.chdryra.android.reviewer.GVCommentList;
 import com.chdryra.android.reviewer.GVReviewDataList;
-import com.chdryra.android.reviewer.RDCommentList;
-import com.chdryra.android.reviewer.RdGvConverter;
+import com.chdryra.android.reviewer.MdCommentList;
+import com.chdryra.android.reviewer.MdToGvConverter;
 import com.chdryra.android.reviewer.ReviewEditable;
 import com.chdryra.android.reviewer.test.TestUtils.RDataMocker;
 import com.chdryra.android.reviewer.test.TestUtils.RandomStringGenerator;
@@ -31,6 +31,7 @@ public class ControllerReviewEditableTest extends AndroidTestCase {
     private static final int NUM = 100;
     private ControllerReviewEditable mController;
     private ReviewEditable           mReview;
+    private RDataMocker              mRDataMocker;
 
     public void testSetSubject() {
         String subject = RandomStringGenerator.nextSentence();
@@ -48,18 +49,18 @@ public class ControllerReviewEditableTest extends AndroidTestCase {
     }
 
     public void testSetComments() {
-        GVReviewDataList.GVType dataType = GVReviewDataList.GVType.COMMENTS;
+        GVReviewDataList.GvType dataType = GVReviewDataList.GvType.COMMENTS;
         GVCommentList gvComments = (GVCommentList) mController.getData(dataType);
-        RDCommentList rdComments = mReview.getComments();
+        MdCommentList rdComments = mReview.getComments();
         assertNotNull(gvComments);
         assertNotNull(rdComments);
         assertEquals(0, gvComments.size());
         assertEquals(0, rdComments.size());
 
-        RDCommentList rdData = RDataMocker.newCommentList(NUM);
+        MdCommentList rdData = mRDataMocker.newCommentList(NUM);
         assertNotNull(rdData);
         assertTrue(rdData.size() > 0);
-        GVCommentList comments = RdGvConverter.convert(rdData);
+        GVCommentList comments = MdToGvConverter.convert(rdData);
         assertNotNull(comments);
         assertEquals(rdData.size(), comments.size());
 
@@ -80,6 +81,7 @@ public class ControllerReviewEditableTest extends AndroidTestCase {
     @Override
     protected void setUp() throws Exception {
         super.setUp();
+        mRDataMocker = new RDataMocker(mReview);
         mReview = ReviewMocker.newReviewEditable();
         mController = new ControllerReviewEditable(mReview);
     }

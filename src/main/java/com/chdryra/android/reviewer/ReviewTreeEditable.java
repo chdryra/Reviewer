@@ -131,12 +131,12 @@ public class ReviewTreeEditable extends ReviewEditable implements ReviewNodeExpa
     }
 
     @Override
-    public RDCommentList getComments() {
+    public MdCommentList getComments() {
         return mNode.getComments();
     }
 
     @Override
-    public void setComments(RDCommentList comments) {
+    public <T extends DataComment> void setComments(Iterable<T> comments) {
         getReviewEditable().setComments(comments);
     }
 
@@ -146,12 +146,12 @@ public class ReviewTreeEditable extends ReviewEditable implements ReviewNodeExpa
     }
 
     @Override
-    public RDFactList getFacts() {
+    public MdFactList getFacts() {
         return mNode.getFacts();
     }
 
     @Override
-    public void setFacts(RDFactList facts) {
+    public <T extends DataFact> void setFacts(Iterable<T> facts) {
         getReviewEditable().setFacts(facts);
     }
 
@@ -161,18 +161,13 @@ public class ReviewTreeEditable extends ReviewEditable implements ReviewNodeExpa
     }
 
     @Override
-    public RDImageList getImages() {
+    public MdImageList getImages() {
         return mNode.getImages();
     }
 
     @Override
-    public void setImages(RDImageList images) {
+    public <T extends DataImage> void setImages(Iterable<T> images) {
         getReviewEditable().setImages(images);
-    }
-
-    @Override
-    public void setUrls(RDUrlList urls) {
-        getReviewEditable().setUrls(urls);
     }
 
     @Override
@@ -181,8 +176,13 @@ public class ReviewTreeEditable extends ReviewEditable implements ReviewNodeExpa
     }
 
     @Override
-    public RDUrlList getURLs() {
-        return mNode.getURLs();
+    public MdUrlList getUrls() {
+        return mNode.getUrls();
+    }
+
+    @Override
+    public <T extends DataUrl> void setUrls(Iterable<T> urls) {
+        getReviewEditable().setUrls(urls);
     }
 
     @Override
@@ -191,12 +191,12 @@ public class ReviewTreeEditable extends ReviewEditable implements ReviewNodeExpa
     }
 
     @Override
-    public RDLocationList getLocations() {
+    public MdLocationList getLocations() {
         return mNode.getLocations();
     }
 
     @Override
-    public void setLocations(RDLocationList locations) {
+    public <T extends DataLocation> void setLocations(Iterable<T> locations) {
         getReviewEditable().setLocations(locations);
     }
 

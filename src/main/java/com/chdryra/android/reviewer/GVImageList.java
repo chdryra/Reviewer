@@ -21,25 +21,25 @@ import java.util.Random;
  * Includes methods for adding captions and getting images designated as "covers" which can be
  * used as a background image for a review.
  */
-public class GVImageList extends GVReviewDataList<GVImageList.GVImage> {
+public class GVImageList extends GVReviewDataList<GVImageList.GvImage> {
 
     GVImageList() {
-        super(GVType.IMAGES);
+        super(GvType.IMAGES);
     }
 
     void add(Bitmap bitmap, LatLng latLng, String caption, boolean isCover) {
-        add(new GVImage(bitmap, latLng, caption, isCover));
+        add(new GvImage(bitmap, latLng, caption, isCover));
     }
 
     boolean contains(Bitmap bitmap) {
-        for (GVImage image : this) {
+        for (GvImage image : this) {
             if (image.getBitmap().sameAs(bitmap)) return true;
         }
 
         return false;
     }
 
-    GVImage getRandomCover() {
+    GvImage getRandomCover() {
         GVImageList covers = getCovers();
         if (covers.size() == 0) {
             return null;
@@ -52,7 +52,7 @@ public class GVImageList extends GVReviewDataList<GVImageList.GVImage> {
 
     GVImageList getCovers() {
         GVImageList covers = new GVImageList();
-        for (GVImage image : this) {
+        for (GvImage image : this) {
             if (image.isCover()) {
                 covers.add(image);
             }
@@ -62,18 +62,19 @@ public class GVImageList extends GVReviewDataList<GVImageList.GVImage> {
     }
 
     /**
-     * {@link GVReviewData} version of: {@link RDImageList.RDImage}
+     * {@link GVReviewDataList.GvData} version of: {@link com.chdryra
+     * .android.reviewer.MdImageList.MdImage}
      * {@link ViewHolder}: {@link VHImage}
      */
-    public static class GVImage implements GVReviewDataList.GVReviewData {
-        public static final Parcelable.Creator<GVImage> CREATOR = new Parcelable
-                .Creator<GVImage>() {
-            public GVImage createFromParcel(Parcel in) {
-                return new GVImage(in);
+    public static class GvImage implements GVReviewDataList.GvData, DataImage {
+        public static final Parcelable.Creator<GvImage> CREATOR = new Parcelable
+                .Creator<GvImage>() {
+            public GvImage createFromParcel(Parcel in) {
+                return new GvImage(in);
             }
 
-            public GVImage[] newArray(int size) {
-                return new GVImage[size];
+            public GvImage[] newArray(int size) {
+                return new GvImage[size];
             }
         };
         private final Bitmap mBitmap;
@@ -81,19 +82,19 @@ public class GVImageList extends GVReviewDataList<GVImageList.GVImage> {
         private       String mCaption;
         private boolean mIsCover = false;
 
-        GVImage(Bitmap bitmap, LatLng latLng) {
+        GvImage(Bitmap bitmap, LatLng latLng) {
             mBitmap = bitmap;
             mLatLng = latLng;
         }
 
-        GVImage(Bitmap bitmap, LatLng latLng, String caption, boolean isCover) {
+        GvImage(Bitmap bitmap, LatLng latLng, String caption, boolean isCover) {
             mBitmap = bitmap;
             mCaption = caption;
             mLatLng = latLng;
             mIsCover = isCover;
         }
 
-        GVImage(Parcel in) {
+        GvImage(Parcel in) {
             mBitmap = in.readParcelable(Bitmap.class.getClassLoader());
             mCaption = in.readString();
             mLatLng = in.readParcelable(LatLng.class.getClassLoader());
@@ -113,9 +114,9 @@ public class GVImageList extends GVReviewDataList<GVImageList.GVImage> {
         @Override
         public boolean equals(Object o) {
             if (this == o) return true;
-            if (!(o instanceof GVImage)) return false;
+            if (!(o instanceof GvImage)) return false;
 
-            GVImage gvImage = (GVImage) o;
+            GvImage gvImage = (GvImage) o;
 
             if (mIsCover != gvImage.mIsCover) return false;
             if (mBitmap != null ? !mBitmap.equals(gvImage.mBitmap) : gvImage.mBitmap != null) {
@@ -153,28 +154,32 @@ public class GVImageList extends GVReviewDataList<GVImageList.GVImage> {
             parcel.writeByte((byte) (isCover() ? 1 : 0));
         }
 
+        @Override
         public Bitmap getBitmap() {
             return mBitmap;
         }
 
+        @Override
         public String getCaption() {
             return mCaption;
+        }
+
+        @Override
+        public boolean isCover() {
+            return mIsCover;
+        }
+
+        @Override
+        public LatLng getLatLng() {
+            return mLatLng;
         }
 
         public void setCaption(String caption) {
             mCaption = caption;
         }
 
-        public LatLng getLatLng() {
-            return mLatLng;
-        }
-
         public void setIsCover(boolean isCover) {
             mIsCover = isCover;
-        }
-
-        public boolean isCover() {
-            return mIsCover;
         }
     }
 }

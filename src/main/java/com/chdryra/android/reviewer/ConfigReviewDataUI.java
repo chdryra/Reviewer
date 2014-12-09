@@ -12,8 +12,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
-import com.chdryra.android.reviewer.GVReviewDataList.GVType;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -37,21 +35,26 @@ public final class ConfigReviewDataUI {
     private static       int    REQUEST_COUNTER = 2720;
     private static ConfigReviewDataUI sConfigReviewDataUI;
 
-    private final Map<GVType, Config> mConfigsMap = new HashMap<GVType, Config>();
+    private final Map<GVReviewDataList.GvType, Config> mConfigsMap = new HashMap<GVReviewDataList
+            .GvType,
+            Config>();
 
     private ConfigReviewDataUI() {
-        mConfigsMap.put(GVType.TAGS, new Config(GVType.TAGS));
-        mConfigsMap.put(GVType.CHILDREN, new Config(GVType.CHILDREN));
-        mConfigsMap.put(GVType.COMMENTS, new Config(GVType.COMMENTS));
-        mConfigsMap.put(GVType.IMAGES, new Config(GVType.IMAGES));
-        mConfigsMap.put(GVType.FACTS, new Config(GVType.FACTS));
-        mConfigsMap.put(GVType.LOCATIONS, new Config(GVType.LOCATIONS));
-        mConfigsMap.put(GVType.URLS, new Config(GVType.URLS));
-        mConfigsMap.put(GVType.REVIEW, new Config(GVType.REVIEW));
-        mConfigsMap.put(GVType.SOCIAL, new Config(GVType.SOCIAL));
+        mConfigsMap.put(GVReviewDataList.GvType.TAGS, new Config(GVReviewDataList.GvType.TAGS));
+        mConfigsMap.put(GVReviewDataList.GvType.CHILDREN, new Config(GVReviewDataList.GvType
+                .CHILDREN));
+        mConfigsMap.put(GVReviewDataList.GvType.COMMENTS, new Config(GVReviewDataList.GvType
+                .COMMENTS));
+        mConfigsMap.put(GVReviewDataList.GvType.IMAGES, new Config(GVReviewDataList.GvType.IMAGES));
+        mConfigsMap.put(GVReviewDataList.GvType.FACTS, new Config(GVReviewDataList.GvType.FACTS));
+        mConfigsMap.put(GVReviewDataList.GvType.LOCATIONS, new Config(GVReviewDataList.GvType
+                .LOCATIONS));
+        mConfigsMap.put(GVReviewDataList.GvType.URLS, new Config(GVReviewDataList.GvType.URLS));
+        mConfigsMap.put(GVReviewDataList.GvType.REVIEW, new Config(GVReviewDataList.GvType.REVIEW));
+        mConfigsMap.put(GVReviewDataList.GvType.SOCIAL, new Config(GVReviewDataList.GvType.SOCIAL));
     }
 
-    public static Config getConfig(GVType dataType) {
+    public static Config getConfig(GVReviewDataList.GvType dataType) {
         return getConfigsMap().get(dataType);
     }
 
@@ -73,7 +76,7 @@ public final class ConfigReviewDataUI {
         }
     }
 
-    private static Map<GVType, Config> getConfigsMap() {
+    private static Map<GVReviewDataList.GvType, Config> getConfigsMap() {
         if (sConfigReviewDataUI == null) {
             sConfigReviewDataUI = new ConfigReviewDataUI();
         }
@@ -83,15 +86,15 @@ public final class ConfigReviewDataUI {
 
     /**
      * Encapsulates add, edit and display configs for a given
-     * {@link com.chdryra.android.reviewer.GVReviewDataList.GVType}.
+     * {@link GVReviewDataList.GvType}.
      */
     public class Config {
-        private final GVType                  mDataType;
+        private final GVReviewDataList.GvType mDataType;
         private final ReviewDataUIConfig      mAddConfig;
         private final ReviewDataUIConfig      mEditConfig;
         private final ReviewDataDisplayConfig mDisplayConfig;
 
-        private Config(GVType dataType) {
+        private Config(GVReviewDataList.GvType dataType) {
             mDataType = dataType;
             mAddConfig = initAddConfig();
             mEditConfig = initEditConfig();
@@ -127,7 +130,7 @@ public final class ConfigReviewDataUI {
 
     /**
      * Encapsulates a configuration for a UI that can add or edit review data of a certain
-     * {@link com.chdryra.android.reviewer.GVReviewDataList.GVType}. Packages together:
+     * {@link GVReviewDataList.GvType}. Packages together:
      * <ul>
      * <li>A {@link LaunchableUI} implementation for
      * adding/editing review data of a certain type</li>
@@ -138,12 +141,13 @@ public final class ConfigReviewDataUI {
      * {@link LauncherUI}
      */
     public class ReviewDataUIConfig {
-        private final GVType                        mDataType;
+        private final GVReviewDataList.GvType       mDataType;
         private final Class<? extends LaunchableUI> mUIClass;
         private final int                           mRequestCode;
         private final String                        mTag;
 
-        private ReviewDataUIConfig(GVType dataType, Class<? extends LaunchableUI> UIClass,
+        private ReviewDataUIConfig(GVReviewDataList.GvType dataType, Class<? extends LaunchableUI>
+                UIClass,
                 int requestCode, String tag) {
             mDataType = dataType;
             mUIClass = UIClass;
@@ -152,7 +156,7 @@ public final class ConfigReviewDataUI {
         }
 
 
-        public GVType getGVType() {
+        public GVReviewDataList.GvType getGVType() {
             return mDataType;
         }
 
@@ -171,7 +175,7 @@ public final class ConfigReviewDataUI {
 
     /**
      * Encapsulates a configuration for displaying review data of a certain
-     * {@link com.chdryra.android.reviewer.GVReviewDataList.GVType}. Packages together:
+     * {@link GVReviewDataList.GvType}. Packages together:
      * <ul>
      * <li>An activity class for displaying a collection of review data of a certain
      * type</li>
@@ -181,10 +185,10 @@ public final class ConfigReviewDataUI {
      * activities via, for example, <code>startActivityForResult(.)</code> etc.
      */
     public class ReviewDataDisplayConfig {
-        private final GVType mDataType;
-        private final int    mRequestCode;
+        private final GVReviewDataList.GvType mDataType;
+        private final int                     mRequestCode;
 
-        private ReviewDataDisplayConfig(GVType dataType, int requestCode) {
+        private ReviewDataDisplayConfig(GVReviewDataList.GvType dataType, int requestCode) {
             mDataType = dataType;
             mRequestCode = requestCode;
         }

@@ -11,8 +11,6 @@ package com.chdryra.android.reviewer;
 import android.widget.EditText;
 import android.widget.ImageView;
 
-import com.chdryra.android.reviewer.GVImageList.GVImage;
-
 /**
  * Created by: Rizwan Choudrey
  * On: 21/10/2014
@@ -22,13 +20,13 @@ import com.chdryra.android.reviewer.GVImageList.GVImage;
 /**
  * {@link DialogHolderAddEdit}: images
  */
-class DHImageEdit extends DialogHolderAddEdit<GVImage> {
+class DHImageEdit extends DialogHolderAddEdit<GVImageList.GvImage> {
     private static final int LAYOUT  = R.layout.dialog_image;
     private static final int IMAGE   = R.id.dialog_image_image_view;
     private static final int CAPTION = R.id.dialog_image_caption_edit_text;
-    private final DialogReviewDataEditFragment<GVImage> mDialogEdit;
+    private final DialogReviewDataEditFragment<GVImageList.GvImage> mDialogEdit;
 
-    DHImageEdit(DialogReviewDataEditFragment<GVImage> dialogEdit) {
+    DHImageEdit(DialogReviewDataEditFragment<GVImageList.GvImage> dialogEdit) {
         super(LAYOUT, new int[]{IMAGE, CAPTION}, dialogEdit);
         mDialogEdit = dialogEdit;
         mDialogEdit.setDialogTitle(null);
@@ -41,26 +39,26 @@ class DHImageEdit extends DialogHolderAddEdit<GVImage> {
     }
 
     @Override
-    protected String getDialogOnAddTitle(GVImage data) {
+    protected String getDialogOnAddTitle(GVImageList.GvImage data) {
         //Standard add dialog not used for images
         return null;
     }
 
     @Override
-    protected String getDialogDeleteConfirmTitle(GVImage data) {
-        return GVReviewDataList.GVType.IMAGES.getDatumString();
+    protected String getDialogDeleteConfirmTitle(GVImageList.GvImage data) {
+        return GVReviewDataList.GvType.IMAGES.getDatumString();
     }
 
     @Override
-    protected GVImage createGVData() {
-        GVImage currentDatum = mDialogEdit.getDatum();
+    protected GVImageList.GvImage createGVData() {
+        GVImageList.GvImage currentDatum = mDialogEdit.getDatum();
         String caption = ((EditText) getView(CAPTION)).getText().toString().trim();
         currentDatum.setCaption(caption);
         return currentDatum;
     }
 
     @Override
-    protected void updateWithGVData(GVImage image) {
+    protected void updateWithGVData(GVImageList.GvImage image) {
         ImageView imageView = (ImageView) getView(IMAGE);
         EditText imageCaption = (EditText) getView(CAPTION);
 

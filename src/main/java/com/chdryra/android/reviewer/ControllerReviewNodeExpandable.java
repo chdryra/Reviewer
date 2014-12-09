@@ -54,7 +54,7 @@ class ControllerReviewNodeExpandable extends ControllerReviewNode {
         }
 
         void addChildren(GVReviewSubjectRatingList children) {
-            for (GVReviewSubjectRatingList.GVReviewSubjectRating child : children) {
+            for (GVReviewSubjectRatingList.GvSubjectRating child : children) {
                 ReviewEditable r = FactoryReview.createReviewInProgress(child.getSubject());
                 r.setRating(child.getRating());
                 addReview(mParent.addChild(r));

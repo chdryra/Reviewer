@@ -27,15 +27,15 @@ public abstract class ReviewEditable implements Review {
     public abstract void setRating(float rating);
 
     //Optional data
-    public abstract void setComments(RDCommentList comments);
+    public abstract <T extends DataComment> void setComments(Iterable<T> comments);
 
-    public abstract void setFacts(RDFactList facts);
+    public abstract <T extends DataFact> void setFacts(Iterable<T> facts);
 
-    public abstract void setImages(RDImageList images);
+    public abstract <T extends DataImage> void setImages(Iterable<T> images);
 
-    public abstract void setUrls(RDUrlList urls);
+    public abstract <T extends DataUrl> void setUrls(Iterable<T> urls);
 
-    public abstract void setLocations(RDLocationList locations);
+    public abstract <T extends DataLocation> void setLocations(Iterable<T> locations);
 
     //Unpublished
     @Override
@@ -55,22 +55,22 @@ public abstract class ReviewEditable implements Review {
 
     //Deleters
     public void deleteComments() {
-        setComments(new RDCommentList());
+        setComments(null);
     }
 
     public void deleteFacts() {
-        setFacts(new RDFactList());
+        setFacts(null);
     }
 
     public void deleteImages() {
-        setImages(new RDImageList());
+        setImages(null);
     }
 
     public void deleteUrls() {
-        setUrls(new RDUrlList());
+        setUrls(null);
     }
 
     public void deleteLocations() {
-        setLocations(new RDLocationList());
+        setLocations(null);
     }
 }

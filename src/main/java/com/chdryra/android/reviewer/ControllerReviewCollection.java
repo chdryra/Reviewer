@@ -57,9 +57,9 @@ public class ControllerReviewCollection<T extends Review> {
             if (!r.isPublished()) continue;
             ControllerReview c = getControllerFor(r.getId().toString());
 
-            GVImageList images = (GVImageList) c.getData(GVReviewDataList.GVType.IMAGES);
-            GVCommentList comments = (GVCommentList) c.getData(GVReviewDataList.GVType.COMMENTS);
-            GVLocationList locations = (GVLocationList) c.getData(GVReviewDataList.GVType
+            GVImageList images = (GVImageList) c.getData(GVReviewDataList.GvType.IMAGES);
+            GVCommentList comments = (GVCommentList) c.getData(GVReviewDataList.GvType.COMMENTS);
+            GVLocationList locations = (GVLocationList) c.getData(GVReviewDataList.GvType
                     .LOCATIONS);
 
             Bitmap cover = images.size() > 0 ? images.getRandomCover().getBitmap() : null;

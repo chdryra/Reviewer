@@ -24,13 +24,13 @@ import java.util.Arrays;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ConfigAddEditDisplayTest extends TestCase {
-    private static final GVReviewDataList.GVType[] NULLADDS  = {GVReviewDataList.GVType.IMAGES,
-            GVReviewDataList.GVType.REVIEW, GVReviewDataList.GVType.SOCIAL};
-    private static final GVReviewDataList.GVType[] NULLEDITS = {GVReviewDataList.GVType.REVIEW,
-            GVReviewDataList.GVType.SOCIAL};
+    private static final GVReviewDataList.GvType[] NULLADDS  = {GVReviewDataList.GvType.IMAGES,
+            GVReviewDataList.GvType.REVIEW, GVReviewDataList.GvType.SOCIAL};
+    private static final GVReviewDataList.GvType[] NULLEDITS = {GVReviewDataList.GvType.REVIEW,
+            GVReviewDataList.GvType.SOCIAL};
 
     public void testGetAddClass() {
-        for (GVReviewDataList.GVType dataType : GVReviewDataList.GVType.values()) {
+        for (GVReviewDataList.GvType dataType : GVReviewDataList.GvType.values()) {
             Class<? extends LaunchableUI> addClass = ConfigAddEditDisplay.getAddClass(dataType);
             if (Arrays.asList(NULLADDS).contains(dataType)) {
                 assertNull(addClass);
@@ -41,7 +41,7 @@ public class ConfigAddEditDisplayTest extends TestCase {
     }
 
     public void testGetEditClass() {
-        for (GVReviewDataList.GVType dataType : GVReviewDataList.GVType.values()) {
+        for (GVReviewDataList.GvType dataType : GVReviewDataList.GvType.values()) {
             Class<? extends LaunchableUI> editClass = ConfigAddEditDisplay.getEditClass(dataType);
             if (Arrays.asList(NULLEDITS).contains(dataType)) {
                 assertNull(editClass);
@@ -52,7 +52,7 @@ public class ConfigAddEditDisplayTest extends TestCase {
     }
 
     public void testGetDisplayClass() {
-        for (GVReviewDataList.GVType dataType : GVReviewDataList.GVType.values()) {
+        for (GVReviewDataList.GvType dataType : GVReviewDataList.GvType.values()) {
             Class<? extends Activity> addClass = ConfigAddEditDisplay.getDisplayClass(dataType);
             assertNotNull(addClass);
         }

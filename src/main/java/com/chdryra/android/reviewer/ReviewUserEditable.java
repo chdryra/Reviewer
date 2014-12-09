@@ -28,11 +28,11 @@ public class ReviewUserEditable extends ReviewEditable {
     private       RDSubject mSubject;
     private       RDRating  mRating;
 
-    private RDCommentList  mComments;
-    private RDImageList    mImages;
-    private RDFactList     mFacts;
-    private RDUrlList      mURLs;
-    private RDLocationList mLocations;
+    private MdCommentList  mComments;
+    private MdImageList    mImages;
+    private MdFactList     mFacts;
+    private MdUrlList      mURLs;
+    private MdLocationList mLocations;
 
     public ReviewUserEditable(String subject) {
         //Core data
@@ -41,11 +41,11 @@ public class ReviewUserEditable extends ReviewEditable {
         mRating = new RDRating(0, this);
 
         //Null option data
-        mComments = new RDCommentList();
-        mImages = new RDImageList();
-        mLocations = new RDLocationList();
-        mFacts = new RDFactList();
-        mURLs = new RDUrlList();
+        mComments = new MdCommentList(this);
+        mImages = new MdImageList(this);
+        mLocations = new MdLocationList(this);
+        mFacts = new MdFactList(this);
+        mURLs = new MdUrlList(this);
 
         //Internal node representation
         mNode = FactoryReview.createReviewNodeAlone(this);
@@ -88,13 +88,16 @@ public class ReviewUserEditable extends ReviewEditable {
     }
 
     @Override
-    public RDCommentList getComments() {
+    public MdCommentList getComments() {
         return mComments;
     }
 
     @Override
-    public void setComments(RDCommentList comments) {
-        mComments = processData(comments, new RDCommentList());
+    public <T extends DataComment> void setComments(Iterable<T> comments) {
+        if (mComments.hasData()) mComments = new MdCommentList(this);
+        for (DataComment comment : comments) {
+            mComments.add(new MdCommentList.MdComment(comment.getComment(), this));
+        }
     }
 
     @Override
@@ -103,13 +106,16 @@ public class ReviewUserEditable extends ReviewEditable {
     }
 
     @Override
-    public RDFactList getFacts() {
+    public MdFactList getFacts() {
         return mFacts;
     }
 
     @Override
-    public void setFacts(RDFactList facts) {
-        mFacts = processData(facts, new RDFactList());
+    public <T extends DataFact> void setFacts(Iterable<T> facts) {
+        if (mFacts.hasData()) mFacts = new MdFactList(this);
+        for (DataFact fact : facts) {
+            mFacts.add(new MdFactList.MdFact(fact.getLabel(), fact.getValue(), this));
+        }
     }
 
     @Override
@@ -118,18 +124,17 @@ public class ReviewUserEditable extends ReviewEditable {
     }
 
     @Override
-    public RDImageList getImages() {
+    public MdImageList getImages() {
         return mImages;
     }
 
     @Override
-    public void setImages(RDImageList images) {
-        mImages = processData(images, new RDImageList());
-    }
-
-    @Override
-    public void setUrls(RDUrlList urls) {
-        mURLs = processData(urls, new RDUrlList());
+    public <T extends DataImage> void setImages(Iterable<T> images) {
+        if (mImages.hasData()) mImages = new MdImageList(this);
+        for (DataImage image : images) {
+            mImages.add(new MdImageList.MdImage(image.getBitmap(), image.getLatLng(),
+                    image.getCaption(), image.isCover(), this));
+        }
     }
 
     @Override
@@ -138,8 +143,16 @@ public class ReviewUserEditable extends ReviewEditable {
     }
 
     @Override
-    public RDUrlList getURLs() {
+    public MdUrlList getUrls() {
         return mURLs;
+    }
+
+    @Override
+    public <T extends DataUrl> void setUrls(Iterable<T> urls) {
+        if (mURLs.hasData()) mURLs = new MdUrlList(this);
+        for (DataUrl url : urls) {
+            mURLs.add(new MdUrlList.MdUrl(url.getUrl(), this));
+        }
     }
 
     @Override
@@ -148,13 +161,17 @@ public class ReviewUserEditable extends ReviewEditable {
     }
 
     @Override
-    public RDLocationList getLocations() {
+    public MdLocationList getLocations() {
         return mLocations;
     }
 
     @Override
-    public void setLocations(RDLocationList locations) {
-        mLocations = processData(locations, new RDLocationList());
+    public <T extends DataLocation> void setLocations(Iterable<T> locations) {
+        if (mLocations.hasData()) mLocations = new MdLocationList(this);
+        for (DataLocation location : locations) {
+            mLocations.add(new MdLocationList.MdLocation(location.getLatLng(),
+                    location.getName(), this));
+        }
     }
 
     @Override
@@ -175,13 +192,5 @@ public class ReviewUserEditable extends ReviewEditable {
     @Override
     public int hashCode() {
         return mID.hashCode();
-    }
-
-    private <T extends RData> T processData(T newData, T ifNull) {
-        T member;
-        member = newData == null ? ifNull : newData;
-        member.setHoldingReview(this);
-
-        return member;
     }
 }

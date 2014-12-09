@@ -13,20 +13,25 @@ package com.chdryra.android.reviewer;
  * On: 06/12/2014
  * Email: rizwan.choudrey@gmail.com
  */
-public class RDFactList extends RDList<RDFactList.RDFact> {
+public class MdFactList extends MdList<MdFactList.MdFact> {
+
+    public MdFactList(Review holdingReview) {
+        super(holdingReview);
+    }
+
     /**
      * Review Data: fact
      * <p>
      * {@link #hasData()}: Label and value strings at least 1 character in length
      * </p>
      */
-    public static class RDFact implements RData {
+    public static class MdFact implements MdData, DataFact {
 
         private final String mLabel;
         private final String mValue;
         private       Review mHoldingReview;
 
-        public RDFact(String label, String value, Review holdingReview) {
+        public MdFact(String label, String value, Review holdingReview) {
             mLabel = label;
             mValue = value;
             mHoldingReview = holdingReview;
@@ -38,19 +43,16 @@ public class RDFactList extends RDList<RDFactList.RDFact> {
         }
 
         @Override
-        public void setHoldingReview(Review review) {
-            mHoldingReview = review;
-        }
-
-        @Override
         public boolean hasData() {
             return mLabel != null && mValue != null && mLabel.length() > 0 && mValue.length() > 0;
         }
 
+        @Override
         public String getLabel() {
             return mLabel;
         }
 
+        @Override
         public String getValue() {
             return mValue;
         }
@@ -58,18 +60,18 @@ public class RDFactList extends RDList<RDFactList.RDFact> {
         @Override
         public boolean equals(Object o) {
             if (this == o) return true;
-            if (!(o instanceof RDFact)) return false;
+            if (!(o instanceof MdFact)) return false;
 
-            RDFact rdFact = (RDFact) o;
+            MdFact mdFact = (MdFact) o;
 
-            if (mHoldingReview != null ? !mHoldingReview.equals(rdFact.mHoldingReview) : rdFact
+            if (mHoldingReview != null ? !mHoldingReview.equals(mdFact.mHoldingReview) : mdFact
                     .mHoldingReview != null) {
                 return false;
             }
-            if (mLabel != null ? !mLabel.equals(rdFact.mLabel) : rdFact.mLabel != null) {
+            if (mLabel != null ? !mLabel.equals(mdFact.mLabel) : mdFact.mLabel != null) {
                 return false;
             }
-            if (mValue != null ? !mValue.equals(rdFact.mValue) : rdFact.mValue != null) {
+            if (mValue != null ? !mValue.equals(mdFact.mValue) : mdFact.mValue != null) {
                 return false;
             }
 

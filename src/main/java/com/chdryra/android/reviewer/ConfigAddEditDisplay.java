@@ -10,8 +10,6 @@ package com.chdryra.android.reviewer;
 
 import android.app.Activity;
 
-import com.chdryra.android.reviewer.GVReviewDataList.GVType;
-
 import java.util.HashMap;
 
 /**
@@ -24,76 +22,76 @@ import java.util.HashMap;
  * Defines the adder, editor and display UIs to use with each data type.
  */
 public final class ConfigAddEditDisplay {
-    private static ConfigAddEditDisplay               sConfig;
-    private final  HashMap<GVType, AddEditDisplayUIs> mDialogAddEditMap;
+    private static ConfigAddEditDisplay                                sConfig;
+    private final  HashMap<GVReviewDataList.GvType, AddEditDisplayUIs> mDialogAddEditMap;
 
     private ConfigAddEditDisplay() {
-        mDialogAddEditMap = new HashMap<GVType, AddEditDisplayUIs>();
+        mDialogAddEditMap = new HashMap<GVReviewDataList.GvType, AddEditDisplayUIs>();
 
-        mDialogAddEditMap.put(GVType.TAGS,
+        mDialogAddEditMap.put(GVReviewDataList.GvType.TAGS,
                 new AddEditDisplayUIs(
                         AddTag.class,
                         EditTag.class,
                         ActivityReviewTags.class));
 
-        mDialogAddEditMap.put(GVType.CHILDREN,
+        mDialogAddEditMap.put(GVReviewDataList.GvType.CHILDREN,
                 new AddEditDisplayUIs(
                         AddChild.class,
                         EditChild.class,
                         ActivityReviewChildren.class));
 
-        mDialogAddEditMap.put(GVType.COMMENTS,
+        mDialogAddEditMap.put(GVReviewDataList.GvType.COMMENTS,
                 new AddEditDisplayUIs(
                         AddComment.class,
                         EditComment.class,
                         ActivityReviewComments.class));
 
-        mDialogAddEditMap.put(GVType.IMAGES,
+        mDialogAddEditMap.put(GVReviewDataList.GvType.IMAGES,
                 new AddEditDisplayUIs(
                         null,
                         EditImage.class,
                         ActivityReviewImages.class));
 
-        mDialogAddEditMap.put(GVType.FACTS,
+        mDialogAddEditMap.put(GVReviewDataList.GvType.FACTS,
                 new AddEditDisplayUIs(
                         AddFact.class,
                         EditFact.class,
                         ActivityReviewFacts.class));
 
-        mDialogAddEditMap.put(GVType.LOCATIONS,
+        mDialogAddEditMap.put(GVReviewDataList.GvType.LOCATIONS,
                 new AddEditDisplayUIs(
                         ActivityReviewLocationMap.class,
                         ActivityReviewLocationMap.class,
                         ActivityReviewLocations.class));
 
-        mDialogAddEditMap.put(GVType.URLS,
+        mDialogAddEditMap.put(GVReviewDataList.GvType.URLS,
                 new AddEditDisplayUIs(
                         ActivityReviewURLBrowser.class,
                         ActivityReviewURLBrowser.class,
                         ActivityReviewURLs.class));
 
-        mDialogAddEditMap.put(GVType.REVIEW,
+        mDialogAddEditMap.put(GVReviewDataList.GvType.REVIEW,
                 new AddEditDisplayUIs(
                         null,
                         null,
                         ActivityFeed.class));
 
-        mDialogAddEditMap.put(GVType.SOCIAL,
+        mDialogAddEditMap.put(GVReviewDataList.GvType.SOCIAL,
                 new AddEditDisplayUIs(
                         null,
                         null,
                         ActivityReviewShare.class));
     }
 
-    public static Class<? extends LaunchableUI> getAddClass(GVType dataType) {
+    public static Class<? extends LaunchableUI> getAddClass(GVReviewDataList.GvType dataType) {
         return get().mDialogAddEditMap.get(dataType).getAddClass();
     }
 
-    public static Class<? extends LaunchableUI> getEditClass(GVType dataType) {
+    public static Class<? extends LaunchableUI> getEditClass(GVReviewDataList.GvType dataType) {
         return get().mDialogAddEditMap.get(dataType).getEditClass();
     }
 
-    public static Class<? extends Activity> getDisplayClass(GVType dataType) {
+    public static Class<? extends Activity> getDisplayClass(GVReviewDataList.GvType dataType) {
         return get().mDialogAddEditMap.get(dataType).getDisplayClass();
     }
 
@@ -109,30 +107,29 @@ public final class ConfigAddEditDisplay {
     //Tag
     public static class AddTag extends DialogReviewDataAddFragment<GVTagList.GVTag> {
         public AddTag() {
-            super(GVType.TAGS);
+            super(GVReviewDataList.GvType.TAGS);
         }
     }
 
     //Child
     public static class AddChild extends
-            DialogReviewDataAddFragment<GVReviewSubjectRatingList
-                    .GVReviewSubjectRating> {
+            DialogReviewDataAddFragment<GVReviewSubjectRatingList.GvSubjectRating> {
         public AddChild() {
             super(new InputHandlerChildren());
         }
     }
 
     //Comment
-    public static class AddComment extends DialogReviewDataAddFragment<GVCommentList.GVComment> {
+    public static class AddComment extends DialogReviewDataAddFragment<GVCommentList.GvComment> {
         public AddComment() {
-            super(GVType.COMMENTS);
+            super(GVReviewDataList.GvType.COMMENTS);
         }
     }
 
     //Fact
-    public static class AddFact extends DialogReviewDataAddFragment<GVFactList.GVFact> {
+    public static class AddFact extends DialogReviewDataAddFragment<GVFactList.GvFact> {
         public AddFact() {
-            super(GVType.FACTS);
+            super(GVReviewDataList.GvType.FACTS);
         }
     }
 
@@ -140,36 +137,36 @@ public final class ConfigAddEditDisplay {
     //Tag
     public static class EditTag extends DialogReviewDataEditFragment<GVTagList.GVTag> {
         public EditTag() {
-            super(GVType.TAGS);
+            super(GVReviewDataList.GvType.TAGS);
         }
     }
 
     //Child
     public static class EditChild extends DialogReviewDataEditFragment<GVReviewSubjectRatingList
-            .GVReviewSubjectRating> {
+            .GvSubjectRating> {
         public EditChild() {
-            super(GVType.CHILDREN, new InputHandlerChildren());
+            super(GVReviewDataList.GvType.CHILDREN, new InputHandlerChildren());
         }
     }
 
     //Comment
-    public static class EditComment extends DialogReviewDataEditFragment<GVCommentList.GVComment> {
+    public static class EditComment extends DialogReviewDataEditFragment<GVCommentList.GvComment> {
         public EditComment() {
-            super(GVType.COMMENTS);
+            super(GVReviewDataList.GvType.COMMENTS);
         }
     }
 
     //Image
-    public static class EditImage extends DialogReviewDataEditFragment<GVImageList.GVImage> {
+    public static class EditImage extends DialogReviewDataEditFragment<GVImageList.GvImage> {
         public EditImage() {
-            super(GVType.IMAGES);
+            super(GVReviewDataList.GvType.IMAGES);
         }
     }
 
     //Fact
-    public static class EditFact extends DialogReviewDataEditFragment<GVFactList.GVFact> {
+    public static class EditFact extends DialogReviewDataEditFragment<GVFactList.GvFact> {
         public EditFact() {
-            super(GVType.FACTS);
+            super(GVReviewDataList.GvType.FACTS);
         }
     }
 

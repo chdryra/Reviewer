@@ -3,16 +3,18 @@
  * Unauthorized copying of this file, via any medium is strictly prohibited
  * Proprietary and confidential
  * Author: Rizwan Choudrey
- * Date: 23 September, 2014
+ * Date: 9 December, 2014
  */
 
 package com.chdryra.android.reviewer;
 
 /**
- * UI Fragment: tags. Each grid cell shows a tag.
+ * Created by: Rizwan Choudrey
+ * On: 09/12/2014
+ * Email: rizwan.choudrey@gmail.com
  */
-public class FragmentReviewTags extends FragmentReviewGridAddEdit<GVTagList.GVTag> {
-    public FragmentReviewTags() {
-        super(GVReviewDataList.GvType.TAGS);
-    }
+public interface DataFact {
+    public String getLabel();
+
+    public String getValue();
 }

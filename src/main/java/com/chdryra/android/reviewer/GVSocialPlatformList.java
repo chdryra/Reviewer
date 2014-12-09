@@ -26,7 +26,7 @@ import java.util.Comparator;
 public class GVSocialPlatformList extends GVReviewDataList<GVSocialPlatformList.GVSocialPlatform> {
 
     private GVSocialPlatformList(Context context) {
-        super(GVType.SOCIAL);
+        super(GvType.SOCIAL);
         for (SocialPlatform platform : SocialPlatformList.get(context)) {
             add(new GVSocialPlatform(platform.getName(), platform.getFollowers()));
         }

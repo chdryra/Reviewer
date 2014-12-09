@@ -9,21 +9,13 @@
 package com.chdryra.android.reviewer.test.TestUtils;
 
 import com.chdryra.android.reviewer.Author;
-import com.chdryra.android.reviewer.FactoryReview;
 import com.chdryra.android.reviewer.PublisherReviewTree;
-import com.chdryra.android.reviewer.RDCommentList;
-import com.chdryra.android.reviewer.RDFactList;
-import com.chdryra.android.reviewer.RDId;
-import com.chdryra.android.reviewer.RDImageList;
-import com.chdryra.android.reviewer.RDLocationList;
-import com.chdryra.android.reviewer.RDRating;
-import com.chdryra.android.reviewer.RDSubject;
-import com.chdryra.android.reviewer.RDUrlList;
 import com.chdryra.android.reviewer.Review;
 import com.chdryra.android.reviewer.ReviewEditable;
 import com.chdryra.android.reviewer.ReviewNode;
 import com.chdryra.android.reviewer.ReviewNodeExpandable;
 import com.chdryra.android.reviewer.ReviewTreeEditable;
+import com.chdryra.android.reviewer.ReviewUserEditable;
 
 import junit.framework.Assert;
 
@@ -35,7 +27,7 @@ import junit.framework.Assert;
 public class ReviewMocker {
     public static final String SUBJECT = "MockReviewEditable";
     public static final float  RATING  = 3.0f;
-    private ReviewMocker mReviewMocker;
+
 
     private ReviewMocker() {
     }
@@ -66,154 +58,16 @@ public class ReviewMocker {
         return new MockReview();
     }
 
-    private ReviewMocker get() {
-        if (mReviewMocker == null) mReviewMocker = new ReviewMocker();
-        return mReviewMocker;
-    }
-
     static class MockReview extends ReviewTreeEditable {
         private MockReview() {
             super(new MockReviewEditable());
         }
     }
 
-    static class MockReviewEditable extends ReviewEditable {
-        private RDId           mId;
-        private RDSubject      mSubject;
-        private RDRating       mRating;
-        private ReviewNode     mNode;
-        private RDCommentList  mComments;
-        private RDFactList     mFacts;
-        private RDImageList    mImages;
-        private RDUrlList      mUrls;
-        private RDLocationList mLocations;
-
+    static class MockReviewEditable extends ReviewUserEditable {
         private MockReviewEditable() {
-            mId = RDId.generateId();
-            mSubject = new RDSubject(SUBJECT, this);
-            mRating = new RDRating(RATING, this);
-            mNode = FactoryReview.createReviewNodeAlone(this);
-            mComments = new RDCommentList();
-            mFacts = new RDFactList();
-            mImages = new RDImageList();
-            mUrls = new RDUrlList();
-            mLocations = new RDLocationList();
-        }
-
-        @Override
-        public RDId getId() {
-            return mId;
-        }
-
-        @Override
-        public RDSubject getSubject() {
-            return mSubject;
-        }
-
-        @Override
-        public RDRating getRating() {
-            return mRating;
-        }
-
-        @Override
-        public ReviewNode getReviewNode() {
-            return mNode;
-        }
-
-        @Override
-        public Review publish(PublisherReviewTree publisher) {
-            return FactoryReview.createReview(publisher.getAuthor(), publisher.getPublishDate(),
-                    mNode);
-        }
-
-        @Override
-        public RDCommentList getComments() {
-            return mComments;
-        }
-
-        @Override
-        public boolean hasComments() {
-            return mComments.size() > 0;
-        }
-
-        @Override
-        public RDFactList getFacts() {
-            return mFacts;
-        }
-
-        @Override
-        public boolean hasFacts() {
-            return mFacts.size() > 0;
-        }
-
-        @Override
-        public RDImageList getImages() {
-            return mImages;
-        }
-
-        @Override
-        public boolean hasImages() {
-            return mImages.size() > 0;
-        }
-
-        @Override
-        public RDUrlList getURLs() {
-            return mUrls;
-        }
-
-        @Override
-        public boolean hasUrls() {
-            return mUrls.size() > 0;
-        }
-
-        @Override
-        public RDLocationList getLocations() {
-            return mLocations;
-        }
-
-        @Override
-        public boolean hasLocations() {
-            return mLocations.size() > 0;
-        }
-
-        @Override
-        public void setLocations(RDLocationList locations) {
-            mLocations = locations;
-            mLocations.setHoldingReview(this);
-        }
-
-        @Override
-        public void setImages(RDImageList images) {
-            mImages = images;
-            mImages.setHoldingReview(this);
-        }
-
-        @Override
-        public void setUrls(RDUrlList urls) {
-            mUrls = urls;
-            mUrls.setHoldingReview(this);
-        }
-
-        @Override
-        public void setFacts(RDFactList facts) {
-            mFacts = facts;
-            mFacts.setHoldingReview(this);
-        }
-
-        @Override
-        public void setComments(RDCommentList comments) {
-            mComments = comments;
-            mComments.setHoldingReview(this);
-        }
-
-        @Override
-        public void setRating(float rating) {
-            mRating = new RDRating(rating, this);
-        }
-
-        @Override
-        public void setSubject(String subject) {
-            mSubject = new RDSubject(subject, this);
+            super(SUBJECT);
+            setRating(RATING);
         }
     }
 }

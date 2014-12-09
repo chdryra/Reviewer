@@ -14,14 +14,15 @@ import com.chdryra.android.mygenerallibrary.ViewHolderData;
 import com.chdryra.android.mygenerallibrary.ViewHolderDataList;
 
 /**
- * The (Grid) View layer (V) equivalent of the Model layer (M) {@link RDList}. Implementation of
+ * The (Grid) View layer (V) equivalent of the Model layer (M) {@link MdList}. Implementation of
  * {@link ViewHolderDataList} tailored for Review data accessed via a {@link ControllerReview} (C)
  * that
  * translates between
  * them (MVC pattern).
  * <p/>
  * <p>
- * Access of Review data via a {@link ControllerReview} requires passing a {@link GVType}
+ * Access of Review data via a {@link ControllerReview} requires passing a {@link com.chdryra
+ * .android.reviewer.GvDataList.GvType}
  * specified in this class. The same enum also provides a singular and plural readable text
  * label for that type of data.
  * </p>
@@ -33,17 +34,17 @@ import com.chdryra.android.mygenerallibrary.ViewHolderDataList;
  * need to know about the implementations of the model data, just that they exist.
  * </p>
  *
- * @param <T>: {@link com.chdryra.android.reviewer.GVReviewDataList.GVReviewData} type.
+ * @param <T>: {@link GVReviewDataList.GvData} type.
  */
-public abstract class GVReviewDataList<T extends GVReviewDataList.GVReviewData> extends
+public abstract class GVReviewDataList<T extends GVReviewDataList.GvData> extends
         ViewHolderDataList<T> {
 
-    private final GVType mDataType;
+    private final GvType mDataType;
 
     /**
      * Enum that enumerates and labels the type of review data that will be viewable on a GridView
      */
-    public enum GVType {
+    public enum GvType {
         COMMENTS("comment"),
         CHILDREN("criterion", "criteria"),
         IMAGES("image"),
@@ -57,12 +58,12 @@ public abstract class GVReviewDataList<T extends GVReviewDataList.GVReviewData> 
         private final String mDatumString;
         private final String mDataString;
 
-        GVType(String datum) {
+        GvType(String datum) {
             mDatumString = datum;
             mDataString = datum + "s";
         }
 
-        GVType(String datum, String data) {
+        GvType(String datum, String data) {
             mDatumString = datum;
             mDataString = data;
         }
@@ -79,14 +80,14 @@ public abstract class GVReviewDataList<T extends GVReviewDataList.GVReviewData> 
     /**
      * Parcelable version of {@link ViewHolderData}
      */
-    public interface GVReviewData extends ViewHolderData, Parcelable {
+    public interface GvData extends ViewHolderData, Parcelable {
     }
 
-    GVReviewDataList(GVType dataType) {
+    GVReviewDataList(GvType dataType) {
         mDataType = dataType;
     }
 
-    public GVType getGVType() {
+    public GvType getGvType() {
         return mDataType;
     }
 }

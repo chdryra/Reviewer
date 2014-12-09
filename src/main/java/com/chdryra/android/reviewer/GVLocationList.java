@@ -16,40 +16,41 @@ import com.google.android.gms.maps.model.LatLng;
 
 import java.util.StringTokenizer;
 
-public class GVLocationList extends GVReviewDataList<GVLocationList.GVLocation> {
+public class GVLocationList extends GVReviewDataList<GVLocationList.GvLocation> {
 
     GVLocationList() {
-        super(GVType.LOCATIONS);
+        super(GvType.LOCATIONS);
     }
 
     void add(LatLng latLng, String name) {
-        add(new GVLocation(latLng, name));
+        add(new GvLocation(latLng, name));
     }
 
     /**
-     * {@link GVReviewData} version of: {@link RDLocationList.RDLocation}
+     * {@link GVReviewDataList.GvData} version of: {@link com.chdryra
+     * .android.reviewer.MdLocationList.MdLocation}
      * {@link ViewHolder}: {@link VHLocation}
      */
-    public static class GVLocation implements GVReviewDataList.GVReviewData {
-        public static final Parcelable.Creator<GVLocation> CREATOR = new Parcelable
-                .Creator<GVLocation>() {
-            public GVLocation createFromParcel(Parcel in) {
-                return new GVLocation(in);
+    public static class GvLocation implements GVReviewDataList.GvData, DataLocation {
+        public static final Parcelable.Creator<GvLocation> CREATOR = new Parcelable
+                .Creator<GvLocation>() {
+            public GvLocation createFromParcel(Parcel in) {
+                return new GvLocation(in);
             }
 
-            public GVLocation[] newArray(int size) {
-                return new GVLocation[size];
+            public GvLocation[] newArray(int size) {
+                return new GvLocation[size];
             }
         };
         private final LatLng mLatLng;
         private final String mName;
 
-        GVLocation(LatLng latLng, String name) {
+        GvLocation(LatLng latLng, String name) {
             mLatLng = latLng;
             mName = name;
         }
 
-        GVLocation(Parcel in) {
+        GvLocation(Parcel in) {
             mLatLng = in.readParcelable(LatLng.class.getClassLoader());
             mName = in.readString();
         }
@@ -67,9 +68,9 @@ public class GVLocationList extends GVReviewDataList<GVLocationList.GVLocation> 
         @Override
         public boolean equals(Object o) {
             if (this == o) return true;
-            if (!(o instanceof GVLocation)) return false;
+            if (!(o instanceof GvLocation)) return false;
 
-            GVLocation that = (GVLocation) o;
+            GvLocation that = (GvLocation) o;
 
             return !(mLatLng != null ? !mLatLng.equals(that.mLatLng) : that.mLatLng != null) && !
                     (mName != null ? !mName.equals(that.mName) : that.mName != null);
@@ -94,10 +95,12 @@ public class GVLocationList extends GVReviewDataList<GVLocationList.GVLocation> 
             parcel.writeString(mName);
         }
 
+        @Override
         public LatLng getLatLng() {
             return mLatLng;
         }
 
+        @Override
         public String getName() {
             return mName;
         }
@@ -105,7 +108,7 @@ public class GVLocationList extends GVReviewDataList<GVLocationList.GVLocation> 
         String getShortenedName() {
             if (mName != null) {
                 StringTokenizer tokens = new StringTokenizer(mName,
-                        RDLocationList.RDLocation.LOCATION_DELIMITER);
+                        MdLocationList.MdLocation.LOCATION_DELIMITER);
                 String shortened = tokens.nextToken();
                 return shortened != null ? shortened.trim() : null;
             } else {

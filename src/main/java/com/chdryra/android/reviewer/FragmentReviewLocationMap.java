@@ -39,7 +39,6 @@ import com.chdryra.android.mygenerallibrary.PlaceAutoCompleteSuggester;
 import com.chdryra.android.mygenerallibrary.PlaceSuggester;
 import com.chdryra.android.mygenerallibrary.StringFilterAdapter;
 import com.chdryra.android.remoteapifetchers.FetcherPlacesAPI;
-import com.chdryra.android.reviewer.GVLocationList.GVLocation;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMap.OnInfoWindowClickListener;
@@ -75,7 +74,7 @@ public class FragmentReviewLocationMap extends FragmentDeleteDone implements
     private static final float  DEFAULT_ZOOM         = 15;
     private static final int    NUMBER_DEFAULT_NAMES = 5;
 
-    private GVLocationList.GVLocation mCurrent;
+    private GVLocationList.GvLocation mCurrent;
     private GoogleMap                 mGoogleMap;
     private MapView                   mMapView;
 
@@ -91,7 +90,7 @@ public class FragmentReviewLocationMap extends FragmentDeleteDone implements
     private LocationClientConnector mLocationClient;
     private String                  mSearchLocationName;
 
-    private InputHandlerReviewData<GVLocationList.GVLocation> mHandler;
+    private InputHandlerReviewData<GVLocationList.GvLocation> mHandler;
 
     private PlaceAutoCompleteSuggester mAutoCompleter;
 
@@ -99,7 +98,7 @@ public class FragmentReviewLocationMap extends FragmentDeleteDone implements
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mHandler = new InputHandlerReviewData<GVLocationList.GVLocation>(GVReviewDataList.GVType
+        mHandler = new InputHandlerReviewData<GVLocationList.GvLocation>(GVReviewDataList.GvType
                 .LOCATIONS);
 
         Bundle args = LauncherUI.getArgsForActivity(getActivity());
@@ -301,8 +300,8 @@ public class FragmentReviewLocationMap extends FragmentDeleteDone implements
                 mAutoCompleter));
     }
 
-    private GVLocation createGVData() {
-        return new GVLocation(mNewLatLng, mLocationName.getText().toString().trim());
+    private GVLocationList.GvLocation createGVData() {
+        return new GVLocationList.GvLocation(mNewLatLng, mLocationName.getText().toString().trim());
     }
 
     private void invalidateSuggestions() {

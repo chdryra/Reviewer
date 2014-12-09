@@ -32,8 +32,6 @@ import android.widget.TextView;
 import com.chdryra.android.myandroidwidgets.ClearableEditText;
 import com.chdryra.android.mygenerallibrary.FragmentDeleteDone;
 import com.chdryra.android.mygenerallibrary.ViewHolderAdapter;
-import com.chdryra.android.reviewer.GVImageList.GVImage;
-import com.chdryra.android.reviewer.GVReviewDataList.GVType;
 
 /**
  * UI Fragment: base class for all the review data interaction UIs. Knows how to present a
@@ -343,7 +341,7 @@ public abstract class FragmentReviewGrid extends FragmentDeleteDone {
 
     void updateCover() {
         if (getController() != null) {
-            updateCover((GVImageList) getController().getData(GVType.IMAGES));
+            updateCover((GVImageList) getController().getData(GVReviewDataList.GvType.IMAGES));
         }
     }
 
@@ -375,7 +373,7 @@ public abstract class FragmentReviewGrid extends FragmentDeleteDone {
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     void updateCover(GVImageList images) {
         if (images.getCovers().size() > 0) {
-            GVImage cover = images.getRandomCover();
+            GVImageList.GvImage cover = images.getRandomCover();
             BitmapDrawable bitmap = new BitmapDrawable(getResources(), cover.getBitmap());
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
                 getLayout().setBackground(bitmap);

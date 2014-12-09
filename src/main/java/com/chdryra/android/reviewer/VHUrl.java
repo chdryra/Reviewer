@@ -9,10 +9,10 @@
 package com.chdryra.android.reviewer;
 
 import com.chdryra.android.mygenerallibrary.ViewHolderData;
-import com.chdryra.android.reviewer.GVUrlList.GVUrl;
 
 /**
- * {@link com.chdryra.android.mygenerallibrary.ViewHolder}: {@link GVUrl}. Shows shortened URL.
+ * {@link com.chdryra.android.mygenerallibrary.ViewHolder}: {@link GVUrlList.GvUrl}. Shows
+ * shortened URL.
  * <p>
  * A VHTextView with an appropriately defined GVDataStringGetter.
  * </p>
@@ -22,7 +22,7 @@ class VHUrl extends VHText {
         super(new VHDataStringGetter() {
             @Override
             public String getString(ViewHolderData data) {
-                GVUrl url = (GVUrl) data;
+                GVUrlList.GvUrl url = (GVUrlList.GvUrl) data;
                 return url != null ? url.toShortenedString() : null;
             }
         });

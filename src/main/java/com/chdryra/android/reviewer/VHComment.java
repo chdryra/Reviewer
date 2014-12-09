@@ -9,10 +9,10 @@
 package com.chdryra.android.reviewer;
 
 import com.chdryra.android.mygenerallibrary.ViewHolderData;
-import com.chdryra.android.reviewer.GVCommentList.GVComment;
 
 /**
- * {@link com.chdryra.android.mygenerallibrary.ViewHolder}: {@link GVComment}. Shows comment
+ * {@link com.chdryra.android.mygenerallibrary.ViewHolder}: {@link com.chdryra.android.reviewer
+ * .GvCommentList.GvComment}. Shows comment
  * headline
  * <p>
  * A {@link VHText} with an appropriately defined {@link com.chdryra.android.mygenerallibrary
@@ -25,7 +25,7 @@ class VHComment extends VHText {
         super(new VHDataStringGetter() {
             @Override
             public String getString(ViewHolderData data) {
-                GVComment comment = (GVComment) data;
+                GVCommentList.GvComment comment = (GVCommentList.GvComment) data;
                 return comment != null ? comment.getCommentHeadline() : null;
             }
         });
