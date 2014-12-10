@@ -23,9 +23,9 @@ import java.util.Date;
  * @see com.chdryra.android.reviewer.Administrator
  * @see com.chdryra.android.reviewer.FragmentFeed
  */
-public class VgOverviewList extends VgDataList<VgOverviewList.GvOverview> {
+public class GvOverviewList extends GvDataList<GvOverviewList.GvOverview> {
 
-    VgOverviewList() {
+    GvOverviewList() {
         super(GvType.REVIEW);
     }
 
@@ -54,10 +54,10 @@ public class VgOverviewList extends VgDataList<VgOverviewList.GvOverview> {
     }
 
     /**
-     * {@link VgDataList.GvData} version of: {@link Review}
+     * {@link GvDataList.GvData} version of: {@link Review}
      * {@link ViewHolder): {@link VHReviewNodeOverview}
      */
-    public static class GvOverview implements VgDataList.GvData {
+    public static class GvOverview implements GvDataList.GvData {
         public static final Parcelable.Creator<GvOverview> CREATOR = new Parcelable
                 .Creator<GvOverview>() {
             public GvOverview createFromParcel(Parcel in) {

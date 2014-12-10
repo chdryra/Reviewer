@@ -50,8 +50,8 @@ public class TagsManager {
         return tags;
     }
 
-    static void tag(Review review, VgTagList tags) {
-        for (VgTagList.VgTag tag : tags) {
+    static void tag(Review review, GvTagList tags) {
+        for (GvTagList.GvTag tag : tags) {
             getManager().tag(review, tag.get());
         }
     }

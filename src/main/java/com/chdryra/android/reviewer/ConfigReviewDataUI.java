@@ -35,26 +35,26 @@ public final class ConfigReviewDataUI {
     private static       int    REQUEST_COUNTER = 2720;
     private static ConfigReviewDataUI sConfigReviewDataUI;
 
-    private final Map<VgDataList.GvType, Config> mConfigsMap = new HashMap<VgDataList
+    private final Map<GvDataList.GvType, Config> mConfigsMap = new HashMap<GvDataList
             .GvType,
             Config>();
 
     private ConfigReviewDataUI() {
-        mConfigsMap.put(VgDataList.GvType.TAGS, new Config(VgDataList.GvType.TAGS));
-        mConfigsMap.put(VgDataList.GvType.CHILDREN, new Config(VgDataList.GvType
+        mConfigsMap.put(GvDataList.GvType.TAGS, new Config(GvDataList.GvType.TAGS));
+        mConfigsMap.put(GvDataList.GvType.CHILDREN, new Config(GvDataList.GvType
                 .CHILDREN));
-        mConfigsMap.put(VgDataList.GvType.COMMENTS, new Config(VgDataList.GvType
+        mConfigsMap.put(GvDataList.GvType.COMMENTS, new Config(GvDataList.GvType
                 .COMMENTS));
-        mConfigsMap.put(VgDataList.GvType.IMAGES, new Config(VgDataList.GvType.IMAGES));
-        mConfigsMap.put(VgDataList.GvType.FACTS, new Config(VgDataList.GvType.FACTS));
-        mConfigsMap.put(VgDataList.GvType.LOCATIONS, new Config(VgDataList.GvType
+        mConfigsMap.put(GvDataList.GvType.IMAGES, new Config(GvDataList.GvType.IMAGES));
+        mConfigsMap.put(GvDataList.GvType.FACTS, new Config(GvDataList.GvType.FACTS));
+        mConfigsMap.put(GvDataList.GvType.LOCATIONS, new Config(GvDataList.GvType
                 .LOCATIONS));
-        mConfigsMap.put(VgDataList.GvType.URLS, new Config(VgDataList.GvType.URLS));
-        mConfigsMap.put(VgDataList.GvType.REVIEW, new Config(VgDataList.GvType.REVIEW));
-        mConfigsMap.put(VgDataList.GvType.SOCIAL, new Config(VgDataList.GvType.SOCIAL));
+        mConfigsMap.put(GvDataList.GvType.URLS, new Config(GvDataList.GvType.URLS));
+        mConfigsMap.put(GvDataList.GvType.REVIEW, new Config(GvDataList.GvType.REVIEW));
+        mConfigsMap.put(GvDataList.GvType.SOCIAL, new Config(GvDataList.GvType.SOCIAL));
     }
 
-    public static Config getConfig(VgDataList.GvType dataType) {
+    public static Config getConfig(GvDataList.GvType dataType) {
         return getConfigsMap().get(dataType);
     }
 
@@ -76,7 +76,7 @@ public final class ConfigReviewDataUI {
         }
     }
 
-    private static Map<VgDataList.GvType, Config> getConfigsMap() {
+    private static Map<GvDataList.GvType, Config> getConfigsMap() {
         if (sConfigReviewDataUI == null) {
             sConfigReviewDataUI = new ConfigReviewDataUI();
         }
@@ -86,15 +86,15 @@ public final class ConfigReviewDataUI {
 
     /**
      * Encapsulates add, edit and display configs for a given
-     * {@link VgDataList.GvType}.
+     * {@link GvDataList.GvType}.
      */
     public class Config {
-        private final VgDataList.GvType       mDataType;
+        private final GvDataList.GvType       mDataType;
         private final ReviewDataUIConfig      mAddConfig;
         private final ReviewDataUIConfig      mEditConfig;
         private final ReviewDataDisplayConfig mDisplayConfig;
 
-        private Config(VgDataList.GvType dataType) {
+        private Config(GvDataList.GvType dataType) {
             mDataType = dataType;
             mAddConfig = initAddConfig();
             mEditConfig = initEditConfig();
@@ -130,7 +130,7 @@ public final class ConfigReviewDataUI {
 
     /**
      * Encapsulates a configuration for a UI that can add or edit review data of a certain
-     * {@link VgDataList.GvType}. Packages together:
+     * {@link GvDataList.GvType}. Packages together:
      * <ul>
      * <li>A {@link LaunchableUI} implementation for
      * adding/editing review data of a certain type</li>
@@ -141,12 +141,12 @@ public final class ConfigReviewDataUI {
      * {@link LauncherUI}
      */
     public class ReviewDataUIConfig {
-        private final VgDataList.GvType             mDataType;
+        private final GvDataList.GvType             mDataType;
         private final Class<? extends LaunchableUI> mUIClass;
         private final int                           mRequestCode;
         private final String                        mTag;
 
-        private ReviewDataUIConfig(VgDataList.GvType dataType, Class<? extends LaunchableUI>
+        private ReviewDataUIConfig(GvDataList.GvType dataType, Class<? extends LaunchableUI>
                 UIClass,
                 int requestCode, String tag) {
             mDataType = dataType;
@@ -156,7 +156,7 @@ public final class ConfigReviewDataUI {
         }
 
 
-        public VgDataList.GvType getGVType() {
+        public GvDataList.GvType getGVType() {
             return mDataType;
         }
 
@@ -175,7 +175,7 @@ public final class ConfigReviewDataUI {
 
     /**
      * Encapsulates a configuration for displaying review data of a certain
-     * {@link VgDataList.GvType}. Packages together:
+     * {@link GvDataList.GvType}. Packages together:
      * <ul>
      * <li>An activity class for displaying a collection of review data of a certain
      * type</li>
@@ -185,10 +185,10 @@ public final class ConfigReviewDataUI {
      * activities via, for example, <code>startActivityForResult(.)</code> etc.
      */
     public class ReviewDataDisplayConfig {
-        private final VgDataList.GvType mDataType;
+        private final GvDataList.GvType mDataType;
         private final int               mRequestCode;
 
-        private ReviewDataDisplayConfig(VgDataList.GvType dataType, int requestCode) {
+        private ReviewDataDisplayConfig(GvDataList.GvType dataType, int requestCode) {
             mDataType = dataType;
             mRequestCode = requestCode;
         }

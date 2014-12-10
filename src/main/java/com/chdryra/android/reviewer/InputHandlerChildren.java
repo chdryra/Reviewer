@@ -10,7 +10,7 @@ package com.chdryra.android.reviewer;
 
 import android.content.Context;
 
-import com.chdryra.android.reviewer.VgSubjectRatingList.GvSubjectRating;
+import com.chdryra.android.reviewer.GvSubjectRatingList.GvSubjectRating;
 
 /**
  * Created by: Rizwan Choudrey
@@ -25,7 +25,7 @@ import com.chdryra.android.reviewer.VgSubjectRatingList.GvSubjectRating;
 class InputHandlerChildren extends InputHandlerReviewData<GvSubjectRating> {
 
     InputHandlerChildren() {
-        super(VgDataList.GvType.CHILDREN);
+        super(GvDataList.GvType.CHILDREN);
     }
 
     @Override
@@ -34,7 +34,7 @@ class InputHandlerChildren extends InputHandlerReviewData<GvSubjectRating> {
     }
 
     private boolean constraint(GvSubjectRating datum, Context context) {
-        VgSubjectRatingList data = (VgSubjectRatingList) getData();
+        GvSubjectRatingList data = (GvSubjectRatingList) getData();
         if (data != null && data.contains(datum.getSubject())) {
             makeToastHasItem(context);
             return true;

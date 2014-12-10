@@ -34,9 +34,9 @@ import com.chdryra.android.mygenerallibrary.ViewHolderDataList;
  * need to know about the implementations of the model data, just that they exist.
  * </p>
  *
- * @param <T>: {@link VgDataList.GvData} type.
+ * @param <T>: {@link GvDataList.GvData} type.
  */
-public abstract class VgDataList<T extends VgDataList.GvData> extends
+public abstract class GvDataList<T extends GvDataList.GvData> extends
         ViewHolderDataList<T> {
 
     private final GvType mDataType;
@@ -83,7 +83,7 @@ public abstract class VgDataList<T extends VgDataList.GvData> extends
     public interface GvData extends ViewHolderData, Parcelable {
     }
 
-    VgDataList(GvType dataType) {
+    GvDataList(GvType dataType) {
         mDataType = dataType;
     }
 

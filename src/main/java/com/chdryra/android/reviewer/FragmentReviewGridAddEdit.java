@@ -29,14 +29,14 @@ import com.chdryra.android.mygenerallibrary.ActivityResultCode;
  * User input handled by a {@link com.chdryra.android.reviewer.InputHandlerReviewData}.
  * </p>
  *
- * @param <T>: {@link VgDataList.GvData} type.
+ * @param <T>: {@link GvDataList.GvData} type.
  */
-abstract class FragmentReviewGridAddEdit<T extends VgDataList.GvData> extends
+abstract class FragmentReviewGridAddEdit<T extends GvDataList.GvData> extends
         FragmentReviewGrid implements DialogReviewDataAddFragment
         .ReviewDataAddListener<T>, DialogReviewDataEditFragment.ReviewDataEditListener<T> {
 
 
-    private final VgDataList.GvType mDataType;
+    private final GvDataList.GvType mDataType;
     private final ActivityResultCode mDoDatumDelete = ActivityResultCode.DELETE;
     private final ActivityResultCode mDoDatumEdit   = ActivityResultCode.DONE;
     private final InputHandlerReviewData<T> mHandler;
@@ -44,11 +44,11 @@ abstract class FragmentReviewGridAddEdit<T extends VgDataList.GvData> extends
     private ConfigReviewDataUI.ReviewDataUIConfig mAdderConfig;
     private ConfigReviewDataUI.ReviewDataUIConfig mEditorConfig;
 
-    FragmentReviewGridAddEdit(VgDataList.GvType dataType) {
+    FragmentReviewGridAddEdit(GvDataList.GvType dataType) {
         this(dataType, new InputHandlerReviewData<T>(dataType));
     }
 
-    FragmentReviewGridAddEdit(VgDataList.GvType dataType, InputHandlerReviewData<T>
+    FragmentReviewGridAddEdit(GvDataList.GvType dataType, InputHandlerReviewData<T>
             inputHandler) {
         mDataType = dataType;
         mHandler = inputHandler;
@@ -110,7 +110,7 @@ abstract class FragmentReviewGridAddEdit<T extends VgDataList.GvData> extends
     }
 
     @Override
-    void setGridViewData(VgDataList gridData) {
+    void setGridViewData(GvDataList gridData) {
         super.setGridViewData(gridData);
         mHandler.setData(gridData); //TODO make type safe
     }

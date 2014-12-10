@@ -20,18 +20,18 @@ import android.content.Context;
  * Additional constraint over base {@link com.chdryra.android.reviewer.InputHandlerReviewData} to
  * ignore addition if current data already includes Bitmap.
  */
-class InputHandlerImage extends InputHandlerReviewData<VgImageList.GvImage> {
+class InputHandlerImage extends InputHandlerReviewData<GvImageList.GvImage> {
     InputHandlerImage() {
-        super(VgDataList.GvType.IMAGES);
+        super(GvDataList.GvType.IMAGES);
     }
 
     @Override
-    boolean passesAddConstraint(VgImageList.GvImage datum, Context context) {
+    boolean passesAddConstraint(GvImageList.GvImage datum, Context context) {
         return super.isNewAndValid(datum, context) && !constraint(datum, context);
     }
 
-    private boolean constraint(VgImageList.GvImage datum, Context context) {
-        VgImageList data = (VgImageList) getData();
+    private boolean constraint(GvImageList.GvImage datum, Context context) {
+        GvImageList data = (GvImageList) getData();
         if (data != null && data.contains(datum.getBitmap())) {
             makeToastHasItem(context);
             return true;

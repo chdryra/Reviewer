@@ -23,22 +23,22 @@ import com.chdryra.android.mygenerallibrary.ViewHolderAdapter;
  * Also an ActionBar icon for switching between comment headlines and comment sentences.
  * </p>
  */
-public class FragmentReviewComments extends FragmentReviewGridAddEdit<VgCommentList.GvComment> {
-    private VgCommentList mComments;
+public class FragmentReviewComments extends FragmentReviewGridAddEdit<GvCommentList.GvComment> {
+    private GvCommentList mComments;
     private boolean mCommentsAreSplit = false;
 
     public FragmentReviewComments() {
-        super(VgDataList.GvType.COMMENTS);
+        super(GvDataList.GvType.COMMENTS);
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mComments = (VgCommentList) getGridData();
+        mComments = (GvCommentList) getGridData();
     }
 
     @Override
-    protected void packGridCellData(VgCommentList.GvComment comment, Bundle args) {
+    protected void packGridCellData(GvCommentList.GvComment comment, Bundle args) {
         super.packGridCellData(comment.getUnSplitComment(), args);
     }
 

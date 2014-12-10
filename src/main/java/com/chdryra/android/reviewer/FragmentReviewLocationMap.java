@@ -74,7 +74,7 @@ public class FragmentReviewLocationMap extends FragmentDeleteDone implements
     private static final float  DEFAULT_ZOOM         = 15;
     private static final int    NUMBER_DEFAULT_NAMES = 5;
 
-    private VgLocationList.GvLocation mCurrent;
+    private GvLocationList.GvLocation mCurrent;
     private GoogleMap                 mGoogleMap;
     private MapView                   mMapView;
 
@@ -90,7 +90,7 @@ public class FragmentReviewLocationMap extends FragmentDeleteDone implements
     private LocationClientConnector mLocationClient;
     private String                  mSearchLocationName;
 
-    private InputHandlerReviewData<VgLocationList.GvLocation> mHandler;
+    private InputHandlerReviewData<GvLocationList.GvLocation> mHandler;
 
     private PlaceAutoCompleteSuggester mAutoCompleter;
 
@@ -98,7 +98,7 @@ public class FragmentReviewLocationMap extends FragmentDeleteDone implements
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mHandler = new InputHandlerReviewData<VgLocationList.GvLocation>(VgDataList.GvType
+        mHandler = new InputHandlerReviewData<GvLocationList.GvLocation>(GvDataList.GvType
                 .LOCATIONS);
 
         Bundle args = LauncherUI.getArgsForActivity(getActivity());
@@ -300,8 +300,8 @@ public class FragmentReviewLocationMap extends FragmentDeleteDone implements
                 mAutoCompleter));
     }
 
-    private VgLocationList.GvLocation createGVData() {
-        return new VgLocationList.GvLocation(mNewLatLng, mLocationName.getText().toString().trim());
+    private GvLocationList.GvLocation createGVData() {
+        return new GvLocationList.GvLocation(mNewLatLng, mLocationName.getText().toString().trim());
     }
 
     private void invalidateSuggestions() {

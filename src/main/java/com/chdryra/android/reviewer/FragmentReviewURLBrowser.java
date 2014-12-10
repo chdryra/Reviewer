@@ -48,16 +48,16 @@ import java.net.URISyntaxException;
 public class FragmentReviewURLBrowser extends FragmentDeleteDone {
     private static final String TAG = "FragmentReviewUrlBrowser";
 
-    private VgUrlList.GvUrl   mCurrent;
+    private GvUrlList.GvUrl   mCurrent;
     private ClearableEditText mUrlEditText;
     private WebView           mWebView;
     private String            mSearchUrl;
 
-    private InputHandlerReviewData<VgUrlList.GvUrl> mHandler;
+    private InputHandlerReviewData<GvUrlList.GvUrl> mHandler;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mHandler = new InputHandlerReviewData<VgUrlList.GvUrl>(VgDataList.GvType.URLS);
+        mHandler = new InputHandlerReviewData<GvUrlList.GvUrl>(GvDataList.GvType.URLS);
         mCurrent = mHandler.unpack(InputHandlerReviewData.CurrentNewDatum.CURRENT,
                 LauncherUI.getArgsForActivity(getActivity()));
         setDeleteWhatTitle(mHandler.getGVType().getDatumString());
@@ -160,11 +160,11 @@ public class FragmentReviewURLBrowser extends FragmentDeleteDone {
         mHandler.pack(InputHandlerReviewData.CurrentNewDatum.NEW, createGVData(), i);
     }
 
-    private VgUrlList.GvUrl createGVData() {
+    private GvUrlList.GvUrl createGVData() {
         String urlString = mWebView.getUrl();
-        VgUrlList.GvUrl url = null;
+        GvUrlList.GvUrl url = null;
         try {
-            url = new VgUrlList.GvUrl(urlString);
+            url = new GvUrlList.GvUrl(urlString);
         } catch (MalformedURLException e1) {
             Log.i(TAG, "MalformedURLException: " + urlString, e1);
             Toast.makeText(getActivity(), getResources().getString(R.string.toast_bad_url),

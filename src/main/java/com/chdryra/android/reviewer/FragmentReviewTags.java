@@ -11,8 +11,8 @@ package com.chdryra.android.reviewer;
 /**
  * UI Fragment: tags. Each grid cell shows a tag.
  */
-public class FragmentReviewTags extends FragmentReviewGridAddEdit<VgTagList.VgTag> {
+public class FragmentReviewTags extends FragmentReviewGridAddEdit<GvTagList.GvTag> {
     public FragmentReviewTags() {
-        super(VgDataList.GvType.TAGS);
+        super(GvDataList.GvType.TAGS);
     }
 }

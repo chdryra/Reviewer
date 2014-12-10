@@ -29,7 +29,7 @@ class VHSocialPlatform extends VHDualString {
 
     @Override
     public void updateView(ViewHolderData data) {
-        VgSocialPlatformList.VgSocialPlatform platform = (VgSocialPlatformList.VgSocialPlatform)
+        GvSocialPlatformList.GvSocialPlatform platform = (GvSocialPlatformList.GvSocialPlatform)
                 data;
         if (platform != null) {
             super.updateView(new VHDDualString(platform.getName(),

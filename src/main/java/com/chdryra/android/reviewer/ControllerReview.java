@@ -27,7 +27,7 @@ import java.util.Date;
  * Android's use of the word "Adapter". Translates between model data types and view data types:
  * <ul>
  * <li>Model data types: {@link MdData} types</li>
- * <li>View data types: {@link VgDataList.GvType} types,
+ * <li>View data types: {@link GvDataList.GvType} types,
  * java types</li>
  * </ul>
  * </p>
@@ -78,7 +78,7 @@ public class ControllerReview<T extends Review> {
         return mReview.isPublished();
     }
 
-    public void addTags(VgTagList tags) {
+    public void addTags(GvTagList tags) {
         for (VHDString tag : tags) {
             mTagsList.add(tag.get());
         }
@@ -88,34 +88,34 @@ public class ControllerReview<T extends Review> {
         mTagsList.clear();
     }
 
-    public boolean hasData(VgDataList.GvType dataType) {
-        if (dataType == VgDataList.GvType.COMMENTS) {
+    public boolean hasData(GvDataList.GvType dataType) {
+        if (dataType == GvDataList.GvType.COMMENTS) {
             return mReview.hasComments();
-        } else if (dataType == VgDataList.GvType.IMAGES) {
+        } else if (dataType == GvDataList.GvType.IMAGES) {
             return mReview.hasImages();
-        } else if (dataType == VgDataList.GvType.FACTS) {
+        } else if (dataType == GvDataList.GvType.FACTS) {
             return mReview.hasFacts();
-        } else if (dataType == VgDataList.GvType.URLS) {
+        } else if (dataType == GvDataList.GvType.URLS) {
             return mReview.hasUrls();
-        } else if (dataType == VgDataList.GvType.LOCATIONS) {
+        } else if (dataType == GvDataList.GvType.LOCATIONS) {
             return mReview.hasLocations();
         } else {
-            return dataType == VgDataList.GvType.TAGS && mTagsList.size() > 0;
+            return dataType == GvDataList.GvType.TAGS && mTagsList.size() > 0;
         }
     }
 
-    public VgDataList getData(VgDataList.GvType dataType) {
-        if (dataType == VgDataList.GvType.COMMENTS) {
+    public GvDataList getData(GvDataList.GvType dataType) {
+        if (dataType == GvDataList.GvType.COMMENTS) {
             return MdToGvConverter.convert(mReview.getComments());
-        } else if (dataType == VgDataList.GvType.IMAGES) {
+        } else if (dataType == GvDataList.GvType.IMAGES) {
             return MdToGvConverter.convert(mReview.getImages());
-        } else if (dataType == VgDataList.GvType.FACTS) {
+        } else if (dataType == GvDataList.GvType.FACTS) {
             return MdToGvConverter.convert(mReview.getFacts());
-        } else if (dataType == VgDataList.GvType.URLS) {
+        } else if (dataType == GvDataList.GvType.URLS) {
             return MdToGvConverter.convert(mReview.getUrls());
-        } else if (dataType == VgDataList.GvType.LOCATIONS) {
+        } else if (dataType == GvDataList.GvType.LOCATIONS) {
             return MdToGvConverter.convert(mReview.getLocations());
-        } else if (dataType == VgDataList.GvType.TAGS) {
+        } else if (dataType == GvDataList.GvType.TAGS) {
             return getTags();
         } else {
             return null;
@@ -126,8 +126,8 @@ public class ControllerReview<T extends Review> {
         return mReview;
     }
 
-    private VgTagList getTags() {
-        VgTagList gvTags = new VgTagList();
+    private GvTagList getTags() {
+        GvTagList gvTags = new GvTagList();
         for (String tag : mTagsList) {
             gvTags.add(tag);
         }
@@ -135,7 +135,7 @@ public class ControllerReview<T extends Review> {
         return gvTags;
     }
 
-    void setTags(VgTagList tags) {
+    void setTags(GvTagList tags) {
         removeTags();
         addTags(tags);
     }

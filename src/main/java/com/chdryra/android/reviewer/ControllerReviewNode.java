@@ -19,14 +19,14 @@ public class ControllerReviewNode extends ControllerReview<ReviewNode> {
     }
 
     @Override
-    public boolean hasData(VgDataList.GvType dataType) {
-        return dataType == VgDataList.GvType.CHILDREN ? getControlledReview().getChildren()
+    public boolean hasData(GvDataList.GvType dataType) {
+        return dataType == GvDataList.GvType.CHILDREN ? getControlledReview().getChildren()
                 .size() > 0 : super.hasData(dataType);
     }
 
     @Override
-    public VgDataList getData(VgDataList.GvType dataType) {
-        return dataType == VgDataList.GvType.CHILDREN ? getChildrenController()
+    public GvDataList getData(GvDataList.GvType dataType) {
+        return dataType == GvDataList.GvType.CHILDREN ? getChildrenController()
                 .toGridViewable(false) : super.getData(dataType);
     }
 

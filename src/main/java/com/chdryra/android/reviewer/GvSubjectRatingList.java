@@ -18,10 +18,10 @@ import java.util.Comparator;
 /**
  * Used for review children (sub-reviews).
  */
-public class VgSubjectRatingList extends VgDataList<VgSubjectRatingList
+public class GvSubjectRatingList extends GvDataList<GvSubjectRatingList
         .GvSubjectRating> {
 
-    VgSubjectRatingList() {
+    GvSubjectRatingList() {
         super(GvType.CHILDREN);
     }
 
@@ -58,11 +58,11 @@ public class VgSubjectRatingList extends VgDataList<VgSubjectRatingList
     }
 
     /**
-     * {@link VgDataList.GvData} version of: no equivalent as used
+     * {@link GvDataList.GvData} version of: no equivalent as used
      * for review children (sub-reviews).
      * {@link ViewHolder}: {@link VHReviewNodeSubjectRating}
      */
-    public static class GvSubjectRating implements VgDataList.GvData {
+    public static class GvSubjectRating implements GvDataList.GvData {
         public static final Parcelable.Creator<GvSubjectRating> CREATOR = new Parcelable
                 .Creator<GvSubjectRating>() {
             public GvSubjectRating createFromParcel(Parcel in) {

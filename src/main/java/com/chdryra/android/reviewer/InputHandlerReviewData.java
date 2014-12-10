@@ -25,13 +25,13 @@ import android.widget.Toast;
  * data set to check whether valid for addition, deletion or editing. Also takes care of
  * packing and unpacking data into Bundles/Intents between different fragments.
  *
- * @param <T>: {@link VgDataList.GvData} type.
+ * @param <T>: {@link GvDataList.GvData} type.
  */
-class InputHandlerReviewData<T extends VgDataList.GvData> {
+class InputHandlerReviewData<T extends GvDataList.GvData> {
     private static final String DATUM_CURRENT = "com.chdryra.android.reviewer.data_current";
     private static final String DATUM_NEW     = "com.chdryra.android.reviewer.data_new";
-    private VgDataList<T>     mData;
-    private VgDataList.GvType mDataType;
+    private GvDataList<T>     mData;
+    private GvDataList.GvType mDataType;
 
     enum CurrentNewDatum {
         CURRENT(DATUM_CURRENT),
@@ -48,19 +48,19 @@ class InputHandlerReviewData<T extends VgDataList.GvData> {
         }
     }
 
-    InputHandlerReviewData(VgDataList.GvType dataType) {
+    InputHandlerReviewData(GvDataList.GvType dataType) {
         mDataType = dataType;
     }
 
-    VgDataList.GvType getGVType() {
+    GvDataList.GvType getGVType() {
         return mDataType;
     }
 
-    VgDataList<T> getData() {
+    GvDataList<T> getData() {
         return mData;
     }
 
-    void setData(VgDataList<T> data) {
+    void setData(GvDataList<T> data) {
         mData = data;
         mDataType = data.getGvType();
     }

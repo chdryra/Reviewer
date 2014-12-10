@@ -14,7 +14,7 @@ import com.chdryra.android.mygenerallibrary.ViewHolderBasic;
 import com.chdryra.android.mygenerallibrary.ViewHolderData;
 
 /**
- * {@link com.chdryra.android.mygenerallibrary.ViewHolder}: {@link VgImageList.GvImage}. Shows
+ * {@link com.chdryra.android.mygenerallibrary.ViewHolder}: {@link GvImageList.GvImage}. Shows
  * image bitmap.
  */
 class VHImage extends ViewHolderBasic {
@@ -31,7 +31,7 @@ class VHImage extends ViewHolderBasic {
     public void updateView(ViewHolderData data) {
         if (mImage == null) mImage = (ImageView) getView(IMAGE);
 
-        VgImageList.GvImage image = (VgImageList.GvImage) data;
+        GvImageList.GvImage image = (GvImageList.GvImage) data;
         if (image != null && image.isValidForDisplay()) mImage.setImageBitmap(image.getBitmap());
     }
 }

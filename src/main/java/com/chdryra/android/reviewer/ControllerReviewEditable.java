@@ -30,21 +30,21 @@ public class ControllerReviewEditable extends ControllerReview<ReviewEditable> {
         getControlledReview().setRating(rating);
     }
 
-    public void setData(VgDataList data) {
-        VgDataList.GvType dataType = data.getGvType();
+    public void setData(GvDataList data) {
+        GvDataList.GvType dataType = data.getGvType();
         ReviewEditable r = getControlledReview();
-        if (dataType == VgDataList.GvType.COMMENTS) {
+        if (dataType == GvDataList.GvType.COMMENTS) {
             r.setComments(data);
-        } else if (dataType == VgDataList.GvType.IMAGES) {
+        } else if (dataType == GvDataList.GvType.IMAGES) {
             r.setImages(data);
-        } else if (dataType == VgDataList.GvType.FACTS) {
+        } else if (dataType == GvDataList.GvType.FACTS) {
             r.setFacts(data);
-        } else if (dataType == VgDataList.GvType.URLS) {
+        } else if (dataType == GvDataList.GvType.URLS) {
             r.setUrls(data);
-        } else if (dataType == VgDataList.GvType.LOCATIONS) {
+        } else if (dataType == GvDataList.GvType.LOCATIONS) {
             r.setLocations(data);
-        } else if (dataType == VgDataList.GvType.TAGS) {
-            setTags((VgTagList) data);
+        } else if (dataType == GvDataList.GvType.TAGS) {
+            setTags((GvTagList) data);
         }
     }
 }

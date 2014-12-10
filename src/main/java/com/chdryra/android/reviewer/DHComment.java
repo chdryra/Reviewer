@@ -19,16 +19,16 @@ import android.widget.EditText;
 /**
  * {@link DialogHolderAddEdit}: comments
  */
-class DHComment extends DialogHolderAddEdit<VgCommentList.GvComment> {
+class DHComment extends DialogHolderAddEdit<GvCommentList.GvComment> {
     private static final int                     LAYOUT    = R.layout.dialog_comment;
     private static final int                     COMMENT   = R.id.comment_edit_text;
-    private static final VgCommentList.GvComment NULL_DATA = new VgCommentList.GvComment();
+    private static final GvCommentList.GvComment NULL_DATA = new GvCommentList.GvComment();
 
-    DHComment(DialogReviewDataAddFragment<VgCommentList.GvComment> dialogAdd) {
+    DHComment(DialogReviewDataAddFragment<GvCommentList.GvComment> dialogAdd) {
         super(LAYOUT, new int[]{COMMENT}, dialogAdd, NULL_DATA);
     }
 
-    DHComment(DialogReviewDataEditFragment<VgCommentList.GvComment> dialogEdit) {
+    DHComment(DialogReviewDataEditFragment<GvCommentList.GvComment> dialogEdit) {
         super(LAYOUT, new int[]{COMMENT}, dialogEdit);
     }
 
@@ -38,23 +38,23 @@ class DHComment extends DialogHolderAddEdit<VgCommentList.GvComment> {
     }
 
     @Override
-    protected String getDialogOnAddTitle(VgCommentList.GvComment data) {
+    protected String getDialogOnAddTitle(GvCommentList.GvComment data) {
         return data.getCommentHeadline();
     }
 
     @Override
-    protected String getDialogDeleteConfirmTitle(VgCommentList.GvComment data) {
+    protected String getDialogDeleteConfirmTitle(GvCommentList.GvComment data) {
         return data.getUnSplitComment().getComment();
     }
 
     @Override
-    protected VgCommentList.GvComment createGVData() {
-        return new VgCommentList.GvComment(getEditTextForKeyboardAction().getText().toString()
+    protected GvCommentList.GvComment createGVData() {
+        return new GvCommentList.GvComment(getEditTextForKeyboardAction().getText().toString()
                 .trim());
     }
 
     @Override
-    protected void updateWithGVData(VgCommentList.GvComment comment) {
+    protected void updateWithGVData(GvCommentList.GvComment comment) {
         ((EditText) getView(COMMENT)).setText(comment.getComment());
     }
 }

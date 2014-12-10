@@ -29,7 +29,7 @@ class VHFact extends VHDualString {
 
     @Override
     public void updateView(ViewHolderData data) {
-        VgFactList.VgFact fact = (VgFactList.VgFact) data;
+        GvFactList.GvFact fact = (GvFactList.GvFact) data;
         if (fact != null) super.updateView(new VHDDualString(fact.getLabel(), fact.getValue()));
     }
 }

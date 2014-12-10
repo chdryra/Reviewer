@@ -23,23 +23,23 @@ import java.util.HashMap;
 
 /**
  * Creates appropriate {@link com.chdryra.android.reviewer.DialogHolder} for given
- * {@link VgDataList.GvType}
+ * {@link GvDataList.GvType}
  */
 class FactoryDialogHolder {
     private static final String TAG = "FactoryDialogHolder";
     private static FactoryDialogHolder                                      sFactory;
-    private final  HashMap<VgDataList.GvType, Class<? extends UIHolder<?>>> mDHClassesMap;
+    private final  HashMap<GvDataList.GvType, Class<? extends UIHolder<?>>> mDHClassesMap;
 
     private FactoryDialogHolder() {
-        mDHClassesMap = new HashMap<VgDataList.GvType, Class<? extends UIHolder<?>>>();
-        mDHClassesMap.put(VgDataList.GvType.CHILDREN, DHChild.class);
-        mDHClassesMap.put(VgDataList.GvType.COMMENTS, DHComment.class);
-        mDHClassesMap.put(VgDataList.GvType.FACTS, DHFact.class);
-        mDHClassesMap.put(VgDataList.GvType.IMAGES, DHImageEdit.class);
-        mDHClassesMap.put(VgDataList.GvType.TAGS, DHTag.class);
+        mDHClassesMap = new HashMap<GvDataList.GvType, Class<? extends UIHolder<?>>>();
+        mDHClassesMap.put(GvDataList.GvType.CHILDREN, DHChild.class);
+        mDHClassesMap.put(GvDataList.GvType.COMMENTS, DHComment.class);
+        mDHClassesMap.put(GvDataList.GvType.FACTS, DHFact.class);
+        mDHClassesMap.put(GvDataList.GvType.IMAGES, DHImageEdit.class);
+        mDHClassesMap.put(GvDataList.GvType.TAGS, DHTag.class);
     }
 
-    static <T extends VgDataList.GvData> UIHolder<T> newDialogHolder
+    static <T extends GvDataList.GvData> UIHolder<T> newDialogHolder
             (DialogReviewDataAddFragment<T> dialog) {
         if (sFactory == null) sFactory = new FactoryDialogHolder();
         try {
@@ -69,7 +69,7 @@ class FactoryDialogHolder {
         return null;
     }
 
-    static <T extends VgDataList.GvData> UIHolder<T> newDialogHolder
+    static <T extends GvDataList.GvData> UIHolder<T> newDialogHolder
             (DialogReviewDataEditFragment<T> dialog) {
         if (sFactory == null) sFactory = new FactoryDialogHolder();
         try {

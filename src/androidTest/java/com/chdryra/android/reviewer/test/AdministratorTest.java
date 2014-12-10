@@ -15,9 +15,9 @@ import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.Administrator;
 import com.chdryra.android.reviewer.ControllerReview;
+import com.chdryra.android.reviewer.GvDataList;
+import com.chdryra.android.reviewer.GvSocialPlatformList;
 import com.chdryra.android.reviewer.PublishedReviews;
-import com.chdryra.android.reviewer.VgDataList;
-import com.chdryra.android.reviewer.VgSocialPlatformList;
 
 /**
  * Created by: Rizwan Choudrey
@@ -43,7 +43,7 @@ public class AdministratorTest extends AndroidTestCase {
 
     @SmallTest
     public void testGetPublishedReviews() {
-        VgDataList reviews = mAdmin.getPublishedReviews().toGridViewable();
+        GvDataList reviews = mAdmin.getPublishedReviews().toGridViewable();
         assertNotNull(reviews);
     }
 
@@ -59,7 +59,7 @@ public class AdministratorTest extends AndroidTestCase {
 
     @SmallTest
     public void testGetSocialPlatformList() {
-        VgSocialPlatformList list = mAdmin.getSocialPlatformList();
+        GvSocialPlatformList list = mAdmin.getSocialPlatformList();
         assertNotNull(list);
         assertTrue(list.size() > 0);
     }

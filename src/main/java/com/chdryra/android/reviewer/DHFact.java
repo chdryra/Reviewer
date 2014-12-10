@@ -10,7 +10,7 @@ package com.chdryra.android.reviewer;
 
 import android.widget.EditText;
 
-import com.chdryra.android.reviewer.VgFactList.VgFact;
+import com.chdryra.android.reviewer.GvFactList.GvFact;
 
 /**
  * Created by: Rizwan Choudrey
@@ -21,17 +21,17 @@ import com.chdryra.android.reviewer.VgFactList.VgFact;
 /**
  * {@link DialogHolderAddEdit}: facts
  */
-class DHFact extends DialogHolderAddEdit<VgFactList.VgFact> {
+class DHFact extends DialogHolderAddEdit<GvFactList.GvFact> {
     private static final int               LAYOUT    = R.layout.dialog_fact;
     private static final int               LABEL     = R.id.fact_label_edit_text;
     private static final int               VALUE     = R.id.fact_value_edit_text;
-    private static final VgFactList.VgFact NULL_DATA = new VgFactList.VgFact(null, null);
+    private static final GvFactList.GvFact NULL_DATA = new GvFactList.GvFact(null, null);
 
-    DHFact(DialogReviewDataAddFragment<VgFactList.VgFact> dialogAdd) {
+    DHFact(DialogReviewDataAddFragment<GvFactList.GvFact> dialogAdd) {
         super(LAYOUT, new int[]{LABEL, VALUE}, dialogAdd, NULL_DATA);
     }
 
-    DHFact(DialogReviewDataEditFragment<VgFactList.VgFact> dialogEdit) {
+    DHFact(DialogReviewDataEditFragment<GvFactList.GvFact> dialogEdit) {
         super(LAYOUT, new int[]{LABEL, VALUE}, dialogEdit);
     }
 
@@ -41,24 +41,24 @@ class DHFact extends DialogHolderAddEdit<VgFactList.VgFact> {
     }
 
     @Override
-    protected String getDialogOnAddTitle(VgFactList.VgFact data) {
+    protected String getDialogOnAddTitle(GvFactList.GvFact data) {
         return data.getLabel() + ": " + data.getValue();
     }
 
     @Override
-    protected String getDialogDeleteConfirmTitle(VgFactList.VgFact data) {
+    protected String getDialogDeleteConfirmTitle(GvFactList.GvFact data) {
         return data.getLabel() + ": " + data.getValue();
     }
 
     @Override
-    protected VgFact createGVData() {
+    protected GvFactList.GvFact createGVData() {
         String label = ((EditText) getView(LABEL)).getText().toString().trim();
         String value = ((EditText) getView(VALUE)).getText().toString().trim();
-        return new VgFact(label, value);
+        return new GvFact(label, value);
     }
 
     @Override
-    protected void updateWithGVData(VgFact fact) {
+    protected void updateWithGVData(GvFact fact) {
         ((EditText) getView(LABEL)).setText(fact.getLabel());
         ((EditText) getView(VALUE)).setText(fact.getValue());
         getView(LABEL).requestFocus();

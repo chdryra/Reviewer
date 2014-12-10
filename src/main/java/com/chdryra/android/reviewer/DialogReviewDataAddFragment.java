@@ -40,14 +40,14 @@ import com.chdryra.android.mygenerallibrary.DialogCancelAddDoneFragment;
  * the arguments by the Administrator.
  * </p>
  */
-public abstract class DialogReviewDataAddFragment<T extends VgDataList.GvData>
+public abstract class DialogReviewDataAddFragment<T extends GvDataList.GvData>
         extends DialogCancelAddDoneFragment implements LaunchableUI {
 
     public static final String QUICK_SET = "com.chdryra.android.reviewer.dialog_quick_mode";
 
     private final InputHandlerReviewData<T> mHandler;
     private       ControllerReviewEditable  mController;
-    private       VgDataList<T>             mData;
+    private       GvDataList<T>             mData;
     private       UIHolder<T>               mDialogHolder;
     private       ReviewDataAddListener<T>  mAddListener;
 
@@ -56,13 +56,13 @@ public abstract class DialogReviewDataAddFragment<T extends VgDataList.GvData>
     /**
      * Provides a callback for when the add button is pressed
      *
-     * @param <T>:{@link VgDataList.GvData} type
+     * @param <T>:{@link GvDataList.GvData} type
      */
-    interface ReviewDataAddListener<T extends VgDataList.GvData> {
+    interface ReviewDataAddListener<T extends GvDataList.GvData> {
         boolean onReviewDataAdd(T data);
     }
 
-    DialogReviewDataAddFragment(VgDataList.GvType dataType) {
+    DialogReviewDataAddFragment(GvDataList.GvType dataType) {
         this(new InputHandlerReviewData<T>(dataType));
     }
 
@@ -93,7 +93,7 @@ public abstract class DialogReviewDataAddFragment<T extends VgDataList.GvData>
 
         if (mController != null) {
             //TODO make type safe
-            mData = (VgDataList<T>) mController.getData(getGVType());
+            mData = (GvDataList<T>) mController.getData(getGVType());
             mHandler.setData(mData);
         }
 
@@ -132,7 +132,7 @@ public abstract class DialogReviewDataAddFragment<T extends VgDataList.GvData>
         return null;
     }
 
-    VgDataList.GvType getGVType() {
+    GvDataList.GvType getGVType() {
         return mHandler.getGVType();
     }
 

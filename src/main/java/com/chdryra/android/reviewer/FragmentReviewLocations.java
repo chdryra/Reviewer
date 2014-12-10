@@ -21,9 +21,9 @@ import com.chdryra.android.mygenerallibrary.ActivityResultCode;
  * </ul>
  * </p>
  */
-public class FragmentReviewLocations extends FragmentReviewGridAddEdit<VgLocationList.GvLocation> {
+public class FragmentReviewLocations extends FragmentReviewGridAddEdit<GvLocationList.GvLocation> {
     public FragmentReviewLocations() {
-        super(VgDataList.GvType.LOCATIONS);
+        super(GvDataList.GvType.LOCATIONS);
         setAddResultCode(ActivityResultCode.DONE);
     }
 }
