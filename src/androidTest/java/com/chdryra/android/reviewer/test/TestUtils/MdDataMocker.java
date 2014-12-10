@@ -8,7 +8,9 @@
 
 package com.chdryra.android.reviewer.test.TestUtils;
 
+import com.chdryra.android.reviewer.GvDataList;
 import com.chdryra.android.reviewer.MdCommentList;
+import com.chdryra.android.reviewer.MdDataList;
 import com.chdryra.android.reviewer.MdFactList;
 import com.chdryra.android.reviewer.MdImageList;
 import com.chdryra.android.reviewer.MdLocationList;
@@ -26,16 +28,33 @@ import java.util.Random;
  * On: 04/12/2014
  * Email: rizwan.choudrey@gmail.com
  */
-public class RDataMocker {
+public class MdDataMocker<T extends Review> {
     private final RandomStringGenerator STRING_GENERATOR = new RandomStringGenerator();
     private final String                URL              = "http://www.google.co.uk";
     private final Random                RAND             = new Random();
     private URL sUrl;
 
-    private Review mReview;
+    private T mReview;
 
-    public RDataMocker(Review review) {
+    public MdDataMocker(T review) {
         mReview = review;
+    }
+
+    //Just a convenient method even if it uses GvType.....
+    public MdDataList getData(GvDataList.GvType dataType, int size) {
+        if (dataType == GvDataList.GvType.COMMENTS) {
+            return newCommentList(size);
+        } else if (dataType == GvDataList.GvType.FACTS) {
+            return newFactList(size);
+        } else if (dataType == GvDataList.GvType.IMAGES) {
+            return newImageList(size);
+        } else if (dataType == GvDataList.GvType.LOCATIONS) {
+            return newLocationList(size);
+        } else if (dataType == GvDataList.GvType.URLS) {
+            return newUrlList(size);
+        } else {
+            return null;
+        }
     }
 
     public MdCommentList newCommentList(int size) {

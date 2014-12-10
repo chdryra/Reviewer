@@ -15,7 +15,7 @@ import com.google.android.gms.maps.model.LatLng;
  * On: 06/12/2014
  * Email: rizwan.choudrey@gmail.com
  */
-public class MdLocationList extends MdList<MdLocationList.MdLocation> {
+public class MdLocationList extends MdDataList<MdLocationList.MdLocation> {
 
     public MdLocationList(Review holdingReview) {
         super(holdingReview);

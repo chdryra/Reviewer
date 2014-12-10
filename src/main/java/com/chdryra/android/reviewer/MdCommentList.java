@@ -13,7 +13,7 @@ package com.chdryra.android.reviewer;
  * On: 06/12/2014
  * Email: rizwan.choudrey@gmail.com
  */
-public class MdCommentList extends MdList<MdCommentList.MdComment> {
+public class MdCommentList extends MdDataList<MdCommentList.MdComment> {
     /**
      * Review Data: comment
      * <p>

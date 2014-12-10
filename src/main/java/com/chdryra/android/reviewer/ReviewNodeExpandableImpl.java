@@ -14,7 +14,8 @@ import java.util.Date;
  * Primary implementation of {@link ReviewNodeExpandable}.
  * <p/>
  * <p>
- * Creates a new unique {@link RDId} so represents a new review structure even though it wraps an
+ * Creates a new unique {@link ReviewId} so represents a new review structure even though it
+ * wraps an
  * existing review. Generally used for reviews that only make sense when considering the tree
  * as a whole, for example reviews with rated sub-criteria, meta-reviews etc.
  * </p>
@@ -24,11 +25,12 @@ import java.util.Date;
  * Note: this is not necessarily the same node internal to the wrapped {@link Review} and
  * returned by
  * its {@link Review#getReviewNode()} method. A Review may decide to represent
- * itself with its own internal tree structure which will share the same {@link RDId} as the review.
+ * itself with its own internal tree structure which will share the same {@link ReviewId} as the
+ * review.
  * </p>
  */
 class ReviewNodeExpandableImpl implements ReviewNodeExpandable {
-    private final RDId mId;
+    private final ReviewId mId;
 
     private final Review                                  mReview;
     private final RCollectionReview<ReviewNodeExpandable> mChildren;
@@ -37,9 +39,9 @@ class ReviewNodeExpandableImpl implements ReviewNodeExpandable {
     private boolean mRatingIsAverage = false;
 
     ReviewNodeExpandableImpl(Review review) {
-        mId = RDId.generateId();
+        mId = ReviewId.generateId();
         mReview = review;
-        mChildren = new RCollectionReview<ReviewNodeExpandable>();
+        mChildren = new RCollectionReview<>();
     }
 
     //ReviewNode methods
@@ -141,7 +143,7 @@ class ReviewNodeExpandableImpl implements ReviewNodeExpandable {
 
     //Review methods
     @Override
-    public RDId getId() {
+    public ReviewId getId() {
         return mId;
     }
 

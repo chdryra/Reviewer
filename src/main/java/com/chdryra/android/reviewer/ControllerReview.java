@@ -35,7 +35,7 @@ import java.util.Date;
  * @param <T>: the {@link Review} type being accessed
  */
 public class ControllerReview<T extends Review> {
-    private final ArrayList<String> mTagsList = new ArrayList<String>();
+    private final ArrayList<String> mTagsList = new ArrayList<>();
     private final T                    mReview;
     private       ControllerReviewNode mReviewNode;
 
@@ -47,6 +47,7 @@ public class ControllerReview<T extends Review> {
     }
 
     public ControllerReviewNode getReviewNode() {
+        // To avoid a stack overflow if review = review.getReviewNode() in above constructor.
         if (mReviewNode == null) {
             mReviewNode = new ControllerReviewNode(mReview.getReviewNode());
         }

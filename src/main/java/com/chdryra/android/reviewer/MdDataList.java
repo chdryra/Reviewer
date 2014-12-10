@@ -18,10 +18,10 @@ import com.chdryra.android.mygenerallibrary.SortableList;
  *
  * @param <T>: {@link MdData} type in collection.
  */
-public class MdList<T extends MdData> extends SortableList<T> implements MdData {
+public class MdDataList<T extends MdData> extends SortableList<T> implements MdData {
     private Review mHoldingReview;
 
-    MdList(Review holdingReview) {
+    MdDataList(Review holdingReview) {
         mHoldingReview = holdingReview;
     }
 

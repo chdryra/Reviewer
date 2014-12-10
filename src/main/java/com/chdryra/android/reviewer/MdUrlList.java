@@ -15,7 +15,7 @@ import java.net.URL;
  * On: 06/12/2014
  * Email: rizwan.choudrey@gmail.com
  */
-public class MdUrlList extends MdList<MdUrlList.MdUrl> {
+public class MdUrlList extends MdDataList<MdUrlList.MdUrl> {
 
     public MdUrlList(Review holdingReview) {
         super(holdingReview);

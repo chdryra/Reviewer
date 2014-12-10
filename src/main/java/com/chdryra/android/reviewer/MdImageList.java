@@ -17,7 +17,7 @@ import com.google.android.gms.maps.model.LatLng;
  * On: 06/12/2014
  * Email: rizwan.choudrey@gmail.com
  */
-public class MdImageList extends MdList<MdImageList.MdImage> {
+public class MdImageList extends MdDataList<MdImageList.MdImage> {
 
     public MdImageList(Review holdingReview) {
         super(holdingReview);

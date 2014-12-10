@@ -42,11 +42,11 @@ import java.util.Date;
  * @see ReviewEditable
  */
 
-public interface Review extends RDId.RDIdAble {
+public interface Review extends ReviewId.RDIdAble {
 
     //Core data
     @Override
-    RDId getId();
+    ReviewId getId();
 
     RDSubject getSubject();
 
@@ -55,7 +55,7 @@ public interface Review extends RDId.RDIdAble {
     //Core methods
 
     /**
-     * Returns a tree representation of the review. Has the same {@link RDId} as the review it
+     * Returns a tree representation of the review. Has the same {@link ReviewId} as the review it
      * represents.
      * //TODO work out a way of ensuring this without further complicating inheritance.
      */

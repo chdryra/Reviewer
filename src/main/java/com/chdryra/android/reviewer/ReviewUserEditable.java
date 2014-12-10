@@ -24,7 +24,7 @@ package com.chdryra.android.reviewer;
 public class ReviewUserEditable extends ReviewEditable {
     private final ReviewNode mNode;
 
-    private final RDId      mID;
+    private final ReviewId  mID;
     private       RDSubject mSubject;
     private       RDRating  mRating;
 
@@ -36,7 +36,7 @@ public class ReviewUserEditable extends ReviewEditable {
 
     public ReviewUserEditable(String subject) {
         //Core data
-        mID = RDId.generateId();
+        mID = ReviewId.generateId();
         mSubject = new RDSubject(subject, this);
         mRating = new RDRating(0, this);
 
@@ -52,7 +52,7 @@ public class ReviewUserEditable extends ReviewEditable {
     }
 
     @Override
-    public RDId getId() {
+    public ReviewId getId() {
         return mID;
     }
 

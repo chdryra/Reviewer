@@ -8,8 +8,6 @@
 
 package com.chdryra.android.reviewer.test;
 
-import android.test.AndroidTestCase;
-
 import com.chdryra.android.reviewer.ControllerReviewCollection;
 import com.chdryra.android.reviewer.GvDataList;
 import com.chdryra.android.reviewer.GvOverviewList;
@@ -18,6 +16,8 @@ import com.chdryra.android.reviewer.RCollectionReview;
 import com.chdryra.android.reviewer.Review;
 import com.chdryra.android.reviewer.test.TestUtils.ReviewMocker;
 
+import junit.framework.TestCase;
+
 import java.util.Random;
 
 /**
@@ -25,7 +25,7 @@ import java.util.Random;
  * On: 08/12/2014
  * Email: rizwan.choudrey@gmail.com
  */
-public class ControllerReviewCollectionTest extends AndroidTestCase {
+public class ControllerReviewCollectionTest extends TestCase {
     private static final int MIN = 10;
     private static final int MAX = 20;
     private ControllerReviewCollection<Review> mController;
@@ -93,8 +93,7 @@ public class ControllerReviewCollectionTest extends AndroidTestCase {
             int num) {
         Review[] reviews = new Review[num];
         for (int i = 0; i < num; ++i) {
-            Review r = published ? ReviewMocker.newReviewPublished() : ReviewMocker
-                    .newReview();
+            Review r = published ? ReviewMocker.newReviewPublished() : ReviewMocker.newReview();
             reviews[i] = r;
             controller.addReview(r);
         }

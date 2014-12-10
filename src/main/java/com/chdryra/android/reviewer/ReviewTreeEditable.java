@@ -96,7 +96,7 @@ public class ReviewTreeEditable extends ReviewEditable implements ReviewNodeExpa
 
     //ReviewEditable methods
     @Override
-    public RDId getId() {
+    public ReviewId getId() {
         return mNode.getId();
     }
 

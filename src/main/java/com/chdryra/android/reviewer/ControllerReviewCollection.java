@@ -74,7 +74,7 @@ public class ControllerReviewCollection<T extends Review> {
     }
 
     private T get(String id) {
-        return mReviews.get(RDId.generateId(id));
+        return mReviews.get(ReviewId.generateId(id));
     }
 
     private ControllerReview getControllerFor(String id) {

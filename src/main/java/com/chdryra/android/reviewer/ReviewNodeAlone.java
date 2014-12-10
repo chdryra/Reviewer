@@ -17,7 +17,8 @@ import java.util.Date;
  */
 
 /**
- * Wrapper for a single review without children or a parent. Has same {@link RDId} as the review it
+ * Wrapper for a single review without children or a parent. Has same {@link ReviewId} as the
+ * review it
  * wraps.
  * Used primarily as the tree representation for {@link ReviewUserEditable}.
  */
@@ -67,7 +68,7 @@ class ReviewNodeAlone implements ReviewNode {
     }
 
     @Override
-    public RDId getId() {
+    public ReviewId getId() {
         return mReview.getId();
     }
 

@@ -33,7 +33,7 @@ public class ReviewMocker {
     }
 
     public static Review newReview() {
-        return getNew();
+        return newReviewEditable();
     }
 
     public static Review newReviewPublished() {
@@ -43,14 +43,18 @@ public class ReviewMocker {
     }
 
     public static ReviewEditable newReviewEditable() {
-        return getNew();
+        return new MockReviewEditable();
     }
 
     public static ReviewNode newReviewNode() {
-        return getNew();
+        return getNew().getReviewNode();
     }
 
-    public static ReviewNodeExpandable newReviewnodeExpandable() {
+    public static ReviewNodeExpandable newReviewNodeExpandable() {
+        return (ReviewNodeExpandable) newReviewNode();
+    }
+
+    public static ReviewTreeEditable newReviewTreeEditable() {
         return getNew();
     }
 

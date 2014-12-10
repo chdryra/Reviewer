@@ -8,6 +8,7 @@
 
 package com.chdryra.android.reviewer;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -55,22 +56,22 @@ public abstract class ReviewEditable implements Review {
 
     //Deleters
     public void deleteComments() {
-        setComments(null);
+        setComments(new ArrayList<DataComment>());
     }
 
     public void deleteFacts() {
-        setFacts(null);
+        setFacts(new ArrayList<DataFact>());
     }
 
     public void deleteImages() {
-        setImages(null);
+        setImages(new ArrayList<DataImage>());
     }
 
     public void deleteUrls() {
-        setUrls(null);
+        setUrls(new ArrayList<DataUrl>());
     }
 
     public void deleteLocations() {
-        setLocations(null);
+        setLocations(new ArrayList<DataLocation>());
     }
 }

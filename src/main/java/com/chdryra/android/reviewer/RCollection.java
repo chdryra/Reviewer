@@ -13,25 +13,25 @@ import java.util.LinkedHashMap;
 import java.util.NoSuchElementException;
 
 /**
- * An iterable collection of objects that can be referenced using an {@link RDId}.
+ * An iterable collection of objects that can be referenced using an {@link ReviewId}.
  *
  * @param <T>: object type
  */
 class RCollection<T> implements Iterable<T> {
-    private final LinkedHashMap<RDId, T> mData = new LinkedHashMap<RDId, T>();
+    private final LinkedHashMap<ReviewId, T> mData = new LinkedHashMap<ReviewId, T>();
 
     @Override
     public Iterator<T> iterator() {
         return new CollectionIterator();
     }
 
-    void put(RDId id, T t) {
+    void put(ReviewId id, T t) {
         if (!containsId(id)) {
             mData.put(id, t);
         }
     }
 
-    boolean containsId(RDId id) {
+    boolean containsId(ReviewId id) {
         return mData.containsKey(id);
     }
 
@@ -39,7 +39,7 @@ class RCollection<T> implements Iterable<T> {
         mData.putAll(items.mData);
     }
 
-    void remove(RDId id) {
+    void remove(ReviewId id) {
         if (containsId(id)) {
             mData.remove(id);
         }
@@ -53,12 +53,12 @@ class RCollection<T> implements Iterable<T> {
         return get(getId(position));
     }
 
-    T get(RDId id) {
+    T get(ReviewId id) {
         return mData.get(id);
     }
 
-    RDId getId(int position) {
-        RDId[] keys = mData.keySet().toArray(new RDId[mData.size()]);
+    ReviewId getId(int position) {
+        ReviewId[] keys = mData.keySet().toArray(new ReviewId[mData.size()]);
         return keys[position];
     }
 

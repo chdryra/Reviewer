@@ -67,4 +67,20 @@ public class MdToGvConverter {
 
         return list;
     }
+
+    public static GvDataList convert(GvDataList.GvType dataType, MdDataList data) {
+        if (dataType == GvDataList.GvType.COMMENTS) {
+            return MdToGvConverter.convert((MdCommentList) data);
+        } else if (dataType == GvDataList.GvType.FACTS) {
+            return MdToGvConverter.convert((MdFactList) data);
+        } else if (dataType == GvDataList.GvType.IMAGES) {
+            return MdToGvConverter.convert((MdImageList) data);
+        } else if (dataType == GvDataList.GvType.LOCATIONS) {
+            return MdToGvConverter.convert((MdLocationList) data);
+        } else if (dataType == GvDataList.GvType.URLS) {
+            return MdToGvConverter.convert((MdUrlList) data);
+        } else {
+            return null;
+        }
+    }
 }

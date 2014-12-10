@@ -8,17 +8,28 @@
 
 package com.chdryra.android.reviewer.test;
 
-import android.test.AndroidTestCase;
-
 import com.chdryra.android.reviewer.ControllerReviewEditable;
 import com.chdryra.android.reviewer.GvCommentList;
 import com.chdryra.android.reviewer.GvDataList;
+import com.chdryra.android.reviewer.GvFactList;
+import com.chdryra.android.reviewer.GvImageList;
+import com.chdryra.android.reviewer.GvLocationList;
+import com.chdryra.android.reviewer.GvUrlList;
 import com.chdryra.android.reviewer.MdCommentList;
+import com.chdryra.android.reviewer.MdDataList;
+import com.chdryra.android.reviewer.MdFactList;
+import com.chdryra.android.reviewer.MdImageList;
+import com.chdryra.android.reviewer.MdLocationList;
 import com.chdryra.android.reviewer.MdToGvConverter;
+import com.chdryra.android.reviewer.MdUrlList;
 import com.chdryra.android.reviewer.ReviewEditable;
-import com.chdryra.android.reviewer.test.TestUtils.RDataMocker;
+import com.chdryra.android.reviewer.test.TestUtils.MdDataMocker;
+import com.chdryra.android.reviewer.test.TestUtils.MdGvEquality;
 import com.chdryra.android.reviewer.test.TestUtils.RandomStringGenerator;
+import com.chdryra.android.reviewer.test.TestUtils.ReviewGetSetDelete;
 import com.chdryra.android.reviewer.test.TestUtils.ReviewMocker;
+
+import junit.framework.TestCase;
 
 import java.util.Random;
 
@@ -27,11 +38,11 @@ import java.util.Random;
  * On: 08/12/2014
  * Email: rizwan.choudrey@gmail.com
  */
-public class ControllerReviewEditableTest extends AndroidTestCase {
-    private static final int NUM = 100;
+public class ControllerReviewEditableTest extends TestCase {
+    private static final int NUM = 50;
     private ControllerReviewEditable mController;
     private ReviewEditable           mReview;
-    private RDataMocker              mRDataMocker;
+    private MdDataMocker mMdDataMocker;
 
     public void testSetSubject() {
         String subject = RandomStringGenerator.nextSentence();
@@ -48,41 +59,67 @@ public class ControllerReviewEditableTest extends AndroidTestCase {
         assertEquals(mReview.getRating().get(), mController.getRating());
     }
 
-    public void testSetComments() {
-        GvDataList.GvType dataType = GvDataList.GvType.COMMENTS;
-        GvCommentList gvComments = (GvCommentList) mController.getData(dataType);
-        MdCommentList rdComments = mReview.getComments();
-        assertNotNull(gvComments);
-        assertNotNull(rdComments);
-        assertEquals(0, gvComments.size());
-        assertEquals(0, rdComments.size());
+    public void testSetData() {
+        MdGvEquality.check((MdCommentList) testSetAndGetData(GvDataList.GvType.COMMENTS),
+                (GvCommentList) mController.getData(GvDataList.GvType.COMMENTS));
 
-        MdCommentList rdData = mRDataMocker.newCommentList(NUM);
-        assertNotNull(rdData);
-        assertTrue(rdData.size() > 0);
-        GvCommentList comments = MdToGvConverter.convert(rdData);
-        assertNotNull(comments);
-        assertEquals(rdData.size(), comments.size());
+        MdGvEquality.check((MdFactList) testSetAndGetData(GvDataList.GvType.FACTS),
+                (GvFactList) mController.getData(GvDataList.GvType.FACTS));
 
-        mController.setData(comments);
+        MdGvEquality.check((MdImageList) testSetAndGetData(GvDataList.GvType.IMAGES),
+                (GvImageList) mController.getData(GvDataList.GvType.IMAGES));
 
-        gvComments = (GvCommentList) mController.getData(dataType);
-        rdComments = mReview.getComments();
-        assertNotNull(gvComments);
-        assertNotNull(rdComments);
-        assertEquals(rdData.size(), gvComments.size());
-        assertEquals(rdData.size(), rdComments.size());
-        for (int i = 0; i < rdData.size(); ++i) {
-            assertEquals(rdData.getItem(i).getComment(), rdComments.getItem(i).getComment());
-            assertEquals(rdData.getItem(i).getComment(), gvComments.getItem(i).getComment());
-        }
+        MdGvEquality.check((MdLocationList) testSetAndGetData(GvDataList.GvType.LOCATIONS),
+                (GvLocationList) mController.getData(GvDataList.GvType.LOCATIONS));
+
+        MdGvEquality.check((MdUrlList) testSetAndGetData(GvDataList.GvType.URLS),
+                (GvUrlList) mController.getData(GvDataList.GvType.URLS));
     }
 
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        mRDataMocker = new RDataMocker(mReview);
         mReview = ReviewMocker.newReviewEditable();
         mController = new ControllerReviewEditable(mReview);
+        mMdDataMocker = new MdDataMocker<>(mReview);
+    }
+
+    private MdDataList testSetAndGetData(GvDataList.GvType dataType) {
+        //No data to begin with
+        GvDataList controllerData = mController.getData(dataType);
+        MdDataList reviewData = ReviewGetSetDelete.getData(dataType, mReview);
+        assertNotNull(controllerData);
+        assertNotNull(reviewData);
+        assertEquals(0, controllerData.size());
+        assertEquals(0, reviewData.size());
+
+        //Get mock data and check there is some
+        MdDataList mockData = mMdDataMocker.getData(dataType, NUM);
+        assertNotNull(mockData);
+        assertTrue(mockData.size() > 0);
+
+        //Convert it to GvData and check same size
+        GvDataList setData = MdToGvConverter.convert(dataType, mockData);
+        assertNotNull(setData);
+        assertEquals(mockData.size(), setData.size());
+
+        //Set data
+        mController.setData(setData);
+
+        //Re-get data from controller and review an check same size
+        controllerData = mController.getData(dataType);
+        reviewData = ReviewGetSetDelete.getData(dataType, mReview);
+        assertNotNull(controllerData);
+        assertNotNull(reviewData);
+        assertEquals(mockData.size(), controllerData.size());
+        assertEquals(mockData.size(), reviewData.size());
+
+        //Check mock data = review data, and controller data = set data
+        for (int i = 0; i < mockData.size(); ++i) {
+            assertEquals(mockData.getItem(i), reviewData.getItem(i));
+            assertEquals(setData.getItem(i), controllerData.getItem(i));
+        }
+
+        return mockData;
     }
 }

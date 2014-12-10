@@ -22,30 +22,30 @@ import java.util.UUID;
  * <p/>
  * //TODO There's a reason couldn't use holding review but can't remember. Find out.
  */
-public class RDId implements MdData {
+public class ReviewId implements MdData {
     private final UUID mId;
 
     /**
      * To facilitate RCollectionReview
      */
     public interface RDIdAble {
-        public RDId getId();
+        public ReviewId getId();
     }
 
-    private RDId() {
+    private ReviewId() {
         mId = UUID.randomUUID();
     }
 
-    private RDId(String rdId) {
+    private ReviewId(String rdId) {
         mId = UUID.fromString(rdId);
     }
 
-    public static RDId generateId() {
-        return new RDId();
+    public static ReviewId generateId() {
+        return new ReviewId();
     }
 
-    static RDId generateId(String rdId) {
-        return new RDId(rdId);
+    static ReviewId generateId(String rdId) {
+        return new ReviewId(rdId);
     }
 
     @Override
@@ -58,8 +58,8 @@ public class RDId implements MdData {
         return true;
     }
 
-    public boolean equals(RDId rdId) {
-        return mId.equals(rdId.mId);
+    public boolean equals(ReviewId reviewId) {
+        return mId.equals(reviewId.mId);
     }
 
     @Override
@@ -68,7 +68,7 @@ public class RDId implements MdData {
             return false;
         }
 
-        RDId objId = (RDId) obj;
+        ReviewId objId = (ReviewId) obj;
         return this.mId.equals(objId.mId);
     }
 

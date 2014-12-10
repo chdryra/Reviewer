@@ -13,7 +13,7 @@ package com.chdryra.android.reviewer;
  * On: 06/12/2014
  * Email: rizwan.choudrey@gmail.com
  */
-public class MdFactList extends MdList<MdFactList.MdFact> {
+public class MdFactList extends MdDataList<MdFactList.MdFact> {
 
     public MdFactList(Review holdingReview) {
         super(holdingReview);

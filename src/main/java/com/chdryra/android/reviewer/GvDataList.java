@@ -14,7 +14,7 @@ import com.chdryra.android.mygenerallibrary.ViewHolderData;
 import com.chdryra.android.mygenerallibrary.ViewHolderDataList;
 
 /**
- * The (Grid) View layer (V) equivalent of the Model layer (M) {@link MdList}. Implementation of
+ * The (Grid) View layer (V) equivalent of the Model layer (M) {@link MdDataList}. Implementation of
  * {@link ViewHolderDataList} tailored for Review data accessed via a {@link ControllerReview} (C)
  * that
  * translates between

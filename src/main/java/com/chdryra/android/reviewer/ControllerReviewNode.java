@@ -12,9 +12,7 @@ package com.chdryra.android.reviewer;
  * Expands on {@link ControllerReview} to include the {@link ReviewNode} interface.
  */
 public class ControllerReviewNode extends ControllerReview<ReviewNode> {
-    private ControllerReviewCollection<ReviewNode> mChildrenController;
-
-    ControllerReviewNode(ReviewNode node) {
+    public ControllerReviewNode(ReviewNode node) {
         super(node);
     }
 
@@ -35,8 +33,7 @@ public class ControllerReviewNode extends ControllerReview<ReviewNode> {
     }
 
     ControllerReviewCollection<ReviewNode> getChildrenController() {
-        if (mChildrenController == null) mChildrenController = createChildrenController();
-        return mChildrenController;
+        return createChildrenController();
     }
 
     boolean isReviewRatingAverage() {
