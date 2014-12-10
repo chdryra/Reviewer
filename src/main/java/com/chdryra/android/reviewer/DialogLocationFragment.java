@@ -88,13 +88,13 @@ public class DialogLocationFragment extends DialogCancelActionDoneFragment imple
         View v = getActivity().getLayoutInflater().inflate(R.layout.dialog_location, null);
         mNameEditText = (ClearableEditText) v.findViewById(R.id.location_edit_text);
 
-        if (mController.hasData(GVDataList.GvType.LOCATIONS)) {
-            GVLocationList.GvLocation location = (GVLocationList.GvLocation) mController.getData
-                    (GVDataList.GvType.LOCATIONS).getItem(0);
+        if (mController.hasData(VgDataList.GvType.LOCATIONS)) {
+            VgLocationList.GvLocation location = (VgLocationList.GvLocation) mController.getData
+                    (VgDataList.GvType.LOCATIONS).getItem(0);
             mLatLng = location.getLatLng();
             mNameEditText.setText(location.getName());
-        } else if (mController.hasData(GVDataList.GvType.IMAGES)) {
-            GVImageList.GvImage image = (GVImageList.GvImage) mController.getData(GVDataList
+        } else if (mController.hasData(VgDataList.GvType.IMAGES)) {
+            VgImageList.GvImage image = (VgImageList.GvImage) mController.getData(VgDataList
                     .GvType.IMAGES).getItem(0);
             LatLng latLng = image.getLatLng();
             if (latLng != null) {
@@ -147,25 +147,25 @@ public class DialogLocationFragment extends DialogCancelActionDoneFragment imple
 
     @Override
     protected void onActionButtonClick() {
-        InputHandlerReviewData<GVLocationList.GvLocation> handler = new
-                InputHandlerReviewData<GVLocationList.GvLocation>
-                (GVDataList.GvType.LOCATIONS);
+        InputHandlerReviewData<VgLocationList.GvLocation> handler = new
+                InputHandlerReviewData<VgLocationList.GvLocation>
+                (VgDataList.GvType.LOCATIONS);
         handler.pack(InputHandlerReviewData.CurrentNewDatum.NEW, createGVData(),
                 createNewReturnData());
     }
 
     @Override
     protected void onDoneButtonClick() {
-        GVLocationList.GvLocation location = createGVData();
+        VgLocationList.GvLocation location = createGVData();
         if (location.isValidForDisplay()) {
-            GVLocationList locations = new GVLocationList();
+            VgLocationList locations = new VgLocationList();
             locations.add(location);
             mController.setData(locations);
         }
     }
 
-    GVLocationList.GvLocation createGVData() {
-        return new GVLocationList.GvLocation(mLatLng, mNameEditText.getText().toString().trim());
+    VgLocationList.GvLocation createGVData() {
+        return new VgLocationList.GvLocation(mLatLng, mNameEditText.getText().toString().trim());
     }
 
     private void setSuggestionsAdapter() {

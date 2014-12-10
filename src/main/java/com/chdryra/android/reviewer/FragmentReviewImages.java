@@ -29,24 +29,24 @@ import com.chdryra.android.mygenerallibrary.DialogTwoButtonFragment.ActionType;
  * </ul>
  * </p>
  */
-public class FragmentReviewImages extends FragmentReviewGridAddEdit<GVImageList.GvImage>
+public class FragmentReviewImages extends FragmentReviewGridAddEdit<VgImageList.GvImage>
         implements ImageChooser.ImageChooserListener {
     private static final String POSITION = "com.chdryra.android.reviewer.image_position";
 
     private static final String IMAGE_BACKGROUND_TAG = "DataEditTag";
     private static final int    IMAGE_AS_BACKGROUND  = 20;
 
-    private GVImageList  mImages;
+    private VgImageList  mImages;
     private ImageChooser mImageChooser;
 
     public FragmentReviewImages() {
-        super(GVDataList.GvType.IMAGES, new InputHandlerImage());
+        super(VgDataList.GvType.IMAGES, new InputHandlerImage());
         setAddResultCode(ActivityResultCode.OK);
         setGridCellDimension(CellDimension.HALF, CellDimension.HALF);
     }
 
     @Override
-    public void onImageChosen(GVImageList.GvImage image) {
+    public void onImageChosen(VgImageList.GvImage image) {
         doDatumAdd(image);
     }
 
@@ -69,7 +69,7 @@ public class FragmentReviewImages extends FragmentReviewGridAddEdit<GVImageList.
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mImages = (GVImageList) getInputHandler().getData();
+        mImages = (VgImageList) getInputHandler().getData();
         mImageChooser = new ImageChooser(getController(), getActivity());
     }
 
@@ -80,7 +80,7 @@ public class FragmentReviewImages extends FragmentReviewGridAddEdit<GVImageList.
     }
 
     @Override
-    boolean doDatumAdd(final GVImageList.GvImage image) {
+    boolean doDatumAdd(final VgImageList.GvImage image) {
         boolean success = getInputHandler().add(image, getActivity());
         if (success) {
             if (mImages.size() == 1) setCover(0);
@@ -91,7 +91,7 @@ public class FragmentReviewImages extends FragmentReviewGridAddEdit<GVImageList.
     }
 
     @Override
-    void doDatumDelete(GVImageList.GvImage image) {
+    void doDatumDelete(VgImageList.GvImage image) {
         super.doDatumDelete(image);
         if (image.isCover()) setCover(0);
     }
@@ -113,7 +113,7 @@ public class FragmentReviewImages extends FragmentReviewGridAddEdit<GVImageList.
 
     private void setCover(int position) {
         if (mImages.size() > 0 && position < mImages.size()) {
-            for (GVImageList.GvImage image : mImages) {
+            for (VgImageList.GvImage image : mImages) {
                 image.setIsCover(false);
             }
 

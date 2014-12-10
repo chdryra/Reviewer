@@ -11,11 +11,11 @@ package com.chdryra.android.reviewer.test;
 import android.test.AndroidTestCase;
 
 import com.chdryra.android.reviewer.ControllerReviewEditable;
-import com.chdryra.android.reviewer.GVCommentList;
-import com.chdryra.android.reviewer.GVDataList;
 import com.chdryra.android.reviewer.MdCommentList;
 import com.chdryra.android.reviewer.MdToGvConverter;
 import com.chdryra.android.reviewer.ReviewEditable;
+import com.chdryra.android.reviewer.VgCommentList;
+import com.chdryra.android.reviewer.VgDataList;
 import com.chdryra.android.reviewer.test.TestUtils.RDataMocker;
 import com.chdryra.android.reviewer.test.TestUtils.RandomStringGenerator;
 import com.chdryra.android.reviewer.test.TestUtils.ReviewMocker;
@@ -49,8 +49,8 @@ public class ControllerReviewEditableTest extends AndroidTestCase {
     }
 
     public void testSetComments() {
-        GVDataList.GvType dataType = GVDataList.GvType.COMMENTS;
-        GVCommentList gvComments = (GVCommentList) mController.getData(dataType);
+        VgDataList.GvType dataType = VgDataList.GvType.COMMENTS;
+        VgCommentList gvComments = (VgCommentList) mController.getData(dataType);
         MdCommentList rdComments = mReview.getComments();
         assertNotNull(gvComments);
         assertNotNull(rdComments);
@@ -60,13 +60,13 @@ public class ControllerReviewEditableTest extends AndroidTestCase {
         MdCommentList rdData = mRDataMocker.newCommentList(NUM);
         assertNotNull(rdData);
         assertTrue(rdData.size() > 0);
-        GVCommentList comments = MdToGvConverter.convert(rdData);
+        VgCommentList comments = MdToGvConverter.convert(rdData);
         assertNotNull(comments);
         assertEquals(rdData.size(), comments.size());
 
         mController.setData(comments);
 
-        gvComments = (GVCommentList) mController.getData(dataType);
+        gvComments = (VgCommentList) mController.getData(dataType);
         rdComments = mReview.getComments();
         assertNotNull(gvComments);
         assertNotNull(rdComments);

@@ -11,7 +11,7 @@ package com.chdryra.android.reviewer;
 import com.chdryra.android.mygenerallibrary.ViewHolderData;
 
 /**
- * {@link com.chdryra.android.mygenerallibrary.ViewHolder}: {@link GVLocationList.GvLocation}.
+ * {@link com.chdryra.android.mygenerallibrary.ViewHolder}: {@link VgLocationList.GvLocation}.
  * Shows shortened
  * location name.
  */
@@ -21,7 +21,7 @@ class VHLocation extends VHText {
         super(new VHDataStringGetter() {
             @Override
             public String getString(ViewHolderData data) {
-                GVLocationList.GvLocation location = (GVLocationList.GvLocation) data;
+                VgLocationList.GvLocation location = (VgLocationList.GvLocation) data;
                 String at = showAt ? "@" : "";
                 return location != null ? at + location.getShortenedName() : null;
             }

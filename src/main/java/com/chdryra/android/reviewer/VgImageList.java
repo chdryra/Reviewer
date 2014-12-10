@@ -21,9 +21,9 @@ import java.util.Random;
  * Includes methods for adding captions and getting images designated as "covers" which can be
  * used as a background image for a review.
  */
-public class GVImageList extends GVDataList<GVImageList.GvImage> {
+public class VgImageList extends VgDataList<VgImageList.GvImage> {
 
-    GVImageList() {
+    VgImageList() {
         super(GvType.IMAGES);
     }
 
@@ -40,7 +40,7 @@ public class GVImageList extends GVDataList<GVImageList.GvImage> {
     }
 
     GvImage getRandomCover() {
-        GVImageList covers = getCovers();
+        VgImageList covers = getCovers();
         if (covers.size() == 0) {
             return null;
         }
@@ -50,8 +50,8 @@ public class GVImageList extends GVDataList<GVImageList.GvImage> {
         return covers.getItem(r.nextInt(covers.size()));
     }
 
-    GVImageList getCovers() {
-        GVImageList covers = new GVImageList();
+    VgImageList getCovers() {
+        VgImageList covers = new VgImageList();
         for (GvImage image : this) {
             if (image.isCover()) {
                 covers.add(image);
@@ -62,11 +62,11 @@ public class GVImageList extends GVDataList<GVImageList.GvImage> {
     }
 
     /**
-     * {@link GVDataList.GvData} version of: {@link com.chdryra
+     * {@link VgDataList.GvData} version of: {@link com.chdryra
      * .android.reviewer.MdImageList.MdImage}
      * {@link ViewHolder}: {@link VHImage}
      */
-    public static class GvImage implements GVDataList.GvData, DataImage {
+    public static class GvImage implements VgDataList.GvData, DataImage {
         public static final Parcelable.Creator<GvImage> CREATOR = new Parcelable
                 .Creator<GvImage>() {
             public GvImage createFromParcel(Parcel in) {

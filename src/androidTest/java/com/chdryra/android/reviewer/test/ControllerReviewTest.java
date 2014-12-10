@@ -11,13 +11,6 @@ package com.chdryra.android.reviewer.test;
 import android.test.AndroidTestCase;
 
 import com.chdryra.android.reviewer.ControllerReview;
-import com.chdryra.android.reviewer.GVCommentList;
-import com.chdryra.android.reviewer.GVDataList;
-import com.chdryra.android.reviewer.GVFactList;
-import com.chdryra.android.reviewer.GVImageList;
-import com.chdryra.android.reviewer.GVLocationList;
-import com.chdryra.android.reviewer.GVTagList;
-import com.chdryra.android.reviewer.GVUrlList;
 import com.chdryra.android.reviewer.MdCommentList;
 import com.chdryra.android.reviewer.MdFactList;
 import com.chdryra.android.reviewer.MdImageList;
@@ -25,6 +18,13 @@ import com.chdryra.android.reviewer.MdLocationList;
 import com.chdryra.android.reviewer.MdUrlList;
 import com.chdryra.android.reviewer.Review;
 import com.chdryra.android.reviewer.ReviewEditable;
+import com.chdryra.android.reviewer.VgCommentList;
+import com.chdryra.android.reviewer.VgDataList;
+import com.chdryra.android.reviewer.VgFactList;
+import com.chdryra.android.reviewer.VgImageList;
+import com.chdryra.android.reviewer.VgLocationList;
+import com.chdryra.android.reviewer.VgTagList;
+import com.chdryra.android.reviewer.VgUrlList;
 import com.chdryra.android.reviewer.test.TestUtils.RDataMocker;
 import com.chdryra.android.reviewer.test.TestUtils.RandomStringGenerator;
 import com.chdryra.android.reviewer.test.TestUtils.ReviewMocker;
@@ -38,7 +38,7 @@ import java.util.Random;
  */
 
 public class ControllerReviewTest extends AndroidTestCase {
-    private static GVDataList.GvType[] sMRelevantGvTypes;
+    private static VgDataList.GvType[] sMRelevantGvTypes;
     private        Review              mReview;
     private        ControllerReview    mController;
     private        RDataMocker         mRdataMocker;
@@ -72,7 +72,7 @@ public class ControllerReviewTest extends AndroidTestCase {
     }
 
     public void testAddTags() {
-        GVTagList getTags = (GVTagList) mController.getData(GVDataList.GvType.TAGS);
+        VgTagList getTags = (VgTagList) mController.getData(VgDataList.GvType.TAGS);
         assertTrue(getTags.size() == 0);
 
         String[] tagArray = new String[3];
@@ -80,13 +80,13 @@ public class ControllerReviewTest extends AndroidTestCase {
         tagArray[1] = "Beta";
         tagArray[2] = "Gamma";
 
-        GVTagList tags = new GVTagList();
+        VgTagList tags = new VgTagList();
         tags.add(tagArray[0]);
         tags.add(tagArray[1]);
         tags.add(tagArray[2]);
         mController.addTags(tags);
 
-        getTags = (GVTagList) mController.getData(GVDataList.GvType.TAGS);
+        getTags = (VgTagList) mController.getData(VgDataList.GvType.TAGS);
         assertEquals(tags.size(), getTags.size());
         for (int i = 0; i < tagArray.length; ++i) {
             assertEquals(tagArray[i], getTags.getItem(i).get());
@@ -94,7 +94,7 @@ public class ControllerReviewTest extends AndroidTestCase {
     }
 
     public void testRemoveTags() {
-        GVTagList getTags = (GVTagList) mController.getData(GVDataList.GvType.TAGS);
+        VgTagList getTags = (VgTagList) mController.getData(VgDataList.GvType.TAGS);
         assertTrue(getTags.size() == 0);
 
         String[] tagArray = new String[3];
@@ -102,17 +102,17 @@ public class ControllerReviewTest extends AndroidTestCase {
         tagArray[1] = "Beta";
         tagArray[2] = "Gamma";
 
-        GVTagList tags = new GVTagList();
+        VgTagList tags = new VgTagList();
         tags.add(tagArray[0]);
         tags.add(tagArray[1]);
         tags.add(tagArray[2]);
         mController.addTags(tags);
 
-        getTags = (GVTagList) mController.getData(GVDataList.GvType.TAGS);
+        getTags = (VgTagList) mController.getData(VgDataList.GvType.TAGS);
         assertEquals(tags.size(), getTags.size());
 
         mController.removeTags();
-        getTags = (GVTagList) mController.getData(GVDataList.GvType.TAGS);
+        getTags = (VgTagList) mController.getData(VgDataList.GvType.TAGS);
         assertTrue(getTags.size() == 0);
     }
 
@@ -127,42 +127,42 @@ public class ControllerReviewTest extends AndroidTestCase {
         //Comments
         testOnlyHasData(controller, null);
         editable.setComments(mRdataMocker.newCommentList(rand.nextInt(num) + 1));
-        testOnlyHasData(controller, GVDataList.GvType.COMMENTS);
+        testOnlyHasData(controller, VgDataList.GvType.COMMENTS);
         editable.deleteComments();
 
         //Facts
         testOnlyHasData(controller, null);
         editable.setFacts(mRdataMocker.newFactList(rand.nextInt(num) + 1));
-        testOnlyHasData(controller, GVDataList.GvType.FACTS);
+        testOnlyHasData(controller, VgDataList.GvType.FACTS);
         editable.deleteFacts();
 
         //Images
         testOnlyHasData(controller, null);
         editable.setImages(mRdataMocker.newImageList(rand.nextInt(num) + 1));
-        testOnlyHasData(controller, GVDataList.GvType.IMAGES);
+        testOnlyHasData(controller, VgDataList.GvType.IMAGES);
         editable.deleteImages();
 
         //Locations
         testOnlyHasData(controller, null);
         editable.setLocations(mRdataMocker.newLocationList(rand.nextInt(num) + 1));
-        testOnlyHasData(controller, GVDataList.GvType.LOCATIONS);
+        testOnlyHasData(controller, VgDataList.GvType.LOCATIONS);
         editable.deleteLocations();
 
         //Urls
         testOnlyHasData(controller, null);
         editable.setUrls(mRdataMocker.newUrlList(rand.nextInt(num) + 1));
-        testOnlyHasData(controller, GVDataList.GvType.URLS);
+        testOnlyHasData(controller, VgDataList.GvType.URLS);
         editable.deleteUrls();
 
         //Tags
         testOnlyHasData(controller, null);
-        GVTagList tags = new GVTagList();
+        VgTagList tags = new VgTagList();
         int maxTags = rand.nextInt(num);
         for (int i = 0; i < maxTags; ++i) {
             tags.add(RandomStringGenerator.nextWord());
         }
         controller.addTags(tags);
-        testOnlyHasData(controller, GVDataList.GvType.TAGS);
+        testOnlyHasData(controller, VgDataList.GvType.TAGS);
         controller.removeTags();
         testOnlyHasData(controller, null);
     }
@@ -176,20 +176,20 @@ public class ControllerReviewTest extends AndroidTestCase {
         Random rand = new Random();
 
         //Comments
-        testAndGetGVList(GVDataList.GvType.COMMENTS, controller, 0);
+        testAndGetGVList(VgDataList.GvType.COMMENTS, controller, 0);
         MdCommentList rdComments = mRdataMocker.newCommentList(rand.nextInt(num) + 1);
         editable.setComments(rdComments);
-        GVCommentList gvComments = (GVCommentList) testAndGetGVList(GVDataList.GvType
+        VgCommentList gvComments = (VgCommentList) testAndGetGVList(VgDataList.GvType
                 .COMMENTS, controller, rdComments.size());
         for (int i = 0; i < rdComments.size(); ++i) {
             assertEquals(rdComments.getItem(i).getComment(), gvComments.getItem(i).getComment());
         }
 
         //Facts
-        testAndGetGVList(GVDataList.GvType.FACTS, controller, 0);
+        testAndGetGVList(VgDataList.GvType.FACTS, controller, 0);
         MdFactList rdFacts = mRdataMocker.newFactList(rand.nextInt(num) + 1);
         editable.setFacts(rdFacts);
-        GVFactList gvFacts = (GVFactList) testAndGetGVList(GVDataList.GvType.FACTS,
+        VgFactList gvFacts = (VgFactList) testAndGetGVList(VgDataList.GvType.FACTS,
                 controller, rdFacts.size());
         for (int i = 0; i < rdFacts.size(); ++i) {
             assertEquals(rdFacts.getItem(i).getLabel(), gvFacts.getItem(i).getLabel());
@@ -197,14 +197,14 @@ public class ControllerReviewTest extends AndroidTestCase {
         }
 
         //Images
-        testAndGetGVList(GVDataList.GvType.IMAGES, controller, 0);
+        testAndGetGVList(VgDataList.GvType.IMAGES, controller, 0);
         MdImageList rdImages = mRdataMocker.newImageList(rand.nextInt(num) + 1);
         editable.setImages(rdImages);
-        GVImageList gvImages = (GVImageList) testAndGetGVList(GVDataList.GvType.IMAGES,
+        VgImageList gvImages = (VgImageList) testAndGetGVList(VgDataList.GvType.IMAGES,
                 controller, rdImages.size());
         for (int i = 0; i < rdImages.size(); ++i) {
             MdImageList.MdImage mdImage = rdImages.getItem(i);
-            GVImageList.GvImage gvImage = gvImages.getItem(i);
+            VgImageList.GvImage gvImage = gvImages.getItem(i);
             assertTrue(mdImage.getBitmap().sameAs(gvImage.getBitmap()));
             assertEquals(mdImage.getCaption(), gvImage.getCaption());
             assertEquals(mdImage.getLatLng(), gvImage.getLatLng());
@@ -212,10 +212,10 @@ public class ControllerReviewTest extends AndroidTestCase {
         }
 
         //Locations
-        testAndGetGVList(GVDataList.GvType.LOCATIONS, controller, 0);
+        testAndGetGVList(VgDataList.GvType.LOCATIONS, controller, 0);
         MdLocationList rdLocations = mRdataMocker.newLocationList(rand.nextInt(num) + 1);
         editable.setLocations(rdLocations);
-        GVLocationList gvLocations = (GVLocationList) testAndGetGVList(GVDataList.GvType
+        VgLocationList gvLocations = (VgLocationList) testAndGetGVList(VgDataList.GvType
                 .LOCATIONS, controller, rdLocations.size());
         for (int i = 0; i < rdLocations.size(); ++i) {
             assertEquals(rdLocations.getItem(i).getLatLng(), gvLocations.getItem(i).getLatLng());
@@ -223,10 +223,10 @@ public class ControllerReviewTest extends AndroidTestCase {
         }
 
         //Urls
-        testAndGetGVList(GVDataList.GvType.URLS, controller, 0);
+        testAndGetGVList(VgDataList.GvType.URLS, controller, 0);
         MdUrlList rdUrls = mRdataMocker.newUrlList(rand.nextInt(num) + 1);
         editable.setUrls(rdUrls);
-        GVUrlList gvUrls = (GVUrlList) testAndGetGVList(GVDataList.GvType.URLS,
+        VgUrlList gvUrls = (VgUrlList) testAndGetGVList(VgDataList.GvType.URLS,
                 controller, rdUrls.size());
         for (int i = 0; i < rdUrls.size(); ++i) {
             assertEquals(rdUrls.getItem(i).getUrl(), gvUrls.getItem(i).getUrl());
@@ -239,23 +239,23 @@ public class ControllerReviewTest extends AndroidTestCase {
         mReview = ReviewMocker.newReview();
         mController = new ControllerReview<>(mReview);
         mRdataMocker = new RDataMocker(mReview);
-        sMRelevantGvTypes = new GVDataList.GvType[]{GVDataList.GvType.FACTS,
-                GVDataList.GvType.URLS,
-                GVDataList.GvType.LOCATIONS, GVDataList.GvType.COMMENTS,
-                GVDataList.GvType.IMAGES, GVDataList.GvType.TAGS};
+        sMRelevantGvTypes = new VgDataList.GvType[]{VgDataList.GvType.FACTS,
+                VgDataList.GvType.URLS,
+                VgDataList.GvType.LOCATIONS, VgDataList.GvType.COMMENTS,
+                VgDataList.GvType.IMAGES, VgDataList.GvType.TAGS};
     }
 
-    private GVDataList testAndGetGVList(GVDataList.GvType dataType,
+    private VgDataList testAndGetGVList(VgDataList.GvType dataType,
             ControllerReview controller, int expectedSize) {
-        GVDataList gvList = controller.getData(dataType);
+        VgDataList gvList = controller.getData(dataType);
         assertNotNull(gvList);
         assertEquals(expectedSize, gvList.size());
 
         return gvList;
     }
 
-    private void testOnlyHasData(ControllerReview controller, GVDataList.GvType dataType) {
-        for (GVDataList.GvType gv : sMRelevantGvTypes) {
+    private void testOnlyHasData(ControllerReview controller, VgDataList.GvType dataType) {
+        for (VgDataList.GvType gv : sMRelevantGvTypes) {
             if (gv == dataType) {
                 assertTrue(controller.hasData(gv));
             } else {

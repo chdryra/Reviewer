@@ -14,7 +14,7 @@ import android.widget.TextView;
 
 import com.chdryra.android.mygenerallibrary.ViewHolderBasic;
 import com.chdryra.android.mygenerallibrary.ViewHolderData;
-import com.chdryra.android.reviewer.GVOverviewList.GvOverview;
+import com.chdryra.android.reviewer.VgOverviewList.GvOverview;
 
 import java.text.DateFormat;
 

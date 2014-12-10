@@ -22,9 +22,9 @@ import com.chdryra.android.mygenerallibrary.ActivityResultCode;
  * </ul>
  * </p>
  */
-public class FragmentReviewURLs extends FragmentReviewGridAddEdit<GVUrlList.GvUrl> {
+public class FragmentReviewURLs extends FragmentReviewGridAddEdit<VgUrlList.GvUrl> {
     public FragmentReviewURLs() {
-        super(GVDataList.GvType.URLS);
+        super(VgDataList.GvType.URLS);
         setAddResultCode(ActivityResultCode.DONE);
     }
 }

@@ -35,7 +35,7 @@ import com.chdryra.android.mygenerallibrary.ViewHolderAdapter;
 
 /**
  * UI Fragment: base class for all the review data interaction UIs. Knows how to present a
- * {@link GVDataList} as grid cells in a GridView.
+ * {@link VgDataList} as grid cells in a GridView.
  * <p/>
  * <p>
  * Constructed out of 5 UI components that are populated by data from a
@@ -73,7 +73,7 @@ public abstract class FragmentReviewGrid extends FragmentDeleteDone {
     private int     mCellHeightDivider = 1;
     private boolean mIsEditable        = false;
     private String     mBannerButtonText;
-    private GVDataList mGridData;
+    private VgDataList mGridData;
     private GridViewImageAlpha mGridViewImageAlpha = GridViewImageAlpha.MEDIUM;
 
     /**
@@ -341,7 +341,7 @@ public abstract class FragmentReviewGrid extends FragmentDeleteDone {
 
     void updateCover() {
         if (getController() != null) {
-            updateCover((GVImageList) getController().getData(GVDataList.GvType.IMAGES));
+            updateCover((VgImageList) getController().getData(VgDataList.GvType.IMAGES));
         }
     }
 
@@ -371,9 +371,9 @@ public abstract class FragmentReviewGrid extends FragmentDeleteDone {
 
     @SuppressWarnings("deprecation")
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
-    void updateCover(GVImageList images) {
+    void updateCover(VgImageList images) {
         if (images.getCovers().size() > 0) {
-            GVImageList.GvImage cover = images.getRandomCover();
+            VgImageList.GvImage cover = images.getRandomCover();
             BitmapDrawable bitmap = new BitmapDrawable(getResources(), cover.getBitmap());
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
                 getLayout().setBackground(bitmap);
@@ -396,7 +396,7 @@ public abstract class FragmentReviewGrid extends FragmentDeleteDone {
         mIsEditable = isEditable;
     }
 
-    void setGridViewData(GVDataList gridData) {
+    void setGridViewData(VgDataList gridData) {
         mGridData = gridData;
     }
 
@@ -408,7 +408,7 @@ public abstract class FragmentReviewGrid extends FragmentDeleteDone {
         return getSubjectView().getText().toString();
     }
 
-    GVDataList getGridData() {
+    VgDataList getGridData() {
         return mGridData;
     }
 }

@@ -43,10 +43,10 @@ import android.widget.Button;
  *
  * @see com.chdryra.android.reviewer.ActivityReviewShare
  * @see com.chdryra.android.reviewer.SocialPlatformList
- * @see com.chdryra.android.reviewer.GVSocialPlatformList
+ * @see VgSocialPlatformList
  */
 public class FragmentReviewShare extends FragmentReviewGrid {
-    private GVSocialPlatformList mSocialList;
+    private VgSocialPlatformList mSocialList;
     private Drawable             mDefault;
 
     @Override
@@ -92,7 +92,7 @@ public class FragmentReviewShare extends FragmentReviewGrid {
 
     @Override
     protected void onGridItemClick(AdapterView<?> parent, View v, int position, long id) {
-        GVSocialPlatformList.GVSocialPlatform platform = (GVSocialPlatformList.GVSocialPlatform)
+        VgSocialPlatformList.VgSocialPlatform platform = (VgSocialPlatformList.VgSocialPlatform)
                 parent.getItemAtPosition(position);
         if (mDefault == null && !platform.isChosen()) {
             mDefault = v.getBackground();

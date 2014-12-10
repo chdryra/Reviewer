@@ -20,7 +20,7 @@ public class PublishedReviews {
         mController = new ControllerReviewCollection<>(new RCollectionReview<ReviewNode>());
     }
 
-    public GVDataList toGridViewable() {
+    public VgDataList toGridViewable() {
         return mController.toGridViewable(true);
     }
 

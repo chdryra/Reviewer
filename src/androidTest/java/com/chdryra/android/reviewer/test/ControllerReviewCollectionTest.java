@@ -11,11 +11,11 @@ package com.chdryra.android.reviewer.test;
 import android.test.AndroidTestCase;
 
 import com.chdryra.android.reviewer.ControllerReviewCollection;
-import com.chdryra.android.reviewer.GVDataList;
-import com.chdryra.android.reviewer.GVOverviewList;
-import com.chdryra.android.reviewer.GVSubjectRatingList;
 import com.chdryra.android.reviewer.RCollectionReview;
 import com.chdryra.android.reviewer.Review;
+import com.chdryra.android.reviewer.VgDataList;
+import com.chdryra.android.reviewer.VgOverviewList;
+import com.chdryra.android.reviewer.VgSubjectRatingList;
 import com.chdryra.android.reviewer.test.TestUtils.ReviewMocker;
 
 import java.util.Random;
@@ -31,8 +31,8 @@ public class ControllerReviewCollectionTest extends AndroidTestCase {
     private ControllerReviewCollection<Review> mController;
 
     public void testAddReview() {
-        GVDataList list = mController.toGridViewable(false);
-        GVDataList listP = mController.toGridViewable(true);
+        VgDataList list = mController.toGridViewable(false);
+        VgDataList listP = mController.toGridViewable(true);
         assertNotNull(list);
         assertNotNull(listP);
         assertEquals(0, list.size());
@@ -52,7 +52,7 @@ public class ControllerReviewCollectionTest extends AndroidTestCase {
     public void testToGridViewableFalse() {
         Review[] reviews = addReviews(mController, false, getRandInt());
         Review[] reviewsP = addReviews(mController, true, getRandInt());
-        GVSubjectRatingList rsList = (GVSubjectRatingList) mController.toGridViewable
+        VgSubjectRatingList rsList = (VgSubjectRatingList) mController.toGridViewable
                 (false);
         assertNotNull(rsList);
 
@@ -72,7 +72,7 @@ public class ControllerReviewCollectionTest extends AndroidTestCase {
     public void testToGridViewableTrue() {
         addReviews(mController, false, getRandInt());
         Review[] reviews = addReviews(mController, true, getRandInt());
-        GVOverviewList oList = (GVOverviewList) mController.toGridViewable(true);
+        VgOverviewList oList = (VgOverviewList) mController.toGridViewable(true);
         assertNotNull(oList);
         assertEquals(reviews.length, oList.size());
         for (int i = 0; i < reviews.length; ++i) {

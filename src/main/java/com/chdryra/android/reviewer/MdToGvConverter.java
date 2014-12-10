@@ -17,30 +17,30 @@ package com.chdryra.android.reviewer;
 public class MdToGvConverter {
 
     //Comments
-    public static GVCommentList convert(MdCommentList comments) {
-        GVCommentList list = new GVCommentList();
+    public static VgCommentList convert(MdCommentList comments) {
+        VgCommentList list = new VgCommentList();
         for (MdCommentList.MdComment comment : comments) {
-            list.add(new GVCommentList.GvComment(comment.getComment()));
+            list.add(new VgCommentList.GvComment(comment.getComment()));
         }
 
         return list;
     }
 
     //Facts
-    public static GVFactList convert(MdFactList facts) {
-        GVFactList list = new GVFactList();
+    public static VgFactList convert(MdFactList facts) {
+        VgFactList list = new VgFactList();
         for (MdFactList.MdFact fact : facts) {
-            list.add(new GVFactList.GvFact(fact.getLabel(), fact.getValue()));
+            list.add(new VgFactList.VgFact(fact.getLabel(), fact.getValue()));
         }
 
         return list;
     }
 
     //Images
-    public static GVImageList convert(MdImageList images) {
-        GVImageList list = new GVImageList();
+    public static VgImageList convert(MdImageList images) {
+        VgImageList list = new VgImageList();
         for (MdImageList.MdImage image : images) {
-            list.add(new GVImageList.GvImage(image.getBitmap(), image.getLatLng(),
+            list.add(new VgImageList.GvImage(image.getBitmap(), image.getLatLng(),
                     image.getCaption(),
                     image.isCover()));
         }
@@ -49,20 +49,20 @@ public class MdToGvConverter {
     }
 
     //Locations
-    public static GVLocationList convert(MdLocationList locations) {
-        GVLocationList list = new GVLocationList();
+    public static VgLocationList convert(MdLocationList locations) {
+        VgLocationList list = new VgLocationList();
         for (MdLocationList.MdLocation location : locations) {
-            list.add(new GVLocationList.GvLocation(location.getLatLng(), location.getName()));
+            list.add(new VgLocationList.GvLocation(location.getLatLng(), location.getName()));
         }
 
         return list;
     }
 
     //Urls
-    public static GVUrlList convert(MdUrlList urls) {
-        GVUrlList list = new GVUrlList();
+    public static VgUrlList convert(MdUrlList urls) {
+        VgUrlList list = new VgUrlList();
         for (MdUrlList.MdUrl url : urls) {
-            list.add(new GVUrlList.GvUrl(url.getUrl()));
+            list.add(new VgUrlList.GvUrl(url.getUrl()));
         }
 
         return list;

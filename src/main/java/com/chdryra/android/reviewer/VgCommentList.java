@@ -14,11 +14,11 @@ import android.os.Parcelable;
 import com.chdryra.android.mygenerallibrary.ViewHolder;
 
 /**
- * Includes method for generating split comments {@link GVCommentList} from current list.
+ * Includes method for generating split comments {@link VgCommentList} from current list.
  */
-public class GVCommentList extends GVDataList<GVCommentList.GvComment> {
+public class VgCommentList extends VgDataList<VgCommentList.GvComment> {
 
-    GVCommentList() {
+    VgCommentList() {
         super(GvType.COMMENTS);
     }
 
@@ -26,8 +26,8 @@ public class GVCommentList extends GVDataList<GVCommentList.GvComment> {
         add(new GvComment(comment));
     }
 
-    GVCommentList getSplitComments() {
-        GVCommentList splitComments = new GVCommentList();
+    VgCommentList getSplitComments() {
+        VgCommentList splitComments = new VgCommentList();
         for (GvComment comment : this) {
             splitComments.add(comment.getSplitComments());
         }
@@ -36,14 +36,14 @@ public class GVCommentList extends GVDataList<GVCommentList.GvComment> {
     }
 
     /**
-     * {@link GVDataList.GvData} version of: {@link com.chdryra
+     * {@link VgDataList.GvData} version of: {@link com.chdryra
      * .android.reviewer.MdCommentList.MdComment}
      * {@link ViewHolder}: {@link VHComment}
      * <p>
      * Methods for getting the comment headline and for splitting and unsplitting comments.
      * </p>
      */
-    public static class GvComment implements GVDataList.GvData, DataComment {
+    public static class GvComment implements VgDataList.GvData, DataComment {
         public static final Parcelable.Creator<GvComment> CREATOR = new Parcelable
                 .Creator<GvComment>() {
             public GvComment createFromParcel(Parcel in) {
@@ -122,8 +122,8 @@ public class GVCommentList extends GVDataList<GVCommentList.GvComment> {
             parcel.writeParcelable(mUnsplitParent, i);
         }
 
-        GVCommentList getSplitComments() {
-            GVCommentList splitComments = new GVCommentList();
+        VgCommentList getSplitComments() {
+            VgCommentList splitComments = new VgCommentList();
             for (String comment : CommentFormatter.split(mComment)) {
                 splitComments.add(new GvComment(comment, this));
             }

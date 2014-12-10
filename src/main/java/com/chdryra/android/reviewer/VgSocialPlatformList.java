@@ -23,26 +23,26 @@ import java.util.Comparator;
  * @see com.chdryra.android.reviewer.Administrator
  * @see com.chdryra.android.reviewer.SocialPlatformList
  */
-public class GVSocialPlatformList extends GVDataList<GVSocialPlatformList.GVSocialPlatform> {
+public class VgSocialPlatformList extends VgDataList<VgSocialPlatformList.VgSocialPlatform> {
 
-    private GVSocialPlatformList(Context context) {
+    private VgSocialPlatformList(Context context) {
         super(GvType.SOCIAL);
         for (SocialPlatform platform : SocialPlatformList.get(context)) {
-            add(new GVSocialPlatform(platform.getName(), platform.getFollowers()));
+            add(new VgSocialPlatform(platform.getName(), platform.getFollowers()));
         }
     }
 
-    static GVSocialPlatformList getLatest(Context context) {
+    static VgSocialPlatformList getLatest(Context context) {
         SocialPlatformList.update(context);
-        return new GVSocialPlatformList(context);
+        return new VgSocialPlatformList(context);
     }
 
     @Override
-    protected Comparator<GVSocialPlatform> getDefaultComparator() {
-        return new Comparator<GVSocialPlatform>() {
+    protected Comparator<VgSocialPlatform> getDefaultComparator() {
+        return new Comparator<VgSocialPlatform>() {
 
             @Override
-            public int compare(GVSocialPlatform lhs, GVSocialPlatform rhs) {
+            public int compare(VgSocialPlatform lhs, VgSocialPlatform rhs) {
                 int ret = 0;
                 if (lhs.getFollowers() > rhs.getFollowers()) {
                     ret = 1;
@@ -62,26 +62,26 @@ public class GVSocialPlatformList extends GVDataList<GVSocialPlatformList.GVSoci
      *
      * @see com.chdryra.android.reviewer.SocialPlatformList
      */
-    static class GVSocialPlatform extends GVDualText {
-        public static final Parcelable.Creator<GVSocialPlatform> CREATOR    = new Parcelable
-                .Creator<GVSocialPlatform>() {
-            public GVSocialPlatform createFromParcel(Parcel in) {
-                return new GVSocialPlatform(in);
+    static class VgSocialPlatform extends VgDualText {
+        public static final Parcelable.Creator<VgSocialPlatform> CREATOR    = new Parcelable
+                .Creator<VgSocialPlatform>() {
+            public VgSocialPlatform createFromParcel(Parcel in) {
+                return new VgSocialPlatform(in);
             }
 
-            public GVSocialPlatform[] newArray(int size) {
-                return new GVSocialPlatform[size];
+            public VgSocialPlatform[] newArray(int size) {
+                return new VgSocialPlatform[size];
             }
         };
         private             int                                  mFollowers = 0;
         private             boolean                              mIsChosen  = false;
 
-        GVSocialPlatform(String name, int followers) {
+        VgSocialPlatform(String name, int followers) {
             super(name, String.valueOf(followers));
             mFollowers = followers;
         }
 
-        public GVSocialPlatform(Parcel in) {
+        public VgSocialPlatform(Parcel in) {
             super(in);
             mFollowers = in.readInt();
             mIsChosen = in.readByte() != 0;
@@ -100,10 +100,10 @@ public class GVSocialPlatformList extends GVDataList<GVSocialPlatformList.GVSoci
         @Override
         public boolean equals(Object o) {
             if (this == o) return true;
-            if (!(o instanceof GVSocialPlatform)) return false;
+            if (!(o instanceof VgSocialPlatform)) return false;
             if (!super.equals(o)) return false;
 
-            GVSocialPlatform that = (GVSocialPlatform) o;
+            VgSocialPlatform that = (VgSocialPlatform) o;
 
             return mFollowers == that.mFollowers && mIsChosen == that.mIsChosen;
 

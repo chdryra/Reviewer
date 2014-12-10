@@ -10,7 +10,7 @@ package com.chdryra.android.reviewer;
 
 /**
  * {@link com.chdryra.android.mygenerallibrary.ViewHolder}: {@link com.chdryra.android.reviewer
- * .TagsManager.ReviewTag} ({@link GVText}). Shows tag
+ * .TagsManager.ReviewTag} ({@link VgText}). Shows tag
  * string.
  */
 class VHTag extends VHText {

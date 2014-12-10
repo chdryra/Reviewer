@@ -19,16 +19,16 @@ import android.widget.EditText;
 /**
  * {@link DialogHolderAddEdit}: tags
  */
-class DHTag extends DialogHolderAddEdit<GVTagList.GVTag> {
+class DHTag extends DialogHolderAddEdit<VgTagList.VgTag> {
     private static final int             LAYOUT    = R.layout.dialog_tag;
     private static final int             TAG       = R.id.tag_edit_text;
-    private static final GVTagList.GVTag NULL_DATA = new GVTagList.GVTag();
+    private static final VgTagList.VgTag NULL_DATA = new VgTagList.VgTag();
 
-    DHTag(DialogReviewDataAddFragment<GVTagList.GVTag> dialogAdd) {
+    DHTag(DialogReviewDataAddFragment<VgTagList.VgTag> dialogAdd) {
         super(LAYOUT, new int[]{TAG}, dialogAdd, NULL_DATA);
     }
 
-    DHTag(DialogReviewDataEditFragment<GVTagList.GVTag> dialogEdit) {
+    DHTag(DialogReviewDataEditFragment<VgTagList.VgTag> dialogEdit) {
         super(LAYOUT, new int[]{TAG}, dialogEdit);
     }
 
@@ -38,22 +38,22 @@ class DHTag extends DialogHolderAddEdit<GVTagList.GVTag> {
     }
 
     @Override
-    protected String getDialogOnAddTitle(GVTagList.GVTag data) {
+    protected String getDialogOnAddTitle(VgTagList.VgTag data) {
         return "#" + data.get();
     }
 
     @Override
-    protected String getDialogDeleteConfirmTitle(GVTagList.GVTag data) {
+    protected String getDialogDeleteConfirmTitle(VgTagList.VgTag data) {
         return data.get();
     }
 
     @Override
-    protected GVTagList.GVTag createGVData() {
-        return new GVTagList.GVTag(((EditText) getView(TAG)).getText().toString().trim());
+    protected VgTagList.VgTag createGVData() {
+        return new VgTagList.VgTag(((EditText) getView(TAG)).getText().toString().trim());
     }
 
     @Override
-    protected void updateWithGVData(GVTagList.GVTag tag) {
+    protected void updateWithGVData(VgTagList.VgTag tag) {
         ((EditText) getView(TAG)).setText(tag.get());
     }
 }

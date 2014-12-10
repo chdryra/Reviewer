@@ -33,7 +33,7 @@ public class ControllerReviewCollection<T extends Review> {
         mReviews.add(review);
     }
 
-    public GVDataList toGridViewable(boolean publishedOnly) {
+    public VgDataList toGridViewable(boolean publishedOnly) {
         return publishedOnly ? toGridViewablePublished() : toGridViewableAll();
     }
 
@@ -42,8 +42,8 @@ public class ControllerReviewCollection<T extends Review> {
         mControllers = new HashMap<>();
     }
 
-    private GVDataList toGridViewableAll() {
-        GVSubjectRatingList data = new GVSubjectRatingList();
+    private VgDataList toGridViewableAll() {
+        VgSubjectRatingList data = new VgSubjectRatingList();
         for (Review r : mReviews) {
             data.add(r.getSubject().get(), r.getRating().get());
         }
@@ -51,15 +51,15 @@ public class ControllerReviewCollection<T extends Review> {
         return data;
     }
 
-    private GVDataList toGridViewablePublished() {
-        GVOverviewList data = new GVOverviewList();
+    private VgDataList toGridViewablePublished() {
+        VgOverviewList data = new VgOverviewList();
         for (Review r : mReviews) {
             if (!r.isPublished()) continue;
             ControllerReview c = getControllerFor(r.getId().toString());
 
-            GVImageList images = (GVImageList) c.getData(GVDataList.GvType.IMAGES);
-            GVCommentList comments = (GVCommentList) c.getData(GVDataList.GvType.COMMENTS);
-            GVLocationList locations = (GVLocationList) c.getData(GVDataList.GvType
+            VgImageList images = (VgImageList) c.getData(VgDataList.GvType.IMAGES);
+            VgCommentList comments = (VgCommentList) c.getData(VgDataList.GvType.COMMENTS);
+            VgLocationList locations = (VgLocationList) c.getData(VgDataList.GvType
                     .LOCATIONS);
 
             Bitmap cover = images.size() > 0 ? images.getRandomCover().getBitmap() : null;

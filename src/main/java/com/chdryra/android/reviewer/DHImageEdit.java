@@ -20,13 +20,13 @@ import android.widget.ImageView;
 /**
  * {@link DialogHolderAddEdit}: images
  */
-class DHImageEdit extends DialogHolderAddEdit<GVImageList.GvImage> {
+class DHImageEdit extends DialogHolderAddEdit<VgImageList.GvImage> {
     private static final int LAYOUT  = R.layout.dialog_image;
     private static final int IMAGE   = R.id.dialog_image_image_view;
     private static final int CAPTION = R.id.dialog_image_caption_edit_text;
-    private final DialogReviewDataEditFragment<GVImageList.GvImage> mDialogEdit;
+    private final DialogReviewDataEditFragment<VgImageList.GvImage> mDialogEdit;
 
-    DHImageEdit(DialogReviewDataEditFragment<GVImageList.GvImage> dialogEdit) {
+    DHImageEdit(DialogReviewDataEditFragment<VgImageList.GvImage> dialogEdit) {
         super(LAYOUT, new int[]{IMAGE, CAPTION}, dialogEdit);
         mDialogEdit = dialogEdit;
         mDialogEdit.setDialogTitle(null);
@@ -39,26 +39,26 @@ class DHImageEdit extends DialogHolderAddEdit<GVImageList.GvImage> {
     }
 
     @Override
-    protected String getDialogOnAddTitle(GVImageList.GvImage data) {
+    protected String getDialogOnAddTitle(VgImageList.GvImage data) {
         //Standard add dialog not used for images
         return null;
     }
 
     @Override
-    protected String getDialogDeleteConfirmTitle(GVImageList.GvImage data) {
-        return GVDataList.GvType.IMAGES.getDatumString();
+    protected String getDialogDeleteConfirmTitle(VgImageList.GvImage data) {
+        return VgDataList.GvType.IMAGES.getDatumString();
     }
 
     @Override
-    protected GVImageList.GvImage createGVData() {
-        GVImageList.GvImage currentDatum = mDialogEdit.getDatum();
+    protected VgImageList.GvImage createGVData() {
+        VgImageList.GvImage currentDatum = mDialogEdit.getDatum();
         String caption = ((EditText) getView(CAPTION)).getText().toString().trim();
         currentDatum.setCaption(caption);
         return currentDatum;
     }
 
     @Override
-    protected void updateWithGVData(GVImageList.GvImage image) {
+    protected void updateWithGVData(VgImageList.GvImage image) {
         ImageView imageView = (ImageView) getView(IMAGE);
         EditText imageCaption = (EditText) getView(CAPTION);
 

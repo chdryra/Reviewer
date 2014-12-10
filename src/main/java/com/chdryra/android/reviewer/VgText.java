@@ -21,29 +21,29 @@ import com.chdryra.android.mygenerallibrary.VHDString;
 
 /**
  * Parcelable version of {@link com.chdryra.android.mygenerallibrary.VHDString} to comply with
- * {@link GVDataList.GvData}
+ * {@link VgDataList.GvData}
  */
-class GVText extends VHDString implements GVDataList.GvData {
-    public static final Parcelable.Creator<GVText> CREATOR = new Parcelable
-            .Creator<GVText>() {
-        public GVText createFromParcel(Parcel in) {
-            return new GVText(in);
+class VgText extends VHDString implements VgDataList.GvData {
+    public static final Parcelable.Creator<VgText> CREATOR = new Parcelable
+            .Creator<VgText>() {
+        public VgText createFromParcel(Parcel in) {
+            return new VgText(in);
         }
 
-        public GVText[] newArray(int size) {
-            return new GVText[size];
+        public VgText[] newArray(int size) {
+            return new VgText[size];
         }
     };
 
-    GVText() {
+    VgText() {
         super();
     }
 
-    GVText(String text) {
+    VgText(String text) {
         super(text);
     }
 
-    GVText(Parcel in) {
+    VgText(Parcel in) {
         super(in.readString());
     }
 

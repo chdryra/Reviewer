@@ -13,7 +13,8 @@ import com.chdryra.android.mygenerallibrary.VHDualString;
 import com.chdryra.android.mygenerallibrary.ViewHolderData;
 
 /**
- * {@link com.chdryra.android.mygenerallibrary.ViewHolder}: {@link GVFactList.GvFact}. Shows fact
+ * {@link com.chdryra.android.mygenerallibrary.ViewHolder}: {@link com.chdryra.android.reviewer
+ * .VgFactList.VgFact}. Shows fact
  * label top,
  * fact value bottom.
  */
@@ -28,7 +29,7 @@ class VHFact extends VHDualString {
 
     @Override
     public void updateView(ViewHolderData data) {
-        GVFactList.GvFact fact = (GVFactList.GvFact) data;
+        VgFactList.VgFact fact = (VgFactList.VgFact) data;
         if (fact != null) super.updateView(new VHDDualString(fact.getLabel(), fact.getValue()));
     }
 }

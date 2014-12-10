@@ -15,24 +15,24 @@ import com.chdryra.android.mygenerallibrary.ViewHolder;
 
 import java.util.Comparator;
 
-public class GVTagList extends GVDataList<GVTagList.GVTag> {
+public class VgTagList extends VgDataList<VgTagList.VgTag> {
 
-    public GVTagList() {
+    public VgTagList() {
         super(GvType.TAGS);
     }
 
     public void add(String string) {
         if (string != null && string.length() > 0) {
-            add(new GVTag(string));
+            add(new VgTag(string));
         }
     }
 
     @Override
-    protected Comparator<GVTag> getDefaultComparator() {
-        return new Comparator<GVTag>() {
+    protected Comparator<VgTag> getDefaultComparator() {
+        return new Comparator<VgTag>() {
 
             @Override
-            public int compare(GVTag lhs, GVTag rhs) {
+            public int compare(VgTag lhs, VgTag rhs) {
                 return lhs.get().compareTo(rhs.get());
             }
         };
@@ -46,27 +46,27 @@ public class GVTagList extends GVDataList<GVTagList.GVTag> {
      * Ignores case when comparing tags.
      * </p>
      */
-    public static class GVTag extends GVText {
-        public static final Parcelable.Creator<GVTag> CREATOR = new Parcelable
-                .Creator<GVTag>() {
-            public GVTag createFromParcel(Parcel in) {
-                return new GVTag(in);
+    public static class VgTag extends VgText {
+        public static final Parcelable.Creator<VgTag> CREATOR = new Parcelable
+                .Creator<VgTag>() {
+            public VgTag createFromParcel(Parcel in) {
+                return new VgTag(in);
             }
 
-            public GVTag[] newArray(int size) {
-                return new GVTag[size];
+            public VgTag[] newArray(int size) {
+                return new VgTag[size];
             }
         };
 
-        GVTag() {
+        VgTag() {
             super();
         }
 
-        GVTag(String tag) {
+        VgTag(String tag) {
             super(tag);
         }
 
-        GVTag(Parcel in) {
+        VgTag(Parcel in) {
             super(in);
         }
 

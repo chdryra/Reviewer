@@ -21,25 +21,25 @@ import com.chdryra.android.mygenerallibrary.VHDDualString;
 
 /**
  * Parcelable version of {@link com.chdryra.android.mygenerallibrary.VHDDualString} to comply with
- * {@link GVDataList.GvData}
+ * {@link VgDataList.GvData}
  */
-class GVDualText extends VHDDualString implements GVDataList.GvData {
-    public static final Parcelable.Creator<GVDualText> CREATOR = new Parcelable
-            .Creator<GVDualText>() {
-        public GVDualText createFromParcel(Parcel in) {
-            return new GVDualText(in);
+class VgDualText extends VHDDualString implements VgDataList.GvData {
+    public static final Parcelable.Creator<VgDualText> CREATOR = new Parcelable
+            .Creator<VgDualText>() {
+        public VgDualText createFromParcel(Parcel in) {
+            return new VgDualText(in);
         }
 
-        public GVDualText[] newArray(int size) {
-            return new GVDualText[size];
+        public VgDualText[] newArray(int size) {
+            return new VgDualText[size];
         }
     };
 
-    GVDualText(String upper, String lower) {
+    VgDualText(String upper, String lower) {
         super(upper, lower);
     }
 
-    GVDualText(Parcel in) {
+    VgDualText(Parcel in) {
         super(in.readString(), in.readString());
     }
 

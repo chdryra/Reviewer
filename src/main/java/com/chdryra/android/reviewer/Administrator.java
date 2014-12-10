@@ -78,8 +78,8 @@ public class Administrator {
         mPublishedReviews.add(publishedTree);
     }
 
-    public GVSocialPlatformList getSocialPlatformList() {
-        return GVSocialPlatformList.getLatest(mContext);
+    public VgSocialPlatformList getSocialPlatformList() {
+        return VgSocialPlatformList.getLatest(mContext);
     }
 
     public void pack(ControllerReview controller, Intent i) {

@@ -15,18 +15,18 @@ import com.chdryra.android.mygenerallibrary.ViewHolder;
 
 import java.util.Comparator;
 
-public class GVFactList extends GVDataList<GVFactList.GvFact> {
+public class VgFactList extends VgDataList<VgFactList.VgFact> {
 
-    GVFactList() {
+    VgFactList() {
         super(GvType.FACTS);
     }
 
     @Override
-    protected Comparator<GvFact> getDefaultComparator() {
+    protected Comparator<VgFact> getDefaultComparator() {
 
-        return new Comparator<GvFact>() {
+        return new Comparator<VgFact>() {
             @Override
-            public int compare(GvFact lhs, GvFact rhs) {
+            public int compare(VgFact lhs, VgFact rhs) {
                 int comp = lhs.getLabel().compareTo(rhs.getLabel());
                 if (comp == 0) {
                     comp = lhs.getValue().compareTo(rhs.getValue());
@@ -38,32 +38,32 @@ public class GVFactList extends GVDataList<GVFactList.GvFact> {
     }
 
     void add(String label, String value) {
-        add(new GvFact(label, value));
+        add(new VgFact(label, value));
     }
 
     /**
-     * {@link GVDataList.GvData} version of: {@link com.chdryra
+     * {@link VgDataList.GvData} version of: {@link com.chdryra
      * .android.reviewer.MdFactList.MdFact}
      * {@link ViewHolder}: {@link VHFact}
      */
 
-    public static class GvFact extends GVDualText implements DataFact {
-        public static final Parcelable.Creator<GvFact> CREATOR = new Parcelable
-                .Creator<GvFact>() {
-            public GvFact createFromParcel(Parcel in) {
-                return new GvFact(in);
+    public static class VgFact extends VgDualText implements DataFact {
+        public static final Parcelable.Creator<VgFact> CREATOR = new Parcelable
+                .Creator<VgFact>() {
+            public VgFact createFromParcel(Parcel in) {
+                return new VgFact(in);
             }
 
-            public GvFact[] newArray(int size) {
-                return new GvFact[size];
+            public VgFact[] newArray(int size) {
+                return new VgFact[size];
             }
         };
 
-        GvFact(String label, String value) {
+        VgFact(String label, String value) {
             super(label, value);
         }
 
-        private GvFact(Parcel in) {
+        private VgFact(Parcel in) {
             super(in.readString(), in.readString());
         }
 
