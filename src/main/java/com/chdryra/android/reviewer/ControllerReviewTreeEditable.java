@@ -32,15 +32,15 @@ public class ControllerReviewTreeEditable extends ControllerReviewEditable {
     }
 
     @Override
-    public GVReviewDataList getData(GVReviewDataList.GvType dataType) {
-        return dataType == GVReviewDataList.GvType.CHILDREN ?
+    public GVDataList getData(GVDataList.GvType dataType) {
+        return dataType == GVDataList.GvType.CHILDREN ?
                 mReviewNodeExpandable.getData(dataType) : super.getData(dataType);
     }
 
     @Override
-    public void setData(GVReviewDataList data) {
-        if (data.getGvType() == GVReviewDataList.GvType.CHILDREN) {
-            mReviewNodeExpandable.setChildren((GVReviewSubjectRatingList) data);
+    public void setData(GVDataList data) {
+        if (data.getGvType() == GVDataList.GvType.CHILDREN) {
+            mReviewNodeExpandable.setChildren((GVSubjectRatingList) data);
         } else {
             super.setData(data);
         }
@@ -48,7 +48,7 @@ public class ControllerReviewTreeEditable extends ControllerReviewEditable {
 
     ReviewNode publishAndTag(PublisherReviewTree publisher) {
         ReviewNode finalReview = publisher.publish(getReviewNodeExpandable());
-        GVTagList tags = (GVTagList) getData(GVReviewDataList.GvType.TAGS);
+        GVTagList tags = (GVTagList) getData(GVDataList.GvType.TAGS);
         for (ReviewNode node : finalReview.flattenTree()) {
             TagsManager.tag(node.getReview(), tags);
         }

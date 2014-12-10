@@ -98,7 +98,7 @@ public class FragmentReviewLocationMap extends FragmentDeleteDone implements
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mHandler = new InputHandlerReviewData<GVLocationList.GvLocation>(GVReviewDataList.GvType
+        mHandler = new InputHandlerReviewData<GVLocationList.GvLocation>(GVDataList.GvType
                 .LOCATIONS);
 
         Bundle args = LauncherUI.getArgsForActivity(getActivity());

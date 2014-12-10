@@ -15,7 +15,7 @@ import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.Administrator;
 import com.chdryra.android.reviewer.ControllerReview;
-import com.chdryra.android.reviewer.GVReviewDataList;
+import com.chdryra.android.reviewer.GVDataList;
 import com.chdryra.android.reviewer.GVSocialPlatformList;
 import com.chdryra.android.reviewer.PublishedReviews;
 
@@ -43,7 +43,7 @@ public class AdministratorTest extends AndroidTestCase {
 
     @SmallTest
     public void testGetPublishedReviews() {
-        GVReviewDataList reviews = mAdmin.getPublishedReviews().toGridViewable();
+        GVDataList reviews = mAdmin.getPublishedReviews().toGridViewable();
         assertNotNull(reviews);
     }
 

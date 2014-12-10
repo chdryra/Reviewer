@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 import com.chdryra.android.mygenerallibrary.ViewHolderBasic;
 import com.chdryra.android.mygenerallibrary.ViewHolderData;
-import com.chdryra.android.reviewer.GVReviewSubjectRatingList.GvSubjectRating;
+import com.chdryra.android.reviewer.GVSubjectRatingList.GvSubjectRating;
 
 /**
  * {@link com.chdryra.android.mygenerallibrary.ViewHolder}: {@link com.chdryra.android.reviewer

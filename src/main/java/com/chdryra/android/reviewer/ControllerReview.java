@@ -27,7 +27,7 @@ import java.util.Date;
  * Android's use of the word "Adapter". Translates between model data types and view data types:
  * <ul>
  * <li>Model data types: {@link MdData} types</li>
- * <li>View data types: {@link GVReviewDataList.GvType} types,
+ * <li>View data types: {@link GVDataList.GvType} types,
  * java types</li>
  * </ul>
  * </p>
@@ -88,34 +88,34 @@ public class ControllerReview<T extends Review> {
         mTagsList.clear();
     }
 
-    public boolean hasData(GVReviewDataList.GvType dataType) {
-        if (dataType == GVReviewDataList.GvType.COMMENTS) {
+    public boolean hasData(GVDataList.GvType dataType) {
+        if (dataType == GVDataList.GvType.COMMENTS) {
             return mReview.hasComments();
-        } else if (dataType == GVReviewDataList.GvType.IMAGES) {
+        } else if (dataType == GVDataList.GvType.IMAGES) {
             return mReview.hasImages();
-        } else if (dataType == GVReviewDataList.GvType.FACTS) {
+        } else if (dataType == GVDataList.GvType.FACTS) {
             return mReview.hasFacts();
-        } else if (dataType == GVReviewDataList.GvType.URLS) {
+        } else if (dataType == GVDataList.GvType.URLS) {
             return mReview.hasUrls();
-        } else if (dataType == GVReviewDataList.GvType.LOCATIONS) {
+        } else if (dataType == GVDataList.GvType.LOCATIONS) {
             return mReview.hasLocations();
         } else {
-            return dataType == GVReviewDataList.GvType.TAGS && mTagsList.size() > 0;
+            return dataType == GVDataList.GvType.TAGS && mTagsList.size() > 0;
         }
     }
 
-    public GVReviewDataList getData(GVReviewDataList.GvType dataType) {
-        if (dataType == GVReviewDataList.GvType.COMMENTS) {
+    public GVDataList getData(GVDataList.GvType dataType) {
+        if (dataType == GVDataList.GvType.COMMENTS) {
             return MdToGvConverter.convert(mReview.getComments());
-        } else if (dataType == GVReviewDataList.GvType.IMAGES) {
+        } else if (dataType == GVDataList.GvType.IMAGES) {
             return MdToGvConverter.convert(mReview.getImages());
-        } else if (dataType == GVReviewDataList.GvType.FACTS) {
+        } else if (dataType == GVDataList.GvType.FACTS) {
             return MdToGvConverter.convert(mReview.getFacts());
-        } else if (dataType == GVReviewDataList.GvType.URLS) {
+        } else if (dataType == GVDataList.GvType.URLS) {
             return MdToGvConverter.convert(mReview.getUrls());
-        } else if (dataType == GVReviewDataList.GvType.LOCATIONS) {
+        } else if (dataType == GVDataList.GvType.LOCATIONS) {
             return MdToGvConverter.convert(mReview.getLocations());
-        } else if (dataType == GVReviewDataList.GvType.TAGS) {
+        } else if (dataType == GVDataList.GvType.TAGS) {
             return getTags();
         } else {
             return null;

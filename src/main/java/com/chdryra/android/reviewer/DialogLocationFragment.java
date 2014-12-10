@@ -88,13 +88,13 @@ public class DialogLocationFragment extends DialogCancelActionDoneFragment imple
         View v = getActivity().getLayoutInflater().inflate(R.layout.dialog_location, null);
         mNameEditText = (ClearableEditText) v.findViewById(R.id.location_edit_text);
 
-        if (mController.hasData(GVReviewDataList.GvType.LOCATIONS)) {
+        if (mController.hasData(GVDataList.GvType.LOCATIONS)) {
             GVLocationList.GvLocation location = (GVLocationList.GvLocation) mController.getData
-                    (GVReviewDataList.GvType.LOCATIONS).getItem(0);
+                    (GVDataList.GvType.LOCATIONS).getItem(0);
             mLatLng = location.getLatLng();
             mNameEditText.setText(location.getName());
-        } else if (mController.hasData(GVReviewDataList.GvType.IMAGES)) {
-            GVImageList.GvImage image = (GVImageList.GvImage) mController.getData(GVReviewDataList
+        } else if (mController.hasData(GVDataList.GvType.IMAGES)) {
+            GVImageList.GvImage image = (GVImageList.GvImage) mController.getData(GVDataList
                     .GvType.IMAGES).getItem(0);
             LatLng latLng = image.getLatLng();
             if (latLng != null) {
@@ -149,7 +149,7 @@ public class DialogLocationFragment extends DialogCancelActionDoneFragment imple
     protected void onActionButtonClick() {
         InputHandlerReviewData<GVLocationList.GvLocation> handler = new
                 InputHandlerReviewData<GVLocationList.GvLocation>
-                (GVReviewDataList.GvType.LOCATIONS);
+                (GVDataList.GvType.LOCATIONS);
         handler.pack(InputHandlerReviewData.CurrentNewDatum.NEW, createGVData(),
                 createNewReturnData());
     }

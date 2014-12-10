@@ -24,7 +24,7 @@ import com.chdryra.android.mygenerallibrary.ActivityResultCode;
  */
 public class FragmentReviewURLs extends FragmentReviewGridAddEdit<GVUrlList.GvUrl> {
     public FragmentReviewURLs() {
-        super(GVReviewDataList.GvType.URLS);
+        super(GVDataList.GvType.URLS);
         setAddResultCode(ActivityResultCode.DONE);
     }
 }

@@ -28,7 +28,7 @@ class ControllerReviewNodeExpandable extends ControllerReviewNode {
         return new ControllerReviewNodeChildren((ReviewNodeExpandable) getControlledReview());
     }
 
-    void setChildren(GVReviewSubjectRatingList children) {
+    void setChildren(GVSubjectRatingList children) {
         ((ControllerReviewNodeChildren) getChildrenController()).setChildren(children);
     }
 
@@ -43,7 +43,7 @@ class ControllerReviewNodeExpandable extends ControllerReviewNode {
             mParent = parentNode;
         }
 
-        void setChildren(GVReviewSubjectRatingList children) {
+        void setChildren(GVSubjectRatingList children) {
             removeAll();
             addChildren(children);
         }
@@ -53,8 +53,8 @@ class ControllerReviewNodeExpandable extends ControllerReviewNode {
             init(mParent.getChildren());
         }
 
-        void addChildren(GVReviewSubjectRatingList children) {
-            for (GVReviewSubjectRatingList.GvSubjectRating child : children) {
+        void addChildren(GVSubjectRatingList children) {
+            for (GVSubjectRatingList.GvSubjectRating child : children) {
                 ReviewEditable r = FactoryReview.createReviewInProgress(child.getSubject());
                 r.setRating(child.getRating());
                 addReview(mParent.addChild(r));

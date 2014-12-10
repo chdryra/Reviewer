@@ -21,7 +21,7 @@ import java.util.Random;
  * Includes methods for adding captions and getting images designated as "covers" which can be
  * used as a background image for a review.
  */
-public class GVImageList extends GVReviewDataList<GVImageList.GvImage> {
+public class GVImageList extends GVDataList<GVImageList.GvImage> {
 
     GVImageList() {
         super(GvType.IMAGES);
@@ -62,11 +62,11 @@ public class GVImageList extends GVReviewDataList<GVImageList.GvImage> {
     }
 
     /**
-     * {@link GVReviewDataList.GvData} version of: {@link com.chdryra
+     * {@link GVDataList.GvData} version of: {@link com.chdryra
      * .android.reviewer.MdImageList.MdImage}
      * {@link ViewHolder}: {@link VHImage}
      */
-    public static class GvImage implements GVReviewDataList.GvData, DataImage {
+    public static class GvImage implements GVDataList.GvData, DataImage {
         public static final Parcelable.Creator<GvImage> CREATOR = new Parcelable
                 .Creator<GvImage>() {
             public GvImage createFromParcel(Parcel in) {

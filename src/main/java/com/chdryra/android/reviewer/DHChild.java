@@ -11,7 +11,7 @@ package com.chdryra.android.reviewer;
 import android.widget.EditText;
 import android.widget.RatingBar;
 
-import com.chdryra.android.reviewer.GVReviewSubjectRatingList.GvSubjectRating;
+import com.chdryra.android.reviewer.GVSubjectRatingList.GvSubjectRating;
 
 import java.text.DecimalFormat;
 
@@ -30,11 +30,11 @@ class DHChild extends DialogHolderAddEdit<GvSubjectRating> {
     private static final int             RATING    = R.id.child_rating_bar;
     private static final GvSubjectRating NULL_DATA = new GvSubjectRating(null, 0);
 
-    DHChild(DialogReviewDataAddFragment<GVReviewSubjectRatingList.GvSubjectRating> dialogAdd) {
+    DHChild(DialogReviewDataAddFragment<GVSubjectRatingList.GvSubjectRating> dialogAdd) {
         super(LAYOUT, new int[]{SUBJECT, RATING}, dialogAdd, NULL_DATA);
     }
 
-    DHChild(DialogReviewDataEditFragment<GVReviewSubjectRatingList.GvSubjectRating> dialogEdit) {
+    DHChild(DialogReviewDataEditFragment<GVSubjectRatingList.GvSubjectRating> dialogEdit) {
         super(LAYOUT, new int[]{SUBJECT, RATING}, dialogEdit);
     }
 
@@ -44,7 +44,7 @@ class DHChild extends DialogHolderAddEdit<GvSubjectRating> {
     }
 
     @Override
-    protected String getDialogOnAddTitle(GVReviewSubjectRatingList.GvSubjectRating data) {
+    protected String getDialogOnAddTitle(GVSubjectRatingList.GvSubjectRating data) {
         float childRating = data.getRating();
         DecimalFormat formatter = new DecimalFormat("0");
         DecimalFormat decimalFormatter = new DecimalFormat("0.0");
@@ -54,20 +54,20 @@ class DHChild extends DialogHolderAddEdit<GvSubjectRating> {
     }
 
     @Override
-    protected String getDialogDeleteConfirmTitle(GVReviewSubjectRatingList.GvSubjectRating data) {
+    protected String getDialogDeleteConfirmTitle(GVSubjectRatingList.GvSubjectRating data) {
         return data.getSubject() + ": " + data.getRating();
 
     }
 
     @Override
-    protected GVReviewSubjectRatingList.GvSubjectRating createGVData() {
+    protected GVSubjectRatingList.GvSubjectRating createGVData() {
         String subject = ((EditText) getView(SUBJECT)).getText().toString().trim();
         float rating = ((RatingBar) getView(RATING)).getRating();
-        return new GVReviewSubjectRatingList.GvSubjectRating(subject, rating);
+        return new GVSubjectRatingList.GvSubjectRating(subject, rating);
     }
 
     @Override
-    protected void updateWithGVData(GVReviewSubjectRatingList.GvSubjectRating data) {
+    protected void updateWithGVData(GVSubjectRatingList.GvSubjectRating data) {
         ((EditText) getView(SUBJECT)).setText(data.getSubject());
         ((RatingBar) getView(RATING)).setRating(data.getRating());
     }

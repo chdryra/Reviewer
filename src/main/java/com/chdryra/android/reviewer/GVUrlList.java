@@ -19,7 +19,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 
-public class GVUrlList extends GVReviewDataList<GVUrlList.GvUrl> {
+public class GVUrlList extends GVDataList<GVUrlList.GvUrl> {
 
     GVUrlList() {
         super(GvType.URLS);
@@ -34,14 +34,14 @@ public class GVUrlList extends GVReviewDataList<GVUrlList.GvUrl> {
     }
 
     /**
-     * {@link GVReviewDataList.GvData} version of: {@link com.chdryra
+     * {@link GVDataList.GvData} version of: {@link com.chdryra
      * .android.reviewer.MdUrlList.MdUrl}
      * {@link ViewHolder}: {@link VHUrl}
      * <p>
      * Methods for getting full URL and shortened more readable version.
      * </p>
      */
-    public static class GvUrl implements GVReviewDataList.GvData, DataUrl {
+    public static class GvUrl implements GVDataList.GvData, DataUrl {
         public static final Parcelable.Creator<GvUrl> CREATOR = new Parcelable
                 .Creator<GvUrl>() {
             public GvUrl createFromParcel(Parcel in) {

@@ -23,7 +23,7 @@ import java.util.Comparator;
  * @see com.chdryra.android.reviewer.Administrator
  * @see com.chdryra.android.reviewer.SocialPlatformList
  */
-public class GVSocialPlatformList extends GVReviewDataList<GVSocialPlatformList.GVSocialPlatform> {
+public class GVSocialPlatformList extends GVDataList<GVSocialPlatformList.GVSocialPlatform> {
 
     private GVSocialPlatformList(Context context) {
         super(GvType.SOCIAL);

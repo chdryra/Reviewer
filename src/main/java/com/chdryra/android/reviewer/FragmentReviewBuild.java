@@ -80,11 +80,11 @@ public class FragmentReviewBuild extends FragmentReviewGrid implements ImageChoo
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         ActivityResultCode resCode = ActivityResultCode.get(resultCode);
-        if (requestCode == getUIConfig(GVReviewDataList.GvType.IMAGES).getDisplayConfig()
+        if (requestCode == getUIConfig(GVDataList.GvType.IMAGES).getDisplayConfig()
                 .getRequestCode() &&
                 mImageChooser.chosenImageExists(resCode, data)) {
             mImageChooser.getChosenImage(this);
-        } else if (requestCode == getUIConfig(GVReviewDataList.GvType.LOCATIONS).getAdderConfig()
+        } else if (requestCode == getUIConfig(GVDataList.GvType.LOCATIONS).getAdderConfig()
                 .getRequestCode()
                 && resCode.equals(DialogLocationFragment.RESULT_MAP.getResultCode())) {
             requestMapIntent(data);
@@ -110,7 +110,7 @@ public class FragmentReviewBuild extends FragmentReviewGrid implements ImageChoo
 
         mImageChooser = new ImageChooser(getController(), getActivity());
         mLocationInputHandler = new InputHandlerReviewData<GVLocationList.GvLocation>
-                (GVReviewDataList
+                (GVDataList
                 .GvType
                 .LOCATIONS);
     }
@@ -136,13 +136,13 @@ public class FragmentReviewBuild extends FragmentReviewGrid implements ImageChoo
                     return;
                 }
 
-                if (getController().getData(GVReviewDataList.GvType.TAGS).size() == 0) {
+                if (getController().getData(GVDataList.GvType.TAGS).size() == 0) {
                     Toast.makeText(getActivity(), R.string.toast_enter_tag,
                             Toast.LENGTH_SHORT).show();
                     return;
                 }
 
-                requestIntent(getUIConfig(GVReviewDataList.GvType.SOCIAL));
+                requestIntent(getUIConfig(GVDataList.GvType.SOCIAL));
             }
         });
 
@@ -202,7 +202,7 @@ public class FragmentReviewBuild extends FragmentReviewGrid implements ImageChoo
         }
     }
 
-    private ConfigReviewDataUI.Config getUIConfig(GVReviewDataList.GvType dataType) {
+    private ConfigReviewDataUI.Config getUIConfig(GVDataList.GvType dataType) {
         return ConfigReviewDataUI.getConfig(dataType);
     }
 
@@ -228,12 +228,12 @@ public class FragmentReviewBuild extends FragmentReviewGrid implements ImageChoo
 
     private void initCellManagerList() {
         mCellManagerList = new GvCellManagerList();
-        mCellManagerList.add(GVReviewDataList.GvType.TAGS);
-        mCellManagerList.add(GVReviewDataList.GvType.CHILDREN);
-        mCellManagerList.add(GVReviewDataList.GvType.IMAGES);
-        mCellManagerList.add(GVReviewDataList.GvType.COMMENTS);
-        mCellManagerList.add(GVReviewDataList.GvType.LOCATIONS);
-        mCellManagerList.add(GVReviewDataList.GvType.FACTS);
+        mCellManagerList.add(GVDataList.GvType.TAGS);
+        mCellManagerList.add(GVDataList.GvType.CHILDREN);
+        mCellManagerList.add(GVDataList.GvType.IMAGES);
+        mCellManagerList.add(GVDataList.GvType.COMMENTS);
+        mCellManagerList.add(GVDataList.GvType.LOCATIONS);
+        mCellManagerList.add(GVDataList.GvType.FACTS);
     }
 
     private void requestIntent(ConfigReviewDataUI.Config config) {
@@ -249,7 +249,7 @@ public class FragmentReviewBuild extends FragmentReviewGrid implements ImageChoo
         ConfigReviewDataUI.ReviewDataUIConfig adderConfig = config.getAdderConfig();
 
         LaunchableUI ui = adderConfig.getReviewDataUI();
-        if (adderConfig.getGVType() == GVReviewDataList.GvType.LOCATIONS) {
+        if (adderConfig.getGVType() == GVDataList.GvType.LOCATIONS) {
             ui = ConfigReviewDataUI.getReviewDataUI(DialogLocationFragment.class);
         }
 
@@ -259,7 +259,7 @@ public class FragmentReviewBuild extends FragmentReviewGrid implements ImageChoo
 
     private void showQuickImageDialog() {
         startActivityForResult(mImageChooser.getChooserIntents(),
-                getUIConfig(GVReviewDataList.GvType.IMAGES).getDisplayConfig().getRequestCode());
+                getUIConfig(GVDataList.GvType.IMAGES).getDisplayConfig().getRequestCode());
     }
 
     /**
@@ -286,7 +286,7 @@ public class FragmentReviewBuild extends FragmentReviewGrid implements ImageChoo
      * Holds the list of cells that manage data display and respond to user interaction for the data
      * tiles. This is what {@link #getGridData()} returns for this fragment.
      */
-    class GvCellManagerList extends GVReviewDataList<GvCellManagerList.GvCellManager> {
+    class GvCellManagerList extends GVDataList<GvCellManagerList.GvCellManager> {
         private GvCellManagerList() {
             super(null);
         }
@@ -299,7 +299,7 @@ public class FragmentReviewBuild extends FragmentReviewGrid implements ImageChoo
          * Encapsulates the range of responses and displays available to each data tile depending
          * on the underlying data and user interaction.
          */
-        class GvCellManager implements GVReviewDataList.GvData {
+        class GvCellManager implements GVDataList.GvData {
             private final GvType mDataType;
 
             private GvCellManager(GvType dataType) {

@@ -15,7 +15,7 @@ import com.chdryra.android.mygenerallibrary.ViewHolder;
 
 import java.util.Comparator;
 
-public class GVFactList extends GVReviewDataList<GVFactList.GvFact> {
+public class GVFactList extends GVDataList<GVFactList.GvFact> {
 
     GVFactList() {
         super(GvType.FACTS);
@@ -42,7 +42,7 @@ public class GVFactList extends GVReviewDataList<GVFactList.GvFact> {
     }
 
     /**
-     * {@link GVReviewDataList.GvData} version of: {@link com.chdryra
+     * {@link GVDataList.GvData} version of: {@link com.chdryra
      * .android.reviewer.MdFactList.MdFact}
      * {@link ViewHolder}: {@link VHFact}
      */

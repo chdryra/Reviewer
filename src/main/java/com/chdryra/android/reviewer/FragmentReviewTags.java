@@ -13,6 +13,6 @@ package com.chdryra.android.reviewer;
  */
 public class FragmentReviewTags extends FragmentReviewGridAddEdit<GVTagList.GVTag> {
     public FragmentReviewTags() {
-        super(GVReviewDataList.GvType.TAGS);
+        super(GVDataList.GvType.TAGS);
     }
 }

@@ -22,7 +22,7 @@ import android.content.Context;
  */
 class InputHandlerImage extends InputHandlerReviewData<GVImageList.GvImage> {
     InputHandlerImage() {
-        super(GVReviewDataList.GvType.IMAGES);
+        super(GVDataList.GvType.IMAGES);
     }
 
     @Override

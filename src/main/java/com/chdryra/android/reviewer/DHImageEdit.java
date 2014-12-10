@@ -46,7 +46,7 @@ class DHImageEdit extends DialogHolderAddEdit<GVImageList.GvImage> {
 
     @Override
     protected String getDialogDeleteConfirmTitle(GVImageList.GvImage data) {
-        return GVReviewDataList.GvType.IMAGES.getDatumString();
+        return GVDataList.GvType.IMAGES.getDatumString();
     }
 
     @Override

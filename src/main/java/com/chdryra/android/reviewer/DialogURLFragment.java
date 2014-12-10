@@ -41,8 +41,8 @@ public class DialogURLFragment extends DialogCancelActionDoneFragment implements
         View v = getActivity().getLayoutInflater().inflate(R.layout.dialog_url, null);
 
         mUrlEditText = (ClearableEditText) v.findViewById(R.id.url_edit_text);
-        if (mController.getData(GVReviewDataList.GvType.URLS).size() == 1) {
-            mUrlEditText.setText(((GVUrlList.GvUrl) mController.getData(GVReviewDataList.GvType
+        if (mController.getData(GVDataList.GvType.URLS).size() == 1) {
+            mUrlEditText.setText(((GVUrlList.GvUrl) mController.getData(GVDataList.GvType
                     .URLS)
                     .getItem(0))
                     .toShortenedString());

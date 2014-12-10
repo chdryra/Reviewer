@@ -35,12 +35,12 @@ import com.chdryra.android.mygenerallibrary.DialogCancelDeleteDoneFragment;
  * </ul>
  * </p>
  */
-public abstract class DialogReviewDataEditFragment<T extends GVReviewDataList.GvData>
+public abstract class DialogReviewDataEditFragment<T extends GVDataList.GvData>
         extends DialogCancelDeleteDoneFragment implements LaunchableUI {
 
 
     private final InputHandlerReviewData<T> mHandler;
-    private final GVReviewDataList.GvType   mDataType;
+    private final GVDataList.GvType         mDataType;
     private       T                         mDatum;
     private       UIHolder<T>               mDialogHolder;
     private       ReviewDataEditListener<T> mListener;
@@ -48,19 +48,19 @@ public abstract class DialogReviewDataEditFragment<T extends GVReviewDataList.Gv
     /**
      * Provides a callback that can be called delete or done buttons are pressed.
      *
-     * @param <T>:{@link GVReviewDataList.GvData} type
+     * @param <T>:{@link GVDataList.GvData} type
      */
-    public interface ReviewDataEditListener<T extends GVReviewDataList.GvData> {
+    public interface ReviewDataEditListener<T extends GVDataList.GvData> {
         void onReviewDataDelete(T data);
 
         void onReviewDataEdit(T oldDatum, T newDatum);
     }
 
-    DialogReviewDataEditFragment(GVReviewDataList.GvType dataType) {
+    DialogReviewDataEditFragment(GVDataList.GvType dataType) {
         this(dataType, new InputHandlerReviewData<T>(dataType));
     }
 
-    DialogReviewDataEditFragment(GVReviewDataList.GvType dataType,
+    DialogReviewDataEditFragment(GVDataList.GvType dataType,
             InputHandlerReviewData<T> handler) {
         mDataType = dataType;
         mHandler = handler;
@@ -121,7 +121,7 @@ public abstract class DialogReviewDataEditFragment<T extends GVReviewDataList.Gv
         return mDialogHolder.getGVData();
     }
 
-    GVReviewDataList.GvType getGVType() {
+    GVDataList.GvType getGVType() {
         return mDataType;
     }
 

@@ -23,7 +23,7 @@ import android.view.View;
  * <p/>
  * <p>
  * Provides a simple interface through which to pass
- * {@link GVReviewDataList.GvData} back and forth with
+ * {@link GVDataList.GvData} back and forth with
  * inflated views in order to initialise and update themselves, and can return back similar
  * data given their current contents. Adheres to
  * {@link UIReviewData}.
@@ -34,12 +34,12 @@ import android.view.View;
  * review data.
  * </p>
  *
- * @param <T>: the {@link GVReviewDataList.GvData} type.
+ * @param <T>: the {@link GVDataList.GvData} type.
  * @see com.chdryra.android.mygenerallibrary.ViewHolder
  * @see com.chdryra.android.reviewer.DialogReviewDataAddFragment
  * @see com.chdryra.android.reviewer.DialogReviewDataEditFragment
  */
-interface UIHolder<T extends GVReviewDataList.GvData> extends UIReviewData<T> {
+interface UIHolder<T extends GVDataList.GvData> extends UIReviewData<T> {
     void inflate(Activity activity);
 
     View getView();

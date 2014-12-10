@@ -30,9 +30,9 @@ import android.view.View;
  * a link between the review data-specific UI, and the actual Dialog window itself.
  * </p>
  *
- * @param <T>: {@link GVReviewDataList.GvData} type.
+ * @param <T>: {@link GVDataList.GvData} type.
  */
-abstract class DialogHolder<T extends GVReviewDataList.GvData> implements UIHolder<T> {
+abstract class DialogHolder<T extends GVDataList.GvData> implements UIHolder<T> {
     private final int               mLayout;
     private final int[]             mUpdateableViewIds;
     private final SparseArray<View> mUpdateableViews;

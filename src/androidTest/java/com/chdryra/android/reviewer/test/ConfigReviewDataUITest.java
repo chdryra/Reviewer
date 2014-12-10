@@ -13,7 +13,7 @@ import android.test.AndroidTestCase;
 
 import com.chdryra.android.reviewer.ConfigAddEditDisplay;
 import com.chdryra.android.reviewer.ConfigReviewDataUI;
-import com.chdryra.android.reviewer.GVReviewDataList;
+import com.chdryra.android.reviewer.GVDataList;
 import com.chdryra.android.reviewer.LaunchableUI;
 
 import java.util.ArrayList;
@@ -32,13 +32,13 @@ import java.util.Set;
  * in the manifest.
  */
 public class ConfigReviewDataUITest extends AndroidTestCase {
-    private static final GVReviewDataList.GvType[] NULLADDS  = {GVReviewDataList.GvType.IMAGES,
-            GVReviewDataList.GvType.REVIEW, GVReviewDataList.GvType.SOCIAL};
-    private static final GVReviewDataList.GvType[] NULLEDITS = {GVReviewDataList.GvType.REVIEW,
-            GVReviewDataList.GvType.SOCIAL};
+    private static final GVDataList.GvType[] NULLADDS  = {GVDataList.GvType.IMAGES,
+            GVDataList.GvType.REVIEW, GVDataList.GvType.SOCIAL};
+    private static final GVDataList.GvType[] NULLEDITS = {GVDataList.GvType.REVIEW,
+            GVDataList.GvType.SOCIAL};
 
     public void testGetConfigAndConfigClass() {
-        for (GVReviewDataList.GvType dataType : GVReviewDataList.GvType.values()) {
+        for (GVDataList.GvType dataType : GVDataList.GvType.values()) {
             ConfigReviewDataUI.Config config = ConfigReviewDataUI.getConfig(dataType);
             assertNotNull(config);
             assertNotNull(config.getAdderConfig());
@@ -50,7 +50,7 @@ public class ConfigReviewDataUITest extends AndroidTestCase {
     public void testReviewDataUIConfigs() {
         ArrayList<Integer> requestCodes = new ArrayList<Integer>();
         ArrayList<String> tags = new ArrayList<String>();
-        for (GVReviewDataList.GvType dataType : GVReviewDataList.GvType.values()) {
+        for (GVDataList.GvType dataType : GVDataList.GvType.values()) {
             ConfigReviewDataUI.Config config = ConfigReviewDataUI.getConfig(dataType);
             assertNotNull(config);
 
@@ -106,7 +106,7 @@ public class ConfigReviewDataUITest extends AndroidTestCase {
 
     public void testReviewDataDisplayConfigs() {
         ArrayList<Integer> requestCodes = new ArrayList<Integer>();
-        for (GVReviewDataList.GvType dataType : GVReviewDataList.GvType.values()) {
+        for (GVDataList.GvType dataType : GVDataList.GvType.values()) {
             ConfigReviewDataUI.Config config = ConfigReviewDataUI.getConfig(dataType);
             assertNotNull(config);
 
@@ -125,7 +125,7 @@ public class ConfigReviewDataUITest extends AndroidTestCase {
     }
 
     public void testGetReviewDataUI() {
-        for (GVReviewDataList.GvType dataType : GVReviewDataList.GvType.values()) {
+        for (GVDataList.GvType dataType : GVDataList.GvType.values()) {
             ConfigReviewDataUI.Config config = ConfigReviewDataUI.getConfig(dataType);
             assertNotNull(config);
 

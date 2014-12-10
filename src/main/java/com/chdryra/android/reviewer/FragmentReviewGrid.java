@@ -35,7 +35,7 @@ import com.chdryra.android.mygenerallibrary.ViewHolderAdapter;
 
 /**
  * UI Fragment: base class for all the review data interaction UIs. Knows how to present a
- * {@link GVReviewDataList} as grid cells in a GridView.
+ * {@link GVDataList} as grid cells in a GridView.
  * <p/>
  * <p>
  * Constructed out of 5 UI components that are populated by data from a
@@ -72,8 +72,8 @@ public abstract class FragmentReviewGrid extends FragmentDeleteDone {
     private int     mCellWidthDivider  = 1;
     private int     mCellHeightDivider = 1;
     private boolean mIsEditable        = false;
-    private String           mBannerButtonText;
-    private GVReviewDataList mGridData;
+    private String     mBannerButtonText;
+    private GVDataList mGridData;
     private GridViewImageAlpha mGridViewImageAlpha = GridViewImageAlpha.MEDIUM;
 
     /**
@@ -341,7 +341,7 @@ public abstract class FragmentReviewGrid extends FragmentDeleteDone {
 
     void updateCover() {
         if (getController() != null) {
-            updateCover((GVImageList) getController().getData(GVReviewDataList.GvType.IMAGES));
+            updateCover((GVImageList) getController().getData(GVDataList.GvType.IMAGES));
         }
     }
 
@@ -396,7 +396,7 @@ public abstract class FragmentReviewGrid extends FragmentDeleteDone {
         mIsEditable = isEditable;
     }
 
-    void setGridViewData(GVReviewDataList gridData) {
+    void setGridViewData(GVDataList gridData) {
         mGridData = gridData;
     }
 
@@ -408,7 +408,7 @@ public abstract class FragmentReviewGrid extends FragmentDeleteDone {
         return getSubjectView().getText().toString();
     }
 
-    GVReviewDataList getGridData() {
+    GVDataList getGridData() {
         return mGridData;
     }
 }

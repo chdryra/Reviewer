@@ -12,7 +12,7 @@ import android.test.AndroidTestCase;
 
 import com.chdryra.android.reviewer.ControllerReviewEditable;
 import com.chdryra.android.reviewer.GVCommentList;
-import com.chdryra.android.reviewer.GVReviewDataList;
+import com.chdryra.android.reviewer.GVDataList;
 import com.chdryra.android.reviewer.MdCommentList;
 import com.chdryra.android.reviewer.MdToGvConverter;
 import com.chdryra.android.reviewer.ReviewEditable;
@@ -49,7 +49,7 @@ public class ControllerReviewEditableTest extends AndroidTestCase {
     }
 
     public void testSetComments() {
-        GVReviewDataList.GvType dataType = GVReviewDataList.GvType.COMMENTS;
+        GVDataList.GvType dataType = GVDataList.GvType.COMMENTS;
         GVCommentList gvComments = (GVCommentList) mController.getData(dataType);
         MdCommentList rdComments = mReview.getComments();
         assertNotNull(gvComments);

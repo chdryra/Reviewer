@@ -15,7 +15,7 @@ import com.chdryra.android.mygenerallibrary.ViewHolder;
 
 import java.util.Comparator;
 
-public class GVTagList extends GVReviewDataList<GVTagList.GVTag> {
+public class GVTagList extends GVDataList<GVTagList.GVTag> {
 
     public GVTagList() {
         super(GvType.TAGS);
