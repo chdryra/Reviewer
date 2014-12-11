@@ -9,6 +9,7 @@
 package com.chdryra.android.reviewer.test;
 
 import android.app.Activity;
+import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.ConfigAddEditDisplay;
 import com.chdryra.android.reviewer.GvDataList;
@@ -29,6 +30,7 @@ public class ConfigAddEditDisplayTest extends TestCase {
     private static final GvDataList.GvType[] NULLEDITS = {GvDataList.GvType.REVIEW,
             GvDataList.GvType.SOCIAL};
 
+    @SmallTest
     public void testGetAddClass() {
         for (GvDataList.GvType dataType : GvDataList.GvType.values()) {
             Class<? extends LaunchableUI> addClass = ConfigAddEditDisplay.getAddClass(dataType);
@@ -40,6 +42,7 @@ public class ConfigAddEditDisplayTest extends TestCase {
         }
     }
 
+    @SmallTest
     public void testGetEditClass() {
         for (GvDataList.GvType dataType : GvDataList.GvType.values()) {
             Class<? extends LaunchableUI> editClass = ConfigAddEditDisplay.getEditClass(dataType);
@@ -51,6 +54,7 @@ public class ConfigAddEditDisplayTest extends TestCase {
         }
     }
 
+    @SmallTest
     public void testGetDisplayClass() {
         for (GvDataList.GvType dataType : GvDataList.GvType.values()) {
             Class<? extends Activity> addClass = ConfigAddEditDisplay.getDisplayClass(dataType);

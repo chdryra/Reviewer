@@ -9,6 +9,7 @@
 package com.chdryra.android.reviewer.test;
 
 import android.test.AndroidTestCase;
+import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.ControllerReview;
 import com.chdryra.android.reviewer.Review;
@@ -26,46 +27,52 @@ public class ControllerReviewTest extends AndroidTestCase {
     private ControllerReview<Review> mController;
     private ControllerTester<Review> mTester;
 
+    @SmallTest
     public void testGetReviewNode() {
         assertNotNull(mController.getReviewNode());
     }
 
+    @SmallTest
     public void testGetId() {
         assertEquals(mReview.getId().toString(), mController.getId());
     }
 
+    @SmallTest
     public void testGetSubject() {
         mTester.testGetSubject();
     }
 
+    @SmallTest
     public void testGetRating() {
         mTester.testGetRating();
     }
 
+    @SmallTest
     public void testGetAuthor() {
         mTester.testGetAuthor();
     }
 
+    @SmallTest
     public void testGetPublishDate() {
         mTester.testGetPublishDate();
     }
 
+    @SmallTest
     public void testIsPublished() {
         mTester.testIsPublished();
     }
 
-    public void testAddAndGetTags() {
-        mTester.testAddAndGetTags();
-    }
-
+    @SmallTest
     public void testRemoveTags() {
         mTester.testRemoveTags();
     }
 
+    @SmallTest
     public void testHasData() {
         mTester.testHasData();
     }
 
+    @SmallTest
     public void testGetData() {
         mTester.testGetData();
     }

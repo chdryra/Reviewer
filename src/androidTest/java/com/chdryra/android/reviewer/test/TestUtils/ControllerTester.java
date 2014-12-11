@@ -34,13 +34,15 @@ import junit.framework.Assert;
  * On: 10/12/2014
  * Email: rizwan.choudrey@gmail.com
  */
+//This should be created in setUp() to ensure fresh controller and review
 public class ControllerTester<T extends Review> {
-    private static final int                 NUMDATA          = 50;
+    static final int NUMDATA = 50;
     private final static GvDataList.GvType[] sRelevantGvTypes = new GvDataList
             .GvType[]{GvDataList.GvType.FACTS,
             GvDataList.GvType.URLS,
             GvDataList.GvType.LOCATIONS, GvDataList.GvType.COMMENTS,
             GvDataList.GvType.IMAGES, GvDataList.GvType.TAGS};
+
     private ControllerReview<T> mController;
     private T                   mReview;
     private MdDataMocker<T>     mMdDataMocker;
@@ -49,20 +51,6 @@ public class ControllerTester<T extends Review> {
         mController = controller;
         mReview = review;
         mMdDataMocker = new MdDataMocker<>(mReview);
-    }
-
-    public void testBasicControllerMethods() {
-        testGetReviewNode();
-        testGetId();
-        testGetSubject();
-        testGetRating();
-        testGetAuthor();
-        testGetPublishDate();
-        testIsPublished();
-        testAddAndGetTags();
-        testRemoveTags();
-        testHasData();
-        testGetData();
     }
 
     public void testGetReviewNode() {
@@ -93,23 +81,12 @@ public class ControllerTester<T extends Review> {
         Assert.assertEquals(mReview.isPublished(), mController.isPublished());
     }
 
-    public void testAddAndGetTags() {
-        GvTagList getTags = (GvTagList) mController.getData(GvDataList.GvType.TAGS);
-        Assert.assertEquals(0, getTags.size());
-
-        String[] tagArray = setAndGetTags();
-
-        getTags = (GvTagList) mController.getData(GvDataList.GvType.TAGS);
-        Assert.assertEquals(tagArray.length, getTags.size());
-        for (int i = 0; i < tagArray.length; ++i) {
-            Assert.assertEquals(tagArray[i], getTags.getItem(i).get());
-        }
-    }
-
     public void testRemoveTags() {
-        String[] tagArray = setAndGetTags();
+        GvTagList tags = (GvTagList) GvDataMocker.getData(GvDataList.GvType.TAGS, NUMDATA);
+        mController.addTags(tags);
+
         GvTagList getTags = (GvTagList) mController.getData(GvDataList.GvType.TAGS);
-        Assert.assertEquals(tagArray.length, getTags.size());
+        Assert.assertEquals(tags.size(), getTags.size());
 
         mController.removeTags();
 
@@ -156,7 +133,7 @@ public class ControllerTester<T extends Review> {
                 (GvUrlList) controller.getData(dataType));
 
         //Tags
-        //see testAddAndGetTags()
+        testAddAndGetTags();
     }
 
     public void testHasData() {
@@ -165,26 +142,26 @@ public class ControllerTester<T extends Review> {
         }
     }
 
-    private String[] setAndGetTags() {
-        String[] tagArray = getRandomTags();
-
-        GvTagList tags = new GvTagList();
-        for (String tag : tagArray) {
-            tags.add(tag);
-        }
-
-        mController.addTags(tags);
-
-        return tagArray;
+    T getReview() {
+        return mReview;
     }
 
-    private String[] getRandomTags() {
-        String[] tags = new String[NUMDATA];
-        for (int i = 0; i < NUMDATA; ++i) {
-            tags[i] = RandomStringGenerator.nextWord();
-        }
+    MdDataMocker<T> getDataMocker() {
+        return mMdDataMocker;
+    }
 
-        return tags;
+    private void testAddAndGetTags() {
+        GvTagList getTags = (GvTagList) mController.getData(GvDataList.GvType.TAGS);
+        Assert.assertEquals(0, getTags.size());
+
+        GvTagList tags = (GvTagList) GvDataMocker.getData(GvDataList.GvType.TAGS, NUMDATA);
+        mController.addTags(tags);
+
+        getTags = (GvTagList) mController.getData(GvDataList.GvType.TAGS);
+        Assert.assertEquals(tags.size(), getTags.size());
+        for (int i = 0; i < tags.size(); ++i) {
+            Assert.assertEquals(tags.getItem(i), getTags.getItem(i));
+        }
     }
 
     private void testHasData(GvDataList.GvType dataType) {

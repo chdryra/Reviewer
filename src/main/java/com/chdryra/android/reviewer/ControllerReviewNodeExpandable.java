@@ -17,10 +17,13 @@ package com.chdryra.android.reviewer;
 /**
  * Expands on {@link ControllerReviewNode} to include setters on {@link ReviewNodeExpandable}.
  */
-class ControllerReviewNodeExpandable extends ControllerReviewNode {
-
-    ControllerReviewNodeExpandable(ReviewNodeExpandable node) {
+public class ControllerReviewNodeExpandable extends ControllerReviewNode {
+    public ControllerReviewNodeExpandable(ReviewNodeExpandable node) {
         super(node);
+    }
+
+    public void setChildren(GvSubjectRatingList children) {
+        ((ControllerReviewNodeChildren) getChildrenController()).setChildren(children);
     }
 
     @Override
@@ -28,32 +31,29 @@ class ControllerReviewNodeExpandable extends ControllerReviewNode {
         return new ControllerReviewNodeChildren((ReviewNodeExpandable) getControlledReview());
     }
 
-    void setChildren(GvSubjectRatingList children) {
-        ((ControllerReviewNodeChildren) getChildrenController()).setChildren(children);
-    }
-
     /**
      * Controls the expansion of the parent {@link ReviewNodeExpandable}.
      */
-    static class ControllerReviewNodeChildren extends ControllerReviewCollection<ReviewNode> {
+    private static class ControllerReviewNodeChildren extends
+            ControllerReviewCollection<ReviewNode> {
         private final ReviewNodeExpandable mParent;
 
-        ControllerReviewNodeChildren(ReviewNodeExpandable parentNode) {
+        private ControllerReviewNodeChildren(ReviewNodeExpandable parentNode) {
             super(parentNode.getChildren());
             mParent = parentNode;
         }
 
-        void setChildren(GvSubjectRatingList children) {
+        private void setChildren(GvSubjectRatingList children) {
             removeAll();
             addChildren(children);
         }
 
-        void removeAll() {
+        private void removeAll() {
             mParent.clearChildren();
             init(mParent.getChildren());
         }
 
-        void addChildren(GvSubjectRatingList children) {
+        private void addChildren(GvSubjectRatingList children) {
             for (GvSubjectRatingList.GvSubjectRating child : children) {
                 ReviewEditable r = FactoryReview.createReviewInProgress(child.getSubject());
                 r.setRating(child.getRating());

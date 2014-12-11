@@ -8,6 +8,8 @@
 
 package com.chdryra.android.reviewer.test;
 
+import android.test.suitebuilder.annotation.SmallTest;
+
 import com.chdryra.android.reviewer.ControllerReviewCollection;
 import com.chdryra.android.reviewer.GvDataList;
 import com.chdryra.android.reviewer.GvOverviewList;
@@ -30,6 +32,7 @@ public class ControllerReviewCollectionTest extends TestCase {
     private static final int MAX = 20;
     private ControllerReviewCollection<Review> mController;
 
+    @SmallTest
     public void testAddReview() {
         GvDataList list = mController.toGridViewable(false);
         GvDataList listP = mController.toGridViewable(true);
@@ -49,6 +52,7 @@ public class ControllerReviewCollectionTest extends TestCase {
         assertEquals(reviewsP.length, listP.size());
     }
 
+    @SmallTest
     public void testToGridViewableFalse() {
         Review[] reviews = addReviews(mController, false, getRandInt());
         Review[] reviewsP = addReviews(mController, true, getRandInt());
@@ -69,6 +73,7 @@ public class ControllerReviewCollectionTest extends TestCase {
         }
     }
 
+    @SmallTest
     public void testToGridViewableTrue() {
         addReviews(mController, false, getRandInt());
         Review[] reviews = addReviews(mController, true, getRandInt());

@@ -62,7 +62,7 @@ public class GvTagList extends GvDataList<GvTagList.GvTag> {
             super();
         }
 
-        GvTag(String tag) {
+        public GvTag(String tag) {
             super(tag);
         }
 

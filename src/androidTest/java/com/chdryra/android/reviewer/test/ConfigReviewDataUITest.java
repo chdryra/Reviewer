@@ -10,6 +10,7 @@ package com.chdryra.android.reviewer.test;
 
 import android.content.Intent;
 import android.test.AndroidTestCase;
+import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.ConfigAddEditDisplay;
 import com.chdryra.android.reviewer.ConfigReviewDataUI;
@@ -37,6 +38,7 @@ public class ConfigReviewDataUITest extends AndroidTestCase {
     private static final GvDataList.GvType[] NULLEDITS = {GvDataList.GvType.REVIEW,
             GvDataList.GvType.SOCIAL};
 
+    @SmallTest
     public void testGetConfigAndConfigClass() {
         for (GvDataList.GvType dataType : GvDataList.GvType.values()) {
             ConfigReviewDataUI.Config config = ConfigReviewDataUI.getConfig(dataType);
@@ -47,6 +49,7 @@ public class ConfigReviewDataUITest extends AndroidTestCase {
         }
     }
 
+    @SmallTest
     public void testReviewDataUIConfigs() {
         ArrayList<Integer> requestCodes = new ArrayList<Integer>();
         ArrayList<String> tags = new ArrayList<String>();
@@ -104,6 +107,7 @@ public class ConfigReviewDataUITest extends AndroidTestCase {
         assertEquals(tags.size(), uniqueTags.size()); //should be unique
     }
 
+    @SmallTest
     public void testReviewDataDisplayConfigs() {
         ArrayList<Integer> requestCodes = new ArrayList<Integer>();
         for (GvDataList.GvType dataType : GvDataList.GvType.values()) {
@@ -124,6 +128,7 @@ public class ConfigReviewDataUITest extends AndroidTestCase {
         assertEquals(requestCodes.size(), uniqueRequestCodes.size());
     }
 
+    @SmallTest
     public void testGetReviewDataUI() {
         for (GvDataList.GvType dataType : GvDataList.GvType.values()) {
             ConfigReviewDataUI.Config config = ConfigReviewDataUI.getConfig(dataType);

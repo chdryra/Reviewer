@@ -29,10 +29,10 @@ import java.util.Random;
  * Email: rizwan.choudrey@gmail.com
  */
 public class MdDataMocker<T extends Review> {
-    private final RandomStringGenerator STRING_GENERATOR = new RandomStringGenerator();
-    private final String                URL              = "http://www.google.co.uk";
-    private final Random                RAND             = new Random();
-    private URL sUrl;
+    private static final RandomStringGenerator STRING_GENERATOR = new RandomStringGenerator();
+    private static final String                URL              = "http://www.google.co.uk";
+    private static final Random                RAND             = new Random();
+    private static URL sUrl;
 
     private T mReview;
 

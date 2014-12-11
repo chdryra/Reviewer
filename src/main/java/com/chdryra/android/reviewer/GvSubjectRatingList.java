@@ -21,7 +21,7 @@ import java.util.Comparator;
 public class GvSubjectRatingList extends GvDataList<GvSubjectRatingList
         .GvSubjectRating> {
 
-    GvSubjectRatingList() {
+    public GvSubjectRatingList() {
         super(GvType.CHILDREN);
     }
 
@@ -76,7 +76,7 @@ public class GvSubjectRatingList extends GvDataList<GvSubjectRatingList
         private final String mSubject;
         private final float  mRating;
 
-        GvSubjectRating(String subject, float rating) {
+        public GvSubjectRating(String subject, float rating) {
             mSubject = subject;
             mRating = rating;
         }

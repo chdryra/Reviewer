@@ -21,7 +21,7 @@ import java.net.URL;
 
 public class GvUrlList extends GvDataList<GvUrlList.GvUrl> {
 
-    GvUrlList() {
+    public GvUrlList() {
         super(GvType.URLS);
     }
 

@@ -23,7 +23,7 @@ import java.util.Random;
  */
 public class GvImageList extends GvDataList<GvImageList.GvImage> {
 
-    GvImageList() {
+    public GvImageList() {
         super(GvType.IMAGES);
     }
 
@@ -87,7 +87,7 @@ public class GvImageList extends GvDataList<GvImageList.GvImage> {
             mLatLng = latLng;
         }
 
-        GvImage(Bitmap bitmap, LatLng latLng, String caption, boolean isCover) {
+        public GvImage(Bitmap bitmap, LatLng latLng, String caption, boolean isCover) {
             mBitmap = bitmap;
             mCaption = caption;
             mLatLng = latLng;

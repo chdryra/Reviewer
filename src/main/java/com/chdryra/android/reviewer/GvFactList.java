@@ -17,7 +17,7 @@ import java.util.Comparator;
 
 public class GvFactList extends GvDataList<GvFactList.GvFact> {
 
-    GvFactList() {
+    public GvFactList() {
         super(GvType.FACTS);
     }
 
@@ -59,7 +59,7 @@ public class GvFactList extends GvDataList<GvFactList.GvFact> {
             }
         };
 
-        GvFact(String label, String value) {
+        public GvFact(String label, String value) {
             super(label, value);
         }
 

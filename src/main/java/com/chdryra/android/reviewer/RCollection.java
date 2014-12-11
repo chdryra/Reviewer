@@ -25,6 +25,14 @@ class RCollection<T> implements Iterable<T> {
         return new CollectionIterator();
     }
 
+    public int size() {
+        return mData.size();
+    }
+
+    public T getItem(int position) {
+        return get(getId(position));
+    }
+
     void put(ReviewId id, T t) {
         if (!containsId(id)) {
             mData.put(id, t);
@@ -43,14 +51,6 @@ class RCollection<T> implements Iterable<T> {
         if (containsId(id)) {
             mData.remove(id);
         }
-    }
-
-    int size() {
-        return mData.size();
-    }
-
-    T getItem(int position) {
-        return get(getId(position));
     }
 
     T get(ReviewId id) {

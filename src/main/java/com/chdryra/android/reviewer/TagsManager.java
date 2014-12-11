@@ -39,7 +39,7 @@ public class TagsManager {
         return getManager().mTags;
     }
 
-    static ReviewTagCollection getTags(Review review) {
+    public static ReviewTagCollection getTags(Review review) {
         ReviewTagCollection tags = getManager().new ReviewTagCollection();
         for (ReviewTag tag : getTags()) {
             if (tag.tagsReview(review)) {
@@ -77,14 +77,14 @@ public class TagsManager {
      * Wraps a string plus a collection of reviews tagged with that string. Comparable with
      * another ReviewTag alphabetically.
      */
-    class ReviewTag implements Comparable<ReviewTag> {
+    public class ReviewTag implements Comparable<ReviewTag> {
         private final RCollectionReview<Review> mReviews;
         private final String                    mTag;
 
         private ReviewTag(String tag, Review review) {
             //mTag = WordUtils.capitalize(tag);
             mTag = tag;
-            mReviews = new RCollectionReview<Review>();
+            mReviews = new RCollectionReview<>();
             mReviews.add(review);
         }
 
@@ -93,7 +93,7 @@ public class TagsManager {
             return mTag.compareToIgnoreCase(another.mTag);
         }
 
-        String get() {
+        public String get() {
             return mTag;
         }
 
@@ -121,7 +121,7 @@ public class TagsManager {
     /**
      * Iterable collection of ReviewTags.
      */
-    class ReviewTagCollection implements Iterable<ReviewTag> {
+    public class ReviewTagCollection implements Iterable<ReviewTag> {
         private final ArrayList<ReviewTag> mTags;
 
         private ReviewTagCollection() {
@@ -133,8 +133,12 @@ public class TagsManager {
             return new ReviewTagIterator();
         }
 
-        int size() {
+        public int size() {
             return mTags.size();
+        }
+
+        public ReviewTag getItem(int position) {
+            return mTags.get(position);
         }
 
         private ReviewTag get(String tag) {
@@ -157,10 +161,6 @@ public class TagsManager {
 
         private void remove(ReviewTag tag) {
             mTags.remove(tag);
-        }
-
-        private ReviewTag getItem(int position) {
-            return mTags.get(position);
         }
 
         class ReviewTagIterator implements Iterator<ReviewTag> {

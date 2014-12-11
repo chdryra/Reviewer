@@ -8,6 +8,8 @@
 
 package com.chdryra.android.reviewer.test;
 
+import android.test.suitebuilder.annotation.SmallTest;
+
 import com.chdryra.android.reviewer.CommentFormatter;
 import com.chdryra.android.reviewer.test.TestUtils.RandomStringGenerator;
 
@@ -24,6 +26,7 @@ public class CommentFormatterTest extends TestCase {
     private static int COMMENTS = 100;
     private RandomStringGenerator mGenerator;
 
+    @SmallTest
     public void testGetHeadline() {
         for (int c = 0; c < COMMENTS; ++c) {
             String comment = mGenerator.nextParagraph();
@@ -37,6 +40,7 @@ public class CommentFormatterTest extends TestCase {
         }
     }
 
+    @SmallTest
     public void testSplit() {
         for (int c = 0; c < COMMENTS; ++c) {
             String comment = mGenerator.nextParagraph();

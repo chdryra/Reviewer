@@ -21,7 +21,7 @@ package com.chdryra.android.reviewer;
 public class ControllerReviewTreeEditable extends ControllerReviewEditable {
     private final ControllerReviewNodeExpandable mReviewNodeExpandable;
 
-    ControllerReviewTreeEditable(ReviewTreeEditable reviewTree) {
+    public ControllerReviewTreeEditable(ReviewTreeEditable reviewTree) {
         super(reviewTree);
         mReviewNodeExpandable = new ControllerReviewNodeExpandable(getReviewNodeExpandable());
     }
@@ -46,7 +46,7 @@ public class ControllerReviewTreeEditable extends ControllerReviewEditable {
         }
     }
 
-    ReviewNode publishAndTag(PublisherReviewTree publisher) {
+    public ReviewNode publishAndTag(PublisherReviewTree publisher) {
         ReviewNode finalReview = publisher.publish(getReviewNodeExpandable());
         GvTagList tags = (GvTagList) getData(GvDataList.GvType.TAGS);
         for (ReviewNode node : finalReview.flattenTree()) {

@@ -18,7 +18,7 @@ import java.util.StringTokenizer;
 
 public class GvLocationList extends GvDataList<GvLocationList.GvLocation> {
 
-    GvLocationList() {
+    public GvLocationList() {
         super(GvType.LOCATIONS);
     }
 
@@ -45,7 +45,7 @@ public class GvLocationList extends GvDataList<GvLocationList.GvLocation> {
         private final LatLng mLatLng;
         private final String mName;
 
-        GvLocation(LatLng latLng, String name) {
+        public GvLocation(LatLng latLng, String name) {
             mLatLng = latLng;
             mName = name;
         }

@@ -18,7 +18,7 @@ import com.chdryra.android.mygenerallibrary.ViewHolder;
  */
 public class GvCommentList extends GvDataList<GvCommentList.GvComment> {
 
-    GvCommentList() {
+    public GvCommentList() {
         super(GvType.COMMENTS);
     }
 
@@ -66,7 +66,7 @@ public class GvCommentList extends GvDataList<GvCommentList.GvComment> {
             mComment = null;
         }
 
-        GvComment(String comment) {
+        public GvComment(String comment) {
             mComment = comment;
         }
 
