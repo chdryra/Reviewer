@@ -53,14 +53,13 @@ public class FragmentReviewURLBrowser extends FragmentDeleteDone {
     private WebView           mWebView;
     private String            mSearchUrl;
 
-    private InputHandlerReviewData<GvUrlList.GvUrl> mHandler;
-
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mHandler = new InputHandlerReviewData<GvUrlList.GvUrl>(GvDataList.GvType.URLS);
-        mCurrent = mHandler.unpack(InputHandlerReviewData.CurrentNewDatum.CURRENT,
+        mCurrent = (GvUrlList.GvUrl) InputHandlerGvData.unpackItem(InputHandlerGvData
+                        .CurrentNewDatum
+                        .CURRENT,
                 LauncherUI.getArgsForActivity(getActivity()));
-        setDeleteWhatTitle(mHandler.getGVType().getDatumString());
+        setDeleteWhatTitle(GvDataList.GvType.URLS.getDatumString());
         dismissOnDelete();
     }
 
@@ -149,15 +148,15 @@ public class FragmentReviewURLBrowser extends FragmentDeleteDone {
 
     @Override
     protected void onDeleteSelected() {
-        mHandler.pack(InputHandlerReviewData.CurrentNewDatum.CURRENT, mCurrent,
+        InputHandlerGvData.packItem(InputHandlerGvData.CurrentNewDatum.CURRENT, mCurrent,
                 getNewReturnData());
     }
 
     @Override
     protected void onDoneSelected() {
         Intent i = getNewReturnData();
-        mHandler.pack(InputHandlerReviewData.CurrentNewDatum.CURRENT, mCurrent, i);
-        mHandler.pack(InputHandlerReviewData.CurrentNewDatum.NEW, createGVData(), i);
+        InputHandlerGvData.packItem(InputHandlerGvData.CurrentNewDatum.CURRENT, mCurrent, i);
+        InputHandlerGvData.packItem(InputHandlerGvData.CurrentNewDatum.NEW, createGVData(), i);
     }
 
     private GvUrlList.GvUrl createGVData() {

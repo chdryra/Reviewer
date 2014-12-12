@@ -40,16 +40,16 @@ import com.chdryra.android.mygenerallibrary.DialogCancelAddDoneFragment;
  * the arguments by the Administrator.
  * </p>
  */
-public abstract class DialogGvDataAddFragment<T extends GvDataList.GvData>
-extends DialogCancelAddDoneFragment implements LaunchableUI {
+public abstract class DialogGvDataAddFragment<T extends GvDataList.GvData> extends
+        DialogCancelAddDoneFragment implements LaunchableUI {
 
     public static final String QUICK_SET = "com.chdryra.android.reviewer.dialog_quick_mode";
 
-    private final InputHandlerReviewData<T> mHandler;
-    private       ControllerReviewEditable  mController;
-    private       GvDataList<T>             mData;
+    private InputHandlerGvData<T>    mHandler;
+    private ControllerReviewEditable mController;
+    private GvDataList<T>            mData;
     private GvDataUiHolder<T>        mDialogHolder;
-    private ReviewDataAddListener<T> mAddListener;
+    private GvDataAddListener<T>     mAddListener;
 
     private boolean mQuickSet = false;
 
@@ -58,16 +58,17 @@ extends DialogCancelAddDoneFragment implements LaunchableUI {
      *
      * @param <T>:{@link GvDataList.GvData} type
      */
-    interface ReviewDataAddListener<T extends GvDataList.GvData> {
-        boolean onReviewDataAdd(T data);
+    interface GvDataAddListener<T extends GvDataList.GvData> {
+        boolean onGvDataAdd(T data);
     }
 
-    DialogGvDataAddFragment(GvDataList.GvType dataType) {
-        this(new InputHandlerReviewData<T>(dataType));
-    }
-
-    DialogGvDataAddFragment(InputHandlerReviewData<T> handler) {
-        mHandler = handler;
+    DialogGvDataAddFragment(Class<? extends GvDataList<T>> gvDataListClass) {
+        try {
+            mData = gvDataListClass.newInstance();
+        } catch (java.lang.InstantiationException | IllegalAccessException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Can't create class " + gvDataListClass.getName());
+        }
     }
 
     @Override
@@ -93,32 +94,33 @@ extends DialogCancelAddDoneFragment implements LaunchableUI {
 
         if (mController != null) {
             //TODO make type safe
-            mData = (GvDataList<T>) mController.getData(getGVType());
-            mHandler.setData(mData);
+            mData = mController.getData(getGvType());
         }
+
+        mHandler = InputHandlerFactory.newInputHandler(mData);
 
         if (!isQuickSet()) {
             try {
                 //TODO make type safe
-                mAddListener = (ReviewDataAddListener<T>) getTargetFragment();
+                mAddListener = (GvDataAddListener<T>) getTargetFragment();
             } catch (ClassCastException e) {
                 throw new ClassCastException(getTargetFragment().toString() + " must implement " +
                         "reviewDataAddListener");
             }
         }
 
-        setDialogTitle(getResources().getString(R.string.add) + " " + getGVType().getDatumString());
+        setDialogTitle(getResources().getString(R.string.add) + " " + getGvType().getDatumString());
         mDialogHolder = FactoryDialogHolder.newDialogHolder(this);
     }
 
     @Override
     protected void onAddButtonClick() {
-        T newDatum = createGVDataFromInputs();
+        T newDatum = mDialogHolder.getGvData();
 
         if (isQuickSet()) {
-            if (mHandler.add(newDatum, getActivity())) updateDialogOnAdd(newDatum);
+            if (mHandler.add(newDatum, getActivity())) mDialogHolder.updateView(newDatum);
         } else {
-            if (mAddListener.onReviewDataAdd(newDatum)) updateDialogOnAdd(newDatum);
+            if (mAddListener.onGvDataAdd(newDatum)) mDialogHolder.updateView(newDatum);
         }
     }
 
@@ -132,19 +134,11 @@ extends DialogCancelAddDoneFragment implements LaunchableUI {
         return null;
     }
 
-    GvDataList.GvType getGVType() {
-        return mHandler.getGVType();
+    GvDataList.GvType getGvType() {
+        return mData.getGvType();
     }
 
     boolean isQuickSet() {
         return mQuickSet && mController != null;
-    }
-
-    T createGVDataFromInputs() {
-        return mDialogHolder.getGvData();
-    }
-
-    void updateDialogOnAdd(T newDatum) {
-        mDialogHolder.updateView(newDatum);
     }
 }

@@ -51,14 +51,14 @@ class DHFact extends DialogHolderAddEdit<GvFactList.GvFact> {
     }
 
     @Override
-    protected GvFactList.GvFact createGVData() {
+    protected GvFactList.GvFact createGvData() {
         String label = ((EditText) getView(LABEL)).getText().toString().trim();
         String value = ((EditText) getView(VALUE)).getText().toString().trim();
         return new GvFact(label, value);
     }
 
     @Override
-    protected void updateWithGVData(GvFact fact) {
+    protected void updateWithGvData(GvFact fact) {
         ((EditText) getView(LABEL)).setText(fact.getLabel());
         ((EditText) getView(VALUE)).setText(fact.getValue());
         getView(LABEL).requestFocus();

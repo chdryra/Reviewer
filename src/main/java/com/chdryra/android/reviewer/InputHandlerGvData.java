@@ -27,11 +27,12 @@ import android.widget.Toast;
  *
  * @param <T>: {@link GvDataList.GvData} type.
  */
-class InputHandlerReviewData<T extends GvDataList.GvData> {
+class InputHandlerGvData<T extends GvDataList.GvData> {
     private static final String DATUM_CURRENT = "com.chdryra.android.reviewer.data_current";
     private static final String DATUM_NEW     = "com.chdryra.android.reviewer.data_new";
     private GvDataList<T>     mData;
     private GvDataList.GvType mDataType;
+    private AddConstraint<T> mAddConstraint;
 
     enum CurrentNewDatum {
         CURRENT(DATUM_CURRENT),
@@ -48,11 +49,35 @@ class InputHandlerReviewData<T extends GvDataList.GvData> {
         }
     }
 
-    InputHandlerReviewData(GvDataList.GvType dataType) {
-        mDataType = dataType;
+    InputHandlerGvData(GvDataList<T> data) {
+        setData(data);
+        mAddConstraint = new AddConstraint<>();
     }
 
-    GvDataList.GvType getGVType() {
+    InputHandlerGvData(GvDataList<T> data, AddConstraint<T> addConstraint) {
+        setData(data);
+        mAddConstraint = addConstraint;
+    }
+
+    static void packItem(CurrentNewDatum currentNew, GvDataList.GvData item, Bundle args) {
+        if (item != null && !item.isValidForDisplay()) item = null;
+        args.putParcelable(currentNew.getPackingTag(), item);
+    }
+
+    static void packItem(CurrentNewDatum currentNew, GvDataList.GvData item, Intent data) {
+        if (item != null && !item.isValidForDisplay()) item = null;
+        data.putExtra(currentNew.getPackingTag(), item);
+    }
+
+    static GvDataList.GvData unpackItem(CurrentNewDatum currentNew, Bundle args) {
+        return args.getParcelable(currentNew.getPackingTag());
+    }
+
+    static GvDataList.GvData unpackItem(CurrentNewDatum currentNew, Intent data) {
+        return data.getParcelableExtra(currentNew.getPackingTag());
+    }
+
+    GvDataList.GvType getGvType() {
         return mDataType;
     }
 
@@ -63,16 +88,6 @@ class InputHandlerReviewData<T extends GvDataList.GvData> {
     void setData(GvDataList<T> data) {
         mData = data;
         mDataType = data.getGvType();
-    }
-
-    void pack(CurrentNewDatum currentNew, T item, Bundle args) {
-        if (item != null && !item.isValidForDisplay()) item = null;
-        args.putParcelable(currentNew.getPackingTag(), item);
-    }
-
-    void pack(CurrentNewDatum currentNew, T item, Intent data) {
-        if (item != null && !item.isValidForDisplay()) item = null;
-        data.putExtra(currentNew.getPackingTag(), item);
     }
 
     T unpack(CurrentNewDatum currentNew, Bundle args) {
@@ -104,7 +119,7 @@ class InputHandlerReviewData<T extends GvDataList.GvData> {
     }
 
     boolean contains(T datum, Context context) {
-        if (mData != null && mData.contains(datum)) {
+        if (mData.contains(datum)) {
             if (context != null) makeToastHasItem(context);
             return true;
         }
@@ -114,7 +129,7 @@ class InputHandlerReviewData<T extends GvDataList.GvData> {
 
     void makeToastHasItem(Context context) {
         String toast = context.getResources().getString(R.string.toast_has) + " " +
-                getGVType().getDatumString();
+                getGvType().getDatumString();
         Toast.makeText(context, toast, Toast.LENGTH_SHORT).show();
     }
 
@@ -127,10 +142,25 @@ class InputHandlerReviewData<T extends GvDataList.GvData> {
     }
 
     boolean passesAddConstraint(T datum, Context context) {
-        return isNewAndValid(datum, context);
+        boolean isValid = isValid(datum);
+        boolean passes = false;
+        if (isValid) {
+            passes = mAddConstraint.passes(mData, datum);
+            if (!passes && context != null) {
+                makeToastHasItem(context);
+            }
+        }
+
+        return passes;
     }
 
     boolean passesReplaceConstraint(T oldDatum, T newDatum, Context context) {
         return isValid(oldDatum) && !oldDatum.equals(newDatum) && isNewAndValid(newDatum, context);
+    }
+
+    public static class AddConstraint<G extends GvDataList.GvData> {
+        public boolean passes(GvDataList<G> data, G datum) {
+            return !data.contains(datum);
+        }
     }
 }

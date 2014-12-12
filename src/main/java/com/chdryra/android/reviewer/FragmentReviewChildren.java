@@ -29,7 +29,7 @@ public class FragmentReviewChildren extends FragmentReviewGridAddEdit<GvSubjectR
     private boolean mTotalRatingIsAverage;
 
     public FragmentReviewChildren() {
-        super(GvDataList.GvType.CHILDREN, new InputHandlerChildren());
+        super(GvSubjectRatingList.class);
     }
 
     @Override

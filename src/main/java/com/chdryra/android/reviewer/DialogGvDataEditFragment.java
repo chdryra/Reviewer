@@ -38,10 +38,9 @@ import com.chdryra.android.mygenerallibrary.DialogCancelDeleteDoneFragment;
 public abstract class DialogGvDataEditFragment<T extends GvDataList.GvData>
         extends DialogCancelDeleteDoneFragment implements LaunchableUI {
 
-
-    private final InputHandlerReviewData<T> mHandler;
-    private final GvDataList.GvType         mDataType;
-    private       T                         mDatum;
+    private GvDataList.GvType     mDataType;
+    private InputHandlerGvData<T> mUnpacker;
+    private T                     mDatum;
     private GvDataUiHolder<T>     mDialogHolder;
     private GvDataEditListener<T> mListener;
 
@@ -56,14 +55,19 @@ public abstract class DialogGvDataEditFragment<T extends GvDataList.GvData>
         void onGvDataEdit(T oldDatum, T newDatum);
     }
 
-    DialogGvDataEditFragment(GvDataList.GvType dataType) {
-        this(dataType, new InputHandlerReviewData<T>(dataType));
-    }
+    DialogGvDataEditFragment(Class<? extends GvDataList<T>> gvDataListClass) {
+        GvDataList<T> data;
+        mDataType = null;
+        try {
+            //Need to do this just to get correct GvType....
+            data = gvDataListClass.newInstance();
+            mDataType = data.getGvType();
+        } catch (java.lang.InstantiationException | IllegalAccessException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Can't create class " + gvDataListClass.getName());
+        }
 
-    DialogGvDataEditFragment(GvDataList.GvType dataType,
-            InputHandlerReviewData<T> handler) {
-        mDataType = dataType;
-        mHandler = handler;
+        mUnpacker = InputHandlerFactory.newInputHandler(gvDataListClass);
     }
 
     @Override
@@ -82,9 +86,8 @@ public abstract class DialogGvDataEditFragment<T extends GvDataList.GvData>
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setDialogTitle(getResources().getString(R.string.edit) + " " + mHandler.getGVType()
-                .getDatumString());
-        mDatum = mHandler.unpack(InputHandlerReviewData.CurrentNewDatum.CURRENT, getArguments());
+        setDialogTitle(getResources().getString(R.string.edit) + " " + mDataType.getDatumString());
+        mDatum = mUnpacker.unpack(InputHandlerGvData.CurrentNewDatum.CURRENT, getArguments());
         mDialogHolder = FactoryDialogHolder.newDialogHolder(this);
 
         try {
@@ -108,7 +111,7 @@ public abstract class DialogGvDataEditFragment<T extends GvDataList.GvData>
 
     @Override
     protected void onDoneButtonClick() {
-        mListener.onGvDataEdit(mDatum, createGVDataFromInputs());
+        mListener.onGvDataEdit(mDatum, mDialogHolder.getGvData());
     }
 
     @Override
@@ -116,11 +119,7 @@ public abstract class DialogGvDataEditFragment<T extends GvDataList.GvData>
         return null;
     }
 
-    T createGVDataFromInputs() {
-        return mDialogHolder.getGvData();
-    }
-
-    GvDataList.GvType getGVType() {
+    GvDataList.GvType getGvType() {
         return mDataType;
     }
 

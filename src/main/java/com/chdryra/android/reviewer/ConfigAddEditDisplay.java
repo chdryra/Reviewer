@@ -107,7 +107,7 @@ public final class ConfigAddEditDisplay {
     //Tag
     public static class AddTag extends DialogGvDataAddFragment<GvTagList.GvTag> {
         public AddTag() {
-            super(GvDataList.GvType.TAGS);
+            super(GvTagList.class);
         }
     }
 
@@ -115,21 +115,21 @@ public final class ConfigAddEditDisplay {
     public static class AddChild extends
             DialogGvDataAddFragment<GvSubjectRatingList.GvSubjectRating> {
         public AddChild() {
-            super(new InputHandlerChildren());
+            super(GvSubjectRatingList.class);
         }
     }
 
     //Comment
     public static class AddComment extends DialogGvDataAddFragment<GvCommentList.GvComment> {
         public AddComment() {
-            super(GvDataList.GvType.COMMENTS);
+            super(GvCommentList.class);
         }
     }
 
     //Fact
     public static class AddFact extends DialogGvDataAddFragment<GvFactList.GvFact> {
         public AddFact() {
-            super(GvDataList.GvType.FACTS);
+            super(GvFactList.class);
         }
     }
 
@@ -137,7 +137,7 @@ public final class ConfigAddEditDisplay {
     //Tag
     public static class EditTag extends DialogGvDataEditFragment<GvTagList.GvTag> {
         public EditTag() {
-            super(GvDataList.GvType.TAGS);
+            super(GvTagList.class);
         }
     }
 
@@ -145,28 +145,28 @@ public final class ConfigAddEditDisplay {
     public static class EditChild extends DialogGvDataEditFragment<GvSubjectRatingList
             .GvSubjectRating> {
         public EditChild() {
-            super(GvDataList.GvType.CHILDREN, new InputHandlerChildren());
+            super(GvSubjectRatingList.class);
         }
     }
 
     //Comment
     public static class EditComment extends DialogGvDataEditFragment<GvCommentList.GvComment> {
         public EditComment() {
-            super(GvDataList.GvType.COMMENTS);
+            super(GvCommentList.class);
         }
     }
 
     //Image
     public static class EditImage extends DialogGvDataEditFragment<GvImageList.GvImage> {
         public EditImage() {
-            super(GvDataList.GvType.IMAGES);
+            super(GvImageList.class);
         }
     }
 
     //Fact
     public static class EditFact extends DialogGvDataEditFragment<GvFactList.GvFact> {
         public EditFact() {
-            super(GvDataList.GvType.FACTS);
+            super(GvFactList.class);
         }
     }
 

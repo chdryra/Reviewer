@@ -63,7 +63,7 @@ class DialogHolderUI<T extends GvDataList.GvData, D extends DialogCancelActionDo
 
         void update(T data, D parentDialog);
 
-        T getGVData();
+        T getGvData();
     }
 
     DialogHolderUI(D parentDialog, DialogUIUpdater<T, D> updater) {
@@ -83,6 +83,6 @@ class DialogHolderUI<T extends GvDataList.GvData, D extends DialogCancelActionDo
 
     @Override
     public T getGvData() {
-        return mUpdater.getGVData();
+        return mUpdater.getGvData();
     }
 }

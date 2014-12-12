@@ -17,9 +17,10 @@ import com.google.android.gms.maps.model.LatLng;
 import java.util.StringTokenizer;
 
 public class GvLocationList extends GvDataList<GvLocationList.GvLocation> {
+    public static final GvType GVTYPE = GvType.LOCATIONS;
 
     public GvLocationList() {
-        super(GvType.LOCATIONS);
+        super(GVTYPE);
     }
 
     void add(LatLng latLng, String name) {

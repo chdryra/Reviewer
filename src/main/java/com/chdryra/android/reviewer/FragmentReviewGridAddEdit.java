@@ -26,36 +26,31 @@ import com.chdryra.android.mygenerallibrary.ActivityResultCode;
  * usually does same as click.
  * </p>
  * <p>
- * User input handled by a {@link com.chdryra.android.reviewer.InputHandlerReviewData}.
+ * User input handled by a {@link InputHandlerGvData}.
  * </p>
  *
  * @param <T>: {@link GvDataList.GvData} type.
  */
 abstract class FragmentReviewGridAddEdit<T extends GvDataList.GvData> extends
-        FragmentReviewGrid implements DialogGvDataAddFragment
-        .ReviewDataAddListener<T>, DialogGvDataEditFragment.GvDataEditListener<T> {
+        FragmentReviewGrid implements DialogGvDataAddFragment.GvDataAddListener<T>,
+        DialogGvDataEditFragment.GvDataEditListener<T> {
 
 
     private final GvDataList.GvType mDataType;
     private final ActivityResultCode mDoDatumDelete = ActivityResultCode.DELETE;
     private final ActivityResultCode mDoDatumEdit   = ActivityResultCode.DONE;
-    private final InputHandlerReviewData<T> mHandler;
+    private final InputHandlerGvData<T> mHandler;
     private ActivityResultCode mDoDatumAdd = ActivityResultCode.ADD;
     private ConfigReviewDataUI.ReviewDataUIConfig mAdderConfig;
     private ConfigReviewDataUI.ReviewDataUIConfig mEditorConfig;
 
-    FragmentReviewGridAddEdit(GvDataList.GvType dataType) {
-        this(dataType, new InputHandlerReviewData<T>(dataType));
-    }
-
-    FragmentReviewGridAddEdit(GvDataList.GvType dataType, InputHandlerReviewData<T>
-            inputHandler) {
-        mDataType = dataType;
-        mHandler = inputHandler;
+    FragmentReviewGridAddEdit(Class<? extends GvDataList<T>> gvDataListClass) {
+        mHandler = InputHandlerFactory.newInputHandler(gvDataListClass);
+        mDataType = mHandler.getGvType();
     }
 
     @Override
-    public boolean onReviewDataAdd(T data) {
+    public boolean onGvDataAdd(T data) {
         return doDatumAdd(data);
     }
 
@@ -115,7 +110,7 @@ abstract class FragmentReviewGridAddEdit<T extends GvDataList.GvData> extends
         mHandler.setData(gridData); //TODO make type safe
     }
 
-    InputHandlerReviewData<T> getInputHandler() {
+    InputHandlerGvData<T> getInputHandler() {
         return mHandler;
     }
 
@@ -136,7 +131,7 @@ abstract class FragmentReviewGridAddEdit<T extends GvDataList.GvData> extends
     }
 
     void packGridCellData(T item, Bundle args) {
-        mHandler.pack(InputHandlerReviewData.CurrentNewDatum.CURRENT, item, args);
+        InputHandlerGvData.packItem(InputHandlerGvData.CurrentNewDatum.CURRENT, item, args);
     }
 
     final int getRequestCodeAdd() {
@@ -153,18 +148,19 @@ abstract class FragmentReviewGridAddEdit<T extends GvDataList.GvData> extends
 
     void onActivityAddRequested(int resultCode, Intent data) {
         if (data != null && ActivityResultCode.get(resultCode) == mDoDatumAdd) {
-            doDatumAdd(mHandler.unpack(InputHandlerReviewData.CurrentNewDatum.NEW, data));
+            doDatumAdd(mHandler.unpack(InputHandlerGvData.CurrentNewDatum.NEW, data));
         }
     }
 
     void onActivityEditRequested(int resultCode, Intent data) {
         ActivityResultCode result = ActivityResultCode.get(resultCode);
         if (data != null && result == mDoDatumEdit) {
-            T oldDatum = mHandler.unpack(InputHandlerReviewData.CurrentNewDatum.CURRENT, data);
-            T newDatum = mHandler.unpack(InputHandlerReviewData.CurrentNewDatum.NEW, data);
+            T oldDatum = mHandler.unpack(InputHandlerGvData.CurrentNewDatum.CURRENT,
+                    data);
+            T newDatum = mHandler.unpack(InputHandlerGvData.CurrentNewDatum.NEW, data);
             doDatumEdit(oldDatum, newDatum);
         } else if (data != null && result == mDoDatumDelete) {
-            doDatumDelete(mHandler.unpack(InputHandlerReviewData.CurrentNewDatum.CURRENT, data));
+            doDatumDelete(mHandler.unpack(InputHandlerGvData.CurrentNewDatum.CURRENT, data));
         }
     }
 

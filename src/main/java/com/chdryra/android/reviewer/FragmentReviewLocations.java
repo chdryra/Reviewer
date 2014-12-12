@@ -23,7 +23,7 @@ import com.chdryra.android.mygenerallibrary.ActivityResultCode;
  */
 public class FragmentReviewLocations extends FragmentReviewGridAddEdit<GvLocationList.GvLocation> {
     public FragmentReviewLocations() {
-        super(GvDataList.GvType.LOCATIONS);
+        super(GvLocationList.class);
         setAddResultCode(ActivityResultCode.DONE);
     }
 }

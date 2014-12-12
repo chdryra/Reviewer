@@ -40,7 +40,7 @@ public class FragmentReviewImages extends FragmentReviewGridAddEdit<GvImageList.
     private ImageChooser mImageChooser;
 
     public FragmentReviewImages() {
-        super(GvDataList.GvType.IMAGES, new InputHandlerImage());
+        super(GvImageList.class);
         setAddResultCode(ActivityResultCode.OK);
         setGridCellDimension(CellDimension.HALF, CellDimension.HALF);
     }

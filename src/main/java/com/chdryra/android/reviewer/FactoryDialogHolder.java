@@ -31,7 +31,7 @@ class FactoryDialogHolder {
     private final  HashMap<GvDataList.GvType, Class<? extends GvDataUiHolder<?>>> mDHClassesMap;
 
     private FactoryDialogHolder() {
-        mDHClassesMap = new HashMap<GvDataList.GvType, Class<? extends GvDataUiHolder<?>>>();
+        mDHClassesMap = new HashMap<>();
         mDHClassesMap.put(GvDataList.GvType.CHILDREN, DHChild.class);
         mDHClassesMap.put(GvDataList.GvType.COMMENTS, DHComment.class);
         mDHClassesMap.put(GvDataList.GvType.FACTS, DHFact.class);
@@ -43,27 +43,26 @@ class FactoryDialogHolder {
             (DialogGvDataAddFragment<T> dialog) {
         if (sFactory == null) sFactory = new FactoryDialogHolder();
         try {
-            Constructor ctor = sFactory.mDHClassesMap.get(dialog.getGVType())
-                    .getDeclaredConstructor
-                            (DialogGvDataAddFragment.class);
+            Constructor ctor = sFactory.mDHClassesMap.get(dialog.getGvType())
+                    .getDeclaredConstructor(DialogGvDataAddFragment.class);
 
             try {
                 //TODO make type safe
                 return (GvDataUiHolder<T>) ctor.newInstance(dialog);
             } catch (InstantiationException e) {
-                Log.e(TAG, "Problem constructing ReviewDataAdd dialog for " + dialog.getGVType()
+                Log.e(TAG, "Problem constructing ReviewDataAdd dialog for " + dialog.getGvType()
                         .getDatumString(), e);
             } catch (IllegalAccessException e) {
                 Log.e(TAG, "Illegal access whilst constructing ReviewDataAdd dialog for " +
-                        dialog.getGVType().getDatumString(), e);
+                        dialog.getGvType().getDatumString(), e);
             } catch (InvocationTargetException e) {
                 Log.e(TAG, "Invocation exception whilst constructing ReviewDataAdd dialog for" +
-                        " " + dialog.getGVType().getDatumString(), e);
+                        " " + dialog.getGvType().getDatumString(), e);
             }
 
         } catch (NoSuchMethodException e) {
             Log.e(TAG, "DialogReviewDataAddFragment Constructor missing for DialogHolder for" +
-                    dialog.getGVType().getDatumString(), e);
+                    dialog.getGvType().getDatumString(), e);
         }
 
         return null;
@@ -73,25 +72,24 @@ class FactoryDialogHolder {
             (DialogGvDataEditFragment<T> dialog) {
         if (sFactory == null) sFactory = new FactoryDialogHolder();
         try {
-            Constructor ctor = sFactory.mDHClassesMap.get(dialog.getGVType())
-                    .getDeclaredConstructor
-                            (DialogGvDataEditFragment.class);
+            Constructor ctor = sFactory.mDHClassesMap.get(dialog.getGvType())
+                    .getDeclaredConstructor(DialogGvDataEditFragment.class);
             try {
                 //TODO make type safe
                 return (GvDataUiHolder<T>) ctor.newInstance(dialog);
             } catch (InstantiationException e) {
-                Log.e(TAG, "Problem constructing edit dialog for " + dialog.getGVType()
+                Log.e(TAG, "Problem constructing edit dialog for " + dialog.getGvType()
                         .getDatumString(), e);
             } catch (IllegalAccessException e) {
                 Log.e(TAG, "Illegal access whilst constructing edit dialog for " +
-                        dialog.getGVType().getDatumString(), e);
+                        dialog.getGvType().getDatumString(), e);
             } catch (InvocationTargetException e) {
                 Log.e(TAG, "Invocation exception whilst constructing edit dialog for" +
-                        " " + dialog.getGVType().getDatumString(), e);
+                        " " + dialog.getGvType().getDatumString(), e);
             }
         } catch (NoSuchMethodException e) {
             Log.e(TAG, "DialogReviewDataEditFragment Constructor missing for DialogHolder for" +
-                    dialog.getGVType().getDatumString(), e);
+                    dialog.getGvType().getDatumString(), e);
         }
 
         return null;

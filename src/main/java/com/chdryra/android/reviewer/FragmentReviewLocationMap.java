@@ -90,25 +90,21 @@ public class FragmentReviewLocationMap extends FragmentDeleteDone implements
     private LocationClientConnector mLocationClient;
     private String                  mSearchLocationName;
 
-    private InputHandlerReviewData<GvLocationList.GvLocation> mHandler;
-
     private PlaceAutoCompleteSuggester mAutoCompleter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mHandler = new InputHandlerReviewData<GvLocationList.GvLocation>(GvDataList.GvType
-                .LOCATIONS);
-
         Bundle args = LauncherUI.getArgsForActivity(getActivity());
         if (args != null) {
-            mCurrent = mHandler.unpack(InputHandlerReviewData.CurrentNewDatum.CURRENT, args);
+            mCurrent = (GvLocationList.GvLocation) InputHandlerGvData.unpackItem(InputHandlerGvData
+                    .CurrentNewDatum.CURRENT, args);
         }
 
         MapsInitializer.initialize(getActivity());
 
-        setDeleteWhatTitle(mHandler.getGVType().getDatumString());
+        setDeleteWhatTitle(GvLocationList.GVTYPE.getDatumString());
         dismissOnDelete();
     }
 
@@ -185,7 +181,7 @@ public class FragmentReviewLocationMap extends FragmentDeleteDone implements
 
     @Override
     protected void onDeleteSelected() {
-        mHandler.pack(InputHandlerReviewData.CurrentNewDatum.CURRENT, mCurrent,
+        InputHandlerGvData.packItem(InputHandlerGvData.CurrentNewDatum.CURRENT, mCurrent,
                 getNewReturnData());
     }
 
@@ -200,8 +196,8 @@ public class FragmentReviewLocationMap extends FragmentDeleteDone implements
         }
 
         Intent i = getNewReturnData();
-        mHandler.pack(InputHandlerReviewData.CurrentNewDatum.CURRENT, mCurrent, i);
-        mHandler.pack(InputHandlerReviewData.CurrentNewDatum.NEW, createGVData(), i);
+        InputHandlerGvData.packItem(InputHandlerGvData.CurrentNewDatum.CURRENT, mCurrent, i);
+        InputHandlerGvData.packItem(InputHandlerGvData.CurrentNewDatum.NEW, createGVData(), i);
     }
 
     @Override

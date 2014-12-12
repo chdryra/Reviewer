@@ -50,7 +50,7 @@ class DHImageEdit extends DialogHolderAddEdit<GvImageList.GvImage> {
     }
 
     @Override
-    protected GvImageList.GvImage createGVData() {
+    protected GvImageList.GvImage createGvData() {
         GvImageList.GvImage currentDatum = mDialogEdit.getGvData();
         String caption = ((EditText) getView(CAPTION)).getText().toString().trim();
         currentDatum.setCaption(caption);
@@ -58,7 +58,7 @@ class DHImageEdit extends DialogHolderAddEdit<GvImageList.GvImage> {
     }
 
     @Override
-    protected void updateWithGVData(GvImageList.GvImage image) {
+    protected void updateWithGvData(GvImageList.GvImage image) {
         ImageView imageView = (ImageView) getView(IMAGE);
         EditText imageCaption = (EditText) getView(CAPTION);
 

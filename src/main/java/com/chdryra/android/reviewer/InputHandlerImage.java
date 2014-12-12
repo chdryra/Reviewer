@@ -17,12 +17,12 @@ import android.content.Context;
  */
 
 /**
- * Additional constraint over base {@link com.chdryra.android.reviewer.InputHandlerReviewData} to
+ * Additional constraint over base {@link InputHandlerGvData} to
  * ignore addition if current data already includes Bitmap.
  */
-class InputHandlerImage extends InputHandlerReviewData<GvImageList.GvImage> {
+class InputHandlerImage extends InputHandlerGvData<GvImageList.GvImage> {
     InputHandlerImage() {
-        super(GvDataList.GvType.IMAGES);
+        super(new GvImageList());
     }
 
     @Override

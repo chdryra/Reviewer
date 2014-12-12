@@ -13,6 +13,6 @@ package com.chdryra.android.reviewer;
  */
 public class FragmentReviewFacts extends FragmentReviewGridAddEdit<GvFactList.GvFact> {
     public FragmentReviewFacts() {
-        super(GvDataList.GvType.FACTS);
+        super(GvFactList.class);
     }
 }

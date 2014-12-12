@@ -28,7 +28,7 @@ import android.widget.EditText;
  * </p>
  * <p/>
  * <p>
- * Provides a {@link com.chdryra.android.reviewer.DialogHolderUI.DialogUIUpdater}
+ * Provides a {@link DialogHolderUI.DialogUIUpdater}
  * for adder Dialogs, and a different one for editor Dialogs.
  * </p>
  *
@@ -36,7 +36,7 @@ import android.widget.EditText;
  */
 abstract class DialogHolderAddEdit<T extends GvDataList.GvData> extends DialogHolder<T> {
 
-    private final GvDataUi<T> mDialogUI;
+    private final GvDataUi<T> mDialogUi;
 
     protected abstract EditText getEditTextForKeyboardAction();
 
@@ -44,27 +44,27 @@ abstract class DialogHolderAddEdit<T extends GvDataList.GvData> extends DialogHo
 
     protected abstract String getDialogDeleteConfirmTitle(T data);
 
-    protected abstract T createGVData();
+    protected abstract T createGvData();
 
-    protected abstract void updateWithGVData(T data);
+    protected abstract void updateWithGvData(T data);
 
     DialogHolderAddEdit(int layoutId, int[] viewIds, DialogGvDataAddFragment<T> parent,
             final T nullData) {
         super(layoutId, viewIds);
-        mDialogUI = new DialogHolderUI<>(parent, getReviewDataAddUI(nullData));
+        mDialogUi = new DialogHolderUI<>(parent, getGvDataAddUi(nullData));
     }
 
     DialogHolderAddEdit(int layoutId, int[] viewIds, DialogGvDataEditFragment<T> parent) {
         super(layoutId, viewIds);
-        mDialogUI = new DialogHolderUI<>(parent, getReviewDataEditUI());
+        mDialogUi = new DialogHolderUI<>(parent, getGvDataEditUi());
     }
 
     @Override
-    protected GvDataUi<T> getGVDataUi() {
-        return mDialogUI;
+    protected GvDataUi<T> getGvDataUi() {
+        return mDialogUi;
     }
 
-    private DialogHolderUI.DialogUIUpdater<T, DialogGvDataAddFragment<T>> getReviewDataAddUI
+    private DialogHolderUI.DialogUIUpdater<T, DialogGvDataAddFragment<T>> getGvDataAddUi
             (final T nullData) {
         return new DialogHolderUI.DialogUIUpdater<T, DialogGvDataAddFragment<T>>() {
 
@@ -75,24 +75,24 @@ abstract class DialogHolderAddEdit<T extends GvDataList.GvData> extends DialogHo
 
             @Override
             public void update(T data, DialogGvDataAddFragment<T> parentDialog) {
-                updateWithGVData(nullData);
+                updateWithGvData(nullData);
                 parentDialog.getDialog().setTitle("+ " + getDialogOnAddTitle(data));
             }
 
             @Override
-            public T getGVData() {
-                return createGVData();
+            public T getGvData() {
+                return createGvData();
             }
         };
     }
 
-    private DialogHolderUI.DialogUIUpdater<T, DialogGvDataEditFragment<T>> getReviewDataEditUI
+    private DialogHolderUI.DialogUIUpdater<T, DialogGvDataEditFragment<T>> getGvDataEditUi
             () {
         return new DialogHolderUI.DialogUIUpdater<T, DialogGvDataEditFragment<T>>() {
 
             @Override
             public void initialise(T data, DialogGvDataEditFragment<T> parentDialog) {
-                updateWithGVData(data);
+                updateWithGvData(data);
                 parentDialog.setKeyboardDoDoneOnEditText(getEditTextForKeyboardAction());
                 parentDialog.setDeleteWhatTitle(getDialogDeleteConfirmTitle(data));
             }
@@ -102,8 +102,8 @@ abstract class DialogHolderAddEdit<T extends GvDataList.GvData> extends DialogHo
             }
 
             @Override
-            public T getGVData() {
-                return createGVData();
+            public T getGvData() {
+                return createGvData();
             }
         };
     }

@@ -48,13 +48,13 @@ class DHComment extends DialogHolderAddEdit<GvCommentList.GvComment> {
     }
 
     @Override
-    protected GvCommentList.GvComment createGVData() {
+    protected GvCommentList.GvComment createGvData() {
         return new GvCommentList.GvComment(getEditTextForKeyboardAction().getText().toString()
                 .trim());
     }
 
     @Override
-    protected void updateWithGVData(GvCommentList.GvComment comment) {
+    protected void updateWithGvData(GvCommentList.GvComment comment) {
         ((EditText) getView(COMMENT)).setText(comment.getComment());
     }
 }

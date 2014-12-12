@@ -19,13 +19,13 @@ import com.chdryra.android.reviewer.GvSubjectRatingList.GvSubjectRating;
  */
 
 /**
- * Additional constraint over base {@link com.chdryra.android.reviewer.InputHandlerReviewData} to
+ * Additional constraint over base {@link InputHandlerGvData} to
  * ignore addition if current data already contains the subject.
  */
-class InputHandlerChildren extends InputHandlerReviewData<GvSubjectRating> {
+class InputHandlerChildren extends InputHandlerGvData<GvSubjectRating> {
 
     InputHandlerChildren() {
-        super(GvDataList.GvType.CHILDREN);
+        super(new GvSubjectRatingList());
     }
 
     @Override

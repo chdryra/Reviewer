@@ -60,14 +60,14 @@ class DHChild extends DialogHolderAddEdit<GvSubjectRating> {
     }
 
     @Override
-    protected GvSubjectRatingList.GvSubjectRating createGVData() {
+    protected GvSubjectRatingList.GvSubjectRating createGvData() {
         String subject = ((EditText) getView(SUBJECT)).getText().toString().trim();
         float rating = ((RatingBar) getView(RATING)).getRating();
         return new GvSubjectRatingList.GvSubjectRating(subject, rating);
     }
 
     @Override
-    protected void updateWithGVData(GvSubjectRatingList.GvSubjectRating data) {
+    protected void updateWithGvData(GvSubjectRatingList.GvSubjectRating data) {
         ((EditText) getView(SUBJECT)).setText(data.getSubject());
         ((RatingBar) getView(RATING)).setRating(data.getRating());
     }

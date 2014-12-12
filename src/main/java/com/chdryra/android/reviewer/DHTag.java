@@ -48,12 +48,12 @@ class DHTag extends DialogHolderAddEdit<GvTagList.GvTag> {
     }
 
     @Override
-    protected GvTagList.GvTag createGVData() {
+    protected GvTagList.GvTag createGvData() {
         return new GvTagList.GvTag(((EditText) getView(TAG)).getText().toString().trim());
     }
 
     @Override
-    protected void updateWithGVData(GvTagList.GvTag tag) {
+    protected void updateWithGvData(GvTagList.GvTag tag) {
         ((EditText) getView(TAG)).setText(tag.get());
     }
 }

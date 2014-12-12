@@ -75,8 +75,6 @@ public class FragmentReviewBuild extends FragmentReviewGrid implements ImageChoo
     private GvCellManagerList mCellManagerList;
     private ImageChooser      mImageChooser;
 
-    private InputHandlerReviewData<GvLocationList.GvLocation> mLocationInputHandler;
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         ActivityResultCode resCode = ActivityResultCode.get(resultCode);
@@ -109,10 +107,6 @@ public class FragmentReviewBuild extends FragmentReviewGrid implements ImageChoo
         setTransparentGridCellBackground();
 
         mImageChooser = new ImageChooser(getController(), getActivity());
-        mLocationInputHandler = new InputHandlerReviewData<GvLocationList.GvLocation>
-                (GvDataList
-                        .GvType
-                        .LOCATIONS);
     }
 
     @Override
@@ -207,18 +201,20 @@ public class FragmentReviewBuild extends FragmentReviewGrid implements ImageChoo
     }
 
     private void requestMapIntent(Intent data) {
-        GvLocationList.GvLocation location = mLocationInputHandler.unpack(InputHandlerReviewData
-                .CurrentNewDatum.NEW, data);
+        GvLocationList.GvLocation location = (GvLocationList.GvLocation) InputHandlerGvData
+                .unpackItem
+                        (InputHandlerGvData.CurrentNewDatum.NEW, data);
         Bundle args = new Bundle();
-        mLocationInputHandler.pack(InputHandlerReviewData.CurrentNewDatum.CURRENT, location, args);
+        InputHandlerGvData.packItem(InputHandlerGvData.CurrentNewDatum.CURRENT, location, args);
 
         LaunchableUI mapUi = ConfigReviewDataUI.getReviewDataUI(ActivityReviewLocationMap.class);
         LauncherUI.launch(mapUi, this, LOCATION_MAP, null, args);
     }
 
     private void addLocation(Intent data) {
-        GvLocationList.GvLocation location = mLocationInputHandler.unpack(InputHandlerReviewData
-                .CurrentNewDatum.NEW, data);
+        GvLocationList.GvLocation location = (GvLocationList.GvLocation) InputHandlerGvData
+                .unpackItem
+                        (InputHandlerGvData.CurrentNewDatum.NEW, data);
         if (location.isValidForDisplay()) {
             GvLocationList list = new GvLocationList();
             list.add(location);

@@ -8,7 +8,7 @@
 
 package com.chdryra.android.reviewer;
 
-import android.app.Activity;
+import android.content.Context;
 import android.view.View;
 
 /**
@@ -40,7 +40,7 @@ import android.view.View;
  * @see DialogGvDataEditFragment
  */
 interface GvDataUiHolder<T extends GvDataList.GvData> extends GvDataUi<T> {
-    void inflate(Activity activity);
+    void inflate(Context context);
 
     View getView();
 
