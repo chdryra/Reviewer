@@ -40,16 +40,16 @@ import com.chdryra.android.mygenerallibrary.DialogCancelAddDoneFragment;
  * the arguments by the Administrator.
  * </p>
  */
-public abstract class DialogReviewDataAddFragment<T extends GvDataList.GvData>
-        extends DialogCancelAddDoneFragment implements LaunchableUI {
+public abstract class DialogGvDataAddFragment<T extends GvDataList.GvData>
+extends DialogCancelAddDoneFragment implements LaunchableUI {
 
     public static final String QUICK_SET = "com.chdryra.android.reviewer.dialog_quick_mode";
 
     private final InputHandlerReviewData<T> mHandler;
     private       ControllerReviewEditable  mController;
     private       GvDataList<T>             mData;
-    private       UIHolder<T>               mDialogHolder;
-    private       ReviewDataAddListener<T>  mAddListener;
+    private GvDataUiHolder<T>        mDialogHolder;
+    private ReviewDataAddListener<T> mAddListener;
 
     private boolean mQuickSet = false;
 
@@ -62,11 +62,11 @@ public abstract class DialogReviewDataAddFragment<T extends GvDataList.GvData>
         boolean onReviewDataAdd(T data);
     }
 
-    DialogReviewDataAddFragment(GvDataList.GvType dataType) {
+    DialogGvDataAddFragment(GvDataList.GvType dataType) {
         this(new InputHandlerReviewData<T>(dataType));
     }
 
-    DialogReviewDataAddFragment(InputHandlerReviewData<T> handler) {
+    DialogGvDataAddFragment(InputHandlerReviewData<T> handler) {
         mHandler = handler;
     }
 
@@ -141,7 +141,7 @@ public abstract class DialogReviewDataAddFragment<T extends GvDataList.GvData>
     }
 
     T createGVDataFromInputs() {
-        return mDialogHolder.getGVData();
+        return mDialogHolder.getGvData();
     }
 
     void updateDialogOnAdd(T newDatum) {

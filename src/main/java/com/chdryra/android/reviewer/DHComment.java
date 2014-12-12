@@ -24,11 +24,11 @@ class DHComment extends DialogHolderAddEdit<GvCommentList.GvComment> {
     private static final int                     COMMENT   = R.id.comment_edit_text;
     private static final GvCommentList.GvComment NULL_DATA = new GvCommentList.GvComment();
 
-    DHComment(DialogReviewDataAddFragment<GvCommentList.GvComment> dialogAdd) {
+    DHComment(DialogGvDataAddFragment<GvCommentList.GvComment> dialogAdd) {
         super(LAYOUT, new int[]{COMMENT}, dialogAdd, NULL_DATA);
     }
 
-    DHComment(DialogReviewDataEditFragment<GvCommentList.GvComment> dialogEdit) {
+    DHComment(DialogGvDataEditFragment<GvCommentList.GvComment> dialogEdit) {
         super(LAYOUT, new int[]{COMMENT}, dialogEdit);
     }
 

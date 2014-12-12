@@ -27,11 +27,11 @@ class DHFact extends DialogHolderAddEdit<GvFactList.GvFact> {
     private static final int               VALUE     = R.id.fact_value_edit_text;
     private static final GvFactList.GvFact NULL_DATA = new GvFactList.GvFact(null, null);
 
-    DHFact(DialogReviewDataAddFragment<GvFactList.GvFact> dialogAdd) {
+    DHFact(DialogGvDataAddFragment<GvFact> dialogAdd) {
         super(LAYOUT, new int[]{LABEL, VALUE}, dialogAdd, NULL_DATA);
     }
 
-    DHFact(DialogReviewDataEditFragment<GvFactList.GvFact> dialogEdit) {
+    DHFact(DialogGvDataEditFragment<GvFact> dialogEdit) {
         super(LAYOUT, new int[]{LABEL, VALUE}, dialogEdit);
     }
 

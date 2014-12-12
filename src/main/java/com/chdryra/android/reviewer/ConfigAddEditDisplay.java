@@ -105,7 +105,7 @@ public final class ConfigAddEditDisplay {
     //Need these subclasses as can't programmatically instantiate classes that utilise generics.
 
     //Tag
-    public static class AddTag extends DialogReviewDataAddFragment<GvTagList.GvTag> {
+    public static class AddTag extends DialogGvDataAddFragment<GvTagList.GvTag> {
         public AddTag() {
             super(GvDataList.GvType.TAGS);
         }
@@ -113,21 +113,21 @@ public final class ConfigAddEditDisplay {
 
     //Child
     public static class AddChild extends
-            DialogReviewDataAddFragment<GvSubjectRatingList.GvSubjectRating> {
+            DialogGvDataAddFragment<GvSubjectRatingList.GvSubjectRating> {
         public AddChild() {
             super(new InputHandlerChildren());
         }
     }
 
     //Comment
-    public static class AddComment extends DialogReviewDataAddFragment<GvCommentList.GvComment> {
+    public static class AddComment extends DialogGvDataAddFragment<GvCommentList.GvComment> {
         public AddComment() {
             super(GvDataList.GvType.COMMENTS);
         }
     }
 
     //Fact
-    public static class AddFact extends DialogReviewDataAddFragment<GvFactList.GvFact> {
+    public static class AddFact extends DialogGvDataAddFragment<GvFactList.GvFact> {
         public AddFact() {
             super(GvDataList.GvType.FACTS);
         }
@@ -135,14 +135,14 @@ public final class ConfigAddEditDisplay {
 
     //Editors
     //Tag
-    public static class EditTag extends DialogReviewDataEditFragment<GvTagList.GvTag> {
+    public static class EditTag extends DialogGvDataEditFragment<GvTagList.GvTag> {
         public EditTag() {
             super(GvDataList.GvType.TAGS);
         }
     }
 
     //Child
-    public static class EditChild extends DialogReviewDataEditFragment<GvSubjectRatingList
+    public static class EditChild extends DialogGvDataEditFragment<GvSubjectRatingList
             .GvSubjectRating> {
         public EditChild() {
             super(GvDataList.GvType.CHILDREN, new InputHandlerChildren());
@@ -150,21 +150,21 @@ public final class ConfigAddEditDisplay {
     }
 
     //Comment
-    public static class EditComment extends DialogReviewDataEditFragment<GvCommentList.GvComment> {
+    public static class EditComment extends DialogGvDataEditFragment<GvCommentList.GvComment> {
         public EditComment() {
             super(GvDataList.GvType.COMMENTS);
         }
     }
 
     //Image
-    public static class EditImage extends DialogReviewDataEditFragment<GvImageList.GvImage> {
+    public static class EditImage extends DialogGvDataEditFragment<GvImageList.GvImage> {
         public EditImage() {
             super(GvDataList.GvType.IMAGES);
         }
     }
 
     //Fact
-    public static class EditFact extends DialogReviewDataEditFragment<GvFactList.GvFact> {
+    public static class EditFact extends DialogGvDataEditFragment<GvFactList.GvFact> {
         public EditFact() {
             super(GvDataList.GvType.FACTS);
         }

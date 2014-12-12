@@ -66,7 +66,7 @@ import com.chdryra.android.mygenerallibrary.ViewHolderData;
  *
  * @see com.chdryra.android.reviewer.ActivityReviewBuild
  * @see ConfigReviewDataUI
- * @see DialogReviewDataAddFragment
+ * @see DialogGvDataAddFragment
  */
 public class FragmentReviewBuild extends FragmentReviewGrid implements ImageChooser
         .ImageChooserListener {
@@ -244,7 +244,7 @@ public class FragmentReviewBuild extends FragmentReviewGrid implements ImageChoo
 
     private void showQuickDialog(ConfigReviewDataUI.Config config) {
         Bundle args = Administrator.get(getActivity()).pack(getController());
-        args.putBoolean(DialogReviewDataAddFragment.QUICK_SET, true);
+        args.putBoolean(DialogGvDataAddFragment.QUICK_SET, true);
 
         ConfigReviewDataUI.ReviewDataUIConfig adderConfig = config.getAdderConfig();
 

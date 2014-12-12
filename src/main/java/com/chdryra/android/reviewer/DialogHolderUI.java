@@ -18,7 +18,7 @@ import com.chdryra.android.mygenerallibrary.DialogCancelActionDoneFragment;
  */
 
 /**
- * Implements the {@link UIReviewData} part for
+ * Implements the {@link GvDataUi} part for
  * {@link com.chdryra.android.reviewer.DialogHolder}.
  * <p>
  * A helper class for {@link DialogHolder}. Uses a
@@ -38,9 +38,8 @@ import com.chdryra.android.mygenerallibrary.DialogCancelActionDoneFragment;
  * @param <D>: {@link com.chdryra.android.mygenerallibrary.DialogCancelActionDoneFragment}
  *             reference to the parent Dialog window that contains the DialogHolder UI.
  */
-class DialogHolderUI<T extends GvDataList.GvData,
-        D extends DialogCancelActionDoneFragment>
-        implements UIReviewData<T> {
+class DialogHolderUI<T extends GvDataList.GvData, D extends DialogCancelActionDoneFragment>
+        implements GvDataUi<T> {
 
     private final D                     mDialog;
     private final DialogUIUpdater<T, D> mUpdater;
@@ -83,7 +82,7 @@ class DialogHolderUI<T extends GvDataList.GvData,
     }
 
     @Override
-    public T getGVData() {
+    public T getGvData() {
         return mUpdater.getGVData();
     }
 }

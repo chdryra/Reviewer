@@ -75,16 +75,9 @@ public class ControllerReviewTreeEditableTest extends AndroidTestCase {
         mTester.testSetData();
     }
 
-    @Override
-    protected void setUp() throws Exception {
-        super.setUp();
-        mNode = ReviewMocker.newReviewTreeEditable();
-        mController = new ControllerReviewTreeEditable(mNode);
-        mTester = new ControllerEditableTester(mController, (ReviewEditable) mNode.getReview());
-    }
-
-//    @SmallTest
-//    public void testPublishAndTag() {
+    //TODO once tagging and publishing sorted write testPublishAndTag
+    @SmallTest
+    public void testPublishAndTag() {
 //        assertFalse(mNode.isPublished());
 //
 //        GvTagList tags = (GvTagList)GvDataMocker.getData(GvDataList.GvType.TAGS, NUMDATA);
@@ -103,5 +96,14 @@ public class ControllerReviewTreeEditableTest extends AndroidTestCase {
 //        assertEquals(tags.size(), tagsP.size());
 //        for(int i = 0; i < tags.size(); ++i)
 //            assertEquals(tags.getItem(i).get(), tagsP.getItem(i).get());
-//    }
+        fail("Tagging needs to be rethought");
+    }
+
+    @Override
+    protected void setUp() throws Exception {
+        super.setUp();
+        mNode = ReviewMocker.newReviewTreeEditable();
+        mController = new ControllerReviewTreeEditable(mNode);
+        mTester = new ControllerEditableTester(mController, (ReviewEditable) mNode.getReview());
+    }
 }

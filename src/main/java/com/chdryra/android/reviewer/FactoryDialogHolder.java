@@ -27,11 +27,11 @@ import java.util.HashMap;
  */
 class FactoryDialogHolder {
     private static final String TAG = "FactoryDialogHolder";
-    private static FactoryDialogHolder                                      sFactory;
-    private final  HashMap<GvDataList.GvType, Class<? extends UIHolder<?>>> mDHClassesMap;
+    private static FactoryDialogHolder                                            sFactory;
+    private final  HashMap<GvDataList.GvType, Class<? extends GvDataUiHolder<?>>> mDHClassesMap;
 
     private FactoryDialogHolder() {
-        mDHClassesMap = new HashMap<GvDataList.GvType, Class<? extends UIHolder<?>>>();
+        mDHClassesMap = new HashMap<GvDataList.GvType, Class<? extends GvDataUiHolder<?>>>();
         mDHClassesMap.put(GvDataList.GvType.CHILDREN, DHChild.class);
         mDHClassesMap.put(GvDataList.GvType.COMMENTS, DHComment.class);
         mDHClassesMap.put(GvDataList.GvType.FACTS, DHFact.class);
@@ -39,17 +39,17 @@ class FactoryDialogHolder {
         mDHClassesMap.put(GvDataList.GvType.TAGS, DHTag.class);
     }
 
-    static <T extends GvDataList.GvData> UIHolder<T> newDialogHolder
-            (DialogReviewDataAddFragment<T> dialog) {
+    static <T extends GvDataList.GvData> GvDataUiHolder<T> newDialogHolder
+            (DialogGvDataAddFragment<T> dialog) {
         if (sFactory == null) sFactory = new FactoryDialogHolder();
         try {
             Constructor ctor = sFactory.mDHClassesMap.get(dialog.getGVType())
                     .getDeclaredConstructor
-                            (DialogReviewDataAddFragment.class);
+                            (DialogGvDataAddFragment.class);
 
             try {
                 //TODO make type safe
-                return (UIHolder<T>) ctor.newInstance(dialog);
+                return (GvDataUiHolder<T>) ctor.newInstance(dialog);
             } catch (InstantiationException e) {
                 Log.e(TAG, "Problem constructing ReviewDataAdd dialog for " + dialog.getGVType()
                         .getDatumString(), e);
@@ -69,16 +69,16 @@ class FactoryDialogHolder {
         return null;
     }
 
-    static <T extends GvDataList.GvData> UIHolder<T> newDialogHolder
-            (DialogReviewDataEditFragment<T> dialog) {
+    static <T extends GvDataList.GvData> GvDataUiHolder<T> newDialogHolder
+            (DialogGvDataEditFragment<T> dialog) {
         if (sFactory == null) sFactory = new FactoryDialogHolder();
         try {
             Constructor ctor = sFactory.mDHClassesMap.get(dialog.getGVType())
                     .getDeclaredConstructor
-                            (DialogReviewDataEditFragment.class);
+                            (DialogGvDataEditFragment.class);
             try {
                 //TODO make type safe
-                return (UIHolder<T>) ctor.newInstance(dialog);
+                return (GvDataUiHolder<T>) ctor.newInstance(dialog);
             } catch (InstantiationException e) {
                 Log.e(TAG, "Problem constructing edit dialog for " + dialog.getGVType()
                         .getDatumString(), e);

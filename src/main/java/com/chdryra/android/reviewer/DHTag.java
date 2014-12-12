@@ -24,11 +24,11 @@ class DHTag extends DialogHolderAddEdit<GvTagList.GvTag> {
     private static final int             TAG       = R.id.tag_edit_text;
     private static final GvTagList.GvTag NULL_DATA = new GvTagList.GvTag();
 
-    DHTag(DialogReviewDataAddFragment<GvTagList.GvTag> dialogAdd) {
+    DHTag(DialogGvDataAddFragment<GvTagList.GvTag> dialogAdd) {
         super(LAYOUT, new int[]{TAG}, dialogAdd, NULL_DATA);
     }
 
-    DHTag(DialogReviewDataEditFragment<GvTagList.GvTag> dialogEdit) {
+    DHTag(DialogGvDataEditFragment<GvTagList.GvTag> dialogEdit) {
         super(LAYOUT, new int[]{TAG}, dialogEdit);
     }
 

@@ -32,8 +32,8 @@ import com.chdryra.android.mygenerallibrary.ActivityResultCode;
  * @param <T>: {@link GvDataList.GvData} type.
  */
 abstract class FragmentReviewGridAddEdit<T extends GvDataList.GvData> extends
-        FragmentReviewGrid implements DialogReviewDataAddFragment
-        .ReviewDataAddListener<T>, DialogReviewDataEditFragment.ReviewDataEditListener<T> {
+        FragmentReviewGrid implements DialogGvDataAddFragment
+        .ReviewDataAddListener<T>, DialogGvDataEditFragment.GvDataEditListener<T> {
 
 
     private final GvDataList.GvType mDataType;
@@ -60,12 +60,12 @@ abstract class FragmentReviewGridAddEdit<T extends GvDataList.GvData> extends
     }
 
     @Override
-    public void onReviewDataDelete(T data) {
+    public void onGvDataDelete(T data) {
         doDatumDelete(data);
     }
 
     @Override
-    public void onReviewDataEdit(T oldDatum, T newDatum) {
+    public void onGvDataEdit(T oldDatum, T newDatum) {
         doDatumEdit(oldDatum, newDatum);
     }
 

@@ -30,11 +30,11 @@ class DHChild extends DialogHolderAddEdit<GvSubjectRating> {
     private static final int             RATING    = R.id.child_rating_bar;
     private static final GvSubjectRating NULL_DATA = new GvSubjectRating(null, 0);
 
-    DHChild(DialogReviewDataAddFragment<GvSubjectRatingList.GvSubjectRating> dialogAdd) {
+    DHChild(DialogGvDataAddFragment<GvSubjectRating> dialogAdd) {
         super(LAYOUT, new int[]{SUBJECT, RATING}, dialogAdd, NULL_DATA);
     }
 
-    DHChild(DialogReviewDataEditFragment<GvSubjectRatingList.GvSubjectRating> dialogEdit) {
+    DHChild(DialogGvDataEditFragment<GvSubjectRating> dialogEdit) {
         super(LAYOUT, new int[]{SUBJECT, RATING}, dialogEdit);
     }
 

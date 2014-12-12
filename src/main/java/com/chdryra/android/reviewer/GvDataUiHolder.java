@@ -26,7 +26,7 @@ import android.view.View;
  * {@link GvDataList.GvData} back and forth with
  * inflated views in order to initialise and update themselves, and can return back similar
  * data given their current contents. Adheres to
- * {@link UIReviewData}.
+ * {@link GvDataUi}.
  * </p>
  * <p>
  * Aim is to separate out the general workings of a view (button presses,
@@ -36,10 +36,10 @@ import android.view.View;
  *
  * @param <T>: the {@link GvDataList.GvData} type.
  * @see com.chdryra.android.mygenerallibrary.ViewHolder
- * @see com.chdryra.android.reviewer.DialogReviewDataAddFragment
- * @see com.chdryra.android.reviewer.DialogReviewDataEditFragment
+ * @see DialogGvDataAddFragment
+ * @see DialogGvDataEditFragment
  */
-interface UIHolder<T extends GvDataList.GvData> extends UIReviewData<T> {
+interface GvDataUiHolder<T extends GvDataList.GvData> extends GvDataUi<T> {
     void inflate(Activity activity);
 
     View getView();
@@ -51,5 +51,5 @@ interface UIHolder<T extends GvDataList.GvData> extends UIReviewData<T> {
     void updateView(T data);
 
     @Override
-    T getGVData();
+    T getGvData();
 }

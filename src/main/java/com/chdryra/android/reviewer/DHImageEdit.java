@@ -24,9 +24,9 @@ class DHImageEdit extends DialogHolderAddEdit<GvImageList.GvImage> {
     private static final int LAYOUT  = R.layout.dialog_image;
     private static final int IMAGE   = R.id.dialog_image_image_view;
     private static final int CAPTION = R.id.dialog_image_caption_edit_text;
-    private final DialogReviewDataEditFragment<GvImageList.GvImage> mDialogEdit;
+    private final DialogGvDataEditFragment<GvImageList.GvImage> mDialogEdit;
 
-    DHImageEdit(DialogReviewDataEditFragment<GvImageList.GvImage> dialogEdit) {
+    DHImageEdit(DialogGvDataEditFragment<GvImageList.GvImage> dialogEdit) {
         super(LAYOUT, new int[]{IMAGE, CAPTION}, dialogEdit);
         mDialogEdit = dialogEdit;
         mDialogEdit.setDialogTitle(null);
@@ -51,7 +51,7 @@ class DHImageEdit extends DialogHolderAddEdit<GvImageList.GvImage> {
 
     @Override
     protected GvImageList.GvImage createGVData() {
-        GvImageList.GvImage currentDatum = mDialogEdit.getDatum();
+        GvImageList.GvImage currentDatum = mDialogEdit.getGvData();
         String caption = ((EditText) getView(CAPTION)).getText().toString().trim();
         currentDatum.setCaption(caption);
         return currentDatum;
