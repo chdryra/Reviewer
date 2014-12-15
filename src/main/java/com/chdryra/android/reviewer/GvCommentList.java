@@ -17,9 +17,10 @@ import com.chdryra.android.mygenerallibrary.ViewHolder;
  * Includes method for generating split comments {@link GvCommentList} from current list.
  */
 public class GvCommentList extends GvDataList<GvCommentList.GvComment> {
+    public static final GvType TYPE = GvType.COMMENTS;
 
     public GvCommentList() {
-        super(GvType.COMMENTS);
+        super(TYPE);
     }
 
     void add(String comment) {
@@ -132,11 +133,7 @@ public class GvCommentList extends GvDataList<GvCommentList.GvComment> {
         }
 
         GvComment getUnSplitComment() {
-            if (mUnsplitParent != null) {
-                return mUnsplitParent.getUnSplitComment();
-            } else {
-                return this;
-            }
+            return mUnsplitParent != null ? mUnsplitParent.getUnSplitComment() : this;
         }
 
         String getCommentHeadline() {

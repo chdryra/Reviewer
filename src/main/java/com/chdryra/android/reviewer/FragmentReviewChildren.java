@@ -15,8 +15,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.RatingBar;
 
-import com.chdryra.android.reviewer.GvSubjectRatingList.GvSubjectRating;
-
 /**
  * UI Fragment: collection of reviews. Currently used for editing sub-reviews (criteria). Each
  * grid cell shows a subject and rating.
@@ -25,11 +23,12 @@ import com.chdryra.android.reviewer.GvSubjectRatingList.GvSubjectRating;
  * Also an ActionBar icon for setting the review score as an average of the sub-reviews.
  * </p>
  */
-public class FragmentReviewChildren extends FragmentReviewGridAddEdit<GvSubjectRating> {
+public class FragmentReviewChildren extends FragmentReviewGridAddEdit<GvChildrenList
+        .GvChildReview> {
     private boolean mTotalRatingIsAverage;
 
     public FragmentReviewChildren() {
-        super(GvSubjectRatingList.class);
+        super(GvChildrenList.class);
     }
 
     @Override
@@ -80,9 +79,9 @@ public class FragmentReviewChildren extends FragmentReviewGridAddEdit<GvSubjectR
     }
 
     private void setAverageRating() {
-        GvSubjectRatingList children = (GvSubjectRatingList) getGridData();
+        GvChildrenList children = (GvChildrenList) getGridData();
         float rating = 0;
-        for (GvSubjectRating child : children) {
+        for (GvChildrenList.GvChildReview child : children) {
             rating += child.getRating() / getGridData().size();
         }
         getRatingBar().setRating(rating);

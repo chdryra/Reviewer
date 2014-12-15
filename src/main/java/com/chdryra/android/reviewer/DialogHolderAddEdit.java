@@ -92,9 +92,9 @@ abstract class DialogHolderAddEdit<T extends GvDataList.GvData> extends DialogHo
 
             @Override
             public void initialise(T data, DialogGvDataEditFragment<T> parentDialog) {
-                updateWithGvData(data);
                 parentDialog.setKeyboardDoDoneOnEditText(getEditTextForKeyboardAction());
                 parentDialog.setDeleteWhatTitle(getDialogDeleteConfirmTitle(data));
+                updateWithGvData(data);
             }
 
             @Override

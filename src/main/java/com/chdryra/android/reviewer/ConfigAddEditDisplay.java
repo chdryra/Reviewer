@@ -26,7 +26,7 @@ public final class ConfigAddEditDisplay {
     private final  HashMap<GvDataList.GvType, AddEditDisplayUIs> mDialogAddEditMap;
 
     private ConfigAddEditDisplay() {
-        mDialogAddEditMap = new HashMap<GvDataList.GvType, AddEditDisplayUIs>();
+        mDialogAddEditMap = new HashMap<>();
 
         mDialogAddEditMap.put(GvDataList.GvType.TAGS,
                 new AddEditDisplayUIs(
@@ -113,9 +113,9 @@ public final class ConfigAddEditDisplay {
 
     //Child
     public static class AddChild extends
-            DialogGvDataAddFragment<GvSubjectRatingList.GvSubjectRating> {
+            DialogGvDataAddFragment<GvChildrenList.GvChildReview> {
         public AddChild() {
-            super(GvSubjectRatingList.class);
+            super(GvChildrenList.class);
         }
     }
 
@@ -142,10 +142,9 @@ public final class ConfigAddEditDisplay {
     }
 
     //Child
-    public static class EditChild extends DialogGvDataEditFragment<GvSubjectRatingList
-            .GvSubjectRating> {
+    public static class EditChild extends DialogGvDataEditFragment<GvChildrenList.GvChildReview> {
         public EditChild() {
-            super(GvSubjectRatingList.class);
+            super(GvChildrenList.class);
         }
     }
 

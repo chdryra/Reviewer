@@ -45,10 +45,10 @@ public abstract class DialogGvDataAddFragment<T extends GvDataList.GvData> exten
 
     public static final String QUICK_SET = "com.chdryra.android.reviewer.dialog_quick_mode";
 
-    private InputHandlerGvData<T>    mHandler;
     private ControllerReviewEditable mController;
     private GvDataList<T>            mData;
-    private GvDataUiHolder<T>        mDialogHolder;
+    private GvDataUiHolder<T> mUiHolder;
+    private GvDataHandler<T>  mHandler;
     private GvDataAddListener<T>     mAddListener;
 
     private boolean mQuickSet = false;
@@ -63,12 +63,7 @@ public abstract class DialogGvDataAddFragment<T extends GvDataList.GvData> exten
     }
 
     DialogGvDataAddFragment(Class<? extends GvDataList<T>> gvDataListClass) {
-        try {
-            mData = gvDataListClass.newInstance();
-        } catch (java.lang.InstantiationException | IllegalAccessException e) {
-            e.printStackTrace();
-            throw new RuntimeException("Can't create class " + gvDataListClass.getName());
-        }
+        mData = FactoryGvDataList.create(gvDataListClass);
     }
 
     @Override
@@ -78,10 +73,10 @@ public abstract class DialogGvDataAddFragment<T extends GvDataList.GvData> exten
 
     @Override
     protected View createDialogUI() {
-        mDialogHolder.inflate(getActivity());
-        mDialogHolder.initialiseView(null);
+        mUiHolder.inflate(getActivity());
+        mUiHolder.initialiseView(null);
 
-        return mDialogHolder.getView();
+        return mUiHolder.getView();
     }
 
     @Override
@@ -92,12 +87,13 @@ public abstract class DialogGvDataAddFragment<T extends GvDataList.GvData> exten
         mController = (ControllerReviewEditable) Administrator.get(getActivity()).unpack
                 (getArguments());
 
-        if (mController != null) {
-            //TODO make type safe
-            mData = mController.getData(getGvType());
-        }
+        //TODO make type safe
+        if (mController != null) mData = mController.getData(getGvType());
 
-        mHandler = InputHandlerFactory.newInputHandler(mData);
+        setDialogTitle(getResources().getString(R.string.add) + " " + getGvType().getDatumString());
+
+        mHandler = FactoryGvDataHandler.newHandler(mData);
+        mUiHolder = FactoryDialogHolder.newHolder(this);
 
         if (!isQuickSet()) {
             try {
@@ -105,23 +101,19 @@ public abstract class DialogGvDataAddFragment<T extends GvDataList.GvData> exten
                 mAddListener = (GvDataAddListener<T>) getTargetFragment();
             } catch (ClassCastException e) {
                 throw new ClassCastException(getTargetFragment().toString() + " must implement " +
-                        "reviewDataAddListener");
+                        "GvDataAddListener");
             }
         }
-
-        setDialogTitle(getResources().getString(R.string.add) + " " + getGvType().getDatumString());
-        mDialogHolder = FactoryDialogHolder.newDialogHolder(this);
     }
 
     @Override
     protected void onAddButtonClick() {
-        T newDatum = mDialogHolder.getGvData();
+        T newDatum = mUiHolder.getGvData();
 
-        if (isQuickSet()) {
-            if (mHandler.add(newDatum, getActivity())) mDialogHolder.updateView(newDatum);
-        } else {
-            if (mAddListener.onGvDataAdd(newDatum)) mDialogHolder.updateView(newDatum);
-        }
+        boolean added = isQuickSet() ? mHandler.add(newDatum, getActivity()) : mAddListener
+                .onGvDataAdd(newDatum);
+
+        if (added) mUiHolder.updateView(newDatum);
     }
 
     @Override

@@ -147,7 +147,7 @@ public class DialogLocationFragment extends DialogCancelActionDoneFragment imple
 
     @Override
     protected void onActionButtonClick() {
-        InputHandlerGvData.packItem(InputHandlerGvData.CurrentNewDatum.NEW, createGVData(),
+        GvDataPacker.packItem(GvDataPacker.CurrentNewDatum.NEW, createGVData(),
                 createNewReturnData());
     }
 

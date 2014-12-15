@@ -55,8 +55,7 @@ public class FragmentReviewURLBrowser extends FragmentDeleteDone {
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mCurrent = (GvUrlList.GvUrl) InputHandlerGvData.unpackItem(InputHandlerGvData
-                        .CurrentNewDatum
+        mCurrent = (GvUrlList.GvUrl) GvDataPacker.unpackItem(GvDataPacker.CurrentNewDatum
                         .CURRENT,
                 LauncherUI.getArgsForActivity(getActivity()));
         setDeleteWhatTitle(GvDataList.GvType.URLS.getDatumString());
@@ -148,15 +147,15 @@ public class FragmentReviewURLBrowser extends FragmentDeleteDone {
 
     @Override
     protected void onDeleteSelected() {
-        InputHandlerGvData.packItem(InputHandlerGvData.CurrentNewDatum.CURRENT, mCurrent,
+        GvDataPacker.packItem(GvDataPacker.CurrentNewDatum.CURRENT, mCurrent,
                 getNewReturnData());
     }
 
     @Override
     protected void onDoneSelected() {
         Intent i = getNewReturnData();
-        InputHandlerGvData.packItem(InputHandlerGvData.CurrentNewDatum.CURRENT, mCurrent, i);
-        InputHandlerGvData.packItem(InputHandlerGvData.CurrentNewDatum.NEW, createGVData(), i);
+        GvDataPacker.packItem(GvDataPacker.CurrentNewDatum.CURRENT, mCurrent, i);
+        GvDataPacker.packItem(GvDataPacker.CurrentNewDatum.NEW, createGVData(), i);
     }
 
     private GvUrlList.GvUrl createGVData() {

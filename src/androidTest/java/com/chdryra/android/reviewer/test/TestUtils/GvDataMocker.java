@@ -8,12 +8,12 @@
 
 package com.chdryra.android.reviewer.test.TestUtils;
 
+import com.chdryra.android.reviewer.GvChildrenList;
 import com.chdryra.android.reviewer.GvCommentList;
 import com.chdryra.android.reviewer.GvDataList;
 import com.chdryra.android.reviewer.GvFactList;
 import com.chdryra.android.reviewer.GvImageList;
 import com.chdryra.android.reviewer.GvLocationList;
-import com.chdryra.android.reviewer.GvSubjectRatingList;
 import com.chdryra.android.reviewer.GvTagList;
 import com.chdryra.android.reviewer.GvUrlList;
 import com.chdryra.android.testutils.BitmapMocker;
@@ -109,8 +109,8 @@ public class GvDataMocker {
         return list;
     }
 
-    public static GvSubjectRatingList newChildList(int size) {
-        GvSubjectRatingList list = new GvSubjectRatingList();
+    public static GvChildrenList newChildList(int size) {
+        GvChildrenList list = new GvChildrenList();
         for (int i = 0; i < size; ++i) {
             list.add(newChild());
         }
@@ -150,8 +150,8 @@ public class GvDataMocker {
         return new GvUrlList.GvUrl(sUrl);
     }
 
-    public static GvSubjectRatingList.GvSubjectRating newChild() {
-        return new GvSubjectRatingList.GvSubjectRating(RandomStringGenerator.nextWord(),
+    public static GvChildrenList.GvChildReview newChild() {
+        return new GvChildrenList.GvChildReview(RandomStringGenerator.nextWord(),
                 RAND.nextFloat() * 5);
     }
 

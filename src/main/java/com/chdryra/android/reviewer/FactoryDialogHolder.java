@@ -39,7 +39,7 @@ class FactoryDialogHolder {
         mDHClassesMap.put(GvDataList.GvType.TAGS, DHTag.class);
     }
 
-    static <T extends GvDataList.GvData> GvDataUiHolder<T> newDialogHolder
+    static <T extends GvDataList.GvData> GvDataUiHolder<T> newHolder
             (DialogGvDataAddFragment<T> dialog) {
         if (sFactory == null) sFactory = new FactoryDialogHolder();
         try {
@@ -68,7 +68,7 @@ class FactoryDialogHolder {
         return null;
     }
 
-    static <T extends GvDataList.GvData> GvDataUiHolder<T> newDialogHolder
+    static <T extends GvDataList.GvData> GvDataUiHolder<T> newHolder
             (DialogGvDataEditFragment<T> dialog) {
         if (sFactory == null) sFactory = new FactoryDialogHolder();
         try {

@@ -23,10 +23,11 @@ import java.util.Date;
  * @see com.chdryra.android.reviewer.Administrator
  * @see com.chdryra.android.reviewer.FragmentFeed
  */
-public class GvOverviewList extends GvDataList<GvOverviewList.GvOverview> {
+public class GvReviewList extends GvDataList<GvReviewList.GvOverview> {
+    public static final GvType TYPE = GvType.REVIEW;
 
-    GvOverviewList() {
-        super(GvType.REVIEW);
+    GvReviewList() {
+        super(TYPE);
     }
 
     @Override

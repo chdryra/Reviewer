@@ -43,7 +43,7 @@ public class ControllerReviewCollection<T extends Review> {
     }
 
     private GvDataList toGridViewableAll() {
-        GvSubjectRatingList data = new GvSubjectRatingList();
+        GvChildrenList data = new GvChildrenList();
         for (Review r : mReviews) {
             data.add(r.getSubject().get(), r.getRating().get());
         }
@@ -52,7 +52,7 @@ public class ControllerReviewCollection<T extends Review> {
     }
 
     private GvDataList toGridViewablePublished() {
-        GvOverviewList data = new GvOverviewList();
+        GvReviewList data = new GvReviewList();
         for (Review r : mReviews) {
             if (!r.isPublished()) continue;
             ControllerReview c = getControllerFor(r.getId().toString());

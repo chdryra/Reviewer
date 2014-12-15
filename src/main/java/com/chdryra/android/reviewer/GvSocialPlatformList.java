@@ -24,9 +24,10 @@ import java.util.Comparator;
  * @see com.chdryra.android.reviewer.SocialPlatformList
  */
 public class GvSocialPlatformList extends GvDataList<GvSocialPlatformList.GvSocialPlatform> {
+    public static final GvType TYPE = GvType.SOCIAL;
 
     private GvSocialPlatformList(Context context) {
-        super(GvType.SOCIAL);
+        super(TYPE);
         for (SocialPlatform platform : SocialPlatformList.get(context)) {
             add(new GvSocialPlatform(platform.getName(), platform.getFollowers()));
         }
@@ -63,7 +64,7 @@ public class GvSocialPlatformList extends GvDataList<GvSocialPlatformList.GvSoci
      * @see com.chdryra.android.reviewer.SocialPlatformList
      */
     static class GvSocialPlatform extends GvDualText {
-        public static final Parcelable.Creator<GvSocialPlatform> CREATOR = new Parcelable
+        public static final Parcelable.Creator<GvSocialPlatform> CREATOR    = new Parcelable
                 .Creator<GvSocialPlatform>() {
             public GvSocialPlatform createFromParcel(Parcel in) {
                 return new GvSocialPlatform(in);

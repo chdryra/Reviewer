@@ -13,35 +13,25 @@ package com.chdryra.android.reviewer;
  * On: 12/12/2014
  * Email: rizwan.choudrey@gmail.com
  */
-public class InputHandlerFactory {
-    public static <T extends GvDataList.GvData> InputHandlerGvData<T> newInputHandler
+public class FactoryGvDataHandler {
+    public static <T extends GvDataList.GvData> GvDataHandler<T> newHandler
             (GvDataList<T> data) {
         if (data.getGvType() == GvDataList.GvType.IMAGES) {
-            return new InputHandlerGvData<>(data, new InputHandlerGvData.AddConstraint<T>() {
+            return new GvDataHandler<>(data, new GvDataHandler.AddConstraint<T>() {
                 @Override
                 public boolean passes(GvDataList<T> data, T datum) {
                     return imagePasses(data, datum);
                 }
             });
         } else if (data.getGvType() == GvDataList.GvType.CHILDREN) {
-            return new InputHandlerGvData<>(data, new InputHandlerGvData.AddConstraint<T>() {
+            return new GvDataHandler<>(data, new GvDataHandler.AddConstraint<T>() {
                 @Override
                 public boolean passes(GvDataList<T> data, T datum) {
                     return childPasses(data, datum);
                 }
             });
         } else {
-            return new InputHandlerGvData<>(data);
-        }
-    }
-
-    public static <T extends GvDataList.GvData> InputHandlerGvData<T> newInputHandler
-            (Class<? extends GvDataList<T>> dataClass) {
-        try {
-            return newInputHandler(dataClass.newInstance());
-        } catch (InstantiationException | IllegalAccessException e) {
-            e.printStackTrace();
-            return null;
+            return new GvDataHandler<>(data);
         }
     }
 
@@ -52,8 +42,8 @@ public class InputHandlerFactory {
     }
 
     private static <T extends GvDataList.GvData> boolean childPasses(GvDataList<T> data, T datum) {
-        GvSubjectRatingList.GvSubjectRating child = (GvSubjectRatingList.GvSubjectRating) datum;
-        GvSubjectRatingList list = (GvSubjectRatingList) data;
+        GvChildrenList.GvChildReview child = (GvChildrenList.GvChildReview) datum;
+        GvChildrenList list = (GvChildrenList) data;
         return (child != null && list != null && !list.contains(child.getSubject()));
     }
 }

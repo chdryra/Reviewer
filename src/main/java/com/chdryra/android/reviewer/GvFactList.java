@@ -16,9 +16,10 @@ import com.chdryra.android.mygenerallibrary.ViewHolder;
 import java.util.Comparator;
 
 public class GvFactList extends GvDataList<GvFactList.GvFact> {
+    public static final GvType TYPE = GvType.FACTS;
 
     public GvFactList() {
-        super(GvType.FACTS);
+        super(TYPE);
     }
 
     @Override

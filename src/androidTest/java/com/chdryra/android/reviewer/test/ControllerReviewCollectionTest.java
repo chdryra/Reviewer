@@ -11,9 +11,9 @@ package com.chdryra.android.reviewer.test;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.ControllerReviewCollection;
+import com.chdryra.android.reviewer.GvChildrenList;
 import com.chdryra.android.reviewer.GvDataList;
-import com.chdryra.android.reviewer.GvOverviewList;
-import com.chdryra.android.reviewer.GvSubjectRatingList;
+import com.chdryra.android.reviewer.GvReviewList;
 import com.chdryra.android.reviewer.RCollectionReview;
 import com.chdryra.android.reviewer.Review;
 import com.chdryra.android.reviewer.test.TestUtils.ReviewMocker;
@@ -56,7 +56,7 @@ public class ControllerReviewCollectionTest extends TestCase {
     public void testToGridViewableFalse() {
         Review[] reviews = addReviews(mController, false, getRandInt());
         Review[] reviewsP = addReviews(mController, true, getRandInt());
-        GvSubjectRatingList rsList = (GvSubjectRatingList) mController.toGridViewable
+        GvChildrenList rsList = (GvChildrenList) mController.toGridViewable
                 (false);
         assertNotNull(rsList);
 
@@ -77,7 +77,7 @@ public class ControllerReviewCollectionTest extends TestCase {
     public void testToGridViewableTrue() {
         addReviews(mController, false, getRandInt());
         Review[] reviews = addReviews(mController, true, getRandInt());
-        GvOverviewList oList = (GvOverviewList) mController.toGridViewable(true);
+        GvReviewList oList = (GvReviewList) mController.toGridViewable(true);
         assertNotNull(oList);
         assertEquals(reviews.length, oList.size());
         for (int i = 0; i < reviews.length; ++i) {

@@ -98,13 +98,13 @@ public class FragmentReviewLocationMap extends FragmentDeleteDone implements
 
         Bundle args = LauncherUI.getArgsForActivity(getActivity());
         if (args != null) {
-            mCurrent = (GvLocationList.GvLocation) InputHandlerGvData.unpackItem(InputHandlerGvData
+            mCurrent = (GvLocationList.GvLocation) GvDataPacker.unpackItem(GvDataPacker
                     .CurrentNewDatum.CURRENT, args);
         }
 
         MapsInitializer.initialize(getActivity());
 
-        setDeleteWhatTitle(GvLocationList.GVTYPE.getDatumString());
+        setDeleteWhatTitle(GvLocationList.TYPE.getDatumString());
         dismissOnDelete();
     }
 
@@ -181,7 +181,7 @@ public class FragmentReviewLocationMap extends FragmentDeleteDone implements
 
     @Override
     protected void onDeleteSelected() {
-        InputHandlerGvData.packItem(InputHandlerGvData.CurrentNewDatum.CURRENT, mCurrent,
+        GvDataPacker.packItem(GvDataPacker.CurrentNewDatum.CURRENT, mCurrent,
                 getNewReturnData());
     }
 
@@ -196,8 +196,8 @@ public class FragmentReviewLocationMap extends FragmentDeleteDone implements
         }
 
         Intent i = getNewReturnData();
-        InputHandlerGvData.packItem(InputHandlerGvData.CurrentNewDatum.CURRENT, mCurrent, i);
-        InputHandlerGvData.packItem(InputHandlerGvData.CurrentNewDatum.NEW, createGVData(), i);
+        GvDataPacker.packItem(GvDataPacker.CurrentNewDatum.CURRENT, mCurrent, i);
+        GvDataPacker.packItem(GvDataPacker.CurrentNewDatum.NEW, createGVData(), i);
     }
 
     @Override

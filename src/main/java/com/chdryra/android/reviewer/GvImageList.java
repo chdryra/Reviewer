@@ -22,9 +22,10 @@ import java.util.Random;
  * used as a background image for a review.
  */
 public class GvImageList extends GvDataList<GvImageList.GvImage> {
+    public static final GvType TYPE = GvType.IMAGES;
 
     public GvImageList() {
-        super(GvType.IMAGES);
+        super(TYPE);
     }
 
     void add(Bitmap bitmap, LatLng latLng, String caption, boolean isCover) {

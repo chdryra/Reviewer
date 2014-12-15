@@ -201,20 +201,18 @@ public class FragmentReviewBuild extends FragmentReviewGrid implements ImageChoo
     }
 
     private void requestMapIntent(Intent data) {
-        GvLocationList.GvLocation location = (GvLocationList.GvLocation) InputHandlerGvData
-                .unpackItem
-                        (InputHandlerGvData.CurrentNewDatum.NEW, data);
+        GvLocationList.GvLocation location = (GvLocationList.GvLocation) GvDataPacker
+                .unpackItem(GvDataPacker.CurrentNewDatum.NEW, data);
         Bundle args = new Bundle();
-        InputHandlerGvData.packItem(InputHandlerGvData.CurrentNewDatum.CURRENT, location, args);
+        GvDataPacker.packItem(GvDataPacker.CurrentNewDatum.CURRENT, location, args);
 
         LaunchableUI mapUi = ConfigReviewDataUI.getReviewDataUI(ActivityReviewLocationMap.class);
         LauncherUI.launch(mapUi, this, LOCATION_MAP, null, args);
     }
 
     private void addLocation(Intent data) {
-        GvLocationList.GvLocation location = (GvLocationList.GvLocation) InputHandlerGvData
-                .unpackItem
-                        (InputHandlerGvData.CurrentNewDatum.NEW, data);
+        GvLocationList.GvLocation location = (GvLocationList.GvLocation) GvDataPacker
+                .unpackItem(GvDataPacker.CurrentNewDatum.NEW, data);
         if (location.isValidForDisplay()) {
             GvLocationList list = new GvLocationList();
             list.add(location);

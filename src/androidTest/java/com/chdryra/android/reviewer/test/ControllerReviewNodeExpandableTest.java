@@ -11,8 +11,8 @@ package com.chdryra.android.reviewer.test;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.ControllerReviewNodeExpandable;
+import com.chdryra.android.reviewer.GvChildrenList;
 import com.chdryra.android.reviewer.GvDataList;
-import com.chdryra.android.reviewer.GvSubjectRatingList;
 import com.chdryra.android.reviewer.ReviewNodeExpandable;
 import com.chdryra.android.reviewer.test.TestUtils.ChildrenMocker;
 import com.chdryra.android.reviewer.test.TestUtils.ReviewMocker;
@@ -32,14 +32,14 @@ public class ControllerReviewNodeExpandableTest extends TestCase {
     @SmallTest
     public void testSetChildren() {
         ChildrenMocker.checkEquality(mNode.getChildren(),
-                (GvSubjectRatingList) mController.getData(GvDataList.GvType.CHILDREN));
+                (GvChildrenList) mController.getData(GvDataList.GvType.CHILDREN));
 
-        GvSubjectRatingList setData = ChildrenMocker.getMockGvChildren();
+        GvChildrenList setData = ChildrenMocker.getMockGvChildren();
         mController.setChildren(setData);
 
         ChildrenMocker.checkEquality(mNode.getChildren(), setData);
         ChildrenMocker.checkEquality(setData,
-                (GvSubjectRatingList) mController.getData(GvDataList.GvType.CHILDREN));
+                (GvChildrenList) mController.getData(GvDataList.GvType.CHILDREN));
     }
 
     @Override

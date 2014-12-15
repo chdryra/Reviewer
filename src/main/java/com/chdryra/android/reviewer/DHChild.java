@@ -11,8 +11,6 @@ package com.chdryra.android.reviewer;
 import android.widget.EditText;
 import android.widget.RatingBar;
 
-import com.chdryra.android.reviewer.GvSubjectRatingList.GvSubjectRating;
-
 import java.text.DecimalFormat;
 
 /**
@@ -24,17 +22,18 @@ import java.text.DecimalFormat;
 /**
  * {@link DialogHolderAddEdit}: child reviews
  */
-class DHChild extends DialogHolderAddEdit<GvSubjectRating> {
-    private static final int             LAYOUT    = R.layout.dialog_criterion;
-    private static final int             SUBJECT   = R.id.child_name_edit_text;
-    private static final int             RATING    = R.id.child_rating_bar;
-    private static final GvSubjectRating NULL_DATA = new GvSubjectRating(null, 0);
+class DHChild extends DialogHolderAddEdit<GvChildrenList.GvChildReview> {
+    private static final int                          LAYOUT    = R.layout.dialog_criterion;
+    private static final int                          SUBJECT   = R.id.child_name_edit_text;
+    private static final int                          RATING    = R.id.child_rating_bar;
+    private static final GvChildrenList.GvChildReview NULL_DATA = new GvChildrenList
+            .GvChildReview(null, 0);
 
-    DHChild(DialogGvDataAddFragment<GvSubjectRating> dialogAdd) {
+    DHChild(DialogGvDataAddFragment<GvChildrenList.GvChildReview> dialogAdd) {
         super(LAYOUT, new int[]{SUBJECT, RATING}, dialogAdd, NULL_DATA);
     }
 
-    DHChild(DialogGvDataEditFragment<GvSubjectRating> dialogEdit) {
+    DHChild(DialogGvDataEditFragment<GvChildrenList.GvChildReview> dialogEdit) {
         super(LAYOUT, new int[]{SUBJECT, RATING}, dialogEdit);
     }
 
@@ -44,7 +43,7 @@ class DHChild extends DialogHolderAddEdit<GvSubjectRating> {
     }
 
     @Override
-    protected String getDialogOnAddTitle(GvSubjectRatingList.GvSubjectRating data) {
+    protected String getDialogOnAddTitle(GvChildrenList.GvChildReview data) {
         float childRating = data.getRating();
         DecimalFormat formatter = new DecimalFormat("0");
         DecimalFormat decimalFormatter = new DecimalFormat("0.0");
@@ -54,20 +53,20 @@ class DHChild extends DialogHolderAddEdit<GvSubjectRating> {
     }
 
     @Override
-    protected String getDialogDeleteConfirmTitle(GvSubjectRatingList.GvSubjectRating data) {
+    protected String getDialogDeleteConfirmTitle(GvChildrenList.GvChildReview data) {
         return data.getSubject() + ": " + data.getRating();
 
     }
 
     @Override
-    protected GvSubjectRatingList.GvSubjectRating createGvData() {
+    protected GvChildrenList.GvChildReview createGvData() {
         String subject = ((EditText) getView(SUBJECT)).getText().toString().trim();
         float rating = ((RatingBar) getView(RATING)).getRating();
-        return new GvSubjectRatingList.GvSubjectRating(subject, rating);
+        return new GvChildrenList.GvChildReview(subject, rating);
     }
 
     @Override
-    protected void updateWithGvData(GvSubjectRatingList.GvSubjectRating data) {
+    protected void updateWithGvData(GvChildrenList.GvChildReview data) {
         ((EditText) getView(SUBJECT)).setText(data.getSubject());
         ((RatingBar) getView(RATING)).setRating(data.getRating());
     }

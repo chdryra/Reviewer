@@ -8,7 +8,7 @@
 
 package com.chdryra.android.reviewer.test.TestUtils;
 
-import com.chdryra.android.reviewer.GvSubjectRatingList;
+import com.chdryra.android.reviewer.GvChildrenList;
 import com.chdryra.android.reviewer.RCollectionReview;
 import com.chdryra.android.reviewer.ReviewNode;
 
@@ -24,7 +24,7 @@ import java.util.Random;
 public class ChildrenMocker {
     private static final int NUMDATA = 50;
 
-    public static void checkEquality(RCollectionReview<ReviewNode> children, GvSubjectRatingList
+    public static void checkEquality(RCollectionReview<ReviewNode> children, GvChildrenList
             list) {
         Assert.assertEquals(children.size(), list.size());
         for (int i = 0; i < children.size(); ++i) {
@@ -34,7 +34,7 @@ public class ChildrenMocker {
         }
     }
 
-    public static void checkEquality(GvSubjectRatingList children, GvSubjectRatingList list) {
+    public static void checkEquality(GvChildrenList children, GvChildrenList list) {
         Assert.assertEquals(children.size(), list.size());
         for (int i = 0; i < children.size(); ++i) {
             Assert.assertEquals(children.getItem(i).getSubject(), list.getItem(i).getSubject());
@@ -52,11 +52,11 @@ public class ChildrenMocker {
         return children;
     }
 
-    public static GvSubjectRatingList getMockGvChildren() {
+    public static GvChildrenList getMockGvChildren() {
         Random rand = new Random();
-        GvSubjectRatingList children = new GvSubjectRatingList();
+        GvChildrenList children = new GvChildrenList();
         for (int i = 0; i < NUMDATA; ++i) {
-            children.add(new GvSubjectRatingList.GvSubjectRating(RandomStringGenerator.nextWord()
+            children.add(new GvChildrenList.GvChildReview(RandomStringGenerator.nextWord()
                     , rand.nextFloat() * 5));
         }
 

@@ -20,9 +20,10 @@ import java.net.URISyntaxException;
 import java.net.URL;
 
 public class GvUrlList extends GvDataList<GvUrlList.GvUrl> {
+    public static final GvType TYPE = GvType.URLS;
 
     public GvUrlList() {
-        super(GvType.URLS);
+        super(TYPE);
     }
 
     void add(String urlString) throws MalformedURLException, URISyntaxException {

@@ -69,7 +69,7 @@ public class FragmentReviewImages extends FragmentReviewGridAddEdit<GvImageList.
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mImages = (GvImageList) getInputHandler().getData();
+        mImages = (GvImageList) getGridData();
         mImageChooser = new ImageChooser(getController(), getActivity());
     }
 
@@ -81,11 +81,8 @@ public class FragmentReviewImages extends FragmentReviewGridAddEdit<GvImageList.
 
     @Override
     boolean doDatumAdd(final GvImageList.GvImage image) {
-        boolean success = getInputHandler().add(image, getActivity());
-        if (success) {
-            if (mImages.size() == 1) setCover(0);
-            updateUI();
-        }
+        boolean success = super.doDatumAdd(image);
+        if (success && mImages.size() == 1) setCover(0);
 
         return success;
     }
@@ -94,6 +91,14 @@ public class FragmentReviewImages extends FragmentReviewGridAddEdit<GvImageList.
     void doDatumDelete(GvImageList.GvImage image) {
         super.doDatumDelete(image);
         if (image.isCover()) setCover(0);
+    }
+
+    @Override
+    void doDatumEdit(GvImageList.GvImage oldDatum, GvImageList.GvImage newDatum) {
+        //To avoid toast when bitmap same but caption different
+        if (!oldDatum.getBitmap().sameAs(newDatum.getBitmap())) {
+            super.doDatumEdit(oldDatum, newDatum);
+        }
     }
 
     @Override

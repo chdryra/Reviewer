@@ -13,7 +13,6 @@ import android.widget.TextView;
 
 import com.chdryra.android.mygenerallibrary.ViewHolderBasic;
 import com.chdryra.android.mygenerallibrary.ViewHolderData;
-import com.chdryra.android.reviewer.GvSubjectRatingList.GvSubjectRating;
 
 /**
  * {@link com.chdryra.android.mygenerallibrary.ViewHolder}: {@link com.chdryra.android.reviewer
@@ -39,7 +38,7 @@ class VHReviewNodeSubjectRating extends ViewHolderBasic {
         if (mSubject == null) mSubject = (TextView) getView(SUBJECT);
         if (mRating == null) mRating = (RatingBar) getView(RATING);
 
-        GvSubjectRating criterion = (GvSubjectRating) data;
+        GvChildrenList.GvChildReview criterion = (GvChildrenList.GvChildReview) data;
         if (criterion != null) {
             mSubject.setText(criterion.getSubject());
             mRating.setRating(criterion.getRating());
