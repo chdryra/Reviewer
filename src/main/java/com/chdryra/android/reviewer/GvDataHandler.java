@@ -23,7 +23,7 @@ import android.widget.Toast;
  *
  * @param <T>: {@link GvDataList.GvData} type.
  */
-class GvDataHandler<T extends GvDataList.GvData> {
+public class GvDataHandler<T extends GvDataList.GvData> {
     private GvDataList<T>    mData;
     private AddConstraint<T> mAddConstraint;
 

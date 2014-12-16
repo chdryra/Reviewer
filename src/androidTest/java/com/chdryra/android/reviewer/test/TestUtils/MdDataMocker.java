@@ -16,7 +16,7 @@ import com.chdryra.android.reviewer.MdImageList;
 import com.chdryra.android.reviewer.MdLocationList;
 import com.chdryra.android.reviewer.MdUrlList;
 import com.chdryra.android.reviewer.Review;
-import com.chdryra.android.testutils.BitmapMocker;
+import com.chdryra.android.testutils.BitmapFileMocker;
 import com.chdryra.android.testutils.LatLngMocker;
 
 import java.net.MalformedURLException;
@@ -107,7 +107,7 @@ public class MdDataMocker<T extends Review> {
     }
 
     public MdImageList.MdImage newImage() {
-        return new MdImageList.MdImage(BitmapMocker.getBitmap(RAND.nextBoolean()),
+        return new MdImageList.MdImage(BitmapFileMocker.getBitmap(RAND.nextBoolean()),
                 LatLngMocker.newLatLng(), RandomStringGenerator.nextSentence(),
                 RAND.nextBoolean(), mReview);
     }

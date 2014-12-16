@@ -16,7 +16,7 @@ import com.chdryra.android.reviewer.GvImageList;
 import com.chdryra.android.reviewer.GvLocationList;
 import com.chdryra.android.reviewer.GvTagList;
 import com.chdryra.android.reviewer.GvUrlList;
-import com.chdryra.android.testutils.BitmapMocker;
+import com.chdryra.android.testutils.BitmapFileMocker;
 import com.chdryra.android.testutils.LatLngMocker;
 
 import java.net.MalformedURLException;
@@ -30,9 +30,7 @@ import java.util.Random;
  */
 public class GvDataMocker {
     private static final RandomStringGenerator STRING_GENERATOR = new RandomStringGenerator();
-    private static final String                GOOGLE           = "http://www.google.co.uk";
     private static final Random                RAND             = new Random();
-    private static URL sUrl;
 
     //Just a convenient method even if it uses GvType.....
     public static GvDataList getData(GvDataList.GvType dataType, int size) {
@@ -123,7 +121,7 @@ public class GvDataMocker {
     }
 
     public static GvImageList.GvImage newImage() {
-        return new GvImageList.GvImage(BitmapMocker.getBitmap(RAND.nextBoolean()),
+        return new GvImageList.GvImage(BitmapFileMocker.getBitmap(RAND.nextBoolean()),
                 LatLngMocker.newLatLng(), RandomStringGenerator.nextSentence(),
                 RAND.nextBoolean());
     }
@@ -139,15 +137,13 @@ public class GvDataMocker {
     }
 
     public static GvUrlList.GvUrl newUrl() {
-        if (sUrl == null) {
-            try {
-                sUrl = new URL(GOOGLE);
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            }
+        try {
+            URL url = new URL("http://www." + RandomStringGenerator.nextWord() + ".co.uk");
+            return new GvUrlList.GvUrl(url);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+            return null;
         }
-
-        return new GvUrlList.GvUrl(sUrl);
     }
 
     public static GvChildrenList.GvChildReview newChild() {
