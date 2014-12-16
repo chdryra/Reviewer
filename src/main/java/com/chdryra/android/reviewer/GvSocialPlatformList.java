@@ -63,7 +63,7 @@ public class GvSocialPlatformList extends GvDataList<GvSocialPlatformList.GvSoci
      *
      * @see com.chdryra.android.reviewer.SocialPlatformList
      */
-    static class GvSocialPlatform extends GvDualText {
+    public static class GvSocialPlatform extends GvDualText {
         public static final Parcelable.Creator<GvSocialPlatform> CREATOR    = new Parcelable
                 .Creator<GvSocialPlatform>() {
             public GvSocialPlatform createFromParcel(Parcel in) {
@@ -77,7 +77,7 @@ public class GvSocialPlatformList extends GvDataList<GvSocialPlatformList.GvSoci
         private             int                                  mFollowers = 0;
         private             boolean                              mIsChosen  = false;
 
-        GvSocialPlatform(String name, int followers) {
+        private GvSocialPlatform(String name, int followers) {
             super(name, String.valueOf(followers));
             mFollowers = followers;
         }

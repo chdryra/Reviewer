@@ -14,13 +14,17 @@ import com.chdryra.android.reviewer.GvDataList;
 import com.chdryra.android.reviewer.GvFactList;
 import com.chdryra.android.reviewer.GvImageList;
 import com.chdryra.android.reviewer.GvLocationList;
+import com.chdryra.android.reviewer.GvReviewList;
 import com.chdryra.android.reviewer.GvTagList;
 import com.chdryra.android.reviewer.GvUrlList;
-import com.chdryra.android.testutils.BitmapFileMocker;
+import com.chdryra.android.reviewer.ReviewId;
+import com.chdryra.android.testutils.BitmapMocker;
 import com.chdryra.android.testutils.LatLngMocker;
+import com.chdryra.android.testutils.RandomStringGenerator;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Date;
 import java.util.Random;
 
 /**
@@ -29,8 +33,12 @@ import java.util.Random;
  * Email: rizwan.choudrey@gmail.com
  */
 public class GvDataMocker {
+    public static final  GvDataList.GvType[] TYPES = {GvDataList.GvType.COMMENTS, GvDataList
+            .GvType.FACTS, GvDataList.GvType.TAGS, GvDataList.GvType.LOCATIONS,
+            GvDataList.GvType.URLS, GvDataList.GvType.CHILDREN, GvDataList.GvType.IMAGES,
+            GvDataList.GvType.REVIEW};
     private static final RandomStringGenerator STRING_GENERATOR = new RandomStringGenerator();
-    private static final Random                RAND             = new Random();
+    private static final Random              RAND  = new Random();
 
     //Just a convenient method even if it uses GvType.....
     public static GvDataList getData(GvDataList.GvType dataType, int size) {
@@ -48,6 +56,31 @@ public class GvDataMocker {
             return newTagList(size);
         } else if (dataType == GvDataList.GvType.CHILDREN) {
             return newChildList(size);
+        } else if (dataType == GvDataList.GvType.REVIEW) {
+            return newReviewList(size);
+        } else {
+            return null;
+        }
+    }
+
+    //Just a convenient method even if it uses GvType.....
+    public static GvDataList.GvData getDatum(GvDataList.GvType dataType) {
+        if (dataType == GvDataList.GvType.COMMENTS) {
+            return newComment();
+        } else if (dataType == GvDataList.GvType.FACTS) {
+            return newFact();
+        } else if (dataType == GvDataList.GvType.IMAGES) {
+            return newImage();
+        } else if (dataType == GvDataList.GvType.LOCATIONS) {
+            return newLocation();
+        } else if (dataType == GvDataList.GvType.URLS) {
+            return newUrl();
+        } else if (dataType == GvDataList.GvType.TAGS) {
+            return newTag();
+        } else if (dataType == GvDataList.GvType.CHILDREN) {
+            return newChild();
+        } else if (dataType == GvDataList.GvType.REVIEW) {
+            return newReviewOverview();
         } else {
             return null;
         }
@@ -116,12 +149,21 @@ public class GvDataMocker {
         return list;
     }
 
+    public static GvReviewList newReviewList(int size) {
+        GvReviewList list = new GvReviewList();
+        for (int i = 0; i < size; ++i) {
+            list.add(newReviewOverview());
+        }
+
+        return list;
+    }
+
     public static GvCommentList.GvComment newComment() {
         return new GvCommentList.GvComment(STRING_GENERATOR.nextParagraph());
     }
 
     public static GvImageList.GvImage newImage() {
-        return new GvImageList.GvImage(BitmapFileMocker.getBitmap(RAND.nextBoolean()),
+        return new GvImageList.GvImage(BitmapMocker.nextBitmap(RAND.nextBoolean()),
                 LatLngMocker.newLatLng(), RandomStringGenerator.nextSentence(),
                 RAND.nextBoolean());
     }
@@ -153,5 +195,15 @@ public class GvDataMocker {
 
     public static GvTagList.GvTag newTag() {
         return new GvTagList.GvTag(RandomStringGenerator.nextWord());
+    }
+
+    public static GvReviewList.GvReviewOverview newReviewOverview() {
+        GvReviewList list = new GvReviewList();
+        list.add(ReviewId.generateId().toString(),
+                RandomStringGenerator.nextWord(), RAND.nextFloat() * 5,
+                BitmapMocker.nextBitmap(RAND.nextBoolean()), RandomStringGenerator.nextSentence()
+                , RandomStringGenerator.nextWord(), RandomStringGenerator.nextWord(), new Date());
+
+        return list.getItem(0);
     }
 }

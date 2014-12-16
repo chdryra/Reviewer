@@ -14,7 +14,6 @@ import android.widget.TextView;
 
 import com.chdryra.android.mygenerallibrary.ViewHolderBasic;
 import com.chdryra.android.mygenerallibrary.ViewHolderData;
-import com.chdryra.android.reviewer.GvReviewList.GvOverview;
 
 import java.text.DateFormat;
 
@@ -63,7 +62,7 @@ class VHReviewNodeOverview extends ViewHolderBasic {
         if (mLocation == null) mLocation = (TextView) getView(LOCATION);
         if (mPublishDate == null) mPublishDate = (TextView) getView(PUBLISH);
 
-        GvOverview review = (GvOverview) data;
+        GvReviewList.GvReviewOverview review = (GvReviewList.GvReviewOverview) data;
         if (review == null || !review.isValidForDisplay()) return;
 
         mSubject.setText(review.getSubject());

@@ -23,6 +23,7 @@ import com.chdryra.android.reviewer.MdLocationList;
 import com.chdryra.android.reviewer.MdToGvConverter;
 import com.chdryra.android.reviewer.MdUrlList;
 import com.chdryra.android.reviewer.ReviewEditable;
+import com.chdryra.android.testutils.RandomStringGenerator;
 
 import junit.framework.Assert;
 

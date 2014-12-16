@@ -11,6 +11,7 @@ package com.chdryra.android.reviewer.test.TestUtils;
 import com.chdryra.android.reviewer.GvChildrenList;
 import com.chdryra.android.reviewer.RCollectionReview;
 import com.chdryra.android.reviewer.ReviewNode;
+import com.chdryra.android.testutils.RandomStringGenerator;
 
 import junit.framework.Assert;
 

@@ -11,7 +11,7 @@ package com.chdryra.android.reviewer.test;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.CommentFormatter;
-import com.chdryra.android.reviewer.test.TestUtils.RandomStringGenerator;
+import com.chdryra.android.testutils.RandomStringGenerator;
 
 import junit.framework.TestCase;
 

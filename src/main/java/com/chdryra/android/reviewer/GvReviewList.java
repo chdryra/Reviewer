@@ -23,34 +23,34 @@ import java.util.Date;
  * @see com.chdryra.android.reviewer.Administrator
  * @see com.chdryra.android.reviewer.FragmentFeed
  */
-public class GvReviewList extends GvDataList<GvReviewList.GvOverview> {
+public class GvReviewList extends GvDataList<GvReviewList.GvReviewOverview> {
     public static final GvType TYPE = GvType.REVIEW;
 
-    GvReviewList() {
+    public GvReviewList() {
         super(TYPE);
     }
 
-    @Override
-    protected Comparator<GvOverview> getDefaultComparator() {
+    public void add(String id, String subject, float rating, Bitmap coverImage, String headline,
+            String locationName, String author, Date publishDate) {
+        if (!contains(id)) {
+            add(new GvReviewOverview(id, subject, rating, coverImage, headline, locationName,
+                    author, publishDate));
+        }
+    }
 
-        return new Comparator<GvOverview>() {
+    @Override
+    protected Comparator<GvReviewOverview> getDefaultComparator() {
+
+        return new Comparator<GvReviewOverview>() {
             @Override
-            public int compare(GvOverview lhs, GvOverview rhs) {
+            public int compare(GvReviewOverview lhs, GvReviewOverview rhs) {
                 return lhs.getPublishDate().compareTo(rhs.getPublishDate());
             }
         };
     }
 
-    void add(String id, String subject, float rating, Bitmap coverImage, String headline,
-            String locationName, String author, Date publishDate) {
-        if (!contains(id)) {
-            add(new GvOverview(id, subject, rating, coverImage, headline, locationName,
-                    author, publishDate));
-        }
-    }
-
     boolean contains(String id) {
-        GvOverview review = new GvOverview(id);
+        GvReviewOverview review = new GvReviewOverview(id);
         return contains(review);
     }
 
@@ -58,15 +58,15 @@ public class GvReviewList extends GvDataList<GvReviewList.GvOverview> {
      * {@link GvDataList.GvData} version of: {@link Review}
      * {@link ViewHolder): {@link VHReviewNodeOverview}
      */
-    public static class GvOverview implements GvDataList.GvData {
-        public static final Parcelable.Creator<GvOverview> CREATOR = new Parcelable
-                .Creator<GvOverview>() {
-            public GvOverview createFromParcel(Parcel in) {
-                return new GvOverview(in);
+    public static class GvReviewOverview implements GvDataList.GvData {
+        public static final Parcelable.Creator<GvReviewOverview> CREATOR = new Parcelable
+                .Creator<GvReviewOverview>() {
+            public GvReviewOverview createFromParcel(Parcel in) {
+                return new GvReviewOverview(in);
             }
 
-            public GvOverview[] newArray(int size) {
-                return new GvOverview[size];
+            public GvReviewOverview[] newArray(int size) {
+                return new GvReviewOverview[size];
             }
         };
         private final String mId;
@@ -78,11 +78,11 @@ public class GvReviewList extends GvDataList<GvReviewList.GvOverview> {
         private       String mAuthor;
         private       Date   mPublishDate;
 
-        private GvOverview(String id) {
+        private GvReviewOverview(String id) {
             mId = id;
         }
 
-        private GvOverview(String id, String subject, float rating, Bitmap coverImage,
+        private GvReviewOverview(String id, String subject, float rating, Bitmap coverImage,
                 String headline, String locationName, String Author, Date publishDate) {
             mId = id;
             mSubject = subject;
@@ -94,7 +94,7 @@ public class GvReviewList extends GvDataList<GvReviewList.GvOverview> {
             mPublishDate = publishDate;
         }
 
-        private GvOverview(Parcel in) {
+        private GvReviewOverview(Parcel in) {
             mId = in.readString();
             mSubject = in.readString();
             mRating = in.readFloat();

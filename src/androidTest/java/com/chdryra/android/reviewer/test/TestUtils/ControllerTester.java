@@ -26,6 +26,7 @@ import com.chdryra.android.reviewer.MdUrlList;
 import com.chdryra.android.reviewer.Review;
 import com.chdryra.android.reviewer.ReviewEditable;
 import com.chdryra.android.reviewer.ReviewNode;
+import com.chdryra.android.testutils.RandomStringGenerator;
 
 import junit.framework.Assert;
 
@@ -36,7 +37,7 @@ import junit.framework.Assert;
  */
 //This should be created in setUp() to ensure fresh controller and review
 public class ControllerTester<T extends Review> {
-    static final int NUMDATA = 50;
+    static final         int                 NUMDATA          = 50;
     private final static GvDataList.GvType[] sRelevantGvTypes = new GvDataList
             .GvType[]{GvDataList.GvType.FACTS,
             GvDataList.GvType.URLS,
