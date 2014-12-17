@@ -41,7 +41,7 @@ public abstract class DialogGvDataEditFragment<T extends GvDataList.GvData>
     private T                     mDatum;
     private GvDataList.GvType     mDataType;
     private GvDataPacker<T>       mPacker;
-    private GvDataUiHolder<T>     mUiHolder;
+    private GvDataViewHolder<T>   mUiHolder;
     private GvDataEditListener<T> mEditListener;
 
     /**

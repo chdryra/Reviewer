@@ -19,22 +19,17 @@ import android.widget.EditText;
 /**
  * {@link DialogHolderAddEdit}: comments
  */
-class DHComment extends DialogHolderAddEdit<GvCommentList.GvComment> {
+class DialogHolderComment extends DialogHolderAddEdit<GvCommentList.GvComment> {
     private static final int                     LAYOUT    = R.layout.dialog_comment;
     private static final int                     COMMENT   = R.id.comment_edit_text;
     private static final GvCommentList.GvComment NULL_DATA = new GvCommentList.GvComment();
 
-    DHComment(DialogGvDataAddFragment<GvCommentList.GvComment> dialogAdd) {
-        super(LAYOUT, new int[]{COMMENT}, dialogAdd, NULL_DATA);
+    DialogHolderComment(DialogGvDataAddFragment<GvCommentList.GvComment> dialogAdd) {
+        super(LAYOUT, new int[]{COMMENT}, COMMENT, dialogAdd, NULL_DATA);
     }
 
-    DHComment(DialogGvDataEditFragment<GvCommentList.GvComment> dialogEdit) {
-        super(LAYOUT, new int[]{COMMENT}, dialogEdit);
-    }
-
-    @Override
-    protected EditText getEditTextForKeyboardAction() {
-        return (EditText) getView(COMMENT);
+    DialogHolderComment(DialogGvDataEditFragment<GvCommentList.GvComment> dialogEdit) {
+        super(LAYOUT, new int[]{COMMENT}, COMMENT, dialogEdit);
     }
 
     @Override
@@ -48,13 +43,13 @@ class DHComment extends DialogHolderAddEdit<GvCommentList.GvComment> {
     }
 
     @Override
-    protected GvCommentList.GvComment createGvData() {
-        return new GvCommentList.GvComment(getEditTextForKeyboardAction().getText().toString()
+    protected GvCommentList.GvComment createGvDataFromViews() {
+        return new GvCommentList.GvComment(((EditText) getView(COMMENT)).getText().toString()
                 .trim());
     }
 
     @Override
-    protected void update(GvCommentList.GvComment comment) {
+    protected void updateViews(GvCommentList.GvComment comment) {
         ((EditText) getView(COMMENT)).setText(comment.getComment());
     }
 }

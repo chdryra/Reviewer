@@ -47,9 +47,9 @@ public abstract class DialogGvDataAddFragment<T extends GvDataList.GvData> exten
 
     private ControllerReviewEditable mController;
     private GvDataList<T>            mData;
-    private GvDataUiHolder<T> mUiHolder;
-    private GvDataHandler<T>  mHandler;
-    private GvDataAddListener<T>     mAddListener;
+    private GvDataViewHolder<T>  mUiHolder;
+    private GvDataHandler<T>     mHandler;
+    private GvDataAddListener<T> mAddListener;
 
     private boolean mQuickSet = false;
 

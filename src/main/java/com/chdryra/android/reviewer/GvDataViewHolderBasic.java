@@ -20,31 +20,25 @@ import android.view.View;
  */
 
 /**
- * Implementation of {@link GvDataUiHolder} for Dialogs. Mainly
- * concerned with inflating layouts and holding Views. Uses a
- * {@link DialogHolderUI} to conform to the {@link com.chdryra
- * .android.reviewer.GVReviewDataUI} part of the {@link com.chdryra.android.reviewer
- * .ReviewDataUIHolder} interface.
- * <p>
- * Need to override {@link #getGvDataUi()} which returns a
- * {@link DialogHolderUI}. This is a helper class that provides
- * a link between the review data-specific UI, and the actual Dialog window itself.
+ * Implementation of {@link GvDataViewHolder}. Mainly
+ * concerned with inflating layouts and holding Views. The {@link GvDataView} part is forwarded to
+ * the appropriate object passedas gvDataView.
  * </p>
  *
  * @param <T>: {@link GvDataList.GvData} type.
  */
-public abstract class DialogHolder<T extends GvDataList.GvData> implements GvDataUiHolder<T> {
+public class GvDataViewHolderBasic<T extends GvDataList.GvData> implements GvDataViewHolder<T> {
     private final int               mLayout;
     private final int[]             mUpdateableViewIds;
     private final SparseArray<View> mUpdateableViews;
     private       View              mInflated;
+    private GvDataView<T> mGvDataView;
 
-    protected abstract GvDataUi<T> getGvDataUi();
-
-    public DialogHolder(int layoutId, int[] viewIds) {
+    public GvDataViewHolderBasic(int layoutId, int[] viewIds, GvDataView<T> gvDataView) {
         mLayout = layoutId;
         mUpdateableViewIds = viewIds;
         mUpdateableViews = new SparseArray<>(mUpdateableViewIds.length);
+        mGvDataView = gvDataView;
     }
 
     @Override
@@ -64,17 +58,17 @@ public abstract class DialogHolder<T extends GvDataList.GvData> implements GvDat
 
     @Override
     public void initialiseView(T data) {
-        getGvDataUi().initialiseView(data);
+        mGvDataView.initialiseView(data);
     }
 
     @Override
     public void updateView(T data) {
-        getGvDataUi().updateView(data);
+        mGvDataView.updateView(data);
     }
 
     @Override
     public T getGvData() {
-        return getGvDataUi().getGvData();
+        return mGvDataView.getGvData();
     }
 
     final View getView(int viewId) {

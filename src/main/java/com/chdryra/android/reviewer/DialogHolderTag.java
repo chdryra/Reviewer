@@ -19,22 +19,17 @@ import android.widget.EditText;
 /**
  * {@link DialogHolderAddEdit}: tags
  */
-class DHTag extends DialogHolderAddEdit<GvTagList.GvTag> {
+class DialogHolderTag extends DialogHolderAddEdit<GvTagList.GvTag> {
     private static final int             LAYOUT    = R.layout.dialog_tag;
     private static final int             TAG       = R.id.tag_edit_text;
     private static final GvTagList.GvTag NULL_DATA = new GvTagList.GvTag();
 
-    DHTag(DialogGvDataAddFragment<GvTagList.GvTag> dialogAdd) {
-        super(LAYOUT, new int[]{TAG}, dialogAdd, NULL_DATA);
+    DialogHolderTag(DialogGvDataAddFragment<GvTagList.GvTag> dialogAdd) {
+        super(LAYOUT, new int[]{TAG}, TAG, dialogAdd, NULL_DATA);
     }
 
-    DHTag(DialogGvDataEditFragment<GvTagList.GvTag> dialogEdit) {
-        super(LAYOUT, new int[]{TAG}, dialogEdit);
-    }
-
-    @Override
-    protected EditText getEditTextForKeyboardAction() {
-        return (EditText) getView(TAG);
+    DialogHolderTag(DialogGvDataEditFragment<GvTagList.GvTag> dialogEdit) {
+        super(LAYOUT, new int[]{TAG}, TAG, dialogEdit);
     }
 
     @Override
@@ -48,12 +43,12 @@ class DHTag extends DialogHolderAddEdit<GvTagList.GvTag> {
     }
 
     @Override
-    protected GvTagList.GvTag createGvData() {
+    protected GvTagList.GvTag createGvDataFromViews() {
         return new GvTagList.GvTag(((EditText) getView(TAG)).getText().toString().trim());
     }
 
     @Override
-    protected void update(GvTagList.GvTag tag) {
+    protected void updateViews(GvTagList.GvTag tag) {
         ((EditText) getView(TAG)).setText(tag.get());
     }
 }

@@ -17,7 +17,8 @@ import android.widget.EditText;
  */
 
 /**
- * An extension of {@link DialogHolder} concerned with dialogs that add and edit review data.
+ * An extension of {@link GvDataViewHolderBasic} concerned with dialogs that add and edit review
+ * data.
  * This is the fundamental add and edit DialogHolder for all {@link com.chdryra.android.reviewer
  * .GVReviewDataList.GVType}s except locations and URLs as they use activities for adding and
  * editing.
@@ -28,48 +29,47 @@ import android.widget.EditText;
  * </p>
  * <p/>
  * <p>
- * Provides a {@link com.chdryra.android.reviewer.DialogHolderUI.GvDataInterface}
+ * Provides a {@link com.chdryra.android.reviewer.GvDataViewDialog.GvDataViewDialogAdapter}
  * for adder Dialogs, and a different one for editor Dialogs.
  * </p>
  *
  * @param <T>: {@link GvDataList.GvData} type.
  */
-abstract class DialogHolderAddEdit<T extends GvDataList.GvData> extends DialogHolder<T> {
+class DialogHolderAddEdit<T extends GvDataList.GvData> extends GvDataViewHolderBasic<T> {
+    private int mKeyboardEditText;
 
-    private final GvDataUi<T> mDialogUi;
+//    protected abstract String getDialogTitleOnAdd(T data);
+//
+//    protected abstract String getDeleteConfirmDialogTitle(T data);
+//
+//    protected abstract T createGvDataFromViews();
+//
+//    protected abstract void updateViews(T data);
 
-    protected abstract EditText getEditTextForKeyboardAction();
-
-    protected abstract String getDialogTitleOnAdd(T data);
-
-    protected abstract String getDeleteConfirmDialogTitle(T data);
-
-    protected abstract T createGvData();
-
-    protected abstract void update(T data);
-
-    DialogHolderAddEdit(int layoutId, int[] viewIds, DialogGvDataAddFragment<T> parent,
-            final T nullData) {
+    DialogHolderAddEdit(int layoutId, int[] viewIds, int keyboardEditText,
+            DialogGvDataAddFragment<T> parent, final T nullData) {
         super(layoutId, viewIds);
-        mDialogUi = new DialogHolderUI<>(parent, new GvDataAddInterface(nullData));
+        mKeyboardEditText = keyboardEditText;
+        setGvDataView(new GvDataViewDialog<>(parent, new GvDataViewAddDialogAdapter(nullData)));
     }
 
-    DialogHolderAddEdit(int layoutId, int[] viewIds, DialogGvDataEditFragment<T> parent) {
+    DialogHolderAddEdit(int layoutId, int[] viewIds, int keyboardEditText,
+            DialogGvDataEditFragment<T> parent) {
         super(layoutId, viewIds);
-        mDialogUi = new DialogHolderUI<>(parent, new GvDataEditInterface());
+        mKeyboardEditText = keyboardEditText;
+        setGvDataView(new GvDataViewDialog<>(parent, new GvDataViewEditDialogAdapter()));
     }
 
-    @Override
-    protected GvDataUi<T> getGvDataUi() {
-        return mDialogUi;
+    public EditText getEditTextForKeyboardAction() {
+        return (EditText) getView(mKeyboardEditText);
     }
 
-    class GvDataAddInterface implements DialogHolderUI.GvDataInterface<T,
+    class GvDataViewAddDialogAdapter implements GvDataViewDialog.GvDataViewDialogAdapter<T,
             DialogGvDataAddFragment<T>> {
 
         private T mNullData;
 
-        private GvDataAddInterface(final T nullData) {
+        public GvDataViewAddDialogAdapter(final T nullData) {
             mNullData = nullData;
         }
 
@@ -80,23 +80,24 @@ abstract class DialogHolderAddEdit<T extends GvDataList.GvData> extends DialogHo
 
         @Override
         public void update(T data, DialogGvDataAddFragment<T> parentDialog) {
-            DialogHolderAddEdit.this.update(mNullData);
+            updateViews(mNullData);
             parentDialog.getDialog().setTitle("+ " + getDialogTitleOnAdd(data));
         }
 
         @Override
         public T getGvData() {
-            return createGvData();
+            return createGvDataFromViews();
         }
     }
 
-    class GvDataEditInterface implements DialogHolderUI.GvDataInterface<T,
+    class GvDataViewEditDialogAdapter implements GvDataViewDialog.GvDataViewDialogAdapter<T,
             DialogGvDataEditFragment<T>> {
+
         @Override
         public void initialise(T data, DialogGvDataEditFragment<T> parentDialog) {
             parentDialog.setKeyboardDoDoneOnEditText(getEditTextForKeyboardAction());
             parentDialog.setDeleteWhatTitle(getDeleteConfirmDialogTitle(data));
-            DialogHolderAddEdit.this.update(data);
+            updateViews(data);
         }
 
         @Override
@@ -105,7 +106,7 @@ abstract class DialogHolderAddEdit<T extends GvDataList.GvData> extends DialogHo
 
         @Override
         public T getGvData() {
-            return createGvData();
+            return createGvDataFromViews();
         }
     }
 }

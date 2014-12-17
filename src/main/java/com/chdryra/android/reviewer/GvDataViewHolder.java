@@ -26,7 +26,7 @@ import android.view.View;
  * {@link GvDataList.GvData} back and forth with
  * inflated views in order to initialise and update themselves, and can return back similar
  * data given their current contents. Adheres to
- * {@link GvDataUi}.
+ * {@link GvDataView}.
  * </p>
  * <p>
  * Aim is to separate out the general workings of a view (button presses,
@@ -39,7 +39,7 @@ import android.view.View;
  * @see DialogGvDataAddFragment
  * @see DialogGvDataEditFragment
  */
-interface GvDataUiHolder<T extends GvDataList.GvData> extends GvDataUi<T> {
+interface GvDataViewHolder<T extends GvDataList.GvData> extends GvDataView<T> {
     void inflate(Context context);
 
     View getView();

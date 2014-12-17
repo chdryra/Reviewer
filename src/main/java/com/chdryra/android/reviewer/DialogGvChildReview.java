@@ -3,7 +3,7 @@
  * Unauthorized copying of this file, via any medium is strictly prohibited
  * Proprietary and confidential
  * Author: Rizwan Choudrey
- * Date: 20 October, 2014
+ * Date: 17 December, 2014
  */
 
 package com.chdryra.android.reviewer;
@@ -15,35 +15,27 @@ import java.text.DecimalFormat;
 
 /**
  * Created by: Rizwan Choudrey
- * On: 20/10/2014
+ * On: 17/12/2014
  * Email: rizwan.choudrey@gmail.com
  */
-
-/**
- * {@link DialogHolderAddEdit}: child reviews
- */
-class DHChild extends DialogHolderAddEdit<GvChildrenList.GvChildReview> {
+public class DialogGvChildReview extends DialogGvDataBasic<GvChildrenList.GvChildReview> {
     private static final int                          LAYOUT    = R.layout.dialog_criterion;
     private static final int                          SUBJECT   = R.id.child_name_edit_text;
     private static final int                          RATING    = R.id.child_rating_bar;
+    private static final int[]                        VIEWS     = new int[]{SUBJECT, RATING};
     private static final GvChildrenList.GvChildReview NULL_DATA = new GvChildrenList
             .GvChildReview(null, 0);
 
-    DHChild(DialogGvDataAddFragment<GvChildrenList.GvChildReview> dialogAdd) {
-        super(LAYOUT, new int[]{SUBJECT, RATING}, dialogAdd, NULL_DATA);
+    DialogGvChildReview(DialogGvDataAddFragment<GvChildrenList.GvChildReview> dialogAdd) {
+        super(LAYOUT, VIEWS, SUBJECT, dialogAdd, NULL_DATA);
     }
 
-    DHChild(DialogGvDataEditFragment<GvChildrenList.GvChildReview> dialogEdit) {
-        super(LAYOUT, new int[]{SUBJECT, RATING}, dialogEdit);
-    }
-
-    @Override
-    protected EditText getEditTextForKeyboardAction() {
-        return (EditText) getView(SUBJECT);
+    DialogGvChildReview(DialogGvDataEditFragment<GvChildrenList.GvChildReview> dialogEdit) {
+        super(LAYOUT, VIEWS, SUBJECT, dialogEdit);
     }
 
     @Override
-    protected String getDialogTitleOnAdd(GvChildrenList.GvChildReview data) {
+    public String getDialogTitleOnAdd(GvChildrenList.GvChildReview data) {
         float childRating = data.getRating();
         DecimalFormat formatter = new DecimalFormat("0");
         DecimalFormat decimalFormatter = new DecimalFormat("0.0");
@@ -53,21 +45,21 @@ class DHChild extends DialogHolderAddEdit<GvChildrenList.GvChildReview> {
     }
 
     @Override
-    protected String getDeleteConfirmDialogTitle(GvChildrenList.GvChildReview data) {
+    public String getDeleteConfirmDialogTitle(GvChildrenList.GvChildReview data) {
         return data.getSubject() + ": " + data.getRating();
 
     }
 
     @Override
-    protected GvChildrenList.GvChildReview createGvData() {
-        String subject = ((EditText) getView(SUBJECT)).getText().toString().trim();
-        float rating = ((RatingBar) getView(RATING)).getRating();
+    public GvChildrenList.GvChildReview createGvDataFromViews() {
+        String subject = ((EditText) mViewHolder.getView(SUBJECT)).getText().toString().trim();
+        float rating = ((RatingBar) mViewHolder.getView(RATING)).getRating();
         return new GvChildrenList.GvChildReview(subject, rating);
     }
 
     @Override
-    protected void update(GvChildrenList.GvChildReview data) {
-        ((EditText) getView(SUBJECT)).setText(data.getSubject());
-        ((RatingBar) getView(RATING)).setRating(data.getRating());
+    public void updateViews(GvChildrenList.GvChildReview data) {
+        ((EditText) mViewHolder.getView(SUBJECT)).setText(data.getSubject());
+        ((RatingBar) mViewHolder.getView(RATING)).setRating(data.getRating());
     }
 }

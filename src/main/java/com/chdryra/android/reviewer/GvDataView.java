@@ -21,7 +21,7 @@ package com.chdryra.android.reviewer;
  *
  * @param <T>
  */
-public interface GvDataUi<T extends GvDataList.GvData> {
+public interface GvDataView<T extends GvDataList.GvData> {
     void initialiseView(T data);
 
     void updateView(T data);

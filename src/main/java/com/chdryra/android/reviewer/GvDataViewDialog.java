@@ -18,32 +18,31 @@ import com.chdryra.android.mygenerallibrary.DialogCancelActionDoneFragment;
  */
 
 /**
- * Implements the {@link GvDataUi} part for
- * {@link com.chdryra.android.reviewer.DialogHolder}.
+ * Implements {@link GvDataView} for dialogs.
  * <p>
- * A helper class for {@link DialogHolder}. Uses a
- * {@link com.chdryra.android.reviewer.DialogHolderUI.GvDataInterface} object to fulfill the
- * {@link com.chdryra.android
- * .reviewer.GVReviewDataUI} requirements. Binds the parent Dialog of the
- * DialogHolder to the updater as parts of the parent Dialog may also need to be updated
+ * A helper class for {@link GvDataViewHolderBasic}. Uses a
+ * {@link com.chdryra.android.reviewer.GvDataViewDialog.GvDataViewDialogAdapter} object to
+ * fulfill the
+ * {@link GvDataView} requirements. Binds the parent Dialog to the adapter as parts of the parent
+ * Dialog may also need to be updated
  * when presented with new data, for example the dialog title.
  * </p>
- * <p>The {@link com.chdryra.android.reviewer.DialogHolderUI.GvDataInterface} knows
- * how to initialise and update the content part of the UI encapsulated by the DialogHolder,
- * and knows how to extract review data from it. Each subclass of DialogHolder is expected
- * to be able to provide one of these to DialogHolder. See {@link com.chdryra
+ * <p>The {@link com.chdryra.android.reviewer.GvDataViewDialog.GvDataViewDialogAdapter} knows
+ * how to initialise and update the content part of the Dialog,
+ * and knows how to extract data from it. Each subclass of {@link GvDataViewHolderBasic} is expected
+ * to be able to provide one of these. See {@link com.chdryra
  * .android.reviewer.DialogHolderAddEdit} as an example.
  * </p>
  *
  * @param <T>: {@link GvDataList.GvData} type
  * @param <D>: {@link com.chdryra.android.mygenerallibrary.DialogCancelActionDoneFragment}
- *             reference to the parent Dialog window that contains the DialogHolder UI.
+ *             reference to the parent Dialog.
  */
-class DialogHolderUI<T extends GvDataList.GvData, D extends DialogCancelActionDoneFragment>
-        implements GvDataUi<T> {
+class GvDataViewDialog<T extends GvDataList.GvData, D extends DialogCancelActionDoneFragment>
+        implements GvDataView<T> {
 
     private final D                     mDialog;
-    private final GvDataInterface<T, D> mDialogUi;
+    private final GvDataViewDialogAdapter<T, D> mAdapter;
 
     /**
      * Defines  a dialog interface that given some
@@ -56,9 +55,9 @@ class DialogHolderUI<T extends GvDataList.GvData, D extends DialogCancelActionDo
      *
      * @param <T> {@link GvDataList.GvData} type
      * @param <D> {@link com.chdryra.android.mygenerallibrary.DialogCancelActionDoneFragment}
-     *             reference to the parent Dialog window that contains the DialogHolder UI.
+     *             reference to the parent Dialog.
      */
-    interface GvDataInterface<T extends GvDataList.GvData,
+    interface GvDataViewDialogAdapter<T extends GvDataList.GvData,
             D extends DialogCancelActionDoneFragment> {
         void initialise(T data, D parentDialog);
 
@@ -67,23 +66,23 @@ class DialogHolderUI<T extends GvDataList.GvData, D extends DialogCancelActionDo
         T getGvData();
     }
 
-    DialogHolderUI(D parentDialog, GvDataInterface<T, D> dialogUi) {
+    GvDataViewDialog(D parentDialog, GvDataViewDialogAdapter<T, D> adapter) {
         mDialog = parentDialog;
-        mDialogUi = dialogUi;
+        mAdapter = adapter;
     }
 
     @Override
     public void initialiseView(T data) {
-        mDialogUi.initialise(data, mDialog);
+        mAdapter.initialise(data, mDialog);
     }
 
     @Override
     public void updateView(T data) {
-        mDialogUi.update(data, mDialog);
+        mAdapter.update(data, mDialog);
     }
 
     @Override
     public T getGvData() {
-        return mDialogUi.getGvData();
+        return mAdapter.getGvData();
     }
 }

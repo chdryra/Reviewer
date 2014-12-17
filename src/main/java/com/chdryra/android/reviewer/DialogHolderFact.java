@@ -21,23 +21,18 @@ import com.chdryra.android.reviewer.GvFactList.GvFact;
 /**
  * {@link DialogHolderAddEdit}: facts
  */
-class DHFact extends DialogHolderAddEdit<GvFactList.GvFact> {
+class DialogHolderFact extends DialogHolderAddEdit<GvFactList.GvFact> {
     private static final int               LAYOUT    = R.layout.dialog_fact;
     private static final int               LABEL     = R.id.fact_label_edit_text;
     private static final int               VALUE     = R.id.fact_value_edit_text;
     private static final GvFactList.GvFact NULL_DATA = new GvFactList.GvFact(null, null);
 
-    DHFact(DialogGvDataAddFragment<GvFact> dialogAdd) {
-        super(LAYOUT, new int[]{LABEL, VALUE}, dialogAdd, NULL_DATA);
+    DialogHolderFact(DialogGvDataAddFragment<GvFact> dialogAdd) {
+        super(LAYOUT, new int[]{LABEL, VALUE}, VALUE, dialogAdd, NULL_DATA);
     }
 
-    DHFact(DialogGvDataEditFragment<GvFact> dialogEdit) {
-        super(LAYOUT, new int[]{LABEL, VALUE}, dialogEdit);
-    }
-
-    @Override
-    protected EditText getEditTextForKeyboardAction() {
-        return (EditText) getView(VALUE);
+    DialogHolderFact(DialogGvDataEditFragment<GvFact> dialogEdit) {
+        super(LAYOUT, new int[]{LABEL, VALUE}, VALUE, dialogEdit);
     }
 
     @Override
@@ -51,14 +46,14 @@ class DHFact extends DialogHolderAddEdit<GvFactList.GvFact> {
     }
 
     @Override
-    protected GvFactList.GvFact createGvData() {
+    protected GvFactList.GvFact createGvDataFromViews() {
         String label = ((EditText) getView(LABEL)).getText().toString().trim();
         String value = ((EditText) getView(VALUE)).getText().toString().trim();
         return new GvFact(label, value);
     }
 
     @Override
-    protected void update(GvFact fact) {
+    protected void updateViews(GvFact fact) {
         ((EditText) getView(LABEL)).setText(fact.getLabel());
         ((EditText) getView(VALUE)).setText(fact.getValue());
         getView(LABEL).requestFocus();
