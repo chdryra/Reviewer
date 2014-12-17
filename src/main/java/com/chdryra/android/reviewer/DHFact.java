@@ -41,12 +41,12 @@ class DHFact extends DialogHolderAddEdit<GvFactList.GvFact> {
     }
 
     @Override
-    protected String getDialogOnAddTitle(GvFactList.GvFact data) {
+    protected String getDialogTitleOnAdd(GvFactList.GvFact data) {
         return data.getLabel() + ": " + data.getValue();
     }
 
     @Override
-    protected String getDialogDeleteConfirmTitle(GvFactList.GvFact data) {
+    protected String getDeleteConfirmDialogTitle(GvFactList.GvFact data) {
         return data.getLabel() + ": " + data.getValue();
     }
 
@@ -58,7 +58,7 @@ class DHFact extends DialogHolderAddEdit<GvFactList.GvFact> {
     }
 
     @Override
-    protected void updateWithGvData(GvFact fact) {
+    protected void update(GvFact fact) {
         ((EditText) getView(LABEL)).setText(fact.getLabel());
         ((EditText) getView(VALUE)).setText(fact.getValue());
         getView(LABEL).requestFocus();

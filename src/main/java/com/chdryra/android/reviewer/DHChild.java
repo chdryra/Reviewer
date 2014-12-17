@@ -43,7 +43,7 @@ class DHChild extends DialogHolderAddEdit<GvChildrenList.GvChildReview> {
     }
 
     @Override
-    protected String getDialogOnAddTitle(GvChildrenList.GvChildReview data) {
+    protected String getDialogTitleOnAdd(GvChildrenList.GvChildReview data) {
         float childRating = data.getRating();
         DecimalFormat formatter = new DecimalFormat("0");
         DecimalFormat decimalFormatter = new DecimalFormat("0.0");
@@ -53,7 +53,7 @@ class DHChild extends DialogHolderAddEdit<GvChildrenList.GvChildReview> {
     }
 
     @Override
-    protected String getDialogDeleteConfirmTitle(GvChildrenList.GvChildReview data) {
+    protected String getDeleteConfirmDialogTitle(GvChildrenList.GvChildReview data) {
         return data.getSubject() + ": " + data.getRating();
 
     }
@@ -66,7 +66,7 @@ class DHChild extends DialogHolderAddEdit<GvChildrenList.GvChildReview> {
     }
 
     @Override
-    protected void updateWithGvData(GvChildrenList.GvChildReview data) {
+    protected void update(GvChildrenList.GvChildReview data) {
         ((EditText) getView(SUBJECT)).setText(data.getSubject());
         ((RatingBar) getView(RATING)).setRating(data.getRating());
     }

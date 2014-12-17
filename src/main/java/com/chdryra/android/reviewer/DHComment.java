@@ -38,12 +38,12 @@ class DHComment extends DialogHolderAddEdit<GvCommentList.GvComment> {
     }
 
     @Override
-    protected String getDialogOnAddTitle(GvCommentList.GvComment data) {
+    protected String getDialogTitleOnAdd(GvCommentList.GvComment data) {
         return data.getCommentHeadline();
     }
 
     @Override
-    protected String getDialogDeleteConfirmTitle(GvCommentList.GvComment data) {
+    protected String getDeleteConfirmDialogTitle(GvCommentList.GvComment data) {
         return data.getUnSplitComment().getComment();
     }
 
@@ -54,7 +54,7 @@ class DHComment extends DialogHolderAddEdit<GvCommentList.GvComment> {
     }
 
     @Override
-    protected void updateWithGvData(GvCommentList.GvComment comment) {
+    protected void update(GvCommentList.GvComment comment) {
         ((EditText) getView(COMMENT)).setText(comment.getComment());
     }
 }

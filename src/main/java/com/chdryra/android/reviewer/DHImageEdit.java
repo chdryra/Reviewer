@@ -40,13 +40,13 @@ class DHImageEdit extends DialogHolderAddEdit<GvImageList.GvImage> {
     }
 
     @Override
-    protected String getDialogOnAddTitle(GvImageList.GvImage data) {
+    protected String getDialogTitleOnAdd(GvImageList.GvImage data) {
         //Standard add dialog not used for images
         return null;
     }
 
     @Override
-    protected String getDialogDeleteConfirmTitle(GvImageList.GvImage data) {
+    protected String getDeleteConfirmDialogTitle(GvImageList.GvImage data) {
         return GvDataList.GvType.IMAGES.getDatumString();
     }
 
@@ -59,7 +59,7 @@ class DHImageEdit extends DialogHolderAddEdit<GvImageList.GvImage> {
     }
 
     @Override
-    protected void updateWithGvData(GvImageList.GvImage image) {
+    protected void update(GvImageList.GvImage image) {
         ImageView imageView = (ImageView) getView(IMAGE);
         EditText imageCaption = (EditText) getView(CAPTION);
 

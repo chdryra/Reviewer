@@ -38,12 +38,12 @@ class DHTag extends DialogHolderAddEdit<GvTagList.GvTag> {
     }
 
     @Override
-    protected String getDialogOnAddTitle(GvTagList.GvTag data) {
+    protected String getDialogTitleOnAdd(GvTagList.GvTag data) {
         return "#" + data.get();
     }
 
     @Override
-    protected String getDialogDeleteConfirmTitle(GvTagList.GvTag data) {
+    protected String getDeleteConfirmDialogTitle(GvTagList.GvTag data) {
         return data.get();
     }
 
@@ -53,7 +53,7 @@ class DHTag extends DialogHolderAddEdit<GvTagList.GvTag> {
     }
 
     @Override
-    protected void updateWithGvData(GvTagList.GvTag tag) {
+    protected void update(GvTagList.GvTag tag) {
         ((EditText) getView(TAG)).setText(tag.get());
     }
 }
