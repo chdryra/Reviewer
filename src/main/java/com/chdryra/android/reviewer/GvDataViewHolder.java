@@ -25,13 +25,11 @@ import android.view.View;
  * Provides a simple interface through which to pass
  * {@link GvDataList.GvData} back and forth with
  * inflated views in order to initialise and update themselves, and can return back similar
- * data given their current contents. Adheres to
- * {@link GvDataView}.
+ * data given their current contents. Adheres to {@link GvDataView}.
  * </p>
  * <p>
- * Aim is to separate out the general workings of a view (button presses,
- * title updates etc.) with that pertinent to viewing and extracting
- * review data.
+ * Aim is to separate out the general workings of a view (inflating etc) with that pertinent to
+ * viewing and extracting review data.
  * </p>
  *
  * @param <T>: the {@link GvDataList.GvData} type.

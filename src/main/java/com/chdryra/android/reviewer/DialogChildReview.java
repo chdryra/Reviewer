@@ -18,7 +18,7 @@ import java.text.DecimalFormat;
  * On: 17/12/2014
  * Email: rizwan.choudrey@gmail.com
  */
-public class DialogGvChildReview extends DialogGvDataBasic<GvChildrenList.GvChildReview> {
+public class DialogChildReview extends DialogGvDataBasic<GvChildrenList.GvChildReview> {
     private static final int                          LAYOUT    = R.layout.dialog_criterion;
     private static final int                          SUBJECT   = R.id.child_name_edit_text;
     private static final int                          RATING    = R.id.child_rating_bar;
@@ -26,11 +26,11 @@ public class DialogGvChildReview extends DialogGvDataBasic<GvChildrenList.GvChil
     private static final GvChildrenList.GvChildReview NULL_DATA = new GvChildrenList
             .GvChildReview(null, 0);
 
-    DialogGvChildReview(DialogGvDataAddFragment<GvChildrenList.GvChildReview> dialogAdd) {
+    DialogChildReview(DialogGvDataAddFragment<GvChildrenList.GvChildReview> dialogAdd) {
         super(LAYOUT, VIEWS, SUBJECT, dialogAdd, NULL_DATA);
     }
 
-    DialogGvChildReview(DialogGvDataEditFragment<GvChildrenList.GvChildReview> dialogEdit) {
+    DialogChildReview(DialogGvDataEditFragment<GvChildrenList.GvChildReview> dialogEdit) {
         super(LAYOUT, VIEWS, SUBJECT, dialogEdit);
     }
 

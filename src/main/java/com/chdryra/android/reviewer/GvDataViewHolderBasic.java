@@ -20,9 +20,10 @@ import android.view.View;
  */
 
 /**
- * Implementation of {@link GvDataViewHolder}. Mainly
- * concerned with inflating layouts and holding Views. The {@link GvDataView} part is forwarded to
- * the appropriate object passedas gvDataView.
+ * Implementation of {@link GvDataViewHolder}. Mainly concerned with inflating layouts and
+ * holding Views. The {@link GvDataView} part concerned with initialising,
+ * updating and extracting review data from views is forwarded to
+ * the appropriate {@link GvDataView} object passed in the constructor.
  * </p>
  *
  * @param <T>: {@link GvDataList.GvData} type.

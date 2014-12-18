@@ -20,18 +20,14 @@ import com.chdryra.android.mygenerallibrary.DialogCancelActionDoneFragment;
 /**
  * Implements {@link GvDataView} for dialogs.
  * <p>
- * A helper class for {@link GvDataViewHolderBasic}. Uses a
- * {@link com.chdryra.android.reviewer.GvDataViewDialog.GvDataViewDialogAdapter} object to
- * fulfill the
- * {@link GvDataView} requirements. Binds the parent Dialog to the adapter as parts of the parent
- * Dialog may also need to be updated
+ * Uses a {@link GvDataViewDialog.GvDataViewDialogAdapter} object to
+ * fulfill the {@link GvDataView} requirements. Binds the parent Dialog to the adapter as parts
+ * of the parent Dialog may also need to be updated
  * when presented with new data, for example the dialog title.
  * </p>
- * <p>The {@link com.chdryra.android.reviewer.GvDataViewDialog.GvDataViewDialogAdapter} knows
- * how to initialise and update the content part of the Dialog,
- * and knows how to extract data from it. Each subclass of {@link GvDataViewHolderBasic} is expected
- * to be able to provide one of these. See {@link com.chdryra
- * .android.reviewer.DialogHolderAddEdit} as an example.
+ * <p>The {@link GvDataViewDialog.GvDataViewDialogAdapter} knows
+ * how to initialise and update the content part of the Dialog, how to extract data from it and
+ * how to update the parent dialog accordingly.
  * </p>
  *
  * @param <T>: {@link GvDataList.GvData} type
@@ -45,8 +41,8 @@ class GvDataViewDialog<T extends GvDataList.GvData, D extends DialogCancelAction
     private final GvDataViewDialogAdapter<T, D> mAdapter;
 
     /**
-     * Defines  a dialog interface that given some
-     * {@link GvDataList.GvData} object can update the ui, or can return some data when requested.
+     * Defines a dialog interface that does a similar job to {@link GvDataView} but which can also
+     * update the parent dialog attributes (such as title) if required.
      * <p>
      * Given {@link GvDataList.GvData} and a
      * parent Dialog window, need to be able to initialise and update the content UI (and

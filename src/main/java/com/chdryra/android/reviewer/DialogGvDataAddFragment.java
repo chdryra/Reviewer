@@ -15,19 +15,16 @@ import android.view.View;
 import com.chdryra.android.mygenerallibrary.DialogCancelAddDoneFragment;
 
 /**
- * Base class for all dialogs that can add data to reviews.
+ * Base class for all dialog fragments that can edit data on reviews.
  * <p>
- * This class handles mainly button presses and view initialisation. All other functionality is
- * outsourced to the appropriate classes:
+ * This class is the launched dialog and handles mainly button presses,
+ * view intialisation and callbacks to the commissioning fragment. All
+ * other functionality is outsourced to the appropriate classes:
  * <ul>
- * <li>UI updates and user input extraction: {@link com.chdryra.android.reviewer
- * .ViewHolderUI} object</li>
- * <li>Input validation and processing if not QUICKSET</li>: {@link com.chdryra.android
- * .reviewer.ReviewDataAddListener} object.
- * <li>Input validation and processing if QUICKSET: {@link com.chdryra.android.reviewer
- * .InputHandlerReviewData} object.</li>
- * <li>Updating reviews if QUICKSET: {@link com.chdryra.android.reviewer
- * .ControllerReviewEditable}</li> object
+ * <li>{@link GvDataPacker}: Unpacking of received data.</li>
+ * <li>{@link GvDataViewHolder}: UI updates and user input extraction</li>
+ * <li>{@link GvDataAddListener}: commissioning fragment.
+ * <li>{@link GvDataHandler}: input validation when QUICK_SET = true.
  * </ul>
  * </p>
  * <p>
@@ -35,9 +32,8 @@ import com.chdryra.android.mygenerallibrary.DialogCancelAddDoneFragment;
  * a callback to the commissioning fragment.
  * It is then up to that fragment/activity to decide what to do
  * with the entered data. However, if the QUICK_SET boolean in the dialog arguments is set to
- * true, the dialog will validate using an {@link com.chdryra.android.reviewer
- * .InputHandlerReviewData} and forward the data directly to the ControllerReviewEditable packed in
- * the arguments by the Administrator.
+ * true, the dialog will validate using a {@link GvDataHandler} and forward the data directly to the
+ * ControllerReviewEditable packed in the arguments by the Administrator.
  * </p>
  */
 public abstract class DialogGvDataAddFragment<T extends GvDataList.GvData> extends
@@ -47,9 +43,9 @@ public abstract class DialogGvDataAddFragment<T extends GvDataList.GvData> exten
 
     private ControllerReviewEditable mController;
     private GvDataList<T>            mData;
-    private GvDataViewHolder<T>  mUiHolder;
-    private GvDataHandler<T>     mHandler;
-    private GvDataAddListener<T> mAddListener;
+    private GvDataViewHolder<T>      mViewHolder;
+    private GvDataHandler<T>         mHandler;
+    private GvDataAddListener<T>     mAddListener;
 
     private boolean mQuickSet = false;
 
@@ -73,10 +69,10 @@ public abstract class DialogGvDataAddFragment<T extends GvDataList.GvData> exten
 
     @Override
     protected View createDialogUI() {
-        mUiHolder.inflate(getActivity());
-        mUiHolder.initialiseView(null);
+        mViewHolder.inflate(getActivity());
+        mViewHolder.initialiseView(null);
 
-        return mUiHolder.getView();
+        return mViewHolder.getView();
     }
 
     @Override
@@ -93,7 +89,7 @@ public abstract class DialogGvDataAddFragment<T extends GvDataList.GvData> exten
         setDialogTitle(getResources().getString(R.string.add) + " " + getGvType().getDatumString());
 
         mHandler = FactoryGvDataHandler.newHandler(mData);
-        mUiHolder = FactoryDialogHolder.newHolder(this);
+        mViewHolder = FactoryGvDataViewHolder.newHolder(this);
 
         if (!isQuickSet()) {
             try {
@@ -108,12 +104,12 @@ public abstract class DialogGvDataAddFragment<T extends GvDataList.GvData> exten
 
     @Override
     protected void onAddButtonClick() {
-        T newDatum = mUiHolder.getGvData();
+        T newDatum = mViewHolder.getGvData();
 
         boolean added = isQuickSet() ? mHandler.add(newDatum, getActivity()) : mAddListener
                 .onGvDataAdd(newDatum);
 
-        if (added) mUiHolder.updateView(newDatum);
+        if (added) mViewHolder.updateView(newDatum);
     }
 
     @Override

@@ -16,10 +16,9 @@ package com.chdryra.android.reviewer;
 
 /**
  * Defines the behaviour of any UI that acts as a view on some {@link GvDataList.GvData}. Given
- * some data,
- * defines an ability to initialise and update the UI, and to extract data from it.
+ * some data, defines an ability to initialise and update the view, and to extract data from it.
  *
- * @param <T>
+ * @param <T>: {@link GvDataList.GvData type}
  */
 public interface GvDataView<T extends GvDataList.GvData> {
     void initialiseView(T data);

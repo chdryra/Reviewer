@@ -21,17 +21,15 @@ import com.chdryra.android.mygenerallibrary.DialogCancelDeleteDoneFragment;
  */
 
 /**
- * Base class for all dialogs that can edit data on reviews.
+ * Base class for all dialog fragments that can edit data on reviews.
  * <p>
- * This class handles mainly button presses and view intialisation. All other functionality is
- * outsourced to the appropriate classes:
+ * This class is the launched dialog and handles mainly button presses,
+ * view intialisation and callbacks to the commissioning fragment. All
+ * other functionality is outsourced to the appropriate classes:
  * <ul>
- * <li>UI updates and user input extraction: {@link com.chdryra.android.reviewer
- * .ViewHolderUI} object</li>
- * <li>Input validation and processing</li>: {@link com.chdryra.android
- * .reviewer.ReviewDataEditListener} object.
- * <li>Unpacking of received data: {@link com.chdryra.android.reviewer
- * .InputHandlerReviewData} object.</li>
+ * <li>{@link GvDataPacker}: Unpacking of received data.</li>
+ * <li>{@link GvDataViewHolder}: UI updates and user input extraction</li>
+ * <li>{@link GvDataEditListener}: commissioning fragment.
  * </ul>
  * </p>
  */
@@ -41,7 +39,7 @@ public abstract class DialogGvDataEditFragment<T extends GvDataList.GvData>
     private T                     mDatum;
     private GvDataList.GvType     mDataType;
     private GvDataPacker<T>       mPacker;
-    private GvDataViewHolder<T>   mUiHolder;
+    private GvDataViewHolder<T>   mViewHolder;
     private GvDataEditListener<T> mEditListener;
 
     /**
@@ -67,10 +65,10 @@ public abstract class DialogGvDataEditFragment<T extends GvDataList.GvData>
 
     @Override
     protected View createDialogUI() {
-        mUiHolder.inflate(getActivity());
-        mUiHolder.initialiseView(mDatum);
+        mViewHolder.inflate(getActivity());
+        mViewHolder.initialiseView(mDatum);
 
-        return mUiHolder.getView();
+        return mViewHolder.getView();
     }
 
     @Override
@@ -80,7 +78,7 @@ public abstract class DialogGvDataEditFragment<T extends GvDataList.GvData>
         setDialogTitle(getResources().getString(R.string.edit) + " " + mDataType.getDatumString());
 
         mDatum = mPacker.unpack(GvDataPacker.CurrentNewDatum.CURRENT, getArguments());
-        mUiHolder = FactoryDialogHolder.newHolder(this);
+        mViewHolder = FactoryGvDataViewHolder.newHolder(this);
 
         try {
             //TODO make type safe
@@ -103,7 +101,7 @@ public abstract class DialogGvDataEditFragment<T extends GvDataList.GvData>
 
     @Override
     protected void onDoneButtonClick() {
-        mEditListener.onGvDataEdit(mDatum, mUiHolder.getGvData());
+        mEditListener.onGvDataEdit(mDatum, mViewHolder.getGvData());
     }
 
     @Override
@@ -113,9 +111,5 @@ public abstract class DialogGvDataEditFragment<T extends GvDataList.GvData>
 
     GvDataList.GvType getGvType() {
         return mDataType;
-    }
-
-    T getCurrentGvData() {
-        return mDatum;
     }
 }
