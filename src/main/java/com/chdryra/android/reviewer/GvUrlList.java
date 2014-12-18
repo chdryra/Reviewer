@@ -23,7 +23,7 @@ public class GvUrlList extends GvDataList<GvUrlList.GvUrl> {
     public static final GvType TYPE = GvType.URLS;
 
     public GvUrlList() {
-        super(TYPE);
+        super(TYPE, GvUrl.class);
     }
 
     void add(String urlString) throws MalformedURLException, URISyntaxException {
@@ -54,6 +54,9 @@ public class GvUrlList extends GvDataList<GvUrlList.GvUrl> {
             }
         };
         private URL mUrl;
+
+        public GvUrl() {
+        }
 
         public GvUrl(URL url) {
             mUrl = url;

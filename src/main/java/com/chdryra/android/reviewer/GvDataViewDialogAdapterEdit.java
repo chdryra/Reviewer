@@ -16,9 +16,9 @@ package com.chdryra.android.reviewer;
 public class GvDataViewDialogAdapterEdit<T extends GvDataList.GvData> implements GvDataViewDialog
         .GvDataViewDialogAdapter<T, DialogGvDataEditFragment<T>> {
 
-    private DialogGvData<T> mDialog;
+    private DialogGvDataMethods<T> mDialog;
 
-    public GvDataViewDialogAdapterEdit(DialogGvData<T> dialog) {
+    public GvDataViewDialogAdapterEdit(DialogGvDataMethods<T> dialog) {
         mDialog = dialog;
     }
 

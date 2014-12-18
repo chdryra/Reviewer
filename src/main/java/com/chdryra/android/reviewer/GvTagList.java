@@ -19,7 +19,7 @@ public class GvTagList extends GvDataList<GvTagList.GvTag> {
     public static final GvType TYPE = GvType.TAGS;
 
     public GvTagList() {
-        super(TYPE);
+        super(TYPE, GvTag.class);
     }
 
     public void add(String string) {

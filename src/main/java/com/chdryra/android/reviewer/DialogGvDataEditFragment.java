@@ -36,8 +36,8 @@ import com.chdryra.android.mygenerallibrary.DialogCancelDeleteDoneFragment;
 public abstract class DialogGvDataEditFragment<T extends GvDataList.GvData>
         extends DialogCancelDeleteDoneFragment implements LaunchableUI {
 
-    private T                     mDatum;
     private GvDataList.GvType     mDataType;
+    private T mDatum;
     private GvDataPacker<T>       mPacker;
     private GvDataViewHolder<T>   mViewHolder;
     private GvDataEditListener<T> mEditListener;
@@ -54,8 +54,9 @@ public abstract class DialogGvDataEditFragment<T extends GvDataList.GvData>
     }
 
     DialogGvDataEditFragment(Class<? extends GvDataList<T>> gvDataListClass) {
-        mDataType = FactoryGvDataList.gvType(gvDataListClass);
+        mDataType = FactoryGvData.gvType(gvDataListClass);
         mPacker = new GvDataPacker<>();
+        mViewHolder = FactoryGvDataViewHolder.newHolder(this);
     }
 
     @Override
@@ -75,10 +76,7 @@ public abstract class DialogGvDataEditFragment<T extends GvDataList.GvData>
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setDialogTitle(getResources().getString(R.string.edit) + " " + mDataType.getDatumString());
-
         mDatum = mPacker.unpack(GvDataPacker.CurrentNewDatum.CURRENT, getArguments());
-        mViewHolder = FactoryGvDataViewHolder.newHolder(this);
 
         try {
             //TODO make type safe
@@ -87,6 +85,8 @@ public abstract class DialogGvDataEditFragment<T extends GvDataList.GvData>
             throw new ClassCastException(getTargetFragment().toString() + " must implement " +
                     "GvDataEditListener");
         }
+
+        setDialogTitle(getResources().getString(R.string.edit) + " " + mDataType.getDatumString());
     }
 
     @Override

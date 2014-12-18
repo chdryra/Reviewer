@@ -22,7 +22,7 @@ public class GvChildrenList extends GvDataList<GvChildrenList.GvChildReview> {
     public static final GvType TYPE = GvType.CHILDREN;
 
     public GvChildrenList() {
-        super(TYPE);
+        super(TYPE, GvChildReview.class);
     }
 
     public boolean contains(String subject) {
@@ -75,6 +75,11 @@ public class GvChildrenList extends GvDataList<GvChildrenList.GvChildReview> {
         };
         private final String mSubject;
         private final float  mRating;
+
+        GvChildReview() {
+            mSubject = null;
+            mRating = 0f;
+        }
 
         public GvChildReview(String subject, float rating) {
             mSubject = subject;

@@ -59,7 +59,12 @@ public abstract class DialogGvDataAddFragment<T extends GvDataList.GvData> exten
     }
 
     DialogGvDataAddFragment(Class<? extends GvDataList<T>> gvDataListClass) {
-        mData = FactoryGvDataList.create(gvDataListClass);
+        mData = FactoryGvData.newList(gvDataListClass);
+        mViewHolder = FactoryGvDataViewHolder.newViewHolder(this);
+    }
+
+    public T getNullingItem() {
+        return mData.getNullItem();
     }
 
     @Override
@@ -85,11 +90,7 @@ public abstract class DialogGvDataAddFragment<T extends GvDataList.GvData> exten
 
         //TODO make type safe
         if (mController != null) mData = mController.getData(getGvType());
-
-        setDialogTitle(getResources().getString(R.string.add) + " " + getGvType().getDatumString());
-
         mHandler = FactoryGvDataHandler.newHandler(mData);
-        mViewHolder = FactoryGvDataViewHolder.newHolder(this);
 
         if (!isQuickSet()) {
             try {
@@ -100,6 +101,8 @@ public abstract class DialogGvDataAddFragment<T extends GvDataList.GvData> exten
                         "GvDataAddListener");
             }
         }
+
+        setDialogTitle(getResources().getString(R.string.add) + " " + getGvType().getDatumString());
     }
 
     @Override

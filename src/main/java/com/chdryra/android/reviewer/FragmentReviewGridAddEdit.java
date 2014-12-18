@@ -46,7 +46,7 @@ abstract class FragmentReviewGridAddEdit<T extends GvDataList.GvData> extends
     private ConfigReviewDataUI.ReviewDataUIConfig mEditorConfig;
 
     FragmentReviewGridAddEdit(Class<? extends GvDataList<T>> gvDataListClass) {
-        GvDataList<T> data = FactoryGvDataList.create(gvDataListClass);
+        GvDataList<T> data = FactoryGvData.newList(gvDataListClass);
         mHandler = FactoryGvDataHandler.newHandler(data);
         mPacker = new GvDataPacker<>();
         mDataType = data.getGvType();

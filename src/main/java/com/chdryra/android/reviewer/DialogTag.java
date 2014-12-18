@@ -15,14 +15,13 @@ import android.widget.EditText;
  * On: 18/12/2014
  * Email: rizwan.choudrey@gmail.com
  */
-public class DialogTag extends DialogGvDataBasic<GvTagList.GvTag> {
-    private static final int             LAYOUT    = R.layout.dialog_tag;
-    private static final int             TAG       = R.id.tag_edit_text;
-    public static final  int[]           VIEWS     = new int[]{TAG};
-    private static final GvTagList.GvTag NULL_DATA = new GvTagList.GvTag();
+public class DialogTag extends DialogGvData<GvTagList.GvTag> {
+    private static final int   LAYOUT = R.layout.dialog_tag;
+    private static final int   TAG    = R.id.tag_edit_text;
+    public static final  int[] VIEWS  = new int[]{TAG};
 
     DialogTag(DialogGvDataAddFragment<GvTagList.GvTag> dialogAdd) {
-        super(LAYOUT, VIEWS, TAG, dialogAdd, NULL_DATA);
+        super(LAYOUT, VIEWS, TAG, dialogAdd);
     }
 
     DialogTag(DialogGvDataEditFragment<GvTagList.GvTag> dialogEdit) {

@@ -35,6 +35,10 @@ class GvDualText extends VHDDualString implements GvDataList.GvData {
         }
     };
 
+    GvDualText() {
+        super();
+    }
+
     GvDualText(String upper, String lower) {
         super(upper, lower);
     }

@@ -16,11 +16,9 @@ package com.chdryra.android.reviewer;
 public class GvDataViewDialogAdapterAdd<T extends GvDataList.GvData> implements GvDataViewDialog
         .GvDataViewDialogAdapter<T, DialogGvDataAddFragment<T>> {
 
-    private DialogGvData<T> mDialog;
-    private T               mNullData;
+    private DialogGvDataMethods<T> mDialog;
 
-    public GvDataViewDialogAdapterAdd(DialogGvData<T> dialog, final T nullData) {
-        mNullData = nullData;
+    public GvDataViewDialogAdapterAdd(DialogGvDataMethods<T> dialog) {
         mDialog = dialog;
     }
 
@@ -31,7 +29,7 @@ public class GvDataViewDialogAdapterAdd<T extends GvDataList.GvData> implements 
 
     @Override
     public void update(T data, DialogGvDataAddFragment<T> parentDialog) {
-        mDialog.updateViews(mNullData);
+        mDialog.updateViews(parentDialog.getNullingItem());
         parentDialog.getDialog().setTitle("+ " + mDialog.getDialogTitleOnAdd(data));
     }
 

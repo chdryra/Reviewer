@@ -25,7 +25,7 @@ public class GvImageList extends GvDataList<GvImageList.GvImage> {
     public static final GvType TYPE = GvType.IMAGES;
 
     public GvImageList() {
-        super(TYPE);
+        super(TYPE, GvImage.class);
     }
 
     void add(Bitmap bitmap, LatLng latLng, String caption, boolean isCover) {
@@ -82,6 +82,11 @@ public class GvImageList extends GvDataList<GvImageList.GvImage> {
         private final LatLng mLatLng;
         private       String mCaption;
         private boolean mIsCover = false;
+
+        GvImage() {
+            mBitmap = null;
+            mLatLng = null;
+        }
 
         GvImage(Bitmap bitmap, LatLng latLng) {
             mBitmap = bitmap;

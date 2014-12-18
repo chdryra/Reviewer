@@ -18,16 +18,14 @@ import java.text.DecimalFormat;
  * On: 17/12/2014
  * Email: rizwan.choudrey@gmail.com
  */
-public class DialogChildReview extends DialogGvDataBasic<GvChildrenList.GvChildReview> {
-    private static final int                          LAYOUT    = R.layout.dialog_criterion;
-    private static final int                          SUBJECT   = R.id.child_name_edit_text;
-    private static final int                          RATING    = R.id.child_rating_bar;
-    private static final int[]                        VIEWS     = new int[]{SUBJECT, RATING};
-    private static final GvChildrenList.GvChildReview NULL_DATA = new GvChildrenList
-            .GvChildReview(null, 0);
+public class DialogChildReview extends DialogGvData<GvChildrenList.GvChildReview> {
+    private static final int   LAYOUT  = R.layout.dialog_criterion;
+    private static final int   SUBJECT = R.id.child_name_edit_text;
+    private static final int   RATING  = R.id.child_rating_bar;
+    private static final int[] VIEWS   = new int[]{SUBJECT, RATING};
 
     DialogChildReview(DialogGvDataAddFragment<GvChildrenList.GvChildReview> dialogAdd) {
-        super(LAYOUT, VIEWS, SUBJECT, dialogAdd, NULL_DATA);
+        super(LAYOUT, VIEWS, SUBJECT, dialogAdd);
     }
 
     DialogChildReview(DialogGvDataEditFragment<GvChildrenList.GvChildReview> dialogEdit) {

@@ -20,10 +20,11 @@ import java.util.HashMap;
  * Email: rizwan.choudrey@gmail.com
  */
 public class FactoryGvDataViewHolder {
-    private static final String TAG = "FactoryDialogHolder";
+    private static final String TAG = "FactoryGvDataViewHolder";
     private static FactoryGvDataViewHolder sFactory;
-    private final  HashMap<GvDataList.GvType, Class<? extends DialogGvData<? extends GvDataList
-            .GvData>>>                     mMap;
+    private final  HashMap<GvDataList.GvType, Class<? extends DialogGvDataMethods<? extends
+            GvDataList
+                    .GvData>>>             mMap;
 
     private FactoryGvDataViewHolder() {
         mMap = new HashMap<>();
@@ -34,7 +35,7 @@ public class FactoryGvDataViewHolder {
         mMap.put(GvDataList.GvType.TAGS, DialogTag.class);
     }
 
-    static <T extends GvDataList.GvData> GvDataViewHolder<T> newHolder
+    static <T extends GvDataList.GvData> GvDataViewHolder<T> newViewHolder
             (DialogGvDataAddFragment<T> dialog) {
         if (sFactory == null) sFactory = new FactoryGvDataViewHolder();
         try {
@@ -42,7 +43,7 @@ public class FactoryGvDataViewHolder {
                     .getDeclaredConstructor(DialogGvDataAddFragment.class);
             try {
                 //TODO make type safe
-                DialogGvData dialogGv = (DialogGvData) ctor.newInstance(dialog);
+                DialogGvDataMethods dialogGv = (DialogGvDataMethods) ctor.newInstance(dialog);
                 return dialogGv.getViewHolder();
             } catch (InstantiationException e) {
                 Log.e(TAG, "Problem constructing ReviewDataAdd dialog for " + dialog.getGvType()
@@ -70,7 +71,7 @@ public class FactoryGvDataViewHolder {
                     .getDeclaredConstructor(DialogGvDataEditFragment.class);
             try {
                 //TODO make type safe
-                DialogGvData dialogGv = (DialogGvData) ctor.newInstance(dialog);
+                DialogGvDataMethods dialogGv = (DialogGvDataMethods) ctor.newInstance(dialog);
                 return dialogGv.getViewHolder();
             } catch (InstantiationException e) {
                 Log.e(TAG, "Problem constructing edit dialog for " + dialog.getGvType()

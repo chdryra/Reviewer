@@ -15,23 +15,44 @@ import android.widget.EditText;
  * On: 17/12/2014
  * Email: rizwan.choudrey@gmail.com
  */
+public abstract class DialogGvData<T extends GvDataList.GvData> implements
+        DialogGvDataMethods<T> {
+    protected GvDataViewHolderBasic<T> mViewHolder;
+    private   int                      mEditTextId;
 
-/**
- * A hotchpotch of methods required so as to be able to use the same xml layout for both add and
- * edit dialogs for a given type of {@link GvDataList.GvData}.
- *
- * @param <T>: {@link GvDataList.GvData} type
- */
-public interface DialogGvData<T extends GvDataList.GvData> {
-    public String getDialogTitleOnAdd(T data);
+    @Override
+    public abstract String getDialogTitleOnAdd(T data);
 
-    public String getDeleteConfirmDialogTitle(T data);
+    @Override
+    public abstract String getDeleteConfirmDialogTitle(T data);
 
-    public EditText getEditTextForKeyboardAction();
+    @Override
+    public EditText getEditTextForKeyboardAction() {
+        return (EditText) mViewHolder.getView(mEditTextId);
+    }
 
-    public T createGvDataFromViews();
+    @Override
+    public abstract T createGvDataFromViews();
 
-    public void updateViews(T data);
+    @Override
+    public abstract void updateViews(T data);
 
-    public GvDataViewHolder<T> getViewHolder();
+    @Override
+    public GvDataViewHolder<T> getViewHolder() {
+        return mViewHolder;
+    }
+
+    DialogGvData(int layoutId, int[] viewIds, int editTextId, DialogGvDataAddFragment<T>
+            dialogAdd) {
+        mEditTextId = editTextId;
+        mViewHolder = new GvDataViewHolderBasic<>(layoutId, viewIds,
+                new GvDataViewDialog<>(dialogAdd, new GvDataViewDialogAdapterAdd<>(this)));
+    }
+
+    DialogGvData(int layoutId, int[] viewIds, int editTextId, DialogGvDataEditFragment<T>
+            dialogEdit) {
+        mEditTextId = editTextId;
+        mViewHolder = new GvDataViewHolderBasic<>(layoutId, viewIds,
+                new GvDataViewDialog<>(dialogEdit, new GvDataViewDialogAdapterEdit<>(this)));
+    }
 }

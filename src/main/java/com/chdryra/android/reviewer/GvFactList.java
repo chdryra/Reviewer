@@ -19,7 +19,7 @@ public class GvFactList extends GvDataList<GvFactList.GvFact> {
     public static final GvType TYPE = GvType.FACTS;
 
     public GvFactList() {
-        super(TYPE);
+        super(TYPE, GvFact.class);
     }
 
     @Override
@@ -59,6 +59,10 @@ public class GvFactList extends GvDataList<GvFactList.GvFact> {
                 return new GvFact[size];
             }
         };
+
+        GvFact() {
+            super();
+        }
 
         public GvFact(String label, String value) {
             super(label, value);

@@ -15,15 +15,14 @@ import android.widget.EditText;
  * On: 18/12/2014
  * Email: rizwan.choudrey@gmail.com
  */
-public class DialogFact extends DialogGvDataBasic<GvFactList.GvFact> {
-    private static final int               LAYOUT    = R.layout.dialog_fact;
-    private static final int               LABEL     = R.id.fact_label_edit_text;
-    private static final int               VALUE     = R.id.fact_value_edit_text;
-    private static final int[]             VIEWS     = new int[]{LABEL, VALUE};
-    private static final GvFactList.GvFact NULL_DATA = new GvFactList.GvFact(null, null);
+public class DialogFact extends DialogGvData<GvFactList.GvFact> {
+    private static final int   LAYOUT = R.layout.dialog_fact;
+    private static final int   LABEL  = R.id.fact_label_edit_text;
+    private static final int   VALUE  = R.id.fact_value_edit_text;
+    private static final int[] VIEWS  = new int[]{LABEL, VALUE};
 
     DialogFact(DialogGvDataAddFragment<GvFactList.GvFact> dialogAdd) {
-        super(LAYOUT, VIEWS, VALUE, dialogAdd, NULL_DATA);
+        super(LAYOUT, VIEWS, VALUE, dialogAdd);
     }
 
     DialogFact(DialogGvDataEditFragment<GvFactList.GvFact> dialogEdit) {

@@ -36,10 +36,10 @@ import com.chdryra.android.mygenerallibrary.ViewHolderDataList;
  *
  * @param <T>: {@link GvDataList.GvData} type.
  */
-public abstract class GvDataList<T extends GvDataList.GvData> extends
-        ViewHolderDataList<T> {
+public abstract class GvDataList<T extends GvDataList.GvData> extends ViewHolderDataList<T> {
 
-    private final GvType mDataType;
+    private final T      NULL;
+    private       GvType mDataType;
 
     /**
      * Enum that enumerates and labels the type of review data that will be viewable on a GridView
@@ -83,11 +83,23 @@ public abstract class GvDataList<T extends GvDataList.GvData> extends
     public interface GvData extends ViewHolderData, Parcelable {
     }
 
-    GvDataList(GvType dataType) {
+    GvDataList(GvType dataType, Class<T> gvDataClass) {
         mDataType = dataType;
+        NULL = FactoryGvData.newNull(gvDataClass);
+    }
+
+
+    //Only used for GvCellManager
+    GvDataList() {
+        mDataType = null;
+        NULL = null;
     }
 
     public GvType getGvType() {
         return mDataType;
+    }
+
+    public T getNullItem() {
+        return NULL;
     }
 }

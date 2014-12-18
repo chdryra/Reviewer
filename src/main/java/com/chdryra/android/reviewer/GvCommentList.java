@@ -20,7 +20,7 @@ public class GvCommentList extends GvDataList<GvCommentList.GvComment> {
     public static final GvType TYPE = GvType.COMMENTS;
 
     public GvCommentList() {
-        super(TYPE);
+        super(TYPE, GvComment.class);
     }
 
     void add(String comment) {

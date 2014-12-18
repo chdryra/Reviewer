@@ -281,9 +281,6 @@ public class FragmentReviewBuild extends FragmentReviewGrid implements ImageChoo
      * tiles. This is what {@link #getGridData()} returns for this fragment.
      */
     class GvCellManagerList extends GvDataList<GvCellManagerList.GvCellManager> {
-        private GvCellManagerList() {
-            super(null);
-        }
 
         private void add(GvType dataType) {
             add(new GvCellManager(dataType));

@@ -15,16 +15,15 @@ import android.widget.EditText;
  * On: 17/12/2014
  * Email: rizwan.choudrey@gmail.com
  */
-public class DialogComment extends DialogGvDataBasic<GvCommentList.GvComment> {
+public class DialogComment extends DialogGvData<GvCommentList.GvComment> {
     private static final int                     LAYOUT    = R.layout.dialog_comment;
     private static final int                     COMMENT   = R.id.comment_edit_text;
     private static final int[]                   VIEWS     = new int[]{COMMENT};
-    private static final GvCommentList.GvComment NULL_DATA = new GvCommentList.GvComment();
 
     private GvDataViewHolderBasic<GvCommentList.GvComment> mViewHolder;
 
     DialogComment(DialogGvDataAddFragment<GvCommentList.GvComment> dialogAdd) {
-        super(LAYOUT, VIEWS, COMMENT, dialogAdd, NULL_DATA);
+        super(LAYOUT, VIEWS, COMMENT, dialogAdd);
     }
 
     DialogComment(DialogGvDataEditFragment<GvCommentList.GvComment> dialogEdit) {

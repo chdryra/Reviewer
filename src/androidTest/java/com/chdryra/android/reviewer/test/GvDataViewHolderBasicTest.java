@@ -29,14 +29,14 @@ public class GvDataViewHolderBasicTest extends AndroidTestCase {
     private static final String TAG_UPD  = "Update";
     private static final String TAG_RET  = "Return";
 
-    private GvDataViewHolderBasic<GvTagList.GvTag> mGvDataUiHolderImpl;
+    private GvDataViewHolderBasic<GvTagList.GvTag> mHolder;
     private String                                 mTag;
 
     @SmallTest
     public void testInflateAndGetView() {
-        assertNull(mGvDataUiHolderImpl.getView());
-        mGvDataUiHolderImpl.inflate(getContext());
-        View v = mGvDataUiHolderImpl.getView();
+        assertNull(mHolder.getView());
+        mHolder.inflate(getContext());
+        View v = mHolder.getView();
         assertNotNull(v);
         for (int viewId : VIEWIDS) {
             assertNotNull(v.findViewById(viewId));
@@ -46,38 +46,33 @@ public class GvDataViewHolderBasicTest extends AndroidTestCase {
     @SmallTest
     public void testInitialiseView() {
         assertNull(mTag);
-        mGvDataUiHolderImpl.initialiseView(new GvTagList.GvTag(TAG_INIT));
+        mHolder.initialiseView(new GvTagList.GvTag(TAG_INIT));
         assertEquals(TAG_INIT, mTag);
     }
 
     @SmallTest
     public void testUpdateView() {
         assertNull(mTag);
-        mGvDataUiHolderImpl.updateView(new GvTagList.GvTag(TAG_UPD));
+        mHolder.updateView(new GvTagList.GvTag(TAG_UPD));
         assertEquals(TAG_UPD, mTag);
     }
 
     @SmallTest
     public void testGetGvData() {
-        assertEquals(TAG_RET, mGvDataUiHolderImpl.getGvData().get());
+        assertEquals(TAG_RET, mHolder.getGvData().get());
     }
 
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        mGvDataUiHolderImpl = getGvDataUiHolderImpl();
+        mHolder = getHolder();
     }
 
-    private GvDataViewHolderBasic<GvTagList.GvTag> getGvDataUiHolderImpl() {
-        return new GvDataViewHolderBasic<GvTagList.GvTag>(LAYOUT, VIEWIDS) {
-            @Override
-            protected GvDataView<GvTagList.GvTag> getGvDataView() {
-                return getGvUi();
-            }
-        };
+    private GvDataViewHolderBasic<GvTagList.GvTag> getHolder() {
+        return new GvDataViewHolderBasic<>(LAYOUT, VIEWIDS, getGvDataView());
     }
 
-    private GvDataView<GvTagList.GvTag> getGvUi() {
+    private GvDataView<GvTagList.GvTag> getGvDataView() {
         return new GvDataView<GvTagList.GvTag>() {
             @Override
             public void initialiseView(GvTagList.GvTag data) {

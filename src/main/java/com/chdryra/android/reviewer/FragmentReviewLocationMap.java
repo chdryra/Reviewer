@@ -342,8 +342,6 @@ public class FragmentReviewLocationMap extends FragmentDeleteDone implements
                 setLatLng(marker.getPosition());
             }
         });
-
-        //mGoogleMap.setInfoWindowAdapter(new InfoWindowAdapterRated());
     }
 
     private void initLocationNameUI() {

@@ -51,8 +51,8 @@ public class GvDataHandler<T extends GvDataList.GvData> {
     }
 
     public void replace(T oldDatum, T newDatum, Context context) {
-        if (isValid(oldDatum) && isValid(newDatum)) {
-            if (!oldDatum.equals(newDatum) && !mData.contains(newDatum)) {
+        if (!oldDatum.equals(newDatum) && isValid(oldDatum) && isValid(newDatum)) {
+            if (!mData.contains(newDatum)) {
                 mData.remove(oldDatum);
                 mData.add(newDatum);
             } else if (context != null) {

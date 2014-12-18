@@ -27,7 +27,7 @@ public class GvSocialPlatformList extends GvDataList<GvSocialPlatformList.GvSoci
     public static final GvType TYPE = GvType.SOCIAL;
 
     private GvSocialPlatformList(Context context) {
-        super(TYPE);
+        super(TYPE, GvSocialPlatform.class);
         for (SocialPlatform platform : SocialPlatformList.get(context)) {
             add(new GvSocialPlatform(platform.getName(), platform.getFollowers()));
         }
@@ -76,6 +76,9 @@ public class GvSocialPlatformList extends GvDataList<GvSocialPlatformList.GvSoci
         };
         private             int                                  mFollowers = 0;
         private             boolean                              mIsChosen  = false;
+
+        private GvSocialPlatform() {
+        }
 
         private GvSocialPlatform(String name, int followers) {
             super(name, String.valueOf(followers));

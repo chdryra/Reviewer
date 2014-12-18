@@ -16,7 +16,7 @@ import android.widget.ImageView;
  * On: 18/12/2014
  * Email: rizwan.choudrey@gmail.com
  */
-public class DialogImage extends DialogGvDataBasic<GvImageList.GvImage> {
+public class DialogImage extends DialogGvData<GvImageList.GvImage> {
     private static final int   LAYOUT  = R.layout.dialog_image;
     private static final int   IMAGE   = R.id.dialog_image_image_view;
     private static final int   CAPTION = R.id.dialog_image_caption_edit_text;

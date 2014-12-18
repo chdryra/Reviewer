@@ -27,7 +27,7 @@ public class GvReviewList extends GvDataList<GvReviewList.GvReviewOverview> {
     public static final GvType TYPE = GvType.REVIEW;
 
     public GvReviewList() {
-        super(TYPE);
+        super(TYPE, GvReviewOverview.class);
     }
 
     public void add(String id, String subject, float rating, Bitmap coverImage, String headline,
@@ -69,17 +69,21 @@ public class GvReviewList extends GvDataList<GvReviewList.GvReviewOverview> {
                 return new GvReviewOverview[size];
             }
         };
-        private final String mId;
-        private       String mSubject;
-        private       float  mRating;
-        private       Bitmap mCoverImage;
-        private       String mHeadline;
-        private       String mLocationName;
-        private       String mAuthor;
-        private       Date   mPublishDate;
+
+        private String mId;
+        private String mSubject;
+        private float  mRating;
+        private Bitmap mCoverImage;
+        private String mHeadline;
+        private String mLocationName;
+        private String mAuthor;
+        private Date   mPublishDate;
 
         private GvReviewOverview(String id) {
             mId = id;
+        }
+
+        GvReviewOverview() {
         }
 
         private GvReviewOverview(String id, String subject, float rating, Bitmap coverImage,
