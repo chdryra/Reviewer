@@ -68,11 +68,11 @@ public abstract class GvDataList<T extends GvDataList.GvData> extends ViewHolder
             mDataString = data;
         }
 
-        String getDatumString() {
+        public String getDatumString() {
             return mDatumString;
         }
 
-        String getDataString() {
+        public String getDataString() {
             return mDataString;
         }
     }

@@ -37,7 +37,7 @@ import android.view.View;
  * @see DialogGvDataAddFragment
  * @see DialogGvDataEditFragment
  */
-interface GvDataViewHolder<T extends GvDataList.GvData> extends GvDataView<T> {
+public interface GvDataViewHolder<T extends GvDataList.GvData> extends GvDataView<T> {
     void inflate(Context context);
 
     View getView();

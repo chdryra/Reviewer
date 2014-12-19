@@ -190,7 +190,7 @@ public class GvDataMocker {
 
     public static GvChildrenList.GvChildReview newChild() {
         return new GvChildrenList.GvChildReview(RandomStringGenerator.nextWord(),
-                RAND.nextFloat() * 5);
+                RatingMocker.nextRating());
     }
 
     public static GvTagList.GvTag newTag() {

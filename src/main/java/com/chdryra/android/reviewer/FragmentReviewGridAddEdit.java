@@ -91,7 +91,8 @@ abstract class FragmentReviewGridAddEdit<T extends GvDataList.GvData> extends
         mAdderConfig = config.getAdderConfig();
         mEditorConfig = config.getEditorConfig();
 
-        setGridViewData(getController().getData(mDataType));
+        ControllerReview controller = getController();
+        if (getController() != null) setGridViewData(getController().getData(mDataType));
         setDeleteWhatTitle(mDataType.getDataString());
         setBannerButtonText(getResources().getString(R.string.add) + " " + mDataType
                 .getDatumString());

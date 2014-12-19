@@ -16,6 +16,7 @@ import com.chdryra.android.reviewer.ReviewNode;
 import com.chdryra.android.reviewer.ReviewNodeExpandable;
 import com.chdryra.android.reviewer.ReviewTreeEditable;
 import com.chdryra.android.reviewer.ReviewUserEditable;
+import com.chdryra.android.testutils.RandomStringGenerator;
 
 import junit.framework.Assert;
 
@@ -25,10 +26,6 @@ import junit.framework.Assert;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ReviewMocker {
-    public static final String SUBJECT = "MockReviewEditable";
-    public static final float  RATING  = 3.0f;
-
-
     private ReviewMocker() {
     }
 
@@ -37,7 +34,8 @@ public class ReviewMocker {
     }
 
     public static Review newReviewPublished() {
-        Review r = getNew().publish(new PublisherReviewTree(new Author("Rizwan Choudrey")));
+        Review r = getNew().publish(new PublisherReviewTree(new Author(RandomStringGenerator
+                .nextWord())));
         Assert.assertTrue(r.isPublished());
         return r;
     }
@@ -70,8 +68,8 @@ public class ReviewMocker {
 
     static class MockReviewEditable extends ReviewUserEditable {
         private MockReviewEditable() {
-            super(SUBJECT);
-            setRating(RATING);
+            super(RandomStringGenerator.nextWord());
+            setRating(RatingMocker.nextRating());
         }
     }
 }

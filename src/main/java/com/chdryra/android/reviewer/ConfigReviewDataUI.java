@@ -58,7 +58,7 @@ public final class ConfigReviewDataUI {
         return getConfigsMap().get(dataType);
     }
 
-    public static LaunchableUI getReviewDataUI(Class<? extends LaunchableUI> uiClass) throws
+    public static LaunchableUI getLaunchable(Class<? extends LaunchableUI> uiClass) throws
             RuntimeException {
         if (uiClass == null) return null;
 
@@ -161,7 +161,7 @@ public final class ConfigReviewDataUI {
         }
 
         public LaunchableUI getReviewDataUI() throws RuntimeException {
-            return ConfigReviewDataUI.getReviewDataUI(mUIClass);
+            return ConfigReviewDataUI.getLaunchable(mUIClass);
         }
 
         public int getRequestCode() {

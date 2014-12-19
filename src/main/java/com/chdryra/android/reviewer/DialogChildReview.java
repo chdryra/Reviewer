@@ -11,40 +11,34 @@ package com.chdryra.android.reviewer;
 import android.widget.EditText;
 import android.widget.RatingBar;
 
-import java.text.DecimalFormat;
-
 /**
  * Created by: Rizwan Choudrey
  * On: 17/12/2014
  * Email: rizwan.choudrey@gmail.com
  */
 public class DialogChildReview extends DialogGvData<GvChildrenList.GvChildReview> {
-    private static final int   LAYOUT  = R.layout.dialog_criterion;
-    private static final int   SUBJECT = R.id.child_name_edit_text;
-    private static final int   RATING  = R.id.child_rating_bar;
-    private static final int[] VIEWS   = new int[]{SUBJECT, RATING};
+    public static final int   LAYOUT  = R.layout.dialog_criterion;
+    public static final int   SUBJECT = R.id.child_name_edit_text;
+    public static final int   RATING  = R.id.child_rating_bar;
+    public static final int[] VIEWS   = new int[]{SUBJECT, RATING};
 
-    DialogChildReview(DialogGvDataAddFragment<GvChildrenList.GvChildReview> dialogAdd) {
+    public DialogChildReview(DialogGvDataAddFragment<GvChildrenList.GvChildReview> dialogAdd) {
         super(LAYOUT, VIEWS, SUBJECT, dialogAdd);
     }
 
-    DialogChildReview(DialogGvDataEditFragment<GvChildrenList.GvChildReview> dialogEdit) {
+    public DialogChildReview(DialogGvDataEditFragment<GvChildrenList.GvChildReview> dialogEdit) {
         super(LAYOUT, VIEWS, SUBJECT, dialogEdit);
     }
 
     @Override
     public String getDialogTitleOnAdd(GvChildrenList.GvChildReview data) {
         float childRating = data.getRating();
-        DecimalFormat formatter = new DecimalFormat("0");
-        DecimalFormat decimalFormatter = new DecimalFormat("0.0");
-        String rating = childRating % 1L > 0L ? decimalFormatter.format(childRating) : formatter
-                .format(childRating);
-        return data.getSubject() + ": " + rating + "/" + "5";
+        return data.getSubject() + ": " + RatingFormatter.outOfFive(childRating);
     }
 
     @Override
     public String getDeleteConfirmDialogTitle(GvChildrenList.GvChildReview data) {
-        return data.getSubject() + ": " + data.getRating();
+        return data.getSubject() + ": " + RatingFormatter.twoSignificantDigits(data.getRating());
 
     }
 

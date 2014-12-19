@@ -138,7 +138,7 @@ public class ConfigReviewDataUITest extends AndroidTestCase {
             if (!Arrays.asList(NULLADDS).contains(dataType)) {
                 LaunchableUI fromConfig = config.getAdderConfig().getReviewDataUI();
                 assertNotNull(fromConfig);
-                LaunchableUI fromStatic = ConfigReviewDataUI.getReviewDataUI(fromConfig.getClass());
+                LaunchableUI fromStatic = ConfigReviewDataUI.getLaunchable(fromConfig.getClass());
                 assertNotNull(fromStatic);
                 assertEquals(fromConfig.getClass(), fromStatic.getClass());
             }
@@ -147,7 +147,7 @@ public class ConfigReviewDataUITest extends AndroidTestCase {
             if (!Arrays.asList(NULLEDITS).contains(dataType)) {
                 LaunchableUI fromConfig = config.getEditorConfig().getReviewDataUI();
                 assertNotNull(fromConfig);
-                LaunchableUI fromStatic = ConfigReviewDataUI.getReviewDataUI(fromConfig.getClass());
+                LaunchableUI fromStatic = ConfigReviewDataUI.getLaunchable(fromConfig.getClass());
                 assertNotNull(fromStatic);
                 assertEquals(fromConfig.getClass(), fromStatic.getClass());
             }

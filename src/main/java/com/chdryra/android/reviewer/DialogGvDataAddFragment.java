@@ -75,7 +75,7 @@ public abstract class DialogGvDataAddFragment<T extends GvDataList.GvData> exten
     @Override
     protected View createDialogUI() {
         mViewHolder.inflate(getActivity());
-        mViewHolder.initialiseView(null);
+        mViewHolder.initialiseView(getNullingItem());
 
         return mViewHolder.getView();
     }
@@ -84,9 +84,9 @@ public abstract class DialogGvDataAddFragment<T extends GvDataList.GvData> exten
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mQuickSet = getArguments().getBoolean(QUICK_SET);
-        mController = (ControllerReviewEditable) Administrator.get(getActivity()).unpack
-                (getArguments());
+        Bundle args = getArguments();
+        mQuickSet = args != null && args.getBoolean(QUICK_SET);
+        mController = (ControllerReviewEditable) Administrator.get(getActivity()).unpack(args);
 
         //TODO make type safe
         if (mController != null) mData = mController.getData(getGvType());

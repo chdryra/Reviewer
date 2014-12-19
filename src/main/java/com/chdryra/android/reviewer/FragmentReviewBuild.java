@@ -206,7 +206,7 @@ public class FragmentReviewBuild extends FragmentReviewGrid implements ImageChoo
         Bundle args = new Bundle();
         GvDataPacker.packItem(GvDataPacker.CurrentNewDatum.CURRENT, location, args);
 
-        LaunchableUI mapUi = ConfigReviewDataUI.getReviewDataUI(ActivityReviewLocationMap.class);
+        LaunchableUI mapUi = ConfigReviewDataUI.getLaunchable(ActivityReviewLocationMap.class);
         LauncherUI.launch(mapUi, this, LOCATION_MAP, null, args);
     }
 
@@ -244,7 +244,7 @@ public class FragmentReviewBuild extends FragmentReviewGrid implements ImageChoo
 
         LaunchableUI ui = adderConfig.getReviewDataUI();
         if (adderConfig.getGVType() == GvDataList.GvType.LOCATIONS) {
-            ui = ConfigReviewDataUI.getReviewDataUI(DialogLocationFragment.class);
+            ui = ConfigReviewDataUI.getLaunchable(DialogLocationFragment.class);
         }
 
         LauncherUI.launch(ui, this, adderConfig.getRequestCode(), adderConfig.getTag(),

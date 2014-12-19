@@ -77,7 +77,7 @@ public class GvSocialPlatformList extends GvDataList<GvSocialPlatformList.GvSoci
         private             int                                  mFollowers = 0;
         private             boolean                              mIsChosen  = false;
 
-        private GvSocialPlatform() {
+        public GvSocialPlatform() {
         }
 
         private GvSocialPlatform(String name, int followers) {

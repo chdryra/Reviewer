@@ -21,11 +21,11 @@ public class DialogFact extends DialogGvData<GvFactList.GvFact> {
     private static final int   VALUE  = R.id.fact_value_edit_text;
     private static final int[] VIEWS  = new int[]{LABEL, VALUE};
 
-    DialogFact(DialogGvDataAddFragment<GvFactList.GvFact> dialogAdd) {
+    public DialogFact(DialogGvDataAddFragment<GvFactList.GvFact> dialogAdd) {
         super(LAYOUT, VIEWS, VALUE, dialogAdd);
     }
 
-    DialogFact(DialogGvDataEditFragment<GvFactList.GvFact> dialogEdit) {
+    public DialogFact(DialogGvDataEditFragment<GvFactList.GvFact> dialogEdit) {
         super(LAYOUT, VIEWS, VALUE, dialogEdit);
     }
 

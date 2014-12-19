@@ -25,7 +25,7 @@ import android.widget.RatingBar;
  */
 public class FragmentReviewChildren extends FragmentReviewGridAddEdit<GvChildrenList
         .GvChildReview> {
-    private boolean mTotalRatingIsAverage;
+    private boolean mTotalRatingIsAverage = false;
 
     public FragmentReviewChildren() {
         super(GvChildrenList.class);
@@ -40,7 +40,9 @@ public class FragmentReviewChildren extends FragmentReviewGridAddEdit<GvChildren
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mTotalRatingIsAverage = getNodeController().isReviewRatingAverage();
+        if (getController() != null) {
+            mTotalRatingIsAverage = getNodeController().isReviewRatingAverage();
+        }
         setIsEditable(true);
     }
 
