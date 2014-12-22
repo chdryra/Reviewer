@@ -15,22 +15,22 @@ import android.widget.EditText;
  * On: 18/12/2014
  * Email: rizwan.choudrey@gmail.com
  */
-public class DialogFact extends DialogGvData<GvFactList.GvFact> {
+public class GvDataViewLayoutFact extends GvDataViewLayout<GvFactList.GvFact> {
     private static final int   LAYOUT = R.layout.dialog_fact;
     private static final int   LABEL  = R.id.fact_label_edit_text;
     private static final int   VALUE  = R.id.fact_value_edit_text;
     private static final int[] VIEWS  = new int[]{LABEL, VALUE};
 
-    public DialogFact(DialogGvDataAddFragment<GvFactList.GvFact> dialogAdd) {
-        super(LAYOUT, VIEWS, VALUE, dialogAdd);
+    public GvDataViewLayoutFact(GvDataViewAdd.GvDataAdder<GvFactList.GvFact> adder) {
+        super(LAYOUT, VIEWS, VALUE, adder);
     }
 
-    public DialogFact(DialogGvDataEditFragment<GvFactList.GvFact> dialogEdit) {
-        super(LAYOUT, VIEWS, VALUE, dialogEdit);
+    public GvDataViewLayoutFact(GvDataViewEdit.GvDataEditor<GvFactList.GvFact> editor) {
+        super(LAYOUT, VIEWS, VALUE, editor);
     }
 
     @Override
-    public String getDialogTitleOnAdd(GvFactList.GvFact data) {
+    public String getTitleOnAdd(GvFactList.GvFact data) {
         return data.getLabel() + ": " + data.getValue();
     }
 

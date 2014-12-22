@@ -21,62 +21,62 @@ import java.util.HashMap;
 /**
  * Defines the adder, editor and display UIs to use with each data type.
  */
-public final class ConfigAddEditDisplay {
-    private static ConfigAddEditDisplay                          sConfig;
-    private final  HashMap<GvDataList.GvType, AddEditDisplayUIs> mDialogAddEditMap;
+public final class ConfigGvDataAddEditDisplay {
+    private static ConfigGvDataAddEditDisplay                    sConfig;
+    private final  HashMap<GvDataList.GvType, AddEditDisplayUIs> mMap;
 
-    private ConfigAddEditDisplay() {
-        mDialogAddEditMap = new HashMap<>();
+    private ConfigGvDataAddEditDisplay() {
+        mMap = new HashMap<>();
 
-        mDialogAddEditMap.put(GvDataList.GvType.TAGS,
+        mMap.put(GvDataList.GvType.TAGS,
                 new AddEditDisplayUIs(
                         AddTag.class,
                         EditTag.class,
                         ActivityReviewTags.class));
 
-        mDialogAddEditMap.put(GvDataList.GvType.CHILDREN,
+        mMap.put(GvDataList.GvType.CHILDREN,
                 new AddEditDisplayUIs(
                         AddChild.class,
                         EditChild.class,
                         ActivityReviewChildren.class));
 
-        mDialogAddEditMap.put(GvDataList.GvType.COMMENTS,
+        mMap.put(GvDataList.GvType.COMMENTS,
                 new AddEditDisplayUIs(
                         AddComment.class,
                         EditComment.class,
                         ActivityReviewComments.class));
 
-        mDialogAddEditMap.put(GvDataList.GvType.IMAGES,
+        mMap.put(GvDataList.GvType.IMAGES,
                 new AddEditDisplayUIs(
                         null,
                         EditImage.class,
                         ActivityReviewImages.class));
 
-        mDialogAddEditMap.put(GvDataList.GvType.FACTS,
+        mMap.put(GvDataList.GvType.FACTS,
                 new AddEditDisplayUIs(
                         AddFact.class,
                         EditFact.class,
                         ActivityReviewFacts.class));
 
-        mDialogAddEditMap.put(GvDataList.GvType.LOCATIONS,
+        mMap.put(GvDataList.GvType.LOCATIONS,
                 new AddEditDisplayUIs(
                         ActivityReviewLocationMap.class,
                         ActivityReviewLocationMap.class,
                         ActivityReviewLocations.class));
 
-        mDialogAddEditMap.put(GvDataList.GvType.URLS,
+        mMap.put(GvDataList.GvType.URLS,
                 new AddEditDisplayUIs(
                         ActivityReviewURLBrowser.class,
                         ActivityReviewURLBrowser.class,
                         ActivityReviewURLs.class));
 
-        mDialogAddEditMap.put(GvDataList.GvType.REVIEW,
+        mMap.put(GvDataList.GvType.REVIEW,
                 new AddEditDisplayUIs(
                         null,
                         null,
                         ActivityFeed.class));
 
-        mDialogAddEditMap.put(GvDataList.GvType.SOCIAL,
+        mMap.put(GvDataList.GvType.SOCIAL,
                 new AddEditDisplayUIs(
                         null,
                         null,
@@ -84,19 +84,19 @@ public final class ConfigAddEditDisplay {
     }
 
     public static Class<? extends LaunchableUI> getAddClass(GvDataList.GvType dataType) {
-        return get().mDialogAddEditMap.get(dataType).getAddClass();
+        return get().mMap.get(dataType).getAddClass();
     }
 
     public static Class<? extends LaunchableUI> getEditClass(GvDataList.GvType dataType) {
-        return get().mDialogAddEditMap.get(dataType).getEditClass();
+        return get().mMap.get(dataType).getEditClass();
     }
 
     public static Class<? extends Activity> getDisplayClass(GvDataList.GvType dataType) {
-        return get().mDialogAddEditMap.get(dataType).getDisplayClass();
+        return get().mMap.get(dataType).getDisplayClass();
     }
 
-    private static ConfigAddEditDisplay get() {
-        if (sConfig == null) sConfig = new ConfigAddEditDisplay();
+    private static ConfigGvDataAddEditDisplay get() {
+        if (sConfig == null) sConfig = new ConfigGvDataAddEditDisplay();
 
         return sConfig;
     }
@@ -105,7 +105,7 @@ public final class ConfigAddEditDisplay {
     //Need these subclasses as can't programmatically instantiate classes that utilise generics.
 
     //Tag
-    public static class AddTag extends DialogGvDataAddFragment<GvTagList.GvTag> {
+    public static class AddTag extends DialogFragmentGvDataAdd<GvTagList.GvTag> {
         public AddTag() {
             super(GvTagList.class);
         }
@@ -113,21 +113,21 @@ public final class ConfigAddEditDisplay {
 
     //Child
     public static class AddChild extends
-            DialogGvDataAddFragment<GvChildrenList.GvChildReview> {
+            DialogFragmentGvDataAdd<GvChildrenList.GvChildReview> {
         public AddChild() {
             super(GvChildrenList.class);
         }
     }
 
     //Comment
-    public static class AddComment extends DialogGvDataAddFragment<GvCommentList.GvComment> {
+    public static class AddComment extends DialogFragmentGvDataAdd<GvCommentList.GvComment> {
         public AddComment() {
             super(GvCommentList.class);
         }
     }
 
     //Fact
-    public static class AddFact extends DialogGvDataAddFragment<GvFactList.GvFact> {
+    public static class AddFact extends DialogFragmentGvDataAdd<GvFactList.GvFact> {
         public AddFact() {
             super(GvFactList.class);
         }
@@ -135,35 +135,35 @@ public final class ConfigAddEditDisplay {
 
     //Editors
     //Tag
-    public static class EditTag extends DialogGvDataEditFragment<GvTagList.GvTag> {
+    public static class EditTag extends DialogFragmentGvDataEdit<GvTagList.GvTag> {
         public EditTag() {
             super(GvTagList.class);
         }
     }
 
     //Child
-    public static class EditChild extends DialogGvDataEditFragment<GvChildrenList.GvChildReview> {
+    public static class EditChild extends DialogFragmentGvDataEdit<GvChildrenList.GvChildReview> {
         public EditChild() {
             super(GvChildrenList.class);
         }
     }
 
     //Comment
-    public static class EditComment extends DialogGvDataEditFragment<GvCommentList.GvComment> {
+    public static class EditComment extends DialogFragmentGvDataEdit<GvCommentList.GvComment> {
         public EditComment() {
             super(GvCommentList.class);
         }
     }
 
     //Image
-    public static class EditImage extends DialogGvDataEditFragment<GvImageList.GvImage> {
+    public static class EditImage extends DialogFragmentGvDataEdit<GvImageList.GvImage> {
         public EditImage() {
             super(GvImageList.class);
         }
     }
 
     //Fact
-    public static class EditFact extends DialogGvDataEditFragment<GvFactList.GvFact> {
+    public static class EditFact extends DialogFragmentGvDataEdit<GvFactList.GvFact> {
         public EditFact() {
             super(GvFactList.class);
         }

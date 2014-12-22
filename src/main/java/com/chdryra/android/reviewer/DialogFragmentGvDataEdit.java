@@ -11,6 +11,7 @@ package com.chdryra.android.reviewer;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.EditText;
 
 import com.chdryra.android.mygenerallibrary.DialogCancelDeleteDoneFragment;
 
@@ -33,11 +34,12 @@ import com.chdryra.android.mygenerallibrary.DialogCancelDeleteDoneFragment;
  * </ul>
  * </p>
  */
-public abstract class DialogGvDataEditFragment<T extends GvDataList.GvData>
-        extends DialogCancelDeleteDoneFragment implements LaunchableUI {
+public abstract class DialogFragmentGvDataEdit<T extends GvDataList.GvData>
+        extends DialogCancelDeleteDoneFragment implements GvDataViewEdit.GvDataEditor<T>,
+        LaunchableUI {
 
     private GvDataList.GvType     mDataType;
-    private T mDatum;
+    private T                     mDatum;
     private GvDataPacker<T>       mPacker;
     private GvDataViewHolder<T>   mViewHolder;
     private GvDataEditListener<T> mEditListener;
@@ -53,15 +55,25 @@ public abstract class DialogGvDataEditFragment<T extends GvDataList.GvData>
         void onGvDataEdit(T oldDatum, T newDatum);
     }
 
-    DialogGvDataEditFragment(Class<? extends GvDataList<T>> gvDataListClass) {
+    DialogFragmentGvDataEdit(Class<? extends GvDataList<T>> gvDataListClass) {
         mDataType = FactoryGvData.gvType(gvDataListClass);
         mPacker = new GvDataPacker<>();
-        mViewHolder = FactoryGvDataViewHolder.newHolder(this);
+        mViewHolder = FactoryGvDataViewHolder.newHolder(getGvType(), this);
     }
 
     @Override
     public void launch(LauncherUI launcher) {
         launcher.launch(this);
+    }
+
+    @Override
+    public void setKeyboardAction(EditText editText) {
+        setKeyboardDoDoneOnEditText(editText);
+    }
+
+    @Override
+    public void setDeleteConfirmTitle(String title) {
+        setDeleteWhatTitle(title);
     }
 
     @Override
@@ -86,7 +98,13 @@ public abstract class DialogGvDataEditFragment<T extends GvDataList.GvData>
                     "GvDataEditListener");
         }
 
-        setDialogTitle(getResources().getString(R.string.edit) + " " + mDataType.getDatumString());
+        if (getGvType() == GvDataList.GvType.IMAGES) {
+            setDialogTitle(null);
+            hideKeyboardOnLaunch();
+        } else {
+            setDialogTitle(getResources().getString(R.string.edit) + " " + mDataType
+                    .getDatumString());
+        }
     }
 
     @Override

@@ -30,7 +30,7 @@ import java.util.ArrayList;
  * Dialog for adding location name: populates with suggestions found near current location. Comes
  * up with autocomplete suggestions as user types name.
  */
-public class DialogLocationFragment extends DialogCancelActionDoneFragment implements Locatable,
+public class DialogFragmentLocation extends DialogCancelActionDoneFragment implements Locatable,
         LaunchableUI, PlaceSuggester.SuggestionsListener {
     public static final  ActionType RESULT_MAP         = ActionType.OTHER;
     private static final int        NUMBER_SUGGESTIONS = 10;

@@ -13,7 +13,7 @@ import android.test.suitebuilder.annotation.SmallTest;
 import android.view.View;
 
 import com.chdryra.android.reviewer.GvDataView;
-import com.chdryra.android.reviewer.GvDataViewHolderBasic;
+import com.chdryra.android.reviewer.GvDataViewHolder;
 import com.chdryra.android.reviewer.GvTagList;
 
 /**
@@ -21,7 +21,7 @@ import com.chdryra.android.reviewer.GvTagList;
  * On: 12/12/2014
  * Email: rizwan.choudrey@gmail.com
  */
-public class GvDataViewHolderBasicTest extends AndroidTestCase {
+public class GvDataViewHolderTest extends AndroidTestCase {
     private static final int    LAYOUT   = com.chdryra.android.reviewer.R.layout.dialog_holder_test;
     private static final int[]  VIEWIDS  = {com.chdryra.android.reviewer.R.id.edit_text1,
             com.chdryra.android.reviewer.R.id.edit_text2};
@@ -29,8 +29,8 @@ public class GvDataViewHolderBasicTest extends AndroidTestCase {
     private static final String TAG_UPD  = "Update";
     private static final String TAG_RET  = "Return";
 
-    private GvDataViewHolderBasic<GvTagList.GvTag> mHolder;
-    private String                                 mTag;
+    private GvDataViewHolder<GvTagList.GvTag> mHolder;
+    private String                            mTag;
 
     @SmallTest
     public void testInflateAndGetView() {
@@ -68,8 +68,8 @@ public class GvDataViewHolderBasicTest extends AndroidTestCase {
         mHolder = getHolder();
     }
 
-    private GvDataViewHolderBasic<GvTagList.GvTag> getHolder() {
-        return new GvDataViewHolderBasic<>(LAYOUT, VIEWIDS, getGvDataView());
+    private GvDataViewHolder<GvTagList.GvTag> getHolder() {
+        return new GvDataViewHolder<>(LAYOUT, VIEWIDS, getGvDataView());
     }
 
     private GvDataView<GvTagList.GvTag> getGvDataView() {

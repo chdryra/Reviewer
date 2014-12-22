@@ -15,21 +15,21 @@ import android.widget.EditText;
  * On: 18/12/2014
  * Email: rizwan.choudrey@gmail.com
  */
-public class DialogTag extends DialogGvData<GvTagList.GvTag> {
+public class GvDataViewLayoutTag extends GvDataViewLayout<GvTagList.GvTag> {
     private static final int   LAYOUT = R.layout.dialog_tag;
     private static final int   TAG    = R.id.tag_edit_text;
     public static final  int[] VIEWS  = new int[]{TAG};
 
-    DialogTag(DialogGvDataAddFragment<GvTagList.GvTag> dialogAdd) {
-        super(LAYOUT, VIEWS, TAG, dialogAdd);
+    GvDataViewLayoutTag(GvDataViewAdd.GvDataAdder<GvTagList.GvTag> adder) {
+        super(LAYOUT, VIEWS, TAG, adder);
     }
 
-    DialogTag(DialogGvDataEditFragment<GvTagList.GvTag> dialogEdit) {
-        super(LAYOUT, VIEWS, TAG, dialogEdit);
+    GvDataViewLayoutTag(GvDataViewEdit.GvDataEditor<GvTagList.GvTag> editor) {
+        super(LAYOUT, VIEWS, TAG, editor);
     }
 
     @Override
-    public String getDialogTitleOnAdd(GvTagList.GvTag data) {
+    public String getTitleOnAdd(GvTagList.GvTag data) {
         return "#" + data.get();
     }
 

@@ -18,7 +18,7 @@ import com.chdryra.android.mygenerallibrary.ActivityResultCode;
 
 /**
  * UI Fragment: base class for displaying review data. Generally the "Display" class in {@link
- * com.chdryra.android.reviewer.ConfigAddEditDisplay}.
+ * ConfigGvDataAddEditDisplay}.
  * <p/>
  * <p>
  * Banner button launches the "Add" class in {@link com.chdryra.android.reviewer
@@ -32,8 +32,8 @@ import com.chdryra.android.mygenerallibrary.ActivityResultCode;
  * @param <T>: {@link GvDataList.GvData} type.
  */
 abstract class FragmentReviewGridAddEdit<T extends GvDataList.GvData> extends
-        FragmentReviewGrid implements DialogGvDataAddFragment.GvDataAddListener<T>,
-        DialogGvDataEditFragment.GvDataEditListener<T> {
+        FragmentReviewGrid implements DialogFragmentGvDataAdd.GvDataAddListener<T>,
+        DialogFragmentGvDataEdit.GvDataEditListener<T> {
 
     private final GvDataList.GvType mDataType;
     private final ActivityResultCode mDoDatumDelete = ActivityResultCode.DELETE;
@@ -42,8 +42,8 @@ abstract class FragmentReviewGridAddEdit<T extends GvDataList.GvData> extends
     private GvDataHandler<T> mHandler;
     private GvDataPacker<T>  mPacker;
     private ActivityResultCode mDoDatumAdd = ActivityResultCode.ADD;
-    private ConfigReviewDataUI.ReviewDataUIConfig mAdderConfig;
-    private ConfigReviewDataUI.ReviewDataUIConfig mEditorConfig;
+    private ConfigGvDataUi.GvDataUiConfig mAdderConfig;
+    private ConfigGvDataUi.GvDataUiConfig mEditorConfig;
 
     FragmentReviewGridAddEdit(Class<? extends GvDataList<T>> gvDataListClass) {
         GvDataList<T> data = FactoryGvData.newList(gvDataListClass);
@@ -87,7 +87,7 @@ abstract class FragmentReviewGridAddEdit<T extends GvDataList.GvData> extends
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        ConfigReviewDataUI.Config config = ConfigReviewDataUI.getConfig(mDataType);
+        ConfigGvDataUi.Config config = ConfigGvDataUi.getConfig(mDataType);
         mAdderConfig = config.getAdderConfig();
         mEditorConfig = config.getEditorConfig();
 
@@ -166,7 +166,7 @@ abstract class FragmentReviewGridAddEdit<T extends GvDataList.GvData> extends
         }
     }
 
-    private void launchUi(ConfigReviewDataUI.ReviewDataUIConfig config, T dataToPack) {
+    private void launchUi(ConfigGvDataUi.GvDataUiConfig config, T dataToPack) {
         Bundle args = Administrator.get(getActivity()).pack(getController());
 
         if (dataToPack != null) packGridCellData(dataToPack, args);

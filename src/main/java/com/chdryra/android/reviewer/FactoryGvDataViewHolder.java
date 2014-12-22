@@ -22,72 +22,72 @@ import java.util.HashMap;
 public class FactoryGvDataViewHolder {
     private static final String TAG = "FactoryGvDataViewHolder";
     private static FactoryGvDataViewHolder sFactory;
-    private final  HashMap<GvDataList.GvType, Class<? extends DialogGvDataMethods<? extends
+    private final HashMap<GvDataList.GvType, Class<? extends GvDataViewLayout<? extends
             GvDataList
-                    .GvData>>>             mMap;
+                    .GvData>>> mMap;
 
     private FactoryGvDataViewHolder() {
         mMap = new HashMap<>();
-        mMap.put(GvDataList.GvType.CHILDREN, DialogChildReview.class);
-        mMap.put(GvDataList.GvType.COMMENTS, DialogComment.class);
-        mMap.put(GvDataList.GvType.FACTS, DialogFact.class);
-        mMap.put(GvDataList.GvType.IMAGES, DialogImage.class);
-        mMap.put(GvDataList.GvType.TAGS, DialogTag.class);
+        mMap.put(GvDataList.GvType.CHILDREN, GvDataViewLayoutChildReview.class);
+        mMap.put(GvDataList.GvType.COMMENTS, GvDataViewLayoutComment.class);
+        mMap.put(GvDataList.GvType.FACTS, GvDataViewLayoutFact.class);
+        mMap.put(GvDataList.GvType.IMAGES, GvDataViewLayoutImage.class);
+        mMap.put(GvDataList.GvType.TAGS, GvDataViewLayoutTag.class);
     }
 
     static <T extends GvDataList.GvData> GvDataViewHolder<T> newViewHolder
-            (DialogGvDataAddFragment<T> dialog) {
+            (GvDataList.GvType dataType, GvDataViewAdd.GvDataAdder<T> adder) {
         if (sFactory == null) sFactory = new FactoryGvDataViewHolder();
         try {
-            Constructor ctor = sFactory.mMap.get(dialog.getGvType())
-                    .getDeclaredConstructor(DialogGvDataAddFragment.class);
+            Constructor ctor = sFactory.mMap.get(dataType)
+                    .getDeclaredConstructor(GvDataViewAdd.GvDataAdder.class);
             try {
                 //TODO make type safe
-                DialogGvDataMethods dialogGv = (DialogGvDataMethods) ctor.newInstance(dialog);
-                return dialogGv.getViewHolder();
+                GvDataViewLayout layout = (GvDataViewLayout) ctor.newInstance(adder);
+                return layout.getViewHolder();
             } catch (InstantiationException e) {
-                Log.e(TAG, "Problem constructing ReviewDataAdd dialog for " + dialog.getGvType()
+                Log.e(TAG, "Problem constructing ReviewDataAdd dialog for " + dataType
                         .getDatumString(), e);
             } catch (IllegalAccessException e) {
                 Log.e(TAG, "Illegal access whilst constructing ReviewDataAdd dialog for " +
-                        dialog.getGvType().getDatumString(), e);
+                        dataType.getDatumString(), e);
             } catch (InvocationTargetException e) {
                 Log.e(TAG, "Invocation exception whilst constructing ReviewDataAdd dialog for" +
-                        " " + dialog.getGvType().getDatumString(), e);
+                        " " + dataType.getDatumString(), e);
             }
         } catch (NoSuchMethodException e) {
             Log.e(TAG, "NoSuchMethodException finding constructor", e);
         }
 
         throw new RuntimeException("DialogReviewDataAddFragment Dialog Constructor problems for "
-                + dialog.getGvType().getDatumString());
+                + dataType.getDatumString());
     }
 
     static <T extends GvDataList.GvData> GvDataViewHolder<T> newHolder
-            (DialogGvDataEditFragment<T> dialog) {
+            (GvDataList.GvType dataType, GvDataViewEdit.GvDataEditor<T> editor) {
         if (sFactory == null) sFactory = new FactoryGvDataViewHolder();
         try {
-            Constructor ctor = sFactory.mMap.get(dialog.getGvType())
-                    .getDeclaredConstructor(DialogGvDataEditFragment.class);
+            Constructor ctor = sFactory.mMap.get(dataType)
+                    .getDeclaredConstructor(GvDataViewEdit.GvDataEditor.class);
             try {
                 //TODO make type safe
-                DialogGvDataMethods dialogGv = (DialogGvDataMethods) ctor.newInstance(dialog);
+                GvDataViewLayout dialogGv = (GvDataViewLayout) ctor.newInstance(editor);
                 return dialogGv.getViewHolder();
             } catch (InstantiationException e) {
-                Log.e(TAG, "Problem constructing edit dialog for " + dialog.getGvType()
+                Log.e(TAG, "Problem constructing edit dialog for " + dataType
                         .getDatumString(), e);
             } catch (IllegalAccessException e) {
-                Log.e(TAG, "Illegal access whilst constructing edit dialog for " + dialog
-                        .getGvType().getDatumString(), e);
+                Log.e(TAG, "Illegal access whilst constructing edit dialog for " + dataType
+                        .getDatumString(), e);
             } catch (InvocationTargetException e) {
-                Log.e(TAG, "Invocation exception whilst constructing edit dialog for" + dialog
-                        .getGvType().getDatumString(), e);
+                Log.e(TAG, "Invocation exception whilst constructing edit dialog for" + dataType
+                        .getDatumString(), e);
             }
         } catch (NoSuchMethodException e) {
             Log.e(TAG, "NoSuchMethodException finding constructor", e);
         }
 
         throw new RuntimeException("DialogReviewDataEditFragment Dialog Constructor problem for "
-                + dialog.getGvType().getDatumString());
+                + dataType.getDatumString());
     }
 }

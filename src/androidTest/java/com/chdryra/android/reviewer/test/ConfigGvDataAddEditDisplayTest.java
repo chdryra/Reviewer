@@ -11,7 +11,7 @@ package com.chdryra.android.reviewer.test;
 import android.app.Activity;
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.ConfigAddEditDisplay;
+import com.chdryra.android.reviewer.ConfigGvDataAddEditDisplay;
 import com.chdryra.android.reviewer.GvDataList;
 import com.chdryra.android.reviewer.LaunchableUI;
 
@@ -24,7 +24,7 @@ import java.util.Arrays;
  * On: 03/12/2014
  * Email: rizwan.choudrey@gmail.com
  */
-public class ConfigAddEditDisplayTest extends TestCase {
+public class ConfigGvDataAddEditDisplayTest extends TestCase {
     private static final GvDataList.GvType[] NULLADDS  = {GvDataList.GvType.IMAGES,
             GvDataList.GvType.REVIEW, GvDataList.GvType.SOCIAL};
     private static final GvDataList.GvType[] NULLEDITS = {GvDataList.GvType.REVIEW,
@@ -33,7 +33,8 @@ public class ConfigAddEditDisplayTest extends TestCase {
     @SmallTest
     public void testGetAddClass() {
         for (GvDataList.GvType dataType : GvDataList.GvType.values()) {
-            Class<? extends LaunchableUI> addClass = ConfigAddEditDisplay.getAddClass(dataType);
+            Class<? extends LaunchableUI> addClass = ConfigGvDataAddEditDisplay.getAddClass
+                    (dataType);
             if (Arrays.asList(NULLADDS).contains(dataType)) {
                 assertNull(addClass);
             } else {
@@ -45,7 +46,8 @@ public class ConfigAddEditDisplayTest extends TestCase {
     @SmallTest
     public void testGetEditClass() {
         for (GvDataList.GvType dataType : GvDataList.GvType.values()) {
-            Class<? extends LaunchableUI> editClass = ConfigAddEditDisplay.getEditClass(dataType);
+            Class<? extends LaunchableUI> editClass = ConfigGvDataAddEditDisplay.getEditClass
+                    (dataType);
             if (Arrays.asList(NULLEDITS).contains(dataType)) {
                 assertNull(editClass);
             } else {
@@ -57,7 +59,8 @@ public class ConfigAddEditDisplayTest extends TestCase {
     @SmallTest
     public void testGetDisplayClass() {
         for (GvDataList.GvType dataType : GvDataList.GvType.values()) {
-            Class<? extends Activity> addClass = ConfigAddEditDisplay.getDisplayClass(dataType);
+            Class<? extends Activity> addClass = ConfigGvDataAddEditDisplay.getDisplayClass
+                    (dataType);
             assertNotNull(addClass);
         }
     }

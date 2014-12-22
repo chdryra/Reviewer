@@ -16,22 +16,24 @@ import android.widget.RatingBar;
  * On: 17/12/2014
  * Email: rizwan.choudrey@gmail.com
  */
-public class DialogChildReview extends DialogGvData<GvChildrenList.GvChildReview> {
+public class GvDataViewLayoutChildReview extends GvDataViewLayout<GvChildrenList.GvChildReview> {
     public static final int   LAYOUT  = R.layout.dialog_criterion;
     public static final int   SUBJECT = R.id.child_name_edit_text;
     public static final int   RATING  = R.id.child_rating_bar;
     public static final int[] VIEWS   = new int[]{SUBJECT, RATING};
 
-    public DialogChildReview(DialogGvDataAddFragment<GvChildrenList.GvChildReview> dialogAdd) {
-        super(LAYOUT, VIEWS, SUBJECT, dialogAdd);
+    public GvDataViewLayoutChildReview(GvDataViewAdd.GvDataAdder<GvChildrenList.GvChildReview>
+            adder) {
+        super(LAYOUT, VIEWS, SUBJECT, adder);
     }
 
-    public DialogChildReview(DialogGvDataEditFragment<GvChildrenList.GvChildReview> dialogEdit) {
-        super(LAYOUT, VIEWS, SUBJECT, dialogEdit);
+    public GvDataViewLayoutChildReview(GvDataViewEdit.GvDataEditor<GvChildrenList.GvChildReview>
+            editor) {
+        super(LAYOUT, VIEWS, SUBJECT, editor);
     }
 
     @Override
-    public String getDialogTitleOnAdd(GvChildrenList.GvChildReview data) {
+    public String getTitleOnAdd(GvChildrenList.GvChildReview data) {
         float childRating = data.getRating();
         return data.getSubject() + ": " + RatingFormatter.outOfFive(childRating);
     }
@@ -39,7 +41,6 @@ public class DialogChildReview extends DialogGvData<GvChildrenList.GvChildReview
     @Override
     public String getDeleteConfirmDialogTitle(GvChildrenList.GvChildReview data) {
         return data.getSubject() + ": " + RatingFormatter.twoSignificantDigits(data.getRating());
-
     }
 
     @Override
@@ -54,4 +55,9 @@ public class DialogChildReview extends DialogGvData<GvChildrenList.GvChildReview
         ((EditText) mViewHolder.getView(SUBJECT)).setText(data.getSubject());
         ((RatingBar) mViewHolder.getView(RATING)).setRating(data.getRating());
     }
+//
+//    @Override
+//    public void clearViews() {
+//        updateViews(new GvChildrenList().getNullItem());
+//    }
 }

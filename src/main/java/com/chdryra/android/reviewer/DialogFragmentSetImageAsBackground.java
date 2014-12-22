@@ -14,7 +14,7 @@ import com.chdryra.android.mygenerallibrary.DialogAlertFragment;
  * Alert Dialog for confirming whether user wants to set currently selected image as review cover
  * (background).
  */
-public class DialogSetImageAsBackgroundFragment extends DialogAlertFragment {
+public class DialogFragmentSetImageAsBackground extends DialogAlertFragment {
     @Override
     protected String getAlertString() {
         return getResources().getString(R.string.dialog_set_image_as_background);

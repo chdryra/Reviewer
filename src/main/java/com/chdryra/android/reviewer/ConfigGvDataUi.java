@@ -21,25 +21,25 @@ import java.util.Map;
  * <p/>
  * <p>
  * Retrieves relevant add, edit and display UIs for each {@link com.chdryra.android.reviewer
- * .GVReviewDataList.GVType} from {@link com.chdryra.android.reviewer.ConfigAddEditDisplay}
+ * .GVReviewDataList.GVType} from {@link ConfigGvDataAddEditDisplay}
  * and packages them with request codes and tags so that they can be appropriately launched
  * by whichever UI needs them in response to a user interaction.
  * </p>
  *
  * @see com.chdryra.android.reviewer.FragmentReviewBuild;
  */
-public final class ConfigReviewDataUI {
+public final class ConfigGvDataUi {
     private final static String TAG             = "ConfigReviewDataUI";
     private final static int    DATA_ADD        = 2718;
     private final static int    DATA_EDIT       = 2719;
     private static       int    REQUEST_COUNTER = 2720;
-    private static ConfigReviewDataUI sConfigReviewDataUI;
+    private static ConfigGvDataUi sConfigGvDataUi;
 
     private final Map<GvDataList.GvType, Config> mConfigsMap = new HashMap<GvDataList
             .GvType,
             Config>();
 
-    private ConfigReviewDataUI() {
+    private ConfigGvDataUi() {
         mConfigsMap.put(GvDataList.GvType.TAGS, new Config(GvDataList.GvType.TAGS));
         mConfigsMap.put(GvDataList.GvType.CHILDREN, new Config(GvDataList.GvType
                 .CHILDREN));
@@ -77,11 +77,11 @@ public final class ConfigReviewDataUI {
     }
 
     private static Map<GvDataList.GvType, Config> getConfigsMap() {
-        if (sConfigReviewDataUI == null) {
-            sConfigReviewDataUI = new ConfigReviewDataUI();
+        if (sConfigGvDataUi == null) {
+            sConfigGvDataUi = new ConfigGvDataUi();
         }
 
-        return sConfigReviewDataUI.mConfigsMap;
+        return sConfigGvDataUi.mConfigsMap;
     }
 
     /**
@@ -90,9 +90,9 @@ public final class ConfigReviewDataUI {
      */
     public class Config {
         private final GvDataList.GvType       mDataType;
-        private final ReviewDataUIConfig      mAddConfig;
-        private final ReviewDataUIConfig      mEditConfig;
-        private final ReviewDataDisplayConfig mDisplayConfig;
+        private final GvDataUiConfig          mAddConfig;
+        private final GvDataUiConfig          mEditConfig;
+        private final GvDataListDisplayConfig mDisplayConfig;
 
         private Config(GvDataList.GvType dataType) {
             mDataType = dataType;
@@ -101,30 +101,30 @@ public final class ConfigReviewDataUI {
             mDisplayConfig = initDisplayConfig();
         }
 
-        public ReviewDataUIConfig getAdderConfig() {
+        public GvDataUiConfig getAdderConfig() {
             return mAddConfig;
         }
 
-        public ReviewDataUIConfig getEditorConfig() {
+        public GvDataUiConfig getEditorConfig() {
             return mEditConfig;
         }
 
-        public ReviewDataDisplayConfig getDisplayConfig() {
+        public GvDataListDisplayConfig getDisplayConfig() {
             return mDisplayConfig;
         }
 
-        private ReviewDataUIConfig initAddConfig() {
-            return new ReviewDataUIConfig(mDataType, ConfigAddEditDisplay.getAddClass
+        private GvDataUiConfig initAddConfig() {
+            return new GvDataUiConfig(mDataType, ConfigGvDataAddEditDisplay.getAddClass
                     (mDataType), DATA_ADD, mDataType.getDatumString().toUpperCase() + "_ADD_TAG");
         }
 
-        private ReviewDataUIConfig initEditConfig() {
-            return new ReviewDataUIConfig(mDataType, ConfigAddEditDisplay.getEditClass
+        private GvDataUiConfig initEditConfig() {
+            return new GvDataUiConfig(mDataType, ConfigGvDataAddEditDisplay.getEditClass
                     (mDataType), DATA_EDIT, mDataType.getDatumString().toUpperCase() + "_EDIT_TAG");
         }
 
-        private ReviewDataDisplayConfig initDisplayConfig() {
-            return new ReviewDataDisplayConfig(mDataType, REQUEST_COUNTER++);
+        private GvDataListDisplayConfig initDisplayConfig() {
+            return new GvDataListDisplayConfig(mDataType, REQUEST_COUNTER++);
         }
     }
 
@@ -140,17 +140,16 @@ public final class ConfigReviewDataUI {
      * The ReviewDataUI is launched using a
      * {@link LauncherUI}
      */
-    public class ReviewDataUIConfig {
+    public class GvDataUiConfig {
         private final GvDataList.GvType             mDataType;
-        private final Class<? extends LaunchableUI> mUIClass;
+        private final Class<? extends LaunchableUI> mUiClass;
         private final int                           mRequestCode;
         private final String                        mTag;
 
-        private ReviewDataUIConfig(GvDataList.GvType dataType, Class<? extends LaunchableUI>
-                UIClass,
-                int requestCode, String tag) {
+        private GvDataUiConfig(GvDataList.GvType dataType, Class<? extends LaunchableUI>
+                UiClass, int requestCode, String tag) {
             mDataType = dataType;
-            mUIClass = UIClass;
+            mUiClass = UiClass;
             mRequestCode = requestCode;
             mTag = tag;
         }
@@ -161,7 +160,7 @@ public final class ConfigReviewDataUI {
         }
 
         public LaunchableUI getReviewDataUI() throws RuntimeException {
-            return ConfigReviewDataUI.getLaunchable(mUIClass);
+            return ConfigGvDataUi.getLaunchable(mUiClass);
         }
 
         public int getRequestCode() {
@@ -174,8 +173,8 @@ public final class ConfigReviewDataUI {
     }
 
     /**
-     * Encapsulates a configuration for displaying review data of a certain
-     * {@link GvDataList.GvType}. Packages together:
+     * Encapsulates a configuration for displaying a {@link com.chdryra.android.reviewer.GvDataList}
+     * of a certain {@link GvDataList.GvType}. Packages together:
      * <ul>
      * <li>An activity class for displaying a collection of review data of a certain
      * type</li>
@@ -184,17 +183,17 @@ public final class ConfigReviewDataUI {
      * The display activity is accessed by requesting an Intent object which can be used to start
      * activities via, for example, <code>startActivityForResult(.)</code> etc.
      */
-    public class ReviewDataDisplayConfig {
+    public class GvDataListDisplayConfig {
         private final GvDataList.GvType mDataType;
         private final int               mRequestCode;
 
-        private ReviewDataDisplayConfig(GvDataList.GvType dataType, int requestCode) {
+        private GvDataListDisplayConfig(GvDataList.GvType dataType, int requestCode) {
             mDataType = dataType;
             mRequestCode = requestCode;
         }
 
         public Intent requestIntent(Context context) {
-            return new Intent(context, ConfigAddEditDisplay.getDisplayClass(mDataType));
+            return new Intent(context, ConfigGvDataAddEditDisplay.getDisplayClass(mDataType));
         }
 
         public int getRequestCode() {

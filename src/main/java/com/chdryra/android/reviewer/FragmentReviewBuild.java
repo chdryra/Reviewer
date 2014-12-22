@@ -65,8 +65,8 @@ import com.chdryra.android.mygenerallibrary.ViewHolderData;
  * </p>
  *
  * @see com.chdryra.android.reviewer.ActivityReviewBuild
- * @see ConfigReviewDataUI
- * @see DialogGvDataAddFragment
+ * @see ConfigGvDataUi
+ * @see DialogFragmentGvDataAdd
  */
 public class FragmentReviewBuild extends FragmentReviewGrid implements ImageChooser
         .ImageChooserListener {
@@ -84,7 +84,7 @@ public class FragmentReviewBuild extends FragmentReviewGrid implements ImageChoo
             mImageChooser.getChosenImage(this);
         } else if (requestCode == getUIConfig(GvDataList.GvType.LOCATIONS).getAdderConfig()
                 .getRequestCode()
-                && resCode.equals(DialogLocationFragment.RESULT_MAP.getResultCode())) {
+                && resCode.equals(DialogFragmentLocation.RESULT_MAP.getResultCode())) {
             requestMapIntent(data);
         } else if (requestCode == LOCATION_MAP && resCode.equals(ActivityResultCode.DONE)) {
             addLocation(data);
@@ -196,8 +196,8 @@ public class FragmentReviewBuild extends FragmentReviewGrid implements ImageChoo
         }
     }
 
-    private ConfigReviewDataUI.Config getUIConfig(GvDataList.GvType dataType) {
-        return ConfigReviewDataUI.getConfig(dataType);
+    private ConfigGvDataUi.Config getUIConfig(GvDataList.GvType dataType) {
+        return ConfigGvDataUi.getConfig(dataType);
     }
 
     private void requestMapIntent(Intent data) {
@@ -206,7 +206,7 @@ public class FragmentReviewBuild extends FragmentReviewGrid implements ImageChoo
         Bundle args = new Bundle();
         GvDataPacker.packItem(GvDataPacker.CurrentNewDatum.CURRENT, location, args);
 
-        LaunchableUI mapUi = ConfigReviewDataUI.getLaunchable(ActivityReviewLocationMap.class);
+        LaunchableUI mapUi = ConfigGvDataUi.getLaunchable(ActivityReviewLocationMap.class);
         LauncherUI.launch(mapUi, this, LOCATION_MAP, null, args);
     }
 
@@ -230,21 +230,21 @@ public class FragmentReviewBuild extends FragmentReviewGrid implements ImageChoo
         mCellManagerList.add(GvDataList.GvType.FACTS);
     }
 
-    private void requestIntent(ConfigReviewDataUI.Config config) {
+    private void requestIntent(ConfigGvDataUi.Config config) {
         Intent i = config.getDisplayConfig().requestIntent(getActivity());
         Administrator.get(getActivity()).pack(getController(), i);
         startActivityForResult(i, config.getDisplayConfig().getRequestCode());
     }
 
-    private void showQuickDialog(ConfigReviewDataUI.Config config) {
+    private void showQuickDialog(ConfigGvDataUi.Config config) {
         Bundle args = Administrator.get(getActivity()).pack(getController());
-        args.putBoolean(DialogGvDataAddFragment.QUICK_SET, true);
+        args.putBoolean(DialogFragmentGvDataAdd.QUICK_SET, true);
 
-        ConfigReviewDataUI.ReviewDataUIConfig adderConfig = config.getAdderConfig();
+        ConfigGvDataUi.GvDataUiConfig adderConfig = config.getAdderConfig();
 
         LaunchableUI ui = adderConfig.getReviewDataUI();
         if (adderConfig.getGVType() == GvDataList.GvType.LOCATIONS) {
-            ui = ConfigReviewDataUI.getLaunchable(DialogLocationFragment.class);
+            ui = ConfigGvDataUi.getLaunchable(DialogFragmentLocation.class);
         }
 
         LauncherUI.launch(ui, this, adderConfig.getRequestCode(), adderConfig.getTag(),

@@ -16,24 +16,20 @@ import android.widget.ImageView;
  * On: 18/12/2014
  * Email: rizwan.choudrey@gmail.com
  */
-public class DialogImage extends DialogGvData<GvImageList.GvImage> {
+public class GvDataViewLayoutImage extends GvDataViewLayout<GvImageList.GvImage> {
     private static final int   LAYOUT  = R.layout.dialog_image;
     private static final int   IMAGE   = R.id.dialog_image_image_view;
     private static final int   CAPTION = R.id.dialog_image_caption_edit_text;
     private static final int[] VIEWS   = new int[]{IMAGE, CAPTION};
 
-    private final DialogGvDataEditFragment<GvImageList.GvImage> mDialogEdit;
-    private       GvImageList.GvImage                           mCurrent;
+    private GvImageList.GvImage mCurrent;
 
-    DialogImage(DialogGvDataEditFragment<GvImageList.GvImage> dialogEdit) {
-        super(LAYOUT, VIEWS, CAPTION, dialogEdit);
-        mDialogEdit = dialogEdit;
-        mDialogEdit.setDialogTitle(null);
-        mDialogEdit.hideKeyboardOnLaunch();
+    GvDataViewLayoutImage(GvDataViewEdit.GvDataEditor<GvImageList.GvImage> editor) {
+        super(LAYOUT, VIEWS, CAPTION, editor);
     }
 
     @Override
-    public String getDialogTitleOnAdd(GvImageList.GvImage data) {
+    public String getTitleOnAdd(GvImageList.GvImage data) {
         //Standard add dialog not used for images
         return null;
     }
@@ -45,7 +41,7 @@ public class DialogImage extends DialogGvData<GvImageList.GvImage> {
 
     @Override
     public GvImageList.GvImage createGvDataFromViews() {
-        GvImageList.GvImage currentDatum = mCurrent;//mDialogEdit.getCurrentGvData();
+        GvImageList.GvImage currentDatum = mCurrent;
         String caption = ((EditText) mViewHolder.getView(CAPTION)).getText().toString().trim();
         currentDatum.setCaption(caption);
         return currentDatum;
@@ -59,8 +55,6 @@ public class DialogImage extends DialogGvData<GvImageList.GvImage> {
         imageView.setImageBitmap(image.getBitmap());
         String caption = image.getCaption();
         imageCaption.setText(image.getCaption());
-        imageCaption.setHint(mDialogEdit.getActivity().getResources().getString(R.string
-                .edit_text_image_caption_hint));
 
         //For some reason setSelection(0) doesn't work unless I force set the span of the selection
         if (caption != null && caption.length() > 0) {

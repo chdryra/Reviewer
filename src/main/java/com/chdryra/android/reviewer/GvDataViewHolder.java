@@ -9,6 +9,8 @@
 package com.chdryra.android.reviewer;
 
 import android.content.Context;
+import android.util.SparseArray;
+import android.view.LayoutInflater;
 import android.view.View;
 
 /**
@@ -18,36 +20,54 @@ import android.view.View;
  */
 
 /**
- * Defines the behaviour of a ViewHolder-type object that knows how to inflate views and how to
- * update them once inflated.
- * <p/>
- * <p>
- * Provides a simple interface through which to pass
- * {@link GvDataList.GvData} back and forth with
- * inflated views in order to initialise and update themselves, and can return back similar
- * data given their current contents. Adheres to {@link GvDataView}.
- * </p>
- * <p>
- * Aim is to separate out the general workings of a view (inflating etc) with that pertinent to
- * viewing and extracting review data.
+ * Mainly concerned with inflating layouts and
+ * holding Views on some {@link com.chdryra.android.reviewer.GvDataList.GvData}.
+ * The {@link GvDataView} implementation is forwarded to
+ * the appropriate {@link GvDataView} object passed in the constructor.
  * </p>
  *
- * @param <T>: the {@link GvDataList.GvData} type.
- * @see com.chdryra.android.mygenerallibrary.ViewHolder
- * @see DialogGvDataAddFragment
- * @see DialogGvDataEditFragment
+ * @param <T>: {@link GvDataList.GvData} type.
  */
-public interface GvDataViewHolder<T extends GvDataList.GvData> extends GvDataView<T> {
-    void inflate(Context context);
+public class GvDataViewHolder<T extends GvDataList.GvData> implements GvDataView<T> {
+    private final int               mLayout;
+    private final int[]             mUpdateableViewIds;
+    private final SparseArray<View> mUpdateableViews;
+    private       View              mInflated;
+    private GvDataView<T> mGvDataView;
 
-    View getView();
+    public GvDataViewHolder(int layoutId, int[] viewIds, GvDataView<T> gvDataView) {
+        mLayout = layoutId;
+        mUpdateableViewIds = viewIds;
+        mUpdateableViews = new SparseArray<>(mUpdateableViewIds.length);
+        mGvDataView = gvDataView;
+    }
 
-    @Override
-    void initialiseView(T data);
+    public void inflate(Context context) {
+        mInflated = LayoutInflater.from(context).inflate(mLayout, null);
+        if (mInflated != null) {
+            for (int viewId : mUpdateableViewIds) {
+                mUpdateableViews.put(viewId, mInflated.findViewById(viewId));
+            }
+        }
+    }
 
-    @Override
-    void updateView(T data);
+    public View getView() {
+        return mInflated;
+    }
 
-    @Override
-    T getGvData();
+    public void initialiseView(T data) {
+        mGvDataView.initialiseView(data);
+    }
+
+    public void updateView(T data) {
+        mGvDataView.updateView(data);
+    }
+
+    public T getGvData() {
+        return mGvDataView.getGvData();
+    }
+
+    final View getView(int viewId) {
+        return mUpdateableViews.get(viewId);
+    }
 }

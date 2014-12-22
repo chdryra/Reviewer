@@ -107,7 +107,7 @@ public class FragmentReviewImages extends FragmentReviewGridAddEdit<GvImageList.
 
         Bundle args = new Bundle();
         args.putInt(POSITION, position);
-        DialogShower.show(new DialogSetImageAsBackgroundFragment(), FragmentReviewImages.this,
+        DialogShower.show(new DialogFragmentSetImageAsBackground(), FragmentReviewImages.this,
                 IMAGE_AS_BACKGROUND, IMAGE_BACKGROUND_TAG, args);
     }
 

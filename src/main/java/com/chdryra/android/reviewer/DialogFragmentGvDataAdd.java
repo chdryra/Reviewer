@@ -11,6 +11,7 @@ package com.chdryra.android.reviewer;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.EditText;
 
 import com.chdryra.android.mygenerallibrary.DialogCancelAddDoneFragment;
 
@@ -36,8 +37,8 @@ import com.chdryra.android.mygenerallibrary.DialogCancelAddDoneFragment;
  * ControllerReviewEditable packed in the arguments by the Administrator.
  * </p>
  */
-public abstract class DialogGvDataAddFragment<T extends GvDataList.GvData> extends
-        DialogCancelAddDoneFragment implements LaunchableUI {
+public abstract class DialogFragmentGvDataAdd<T extends GvDataList.GvData> extends
+        DialogCancelAddDoneFragment implements GvDataViewAdd.GvDataAdder<T>, LaunchableUI {
 
     public static final String QUICK_SET = "com.chdryra.android.reviewer.dialog_quick_mode";
 
@@ -58,18 +59,29 @@ public abstract class DialogGvDataAddFragment<T extends GvDataList.GvData> exten
         boolean onGvDataAdd(T data);
     }
 
-    DialogGvDataAddFragment(Class<? extends GvDataList<T>> gvDataListClass) {
+    DialogFragmentGvDataAdd(Class<? extends GvDataList<T>> gvDataListClass) {
         mData = FactoryGvData.newList(gvDataListClass);
-        mViewHolder = FactoryGvDataViewHolder.newViewHolder(this);
-    }
-
-    public T getNullingItem() {
-        return mData.getNullItem();
+        mViewHolder = FactoryGvDataViewHolder.newViewHolder(getGvType(), this);
     }
 
     @Override
     public void launch(LauncherUI launcher) {
         launcher.launch(this);
+    }
+
+    @Override
+    public void setKeyboardAction(EditText editText) {
+        setKeyboardDoActionOnEditText(editText);
+    }
+
+    @Override
+    public void setTitle(String title) {
+        getDialog().setTitle(title);
+    }
+
+    @Override
+    public T getNullingItem() {
+        return mData.getNullItem();
     }
 
     @Override

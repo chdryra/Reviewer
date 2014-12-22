@@ -12,8 +12,8 @@ import android.content.Intent;
 import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.ConfigAddEditDisplay;
-import com.chdryra.android.reviewer.ConfigReviewDataUI;
+import com.chdryra.android.reviewer.ConfigGvDataAddEditDisplay;
+import com.chdryra.android.reviewer.ConfigGvDataUi;
 import com.chdryra.android.reviewer.GvDataList;
 import com.chdryra.android.reviewer.LaunchableUI;
 
@@ -32,7 +32,7 @@ import java.util.Set;
  * Using ActivityFeed as my testingActivity to avoid having to declare a separate test activity
  * in the manifest.
  */
-public class ConfigReviewDataUITest extends AndroidTestCase {
+public class ConfigGvDataUiTest extends AndroidTestCase {
     private static final GvDataList.GvType[] NULLADDS  = {GvDataList.GvType.IMAGES,
             GvDataList.GvType.REVIEW, GvDataList.GvType.SOCIAL};
     private static final GvDataList.GvType[] NULLEDITS = {GvDataList.GvType.REVIEW,
@@ -41,7 +41,7 @@ public class ConfigReviewDataUITest extends AndroidTestCase {
     @SmallTest
     public void testGetConfigAndConfigClass() {
         for (GvDataList.GvType dataType : GvDataList.GvType.values()) {
-            ConfigReviewDataUI.Config config = ConfigReviewDataUI.getConfig(dataType);
+            ConfigGvDataUi.Config config = ConfigGvDataUi.getConfig(dataType);
             assertNotNull(config);
             assertNotNull(config.getAdderConfig());
             assertNotNull(config.getEditorConfig());
@@ -54,11 +54,11 @@ public class ConfigReviewDataUITest extends AndroidTestCase {
         ArrayList<Integer> requestCodes = new ArrayList<Integer>();
         ArrayList<String> tags = new ArrayList<String>();
         for (GvDataList.GvType dataType : GvDataList.GvType.values()) {
-            ConfigReviewDataUI.Config config = ConfigReviewDataUI.getConfig(dataType);
+            ConfigGvDataUi.Config config = ConfigGvDataUi.getConfig(dataType);
             assertNotNull(config);
 
             //Add
-            ConfigReviewDataUI.ReviewDataUIConfig uiConfig = config.getAdderConfig();
+            ConfigGvDataUi.GvDataUiConfig uiConfig = config.getAdderConfig();
             assertEquals(dataType, uiConfig.getGVType()); //data types match
 
             String tag = uiConfig.getTag(); //tags make sense
@@ -71,7 +71,7 @@ public class ConfigReviewDataUITest extends AndroidTestCase {
             } else {
                 LaunchableUI ui = uiConfig.getReviewDataUI();
                 assertNotNull(ui);
-                assertEquals(ConfigAddEditDisplay.getAddClass(dataType).getName(),
+                assertEquals(ConfigGvDataAddEditDisplay.getAddClass(dataType).getName(),
                         ui.getClass().getName());
             }
 
@@ -91,7 +91,7 @@ public class ConfigReviewDataUITest extends AndroidTestCase {
             } else {
                 LaunchableUI ui = uiConfig.getReviewDataUI();
                 assertNotNull(ui);
-                assertEquals(ConfigAddEditDisplay.getEditClass(dataType).getName(),
+                assertEquals(ConfigGvDataAddEditDisplay.getEditClass(dataType).getName(),
                         ui.getClass().getName());
             }
 
@@ -111,15 +111,15 @@ public class ConfigReviewDataUITest extends AndroidTestCase {
     public void testReviewDataDisplayConfigs() {
         ArrayList<Integer> requestCodes = new ArrayList<Integer>();
         for (GvDataList.GvType dataType : GvDataList.GvType.values()) {
-            ConfigReviewDataUI.Config config = ConfigReviewDataUI.getConfig(dataType);
+            ConfigGvDataUi.Config config = ConfigGvDataUi.getConfig(dataType);
             assertNotNull(config);
 
-            ConfigReviewDataUI.ReviewDataDisplayConfig uiConfig = config.getDisplayConfig();
+            ConfigGvDataUi.GvDataListDisplayConfig uiConfig = config.getDisplayConfig();
             requestCodes.add(uiConfig.getRequestCode());
             Intent i = uiConfig.requestIntent(getContext());
             assertNotNull(i);
             assertNotNull(i.getComponent());
-            assertEquals(ConfigAddEditDisplay.getDisplayClass(dataType).getName(),
+            assertEquals(ConfigGvDataAddEditDisplay.getDisplayClass(dataType).getName(),
                     i.getComponent().getClassName());
         }
 
@@ -131,14 +131,14 @@ public class ConfigReviewDataUITest extends AndroidTestCase {
     @SmallTest
     public void testGetReviewDataUI() {
         for (GvDataList.GvType dataType : GvDataList.GvType.values()) {
-            ConfigReviewDataUI.Config config = ConfigReviewDataUI.getConfig(dataType);
+            ConfigGvDataUi.Config config = ConfigGvDataUi.getConfig(dataType);
             assertNotNull(config);
 
             //Add
             if (!Arrays.asList(NULLADDS).contains(dataType)) {
                 LaunchableUI fromConfig = config.getAdderConfig().getReviewDataUI();
                 assertNotNull(fromConfig);
-                LaunchableUI fromStatic = ConfigReviewDataUI.getLaunchable(fromConfig.getClass());
+                LaunchableUI fromStatic = ConfigGvDataUi.getLaunchable(fromConfig.getClass());
                 assertNotNull(fromStatic);
                 assertEquals(fromConfig.getClass(), fromStatic.getClass());
             }
@@ -147,7 +147,7 @@ public class ConfigReviewDataUITest extends AndroidTestCase {
             if (!Arrays.asList(NULLEDITS).contains(dataType)) {
                 LaunchableUI fromConfig = config.getEditorConfig().getReviewDataUI();
                 assertNotNull(fromConfig);
-                LaunchableUI fromStatic = ConfigReviewDataUI.getLaunchable(fromConfig.getClass());
+                LaunchableUI fromStatic = ConfigGvDataUi.getLaunchable(fromConfig.getClass());
                 assertNotNull(fromStatic);
                 assertEquals(fromConfig.getClass(), fromStatic.getClass());
             }
