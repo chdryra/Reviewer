@@ -19,7 +19,7 @@ public class GvFactList extends GvDataList<GvFactList.GvFact> {
     public static final GvType TYPE = GvType.FACTS;
 
     public GvFactList() {
-        super(TYPE, GvFact.class);
+        super(TYPE);
     }
 
     @Override

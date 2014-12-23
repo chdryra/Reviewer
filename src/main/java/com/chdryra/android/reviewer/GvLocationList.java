@@ -20,7 +20,7 @@ public class GvLocationList extends GvDataList<GvLocationList.GvLocation> {
     public static final GvType TYPE = GvType.LOCATIONS;
 
     public GvLocationList() {
-        super(TYPE, GvLocation.class);
+        super(TYPE);
     }
 
     void add(LatLng latLng, String name) {

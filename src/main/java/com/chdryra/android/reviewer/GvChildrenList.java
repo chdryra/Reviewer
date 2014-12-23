@@ -22,7 +22,7 @@ public class GvChildrenList extends GvDataList<GvChildrenList.GvChildReview> {
     public static final GvType TYPE = GvType.CHILDREN;
 
     public GvChildrenList() {
-        super(TYPE, GvChildReview.class);
+        super(TYPE);
     }
 
     public boolean contains(String subject) {

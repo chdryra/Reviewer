@@ -15,17 +15,17 @@ import android.widget.EditText;
  * On: 18/12/2014
  * Email: rizwan.choudrey@gmail.com
  */
-public class GvDataViewLayoutTag extends GvDataViewLayout<GvTagList.GvTag> {
-    private static final int   LAYOUT = R.layout.dialog_tag;
-    private static final int   TAG    = R.id.tag_edit_text;
+public class LayoutTag extends GvDataViewLayout<GvTagList.GvTag> {
+    public static final int LAYOUT = R.layout.dialog_tag;
+    public static final int TAG    = R.id.tag_edit_text;
     public static final  int[] VIEWS  = new int[]{TAG};
 
-    GvDataViewLayoutTag(GvDataViewAdd.GvDataAdder<GvTagList.GvTag> adder) {
-        super(LAYOUT, VIEWS, TAG, adder);
+    public LayoutTag(GvDataViewAdd.GvDataAdder adder) {
+        super(GvTagList.GvTag.class, LAYOUT, VIEWS, TAG, adder);
     }
 
-    GvDataViewLayoutTag(GvDataViewEdit.GvDataEditor<GvTagList.GvTag> editor) {
-        super(LAYOUT, VIEWS, TAG, editor);
+    public LayoutTag(GvDataViewEdit.GvDataEditor editor) {
+        super(GvTagList.GvTag.class, LAYOUT, VIEWS, TAG, editor);
     }
 
     @Override

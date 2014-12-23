@@ -15,17 +15,17 @@ import android.widget.EditText;
  * On: 17/12/2014
  * Email: rizwan.choudrey@gmail.com
  */
-public class GvDataViewLayoutComment extends GvDataViewLayout<GvCommentList.GvComment> {
-    private static final int                     LAYOUT    = R.layout.dialog_comment;
-    private static final int                     COMMENT   = R.id.comment_edit_text;
-    private static final int[]                   VIEWS     = new int[]{COMMENT};
+public class LayoutComment extends GvDataViewLayout<GvCommentList.GvComment> {
+    public static final int   LAYOUT  = R.layout.dialog_comment;
+    public static final int   COMMENT = R.id.comment_edit_text;
+    public static final int[] VIEWS   = new int[]{COMMENT};
 
-    GvDataViewLayoutComment(GvDataViewAdd.GvDataAdder<GvCommentList.GvComment> adder) {
-        super(LAYOUT, VIEWS, COMMENT, adder);
+    public LayoutComment(GvDataViewAdd.GvDataAdder adder) {
+        super(GvCommentList.GvComment.class, LAYOUT, VIEWS, COMMENT, adder);
     }
 
-    GvDataViewLayoutComment(GvDataViewEdit.GvDataEditor<GvCommentList.GvComment> editor) {
-        super(LAYOUT, VIEWS, COMMENT, editor);
+    public LayoutComment(GvDataViewEdit.GvDataEditor editor) {
+        super(GvCommentList.GvComment.class, LAYOUT, VIEWS, COMMENT, editor);
     }
 
     @Override

@@ -22,21 +22,21 @@ import java.util.HashMap;
 public class FactoryGvDataViewHolder {
     private static final String TAG = "FactoryGvDataViewHolder";
     private static FactoryGvDataViewHolder sFactory;
-    private final HashMap<GvDataList.GvType, Class<? extends GvDataViewLayout<? extends
+    private final  HashMap<GvDataList.GvType, Class<? extends GvDataViewLayout<? extends
             GvDataList
-                    .GvData>>> mMap;
+                    .GvData>>>             mMap;
 
     private FactoryGvDataViewHolder() {
         mMap = new HashMap<>();
-        mMap.put(GvDataList.GvType.CHILDREN, GvDataViewLayoutChildReview.class);
-        mMap.put(GvDataList.GvType.COMMENTS, GvDataViewLayoutComment.class);
-        mMap.put(GvDataList.GvType.FACTS, GvDataViewLayoutFact.class);
-        mMap.put(GvDataList.GvType.IMAGES, GvDataViewLayoutImage.class);
-        mMap.put(GvDataList.GvType.TAGS, GvDataViewLayoutTag.class);
+        mMap.put(GvDataList.GvType.CHILDREN, LayoutChildReview.class);
+        mMap.put(GvDataList.GvType.COMMENTS, LayoutComment.class);
+        mMap.put(GvDataList.GvType.FACTS, LayoutFact.class);
+        mMap.put(GvDataList.GvType.IMAGES, LayoutImage.class);
+        mMap.put(GvDataList.GvType.TAGS, LayoutTag.class);
     }
 
     static <T extends GvDataList.GvData> GvDataViewHolder<T> newViewHolder
-            (GvDataList.GvType dataType, GvDataViewAdd.GvDataAdder<T> adder) {
+            (GvDataList.GvType dataType, GvDataViewAdd.GvDataAdder adder) {
         if (sFactory == null) sFactory = new FactoryGvDataViewHolder();
         try {
             Constructor ctor = sFactory.mMap.get(dataType)
@@ -64,7 +64,7 @@ public class FactoryGvDataViewHolder {
     }
 
     static <T extends GvDataList.GvData> GvDataViewHolder<T> newHolder
-            (GvDataList.GvType dataType, GvDataViewEdit.GvDataEditor<T> editor) {
+            (GvDataList.GvType dataType, GvDataViewEdit.GvDataEditor editor) {
         if (sFactory == null) sFactory = new FactoryGvDataViewHolder();
         try {
             Constructor ctor = sFactory.mMap.get(dataType)

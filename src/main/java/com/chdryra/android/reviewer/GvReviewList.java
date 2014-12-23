@@ -27,7 +27,7 @@ public class GvReviewList extends GvDataList<GvReviewList.GvReviewOverview> {
     public static final GvType TYPE = GvType.REVIEW;
 
     public GvReviewList() {
-        super(TYPE, GvReviewOverview.class);
+        super(TYPE);
     }
 
     public void add(String id, String subject, float rating, Bitmap coverImage, String headline,

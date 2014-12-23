@@ -20,7 +20,7 @@ public class GvCommentList extends GvDataList<GvCommentList.GvComment> {
     public static final GvType TYPE = GvType.COMMENTS;
 
     public GvCommentList() {
-        super(TYPE, GvComment.class);
+        super(TYPE);
     }
 
     void add(String comment) {
@@ -123,6 +123,10 @@ public class GvCommentList extends GvDataList<GvCommentList.GvComment> {
             parcel.writeParcelable(mUnsplitParent, i);
         }
 
+        public String getCommentHeadline() {
+            return CommentFormatter.getHeadline(mComment);
+        }
+
         GvCommentList getSplitComments() {
             GvCommentList splitComments = new GvCommentList();
             for (String comment : CommentFormatter.split(mComment)) {
@@ -134,10 +138,6 @@ public class GvCommentList extends GvDataList<GvCommentList.GvComment> {
 
         GvComment getUnSplitComment() {
             return mUnsplitParent != null ? mUnsplitParent.getUnSplitComment() : this;
-        }
-
-        String getCommentHeadline() {
-            return CommentFormatter.getHeadline(mComment);
         }
     }
 }

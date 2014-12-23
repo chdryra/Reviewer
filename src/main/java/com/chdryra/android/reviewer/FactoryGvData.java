@@ -37,14 +37,4 @@ public class FactoryGvData {
             throw new RuntimeException("Can't create data list: " + dataClass.getName());
         }
     }
-
-    public static <T extends GvDataList.GvData> T newNullItem(Class<? extends
-            GvDataList<T>> dataClass) {
-        try {
-            return dataClass.newInstance().getNullItem();
-        } catch (InstantiationException | IllegalAccessException e) {
-            e.printStackTrace();
-            throw new RuntimeException("Can't create data list: " + dataClass.getName());
-        }
-    }
 }

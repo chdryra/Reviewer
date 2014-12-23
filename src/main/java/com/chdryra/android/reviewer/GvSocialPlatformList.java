@@ -27,7 +27,7 @@ public class GvSocialPlatformList extends GvDataList<GvSocialPlatformList.GvSoci
     public static final GvType TYPE = GvType.SOCIAL;
 
     private GvSocialPlatformList(Context context) {
-        super(TYPE, GvSocialPlatform.class);
+        super(TYPE);
         for (SocialPlatform platform : SocialPlatformList.get(context)) {
             add(new GvSocialPlatform(platform.getName(), platform.getFollowers()));
         }

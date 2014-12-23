@@ -16,20 +16,18 @@ import android.widget.RatingBar;
  * On: 17/12/2014
  * Email: rizwan.choudrey@gmail.com
  */
-public class GvDataViewLayoutChildReview extends GvDataViewLayout<GvChildrenList.GvChildReview> {
+public class LayoutChildReview extends GvDataViewLayout<GvChildrenList.GvChildReview> {
     public static final int   LAYOUT  = R.layout.dialog_criterion;
     public static final int   SUBJECT = R.id.child_name_edit_text;
     public static final int   RATING  = R.id.child_rating_bar;
     public static final int[] VIEWS   = new int[]{SUBJECT, RATING};
 
-    public GvDataViewLayoutChildReview(GvDataViewAdd.GvDataAdder<GvChildrenList.GvChildReview>
-            adder) {
-        super(LAYOUT, VIEWS, SUBJECT, adder);
+    public LayoutChildReview(GvDataViewAdd.GvDataAdder adder) {
+        super(GvChildrenList.GvChildReview.class, LAYOUT, VIEWS, SUBJECT, adder);
     }
 
-    public GvDataViewLayoutChildReview(GvDataViewEdit.GvDataEditor<GvChildrenList.GvChildReview>
-            editor) {
-        super(LAYOUT, VIEWS, SUBJECT, editor);
+    public LayoutChildReview(GvDataViewEdit.GvDataEditor editor) {
+        super(GvChildrenList.GvChildReview.class, LAYOUT, VIEWS, SUBJECT, editor);
     }
 
     @Override

@@ -35,7 +35,7 @@ import com.chdryra.android.mygenerallibrary.DialogCancelDeleteDoneFragment;
  * </p>
  */
 public abstract class DialogFragmentGvDataEdit<T extends GvDataList.GvData>
-        extends DialogCancelDeleteDoneFragment implements GvDataViewEdit.GvDataEditor<T>,
+        extends DialogCancelDeleteDoneFragment implements GvDataViewEdit.GvDataEditor,
         LaunchableUI {
 
     private GvDataList.GvType     mDataType;

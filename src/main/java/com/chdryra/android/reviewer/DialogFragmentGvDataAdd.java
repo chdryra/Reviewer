@@ -38,7 +38,7 @@ import com.chdryra.android.mygenerallibrary.DialogCancelAddDoneFragment;
  * </p>
  */
 public abstract class DialogFragmentGvDataAdd<T extends GvDataList.GvData> extends
-        DialogCancelAddDoneFragment implements GvDataViewAdd.GvDataAdder<T>, LaunchableUI {
+        DialogCancelAddDoneFragment implements GvDataViewAdd.GvDataAdder, LaunchableUI {
 
     public static final String QUICK_SET = "com.chdryra.android.reviewer.dialog_quick_mode";
 
@@ -80,14 +80,9 @@ public abstract class DialogFragmentGvDataAdd<T extends GvDataList.GvData> exten
     }
 
     @Override
-    public T getNullingItem() {
-        return mData.getNullItem();
-    }
-
-    @Override
     protected View createDialogUI() {
         mViewHolder.inflate(getActivity());
-        mViewHolder.initialiseView(getNullingItem());
+        mViewHolder.initialiseView(null);
 
         return mViewHolder.getView();
     }

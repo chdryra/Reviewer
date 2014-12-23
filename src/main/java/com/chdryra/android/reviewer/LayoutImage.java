@@ -16,16 +16,16 @@ import android.widget.ImageView;
  * On: 18/12/2014
  * Email: rizwan.choudrey@gmail.com
  */
-public class GvDataViewLayoutImage extends GvDataViewLayout<GvImageList.GvImage> {
-    private static final int   LAYOUT  = R.layout.dialog_image;
-    private static final int   IMAGE   = R.id.dialog_image_image_view;
-    private static final int   CAPTION = R.id.dialog_image_caption_edit_text;
-    private static final int[] VIEWS   = new int[]{IMAGE, CAPTION};
+public class LayoutImage extends GvDataViewLayout<GvImageList.GvImage> {
+    public static final int   LAYOUT  = R.layout.dialog_image;
+    public static final int   IMAGE   = R.id.dialog_image_image_view;
+    public static final int   CAPTION = R.id.dialog_image_caption_edit_text;
+    public static final int[] VIEWS   = new int[]{IMAGE, CAPTION};
 
     private GvImageList.GvImage mCurrent;
 
-    GvDataViewLayoutImage(GvDataViewEdit.GvDataEditor<GvImageList.GvImage> editor) {
-        super(LAYOUT, VIEWS, CAPTION, editor);
+    public LayoutImage(GvDataViewEdit.GvDataEditor editor) {
+        super(GvImageList.GvImage.class, LAYOUT, VIEWS, CAPTION, editor);
     }
 
     @Override
@@ -43,7 +43,7 @@ public class GvDataViewLayoutImage extends GvDataViewLayout<GvImageList.GvImage>
     public GvImageList.GvImage createGvDataFromViews() {
         GvImageList.GvImage currentDatum = mCurrent;
         String caption = ((EditText) mViewHolder.getView(CAPTION)).getText().toString().trim();
-        currentDatum.setCaption(caption);
+        if (currentDatum != null) currentDatum.setCaption(caption);
         return currentDatum;
     }
 

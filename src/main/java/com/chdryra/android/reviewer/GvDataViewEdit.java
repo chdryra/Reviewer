@@ -17,16 +17,16 @@ import android.widget.EditText;
  */
 public class GvDataViewEdit<T extends GvDataList.GvData> implements GvDataView<T> {
 
-    private GvDataEditor<T>     mEditor;
+    private GvDataEditor        mEditor;
     private GvDataViewLayout<T> mLayout;
 
-    public interface GvDataEditor<T extends GvDataList.GvData> {
+    public interface GvDataEditor {
         public void setKeyboardAction(EditText editText);
 
         public void setDeleteConfirmTitle(String title);
     }
 
-    public GvDataViewEdit(GvDataEditor<T> editor, GvDataViewLayout<T> layout) {
+    public GvDataViewEdit(GvDataEditor editor, GvDataViewLayout<T> layout) {
         mEditor = editor;
         mLayout = layout;
     }

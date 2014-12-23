@@ -23,8 +23,9 @@ import android.widget.EditText;
  * @param <T>: {@link com.chdryra.android.reviewer.GvDataList.GvData} type
  */
 public abstract class GvDataViewLayout<T extends GvDataList.GvData> {
-    protected GvDataViewHolder<T> mViewHolder;
-    private   int                 mEditTextId;
+    protected final GvDataViewHolder<T> mViewHolder;
+    private final   int                 mEditTextId;
+    private final   T                   mNullingItem;
 
     public abstract String getTitleOnAdd(T data);
 
@@ -34,20 +35,26 @@ public abstract class GvDataViewLayout<T extends GvDataList.GvData> {
 
     public abstract void updateViews(T data);
 
-    //public abstract void clearViews();
-
-    GvDataViewLayout(int layoutId, int[] viewIds, int keyboardEditTextId,
-            GvDataViewAdd.GvDataAdder<T> adder) {
+    GvDataViewLayout(Class<T> gvDataClass, int layoutId, int[] viewIds, int keyboardEditTextId,
+            GvDataViewAdd.GvDataAdder adder) {
         mEditTextId = keyboardEditTextId;
         GvDataView<T> view = new GvDataViewAdd<>(adder, this);
         mViewHolder = new GvDataViewHolder<>(layoutId, viewIds, view);
+        mNullingItem = FactoryGvData.newNull(gvDataClass);
     }
 
-    GvDataViewLayout(int layoutId, int[] viewIds, int keyboardEditTextId,
-            GvDataViewEdit.GvDataEditor<T> editor) {
+    ;
+
+    GvDataViewLayout(Class<T> gvDataClass, int layoutId, int[] viewIds, int keyboardEditTextId,
+            GvDataViewEdit.GvDataEditor editor) {
         mEditTextId = keyboardEditTextId;
         GvDataView<T> view = new GvDataViewEdit<>(editor, this);
         mViewHolder = new GvDataViewHolder<>(layoutId, viewIds, view);
+        mNullingItem = FactoryGvData.newNull(gvDataClass);
+    }
+
+    public void clearViews() {
+        updateViews(mNullingItem);
     }
 
     public EditText getEditTextForKeyboardAction() {

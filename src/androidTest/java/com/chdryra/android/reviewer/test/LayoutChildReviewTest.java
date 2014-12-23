@@ -17,7 +17,7 @@ import android.widget.RatingBar;
 import com.chdryra.android.reviewer.ActivityFeed;
 import com.chdryra.android.reviewer.ConfigGvDataAddEditDisplay;
 import com.chdryra.android.reviewer.GvChildrenList;
-import com.chdryra.android.reviewer.GvDataViewLayoutChildReview;
+import com.chdryra.android.reviewer.LayoutChildReview;
 import com.chdryra.android.reviewer.RatingFormatter;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
 import com.chdryra.android.reviewer.test.TestUtils.RatingMocker;
@@ -28,25 +28,25 @@ import com.chdryra.android.testutils.RandomStringGenerator;
  * On: 15/12/2014
  * Email: rizwan.choudrey@gmail.com
  */
-public class GvDataViewLayoutChildReviewTest extends
+public class LayoutChildReviewTest extends
         ActivityInstrumentationTestCase2<ActivityFeed> {
-    private GvDataViewLayoutChildReview mDialogMethods;
+    private LayoutChildReview mLayout;
 
-    public GvDataViewLayoutChildReviewTest() {
+    public LayoutChildReviewTest() {
         super(ActivityFeed.class);
     }
 
     @Override
     public void setUp() throws Exception {
-        mDialogMethods = new GvDataViewLayoutChildReview(new ConfigGvDataAddEditDisplay.AddChild
-                ());
+        mLayout = new LayoutChildReview(new ConfigGvDataAddEditDisplay.AddChild());
     }
 
     @SmallTest
     public void testGetDialogTitleOnAdd() {
         GvChildrenList.GvChildReview review = GvDataMocker.newChild();
 
-        String title = mDialogMethods.getTitleOnAdd(review);
+        String title = mLayout.getTitleOnAdd(review);
+        assertNotNull(title);
         assertTrue(title.contains(review.getSubject()));
         String ratingToFirstDecimal = RatingFormatter.roundToSignificant(review.getRating(), 2);
         assertTrue(title.contains(ratingToFirstDecimal));
@@ -55,7 +55,8 @@ public class GvDataViewLayoutChildReviewTest extends
     @SmallTest
     public void testGetDeleteConfirmDialogTitle() {
         GvChildrenList.GvChildReview review = GvDataMocker.newChild();
-        String deleteConfirm = mDialogMethods.getDeleteConfirmDialogTitle(review);
+        String deleteConfirm = mLayout.getDeleteConfirmDialogTitle(review);
+        assertNotNull(deleteConfirm);
         assertTrue(deleteConfirm.contains(review.getSubject()));
         assertTrue(deleteConfirm.contains(RatingFormatter.twoSignificantDigits(review.getRating()
         )));
@@ -64,8 +65,10 @@ public class GvDataViewLayoutChildReviewTest extends
     @SmallTest
     public void testCreateGvDataFromViews() {
         View v = inflate();
-        EditText subjectET = (EditText) v.findViewById(GvDataViewLayoutChildReview.SUBJECT);
-        RatingBar ratingbar = (RatingBar) v.findViewById(GvDataViewLayoutChildReview.RATING);
+        EditText subjectET = (EditText) v.findViewById(LayoutChildReview.SUBJECT);
+        RatingBar ratingbar = (RatingBar) v.findViewById(LayoutChildReview.RATING);
+        assertNotNull(subjectET);
+        assertNotNull(ratingbar);
 
         String subject = RandomStringGenerator.nextWord();
         float rating = RatingMocker.nextRating();
@@ -73,7 +76,8 @@ public class GvDataViewLayoutChildReviewTest extends
         subjectET.setText(subject);
         ratingbar.setRating(rating);
 
-        GvChildrenList.GvChildReview reviewOut = mDialogMethods.createGvDataFromViews();
+        GvChildrenList.GvChildReview reviewOut = mLayout.createGvDataFromViews();
+        assertNotNull(reviewOut);
         assertEquals(subject, reviewOut.getSubject());
         assertEquals(rating, reviewOut.getRating());
     }
@@ -81,13 +85,13 @@ public class GvDataViewLayoutChildReviewTest extends
     @SmallTest
     public void testUpdateViews() {
         View v = inflate();
-        EditText subjectET = (EditText) v.findViewById(GvDataViewLayoutChildReview.SUBJECT);
-        RatingBar ratingbar = (RatingBar) v.findViewById(GvDataViewLayoutChildReview.RATING);
+        EditText subjectET = (EditText) v.findViewById(LayoutChildReview.SUBJECT);
+        RatingBar ratingbar = (RatingBar) v.findViewById(LayoutChildReview.RATING);
 
         GvChildrenList.GvChildReview reviewIn = GvDataMocker.newChild();
         assertFalse(subjectET.getText().toString().trim().equals(reviewIn.getSubject()));
 
-        mDialogMethods.updateViews(reviewIn);
+        mLayout.updateViews(reviewIn);
 
         assertTrue(subjectET.getText().toString().trim().equals(reviewIn.getSubject()));
         assertTrue(ratingbar.getRating() == reviewIn.getRating());
@@ -95,18 +99,18 @@ public class GvDataViewLayoutChildReviewTest extends
 
     @SmallTest
     public void testGetViewHolder() {
-        assertNotNull(mDialogMethods.getViewHolder());
+        assertNotNull(mLayout.getViewHolder());
     }
 
     @SmallTest
     public void testGetEditTextForKeyboardAction() {
         View v = inflate();
-        EditText subjectET = (EditText) v.findViewById(GvDataViewLayoutChildReview.SUBJECT);
-        assertEquals(subjectET, mDialogMethods.getEditTextForKeyboardAction());
+        EditText subjectET = (EditText) v.findViewById(LayoutChildReview.SUBJECT);
+        assertEquals(subjectET, mLayout.getEditTextForKeyboardAction());
     }
 
     private View inflate() {
-        mDialogMethods.getViewHolder().inflate(getInstrumentation().getTargetContext());
-        return mDialogMethods.getViewHolder().getView();
+        mLayout.getViewHolder().inflate(getInstrumentation().getTargetContext());
+        return mLayout.getViewHolder().getView();
     }
 }

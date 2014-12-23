@@ -24,18 +24,16 @@ import android.widget.EditText;
  */
 public class GvDataViewAdd<T extends GvDataList.GvData> implements GvDataView<T> {
 
-    private GvDataAdder<T>      mAdder;
+    private GvDataAdder         mAdder;
     private GvDataViewLayout<T> mLayout;
 
-    public interface GvDataAdder<T extends GvDataList.GvData> {
+    public interface GvDataAdder {
         public void setKeyboardAction(EditText editText);
 
         public void setTitle(String title);
-
-        public T getNullingItem();
     }
 
-    public GvDataViewAdd(GvDataAdder<T> adder, GvDataViewLayout<T> layout) {
+    public GvDataViewAdd(GvDataAdder adder, GvDataViewLayout<T> layout) {
         mAdder = adder;
         mLayout = layout;
     }
@@ -47,7 +45,7 @@ public class GvDataViewAdd<T extends GvDataList.GvData> implements GvDataView<T>
 
     @Override
     public void updateView(T data) {
-        mLayout.updateViews(mAdder.getNullingItem());
+        mLayout.clearViews();
         mAdder.setTitle("+ " + mLayout.getTitleOnAdd(data));
     }
 

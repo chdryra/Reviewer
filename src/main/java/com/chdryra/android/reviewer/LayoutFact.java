@@ -15,18 +15,18 @@ import android.widget.EditText;
  * On: 18/12/2014
  * Email: rizwan.choudrey@gmail.com
  */
-public class GvDataViewLayoutFact extends GvDataViewLayout<GvFactList.GvFact> {
-    private static final int   LAYOUT = R.layout.dialog_fact;
-    private static final int   LABEL  = R.id.fact_label_edit_text;
-    private static final int   VALUE  = R.id.fact_value_edit_text;
-    private static final int[] VIEWS  = new int[]{LABEL, VALUE};
+public class LayoutFact extends GvDataViewLayout<GvFactList.GvFact> {
+    public static final int   LAYOUT = R.layout.dialog_fact;
+    public static final int   LABEL  = R.id.fact_label_edit_text;
+    public static final int   VALUE  = R.id.fact_value_edit_text;
+    public static final int[] VIEWS  = new int[]{LABEL, VALUE};
 
-    public GvDataViewLayoutFact(GvDataViewAdd.GvDataAdder<GvFactList.GvFact> adder) {
-        super(LAYOUT, VIEWS, VALUE, adder);
+    public LayoutFact(GvDataViewAdd.GvDataAdder adder) {
+        super(GvFactList.GvFact.class, LAYOUT, VIEWS, VALUE, adder);
     }
 
-    public GvDataViewLayoutFact(GvDataViewEdit.GvDataEditor<GvFactList.GvFact> editor) {
-        super(LAYOUT, VIEWS, VALUE, editor);
+    public LayoutFact(GvDataViewEdit.GvDataEditor editor) {
+        super(GvFactList.GvFact.class, LAYOUT, VIEWS, VALUE, editor);
     }
 
     @Override
