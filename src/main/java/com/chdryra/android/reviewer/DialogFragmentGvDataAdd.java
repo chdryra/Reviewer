@@ -55,7 +55,7 @@ public abstract class DialogFragmentGvDataAdd<T extends GvDataList.GvData> exten
      *
      * @param <T>:{@link GvDataList.GvData} type
      */
-    interface GvDataAddListener<T extends GvDataList.GvData> {
+    public interface GvDataAddListener<T extends GvDataList.GvData> {
         boolean onGvDataAdd(T data);
     }
 
@@ -72,6 +72,7 @@ public abstract class DialogFragmentGvDataAdd<T extends GvDataList.GvData> exten
     @Override
     public void setKeyboardAction(EditText editText) {
         setKeyboardDoActionOnEditText(editText);
+        editText.setImeActionLabel("Add", KEYBOARD_DO_ACTION);
     }
 
     @Override

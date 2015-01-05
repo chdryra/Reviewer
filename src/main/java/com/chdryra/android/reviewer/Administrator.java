@@ -115,6 +115,6 @@ public class Administrator {
     }
 
     private ControllerReview getController(String id) {
-        return (ControllerReview) mControllers.getObject(id);
+        return id != null ? (ControllerReview) mControllers.getObject(id) : null;
     }
 }
