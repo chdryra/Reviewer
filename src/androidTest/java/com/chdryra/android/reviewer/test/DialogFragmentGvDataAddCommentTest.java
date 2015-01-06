@@ -9,12 +9,14 @@
 package com.chdryra.android.reviewer.test;
 
 import android.app.Activity;
+import android.app.DialogFragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.SmallTest;
 
+import com.chdryra.android.mygenerallibrary.DialogCancelAddDoneFragment;
 import com.chdryra.android.reviewer.ActivityFeed;
 import com.chdryra.android.reviewer.Administrator;
 import com.chdryra.android.reviewer.ConfigGvDataAddEditDisplay;
@@ -22,6 +24,7 @@ import com.chdryra.android.reviewer.ControllerReview;
 import com.chdryra.android.reviewer.DialogFragmentGvDataAdd;
 import com.chdryra.android.reviewer.GvCommentList;
 import com.chdryra.android.reviewer.GvDataList;
+import com.chdryra.android.reviewer.LaunchableUI;
 import com.chdryra.android.reviewer.LauncherUI;
 import com.chdryra.android.reviewer.test.TestUtils.DialogAddListener;
 import com.chdryra.android.testutils.RandomStringGenerator;
@@ -39,34 +42,36 @@ public class DialogFragmentGvDataAddCommentTest extends
 
     private Solo                                       mSolo;
     private ConfigGvDataAddEditDisplay.AddComment      mDialog;
-    private DialogAddListener<GvCommentList.GvComment> mFragment;
+    private DialogAddListener<GvCommentList.GvComment> mListener;
     private ControllerReview                           mController;
-    private Activity mActivity;
+    private Activity                                   mActivity;
 
     public DialogFragmentGvDataAddCommentTest() {
         super(ActivityFeed.class);
     }
 
     @SmallTest
+    public void testLaunches() {
+        launchDialogAndTestShowing(false);
+    }
+
+    @SmallTest
     public void testCancelButton() {
         launchDialogAndTestShowing(false);
 
-        final String tag = RandomStringGenerator.nextWord();
-        assertFalse(mSolo.searchEditText(tag));
-//
-//        mActivity.runOnUiThread(new Runnable() {
-//            public void run() {
-//                mSolo.typeText(mSolo.getEditText(0), tag);
+        String tag = RandomStringGenerator.nextWord();
+        getInstrumentation().sendStringSync(tag);
+        assertNull(mListener.getData());
 
-        assertTrue(mSolo.searchEditText(tag));
-        assertNull(mFragment.getData());
+        final DialogCancelAddDoneFragment dialog = mDialog;
+        mActivity.runOnUiThread(new Runnable() {
+            public void run() {
+                dialog.clickCancelButton();
+            }
+        });
 
-        mSolo.clickOnButton("Cancel");
-
-        assertNull(mFragment.getData());
-        assertFalse(dialogIsShowing());
-        //          }
-//        });
+        assertNull(mListener.getData());
+        assertFalse(mDialog.isVisible());
     }
 
     @SmallTest
@@ -74,23 +79,27 @@ public class DialogFragmentGvDataAddCommentTest extends
         launchDialogAndTestShowing(false);
 
         final String tag = RandomStringGenerator.nextSentence();
-        assertFalse(mSolo.searchEditText(tag));
-        assertEquals(0, getControllerData().size());
+        final Solo solo = mSolo;
+        final DialogAddListener<GvCommentList.GvComment> listener = mListener;
+        final ControllerReview controller = mController;
+        final DialogCancelAddDoneFragment dialog = mDialog;
+
+        assertFalse(solo.searchEditText(tag));
+        assertEquals(0, getControllerData(controller).size());
+
+        getInstrumentation().sendStringSync(tag);
+        assertTrue(solo.searchEditText(tag));
+        assertNull(listener.getData());
 
         mActivity.runOnUiThread(new Runnable() {
             public void run() {
-                mSolo.typeText(mSolo.getEditText(0), tag);
+                dialog.clickAddButton();
+                assertNotNull(listener.getData());
+                assertEquals(tag, listener.getData().getComment());
 
-                assertTrue(mSolo.searchEditText(tag));
-                assertNull(mFragment.getData());
-
-                mSolo.clickOnButton("Add");
-
-                assertNotNull(mFragment.getData());
-                assertEquals(tag, mFragment.getData().getComment());
-                assertEquals(0, getControllerData().size());
-                assertTrue(dialogIsShowing());
-                assertTrue(mSolo.getEditText(0).getText().toString().length() == 0);
+                assertEquals(0, getControllerData(controller).size());
+                assertTrue(dialogIsShowing(dialog));
+                assertTrue(solo.getEditText(0).getText().toString().length() == 0);
             }
         });
     }
@@ -100,47 +109,52 @@ public class DialogFragmentGvDataAddCommentTest extends
         launchDialogAndTestShowing(false);
 
         final String tag = RandomStringGenerator.nextWord();
-        assertFalse(mSolo.searchEditText(tag));
-        assertEquals(0, getControllerData().size());
+        final Solo solo = mSolo;
+        final DialogAddListener<GvCommentList.GvComment> listener = mListener;
+        final ControllerReview controller = mController;
+        final DialogCancelAddDoneFragment dialog = mDialog;
+
+        assertFalse(solo.searchEditText(tag));
+        assertEquals(0, getControllerData(controller).size());
+
+        solo.typeText(solo.getEditText(0), tag);
+        assertTrue(solo.searchEditText(tag));
+        assertNull(listener.getData());
 
         mActivity.runOnUiThread(new Runnable() {
             public void run() {
-                mSolo.typeText(mSolo.getEditText(0), tag);
+                dialog.clickDoneButton();
 
-                assertTrue(mSolo.searchEditText(tag));
-                assertNull(mFragment.getData());
-
-                mSolo.clickOnButton("Done");
-
-                assertNotNull(mFragment.getData());
-                assertEquals(tag, mFragment.getData().getComment());
-                assertEquals(0, getControllerData().size());
-                assertFalse(dialogIsShowing());
+                assertNotNull(listener.getData());
+                assertEquals(tag, listener.getData().getComment());
+                assertEquals(0, getControllerData(controller).size());
+                assertFalse(dialogIsShowing(dialog));
             }
         });
     }
 
     @SmallTest
     public void testQuickSet() {
-        assertEquals(0, getControllerData().size());
-
         launchDialogAndTestShowing(true);
 
+        final Solo solo = mSolo;
+        final ControllerReview controller = mController;
+        assertEquals(0, getControllerData(controller).size());
         mActivity.runOnUiThread(new Runnable() {
             public void run() {
                 String tag1 = RandomStringGenerator.nextWord();
-                mSolo.typeText(mSolo.getEditText(0), tag1);
-                mSolo.clickOnButton("Add");
+                solo.typeText(solo.getEditText(0), tag1);
+                solo.clickOnButton("Add");
 
                 String tag2 = RandomStringGenerator.nextWord();
-                mSolo.typeText(mSolo.getEditText(0), tag2);
-                mSolo.clickOnButton("Add");
+                solo.typeText(solo.getEditText(0), tag2);
+                solo.clickOnButton("Add");
 
                 String tag3 = RandomStringGenerator.nextWord();
-                mSolo.typeText(mSolo.getEditText(0), tag3);
-                mSolo.clickOnButton("Done");
+                solo.typeText(solo.getEditText(0), tag3);
+                solo.clickOnButton("Done");
 
-                GvCommentList data = (GvCommentList) getControllerData();
+                GvCommentList data = (GvCommentList) getControllerData(controller);
                 assertEquals(3, data.size());
                 assertEquals(tag1, data.getItem(0).getComment());
                 assertEquals(tag2, data.getItem(1).getComment());
@@ -153,10 +167,10 @@ public class DialogFragmentGvDataAddCommentTest extends
     protected void setUp() throws Exception {
         super.setUp();
         mDialog = new ConfigGvDataAddEditDisplay.AddComment();
-        mFragment = new DialogAddListener<>();
+        mListener = new DialogAddListener<>();
         FragmentManager manager = getActivity().getFragmentManager();
         FragmentTransaction ft = manager.beginTransaction();
-        ft.add(mFragment, DIALOG_TAG);
+        ft.add(mListener, DIALOG_TAG);
         ft.commit();
 
         mController = Administrator.get(getInstrumentation().getTargetContext())
@@ -170,23 +184,28 @@ public class DialogFragmentGvDataAddCommentTest extends
         Bundle args = getControllerBundle();
         args.putBoolean(DialogFragmentGvDataAdd.QUICK_SET, quickSet);
 
-        assertFalse(dialogIsShowing());
+        final DialogAddListener<GvCommentList.GvComment> listener = mListener;
+        final DialogFragment dialog = mDialog;
+        final FragmentManager manager = mActivity.getFragmentManager();
 
-        LauncherUI.launch(mDialog, mFragment, REQUEST_CODE, DIALOG_TAG, args);
-        getInstrumentation().waitForIdleSync();
+        assertFalse(dialogIsShowing(dialog));
 
-        assertTrue(dialogIsShowing());
+        LauncherUI.launch((LaunchableUI) dialog, listener, REQUEST_CODE, DIALOG_TAG, args);
+
+        mActivity.runOnUiThread(new Runnable() {
+            public void run() {
+                manager.executePendingTransactions();
+                assertTrue(dialogIsShowing(dialog));
+            }
+        });
     }
 
-    private boolean dialogIsShowing() {
-        return mSolo.searchButton("Cancel") &&
-                mSolo.searchButton("Add") &&
-                mSolo.searchButton("Done") &&
-                mSolo.searchText(GvDataList.GvType.COMMENTS.getDatumString());
+    private boolean dialogIsShowing(final DialogFragment dialog) {
+        return dialog.getDialog() != null && dialog.getDialog().isShowing();
     }
 
-    private GvDataList getControllerData() {
-        return mController.getData(GvDataList.GvType.COMMENTS);
+    private GvDataList getControllerData(final ControllerReview controller) {
+        return controller.getData(GvDataList.GvType.COMMENTS);
     }
 
     private Bundle getControllerBundle() {
