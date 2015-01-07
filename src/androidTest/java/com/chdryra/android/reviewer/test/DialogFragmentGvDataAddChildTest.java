@@ -3,41 +3,40 @@
  * Unauthorized copying of this file, via any medium is strictly prohibited
  * Proprietary and confidential
  * Author: Rizwan Choudrey
- * Date: 5 January, 2015
+ * Date: 7 January, 2015
  */
 
 package com.chdryra.android.reviewer.test;
 
 import android.test.suitebuilder.annotation.SmallTest;
+import android.widget.EditText;
+import android.widget.RatingBar;
 
 import com.chdryra.android.reviewer.ConfigGvDataAddEditDisplay;
+import com.chdryra.android.reviewer.GvChildrenList;
 import com.chdryra.android.reviewer.GvDataList;
-import com.chdryra.android.reviewer.GvTagList;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
 
 /**
  * Created by: Rizwan Choudrey
- * On: 05/01/2015
+ * On: 07/01/2015
  * Email: rizwan.choudrey@gmail.com
  */
+public class DialogFragmentGvDataAddChildTest extends
+        DialogFragmentGvDataAddTest<GvChildrenList.GvChildReview> {
 
-/**
- * More of a black-box behaviour (integration) test than unit test
- */
-public class DialogFragmentGvDataAddTagTest extends DialogFragmentGvDataAddTest<GvTagList.GvTag> {
-
-    public DialogFragmentGvDataAddTagTest() {
-        super(ConfigGvDataAddEditDisplay.AddTag.class);
+    public DialogFragmentGvDataAddChildTest() {
+        super(ConfigGvDataAddEditDisplay.AddChild.class);
     }
 
     @Override
     protected GvDataList.GvData enterData() {
-        GvTagList.GvTag tag = GvDataMocker.newTag();
+        GvChildrenList.GvChildReview child = GvDataMocker.newChild();
 
-        mSolo.enterText(mSolo.getEditText(0), tag.get());
-        assertEquals(mSolo.getEditText(0).getText().toString(), tag.get());
+        mSolo.enterText(mSolo.getEditText(0), child.getSubject());
+        mSolo.setProgressBar(0, (int) (child.getRating() * 2f));
 
-        return tag;
+        return child;
     }
 
     @Override
@@ -47,7 +46,11 @@ public class DialogFragmentGvDataAddTagTest extends DialogFragmentGvDataAddTest<
 
     @Override
     protected boolean isDataNulled() {
-        return !isDataEntered();
+        EditText et = mSolo.getEditText(0);
+        RatingBar rb = (RatingBar) mSolo.getView(com.chdryra.android.reviewer.R.id
+                .child_rating_bar);
+
+        return et.getText().toString().length() == 0 && rb.getRating() == 0;
     }
 
     @SmallTest
