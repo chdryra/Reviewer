@@ -11,7 +11,6 @@ package com.chdryra.android.reviewer.test;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.ConfigGvDataAddEditDisplay;
-import com.chdryra.android.reviewer.GvDataList;
 import com.chdryra.android.reviewer.GvTagList;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
 
@@ -31,7 +30,7 @@ public class DialogFragmentGvDataAddTagTest extends DialogFragmentGvDataAddTest<
     }
 
     @Override
-    protected GvDataList.GvData enterData() {
+    protected GvTagList.GvTag enterData() {
         GvTagList.GvTag tag = GvDataMocker.newTag();
 
         mSolo.enterText(mSolo.getEditText(0), tag.get());

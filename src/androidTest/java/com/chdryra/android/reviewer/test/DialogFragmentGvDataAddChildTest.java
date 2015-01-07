@@ -14,7 +14,6 @@ import android.widget.RatingBar;
 
 import com.chdryra.android.reviewer.ConfigGvDataAddEditDisplay;
 import com.chdryra.android.reviewer.GvChildrenList;
-import com.chdryra.android.reviewer.GvDataList;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
 
 /**
@@ -30,7 +29,7 @@ public class DialogFragmentGvDataAddChildTest extends
     }
 
     @Override
-    protected GvDataList.GvData enterData() {
+    protected GvChildrenList.GvChildReview enterData() {
         GvChildrenList.GvChildReview child = GvDataMocker.newChild();
 
         mSolo.enterText(mSolo.getEditText(0), child.getSubject());

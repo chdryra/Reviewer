@@ -11,7 +11,6 @@ package com.chdryra.android.reviewer.test;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.ConfigGvDataAddEditDisplay;
-import com.chdryra.android.reviewer.GvDataList;
 import com.chdryra.android.reviewer.GvFactList;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
 
@@ -28,7 +27,7 @@ public class DialogFragmentGvDataAddFactTest extends
     }
 
     @Override
-    protected GvDataList.GvData enterData() {
+    protected GvFactList.GvFact enterData() {
         GvFactList.GvFact fact = GvDataMocker.newFact();
 
         mSolo.enterText(mSolo.getEditText(0), fact.getLabel());

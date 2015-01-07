@@ -43,7 +43,7 @@ public abstract class DialogFragmentGvDataAddTest<T extends GvDataList.GvData> e
     protected Activity                                 mActivity;
     private   Class<? extends DialogFragmentGvDataAdd> mDialogClass;
 
-    protected abstract GvDataList.GvData enterData();
+    protected abstract T enterData();
 
     protected abstract boolean isDataEntered();
 
@@ -113,6 +113,7 @@ public abstract class DialogFragmentGvDataAddTest<T extends GvDataList.GvData> e
     @Override
     protected void setUp() throws Exception {
         super.setUp();
+
         mDialog = mDialogClass.newInstance();
 
         mListener = new DialogAddListener<>();

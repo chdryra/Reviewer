@@ -12,7 +12,6 @@ import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.ConfigGvDataAddEditDisplay;
 import com.chdryra.android.reviewer.GvCommentList;
-import com.chdryra.android.reviewer.GvDataList;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
 
 /**
@@ -28,7 +27,7 @@ public class DialogFragmentGvDataAddCommentTest extends
     }
 
     @Override
-    protected GvDataList.GvData enterData() {
+    protected GvCommentList.GvComment enterData() {
         GvCommentList.GvComment comment = GvDataMocker.newComment();
 
         mSolo.enterText(mSolo.getEditText(0), comment.getComment());

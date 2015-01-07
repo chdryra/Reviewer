@@ -76,6 +76,10 @@ public abstract class DialogFragmentGvDataEdit<T extends GvDataList.GvData>
         setDeleteWhatTitle(title);
     }
 
+    public GvDataList.GvType getGvType() {
+        return mDataType;
+    }
+
     @Override
     protected View createDialogUI() {
         mViewHolder.inflate(getActivity());
@@ -125,9 +129,5 @@ public abstract class DialogFragmentGvDataEdit<T extends GvDataList.GvData>
     @Override
     protected Intent getReturnData() {
         return null;
-    }
-
-    GvDataList.GvType getGvType() {
-        return mDataType;
     }
 }
