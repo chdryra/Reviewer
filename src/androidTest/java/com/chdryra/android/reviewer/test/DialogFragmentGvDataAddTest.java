@@ -21,8 +21,8 @@ import com.chdryra.android.reviewer.Administrator;
 import com.chdryra.android.reviewer.ControllerReview;
 import com.chdryra.android.reviewer.DialogFragmentGvDataAdd;
 import com.chdryra.android.reviewer.GvDataList;
-import com.chdryra.android.reviewer.LaunchableIU2;
-import com.chdryra.android.reviewer.LauncherIU2;
+import com.chdryra.android.reviewer.LaunchableUi;
+import com.chdryra.android.reviewer.LauncherUi;
 import com.chdryra.android.reviewer.test.TestUtils.DialogAddListener;
 import com.robotium.solo.Solo;
 
@@ -134,7 +134,7 @@ public abstract class DialogFragmentGvDataAddTest<T extends GvDataList.GvData> e
 
         assertFalse(dialog.isShowing());
 
-        LauncherIU2.launch((LaunchableIU2) dialog, listener, REQUEST_CODE, DIALOG_TAG, args);
+        LauncherUi.launch((LaunchableUi) dialog, listener, REQUEST_CODE, DIALOG_TAG, args);
 
         mActivity.runOnUiThread(new Runnable() {
             public void run() {

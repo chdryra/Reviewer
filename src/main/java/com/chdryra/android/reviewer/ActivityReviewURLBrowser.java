@@ -16,10 +16,10 @@ import com.chdryra.android.mygenerallibrary.ActivitySingleFragment;
  * UI Activity holding {@link FragmentReviewURLBrowser}: browsing and searching URLs (currently
  * disabled).
  */
-public class ActivityReviewURLBrowser extends ActivitySingleFragment implements LaunchableIU2 {
+public class ActivityReviewURLBrowser extends ActivitySingleFragment implements LaunchableUi {
 
     @Override
-    public void launch(LauncherIU2 launcher) {
+    public void launch(LauncherUi launcher) {
         launcher.launch(this);
     }
 

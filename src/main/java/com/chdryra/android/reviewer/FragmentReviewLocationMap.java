@@ -96,7 +96,7 @@ public class FragmentReviewLocationMap extends FragmentDeleteDone implements
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Bundle args = LauncherIU2.getArgsForActivity(getActivity());
+        Bundle args = LauncherUi.getArgsForActivity(getActivity());
         if (args != null) {
             mCurrent = (GvLocationList.GvLocation) GvDataPacker.unpackItem(GvDataPacker
                     .CurrentNewDatum.CURRENT, args);

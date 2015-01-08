@@ -31,7 +31,7 @@ import java.util.ArrayList;
  * up with autocomplete suggestions as user types name.
  */
 public class DialogFragmentLocation extends DialogCancelActionDoneFragment implements Locatable,
-        LaunchableIU2, PlaceSuggester.SuggestionsListener {
+        LaunchableUi, PlaceSuggester.SuggestionsListener {
     public static final  ActionType RESULT_MAP         = ActionType.OTHER;
     private static final int        NUMBER_SUGGESTIONS = 10;
     private static final String     SEARCHING          = "searching nearby...";
@@ -71,7 +71,7 @@ public class DialogFragmentLocation extends DialogCancelActionDoneFragment imple
     }
 
     @Override
-    public void launch(LauncherIU2 launcher) {
+    public void launch(LauncherUi launcher) {
         launcher.launch(this);
     }
 

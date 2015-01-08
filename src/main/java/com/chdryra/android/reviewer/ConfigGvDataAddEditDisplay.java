@@ -83,11 +83,11 @@ public final class ConfigGvDataAddEditDisplay {
                         ActivityReviewShare.class));
     }
 
-    public static Class<? extends LaunchableIU2> getAddClass(GvDataList.GvType dataType) {
+    public static Class<? extends LaunchableUi> getAddClass(GvDataList.GvType dataType) {
         return get().mMap.get(dataType).getAddClass();
     }
 
-    public static Class<? extends LaunchableIU2> getEditClass(GvDataList.GvType dataType) {
+    public static Class<? extends LaunchableUi> getEditClass(GvDataList.GvType dataType) {
         return get().mMap.get(dataType).getEditClass();
     }
 
@@ -173,23 +173,23 @@ public final class ConfigGvDataAddEditDisplay {
      * Packages together an add, edit and display UI.
      */
     class AddEditDisplayUIs {
-        private final Class<? extends LaunchableIU2> mAdd;
-        private final Class<? extends LaunchableIU2> mEdit;
-        private final Class<? extends Activity>      mActivity;
+        private final Class<? extends LaunchableUi> mAdd;
+        private final Class<? extends LaunchableUi> mEdit;
+        private final Class<? extends Activity>     mActivity;
 
-        private AddEditDisplayUIs(Class<? extends LaunchableIU2> add,
-                Class<? extends LaunchableIU2> edit,
+        private AddEditDisplayUIs(Class<? extends LaunchableUi> add,
+                Class<? extends LaunchableUi> edit,
                 Class<? extends Activity> activity) {
             mAdd = add;
             mEdit = edit;
             mActivity = activity;
         }
 
-        Class<? extends LaunchableIU2> getAddClass() {
+        Class<? extends LaunchableUi> getAddClass() {
             return mAdd;
         }
 
-        Class<? extends LaunchableIU2> getEditClass() {
+        Class<? extends LaunchableUi> getEditClass() {
             return mEdit;
         }
 
