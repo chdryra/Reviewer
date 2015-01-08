@@ -13,7 +13,7 @@ import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.ConfigGvDataAddEditDisplay;
 import com.chdryra.android.reviewer.GvDataList;
-import com.chdryra.android.reviewer.LaunchableUI;
+import com.chdryra.android.reviewer.LaunchableIU;
 
 import junit.framework.TestCase;
 
@@ -33,7 +33,7 @@ public class ConfigGvDataAddEditDisplayTest extends TestCase {
     @SmallTest
     public void testGetAddClass() {
         for (GvDataList.GvType dataType : GvDataList.GvType.values()) {
-            Class<? extends LaunchableUI> addClass = ConfigGvDataAddEditDisplay.getAddClass
+            Class<? extends LaunchableIU> addClass = ConfigGvDataAddEditDisplay.getAddClass
                     (dataType);
             if (Arrays.asList(NULLADDS).contains(dataType)) {
                 assertNull(addClass);
@@ -46,7 +46,7 @@ public class ConfigGvDataAddEditDisplayTest extends TestCase {
     @SmallTest
     public void testGetEditClass() {
         for (GvDataList.GvType dataType : GvDataList.GvType.values()) {
-            Class<? extends LaunchableUI> editClass = ConfigGvDataAddEditDisplay.getEditClass
+            Class<? extends LaunchableIU> editClass = ConfigGvDataAddEditDisplay.getEditClass
                     (dataType);
             if (Arrays.asList(NULLEDITS).contains(dataType)) {
                 assertNull(editClass);

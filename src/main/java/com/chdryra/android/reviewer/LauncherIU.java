@@ -21,26 +21,26 @@ import android.os.Bundle;
  */
 
 /**
- * Knows how to launch a {@link com.chdryra.android.reviewer.LaunchableUI} depending on whether
+ * Knows how to launch a {@link LaunchableIU} depending on whether
  * it is a Dialog or Activity underneath.
  */
-public class LauncherUI {
+public class LauncherIU {
     private static final String LAUNCHER_ARGS = "com.chdryra.android.review.args_key";
     private final Fragment mCommissioner;
     private final int      mRequestCode;
     private final String   mTag;
     private final Bundle   mArgs;
 
-    private LauncherUI(Fragment commissioner, int requestCode, String tag, Bundle args) {
+    private LauncherIU(Fragment commissioner, int requestCode, String tag, Bundle args) {
         mCommissioner = commissioner;
         mRequestCode = requestCode;
         mTag = tag;
         mArgs = args;
     }
 
-    public static void launch(LaunchableUI ui, Fragment commissioner, int requestCode, String tag,
+    public static void launch(LaunchableIU ui, Fragment commissioner, int requestCode, String tag,
             Bundle args) {
-        ui.launch(new LauncherUI(commissioner, requestCode, tag, args));
+        ui.launch(new LauncherIU(commissioner, requestCode, tag, args));
     }
 
     public static Bundle getArgsForActivity(Activity launchableUI) {

@@ -58,7 +58,7 @@ public final class ConfigGvDataUi {
         return getConfigsMap().get(dataType);
     }
 
-    public static LaunchableUI getLaunchable(Class<? extends LaunchableUI> uiClass) throws
+    public static LaunchableIU getLaunchable(Class<? extends LaunchableIU> uiClass) throws
             RuntimeException {
         if (uiClass == null) return null;
 
@@ -132,21 +132,21 @@ public final class ConfigGvDataUi {
      * Encapsulates a configuration for a UI that can add or edit review data of a certain
      * {@link GvDataList.GvType}. Packages together:
      * <ul>
-     * <li>A {@link LaunchableUI} implementation for
+     * <li>A {@link LaunchableIU} implementation for
      * adding/editing review data of a certain type</li>
      * <li>An integer request code (required when one activity launches another)</li>
      * <li>A String tag that may be used (if ultimately launching a dialog)</li>
      * </ul>
      * The ReviewDataUI is launched using a
-     * {@link LauncherUI}
+     * {@link LauncherIU}
      */
     public class GvDataUiConfig {
         private final GvDataList.GvType             mDataType;
-        private final Class<? extends LaunchableUI> mUiClass;
+        private final Class<? extends LaunchableIU> mUiClass;
         private final int                           mRequestCode;
         private final String                        mTag;
 
-        private GvDataUiConfig(GvDataList.GvType dataType, Class<? extends LaunchableUI>
+        private GvDataUiConfig(GvDataList.GvType dataType, Class<? extends LaunchableIU>
                 UiClass, int requestCode, String tag) {
             mDataType = dataType;
             mUiClass = UiClass;
@@ -159,7 +159,7 @@ public final class ConfigGvDataUi {
             return mDataType;
         }
 
-        public LaunchableUI getReviewDataUI() throws RuntimeException {
+        public LaunchableIU getReviewDataUI() throws RuntimeException {
             return ConfigGvDataUi.getLaunchable(mUiClass);
         }
 

@@ -57,7 +57,7 @@ public class FragmentReviewURLBrowser extends FragmentDeleteDone {
         super.onCreate(savedInstanceState);
         mCurrent = (GvUrlList.GvUrl) GvDataPacker.unpackItem(GvDataPacker.CurrentNewDatum
                         .CURRENT,
-                LauncherUI.getArgsForActivity(getActivity()));
+                LauncherIU.getArgsForActivity(getActivity()));
         setDeleteWhatTitle(GvDataList.GvType.URLS.getDatumString());
         dismissOnDelete();
     }

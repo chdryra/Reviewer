@@ -15,7 +15,7 @@ import android.test.suitebuilder.annotation.SmallTest;
 import com.chdryra.android.reviewer.ConfigGvDataAddEditDisplay;
 import com.chdryra.android.reviewer.ConfigGvDataUi;
 import com.chdryra.android.reviewer.GvDataList;
-import com.chdryra.android.reviewer.LaunchableUI;
+import com.chdryra.android.reviewer.LaunchableIU;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -69,7 +69,7 @@ public class ConfigGvDataUiTest extends AndroidTestCase {
             if (Arrays.asList(NULLADDS).contains(dataType)) {
                 assertNull(uiConfig.getReviewDataUI());
             } else {
-                LaunchableUI ui = uiConfig.getReviewDataUI();
+                LaunchableIU ui = uiConfig.getReviewDataUI();
                 assertNotNull(ui);
                 assertEquals(ConfigGvDataAddEditDisplay.getAddClass(dataType).getName(),
                         ui.getClass().getName());
@@ -89,7 +89,7 @@ public class ConfigGvDataUiTest extends AndroidTestCase {
             if (Arrays.asList(NULLEDITS).contains(dataType)) {
                 assertNull(uiConfig.getReviewDataUI());
             } else {
-                LaunchableUI ui = uiConfig.getReviewDataUI();
+                LaunchableIU ui = uiConfig.getReviewDataUI();
                 assertNotNull(ui);
                 assertEquals(ConfigGvDataAddEditDisplay.getEditClass(dataType).getName(),
                         ui.getClass().getName());
@@ -136,18 +136,18 @@ public class ConfigGvDataUiTest extends AndroidTestCase {
 
             //Add
             if (!Arrays.asList(NULLADDS).contains(dataType)) {
-                LaunchableUI fromConfig = config.getAdderConfig().getReviewDataUI();
+                LaunchableIU fromConfig = config.getAdderConfig().getReviewDataUI();
                 assertNotNull(fromConfig);
-                LaunchableUI fromStatic = ConfigGvDataUi.getLaunchable(fromConfig.getClass());
+                LaunchableIU fromStatic = ConfigGvDataUi.getLaunchable(fromConfig.getClass());
                 assertNotNull(fromStatic);
                 assertEquals(fromConfig.getClass(), fromStatic.getClass());
             }
 
             //Edit
             if (!Arrays.asList(NULLEDITS).contains(dataType)) {
-                LaunchableUI fromConfig = config.getEditorConfig().getReviewDataUI();
+                LaunchableIU fromConfig = config.getEditorConfig().getReviewDataUI();
                 assertNotNull(fromConfig);
-                LaunchableUI fromStatic = ConfigGvDataUi.getLaunchable(fromConfig.getClass());
+                LaunchableIU fromStatic = ConfigGvDataUi.getLaunchable(fromConfig.getClass());
                 assertNotNull(fromStatic);
                 assertEquals(fromConfig.getClass(), fromStatic.getClass());
             }

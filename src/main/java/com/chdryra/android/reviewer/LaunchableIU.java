@@ -15,9 +15,9 @@ package com.chdryra.android.reviewer;
  */
 
 /**
- * For UIs that can be launched by a {@link LauncherUI}.
+ * For UIs that can be launched by a {@link LauncherIU}.
  * Usually by calling "launcher.launch(this)".
  */
-public interface LaunchableUI {
-    void launch(LauncherUI launcher);
+public interface LaunchableIU {
+    void launch(LauncherIU launcher);
 }
