@@ -23,7 +23,7 @@ import com.chdryra.android.mygenerallibrary.DialogCancelActionDoneFragment;
  *
  * @see com.chdryra.android.reviewer.FragmentReviewURLBrowser
  */
-public class DialogFragmentURL extends DialogCancelActionDoneFragment implements LaunchableIU {
+public class DialogFragmentURL extends DialogCancelActionDoneFragment implements LaunchableIU2 {
     private static final ActionType RESULT_BROWSE = ActionType.OTHER;
 
     private static final String TAG = "DialogURLFragment";
@@ -32,7 +32,7 @@ public class DialogFragmentURL extends DialogCancelActionDoneFragment implements
     private ClearableEditText        mUrlEditText;
 
     @Override
-    public void launch(LauncherIU launcher) {
+    public void launch(LauncherIU2 launcher) {
         launcher.launch(this);
     }
 
