@@ -170,10 +170,12 @@ public class DialogFragmentLocation extends DialogCancelActionDoneFragment imple
         ArrayList<String> message = new ArrayList<String>();
         message.add(SEARCHING);
 
+        //Autocomplete suggestions
         mAutoCompleter = new PlaceAutoCompleteSuggester(mLatLng);
         mAdapter = new StringFilterAdapter(getActivity(), message, mAutoCompleter);
         mLocationNameSuggestions.setAdapter(mAdapter);
 
+        //Initial suggestions
         PlaceSuggester suggester = new PlaceSuggester(getActivity(), mLatLng, this);
         suggester.getSuggestions(NUMBER_SUGGESTIONS);
     }

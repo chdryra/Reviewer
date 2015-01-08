@@ -17,7 +17,6 @@ import android.test.ActivityInstrumentationTestCase2;
 
 import com.chdryra.android.mygenerallibrary.DialogCancelDeleteDoneFragment;
 import com.chdryra.android.mygenerallibrary.DialogDeleteConfirmFragment;
-import com.chdryra.android.mygenerallibrary.DialogTwoButtonFragment;
 import com.chdryra.android.reviewer.ActivityFeed;
 import com.chdryra.android.reviewer.DialogFragmentGvDataEdit;
 import com.chdryra.android.reviewer.GvDataList;
@@ -183,25 +182,22 @@ public abstract class DialogFragmentGvDataEditTest<T extends GvDataList.GvData> 
         Bundle args = new Bundle();
         GvDataPacker.packItem(GvDataPacker.CurrentNewDatum.CURRENT, datum, args);
 
-        final DialogEditListener<T> listener = mListener;
-        final DialogTwoButtonFragment dialog = mDialog;
+        assertFalse(mDialog.isShowing());
+
+        LauncherUi.launch((LaunchableUi) mDialog, mListener, REQUEST_CODE, DIALOG_TAG, args);
+
         final FragmentManager manager = mActivity.getFragmentManager();
-
-        assertFalse(dialog.isShowing());
-
-        LauncherUi.launch((LaunchableUi) dialog, listener, REQUEST_CODE, DIALOG_TAG, args);
-
         mActivity.runOnUiThread(new Runnable() {
             public void run() {
                 manager.executePendingTransactions();
 
             }
         });
-
         mSolo.waitForDialogToOpen();
-
-        assertTrue(dialog.isShowing());
-        if (mDialog.getGvType() != GvDataList.GvType.IMAGES) assertEquals(datum, getDataShown());
+        assertTrue(mDialog.isShowing());
+        if (mDialog.getGvType() != GvDataList.GvType.IMAGES) {
+            assertEquals(datum, getDataShown());
+        }
 
         return (T) datum;
     }

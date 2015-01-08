@@ -28,6 +28,11 @@ public class DialogFragmentGvDataAddChildTest extends
         super(ConfigGvDataAddEditDisplay.AddChild.class);
     }
 
+    @SmallTest
+    public void testAddButtonNotQuickSe() {
+        super.testAddButtonNotQuickSet();
+    }
+
     @Override
     protected GvChildrenList.GvChildReview enterData() {
         GvChildrenList.GvChildReview child = GvDataMocker.newChild();
@@ -55,11 +60,6 @@ public class DialogFragmentGvDataAddChildTest extends
     @SmallTest
     public void testCancelButton() {
         super.testCancelButton();
-    }
-
-    @SmallTest
-    public void testAddButtonNotQuickSet() {
-        super.testAddButtonNotQuickSet();
     }
 
     @SmallTest

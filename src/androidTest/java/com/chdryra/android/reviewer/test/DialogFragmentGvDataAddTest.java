@@ -108,11 +108,12 @@ public abstract class DialogFragmentGvDataAddTest<T extends GvDataList.GvData> e
     @Override
     protected void setUp() throws Exception {
         super.setUp();
+        mActivity = getActivity();
 
         mDialog = mDialogClass.newInstance();
-
         mListener = new DialogAddListener<>();
-        FragmentManager manager = getActivity().getFragmentManager();
+
+        FragmentManager manager = mActivity.getFragmentManager();
         FragmentTransaction ft = manager.beginTransaction();
         ft.add(mListener, DIALOG_TAG);
         ft.commit();
@@ -120,7 +121,6 @@ public abstract class DialogFragmentGvDataAddTest<T extends GvDataList.GvData> e
         mController = Administrator.get(getInstrumentation().getTargetContext())
                 .createNewReviewInProgress();
 
-        mActivity = getActivity();
         mSolo = new Solo(getInstrumentation(), mActivity);
     }
 
@@ -142,6 +142,8 @@ public abstract class DialogFragmentGvDataAddTest<T extends GvDataList.GvData> e
                 assertTrue(dialog.isShowing());
             }
         });
+
+        assertTrue(mSolo.waitForDialogToOpen());
     }
 
     protected GvDataList getControllerData(final ControllerReview controller) {
