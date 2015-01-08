@@ -3,7 +3,7 @@
  * Unauthorized copying of this file, via any medium is strictly prohibited
  * Proprietary and confidential
  * Author: Rizwan Choudrey
- * Date: 7 January, 2015
+ * Date: 8 January, 2015
  */
 
 package com.chdryra.android.reviewer.test;
@@ -11,32 +11,41 @@ package com.chdryra.android.reviewer.test;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.ConfigGvDataAddEditDisplay;
-import com.chdryra.android.reviewer.GvTagList;
+import com.chdryra.android.reviewer.GvImageList;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
 
 /**
  * Created by: Rizwan Choudrey
- * On: 07/01/2015
+ * On: 08/01/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class DialogFragmentGvDataEditTagTest extends DialogFragmentGvDataEditTest<GvTagList.GvTag> {
+public class DialogFragmentGvDataEditImageTest extends DialogFragmentGvDataEditTest<GvImageList
+        .GvImage> {
+    private GvImageList.GvImage mCurrent;
 
-    public DialogFragmentGvDataEditTagTest() {
-        super(ConfigGvDataAddEditDisplay.EditTag.class);
+    public DialogFragmentGvDataEditImageTest() {
+        super(ConfigGvDataAddEditDisplay.EditImage.class);
     }
 
     @Override
-    protected GvTagList.GvTag editData() {
-        GvTagList.GvTag tag = GvDataMocker.newTag();
+    protected GvImageList.GvImage editData() {
+        GvImageList.GvImage child = GvDataMocker.newImage();
         mSolo.clearEditText(mSolo.getEditText(0));
-        mSolo.enterText(mSolo.getEditText(0), tag.get());
+        mSolo.enterText(mSolo.getEditText(0), child.getCaption());
 
-        return tag;
+        mCurrent = new GvImageList.GvImage(mCurrent.getBitmap(), mCurrent.getLatLng(),
+                child.getCaption(), mCurrent.isCover());
+
+        return mCurrent;
     }
 
     @Override
-    protected GvTagList.GvTag getDataShown() {
-        return new GvTagList.GvTag(mSolo.getEditText(0).getText().toString());
+    protected GvImageList.GvImage getDataShown() {
+        String caption = mSolo.getEditText(0).getText().toString().trim();
+        mCurrent = new GvImageList.GvImage(mCurrent.getBitmap(), mCurrent.getLatLng(),
+                caption, mCurrent.isCover());
+
+        return mCurrent;
     }
 
     @SmallTest
@@ -68,4 +77,12 @@ public class DialogFragmentGvDataEditTagTest extends DialogFragmentGvDataEditTes
     public void testDeleteButtonWithEditConfirm() {
         super.testDeleteButtonWithEditConfirm();
     }
+
+    @Override
+    protected GvImageList.GvImage launchDialogAndTestShowing() {
+        mCurrent = super.launchDialogAndTestShowing();
+        return mCurrent;
+    }
 }
+
+

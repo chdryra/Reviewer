@@ -94,14 +94,6 @@ public class FragmentReviewImages extends FragmentReviewGridAddEdit<GvImageList.
     }
 
     @Override
-    void doDatumEdit(GvImageList.GvImage oldDatum, GvImageList.GvImage newDatum) {
-        //To avoid toast when bitmap same but caption different
-        if (!oldDatum.getBitmap().sameAs(newDatum.getBitmap())) {
-            super.doDatumEdit(oldDatum, newDatum);
-        }
-    }
-
-    @Override
     protected void onGridItemLongClick(AdapterView<?> parent, View v, int position, long id) {
         if (mImages.getItem(position).isCover()) return;
 

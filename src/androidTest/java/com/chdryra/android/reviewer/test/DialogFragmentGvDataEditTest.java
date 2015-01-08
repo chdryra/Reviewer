@@ -9,14 +9,15 @@
 package com.chdryra.android.reviewer.test;
 
 import android.app.Activity;
-import android.app.DialogFragment;
+import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.test.ActivityInstrumentationTestCase2;
-import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.mygenerallibrary.DialogCancelDeleteDoneFragment;
+import com.chdryra.android.mygenerallibrary.DialogDeleteConfirmFragment;
+import com.chdryra.android.mygenerallibrary.DialogTwoButtonFragment;
 import com.chdryra.android.reviewer.ActivityFeed;
 import com.chdryra.android.reviewer.DialogFragmentGvDataEdit;
 import com.chdryra.android.reviewer.GvDataList;
@@ -52,14 +53,113 @@ public abstract class DialogFragmentGvDataEditTest<T extends GvDataList.GvData> 
         mDialogClass = dialogClass;
     }
 
-    @SmallTest
-    public void testCancelButtonNoEdit() {
-        testCancelButton(false);
+    protected void testCancelButton() {
+        launchDialogAndTestShowing();
+
+        final DialogEditListener<T> listener = mListener;
+
+        assertNull(listener.getDataOld());
+        assertNull(listener.getDataNew());
+
+        editDataAndTest();
+
+        final DialogCancelDeleteDoneFragment dialog = mDialog;
+        mActivity.runOnUiThread(new Runnable() {
+            public void run() {
+                dialog.clickCancelButton();
+
+                assertNull(listener.getDataOld());
+                assertNull(listener.getDataNew());
+                assertFalse(dialog.isShowing());
+            }
+        });
     }
 
-    @SmallTest
-    public void testCancelButtonWithEdit() {
-        testCancelButton(true);
+    protected void testDoneButton() {
+        final T datumOld = launchDialogAndTestShowing();
+
+        final DialogEditListener<T> listener = mListener;
+        final DialogCancelDeleteDoneFragment dialog = mDialog;
+
+        assertNull(listener.getDataNew());
+        assertNull(listener.getDataOld());
+
+        final T datumNew = editDataAndTest();
+
+        assertNull(listener.getDataNew());
+        assertNull(listener.getDataOld());
+
+        mActivity.runOnUiThread(new Runnable() {
+            public void run() {
+                dialog.clickDoneButton();
+
+                assertNotNull(listener.getDataOld());
+                assertNotNull(listener.getDataNew());
+                assertEquals(datumOld, listener.getDataOld());
+                assertEquals(datumNew, listener.getDataNew());
+                assertFalse(dialog.isShowing());
+            }
+        });
+    }
+
+    protected void testDeleteButtonNoEditCancel() {
+        testDeleteButtonNoEdit(false, false);
+    }
+
+    protected void testDeleteButtonNoEditConfirm() {
+        testDeleteButtonNoEdit(true, false);
+    }
+
+    protected void testDeleteButtonWithEditCancel() {
+        testDeleteButtonNoEdit(false, true);
+    }
+
+    protected void testDeleteButtonWithEditConfirm() {
+        testDeleteButtonNoEdit(true, true);
+    }
+
+    protected void testDeleteButtonNoEdit(final boolean confirmDelete, final boolean doEdit) {
+        final T datumOld = launchDialogAndTestShowing();
+
+        final DialogEditListener<T> listener = mListener;
+        final DialogCancelDeleteDoneFragment dialog = mDialog;
+        final Solo solo = mSolo;
+        final String deleteConfirmTag = DialogDeleteConfirmFragment.DELETE_CONFIRM_TAG;
+
+        if (doEdit) editDataAndTest();
+
+        assertFalse(deleteConfirmIsShowing());
+        mActivity.runOnUiThread(new Runnable() {
+            public void run() {
+                dialog.clickDeleteButton();
+            }
+        });
+        solo.waitForFragmentByTag(deleteConfirmTag);
+        assertTrue(deleteConfirmIsShowing());
+
+        assertNull(listener.getDataOld());
+        assertNull(listener.getDataNew());
+
+        final DialogDeleteConfirmFragment dialogConfirm = (DialogDeleteConfirmFragment) mActivity
+                .getFragmentManager().findFragmentByTag(deleteConfirmTag);
+        mActivity.runOnUiThread(new Runnable() {
+            public void run() {
+                if (confirmDelete) {
+                    dialogConfirm.clickConfirmButton();
+                    assertFalse(dialogConfirm.isShowing());
+                    assertFalse(dialog.isShowing());
+                    assertNotNull(listener.getDataOld());
+                    assertNull(listener.getDataNew());
+                    assertEquals(datumOld, listener.getDataOld());
+                } else {
+                    dialogConfirm.clickCancelButton();
+                    assertFalse(dialogConfirm.isShowing());
+                    assertTrue(dialog.isShowing());
+                    assertNull(listener.getDataOld());
+                    assertNull(listener.getDataNew());
+                }
+            }
+        });
     }
 
     @Override
@@ -84,10 +184,10 @@ public abstract class DialogFragmentGvDataEditTest<T extends GvDataList.GvData> 
         GvDataPacker.packItem(GvDataPacker.CurrentNewDatum.CURRENT, datum, args);
 
         final DialogEditListener<T> listener = mListener;
-        final DialogFragment dialog = mDialog;
+        final DialogTwoButtonFragment dialog = mDialog;
         final FragmentManager manager = mActivity.getFragmentManager();
 
-        assertFalse(dialogIsShowing(dialog));
+        assertFalse(dialog.isShowing());
 
         LauncherUI.launch((LaunchableUI) dialog, listener, REQUEST_CODE, DIALOG_TAG, args);
 
@@ -100,40 +200,21 @@ public abstract class DialogFragmentGvDataEditTest<T extends GvDataList.GvData> 
 
         mSolo.waitForDialogToOpen();
 
-        assertTrue(dialogIsShowing(dialog));
-        assertEquals(datum, getDataShown());
+        assertTrue(dialog.isShowing());
+        if (mDialog.getGvType() != GvDataList.GvType.IMAGES) assertEquals(datum, getDataShown());
 
         return (T) datum;
     }
 
-    protected boolean dialogIsShowing(final DialogFragment dialog) {
-        return dialog.getDialog() != null && dialog.getDialog().isShowing();
+    private boolean deleteConfirmIsShowing() {
+        final Fragment f = mActivity.getFragmentManager()
+                .findFragmentByTag(DialogDeleteConfirmFragment.DELETE_CONFIRM_TAG);
+        final DialogDeleteConfirmFragment dialogConfirm = (DialogDeleteConfirmFragment) f;
+
+        return dialogConfirm != null && dialogConfirm.isShowing();
     }
 
-    private void testCancelButton(boolean withEdit) {
-        launchDialogAndTestShowing();
-
-        final DialogEditListener<T> listener = mListener;
-
-        assertNull(listener.getDataOld());
-        assertNull(listener.getDataNew());
-
-        if (withEdit) editDataAndTest();
-
-        final DialogCancelDeleteDoneFragment dialog = mDialog;
-        mActivity.runOnUiThread(new Runnable() {
-            public void run() {
-                dialog.clickCancelButton();
-
-                assertNull(listener.getDataOld());
-                assertNull(listener.getDataNew());
-
-                assertFalse(dialog.isVisible());
-            }
-        });
-    }
-
-    private GvDataList.GvData editDataAndTest() {
+    private T editDataAndTest() {
         T currentDatum = getDataShown();
         T newDatum = editData();
         assertFalse(currentDatum.equals(newDatum));

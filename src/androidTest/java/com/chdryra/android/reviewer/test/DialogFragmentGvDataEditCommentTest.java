@@ -3,7 +3,7 @@
  * Unauthorized copying of this file, via any medium is strictly prohibited
  * Proprietary and confidential
  * Author: Rizwan Choudrey
- * Date: 7 January, 2015
+ * Date: 8 January, 2015
  */
 
 package com.chdryra.android.reviewer.test;
@@ -11,32 +11,33 @@ package com.chdryra.android.reviewer.test;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.ConfigGvDataAddEditDisplay;
-import com.chdryra.android.reviewer.GvTagList;
+import com.chdryra.android.reviewer.GvCommentList;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
 
 /**
  * Created by: Rizwan Choudrey
- * On: 07/01/2015
+ * On: 08/01/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class DialogFragmentGvDataEditTagTest extends DialogFragmentGvDataEditTest<GvTagList.GvTag> {
+public class DialogFragmentGvDataEditCommentTest extends
+        DialogFragmentGvDataEditTest<GvCommentList.GvComment> {
 
-    public DialogFragmentGvDataEditTagTest() {
-        super(ConfigGvDataAddEditDisplay.EditTag.class);
+    public DialogFragmentGvDataEditCommentTest() {
+        super(ConfigGvDataAddEditDisplay.EditComment.class);
     }
 
     @Override
-    protected GvTagList.GvTag editData() {
-        GvTagList.GvTag tag = GvDataMocker.newTag();
+    protected GvCommentList.GvComment editData() {
+        GvCommentList.GvComment comment = GvDataMocker.newComment();
         mSolo.clearEditText(mSolo.getEditText(0));
-        mSolo.enterText(mSolo.getEditText(0), tag.get());
+        mSolo.enterText(mSolo.getEditText(0), comment.getComment());
 
-        return tag;
+        return comment;
     }
 
     @Override
-    protected GvTagList.GvTag getDataShown() {
-        return new GvTagList.GvTag(mSolo.getEditText(0).getText().toString());
+    protected GvCommentList.GvComment getDataShown() {
+        return new GvCommentList.GvComment(mSolo.getEditText(0).getText().toString());
     }
 
     @SmallTest
@@ -69,3 +70,4 @@ public class DialogFragmentGvDataEditTagTest extends DialogFragmentGvDataEditTes
         super.testDeleteButtonWithEditConfirm();
     }
 }
+

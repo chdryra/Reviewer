@@ -9,14 +9,13 @@
 package com.chdryra.android.reviewer.test;
 
 import android.app.Activity;
-import android.app.DialogFragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.test.ActivityInstrumentationTestCase2;
-import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.mygenerallibrary.DialogCancelAddDoneFragment;
+import com.chdryra.android.mygenerallibrary.DialogTwoButtonFragment;
 import com.chdryra.android.reviewer.ActivityFeed;
 import com.chdryra.android.reviewer.Administrator;
 import com.chdryra.android.reviewer.ControllerReview;
@@ -54,8 +53,7 @@ public abstract class DialogFragmentGvDataAddTest<T extends GvDataList.GvData> e
         mDialogClass = dialogClass;
     }
 
-    @SmallTest
-    public void testCancelButton() {
+    protected void testCancelButton() {
         launchDialogAndTestShowing(false);
 
         final DialogAddListener<T> listener = mListener;
@@ -74,18 +72,15 @@ public abstract class DialogFragmentGvDataAddTest<T extends GvDataList.GvData> e
         });
     }
 
-    @SmallTest
-    public void testAddButtonNotQuickSet() {
+    protected void testAddButtonNotQuickSet() {
         testNotQuickSet(true);
     }
 
-    @SmallTest
-    public void testDoneButtonNotQuickSet() {
+    protected void testDoneButtonNotQuickSet() {
         testNotQuickSet(false);
     }
 
-    @SmallTest
-    public void testQuickSet() {
+    protected void testQuickSet() {
         launchDialogAndTestShowing(true);
 
         final ControllerReview controller = mController;
@@ -93,7 +88,7 @@ public abstract class DialogFragmentGvDataAddTest<T extends GvDataList.GvData> e
 
         final GvDataList.GvData datum1 = testQuickSet(true);
         final GvDataList.GvData datum2 = testQuickSet(true);
-        final GvDataList.GvData datum3 = testQuickSet(true);
+        final GvDataList.GvData datum3 = testQuickSet(false);
 
         final DialogCancelAddDoneFragment dialog = mDialog;
         mActivity.runOnUiThread(new Runnable() {
@@ -134,23 +129,19 @@ public abstract class DialogFragmentGvDataAddTest<T extends GvDataList.GvData> e
         args.putBoolean(DialogFragmentGvDataAdd.QUICK_SET, quickSet);
 
         final DialogAddListener<T> listener = mListener;
-        final DialogFragment dialog = mDialog;
+        final DialogTwoButtonFragment dialog = mDialog;
         final FragmentManager manager = mActivity.getFragmentManager();
 
-        assertFalse(dialogIsShowing(dialog));
+        assertFalse(dialog.isShowing());
 
         LauncherUI.launch((LaunchableUI) dialog, listener, REQUEST_CODE, DIALOG_TAG, args);
 
         mActivity.runOnUiThread(new Runnable() {
             public void run() {
                 manager.executePendingTransactions();
-                assertTrue(dialogIsShowing(dialog));
+                assertTrue(dialog.isShowing());
             }
         });
-    }
-
-    protected boolean dialogIsShowing(final DialogFragment dialog) {
-        return dialog.getDialog() != null && dialog.getDialog().isShowing();
     }
 
     protected GvDataList getControllerData(final ControllerReview controller) {
@@ -178,7 +169,7 @@ public abstract class DialogFragmentGvDataAddTest<T extends GvDataList.GvData> e
 
         assertNull(listener.getData());
         assertEquals(0, getControllerData(controller).size());
-        final GvDataList.GvData comment = enterDataAndTest();
+        final GvDataList.GvData datum = enterDataAndTest();
         assertNull(listener.getData());
 
         mActivity.runOnUiThread(new Runnable() {
@@ -190,14 +181,14 @@ public abstract class DialogFragmentGvDataAddTest<T extends GvDataList.GvData> e
                 }
 
                 assertNotNull(listener.getData());
-                assertEquals(comment, listener.getData());
+                assertEquals(datum, listener.getData());
 
                 assertEquals(0, getControllerData(controller).size());
                 if (addButton) {
-                    assertTrue(dialogIsShowing(dialog));
+                    assertTrue(dialog.isShowing());
                     assertTrue(isDataNulled());
                 } else {
-                    assertFalse(dialogIsShowing(dialog));
+                    assertFalse(dialog.isShowing());
                 }
             }
         });
