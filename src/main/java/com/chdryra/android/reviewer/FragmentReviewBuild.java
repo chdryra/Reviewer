@@ -191,12 +191,16 @@ public class FragmentReviewBuild extends FragmentReviewGrid implements
     public void onImageChosen(GvImageList.GvImage image) {
         image.setIsCover(true);
 
-        mLatLng = image.getLatLng();
-        if (mLatLng != null) mLatLngFromImage = true;
+        LatLng latLng = image.getLatLng();
+        if (latLng != null) {
+            mLatLng = latLng;
+            mLatLngFromImage = true;
+        }
 
         GvImageList images = new GvImageList();
         images.add(image);
         getEditableController().setData(images);
+
         updateUI();
     }
 
