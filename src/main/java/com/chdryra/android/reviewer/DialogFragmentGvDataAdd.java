@@ -85,7 +85,7 @@ public abstract class DialogFragmentGvDataAdd<T extends GvDataList.GvData> exten
     }
 
     @Override
-    protected View createDialogUI() {
+    protected View createDialogUi() {
         mViewHolder.inflate(getActivity());
         mViewHolder.initialiseView(null);
 

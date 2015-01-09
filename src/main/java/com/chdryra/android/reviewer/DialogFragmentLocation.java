@@ -27,24 +27,37 @@ import com.google.android.gms.maps.model.LatLng;
 import java.util.ArrayList;
 
 /**
- * Dialog for adding location name: populates with suggestions found near current location. Comes
- * up with autocomplete suggestions as user types name.
+ * Dialog for adding location name: populates with suggestions found near location provided.
+ * Finds current location if none provided. Comes up with autocomplete suggestions as user types
+ * name.
  */
 public class DialogFragmentLocation extends DialogCancelActionDoneFragment implements Locatable,
         LaunchableUi, PlaceSuggester.SuggestionsListener {
-    public static final  ActionType RESULT_MAP         = ActionType.OTHER;
-    private static final int        NUMBER_SUGGESTIONS = 10;
-    private static final String     SEARCHING          = "searching nearby...";
-    private static final String     NO_LOCATION        = "no suggestions found...";
+    public static final String     LATLNG     = "com.chdryra.android.reviewer.latlng";
+    public static final String     FROM_IMAGE = "com.chdryra.android.reviewer.from_image";
+    public static final ActionType RESULT_MAP = ActionType.OTHER;
 
-    private ControllerReviewEditable mController;
-    private ClearableEditText        mNameEditText;
-    private ListView                 mLocationNameSuggestions;
-    private LatLng                   mLatLng;
-    private LocationClientConnector  mLocationClient;
+    private static final int    NUMBER_SUGGESTIONS = 10;
+    private static final String SEARCHING_NEARBY   = "searching near here...";
+    private static final String SEARCHING_IMAGE    = "searching near image...";
+    private static final String NO_LOCATION        = "no suggestions found...";
+
+    private DialogFragmentLocationListener mListener;
+    private ClearableEditText              mNameEditText;
+    private ListView                       mLocationNameSuggestions;
+    private LatLng                         mLatLng;
+    private LocationClientConnector        mLocationClient;
 
     private PlaceAutoCompleteSuggester mAutoCompleter;
     private StringFilterAdapter        mAdapter;
+
+    private boolean mLatLngFromImage = false;
+
+    public interface DialogFragmentLocationListener {
+        public void onLocationChosen(GvLocationList.GvLocation location);
+
+        public void onMapRequested(GvLocationList.GvLocation location);
+    }
 
     @Override
     public void onStop() {
@@ -60,14 +73,12 @@ public class DialogFragmentLocation extends DialogCancelActionDoneFragment imple
 
     @Override
     public void onLocated(LatLng latLng) {
-        mLatLng = latLng;
-        setSuggestionsAdapter();
+        setLatLngHere(latLng);
     }
 
     @Override
     public void onLocationClientConnected(LatLng latLng) {
-        mLatLng = latLng;
-        setSuggestionsAdapter();
+        setLatLngHere(latLng);
     }
 
     @Override
@@ -84,24 +95,10 @@ public class DialogFragmentLocation extends DialogCancelActionDoneFragment imple
     }
 
     @Override
-    protected View createDialogUI() {
+    protected View createDialogUi() {
         View v = getActivity().getLayoutInflater().inflate(R.layout.dialog_location, null);
+
         mNameEditText = (ClearableEditText) v.findViewById(R.id.location_edit_text);
-
-        if (mController.hasData(GvDataList.GvType.LOCATIONS)) {
-            GvLocationList.GvLocation location = (GvLocationList.GvLocation) mController.getData
-                    (GvDataList.GvType.LOCATIONS).getItem(0);
-            mLatLng = location.getLatLng();
-            mNameEditText.setText(location.getName());
-        } else if (mController.hasData(GvDataList.GvType.IMAGES)) {
-            GvImageList.GvImage image = (GvImageList.GvImage) mController.getData(GvDataList
-                    .GvType.IMAGES).getItem(0);
-            LatLng latLng = image.getLatLng();
-            if (latLng != null) {
-                mLatLng = latLng;
-            }
-        }
-
         mNameEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -116,7 +113,6 @@ public class DialogFragmentLocation extends DialogCancelActionDoneFragment imple
             public void afterTextChanged(Editable s) {
             }
         });
-
         setKeyboardDoDoneOnEditText(mNameEditText);
 
         mLocationNameSuggestions = (ListView) v.findViewById(R.id.suggestions_list_view);
@@ -128,6 +124,15 @@ public class DialogFragmentLocation extends DialogCancelActionDoneFragment imple
             }
         });
 
+        if (mLatLng != null) {
+            if (mLatLngFromImage) {
+                mNameEditText.setHint(R.string.edit_text_name_image_location_hint);
+                setSuggestionsAdapter(SEARCHING_IMAGE);
+            } else {
+                setSuggestionsAdapter(SEARCHING_NEARBY);
+            }
+        }
+
         return v;
     }
 
@@ -135,10 +140,21 @@ public class DialogFragmentLocation extends DialogCancelActionDoneFragment imple
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mController = (ControllerReviewEditable) Administrator.get(getActivity()).unpack
-                (getArguments());
+        try {
+            mListener = (DialogFragmentLocationListener) getTargetFragment();
+        } catch (ClassCastException e) {
+            throw new ClassCastException(getTargetFragment().toString() + " must implement " +
+                    "DialogFragmentLocationListener");
+        }
+
         mLocationClient = new LocationClientConnector(getActivity(), this);
-        mLocationClient.connect();
+        LatLng latLng = getArguments().getParcelable(LATLNG);
+        if (latLng != null) {
+            mLatLng = latLng;
+            mLatLngFromImage = getArguments().getBoolean(FROM_IMAGE);
+        } else {
+            mLocationClient.connect();
+        }
 
         setActionButtonAction(RESULT_MAP);
         setActionButtonText(getResources().getString(R.string.button_map));
@@ -147,36 +163,35 @@ public class DialogFragmentLocation extends DialogCancelActionDoneFragment imple
 
     @Override
     protected void onActionButtonClick() {
-        GvDataPacker.packItem(GvDataPacker.CurrentNewDatum.NEW, createGVData(),
-                createNewReturnData());
+        mListener.onMapRequested(createGVData());
     }
 
     @Override
     protected void onDoneButtonClick() {
-        GvLocationList.GvLocation location = createGVData();
-        if (location.isValidForDisplay()) {
-            GvLocationList locations = new GvLocationList();
-            locations.add(location);
-            mController.setData(locations);
-        }
+        mListener.onLocationChosen(createGVData());
     }
 
     GvLocationList.GvLocation createGVData() {
         return new GvLocationList.GvLocation(mLatLng, mNameEditText.getText().toString().trim());
     }
 
-    private void setSuggestionsAdapter() {
-        //A bit hacky....
+    private void setLatLngHere(LatLng latLng) {
+        mLatLng = latLng;
+        mLatLngFromImage = false;
+        setSuggestionsAdapter(SEARCHING_NEARBY);
+    }
+
+    private void setSuggestionsAdapter(String searching) {
         ArrayList<String> message = new ArrayList<String>();
-        message.add(SEARCHING);
+        message.add(searching); //A bit hacky....
+
+        //Initial suggestions
+        PlaceSuggester suggester = new PlaceSuggester(getActivity(), mLatLng, this);
+        suggester.getSuggestions(NUMBER_SUGGESTIONS);
 
         //Autocomplete suggestions
         mAutoCompleter = new PlaceAutoCompleteSuggester(mLatLng);
         mAdapter = new StringFilterAdapter(getActivity(), message, mAutoCompleter);
         mLocationNameSuggestions.setAdapter(mAdapter);
-
-        //Initial suggestions
-        PlaceSuggester suggester = new PlaceSuggester(getActivity(), mLatLng, this);
-        suggester.getSuggestions(NUMBER_SUGGESTIONS);
     }
 }

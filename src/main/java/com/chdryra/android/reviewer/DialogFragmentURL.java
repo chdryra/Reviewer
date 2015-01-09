@@ -37,7 +37,7 @@ public class DialogFragmentURL extends DialogCancelActionDoneFragment implements
     }
 
     @Override
-    protected View createDialogUI() {
+    protected View createDialogUi() {
         View v = getActivity().getLayoutInflater().inflate(R.layout.dialog_url, null);
 
         mUrlEditText = (ClearableEditText) v.findViewById(R.id.url_edit_text);

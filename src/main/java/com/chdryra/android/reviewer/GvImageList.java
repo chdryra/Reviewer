@@ -180,10 +180,6 @@ public class GvImageList extends GvDataList<GvImageList.GvImage> {
             return mLatLng;
         }
 
-        public void setCaption(String caption) {
-            mCaption = caption;
-        }
-
         public void setIsCover(boolean isCover) {
             mIsCover = isCover;
         }

@@ -15,8 +15,11 @@ import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.test.ActivityInstrumentationTestCase2;
+import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.ActivityFeed;
+import com.chdryra.android.reviewer.Administrator;
+import com.chdryra.android.reviewer.ControllerReview;
 import com.chdryra.android.reviewer.DialogFragmentLocation;
 import com.chdryra.android.reviewer.GvDataPacker;
 import com.chdryra.android.reviewer.GvLocationList;
@@ -33,19 +36,20 @@ public class DialogFragmentLocationTest extends ActivityInstrumentationTestCase2
     private static final int    REQUEST_CODE = 1976;
     private static final String DIALOG_TAG   = "DialogFragmentLocation";
     private static final String LISTENER_TAG = "FragmentListener";
+    protected ControllerReview mController;
     private DialogFragmentLocation mDialog;
-    private Fragment               mListener;
-    private Activity               mActivity;
-    private Solo                   mSolo;
+    private   Fragment         mListener;
+    private   Activity         mActivity;
+    private   Solo             mSolo;
 
     public DialogFragmentLocationTest() {
         super(ActivityFeed.class);
     }
-//
-//    @SmallTest
-//    public void testLaunch() {
-//        launchDialogAndTestShowing();
-//    }
+
+    @SmallTest
+    public void testLaunch() {
+        launchDialogAndTestShowing();
+    }
 
     @Override
     protected void setUp() throws Exception {
@@ -59,12 +63,15 @@ public class DialogFragmentLocationTest extends ActivityInstrumentationTestCase2
         ft.add(mListener, LISTENER_TAG);
         ft.commit();
 
+        mController = Administrator.get(getInstrumentation().getTargetContext())
+                .createNewReviewInProgress();
+
         mSolo = new Solo(getInstrumentation(), mActivity);
     }
 
     protected GvLocationList.GvLocation launchDialogAndTestShowing() {
         final GvLocationList.GvLocation datum = GvDataMocker.newLocation();
-        Bundle args = new Bundle();
+        Bundle args = getControllerBundle();
         GvDataPacker.packItem(GvDataPacker.CurrentNewDatum.CURRENT, datum, args);
 
         assertFalse(mDialog.isShowing());
@@ -84,6 +91,10 @@ public class DialogFragmentLocationTest extends ActivityInstrumentationTestCase2
         assertTrue(mDialog.isShowing());
 
         return datum;
+    }
+
+    protected Bundle getControllerBundle() {
+        return Administrator.get(getInstrumentation().getTargetContext()).pack(mController);
     }
 
     public static class FragmentListener extends Fragment {

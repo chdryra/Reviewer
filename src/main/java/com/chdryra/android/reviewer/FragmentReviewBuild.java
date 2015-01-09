@@ -23,11 +23,13 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.chdryra.android.mygenerallibrary.ActivityResultCode;
+import com.chdryra.android.mygenerallibrary.LocationClientConnector;
 import com.chdryra.android.mygenerallibrary.VHDDualString;
 import com.chdryra.android.mygenerallibrary.VHDString;
 import com.chdryra.android.mygenerallibrary.ViewHolder;
 import com.chdryra.android.mygenerallibrary.ViewHolderAdapter;
 import com.chdryra.android.mygenerallibrary.ViewHolderData;
+import com.google.android.gms.maps.model.LatLng;
 
 /**
  * UI Fragment: editing and building reviews. The primary screen where the user builds the review.
@@ -68,26 +70,47 @@ import com.chdryra.android.mygenerallibrary.ViewHolderData;
  * @see ConfigGvDataUi
  * @see DialogFragmentGvDataAdd
  */
-public class FragmentReviewBuild extends FragmentReviewGrid implements ImageChooser
-        .ImageChooserListener {
+public class FragmentReviewBuild extends FragmentReviewGrid implements
+        ImageChooser.ImageChooserListener,
+        LocationClientConnector.Locatable,
+        DialogFragmentLocation.DialogFragmentLocationListener {
     private final static int LOCATION_MAP = 22;
 
-    private GvCellManagerList mCellManagerList;
-    private ImageChooser      mImageChooser;
+    private GvCellManagerList       mCellManagerList;
+    private ImageChooser            mImageChooser;
+    private LocationClientConnector mLocationClient;
+    private LatLng                  mLatLng;
+    private boolean mLatLngFromImage = false;
+
+    @Override
+    public void onLocated(LatLng latLng) {
+        setLatLngIfNecessary(latLng);
+    }
+
+    @Override
+    public void onLocationClientConnected(LatLng latLng) {
+        setLatLngIfNecessary(latLng);
+    }
+
+    @Override
+    public void onLocationChosen(GvLocationList.GvLocation location) {
+        addLocation(location);
+    }
+
+    @Override
+    public void onMapRequested(GvLocationList.GvLocation location) {
+        requestMapIntent(location);
+    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         ActivityResultCode resCode = ActivityResultCode.get(resultCode);
-        if (requestCode == getUIConfig(GvDataList.GvType.IMAGES).getDisplayConfig()
-                .getRequestCode() &&
-                mImageChooser.chosenImageExists(resCode, data)) {
+        if (requestCode == getUiConfig(GvDataList.GvType.IMAGES).getDisplayConfig()
+                .getRequestCode() && mImageChooser.chosenImageExists(resCode, data)) {
             mImageChooser.getChosenImage(this);
-        } else if (requestCode == getUIConfig(GvDataList.GvType.LOCATIONS).getAdderConfig()
-                .getRequestCode()
-                && resCode.equals(DialogFragmentLocation.RESULT_MAP.getResultCode())) {
-            requestMapIntent(data);
         } else if (requestCode == LOCATION_MAP && resCode.equals(ActivityResultCode.DONE)) {
-            addLocation(data);
+            addLocation((GvLocationList.GvLocation) GvDataPacker.unpackItem(GvDataPacker
+                    .CurrentNewDatum.NEW, data));
         } else {
             super.onActivityResult(requestCode, resultCode, data);
         }
@@ -107,6 +130,8 @@ public class FragmentReviewBuild extends FragmentReviewGrid implements ImageChoo
         setTransparentGridCellBackground();
 
         mImageChooser = new ImageChooser(getController(), getActivity());
+        mLocationClient = new LocationClientConnector(getActivity(), this);
+        mLocationClient.connect();
     }
 
     @Override
@@ -136,7 +161,7 @@ public class FragmentReviewBuild extends FragmentReviewGrid implements ImageChoo
                     return;
                 }
 
-                requestIntent(getUIConfig(GvDataList.GvType.SOCIAL));
+                requestIntent(getUiConfig(GvDataList.GvType.SOCIAL));
             }
         });
 
@@ -148,31 +173,27 @@ public class FragmentReviewBuild extends FragmentReviewGrid implements ImageChoo
     }
 
     @Override
-    protected void onDoneSelected() {
-    }
-
-    @Override
     protected ViewHolderAdapter getGridViewCellAdapter() {
         return new ReviewOptionsGridCellAdapter();
     }
 
     @Override
     protected void onGridItemClick(AdapterView<?> parent, View v, int position, long id) {
-        GvCellManagerList.GvCellManager cellManager = (GvCellManagerList.GvCellManager) parent
-                .getItemAtPosition(position);
-        cellManager.executeIntent(false);
+        ((GvCellManagerList.GvCellManager) parent.getItemAtPosition(position)).executeIntent(true);
     }
 
     @Override
     protected void onGridItemLongClick(AdapterView<?> parent, View v, int position, long id) {
-        GvCellManagerList.GvCellManager cellManager = (GvCellManagerList.GvCellManager) parent
-                .getItemAtPosition(position);
-        cellManager.executeIntent(true);
+        ((GvCellManagerList.GvCellManager) parent.getItemAtPosition(position)).executeIntent(false);
     }
 
     @Override
     public void onImageChosen(GvImageList.GvImage image) {
         image.setIsCover(true);
+
+        mLatLng = image.getLatLng();
+        if (mLatLng != null) mLatLngFromImage = true;
+
         GvImageList images = new GvImageList();
         images.add(image);
         getEditableController().setData(images);
@@ -196,13 +217,18 @@ public class FragmentReviewBuild extends FragmentReviewGrid implements ImageChoo
         }
     }
 
-    private ConfigGvDataUi.Config getUIConfig(GvDataList.GvType dataType) {
+    private void setLatLngIfNecessary(LatLng latLng) {
+        if (mLatLng == null) {
+            mLatLng = latLng;
+            mLatLngFromImage = false;
+        }
+    }
+
+    private ConfigGvDataUi.Config getUiConfig(GvDataList.GvType dataType) {
         return ConfigGvDataUi.getConfig(dataType);
     }
 
-    private void requestMapIntent(Intent data) {
-        GvLocationList.GvLocation location = (GvLocationList.GvLocation) GvDataPacker
-                .unpackItem(GvDataPacker.CurrentNewDatum.NEW, data);
+    private void requestMapIntent(GvLocationList.GvLocation location) {
         Bundle args = new Bundle();
         GvDataPacker.packItem(GvDataPacker.CurrentNewDatum.CURRENT, location, args);
 
@@ -210,9 +236,7 @@ public class FragmentReviewBuild extends FragmentReviewGrid implements ImageChoo
         LauncherUi.launch(mapUi, this, LOCATION_MAP, null, args);
     }
 
-    private void addLocation(Intent data) {
-        GvLocationList.GvLocation location = (GvLocationList.GvLocation) GvDataPacker
-                .unpackItem(GvDataPacker.CurrentNewDatum.NEW, data);
+    private void addLocation(GvLocationList.GvLocation location) {
         if (location.isValidForDisplay()) {
             GvLocationList list = new GvLocationList();
             list.add(location);
@@ -242,18 +266,21 @@ public class FragmentReviewBuild extends FragmentReviewGrid implements ImageChoo
 
         ConfigGvDataUi.GvDataUiConfig adderConfig = config.getAdderConfig();
 
-        LaunchableUi ui = adderConfig.getReviewDataUI();
+        LaunchableUi ui;
         if (adderConfig.getGVType() == GvDataList.GvType.LOCATIONS) {
             ui = ConfigGvDataUi.getLaunchable(DialogFragmentLocation.class);
+            args.putParcelable(DialogFragmentLocation.LATLNG, mLatLng);
+            args.putBoolean(DialogFragmentLocation.FROM_IMAGE, mLatLngFromImage);
+        } else {
+            ui = adderConfig.getReviewDataUI();
         }
 
-        LauncherUi.launch(ui, this, adderConfig.getRequestCode(), adderConfig.getTag(),
-                args);
+        LauncherUi.launch(ui, this, adderConfig.getRequestCode(), adderConfig.getTag(), args);
     }
 
     private void showQuickImageDialog() {
         startActivityForResult(mImageChooser.getChooserIntents(),
-                getUIConfig(GvDataList.GvType.IMAGES).getDisplayConfig().getRequestCode());
+                getUiConfig(GvDataList.GvType.IMAGES).getDisplayConfig().getRequestCode());
     }
 
     /**
@@ -317,15 +344,15 @@ public class FragmentReviewBuild extends FragmentReviewGrid implements ImageChoo
                 parcel.writeSerializable(mDataType);
             }
 
-            private void executeIntent(boolean forceRequestIntent) {
-                if (getController().getData(mDataType).size() == 0 && !forceRequestIntent) {
+            private void executeIntent(boolean quickDialog) {
+                if (getController().getData(mDataType).size() == 0 && quickDialog) {
                     if (mDataType == GvType.IMAGES) {
                         showQuickImageDialog();
                     } else {
-                        showQuickDialog(getUIConfig(mDataType));
+                        showQuickDialog(getUiConfig(mDataType));
                     }
                 } else {
-                    requestIntent(getUIConfig(mDataType));
+                    requestIntent(getUiConfig(mDataType));
                 }
             }
 
