@@ -80,16 +80,15 @@ public class FragmentReviewBuild extends FragmentReviewGrid implements
     private ImageChooser            mImageChooser;
     private LocationClientConnector mLocationClient;
     private LatLng                  mLatLng;
-    private boolean mLatLngFromImage = false;
 
     @Override
     public void onLocated(LatLng latLng) {
-        setLatLngIfNecessary(latLng);
+        mLatLng = latLng;
     }
 
     @Override
     public void onLocationClientConnected(LatLng latLng) {
-        setLatLngIfNecessary(latLng);
+        mLatLng = latLng;
     }
 
     @Override
@@ -104,11 +103,15 @@ public class FragmentReviewBuild extends FragmentReviewGrid implements
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        ActivityResultCode resCode = ActivityResultCode.get(resultCode);
-        if (requestCode == getUiConfig(GvDataList.GvType.IMAGES).getDisplayConfig()
-                .getRequestCode() && mImageChooser.chosenImageExists(resCode, data)) {
+        ActivityResultCode result = ActivityResultCode.get(resultCode);
+
+        boolean imageRequested = requestCode == getUiConfig(GvDataList.GvType.IMAGES)
+                .getDisplayConfig().getRequestCode();
+        boolean mapRequested = requestCode == LOCATION_MAP;
+
+        if (imageRequested && mImageChooser.chosenImageExists(result, data)) {
             mImageChooser.getChosenImage(this);
-        } else if (requestCode == LOCATION_MAP && resCode.equals(ActivityResultCode.DONE)) {
+        } else if (mapRequested && result.equals(ActivityResultCode.DONE)) {
             addLocation((GvLocationList.GvLocation) GvDataPacker.unpackItem(GvDataPacker
                     .CurrentNewDatum.NEW, data));
         } else {
@@ -148,7 +151,6 @@ public class FragmentReviewBuild extends FragmentReviewGrid implements
         shareButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 if (getSubjectText().length() == 0) {
                     Toast.makeText(getActivity(), R.string.toast_enter_subject,
                             Toast.LENGTH_SHORT).show();
@@ -190,13 +192,6 @@ public class FragmentReviewBuild extends FragmentReviewGrid implements
     @Override
     public void onImageChosen(GvImageList.GvImage image) {
         image.setIsCover(true);
-
-        LatLng latLng = image.getLatLng();
-        if (latLng != null) {
-            mLatLng = latLng;
-            mLatLngFromImage = true;
-        }
-
         GvImageList images = new GvImageList();
         images.add(image);
         getEditableController().setData(images);
@@ -218,13 +213,6 @@ public class FragmentReviewBuild extends FragmentReviewGrid implements
             return true;
         } else {
             return super.onOptionsItemSelected(item);
-        }
-    }
-
-    private void setLatLngIfNecessary(LatLng latLng) {
-        if (mLatLng == null) {
-            mLatLng = latLng;
-            mLatLngFromImage = false;
         }
     }
 
@@ -273,13 +261,29 @@ public class FragmentReviewBuild extends FragmentReviewGrid implements
         LaunchableUi ui;
         if (adderConfig.getGVType() == GvDataList.GvType.LOCATIONS) {
             ui = ConfigGvDataUi.getLaunchable(DialogFragmentLocation.class);
-            args.putParcelable(DialogFragmentLocation.LATLNG, mLatLng);
-            args.putBoolean(DialogFragmentLocation.FROM_IMAGE, mLatLngFromImage);
+            packLatLng(args);
         } else {
             ui = adderConfig.getReviewDataUI();
         }
 
         LauncherUi.launch(ui, this, adderConfig.getRequestCode(), adderConfig.getTag(), args);
+    }
+
+    private void packLatLng(Bundle args) {
+        ControllerReview controller = getController();
+        LatLng latLng = mLatLng;
+        boolean fromImage = false;
+        if (controller.hasData(GvDataList.GvType.IMAGES)) {
+            GvImageList images = (GvImageList) controller.getData(GvDataList.GvType.IMAGES);
+            LatLng coverLatLng = images.getCovers().getItem(0).getLatLng();
+            if (coverLatLng != null) {
+                latLng = coverLatLng;
+                fromImage = true;
+            }
+        }
+
+        args.putParcelable(DialogFragmentLocation.LATLNG, latLng);
+        args.putBoolean(DialogFragmentLocation.FROM_IMAGE, fromImage);
     }
 
     private void showQuickImageDialog() {
@@ -363,20 +367,20 @@ public class FragmentReviewBuild extends FragmentReviewGrid implements
             private View updateView(ViewGroup parent) {
                 int size = getController().getData(mDataType).size();
 
-                if (size == 0) return getNoDatumView(parent);
+                if (size == 0) return getNoDataView(parent);
 
-                return size > 1 || mDataType == GvType.IMAGES ? getMultiDataView(parent) :
-                        getSingleDatumView(parent);
+                return size > 1 || mDataType == GvType.IMAGES ? getDataView(parent) :
+                        getDatumView(parent);
             }
 
-            private View getNoDatumView(ViewGroup parent) {
+            private View getNoDataView(ViewGroup parent) {
                 ViewHolder vh = new VHText();
                 vh.inflate(getActivity(), parent);
                 vh.updateView(new VHDString(mDataType.getDataString()));
                 return vh.getView();
             }
 
-            private View getMultiDataView(ViewGroup parent) {
+            private View getDataView(ViewGroup parent) {
                 int number = getController().getData(mDataType).size();
                 String type = number == 1 ? mDataType.getDatumString() : mDataType.getDataString();
 
@@ -386,7 +390,7 @@ public class FragmentReviewBuild extends FragmentReviewGrid implements
                 return vh.getView();
             }
 
-            private View getSingleDatumView(ViewGroup parent) {
+            private View getDatumView(ViewGroup parent) {
                 ViewHolderData datum = (ViewHolderData) getController().getData(mDataType)
                         .getItem(0);
                 ViewHolder vh = mDataType == GvType.LOCATIONS ? new VHLocation(true) : datum

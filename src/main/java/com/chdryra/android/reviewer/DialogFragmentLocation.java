@@ -37,10 +37,10 @@ public class DialogFragmentLocation extends DialogCancelActionDoneFragment imple
     public static final String     FROM_IMAGE = "com.chdryra.android.reviewer.from_image";
     public static final ActionType RESULT_MAP = ActionType.OTHER;
 
-    private static final int    NUMBER_SUGGESTIONS = 10;
-    private static final String SEARCHING_NEARBY   = "searching near here...";
-    private static final String SEARCHING_IMAGE    = "searching near image...";
-    private static final String NO_LOCATION        = "no suggestions found...";
+    private static final int NUMBER_SUGGESTIONS = 10;
+    private static final int SEARCHING_NEARBY   = R.string.edit_text_searching_near_here;
+    private static final int SEARCHING_IMAGE    = R.string.edit_text_searching_near_image;
+    private static final int NO_LOCATION        = R.string.edit_text_no_suggestions;
 
     private DialogFragmentLocationListener mListener;
     private ClearableEditText              mNameEditText;
@@ -51,7 +51,8 @@ public class DialogFragmentLocation extends DialogCancelActionDoneFragment imple
     private PlaceAutoCompleteSuggester mAutoCompleter;
     private StringFilterAdapter        mAdapter;
 
-    private boolean mLatLngFromImage = false;
+    private boolean mLatLngProvided = false;
+    private boolean mFromImage      = false;
 
     public interface DialogFragmentLocationListener {
         public void onLocationChosen(GvLocationList.GvLocation location);
@@ -73,12 +74,12 @@ public class DialogFragmentLocation extends DialogCancelActionDoneFragment imple
 
     @Override
     public void onLocated(LatLng latLng) {
-        setLatLngHere(latLng);
+        onLatLngFound(latLng);
     }
 
     @Override
     public void onLocationClientConnected(LatLng latLng) {
-        setLatLngHere(latLng);
+        onLatLngFound(latLng);
     }
 
     @Override
@@ -88,10 +89,8 @@ public class DialogFragmentLocation extends DialogCancelActionDoneFragment imple
 
     @Override
     public void onSuggestionsFound(ArrayList<String> addresses) {
-        if (addresses.size() == 0) addresses.add(NO_LOCATION);
-
-        mAdapter = new StringFilterAdapter(getActivity(), addresses, mAutoCompleter);
-        mLocationNameSuggestions.setAdapter(mAdapter);
+        if (addresses.size() == 0) addresses.add(getResources().getString(NO_LOCATION));
+        setNewSuggestionsAdapter(addresses);
     }
 
     @Override
@@ -114,6 +113,7 @@ public class DialogFragmentLocation extends DialogCancelActionDoneFragment imple
             }
         });
         setKeyboardDoDoneOnEditText(mNameEditText);
+        if (mFromImage) mNameEditText.setHint(R.string.edit_text_name_image_location_hint);
 
         mLocationNameSuggestions = (ListView) v.findViewById(R.id.suggestions_list_view);
         mLocationNameSuggestions.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -124,14 +124,7 @@ public class DialogFragmentLocation extends DialogCancelActionDoneFragment imple
             }
         });
 
-        if (mLatLng != null) {
-            if (mLatLngFromImage) {
-                mNameEditText.setHint(R.string.edit_text_name_image_location_hint);
-                setSuggestionsAdapter(SEARCHING_IMAGE);
-            } else {
-                setSuggestionsAdapter(SEARCHING_NEARBY);
-            }
-        }
+        if (mLatLngProvided) findPlaceSuggestions();
 
         return v;
     }
@@ -151,7 +144,8 @@ public class DialogFragmentLocation extends DialogCancelActionDoneFragment imple
         LatLng latLng = getArguments().getParcelable(LATLNG);
         if (latLng != null) {
             mLatLng = latLng;
-            mLatLngFromImage = getArguments().getBoolean(FROM_IMAGE);
+            mFromImage = getArguments().getBoolean(FROM_IMAGE);
+            mLatLngProvided = true;
         } else {
             mLocationClient.connect();
         }
@@ -168,30 +162,36 @@ public class DialogFragmentLocation extends DialogCancelActionDoneFragment imple
 
     @Override
     protected void onDoneButtonClick() {
-        mListener.onLocationChosen(createGVData());
+        GvLocationList.GvLocation location = createGVData();
+        if (location.isValidForDisplay()) mListener.onLocationChosen(createGVData());
     }
 
-    GvLocationList.GvLocation createGVData() {
+    private GvLocationList.GvLocation createGVData() {
         return new GvLocationList.GvLocation(mLatLng, mNameEditText.getText().toString().trim());
     }
 
-    private void setLatLngHere(LatLng latLng) {
+    private void onLatLngFound(LatLng latLng) {
         mLatLng = latLng;
-        mLatLngFromImage = false;
-        setSuggestionsAdapter(SEARCHING_NEARBY);
+        mFromImage = false;
+        findPlaceSuggestions();
     }
 
-    private void setSuggestionsAdapter(String searching) {
-        ArrayList<String> message = new ArrayList<String>();
-        message.add(searching); //A bit hacky....
+    private void findPlaceSuggestions() {
+        //Autocomplete suggestions
+        mAutoCompleter = new PlaceAutoCompleteSuggester(mLatLng);
 
         //Initial suggestions
         PlaceSuggester suggester = new PlaceSuggester(getActivity(), mLatLng, this);
         suggester.getSuggestions(NUMBER_SUGGESTIONS);
 
-        //Autocomplete suggestions
-        mAutoCompleter = new PlaceAutoCompleteSuggester(mLatLng);
-        mAdapter = new StringFilterAdapter(getActivity(), message, mAutoCompleter);
+        //Whilst initial suggestions are being found....
+        ArrayList<String> message = new ArrayList<String>();
+        message.add(getResources().getString(mFromImage ? SEARCHING_IMAGE : SEARCHING_NEARBY));
+        setNewSuggestionsAdapter(message);
+    }
+
+    private void setNewSuggestionsAdapter(ArrayList<String> suggestions) {
+        mAdapter = new StringFilterAdapter(getActivity(), suggestions, mAutoCompleter);
         mLocationNameSuggestions.setAdapter(mAdapter);
     }
 }
