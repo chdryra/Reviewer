@@ -94,13 +94,8 @@ public abstract class DialogFragmentGvDataEdit<T extends GvDataList.GvData>
 
         mDatum = mPacker.unpack(GvDataPacker.CurrentNewDatum.CURRENT, getArguments());
 
-        try {
-            //TODO make type safe
-            mEditListener = (GvDataEditListener<T>) getTargetFragment();
-        } catch (ClassCastException e) {
-            throw new ClassCastException(getTargetFragment().toString() + " must implement " +
-                    "GvDataEditListener");
-        }
+        //TODO make type safe
+        mEditListener = (GvDataEditListener<T>) getTargetListener(GvDataEditListener.class);
 
         if (getGvType() == GvDataList.GvType.IMAGES) {
             setDialogTitle(null);

@@ -104,14 +104,9 @@ public abstract class DialogFragmentGvDataAdd<T extends GvDataList.GvData> exten
         if (mController != null) mData = mController.getData(getGvType());
         mHandler = FactoryGvDataHandler.newHandler(mData);
 
+        //TODO make type safe
         if (!isQuickSet()) {
-            try {
-                //TODO make type safe
-                mAddListener = (GvDataAddListener<T>) getTargetFragment();
-            } catch (ClassCastException e) {
-                throw new ClassCastException(getTargetFragment().toString() + " must implement " +
-                        "GvDataAddListener");
-            }
+            mAddListener = (GvDataAddListener<T>) getTargetListener(GvDataAddListener.class);
         }
 
         setDialogTitle(getResources().getString(R.string.add) + " " + getGvType().getDatumString());

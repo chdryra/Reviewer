@@ -14,7 +14,7 @@ import android.view.View;
 import android.widget.AdapterView;
 
 import com.chdryra.android.mygenerallibrary.ActivityResultCode;
-import com.chdryra.android.mygenerallibrary.DialogTwoButtonFragment.ActionType;
+import com.chdryra.android.mygenerallibrary.DialogAlertFragment;
 
 /**
  * UI Fragment: images. Each grid cell shows an image.
@@ -30,11 +30,11 @@ import com.chdryra.android.mygenerallibrary.DialogTwoButtonFragment.ActionType;
  * </p>
  */
 public class FragmentReviewImages extends FragmentReviewGridAddEdit<GvImageList.GvImage>
-        implements ImageChooser.ImageChooserListener {
+        implements ImageChooser.ImageChooserListener, DialogAlertFragment.DialogAlertListener {
     private static final String POSITION = "com.chdryra.android.reviewer.image_position";
 
-    private static final String IMAGE_BACKGROUND_TAG = "DataEditTag";
-    private static final int    IMAGE_AS_BACKGROUND  = 20;
+    private static final String DIALOG_TAG     = "DialogAlertTag";
+    private static final int    IMAGE_AS_COVER = 200;
 
     private GvImageList  mImages;
     private ImageChooser mImageChooser;
@@ -52,15 +52,9 @@ public class FragmentReviewImages extends FragmentReviewGridAddEdit<GvImageList.
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        ActivityResultCode resCode = ActivityResultCode.get(resultCode);
-        if (requestCode == getRequestCodeAdd() &&
-                mImageChooser.chosenImageExists(resCode, data)) {
+        if (requestCode == getRequestCodeAdd() && mImageChooser.chosenImageExists
+                (ActivityResultCode.get(resultCode), data)) {
             mImageChooser.getChosenImage(this);
-
-        } else if (requestCode == IMAGE_AS_BACKGROUND && resCode.equals(ActionType.YES
-                .getResultCode())) {
-            setCover(data.getIntExtra(POSITION, 0));
-            updateUI();
         } else {
             super.onActivityResult(requestCode, resultCode, data);
         }
@@ -94,13 +88,24 @@ public class FragmentReviewImages extends FragmentReviewGridAddEdit<GvImageList.
     }
 
     @Override
+    public void onAlertPositive(int requestCode, Bundle args) {
+        if (requestCode == IMAGE_AS_COVER) {
+            setCover(args.getInt(POSITION));
+            updateUi();
+        } else {
+            super.onAlertPositive(requestCode, args);
+        }
+    }
+
+    @Override
     protected void onGridItemLongClick(AdapterView<?> parent, View v, int position, long id) {
         if (mImages.getItem(position).isCover()) return;
 
         Bundle args = new Bundle();
         args.putInt(POSITION, position);
-        DialogShower.show(new DialogFragmentSetImageAsBackground(), FragmentReviewImages.this,
-                IMAGE_AS_BACKGROUND, IMAGE_BACKGROUND_TAG, args);
+        String alert = getResources().getString(R.string.dialog_set_image_as_background);
+        DialogAlertFragment dialog = DialogAlertFragment.newDialog(alert, args);
+        DialogShower.show(dialog, FragmentReviewImages.this, IMAGE_AS_COVER, DIALOG_TAG);
     }
 
     @Override

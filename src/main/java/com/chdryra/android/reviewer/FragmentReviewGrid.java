@@ -105,7 +105,7 @@ public abstract class FragmentReviewGrid extends FragmentDeleteDone {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        updateUI();
+        updateUi();
     }
 
     @Override
@@ -138,8 +138,8 @@ public abstract class FragmentReviewGrid extends FragmentDeleteDone {
         //noinspection SuspiciousNameCombination
         mMaxGridCellHeight = mMaxGridCellWidth;
 
-        initUI();
-        updateUI();
+        initUi();
+        updateUi();
 
         return v;
     }
@@ -190,14 +190,14 @@ public abstract class FragmentReviewGrid extends FragmentDeleteDone {
         }
     }
 
-    void initUI() {
-        initSubjectUI();
-        initRatingBarUI();
-        initBannerButtonUI();
-        initDataGridUI();
+    void initUi() {
+        initSubjectUi();
+        initRatingBarUi();
+        initBannerButtonUi();
+        initDataGridUi();
     }
 
-    void initSubjectUI() {
+    void initSubjectUi() {
         if (isEditable()) {
             getSubjectView().setFocusable(true);
             ((ClearableEditText) getSubjectView()).makeClearable(true);
@@ -223,7 +223,7 @@ public abstract class FragmentReviewGrid extends FragmentDeleteDone {
         }
     }
 
-    void initRatingBarUI() {
+    void initRatingBarUi() {
         if (isEditable()) {
             getRatingBar().setIsIndicator(false);
             getRatingBar().setOnRatingBarChangeListener(new RatingBar
@@ -238,7 +238,7 @@ public abstract class FragmentReviewGrid extends FragmentDeleteDone {
         }
     }
 
-    void initBannerButtonUI() {
+    void initBannerButtonUi() {
         getBannerButton().setText(getBannerButtonText());
         getBannerButton().setTextColor(getSubjectView().getTextColors().getDefaultColor());
         getBannerButton().setOnClickListener(new View.OnClickListener() {
@@ -249,7 +249,7 @@ public abstract class FragmentReviewGrid extends FragmentDeleteDone {
         });
     }
 
-    void initDataGridUI() {
+    void initDataGridUi() {
         getGridView().setAdapter(getGridViewCellAdapter());
         getGridView().setColumnWidth(getGridCellWidth());
         getGridView().setNumColumns(getNumberColumns());
@@ -311,31 +311,31 @@ public abstract class FragmentReviewGrid extends FragmentDeleteDone {
         getGridView().performItemClick(v, position, id);
     }
 
-    void updateUI() {
-        updateSubjectTextUI();
-        updateRatingBarUI();
-        updateBannerButtonUI();
-        updateGridDataUI();
+    void updateUi() {
+        updateSubjectTextUi();
+        updateRatingBarUi();
+        updateBannerButtonUi();
+        updateGridDataUi();
         updateCover();
     }
 
-    void updateSubjectTextUI() {
+    void updateSubjectTextUi() {
         if (getController() != null) {
             getSubjectView().setText(getController().getSubject());
         }
     }
 
-    void updateRatingBarUI() {
+    void updateRatingBarUi() {
         if (getController() != null) {
             getRatingBar().setRating(getController().getRating());
         }
     }
 
-    void updateBannerButtonUI() {
+    void updateBannerButtonUi() {
 
     }
 
-    void updateGridDataUI() {
+    void updateGridDataUi() {
         ((ViewHolderAdapter) getGridView().getAdapter()).notifyDataSetChanged();
     }
 

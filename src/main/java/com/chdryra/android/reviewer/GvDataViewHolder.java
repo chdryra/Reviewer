@@ -33,7 +33,7 @@ public class GvDataViewHolder<T extends GvDataList.GvData> implements GvDataView
     private final int[]             mUpdateableViewIds;
     private final SparseArray<View> mUpdateableViews;
     private       View              mInflated;
-    private GvDataView<T> mGvDataView;
+    private       GvDataView<T>     mGvDataView;
 
     public GvDataViewHolder(int layoutId, int[] viewIds, GvDataView<T> gvDataView) {
         mLayout = layoutId;

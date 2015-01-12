@@ -108,11 +108,11 @@ public abstract class DialogFragmentGvDataAddTest<T extends GvDataList.GvData> e
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        mActivity = getActivity();
 
         mDialog = mDialogClass.newInstance();
         mListener = new DialogAddListener<>();
 
+        mActivity = getActivity();
         FragmentManager manager = mActivity.getFragmentManager();
         FragmentTransaction ft = manager.beginTransaction();
         ft.add(mListener, DIALOG_TAG);

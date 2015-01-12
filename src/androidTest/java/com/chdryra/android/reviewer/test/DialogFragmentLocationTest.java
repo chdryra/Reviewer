@@ -50,9 +50,9 @@ public class DialogFragmentLocationTest extends ActivityInstrumentationTestCase2
             .edit_text_name_image_location_hint;
 
     private DialogFragmentLocation mDialog;
-    private FragmentListener mListener;
-    private Activity         mActivity;
-    private Solo             mSolo;
+    private FragmentListener       mListener;
+    private Activity               mActivity;
+    private Solo                   mSolo;
 
     public DialogFragmentLocationTest() {
         super(ActivityFeed.class);

@@ -33,12 +33,13 @@ import java.util.Random;
  * Email: rizwan.choudrey@gmail.com
  */
 public class GvDataMocker {
-    public static final  GvDataList.GvType[] TYPES = {GvDataList.GvType.COMMENTS, GvDataList
-            .GvType.FACTS, GvDataList.GvType.TAGS, GvDataList.GvType.LOCATIONS,
+    public static final  GvDataList.GvType[]   TYPES            = {GvDataList.GvType.COMMENTS,
+            GvDataList
+                    .GvType.FACTS, GvDataList.GvType.TAGS, GvDataList.GvType.LOCATIONS,
             GvDataList.GvType.URLS, GvDataList.GvType.CHILDREN, GvDataList.GvType.IMAGES,
             GvDataList.GvType.REVIEW};
     private static final RandomStringGenerator STRING_GENERATOR = new RandomStringGenerator();
-    private static final Random              RAND  = new Random();
+    private static final Random                RAND             = new Random();
 
     //Just a convenient method even if it uses GvType.....
     public static GvDataList getData(GvDataList.GvType dataType, int size) {

@@ -117,7 +117,7 @@ public class FragmentReviewBuild extends FragmentReviewGrid implements
         } else {
             super.onActivityResult(requestCode, resultCode, data);
         }
-        updateUI();
+        updateUi();
     }
 
     @Override
@@ -196,7 +196,7 @@ public class FragmentReviewBuild extends FragmentReviewGrid implements
         images.add(image);
         getEditableController().setData(images);
 
-        updateUI();
+        updateUi();
     }
 
     @Override

@@ -118,18 +118,18 @@ abstract class FragmentReviewGridAddEdit<T extends GvDataList.GvData> extends
 
     boolean doDatumAdd(T data) {
         boolean added = mHandler.add(data, getActivity());
-        updateUI();
+        updateUi();
         return added;
     }
 
     void doDatumDelete(T data) {
         mHandler.delete(data);
-        updateUI();
+        updateUi();
     }
 
     void doDatumEdit(T oldDatum, T newDatum) {
         mHandler.replace(oldDatum, newDatum, getActivity());
-        updateUI();
+        updateUi();
     }
 
     void packGridCellData(T item, Bundle args) {

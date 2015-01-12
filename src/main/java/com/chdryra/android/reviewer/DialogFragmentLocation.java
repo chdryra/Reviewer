@@ -133,13 +133,7 @@ public class DialogFragmentLocation extends DialogCancelActionDoneFragment imple
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        try {
-            mListener = (DialogFragmentLocationListener) getTargetFragment();
-        } catch (ClassCastException e) {
-            throw new ClassCastException(getTargetFragment().toString() + " must implement " +
-                    "DialogFragmentLocationListener");
-        }
-
+        mListener = getTargetListener(DialogFragmentLocationListener.class);
         mLocationClient = new LocationClientConnector(getActivity(), this);
         LatLng latLng = getArguments().getParcelable(LATLNG);
         if (latLng != null) {

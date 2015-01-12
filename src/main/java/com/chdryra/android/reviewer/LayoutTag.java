@@ -16,9 +16,9 @@ import android.widget.EditText;
  * Email: rizwan.choudrey@gmail.com
  */
 public class LayoutTag extends GvDataViewLayout<GvTagList.GvTag> {
-    public static final int LAYOUT = R.layout.dialog_tag;
-    public static final int TAG    = R.id.tag_edit_text;
-    public static final  int[] VIEWS  = new int[]{TAG};
+    public static final int   LAYOUT = R.layout.dialog_tag;
+    public static final int   TAG    = R.id.tag_edit_text;
+    public static final int[] VIEWS  = new int[]{TAG};
 
     public LayoutTag(GvDataViewAdd.GvDataAdder adder) {
         super(GvTagList.GvTag.class, LAYOUT, VIEWS, TAG, adder);

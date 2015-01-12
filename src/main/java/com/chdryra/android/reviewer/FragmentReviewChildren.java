@@ -63,7 +63,7 @@ public class FragmentReviewChildren extends FragmentReviewGridAddEdit<GvChildren
     }
 
     @Override
-    protected void initRatingBarUI() {
+    protected void initRatingBarUi() {
         getRatingBar().setIsIndicator(false);
         getRatingBar().setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override

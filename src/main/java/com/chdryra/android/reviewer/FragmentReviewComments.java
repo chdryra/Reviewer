@@ -58,7 +58,7 @@ public class FragmentReviewComments extends FragmentReviewGridAddEdit<GvCommentL
     }
 
     @Override
-    void updateGridDataUI() {
+    void updateGridDataUi() {
         if (mCommentsAreSplit) {
             ((ViewHolderAdapter) getGridView().getAdapter()).setData(mComments.getSplitComments
                     ());
@@ -77,6 +77,6 @@ public class FragmentReviewComments extends FragmentReviewGridAddEdit<GvCommentL
             Toast.makeText(getActivity(), R.string.toast_unsplit_comment,
                     Toast.LENGTH_SHORT).show();
         }
-        updateGridDataUI();
+        updateGridDataUi();
     }
 }

@@ -44,18 +44,18 @@ public class FragmentFeed extends FragmentReviewGrid {
     }
 
     @Override
-    protected void initSubjectUI() {
-        super.initSubjectUI();
+    protected void initSubjectUi() {
+        super.initSubjectUi();
         getSubjectView().setHint(R.string.search_hint);
     }
 
     @Override
-    protected void initRatingBarUI() {
+    protected void initRatingBarUi() {
         getRatingBar().setVisibility(View.GONE);
     }
 
     @Override
-    protected void initBannerButtonUI() {
+    protected void initBannerButtonUi() {
         getBannerButton().setVisibility(View.GONE);
     }
 
@@ -65,7 +65,7 @@ public class FragmentFeed extends FragmentReviewGrid {
     }
 
     @Override
-    protected void updateGridDataUI() {
+    protected void updateGridDataUi() {
         setGridViewData(Administrator.get(getActivity()).getPublishedReviews().toGridViewable());
         ((ViewHolderAdapter) getGridView().getAdapter()).setData(getGridData());
     }
@@ -73,7 +73,7 @@ public class FragmentFeed extends FragmentReviewGrid {
     @Override
     public void onResume() {
         super.onResume();
-        updateUI();
+        updateUi();
     }
 
     @Override
