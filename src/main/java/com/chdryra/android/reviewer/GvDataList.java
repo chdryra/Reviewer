@@ -81,13 +81,13 @@ public abstract class GvDataList<T extends GvDataList.GvData> extends ViewHolder
     public interface GvData extends ViewHolderData, Parcelable {
     }
 
-    GvDataList(GvType dataType) {
+    protected GvDataList(GvType dataType) {
         mDataType = dataType;
     }
 
 
     //Only used for GvCellManager
-    GvDataList() {
+    protected GvDataList() {
         mDataType = null;
     }
 

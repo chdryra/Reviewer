@@ -101,7 +101,7 @@ public class ReviewTreeEditable extends ReviewEditable implements ReviewNodeExpa
     }
 
     @Override
-    public RDSubject getSubject() {
+    public MdSubject getSubject() {
         return mNode.getSubject();
     }
 
@@ -111,7 +111,7 @@ public class ReviewTreeEditable extends ReviewEditable implements ReviewNodeExpa
     }
 
     @Override
-    public RDRating getRating() {
+    public MdRating getRating() {
         return mNode.getRating();
     }
 

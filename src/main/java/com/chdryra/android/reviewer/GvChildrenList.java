@@ -33,6 +33,10 @@ public class GvChildrenList extends GvDataList<GvChildrenList.GvChildReview> {
         return false;
     }
 
+    public void add(String subject, float rating) {
+        add(new GvChildReview(subject, rating));
+    }
+
     @Override
     protected Comparator<GvChildReview> getDefaultComparator() {
 
@@ -53,9 +57,6 @@ public class GvChildrenList extends GvDataList<GvChildrenList.GvChildReview> {
         };
     }
 
-    void add(String subject, float rating) {
-        add(new GvChildReview(subject, rating));
-    }
 
     /**
      * {@link GvDataList.GvData} version of: no equivalent as used

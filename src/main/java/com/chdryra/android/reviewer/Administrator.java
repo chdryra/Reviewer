@@ -8,6 +8,7 @@
 
 package com.chdryra.android.reviewer;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -37,35 +38,47 @@ import com.chdryra.android.mygenerallibrary.ObjectHolder;
  */
 public class Administrator {
     private static final String CONTROLLER_ID = "com.chdryra.android.reviewer.review_id";
+    private static final Author AUTHOR        = new Author("Rizwan Choudrey");
+
     private static Administrator sAdministrator;
 
-    private final Author mCurrentAuthor = new Author("Rizwan Choudrey");
-    private final Context                      mContext;
-    private final PublishedReviews             mPublishedReviews;
-    private final ObjectHolder                 mControllers;
-    private       ControllerReviewTreeEditable mControllerRip;
+    private final Context             mContext;
+    private final PublishedReviews    mPublishedReviews;
+    private final ObjectHolder        mControllers;
+    private final PublisherReviewTree mPublisher;
+
+    private ReviewBuilder mReviewBuilder;
 
     private Administrator(Context context) {
-        mPublishedReviews = new PublishedReviews();
         mContext = context;
         mControllers = new ObjectHolder();
+        mPublisher = new PublisherReviewTree(AUTHOR);
+        mPublishedReviews = new PublishedReviews();
     }
 
     public static Administrator get(Context c) {
-        if (sAdministrator == null || c.getApplicationContext() != sAdministrator.mContext) {
+        if (sAdministrator == null) {
             sAdministrator = new Administrator(c.getApplicationContext());
+        } else if (c.getApplicationContext() != sAdministrator.mContext) {
+            throw new RuntimeException("Can only have 1 Administrator per application!");
         }
 
         return sAdministrator;
     }
 
-    public String getApplicationName() {
-        return mContext.getString(mContext.getApplicationInfo().labelRes);
+    public static ImageChooser getImageChooser(Activity activity) {
+        Administrator admin = get(activity);
+        ImageChooser chooser = null;
+        if (admin.mReviewBuilder != null) {
+            chooser = admin.mReviewBuilder.getImageChooser(activity);
+        }
+
+        return chooser;
     }
 
     public ControllerReviewTreeEditable createNewReviewInProgress() {
-        mControllerRip = new ControllerReviewTreeEditable(FactoryReview.createReviewInProgress());
-        return mControllerRip;
+        mReviewBuilder = new ReviewBuilder(mContext);
+        return mReviewBuilder.getReview();
     }
 
     public PublishedReviews getPublishedReviews() {
@@ -73,9 +86,7 @@ public class Administrator {
     }
 
     public void publishReviewInProgress() {
-        PublisherReviewTree publisher = new PublisherReviewTree(mCurrentAuthor);
-        ReviewNode publishedTree = mControllerRip.publishAndTag(publisher);
-        mPublishedReviews.add(publishedTree);
+        mPublishedReviews.add(mReviewBuilder.publish(mPublisher));
     }
 
     public GvSocialPlatformList getSocialPlatformList() {

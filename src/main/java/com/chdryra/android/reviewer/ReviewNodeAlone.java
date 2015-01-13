@@ -73,12 +73,12 @@ class ReviewNodeAlone implements ReviewNode {
     }
 
     @Override
-    public RDSubject getSubject() {
+    public MdSubject getSubject() {
         return mReview.getSubject();
     }
 
     @Override
-    public RDRating getRating() {
+    public MdRating getRating() {
         return mReview.getRating();
     }
 

@@ -16,7 +16,7 @@ package com.chdryra.android.reviewer;
 public class PublishedReviews {
     private ControllerReviewCollection<ReviewNode> mController;
 
-    PublishedReviews() {
+    public PublishedReviews() {
         mController = new ControllerReviewCollection<>(new RCollectionReview<ReviewNode>());
     }
 
@@ -24,7 +24,7 @@ public class PublishedReviews {
         return mController.toGridViewable(true);
     }
 
-    void add(ReviewNode review) {
+    public void add(ReviewNode review) {
         if (review.isPublished()) mController.addReview(review);
     }
 }

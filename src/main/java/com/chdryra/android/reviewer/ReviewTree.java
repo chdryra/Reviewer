@@ -83,12 +83,12 @@ class ReviewTree implements ReviewNode {
     }
 
     @Override
-    public RDSubject getSubject() {
+    public MdSubject getSubject() {
         return mNode.getSubject();
     }
 
     @Override
-    public RDRating getRating() {
+    public MdRating getRating() {
         return mNode.getRating();
     }
 

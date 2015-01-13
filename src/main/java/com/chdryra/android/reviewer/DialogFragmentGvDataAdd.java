@@ -116,8 +116,8 @@ public abstract class DialogFragmentGvDataAdd<T extends GvDataList.GvData> exten
     protected void onAddButtonClick() {
         T newDatum = mViewHolder.getGvData();
 
-        boolean added = isQuickSet() ? mHandler.add(newDatum,
-                getActivity()) : newDatum.isValidForDisplay() && mAddListener.onGvDataAdd(newDatum);
+        boolean added = isQuickSet() ? mHandler.add(newDatum, getActivity()) :
+                newDatum.isValidForDisplay() && mAddListener.onGvDataAdd(newDatum);
 
         if (added) mViewHolder.updateView(newDatum);
     }

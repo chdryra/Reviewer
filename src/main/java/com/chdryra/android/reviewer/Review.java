@@ -48,9 +48,9 @@ public interface Review extends ReviewId.RDIdAble {
     @Override
     ReviewId getId();
 
-    RDSubject getSubject();
+    MdSubject getSubject();
 
-    RDRating getRating();
+    MdRating getRating();
 
     //Core methods
 

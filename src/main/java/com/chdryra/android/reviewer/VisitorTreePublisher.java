@@ -24,15 +24,13 @@ class VisitorTreePublisher implements VisitorReviewNode {
 
     @Override
     public void visit(ReviewNode reviewNode) {
-        if (mPublishedNode == null) {
-            mPublishedNode = FactoryReview.createReviewNodeExpandable(reviewNode.getReview().publish
-                    (mPublisher));
-        }
+        Review review = reviewNode.getReview();
+        mPublishedNode = FactoryReview.createReviewNodeExpandable(review.publish(mPublisher));
 
         for (ReviewNode child : reviewNode.getChildren()) {
             VisitorTreePublisher publisher = new VisitorTreePublisher(mPublisher);
             child.acceptVisitor(publisher);
-            mPublishedNode.addChild(publisher.mPublishedNode);
+            mPublishedNode.addChild(publisher.getPublishedTree());
         }
     }
 

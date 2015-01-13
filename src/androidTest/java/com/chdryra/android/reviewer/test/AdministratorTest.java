@@ -29,13 +29,6 @@ public class AdministratorTest extends AndroidTestCase {
     private Administrator mAdmin;
 
     @SmallTest
-    public void testGetApplicationName() {
-        String name = mAdmin.getApplicationName();
-        assertNotNull(name);
-        assertEquals(APPNAME, name);
-    }
-
-    @SmallTest
     public void testCreateNewReviewInProgress() {
         ControllerReview review = mAdmin.createNewReviewInProgress();
         assertNotNull(review);

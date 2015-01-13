@@ -21,6 +21,7 @@ import android.util.Log;
 import com.chdryra.android.mygenerallibrary.ActivityResultCode;
 import com.chdryra.android.mygenerallibrary.BitmapLoader;
 import com.chdryra.android.mygenerallibrary.FileIncrementor;
+import com.chdryra.android.mygenerallibrary.FileIncrementorFactory;
 import com.chdryra.android.mygenerallibrary.ImageHelper;
 import com.google.android.gms.maps.model.LatLng;
 
@@ -32,7 +33,7 @@ import java.io.IOException;
  * On: 12/11/2014
  * Email: rizwan.choudrey@gmail.com
  */
-class ImageChooser {
+public class ImageChooser {
     private static final String TAG              = "ImageChooser";
     private static final String ERROR_CREATE     = "Couldn't create file";
     private static final String ERROR_NO_STORAGE = "No storage available";
@@ -45,14 +46,13 @@ class ImageChooser {
         public void onImageChosen(GvImageList.GvImage image);
     }
 
-    public ImageChooser(ControllerReview controller, Activity activity) {
+    public ImageChooser(Activity activity,
+            FileIncrementorFactory.ImageFileIncrementor fileIncrementor) {
         mActivity = activity;
-        String dir = Administrator.get(mActivity).getApplicationName();
-        mFileIncrementor = new FileIncrementor(Environment.getExternalStoragePublicDirectory
-                (Environment.DIRECTORY_DCIM), dir, controller.getSubject(), "jpg");
+        mFileIncrementor = fileIncrementor;
     }
 
-    Intent getChooserIntents() {
+    public Intent getChooserIntents() {
         try {
             createNewCaptureFile();
             return ImageHelper.getImageChooserIntents(mActivity, mCaptureFile);
@@ -63,7 +63,7 @@ class ImageChooser {
         return null;
     }
 
-    boolean chosenImageExists(ActivityResultCode resultCode, Intent data) {
+    public boolean chosenImageExists(ActivityResultCode resultCode, Intent data) {
         //Returns true if bitmap exists.
         if (resultCode.equals(ActivityResultCode.OK)) {
             final boolean isCamera;
@@ -84,8 +84,8 @@ class ImageChooser {
                 if (isCamera) {
                     //Update android gallery
                     Uri imageUri = Uri.fromFile(new File(mCaptureFile));
-                    mActivity.sendBroadcast(
-                            new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, imageUri));
+                    Intent scanFile = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, imageUri);
+                    mActivity.sendBroadcast(scanFile);
                 }
 
                 return true;
@@ -102,7 +102,7 @@ class ImageChooser {
         return false;
     }
 
-    void getChosenImage(final ImageChooserListener listener) {
+    public void getChosenImage(final ImageChooserListener listener) {
         if (mCaptureFile != null) {
             int maxWidth = (int) mActivity.getResources().getDimension(R.dimen.imageMaxWidth);
             int maxHeight = (int) mActivity.getResources().getDimension(R.dimen.imageMaxHeight);

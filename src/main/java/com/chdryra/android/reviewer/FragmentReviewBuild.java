@@ -132,7 +132,7 @@ public class FragmentReviewBuild extends FragmentReviewGrid implements
         setIsEditable(true);
         setTransparentGridCellBackground();
 
-        mImageChooser = new ImageChooser(getController(), getActivity());
+        mImageChooser = Administrator.getImageChooser(getActivity());
         mLocationClient = new LocationClientConnector(getActivity(), this);
         mLocationClient.connect();
     }

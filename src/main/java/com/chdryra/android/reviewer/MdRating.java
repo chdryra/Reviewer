@@ -14,11 +14,11 @@ package com.chdryra.android.reviewer;
  * {@link #hasData()}: true
  * </p>
  */
-public class RDRating implements MdData {
+public class MdRating implements MdData {
     private final float  mRating;
     private       Review mHoldingReview;
 
-    public RDRating(float rating, Review holdingReview) {
+    public MdRating(float rating, Review holdingReview) {
         mRating = rating;
         mHoldingReview = holdingReview;
     }
@@ -40,12 +40,12 @@ public class RDRating implements MdData {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof RDRating)) return false;
+        if (!(o instanceof MdRating)) return false;
 
-        RDRating rdRating = (RDRating) o;
+        MdRating mdRating = (MdRating) o;
 
-        if (Float.compare(rdRating.mRating, mRating) != 0) return false;
-        if (mHoldingReview != null ? !mHoldingReview.equals(rdRating.mHoldingReview) : rdRating
+        if (Float.compare(mdRating.mRating, mRating) != 0) return false;
+        if (mHoldingReview != null ? !mHoldingReview.equals(mdRating.mHoldingReview) : mdRating
                 .mHoldingReview != null) {
             return false;
         }

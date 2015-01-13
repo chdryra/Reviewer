@@ -25,8 +25,8 @@ public class ReviewUserEditable extends ReviewEditable {
     private final ReviewNode mNode;
 
     private final ReviewId  mID;
-    private       RDSubject mSubject;
-    private       RDRating  mRating;
+    private       MdSubject mSubject;
+    private       MdRating  mRating;
 
     private MdCommentList  mComments;
     private MdImageList    mImages;
@@ -37,8 +37,8 @@ public class ReviewUserEditable extends ReviewEditable {
     public ReviewUserEditable(String subject) {
         //Core data
         mID = ReviewId.generateId();
-        mSubject = new RDSubject(subject, this);
-        mRating = new RDRating(0, this);
+        mSubject = new MdSubject(subject, this);
+        mRating = new MdRating(0, this);
 
         //Null option data
         mComments = new MdCommentList(this);
@@ -57,23 +57,23 @@ public class ReviewUserEditable extends ReviewEditable {
     }
 
     @Override
-    public RDSubject getSubject() {
+    public MdSubject getSubject() {
         return mSubject;
     }
 
     @Override
     public void setSubject(String subject) {
-        mSubject = new RDSubject(subject, this);
+        mSubject = new MdSubject(subject, this);
     }
 
     @Override
-    public RDRating getRating() {
+    public MdRating getRating() {
         return mRating;
     }
 
     @Override
     public void setRating(float rating) {
-        mRating = new RDRating(rating, this);
+        mRating = new MdRating(rating, this);
     }
 
     @Override

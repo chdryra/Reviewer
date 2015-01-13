@@ -148,12 +148,12 @@ class ReviewNodeExpandableImpl implements ReviewNodeExpandable {
     }
 
     @Override
-    public RDSubject getSubject() {
+    public MdSubject getSubject() {
         return mReview.getSubject();
     }
 
     @Override
-    public RDRating getRating() {
+    public MdRating getRating() {
         return isRatingIsAverageOfChildren() ? getAverageRatingOfChildren() : mReview.getRating();
     }
 
@@ -253,9 +253,9 @@ class ReviewNodeExpandableImpl implements ReviewNodeExpandable {
         return mId.hashCode();
     }
 
-    private RDRating getAverageRatingOfChildren() {
+    private MdRating getAverageRatingOfChildren() {
         VisitorRatingCalculator visitor = new VisitorRatingAverageOfChildren();
         acceptVisitor(visitor);
-        return new RDRating(visitor.getRating(), this);
+        return new MdRating(visitor.getRating(), this);
     }
 }

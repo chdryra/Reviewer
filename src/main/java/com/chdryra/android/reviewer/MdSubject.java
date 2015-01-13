@@ -14,11 +14,11 @@ package com.chdryra.android.reviewer;
  * {@link #hasData()}: string at least 1 character in length.
  * </p>
  */
-public class RDSubject implements MdData {
+public class MdSubject implements MdData {
     private final String mTitle;
     private       Review mHoldingReview;
 
-    public RDSubject(String title, Review review) {
+    public MdSubject(String title, Review review) {
         mTitle = title;
         mHoldingReview = review;
     }
@@ -40,9 +40,9 @@ public class RDSubject implements MdData {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof RDSubject)) return false;
+        if (!(o instanceof MdSubject)) return false;
 
-        RDSubject rdSubject = (RDSubject) o;
+        MdSubject rdSubject = (MdSubject) o;
 
         if (mHoldingReview != null ? !mHoldingReview.equals(rdSubject.mHoldingReview) : rdSubject
                 .mHoldingReview != null) {

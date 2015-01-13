@@ -64,7 +64,7 @@ public class FragmentReviewImages extends FragmentReviewGridAddEdit<GvImageList.
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mImages = (GvImageList) getGridData();
-        mImageChooser = new ImageChooser(getController(), getActivity());
+        mImageChooser = Administrator.getImageChooser(getActivity());
     }
 
     @Override
