@@ -26,14 +26,6 @@ public class GvUrlList extends GvDataList<GvUrlList.GvUrl> {
         super(TYPE);
     }
 
-    void add(String urlString) throws MalformedURLException, URISyntaxException {
-        add(new GvUrl(urlString));
-    }
-
-    void add(URL url) {
-        add(new GvUrl(url));
-    }
-
     /**
      * {@link GvDataList.GvData} version of: {@link com.chdryra
      * .android.reviewer.MdUrlList.MdUrl}
@@ -100,7 +92,7 @@ public class GvUrlList extends GvDataList<GvUrlList.GvUrl> {
 
         @Override
         public boolean isValidForDisplay() {
-            return toShortenedString() != null && toShortenedString().length() > 0;
+            return mUrl != null && toShortenedString() != null && toShortenedString().length() > 0;
         }
 
         @Override

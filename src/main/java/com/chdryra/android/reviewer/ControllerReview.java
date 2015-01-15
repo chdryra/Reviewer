@@ -130,7 +130,7 @@ public class ControllerReview<T extends Review> {
     private GvTagList getTags() {
         GvTagList gvTags = new GvTagList();
         for (String tag : mTagsList) {
-            gvTags.add(tag);
+            gvTags.add(new GvTagList.GvTag(tag));
         }
 
         return gvTags;

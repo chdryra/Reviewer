@@ -41,8 +41,7 @@ public class MdToGvConverter {
         GvImageList list = new GvImageList();
         for (MdImageList.MdImage image : images) {
             list.add(new GvImageList.GvImage(image.getBitmap(), image.getLatLng(),
-                    image.getCaption(),
-                    image.isCover()));
+                    image.getCaption(), image.isCover()));
         }
 
         return list;

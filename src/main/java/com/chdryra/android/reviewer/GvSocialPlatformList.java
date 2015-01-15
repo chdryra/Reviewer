@@ -26,6 +26,11 @@ import java.util.Comparator;
 public class GvSocialPlatformList extends GvDataList<GvSocialPlatformList.GvSocialPlatform> {
     public static final GvType TYPE = GvType.SOCIAL;
 
+    //For testing
+    public GvSocialPlatformList() {
+        super(TYPE);
+    }
+
     private GvSocialPlatformList(Context context) {
         super(TYPE);
         for (SocialPlatform platform : SocialPlatformList.get(context)) {
@@ -33,7 +38,7 @@ public class GvSocialPlatformList extends GvDataList<GvSocialPlatformList.GvSoci
         }
     }
 
-    static GvSocialPlatformList getLatest(Context context) {
+    public static GvSocialPlatformList getLatest(Context context) {
         SocialPlatformList.update(context);
         return new GvSocialPlatformList(context);
     }
@@ -44,15 +49,7 @@ public class GvSocialPlatformList extends GvDataList<GvSocialPlatformList.GvSoci
 
             @Override
             public int compare(GvSocialPlatform lhs, GvSocialPlatform rhs) {
-                int ret = 0;
-                if (lhs.getFollowers() > rhs.getFollowers()) {
-                    ret = 1;
-                }
-                if (lhs.getFollowers() < rhs.getFollowers()) {
-                    ret = -1;
-                }
-
-                return ret;
+                return rhs.getFollowers() - lhs.getFollowers();
             }
         };
     }
@@ -80,8 +77,10 @@ public class GvSocialPlatformList extends GvDataList<GvSocialPlatformList.GvSoci
         public GvSocialPlatform() {
         }
 
-        private GvSocialPlatform(String name, int followers) {
+        //public for testing
+        public GvSocialPlatform(String name, int followers) {
             super(name, String.valueOf(followers));
+            if (followers < 0) throw new RuntimeException("Should have non-negative followers!");
             mFollowers = followers;
         }
 
@@ -128,19 +127,19 @@ public class GvSocialPlatformList extends GvDataList<GvSocialPlatformList.GvSoci
             parcel.writeByte((byte) (mIsChosen ? 1 : 0));
         }
 
-        String getName() {
+        public String getName() {
             return getUpper();
         }
 
-        int getFollowers() {
+        public int getFollowers() {
             return mFollowers;
         }
 
-        boolean isChosen() {
+        public boolean isChosen() {
             return mIsChosen;
         }
 
-        void press() {
+        public void press() {
             mIsChosen = !mIsChosen;
         }
     }

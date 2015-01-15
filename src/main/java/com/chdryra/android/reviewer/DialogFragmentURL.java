@@ -11,7 +11,6 @@ package com.chdryra.android.reviewer;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.webkit.URLUtil;
 import android.widget.Toast;
 
 import com.chdryra.android.myandroidwidgets.ClearableEditText;
@@ -43,9 +42,7 @@ public class DialogFragmentURL extends DialogCancelActionDoneFragment implements
         mUrlEditText = (ClearableEditText) v.findViewById(R.id.url_edit_text);
         if (mController.getData(GvDataList.GvType.URLS).size() == 1) {
             mUrlEditText.setText(((GvUrlList.GvUrl) mController.getData(GvDataList.GvType
-                    .URLS)
-                    .getItem(0))
-                    .toShortenedString());
+                    .URLS).getItem(0)).toShortenedString());
         }
 
         setKeyboardDoDoneOnEditText(mUrlEditText);
@@ -73,7 +70,7 @@ public class DialogFragmentURL extends DialogCancelActionDoneFragment implements
         if (urlString.length() > 0) {
             try {
                 GvUrlList singleURL = new GvUrlList();
-                singleURL.add(URLUtil.guessUrl(urlString));
+                singleURL.add(new GvUrlList.GvUrl(urlString));
                 mController.setData(singleURL);
             } catch (Exception e) {
                 Log.i(TAG, "Malformed URL or incorrect syntax: " + urlString, e);

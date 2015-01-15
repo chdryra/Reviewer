@@ -222,6 +222,11 @@ public class GvReviewListTest extends TestCase {
         assertTrue(gvReviewNotEmpty.isValidForDisplay());
     }
 
+    @SmallTest
+    public void testGetGvType() {
+        assertEquals(GvReviewList.TYPE, mList.getGvType());
+    }
+
     @Override
     protected void setUp() throws Exception {
         super.setUp();

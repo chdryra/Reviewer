@@ -177,7 +177,7 @@ public class ControllerTester<T extends Review> {
         } else {
             GvTagList tags = new GvTagList();
             for (int i = 0; i < NUMDATA; ++i) {
-                tags.add(RandomStringGenerator.nextWord());
+                tags.add(new GvTagList.GvTag(RandomStringGenerator.nextWord()));
             }
 
             controller.addTags(tags);

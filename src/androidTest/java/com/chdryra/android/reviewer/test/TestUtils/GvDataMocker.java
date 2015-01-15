@@ -15,6 +15,7 @@ import com.chdryra.android.reviewer.GvFactList;
 import com.chdryra.android.reviewer.GvImageList;
 import com.chdryra.android.reviewer.GvLocationList;
 import com.chdryra.android.reviewer.GvReviewList;
+import com.chdryra.android.reviewer.GvSocialPlatformList;
 import com.chdryra.android.reviewer.GvTagList;
 import com.chdryra.android.reviewer.GvUrlList;
 import com.chdryra.android.reviewer.ReviewId;
@@ -210,5 +211,10 @@ public class GvDataMocker {
                 RandomStringGenerator.nextWord(), RAND.nextFloat() * 5,
                 BitmapMocker.nextBitmap(RAND.nextBoolean()), RandomStringGenerator.nextSentence()
                 , RandomStringGenerator.nextWord());
+    }
+
+    public static GvSocialPlatformList.GvSocialPlatform newSocialPlatform() {
+        return new GvSocialPlatformList.GvSocialPlatform(RandomStringGenerator.nextWord(),
+                RAND.nextInt(100) ^ 2);
     }
 }

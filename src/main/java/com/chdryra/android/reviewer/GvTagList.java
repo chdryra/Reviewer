@@ -22,19 +22,13 @@ public class GvTagList extends GvDataList<GvTagList.GvTag> {
         super(TYPE);
     }
 
-    public void add(String string) {
-        if (string != null && string.length() > 0) {
-            add(new GvTag(string));
-        }
-    }
-
     @Override
     protected Comparator<GvTag> getDefaultComparator() {
         return new Comparator<GvTag>() {
 
             @Override
             public int compare(GvTag lhs, GvTag rhs) {
-                return lhs.get().compareTo(rhs.get());
+                return lhs.get().compareToIgnoreCase(rhs.get());
             }
         };
     }
@@ -59,7 +53,7 @@ public class GvTagList extends GvDataList<GvTagList.GvTag> {
             }
         };
 
-        GvTag() {
+        public GvTag() {
             super();
         }
 

@@ -22,7 +22,7 @@ import junit.framework.TestCase;
  * On: 15/01/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class GvImageLisTest extends TestCase {
+public class GvImageListTest extends TestCase {
     private GvImageList mList;
 
     @SmallTest
