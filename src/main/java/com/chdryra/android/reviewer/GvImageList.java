@@ -28,11 +28,7 @@ public class GvImageList extends GvDataList<GvImageList.GvImage> {
         super(TYPE);
     }
 
-    void add(Bitmap bitmap, LatLng latLng, String caption, boolean isCover) {
-        add(new GvImage(bitmap, latLng, caption, isCover));
-    }
-
-    boolean contains(Bitmap bitmap) {
+    public boolean contains(Bitmap bitmap) {
         for (GvImage image : this) {
             if (image.getBitmap().sameAs(bitmap)) return true;
         }
@@ -40,23 +36,18 @@ public class GvImageList extends GvDataList<GvImageList.GvImage> {
         return false;
     }
 
-    GvImage getRandomCover() {
+    public GvImage getRandomCover() {
         GvImageList covers = getCovers();
-        if (covers.size() == 0) {
-            return null;
-        }
+        if (covers.size() == 0) return new GvImage();
 
         Random r = new Random();
-
         return covers.getItem(r.nextInt(covers.size()));
     }
 
-    GvImageList getCovers() {
+    public GvImageList getCovers() {
         GvImageList covers = new GvImageList();
         for (GvImage image : this) {
-            if (image.isCover()) {
-                covers.add(image);
-            }
+            if (image.isCover()) covers.add(image);
         }
 
         return covers;
@@ -83,12 +74,12 @@ public class GvImageList extends GvDataList<GvImageList.GvImage> {
         private       String mCaption;
         private boolean mIsCover = false;
 
-        GvImage() {
+        public GvImage() {
             mBitmap = null;
             mLatLng = null;
         }
 
-        GvImage(Bitmap bitmap, LatLng latLng) {
+        public GvImage(Bitmap bitmap, LatLng latLng) {
             mBitmap = bitmap;
             mLatLng = latLng;
         }

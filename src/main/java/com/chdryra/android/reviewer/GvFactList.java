@@ -38,10 +38,6 @@ public class GvFactList extends GvDataList<GvFactList.GvFact> {
         };
     }
 
-    void add(String label, String value) {
-        add(new GvFact(label, value));
-    }
-
     /**
      * {@link GvDataList.GvData} version of: {@link com.chdryra
      * .android.reviewer.MdFactList.MdFact}
@@ -60,7 +56,7 @@ public class GvFactList extends GvDataList<GvFactList.GvFact> {
             }
         };
 
-        GvFact() {
+        public GvFact() {
             super();
         }
 

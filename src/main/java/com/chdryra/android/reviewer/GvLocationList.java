@@ -23,10 +23,6 @@ public class GvLocationList extends GvDataList<GvLocationList.GvLocation> {
         super(TYPE);
     }
 
-    void add(LatLng latLng, String name) {
-        add(new GvLocation(latLng, name));
-    }
-
     /**
      * {@link GvDataList.GvData} version of: {@link com.chdryra
      * .android.reviewer.MdLocationList.MdLocation}
@@ -46,7 +42,7 @@ public class GvLocationList extends GvDataList<GvLocationList.GvLocation> {
         private final LatLng mLatLng;
         private final String mName;
 
-        GvLocation() {
+        public GvLocation() {
             mLatLng = null;
             mName = null;
         }
@@ -111,15 +107,15 @@ public class GvLocationList extends GvDataList<GvLocationList.GvLocation> {
             return mName;
         }
 
-        String getShortenedName() {
+        public String getShortenedName() {
+            String shortened = mName;
             if (mName != null) {
                 StringTokenizer tokens = new StringTokenizer(mName,
                         MdLocationList.MdLocation.LOCATION_DELIMITER);
-                String shortened = tokens.nextToken();
-                return shortened != null ? shortened.trim() : null;
-            } else {
-                return null;
+                shortened = tokens.nextToken();
             }
+
+            return shortened != null ? shortened.trim() : mName;
         }
     }
 }

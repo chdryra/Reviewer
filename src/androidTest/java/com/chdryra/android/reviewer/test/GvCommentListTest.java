@@ -11,6 +11,7 @@ package com.chdryra.android.reviewer.test;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.GvCommentList;
+import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
 import com.chdryra.android.testutils.RandomStringGenerator;
 
 import junit.framework.TestCase;
@@ -32,18 +33,20 @@ public class GvCommentListTest extends TestCase {
 
     @SmallTest
     public void testGvComment() {
-        String comment = RandomStringGenerator.nextSentence();
-        String comment2 = RandomStringGenerator.nextSentence();
+        String comment1 = GvDataMocker.newComment().getComment();
+        String comment2 = GvDataMocker.newComment().getComment();
 
-        GvCommentList.GvComment gvComment = new GvCommentList.GvComment(comment);
-        GvCommentList.GvComment gvCommentEquals = new GvCommentList.GvComment(comment);
+        GvCommentList.GvComment gvComment = new GvCommentList.GvComment(comment1);
+        GvCommentList.GvComment gvCommentEquals = new GvCommentList.GvComment(comment1);
         GvCommentList.GvComment gvCommentNotEquals = new GvCommentList.GvComment(comment2);
         GvCommentList.GvComment gvCommentNull = new GvCommentList.GvComment();
         GvCommentList.GvComment gvCommentEmpty = new GvCommentList.GvComment("");
 
         assertNotNull(gvComment.newViewHolder());
         assertTrue(gvComment.isValidForDisplay());
-        assertEquals(comment, gvComment.getComment());
+
+        assertEquals(comment1, gvComment.getComment());
+
         assertTrue(gvComment.equals(gvCommentEquals));
         assertFalse(gvComment.equals(gvCommentNotEquals));
 

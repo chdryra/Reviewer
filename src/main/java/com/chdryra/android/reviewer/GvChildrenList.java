@@ -33,10 +33,6 @@ public class GvChildrenList extends GvDataList<GvChildrenList.GvChildReview> {
         return false;
     }
 
-    public void add(String subject, float rating) {
-        add(new GvChildReview(subject, rating));
-    }
-
     @Override
     protected Comparator<GvChildReview> getDefaultComparator() {
 
@@ -45,9 +41,9 @@ public class GvChildrenList extends GvDataList<GvChildrenList.GvChildReview> {
             public int compare(GvChildReview lhs, GvChildReview rhs) {
                 int comp = lhs.getSubject().compareTo(rhs.getSubject());
                 if (comp == 0) {
-                    if (lhs.getRating() > rhs.getRating()) {
+                    if (lhs.getRating() < rhs.getRating()) {
                         comp = 1;
-                    } else if (lhs.getRating() < rhs.getRating()) {
+                    } else if (lhs.getRating() > rhs.getRating()) {
                         comp = -1;
                     }
                 }
@@ -77,7 +73,7 @@ public class GvChildrenList extends GvDataList<GvChildrenList.GvChildReview> {
         private final String mSubject;
         private final float  mRating;
 
-        GvChildReview() {
+        public GvChildReview() {
             mSubject = null;
             mRating = 0f;
         }

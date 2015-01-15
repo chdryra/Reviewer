@@ -45,7 +45,7 @@ public class ControllerReviewCollection<T extends Review> {
     private GvDataList toGridViewableAll() {
         GvChildrenList data = new GvChildrenList();
         for (Review r : mReviews) {
-            data.add(r.getSubject().get(), r.getRating().get());
+            data.add(new GvChildrenList.GvChildReview(r.getSubject().get(), r.getRating().get()));
         }
 
         return data;
@@ -66,8 +66,8 @@ public class ControllerReviewCollection<T extends Review> {
             String headline = comments.size() > 0 ? comments.getItem(0).getCommentHeadline() : null;
             String location = locations.size() > 0 ? locations.getItem(0).getName() : null;
 
-            data.add(c.getId(), c.getSubject(), c.getRating(), cover, headline, location,
-                    c.getAuthor(), c.getPublishDate());
+            data.add(c.getId(), c.getAuthor(), c.getPublishDate(), c.getSubject(), c.getRating(),
+                    cover, headline, location);
         }
 
         return data;

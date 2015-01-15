@@ -28,7 +28,7 @@ public class MdLocationList extends MdDataList<MdLocationList.MdLocation> {
      * </p>
      */
     public static class MdLocation implements MdData, DataLocation {
-        static final String LOCATION_DELIMITER = ",|";
+        public static final String LOCATION_DELIMITER = ",|";
         private final LatLng mLatLng;
         private final String mName;
         private       Review mHoldingReview;

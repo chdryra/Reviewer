@@ -24,6 +24,7 @@ import com.chdryra.android.testutils.RandomStringGenerator;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Random;
 
@@ -199,12 +200,15 @@ public class GvDataMocker {
     }
 
     public static GvReviewList.GvReviewOverview newReviewOverview() {
-        GvReviewList list = new GvReviewList();
-        list.add(ReviewId.generateId().toString(),
+        Calendar c = Calendar.getInstance();
+        Date d = new Date();
+        c.setTime(d);
+        c.add(Calendar.DATE, RAND.nextInt(365));
+        Date date = c.getTime();
+        return new GvReviewList.GvReviewOverview(ReviewId.generateId().toString(),
+                RandomStringGenerator.nextWord(), date,
                 RandomStringGenerator.nextWord(), RAND.nextFloat() * 5,
                 BitmapMocker.nextBitmap(RAND.nextBoolean()), RandomStringGenerator.nextSentence()
-                , RandomStringGenerator.nextWord(), RandomStringGenerator.nextWord(), new Date());
-
-        return list.getItem(0);
+                , RandomStringGenerator.nextWord());
     }
 }
