@@ -75,8 +75,7 @@ public class GvFactList extends GvDataList<GvFactList.GvFact> {
 
         @Override
         public boolean isValidForDisplay() {
-            return getLabel() != null && getLabel().length() > 0 && getValue() != null &&
-                    getValue().length() > 0;
+            return DataValidator.validate(this);
         }
 
         @Override

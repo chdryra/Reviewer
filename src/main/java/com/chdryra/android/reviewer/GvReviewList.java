@@ -121,8 +121,9 @@ public class GvReviewList extends GvDataList<GvReviewList.GvReviewOverview> {
 
         @Override
         public boolean isValidForDisplay() {
-            return mId != null && mId.length() > 0 && mSubject != null && mSubject.length() > 0
-                    && mAuthor != null && mAuthor.length() > 0 && mPublishDate != null;
+            return DataValidator.validateString(mId) && DataValidator.validateString(mSubject)
+                    && DataValidator.validateString(mAuthor) && DataValidator.NotNull
+                    (mPublishDate);
         }
 
         @Override

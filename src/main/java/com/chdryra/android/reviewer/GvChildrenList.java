@@ -95,7 +95,7 @@ public class GvChildrenList extends GvDataList<GvChildrenList.GvChildReview> {
 
         @Override
         public boolean isValidForDisplay() {
-            return mSubject != null && mSubject.length() > 0;
+            return DataValidator.validateString(mSubject);
         }
 
         @Override

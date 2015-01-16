@@ -44,7 +44,7 @@ public class MdFactList extends MdDataList<MdFactList.MdFact> {
 
         @Override
         public boolean hasData() {
-            return mLabel != null && mValue != null && mLabel.length() > 0 && mValue.length() > 0;
+            return DataValidator.validate(this);
         }
 
         @Override

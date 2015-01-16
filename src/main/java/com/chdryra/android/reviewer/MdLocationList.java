@@ -46,7 +46,7 @@ public class MdLocationList extends MdDataList<MdLocationList.MdLocation> {
 
         @Override
         public boolean hasData() {
-            return mLatLng != null && mName != null && mName.length() > 0;
+            return DataValidator.validate(this);
         }
 
         @Override

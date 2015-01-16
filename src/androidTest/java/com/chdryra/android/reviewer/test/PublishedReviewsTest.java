@@ -32,8 +32,7 @@ public class PublishedReviewsTest extends TestCase {
         }
 
         for (int i = 0; i < 10; ++i) {
-            ReviewNode r = ReviewMocker.newReviewNode();
-            reviews.add(r);
+            reviews.add(ReviewMocker.newReviewNode());
         }
 
         GvReviewList gvReviews = (GvReviewList) reviews.toGridViewable();

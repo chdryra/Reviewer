@@ -57,7 +57,7 @@ public class MdImageList extends MdDataList<MdImageList.MdImage> {
 
         @Override
         public boolean hasData() {
-            return mBitmap != null;
+            return DataValidator.validate(this);
         }
 
         @Override

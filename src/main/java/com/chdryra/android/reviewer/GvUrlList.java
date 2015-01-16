@@ -92,7 +92,8 @@ public class GvUrlList extends GvDataList<GvUrlList.GvUrl> {
 
         @Override
         public boolean isValidForDisplay() {
-            return mUrl != null && toShortenedString() != null && toShortenedString().length() > 0;
+            return DataValidator.validate(this) && DataValidator.validateString(toShortenedString
+                    ());
         }
 
         @Override

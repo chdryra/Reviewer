@@ -105,7 +105,7 @@ public class GvImageList extends GvDataList<GvImageList.GvImage> {
 
         @Override
         public boolean isValidForDisplay() {
-            return mBitmap != null;
+            return DataValidator.validate(this);
         }
 
         @Override

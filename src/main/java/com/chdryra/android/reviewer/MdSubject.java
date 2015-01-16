@@ -15,11 +15,11 @@ package com.chdryra.android.reviewer;
  * </p>
  */
 public class MdSubject implements MdData {
-    private final String mTitle;
+    private final String mSubject;
     private       Review mHoldingReview;
 
-    public MdSubject(String title, Review review) {
-        mTitle = title;
+    public MdSubject(String subject, Review review) {
+        mSubject = subject;
         mHoldingReview = review;
     }
 
@@ -30,11 +30,11 @@ public class MdSubject implements MdData {
 
     @Override
     public boolean hasData() {
-        return mTitle != null && mTitle.length() > 0;
+        return DataValidator.validateString(mSubject);
     }
 
     public String get() {
-        return mTitle;
+        return mSubject;
     }
 
     @Override
@@ -48,7 +48,7 @@ public class MdSubject implements MdData {
                 .mHoldingReview != null) {
             return false;
         }
-        if (mTitle != null ? !mTitle.equals(rdSubject.mTitle) : rdSubject.mTitle != null) {
+        if (mSubject != null ? !mSubject.equals(rdSubject.mSubject) : rdSubject.mSubject != null) {
             return false;
         }
 
@@ -57,7 +57,7 @@ public class MdSubject implements MdData {
 
     @Override
     public int hashCode() {
-        int result = mTitle != null ? mTitle.hashCode() : 0;
+        int result = mSubject != null ? mSubject.hashCode() : 0;
         result = 31 * result + (mHoldingReview != null ? mHoldingReview.hashCode() : 0);
         return result;
     }

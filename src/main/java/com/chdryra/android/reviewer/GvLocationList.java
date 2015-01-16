@@ -64,7 +64,7 @@ public class GvLocationList extends GvDataList<GvLocationList.GvLocation> {
 
         @Override
         public boolean isValidForDisplay() {
-            return mLatLng != null && mName != null && mName.length() > 0;
+            return DataValidator.validate(this);
         }
 
         @Override

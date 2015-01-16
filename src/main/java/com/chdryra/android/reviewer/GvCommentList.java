@@ -79,7 +79,7 @@ public class GvCommentList extends GvDataList<GvCommentList.GvComment> {
 
         @Override
         public boolean isValidForDisplay() {
-            return mComment != null && mComment.length() > 0;
+            return DataValidator.validate(this);
         }
 
         @Override

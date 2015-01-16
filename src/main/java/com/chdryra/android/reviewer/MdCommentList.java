@@ -40,7 +40,7 @@ public class MdCommentList extends MdDataList<MdCommentList.MdComment> {
 
         @Override
         public boolean hasData() {
-            return mComment != null && mComment.length() > 0;
+            return DataValidator.validate(this);
         }
 
         @Override
