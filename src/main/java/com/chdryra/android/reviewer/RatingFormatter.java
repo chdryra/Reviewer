@@ -27,11 +27,18 @@ public class RatingFormatter {
         return twoSignificantDigits(rating) + "/" + String.valueOf(MAXRATING);
     }
 
-    public static String roundToSignificant(float rating, int digits) {
+    public static String roundToSignificant(float rating, int toDigits) {
+        int digits = Math.min(toDigits, numDigits(rating));
         String pattern = digits > 1 ? "0." : "0";
         while (digits-- > 1) pattern += "0";
         DecimalFormat formatter = new DecimalFormat("0");
         DecimalFormat decimalFormatter = new DecimalFormat(pattern);
         return rating % 1L > 0L ? decimalFormatter.format(rating) : formatter.format(rating);
+    }
+
+    private static int numDigits(float rating) {
+        String toString = String.valueOf(rating);
+        String[] strings = toString.split("\\.");
+        return strings.length > 1 ? strings[0].length() + strings[1].length() : strings[0].length();
     }
 }
