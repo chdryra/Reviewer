@@ -13,12 +13,16 @@ import java.util.LinkedHashMap;
 import java.util.NoSuchElementException;
 
 /**
- * An iterable collection of objects that can be referenced using an {@link ReviewId}.
+ * An iterable collection of objects that can be referenced using a {@link ReviewId}.
  *
  * @param <T>: object type
  */
-class RCollection<T> implements Iterable<T> {
-    private final LinkedHashMap<ReviewId, T> mData = new LinkedHashMap<ReviewId, T>();
+public class RCollection<T> implements Iterable<T> {
+    public static final String                     NO_ELEMENT    = "No more elements left";
+    public static final String                     ILLEGAL_STATE = "Have to do at least one next" +
+            "() before you can " +
+            "delete";
+    private final       LinkedHashMap<ReviewId, T> mData         = new LinkedHashMap<ReviewId, T>();
 
     @Override
     public Iterator<T> iterator() {
@@ -33,57 +37,55 @@ class RCollection<T> implements Iterable<T> {
         return get(getId(position));
     }
 
-    void put(ReviewId id, T t) {
+    public void put(ReviewId id, T t) {
         if (!containsId(id)) mData.put(id, t);
     }
 
-    boolean containsId(ReviewId id) {
+    public boolean containsId(ReviewId id) {
         return mData.containsKey(id);
     }
 
-    void add(RCollection<T> items) {
+    public void add(RCollection<T> items) {
         mData.putAll(items.mData);
     }
 
-    void remove(ReviewId id) {
+    public void remove(ReviewId id) {
         if (containsId(id)) mData.remove(id);
     }
 
-    T get(ReviewId id) {
+    public T get(ReviewId id) {
         return mData.get(id);
     }
 
-    ReviewId getId(int position) {
+    private ReviewId getId(int position) {
         ReviewId[] keys = mData.keySet().toArray(new ReviewId[mData.size()]);
         return keys[position];
     }
 
-    class RCollectionIterator implements Iterator<T> {
-        int position = 0;
+    public class RCollectionIterator implements Iterator<T> {
+        private int mPosition = 0;
 
         @Override
         public boolean hasNext() {
-            return position < size() && getItem(position) != null;
+            return mPosition < size() && getItem(mPosition) != null;
         }
 
         @Override
         public T next() {
             if (hasNext()) {
-                return getItem(position++);
+                return getItem(mPosition++);
             } else {
-                throw new NoSuchElementException("No more elements left");
+                throw new NoSuchElementException(NO_ELEMENT);
             }
         }
 
         @Override
         public void remove() {
-            if (position <= 0) {
-                throw new IllegalStateException("Have to do at least one next() before you can " +
-                        "delete");
+            if (mPosition > 0) {
+                RCollection.this.remove(getId(--mPosition));
             } else {
-                RCollection.this.remove(getId(position));
+                throw new IllegalStateException(ILLEGAL_STATE);
             }
         }
     }
-
 }

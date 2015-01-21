@@ -44,7 +44,7 @@ public class ReviewId implements MdData {
         return new ReviewId();
     }
 
-    static ReviewId generateId(String rdId) {
+    public static ReviewId generateId(String rdId) {
         return new ReviewId(rdId);
     }
 
@@ -64,12 +64,7 @@ public class ReviewId implements MdData {
 
     @Override
     public boolean equals(Object obj) {
-        if (obj == null || obj.getClass() != getClass()) {
-            return false;
-        }
-
-        ReviewId objId = (ReviewId) obj;
-        return this.mId.equals(objId.mId);
+        return obj != null && obj.getClass() == getClass() && this.equals((ReviewId) obj);
     }
 
     @Override

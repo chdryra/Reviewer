@@ -45,7 +45,7 @@ class SocialPlatformList implements Iterable<SocialPlatformList.SocialPlatform> 
     }
 
     private SocialPlatformList(Context context) {
-        mPlatforms = new LinkedList<SocialPlatformList.SocialPlatform>();
+        mPlatforms = new LinkedList<>();
         Platform[] platforms = Platform.values();
         for (Platform platform : platforms) {
             mPlatforms.add(new SocialPlatform(platform.toString(context)));
