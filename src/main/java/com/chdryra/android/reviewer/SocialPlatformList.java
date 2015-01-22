@@ -17,14 +17,14 @@ import java.util.LinkedList;
  * Singleton that holds the list of social platforms on which reviews can be shared. Placeholders
  * for finding latest number of followers on each platform.
  */
-class SocialPlatformList implements Iterable<SocialPlatformList.SocialPlatform> {
+public class SocialPlatformList implements Iterable<SocialPlatformList.SocialPlatform> {
     private static SocialPlatformList         sList;
     private final  LinkedList<SocialPlatform> mPlatforms;
 
     /**
      * Enum for specifying the social platforms available together with their text labels.
      */
-    enum Platform {
+    public enum Platform {
         //Cannot access string resources without a context
         TWITTER(R.string.twitter),
         FACEBOOK(R.string.facebook),
@@ -35,11 +35,11 @@ class SocialPlatformList implements Iterable<SocialPlatformList.SocialPlatform> 
 
         private final int mPlatformId;
 
-        Platform(int platformId) {
+        private Platform(int platformId) {
             mPlatformId = platformId;
         }
 
-        String toString(Context context) {
+        private String toString(Context context) {
             return context.getResources().getString(mPlatformId);
         }
     }
@@ -52,7 +52,7 @@ class SocialPlatformList implements Iterable<SocialPlatformList.SocialPlatform> 
         }
     }
 
-    static SocialPlatformList get(Context context) {
+    public static SocialPlatformList getList(Context context) {
         if (sList == null) {
             sList = new SocialPlatformList(context);
         }
@@ -60,8 +60,8 @@ class SocialPlatformList implements Iterable<SocialPlatformList.SocialPlatform> 
         return sList;
     }
 
-    static void update(Context context) {
-        for (SocialPlatform platform : get(context)) {
+    public static void update(Context context) {
+        for (SocialPlatform platform : getList(context)) {
             platform.update();
         }
     }
@@ -75,7 +75,7 @@ class SocialPlatformList implements Iterable<SocialPlatformList.SocialPlatform> 
      * Holds the name and number of followers for a social platform. Placeholder to update the
      * number of followers.
      */
-    class SocialPlatform {
+    public class SocialPlatform {
         private final String mName;
         private       int    mFollowers;
 
@@ -84,11 +84,11 @@ class SocialPlatformList implements Iterable<SocialPlatformList.SocialPlatform> 
             update();
         }
 
-        String getName() {
+        public String getName() {
             return mName;
         }
 
-        int getFollowers() {
+        public int getFollowers() {
             return mFollowers;
         }
 

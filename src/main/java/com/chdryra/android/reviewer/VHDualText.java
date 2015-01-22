@@ -8,6 +8,7 @@
 
 package com.chdryra.android.reviewer;
 
+import com.chdryra.android.mygenerallibrary.VHDDualString;
 import com.chdryra.android.mygenerallibrary.VHDualString;
 
 /**
@@ -29,5 +30,9 @@ class VHDualText extends VHDualString {
 
     VHDualText() {
         super(LAYOUT, UPPER, LOWER);
+    }
+
+    protected void updateView(String upper, String lower) {
+        super.updateView(new VHDDualString(upper, lower));
     }
 }

@@ -20,7 +20,7 @@ import java.util.UUID;
  * @see com.chdryra.android.reviewer.Author
  */
 
-class UserId {
+public class UserId {
     public final static UserId NULL_ID = new UserId(null);
     private final UUID mId;
 
@@ -28,25 +28,13 @@ class UserId {
         mId = id;
     }
 
-    static UserId generateId() {
+    public static UserId generateId() {
         return new UserId(UUID.randomUUID());
     }
 
     @Override
     public boolean equals(Object obj) {
-        if (obj == null || obj.getClass() != getClass()) {
-            return false;
-        }
-
-        UserId objId = (UserId) obj;
-        UUID id = objId.mId;
-        if (id == null && mId == null) {
-            return true;
-        } else if (mId != null) {
-            return this.mId.equals(id);
-        }
-
-        return false;
+        return obj != null && obj.getClass() == getClass() && this.equals((UserId) obj);
     }
 
     @Override
@@ -59,7 +47,7 @@ class UserId {
         return mId.toString();
     }
 
-    boolean equals(UserId userId) {
+    public boolean equals(UserId userId) {
         return mId.equals(userId.mId);
     }
 }
