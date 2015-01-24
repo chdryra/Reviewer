@@ -19,7 +19,7 @@ public class ActivityReviewTags extends ActivitySingleFragment {
 
     @Override
     protected Fragment createFragment() {
-        return new FragmentReviewTags();
+        return new FragmentEditTags();
     }
 
 }

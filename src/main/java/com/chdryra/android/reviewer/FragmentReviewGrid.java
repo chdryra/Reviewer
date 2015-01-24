@@ -60,7 +60,7 @@ import com.chdryra.android.mygenerallibrary.ViewHolderAdapter;
 //TODO abstract FragmentReviewGrid into data-editing and data-viewing versions.
 
 @SuppressWarnings("EmptyMethod")
-public abstract class FragmentReviewGrid extends FragmentDeleteDone {
+public class FragmentReviewGrid extends FragmentDeleteDone {
     private ControllerReviewTreeEditable mController;
     private LinearLayout                 mLayout;
     private TextView                     mSubjectView;

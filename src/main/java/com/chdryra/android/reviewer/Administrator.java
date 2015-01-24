@@ -117,6 +117,10 @@ public class Administrator {
         return controller;
     }
 
+    public ReviewView getReviewView(Intent i) {
+        return null;
+    }
+
     private void register(ControllerReview controller) {
         mControllers.addObject(controller.getId(), controller);
     }
