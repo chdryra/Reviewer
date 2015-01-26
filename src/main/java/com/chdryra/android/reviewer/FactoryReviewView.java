@@ -41,12 +41,50 @@ public class FactoryReviewView {
         GvDataList data = controller.getData(dataType);
         GvImageList.GvImage cover = controller.getRandomCover();
 
-        ReviewView.SubjectViewAction sva = new ActionSubjectEdit(controller, dataType);
-        ReviewView.RatingBarAction rba = new ActionRatingEdit(controller, dataType);
-        ReviewView.BannerButtonAction bba = new ActionBannerButtonAdd(controller, dataType);
-        ReviewView.GridItemAction gia = new ActionGridItemEdit(controller, dataType);
-        ReviewView.MenuAction ma = new ActionMenuDeleteDoneGrid(controller, dataType);
+        return new ReviewView(parent, data, cover,
+                newSubjectViewAction(controller, dataType),
+                newRatingBarAction(controller, dataType),
+                newBannerButtonAction(controller, dataType),
+                newGridItemActionEdit(controller, dataType),
+                newMenuActionEdit(controller, dataType), true);
+    }
 
-        return new ReviewView(parent, data, cover, sva, rba, bba, gia, ma, true);
+    private ReviewView.MenuAction newMenuActionEdit(ControllerReviewEditable controller,
+            GvDataList.GvType dataType) {
+        if (dataType == GvDataList.GvType.COMMENTS) {
+            return new ActionMenuCommentsEdit(controller);
+        } else if (dataType == GvDataList.GvType.CHILDREN) {
+            return new ActionMenuChildrenEdit(controller);
+        } else {
+            return new ActionMenuDeleteDoneGrid(controller, dataType);
+        }
+    }
+
+    private ReviewView.GridItemAction newGridItemActionEdit(ControllerReviewEditable controller,
+            GvDataList.GvType dataType) {
+        if (dataType == GvDataList.GvType.COMMENTS) {
+            return new ActionGridItemEditComment(controller);
+        } else {
+            return new ActionGridItemEdit(controller, dataType);
+        }
+    }
+
+    private ReviewView.BannerButtonAction newBannerButtonAction(ControllerReviewEditable controller,
+            GvDataList.GvType dataType) {
+        return new ActionBannerButtonAdd(controller, dataType);
+    }
+
+    private ReviewView.RatingBarAction newRatingBarAction(ControllerReviewEditable controller,
+            GvDataList.GvType dataType) {
+        if (dataType == GvDataList.GvType.CHILDREN) {
+            return new ActionRatingEditChildren(controller);
+        } else {
+            return new ReviewView.RatingBarAction(controller, dataType);
+        }
+    }
+
+    private ReviewView.SubjectViewAction newSubjectViewAction(ControllerReviewEditable controller,
+            GvDataList.GvType dataType) {
+        return new ReviewView.SubjectViewAction(controller, dataType);
     }
 }

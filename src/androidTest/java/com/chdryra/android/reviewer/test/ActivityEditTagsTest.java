@@ -11,16 +11,16 @@ package com.chdryra.android.reviewer.test;
 import android.test.SingleLaunchActivityTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.ActivityReviewTags;
+import com.chdryra.android.reviewer.ActivityEditTags;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 02/12/2014
  * Email: rizwan.choudrey@gmail.com
  */
-public class ActivityReviewTagsTest extends SingleLaunchActivityTestCase<ActivityReviewTags> {
-    public ActivityReviewTagsTest() {
-        super("com.chdryra.android.reviewer", ActivityReviewTags.class);
+public class ActivityEditTagsTest extends SingleLaunchActivityTestCase<ActivityEditTags> {
+    public ActivityEditTagsTest() {
+        super("com.chdryra.android.reviewer", ActivityEditTags.class);
     }
 
     @SmallTest

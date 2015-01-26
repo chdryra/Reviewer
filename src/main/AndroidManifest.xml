@@ -73,7 +73,7 @@
 
         <!-- Criteria -->
         <activity
-            android:name=".ActivityReviewChildren"
+            android:name=".ActivityEditChildren"
             android:configChanges="orientation"
             android:exported="true"
             android:label="@string/activity_title_children"
@@ -162,7 +162,7 @@
 
         <!-- Comments -->
         <activity
-            android:name=".ActivityReviewComments"
+            android:name=".ActivityEditComments"
             android:configChanges="orientation"
             android:exported="true"
             android:label="@string/activity_title_comment"
@@ -175,7 +175,7 @@
 
         <!-- Facts -->
         <activity
-            android:name=".ActivityReviewFacts"
+            android:name=".ActivityEditFacts"
             android:configChanges="orientation"
             android:exported="true"
             android:label="@string/activity_title_facts"
@@ -188,7 +188,7 @@
 
         <!-- Tags -->
         <activity
-            android:name=".ActivityReviewTags"
+            android:name=".ActivityEditTags"
             android:configChanges="orientation"
             android:exported="true"
             android:label="@string/activity_title_tags"

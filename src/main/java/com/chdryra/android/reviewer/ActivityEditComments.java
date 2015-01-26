@@ -13,13 +13,13 @@ import android.app.Fragment;
 import com.chdryra.android.mygenerallibrary.ActivitySingleFragment;
 
 /**
- * UI Activity holding {@link FragmentReviewTags}: editing tags.
+ * UI Activity holding {@link FragmentReviewComments}: editing comments.
  */
-public class ActivityReviewTags extends ActivitySingleFragment {
+public class ActivityEditComments extends ActivitySingleFragment {
 
     @Override
     protected Fragment createFragment() {
-        return new FragmentEditTags();
+        return FactoryFragmentReviewView.newEditor(GvDataList.GvType.COMMENTS);
     }
 
 }

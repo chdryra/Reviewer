@@ -15,11 +15,11 @@ import com.chdryra.android.mygenerallibrary.ActivitySingleFragment;
 /**
  * UI Activity holding {@link FragmentReviewFacts}: editing facts.
  */
-public class ActivityReviewFacts extends ActivitySingleFragment {
+public class ActivityEditFacts extends ActivitySingleFragment {
 
     @Override
     protected Fragment createFragment() {
-        return new FragmentReviewFacts();
+        return FactoryFragmentReviewView.newEditor(GvDataList.GvType.FACTS);
     }
 
 }

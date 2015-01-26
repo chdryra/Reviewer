@@ -32,19 +32,19 @@ public final class ConfigGvDataAddEditDisplay {
                 new AddEditDisplayUIs(
                         AddTag.class,
                         EditTag.class,
-                        ActivityReviewTags.class));
+                        ActivityEditTags.class));
 
         mMap.put(GvDataList.GvType.CHILDREN,
                 new AddEditDisplayUIs(
                         AddChild.class,
                         EditChild.class,
-                        ActivityReviewChildren.class));
+                        ActivityEditChildren.class));
 
         mMap.put(GvDataList.GvType.COMMENTS,
                 new AddEditDisplayUIs(
                         AddComment.class,
                         EditComment.class,
-                        ActivityReviewComments.class));
+                        ActivityEditComments.class));
 
         mMap.put(GvDataList.GvType.IMAGES,
                 new AddEditDisplayUIs(
@@ -56,7 +56,7 @@ public final class ConfigGvDataAddEditDisplay {
                 new AddEditDisplayUIs(
                         AddFact.class,
                         EditFact.class,
-                        ActivityReviewFacts.class));
+                        ActivityEditFacts.class));
 
         mMap.put(GvDataList.GvType.LOCATIONS,
                 new AddEditDisplayUIs(

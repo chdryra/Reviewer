@@ -17,7 +17,7 @@ import android.os.Bundle;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ActionGridItemEdit extends ReviewView.GridItemAction {
-    private static final String TAG = "ActionGridItemEdit";
+    private static final String TAG = "ActionGridItemEditListener";
     private ConfigGvDataUi.GvDataUiConfig mConfig;
     private GvDataHandler                 mHandler;
 
@@ -29,9 +29,24 @@ public class ActionGridItemEdit extends ReviewView.GridItemAction {
     }
 
     @Override
-    public void setReviewView(ReviewView reviewView) {
-        super.setReviewView(reviewView);
-        mHandler = FactoryGvDataHandler.newHandler(reviewView.getGridData());
+    public void onSetReviewView() {
+        mHandler = FactoryGvDataHandler.newHandler(getReviewView().getGridData());
+    }
+
+    protected Fragment getNewListener() {
+        return new EditListener() {
+            @Override
+            public void onGvDataDelete(GvDataList.GvData data) {
+                mHandler.delete(data);
+                getReviewView().updateUi();
+            }
+
+            @Override
+            public void onGvDataEdit(GvDataList.GvData oldDatum, GvDataList.GvData newDatum) {
+                mHandler.replace(oldDatum, newDatum, getActivity());
+                getReviewView().updateUi();
+            }
+        };
     }
 
     @Override
@@ -41,29 +56,8 @@ public class ActionGridItemEdit extends ReviewView.GridItemAction {
         Bundle args = Administrator.get(getActivity()).pack(getController());
         GvDataPacker.packItem(GvDataPacker.CurrentNewDatum.CURRENT, item, args);
 
-        LauncherUi.launch(mConfig.getReviewDataUI(), getListener(), mConfig.getRequestCode(),
+        LauncherUi.launch(mConfig.getReviewDataUI(), getListener(TAG), mConfig.getRequestCode(),
                 mConfig.getTag(), args);
-    }
-
-    private Fragment getListener() {
-        final ReviewView view = getReviewView();
-
-        Fragment listener = new EditListener() {
-            @Override
-            public void onGvDataDelete(GvDataList.GvData data) {
-                mHandler.delete(data);
-                view.updateUi();
-            }
-
-            @Override
-            public void onGvDataEdit(GvDataList.GvData oldDatum, GvDataList.GvData newDatum) {
-                mHandler.replace(oldDatum, newDatum, getActivity());
-                view.updateUi();
-            }
-        };
-
-        view.addFragmentListener(listener, TAG);
-        return listener;
     }
 
     //restrictions on how fragments are constructed mean I have to use an abstract class...

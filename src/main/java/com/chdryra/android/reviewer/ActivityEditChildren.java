@@ -15,11 +15,11 @@ import com.chdryra.android.mygenerallibrary.ActivitySingleFragment;
 /**
  * UI Activity holding {@link FragmentReviewChildren}: editing sub-reviews.
  */
-public class ActivityReviewChildren extends ActivitySingleFragment {
+public class ActivityEditChildren extends ActivitySingleFragment {
 
     @Override
     protected Fragment createFragment() {
-        return new FragmentReviewChildren();
+        return FactoryFragmentReviewView.newEditor(GvDataList.GvType.CHILDREN);
     }
 
 }

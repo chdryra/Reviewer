@@ -11,17 +11,17 @@ package com.chdryra.android.reviewer.test;
 import android.test.SingleLaunchActivityTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.ActivityReviewComments;
+import com.chdryra.android.reviewer.ActivityEditChildren;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 02/12/2014
  * Email: rizwan.choudrey@gmail.com
  */
-public class ActivityReviewCommentsTest extends
-        SingleLaunchActivityTestCase<ActivityReviewComments> {
-    public ActivityReviewCommentsTest() {
-        super("com.chdryra.android.reviewer", ActivityReviewComments.class);
+public class ActivityEditChildrenTest extends
+        SingleLaunchActivityTestCase<ActivityEditChildren> {
+    public ActivityEditChildrenTest() {
+        super("com.chdryra.android.reviewer", ActivityEditChildren.class);
     }
 
     @SmallTest

@@ -28,9 +28,19 @@ public class ActionBannerButtonAdd extends ReviewView.BannerButtonAction {
     }
 
     @Override
-    public void setReviewView(ReviewView reviewView) {
-        super.setReviewView(reviewView);
-        mHandler = FactoryGvDataHandler.newHandler(reviewView.getGridData());
+    public void onSetReviewView() {
+        mHandler = FactoryGvDataHandler.newHandler(getReviewView().getGridData());
+    }
+
+    protected Fragment getNewListener() {
+        return new AddListener() {
+            @Override
+            public boolean onGvDataAdd(GvDataList.GvData data) {
+                boolean added = mHandler.add(data, getActivity());
+                getReviewView().updateUi();
+                return added;
+            }
+        };
     }
 
     @Override
@@ -43,24 +53,8 @@ public class ActionBannerButtonAdd extends ReviewView.BannerButtonAction {
     public void onClick(View v) {
         if (getReviewView() == null) return;
 
-        LauncherUi.launch(mConfig.getReviewDataUI(), getListener(), mConfig.getRequestCode(),
+        LauncherUi.launch(mConfig.getReviewDataUI(), getListener(TAG), mConfig.getRequestCode(),
                 mConfig.getTag(), Administrator.get(getActivity()).pack(getController()));
-    }
-
-    private Fragment getListener() {
-        final ReviewView view = getReviewView();
-
-        Fragment listener = new AddListener() {
-            @Override
-            public boolean onGvDataAdd(GvDataList.GvData data) {
-                boolean added = mHandler.add(data, getActivity());
-                view.updateUi();
-                return added;
-            }
-        };
-
-        view.addFragmentListener(listener, TAG);
-        return listener;
     }
 
     //Dialogs expected to communicate directly with target fragments so using "invisible"

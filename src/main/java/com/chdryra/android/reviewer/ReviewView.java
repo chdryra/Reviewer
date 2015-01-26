@@ -13,10 +13,13 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
+import android.database.DataSetObserver;
 import android.support.v4.app.NavUtils;
 import android.text.Editable;
+import android.util.SparseArray;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.RatingBar;
 
@@ -62,10 +65,6 @@ public class ReviewView {
         mMenuAction.setReviewView(this);
     }
 
-    public FragmentReviewView getParentFragment() {
-        return mParent;
-    }
-
     public Activity getActivity() {
         return mParent.getActivity();
     }
@@ -90,7 +89,7 @@ public class ReviewView {
         return mGridAction;
     }
 
-    public MenuAction getMenuItemAction() {
+    public MenuAction getMenuAction() {
         return mMenuAction;
     }
 
@@ -106,14 +105,44 @@ public class ReviewView {
         mParent.updateUi();
     }
 
-    protected void addFragmentListener(Fragment listener, String tag) {
+    public void addListener(Fragment listener, String tag) {
         FragmentManager manager = getActivity().getFragmentManager();
         FragmentTransaction ft = manager.beginTransaction();
         ft.add(listener, tag);
         ft.commit();
     }
 
-    public static class ReviewViewAction {
+    public Fragment getListener(String tag) {
+        FragmentManager manager = getActivity().getFragmentManager();
+        Fragment f = manager.findFragmentByTag(tag);
+        return f;
+    }
+
+    public String getSubject() {
+        return mParent.getSubject();
+    }
+
+    public void setSubject(String subject) {
+        mParent.setSubject(subject);
+    }
+
+    public float getRating() {
+        return mParent.getRating();
+    }
+
+    public void setRating(float rating) {
+        mParent.setRating(rating);
+    }
+
+    public void registerGridDataObserver(DataSetObserver observer) {
+        mParent.registerGridDataObserver(observer);
+    }
+
+    public void updateGridDataUi(GvDataList data) {
+        mParent.updateGridDataUi(data);
+    }
+
+    public abstract static class ReviewViewAction {
         private ControllerReview  mController;
         private GvDataList.GvType mDataType;
         private ReviewView        mReviewView;
@@ -129,7 +158,14 @@ public class ReviewView {
 
         public void setReviewView(ReviewView reviewView) {
             mReviewView = reviewView;
+            onSetReviewView();
         }
+
+        public void onSetReviewView() {
+
+        }
+
+        ;
 
         public ControllerReview getController() {
             return mController;
@@ -141,6 +177,20 @@ public class ReviewView {
 
         public Activity getActivity() {
             return mReviewView != null ? mReviewView.getActivity() : null;
+        }
+
+        protected Fragment getNewListener() {
+            return null;
+        }
+
+        protected Fragment getListener(String tag) {
+            final ReviewView view = getReviewView();
+
+            Fragment listener = view.getListener(tag);
+            if (listener == null) listener = getNewListener();
+            if (listener != null) view.addListener(listener, tag);
+
+            return listener;
         }
     }
 
@@ -213,6 +263,8 @@ public class ReviewView {
         private final int     mMenuId;
         private final boolean mDisplayHomeAsUp;
 
+        private SparseArray<MenuActionItemInfo> mActionItems;
+
         public MenuAction(ControllerReview controller,
                 GvDataList.GvType dataType, int menuId) {
             this(controller, dataType, menuId, true);
@@ -223,35 +275,46 @@ public class ReviewView {
             super(controller, dataType);
             mMenuId = menuId;
             mDisplayHomeAsUp = displayHomeAsUp;
+            mActionItems = new SparseArray<>();
+            if (mDisplayHomeAsUp) addMenuActionItem(getUpActionItem(), MENU_UP_ID, true);
         }
 
         @Override
-        public void setReviewView(ReviewView reviewView) {
-            super.setReviewView(reviewView);
+        public void onSetReviewView() {
             if (getActivity().getActionBar() != null) {
                 getActivity().getActionBar().setDisplayHomeAsUpEnabled(mDisplayHomeAsUp);
             }
         }
 
         public void inflateMenu(Menu menu, MenuInflater inflater) {
+            addMenuItems();
             inflater.inflate(mMenuId, menu);
         }
 
+        public void addMenuActionItem(MenuActionItem item, int itemId,
+                boolean finishActivityOnAction) {
+            mActionItems.put(itemId, new MenuActionItemInfo(item, finishActivityOnAction));
+        }
+
         public boolean onItemSelected(android.view.MenuItem item) {
-            int itemId = item.getItemId();
-            if (itemId == MENU_UP_ID) {
-                doUpSelected();
+            MenuActionItemInfo actionItem = mActionItems.get(item.getItemId());
+            if (actionItem != null) {
+                actionItem.mItem.doAction(item);
+                if (actionItem.mFinishActivityOnAction) getActivity().finish();
                 return true;
-            } else {
-                return false;
             }
+
+            return false;
+        }
+
+        protected void addMenuItems() {
         }
 
         protected void sendResult(ActivityResultCode result) {
-            getActivity().setResult(result.get(), null);
+            if (result != null) getActivity().setResult(result.get(), null);
         }
 
-        protected void onUpSelected() {
+        private void onUpSelected() {
             if (NavUtils.getParentActivityName(getActivity()) != null) {
                 Intent i = NavUtils.getParentActivityIntent(getActivity());
                 if (getController() != null) {
@@ -261,10 +324,28 @@ public class ReviewView {
             }
         }
 
-        private void doUpSelected() {
-            onUpSelected();
-            sendResult(RESULT_UP);
-            getActivity().finish();
+        private MenuActionItem getUpActionItem() {
+            return new MenuActionItem() {
+                @Override
+                public void doAction(MenuItem item) {
+                    onUpSelected();
+                    sendResult(RESULT_UP);
+                }
+            };
+        }
+
+        public abstract class MenuActionItem {
+            public abstract void doAction(MenuItem item);
+        }
+
+        private class MenuActionItemInfo {
+            private boolean        mFinishActivityOnAction;
+            private MenuActionItem mItem;
+
+            private MenuActionItemInfo(MenuActionItem item, boolean finishActivityOnAction) {
+                mItem = item;
+                mFinishActivityOnAction = finishActivityOnAction;
+            }
         }
     }
 }

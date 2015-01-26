@@ -8,6 +8,7 @@
 
 package com.chdryra.android.reviewer;
 
+import android.app.Fragment;
 import android.os.Bundle;
 import android.view.MenuItem;
 
@@ -20,58 +21,101 @@ import com.chdryra.android.mygenerallibrary.DialogDeleteConfirm;
  * On: 24/01/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ActionMenuDeleteDoneGrid extends ReviewView.MenuAction implements
-        DialogAlertFragment.DialogAlertListener {
+public class ActionMenuDeleteDoneGrid extends ReviewView.MenuAction {
     public static final  int                MENU_DELETE_ID = R.id.menu_item_delete;
     public static final  int                MENU_DONE_ID   = R.id.menu_item_done;
     public static final  ActivityResultCode RESULT_DELETE  = ActivityResultCode.DELETE;
     public static final  ActivityResultCode RESULT_DONE    = ActivityResultCode.DONE;
     private static final int                MENU           = R.menu.menu_delete_done;
     private static final int                DELETE_CONFIRM = 314;
+    private static final String             TAG            = "ActionMenuDeleteDoneGridListener";
 
-    private boolean mDismissOnDelete = false;
-    private boolean mDismissOnDone   = true;
+    private MenuActionItem mDeleteAction;
+    private MenuActionItem mDoneAction;
+
+    private boolean mDismissOnDelete;
+    private boolean mDismissOnDone;
 
     public ActionMenuDeleteDoneGrid(ControllerReviewEditable controller,
             GvDataList.GvType dataType) {
-        super(controller, dataType, MENU);
+        this(controller, dataType, false, true);
     }
 
     public ActionMenuDeleteDoneGrid(ControllerReviewEditable controller,
             GvDataList.GvType dataType, boolean dismissOnDelete, boolean dismissOnDone) {
-        super(controller, dataType, MENU);
+        this(controller, dataType, dismissOnDelete, dismissOnDone, MENU);
+    }
+
+    public ActionMenuDeleteDoneGrid(ControllerReviewEditable controller,
+            GvDataList.GvType dataType, boolean dismissOnDelete, boolean dismissOnDone,
+            int menuId) {
+        super(controller, dataType, menuId);
         mDismissOnDelete = dismissOnDelete;
         mDismissOnDone = dismissOnDone;
+
+        mDeleteAction = new MenuActionItem() {
+            @Override
+            public void doAction(MenuItem item) {
+                showDeleteConfirmDialog();
+            }
+        };
+
+        mDoneAction = new MenuActionItem() {
+            @Override
+            public void doAction(MenuItem item) {
+                doDoneSelected();
+                sendResult(RESULT_DONE);
+            }
+        };
+
+        addMenuItems();
     }
 
     @Override
-    public boolean onItemSelected(MenuItem item) {
-        int itemId = item.getItemId();
-        if (itemId == MENU_DELETE_ID && hasDataToDelete()) {
-            showDeleteConfirmDialog();
-            return true;
-        } else if (itemId == MENU_DONE_ID) {
-            doDoneSelected();
-            return true;
-        } else {
-            return super.onItemSelected(item);
-        }
+    protected void addMenuItems() {
+        addDefaultDeleteActionItem(MENU_DELETE_ID);
+        addDefaultDoneActionItem(MENU_DONE_ID);
+    }
+
+    protected void addDefaultDeleteActionItem(int deleteId) {
+        addMenuActionItem(getDeleteAction(), deleteId, false);
+    }
+
+    protected void addDefaultDoneActionItem(int doneId) {
+        addMenuActionItem(getDoneAction(), doneId, mDismissOnDone);
+    }
+
+    protected MenuActionItem getDeleteAction() {
+        return mDeleteAction;
+    }
+
+    protected MenuActionItem getDoneAction() {
+        return mDoneAction;
     }
 
     @Override
-    public void onAlertNegative(int requestCode, Bundle args) {
+    protected Fragment getNewListener() {
+        return new AlertListener() {
+            @Override
+            public void onAlertNegative(int requestCode, Bundle args) {
 
-    }
+            }
 
-    @Override
-    public void onAlertPositive(int requestCode, Bundle args) {
-        if (requestCode == DELETE_CONFIRM) doDeleteSelected();
+            @Override
+            public void onAlertPositive(int requestCode, Bundle args) {
+                if (requestCode == DELETE_CONFIRM) doDeleteSelected();
+            }
+        };
     }
 
     private void doDeleteSelected() {
         if (hasDataToDelete()) {
             GvDataList data = getData();
-            if (data != null) data.removeAll();
+            if (data != null) {
+                data.removeAll();
+                getReviewView().updateUi();
+            }
+
             if (mDismissOnDelete) {
                 sendResult(RESULT_DELETE);
                 getActivity().finish();
@@ -80,18 +124,18 @@ public class ActionMenuDeleteDoneGrid extends ReviewView.MenuAction implements
     }
 
     private void doDoneSelected() {
-        GvDataList data = getData();
+        ReviewView view = getReviewView();
+        GvDataList data = view.getGridData();
         ControllerReviewEditable controller = (ControllerReviewEditable) getController();
+
         if (data != null) controller.setData(data);
-        if (mDismissOnDone) {
-            sendResult(RESULT_DONE);
-            getActivity().finish();
-        }
+        controller.setSubject(view.getSubject());
+        controller.setRating(view.getRating());
     }
 
     private void showDeleteConfirmDialog() {
         String deleteWhat = " all " + getDataType().getDataString();
-        DialogDeleteConfirm.showDialog(deleteWhat, getReviewView().getParentFragment(),
+        DialogDeleteConfirm.showDialog(deleteWhat, getListener(TAG),
                 DELETE_CONFIRM, getActivity().getFragmentManager());
     }
 
@@ -101,5 +145,18 @@ public class ActionMenuDeleteDoneGrid extends ReviewView.MenuAction implements
 
     private GvDataList getData() {
         return getReviewView() != null ? getReviewView().getGridData() : null;
+    }
+
+    private abstract class AlertListener extends Fragment implements DialogAlertFragment
+            .DialogAlertListener {
+        @Override
+        public void onAlertNegative(int requestCode, Bundle args) {
+
+        }
+
+        @Override
+        public void onAlertPositive(int requestCode, Bundle args) {
+
+        }
     }
 }
