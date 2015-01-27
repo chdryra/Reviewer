@@ -9,14 +9,17 @@
 package com.chdryra.android.reviewer;
 
 import android.app.Fragment;
+import android.content.Intent;
 import android.view.View;
+
+import com.chdryra.android.mygenerallibrary.ActivityResultCode;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 24/01/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ActionBannerButtonAdd extends ReviewView.BannerButtonAction {
+public class ActionBannerButtonAdd extends ReviewViewAction.BannerButtonAction {
     private static final String TAG = "ActionBannerButtonAddListener";
     private ConfigGvDataUi.GvDataUiConfig mConfig;
     private GvDataHandler                 mHandler;
@@ -29,17 +32,12 @@ public class ActionBannerButtonAdd extends ReviewView.BannerButtonAction {
 
     @Override
     public void onSetReviewView() {
-        mHandler = FactoryGvDataHandler.newHandler(getReviewView().getGridData());
+        mHandler = FactoryGvDataHandler.newHandler(getData());
     }
 
     protected Fragment getNewListener() {
         return new AddListener() {
-            @Override
-            public boolean onGvDataAdd(GvDataList.GvData data) {
-                boolean added = mHandler.add(data, getActivity());
-                getReviewView().updateUi();
-                return added;
-            }
+
         };
     }
 
@@ -53,8 +51,22 @@ public class ActionBannerButtonAdd extends ReviewView.BannerButtonAction {
     public void onClick(View v) {
         if (getReviewView() == null) return;
 
-        LauncherUi.launch(mConfig.getReviewDataUI(), getListener(TAG), mConfig.getRequestCode(),
+        LauncherUi.launch(mConfig.getReviewDataUI(), getListener(), getRequestCode(),
                 mConfig.getTag(), Administrator.get(getActivity()).pack(getController()));
+    }
+
+    protected Fragment getListener() {
+        return getListener(TAG);
+    }
+
+    protected boolean addData(GvDataList.GvData data) {
+        boolean added = mHandler.add(data, getActivity());
+        getReviewView().updateUi();
+        return added;
+    }
+
+    protected int getRequestCode() {
+        return mConfig.getRequestCode();
     }
 
     //Dialogs expected to communicate directly with target fragments so using "invisible"
@@ -64,7 +76,15 @@ public class ActionBannerButtonAdd extends ReviewView.BannerButtonAction {
             .GvDataAddListener {
         @Override
         public boolean onGvDataAdd(GvDataList.GvData data) {
-            return false;
+            return addData(data);
+        }
+
+        @Override
+        public void onActivityResult(int requestCode, int resultCode, Intent data) {
+            if (requestCode == getRequestCode() && data != null
+                    && ActivityResultCode.get(resultCode) == ActivityResultCode.DONE) {
+                addData(GvDataPacker.unpackItem(GvDataPacker.CurrentNewDatum.NEW, data));
+            }
         }
     }
 }

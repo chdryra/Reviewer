@@ -31,44 +31,37 @@ public final class ConfigGvDataAddEditDisplay {
         mMap.put(GvDataList.GvType.TAGS,
                 new AddEditDisplayUIs(
                         AddTag.class,
-                        EditTag.class,
-                        ActivityEditTags.class));
+                        EditTag.class));
 
         mMap.put(GvDataList.GvType.CHILDREN,
                 new AddEditDisplayUIs(
                         AddChild.class,
-                        EditChild.class,
-                        ActivityEditChildren.class));
+                        EditChild.class));
 
         mMap.put(GvDataList.GvType.COMMENTS,
                 new AddEditDisplayUIs(
                         AddComment.class,
-                        EditComment.class,
-                        ActivityEditComments.class));
+                        EditComment.class));
 
         mMap.put(GvDataList.GvType.IMAGES,
                 new AddEditDisplayUIs(
                         null,
-                        EditImage.class,
-                        ActivityReviewImages.class));
+                        EditImage.class));
 
         mMap.put(GvDataList.GvType.FACTS,
                 new AddEditDisplayUIs(
                         AddFact.class,
-                        EditFact.class,
-                        ActivityEditFacts.class));
+                        EditFact.class));
 
         mMap.put(GvDataList.GvType.LOCATIONS,
                 new AddEditDisplayUIs(
                         ActivityReviewLocationMap.class,
-                        ActivityReviewLocationMap.class,
-                        ActivityReviewLocations.class));
+                        ActivityReviewLocationMap.class));
 
         mMap.put(GvDataList.GvType.URLS,
                 new AddEditDisplayUIs(
                         ActivityReviewURLBrowser.class,
-                        ActivityReviewURLBrowser.class,
-                        ActivityReviewURLs.class));
+                        ActivityReviewURLBrowser.class));
 
         mMap.put(GvDataList.GvType.REVIEW,
                 new AddEditDisplayUIs(
@@ -176,6 +169,13 @@ public final class ConfigGvDataAddEditDisplay {
         private final Class<? extends LaunchableUi> mAdd;
         private final Class<? extends LaunchableUi> mEdit;
         private final Class<? extends Activity>     mActivity;
+
+        private AddEditDisplayUIs(Class<? extends LaunchableUi> add,
+                Class<? extends LaunchableUi> edit) {
+            mAdd = add;
+            mEdit = edit;
+            mActivity = ActivityReviewEdit.class;
+        }
 
         private AddEditDisplayUIs(Class<? extends LaunchableUi> add,
                 Class<? extends LaunchableUi> edit,

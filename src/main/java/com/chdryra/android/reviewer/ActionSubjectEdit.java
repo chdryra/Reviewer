@@ -15,7 +15,7 @@ import android.text.Editable;
  * On: 24/01/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ActionSubjectEdit extends ReviewView.SubjectViewAction {
+public class ActionSubjectEdit extends ReviewViewAction.SubjectViewAction {
     public ActionSubjectEdit(ControllerReview controller,
             GvDataList.GvType dataType) {
         super(controller, dataType);

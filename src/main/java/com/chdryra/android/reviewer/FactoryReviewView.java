@@ -49,7 +49,7 @@ public class FactoryReviewView {
                 newMenuActionEdit(controller, dataType), true);
     }
 
-    private ReviewView.MenuAction newMenuActionEdit(ControllerReviewEditable controller,
+    private ReviewViewAction.MenuAction newMenuActionEdit(ControllerReviewEditable controller,
             GvDataList.GvType dataType) {
         if (dataType == GvDataList.GvType.COMMENTS) {
             return new ActionMenuCommentsEdit(controller);
@@ -60,31 +60,40 @@ public class FactoryReviewView {
         }
     }
 
-    private ReviewView.GridItemAction newGridItemActionEdit(ControllerReviewEditable controller,
+    private ReviewViewAction.GridItemAction newGridItemActionEdit(ControllerReviewEditable
+            controller,
             GvDataList.GvType dataType) {
         if (dataType == GvDataList.GvType.COMMENTS) {
             return new ActionGridItemEditComment(controller);
+        } else if (dataType == GvDataList.GvType.IMAGES) {
+            return new ActionGridItemEditImage(controller);
         } else {
             return new ActionGridItemEdit(controller, dataType);
         }
     }
 
-    private ReviewView.BannerButtonAction newBannerButtonAction(ControllerReviewEditable controller,
+    private ReviewViewAction.BannerButtonAction newBannerButtonAction(ControllerReviewEditable
+            controller,
             GvDataList.GvType dataType) {
-        return new ActionBannerButtonAdd(controller, dataType);
+        if (dataType == GvDataList.GvType.IMAGES) {
+            return new ActionBannerButtonAddImage(controller);
+        } else {
+            return new ActionBannerButtonAdd(controller, dataType);
+        }
     }
 
-    private ReviewView.RatingBarAction newRatingBarAction(ControllerReviewEditable controller,
+    private ReviewViewAction.RatingBarAction newRatingBarAction(ControllerReviewEditable controller,
             GvDataList.GvType dataType) {
         if (dataType == GvDataList.GvType.CHILDREN) {
             return new ActionRatingEditChildren(controller);
         } else {
-            return new ReviewView.RatingBarAction(controller, dataType);
+            return new ReviewViewAction.RatingBarAction(controller, dataType);
         }
     }
 
-    private ReviewView.SubjectViewAction newSubjectViewAction(ControllerReviewEditable controller,
+    private ReviewViewAction.SubjectViewAction newSubjectViewAction(ControllerReviewEditable
+            controller,
             GvDataList.GvType dataType) {
-        return new ReviewView.SubjectViewAction(controller, dataType);
+        return new ReviewViewAction.SubjectViewAction(controller, dataType);
     }
 }

@@ -53,12 +53,12 @@ public class ActionMenuCommentsEdit extends ActionMenuDeleteDoneGrid {
 
     private void updateGridDataUi() {
         //Change grid data
-        GvCommentList comments = (GvCommentList) getReviewView().getGridData();
+        GvCommentList comments = (GvCommentList) getData();
         if (comments != null) {
             if (mCommentsAreSplit) {
-                getReviewView().updateGridDataUi(comments.getSplitComments());
+                getReviewView().setGridViewData(comments.getSplitComments());
             } else {
-                getReviewView().updateGridDataUi(comments);
+                getReviewView().resetGridViewData();
             }
         }
     }

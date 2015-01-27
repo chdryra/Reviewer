@@ -27,12 +27,18 @@ public class FactoryFragmentReviewView {
         mFragments.put(GvDataList.GvType.FACTS, new FragmentEditFacts());
         mFragments.put(GvDataList.GvType.COMMENTS, new FragmentEditComments());
         mFragments.put(GvDataList.GvType.CHILDREN, new FragmentEditChildren());
+        mFragments.put(GvDataList.GvType.LOCATIONS, new FragmentEditLocations());
+        mFragments.put(GvDataList.GvType.IMAGES, new FragmentEditImages());
     }
 
     private static FactoryFragmentReviewView get() {
         if (sEditors == null) sEditors = new FactoryFragmentReviewView();
 
         return sEditors;
+    }
+
+    public static Fragment newView(GvDataList.GvType dataType, boolean isEdit) {
+        return newEditor(dataType);
     }
 
     public static Fragment newEditor(GvDataList.GvType dataType) {
@@ -60,6 +66,18 @@ public class FactoryFragmentReviewView {
     public static class FragmentEditChildren extends FragmentReviewView {
         public FragmentEditChildren() {
             super(GvDataList.GvType.CHILDREN, true);
+        }
+    }
+
+    public static class FragmentEditLocations extends FragmentReviewView {
+        public FragmentEditLocations() {
+            super(GvDataList.GvType.LOCATIONS, true);
+        }
+    }
+
+    public static class FragmentEditImages extends FragmentReviewView {
+        public FragmentEditImages() {
+            super(GvDataList.GvType.IMAGES, true);
         }
     }
 }

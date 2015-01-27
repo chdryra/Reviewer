@@ -15,15 +15,14 @@ import android.widget.RatingBar;
  * On: 26/01/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ActionRatingEditChildren extends ReviewView.RatingBarAction {
+public class ActionRatingEditChildren extends ActionRatingEdit {
     public ActionRatingEditChildren(ControllerReviewEditable controller) {
         super(controller, GvDataList.GvType.CHILDREN);
     }
 
     @Override
     public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-        ControllerReviewEditable controller = (ControllerReviewEditable) getController();
-        controller.setRating(rating);
-        if (fromUser) controller.getReviewNode().setReviewRatingAverage(false);
+        super.onRatingChanged(ratingBar, rating, fromUser);
+        if (fromUser) getController().getReviewNode().setReviewRatingAverage(false);
     }
 }

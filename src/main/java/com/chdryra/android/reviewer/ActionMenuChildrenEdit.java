@@ -51,18 +51,17 @@ public class ActionMenuChildrenEdit extends ActionMenuDeleteDoneGrid {
     }
 
     private void setAverageRating() {
-        GvDataList data = getReviewView().getGridData();
-        GvChildrenList children = (GvChildrenList) data;
+        GvChildrenList children = (GvChildrenList) getData();
         float rating = 0;
         for (GvChildrenList.GvChildReview child : children) {
-            rating += child.getRating() / data.size();
+            rating += child.getRating() / children.size();
         }
 
         getReviewView().setRating(rating);
     }
 
-    private MenuActionItem getTotalRatingIsAverageAction() {
-        return new MenuActionItem() {
+    private ReviewViewAction.MenuAction.MenuActionItem getTotalRatingIsAverageAction() {
+        return new ReviewViewAction.MenuAction.MenuActionItem() {
             @Override
             public void doAction(MenuItem item) {
                 setRating(true);

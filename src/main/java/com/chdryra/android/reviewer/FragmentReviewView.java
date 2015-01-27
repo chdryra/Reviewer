@@ -10,8 +10,6 @@ package com.chdryra.android.reviewer;
 
 import android.annotation.TargetApi;
 import android.app.Fragment;
-import android.content.Intent;
-import android.database.DataSetObserver;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
@@ -32,8 +30,6 @@ import android.widget.TextView;
 
 import com.chdryra.android.myandroidwidgets.ClearableEditText;
 import com.chdryra.android.mygenerallibrary.ViewHolderAdapter;
-
-import java.util.ArrayList;
 
 /**
  * Created by: Rizwan Choudrey
@@ -59,7 +55,6 @@ public abstract class FragmentReviewView extends Fragment {
     private Button       mBannerButton;
     private GridView     mGridView;
 
-    private ArrayList<DataSetObserver> mObservers;
 
     private int mMaxGridCellWidth;
     private int mMaxGridCellHeight;
@@ -97,20 +92,13 @@ public abstract class FragmentReviewView extends Fragment {
     public FragmentReviewView(GvDataList.GvType dataType, boolean isEdit) {
         mDataType = dataType;
         mIsEdit = isEdit;
-        mObservers = new ArrayList<>();
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        updateUi();
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mReviewView = FactoryReviewView.newReviewView(this, mDataType, mIsEdit);
-        setGridCellDimension(CellDimension.HALF, CellDimension.QUARTER);
+        setGridCellDimension(mReviewView.getGridCellWidth(), mReviewView.getGridCellHeight());
         setHasOptionsMenu(true);
     }
 
@@ -136,6 +124,7 @@ public abstract class FragmentReviewView extends Fragment {
 
         initUi();
         updateUi();
+        updateCover();
 
         return v;
     }
@@ -155,7 +144,6 @@ public abstract class FragmentReviewView extends Fragment {
     public void updateUi() {
         updateBannerButtonUi();
         updateGridDataUi();
-        updateCover();
     }
 
     public String getSubject() {
@@ -203,7 +191,7 @@ public abstract class FragmentReviewView extends Fragment {
             mSubjectView.setFocusable(true);
             ((ClearableEditText) mSubjectView).makeClearable(true);
             mSubjectView.addTextChangedListener(new TextWatcher() {
-                ReviewView.SubjectViewAction action = mReviewView.getSubjectViewAction();
+                ReviewViewAction.SubjectViewAction action = mReviewView.getSubjectViewAction();
 
                 @Override
                 public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -247,7 +235,7 @@ public abstract class FragmentReviewView extends Fragment {
     }
 
     void initBannerButtonUi() {
-        final ReviewView.BannerButtonAction action = mReviewView.getBannerButtonAction();
+        final ReviewViewAction.BannerButtonAction action = mReviewView.getBannerButtonAction();
         mBannerButton.setText(action.getButtonTitle());
         mBannerButton.setTextColor(mSubjectView.getTextColors().getDefaultColor());
         mBannerButton.setOnClickListener(new View.OnClickListener() {
@@ -263,7 +251,7 @@ public abstract class FragmentReviewView extends Fragment {
         mGridView.setColumnWidth(getGridCellWidth());
         mGridView.setNumColumns(getNumberColumns());
 
-        final ReviewView.GridItemAction action = mReviewView.getGridItemAction();
+        final ReviewViewAction.GridItemAction action = mReviewView.getGridItemAction();
         mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
                 action.onGridItemClick((GvDataList.GvData) parent.getItemAtPosition(position));
@@ -283,8 +271,8 @@ public abstract class FragmentReviewView extends Fragment {
     }
 
     ViewHolderAdapter getGridViewCellAdapter() {
-        return new ViewHolderAdapter(getActivity(), mReviewView.getGridData(), getGridCellWidth(),
-                getGridCellHeight());
+        return new ViewHolderAdapter(getActivity(), mReviewView.getGridViewData(),
+                getGridCellWidth(), getGridCellHeight());
     }
 
     int getGridCellWidth() {
@@ -304,19 +292,11 @@ public abstract class FragmentReviewView extends Fragment {
 
     void updateGridDataUi() {
         ((ViewHolderAdapter) mGridView.getAdapter()).notifyDataSetChanged();
-        notifyObservers();
+        mReviewView.notifyDataSetChanged();
     }
 
-    void updateGridDataUi(GvDataList data) {
-        ((ViewHolderAdapter) mGridView.getAdapter()).setData(data);
-    }
-
-    void registerGridDataObserver(DataSetObserver observer) {
-        if (!mObservers.contains(observer)) mObservers.add(observer);
-    }
-
-    void unRegisterGridDataObserver(DataSetObserver observer) {
-        if (mObservers.contains(observer)) mObservers.remove(observer);
+    void updateGridData() {
+        ((ViewHolderAdapter) mGridView.getAdapter()).setData(mReviewView.getGridViewData());
     }
 
     @SuppressWarnings("deprecation")
@@ -335,12 +315,6 @@ public abstract class FragmentReviewView extends Fragment {
         } else {
             mLinearLayout.setBackgroundColor(Color.TRANSPARENT);
             mGridView.getBackground().setAlpha(GridViewImageAlpha.OPAQUE.getAlpha());
-        }
-    }
-
-    private void notifyObservers() {
-        for (DataSetObserver obserer : mObservers) {
-            obserer.onChanged();
         }
     }
 }

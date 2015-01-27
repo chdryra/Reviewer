@@ -71,45 +71,6 @@
                 android:value="com.chdryra.android.reviewer.ActivityReviewBuild"/>
         </activity>
 
-        <!-- Criteria -->
-        <activity
-            android:name=".ActivityEditChildren"
-            android:configChanges="orientation"
-            android:exported="true"
-            android:label="@string/activity_title_children"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.chdryra.android.reviewer.ActivityReviewBuild"/>
-        </activity>
-
-        <!-- Images -->
-        <activity
-            android:name=".ActivityReviewImages"
-            android:configChanges="orientation"
-            android:exported="true"
-            android:label="@string/activity_title_image"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.chdryra.android.reviewer.ActivityReviewBuild"/>
-        </activity>
-
-        <!-- Links -->
-        <activity
-            android:name=".ActivityReviewURLs"
-            android:configChanges="orientation"
-            android:exported="true"
-            android:label="@string/activity_title_url"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.chdryra.android.reviewer.ActivityReviewBuild"/>
-        </activity>
-
         <!-- Browser choose link -->
         <activity
             android:name=".ActivityReviewURLBrowser"
@@ -121,7 +82,7 @@
             android:windowSoftInputMode="adjustPan">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.chdryra.android.reviewer.ActivityReviewURLs"/>
+                android:value=".ActivityReviewEdit"/>
         </activity>
 
         <!-- Map choose location -->
@@ -140,55 +101,15 @@
 
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.chdryra.android.reviewer.ActivityReviewLocations"/>
+                android:value=".ActivityReviewEdit"/>
             <meta-data
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable_location_map"/>
         </activity>
 
-        <!-- Locations -->
+        <!-- Edit -->
         <activity
-            android:name=".ActivityReviewLocations"
-            android:configChanges="orientation"
-            android:exported="true"
-            android:label="@string/activity_title_location"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.chdryra.android.reviewer.ActivityReviewBuild"/>
-
-        </activity>
-
-        <!-- Comments -->
-        <activity
-            android:name=".ActivityEditComments"
-            android:configChanges="orientation"
-            android:exported="true"
-            android:label="@string/activity_title_comment"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.chdryra.android.reviewer.ActivityReviewBuild"/>
-        </activity>
-
-        <!-- Facts -->
-        <activity
-            android:name=".ActivityEditFacts"
-            android:configChanges="orientation"
-            android:exported="true"
-            android:label="@string/activity_title_facts"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.chdryra.android.reviewer.ActivityReviewBuild"/>
-        </activity>
-
-        <!-- Tags -->
-        <activity
-            android:name=".ActivityEditTags"
+            android:name=".ActivityReviewEdit"
             android:configChanges="orientation"
             android:exported="true"
             android:label="@string/activity_title_tags"

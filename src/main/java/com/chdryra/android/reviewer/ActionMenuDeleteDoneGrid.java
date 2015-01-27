@@ -21,7 +21,7 @@ import com.chdryra.android.mygenerallibrary.DialogDeleteConfirm;
  * On: 24/01/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ActionMenuDeleteDoneGrid extends ReviewView.MenuAction {
+public class ActionMenuDeleteDoneGrid extends ReviewViewAction.MenuAction {
     public static final  int                MENU_DELETE_ID = R.id.menu_item_delete;
     public static final  int                MENU_DONE_ID   = R.id.menu_item_done;
     public static final  ActivityResultCode RESULT_DELETE  = ActivityResultCode.DELETE;
@@ -125,7 +125,7 @@ public class ActionMenuDeleteDoneGrid extends ReviewView.MenuAction {
 
     private void doDoneSelected() {
         ReviewView view = getReviewView();
-        GvDataList data = view.getGridData();
+        GvDataList data = getData();
         ControllerReviewEditable controller = (ControllerReviewEditable) getController();
 
         if (data != null) controller.setData(data);
@@ -141,10 +141,6 @@ public class ActionMenuDeleteDoneGrid extends ReviewView.MenuAction {
 
     private boolean hasDataToDelete() {
         return getData() != null && getData().size() > 0;
-    }
-
-    private GvDataList getData() {
-        return getReviewView() != null ? getReviewView().getGridData() : null;
     }
 
     private abstract class AlertListener extends Fragment implements DialogAlertFragment
