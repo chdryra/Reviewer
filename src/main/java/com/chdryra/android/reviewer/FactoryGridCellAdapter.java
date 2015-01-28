@@ -55,7 +55,7 @@ public class FactoryGridCellAdapter {
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            convertView = ((GvGridCellManagerList.GvGridCellManager) getItem(position))
+            convertView = ((GvBuildReviewCellList.GvBuildReviewCell) getItem(position))
                     .updateView(parent);
             convertView.getLayoutParams().width = mCellWidth;
             convertView.getLayoutParams().height = mCellHeight;

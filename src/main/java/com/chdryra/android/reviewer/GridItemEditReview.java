@@ -50,15 +50,15 @@ public class GridItemEditReview extends GridItemEdit {
 
     @Override
     public void onGridItemClick(GvDataList.GvData item, View v) {
-        executeIntent((GvGridCellManagerList.GvGridCellManager) item, true);
+        executeIntent((GvBuildReviewCellList.GvBuildReviewCell) item, true);
     }
 
     @Override
     public void onGridItemLongClick(GvDataList.GvData item, View v) {
-        executeIntent((GvGridCellManagerList.GvGridCellManager) item, false);
+        executeIntent((GvBuildReviewCellList.GvBuildReviewCell) item, false);
     }
 
-    public void executeIntent(GvGridCellManagerList.GvGridCellManager manager, boolean
+    public void executeIntent(GvBuildReviewCellList.GvBuildReviewCell manager, boolean
             quickDialog) {
         GvDataList.GvType dataType = manager.getGvType();
         ConfigGvDataUi.Config config = manager.getConfig();

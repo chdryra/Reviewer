@@ -39,7 +39,7 @@ public class FactoryViewReview {
 
         GvDataList.GvType dataType = GvDataList.GvType.REVIEW;
         ViewReviewAction.GridItemAction gia = newGridItemEdit(controller, dataType);
-        GvDataList data = GvGridCellManagerList.newInstance(gia);
+        GvDataList data = GvBuildReviewCellList.newInstance(gia);
         GvImageList.GvImage cover = controller.getRandomCover();
 
         String details = parent.getResources().getString(R.string.button_add_review_data);
