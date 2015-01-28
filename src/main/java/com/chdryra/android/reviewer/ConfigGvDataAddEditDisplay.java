@@ -72,8 +72,7 @@ public final class ConfigGvDataAddEditDisplay {
         mMap.put(GvDataList.GvType.SOCIAL,
                 new AddEditDisplayUIs(
                         null,
-                        null,
-                        ActivityReviewShare.class));
+                        null));
     }
 
     public static Class<? extends LaunchableUi> getAddClass(GvDataList.GvType dataType) {
@@ -174,7 +173,7 @@ public final class ConfigGvDataAddEditDisplay {
                 Class<? extends LaunchableUi> edit) {
             mAdd = add;
             mEdit = edit;
-            mActivity = ActivityReviewEdit.class;
+            mActivity = ActivityReviewView.class;
         }
 
         private AddEditDisplayUIs(Class<? extends LaunchableUi> add,

@@ -117,7 +117,7 @@ public class Administrator {
         return controller;
     }
 
-    public ReviewView getReviewView(Intent i) {
+    public ViewReview getReviewView(Intent i) {
         return null;
     }
 

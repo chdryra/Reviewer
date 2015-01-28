@@ -19,12 +19,12 @@ import com.chdryra.android.mygenerallibrary.ActivityResultCode;
  * On: 24/01/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ActionBannerButtonAdd extends ReviewViewAction.BannerButtonAction {
+public class BannerButtonAdd extends ViewReviewAction.BannerButtonAction {
     private static final String TAG = "ActionBannerButtonAddListener";
     private ConfigGvDataUi.GvDataUiConfig mConfig;
     private GvDataHandler                 mHandler;
 
-    public ActionBannerButtonAdd(ControllerReviewEditable controller, GvDataList.GvType dataType) {
+    public BannerButtonAdd(ControllerReviewEditable controller, GvDataList.GvType dataType) {
         super(controller, dataType);
         ConfigGvDataUi.Config config = ConfigGvDataUi.getConfig(getDataType());
         mConfig = config.getAdderConfig();
@@ -49,7 +49,7 @@ public class ActionBannerButtonAdd extends ReviewViewAction.BannerButtonAction {
 
     @Override
     public void onClick(View v) {
-        if (getReviewView() == null) return;
+        if (getViewReview() == null) return;
 
         LauncherUi.launch(mConfig.getReviewDataUI(), getListener(), getRequestCode(),
                 mConfig.getTag(), Administrator.get(getActivity()).pack(getController()));
@@ -61,7 +61,7 @@ public class ActionBannerButtonAdd extends ReviewViewAction.BannerButtonAction {
 
     protected boolean addData(GvDataList.GvData data) {
         boolean added = mHandler.add(data, getActivity());
-        getReviewView().updateUi();
+        getViewReview().updateUi();
         return added;
     }
 

@@ -10,6 +10,7 @@ package com.chdryra.android.reviewer;
 
 import android.app.Fragment;
 import android.os.Bundle;
+import android.view.View;
 
 import com.chdryra.android.mygenerallibrary.DialogAlertFragment;
 
@@ -18,19 +19,19 @@ import com.chdryra.android.mygenerallibrary.DialogAlertFragment;
  * On: 27/01/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ActionGridItemEditImage extends ActionGridItemEdit {
+public class GridItemEditImage extends GridItemEdit {
     private static final int    IMAGE_AS_COVER = 200;
     private static final String DIALOG_TAG     = "DialogAlertTag";
     private GvImageList.GvImage mCoverProposition;
 
-    public ActionGridItemEditImage(ControllerReviewEditable controller) {
+    public GridItemEditImage(ControllerReviewEditable controller) {
         super(controller, GvDataList.GvType.IMAGES);
     }
 
     @Override
     public void onSetReviewView() {
         super.onSetReviewView();
-        getReviewView().setGridCellDimension(ReviewView.CellDimension.HALF, ReviewView
+        getViewReview().setGridCellDimension(ViewReview.CellDimension.HALF, ViewReview
                 .CellDimension.HALF);
     }
 
@@ -41,10 +42,10 @@ public class ActionGridItemEditImage extends ActionGridItemEdit {
     }
 
     @Override
-    public void onGridItemLongClick(GvDataList.GvData item) {
+    public void onGridItemLongClick(GvDataList.GvData item, View v) {
         GvImageList.GvImage image = (GvImageList.GvImage) item;
         if (image.isCover()) {
-            onGridItemClick(item);
+            onGridItemClick(item, v);
             return;
         }
 
@@ -61,7 +62,7 @@ public class ActionGridItemEditImage extends ActionGridItemEdit {
             cover = images.getItem(0);
             cover.setIsCover(true);
         }
-        getReviewView().setCover(cover);
+        getViewReview().setCover(cover);
     }
 
     private abstract class EditImageListener extends EditListener implements DialogAlertFragment
@@ -82,7 +83,7 @@ public class ActionGridItemEditImage extends ActionGridItemEdit {
         @Override
         public void onAlertPositive(int requestCode, Bundle args) {
             if (requestCode == IMAGE_AS_COVER) {
-                ReviewView view = getReviewView();
+                ViewReview view = getViewReview();
                 view.getCover().setIsCover(false);
                 mCoverProposition.setIsCover(true);
                 view.setCover(mCoverProposition);

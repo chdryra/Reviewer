@@ -21,7 +21,7 @@ import com.chdryra.android.mygenerallibrary.DialogDeleteConfirm;
  * On: 24/01/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ActionMenuDeleteDoneGrid extends ReviewViewAction.MenuAction {
+public class MenuDeleteDone extends ViewReviewAction.MenuAction {
     public static final  int                MENU_DELETE_ID = R.id.menu_item_delete;
     public static final  int                MENU_DONE_ID   = R.id.menu_item_done;
     public static final  ActivityResultCode RESULT_DELETE  = ActivityResultCode.DELETE;
@@ -36,17 +36,17 @@ public class ActionMenuDeleteDoneGrid extends ReviewViewAction.MenuAction {
     private boolean mDismissOnDelete;
     private boolean mDismissOnDone;
 
-    public ActionMenuDeleteDoneGrid(ControllerReviewEditable controller,
+    public MenuDeleteDone(ControllerReviewEditable controller,
             GvDataList.GvType dataType) {
         this(controller, dataType, false, true);
     }
 
-    public ActionMenuDeleteDoneGrid(ControllerReviewEditable controller,
+    public MenuDeleteDone(ControllerReviewEditable controller,
             GvDataList.GvType dataType, boolean dismissOnDelete, boolean dismissOnDone) {
         this(controller, dataType, dismissOnDelete, dismissOnDone, MENU);
     }
 
-    public ActionMenuDeleteDoneGrid(ControllerReviewEditable controller,
+    public MenuDeleteDone(ControllerReviewEditable controller,
             GvDataList.GvType dataType, boolean dismissOnDelete, boolean dismissOnDone,
             int menuId) {
         super(controller, dataType, menuId);
@@ -113,7 +113,7 @@ public class ActionMenuDeleteDoneGrid extends ReviewViewAction.MenuAction {
             GvDataList data = getData();
             if (data != null) {
                 data.removeAll();
-                getReviewView().updateUi();
+                getViewReview().updateUi();
             }
 
             if (mDismissOnDelete) {
@@ -124,7 +124,7 @@ public class ActionMenuDeleteDoneGrid extends ReviewViewAction.MenuAction {
     }
 
     private void doDoneSelected() {
-        ReviewView view = getReviewView();
+        ViewReview view = getViewReview();
         GvDataList data = getData();
         ControllerReviewEditable controller = (ControllerReviewEditable) getController();
 

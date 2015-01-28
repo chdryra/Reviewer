@@ -19,10 +19,10 @@ import com.chdryra.android.mygenerallibrary.ActivityResultCode;
  * On: 27/01/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ActionBannerButtonAddImage extends ActionBannerButtonAdd {
+public class BannerButtonAddImage extends BannerButtonAdd {
     private ImageChooser mImageChooser;
 
-    public ActionBannerButtonAddImage(ControllerReviewEditable controller) {
+    public BannerButtonAddImage(ControllerReviewEditable controller) {
         super(controller, GvDataList.GvType.IMAGES);
     }
 
@@ -40,7 +40,7 @@ public class ActionBannerButtonAddImage extends ActionBannerButtonAdd {
 
     @Override
     public void onClick(View v) {
-        if (getReviewView() == null) return;
+        if (getViewReview() == null) return;
 
         Intent options = mImageChooser.getChooserIntents();
         Fragment listener = getListener();
@@ -52,7 +52,7 @@ public class ActionBannerButtonAddImage extends ActionBannerButtonAdd {
         GvImageList.GvImage cover = images.getItem(0);
         cover.setIsCover(true);
 
-        getReviewView().setCover(cover);
+        getViewReview().setCover(cover);
     }
 
     private abstract class AddImageListener extends Fragment implements ImageChooser

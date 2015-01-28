@@ -11,6 +11,7 @@ package com.chdryra.android.reviewer;
 import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
 import com.chdryra.android.mygenerallibrary.ActivityResultCode;
 
@@ -19,12 +20,12 @@ import com.chdryra.android.mygenerallibrary.ActivityResultCode;
  * On: 24/01/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ActionGridItemEdit extends ReviewViewAction.GridItemAction {
-    private static final String TAG = "ActionGridItemEditListener";
+public class GridItemEdit extends ViewReviewAction.GridItemAction {
+    private static final String TAG = "GridItemEditListener";
     private ConfigGvDataUi.GvDataUiConfig mConfig;
     private GvDataHandler                 mHandler;
 
-    public ActionGridItemEdit(ControllerReviewEditable controller,
+    public GridItemEdit(ControllerReviewEditable controller,
             GvDataList.GvType dataType) {
         super(controller, dataType);
         ConfigGvDataUi.Config config = ConfigGvDataUi.getConfig(getDataType());
@@ -43,8 +44,8 @@ public class ActionGridItemEdit extends ReviewViewAction.GridItemAction {
     }
 
     @Override
-    public void onGridItemClick(GvDataList.GvData item) {
-        if (getReviewView() == null) return;
+    public void onGridItemClick(GvDataList.GvData item, View v) {
+        if (getViewReview() == null) return;
 
         Bundle args = Administrator.get(getActivity()).pack(getController());
         GvDataPacker.packItem(GvDataPacker.CurrentNewDatum.CURRENT, item, args);
@@ -61,17 +62,18 @@ public class ActionGridItemEdit extends ReviewViewAction.GridItemAction {
         return mConfig.getRequestCode();
     }
 
+    //TODO make type safe
     protected void editData(GvDataList.GvData oldDatum, GvDataList.GvData newDatum) {
         mHandler.replace(oldDatum, newDatum, getActivity());
-        getReviewView().updateUi();
+        getViewReview().updateUi();
     }
 
+    //TODO make type safe
     protected void deleteData(GvDataList.GvData datum) {
         mHandler.delete(datum);
-        getReviewView().updateUi();
+        getViewReview().updateUi();
     }
 
-    //restrictions on how fragments are constructed mean I have to use an abstract class...
     protected abstract class EditListener extends Fragment implements DialogFragmentGvDataEdit
             .GvDataEditListener {
 

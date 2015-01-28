@@ -19,14 +19,14 @@ import android.os.Bundle;
  * On: 27/01/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ActivityReviewEdit extends Activity {
-    public static final  int    FRAGMENT_ID = com.chdryra.android.mygenerallibrary.R.id
-            .fragmentContainer;
-    private static final String TYPE        = "com.chdryra.android.review" +
-            ".activity_review_view_type";
+public class ActivityReviewView extends Activity {
+    public static final  int    FRAGMENT_ID = R.id.fragmentContainer;
+    private static final String TYPE        = "com.chdryra.android.review.activityreviewview_type";
+    private static final String EDIT        = "com.chdryra.android.review.activityreviewview_edit";
 
-    public static void packParameters(GvDataList.GvType dataType, Intent i) {
+    public static void packParameters(GvDataList.GvType dataType, boolean isEdit, Intent i) {
         i.putExtra(TYPE, dataType);
+        i.putExtra(EDIT, isEdit);
     }
 
     @Override
@@ -38,8 +38,9 @@ public class ActivityReviewEdit extends Activity {
         Fragment fragment = fm.findFragmentById(FRAGMENT_ID);
 
         GvDataList.GvType dataType = (GvDataList.GvType) getIntent().getSerializableExtra(TYPE);
+        Boolean isEdit = getIntent().getBooleanExtra(EDIT, false);
         if (fragment == null) {
-            fragment = FactoryFragmentReviewView.newEditor(dataType);
+            fragment = FragmentViewReview.newInstance(dataType, isEdit);
             fm.beginTransaction().add(FRAGMENT_ID, fragment).commit();
         }
     }

@@ -27,22 +27,22 @@ import com.chdryra.android.mygenerallibrary.ActivityResultCode;
  * On: 27/01/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ReviewViewAction {
+public class ViewReviewAction {
     private ControllerReview  mController;
     private GvDataList.GvType mDataType;
-    private ReviewView        mReviewView;
+    private ViewReview mViewReview;
 
-    private ReviewViewAction(ControllerReview controller, GvDataList.GvType dataType) {
+    private ViewReviewAction(ControllerReview controller, GvDataList.GvType dataType) {
         mController = controller;
         mDataType = dataType;
     }
 
-    public ReviewView getReviewView() {
-        return mReviewView;
+    public ViewReview getViewReview() {
+        return mViewReview;
     }
 
-    public void setReviewView(ReviewView reviewView) {
-        mReviewView = reviewView;
+    public void setViewReview(ViewReview viewReview) {
+        mViewReview = viewReview;
         onSetReviewView();
     }
 
@@ -59,7 +59,7 @@ public class ReviewViewAction {
     }
 
     public Activity getActivity() {
-        return mReviewView != null ? mReviewView.getActivity() : null;
+        return mViewReview != null ? mViewReview.getActivity() : null;
     }
 
     protected Fragment getNewListener() {
@@ -67,7 +67,7 @@ public class ReviewViewAction {
     }
 
     protected Fragment getListener(String tag) {
-        final ReviewView view = getReviewView();
+        final ViewReview view = getViewReview();
 
         Fragment listener = view.getListener(tag);
         if (listener == null) listener = getNewListener();
@@ -77,10 +77,10 @@ public class ReviewViewAction {
     }
 
     protected GvDataList getData() {
-        return getReviewView().getGridData();
+        return getViewReview().getGridData();
     }
 
-    public static class SubjectViewAction extends ReviewViewAction {
+    public static class SubjectViewAction extends ViewReviewAction {
 
         public SubjectViewAction(ControllerReview controller, GvDataList.GvType dataType) {
             super(controller, dataType);
@@ -103,7 +103,7 @@ public class ReviewViewAction {
         }
     }
 
-    public static class RatingBarAction extends ReviewViewAction {
+    public static class RatingBarAction extends ViewReviewAction {
         public RatingBarAction(ControllerReview controller, GvDataList.GvType dataType) {
             super(controller, dataType);
         }
@@ -116,7 +116,7 @@ public class ReviewViewAction {
         }
     }
 
-    public static class BannerButtonAction extends ReviewViewAction {
+    public static class BannerButtonAction extends ViewReviewAction {
         public BannerButtonAction(ControllerReview controller, GvDataList.GvType dataType) {
             super(controller, dataType);
         }
@@ -129,20 +129,20 @@ public class ReviewViewAction {
         }
     }
 
-    public static class GridItemAction extends ReviewViewAction {
+    public static class GridItemAction extends ViewReviewAction {
         public GridItemAction(ControllerReview controller, GvDataList.GvType dataType) {
             super(controller, dataType);
         }
 
-        public void onGridItemClick(GvDataList.GvData item) {
+        public void onGridItemClick(GvDataList.GvData item, View v) {
         }
 
-        public void onGridItemLongClick(GvDataList.GvData item) {
-            onGridItemClick(item);
+        public void onGridItemLongClick(GvDataList.GvData item, View v) {
+            onGridItemClick(item, v);
         }
     }
 
-    public static class MenuAction extends ReviewViewAction {
+    public static class MenuAction extends ViewReviewAction {
         public static final int                MENU_UP_ID = android.R.id.home;
         public static final ActivityResultCode RESULT_UP  = ActivityResultCode.UP;
 
@@ -154,6 +154,15 @@ public class ReviewViewAction {
         public MenuAction(ControllerReview controller,
                 GvDataList.GvType dataType, int menuId) {
             this(controller, dataType, menuId, true);
+        }
+
+        public MenuAction(ControllerReview controller,
+                GvDataList.GvType dataType, boolean displayHomeAsUp) {
+            super(controller, dataType);
+            mMenuId = -1;
+            mDisplayHomeAsUp = displayHomeAsUp;
+            mActionItems = new SparseArray<>();
+            if (mDisplayHomeAsUp) addMenuActionItem(getUpActionItem(), MENU_UP_ID, true);
         }
 
         public MenuAction(ControllerReview controller,
@@ -170,11 +179,15 @@ public class ReviewViewAction {
             if (getActivity().getActionBar() != null) {
                 getActivity().getActionBar().setDisplayHomeAsUpEnabled(mDisplayHomeAsUp);
             }
+            addMenuItems();
+        }
+
+        public boolean hasOptionsMenu() {
+            return mMenuId != -1;
         }
 
         public void inflateMenu(Menu menu, MenuInflater inflater) {
-            addMenuItems();
-            inflater.inflate(mMenuId, menu);
+            if (hasOptionsMenu()) inflater.inflate(mMenuId, menu);
         }
 
         public void addMenuActionItem(MenuActionItem item, int itemId,

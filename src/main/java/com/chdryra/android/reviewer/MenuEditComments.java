@@ -17,7 +17,7 @@ import android.widget.Toast;
  * On: 26/01/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ActionMenuCommentsEdit extends ActionMenuDeleteDoneGrid {
+public class MenuEditComments extends MenuDeleteDone {
     public static final  int MENU_DELETE_ID = R.id.menu_item_delete;
     public static final  int MENU_DONE_ID   = R.id.menu_item_done;
     public static final  int MENU_SPLIT_ID  = R.id.menu_item_split_comment;
@@ -25,14 +25,14 @@ public class ActionMenuCommentsEdit extends ActionMenuDeleteDoneGrid {
 
     private boolean mCommentsAreSplit = false;
 
-    public ActionMenuCommentsEdit(ControllerReviewEditable controller) {
+    public MenuEditComments(ControllerReviewEditable controller) {
         super(controller, GvDataList.GvType.COMMENTS, false, true, MENU);
     }
 
     @Override
     public void onSetReviewView() {
         super.onSetReviewView();
-        getReviewView().registerGridDataObserver(getObserver());
+        getViewReview().registerGridDataObserver(getObserver());
     }
 
     @Override
@@ -56,9 +56,9 @@ public class ActionMenuCommentsEdit extends ActionMenuDeleteDoneGrid {
         GvCommentList comments = (GvCommentList) getData();
         if (comments != null) {
             if (mCommentsAreSplit) {
-                getReviewView().setGridViewData(comments.getSplitComments());
+                getViewReview().setGridViewData(comments.getSplitComments());
             } else {
-                getReviewView().resetGridViewData();
+                getViewReview().resetGridViewData();
             }
         }
     }

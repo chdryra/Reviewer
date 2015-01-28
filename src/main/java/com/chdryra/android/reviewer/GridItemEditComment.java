@@ -8,20 +8,20 @@
 
 package com.chdryra.android.reviewer;
 
+import android.view.View;
+
 /**
  * Created by: Rizwan Choudrey
  * On: 26/01/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ActionGridItemEditComment extends ActionGridItemEdit {
-    public ActionGridItemEditComment(ControllerReviewEditable controller) {
+public class GridItemEditComment extends GridItemEdit {
+    public GridItemEditComment(ControllerReviewEditable controller) {
         super(controller, GvDataList.GvType.COMMENTS);
     }
 
     @Override
-    public void onGridItemClick(GvDataList.GvData item) {
-        GvCommentList.GvComment split = (GvCommentList.GvComment) item;
-        GvCommentList.GvComment unsplit = split.getUnSplitComment();
-        super.onGridItemClick(unsplit);
+    public void onGridItemClick(GvDataList.GvData item, View v) {
+        super.onGridItemClick(((GvCommentList.GvComment) item).getUnSplitComment(), v);
     }
 }

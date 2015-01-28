@@ -101,6 +101,10 @@ public final class ConfigGvDataUi {
             mDisplayConfig = initDisplayConfig();
         }
 
+        public GvDataList.GvType getGVType() {
+            return mDataType;
+        }
+
         public GvDataUiConfig getAdderConfig() {
             return mAddConfig;
         }

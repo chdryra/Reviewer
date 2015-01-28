@@ -13,6 +13,10 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.database.DataSetObserver;
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import java.util.ArrayList;
 
@@ -21,14 +25,14 @@ import java.util.ArrayList;
  * On: 24/01/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ReviewView {
-    private FragmentReviewView mParent;
+public class ViewReview {
+    private FragmentViewReview mParent;
 
-    private ReviewViewAction.SubjectViewAction  mSubjectAction;
-    private ReviewViewAction.RatingBarAction    mRatingAction;
-    private ReviewViewAction.BannerButtonAction mButtonAction;
-    private ReviewViewAction.GridItemAction     mGridAction;
-    private ReviewViewAction.MenuAction         mMenuAction;
+    private ViewReviewAction.SubjectViewAction  mSubjectAction;
+    private ViewReviewAction.RatingBarAction    mRatingAction;
+    private ViewReviewAction.BannerButtonAction mButtonAction;
+    private ViewReviewAction.GridItemAction     mGridAction;
+    private ViewReviewAction.MenuAction         mMenuAction;
 
     private GvDataList mData;
     private GvDataList mDataToShow;
@@ -41,22 +45,46 @@ public class ReviewView {
     private CellDimension mCellWidth  = CellDimension.HALF;
     private CellDimension mCellHeight = CellDimension.QUARTER;
 
-    public enum CellDimension {
-        FULL(FragmentReviewView.CellDimension.FULL),
-        HALF(FragmentReviewView.CellDimension.HALF),
-        QUARTER(FragmentReviewView.CellDimension.QUARTER);
+    private GridViewImageAlpha mGridViewAlpha = GridViewImageAlpha.MEDIUM;
 
-        private FragmentReviewView.CellDimension mDim;
+    private ViewModifier mModifier;
 
-        private CellDimension(FragmentReviewView.CellDimension dim) {
-            mDim = dim;
+    public enum CellDimension {FULL, HALF, QUARTER}
+
+    /**
+     * Settings for GridView transparency with respect to background image.
+     */
+    public enum GridViewImageAlpha {
+        TRANSPARENT(0),
+        MEDIUM(200),
+        OPAQUE(255);
+
+        private final int mAlpha;
+
+        private GridViewImageAlpha(int alpha) {
+            this.mAlpha = alpha;
+        }
+
+        public int getAlpha() {
+            return mAlpha;
         }
     }
 
-    public ReviewView(FragmentReviewView parent, GvDataList mGridData, GvImageList.GvImage cover,
-            ReviewViewAction.SubjectViewAction sva, ReviewViewAction.RatingBarAction rba,
-            ReviewViewAction.BannerButtonAction bba,
-            ReviewViewAction.GridItemAction gia, ReviewViewAction.MenuAction mia,
+    public interface ViewModifier {
+        public View modify(FragmentViewReview parent, View v, LayoutInflater inflater,
+                ViewGroup container, Bundle savedInstanceState);
+    }
+
+    public ViewReview(FragmentViewReview parent, GvDataList mGridData, GvImageList.GvImage cover,
+            ViewReviewAction.SubjectViewAction sva, ViewReviewAction.RatingBarAction rba,
+            ViewReviewAction.BannerButtonAction bba,
+            ViewReviewAction.GridItemAction gia, boolean isEditable) {
+    }
+
+    public ViewReview(FragmentViewReview parent, GvDataList mGridData, GvImageList.GvImage cover,
+            ViewReviewAction.SubjectViewAction sva, ViewReviewAction.RatingBarAction rba,
+            ViewReviewAction.BannerButtonAction bba,
+            ViewReviewAction.GridItemAction gia, ViewReviewAction.MenuAction mia,
             boolean isEditable) {
         mParent = parent;
 
@@ -74,11 +102,15 @@ public class ReviewView {
 
         mGridObservers = new ArrayList<>();
 
-        mSubjectAction.setReviewView(this);
-        mRatingAction.setReviewView(this);
-        mButtonAction.setReviewView(this);
-        mGridAction.setReviewView(this);
-        mMenuAction.setReviewView(this);
+        mSubjectAction.setViewReview(this);
+        mRatingAction.setViewReview(this);
+        mButtonAction.setViewReview(this);
+        mGridAction.setViewReview(this);
+        mMenuAction.setViewReview(this);
+    }
+
+    public void setViewModifier(ViewModifier modifier) {
+        mModifier = modifier;
     }
 
     public Activity getActivity() {
@@ -103,23 +135,23 @@ public class ReviewView {
         mParent.updateGridData();
     }
 
-    public ReviewViewAction.SubjectViewAction getSubjectViewAction() {
+    public ViewReviewAction.SubjectViewAction getSubjectViewAction() {
         return mSubjectAction;
     }
 
-    public ReviewViewAction.RatingBarAction getRatingBarAction() {
+    public ViewReviewAction.RatingBarAction getRatingBarAction() {
         return mRatingAction;
     }
 
-    public ReviewViewAction.BannerButtonAction getBannerButtonAction() {
+    public ViewReviewAction.BannerButtonAction getBannerButtonAction() {
         return mButtonAction;
     }
 
-    public ReviewViewAction.GridItemAction getGridItemAction() {
+    public ViewReviewAction.GridItemAction getGridItemAction() {
         return mGridAction;
     }
 
-    public ReviewViewAction.MenuAction getMenuAction() {
+    public ViewReviewAction.MenuAction getMenuAction() {
         return mMenuAction;
     }
 
@@ -185,11 +217,28 @@ public class ReviewView {
         mCellHeight = height;
     }
 
-    public FragmentReviewView.CellDimension getGridCellWidth() {
-        return mCellWidth.mDim;
+    public CellDimension getGridCellWidth() {
+        return mCellWidth;
     }
 
-    public FragmentReviewView.CellDimension getGridCellHeight() {
-        return mCellHeight.mDim;
+    public CellDimension getGridCellHeight() {
+        return mCellHeight;
+    }
+
+    public GridViewImageAlpha getGridViewAlpha() {
+        return mGridViewAlpha;
+    }
+
+    public void setTransparentGridCellBackground() {
+        mGridViewAlpha = GridViewImageAlpha.TRANSPARENT;
+    }
+
+    public View modifyIfNeccesary(View v, LayoutInflater inflater, ViewGroup container,
+            Bundle savedInstanceState) {
+        if (mModifier != null) {
+            return mModifier.modify(mParent, v, inflater, container, savedInstanceState);
+        } else {
+            return v;
+        }
     }
 }

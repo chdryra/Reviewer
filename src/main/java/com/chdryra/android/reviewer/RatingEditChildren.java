@@ -15,8 +15,8 @@ import android.widget.RatingBar;
  * On: 26/01/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ActionRatingEditChildren extends ActionRatingEdit {
-    public ActionRatingEditChildren(ControllerReviewEditable controller) {
+public class RatingEditChildren extends RatingEdit {
+    public RatingEditChildren(ControllerReviewEditable controller) {
         super(controller, GvDataList.GvType.CHILDREN);
     }
 

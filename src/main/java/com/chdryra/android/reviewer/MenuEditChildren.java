@@ -16,20 +16,20 @@ import android.view.MenuItem;
  * On: 26/01/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ActionMenuChildrenEdit extends ActionMenuDeleteDoneGrid {
+public class MenuEditChildren extends MenuDeleteDone {
     public static final  int MENU_DELETE_ID  = R.id.menu_item_delete;
     public static final  int MENU_DONE_ID    = R.id.menu_item_done;
     public static final  int MENU_AVERAGE_ID = R.id.menu_item_average_rating;
     private static final int MENU            = R.menu.fragment_review_children;
 
-    public ActionMenuChildrenEdit(ControllerReviewEditable controller) {
+    public MenuEditChildren(ControllerReviewEditable controller) {
         super(controller, GvDataList.GvType.COMMENTS, false, true, MENU);
     }
 
     @Override
     public void onSetReviewView() {
         super.onSetReviewView();
-        getReviewView().registerGridDataObserver(getObserver());
+        getViewReview().registerGridDataObserver(getObserver());
     }
 
     @Override
@@ -57,11 +57,11 @@ public class ActionMenuChildrenEdit extends ActionMenuDeleteDoneGrid {
             rating += child.getRating() / children.size();
         }
 
-        getReviewView().setRating(rating);
+        getViewReview().setRating(rating);
     }
 
-    private ReviewViewAction.MenuAction.MenuActionItem getTotalRatingIsAverageAction() {
-        return new ReviewViewAction.MenuAction.MenuActionItem() {
+    private ViewReviewAction.MenuAction.MenuActionItem getTotalRatingIsAverageAction() {
+        return new ViewReviewAction.MenuAction.MenuActionItem() {
             @Override
             public void doAction(MenuItem item) {
                 setRating(true);

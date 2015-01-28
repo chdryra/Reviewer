@@ -36,7 +36,7 @@ import com.chdryra.android.mygenerallibrary.ViewHolderAdapter;
  * On: 23/01/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public abstract class FragmentReviewView extends Fragment {
+public class FragmentViewReview extends Fragment {
     private static final int LAYOUT        = R.layout.fragment_review_grid;
     private static final int LINEAR_LAYOUT = R.id.review_grid_linearlayout;
     private static final int SUBJECT       = R.id.review_subject_edit_text;
@@ -44,10 +44,10 @@ public abstract class FragmentReviewView extends Fragment {
     private static final int BUTTON        = R.id.banner_button;
     private static final int GRID          = R.id.gridview_data;
 
-    private GvDataList.GvType mDataType;
-    private boolean           mIsEdit;
+    private static final String TYPE = "comchdryra.android.reviewer.fragmentreviewgrid_type";
+    private static final String EDIT = "comchdryra.android.reviewer.fragmentreviewgrid_edit";
 
-    private ReviewView mReviewView;
+    private ViewReview mViewReview;
 
     private LinearLayout mLinearLayout;
     private TextView     mSubjectView;
@@ -55,51 +55,35 @@ public abstract class FragmentReviewView extends Fragment {
     private Button       mBannerButton;
     private GridView     mGridView;
 
-
     private int mMaxGridCellWidth;
     private int mMaxGridCellHeight;
     private int mCellWidthDivider  = 1;
     private int mCellHeightDivider = 1;
 
-    private GridViewImageAlpha mGridViewImageAlpha = GridViewImageAlpha.MEDIUM;
+    public static Fragment newInstance(GvDataList.GvType dataType, boolean isEdit) {
+        Bundle args = new Bundle();
+        args.putSerializable(TYPE, dataType);
+        args.putBoolean(EDIT, isEdit);
 
-    /**
-     * Settings for GridView transparency with respect to background image.
-     */
-    public enum GridViewImageAlpha {
-        TRANSPARENT(0),
-        MEDIUM(200),
-        OPAQUE(255);
+        Fragment fragment = new FragmentViewReview();
+        fragment.setArguments(args);
 
-        private final int mAlpha;
-
-        private GridViewImageAlpha(int alpha) {
-            this.mAlpha = alpha;
-        }
-
-        public int getAlpha() {
-            return mAlpha;
-        }
-    }
-
-    /**
-     * Settings for grid cell dimensions with respect to screen width.
-     */
-    public enum CellDimension {
-        FULL, HALF, QUARTER
-    }
-
-    public FragmentReviewView(GvDataList.GvType dataType, boolean isEdit) {
-        mDataType = dataType;
-        mIsEdit = isEdit;
+        return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mReviewView = FactoryReviewView.newReviewView(this, mDataType, mIsEdit);
-        setGridCellDimension(mReviewView.getGridCellWidth(), mReviewView.getGridCellHeight());
+
+        Bundle args = getArguments();
+        GvDataList.GvType dataType = (GvDataList.GvType) args.getSerializable(TYPE);
+        boolean isEdit = args.getBoolean(EDIT);
+
+        mViewReview = FactoryViewReview.newViewReview(this, dataType, isEdit);
+
+        setGridCellDimension(mViewReview.getGridCellWidth(), mViewReview.getGridCellHeight());
         setHasOptionsMenu(true);
+        setRetainInstance(true);
     }
 
     @Override
@@ -126,18 +110,18 @@ public abstract class FragmentReviewView extends Fragment {
         updateUi();
         updateCover();
 
-        return v;
+        return mViewReview.modifyIfNeccesary(v, inflater, container, savedInstanceState);
     }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, android.view.MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        mReviewView.getMenuAction().inflateMenu(menu, inflater);
+        mViewReview.getMenuAction().inflateMenu(menu, inflater);
     }
 
     @Override
     public boolean onOptionsItemSelected(android.view.MenuItem item) {
-        return mReviewView.getMenuAction().onItemSelected(item) || super
+        return mViewReview.getMenuAction().onItemSelected(item) || super
                 .onOptionsItemSelected(item);
     }
 
@@ -162,19 +146,31 @@ public abstract class FragmentReviewView extends Fragment {
         mRatingBar.setRating(rating);
     }
 
-    void setGridCellDimension(CellDimension width, CellDimension height) {
+    protected Button getBannerButton() {
+        return mBannerButton;
+    }
+
+    protected GridView getGridView() {
+        return mGridView;
+    }
+
+    protected LinearLayout getLinearLayout() {
+        return mLinearLayout;
+    }
+
+    void setGridCellDimension(ViewReview.CellDimension width, ViewReview.CellDimension height) {
         mCellWidthDivider = 1;
         mCellHeightDivider = 1;
 
-        if (width == CellDimension.HALF) {
+        if (width == ViewReview.CellDimension.HALF) {
             mCellWidthDivider = 2;
-        } else if (width == CellDimension.QUARTER) {
+        } else if (width == ViewReview.CellDimension.QUARTER) {
             mCellWidthDivider = 4;
         }
 
-        if (height == CellDimension.HALF) {
+        if (height == ViewReview.CellDimension.HALF) {
             mCellHeightDivider = 2;
-        } else if (height == CellDimension.QUARTER) {
+        } else if (height == ViewReview.CellDimension.QUARTER) {
             mCellHeightDivider = 4;
         }
     }
@@ -191,7 +187,7 @@ public abstract class FragmentReviewView extends Fragment {
             mSubjectView.setFocusable(true);
             ((ClearableEditText) mSubjectView).makeClearable(true);
             mSubjectView.addTextChangedListener(new TextWatcher() {
-                ReviewViewAction.SubjectViewAction action = mReviewView.getSubjectViewAction();
+                ViewReviewAction.SubjectViewAction action = mViewReview.getSubjectViewAction();
 
                 @Override
                 public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -215,7 +211,7 @@ public abstract class FragmentReviewView extends Fragment {
             ((ClearableEditText) mSubjectView).makeClearable(false);
         }
 
-        mSubjectView.setText(mReviewView.getSubjectViewAction().getSubject());
+        mSubjectView.setText(mViewReview.getSubjectViewAction().getSubject());
     }
 
     void initRatingBarUi() {
@@ -224,18 +220,18 @@ public abstract class FragmentReviewView extends Fragment {
             mRatingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
                 @Override
                 public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-                    mReviewView.getRatingBarAction().onRatingChanged(ratingBar, rating, fromUser);
+                    mViewReview.getRatingBarAction().onRatingChanged(ratingBar, rating, fromUser);
                 }
             });
         } else {
             mRatingBar.setIsIndicator(true);
         }
 
-        mRatingBar.setRating(mReviewView.getRatingBarAction().getRating());
+        mRatingBar.setRating(mViewReview.getRatingBarAction().getRating());
     }
 
     void initBannerButtonUi() {
-        final ReviewViewAction.BannerButtonAction action = mReviewView.getBannerButtonAction();
+        final ViewReviewAction.BannerButtonAction action = mViewReview.getBannerButtonAction();
         mBannerButton.setText(action.getButtonTitle());
         mBannerButton.setTextColor(mSubjectView.getTextColors().getDefaultColor());
         mBannerButton.setOnClickListener(new View.OnClickListener() {
@@ -251,27 +247,28 @@ public abstract class FragmentReviewView extends Fragment {
         mGridView.setColumnWidth(getGridCellWidth());
         mGridView.setNumColumns(getNumberColumns());
 
-        final ReviewViewAction.GridItemAction action = mReviewView.getGridItemAction();
+        final ViewReviewAction.GridItemAction action = mViewReview.getGridItemAction();
         mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-                action.onGridItemClick((GvDataList.GvData) parent.getItemAtPosition(position));
+                action.onGridItemClick((GvDataList.GvData) parent.getItemAtPosition(position), v);
             }
         });
 
         mGridView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             public boolean onItemLongClick(AdapterView<?> parent, View v, int position, long id) {
-                action.onGridItemLongClick((GvDataList.GvData) parent.getItemAtPosition(position));
+                action.onGridItemLongClick((GvDataList.GvData) parent.getItemAtPosition(position)
+                        , v);
                 return true;
             }
         });
     }
 
     boolean isEditable() {
-        return mReviewView.isEditable();
+        return mViewReview.isEditable();
     }
 
     ViewHolderAdapter getGridViewCellAdapter() {
-        return new ViewHolderAdapter(getActivity(), mReviewView.getGridViewData(),
+        return new ViewHolderAdapter(getActivity(), mViewReview.getGridViewData(),
                 getGridCellWidth(), getGridCellHeight());
     }
 
@@ -292,17 +289,17 @@ public abstract class FragmentReviewView extends Fragment {
 
     void updateGridDataUi() {
         ((ViewHolderAdapter) mGridView.getAdapter()).notifyDataSetChanged();
-        mReviewView.notifyDataSetChanged();
+        mViewReview.notifyDataSetChanged();
     }
 
     void updateGridData() {
-        ((ViewHolderAdapter) mGridView.getAdapter()).setData(mReviewView.getGridViewData());
+        ((ViewHolderAdapter) mGridView.getAdapter()).setData(mViewReview.getGridViewData());
     }
 
     @SuppressWarnings("deprecation")
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     void updateCover() {
-        GvImageList.GvImage cover = mReviewView.getCover();
+        GvImageList.GvImage cover = mViewReview.getCover();
         if (cover.isValidForDisplay()) {
             BitmapDrawable bitmap = new BitmapDrawable(getResources(), cover.getBitmap());
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
@@ -310,11 +307,11 @@ public abstract class FragmentReviewView extends Fragment {
             } else {
                 mLinearLayout.setBackgroundDrawable(bitmap);
             }
-            mGridView.getBackground().setAlpha(mGridViewImageAlpha.getAlpha());
+            mGridView.getBackground().setAlpha(mViewReview.getGridViewAlpha().getAlpha());
 
         } else {
             mLinearLayout.setBackgroundColor(Color.TRANSPARENT);
-            mGridView.getBackground().setAlpha(GridViewImageAlpha.OPAQUE.getAlpha());
+            mGridView.getBackground().setAlpha(ViewReview.GridViewImageAlpha.OPAQUE.getAlpha());
         }
     }
 }

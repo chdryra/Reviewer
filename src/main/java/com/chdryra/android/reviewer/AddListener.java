@@ -17,10 +17,10 @@ import android.app.Fragment;
  */
 public abstract class AddListener extends Fragment implements DialogFragmentGvDataAdd
         .GvDataAddListener {
-    private ReviewView    mView;
+    private ViewReview    mView;
     private GvDataHandler mHandler;
 
-    public AddListener(ReviewView view) {
+    public AddListener(ViewReview view) {
         mView = view;
         mHandler = FactoryGvDataHandler.newHandler(mView.getGridData());
     }

@@ -247,9 +247,11 @@ public class FragmentReviewBuild extends FragmentReviewGrid implements
     }
 
     private void requestIntent(ConfigGvDataUi.Config config) {
-        //Intent i = config.getDisplayConfig().requestIntent(getActivity());
-        Intent i = new Intent(getActivity(), ActivityReviewEdit.class);
-        ActivityReviewEdit.packParameters(config.getEditorConfig().getGVType(), i);
+        GvDataList.GvType dataType = config.getGVType();
+        boolean isEdit = !(dataType == GvDataList.GvType.SOCIAL);
+
+        Intent i = new Intent(getActivity(), ActivityReviewView.class);
+        ActivityReviewView.packParameters(dataType, isEdit, i);
         Administrator.get(getActivity()).pack(getController(), i);
         startActivityForResult(i, config.getDisplayConfig().getRequestCode());
     }
