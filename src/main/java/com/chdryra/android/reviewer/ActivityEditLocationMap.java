@@ -15,11 +15,11 @@ import com.chdryra.android.mygenerallibrary.ActivitySingleFragment;
 
 
 /**
- * UI Activity holding {@link FragmentReviewLocationMap}: mapping and editing a location.
+ * UI Activity holding {@link FragmentEditLocationMap}: mapping and editing a location.
  */
-public class ActivityReviewLocationMap extends ActivitySingleFragment implements LaunchableUi {
+public class ActivityEditLocationMap extends ActivitySingleFragment implements LaunchableUi {
 
-    private FragmentReviewLocationMap mFragment;
+    private FragmentEditLocationMap mFragment;
 
     @Override
     public void launch(LauncherUi launcher) {
@@ -28,7 +28,7 @@ public class ActivityReviewLocationMap extends ActivitySingleFragment implements
 
     @Override
     protected Fragment createFragment() {
-        mFragment = new FragmentReviewLocationMap();
+        mFragment = new FragmentEditLocationMap();
         return mFragment;
     }
 

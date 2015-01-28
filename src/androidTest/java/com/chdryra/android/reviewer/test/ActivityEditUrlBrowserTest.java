@@ -11,16 +11,17 @@ package com.chdryra.android.reviewer.test;
 import android.test.SingleLaunchActivityTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.ActivityReviewBuild;
+import com.chdryra.android.reviewer.ActivityEditUrlBrowser;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 02/12/2014
  * Email: rizwan.choudrey@gmail.com
  */
-public class ActivityReviewBuildTest extends SingleLaunchActivityTestCase<ActivityReviewBuild> {
-    public ActivityReviewBuildTest() {
-        super("com.chdryra.android.reviewer", ActivityReviewBuild.class);
+public class ActivityEditUrlBrowserTest extends
+        SingleLaunchActivityTestCase<ActivityEditUrlBrowser> {
+    public ActivityEditUrlBrowserTest() {
+        super("com.chdryra.android.reviewer", ActivityEditUrlBrowser.class);
     }
 
     @SmallTest

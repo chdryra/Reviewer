@@ -13,10 +13,10 @@ import android.app.Fragment;
 import com.chdryra.android.mygenerallibrary.ActivitySingleFragment;
 
 /**
- * UI Activity holding {@link FragmentReviewURLBrowser}: browsing and searching URLs (currently
+ * UI Activity holding {@link FragmentEditUrlBrowser}: browsing and searching URLs (currently
  * disabled).
  */
-public class ActivityReviewURLBrowser extends ActivitySingleFragment implements LaunchableUi {
+public class ActivityEditUrlBrowser extends ActivitySingleFragment implements LaunchableUi {
 
     @Override
     public void launch(LauncherUi launcher) {
@@ -25,7 +25,7 @@ public class ActivityReviewURLBrowser extends ActivitySingleFragment implements 
 
     @Override
     protected Fragment createFragment() {
-        return new FragmentReviewURLBrowser();
+        return new FragmentEditUrlBrowser();
     }
 
 }

@@ -8,6 +8,7 @@
 
 package com.chdryra.android.reviewer;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -93,9 +94,11 @@ public class FragmentFeed extends FragmentReviewGrid {
     }
 
     private void requestNewReviewIntent() {
-        Intent i = new Intent(getActivity(), ActivityReviewBuild.class);
-        Administrator admin = Administrator.get(getActivity());
-        Administrator.get(getActivity()).pack(admin.createNewReviewInProgress(), i);
+        Activity activity = getActivity();
+        Intent i = new Intent(activity, ActivityReviewView.class);
+        ActivityReviewView.packParameters(GvDataList.GvType.REVIEW, true, i);
+        Administrator admin = Administrator.get(activity);
+        Administrator.get(activity).pack(admin.createNewReviewInProgress(), i);
         startActivity(i);
     }
 }

@@ -17,30 +17,47 @@ import android.content.Intent;
  * Email: rizwan.choudrey@gmail.com
  */
 public class FactoryViewReview {
-    public static FactoryViewReview sFactory;
-
     private FactoryViewReview() {
-    }
-
-    private static FactoryViewReview get() {
-        if (sFactory == null) sFactory = new FactoryViewReview();
-        return sFactory;
     }
 
     public static ViewReview newViewReview(FragmentViewReview parent, GvDataList.GvType dataType,
             boolean isEdit) {
         if (dataType == GvDataList.GvType.SOCIAL) {
-            return newViewReviewShare(parent);
+            return newShareScreen(parent);
+        } else if (dataType == GvDataList.GvType.REVIEW) {
+            return newBuildScreen(parent);
         } else {
-            return get().newViewReviewEdit(parent, dataType);
+            return newEditScreen(parent, dataType);
         }
     }
 
-    public static ViewReview newViewReviewShare(FragmentViewReview parent) {
-        return get().newShareView(parent);
+    public static ViewReview newBuildScreen(FragmentViewReview parent) {
+        Activity activity = parent.getActivity();
+        Intent i = activity.getIntent();
+        Administrator admin = Administrator.get(activity);
+        ControllerReviewEditable controller = (ControllerReviewEditable) admin.unpack(i);
+
+        GvDataList.GvType dataType = GvDataList.GvType.REVIEW;
+        ViewReviewAction.GridItemAction gia = newGridItemEdit(controller, dataType);
+        GvDataList data = GvGridCellManagerList.newInstance(gia);
+        GvImageList.GvImage cover = controller.getRandomCover();
+
+        String details = parent.getResources().getString(R.string.button_add_review_data);
+        ViewReview view = new ViewReview(parent, data, cover,
+                newSubjectEdit(controller, dataType),
+                newRatingBarEdit(controller, dataType),
+                ViewReviewAction.BannerButtonAction.newDisplayButton(controller, dataType, details),
+                gia,
+                newMenuAction(controller, dataType),
+                true);
+
+        view.setViewModifier(new ViewReviewBuildModifier(controller));
+        view.setTransparentGridCellBackground();
+
+        return view;
     }
 
-    private ViewReview newShareView(FragmentViewReview parent) {
+    public static ViewReview newShareScreen(FragmentViewReview parent) {
         Activity activity = parent.getActivity();
         Intent i = activity.getIntent();
         Administrator admin = Administrator.get(activity);
@@ -48,30 +65,24 @@ public class FactoryViewReview {
         GvDataList data = admin.getSocialPlatformList();
         GvImageList.GvImage cover = controller.getRandomCover();
 
-        final String social = parent.getResources().getString(R.string.button_social);
-        ViewReviewAction.BannerButtonAction bba = new ViewReviewAction.BannerButtonAction
-                (controller, GvDataList.GvType.SOCIAL) {
-            @Override
-            public String getButtonTitle() {
-                return social;
-            }
-        };
-
+        String social = parent.getResources().getString(R.string.button_social);
         GvDataList.GvType dataType = GvDataList.GvType.SOCIAL;
         ViewReview view = new ViewReview(parent, data, cover,
                 newSubjectViewAction(controller, dataType),
                 newRatingBarAction(controller, dataType),
-                bba,
+                ViewReviewAction.BannerButtonAction.newDisplayButton(controller, dataType, social),
                 newGridItemAction(controller, dataType),
                 newMenuAction(controller, dataType),
                 false);
 
         view.setViewModifier(new ViewReviewShareModifier());
+        view.setTransparentGridCellBackground();
 
         return view;
     }
 
-    private ViewReview newViewReviewEdit(FragmentViewReview parent, GvDataList.GvType dataType) {
+    private static ViewReview newEditScreen(FragmentViewReview parent,
+            GvDataList.GvType dataType) {
         Activity activity = parent.getActivity();
         Intent i = activity.getIntent();
         Administrator admin = Administrator.get(activity);
@@ -88,12 +99,16 @@ public class FactoryViewReview {
                 newMenuEdit(controller, dataType), true);
     }
 
-    private ViewReviewAction.MenuAction newMenuAction(ControllerReview controller,
+    private static ViewReviewAction.MenuAction newMenuAction(ControllerReview controller,
             GvDataList.GvType dataType) {
-        return new ViewReviewAction.MenuAction(controller, dataType, true);
+        if (dataType == GvDataList.GvType.REVIEW) {
+            return new MenuBuildScreen(controller);
+        } else {
+            return new ViewReviewAction.MenuAction(controller, dataType, true);
+        }
     }
 
-    private ViewReviewAction.MenuAction newMenuEdit(ControllerReviewEditable controller,
+    private static ViewReviewAction.MenuAction newMenuEdit(ControllerReviewEditable controller,
             GvDataList.GvType dataType) {
         if (dataType == GvDataList.GvType.COMMENTS) {
             return new MenuEditComments(controller);
@@ -104,7 +119,7 @@ public class FactoryViewReview {
         }
     }
 
-    private ViewReviewAction.GridItemAction newGridItemAction(ControllerReview controller,
+    private static ViewReviewAction.GridItemAction newGridItemAction(ControllerReview controller,
             GvDataList.GvType dataType) {
         if (dataType == GvDataList.GvType.SOCIAL) {
             return new GridItemSocial(controller);
@@ -113,19 +128,22 @@ public class FactoryViewReview {
         }
     }
 
-    private ViewReviewAction.GridItemAction newGridItemEdit(ControllerReviewEditable
+    private static ViewReviewAction.GridItemAction newGridItemEdit(ControllerReviewEditable
             controller,
             GvDataList.GvType dataType) {
         if (dataType == GvDataList.GvType.COMMENTS) {
             return new GridItemEditComment(controller);
         } else if (dataType == GvDataList.GvType.IMAGES) {
             return new GridItemEditImage(controller);
+        }
+        if (dataType == GvDataList.GvType.REVIEW) {
+            return new GridItemEditReview(controller);
         } else {
             return new GridItemEdit(controller, dataType);
         }
     }
 
-    private ViewReviewAction.BannerButtonAction newBannerButtonAdd(ControllerReviewEditable
+    private static ViewReviewAction.BannerButtonAction newBannerButtonAdd(ControllerReviewEditable
             controller,
             GvDataList.GvType dataType) {
         if (dataType == GvDataList.GvType.IMAGES) {
@@ -135,12 +153,13 @@ public class FactoryViewReview {
         }
     }
 
-    private ViewReviewAction.RatingBarAction newRatingBarAction(ControllerReview controller,
+    private static ViewReviewAction.RatingBarAction newRatingBarAction(ControllerReview controller,
             GvDataList.GvType dataType) {
         return new ViewReviewAction.RatingBarAction(controller, dataType);
     }
 
-    private ViewReviewAction.RatingBarAction newRatingBarEdit(ControllerReviewEditable controller,
+    private static ViewReviewAction.RatingBarAction newRatingBarEdit(ControllerReviewEditable
+            controller,
             GvDataList.GvType dataType) {
         if (dataType == GvDataList.GvType.CHILDREN) {
             return new RatingEditChildren(controller);
@@ -149,12 +168,14 @@ public class FactoryViewReview {
         }
     }
 
-    private ViewReviewAction.SubjectViewAction newSubjectViewAction(ControllerReview controller,
+    private static ViewReviewAction.SubjectViewAction newSubjectViewAction(ControllerReview
+            controller,
             GvDataList.GvType dataType) {
         return new ViewReviewAction.SubjectViewAction(controller, dataType);
     }
 
-    private ViewReviewAction.SubjectViewAction newSubjectEdit(ControllerReviewEditable controller,
+    private static ViewReviewAction.SubjectViewAction newSubjectEdit(ControllerReviewEditable
+            controller,
             GvDataList.GvType dataType) {
         return new SubjectEdit(controller, dataType);
     }

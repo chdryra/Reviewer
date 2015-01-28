@@ -78,12 +78,6 @@ public class ViewReview {
     public ViewReview(FragmentViewReview parent, GvDataList mGridData, GvImageList.GvImage cover,
             ViewReviewAction.SubjectViewAction sva, ViewReviewAction.RatingBarAction rba,
             ViewReviewAction.BannerButtonAction bba,
-            ViewReviewAction.GridItemAction gia, boolean isEditable) {
-    }
-
-    public ViewReview(FragmentViewReview parent, GvDataList mGridData, GvImageList.GvImage cover,
-            ViewReviewAction.SubjectViewAction sva, ViewReviewAction.RatingBarAction rba,
-            ViewReviewAction.BannerButtonAction bba,
             ViewReviewAction.GridItemAction gia, ViewReviewAction.MenuAction mia,
             boolean isEditable) {
         mParent = parent;

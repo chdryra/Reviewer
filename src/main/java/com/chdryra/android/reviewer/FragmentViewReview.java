@@ -9,6 +9,7 @@
 package com.chdryra.android.reviewer;
 
 import android.annotation.TargetApi;
+import android.app.ActionBar;
 import android.app.Fragment;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
@@ -59,6 +60,8 @@ public class FragmentViewReview extends Fragment {
     private int mMaxGridCellHeight;
     private int mCellWidthDivider  = 1;
     private int mCellHeightDivider = 1;
+
+    private boolean mIsModified = false;
 
     public static Fragment newInstance(GvDataList.GvType dataType, boolean isEdit) {
         Bundle args = new Bundle();
@@ -146,19 +149,21 @@ public class FragmentViewReview extends Fragment {
         mRatingBar.setRating(rating);
     }
 
-    protected Button getBannerButton() {
-        return mBannerButton;
+    public void addView(View v) {
+        if (!mIsModified) {
+            mGridView.getLayoutParams().height = ActionBar.LayoutParams.WRAP_CONTENT;
+            mIsModified = true;
+        }
+
+        mLinearLayout.addView(v);
     }
 
-    protected GridView getGridView() {
-        return mGridView;
+    public void setBannerNotClickable() {
+        mBannerButton.setClickable(false);
     }
 
-    protected LinearLayout getLinearLayout() {
-        return mLinearLayout;
-    }
-
-    void setGridCellDimension(ViewReview.CellDimension width, ViewReview.CellDimension height) {
+    protected void setGridCellDimension(ViewReview.CellDimension width,
+            ViewReview.CellDimension height) {
         mCellWidthDivider = 1;
         mCellHeightDivider = 1;
 
@@ -268,7 +273,7 @@ public class FragmentViewReview extends Fragment {
     }
 
     ViewHolderAdapter getGridViewCellAdapter() {
-        return new ViewHolderAdapter(getActivity(), mViewReview.getGridViewData(),
+        return FactoryGridCellAdapter.newAdapter(getActivity(), mViewReview.getGridViewData(),
                 getGridCellWidth(), getGridCellHeight());
     }
 

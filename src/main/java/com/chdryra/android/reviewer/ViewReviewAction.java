@@ -30,7 +30,7 @@ import com.chdryra.android.mygenerallibrary.ActivityResultCode;
 public class ViewReviewAction {
     private ControllerReview  mController;
     private GvDataList.GvType mDataType;
-    private ViewReview mViewReview;
+    private ViewReview        mViewReview;
 
     private ViewReviewAction(ControllerReview controller, GvDataList.GvType dataType) {
         mController = controller;
@@ -119,6 +119,16 @@ public class ViewReviewAction {
     public static class BannerButtonAction extends ViewReviewAction {
         public BannerButtonAction(ControllerReview controller, GvDataList.GvType dataType) {
             super(controller, dataType);
+        }
+
+        public static BannerButtonAction newDisplayButton(ControllerReview controller,
+                GvDataList.GvType dataType, final String title) {
+            return new BannerButtonAction(controller, dataType) {
+                @Override
+                public String getButtonTitle() {
+                    return title;
+                }
+            };
         }
 
         public String getButtonTitle() {
@@ -233,7 +243,7 @@ public class ViewReviewAction {
             };
         }
 
-        public abstract class MenuActionItem {
+        public static abstract class MenuActionItem {
             public abstract void doAction(MenuItem item);
         }
 

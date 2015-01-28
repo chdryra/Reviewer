@@ -29,7 +29,7 @@ public class ViewReviewShareModifier implements ViewReview.ViewModifier {
             ViewGroup container, Bundle savedInstanceState) {
 
         final Activity activity = parent.getActivity();
-        parent.getBannerButton().setClickable(false);
+        parent.setBannerNotClickable();
         View divider = inflater.inflate(R.layout.horizontal_divider, container, false);
         Button publishButton = (Button) inflater.inflate(R.layout.review_banner_button,
                 container, false);
@@ -45,9 +45,8 @@ public class ViewReviewShareModifier implements ViewReview.ViewModifier {
             }
         });
 
-        parent.getGridView().getLayoutParams().height = ActionBar.LayoutParams.WRAP_CONTENT;
-        parent.getLinearLayout().addView(publishButton);
-        parent.getLinearLayout().addView(divider);
+        parent.addView(publishButton);
+        parent.addView(divider);
 
         return v;
     }

@@ -67,7 +67,7 @@ import java.util.ArrayList;
  * </ul>
  * </p>
  */
-public class FragmentReviewLocationMap extends FragmentDeleteDone implements
+public class FragmentEditLocationMap extends FragmentDeleteDone implements
         LocationClientConnector.Locatable, PlaceSuggester.SuggestionsListener {
     private final static String TAG                  = "FragmentReviewLocationMap";
     private static final String NO_LOCATION          = "no suggestions found...";

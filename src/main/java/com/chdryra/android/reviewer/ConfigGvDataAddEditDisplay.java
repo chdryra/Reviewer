@@ -55,19 +55,18 @@ public final class ConfigGvDataAddEditDisplay {
 
         mMap.put(GvDataList.GvType.LOCATIONS,
                 new AddEditDisplayUIs(
-                        ActivityReviewLocationMap.class,
-                        ActivityReviewLocationMap.class));
+                        ActivityEditLocationMap.class,
+                        ActivityEditLocationMap.class));
 
         mMap.put(GvDataList.GvType.URLS,
                 new AddEditDisplayUIs(
-                        ActivityReviewURLBrowser.class,
-                        ActivityReviewURLBrowser.class));
+                        ActivityEditUrlBrowser.class,
+                        ActivityEditUrlBrowser.class));
 
         mMap.put(GvDataList.GvType.REVIEW,
                 new AddEditDisplayUIs(
                         null,
-                        null,
-                        ActivityFeed.class));
+                        null));
 
         mMap.put(GvDataList.GvType.SOCIAL,
                 new AddEditDisplayUIs(

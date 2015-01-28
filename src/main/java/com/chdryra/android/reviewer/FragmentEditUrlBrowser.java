@@ -45,7 +45,7 @@ import java.net.URISyntaxException;
  * </ul>
  * </p>
  */
-public class FragmentReviewURLBrowser extends FragmentDeleteDone {
+public class FragmentEditUrlBrowser extends FragmentDeleteDone {
     private static final String TAG = "FragmentReviewUrlBrowser";
 
     private GvUrlList.GvUrl   mCurrent;

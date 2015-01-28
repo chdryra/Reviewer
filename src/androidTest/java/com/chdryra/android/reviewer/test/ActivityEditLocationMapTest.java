@@ -11,17 +11,17 @@ package com.chdryra.android.reviewer.test;
 import android.test.SingleLaunchActivityTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.ActivityReviewURLBrowser;
+import com.chdryra.android.reviewer.ActivityEditLocationMap;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 02/12/2014
  * Email: rizwan.choudrey@gmail.com
  */
-public class ActivityReviewURLBrowserTest extends
-        SingleLaunchActivityTestCase<ActivityReviewURLBrowser> {
-    public ActivityReviewURLBrowserTest() {
-        super("com.chdryra.android.reviewer", ActivityReviewURLBrowser.class);
+public class ActivityEditLocationMapTest extends
+        SingleLaunchActivityTestCase<ActivityEditLocationMap> {
+    public ActivityEditLocationMapTest() {
+        super("com.chdryra.android.reviewer", ActivityEditLocationMap.class);
     }
 
     @SmallTest
