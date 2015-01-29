@@ -10,13 +10,11 @@ package com.chdryra.android.reviewer;
 
 import android.app.Fragment;
 
-import com.chdryra.android.mygenerallibrary.ActivitySingleFragment;
-
 /**
  * UI Activity holding {@link FragmentEditUrlBrowser}: browsing and searching URLs (currently
  * disabled).
  */
-public class ActivityEditUrlBrowser extends ActivitySingleFragment implements LaunchableUi {
+public class ActivityEditUrlBrowser extends ActivityViewReview implements LaunchableUi {
 
     @Override
     public void launch(LauncherUi launcher) {

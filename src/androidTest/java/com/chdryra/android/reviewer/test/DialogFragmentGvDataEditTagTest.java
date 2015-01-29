@@ -10,7 +10,7 @@ package com.chdryra.android.reviewer.test;
 
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.ConfigGvDataAddEditDisplay;
+import com.chdryra.android.reviewer.ConfigGvDataAddEdit;
 import com.chdryra.android.reviewer.GvTagList;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
 
@@ -22,7 +22,7 @@ import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
 public class DialogFragmentGvDataEditTagTest extends DialogFragmentGvDataEditTest<GvTagList.GvTag> {
 
     public DialogFragmentGvDataEditTagTest() {
-        super(ConfigGvDataAddEditDisplay.EditTag.class);
+        super(ConfigGvDataAddEdit.EditTag.class);
     }
 
     @Override

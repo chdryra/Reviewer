@@ -16,7 +16,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.chdryra.android.reviewer.ActivityFeed;
-import com.chdryra.android.reviewer.ConfigGvDataAddEditDisplay;
+import com.chdryra.android.reviewer.ConfigGvDataAddEdit;
 import com.chdryra.android.reviewer.GvDataList;
 import com.chdryra.android.reviewer.GvImageList;
 import com.chdryra.android.reviewer.LayoutImage;
@@ -36,7 +36,7 @@ public class LayoutImageTest extends ActivityInstrumentationTestCase2<ActivityFe
 
     @Override
     public void setUp() throws Exception {
-        mLayout = new LayoutImage(new ConfigGvDataAddEditDisplay.EditImage());
+        mLayout = new LayoutImage(new ConfigGvDataAddEdit.EditImage());
     }
 
     @SmallTest

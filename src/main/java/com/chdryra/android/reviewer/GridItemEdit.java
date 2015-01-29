@@ -22,8 +22,8 @@ import com.chdryra.android.mygenerallibrary.ActivityResultCode;
  */
 public class GridItemEdit extends ViewReviewAction.GridItemAction {
     private static final String TAG = "GridItemEditListener";
-    private ConfigGvDataUi.GvDataUiConfig mConfig;
-    private GvDataHandler                 mHandler;
+    private ConfigGvDataUi.LaunchableConfig mConfig;
+    private GvDataHandler                   mHandler;
 
     public GridItemEdit(ControllerReviewEditable controller,
             GvDataList.GvType dataType) {
@@ -39,7 +39,6 @@ public class GridItemEdit extends ViewReviewAction.GridItemAction {
 
     protected Fragment getNewListener() {
         return new EditListener() {
-
         };
     }
 
@@ -50,7 +49,7 @@ public class GridItemEdit extends ViewReviewAction.GridItemAction {
         Bundle args = Administrator.get(getActivity()).pack(getController());
         GvDataPacker.packItem(GvDataPacker.CurrentNewDatum.CURRENT, item, args);
 
-        LauncherUi.launch(mConfig.getReviewDataUI(), getListener(), getRequestCode(),
+        LauncherUi.launch(mConfig.getLaunchable(), getListener(), getRequestCode(),
                 mConfig.getTag(), args);
     }
 

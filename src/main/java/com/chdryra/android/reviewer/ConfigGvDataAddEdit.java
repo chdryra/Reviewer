@@ -8,8 +8,6 @@
 
 package com.chdryra.android.reviewer;
 
-import android.app.Activity;
-
 import java.util.HashMap;
 
 /**
@@ -21,57 +19,53 @@ import java.util.HashMap;
 /**
  * Defines the adder, editor and display UIs to use with each data type.
  */
-public final class ConfigGvDataAddEditDisplay {
-    private static ConfigGvDataAddEditDisplay                    sConfig;
-    private final  HashMap<GvDataList.GvType, AddEditDisplayUIs> mMap;
+public final class ConfigGvDataAddEdit {
+    private static ConfigGvDataAddEdit                    sConfig;
+    private final  HashMap<GvDataList.GvType, AddEditUis> mMap;
 
-    private ConfigGvDataAddEditDisplay() {
+    private ConfigGvDataAddEdit() {
         mMap = new HashMap<>();
 
         mMap.put(GvDataList.GvType.TAGS,
-                new AddEditDisplayUIs(
+                new AddEditUis(
                         AddTag.class,
                         EditTag.class));
 
         mMap.put(GvDataList.GvType.CHILDREN,
-                new AddEditDisplayUIs(
+                new AddEditUis(
                         AddChild.class,
                         EditChild.class));
 
         mMap.put(GvDataList.GvType.COMMENTS,
-                new AddEditDisplayUIs(
+                new AddEditUis(
                         AddComment.class,
                         EditComment.class));
 
         mMap.put(GvDataList.GvType.IMAGES,
-                new AddEditDisplayUIs(
+                new AddEditUis(
                         null,
                         EditImage.class));
 
         mMap.put(GvDataList.GvType.FACTS,
-                new AddEditDisplayUIs(
+                new AddEditUis(
                         AddFact.class,
                         EditFact.class));
 
         mMap.put(GvDataList.GvType.LOCATIONS,
-                new AddEditDisplayUIs(
+                new AddEditUis(
                         ActivityEditLocationMap.class,
                         ActivityEditLocationMap.class));
 
         mMap.put(GvDataList.GvType.URLS,
-                new AddEditDisplayUIs(
+                new AddEditUis(
                         ActivityEditUrlBrowser.class,
                         ActivityEditUrlBrowser.class));
 
         mMap.put(GvDataList.GvType.REVIEWS,
-                new AddEditDisplayUIs(
-                        null,
-                        null));
+                new AddEditUis(null, null));
 
         mMap.put(GvDataList.GvType.SOCIAL,
-                new AddEditDisplayUIs(
-                        null,
-                        null));
+                new AddEditUis(null, null));
     }
 
     public static Class<? extends LaunchableUi> getAddClass(GvDataList.GvType dataType) {
@@ -82,12 +76,8 @@ public final class ConfigGvDataAddEditDisplay {
         return get().mMap.get(dataType).getEditClass();
     }
 
-    public static Class<? extends Activity> getDisplayClass(GvDataList.GvType dataType) {
-        return get().mMap.get(dataType).getDisplayClass();
-    }
-
-    private static ConfigGvDataAddEditDisplay get() {
-        if (sConfig == null) sConfig = new ConfigGvDataAddEditDisplay();
+    private static ConfigGvDataAddEdit get() {
+        if (sConfig == null) sConfig = new ConfigGvDataAddEdit();
 
         return sConfig;
     }
@@ -161,26 +151,16 @@ public final class ConfigGvDataAddEditDisplay {
     }
 
     /**
-     * Packages together an add, edit and display UI.
+     * Packages together an add and edit UI.
      */
-    class AddEditDisplayUIs {
+    class AddEditUis {
         private final Class<? extends LaunchableUi> mAdd;
         private final Class<? extends LaunchableUi> mEdit;
-        private final Class<? extends Activity>     mActivity;
 
-        private AddEditDisplayUIs(Class<? extends LaunchableUi> add,
+        private AddEditUis(Class<? extends LaunchableUi> add,
                 Class<? extends LaunchableUi> edit) {
             mAdd = add;
             mEdit = edit;
-            mActivity = ActivityViewReview.class;
-        }
-
-        private AddEditDisplayUIs(Class<? extends LaunchableUi> add,
-                Class<? extends LaunchableUi> edit,
-                Class<? extends Activity> activity) {
-            mAdd = add;
-            mEdit = edit;
-            mActivity = activity;
         }
 
         Class<? extends LaunchableUi> getAddClass() {
@@ -189,10 +169,6 @@ public final class ConfigGvDataAddEditDisplay {
 
         Class<? extends LaunchableUi> getEditClass() {
             return mEdit;
-        }
-
-        Class<? extends Activity> getDisplayClass() {
-            return mActivity;
         }
     }
 }

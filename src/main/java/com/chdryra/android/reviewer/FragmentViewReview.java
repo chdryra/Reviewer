@@ -116,6 +116,12 @@ public class FragmentViewReview extends Fragment {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        updateUi();
+    }
+
+    @Override
     public void onCreateOptionsMenu(Menu menu, android.view.MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         mViewReview.getMenuAction().inflateMenu(menu, inflater);

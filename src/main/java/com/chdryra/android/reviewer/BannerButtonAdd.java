@@ -21,13 +21,12 @@ import com.chdryra.android.mygenerallibrary.ActivityResultCode;
  */
 public class BannerButtonAdd extends ViewReviewAction.BannerButtonAction {
     private static final String TAG = "ActionBannerButtonAddListener";
-    private ConfigGvDataUi.GvDataUiConfig mConfig;
-    private GvDataHandler                 mHandler;
+    private ConfigGvDataUi.LaunchableConfig mConfig;
+    private GvDataHandler                   mHandler;
 
     public BannerButtonAdd(ControllerReviewEditable controller, GvDataList.GvType dataType) {
         super(controller, dataType);
-        ConfigGvDataUi.Config config = ConfigGvDataUi.getConfig(getDataType());
-        mConfig = config.getAdderConfig();
+        mConfig = ConfigGvDataUi.getConfig(getDataType()).getAdderConfig();
     }
 
     @Override
@@ -37,7 +36,6 @@ public class BannerButtonAdd extends ViewReviewAction.BannerButtonAction {
 
     protected Fragment getNewListener() {
         return new AddListener() {
-
         };
     }
 
@@ -51,7 +49,7 @@ public class BannerButtonAdd extends ViewReviewAction.BannerButtonAction {
     public void onClick(View v) {
         if (getViewReview() == null) return;
 
-        LauncherUi.launch(mConfig.getReviewDataUI(), getListener(), getRequestCode(),
+        LauncherUi.launch(mConfig.getLaunchable(), getListener(), getRequestCode(),
                 mConfig.getTag(), Administrator.get(getActivity()).pack(getController()));
     }
 

@@ -23,11 +23,9 @@ import com.google.android.gms.maps.model.LatLng;
  * Email: rizwan.choudrey@gmail.com
  */
 public class GridItemBuildUi extends GridItemEdit {
-    private final static int LOCATION_MAP = 22;
-    private LatLng                  mLatLng;
-    private ImageChooser            mImageChooser;
-    private LocationClientConnector mLocationClient;
-    private BuildListener           mListener;
+    private final BuildListener mListener;
+    private       LatLng        mLatLng;
+    private       ImageChooser  mImageChooser;
 
     public GridItemBuildUi(ControllerReviewEditable controller) {
         super(controller, GvDataList.GvType.REVIEWS);
@@ -39,8 +37,8 @@ public class GridItemBuildUi extends GridItemEdit {
     public void onSetReviewView() {
         super.onSetReviewView();
         mImageChooser = Administrator.getImageChooser(getActivity());
-        mLocationClient = new LocationClientConnector(getActivity(), mListener);
-        mLocationClient.connect();
+        LocationClientConnector client = new LocationClientConnector(getActivity(), mListener);
+        client.connect();
     }
 
     @Override
@@ -58,24 +56,12 @@ public class GridItemBuildUi extends GridItemEdit {
         executeIntent((GvBuildUiList.GvBuildUi) item, false);
     }
 
-    public void executeIntent(GvBuildUiList.GvBuildUi manager, boolean
-            quickDialog) {
-        GvDataList.GvType dataType = manager.getGvType();
-        ConfigGvDataUi.Config config = manager.getConfig();
-        if (getController().getData(dataType).size() == 0 && quickDialog) {
-            if (dataType == GvDataList.GvType.IMAGES) {
-                showQuickImageDialog();
-            } else {
-                showQuickDialog(config);
-            }
+    private void executeIntent(GvBuildUiList.GvBuildUi gridCell, boolean quickDialog) {
+        if (quickDialog && getController().getData(gridCell.getGvType()).size() == 0) {
+            showQuickDialog(gridCell.getConfig());
         } else {
-            requestIntent(config);
+            startActivity(gridCell.getConfig());
         }
-    }
-
-    public void showQuickImageDialog() {
-        getListener().startActivityForResult(mImageChooser.getChooserIntents(),
-                getImageRequestCode());
     }
 
     private ControllerReviewEditable getEditableController() {
@@ -90,36 +76,41 @@ public class GridItemBuildUi extends GridItemEdit {
         }
     }
 
-    private void requestMapIntent(GvLocationList.GvLocation location) {
+    private void startMapActivity(GvLocationList.GvLocation location) {
         Bundle args = new Bundle();
         GvDataPacker.packItem(GvDataPacker.CurrentNewDatum.CURRENT, location, args);
 
         LaunchableUi mapUi = ConfigGvDataUi.getLaunchable(ActivityEditLocationMap.class);
-        LauncherUi.launch(mapUi, getListener(), LOCATION_MAP, null, args);
+        LauncherUi.launch(mapUi, getListener(), getLocationMRequestCode(), null, args);
     }
 
-    private void requestIntent(ConfigGvDataUi.Config config) {
-        GvDataList.GvType dataType = config.getGVType();
+    private void startActivity(ConfigGvDataUi.Config config) {
+        GvDataList.GvType dataType = config.getGvType();
         boolean isEdit = !(dataType == GvDataList.GvType.SOCIAL);
 
         Intent i = new Intent(getActivity(), ActivityViewReview.class);
         ActivityViewReview.packParameters(dataType, isEdit, i);
         Administrator.get(getActivity()).pack(getController(), i);
-        getListener().startActivityForResult(i, config.getDisplayConfig().getRequestCode());
+        getListener().startActivity(i);
     }
 
     private void showQuickDialog(ConfigGvDataUi.Config config) {
+        if (config.getGvType() == GvDataList.GvType.IMAGES) {
+            getListener().startActivityForResult(mImageChooser.getChooserIntents(),
+                    getImageRequestCode());
+        }
+
         Bundle args = Administrator.get(getActivity()).pack(getController());
         args.putBoolean(DialogFragmentGvDataAdd.QUICK_SET, true);
 
-        ConfigGvDataUi.GvDataUiConfig adderConfig = config.getAdderConfig();
+        ConfigGvDataUi.LaunchableConfig adderConfig = config.getAdderConfig();
 
         LaunchableUi ui;
         if (adderConfig.getGVType() == GvDataList.GvType.LOCATIONS) {
             ui = ConfigGvDataUi.getLaunchable(DialogFragmentLocation.class);
             packLatLng(args);
         } else {
-            ui = adderConfig.getReviewDataUI();
+            ui = adderConfig.getLaunchable();
         }
 
         LauncherUi.launch(ui, getListener(), adderConfig.getRequestCode(), adderConfig.getTag(),
@@ -144,7 +135,12 @@ public class GridItemBuildUi extends GridItemEdit {
     }
 
     private int getImageRequestCode() {
-        return ConfigGvDataUi.getConfig(GvDataList.GvType.IMAGES).getDisplayConfig()
+        return ConfigGvDataUi.getConfig(GvDataList.GvType.IMAGES).getAdderConfig()
+                .getRequestCode();
+    }
+
+    private int getLocationMRequestCode() {
+        return ConfigGvDataUi.getConfig(GvDataList.GvType.LOCATIONS).getEditorConfig()
                 .getRequestCode();
     }
 
@@ -170,7 +166,7 @@ public class GridItemBuildUi extends GridItemEdit {
 
         @Override
         public void onMapRequested(GvLocationList.GvLocation location) {
-            requestMapIntent(location);
+            startMapActivity(location);
         }
 
         @Override
@@ -186,9 +182,8 @@ public class GridItemBuildUi extends GridItemEdit {
         public void onActivityResult(int requestCode, int resultCode, Intent data) {
             ActivityResultCode result = ActivityResultCode.get(resultCode);
 
-            ConfigGvDataUi.Config config = ConfigGvDataUi.getConfig(GvDataList.GvType.IMAGES);
-            boolean imageRequested = requestCode == config.getDisplayConfig().getRequestCode();
-            boolean mapRequested = requestCode == LOCATION_MAP;
+            boolean imageRequested = requestCode == getImageRequestCode();
+            boolean mapRequested = requestCode == getLocationMRequestCode();
 
             if (imageRequested && mImageChooser.chosenImageExists(result, data)) {
                 mImageChooser.getChosenImage(this);

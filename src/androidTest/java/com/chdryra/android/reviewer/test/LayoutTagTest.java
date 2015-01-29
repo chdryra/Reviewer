@@ -14,7 +14,7 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.chdryra.android.reviewer.ActivityFeed;
-import com.chdryra.android.reviewer.ConfigGvDataAddEditDisplay;
+import com.chdryra.android.reviewer.ConfigGvDataAddEdit;
 import com.chdryra.android.reviewer.GvTagList;
 import com.chdryra.android.reviewer.LayoutTag;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
@@ -34,7 +34,7 @@ public class LayoutTagTest extends ActivityInstrumentationTestCase2<ActivityFeed
 
     @Override
     public void setUp() throws Exception {
-        mLayout = new LayoutTag(new ConfigGvDataAddEditDisplay.AddTag());
+        mLayout = new LayoutTag(new ConfigGvDataAddEdit.AddTag());
     }
 
     @SmallTest

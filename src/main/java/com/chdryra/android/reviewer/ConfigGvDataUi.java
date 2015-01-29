@@ -8,8 +8,6 @@
 
 package com.chdryra.android.reviewer;
 
-import android.content.Context;
-import android.content.Intent;
 import android.util.Log;
 
 import java.util.HashMap;
@@ -21,18 +19,16 @@ import java.util.Map;
  * <p/>
  * <p>
  * Retrieves relevant add, edit and display UIs for each {@link com.chdryra.android.reviewer
- * .GVReviewDataList.GVType} from {@link ConfigGvDataAddEditDisplay}
+ * .GVReviewDataList.GVType} from {@link ConfigGvDataAddEdit}
  * and packages them with request codes and tags so that they can be appropriately launched
  * by whichever UI needs them in response to a user interaction.
  * </p>
  *
- * @see com.chdryra.android.reviewer.FragmentReviewBuild;
  */
 public final class ConfigGvDataUi {
     private final static String TAG             = "ConfigReviewDataUI";
     private final static int    DATA_ADD        = 2718;
-    private final static int    DATA_EDIT       = 2719;
-    private static       int    REQUEST_COUNTER = 2720;
+    private final static int DATA_EDIT = 2819;
     private static ConfigGvDataUi sConfigGvDataUi;
 
     private final Map<GvDataList.GvType, Config> mConfigsMap = new HashMap<GvDataList
@@ -41,14 +37,11 @@ public final class ConfigGvDataUi {
 
     private ConfigGvDataUi() {
         mConfigsMap.put(GvDataList.GvType.TAGS, new Config(GvDataList.GvType.TAGS));
-        mConfigsMap.put(GvDataList.GvType.CHILDREN, new Config(GvDataList.GvType
-                .CHILDREN));
-        mConfigsMap.put(GvDataList.GvType.COMMENTS, new Config(GvDataList.GvType
-                .COMMENTS));
+        mConfigsMap.put(GvDataList.GvType.CHILDREN, new Config(GvDataList.GvType.CHILDREN));
+        mConfigsMap.put(GvDataList.GvType.COMMENTS, new Config(GvDataList.GvType.COMMENTS));
         mConfigsMap.put(GvDataList.GvType.IMAGES, new Config(GvDataList.GvType.IMAGES));
         mConfigsMap.put(GvDataList.GvType.FACTS, new Config(GvDataList.GvType.FACTS));
-        mConfigsMap.put(GvDataList.GvType.LOCATIONS, new Config(GvDataList.GvType
-                .LOCATIONS));
+        mConfigsMap.put(GvDataList.GvType.LOCATIONS, new Config(GvDataList.GvType.LOCATIONS));
         mConfigsMap.put(GvDataList.GvType.URLS, new Config(GvDataList.GvType.URLS));
         mConfigsMap.put(GvDataList.GvType.REVIEWS, new Config(GvDataList.GvType.REVIEWS));
         mConfigsMap.put(GvDataList.GvType.SOCIAL, new Config(GvDataList.GvType.SOCIAL));
@@ -85,50 +78,40 @@ public final class ConfigGvDataUi {
     }
 
     /**
-     * Encapsulates add, edit and display configs for a given
+     * Encapsulates add, edit configs for a given
      * {@link GvDataList.GvType}.
      */
     public class Config {
         private final GvDataList.GvType       mDataType;
-        private final GvDataUiConfig          mAddConfig;
-        private final GvDataUiConfig          mEditConfig;
-        private final GvDataListDisplayConfig mDisplayConfig;
+        private final LaunchableConfig mAddConfig;
+        private final LaunchableConfig mEditConfig;
 
         private Config(GvDataList.GvType dataType) {
             mDataType = dataType;
             mAddConfig = initAddConfig();
             mEditConfig = initEditConfig();
-            mDisplayConfig = initDisplayConfig();
         }
 
-        public GvDataList.GvType getGVType() {
+        public GvDataList.GvType getGvType() {
             return mDataType;
         }
 
-        public GvDataUiConfig getAdderConfig() {
+        public LaunchableConfig getAdderConfig() {
             return mAddConfig;
         }
 
-        public GvDataUiConfig getEditorConfig() {
+        public LaunchableConfig getEditorConfig() {
             return mEditConfig;
         }
 
-        public GvDataListDisplayConfig getDisplayConfig() {
-            return mDisplayConfig;
-        }
-
-        private GvDataUiConfig initAddConfig() {
-            return new GvDataUiConfig(mDataType, ConfigGvDataAddEditDisplay.getAddClass
+        private LaunchableConfig initAddConfig() {
+            return new LaunchableConfig(mDataType, ConfigGvDataAddEdit.getAddClass
                     (mDataType), DATA_ADD, mDataType.getDatumString().toUpperCase() + "_ADD_TAG");
         }
 
-        private GvDataUiConfig initEditConfig() {
-            return new GvDataUiConfig(mDataType, ConfigGvDataAddEditDisplay.getEditClass
+        private LaunchableConfig initEditConfig() {
+            return new LaunchableConfig(mDataType, ConfigGvDataAddEdit.getEditClass
                     (mDataType), DATA_EDIT, mDataType.getDatumString().toUpperCase() + "_EDIT_TAG");
-        }
-
-        private GvDataListDisplayConfig initDisplayConfig() {
-            return new GvDataListDisplayConfig(mDataType, REQUEST_COUNTER++);
         }
     }
 
@@ -141,16 +124,16 @@ public final class ConfigGvDataUi {
      * <li>An integer request code (required when one activity launches another)</li>
      * <li>A String tag that may be used (if ultimately launching a dialog)</li>
      * </ul>
-     * The ReviewDataUI is launched using a
+     * The {@link com.chdryra.android.reviewer.LaunchableUi} is launched using a
      * {@link LauncherUi}
      */
-    public class GvDataUiConfig {
+    public class LaunchableConfig {
         private final GvDataList.GvType             mDataType;
         private final Class<? extends LaunchableUi> mUiClass;
         private final int                           mRequestCode;
         private final String                        mTag;
 
-        private GvDataUiConfig(GvDataList.GvType dataType, Class<? extends LaunchableUi>
+        private LaunchableConfig(GvDataList.GvType dataType, Class<? extends LaunchableUi>
                 UiClass, int requestCode, String tag) {
             mDataType = dataType;
             mUiClass = UiClass;
@@ -163,7 +146,7 @@ public final class ConfigGvDataUi {
             return mDataType;
         }
 
-        public LaunchableUi getReviewDataUI() throws RuntimeException {
+        public LaunchableUi getLaunchable() throws RuntimeException {
             return ConfigGvDataUi.getLaunchable(mUiClass);
         }
 
@@ -173,35 +156,6 @@ public final class ConfigGvDataUi {
 
         public String getTag() {
             return mTag;
-        }
-    }
-
-    /**
-     * Encapsulates a configuration for displaying a {@link com.chdryra.android.reviewer.GvDataList}
-     * of a certain {@link GvDataList.GvType}. Packages together:
-     * <ul>
-     * <li>An activity class for displaying a collection of review data of a certain
-     * type</li>
-     * <li>An integer request code (required when one activity launches another)</li>
-     * </ul>
-     * The display activity is accessed by requesting an Intent object which can be used to start
-     * activities via, for example, <code>startActivityForResult(.)</code> etc.
-     */
-    public class GvDataListDisplayConfig {
-        private final GvDataList.GvType mDataType;
-        private final int               mRequestCode;
-
-        private GvDataListDisplayConfig(GvDataList.GvType dataType, int requestCode) {
-            mDataType = dataType;
-            mRequestCode = requestCode;
-        }
-
-        public Intent requestIntent(Context context) {
-            return new Intent(context, ConfigGvDataAddEditDisplay.getDisplayClass(mDataType));
-        }
-
-        public int getRequestCode() {
-            return mRequestCode;
         }
     }
 }

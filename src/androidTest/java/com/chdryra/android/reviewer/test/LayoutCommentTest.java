@@ -14,7 +14,7 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.chdryra.android.reviewer.ActivityFeed;
-import com.chdryra.android.reviewer.ConfigGvDataAddEditDisplay;
+import com.chdryra.android.reviewer.ConfigGvDataAddEdit;
 import com.chdryra.android.reviewer.GvCommentList;
 import com.chdryra.android.reviewer.LayoutComment;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
@@ -34,7 +34,7 @@ public class LayoutCommentTest extends ActivityInstrumentationTestCase2<Activity
 
     @Override
     public void setUp() throws Exception {
-        mLayout = new LayoutComment(new ConfigGvDataAddEditDisplay.AddComment());
+        mLayout = new LayoutComment(new ConfigGvDataAddEdit.AddComment());
     }
 
     @SmallTest

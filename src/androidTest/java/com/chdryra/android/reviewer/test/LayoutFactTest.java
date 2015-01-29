@@ -14,7 +14,7 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.chdryra.android.reviewer.ActivityFeed;
-import com.chdryra.android.reviewer.ConfigGvDataAddEditDisplay;
+import com.chdryra.android.reviewer.ConfigGvDataAddEdit;
 import com.chdryra.android.reviewer.GvFactList;
 import com.chdryra.android.reviewer.LayoutFact;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
@@ -34,7 +34,7 @@ public class LayoutFactTest extends ActivityInstrumentationTestCase2<ActivityFee
 
     @Override
     public void setUp() throws Exception {
-        mLayout = new LayoutFact(new ConfigGvDataAddEditDisplay.AddFact());
+        mLayout = new LayoutFact(new ConfigGvDataAddEdit.AddFact());
     }
 
     @SmallTest

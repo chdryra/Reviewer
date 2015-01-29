@@ -10,7 +10,7 @@ package com.chdryra.android.reviewer.test;
 
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.ConfigGvDataAddEditDisplay;
+import com.chdryra.android.reviewer.ConfigGvDataAddEdit;
 import com.chdryra.android.reviewer.GvImageList;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
 
@@ -24,7 +24,7 @@ public class DialogFragmentGvDataEditImageTest extends DialogFragmentGvDataEditT
     private GvImageList.GvImage mCurrent;
 
     public DialogFragmentGvDataEditImageTest() {
-        super(ConfigGvDataAddEditDisplay.EditImage.class);
+        super(ConfigGvDataAddEdit.EditImage.class);
     }
 
     @Override

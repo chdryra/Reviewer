@@ -15,7 +15,7 @@ import android.widget.EditText;
 import android.widget.RatingBar;
 
 import com.chdryra.android.reviewer.ActivityFeed;
-import com.chdryra.android.reviewer.ConfigGvDataAddEditDisplay;
+import com.chdryra.android.reviewer.ConfigGvDataAddEdit;
 import com.chdryra.android.reviewer.GvChildrenList;
 import com.chdryra.android.reviewer.LayoutChildReview;
 import com.chdryra.android.reviewer.RatingFormatter;
@@ -38,7 +38,7 @@ public class LayoutChildReviewTest extends
 
     @Override
     public void setUp() throws Exception {
-        mLayout = new LayoutChildReview(new ConfigGvDataAddEditDisplay.AddChild());
+        mLayout = new LayoutChildReview(new ConfigGvDataAddEdit.AddChild());
     }
 
     @SmallTest

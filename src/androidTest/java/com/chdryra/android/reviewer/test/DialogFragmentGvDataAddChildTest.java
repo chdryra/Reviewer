@@ -12,7 +12,7 @@ import android.test.suitebuilder.annotation.SmallTest;
 import android.widget.EditText;
 import android.widget.RatingBar;
 
-import com.chdryra.android.reviewer.ConfigGvDataAddEditDisplay;
+import com.chdryra.android.reviewer.ConfigGvDataAddEdit;
 import com.chdryra.android.reviewer.GvChildrenList;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
 
@@ -25,7 +25,7 @@ public class DialogFragmentGvDataAddChildTest extends
         DialogFragmentGvDataAddTest<GvChildrenList.GvChildReview> {
 
     public DialogFragmentGvDataAddChildTest() {
-        super(ConfigGvDataAddEditDisplay.AddChild.class);
+        super(ConfigGvDataAddEdit.AddChild.class);
     }
 
     @SmallTest
