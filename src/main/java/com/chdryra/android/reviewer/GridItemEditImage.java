@@ -29,19 +29,6 @@ public class GridItemEditImage extends GridItemEdit {
     }
 
     @Override
-    public void onSetReviewView() {
-        super.onSetReviewView();
-        getViewReview().setGridCellDimension(ViewReview.CellDimension.HALF, ViewReview
-                .CellDimension.HALF);
-    }
-
-    protected Fragment getNewListener() {
-        return new EditImageListener() {
-
-        };
-    }
-
-    @Override
     public void onGridItemLongClick(GvDataList.GvData item, View v) {
         GvImageList.GvImage image = (GvImageList.GvImage) item;
         if (image.isCover()) {
@@ -55,14 +42,10 @@ public class GridItemEditImage extends GridItemEdit {
         DialogShower.show(dialog, getListener(), IMAGE_AS_COVER, DIALOG_TAG);
     }
 
-    private void setNewCover() {
-        GvImageList images = (GvImageList) getData();
-        GvImageList.GvImage cover = images.getRandomCover();
-        if (!cover.isValidForDisplay() && images.size() > 0) {
-            cover = images.getItem(0);
-            cover.setIsCover(true);
-        }
-        getViewReview().setCover(cover);
+    protected Fragment getNewListener() {
+        return new EditImageListener() {
+
+        };
     }
 
     private abstract class EditImageListener extends EditListener implements DialogAlertFragment
@@ -70,9 +53,9 @@ public class GridItemEditImage extends GridItemEdit {
 
         @Override
         public void onGvDataDelete(GvDataList.GvData data) {
-            GvImageList.GvImage image = (GvImageList.GvImage) data;
             super.onGvDataDelete(data);
-            if (image.isCover()) setNewCover();
+            GvImageList.GvImage image = (GvImageList.GvImage) data;
+            if (image.isCover()) getViewReview().updateCover();
         }
 
         @Override
@@ -83,10 +66,8 @@ public class GridItemEditImage extends GridItemEdit {
         @Override
         public void onAlertPositive(int requestCode, Bundle args) {
             if (requestCode == IMAGE_AS_COVER) {
-                ViewReview view = getViewReview();
-                view.getCover().setIsCover(false);
-                mCoverProposition.setIsCover(true);
-                view.setCover(mCoverProposition);
+                getViewReview().proposeCover(mCoverProposition);
+                getViewReview().updateCover();
             }
         }
     }

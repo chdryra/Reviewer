@@ -13,13 +13,13 @@ package com.chdryra.android.reviewer;
  * On: 28/01/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class MenuBuildScreen extends ViewReviewAction.MenuAction {
+public class MenuBuildUi extends ViewReviewAction.MenuAction {
     public static final  int MENU_AVERAGE_ID = R.id.menu_item_average_rating;
     private static final int MENU            = R.menu.fragment_review_options;
     private MenuActionItem mActionItem;
 
-    public MenuBuildScreen(ControllerReview controller) {
-        super(controller, GvDataList.GvType.REVIEW, MENU);
+    public MenuBuildUi(ControllerReview controller) {
+        super(controller, GvDataList.GvType.BUILD_UI, MENU);
         mActionItem = new MenuItemChildrenRatingAverage(this);
     }
 

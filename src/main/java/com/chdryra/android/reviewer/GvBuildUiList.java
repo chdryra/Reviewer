@@ -28,11 +28,11 @@ import com.chdryra.android.mygenerallibrary.ViewHolderData;
  * Encapsulates the range of responses and displays available to each data tile depending
  * on the underlying data and user interaction.
  */
-public class GvBuildReviewCellList extends GvDataList<GvBuildReviewCellList.GvBuildReviewCell> {
-    private static final GvType TYPE = GvType.REVIEW;
+public class GvBuildUiList extends GvDataList<GvBuildUiList.GvBuildUi> {
+    private static final GvType TYPE = GvType.BUILD_UI;
     private ViewReviewAction.GridItemAction mAction;
 
-    private GvBuildReviewCellList(ViewReviewAction.GridItemAction action) {
+    private GvBuildUiList(ViewReviewAction.GridItemAction action) {
         super(TYPE);
         mAction = action;
         add(GvDataList.GvType.TAGS);
@@ -43,12 +43,12 @@ public class GvBuildReviewCellList extends GvDataList<GvBuildReviewCellList.GvBu
         add(GvDataList.GvType.FACTS);
     }
 
-    public static GvBuildReviewCellList newInstance(ViewReviewAction.GridItemAction action) {
-        return new GvBuildReviewCellList(action);
+    public static GvBuildUiList newInstance(ViewReviewAction.GridItemAction action) {
+        return new GvBuildUiList(action);
     }
 
     private void add(GvType dataType) {
-        add(new GvBuildReviewCell(dataType));
+        add(new GvBuildUi(dataType));
     }
 
     private Activity getActivity() {
@@ -59,11 +59,11 @@ public class GvBuildReviewCellList extends GvDataList<GvBuildReviewCellList.GvBu
         return mAction.getController();
     }
 
-    public class GvBuildReviewCell implements GvDataList.GvData {
+    public class GvBuildUi implements GvDataList.GvData {
         private final GvDataList.GvType     mDataType;
         private final ConfigGvDataUi.Config mConfig;
 
-        private GvBuildReviewCell(GvDataList.GvType dataType) {
+        private GvBuildUi(GvDataList.GvType dataType) {
             mDataType = dataType;
             mConfig = ConfigGvDataUi.getConfig(dataType);
         }

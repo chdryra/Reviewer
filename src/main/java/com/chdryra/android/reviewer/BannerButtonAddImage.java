@@ -51,8 +51,7 @@ public class BannerButtonAddImage extends BannerButtonAdd {
         GvImageList images = (GvImageList) getData();
         GvImageList.GvImage cover = images.getItem(0);
         cover.setIsCover(true);
-
-        getViewReview().setCover(cover);
+        getViewReview().updateUi();
     }
 
     private abstract class AddImageListener extends Fragment implements ImageChooser

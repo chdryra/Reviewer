@@ -67,8 +67,8 @@ public class ViewReviewBuildModifier implements ViewReview.ViewModifier {
     }
 
     private void requestShareIntent(Activity activity) {
-        Intent i = new Intent(activity, ActivityReviewView.class);
-        ActivityReviewView.packParameters(GvDataList.GvType.SOCIAL, false, i);
+        Intent i = new Intent(activity, ActivityViewReview.class);
+        ActivityViewReview.packParameters(GvDataList.GvType.SOCIAL, false, i);
         Administrator.get(activity).pack(mController, i);
         activity.startActivity(i);
     }

@@ -50,7 +50,7 @@ public final class ConfigGvDataUi {
         mConfigsMap.put(GvDataList.GvType.LOCATIONS, new Config(GvDataList.GvType
                 .LOCATIONS));
         mConfigsMap.put(GvDataList.GvType.URLS, new Config(GvDataList.GvType.URLS));
-        mConfigsMap.put(GvDataList.GvType.REVIEW, new Config(GvDataList.GvType.REVIEW));
+        mConfigsMap.put(GvDataList.GvType.REVIEWS, new Config(GvDataList.GvType.REVIEWS));
         mConfigsMap.put(GvDataList.GvType.SOCIAL, new Config(GvDataList.GvType.SOCIAL));
     }
 

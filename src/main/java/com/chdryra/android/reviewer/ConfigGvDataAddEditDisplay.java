@@ -63,7 +63,7 @@ public final class ConfigGvDataAddEditDisplay {
                         ActivityEditUrlBrowser.class,
                         ActivityEditUrlBrowser.class));
 
-        mMap.put(GvDataList.GvType.REVIEW,
+        mMap.put(GvDataList.GvType.REVIEWS,
                 new AddEditDisplayUIs(
                         null,
                         null));
@@ -172,7 +172,7 @@ public final class ConfigGvDataAddEditDisplay {
                 Class<? extends LaunchableUi> edit) {
             mAdd = add;
             mEdit = edit;
-            mActivity = ActivityReviewView.class;
+            mActivity = ActivityViewReview.class;
         }
 
         private AddEditDisplayUIs(Class<? extends LaunchableUi> add,

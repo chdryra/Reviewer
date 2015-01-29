@@ -123,11 +123,6 @@ public class ControllerReview<T extends Review> {
         }
     }
 
-    public GvImageList.GvImage getRandomCover() {
-        GvImageList images = (GvImageList) getData(GvDataList.GvType.IMAGES);
-        return images.getRandomCover();
-    }
-
     T getControlledReview() {
         return mReview;
     }

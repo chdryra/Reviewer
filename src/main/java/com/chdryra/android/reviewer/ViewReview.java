@@ -1,10 +1,10 @@
 /*
- * Copyright (c) 2015, Rizwan Choudrey - All Rights Reserved
- * Unauthorized copying of this file, via any medium is strictly prohibited
- * Proprietary and confidential
- * Author: Rizwan Choudrey
- * Date: 24 January, 2015
- */
+* Copyright (c) 2015, Rizwan Choudrey - All Rights Reserved
+* Unauthorized copying of this file, via any medium is strictly prohibited
+* Proprietary and confidential
+* Author: Rizwan Choudrey
+* Date: 24 January, 2015
+*/
 
 package com.chdryra.android.reviewer;
 
@@ -27,6 +27,7 @@ import java.util.ArrayList;
  */
 public class ViewReview {
     private FragmentViewReview mParent;
+    private CoverManager       mCoverManager;
 
     private ViewReviewAction.SubjectViewAction  mSubjectAction;
     private ViewReviewAction.RatingBarAction    mRatingAction;
@@ -34,26 +35,19 @@ public class ViewReview {
     private ViewReviewAction.GridItemAction     mGridAction;
     private ViewReviewAction.MenuAction         mMenuAction;
 
+    private ViewReviewParams mParams;
+
     private GvDataList mData;
     private GvDataList mDataToShow;
 
-    private GvImageList.GvImage mCover;
     private boolean mIsEditable = false;
 
     private ArrayList<DataSetObserver> mGridObservers;
-
-    private CellDimension mCellWidth  = CellDimension.HALF;
-    private CellDimension mCellHeight = CellDimension.QUARTER;
-
-    private GridViewImageAlpha mGridViewAlpha = GridViewImageAlpha.MEDIUM;
 
     private ViewModifier mModifier;
 
     public enum CellDimension {FULL, HALF, QUARTER}
 
-    /**
-     * Settings for GridView transparency with respect to background image.
-     */
     public enum GridViewImageAlpha {
         TRANSPARENT(0),
         MEDIUM(200),
@@ -75,7 +69,7 @@ public class ViewReview {
                 ViewGroup container, Bundle savedInstanceState);
     }
 
-    public ViewReview(FragmentViewReview parent, GvDataList mGridData, GvImageList.GvImage cover,
+    public ViewReview(FragmentViewReview parent, GvDataList mGridData, CoverManager coverManager,
             ViewReviewAction.SubjectViewAction sva, ViewReviewAction.RatingBarAction rba,
             ViewReviewAction.BannerButtonAction bba,
             ViewReviewAction.GridItemAction gia, ViewReviewAction.MenuAction mia,
@@ -85,7 +79,7 @@ public class ViewReview {
         mData = mGridData;
         mDataToShow = mData;
 
-        mCover = cover;
+        mCoverManager = coverManager;
         mIsEditable = isEditable;
 
         mSubjectAction = sva;
@@ -101,6 +95,12 @@ public class ViewReview {
         mButtonAction.setViewReview(this);
         mGridAction.setViewReview(this);
         mMenuAction.setViewReview(this);
+
+        mParams = new ViewReviewParams();
+    }
+
+    public ViewReviewParams getParams() {
+        return mParams;
     }
 
     public void setViewModifier(ViewModifier modifier) {
@@ -153,13 +153,12 @@ public class ViewReview {
         return mIsEditable;
     }
 
-    public GvImageList.GvImage getCover() {
-        return mCover;
+    public void proposeCover(GvImageList.GvImage image) {
+        mCoverManager.proposeCover(image);
     }
 
-    public void setCover(GvImageList.GvImage image) {
-        mCover = image;
-        mParent.updateCover();
+    public void updateCover() {
+        mCoverManager.updateCover(mParent);
     }
 
     public void updateUi() {
@@ -206,27 +205,6 @@ public class ViewReview {
         }
     }
 
-    public void setGridCellDimension(CellDimension width, CellDimension height) {
-        mCellWidth = width;
-        mCellHeight = height;
-    }
-
-    public CellDimension getGridCellWidth() {
-        return mCellWidth;
-    }
-
-    public CellDimension getGridCellHeight() {
-        return mCellHeight;
-    }
-
-    public GridViewImageAlpha getGridViewAlpha() {
-        return mGridViewAlpha;
-    }
-
-    public void setTransparentGridCellBackground() {
-        mGridViewAlpha = GridViewImageAlpha.TRANSPARENT;
-    }
-
     public View modifyIfNeccesary(View v, LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
         if (mModifier != null) {
@@ -234,5 +212,15 @@ public class ViewReview {
         } else {
             return v;
         }
+    }
+
+    public static class ViewReviewParams {
+        public GridViewImageAlpha gridAlpha              = GridViewImageAlpha.MEDIUM;
+        public CellDimension      cellWidth              = CellDimension.HALF;
+        public CellDimension      cellHeight             = CellDimension.QUARTER;
+        public boolean            subjectIsVisibile      = true;
+        public boolean            ratingIsVisibile       = true;
+        public boolean            bannerButtonIsVisibile = true;
+        public boolean            gridIsVisibile         = true;
     }
 }

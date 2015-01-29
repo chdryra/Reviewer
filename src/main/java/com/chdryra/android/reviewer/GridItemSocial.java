@@ -8,7 +8,6 @@
 
 package com.chdryra.android.reviewer;
 
-import android.graphics.drawable.Drawable;
 import android.view.View;
 
 /**
@@ -17,26 +16,16 @@ import android.view.View;
  * Email: rizwan.choudrey@gmail.com
  */
 public class GridItemSocial extends ViewReviewAction.GridItemAction {
-    private Drawable mDefault;
-
     public GridItemSocial(ControllerReview controller) {
         super(controller, GvDataList.GvType.SOCIAL);
     }
 
     @Override
     public void onGridItemClick(GvDataList.GvData item, View v) {
-        GvSocialPlatformList.GvSocialPlatform platform = (GvSocialPlatformList.GvSocialPlatform)
-                item;
-        if (mDefault == null && !platform.isChosen()) {
-            mDefault = v.getBackground();
-        }
+        GvSocialPlatformList.GvSocialPlatform platform =
+                (GvSocialPlatformList.GvSocialPlatform) item;
 
         platform.press();
-
-        if (platform.isChosen()) {
-            v.setActivated(true);
-        } else {
-            v.setActivated(false);
-        }
+        v.setActivated(platform.isChosen());
     }
 }

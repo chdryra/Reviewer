@@ -38,15 +38,15 @@ import com.chdryra.android.mygenerallibrary.ViewHolderAdapter;
  * Email: rizwan.choudrey@gmail.com
  */
 public class FragmentViewReview extends Fragment {
+    private static final String TYPE = "comchdryra.android.reviewer.fragmentreviewgrid_type";
+    private static final String EDIT = "comchdryra.android.reviewer.fragmentreviewgrid_edit";
+
     private static final int LAYOUT        = R.layout.fragment_review_grid;
     private static final int LINEAR_LAYOUT = R.id.review_grid_linearlayout;
     private static final int SUBJECT       = R.id.review_subject_edit_text;
     private static final int RATING        = R.id.review_rating_bar;
     private static final int BUTTON        = R.id.banner_button;
     private static final int GRID          = R.id.gridview_data;
-
-    private static final String TYPE = "comchdryra.android.reviewer.fragmentreviewgrid_type";
-    private static final String EDIT = "comchdryra.android.reviewer.fragmentreviewgrid_edit";
 
     private ViewReview mViewReview;
 
@@ -83,10 +83,10 @@ public class FragmentViewReview extends Fragment {
         boolean isEdit = args.getBoolean(EDIT);
 
         mViewReview = FactoryViewReview.newViewReview(this, dataType, isEdit);
+        ViewReview.ViewReviewParams params = mViewReview.getParams();
 
-        setGridCellDimension(mViewReview.getGridCellWidth(), mViewReview.getGridCellHeight());
+        setGridCellDimension(params.cellWidth, params.cellHeight);
         setHasOptionsMenu(true);
-        setRetainInstance(true);
     }
 
     @Override
@@ -111,7 +111,6 @@ public class FragmentViewReview extends Fragment {
 
         initUi();
         updateUi();
-        updateCover();
 
         return mViewReview.modifyIfNeccesary(v, inflater, container, savedInstanceState);
     }
@@ -131,6 +130,7 @@ public class FragmentViewReview extends Fragment {
     public void updateUi() {
         updateBannerButtonUi();
         updateGridDataUi();
+        updateCover();
     }
 
     public String getSubject() {
@@ -162,22 +162,30 @@ public class FragmentViewReview extends Fragment {
         mBannerButton.setClickable(false);
     }
 
-    protected void setGridCellDimension(ViewReview.CellDimension width,
-            ViewReview.CellDimension height) {
-        mCellWidthDivider = 1;
-        mCellHeightDivider = 1;
+    public void updateCover() {
+        mViewReview.updateCover();
+    }
 
-        if (width == ViewReview.CellDimension.HALF) {
-            mCellWidthDivider = 2;
-        } else if (width == ViewReview.CellDimension.QUARTER) {
-            mCellWidthDivider = 4;
+    @SuppressWarnings("deprecation")
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+    public void setCover(GvImageList.GvImage cover) {
+        if (cover != null && cover.isValidForDisplay()) {
+            BitmapDrawable bitmap = new BitmapDrawable(getResources(), cover.getBitmap());
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                mLinearLayout.setBackground(bitmap);
+            } else {
+                mLinearLayout.setBackgroundDrawable(bitmap);
+            }
+            ViewReview.ViewReviewParams params = mViewReview.getParams();
+            mGridView.getBackground().setAlpha(params.gridAlpha.getAlpha());
+        } else {
+            removeCover();
         }
+    }
 
-        if (height == ViewReview.CellDimension.HALF) {
-            mCellHeightDivider = 2;
-        } else if (height == ViewReview.CellDimension.QUARTER) {
-            mCellHeightDivider = 4;
-        }
+    public void removeCover() {
+        mLinearLayout.setBackgroundColor(Color.TRANSPARENT);
+        mGridView.getBackground().setAlpha(ViewReview.GridViewImageAlpha.OPAQUE.getAlpha());
     }
 
     void initUi() {
@@ -188,6 +196,12 @@ public class FragmentViewReview extends Fragment {
     }
 
     void initSubjectUi() {
+        ViewReview.ViewReviewParams params = mViewReview.getParams();
+        if (!params.subjectIsVisibile) {
+            mSubjectView.setVisibility(View.GONE);
+            return;
+        }
+
         if (isEditable()) {
             mSubjectView.setFocusable(true);
             ((ClearableEditText) mSubjectView).makeClearable(true);
@@ -220,6 +234,12 @@ public class FragmentViewReview extends Fragment {
     }
 
     void initRatingBarUi() {
+        ViewReview.ViewReviewParams params = mViewReview.getParams();
+        if (!params.ratingIsVisibile) {
+            mRatingBar.setVisibility(View.GONE);
+            return;
+        }
+
         if (isEditable()) {
             mRatingBar.setIsIndicator(false);
             mRatingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
@@ -236,6 +256,12 @@ public class FragmentViewReview extends Fragment {
     }
 
     void initBannerButtonUi() {
+        ViewReview.ViewReviewParams params = mViewReview.getParams();
+        if (!params.bannerButtonIsVisibile) {
+            mBannerButton.setVisibility(View.GONE);
+            return;
+        }
+
         final ViewReviewAction.BannerButtonAction action = mViewReview.getBannerButtonAction();
         mBannerButton.setText(action.getButtonTitle());
         mBannerButton.setTextColor(mSubjectView.getTextColors().getDefaultColor());
@@ -248,6 +274,12 @@ public class FragmentViewReview extends Fragment {
     }
 
     void initDataGridUi() {
+        ViewReview.ViewReviewParams params = mViewReview.getParams();
+        if (!params.gridIsVisibile) {
+            mGridView.setVisibility(View.GONE);
+            return;
+        }
+
         mGridView.setAdapter(getGridViewCellAdapter());
         mGridView.setColumnWidth(getGridCellWidth());
         mGridView.setNumColumns(getNumberColumns());
@@ -301,22 +333,21 @@ public class FragmentViewReview extends Fragment {
         ((ViewHolderAdapter) mGridView.getAdapter()).setData(mViewReview.getGridViewData());
     }
 
-    @SuppressWarnings("deprecation")
-    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
-    void updateCover() {
-        GvImageList.GvImage cover = mViewReview.getCover();
-        if (cover.isValidForDisplay()) {
-            BitmapDrawable bitmap = new BitmapDrawable(getResources(), cover.getBitmap());
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                mLinearLayout.setBackground(bitmap);
-            } else {
-                mLinearLayout.setBackgroundDrawable(bitmap);
-            }
-            mGridView.getBackground().setAlpha(mViewReview.getGridViewAlpha().getAlpha());
+    private void setGridCellDimension(ViewReview.CellDimension width,
+            ViewReview.CellDimension height) {
+        mCellWidthDivider = 1;
+        mCellHeightDivider = 1;
 
-        } else {
-            mLinearLayout.setBackgroundColor(Color.TRANSPARENT);
-            mGridView.getBackground().setAlpha(ViewReview.GridViewImageAlpha.OPAQUE.getAlpha());
+        if (width == ViewReview.CellDimension.HALF) {
+            mCellWidthDivider = 2;
+        } else if (width == ViewReview.CellDimension.QUARTER) {
+            mCellWidthDivider = 4;
+        }
+
+        if (height == ViewReview.CellDimension.HALF) {
+            mCellHeightDivider = 2;
+        } else if (height == ViewReview.CellDimension.QUARTER) {
+            mCellHeightDivider = 4;
         }
     }
 }

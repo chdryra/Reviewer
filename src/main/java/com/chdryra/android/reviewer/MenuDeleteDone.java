@@ -108,7 +108,7 @@ public class MenuDeleteDone extends ViewReviewAction.MenuAction {
         };
     }
 
-    private void doDeleteSelected() {
+    protected void doDeleteSelected() {
         if (hasDataToDelete()) {
             GvDataList data = getData();
             if (data != null) {

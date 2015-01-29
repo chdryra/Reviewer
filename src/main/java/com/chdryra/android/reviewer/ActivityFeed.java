@@ -10,16 +10,14 @@ package com.chdryra.android.reviewer;
 
 import android.app.Fragment;
 
-import com.chdryra.android.mygenerallibrary.ActivitySingleFragment;
-
 /**
- * UI Activity holding {@link FragmentFeed}: published reviews feed.
+ * UI Activity holding published reviews feed.
  */
-public class ActivityFeed extends ActivitySingleFragment {
+public class ActivityFeed extends ActivityViewReview {
 
     @Override
     protected Fragment createFragment() {
-        return new FragmentFeed();
+        return FragmentViewReview.newInstance(GvDataList.GvType.REVIEWS, false);
     }
 
 }

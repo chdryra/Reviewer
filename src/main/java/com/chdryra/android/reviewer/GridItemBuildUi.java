@@ -22,15 +22,15 @@ import com.google.android.gms.maps.model.LatLng;
  * On: 28/01/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class GridItemEditReview extends GridItemEdit {
+public class GridItemBuildUi extends GridItemEdit {
     private final static int LOCATION_MAP = 22;
     private LatLng                  mLatLng;
     private ImageChooser            mImageChooser;
     private LocationClientConnector mLocationClient;
     private BuildListener           mListener;
 
-    public GridItemEditReview(ControllerReviewEditable controller) {
-        super(controller, GvDataList.GvType.REVIEW);
+    public GridItemBuildUi(ControllerReviewEditable controller) {
+        super(controller, GvDataList.GvType.REVIEWS);
         mListener = new BuildListener() {
         };
     }
@@ -50,15 +50,15 @@ public class GridItemEditReview extends GridItemEdit {
 
     @Override
     public void onGridItemClick(GvDataList.GvData item, View v) {
-        executeIntent((GvBuildReviewCellList.GvBuildReviewCell) item, true);
+        executeIntent((GvBuildUiList.GvBuildUi) item, true);
     }
 
     @Override
     public void onGridItemLongClick(GvDataList.GvData item, View v) {
-        executeIntent((GvBuildReviewCellList.GvBuildReviewCell) item, false);
+        executeIntent((GvBuildUiList.GvBuildUi) item, false);
     }
 
-    public void executeIntent(GvBuildReviewCellList.GvBuildReviewCell manager, boolean
+    public void executeIntent(GvBuildUiList.GvBuildUi manager, boolean
             quickDialog) {
         GvDataList.GvType dataType = manager.getGvType();
         ConfigGvDataUi.Config config = manager.getConfig();
@@ -102,8 +102,8 @@ public class GridItemEditReview extends GridItemEdit {
         GvDataList.GvType dataType = config.getGVType();
         boolean isEdit = !(dataType == GvDataList.GvType.SOCIAL);
 
-        Intent i = new Intent(getActivity(), ActivityReviewView.class);
-        ActivityReviewView.packParameters(dataType, isEdit, i);
+        Intent i = new Intent(getActivity(), ActivityViewReview.class);
+        ActivityViewReview.packParameters(dataType, isEdit, i);
         Administrator.get(getActivity()).pack(getController(), i);
         getListener().startActivityForResult(i, config.getDisplayConfig().getRequestCode());
     }
@@ -179,9 +179,7 @@ public class GridItemEditReview extends GridItemEdit {
             GvImageList images = new GvImageList();
             images.add(image);
             getEditableController().setData(images);
-            ViewReview view = getViewReview();
-            view.setCover(image);
-            view.updateUi();
+            getViewReview().updateUi();
         }
 
         @Override

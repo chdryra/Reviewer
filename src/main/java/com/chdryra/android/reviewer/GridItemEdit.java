@@ -50,7 +50,7 @@ public class GridItemEdit extends ViewReviewAction.GridItemAction {
         Bundle args = Administrator.get(getActivity()).pack(getController());
         GvDataPacker.packItem(GvDataPacker.CurrentNewDatum.CURRENT, item, args);
 
-        LauncherUi.launch(mConfig.getReviewDataUI(), getListener(TAG), getRequestCode(),
+        LauncherUi.launch(mConfig.getReviewDataUI(), getListener(), getRequestCode(),
                 mConfig.getTag(), args);
     }
 

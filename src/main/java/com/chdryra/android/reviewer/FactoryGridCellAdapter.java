@@ -30,7 +30,7 @@ public class FactoryGridCellAdapter {
 
     public static ViewHolderAdapter newAdapter(Activity activity, GvDataList data, int cellWidth,
             int cellHeight) {
-        if (data.getGvType() == GvDataList.GvType.REVIEW) {
+        if (data.getGvType() == GvDataList.GvType.BUILD_UI) {
             return new ReviewOptionsGridCellAdapter(activity, data, cellWidth, cellHeight);
         } else {
             return new ViewHolderAdapter(activity, data, cellWidth, cellHeight);
@@ -55,7 +55,7 @@ public class FactoryGridCellAdapter {
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            convertView = ((GvBuildReviewCellList.GvBuildReviewCell) getItem(position))
+            convertView = ((GvBuildUiList.GvBuildUi) getItem(position))
                     .updateView(parent);
             convertView.getLayoutParams().width = mCellWidth;
             convertView.getLayoutParams().height = mCellHeight;
