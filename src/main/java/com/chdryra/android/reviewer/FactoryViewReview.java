@@ -42,23 +42,23 @@ public class FactoryViewReview {
         Activity activity = parent.getActivity();
         Intent i = activity.getIntent();
         Administrator admin = Administrator.get(activity);
-        ControllerReviewEditable controller = (ControllerReviewEditable) admin.unpack(i);
 
+        ControllerReviewEditable controller = (ControllerReviewEditable) admin.unpack(i);
         GvDataList.GvType dataType = GvDataList.GvType.BUILD_UI;
+
         ViewReviewAction.GridItemAction gia = newGridItemEdit(controller, dataType);
         GvDataList data = GvBuildUiList.newInstance(gia);
+        ViewReview view = new ViewReview(parent, data, true, new ViewReviewBuildModifier
+                (controller));
 
-        String details = parent.getResources().getString(R.string.button_add_review_data);
-        ViewReview view = new ViewReview(parent, data,
-                newCoverManager(controller),
-                newSubjectEdit(controller, dataType),
-                newRatingBarEdit(controller, dataType),
-                ViewReviewAction.BannerButtonAction.newDisplayButton(controller, dataType, details),
-                gia,
-                newMenuAction(controller, dataType),
-                true);
+        view.setAction(newSubjectEdit(controller, dataType));
+        view.setAction(newRatingBarEdit(controller, dataType));
+        view.setAction(ViewReviewAction.BannerButtonAction.newDisplayButton(controller, dataType,
+                parent.getResources().getString(R.string.button_add_review_data)));
+        view.setAction(gia);
+        view.setAction(newMenuAction(controller, dataType));
 
-        view.setViewModifier(new ViewReviewBuildModifier(controller));
+        view.setCoverManager(newCoverManager(controller));
 
         return view;
     }
@@ -67,79 +67,62 @@ public class FactoryViewReview {
         Activity activity = parent.getActivity();
         Intent i = activity.getIntent();
         Administrator admin = Administrator.get(activity);
-        ControllerReview controller = admin.unpack(i);
+
         GvDataList data = admin.getSocialPlatformList();
 
-        String social = parent.getResources().getString(R.string.button_social);
-        GvDataList.GvType dataType = GvDataList.GvType.SOCIAL;
-        ViewReview view = new ViewReview(parent, data,
-                newCoverManager(controller),
-                newSubjectViewAction(controller, dataType),
-                newRatingBarAction(controller, dataType),
-                ViewReviewAction.BannerButtonAction.newDisplayButton(controller, dataType, social),
-                newGridItemAction(controller, dataType),
-                newMenuAction(controller, dataType),
-                false);
+        ViewReview view = new ViewReview(parent, data, true, new ViewReviewShareModifier());
 
-        view.setViewModifier(new ViewReviewShareModifier());
+        ControllerReview controller = admin.unpack(i);
+        GvDataList.GvType dataType = GvDataList.GvType.SOCIAL;
+
+        view.setAction(newSubjectViewAction(controller, dataType));
+        view.setAction(newRatingBarAction(controller, dataType));
+        view.setAction(ViewReviewAction.BannerButtonAction.newDisplayButton(controller, dataType,
+                parent.getResources().getString(R.string.button_social)));
+        view.setAction(newGridItemAction(controller, dataType));
+        view.setAction(newMenuAction(controller, dataType));
+
+        view.setCoverManager(newCoverManager(controller));
 
         return view;
     }
 
     private static ViewReview newFeedScreen(FragmentViewReview parent) {
-        Activity activity = parent.getActivity();
-        Intent i = activity.getIntent();
-        Administrator admin = Administrator.get(activity);
-        ControllerReview controller = admin.unpack(i);
+        Administrator admin = Administrator.get(parent.getActivity());
         GvDataList data = admin.getPublishedReviews().toGridViewable();
 
-        CoverManager nullManager = new CoverManager() {
-            @Override
-            public void updateCover(FragmentViewReview fragment) {
+        ViewReview view = new ViewReview(parent, data, false);
+        view.setAction(new MenuFeed());
 
-            }
-
-            @Override
-            public void proposeCover(GvImageList.GvImage image) {
-
-            }
-        };
-
-        String social = parent.getResources().getString(R.string.button_social);
-        GvDataList.GvType dataType = GvDataList.GvType.REVIEWS;
-        return new ViewReview(parent, data, nullManager,
-                newSubjectViewAction(controller, dataType),
-                newRatingBarAction(controller, dataType),
-                ViewReviewAction.BannerButtonAction.newDisplayButton(controller, dataType, social),
-                newGridItemAction(controller, dataType),
-                newMenuAction(controller, dataType),
-                false);
+        return view;
     }
 
-    private static ViewReview newEditScreen(FragmentViewReview parent,
-            GvDataList.GvType dataType) {
+    private static ViewReview newEditScreen(FragmentViewReview parent, GvDataList.GvType dataType) {
         Activity activity = parent.getActivity();
         Intent i = activity.getIntent();
         Administrator admin = Administrator.get(activity);
-        ControllerReviewEditable controller = (ControllerReviewEditable) admin.unpack(i);
 
+        ControllerReviewEditable controller = (ControllerReviewEditable) admin.unpack(i);
         GvDataList data = controller.getData(dataType);
+
+        ViewReview view = new ViewReview(parent, data, true);
+
+        view.setAction(newSubjectEdit(controller, dataType));
+        view.setAction(newRatingBarEdit(controller, dataType));
+        view.setAction(newBannerButtonAdd(controller, dataType));
+        view.setAction(newGridItemEdit(controller, dataType));
+        view.setAction(newMenuEdit(controller, dataType));
+
         CoverManager coverManager = dataType == GvDataList.GvType.IMAGES ?
                 newCoverManager((GvImageList) data) : newCoverManager(controller);
+        view.setCoverManager(coverManager);
 
-        return new ViewReview(parent, data, coverManager,
-                newSubjectEdit(controller, dataType),
-                newRatingBarEdit(controller, dataType),
-                newBannerButtonAdd(controller, dataType),
-                newGridItemEdit(controller, dataType),
-                newMenuEdit(controller, dataType), true);
+        return view;
     }
 
     private static ViewReviewAction.MenuAction newMenuAction(ControllerReview controller,
             GvDataList.GvType dataType) {
-        if (dataType == GvDataList.GvType.REVIEWS) {
-            return new MenuFeed(controller);
-        } else if (dataType == GvDataList.GvType.BUILD_UI) {
+        if (dataType == GvDataList.GvType.BUILD_UI) {
             return new MenuBuildUi(controller);
         } else {
             return new ViewReviewAction.MenuAction(controller, dataType, true);

@@ -22,24 +22,23 @@ import com.chdryra.android.mygenerallibrary.ActivityResultCode;
  */
 public class GridItemEdit extends ViewReviewAction.GridItemAction {
     private static final String TAG = "GridItemEditListener";
-    private ConfigGvDataUi.LaunchableConfig mConfig;
-    private GvDataHandler                   mHandler;
+    private final Fragment                        mListener;
+    private       ConfigGvDataUi.LaunchableConfig mConfig;
+    private       GvDataHandler                   mHandler;
 
     public GridItemEdit(ControllerReviewEditable controller,
             GvDataList.GvType dataType) {
         super(controller, dataType);
         ConfigGvDataUi.Config config = ConfigGvDataUi.getConfig(getDataType());
         mConfig = config.getEditorConfig();
+        mListener = new EditListener() {
+        };
+        registerActionListener(mListener, TAG);
     }
 
     @Override
-    public void onSetReviewView() {
+    public void onSetViewReview() {
         mHandler = FactoryGvDataHandler.newHandler(getData());
-    }
-
-    protected Fragment getNewListener() {
-        return new EditListener() {
-        };
     }
 
     @Override
@@ -49,12 +48,8 @@ public class GridItemEdit extends ViewReviewAction.GridItemAction {
         Bundle args = Administrator.get(getActivity()).pack(getController());
         GvDataPacker.packItem(GvDataPacker.CurrentNewDatum.CURRENT, item, args);
 
-        LauncherUi.launch(mConfig.getLaunchable(), getListener(), getRequestCode(),
+        LauncherUi.launch(mConfig.getLaunchable(), mListener, getRequestCode(),
                 mConfig.getTag(), args);
-    }
-
-    protected Fragment getListener() {
-        return getListener(TAG);
     }
 
     protected int getRequestCode() {

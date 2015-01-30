@@ -24,15 +24,33 @@ public class MenuEditComments extends MenuDeleteDone {
     private static final int MENU           = R.menu.fragment_review_comment;
 
     private boolean mCommentsAreSplit = false;
+    private DataSetObserver mObserver;
 
     public MenuEditComments(ControllerReviewEditable controller) {
         super(controller, GvDataList.GvType.COMMENTS, false, true, MENU);
+        mObserver = new DataSetObserver() {
+            @Override
+            public void onChanged() {
+                updateGridDataUi();
+            }
+
+            @Override
+            public void onInvalidated() {
+                super.onInvalidated();
+            }
+        };
     }
 
     @Override
-    public void onSetReviewView() {
-        super.onSetReviewView();
-        getViewReview().registerGridDataObserver(getObserver());
+    public void onSetViewReview() {
+        super.onSetViewReview();
+        getViewReview().registerGridDataObserver(mObserver);
+    }
+
+    @Override
+    public void onUnsetViewReview() {
+        super.onUnsetViewReview();
+        getViewReview().unregisterGridDataObserver(mObserver);
     }
 
     @Override
@@ -77,19 +95,5 @@ public class MenuEditComments extends MenuDeleteDone {
         }
 
         updateGridDataUi();
-    }
-
-    private DataSetObserver getObserver() {
-        return new DataSetObserver() {
-            @Override
-            public void onChanged() {
-                updateGridDataUi();
-            }
-
-            @Override
-            public void onInvalidated() {
-                super.onInvalidated();
-            }
-        };
     }
 }

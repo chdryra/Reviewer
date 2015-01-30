@@ -11,11 +11,13 @@ package com.chdryra.android.reviewer;
 import android.app.Fragment;
 import android.content.Intent;
 
+import com.chdryra.android.mygenerallibrary.ActivitySingleFragment;
+
 
 /**
  * UI Activity holding {@link FragmentEditLocationMap}: mapping and editing a location.
  */
-public class ActivityEditLocationMap extends ActivityViewReview implements LaunchableUi {
+public class ActivityEditLocationMap extends ActivitySingleFragment implements LaunchableUi {
 
     private FragmentEditLocationMap mFragment;
 

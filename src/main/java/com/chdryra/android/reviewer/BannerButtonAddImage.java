@@ -20,31 +20,27 @@ import com.chdryra.android.mygenerallibrary.ActivityResultCode;
  * Email: rizwan.choudrey@gmail.com
  */
 public class BannerButtonAddImage extends BannerButtonAdd {
+    private static final String TAG = "BannerButtonAddImageListener";
     private ImageChooser mImageChooser;
+    private Fragment mListener;
 
     public BannerButtonAddImage(ControllerReviewEditable controller) {
         super(controller, GvDataList.GvType.IMAGES);
-    }
-
-    @Override
-    public void onSetReviewView() {
-        super.onSetReviewView();
-        mImageChooser = Administrator.getImageChooser(getActivity());
-    }
-
-    @Override
-    protected Fragment getNewListener() {
-        return new AddImageListener() {
+        mListener = new AddImageListener() {
         };
+        registerActionListener(mListener, TAG);
+    }
+
+    @Override
+    public void onSetViewReview() {
+        super.onSetViewReview();
+        mImageChooser = Administrator.getImageChooser(getActivity());
     }
 
     @Override
     public void onClick(View v) {
         if (getViewReview() == null) return;
-
-        Intent options = mImageChooser.getChooserIntents();
-        Fragment listener = getListener();
-        listener.startActivityForResult(options, getRequestCode());
+        mListener.startActivityForResult(mImageChooser.getChooserIntents(), getRequestCode());
     }
 
     private void setCover() {

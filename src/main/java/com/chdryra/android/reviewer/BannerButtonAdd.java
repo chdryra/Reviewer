@@ -23,20 +23,19 @@ public class BannerButtonAdd extends ViewReviewAction.BannerButtonAction {
     private static final String TAG = "ActionBannerButtonAddListener";
     private ConfigGvDataUi.LaunchableConfig mConfig;
     private GvDataHandler                   mHandler;
+    private Fragment mListener;
 
     public BannerButtonAdd(ControllerReviewEditable controller, GvDataList.GvType dataType) {
         super(controller, dataType);
         mConfig = ConfigGvDataUi.getConfig(getDataType()).getAdderConfig();
+        mListener = new AddListener() {
+        };
+        registerActionListener(mListener, TAG);
     }
 
     @Override
-    public void onSetReviewView() {
+    public void onSetViewReview() {
         mHandler = FactoryGvDataHandler.newHandler(getData());
-    }
-
-    protected Fragment getNewListener() {
-        return new AddListener() {
-        };
     }
 
     @Override
@@ -49,12 +48,8 @@ public class BannerButtonAdd extends ViewReviewAction.BannerButtonAction {
     public void onClick(View v) {
         if (getViewReview() == null) return;
 
-        LauncherUi.launch(mConfig.getLaunchable(), getListener(), getRequestCode(),
+        LauncherUi.launch(mConfig.getLaunchable(), mListener, getRequestCode(),
                 mConfig.getTag(), Administrator.get(getActivity()).pack(getController()));
-    }
-
-    protected Fragment getListener() {
-        return getListener(TAG);
     }
 
     protected boolean addData(GvDataList.GvData data) {

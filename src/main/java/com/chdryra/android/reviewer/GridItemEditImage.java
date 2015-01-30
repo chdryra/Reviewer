@@ -20,16 +20,23 @@ import com.chdryra.android.mygenerallibrary.DialogAlertFragment;
  * Email: rizwan.choudrey@gmail.com
  */
 public class GridItemEditImage extends GridItemEdit {
+    private static final String TAG            = "GridItemEditImageListener";
     private static final int    IMAGE_AS_COVER = 200;
     private static final String DIALOG_TAG     = "DialogAlertTag";
     private GvImageList.GvImage mCoverProposition;
+    private Fragment            mListener;
 
     public GridItemEditImage(ControllerReviewEditable controller) {
         super(controller, GvDataList.GvType.IMAGES);
+        mListener = new EditImageListener() {
+        };
+        registerActionListener(mListener, TAG);
     }
 
     @Override
     public void onGridItemLongClick(GvDataList.GvData item, View v) {
+        if (getViewReview() == null) return;
+
         GvImageList.GvImage image = (GvImageList.GvImage) item;
         if (image.isCover()) {
             onGridItemClick(item, v);
@@ -39,13 +46,7 @@ public class GridItemEditImage extends GridItemEdit {
         mCoverProposition = image;
         String alert = getActivity().getString(R.string.dialog_set_image_as_background);
         DialogAlertFragment dialog = DialogAlertFragment.newDialog(alert, new Bundle());
-        DialogShower.show(dialog, getListener(), IMAGE_AS_COVER, DIALOG_TAG);
-    }
-
-    protected Fragment getNewListener() {
-        return new EditImageListener() {
-
-        };
+        DialogShower.show(dialog, mListener, IMAGE_AS_COVER, DIALOG_TAG);
     }
 
     private abstract class EditImageListener extends EditListener implements DialogAlertFragment

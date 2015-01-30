@@ -22,28 +22,31 @@ import com.google.android.gms.maps.model.LatLng;
  * On: 28/01/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class GridItemBuildUi extends GridItemEdit {
-    private final BuildListener mListener;
+public class GridItemBuildUi extends ViewReviewAction.GridItemAction {
+    private static final String TAG = "GridItemBuildUiListener";
+    private BuildListener           mListener;
     private       LatLng        mLatLng;
     private       ImageChooser  mImageChooser;
+    private LocationClientConnector mLocationClient;
 
     public GridItemBuildUi(ControllerReviewEditable controller) {
         super(controller, GvDataList.GvType.REVIEWS);
         mListener = new BuildListener() {
         };
+        registerActionListener(mListener, TAG);
     }
 
     @Override
-    public void onSetReviewView() {
-        super.onSetReviewView();
+    public void onUnsetViewReview() {
+        super.onUnsetViewReview();
+        mLocationClient.disconnect();
+    }
+
+    @Override
+    public void onSetViewReview() {
         mImageChooser = Administrator.getImageChooser(getActivity());
-        LocationClientConnector client = new LocationClientConnector(getActivity(), mListener);
-        client.connect();
-    }
-
-    @Override
-    protected Fragment getNewListener() {
-        return mListener;
+        mLocationClient = new LocationClientConnector(getActivity(), mListener);
+        mLocationClient.connect();
     }
 
     @Override
@@ -81,7 +84,7 @@ public class GridItemBuildUi extends GridItemEdit {
         GvDataPacker.packItem(GvDataPacker.CurrentNewDatum.CURRENT, location, args);
 
         LaunchableUi mapUi = ConfigGvDataUi.getLaunchable(ActivityEditLocationMap.class);
-        LauncherUi.launch(mapUi, getListener(), getLocationMRequestCode(), null, args);
+        LauncherUi.launch(mapUi, mListener, getLocationMRequestCode(), null, args);
     }
 
     private void startActivity(ConfigGvDataUi.Config config) {
@@ -91,13 +94,14 @@ public class GridItemBuildUi extends GridItemEdit {
         Intent i = new Intent(getActivity(), ActivityViewReview.class);
         ActivityViewReview.packParameters(dataType, isEdit, i);
         Administrator.get(getActivity()).pack(getController(), i);
-        getListener().startActivity(i);
+        mListener.startActivity(i);
     }
 
     private void showQuickDialog(ConfigGvDataUi.Config config) {
         if (config.getGvType() == GvDataList.GvType.IMAGES) {
-            getListener().startActivityForResult(mImageChooser.getChooserIntents(),
+            mListener.startActivityForResult(mImageChooser.getChooserIntents(),
                     getImageRequestCode());
+            return;
         }
 
         Bundle args = Administrator.get(getActivity()).pack(getController());
@@ -113,7 +117,7 @@ public class GridItemBuildUi extends GridItemEdit {
             ui = adderConfig.getLaunchable();
         }
 
-        LauncherUi.launch(ui, getListener(), adderConfig.getRequestCode(), adderConfig.getTag(),
+        LauncherUi.launch(ui, mListener, adderConfig.getRequestCode(), adderConfig.getTag(),
                 args);
     }
 

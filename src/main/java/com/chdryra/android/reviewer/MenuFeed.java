@@ -21,8 +21,8 @@ public class MenuFeed extends ViewReviewAction.MenuAction {
     public static final  int MENU_NEW_REVIEW_ID = R.id.menu_item_new_review;
     private static final int MENU               = R.menu.fragment_feed;
 
-    public MenuFeed(ControllerReview controller) {
-        super(controller, GvDataList.GvType.REVIEWS, MENU, false);
+    public MenuFeed() {
+        super(MENU, false);
     }
 
     @Override
@@ -37,6 +37,8 @@ public class MenuFeed extends ViewReviewAction.MenuAction {
 
     private void requestNewReviewIntent() {
         Activity activity = getActivity();
+        if (activity == null) return;
+
         Intent i = new Intent(activity, ActivityViewReview.class);
         ActivityViewReview.packParameters(GvDataList.GvType.BUILD_UI, true, i);
         Administrator admin = Administrator.get(activity);

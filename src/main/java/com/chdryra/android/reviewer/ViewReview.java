@@ -19,6 +19,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by: Rizwan Choudrey
@@ -43,6 +45,7 @@ public class ViewReview {
     private boolean mIsEditable = false;
 
     private ArrayList<DataSetObserver> mGridObservers;
+    private HashMap<String, Fragment> mActionListeners;
 
     private ViewModifier mModifier;
 
@@ -69,42 +72,62 @@ public class ViewReview {
                 ViewGroup container, Bundle savedInstanceState);
     }
 
-    public ViewReview(FragmentViewReview parent, GvDataList mGridData, CoverManager coverManager,
-            ViewReviewAction.SubjectViewAction sva, ViewReviewAction.RatingBarAction rba,
-            ViewReviewAction.BannerButtonAction bba,
-            ViewReviewAction.GridItemAction gia, ViewReviewAction.MenuAction mia,
-            boolean isEditable) {
+    public ViewReview(FragmentViewReview parent, GvDataList mGridData, boolean isEditable) {
         mParent = parent;
-
         mData = mGridData;
         mDataToShow = mData;
-
-        mCoverManager = coverManager;
         mIsEditable = isEditable;
 
-        mSubjectAction = sva;
-        mRatingAction = rba;
-        mButtonAction = bba;
-        mGridAction = gia;
-        mMenuAction = mia;
-
         mGridObservers = new ArrayList<>();
+        mActionListeners = new HashMap<>();
 
-        mSubjectAction.setViewReview(this);
-        mRatingAction.setViewReview(this);
-        mButtonAction.setViewReview(this);
-        mGridAction.setViewReview(this);
-        mMenuAction.setViewReview(this);
+        setAction(new ViewReviewAction.SubjectViewAction());
+        setAction(new ViewReviewAction.RatingBarAction());
+        setAction(new ViewReviewAction.BannerButtonAction());
+        setAction(new ViewReviewAction.GridItemAction());
+        setAction(new ViewReviewAction.MenuAction());
 
         mParams = new ViewReviewParams();
+        mCoverManager = getNoCoverManager();
+    }
+
+    public ViewReview(FragmentViewReview parent, GvDataList mGridData, boolean isEditable,
+            ViewModifier modifier) {
+        this(parent, mGridData, isEditable);
+        mModifier = modifier;
+    }
+
+    public void setCoverManager(CoverManager coverManager) {
+        mCoverManager = coverManager;
+    }
+
+    public void setAction(ViewReviewAction.SubjectViewAction action) {
+        mSubjectAction = action;
+        mSubjectAction.setViewReview(this);
+    }
+
+    public void setAction(ViewReviewAction.RatingBarAction action) {
+        mRatingAction = action;
+        mRatingAction.setViewReview(this);
+    }
+
+    public void setAction(ViewReviewAction.BannerButtonAction action) {
+        mButtonAction = action;
+        mButtonAction.setViewReview(this);
+    }
+
+    public void setAction(ViewReviewAction.GridItemAction action) {
+        mGridAction = action;
+        mGridAction.setViewReview(this);
+    }
+
+    public void setAction(ViewReviewAction.MenuAction action) {
+        mMenuAction = action;
+        mMenuAction.setViewReview(this);
     }
 
     public ViewReviewParams getParams() {
         return mParams;
-    }
-
-    public void setViewModifier(ViewModifier modifier) {
-        mModifier = modifier;
     }
 
     public Activity getActivity() {
@@ -165,18 +188,18 @@ public class ViewReview {
         mParent.updateUi();
     }
 
-    public void addListener(Fragment listener, String tag) {
-        FragmentManager manager = getActivity().getFragmentManager();
+    public void attachRegisteredListeners() {
+        FragmentManager manager = mParent.getFragmentManager();
         FragmentTransaction ft = manager.beginTransaction();
-        ft.add(listener, tag);
+        for (Map.Entry<String, Fragment> entry : mActionListeners.entrySet()) {
+            ft.add(entry.getValue(), entry.getKey());
+        }
         ft.commit();
         manager.executePendingTransactions();
     }
 
-    public Fragment getListener(String tag) {
-        FragmentManager manager = getActivity().getFragmentManager();
-        Fragment f = manager.findFragmentByTag(tag);
-        return f;
+    public void registerActionListener(Fragment listener, String tag) {
+        if (!mActionListeners.containsKey(tag)) mActionListeners.put(tag, listener);
     }
 
     public String getSubject() {
@@ -199,6 +222,10 @@ public class ViewReview {
         if (!mGridObservers.contains(observer)) mGridObservers.add(observer);
     }
 
+    public void unregisterGridDataObserver(DataSetObserver observer) {
+        if (mGridObservers.contains(observer)) mGridObservers.remove(observer);
+    }
+
     public void notifyDataSetChanged() {
         for (DataSetObserver observer : mGridObservers) {
             observer.onChanged();
@@ -212,6 +239,20 @@ public class ViewReview {
         } else {
             return v;
         }
+    }
+
+    public CoverManager getNoCoverManager() {
+        return new CoverManager() {
+            @Override
+            public void updateCover(FragmentViewReview fragment) {
+
+            }
+
+            @Override
+            public void proposeCover(GvImageList.GvImage image) {
+
+            }
+        };
     }
 
     public static class ViewReviewParams {

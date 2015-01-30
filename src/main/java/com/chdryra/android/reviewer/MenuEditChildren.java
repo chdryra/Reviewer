@@ -22,27 +22,12 @@ public class MenuEditChildren extends MenuDeleteDone {
     private static final int MENU            = R.menu.fragment_review_children;
 
     private MenuItemChildrenRatingAverage mActionItem;
+    private DataSetObserver mObserver;
 
     public MenuEditChildren(ControllerReviewEditable controller) {
         super(controller, GvDataList.GvType.COMMENTS, false, true, MENU);
         mActionItem = new MenuItemChildrenRatingAverage(this);
-    }
-
-    @Override
-    public void onSetReviewView() {
-        super.onSetReviewView();
-        getViewReview().registerGridDataObserver(getObserver());
-    }
-
-    @Override
-    protected void addMenuItems() {
-        addDefaultDeleteActionItem(MENU_DELETE_ID);
-        addDefaultDoneActionItem(MENU_DONE_ID);
-        addMenuActionItem(mActionItem, MENU_AVERAGE_ID, false);
-    }
-
-    private DataSetObserver getObserver() {
-        return new DataSetObserver() {
+        mObserver = new DataSetObserver() {
             @Override
             public void onChanged() {
                 mActionItem.setAverageRating();
@@ -53,5 +38,24 @@ public class MenuEditChildren extends MenuDeleteDone {
                 super.onInvalidated();
             }
         };
+    }
+
+    @Override
+    public void onSetViewReview() {
+        super.onSetViewReview();
+        getViewReview().registerGridDataObserver(mObserver);
+    }
+
+    @Override
+    public void onUnsetViewReview() {
+        super.onUnsetViewReview();
+        getViewReview().unregisterGridDataObserver(mObserver);
+    }
+
+    @Override
+    protected void addMenuItems() {
+        addDefaultDeleteActionItem(MENU_DELETE_ID);
+        addDefaultDoneActionItem(MENU_DONE_ID);
+        addMenuActionItem(mActionItem, MENU_AVERAGE_ID, false);
     }
 }

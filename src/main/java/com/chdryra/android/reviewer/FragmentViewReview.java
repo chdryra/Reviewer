@@ -13,6 +13,7 @@ import android.app.ActionBar;
 import android.app.Fragment;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
@@ -116,6 +117,12 @@ public class FragmentViewReview extends Fragment {
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+        new ActionListenersTask().execute();
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
         updateUi();
@@ -134,6 +141,9 @@ public class FragmentViewReview extends Fragment {
     }
 
     public void updateUi() {
+        updateSubjectUi();
+        updateRatingBarUi();
+        ;
         updateBannerButtonUi();
         updateGridDataUi();
         updateCover();
@@ -216,7 +226,7 @@ public class FragmentViewReview extends Fragment {
 
                 @Override
                 public void onTextChanged(CharSequence s, int start, int before, int count) {
-                    action.beforeTextChanged(s, start, before, count);
+                    action.onTextChanged(s, start, before, count);
                 }
 
                 @Override
@@ -235,8 +245,6 @@ public class FragmentViewReview extends Fragment {
             mSubjectView.setFocusable(false);
             ((ClearableEditText) mSubjectView).makeClearable(false);
         }
-
-        mSubjectView.setText(mViewReview.getSubjectViewAction().getSubject());
     }
 
     void initRatingBarUi() {
@@ -257,8 +265,6 @@ public class FragmentViewReview extends Fragment {
         } else {
             mRatingBar.setIsIndicator(true);
         }
-
-        mRatingBar.setRating(mViewReview.getRatingBarAction().getRating());
     }
 
     void initBannerButtonUi() {
@@ -327,6 +333,14 @@ public class FragmentViewReview extends Fragment {
         return mCellWidthDivider;
     }
 
+    void updateSubjectUi() {
+        mSubjectView.setText(mViewReview.getSubjectViewAction().getSubject());
+    }
+
+    void updateRatingBarUi() {
+        mRatingBar.setRating(mViewReview.getRatingBarAction().getRating());
+    }
+
     void updateBannerButtonUi() {
     }
 
@@ -354,6 +368,20 @@ public class FragmentViewReview extends Fragment {
             mCellHeightDivider = 2;
         } else if (height == ViewReview.CellDimension.QUARTER) {
             mCellHeightDivider = 4;
+        }
+    }
+
+    //Have to do this hacky crap because FragmentManager cannot properly deal with child
+    // fragments as executePendingTransactions not properly synchronised.
+    private class ActionListenersTask extends AsyncTask<Void, Void, Void> {
+        protected Void doInBackground(Void... params) {
+            return null;
+        }
+
+
+        @Override
+        protected void onPostExecute(Void result) {
+            mViewReview.attachRegisteredListeners();
         }
     }
 }

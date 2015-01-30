@@ -36,6 +36,8 @@ public class MenuDeleteDone extends ViewReviewAction.MenuAction {
     private boolean mDismissOnDelete;
     private boolean mDismissOnDone;
 
+    private Fragment mListener;
+
     public MenuDeleteDone(ControllerReviewEditable controller,
             GvDataList.GvType dataType) {
         this(controller, dataType, false, true);
@@ -69,6 +71,9 @@ public class MenuDeleteDone extends ViewReviewAction.MenuAction {
         };
 
         addMenuItems();
+        mListener = new DeleteConfirmListener() {
+        };
+        registerActionListener(mListener, TAG);
     }
 
     @Override
@@ -91,21 +96,6 @@ public class MenuDeleteDone extends ViewReviewAction.MenuAction {
 
     protected MenuActionItem getDoneAction() {
         return mDoneAction;
-    }
-
-    @Override
-    protected Fragment getNewListener() {
-        return new AlertListener() {
-            @Override
-            public void onAlertNegative(int requestCode, Bundle args) {
-
-            }
-
-            @Override
-            public void onAlertPositive(int requestCode, Bundle args) {
-                if (requestCode == DELETE_CONFIRM) doDeleteSelected();
-            }
-        };
     }
 
     protected void doDeleteSelected() {
@@ -135,15 +125,15 @@ public class MenuDeleteDone extends ViewReviewAction.MenuAction {
 
     private void showDeleteConfirmDialog() {
         String deleteWhat = " all " + getDataType().getDataString();
-        DialogDeleteConfirm.showDialog(deleteWhat, getListener(TAG),
-                DELETE_CONFIRM, getActivity().getFragmentManager());
+        DialogDeleteConfirm.showDialog(deleteWhat, mListener, DELETE_CONFIRM,
+                getActivity().getFragmentManager());
     }
 
     private boolean hasDataToDelete() {
         return getData() != null && getData().size() > 0;
     }
 
-    private abstract class AlertListener extends Fragment implements DialogAlertFragment
+    private abstract class DeleteConfirmListener extends Fragment implements DialogAlertFragment
             .DialogAlertListener {
         @Override
         public void onAlertNegative(int requestCode, Bundle args) {
@@ -152,7 +142,7 @@ public class MenuDeleteDone extends ViewReviewAction.MenuAction {
 
         @Override
         public void onAlertPositive(int requestCode, Bundle args) {
-
+            if (requestCode == DELETE_CONFIRM) doDeleteSelected();
         }
     }
 }

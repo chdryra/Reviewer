@@ -22,6 +22,9 @@ import android.widget.RatingBar;
 
 import com.chdryra.android.mygenerallibrary.ActivityResultCode;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Created by: Rizwan Choudrey
  * On: 27/01/2015
@@ -31,8 +34,14 @@ public class ViewReviewAction {
     private ControllerReview  mController;
     private GvDataList.GvType mDataType;
     private ViewReview        mViewReview;
+    private HashMap<String, Fragment> mListeners;
+
+    private ViewReviewAction() {
+        mListeners = new HashMap<>();
+    }
 
     private ViewReviewAction(ControllerReview controller, GvDataList.GvType dataType) {
+        mListeners = new HashMap<>();
         mController = controller;
         mDataType = dataType;
     }
@@ -42,11 +51,19 @@ public class ViewReviewAction {
     }
 
     public void setViewReview(ViewReview viewReview) {
+        if (mViewReview != null) onUnsetViewReview();
         mViewReview = viewReview;
-        onSetReviewView();
+        onSetViewReview();
+        for (Map.Entry<String, Fragment> entry : mListeners.entrySet()) {
+            getViewReview().registerActionListener(entry.getValue(), entry.getKey());
+        }
     }
 
-    public void onSetReviewView() {
+    public void onUnsetViewReview() {
+
+    }
+
+    public void onSetViewReview() {
 
     }
 
@@ -62,18 +79,8 @@ public class ViewReviewAction {
         return mViewReview != null ? mViewReview.getActivity() : null;
     }
 
-    protected Fragment getNewListener() {
-        return null;
-    }
-
-    protected Fragment getListener(String tag) {
-        final ViewReview view = getViewReview();
-
-        Fragment listener = view.getListener(tag);
-        if (listener == null) listener = getNewListener();
-        if (listener != null) view.addListener(listener, tag);
-
-        return listener;
+    protected void registerActionListener(Fragment listener, String tag) {
+        if (!mListeners.containsKey(tag)) mListeners.put(tag, listener);
     }
 
     protected GvDataList getData() {
@@ -81,13 +88,17 @@ public class ViewReviewAction {
     }
 
     public static class SubjectViewAction extends ViewReviewAction {
+        public SubjectViewAction() {
+
+        }
 
         public SubjectViewAction(ControllerReview controller, GvDataList.GvType dataType) {
             super(controller, dataType);
         }
 
         public String getSubject() {
-            return getController().getSubject();
+            ControllerReview controller = getController();
+            return controller != null ? getController().getSubject() : "";
         }
 
         public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -98,18 +109,20 @@ public class ViewReviewAction {
 
         public void afterTextChanged(Editable s) {
         }
-
-        public void onClick() {
-        }
     }
 
     public static class RatingBarAction extends ViewReviewAction {
+        public RatingBarAction() {
+
+        }
+
         public RatingBarAction(ControllerReview controller, GvDataList.GvType dataType) {
             super(controller, dataType);
         }
 
         public float getRating() {
-            return getController().getRating();
+            ControllerReview controller = getController();
+            return controller != null ? getController().getRating() : 0f;
         }
 
         public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
@@ -117,6 +130,10 @@ public class ViewReviewAction {
     }
 
     public static class BannerButtonAction extends ViewReviewAction {
+        public BannerButtonAction() {
+
+        }
+
         public BannerButtonAction(ControllerReview controller, GvDataList.GvType dataType) {
             super(controller, dataType);
         }
@@ -140,6 +157,10 @@ public class ViewReviewAction {
     }
 
     public static class GridItemAction extends ViewReviewAction {
+        public GridItemAction() {
+
+        }
+
         public GridItemAction(ControllerReview controller, GvDataList.GvType dataType) {
             super(controller, dataType);
         }
@@ -156,20 +177,29 @@ public class ViewReviewAction {
         public static final int                MENU_UP_ID = android.R.id.home;
         public static final ActivityResultCode RESULT_UP  = ActivityResultCode.UP;
 
-        private final int     mMenuId;
-        private final boolean mDisplayHomeAsUp;
+        private int     mMenuId          = -1;
+        private boolean mDisplayHomeAsUp = false;
 
         private SparseArray<MenuActionItemInfo> mActionItems;
 
-        public MenuAction(ControllerReview controller,
-                GvDataList.GvType dataType, int menuId) {
+        public MenuAction() {
+            this(-1, false);
+        }
+
+        public MenuAction(int menuId, boolean displayHomeAsUp) {
+            mMenuId = menuId;
+            mDisplayHomeAsUp = displayHomeAsUp;
+            mActionItems = new SparseArray<>();
+            if (mDisplayHomeAsUp) addMenuActionItem(getUpActionItem(), MENU_UP_ID, true);
+        }
+
+        public MenuAction(ControllerReview controller, GvDataList.GvType dataType, int menuId) {
             this(controller, dataType, menuId, true);
         }
 
-        public MenuAction(ControllerReview controller,
-                GvDataList.GvType dataType, boolean displayHomeAsUp) {
+        public MenuAction(ControllerReview controller, GvDataList.GvType dataType,
+                boolean displayHomeAsUp) {
             super(controller, dataType);
-            mMenuId = -1;
             mDisplayHomeAsUp = displayHomeAsUp;
             mActionItems = new SparseArray<>();
             if (mDisplayHomeAsUp) addMenuActionItem(getUpActionItem(), MENU_UP_ID, true);
@@ -185,7 +215,7 @@ public class ViewReviewAction {
         }
 
         @Override
-        public void onSetReviewView() {
+        public void onSetViewReview() {
             if (getActivity().getActionBar() != null) {
                 getActivity().getActionBar().setDisplayHomeAsUpEnabled(mDisplayHomeAsUp);
             }
@@ -200,16 +230,15 @@ public class ViewReviewAction {
             if (hasOptionsMenu()) inflater.inflate(mMenuId, menu);
         }
 
-        public void addMenuActionItem(MenuActionItem item, int itemId,
-                boolean finishActivityOnAction) {
-            mActionItems.put(itemId, new MenuActionItemInfo(item, finishActivityOnAction));
+        public void addMenuActionItem(MenuActionItem item, int itemId, boolean finishActivity) {
+            mActionItems.put(itemId, new MenuActionItemInfo(item, finishActivity));
         }
 
         public boolean onItemSelected(android.view.MenuItem item) {
             MenuActionItemInfo actionItem = mActionItems.get(item.getItemId());
             if (actionItem != null) {
                 actionItem.mItem.doAction(item);
-                if (actionItem.mFinishActivityOnAction) getActivity().finish();
+                if (actionItem.mFinishActivity) getActivity().finish();
                 return true;
             }
 
@@ -248,12 +277,12 @@ public class ViewReviewAction {
         }
 
         private class MenuActionItemInfo {
-            private boolean        mFinishActivityOnAction;
+            private boolean mFinishActivity;
             private MenuActionItem mItem;
 
-            private MenuActionItemInfo(MenuActionItem item, boolean finishActivityOnAction) {
+            private MenuActionItemInfo(MenuActionItem item, boolean finishActivity) {
                 mItem = item;
-                mFinishActivityOnAction = finishActivityOnAction;
+                mFinishActivity = finishActivity;
             }
         }
     }
