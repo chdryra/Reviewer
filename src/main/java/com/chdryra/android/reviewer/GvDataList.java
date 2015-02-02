@@ -43,7 +43,7 @@ public abstract class GvDataList<T extends GvDataList.GvData> extends ViewHolder
      * Enum that enumerates and labels the type of data that will be viewable on a GridView
      */
     public enum GvType {
-        BUILD_UI("BuildUi"),
+        BUILD_UI("create", "create"),
         COMMENTS("comment"),
         CHILDREN("criterion", "criteria"),
         IMAGES("image"),
@@ -51,7 +51,7 @@ public abstract class GvDataList<T extends GvDataList.GvData> extends ViewHolder
         URLS("link"),
         LOCATIONS("location"),
         TAGS("tag"),
-        REVIEWS("review"),
+        FEED("feed", "feed"),
         SOCIAL("social");
 
         private final String mDatumString;

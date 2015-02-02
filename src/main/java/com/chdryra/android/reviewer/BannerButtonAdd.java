@@ -23,7 +23,7 @@ public class BannerButtonAdd extends ViewReviewAction.BannerButtonAction {
     private static final String TAG = "ActionBannerButtonAddListener";
     private ConfigGvDataUi.LaunchableConfig mConfig;
     private GvDataHandler                   mHandler;
-    private Fragment mListener;
+    private Fragment                        mListener;
 
     public BannerButtonAdd(ControllerReviewEditable controller, GvDataList.GvType dataType) {
         super(controller, dataType);
@@ -52,6 +52,7 @@ public class BannerButtonAdd extends ViewReviewAction.BannerButtonAction {
                 mConfig.getTag(), Administrator.get(getActivity()).pack(getController()));
     }
 
+    //TODO make type safe
     protected boolean addData(GvDataList.GvData data) {
         boolean added = mHandler.add(data, getActivity());
         getViewReview().updateUi();

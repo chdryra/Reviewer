@@ -27,7 +27,7 @@ public class FactoryViewReview {
             view = newShareScreen(parent);
         } else if (dataType == GvDataList.GvType.BUILD_UI) {
             view = newBuildScreen(parent);
-        } else if (dataType == GvDataList.GvType.REVIEWS) {
+        } else if (dataType == GvDataList.GvType.FEED) {
             view = newFeedScreen(parent);
         } else {
             view = newEditScreen(parent, dataType);
@@ -212,7 +212,7 @@ public class FactoryViewReview {
         ViewReview.ViewReviewParams params = view.getParams();
         if (dataType == GvDataList.GvType.IMAGES) {
             params.cellHeight = ViewReview.CellDimension.HALF;
-        } else if (dataType == GvDataList.GvType.REVIEWS) {
+        } else if (dataType == GvDataList.GvType.FEED) {
             params.cellHeight = ViewReview.CellDimension.FULL;
             params.cellWidth = ViewReview.CellDimension.FULL;
             params.subjectIsVisibile = false;

@@ -38,7 +38,7 @@ public class ActivityViewReview extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(com.chdryra.android.mygenerallibrary.R.layout.activity_fragment);
+        setContentView(R.layout.activity_fragment);
 
         FragmentManager fm = getFragmentManager();
         Fragment fragment = fm.findFragmentById(FRAGMENT_ID);

@@ -8,6 +8,7 @@
 
 package com.chdryra.android.reviewer;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
@@ -216,10 +217,13 @@ public class ViewReviewAction {
 
         @Override
         public void onSetViewReview() {
-            if (getActivity().getActionBar() != null) {
-                getActivity().getActionBar().setDisplayHomeAsUpEnabled(mDisplayHomeAsUp);
+            ActionBar actionBar = getActivity().getActionBar();
+            if (actionBar != null) {
+                actionBar.setDisplayHomeAsUpEnabled(mDisplayHomeAsUp);
+                actionBar.setDisplayShowHomeEnabled(false);
+                if (getDataType() != null) actionBar.setTitle(getDataType().getDataString());
+                addMenuItems();
             }
-            addMenuItems();
         }
 
         public boolean hasOptionsMenu() {

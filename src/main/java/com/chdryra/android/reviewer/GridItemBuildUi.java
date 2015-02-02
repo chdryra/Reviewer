@@ -25,12 +25,12 @@ import com.google.android.gms.maps.model.LatLng;
 public class GridItemBuildUi extends ViewReviewAction.GridItemAction {
     private static final String TAG = "GridItemBuildUiListener";
     private BuildListener           mListener;
-    private       LatLng        mLatLng;
-    private       ImageChooser  mImageChooser;
+    private LatLng                  mLatLng;
+    private ImageChooser            mImageChooser;
     private LocationClientConnector mLocationClient;
 
     public GridItemBuildUi(ControllerReviewEditable controller) {
-        super(controller, GvDataList.GvType.REVIEWS);
+        super(controller, GvDataList.GvType.FEED);
         mListener = new BuildListener() {
         };
         registerActionListener(mListener, TAG);

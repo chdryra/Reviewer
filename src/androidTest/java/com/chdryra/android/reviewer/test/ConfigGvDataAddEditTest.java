@@ -25,8 +25,8 @@ import java.util.Arrays;
  */
 public class ConfigGvDataAddEditTest extends TestCase {
     private static final GvDataList.GvType[] NULLADDS  = {GvDataList.GvType.IMAGES,
-            GvDataList.GvType.REVIEWS, GvDataList.GvType.SOCIAL};
-    private static final GvDataList.GvType[] NULLEDITS = {GvDataList.GvType.REVIEWS,
+            GvDataList.GvType.FEED, GvDataList.GvType.SOCIAL};
+    private static final GvDataList.GvType[] NULLEDITS = {GvDataList.GvType.FEED,
             GvDataList.GvType.SOCIAL};
 
     @SmallTest

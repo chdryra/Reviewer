@@ -33,8 +33,8 @@ import java.util.Set;
  */
 public class ConfigGvDataUiTest extends AndroidTestCase {
     private static final GvDataList.GvType[] NULLADDS  = {GvDataList.GvType.IMAGES,
-            GvDataList.GvType.REVIEWS, GvDataList.GvType.SOCIAL};
-    private static final GvDataList.GvType[] NULLEDITS = {GvDataList.GvType.REVIEWS,
+            GvDataList.GvType.FEED, GvDataList.GvType.SOCIAL};
+    private static final GvDataList.GvType[] NULLEDITS = {GvDataList.GvType.FEED,
             GvDataList.GvType.SOCIAL};
 
     @SmallTest
@@ -44,7 +44,6 @@ public class ConfigGvDataUiTest extends AndroidTestCase {
             assertNotNull(config);
             assertNotNull(config.getAdderConfig());
             assertNotNull(config.getEditorConfig());
-            assertNotNull(config.getDisplayConfig());
         }
     }
 

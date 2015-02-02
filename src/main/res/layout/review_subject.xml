@@ -7,7 +7,7 @@
   -->
 
 <com.chdryra.android.myandroidwidgets.ClearableEditText
-    android:id="@+id/review_subject_edit_text"
+    android:id="@+id/subject_edit_text"
     style="@style/EditTextCapSentences.Done"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:background="@null"

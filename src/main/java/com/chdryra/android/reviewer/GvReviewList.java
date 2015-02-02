@@ -24,7 +24,7 @@ import java.util.Date;
  * @see com.chdryra.android.reviewer.FragmentFeed
  */
 public class GvReviewList extends GvDataList<GvReviewList.GvReviewOverview> {
-    public static final GvType TYPE = GvType.REVIEWS;
+    public static final GvType TYPE = GvType.FEED;
 
     public GvReviewList() {
         super(TYPE);

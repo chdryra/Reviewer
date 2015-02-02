@@ -17,7 +17,7 @@ public class ActivityFeed extends ActivityViewReview {
 
     @Override
     protected Fragment createFragment() {
-        return FragmentViewReview.newInstance(GvDataList.GvType.REVIEWS, false);
+        return FragmentViewReview.newInstance(GvDataList.GvType.FEED, false);
     }
 
 }

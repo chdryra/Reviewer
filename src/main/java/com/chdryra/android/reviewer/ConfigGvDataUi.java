@@ -23,12 +23,11 @@ import java.util.Map;
  * and packages them with request codes and tags so that they can be appropriately launched
  * by whichever UI needs them in response to a user interaction.
  * </p>
- *
  */
 public final class ConfigGvDataUi {
-    private final static String TAG             = "ConfigReviewDataUI";
-    private final static int    DATA_ADD        = 2718;
-    private final static int DATA_EDIT = 2819;
+    private final static String TAG       = "ConfigReviewDataUI";
+    private final static int    DATA_ADD  = 2718;
+    private final static int    DATA_EDIT = 2819;
     private static ConfigGvDataUi sConfigGvDataUi;
 
     private final Map<GvDataList.GvType, Config> mConfigsMap = new HashMap<GvDataList
@@ -43,7 +42,7 @@ public final class ConfigGvDataUi {
         mConfigsMap.put(GvDataList.GvType.FACTS, new Config(GvDataList.GvType.FACTS));
         mConfigsMap.put(GvDataList.GvType.LOCATIONS, new Config(GvDataList.GvType.LOCATIONS));
         mConfigsMap.put(GvDataList.GvType.URLS, new Config(GvDataList.GvType.URLS));
-        mConfigsMap.put(GvDataList.GvType.REVIEWS, new Config(GvDataList.GvType.REVIEWS));
+        mConfigsMap.put(GvDataList.GvType.FEED, new Config(GvDataList.GvType.FEED));
         mConfigsMap.put(GvDataList.GvType.SOCIAL, new Config(GvDataList.GvType.SOCIAL));
     }
 
@@ -82,9 +81,9 @@ public final class ConfigGvDataUi {
      * {@link GvDataList.GvType}.
      */
     public class Config {
-        private final GvDataList.GvType       mDataType;
-        private final LaunchableConfig mAddConfig;
-        private final LaunchableConfig mEditConfig;
+        private final GvDataList.GvType mDataType;
+        private final LaunchableConfig  mAddConfig;
+        private final LaunchableConfig  mEditConfig;
 
         private Config(GvDataList.GvType dataType) {
             mDataType = dataType;
@@ -105,13 +104,13 @@ public final class ConfigGvDataUi {
         }
 
         private LaunchableConfig initAddConfig() {
-            return new LaunchableConfig(mDataType, ConfigGvDataAddEdit.getAddClass
-                    (mDataType), DATA_ADD, mDataType.getDatumString().toUpperCase() + "_ADD_TAG");
+            return new LaunchableConfig(mDataType, ConfigGvDataAddEdit.getAddClass(mDataType),
+                    DATA_ADD, mDataType.getDatumString().toUpperCase() + "_ADD_TAG");
         }
 
         private LaunchableConfig initEditConfig() {
-            return new LaunchableConfig(mDataType, ConfigGvDataAddEdit.getEditClass
-                    (mDataType), DATA_EDIT, mDataType.getDatumString().toUpperCase() + "_EDIT_TAG");
+            return new LaunchableConfig(mDataType, ConfigGvDataAddEdit.getEditClass(mDataType),
+                    DATA_EDIT, mDataType.getDatumString().toUpperCase() + "_EDIT_TAG");
         }
     }
 

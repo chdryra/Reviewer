@@ -7,18 +7,18 @@
   -->
 
 <LinearLayout
-    android:id="@+id/review_grid_linearlayout"
+    android:id="@+id/linearlayout"
     style="@style/LineaLayoutVertical"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <include
-        android:id="@+id/review_subject_edit_text"
+        android:id="@+id/subject_edit_text"
         layout="@layout/review_subject"/>
 
     <View style="@style/HorizontalDivider"/>
 
     <include
-        android:id="@+id/review_rating_bar"
+        android:id="@+id/rating_bar"
         layout="@layout/review_rating"/>
 
     <View style="@style/HorizontalDivider"/>

@@ -45,7 +45,7 @@ public class ViewReview {
     private boolean mIsEditable = false;
 
     private ArrayList<DataSetObserver> mGridObservers;
-    private HashMap<String, Fragment> mActionListeners;
+    private HashMap<String, Fragment>  mActionListeners;
 
     private ViewModifier mModifier;
 
@@ -188,7 +188,7 @@ public class ViewReview {
         mParent.updateUi();
     }
 
-    public void attachRegisteredListeners() {
+    public void attachActionListeners() {
         FragmentManager manager = mParent.getFragmentManager();
         FragmentTransaction ft = manager.beginTransaction();
         for (Map.Entry<String, Fragment> entry : mActionListeners.entrySet()) {

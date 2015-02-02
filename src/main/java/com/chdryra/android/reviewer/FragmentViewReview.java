@@ -39,23 +39,23 @@ import com.chdryra.android.mygenerallibrary.ViewHolderAdapter;
  * Email: rizwan.choudrey@gmail.com
  */
 public class FragmentViewReview extends Fragment {
-    private static final String TYPE = "comchdryra.android.reviewer.fragmentreviewgrid_type";
-    private static final String EDIT = "comchdryra.android.reviewer.fragmentreviewgrid_edit";
+    private static final String TYPE = "com.chdryra.android.reviewer.fragmentviewreview_type";
+    private static final String EDIT = "com.chdryra.android.reviewer.fragmentviewreview_edit";
 
-    private static final int LAYOUT        = R.layout.fragment_review_grid;
-    private static final int LINEAR_LAYOUT = R.id.review_grid_linearlayout;
-    private static final int SUBJECT       = R.id.review_subject_edit_text;
-    private static final int RATING        = R.id.review_rating_bar;
+    private static final int LAYOUT        = R.layout.fragment_view_review;
+    private static final int LINEAR_LAYOUT = R.id.linearlayout;
+    private static final int SUBJECT       = R.id.subject_edit_text;
+    private static final int RATING        = R.id.rating_bar;
     private static final int BUTTON        = R.id.banner_button;
     private static final int GRID          = R.id.gridview_data;
-
-    private ViewReview mViewReview;
 
     private LinearLayout mLinearLayout;
     private TextView     mSubjectView;
     private RatingBar    mRatingBar;
     private Button       mBannerButton;
     private GridView     mGridView;
+
+    private ViewReview mViewReview;
 
     private int mMaxGridCellWidth;
     private int mMaxGridCellHeight;
@@ -84,8 +84,8 @@ public class FragmentViewReview extends Fragment {
         boolean isEdit = args.getBoolean(EDIT);
 
         mViewReview = FactoryViewReview.newViewReview(this, dataType, isEdit);
-        ViewReview.ViewReviewParams params = mViewReview.getParams();
 
+        ViewReview.ViewReviewParams params = mViewReview.getParams();
         setGridCellDimension(params.cellWidth, params.cellHeight);
         setHasOptionsMenu(true);
     }
@@ -119,7 +119,7 @@ public class FragmentViewReview extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        new ActionListenersTask().execute();
+        new AttachActionListenersTask().execute();
     }
 
     @Override
@@ -143,7 +143,6 @@ public class FragmentViewReview extends Fragment {
     public void updateUi() {
         updateSubjectUi();
         updateRatingBarUi();
-        ;
         updateBannerButtonUi();
         updateGridDataUi();
         updateCover();
@@ -372,8 +371,8 @@ public class FragmentViewReview extends Fragment {
     }
 
     //Have to do this hacky crap because FragmentManager cannot properly deal with child
-    // fragments as executePendingTransactions not properly synchronised.
-    private class ActionListenersTask extends AsyncTask<Void, Void, Void> {
+    // fragments as executePendingTransactions not properly synchronised pre API 17.
+    private class AttachActionListenersTask extends AsyncTask<Void, Void, Void> {
         protected Void doInBackground(Void... params) {
             return null;
         }
@@ -381,7 +380,7 @@ public class FragmentViewReview extends Fragment {
 
         @Override
         protected void onPostExecute(Void result) {
-            mViewReview.attachRegisteredListeners();
+            mViewReview.attachActionListeners();
         }
     }
 }

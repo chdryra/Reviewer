@@ -18,7 +18,7 @@
             android:layout_weight="1"/>
 
         <RatingBar
-            android:id="@+id/review_rating_bar"
+            android:id="@+id/rating_bar"
             style="?android:attr/ratingBarStyleSmall"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"

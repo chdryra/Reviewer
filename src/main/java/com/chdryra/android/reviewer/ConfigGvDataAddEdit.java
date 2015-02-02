@@ -61,7 +61,7 @@ public final class ConfigGvDataAddEdit {
                         ActivityEditUrlBrowser.class,
                         ActivityEditUrlBrowser.class));
 
-        mMap.put(GvDataList.GvType.REVIEWS,
+        mMap.put(GvDataList.GvType.FEED,
                 new AddEditUis(null, null));
 
         mMap.put(GvDataList.GvType.SOCIAL,

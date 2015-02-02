@@ -36,7 +36,7 @@ import java.text.DateFormat;
 class VHReviewNodeOverview extends ViewHolderBasic {
     private static final int LAYOUT   = R.layout.grid_cell_review_overview;
     private static final int SUBJECT  = R.id.review_subject;
-    private static final int RATING   = R.id.review_rating_bar;
+    private static final int RATING   = R.id.rating_bar;
     private static final int IMAGE    = R.id.review_image;
     private static final int HEADLINE = R.id.review_headline;
     private static final int LOCATION = R.id.review_location;

@@ -39,7 +39,7 @@ public class GvDataMocker {
             GvDataList
                     .GvType.FACTS, GvDataList.GvType.TAGS, GvDataList.GvType.LOCATIONS,
             GvDataList.GvType.URLS, GvDataList.GvType.CHILDREN, GvDataList.GvType.IMAGES,
-            GvDataList.GvType.REVIEWS};
+            GvDataList.GvType.FEED};
     private static final RandomStringGenerator STRING_GENERATOR = new RandomStringGenerator();
     private static final Random                RAND             = new Random();
 
@@ -59,7 +59,7 @@ public class GvDataMocker {
             return newTagList(size);
         } else if (dataType == GvDataList.GvType.CHILDREN) {
             return newChildList(size);
-        } else if (dataType == GvDataList.GvType.REVIEWS) {
+        } else if (dataType == GvDataList.GvType.FEED) {
             return newReviewList(size);
         } else {
             return null;
@@ -82,7 +82,7 @@ public class GvDataMocker {
             return newTag();
         } else if (dataType == GvDataList.GvType.CHILDREN) {
             return newChild();
-        } else if (dataType == GvDataList.GvType.REVIEWS) {
+        } else if (dataType == GvDataList.GvType.FEED) {
             return newReviewOverview();
         } else {
             return null;
