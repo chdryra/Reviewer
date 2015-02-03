@@ -86,13 +86,30 @@ public abstract class GvDataList<T extends GvDataList.GvData> extends ViewHolder
         mDataType = dataType;
     }
 
-
-    //Only used for GvCellManager
-    protected GvDataList() {
-        mDataType = null;
-    }
-
     public GvType getGvType() {
         return mDataType;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || !(o instanceof GvDataList)) return false;
+
+        GvDataList<T> other;
+        try {
+            other = (GvDataList<T>) o;
+        } catch (ClassCastException e) {
+            return false;
+        }
+
+        if (other.size() != size()) return false;
+
+        for (int i = 0; i < size(); ++i) {
+            T datum = getItem(i);
+            T otherDatum = other.getItem(i);
+            if (!datum.equals(otherDatum)) return false;
+        }
+
+        return true;
     }
 }

@@ -11,6 +11,7 @@ package com.chdryra.android.reviewer.test;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.GvChildrenList;
+import com.chdryra.android.reviewer.GvDataList;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
 import com.chdryra.android.reviewer.test.TestUtils.RatingMocker;
 
@@ -24,6 +25,7 @@ import java.util.Random;
  * Email: rizwan.choudrey@gmail.com
  */
 public class GvChildrenListTest extends TestCase {
+    private static final int NUM = 50;
     private GvChildrenList mList;
 
     @SmallTest
@@ -49,14 +51,11 @@ public class GvChildrenListTest extends TestCase {
 
     @SmallTest
     public void testComparator() {
-        for (int i = 0; i < 50; ++i) {
-            mList.add(GvDataMocker.newChild());
-        }
-
-        assertEquals(50, mList.size());
+        mList.add(GvDataMocker.newChildList(NUM));
+        assertEquals(NUM, mList.size());
 
         Random rand = new Random();
-        for (int i = 0; i < 50; ++i) {
+        for (int i = 0; i < NUM; ++i) {
             int item = rand.nextInt(9);
             String subject = mList.getItem(item).getSubject();
             float rating = RatingMocker.nextRating();
@@ -79,6 +78,31 @@ public class GvChildrenListTest extends TestCase {
 
             prev = next;
         }
+    }
+
+    @SmallTest
+    public void testEquals() {
+        mList.add(GvDataMocker.newChildList(NUM));
+        assertEquals(NUM, mList.size());
+
+        assertFalse(mList.equals(GvDataMocker.getData(GvDataList.GvType.CHILDREN, NUM)));
+        assertFalse(mList.equals(GvDataMocker.getData(GvDataList.GvType.TAGS, NUM)));
+        assertFalse(mList.equals(GvDataMocker.getData(GvDataList.GvType.LOCATIONS, NUM)));
+        assertFalse(mList.equals(GvDataMocker.getData(GvDataList.GvType.COMMENTS, NUM)));
+        assertFalse(mList.equals(GvDataMocker.getData(GvDataList.GvType.FACTS, NUM)));
+        assertFalse(mList.equals(GvDataMocker.getData(GvDataList.GvType.IMAGES, NUM)));
+        assertFalse(mList.equals(GvDataMocker.getData(GvDataList.GvType.URLS, NUM)));
+
+        GvChildrenList list = new GvChildrenList();
+        assertEquals(0, list.size());
+        for (int i = 0; i < mList.size(); ++i) {
+            assertFalse(mList.equals(list));
+            list.add(mList.getItem(i));
+        }
+
+        assertTrue(mList.equals(list));
+        list.add(mList);
+        assertFalse(mList.equals(list));
     }
 
     @SmallTest
