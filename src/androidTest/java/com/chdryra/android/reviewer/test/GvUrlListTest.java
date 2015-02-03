@@ -10,6 +10,7 @@ package com.chdryra.android.reviewer.test;
 
 import android.test.suitebuilder.annotation.SmallTest;
 
+import com.chdryra.android.reviewer.GvDataList;
 import com.chdryra.android.reviewer.GvUrlList;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
 
@@ -23,6 +24,7 @@ import java.net.URL;
  * Email: rizwan.choudrey@gmail.com
  */
 public class GvUrlListTest extends TestCase {
+    private static final int NUM = 50;
     private GvUrlList mList;
 
     @SmallTest
@@ -57,6 +59,31 @@ public class GvUrlListTest extends TestCase {
         assertFalse(shortened.contains("://"));
     }
 
+    @SmallTest
+    public void testEquals() {
+        mList.add(GvDataMocker.newUrlList(NUM));
+        assertEquals(NUM, mList.size());
+
+        assertFalse(mList.equals(GvDataMocker.getData(GvDataList.GvType.CHILDREN, NUM)));
+        assertFalse(mList.equals(GvDataMocker.getData(GvDataList.GvType.TAGS, NUM)));
+        assertFalse(mList.equals(GvDataMocker.getData(GvDataList.GvType.LOCATIONS, NUM)));
+        assertFalse(mList.equals(GvDataMocker.getData(GvDataList.GvType.COMMENTS, NUM)));
+        assertFalse(mList.equals(GvDataMocker.getData(GvDataList.GvType.FACTS, NUM)));
+        assertFalse(mList.equals(GvDataMocker.getData(GvDataList.GvType.IMAGES, NUM)));
+        assertFalse(mList.equals(GvDataMocker.getData(GvDataList.GvType.URLS, NUM)));
+
+        GvUrlList list = new GvUrlList();
+        assertEquals(0, list.size());
+        for (int i = 0; i < mList.size(); ++i) {
+            assertFalse(mList.equals(list));
+            list.add(mList.getItem(i));
+        }
+
+        assertTrue(mList.equals(list));
+        list.add(mList);
+        assertFalse(mList.equals(list));
+    }
+    
     @Override
     protected void setUp() throws Exception {
         super.setUp();
