@@ -3,32 +3,32 @@
  * Unauthorized copying of this file, via any medium is strictly prohibited
  * Proprietary and confidential
  * Author: Rizwan Choudrey
- * Date: 2 February, 2015
+ * Date: 4 February, 2015
  */
 
 package com.chdryra.android.reviewer.test;
 
 import android.test.suitebuilder.annotation.SmallTest;
 
+import com.chdryra.android.reviewer.GvCommentList;
 import com.chdryra.android.reviewer.GvDataList;
-import com.chdryra.android.reviewer.GvTagList;
 
 /**
  * Created by: Rizwan Choudrey
- * On: 02/02/2015
+ * On: 04/02/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ActivityEditTagsTest extends ActivityEditScreenTest {
+public class ActivityEditCommentsTest extends ActivityEditScreenTest {
 
-    public ActivityEditTagsTest() {
-        super(GvDataList.GvType.TAGS);
+    public ActivityEditCommentsTest() {
+        super(GvDataList.GvType.COMMENTS);
     }
 
     @Override
     protected void enterDatum(GvDataList.GvData datum) {
-        GvTagList.GvTag tag = (GvTagList.GvTag) datum;
+        GvCommentList.GvComment comment = (GvCommentList.GvComment) datum;
         mSolo.clearEditText(mSolo.getEditText(0));
-        mSolo.enterText(mSolo.getEditText(0), tag.get());
+        mSolo.enterText(mSolo.getEditText(0), comment.getComment());
     }
 
     @SmallTest
