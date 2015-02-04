@@ -65,4 +65,14 @@ public class ActivityEditCommentsTest extends ActivityEditScreenTest {
     public void testGridItemDeleteCancel() {
         super.testGridItemDeleteCancel();
     }
+
+    @SmallTest
+    public void testMenuDeleteConfirm() {
+        super.testMenuDeleteConfirm();
+    }
+
+    @SmallTest
+    public void testMenuDeleteCancel() {
+        super.testMenuDeleteCancel();
+    }
 }
