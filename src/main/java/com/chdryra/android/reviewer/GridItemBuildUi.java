@@ -30,7 +30,7 @@ public class GridItemBuildUi extends ViewReviewAction.GridItemAction {
     private LocationClientConnector mLocationClient;
 
     public GridItemBuildUi(ControllerReviewEditable controller) {
-        super(controller, GvDataList.GvType.FEED);
+        super(controller, GvDataList.GvType.BUILD_UI);
         mListener = new BuildListener() {
         };
         registerActionListener(mListener, TAG);

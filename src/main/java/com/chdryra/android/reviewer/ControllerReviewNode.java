@@ -28,19 +28,19 @@ public class ControllerReviewNode extends ControllerReview<ReviewNode> {
                 .toGridViewable(false) : super.getData(dataType);
     }
 
+    public boolean isReviewRatingAverage() {
+        return getControlledReview().isRatingIsAverageOfChildren();
+    }
+
+    public void setReviewRatingAverage(boolean isAverage) {
+        getControlledReview().setRatingIsAverageOfChildren(isAverage);
+    }
+
     ControllerReviewCollection<ReviewNode> createChildrenController() {
         return new ControllerReviewCollection<>(getControlledReview().getChildren());
     }
 
     ControllerReviewCollection<ReviewNode> getChildrenController() {
         return createChildrenController();
-    }
-
-    boolean isReviewRatingAverage() {
-        return getControlledReview().isRatingIsAverageOfChildren();
-    }
-
-    void setReviewRatingAverage(boolean isAverage) {
-        getControlledReview().setRatingIsAverageOfChildren(isAverage);
     }
 }

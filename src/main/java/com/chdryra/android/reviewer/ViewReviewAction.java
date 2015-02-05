@@ -33,7 +33,6 @@ import java.util.Map;
  */
 public class ViewReviewAction {
     private ControllerReview  mController;
-    private GvDataList.GvType mDataType;
     private ViewReview        mViewReview;
     private HashMap<String, Fragment> mListeners;
 
@@ -41,10 +40,9 @@ public class ViewReviewAction {
         mListeners = new HashMap<>();
     }
 
-    private ViewReviewAction(ControllerReview controller, GvDataList.GvType dataType) {
+    private ViewReviewAction(ControllerReview controller) {
         mListeners = new HashMap<>();
         mController = controller;
-        mDataType = dataType;
     }
 
     public ViewReview getViewReview() {
@@ -72,9 +70,6 @@ public class ViewReviewAction {
         return mController;
     }
 
-    public GvDataList.GvType getDataType() {
-        return mDataType;
-    }
 
     public Activity getActivity() {
         return mViewReview != null ? mViewReview.getActivity() : null;
@@ -88,13 +83,30 @@ public class ViewReviewAction {
         return getViewReview().getGridData();
     }
 
+    public static class TypedViewAction extends ViewReviewAction {
+        private GvDataList.GvType mDataType;
+
+        protected TypedViewAction() {
+
+        }
+
+        public TypedViewAction(ControllerReview controller, GvDataList.GvType dataType) {
+            super(controller);
+            mDataType = dataType;
+        }
+
+        public GvDataList.GvType getDataType() {
+            return mDataType;
+        }
+    }
+
     public static class SubjectViewAction extends ViewReviewAction {
         public SubjectViewAction() {
 
         }
 
-        public SubjectViewAction(ControllerReview controller, GvDataList.GvType dataType) {
-            super(controller, dataType);
+        public SubjectViewAction(ControllerReview controller) {
+            super(controller);
         }
 
         public String getSubject() {
@@ -117,8 +129,8 @@ public class ViewReviewAction {
 
         }
 
-        public RatingBarAction(ControllerReview controller, GvDataList.GvType dataType) {
-            super(controller, dataType);
+        public RatingBarAction(ControllerReview controller) {
+            super(controller);
         }
 
         public float getRating() {
@@ -130,7 +142,7 @@ public class ViewReviewAction {
         }
     }
 
-    public static class BannerButtonAction extends ViewReviewAction {
+    public static class BannerButtonAction extends TypedViewAction {
         public BannerButtonAction() {
 
         }
@@ -157,7 +169,7 @@ public class ViewReviewAction {
         }
     }
 
-    public static class GridItemAction extends ViewReviewAction {
+    public static class GridItemAction extends TypedViewAction {
         public GridItemAction() {
 
         }
@@ -174,7 +186,7 @@ public class ViewReviewAction {
         }
     }
 
-    public static class MenuAction extends ViewReviewAction {
+    public static class MenuAction extends TypedViewAction {
         public static final int                MENU_UP_ID = android.R.id.home;
         public static final ActivityResultCode RESULT_UP  = ActivityResultCode.UP;
 

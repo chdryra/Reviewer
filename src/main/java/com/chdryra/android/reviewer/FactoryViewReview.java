@@ -51,7 +51,7 @@ public class FactoryViewReview {
         ViewReview view = new ViewReview(parent, data, true, new ViewReviewBuildModifier
                 (controller));
 
-        view.setAction(newSubjectEdit(controller, dataType));
+        view.setAction(newSubjectEdit(controller));
         view.setAction(newRatingBarEdit(controller, dataType));
         view.setAction(ViewReviewAction.BannerButtonAction.newDisplayButton(controller, dataType,
                 parent.getResources().getString(R.string.button_add_review_data)));
@@ -75,8 +75,8 @@ public class FactoryViewReview {
         ControllerReview controller = admin.unpack(i);
         GvDataList.GvType dataType = GvDataList.GvType.SOCIAL;
 
-        view.setAction(newSubjectViewAction(controller, dataType));
-        view.setAction(newRatingBarAction(controller, dataType));
+        view.setAction(newSubjectViewAction(controller));
+        view.setAction(newRatingBarAction(controller));
         view.setAction(ViewReviewAction.BannerButtonAction.newDisplayButton(controller, dataType,
                 parent.getResources().getString(R.string.button_social)));
         view.setAction(newGridItemAction(controller, dataType));
@@ -107,8 +107,8 @@ public class FactoryViewReview {
 
         ViewReview view = new ViewReview(parent, data, true);
 
-        view.setAction(newSubjectEdit(controller, dataType));
-        view.setAction(newRatingBarEdit(controller, dataType));
+        view.setAction(newSubjectViewAction(controller));
+        view.setAction(newRatingBarAction(controller));
         view.setAction(newBannerButtonAdd(controller, dataType));
         view.setAction(newGridItemEdit(controller, dataType));
         view.setAction(newMenuEdit(controller, dataType));
@@ -173,9 +173,9 @@ public class FactoryViewReview {
         }
     }
 
-    private static ViewReviewAction.RatingBarAction newRatingBarAction(ControllerReview controller,
-            GvDataList.GvType dataType) {
-        return new ViewReviewAction.RatingBarAction(controller, dataType);
+    private static ViewReviewAction.RatingBarAction newRatingBarAction(ControllerReview
+            controller) {
+        return new ViewReviewAction.RatingBarAction(controller);
     }
 
     private static ViewReviewAction.RatingBarAction newRatingBarEdit(ControllerReviewEditable
@@ -184,20 +184,18 @@ public class FactoryViewReview {
         if (dataType == GvDataList.GvType.CHILDREN) {
             return new RatingEditChildren(controller);
         } else {
-            return new RatingEdit(controller, dataType);
+            return new RatingEdit(controller);
         }
     }
 
     private static ViewReviewAction.SubjectViewAction newSubjectViewAction(ControllerReview
-            controller,
-            GvDataList.GvType dataType) {
-        return new ViewReviewAction.SubjectViewAction(controller, dataType);
+            controller) {
+        return new ViewReviewAction.SubjectViewAction(controller);
     }
 
     private static ViewReviewAction.SubjectViewAction newSubjectEdit(ControllerReviewEditable
-            controller,
-            GvDataList.GvType dataType) {
-        return new SubjectEdit(controller, dataType);
+            controller) {
+        return new SubjectEdit(controller);
     }
 
     private static CoverManager newCoverManager(ControllerReview controller) {

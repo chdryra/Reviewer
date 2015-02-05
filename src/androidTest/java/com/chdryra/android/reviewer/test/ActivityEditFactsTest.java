@@ -3,7 +3,7 @@
  * Unauthorized copying of this file, via any medium is strictly prohibited
  * Proprietary and confidential
  * Author: Rizwan Choudrey
- * Date: 2 February, 2015
+ * Date: 5 February, 2015
  */
 
 package com.chdryra.android.reviewer.test;
@@ -11,24 +11,26 @@ package com.chdryra.android.reviewer.test;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.GvDataList;
-import com.chdryra.android.reviewer.GvTagList;
+import com.chdryra.android.reviewer.GvFactList;
 
 /**
  * Created by: Rizwan Choudrey
- * On: 02/02/2015
+ * On: 05/02/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ActivityEditTagsTest extends ActivityEditScreenTest {
+public class ActivityEditFactsTest extends ActivityEditScreenTest {
 
-    public ActivityEditTagsTest() {
-        super(GvDataList.GvType.TAGS);
+    public ActivityEditFactsTest() {
+        super(GvDataList.GvType.FACTS);
     }
 
     @Override
     protected void enterDatum(GvDataList.GvData datum) {
-        GvTagList.GvTag tag = (GvTagList.GvTag) datum;
+        GvFactList.GvFact fact = (GvFactList.GvFact) datum;
         mSolo.clearEditText(mSolo.getEditText(0));
-        mSolo.enterText(mSolo.getEditText(0), tag.get());
+        mSolo.clearEditText(mSolo.getEditText(1));
+        mSolo.enterText(mSolo.getEditText(0), fact.getLabel());
+        mSolo.enterText(mSolo.getEditText(1), fact.getValue());
     }
 
     @SmallTest
@@ -91,3 +93,4 @@ public class ActivityEditTagsTest extends ActivityEditScreenTest {
         super.testMenuUpCancels();
     }
 }
+

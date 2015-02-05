@@ -23,13 +23,22 @@ public class MenuItemChildrenRatingAverage extends ViewReviewAction.MenuAction.M
     }
 
     public void setAverageRating() {
-        ControllerReviewEditable controller = (ControllerReviewEditable) mAction.getController();
-        controller.getReviewNode().setReviewRatingAverage(true);
-        mAction.getViewReview().setRating(controller.getRating());
+        GvChildrenList children = (GvChildrenList) mAction.getData();
+        int numChildren = children.size();
+        float rating = 0;
+        for (GvChildrenList.GvChildReview child : children) {
+            rating += child.getRating();
+        }
+        if (numChildren > 0) {
+            rating /= numChildren;
+        }
+
+        mAction.getViewReview().setRating(rating);
     }
 
     @Override
     public void doAction(MenuItem item) {
+        mAction.getController().getReviewNode().setReviewRatingAverage(true);
         setAverageRating();
     }
 }

@@ -3,72 +3,36 @@
  * Unauthorized copying of this file, via any medium is strictly prohibited
  * Proprietary and confidential
  * Author: Rizwan Choudrey
- * Date: 4 February, 2015
+ * Date: 5 February, 2015
  */
 
 package com.chdryra.android.reviewer.test;
 
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.GvCommentList;
+import com.chdryra.android.reviewer.GvChildrenList;
 import com.chdryra.android.reviewer.GvDataList;
 import com.chdryra.android.reviewer.R;
 
 /**
  * Created by: Rizwan Choudrey
- * On: 04/02/2015
+ * On: 05/02/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ActivityEditCommentsTest extends ActivityEditScreenTest {
-    private static final int SPLIT = R.id.menu_item_split_comment;
+public class ActivityEditChildrenTest extends ActivityEditScreenTest {
+    private static final int AVERAGE = R.id.menu_item_average_rating;
+    private float mRatingBeforeDone;
 
-    public ActivityEditCommentsTest() {
-        super(GvDataList.GvType.COMMENTS);
-    }
-
-    @SmallTest
-    public void testMenuSplitUnsplitComments() {
-        setUp(true);
-        GvCommentList comments = (GvCommentList) mController.getData(mDataType);
-        GvCommentList split = comments.getSplitComments();
-
-        assertTrue(comments.size() > 0);
-        assertTrue(split.size() > comments.size());
-
-        assertEquals(comments.size(), getGridSize());
-        testInGrid(comments, true);
-        testInGrid(split, false);
-        checkControllerDataChanges(comments);
-
-        mSolo.clickOnActionBarItem(SPLIT);
-
-        assertEquals(split.size(), getGridSize());
-        testInGrid(comments, false);
-        testInGrid(split, true);
-        checkControllerDataChanges(comments);
-
-        mSolo.clickOnActionBarItem(SPLIT);
-
-        assertEquals(comments.size(), getGridSize());
-        testInGrid(comments, true);
-        testInGrid(split, false);
-        checkControllerDataChanges(comments);
-
-        mSolo.clickOnActionBarItem(SPLIT);
-
-        assertEquals(split.size(), getGridSize());
-        testInGrid(comments, false);
-        testInGrid(split, true);
-
-        mSolo.clickOnActionBarItem(DONE);
-        checkControllerDataChanges(comments);
+    public ActivityEditChildrenTest() {
+        super(GvDataList.GvType.CHILDREN);
     }
 
     @Override
     protected void enterDatum(GvDataList.GvData datum) {
-        GvCommentList.GvComment comment = (GvCommentList.GvComment) datum;
+        GvChildrenList.GvChildReview child = (GvChildrenList.GvChildReview) datum;
         mSolo.clearEditText(mSolo.getEditText(0));
-        mSolo.enterText(mSolo.getEditText(0), comment.getComment());
+        mSolo.enterText(mSolo.getEditText(0), child.getSubject());
+        mSolo.setProgressBar(0, (int) (child.getRating() * 2f));
     }
 
     @SmallTest
@@ -84,6 +48,12 @@ public class ActivityEditCommentsTest extends ActivityEditScreenTest {
     @SmallTest
     public void testSubjectRatingChange() {
         super.testSubjectRatingChange();
+    }
+
+    @Override
+    protected void pressDone() {
+        mRatingBeforeDone = getAverageRating();
+        super.pressDone();
     }
 
     @SmallTest
@@ -130,4 +100,42 @@ public class ActivityEditCommentsTest extends ActivityEditScreenTest {
     public void testMenuUpCancels() {
         super.testMenuUpCancels();
     }
+
+    @Override
+    protected void setUp(boolean withData) {
+        super.setUp(withData, true);
+    }
+
+    @Override
+    protected void checkSubjectRating() {
+        if (mController.getReviewNode().isReviewRatingAverage()) {
+            checkFragmentSubjectRating(mOriginalSubject, getAverageRating());
+            super.checkControllerSubjectRating();
+        } else {
+            super.checkSubjectRating();
+        }
+    }
+
+    @Override
+    protected void checkControllerSubjectRatingOnDone() {
+        if (mController.getReviewNode().isReviewRatingAverage()) {
+            checkControllerSubjectRating(mOriginalSubject, mRatingBeforeDone);
+        } else {
+            super.checkControllerSubjectRatingOnDone();
+        }
+    }
+
+    private float getAverageRating() {
+        int numCells = getGridSize();
+        float rating = 0;
+        for (int i = 0; i < numCells; ++i) {
+            GvChildrenList.GvChildReview review = (GvChildrenList.GvChildReview) getGridItem(i);
+            rating += review.getRating();
+        }
+
+        if (rating > 0) rating /= numCells;
+
+        return rating;
+    }
 }
+

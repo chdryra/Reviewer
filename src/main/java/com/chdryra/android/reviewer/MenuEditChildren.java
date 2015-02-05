@@ -30,7 +30,9 @@ public class MenuEditChildren extends MenuDeleteDone {
         mObserver = new DataSetObserver() {
             @Override
             public void onChanged() {
-                mActionItem.setAverageRating();
+                if (getController().getReviewNode().isReviewRatingAverage()) {
+                    mActionItem.setAverageRating();
+                }
             }
 
             @Override

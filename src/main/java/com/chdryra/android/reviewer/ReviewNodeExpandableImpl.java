@@ -254,8 +254,12 @@ class ReviewNodeExpandableImpl implements ReviewNodeExpandable {
     }
 
     private MdRating getAverageRatingOfChildren() {
-        VisitorRatingCalculator visitor = new VisitorRatingAverageOfChildren();
-        acceptVisitor(visitor);
-        return new MdRating(visitor.getRating(), this);
+        if (getChildren().size() > 0) {
+            VisitorRatingCalculator visitor = new VisitorRatingAverageOfChildren();
+            acceptVisitor(visitor);
+            return new MdRating(visitor.getRating(), this);
+        } else {
+            return new MdRating(0f, this);
+        }
     }
 }
