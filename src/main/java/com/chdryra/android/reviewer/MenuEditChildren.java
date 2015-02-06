@@ -22,11 +22,11 @@ public class MenuEditChildren extends MenuDeleteDone {
     private static final int MENU            = R.menu.fragment_review_children;
 
     private MenuItemChildrenRatingAverage mActionItem;
-    private DataSetObserver mObserver;
+    private DataSetObserver               mObserver;
 
     public MenuEditChildren(ControllerReviewEditable controller) {
-        super(controller, GvDataList.GvType.COMMENTS, false, true, MENU);
-        mActionItem = new MenuItemChildrenRatingAverage(this);
+        super(controller, GvDataList.GvType.CHILDREN, false, true, MENU);
+        mActionItem = new MenuItemChildrenRatingAverage(this, false);
         mObserver = new DataSetObserver() {
             @Override
             public void onChanged() {

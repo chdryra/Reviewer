@@ -108,7 +108,7 @@ public class FactoryViewReview {
         ViewReview view = new ViewReview(parent, data, true);
 
         view.setAction(newSubjectViewAction(controller));
-        view.setAction(newRatingBarAction(controller));
+        view.setAction(newRatingBarEdit(controller, dataType));
         view.setAction(newBannerButtonAdd(controller, dataType));
         view.setAction(newGridItemEdit(controller, dataType));
         view.setAction(newMenuEdit(controller, dataType));
@@ -181,8 +181,8 @@ public class FactoryViewReview {
     private static ViewReviewAction.RatingBarAction newRatingBarEdit(ControllerReviewEditable
             controller,
             GvDataList.GvType dataType) {
-        if (dataType == GvDataList.GvType.CHILDREN) {
-            return new RatingEditChildren(controller);
+        if (dataType == GvDataList.GvType.BUILD_UI) {
+            return new RatingEditBuildUi(controller);
         } else {
             return new RatingEdit(controller);
         }

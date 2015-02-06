@@ -32,8 +32,8 @@ import java.util.Map;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ViewReviewAction {
-    private ControllerReview  mController;
-    private ViewReview        mViewReview;
+    private ControllerReview          mController;
+    private ViewReview                mViewReview;
     private HashMap<String, Fragment> mListeners;
 
     private ViewReviewAction() {
@@ -268,7 +268,7 @@ public class ViewReviewAction {
             if (result != null) getActivity().setResult(result.get(), null);
         }
 
-        private void onUpSelected() {
+        protected void doUpSelected() {
             if (NavUtils.getParentActivityName(getActivity()) != null) {
                 Intent i = NavUtils.getParentActivityIntent(getActivity());
                 if (getController() != null) {
@@ -282,7 +282,7 @@ public class ViewReviewAction {
             return new MenuActionItem() {
                 @Override
                 public void doAction(MenuItem item) {
-                    onUpSelected();
+                    doUpSelected();
                     sendResult(RESULT_UP);
                 }
             };
@@ -293,7 +293,7 @@ public class ViewReviewAction {
         }
 
         private class MenuActionItemInfo {
-            private boolean mFinishActivity;
+            private boolean        mFinishActivity;
             private MenuActionItem mItem;
 
             private MenuActionItemInfo(MenuActionItem item, boolean finishActivity) {

@@ -211,8 +211,8 @@ public abstract class ActivityEditScreenTest extends
         Display mdisp = mActivity.getWindowManager().getDefaultDisplay();
         Point mdispSize = new Point();
         mdisp.getSize(mdispSize);
-        int x = mdispSize.x / 2;
-        int y = mdispSize.y / 2;
+        int x = mdispSize.x;
+        int y = mdispSize.y;
         mSolo.clickLongOnScreen(x, y);
     }
 

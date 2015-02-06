@@ -22,7 +22,6 @@ public class RatingEdit extends ViewReviewAction.RatingBarAction {
 
     @Override
     public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-        ControllerReviewEditable controller = (ControllerReviewEditable) getController();
-        controller.setRating(rating);
+        if (fromUser) getController().getReviewNode().setReviewRatingAverage(false);
     }
 }

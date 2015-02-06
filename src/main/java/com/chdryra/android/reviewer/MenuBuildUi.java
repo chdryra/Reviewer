@@ -20,7 +20,7 @@ public class MenuBuildUi extends ViewReviewAction.MenuAction {
 
     public MenuBuildUi(ControllerReview controller) {
         super(controller, GvDataList.GvType.BUILD_UI, MENU);
-        mActionItem = new MenuItemChildrenRatingAverage(this);
+        mActionItem = new MenuItemChildrenRatingAverage(this, true);
     }
 
     @Override

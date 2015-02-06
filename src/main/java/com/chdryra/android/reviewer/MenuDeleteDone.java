@@ -37,6 +37,7 @@ public class MenuDeleteDone extends ViewReviewAction.MenuAction {
     private boolean mDismissOnDone;
 
     private Fragment mListener;
+    private boolean  mRatingIsAverage;
 
     public MenuDeleteDone(ControllerReviewEditable controller,
             GvDataList.GvType dataType) {
@@ -70,6 +71,8 @@ public class MenuDeleteDone extends ViewReviewAction.MenuAction {
             }
         };
 
+        mRatingIsAverage = getEditable().getReviewNode().isReviewRatingAverage();
+
         addMenuItems();
         mListener = new DeleteConfirmListener() {
         };
@@ -80,6 +83,12 @@ public class MenuDeleteDone extends ViewReviewAction.MenuAction {
     protected void addMenuItems() {
         addDefaultDeleteActionItem(MENU_DELETE_ID);
         addDefaultDoneActionItem(MENU_DONE_ID);
+    }
+
+    @Override
+    protected void doUpSelected() {
+        getEditable().getReviewNode().setReviewRatingAverage(mRatingIsAverage);
+        super.doUpSelected();
     }
 
     protected void addDefaultDeleteActionItem(int deleteId) {
@@ -116,12 +125,13 @@ public class MenuDeleteDone extends ViewReviewAction.MenuAction {
     private void doDoneSelected() {
         ViewReview view = getViewReview();
         GvDataList data = getData();
-        ControllerReviewEditable controller = (ControllerReviewEditable) getController();
+        ControllerReviewEditable controller = getEditable();
 
         if (data != null) controller.setData(data);
         controller.setSubject(view.getSubject());
         controller.setRating(view.getRating());
     }
+
 
     private void showDeleteConfirmDialog() {
         String deleteWhat = " all " + getDataType().getDataString();
@@ -131,6 +141,10 @@ public class MenuDeleteDone extends ViewReviewAction.MenuAction {
 
     private boolean hasDataToDelete() {
         return getData() != null && getData().size() > 0;
+    }
+
+    private ControllerReviewEditable getEditable() {
+        return (ControllerReviewEditable) getController();
     }
 
     private abstract class DeleteConfirmListener extends Fragment implements DialogAlertFragment

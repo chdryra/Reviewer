@@ -17,20 +17,31 @@ import android.view.MenuItem;
  */
 public class MenuItemChildrenRatingAverage extends ViewReviewAction.MenuAction.MenuActionItem {
     private ViewReviewAction.MenuAction mAction;
+    private boolean                     mFromController;
 
-    public MenuItemChildrenRatingAverage(ViewReviewAction.MenuAction action) {
+    public MenuItemChildrenRatingAverage(ViewReviewAction.MenuAction action,
+            boolean fromController) {
         mAction = action;
+        mFromController = fromController;
+        if (!mFromController && action.getDataType() != GvDataList.GvType.CHILDREN) {
+            throw new RuntimeException("Action data should be GvChildrenList");
+        }
     }
 
     public void setAverageRating() {
-        GvChildrenList children = (GvChildrenList) mAction.getData();
-        int numChildren = children.size();
         float rating = 0;
-        for (GvChildrenList.GvChildReview child : children) {
-            rating += child.getRating();
-        }
-        if (numChildren > 0) {
-            rating /= numChildren;
+        GvChildrenList children;
+        if (mFromController) {
+            rating = mAction.getController().getRating();
+        } else {
+            children = (GvChildrenList) mAction.getData();
+            int numChildren = children.size();
+            for (GvChildrenList.GvChildReview child : children) {
+                rating += child.getRating();
+            }
+            if (numChildren > 0) {
+                rating /= numChildren;
+            }
         }
 
         mAction.getViewReview().setRating(rating);
