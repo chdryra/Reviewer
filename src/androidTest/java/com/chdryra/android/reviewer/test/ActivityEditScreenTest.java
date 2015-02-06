@@ -15,7 +15,6 @@ import android.content.Intent;
 import android.graphics.Point;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.SmallTest;
-import android.view.Display;
 import android.widget.GridView;
 
 import com.chdryra.android.mygenerallibrary.DialogAlertFragment;
@@ -97,7 +96,7 @@ public abstract class ActivityEditScreenTest extends
         setUp(false);
 
         GvChildrenList.GvChildReview child = editSubjectRating();
-
+        mSolo.sleep(1000);
         checkFragmentSubjectRating(child.getSubject(), child.getRating());
         checkControllerSubjectRating();
 
@@ -169,7 +168,7 @@ public abstract class ActivityEditScreenTest extends
         return (GvDataList.GvData) getGridView().getItemAtPosition(position);
     }
 
-    protected void setUp(boolean withData, boolean isChildrenTest) {
+    protected void setUp(boolean withData) {
         getInstrumentation().setInTouchMode(false);
 
         Intent i = new Intent();
@@ -191,12 +190,16 @@ public abstract class ActivityEditScreenTest extends
         mAddConfig = ConfigGvDataUi.getConfig(mDataType).getAdderConfig();
         mEditConfig = ConfigGvDataUi.getConfig(mDataType).getEditorConfig();
 
-        //To avoid issues caused by spurious touch events in starting activity for test...
-        clickOnScreen();
+        //To avoid issues caused by spurious menu touch events in starting activity for test.
+        Point displaySize = new Point();
+        mActivity.getWindowManager().getDefaultDisplay().getSize(displaySize);
+        mSolo.clickLongOnScreen(displaySize.x, displaySize.y);
 
-        //Spurious touch events cause rating to not be properly set.
-        if (isChildrenTest) doChildrenTestShenanigans();
+        setUpFinish(withData);
+    }
 
+    //For adjustment in ActivityEditChildrenTest
+    protected void setUpFinish(boolean withData) {
         mOriginalSubject = mController.getSubject();
         mOriginalRating = mController.getRating();
         checkSubjectRating();
@@ -205,19 +208,6 @@ public abstract class ActivityEditScreenTest extends
         if (withData) testInGrid(mData, true);
 
         setButtonClickRunnables();
-    }
-
-    protected void clickOnScreen() {
-        Display mdisp = mActivity.getWindowManager().getDefaultDisplay();
-        Point mdispSize = new Point();
-        mdisp.getSize(mdispSize);
-        int x = mdispSize.x;
-        int y = mdispSize.y;
-        mSolo.clickLongOnScreen(x, y);
-    }
-
-    protected void setUp(boolean withData) {
-        setUp(withData, false);
     }
 
     protected FragmentViewReview getFragmentViewReview() {
@@ -298,6 +288,24 @@ public abstract class ActivityEditScreenTest extends
         FragmentViewReview fragment = getFragmentViewReview();
         assertEquals(subject, fragment.getSubject());
         assertEquals(rating, fragment.getRating());
+    }
+
+    protected GvChildrenList.GvChildReview editSubjectRating() {
+        GvChildrenList.GvChildReview child = GvDataMocker.newChild();
+
+        editSubject(child.getSubject());
+        editRating(child.getRating());
+
+        return child;
+    }
+
+    protected void editSubject(String subject) {
+        mSolo.clearEditText(0);
+        mSolo.enterText(mSolo.getEditText(0), subject);
+    }
+
+    protected void editRating(float rating) {
+        mSolo.setProgressBar(0, (int) (rating * 2f));
     }
 
     private void testBannerButtonAdd(boolean confirm) {
@@ -428,16 +436,6 @@ public abstract class ActivityEditScreenTest extends
         testDialogShowing(false);
     }
 
-    private GvChildrenList.GvChildReview editSubjectRating() {
-        GvChildrenList.GvChildReview child = GvDataMocker.newChild();
-
-        mSolo.clearEditText(0);
-        mSolo.enterText(mSolo.getEditText(0), child.getSubject());
-        mSolo.setProgressBar(0, (int) (child.getRating() * 2f));
-
-        return child;
-    }
-
     private void deleteGridItem(int position, boolean confirm) {
         testDialogShowing(false);
         testConfirmDialogShowing(false);
@@ -503,11 +501,6 @@ public abstract class ActivityEditScreenTest extends
 
     private void runOnUiThread(Runnable runnable) {
         mActivity.runOnUiThread(runnable);
-    }
-
-    private void doChildrenTestShenanigans() {
-        mController.getReviewNode().setReviewRatingAverage(false);
-        mSolo.setProgressBar(0, (int) (mController.getRating() * 2f));
     }
 
     private void setButtonClickRunnables() {

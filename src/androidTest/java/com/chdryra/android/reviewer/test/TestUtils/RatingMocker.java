@@ -19,6 +19,8 @@ public class RatingMocker {
     private static final Random RAND = new Random();
 
     public static float nextRating() {
-        return Math.round(RAND.nextFloat() * 10) / 2f;
+        //0 to 5, rounded to nearest 0.5.
+        float rating = Math.round(RAND.nextFloat() * 10) / 2f;
+        return Math.round(rating * 2f) / 2f;
     }
 }
