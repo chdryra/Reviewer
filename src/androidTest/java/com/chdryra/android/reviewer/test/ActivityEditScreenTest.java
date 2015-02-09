@@ -59,10 +59,10 @@ public abstract class ActivityEditScreenTest extends
     protected GvDataList.GvType            mDataType;
     protected String                       mOriginalSubject;
     protected float                        mOriginalRating;
+    protected Activity mActivity;
     private   GvDataList                   mData;
     private   ConfigGvDataUi.LaunchableConfig mAddConfig;
     private   ConfigGvDataUi.LaunchableConfig mEditConfig;
-    private   Activity                        mActivity;
     private   CallBackSignaler             mSignaler;
     private Map<Button, Runnable> mClickRunnables = new HashMap<>();
 
@@ -86,21 +86,18 @@ public abstract class ActivityEditScreenTest extends
     }
 
     @SmallTest
-    public void testPreexistingDataShows() {
-        setUp(true);
-        testInGrid(mController.getData(mDataType), true);
-    }
-
-    @SmallTest
     public void testSubjectRatingChange() {
         setUp(false);
 
         GvChildrenList.GvChildReview child = editSubjectRating();
+
         mSolo.sleep(1000);
+
         checkFragmentSubjectRating(child.getSubject(), child.getRating());
         checkControllerSubjectRating();
 
-        pressDone();
+        clickMenuDone();
+
         checkControllerSubjectRating(child.getSubject(), child.getRating());
         checkControllerDataChanges();
     }
@@ -151,17 +148,25 @@ public abstract class ActivityEditScreenTest extends
 
         //Edit
         editSubjectRating();
-        editData(0, GvDataMocker.getDatum(mDataType), true);
+        editData(0, newEditDatum(getGridItem(0)), true);
         deleteGridItem(1, true);
 
-        mSolo.clickOnActionBarHomeButton();
+        clickMenuUp();
 
         checkControllerSubjectRating();
         checkControllerDataChanges();
     }
 
-    protected void pressDone() {
+    protected void clickMenuDelete() {
+        mSolo.clickOnActionBarItem(DELETE);
+    }
+
+    protected void clickMenuDone() {
         mSolo.clickOnActionBarItem(DONE);
+    }
+
+    protected void clickMenuUp() {
+        mSolo.clickOnActionBarHomeButton();
     }
 
     protected GvDataList.GvData getGridItem(int position) {
@@ -207,21 +212,13 @@ public abstract class ActivityEditScreenTest extends
         checkControllerDataChanges();
         if (withData) testInGrid(mData, true);
 
-        setButtonClickRunnables();
+        setDialogButtonClickRunnables();
     }
 
     protected FragmentViewReview getFragmentViewReview() {
         FragmentManager manager = getActivity().getFragmentManager();
         Fragment f = manager.findFragmentById(ActivityViewReview.FRAGMENT_ID);
         return (FragmentViewReview) f;
-    }
-
-    protected void testConfirmDialogShowing(boolean isShowing) {
-        if (isShowing) {
-            assertTrue(mSolo.searchButton("Yes"));
-        } else {
-            assertFalse(mSolo.searchButton("Yes"));
-        }
     }
 
     protected void testInGrid(GvDataList data, boolean isInGrid) {
@@ -308,42 +305,17 @@ public abstract class ActivityEditScreenTest extends
         mSolo.setProgressBar(0, (int) (rating * 2f));
     }
 
-    private void testBannerButtonAdd(boolean confirm) {
-        setUp(false);
-
-        final GvDataList data = GvDataMocker.getData(mDataType, NUM_DATA);
-        testInController(data, false);
-        testInGrid(data, false);
-
-        testDialogShowing(false);
-        mSolo.clickOnButton("Add " + mDataType.getDatumString());
-        mSolo.waitForDialogToOpen(TIMEOUT);
-        testDialogShowing(true);
-
-        enterData(data, confirm);
-
-        mSolo.waitForDialogToClose();
-        testDialogShowing(false);
-
-        //TODO make type safe
-        if (!confirm) {
-            data.remove(data.getItem(data.size() - 1));
-        }
-
-        testInGrid(data, true);
-        checkSubjectRating();
-
-        pressDone();
-        checkControllerSubjectRatingOnDone();
-        checkControllerDataChanges(data);
+    //For ActivityEditLocationsTest
+    protected GvDataList getAddDataToTestAgainst(GvDataList data) {
+        return data;
     }
 
-    private void testGridItemEdit(boolean confirm) {
+    protected void testGridItemEdit(boolean confirm) {
         setUp(true);
 
         GvDataList data = mController.getData(mDataType);
         GvDataList.GvData currentDatum = getGridItem(0);
-        GvDataList.GvData newDatum = GvDataMocker.getDatum(mDataType);
+        GvDataList.GvData newDatum = newEditDatum(currentDatum);
 
         testInController(currentDatum, true);
         testInGrid(currentDatum, true);
@@ -358,11 +330,181 @@ public abstract class ActivityEditScreenTest extends
         testInGrid(data, true);
         checkSubjectRating();
 
-        pressDone();
+        clickMenuDone();
+
         testInController(currentDatum, !confirm);
         testInController(newDatum, confirm);
         checkControllerSubjectRatingOnDone();
         checkControllerDataChanges(data);
+    }
+
+    protected GvDataList.GvData newEditDatum(GvDataList.GvData oldDatum) {
+        return GvDataMocker.getDatum(mDataType);
+    }
+
+    protected GvDataList newData() {
+        return GvDataMocker.getData(mDataType, NUM_DATA);
+    }
+
+    protected void waitForLaunchableToLaunch() {
+        mSolo.waitForDialogToOpen(TIMEOUT);
+        mSolo.sleep(1000); //need to do this due to UI thread is separate to test thread
+    }
+
+    protected void waitForLaunchableToClose() {
+        mSolo.waitForDialogToClose(TIMEOUT);
+        mSolo.sleep(1000);
+    }
+
+    protected void testLaunchableShowing(boolean isShowing) {
+        testDialogShowing(isShowing);
+    }
+
+    protected void editData(int position, GvDataList.GvData newDatum, boolean confirm) {
+        launchGridItemLaunchable(position);
+
+        enterDatum(newDatum);
+
+        if (confirm) {
+            clickEditConfirm();
+        } else {
+            clickEditCancel();
+        }
+
+        waitForLaunchableToClose();
+        testLaunchableShowing(false);
+    }
+
+    protected void launchAdder() {
+        mSolo.clickOnButton("Add " + mDataType.getDatumString());
+    }
+
+    protected void clickEditConfirm() {
+        click(Button.EDITDONE);
+    }
+
+    protected void clickEditDelete() {
+        click(Button.EDITDELETE);
+    }
+
+    protected void clickEditCancel() {
+        click(Button.EDITCANCEL);
+    }
+
+    protected void clickAddConfirm() {
+        click(Button.ADDDONE);
+    }
+
+    protected void clickAddAdd() {
+        click(Button.ADDADD);
+    }
+
+    protected void clickAddCancel() {
+        click(Button.ADDCANCEL);
+    }
+
+    protected void clickDeleteConfirm() {
+        click(Button.DELETECONFIRM);
+    }
+
+    protected void clickDeleteCancel() {
+        click(Button.DELETECANCEL);
+    }
+
+    protected void enterData(GvDataList data, boolean confirm) {
+        for (int i = 0; i < data.size() - 1; ++i) {
+            enterDatum((GvDataList.GvData) data.getItem(i));
+            clickAddAdd();
+        }
+
+        enterDatum((GvDataList.GvData) data.getItem(data.size() - 1));
+
+        if (confirm) {
+            clickAddConfirm();
+        } else {
+            clickAddCancel();
+        }
+    }
+
+    protected void setDialogButtonClickRunnables() {
+        mSignaler = new CallBackSignaler(5);
+
+        setAdderDialogButtonClicks();
+        setEditorDialogButtonClicks();
+        setDeleteConfirmButtonClicks();
+    }
+
+    protected Activity getEditActivity() {
+        return mActivity;
+    }
+
+    protected void testInController(GvDataList.GvData datum, boolean result) {
+        GvDataList data = mController.getData(mDataType);
+        if (result) {
+            assertTrue(data.size() > 0);
+        }
+
+        boolean inController = false;
+        for (int i = 0; i < data.size(); ++i) {
+            GvDataList.GvData datumController = (GvDataList.GvData) data.getItem(i);
+            if (datumController.equals(datum)) {
+                inController = true;
+                break;
+            }
+        }
+
+        assertTrue(result ? inController : !inController);
+    }
+
+    protected void checkControllerDataChanges() {
+        if (mData != null) {
+            checkControllerDataChanges(mData);
+        } else {
+            checkControllerDataChanges(false);
+        }
+
+    }
+
+    private void testConfirmDialogShowing(boolean isShowing) {
+        if (isShowing) {
+            assertTrue(mSolo.searchButton("Yes"));
+        } else {
+            assertFalse(mSolo.searchButton("Yes"));
+        }
+    }
+
+    private void testBannerButtonAdd(boolean confirm) {
+        setUp(false);
+
+        final GvDataList data = newData();
+        testInController(data, false);
+        testInGrid(data, false);
+
+        testLaunchableShowing(false);
+
+        launchAdder();
+
+        waitForLaunchableToLaunch();
+        testLaunchableShowing(true);
+
+        enterData(data, confirm);
+
+        waitForLaunchableToClose();
+        testLaunchableShowing(false);
+
+        //TODO make type safe
+        if (!confirm) {
+            data.remove(data.getItem(data.size() - 1));
+        }
+
+        GvDataList testData = getAddDataToTestAgainst(data);
+        testInGrid(testData, true);
+        checkSubjectRating();
+
+        clickMenuDone();
+
+        checkControllerSubjectRatingOnDone();
+        checkControllerDataChanges(testData);
     }
 
     private void testGridItemDelete(boolean confirm) {
@@ -378,7 +520,8 @@ public abstract class ActivityEditScreenTest extends
         testInGrid(currentDatum, !confirm);
         checkSubjectRating();
 
-        pressDone();
+        clickMenuDone();
+
         testInController(currentDatum, !confirm);
         checkControllerSubjectRatingOnDone();
         checkControllerDataChanges(true);
@@ -388,14 +531,16 @@ public abstract class ActivityEditScreenTest extends
         setUp(true);
 
         testConfirmDialogShowing(false);
-        mSolo.clickOnActionBarItem(DELETE);
+
+        clickMenuDelete();
+
         mSolo.waitForDialogToOpen(TIMEOUT);
         testConfirmDialogShowing(true);
 
         if (confirm) {
-            click(Button.DELETECONFIRM);
+            clickDeleteConfirm();
         } else {
-            click(Button.DELETECANCEL);
+            clickDeleteCancel();
         }
 
         mSolo.waitForDialogToClose(TIMEOUT);
@@ -406,78 +551,39 @@ public abstract class ActivityEditScreenTest extends
         testInGrid(mData, !confirm);
         testInController(mData, true);
 
-        pressDone();
+        clickMenuDone();
+
         assertEquals(confirm ? 0 : mData.size(), mController.getData(mDataType).size());
         checkControllerSubjectRatingOnDone();
         if (!confirm) checkControllerDataChanges();
     }
 
-    private void editData(int position, GvDataList.GvData newDatum, boolean confirm) {
-        testInController(newDatum, false);
-        testInGrid(newDatum, false);
-        testDialogShowing(false);
-
-        getGridView().getItemAtPosition(position);
+    private void launchGridItemLaunchable(int position) {
+        testLaunchableShowing(false);
         clickOnGridItem(position);
-        mSolo.waitForDialogToOpen(TIMEOUT);
-        mSolo.sleep(1000); //need to do this due to UI thread is separate to test thread
-        testDialogShowing(true);
-
-        enterDatum(newDatum);
-
-        if (confirm) {
-            click(Button.EDITDONE);
-        } else {
-            click(Button.EDITCANCEL);
-        }
-
-        mSolo.waitForDialogToClose(TIMEOUT);
-        mSolo.sleep(1000);
-        testDialogShowing(false);
+        waitForLaunchableToLaunch();
+        testLaunchableShowing(true);
     }
 
     private void deleteGridItem(int position, boolean confirm) {
-        testDialogShowing(false);
+        launchGridItemLaunchable(position);
+
         testConfirmDialogShowing(false);
-        getGridView().getItemAtPosition(position);
-
-        clickOnGridItem(position);
-
-        mSolo.waitForDialogToOpen();
-        testDialogShowing(true);
-        testConfirmDialogShowing(false);
-
-        click(Button.EDITDELETE);
-
+        clickEditDelete();
         mSolo.waitForDialogToOpen();
         testConfirmDialogShowing(true);
 
         if (confirm) {
-            click(Button.DELETECONFIRM);
+            clickDeleteConfirm();
         } else {
-            click(Button.DELETECANCEL);
+            clickDeleteCancel();
             mSolo.waitForDialogToClose();
             testConfirmDialogShowing(false);
-            click(Button.EDITDONE);
+            clickEditConfirm();
         }
 
-        mSolo.waitForDialogToClose();
-        testDialogShowing(false);
-        testConfirmDialogShowing(false);
-    }
-
-    private void enterData(GvDataList data, boolean confirm) {
-        for (int i = 0; i < data.size() - 1; ++i) {
-            enterDatum((GvDataList.GvData) data.getItem(i));
-            click(Button.ADDADD);
-        }
-
-        enterDatum((GvDataList.GvData) data.getItem(data.size() - 1));
-        if (confirm) {
-            click(Button.ADDDONE);
-        } else {
-            click(Button.ADDCANCEL);
-        }
+        waitForLaunchableToClose();
+        testLaunchableShowing(false);
     }
 
     private void clickOnGridItem(final int position) {
@@ -501,14 +607,6 @@ public abstract class ActivityEditScreenTest extends
 
     private void runOnUiThread(Runnable runnable) {
         mActivity.runOnUiThread(runnable);
-    }
-
-    private void setButtonClickRunnables() {
-        mSignaler = new CallBackSignaler(5);
-
-        setAdderDialogButtonClicks();
-        setEditorDialogButtonClicks();
-        setDeleteConfirmButtonClicks();
     }
 
     private void setAdderDialogButtonClicks() {
@@ -602,7 +700,7 @@ public abstract class ActivityEditScreenTest extends
     }
 
     private DialogAlertFragment getDeleteConfirmDialog() {
-        FragmentManager manager = getActivity().getFragmentManager();
+        FragmentManager manager = getEditActivity().getFragmentManager();
         Fragment f = manager.findFragmentByTag(DialogDeleteConfirm.DELETE_CONFIRM_TAG);
         return (DialogAlertFragment) f;
     }
@@ -612,24 +710,6 @@ public abstract class ActivityEditScreenTest extends
         fromController.sort();
         data.sort();
         assertEquals(inController, data.equals(fromController));
-    }
-
-    private void testInController(GvDataList.GvData datum, boolean result) {
-        GvDataList data = mController.getData(mDataType);
-        if (result) {
-            assertTrue(data.size() > 0);
-        }
-
-        boolean inController = false;
-        for (int i = 0; i < data.size(); ++i) {
-            GvDataList.GvData datumController = (GvDataList.GvData) data.getItem(i);
-            if (datumController.equals(datum)) {
-                inController = true;
-                break;
-            }
-        }
-
-        assertTrue(result ? inController : !inController);
     }
 
     private void testDialogShowing(boolean isShowing) {
@@ -656,15 +736,6 @@ public abstract class ActivityEditScreenTest extends
         }
 
         assertTrue(result ? inGrid : !inGrid);
-    }
-
-    private void checkControllerDataChanges() {
-        if (mData != null) {
-            checkControllerDataChanges(mData);
-        } else {
-            checkControllerDataChanges(false);
-        }
-
     }
 
     private void checkControllerDataChanges(boolean ignoreDataType) {

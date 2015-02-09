@@ -288,6 +288,8 @@ public class FragmentEditLocationMap extends FragmentDeleteDone implements
 
     @Override
     public void onSuggestionsFound(ArrayList<String> addresses) {
+        if (addresses == null) addresses = new ArrayList<>();
+
         if (addresses.size() == 0) {
             addresses.add(NO_LOCATION);
         } else if (mSearchLocationName != null) {

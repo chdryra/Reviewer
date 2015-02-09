@@ -8,8 +8,6 @@
 
 package com.chdryra.android.reviewer.test;
 
-import android.test.suitebuilder.annotation.SmallTest;
-
 import com.chdryra.android.reviewer.GvDataList;
 import com.chdryra.android.reviewer.GvFactList;
 
@@ -33,64 +31,19 @@ public class ActivityEditFactsTest extends ActivityEditScreenTest {
         mSolo.enterText(mSolo.getEditText(1), fact.getValue());
     }
 
-    @SmallTest
-    public void testActivityLaunches() {
-        super.testActivityLaunches();
-    }
-
-    @SmallTest
-    public void testPreexistingDataShows() {
-        super.testPreexistingDataShows();
-    }
-
-    @SmallTest
-    public void testSubjectRatingChange() {
-        super.testSubjectRatingChange();
-    }
-
-    @SmallTest
-    public void testBannerButtonAddDone() {
-        super.testBannerButtonAddDone();
-    }
-
-    @SmallTest
-    public void testBannerButtonAddCancel() {
-        super.testBannerButtonAddCancel();
-    }
-
-    @Override
-    public void testGridItemEditDone() {
-        super.testGridItemEditDone();
-    }
-
-    @Override
-    public void testGridItemEditCancel() {
-        super.testGridItemEditCancel();
-    }
-
-    @Override
-    public void testGridItemDeleteConfirm() {
-        super.testGridItemDeleteConfirm();
-    }
-
-    @Override
-    public void testGridItemDeleteCancel() {
-        super.testGridItemDeleteCancel();
-    }
-
-    @SmallTest
-    public void testMenuDeleteConfirm() {
-        super.testMenuDeleteConfirm();
-    }
-
-    @SmallTest
-    public void testMenuDeleteCancel() {
-        super.testMenuDeleteCancel();
-    }
-
-    @SmallTest
-    public void testMenuUpCancels() {
-        super.testMenuUpCancels();
-    }
+    //    @SmallTest
+//    public void testForDebugging() {
+//        super.testActivityLaunches();
+//        super.testSubjectRatingChange();
+//        super.testBannerButtonAddDone();
+//        super.testBannerButtonAddCancel();
+//        super.testGridItemEditDone();
+//        super.testGridItemEditCancel();
+//        super.testGridItemDeleteConfirm();
+//        super.testGridItemDeleteCancel();
+//        super.testMenuDeleteConfirm();
+//        super.testMenuDeleteCancel();
+//        super.testMenuUpCancels();
+//    }
 }
 

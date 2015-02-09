@@ -20,7 +20,7 @@
     <string name="dialog_set_image_as_background">Set image as cover?</string>
 
     <!-- Activities -->
-    <string name="activity_title_location">locations</string>
+    <string name="activity_title_location">location</string>
     <string name="activity_title_url">links</string>
     <string name="activity_title_feed">feed</string>
 

@@ -29,11 +29,20 @@ public class ActivityEditChildrenTest extends ActivityEditScreenTest {
         super(GvDataList.GvType.CHILDREN);
     }
 
-    @SmallTest
-    public void testPreexistingDataShowsAvg() {
-        mIsAverage = true;
-        super.testPreexistingDataShows();
-    }
+    //    @SmallTest
+//    public void testForDubugging() {
+//        super.testActivityLaunches();
+//        super.testSubjectRatingChange();
+//        super.testBannerButtonAddDone();
+//        super.testBannerButtonAddCancel();
+//        super.testGridItemEditDone();
+//        super.testGridItemEditCancel();
+//        super.testGridItemDeleteConfirm();
+//        super.testGridItemDeleteCancel();
+//        super.testMenuDeleteConfirm();
+//        super.testMenuDeleteCancel();
+//        super.testMenuUpCancels();
+//    }
 
     @SmallTest
     public void testSubjectRatingChangeAvg() {
@@ -121,70 +130,10 @@ public class ActivityEditChildrenTest extends ActivityEditScreenTest {
         mSolo.setProgressBar(0, (int) (child.getRating() * 2f));
     }
 
-    @SmallTest
-    public void testActivityLaunches() {
-        super.testActivityLaunches();
-    }
-
-    @SmallTest
-    public void testPreexistingDataShows() {
-        super.testPreexistingDataShows();
-    }
-
-    @SmallTest
-    public void testSubjectRatingChange() {
-        super.testSubjectRatingChange();
-    }
-
-    @SmallTest
-    public void testBannerButtonAddDone() {
-        super.testBannerButtonAddDone();
-    }
-
-    @SmallTest
-    public void testBannerButtonAddCancel() {
-        super.testBannerButtonAddCancel();
-    }
-
     @Override
-    public void testGridItemEditDone() {
-        super.testGridItemEditDone();
-    }
-
-    @Override
-    public void testGridItemEditCancel() {
-        super.testGridItemEditCancel();
-    }
-
-    @Override
-    public void testGridItemDeleteConfirm() {
-        super.testGridItemDeleteConfirm();
-    }
-
-    @Override
-    public void testGridItemDeleteCancel() {
-        super.testGridItemDeleteCancel();
-    }
-
-    @SmallTest
-    public void testMenuDeleteConfirm() {
-        super.testMenuDeleteConfirm();
-    }
-
-    @SmallTest
-    public void testMenuDeleteCancel() {
-        super.testMenuDeleteCancel();
-    }
-
-    @SmallTest
-    public void testMenuUpCancels() {
-        super.testMenuUpCancels();
-    }
-
-    @Override
-    protected void pressDone() {
+    protected void clickMenuDone() {
         mGridRatingBeforeDone = getAverageRating(false);
-        super.pressDone();
+        super.clickMenuDone();
     }
 
     @Override

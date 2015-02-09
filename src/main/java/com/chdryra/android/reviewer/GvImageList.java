@@ -116,7 +116,7 @@ public class GvImageList extends GvDataList<GvImageList.GvImage> {
             GvImage gvImage = (GvImage) o;
 
             if (mIsCover != gvImage.mIsCover) return false;
-            if (mBitmap != null ? !mBitmap.equals(gvImage.mBitmap) : gvImage.mBitmap != null) {
+            if (mBitmap != null ? !mBitmap.sameAs(gvImage.mBitmap) : gvImage.mBitmap != null) {
                 return false;
             }
             if (mCaption != null ? !mCaption.equals(gvImage.mCaption) : gvImage.mCaption != null) {
