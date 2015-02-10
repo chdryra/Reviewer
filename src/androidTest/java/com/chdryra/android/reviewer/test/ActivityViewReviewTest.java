@@ -13,6 +13,7 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Intent;
 import android.test.ActivityInstrumentationTestCase2;
+import android.test.suitebuilder.annotation.SmallTest;
 import android.widget.GridView;
 
 import com.chdryra.android.reviewer.ActivityViewReview;
@@ -45,6 +46,19 @@ public abstract class ActivityViewReviewTest extends
         mIsEditable = isEditable;
     }
 
+    @SmallTest
+    public void testSubjectRating() {
+        FragmentViewReview fragment = getFragmentViewReview();
+        assertEquals(mController.getSubject(), fragment.getSubject());
+        assertEquals(mController.getRating(), fragment.getRating());
+    }
+
+    @SmallTest
+    public void testActivityLaunches() {
+        setUp();
+        assertTrue(mSolo.searchText(mDataType.getDatumString()));
+    }
+
     @Override
     protected void setUp() {
         getInstrumentation().setInTouchMode(false);
@@ -61,7 +75,6 @@ public abstract class ActivityViewReviewTest extends
         mActivity = getActivity();
         mSolo = new Solo(getInstrumentation(), mActivity);
     }
-
 
     protected int getGridSize() {
         return getGridView().getAdapter().getCount();

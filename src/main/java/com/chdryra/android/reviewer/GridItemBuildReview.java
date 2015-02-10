@@ -22,15 +22,15 @@ import com.google.android.gms.maps.model.LatLng;
  * On: 28/01/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class GridItemBuildUi extends ViewReviewAction.GridItemAction {
+public class GridItemBuildReview extends ViewReviewAction.GridItemAction {
     private static final String TAG = "GridItemBuildUiListener";
     private BuildListener           mListener;
     private LatLng                  mLatLng;
     private ImageChooser            mImageChooser;
     private LocationClientConnector mLocationClient;
 
-    public GridItemBuildUi(ControllerReviewEditable controller) {
-        super(controller, GvDataList.GvType.BUILD_UI);
+    public GridItemBuildReview(ControllerReviewEditable controller) {
+        super(controller, GvDataList.GvType.BUILD_REVIEW);
         mListener = new BuildListener() {
         };
         registerActionListener(mListener, TAG);
@@ -51,15 +51,15 @@ public class GridItemBuildUi extends ViewReviewAction.GridItemAction {
 
     @Override
     public void onGridItemClick(GvDataList.GvData item, View v) {
-        executeIntent((GvBuildUiList.GvBuildUi) item, true);
+        executeIntent((GvBuildReviewList.GvBuildReview) item, true);
     }
 
     @Override
     public void onGridItemLongClick(GvDataList.GvData item, View v) {
-        executeIntent((GvBuildUiList.GvBuildUi) item, false);
+        executeIntent((GvBuildReviewList.GvBuildReview) item, false);
     }
 
-    private void executeIntent(GvBuildUiList.GvBuildUi gridCell, boolean quickDialog) {
+    private void executeIntent(GvBuildReviewList.GvBuildReview gridCell, boolean quickDialog) {
         if (quickDialog && getController().getData(gridCell.getGvType()).size() == 0) {
             showQuickDialog(gridCell.getConfig());
         } else {

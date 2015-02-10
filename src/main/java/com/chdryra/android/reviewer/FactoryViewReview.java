@@ -25,7 +25,7 @@ public class FactoryViewReview {
         ViewReview view;
         if (dataType == GvDataList.GvType.SOCIAL) {
             view = newShareScreen(parent);
-        } else if (dataType == GvDataList.GvType.BUILD_UI) {
+        } else if (dataType == GvDataList.GvType.BUILD_REVIEW) {
             view = newBuildScreen(parent);
         } else if (dataType == GvDataList.GvType.FEED) {
             view = newFeedScreen(parent);
@@ -44,18 +44,18 @@ public class FactoryViewReview {
         Administrator admin = Administrator.get(activity);
 
         ControllerReviewEditable controller = (ControllerReviewEditable) admin.unpack(i);
-        GvDataList.GvType dataType = GvDataList.GvType.BUILD_UI;
 
-        ViewReviewAction.GridItemAction gia = newGridItemEdit(controller, dataType);
-        GvDataList data = GvBuildUiList.newInstance(gia);
+        GvDataList data = GvBuildReviewList.newInstance(activity, controller);
         ViewReview view = new ViewReview(parent, data, true, new ViewReviewBuildModifier
                 (controller));
+
+        GvDataList.GvType dataType = GvDataList.GvType.BUILD_REVIEW;
 
         view.setAction(newSubjectEdit(controller));
         view.setAction(newRatingBarEdit(controller, dataType));
         view.setAction(ViewReviewAction.BannerButtonAction.newDisplayButton(controller, dataType,
                 parent.getResources().getString(R.string.button_add_review_data)));
-        view.setAction(gia);
+        view.setAction(newGridItemEdit(controller, dataType));
         view.setAction(newMenuAction(controller, dataType));
 
         view.setCoverManager(newCoverManager(controller));
@@ -122,8 +122,8 @@ public class FactoryViewReview {
 
     private static ViewReviewAction.MenuAction newMenuAction(ControllerReview controller,
             GvDataList.GvType dataType) {
-        if (dataType == GvDataList.GvType.BUILD_UI) {
-            return new MenuBuildUi(controller);
+        if (dataType == GvDataList.GvType.BUILD_REVIEW) {
+            return new MenuBuildReview(controller);
         } else {
             return new ViewReviewAction.MenuAction(controller, dataType, true);
         }
@@ -156,8 +156,8 @@ public class FactoryViewReview {
             return new GridItemEditComment(controller);
         } else if (dataType == GvDataList.GvType.IMAGES) {
             return new GridItemEditImage(controller);
-        } else if (dataType == GvDataList.GvType.BUILD_UI) {
-            return new GridItemBuildUi(controller);
+        } else if (dataType == GvDataList.GvType.BUILD_REVIEW) {
+            return new GridItemBuildReview(controller);
         } else {
             return new GridItemEdit(controller, dataType);
         }
@@ -181,7 +181,7 @@ public class FactoryViewReview {
     private static ViewReviewAction.RatingBarAction newRatingBarEdit(ControllerReviewEditable
             controller,
             GvDataList.GvType dataType) {
-        if (dataType == GvDataList.GvType.BUILD_UI) {
+        if (dataType == GvDataList.GvType.BUILD_REVIEW) {
             return new RatingEditBuildUi(controller);
         } else {
             return new RatingEdit(controller);
@@ -218,7 +218,7 @@ public class FactoryViewReview {
             params.bannerButtonIsVisibile = false;
             params.gridAlpha = ViewReview.GridViewImageAlpha.TRANSPARENT;
         }
-        if (dataType == GvDataList.GvType.BUILD_UI || dataType == GvDataList.GvType.SOCIAL) {
+        if (dataType == GvDataList.GvType.BUILD_REVIEW || dataType == GvDataList.GvType.SOCIAL) {
             params.gridAlpha = ViewReview.GridViewImageAlpha.TRANSPARENT;
         }
     }

@@ -17,7 +17,6 @@ import android.widget.GridView;
 
 import com.chdryra.android.mygenerallibrary.DialogAlertFragment;
 import com.chdryra.android.mygenerallibrary.DialogDeleteConfirm;
-import com.chdryra.android.reviewer.ActivityViewReview;
 import com.chdryra.android.reviewer.ConfigGvDataUi;
 import com.chdryra.android.reviewer.ControllerReview;
 import com.chdryra.android.reviewer.ControllerReviewTreeEditable;
@@ -30,7 +29,6 @@ import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
 import com.chdryra.android.reviewer.test.TestUtils.ReviewMocker;
 import com.chdryra.android.testutils.CallBackSignaler;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -50,12 +48,12 @@ public abstract class ActivityEditScreenTest extends ActivityViewReviewTest {
             .GvType.TAGS, GvDataList.GvType.LOCATIONS, GvDataList.GvType.URLS,
             GvDataList.GvType.CHILDREN, GvDataList.GvType.FACTS, GvDataList.GvType.IMAGES};
 
-    protected String                       mOriginalSubject;
-    protected float                        mOriginalRating;
-    private   GvDataList                   mData;
+    protected String                          mOriginalSubject;
+    protected float                           mOriginalRating;
+    private   GvDataList                      mData;
     private   ConfigGvDataUi.LaunchableConfig mAddConfig;
     private   ConfigGvDataUi.LaunchableConfig mEditConfig;
-    private   CallBackSignaler             mSignaler;
+    private   CallBackSignaler                mSignaler;
     private Map<Button, Runnable> mClickRunnables = new HashMap<>();
 
     private boolean mWithData = false;
@@ -71,11 +69,6 @@ public abstract class ActivityEditScreenTest extends ActivityViewReviewTest {
         super(dataType, true);
     }
 
-    @SmallTest
-    public void testActivityLaunches() {
-        setUp(false);
-        assertTrue(mSolo.searchText(mDataType.getDataString()));
-    }
 
     @SmallTest
     public void testSubjectRatingChange() {
@@ -176,26 +169,6 @@ public abstract class ActivityEditScreenTest extends ActivityViewReviewTest {
     @Override
     protected void setUp() {
 
-    }
-
-    protected int getGridSize() {
-        return getGridView().getAdapter().getCount();
-    }
-
-    protected GvDataList.GvData getGridItem(int position) {
-        return (GvDataList.GvData) getGridView().getItemAtPosition(position);
-    }
-
-    protected GridView getGridView() {
-        ArrayList views = mSolo.getCurrentViews(GridView.class);
-        assertEquals(1, views.size());
-        return (GridView) views.get(0);
-    }
-
-    protected FragmentViewReview getFragmentViewReview() {
-        FragmentManager manager = getActivity().getFragmentManager();
-        Fragment f = manager.findFragmentById(ActivityViewReview.FRAGMENT_ID);
-        return (FragmentViewReview) f;
     }
 
     protected void setUp(boolean withData) {

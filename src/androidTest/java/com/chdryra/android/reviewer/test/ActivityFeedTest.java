@@ -104,4 +104,9 @@ public class ActivityFeedTest extends ActivityViewReviewTest {
 
         super.setUp();
     }
+
+    @Override
+    public void testSubjectRating() {
+
+    }
 }

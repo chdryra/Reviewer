@@ -28,13 +28,18 @@ import com.chdryra.android.mygenerallibrary.ViewHolderData;
  * Encapsulates the range of responses and displays available to each data tile depending
  * on the underlying data and user interaction.
  */
-public class GvBuildUiList extends GvDataList<GvBuildUiList.GvBuildUi> {
-    private static final GvType TYPE = GvType.BUILD_UI;
-    private ViewReviewAction.GridItemAction mAction;
+public class GvBuildReviewList extends GvDataList<GvBuildReviewList.GvBuildReview> {
+    private static final GvType TYPE = GvType.BUILD_REVIEW;
+    private Activity         mActivity;
+    private ControllerReview mController;
+    //private ViewReviewAction.GridItemAction mAction;
 
-    private GvBuildUiList(ViewReviewAction.GridItemAction action) {
+    private GvBuildReviewList(Activity activity, ControllerReview controller) {
         super(TYPE);
-        mAction = action;
+        //mAction = action;
+        mActivity = activity;
+        mController = controller;
+
         add(GvDataList.GvType.TAGS);
         add(GvDataList.GvType.CHILDREN);
         add(GvDataList.GvType.IMAGES);
@@ -43,27 +48,27 @@ public class GvBuildUiList extends GvDataList<GvBuildUiList.GvBuildUi> {
         add(GvDataList.GvType.FACTS);
     }
 
-    public static GvBuildUiList newInstance(ViewReviewAction.GridItemAction action) {
-        return new GvBuildUiList(action);
+    public static GvBuildReviewList newInstance(Activity activity, ControllerReview controller) {
+        return new GvBuildReviewList(activity, controller);
     }
 
     private void add(GvType dataType) {
-        add(new GvBuildUi(dataType));
+        add(new GvBuildReview(dataType));
     }
 
     private Activity getActivity() {
-        return mAction.getActivity();
+        return mActivity;
     }
 
     private ControllerReview getController() {
-        return mAction.getController();
+        return mController;
     }
 
-    public class GvBuildUi implements GvDataList.GvData {
+    public class GvBuildReview implements GvDataList.GvData {
         private final GvDataList.GvType     mDataType;
         private final ConfigGvDataUi.Config mConfig;
 
-        private GvBuildUi(GvDataList.GvType dataType) {
+        private GvBuildReview(GvDataList.GvType dataType) {
             mDataType = dataType;
             mConfig = ConfigGvDataUi.getConfig(dataType);
         }

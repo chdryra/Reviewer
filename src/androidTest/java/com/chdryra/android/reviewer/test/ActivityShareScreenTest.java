@@ -19,6 +19,7 @@ import com.chdryra.android.reviewer.FragmentViewReview;
 import com.chdryra.android.reviewer.GvDataList;
 import com.chdryra.android.reviewer.GvReviewList;
 import com.chdryra.android.reviewer.GvSocialPlatformList;
+import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.SocialPlatformList;
 import com.chdryra.android.reviewer.test.TestUtils.RatingMocker;
 import com.chdryra.android.testutils.RandomStringGenerator;
@@ -36,19 +37,6 @@ public class ActivityShareScreenTest extends ActivityViewReviewTest {
 
     public ActivityShareScreenTest() {
         super(TYPE, false);
-    }
-
-    @SmallTest
-    public void testActivityLaunches() {
-        setUp();
-        assertTrue(mSolo.searchText(TYPE.getDatumString()));
-    }
-
-    @SmallTest
-    public void testSubjectRating() {
-        FragmentViewReview fragment = getFragmentViewReview();
-        assertEquals(mController.getSubject(), fragment.getSubject());
-        assertEquals(mController.getRating(), fragment.getRating());
     }
 
     @SmallTest
@@ -83,7 +71,8 @@ public class ActivityShareScreenTest extends ActivityViewReviewTest {
                 .getName(), null, false);
         assertEquals(0, mAdmin.getPublishedReviews().toGridViewable().size());
 
-        mSolo.clickOnText("Publish");
+        mSolo.clickOnText(getActivity().getResources().getString(R
+                .string.button_publish));
         getInstrumentation().waitForIdleSync();
 
         ActivityFeed feedActivity = (ActivityFeed) monitor.waitForActivityWithTimeout(TIMEOUT);
@@ -103,6 +92,13 @@ public class ActivityShareScreenTest extends ActivityViewReviewTest {
         controller.setSubject(RandomStringGenerator.nextWord());
 
         return controller;
+    }
+
+    @SmallTest
+    public void testSubjectRating() {
+        FragmentViewReview fragment = getFragmentViewReview();
+        assertEquals(mController.getSubject(), fragment.getSubject());
+        assertEquals(mController.getRating(), fragment.getRating());
     }
 
     @Override
