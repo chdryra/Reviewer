@@ -50,7 +50,7 @@ public abstract class ActivityViewReviewTest extends
         getInstrumentation().setInTouchMode(false);
 
         Intent i = new Intent();
-        ActivityViewReview.packParameters(mDataType, false, i);
+        ActivityViewReview.packParameters(mDataType, mIsEditable, i);
 
         mController = getController();
 
