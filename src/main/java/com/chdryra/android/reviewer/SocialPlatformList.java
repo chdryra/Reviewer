@@ -66,6 +66,10 @@ public class SocialPlatformList implements Iterable<SocialPlatformList.SocialPla
         }
     }
 
+    public int size() {
+        return mPlatforms.size();
+    }
+
     @Override
     public Iterator<SocialPlatform> iterator() {
         return mPlatforms.iterator();

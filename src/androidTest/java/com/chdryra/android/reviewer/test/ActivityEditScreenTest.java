@@ -11,17 +11,15 @@ package com.chdryra.android.reviewer.test;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
-import android.content.Intent;
 import android.graphics.Point;
-import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.SmallTest;
 import android.widget.GridView;
 
 import com.chdryra.android.mygenerallibrary.DialogAlertFragment;
 import com.chdryra.android.mygenerallibrary.DialogDeleteConfirm;
 import com.chdryra.android.reviewer.ActivityViewReview;
-import com.chdryra.android.reviewer.Administrator;
 import com.chdryra.android.reviewer.ConfigGvDataUi;
+import com.chdryra.android.reviewer.ControllerReview;
 import com.chdryra.android.reviewer.ControllerReviewTreeEditable;
 import com.chdryra.android.reviewer.DialogFragmentGvDataAdd;
 import com.chdryra.android.reviewer.DialogFragmentGvDataEdit;
@@ -31,7 +29,6 @@ import com.chdryra.android.reviewer.GvDataList;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
 import com.chdryra.android.reviewer.test.TestUtils.ReviewMocker;
 import com.chdryra.android.testutils.CallBackSignaler;
-import com.robotium.solo.Solo;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -42,8 +39,7 @@ import java.util.Map;
  * On: 03/02/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public abstract class ActivityEditScreenTest extends
-        ActivityInstrumentationTestCase2<ActivityViewReview> {
+public abstract class ActivityEditScreenTest extends ActivityViewReviewTest {
     protected static final long                TIMEOUT  = 5000;
     protected static final int                 DELETE   = com.chdryra.android.reviewer.R.id
             .menu_item_delete;
@@ -54,17 +50,15 @@ public abstract class ActivityEditScreenTest extends
             .GvType.TAGS, GvDataList.GvType.LOCATIONS, GvDataList.GvType.URLS,
             GvDataList.GvType.CHILDREN, GvDataList.GvType.FACTS, GvDataList.GvType.IMAGES};
 
-    protected Solo                            mSolo;
-    protected ControllerReviewTreeEditable mController;
-    protected GvDataList.GvType            mDataType;
     protected String                       mOriginalSubject;
     protected float                        mOriginalRating;
-    protected Activity mActivity;
     private   GvDataList                   mData;
     private   ConfigGvDataUi.LaunchableConfig mAddConfig;
     private   ConfigGvDataUi.LaunchableConfig mEditConfig;
     private   CallBackSignaler             mSignaler;
     private Map<Button, Runnable> mClickRunnables = new HashMap<>();
+
+    private boolean mWithData = false;
 
     protected enum Button {
         ADDCANCEL, ADDADD, ADDDONE, EDITCANCEL, EDITDELETE, EDITDONE,
@@ -74,15 +68,13 @@ public abstract class ActivityEditScreenTest extends
     protected abstract void enterDatum(GvDataList.GvData datum);
 
     public ActivityEditScreenTest(GvDataList.GvType dataType) {
-        super(ActivityViewReview.class);
-        mDataType = dataType;
+        super(dataType, true);
     }
 
     @SmallTest
     public void testActivityLaunches() {
         setUp(false);
-        assertTrue(mSolo.searchText(mDataType.getDatumString()));
-        mSolo.searchText(mDataType.getDataString());
+        assertTrue(mSolo.searchText(mDataType.getDataString()));
     }
 
     @SmallTest
@@ -169,28 +161,46 @@ public abstract class ActivityEditScreenTest extends
         mSolo.clickOnActionBarHomeButton();
     }
 
+    @Override
+    protected ControllerReview getController() {
+        ControllerReviewTreeEditable controller = new ControllerReviewTreeEditable(ReviewMocker
+                .newReviewTreeEditable());
+        if (mWithData) {
+            mData = GvDataMocker.getData(mDataType, NUM_DATA);
+            controller.setData(mData);
+        }
+
+        return controller;
+    }
+
+    @Override
+    protected void setUp() {
+
+    }
+
+    protected int getGridSize() {
+        return getGridView().getAdapter().getCount();
+    }
+
     protected GvDataList.GvData getGridItem(int position) {
         return (GvDataList.GvData) getGridView().getItemAtPosition(position);
     }
 
+    protected GridView getGridView() {
+        ArrayList views = mSolo.getCurrentViews(GridView.class);
+        assertEquals(1, views.size());
+        return (GridView) views.get(0);
+    }
+
+    protected FragmentViewReview getFragmentViewReview() {
+        FragmentManager manager = getActivity().getFragmentManager();
+        Fragment f = manager.findFragmentById(ActivityViewReview.FRAGMENT_ID);
+        return (FragmentViewReview) f;
+    }
+
     protected void setUp(boolean withData) {
-        getInstrumentation().setInTouchMode(false);
-
-        Intent i = new Intent();
-        ActivityViewReview.packParameters(mDataType, true, i);
-
-        mController = new ControllerReviewTreeEditable(ReviewMocker.newReviewTreeEditable());
-        if (withData) {
-            mData = GvDataMocker.getData(mDataType, NUM_DATA);
-            mController.setData(mData);
-        }
-
-        Administrator admin = Administrator.get(getInstrumentation().getTargetContext());
-        admin.pack(mController, i);
-
-        setActivityIntent(i);
-        mActivity = getActivity();
-        mSolo = new Solo(getInstrumentation(), mActivity);
+        mWithData = withData;
+        super.setUp();
 
         mAddConfig = ConfigGvDataUi.getConfig(mDataType).getAdderConfig();
         mEditConfig = ConfigGvDataUi.getConfig(mDataType).getEditorConfig();
@@ -215,12 +225,6 @@ public abstract class ActivityEditScreenTest extends
         setDialogButtonClickRunnables();
     }
 
-    protected FragmentViewReview getFragmentViewReview() {
-        FragmentManager manager = getActivity().getFragmentManager();
-        Fragment f = manager.findFragmentById(ActivityViewReview.FRAGMENT_ID);
-        return (FragmentViewReview) f;
-    }
-
     protected void testInGrid(GvDataList data, boolean isInGrid) {
         if (isInGrid) {
             assertEquals(data.size(), getGridSize());
@@ -242,16 +246,6 @@ public abstract class ActivityEditScreenTest extends
         }
 
 
-    }
-
-    protected int getGridSize() {
-        return getGridView().getAdapter().getCount();
-    }
-
-    protected GridView getGridView() {
-        ArrayList views = mSolo.getCurrentViews(GridView.class);
-        assertEquals(1, views.size());
-        return (GridView) views.get(0);
     }
 
     protected void checkControllerDataChanges(GvDataList data) {
