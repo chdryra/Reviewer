@@ -64,13 +64,6 @@ public class ActivityEditCommentsTest extends ActivityEditScreenTest {
         checkControllerDataChanges(comments);
     }
 
-    @Override
-    protected void enterDatum(GvDataList.GvData datum) {
-        GvCommentList.GvComment comment = (GvCommentList.GvComment) datum;
-        mSolo.clearEditText(mSolo.getEditText(0));
-        mSolo.enterText(mSolo.getEditText(0), comment.getComment());
-    }
-
 //    @SmallTest
 //    public void testForDebugging() {
 //        super.testActivityLaunches();

@@ -123,14 +123,6 @@ public class ActivityEditChildrenTest extends ActivityEditScreenTest {
     }
 
     @Override
-    protected void enterDatum(GvDataList.GvData datum) {
-        GvChildrenList.GvChildReview child = (GvChildrenList.GvChildReview) datum;
-        mSolo.clearEditText(mSolo.getEditText(0));
-        mSolo.enterText(mSolo.getEditText(0), child.getSubject());
-        mSolo.setProgressBar(0, (int) (child.getRating() * 2f));
-    }
-
-    @Override
     protected void clickMenuDone() {
         mGridRatingBeforeDone = getAverageRating(false);
         super.clickMenuDone();

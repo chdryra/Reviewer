@@ -32,11 +32,10 @@ public class GvBuildReviewList extends GvDataList<GvBuildReviewList.GvBuildRevie
     private static final GvType TYPE = GvType.BUILD_REVIEW;
     private Activity         mActivity;
     private ControllerReview mController;
-    //private ViewReviewAction.GridItemAction mAction;
 
     private GvBuildReviewList(Activity activity, ControllerReview controller) {
         super(TYPE);
-        //mAction = action;
+
         mActivity = activity;
         mController = controller;
 

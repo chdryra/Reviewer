@@ -27,6 +27,7 @@ import com.chdryra.android.reviewer.GvChildrenList;
 import com.chdryra.android.reviewer.GvDataList;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
 import com.chdryra.android.reviewer.test.TestUtils.ReviewMocker;
+import com.chdryra.android.reviewer.test.TestUtils.SoloDataEntry;
 import com.chdryra.android.testutils.CallBackSignaler;
 
 import java.util.HashMap;
@@ -62,8 +63,6 @@ public abstract class ActivityEditScreenTest extends ActivityViewReviewTest {
         ADDCANCEL, ADDADD, ADDDONE, EDITCANCEL, EDITDELETE, EDITDONE,
         DELETECONFIRM, DELETECANCEL
     }
-
-    protected abstract void enterDatum(GvDataList.GvData datum);
 
     public ActivityEditScreenTest(GvDataList.GvType dataType) {
         super(dataType, true);
@@ -167,8 +166,19 @@ public abstract class ActivityEditScreenTest extends ActivityViewReviewTest {
     }
 
     @Override
-    protected void setUp() {
+    public void testSubjectRating() {
+        setUp(false);
+        super.testSubjectRating();
+    }
 
+    @Override
+    public void testActivityLaunches() {
+        setUp(false);
+        super.testActivityLaunches();
+    }
+
+    @Override
+    protected void setUp() {
     }
 
     protected void setUp(boolean withData) {
@@ -330,7 +340,7 @@ public abstract class ActivityEditScreenTest extends ActivityViewReviewTest {
     protected void editData(int position, GvDataList.GvData newDatum, boolean confirm) {
         launchGridItemLaunchable(position);
 
-        enterDatum(newDatum);
+        SoloDataEntry.enter(mSolo, newDatum);
 
         if (confirm) {
             clickEditConfirm();
@@ -380,11 +390,11 @@ public abstract class ActivityEditScreenTest extends ActivityViewReviewTest {
 
     protected void enterData(GvDataList data, boolean confirm) {
         for (int i = 0; i < data.size() - 1; ++i) {
-            enterDatum((GvDataList.GvData) data.getItem(i));
+            SoloDataEntry.enter(mSolo, (GvDataList.GvData) data.getItem(i));
             clickAddAdd();
         }
 
-        enterDatum((GvDataList.GvData) data.getItem(data.size() - 1));
+        SoloDataEntry.enter(mSolo, ((GvDataList.GvData) data.getItem(data.size() - 1)));
 
         if (confirm) {
             clickAddConfirm();
@@ -570,6 +580,7 @@ public abstract class ActivityEditScreenTest extends ActivityViewReviewTest {
 
     private void click(Button button) {
         runOnUiThread(mClickRunnables.get(button));
+        mSignaler.waitForSignal();
     }
 
     private void runOnUiThread(Runnable runnable) {

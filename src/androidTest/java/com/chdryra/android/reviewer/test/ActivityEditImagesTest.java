@@ -27,13 +27,6 @@ public class ActivityEditImagesTest extends ActivityEditScreenTest {
         super(GvDataList.GvType.IMAGES);
     }
 
-    @Override
-    protected void enterDatum(GvDataList.GvData datum) {
-        GvImageList.GvImage image = (GvImageList.GvImage) datum;
-        mSolo.clearEditText(mSolo.getEditText(0));
-        mSolo.enterText(mSolo.getEditText(0), image.getCaption());
-    }
-
     @SmallTest
     public void testBannerButtonAddDone() {
         setUp(false);

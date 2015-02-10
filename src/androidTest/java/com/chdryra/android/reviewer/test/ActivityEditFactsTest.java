@@ -9,7 +9,6 @@
 package com.chdryra.android.reviewer.test;
 
 import com.chdryra.android.reviewer.GvDataList;
-import com.chdryra.android.reviewer.GvFactList;
 
 /**
  * Created by: Rizwan Choudrey
@@ -20,15 +19,6 @@ public class ActivityEditFactsTest extends ActivityEditScreenTest {
 
     public ActivityEditFactsTest() {
         super(GvDataList.GvType.FACTS);
-    }
-
-    @Override
-    protected void enterDatum(GvDataList.GvData datum) {
-        GvFactList.GvFact fact = (GvFactList.GvFact) datum;
-        mSolo.clearEditText(mSolo.getEditText(0));
-        mSolo.clearEditText(mSolo.getEditText(1));
-        mSolo.enterText(mSolo.getEditText(0), fact.getLabel());
-        mSolo.enterText(mSolo.getEditText(1), fact.getValue());
     }
 
     //    @SmallTest

@@ -8,8 +8,9 @@
 
 package com.chdryra.android.reviewer.test;
 
+import android.test.suitebuilder.annotation.SmallTest;
+
 import com.chdryra.android.reviewer.GvDataList;
-import com.chdryra.android.reviewer.GvTagList;
 
 /**
  * Created by: Rizwan Choudrey
@@ -22,16 +23,9 @@ public class ActivityEditTagsTest extends ActivityEditScreenTest {
         super(GvDataList.GvType.TAGS);
     }
 
-    @Override
-    protected void enterDatum(GvDataList.GvData datum) {
-        GvTagList.GvTag tag = (GvTagList.GvTag) datum;
-        mSolo.clearEditText(mSolo.getEditText(0));
-        mSolo.enterText(mSolo.getEditText(0), tag.get());
-    }
-
-//    @SmallTest
-//    public void testForDebugging() {
-//        super.testActivityLaunches();
+    @SmallTest
+    public void testForDebugging() {
+        super.testActivityLaunches();
 //        super.testSubjectRatingChange();
 //        super.testBannerButtonAddDone();
 //        super.testBannerButtonAddCancel();
@@ -42,5 +36,5 @@ public class ActivityEditTagsTest extends ActivityEditScreenTest {
 //        super.testMenuDeleteConfirm();
 //        super.testMenuDeleteCancel();
 //        super.testMenuUpCancels();
-//    }
+    }
 }

@@ -54,12 +54,6 @@ public class ActivityEditUrlsTest extends ActivityEditScreenTest {
     }
 
     @Override
-    protected void enterDatum(GvDataList.GvData datum) {
-        mSolo.clearEditText(mSolo.getEditText(0));
-        mSolo.enterText(mSolo.getEditText(0), datum.toString());
-    }
-
-    @Override
     protected void setUpFinish(boolean withData) {
         super.setUpFinish(withData);
         mMainMonitor = getInstrumentation().addMonitor(ActivityViewReview.class.getName(), null,
