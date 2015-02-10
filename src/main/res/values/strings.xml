@@ -21,7 +21,7 @@
 
     <!-- Activities -->
     <string name="activity_title_location">location</string>
-    <string name="activity_title_url">links</string>
+    <string name="activity_title_url">link</string>
     <string name="activity_title_feed">feed</string>
 
     <!-- EditTexts -->

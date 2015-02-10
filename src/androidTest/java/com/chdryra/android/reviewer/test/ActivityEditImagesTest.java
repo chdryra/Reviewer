@@ -53,10 +53,11 @@ public class ActivityEditImagesTest extends ActivityEditScreenTest {
     }
 
     @Override
-    protected GvDataList.GvData newEditDatum(GvDataList.GvData current) {
-        GvImageList.GvImage oldDatum = (GvImageList.GvImage) current;
-        return new GvImageList.GvImage(oldDatum.getBitmap(),
-                oldDatum.getLatLng(), RandomStringGenerator.nextSentence(), oldDatum.isCover());
+    protected void setUp(boolean withData) {
+        //Create ReviewBuilder that generates ImageChooser intent
+        Administrator admin = Administrator.get(getInstrumentation().getTargetContext());
+        admin.createNewReviewInProgress();
+        super.setUp(withData);
     }
 
 //    @SmallTest
@@ -77,14 +78,6 @@ public class ActivityEditImagesTest extends ActivityEditScreenTest {
         GvImageList.GvImage oldDatum = (GvImageList.GvImage) current;
         return new GvImageList.GvImage(oldDatum.getBitmap(),
                 oldDatum.getLatLng(), RandomStringGenerator.nextSentence(), oldDatum.isCover());
-    }
-
-    @Override
-    protected void setUp(boolean withData) {
-        //Create ReviewBuilder that generates ImageChooser intent
-        Administrator admin = Administrator.get(getInstrumentation().getTargetContext());
-        admin.createNewReviewInProgress();
-        super.setUp(withData);
     }
 }
 
