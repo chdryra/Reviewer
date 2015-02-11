@@ -188,7 +188,7 @@ public class ActivityEditChildrenTest extends ActivityEditScreenTest {
             rating += review.getRating();
         }
 
-        if (rating > 0) rating /= numCells;
+        if (numCells > 0) rating /= numCells;
 
         return nearestHalf ? Math.round(rating * 2f) / 2f : rating;
     }

@@ -27,6 +27,7 @@ public class ActivityEditImagesTest extends ActivityEditScreenTest {
         super(GvDataList.GvType.IMAGES);
     }
 
+
     @SmallTest
     public void testBannerButtonAddDone() {
         setUp(false);
