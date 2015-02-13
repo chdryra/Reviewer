@@ -114,12 +114,12 @@ public class ActivityEditChildrenTest extends ActivityEditScreenTest {
         }
 
         assertFalse(getFragmentViewReview().getRating() == fromChildren);
-        assertFalse(mController.getReviewNode().isReviewRatingAverage());
+        assertFalse(getBuilder().isRatingAverage());
 
         mSolo.clickOnActionBarItem(AVERAGE);
 
         assertTrue(getFragmentViewReview().getRating() == fromChildren);
-        assertTrue(mController.getReviewNode().isReviewRatingAverage());
+        assertTrue(getBuilder().isRatingAverage());
     }
 
     @Override
@@ -130,16 +130,16 @@ public class ActivityEditChildrenTest extends ActivityEditScreenTest {
 
     @Override
     protected void setUpFinish(boolean withData) {
-        mController.getReviewNode().setReviewRatingAverage(false);
+        getBuilder().setRatingIsAverage(false);
         mOriginalRatingNotAverage = mController.getRating();
-        mController.getReviewNode().setReviewRatingAverage(mIsAverage);
+        getBuilder().setRatingIsAverage(mIsAverage);
         mSolo.setProgressBar(0, (int) (mController.getRating() * 2f));
         super.setUpFinish(withData);
     }
 
     @Override
     protected void checkSubjectRating() {
-        if (mController.getReviewNode().isReviewRatingAverage()) {
+        if (getBuilder().isRatingAverage()) {
             checkFragmentSubjectRating(mOriginalSubject, getAverageRating(true));
             checkControllerSubjectRating();
         } else {
@@ -149,7 +149,7 @@ public class ActivityEditChildrenTest extends ActivityEditScreenTest {
 
     @Override
     protected void checkControllerSubjectRating() {
-        float rating = mController.getReviewNode().isReviewRatingAverage() ? mOriginalRating
+        float rating = getBuilder().isRatingAverage() ? mOriginalRating
                 : mOriginalRatingNotAverage;
 
         checkControllerSubjectRating(mOriginalSubject, rating);
@@ -157,7 +157,7 @@ public class ActivityEditChildrenTest extends ActivityEditScreenTest {
 
     @Override
     protected void checkControllerSubjectRatingOnDone() {
-        if (mController.getReviewNode().isReviewRatingAverage()) {
+        if (getBuilder().isRatingAverage()) {
             checkControllerSubjectRating(mOriginalSubject, mGridRatingBeforeDone);
         } else {
             super.checkControllerSubjectRatingOnDone();
@@ -166,7 +166,7 @@ public class ActivityEditChildrenTest extends ActivityEditScreenTest {
 
     @Override
     protected void checkFragmentSubjectRating() {
-        float rating = mController.getReviewNode().isReviewRatingAverage() ? getAverageRating(true)
+        float rating = getBuilder().isRatingAverage() ? getAverageRating(true)
                 : mOriginalRating;
 
         checkFragmentSubjectRating(mOriginalSubject, rating);

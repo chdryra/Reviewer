@@ -22,9 +22,9 @@ import com.chdryra.android.mygenerallibrary.ActivityResultCode;
 public class BannerButtonAddImage extends BannerButtonAdd {
     private static final String TAG = "BannerButtonAddImageListener";
     private ImageChooser mImageChooser;
-    private Fragment mListener;
+    private Fragment     mListener;
 
-    public BannerButtonAddImage(ControllerReviewEditable controller) {
+    public BannerButtonAddImage(ControllerReviewBuilder controller) {
         super(controller, GvDataList.GvType.IMAGES);
         mListener = new AddImageListener() {
         };

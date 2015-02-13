@@ -25,7 +25,7 @@ public class BannerButtonAdd extends ViewReviewAction.BannerButtonAction {
     private GvDataHandler                   mHandler;
     private Fragment                        mListener;
 
-    public BannerButtonAdd(ControllerReviewEditable controller, GvDataList.GvType dataType) {
+    public BannerButtonAdd(ControllerReviewBuilder controller, GvDataList.GvType dataType) {
         super(controller, dataType);
         mConfig = ConfigGvDataUi.getConfig(getDataType()).getAdderConfig();
         mListener = new AddListener() {

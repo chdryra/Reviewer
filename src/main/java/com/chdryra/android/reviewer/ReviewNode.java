@@ -26,8 +26,6 @@ public interface ReviewNode extends Review {
 
     public boolean isRatingIsAverageOfChildren();
 
-    public void setRatingIsAverageOfChildren(boolean ratingIsAverage);
-
     /**
      * Collects itself and all descendants into a collection of nodes.
      */

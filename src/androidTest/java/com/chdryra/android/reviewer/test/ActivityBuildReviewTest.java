@@ -23,6 +23,7 @@ import com.chdryra.android.reviewer.Administrator;
 import com.chdryra.android.reviewer.CommentFormatter;
 import com.chdryra.android.reviewer.ConfigGvDataUi;
 import com.chdryra.android.reviewer.ControllerReview;
+import com.chdryra.android.reviewer.ControllerReviewBuilder;
 import com.chdryra.android.reviewer.FragmentViewReview;
 import com.chdryra.android.reviewer.GvBuildReviewList;
 import com.chdryra.android.reviewer.GvChildrenList;
@@ -48,13 +49,13 @@ public class ActivityBuildReviewTest extends ActivityViewReviewTest {
     private static final int               NUM_DATA = 3;
     private static final int               TIMEOUT  = 10000;
     private static final GvDataList.GvType TYPE     = GvDataList.GvType.BUILD_REVIEW;
-    private static final int AVERAGE = R.id.menu_item_average_rating;
+    private static final int               AVERAGE  = R.id.menu_item_average_rating;
 
     private Administrator     mAdmin;
     private GvBuildReviewList mList;
     private String            mOriginalSubject;
     private float             mOriginalRating;
-    private CallBackSignaler mSignaler;
+    private CallBackSignaler  mSignaler;
 
     public ActivityBuildReviewTest() {
         super(TYPE, true);
@@ -203,28 +204,28 @@ public class ActivityBuildReviewTest extends ActivityViewReviewTest {
         GvChildrenList.GvChildReview child = editSubjectRating();
         checkFragmentSubjectRating(child.getSubject(), child.getRating());
         checkControllerSubjectRating(child.getSubject(), child.getRating());
-        assertFalse(mController.getReviewNode().isReviewRatingAverage());
+        assertFalse(getBuilder().isRatingAverage());
 
         mSolo.clickOnActionBarItem(AVERAGE);
         checkControllerSubjectRating(child.getSubject(), 0);
         checkFragmentSubjectRating(child.getSubject(), 0);
-        assertTrue(mController.getReviewNode().isReviewRatingAverage());
+        assertTrue(getBuilder().isRatingAverage());
 
         child = editSubjectRating();
         mOriginalSubject = child.getSubject();
         mOriginalRating = child.getRating();
-        assertFalse(mController.getReviewNode().isReviewRatingAverage());
+        assertFalse(getBuilder().isRatingAverage());
 
         testClickWithoutData(GvDataList.GvType.CHILDREN, NUM_DATA);
 
-        assertFalse(mController.getReviewNode().isReviewRatingAverage());
+        assertFalse(getBuilder().isRatingAverage());
         while (child.getRating() == getAverageRating(true)) child = editSubjectRating();
         assertFalse(child.getRating() == getAverageRating(true));
 
         mSolo.clickOnActionBarItem(AVERAGE);
         checkFragmentSubjectRating(child.getSubject(), getAverageRating(true));
         checkControllerSubjectRating(child.getSubject(), getAverageRating(false));
-        assertTrue(mController.getReviewNode().isReviewRatingAverage());
+        assertTrue(getBuilder().isRatingAverage());
     }
 
     protected void checkFragmentSubjectRating(String subject, float rating) {
@@ -240,7 +241,7 @@ public class ActivityBuildReviewTest extends ActivityViewReviewTest {
 
     @Override
     protected ControllerReview getController() {
-        return mAdmin.createNewReviewInProgress();
+        return getBuilder();
     }
 
     @SmallTest
@@ -261,6 +262,10 @@ public class ActivityBuildReviewTest extends ActivityViewReviewTest {
         checkSubjectRating();
         checkControllerChanges(null);
         mSignaler = new CallBackSignaler(5);
+    }
+
+    protected ControllerReviewBuilder getBuilder() {
+        return mAdmin.createNewReviewInProgress();
     }
 
     protected void checkControllerDataChanges(GvDataList data) {

@@ -14,7 +14,7 @@ import android.test.suitebuilder.annotation.SmallTest;
 import com.chdryra.android.reviewer.ActivityViewReview;
 import com.chdryra.android.reviewer.Administrator;
 import com.chdryra.android.reviewer.ControllerReview;
-import com.chdryra.android.reviewer.ControllerReviewTreeEditable;
+import com.chdryra.android.reviewer.ControllerReviewBuilder;
 import com.chdryra.android.reviewer.GvDataList;
 import com.chdryra.android.reviewer.GvReviewList;
 import com.chdryra.android.reviewer.R;
@@ -71,12 +71,17 @@ public class ActivityFeedTest extends ActivityViewReviewTest {
 
     @Override
     protected ControllerReview getController() {
-        ControllerReviewTreeEditable controller = mAdmin.createNewReviewInProgress();
+        ControllerReviewBuilder controller = mAdmin.createNewReviewInProgress();
 
         controller.setRating(RatingMocker.nextRating());
         controller.setSubject(RandomStringGenerator.nextWord());
 
         return controller;
+    }
+
+    @Override
+    public void testSubjectRating() {
+
     }
 
     @Override
@@ -103,10 +108,5 @@ public class ActivityFeedTest extends ActivityViewReviewTest {
         }
 
         super.setUp();
-    }
-
-    @Override
-    public void testSubjectRating() {
-
     }
 }

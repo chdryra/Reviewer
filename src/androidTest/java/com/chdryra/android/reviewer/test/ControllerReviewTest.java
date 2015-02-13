@@ -28,11 +28,6 @@ public class ControllerReviewTest extends AndroidTestCase {
     private ControllerTester<Review> mTester;
 
     @SmallTest
-    public void testGetReviewNode() {
-        assertNotNull(mController.getReviewNode());
-    }
-
-    @SmallTest
     public void testGetId() {
         assertEquals(mReview.getId().toString(), mController.getId());
     }
@@ -55,16 +50,6 @@ public class ControllerReviewTest extends AndroidTestCase {
     @SmallTest
     public void testGetPublishDate() {
         mTester.testGetPublishDate();
-    }
-
-    @SmallTest
-    public void testIsPublished() {
-        mTester.testIsPublished();
-    }
-
-    @SmallTest
-    public void testRemoveTags() {
-        mTester.testRemoveTags();
     }
 
     @SmallTest

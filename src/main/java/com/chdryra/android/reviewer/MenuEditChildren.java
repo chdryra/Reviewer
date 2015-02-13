@@ -24,13 +24,13 @@ public class MenuEditChildren extends MenuDeleteDone {
     private MenuItemChildrenRatingAverage mActionItem;
     private DataSetObserver               mObserver;
 
-    public MenuEditChildren(ControllerReviewEditable controller) {
+    public MenuEditChildren(ControllerReviewBuilder controller) {
         super(controller, GvDataList.GvType.CHILDREN, false, true, MENU);
         mActionItem = new MenuItemChildrenRatingAverage(this, false);
         mObserver = new DataSetObserver() {
             @Override
             public void onChanged() {
-                if (getController().getReviewNode().isReviewRatingAverage()) {
+                if (getBuilder().isRatingAverage()) {
                     mActionItem.setAverageRating();
                 }
             }

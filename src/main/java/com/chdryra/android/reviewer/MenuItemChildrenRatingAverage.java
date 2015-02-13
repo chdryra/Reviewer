@@ -18,6 +18,7 @@ import android.view.MenuItem;
 public class MenuItemChildrenRatingAverage extends ViewReviewAction.MenuAction.MenuActionItem {
     private ViewReviewAction.MenuAction mAction;
     private boolean                     mFromController;
+    private ControllerReviewBuilder mBuilder;
 
     public MenuItemChildrenRatingAverage(ViewReviewAction.MenuAction action,
             boolean fromController) {
@@ -26,22 +27,29 @@ public class MenuItemChildrenRatingAverage extends ViewReviewAction.MenuAction.M
         if (!mFromController && action.getDataType() != GvDataList.GvType.CHILDREN) {
             throw new RuntimeException("Action data should be GvChildrenList");
         }
+
+        try {
+            mBuilder = (ControllerReviewBuilder) mAction.getController();
+        } catch (ClassCastException e) {
+            throw new RuntimeException("Controller should be ControllerReviewBuilder");
+        }
     }
 
     public void setAverageRating() {
         float rating = 0;
         GvChildrenList children;
         if (mFromController) {
-            rating = mAction.getController().getRating();
+            children = (GvChildrenList) mBuilder.getData(GvDataList.GvType.CHILDREN);
         } else {
             children = (GvChildrenList) mAction.getData();
-            int numChildren = children.size();
-            for (GvChildrenList.GvChildReview child : children) {
-                rating += child.getRating();
-            }
-            if (numChildren > 0) {
-                rating /= numChildren;
-            }
+        }
+
+        int numChildren = children.size();
+        for (GvChildrenList.GvChildReview child : children) {
+            rating += child.getRating();
+        }
+        if (numChildren > 0) {
+            rating /= numChildren;
         }
 
         mAction.getViewReview().setRating(rating);
@@ -49,7 +57,7 @@ public class MenuItemChildrenRatingAverage extends ViewReviewAction.MenuAction.M
 
     @Override
     public void doAction(MenuItem item) {
-        mAction.getController().getReviewNode().setReviewRatingAverage(true);
+        mBuilder.setRatingIsAverage(true);
         setAverageRating();
     }
 }

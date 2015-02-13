@@ -8,7 +8,7 @@
 
 package com.chdryra.android.reviewer.test.TestUtils;
 
-import com.chdryra.android.reviewer.MdToGvConverter;
+import com.chdryra.android.reviewer.MdGvConverter;
 import com.chdryra.android.reviewer.Review;
 
 import junit.framework.Assert;
@@ -22,11 +22,11 @@ public class ReviewEquality {
     public static void checkData(Review lhs, Review rhs) {
         Assert.assertEquals(lhs.getSubject().get(), rhs.getSubject().get());
         Assert.assertEquals(lhs.getRating().get(), rhs.getRating().get());
-        MdGvEquality.check(lhs.getComments(), MdToGvConverter.convert(rhs.getComments()));
-        MdGvEquality.check(lhs.getFacts(), MdToGvConverter.convert(rhs.getFacts()));
-        MdGvEquality.check(lhs.getImages(), MdToGvConverter.convert(rhs.getImages()));
-        MdGvEquality.check(lhs.getLocations(), MdToGvConverter.convert(rhs.getLocations()));
-        MdGvEquality.check(lhs.getUrls(), MdToGvConverter.convert(rhs.getUrls()));
+        MdGvEquality.check(lhs.getComments(), MdGvConverter.convert(rhs.getComments()));
+        MdGvEquality.check(lhs.getFacts(), MdGvConverter.convert(rhs.getFacts()));
+        MdGvEquality.check(lhs.getImages(), MdGvConverter.convert(rhs.getImages()));
+        MdGvEquality.check(lhs.getLocations(), MdGvConverter.convert(rhs.getLocations()));
+        MdGvEquality.check(lhs.getUrls(), MdGvConverter.convert(rhs.getUrls()));
     }
 
     public static void checkDataIncPublish(Review lhs, Review rhs) {

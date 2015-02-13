@@ -8,8 +8,6 @@
 
 package com.chdryra.android.reviewer;
 
-import com.chdryra.android.mygenerallibrary.VHDString;
-
 import java.util.ArrayList;
 import java.util.Date;
 /**
@@ -34,25 +32,15 @@ import java.util.Date;
  *
  * @param <T>: the {@link Review} type being accessed
  */
-public class ControllerReview<T extends Review> {
+public class ControllerReview<T extends Review> implements GvAdapterReview {
     private final ArrayList<String> mTagsList = new ArrayList<>();
-    private final T                    mReview;
-    private       ControllerReviewNode mReviewNode;
+    private final T mReview;
 
     public ControllerReview(T review) {
         mReview = review;
         for (TagsManager.ReviewTag tag : TagsManager.getTags(review)) {
             mTagsList.add(tag.get());
         }
-    }
-
-    public ControllerReviewNode getReviewNode() {
-        // To avoid a stack overflow if review = review.getReviewNode() in above constructor.
-        if (mReviewNode == null) {
-            mReviewNode = new ControllerReviewNode(mReview.getReviewNode());
-        }
-
-        return mReviewNode;
     }
 
     public String getId() {
@@ -67,26 +55,12 @@ public class ControllerReview<T extends Review> {
         return mReview.getRating().get();
     }
 
-    public String getAuthor() {
-        return mReview.getAuthor().getName();
+    public Author getAuthor() {
+        return mReview.getAuthor();
     }
 
     public Date getPublishDate() {
         return mReview.getPublishDate();
-    }
-
-    public boolean isPublished() {
-        return mReview.isPublished();
-    }
-
-    public void addTags(GvTagList tags) {
-        for (VHDString tag : tags) {
-            mTagsList.add(tag.get());
-        }
-    }
-
-    public void removeTags() {
-        mTagsList.clear();
     }
 
     public boolean hasData(GvDataList.GvType dataType) {
@@ -100,6 +74,8 @@ public class ControllerReview<T extends Review> {
             return mReview.hasUrls();
         } else if (dataType == GvDataList.GvType.LOCATIONS) {
             return mReview.hasLocations();
+        } else if (dataType == GvDataList.GvType.CHILDREN) {
+            return mReview.getReviewNode().getChildren().size() > 0;
         } else {
             return dataType == GvDataList.GvType.TAGS && mTagsList.size() > 0;
         }
@@ -107,17 +83,19 @@ public class ControllerReview<T extends Review> {
 
     public GvDataList getData(GvDataList.GvType dataType) {
         if (dataType == GvDataList.GvType.COMMENTS) {
-            return MdToGvConverter.convert(mReview.getComments());
+            return MdGvConverter.convert(mReview.getComments());
         } else if (dataType == GvDataList.GvType.IMAGES) {
-            return MdToGvConverter.convert(mReview.getImages());
+            return MdGvConverter.convert(mReview.getImages());
         } else if (dataType == GvDataList.GvType.FACTS) {
-            return MdToGvConverter.convert(mReview.getFacts());
+            return MdGvConverter.convert(mReview.getFacts());
         } else if (dataType == GvDataList.GvType.URLS) {
-            return MdToGvConverter.convert(mReview.getUrls());
+            return MdGvConverter.convert(mReview.getUrls());
         } else if (dataType == GvDataList.GvType.LOCATIONS) {
-            return MdToGvConverter.convert(mReview.getLocations());
+            return MdGvConverter.convert(mReview.getLocations());
         } else if (dataType == GvDataList.GvType.TAGS) {
             return getTags();
+        } else if (dataType == GvDataList.GvType.TAGS) {
+            return getChildren();
         } else {
             return null;
         }
@@ -127,6 +105,18 @@ public class ControllerReview<T extends Review> {
         return mReview;
     }
 
+    private GvChildrenList getChildren() {
+        RCollectionReview<ReviewNode> children = mReview.getReviewNode().getChildren();
+        GvChildrenList list = new GvChildrenList();
+        for (ReviewNode child : children) {
+            GvChildrenList.GvChildReview c = new GvChildrenList.GvChildReview(child
+                    .getSubject().get(), child.getRating().get());
+            list.add(c);
+        }
+
+        return list;
+    }
+
     private GvTagList getTags() {
         GvTagList gvTags = new GvTagList();
         for (String tag : mTagsList) {
@@ -134,10 +124,5 @@ public class ControllerReview<T extends Review> {
         }
 
         return gvTags;
-    }
-
-    void setTags(GvTagList tags) {
-        removeTags();
-        addTags(tags);
     }
 }

@@ -26,7 +26,7 @@ public class MenuEditComments extends MenuDeleteDone {
     private boolean mCommentsAreSplit = false;
     private DataSetObserver mObserver;
 
-    public MenuEditComments(ControllerReviewEditable controller) {
+    public MenuEditComments(ControllerReviewBuilder controller) {
         super(controller, GvDataList.GvType.COMMENTS, false, true, MENU);
         mObserver = new DataSetObserver() {
             @Override

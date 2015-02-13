@@ -42,11 +42,11 @@ public abstract class DialogFragmentGvDataAdd<T extends GvDataList.GvData> exten
 
     public static final String QUICK_SET = "com.chdryra.android.reviewer.dialog_quick_mode";
 
-    private ControllerReviewEditable mController;
-    private GvDataList<T>            mData;
-    private GvDataViewHolder<T>      mViewHolder;
-    private GvDataHandler<T>         mHandler;
-    private GvDataAddListener<T>     mAddListener;
+    private ControllerReviewBuilder mController;
+    private GvDataList<T>           mData;
+    private GvDataViewHolder<T>     mViewHolder;
+    private GvDataHandler<T>        mHandler;
+    private GvDataAddListener<T>    mAddListener;
 
     private boolean mQuickSet = false;
 
@@ -98,7 +98,7 @@ public abstract class DialogFragmentGvDataAdd<T extends GvDataList.GvData> exten
 
         Bundle args = getArguments();
         mQuickSet = args != null && args.getBoolean(QUICK_SET);
-        mController = (ControllerReviewEditable) Administrator.get(getActivity()).unpack(args);
+        mController = (ControllerReviewBuilder) Administrator.get(getActivity()).unpack(args);
 
         //TODO make type safe
         if (mController != null) mData = mController.getData(getGvType());

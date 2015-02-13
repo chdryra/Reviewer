@@ -54,7 +54,6 @@ public class ControllerReviewCollection<T extends Review> {
     private GvDataList toGridViewablePublished() {
         GvReviewList data = new GvReviewList();
         for (Review r : mReviews) {
-            if (!r.isPublished()) continue;
             ControllerReview c = getControllerFor(r.getId().toString());
 
             GvImageList images = (GvImageList) c.getData(GvDataList.GvType.IMAGES);
@@ -66,7 +65,8 @@ public class ControllerReviewCollection<T extends Review> {
             String headline = comments.size() > 0 ? comments.getItem(0).getCommentHeadline() : null;
             String location = locations.size() > 0 ? locations.getItem(0).getName() : null;
 
-            data.add(c.getId(), c.getAuthor(), c.getPublishDate(), c.getSubject(), c.getRating(),
+            data.add(c.getId(), c.getAuthor().getName(), c.getPublishDate(), c.getSubject(),
+                    c.getRating(),
                     cover, headline, location);
         }
 

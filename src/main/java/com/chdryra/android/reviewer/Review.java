@@ -61,20 +61,9 @@ public interface Review extends ReviewId.RDIdAble {
      */
     ReviewNode getReviewNode();
 
-    /**
-     * Stamps an unpublished review (and descendants if necessary) with an {@link Author} and Date.
-     * Returns an uneditable published review.
-     *
-     * @param publisher: holds publishing data and publishes unpublished descendants if necessary.
-     * @return Review: a new uneditable review stamped with {@link Author} and Date.
-     */
-    Review publish(PublisherReviewTree publisher);
-
     Author getAuthor();
 
     Date getPublishDate();
-
-    public boolean isPublished();
 
     //Optional data
     MdCommentList getComments();

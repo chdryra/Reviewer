@@ -39,17 +39,17 @@ public class MenuDeleteDone extends ViewReviewAction.MenuAction {
     private Fragment mListener;
     private boolean  mRatingIsAverage;
 
-    public MenuDeleteDone(ControllerReviewEditable controller,
+    public MenuDeleteDone(ControllerReviewBuilder controller,
             GvDataList.GvType dataType) {
         this(controller, dataType, false, true);
     }
 
-    public MenuDeleteDone(ControllerReviewEditable controller,
+    public MenuDeleteDone(ControllerReviewBuilder controller,
             GvDataList.GvType dataType, boolean dismissOnDelete, boolean dismissOnDone) {
         this(controller, dataType, dismissOnDelete, dismissOnDone, MENU);
     }
 
-    public MenuDeleteDone(ControllerReviewEditable controller,
+    public MenuDeleteDone(ControllerReviewBuilder controller,
             GvDataList.GvType dataType, boolean dismissOnDelete, boolean dismissOnDone,
             int menuId) {
         super(controller, dataType, menuId);
@@ -71,7 +71,7 @@ public class MenuDeleteDone extends ViewReviewAction.MenuAction {
             }
         };
 
-        mRatingIsAverage = getEditable().getReviewNode().isReviewRatingAverage();
+        mRatingIsAverage = getBuilder().isRatingAverage();
 
         addMenuItems();
         mListener = new DeleteConfirmListener() {
@@ -87,7 +87,7 @@ public class MenuDeleteDone extends ViewReviewAction.MenuAction {
 
     @Override
     protected void doUpSelected() {
-        getEditable().getReviewNode().setReviewRatingAverage(mRatingIsAverage);
+        getBuilder().setRatingIsAverage(mRatingIsAverage);
         super.doUpSelected();
     }
 
@@ -122,16 +122,19 @@ public class MenuDeleteDone extends ViewReviewAction.MenuAction {
         }
     }
 
+    protected ControllerReviewBuilder getBuilder() {
+        return (ControllerReviewBuilder) getController();
+    }
+
     private void doDoneSelected() {
         ViewReview view = getViewReview();
         GvDataList data = getData();
-        ControllerReviewEditable controller = getEditable();
+        ControllerReviewBuilder controller = getBuilder();
 
         if (data != null) controller.setData(data);
         controller.setSubject(view.getSubject());
         controller.setRating(view.getRating());
     }
-
 
     private void showDeleteConfirmDialog() {
         String deleteWhat = " all " + getDataType().getDataString();
@@ -141,10 +144,6 @@ public class MenuDeleteDone extends ViewReviewAction.MenuAction {
 
     private boolean hasDataToDelete() {
         return getData() != null && getData().size() > 0;
-    }
-
-    private ControllerReviewEditable getEditable() {
-        return (ControllerReviewEditable) getController();
     }
 
     private abstract class DeleteConfirmListener extends Fragment implements DialogAlertFragment
@@ -159,4 +158,5 @@ public class MenuDeleteDone extends ViewReviewAction.MenuAction {
             if (requestCode == DELETE_CONFIRM) doDeleteSelected();
         }
     }
+
 }

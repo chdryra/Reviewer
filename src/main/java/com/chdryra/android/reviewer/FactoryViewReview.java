@@ -43,7 +43,7 @@ public class FactoryViewReview {
         Intent i = activity.getIntent();
         Administrator admin = Administrator.get(activity);
 
-        ControllerReviewEditable controller = (ControllerReviewEditable) admin.unpack(i);
+        ControllerReviewBuilder controller = admin.getReviewBuilder();
 
         GvDataList data = GvBuildReviewList.newInstance(activity, controller);
         ViewReview view = new ViewReview(parent, data, true, new ViewReviewBuildModifier
@@ -102,7 +102,7 @@ public class FactoryViewReview {
         Intent i = activity.getIntent();
         Administrator admin = Administrator.get(activity);
 
-        ControllerReviewEditable controller = (ControllerReviewEditable) admin.unpack(i);
+        ControllerReviewBuilder controller = admin.getReviewBuilder();
         GvDataList data = controller.getData(dataType);
 
         ViewReview view = new ViewReview(parent, data, true);
@@ -129,7 +129,7 @@ public class FactoryViewReview {
         }
     }
 
-    private static ViewReviewAction.MenuAction newMenuEdit(ControllerReviewEditable controller,
+    private static ViewReviewAction.MenuAction newMenuEdit(ControllerReviewBuilder controller,
             GvDataList.GvType dataType) {
         if (dataType == GvDataList.GvType.COMMENTS) {
             return new MenuEditComments(controller);
@@ -149,7 +149,7 @@ public class FactoryViewReview {
         }
     }
 
-    private static ViewReviewAction.GridItemAction newGridItemEdit(ControllerReviewEditable
+    private static ViewReviewAction.GridItemAction newGridItemEdit(ControllerReviewBuilder
             controller,
             GvDataList.GvType dataType) {
         if (dataType == GvDataList.GvType.COMMENTS) {
@@ -163,7 +163,7 @@ public class FactoryViewReview {
         }
     }
 
-    private static ViewReviewAction.BannerButtonAction newBannerButtonAdd(ControllerReviewEditable
+    private static ViewReviewAction.BannerButtonAction newBannerButtonAdd(ControllerReviewBuilder
             controller,
             GvDataList.GvType dataType) {
         if (dataType == GvDataList.GvType.IMAGES) {
@@ -178,7 +178,7 @@ public class FactoryViewReview {
         return new ViewReviewAction.RatingBarAction(controller);
     }
 
-    private static ViewReviewAction.RatingBarAction newRatingBarEdit(ControllerReviewEditable
+    private static ViewReviewAction.RatingBarAction newRatingBarEdit(ControllerReviewBuilder
             controller,
             GvDataList.GvType dataType) {
         if (dataType == GvDataList.GvType.BUILD_REVIEW) {
@@ -193,7 +193,7 @@ public class FactoryViewReview {
         return new ViewReviewAction.SubjectViewAction(controller);
     }
 
-    private static ViewReviewAction.SubjectViewAction newSubjectEdit(ControllerReviewEditable
+    private static ViewReviewAction.SubjectViewAction newSubjectEdit(ControllerReviewBuilder
             controller) {
         return new SubjectEdit(controller);
     }

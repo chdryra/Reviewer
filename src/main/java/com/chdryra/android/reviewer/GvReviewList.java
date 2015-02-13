@@ -21,7 +21,6 @@ import java.util.Date;
  * Used for Review summaries in published feed
  *
  * @see com.chdryra.android.reviewer.Administrator
- * @see com.chdryra.android.reviewer.FragmentFeed
  */
 public class GvReviewList extends GvDataList<GvReviewList.GvReviewOverview> {
     public static final GvType TYPE = GvType.FEED;

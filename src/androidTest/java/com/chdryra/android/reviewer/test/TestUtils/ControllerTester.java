@@ -15,7 +15,6 @@ import com.chdryra.android.reviewer.GvDataList;
 import com.chdryra.android.reviewer.GvFactList;
 import com.chdryra.android.reviewer.GvImageList;
 import com.chdryra.android.reviewer.GvLocationList;
-import com.chdryra.android.reviewer.GvTagList;
 import com.chdryra.android.reviewer.GvUrlList;
 import com.chdryra.android.reviewer.MdCommentList;
 import com.chdryra.android.reviewer.MdDataList;
@@ -26,7 +25,6 @@ import com.chdryra.android.reviewer.MdUrlList;
 import com.chdryra.android.reviewer.Review;
 import com.chdryra.android.reviewer.ReviewEditable;
 import com.chdryra.android.reviewer.ReviewNode;
-import com.chdryra.android.testutils.RandomStringGenerator;
 
 import junit.framework.Assert;
 
@@ -54,10 +52,6 @@ public class ControllerTester<T extends Review> {
         mMdDataMocker = new MdDataMocker<>(mReview);
     }
 
-    public void testGetReviewNode() {
-        Assert.assertNotNull(mController.getReviewNode());
-    }
-
     public void testGetId() {
         Assert.assertEquals(mReview.getId().toString(), mController.getId());
     }
@@ -78,22 +72,18 @@ public class ControllerTester<T extends Review> {
         Assert.assertEquals(mReview.getPublishDate(), mController.getPublishDate());
     }
 
-    public void testIsPublished() {
-        Assert.assertEquals(mReview.isPublished(), mController.isPublished());
-    }
-
-    public void testRemoveTags() {
-        GvTagList tags = (GvTagList) GvDataMocker.getData(GvDataList.GvType.TAGS, NUMDATA);
-        mController.addTags(tags);
-
-        GvTagList getTags = (GvTagList) mController.getData(GvDataList.GvType.TAGS);
-        Assert.assertEquals(tags.size(), getTags.size());
-
-        mController.removeTags();
-
-        getTags = (GvTagList) mController.getData(GvDataList.GvType.TAGS);
-        Assert.assertEquals(0, getTags.size());
-    }
+//    public void testRemoveTags() {
+//        GvTagList tags = (GvTagList) GvDataMocker.getData(GvDataList.GvType.TAGS, NUMDATA);
+//        mController.addTags(tags);
+//
+//        GvTagList getTags = (GvTagList) mController.getData(GvDataList.GvType.TAGS);
+//        Assert.assertEquals(tags.size(), getTags.size());
+//
+//        mController.removeTags();
+//
+//        getTags = (GvTagList) mController.getData(GvDataList.GvType.TAGS);
+//        Assert.assertEquals(0, getTags.size());
+//    }
 
     public void testGetData() {
         ReviewEditable editable = ReviewMocker.newReviewEditable();
@@ -134,7 +124,7 @@ public class ControllerTester<T extends Review> {
                 (GvUrlList) controller.getData(dataType));
 
         //Tags
-        testAddAndGetTags();
+        //testAddAndGetTags();
     }
 
     public void testHasData() {
@@ -151,19 +141,19 @@ public class ControllerTester<T extends Review> {
         return mMdDataMocker;
     }
 
-    private void testAddAndGetTags() {
-        GvTagList getTags = (GvTagList) mController.getData(GvDataList.GvType.TAGS);
-        Assert.assertEquals(0, getTags.size());
-
-        GvTagList tags = (GvTagList) GvDataMocker.getData(GvDataList.GvType.TAGS, NUMDATA);
-        mController.addTags(tags);
-
-        getTags = (GvTagList) mController.getData(GvDataList.GvType.TAGS);
-        Assert.assertEquals(tags.size(), getTags.size());
-        for (int i = 0; i < tags.size(); ++i) {
-            Assert.assertEquals(tags.getItem(i), getTags.getItem(i));
-        }
-    }
+//    private void testAddAndGetTags() {
+//        GvTagList getTags = (GvTagList) mController.getData(GvDataList.GvType.TAGS);
+//        Assert.assertEquals(0, getTags.size());
+//
+//        GvTagList tags = (GvTagList) GvDataMocker.getData(GvDataList.GvType.TAGS, NUMDATA);
+//        mController.addTags(tags);
+//
+//        getTags = (GvTagList) mController.getData(GvDataList.GvType.TAGS);
+//        Assert.assertEquals(tags.size(), getTags.size());
+//        for (int i = 0; i < tags.size(); ++i) {
+//            Assert.assertEquals(tags.getItem(i), getTags.getItem(i));
+//        }
+//    }
 
     private void testHasData(GvDataList.GvType dataType) {
         ReviewNode node = ReviewMocker.newReviewNode();
@@ -172,24 +162,24 @@ public class ControllerTester<T extends Review> {
 
         testOnlyHasData(controller, null);
 
-        if (dataType != GvDataList.GvType.TAGS) {
-            setAndGetMdData(dataType, editable);
-        } else {
-            GvTagList tags = new GvTagList();
-            for (int i = 0; i < NUMDATA; ++i) {
-                tags.add(new GvTagList.GvTag(RandomStringGenerator.nextWord()));
-            }
-
-            controller.addTags(tags);
-        }
+//        if (dataType != GvDataList.GvType.TAGS) {
+//            setAndGetMdData(dataType, editable);
+//        } else {
+//            GvTagList tags = new GvTagList();
+//            for (int i = 0; i < NUMDATA; ++i) {
+//                tags.add(new GvTagList.GvTag(RandomStringGenerator.nextWord()));
+//            }
+//
+//            controller.addTags(tags);
+//        }
 
         testOnlyHasData(controller, dataType);
 
-        if (dataType != GvDataList.GvType.TAGS) {
-            ReviewGetSetDelete.deleteData(dataType, editable);
-        } else {
-            controller.removeTags();
-        }
+//        if (dataType != GvDataList.GvType.TAGS) {
+//            ReviewGetSetDelete.deleteData(dataType, editable);
+//        } else {
+//            controller.removeTags();
+//        }
 
         testOnlyHasData(controller, null);
     }

@@ -29,7 +29,7 @@ public class GridItemBuildReview extends ViewReviewAction.GridItemAction {
     private ImageChooser            mImageChooser;
     private LocationClientConnector mLocationClient;
 
-    public GridItemBuildReview(ControllerReviewEditable controller) {
+    public GridItemBuildReview(ControllerReviewBuilder controller) {
         super(controller, GvDataList.GvType.BUILD_REVIEW);
         mListener = new BuildListener() {
         };
@@ -67,15 +67,15 @@ public class GridItemBuildReview extends ViewReviewAction.GridItemAction {
         }
     }
 
-    private ControllerReviewEditable getEditableController() {
-        return (ControllerReviewEditable) getController();
+    private ControllerReviewBuilder getBuilder() {
+        return (ControllerReviewBuilder) getController();
     }
 
     private void addLocation(GvLocationList.GvLocation location) {
         if (location.isValidForDisplay()) {
             GvLocationList list = new GvLocationList();
             list.add(location);
-            getEditableController().setData(list);
+            getBuilder().setData(list);
         }
     }
 
@@ -178,7 +178,7 @@ public class GridItemBuildReview extends ViewReviewAction.GridItemAction {
             image.setIsCover(true);
             GvImageList images = new GvImageList();
             images.add(image);
-            getEditableController().setData(images);
+            getBuilder().setData(images);
             getViewReview().updateUi();
         }
 

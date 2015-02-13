@@ -32,10 +32,6 @@ public class ControllerReviewNode extends ControllerReview<ReviewNode> {
         return getControlledReview().isRatingIsAverageOfChildren();
     }
 
-    public void setReviewRatingAverage(boolean isAverage) {
-        getControlledReview().setRatingIsAverageOfChildren(isAverage);
-    }
-
     ControllerReviewCollection<ReviewNode> createChildrenController() {
         return new ControllerReviewCollection<>(getControlledReview().getChildren());
     }

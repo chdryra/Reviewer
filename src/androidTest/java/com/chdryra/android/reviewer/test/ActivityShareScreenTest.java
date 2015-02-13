@@ -14,7 +14,7 @@ import android.test.suitebuilder.annotation.SmallTest;
 import com.chdryra.android.reviewer.ActivityFeed;
 import com.chdryra.android.reviewer.Administrator;
 import com.chdryra.android.reviewer.ControllerReview;
-import com.chdryra.android.reviewer.ControllerReviewTreeEditable;
+import com.chdryra.android.reviewer.ControllerReviewBuilder;
 import com.chdryra.android.reviewer.FragmentViewReview;
 import com.chdryra.android.reviewer.GvDataList;
 import com.chdryra.android.reviewer.GvReviewList;
@@ -86,7 +86,7 @@ public class ActivityShareScreenTest extends ActivityViewReviewTest {
 
     @Override
     protected ControllerReview getController() {
-        ControllerReviewTreeEditable controller = mAdmin.createNewReviewInProgress();
+        ControllerReviewBuilder controller = mAdmin.createNewReviewInProgress();
 
         controller.setRating(RatingMocker.nextRating());
         controller.setSubject(RandomStringGenerator.nextWord());

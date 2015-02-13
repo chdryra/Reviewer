@@ -14,17 +14,17 @@ package com.chdryra.android.reviewer;
  * Email: rizwan.choudrey@gmail.com
  */
 public class PublishedReviews {
-    private ControllerReviewCollection<ReviewNode> mController;
+    private ControllerReviewCollection<Review> mController;
 
     public PublishedReviews() {
-        mController = new ControllerReviewCollection<>(new RCollectionReview<ReviewNode>());
+        mController = new ControllerReviewCollection<>(new RCollectionReview<Review>());
     }
 
     public GvDataList toGridViewable() {
         return mController.toGridViewable(true);
     }
 
-    public void add(ReviewNode review) {
-        if (review.isPublished()) mController.addReview(review);
+    public void add(Review review) {
+        mController.addReview(review);
     }
 }

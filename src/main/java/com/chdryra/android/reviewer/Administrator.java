@@ -15,6 +15,8 @@ import android.os.Bundle;
 
 import com.chdryra.android.mygenerallibrary.ObjectHolder;
 
+import java.util.Date;
+
 /**
  * Singleton that controls app-wide duties. Holds 4 main objects:
  * <ul>
@@ -34,7 +36,6 @@ import com.chdryra.android.mygenerallibrary.ObjectHolder;
  *
  * @see com.chdryra.android.reviewer.Author
  * @see com.chdryra.android.reviewer.RCollectionReview
- * @see ControllerReviewTreeEditable
  */
 public class Administrator {
     private static final String CONTROLLER_ID = "com.chdryra.android.reviewer.review_id";
@@ -45,14 +46,12 @@ public class Administrator {
     private final Context             mContext;
     private final PublishedReviews    mPublishedReviews;
     private final ObjectHolder        mControllers;
-    private final PublisherReviewTree mPublisher;
 
-    private ReviewBuilder mReviewBuilder;
+    private ControllerReviewBuilder mReviewBuilder;
 
     private Administrator(Context context) {
         mContext = context;
         mControllers = new ObjectHolder();
-        mPublisher = new PublisherReviewTree(AUTHOR);
         mPublishedReviews = new PublishedReviews();
     }
 
@@ -76,9 +75,17 @@ public class Administrator {
         return chooser;
     }
 
-    public ControllerReviewTreeEditable createNewReviewInProgress() {
-        mReviewBuilder = new ReviewBuilder(mContext);
-        return mReviewBuilder.getReview();
+    public Author getAuthor() {
+        return AUTHOR;
+    }
+
+    public ControllerReviewBuilder getReviewBuilder() {
+        return mReviewBuilder;
+    }
+
+    public ControllerReviewBuilder createNewReviewInProgress() {
+        mReviewBuilder = new ControllerReviewBuilder(mContext);
+        return mReviewBuilder;
     }
 
     public PublishedReviews getPublishedReviews() {
@@ -86,7 +93,8 @@ public class Administrator {
     }
 
     public void publishReviewInProgress() {
-        mPublishedReviews.add(mReviewBuilder.publish(mPublisher));
+        Review p = mReviewBuilder.publish(AUTHOR, new Date());
+        mPublishedReviews.add(p);
     }
 
     public GvSocialPlatformList getSocialPlatformList() {
@@ -115,10 +123,6 @@ public class Administrator {
         unregister(controller);
 
         return controller;
-    }
-
-    public ViewReview getReviewView(Intent i) {
-        return null;
     }
 
     private void register(ControllerReview controller) {

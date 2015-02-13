@@ -34,50 +34,49 @@ public class FactoryReview {
         return sFactory;
     }
 
-    //Reviews
-    public static ReviewTreeEditable createReviewInProgress() {
-        return createReviewInProgress("");
-    }
-
-    public static ReviewTreeEditable createReviewInProgress(String subject) {
-        return getInstance().newReviewTreeEditable(subject);
-    }
-
-    public static Review createReview(ReviewNode reviewNode) {
-        return getInstance().newReview(reviewNode);
-    }
-
-    public static Review createReview(Author author, Date publishDate, ReviewNode reviewNode) {
-        return getInstance().newReview(author, publishDate, reviewNode);
+    public static Review createReviewUser(Author author, Date publishDate, String subject,
+            float rating,
+            Iterable<? extends DataComment> comments,
+            Iterable<? extends DataImage> images,
+            Iterable<? extends DataFact> facts,
+            Iterable<? extends DataLocation> locations,
+            Iterable<? extends DataUrl> urls) {
+        return getInstance().newReviewUser(author, publishDate, subject, rating, comments,
+                images, facts, locations, urls);
     }
 
     //Nodes
-    public static ReviewNode createReviewNodeAlone(Review review) {
-        return getInstance().newReviewNodeAlone(review);
+    public static ReviewNode createReviewNode(Review review) {
+        return getInstance().newReviewNode(review);
     }
 
-    public static ReviewNodeExpandable createReviewNodeExpandable(Review review) {
-        return getInstance().newReviewNodeExpandable(review);
+    public static ReviewNode createReviewTree(Review review,
+            RCollectionReview<Review> children, boolean isAverage) {
+
+        return getInstance().newReviewTree(review, children, isAverage);
     }
 
     //Constructors
-    private ReviewTreeEditable newReviewTreeEditable(String subject) {
-        return new ReviewTreeEditable(new ReviewUserEditable(subject));
+    private Review newReviewUser(Author author, Date publishDate, String subject, float rating,
+            Iterable<? extends DataComment> comments,
+            Iterable<? extends DataImage> images,
+            Iterable<? extends DataFact> facts,
+            Iterable<? extends DataLocation> locations,
+            Iterable<? extends DataUrl> urls) {
+        return new ReviewUser(author, publishDate, subject, rating, comments, images, facts,
+                locations, urls);
     }
 
-    private Review newReview(ReviewNode node) {
-        return new ReviewTree(node.getAuthor(), node.getPublishDate(), node);
+    private ReviewNode newReviewNode(Review review) {
+        return new ReviewTree(review);
     }
 
-    private Review newReview(Author author, Date publishDate, ReviewNode node) {
-        return new ReviewTree(author, publishDate, node);
-    }
-
-    private ReviewNodeExpandable newReviewNodeExpandable(Review review) {
-        return new ReviewNodeExpandableImpl(review);
-    }
-
-    private ReviewNode newReviewNodeAlone(Review review) {
-        return new ReviewNodeAlone(review);
+    private ReviewTree newReviewTree(Review parent, RCollectionReview<Review> children,
+            boolean isAverage) {
+        RCollectionReview<ReviewNode> childNodes = new RCollectionReview<>();
+        for (Review child : children) {
+            childNodes.add(createReviewNode(child));
+        }
+        return new ReviewTree(parent, childNodes, isAverage);
     }
 }

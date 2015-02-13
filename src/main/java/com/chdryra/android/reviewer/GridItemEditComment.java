@@ -16,7 +16,7 @@ import android.view.View;
  * Email: rizwan.choudrey@gmail.com
  */
 public class GridItemEditComment extends GridItemEdit {
-    public GridItemEditComment(ControllerReviewEditable controller) {
+    public GridItemEditComment(ControllerReviewBuilder controller) {
         super(controller, GvDataList.GvType.COMMENTS);
     }
 

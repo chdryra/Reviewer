@@ -16,14 +16,15 @@ import android.text.Editable;
  * Email: rizwan.choudrey@gmail.com
  */
 public class SubjectEdit extends ViewReviewAction.SubjectViewAction {
-    public SubjectEdit(ControllerReview controller) {
+    public SubjectEdit(ControllerReviewBuilder controller) {
         super(controller);
     }
 
     //Because clear button not picked up by afterTextChanged
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
-        if (s.length() == 0 && getController().getSubject().length() > 0) {
+        if (s.length() == 0 && getController().getSubject() != null && getController().getSubject()
+                .length() > 0) {
             setSubject(s.toString());
         }
     }
@@ -34,7 +35,7 @@ public class SubjectEdit extends ViewReviewAction.SubjectViewAction {
     }
 
     private void setSubject(String subject) {
-        ControllerReviewEditable controller = (ControllerReviewEditable) getController();
+        ControllerReviewBuilder controller = (ControllerReviewBuilder) getController();
         controller.setSubject(subject);
     }
 }

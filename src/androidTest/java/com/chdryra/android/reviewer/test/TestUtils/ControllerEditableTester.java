@@ -18,9 +18,9 @@ import com.chdryra.android.reviewer.GvUrlList;
 import com.chdryra.android.reviewer.MdCommentList;
 import com.chdryra.android.reviewer.MdDataList;
 import com.chdryra.android.reviewer.MdFactList;
+import com.chdryra.android.reviewer.MdGvConverter;
 import com.chdryra.android.reviewer.MdImageList;
 import com.chdryra.android.reviewer.MdLocationList;
-import com.chdryra.android.reviewer.MdToGvConverter;
 import com.chdryra.android.reviewer.MdUrlList;
 import com.chdryra.android.reviewer.ReviewEditable;
 import com.chdryra.android.testutils.RandomStringGenerator;
@@ -92,7 +92,7 @@ public class ControllerEditableTester extends ControllerTester<ReviewEditable> {
         Assert.assertTrue(mockData.size() > 0);
 
         //Convert it to GvData and check same size
-        GvDataList setData = MdToGvConverter.convert(dataType, mockData);
+        GvDataList setData = MdGvConverter.convert(dataType, mockData);
         Assert.assertNotNull(setData);
         Assert.assertEquals(mockData.size(), setData.size());
 
