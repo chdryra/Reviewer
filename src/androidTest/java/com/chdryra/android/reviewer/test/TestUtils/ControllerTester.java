@@ -8,7 +8,6 @@
 
 package com.chdryra.android.reviewer.test.TestUtils;
 
-import com.chdryra.android.reviewer.ControllerReview;
 import com.chdryra.android.reviewer.ControllerReviewNode;
 import com.chdryra.android.reviewer.GvCommentList;
 import com.chdryra.android.reviewer.GvDataList;
@@ -23,6 +22,7 @@ import com.chdryra.android.reviewer.MdImageList;
 import com.chdryra.android.reviewer.MdLocationList;
 import com.chdryra.android.reviewer.MdUrlList;
 import com.chdryra.android.reviewer.Review;
+import com.chdryra.android.reviewer.ReviewAdapter;
 import com.chdryra.android.reviewer.ReviewEditable;
 import com.chdryra.android.reviewer.ReviewNode;
 
@@ -42,11 +42,11 @@ public class ControllerTester<T extends Review> {
             GvDataList.GvType.LOCATIONS, GvDataList.GvType.COMMENTS,
             GvDataList.GvType.IMAGES, GvDataList.GvType.TAGS};
 
-    private ControllerReview<T> mController;
-    private T                   mReview;
-    private MdDataMocker<T>     mMdDataMocker;
+    private ReviewAdapter<T> mController;
+    private T                mReview;
+    private MdDataMocker<T>  mMdDataMocker;
 
-    public ControllerTester(ControllerReview<T> controller, T review) {
+    public ControllerTester(ReviewAdapter<T> controller, T review) {
         mController = controller;
         mReview = review;
         mMdDataMocker = new MdDataMocker<>(mReview);
@@ -87,7 +87,7 @@ public class ControllerTester<T extends Review> {
 
     public void testGetData() {
         ReviewEditable editable = ReviewMocker.newReviewEditable();
-        ControllerReview<Review> controller = new ControllerReview<Review>(editable);
+        ReviewAdapter<Review> controller = new ReviewAdapter<Review>(editable);
 
         GvDataList.GvType dataType;
 
@@ -193,7 +193,7 @@ public class ControllerTester<T extends Review> {
         return data;
     }
 
-    private void testOnlyHasData(ControllerReview controller, GvDataList.GvType dataType) {
+    private void testOnlyHasData(ReviewAdapter controller, GvDataList.GvType dataType) {
         for (GvDataList.GvType gv : sRelevantGvTypes) {
             if (gv == dataType) {
                 Assert.assertTrue(controller.hasData(gv));

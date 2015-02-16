@@ -16,8 +16,8 @@ import android.view.View;
  * Email: rizwan.choudrey@gmail.com
  */
 public class GridItemSocial extends ViewReviewAction.GridItemAction {
-    public GridItemSocial(ControllerReview controller) {
-        super(controller, GvDataList.GvType.SOCIAL);
+    public GridItemSocial(GvAdapter adapter) {
+        super(adapter, GvDataList.GvType.SOCIAL);
     }
 
     @Override

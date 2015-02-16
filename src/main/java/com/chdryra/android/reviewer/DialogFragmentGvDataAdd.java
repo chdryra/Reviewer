@@ -42,11 +42,11 @@ public abstract class DialogFragmentGvDataAdd<T extends GvDataList.GvData> exten
 
     public static final String QUICK_SET = "com.chdryra.android.reviewer.dialog_quick_mode";
 
-    private ControllerReviewBuilder mController;
-    private GvDataList<T>           mData;
-    private GvDataViewHolder<T>     mViewHolder;
-    private GvDataHandler<T>        mHandler;
-    private GvDataAddListener<T>    mAddListener;
+    private ReviewBuilder        mBuilder;
+    private GvDataList<T>        mData;
+    private GvDataViewHolder<T>  mViewHolder;
+    private GvDataHandler<T>     mHandler;
+    private GvDataAddListener<T> mAddListener;
 
     private boolean mQuickSet = false;
 
@@ -98,10 +98,10 @@ public abstract class DialogFragmentGvDataAdd<T extends GvDataList.GvData> exten
 
         Bundle args = getArguments();
         mQuickSet = args != null && args.getBoolean(QUICK_SET);
-        mController = (ControllerReviewBuilder) Administrator.get(getActivity()).unpack(args);
+        mBuilder = (ReviewBuilder) Administrator.get(getActivity()).unpack(args);
 
         //TODO make type safe
-        if (mController != null) mData = mController.getData(getGvType());
+        if (mBuilder != null) mData = mBuilder.getData(getGvType());
         mHandler = FactoryGvDataHandler.newHandler(mData);
 
         //TODO make type safe
@@ -124,7 +124,7 @@ public abstract class DialogFragmentGvDataAdd<T extends GvDataList.GvData> exten
 
     @Override
     protected void onDoneButtonClick() {
-        if (isQuickSet()) mController.setData(mData);
+        if (isQuickSet()) mBuilder.setData(mData);
     }
 
     @Override
@@ -133,6 +133,6 @@ public abstract class DialogFragmentGvDataAdd<T extends GvDataList.GvData> exten
     }
 
     boolean isQuickSet() {
-        return mQuickSet && mController != null;
+        return mQuickSet && mBuilder != null;
     }
 }

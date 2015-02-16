@@ -13,11 +13,11 @@ import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.ActivityViewReview;
 import com.chdryra.android.reviewer.Administrator;
-import com.chdryra.android.reviewer.ControllerReview;
-import com.chdryra.android.reviewer.ControllerReviewBuilder;
 import com.chdryra.android.reviewer.GvDataList;
 import com.chdryra.android.reviewer.GvReviewList;
 import com.chdryra.android.reviewer.R;
+import com.chdryra.android.reviewer.ReviewAdapter;
+import com.chdryra.android.reviewer.ReviewBuilder;
 import com.chdryra.android.reviewer.test.TestUtils.RatingMocker;
 import com.chdryra.android.testutils.RandomStringGenerator;
 
@@ -70,8 +70,8 @@ public class ActivityFeedTest extends ActivityViewReviewTest {
     }
 
     @Override
-    protected ControllerReview getController() {
-        ControllerReviewBuilder controller = mAdmin.createNewReviewInProgress();
+    protected ReviewAdapter getController() {
+        ReviewBuilder controller = mAdmin.createNewReviewInProgress();
 
         controller.setRating(RatingMocker.nextRating());
         controller.setSubject(RandomStringGenerator.nextWord());
@@ -87,7 +87,7 @@ public class ActivityFeedTest extends ActivityViewReviewTest {
     @Override
     protected void setUp() {
         mAdmin = Administrator.get(getInstrumentation().getTargetContext());
-        ArrayList<ControllerReview> controllers = new ArrayList<>();
+        ArrayList<ReviewAdapter> controllers = new ArrayList<>();
         for (int i = 0; i < NUM; ++i) {
             controllers.add(getController());
             mAdmin.publishReviewInProgress();

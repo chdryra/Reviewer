@@ -30,11 +30,6 @@ public class ReviewUser implements Review {
     private final MdUrlList      mUrls;
     private final MdLocationList mLocations;
 
-    public ReviewUser(Author author, Date publishDate, String subject, float rating) {
-        this(author, publishDate, subject, rating, new GvCommentList(), new GvImageList(),
-                new GvFactList(), new GvLocationList(), new GvUrlList());
-    }
-
     public ReviewUser(Author author, Date publishDate, String subject, float rating,
             Iterable<? extends DataComment> comments,
             Iterable<? extends DataImage> images,

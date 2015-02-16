@@ -1,9 +1,9 @@
 /*
- * Copyright (c) 2014, Rizwan Choudrey - All Rights Reserved
+ * Copyright (c) 2015, Rizwan Choudrey - All Rights Reserved
  * Unauthorized copying of this file, via any medium is strictly prohibited
  * Proprietary and confidential
  * Author: Rizwan Choudrey
- * Date: 23 September, 2014
+ * Date: 16 February, 2015
  */
 
 package com.chdryra.android.reviewer;
@@ -11,7 +11,7 @@ package com.chdryra.android.reviewer;
 import java.util.Date;
 
 /**
- * Primary implementation of {@link ReviewNodeExpandable}.
+ * Primary implementation of {@link ReviewTreeExpandable}.
  * <p/>
  * <p>
  * Creates a new unique {@link ReviewId} so represents a new review structure even though it
@@ -29,19 +29,20 @@ import java.util.Date;
  * review.
  * </p>
  */
-class ReviewNodeExpandable implements ReviewNode {
+class ReviewTreeExpandable implements ReviewNode {
     private final ReviewId mId;
 
     private final Review                                  mReview;
-    private final RCollectionReview<ReviewNodeExpandable> mChildren;
-    private       ReviewNodeExpandable                    mParent;
+    private final RCollectionReview<ReviewNode> mChildren;
+    private       ReviewTreeExpandable          mParent;
 
     private boolean mRatingIsAverage = false;
 
-    ReviewNodeExpandable(Review review) {
-        mId = ReviewId.generateId();
-        mReview = review;
+    ReviewTreeExpandable(Review root, boolean ratingIsAverage, boolean uniqueId) {
+        mId = uniqueId ? ReviewId.generateId() : root.getId();
+        mReview = root;
         mChildren = new RCollectionReview<>();
+        mRatingIsAverage = ratingIsAverage;
     }
 
     //ReviewNode methods
@@ -55,7 +56,7 @@ class ReviewNodeExpandable implements ReviewNode {
         return mParent;
     }
 
-    public void setParent(ReviewNodeExpandable parentNode) {
+    public void setParent(ReviewTreeExpandable parentNode) {
         if (mParent != null && parentNode != null && mParent.getId().equals(parentNode.getId())) {
             return;
         }
@@ -72,31 +73,7 @@ class ReviewNodeExpandable implements ReviewNode {
 
     @Override
     public RCollectionReview<ReviewNode> getChildren() {
-        RCollectionReview<ReviewNode> children = new RCollectionReview<ReviewNode>();
-        for (ReviewNodeExpandable child : mChildren) {
-            children.add(child);
-        }
-
-        return children;
-    }
-
-    @Override
-    public boolean isRatingIsAverageOfChildren() {
-        return mRatingIsAverage;
-    }
-
-    public void setRatingIsAverageOfChildren(boolean ratingIsAverage) {
-        mRatingIsAverage = ratingIsAverage;
-    }
-
-    @Override
-    public RCollectionReview<ReviewNode> flattenTree() {
-        TraverserReviewNode traverser = new TraverserReviewNode(this);
-        VisitorNodeCollector collector = new VisitorNodeCollector();
-        traverser.setVisitor(collector);
-        traverser.traverse();
-
-        return collector.get();
+        return mChildren;
     }
 
     @Override
@@ -104,13 +81,7 @@ class ReviewNodeExpandable implements ReviewNode {
         visitorReviewNode.visit(this);
     }
 
-    public ReviewNodeExpandable addChild(Review child) {
-        ReviewNodeExpandable node = new ReviewNodeExpandable(child);
-        addChild(node);
-        return node;
-    }
-
-    public void addChild(ReviewNodeExpandable childNode) {
+    public void addChild(ReviewTreeExpandable childNode) {
         if (mChildren.containsId(childNode.getId())) {
             return;
         }
@@ -118,20 +89,12 @@ class ReviewNodeExpandable implements ReviewNode {
         childNode.setParent(this);
     }
 
-    public void removeChild(ReviewNodeExpandable childNode) {
+    public void removeChild(ReviewTreeExpandable childNode) {
         if (!mChildren.containsId(childNode.getId())) {
             return;
         }
         mChildren.remove(childNode.getId());
         childNode.setParent(null);
-    }
-
-    public void clearChildren() {
-        RCollectionReview<ReviewNodeExpandable> children = new RCollectionReview<>();
-        children.add(mChildren);
-        for (ReviewNodeExpandable child : children) {
-            removeChild(child);
-        }
     }
 
     //Review methods
@@ -147,7 +110,8 @@ class ReviewNodeExpandable implements ReviewNode {
 
     @Override
     public MdRating getRating() {
-        return isRatingIsAverageOfChildren() ? getAverageRatingOfChildren() : mReview.getRating();
+        return mRatingIsAverage ? new MdRating(RatingAverager.average(this),
+                this) : mReview.getRating();
     }
 
     @Override
@@ -221,7 +185,7 @@ class ReviewNodeExpandable implements ReviewNode {
             return false;
         }
 
-        ReviewNodeExpandable objNode = (ReviewNodeExpandable) obj;
+        ReviewTreeExpandable objNode = (ReviewTreeExpandable) obj;
         return mId.equals(objNode.mId);
     }
 
@@ -230,7 +194,7 @@ class ReviewNodeExpandable implements ReviewNode {
         return mId.hashCode();
     }
 
-    private MdRating getAverageRatingOfChildren() {
-        return new MdRating(RatingAverager.average(this), this);
+    public ReviewTree createTree() {
+        return new ReviewTree(this);
     }
 }

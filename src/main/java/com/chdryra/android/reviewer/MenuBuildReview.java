@@ -18,8 +18,8 @@ public class MenuBuildReview extends ViewReviewAction.MenuAction {
     private static final int MENU            = R.menu.fragment_review_options;
     private MenuActionItem mActionItem;
 
-    public MenuBuildReview(ControllerReview controller) {
-        super(controller, GvDataList.GvType.BUILD_REVIEW, MENU);
+    public MenuBuildReview(GvAdapter adapter) {
+        super(adapter, GvDataList.GvType.BUILD_REVIEW, MENU);
         mActionItem = new MenuItemChildrenRatingAverage(this, true);
     }
 

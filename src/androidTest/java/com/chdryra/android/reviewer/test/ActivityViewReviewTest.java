@@ -18,9 +18,9 @@ import android.widget.GridView;
 
 import com.chdryra.android.reviewer.ActivityViewReview;
 import com.chdryra.android.reviewer.Administrator;
-import com.chdryra.android.reviewer.ControllerReview;
 import com.chdryra.android.reviewer.FragmentViewReview;
 import com.chdryra.android.reviewer.GvDataList;
+import com.chdryra.android.reviewer.ReviewAdapter;
 import com.robotium.solo.Solo;
 
 import java.util.ArrayList;
@@ -33,12 +33,12 @@ import java.util.ArrayList;
 public abstract class ActivityViewReviewTest extends
         ActivityInstrumentationTestCase2<ActivityViewReview> {
     protected GvDataList.GvType mDataType;
-    protected ControllerReview  mController;
+    protected ReviewAdapter     mController;
     protected Activity          mActivity;
     protected Solo              mSolo;
     private   boolean           mIsEditable;
 
-    protected abstract ControllerReview getController();
+    protected abstract ReviewAdapter getController();
 
     public ActivityViewReviewTest(GvDataList.GvType dataType, boolean isEditable) {
         super(ActivityViewReview.class);

@@ -21,82 +21,51 @@ import java.util.Date;
  * more editing or expanding of the node. Has the same {@link ReviewId} as the wrapped node.
  * <p/>
  * <p>
- * Primarily used as a publishing wrapper to add an author and date stamp to an editable
- * review and to protect it from further change.
- * </p>
- * <p/>
- * <p>
  * Although a ReviewTree is unchangeable it may still be wrapped by another
- * {@link ReviewNodeExpandable},
+ * {@link ReviewTreeExpandable},
  * thus acting as a fixed, published component of a new review tree with its own {@link ReviewId}.
  * </p>
  */
 class ReviewTree implements ReviewNode {
-    private Review                        mReview;
-    private RCollectionReview<ReviewNode> mChildren;
-    private boolean mIsRatingAverage = false;
-    private MdRating mAverageRating;
+    private ReviewNode mRoot;
 
-    ReviewTree(Review root) {
-        mReview = root;
-        mChildren = new RCollectionReview<>();
-    }
-
-    ReviewTree(Review root, RCollectionReview<ReviewNode> children, boolean isRatingAverage) {
-        mReview = root;
-        mChildren = children;
-        mIsRatingAverage = isRatingAverage;
-        if (mIsRatingAverage) mAverageRating = new MdRating(RatingAverager.average(this), this);
+    ReviewTree(ReviewNode root) {
+        mRoot = root;
     }
 
     @Override
     public Review getReview() {
-        return mReview;
+        return mRoot.getReview();
     }
 
     @Override
     public ReviewNode getParent() {
-        return null;
+        return mRoot.getParent();
     }
 
     @Override
     public RCollectionReview<ReviewNode> getChildren() {
-        return mChildren;
-    }
-
-    @Override
-    public boolean isRatingIsAverageOfChildren() {
-        return mIsRatingAverage;
-    }
-
-    @Override
-    public RCollectionReview<ReviewNode> flattenTree() {
-        TraverserReviewNode traverser = new TraverserReviewNode(this);
-        VisitorNodeCollector collector = new VisitorNodeCollector();
-        traverser.setVisitor(collector);
-        traverser.traverse();
-
-        return collector.get();
+        return mRoot.getChildren();
     }
 
     @Override
     public void acceptVisitor(VisitorReviewNode visitorReviewNode) {
-        visitorReviewNode.visit(this);
+        visitorReviewNode.visit(mRoot);
     }
 
     @Override
     public ReviewId getId() {
-        return mReview.getId();
+        return mRoot.getId();
     }
 
     @Override
     public MdSubject getSubject() {
-        return mReview.getSubject();
+        return mRoot.getSubject();
     }
 
     @Override
     public MdRating getRating() {
-        return mIsRatingAverage ? mAverageRating : mReview.getRating();
+        return mRoot.getRating();
     }
 
     @Override
@@ -106,61 +75,61 @@ class ReviewTree implements ReviewNode {
 
     @Override
     public Author getAuthor() {
-        return mReview.getAuthor();
+        return mRoot.getAuthor();
     }
 
     @Override
     public Date getPublishDate() {
-        return mReview.getPublishDate();
+        return mRoot.getPublishDate();
     }
 
     @Override
     public MdCommentList getComments() {
-        return mReview.getComments();
+        return mRoot.getComments();
     }
 
     @Override
     public boolean hasComments() {
-        return mReview.hasComments();
+        return mRoot.hasComments();
     }
 
     @Override
     public MdFactList getFacts() {
-        return mReview.getFacts();
+        return mRoot.getFacts();
     }
 
     @Override
     public boolean hasFacts() {
-        return mReview.hasFacts();
+        return mRoot.hasFacts();
     }
 
     @Override
     public MdImageList getImages() {
-        return mReview.getImages();
+        return mRoot.getImages();
     }
 
     @Override
     public boolean hasImages() {
-        return mReview.hasImages();
+        return mRoot.hasImages();
     }
 
     @Override
     public MdUrlList getUrls() {
-        return mReview.getUrls();
+        return mRoot.getUrls();
     }
 
     @Override
     public boolean hasUrls() {
-        return mReview.hasUrls();
+        return mRoot.hasUrls();
     }
 
     @Override
     public MdLocationList getLocations() {
-        return mReview.getLocations();
+        return mRoot.getLocations();
     }
 
     @Override
     public boolean hasLocations() {
-        return mReview.hasLocations();
+        return mRoot.hasLocations();
     }
 }

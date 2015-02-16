@@ -18,13 +18,13 @@ import android.widget.GridView;
 import com.chdryra.android.mygenerallibrary.DialogAlertFragment;
 import com.chdryra.android.mygenerallibrary.DialogDeleteConfirm;
 import com.chdryra.android.reviewer.ConfigGvDataUi;
-import com.chdryra.android.reviewer.ControllerReview;
-import com.chdryra.android.reviewer.ControllerReviewBuilder;
 import com.chdryra.android.reviewer.DialogFragmentGvDataAdd;
 import com.chdryra.android.reviewer.DialogFragmentGvDataEdit;
 import com.chdryra.android.reviewer.FragmentViewReview;
 import com.chdryra.android.reviewer.GvChildrenList;
 import com.chdryra.android.reviewer.GvDataList;
+import com.chdryra.android.reviewer.ReviewAdapter;
+import com.chdryra.android.reviewer.ReviewBuilder;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
 import com.chdryra.android.reviewer.test.TestUtils.SoloDataEntry;
 import com.chdryra.android.testutils.CallBackSignaler;
@@ -153,8 +153,8 @@ public abstract class ActivityEditScreenTest extends ActivityViewReviewTest {
     }
 
     @Override
-    protected ControllerReview getController() {
-        ControllerReviewBuilder controller = new ControllerReviewBuilder(getInstrumentation()
+    protected ReviewAdapter getController() {
+        ReviewBuilder controller = new ReviewBuilder(getInstrumentation()
                 .getTargetContext());
         if (mWithData) {
             mData = GvDataMocker.getData(mDataType, NUM_DATA);
@@ -441,8 +441,8 @@ public abstract class ActivityEditScreenTest extends ActivityViewReviewTest {
 
     }
 
-    protected ControllerReviewBuilder getBuilder() {
-        return (ControllerReviewBuilder) getController();
+    protected ReviewBuilder getBuilder() {
+        return (ReviewBuilder) getController();
     }
 
     private void testConfirmDialogShowing(boolean isShowing) {

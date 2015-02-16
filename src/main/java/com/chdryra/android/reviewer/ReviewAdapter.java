@@ -17,14 +17,13 @@ import java.util.Date;
  */
 
 /**
- * Translation and indirection layer between Model (review data) and View (android). The "C" in the
- * MVC pattern. The View layer consist of the activities and fragments in android.
+ * Translation and indirection layer between Model (review data) and View (android). The View
+ * layer consist of the activities and fragments in android.
  * <p/>
  * <p>
- * Not a "Controller" as such - more of an adapter - but didn't want to confuse with
- * Android's use of the word "Adapter". Translates between model data types and view data types:
+ * Translates between model data types and view data types:
  * <ul>
- * <li>Model data types: {@link MdData} types</li>
+ * <li>Model data types: {@link com.chdryra.android.reviewer.MdData} types</li>
  * <li>View data types: {@link GvDataList.GvType} types,
  * java types</li>
  * </ul>
@@ -32,37 +31,43 @@ import java.util.Date;
  *
  * @param <T>: the {@link Review} type being accessed
  */
-public class ControllerReview<T extends Review> implements GvAdapterReview {
+public class ReviewAdapter<T extends Review> implements GvAdapter {
     private final ArrayList<String> mTagsList = new ArrayList<>();
     private final T mReview;
 
-    public ControllerReview(T review) {
+    public ReviewAdapter(T review) {
         mReview = review;
         for (TagsManager.ReviewTag tag : TagsManager.getTags(review)) {
             mTagsList.add(tag.get());
         }
     }
 
+    @Override
     public String getId() {
         return mReview.getId().toString();
     }
 
+    @Override
     public String getSubject() {
         return mReview.getSubject().get();
     }
 
+    @Override
     public float getRating() {
         return mReview.getRating().get();
     }
 
+    @Override
     public Author getAuthor() {
         return mReview.getAuthor();
     }
 
+    @Override
     public Date getPublishDate() {
         return mReview.getPublishDate();
     }
 
+    @Override
     public boolean hasData(GvDataList.GvType dataType) {
         if (dataType == GvDataList.GvType.COMMENTS) {
             return mReview.hasComments();
@@ -81,6 +86,7 @@ public class ControllerReview<T extends Review> implements GvAdapterReview {
         }
     }
 
+    @Override
     public GvDataList getData(GvDataList.GvType dataType) {
         if (dataType == GvDataList.GvType.COMMENTS) {
             return MdGvConverter.convert(mReview.getComments());
@@ -94,15 +100,11 @@ public class ControllerReview<T extends Review> implements GvAdapterReview {
             return MdGvConverter.convert(mReview.getLocations());
         } else if (dataType == GvDataList.GvType.TAGS) {
             return getTags();
-        } else if (dataType == GvDataList.GvType.TAGS) {
+        } else if (dataType == GvDataList.GvType.CHILDREN) {
             return getChildren();
         } else {
             return null;
         }
-    }
-
-    T getControlledReview() {
-        return mReview;
     }
 
     private GvChildrenList getChildren() {

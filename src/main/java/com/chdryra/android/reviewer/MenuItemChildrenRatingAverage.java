@@ -18,7 +18,7 @@ import android.view.MenuItem;
 public class MenuItemChildrenRatingAverage extends ViewReviewAction.MenuAction.MenuActionItem {
     private ViewReviewAction.MenuAction mAction;
     private boolean                     mFromController;
-    private ControllerReviewBuilder mBuilder;
+    private ReviewBuilder               mBuilder;
 
     public MenuItemChildrenRatingAverage(ViewReviewAction.MenuAction action,
             boolean fromController) {
@@ -29,7 +29,7 @@ public class MenuItemChildrenRatingAverage extends ViewReviewAction.MenuAction.M
         }
 
         try {
-            mBuilder = (ControllerReviewBuilder) mAction.getController();
+            mBuilder = (ReviewBuilder) mAction.getAdapter();
         } catch (ClassCastException e) {
             throw new RuntimeException("Controller should be ControllerReviewBuilder");
         }

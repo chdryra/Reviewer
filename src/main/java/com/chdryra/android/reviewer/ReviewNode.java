@@ -24,17 +24,5 @@ public interface ReviewNode extends Review {
 
     public RCollectionReview<ReviewNode> getChildren();
 
-    public boolean isRatingIsAverageOfChildren();
-
-    /**
-     * Collects itself and all descendants into a collection of nodes.
-     */
-    public RCollectionReview<ReviewNode> flattenTree();
-
-    /**
-     * For operations to be carried out on the tree.
-     *
-     * @param visitorReviewNode: visits this node to perform some operation
-     */
     public void acceptVisitor(VisitorReviewNode visitorReviewNode);
 }

@@ -32,7 +32,7 @@ import java.util.Map;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ViewReviewAction {
-    private ControllerReview          mController;
+    private GvAdapter                 mAdapter;
     private ViewReview                mViewReview;
     private HashMap<String, Fragment> mListeners;
 
@@ -40,9 +40,9 @@ public class ViewReviewAction {
         mListeners = new HashMap<>();
     }
 
-    private ViewReviewAction(ControllerReview controller) {
+    private ViewReviewAction(GvAdapter adapter) {
         mListeners = new HashMap<>();
-        mController = controller;
+        mAdapter = adapter;
     }
 
     public ViewReview getViewReview() {
@@ -66,8 +66,8 @@ public class ViewReviewAction {
 
     }
 
-    public ControllerReview getController() {
-        return mController;
+    public GvAdapter getAdapter() {
+        return mAdapter;
     }
 
 
@@ -90,8 +90,8 @@ public class ViewReviewAction {
 
         }
 
-        public TypedViewAction(ControllerReview controller, GvDataList.GvType dataType) {
-            super(controller);
+        public TypedViewAction(GvAdapter adapter, GvDataList.GvType dataType) {
+            super(adapter);
             mDataType = dataType;
         }
 
@@ -105,13 +105,13 @@ public class ViewReviewAction {
 
         }
 
-        public SubjectViewAction(ControllerReview controller) {
-            super(controller);
+        public SubjectViewAction(GvAdapter adapter) {
+            super(adapter);
         }
 
         public String getSubject() {
-            ControllerReview controller = getController();
-            return controller != null ? getController().getSubject() : "";
+            GvAdapter adapter = getAdapter();
+            return adapter != null ? getAdapter().getSubject() : "";
         }
 
         public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -129,13 +129,13 @@ public class ViewReviewAction {
 
         }
 
-        public RatingBarAction(ControllerReview controller) {
-            super(controller);
+        public RatingBarAction(GvAdapter adapter) {
+            super(adapter);
         }
 
         public float getRating() {
-            ControllerReview controller = getController();
-            return controller != null ? getController().getRating() : 0f;
+            GvAdapter adapter = getAdapter();
+            return adapter != null ? getAdapter().getRating() : 0f;
         }
 
         public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
@@ -147,13 +147,13 @@ public class ViewReviewAction {
 
         }
 
-        public BannerButtonAction(ControllerReview controller, GvDataList.GvType dataType) {
-            super(controller, dataType);
+        public BannerButtonAction(GvAdapter adapter, GvDataList.GvType dataType) {
+            super(adapter, dataType);
         }
 
-        public static BannerButtonAction newDisplayButton(ControllerReview controller,
+        public static BannerButtonAction newDisplayButton(GvAdapter adapter,
                 GvDataList.GvType dataType, final String title) {
-            return new BannerButtonAction(controller, dataType) {
+            return new BannerButtonAction(adapter, dataType) {
                 @Override
                 public String getButtonTitle() {
                     return title;
@@ -174,8 +174,8 @@ public class ViewReviewAction {
 
         }
 
-        public GridItemAction(ControllerReview controller, GvDataList.GvType dataType) {
-            super(controller, dataType);
+        public GridItemAction(GvAdapter adapter, GvDataList.GvType dataType) {
+            super(adapter, dataType);
         }
 
         public void onGridItemClick(GvDataList.GvData item, View v) {
@@ -206,21 +206,21 @@ public class ViewReviewAction {
             if (mDisplayHomeAsUp) addMenuActionItem(getUpActionItem(), MENU_UP_ID, true);
         }
 
-        public MenuAction(ControllerReview controller, GvDataList.GvType dataType, int menuId) {
-            this(controller, dataType, menuId, true);
+        public MenuAction(GvAdapter adapter, GvDataList.GvType dataType, int menuId) {
+            this(adapter, dataType, menuId, true);
         }
 
-        public MenuAction(ControllerReview controller, GvDataList.GvType dataType,
+        public MenuAction(GvAdapter adapter, GvDataList.GvType dataType,
                 boolean displayHomeAsUp) {
-            super(controller, dataType);
+            super(adapter, dataType);
             mDisplayHomeAsUp = displayHomeAsUp;
             mActionItems = new SparseArray<>();
             if (mDisplayHomeAsUp) addMenuActionItem(getUpActionItem(), MENU_UP_ID, true);
         }
 
-        public MenuAction(ControllerReview controller,
+        public MenuAction(GvAdapter adapter,
                 GvDataList.GvType dataType, int menuId, boolean displayHomeAsUp) {
-            super(controller, dataType);
+            super(adapter, dataType);
             mMenuId = menuId;
             mDisplayHomeAsUp = displayHomeAsUp;
             mActionItems = new SparseArray<>();
@@ -271,8 +271,8 @@ public class ViewReviewAction {
         protected void doUpSelected() {
             if (NavUtils.getParentActivityName(getActivity()) != null) {
                 Intent i = NavUtils.getParentActivityIntent(getActivity());
-                if (getController() != null) {
-                    Administrator.get(getActivity()).pack(getController(), i);
+                if (getAdapter() != null) {
+                    Administrator.get(getActivity()).pack(getAdapter(), i);
                 }
                 NavUtils.navigateUpTo(getActivity(), i);
             }

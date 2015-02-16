@@ -19,11 +19,11 @@ import java.util.HashMap;
  */
 
 /**
- * Similar to {@link ControllerReview} but for {@link RCollectionReview} data.
+ * Similar to {@link ReviewAdapter} but for {@link RCollectionReview} data.
  */
 public class ControllerReviewCollection<T extends Review> {
-    private RCollectionReview<T>              mReviews;
-    private HashMap<String, ControllerReview> mControllers;
+    private RCollectionReview<T>       mReviews;
+    private HashMap<String, GvAdapter> mAdapters;
 
     public ControllerReviewCollection(RCollectionReview<T> reviews) {
         init(reviews);
@@ -39,7 +39,7 @@ public class ControllerReviewCollection<T extends Review> {
 
     protected void init(RCollectionReview<T> reviews) {
         mReviews = reviews;
-        mControllers = new HashMap<>();
+        mAdapters = new HashMap<>();
     }
 
     private GvDataList toGridViewableAll() {
@@ -54,19 +54,20 @@ public class ControllerReviewCollection<T extends Review> {
     private GvDataList toGridViewablePublished() {
         GvReviewList data = new GvReviewList();
         for (Review r : mReviews) {
-            ControllerReview c = getControllerFor(r.getId().toString());
+            GvAdapter adapter = getAdapterFor(r.getId().toString());
 
-            GvImageList images = (GvImageList) c.getData(GvDataList.GvType.IMAGES);
-            GvCommentList comments = (GvCommentList) c.getData(GvDataList.GvType.COMMENTS);
-            GvLocationList locations = (GvLocationList) c.getData(GvDataList.GvType
+            GvImageList images = (GvImageList) adapter.getData(GvDataList.GvType.IMAGES);
+            GvCommentList comments = (GvCommentList) adapter.getData(GvDataList.GvType.COMMENTS);
+            GvLocationList locations = (GvLocationList) adapter.getData(GvDataList.GvType
                     .LOCATIONS);
 
             Bitmap cover = images.size() > 0 ? images.getRandomCover().getBitmap() : null;
             String headline = comments.size() > 0 ? comments.getItem(0).getCommentHeadline() : null;
             String location = locations.size() > 0 ? locations.getItem(0).getName() : null;
 
-            data.add(c.getId(), c.getAuthor().getName(), c.getPublishDate(), c.getSubject(),
-                    c.getRating(),
+            data.add(adapter.getId(), adapter.getAuthor().getName(), adapter.getPublishDate(),
+                    adapter.getSubject(),
+                    adapter.getRating(),
                     cover, headline, location);
         }
 
@@ -77,11 +78,11 @@ public class ControllerReviewCollection<T extends Review> {
         return mReviews.get(ReviewId.generateId(id));
     }
 
-    private ControllerReview getControllerFor(String id) {
-        if (mControllers.get(id) == null) {
-            mControllers.put(id, new ControllerReview<T>(get(id)));
+    private GvAdapter getAdapterFor(String id) {
+        if (mAdapters.get(id) == null) {
+            mAdapters.put(id, new ReviewAdapter<>(get(id)));
         }
 
-        return mControllers.get(id);
+        return mAdapters.get(id);
     }
 }

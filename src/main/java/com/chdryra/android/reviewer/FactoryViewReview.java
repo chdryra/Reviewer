@@ -43,7 +43,7 @@ public class FactoryViewReview {
         Intent i = activity.getIntent();
         Administrator admin = Administrator.get(activity);
 
-        ControllerReviewBuilder controller = admin.getReviewBuilder();
+        ReviewBuilder controller = admin.getReviewBuilder();
 
         GvDataList data = GvBuildReviewList.newInstance(activity, controller);
         ViewReview view = new ViewReview(parent, data, true, new ViewReviewBuildModifier
@@ -72,17 +72,17 @@ public class FactoryViewReview {
 
         ViewReview view = new ViewReview(parent, data, true, new ViewReviewShareModifier());
 
-        ControllerReview controller = admin.unpack(i);
+        GvAdapter adapter = admin.unpack(i);
         GvDataList.GvType dataType = GvDataList.GvType.SOCIAL;
 
-        view.setAction(newSubjectViewAction(controller));
-        view.setAction(newRatingBarAction(controller));
-        view.setAction(ViewReviewAction.BannerButtonAction.newDisplayButton(controller, dataType,
+        view.setAction(newSubjectViewAction(adapter));
+        view.setAction(newRatingBarAction(adapter));
+        view.setAction(ViewReviewAction.BannerButtonAction.newDisplayButton(adapter, dataType,
                 parent.getResources().getString(R.string.button_social)));
-        view.setAction(newGridItemAction(controller, dataType));
-        view.setAction(newMenuAction(controller, dataType));
+        view.setAction(newGridItemAction(adapter, dataType));
+        view.setAction(newMenuAction(adapter, dataType));
 
-        view.setCoverManager(newCoverManager(controller));
+        view.setCoverManager(newCoverManager(adapter));
 
         return view;
     }
@@ -102,7 +102,7 @@ public class FactoryViewReview {
         Intent i = activity.getIntent();
         Administrator admin = Administrator.get(activity);
 
-        ControllerReviewBuilder controller = admin.getReviewBuilder();
+        ReviewBuilder controller = admin.getReviewBuilder();
         GvDataList data = controller.getData(dataType);
 
         ViewReview view = new ViewReview(parent, data, true);
@@ -120,16 +120,16 @@ public class FactoryViewReview {
         return view;
     }
 
-    private static ViewReviewAction.MenuAction newMenuAction(ControllerReview controller,
+    private static ViewReviewAction.MenuAction newMenuAction(GvAdapter adapter,
             GvDataList.GvType dataType) {
         if (dataType == GvDataList.GvType.BUILD_REVIEW) {
-            return new MenuBuildReview(controller);
+            return new MenuBuildReview(adapter);
         } else {
-            return new ViewReviewAction.MenuAction(controller, dataType, true);
+            return new ViewReviewAction.MenuAction(adapter, dataType, true);
         }
     }
 
-    private static ViewReviewAction.MenuAction newMenuEdit(ControllerReviewBuilder controller,
+    private static ViewReviewAction.MenuAction newMenuEdit(ReviewBuilder controller,
             GvDataList.GvType dataType) {
         if (dataType == GvDataList.GvType.COMMENTS) {
             return new MenuEditComments(controller);
@@ -140,16 +140,16 @@ public class FactoryViewReview {
         }
     }
 
-    private static ViewReviewAction.GridItemAction newGridItemAction(ControllerReview controller,
+    private static ViewReviewAction.GridItemAction newGridItemAction(GvAdapter adapter,
             GvDataList.GvType dataType) {
         if (dataType == GvDataList.GvType.SOCIAL) {
-            return new GridItemSocial(controller);
+            return new GridItemSocial(adapter);
         } else {
-            return new ViewReviewAction.GridItemAction(controller, dataType);
+            return new ViewReviewAction.GridItemAction(adapter, dataType);
         }
     }
 
-    private static ViewReviewAction.GridItemAction newGridItemEdit(ControllerReviewBuilder
+    private static ViewReviewAction.GridItemAction newGridItemEdit(ReviewBuilder
             controller,
             GvDataList.GvType dataType) {
         if (dataType == GvDataList.GvType.COMMENTS) {
@@ -163,7 +163,7 @@ public class FactoryViewReview {
         }
     }
 
-    private static ViewReviewAction.BannerButtonAction newBannerButtonAdd(ControllerReviewBuilder
+    private static ViewReviewAction.BannerButtonAction newBannerButtonAdd(ReviewBuilder
             controller,
             GvDataList.GvType dataType) {
         if (dataType == GvDataList.GvType.IMAGES) {
@@ -173,12 +173,11 @@ public class FactoryViewReview {
         }
     }
 
-    private static ViewReviewAction.RatingBarAction newRatingBarAction(ControllerReview
-            controller) {
-        return new ViewReviewAction.RatingBarAction(controller);
+    private static ViewReviewAction.RatingBarAction newRatingBarAction(GvAdapter adapter) {
+        return new ViewReviewAction.RatingBarAction(adapter);
     }
 
-    private static ViewReviewAction.RatingBarAction newRatingBarEdit(ControllerReviewBuilder
+    private static ViewReviewAction.RatingBarAction newRatingBarEdit(ReviewBuilder
             controller,
             GvDataList.GvType dataType) {
         if (dataType == GvDataList.GvType.BUILD_REVIEW) {
@@ -188,18 +187,17 @@ public class FactoryViewReview {
         }
     }
 
-    private static ViewReviewAction.SubjectViewAction newSubjectViewAction(ControllerReview
-            controller) {
-        return new ViewReviewAction.SubjectViewAction(controller);
+    private static ViewReviewAction.SubjectViewAction newSubjectViewAction(GvAdapter adapter) {
+        return new ViewReviewAction.SubjectViewAction(adapter);
     }
 
-    private static ViewReviewAction.SubjectViewAction newSubjectEdit(ControllerReviewBuilder
+    private static ViewReviewAction.SubjectViewAction newSubjectEdit(ReviewBuilder
             controller) {
         return new SubjectEdit(controller);
     }
 
-    private static CoverManager newCoverManager(ControllerReview controller) {
-        return new CoverManagerController(controller);
+    private static CoverManager newCoverManager(GvAdapter adapter) {
+        return new CoverManagerController(adapter);
     }
 
     private static CoverManager newCoverManager(GvImageList images) {

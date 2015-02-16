@@ -24,7 +24,7 @@ public class MenuEditChildren extends MenuDeleteDone {
     private MenuItemChildrenRatingAverage mActionItem;
     private DataSetObserver               mObserver;
 
-    public MenuEditChildren(ControllerReviewBuilder controller) {
+    public MenuEditChildren(ReviewBuilder controller) {
         super(controller, GvDataList.GvType.CHILDREN, false, true, MENU);
         mActionItem = new MenuItemChildrenRatingAverage(this, false);
         mObserver = new DataSetObserver() {

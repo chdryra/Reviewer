@@ -26,24 +26,26 @@ import java.util.Map;
  * On: 13/02/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ControllerReviewBuilder extends ControllerReview<Review> {
+
+/**
+ * For building reviews. Collects appropriate data and builds a {@link Review} object when
+ * user is ready using the {@link #publish(Author, java.util.Date)} method.
+ */
+public class ReviewBuilder implements GvAdapter {
     private static final File FILE_DIR_EXT = Environment.getExternalStoragePublicDirectory
             (Environment.DIRECTORY_DCIM);
-
-    private ReviewId mId;
-    private String   mSubject;
-    private float    mRating;
-
-    private Map<GvDataList.GvType, GvDataList> mData;
-    private boolean mIsAverage = false;
-
-    private ArrayList<ControllerReviewBuilder> mChildren;
 
     private FileIncrementor mIncrementor;
     private Context         mContext;
 
-    public ControllerReviewBuilder(Context applicationContext) {
-        super(null);
+    private ReviewId mId;
+    private String   mSubject;
+    private float    mRating;
+    private Map<GvDataList.GvType, GvDataList> mData;
+    private ArrayList<ReviewBuilder> mChildren;
+    private boolean mIsAverage = false;
+
+    public ReviewBuilder(Context applicationContext) {
         mId = ReviewId.generateId();
         mChildren = new ArrayList<>();
         mContext = applicationContext;
@@ -99,6 +101,7 @@ public class ControllerReviewBuilder extends ControllerReview<Review> {
         return false;
     }
 
+    @Override
     public GvDataList getData(GvDataList.GvType dataType) {
         if (dataType == GvDataList.GvType.CHILDREN) {
             return getChildren();
@@ -120,7 +123,7 @@ public class ControllerReviewBuilder extends ControllerReview<Review> {
         TagsManager.tag(root, tags);
 
         RCollectionReview<Review> children = new RCollectionReview<>();
-        for (ControllerReviewBuilder child : mChildren) {
+        for (ReviewBuilder child : mChildren) {
             Review childReview = child.publish(author, publishDate);
             TagsManager.tag(childReview, tags);
             children.add(childReview);
@@ -158,7 +161,7 @@ public class ControllerReviewBuilder extends ControllerReview<Review> {
 
     private GvChildrenList getChildren() {
         GvChildrenList children = new GvChildrenList();
-        for (ControllerReviewBuilder childBuilder : mChildren) {
+        for (ReviewBuilder childBuilder : mChildren) {
             GvChildrenList.GvChildReview review = new GvChildrenList.GvChildReview(childBuilder
                     .getSubject(), childBuilder.getRating());
             children.add(review);
@@ -170,7 +173,7 @@ public class ControllerReviewBuilder extends ControllerReview<Review> {
     private void setChildren(GvChildrenList children) {
         mChildren = new ArrayList<>();
         for (GvChildrenList.GvChildReview child : children) {
-            ControllerReviewBuilder childBuilder = new ControllerReviewBuilder(mContext);
+            ReviewBuilder childBuilder = new ReviewBuilder(mContext);
             childBuilder.setSubject(child.getSubject());
             childBuilder.setRating(child.getRating());
             mChildren.add(childBuilder);

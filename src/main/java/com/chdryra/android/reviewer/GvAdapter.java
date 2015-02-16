@@ -15,7 +15,14 @@ import java.util.Date;
  * On: 13/02/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public interface GvAdapterReview {
+
+/**
+ * Adapter for {@link com.chdryra.android.reviewer.Review} for passing {@link com.chdryra.android
+ * .reviewer.MdData} to View layer as {@link com.chdryra.android.reviewer.GvDataList.GvData}
+ */
+public interface GvAdapter {
+    public String getId();
+
     public String getSubject();
 
     public float getRating();

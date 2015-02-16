@@ -18,11 +18,11 @@ import com.chdryra.android.mygenerallibrary.DialogCancelAddDoneFragment;
 import com.chdryra.android.mygenerallibrary.DialogTwoButtonFragment;
 import com.chdryra.android.reviewer.ActivityFeed;
 import com.chdryra.android.reviewer.Administrator;
-import com.chdryra.android.reviewer.ControllerReview;
 import com.chdryra.android.reviewer.DialogFragmentGvDataAdd;
 import com.chdryra.android.reviewer.GvDataList;
 import com.chdryra.android.reviewer.LaunchableUi;
 import com.chdryra.android.reviewer.LauncherUi;
+import com.chdryra.android.reviewer.ReviewAdapter;
 import com.chdryra.android.reviewer.test.TestUtils.DialogAddListener;
 import com.robotium.solo.Solo;
 
@@ -38,7 +38,7 @@ public abstract class DialogFragmentGvDataAddTest<T extends GvDataList.GvData> e
     protected Solo                                     mSolo;
     protected DialogFragmentGvDataAdd                  mDialog;
     protected DialogAddListener<T>                     mListener;
-    protected ControllerReview                         mController;
+    protected ReviewAdapter                            mController;
     protected Activity                                 mActivity;
     private   Class<? extends DialogFragmentGvDataAdd> mDialogClass;
 
@@ -83,7 +83,7 @@ public abstract class DialogFragmentGvDataAddTest<T extends GvDataList.GvData> e
     protected void testQuickSet() {
         launchDialogAndTestShowing(true);
 
-        final ControllerReview controller = mController;
+        final ReviewAdapter controller = mController;
         assertEquals(0, getControllerData(controller).size());
 
         final GvDataList.GvData datum1 = testQuickSet(true);
@@ -146,7 +146,7 @@ public abstract class DialogFragmentGvDataAddTest<T extends GvDataList.GvData> e
         assertTrue(mSolo.waitForDialogToOpen());
     }
 
-    protected GvDataList getControllerData(final ControllerReview controller) {
+    protected GvDataList getControllerData(final ReviewAdapter controller) {
         return controller.getData(mDialog.getGvType());
     }
 
@@ -166,7 +166,7 @@ public abstract class DialogFragmentGvDataAddTest<T extends GvDataList.GvData> e
         launchDialogAndTestShowing(false);
 
         final DialogAddListener<T> listener = mListener;
-        final ControllerReview controller = mController;
+        final ReviewAdapter controller = mController;
         final DialogCancelAddDoneFragment dialog = mDialog;
 
         assertNull(listener.getData());

@@ -26,7 +26,7 @@ public class GridItemEdit extends ViewReviewAction.GridItemAction {
     private       ConfigGvDataUi.LaunchableConfig mConfig;
     private       GvDataHandler                   mHandler;
 
-    public GridItemEdit(ControllerReviewBuilder controller,
+    public GridItemEdit(ReviewBuilder controller,
             GvDataList.GvType dataType) {
         super(controller, dataType);
         ConfigGvDataUi.Config config = ConfigGvDataUi.getConfig(getDataType());
@@ -45,7 +45,7 @@ public class GridItemEdit extends ViewReviewAction.GridItemAction {
     public void onGridItemClick(GvDataList.GvData item, View v) {
         if (getViewReview() == null) return;
 
-        Bundle args = Administrator.get(getActivity()).pack(getController());
+        Bundle args = Administrator.get(getActivity()).pack(getAdapter());
         GvDataPacker.packItem(GvDataPacker.CurrentNewDatum.CURRENT, item, args);
 
         LauncherUi.launch(mConfig.getLaunchable(), mListener, getRequestCode(),

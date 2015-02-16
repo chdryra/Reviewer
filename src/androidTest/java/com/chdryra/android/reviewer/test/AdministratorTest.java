@@ -14,10 +14,10 @@ import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.Administrator;
-import com.chdryra.android.reviewer.ControllerReview;
 import com.chdryra.android.reviewer.GvDataList;
 import com.chdryra.android.reviewer.GvSocialPlatformList;
 import com.chdryra.android.reviewer.PublishedReviews;
+import com.chdryra.android.reviewer.ReviewAdapter;
 
 /**
  * Created by: Rizwan Choudrey
@@ -30,7 +30,7 @@ public class AdministratorTest extends AndroidTestCase {
 
     @SmallTest
     public void testCreateNewReviewInProgress() {
-        ControllerReview review = mAdmin.createNewReviewInProgress();
+        ReviewAdapter review = mAdmin.createNewReviewInProgress();
         assertNotNull(review);
     }
 
@@ -60,17 +60,17 @@ public class AdministratorTest extends AndroidTestCase {
     @SmallTest
     public void testPackUnpackIntent() {
         Intent i = new Intent();
-        ControllerReview review = mAdmin.createNewReviewInProgress();
+        ReviewAdapter review = mAdmin.createNewReviewInProgress();
         mAdmin.pack(review, i);
-        ControllerReview unpacked = mAdmin.unpack(i);
+        ReviewAdapter unpacked = mAdmin.unpack(i);
         assertEquals(review, unpacked);
     }
 
     @SmallTest
     public void testPackUnpackBundle() {
-        ControllerReview review = mAdmin.createNewReviewInProgress();
+        ReviewAdapter review = mAdmin.createNewReviewInProgress();
         Bundle args = mAdmin.pack(review);
-        ControllerReview unpacked = mAdmin.unpack(args);
+        ReviewAdapter unpacked = mAdmin.unpack(args);
         assertEquals(review, unpacked);
     }
 

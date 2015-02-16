@@ -25,7 +25,7 @@ public class BannerButtonAdd extends ViewReviewAction.BannerButtonAction {
     private GvDataHandler                   mHandler;
     private Fragment                        mListener;
 
-    public BannerButtonAdd(ControllerReviewBuilder controller, GvDataList.GvType dataType) {
+    public BannerButtonAdd(ReviewBuilder controller, GvDataList.GvType dataType) {
         super(controller, dataType);
         mConfig = ConfigGvDataUi.getConfig(getDataType()).getAdderConfig();
         mListener = new AddListener() {
@@ -49,7 +49,7 @@ public class BannerButtonAdd extends ViewReviewAction.BannerButtonAction {
         if (getViewReview() == null) return;
 
         LauncherUi.launch(mConfig.getLaunchable(), mListener, getRequestCode(),
-                mConfig.getTag(), Administrator.get(getActivity()).pack(getController()));
+                mConfig.getTag(), Administrator.get(getActivity()).pack(getAdapter()));
     }
 
     //TODO make type safe

@@ -39,17 +39,17 @@ public class MenuDeleteDone extends ViewReviewAction.MenuAction {
     private Fragment mListener;
     private boolean  mRatingIsAverage;
 
-    public MenuDeleteDone(ControllerReviewBuilder controller,
+    public MenuDeleteDone(ReviewBuilder controller,
             GvDataList.GvType dataType) {
         this(controller, dataType, false, true);
     }
 
-    public MenuDeleteDone(ControllerReviewBuilder controller,
+    public MenuDeleteDone(ReviewBuilder controller,
             GvDataList.GvType dataType, boolean dismissOnDelete, boolean dismissOnDone) {
         this(controller, dataType, dismissOnDelete, dismissOnDone, MENU);
     }
 
-    public MenuDeleteDone(ControllerReviewBuilder controller,
+    public MenuDeleteDone(ReviewBuilder controller,
             GvDataList.GvType dataType, boolean dismissOnDelete, boolean dismissOnDone,
             int menuId) {
         super(controller, dataType, menuId);
@@ -122,14 +122,14 @@ public class MenuDeleteDone extends ViewReviewAction.MenuAction {
         }
     }
 
-    protected ControllerReviewBuilder getBuilder() {
-        return (ControllerReviewBuilder) getController();
+    protected ReviewBuilder getBuilder() {
+        return (ReviewBuilder) getAdapter();
     }
 
     private void doDoneSelected() {
         ViewReview view = getViewReview();
         GvDataList data = getData();
-        ControllerReviewBuilder controller = getBuilder();
+        ReviewBuilder controller = getBuilder();
 
         if (data != null) controller.setData(data);
         controller.setSubject(view.getSubject());

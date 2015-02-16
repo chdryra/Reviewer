@@ -35,11 +35,10 @@ import java.util.Date;
  * <p/>
  * Reviews may or may not be published (have non-null Author and Publish Date). Published reviews
  * should not be editable reviews or expandable nodes themselves. They may, however, be passed to a
- * ReviewNodeExpandable as the root review for a different review structure that may be expanded.
+ * {@link com.chdryra.android.reviewer.ReviewTreeExpandable} as the root review for a different
+ * review structure that may be expanded.
  *
  * @see ReviewNode
- * @see ReviewNodeExpandable
- * @see ReviewEditable
  */
 
 public interface Review extends ReviewId.RDIdAble {
@@ -57,7 +56,6 @@ public interface Review extends ReviewId.RDIdAble {
     /**
      * Returns a tree representation of the review. Has the same {@link ReviewId} as the review it
      * represents.
-     * //TODO work out a way of ensuring this without further complicating inheritance.
      */
     ReviewNode getReviewNode();
 

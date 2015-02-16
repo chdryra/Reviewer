@@ -29,7 +29,7 @@ public class GridItemBuildReview extends ViewReviewAction.GridItemAction {
     private ImageChooser            mImageChooser;
     private LocationClientConnector mLocationClient;
 
-    public GridItemBuildReview(ControllerReviewBuilder controller) {
+    public GridItemBuildReview(ReviewBuilder controller) {
         super(controller, GvDataList.GvType.BUILD_REVIEW);
         mListener = new BuildListener() {
         };
@@ -60,15 +60,15 @@ public class GridItemBuildReview extends ViewReviewAction.GridItemAction {
     }
 
     private void executeIntent(GvBuildReviewList.GvBuildReview gridCell, boolean quickDialog) {
-        if (quickDialog && getController().getData(gridCell.getGvType()).size() == 0) {
+        if (quickDialog && getAdapter().getData(gridCell.getGvType()).size() == 0) {
             showQuickDialog(gridCell.getConfig());
         } else {
             startActivity(gridCell.getConfig());
         }
     }
 
-    private ControllerReviewBuilder getBuilder() {
-        return (ControllerReviewBuilder) getController();
+    private ReviewBuilder getBuilder() {
+        return (ReviewBuilder) getAdapter();
     }
 
     private void addLocation(GvLocationList.GvLocation location) {
@@ -93,7 +93,7 @@ public class GridItemBuildReview extends ViewReviewAction.GridItemAction {
 
         Intent i = new Intent(getActivity(), ActivityViewReview.class);
         ActivityViewReview.packParameters(dataType, isEdit, i);
-        Administrator.get(getActivity()).pack(getController(), i);
+        Administrator.get(getActivity()).pack(getAdapter(), i);
         mListener.startActivity(i);
     }
 
@@ -104,7 +104,7 @@ public class GridItemBuildReview extends ViewReviewAction.GridItemAction {
             return;
         }
 
-        Bundle args = Administrator.get(getActivity()).pack(getController());
+        Bundle args = Administrator.get(getActivity()).pack(getAdapter());
         args.putBoolean(DialogFragmentGvDataAdd.QUICK_SET, true);
 
         ConfigGvDataUi.LaunchableConfig adderConfig = config.getAdderConfig();
@@ -122,11 +122,11 @@ public class GridItemBuildReview extends ViewReviewAction.GridItemAction {
     }
 
     private void packLatLng(Bundle args) {
-        ControllerReview controller = getController();
+        GvAdapter adapter = getAdapter();
         LatLng latLng = mLatLng;
         boolean fromImage = false;
-        if (controller.hasData(GvDataList.GvType.IMAGES)) {
-            GvImageList images = (GvImageList) controller.getData(GvDataList.GvType.IMAGES);
+        if (adapter.hasData(GvDataList.GvType.IMAGES)) {
+            GvImageList images = (GvImageList) adapter.getData(GvDataList.GvType.IMAGES);
             LatLng coverLatLng = images.getCovers().getItem(0).getLatLng();
             if (coverLatLng != null) {
                 latLng = coverLatLng;

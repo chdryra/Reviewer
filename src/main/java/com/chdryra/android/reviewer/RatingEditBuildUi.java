@@ -16,13 +16,13 @@ import android.widget.RatingBar;
  * Email: rizwan.choudrey@gmail.com
  */
 public class RatingEditBuildUi extends RatingEdit {
-    public RatingEditBuildUi(ControllerReviewBuilder controller) {
+    public RatingEditBuildUi(ReviewBuilder controller) {
         super(controller);
     }
 
     @Override
     public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
         super.onRatingChanged(ratingBar, rating, fromUser);
-        ((ControllerReviewBuilder) getController()).setRating(rating);
+        ((ReviewBuilder) getAdapter()).setRating(rating);
     }
 }

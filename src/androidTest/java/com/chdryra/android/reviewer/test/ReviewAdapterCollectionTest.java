@@ -27,7 +27,7 @@ import java.util.Random;
  * On: 08/12/2014
  * Email: rizwan.choudrey@gmail.com
  */
-public class ControllerReviewCollectionTest extends TestCase {
+public class ReviewAdapterCollectionTest extends TestCase {
     private static final int MIN = 10;
     private static final int MAX = 20;
     private ControllerReviewCollection<Review> mController;

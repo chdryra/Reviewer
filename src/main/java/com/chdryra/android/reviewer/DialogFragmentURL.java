@@ -27,8 +27,8 @@ public class DialogFragmentURL extends DialogCancelActionDoneFragment implements
 
     private static final String TAG = "DialogURLFragment";
 
-    private ControllerReviewBuilder mController;
-    private ClearableEditText       mUrlEditText;
+    private ReviewBuilder     mController;
+    private ClearableEditText mUrlEditText;
 
     @Override
     public void launch(LauncherUi launcher) {
@@ -54,7 +54,7 @@ public class DialogFragmentURL extends DialogCancelActionDoneFragment implements
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mController = (ControllerReviewBuilder) Administrator.get(getActivity()).unpack
+        mController = (ReviewBuilder) Administrator.get(getActivity()).unpack
                 (getArguments());
 
         setActionButtonAction(RESULT_BROWSE);

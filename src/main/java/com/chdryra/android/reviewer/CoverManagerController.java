@@ -14,22 +14,22 @@ package com.chdryra.android.reviewer;
  * Email: rizwan.choudrey@gmail.com
  */
 public class CoverManagerController implements CoverManager {
-    private final ControllerReview mController;
+    private final GvAdapter mAdapter;
 
-    public CoverManagerController(ControllerReview controller) {
-        mController = controller;
+    public CoverManagerController(GvAdapter adapter) {
+        mAdapter = adapter;
     }
 
     @Override
     public void updateCover(FragmentViewReview fragment) {
-        GvImageList images = (GvImageList) mController.getData(GvDataList.GvType.IMAGES);
+        GvImageList images = (GvImageList) mAdapter.getData(GvDataList.GvType.IMAGES);
         GvImageList covers = images.getCovers();
         fragment.setCover(covers.getRandomCover());
     }
 
     @Override
     public void proposeCover(GvImageList.GvImage image) {
-        GvImageList images = (GvImageList) mController.getData(GvDataList.GvType.IMAGES);
+        GvImageList images = (GvImageList) mAdapter.getData(GvDataList.GvType.IMAGES);
         GvImageList covers = images.getCovers();
         if (covers.size() == 1 && images.contains(image)) {
             covers.getItem(0).setIsCover(false);

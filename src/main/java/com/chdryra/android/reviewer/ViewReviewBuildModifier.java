@@ -24,10 +24,10 @@ import android.widget.Toast;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ViewReviewBuildModifier implements ViewReview.ViewModifier {
-    private ControllerReview mController;
+    private GvAdapter mAdapter;
 
-    public ViewReviewBuildModifier(ControllerReview controller) {
-        mController = controller;
+    public ViewReviewBuildModifier(GvAdapter adapter) {
+        mAdapter = adapter;
     }
 
     @Override
@@ -50,7 +50,7 @@ public class ViewReviewBuildModifier implements ViewReview.ViewModifier {
                     return;
                 }
 
-                if (mController.getData(GvDataList.GvType.TAGS).size() == 0) {
+                if (mAdapter.getData(GvDataList.GvType.TAGS).size() == 0) {
                     Toast.makeText(activity, R.string.toast_enter_tag,
                             Toast.LENGTH_SHORT).show();
                     return;
@@ -69,7 +69,7 @@ public class ViewReviewBuildModifier implements ViewReview.ViewModifier {
     private void requestShareIntent(Activity activity) {
         Intent i = new Intent(activity, ActivityViewReview.class);
         ActivityViewReview.packParameters(GvDataList.GvType.SOCIAL, false, i);
-        Administrator.get(activity).pack(mController, i);
+        Administrator.get(activity).pack(mAdapter, i);
         activity.startActivity(i);
     }
 }

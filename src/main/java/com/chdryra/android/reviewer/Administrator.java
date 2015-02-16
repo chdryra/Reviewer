@@ -22,7 +22,7 @@ import java.util.Date;
  * <ul>
  * <li>Author: author credentials</li>
  * <li>Published reviews: collection of published reviews to display on feed activity</li>
- * <li>Review controller: controls editing of new reviews</li>
+ * <li>Review adapter: controls editing of new reviews</li>
  * <li>Context: application context for retrieving app data</li>
  * </ul>
  * <p/>
@@ -43,15 +43,15 @@ public class Administrator {
 
     private static Administrator sAdministrator;
 
-    private final Context             mContext;
-    private final PublishedReviews    mPublishedReviews;
-    private final ObjectHolder        mControllers;
+    private final Context          mContext;
+    private final PublishedReviews mPublishedReviews;
+    private final ObjectHolder     mAdapters;
 
-    private ControllerReviewBuilder mReviewBuilder;
+    private ReviewBuilder mReviewBuilder;
 
     private Administrator(Context context) {
         mContext = context;
-        mControllers = new ObjectHolder();
+        mAdapters = new ObjectHolder();
         mPublishedReviews = new PublishedReviews();
     }
 
@@ -79,12 +79,12 @@ public class Administrator {
         return AUTHOR;
     }
 
-    public ControllerReviewBuilder getReviewBuilder() {
+    public ReviewBuilder getReviewBuilder() {
         return mReviewBuilder;
     }
 
-    public ControllerReviewBuilder createNewReviewInProgress() {
-        mReviewBuilder = new ControllerReviewBuilder(mContext);
+    public ReviewBuilder createNewReviewInProgress() {
+        mReviewBuilder = new ReviewBuilder(mContext);
         return mReviewBuilder;
     }
 
@@ -101,39 +101,39 @@ public class Administrator {
         return GvSocialPlatformList.getLatest(mContext);
     }
 
-    public void pack(ControllerReview controller, Intent i) {
-        i.putExtra(CONTROLLER_ID, controller.getId());
-        register(controller);
+    public void pack(GvAdapter adapter, Intent i) {
+        i.putExtra(CONTROLLER_ID, adapter.getId());
+        register(adapter);
     }
 
-    public Bundle pack(ControllerReview controller) {
+    public Bundle pack(GvAdapter adapter) {
         Bundle args = new Bundle();
-        args.putString(CONTROLLER_ID, controller.getId());
-        register(controller);
+        args.putString(CONTROLLER_ID, adapter.getId());
+        register(adapter);
         return args;
     }
 
-    public ControllerReview unpack(Intent i) {
+    public GvAdapter unpack(Intent i) {
         return unpack(i.getExtras());
     }
 
-    public ControllerReview unpack(Bundle args) {
-        ControllerReview controller = args != null ? getController(args.getString(CONTROLLER_ID))
+    public GvAdapter unpack(Bundle args) {
+        GvAdapter adapter = args != null ? getAdapter(args.getString(CONTROLLER_ID))
                 : null;
-        unregister(controller);
+        unregister(adapter);
 
-        return controller;
+        return adapter;
     }
 
-    private void register(ControllerReview controller) {
-        mControllers.addObject(controller.getId(), controller);
+    private void register(GvAdapter adapter) {
+        mAdapters.addObject(adapter.getId(), adapter);
     }
 
-    private void unregister(ControllerReview controller) {
-        if (controller != null) mControllers.removeObject(controller.getId());
+    private void unregister(GvAdapter adapter) {
+        if (adapter != null) mAdapters.removeObject(adapter.getId());
     }
 
-    private ControllerReview getController(String id) {
-        return id != null ? (ControllerReview) mControllers.getObject(id) : null;
+    private GvAdapter getAdapter(String id) {
+        return id != null ? (GvAdapter) mAdapters.getObject(id) : null;
     }
 }

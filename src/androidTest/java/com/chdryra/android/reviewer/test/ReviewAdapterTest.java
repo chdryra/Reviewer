@@ -11,8 +11,8 @@ package com.chdryra.android.reviewer.test;
 import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.ControllerReview;
 import com.chdryra.android.reviewer.Review;
+import com.chdryra.android.reviewer.ReviewAdapter;
 import com.chdryra.android.reviewer.test.TestUtils.ControllerTester;
 import com.chdryra.android.reviewer.test.TestUtils.ReviewMocker;
 
@@ -22,9 +22,9 @@ import com.chdryra.android.reviewer.test.TestUtils.ReviewMocker;
  * Email: rizwan.choudrey@gmail.com
  */
 //Has to extend AndroidTestCase as fails in batch test with TestCase....
-public class ControllerReviewTest extends AndroidTestCase {
+public class ReviewAdapterTest extends AndroidTestCase {
     private Review                   mReview;
-    private ControllerReview<Review> mController;
+    private ReviewAdapter<Review>    mController;
     private ControllerTester<Review> mTester;
 
     @SmallTest
@@ -66,7 +66,7 @@ public class ControllerReviewTest extends AndroidTestCase {
     protected void setUp() throws Exception {
         super.setUp();
         mReview = ReviewMocker.newReview();
-        mController = new ControllerReview<>(mReview);
+        mController = new ReviewAdapter<>(mReview);
         mTester = new ControllerTester<>(mController, mReview);
     }
 }

@@ -22,8 +22,6 @@ import com.chdryra.android.reviewer.ActivityViewReview;
 import com.chdryra.android.reviewer.Administrator;
 import com.chdryra.android.reviewer.CommentFormatter;
 import com.chdryra.android.reviewer.ConfigGvDataUi;
-import com.chdryra.android.reviewer.ControllerReview;
-import com.chdryra.android.reviewer.ControllerReviewBuilder;
 import com.chdryra.android.reviewer.FragmentViewReview;
 import com.chdryra.android.reviewer.GvBuildReviewList;
 import com.chdryra.android.reviewer.GvChildrenList;
@@ -34,6 +32,8 @@ import com.chdryra.android.reviewer.GvImageList;
 import com.chdryra.android.reviewer.GvLocationList;
 import com.chdryra.android.reviewer.GvTagList;
 import com.chdryra.android.reviewer.R;
+import com.chdryra.android.reviewer.ReviewAdapter;
+import com.chdryra.android.reviewer.ReviewBuilder;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
 import com.chdryra.android.reviewer.test.TestUtils.SoloDataEntry;
 import com.chdryra.android.testutils.CallBackSignaler;
@@ -240,7 +240,7 @@ public class ActivityBuildReviewTest extends ActivityViewReviewTest {
     }
 
     @Override
-    protected ControllerReview getController() {
+    protected ReviewAdapter getController() {
         return getBuilder();
     }
 
@@ -264,7 +264,7 @@ public class ActivityBuildReviewTest extends ActivityViewReviewTest {
         mSignaler = new CallBackSignaler(5);
     }
 
-    protected ControllerReviewBuilder getBuilder() {
+    protected ReviewBuilder getBuilder() {
         return mAdmin.createNewReviewInProgress();
     }
 

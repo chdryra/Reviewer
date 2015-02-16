@@ -45,7 +45,6 @@ public class FactoryReview {
                 images, facts, locations, urls);
     }
 
-    //Nodes
     public static ReviewNode createReviewNode(Review review) {
         return getInstance().newReviewNode(review);
     }
@@ -68,15 +67,17 @@ public class FactoryReview {
     }
 
     private ReviewNode newReviewNode(Review review) {
-        return new ReviewTree(review);
+        return newReviewTree(review, new RCollectionReview<Review>(), false);
     }
 
-    private ReviewTree newReviewTree(Review parent, RCollectionReview<Review> children,
+    private ReviewNode newReviewTree(Review root, RCollectionReview<Review> children,
             boolean isAverage) {
-        RCollectionReview<ReviewNode> childNodes = new RCollectionReview<>();
+
+        ReviewTreeExpandable parentNode = new ReviewTreeExpandable(root, isAverage, false);
         for (Review child : children) {
-            childNodes.add(createReviewNode(child));
+            parentNode.addChild(new ReviewTreeExpandable(child, false, false));
         }
-        return new ReviewTree(parent, childNodes, isAverage);
+
+        return parentNode.createTree();
     }
 }
