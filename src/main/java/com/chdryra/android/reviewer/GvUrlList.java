@@ -29,7 +29,7 @@ public class GvUrlList extends GvDataList<GvUrlList.GvUrl> {
     /**
      * {@link GvDataList.GvData} version of: {@link com.chdryra
      * .android.reviewer.MdUrlList.MdUrl}
-     * {@link ViewHolder}: {@link VHUrl}
+     * {@link ViewHolder}: {@link VholderUrl}
      * <p>
      * Methods for getting full URL and shortened more readable version.
      * </p>
@@ -87,7 +87,7 @@ public class GvUrlList extends GvDataList<GvUrlList.GvUrl> {
 
         @Override
         public ViewHolder newViewHolder() {
-            return new VHUrl();
+            return new VholderUrl();
         }
 
         @Override

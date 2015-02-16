@@ -13,10 +13,10 @@ import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.ActivityViewReview;
 import com.chdryra.android.reviewer.Administrator;
+import com.chdryra.android.reviewer.GvAdapter;
 import com.chdryra.android.reviewer.GvDataList;
 import com.chdryra.android.reviewer.GvReviewList;
 import com.chdryra.android.reviewer.R;
-import com.chdryra.android.reviewer.ReviewAdapter;
 import com.chdryra.android.reviewer.ReviewBuilder;
 import com.chdryra.android.reviewer.test.TestUtils.RatingMocker;
 import com.chdryra.android.testutils.RandomStringGenerator;
@@ -70,13 +70,13 @@ public class ActivityFeedTest extends ActivityViewReviewTest {
     }
 
     @Override
-    protected ReviewAdapter getController() {
-        ReviewBuilder controller = mAdmin.createNewReviewInProgress();
+    protected GvAdapter getAdapter() {
+        ReviewBuilder builder = mAdmin.createNewReviewInProgress();
 
-        controller.setRating(RatingMocker.nextRating());
-        controller.setSubject(RandomStringGenerator.nextWord());
+        builder.setRating(RatingMocker.nextRating());
+        builder.setSubject(RandomStringGenerator.nextWord());
 
-        return controller;
+        return builder;
     }
 
     @Override
@@ -87,9 +87,9 @@ public class ActivityFeedTest extends ActivityViewReviewTest {
     @Override
     protected void setUp() {
         mAdmin = Administrator.get(getInstrumentation().getTargetContext());
-        ArrayList<ReviewAdapter> controllers = new ArrayList<>();
+        ArrayList<GvAdapter> adapters = new ArrayList<>();
         for (int i = 0; i < NUM; ++i) {
-            controllers.add(getController());
+            adapters.add(getAdapter());
             mAdmin.publishReviewInProgress();
             try {
                 Thread.sleep(10);
@@ -102,8 +102,8 @@ public class ActivityFeedTest extends ActivityViewReviewTest {
         assertEquals(NUM, list.size());
 
         for (int i = 0; i < NUM; ++i) {
-            assertEquals(controllers.get(i).getSubject(), list.getItem(i).getSubject());
-            assertEquals(controllers.get(i).getRating(), list.getItem(i).getRating());
+            assertEquals(adapters.get(i).getSubject(), list.getItem(i).getSubject());
+            assertEquals(adapters.get(i).getRating(), list.getItem(i).getRating());
             assertNotNull(list.getItem(i).getPublishDate());
         }
 

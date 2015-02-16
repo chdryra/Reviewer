@@ -15,13 +15,13 @@ import com.chdryra.android.mygenerallibrary.ViewHolderData;
  * .GvCommentList.GvComment}. Shows comment
  * headline
  * <p>
- * A {@link VHText} with an appropriately defined {@link com.chdryra.android.mygenerallibrary
+ * A {@link VholderText} with an appropriately defined {@link com.chdryra.android.mygenerallibrary
  * .VHDataStringGetter}.
  * </p>
  */
-class VHComment extends VHText {
+class VholderComment extends VholderText {
 
-    public VHComment() {
+    public VholderComment() {
         super(new VHDataStringGetter() {
             @Override
             public String getString(ViewHolderData data) {

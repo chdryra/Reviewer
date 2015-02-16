@@ -17,8 +17,8 @@ import com.chdryra.android.mygenerallibrary.ViewHolderData;
  * A VHTextView with an appropriately defined GVDataStringGetter.
  * </p>
  */
-class VHUrl extends VHText {
-    public VHUrl() {
+class VholderUrl extends VholderText {
+    public VholderUrl() {
         super(new VHDataStringGetter() {
             @Override
             public String getString(ViewHolderData data) {

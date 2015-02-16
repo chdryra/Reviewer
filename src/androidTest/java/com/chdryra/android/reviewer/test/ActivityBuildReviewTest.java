@@ -23,6 +23,7 @@ import com.chdryra.android.reviewer.Administrator;
 import com.chdryra.android.reviewer.CommentFormatter;
 import com.chdryra.android.reviewer.ConfigGvDataUi;
 import com.chdryra.android.reviewer.FragmentViewReview;
+import com.chdryra.android.reviewer.GvAdapter;
 import com.chdryra.android.reviewer.GvBuildReviewList;
 import com.chdryra.android.reviewer.GvChildrenList;
 import com.chdryra.android.reviewer.GvCommentList;
@@ -32,7 +33,6 @@ import com.chdryra.android.reviewer.GvImageList;
 import com.chdryra.android.reviewer.GvLocationList;
 import com.chdryra.android.reviewer.GvTagList;
 import com.chdryra.android.reviewer.R;
-import com.chdryra.android.reviewer.ReviewAdapter;
 import com.chdryra.android.reviewer.ReviewBuilder;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
 import com.chdryra.android.reviewer.test.TestUtils.SoloDataEntry;
@@ -235,30 +235,30 @@ public class ActivityBuildReviewTest extends ActivityViewReviewTest {
     }
 
     protected void checkControllerSubjectRating(String subject, float rating) {
-        assertEquals(subject, mController.getSubject());
-        assertEquals(rating, mController.getRating());
+        assertEquals(subject, mAdapter.getSubject());
+        assertEquals(rating, mAdapter.getRating());
     }
 
     @Override
-    protected ReviewAdapter getController() {
+    protected GvAdapter getAdapter() {
         return getBuilder();
     }
 
     @SmallTest
     public void testSubjectRating() {
         FragmentViewReview fragment = getFragmentViewReview();
-        assertEquals(mController.getSubject(), fragment.getSubject());
-        assertEquals(mController.getRating(), fragment.getRating());
+        assertEquals(mAdapter.getSubject(), fragment.getSubject());
+        assertEquals(mAdapter.getRating(), fragment.getRating());
     }
 
     @Override
     protected void setUp() {
         mAdmin = Administrator.get(getInstrumentation().getTargetContext());
         super.setUp();
-        mList = GvBuildReviewList.newInstance(getActivity(), mController);
+        mList = GvBuildReviewList.newInstance(getActivity(), mAdapter);
 
-        mOriginalSubject = mController.getSubject();
-        mOriginalRating = mController.getRating();
+        mOriginalSubject = mAdapter.getSubject();
+        mOriginalRating = mAdapter.getRating();
         checkSubjectRating();
         checkControllerChanges(null);
         mSignaler = new CallBackSignaler(5);
@@ -285,7 +285,7 @@ public class ActivityBuildReviewTest extends ActivityViewReviewTest {
     }
 
     private float getAverageRating(boolean nearestHalf) {
-        GvChildrenList children = (GvChildrenList) mController.getData(GvDataList.GvType.CHILDREN);
+        GvChildrenList children = (GvChildrenList) mAdapter.getData(GvDataList.GvType.CHILDREN);
         float rating = 0;
         for (GvChildrenList.GvChildReview child : children) {
             rating += child.getRating();
@@ -297,7 +297,7 @@ public class ActivityBuildReviewTest extends ActivityViewReviewTest {
     }
 
     private void testInController(GvDataList data, boolean inController) {
-        GvDataList fromController = mController.getData(data.getGvType());
+        GvDataList fromController = mAdapter.getData(data.getGvType());
         fromController.sort();
         data.sort();
         if (data.getGvType() == GvDataList.GvType.LOCATIONS) {
@@ -547,7 +547,7 @@ public class ActivityBuildReviewTest extends ActivityViewReviewTest {
     private void checkControllerChanges(GvDataList.GvType dataType) {
         for (GvBuildReviewList.GvBuildReview type : mList) {
             if (dataType != null && type.getGvType() == dataType) continue;
-            assertEquals(0, mController.getData(type.getGvType()).size());
+            assertEquals(0, mAdapter.getData(type.getGvType()).size());
         }
     }
 

@@ -21,9 +21,9 @@ import com.chdryra.android.reviewer.ConfigGvDataUi;
 import com.chdryra.android.reviewer.DialogFragmentGvDataAdd;
 import com.chdryra.android.reviewer.DialogFragmentGvDataEdit;
 import com.chdryra.android.reviewer.FragmentViewReview;
+import com.chdryra.android.reviewer.GvAdapter;
 import com.chdryra.android.reviewer.GvChildrenList;
 import com.chdryra.android.reviewer.GvDataList;
-import com.chdryra.android.reviewer.ReviewAdapter;
 import com.chdryra.android.reviewer.ReviewBuilder;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
 import com.chdryra.android.reviewer.test.TestUtils.SoloDataEntry;
@@ -153,7 +153,7 @@ public abstract class ActivityEditScreenTest extends ActivityViewReviewTest {
     }
 
     @Override
-    protected ReviewAdapter getController() {
+    protected GvAdapter getAdapter() {
         ReviewBuilder controller = new ReviewBuilder(getInstrumentation()
                 .getTargetContext());
         if (mWithData) {
@@ -197,8 +197,8 @@ public abstract class ActivityEditScreenTest extends ActivityViewReviewTest {
 
     //For adjustment in ActivityEditChildrenTest
     protected void setUpFinish(boolean withData) {
-        mOriginalSubject = mController.getSubject();
-        mOriginalRating = mController.getRating();
+        mOriginalSubject = mAdapter.getSubject();
+        mOriginalRating = mAdapter.getRating();
         checkSubjectRating();
 
         checkControllerDataChanges();
@@ -253,8 +253,8 @@ public abstract class ActivityEditScreenTest extends ActivityViewReviewTest {
     }
 
     protected void checkControllerSubjectRating(String subject, float rating) {
-        assertEquals(subject, mController.getSubject());
-        assertEquals(rating, mController.getRating());
+        assertEquals(subject, mAdapter.getSubject());
+        assertEquals(rating, mAdapter.getRating());
     }
 
     protected void checkFragmentSubjectRating(String subject, float rating) {
@@ -289,7 +289,7 @@ public abstract class ActivityEditScreenTest extends ActivityViewReviewTest {
     protected void testGridItemEdit(boolean confirm) {
         setUp(true);
 
-        GvDataList data = mController.getData(mDataType);
+        GvDataList data = mAdapter.getData(mDataType);
         GvDataList.GvData currentDatum = getGridItem(0);
         GvDataList.GvData newDatum = newEditDatum(currentDatum);
 
@@ -415,7 +415,7 @@ public abstract class ActivityEditScreenTest extends ActivityViewReviewTest {
     }
 
     protected void testInController(GvDataList.GvData datum, boolean result) {
-        GvDataList data = mController.getData(mDataType);
+        GvDataList data = mAdapter.getData(mDataType);
         if (result) {
             assertTrue(data.size() > 0);
         }
@@ -442,7 +442,7 @@ public abstract class ActivityEditScreenTest extends ActivityViewReviewTest {
     }
 
     protected ReviewBuilder getBuilder() {
-        return (ReviewBuilder) getController();
+        return (ReviewBuilder) getAdapter();
     }
 
     private void testConfirmDialogShowing(boolean isShowing) {
@@ -533,7 +533,7 @@ public abstract class ActivityEditScreenTest extends ActivityViewReviewTest {
 
         clickMenuDone();
 
-        assertEquals(confirm ? 0 : mData.size(), mController.getData(mDataType).size());
+        assertEquals(confirm ? 0 : mData.size(), mAdapter.getData(mDataType).size());
         checkControllerSubjectRatingOnDone();
         if (!confirm) checkControllerDataChanges();
     }
@@ -687,7 +687,7 @@ public abstract class ActivityEditScreenTest extends ActivityViewReviewTest {
     }
 
     private void testInController(GvDataList data, boolean inController) {
-        GvDataList fromController = mController.getData(mDataType);
+        GvDataList fromController = mAdapter.getData(mDataType);
         fromController.sort();
         data.sort();
         assertEquals(inController, data.equals(fromController));
@@ -722,7 +722,7 @@ public abstract class ActivityEditScreenTest extends ActivityViewReviewTest {
     private void checkControllerDataChanges(boolean ignoreDataType) {
         for (GvDataList.GvType type : TYPES) {
             if (ignoreDataType && type == mDataType) continue;
-            assertEquals(0, mController.getData(type).size());
+            assertEquals(0, mAdapter.getData(type).size());
         }
     }
 }

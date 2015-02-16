@@ -9,9 +9,11 @@
 package com.chdryra.android.reviewer;
 
 /**
- * Interface for defining a tree traversal algorithm given a node, visitor and node depth (for
- * depth map calculations).
+ * {@link com.chdryra.android.mygenerallibrary.ViewHolder}: {@link com.chdryra.android.reviewer
+ * .TagsManager.ReviewTag} ({@link GvText}). Shows tag
+ * string.
  */
-interface TraverserSearchMethod {
-    void search(ReviewNode node, VisitorReviewNode visitor, int depth);
+class VholderTag extends VholderText {
+    VholderTag() {
+    }
 }

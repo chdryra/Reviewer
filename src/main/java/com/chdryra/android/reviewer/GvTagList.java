@@ -35,7 +35,7 @@ public class GvTagList extends GvDataList<GvTagList.GvTag> {
 
     /**
      * {@link } version of: {@link com.chdryra.android.reviewer.TagsManager.ReviewTag}
-     * {@link ViewHolder}: {@link VHTag}
+     * {@link ViewHolder}: {@link VholderTag}
      * <p/>
      * <p>
      * Ignores case when comparing tags.
@@ -67,7 +67,7 @@ public class GvTagList extends GvDataList<GvTagList.GvTag> {
 
         @Override
         public ViewHolder newViewHolder() {
-            return new VHTag();
+            return new VholderTag();
         }
     }
 }

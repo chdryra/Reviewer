@@ -56,7 +56,7 @@ public class GvSocialPlatformList extends GvDataList<GvSocialPlatformList.GvSoci
 
     /**
      * {@link } version of: no equivalent as used for review sharing screen.
-     * {@link ViewHolder}: {@link VHSocialPlatform}
+     * {@link ViewHolder}: {@link VholderSocialPlatform}
      *
      * @see com.chdryra.android.reviewer.SocialPlatformList
      */
@@ -92,7 +92,7 @@ public class GvSocialPlatformList extends GvDataList<GvSocialPlatformList.GvSoci
 
         @Override
         public ViewHolder newViewHolder() {
-            return new VHSocialPlatform();
+            return new VholderSocialPlatform();
         }
 
         @Override

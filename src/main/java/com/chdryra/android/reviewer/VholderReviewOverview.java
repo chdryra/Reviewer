@@ -33,7 +33,7 @@ import java.text.DateFormat;
  * </ul>
  * </p>
  */
-class VHReviewNodeOverview extends ViewHolderBasic {
+class VholderReviewOverview extends ViewHolderBasic {
     private static final int LAYOUT   = R.layout.grid_cell_review_overview;
     private static final int SUBJECT  = R.id.review_subject;
     private static final int RATING   = R.id.rating_bar;
@@ -49,7 +49,7 @@ class VHReviewNodeOverview extends ViewHolderBasic {
     private TextView  mLocation;
     private TextView  mPublishDate;
 
-    VHReviewNodeOverview() {
+    VholderReviewOverview() {
         super(LAYOUT, new int[]{LAYOUT, SUBJECT, RATING, IMAGE, HEADLINE, LOCATION, PUBLISH});
     }
 

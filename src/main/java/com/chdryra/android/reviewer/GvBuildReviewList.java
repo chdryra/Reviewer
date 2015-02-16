@@ -110,7 +110,7 @@ public class GvBuildReviewList extends GvDataList<GvBuildReviewList.GvBuildRevie
         }
 
         private View getNoDataView(ViewGroup parent) {
-            ViewHolder vh = new VHText();
+            ViewHolder vh = new VholderText();
             vh.inflate(getActivity(), parent);
             vh.updateView(new VHDString(mDataType.getDataString()));
             return vh.getView();
@@ -120,7 +120,7 @@ public class GvBuildReviewList extends GvDataList<GvBuildReviewList.GvBuildRevie
             int number = getAdapter().getData(mDataType).size();
             String type = number == 1 ? mDataType.getDatumString() : mDataType.getDataString();
 
-            ViewHolder vh = new VHDualText();
+            ViewHolder vh = new VholderDualText();
             vh.inflate(getActivity(), parent);
             vh.updateView(new VHDDualString(String.valueOf(number), type));
             return vh.getView();
@@ -129,7 +129,7 @@ public class GvBuildReviewList extends GvDataList<GvBuildReviewList.GvBuildRevie
         private View getDatumView(ViewGroup parent) {
             ViewHolderData datum = (ViewHolderData) getAdapter().getData(mDataType)
                     .getItem(0);
-            ViewHolder vh = mDataType == GvType.LOCATIONS ? new VHLocation(true) : datum
+            ViewHolder vh = mDataType == GvType.LOCATIONS ? new VholderLocation(true) : datum
                     .newViewHolder();
             if (vh.getView() == null) vh.inflate(getActivity(), parent);
             vh.updateView(datum);

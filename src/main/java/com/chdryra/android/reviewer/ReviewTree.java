@@ -26,10 +26,10 @@ import java.util.Date;
  * thus acting as a fixed, published component of a new review tree with its own {@link ReviewId}.
  * </p>
  */
-class ReviewTree implements ReviewNode {
+public class ReviewTree implements ReviewNode {
     private ReviewNode mRoot;
 
-    ReviewTree(ReviewNode root) {
+    public ReviewTree(ReviewNode root) {
         mRoot = root;
     }
 

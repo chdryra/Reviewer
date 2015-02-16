@@ -26,7 +26,7 @@ public class GvLocationList extends GvDataList<GvLocationList.GvLocation> {
     /**
      * {@link GvDataList.GvData} version of: {@link com.chdryra
      * .android.reviewer.MdLocationList.MdLocation}
-     * {@link ViewHolder}: {@link VHLocation}
+     * {@link ViewHolder}: {@link VholderLocation}
      */
     public static class GvLocation implements GvDataList.GvData, DataLocation {
         public static final Parcelable.Creator<GvLocation> CREATOR = new Parcelable
@@ -59,7 +59,7 @@ public class GvLocationList extends GvDataList<GvLocationList.GvLocation> {
 
         @Override
         public ViewHolder newViewHolder() {
-            return new VHLocation(false);
+            return new VholderLocation(false);
         }
 
         @Override

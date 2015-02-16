@@ -14,10 +14,11 @@ import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.Administrator;
+import com.chdryra.android.reviewer.GvAdapter;
 import com.chdryra.android.reviewer.GvDataList;
 import com.chdryra.android.reviewer.GvSocialPlatformList;
-import com.chdryra.android.reviewer.PublishedReviews;
-import com.chdryra.android.reviewer.ReviewAdapter;
+import com.chdryra.android.reviewer.Review;
+import com.chdryra.android.reviewer.ReviewCollectionAdapter;
 
 /**
  * Created by: Rizwan Choudrey
@@ -30,7 +31,7 @@ public class AdministratorTest extends AndroidTestCase {
 
     @SmallTest
     public void testCreateNewReviewInProgress() {
-        ReviewAdapter review = mAdmin.createNewReviewInProgress();
+        GvAdapter review = mAdmin.createNewReviewInProgress();
         assertNotNull(review);
     }
 
@@ -42,7 +43,7 @@ public class AdministratorTest extends AndroidTestCase {
 
     @SmallTest
     public void testPublishReviewInProgress() {
-        PublishedReviews reviews = mAdmin.getPublishedReviews();
+        ReviewCollectionAdapter<Review> reviews = mAdmin.getPublishedReviews();
         assertNotNull(reviews);
         assertEquals(0, reviews.toGridViewable().size());
         mAdmin.createNewReviewInProgress();
@@ -60,17 +61,17 @@ public class AdministratorTest extends AndroidTestCase {
     @SmallTest
     public void testPackUnpackIntent() {
         Intent i = new Intent();
-        ReviewAdapter review = mAdmin.createNewReviewInProgress();
+        GvAdapter review = mAdmin.createNewReviewInProgress();
         mAdmin.pack(review, i);
-        ReviewAdapter unpacked = mAdmin.unpack(i);
+        GvAdapter unpacked = mAdmin.unpack(i);
         assertEquals(review, unpacked);
     }
 
     @SmallTest
     public void testPackUnpackBundle() {
-        ReviewAdapter review = mAdmin.createNewReviewInProgress();
+        GvAdapter review = mAdmin.createNewReviewInProgress();
         Bundle args = mAdmin.pack(review);
-        ReviewAdapter unpacked = mAdmin.unpack(args);
+        GvAdapter unpacked = mAdmin.unpack(args);
         assertEquals(review, unpacked);
     }
 

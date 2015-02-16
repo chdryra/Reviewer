@@ -15,8 +15,8 @@ import android.widget.RatingBar;
  * On: 06/02/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class RatingEditBuildUi extends RatingEdit {
-    public RatingEditBuildUi(ReviewBuilder controller) {
+public class RatingEditBuildReview extends RatingEdit {
+    public RatingEditBuildReview(ReviewBuilder controller) {
         super(controller);
     }
 

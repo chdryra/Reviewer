@@ -32,7 +32,7 @@ import java.util.Date;
 class ReviewTreeExpandable implements ReviewNode {
     private final ReviewId mId;
 
-    private final Review                                  mReview;
+    private final Review                        mReview;
     private final RCollectionReview<ReviewNode> mChildren;
     private       ReviewTreeExpandable          mParent;
 
@@ -110,8 +110,16 @@ class ReviewTreeExpandable implements ReviewNode {
 
     @Override
     public MdRating getRating() {
-        return mRatingIsAverage ? new MdRating(RatingAverager.average(this),
-                this) : mReview.getRating();
+        MdRating rating;
+        if (mRatingIsAverage) {
+            VisitorRatingCalculator visitor = new VisitorRatingAverageOfChildren();
+            acceptVisitor(visitor);
+            rating = new MdRating(visitor.getRating(), this);
+        } else {
+            rating = mReview.getRating();
+        }
+
+        return rating;
     }
 
     @Override

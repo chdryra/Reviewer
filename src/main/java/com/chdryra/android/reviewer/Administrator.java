@@ -44,7 +44,7 @@ public class Administrator {
     private static Administrator sAdministrator;
 
     private final Context          mContext;
-    private final PublishedReviews mPublishedReviews;
+    private final ReviewCollectionAdapter<Review> mPublishedReviews;
     private final ObjectHolder     mAdapters;
 
     private ReviewBuilder mReviewBuilder;
@@ -52,7 +52,7 @@ public class Administrator {
     private Administrator(Context context) {
         mContext = context;
         mAdapters = new ObjectHolder();
-        mPublishedReviews = new PublishedReviews();
+        mPublishedReviews = new ReviewCollectionAdapter<>();
     }
 
     public static Administrator get(Context c) {
@@ -88,13 +88,12 @@ public class Administrator {
         return mReviewBuilder;
     }
 
-    public PublishedReviews getPublishedReviews() {
+    public ReviewCollectionAdapter<Review> getPublishedReviews() {
         return mPublishedReviews;
     }
 
     public void publishReviewInProgress() {
-        Review p = mReviewBuilder.publish(AUTHOR, new Date());
-        mPublishedReviews.add(p);
+        mPublishedReviews.add(mReviewBuilder.publish(AUTHOR, new Date()));
     }
 
     public GvSocialPlatformList getSocialPlatformList() {

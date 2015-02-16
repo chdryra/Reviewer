@@ -12,17 +12,14 @@ import com.chdryra.android.mygenerallibrary.ViewHolderData;
 
 /**
  * {@link com.chdryra.android.mygenerallibrary.ViewHolder}: {@link com.chdryra.android.reviewer
- * .GVSocialPlatformList.GvSocialPlatform}. Shows
- * platform name
- * above, number followers below.
+ * .VgFactList.VgFact}. Shows fact
+ * label top,
+ * fact value bottom.
  */
-class VHSocialPlatform extends VHDualText {
+class VholderFact extends VholderDualText {
     @Override
     public void updateView(ViewHolderData data) {
-        GvSocialPlatformList.GvSocialPlatform platform = (GvSocialPlatformList.GvSocialPlatform)
-                data;
-        if (platform != null) {
-            super.updateView(platform.getName(), String.valueOf(platform.getFollowers()));
-        }
+        GvFactList.GvFact fact = (GvFactList.GvFact) data;
+        if (fact != null) super.updateView(fact.getLabel(), fact.getValue());
     }
 }

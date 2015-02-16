@@ -29,7 +29,7 @@ public class ActivityEditCommentsTest extends ActivityEditScreenTest {
     @SmallTest
     public void testMenuSplitUnsplitComments() {
         setUp(true);
-        GvCommentList comments = (GvCommentList) mController.getData(mDataType);
+        GvCommentList comments = (GvCommentList) mAdapter.getData(mDataType);
         GvCommentList split = comments.getSplitComments();
 
         assertTrue(comments.size() > 0);

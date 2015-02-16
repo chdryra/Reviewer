@@ -56,7 +56,7 @@ public class GvImageList extends GvDataList<GvImageList.GvImage> {
     /**
      * {@link GvDataList.GvData} version of: {@link com.chdryra
      * .android.reviewer.MdImageList.MdImage}
-     * {@link ViewHolder}: {@link VHImage}
+     * {@link ViewHolder}: {@link VholderImage}
      */
     public static class GvImage implements GvDataList.GvData, DataImage {
         public static final Parcelable.Creator<GvImage> CREATOR = new Parcelable
@@ -100,7 +100,7 @@ public class GvImageList extends GvDataList<GvImageList.GvImage> {
 
         @Override
         public ViewHolder newViewHolder() {
-            return new VHImage();
+            return new VholderImage();
         }
 
         @Override

@@ -9,16 +9,14 @@
 package com.chdryra.android.reviewer.test.TestUtils;
 
 import com.chdryra.android.reviewer.Author;
-import com.chdryra.android.reviewer.PublisherReviewTree;
+import com.chdryra.android.reviewer.FactoryReview;
+import com.chdryra.android.reviewer.RCollectionReview;
 import com.chdryra.android.reviewer.Review;
-import com.chdryra.android.reviewer.ReviewEditable;
 import com.chdryra.android.reviewer.ReviewNode;
-import com.chdryra.android.reviewer.ReviewNodeExpandable;
-import com.chdryra.android.reviewer.ReviewTreeEditable;
-import com.chdryra.android.reviewer.ReviewUserEditable;
+import com.chdryra.android.reviewer.ReviewUser;
 import com.chdryra.android.testutils.RandomStringGenerator;
 
-import junit.framework.Assert;
+import java.util.Date;
 
 /**
  * Created by: Rizwan Choudrey
@@ -26,50 +24,35 @@ import junit.framework.Assert;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ReviewMocker {
+    private static final int NUM = 5;
+
     private ReviewMocker() {
     }
 
     public static Review newReview() {
-        return newReviewEditable();
-    }
-
-    public static Review newReviewPublished() {
-        Review r = getNew().publish(new PublisherReviewTree(new Author(RandomStringGenerator
-                .nextWord())));
-        Assert.assertTrue(r.isPublished());
-        return r;
-    }
-
-    public static ReviewEditable newReviewEditable() {
-        return new MockReviewEditable();
+        return getNew();
     }
 
     public static ReviewNode newReviewNode() {
         return getNew().getReviewNode();
     }
 
-    public static ReviewNodeExpandable newReviewNodeExpandable() {
-        return (ReviewNodeExpandable) newReviewNode();
-    }
-
-    public static ReviewTreeEditable newReviewTreeEditable() {
-        return getNew();
-    }
-
-    private static MockReview getNew() {
-        return new MockReview();
-    }
-
-    static class MockReview extends ReviewTreeEditable {
-        private MockReview() {
-            super(new MockReviewEditable());
+    private static Review getNew() {
+        Review root = new MockReview();
+        RCollectionReview<Review> children = new RCollectionReview<>();
+        for (int i = 0; i < NUM; ++i) {
+            children.add(new MockReview());
         }
+
+        return FactoryReview.createReviewTree(root, children, false);
     }
 
-    static class MockReviewEditable extends ReviewUserEditable {
-        private MockReviewEditable() {
-            super(RandomStringGenerator.nextWord());
-            setRating(RatingMocker.nextRating());
+    static class MockReview extends ReviewUser {
+        private MockReview() {
+            super(Author.NULL_AUTHOR, new Date(), RandomStringGenerator.nextWord(),
+                    RatingMocker.nextRating(), GvDataMocker.newCommentList(NUM),
+                    GvDataMocker.newImageList(NUM), GvDataMocker.newFactList(NUM),
+                    GvDataMocker.newLocationList(NUM), GvDataMocker.newUrlList(NUM));
         }
     }
 }

@@ -181,7 +181,7 @@ public class FactoryViewReview {
             controller,
             GvDataList.GvType dataType) {
         if (dataType == GvDataList.GvType.BUILD_REVIEW) {
-            return new RatingEditBuildUi(controller);
+            return new RatingEditBuildReview(controller);
         } else {
             return new RatingEdit(controller);
         }
@@ -197,7 +197,7 @@ public class FactoryViewReview {
     }
 
     private static CoverManager newCoverManager(GvAdapter adapter) {
-        return new CoverManagerController(adapter);
+        return new CoverManagerAdapter(adapter);
     }
 
     private static CoverManager newCoverManager(GvImageList images) {

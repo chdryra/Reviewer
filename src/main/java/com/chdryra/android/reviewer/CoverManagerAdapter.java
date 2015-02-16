@@ -13,10 +13,10 @@ package com.chdryra.android.reviewer;
  * On: 29/01/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class CoverManagerController implements CoverManager {
+public class CoverManagerAdapter implements CoverManager {
     private final GvAdapter mAdapter;
 
-    public CoverManagerController(GvAdapter adapter) {
+    public CoverManagerAdapter(GvAdapter adapter) {
         mAdapter = adapter;
     }
 

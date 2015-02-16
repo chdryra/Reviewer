@@ -19,10 +19,10 @@ import com.chdryra.android.mygenerallibrary.DialogTwoButtonFragment;
 import com.chdryra.android.reviewer.ActivityFeed;
 import com.chdryra.android.reviewer.Administrator;
 import com.chdryra.android.reviewer.DialogFragmentGvDataAdd;
+import com.chdryra.android.reviewer.GvAdapter;
 import com.chdryra.android.reviewer.GvDataList;
 import com.chdryra.android.reviewer.LaunchableUi;
 import com.chdryra.android.reviewer.LauncherUi;
-import com.chdryra.android.reviewer.ReviewAdapter;
 import com.chdryra.android.reviewer.test.TestUtils.DialogAddListener;
 import com.robotium.solo.Solo;
 
@@ -38,7 +38,7 @@ public abstract class DialogFragmentGvDataAddTest<T extends GvDataList.GvData> e
     protected Solo                                     mSolo;
     protected DialogFragmentGvDataAdd                  mDialog;
     protected DialogAddListener<T>                     mListener;
-    protected ReviewAdapter                            mController;
+    protected GvAdapter                                mAdapter;
     protected Activity                                 mActivity;
     private   Class<? extends DialogFragmentGvDataAdd> mDialogClass;
 
@@ -83,8 +83,8 @@ public abstract class DialogFragmentGvDataAddTest<T extends GvDataList.GvData> e
     protected void testQuickSet() {
         launchDialogAndTestShowing(true);
 
-        final ReviewAdapter controller = mController;
-        assertEquals(0, getControllerData(controller).size());
+        final GvAdapter controller = mAdapter;
+        assertEquals(0, getData(controller).size());
 
         final GvDataList.GvData datum1 = testQuickSet(true);
         final GvDataList.GvData datum2 = testQuickSet(true);
@@ -95,7 +95,7 @@ public abstract class DialogFragmentGvDataAddTest<T extends GvDataList.GvData> e
             public void run() {
                 dialog.clickDoneButton();
 
-                GvDataList data = getControllerData(controller);
+                GvDataList data = getData(controller);
 
                 assertEquals(3, data.size());
                 assertEquals(datum1, data.getItem(0));
@@ -118,7 +118,7 @@ public abstract class DialogFragmentGvDataAddTest<T extends GvDataList.GvData> e
         ft.add(mListener, DIALOG_TAG);
         ft.commit();
 
-        mController = Administrator.get(getInstrumentation().getTargetContext())
+        mAdapter = Administrator.get(getInstrumentation().getTargetContext())
                 .createNewReviewInProgress();
 
         mSolo = new Solo(getInstrumentation(), mActivity);
@@ -146,12 +146,12 @@ public abstract class DialogFragmentGvDataAddTest<T extends GvDataList.GvData> e
         assertTrue(mSolo.waitForDialogToOpen());
     }
 
-    protected GvDataList getControllerData(final ReviewAdapter controller) {
-        return controller.getData(mDialog.getGvType());
+    protected GvDataList getData(final GvAdapter adapter) {
+        return adapter.getData(mDialog.getGvType());
     }
 
     protected Bundle getControllerBundle() {
-        return Administrator.get(getInstrumentation().getTargetContext()).pack(mController);
+        return Administrator.get(getInstrumentation().getTargetContext()).pack(mAdapter);
     }
 
     private GvDataList.GvData enterDataAndTest() {
@@ -166,11 +166,11 @@ public abstract class DialogFragmentGvDataAddTest<T extends GvDataList.GvData> e
         launchDialogAndTestShowing(false);
 
         final DialogAddListener<T> listener = mListener;
-        final ReviewAdapter controller = mController;
+        final GvAdapter adap = mAdapter;
         final DialogCancelAddDoneFragment dialog = mDialog;
 
         assertNull(listener.getData());
-        assertEquals(0, getControllerData(controller).size());
+        assertEquals(0, getData(adap).size());
         final GvDataList.GvData datum = enterDataAndTest();
         assertNull(listener.getData());
 
@@ -185,7 +185,7 @@ public abstract class DialogFragmentGvDataAddTest<T extends GvDataList.GvData> e
                 assertNotNull(listener.getData());
                 assertEquals(datum, listener.getData());
 
-                assertEquals(0, getControllerData(controller).size());
+                assertEquals(0, getData(adap).size());
                 if (addButton) {
                     assertTrue(dialog.isShowing());
                     assertTrue(isDataNulled());

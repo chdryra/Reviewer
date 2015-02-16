@@ -14,11 +14,11 @@ import android.test.suitebuilder.annotation.SmallTest;
 import com.chdryra.android.reviewer.ActivityFeed;
 import com.chdryra.android.reviewer.Administrator;
 import com.chdryra.android.reviewer.FragmentViewReview;
+import com.chdryra.android.reviewer.GvAdapter;
 import com.chdryra.android.reviewer.GvDataList;
 import com.chdryra.android.reviewer.GvReviewList;
 import com.chdryra.android.reviewer.GvSocialPlatformList;
 import com.chdryra.android.reviewer.R;
-import com.chdryra.android.reviewer.ReviewAdapter;
 import com.chdryra.android.reviewer.ReviewBuilder;
 import com.chdryra.android.reviewer.SocialPlatformList;
 import com.chdryra.android.reviewer.test.TestUtils.RatingMocker;
@@ -80,25 +80,25 @@ public class ActivityShareScreenTest extends ActivityViewReviewTest {
         assertEquals(ActivityFeed.class, feedActivity.getClass());
         GvReviewList list = (GvReviewList) mAdmin.getPublishedReviews().toGridViewable();
         assertEquals(1, list.size());
-        assertEquals(mController.getSubject(), list.getItem(0).getSubject());
-        assertEquals(mController.getRating(), list.getItem(0).getRating());
+        assertEquals(mAdapter.getSubject(), list.getItem(0).getSubject());
+        assertEquals(mAdapter.getRating(), list.getItem(0).getRating());
     }
 
     @Override
-    protected ReviewAdapter getController() {
-        ReviewBuilder controller = mAdmin.createNewReviewInProgress();
+    protected GvAdapter getAdapter() {
+        ReviewBuilder builder = mAdmin.createNewReviewInProgress();
 
-        controller.setRating(RatingMocker.nextRating());
-        controller.setSubject(RandomStringGenerator.nextWord());
+        builder.setRating(RatingMocker.nextRating());
+        builder.setSubject(RandomStringGenerator.nextWord());
 
-        return controller;
+        return builder;
     }
 
     @SmallTest
     public void testSubjectRating() {
         FragmentViewReview fragment = getFragmentViewReview();
-        assertEquals(mController.getSubject(), fragment.getSubject());
-        assertEquals(mController.getRating(), fragment.getRating());
+        assertEquals(mAdapter.getSubject(), fragment.getSubject());
+        assertEquals(mAdapter.getRating(), fragment.getRating());
     }
 
     @Override

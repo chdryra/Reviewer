@@ -20,18 +20,13 @@ import com.chdryra.android.mygenerallibrary.ViewHolderAdapter;
  * Email: rizwan.choudrey@gmail.com
  */
 public class FactoryGridCellAdapter {
-    private Activity   mActivity;
-    private GvDataList mData;
-    private int        mCellWidth;
-    private int        mCellHeight;
-
     private FactoryGridCellAdapter() {
     }
 
     public static ViewHolderAdapter newAdapter(Activity activity, GvDataList data, int cellWidth,
             int cellHeight) {
         if (data.getGvType() == GvDataList.GvType.BUILD_REVIEW) {
-            return new ReviewOptionsGridCellAdapter(activity, data, cellWidth, cellHeight);
+            return new BuildReviewAdapter(activity, data, cellWidth, cellHeight);
         } else {
             return new ViewHolderAdapter(activity, data, cellWidth, cellHeight);
         }
@@ -40,13 +35,14 @@ public class FactoryGridCellAdapter {
     /**
      * Provides the adapter for the GridView of data tiles. Can't use the ViewHolder pattern here
      * because each cell can have its own unique look so reuse is not an option. The view update
-     * requests are forwarded to underlying the GVCellManagers to handle.
+     * requests are forwarded to the underlying {@link com.chdryra.android.reviewer
+     * .GvBuildReviewList.GvBuildReview} to handle.
      */
-    private static class ReviewOptionsGridCellAdapter extends ViewHolderAdapter {
+    private static class BuildReviewAdapter extends ViewHolderAdapter {
         private int mCellWidth;
         private int mCellHeight;
 
-        public ReviewOptionsGridCellAdapter(Activity activity, GvDataList data, int cellWidth,
+        public BuildReviewAdapter(Activity activity, GvDataList data, int cellWidth,
                 int cellHeight) {
             super(activity, data, cellWidth, cellHeight);
             mCellWidth = cellWidth;

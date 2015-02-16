@@ -8,50 +8,33 @@
 
 package com.chdryra.android.reviewer;
 
-import android.graphics.Bitmap;
-
-import java.util.HashMap;
-
 /**
  * Created by: Rizwan Choudrey
  * On: 03/10/2014
  * Email: rizwan.choudrey@gmail.com
  */
 
+import android.graphics.Bitmap;
+
+import java.util.HashMap;
+
 /**
  * Similar to {@link ReviewAdapter} but for {@link RCollectionReview} data.
  */
-public class ControllerReviewCollection<T extends Review> {
+public class ReviewCollectionAdapter<T extends Review> {
     private RCollectionReview<T>       mReviews;
     private HashMap<String, GvAdapter> mAdapters;
 
-    public ControllerReviewCollection(RCollectionReview<T> reviews) {
-        init(reviews);
-    }
-
-    public void addReview(T review) {
-        mReviews.add(review);
-    }
-
-    public GvDataList toGridViewable(boolean publishedOnly) {
-        return publishedOnly ? toGridViewablePublished() : toGridViewableAll();
-    }
-
-    protected void init(RCollectionReview<T> reviews) {
-        mReviews = reviews;
+    public ReviewCollectionAdapter() {
+        mReviews = new RCollectionReview<>();
         mAdapters = new HashMap<>();
     }
 
-    private GvDataList toGridViewableAll() {
-        GvChildrenList data = new GvChildrenList();
-        for (Review r : mReviews) {
-            data.add(new GvChildrenList.GvChildReview(r.getSubject().get(), r.getRating().get()));
-        }
-
-        return data;
+    public void add(T review) {
+        mReviews.add(review);
     }
 
-    private GvDataList toGridViewablePublished() {
+    public GvDataList toGridViewable() {
         GvReviewList data = new GvReviewList();
         for (Review r : mReviews) {
             GvAdapter adapter = getAdapterFor(r.getId().toString());
@@ -74,13 +57,9 @@ public class ControllerReviewCollection<T extends Review> {
         return data;
     }
 
-    private T get(String id) {
-        return mReviews.get(ReviewId.generateId(id));
-    }
-
     private GvAdapter getAdapterFor(String id) {
         if (mAdapters.get(id) == null) {
-            mAdapters.put(id, new ReviewAdapter<>(get(id)));
+            mAdapters.put(id, new ReviewAdapter<>(mReviews.get(ReviewId.generateId(id))));
         }
 
         return mAdapters.get(id);

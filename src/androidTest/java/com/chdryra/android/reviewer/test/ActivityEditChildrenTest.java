@@ -131,9 +131,9 @@ public class ActivityEditChildrenTest extends ActivityEditScreenTest {
     @Override
     protected void setUpFinish(boolean withData) {
         getBuilder().setRatingIsAverage(false);
-        mOriginalRatingNotAverage = mController.getRating();
+        mOriginalRatingNotAverage = mAdapter.getRating();
         getBuilder().setRatingIsAverage(mIsAverage);
-        mSolo.setProgressBar(0, (int) (mController.getRating() * 2f));
+        mSolo.setProgressBar(0, (int) (mAdapter.getRating() * 2f));
         super.setUpFinish(withData);
     }
 
