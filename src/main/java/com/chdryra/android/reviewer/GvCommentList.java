@@ -35,7 +35,7 @@ public class GvCommentList extends GvDataList<GvCommentList.GvComment> {
     /**
      * {@link GvDataList.GvData} version of: {@link com.chdryra
      * .android.reviewer.MdCommentList.MdComment}
-     * {@link ViewHolder}: {@link VholderComment}
+     * {@link ViewHolder}: {@link VhComment}
      * <p>
      * Methods for getting the comment headline and for splitting and unsplitting comments.
      * </p>
@@ -74,7 +74,7 @@ public class GvCommentList extends GvDataList<GvCommentList.GvComment> {
 
         @Override
         public ViewHolder newViewHolder() {
-            return new VholderComment();
+            return new VhComment();
         }
 
         @Override

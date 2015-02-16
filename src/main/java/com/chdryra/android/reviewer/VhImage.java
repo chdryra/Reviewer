@@ -17,13 +17,13 @@ import com.chdryra.android.mygenerallibrary.ViewHolderData;
  * {@link com.chdryra.android.mygenerallibrary.ViewHolder}: {@link GvImageList.GvImage}. Shows
  * image bitmap.
  */
-class VholderImage extends ViewHolderBasic {
+class VhImage extends ViewHolderBasic {
     private static final int LAYOUT = R.layout.grid_cell_image;
     private static final int IMAGE  = R.id.image_view;
 
     private ImageView mImage;
 
-    public VholderImage() {
+    public VhImage() {
         super(LAYOUT, new int[]{IMAGE});
     }
 

@@ -23,12 +23,12 @@ import com.chdryra.android.mygenerallibrary.VHDualString;
  * purposes.
  * </p>
  */
-class VholderDualText extends VHDualString {
+class VhDualText extends VHDualString {
     private static final int LAYOUT = R.layout.grid_cell_text_dual;
     private static final int UPPER  = R.id.upper_text;
     private static final int LOWER  = R.id.lower_text;
 
-    VholderDualText() {
+    VhDualText() {
         super(LAYOUT, UPPER, LOWER);
     }
 

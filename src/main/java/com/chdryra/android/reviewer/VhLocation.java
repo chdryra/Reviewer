@@ -15,9 +15,9 @@ import com.chdryra.android.mygenerallibrary.ViewHolderData;
  * Shows shortened
  * location name.
  */
-class VholderLocation extends VholderText {
+class VhLocation extends VhText {
 
-    public VholderLocation(final boolean showAt) {
+    public VhLocation(final boolean showAt) {
         super(new VHDataStringGetter() {
             @Override
             public String getString(ViewHolderData data) {

@@ -41,7 +41,7 @@ public class GvFactList extends GvDataList<GvFactList.GvFact> {
     /**
      * {@link GvDataList.GvData} version of: {@link com.chdryra
      * .android.reviewer.MdFactList.MdFact}
-     * {@link ViewHolder}: {@link VholderFact}
+     * {@link ViewHolder}: {@link VhFact}
      */
 
     public static class GvFact extends GvDualText implements DataFact {
@@ -70,7 +70,7 @@ public class GvFactList extends GvDataList<GvFactList.GvFact> {
 
         @Override
         public ViewHolder newViewHolder() {
-            return new VholderFact();
+            return new VhFact();
         }
 
         @Override

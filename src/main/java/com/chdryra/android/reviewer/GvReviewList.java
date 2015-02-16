@@ -64,7 +64,7 @@ public class GvReviewList extends GvDataList<GvReviewList.GvReviewOverview> {
 
     /**
      * {@link GvDataList.GvData} version of: {@link Review}
-     * {@link ViewHolder): {@link VholderReviewOverview }
+     * {@link ViewHolder): {@link VhFeed }
      */
     public static class GvReviewOverview implements GvDataList.GvData {
         public static final Parcelable.Creator<GvReviewOverview> CREATOR = new Parcelable
@@ -115,7 +115,7 @@ public class GvReviewList extends GvDataList<GvReviewList.GvReviewOverview> {
 
         @Override
         public ViewHolder newViewHolder() {
-            return new VholderReviewOverview();
+            return new VhFeed();
         }
 
         @Override

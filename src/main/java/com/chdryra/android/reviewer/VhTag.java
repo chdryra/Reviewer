@@ -8,18 +8,12 @@
 
 package com.chdryra.android.reviewer;
 
-import com.chdryra.android.mygenerallibrary.ViewHolderData;
-
 /**
  * {@link com.chdryra.android.mygenerallibrary.ViewHolder}: {@link com.chdryra.android.reviewer
- * .VgFactList.VgFact}. Shows fact
- * label top,
- * fact value bottom.
+ * .TagsManager.ReviewTag} ({@link GvText}). Shows tag
+ * string.
  */
-class VholderFact extends VholderDualText {
-    @Override
-    public void updateView(ViewHolderData data) {
-        GvFactList.GvFact fact = (GvFactList.GvFact) data;
-        if (fact != null) super.updateView(fact.getLabel(), fact.getValue());
+class VhTag extends VhText {
+    VhTag() {
     }
 }

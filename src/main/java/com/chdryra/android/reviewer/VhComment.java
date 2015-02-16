@@ -11,20 +11,24 @@ package com.chdryra.android.reviewer;
 import com.chdryra.android.mygenerallibrary.ViewHolderData;
 
 /**
- * {@link com.chdryra.android.mygenerallibrary.ViewHolder}: {@link GvUrlList.GvUrl}. Shows
- * shortened URL.
+ * {@link com.chdryra.android.mygenerallibrary.ViewHolder}: {@link com.chdryra.android.reviewer
+ * .GvCommentList.GvComment}. Shows comment
+ * headline
  * <p>
- * A VHTextView with an appropriately defined GVDataStringGetter.
+ * A {@link VhText} with an appropriately defined {@link com.chdryra.android.mygenerallibrary
+ * .VHDataStringGetter}.
  * </p>
  */
-class VholderUrl extends VholderText {
-    public VholderUrl() {
+class VhComment extends VhText {
+
+    public VhComment() {
         super(new VHDataStringGetter() {
             @Override
             public String getString(ViewHolderData data) {
-                GvUrlList.GvUrl url = (GvUrlList.GvUrl) data;
-                return url != null ? url.toShortenedString() : null;
+                GvCommentList.GvComment comment = (GvCommentList.GvComment) data;
+                return comment != null ? comment.getCommentHeadline() : null;
             }
         });
+
     }
 }

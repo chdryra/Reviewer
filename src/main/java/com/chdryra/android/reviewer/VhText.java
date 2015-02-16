@@ -19,15 +19,15 @@ import com.chdryra.android.mygenerallibrary.VHString;
  * purposes.
  * </p>
  */
-class VholderText extends VHString {
+class VhText extends VHString {
     private static final int LAYOUT   = R.layout.grid_cell_text;
     private static final int TEXTVIEW = R.id.grid_cell_text_view;
 
-    public VholderText() {
+    public VhText() {
         super(LAYOUT, TEXTVIEW);
     }
 
-    VholderText(VHDataStringGetter getter) {
+    VhText(VHDataStringGetter getter) {
         super(LAYOUT, TEXTVIEW, getter);
     }
 

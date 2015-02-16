@@ -57,7 +57,7 @@ public class GvChildrenList extends GvDataList<GvChildrenList.GvChildReview> {
     /**
      * {@link GvDataList.GvData} version of: no equivalent as used
      * for review children (sub-reviews).
-     * {@link ViewHolder}: {@link VholderReviewSubjectRating}
+     * {@link ViewHolder}: {@link VhChild}
      */
     public static class GvChildReview implements GvDataList.GvData {
         public static final Parcelable.Creator<GvChildReview> CREATOR = new Parcelable
@@ -90,7 +90,7 @@ public class GvChildrenList extends GvDataList<GvChildrenList.GvChildReview> {
 
         @Override
         public ViewHolder newViewHolder() {
-            return new VholderReviewSubjectRating();
+            return new VhChild();
         }
 
         @Override
