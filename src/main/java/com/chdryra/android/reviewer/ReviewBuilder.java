@@ -17,6 +17,7 @@ import com.chdryra.android.mygenerallibrary.FileIncrementorFactory;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -29,29 +30,31 @@ import java.util.Map;
 
 /**
  * For building reviews. Collects appropriate data and builds a {@link Review} object when
- * user is ready using the {@link #publish(Author, java.util.Date)} method.
+ * user is ready using the {@link #publish(java.util.Date)} method.
  */
 public class ReviewBuilder implements GvAdapter {
-    private static final File FILE_DIR_EXT = Environment.getExternalStoragePublicDirectory
-            (Environment.DIRECTORY_DCIM);
+    private static final GvDataList.GvType[] TYPES        = {GvDataList.GvType.COMMENTS, GvDataList
+            .GvType.FACTS, GvDataList.GvType.LOCATIONS, GvDataList.GvType.IMAGES, GvDataList
+            .GvType.URLS, GvDataList.GvType.TAGS};
+    private static final File                FILE_DIR_EXT = Environment
+            .getExternalStoragePublicDirectory
+                    (Environment.DIRECTORY_DCIM);
 
     private FileIncrementor mIncrementor;
     private Context         mContext;
 
-    private ReviewId mId;
-    private String   mSubject;
-    private float    mRating;
+    private ReviewId                 mId;
+    private String                   mSubject;
+    private float                    mRating;
     private Map<GvDataList.GvType, GvDataList> mData;
     private ArrayList<ReviewBuilder> mChildren;
     private boolean mIsAverage = false;
+
 
     public ReviewBuilder(Context applicationContext) {
         mId = ReviewId.generateId();
         mChildren = new ArrayList<>();
         mContext = applicationContext;
-        String dir = mContext.getString(mContext.getApplicationInfo().labelRes);
-        mIncrementor = FileIncrementorFactory.newImageFileIncrementor(FILE_DIR_EXT, dir,
-                getSubject());
 
         mData = new HashMap<>();
         mData.put(GvDataList.GvType.COMMENTS, new GvCommentList());
@@ -60,6 +63,11 @@ public class ReviewBuilder implements GvAdapter {
         mData.put(GvDataList.GvType.LOCATIONS, new GvLocationList());
         mData.put(GvDataList.GvType.URLS, new GvUrlList());
         mData.put(GvDataList.GvType.TAGS, new GvTagList());
+
+        mSubject = "";
+        mRating = 0f;
+
+        newIncrementor();
     }
 
     @Override
@@ -74,11 +82,11 @@ public class ReviewBuilder implements GvAdapter {
 
     public void setSubject(String subject) {
         mSubject = subject;
+        newIncrementor();
     }
 
     @Override
     public float getRating() {
-
         return mRating;
     }
 
@@ -98,7 +106,8 @@ public class ReviewBuilder implements GvAdapter {
 
     @Override
     public boolean hasData(GvDataList.GvType dataType) {
-        return false;
+        GvDataList data = getData(dataType);
+        return data != null && data.size() > 0;
     }
 
     @Override
@@ -110,8 +119,8 @@ public class ReviewBuilder implements GvAdapter {
         }
     }
 
-    public Review publish(Author author, Date publishDate) {
-        Review root = FactoryReview.createReviewUser(author,
+    public Review publish(Date publishDate) {
+        Review root = FactoryReview.createReviewUser(getAuthor(),
                 publishDate, getSubject(), getRating(),
                 (GvCommentList) getData(GvDataList.GvType.COMMENTS),
                 (GvImageList) getData(GvDataList.GvType.IMAGES),
@@ -124,7 +133,7 @@ public class ReviewBuilder implements GvAdapter {
 
         RCollectionReview<Review> children = new RCollectionReview<>();
         for (ReviewBuilder child : mChildren) {
-            Review childReview = child.publish(author, publishDate);
+            Review childReview = child.publish(publishDate);
             TagsManager.tag(childReview, tags);
             children.add(childReview);
         }
@@ -154,9 +163,16 @@ public class ReviewBuilder implements GvAdapter {
         GvDataList.GvType dataType = data.getGvType();
         if (dataType == GvDataList.GvType.CHILDREN) {
             setChildren((GvChildrenList) data);
-        } else {
+        } else if (Arrays.asList(TYPES).contains(dataType)) {
             mData.put(dataType, data);
         }
+    }
+
+    private void newIncrementor() {
+        String dir = mContext.getString(mContext.getApplicationInfo().labelRes);
+        String filename = mSubject.length() > 0 ? mSubject : getAuthor().getName();
+        mIncrementor = FileIncrementorFactory.newImageFileIncrementor(FILE_DIR_EXT, dir,
+                filename);
     }
 
     private GvChildrenList getChildren() {

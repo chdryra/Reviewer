@@ -132,4 +132,14 @@ public class ReviewTree implements ReviewNode {
     public boolean hasLocations() {
         return mRoot.hasLocations();
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null || !(obj.getClass() == getClass() || obj.getClass() == mRoot.getClass())) {
+            return false;
+        }
+
+        ReviewNode objNode = (ReviewNode) obj;
+        return getId().equals(objNode.getId());
+    }
 }

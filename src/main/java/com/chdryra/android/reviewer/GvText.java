@@ -23,7 +23,7 @@ import com.chdryra.android.mygenerallibrary.VHDString;
  * Parcelable version of {@link com.chdryra.android.mygenerallibrary.VHDString} to comply with
  * {@link GvDataList.GvData}
  */
-class GvText extends VHDString implements GvDataList.GvData {
+public class GvText extends VHDString implements GvDataList.GvData {
     public static final Parcelable.Creator<GvText> CREATOR = new Parcelable
             .Creator<GvText>() {
         public GvText createFromParcel(Parcel in) {
