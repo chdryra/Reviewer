@@ -17,8 +17,8 @@ import com.chdryra.android.reviewer.MdLocationList;
 import com.chdryra.android.reviewer.MdUrlList;
 import com.chdryra.android.reviewer.Review;
 import com.chdryra.android.testutils.BitmapMocker;
-import com.chdryra.android.testutils.LatLngMocker;
-import com.chdryra.android.testutils.RandomStringGenerator;
+import com.chdryra.android.testutils.RandomLatLng;
+import com.chdryra.android.testutils.RandomString;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -30,9 +30,9 @@ import java.util.Random;
  * Email: rizwan.choudrey@gmail.com
  */
 public class MdDataMocker<T extends Review> {
-    private static final RandomStringGenerator STRING_GENERATOR = new RandomStringGenerator();
-    private static final String                URL              = "http://www.google.co.uk";
-    private static final Random                RAND             = new Random();
+    private static final RandomString STRING_GENERATOR = new RandomString();
+    private static final String       URL              = "http://www.google.co.uk";
+    private static final Random       RAND             = new Random();
     private static URL sUrl;
 
     private T mReview;
@@ -109,18 +109,18 @@ public class MdDataMocker<T extends Review> {
 
     public MdImageList.MdImage newImage() {
         return new MdImageList.MdImage(BitmapMocker.nextBitmap(RAND.nextBoolean()),
-                LatLngMocker.newLatLng(), RandomStringGenerator.nextSentence(),
+                RandomLatLng.nextLatLng(), RandomString.nextSentence(),
                 RAND.nextBoolean(), mReview);
     }
 
     public MdLocationList.MdLocation newLocation() {
-        return new MdLocationList.MdLocation(LatLngMocker.newLatLng(),
-                RandomStringGenerator.nextWord(), mReview);
+        return new MdLocationList.MdLocation(RandomLatLng.nextLatLng(),
+                RandomString.nextWord(), mReview);
     }
 
     public MdFactList.MdFact newFact() {
-        return new MdFactList.MdFact(RandomStringGenerator.nextWord(),
-                RandomStringGenerator.nextWord(),
+        return new MdFactList.MdFact(RandomString.nextWord(),
+                RandomString.nextWord(),
                 mReview);
     }
 

@@ -22,7 +22,7 @@ import java.util.Date;
  * <p/>
  * <p>
  * Although a ReviewTree is unchangeable it may still be wrapped by another
- * {@link ReviewTreeExpandable},
+ * {@link ReviewTreeNode},
  * thus acting as a fixed, published component of a new review tree with its own {@link ReviewId}.
  * </p>
  */
@@ -49,8 +49,8 @@ public class ReviewTree implements ReviewNode {
     }
 
     @Override
-    public void acceptVisitor(VisitorReviewNode visitorReviewNode) {
-        visitorReviewNode.visit(mRoot);
+    public void acceptVisitor(VisitorReviewNode visitor) {
+        visitor.visit(mRoot);
     }
 
     @Override

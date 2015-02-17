@@ -20,8 +20,8 @@ import com.chdryra.android.reviewer.GvChildrenList;
 import com.chdryra.android.reviewer.LayoutChildReview;
 import com.chdryra.android.reviewer.RatingFormatter;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
-import com.chdryra.android.reviewer.test.TestUtils.RatingMocker;
-import com.chdryra.android.testutils.RandomStringGenerator;
+import com.chdryra.android.reviewer.test.TestUtils.RandomRating;
+import com.chdryra.android.testutils.RandomString;
 
 /**
  * Created by: Rizwan Choudrey
@@ -70,8 +70,8 @@ public class LayoutChildReviewTest extends
         assertNotNull(subjectET);
         assertNotNull(ratingbar);
 
-        String subject = RandomStringGenerator.nextWord();
-        float rating = RatingMocker.nextRating();
+        String subject = RandomString.nextWord();
+        float rating = RandomRating.nextRating();
 
         subjectET.setText(subject);
         ratingbar.setRating(rating);

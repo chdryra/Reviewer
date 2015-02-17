@@ -27,8 +27,8 @@ import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
 import com.chdryra.android.reviewer.test.TestUtils.MdDataMocker;
 import com.chdryra.android.reviewer.test.TestUtils.ReviewMocker;
 import com.chdryra.android.testutils.BitmapMocker;
-import com.chdryra.android.testutils.LatLngMocker;
-import com.chdryra.android.testutils.RandomStringGenerator;
+import com.chdryra.android.testutils.RandomLatLng;
+import com.chdryra.android.testutils.RandomString;
 import com.google.android.gms.maps.model.LatLng;
 
 import junit.framework.TestCase;
@@ -48,7 +48,7 @@ public class DataValidatorTest extends TestCase {
     public void testValidateString() {
         assertFalse(DataValidator.validateString(null));
         assertFalse(DataValidator.validateString(""));
-        assertTrue(DataValidator.validateString(RandomStringGenerator.nextWord()));
+        assertTrue(DataValidator.validateString(RandomString.nextWord()));
     }
 
     @SmallTest
@@ -59,7 +59,7 @@ public class DataValidatorTest extends TestCase {
 
     @SmallTest
     public void testValidateComment() {
-        String comment = RandomStringGenerator.nextSentence();
+        String comment = RandomString.nextSentence();
 
         assertFalse(DataValidator.validate(new GvCommentList.GvComment()));
         assertFalse(DataValidator.validate(new GvCommentList.GvComment("")));
@@ -75,8 +75,8 @@ public class DataValidatorTest extends TestCase {
 
     @SmallTest
     public void testValidateFact() {
-        String label = RandomStringGenerator.nextWord();
-        String value = RandomStringGenerator.nextWord();
+        String label = RandomString.nextWord();
+        String value = RandomString.nextWord();
 
         assertFalse(DataValidator.validate(new GvFactList.GvFact()));
         assertFalse(DataValidator.validate(new GvFactList.GvFact("", null)));
@@ -100,8 +100,8 @@ public class DataValidatorTest extends TestCase {
     @SmallTest
     public void testValidateImage() {
         Bitmap b = BitmapMocker.nextBitmap(false);
-        String caption = RandomStringGenerator.nextSentence();
-        LatLng latLng = LatLngMocker.newLatLng();
+        String caption = RandomString.nextSentence();
+        LatLng latLng = RandomLatLng.nextLatLng();
 
         assertFalse(DataValidator.validate(new GvImageList.GvImage()));
         assertFalse(DataValidator.validate(new GvImageList.GvImage(null, null, null, true)));
@@ -148,8 +148,8 @@ public class DataValidatorTest extends TestCase {
 
     @SmallTest
     public void testValidateLocation() {
-        LatLng latLng = LatLngMocker.newLatLng();
-        String name = RandomStringGenerator.nextWord();
+        LatLng latLng = RandomLatLng.nextLatLng();
+        String name = RandomString.nextWord();
 
         assertFalse(DataValidator.validate(new GvLocationList.GvLocation()));
         assertFalse(DataValidator.validate(new GvLocationList.GvLocation(latLng, null)));

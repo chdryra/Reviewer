@@ -35,7 +35,7 @@ import java.util.Date;
  * <p/>
  * Reviews may or may not be published (have non-null Author and Publish Date). Published reviews
  * should not be editable reviews or expandable nodes themselves. They may, however, be passed to a
- * {@link com.chdryra.android.reviewer.ReviewTreeExpandable} as the root review for a different
+ * {@link ReviewTreeNode} as the root review for a different
  * review structure that may be expanded.
  *
  * @see ReviewNode

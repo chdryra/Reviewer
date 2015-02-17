@@ -18,7 +18,7 @@ import com.chdryra.android.reviewer.ConfigGvDataAddEdit;
 import com.chdryra.android.reviewer.GvTagList;
 import com.chdryra.android.reviewer.LayoutTag;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
-import com.chdryra.android.testutils.RandomStringGenerator;
+import com.chdryra.android.testutils.RandomString;
 
 /**
  * Created by: Rizwan Choudrey
@@ -60,7 +60,7 @@ public class LayoutTagTest extends ActivityInstrumentationTestCase2<ActivityFeed
         EditText tagET = (EditText) v.findViewById(LayoutTag.TAG);
         assertNotNull(tagET);
 
-        String tag = RandomStringGenerator.nextWord();
+        String tag = RandomString.nextWord();
 
         tagET.setText(tag);
 

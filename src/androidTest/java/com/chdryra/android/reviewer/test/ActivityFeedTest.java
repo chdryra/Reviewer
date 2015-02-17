@@ -18,8 +18,8 @@ import com.chdryra.android.reviewer.GvDataList;
 import com.chdryra.android.reviewer.GvReviewList;
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.ReviewBuilder;
-import com.chdryra.android.reviewer.test.TestUtils.RatingMocker;
-import com.chdryra.android.testutils.RandomStringGenerator;
+import com.chdryra.android.reviewer.test.TestUtils.RandomRating;
+import com.chdryra.android.testutils.RandomString;
 
 import java.util.ArrayList;
 
@@ -73,8 +73,8 @@ public class ActivityFeedTest extends ActivityViewReviewTest {
     protected GvAdapter getAdapter() {
         ReviewBuilder builder = mAdmin.createNewReviewInProgress();
 
-        builder.setRating(RatingMocker.nextRating());
-        builder.setSubject(RandomStringGenerator.nextWord());
+        builder.setRating(RandomRating.nextRating());
+        builder.setSubject(RandomString.nextWord());
 
         return builder;
     }

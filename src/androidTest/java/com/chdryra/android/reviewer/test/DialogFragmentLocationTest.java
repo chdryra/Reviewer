@@ -24,7 +24,7 @@ import com.chdryra.android.reviewer.ActivityFeed;
 import com.chdryra.android.reviewer.DialogFragmentLocation;
 import com.chdryra.android.reviewer.GvLocationList;
 import com.chdryra.android.reviewer.LauncherUi;
-import com.chdryra.android.testutils.RandomStringGenerator;
+import com.chdryra.android.testutils.RandomString;
 import com.google.android.gms.maps.model.LatLng;
 import com.robotium.solo.Solo;
 
@@ -182,7 +182,7 @@ public class DialogFragmentLocationTest extends ActivityInstrumentationTestCase2
         assertFalse(mListener.locationChosen());
         assertNull(mListener.getLocation());
 
-        final String name = RandomStringGenerator.nextWord();
+        final String name = RandomString.nextWord();
         mSolo.enterText(mSolo.getEditText(0), name);
         assertTrue(mSolo.searchText(name));
 
@@ -217,7 +217,7 @@ public class DialogFragmentLocationTest extends ActivityInstrumentationTestCase2
         assertNull(mListener.getLocation());
 
         if (cancelButton && editName) {
-            final String name = RandomStringGenerator.nextWord();
+            final String name = RandomString.nextWord();
             mSolo.enterText(mSolo.getEditText(0), name);
             assertTrue(mSolo.searchText(name));
         }

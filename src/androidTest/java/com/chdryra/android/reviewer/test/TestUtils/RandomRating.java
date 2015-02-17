@@ -15,7 +15,7 @@ import java.util.Random;
  * On: 19/12/2014
  * Email: rizwan.choudrey@gmail.com
  */
-public class RatingMocker {
+public class RandomRating {
     private static final Random RAND = new Random();
 
     public static float nextRating() {

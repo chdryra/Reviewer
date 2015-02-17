@@ -11,37 +11,32 @@ package com.chdryra.android.reviewer;
 import java.util.Date;
 
 /**
- * Primary implementation of {@link ReviewTreeExpandable}.
- * <p/>
- * <p>
- * Creates a new unique {@link ReviewId} so represents a new review structure even though it
- * wraps an
- * existing review. Generally used for reviews that only make sense when considering the tree
- * as a whole, for example reviews with rated sub-criteria, meta-reviews etc.
+ * Creates a new unique {@link ReviewId} if required so can represent a new review structure even
+ * though it wraps an existing review.
  * </p>
  * <p/>
  * <p>
  * Wraps a {@link Review} object in a node structure with potential children and a parent.
  * Note: this is not necessarily the same node internal to the wrapped {@link Review} and
- * returned by
- * its {@link Review#getReviewNode()} method. A Review may decide to represent
+ * returned by its {@link Review#getReviewNode()} method. A Review may decide to represent
  * itself with its own internal tree structure which will share the same {@link ReviewId} as the
  * review.
  * </p>
  */
-class ReviewTreeExpandable implements ReviewNode {
+public class ReviewTreeNode implements ReviewNode {
     private final ReviewId mId;
 
     private final Review                        mReview;
     private final RCollectionReview<ReviewNode> mChildren;
-    private       ReviewTreeExpandable          mParent;
+    private ReviewTreeNode mParent;
 
     private boolean mRatingIsAverage = false;
 
-    ReviewTreeExpandable(Review root, boolean ratingIsAverage, boolean uniqueId) {
+    public ReviewTreeNode(Review root, boolean ratingIsAverage, boolean uniqueId) {
         mId = uniqueId ? ReviewId.generateId() : root.getId();
         mReview = root;
         mChildren = new RCollectionReview<>();
+        mParent = null;
         mRatingIsAverage = ratingIsAverage;
     }
 
@@ -56,7 +51,7 @@ class ReviewTreeExpandable implements ReviewNode {
         return mParent;
     }
 
-    public void setParent(ReviewTreeExpandable parentNode) {
+    public void setParent(ReviewTreeNode parentNode) {
         if (mParent != null && parentNode != null && mParent.getId().equals(parentNode.getId())) {
             return;
         }
@@ -77,11 +72,11 @@ class ReviewTreeExpandable implements ReviewNode {
     }
 
     @Override
-    public void acceptVisitor(VisitorReviewNode visitorReviewNode) {
-        visitorReviewNode.visit(this);
+    public void acceptVisitor(VisitorReviewNode visitor) {
+        visitor.visit(this);
     }
 
-    public void addChild(ReviewTreeExpandable childNode) {
+    public void addChild(ReviewTreeNode childNode) {
         if (mChildren.containsId(childNode.getId())) {
             return;
         }
@@ -89,7 +84,7 @@ class ReviewTreeExpandable implements ReviewNode {
         childNode.setParent(this);
     }
 
-    public void removeChild(ReviewTreeExpandable childNode) {
+    public void removeChild(ReviewTreeNode childNode) {
         if (!mChildren.containsId(childNode.getId())) {
             return;
         }
@@ -193,7 +188,7 @@ class ReviewTreeExpandable implements ReviewNode {
             return false;
         }
 
-        ReviewTreeExpandable objNode = (ReviewTreeExpandable) obj;
+        ReviewTreeNode objNode = (ReviewTreeNode) obj;
         return mId.equals(objNode.mId);
     }
 

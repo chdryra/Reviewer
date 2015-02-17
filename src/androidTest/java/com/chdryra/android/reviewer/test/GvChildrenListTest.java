@@ -13,7 +13,7 @@ import android.test.suitebuilder.annotation.SmallTest;
 import com.chdryra.android.reviewer.GvChildrenList;
 import com.chdryra.android.reviewer.GvDataList;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
-import com.chdryra.android.reviewer.test.TestUtils.RatingMocker;
+import com.chdryra.android.reviewer.test.TestUtils.RandomRating;
 
 import junit.framework.TestCase;
 
@@ -58,7 +58,7 @@ public class GvChildrenListTest extends TestCase {
         for (int i = 0; i < NUM; ++i) {
             int item = rand.nextInt(9);
             String subject = mList.getItem(item).getSubject();
-            float rating = RatingMocker.nextRating();
+            float rating = RandomRating.nextRating();
             mList.add(new GvChildrenList.GvChildReview(subject, rating));
         }
 

@@ -11,7 +11,7 @@ package com.chdryra.android.reviewer.test;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.CommentFormatter;
-import com.chdryra.android.testutils.RandomStringGenerator;
+import com.chdryra.android.testutils.RandomString;
 
 import junit.framework.TestCase;
 
@@ -24,7 +24,7 @@ import java.util.ArrayList;
  */
 public class CommentFormatterTest extends TestCase {
     private static int COMMENTS = 100;
-    private RandomStringGenerator mGenerator;
+    private RandomString mGenerator;
 
     @SmallTest
     public void testGetHeadline() {
@@ -60,6 +60,6 @@ public class CommentFormatterTest extends TestCase {
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        mGenerator = new RandomStringGenerator();
+        mGenerator = new RandomString();
     }
 }

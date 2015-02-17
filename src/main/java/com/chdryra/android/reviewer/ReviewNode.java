@@ -24,5 +24,5 @@ public interface ReviewNode extends Review {
 
     public RCollectionReview<ReviewNode> getChildren();
 
-    public void acceptVisitor(VisitorReviewNode visitorReviewNode);
+    public void acceptVisitor(VisitorReviewNode visitor);
 }

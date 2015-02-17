@@ -18,7 +18,7 @@ import com.chdryra.android.reviewer.ConfigGvDataAddEdit;
 import com.chdryra.android.reviewer.GvCommentList;
 import com.chdryra.android.reviewer.LayoutComment;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
-import com.chdryra.android.testutils.RandomStringGenerator;
+import com.chdryra.android.testutils.RandomString;
 
 /**
  * Created by: Rizwan Choudrey
@@ -60,7 +60,7 @@ public class LayoutCommentTest extends ActivityInstrumentationTestCase2<Activity
         EditText commentET = (EditText) v.findViewById(LayoutComment.COMMENT);
         assertNotNull(commentET);
 
-        String comment = RandomStringGenerator.nextSentence();
+        String comment = RandomString.nextSentence();
 
         commentET.setText(comment);
 

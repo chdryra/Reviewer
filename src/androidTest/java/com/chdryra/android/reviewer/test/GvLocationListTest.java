@@ -14,8 +14,8 @@ import com.chdryra.android.reviewer.GvDataList;
 import com.chdryra.android.reviewer.GvLocationList;
 import com.chdryra.android.reviewer.MdLocationList;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
-import com.chdryra.android.testutils.LatLngMocker;
-import com.chdryra.android.testutils.RandomStringGenerator;
+import com.chdryra.android.testutils.RandomLatLng;
+import com.chdryra.android.testutils.RandomString;
 import com.google.android.gms.maps.model.LatLng;
 
 import junit.framework.TestCase;
@@ -80,16 +80,16 @@ public class GvLocationListTest extends TestCase {
     @SmallTest
     public void testGvLocationGetShortenedName() {
         String delimiters = MdLocationList.MdLocation.LOCATION_DELIMITER;
-        String firstBit = RandomStringGenerator.nextWord();
+        String firstBit = RandomString.nextWord();
         String name = firstBit;
         Random rand = new Random();
         for (int i = 0; i < 5; ++i) {
             int d = rand.nextInt(delimiters.length());
             char delimiter = delimiters.toCharArray()[d];
-            name = name + delimiter + RandomStringGenerator.nextWord();
+            name = name + delimiter + RandomString.nextWord();
         }
 
-        LatLng latLng = LatLngMocker.newLatLng();
+        LatLng latLng = RandomLatLng.nextLatLng();
         GvLocationList.GvLocation location = new GvLocationList.GvLocation(latLng, name);
         String shortened = location.getShortenedName();
         assertEquals(firstBit, shortened);
@@ -119,7 +119,7 @@ public class GvLocationListTest extends TestCase {
         list.add(mList);
         assertFalse(mList.equals(list));
     }
-    
+
     @Override
     protected void setUp() throws Exception {
         super.setUp();

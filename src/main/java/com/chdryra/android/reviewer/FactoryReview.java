@@ -72,9 +72,9 @@ public class FactoryReview {
     private ReviewNode newReviewTree(Review root, RCollectionReview<Review> children,
             boolean isAverage) {
 
-        ReviewTreeExpandable parentNode = new ReviewTreeExpandable(root, isAverage, false);
+        ReviewTreeNode parentNode = new ReviewTreeNode(root, isAverage, false);
         for (Review child : children) {
-            parentNode.addChild(new ReviewTreeExpandable(child, false, false));
+            parentNode.addChild(new ReviewTreeNode(child, false, false));
         }
 
         return parentNode.createTree();

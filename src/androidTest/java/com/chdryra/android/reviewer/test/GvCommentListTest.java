@@ -13,7 +13,7 @@ import android.test.suitebuilder.annotation.SmallTest;
 import com.chdryra.android.reviewer.GvCommentList;
 import com.chdryra.android.reviewer.GvDataList;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
-import com.chdryra.android.testutils.RandomStringGenerator;
+import com.chdryra.android.testutils.RandomString;
 
 import junit.framework.TestCase;
 
@@ -59,7 +59,7 @@ public class GvCommentListTest extends TestCase {
 
     @SmallTest
     public void testSplitUnsplitHeadlineComments() {
-        RandomStringGenerator generator = new RandomStringGenerator();
+        RandomString generator = new RandomString();
         String paragraph = generator.nextParagraph();
         String[] sentences = generator.getSentencesForParagraph();
         assertTrue(sentences.length > 0);
@@ -143,7 +143,7 @@ public class GvCommentListTest extends TestCase {
         list.add(mList);
         assertFalse(mList.equals(list));
     }
-    
+
     @Override
     protected void setUp() throws Exception {
         super.setUp();

@@ -8,7 +8,6 @@
 
 package com.chdryra.android.reviewer;
 
-import java.util.ArrayList;
 import java.util.Date;
 /**
  * Created by: Rizwan Choudrey
@@ -32,14 +31,10 @@ import java.util.Date;
  * @param <T>: the {@link Review} type being accessed
  */
 public class ReviewAdapter<T extends Review> implements GvAdapter {
-    private final ArrayList<String> mTagsList = new ArrayList<>();
     private final T mReview;
 
     public ReviewAdapter(T review) {
         mReview = review;
-        for (TagsManager.ReviewTag tag : TagsManager.getTags(review)) {
-            mTagsList.add(tag.get());
-        }
     }
 
     @Override
@@ -82,7 +77,7 @@ public class ReviewAdapter<T extends Review> implements GvAdapter {
         } else if (dataType == GvDataList.GvType.CHILDREN) {
             return mReview.getReviewNode().getChildren().size() > 0;
         } else {
-            return dataType == GvDataList.GvType.TAGS && mTagsList.size() > 0;
+            return dataType == GvDataList.GvType.TAGS && TagsManager.getTags(mReview).size() > 0;
         }
     }
 
@@ -121,8 +116,8 @@ public class ReviewAdapter<T extends Review> implements GvAdapter {
 
     private GvTagList getTags() {
         GvTagList gvTags = new GvTagList();
-        for (String tag : mTagsList) {
-            gvTags.add(new GvTagList.GvTag(tag));
+        for (TagsManager.ReviewTag tag : TagsManager.getTags(mReview)) {
+            gvTags.add(new GvTagList.GvTag(tag.get()));
         }
 
         return gvTags;

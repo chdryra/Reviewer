@@ -13,7 +13,7 @@ import android.test.suitebuilder.annotation.SmallTest;
 import com.chdryra.android.reviewer.RCollection;
 import com.chdryra.android.reviewer.ReviewId;
 import com.chdryra.android.testutils.ExceptionTester;
-import com.chdryra.android.testutils.RandomStringGenerator;
+import com.chdryra.android.testutils.RandomString;
 
 import junit.framework.TestCase;
 
@@ -37,7 +37,7 @@ public class RCollectionTest extends TestCase {
         assertEquals(0, mCollection.size());
         String[] data = new String[NUM];
         for (int i = 0; i < NUM; ++i) {
-            data[i] = RandomStringGenerator.nextWord();
+            data[i] = RandomString.nextWord();
             mCollection.put(ReviewId.generateId(), data[i]);
             assertEquals(i + 1, mCollection.size());
         }
@@ -52,11 +52,11 @@ public class RCollectionTest extends TestCase {
         ReviewId id = ReviewId.generateId();
 
         for (int i = 0; i < NUM; ++i) {
-            mCollection.put(ReviewId.generateId(), RandomStringGenerator.nextWord());
+            mCollection.put(ReviewId.generateId(), RandomString.nextWord());
             assertFalse(mCollection.containsId(id));
         }
 
-        mCollection.put(id, RandomStringGenerator.nextWord());
+        mCollection.put(id, RandomString.nextWord());
         assertTrue(mCollection.containsId(id));
     }
 
@@ -66,7 +66,7 @@ public class RCollectionTest extends TestCase {
         RCollection<String> collection = new RCollection<>();
         String[] data = new String[NUM];
         for (int i = 0; i < NUM; ++i) {
-            data[i] = RandomStringGenerator.nextWord();
+            data[i] = RandomString.nextWord();
             collection.put(ReviewId.generateId(), data[i]);
         }
 
@@ -86,7 +86,7 @@ public class RCollectionTest extends TestCase {
         String[] data = new String[NUM];
         for (int i = 0; i < NUM; ++i) {
             ids[i] = ReviewId.generateId();
-            data[i] = RandomStringGenerator.nextWord();
+            data[i] = RandomString.nextWord();
             mCollection.put(ids[i], data[i]);
         }
 
@@ -114,7 +114,7 @@ public class RCollectionTest extends TestCase {
         String[] data = new String[NUM];
         for (int i = 0; i < NUM; ++i) {
             ids[i] = ReviewId.generateId();
-            data[i] = RandomStringGenerator.nextWord();
+            data[i] = RandomString.nextWord();
             mCollection.put(ids[i], data[i]);
         }
 

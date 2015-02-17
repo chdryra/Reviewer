@@ -13,8 +13,9 @@ import com.chdryra.android.reviewer.FactoryReview;
 import com.chdryra.android.reviewer.RCollectionReview;
 import com.chdryra.android.reviewer.Review;
 import com.chdryra.android.reviewer.ReviewNode;
+import com.chdryra.android.reviewer.ReviewTreeNode;
 import com.chdryra.android.reviewer.ReviewUser;
-import com.chdryra.android.testutils.RandomStringGenerator;
+import com.chdryra.android.testutils.RandomString;
 
 import java.util.Date;
 
@@ -24,20 +25,34 @@ import java.util.Date;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ReviewMocker {
-    private static final int NUM = 5;
+    private static final int NUM = 3;
 
     private ReviewMocker() {
     }
 
     public static Review newReview() {
-        return getNew();
+        return getNewReview();
     }
 
     public static ReviewNode newReviewNode() {
-        return getNew().getReviewNode();
+        return getNewNode();
     }
 
-    private static Review getNew() {
+    private static ReviewNode getNewNode() {
+        Review root = new MockReview();
+        Review parent = new MockReview();
+        ReviewTreeNode rootNode = new ReviewTreeNode(root, false, false);
+        ReviewTreeNode parentNode = new ReviewTreeNode(parent, false, false);
+        rootNode.setParent(parentNode);
+
+        for (int i = 0; i < NUM; ++i) {
+            rootNode.addChild(new ReviewTreeNode(new MockReview(), false, false));
+        }
+
+        return rootNode;
+    }
+
+    private static Review getNewReview() {
         Review root = new MockReview();
         RCollectionReview<Review> children = new RCollectionReview<>();
         for (int i = 0; i < NUM; ++i) {
@@ -49,8 +64,8 @@ public class ReviewMocker {
 
     static class MockReview extends ReviewUser {
         private MockReview() {
-            super(Author.NULL_AUTHOR, new Date(), RandomStringGenerator.nextWord(),
-                    RatingMocker.nextRating(), GvDataMocker.newCommentList(NUM),
+            super(Author.NULL_AUTHOR, new Date(), RandomString.nextWord(),
+                    RandomRating.nextRating(), GvDataMocker.newCommentList(NUM),
                     GvDataMocker.newImageList(NUM), GvDataMocker.newFactList(NUM),
                     GvDataMocker.newLocationList(NUM), GvDataMocker.newUrlList(NUM));
         }

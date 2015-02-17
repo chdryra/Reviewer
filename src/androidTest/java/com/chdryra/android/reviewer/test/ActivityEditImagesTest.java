@@ -14,7 +14,7 @@ import android.view.KeyEvent;
 import com.chdryra.android.reviewer.Administrator;
 import com.chdryra.android.reviewer.GvDataList;
 import com.chdryra.android.reviewer.GvImageList;
-import com.chdryra.android.testutils.RandomStringGenerator;
+import com.chdryra.android.testutils.RandomString;
 
 /**
  * Created by: Rizwan Choudrey
@@ -71,7 +71,7 @@ public class ActivityEditImagesTest extends ActivityEditScreenTest {
     protected GvDataList.GvData newEditDatum(GvDataList.GvData current) {
         GvImageList.GvImage oldDatum = (GvImageList.GvImage) current;
         return new GvImageList.GvImage(oldDatum.getBitmap(),
-                oldDatum.getLatLng(), RandomStringGenerator.nextSentence(), oldDatum.isCover());
+                oldDatum.getLatLng(), RandomString.nextSentence(), oldDatum.isCover());
     }
 }
 

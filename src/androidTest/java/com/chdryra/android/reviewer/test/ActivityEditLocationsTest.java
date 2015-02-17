@@ -17,7 +17,7 @@ import com.chdryra.android.reviewer.ActivityViewReview;
 import com.chdryra.android.reviewer.GvDataList;
 import com.chdryra.android.reviewer.GvLocationList;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
-import com.chdryra.android.testutils.RandomStringGenerator;
+import com.chdryra.android.testutils.RandomString;
 import com.google.android.gms.maps.model.LatLng;
 
 /**
@@ -73,7 +73,7 @@ public class ActivityEditLocationsTest extends ActivityEditScreenTest {
     @Override
     protected GvDataList.GvData newEditDatum(GvDataList.GvData oldDatum) {
         GvLocationList.GvLocation location = (GvLocationList.GvLocation) oldDatum;
-        return new GvLocationList.GvLocation(location.getLatLng(), RandomStringGenerator.nextWord
+        return new GvLocationList.GvLocation(location.getLatLng(), RandomString.nextWord
                 ());
     }
 

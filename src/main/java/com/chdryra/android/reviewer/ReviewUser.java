@@ -15,6 +15,11 @@ import java.util.Date;
  * On: 13/02/2015
  * Email: rizwan.choudrey@gmail.com
  */
+
+/**
+ * The fundamental {@link com.chdryra.android.reviewer.Review} implementation that holds the
+ * review data. The review in leaf nodes in a tree.
+ */
 public class ReviewUser implements Review {
     private final ReviewNode mNode;
 

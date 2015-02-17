@@ -18,7 +18,7 @@ import com.chdryra.android.reviewer.ConfigGvDataAddEdit;
 import com.chdryra.android.reviewer.GvFactList;
 import com.chdryra.android.reviewer.LayoutFact;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
-import com.chdryra.android.testutils.RandomStringGenerator;
+import com.chdryra.android.testutils.RandomString;
 
 /**
  * Created by: Rizwan Choudrey
@@ -64,8 +64,8 @@ public class LayoutFactTest extends ActivityInstrumentationTestCase2<ActivityFee
         assertNotNull(labelET);
         assertNotNull(valueET);
 
-        String label = RandomStringGenerator.nextWord();
-        String value = RandomStringGenerator.nextWord();
+        String label = RandomString.nextWord();
+        String value = RandomString.nextWord();
 
         labelET.setText(label);
         valueET.setText(value);

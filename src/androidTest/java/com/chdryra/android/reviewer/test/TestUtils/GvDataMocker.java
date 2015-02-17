@@ -20,8 +20,8 @@ import com.chdryra.android.reviewer.GvTagList;
 import com.chdryra.android.reviewer.GvUrlList;
 import com.chdryra.android.reviewer.ReviewId;
 import com.chdryra.android.testutils.BitmapMocker;
-import com.chdryra.android.testutils.LatLngMocker;
-import com.chdryra.android.testutils.RandomStringGenerator;
+import com.chdryra.android.testutils.RandomLatLng;
+import com.chdryra.android.testutils.RandomString;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -40,8 +40,8 @@ public class GvDataMocker {
                     .GvType.FACTS, GvDataList.GvType.TAGS, GvDataList.GvType.LOCATIONS,
             GvDataList.GvType.URLS, GvDataList.GvType.CHILDREN, GvDataList.GvType.IMAGES,
             GvDataList.GvType.FEED};
-    private static final RandomStringGenerator STRING_GENERATOR = new RandomStringGenerator();
-    private static final Random                RAND             = new Random();
+    private static final RandomString STRING_GENERATOR = new RandomString();
+    private static final Random       RAND             = new Random();
 
     //Just a convenient method even if it uses GvType.....
     public static GvDataList getData(GvDataList.GvType dataType, int size) {
@@ -167,23 +167,23 @@ public class GvDataMocker {
 
     public static GvImageList.GvImage newImage() {
         return new GvImageList.GvImage(BitmapMocker.nextBitmap(RAND.nextBoolean()),
-                LatLngMocker.newLatLng(), RandomStringGenerator.nextSentence(),
+                RandomLatLng.nextLatLng(), RandomString.nextSentence(),
                 RAND.nextBoolean());
     }
 
     public static GvLocationList.GvLocation newLocation() {
-        return new GvLocationList.GvLocation(LatLngMocker.newLatLng(),
-                RandomStringGenerator.nextWord());
+        return new GvLocationList.GvLocation(RandomLatLng.nextLatLng(),
+                RandomString.nextWord());
     }
 
     public static GvFactList.GvFact newFact() {
-        return new GvFactList.GvFact(RandomStringGenerator.nextWord(),
-                RandomStringGenerator.nextWord());
+        return new GvFactList.GvFact(RandomString.nextWord(),
+                RandomString.nextWord());
     }
 
     public static GvUrlList.GvUrl newUrl() {
         try {
-            URL url = new URL("http://www." + RandomStringGenerator.nextWord() + ".co.uk");
+            URL url = new URL("http://www." + RandomString.nextWord() + ".co.uk");
             return new GvUrlList.GvUrl(url);
         } catch (MalformedURLException e) {
             e.printStackTrace();
@@ -192,12 +192,12 @@ public class GvDataMocker {
     }
 
     public static GvChildrenList.GvChildReview newChild() {
-        return new GvChildrenList.GvChildReview(RandomStringGenerator.nextWord(),
-                RatingMocker.nextRating());
+        return new GvChildrenList.GvChildReview(RandomString.nextWord(),
+                RandomRating.nextRating());
     }
 
     public static GvTagList.GvTag newTag() {
-        return new GvTagList.GvTag(RandomStringGenerator.nextWord());
+        return new GvTagList.GvTag(RandomString.nextWord());
     }
 
     public static GvReviewList.GvReviewOverview newReviewOverview() {
@@ -207,14 +207,14 @@ public class GvDataMocker {
         c.add(Calendar.DATE, RAND.nextInt(365));
         Date date = c.getTime();
         return new GvReviewList.GvReviewOverview(ReviewId.generateId().toString(),
-                RandomStringGenerator.nextWord(), date,
-                RandomStringGenerator.nextWord(), RAND.nextFloat() * 5,
-                BitmapMocker.nextBitmap(RAND.nextBoolean()), RandomStringGenerator.nextSentence()
-                , RandomStringGenerator.nextWord());
+                RandomString.nextWord(), date,
+                RandomString.nextWord(), RAND.nextFloat() * 5,
+                BitmapMocker.nextBitmap(RAND.nextBoolean()), RandomString.nextSentence()
+                , RandomString.nextWord());
     }
 
     public static GvSocialPlatformList.GvSocialPlatform newSocialPlatform() {
-        return new GvSocialPlatformList.GvSocialPlatform(RandomStringGenerator.nextWord(),
+        return new GvSocialPlatformList.GvSocialPlatform(RandomString.nextWord(),
                 RAND.nextInt(100) ^ 2);
     }
 }
