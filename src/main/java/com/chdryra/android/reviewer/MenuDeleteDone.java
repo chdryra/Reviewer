@@ -129,11 +129,11 @@ public class MenuDeleteDone extends ViewReviewAction.MenuAction {
     private void doDoneSelected() {
         ViewReview view = getViewReview();
         GvDataList data = getData();
-        ReviewBuilder controller = getBuilder();
+        ReviewBuilder builder = getBuilder();
 
-        if (data != null) controller.setData(data);
-        controller.setSubject(view.getSubject());
-        controller.setRating(view.getRating());
+        if (data != null) builder.setData(data);
+        builder.setSubject(view.getSubject());
+        builder.setRating(view.getRating());
     }
 
     private void showDeleteConfirmDialog() {

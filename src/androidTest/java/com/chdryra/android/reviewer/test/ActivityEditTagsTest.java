@@ -8,8 +8,6 @@
 
 package com.chdryra.android.reviewer.test;
 
-import android.test.suitebuilder.annotation.SmallTest;
-
 import com.chdryra.android.reviewer.GvDataList;
 
 /**
@@ -23,9 +21,9 @@ public class ActivityEditTagsTest extends ActivityEditScreenTest {
         super(GvDataList.GvType.TAGS);
     }
 
-    @SmallTest
-    public void testForDebugging() {
-        super.testActivityLaunches();
+//    @SmallTest
+//   public void testForDebugging() {
+//        super.testActivityLaunches();
 //        super.testSubjectRatingChange();
 //        super.testBannerButtonAddDone();
 //        super.testBannerButtonAddCancel();
@@ -36,5 +34,5 @@ public class ActivityEditTagsTest extends ActivityEditScreenTest {
 //        super.testMenuDeleteConfirm();
 //        super.testMenuDeleteCancel();
 //        super.testMenuUpCancels();
-    }
+//    }
 }

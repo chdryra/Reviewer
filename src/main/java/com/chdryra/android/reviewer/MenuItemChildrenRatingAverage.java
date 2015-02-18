@@ -17,42 +17,35 @@ import android.view.MenuItem;
  */
 public class MenuItemChildrenRatingAverage extends ViewReviewAction.MenuAction.MenuActionItem {
     private ViewReviewAction.MenuAction mAction;
-    private boolean                     mFromController;
+    private boolean                     mUseBuilder;
     private ReviewBuilder               mBuilder;
 
-    public MenuItemChildrenRatingAverage(ViewReviewAction.MenuAction action,
-            boolean fromController) {
+    public MenuItemChildrenRatingAverage(ViewReviewAction.MenuAction action, boolean useBuilder) {
         mAction = action;
-        mFromController = fromController;
-        if (!mFromController && action.getDataType() != GvDataList.GvType.CHILDREN) {
+        mUseBuilder = useBuilder;
+        if (!mUseBuilder && action.getDataType() != GvDataList.GvType.CHILDREN) {
             throw new RuntimeException("Action data should be GvChildrenList");
         }
 
         try {
             mBuilder = (ReviewBuilder) mAction.getAdapter();
         } catch (ClassCastException e) {
-            throw new RuntimeException("Controller should be ControllerReviewBuilder");
+            throw new RuntimeException("Adapter should be ReviewBuilder");
         }
     }
 
     public void setAverageRating() {
-        float rating = 0;
-        GvChildrenList children;
-        if (mFromController) {
-            children = (GvChildrenList) mBuilder.getData(GvDataList.GvType.CHILDREN);
-        } else {
-            children = (GvChildrenList) mAction.getData();
-        }
+        GvChildrenList children = mUseBuilder ?
+                (GvChildrenList) mBuilder.getData(GvDataList.GvType.CHILDREN)
+                : (GvChildrenList) mAction.getData();
 
-        int numChildren = children.size();
+        float rating = 0;
         for (GvChildrenList.GvChildReview child : children) {
-            rating += child.getRating();
-        }
-        if (numChildren > 0) {
-            rating /= numChildren;
+            rating += child.getRating() / children.size();
         }
 
         mAction.getViewReview().setRating(rating);
+        //if(mUseBuilder) mBuilder.setRating(rating);
     }
 
     @Override

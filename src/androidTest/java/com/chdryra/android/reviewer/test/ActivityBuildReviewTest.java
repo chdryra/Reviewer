@@ -23,7 +23,6 @@ import com.chdryra.android.reviewer.Administrator;
 import com.chdryra.android.reviewer.CommentFormatter;
 import com.chdryra.android.reviewer.ConfigGvDataUi;
 import com.chdryra.android.reviewer.FragmentViewReview;
-import com.chdryra.android.reviewer.GvAdapter;
 import com.chdryra.android.reviewer.GvBuildReviewList;
 import com.chdryra.android.reviewer.GvChildrenList;
 import com.chdryra.android.reviewer.GvCommentList;
@@ -66,7 +65,7 @@ public class ActivityBuildReviewTest extends ActivityViewReviewTest {
         GvChildrenList.GvChildReview child = editSubjectRating();
 
         checkFragmentSubjectRating(child.getSubject(), child.getRating());
-        checkControllerSubjectRating(child.getSubject(), child.getRating());
+        checkAdapterSubjectRating(child.getSubject(), child.getRating());
     }
 
     @SmallTest
@@ -203,11 +202,12 @@ public class ActivityBuildReviewTest extends ActivityViewReviewTest {
     public void testMenuAverage() {
         GvChildrenList.GvChildReview child = editSubjectRating();
         checkFragmentSubjectRating(child.getSubject(), child.getRating());
-        checkControllerSubjectRating(child.getSubject(), child.getRating());
+        checkAdapterSubjectRating(child.getSubject(), child.getRating());
         assertFalse(getBuilder().isRatingAverage());
 
         mSolo.clickOnActionBarItem(AVERAGE);
-        checkControllerSubjectRating(child.getSubject(), 0);
+
+        checkAdapterSubjectRating(child.getSubject(), 0);
         checkFragmentSubjectRating(child.getSubject(), 0);
         assertTrue(getBuilder().isRatingAverage());
 
@@ -224,7 +224,7 @@ public class ActivityBuildReviewTest extends ActivityViewReviewTest {
 
         mSolo.clickOnActionBarItem(AVERAGE);
         checkFragmentSubjectRating(child.getSubject(), getAverageRating(true));
-        checkControllerSubjectRating(child.getSubject(), getAverageRating(false));
+        checkAdapterSubjectRating(child.getSubject(), getAverageRating(false));
         assertTrue(getBuilder().isRatingAverage());
     }
 
@@ -234,14 +234,14 @@ public class ActivityBuildReviewTest extends ActivityViewReviewTest {
         assertEquals(rating, fragment.getRating());
     }
 
-    protected void checkControllerSubjectRating(String subject, float rating) {
+    protected void checkAdapterSubjectRating(String subject, float rating) {
         assertEquals(subject, mAdapter.getSubject());
-        assertEquals(rating, mAdapter.getRating());
+        assertEquals(rating, mAdapter.getRating(), 0.01);
     }
 
     @Override
-    protected GvAdapter getAdapter() {
-        return getBuilder();
+    protected void setAdapter() {
+        mAdapter = mAdmin.createNewReviewInProgress();
     }
 
     @SmallTest
@@ -264,17 +264,12 @@ public class ActivityBuildReviewTest extends ActivityViewReviewTest {
         mSignaler = new CallBackSignaler(5);
     }
 
-    protected ReviewBuilder getBuilder() {
-        return mAdmin.createNewReviewInProgress();
-    }
-
     protected void checkControllerDataChanges(GvDataList data) {
         testInController(data, true);
         checkControllerChanges(data.getGvType());
     }
 
     protected void enterData(GvDataList data, String tag) {
-        DialogCancelActionDoneFragment dialog = getDialog(tag);
         for (int i = 0; i < data.size() - 1; ++i) {
             SoloDataEntry.enter(mSolo, (GvDataList.GvData) data.getItem(i));
             clickActionButton(tag);
@@ -282,6 +277,10 @@ public class ActivityBuildReviewTest extends ActivityViewReviewTest {
 
         SoloDataEntry.enter(mSolo, ((GvDataList.GvData) data.getItem(data.size() - 1)));
         clickDoneButton(tag);
+    }
+
+    private ReviewBuilder getBuilder() {
+        return (ReviewBuilder) mAdapter;
     }
 
     private float getAverageRating(boolean nearestHalf) {
@@ -552,12 +551,12 @@ public class ActivityBuildReviewTest extends ActivityViewReviewTest {
     }
 
     private void checkSubjectRating() {
-        checkControllerSubjectRating();
+        checkAdapterSubjectRating();
         checkFragmentSubjectRating();
     }
 
-    private void checkControllerSubjectRating() {
-        checkControllerSubjectRating(mOriginalSubject, mOriginalRating);
+    private void checkAdapterSubjectRating() {
+        checkAdapterSubjectRating(mOriginalSubject, mOriginalRating);
     }
 
     private void checkFragmentSubjectRating() {
@@ -568,7 +567,11 @@ public class ActivityBuildReviewTest extends ActivityViewReviewTest {
         GvChildrenList.GvChildReview child = GvDataMocker.newChild();
         mSolo.clearEditText(mSolo.getEditText(0));
         mSolo.enterText(mSolo.getEditText(0), child.getSubject());
+
+        //Kind of simulate touch
         mSolo.clickOnView(mSolo.getView(R.id.rating_bar));
+        assertFalse(getBuilder().isRatingAverage());
+        assertEquals(3.0f, getBuilder().getRating());
         mSolo.setProgressBar(0, (int) (child.getRating() * 2f));
 
         return child;

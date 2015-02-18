@@ -14,7 +14,6 @@ import android.test.suitebuilder.annotation.SmallTest;
 import com.chdryra.android.reviewer.ActivityFeed;
 import com.chdryra.android.reviewer.Administrator;
 import com.chdryra.android.reviewer.FragmentViewReview;
-import com.chdryra.android.reviewer.GvAdapter;
 import com.chdryra.android.reviewer.GvDataList;
 import com.chdryra.android.reviewer.GvReviewList;
 import com.chdryra.android.reviewer.GvSocialPlatformList;
@@ -85,13 +84,13 @@ public class ActivityShareScreenTest extends ActivityViewReviewTest {
     }
 
     @Override
-    protected GvAdapter getAdapter() {
+    protected void setAdapter() {
         ReviewBuilder builder = mAdmin.createNewReviewInProgress();
 
         builder.setRating(RandomRating.nextRating());
         builder.setSubject(RandomString.nextWord());
 
-        return builder;
+        mAdapter = builder;
     }
 
     @SmallTest

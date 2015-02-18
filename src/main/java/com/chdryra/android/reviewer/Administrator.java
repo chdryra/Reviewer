@@ -80,6 +80,7 @@ public class Administrator {
     }
 
     public ReviewBuilder getReviewBuilder() {
+        if (mReviewBuilder == null) createNewReviewInProgress();
         return mReviewBuilder;
     }
 

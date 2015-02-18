@@ -52,7 +52,7 @@ public class ReviewUser implements Review {
         mImages = MdGvConverter.toMdImageList(images, this);
         mFacts = MdGvConverter.toMdFactList(facts, this);
         mLocations = MdGvConverter.toMdLocationList(locations, this);
-        mUrls = MdGvConverter.toMdurlList(urls, this);
+        mUrls = MdGvConverter.toMdUrlList(urls, this);
 
         mNode = FactoryReview.createReviewNode(this);
     }

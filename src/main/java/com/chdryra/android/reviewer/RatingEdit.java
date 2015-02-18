@@ -23,8 +23,8 @@ public class RatingEdit extends ViewReviewAction.RatingBarAction {
     @Override
     public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
         if (fromUser) {
-            ReviewBuilder controller = (ReviewBuilder) getAdapter();
-            controller.setRatingIsAverage(false);
+            ReviewBuilder builder = (ReviewBuilder) getAdapter();
+            builder.setRatingIsAverage(false);
         }
     }
 }

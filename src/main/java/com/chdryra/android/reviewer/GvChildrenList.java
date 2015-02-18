@@ -33,6 +33,15 @@ public class GvChildrenList extends GvDataList<GvChildrenList.GvChildReview> {
         return false;
     }
 
+    public float getAveragerating() {
+        float rating = 0;
+        for (GvChildReview review : this) {
+            rating += review.getRating() / size();
+        }
+
+        return rating;
+    }
+
     @Override
     protected Comparator<GvChildReview> getDefaultComparator() {
 

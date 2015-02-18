@@ -141,26 +141,26 @@ public class ActivityEditChildrenTest extends ActivityEditScreenTest {
     protected void checkSubjectRating() {
         if (getBuilder().isRatingAverage()) {
             checkFragmentSubjectRating(mOriginalSubject, getAverageRating(true));
-            checkControllerSubjectRating();
+            checkAdapterSubjectRating();
         } else {
             super.checkSubjectRating();
         }
     }
 
     @Override
-    protected void checkControllerSubjectRating() {
+    protected void checkAdapterSubjectRating() {
         float rating = getBuilder().isRatingAverage() ? mOriginalRating
                 : mOriginalRatingNotAverage;
 
-        checkControllerSubjectRating(mOriginalSubject, rating);
+        checkAdapterSubjectRating(mOriginalSubject, rating);
     }
 
     @Override
-    protected void checkControllerSubjectRatingOnDone() {
+    protected void checkAdapterSubjectRatingOnDone() {
         if (getBuilder().isRatingAverage()) {
-            checkControllerSubjectRating(mOriginalSubject, mGridRatingBeforeDone);
+            checkAdapterSubjectRating(mOriginalSubject, mGridRatingBeforeDone);
         } else {
-            super.checkControllerSubjectRatingOnDone();
+            super.checkAdapterSubjectRatingOnDone();
         }
     }
 

@@ -87,11 +87,11 @@ public class ReviewBuilder implements GvAdapter {
 
     @Override
     public float getRating() {
-        return mRating;
+        return isRatingAverage() ? getChildren().getAveragerating() : mRating;
     }
 
     public void setRating(float rating) {
-        mRating = rating;
+        if (!isRatingAverage()) mRating = rating;
     }
 
     @Override
@@ -115,7 +115,7 @@ public class ReviewBuilder implements GvAdapter {
         if (dataType == GvDataList.GvType.CHILDREN) {
             return getChildren();
         } else {
-            return mData.get(dataType);
+            return MdGvConverter.copy(mData.get(dataType));
         }
     }
 
@@ -147,6 +147,7 @@ public class ReviewBuilder implements GvAdapter {
 
     public void setRatingIsAverage(boolean ratingIsAverage) {
         mIsAverage = ratingIsAverage;
+        if (ratingIsAverage) mRating = getChildren().getAveragerating();
     }
 
     public ImageChooser getImageChooser(Activity activity) {
@@ -164,7 +165,7 @@ public class ReviewBuilder implements GvAdapter {
         if (dataType == GvDataList.GvType.CHILDREN) {
             setChildren((GvChildrenList) data);
         } else if (Arrays.asList(TYPES).contains(dataType)) {
-            mData.put(dataType, data);
+            mData.put(dataType, MdGvConverter.copy(data));
         }
     }
 

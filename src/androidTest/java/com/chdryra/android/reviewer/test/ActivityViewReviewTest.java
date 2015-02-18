@@ -38,7 +38,7 @@ public abstract class ActivityViewReviewTest extends
     protected Solo              mSolo;
     private   boolean           mIsEditable;
 
-    protected abstract GvAdapter getAdapter();
+    protected abstract void setAdapter();
 
     public ActivityViewReviewTest(GvDataList.GvType dataType, boolean isEditable) {
         super(ActivityViewReview.class);
@@ -66,7 +66,7 @@ public abstract class ActivityViewReviewTest extends
         Intent i = new Intent();
         ActivityViewReview.packParameters(mDataType, mIsEditable, i);
 
-        mAdapter = getAdapter();
+        setAdapter();
 
         Administrator admin = Administrator.get(getInstrumentation().getTargetContext());
         admin.pack(mAdapter, i);

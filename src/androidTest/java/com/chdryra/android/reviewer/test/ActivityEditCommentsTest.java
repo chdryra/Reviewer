@@ -38,21 +38,21 @@ public class ActivityEditCommentsTest extends ActivityEditScreenTest {
         assertEquals(comments.size(), getGridSize());
         testInGrid(comments, true);
         testInGrid(split, false);
-        checkControllerDataChanges(comments);
+        checkAdapterDataChanges(comments);
 
         mSolo.clickOnActionBarItem(SPLIT);
 
         assertEquals(split.size(), getGridSize());
         testInGrid(comments, false);
         testInGrid(split, true);
-        checkControllerDataChanges(comments);
+        checkAdapterDataChanges(comments);
 
         mSolo.clickOnActionBarItem(SPLIT);
 
         assertEquals(comments.size(), getGridSize());
         testInGrid(comments, true);
         testInGrid(split, false);
-        checkControllerDataChanges(comments);
+        checkAdapterDataChanges(comments);
 
         mSolo.clickOnActionBarItem(SPLIT);
 
@@ -61,7 +61,7 @@ public class ActivityEditCommentsTest extends ActivityEditScreenTest {
         testInGrid(split, true);
 
         mSolo.clickOnActionBarItem(DONE);
-        checkControllerDataChanges(comments);
+        checkAdapterDataChanges(comments);
     }
 
 //    @SmallTest

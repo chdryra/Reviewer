@@ -17,9 +17,6 @@ import com.chdryra.android.reviewer.GvAdapter;
 import com.chdryra.android.reviewer.GvDataList;
 import com.chdryra.android.reviewer.GvReviewList;
 import com.chdryra.android.reviewer.R;
-import com.chdryra.android.reviewer.ReviewBuilder;
-import com.chdryra.android.reviewer.test.TestUtils.RandomRating;
-import com.chdryra.android.testutils.RandomString;
 
 import java.util.ArrayList;
 
@@ -32,6 +29,7 @@ public class ActivityFeedTest extends ActivityViewReviewTest {
     private static final int NEWREVIEW = R.id.menu_item_new_review;
     private static final int NUM       = 5;
     private static final int TIMEOUT   = 10000;
+
     private Administrator mAdmin;
 
     public ActivityFeedTest() {
@@ -70,13 +68,8 @@ public class ActivityFeedTest extends ActivityViewReviewTest {
     }
 
     @Override
-    protected GvAdapter getAdapter() {
-        ReviewBuilder builder = mAdmin.createNewReviewInProgress();
-
-        builder.setRating(RandomRating.nextRating());
-        builder.setSubject(RandomString.nextWord());
-
-        return builder;
+    protected void setAdapter() {
+        mAdapter = mAdmin.getReviewBuilder();
     }
 
     @Override
@@ -89,7 +82,7 @@ public class ActivityFeedTest extends ActivityViewReviewTest {
         mAdmin = Administrator.get(getInstrumentation().getTargetContext());
         ArrayList<GvAdapter> adapters = new ArrayList<>();
         for (int i = 0; i < NUM; ++i) {
-            adapters.add(getAdapter());
+            adapters.add(mAdmin.createNewReviewInProgress());
             mAdmin.publishReviewInProgress();
             try {
                 Thread.sleep(10);
