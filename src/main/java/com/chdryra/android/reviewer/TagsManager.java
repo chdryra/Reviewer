@@ -28,46 +28,33 @@ public class TagsManager {
     }
 
     private static TagsManager getManager() {
-        if (sInstance == null) {
-            sInstance = new TagsManager();
+        if (sInstance == null) sInstance = new TagsManager();
+        return sInstance;
+    }
+
+    public static ReviewTagCollection getTags(Review review) {
+        ReviewTagCollection tags = new ReviewTagCollection();
+        for (ReviewTag tag : getTags()) {
+            if (tag.tagsReview(review)) tags.add(tag);
         }
 
-        return sInstance;
+        return tags;
+    }
+
+    public static void tag(Review review, GvTagList tags) {
+        for (GvTagList.GvTag tag : tags) {
+            getManager().tag(review, tag.get());
+        }
     }
 
     private static ReviewTagCollection getTags() {
         return getManager().mTags;
     }
 
-    public static ReviewTagCollection getTags(Review review) {
-        ReviewTagCollection tags = getManager().new ReviewTagCollection();
-        for (ReviewTag tag : getTags()) {
-            if (tag.tagsReview(review)) {
-                tags.add(tag);
-            }
-        }
-
-        return tags;
-    }
-
-    static void tag(Review review, GvTagList tags) {
-        for (GvTagList.GvTag tag : tags) {
-            getManager().tag(review, tag.get());
-        }
-    }
-
-    static void untag(Review review, ReviewTag tag) {
-        tag.removeReview(review);
-        if (!tag.isValid()) {
-            getTags().remove(tag);
-        }
-    }
-
     private void tag(Review review, String tag) {
         ReviewTag reviewTag = getTags().get(tag);
         if (reviewTag == null) {
-            reviewTag = getManager().new ReviewTag(tag, review);
-            getTags().add(reviewTag);
+            getTags().add(new ReviewTag(tag, review));
         } else {
             reviewTag.addReview(review);
         }
@@ -77,7 +64,7 @@ public class TagsManager {
      * Wraps a string plus a collection of reviews tagged with that string. Comparable with
      * another ReviewTag alphabetically.
      */
-    public class ReviewTag implements Comparable<ReviewTag> {
+    public static class ReviewTag implements Comparable<ReviewTag> {
         private final RCollectionReview<Review> mReviews;
         private final String                    mTag;
 
@@ -97,35 +84,31 @@ public class TagsManager {
             return mTag;
         }
 
-        boolean tagsReview(Review r) {
+        public boolean tagsReview(Review r) {
             return mReviews.containsId(r.getId());
         }
 
-        boolean equals(String tag) {
+        public boolean equals(String tag) {
             return mTag.equalsIgnoreCase(tag);
         }
 
-        private boolean isValid() {
-            return mReviews.size() > 0;
+        public boolean equals(ReviewTag tag) {
+            return mTag.equals(tag.get()) && mReviews.equals(tag.mReviews);
         }
 
         private void addReview(Review review) {
             mReviews.add(review);
-        }
-
-        private void removeReview(Review review) {
-            mReviews.remove(review.getId());
         }
     }
 
     /**
      * Iterable collection of ReviewTags.
      */
-    public class ReviewTagCollection implements Iterable<ReviewTag> {
+    public static class ReviewTagCollection implements Iterable<ReviewTag> {
         private final ArrayList<ReviewTag> mTags;
 
         private ReviewTagCollection() {
-            mTags = new ArrayList<ReviewTag>();
+            mTags = new ArrayList<>();
         }
 
         @Override
@@ -163,7 +146,7 @@ public class TagsManager {
             mTags.remove(tag);
         }
 
-        class ReviewTagIterator implements Iterator<ReviewTag> {
+        public class ReviewTagIterator implements Iterator<ReviewTag> {
             int position = 0;
 
             @Override
