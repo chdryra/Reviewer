@@ -9,13 +9,12 @@
 package com.chdryra.android.reviewer.test;
 
 import android.graphics.drawable.BitmapDrawable;
-import android.test.ActivityInstrumentationTestCase2;
+import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 
-import com.chdryra.android.reviewer.ActivityFeed;
 import com.chdryra.android.reviewer.ConfigGvDataAddEdit;
 import com.chdryra.android.reviewer.GvDataList;
 import com.chdryra.android.reviewer.GvImageList;
@@ -27,12 +26,8 @@ import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
  * On: 23/12/2014
  * Email: rizwan.choudrey@gmail.com
  */
-public class LayoutImageTest extends ActivityInstrumentationTestCase2<ActivityFeed> {
+public class LayoutImageTest extends AndroidTestCase {
     private LayoutImage mLayout;
-
-    public LayoutImageTest() {
-        super(ActivityFeed.class);
-    }
 
     @Override
     public void setUp() throws Exception {
@@ -106,7 +101,7 @@ public class LayoutImageTest extends ActivityInstrumentationTestCase2<ActivityFe
     }
 
     private View inflate() {
-        mLayout.getViewHolder().inflate(getInstrumentation().getTargetContext());
+        mLayout.getViewHolder().inflate(getContext());
         return mLayout.getViewHolder().getView();
     }
 }

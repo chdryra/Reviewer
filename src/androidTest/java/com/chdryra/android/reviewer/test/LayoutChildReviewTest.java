@@ -8,13 +8,12 @@
 
 package com.chdryra.android.reviewer.test;
 
-import android.test.ActivityInstrumentationTestCase2;
+import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.RatingBar;
 
-import com.chdryra.android.reviewer.ActivityFeed;
 import com.chdryra.android.reviewer.ConfigGvDataAddEdit;
 import com.chdryra.android.reviewer.GvChildrenList;
 import com.chdryra.android.reviewer.LayoutChildReview;
@@ -28,13 +27,8 @@ import com.chdryra.android.testutils.RandomString;
  * On: 15/12/2014
  * Email: rizwan.choudrey@gmail.com
  */
-public class LayoutChildReviewTest extends
-        ActivityInstrumentationTestCase2<ActivityFeed> {
+public class LayoutChildReviewTest extends AndroidTestCase {
     private LayoutChildReview mLayout;
-
-    public LayoutChildReviewTest() {
-        super(ActivityFeed.class);
-    }
 
     @Override
     public void setUp() throws Exception {
@@ -110,7 +104,7 @@ public class LayoutChildReviewTest extends
     }
 
     private View inflate() {
-        mLayout.getViewHolder().inflate(getInstrumentation().getTargetContext());
+        mLayout.getViewHolder().inflate(getContext());
         return mLayout.getViewHolder().getView();
     }
 }

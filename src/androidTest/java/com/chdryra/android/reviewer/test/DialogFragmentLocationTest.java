@@ -12,6 +12,7 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.test.ActivityInstrumentationTestCase2;
@@ -20,8 +21,11 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.chdryra.android.mygenerallibrary.DialogCancelActionDoneFragment;
-import com.chdryra.android.reviewer.ActivityFeed;
+import com.chdryra.android.reviewer.ActivityViewReview;
+import com.chdryra.android.reviewer.Administrator;
 import com.chdryra.android.reviewer.DialogFragmentLocation;
+import com.chdryra.android.reviewer.GvAdapter;
+import com.chdryra.android.reviewer.GvDataList;
 import com.chdryra.android.reviewer.GvLocationList;
 import com.chdryra.android.reviewer.LauncherUi;
 import com.chdryra.android.testutils.RandomString;
@@ -35,7 +39,8 @@ import java.util.ArrayList;
  * On: 08/01/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class DialogFragmentLocationTest extends ActivityInstrumentationTestCase2<ActivityFeed> {
+public class DialogFragmentLocationTest extends
+        ActivityInstrumentationTestCase2<ActivityViewReview> {
     private static final int    REQUEST_CODE   = 1976;
     private static final String DIALOG_TAG     = "DialogFragmentLocation";
     private static final String LISTENER_TAG   = "FragmentListener";
@@ -55,7 +60,7 @@ public class DialogFragmentLocationTest extends ActivityInstrumentationTestCase2
     private Solo                   mSolo;
 
     public DialogFragmentLocationTest() {
-        super(ActivityFeed.class);
+        super(ActivityViewReview.class);
     }
 
     @SmallTest
@@ -167,6 +172,15 @@ public class DialogFragmentLocationTest extends ActivityInstrumentationTestCase2
 
         mDialog = new DialogFragmentLocation();
         mListener = new FragmentListener();
+        GvAdapter adapter = Administrator.get(getInstrumentation().getTargetContext())
+                .createNewReviewInProgress();
+
+        Intent i = new Intent();
+        ActivityViewReview.packParameters(GvDataList.GvType.LOCATIONS, false, i);
+        Administrator admin = Administrator.get(getInstrumentation().getTargetContext());
+        admin.pack(adapter, i);
+        setActivityIntent(i);
+
         mActivity = getActivity();
 
         FragmentTransaction ft = mActivity.getFragmentManager().beginTransaction();

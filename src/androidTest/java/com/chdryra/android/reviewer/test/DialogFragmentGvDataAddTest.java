@@ -11,12 +11,14 @@ package com.chdryra.android.reviewer.test;
 import android.app.Activity;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.os.Bundle;
 import android.test.ActivityInstrumentationTestCase2;
+import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.mygenerallibrary.DialogCancelAddDoneFragment;
 import com.chdryra.android.mygenerallibrary.DialogTwoButtonFragment;
-import com.chdryra.android.reviewer.ActivityFeed;
+import com.chdryra.android.reviewer.ActivityViewReview;
 import com.chdryra.android.reviewer.Administrator;
 import com.chdryra.android.reviewer.DialogFragmentGvDataAdd;
 import com.chdryra.android.reviewer.GvAdapter;
@@ -24,6 +26,8 @@ import com.chdryra.android.reviewer.GvDataList;
 import com.chdryra.android.reviewer.LaunchableUi;
 import com.chdryra.android.reviewer.LauncherUi;
 import com.chdryra.android.reviewer.test.TestUtils.DialogAddListener;
+import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
+import com.chdryra.android.reviewer.test.TestUtils.SoloDataEntry;
 import com.robotium.solo.Solo;
 
 /**
@@ -32,7 +36,7 @@ import com.robotium.solo.Solo;
  * Email: rizwan.choudrey@gmail.com
  */
 public abstract class DialogFragmentGvDataAddTest<T extends GvDataList.GvData> extends
-        ActivityInstrumentationTestCase2<ActivityFeed> {
+        ActivityInstrumentationTestCase2<ActivityViewReview> {
     private static final int    REQUEST_CODE = 1976;
     private static final String DIALOG_TAG   = "TestAddDialog";
     protected Solo                                     mSolo;
@@ -42,18 +46,13 @@ public abstract class DialogFragmentGvDataAddTest<T extends GvDataList.GvData> e
     protected Activity                                 mActivity;
     private   Class<? extends DialogFragmentGvDataAdd> mDialogClass;
 
-    protected abstract T enterData();
-
-    protected abstract boolean isDataEntered();
-
-    protected abstract boolean isDataNulled();
-
     protected DialogFragmentGvDataAddTest(Class<? extends DialogFragmentGvDataAdd> dialogClass) {
-        super(ActivityFeed.class);
+        super(ActivityViewReview.class);
         mDialogClass = dialogClass;
     }
 
-    protected void testCancelButton() {
+    @SmallTest
+    public void testCancelButton() {
         launchDialogAndTestShowing(false);
 
         final DialogAddListener<T> listener = mListener;
@@ -72,15 +71,18 @@ public abstract class DialogFragmentGvDataAddTest<T extends GvDataList.GvData> e
         });
     }
 
-    protected void testAddButtonNotQuickSet() {
+    @SmallTest
+    public void testAddButtonNotQuickSet() {
         testNotQuickSet(true);
     }
 
-    protected void testDoneButtonNotQuickSet() {
+    @SmallTest
+    public void testDoneButtonNotQuickSet() {
         testNotQuickSet(false);
     }
 
-    protected void testQuickSet() {
+    @SmallTest
+    public void testQuickSet() {
         launchDialogAndTestShowing(true);
 
         final GvAdapter controller = mAdapter;
@@ -105,6 +107,18 @@ public abstract class DialogFragmentGvDataAddTest<T extends GvDataList.GvData> e
         });
     }
 
+    protected boolean isDataEntered() {
+        return mSolo.getEditText(0).getText().toString().length() > 0;
+    }
+
+    protected boolean isDataNulled() {
+        return !isDataEntered();
+    }
+
+    protected void enterData(GvDataList.GvData datum) {
+        SoloDataEntry.enter(mSolo, datum);
+    }
+
     @Override
     protected void setUp() throws Exception {
         super.setUp();
@@ -112,14 +126,20 @@ public abstract class DialogFragmentGvDataAddTest<T extends GvDataList.GvData> e
         mDialog = mDialogClass.newInstance();
         mListener = new DialogAddListener<>();
 
+        mAdapter = Administrator.get(getInstrumentation().getTargetContext())
+                .createNewReviewInProgress();
+
+        Intent i = new Intent();
+        ActivityViewReview.packParameters(mDialog.getGvType(), false, i);
+        Administrator admin = Administrator.get(getInstrumentation().getTargetContext());
+        admin.pack(mAdapter, i);
+        setActivityIntent(i);
+
         mActivity = getActivity();
         FragmentManager manager = mActivity.getFragmentManager();
         FragmentTransaction ft = manager.beginTransaction();
         ft.add(mListener, DIALOG_TAG);
         ft.commit();
-
-        mAdapter = Administrator.get(getInstrumentation().getTargetContext())
-                .createNewReviewInProgress();
 
         mSolo = new Solo(getInstrumentation(), mActivity);
     }
@@ -156,7 +176,8 @@ public abstract class DialogFragmentGvDataAddTest<T extends GvDataList.GvData> e
 
     private GvDataList.GvData enterDataAndTest() {
         assertTrue(isDataNulled());
-        GvDataList.GvData data = enterData();
+        GvDataList.GvData data = GvDataMocker.getDatum(mDialog.getGvType());
+        enterData(data);
         assertTrue(isDataEntered());
 
         return data;

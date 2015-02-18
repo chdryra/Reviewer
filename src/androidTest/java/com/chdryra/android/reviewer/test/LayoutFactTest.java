@@ -8,12 +8,11 @@
 
 package com.chdryra.android.reviewer.test;
 
-import android.test.ActivityInstrumentationTestCase2;
+import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 import android.view.View;
 import android.widget.EditText;
 
-import com.chdryra.android.reviewer.ActivityFeed;
 import com.chdryra.android.reviewer.ConfigGvDataAddEdit;
 import com.chdryra.android.reviewer.GvFactList;
 import com.chdryra.android.reviewer.LayoutFact;
@@ -25,12 +24,8 @@ import com.chdryra.android.testutils.RandomString;
  * On: 23/12/2014
  * Email: rizwan.choudrey@gmail.com
  */
-public class LayoutFactTest extends ActivityInstrumentationTestCase2<ActivityFeed> {
+public class LayoutFactTest extends AndroidTestCase {
     private LayoutFact mLayout;
-
-    public LayoutFactTest() {
-        super(ActivityFeed.class);
-    }
 
     @Override
     public void setUp() throws Exception {
@@ -105,7 +100,7 @@ public class LayoutFactTest extends ActivityInstrumentationTestCase2<ActivityFee
     }
 
     private View inflate() {
-        mLayout.getViewHolder().inflate(getInstrumentation().getTargetContext());
+        mLayout.getViewHolder().inflate(getContext());
         return mLayout.getViewHolder().getView();
     }
 }

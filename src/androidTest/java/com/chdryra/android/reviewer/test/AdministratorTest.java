@@ -26,7 +26,6 @@ import com.chdryra.android.reviewer.ReviewCollectionAdapter;
  * Email: rizwan.choudrey@gmail.com
  */
 public class AdministratorTest extends AndroidTestCase {
-    private static final String APPNAME = "Reviewer";
     private Administrator mAdmin;
 
     @SmallTest
