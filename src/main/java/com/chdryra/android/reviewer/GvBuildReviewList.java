@@ -30,14 +30,14 @@ import com.chdryra.android.mygenerallibrary.ViewHolderData;
  */
 public class GvBuildReviewList extends GvDataList<GvBuildReviewList.GvBuildReview> {
     private static final GvType TYPE = GvType.BUILD_REVIEW;
-    private Activity  mActivity;
-    private GvAdapter mAdapter;
+    private Activity      mActivity;
+    private ReviewBuilder mBuilder;
 
-    private GvBuildReviewList(Activity activity, GvAdapter adapter) {
+    private GvBuildReviewList(Activity activity, ReviewBuilder builder) {
         super(TYPE);
 
         mActivity = activity;
-        mAdapter = adapter;
+        mBuilder = builder;
 
         add(GvDataList.GvType.TAGS);
         add(GvDataList.GvType.CHILDREN);
@@ -47,7 +47,7 @@ public class GvBuildReviewList extends GvDataList<GvBuildReviewList.GvBuildRevie
         add(GvDataList.GvType.FACTS);
     }
 
-    public static GvBuildReviewList newInstance(Activity activity, GvAdapter adapter) {
+    public static GvBuildReviewList newInstance(Activity activity, ReviewBuilder adapter) {
         return new GvBuildReviewList(activity, adapter);
     }
 
@@ -57,10 +57,6 @@ public class GvBuildReviewList extends GvDataList<GvBuildReviewList.GvBuildRevie
 
     private Activity getActivity() {
         return mActivity;
-    }
-
-    private GvAdapter getAdapter() {
-        return mAdapter;
     }
 
     public class GvBuildReview implements GvDataList.GvData {
@@ -78,6 +74,10 @@ public class GvBuildReviewList extends GvDataList<GvBuildReviewList.GvBuildRevie
 
         public ConfigGvDataUi.Config getConfig() {
             return mConfig;
+        }
+
+        public int getDataSize() {
+            return mBuilder.getData(mDataType).size();
         }
 
         @Override
@@ -101,7 +101,7 @@ public class GvBuildReviewList extends GvDataList<GvBuildReviewList.GvBuildRevie
         }
 
         public View updateView(ViewGroup parent) {
-            int size = getAdapter().getData(mDataType).size();
+            int size = mBuilder.getData(mDataType).size();
 
             if (size == 0) return getNoDataView(parent);
 
@@ -117,7 +117,7 @@ public class GvBuildReviewList extends GvDataList<GvBuildReviewList.GvBuildRevie
         }
 
         private View getDataView(ViewGroup parent) {
-            int number = getAdapter().getData(mDataType).size();
+            int number = mBuilder.getData(mDataType).size();
             String type = number == 1 ? mDataType.getDatumString() : mDataType.getDataString();
 
             ViewHolder vh = new VhDualText();
@@ -127,7 +127,7 @@ public class GvBuildReviewList extends GvDataList<GvBuildReviewList.GvBuildRevie
         }
 
         private View getDatumView(ViewGroup parent) {
-            ViewHolderData datum = (ViewHolderData) getAdapter().getData(mDataType)
+            ViewHolderData datum = (ViewHolderData) mBuilder.getData(mDataType)
                     .getItem(0);
             ViewHolder vh = mDataType == GvType.LOCATIONS ? new VhLocation(true) : datum
                     .newViewHolder();

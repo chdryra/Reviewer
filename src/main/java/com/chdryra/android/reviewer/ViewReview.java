@@ -29,7 +29,7 @@ import java.util.Map;
  */
 public class ViewReview {
     private FragmentViewReview mParent;
-    private GvAdapter mAdapter;
+    private ViewReviewAdapter mAdapter;
 
     private ViewReviewAction.SubjectViewAction  mSubjectAction;
     private ViewReviewAction.RatingBarAction    mRatingAction;
@@ -75,11 +75,10 @@ public class ViewReview {
                 ViewGroup container, Bundle savedInstanceState);
     }
 
-    public ViewReview(FragmentViewReview parent, GvAdapter adapter, GvDataList mGridData,
-            boolean isEditable) {
+    public ViewReview(FragmentViewReview parent, ViewReviewAdapter adapter, boolean isEditable) {
         mParent = parent;
         mAdapter = adapter;
-        mData = mGridData;
+        mData = adapter.getGridData();
         mDataToShow = mData;
         mIsEditable = isEditable;
 
@@ -96,13 +95,13 @@ public class ViewReview {
         mCoverManager = getNoCoverManager();
     }
 
-    public ViewReview(FragmentViewReview parent, GvAdapter mAdapter, GvDataList mGridData,
-            boolean isEditable, ViewModifier modifier) {
-        this(parent, mAdapter, mGridData, isEditable);
+    public ViewReview(FragmentViewReview parent, ViewReviewAdapter mAdapter, boolean isEditable,
+            ViewModifier modifier) {
+        this(parent, mAdapter, isEditable);
         mModifier = modifier;
     }
 
-    public GvAdapter getAdapter() {
+    public ViewReviewAdapter getAdapter() {
         return mAdapter;
     }
 
@@ -157,7 +156,7 @@ public class ViewReview {
     }
 
     public void resetGridViewData() {
-        mDataToShow = mData;
+        mDataToShow = getGridData();
         mParent.updateGridData();
     }
 

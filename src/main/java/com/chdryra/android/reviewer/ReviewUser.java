@@ -35,6 +35,22 @@ public class ReviewUser implements Review {
     private final MdUrlList      mUrls;
     private final MdLocationList mLocations;
 
+    public ReviewUser(Author author, Date publishDate, String subject, float rating) {
+        mId = ReviewId.generateId();
+        mAuthor = author;
+        mPublishDate = publishDate;
+        mSubject = new MdSubject(subject, this);
+        mRating = new MdRating(rating, this);
+
+        mComments = new MdCommentList(this);
+        mImages = new MdImageList(this);
+        mFacts = new MdFactList(this);
+        mLocations = new MdLocationList(this);
+        mUrls = new MdUrlList(this);
+
+        mNode = FactoryReview.createReviewNode(this);
+    }
+
     public ReviewUser(Author author, Date publishDate, String subject, float rating,
             Iterable<? extends DataComment> comments,
             Iterable<? extends DataImage> images,

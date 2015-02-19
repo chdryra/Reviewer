@@ -10,6 +10,7 @@ package com.chdryra.android.reviewer;
 
 import android.app.Fragment;
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.View;
 
 import com.chdryra.android.mygenerallibrary.ActivityResultCode;
@@ -43,7 +44,7 @@ public class BannerButtonAdd extends ViewReviewAction.BannerButtonAction {
         if (getViewReview() == null) return;
 
         LauncherUi.launch(mConfig.getLaunchable(), mListener, getRequestCode(),
-                mConfig.getTag(), Administrator.get(getActivity()).pack(getAdapter()));
+                mConfig.getTag(), new Bundle());
     }
 
     //TODO make type safe

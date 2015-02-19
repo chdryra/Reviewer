@@ -13,10 +13,10 @@ import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.ActivityViewReview;
 import com.chdryra.android.reviewer.Administrator;
-import com.chdryra.android.reviewer.GvAdapter;
 import com.chdryra.android.reviewer.GvDataList;
 import com.chdryra.android.reviewer.GvReviewList;
 import com.chdryra.android.reviewer.R;
+import com.chdryra.android.reviewer.ViewReviewAdapter;
 
 import java.util.ArrayList;
 
@@ -80,9 +80,9 @@ public class ActivityFeedTest extends ActivityViewReviewTest {
     @Override
     protected void setUp() {
         mAdmin = Administrator.get(getInstrumentation().getTargetContext());
-        ArrayList<GvAdapter> adapters = new ArrayList<>();
+        ArrayList<ViewReviewAdapter> adapters = new ArrayList<>();
         for (int i = 0; i < NUM; ++i) {
-            adapters.add(mAdmin.createNewReviewInProgress());
+            adapters.add(mAdmin.getNewReviewBuilder());
             mAdmin.publishReviewInProgress();
             try {
                 Thread.sleep(10);

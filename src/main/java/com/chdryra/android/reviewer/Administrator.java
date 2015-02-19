@@ -40,11 +40,12 @@ import java.util.Date;
 public class Administrator {
     private static final String CONTROLLER_ID = "com.chdryra.android.reviewer.review_id";
     private static final Author AUTHOR        = new Author("Rizwan Choudrey");
+    private static final String FEED = "Feed";
 
     private static Administrator sAdministrator;
 
     private final Context                         mContext;
-    private final ReviewCollectionAdapter<Review> mPublishedReviews;
+    private final ReviewCollectionAdapter mPublishedReviews;
     private final ObjectHolder                    mAdapters;
 
     private ReviewBuilder mReviewBuilder;
@@ -52,7 +53,7 @@ public class Administrator {
     private Administrator(Context context) {
         mContext = context;
         mAdapters = new ObjectHolder();
-        mPublishedReviews = new ReviewCollectionAdapter<>();
+        mPublishedReviews = new ReviewCollectionAdapter(AUTHOR, new Date(), FEED);
     }
 
     public static Administrator get(Context c) {
@@ -80,16 +81,15 @@ public class Administrator {
     }
 
     public ReviewBuilder getReviewBuilder() {
-        if (mReviewBuilder == null) createNewReviewInProgress();
         return mReviewBuilder;
     }
 
-    public ReviewBuilder createNewReviewInProgress() {
-        mReviewBuilder = new ReviewBuilder(mContext);
+    public ReviewBuilder getNewReviewBuilder(Activity activity) {
+        mReviewBuilder = new ReviewBuilder(activity);
         return mReviewBuilder;
     }
 
-    public ReviewCollectionAdapter<Review> getPublishedReviews() {
+    public ReviewCollectionAdapter getPublishedReviews() {
         return mPublishedReviews;
     }
 
@@ -101,39 +101,31 @@ public class Administrator {
         return GvSocialPlatformList.getLatest(mContext);
     }
 
-    public void pack(GvAdapter adapter, Intent i) {
+    public void pack(ViewReviewAdapter adapter, Intent i) {
         i.putExtra(CONTROLLER_ID, adapter.getId());
         register(adapter);
     }
 
-    public Bundle pack(GvAdapter adapter) {
+    public Bundle pack(ViewReviewAdapter adapter) {
         Bundle args = new Bundle();
         args.putString(CONTROLLER_ID, adapter.getId());
         register(adapter);
         return args;
     }
 
-    public GvAdapter unpack(Intent i) {
-        return unpack(i.getExtras());
+    public ViewReviewAdapter getShareScreenAdapter() {
+        return new ShareScreenAdapter(mContext, mReviewBuilder);
     }
 
-    public GvAdapter unpack(Bundle args) {
-        GvAdapter adapter = args != null ? getAdapter(args.getString(CONTROLLER_ID))
-                : null;
-        unregister(adapter);
-
-        return adapter;
-    }
-
-    private void register(GvAdapter adapter) {
+    private void register(ViewReviewAdapter adapter) {
         mAdapters.addObject(adapter.getId(), adapter);
     }
 
-    private void unregister(GvAdapter adapter) {
+    private void unregister(ViewReviewAdapter adapter) {
         if (adapter != null) mAdapters.removeObject(adapter.getId());
     }
 
-    private GvAdapter getAdapter(String id) {
-        return id != null ? (GvAdapter) mAdapters.getObject(id) : null;
+    private ViewReviewAdapter getAdapter(String id) {
+        return id != null ? (ViewReviewAdapter) mAdapters.getObject(id) : null;
     }
 }

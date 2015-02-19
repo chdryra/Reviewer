@@ -33,7 +33,7 @@ public class MenuDeleteDone extends ViewReviewAction.MenuAction {
     private MenuActionItem mDeleteAction;
     private MenuActionItem mDoneAction;
 
-    private String mDeleteWhat;
+    private String  mDeleteWhat;
     private boolean mDismissOnDelete;
     private boolean mDismissOnDone;
 
@@ -130,14 +130,14 @@ public class MenuDeleteDone extends ViewReviewAction.MenuAction {
         }
     }
 
-    protected ReviewBuilder getBuilder() {
-        return (ReviewBuilder) getAdapter();
+    protected ReviewBuilderData getBuilder() {
+        return (ReviewBuilderData) getAdapter();
     }
 
     private void doDoneSelected() {
         ViewReview view = getViewReview();
         GvDataList data = getData();
-        ReviewBuilder builder = getBuilder();
+        ReviewBuilderData builder = getBuilder();
 
         if (data != null) builder.setData(data);
         builder.setSubject(view.getSubject());

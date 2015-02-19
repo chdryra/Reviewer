@@ -16,52 +16,87 @@ package com.chdryra.android.reviewer;
 
 import android.graphics.Bitmap;
 
-import java.util.HashMap;
+import java.util.Date;
 
 /**
  * Similar to {@link ReviewAdapter} but for {@link RCollectionReview} data.
  */
-public class ReviewCollectionAdapter<T extends Review> {
-    private RCollectionReview<T>       mReviews;
-    private HashMap<String, GvAdapter> mAdapters;
+public class ReviewCollectionAdapter implements ViewReviewAdapter {
+    private ReviewId mId;
+    private Author   mAuthor;
+    private Date     mPublishDate;
+    private String   mTitle;
 
-    public ReviewCollectionAdapter() {
+    private RCollectionReview<Review> mReviews;
+
+
+    public ReviewCollectionAdapter(Author author, Date date, String title) {
+        mId = ReviewId.generateId();
+        mAuthor = author;
+        mPublishDate = date;
+        mTitle = title;
         mReviews = new RCollectionReview<>();
-        mAdapters = new HashMap<>();
     }
 
-    public void add(T review) {
+    public void add(Review review) {
         mReviews.add(review);
     }
 
-    public GvDataList toGridViewable() {
+    @Override
+    public String getId() {
+        return mId.toString();
+    }
+
+    @Override
+    public String getSubject() {
+        return mTitle;
+    }
+
+    @Override
+    public float getRating() {
+        return getAverageRating();
+    }
+
+    @Override
+    public float getAverageRating() {
+        return createReview().getRating().get();
+    }
+
+    @Override
+    public GvDataList getGridData() {
         GvReviewList data = new GvReviewList();
         for (Review r : mReviews) {
-            GvAdapter adapter = getAdapterFor(r.getId().toString());
-
-            GvImageList images = (GvImageList) adapter.getData(GvDataList.GvType.IMAGES);
-            GvCommentList comments = (GvCommentList) adapter.getData(GvDataList.GvType.COMMENTS);
-            GvLocationList locations = (GvLocationList) adapter.getData(GvDataList.GvType
-                    .LOCATIONS);
+            GvImageList images = MdGvConverter.convert(r.getImages());
+            GvCommentList comments = MdGvConverter.convert(r.getComments());
+            GvLocationList locations = MdGvConverter.convert(r.getLocations());
 
             Bitmap cover = images.size() > 0 ? images.getRandomCover().getBitmap() : null;
             String headline = comments.size() > 0 ? comments.getItem(0).getCommentHeadline() : null;
             String location = locations.size() > 0 ? locations.getItem(0).getName() : null;
 
-            data.add(adapter.getId(), adapter.getAuthor().getName(), adapter.getPublishDate(),
-                    adapter.getSubject(),
-                    adapter.getRating(),
-                    cover, headline, location);
+            data.add(r.getId().toString(), r.getAuthor().getName(), r.getPublishDate(),
+                    r.getSubject().get(), r.getRating().get(), cover, headline, location);
         }
 
         return data;
     }
 
-    private GvAdapter getAdapterFor(String id) {
-        if (mAdapters.get(id) == null) {
-            mAdapters.put(id, new ReviewAdapter<>(mReviews.get(ReviewId.generateId(id))));
-        }
+    @Override
+    public Author getAuthor() {
+        return mAuthor;
+    }
 
-        return mAdapters.get(id);
+    @Override
+    public Date getPublishDate() {
+        return mPublishDate;
+    }
+
+    @Override
+    public GvImageList getImages() {
+        return null;
+    }
+
+    private ReviewNode createReview() {
+        return FactoryReview.createReviewCollection(mAuthor, mPublishDate, mTitle, mReviews);
     }
 }

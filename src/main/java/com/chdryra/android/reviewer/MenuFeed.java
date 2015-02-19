@@ -41,8 +41,6 @@ public class MenuFeed extends ViewReviewAction.MenuAction {
 
         Intent i = new Intent(activity, ActivityViewReview.class);
         ActivityViewReview.packParameters(GvDataList.GvType.BUILD_REVIEW, true, i);
-        Administrator admin = Administrator.get(activity);
-        Administrator.get(activity).pack(admin.createNewReviewInProgress(), i);
         getActivity().startActivity(i);
     }
 }

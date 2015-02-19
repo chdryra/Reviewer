@@ -21,10 +21,10 @@ import com.chdryra.android.mygenerallibrary.DialogTwoButtonFragment;
 import com.chdryra.android.reviewer.ActivityViewReview;
 import com.chdryra.android.reviewer.Administrator;
 import com.chdryra.android.reviewer.DialogFragmentGvDataAdd;
-import com.chdryra.android.reviewer.GvAdapter;
 import com.chdryra.android.reviewer.GvDataList;
 import com.chdryra.android.reviewer.LaunchableUi;
 import com.chdryra.android.reviewer.LauncherUi;
+import com.chdryra.android.reviewer.ViewReviewAdapter;
 import com.chdryra.android.reviewer.test.TestUtils.DialogAddListener;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
 import com.chdryra.android.reviewer.test.TestUtils.SoloDataEntry;
@@ -42,7 +42,7 @@ public abstract class DialogFragmentGvDataAddTest<T extends GvDataList.GvData> e
     protected Solo                                     mSolo;
     protected DialogFragmentGvDataAdd                  mDialog;
     protected DialogAddListener<T>                     mListener;
-    protected GvAdapter                                mAdapter;
+    protected ViewReviewAdapter                        mAdapter;
     protected Activity                                 mActivity;
     private   Class<? extends DialogFragmentGvDataAdd> mDialogClass;
 
@@ -85,7 +85,7 @@ public abstract class DialogFragmentGvDataAddTest<T extends GvDataList.GvData> e
     public void testQuickSet() {
         launchDialogAndTestShowing(true);
 
-        final GvAdapter controller = mAdapter;
+        final ViewReviewAdapter controller = mAdapter;
         assertEquals(0, getData(controller).size());
 
         final GvDataList.GvData datum1 = testQuickSet(true);
@@ -127,7 +127,7 @@ public abstract class DialogFragmentGvDataAddTest<T extends GvDataList.GvData> e
         mListener = new DialogAddListener<>();
 
         mAdapter = Administrator.get(getInstrumentation().getTargetContext())
-                .createNewReviewInProgress();
+                .getNewReviewBuilder();
 
         Intent i = new Intent();
         ActivityViewReview.packParameters(mDialog.getGvType(), false, i);
@@ -166,7 +166,7 @@ public abstract class DialogFragmentGvDataAddTest<T extends GvDataList.GvData> e
         assertTrue(mSolo.waitForDialogToOpen());
     }
 
-    protected GvDataList getData(final GvAdapter adapter) {
+    protected GvDataList getData(final ViewReviewAdapter adapter) {
         return adapter.getData(mDialog.getGvType());
     }
 
@@ -187,7 +187,7 @@ public abstract class DialogFragmentGvDataAddTest<T extends GvDataList.GvData> e
         launchDialogAndTestShowing(false);
 
         final DialogAddListener<T> listener = mListener;
-        final GvAdapter adap = mAdapter;
+        final ViewReviewAdapter adap = mAdapter;
         final DialogCancelAddDoneFragment dialog = mDialog;
 
         assertNull(listener.getData());

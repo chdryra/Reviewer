@@ -241,7 +241,7 @@ public class ActivityBuildReviewTest extends ActivityViewReviewTest {
 
     @Override
     protected void setAdapter() {
-        mAdapter = mAdmin.createNewReviewInProgress();
+        mAdapter = mAdmin.getNewReviewBuilder();
     }
 
     @SmallTest

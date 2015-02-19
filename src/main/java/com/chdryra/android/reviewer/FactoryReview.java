@@ -44,6 +44,11 @@ public class FactoryReview {
                 images, facts, locations, urls);
     }
 
+    public static Review createReviewUser(Author author, Date publishDate, String subject,
+            float rating) {
+        return getInstance().newReviewUser(author, publishDate, subject, rating);
+    }
+
     public static ReviewNode createReviewNode(Review review) {
         return getInstance().newReviewNode(review);
     }
@@ -54,7 +59,17 @@ public class FactoryReview {
         return getInstance().newReviewTree(review, children, isAverage);
     }
 
+    public static ReviewNode createReviewCollection(Author author, Date publishDate,
+            String subject, RCollectionReview<Review> children) {
+        Review root = createReviewUser(author, publishDate, subject, 0);
+        return createReviewTree(root, children, true);
+    }
+
     //Constructors
+    private Review newReviewUser(Author author, Date publishDate, String subject, float rating) {
+        return new ReviewUser(author, publishDate, subject, rating);
+    }
+
     private Review newReviewUser(Author author, Date publishDate, String subject, float rating,
             Iterable<? extends DataComment> comments,
             Iterable<? extends DataImage> images,

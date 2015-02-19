@@ -54,8 +54,7 @@ public class DialogFragmentURL extends DialogCancelActionDoneFragment implements
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mController = (ReviewBuilder) Administrator.get(getActivity()).unpack
-                (getArguments());
+        mController = Administrator.get(getActivity()).getReviewBuilder();
 
         setActionButtonAction(RESULT_BROWSE);
         setActionButtonText(getResources().getString(R.string.button_browse));

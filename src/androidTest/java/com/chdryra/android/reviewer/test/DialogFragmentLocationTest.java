@@ -24,10 +24,10 @@ import com.chdryra.android.mygenerallibrary.DialogCancelActionDoneFragment;
 import com.chdryra.android.reviewer.ActivityViewReview;
 import com.chdryra.android.reviewer.Administrator;
 import com.chdryra.android.reviewer.DialogFragmentLocation;
-import com.chdryra.android.reviewer.GvAdapter;
 import com.chdryra.android.reviewer.GvDataList;
 import com.chdryra.android.reviewer.GvLocationList;
 import com.chdryra.android.reviewer.LauncherUi;
+import com.chdryra.android.reviewer.ViewReviewAdapter;
 import com.chdryra.android.testutils.RandomString;
 import com.google.android.gms.maps.model.LatLng;
 import com.robotium.solo.Solo;
@@ -172,8 +172,8 @@ public class DialogFragmentLocationTest extends
 
         mDialog = new DialogFragmentLocation();
         mListener = new FragmentListener();
-        GvAdapter adapter = Administrator.get(getInstrumentation().getTargetContext())
-                .createNewReviewInProgress();
+        ViewReviewAdapter adapter = Administrator.get(getInstrumentation().getTargetContext())
+                .getNewReviewBuilder();
 
         Intent i = new Intent();
         ActivityViewReview.packParameters(GvDataList.GvType.LOCATIONS, false, i);

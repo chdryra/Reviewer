@@ -59,7 +59,7 @@ public class GridItemBuildReview extends ViewReviewAction.GridItemAction {
     }
 
     private void executeIntent(GvBuildReviewList.GvBuildReview gridCell, boolean quickDialog) {
-        if (quickDialog && getAdapter().getData(gridCell.getGvType()).size() == 0) {
+        if (quickDialog && gridCell.getDataSize() == 0) {
             showQuickDialog(gridCell.getConfig());
         } else {
             startActivity(gridCell.getConfig());
@@ -92,24 +92,24 @@ public class GridItemBuildReview extends ViewReviewAction.GridItemAction {
 
         Intent i = new Intent(getActivity(), ActivityViewReview.class);
         ActivityViewReview.packParameters(dataType, isEdit, i);
-        Administrator.get(getActivity()).pack(getAdapter(), i);
         mListener.startActivity(i);
     }
 
     private void showQuickDialog(ConfigGvDataUi.Config config) {
-        if (config.getGvType() == GvDataList.GvType.IMAGES) {
+        GvDataList.GvType dataType = config.getGvType();
+
+        if (dataType == GvDataList.GvType.IMAGES) {
             mListener.startActivityForResult(mImageChooser.getChooserIntents(),
                     getImageRequestCode());
             return;
         }
 
-        Bundle args = Administrator.get(getActivity()).pack(getAdapter());
+        Bundle args = new Bundle();
         args.putBoolean(DialogFragmentGvDataAdd.QUICK_SET, true);
 
         ConfigGvDataUi.LaunchableConfig adderConfig = config.getAdderConfig();
-
         LaunchableUi ui;
-        if (adderConfig.getGVType() == GvDataList.GvType.LOCATIONS) {
+        if (dataType == GvDataList.GvType.LOCATIONS) {
             ui = ConfigGvDataUi.getLaunchable(DialogFragmentLocation.class);
             packLatLng(args);
         } else {
@@ -121,10 +121,10 @@ public class GridItemBuildReview extends ViewReviewAction.GridItemAction {
     }
 
     private void packLatLng(Bundle args) {
-        GvAdapter adapter = getAdapter();
         LatLng latLng = mLatLng;
         boolean fromImage = false;
-        GvImageList images = (GvImageList) adapter.getData(GvDataList.GvType.IMAGES);
+
+        GvImageList images = (GvImageList) getBuilder().getData(GvDataList.GvType.IMAGES);
         if (images.size() > 0) {
             LatLng coverLatLng = images.getCovers().getItem(0).getLatLng();
             if (coverLatLng != null) {

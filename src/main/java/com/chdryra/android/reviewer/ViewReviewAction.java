@@ -60,7 +60,7 @@ public class ViewReviewAction {
 
     }
 
-    public GvAdapter getAdapter() {
+    public ViewReviewAdapter getAdapter() {
         return mViewReview.getAdapter();
     }
 
@@ -79,7 +79,7 @@ public class ViewReviewAction {
     public static class SubjectViewAction extends ViewReviewAction {
 
         public String getSubject() {
-            return getViewReview() != null && getAdapter() != null ? getAdapter().getSubject() : "";
+            return getAdapter().getSubject();
         }
 
         public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -94,7 +94,7 @@ public class ViewReviewAction {
 
     public static class RatingBarAction extends ViewReviewAction {
         public float getRating() {
-            return getViewReview() != null && getAdapter() != null ? getAdapter().getRating() : 0f;
+            return getAdapter().getRating();
         }
 
         public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
@@ -205,9 +205,6 @@ public class ViewReviewAction {
         protected void doUpSelected() {
             if (NavUtils.getParentActivityName(getActivity()) != null) {
                 Intent i = NavUtils.getParentActivityIntent(getActivity());
-                if (getAdapter() != null) {
-                    Administrator.get(getActivity()).pack(getAdapter(), i);
-                }
                 NavUtils.navigateUpTo(getActivity(), i);
             }
         }

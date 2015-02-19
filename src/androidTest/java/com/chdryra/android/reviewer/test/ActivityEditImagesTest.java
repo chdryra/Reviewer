@@ -50,7 +50,7 @@ public class ActivityEditImagesTest extends ActivityEditScreenTest {
     protected void setUp(boolean withData) {
         //Create ReviewBuilder that generates ImageChooser intent
         Administrator admin = Administrator.get(getInstrumentation().getTargetContext());
-        admin.createNewReviewInProgress();
+        admin.getNewReviewBuilder();
         super.setUp(withData);
     }
 

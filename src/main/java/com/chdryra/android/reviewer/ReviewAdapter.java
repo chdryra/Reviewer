@@ -27,14 +27,14 @@ import java.util.Date;
  * java types</li>
  * </ul>
  * </p>
- *
- * @param <T>: the {@link Review} type being accessed
  */
-public class ReviewAdapter<T extends Review> implements GvAdapter {
-    private final T mReview;
+public class ReviewAdapter implements ViewReviewAdapter {
+    private final Review            mReview;
+    private final GvDataList.GvType mDataType;
 
-    public ReviewAdapter(T review) {
+    public ReviewAdapter(Review review, GvDataList.GvType dataType) {
         mReview = review;
+        mDataType = dataType;
     }
 
     @Override
@@ -60,6 +60,27 @@ public class ReviewAdapter<T extends Review> implements GvAdapter {
     }
 
     @Override
+    public GvDataList getGridData() {
+        if (mDataType == GvDataList.GvType.COMMENTS) {
+            return MdGvConverter.convert(mReview.getComments());
+        } else if (mDataType == GvDataList.GvType.IMAGES) {
+            return getImages();
+        } else if (mDataType == GvDataList.GvType.FACTS) {
+            return MdGvConverter.convert(mReview.getFacts());
+        } else if (mDataType == GvDataList.GvType.URLS) {
+            return MdGvConverter.convert(mReview.getUrls());
+        } else if (mDataType == GvDataList.GvType.LOCATIONS) {
+            return MdGvConverter.convert(mReview.getLocations());
+        } else if (mDataType == GvDataList.GvType.TAGS) {
+            return getTags();
+        } else if (mDataType == GvDataList.GvType.CHILDREN) {
+            return getChildren();
+        } else {
+            return null;
+        }
+    }
+
+    @Override
     public Author getAuthor() {
         return mReview.getAuthor();
     }
@@ -70,24 +91,8 @@ public class ReviewAdapter<T extends Review> implements GvAdapter {
     }
 
     @Override
-    public GvDataList getData(GvDataList.GvType dataType) {
-        if (dataType == GvDataList.GvType.COMMENTS) {
-            return MdGvConverter.convert(mReview.getComments());
-        } else if (dataType == GvDataList.GvType.IMAGES) {
-            return MdGvConverter.convert(mReview.getImages());
-        } else if (dataType == GvDataList.GvType.FACTS) {
-            return MdGvConverter.convert(mReview.getFacts());
-        } else if (dataType == GvDataList.GvType.URLS) {
-            return MdGvConverter.convert(mReview.getUrls());
-        } else if (dataType == GvDataList.GvType.LOCATIONS) {
-            return MdGvConverter.convert(mReview.getLocations());
-        } else if (dataType == GvDataList.GvType.TAGS) {
-            return getTags();
-        } else if (dataType == GvDataList.GvType.CHILDREN) {
-            return getChildren();
-        } else {
-            return null;
-        }
+    public GvImageList getImages() {
+        return MdGvConverter.convert(mReview.getImages());
     }
 
     private GvChildrenList getChildren() {

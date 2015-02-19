@@ -155,7 +155,7 @@ public abstract class ActivityEditScreenTest extends ActivityViewReviewTest {
     @Override
     protected void setAdapter() {
         ReviewBuilder adapter = Administrator.get(getInstrumentation().getTargetContext())
-                .createNewReviewInProgress();
+                .getNewReviewBuilder();
         if (mWithData) {
             mData = GvDataMocker.getData(mDataType, NUM_DATA);
             adapter.setData(mData);

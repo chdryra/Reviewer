@@ -9,7 +9,6 @@
 package com.chdryra.android.reviewer;
 
 import android.app.Activity;
-import android.content.Intent;
 
 /**
  * Created by: Rizwan Choudrey
@@ -40,14 +39,12 @@ public class FactoryViewReview {
 
     private static ViewReview newBuildScreen(FragmentViewReview parent) {
         Activity activity = parent.getActivity();
-        Intent i = activity.getIntent();
         Administrator admin = Administrator.get(activity);
 
-        ReviewBuilder controller = admin.getReviewBuilder();
+        ReviewBuilder builder = admin.getNewReviewBuilder(activity);
 
-        GvDataList data = GvBuildReviewList.newInstance(activity, controller);
-        ViewReview view = new ViewReview(parent, controller, data, true, new ViewReviewBuildModifier
-                (controller));
+        ViewReview view = new ViewReview(parent, builder, true, new ViewReviewBuildModifier
+                (builder));
 
         GvDataList.GvType dataType = GvDataList.GvType.BUILD_REVIEW;
 
@@ -58,24 +55,19 @@ public class FactoryViewReview {
         view.setAction(newGridItemEdit(dataType));
         view.setAction(newMenuAction(dataType));
 
-        view.setCoverManager(newCoverManager(controller));
+        view.setCoverManager(newCoverManager(builder));
 
         return view;
     }
 
     private static ViewReview newShareScreen(FragmentViewReview parent) {
         Activity activity = parent.getActivity();
-        Intent i = activity.getIntent();
         Administrator admin = Administrator.get(activity);
 
-        GvDataList data = admin.getSocialPlatformList();
-        GvAdapter adapter = admin.unpack(i);
-
-        ViewReview view = new ViewReview(parent, adapter, data, true,
-                new ViewReviewShareModifier());
+        ViewReviewAdapter adapter = admin.getShareScreenAdapter();
+        ViewReview view = new ViewReview(parent, adapter, true, new ViewReviewShareModifier());
 
         GvDataList.GvType dataType = GvDataList.GvType.SOCIAL;
-
         view.setAction(newSubjectViewAction());
         view.setAction(newRatingBarAction());
         view.setAction(ViewReviewAction.BannerButtonAction.newDisplayButton(parent.getResources()
@@ -90,9 +82,8 @@ public class FactoryViewReview {
 
     private static ViewReview newFeedScreen(FragmentViewReview parent) {
         Administrator admin = Administrator.get(parent.getActivity());
-        GvDataList data = admin.getPublishedReviews().toGridViewable();
 
-        ViewReview view = new ViewReview(parent, null, data, false);
+        ViewReview view = new ViewReview(parent, admin.getPublishedReviews(), false);
         view.setAction(new MenuFeed());
 
         return view;
@@ -102,10 +93,8 @@ public class FactoryViewReview {
         Activity activity = parent.getActivity();
         Administrator admin = Administrator.get(activity);
 
-        ReviewBuilder builder = admin.getReviewBuilder();
-        GvDataList data = builder.getData(dataType);
-
-        ViewReview view = new ViewReview(parent, builder, data, true);
+        ViewReviewAdapter adapter = admin.getReviewBuilder().getDataAdapter(dataType);
+        ViewReview view = new ViewReview(parent, adapter, true);
 
         String buttonTitle = parent.getResources().getString(R.string.button_add) + " " + dataType
                 .getDatumString();
@@ -115,8 +104,7 @@ public class FactoryViewReview {
         view.setAction(newGridItemEdit(dataType));
         view.setAction(newMenuEdit(dataType));
 
-        CoverManager coverManager = dataType == GvDataList.GvType.IMAGES ?
-                newCoverManager((GvImageList) data) : newCoverManager(builder);
+        CoverManager coverManager = newCoverManager(adapter);
         view.setCoverManager(coverManager);
 
         return view;
@@ -190,12 +178,8 @@ public class FactoryViewReview {
         return new SubjectEdit();
     }
 
-    private static CoverManager newCoverManager(GvAdapter adapter) {
-        return new CoverManagerAdapter(adapter);
-    }
-
-    private static CoverManager newCoverManager(GvImageList images) {
-        return new CoverManagerImageList(images);
+    private static CoverManager newCoverManager(ViewReviewAdapter adapter) {
+        return new CoverManager(adapter);
     }
 
     private static void setParams(GvDataList.GvType dataType, ViewReview view) {

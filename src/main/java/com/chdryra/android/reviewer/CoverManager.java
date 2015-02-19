@@ -13,8 +13,27 @@ package com.chdryra.android.reviewer;
  * On: 29/01/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public interface CoverManager {
-    public void updateCover(FragmentViewReview fragment);
+public class CoverManager implements CoverManager {
+    private final ViewReviewAdapter mAdapter;
 
-    public void proposeCover(GvImageList.GvImage image);
+    public CoverManager(ViewReviewAdapter adapter) {
+        mAdapter = adapter;
+    }
+
+    @Override
+    public void updateCover(FragmentViewReview fragment) {
+        GvImageList images = mAdapter.getImages();
+        GvImageList covers = images.getCovers();
+        fragment.setCover(covers.getRandomCover());
+    }
+
+    @Override
+    public void proposeCover(GvImageList.GvImage image) {
+        GvImageList images = mAdapter.getImages();
+        GvImageList covers = images.getCovers();
+        if (covers.size() == 1 && images.contains(image)) {
+            covers.getItem(0).setIsCover(false);
+            image.setIsCover(true);
+        }
+    }
 }

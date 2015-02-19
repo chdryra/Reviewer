@@ -32,7 +32,7 @@ import java.util.Map;
  * For building reviews. Collects appropriate data and builds a {@link Review} object when
  * user is ready using the {@link #publish(java.util.Date)} method.
  */
-public class ReviewBuilder implements GvAdapter {
+public class ReviewBuilder implements ViewReviewAdapter {
     private static final GvDataList.GvType[] TYPES        = {GvDataList.GvType.COMMENTS, GvDataList
             .GvType.FACTS, GvDataList.GvType.LOCATIONS, GvDataList.GvType.IMAGES, GvDataList
             .GvType.URLS, GvDataList.GvType.TAGS};
@@ -41,20 +41,23 @@ public class ReviewBuilder implements GvAdapter {
                     (Environment.DIRECTORY_DCIM);
 
     private FileIncrementor mIncrementor;
-    private Context         mContext;
+    private Activity        mActivity;
 
-    private ReviewId                 mId;
-    private String                   mSubject;
-    private float                    mRating;
+    private ReviewId                           mId;
+    private String                             mSubject;
+    private float                              mRating;
     private Map<GvDataList.GvType, GvDataList> mData;
-    private ArrayList<ReviewBuilder> mChildren;
+    private ArrayList<ReviewBuilder>           mChildren;
+    private GvBuildReviewList                  mGridData;
+
     private boolean mIsAverage = false;
 
 
-    public ReviewBuilder(Context applicationContext) {
+    public ReviewBuilder(Activity activity) {
         mId = ReviewId.generateId();
         mChildren = new ArrayList<>();
-        mContext = applicationContext;
+        mActivity = activity;
+        mGridData = GvBuildReviewList.newInstance(activity, this);
 
         mData = new HashMap<>();
         mData.put(GvDataList.GvType.COMMENTS, new GvCommentList());
@@ -96,8 +99,13 @@ public class ReviewBuilder implements GvAdapter {
     }
 
     @Override
+    public GvDataList getGridData() {
+        return mGridData;
+    }
+
+    @Override
     public Author getAuthor() {
-        return Administrator.get(mContext).getAuthor();
+        return Administrator.get(mActivity).getAuthor();
     }
 
     @Override
@@ -105,17 +113,20 @@ public class ReviewBuilder implements GvAdapter {
         return null;
     }
 
-    @Override
+    public GvImageList getImages() {
+        return (GvImageList) getData(GvDataList.GvType.IMAGES);
+    }
+
+    public void setRating(float rating) {
+        if (!isRatingAverage()) mRating = rating;
+    }
+
     public GvDataList getData(GvDataList.GvType dataType) {
         if (dataType == GvDataList.GvType.CHILDREN) {
             return getChildren();
         } else {
             return MdGvConverter.copy(mData.get(dataType));
         }
-    }
-
-    public void setRating(float rating) {
-        if (!isRatingAverage()) mRating = rating;
     }
 
     public Review publish(Date publishDate) {
@@ -151,7 +162,7 @@ public class ReviewBuilder implements GvAdapter {
 
     public ImageChooser getImageChooser(Activity activity) {
         Context c = activity.getApplicationContext();
-        if (c.equals(mContext)) {
+        if (c.equals(mActivity.getApplicationContext())) {
             return new ImageChooser(activity, (FileIncrementorFactory.ImageFileIncrementor)
                     mIncrementor);
         } else {
@@ -168,8 +179,12 @@ public class ReviewBuilder implements GvAdapter {
         }
     }
 
+    public ViewReviewAdapter getDataAdapter(GvDataList.GvType dataType) {
+        return new ReviewBuilderData(this, dataType);
+    }
+
     private void newIncrementor() {
-        String dir = mContext.getString(mContext.getApplicationInfo().labelRes);
+        String dir = mActivity.getString(mActivity.getApplicationInfo().labelRes);
         String filename = mSubject.length() > 0 ? mSubject : getAuthor().getName();
         mIncrementor = FileIncrementorFactory.newImageFileIncrementor(FILE_DIR_EXT, dir,
                 filename);
@@ -189,7 +204,7 @@ public class ReviewBuilder implements GvAdapter {
     private void setChildren(GvChildrenList children) {
         mChildren = new ArrayList<>();
         for (GvChildrenList.GvChildReview child : children) {
-            ReviewBuilder childBuilder = new ReviewBuilder(mContext);
+            ReviewBuilder childBuilder = new ReviewBuilder(mActivity);
             childBuilder.setSubject(child.getSubject());
             childBuilder.setRating(child.getRating());
             mChildren.add(childBuilder);

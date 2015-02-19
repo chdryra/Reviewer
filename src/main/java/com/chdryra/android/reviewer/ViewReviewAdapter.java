@@ -8,19 +8,19 @@
 
 package com.chdryra.android.reviewer;
 
-import java.util.Date;
-
 /**
  * Created by: Rizwan Choudrey
  * On: 13/02/2015
  * Email: rizwan.choudrey@gmail.com
  */
 
+import java.util.Date;
+
 /**
  * Adapter for {@link com.chdryra.android.reviewer.Review} for passing {@link com.chdryra.android
  * .reviewer.MdData} to View layer as {@link com.chdryra.android.reviewer.GvDataList.GvData}
  */
-public interface GvAdapter {
+public interface ViewReviewAdapter {
     public String getId();
 
     public String getSubject();
@@ -29,9 +29,11 @@ public interface GvAdapter {
 
     public float getAverageRating();
 
+    public GvDataList getGridData();
+
     public Author getAuthor();
 
     public Date getPublishDate();
 
-    public GvDataList getData(GvDataList.GvType dataType);
+    public GvImageList getImages();
 }
