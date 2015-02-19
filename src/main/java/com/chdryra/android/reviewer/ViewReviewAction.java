@@ -32,17 +32,11 @@ import java.util.Map;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ViewReviewAction {
-    private GvAdapter                 mAdapter;
     private ViewReview                mViewReview;
     private HashMap<String, Fragment> mListeners;
 
-    private ViewReviewAction() {
+    public ViewReviewAction() {
         mListeners = new HashMap<>();
-    }
-
-    private ViewReviewAction(GvAdapter adapter) {
-        mListeners = new HashMap<>();
-        mAdapter = adapter;
     }
 
     public ViewReview getViewReview() {
@@ -67,9 +61,8 @@ public class ViewReviewAction {
     }
 
     public GvAdapter getAdapter() {
-        return mAdapter;
+        return mViewReview.getAdapter();
     }
-
 
     public Activity getActivity() {
         return mViewReview != null ? mViewReview.getActivity() : null;
@@ -83,35 +76,10 @@ public class ViewReviewAction {
         return getViewReview().getGridData();
     }
 
-    public static class TypedViewAction extends ViewReviewAction {
-        private GvDataList.GvType mDataType;
-
-        protected TypedViewAction() {
-
-        }
-
-        public TypedViewAction(GvAdapter adapter, GvDataList.GvType dataType) {
-            super(adapter);
-            mDataType = dataType;
-        }
-
-        public GvDataList.GvType getDataType() {
-            return mDataType;
-        }
-    }
-
     public static class SubjectViewAction extends ViewReviewAction {
-        public SubjectViewAction() {
-
-        }
-
-        public SubjectViewAction(GvAdapter adapter) {
-            super(adapter);
-        }
 
         public String getSubject() {
-            GvAdapter adapter = getAdapter();
-            return adapter != null ? getAdapter().getSubject() : "";
+            return getViewReview() != null && getAdapter() != null ? getAdapter().getSubject() : "";
         }
 
         public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -125,58 +93,39 @@ public class ViewReviewAction {
     }
 
     public static class RatingBarAction extends ViewReviewAction {
-        public RatingBarAction() {
-
-        }
-
-        public RatingBarAction(GvAdapter adapter) {
-            super(adapter);
-        }
-
         public float getRating() {
-            GvAdapter adapter = getAdapter();
-            return adapter != null ? getAdapter().getRating() : 0f;
+            return getViewReview() != null && getAdapter() != null ? getAdapter().getRating() : 0f;
         }
 
         public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+            getViewReview().setRating(rating);
         }
     }
 
-    public static class BannerButtonAction extends TypedViewAction {
+    public static class BannerButtonAction extends ViewReviewAction {
+        private String mTitle;
+
         public BannerButtonAction() {
-
         }
 
-        public BannerButtonAction(GvAdapter adapter, GvDataList.GvType dataType) {
-            super(adapter, dataType);
+        public BannerButtonAction(String title) {
+            mTitle = title;
         }
 
-        public static BannerButtonAction newDisplayButton(GvAdapter adapter,
-                GvDataList.GvType dataType, final String title) {
-            return new BannerButtonAction(adapter, dataType) {
-                @Override
-                public String getButtonTitle() {
-                    return title;
-                }
+        public static BannerButtonAction newDisplayButton(final String title) {
+            return new BannerButtonAction(title) {
             };
         }
 
         public String getButtonTitle() {
-            return null;
+            return mTitle;
         }
 
         public void onClick(View v) {
         }
     }
 
-    public static class GridItemAction extends TypedViewAction {
-        public GridItemAction() {
-
-        }
-
-        public GridItemAction(GvAdapter adapter, GvDataList.GvType dataType) {
-            super(adapter, dataType);
-        }
+    public static class GridItemAction extends ViewReviewAction {
 
         public void onGridItemClick(GvDataList.GvData item, View v) {
         }
@@ -186,45 +135,30 @@ public class ViewReviewAction {
         }
     }
 
-    public static class MenuAction extends TypedViewAction {
+    public static class MenuAction extends ViewReviewAction {
         public static final int                MENU_UP_ID = android.R.id.home;
         public static final ActivityResultCode RESULT_UP  = ActivityResultCode.UP;
 
         private int     mMenuId          = -1;
+        private String mTitle;
         private boolean mDisplayHomeAsUp = false;
 
         private SparseArray<MenuActionItemInfo> mActionItems;
 
         public MenuAction() {
-            this(-1, false);
+            this(-1, null, false);
         }
 
-        public MenuAction(int menuId, boolean displayHomeAsUp) {
+        public MenuAction(int menuId, String title, boolean displayHomeAsUp) {
             mMenuId = menuId;
+            mTitle = title;
             mDisplayHomeAsUp = displayHomeAsUp;
             mActionItems = new SparseArray<>();
             if (mDisplayHomeAsUp) addMenuActionItem(getUpActionItem(), MENU_UP_ID, true);
         }
 
-        public MenuAction(GvAdapter adapter, GvDataList.GvType dataType, int menuId) {
-            this(adapter, dataType, menuId, true);
-        }
-
-        public MenuAction(GvAdapter adapter, GvDataList.GvType dataType,
-                boolean displayHomeAsUp) {
-            super(adapter, dataType);
-            mDisplayHomeAsUp = displayHomeAsUp;
-            mActionItems = new SparseArray<>();
-            if (mDisplayHomeAsUp) addMenuActionItem(getUpActionItem(), MENU_UP_ID, true);
-        }
-
-        public MenuAction(GvAdapter adapter,
-                GvDataList.GvType dataType, int menuId, boolean displayHomeAsUp) {
-            super(adapter, dataType);
-            mMenuId = menuId;
-            mDisplayHomeAsUp = displayHomeAsUp;
-            mActionItems = new SparseArray<>();
-            if (mDisplayHomeAsUp) addMenuActionItem(getUpActionItem(), MENU_UP_ID, true);
+        public MenuAction(String title, boolean displayHomeAsUp) {
+            this(-1, title, displayHomeAsUp);
         }
 
         @Override
@@ -233,7 +167,7 @@ public class ViewReviewAction {
             if (actionBar != null) {
                 actionBar.setDisplayHomeAsUpEnabled(mDisplayHomeAsUp);
                 actionBar.setDisplayShowHomeEnabled(false);
-                if (getDataType() != null) actionBar.setTitle(getDataType().getDataString());
+                if (mTitle != null) actionBar.setTitle(mTitle);
                 addMenuItems();
             }
         }

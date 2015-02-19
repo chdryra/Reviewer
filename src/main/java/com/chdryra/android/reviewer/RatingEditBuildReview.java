@@ -16,13 +16,10 @@ import android.widget.RatingBar;
  * Email: rizwan.choudrey@gmail.com
  */
 public class RatingEditBuildReview extends RatingEdit {
-    public RatingEditBuildReview(ReviewBuilder controller) {
-        super(controller);
-    }
-
     @Override
     public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
         super.onRatingChanged(ratingBar, rating, fromUser);
+        if (fromUser) ((ReviewBuilder) getAdapter()).setRatingIsAverage(false);
         ((ReviewBuilder) getAdapter()).setRating(rating);
     }
 }

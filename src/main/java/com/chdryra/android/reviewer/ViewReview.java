@@ -29,7 +29,7 @@ import java.util.Map;
  */
 public class ViewReview {
     private FragmentViewReview mParent;
-    private CoverManager       mCoverManager;
+    private GvAdapter mAdapter;
 
     private ViewReviewAction.SubjectViewAction  mSubjectAction;
     private ViewReviewAction.RatingBarAction    mRatingAction;
@@ -42,10 +42,13 @@ public class ViewReview {
     private GvDataList mData;
     private GvDataList mDataToShow;
 
-    private boolean mIsEditable = false;
+    private boolean mRatingIsAverage = false;
+    private boolean mIsEditable      = false;
 
     private ArrayList<DataSetObserver> mGridObservers;
     private HashMap<String, Fragment>  mActionListeners;
+
+    private CoverManager mCoverManager;
 
     private ViewModifier mModifier;
 
@@ -72,8 +75,10 @@ public class ViewReview {
                 ViewGroup container, Bundle savedInstanceState);
     }
 
-    public ViewReview(FragmentViewReview parent, GvDataList mGridData, boolean isEditable) {
+    public ViewReview(FragmentViewReview parent, GvAdapter adapter, GvDataList mGridData,
+            boolean isEditable) {
         mParent = parent;
+        mAdapter = adapter;
         mData = mGridData;
         mDataToShow = mData;
         mIsEditable = isEditable;
@@ -91,10 +96,14 @@ public class ViewReview {
         mCoverManager = getNoCoverManager();
     }
 
-    public ViewReview(FragmentViewReview parent, GvDataList mGridData, boolean isEditable,
-            ViewModifier modifier) {
-        this(parent, mGridData, isEditable);
+    public ViewReview(FragmentViewReview parent, GvAdapter mAdapter, GvDataList mGridData,
+            boolean isEditable, ViewModifier modifier) {
+        this(parent, mAdapter, mGridData, isEditable);
         mModifier = modifier;
+    }
+
+    public GvAdapter getAdapter() {
+        return mAdapter;
     }
 
     public void setCoverManager(CoverManager coverManager) {
@@ -211,11 +220,19 @@ public class ViewReview {
     }
 
     public float getRating() {
-        return mParent.getRating();
+        return mRatingIsAverage ? mAdapter.getAverageRating() : mParent.getRating();
     }
 
     public void setRating(float rating) {
         mParent.setRating(rating);
+    }
+
+    public boolean isRatingAverage() {
+        return mRatingIsAverage;
+    }
+
+    public void setRatingAverage(boolean isAverage) {
+        mRatingIsAverage = isAverage;
     }
 
     public void registerGridDataObserver(DataSetObserver observer) {

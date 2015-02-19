@@ -20,7 +20,6 @@ public class RandomRating {
 
     public static float nextRating() {
         //0 to 5, rounded to nearest 0.5.
-        float rating = Math.round(RAND.nextFloat() * 10) / 2f;
-        return Math.round(rating * 2f) / 2f;
+        return Math.round(RAND.nextFloat() * 10) / 2f;
     }
 }

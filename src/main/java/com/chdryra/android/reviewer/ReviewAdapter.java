@@ -53,6 +53,13 @@ public class ReviewAdapter<T extends Review> implements GvAdapter {
     }
 
     @Override
+    public float getAverageRating() {
+        VisitorRatingAverageOfChildren visitor = new VisitorRatingAverageOfChildren();
+        visitor.visit(mReview.getReviewNode());
+        return visitor.getRating();
+    }
+
+    @Override
     public Author getAuthor() {
         return mReview.getAuthor();
     }
@@ -60,25 +67,6 @@ public class ReviewAdapter<T extends Review> implements GvAdapter {
     @Override
     public Date getPublishDate() {
         return mReview.getPublishDate();
-    }
-
-    @Override
-    public boolean hasData(GvDataList.GvType dataType) {
-        if (dataType == GvDataList.GvType.COMMENTS) {
-            return mReview.hasComments();
-        } else if (dataType == GvDataList.GvType.IMAGES) {
-            return mReview.hasImages();
-        } else if (dataType == GvDataList.GvType.FACTS) {
-            return mReview.hasFacts();
-        } else if (dataType == GvDataList.GvType.URLS) {
-            return mReview.hasUrls();
-        } else if (dataType == GvDataList.GvType.LOCATIONS) {
-            return mReview.hasLocations();
-        } else if (dataType == GvDataList.GvType.CHILDREN) {
-            return mReview.getReviewNode().getChildren().size() > 0;
-        } else {
-            return dataType == GvDataList.GvType.TAGS && TagsManager.getTags(mReview).size() > 0;
-        }
     }
 
     @Override

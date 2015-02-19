@@ -26,8 +26,8 @@ public class GridItemEditImage extends GridItemEdit {
     private GvImageList.GvImage mCoverProposition;
     private Fragment            mListener;
 
-    public GridItemEditImage(ReviewBuilder controller) {
-        super(controller, GvDataList.GvType.IMAGES);
+    public GridItemEditImage() {
+        super(ConfigGvDataUi.getConfig(GvDataList.GvType.IMAGES).getEditorConfig());
         mListener = new EditImageListener() {
         };
         registerActionListener(mListener, TAG);

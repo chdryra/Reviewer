@@ -29,8 +29,7 @@ public class GridItemBuildReview extends ViewReviewAction.GridItemAction {
     private ImageChooser            mImageChooser;
     private LocationClientConnector mLocationClient;
 
-    public GridItemBuildReview(ReviewBuilder controller) {
-        super(controller, GvDataList.GvType.BUILD_REVIEW);
+    public GridItemBuildReview() {
         mListener = new BuildListener() {
         };
         registerActionListener(mListener, TAG);
@@ -125,8 +124,8 @@ public class GridItemBuildReview extends ViewReviewAction.GridItemAction {
         GvAdapter adapter = getAdapter();
         LatLng latLng = mLatLng;
         boolean fromImage = false;
-        if (adapter.hasData(GvDataList.GvType.IMAGES)) {
-            GvImageList images = (GvImageList) adapter.getData(GvDataList.GvType.IMAGES);
+        GvImageList images = (GvImageList) adapter.getData(GvDataList.GvType.IMAGES);
+        if (images.size() > 0) {
             LatLng coverLatLng = images.getCovers().getItem(0).getLatLng();
             if (coverLatLng != null) {
                 latLng = coverLatLng;

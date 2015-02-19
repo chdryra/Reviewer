@@ -27,11 +27,11 @@ public interface GvAdapter {
 
     public float getRating();
 
+    public float getAverageRating();
+
     public Author getAuthor();
 
     public Date getPublishDate();
-
-    public boolean hasData(GvDataList.GvType dataType);
 
     public GvDataList getData(GvDataList.GvType dataType);
 }

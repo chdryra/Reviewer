@@ -8,6 +8,8 @@
 
 package com.chdryra.android.reviewer;
 
+import android.view.MenuItem;
+
 /**
  * Created by: Rizwan Choudrey
  * On: 28/01/2015
@@ -18,13 +20,26 @@ public class MenuBuildReview extends ViewReviewAction.MenuAction {
     private static final int MENU            = R.menu.fragment_review_options;
     private MenuActionItem mActionItem;
 
-    public MenuBuildReview(GvAdapter adapter) {
-        super(adapter, GvDataList.GvType.BUILD_REVIEW, MENU);
-        mActionItem = new MenuItemChildrenRatingAverage(this, true);
+    public MenuBuildReview() {
+        super(MENU, GvDataList.GvType.BUILD_REVIEW.getDataString(), true);
+        mActionItem = new MenuItemBuilderAverage();
     }
 
     @Override
     protected void addMenuItems() {
         addMenuActionItem(mActionItem, MENU_AVERAGE_ID, false);
+    }
+
+    private ReviewBuilder getBuilder() {
+        return (ReviewBuilder) getAdapter();
+    }
+
+    public class MenuItemBuilderAverage extends ViewReviewAction.MenuAction
+            .MenuActionItem {
+        @Override
+        public void doAction(MenuItem item) {
+            getBuilder().setRatingIsAverage(true);
+            getViewReview().setRating(getBuilder().getRating());
+        }
     }
 }

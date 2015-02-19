@@ -9,6 +9,7 @@
 package com.chdryra.android.reviewer;
 
 import android.database.DataSetObserver;
+import android.view.MenuItem;
 
 /**
  * Created by: Rizwan Choudrey
@@ -24,13 +25,14 @@ public class MenuEditChildren extends MenuDeleteDone {
     private MenuItemChildrenRatingAverage mActionItem;
     private DataSetObserver               mObserver;
 
-    public MenuEditChildren(ReviewBuilder controller) {
-        super(controller, GvDataList.GvType.CHILDREN, false, true, MENU);
-        mActionItem = new MenuItemChildrenRatingAverage(this, false);
+    public MenuEditChildren() {
+        super(GvDataList.GvType.CHILDREN.getDataString(), GvDataList.GvType.CHILDREN
+                .getDataString(), false, true, MENU);
+        mActionItem = new MenuItemChildrenRatingAverage();
         mObserver = new DataSetObserver() {
             @Override
             public void onChanged() {
-                if (getBuilder().isRatingAverage()) {
+                if (getViewReview().isRatingAverage()) {
                     mActionItem.setAverageRating();
                 }
             }
@@ -49,15 +51,33 @@ public class MenuEditChildren extends MenuDeleteDone {
     }
 
     @Override
+    protected void addMenuItems() {
+        addDefaultDeleteActionItem(MENU_DELETE_ID);
+        addDefaultDoneActionItem(MENU_DONE_ID);
+        addMenuActionItem(mActionItem, MENU_AVERAGE_ID, false);
+    }
+
+    @Override
     public void onUnsetViewReview() {
         super.onUnsetViewReview();
         getViewReview().unregisterGridDataObserver(mObserver);
     }
 
-    @Override
-    protected void addMenuItems() {
-        addDefaultDeleteActionItem(MENU_DELETE_ID);
-        addDefaultDoneActionItem(MENU_DONE_ID);
-        addMenuActionItem(mActionItem, MENU_AVERAGE_ID, false);
+    public class MenuItemChildrenRatingAverage extends ViewReviewAction.MenuAction.MenuActionItem {
+        public void setAverageRating() {
+            float rating = 0;
+            GvChildrenList children = (GvChildrenList) getData();
+            for (GvChildrenList.GvChildReview child : children) {
+                rating += child.getRating() / children.size();
+            }
+
+            getViewReview().setRating(rating);
+        }
+
+        @Override
+        public void doAction(MenuItem item) {
+            getViewReview().setRatingAverage(true);
+            setAverageRating();
+        }
     }
 }

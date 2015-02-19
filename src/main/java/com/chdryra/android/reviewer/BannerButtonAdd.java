@@ -25,9 +25,9 @@ public class BannerButtonAdd extends ViewReviewAction.BannerButtonAction {
     private GvDataHandler                   mHandler;
     private Fragment                        mListener;
 
-    public BannerButtonAdd(ReviewBuilder controller, GvDataList.GvType dataType) {
-        super(controller, dataType);
-        mConfig = ConfigGvDataUi.getConfig(getDataType()).getAdderConfig();
+    public BannerButtonAdd(ConfigGvDataUi.LaunchableConfig config, String title) {
+        super(title);
+        mConfig = config;
         mListener = new AddListener() {
         };
         registerActionListener(mListener, TAG);
@@ -36,12 +36,6 @@ public class BannerButtonAdd extends ViewReviewAction.BannerButtonAction {
     @Override
     public void onSetViewReview() {
         mHandler = FactoryGvDataHandler.newHandler(getData());
-    }
-
-    @Override
-    public String getButtonTitle() {
-        return getActivity().getResources().getString(R.string.add) + " " + getDataType()
-                .getDatumString();
     }
 
     @Override

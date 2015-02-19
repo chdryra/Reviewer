@@ -16,10 +16,6 @@ import android.text.Editable;
  * Email: rizwan.choudrey@gmail.com
  */
 public class SubjectEdit extends ViewReviewAction.SubjectViewAction {
-    public SubjectEdit(ReviewBuilder controller) {
-        super(controller);
-    }
-
     //Because clear button not picked up by afterTextChanged
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {

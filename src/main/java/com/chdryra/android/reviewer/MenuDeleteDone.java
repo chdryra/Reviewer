@@ -33,26 +33,30 @@ public class MenuDeleteDone extends ViewReviewAction.MenuAction {
     private MenuActionItem mDeleteAction;
     private MenuActionItem mDoneAction;
 
+    private String mDeleteWhat;
     private boolean mDismissOnDelete;
     private boolean mDismissOnDone;
 
     private Fragment mListener;
     private boolean  mRatingIsAverage;
 
-    public MenuDeleteDone(ReviewBuilder controller,
-            GvDataList.GvType dataType) {
-        this(controller, dataType, false, true);
+    public MenuDeleteDone(String title) {
+        this(title, title);
     }
 
-    public MenuDeleteDone(ReviewBuilder controller,
-            GvDataList.GvType dataType, boolean dismissOnDelete, boolean dismissOnDone) {
-        this(controller, dataType, dismissOnDelete, dismissOnDone, MENU);
+    public MenuDeleteDone(String title, String deleteWhat) {
+        this(title, deleteWhat, false, true);
     }
 
-    public MenuDeleteDone(ReviewBuilder controller,
-            GvDataList.GvType dataType, boolean dismissOnDelete, boolean dismissOnDone,
-            int menuId) {
-        super(controller, dataType, menuId);
+    public MenuDeleteDone(String title, String deleteWhat, boolean dismissOnDelete,
+            boolean dismissOnDone) {
+        this(title, deleteWhat, dismissOnDelete, dismissOnDone, MENU);
+    }
+
+    public MenuDeleteDone(String title, String deleteWhat, boolean dismissOnDelete,
+            boolean dismissOnDone, int menuId) {
+        super(menuId, title, true);
+        mDeleteWhat = deleteWhat;
         mDismissOnDelete = dismissOnDelete;
         mDismissOnDone = dismissOnDone;
 
@@ -71,12 +75,16 @@ public class MenuDeleteDone extends ViewReviewAction.MenuAction {
             }
         };
 
-        mRatingIsAverage = getBuilder().isRatingAverage();
-
         addMenuItems();
         mListener = new DeleteConfirmListener() {
         };
         registerActionListener(mListener, TAG);
+    }
+
+    @Override
+    public void onSetViewReview() {
+        super.onSetViewReview();
+        mRatingIsAverage = getBuilder().isRatingAverage();
     }
 
     @Override
@@ -133,11 +141,12 @@ public class MenuDeleteDone extends ViewReviewAction.MenuAction {
 
         if (data != null) builder.setData(data);
         builder.setSubject(view.getSubject());
+        builder.setRatingIsAverage(view.isRatingAverage());
         builder.setRating(view.getRating());
     }
 
     private void showDeleteConfirmDialog() {
-        String deleteWhat = " all " + getDataType().getDataString();
+        String deleteWhat = "all " + mDeleteWhat;
         DialogDeleteConfirm.showDialog(deleteWhat, mListener, DELETE_CONFIRM,
                 getActivity().getFragmentManager());
     }

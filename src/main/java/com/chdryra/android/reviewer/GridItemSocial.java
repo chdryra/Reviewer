@@ -16,10 +16,6 @@ import android.view.View;
  * Email: rizwan.choudrey@gmail.com
  */
 public class GridItemSocial extends ViewReviewAction.GridItemAction {
-    public GridItemSocial(GvAdapter adapter) {
-        super(adapter, GvDataList.GvType.SOCIAL);
-    }
-
     @Override
     public void onGridItemClick(GvDataList.GvData item, View v) {
         GvSocialPlatformList.GvSocialPlatform platform =

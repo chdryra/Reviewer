@@ -22,7 +22,7 @@ public class MenuFeed extends ViewReviewAction.MenuAction {
     private static final int MENU               = R.menu.fragment_feed;
 
     public MenuFeed() {
-        super(MENU, false);
+        super(MENU, null, false);
     }
 
     @Override

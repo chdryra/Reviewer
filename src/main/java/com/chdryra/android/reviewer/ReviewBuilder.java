@@ -87,11 +87,12 @@ public class ReviewBuilder implements GvAdapter {
 
     @Override
     public float getRating() {
-        return isRatingAverage() ? getChildren().getAveragerating() : mRating;
+        return isRatingAverage() ? getAverageRating() : mRating;
     }
 
-    public void setRating(float rating) {
-        if (!isRatingAverage()) mRating = rating;
+    @Override
+    public float getAverageRating() {
+        return getChildren().getAveragerating();
     }
 
     @Override
@@ -105,18 +106,16 @@ public class ReviewBuilder implements GvAdapter {
     }
 
     @Override
-    public boolean hasData(GvDataList.GvType dataType) {
-        GvDataList data = getData(dataType);
-        return data != null && data.size() > 0;
-    }
-
-    @Override
     public GvDataList getData(GvDataList.GvType dataType) {
         if (dataType == GvDataList.GvType.CHILDREN) {
             return getChildren();
         } else {
             return MdGvConverter.copy(mData.get(dataType));
         }
+    }
+
+    public void setRating(float rating) {
+        if (!isRatingAverage()) mRating = rating;
     }
 
     public Review publish(Date publishDate) {

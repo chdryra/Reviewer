@@ -24,8 +24,8 @@ public class BannerButtonAddImage extends BannerButtonAdd {
     private ImageChooser mImageChooser;
     private Fragment     mListener;
 
-    public BannerButtonAddImage(ReviewBuilder controller) {
-        super(controller, GvDataList.GvType.IMAGES);
+    public BannerButtonAddImage(String title) {
+        super(ConfigGvDataUi.getConfig(GvDataList.GvType.IMAGES).getAdderConfig(), title);
         mListener = new AddImageListener() {
         };
         registerActionListener(mListener, TAG);

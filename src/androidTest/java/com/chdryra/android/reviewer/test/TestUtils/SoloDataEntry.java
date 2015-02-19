@@ -78,4 +78,9 @@ public class SoloDataEntry {
         solo.clearEditText(solo.getEditText(0));
         solo.enterText(solo.getEditText(0), data.toString());
     }
+
+    public static void enterRating(Solo solo, float rating) {
+        rating = Math.round(rating * 2f) / 2f;
+        solo.setProgressBar(0, (int) (rating * 2f));
+    }
 }

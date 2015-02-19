@@ -26,11 +26,8 @@ public class GridItemEdit extends ViewReviewAction.GridItemAction {
     private       ConfigGvDataUi.LaunchableConfig mConfig;
     private       GvDataHandler                   mHandler;
 
-    public GridItemEdit(ReviewBuilder controller,
-            GvDataList.GvType dataType) {
-        super(controller, dataType);
-        ConfigGvDataUi.Config config = ConfigGvDataUi.getConfig(getDataType());
-        mConfig = config.getEditorConfig();
+    public GridItemEdit(ConfigGvDataUi.LaunchableConfig config) {
+        mConfig = config;
         mListener = new EditListener() {
         };
         registerActionListener(mListener, TAG);

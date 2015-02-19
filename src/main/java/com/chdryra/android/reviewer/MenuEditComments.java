@@ -26,8 +26,9 @@ public class MenuEditComments extends MenuDeleteDone {
     private boolean mCommentsAreSplit = false;
     private DataSetObserver mObserver;
 
-    public MenuEditComments(ReviewBuilder controller) {
-        super(controller, GvDataList.GvType.COMMENTS, false, true, MENU);
+    public MenuEditComments() {
+        super(GvDataList.GvType.COMMENTS.getDataString(), GvDataList.GvType.COMMENTS
+                .getDataString(), false, true, MENU);
         mObserver = new DataSetObserver() {
             @Override
             public void onChanged() {
@@ -48,16 +49,16 @@ public class MenuEditComments extends MenuDeleteDone {
     }
 
     @Override
-    public void onUnsetViewReview() {
-        super.onUnsetViewReview();
-        getViewReview().unregisterGridDataObserver(mObserver);
-    }
-
-    @Override
     protected void addMenuItems() {
         addDefaultDeleteActionItem(MENU_DELETE_ID);
         addDefaultDoneActionItem(MENU_DONE_ID);
         addMenuActionItem(getSplitOrUnsplitCommentsAction(), MENU_SPLIT_ID, false);
+    }
+
+    @Override
+    public void onUnsetViewReview() {
+        super.onUnsetViewReview();
+        getViewReview().unregisterGridDataObserver(mObserver);
     }
 
     private MenuActionItem getSplitOrUnsplitCommentsAction() {

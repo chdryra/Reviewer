@@ -13,6 +13,7 @@ import android.test.suitebuilder.annotation.SmallTest;
 import com.chdryra.android.reviewer.GvChildrenList;
 import com.chdryra.android.reviewer.GvDataList;
 import com.chdryra.android.reviewer.R;
+import com.chdryra.android.reviewer.test.TestUtils.SoloDataEntry;
 
 /**
  * Created by: Rizwan Choudrey
@@ -133,7 +134,8 @@ public class ActivityEditChildrenTest extends ActivityEditScreenTest {
         getBuilder().setRatingIsAverage(false);
         mOriginalRatingNotAverage = mAdapter.getRating();
         getBuilder().setRatingIsAverage(mIsAverage);
-        mSolo.setProgressBar(0, (int) (mAdapter.getRating() * 2f));
+        float r = mAdapter.getRating();
+        SoloDataEntry.enterRating(mSolo, mAdapter.getRating());
         super.setUpFinish(withData);
     }
 
@@ -185,10 +187,8 @@ public class ActivityEditChildrenTest extends ActivityEditScreenTest {
         float rating = 0;
         for (int i = 0; i < numCells; ++i) {
             GvChildrenList.GvChildReview review = (GvChildrenList.GvChildReview) getGridItem(i);
-            rating += review.getRating();
+            rating += review.getRating() / numCells;
         }
-
-        if (numCells > 0) rating /= numCells;
 
         return nearestHalf ? Math.round(rating * 2f) / 2f : rating;
     }
