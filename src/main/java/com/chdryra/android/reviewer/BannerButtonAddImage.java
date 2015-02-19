@@ -21,6 +21,7 @@ import com.chdryra.android.mygenerallibrary.ActivityResultCode;
  */
 public class BannerButtonAddImage extends BannerButtonAdd {
     private static final String TAG = "BannerButtonAddImageListener";
+
     private ImageChooser mImageChooser;
     private Fragment     mListener;
 
@@ -39,7 +40,6 @@ public class BannerButtonAddImage extends BannerButtonAdd {
 
     @Override
     public void onClick(View v) {
-        if (getViewReview() == null) return;
         mListener.startActivityForResult(mImageChooser.getChooserIntents(), getRequestCode());
     }
 
@@ -55,19 +55,17 @@ public class BannerButtonAddImage extends BannerButtonAdd {
 
         @Override
         public void onActivityResult(int requestCode, int resultCode, Intent data) {
+            boolean correctCode = requestCode == getRequestCode();
             boolean isOk = ActivityResultCode.OK.equals(resultCode);
-            if (requestCode == getRequestCode() && isOk && mImageChooser.chosenImageExists
-                    (ActivityResultCode.get(resultCode), data)) {
-                mImageChooser.getChosenImage(this);
-            }
+            boolean imageExists = mImageChooser.chosenImageExists(ActivityResultCode.get
+                    (resultCode), data);
+
+            if (correctCode && isOk && imageExists) mImageChooser.getChosenImage(this);
         }
 
         @Override
         public void onImageChosen(GvImageList.GvImage image) {
-            boolean success = addData(image);
-            if (success && getData().size() == 1) {
-                setCover();
-            }
+            if (addData(image) && getData().size() == 1) setCover();
         }
     }
 }

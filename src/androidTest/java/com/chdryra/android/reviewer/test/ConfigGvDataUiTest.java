@@ -33,9 +33,9 @@ import java.util.Set;
  */
 public class ConfigGvDataUiTest extends AndroidTestCase {
     private static final GvDataList.GvType[] NULLADDS  = {GvDataList.GvType.IMAGES,
-            GvDataList.GvType.FEED, GvDataList.GvType.SOCIAL};
+            GvDataList.GvType.FEED, GvDataList.GvType.SHARE};
     private static final GvDataList.GvType[] NULLEDITS = {GvDataList.GvType.FEED,
-            GvDataList.GvType.SOCIAL};
+            GvDataList.GvType.SHARE};
 
     @SmallTest
     public void testGetConfigAndConfigClass() {

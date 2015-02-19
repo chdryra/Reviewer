@@ -22,7 +22,7 @@ public class FactoryViewReview {
     public static ViewReview newViewReview(FragmentViewReview parent, GvDataList.GvType dataType,
             boolean isEdit) {
         ViewReview view;
-        if (dataType == GvDataList.GvType.SOCIAL) {
+        if (dataType == GvDataList.GvType.SHARE) {
             view = newShareScreen(parent);
         } else if (dataType == GvDataList.GvType.BUILD_REVIEW) {
             view = newBuildScreen(parent);
@@ -38,148 +38,131 @@ public class FactoryViewReview {
     }
 
     private static ViewReview newBuildScreen(FragmentViewReview parent) {
-        Activity activity = parent.getActivity();
-        Administrator admin = Administrator.get(activity);
+        ViewReviewAdapter adapter = getAdapter(parent, GvDataList.GvType.BUILD_REVIEW);
 
-        ReviewBuilder builder = admin.getNewReviewBuilder(activity);
+        ViewReview view = new ViewReview(parent, adapter, true, new ViewReviewBuildModifier
+                ((ReviewBuilder) adapter));
 
-        ViewReview view = new ViewReview(parent, builder, true, new ViewReviewBuildModifier
-                (builder));
-
-        GvDataList.GvType dataType = GvDataList.GvType.BUILD_REVIEW;
-
-        view.setAction(newSubjectEdit());
-        view.setAction(newRatingBarEdit(dataType));
-        view.setAction(ViewReviewAction.BannerButtonAction.newDisplayButton(
-                parent.getResources().getString(R.string.button_add_review_data)));
-        view.setAction(newGridItemEdit(dataType));
-        view.setAction(newMenuAction(dataType));
-
-        view.setCoverManager(newCoverManager(builder));
+        setActions(view, GvDataList.GvType.BUILD_REVIEW, parent.getResources().getString(R.string
+                .button_add_review_data));
 
         return view;
     }
 
     private static ViewReview newShareScreen(FragmentViewReview parent) {
-        Activity activity = parent.getActivity();
-        Administrator admin = Administrator.get(activity);
+        ViewReviewAdapter adapter = getAdapter(parent, GvDataList.GvType.SHARE);
 
-        ViewReviewAdapter adapter = admin.getShareScreenAdapter();
-        ViewReview view = new ViewReview(parent, adapter, true, new ViewReviewShareModifier());
+        ViewReview view = new ViewReview(parent, adapter, false, new ViewReviewShareModifier());
 
-        GvDataList.GvType dataType = GvDataList.GvType.SOCIAL;
-        view.setAction(newSubjectViewAction());
-        view.setAction(newRatingBarAction());
-        view.setAction(ViewReviewAction.BannerButtonAction.newDisplayButton(parent.getResources()
-                .getString(R.string.button_social)));
-        view.setAction(newGridItemAction(dataType));
-        view.setAction(newMenuAction(dataType));
-
-        view.setCoverManager(newCoverManager(adapter));
-
-        return view;
-    }
-
-    private static ViewReview newFeedScreen(FragmentViewReview parent) {
-        Administrator admin = Administrator.get(parent.getActivity());
-
-        ViewReview view = new ViewReview(parent, admin.getPublishedReviews(), false);
-        view.setAction(new MenuFeed());
+        setActions(view, GvDataList.GvType.SHARE, parent.getResources()
+                .getString(R.string.button_social));
 
         return view;
     }
 
     private static ViewReview newEditScreen(FragmentViewReview parent, GvDataList.GvType dataType) {
-        Activity activity = parent.getActivity();
-        Administrator admin = Administrator.get(activity);
+        ViewReviewAdapter adapter = getAdapter(parent, dataType);
 
-        ViewReviewAdapter adapter = admin.getReviewBuilder().getDataAdapter(dataType);
         ViewReview view = new ViewReview(parent, adapter, true);
 
-        String buttonTitle = parent.getResources().getString(R.string.button_add) + " " + dataType
-                .getDatumString();
-        view.setAction(newSubjectViewAction());
-        view.setAction(newRatingBarEdit(dataType));
-        view.setAction(newBannerButtonAdd(dataType, buttonTitle));
-        view.setAction(newGridItemEdit(dataType));
-        view.setAction(newMenuEdit(dataType));
-
-        CoverManager coverManager = newCoverManager(adapter);
-        view.setCoverManager(coverManager);
+        setActions(view, dataType, parent.getResources().getString(R.string.button_add) + " " +
+                dataType.getDatumString());
 
         return view;
+    }
+
+    private static ViewReview newFeedScreen(FragmentViewReview parent) {
+        ViewReviewAdapter adapter = getAdapter(parent, GvDataList.GvType.FEED);
+
+        ViewReview view = new ViewReview(parent, adapter, false);
+
+        view.setAction(new MenuFeed());
+
+        return view;
+    }
+
+    private static void setActions(ViewReview view, GvDataList.GvType dataType,
+            String buttonTitle) {
+        view.setAction(newSubjectViewAction(dataType));
+        view.setAction(newRatingBarAction(dataType));
+        view.setAction(newBannerButtonAction(dataType, buttonTitle));
+        view.setAction(newGridItemAction(dataType));
+        view.setAction(newMenuAction(dataType));
     }
 
     private static ViewReviewAction.MenuAction newMenuAction(GvDataList.GvType dataType) {
         if (dataType == GvDataList.GvType.BUILD_REVIEW) {
             return new MenuBuildReview();
-        } else {
-            return new ViewReviewAction.MenuAction(dataType.getDataString(), true);
-        }
-    }
-
-    private static ViewReviewAction.MenuAction newMenuEdit(GvDataList.GvType dataType) {
-        if (dataType == GvDataList.GvType.COMMENTS) {
+        } else if (dataType == GvDataList.GvType.COMMENTS) {
             return new MenuEditComments();
         } else if (dataType == GvDataList.GvType.CHILDREN) {
             return new MenuEditChildren();
+        } else if (dataType == GvDataList.GvType.SHARE) {
+            return new ViewReviewAction.MenuAction(dataType.getDataString(), true);
         } else {
             return new MenuDeleteDone(dataType.getDataString());
         }
     }
 
     private static ViewReviewAction.GridItemAction newGridItemAction(GvDataList.GvType dataType) {
-        if (dataType == GvDataList.GvType.SOCIAL) {
-            return new GridItemSocial();
-        } else {
-            return new ViewReviewAction.GridItemAction();
-        }
-    }
-
-    private static ViewReviewAction.GridItemAction newGridItemEdit(GvDataList.GvType dataType) {
         if (dataType == GvDataList.GvType.COMMENTS) {
             return new GridItemEditComment();
         } else if (dataType == GvDataList.GvType.IMAGES) {
             return new GridItemEditImage();
         } else if (dataType == GvDataList.GvType.BUILD_REVIEW) {
             return new GridItemBuildReview();
+        } else if (dataType == GvDataList.GvType.SHARE) {
+            return new GridItemSocial();
         } else {
             return new GridItemEdit(ConfigGvDataUi.getConfig(dataType).getEditorConfig());
         }
     }
 
-    private static ViewReviewAction.BannerButtonAction newBannerButtonAdd(
+    private static ViewReviewAction.BannerButtonAction newBannerButtonAction(
             GvDataList.GvType dataType, String title) {
-        ConfigGvDataUi.LaunchableConfig config = ConfigGvDataUi.getConfig(dataType).getAdderConfig();
-        if (dataType == GvDataList.GvType.IMAGES) {
+        if (dataType == GvDataList.GvType.BUILD_REVIEW || dataType == GvDataList.GvType.SHARE) {
+            return ViewReviewAction.BannerButtonAction.newDisplayButton(title);
+        } else if (dataType == GvDataList.GvType.IMAGES) {
             return new BannerButtonAddImage(title);
         } else {
-            return new BannerButtonAdd(config, title);
+            return new BannerButtonAdd(ConfigGvDataUi.getConfig(dataType).getAdderConfig(), title);
         }
     }
 
-    private static ViewReviewAction.RatingBarAction newRatingBarAction() {
-        return new ViewReviewAction.RatingBarAction();
-    }
-
-    private static ViewReviewAction.RatingBarAction newRatingBarEdit(GvDataList.GvType dataType) {
+    private static ViewReviewAction.RatingBarAction newRatingBarAction(GvDataList.GvType dataType) {
         if (dataType == GvDataList.GvType.BUILD_REVIEW) {
             return new RatingEditBuildReview();
+        } else if (dataType == GvDataList.GvType.SHARE) {
+            return new ViewReviewAction.RatingBarAction();
         } else {
             return new RatingEdit();
         }
     }
 
-    private static ViewReviewAction.SubjectViewAction newSubjectViewAction() {
-        return new ViewReviewAction.SubjectViewAction();
+    private static ViewReviewAction.SubjectViewAction newSubjectViewAction(GvDataList.GvType
+            dataType) {
+        if (dataType == GvDataList.GvType.BUILD_REVIEW) {
+            return new SubjectEdit();
+        } else {
+            return new ViewReviewAction.SubjectViewAction();
+
+        }
     }
 
-    private static ViewReviewAction.SubjectViewAction newSubjectEdit() {
-        return new SubjectEdit();
-    }
+    private static ViewReviewAdapter getAdapter(FragmentViewReview parent,
+            GvDataList.GvType dataType) {
+        Activity activity = parent.getActivity();
+        Administrator admin = Administrator.get(activity);
 
-    private static CoverManager newCoverManager(ViewReviewAdapter adapter) {
-        return new CoverManager(adapter);
+        if (dataType == GvDataList.GvType.FEED) {
+            return admin.getPublishedReviews();
+        } else if (dataType == GvDataList.GvType.BUILD_REVIEW) {
+            return admin.getNewReviewBuilder(parent.getActivity());
+        } else if (dataType == GvDataList.GvType.SHARE) {
+            return admin.getShareScreenAdapter();
+        } else {
+            return admin.getReviewBuilder().getDataAdapter(dataType);
+        }
     }
 
     private static void setParams(GvDataList.GvType dataType, ViewReview view) {
@@ -193,8 +176,9 @@ public class FactoryViewReview {
             params.ratingIsVisibile = false;
             params.bannerButtonIsVisibile = false;
             params.gridAlpha = ViewReview.GridViewImageAlpha.TRANSPARENT;
-        }
-        if (dataType == GvDataList.GvType.BUILD_REVIEW || dataType == GvDataList.GvType.SOCIAL) {
+            params.coverManager = false;
+        } else if (dataType == GvDataList.GvType.BUILD_REVIEW || dataType == GvDataList.GvType
+                .SHARE) {
             params.gridAlpha = ViewReview.GridViewImageAlpha.TRANSPARENT;
         }
     }

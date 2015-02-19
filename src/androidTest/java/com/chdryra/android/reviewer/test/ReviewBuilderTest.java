@@ -84,7 +84,7 @@ public class ReviewBuilderTest extends AndroidTestCase {
         assertEquals(0, mBuilder.getData(GvDataList.GvType.URLS).size());
         assertEquals(0, mBuilder.getData(GvDataList.GvType.CHILDREN).size());
         assertEquals(0, mBuilder.getData(GvDataList.GvType.TAGS).size());
-        assertNull(mBuilder.getData(GvDataList.GvType.SOCIAL));
+        assertNull(mBuilder.getData(GvDataList.GvType.SHARE));
         assertNull(mBuilder.getData(GvDataList.GvType.BUILD_REVIEW));
         assertNull(mBuilder.getData(GvDataList.GvType.FEED));
 
@@ -111,7 +111,7 @@ public class ReviewBuilderTest extends AndroidTestCase {
         assertTrue(mBuilder.hasData(GvDataList.GvType.URLS));
         assertTrue(mBuilder.hasData(GvDataList.GvType.CHILDREN));
         assertTrue(mBuilder.hasData(GvDataList.GvType.TAGS));
-        assertFalse(mBuilder.hasData(GvDataList.GvType.SOCIAL));
+        assertFalse(mBuilder.hasData(GvDataList.GvType.SHARE));
         assertFalse(mBuilder.hasData(GvDataList.GvType.BUILD_REVIEW));
         assertFalse(mBuilder.hasData(GvDataList.GvType.FEED));
 
@@ -123,7 +123,7 @@ public class ReviewBuilderTest extends AndroidTestCase {
         assertEquals(urls, mBuilder.getData(GvDataList.GvType.URLS));
         assertEquals(children, mBuilder.getData(GvDataList.GvType.CHILDREN));
         assertEquals(tags, mBuilder.getData(GvDataList.GvType.TAGS));
-        assertNull(mBuilder.getData(GvDataList.GvType.SOCIAL));
+        assertNull(mBuilder.getData(GvDataList.GvType.SHARE));
         assertNull(mBuilder.getData(GvDataList.GvType.BUILD_REVIEW));
         assertNull(mBuilder.getData(GvDataList.GvType.FEED));
     }

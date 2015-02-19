@@ -88,7 +88,7 @@ public class GridItemBuildReview extends ViewReviewAction.GridItemAction {
 
     private void startActivity(ConfigGvDataUi.Config config) {
         GvDataList.GvType dataType = config.getGvType();
-        boolean isEdit = !(dataType == GvDataList.GvType.SOCIAL);
+        boolean isEdit = !(dataType == GvDataList.GvType.SHARE);
 
         Intent i = new Intent(getActivity(), ActivityViewReview.class);
         ActivityViewReview.packParameters(dataType, isEdit, i);

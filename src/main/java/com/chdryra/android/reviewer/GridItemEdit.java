@@ -42,7 +42,7 @@ public class GridItemEdit extends ViewReviewAction.GridItemAction {
     public void onGridItemClick(GvDataList.GvData item, View v) {
         if (getViewReview() == null) return;
 
-        Bundle args = Administrator.get(getActivity()).pack(getAdapter());
+        Bundle args = new Bundle();//Administrator.get(getActivity()).pack(getAdapter());
         GvDataPacker.packItem(GvDataPacker.CurrentNewDatum.CURRENT, item, args);
 
         LauncherUi.launch(mConfig.getLaunchable(), mListener, getRequestCode(),

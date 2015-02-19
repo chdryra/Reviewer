@@ -52,7 +52,7 @@ public abstract class GvDataList<T extends GvDataList.GvData> extends ViewHolder
         LOCATIONS("location"),
         TAGS("tag"),
         FEED("feed", "feed"),
-        SOCIAL("social");
+        SHARE("share", "share");
 
         private final String mDatumString;
         private final String mDataString;

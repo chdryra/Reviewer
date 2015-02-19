@@ -29,7 +29,7 @@ import java.util.Map;
  */
 public class ViewReview {
     private FragmentViewReview mParent;
-    private ViewReviewAdapter mAdapter;
+    private ViewReviewAdapter  mAdapter;
 
     private ViewReviewAction.SubjectViewAction  mSubjectAction;
     private ViewReviewAction.RatingBarAction    mRatingAction;
@@ -47,8 +47,6 @@ public class ViewReview {
 
     private ArrayList<DataSetObserver> mGridObservers;
     private HashMap<String, Fragment>  mActionListeners;
-
-    private CoverManager mCoverManager;
 
     private ViewModifier mModifier;
 
@@ -92,7 +90,6 @@ public class ViewReview {
         setAction(new ViewReviewAction.MenuAction());
 
         mParams = new ViewReviewParams();
-        mCoverManager = getNoCoverManager();
     }
 
     public ViewReview(FragmentViewReview parent, ViewReviewAdapter mAdapter, boolean isEditable,
@@ -103,10 +100,6 @@ public class ViewReview {
 
     public ViewReviewAdapter getAdapter() {
         return mAdapter;
-    }
-
-    public void setCoverManager(CoverManager coverManager) {
-        mCoverManager = coverManager;
     }
 
     public void setAction(ViewReviewAction.SubjectViewAction action) {
@@ -185,11 +178,22 @@ public class ViewReview {
     }
 
     public void proposeCover(GvImageList.GvImage image) {
-        mCoverManager.proposeCover(image);
+        if (mParams.coverManager) {
+            GvImageList images = mAdapter.getImages();
+            GvImageList covers = images.getCovers();
+            if (covers.size() == 1 && images.contains(image)) {
+                covers.getItem(0).setIsCover(false);
+                image.setIsCover(true);
+            }
+        }
     }
 
     public void updateCover() {
-        mCoverManager.updateCover(mParent);
+        if (mParams.coverManager) {
+            GvImageList images = mAdapter.getImages();
+            GvImageList covers = images.getCovers();
+            mParent.setCover(covers.getRandomCover());
+        }
     }
 
     public void updateUi() {
@@ -257,20 +261,6 @@ public class ViewReview {
         }
     }
 
-    public CoverManager getNoCoverManager() {
-        return new CoverManager() {
-            @Override
-            public void updateCover(FragmentViewReview fragment) {
-
-            }
-
-            @Override
-            public void proposeCover(GvImageList.GvImage image) {
-
-            }
-        };
-    }
-
     public static class ViewReviewParams {
         public GridViewImageAlpha gridAlpha              = GridViewImageAlpha.MEDIUM;
         public CellDimension      cellWidth              = CellDimension.HALF;
@@ -279,5 +269,6 @@ public class ViewReview {
         public boolean            ratingIsVisibile       = true;
         public boolean            bannerButtonIsVisibile = true;
         public boolean            gridIsVisibile         = true;
+        public boolean            coverManager           = true;
     }
 }

@@ -10,10 +10,6 @@ package com.chdryra.android.reviewer;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
-
-import com.chdryra.android.mygenerallibrary.ObjectHolder;
 
 import java.util.Date;
 
@@ -38,21 +34,18 @@ import java.util.Date;
  * @see com.chdryra.android.reviewer.RCollectionReview
  */
 public class Administrator {
-    private static final String CONTROLLER_ID = "com.chdryra.android.reviewer.review_id";
-    private static final Author AUTHOR        = new Author("Rizwan Choudrey");
-    private static final String FEED = "Feed";
+    private static final Author AUTHOR = new Author("Rizwan Choudrey");
+    private static final String FEED   = "Feed";
 
     private static Administrator sAdministrator;
 
-    private final Context                         mContext;
+    private final Context                 mContext;
     private final ReviewCollectionAdapter mPublishedReviews;
-    private final ObjectHolder                    mAdapters;
 
     private ReviewBuilder mReviewBuilder;
 
     private Administrator(Context context) {
         mContext = context;
-        mAdapters = new ObjectHolder();
         mPublishedReviews = new ReviewCollectionAdapter(AUTHOR, new Date(), FEED);
     }
 
@@ -93,39 +86,15 @@ public class Administrator {
         return mPublishedReviews;
     }
 
+    public ViewReviewAdapter getShareScreenAdapter() {
+        return new ShareScreenAdapter(mContext, mReviewBuilder);
+    }
+
     public void publishReviewInProgress() {
         mPublishedReviews.add(mReviewBuilder.publish(new Date()));
     }
 
     public GvSocialPlatformList getSocialPlatformList() {
         return GvSocialPlatformList.getLatest(mContext);
-    }
-
-    public void pack(ViewReviewAdapter adapter, Intent i) {
-        i.putExtra(CONTROLLER_ID, adapter.getId());
-        register(adapter);
-    }
-
-    public Bundle pack(ViewReviewAdapter adapter) {
-        Bundle args = new Bundle();
-        args.putString(CONTROLLER_ID, adapter.getId());
-        register(adapter);
-        return args;
-    }
-
-    public ViewReviewAdapter getShareScreenAdapter() {
-        return new ShareScreenAdapter(mContext, mReviewBuilder);
-    }
-
-    private void register(ViewReviewAdapter adapter) {
-        mAdapters.addObject(adapter.getId(), adapter);
-    }
-
-    private void unregister(ViewReviewAdapter adapter) {
-        if (adapter != null) mAdapters.removeObject(adapter.getId());
-    }
-
-    private ViewReviewAdapter getAdapter(String id) {
-        return id != null ? (ViewReviewAdapter) mAdapters.getObject(id) : null;
     }
 }

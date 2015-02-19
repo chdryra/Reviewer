@@ -30,7 +30,7 @@ import com.chdryra.android.testutils.RandomString;
  */
 public class ActivityShareScreenTest extends ActivityViewReviewTest {
     private static final int               TIMEOUT = 10000;
-    private static final GvDataList.GvType TYPE    = GvDataList.GvType.SOCIAL;
+    private static final GvDataList.GvType TYPE    = GvDataList.GvType.SHARE;
     private SocialPlatformList mList;
     private Administrator      mAdmin;
 

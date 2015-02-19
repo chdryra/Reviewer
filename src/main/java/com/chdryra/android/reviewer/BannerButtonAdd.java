@@ -22,6 +22,7 @@ import com.chdryra.android.mygenerallibrary.ActivityResultCode;
  */
 public class BannerButtonAdd extends ViewReviewAction.BannerButtonAction {
     private static final String TAG = "ActionBannerButtonAddListener";
+
     private ConfigGvDataUi.LaunchableConfig mConfig;
     private GvDataHandler                   mHandler;
     private Fragment                        mListener;

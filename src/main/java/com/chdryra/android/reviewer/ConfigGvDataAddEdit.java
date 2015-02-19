@@ -64,7 +64,7 @@ public final class ConfigGvDataAddEdit {
         mMap.put(GvDataList.GvType.FEED,
                 new AddEditUis(null, null));
 
-        mMap.put(GvDataList.GvType.SOCIAL,
+        mMap.put(GvDataList.GvType.SHARE,
                 new AddEditUis(null, null));
     }
 
