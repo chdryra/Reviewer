@@ -50,7 +50,7 @@ public class ViewReviewBuildModifier implements ViewReview.ViewModifier {
                     return;
                 }
 
-                if (mBuilder.getData(GvDataList.GvType.TAGS).size() == 0) {
+                if (mBuilder.getDataSize(GvDataList.GvType.TAGS) == 0) {
                     Toast.makeText(activity, R.string.toast_enter_tag,
                             Toast.LENGTH_SHORT).show();
                     return;

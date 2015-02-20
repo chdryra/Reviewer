@@ -16,24 +16,8 @@ import com.chdryra.android.reviewer.GvDataList;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ActivityEditFactsTest extends ActivityEditScreenTest {
-
     public ActivityEditFactsTest() {
         super(GvDataList.GvType.FACTS);
     }
-
-    //    @SmallTest
-//    public void testForDebugging() {
-//        super.testActivityLaunches();
-//        super.testSubjectRatingChange();
-//        super.testBannerButtonAddDone();
-//        super.testBannerButtonAddCancel();
-//        super.testGridItemEditDone();
-//        super.testGridItemEditCancel();
-//        super.testGridItemDeleteConfirm();
-//        super.testGridItemDeleteCancel();
-//        super.testMenuDeleteConfirm();
-//        super.testMenuDeleteCancel();
-//        super.testMenuUpCancels();
-//    }
 }
 

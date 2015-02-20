@@ -10,15 +10,18 @@ package com.chdryra.android.reviewer.test;
 
 import android.test.suitebuilder.annotation.SmallTest;
 
+import com.chdryra.android.reviewer.Author;
 import com.chdryra.android.reviewer.GvDataList;
 import com.chdryra.android.reviewer.GvReviewList;
 import com.chdryra.android.reviewer.Review;
 import com.chdryra.android.reviewer.ReviewCollectionAdapter;
 import com.chdryra.android.reviewer.test.TestUtils.ReviewMocker;
+import com.chdryra.android.testutils.RandomDate;
+import com.chdryra.android.testutils.RandomString;
 
 import junit.framework.TestCase;
 
-import java.util.Random;
+import java.util.Date;
 
 /**
  * Created by: Rizwan Choudrey
@@ -26,27 +29,57 @@ import java.util.Random;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ReviewCollectionAdapterTest extends TestCase {
-    private static final int MIN = 10;
-    private static final int MAX = 20;
-    private ReviewCollectionAdapter<Review> mAdapter;
+    private static final int NUM = 10;
+    private Author                  mAuthor;
+    private Date                    mDate;
+    private String                  mTitle;
+    private ReviewCollectionAdapter mAdapter;
+
+    @SmallTest
+    public void testGetAuthor() {
+        assertEquals(mAuthor, mAdapter.getAuthor());
+    }
+
+    @SmallTest
+    public void testGetPublishDate() {
+        assertEquals(mDate, mAdapter.getPublishDate());
+    }
+
+    @SmallTest
+    public void testGetImages() {
+        assertNotNull(mAdapter.getImages());
+    }
+
+    @SmallTest
+    public void testGetAverageRating() {
+        assertEquals(0, mAdapter.getAverageRating());
+
+        Review[] reviews = addReviews(mAdapter);
+        float rating = 0;
+        for (Review review : reviews) {
+            rating += review.getRating().get() / reviews.length;
+        }
+
+        assertEquals(rating, mAdapter.getAverageRating());
+    }
 
     @SmallTest
     public void testAddReview() {
-        GvDataList list = mAdapter.toGridViewable();
+        GvDataList list = mAdapter.getGridData();
         assertNotNull(list);
         assertEquals(0, list.size());
 
-        Review[] reviews = addReviews(mAdapter, getRandInt());
+        Review[] reviews = addReviews(mAdapter);
 
-        list = mAdapter.toGridViewable();
+        list = mAdapter.getGridData();
         assertNotNull(list);
         assertEquals(reviews.length, list.size());
     }
 
     @SmallTest
-    public void testToGridViewable() {
-        Review[] reviews = addReviews(mAdapter, getRandInt());
-        GvReviewList oList = (GvReviewList) mAdapter.toGridViewable();
+    public void testGetGridData() {
+        Review[] reviews = addReviews(mAdapter);
+        GvReviewList oList = (GvReviewList) mAdapter.getGridData();
         assertNotNull(oList);
         assertEquals(reviews.length, oList.size());
         for (int i = 0; i < reviews.length; ++i) {
@@ -60,22 +93,20 @@ public class ReviewCollectionAdapterTest extends TestCase {
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        mAdapter = new ReviewCollectionAdapter<>();
+        mAuthor = new Author(RandomString.nextWord());
+        mDate = RandomDate.nextDate();
+        mTitle = RandomString.nextWord();
+        mAdapter = new ReviewCollectionAdapter(mAuthor, mDate, mTitle);
     }
 
-    private Review[] addReviews(ReviewCollectionAdapter<Review> controller, int num) {
-        Review[] reviews = new Review[num];
-        for (int i = 0; i < num; ++i) {
+    private Review[] addReviews(ReviewCollectionAdapter adapter) {
+        Review[] reviews = new Review[NUM];
+        for (int i = 0; i < NUM; ++i) {
             Review r = ReviewMocker.newReview();
             reviews[i] = r;
-            controller.add(r);
+            adapter.add(r);
         }
 
         return reviews;
-    }
-
-    private int getRandInt() {
-        Random rand = new Random();
-        return MIN + rand.nextInt(MAX - MIN);
     }
 }

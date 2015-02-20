@@ -82,7 +82,7 @@ public abstract class ActivityEditScreenTest extends ActivityViewReviewTest {
         clickMenuDone();
 
         checkAdapterSubjectRating(child.getSubject(), child.getRating());
-        checkControllerDataChanges();
+        checkAdapterDataChanges();
     }
 
     @SmallTest
@@ -137,7 +137,7 @@ public abstract class ActivityEditScreenTest extends ActivityViewReviewTest {
         clickMenuUp();
 
         checkAdapterSubjectRating();
-        checkControllerDataChanges();
+        checkAdapterDataChanges();
     }
 
     protected void clickMenuDelete() {
@@ -154,14 +154,14 @@ public abstract class ActivityEditScreenTest extends ActivityViewReviewTest {
 
     @Override
     protected void setAdapter() {
-        ReviewBuilder adapter = Administrator.get(getInstrumentation().getTargetContext())
-                .getNewReviewBuilder();
+        ReviewBuilder builder = Administrator.get(getInstrumentation().getTargetContext())
+                .newReviewBuilder(mActivity);
         if (mWithData) {
             mData = GvDataMocker.getData(mDataType, NUM_DATA);
-            adapter.setData(mData);
+            builder.setData(mData);
         }
 
-        mAdapter = adapter;
+        mAdapter = builder.getDataBuilder(mDataType);
     }
 
     @Override
@@ -201,7 +201,7 @@ public abstract class ActivityEditScreenTest extends ActivityViewReviewTest {
         mOriginalRating = mAdapter.getRating();
         checkSubjectRating();
 
-        checkControllerDataChanges();
+        checkAdapterDataChanges();
         if (withData) testInGrid(mData, true);
 
         setDialogButtonClickRunnables();
@@ -232,7 +232,6 @@ public abstract class ActivityEditScreenTest extends ActivityViewReviewTest {
 
     protected void checkAdapterDataChanges(GvDataList data) {
         testInAdapter(data, true);
-        checkAdapterDataChanges(true);
     }
 
     protected void checkSubjectRating() {
@@ -289,7 +288,7 @@ public abstract class ActivityEditScreenTest extends ActivityViewReviewTest {
     protected void testGridItemEdit(boolean confirm) {
         setUp(true);
 
-        GvDataList data = mAdapter.getData(mDataType);
+        GvDataList data = mAdapter.getGridData();
         GvDataList.GvData currentDatum = getGridItem(0);
         GvDataList.GvData newDatum = newEditDatum(currentDatum);
 
@@ -415,7 +414,7 @@ public abstract class ActivityEditScreenTest extends ActivityViewReviewTest {
     }
 
     protected void testInAdapter(GvDataList.GvData datum, boolean result) {
-        GvDataList data = mAdapter.getData(mDataType);
+        GvDataList data = mAdapter.getGridData();
         if (result) {
             assertTrue(data.size() > 0);
         }
@@ -432,17 +431,19 @@ public abstract class ActivityEditScreenTest extends ActivityViewReviewTest {
         assertTrue(result ? inController : !inController);
     }
 
-    protected void checkControllerDataChanges() {
-        if (mData != null) {
-            checkAdapterDataChanges(mData);
-        } else {
-            checkAdapterDataChanges(false);
-        }
-
+    protected void checkAdapterDataChanges() {
+        if (mData != null) checkAdapterDataChanges(mData);
     }
 
     protected ReviewBuilder getBuilder() {
         return (ReviewBuilder) mAdapter;
+    }
+
+    protected void testInAdapter(GvDataList data, boolean result) {
+        GvDataList fromAdapter = mAdapter.getGridData();
+        fromAdapter.sort();
+        data.sort();
+        assertEquals(result, data.equals(fromAdapter));
     }
 
     private void testConfirmDialogShowing(boolean isShowing) {
@@ -504,7 +505,6 @@ public abstract class ActivityEditScreenTest extends ActivityViewReviewTest {
 
         testInAdapter(currentDatum, !confirm);
         checkAdapterSubjectRatingOnDone();
-        checkAdapterDataChanges(true);
     }
 
     private void testMenuDelete(boolean confirm) {
@@ -533,9 +533,9 @@ public abstract class ActivityEditScreenTest extends ActivityViewReviewTest {
 
         clickMenuDone();
 
-        assertEquals(confirm ? 0 : mData.size(), mAdapter.getData(mDataType).size());
+        assertEquals(confirm ? 0 : mData.size(), mAdapter.getGridData().size());
         checkAdapterSubjectRatingOnDone();
-        if (!confirm) checkControllerDataChanges();
+        if (!confirm) checkAdapterDataChanges();
     }
 
     private void launchGridItemLaunchable(int position) {
@@ -686,13 +686,6 @@ public abstract class ActivityEditScreenTest extends ActivityViewReviewTest {
         return (DialogAlertFragment) f;
     }
 
-    private void testInAdapter(GvDataList data, boolean inController) {
-        GvDataList fromController = mAdapter.getData(mDataType);
-        fromController.sort();
-        data.sort();
-        assertEquals(inController, data.equals(fromController));
-    }
-
     private void testDialogShowing(boolean isShowing) {
         if (isShowing) {
             assertTrue(mSolo.searchButton("Cancel"));
@@ -717,13 +710,6 @@ public abstract class ActivityEditScreenTest extends ActivityViewReviewTest {
         }
 
         assertTrue(result ? inGrid : !inGrid);
-    }
-
-    private void checkAdapterDataChanges(boolean ignoreDataType) {
-        for (GvDataList.GvType type : TYPES) {
-            if (ignoreDataType && type == mDataType) continue;
-            assertEquals(0, mAdapter.getData(type).size());
-        }
     }
 }
 

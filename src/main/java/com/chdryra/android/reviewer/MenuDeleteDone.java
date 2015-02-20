@@ -84,7 +84,7 @@ public class MenuDeleteDone extends ViewReviewAction.MenuAction {
     @Override
     public void onSetViewReview() {
         super.onSetViewReview();
-        mRatingIsAverage = getBuilder().isRatingAverage();
+        mRatingIsAverage = getBuilder().getParentBuilder().isRatingAverage();
     }
 
     @Override
@@ -95,7 +95,7 @@ public class MenuDeleteDone extends ViewReviewAction.MenuAction {
 
     @Override
     protected void doUpSelected() {
-        getBuilder().setRatingIsAverage(mRatingIsAverage);
+        getBuilder().getParentBuilder().setRatingIsAverage(mRatingIsAverage);
         super.doUpSelected();
     }
 
@@ -130,18 +130,18 @@ public class MenuDeleteDone extends ViewReviewAction.MenuAction {
         }
     }
 
-    protected ReviewBuilderData getBuilder() {
-        return (ReviewBuilderData) getAdapter();
+    protected ReviewBuilder.DataBuilder getBuilder() {
+        return (ReviewBuilder.DataBuilder) getAdapter();
     }
 
     private void doDoneSelected() {
         ViewReview view = getViewReview();
         GvDataList data = getData();
-        ReviewBuilderData builder = getBuilder();
+        ReviewBuilder.DataBuilder builder = getBuilder();
 
         if (data != null) builder.setData(data);
         builder.setSubject(view.getSubject());
-        builder.setRatingIsAverage(view.isRatingAverage());
+        builder.getParentBuilder().setRatingIsAverage(view.isRatingAverage());
         builder.setRating(view.getRating());
     }
 

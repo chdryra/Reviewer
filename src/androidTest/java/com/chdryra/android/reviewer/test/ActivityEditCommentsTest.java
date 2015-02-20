@@ -29,7 +29,7 @@ public class ActivityEditCommentsTest extends ActivityEditScreenTest {
     @SmallTest
     public void testMenuSplitUnsplitComments() {
         setUp(true);
-        GvCommentList comments = (GvCommentList) mAdapter.getData(mDataType);
+        GvCommentList comments = (GvCommentList) mAdapter.getGridData();
         GvCommentList split = comments.getSplitComments();
 
         assertTrue(comments.size() > 0);
@@ -38,7 +38,7 @@ public class ActivityEditCommentsTest extends ActivityEditScreenTest {
         assertEquals(comments.size(), getGridSize());
         testInGrid(comments, true);
         testInGrid(split, false);
-        checkAdapterDataChanges(comments);
+        testInAdapter(comments, true);
 
         mSolo.clickOnActionBarItem(SPLIT);
 
@@ -63,19 +63,4 @@ public class ActivityEditCommentsTest extends ActivityEditScreenTest {
         mSolo.clickOnActionBarItem(DONE);
         checkAdapterDataChanges(comments);
     }
-
-//    @SmallTest
-//    public void testForDebugging() {
-//        super.testActivityLaunches();
-//        super.testSubjectRatingChange();
-//        super.testBannerButtonAddDone();
-//        super.testBannerButtonAddCancel();
-//        super.testGridItemEditDone();
-//        super.testGridItemEditCancel();
-//        super.testGridItemDeleteConfirm();
-//        super.testGridItemDeleteCancel();
-//        super.testMenuDeleteConfirm();
-//        super.testMenuDeleteCancel();
-//        super.testMenuUpCancels();
-//    }
 }

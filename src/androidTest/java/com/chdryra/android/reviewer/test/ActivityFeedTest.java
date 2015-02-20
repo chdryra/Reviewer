@@ -38,7 +38,7 @@ public class ActivityFeedTest extends ActivityViewReviewTest {
 
     @SmallTest
     public void testFeed() {
-        GvReviewList list = (GvReviewList) mAdmin.getPublishedReviews().toGridViewable();
+        GvReviewList list = (GvReviewList) mAdmin.getPublishedReviews().getGridData();
         assertEquals(NUM, getGridSize());
         GvReviewList.GvReviewOverview oldReview = (GvReviewList.GvReviewOverview) getGridItem(0);
         for (int i = 0; i < NUM; ++i) {
@@ -82,8 +82,8 @@ public class ActivityFeedTest extends ActivityViewReviewTest {
         mAdmin = Administrator.get(getInstrumentation().getTargetContext());
         ArrayList<ViewReviewAdapter> adapters = new ArrayList<>();
         for (int i = 0; i < NUM; ++i) {
-            adapters.add(mAdmin.getNewReviewBuilder());
-            mAdmin.publishReviewInProgress();
+            adapters.add(mAdmin.newReviewBuilder(mActivity));
+            mAdmin.publishReviewBuilder();
             try {
                 Thread.sleep(10);
             } catch (InterruptedException e) {
@@ -91,7 +91,7 @@ public class ActivityFeedTest extends ActivityViewReviewTest {
             }
         }
 
-        GvReviewList list = (GvReviewList) mAdmin.getPublishedReviews().toGridViewable();
+        GvReviewList list = (GvReviewList) mAdmin.getPublishedReviews().getGridData();
         assertEquals(NUM, list.size());
 
         for (int i = 0; i < NUM; ++i) {

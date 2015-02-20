@@ -42,11 +42,11 @@ public abstract class DialogFragmentGvDataAdd<T extends GvDataList.GvData> exten
 
     public static final String QUICK_SET = "com.chdryra.android.reviewer.dialog_quick_mode";
 
-    private ReviewBuilderData    mBuilder;
-    private GvDataList<T>        mData;
-    private GvDataViewHolder<T>  mViewHolder;
-    private GvDataHandler<T>     mHandler;
-    private GvDataAddListener<T> mAddListener;
+    private ReviewBuilder.DataBuilder mBuilder;
+    private GvDataList<T>             mData;
+    private GvDataViewHolder<T>       mViewHolder;
+    private GvDataHandler<T>          mHandler;
+    private GvDataAddListener<T>      mAddListener;
 
     private boolean mQuickSet = false;
 
@@ -98,8 +98,8 @@ public abstract class DialogFragmentGvDataAdd<T extends GvDataList.GvData> exten
 
         Bundle args = getArguments();
         mQuickSet = args != null && args.getBoolean(QUICK_SET);
-        mBuilder = (ReviewBuilderData) Administrator.get(getActivity()).getReviewBuilder()
-                .getDataAdapter(mData.getGvType());
+        mBuilder = (ReviewBuilder.DataBuilder) Administrator.get(getActivity()).getReviewBuilder()
+                .getDataBuilder(mData.getGvType());
 
         //TODO make type safe
         if (mBuilder != null) mData = mBuilder.getGridData();

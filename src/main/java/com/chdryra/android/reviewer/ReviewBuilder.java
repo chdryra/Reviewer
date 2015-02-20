@@ -15,6 +15,8 @@ import android.os.Environment;
 import com.chdryra.android.mygenerallibrary.FileIncrementor;
 import com.chdryra.android.mygenerallibrary.FileIncrementorFactory;
 
+import junit.framework.Assert;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -43,7 +45,6 @@ public class ReviewBuilder implements ViewReviewAdapter {
     private FileIncrementor mIncrementor;
     private Activity        mActivity;
 
-    private ReviewId                           mId;
     private String                             mSubject;
     private float                              mRating;
     private Map<GvDataList.GvType, GvDataList> mData;
@@ -54,7 +55,6 @@ public class ReviewBuilder implements ViewReviewAdapter {
 
 
     public ReviewBuilder(Activity activity) {
-        mId = ReviewId.generateId();
         mChildren = new ArrayList<>();
         mActivity = activity;
         mGridData = GvBuildReviewList.newInstance(activity, this);
@@ -74,11 +74,6 @@ public class ReviewBuilder implements ViewReviewAdapter {
     }
 
     @Override
-    public String getId() {
-        return mId.toString();
-    }
-
-    @Override
     public String getSubject() {
         return mSubject;
     }
@@ -88,14 +83,41 @@ public class ReviewBuilder implements ViewReviewAdapter {
         newIncrementor();
     }
 
+    public boolean isRatingAverage() {
+        return mIsAverage;
+    }
+
     @Override
     public float getRating() {
         return isRatingAverage() ? getAverageRating() : mRating;
     }
 
+    public void setRatingIsAverage(boolean ratingIsAverage) {
+        mIsAverage = ratingIsAverage;
+        if (ratingIsAverage) mRating = getChildren().getAverageRating();
+    }
+
+    public void setRating(float rating) {
+        if (!isRatingAverage()) mRating = rating;
+    }
+
+    public ImageChooser getImageChooser(Activity activity) {
+        Context c = activity.getApplicationContext();
+        if (c.equals(mActivity.getApplicationContext())) {
+            return new ImageChooser(activity, (FileIncrementorFactory.ImageFileIncrementor)
+                    mIncrementor);
+        } else {
+            throw new RuntimeException("Activity should belong to correct application context");
+        }
+    }
+
     @Override
     public float getAverageRating() {
-        return getChildren().getAveragerating();
+        return getChildren().getAverageRating();
+    }
+
+    public DataBuilder getDataBuilder(GvDataList.GvType dataType) {
+        return new DataBuilder(dataType);
     }
 
     @Override
@@ -103,30 +125,13 @@ public class ReviewBuilder implements ViewReviewAdapter {
         return mGridData;
     }
 
+    public int getDataSize(GvDataList.GvType dataType) {
+        return getData(dataType).size();
+    }
+
     @Override
     public Author getAuthor() {
         return Administrator.get(mActivity).getAuthor();
-    }
-
-    @Override
-    public Date getPublishDate() {
-        return null;
-    }
-
-    public GvImageList getImages() {
-        return (GvImageList) getData(GvDataList.GvType.IMAGES);
-    }
-
-    public void setRating(float rating) {
-        if (!isRatingAverage()) mRating = rating;
-    }
-
-    public GvDataList getData(GvDataList.GvType dataType) {
-        if (dataType == GvDataList.GvType.CHILDREN) {
-            return getChildren();
-        } else {
-            return MdGvConverter.copy(mData.get(dataType));
-        }
     }
 
     public Review publish(Date publishDate) {
@@ -151,36 +156,31 @@ public class ReviewBuilder implements ViewReviewAdapter {
         return FactoryReview.createReviewTree(root, children, mIsAverage);
     }
 
-    public boolean isRatingAverage() {
-        return mIsAverage;
+    @Override
+    public Date getPublishDate() {
+        return null;
     }
 
-    public void setRatingIsAverage(boolean ratingIsAverage) {
-        mIsAverage = ratingIsAverage;
-        if (ratingIsAverage) mRating = getChildren().getAveragerating();
-    }
-
-    public ImageChooser getImageChooser(Activity activity) {
-        Context c = activity.getApplicationContext();
-        if (c.equals(mActivity.getApplicationContext())) {
-            return new ImageChooser(activity, (FileIncrementorFactory.ImageFileIncrementor)
-                    mIncrementor);
+    private GvDataList getData(GvDataList.GvType dataType) {
+        if (dataType == GvDataList.GvType.CHILDREN) {
+            return getChildren();
         } else {
-            throw new RuntimeException("Activity should belong to correct application context");
+            GvDataList data = mData.get(dataType);
+            return data != null ? MdGvConverter.copy(data) : null;
         }
     }
 
-    public void setData(GvDataList data) {
+    public GvImageList getImages() {
+        return (GvImageList) getData(GvDataList.GvType.IMAGES);
+    }
+
+    private void setData(GvDataList data) {
         GvDataList.GvType dataType = data.getGvType();
         if (dataType == GvDataList.GvType.CHILDREN) {
             setChildren((GvChildrenList) data);
         } else if (Arrays.asList(TYPES).contains(dataType)) {
             mData.put(dataType, MdGvConverter.copy(data));
         }
-    }
-
-    public ViewReviewAdapter getDataAdapter(GvDataList.GvType dataType) {
-        return new ReviewBuilderData(this, dataType);
     }
 
     private void newIncrementor() {
@@ -210,4 +210,71 @@ public class ReviewBuilder implements ViewReviewAdapter {
             mChildren.add(childBuilder);
         }
     }
+
+    public class DataBuilder implements ViewReviewAdapter {
+        private GvDataList mData;
+
+        private DataBuilder(GvDataList.GvType dataType) {
+            mData = getData(dataType);
+        }
+
+        public ReviewBuilder getParentBuilder() {
+            return ReviewBuilder.this;
+        }
+
+        public void setData(GvDataList data) {
+            Assert.assertEquals(mData.getGvType(), data.getGvType());
+            mData = data;
+            getParentBuilder().setData(data);
+        }
+
+        @Override
+        public String getSubject() {
+            return getParentBuilder().getSubject();
+        }
+
+        @Override
+        public float getRating() {
+            return getParentBuilder().getRating();
+        }
+
+        @Override
+        public float getAverageRating() {
+            return mData.getGvType() == GvDataList.GvType.CHILDREN ? ReviewBuilder.this
+                    .getAverageRating() : getRating();
+        }
+
+        @Override
+        public GvDataList getGridData() {
+            return mData;
+        }
+
+        @Override
+        public Author getAuthor() {
+            return getParentBuilder().getAuthor();
+        }
+
+        @Override
+        public Date getPublishDate() {
+            return getParentBuilder().getPublishDate();
+        }
+
+        @Override
+        public GvImageList getImages() {
+            return mData.getGvType() == GvDataList.GvType.IMAGES ? (GvImageList) mData :
+                    getParentBuilder().getImages();
+        }
+
+        public void setRating(float rating) {
+            getParentBuilder().setRating(rating);
+        }
+
+        public void setSubject(String subject) {
+            getParentBuilder().setSubject(subject);
+        }
+
+
+    }
+
+
 }

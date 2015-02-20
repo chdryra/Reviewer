@@ -68,7 +68,7 @@ public class ActivityShareScreenTest extends ActivityViewReviewTest {
     public void testPublishButton() {
         Instrumentation.ActivityMonitor monitor = getInstrumentation().addMonitor(ActivityFeed.class
                 .getName(), null, false);
-        assertEquals(0, mAdmin.getPublishedReviews().toGridViewable().size());
+        assertEquals(0, mAdmin.getPublishedReviews().getGridData().size());
 
         mSolo.clickOnText(getActivity().getResources().getString(R
                 .string.button_publish));
@@ -77,7 +77,7 @@ public class ActivityShareScreenTest extends ActivityViewReviewTest {
         ActivityFeed feedActivity = (ActivityFeed) monitor.waitForActivityWithTimeout(TIMEOUT);
         assertNotNull(feedActivity);
         assertEquals(ActivityFeed.class, feedActivity.getClass());
-        GvReviewList list = (GvReviewList) mAdmin.getPublishedReviews().toGridViewable();
+        GvReviewList list = (GvReviewList) mAdmin.getPublishedReviews().getGridData();
         assertEquals(1, list.size());
         assertEquals(mAdapter.getSubject(), list.getItem(0).getSubject());
         assertEquals(mAdapter.getRating(), list.getItem(0).getRating());
@@ -85,7 +85,7 @@ public class ActivityShareScreenTest extends ActivityViewReviewTest {
 
     @Override
     protected void setAdapter() {
-        ReviewBuilder builder = mAdmin.getNewReviewBuilder();
+        ReviewBuilder builder = mAdmin.newReviewBuilder(mActivity);
 
         builder.setRating(RandomRating.nextRating());
         builder.setSubject(RandomString.nextWord());

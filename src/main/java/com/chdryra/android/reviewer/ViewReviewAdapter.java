@@ -21,8 +21,6 @@ import java.util.Date;
  * .reviewer.MdData} to View layer as {@link com.chdryra.android.reviewer.GvDataList.GvData}
  */
 public interface ViewReviewAdapter {
-    public String getId();
-
     public String getSubject();
 
     public float getRating();

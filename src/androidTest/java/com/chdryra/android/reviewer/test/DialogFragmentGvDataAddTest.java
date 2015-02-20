@@ -127,12 +127,10 @@ public abstract class DialogFragmentGvDataAddTest<T extends GvDataList.GvData> e
         mListener = new DialogAddListener<>();
 
         mAdapter = Administrator.get(getInstrumentation().getTargetContext())
-                .getNewReviewBuilder();
+                .newReviewBuilder(mActivity).getDataBuilder(mDialog.getGvType());
 
         Intent i = new Intent();
         ActivityViewReview.packParameters(mDialog.getGvType(), false, i);
-        Administrator admin = Administrator.get(getInstrumentation().getTargetContext());
-        admin.pack(mAdapter, i);
         setActivityIntent(i);
 
         mActivity = getActivity();
@@ -145,7 +143,7 @@ public abstract class DialogFragmentGvDataAddTest<T extends GvDataList.GvData> e
     }
 
     protected void launchDialogAndTestShowing(boolean quickSet) {
-        Bundle args = getControllerBundle();
+        Bundle args = new Bundle();
         args.putBoolean(DialogFragmentGvDataAdd.QUICK_SET, quickSet);
 
         final DialogAddListener<T> listener = mListener;
@@ -167,11 +165,7 @@ public abstract class DialogFragmentGvDataAddTest<T extends GvDataList.GvData> e
     }
 
     protected GvDataList getData(final ViewReviewAdapter adapter) {
-        return adapter.getData(mDialog.getGvType());
-    }
-
-    protected Bundle getControllerBundle() {
-        return Administrator.get(getInstrumentation().getTargetContext()).pack(mAdapter);
+        return adapter.getGridData();
     }
 
     private GvDataList.GvData enterDataAndTest() {

@@ -10,7 +10,6 @@ package com.chdryra.android.reviewer.test;
 
 import android.app.Activity;
 import android.app.Instrumentation;
-import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.ActivityEditUrlBrowser;
 import com.chdryra.android.reviewer.ActivityViewReview;
@@ -31,26 +30,11 @@ import java.net.URISyntaxException;
  */
 public class ActivityEditUrlsTest extends ActivityEditScreenTest {
     private static final int TIMEOUT = 10000;
-    private Instrumentation.ActivityMonitor mMapMonitor;
+    private Instrumentation.ActivityMonitor mBrowserMonitor;
     private Instrumentation.ActivityMonitor mMainMonitor;
 
     public ActivityEditUrlsTest() {
         super(GvDataList.GvType.URLS);
-    }
-
-    @SmallTest
-    public void testForDebugging() {
-//        super.testActivityLaunches();
-//        super.testSubjectRatingChange();
-        super.testBannerButtonAddDone();
-//        super.testBannerButtonAddCancel();
-//        super.testGridItemEditCancel();
-//        super.testGridItemEditDone();
-//        super.testGridItemDeleteConfirm();
-//        super.testGridItemDeleteCancel();
-//        super.testMenuDeleteConfirm();
-//        super.testMenuDeleteCancel();
-//        super.testMenuUpCancels();
     }
 
     @Override
@@ -58,7 +42,7 @@ public class ActivityEditUrlsTest extends ActivityEditScreenTest {
         super.setUpFinish(withData);
         mMainMonitor = getInstrumentation().addMonitor(ActivityViewReview.class.getName(), null,
                 false);
-        mMapMonitor = getInstrumentation().addMonitor(ActivityEditUrlBrowser.class.getName(),
+        mBrowserMonitor = getInstrumentation().addMonitor(ActivityEditUrlBrowser.class.getName(),
                 null, false);
     }
 
@@ -78,7 +62,7 @@ public class ActivityEditUrlsTest extends ActivityEditScreenTest {
     @Override
     protected void waitForLaunchableToLaunch() {
         ActivityEditUrlBrowser browserActivity = (ActivityEditUrlBrowser)
-                mMapMonitor.waitForActivityWithTimeout(TIMEOUT);
+                mBrowserMonitor.waitForActivityWithTimeout(TIMEOUT);
         assertNotNull(browserActivity);
         assertEquals(ActivityEditUrlBrowser.class, browserActivity.getClass());
         getInstrumentation().waitForIdleSync();
@@ -130,7 +114,7 @@ public class ActivityEditUrlsTest extends ActivityEditScreenTest {
 
     @Override
     protected Activity getEditActivity() {
-        Activity activity = mMapMonitor.getLastActivity();
+        Activity activity = mBrowserMonitor.getLastActivity();
         if (activity == null) activity = mActivity;
 
         return activity;

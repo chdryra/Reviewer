@@ -27,8 +27,8 @@ public class DialogFragmentURL extends DialogCancelActionDoneFragment implements
 
     private static final String TAG = "DialogURLFragment";
 
-    private ReviewBuilder     mController;
-    private ClearableEditText mUrlEditText;
+    private ReviewBuilder.DataBuilder mBuilder;
+    private ClearableEditText         mUrlEditText;
 
     @Override
     public void launch(LauncherUi launcher) {
@@ -40,9 +40,9 @@ public class DialogFragmentURL extends DialogCancelActionDoneFragment implements
         View v = getActivity().getLayoutInflater().inflate(R.layout.dialog_url, null);
 
         mUrlEditText = (ClearableEditText) v.findViewById(R.id.url_edit_text);
-        if (mController.getData(GvDataList.GvType.URLS).size() == 1) {
-            mUrlEditText.setText(((GvUrlList.GvUrl) mController.getData(GvDataList.GvType
-                    .URLS).getItem(0)).toShortenedString());
+        if (mBuilder.getGridData().size() == 1) {
+            mUrlEditText.setText(((GvUrlList.GvUrl) mBuilder.getGridData().getItem(0))
+                    .toShortenedString());
         }
 
         setKeyboardDoDoneOnEditText(mUrlEditText);
@@ -54,7 +54,8 @@ public class DialogFragmentURL extends DialogCancelActionDoneFragment implements
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mController = Administrator.get(getActivity()).getReviewBuilder();
+        mBuilder = Administrator.get(getActivity()).getReviewBuilder()
+                .getDataBuilder(GvDataList.GvType.URLS);
 
         setActionButtonAction(RESULT_BROWSE);
         setActionButtonText(getResources().getString(R.string.button_browse));
@@ -70,7 +71,7 @@ public class DialogFragmentURL extends DialogCancelActionDoneFragment implements
             try {
                 GvUrlList singleURL = new GvUrlList();
                 singleURL.add(new GvUrlList.GvUrl(urlString));
-                mController.setData(singleURL);
+                mBuilder.setData(singleURL);
             } catch (Exception e) {
                 Log.i(TAG, "Malformed URL or incorrect syntax: " + urlString, e);
                 Toast.makeText(getActivity(), getResources().getString(R.string.toast_bad_url),

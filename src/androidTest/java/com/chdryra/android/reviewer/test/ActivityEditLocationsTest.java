@@ -10,7 +10,6 @@ package com.chdryra.android.reviewer.test;
 
 import android.app.Activity;
 import android.app.Instrumentation;
-import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.ActivityEditLocationMap;
 import com.chdryra.android.reviewer.ActivityViewReview;
@@ -32,20 +31,6 @@ public class ActivityEditLocationsTest extends ActivityEditScreenTest {
 
     public ActivityEditLocationsTest() {
         super(GvDataList.GvType.LOCATIONS);
-    }
-
-    @SmallTest
-    public void testForDebugging() {
-//        super.testActivityLaunches();
-        super.testBannerButtonAddDone();
-//        super.testSubjectRatingChange();
-//        super.testGridItemEditCancel();
-//        super.testGridItemEditDone();
-//        super.testGridItemDeleteConfirm();
-//        super.testGridItemDeleteCancel();
-//        super.testMenuDeleteConfirm();
-//        super.testMenuDeleteCancel();
-//        super.testMenuUpCancels();
     }
 
     @Override

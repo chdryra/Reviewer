@@ -33,14 +33,15 @@ import java.util.ArrayList;
  */
 public class DialogFragmentLocation extends DialogCancelActionDoneFragment implements Locatable,
         LaunchableUi, PlaceSuggester.SuggestionsListener {
-    public static final String     LATLNG     = "com.chdryra.android.reviewer.latlng";
-    public static final String     FROM_IMAGE = "com.chdryra.android.reviewer.from_image";
-    public static final ActionType RESULT_MAP = ActionType.OTHER;
-
-    private static final int NUMBER_SUGGESTIONS = 10;
-    private static final int SEARCHING_NEARBY   = R.string.edit_text_searching_near_here;
-    private static final int SEARCHING_IMAGE    = R.string.edit_text_searching_near_image;
-    private static final int NO_LOCATION        = R.string.edit_text_no_suggestions;
+    public static final  String     LATLNG             = "com.chdryra.android.reviewer.latlng";
+    public static final  String     FROM_IMAGE         = "com.chdryra.android.reviewer.from_image";
+    public static final  ActionType RESULT_MAP         = ActionType.OTHER;
+    private static final int        LAYOUT             = R.layout.dialog_location;
+    private static final int        EDITTEXT           = R.id.location_edit_text;
+    private static final int        NUMBER_SUGGESTIONS = 10;
+    private static final int        SEARCHING_NEARBY   = R.string.edit_text_searching_near_here;
+    private static final int        SEARCHING_IMAGE    = R.string.edit_text_searching_near_image;
+    private static final int        NO_LOCATION        = R.string.edit_text_no_suggestions;
 
     private DialogFragmentLocationListener mListener;
     private ClearableEditText              mNameEditText;
@@ -49,7 +50,7 @@ public class DialogFragmentLocation extends DialogCancelActionDoneFragment imple
     private LocationClientConnector        mLocationClient;
 
     private PlaceAutoCompleteSuggester mAutoCompleter;
-    private StringFilterAdapter        mAdapter;
+    private StringFilterAdapter        mFilter;
 
     private boolean mLatLngProvided = false;
     private boolean mFromImage      = false;
@@ -95,9 +96,9 @@ public class DialogFragmentLocation extends DialogCancelActionDoneFragment imple
 
     @Override
     protected View createDialogUi() {
-        View v = getActivity().getLayoutInflater().inflate(R.layout.dialog_location, null);
+        View v = getActivity().getLayoutInflater().inflate(LAYOUT, null);
 
-        mNameEditText = (ClearableEditText) v.findViewById(R.id.location_edit_text);
+        mNameEditText = (ClearableEditText) v.findViewById(EDITTEXT);
         mNameEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -105,7 +106,7 @@ public class DialogFragmentLocation extends DialogCancelActionDoneFragment imple
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (mAdapter != null) mAdapter.filter(s);
+                if (mFilter != null) mFilter.filter(s);
             }
 
             @Override
@@ -185,7 +186,7 @@ public class DialogFragmentLocation extends DialogCancelActionDoneFragment imple
     }
 
     private void setNewSuggestionsAdapter(ArrayList<String> suggestions) {
-        mAdapter = new StringFilterAdapter(getActivity(), suggestions, mAutoCompleter);
-        mLocationNameSuggestions.setAdapter(mAdapter);
+        mFilter = new StringFilterAdapter(getActivity(), suggestions, mAutoCompleter);
+        mLocationNameSuggestions.setAdapter(mFilter);
     }
 }

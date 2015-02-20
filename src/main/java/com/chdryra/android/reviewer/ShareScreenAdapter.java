@@ -27,11 +27,6 @@ public class ShareScreenAdapter implements ViewReviewAdapter {
     }
 
     @Override
-    public String getId() {
-        return mAdapter.getId();
-    }
-
-    @Override
     public String getSubject() {
         return mAdapter.getSubject();
     }

@@ -210,8 +210,10 @@ public class ActivityBuildReviewTest extends ActivityViewReviewTest {
         checkAdapterSubjectRating(child.getSubject(), 0);
         checkFragmentSubjectRating(child.getSubject(), 0);
         assertTrue(getBuilder().isRatingAverage());
+        assertEquals(0, mAdapter.getAverageRating());
 
         child = editSubjectRating();
+
         mOriginalSubject = child.getSubject();
         mOriginalRating = child.getRating();
         assertFalse(getBuilder().isRatingAverage());
@@ -226,6 +228,7 @@ public class ActivityBuildReviewTest extends ActivityViewReviewTest {
         checkFragmentSubjectRating(child.getSubject(), getAverageRating(true));
         checkAdapterSubjectRating(child.getSubject(), getAverageRating(false));
         assertTrue(getBuilder().isRatingAverage());
+        assertEquals(getAverageRating(false), mAdapter.getAverageRating());
     }
 
     protected void checkFragmentSubjectRating(String subject, float rating) {
@@ -241,7 +244,7 @@ public class ActivityBuildReviewTest extends ActivityViewReviewTest {
 
     @Override
     protected void setAdapter() {
-        mAdapter = mAdmin.getNewReviewBuilder();
+        mAdapter = mAdmin.newReviewBuilder(mActivity);
     }
 
     @SmallTest
@@ -255,12 +258,14 @@ public class ActivityBuildReviewTest extends ActivityViewReviewTest {
     protected void setUp() {
         mAdmin = Administrator.get(getInstrumentation().getTargetContext());
         super.setUp();
-        mList = GvBuildReviewList.newInstance(getActivity(), mAdapter);
 
+        mList = (GvBuildReviewList) mAdapter.getGridData();
         mOriginalSubject = mAdapter.getSubject();
         mOriginalRating = mAdapter.getRating();
+
         checkSubjectRating();
         checkControllerChanges(null);
+
         mSignaler = new CallBackSignaler(5);
     }
 
@@ -284,19 +289,17 @@ public class ActivityBuildReviewTest extends ActivityViewReviewTest {
     }
 
     private float getAverageRating(boolean nearestHalf) {
-        GvChildrenList children = (GvChildrenList) mAdapter.getData(GvDataList.GvType.CHILDREN);
+        GvChildrenList children = (GvChildrenList) getBuilder().getData(GvDataList.GvType.CHILDREN);
         float rating = 0;
         for (GvChildrenList.GvChildReview child : children) {
-            rating += child.getRating();
+            rating += child.getRating() / children.size();
         }
-
-        if (children.size() > 0) rating /= children.size();
 
         return nearestHalf ? Math.round(rating * 2f) / 2f : rating;
     }
 
     private void testInController(GvDataList data, boolean inController) {
-        GvDataList fromController = mAdapter.getData(data.getGvType());
+        GvDataList fromController = getBuilder().getData(data.getGvType());
         fromController.sort();
         data.sort();
         if (data.getGvType() == GvDataList.GvType.LOCATIONS) {
@@ -546,7 +549,7 @@ public class ActivityBuildReviewTest extends ActivityViewReviewTest {
     private void checkControllerChanges(GvDataList.GvType dataType) {
         for (GvBuildReviewList.GvBuildReview type : mList) {
             if (dataType != null && type.getGvType() == dataType) continue;
-            assertEquals(0, mAdapter.getData(type.getGvType()).size());
+            assertEquals(0, getBuilder().getData(type.getGvType()).size());
         }
     }
 

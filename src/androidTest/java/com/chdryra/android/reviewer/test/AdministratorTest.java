@@ -8,46 +8,63 @@
 
 package com.chdryra.android.reviewer.test;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.test.AndroidTestCase;
+import android.app.Activity;
+import android.test.ActivityUnitTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
+import com.chdryra.android.reviewer.ActivityViewReview;
 import com.chdryra.android.reviewer.Administrator;
-import com.chdryra.android.reviewer.GvDataList;
 import com.chdryra.android.reviewer.GvSocialPlatformList;
-import com.chdryra.android.reviewer.Review;
 import com.chdryra.android.reviewer.ReviewCollectionAdapter;
-import com.chdryra.android.reviewer.ViewReviewAdapter;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 02/12/2014
  * Email: rizwan.choudrey@gmail.com
  */
-public class AdministratorTest extends AndroidTestCase {
+public class AdministratorTest extends ActivityUnitTestCase<ActivityViewReview> {
+    private Activity      mActivity;
     private Administrator mAdmin;
 
+    public AdministratorTest() {
+        super(ActivityViewReview.class);
+    }
+
     @SmallTest
-    public void testCreateNewReviewInProgress() {
-        ViewReviewAdapter review = mAdmin.getNewReviewBuilder();
-        assertNotNull(review);
+    public void testGetImageChooser() {
+        assertNotNull(Administrator.getImageChooser(mActivity));
+    }
+
+    @SmallTest
+    public void testGetAuthor() {
+        assertNotNull(mAdmin.getAuthor());
+    }
+
+    @SmallTest
+    public void testNewReviewBuilder() {
+        assertNotNull(mAdmin.newReviewBuilder(mActivity));
     }
 
     @SmallTest
     public void testGetPublishedReviews() {
-        GvDataList reviews = mAdmin.getPublishedReviews().toGridViewable();
-        assertNotNull(reviews);
+        assertNotNull(mAdmin.getPublishedReviews().getGridData());
     }
 
     @SmallTest
-    public void testPublishReviewInProgress() {
-        ReviewCollectionAdapter<Review> reviews = mAdmin.getPublishedReviews();
+    public void testGetShareScreenAdapter() {
+        assertNotNull(mAdmin.getShareScreenAdapter());
+    }
+
+    @SmallTest
+    public void testPublishReviewBuilder() {
+        ReviewCollectionAdapter reviews = mAdmin.getPublishedReviews();
         assertNotNull(reviews);
-        assertEquals(0, reviews.toGridViewable().size());
-        mAdmin.getNewReviewBuilder();
-        mAdmin.publishReviewInProgress();
-        assertEquals(1, reviews.toGridViewable().size());
+        assertEquals(0, reviews.getGridData().size());
+        mAdmin.newReviewBuilder(mActivity);
+        assertNotNull(mAdmin.getReviewBuilder());
+        mAdmin.publishReviewBuilder();
+        assertEquals(1, reviews.getGridData().size());
+        assertNull(mAdmin.getReviewBuilder());
     }
 
     @SmallTest
@@ -57,27 +74,11 @@ public class AdministratorTest extends AndroidTestCase {
         assertTrue(list.size() > 0);
     }
 
-    @SmallTest
-    public void testPackUnpackIntent() {
-        Intent i = new Intent();
-        ViewReviewAdapter review = mAdmin.getNewReviewBuilder();
-        mAdmin.pack(review, i);
-        ViewReviewAdapter unpacked = mAdmin.unpack(i);
-        assertEquals(review, unpacked);
-    }
-
-    @SmallTest
-    public void testPackUnpackBundle() {
-        ViewReviewAdapter review = mAdmin.getNewReviewBuilder();
-        Bundle args = mAdmin.pack(review);
-        ViewReviewAdapter unpacked = mAdmin.unpack(args);
-        assertEquals(review, unpacked);
-    }
-
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        mAdmin = Administrator.get(getContext());
+        mActivity = getActivity();
+        mAdmin = Administrator.get(mActivity);
         assertNotNull(mAdmin);
     }
 }

@@ -25,7 +25,6 @@ import java.util.Date;
  * Also manages:
  * <ul>
  * <li>The creation of new reviews</li>
- * <li>The packing/unpacking of review data needed to pass between activities</li>
  * <li>Publishing of reviews</li>
  * <li>List of social platforms</li>
  * </ul>
@@ -77,7 +76,7 @@ public class Administrator {
         return mReviewBuilder;
     }
 
-    public ReviewBuilder getNewReviewBuilder(Activity activity) {
+    public ReviewBuilder newReviewBuilder(Activity activity) {
         mReviewBuilder = new ReviewBuilder(activity);
         return mReviewBuilder;
     }
@@ -90,8 +89,9 @@ public class Administrator {
         return new ShareScreenAdapter(mContext, mReviewBuilder);
     }
 
-    public void publishReviewInProgress() {
+    public void publishReviewBuilder() {
         mPublishedReviews.add(mReviewBuilder.publish(new Date()));
+        mReviewBuilder = null;
     }
 
     public GvSocialPlatformList getSocialPlatformList() {

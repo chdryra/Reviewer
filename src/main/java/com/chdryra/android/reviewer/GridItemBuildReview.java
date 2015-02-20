@@ -74,7 +74,7 @@ public class GridItemBuildReview extends ViewReviewAction.GridItemAction {
         if (location.isValidForDisplay()) {
             GvLocationList list = new GvLocationList();
             list.add(location);
-            getBuilder().setData(list);
+            getBuilder().getDataBuilder(GvDataList.GvType.LOCATIONS).setData(list);
         }
     }
 
@@ -124,7 +124,8 @@ public class GridItemBuildReview extends ViewReviewAction.GridItemAction {
         LatLng latLng = mLatLng;
         boolean fromImage = false;
 
-        GvImageList images = (GvImageList) getBuilder().getData(GvDataList.GvType.IMAGES);
+        GvImageList images = (GvImageList) getBuilder().getDataBuilder(GvDataList.GvType.IMAGES)
+                .getGridData();
         if (images.size() > 0) {
             LatLng coverLatLng = images.getCovers().getItem(0).getLatLng();
             if (coverLatLng != null) {
@@ -177,7 +178,7 @@ public class GridItemBuildReview extends ViewReviewAction.GridItemAction {
             image.setIsCover(true);
             GvImageList images = new GvImageList();
             images.add(image);
-            getBuilder().setData(images);
+            getBuilder().getDataBuilder(GvDataList.GvType.IMAGES).setData(images);
             getViewReview().updateUi();
         }
 

@@ -17,7 +17,6 @@ import android.test.suitebuilder.annotation.SmallTest;
 import android.widget.GridView;
 
 import com.chdryra.android.reviewer.ActivityViewReview;
-import com.chdryra.android.reviewer.Administrator;
 import com.chdryra.android.reviewer.FragmentViewReview;
 import com.chdryra.android.reviewer.GvDataList;
 import com.chdryra.android.reviewer.ViewReviewAdapter;
@@ -66,13 +65,10 @@ public abstract class ActivityViewReviewTest extends
         Intent i = new Intent();
         ActivityViewReview.packParameters(mDataType, mIsEditable, i);
 
-        setAdapter();
-
-        Administrator admin = Administrator.get(getInstrumentation().getTargetContext());
-        admin.pack(mAdapter, i);
-
         setActivityIntent(i);
         mActivity = getActivity();
+        setAdapter();
+
         mSolo = new Solo(getInstrumentation(), mActivity);
     }
 

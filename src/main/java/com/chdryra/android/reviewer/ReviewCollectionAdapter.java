@@ -19,19 +19,17 @@ import android.graphics.Bitmap;
 import java.util.Date;
 
 /**
- * Similar to {@link ReviewAdapter} but for {@link RCollectionReview} data.
+ * {@link com.chdryra.android.reviewer.ViewReviewAdapter} for {@link RCollectionReview} data.
  */
 public class ReviewCollectionAdapter implements ViewReviewAdapter {
-    private ReviewId mId;
-    private Author   mAuthor;
-    private Date     mPublishDate;
-    private String   mTitle;
+    private Author mAuthor;
+    private Date   mPublishDate;
+    private String mTitle;
 
     private RCollectionReview<Review> mReviews;
 
 
     public ReviewCollectionAdapter(Author author, Date date, String title) {
-        mId = ReviewId.generateId();
         mAuthor = author;
         mPublishDate = date;
         mTitle = title;
@@ -40,11 +38,6 @@ public class ReviewCollectionAdapter implements ViewReviewAdapter {
 
     public void add(Review review) {
         mReviews.add(review);
-    }
-
-    @Override
-    public String getId() {
-        return mId.toString();
     }
 
     @Override

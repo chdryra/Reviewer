@@ -38,7 +38,7 @@ public class ViewReviewShareModifier implements ViewReview.ViewModifier {
         publishButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Administrator.get(activity).publishReviewInProgress();
+                Administrator.get(activity).publishReviewBuilder();
                 Intent intent = new Intent(activity, ActivityFeed.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                 parent.startActivity(intent);

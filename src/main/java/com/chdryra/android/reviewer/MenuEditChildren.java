@@ -47,7 +47,11 @@ public class MenuEditChildren extends MenuDeleteDone {
     @Override
     public void onSetViewReview() {
         super.onSetViewReview();
-        getViewReview().registerGridDataObserver(mObserver);
+        ViewReview view = getViewReview();
+
+        view.registerGridDataObserver(mObserver);
+        ReviewBuilder.DataBuilder adapter = (ReviewBuilder.DataBuilder) view.getAdapter();
+        view.setRatingAverage(adapter.getParentBuilder().isRatingAverage());
     }
 
     @Override

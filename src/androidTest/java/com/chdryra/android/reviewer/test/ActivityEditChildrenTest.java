@@ -30,21 +30,6 @@ public class ActivityEditChildrenTest extends ActivityEditScreenTest {
         super(GvDataList.GvType.CHILDREN);
     }
 
-    //    @SmallTest
-//    public void testForDubugging() {
-//        super.testActivityLaunches();
-//        super.testSubjectRatingChange();
-//        super.testBannerButtonAddDone();
-//        super.testBannerButtonAddCancel();
-//        super.testGridItemEditDone();
-//        super.testGridItemEditCancel();
-//        super.testGridItemDeleteConfirm();
-//        super.testGridItemDeleteCancel();
-//        super.testMenuDeleteConfirm();
-//        super.testMenuDeleteCancel();
-//        super.testMenuUpCancels();
-//    }
-
     @SmallTest
     public void testSubjectRatingChangeAvg() {
         mIsAverage = true;

@@ -77,7 +77,7 @@ public class GvBuildReviewList extends GvDataList<GvBuildReviewList.GvBuildRevie
         }
 
         public int getDataSize() {
-            return mBuilder.getData(mDataType).size();
+            return mBuilder.getDataSize(mDataType);
         }
 
         @Override
@@ -101,7 +101,7 @@ public class GvBuildReviewList extends GvDataList<GvBuildReviewList.GvBuildRevie
         }
 
         public View updateView(ViewGroup parent) {
-            int size = mBuilder.getData(mDataType).size();
+            int size = mBuilder.getDataSize(mDataType);
 
             if (size == 0) return getNoDataView(parent);
 
@@ -117,7 +117,7 @@ public class GvBuildReviewList extends GvDataList<GvBuildReviewList.GvBuildRevie
         }
 
         private View getDataView(ViewGroup parent) {
-            int number = mBuilder.getData(mDataType).size();
+            int number = mBuilder.getDataSize(mDataType);
             String type = number == 1 ? mDataType.getDatumString() : mDataType.getDataString();
 
             ViewHolder vh = new VhDualText();
@@ -127,8 +127,8 @@ public class GvBuildReviewList extends GvDataList<GvBuildReviewList.GvBuildRevie
         }
 
         private View getDatumView(ViewGroup parent) {
-            ViewHolderData datum = (ViewHolderData) mBuilder.getData(mDataType)
-                    .getItem(0);
+            ViewHolderData datum = (ViewHolderData) mBuilder.getDataBuilder(mDataType)
+                    .getGridData().getItem(0);
             ViewHolder vh = mDataType == GvType.LOCATIONS ? new VhLocation(true) : datum
                     .newViewHolder();
             if (vh.getView() == null) vh.inflate(getActivity(), parent);
