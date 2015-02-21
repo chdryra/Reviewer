@@ -30,10 +30,10 @@ import com.chdryra.android.mygenerallibrary.ViewHolderData;
  */
 public class GvBuildReviewList extends GvDataList<GvBuildReviewList.GvBuildReview> {
     private static final GvType TYPE = GvType.BUILD_REVIEW;
-    private Activity          mActivity;
-    private ReviewViewBuilder mBuilder;
+    private Activity      mActivity;
+    private ReviewBuilder mBuilder;
 
-    private GvBuildReviewList(Activity activity, ReviewViewBuilder builder) {
+    private GvBuildReviewList(Activity activity, ReviewBuilder builder) {
         super(TYPE);
 
         mActivity = activity;
@@ -47,7 +47,7 @@ public class GvBuildReviewList extends GvDataList<GvBuildReviewList.GvBuildRevie
         add(GvDataList.GvType.FACTS);
     }
 
-    public static GvBuildReviewList newInstance(Activity activity, ReviewViewBuilder adapter) {
+    public static GvBuildReviewList newInstance(Activity activity, ReviewBuilder adapter) {
         return new GvBuildReviewList(activity, adapter);
     }
 

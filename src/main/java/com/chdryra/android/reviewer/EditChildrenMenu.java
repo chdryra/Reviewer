@@ -50,7 +50,7 @@ public class EditChildrenMenu extends EditScreenMenu {
         ReviewView view = getReviewView();
 
         view.registerGridDataObserver(mObserver);
-        ReviewViewBuilder.DataBuilder adapter = (ReviewViewBuilder.DataBuilder) view.getAdapter();
+        ReviewBuilder.DataBuilder adapter = (ReviewBuilder.DataBuilder) view.getAdapter();
         view.setRatingAverage(adapter.getParentBuilder().isRatingAverage());
     }
 

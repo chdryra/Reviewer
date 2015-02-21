@@ -130,16 +130,15 @@ public class EditScreenMenu extends ReviewViewAction.MenuAction {
         }
     }
 
-    protected ReviewViewBuilder.DataBuilder getBuilder() {
-        return (ReviewViewBuilder.DataBuilder) getAdapter();
+    protected ReviewBuilder.DataBuilder getBuilder() {
+        return (ReviewBuilder.DataBuilder) getAdapter();
     }
 
     private void doDoneSelected() {
         ReviewView view = getReviewView();
-        GvDataList data = getData();
-        ReviewViewBuilder.DataBuilder builder = getBuilder();
+        ReviewBuilder.DataBuilder builder = getBuilder();
 
-        if (data != null) builder.setData(data);
+        builder.setData();
         builder.setSubject(view.getSubject());
         builder.getParentBuilder().setRatingIsAverage(view.isRatingAverage());
         builder.setRating(view.getRating());

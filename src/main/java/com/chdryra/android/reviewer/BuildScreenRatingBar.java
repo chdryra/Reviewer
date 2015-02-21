@@ -19,7 +19,7 @@ public class BuildScreenRatingBar extends EditScreenRatingBar {
     @Override
     public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
         super.onRatingChanged(ratingBar, rating, fromUser);
-        if (fromUser) ((ReviewViewBuilder) getAdapter()).setRatingIsAverage(false);
-        ((ReviewViewBuilder) getAdapter()).setRating(rating);
+        if (fromUser) ((ReviewBuilder) getAdapter()).setRatingIsAverage(false);
+        ((ReviewBuilder) getAdapter()).setRating(rating);
     }
 }

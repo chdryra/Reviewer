@@ -27,8 +27,8 @@ public class DialogUrl extends DialogCancelActionDoneFragment implements Launcha
 
     private static final String TAG = "DialogURLFragment";
 
-    private ReviewViewBuilder.DataBuilder mBuilder;
-    private ClearableEditText             mUrlEditText;
+    private ReviewBuilder.DataBuilder<GvUrlList.GvUrl> mBuilder;
+    private ClearableEditText                          mUrlEditText;
 
     @Override
     public void launch(LauncherUi launcher) {
@@ -54,6 +54,7 @@ public class DialogUrl extends DialogCancelActionDoneFragment implements Launcha
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        //TODO make type safe
         mBuilder = Administrator.get(getActivity()).getReviewBuilder()
                 .getDataBuilder(GvDataList.GvType.URLS);
 
@@ -69,9 +70,7 @@ public class DialogUrl extends DialogCancelActionDoneFragment implements Launcha
         String urlString = mUrlEditText.getText().toString();
         if (urlString.length() > 0) {
             try {
-                GvUrlList singleURL = new GvUrlList();
-                singleURL.add(new GvUrlList.GvUrl(urlString));
-                mBuilder.setData(singleURL);
+                mBuilder.add(new GvUrlList.GvUrl(urlString));
             } catch (Exception e) {
                 Log.i(TAG, "Malformed URL or incorrect syntax: " + urlString, e);
                 Toast.makeText(getActivity(), getResources().getString(R.string.toast_bad_url),

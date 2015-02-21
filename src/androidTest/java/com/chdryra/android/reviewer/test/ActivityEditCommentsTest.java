@@ -38,7 +38,7 @@ public class ActivityEditCommentsTest extends ActivityEditScreenTest {
         assertEquals(comments.size(), getGridSize());
         testInGrid(comments, true);
         testInGrid(split, false);
-        testInAdapter(comments, true);
+        testInBuilder(comments, true);
 
         mSolo.clickOnActionBarItem(SPLIT);
 

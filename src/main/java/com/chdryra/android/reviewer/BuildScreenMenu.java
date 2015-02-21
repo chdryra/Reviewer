@@ -25,7 +25,7 @@ public class BuildScreenMenu extends ReviewViewAction.MenuAction {
         mActionItem = new MenuActionItem() {
             @Override
             public void doAction(MenuItem item) {
-                ReviewViewBuilder builder = (ReviewViewBuilder) getAdapter();
+                ReviewBuilder builder = (ReviewBuilder) getAdapter();
                 builder.setRatingIsAverage(true);
                 getReviewView().setRating(builder.getRating());
             }

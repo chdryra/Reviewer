@@ -9,20 +9,18 @@
 package com.chdryra.android.reviewer.test;
 
 import com.chdryra.android.reviewer.ConfigGvDataAddEdit;
-import com.chdryra.android.reviewer.GvTagList;
+import com.chdryra.android.reviewer.GvCommentList;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 05/01/2015
  * Email: rizwan.choudrey@gmail.com
  */
+public class DialogAddCommentTest extends
+        DialogAddGvDataTest<GvCommentList.GvComment> {
 
-/**
- * More of a black-box behaviour (integration) test than unit test
- */
-public class DialogFragmentAddTagTest extends DialogAddGvDataTest<GvTagList.GvTag> {
-
-    public DialogFragmentAddTagTest() {
-        super(ConfigGvDataAddEdit.AddTag.class);
+    public DialogAddCommentTest() {
+        super(ConfigGvDataAddEdit.AddComment.class);
     }
 }
+

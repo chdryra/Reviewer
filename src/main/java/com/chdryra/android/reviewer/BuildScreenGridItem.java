@@ -66,15 +66,16 @@ public class BuildScreenGridItem extends ReviewViewAction.GridItemAction {
         }
     }
 
-    private ReviewViewBuilder getBuilder() {
-        return (ReviewViewBuilder) getAdapter();
+    private ReviewBuilder getBuilder() {
+        return (ReviewBuilder) getAdapter();
     }
 
     private void addLocation(GvLocationList.GvLocation location) {
         if (location.isValidForDisplay()) {
-            GvLocationList list = new GvLocationList();
-            list.add(location);
-            getBuilder().getDataBuilder(GvDataList.GvType.LOCATIONS).setData(list);
+            ReviewBuilder.DataBuilder builder = getBuilder().getDataBuilder(GvDataList.GvType
+                    .LOCATIONS);
+            builder.add(location);
+            builder.setData();
         }
     }
 
@@ -176,9 +177,10 @@ public class BuildScreenGridItem extends ReviewViewAction.GridItemAction {
         @Override
         public void onImageChosen(GvImageList.GvImage image) {
             image.setIsCover(true);
-            GvImageList images = new GvImageList();
-            images.add(image);
-            getBuilder().getDataBuilder(GvDataList.GvType.IMAGES).setData(images);
+            ReviewBuilder.DataBuilder builder = getBuilder().getDataBuilder(GvDataList.GvType
+                    .IMAGES);
+            builder.add(image);
+            builder.setData();
             getReviewView().updateUi();
         }
 

@@ -24,7 +24,6 @@ public class EditScreenBannerButton extends ReviewViewAction.BannerButtonAction 
     private static final String TAG = "ActionBannerButtonAddListener";
 
     private ConfigGvDataUi.LaunchableConfig mConfig;
-    private GvDataHandler                   mHandler;
     private Fragment                        mListener;
 
     public EditScreenBannerButton(ConfigGvDataUi.LaunchableConfig config, String title) {
@@ -33,11 +32,6 @@ public class EditScreenBannerButton extends ReviewViewAction.BannerButtonAction 
         mListener = new AddListener() {
         };
         registerActionListener(mListener, TAG);
-    }
-
-    @Override
-    public void onAttachReviewView() {
-        mHandler = FactoryGvDataHandler.newHandler(getData());
     }
 
     @Override
@@ -50,7 +44,7 @@ public class EditScreenBannerButton extends ReviewViewAction.BannerButtonAction 
 
     //TODO make type safe
     protected boolean addData(GvDataList.GvData data) {
-        boolean added = mHandler.add(data, getActivity());
+        boolean added = ((ReviewBuilder.DataBuilder) getAdapter()).add(data);
         getReviewView().updateUi();
         return added;
     }

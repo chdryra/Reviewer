@@ -31,7 +31,7 @@ public class SubjectEdit extends ReviewViewAction.SubjectAction {
     }
 
     private void setSubject(String subject) {
-        ReviewViewBuilder controller = (ReviewViewBuilder) getAdapter();
+        ReviewBuilder controller = (ReviewBuilder) getAdapter();
         controller.setSubject(subject);
     }
 }

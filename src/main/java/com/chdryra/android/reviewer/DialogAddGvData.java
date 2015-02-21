@@ -42,26 +42,23 @@ public abstract class DialogAddGvData<T extends GvDataList.GvData> extends
 
     public static final String QUICK_SET = "com.chdryra.android.reviewer.dialog_quick_mode";
 
-    private ReviewViewBuilder.DataBuilder mBuilder;
-    private GvDataList<T>                 mData;
-    private GvDataViewHolder<T>           mViewHolder;
-    private GvDataHandler<T>              mHandler;
-    private GvDataAddListener<T>          mAddListener;
+    private GvDataList.GvType            mDataType;
+    private ReviewBuilder.DataBuilder<T> mBuilder;
+    private GvDataViewHolder<T>          mViewHolder;
+    private GvDataAddListener<T>         mAddListener;
 
     private boolean mQuickSet = false;
 
     /**
      * Provides a callback for when the add button is pressed
-     *
-     * @param <T>:{@link GvDataList.GvData} type
      */
     public interface GvDataAddListener<T extends GvDataList.GvData> {
         boolean onGvDataAdd(T data);
     }
 
-    DialogAddGvData(Class<? extends GvDataList<T>> gvDataListClass) {
-        mData = FactoryGvData.newList(gvDataListClass);
-        mViewHolder = FactoryGvDataViewHolder.newViewHolder(getGvType(), this);
+    public DialogAddGvData(Class<? extends GvDataList<T>> dataClass) {
+        mDataType = FactoryGvData.gvType(dataClass);
+        mViewHolder = FactoryGvDataViewHolder.newViewHolder(mDataType, this);
     }
 
     @Override
@@ -81,7 +78,7 @@ public abstract class DialogAddGvData<T extends GvDataList.GvData> extends
     }
 
     public GvDataList.GvType getGvType() {
-        return mData.getGvType();
+        return mDataType;
     }
 
     @Override
@@ -98,27 +95,22 @@ public abstract class DialogAddGvData<T extends GvDataList.GvData> extends
 
         Bundle args = getArguments();
         mQuickSet = args != null && args.getBoolean(QUICK_SET);
-        mBuilder = (ReviewViewBuilder.DataBuilder) Administrator.get(getActivity())
-                .getReviewBuilder()
-                .getDataBuilder(mData.getGvType());
 
         //TODO make type safe
-        if (mBuilder != null) mData = mBuilder.getGridData();
-        mHandler = FactoryGvDataHandler.newHandler(mData);
+        mBuilder = Administrator.get(getActivity()).getReviewBuilder().getDataBuilder(mDataType);
 
-        //TODO make type safe
         if (!isQuickSet()) {
-            mAddListener = (GvDataAddListener<T>) getTargetListener(GvDataAddListener.class);
+            mAddListener = getTargetListener(GvDataAddListener.class);
         }
 
-        setDialogTitle(getResources().getString(R.string.add) + " " + getGvType().getDatumString());
+        setDialogTitle(getResources().getString(R.string.add) + " " + mDataType.getDatumString());
     }
 
     @Override
     protected void onAddButtonClick() {
         T newDatum = mViewHolder.getGvData();
 
-        boolean added = isQuickSet() ? mHandler.add(newDatum, getActivity()) :
+        boolean added = isQuickSet() ? mBuilder.add(newDatum) :
                 newDatum.isValidForDisplay() && mAddListener.onGvDataAdd(newDatum);
 
         if (added) mViewHolder.updateView(newDatum);
@@ -126,7 +118,7 @@ public abstract class DialogAddGvData<T extends GvDataList.GvData> extends
 
     @Override
     protected void onDoneButtonClick() {
-        if (isQuickSet()) mBuilder.setData(mData);
+        if (isQuickSet()) mBuilder.setData();
     }
 
     @Override

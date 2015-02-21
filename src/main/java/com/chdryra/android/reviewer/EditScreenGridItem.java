@@ -24,7 +24,6 @@ public class EditScreenGridItem extends ReviewViewAction.GridItemAction {
     private static final String TAG = "GridItemEditListener";
     private final Fragment                        mListener;
     private       ConfigGvDataUi.LaunchableConfig mConfig;
-    private       GvDataHandler                   mHandler;
 
     public EditScreenGridItem(ConfigGvDataUi.LaunchableConfig config) {
         mConfig = config;
@@ -34,15 +33,10 @@ public class EditScreenGridItem extends ReviewViewAction.GridItemAction {
     }
 
     @Override
-    public void onAttachReviewView() {
-        mHandler = FactoryGvDataHandler.newHandler(getData());
-    }
-
-    @Override
     public void onGridItemClick(GvDataList.GvData item, View v) {
         if (getReviewView() == null) return;
 
-        Bundle args = new Bundle();//Administrator.get(getActivity()).pack(getAdapter());
+        Bundle args = new Bundle();
         GvDataPacker.packItem(GvDataPacker.CurrentNewDatum.CURRENT, item, args);
 
         LauncherUi.launch(mConfig.getLaunchable(), mListener, getRequestCode(),
@@ -55,13 +49,13 @@ public class EditScreenGridItem extends ReviewViewAction.GridItemAction {
 
     //TODO make type safe
     protected void editData(GvDataList.GvData oldDatum, GvDataList.GvData newDatum) {
-        mHandler.replace(oldDatum, newDatum, getActivity());
+        ((ReviewBuilder.DataBuilder) getAdapter()).replace(oldDatum, newDatum);
         getReviewView().updateUi();
     }
 
     //TODO make type safe
     protected void deleteData(GvDataList.GvData datum) {
-        mHandler.delete(datum);
+        ((ReviewBuilder.DataBuilder) getAdapter()).delete(datum);
         getReviewView().updateUi();
     }
 

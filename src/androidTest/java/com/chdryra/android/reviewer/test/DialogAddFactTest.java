@@ -16,10 +16,10 @@ import com.chdryra.android.reviewer.GvFactList;
  * On: 07/01/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class DialogFragmentAddFactTest extends
+public class DialogAddFactTest extends
         DialogAddGvDataTest<GvFactList.GvFact> {
 
-    public DialogFragmentAddFactTest() {
+    public DialogAddFactTest() {
         super(ConfigGvDataAddEdit.AddFact.class);
     }
 

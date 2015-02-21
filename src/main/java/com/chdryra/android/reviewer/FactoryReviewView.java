@@ -19,7 +19,7 @@ public class FactoryReviewView {
     private FactoryReviewView() {
     }
 
-    public static ReviewView newViewReview(FragmentReviewView parent, GvDataList.GvType dataType,
+    public static ReviewView newReviewView(FragmentReviewView parent, GvDataList.GvType dataType,
             boolean isEdit) {
         ReviewView view;
         if (dataType == GvDataList.GvType.SHARE) {
@@ -41,7 +41,7 @@ public class FactoryReviewView {
         ReviewViewAdapter adapter = getAdapter(parent, GvDataList.GvType.BUILD_REVIEW);
 
         ReviewView view = new ReviewView(parent, adapter, true, new BuildScreenModifier
-                ((ReviewViewBuilder) adapter));
+                ((ReviewBuilder) adapter));
 
         setActions(view, GvDataList.GvType.BUILD_REVIEW, parent.getResources().getString(R.string
                 .button_add_review_data));
@@ -162,6 +162,7 @@ public class FactoryReviewView {
         } else if (dataType == GvDataList.GvType.SHARE) {
             return admin.getShareScreenAdapter();
         } else {
+            if (admin.getReviewBuilder() == null) admin.newReviewBuilder(activity);
             return admin.getReviewBuilder().getDataBuilder(dataType);
         }
     }

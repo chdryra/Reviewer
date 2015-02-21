@@ -20,10 +20,10 @@ import com.chdryra.android.reviewer.GvDataList;
  * On: 08/01/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class DialogFragmentEditChildTest extends
+public class DialogEditChildTest extends
         DialogEditGvDataTest<GvChildrenList.GvChildReview> {
 
-    public DialogFragmentEditChildTest() {
+    public DialogEditChildTest() {
         super(ConfigGvDataAddEdit.EditChild.class);
     }
 

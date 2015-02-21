@@ -32,7 +32,7 @@ import com.chdryra.android.reviewer.GvImageList;
 import com.chdryra.android.reviewer.GvLocationList;
 import com.chdryra.android.reviewer.GvTagList;
 import com.chdryra.android.reviewer.R;
-import com.chdryra.android.reviewer.ReviewViewBuilder;
+import com.chdryra.android.reviewer.ReviewBuilder;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
 import com.chdryra.android.reviewer.test.TestUtils.SoloDataEntry;
 import com.chdryra.android.testutils.CallBackSignaler;
@@ -270,7 +270,7 @@ public class ActivityBuildReviewTest extends ActivityReviewViewTest {
     }
 
     protected void checkControllerDataChanges(GvDataList data) {
-        testInController(data, true);
+        testInBuilder(data, true);
         checkControllerChanges(data.getGvType());
     }
 
@@ -284,46 +284,44 @@ public class ActivityBuildReviewTest extends ActivityReviewViewTest {
         clickDoneButton(tag);
     }
 
-    private ReviewViewBuilder getBuilder() {
-        return (ReviewViewBuilder) mAdapter;
+    private ReviewBuilder getBuilder() {
+        return (ReviewBuilder) mAdapter;
     }
 
     private float getAverageRating(boolean nearestHalf) {
-        GvChildrenList children = (GvChildrenList) getBuilder().getData(GvDataList.GvType.CHILDREN);
-        float rating = 0;
-        for (GvChildrenList.GvChildReview child : children) {
-            rating += child.getRating() / children.size();
-        }
+        GvChildrenList children = (GvChildrenList) getBuilder().getDataBuilder(GvDataList.GvType
+                .CHILDREN).getGridData();
 
+        float rating = children.getAverageRating();
         return nearestHalf ? Math.round(rating * 2f) / 2f : rating;
     }
 
-    private void testInController(GvDataList data, boolean inController) {
-        GvDataList fromController = getBuilder().getData(data.getGvType());
-        fromController.sort();
+    private void testInBuilder(GvDataList data, boolean result) {
+        GvDataList fromBuilder = getBuilder().getDataBuilder(data.getGvType()).getGridData();
+        fromBuilder.sort();
         data.sort();
         if (data.getGvType() == GvDataList.GvType.LOCATIONS) {
-            testInControllerLocationNames(data, fromController, inController);
+            testInBuilderLocationNames(data, fromBuilder, result);
         } else {
-            assertEquals(inController, data.equals(fromController));
+            assertEquals(result, data.equals(fromBuilder));
         }
     }
 
-    private void testInControllerLocationNames(GvDataList data, GvDataList fromController,
-            boolean inController) {
+    private void testInBuilderLocationNames(GvDataList data, GvDataList fromBuilder,
+            boolean result) {
         //LatLng is current latlng set by phone GPS so can only compare names
         GvLocationList dataLocations = (GvLocationList) data;
-        GvLocationList controllerLocations = (GvLocationList) fromController;
-        if (!inController && dataLocations.size() == controllerLocations.size()) {
+        GvLocationList builderLocations = (GvLocationList) fromBuilder;
+        if (!result && dataLocations.size() == builderLocations.size()) {
             for (int i = 0; i < dataLocations.size(); ++i) {
                 assertFalse(dataLocations.getItem(i).getName().equals(
-                        controllerLocations.getItem(i).getName()));
+                        builderLocations.getItem(i).getName()));
             }
-        } else if (inController) {
-            assertEquals(dataLocations.size(), controllerLocations.size());
+        } else if (result) {
+            assertEquals(dataLocations.size(), builderLocations.size());
             for (int i = 0; i < dataLocations.size(); ++i) {
                 assertEquals(dataLocations.getItem(i).getName(),
-                        controllerLocations.getItem(i).getName());
+                        builderLocations.getItem(i).getName());
             }
         }
     }
@@ -439,7 +437,7 @@ public class ActivityBuildReviewTest extends ActivityReviewViewTest {
     private void testClickWithoutData(GvDataList.GvType dataType, int numData) {
         final GvDataList data = GvDataMocker.getData(dataType, numData);
 
-        testInController(data, false);
+        testInBuilder(data, false);
         testInGrid(data, false);
 
         testDialogShowing(false);
@@ -549,7 +547,7 @@ public class ActivityBuildReviewTest extends ActivityReviewViewTest {
     private void checkControllerChanges(GvDataList.GvType dataType) {
         for (GvBuildReviewList.GvBuildReview type : mList) {
             if (dataType != null && type.getGvType() == dataType) continue;
-            assertEquals(0, getBuilder().getData(type.getGvType()).size());
+            assertEquals(0, getBuilder().getDataSize(type.getGvType()));
         }
     }
 

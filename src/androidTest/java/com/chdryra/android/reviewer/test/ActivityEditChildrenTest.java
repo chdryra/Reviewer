@@ -100,12 +100,12 @@ public class ActivityEditChildrenTest extends ActivityEditScreenTest {
         }
 
         assertFalse(getFragmentViewReview().getRating() == fromChildren);
-        assertFalse(getBuilder().isRatingAverage());
+        assertFalse(getBuilder().getParentBuilder().isRatingAverage());
 
         mSolo.clickOnActionBarItem(AVERAGE);
 
         assertTrue(getFragmentViewReview().getRating() == fromChildren);
-        assertTrue(getBuilder().isRatingAverage());
+        assertTrue(getBuilder().getParentBuilder().isRatingAverage());
     }
 
     @Override
@@ -116,17 +116,17 @@ public class ActivityEditChildrenTest extends ActivityEditScreenTest {
 
     @Override
     protected void setUpFinish(boolean withData) {
-        getBuilder().setRatingIsAverage(false);
+        getBuilder().getParentBuilder().setRatingIsAverage(false);
         mOriginalRatingNotAverage = mAdapter.getRating();
-        getBuilder().setRatingIsAverage(mIsAverage);
-        float r = mAdapter.getRating();
+        getBuilder().getParentBuilder().setRatingIsAverage(mIsAverage);
         SoloDataEntry.enterRating(mSolo, mAdapter.getRating());
+        if (mIsAverage) mSolo.clickOnActionBarItem(AVERAGE);
         super.setUpFinish(withData);
     }
 
     @Override
     protected void checkSubjectRating() {
-        if (getBuilder().isRatingAverage()) {
+        if (getBuilder().getParentBuilder().isRatingAverage()) {
             checkFragmentSubjectRating(mOriginalSubject, getAverageRating(true));
             checkAdapterSubjectRating();
         } else {
@@ -136,7 +136,7 @@ public class ActivityEditChildrenTest extends ActivityEditScreenTest {
 
     @Override
     protected void checkAdapterSubjectRating() {
-        float rating = getBuilder().isRatingAverage() ? mOriginalRating
+        float rating = getBuilder().getParentBuilder().isRatingAverage() ? mOriginalRating
                 : mOriginalRatingNotAverage;
 
         checkAdapterSubjectRating(mOriginalSubject, rating);
@@ -144,7 +144,7 @@ public class ActivityEditChildrenTest extends ActivityEditScreenTest {
 
     @Override
     protected void checkAdapterSubjectRatingOnDone() {
-        if (getBuilder().isRatingAverage()) {
+        if (getBuilder().getParentBuilder().isRatingAverage()) {
             checkAdapterSubjectRating(mOriginalSubject, mGridRatingBeforeDone);
         } else {
             super.checkAdapterSubjectRatingOnDone();
@@ -153,7 +153,7 @@ public class ActivityEditChildrenTest extends ActivityEditScreenTest {
 
     @Override
     protected void checkFragmentSubjectRating() {
-        float rating = getBuilder().isRatingAverage() ? getAverageRating(true)
+        float rating = getBuilder().getParentBuilder().isRatingAverage() ? getAverageRating(true)
                 : mOriginalRating;
 
         checkFragmentSubjectRating(mOriginalSubject, rating);

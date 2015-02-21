@@ -18,7 +18,7 @@ import com.chdryra.android.reviewer.GvDataList;
 import com.chdryra.android.reviewer.GvReviewList;
 import com.chdryra.android.reviewer.GvSocialPlatformList;
 import com.chdryra.android.reviewer.R;
-import com.chdryra.android.reviewer.ReviewViewBuilder;
+import com.chdryra.android.reviewer.ReviewBuilder;
 import com.chdryra.android.reviewer.SocialPlatformList;
 import com.chdryra.android.reviewer.test.TestUtils.RandomRating;
 import com.chdryra.android.testutils.RandomString;
@@ -85,7 +85,7 @@ public class ActivityShareScreenTest extends ActivityReviewViewTest {
 
     @Override
     protected void setAdapter() {
-        ReviewViewBuilder builder = mAdmin.newReviewBuilder(mActivity);
+        ReviewBuilder builder = mAdmin.newReviewBuilder(mActivity);
 
         builder.setRating(RandomRating.nextRating());
         builder.setSubject(RandomString.nextWord());

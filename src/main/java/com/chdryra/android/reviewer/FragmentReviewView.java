@@ -83,7 +83,7 @@ public class FragmentReviewView extends Fragment {
         GvDataList.GvType dataType = (GvDataList.GvType) args.getSerializable(TYPE);
         boolean isEdit = args.getBoolean(EDIT);
 
-        mReviewView = FactoryReviewView.newViewReview(this, dataType, isEdit);
+        mReviewView = FactoryReviewView.newReviewView(this, dataType, isEdit);
 
         ReviewView.ViewReviewParams params = mReviewView.getParams();
         setGridCellDimension(params.cellWidth, params.cellHeight);

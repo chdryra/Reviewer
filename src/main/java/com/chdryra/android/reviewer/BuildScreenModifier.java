@@ -24,9 +24,9 @@ import android.widget.Toast;
  * Email: rizwan.choudrey@gmail.com
  */
 public class BuildScreenModifier implements ReviewView.ViewModifier {
-    private ReviewViewBuilder mBuilder;
+    private ReviewBuilder mBuilder;
 
-    public BuildScreenModifier(ReviewViewBuilder builder) {
+    public BuildScreenModifier(ReviewBuilder builder) {
         mBuilder = builder;
     }
 

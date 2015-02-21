@@ -32,7 +32,7 @@ import java.util.Map;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ReviewViewAction {
-    private ReviewView mReviewView;
+    private ReviewView                mReviewView;
     private HashMap<String, Fragment> mListeners;
 
     public ReviewViewAction() {
@@ -139,11 +139,15 @@ public class ReviewViewAction {
         public static final int                MENU_UP_ID = android.R.id.home;
         public static final ActivityResultCode RESULT_UP  = ActivityResultCode.UP;
 
-        private int     mMenuId          = -1;
+        private int mMenuId = -1;
         private String mTitle;
         private boolean mDisplayHomeAsUp = false;
 
         private SparseArray<MenuActionItemInfo> mActionItems;
+
+        public interface MenuActionItem {
+            public void doAction(MenuItem item);
+        }
 
         public MenuAction() {
             this(-1, null, false);
@@ -217,20 +221,6 @@ public class ReviewViewAction {
                     sendResult(RESULT_UP);
                 }
             };
-        }
-
-        private MenuActionItem getUpActionItem() {
-            return new MenuActionItem() {
-                @Override
-                public void doAction(MenuItem item) {
-                    doUpSelected();
-                    sendResult(RESULT_UP);
-                }
-            };
-        }
-
-        public interface MenuActionItem {
-            public void doAction(MenuItem item);
         }
 
         private class MenuActionItemInfo {

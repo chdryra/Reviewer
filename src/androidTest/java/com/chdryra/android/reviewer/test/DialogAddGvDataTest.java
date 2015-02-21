@@ -46,7 +46,7 @@ public abstract class DialogAddGvDataTest<T extends GvDataList.GvData> extends
     protected Activity                         mActivity;
     private   Class<? extends DialogAddGvData> mDialogClass;
 
-    protected DialogAddGvDataTest(Class<? extends DialogAddGvData> dialogClass) {
+    protected DialogAddGvDataTest(Class<? extends DialogAddGvData<T>> dialogClass) {
         super(ActivityReviewView.class);
         mDialogClass = dialogClass;
     }

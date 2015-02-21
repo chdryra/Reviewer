@@ -15,8 +15,6 @@ import android.os.Environment;
 import com.chdryra.android.mygenerallibrary.FileIncrementor;
 import com.chdryra.android.mygenerallibrary.FileIncrementorFactory;
 
-import junit.framework.Assert;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -34,7 +32,7 @@ import java.util.Map;
  * For building reviews. Collects appropriate data and builds a {@link Review} object when
  * user is ready using the {@link #publish(java.util.Date)} method.
  */
-public class ReviewViewBuilder implements ReviewViewAdapter {
+public class ReviewBuilder implements ReviewViewAdapter {
     private static final GvDataList.GvType[] TYPES        = {GvDataList.GvType.COMMENTS, GvDataList
             .GvType.FACTS, GvDataList.GvType.LOCATIONS, GvDataList.GvType.IMAGES, GvDataList
             .GvType.URLS, GvDataList.GvType.TAGS};
@@ -48,24 +46,23 @@ public class ReviewViewBuilder implements ReviewViewAdapter {
     private String                             mSubject;
     private float                              mRating;
     private Map<GvDataList.GvType, GvDataList> mData;
-    private ArrayList<ReviewViewBuilder>       mChildren;
-    private GvBuildReviewList                  mGridData;
+    private Map<GvDataList.GvType, DataBuilder> mDataBuilders;
+    private ArrayList<ReviewBuilder>            mChildren;
+    private GvBuildReviewList                   mGridData;
 
     private boolean mIsAverage = false;
 
 
-    public ReviewViewBuilder(Activity activity) {
+    public ReviewBuilder(Activity activity) {
         mChildren = new ArrayList<>();
         mActivity = activity;
         mGridData = GvBuildReviewList.newInstance(activity, this);
 
-        mData = new HashMap<>();
-        mData.put(GvDataList.GvType.COMMENTS, new GvCommentList());
-        mData.put(GvDataList.GvType.IMAGES, new GvImageList());
-        mData.put(GvDataList.GvType.FACTS, new GvFactList());
-        mData.put(GvDataList.GvType.LOCATIONS, new GvLocationList());
-        mData.put(GvDataList.GvType.URLS, new GvUrlList());
-        mData.put(GvDataList.GvType.TAGS, new GvTagList());
+        mDataBuilders = new HashMap<>();
+        for (GvDataList.GvType dataType : TYPES) {
+            mData.put(dataType, FactoryGvData.newList(dataType));
+            mDataBuilders.put(dataType, newDataBuilder(dataType));
+        }
 
         mSubject = "";
         mRating = 0f;
@@ -92,11 +89,6 @@ public class ReviewViewBuilder implements ReviewViewAdapter {
         if (ratingIsAverage) mRating = getChildren().getAverageRating();
     }
 
-    @Override
-    public float getRating() {
-        return isRatingAverage() ? getAverageRating() : mRating;
-    }
-
     public ImageChooser getImageChooser(Activity activity) {
         Context c = activity.getApplicationContext();
         if (c.equals(mActivity.getApplicationContext())) {
@@ -108,11 +100,12 @@ public class ReviewViewBuilder implements ReviewViewAdapter {
     }
 
     public DataBuilder getDataBuilder(GvDataList.GvType dataType) {
-        return new DataBuilder(dataType);
+        return mDataBuilders.get(dataType);
     }
 
-    public void setRating(float rating) {
-        if (!isRatingAverage()) mRating = rating;
+    @Override
+    public float getRating() {
+        return isRatingAverage() ? getAverageRating() : mRating;
     }
 
     public int getDataSize(GvDataList.GvType dataType) {
@@ -132,7 +125,7 @@ public class ReviewViewBuilder implements ReviewViewAdapter {
         TagsManager.tag(root, tags);
 
         RCollectionReview<Review> children = new RCollectionReview<>();
-        for (ReviewViewBuilder child : mChildren) {
+        for (ReviewBuilder child : mChildren) {
             Review childReview = child.publish(publishDate);
             TagsManager.tag(childReview, tags);
             children.add(childReview);
@@ -141,9 +134,25 @@ public class ReviewViewBuilder implements ReviewViewAdapter {
         return FactoryReview.createReviewTree(root, children, mIsAverage);
     }
 
-    @Override
-    public float getAverageRating() {
-        return getChildren().getAverageRating();
+    private DataBuilder newDataBuilder(GvDataList.GvType dataType) {
+        GvDataList data = getData(dataType);
+        if (dataType == GvDataList.GvType.CHILDREN) {
+            return new DataBuilder<>((GvChildrenList) data);
+        } else if (dataType == GvDataList.GvType.COMMENTS) {
+            return new DataBuilder<>((GvCommentList) data);
+        } else if (dataType == GvDataList.GvType.IMAGES) {
+            return new DataBuilder<>((GvImageList) data);
+        } else if (dataType == GvDataList.GvType.FACTS) {
+            return new DataBuilder<>((GvFactList) data);
+        } else if (dataType == GvDataList.GvType.LOCATIONS) {
+            return new DataBuilder<>((GvFactList) data);
+        } else if (dataType == GvDataList.GvType.URLS) {
+            return new DataBuilder<>((GvUrlList) data);
+        } else if (dataType == GvDataList.GvType.TAGS) {
+            return new DataBuilder<>((GvTagList) data);
+        } else {
+            return null;
+        }
     }
 
     private GvDataList getData(GvDataList.GvType dataType) {
@@ -162,11 +171,11 @@ public class ReviewViewBuilder implements ReviewViewAdapter {
         } else if (Arrays.asList(TYPES).contains(dataType)) {
             mData.put(dataType, MdGvConverter.copy(data));
         }
+        mDataBuilders.put(dataType, newDataBuilder(dataType));
     }
 
-    @Override
-    public GvDataList getGridData() {
-        return mGridData;
+    public void setRating(float rating) {
+        if (!isRatingAverage()) mRating = rating;
     }
 
     private void newIncrementor() {
@@ -178,7 +187,7 @@ public class ReviewViewBuilder implements ReviewViewAdapter {
 
     private GvChildrenList getChildren() {
         GvChildrenList children = new GvChildrenList();
-        for (ReviewViewBuilder childBuilder : mChildren) {
+        for (ReviewBuilder childBuilder : mChildren) {
             GvChildrenList.GvChildReview review = new GvChildrenList.GvChildReview(childBuilder
                     .getSubject(), childBuilder.getRating());
             children.add(review);
@@ -187,36 +196,43 @@ public class ReviewViewBuilder implements ReviewViewAdapter {
         return children;
     }
 
-    @Override
-    public Author getAuthor() {
-        return Administrator.get(mActivity).getAuthor();
-    }
-
     private void setChildren(GvChildrenList children) {
         mChildren = new ArrayList<>();
         for (GvChildrenList.GvChildReview child : children) {
-            ReviewViewBuilder childBuilder = new ReviewViewBuilder(mActivity);
+            ReviewBuilder childBuilder = new ReviewBuilder(mActivity);
             childBuilder.setSubject(child.getSubject());
             childBuilder.setRating(child.getRating());
             mChildren.add(childBuilder);
         }
     }
 
-    public class DataBuilder implements ReviewViewAdapter {
-        private GvDataList mData;
+    public class DataBuilder<T extends GvDataList.GvData> implements ReviewViewAdapter {
+        private GvDataList<T>    mData;
+        private GvDataHandler<T> mHandler;
 
-        private DataBuilder(GvDataList.GvType dataType) {
-            mData = getData(dataType);
-        }
-
-        public ReviewViewBuilder getParentBuilder() {
-            return ReviewViewBuilder.this;
-        }
-
-        public void setData(GvDataList data) {
-            Assert.assertEquals(mData.getGvType(), data.getGvType());
+        private DataBuilder(GvDataList<T> data) {
             mData = data;
-            getParentBuilder().setData(data);
+            mHandler = FactoryGvDataHandler.newHandler(mData);
+        }
+
+        public ReviewBuilder getParentBuilder() {
+            return ReviewBuilder.this;
+        }
+
+        public boolean add(T datum) {
+            return mHandler.add(datum, mActivity);
+        }
+
+        public void delete(T datum) {
+            mHandler.delete(datum);
+        }
+
+        public void replace(T oldDatum, T newDatum) {
+            mHandler.replace(oldDatum, newDatum, mActivity);
+        }
+
+        public void setData() {
+            getParentBuilder().setData(mData);
         }
 
         @Override
@@ -231,7 +247,7 @@ public class ReviewViewBuilder implements ReviewViewAdapter {
 
         @Override
         public float getAverageRating() {
-            return mData.getGvType() == GvDataList.GvType.CHILDREN ? ReviewViewBuilder.this
+            return mData.getGvType() == GvDataList.GvType.CHILDREN ? ReviewBuilder.this
                     .getAverageRating() : getRating();
         }
 
@@ -263,9 +279,25 @@ public class ReviewViewBuilder implements ReviewViewAdapter {
         public void setSubject(String subject) {
             getParentBuilder().setSubject(subject);
         }
-
-
     }
+
+    @Override
+    public float getAverageRating() {
+        return getChildren().getAverageRating();
+    }
+
+
+    @Override
+    public GvDataList getGridData() {
+        return mGridData;
+    }
+
+
+    @Override
+    public Author getAuthor() {
+        return Administrator.get(mActivity).getAuthor();
+    }
+
 
     @Override
     public Date getPublishDate() {

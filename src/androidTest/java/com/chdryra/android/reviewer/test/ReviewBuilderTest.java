@@ -26,8 +26,8 @@ import com.chdryra.android.reviewer.GvTagList;
 import com.chdryra.android.reviewer.GvUrlList;
 import com.chdryra.android.reviewer.RCollectionReview;
 import com.chdryra.android.reviewer.Review;
+import com.chdryra.android.reviewer.ReviewBuilder;
 import com.chdryra.android.reviewer.ReviewNode;
-import com.chdryra.android.reviewer.ReviewViewBuilder;
 import com.chdryra.android.reviewer.TagsManager;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
 import com.chdryra.android.reviewer.test.TestUtils.MdGvEquality;
@@ -44,7 +44,10 @@ import java.util.Date;
  */
 public class ReviewBuilderTest extends ActivityInstrumentationTestCase2<ActivityReviewView> {
     private static final int NUM = 3;
-    private ReviewViewBuilder mBuilder;
+    private static final GvDataList.GvType[] TYPES = {GvDataList.GvType.COMMENTS, GvDataList
+            .GvType.FACTS, GvDataList.GvType.LOCATIONS, GvDataList.GvType.IMAGES, GvDataList
+            .GvType.URLS, GvDataList.GvType.TAGS};
+    private ReviewBuilder mBuilder;
 
     public ReviewBuilderTest() {
         super(ActivityReviewView.class);
@@ -55,7 +58,6 @@ public class ReviewBuilderTest extends ActivityInstrumentationTestCase2<Activity
         assertEquals(0, mBuilder.getSubject().length());
         String subject = RandomString.nextWord();
         mBuilder.setSubject(subject);
-        assertNotNull(mBuilder.getSubject());
         assertEquals(subject, mBuilder.getSubject());
     }
 
@@ -73,7 +75,7 @@ public class ReviewBuilderTest extends ActivityInstrumentationTestCase2<Activity
 
         assertEquals(0f, mBuilder.getAverageRating());
         assertEquals(0f, mBuilder.getRating());
-        mBuilder.setData(children);
+        setBuilderData(children);
         assertEquals(children.getAverageRating(), mBuilder.getAverageRating());
         assertEquals(0f, mBuilder.getRating());
     }
@@ -99,54 +101,120 @@ public class ReviewBuilderTest extends ActivityInstrumentationTestCase2<Activity
     public void testGetImages() {
         assertEquals(0, mBuilder.getImages().size());
         GvImageList images = GvDataMocker.newImageList(NUM);
-        mBuilder.setData(images);
+        setBuilderData(images);
         assertEquals(images.size(), mBuilder.getImages().size());
         assertEquals(images, mBuilder.getImages());
     }
 
     @SmallTest
-    public void testSetGetData() {
-        assertEquals(0, mBuilder.getData(GvDataList.GvType.COMMENTS).size());
-        assertEquals(0, mBuilder.getData(GvDataList.GvType.FACTS).size());
-        assertEquals(0, mBuilder.getData(GvDataList.GvType.IMAGES).size());
-        assertEquals(0, mBuilder.getData(GvDataList.GvType.LOCATIONS).size());
-        assertEquals(0, mBuilder.getData(GvDataList.GvType.URLS).size());
-        assertEquals(0, mBuilder.getData(GvDataList.GvType.CHILDREN).size());
-        assertEquals(0, mBuilder.getData(GvDataList.GvType.TAGS).size());
-        assertNull(mBuilder.getData(GvDataList.GvType.SHARE));
-        assertNull(mBuilder.getData(GvDataList.GvType.BUILD_REVIEW));
-        assertNull(mBuilder.getData(GvDataList.GvType.FEED));
-
-        GvDataList comments = GvDataMocker.getData(GvDataList.GvType.COMMENTS, NUM);
-        GvDataList facts = GvDataMocker.getData(GvDataList.GvType.FACTS, NUM);
-        GvDataList images = GvDataMocker.getData(GvDataList.GvType.IMAGES, NUM);
-        GvDataList locations = GvDataMocker.getData(GvDataList.GvType.LOCATIONS, NUM);
-        GvDataList urls = GvDataMocker.getData(GvDataList.GvType.URLS, NUM);
-        GvDataList children = GvDataMocker.getData(GvDataList.GvType.CHILDREN, NUM);
-        GvDataList tags = GvDataMocker.getData(GvDataList.GvType.TAGS, NUM);
-
-        mBuilder.setData(comments);
-        mBuilder.setData(facts);
-        mBuilder.setData(images);
-        mBuilder.setData(locations);
-        mBuilder.setData(urls);
-        mBuilder.setData(children);
-        mBuilder.setData(tags);
-
-        assertEquals(comments, mBuilder.getData(GvDataList.GvType.COMMENTS));
-        assertEquals(facts, mBuilder.getData(GvDataList.GvType.FACTS));
-        assertEquals(images, mBuilder.getData(GvDataList.GvType.IMAGES));
-        assertEquals(locations, mBuilder.getData(GvDataList.GvType.LOCATIONS));
-        assertEquals(urls, mBuilder.getData(GvDataList.GvType.URLS));
-        assertEquals(children, mBuilder.getData(GvDataList.GvType.CHILDREN));
-        assertEquals(tags, mBuilder.getData(GvDataList.GvType.TAGS));
-        assertNull(mBuilder.getData(GvDataList.GvType.SHARE));
-        assertNull(mBuilder.getData(GvDataList.GvType.BUILD_REVIEW));
-        assertNull(mBuilder.getData(GvDataList.GvType.FEED));
+    public void testDataBuilderSetGetSubject() {
+        assertEquals("", mBuilder.getSubject());
+        String subject = RandomString.nextWord();
+        for (GvDataList.GvType dataType : TYPES) {
+            ReviewBuilder.DataBuilder builder = mBuilder.getDataBuilder(dataType);
+            assertEquals("", builder.getSubject());
+            mBuilder.setSubject(subject);
+            assertEquals(subject, builder.getSubject());
+            mBuilder.setSubject("");
+            assertEquals("", builder.getSubject());
+            builder.setSubject(subject);
+            assertEquals(subject, builder.getSubject());
+            assertEquals(subject, mBuilder.getSubject());
+            mBuilder.setSubject("");
+        }
     }
 
     @SmallTest
-    public void testGetDataAdapter() {
+    public void testDataBuilderSetGetRating() {
+        assertEquals(0f, mBuilder.getRating());
+        float rating = RandomRating.nextRating();
+        for (GvDataList.GvType dataType : TYPES) {
+            ReviewBuilder.DataBuilder builder = mBuilder.getDataBuilder(dataType);
+            assertEquals(0f, builder.getRating());
+            mBuilder.setRating(rating);
+            assertEquals(rating, builder.getRating());
+            mBuilder.setRating(0f);
+            assertEquals(0f, builder.getRating());
+            builder.setRating(rating);
+            assertEquals(rating, builder.getRating());
+            assertEquals(rating, mBuilder.getRating());
+            mBuilder.setRating(0f);
+        }
+    }
+
+    @SmallTest
+    public void testDataBuilderGetParentBuilder() {
+        for (GvDataList.GvType dataType : TYPES) {
+            assertEquals(mBuilder, mBuilder.getDataBuilder(dataType).getParentBuilder());
+        }
+    }
+
+    @SmallTest
+    public void testDataBuilderGetAverageRating() {
+        while (mBuilder.getAverageRating() == mBuilder.getRating()) {
+            setBuilderData(GvDataMocker.newChildList(NUM));
+        }
+
+        for (GvDataList.GvType dataType : TYPES) {
+            ReviewBuilder.DataBuilder builder = mBuilder.getDataBuilder(dataType);
+            if (dataType == GvDataList.GvType.CHILDREN) {
+                assertEquals(mBuilder.getAverageRating(), builder.getAverageRating());
+            } else {
+                assertEquals(mBuilder.getRating(), builder.getAverageRating());
+            }
+        }
+    }
+
+    @SmallTest
+    public void testDataBuilderGetAuthor() {
+        for (GvDataList.GvType dataType : TYPES) {
+            assertEquals(mBuilder.getAuthor(), mBuilder.getDataBuilder(dataType).getAuthor());
+        }
+    }
+
+    @SmallTest
+    public void testDataBuilderGetPubishDate() {
+        for (GvDataList.GvType dataType : TYPES) {
+            assertNull(mBuilder.getDataBuilder(dataType).getPublishDate());
+        }
+    }
+
+    @SmallTest
+    public void testDataBuilderGetImages() {
+        GvImageList images = GvDataMocker.newImageList(NUM);
+        GvImageList newImages = GvDataMocker.newImageList(NUM);
+        setBuilderData(images);
+
+        for (GvDataList.GvType dataType : TYPES) {
+            assertEquals(images, mBuilder.getImages());
+            ReviewBuilder.DataBuilder builder = mBuilder.getDataBuilder(dataType);
+            assertEquals(images, builder.getImages());
+            setBuilderData(newImages);
+            assertEquals(newImages, mBuilder.getImages());
+            if (dataType == GvDataList.GvType.IMAGES) {
+                assertEquals(images, builder.getImages());
+            } else {
+                assertEquals(newImages, builder.getImages());
+            }
+            setBuilderData(images);
+        }
+    }
+
+    @SmallTest
+    public void testDataBuilderGetSetData() {
+        for (GvDataList.GvType dataType : TYPES) {
+            assertEquals(0, getBuilderData(dataType).size());
+        }
+
+        for (GvDataList.GvType dataType : TYPES) {
+            GvDataList data = GvDataMocker.getData(dataType, NUM);
+            setBuilderData(data);
+            assertEquals(data, getBuilderData(dataType));
+        }
+    }
+
+    @SmallTest
+    public void testGetDataBuilder() {
         assertNotNull(mBuilder.getDataBuilder(GvDataList.GvType.COMMENTS));
         assertNotNull(mBuilder.getDataBuilder(GvDataList.GvType.FACTS));
         assertNotNull(mBuilder.getDataBuilder(GvDataList.GvType.IMAGES));
@@ -171,13 +239,13 @@ public class ReviewBuilderTest extends ActivityInstrumentationTestCase2<Activity
 
         mBuilder.setSubject(subject);
         mBuilder.setRating(rating);
-        mBuilder.setData(comments);
-        mBuilder.setData(facts);
-        mBuilder.setData(images);
-        mBuilder.setData(locations);
-        mBuilder.setData(urls);
-        mBuilder.setData(children);
-        mBuilder.setData(tags);
+        setBuilderData(comments);
+        setBuilderData(facts);
+        setBuilderData(images);
+        setBuilderData(locations);
+        setBuilderData(urls);
+        setBuilderData(children);
+        setBuilderData(tags);
 
         Author author = mBuilder.getAuthor();
         Date date = RandomDate.nextDate();
@@ -235,6 +303,19 @@ public class ReviewBuilderTest extends ActivityInstrumentationTestCase2<Activity
 
         setActivityIntent(i);
 
-        mBuilder = new ReviewViewBuilder(getActivity());
+        mBuilder = new ReviewBuilder(getActivity());
+    }
+
+    private GvDataList getBuilderData(GvDataList.GvType dataType) {
+        return mBuilder.getDataBuilder(dataType).getGridData();
+    }
+
+    private void setBuilderData(GvDataList data) {
+        ReviewBuilder.DataBuilder builder = mBuilder.getDataBuilder(data.getGvType());
+        for (int i = 0; i < data.size(); ++i) {
+            GvDataList.GvData datum = (GvDataList.GvData) data.getItem(i);
+            builder.add(datum);
+        }
+        builder.setData();
     }
 }
