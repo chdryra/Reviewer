@@ -13,11 +13,11 @@ import android.app.Fragment;
 /**
  * UI Activity holding published reviews feed.
  */
-public class ActivityFeed extends ActivityViewReview {
+public class ActivityFeed extends ActivityReviewView {
 
     @Override
     protected Fragment createFragment() {
-        return FragmentViewReview.newInstance(GvDataList.GvType.FEED, false);
+        return FragmentReviewView.newInstance(GvDataList.GvType.FEED, false);
     }
 
 }

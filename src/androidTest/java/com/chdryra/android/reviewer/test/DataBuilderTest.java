@@ -12,7 +12,7 @@ import android.content.Intent;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.ActivityViewReview;
+import com.chdryra.android.reviewer.ActivityReviewView;
 import com.chdryra.android.reviewer.Author;
 import com.chdryra.android.reviewer.GvChildrenList;
 import com.chdryra.android.reviewer.GvCommentList;
@@ -24,8 +24,8 @@ import com.chdryra.android.reviewer.GvTagList;
 import com.chdryra.android.reviewer.GvUrlList;
 import com.chdryra.android.reviewer.RCollectionReview;
 import com.chdryra.android.reviewer.Review;
-import com.chdryra.android.reviewer.ReviewBuilder;
 import com.chdryra.android.reviewer.ReviewNode;
+import com.chdryra.android.reviewer.ReviewViewBuilder;
 import com.chdryra.android.reviewer.TagsManager;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
 import com.chdryra.android.reviewer.test.TestUtils.MdGvEquality;
@@ -41,17 +41,17 @@ import java.util.Date;
  * On: 20/02/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class DataBuilderTest extends ActivityInstrumentationTestCase2<ActivityViewReview> {
+public class DataBuilderTest extends ActivityInstrumentationTestCase2<ActivityReviewView> {
     private static final int                 NUM   = 3;
     private static final GvDataList.GvType[] TYPES = {GvDataList.GvType.COMMENTS, GvDataList
             .GvType.FACTS, GvDataList.GvType.LOCATIONS, GvDataList.GvType.IMAGES, GvDataList
             .GvType.URLS, GvDataList.GvType.TAGS};
 
-    private ReviewBuilder                mBuilder;
+    private ReviewViewBuilder            mBuilder;
     private ArrayList<ReviewBuilderData> mBuilderDatas;
 
     public DataBuilderTest() {
-        super(ActivityViewReview.class);
+        super(ActivityReviewView.class);
     }
 
     @SmallTest
@@ -270,11 +270,11 @@ public class DataBuilderTest extends ActivityInstrumentationTestCase2<ActivityVi
         getInstrumentation().setInTouchMode(false);
 
         Intent i = new Intent();
-        ActivityViewReview.packParameters(GvDataList.GvType.BUILD_REVIEW, false, i);
+        ActivityReviewView.packParameters(GvDataList.GvType.BUILD_REVIEW, false, i);
 
         setActivityIntent(i);
 
-        mBuilder = new ReviewBuilder(getActivity());
+        mBuilder = new ReviewViewBuilder(getActivity());
         mBuilderDatas = new ArrayList<>();
         for (GvDataList.GvType dataType : TYPES) {
             mBuilderDatas.add(new ReviewBuilderData(mBuilder, dataType));

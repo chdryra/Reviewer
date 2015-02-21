@@ -19,9 +19,9 @@ import android.graphics.Bitmap;
 import java.util.Date;
 
 /**
- * {@link com.chdryra.android.reviewer.ViewReviewAdapter} for {@link RCollectionReview} data.
+ * {@link ReviewViewAdapter} for {@link RCollectionReview} data.
  */
-public class ReviewCollectionAdapter implements ViewReviewAdapter {
+public class ReviewCollectionAdapter implements ReviewViewAdapter {
     private Author mAuthor;
     private Date   mPublishDate;
     private String mTitle;

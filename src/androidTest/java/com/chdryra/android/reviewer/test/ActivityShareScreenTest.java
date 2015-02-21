@@ -13,12 +13,12 @@ import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.ActivityFeed;
 import com.chdryra.android.reviewer.Administrator;
-import com.chdryra.android.reviewer.FragmentViewReview;
+import com.chdryra.android.reviewer.FragmentReviewView;
 import com.chdryra.android.reviewer.GvDataList;
 import com.chdryra.android.reviewer.GvReviewList;
 import com.chdryra.android.reviewer.GvSocialPlatformList;
 import com.chdryra.android.reviewer.R;
-import com.chdryra.android.reviewer.ReviewBuilder;
+import com.chdryra.android.reviewer.ReviewViewBuilder;
 import com.chdryra.android.reviewer.SocialPlatformList;
 import com.chdryra.android.reviewer.test.TestUtils.RandomRating;
 import com.chdryra.android.testutils.RandomString;
@@ -28,7 +28,7 @@ import com.chdryra.android.testutils.RandomString;
  * On: 10/02/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ActivityShareScreenTest extends ActivityViewReviewTest {
+public class ActivityShareScreenTest extends ActivityReviewViewTest {
     private static final int               TIMEOUT = 10000;
     private static final GvDataList.GvType TYPE    = GvDataList.GvType.SHARE;
     private SocialPlatformList mList;
@@ -85,7 +85,7 @@ public class ActivityShareScreenTest extends ActivityViewReviewTest {
 
     @Override
     protected void setAdapter() {
-        ReviewBuilder builder = mAdmin.newReviewBuilder(mActivity);
+        ReviewViewBuilder builder = mAdmin.newReviewBuilder(mActivity);
 
         builder.setRating(RandomRating.nextRating());
         builder.setSubject(RandomString.nextWord());
@@ -95,7 +95,7 @@ public class ActivityShareScreenTest extends ActivityViewReviewTest {
 
     @SmallTest
     public void testSubjectRating() {
-        FragmentViewReview fragment = getFragmentViewReview();
+        FragmentReviewView fragment = getFragmentViewReview();
         assertEquals(mAdapter.getSubject(), fragment.getSubject());
         assertEquals(mAdapter.getRating(), fragment.getRating());
     }

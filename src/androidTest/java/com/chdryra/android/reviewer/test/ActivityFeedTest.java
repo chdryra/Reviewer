@@ -11,12 +11,12 @@ package com.chdryra.android.reviewer.test;
 import android.app.Instrumentation;
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.ActivityViewReview;
+import com.chdryra.android.reviewer.ActivityReviewView;
 import com.chdryra.android.reviewer.Administrator;
 import com.chdryra.android.reviewer.GvDataList;
 import com.chdryra.android.reviewer.GvReviewList;
 import com.chdryra.android.reviewer.R;
-import com.chdryra.android.reviewer.ViewReviewAdapter;
+import com.chdryra.android.reviewer.ReviewViewAdapter;
 
 import java.util.ArrayList;
 
@@ -25,7 +25,7 @@ import java.util.ArrayList;
  * On: 02/12/2014
  * Email: rizwan.choudrey@gmail.com
  */
-public class ActivityFeedTest extends ActivityViewReviewTest {
+public class ActivityFeedTest extends ActivityReviewViewTest {
     private static final int NEWREVIEW = R.id.menu_item_new_review;
     private static final int NUM       = 5;
     private static final int TIMEOUT   = 10000;
@@ -57,14 +57,14 @@ public class ActivityFeedTest extends ActivityViewReviewTest {
     @SmallTest
     public void testMenuNewReview() {
         Instrumentation.ActivityMonitor monitor = getInstrumentation().addMonitor
-                (ActivityViewReview.class.getName(), null, false);
+                (ActivityReviewView.class.getName(), null, false);
 
         mSolo.clickOnActionBarItem(NEWREVIEW);
         getInstrumentation().waitForIdleSync();
-        ActivityViewReview buildActivity = (ActivityViewReview) monitor.waitForActivityWithTimeout
+        ActivityReviewView buildActivity = (ActivityReviewView) monitor.waitForActivityWithTimeout
                 (TIMEOUT);
         assertNotNull(buildActivity);
-        assertEquals(ActivityViewReview.class, buildActivity.getClass());
+        assertEquals(ActivityReviewView.class, buildActivity.getClass());
     }
 
     @Override
@@ -80,7 +80,7 @@ public class ActivityFeedTest extends ActivityViewReviewTest {
     @Override
     protected void setUp() {
         mAdmin = Administrator.get(getInstrumentation().getTargetContext());
-        ArrayList<ViewReviewAdapter> adapters = new ArrayList<>();
+        ArrayList<ReviewViewAdapter> adapters = new ArrayList<>();
         for (int i = 0; i < NUM; ++i) {
             adapters.add(mAdmin.newReviewBuilder(mActivity));
             mAdmin.publishReviewBuilder();

@@ -14,7 +14,7 @@ import android.app.Fragment;
  * UI Activity holding {@link FragmentEditUrlBrowser}: browsing and searching URLs (currently
  * disabled).
  */
-public class ActivityEditUrlBrowser extends ActivityViewReview implements LaunchableUi {
+public class ActivityEditUrlBrowser extends ActivityReviewView implements LaunchableUi {
 
     @Override
     public void launch(LauncherUi launcher) {

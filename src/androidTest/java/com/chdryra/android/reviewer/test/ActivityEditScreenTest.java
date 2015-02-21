@@ -19,12 +19,12 @@ import com.chdryra.android.mygenerallibrary.DialogAlertFragment;
 import com.chdryra.android.mygenerallibrary.DialogDeleteConfirm;
 import com.chdryra.android.reviewer.Administrator;
 import com.chdryra.android.reviewer.ConfigGvDataUi;
-import com.chdryra.android.reviewer.DialogFragmentGvDataAdd;
-import com.chdryra.android.reviewer.DialogFragmentGvDataEdit;
-import com.chdryra.android.reviewer.FragmentViewReview;
+import com.chdryra.android.reviewer.DialogAddGvData;
+import com.chdryra.android.reviewer.DialogEditGvData;
+import com.chdryra.android.reviewer.FragmentReviewView;
 import com.chdryra.android.reviewer.GvChildrenList;
 import com.chdryra.android.reviewer.GvDataList;
-import com.chdryra.android.reviewer.ReviewBuilder;
+import com.chdryra.android.reviewer.ReviewViewBuilder;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
 import com.chdryra.android.reviewer.test.TestUtils.SoloDataEntry;
 import com.chdryra.android.testutils.CallBackSignaler;
@@ -37,7 +37,7 @@ import java.util.Map;
  * On: 03/02/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public abstract class ActivityEditScreenTest extends ActivityViewReviewTest {
+public abstract class ActivityEditScreenTest extends ActivityReviewViewTest {
     protected static final long                TIMEOUT  = 5000;
     protected static final int                 DELETE   = com.chdryra.android.reviewer.R.id
             .menu_item_delete;
@@ -154,7 +154,7 @@ public abstract class ActivityEditScreenTest extends ActivityViewReviewTest {
 
     @Override
     protected void setAdapter() {
-        ReviewBuilder builder = Administrator.get(getInstrumentation().getTargetContext())
+        ReviewViewBuilder builder = Administrator.get(getInstrumentation().getTargetContext())
                 .newReviewBuilder(mActivity);
         if (mWithData) {
             mData = GvDataMocker.getData(mDataType, NUM_DATA);
@@ -257,7 +257,7 @@ public abstract class ActivityEditScreenTest extends ActivityViewReviewTest {
     }
 
     protected void checkFragmentSubjectRating(String subject, float rating) {
-        FragmentViewReview fragment = getFragmentViewReview();
+        FragmentReviewView fragment = getFragmentViewReview();
         assertEquals(subject, fragment.getSubject());
         assertEquals(rating, fragment.getRating());
     }
@@ -435,8 +435,8 @@ public abstract class ActivityEditScreenTest extends ActivityViewReviewTest {
         if (mData != null) checkAdapterDataChanges(mData);
     }
 
-    protected ReviewBuilder getBuilder() {
-        return (ReviewBuilder) mAdapter;
+    protected ReviewViewBuilder getBuilder() {
+        return (ReviewViewBuilder) mAdapter;
     }
 
     protected void testInAdapter(GvDataList data, boolean result) {
@@ -668,16 +668,16 @@ public abstract class ActivityEditScreenTest extends ActivityViewReviewTest {
         });
     }
 
-    private DialogFragmentGvDataEdit getEditDialog() {
+    private DialogEditGvData getEditDialog() {
         FragmentManager manager = getActivity().getFragmentManager();
         Fragment f = manager.findFragmentByTag(mEditConfig.getTag());
-        return (DialogFragmentGvDataEdit) f;
+        return (DialogEditGvData) f;
     }
 
-    private DialogFragmentGvDataAdd getAddDialog() {
+    private DialogAddGvData getAddDialog() {
         FragmentManager manager = getActivity().getFragmentManager();
         Fragment f = manager.findFragmentByTag(mAddConfig.getTag());
-        return (DialogFragmentGvDataAdd) f;
+        return (DialogAddGvData) f;
     }
 
     private DialogAlertFragment getDeleteConfirmDialog() {

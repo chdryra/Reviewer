@@ -19,7 +19,7 @@ import com.chdryra.android.reviewer.GvChildrenList;
  * Email: rizwan.choudrey@gmail.com
  */
 public class DialogFragmentAddChildTest extends
-        DialogFragmentGvDataAddTest<GvChildrenList.GvChildReview> {
+        DialogAddGvDataTest<GvChildrenList.GvChildReview> {
 
     public DialogFragmentAddChildTest() {
         super(ConfigGvDataAddEdit.AddChild.class);

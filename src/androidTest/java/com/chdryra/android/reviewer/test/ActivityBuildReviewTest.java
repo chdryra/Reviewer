@@ -18,11 +18,11 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.chdryra.android.mygenerallibrary.DialogCancelActionDoneFragment;
-import com.chdryra.android.reviewer.ActivityViewReview;
+import com.chdryra.android.reviewer.ActivityReviewView;
 import com.chdryra.android.reviewer.Administrator;
 import com.chdryra.android.reviewer.CommentFormatter;
 import com.chdryra.android.reviewer.ConfigGvDataUi;
-import com.chdryra.android.reviewer.FragmentViewReview;
+import com.chdryra.android.reviewer.FragmentReviewView;
 import com.chdryra.android.reviewer.GvBuildReviewList;
 import com.chdryra.android.reviewer.GvChildrenList;
 import com.chdryra.android.reviewer.GvCommentList;
@@ -32,7 +32,7 @@ import com.chdryra.android.reviewer.GvImageList;
 import com.chdryra.android.reviewer.GvLocationList;
 import com.chdryra.android.reviewer.GvTagList;
 import com.chdryra.android.reviewer.R;
-import com.chdryra.android.reviewer.ReviewBuilder;
+import com.chdryra.android.reviewer.ReviewViewBuilder;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
 import com.chdryra.android.reviewer.test.TestUtils.SoloDataEntry;
 import com.chdryra.android.testutils.CallBackSignaler;
@@ -44,7 +44,7 @@ import java.util.ArrayList;
  * On: 10/02/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ActivityBuildReviewTest extends ActivityViewReviewTest {
+public class ActivityBuildReviewTest extends ActivityReviewViewTest {
     private static final int               NUM_DATA = 3;
     private static final int               TIMEOUT  = 10000;
     private static final GvDataList.GvType TYPE     = GvDataList.GvType.BUILD_REVIEW;
@@ -98,10 +98,10 @@ public class ActivityBuildReviewTest extends ActivityViewReviewTest {
         clickShare();
         getInstrumentation().waitForIdleSync();
 
-        ActivityViewReview shareActivity = (ActivityViewReview) monitor.waitForActivityWithTimeout
+        ActivityReviewView shareActivity = (ActivityReviewView) monitor.waitForActivityWithTimeout
                 (TIMEOUT);
         assertNotNull(shareActivity);
-        assertEquals(ActivityViewReview.class, shareActivity.getClass());
+        assertEquals(ActivityReviewView.class, shareActivity.getClass());
         assertTrue(mSolo.searchText(getActivity().getResources().getString(R
                 .string.button_social)));
         mSolo.clickOnActionBarHomeButton();
@@ -232,7 +232,7 @@ public class ActivityBuildReviewTest extends ActivityViewReviewTest {
     }
 
     protected void checkFragmentSubjectRating(String subject, float rating) {
-        FragmentViewReview fragment = getFragmentViewReview();
+        FragmentReviewView fragment = getFragmentViewReview();
         assertEquals(subject, fragment.getSubject());
         assertEquals(rating, fragment.getRating());
     }
@@ -249,7 +249,7 @@ public class ActivityBuildReviewTest extends ActivityViewReviewTest {
 
     @SmallTest
     public void testSubjectRating() {
-        FragmentViewReview fragment = getFragmentViewReview();
+        FragmentReviewView fragment = getFragmentViewReview();
         assertEquals(mAdapter.getSubject(), fragment.getSubject());
         assertEquals(mAdapter.getRating(), fragment.getRating());
     }
@@ -284,8 +284,8 @@ public class ActivityBuildReviewTest extends ActivityViewReviewTest {
         clickDoneButton(tag);
     }
 
-    private ReviewBuilder getBuilder() {
-        return (ReviewBuilder) mAdapter;
+    private ReviewViewBuilder getBuilder() {
+        return (ReviewViewBuilder) mAdapter;
     }
 
     private float getAverageRating(boolean nearestHalf) {
@@ -516,7 +516,7 @@ public class ActivityBuildReviewTest extends ActivityViewReviewTest {
     }
 
     private Instrumentation.ActivityMonitor getActivityMonitor() {
-        return getInstrumentation().addMonitor(ActivityViewReview
+        return getInstrumentation().addMonitor(ActivityReviewView
                 .class.getName(), null, false);
     }
 
@@ -527,10 +527,10 @@ public class ActivityBuildReviewTest extends ActivityViewReviewTest {
 
     private void testEditScreenShowing(GvDataList.GvType dataType,
             Instrumentation.ActivityMonitor monitor) {
-        ActivityViewReview editActivity = (ActivityViewReview) monitor.waitForActivityWithTimeout
+        ActivityReviewView editActivity = (ActivityReviewView) monitor.waitForActivityWithTimeout
                 (TIMEOUT);
         assertNotNull(editActivity);
-        assertEquals(ActivityViewReview.class, editActivity.getClass());
+        assertEquals(ActivityReviewView.class, editActivity.getClass());
 
         getInstrumentation().waitForIdleSync();
         assertTrue(mSolo.searchText("Add " + dataType.getDatumString()));

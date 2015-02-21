@@ -21,7 +21,7 @@ import com.chdryra.android.reviewer.GvDataList;
  * Email: rizwan.choudrey@gmail.com
  */
 public class DialogFragmentEditChildTest extends
-        DialogFragmentGvDataEditTest<GvChildrenList.GvChildReview> {
+        DialogEditGvDataTest<GvChildrenList.GvChildReview> {
 
     public DialogFragmentEditChildTest() {
         super(ConfigGvDataAddEdit.EditChild.class);

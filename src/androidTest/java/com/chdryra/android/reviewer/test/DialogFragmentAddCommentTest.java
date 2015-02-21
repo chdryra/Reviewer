@@ -17,7 +17,7 @@ import com.chdryra.android.reviewer.GvCommentList;
  * Email: rizwan.choudrey@gmail.com
  */
 public class DialogFragmentAddCommentTest extends
-        DialogFragmentGvDataAddTest<GvCommentList.GvComment> {
+        DialogAddGvDataTest<GvCommentList.GvComment> {
 
     public DialogFragmentAddCommentTest() {
         super(ConfigGvDataAddEdit.AddComment.class);

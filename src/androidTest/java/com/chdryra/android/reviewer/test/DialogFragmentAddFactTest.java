@@ -17,7 +17,7 @@ import com.chdryra.android.reviewer.GvFactList;
  * Email: rizwan.choudrey@gmail.com
  */
 public class DialogFragmentAddFactTest extends
-        DialogFragmentGvDataAddTest<GvFactList.GvFact> {
+        DialogAddGvDataTest<GvFactList.GvFact> {
 
     public DialogFragmentAddFactTest() {
         super(ConfigGvDataAddEdit.AddFact.class);

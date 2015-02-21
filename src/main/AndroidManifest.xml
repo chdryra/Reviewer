@@ -52,7 +52,7 @@
 
         <!-- General grid view -->
         <activity
-            android:name=".ActivityViewReview"
+            android:name=".ActivityReviewView"
             android:configChanges="orientation"
             android:exported="true"
             android:screenOrientation="portrait"
@@ -70,7 +70,7 @@
             android:windowSoftInputMode="adjustPan">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ActivityViewReview"/>
+                android:value=".ActivityReviewView"/>
         </activity>
 
         <!-- Map choose location -->
@@ -89,7 +89,7 @@
 
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ActivityViewReview"/>
+                android:value=".ActivityReviewView"/>
             <meta-data
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable_location_map"/>

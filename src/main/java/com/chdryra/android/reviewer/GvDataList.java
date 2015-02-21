@@ -15,13 +15,13 @@ import com.chdryra.android.mygenerallibrary.ViewHolderDataList;
 
 /**
  * The (Grid) View layer (V) equivalent of the Model layer (M) {@link MdDataList}. Implementation of
- * {@link ViewHolderDataList} tailored for Review data accessed via a {@link ReviewAdapter} (C)
+ * {@link ViewHolderDataList} tailored for Review data accessed via a {@link ReviewViewAdapter} (C)
  * that
  * translates between
  * them (MVC pattern).
  * <p/>
  * <p>
- * Access of Review data via a {@link ReviewAdapter} requires passing a {@link com.chdryra
+ * Access of Review data via a {@link ReviewViewAdapter} requires passing a {@link com.chdryra
  * .android.reviewer.GvDataList.GvType}
  * specified in this class. The same enum also provides a singular and plural readable text
  * label for that type of data.

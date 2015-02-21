@@ -86,7 +86,7 @@ public final class ConfigGvDataAddEdit {
     //Need these subclasses as can't programmatically instantiate classes that utilise generics.
 
     //Tag
-    public static class AddTag extends DialogFragmentGvDataAdd<GvTagList.GvTag> {
+    public static class AddTag extends DialogAddGvData<GvTagList.GvTag> {
         public AddTag() {
             super(GvTagList.class);
         }
@@ -94,21 +94,21 @@ public final class ConfigGvDataAddEdit {
 
     //Child
     public static class AddChild extends
-            DialogFragmentGvDataAdd<GvChildrenList.GvChildReview> {
+            DialogAddGvData<GvChildrenList.GvChildReview> {
         public AddChild() {
             super(GvChildrenList.class);
         }
     }
 
     //Comment
-    public static class AddComment extends DialogFragmentGvDataAdd<GvCommentList.GvComment> {
+    public static class AddComment extends DialogAddGvData<GvCommentList.GvComment> {
         public AddComment() {
             super(GvCommentList.class);
         }
     }
 
     //Fact
-    public static class AddFact extends DialogFragmentGvDataAdd<GvFactList.GvFact> {
+    public static class AddFact extends DialogAddGvData<GvFactList.GvFact> {
         public AddFact() {
             super(GvFactList.class);
         }
@@ -116,35 +116,35 @@ public final class ConfigGvDataAddEdit {
 
     //Editors
     //Tag
-    public static class EditTag extends DialogFragmentGvDataEdit<GvTagList.GvTag> {
+    public static class EditTag extends DialogEditGvData<GvTagList.GvTag> {
         public EditTag() {
             super(GvTagList.class);
         }
     }
 
     //Child
-    public static class EditChild extends DialogFragmentGvDataEdit<GvChildrenList.GvChildReview> {
+    public static class EditChild extends DialogEditGvData<GvChildrenList.GvChildReview> {
         public EditChild() {
             super(GvChildrenList.class);
         }
     }
 
     //Comment
-    public static class EditComment extends DialogFragmentGvDataEdit<GvCommentList.GvComment> {
+    public static class EditComment extends DialogEditGvData<GvCommentList.GvComment> {
         public EditComment() {
             super(GvCommentList.class);
         }
     }
 
     //Image
-    public static class EditImage extends DialogFragmentGvDataEdit<GvImageList.GvImage> {
+    public static class EditImage extends DialogEditGvData<GvImageList.GvImage> {
         public EditImage() {
             super(GvImageList.class);
         }
     }
 
     //Fact
-    public static class EditFact extends DialogFragmentGvDataEdit<GvFactList.GvFact> {
+    public static class EditFact extends DialogEditGvData<GvFactList.GvFact> {
         public EditFact() {
             super(GvFactList.class);
         }

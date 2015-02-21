@@ -12,7 +12,7 @@ import android.app.Activity;
 import android.app.Instrumentation;
 
 import com.chdryra.android.reviewer.ActivityEditUrlBrowser;
-import com.chdryra.android.reviewer.ActivityViewReview;
+import com.chdryra.android.reviewer.ActivityReviewView;
 import com.chdryra.android.reviewer.GvDataList;
 import com.chdryra.android.reviewer.GvUrlList;
 
@@ -40,7 +40,7 @@ public class ActivityEditUrlsTest extends ActivityEditScreenTest {
     @Override
     protected void setUpFinish(boolean withData) {
         super.setUpFinish(withData);
-        mMainMonitor = getInstrumentation().addMonitor(ActivityViewReview.class.getName(), null,
+        mMainMonitor = getInstrumentation().addMonitor(ActivityReviewView.class.getName(), null,
                 false);
         mBrowserMonitor = getInstrumentation().addMonitor(ActivityEditUrlBrowser.class.getName(),
                 null, false);
@@ -70,10 +70,10 @@ public class ActivityEditUrlsTest extends ActivityEditScreenTest {
 
     @Override
     protected void waitForLaunchableToClose() {
-        ActivityViewReview mainActivity = (ActivityViewReview)
+        ActivityReviewView mainActivity = (ActivityReviewView)
                 mMainMonitor.waitForActivityWithTimeout(TIMEOUT);
         assertNotNull(mainActivity);
-        assertEquals(ActivityViewReview.class, mainActivity.getClass());
+        assertEquals(ActivityReviewView.class, mainActivity.getClass());
         getInstrumentation().waitForIdleSync();
     }
 

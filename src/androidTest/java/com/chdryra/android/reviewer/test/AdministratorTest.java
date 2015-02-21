@@ -12,7 +12,7 @@ import android.app.Activity;
 import android.test.ActivityUnitTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.ActivityViewReview;
+import com.chdryra.android.reviewer.ActivityReviewView;
 import com.chdryra.android.reviewer.Administrator;
 import com.chdryra.android.reviewer.GvSocialPlatformList;
 import com.chdryra.android.reviewer.ReviewCollectionAdapter;
@@ -22,12 +22,12 @@ import com.chdryra.android.reviewer.ReviewCollectionAdapter;
  * On: 02/12/2014
  * Email: rizwan.choudrey@gmail.com
  */
-public class AdministratorTest extends ActivityUnitTestCase<ActivityViewReview> {
+public class AdministratorTest extends ActivityUnitTestCase<ActivityReviewView> {
     private Activity      mActivity;
     private Administrator mAdmin;
 
     public AdministratorTest() {
-        super(ActivityViewReview.class);
+        super(ActivityReviewView.class);
     }
 
     @SmallTest

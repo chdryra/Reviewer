@@ -41,7 +41,7 @@ public class Administrator {
     private final Context                 mContext;
     private final ReviewCollectionAdapter mPublishedReviews;
 
-    private ReviewBuilder mReviewBuilder;
+    private ReviewViewBuilder mReviewBuilder;
 
     private Administrator(Context context) {
         mContext = context;
@@ -72,12 +72,12 @@ public class Administrator {
         return AUTHOR;
     }
 
-    public ReviewBuilder getReviewBuilder() {
+    public ReviewViewBuilder getReviewBuilder() {
         return mReviewBuilder;
     }
 
-    public ReviewBuilder newReviewBuilder(Activity activity) {
-        mReviewBuilder = new ReviewBuilder(activity);
+    public ReviewViewBuilder newReviewBuilder(Activity activity) {
+        mReviewBuilder = new ReviewViewBuilder(activity);
         return mReviewBuilder;
     }
 
@@ -85,8 +85,8 @@ public class Administrator {
         return mPublishedReviews;
     }
 
-    public ViewReviewAdapter getShareScreenAdapter() {
-        return new ShareScreenAdapter(mContext, mReviewBuilder);
+    public ReviewViewAdapter getShareScreenAdapter() {
+        return new ShareScreenViewAdapter(mContext, mReviewBuilder);
     }
 
     public void publishReviewBuilder() {

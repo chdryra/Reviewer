@@ -12,7 +12,7 @@ import android.app.Activity;
 import android.app.Instrumentation;
 
 import com.chdryra.android.reviewer.ActivityEditLocationMap;
-import com.chdryra.android.reviewer.ActivityViewReview;
+import com.chdryra.android.reviewer.ActivityReviewView;
 import com.chdryra.android.reviewer.GvDataList;
 import com.chdryra.android.reviewer.GvLocationList;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
@@ -36,7 +36,7 @@ public class ActivityEditLocationsTest extends ActivityEditScreenTest {
     @Override
     protected void setUpFinish(boolean withData) {
         super.setUpFinish(withData);
-        mMainMonitor = getInstrumentation().addMonitor(ActivityViewReview.class.getName(), null,
+        mMainMonitor = getInstrumentation().addMonitor(ActivityReviewView.class.getName(), null,
                 false);
         mMapMonitor = getInstrumentation().addMonitor(ActivityEditLocationMap.class.getName(),
                 null, false);
@@ -78,10 +78,10 @@ public class ActivityEditLocationsTest extends ActivityEditScreenTest {
 
     @Override
     protected void waitForLaunchableToClose() {
-        ActivityViewReview mainActivity = (ActivityViewReview)
+        ActivityReviewView mainActivity = (ActivityReviewView)
                 mMainMonitor.waitForActivityWithTimeout(TIMEOUT);
         assertNotNull(mainActivity);
-        assertEquals(ActivityViewReview.class, mainActivity.getClass());
+        assertEquals(ActivityReviewView.class, mainActivity.getClass());
         getInstrumentation().waitForIdleSync();
     }
 
