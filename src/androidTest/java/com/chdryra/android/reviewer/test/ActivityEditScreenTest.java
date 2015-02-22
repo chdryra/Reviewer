@@ -166,6 +166,8 @@ public abstract class ActivityEditScreenTest extends ActivityReviewViewTest {
             }
             dbuilder.setData();
         }
+
+        mAdapter = dbuilder;
     }
 
     @Override
@@ -185,6 +187,7 @@ public abstract class ActivityEditScreenTest extends ActivityReviewViewTest {
     }
 
     protected void setUp(boolean withData) {
+        Administrator.get(getInstrumentation().getTargetContext()).newReviewBuilder();
         mWithData = withData;
         super.setUp();
 

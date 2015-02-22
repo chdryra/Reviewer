@@ -42,7 +42,7 @@ public class AdministratorTest extends ActivityUnitTestCase<ActivityReviewView> 
 
     @SmallTest
     public void testNewReviewBuilder() {
-        assertNotNull(mAdmin.newReviewBuilder(mActivity));
+        assertNotNull(mAdmin.newReviewBuilder());
     }
 
     @SmallTest
@@ -60,7 +60,7 @@ public class AdministratorTest extends ActivityUnitTestCase<ActivityReviewView> 
         ReviewCollectionAdapter reviews = mAdmin.getPublishedReviews();
         assertNotNull(reviews);
         assertEquals(0, reviews.getGridData().size());
-        mAdmin.newReviewBuilder(mActivity);
+        mAdmin.newReviewBuilder();
         assertNotNull(mAdmin.getReviewBuilder());
         mAdmin.publishReviewBuilder();
         assertEquals(1, reviews.getGridData().size());

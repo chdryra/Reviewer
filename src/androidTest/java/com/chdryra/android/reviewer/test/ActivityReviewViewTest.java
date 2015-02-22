@@ -64,7 +64,6 @@ public abstract class ActivityReviewViewTest extends
 
         Intent i = new Intent();
         ActivityReviewView.packParameters(mDataType, mIsEditable, i);
-
         setActivityIntent(i);
         mActivity = getActivity();
         setAdapter();

@@ -50,22 +50,9 @@ public class ActivityEditImagesTest extends ActivityEditScreenTest {
     protected void setUp(boolean withData) {
         //Create ReviewBuilder that generates ImageChooser intent
         Administrator admin = Administrator.get(getInstrumentation().getTargetContext());
-        admin.newReviewBuilder(mActivity);
+        admin.newReviewBuilder();
         super.setUp(withData);
     }
-
-//    @SmallTest
-//    public void testForDebugging() {
-//        super.testActivityLaunches();
-//        super.testSubjectRatingChange();
-//        super.testGridItemEditCancel();
-//        super.testGridItemEditDone();
-//        super.testGridItemDeleteConfirm();
-//        super.testGridItemDeleteCancel();
-//        super.testMenuDeleteConfirm();
-//        super.testMenuDeleteCancel();
-//        super.testMenuUpCancels();
-//    }
 
     @Override
     protected GvDataList.GvData newEditDatum(GvDataList.GvData current) {

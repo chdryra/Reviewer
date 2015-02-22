@@ -18,17 +18,16 @@ import java.util.Map;
  */
 public class FactoryGvData {
     private static FactoryGvData sFactory;
-    private Map<GvDataList.GvType, Class<? extends GvDataList<? extends GvDataList.GvData>>>
-            mClasses = new HashMap<>();
+    private Map<GvDataList.GvType, GvTypeList> mClasses = new HashMap<>();
 
     private FactoryGvData() {
-        mClasses.put(gvType(GvTagList.class), GvTagList.class);
-        mClasses.put(gvType(GvChildrenList.class), GvChildrenList.class);
-        mClasses.put(gvType(GvCommentList.class), GvCommentList.class);
-        mClasses.put(gvType(GvFactList.class), GvFactList.class);
-        mClasses.put(gvType(GvImageList.class), GvImageList.class);
-        mClasses.put(gvType(GvLocationList.class), GvLocationList.class);
-        mClasses.put(gvType(GvUrlList.class), GvUrlList.class);
+        mClasses.put(gvType(GvTagList.class), new GvTypeList<>(GvTagList.class));
+        mClasses.put(gvType(GvChildrenList.class), new GvTypeList<>(GvChildrenList.class));
+        mClasses.put(gvType(GvCommentList.class), new GvTypeList<>(GvCommentList.class));
+        mClasses.put(gvType(GvFactList.class), new GvTypeList<>(GvFactList.class));
+        mClasses.put(gvType(GvImageList.class), new GvTypeList<>(GvImageList.class));
+        mClasses.put(gvType(GvLocationList.class), new GvTypeList<>(GvLocationList.class));
+        mClasses.put(gvType(GvUrlList.class), new GvTypeList<>(GvUrlList.class));
     }
 
     private static FactoryGvData get() {
@@ -36,13 +35,14 @@ public class FactoryGvData {
         return sFactory;
     }
 
-    public static <T extends GvDataList.GvData> GvDataList.GvType gvType(Class<? extends
-            GvDataList<T>> dataClass) {
+    public static <L extends GvDataList<T>, T extends GvDataList.GvData> GvDataList.GvType gvType
+            (Class<L> dataClass) {
         return newList(dataClass).getGvType();
     }
 
+    //TODO make type safe
     public static <T extends GvDataList.GvData> GvDataList<T> newList(GvDataList.GvType dataType) {
-        return newList(get().mClasses.get(dataType));
+        return newList(get().mClasses.get(dataType).mList);
     }
 
     public static <T extends GvDataList.GvData> GvDataList<T> newList(Class<? extends
@@ -64,12 +64,11 @@ public class FactoryGvData {
         }
     }
 
-    private class GvTypePair<T extends GvDataList.GvData> {
-        private GvDataList.GvType              dataType;
-        private Class<? extends GvDataList<T>> list;
+    private class GvTypeList<L extends GvDataList<T>, T extends GvDataList.GvData> {
+        private Class<L> mList;
 
-        private GvTypePair(Class<? extends GvDataList<T>> list) {
-            dat
+        private GvTypeList(Class<L> list) {
+            mList = list;
         }
     }
 }

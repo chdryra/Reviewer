@@ -85,7 +85,7 @@ public class ActivityShareScreenTest extends ActivityReviewViewTest {
 
     @Override
     protected void setAdapter() {
-        ReviewBuilder builder = mAdmin.newReviewBuilder(mActivity);
+        ReviewBuilder builder = mAdmin.newReviewBuilder();
 
         builder.setRating(RandomRating.nextRating());
         builder.setSubject(RandomString.nextWord());

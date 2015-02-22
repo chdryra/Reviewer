@@ -127,7 +127,7 @@ public abstract class DialogAddGvDataTest<T extends GvDataList.GvData> extends
         mListener = new DialogAddListener<>();
 
         mAdapter = Administrator.get(getInstrumentation().getTargetContext())
-                .newReviewBuilder(mActivity).getDataBuilder(mDialog.getGvType());
+                .newReviewBuilder().getDataBuilder(mDialog.getGvType());
 
         Intent i = new Intent();
         ActivityReviewView.packParameters(mDialog.getGvType(), false, i);

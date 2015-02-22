@@ -158,11 +158,10 @@ public class FactoryReviewView {
         if (dataType == GvDataList.GvType.FEED) {
             return admin.getPublishedReviews();
         } else if (dataType == GvDataList.GvType.BUILD_REVIEW) {
-            return admin.newReviewBuilder(parent.getActivity());
+            return admin.newReviewBuilder(activity);
         } else if (dataType == GvDataList.GvType.SHARE) {
             return admin.getShareScreenAdapter();
         } else {
-            if (admin.getReviewBuilder() == null) admin.newReviewBuilder(activity);
             return admin.getReviewBuilder().getDataBuilder(dataType);
         }
     }

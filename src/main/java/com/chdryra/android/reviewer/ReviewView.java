@@ -39,7 +39,6 @@ public class ReviewView {
 
     private ViewReviewParams mParams;
 
-    private GvDataList mData;
     private GvDataList mDataToShow;
 
     private boolean mRatingIsAverage = false;
@@ -76,8 +75,7 @@ public class ReviewView {
     public ReviewView(FragmentReviewView parent, ReviewViewAdapter adapter, boolean isEditable) {
         mParent = parent;
         mAdapter = adapter;
-        mData = adapter.getGridData();
-        mDataToShow = mData;
+        mDataToShow = adapter.getGridData();
         mIsEditable = isEditable;
 
         mGridObservers = new ArrayList<>();
@@ -136,7 +134,7 @@ public class ReviewView {
     }
 
     public GvDataList getGridData() {
-        return mData;
+        return mAdapter.getGridData();
     }
 
     public GvDataList getGridViewData() {
@@ -192,7 +190,15 @@ public class ReviewView {
         if (mParams.coverManager) {
             GvImageList images = mAdapter.getImages();
             GvImageList covers = images.getCovers();
-            mParent.setCover(covers.getRandomCover());
+            GvImageList.GvImage cover = null;
+            if (covers.size() > 0) {
+                cover = covers.getRandomCover();
+            } else if (images.size() > 0) {
+                cover = images.getItem(0);
+                cover.setIsCover(true);
+            }
+
+            mParent.setCover(cover);
         }
     }
 

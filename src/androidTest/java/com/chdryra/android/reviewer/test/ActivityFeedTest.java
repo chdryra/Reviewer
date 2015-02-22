@@ -82,7 +82,7 @@ public class ActivityFeedTest extends ActivityReviewViewTest {
         mAdmin = Administrator.get(getInstrumentation().getTargetContext());
         ArrayList<ReviewViewAdapter> adapters = new ArrayList<>();
         for (int i = 0; i < NUM; ++i) {
-            adapters.add(mAdmin.newReviewBuilder(mActivity));
+            adapters.add(mAdmin.newReviewBuilder());
             mAdmin.publishReviewBuilder();
             try {
                 Thread.sleep(10);

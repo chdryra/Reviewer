@@ -24,17 +24,23 @@ import android.widget.Toast;
  * @param <T>: {@link GvDataList.GvData} type.
  */
 public class GvDataHandler<T extends GvDataList.GvData> {
-    private GvDataList<T>    mData;
-    private AddConstraint<T> mAddConstraint;
+    private GvDataList<T>        mData;
+    private AddConstraint<T>     mAddConstraint;
+    private ReplaceConstraint<T> mReplaceConstraint;
 
     public GvDataHandler(GvDataList<T> data) {
-        mData = data;
-        mAddConstraint = new AddConstraint<>();
+        this(data, new AddConstraint<T>());
     }
 
     public GvDataHandler(GvDataList<T> data, AddConstraint<T> addConstraint) {
+        this(data, addConstraint, new ReplaceConstraint<T>());
+    }
+
+    public GvDataHandler(GvDataList<T> data, AddConstraint<T> addConstraint,
+            ReplaceConstraint<T> relaceConstraint) {
         mData = data;
         mAddConstraint = addConstraint;
+        mReplaceConstraint = relaceConstraint;
     }
 
     public boolean add(T newDatum, Context context) {
@@ -52,7 +58,7 @@ public class GvDataHandler<T extends GvDataList.GvData> {
 
     public void replace(T oldDatum, T newDatum, Context context) {
         if (!oldDatum.equals(newDatum) && isValid(oldDatum) && isValid(newDatum)) {
-            if (!mData.contains(newDatum)) {
+            if (mReplaceConstraint.passes(mData, oldDatum, newDatum)) {
                 mData.remove(oldDatum);
                 mData.add(newDatum);
             } else if (context != null) {
@@ -78,6 +84,12 @@ public class GvDataHandler<T extends GvDataList.GvData> {
     public static class AddConstraint<G extends GvDataList.GvData> {
         public boolean passes(GvDataList<G> data, G datum) {
             return !data.contains(datum);
+        }
+    }
+
+    public static class ReplaceConstraint<G extends GvDataList.GvData> {
+        public boolean passes(GvDataList<G> data, G oldDatum, G newDatum) {
+            return !data.contains(newDatum);
         }
     }
 }

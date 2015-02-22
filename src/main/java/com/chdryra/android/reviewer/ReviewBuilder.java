@@ -35,29 +35,30 @@ import java.util.Map;
 public class ReviewBuilder implements ReviewViewAdapter {
     private static final GvDataList.GvType[] TYPES        = {GvDataList.GvType.COMMENTS, GvDataList
             .GvType.FACTS, GvDataList.GvType.LOCATIONS, GvDataList.GvType.IMAGES, GvDataList
-            .GvType.URLS, GvDataList.GvType.TAGS};
+            .GvType.URLS, GvDataList.GvType.TAGS, GvDataList.GvType.CHILDREN};
     private static final File                FILE_DIR_EXT = Environment
             .getExternalStoragePublicDirectory
                     (Environment.DIRECTORY_DCIM);
 
     private FileIncrementor mIncrementor;
-    private Activity        mActivity;
+    private Context         mContext;
 
-    private String                             mSubject;
-    private float                              mRating;
-    private Map<GvDataList.GvType, GvDataList> mData;
+    private String                              mSubject;
+    private float                               mRating;
+    private Map<GvDataList.GvType, GvDataList>  mData;
     private Map<GvDataList.GvType, DataBuilder> mDataBuilders;
     private ArrayList<ReviewBuilder>            mChildren;
-    private GvBuildReviewList                   mGridData;
+    private GvBuildReviewList                   mBuildUi;
 
     private boolean mIsAverage = false;
 
 
-    public ReviewBuilder(Activity activity) {
+    public ReviewBuilder(Context context) {
+        mContext = context;
+        mBuildUi = GvBuildReviewList.newInstance(this);
         mChildren = new ArrayList<>();
-        mActivity = activity;
-        mGridData = GvBuildReviewList.newInstance(activity, this);
 
+        mData = new HashMap<>();
         mDataBuilders = new HashMap<>();
         for (GvDataList.GvType dataType : TYPES) {
             mData.put(dataType, FactoryGvData.newList(dataType));
@@ -68,6 +69,10 @@ public class ReviewBuilder implements ReviewViewAdapter {
         mRating = 0f;
 
         newIncrementor();
+    }
+
+    public Context getContext() {
+        return mContext;
     }
 
     @Override
@@ -91,7 +96,7 @@ public class ReviewBuilder implements ReviewViewAdapter {
 
     public ImageChooser getImageChooser(Activity activity) {
         Context c = activity.getApplicationContext();
-        if (c.equals(mActivity.getApplicationContext())) {
+        if (c.equals(mContext.getApplicationContext())) {
             return new ImageChooser(activity, (FileIncrementorFactory.ImageFileIncrementor)
                     mIncrementor);
         } else {
@@ -103,13 +108,13 @@ public class ReviewBuilder implements ReviewViewAdapter {
         return mDataBuilders.get(dataType);
     }
 
+    public int getDataSize(GvDataList.GvType dataType) {
+        return getData(dataType).size();
+    }
+
     @Override
     public float getRating() {
         return isRatingAverage() ? getAverageRating() : mRating;
-    }
-
-    public int getDataSize(GvDataList.GvType dataType) {
-        return getData(dataType).size();
     }
 
     public Review publish(Date publishDate) {
@@ -145,7 +150,7 @@ public class ReviewBuilder implements ReviewViewAdapter {
         } else if (dataType == GvDataList.GvType.FACTS) {
             return new DataBuilder<>((GvFactList) data);
         } else if (dataType == GvDataList.GvType.LOCATIONS) {
-            return new DataBuilder<>((GvFactList) data);
+            return new DataBuilder<>((GvLocationList) data);
         } else if (dataType == GvDataList.GvType.URLS) {
             return new DataBuilder<>((GvUrlList) data);
         } else if (dataType == GvDataList.GvType.TAGS) {
@@ -171,15 +176,10 @@ public class ReviewBuilder implements ReviewViewAdapter {
         } else if (Arrays.asList(TYPES).contains(dataType)) {
             mData.put(dataType, MdGvConverter.copy(data));
         }
-        mDataBuilders.put(dataType, newDataBuilder(dataType));
-    }
-
-    public void setRating(float rating) {
-        if (!isRatingAverage()) mRating = rating;
     }
 
     private void newIncrementor() {
-        String dir = mActivity.getString(mActivity.getApplicationInfo().labelRes);
+        String dir = mContext.getString(mContext.getApplicationInfo().labelRes);
         String filename = mSubject.length() > 0 ? mSubject : getAuthor().getName();
         mIncrementor = FileIncrementorFactory.newImageFileIncrementor(FILE_DIR_EXT, dir,
                 filename);
@@ -196,10 +196,14 @@ public class ReviewBuilder implements ReviewViewAdapter {
         return children;
     }
 
+    public void setRating(float rating) {
+        if (!isRatingAverage()) mRating = rating;
+    }
+
     private void setChildren(GvChildrenList children) {
         mChildren = new ArrayList<>();
         for (GvChildrenList.GvChildReview child : children) {
-            ReviewBuilder childBuilder = new ReviewBuilder(mActivity);
+            ReviewBuilder childBuilder = new ReviewBuilder(mContext);
             childBuilder.setSubject(child.getSubject());
             childBuilder.setRating(child.getRating());
             mChildren.add(childBuilder);
@@ -220,7 +224,7 @@ public class ReviewBuilder implements ReviewViewAdapter {
         }
 
         public boolean add(T datum) {
-            return mHandler.add(datum, mActivity);
+            return mHandler.add(datum, mContext);
         }
 
         public void delete(T datum) {
@@ -228,7 +232,7 @@ public class ReviewBuilder implements ReviewViewAdapter {
         }
 
         public void replace(T oldDatum, T newDatum) {
-            mHandler.replace(oldDatum, newDatum, mActivity);
+            mHandler.replace(oldDatum, newDatum, mContext);
         }
 
         public void setData() {
@@ -281,6 +285,7 @@ public class ReviewBuilder implements ReviewViewAdapter {
         }
     }
 
+
     @Override
     public float getAverageRating() {
         return getChildren().getAverageRating();
@@ -289,13 +294,13 @@ public class ReviewBuilder implements ReviewViewAdapter {
 
     @Override
     public GvDataList getGridData() {
-        return mGridData;
+        return mBuildUi;
     }
 
 
     @Override
     public Author getAuthor() {
-        return Administrator.get(mActivity).getAuthor();
+        return Administrator.get(mContext).getAuthor();
     }
 
 
