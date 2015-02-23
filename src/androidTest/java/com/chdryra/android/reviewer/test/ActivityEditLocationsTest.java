@@ -86,7 +86,7 @@ public class ActivityEditLocationsTest extends ActivityEditScreenTest {
     }
 
     @Override
-    protected void testLaunchableShowing(boolean isShowing) {
+    protected void checkLaunchableShowing(boolean isShowing) {
         if (isShowing) {
             assertTrue(mSolo.searchText(mDataType.getDatumString()));
             assertFalse(mSolo.searchText(mDataType.getDataString()));

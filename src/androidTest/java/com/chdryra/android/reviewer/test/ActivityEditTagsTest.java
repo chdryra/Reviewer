@@ -19,4 +19,8 @@ public class ActivityEditTagsTest extends ActivityEditScreenTest {
     public ActivityEditTagsTest() {
         super(GvDataList.GvType.TAGS);
     }
+
+    public void testDelete() {
+        super.testMenuDeleteConfirm();
+    }
 }

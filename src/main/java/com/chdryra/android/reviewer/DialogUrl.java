@@ -55,8 +55,8 @@ public class DialogUrl extends DialogCancelActionDoneFragment implements Launcha
         super.onCreate(savedInstanceState);
 
         //TODO make type safe
-        mBuilder = Administrator.get(getActivity()).getReviewBuilder()
-                .getDataBuilder(GvDataList.GvType.URLS);
+        mBuilder = (ReviewBuilder.DataBuilder<GvUrlList.GvUrl>) Administrator.get(getActivity())
+                .getReviewBuilder().getDataBuilder(GvDataList.GvType.URLS);
 
         setActionButtonAction(RESULT_BROWSE);
         setActionButtonText(getResources().getString(R.string.button_browse));

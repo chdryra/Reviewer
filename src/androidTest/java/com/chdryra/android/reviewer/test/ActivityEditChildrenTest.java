@@ -125,45 +125,34 @@ public class ActivityEditChildrenTest extends ActivityEditScreenTest {
     }
 
     @Override
-    protected void checkSubjectRating() {
+    protected void checkBuildersSubjectRatingOnDone() {
         if (getBuilder().getParentBuilder().isRatingAverage()) {
-            checkFragmentSubjectRating(mOriginalSubject, getAverageRating(true));
-            checkAdapterSubjectRating();
+            checkBuildersSubjectRating(mOriginalSubject, mGridRatingBeforeDone);
         } else {
-            super.checkSubjectRating();
+            super.checkBuildersSubjectRatingOnDone();
         }
     }
 
     @Override
-    protected void checkAdapterSubjectRating() {
+    protected void checkBuildersSubjectRatingUnchanged() {
         float rating = getBuilder().getParentBuilder().isRatingAverage() ? mOriginalRating
                 : mOriginalRatingNotAverage;
 
-        checkAdapterSubjectRating(mOriginalSubject, rating);
+        checkBuildersSubjectRating(mOriginalSubject, rating);
     }
 
     @Override
-    protected void checkAdapterSubjectRatingOnDone() {
+    protected void checkFragmentSubjectRatingUnchanged() {
         if (getBuilder().getParentBuilder().isRatingAverage()) {
-            checkAdapterSubjectRating(mOriginalSubject, mGridRatingBeforeDone);
+            checkFragmentSubjectRating(mOriginalSubject, getAverageRating(true));
         } else {
-            super.checkAdapterSubjectRatingOnDone();
+            super.checkFragmentSubjectRatingUnchanged();
         }
-    }
-
-    @Override
-    protected void checkFragmentSubjectRating() {
-        float rating = getBuilder().getParentBuilder().isRatingAverage() ? getAverageRating(true)
-                : mOriginalRating;
-
-        checkFragmentSubjectRating(mOriginalSubject, rating);
     }
 
     @Override
     protected void editRating(float rating) {
-        //Ensure touch event to set Review.isAverageRating() to false.
         if (mIsAverage) mSolo.clickOnView(mSolo.getView(R.id.rating_bar));
-
         super.editRating(rating);
     }
 
@@ -177,5 +166,6 @@ public class ActivityEditChildrenTest extends ActivityEditScreenTest {
 
         return nearestHalf ? Math.round(rating * 2f) / 2f : rating;
     }
+
 }
 

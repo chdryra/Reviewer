@@ -36,31 +36,32 @@ public class ActivityEditCommentsTest extends ActivityEditScreenTest {
         assertTrue(split.size() > comments.size());
 
         assertEquals(comments.size(), getGridSize());
-        testInGrid(comments, true);
-        testInGrid(split, false);
-        testInBuilder(comments, true);
+        checkInGrid(comments, true);
+        checkInGrid(split, false);
+        checkInBuilder(comments, true);
 
         mSolo.clickOnActionBarItem(SPLIT);
 
         assertEquals(split.size(), getGridSize());
-        testInGrid(comments, false);
-        testInGrid(split, true);
-        checkAdapterDataChanges(comments);
+        checkInGrid(comments, false);
+        checkInGrid(split, true);
+        checkInBuilder(comments, true);
 
         mSolo.clickOnActionBarItem(SPLIT);
 
         assertEquals(comments.size(), getGridSize());
-        testInGrid(comments, true);
-        testInGrid(split, false);
-        checkAdapterDataChanges(comments);
+        checkInGrid(comments, true);
+        checkInGrid(split, false);
+        checkInBuilder(comments, true);
 
         mSolo.clickOnActionBarItem(SPLIT);
 
         assertEquals(split.size(), getGridSize());
-        testInGrid(comments, false);
-        testInGrid(split, true);
+        checkInGrid(comments, false);
+        checkInGrid(split, true);
+        checkInBuilder(comments, true);
 
         mSolo.clickOnActionBarItem(DONE);
-        checkAdapterDataChanges(comments);
+        checkInParentBuilder(comments, true);
     }
 }

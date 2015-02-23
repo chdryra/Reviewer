@@ -17,7 +17,7 @@ import java.util.Date;
  * On: 19/02/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ShareScreenViewAdapter implements ReviewViewAdapter {
+public class ShareScreenViewAdapter extends ReviewViewAdapterBasic {
     private Context           mContext;
     private ReviewViewAdapter mAdapter;
 

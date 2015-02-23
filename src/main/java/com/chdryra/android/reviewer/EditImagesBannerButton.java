@@ -44,7 +44,7 @@ public class EditImagesBannerButton extends EditScreenBannerButton {
     }
 
     private void setCover() {
-        GvImageList images = (GvImageList) getData();
+        GvImageList images = (GvImageList) getGridData();
         GvImageList.GvImage cover = images.getItem(0);
         cover.setIsCover(true);
         getReviewView().updateUi();
@@ -65,7 +65,7 @@ public class EditImagesBannerButton extends EditScreenBannerButton {
 
         @Override
         public void onImageChosen(GvImageList.GvImage image) {
-            if (addData(image) && getData().size() == 1) setCover();
+            if (addData(image) && getGridData().size() == 1) setCover();
         }
     }
 }

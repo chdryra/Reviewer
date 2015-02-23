@@ -72,7 +72,7 @@ public class ReviewViewAction {
         if (!mListeners.containsKey(tag)) mListeners.put(tag, listener);
     }
 
-    protected GvDataList getData() {
+    protected GvDataList getGridData() {
         return getReviewView().getGridData();
     }
 

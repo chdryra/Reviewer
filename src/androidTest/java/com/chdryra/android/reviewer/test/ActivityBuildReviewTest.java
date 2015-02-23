@@ -264,14 +264,14 @@ public class ActivityBuildReviewTest extends ActivityReviewViewTest {
         mOriginalRating = mAdapter.getRating();
 
         checkSubjectRating();
-        checkControllerChanges(null);
+        checkBuilderChanges(null);
 
         mSignaler = new CallBackSignaler(5);
     }
 
-    protected void checkControllerDataChanges(GvDataList data) {
+    protected void checkBuilderDataChanges(GvDataList data) {
         testInBuilder(data, true);
-        checkControllerChanges(data.getGvType());
+        checkBuilderChanges(data.getGvType());
     }
 
     protected void enterData(GvDataList data, String tag) {
@@ -459,7 +459,7 @@ public class ActivityBuildReviewTest extends ActivityReviewViewTest {
 
         testInGrid(data, true);
         checkSubjectRating();
-        checkControllerDataChanges(data);
+        checkBuilderDataChanges(data);
     }
 
     private void testClickWithData(GvDataList.GvType dataType) {
@@ -467,7 +467,8 @@ public class ActivityBuildReviewTest extends ActivityReviewViewTest {
         int position = getItemPosition(dataType);
         mSolo.clickInList(position + 1);
         testEditScreenShowing(dataType, monitor);
-        mSolo.clickOnActionBarHomeButton();
+        //mSolo.clickOnActionBarHomeButton();
+        mSolo.clickOnView(mSolo.getView(android.R.id.home));
         mSolo.sleep(1000);
     }
 
@@ -544,7 +545,7 @@ public class ActivityBuildReviewTest extends ActivityReviewViewTest {
         mSolo.sleep(1000);
     }
 
-    private void checkControllerChanges(GvDataList.GvType dataType) {
+    private void checkBuilderChanges(GvDataList.GvType dataType) {
         for (GvBuildReviewList.GvBuildReview type : mList) {
             if (dataType != null && type.getGvType() == dataType) continue;
             assertEquals(0, getBuilder().getDataSize(type.getGvType()));

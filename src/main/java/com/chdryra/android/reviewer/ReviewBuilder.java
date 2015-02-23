@@ -32,7 +32,7 @@ import java.util.Map;
  * For building reviews. Collects appropriate data and builds a {@link Review} object when
  * user is ready using the {@link #publish(java.util.Date)} method.
  */
-public class ReviewBuilder implements ReviewViewAdapter {
+public class ReviewBuilder extends ReviewViewAdapterBasic {
     private static final GvDataList.GvType[] TYPES        = {GvDataList.GvType.COMMENTS, GvDataList
             .GvType.FACTS, GvDataList.GvType.LOCATIONS, GvDataList.GvType.IMAGES, GvDataList
             .GvType.URLS, GvDataList.GvType.TAGS, GvDataList.GvType.CHILDREN};
@@ -46,12 +46,11 @@ public class ReviewBuilder implements ReviewViewAdapter {
     private String                              mSubject;
     private float                               mRating;
     private Map<GvDataList.GvType, GvDataList>  mData;
-    private Map<GvDataList.GvType, DataBuilder> mDataBuilders;
-    private ArrayList<ReviewBuilder>            mChildren;
-    private GvBuildReviewList                   mBuildUi;
+    private Map<GvDataList.GvType, DataBuilder<? extends GvDataList.GvData>> mDataBuilders;
+    private ArrayList<ReviewBuilder>                                         mChildren;
+    private GvBuildReviewList                                                mBuildUi;
 
     private boolean mIsAverage = false;
-
 
     public ReviewBuilder(Context context) {
         mContext = context;
@@ -104,17 +103,16 @@ public class ReviewBuilder implements ReviewViewAdapter {
         }
     }
 
-    public DataBuilder getDataBuilder(GvDataList.GvType dataType) {
+    public DataBuilder<? extends GvDataList.GvData> getDataBuilder(GvDataList.GvType dataType) {
         return mDataBuilders.get(dataType);
+    }
+
+    public void resetDataBuilder(GvDataList.GvType dataType) {
+        mDataBuilders.get(dataType).resetData();
     }
 
     public int getDataSize(GvDataList.GvType dataType) {
         return getData(dataType).size();
-    }
-
-    @Override
-    public float getRating() {
-        return isRatingAverage() ? getAverageRating() : mRating;
     }
 
     public Review publish(Date publishDate) {
@@ -139,34 +137,45 @@ public class ReviewBuilder implements ReviewViewAdapter {
         return FactoryReview.createReviewTree(root, children, mIsAverage);
     }
 
-    private DataBuilder newDataBuilder(GvDataList.GvType dataType) {
-        GvDataList data = getData(dataType);
-        if (dataType == GvDataList.GvType.CHILDREN) {
-            return new DataBuilder<>((GvChildrenList) data);
-        } else if (dataType == GvDataList.GvType.COMMENTS) {
-            return new DataBuilder<>((GvCommentList) data);
-        } else if (dataType == GvDataList.GvType.IMAGES) {
-            return new DataBuilder<>((GvImageList) data);
-        } else if (dataType == GvDataList.GvType.FACTS) {
-            return new DataBuilder<>((GvFactList) data);
-        } else if (dataType == GvDataList.GvType.LOCATIONS) {
-            return new DataBuilder<>((GvLocationList) data);
-        } else if (dataType == GvDataList.GvType.URLS) {
-            return new DataBuilder<>((GvUrlList) data);
-        } else if (dataType == GvDataList.GvType.TAGS) {
-            return new DataBuilder<>((GvTagList) data);
-        } else {
-            return null;
-        }
+    @Override
+    public float getRating() {
+        return isRatingAverage() ? getAverageRating() : mRating;
     }
 
-    private GvDataList getData(GvDataList.GvType dataType) {
+    public GvDataList getData(GvDataList.GvType dataType) {
         if (dataType == GvDataList.GvType.CHILDREN) {
             return getChildren();
         } else {
             GvDataList data = mData.get(dataType);
             return data != null ? MdGvConverter.copy(data) : null;
         }
+    }
+
+    private DataBuilder<? extends GvDataList.GvData> newDataBuilder(GvDataList.GvType
+            dataType) {
+        GvDataList data = getData(dataType);
+        DataBuilder<?> builder;
+        if (dataType == GvDataList.GvType.CHILDREN) {
+            builder = new DataBuilder<>((GvChildrenList) data);
+        } else if (dataType == GvDataList.GvType.COMMENTS) {
+            builder = new DataBuilder<>((GvCommentList) data);
+        } else if (dataType == GvDataList.GvType.IMAGES) {
+            builder = new DataBuilder<>((GvImageList) data);
+        } else if (dataType == GvDataList.GvType.FACTS) {
+            builder = new DataBuilder<>((GvFactList) data);
+        } else if (dataType == GvDataList.GvType.LOCATIONS) {
+            builder = new DataBuilder<>((GvLocationList) data);
+        } else if (dataType == GvDataList.GvType.URLS) {
+            builder = new DataBuilder<>((GvUrlList) data);
+        } else if (dataType == GvDataList.GvType.TAGS) {
+            builder = new DataBuilder<>((GvTagList) data);
+        } else {
+            return null;
+        }
+
+        mDataBuilders.put(dataType, builder);
+
+        return builder;
     }
 
     private void setData(GvDataList data) {
@@ -176,6 +185,8 @@ public class ReviewBuilder implements ReviewViewAdapter {
         } else if (Arrays.asList(TYPES).contains(dataType)) {
             mData.put(dataType, MdGvConverter.copy(data));
         }
+
+        notifyGridDataObservers();
     }
 
     private void newIncrementor() {
@@ -196,10 +207,6 @@ public class ReviewBuilder implements ReviewViewAdapter {
         return children;
     }
 
-    public void setRating(float rating) {
-        if (!isRatingAverage()) mRating = rating;
-    }
-
     private void setChildren(GvChildrenList children) {
         mChildren = new ArrayList<>();
         for (GvChildrenList.GvChildReview child : children) {
@@ -210,7 +217,7 @@ public class ReviewBuilder implements ReviewViewAdapter {
         }
     }
 
-    public class DataBuilder<T extends GvDataList.GvData> implements ReviewViewAdapter {
+    public class DataBuilder<T extends GvDataList.GvData> extends ReviewViewAdapterBasic {
         private GvDataList<T>    mData;
         private GvDataHandler<T> mHandler;
 
@@ -224,19 +231,34 @@ public class ReviewBuilder implements ReviewViewAdapter {
         }
 
         public boolean add(T datum) {
-            return mHandler.add(datum, mContext);
+            boolean success = mHandler.add(datum, mContext);
+            if (success) notifyGridDataObservers();
+            return success;
         }
 
         public void delete(T datum) {
             mHandler.delete(datum);
+            notifyGridDataObservers();
+        }
+
+        public void deleteAll() {
+            mData.removeAll();
+            notifyGridDataObservers();
         }
 
         public void replace(T oldDatum, T newDatum) {
             mHandler.replace(oldDatum, newDatum, mContext);
+            notifyGridDataObservers();
         }
 
         public void setData() {
             getParentBuilder().setData(mData);
+        }
+
+        //TODO make type safe
+        private void resetData() {
+            mData = getData(mData.getGvType());
+            notifyGridDataObservers();
         }
 
         @Override
@@ -285,6 +307,10 @@ public class ReviewBuilder implements ReviewViewAdapter {
         }
     }
 
+    public void setRating(float rating) {
+        if (!isRatingAverage()) mRating = rating;
+    }
+
 
     @Override
     public float getAverageRating() {
@@ -313,6 +339,4 @@ public class ReviewBuilder implements ReviewViewAdapter {
     public GvImageList getImages() {
         return (GvImageList) getData(GvDataList.GvType.IMAGES);
     }
-
-
 }

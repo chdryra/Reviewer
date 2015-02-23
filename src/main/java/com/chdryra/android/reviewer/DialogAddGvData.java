@@ -97,8 +97,10 @@ public abstract class DialogAddGvData<T extends GvDataList.GvData> extends
         mQuickSet = args != null && args.getBoolean(QUICK_SET);
 
         //TODO make type safe
-        mBuilder = Administrator.get(getActivity()).getReviewBuilder().getDataBuilder(mDataType);
+        mBuilder = (ReviewBuilder.DataBuilder<T>) Administrator.get(getActivity())
+                .getReviewBuilder().getDataBuilder(mDataType);
 
+        //TODO make type safe
         if (!isQuickSet()) {
             mAddListener = getTargetListener(GvDataAddListener.class);
         }
@@ -114,6 +116,11 @@ public abstract class DialogAddGvData<T extends GvDataList.GvData> extends
                 newDatum.isValidForDisplay() && mAddListener.onGvDataAdd(newDatum);
 
         if (added) mViewHolder.updateView(newDatum);
+    }
+
+    @Override
+    protected void onCancelButtonClick() {
+        if (isQuickSet()) mBuilder.setData();
     }
 
     @Override

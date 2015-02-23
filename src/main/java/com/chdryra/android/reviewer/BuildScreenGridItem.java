@@ -74,6 +74,7 @@ public class BuildScreenGridItem extends ReviewViewAction.GridItemAction {
         if (location.isValidForDisplay()) {
             ReviewBuilder.DataBuilder builder = getBuilder().getDataBuilder(GvDataList.GvType
                     .LOCATIONS);
+            //TODO make type safe
             builder.add(location);
             builder.setData();
         }

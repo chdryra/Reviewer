@@ -70,7 +70,7 @@ public class EditChildrenMenu extends EditScreenMenu {
     public class MenuItemChildrenRatingAverage implements MenuAction.MenuActionItem {
         public void setAverageRating() {
             float rating = 0;
-            GvChildrenList children = (GvChildrenList) getData();
+            GvChildrenList children = (GvChildrenList) getGridData();
             for (GvChildrenList.GvChildReview child : children) {
                 rating += child.getRating() / children.size();
             }

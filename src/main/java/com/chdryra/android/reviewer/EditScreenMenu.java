@@ -95,7 +95,9 @@ public class EditScreenMenu extends ReviewViewAction.MenuAction {
 
     @Override
     protected void doUpSelected() {
-        getBuilder().getParentBuilder().setRatingIsAverage(mRatingIsAverage);
+        ReviewBuilder builder = getBuilder().getParentBuilder();
+        builder.setRatingIsAverage(mRatingIsAverage);
+        builder.resetDataBuilder(getGridData().getGvType());
         super.doUpSelected();
     }
 
@@ -117,12 +119,8 @@ public class EditScreenMenu extends ReviewViewAction.MenuAction {
 
     protected void doDeleteSelected() {
         if (hasDataToDelete()) {
-            GvDataList data = getData();
-            if (data != null) {
-                data.removeAll();
-                getReviewView().updateUi();
-            }
-
+            getBuilder().deleteAll();
+            getReviewView().updateUi();
             if (mDismissOnDelete) {
                 sendResult(RESULT_DELETE);
                 getActivity().finish();
@@ -151,7 +149,7 @@ public class EditScreenMenu extends ReviewViewAction.MenuAction {
     }
 
     private boolean hasDataToDelete() {
-        return getData() != null && getData().size() > 0;
+        return getGridData() != null && getGridData().size() > 0;
     }
 
     private abstract class DeleteConfirmListener extends Fragment implements DialogAlertFragment

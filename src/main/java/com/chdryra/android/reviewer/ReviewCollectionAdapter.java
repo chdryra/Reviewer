@@ -21,7 +21,7 @@ import java.util.Date;
 /**
  * {@link ReviewViewAdapter} for {@link RCollectionReview} data.
  */
-public class ReviewCollectionAdapter implements ReviewViewAdapter {
+public class ReviewCollectionAdapter extends ReviewViewAdapterBasic {
     private Author mAuthor;
     private Date   mPublishDate;
     private String mTitle;

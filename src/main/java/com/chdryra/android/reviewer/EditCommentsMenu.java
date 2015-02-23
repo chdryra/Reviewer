@@ -72,7 +72,7 @@ public class EditCommentsMenu extends EditScreenMenu {
 
     private void updateGridDataUi() {
         //Change grid data
-        GvCommentList comments = (GvCommentList) getData();
+        GvCommentList comments = (GvCommentList) getGridData();
         if (comments != null) {
             if (mCommentsAreSplit) {
                 getReviewView().setGridViewData(comments.getSplitComments());

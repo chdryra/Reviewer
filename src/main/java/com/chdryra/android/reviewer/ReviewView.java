@@ -27,7 +27,7 @@ import java.util.Map;
  * On: 24/01/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ReviewView {
+public class ReviewView implements ReviewViewAdapter.GridDataObserver {
     private FragmentReviewView mParent;
     private ReviewViewAdapter  mAdapter;
 
@@ -75,6 +75,8 @@ public class ReviewView {
     public ReviewView(FragmentReviewView parent, ReviewViewAdapter adapter, boolean isEditable) {
         mParent = parent;
         mAdapter = adapter;
+        mAdapter.registerGridDataObserver(this);
+
         mDataToShow = adapter.getGridData();
         mIsEditable = isEditable;
 
@@ -265,6 +267,11 @@ public class ReviewView {
         } else {
             return v;
         }
+    }
+
+    @Override
+    public void onGridDataChanged() {
+        notifyDataSetChanged();
     }
 
     public static class ViewReviewParams {

@@ -50,8 +50,8 @@ public class Administrator {
 
     public static Administrator get(Context c) {
         if (sAdministrator == null) {
-            sAdministrator = new Administrator(c.getApplicationContext());
-        } else if (c.getApplicationContext() != sAdministrator.mContext) {
+            sAdministrator = new Administrator(c);
+        } else if (c.getApplicationContext() != sAdministrator.mContext.getApplicationContext()) {
             throw new RuntimeException("Can only have 1 Administrator per application!");
         }
 
@@ -76,8 +76,8 @@ public class Administrator {
         return mReviewBuilder;
     }
 
-    public ReviewBuilder newReviewBuilder(Activity activity) {
-        mReviewBuilder = new ReviewBuilder(activity);
+    public ReviewBuilder newReviewBuilder() {
+        mReviewBuilder = new ReviewBuilder(mContext);
         return mReviewBuilder;
     }
 

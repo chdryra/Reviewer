@@ -83,4 +83,9 @@ public class SoloDataEntry {
         rating = Math.round(rating * 2f) / 2f;
         solo.setProgressBar(0, (int) (rating * 2f));
     }
+
+    public static void enterSubject(Solo solo, String subject) {
+        solo.clearEditText(0);
+        solo.enterText(solo.getEditText(0), subject);
+    }
 }

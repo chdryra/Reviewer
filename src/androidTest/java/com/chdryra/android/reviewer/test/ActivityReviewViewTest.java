@@ -62,11 +62,12 @@ public abstract class ActivityReviewViewTest extends
     protected void setUp() {
         getInstrumentation().setInTouchMode(false);
 
+        setAdapter();
+
         Intent i = new Intent();
         ActivityReviewView.packParameters(mDataType, mIsEditable, i);
         setActivityIntent(i);
         mActivity = getActivity();
-        setAdapter();
 
         mSolo = new Solo(getInstrumentation(), mActivity);
     }

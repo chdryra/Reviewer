@@ -95,12 +95,8 @@ public abstract class GvDataList<T extends GvDataList.GvData> extends ViewHolder
         if (this == o) return true;
         if (o == null || !(o instanceof GvDataList)) return false;
 
-        GvDataList<T> other;
-        try {
-            other = (GvDataList<T>) o;
-        } catch (ClassCastException e) {
-            return false;
-        }
+        //TODO make type safe
+        GvDataList<T> other = (GvDataList<T>) o;
 
         if (other.size() != size()) return false;
 

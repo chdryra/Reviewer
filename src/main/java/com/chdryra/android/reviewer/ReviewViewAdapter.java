@@ -21,6 +21,10 @@ import java.util.Date;
  * .reviewer.MdData} to View layer as {@link com.chdryra.android.reviewer.GvDataList.GvData}
  */
 public interface ReviewViewAdapter {
+    public interface GridDataObserver {
+        public void onGridDataChanged();
+    }
+
     public String getSubject();
 
     public float getRating();
@@ -34,4 +38,8 @@ public interface ReviewViewAdapter {
     public Date getPublishDate();
 
     public GvImageList getImages();
+
+    public void registerGridDataObserver(GridDataObserver observer);
+
+    public void notifyGridDataObservers();
 }

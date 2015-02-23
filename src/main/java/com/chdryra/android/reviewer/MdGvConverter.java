@@ -153,6 +153,16 @@ public class MdGvConverter {
         return list;
     }
 
+    //Criteria
+    public static GvChildrenList copy(GvChildrenList children) {
+        GvChildrenList list = new GvChildrenList();
+        for (GvChildrenList.GvChildReview child : children) {
+            list.add(new GvChildrenList.GvChildReview(child.getSubject(), child.getRating()));
+        }
+
+        return list;
+    }
+
     public static MdUrlList toMdUrlList(Iterable<? extends DataUrl> urls, Review holder) {
         MdUrlList list = new MdUrlList(holder);
         for (DataUrl url : urls) {
@@ -201,6 +211,8 @@ public class MdGvConverter {
             return MdGvConverter.copy((GvUrlList) data);
         } else if (dataType == GvDataList.GvType.TAGS) {
             return MdGvConverter.copy((GvTagList) data);
+        } else if (dataType == GvDataList.GvType.CHILDREN) {
+            return MdGvConverter.copy((GvChildrenList) data);
         } else {
             return null;
         }

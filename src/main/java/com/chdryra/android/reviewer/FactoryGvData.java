@@ -35,8 +35,8 @@ public class FactoryGvData {
         return sFactory;
     }
 
-    public static <L extends GvDataList<T>, T extends GvDataList.GvData> GvDataList.GvType gvType
-            (Class<L> dataClass) {
+    public static <T extends GvDataList.GvData> GvDataList.GvType gvType
+            (Class<? extends GvDataList<T>> dataClass) {
         return newList(dataClass).getGvType();
     }
 

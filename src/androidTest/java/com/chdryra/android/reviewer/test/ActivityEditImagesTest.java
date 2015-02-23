@@ -11,7 +11,6 @@ package com.chdryra.android.reviewer.test;
 import android.test.suitebuilder.annotation.SmallTest;
 import android.view.KeyEvent;
 
-import com.chdryra.android.reviewer.Administrator;
 import com.chdryra.android.reviewer.GvDataList;
 import com.chdryra.android.reviewer.GvImageList;
 import com.chdryra.android.testutils.RandomString;
@@ -44,14 +43,6 @@ public class ActivityEditImagesTest extends ActivityEditScreenTest {
     @Override
     public void testBannerButtonAddCancel() {
 
-    }
-
-    @Override
-    protected void setUp(boolean withData) {
-        //Create ReviewBuilder that generates ImageChooser intent
-        Administrator admin = Administrator.get(getInstrumentation().getTargetContext());
-        admin.newReviewBuilder();
-        super.setUp(withData);
     }
 
     @Override
