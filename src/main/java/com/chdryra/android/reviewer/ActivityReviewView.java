@@ -19,8 +19,8 @@ import com.chdryra.android.mygenerallibrary.ActivitySingleFragment;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ActivityReviewView extends ActivitySingleFragment {
-    private static final String TYPE        = "com.chdryra.android.review.activityreviewview_type";
-    private static final String EDIT        = "com.chdryra.android.review.activityreviewview_edit";
+    private static final String TYPE = "com.chdryra.android.review.activityreviewview_type";
+    private static final String EDIT = "com.chdryra.android.review.activityreviewview_edit";
 
     public static void packParameters(GvDataList.GvType dataType, boolean isEdit, Intent i) {
         i.putExtra(TYPE, dataType);
