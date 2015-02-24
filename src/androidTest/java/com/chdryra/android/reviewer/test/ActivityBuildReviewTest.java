@@ -210,7 +210,7 @@ public class ActivityBuildReviewTest extends ActivityReviewViewTest {
         checkAdapterSubjectRating(child.getSubject(), 0);
         checkFragmentSubjectRating(child.getSubject(), 0);
         assertTrue(getBuilder().isRatingAverage());
-        assertEquals(0, mAdapter.getAverageRating());
+        assertEquals(0f, mAdapter.getAverageRating());
 
         child = editSubjectRating();
 
@@ -541,7 +541,7 @@ public class ActivityBuildReviewTest extends ActivityReviewViewTest {
         mSolo.clickLongOnText(dataType.getDataString());
 
         testEditScreenShowing(dataType, monitor);
-        mSolo.clickOnActionBarHomeButton();
+        mSolo.clickOnView(mSolo.getView(android.R.id.home));
         mSolo.sleep(1000);
     }
 

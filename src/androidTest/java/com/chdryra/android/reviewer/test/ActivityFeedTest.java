@@ -8,15 +8,23 @@
 
 package com.chdryra.android.reviewer.test;
 
+import android.app.Activity;
 import android.app.Instrumentation;
+import android.content.Intent;
+import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.SmallTest;
+import android.widget.GridView;
 
 import com.chdryra.android.reviewer.ActivityReviewView;
 import com.chdryra.android.reviewer.Administrator;
 import com.chdryra.android.reviewer.GvDataList;
 import com.chdryra.android.reviewer.GvReviewList;
 import com.chdryra.android.reviewer.R;
+import com.chdryra.android.reviewer.ReviewBuilder;
 import com.chdryra.android.reviewer.ReviewViewAdapter;
+import com.chdryra.android.reviewer.test.TestUtils.RandomRating;
+import com.chdryra.android.testutils.RandomString;
+import com.robotium.solo.Solo;
 
 import java.util.ArrayList;
 
@@ -25,15 +33,18 @@ import java.util.ArrayList;
  * On: 02/12/2014
  * Email: rizwan.choudrey@gmail.com
  */
-public class ActivityFeedTest extends ActivityReviewViewTest {
+public class ActivityFeedTest extends
+        ActivityInstrumentationTestCase2<ActivityReviewView> {
     private static final int NEWREVIEW = R.id.menu_item_new_review;
     private static final int NUM       = 5;
     private static final int TIMEOUT   = 10000;
-
-    private Administrator mAdmin;
+    protected ReviewViewAdapter mAdapter;
+    protected Activity          mActivity;
+    protected Solo              mSolo;
+    private   Administrator     mAdmin;
 
     public ActivityFeedTest() {
-        super(GvDataList.GvType.FEED, false);
+        super(ActivityReviewView.class);
     }
 
     @SmallTest
@@ -68,38 +79,44 @@ public class ActivityFeedTest extends ActivityReviewViewTest {
     }
 
     @Override
-    protected void setAdapter() {
-        mAdapter = mAdmin.getReviewBuilder();
-    }
-
-    @Override
-    public void testSubjectRating() {
-
-    }
-
-    @Override
     protected void setUp() {
         mAdmin = Administrator.get(getInstrumentation().getTargetContext());
-        ArrayList<ReviewViewAdapter> adapters = new ArrayList<>();
-        for (int i = 0; i < NUM; ++i) {
-            adapters.add(mAdmin.newReviewBuilder());
-            mAdmin.publishReviewBuilder();
-            try {
-                Thread.sleep(10);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+        mAdapter = mAdmin.getPublishedReviews();
+
+        if (mAdapter.getGridData().size() == 0) {
+            for (int i = 0; i < NUM; ++i) {
+                ReviewBuilder builder = mAdmin.newReviewBuilder();
+                builder.setSubject(RandomString.nextWord());
+                builder.setRating(RandomRating.nextRating());
+                mAdmin.publishReviewBuilder();
+                try {
+                    Thread.sleep(10);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
+            mAdapter = mAdmin.getPublishedReviews();
         }
 
-        GvReviewList list = (GvReviewList) mAdmin.getPublishedReviews().getGridData();
-        assertEquals(NUM, list.size());
+        Intent i = new Intent();
+        ActivityReviewView.packParameters(GvDataList.GvType.FEED, false, i);
+        setActivityIntent(i);
+        mActivity = getActivity();
 
-        for (int i = 0; i < NUM; ++i) {
-            assertEquals(adapters.get(i).getSubject(), list.getItem(i).getSubject());
-            assertEquals(adapters.get(i).getRating(), list.getItem(i).getRating());
-            assertNotNull(list.getItem(i).getPublishDate());
-        }
+        mSolo = new Solo(getInstrumentation(), mActivity);
+    }
 
-        super.setUp();
+    private GvDataList.GvData getGridItem(int position) {
+        return (GvDataList.GvData) getGridView().getItemAtPosition(position);
+    }
+
+    private GridView getGridView() {
+        ArrayList views = mSolo.getCurrentViews(GridView.class);
+        assertEquals(1, views.size());
+        return (GridView) views.get(0);
+    }
+
+    private int getGridSize() {
+        return getGridView().getAdapter().getCount();
     }
 }

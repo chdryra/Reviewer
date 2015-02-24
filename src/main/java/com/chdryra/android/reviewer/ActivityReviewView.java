@@ -8,19 +8,17 @@
 
 package com.chdryra.android.reviewer;
 
-import android.app.Activity;
 import android.app.Fragment;
-import android.app.FragmentManager;
 import android.content.Intent;
-import android.os.Bundle;
+
+import com.chdryra.android.mygenerallibrary.ActivitySingleFragment;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 27/01/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ActivityReviewView extends Activity {
-    public static final  int    FRAGMENT_ID = R.id.fragmentContainer;
+public class ActivityReviewView extends ActivitySingleFragment {
     private static final String TYPE        = "com.chdryra.android.review.activityreviewview_type";
     private static final String EDIT        = "com.chdryra.android.review.activityreviewview_edit";
 
@@ -33,18 +31,5 @@ public class ActivityReviewView extends Activity {
         GvDataList.GvType dataType = (GvDataList.GvType) getIntent().getSerializableExtra(TYPE);
         Boolean isEdit = getIntent().getBooleanExtra(EDIT, false);
         return FragmentReviewView.newInstance(dataType, isEdit);
-    }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_fragment);
-
-        FragmentManager fm = getFragmentManager();
-        Fragment fragment = fm.findFragmentById(FRAGMENT_ID);
-        if (fragment == null) {
-            fragment = createFragment();
-            fm.beginTransaction().add(FRAGMENT_ID, fragment).commit();
-        }
     }
 }
