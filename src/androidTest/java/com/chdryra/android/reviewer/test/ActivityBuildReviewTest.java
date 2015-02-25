@@ -155,7 +155,7 @@ public class ActivityBuildReviewTest extends ActivityReviewViewTest {
 
     @SmallTest
     public void testFactEntrySingle() {
-        testClickGridCell(GvDataList.GvType.FACTS, 2);
+        testClickGridCell(GvDataList.GvType.FACTS, 1);
     }
 
     @SmallTest
