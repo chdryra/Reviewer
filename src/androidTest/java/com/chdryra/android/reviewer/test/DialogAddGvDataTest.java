@@ -11,6 +11,7 @@ package com.chdryra.android.reviewer.test;
 import android.app.Activity;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.test.ActivityInstrumentationTestCase2;
@@ -21,6 +22,7 @@ import com.chdryra.android.mygenerallibrary.DialogTwoButtonFragment;
 import com.chdryra.android.reviewer.ActivityReviewView;
 import com.chdryra.android.reviewer.Administrator;
 import com.chdryra.android.reviewer.DialogAddGvData;
+import com.chdryra.android.reviewer.FactoryReviewView;
 import com.chdryra.android.reviewer.GvDataList;
 import com.chdryra.android.reviewer.LaunchableUi;
 import com.chdryra.android.reviewer.LauncherUi;
@@ -130,10 +132,12 @@ public abstract class DialogAddGvDataTest<T extends GvDataList.GvData> extends
                 .newReviewBuilder().getDataBuilder(mDialog.getGvType());
 
         Intent i = new Intent();
-        ActivityReviewView.packParameters(mDialog.getGvType(), false, i);
+        Context context = getInstrumentation().getTargetContext();
+        Administrator admin = Administrator.get(context);
+        admin.packView(FactoryReviewView.newEditScreen(context, mDialog.getGvType()), i);
         setActivityIntent(i);
-
         mActivity = getActivity();
+
         FragmentManager manager = mActivity.getFragmentManager();
         FragmentTransaction ft = manager.beginTransaction();
         ft.add(mListener, DIALOG_TAG);

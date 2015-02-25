@@ -8,6 +8,7 @@
 
 package com.chdryra.android.reviewer.test;
 
+import android.content.Context;
 import android.content.Intent;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.SmallTest;
@@ -15,6 +16,7 @@ import android.test.suitebuilder.annotation.SmallTest;
 import com.chdryra.android.reviewer.ActivityReviewView;
 import com.chdryra.android.reviewer.Administrator;
 import com.chdryra.android.reviewer.Author;
+import com.chdryra.android.reviewer.FactoryReviewView;
 import com.chdryra.android.reviewer.GvBuildReviewList;
 import com.chdryra.android.reviewer.GvChildrenList;
 import com.chdryra.android.reviewer.GvCommentList;
@@ -299,8 +301,9 @@ public class ReviewBuilderTest extends ActivityInstrumentationTestCase2<Activity
         getInstrumentation().setInTouchMode(false);
 
         Intent i = new Intent();
-        ActivityReviewView.packParameters(GvDataList.GvType.BUILD_REVIEW, false, i);
-
+        Context context = getInstrumentation().getTargetContext();
+        Administrator admin = Administrator.get(context);
+        admin.packView(FactoryReviewView.newBuildScreen(context), i);
         setActivityIntent(i);
 
         mBuilder = new ReviewBuilder(getActivity());

@@ -31,7 +31,7 @@ public class ActivityEditImagesTest extends ActivityEditScreenTest {
     public void testBannerButtonAddDone() {
         setUp(false);
 
-        mSolo.clickOnButton("Add " + mDataType.getDatumString());
+        mSolo.clickOnButton("Add " + GvDataList.GvType.IMAGES.getDatumString());
         getInstrumentation().waitForIdleSync();
 
         assertTrue(mSolo.searchText("Select Source"));

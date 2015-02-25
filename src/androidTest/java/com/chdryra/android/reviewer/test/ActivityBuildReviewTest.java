@@ -22,6 +22,7 @@ import com.chdryra.android.reviewer.ActivityReviewView;
 import com.chdryra.android.reviewer.Administrator;
 import com.chdryra.android.reviewer.CommentFormatter;
 import com.chdryra.android.reviewer.ConfigGvDataUi;
+import com.chdryra.android.reviewer.FactoryReviewView;
 import com.chdryra.android.reviewer.FragmentReviewView;
 import com.chdryra.android.reviewer.GvBuildReviewList;
 import com.chdryra.android.reviewer.GvChildrenList;
@@ -33,6 +34,7 @@ import com.chdryra.android.reviewer.GvLocationList;
 import com.chdryra.android.reviewer.GvTagList;
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.ReviewBuilder;
+import com.chdryra.android.reviewer.ReviewView;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
 import com.chdryra.android.reviewer.test.TestUtils.SoloDataEntry;
 import com.chdryra.android.testutils.CallBackSignaler;
@@ -55,10 +57,6 @@ public class ActivityBuildReviewTest extends ActivityReviewViewTest {
     private String            mOriginalSubject;
     private float             mOriginalRating;
     private CallBackSignaler  mSignaler;
-
-    public ActivityBuildReviewTest() {
-        super(TYPE, true);
-    }
 
     @SmallTest
     public void testSubjectRatingChange() {
@@ -245,6 +243,11 @@ public class ActivityBuildReviewTest extends ActivityReviewViewTest {
     @Override
     protected void setAdapter() {
         mAdapter = mAdmin.newReviewBuilder();
+    }
+
+    @Override
+    protected ReviewView getView() {
+        return FactoryReviewView.newBuildScreen(getInstrumentation().getTargetContext());
     }
 
     @SmallTest

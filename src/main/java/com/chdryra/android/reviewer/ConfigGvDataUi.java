@@ -42,8 +42,6 @@ public final class ConfigGvDataUi {
         mConfigsMap.put(GvDataList.GvType.FACTS, new Config(GvDataList.GvType.FACTS));
         mConfigsMap.put(GvDataList.GvType.LOCATIONS, new Config(GvDataList.GvType.LOCATIONS));
         mConfigsMap.put(GvDataList.GvType.URLS, new Config(GvDataList.GvType.URLS));
-        mConfigsMap.put(GvDataList.GvType.FEED, new Config(GvDataList.GvType.FEED));
-        mConfigsMap.put(GvDataList.GvType.SHARE, new Config(GvDataList.GvType.SHARE));
     }
 
     public static Config getConfig(GvDataList.GvType dataType) {

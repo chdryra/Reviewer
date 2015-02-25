@@ -60,12 +60,6 @@ public final class ConfigGvDataAddEdit {
                 new AddEditUis(
                         ActivityEditUrlBrowser.class,
                         ActivityEditUrlBrowser.class));
-
-        mMap.put(GvDataList.GvType.FEED,
-                new AddEditUis(null, null));
-
-        mMap.put(GvDataList.GvType.SHARE,
-                new AddEditUis(null, null));
     }
 
     public static Class<? extends LaunchableUi> getAddClass(GvDataList.GvType dataType) {

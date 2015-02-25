@@ -13,12 +13,14 @@ import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.ActivityFeed;
 import com.chdryra.android.reviewer.Administrator;
+import com.chdryra.android.reviewer.FactoryReviewView;
 import com.chdryra.android.reviewer.FragmentReviewView;
 import com.chdryra.android.reviewer.GvDataList;
 import com.chdryra.android.reviewer.GvReviewList;
 import com.chdryra.android.reviewer.GvSocialPlatformList;
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.ReviewBuilder;
+import com.chdryra.android.reviewer.ReviewView;
 import com.chdryra.android.reviewer.SocialPlatformList;
 import com.chdryra.android.reviewer.test.TestUtils.RandomRating;
 import com.chdryra.android.testutils.RandomString;
@@ -33,10 +35,6 @@ public class ActivityShareScreenTest extends ActivityReviewViewTest {
     private static final GvDataList.GvType TYPE    = GvDataList.GvType.SHARE;
     private SocialPlatformList mList;
     private Administrator      mAdmin;
-
-    public ActivityShareScreenTest() {
-        super(TYPE, false);
-    }
 
     @SmallTest
     public void testPlatformNamesFollowers() {
@@ -91,6 +89,11 @@ public class ActivityShareScreenTest extends ActivityReviewViewTest {
         builder.setSubject(RandomString.nextWord());
 
         mAdapter = builder;
+    }
+
+    @Override
+    protected ReviewView getView() {
+        return FactoryReviewView.newShareScreen(getInstrumentation().getTargetContext());
     }
 
     @SmallTest

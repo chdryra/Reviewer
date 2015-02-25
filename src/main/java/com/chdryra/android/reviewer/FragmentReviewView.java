@@ -195,7 +195,7 @@ public class FragmentReviewView extends Fragment {
 
     void initSubjectUi() {
         ReviewView.ReviewViewParams params = mReviewView.getParams();
-        if (!params.subjectIsVisibile) {
+        if (!params.subjectIsVisible) {
             mSubjectView.setVisibility(View.GONE);
             return;
         }
@@ -231,7 +231,7 @@ public class FragmentReviewView extends Fragment {
 
     void initRatingBarUi() {
         ReviewView.ReviewViewParams params = mReviewView.getParams();
-        if (!params.ratingIsVisibile) {
+        if (!params.ratingIsVisible) {
             mRatingBar.setVisibility(View.GONE);
             return;
         }
@@ -251,7 +251,7 @@ public class FragmentReviewView extends Fragment {
 
     void initBannerButtonUi() {
         ReviewView.ReviewViewParams params = mReviewView.getParams();
-        if (!params.bannerButtonIsVisibile) {
+        if (!params.bannerButtonIsVisible) {
             mBannerButton.setVisibility(View.GONE);
             return;
         }
@@ -269,7 +269,7 @@ public class FragmentReviewView extends Fragment {
 
     void initDataGridUi() {
         ReviewView.ReviewViewParams params = mReviewView.getParams();
-        if (!params.gridIsVisibile) {
+        if (!params.gridIsVisible) {
             mGridView.setVisibility(View.GONE);
             return;
         }

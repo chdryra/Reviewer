@@ -278,13 +278,13 @@ public class ReviewView implements ReviewViewAdapter.GridDataObserver {
     }
 
     public static class ReviewViewParams {
-        public GridViewImageAlpha gridAlpha              = GridViewImageAlpha.MEDIUM;
-        public CellDimension      cellWidth              = CellDimension.HALF;
-        public CellDimension      cellHeight             = CellDimension.QUARTER;
-        public boolean            subjectIsVisibile      = true;
-        public boolean            ratingIsVisibile       = true;
-        public boolean            bannerButtonIsVisibile = true;
-        public boolean            gridIsVisibile         = true;
-        public boolean            coverManager           = true;
+        public GridViewImageAlpha gridAlpha             = GridViewImageAlpha.MEDIUM;
+        public CellDimension      cellWidth             = CellDimension.HALF;
+        public CellDimension      cellHeight            = CellDimension.QUARTER;
+        public boolean            subjectIsVisible      = true;
+        public boolean            ratingIsVisible       = true;
+        public boolean            bannerButtonIsVisible = true;
+        public boolean            gridIsVisible         = true;
+        public boolean            coverManager          = true;
     }
 }

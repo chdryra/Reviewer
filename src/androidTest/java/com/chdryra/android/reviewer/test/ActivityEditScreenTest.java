@@ -21,11 +21,13 @@ import com.chdryra.android.reviewer.Administrator;
 import com.chdryra.android.reviewer.ConfigGvDataUi;
 import com.chdryra.android.reviewer.DialogAddGvData;
 import com.chdryra.android.reviewer.DialogEditGvData;
+import com.chdryra.android.reviewer.FactoryReviewView;
 import com.chdryra.android.reviewer.FragmentReviewView;
 import com.chdryra.android.reviewer.GvChildrenList;
 import com.chdryra.android.reviewer.GvDataList;
 import com.chdryra.android.reviewer.MdGvConverter;
 import com.chdryra.android.reviewer.ReviewBuilder;
+import com.chdryra.android.reviewer.ReviewView;
 import com.chdryra.android.reviewer.ReviewViewAdapter;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
 import com.chdryra.android.reviewer.test.TestUtils.SoloDataEntry;
@@ -50,6 +52,7 @@ public abstract class ActivityEditScreenTest extends ActivityReviewViewTest {
             .GvType.TAGS, GvDataList.GvType.LOCATIONS, GvDataList.GvType.URLS,
             GvDataList.GvType.CHILDREN, GvDataList.GvType.FACTS, GvDataList.GvType.IMAGES};
 
+    protected GvDataList.GvType mDataType;
     protected String                          mOriginalSubject;
     protected float                           mOriginalRating;
     private   GvDataList                      mData;
@@ -66,7 +69,7 @@ public abstract class ActivityEditScreenTest extends ActivityReviewViewTest {
     }
 
     public ActivityEditScreenTest(GvDataList.GvType dataType) {
-        super(dataType, true);
+        mDataType = dataType;
     }
 
     @SmallTest
@@ -171,15 +174,14 @@ public abstract class ActivityEditScreenTest extends ActivityReviewViewTest {
     }
 
     @Override
-    public void testSubjectRating() {
-        setUp(false);
-        super.testSubjectRating();
+    protected ReviewView getView() {
+        return FactoryReviewView.newEditScreen(getInstrumentation().getTargetContext(), mDataType);
     }
 
     @Override
-    public void testActivityLaunches() {
+    public void testSubjectRating() {
         setUp(false);
-        super.testActivityLaunches();
+        super.testSubjectRating();
     }
 
     @Override
@@ -258,9 +260,10 @@ public abstract class ActivityEditScreenTest extends ActivityReviewViewTest {
     }
 
     protected void checkFragmentSubjectRating(String subject, float rating) {
+        float nearestHalf = Math.round(rating * 2f) / 2f;
         FragmentReviewView fragment = getFragmentViewReview();
         assertEquals(subject, fragment.getSubject());
-        assertEquals(rating, fragment.getRating());
+        assertEquals(nearestHalf, fragment.getRating());
     }
 
     protected GvChildrenList.GvChildReview editSubjectRating() {

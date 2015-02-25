@@ -20,32 +20,60 @@ public class FactoryReviewView {
     }
 
     public static ReviewView newBuildScreen(Context context) {
-        ReviewViewAdapter adapter = getAdapter(context, GvDataList.GvType.BUILD_REVIEW);
+        ReviewViewAdapter adapter = Administrator.get(context).getReviewBuilder();
 
         ReviewView view = new ReviewView(adapter, true, new BuildScreenModifier((ReviewBuilder)
                 adapter));
 
-        setActions(view, GvDataList.GvType.BUILD_REVIEW, context.getResources().getString(R.string
-                .button_add_review_data));
+        String title = context.getResources().getString(R.string.button_add_review_data);
+        view.setAction(new SubjectEdit());
+        view.setAction(new BuildScreenRatingBar());
+        view.setAction(ReviewViewAction.BannerButtonAction.newDisplayButton(title));
+        view.setAction(new BuildScreenGridItem());
+        view.setAction(new BuildScreenMenu());
+
         view.getParams().gridAlpha = ReviewView.GridViewImageAlpha.TRANSPARENT;
 
         return view;
     }
 
     public static ReviewView newShareScreen(Context context) {
-        ReviewViewAdapter adapter = getAdapter(context, GvDataList.GvType.SHARE);
+        ReviewViewAdapter adapter = Administrator.get(context).getShareScreenAdapter();
 
         ReviewView view = new ReviewView(adapter, false, new ShareScreenModifier());
 
-        setActions(view, GvDataList.GvType.SHARE, context.getResources()
-                .getString(R.string.button_social));
+        String title = context.getResources().getString(R.string.button_social);
+        view.setAction(ReviewViewAction.BannerButtonAction.newDisplayButton(title));
+        view.setAction(new ShareScreenGridItem());
+        view.setAction(new ReviewViewAction.MenuAction(title, true));
+
         view.getParams().gridAlpha = ReviewView.GridViewImageAlpha.TRANSPARENT;
 
         return view;
     }
 
+    public static ReviewView newFeedScreen(Context context) {
+        ReviewViewAdapter adapter = Administrator.get(context).getPublishedReviews();
+
+        ReviewView view = new ReviewView(adapter, false);
+
+        view.setAction(new FeedScreenMenu());
+
+        ReviewView.ReviewViewParams params = view.getParams();
+        params.cellHeight = ReviewView.CellDimension.FULL;
+        params.cellWidth = ReviewView.CellDimension.FULL;
+        params.subjectIsVisible = false;
+        params.ratingIsVisible = false;
+        params.bannerButtonIsVisible = false;
+        params.gridAlpha = ReviewView.GridViewImageAlpha.TRANSPARENT;
+        params.coverManager = false;
+
+        return view;
+    }
+
     public static ReviewView newEditScreen(Context context, GvDataList.GvType dataType) {
-        ReviewViewAdapter adapter = getAdapter(context, dataType);
+        ReviewViewAdapter adapter = Administrator.get(context).getReviewBuilder().getDataBuilder
+                (dataType);
 
         ReviewView view = new ReviewView(adapter, true);
 
@@ -59,43 +87,19 @@ public class FactoryReviewView {
         return view;
     }
 
-    public static ReviewView newFeedScreen(Context context) {
-        ReviewViewAdapter adapter = getAdapter(context, GvDataList.GvType.FEED);
-
-        ReviewView view = new ReviewView(adapter, false);
-
-        view.setAction(new FeedScreenMenu());
-
-        ReviewView.ReviewViewParams params = view.getParams();
-        params.cellHeight = ReviewView.CellDimension.FULL;
-        params.cellWidth = ReviewView.CellDimension.FULL;
-        params.subjectIsVisibile = false;
-        params.ratingIsVisibile = false;
-        params.bannerButtonIsVisibile = false;
-        params.gridAlpha = ReviewView.GridViewImageAlpha.TRANSPARENT;
-        params.coverManager = false;
-
-        return view;
-    }
-
     private static void setActions(ReviewView view, GvDataList.GvType dataType,
             String buttonTitle) {
-        view.setAction(newSubjectViewAction(dataType));
-        view.setAction(newRatingBarAction(dataType));
+        view.setAction(new EditScreenRatingBar());
         view.setAction(newBannerButtonAction(dataType, buttonTitle));
         view.setAction(newGridItemAction(dataType));
         view.setAction(newMenuAction(dataType));
     }
 
     private static ReviewViewAction.MenuAction newMenuAction(GvDataList.GvType dataType) {
-        if (dataType == GvDataList.GvType.BUILD_REVIEW) {
-            return new BuildScreenMenu();
-        } else if (dataType == GvDataList.GvType.COMMENTS) {
+        if (dataType == GvDataList.GvType.COMMENTS) {
             return new EditCommentsMenu();
         } else if (dataType == GvDataList.GvType.CHILDREN) {
             return new EditChildrenMenu();
-        } else if (dataType == GvDataList.GvType.SHARE) {
-            return new ReviewViewAction.MenuAction(dataType.getDataString(), true);
         } else {
             return new EditScreenMenu(dataType.getDataString());
         }
@@ -106,10 +110,6 @@ public class FactoryReviewView {
             return new EditCommentsGridItem();
         } else if (dataType == GvDataList.GvType.IMAGES) {
             return new EditImagesGridItem();
-        } else if (dataType == GvDataList.GvType.BUILD_REVIEW) {
-            return new BuildScreenGridItem();
-        } else if (dataType == GvDataList.GvType.SHARE) {
-            return new ShareScreenGridItem();
         } else {
             return new EditScreenGridItem(ConfigGvDataUi.getConfig(dataType).getEditorConfig());
         }
@@ -117,48 +117,11 @@ public class FactoryReviewView {
 
     private static ReviewViewAction.BannerButtonAction newBannerButtonAction(
             GvDataList.GvType dataType, String title) {
-        if (dataType == GvDataList.GvType.BUILD_REVIEW || dataType == GvDataList.GvType.SHARE) {
-            return ReviewViewAction.BannerButtonAction.newDisplayButton(title);
-        } else if (dataType == GvDataList.GvType.IMAGES) {
+        if (dataType == GvDataList.GvType.IMAGES) {
             return new EditImagesBannerButton(title);
         } else {
             return new EditScreenBannerButton(ConfigGvDataUi.getConfig(dataType).getAdderConfig()
                     , title);
-        }
-    }
-
-    private static ReviewViewAction.RatingBarAction newRatingBarAction(GvDataList.GvType dataType) {
-        if (dataType == GvDataList.GvType.BUILD_REVIEW) {
-            return new BuildScreenRatingBar();
-        } else if (dataType == GvDataList.GvType.SHARE) {
-            return new ReviewViewAction.RatingBarAction();
-        } else {
-            return new EditScreenRatingBar();
-        }
-    }
-
-    private static ReviewViewAction.SubjectAction newSubjectViewAction(GvDataList.GvType
-            dataType) {
-        if (dataType == GvDataList.GvType.BUILD_REVIEW) {
-            return new SubjectEdit();
-        } else {
-            return new ReviewViewAction.SubjectAction();
-
-        }
-    }
-
-    private static ReviewViewAdapter getAdapter(Context context,
-            GvDataList.GvType dataType) {
-        Administrator admin = Administrator.get(context);
-
-        if (dataType == GvDataList.GvType.FEED) {
-            return admin.getPublishedReviews();
-        } else if (dataType == GvDataList.GvType.BUILD_REVIEW) {
-            return admin.getReviewBuilder();
-        } else if (dataType == GvDataList.GvType.SHARE) {
-            return admin.getShareScreenAdapter();
-        } else {
-            return admin.getReviewBuilder().getDataBuilder(dataType);
         }
     }
 }

@@ -12,6 +12,7 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -22,7 +23,9 @@ import android.widget.TextView;
 
 import com.chdryra.android.mygenerallibrary.DialogCancelActionDoneFragment;
 import com.chdryra.android.reviewer.ActivityReviewView;
+import com.chdryra.android.reviewer.Administrator;
 import com.chdryra.android.reviewer.DialogLocation;
+import com.chdryra.android.reviewer.FactoryReviewView;
 import com.chdryra.android.reviewer.GvDataList;
 import com.chdryra.android.reviewer.GvLocationList;
 import com.chdryra.android.reviewer.LauncherUi;
@@ -172,7 +175,9 @@ public class DialogLocationTest extends
         mListener = new FragmentListener();
 
         Intent i = new Intent();
-        ActivityReviewView.packParameters(GvDataList.GvType.LOCATIONS, false, i);
+        Context context = getInstrumentation().getTargetContext();
+        Administrator admin = Administrator.get(context);
+        admin.packView(FactoryReviewView.newEditScreen(context, GvDataList.GvType.LOCATIONS), i);
         setActivityIntent(i);
 
         mActivity = getActivity();

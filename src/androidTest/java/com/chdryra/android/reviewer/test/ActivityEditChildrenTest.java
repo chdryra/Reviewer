@@ -105,7 +105,12 @@ public class ActivityEditChildrenTest extends ActivityEditScreenTest {
         mSolo.clickOnActionBarItem(AVERAGE);
 
         assertTrue(getFragmentViewReview().getRating() == fromChildren);
+        assertFalse(getBuilder().getParentBuilder().isRatingAverage());
+
+        clickMenuDone();
+
         assertTrue(getBuilder().getParentBuilder().isRatingAverage());
+        assertEquals(mGridRatingBeforeDone, getBuilder().getParentBuilder().getRating());
     }
 
     @Override

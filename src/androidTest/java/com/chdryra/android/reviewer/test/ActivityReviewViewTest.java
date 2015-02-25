@@ -17,8 +17,10 @@ import android.test.suitebuilder.annotation.SmallTest;
 import android.widget.GridView;
 
 import com.chdryra.android.reviewer.ActivityReviewView;
+import com.chdryra.android.reviewer.Administrator;
 import com.chdryra.android.reviewer.FragmentReviewView;
 import com.chdryra.android.reviewer.GvDataList;
+import com.chdryra.android.reviewer.ReviewView;
 import com.chdryra.android.reviewer.ReviewViewAdapter;
 import com.robotium.solo.Solo;
 
@@ -31,18 +33,16 @@ import java.util.ArrayList;
  */
 public abstract class ActivityReviewViewTest extends
         ActivityInstrumentationTestCase2<ActivityReviewView> {
-    protected GvDataList.GvType mDataType;
     protected ReviewViewAdapter mAdapter;
     protected Activity          mActivity;
     protected Solo              mSolo;
-    private   boolean           mIsEditable;
 
     protected abstract void setAdapter();
 
-    public ActivityReviewViewTest(GvDataList.GvType dataType, boolean isEditable) {
+    protected abstract ReviewView getView();
+
+    public ActivityReviewViewTest() {
         super(ActivityReviewView.class);
-        mDataType = dataType;
-        mIsEditable = isEditable;
     }
 
     @SmallTest
@@ -52,12 +52,6 @@ public abstract class ActivityReviewViewTest extends
         assertEquals(mAdapter.getRating(), fragment.getRating());
     }
 
-    @SmallTest
-    public void testActivityLaunches() {
-        setUp();
-        assertTrue(mSolo.searchText(mDataType.getDatumString()));
-    }
-
     @Override
     protected void setUp() {
         getInstrumentation().setInTouchMode(false);
@@ -65,7 +59,7 @@ public abstract class ActivityReviewViewTest extends
         setAdapter();
 
         Intent i = new Intent();
-        ActivityReviewView.packParameters(mDataType, mIsEditable, i);
+        Administrator.get(getInstrumentation().getTargetContext()).packView(getView(), i);
         setActivityIntent(i);
         mActivity = getActivity();
 
