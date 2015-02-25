@@ -20,21 +20,21 @@ public class FactoryGvDataHandler {
             return new GvDataHandler<>(data, new GvDataHandler.AddConstraint<T>() {
                 @Override
                 public boolean passes(GvDataList<T> data, T datum) {
-                    return imagePasses(data, datum);
+                    return imageAdd(data, datum);
                 }
             });
         } else if (data.getGvType() == GvDataList.GvType.CHILDREN) {
             GvDataHandler.AddConstraint<T> add = new GvDataHandler.AddConstraint<T>() {
                 @Override
                 public boolean passes(GvDataList<T> data, T datum) {
-                    return childPasses(data, datum);
+                    return childAdd(data, datum);
                 }
             };
 
             GvDataHandler.ReplaceConstraint<T> replace = new GvDataHandler.ReplaceConstraint<T>() {
                 @Override
                 public boolean passes(GvDataList<T> data, T oldDatum, T newDatum) {
-                    return childPasses(data, newDatum);
+                    return childReplace(data, oldDatum, newDatum);
                 }
             };
 
@@ -44,15 +44,25 @@ public class FactoryGvDataHandler {
         }
     }
 
-    private static <T extends GvDataList.GvData> boolean imagePasses(GvDataList<T> data, T datum) {
+    private static <T extends GvDataList.GvData> boolean imageAdd(GvDataList<T> data, T datum) {
         GvImageList.GvImage image = (GvImageList.GvImage) datum;
         GvImageList list = (GvImageList) data;
         return (image != null && list != null && !list.contains(image.getBitmap()));
     }
 
-    private static <T extends GvDataList.GvData> boolean childPasses(GvDataList<T> data, T datum) {
+    private static <T extends GvDataList.GvData> boolean childAdd(GvDataList<T> data, T datum) {
         GvChildrenList.GvChildReview child = (GvChildrenList.GvChildReview) datum;
         GvChildrenList list = (GvChildrenList) data;
         return (child != null && list != null && !list.contains(child.getSubject()));
+    }
+
+    private static <T extends GvDataList.GvData> boolean childReplace(GvDataList<T> data,
+            T oldDatum, T newDatum) {
+        GvChildrenList.GvChildReview oldChild = (GvChildrenList.GvChildReview) oldDatum;
+        GvChildrenList.GvChildReview newChild = (GvChildrenList.GvChildReview) newDatum;
+        GvChildrenList list = (GvChildrenList) data;
+
+        return (oldChild.getSubject().equals(newChild.getSubject()) || !list.contains(newChild
+                .getSubject()));
     }
 }

@@ -63,8 +63,8 @@ public class EditChildrenMenu extends EditScreenMenu {
 
     @Override
     public void onUnattachReviewView() {
-        super.onUnattachReviewView();
         getReviewView().unregisterGridDataObserver(mObserver);
+        super.onUnattachReviewView();
     }
 
     public class MenuItemChildrenRatingAverage implements MenuAction.MenuActionItem {

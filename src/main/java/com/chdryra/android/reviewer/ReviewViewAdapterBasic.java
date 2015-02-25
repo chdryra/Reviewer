@@ -25,6 +25,8 @@ public abstract class ReviewViewAdapterBasic implements ReviewViewAdapter {
 
     @Override
     public void notifyGridDataObservers() {
-        for (GridDataObserver observer : mObservers) observer.onGridDataChanged();
+        for (GridDataObserver observer : mObservers) {
+            observer.onGridDataChanged();
+        }
     }
 }

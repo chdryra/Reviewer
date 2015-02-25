@@ -57,8 +57,8 @@ public class EditCommentsMenu extends EditScreenMenu {
 
     @Override
     public void onUnattachReviewView() {
-        super.onUnattachReviewView();
         getReviewView().unregisterGridDataObserver(mObserver);
+        super.onUnattachReviewView();
     }
 
     private MenuActionItem getSplitOrUnsplitCommentsAction() {

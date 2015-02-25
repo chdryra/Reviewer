@@ -28,22 +28,19 @@ import java.util.Map;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ReviewView implements ReviewViewAdapter.GridDataObserver {
-    private FragmentReviewView mParent;
     private ReviewViewAdapter  mAdapter;
+    private ReviewViewParams   mParams;
+    private FragmentReviewView mParent;
+    private ViewModifier       mModifier;
 
     private Map<Action, ReviewViewAction> mActions;
+    private HashMap<String, Fragment> mActionListeners;
 
-    private ViewReviewParams mParams;
-
-    private GvDataList mDataToShow;
+    private GvDataList                 mGridData;
+    private ArrayList<DataSetObserver> mGridObservers;
 
     private boolean mRatingIsAverage = false;
     private boolean mIsEditable      = false;
-
-    private ArrayList<DataSetObserver> mGridObservers;
-    private HashMap<String, Fragment>  mActionListeners;
-
-    private ViewModifier mModifier;
 
     private enum Action {SUBJECTVIEW, RATINGBAR, BANNERBUTTON, GRIDITEM, MENU}
 
@@ -74,7 +71,7 @@ public class ReviewView implements ReviewViewAdapter.GridDataObserver {
         mAdapter = adapter;
         mAdapter.registerGridDataObserver(this);
 
-        mDataToShow = adapter.getGridData();
+        mGridData = adapter.getGridData();
         mIsEditable = isEditable;
 
         mGridObservers = new ArrayList<>();
@@ -88,7 +85,7 @@ public class ReviewView implements ReviewViewAdapter.GridDataObserver {
         setAction(new ReviewViewAction.GridItemAction());
         setAction(new ReviewViewAction.MenuAction());
 
-        mParams = new ViewReviewParams();
+        mParams = new ReviewViewParams();
     }
 
     public ReviewView(ReviewViewAdapter mAdapter, boolean isEditable, ViewModifier modifier) {
@@ -128,7 +125,7 @@ public class ReviewView implements ReviewViewAdapter.GridDataObserver {
         setAction(Action.MENU, action);
     }
 
-    public ViewReviewParams getParams() {
+    public ReviewViewParams getParams() {
         return mParams;
     }
 
@@ -141,16 +138,16 @@ public class ReviewView implements ReviewViewAdapter.GridDataObserver {
     }
 
     public GvDataList getGridViewData() {
-        return mDataToShow;
+        return mGridData;
     }
 
     public void setGridViewData(GvDataList dataToShow) {
-        mDataToShow = dataToShow;
+        mGridData = dataToShow;
         mParent.updateGridData();
     }
 
     public void resetGridViewData() {
-        mDataToShow = getGridData();
+        mGridData = getGridData();
         mParent.updateGridData();
     }
 
@@ -280,7 +277,7 @@ public class ReviewView implements ReviewViewAdapter.GridDataObserver {
         if (mParent != null) action.attachReviewView(this);
     }
 
-    public static class ViewReviewParams {
+    public static class ReviewViewParams {
         public GridViewImageAlpha gridAlpha              = GridViewImageAlpha.MEDIUM;
         public CellDimension      cellWidth              = CellDimension.HALF;
         public CellDimension      cellHeight             = CellDimension.QUARTER;

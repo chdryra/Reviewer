@@ -66,7 +66,7 @@ public class FactoryReviewView {
 
         view.setAction(new FeedScreenMenu());
 
-        ReviewView.ViewReviewParams params = view.getParams();
+        ReviewView.ReviewViewParams params = view.getParams();
         params.cellHeight = ReviewView.CellDimension.FULL;
         params.cellWidth = ReviewView.CellDimension.FULL;
         params.subjectIsVisibile = false;

@@ -68,7 +68,7 @@ public class FragmentReviewView extends Fragment {
         mReviewView = Administrator.get(getActivity()).unpackView(getActivity().getIntent());
         mReviewView.attachFragment(this);
 
-        ReviewView.ViewReviewParams params = mReviewView.getParams();
+        ReviewView.ReviewViewParams params = mReviewView.getParams();
         setGridCellDimension(params.cellWidth, params.cellHeight);
         setHasOptionsMenu(true);
     }
@@ -174,7 +174,7 @@ public class FragmentReviewView extends Fragment {
             } else {
                 mLinearLayout.setBackgroundDrawable(bitmap);
             }
-            ReviewView.ViewReviewParams params = mReviewView.getParams();
+            ReviewView.ReviewViewParams params = mReviewView.getParams();
             mGridView.getBackground().setAlpha(params.gridAlpha.getAlpha());
         } else {
             removeCover();
@@ -194,7 +194,7 @@ public class FragmentReviewView extends Fragment {
     }
 
     void initSubjectUi() {
-        ReviewView.ViewReviewParams params = mReviewView.getParams();
+        ReviewView.ReviewViewParams params = mReviewView.getParams();
         if (!params.subjectIsVisibile) {
             mSubjectView.setVisibility(View.GONE);
             return;
@@ -230,7 +230,7 @@ public class FragmentReviewView extends Fragment {
     }
 
     void initRatingBarUi() {
-        ReviewView.ViewReviewParams params = mReviewView.getParams();
+        ReviewView.ReviewViewParams params = mReviewView.getParams();
         if (!params.ratingIsVisibile) {
             mRatingBar.setVisibility(View.GONE);
             return;
@@ -250,7 +250,7 @@ public class FragmentReviewView extends Fragment {
     }
 
     void initBannerButtonUi() {
-        ReviewView.ViewReviewParams params = mReviewView.getParams();
+        ReviewView.ReviewViewParams params = mReviewView.getParams();
         if (!params.bannerButtonIsVisibile) {
             mBannerButton.setVisibility(View.GONE);
             return;
@@ -268,7 +268,7 @@ public class FragmentReviewView extends Fragment {
     }
 
     void initDataGridUi() {
-        ReviewView.ViewReviewParams params = mReviewView.getParams();
+        ReviewView.ReviewViewParams params = mReviewView.getParams();
         if (!params.gridIsVisibile) {
             mGridView.setVisibility(View.GONE);
             return;
