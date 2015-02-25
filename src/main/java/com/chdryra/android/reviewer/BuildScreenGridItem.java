@@ -89,11 +89,10 @@ public class BuildScreenGridItem extends ReviewViewAction.GridItemAction {
     }
 
     private void startActivity(ConfigGvDataUi.Config config) {
-        GvDataList.GvType dataType = config.getGvType();
-        boolean isEdit = !(dataType == GvDataList.GvType.SHARE);
-
         Intent i = new Intent(getActivity(), ActivityReviewView.class);
-        ActivityReviewView.packParameters(dataType, isEdit, i);
+        Administrator admin = Administrator.get(getActivity());
+        admin.packView(FactoryReviewView.newEditScreen(getActivity(), config.getGvType()), i);
+
         mListener.startActivity(i);
     }
 

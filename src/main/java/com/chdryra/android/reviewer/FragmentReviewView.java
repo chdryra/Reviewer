@@ -39,9 +39,6 @@ import com.chdryra.android.mygenerallibrary.ViewHolderAdapter;
  * Email: rizwan.choudrey@gmail.com
  */
 public class FragmentReviewView extends Fragment {
-    private static final String TYPE = "com.chdryra.android.reviewer.fragmentviewreview_type";
-    private static final String EDIT = "com.chdryra.android.reviewer.fragmentviewreview_edit";
-
     private static final int LAYOUT        = R.layout.fragment_view_review;
     private static final int LINEAR_LAYOUT = R.id.linearlayout;
     private static final int SUBJECT       = R.id.subject_edit_text;
@@ -64,26 +61,12 @@ public class FragmentReviewView extends Fragment {
 
     private boolean mIsModified = false;
 
-    public static Fragment newInstance(GvDataList.GvType dataType, boolean isEdit) {
-        Bundle args = new Bundle();
-        args.putSerializable(TYPE, dataType);
-        args.putBoolean(EDIT, isEdit);
-
-        Fragment fragment = new FragmentReviewView();
-        fragment.setArguments(args);
-
-        return fragment;
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Bundle args = getArguments();
-        GvDataList.GvType dataType = (GvDataList.GvType) args.getSerializable(TYPE);
-        boolean isEdit = args.getBoolean(EDIT);
-
-        mReviewView = FactoryReviewView.newReviewView(this, dataType, isEdit);
+        mReviewView = Administrator.get(getActivity()).unpackView(getActivity().getIntent());
+        mReviewView.attachFragment(this);
 
         ReviewView.ViewReviewParams params = mReviewView.getParams();
         setGridCellDimension(params.cellWidth, params.cellHeight);

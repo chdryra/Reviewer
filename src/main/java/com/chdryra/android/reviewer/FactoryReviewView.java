@@ -8,7 +8,7 @@
 
 package com.chdryra.android.reviewer;
 
-import android.app.Activity;
+import android.content.Context;
 
 /**
  * Created by: Rizwan Choudrey
@@ -19,64 +19,61 @@ public class FactoryReviewView {
     private FactoryReviewView() {
     }
 
-    public static ReviewView newReviewView(FragmentReviewView parent, GvDataList.GvType dataType,
-            boolean isEdit) {
-        ReviewView view;
-        if (dataType == GvDataList.GvType.SHARE) {
-            view = newShareScreen(parent);
-        } else if (dataType == GvDataList.GvType.BUILD_REVIEW) {
-            view = newBuildScreen(parent);
-        } else if (dataType == GvDataList.GvType.FEED) {
-            view = newFeedScreen(parent);
-        } else {
-            view = newEditScreen(parent, dataType);
-        }
+    public static ReviewView newBuildScreen(Context context) {
+        ReviewViewAdapter adapter = getAdapter(context, GvDataList.GvType.BUILD_REVIEW);
 
-        setParams(dataType, view);
+        ReviewView view = new ReviewView(adapter, true, new BuildScreenModifier((ReviewBuilder)
+                adapter));
 
-        return view;
-    }
-
-    private static ReviewView newBuildScreen(FragmentReviewView parent) {
-        ReviewViewAdapter adapter = getAdapter(parent, GvDataList.GvType.BUILD_REVIEW);
-
-        ReviewView view = new ReviewView(parent, adapter, true, new BuildScreenModifier
-                ((ReviewBuilder) adapter));
-
-        setActions(view, GvDataList.GvType.BUILD_REVIEW, parent.getResources().getString(R.string
+        setActions(view, GvDataList.GvType.BUILD_REVIEW, context.getResources().getString(R.string
                 .button_add_review_data));
+        view.getParams().gridAlpha = ReviewView.GridViewImageAlpha.TRANSPARENT;
 
         return view;
     }
 
-    private static ReviewView newShareScreen(FragmentReviewView parent) {
-        ReviewViewAdapter adapter = getAdapter(parent, GvDataList.GvType.SHARE);
+    public static ReviewView newShareScreen(Context context) {
+        ReviewViewAdapter adapter = getAdapter(context, GvDataList.GvType.SHARE);
 
-        ReviewView view = new ReviewView(parent, adapter, false, new ShareScreenModifier());
+        ReviewView view = new ReviewView(adapter, false, new ShareScreenModifier());
 
-        setActions(view, GvDataList.GvType.SHARE, parent.getResources()
+        setActions(view, GvDataList.GvType.SHARE, context.getResources()
                 .getString(R.string.button_social));
+        view.getParams().gridAlpha = ReviewView.GridViewImageAlpha.TRANSPARENT;
 
         return view;
     }
 
-    private static ReviewView newEditScreen(FragmentReviewView parent, GvDataList.GvType dataType) {
-        ReviewViewAdapter adapter = getAdapter(parent, dataType);
+    public static ReviewView newEditScreen(Context context, GvDataList.GvType dataType) {
+        ReviewViewAdapter adapter = getAdapter(context, dataType);
 
-        ReviewView view = new ReviewView(parent, adapter, true);
+        ReviewView view = new ReviewView(adapter, true);
 
-        setActions(view, dataType, parent.getResources().getString(R.string.button_add) + " " +
+        setActions(view, dataType, context.getResources().getString(R.string.button_add) + " " +
                 dataType.getDatumString());
 
+        if (dataType == GvDataList.GvType.IMAGES) {
+            view.getParams().cellHeight = ReviewView.CellDimension.HALF;
+        }
+
         return view;
     }
 
-    private static ReviewView newFeedScreen(FragmentReviewView parent) {
-        ReviewViewAdapter adapter = getAdapter(parent, GvDataList.GvType.FEED);
+    public static ReviewView newFeedScreen(Context context) {
+        ReviewViewAdapter adapter = getAdapter(context, GvDataList.GvType.FEED);
 
-        ReviewView view = new ReviewView(parent, adapter, false);
+        ReviewView view = new ReviewView(adapter, false);
 
         view.setAction(new FeedScreenMenu());
+
+        ReviewView.ViewReviewParams params = view.getParams();
+        params.cellHeight = ReviewView.CellDimension.FULL;
+        params.cellWidth = ReviewView.CellDimension.FULL;
+        params.subjectIsVisibile = false;
+        params.ratingIsVisibile = false;
+        params.bannerButtonIsVisibile = false;
+        params.gridAlpha = ReviewView.GridViewImageAlpha.TRANSPARENT;
+        params.coverManager = false;
 
         return view;
     }
@@ -150,10 +147,9 @@ public class FactoryReviewView {
         }
     }
 
-    private static ReviewViewAdapter getAdapter(FragmentReviewView parent,
+    private static ReviewViewAdapter getAdapter(Context context,
             GvDataList.GvType dataType) {
-        Activity activity = parent.getActivity();
-        Administrator admin = Administrator.get(activity);
+        Administrator admin = Administrator.get(context);
 
         if (dataType == GvDataList.GvType.FEED) {
             return admin.getPublishedReviews();
@@ -163,24 +159,6 @@ public class FactoryReviewView {
             return admin.getShareScreenAdapter();
         } else {
             return admin.getReviewBuilder().getDataBuilder(dataType);
-        }
-    }
-
-    private static void setParams(GvDataList.GvType dataType, ReviewView view) {
-        ReviewView.ViewReviewParams params = view.getParams();
-        if (dataType == GvDataList.GvType.IMAGES) {
-            params.cellHeight = ReviewView.CellDimension.HALF;
-        } else if (dataType == GvDataList.GvType.FEED) {
-            params.cellHeight = ReviewView.CellDimension.FULL;
-            params.cellWidth = ReviewView.CellDimension.FULL;
-            params.subjectIsVisibile = false;
-            params.ratingIsVisibile = false;
-            params.bannerButtonIsVisibile = false;
-            params.gridAlpha = ReviewView.GridViewImageAlpha.TRANSPARENT;
-            params.coverManager = false;
-        } else if (dataType == GvDataList.GvType.BUILD_REVIEW || dataType == GvDataList.GvType
-                .SHARE) {
-            params.gridAlpha = ReviewView.GridViewImageAlpha.TRANSPARENT;
         }
     }
 }

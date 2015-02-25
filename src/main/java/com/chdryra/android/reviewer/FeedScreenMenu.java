@@ -39,9 +39,11 @@ public class FeedScreenMenu extends ReviewViewAction.MenuAction {
         Activity activity = getActivity();
         if (activity == null) return;
 
-        Administrator.get(getActivity()).newReviewBuilder();
+        Administrator admin = Administrator.get(getActivity());
+        admin.newReviewBuilder();
         Intent i = new Intent(activity, ActivityReviewView.class);
-        ActivityReviewView.packParameters(GvDataList.GvType.BUILD_REVIEW, true, i);
+        admin.packView(FactoryReviewView.newBuildScreen(getActivity()), i);
+
         getActivity().startActivity(i);
     }
 }

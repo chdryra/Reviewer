@@ -31,11 +31,7 @@ public class ReviewView implements ReviewViewAdapter.GridDataObserver {
     private FragmentReviewView mParent;
     private ReviewViewAdapter  mAdapter;
 
-    private ReviewViewAction.SubjectAction      mSubjectAction;
-    private ReviewViewAction.RatingBarAction    mRatingAction;
-    private ReviewViewAction.BannerButtonAction mButtonAction;
-    private ReviewViewAction.GridItemAction     mGridAction;
-    private ReviewViewAction.MenuAction         mMenuAction;
+    private Map<Action, ReviewViewAction> mActions;
 
     private ViewReviewParams mParams;
 
@@ -48,6 +44,8 @@ public class ReviewView implements ReviewViewAdapter.GridDataObserver {
     private HashMap<String, Fragment>  mActionListeners;
 
     private ViewModifier mModifier;
+
+    private enum Action {SUBJECTVIEW, RATINGBAR, BANNERBUTTON, GRIDITEM, MENU}
 
     public enum CellDimension {FULL, HALF, QUARTER}
 
@@ -72,8 +70,7 @@ public class ReviewView implements ReviewViewAdapter.GridDataObserver {
                 ViewGroup container, Bundle savedInstanceState);
     }
 
-    public ReviewView(FragmentReviewView parent, ReviewViewAdapter adapter, boolean isEditable) {
-        mParent = parent;
+    public ReviewView(ReviewViewAdapter adapter, boolean isEditable) {
         mAdapter = adapter;
         mAdapter.registerGridDataObserver(this);
 
@@ -82,6 +79,8 @@ public class ReviewView implements ReviewViewAdapter.GridDataObserver {
 
         mGridObservers = new ArrayList<>();
         mActionListeners = new HashMap<>();
+
+        mActions = new HashMap<>();
 
         setAction(new ReviewViewAction.SubjectAction());
         setAction(new ReviewViewAction.RatingBarAction());
@@ -92,9 +91,8 @@ public class ReviewView implements ReviewViewAdapter.GridDataObserver {
         mParams = new ViewReviewParams();
     }
 
-    public ReviewView(FragmentReviewView parent, ReviewViewAdapter mAdapter, boolean isEditable,
-            ViewModifier modifier) {
-        this(parent, mAdapter, isEditable);
+    public ReviewView(ReviewViewAdapter mAdapter, boolean isEditable, ViewModifier modifier) {
+        this(mAdapter, isEditable);
         mModifier = modifier;
     }
 
@@ -102,29 +100,32 @@ public class ReviewView implements ReviewViewAdapter.GridDataObserver {
         return mAdapter;
     }
 
+    public void attachFragment(FragmentReviewView parent) {
+        if (mParent != null) throw new RuntimeException("Fragment already attached");
+        mParent = parent;
+        for (ReviewViewAction action : mActions.values()) {
+            action.attachReviewView(this);
+        }
+    }
+
     public void setAction(ReviewViewAction.SubjectAction action) {
-        mSubjectAction = action;
-        mSubjectAction.attachReviewView(this);
+        setAction(Action.SUBJECTVIEW, action);
     }
 
     public void setAction(ReviewViewAction.RatingBarAction action) {
-        mRatingAction = action;
-        mRatingAction.attachReviewView(this);
+        setAction(Action.RATINGBAR, action);
     }
 
     public void setAction(ReviewViewAction.BannerButtonAction action) {
-        mButtonAction = action;
-        mButtonAction.attachReviewView(this);
+        setAction(Action.BANNERBUTTON, action);
     }
 
     public void setAction(ReviewViewAction.GridItemAction action) {
-        mGridAction = action;
-        mGridAction.attachReviewView(this);
+        setAction(Action.GRIDITEM, action);
     }
 
     public void setAction(ReviewViewAction.MenuAction action) {
-        mMenuAction = action;
-        mMenuAction.attachReviewView(this);
+        setAction(Action.MENU, action);
     }
 
     public ViewReviewParams getParams() {
@@ -154,23 +155,23 @@ public class ReviewView implements ReviewViewAdapter.GridDataObserver {
     }
 
     public ReviewViewAction.SubjectAction getSubjectViewAction() {
-        return mSubjectAction;
+        return (ReviewViewAction.SubjectAction) mActions.get(Action.SUBJECTVIEW);
     }
 
     public ReviewViewAction.RatingBarAction getRatingBarAction() {
-        return mRatingAction;
+        return (ReviewViewAction.RatingBarAction) mActions.get(Action.RATINGBAR);
     }
 
     public ReviewViewAction.BannerButtonAction getBannerButtonAction() {
-        return mButtonAction;
+        return (ReviewViewAction.BannerButtonAction) mActions.get(Action.BANNERBUTTON);
     }
 
     public ReviewViewAction.GridItemAction getGridItemAction() {
-        return mGridAction;
+        return (ReviewViewAction.GridItemAction) mActions.get(Action.GRIDITEM);
     }
 
     public ReviewViewAction.MenuAction getMenuAction() {
-        return mMenuAction;
+        return (ReviewViewAction.MenuAction) mActions.get(Action.MENU);
     }
 
     public boolean isEditable() {
@@ -272,6 +273,11 @@ public class ReviewView implements ReviewViewAdapter.GridDataObserver {
     @Override
     public void onGridDataChanged() {
         notifyDataSetChanged();
+    }
+
+    private void setAction(Action type, ReviewViewAction action) {
+        mActions.put(type, action);
+        if (mParent != null) action.attachReviewView(this);
     }
 
     public static class ViewReviewParams {

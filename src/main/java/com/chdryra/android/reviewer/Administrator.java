@@ -10,8 +10,12 @@ package com.chdryra.android.reviewer;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+
+import com.chdryra.android.mygenerallibrary.ObjectHolder;
 
 import java.util.Date;
+import java.util.UUID;
 
 /**
  * Singleton that controls app-wide duties. Holds 4 main objects:
@@ -33,6 +37,7 @@ import java.util.Date;
  * @see com.chdryra.android.reviewer.RCollectionReview
  */
 public class Administrator {
+    private static final String REVIEWVIEW_ID = "com.chdryra.android.reviewer.review_id";
     private static final Author AUTHOR = new Author("Rizwan Choudrey");
     private static final String FEED   = "Feed";
 
@@ -40,12 +45,13 @@ public class Administrator {
 
     private final Context                 mContext;
     private final ReviewCollectionAdapter mPublishedReviews;
-
-    private ReviewBuilder mReviewBuilder;
+    private final ObjectHolder  mViews;
+    private       ReviewBuilder mReviewBuilder;
 
     private Administrator(Context context) {
         mContext = context;
         mPublishedReviews = new ReviewCollectionAdapter(AUTHOR, new Date(), FEED);
+        mViews = new ObjectHolder();
     }
 
     public static Administrator get(Context c) {
@@ -96,5 +102,19 @@ public class Administrator {
 
     public GvSocialPlatformList getSocialPlatformList() {
         return GvSocialPlatformList.getLatest(mContext);
+    }
+
+    public void packView(ReviewView view, Intent i) {
+        String id = UUID.randomUUID().toString();
+        mViews.addObject(id, view);
+        i.putExtra(REVIEWVIEW_ID, id);
+    }
+
+    public ReviewView unpackView(Intent i) {
+        String id = i.getStringExtra(REVIEWVIEW_ID);
+        ReviewView view = (ReviewView) mViews.getObject(id);
+        mViews.removeObject(id);
+
+        return view;
     }
 }

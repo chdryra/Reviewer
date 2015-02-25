@@ -68,7 +68,9 @@ public class BuildScreenModifier implements ReviewView.ViewModifier {
 
     private void requestShareIntent(Activity activity) {
         Intent i = new Intent(activity, ActivityReviewView.class);
-        ActivityReviewView.packParameters(GvDataList.GvType.SHARE, false, i);
+        Administrator admin = Administrator.get(activity);
+        admin.packView(FactoryReviewView.newShareScreen(activity), i);
+
         activity.startActivity(i);
     }
 }
