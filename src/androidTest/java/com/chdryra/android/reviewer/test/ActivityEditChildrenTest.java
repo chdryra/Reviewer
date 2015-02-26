@@ -120,6 +120,12 @@ public class ActivityEditChildrenTest extends ActivityEditScreenTest {
     }
 
     @Override
+    protected void setAdapter() {
+        super.setAdapter();
+        getBuilder().getParentBuilder().setRatingIsAverage(mIsAverage);
+    }
+
+    @Override
     protected void setUpFinish(boolean withData) {
         getBuilder().getParentBuilder().setRatingIsAverage(false);
         mOriginalRatingNotAverage = mAdapter.getRating();
@@ -139,7 +145,7 @@ public class ActivityEditChildrenTest extends ActivityEditScreenTest {
     }
 
     @Override
-    protected void checkBuildersSubjectRatingUnchanged() {
+    protected void checkBuildersSubjectRatingAsExpected() {
         float rating = getBuilder().getParentBuilder().isRatingAverage() ? mOriginalRating
                 : mOriginalRatingNotAverage;
 
@@ -147,11 +153,11 @@ public class ActivityEditChildrenTest extends ActivityEditScreenTest {
     }
 
     @Override
-    protected void checkFragmentSubjectRatingUnchanged() {
+    protected void checkFragmentSubjectRatingAsExpected() {
         if (getBuilder().getParentBuilder().isRatingAverage()) {
             checkFragmentSubjectRating(mOriginalSubject, getAverageRating(true));
         } else {
-            super.checkFragmentSubjectRatingUnchanged();
+            super.checkFragmentSubjectRatingAsExpected();
         }
     }
 
@@ -171,6 +177,5 @@ public class ActivityEditChildrenTest extends ActivityEditScreenTest {
 
         return nearestHalf ? Math.round(rating * 2f) / 2f : rating;
     }
-
 }
 

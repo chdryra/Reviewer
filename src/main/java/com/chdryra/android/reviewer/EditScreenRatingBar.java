@@ -16,9 +16,17 @@ import android.widget.RatingBar;
  * Email: rizwan.choudrey@gmail.com
  */
 public class EditScreenRatingBar extends ReviewViewAction.RatingBarAction {
+    private ReviewView.Editor mEditor;
+
+    @Override
+    public void onAttachReviewView() {
+        super.onAttachReviewView();
+        mEditor = ReviewView.Editor.cast(getReviewView());
+    }
+
     @Override
     public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-        super.onRatingChanged(ratingBar, rating, fromUser);
-        if (fromUser) getReviewView().setRatingAverage(false);
+        mEditor.setRating(rating);
+        if (fromUser) mEditor.setRatingAverage(false);
     }
 }

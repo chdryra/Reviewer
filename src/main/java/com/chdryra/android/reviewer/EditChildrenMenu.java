@@ -32,7 +32,7 @@ public class EditChildrenMenu extends EditScreenMenu {
         mObserver = new DataSetObserver() {
             @Override
             public void onChanged() {
-                if (getReviewView().isRatingAverage()) {
+                if (getEditor().isRatingAverage()) {
                     mActionItem.setAverageRating();
                 }
             }
@@ -47,11 +47,11 @@ public class EditChildrenMenu extends EditScreenMenu {
     @Override
     public void onAttachReviewView() {
         super.onAttachReviewView();
-        ReviewView view = getReviewView();
+        ReviewView.Editor editor = getEditor();
 
-        view.registerGridDataObserver(mObserver);
-        ReviewBuilder.DataBuilder adapter = (ReviewBuilder.DataBuilder) view.getAdapter();
-        view.setRatingAverage(adapter.getParentBuilder().isRatingAverage());
+        editor.registerGridDataObserver(mObserver);
+        ReviewBuilder.DataBuilder adapter = (ReviewBuilder.DataBuilder) editor.getAdapter();
+        editor.setRatingAverage(adapter.getParentBuilder().isRatingAverage());
     }
 
     @Override
@@ -75,12 +75,12 @@ public class EditChildrenMenu extends EditScreenMenu {
                 rating += child.getRating() / children.size();
             }
 
-            getReviewView().setRating(rating);
+            getEditor().setRating(rating);
         }
 
         @Override
         public void doAction(MenuItem item) {
-            getReviewView().setRatingAverage(true);
+            getEditor().setRatingAverage(true);
             setAverageRating();
         }
     }

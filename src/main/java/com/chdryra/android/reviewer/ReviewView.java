@@ -39,9 +39,6 @@ public class ReviewView implements ReviewViewAdapter.GridDataObserver {
     private GvDataList                 mGridData;
     private ArrayList<DataSetObserver> mGridObservers;
 
-    private boolean mRatingIsAverage = false;
-    private boolean mIsEditable      = false;
-
     private enum Action {SUBJECTVIEW, RATINGBAR, BANNERBUTTON, GRIDITEM, MENU}
 
     public enum CellDimension {FULL, HALF, QUARTER}
@@ -67,16 +64,12 @@ public class ReviewView implements ReviewViewAdapter.GridDataObserver {
                 ViewGroup container, Bundle savedInstanceState);
     }
 
-    public ReviewView(ReviewViewAdapter adapter, boolean isEditable) {
+    public ReviewView(ReviewViewAdapter adapter) {
         mAdapter = adapter;
         mAdapter.registerGridDataObserver(this);
-
         mGridData = adapter.getGridData();
-        mIsEditable = isEditable;
-
         mGridObservers = new ArrayList<>();
         mActionListeners = new HashMap<>();
-
         mActions = new HashMap<>();
 
         setAction(new ReviewViewAction.SubjectAction());
@@ -88,8 +81,8 @@ public class ReviewView implements ReviewViewAdapter.GridDataObserver {
         mParams = new ReviewViewParams();
     }
 
-    public ReviewView(ReviewViewAdapter mAdapter, boolean isEditable, ViewModifier modifier) {
-        this(mAdapter, isEditable);
+    public ReviewView(ReviewViewAdapter adapter, ViewModifier modifier) {
+        this(adapter);
         mModifier = modifier;
     }
 
@@ -172,18 +165,7 @@ public class ReviewView implements ReviewViewAdapter.GridDataObserver {
     }
 
     public boolean isEditable() {
-        return mIsEditable;
-    }
-
-    public void proposeCover(GvImageList.GvImage image) {
-        if (mParams.coverManager) {
-            GvImageList images = mAdapter.getImages();
-            GvImageList covers = images.getCovers();
-            if (covers.size() == 1 && images.contains(image)) {
-                covers.getItem(0).setIsCover(false);
-                image.setIsCover(true);
-            }
-        }
+        return false;
     }
 
     public void updateCover() {
@@ -224,24 +206,8 @@ public class ReviewView implements ReviewViewAdapter.GridDataObserver {
         return mParent.getSubject();
     }
 
-    public void setSubject(String subject) {
-        mParent.setSubject(subject);
-    }
-
     public float getRating() {
-        return mRatingIsAverage ? mAdapter.getAverageRating() : mParent.getRating();
-    }
-
-    public void setRating(float rating) {
-        mParent.setRating(rating);
-    }
-
-    public boolean isRatingAverage() {
-        return mRatingIsAverage;
-    }
-
-    public void setRatingAverage(boolean isAverage) {
-        mRatingIsAverage = isAverage;
+        return mParent.getRating();
     }
 
     public void registerGridDataObserver(DataSetObserver observer) {
@@ -286,5 +252,73 @@ public class ReviewView implements ReviewViewAdapter.GridDataObserver {
         public boolean            bannerButtonIsVisible = true;
         public boolean            gridIsVisible         = true;
         public boolean            coverManager          = true;
+    }
+
+    public static class Editor extends ReviewView {
+        private FragmentReviewView mParent;
+        private boolean mRatingIsAverage = false;
+
+        public Editor(ReviewBuilder.DataBuilder builder) {
+            super(builder);
+            mRatingIsAverage = builder.getParentBuilder().isRatingAverage();
+        }
+
+        public Editor(ReviewBuilder builder, ViewModifier modifier) {
+            super(builder, modifier);
+            mRatingIsAverage = builder.isRatingAverage();
+        }
+
+        public static Editor cast(ReviewView view) {
+            Editor editor;
+            try {
+                editor = (ReviewView.Editor) view;
+            } catch (ClassCastException e) {
+                throw new ClassCastException("ReviewView must be an Editor");
+            }
+            return editor;
+        }
+
+        @Override
+        public void attachFragment(FragmentReviewView parent) {
+            mParent = parent;
+            super.attachFragment(parent);
+        }
+
+        @Override
+        public boolean isEditable() {
+            return true;
+        }
+
+        @Override
+        public float getRating() {
+            return mRatingIsAverage ? getAdapter().getAverageRating() : super.getRating();
+        }
+
+        public void setRating(float rating) {
+            mParent.setRating(rating);
+        }
+
+        public boolean isRatingAverage() {
+            return mRatingIsAverage;
+        }
+
+        public void setRatingAverage(boolean isAverage) {
+            mRatingIsAverage = isAverage;
+        }
+
+        public void proposeCover(GvImageList.GvImage image) {
+            if (getParams().coverManager) {
+                GvImageList images = getAdapter().getImages();
+                GvImageList covers = images.getCovers();
+                if (covers.size() == 1 && images.contains(image)) {
+                    covers.getItem(0).setIsCover(false);
+                    image.setIsCover(true);
+                }
+            }
+        }
+
+        public void setSubject(String subject) {
+            mParent.setSubject(subject);
+        }
     }
 }

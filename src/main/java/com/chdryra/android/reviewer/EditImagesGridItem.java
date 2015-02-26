@@ -67,7 +67,7 @@ public class EditImagesGridItem extends EditScreenGridItem {
         @Override
         public void onAlertPositive(int requestCode, Bundle args) {
             if (requestCode == IMAGE_AS_COVER) {
-                getReviewView().proposeCover(mCoverProposition);
+                getEditor().proposeCover(mCoverProposition);
                 getReviewView().updateCover();
             }
         }

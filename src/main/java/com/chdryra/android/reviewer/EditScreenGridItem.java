@@ -24,12 +24,19 @@ public class EditScreenGridItem extends ReviewViewAction.GridItemAction {
     private static final String TAG = "GridItemEditListener";
     private final Fragment                        mListener;
     private       ConfigGvDataUi.LaunchableConfig mConfig;
+    private ReviewView.Editor mEditor;
 
     public EditScreenGridItem(ConfigGvDataUi.LaunchableConfig config) {
         mConfig = config;
         mListener = new EditListener() {
         };
         registerActionListener(mListener, TAG);
+    }
+
+    @Override
+    public void onAttachReviewView() {
+        super.onAttachReviewView();
+        mEditor = ReviewView.Editor.cast(getReviewView());
     }
 
     @Override
@@ -57,6 +64,10 @@ public class EditScreenGridItem extends ReviewViewAction.GridItemAction {
     protected void deleteData(GvDataList.GvData datum) {
         ((ReviewBuilder.DataBuilder) getAdapter()).delete(datum);
         getReviewView().updateUi();
+    }
+
+    protected ReviewView.Editor getEditor() {
+        return mEditor;
     }
 
     protected abstract class EditListener extends Fragment implements DialogEditGvData

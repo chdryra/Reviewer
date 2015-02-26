@@ -98,7 +98,7 @@ public class ReviewViewAction {
         }
 
         public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-            getReviewView().setRating(rating);
+
         }
     }
 

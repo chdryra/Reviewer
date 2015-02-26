@@ -20,10 +20,9 @@ public class FactoryReviewView {
     }
 
     public static ReviewView newBuildScreen(Context context) {
-        ReviewViewAdapter adapter = Administrator.get(context).getReviewBuilder();
+        ReviewBuilder builder = Administrator.get(context).getReviewBuilder();
 
-        ReviewView view = new ReviewView(adapter, true, new BuildScreenModifier((ReviewBuilder)
-                adapter));
+        ReviewView view = new ReviewView.Editor(builder, new BuildScreenModifier(builder));
 
         String title = context.getResources().getString(R.string.button_add_review_data);
         view.setAction(new SubjectEdit());
@@ -40,7 +39,7 @@ public class FactoryReviewView {
     public static ReviewView newShareScreen(Context context) {
         ReviewViewAdapter adapter = Administrator.get(context).getShareScreenAdapter();
 
-        ReviewView view = new ReviewView(adapter, false, new ShareScreenModifier());
+        ReviewView view = new ReviewView(adapter, new ShareScreenModifier());
 
         String title = context.getResources().getString(R.string.button_social);
         view.setAction(ReviewViewAction.BannerButtonAction.newDisplayButton(title));
@@ -53,9 +52,7 @@ public class FactoryReviewView {
     }
 
     public static ReviewView newFeedScreen(Context context) {
-        ReviewViewAdapter adapter = Administrator.get(context).getPublishedReviews();
-
-        ReviewView view = new ReviewView(adapter, false);
+        ReviewView view = new ReviewView(Administrator.get(context).getPublishedReviews());
 
         view.setAction(new FeedScreenMenu());
 
@@ -72,10 +69,10 @@ public class FactoryReviewView {
     }
 
     public static ReviewView newEditScreen(Context context, GvDataList.GvType dataType) {
-        ReviewViewAdapter adapter = Administrator.get(context).getReviewBuilder().getDataBuilder
-                (dataType);
+        ReviewBuilder.DataBuilder builder = Administrator.get(context).getReviewBuilder()
+                .getDataBuilder(dataType);
 
-        ReviewView view = new ReviewView(adapter, true);
+        ReviewView view = new ReviewView.Editor(builder);
 
         setActions(view, dataType, context.getResources().getString(R.string.button_add) + " " +
                 dataType.getDatumString());

@@ -79,6 +79,7 @@ public class ActivityShareScreenTest extends ActivityReviewViewTest {
         assertEquals(1, list.size());
         assertEquals(mAdapter.getSubject(), list.getItem(0).getSubject());
         assertEquals(mAdapter.getRating(), list.getItem(0).getRating());
+        feedActivity.finish();
     }
 
     @Override

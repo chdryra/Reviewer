@@ -52,7 +52,7 @@ public abstract class ActivityEditScreenTest extends ActivityReviewViewTest {
             .GvType.TAGS, GvDataList.GvType.LOCATIONS, GvDataList.GvType.URLS,
             GvDataList.GvType.CHILDREN, GvDataList.GvType.FACTS, GvDataList.GvType.IMAGES};
 
-    protected GvDataList.GvType mDataType;
+    protected GvDataList.GvType               mDataType;
     protected String                          mOriginalSubject;
     protected float                           mOriginalRating;
     private   GvDataList                      mData;
@@ -81,7 +81,7 @@ public abstract class ActivityEditScreenTest extends ActivityReviewViewTest {
         mSolo.sleep(500);
 
         checkFragmentSubjectRating(child.getSubject(), child.getRating());
-        checkBuildersSubjectRatingUnchanged();
+        checkBuildersSubjectRatingAsExpected();
 
         clickMenuDone();
 
@@ -139,7 +139,7 @@ public abstract class ActivityEditScreenTest extends ActivityReviewViewTest {
 
         clickMenuUp();
 
-        checkBuildersSubjectRatingUnchanged();
+        checkBuildersSubjectRatingAsExpected();
         checkInBuilder(mData, true);
     }
 
@@ -209,7 +209,7 @@ public abstract class ActivityEditScreenTest extends ActivityReviewViewTest {
         mOriginalSubject = mAdapter.getSubject();
         mOriginalRating = mAdapter.getRating();
 
-        checkFragmentSubjectRatingUnchanged();
+        checkFragmentSubjectRatingAsExpected();
         if (withData) checkInGrid(mData, true);
 
         setDialogButtonClickRunnables();
@@ -237,10 +237,10 @@ public abstract class ActivityEditScreenTest extends ActivityReviewViewTest {
     }
 
     protected void checkBuildersSubjectRatingOnDone() {
-        checkBuildersSubjectRatingUnchanged();
+        checkBuildersSubjectRatingAsExpected();
     }
 
-    protected void checkBuildersSubjectRatingUnchanged() {
+    protected void checkBuildersSubjectRatingAsExpected() {
         checkBuildersSubjectRating(mOriginalSubject, mOriginalRating);
     }
 
@@ -255,7 +255,7 @@ public abstract class ActivityEditScreenTest extends ActivityReviewViewTest {
         assertEquals(rating, builder.getRating(), 0.01);
     }
 
-    protected void checkFragmentSubjectRatingUnchanged() {
+    protected void checkFragmentSubjectRatingAsExpected() {
         checkFragmentSubjectRating(mOriginalSubject, mOriginalRating);
     }
 
@@ -304,7 +304,7 @@ public abstract class ActivityEditScreenTest extends ActivityReviewViewTest {
             data.add(newDatum);
         }
 
-        checkFragmentSubjectRating(mOriginalSubject, mOriginalRating);
+        checkFragmentSubjectRatingAsExpected();
 
         checkInGrid(data, true);
         checkInBuilder(data, true);
@@ -313,7 +313,7 @@ public abstract class ActivityEditScreenTest extends ActivityReviewViewTest {
         clickMenuDone();
 
         checkInParentBuilder(data, true);
-        checkBuildersSubjectRatingUnchanged();
+        checkBuildersSubjectRatingOnDone();
     }
 
     protected GvDataList.GvData newEditDatum(GvDataList.GvData oldDatum) {
@@ -503,8 +503,8 @@ public abstract class ActivityEditScreenTest extends ActivityReviewViewTest {
         waitForLaunchableToClose();
         checkLaunchableShowing(false);
 
-        checkFragmentSubjectRatingUnchanged();
-        checkBuildersSubjectRatingUnchanged();
+        checkFragmentSubjectRatingAsExpected();
+        checkBuildersSubjectRatingAsExpected();
 
         //TODO make type safe
         if (!confirm) {
@@ -515,7 +515,7 @@ public abstract class ActivityEditScreenTest extends ActivityReviewViewTest {
 
         checkInGrid(testData, true);
         checkInBuilder(testData, true);
-        checkInParentBuilder(testData, false);
+        checkInParentBuilder(testData, !confirm);
 
         clickMenuDone();
 

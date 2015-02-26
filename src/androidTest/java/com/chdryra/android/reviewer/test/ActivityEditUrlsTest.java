@@ -86,31 +86,31 @@ public class ActivityEditUrlsTest extends ActivityEditScreenTest {
             assertTrue(mSolo.searchText(mDataType.getDataString()));
         }
     }
-
-    @Override
-    protected void clickEditConfirm() {
-        clickMenuDone();
-    }
-
-    @Override
-    protected void clickEditDelete() {
-        clickMenuDelete();
-    }
-
-    @Override
-    protected void clickEditCancel() {
-        clickMenuUp();
-    }
-
-    @Override
-    protected void clickAddConfirm() {
-        clickMenuDone();
-    }
-
-    @Override
-    protected void clickAddCancel() {
-        clickMenuUp();
-    }
+//
+//    @Override
+//    protected void clickEditConfirm() {
+//        clickMenuDone();
+//    }
+//
+//    @Override
+//    protected void clickEditDelete() {
+//        clickMenuDelete();
+//    }
+//
+//    @Override
+//    protected void clickEditCancel() {
+//        clickMenuUp();
+//    }
+//
+//    @Override
+//    protected void clickAddConfirm() {
+//        clickMenuDone();
+//    }
+//
+//    @Override
+//    protected void clickAddCancel() {
+//        clickMenuUp();
+//    }
 
     @Override
     protected Activity getEditActivity() {

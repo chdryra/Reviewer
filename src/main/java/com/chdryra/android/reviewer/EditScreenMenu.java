@@ -39,6 +39,7 @@ public class EditScreenMenu extends ReviewViewAction.MenuAction {
 
     private Fragment mListener;
     private boolean  mRatingIsAverage;
+    private ReviewView.Editor mEditor;
 
     public EditScreenMenu(String title) {
         this(title, title);
@@ -84,6 +85,7 @@ public class EditScreenMenu extends ReviewViewAction.MenuAction {
     @Override
     public void onAttachReviewView() {
         super.onAttachReviewView();
+        mEditor = ReviewView.Editor.cast(getReviewView());
         mRatingIsAverage = getBuilder().getParentBuilder().isRatingAverage();
     }
 
@@ -132,13 +134,17 @@ public class EditScreenMenu extends ReviewViewAction.MenuAction {
         return (ReviewBuilder.DataBuilder) getAdapter();
     }
 
+    protected ReviewView.Editor getEditor() {
+        return mEditor;
+    }
+
     private void doDoneSelected() {
         ReviewView view = getReviewView();
         ReviewBuilder.DataBuilder builder = getBuilder();
 
         builder.setData();
         builder.setSubject(view.getSubject());
-        builder.getParentBuilder().setRatingIsAverage(view.isRatingAverage());
+        builder.getParentBuilder().setRatingIsAverage(mEditor.isRatingAverage());
         builder.setRating(view.getRating());
     }
 
