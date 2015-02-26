@@ -33,6 +33,10 @@ public class ActivityEditLocationsTest extends ActivityEditScreenTest {
         super(GvDataList.GvType.LOCATIONS);
     }
 
+    public void testBanner() {
+        super.testBannerButtonAddCancel();
+    }
+
     @Override
     protected void setUpFinish(boolean withData) {
         super.setUpFinish(withData);

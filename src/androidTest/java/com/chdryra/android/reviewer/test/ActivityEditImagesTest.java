@@ -51,5 +51,10 @@ public class ActivityEditImagesTest extends ActivityEditScreenTest {
         return new GvImageList.GvImage(oldDatum.getBitmap(),
                 oldDatum.getLatLng(), RandomString.nextSentence(), oldDatum.isCover());
     }
+
+    @SmallTest
+    public void testGrid() {
+        //testGridItemEditDone();
+    }
 }
 
