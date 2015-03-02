@@ -15,7 +15,7 @@ import android.widget.EditText;
 import android.widget.RatingBar;
 
 import com.chdryra.android.reviewer.ConfigGvDataAddEdit;
-import com.chdryra.android.reviewer.GvChildrenList;
+import com.chdryra.android.reviewer.GvChildList;
 import com.chdryra.android.reviewer.LayoutChildReview;
 import com.chdryra.android.reviewer.RatingFormatter;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
@@ -37,7 +37,7 @@ public class LayoutChildReviewTest extends AndroidTestCase {
 
     @SmallTest
     public void testGetDialogTitleOnAdd() {
-        GvChildrenList.GvChildReview review = GvDataMocker.newChild();
+        GvChildList.GvChildReview review = GvDataMocker.newChild();
 
         String title = mLayout.getTitleOnAdd(review);
         assertNotNull(title);
@@ -48,7 +48,7 @@ public class LayoutChildReviewTest extends AndroidTestCase {
 
     @SmallTest
     public void testGetDeleteConfirmDialogTitle() {
-        GvChildrenList.GvChildReview review = GvDataMocker.newChild();
+        GvChildList.GvChildReview review = GvDataMocker.newChild();
         String deleteConfirm = mLayout.getDeleteConfirmDialogTitle(review);
         assertNotNull(deleteConfirm);
         assertTrue(deleteConfirm.contains(review.getSubject()));
@@ -70,7 +70,7 @@ public class LayoutChildReviewTest extends AndroidTestCase {
         subjectET.setText(subject);
         ratingbar.setRating(rating);
 
-        GvChildrenList.GvChildReview reviewOut = mLayout.createGvDataFromViews();
+        GvChildList.GvChildReview reviewOut = mLayout.createGvDataFromViews();
         assertNotNull(reviewOut);
         assertEquals(subject, reviewOut.getSubject());
         assertEquals(rating, reviewOut.getRating());
@@ -82,7 +82,7 @@ public class LayoutChildReviewTest extends AndroidTestCase {
         EditText subjectET = (EditText) v.findViewById(LayoutChildReview.SUBJECT);
         RatingBar ratingbar = (RatingBar) v.findViewById(LayoutChildReview.RATING);
 
-        GvChildrenList.GvChildReview reviewIn = GvDataMocker.newChild();
+        GvChildList.GvChildReview reviewIn = GvDataMocker.newChild();
         assertFalse(subjectET.getText().toString().trim().equals(reviewIn.getSubject()));
 
         mLayout.updateViews(reviewIn);

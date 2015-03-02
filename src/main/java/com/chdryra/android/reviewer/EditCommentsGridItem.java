@@ -17,7 +17,7 @@ import android.view.View;
  */
 public class EditCommentsGridItem extends EditScreenGridItem {
     public EditCommentsGridItem() {
-        super(ConfigGvDataUi.getConfig(GvDataList.GvType.COMMENTS).getEditorConfig());
+        super(ConfigGvDataUi.getConfig(GvCommentList.TYPE).getEditorConfig());
     }
 
     @Override

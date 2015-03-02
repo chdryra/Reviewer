@@ -25,7 +25,7 @@ import com.chdryra.android.reviewer.ConfigGvDataUi;
 import com.chdryra.android.reviewer.FactoryReviewView;
 import com.chdryra.android.reviewer.FragmentReviewView;
 import com.chdryra.android.reviewer.GvBuildReviewList;
-import com.chdryra.android.reviewer.GvChildrenList;
+import com.chdryra.android.reviewer.GvChildList;
 import com.chdryra.android.reviewer.GvCommentList;
 import com.chdryra.android.reviewer.GvDataList;
 import com.chdryra.android.reviewer.GvFactList;
@@ -60,7 +60,7 @@ public class ActivityBuildReviewTest extends ActivityReviewViewTest {
 
     @SmallTest
     public void testSubjectRatingChange() {
-        GvChildrenList.GvChildReview child = editSubjectRating();
+        GvChildList.GvChildReview child = editSubjectRating();
 
         checkFragmentSubjectRating(child.getSubject(), child.getRating());
         checkAdapterSubjectRating(child.getSubject(), child.getRating());
@@ -69,7 +69,7 @@ public class ActivityBuildReviewTest extends ActivityReviewViewTest {
     @SmallTest
     public void testLabels() {
         for (GvBuildReviewList.GvBuildReview dataType : mList) {
-            assertTrue(mSolo.searchText(dataType.getGvType().getDataString()));
+            assertTrue(mSolo.searchText(dataType.getGvDataType().getDataString()));
         }
     }
 
@@ -82,7 +82,7 @@ public class ActivityBuildReviewTest extends ActivityReviewViewTest {
         String toast = mActivity.getResources().getString(R.string.toast_enter_subject);
         assertTrue(mSolo.waitForText(toast));
 
-        GvChildrenList.GvChildReview review = editSubjectRating();
+        GvChildList.GvChildReview review = editSubjectRating();
         mOriginalSubject = review.getSubject();
         mOriginalRating = review.getRating();
 
@@ -198,7 +198,7 @@ public class ActivityBuildReviewTest extends ActivityReviewViewTest {
 
     @SmallTest
     public void testMenuAverage() {
-        GvChildrenList.GvChildReview child = editSubjectRating();
+        GvChildList.GvChildReview child = editSubjectRating();
         checkFragmentSubjectRating(child.getSubject(), child.getRating());
         checkAdapterSubjectRating(child.getSubject(), child.getRating());
         assertFalse(getBuilder().isRatingAverage());
@@ -274,7 +274,7 @@ public class ActivityBuildReviewTest extends ActivityReviewViewTest {
 
     protected void checkBuilderDataChanges(GvDataList data) {
         testInBuilder(data, true);
-        checkBuilderChanges(data.getGvType());
+        checkBuilderChanges(data.getGvDataType());
     }
 
     protected void enterData(GvDataList data, String tag) {
@@ -292,7 +292,7 @@ public class ActivityBuildReviewTest extends ActivityReviewViewTest {
     }
 
     private float getAverageRating(boolean nearestHalf) {
-        GvChildrenList children = (GvChildrenList) getBuilder().getDataBuilder(GvDataList.GvType
+        GvChildList children = (GvChildList) getBuilder().getDataBuilder(GvDataList.GvType
                 .CHILDREN).getGridData();
 
         float rating = children.getAverageRating();
@@ -300,10 +300,10 @@ public class ActivityBuildReviewTest extends ActivityReviewViewTest {
     }
 
     private void testInBuilder(GvDataList data, boolean result) {
-        GvDataList fromBuilder = getBuilder().getDataBuilder(data.getGvType()).getGridData();
+        GvDataList fromBuilder = getBuilder().getDataBuilder(data.getGvDataType()).getGridData();
         fromBuilder.sort();
         data.sort();
-        if (data.getGvType() == GvDataList.GvType.LOCATIONS) {
+        if (data.getGvDataType() == GvDataList.GvType.LOCATIONS) {
             testInBuilderLocationNames(data, fromBuilder, result);
         } else {
             assertEquals(result, data.equals(fromBuilder));
@@ -333,7 +333,7 @@ public class ActivityBuildReviewTest extends ActivityReviewViewTest {
         int num = data.size();
         ArrayList<TextView> tvs = mSolo.getCurrentViews(TextView.class, cell);
         if (!inCell) {
-            checkNoDataCell(data.getGvType(), tvs);
+            checkNoDataCell(data.getGvDataType(), tvs);
         } else if (num == 1) {
             checkDatumCell(cell, data);
         } else if (num > 1) {
@@ -343,7 +343,7 @@ public class ActivityBuildReviewTest extends ActivityReviewViewTest {
 
     private void checkDatumCell(View cell, GvDataList data) {
         assertEquals(1, data.size());
-        switch (data.getGvType()) {
+        switch (data.getGvDataType()) {
             case TAGS:
                 ArrayList<TextView> tvs = mSolo.getCurrentViews(TextView.class, cell);
                 GvTagList.GvTag tag = (GvTagList.GvTag) data.getItem(0);
@@ -373,7 +373,7 @@ public class ActivityBuildReviewTest extends ActivityReviewViewTest {
             case CHILDREN:
                 tvs = mSolo.getCurrentViews(TextView.class, cell);
                 ArrayList<RatingBar> bars = mSolo.getCurrentViews(RatingBar.class, cell);
-                GvChildrenList.GvChildReview childReview = (GvChildrenList.GvChildReview) data
+                GvChildList.GvChildReview childReview = (GvChildList.GvChildReview) data
                         .getItem(0);
                 assertEquals(1, tvs.size());
                 assertEquals(1, bars.size());
@@ -401,11 +401,11 @@ public class ActivityBuildReviewTest extends ActivityReviewViewTest {
     private void checkDataCell(GvDataList data, ArrayList<TextView> tvs) {
         //assertEquals(2, tvs.size()); //inconsistent
         assertEquals(String.valueOf(data.size()), tvs.get(0).getText().toString());
-        assertEquals(data.getGvType().getDataString(), tvs.get(1).getText().toString());
+        assertEquals(data.getGvDataType().getDataString(), tvs.get(1).getText().toString());
     }
 
     private void testInGrid(GvDataList data, boolean inGrid) {
-        int position = getItemPosition(data.getGvType());
+        int position = getItemPosition(data.getGvDataType());
         checkCell(getGridView().getChildAt(position), data, inGrid);
     }
 
@@ -427,7 +427,7 @@ public class ActivityBuildReviewTest extends ActivityReviewViewTest {
     private int getItemPosition(GvDataList.GvType dataType) {
         int position = -1;
         for (int i = 0; i < mList.size(); ++i) {
-            if (mList.getItem(i).getGvType() == dataType) {
+            if (mList.getItem(i).getGvDataType() == dataType) {
                 position = i;
                 break;
             }
@@ -550,8 +550,8 @@ public class ActivityBuildReviewTest extends ActivityReviewViewTest {
 
     private void checkBuilderChanges(GvDataList.GvType dataType) {
         for (GvBuildReviewList.GvBuildReview type : mList) {
-            if (dataType != null && type.getGvType() == dataType) continue;
-            assertEquals(0, getBuilder().getDataSize(type.getGvType()));
+            if (dataType != null && type.getGvDataType() == dataType) continue;
+            assertEquals(0, getBuilder().getDataSize(type.getGvDataType()));
         }
     }
 
@@ -568,8 +568,8 @@ public class ActivityBuildReviewTest extends ActivityReviewViewTest {
         checkFragmentSubjectRating(mOriginalSubject, mOriginalRating);
     }
 
-    private GvChildrenList.GvChildReview editSubjectRating() {
-        GvChildrenList.GvChildReview child = GvDataMocker.newChild();
+    private GvChildList.GvChildReview editSubjectRating() {
+        GvChildList.GvChildReview child = GvDataMocker.newChild();
         mSolo.clearEditText(mSolo.getEditText(0));
         mSolo.enterText(mSolo.getEditText(0), child.getSubject());
 

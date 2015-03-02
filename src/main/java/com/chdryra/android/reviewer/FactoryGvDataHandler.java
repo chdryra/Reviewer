@@ -16,14 +16,14 @@ package com.chdryra.android.reviewer;
 public class FactoryGvDataHandler {
     public static <T extends GvDataList.GvData> GvDataHandler<T> newHandler
             (GvDataList<T> data) {
-        if (data.getGvType() == GvDataList.GvType.IMAGES) {
+        if (data.getGvDataType() == GvImageList.TYPE) {
             return new GvDataHandler<>(data, new GvDataHandler.AddConstraint<T>() {
                 @Override
                 public boolean passes(GvDataList<T> data, T datum) {
                     return imageAdd(data, datum);
                 }
             });
-        } else if (data.getGvType() == GvDataList.GvType.CHILDREN) {
+        } else if (data.getGvDataType() == GvChildList.TYPE) {
             GvDataHandler.AddConstraint<T> add = new GvDataHandler.AddConstraint<T>() {
                 @Override
                 public boolean passes(GvDataList<T> data, T datum) {
@@ -51,16 +51,16 @@ public class FactoryGvDataHandler {
     }
 
     private static <T extends GvDataList.GvData> boolean childAdd(GvDataList<T> data, T datum) {
-        GvChildrenList.GvChildReview child = (GvChildrenList.GvChildReview) datum;
-        GvChildrenList list = (GvChildrenList) data;
+        GvChildList.GvChildReview child = (GvChildList.GvChildReview) datum;
+        GvChildList list = (GvChildList) data;
         return (child != null && list != null && !list.contains(child.getSubject()));
     }
 
     private static <T extends GvDataList.GvData> boolean childReplace(GvDataList<T> data,
             T oldDatum, T newDatum) {
-        GvChildrenList.GvChildReview oldChild = (GvChildrenList.GvChildReview) oldDatum;
-        GvChildrenList.GvChildReview newChild = (GvChildrenList.GvChildReview) newDatum;
-        GvChildrenList list = (GvChildrenList) data;
+        GvChildList.GvChildReview oldChild = (GvChildList.GvChildReview) oldDatum;
+        GvChildList.GvChildReview newChild = (GvChildList.GvChildReview) newDatum;
+        GvChildList list = (GvChildList) data;
 
         return (oldChild.getSubject().equals(newChild.getSubject()) || !list.contains(newChild
                 .getSubject()));

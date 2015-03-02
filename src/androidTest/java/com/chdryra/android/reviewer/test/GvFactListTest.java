@@ -30,7 +30,7 @@ public class GvFactListTest extends TestCase {
 
     @SmallTest
     public void testGetGvType() {
-        assertEquals(GvFactList.TYPE, mList.getGvType());
+        assertEquals(GvFactList.TYPE, mList.getGvDataType());
     }
 
     @SmallTest

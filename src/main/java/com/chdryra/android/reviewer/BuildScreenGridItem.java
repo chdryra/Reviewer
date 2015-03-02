@@ -72,8 +72,7 @@ public class BuildScreenGridItem extends ReviewViewAction.GridItemAction {
 
     private void addLocation(GvLocationList.GvLocation location) {
         if (location.isValidForDisplay()) {
-            ReviewBuilder.DataBuilder builder = getBuilder().getDataBuilder(GvDataList.GvType
-                    .LOCATIONS);
+            ReviewBuilder.DataBuilder builder = getBuilder().getDataBuilder(GvLocationList.TYPE);
             //TODO make type safe
             builder.add(location);
             builder.setData();
@@ -91,15 +90,15 @@ public class BuildScreenGridItem extends ReviewViewAction.GridItemAction {
     private void startActivity(ConfigGvDataUi.Config config) {
         Intent i = new Intent(getActivity(), ActivityReviewView.class);
         Administrator admin = Administrator.get(getActivity());
-        admin.packView(FactoryReviewView.newEditScreen(getActivity(), config.getGvType()), i);
+        admin.packView(FactoryReviewView.newEditScreen(getActivity(), config.getGvDataType()), i);
 
         mListener.startActivity(i);
     }
 
     private void showQuickDialog(ConfigGvDataUi.Config config) {
-        GvDataList.GvType dataType = config.getGvType();
+        GvDataList.GvDataType dataType = config.getGvDataType();
 
-        if (dataType == GvDataList.GvType.IMAGES) {
+        if (dataType == GvImageList.TYPE) {
             mListener.startActivityForResult(mImageChooser.getChooserIntents(),
                     getImageRequestCode());
             return;
@@ -110,7 +109,7 @@ public class BuildScreenGridItem extends ReviewViewAction.GridItemAction {
 
         ConfigGvDataUi.LaunchableConfig adderConfig = config.getAdderConfig();
         LaunchableUi ui;
-        if (dataType == GvDataList.GvType.LOCATIONS) {
+        if (dataType == GvLocationList.TYPE) {
             ui = ConfigGvDataUi.getLaunchable(DialogLocation.class);
             packLatLng(args);
         } else {
@@ -125,7 +124,7 @@ public class BuildScreenGridItem extends ReviewViewAction.GridItemAction {
         LatLng latLng = mLatLng;
         boolean fromImage = false;
 
-        GvImageList images = (GvImageList) getBuilder().getDataBuilder(GvDataList.GvType.IMAGES)
+        GvImageList images = (GvImageList) getBuilder().getDataBuilder(GvImageList.TYPE)
                 .getGridData();
         if (images.size() > 0) {
             LatLng coverLatLng = images.getCovers().getItem(0).getLatLng();
@@ -140,12 +139,12 @@ public class BuildScreenGridItem extends ReviewViewAction.GridItemAction {
     }
 
     private int getImageRequestCode() {
-        return ConfigGvDataUi.getConfig(GvDataList.GvType.IMAGES).getAdderConfig()
+        return ConfigGvDataUi.getConfig(GvImageList.TYPE).getAdderConfig()
                 .getRequestCode();
     }
 
     private int getLocationMRequestCode() {
-        return ConfigGvDataUi.getConfig(GvDataList.GvType.LOCATIONS).getEditorConfig()
+        return ConfigGvDataUi.getConfig(GvLocationList.TYPE).getEditorConfig()
                 .getRequestCode();
     }
 
@@ -177,8 +176,7 @@ public class BuildScreenGridItem extends ReviewViewAction.GridItemAction {
         @Override
         public void onImageChosen(GvImageList.GvImage image) {
             image.setIsCover(true);
-            ReviewBuilder.DataBuilder builder = getBuilder().getDataBuilder(GvDataList.GvType
-                    .IMAGES);
+            ReviewBuilder.DataBuilder builder = getBuilder().getDataBuilder(GvImageList.TYPE);
             builder.add(image);
             builder.setData();
             getReviewView().updateUi();

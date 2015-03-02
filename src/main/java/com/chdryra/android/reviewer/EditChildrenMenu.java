@@ -26,8 +26,7 @@ public class EditChildrenMenu extends EditScreenMenu {
     private DataSetObserver               mObserver;
 
     public EditChildrenMenu() {
-        super(GvDataList.GvType.CHILDREN.getDataString(), GvDataList.GvType.CHILDREN
-                .getDataString(), false, true, MENU);
+        super(GvChildList.TYPE.getDataName(), GvChildList.TYPE.getDataName(), false, true, MENU);
         mActionItem = new MenuItemChildrenRatingAverage();
         mObserver = new DataSetObserver() {
             @Override
@@ -70,8 +69,8 @@ public class EditChildrenMenu extends EditScreenMenu {
     public class MenuItemChildrenRatingAverage implements MenuAction.MenuActionItem {
         public void setAverageRating() {
             float rating = 0;
-            GvChildrenList children = (GvChildrenList) getGridData();
-            for (GvChildrenList.GvChildReview child : children) {
+            GvChildList children = (GvChildList) getGridData();
+            for (GvChildList.GvChildReview child : children) {
                 rating += child.getRating() / children.size();
             }
 

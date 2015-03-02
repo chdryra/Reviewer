@@ -16,7 +16,7 @@ import com.chdryra.android.mygenerallibrary.ViewHolder;
 import java.util.Comparator;
 
 public class GvTagList extends GvDataList<GvTagList.GvTag> {
-    public static final GvType TYPE = GvType.TAGS;
+    public static final GvDataType TYPE = new GvDataType("tag");
 
     public GvTagList() {
         super(TYPE);

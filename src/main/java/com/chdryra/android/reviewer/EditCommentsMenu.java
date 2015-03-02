@@ -27,8 +27,8 @@ public class EditCommentsMenu extends EditScreenMenu {
     private DataSetObserver mObserver;
 
     public EditCommentsMenu() {
-        super(GvDataList.GvType.COMMENTS.getDataString(), GvDataList.GvType.COMMENTS
-                .getDataString(), false, true, MENU);
+        super(GvCommentList.TYPE.getDataName(), GvCommentList.TYPE.getDataName(), false, true,
+                MENU);
         mObserver = new DataSetObserver() {
             @Override
             public void onChanged() {

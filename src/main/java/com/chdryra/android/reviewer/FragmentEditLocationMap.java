@@ -104,7 +104,7 @@ public class FragmentEditLocationMap extends FragmentDeleteDone implements
 
         MapsInitializer.initialize(getActivity());
 
-        setDeleteWhatTitle(GvLocationList.TYPE.getDatumString());
+        setDeleteWhatTitle(GvLocationList.TYPE.getDatumName());
         dismissOnDelete();
     }
 

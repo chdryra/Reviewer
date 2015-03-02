@@ -42,7 +42,7 @@ public abstract class DialogAddGvData<T extends GvDataList.GvData> extends
 
     public static final String QUICK_SET = "com.chdryra.android.reviewer.dialog_quick_mode";
 
-    private GvDataList.GvType            mDataType;
+    private GvDataList.GvDataType        mDataType;
     private ReviewBuilder.DataBuilder<T> mBuilder;
     private GvDataViewHolder<T>          mViewHolder;
     private GvDataAddListener<T>         mAddListener;
@@ -77,7 +77,7 @@ public abstract class DialogAddGvData<T extends GvDataList.GvData> extends
         getDialog().setTitle(title);
     }
 
-    public GvDataList.GvType getGvType() {
+    public GvDataList.GvDataType getGvDataType() {
         return mDataType;
     }
 
@@ -105,7 +105,7 @@ public abstract class DialogAddGvData<T extends GvDataList.GvData> extends
             mAddListener = getTargetListener(GvDataAddListener.class);
         }
 
-        setDialogTitle(getResources().getString(R.string.add) + " " + mDataType.getDatumString());
+        setDialogTitle(getResources().getString(R.string.add) + " " + mDataType.getDatumName());
     }
 
     @Override

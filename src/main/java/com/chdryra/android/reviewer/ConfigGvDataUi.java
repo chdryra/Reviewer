@@ -30,21 +30,19 @@ public final class ConfigGvDataUi {
     private final static int    DATA_EDIT = 2819;
     private static ConfigGvDataUi sConfigGvDataUi;
 
-    private final Map<GvDataList.GvType, Config> mConfigsMap = new HashMap<GvDataList
-            .GvType,
-            Config>();
+    private final Map<GvDataList.GvDataType, Config> mConfigsMap = new HashMap<>();
 
     private ConfigGvDataUi() {
-        mConfigsMap.put(GvDataList.GvType.TAGS, new Config(GvDataList.GvType.TAGS));
-        mConfigsMap.put(GvDataList.GvType.CHILDREN, new Config(GvDataList.GvType.CHILDREN));
-        mConfigsMap.put(GvDataList.GvType.COMMENTS, new Config(GvDataList.GvType.COMMENTS));
-        mConfigsMap.put(GvDataList.GvType.IMAGES, new Config(GvDataList.GvType.IMAGES));
-        mConfigsMap.put(GvDataList.GvType.FACTS, new Config(GvDataList.GvType.FACTS));
-        mConfigsMap.put(GvDataList.GvType.LOCATIONS, new Config(GvDataList.GvType.LOCATIONS));
-        mConfigsMap.put(GvDataList.GvType.URLS, new Config(GvDataList.GvType.URLS));
+        mConfigsMap.put(GvTagList.TYPE, new Config(GvTagList.TYPE));
+        mConfigsMap.put(GvChildList.TYPE, new Config(GvChildList.TYPE));
+        mConfigsMap.put(GvCommentList.TYPE, new Config(GvCommentList.TYPE));
+        mConfigsMap.put(GvImageList.TYPE, new Config(GvImageList.TYPE));
+        mConfigsMap.put(GvFactList.TYPE, new Config(GvFactList.TYPE));
+        mConfigsMap.put(GvLocationList.TYPE, new Config(GvLocationList.TYPE));
+        mConfigsMap.put(GvUrlList.TYPE, new Config(GvUrlList.TYPE));
     }
 
-    public static Config getConfig(GvDataList.GvType dataType) {
+    public static Config getConfig(GvDataList.GvDataType dataType) {
         return getConfigsMap().get(dataType);
     }
 
@@ -66,7 +64,7 @@ public final class ConfigGvDataUi {
         }
     }
 
-    private static Map<GvDataList.GvType, Config> getConfigsMap() {
+    private static Map<GvDataList.GvDataType, Config> getConfigsMap() {
         if (sConfigGvDataUi == null) {
             sConfigGvDataUi = new ConfigGvDataUi();
         }
@@ -76,20 +74,20 @@ public final class ConfigGvDataUi {
 
     /**
      * Encapsulates add, edit configs for a given
-     * {@link GvDataList.GvType}.
+     * {@link com.chdryra.android.reviewer.GvDataList.GvDataType}.
      */
     public class Config {
-        private final GvDataList.GvType mDataType;
-        private final LaunchableConfig  mAddConfig;
-        private final LaunchableConfig  mEditConfig;
+        private final GvDataList.GvDataType mDataType;
+        private final LaunchableConfig      mAddConfig;
+        private final LaunchableConfig      mEditConfig;
 
-        private Config(GvDataList.GvType dataType) {
+        private Config(GvDataList.GvDataType dataType) {
             mDataType = dataType;
             mAddConfig = initAddConfig();
             mEditConfig = initEditConfig();
         }
 
-        public GvDataList.GvType getGvType() {
+        public GvDataList.GvDataType getGvDataType() {
             return mDataType;
         }
 
@@ -103,18 +101,18 @@ public final class ConfigGvDataUi {
 
         private LaunchableConfig initAddConfig() {
             return new LaunchableConfig(mDataType, ConfigGvDataAddEdit.getAddClass(mDataType),
-                    DATA_ADD, mDataType.getDatumString().toUpperCase() + "_ADD_TAG");
+                    DATA_ADD, mDataType.getDatumName().toUpperCase() + "_ADD_TAG");
         }
 
         private LaunchableConfig initEditConfig() {
             return new LaunchableConfig(mDataType, ConfigGvDataAddEdit.getEditClass(mDataType),
-                    DATA_EDIT, mDataType.getDatumString().toUpperCase() + "_EDIT_TAG");
+                    DATA_EDIT, mDataType.getDatumName().toUpperCase() + "_EDIT_TAG");
         }
     }
 
     /**
      * Encapsulates a configuration for a UI that can add or edit review data of a certain
-     * {@link GvDataList.GvType}. Packages together:
+     * {@link GvDataList.GvDataType}. Packages together:
      * <ul>
      * <li>A {@link LaunchableUi} implementation for
      * adding/editing review data of a certain type</li>
@@ -125,12 +123,12 @@ public final class ConfigGvDataUi {
      * {@link LauncherUi}
      */
     public class LaunchableConfig {
-        private final GvDataList.GvType             mDataType;
+        private final GvDataList.GvDataType         mDataType;
         private final Class<? extends LaunchableUi> mUiClass;
         private final int                           mRequestCode;
         private final String                        mTag;
 
-        private LaunchableConfig(GvDataList.GvType dataType, Class<? extends LaunchableUi>
+        private LaunchableConfig(GvDataList.GvDataType dataType, Class<? extends LaunchableUi>
                 UiClass, int requestCode, String tag) {
             mDataType = dataType;
             mUiClass = UiClass;
@@ -139,7 +137,7 @@ public final class ConfigGvDataUi {
         }
 
 
-        public GvDataList.GvType getGVType() {
+        public GvDataList.GvDataType getGVType() {
             return mDataType;
         }
 

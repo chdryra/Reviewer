@@ -19,10 +19,11 @@
     <string name="dialog_image_content_description">Review image</string>
     <string name="dialog_set_image_as_background">Set image as cover?</string>
 
-    <!-- Activities -->
+    <!-- Activities & Screens -->
     <string name="activity_title_location">location</string>
     <string name="activity_title_url">link</string>
     <string name="activity_title_feed">feed</string>
+    <string name="screen_title_build_review">create</string>
 
     <!-- EditTexts -->
     <string name="edit_text_subject_hint">subject</string>

@@ -27,7 +27,7 @@ public class EditImagesGridItem extends EditScreenGridItem {
     private Fragment            mListener;
 
     public EditImagesGridItem() {
-        super(ConfigGvDataUi.getConfig(GvDataList.GvType.IMAGES).getEditorConfig());
+        super(ConfigGvDataUi.getConfig(GvImageList.TYPE).getEditorConfig());
         mListener = new EditImageListener() {
         };
         registerActionListener(mListener, TAG);

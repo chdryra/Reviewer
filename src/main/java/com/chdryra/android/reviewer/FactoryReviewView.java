@@ -24,12 +24,13 @@ public class FactoryReviewView {
 
         ReviewView view = new ReviewView.Editor(builder, new BuildScreenModifier(builder));
 
-        String title = context.getResources().getString(R.string.button_add_review_data);
+        String screenTitle = context.getResources().getString(R.string.screen_title_build_review);
+        String buttonTitle = context.getResources().getString(R.string.button_add_review_data);
         view.setAction(new SubjectEdit());
         view.setAction(new BuildScreenRatingBar());
-        view.setAction(ReviewViewAction.BannerButtonAction.newDisplayButton(title));
+        view.setAction(ReviewViewAction.BannerButtonAction.newDisplayButton(buttonTitle));
         view.setAction(new BuildScreenGridItem());
-        view.setAction(new BuildScreenMenu());
+        view.setAction(new BuildScreenMenu(screenTitle));
 
         view.getParams().gridAlpha = ReviewView.GridViewImageAlpha.TRANSPARENT;
 
@@ -68,23 +69,23 @@ public class FactoryReviewView {
         return view;
     }
 
-    public static ReviewView newEditScreen(Context context, GvDataList.GvType dataType) {
+    public static ReviewView newEditScreen(Context context, GvDataList.GvDataType dataType) {
         ReviewBuilder.DataBuilder builder = Administrator.get(context).getReviewBuilder()
                 .getDataBuilder(dataType);
 
         ReviewView view = new ReviewView.Editor(builder);
 
         setActions(view, dataType, context.getResources().getString(R.string.button_add) + " " +
-                dataType.getDatumString());
+                dataType.getDatumName());
 
-        if (dataType == GvDataList.GvType.IMAGES) {
+        if (dataType == GvImageList.TYPE) {
             view.getParams().cellHeight = ReviewView.CellDimension.HALF;
         }
 
         return view;
     }
 
-    private static void setActions(ReviewView view, GvDataList.GvType dataType,
+    private static void setActions(ReviewView view, GvDataList.GvDataType dataType,
             String buttonTitle) {
         view.setAction(new EditScreenRatingBar());
         view.setAction(newBannerButtonAction(dataType, buttonTitle));
@@ -92,20 +93,21 @@ public class FactoryReviewView {
         view.setAction(newMenuAction(dataType));
     }
 
-    private static ReviewViewAction.MenuAction newMenuAction(GvDataList.GvType dataType) {
-        if (dataType == GvDataList.GvType.COMMENTS) {
+    private static ReviewViewAction.MenuAction newMenuAction(GvDataList.GvDataType dataType) {
+        if (dataType == GvCommentList.TYPE) {
             return new EditCommentsMenu();
-        } else if (dataType == GvDataList.GvType.CHILDREN) {
+        } else if (dataType == GvChildList.TYPE) {
             return new EditChildrenMenu();
         } else {
-            return new EditScreenMenu(dataType.getDataString());
+            return new EditScreenMenu(dataType.getDataName());
         }
     }
 
-    private static ReviewViewAction.GridItemAction newGridItemAction(GvDataList.GvType dataType) {
-        if (dataType == GvDataList.GvType.COMMENTS) {
+    private static ReviewViewAction.GridItemAction newGridItemAction(GvDataList.GvDataType
+            dataType) {
+        if (dataType == GvCommentList.TYPE) {
             return new EditCommentsGridItem();
-        } else if (dataType == GvDataList.GvType.IMAGES) {
+        } else if (dataType == GvImageList.TYPE) {
             return new EditImagesGridItem();
         } else {
             return new EditScreenGridItem(ConfigGvDataUi.getConfig(dataType).getEditorConfig());
@@ -113,8 +115,8 @@ public class FactoryReviewView {
     }
 
     private static ReviewViewAction.BannerButtonAction newBannerButtonAction(
-            GvDataList.GvType dataType, String title) {
-        if (dataType == GvDataList.GvType.IMAGES) {
+            GvDataList.GvDataType dataType, String title) {
+        if (dataType == GvImageList.TYPE) {
             return new EditImagesBannerButton(title);
         } else {
             return new EditScreenBannerButton(ConfigGvDataUi.getConfig(dataType).getAdderConfig()

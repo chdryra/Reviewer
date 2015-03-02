@@ -30,7 +30,7 @@ public class GvCommentListTest extends TestCase {
 
     @SmallTest
     public void testGetGvType() {
-        assertEquals(GvCommentList.TYPE, mList.getGvType());
+        assertEquals(GvCommentList.TYPE, mList.getGvDataType());
     }
 
     @SmallTest

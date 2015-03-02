@@ -17,7 +17,7 @@ import com.chdryra.android.mygenerallibrary.ViewHolder;
  * Includes method for generating split comments {@link GvCommentList} from current list.
  */
 public class GvCommentList extends GvDataList<GvCommentList.GvComment> {
-    public static final GvType TYPE = GvType.COMMENTS;
+    public static final GvDataType TYPE = new GvDataType("comment");
 
     public GvCommentList() {
         super(TYPE);

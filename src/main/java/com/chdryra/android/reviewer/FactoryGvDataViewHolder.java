@@ -22,21 +22,20 @@ import java.util.HashMap;
 public class FactoryGvDataViewHolder {
     private static final String TAG = "FactoryGvDataViewHolder";
     private static FactoryGvDataViewHolder sFactory;
-    private final  HashMap<GvDataList.GvType, Class<? extends GvDataViewLayout<? extends
-            GvDataList
-                    .GvData>>>             mMap;
+    private final  HashMap<GvDataList.GvDataType, Class<? extends GvDataViewLayout<? extends
+            GvDataList.GvData>>>           mMap;
 
     private FactoryGvDataViewHolder() {
         mMap = new HashMap<>();
-        mMap.put(GvDataList.GvType.CHILDREN, LayoutChildReview.class);
-        mMap.put(GvDataList.GvType.COMMENTS, LayoutComment.class);
-        mMap.put(GvDataList.GvType.FACTS, LayoutFact.class);
-        mMap.put(GvDataList.GvType.IMAGES, LayoutImage.class);
-        mMap.put(GvDataList.GvType.TAGS, LayoutTag.class);
+        mMap.put(GvChildList.TYPE, LayoutChildReview.class);
+        mMap.put(GvCommentList.TYPE, LayoutComment.class);
+        mMap.put(GvFactList.TYPE, LayoutFact.class);
+        mMap.put(GvImageList.TYPE, LayoutImage.class);
+        mMap.put(GvTagList.TYPE, LayoutTag.class);
     }
 
     static <T extends GvDataList.GvData> GvDataViewHolder<T> newViewHolder
-            (GvDataList.GvType dataType, GvDataViewAdd.GvDataAdder adder) {
+            (GvDataList.GvDataType dataType, GvDataViewAdd.GvDataAdder adder) {
         if (sFactory == null) sFactory = new FactoryGvDataViewHolder();
         try {
             Constructor ctor = sFactory.mMap.get(dataType)
@@ -47,24 +46,24 @@ public class FactoryGvDataViewHolder {
                 return layout.getViewHolder();
             } catch (InstantiationException e) {
                 Log.e(TAG, "Problem constructing ReviewDataAdd dialog for " + dataType
-                        .getDatumString(), e);
+                        .getDatumName(), e);
             } catch (IllegalAccessException e) {
                 Log.e(TAG, "Illegal access whilst constructing ReviewDataAdd dialog for " +
-                        dataType.getDatumString(), e);
+                        dataType.getDatumName(), e);
             } catch (InvocationTargetException e) {
                 Log.e(TAG, "Invocation exception whilst constructing ReviewDataAdd dialog for" +
-                        " " + dataType.getDatumString(), e);
+                        " " + dataType.getDatumName(), e);
             }
         } catch (NoSuchMethodException e) {
             Log.e(TAG, "NoSuchMethodException finding constructor", e);
         }
 
         throw new RuntimeException("DialogReviewDataAddFragment Dialog Constructor problems for "
-                + dataType.getDatumString());
+                + dataType.getDatumName());
     }
 
     static <T extends GvDataList.GvData> GvDataViewHolder<T> newHolder
-            (GvDataList.GvType dataType, GvDataViewEdit.GvDataEditor editor) {
+            (GvDataList.GvDataType dataType, GvDataViewEdit.GvDataEditor editor) {
         if (sFactory == null) sFactory = new FactoryGvDataViewHolder();
         try {
             Constructor ctor = sFactory.mMap.get(dataType)
@@ -74,20 +73,19 @@ public class FactoryGvDataViewHolder {
                 GvDataViewLayout dialogGv = (GvDataViewLayout) ctor.newInstance(editor);
                 return dialogGv.getViewHolder();
             } catch (InstantiationException e) {
-                Log.e(TAG, "Problem constructing edit dialog for " + dataType
-                        .getDatumString(), e);
+                Log.e(TAG, "Problem constructing edit dialog for " + dataType.getDatumName(), e);
             } catch (IllegalAccessException e) {
                 Log.e(TAG, "Illegal access whilst constructing edit dialog for " + dataType
-                        .getDatumString(), e);
+                        .getDatumName(), e);
             } catch (InvocationTargetException e) {
                 Log.e(TAG, "Invocation exception whilst constructing edit dialog for" + dataType
-                        .getDatumString(), e);
+                        .getDatumName(), e);
             }
         } catch (NoSuchMethodException e) {
             Log.e(TAG, "NoSuchMethodException finding constructor", e);
         }
 
         throw new RuntimeException("DialogReviewDataEditFragment Dialog Constructor problem for "
-                + dataType.getDatumString());
+                + dataType.getDatumName());
     }
 }

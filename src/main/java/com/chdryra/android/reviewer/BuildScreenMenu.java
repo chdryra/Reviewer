@@ -18,11 +18,11 @@ import android.view.MenuItem;
 public class BuildScreenMenu extends ReviewViewAction.MenuAction {
     public static final  int MENU_AVERAGE_ID = R.id.menu_item_average_rating;
     private static final int MENU            = R.menu.fragment_review_options;
-    private MenuActionItem mActionItem;
+    private MenuActionItem    mActionItem;
     private ReviewView.Editor mEditor;
 
-    public BuildScreenMenu() {
-        super(MENU, GvDataList.GvType.BUILD_REVIEW.getDataString(), true);
+    public BuildScreenMenu(String title) {
+        super(MENU, title, true);
         mActionItem = new MenuActionItem() {
             @Override
             public void doAction(MenuItem item) {

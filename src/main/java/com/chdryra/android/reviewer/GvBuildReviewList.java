@@ -28,7 +28,7 @@ import com.chdryra.android.mygenerallibrary.ViewHolderData;
  * on the underlying data and user interaction.
  */
 public class GvBuildReviewList extends GvDataList<GvBuildReviewList.GvBuildReview> {
-    private static final GvType TYPE = GvType.BUILD_REVIEW;
+    public static final GvDataType TYPE = new GvDataType("create", "create");
     private ReviewBuilder mBuilder;
 
     private GvBuildReviewList(ReviewBuilder builder) {
@@ -36,32 +36,32 @@ public class GvBuildReviewList extends GvDataList<GvBuildReviewList.GvBuildRevie
 
         mBuilder = builder;
 
-        add(GvDataList.GvType.TAGS);
-        add(GvDataList.GvType.CHILDREN);
-        add(GvDataList.GvType.IMAGES);
-        add(GvDataList.GvType.COMMENTS);
-        add(GvDataList.GvType.LOCATIONS);
-        add(GvDataList.GvType.FACTS);
+        add(GvTagList.TYPE);
+        add(GvChildList.TYPE);
+        add(GvImageList.TYPE);
+        add(GvCommentList.TYPE);
+        add(GvLocationList.TYPE);
+        add(GvFactList.TYPE);
     }
 
     public static GvBuildReviewList newInstance(ReviewBuilder adapter) {
         return new GvBuildReviewList(adapter);
     }
 
-    private void add(GvType dataType) {
+    private void add(GvDataType dataType) {
         add(new GvBuildReview(dataType));
     }
 
     public class GvBuildReview implements GvDataList.GvData {
-        private final GvDataList.GvType     mDataType;
+        private final GvDataType            mDataType;
         private final ConfigGvDataUi.Config mConfig;
 
-        private GvBuildReview(GvDataList.GvType dataType) {
+        private GvBuildReview(GvDataType dataType) {
             mDataType = dataType;
             mConfig = ConfigGvDataUi.getConfig(dataType);
         }
 
-        public GvDataList.GvType getGvType() {
+        public GvDataType getGvDataType() {
             return mDataType;
         }
 
@@ -98,20 +98,20 @@ public class GvBuildReviewList extends GvDataList<GvBuildReviewList.GvBuildRevie
 
             if (size == 0) return getNoDataView(parent);
 
-            return size > 1 || mDataType == GvDataList.GvType.IMAGES ? getDataView(parent) :
+            return size > 1 || mDataType == GvImageList.TYPE ? getDataView(parent) :
                     getDatumView(parent);
         }
 
         private View getNoDataView(ViewGroup parent) {
             ViewHolder vh = new VhText();
             vh.inflate(mBuilder.getContext(), parent);
-            vh.updateView(new VHDString(mDataType.getDataString()));
+            vh.updateView(new VHDString(mDataType.getDataName()));
             return vh.getView();
         }
 
         private View getDataView(ViewGroup parent) {
             int number = mBuilder.getDataSize(mDataType);
-            String type = number == 1 ? mDataType.getDatumString() : mDataType.getDataString();
+            String type = number == 1 ? mDataType.getDatumName() : mDataType.getDataName();
 
             ViewHolder vh = new VhDualText();
             vh.inflate(mBuilder.getContext(), parent);
@@ -122,7 +122,7 @@ public class GvBuildReviewList extends GvDataList<GvBuildReviewList.GvBuildRevie
         private View getDatumView(ViewGroup parent) {
             ViewHolderData datum = (ViewHolderData) mBuilder.getDataBuilder(mDataType)
                     .getGridData().getItem(0);
-            ViewHolder vh = mDataType == GvType.LOCATIONS ? new VhLocation(true) : datum
+            ViewHolder vh = mDataType == GvLocationList.TYPE ? new VhLocation(true) : datum
                     .newViewHolder();
             if (vh.getView() == null) vh.inflate(mBuilder.getContext(), parent);
             vh.updateView(datum);

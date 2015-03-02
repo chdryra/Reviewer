@@ -188,7 +188,7 @@ public abstract class DialogEditGvDataTest<T extends GvDataList.GvData> extends
     }
 
     protected GvDataList.GvData launchDialogAndTestShowing() {
-        final GvDataList.GvData datum = GvDataMocker.getDatum(mDialog.getGvType());
+        final GvDataList.GvData datum = GvDataMocker.getDatum(mDialog.getGvDataType());
         Bundle args = new Bundle();
         GvDataPacker.packItem(GvDataPacker.CurrentNewDatum.CURRENT, datum, args);
 
@@ -205,7 +205,7 @@ public abstract class DialogEditGvDataTest<T extends GvDataList.GvData> extends
         });
         mSolo.waitForDialogToOpen();
         assertTrue(mDialog.isShowing());
-        if (mDialog.getGvType() != GvDataList.GvType.IMAGES) {
+        if (mDialog.getGvDataType() != GvDataList.GvType.IMAGES) {
             assertEquals(datum, getDataShown());
         }
 
@@ -213,7 +213,7 @@ public abstract class DialogEditGvDataTest<T extends GvDataList.GvData> extends
     }
 
     protected GvDataList.GvData getNewDatum() {
-        return GvDataMocker.getDatum(mDialog.getGvType());
+        return GvDataMocker.getDatum(mDialog.getGvDataType());
     }
 
     private boolean deleteConfirmIsShowing() {

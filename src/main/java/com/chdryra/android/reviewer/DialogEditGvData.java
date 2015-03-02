@@ -38,7 +38,7 @@ public abstract class DialogEditGvData<T extends GvDataList.GvData>
         extends DialogCancelDeleteDoneFragment implements GvDataViewEdit.GvDataEditor,
         LaunchableUi {
 
-    private GvDataList.GvType     mDataType;
+    private GvDataList.GvDataType mDataType;
     private T                     mDatum;
     private GvDataPacker<T>       mPacker;
     private GvDataViewHolder<T>   mViewHolder;
@@ -58,7 +58,7 @@ public abstract class DialogEditGvData<T extends GvDataList.GvData>
     DialogEditGvData(Class<? extends GvDataList<T>> gvDataListClass) {
         mDataType = FactoryGvData.gvType(gvDataListClass);
         mPacker = new GvDataPacker<>();
-        mViewHolder = FactoryGvDataViewHolder.newHolder(getGvType(), this);
+        mViewHolder = FactoryGvDataViewHolder.newHolder(getGvDataType(), this);
     }
 
     @Override
@@ -76,7 +76,7 @@ public abstract class DialogEditGvData<T extends GvDataList.GvData>
         setDeleteWhatTitle(title);
     }
 
-    public GvDataList.GvType getGvType() {
+    public GvDataList.GvDataType getGvDataType() {
         return mDataType;
     }
 
@@ -97,12 +97,12 @@ public abstract class DialogEditGvData<T extends GvDataList.GvData>
         //TODO make type safe
         mEditListener = (GvDataEditListener<T>) getTargetListener(GvDataEditListener.class);
 
-        if (getGvType() == GvDataList.GvType.IMAGES) {
+        if (getGvDataType() == GvImageList.TYPE) {
             setDialogTitle(null);
             hideKeyboardOnLaunch();
         } else {
             setDialogTitle(getResources().getString(R.string.edit) + " " + mDataType
-                    .getDatumString());
+                    .getDatumName());
         }
     }
 

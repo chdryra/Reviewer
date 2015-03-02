@@ -23,7 +23,7 @@ import com.chdryra.android.reviewer.DialogAddGvData;
 import com.chdryra.android.reviewer.DialogEditGvData;
 import com.chdryra.android.reviewer.FactoryReviewView;
 import com.chdryra.android.reviewer.FragmentReviewView;
-import com.chdryra.android.reviewer.GvChildrenList;
+import com.chdryra.android.reviewer.GvChildList;
 import com.chdryra.android.reviewer.GvDataList;
 import com.chdryra.android.reviewer.MdGvConverter;
 import com.chdryra.android.reviewer.ReviewBuilder;
@@ -76,7 +76,7 @@ public abstract class ActivityEditScreenTest extends ActivityReviewViewTest {
     public void testSubjectRatingChange() {
         setUp(false);
 
-        GvChildrenList.GvChildReview child = editSubjectRating();
+        GvChildList.GvChildReview child = editSubjectRating();
 
         mSolo.sleep(500);
 
@@ -266,8 +266,8 @@ public abstract class ActivityEditScreenTest extends ActivityReviewViewTest {
         assertEquals(nearestHalf, fragment.getRating());
     }
 
-    protected GvChildrenList.GvChildReview editSubjectRating() {
-        GvChildrenList.GvChildReview child = GvDataMocker.newChild();
+    protected GvChildList.GvChildReview editSubjectRating() {
+        GvChildList.GvChildReview child = GvDataMocker.newChild();
         editSubject(child.getSubject());
         editRating(child.getRating());
         return child;

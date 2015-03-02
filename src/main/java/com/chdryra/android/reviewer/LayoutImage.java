@@ -36,7 +36,7 @@ public class LayoutImage extends GvDataViewLayout<GvImageList.GvImage> {
 
     @Override
     public String getDeleteConfirmDialogTitle(GvImageList.GvImage data) {
-        return GvDataList.GvType.IMAGES.getDatumString();
+        return GvImageList.TYPE.getDatumName();
     }
 
     @Override

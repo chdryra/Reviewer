@@ -26,7 +26,7 @@ public class EditImagesBannerButton extends EditScreenBannerButton {
     private Fragment     mListener;
 
     public EditImagesBannerButton(String title) {
-        super(ConfigGvDataUi.getConfig(GvDataList.GvType.IMAGES).getAdderConfig(), title);
+        super(ConfigGvDataUi.getConfig(GvImageList.TYPE).getAdderConfig(), title);
         mListener = new AddImageListener() {
         };
         registerActionListener(mListener, TAG);

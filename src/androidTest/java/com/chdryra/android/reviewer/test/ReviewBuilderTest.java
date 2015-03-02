@@ -18,7 +18,7 @@ import com.chdryra.android.reviewer.Administrator;
 import com.chdryra.android.reviewer.Author;
 import com.chdryra.android.reviewer.FactoryReviewView;
 import com.chdryra.android.reviewer.GvBuildReviewList;
-import com.chdryra.android.reviewer.GvChildrenList;
+import com.chdryra.android.reviewer.GvChildList;
 import com.chdryra.android.reviewer.GvCommentList;
 import com.chdryra.android.reviewer.GvDataList;
 import com.chdryra.android.reviewer.GvFactList;
@@ -45,7 +45,7 @@ import java.util.Date;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ReviewBuilderTest extends ActivityInstrumentationTestCase2<ActivityReviewView> {
-    private static final int NUM = 3;
+    private static final int                 NUM   = 3;
     private static final GvDataList.GvType[] TYPES = {GvDataList.GvType.COMMENTS, GvDataList
             .GvType.FACTS, GvDataList.GvType.LOCATIONS, GvDataList.GvType.IMAGES, GvDataList
             .GvType.URLS, GvDataList.GvType.TAGS};
@@ -73,7 +73,7 @@ public class ReviewBuilderTest extends ActivityInstrumentationTestCase2<Activity
 
     @SmallTest
     public void testGetAverageRating() {
-        GvChildrenList children = GvDataMocker.newChildList(NUM);
+        GvChildList children = GvDataMocker.newChildList(NUM);
 
         assertEquals(0f, mBuilder.getAverageRating());
         assertEquals(0f, mBuilder.getRating());
@@ -276,7 +276,7 @@ public class ReviewBuilderTest extends ActivityInstrumentationTestCase2<Activity
         assertEquals(children.size(), childNodes.size());
         for (int i = 0; i < children.size(); ++i) {
             ReviewNode childNode = childNodes.getItem(i);
-            GvChildrenList.GvChildReview child = (GvChildrenList.GvChildReview) children.getItem(i);
+            GvChildList.GvChildReview child = (GvChildList.GvChildReview) children.getItem(i);
             assertEquals(child.getSubject(), childNode.getSubject().get());
             assertEquals(child.getRating(), childNode.getRating().get());
             assertEquals(published, childNode.getParent());
@@ -314,7 +314,7 @@ public class ReviewBuilderTest extends ActivityInstrumentationTestCase2<Activity
     }
 
     private void setBuilderData(GvDataList data) {
-        ReviewBuilder.DataBuilder builder = mBuilder.getDataBuilder(data.getGvType());
+        ReviewBuilder.DataBuilder builder = mBuilder.getDataBuilder(data.getGvDataType());
         for (int i = 0; i < data.size(); ++i) {
             GvDataList.GvData datum = (GvDataList.GvData) data.getItem(i);
             builder.add(datum);

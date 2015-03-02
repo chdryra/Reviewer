@@ -11,7 +11,7 @@ package com.chdryra.android.reviewer.test;
 import android.widget.RatingBar;
 
 import com.chdryra.android.reviewer.ConfigGvDataAddEdit;
-import com.chdryra.android.reviewer.GvChildrenList;
+import com.chdryra.android.reviewer.GvChildList;
 
 /**
  * Created by: Rizwan Choudrey
@@ -19,7 +19,7 @@ import com.chdryra.android.reviewer.GvChildrenList;
  * Email: rizwan.choudrey@gmail.com
  */
 public class DialogAddChildTest extends
-        DialogAddGvDataTest<GvChildrenList.GvChildReview> {
+        DialogAddGvDataTest<GvChildList.GvChildReview> {
 
     public DialogAddChildTest() {
         super(ConfigGvDataAddEdit.AddChild.class);

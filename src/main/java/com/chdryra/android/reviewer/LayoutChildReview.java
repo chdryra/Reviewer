@@ -16,40 +16,40 @@ import android.widget.RatingBar;
  * On: 17/12/2014
  * Email: rizwan.choudrey@gmail.com
  */
-public class LayoutChildReview extends GvDataViewLayout<GvChildrenList.GvChildReview> {
+public class LayoutChildReview extends GvDataViewLayout<GvChildList.GvChildReview> {
     public static final int   LAYOUT  = R.layout.dialog_criterion;
     public static final int   SUBJECT = R.id.child_name_edit_text;
     public static final int   RATING  = R.id.child_rating_bar;
     public static final int[] VIEWS   = new int[]{SUBJECT, RATING};
 
     public LayoutChildReview(GvDataViewAdd.GvDataAdder adder) {
-        super(GvChildrenList.GvChildReview.class, LAYOUT, VIEWS, SUBJECT, adder);
+        super(GvChildList.GvChildReview.class, LAYOUT, VIEWS, SUBJECT, adder);
     }
 
     public LayoutChildReview(GvDataViewEdit.GvDataEditor editor) {
-        super(GvChildrenList.GvChildReview.class, LAYOUT, VIEWS, SUBJECT, editor);
+        super(GvChildList.GvChildReview.class, LAYOUT, VIEWS, SUBJECT, editor);
     }
 
     @Override
-    public String getTitleOnAdd(GvChildrenList.GvChildReview data) {
+    public String getTitleOnAdd(GvChildList.GvChildReview data) {
         float childRating = data.getRating();
         return data.getSubject() + ": " + RatingFormatter.outOfFive(childRating);
     }
 
     @Override
-    public String getDeleteConfirmDialogTitle(GvChildrenList.GvChildReview data) {
+    public String getDeleteConfirmDialogTitle(GvChildList.GvChildReview data) {
         return data.getSubject() + ": " + RatingFormatter.twoSignificantDigits(data.getRating());
     }
 
     @Override
-    public GvChildrenList.GvChildReview createGvDataFromViews() {
+    public GvChildList.GvChildReview createGvDataFromViews() {
         String subject = ((EditText) mViewHolder.getView(SUBJECT)).getText().toString().trim();
         float rating = ((RatingBar) mViewHolder.getView(RATING)).getRating();
-        return new GvChildrenList.GvChildReview(subject, rating);
+        return new GvChildList.GvChildReview(subject, rating);
     }
 
     @Override
-    public void updateViews(GvChildrenList.GvChildReview data) {
+    public void updateViews(GvChildList.GvChildReview data) {
         ((EditText) mViewHolder.getView(SUBJECT)).setText(data.getSubject());
         ((RatingBar) mViewHolder.getView(RATING)).setRating(data.getRating());
     }

@@ -20,7 +20,7 @@ import java.net.URISyntaxException;
 import java.net.URL;
 
 public class GvUrlList extends GvDataList<GvUrlList.GvUrl> {
-    public static final GvType TYPE = GvType.URLS;
+    public static final GvDataType TYPE = new GvDataType("url");
 
     public GvUrlList() {
         super(TYPE);

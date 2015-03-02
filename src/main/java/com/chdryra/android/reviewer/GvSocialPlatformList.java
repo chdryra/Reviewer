@@ -24,7 +24,7 @@ import java.util.Comparator;
  * @see com.chdryra.android.reviewer.SocialPlatformList
  */
 public class GvSocialPlatformList extends GvDataList<GvSocialPlatformList.GvSocialPlatform> {
-    public static final GvType TYPE = GvType.SHARE;
+    public static final GvDataType TYPE = new GvDataType("share");
 
     //For testing
     public GvSocialPlatformList() {

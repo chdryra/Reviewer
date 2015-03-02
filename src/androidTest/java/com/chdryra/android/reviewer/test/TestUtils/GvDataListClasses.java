@@ -8,7 +8,7 @@
 
 package com.chdryra.android.reviewer.test.TestUtils;
 
-import com.chdryra.android.reviewer.GvChildrenList;
+import com.chdryra.android.reviewer.GvChildList;
 import com.chdryra.android.reviewer.GvCommentList;
 import com.chdryra.android.reviewer.GvDataList;
 import com.chdryra.android.reviewer.GvFactList;
@@ -30,7 +30,7 @@ public class GvDataListClasses implements Iterable<Class<? extends GvDataList>> 
 
     private GvDataListClasses() {
         mClasses.add(GvTagList.class);
-        mClasses.add(GvChildrenList.class);
+        mClasses.add(GvChildList.class);
         mClasses.add(GvCommentList.class);
         mClasses.add(GvFactList.class);
         mClasses.add(GvImageList.class);

@@ -29,7 +29,7 @@ public class GvImageListTest extends TestCase {
 
     @SmallTest
     public void testGetGvType() {
-        assertEquals(GvImageList.TYPE, mList.getGvType());
+        assertEquals(GvImageList.TYPE, mList.getGvDataType());
     }
 
     @SmallTest
@@ -163,7 +163,7 @@ public class GvImageListTest extends TestCase {
         list.add(mList);
         assertFalse(mList.equals(list));
     }
-    
+
     @Override
     protected void setUp() throws Exception {
         super.setUp();

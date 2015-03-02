@@ -33,7 +33,7 @@ public class GvLocationListTest extends TestCase {
 
     @SmallTest
     public void testGetGvType() {
-        assertEquals(GvLocationList.TYPE, mList.getGvType());
+        assertEquals(GvLocationList.TYPE, mList.getGvDataType());
     }
 
     @SmallTest

@@ -20,53 +20,26 @@ import java.util.HashMap;
  * Defines the adder, editor and display UIs to use with each data type.
  */
 public final class ConfigGvDataAddEdit {
-    private static ConfigGvDataAddEdit                    sConfig;
-    private final  HashMap<GvDataList.GvType, AddEditUis> mMap;
+    private static ConfigGvDataAddEdit sConfig;
+    private final HashMap<GvDataList.GvDataType, AddEditUis> mMap = new HashMap<>();
 
     private ConfigGvDataAddEdit() {
-        mMap = new HashMap<>();
-
-        mMap.put(GvDataList.GvType.TAGS,
-                new AddEditUis(
-                        AddTag.class,
-                        EditTag.class));
-
-        mMap.put(GvDataList.GvType.CHILDREN,
-                new AddEditUis(
-                        AddChild.class,
-                        EditChild.class));
-
-        mMap.put(GvDataList.GvType.COMMENTS,
-                new AddEditUis(
-                        AddComment.class,
-                        EditComment.class));
-
-        mMap.put(GvDataList.GvType.IMAGES,
-                new AddEditUis(
-                        null,
-                        EditImage.class));
-
-        mMap.put(GvDataList.GvType.FACTS,
-                new AddEditUis(
-                        AddFact.class,
-                        EditFact.class));
-
-        mMap.put(GvDataList.GvType.LOCATIONS,
-                new AddEditUis(
-                        ActivityEditLocationMap.class,
-                        ActivityEditLocationMap.class));
-
-        mMap.put(GvDataList.GvType.URLS,
-                new AddEditUis(
-                        ActivityEditUrlBrowser.class,
-                        ActivityEditUrlBrowser.class));
+        mMap.put(GvTagList.TYPE, new AddEditUis(AddTag.class, EditTag.class));
+        mMap.put(GvChildList.TYPE, new AddEditUis(AddChild.class, EditChild.class));
+        mMap.put(GvCommentList.TYPE, new AddEditUis(AddComment.class, EditComment.class));
+        mMap.put(GvImageList.TYPE, new AddEditUis(null, EditImage.class));
+        mMap.put(GvFactList.TYPE, new AddEditUis(AddFact.class, EditFact.class));
+        mMap.put(GvLocationList.TYPE, new AddEditUis(ActivityEditLocationMap.class,
+                ActivityEditLocationMap.class));
+        mMap.put(GvUrlList.TYPE, new AddEditUis(ActivityEditUrlBrowser.class,
+                ActivityEditUrlBrowser.class));
     }
 
-    public static Class<? extends LaunchableUi> getAddClass(GvDataList.GvType dataType) {
+    public static Class<? extends LaunchableUi> getAddClass(GvDataList.GvDataType dataType) {
         return get().mMap.get(dataType).getAddClass();
     }
 
-    public static Class<? extends LaunchableUi> getEditClass(GvDataList.GvType dataType) {
+    public static Class<? extends LaunchableUi> getEditClass(GvDataList.GvDataType dataType) {
         return get().mMap.get(dataType).getEditClass();
     }
 
@@ -88,9 +61,9 @@ public final class ConfigGvDataAddEdit {
 
     //Child
     public static class AddChild extends
-            DialogAddGvData<GvChildrenList.GvChildReview> {
+            DialogAddGvData<GvChildList.GvChildReview> {
         public AddChild() {
-            super(GvChildrenList.class);
+            super(GvChildList.class);
         }
     }
 
@@ -117,9 +90,9 @@ public final class ConfigGvDataAddEdit {
     }
 
     //Child
-    public static class EditChild extends DialogEditGvData<GvChildrenList.GvChildReview> {
+    public static class EditChild extends DialogEditGvData<GvChildList.GvChildReview> {
         public EditChild() {
-            super(GvChildrenList.class);
+            super(GvChildList.class);
         }
     }
 

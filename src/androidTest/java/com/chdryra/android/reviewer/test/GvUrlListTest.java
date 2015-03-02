@@ -29,7 +29,7 @@ public class GvUrlListTest extends TestCase {
 
     @SmallTest
     public void testGetGvType() {
-        assertEquals(GvUrlList.TYPE, mList.getGvType());
+        assertEquals(GvUrlList.TYPE, mList.getGvDataType());
     }
 
     @SmallTest
@@ -83,7 +83,7 @@ public class GvUrlListTest extends TestCase {
         list.add(mList);
         assertFalse(mList.equals(list));
     }
-    
+
     @Override
     protected void setUp() throws Exception {
         super.setUp();

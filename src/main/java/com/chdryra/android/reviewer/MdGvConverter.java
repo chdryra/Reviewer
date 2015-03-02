@@ -154,10 +154,10 @@ public class MdGvConverter {
     }
 
     //Criteria
-    public static GvChildrenList copy(GvChildrenList children) {
-        GvChildrenList list = new GvChildrenList();
-        for (GvChildrenList.GvChildReview child : children) {
-            list.add(new GvChildrenList.GvChildReview(child.getSubject(), child.getRating()));
+    public static GvChildList copy(GvChildList children) {
+        GvChildList list = new GvChildList();
+        for (GvChildList.GvChildReview child : children) {
+            list.add(new GvChildList.GvChildReview(child.getSubject(), child.getRating()));
         }
 
         return list;
@@ -180,17 +180,17 @@ public class MdGvConverter {
 
         return list;
     }
-    
-    public static GvDataList convert(GvDataList.GvType dataType, MdDataList data) {
-        if (dataType == GvDataList.GvType.COMMENTS) {
+
+    public static GvDataList convert(GvDataList.GvDataType dataType, MdDataList data) {
+        if (dataType == GvCommentList.TYPE) {
             return MdGvConverter.convert((MdCommentList) data);
-        } else if (dataType == GvDataList.GvType.FACTS) {
+        } else if (dataType == GvFactList.TYPE) {
             return MdGvConverter.convert((MdFactList) data);
-        } else if (dataType == GvDataList.GvType.IMAGES) {
+        } else if (dataType == GvImageList.TYPE) {
             return MdGvConverter.convert((MdImageList) data);
-        } else if (dataType == GvDataList.GvType.LOCATIONS) {
+        } else if (dataType == GvLocationList.TYPE) {
             return MdGvConverter.convert((MdLocationList) data);
-        } else if (dataType == GvDataList.GvType.URLS) {
+        } else if (dataType == GvUrlList.TYPE) {
             return MdGvConverter.convert((MdUrlList) data);
         } else {
             return null;
@@ -198,21 +198,21 @@ public class MdGvConverter {
     }
 
     public static GvDataList copy(GvDataList data) {
-        GvDataList.GvType dataType = data.getGvType();
-        if (dataType == GvDataList.GvType.COMMENTS) {
+        GvDataList.GvDataType dataType = data.getGvDataType();
+        if (dataType == GvCommentList.TYPE) {
             return MdGvConverter.copy((GvCommentList) data);
-        } else if (dataType == GvDataList.GvType.FACTS) {
+        } else if (dataType == GvFactList.TYPE) {
             return MdGvConverter.copy((GvFactList) data);
-        } else if (dataType == GvDataList.GvType.IMAGES) {
+        } else if (dataType == GvImageList.TYPE) {
             return MdGvConverter.copy((GvImageList) data);
-        } else if (dataType == GvDataList.GvType.LOCATIONS) {
+        } else if (dataType == GvLocationList.TYPE) {
             return MdGvConverter.copy((GvLocationList) data);
-        } else if (dataType == GvDataList.GvType.URLS) {
+        } else if (dataType == GvUrlList.TYPE) {
             return MdGvConverter.copy((GvUrlList) data);
-        } else if (dataType == GvDataList.GvType.TAGS) {
+        } else if (dataType == GvTagList.TYPE) {
             return MdGvConverter.copy((GvTagList) data);
-        } else if (dataType == GvDataList.GvType.CHILDREN) {
-            return MdGvConverter.copy((GvChildrenList) data);
+        } else if (dataType == GvChildList.TYPE) {
+            return MdGvConverter.copy((GvChildList) data);
         } else {
             return null;
         }

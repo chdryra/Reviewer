@@ -18,10 +18,10 @@ import java.util.Comparator;
 /**
  * Used for review children (sub-reviews).
  */
-public class GvChildrenList extends GvDataList<GvChildrenList.GvChildReview> {
-    public static final GvType TYPE = GvType.CHILDREN;
+public class GvChildList extends GvDataList<GvChildList.GvChildReview> {
+    public static final GvDataType TYPE = new GvDataType("criterion", "criteria");
 
-    public GvChildrenList() {
+    public GvChildList() {
         super(TYPE);
     }
 

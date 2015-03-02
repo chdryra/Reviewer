@@ -18,11 +18,11 @@ import java.util.Map;
  */
 public class FactoryGvData {
     private static FactoryGvData sFactory;
-    private Map<GvDataList.GvType, GvTypeList> mClasses = new HashMap<>();
+    private Map<GvDataList.GvDataType, GvTypeList> mClasses = new HashMap<>();
 
     private FactoryGvData() {
         mClasses.put(gvType(GvTagList.class), new GvTypeList<>(GvTagList.class));
-        mClasses.put(gvType(GvChildrenList.class), new GvTypeList<>(GvChildrenList.class));
+        mClasses.put(gvType(GvChildList.class), new GvTypeList<>(GvChildList.class));
         mClasses.put(gvType(GvCommentList.class), new GvTypeList<>(GvCommentList.class));
         mClasses.put(gvType(GvFactList.class), new GvTypeList<>(GvFactList.class));
         mClasses.put(gvType(GvImageList.class), new GvTypeList<>(GvImageList.class));
@@ -35,13 +35,14 @@ public class FactoryGvData {
         return sFactory;
     }
 
-    public static <T extends GvDataList.GvData> GvDataList.GvType gvType
+    public static <T extends GvDataList.GvData> GvDataList.GvDataType gvType
             (Class<? extends GvDataList<T>> dataClass) {
-        return newList(dataClass).getGvType();
+        return newList(dataClass).getGvDataType();
     }
 
     //TODO make type safe
-    public static <T extends GvDataList.GvData> GvDataList<T> newList(GvDataList.GvType dataType) {
+    public static <T extends GvDataList.GvData> GvDataList<T> newList(GvDataList.GvDataType
+            dataType) {
         return newList(get().mClasses.get(dataType).mList);
     }
 

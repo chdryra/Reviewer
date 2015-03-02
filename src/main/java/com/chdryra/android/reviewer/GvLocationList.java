@@ -17,7 +17,7 @@ import com.google.android.gms.maps.model.LatLng;
 import java.util.StringTokenizer;
 
 public class GvLocationList extends GvDataList<GvLocationList.GvLocation> {
-    public static final GvType TYPE = GvType.LOCATIONS;
+    public static final GvDataType TYPE = new GvDataType("location");
 
     public GvLocationList() {
         super(TYPE);

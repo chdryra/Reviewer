@@ -73,7 +73,7 @@ public class GvDataHandler<T extends GvDataList.GvData> {
 
     private void makeToastHasItem(Context context) {
         String toast = context.getResources().getString(R.string.toast_has) + " " + mData
-                .getGvType().getDatumString();
+                .getGvDataType().getDatumName();
         Toast.makeText(context, toast, Toast.LENGTH_SHORT).show();
     }
 

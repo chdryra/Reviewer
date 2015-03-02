@@ -13,81 +13,28 @@ import android.os.Parcelable;
 import com.chdryra.android.mygenerallibrary.ViewHolderData;
 import com.chdryra.android.mygenerallibrary.ViewHolderDataList;
 
+import java.io.Serializable;
+
 /**
- * The (Grid) View layer (V) equivalent of the Model layer (M) {@link MdDataList}. Implementation of
- * {@link ViewHolderDataList} tailored for Review data accessed via a {@link ReviewViewAdapter} (C)
- * that
- * translates between
- * them (MVC pattern).
+ * The View layer (V) data equivalent of the Model layer (M) data {@link MdDataList}.
+ * Implementation of {@link ViewHolderDataList} tailored for data accessed via a {@link
+ * ReviewViewAdapter} (A) (Model-View-Adapter pattern).
  * <p/>
- * <p>
- * Access of Review data via a {@link ReviewViewAdapter} requires passing a {@link com.chdryra
- * .android.reviewer.GvDataList.GvType}
- * specified in this class. The same enum also provides a singular and plural readable text
- * label for that type of data.
- * </p>
- * <p/>
- * <p>
- * Of course having this enum violates the 100% decoupling between model and view layers as
- * it encodes types of review data that can be accessed. However the convenience it brings in
- * terms of gating access and labeling is worth the modest maintenance increase. It doesn't
- * need to know about the implementations of the model data, just that they exist.
- * </p>
  *
  * @param <T>: {@link GvDataList.GvData} type.
  */
 public abstract class GvDataList<T extends GvDataList.GvData> extends ViewHolderDataList<T> {
-    private GvType mDataType;
+    public final GvDataType TYPE;
 
-    /**
-     * Enum that enumerates and labels the type of data that will be viewable on a GridView
-     */
-    public enum GvType {
-        BUILD_REVIEW("create", "create"),
-        COMMENTS("comment"),
-        CHILDREN("criterion", "criteria"),
-        IMAGES("image"),
-        FACTS("fact"),
-        URLS("link"),
-        LOCATIONS("location"),
-        TAGS("tag"),
-        FEED("feed", "feed"),
-        SHARE("share", "share");
-
-        private final String mDatumString;
-        private final String mDataString;
-
-        GvType(String datum) {
-            mDatumString = datum;
-            mDataString = datum + "s";
-        }
-
-        GvType(String datum, String data) {
-            mDatumString = datum;
-            mDataString = data;
-        }
-
-        public String getDatumString() {
-            return mDatumString;
-        }
-
-        public String getDataString() {
-            return mDataString;
-        }
-    }
-
-    /**
-     * Parcelable version of {@link ViewHolderData}
-     */
     public interface GvData extends ViewHolderData, Parcelable {
     }
 
-    protected GvDataList(GvType dataType) {
-        mDataType = dataType;
+    protected GvDataList(GvDataType dataName) {
+        TYPE = dataName;
     }
 
-    public GvType getGvType() {
-        return mDataType;
+    public GvDataType getGvDataType() {
+        return TYPE;
     }
 
     @Override
@@ -107,5 +54,48 @@ public abstract class GvDataList<T extends GvDataList.GvData> extends ViewHolder
         }
 
         return true;
+    }
+
+    public static class GvDataType implements Serializable {
+        private final String mDatumName;
+        private final String mDataName;
+
+        protected GvDataType(String datum) {
+            mDatumName = datum;
+            mDataName = datum + "s";
+        }
+
+        protected GvDataType(String datum, String data) {
+            mDatumName = datum;
+            mDataName = data;
+        }
+
+        public String getDatumName() {
+            return mDatumName;
+        }
+
+        public String getDataName() {
+            return mDataName;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (!(o instanceof GvDataType)) return false;
+
+            GvDataType that = (GvDataType) o;
+
+            if (!mDataName.equals(that.mDataName)) return false;
+            if (!mDatumName.equals(that.mDatumName)) return false;
+
+            return true;
+        }
+
+        @Override
+        public int hashCode() {
+            int result = mDatumName.hashCode();
+            result = 31 * result + mDataName.hashCode();
+            return result;
+        }
     }
 }

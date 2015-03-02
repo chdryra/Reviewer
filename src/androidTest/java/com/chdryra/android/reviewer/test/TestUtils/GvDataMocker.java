@@ -8,7 +8,7 @@
 
 package com.chdryra.android.reviewer.test.TestUtils;
 
-import com.chdryra.android.reviewer.GvChildrenList;
+import com.chdryra.android.reviewer.GvChildList;
 import com.chdryra.android.reviewer.GvCommentList;
 import com.chdryra.android.reviewer.GvDataList;
 import com.chdryra.android.reviewer.GvFactList;
@@ -35,31 +35,29 @@ import java.util.Random;
  * Email: rizwan.choudrey@gmail.com
  */
 public class GvDataMocker {
-    public static final  GvDataList.GvType[] TYPES            = {GvDataList.GvType.COMMENTS,
-            GvDataList
-                    .GvType.FACTS, GvDataList.GvType.TAGS, GvDataList.GvType.LOCATIONS,
-            GvDataList.GvType.URLS, GvDataList.GvType.CHILDREN, GvDataList.GvType.IMAGES,
-            GvDataList.GvType.FEED};
-    private static final RandomString        STRING_GENERATOR = new RandomString();
-    private static final Random              RAND             = new Random();
+    public static final  GvDataList.GvDataType[] TYPES            = {GvCommentList.TYPE,
+            GvFactList.TYPE, GvTagList.TYPE, GvLocationList.TYPE, GvUrlList.TYPE,
+            GvChildList.TYPE, GvImageList.TYPE, GvFactList.TYPE};
+    private static final RandomString            STRING_GENERATOR = new RandomString();
+    private static final Random                  RAND             = new Random();
 
     //Just a convenient method even if it uses GvType.....
-    public static GvDataList getData(GvDataList.GvType dataType, int size) {
-        if (dataType == GvDataList.GvType.COMMENTS) {
+    public static GvDataList getData(GvDataList.GvDataType dataType, int size) {
+        if (dataType == GvCommentList.TYPE) {
             return newCommentList(size);
-        } else if (dataType == GvDataList.GvType.FACTS) {
+        } else if (dataType == GvFactList.TYPE) {
             return newFactList(size);
-        } else if (dataType == GvDataList.GvType.IMAGES) {
+        } else if (dataType == GvImageList.TYPE) {
             return newImageList(size);
-        } else if (dataType == GvDataList.GvType.LOCATIONS) {
+        } else if (dataType == GvLocationList.TYPE) {
             return newLocationList(size);
-        } else if (dataType == GvDataList.GvType.URLS) {
+        } else if (dataType == GvUrlList.TYPE) {
             return newUrlList(size);
-        } else if (dataType == GvDataList.GvType.TAGS) {
+        } else if (dataType == GvTagList.TYPE) {
             return newTagList(size);
-        } else if (dataType == GvDataList.GvType.CHILDREN) {
+        } else if (dataType == GvChildList.TYPE) {
             return newChildList(size);
-        } else if (dataType == GvDataList.GvType.FEED) {
+        } else if (dataType == GvReviewList.TYPE) {
             return newReviewList(size);
         } else {
             return null;
@@ -67,22 +65,22 @@ public class GvDataMocker {
     }
 
     //Just a convenient method even if it uses GvType.....
-    public static GvDataList.GvData getDatum(GvDataList.GvType dataType) {
-        if (dataType == GvDataList.GvType.COMMENTS) {
+    public static GvDataList.GvData getDatum(GvDataList.GvDataType dataType) {
+        if (dataType == GvCommentList.TYPE) {
             return newComment();
-        } else if (dataType == GvDataList.GvType.FACTS) {
+        } else if (dataType == GvFactList.TYPE) {
             return newFact();
-        } else if (dataType == GvDataList.GvType.IMAGES) {
+        } else if (dataType == GvImageList.TYPE) {
             return newImage();
-        } else if (dataType == GvDataList.GvType.LOCATIONS) {
+        } else if (dataType == GvLocationList.TYPE) {
             return newLocation();
-        } else if (dataType == GvDataList.GvType.URLS) {
+        } else if (dataType == GvUrlList.TYPE) {
             return newUrl();
-        } else if (dataType == GvDataList.GvType.TAGS) {
+        } else if (dataType == GvTagList.TYPE) {
             return newTag();
-        } else if (dataType == GvDataList.GvType.CHILDREN) {
+        } else if (dataType == GvChildList.TYPE) {
             return newChild();
-        } else if (dataType == GvDataList.GvType.FEED) {
+        } else if (dataType == GvReviewList.TYPE) {
             return newReviewOverview();
         } else {
             return null;
@@ -143,8 +141,8 @@ public class GvDataMocker {
         return list;
     }
 
-    public static GvChildrenList newChildList(int size) {
-        GvChildrenList list = new GvChildrenList();
+    public static GvChildList newChildList(int size) {
+        GvChildList list = new GvChildList();
         for (int i = 0; i < size; ++i) {
             list.add(newChild());
         }
@@ -191,8 +189,8 @@ public class GvDataMocker {
         }
     }
 
-    public static GvChildrenList.GvChildReview newChild() {
-        return new GvChildrenList.GvChildReview(RandomString.nextWord(),
+    public static GvChildList.GvChildReview newChild() {
+        return new GvChildList.GvChildReview(RandomString.nextWord(),
                 RandomRating.nextRating());
     }
 

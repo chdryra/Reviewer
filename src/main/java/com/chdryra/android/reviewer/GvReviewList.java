@@ -23,7 +23,7 @@ import java.util.Date;
  * @see com.chdryra.android.reviewer.Administrator
  */
 public class GvReviewList extends GvDataList<GvReviewList.GvReviewOverview> {
-    public static final GvType TYPE = GvType.FEED;
+    public static final GvDataType TYPE = new GvDataType("feed");
 
     public GvReviewList() {
         super(TYPE);

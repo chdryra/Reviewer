@@ -26,7 +26,6 @@ public class ActivityEditImagesTest extends ActivityEditScreenTest {
         super(GvDataList.GvType.IMAGES);
     }
 
-
     @SmallTest
     public void testBannerButtonAddDone() {
         setUp(false);
@@ -50,11 +49,6 @@ public class ActivityEditImagesTest extends ActivityEditScreenTest {
         GvImageList.GvImage oldDatum = (GvImageList.GvImage) current;
         return new GvImageList.GvImage(oldDatum.getBitmap(),
                 oldDatum.getLatLng(), RandomString.nextSentence(), oldDatum.isCover());
-    }
-
-    @SmallTest
-    public void testGrid() {
-        //testGridItemEditDone();
     }
 }
 

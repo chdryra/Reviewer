@@ -37,8 +37,8 @@ public class EditScreenMenu extends ReviewViewAction.MenuAction {
     private boolean mDismissOnDelete;
     private boolean mDismissOnDone;
 
-    private Fragment mListener;
-    private boolean  mRatingIsAverage;
+    private Fragment          mListener;
+    private boolean           mRatingIsAverage;
     private ReviewView.Editor mEditor;
 
     public EditScreenMenu(String title) {
@@ -99,7 +99,7 @@ public class EditScreenMenu extends ReviewViewAction.MenuAction {
     protected void doUpSelected() {
         ReviewBuilder builder = getBuilder().getParentBuilder();
         builder.setRatingIsAverage(mRatingIsAverage);
-        builder.resetDataBuilder(getGridData().getGvType());
+        builder.resetDataBuilder(getGridData().getGvDataType());
         super.doUpSelected();
     }
 

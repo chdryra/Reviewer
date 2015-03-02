@@ -12,7 +12,7 @@ import android.widget.EditText;
 import android.widget.RatingBar;
 
 import com.chdryra.android.reviewer.ConfigGvDataAddEdit;
-import com.chdryra.android.reviewer.GvChildrenList;
+import com.chdryra.android.reviewer.GvChildList;
 import com.chdryra.android.reviewer.GvDataList;
 
 /**
@@ -21,7 +21,7 @@ import com.chdryra.android.reviewer.GvDataList;
  * Email: rizwan.choudrey@gmail.com
  */
 public class DialogEditChildTest extends
-        DialogEditGvDataTest<GvChildrenList.GvChildReview> {
+        DialogEditGvDataTest<GvChildList.GvChildReview> {
 
     public DialogEditChildTest() {
         super(ConfigGvDataAddEdit.EditChild.class);
@@ -32,7 +32,7 @@ public class DialogEditChildTest extends
         EditText et = mSolo.getEditText(0);
         RatingBar rb = (RatingBar) mSolo.getView(com.chdryra.android.reviewer.R.id
                 .child_rating_bar);
-        return new GvChildrenList.GvChildReview(et.getText().toString(), rb.getRating());
+        return new GvChildList.GvChildReview(et.getText().toString(), rb.getRating());
     }
 }
 

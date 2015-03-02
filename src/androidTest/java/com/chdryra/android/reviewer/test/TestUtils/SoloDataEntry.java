@@ -8,7 +8,7 @@
 
 package com.chdryra.android.reviewer.test.TestUtils;
 
-import com.chdryra.android.reviewer.GvChildrenList;
+import com.chdryra.android.reviewer.GvChildList;
 import com.chdryra.android.reviewer.GvCommentList;
 import com.chdryra.android.reviewer.GvDataList;
 import com.chdryra.android.reviewer.GvFactList;
@@ -29,9 +29,9 @@ public class SoloDataEntry {
         if (data instanceof GvCommentList.GvComment) {
             enterComment(solo, (GvCommentList.GvComment) data);
         }
-        if (data instanceof GvChildrenList.GvChildReview) {
+        if (data instanceof GvChildList.GvChildReview) {
             enterCriterion(solo,
-                    (GvChildrenList.GvChildReview) data);
+                    (GvChildList.GvChildReview) data);
         }
         if (data instanceof GvFactList.GvFact) enterFact(solo, (GvFactList.GvFact) data);
         if (data instanceof GvLocationList.GvLocation) {
@@ -51,7 +51,7 @@ public class SoloDataEntry {
         solo.enterText(solo.getEditText(0), data.getComment());
     }
 
-    public static void enterCriterion(Solo solo, GvChildrenList.GvChildReview data) {
+    public static void enterCriterion(Solo solo, GvChildList.GvChildReview data) {
         solo.clearEditText(solo.getEditText(0));
         solo.enterText(solo.getEditText(0), data.getSubject());
         solo.setProgressBar(0, (int) (data.getRating() * 2f));

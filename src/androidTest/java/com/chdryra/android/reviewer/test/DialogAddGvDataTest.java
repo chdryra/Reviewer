@@ -129,12 +129,12 @@ public abstract class DialogAddGvDataTest<T extends GvDataList.GvData> extends
         mListener = new DialogAddListener<>();
 
         mAdapter = Administrator.get(getInstrumentation().getTargetContext())
-                .newReviewBuilder().getDataBuilder(mDialog.getGvType());
+                .newReviewBuilder().getDataBuilder(mDialog.getGvDataType());
 
         Intent i = new Intent();
         Context context = getInstrumentation().getTargetContext();
         Administrator admin = Administrator.get(context);
-        admin.packView(FactoryReviewView.newEditScreen(context, mDialog.getGvType()), i);
+        admin.packView(FactoryReviewView.newEditScreen(context, mDialog.getGvDataType()), i);
         setActivityIntent(i);
         mActivity = getActivity();
 
@@ -174,7 +174,7 @@ public abstract class DialogAddGvDataTest<T extends GvDataList.GvData> extends
 
     private GvDataList.GvData enterDataAndTest() {
         assertTrue(isDataNulled());
-        GvDataList.GvData data = GvDataMocker.getDatum(mDialog.getGvType());
+        GvDataList.GvData data = GvDataMocker.getDatum(mDialog.getGvDataType());
         enterData(data);
         assertTrue(isDataEntered());
 

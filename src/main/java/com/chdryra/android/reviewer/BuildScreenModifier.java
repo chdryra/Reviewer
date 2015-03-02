@@ -50,7 +50,7 @@ public class BuildScreenModifier implements ReviewView.ViewModifier {
                     return;
                 }
 
-                if (mBuilder.getDataSize(GvDataList.GvType.TAGS) == 0) {
+                if (mBuilder.getDataSize(GvTagList.TYPE) == 0) {
                     Toast.makeText(activity, R.string.toast_enter_tag,
                             Toast.LENGTH_SHORT).show();
                     return;

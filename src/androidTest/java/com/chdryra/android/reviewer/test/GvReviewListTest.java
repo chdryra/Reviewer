@@ -226,7 +226,7 @@ public class GvReviewListTest extends TestCase {
 
     @SmallTest
     public void testGetGvType() {
-        assertEquals(GvReviewList.TYPE, mList.getGvType());
+        assertEquals(GvReviewList.TYPE, mList.getGvDataType());
     }
 
     @SmallTest
@@ -253,7 +253,7 @@ public class GvReviewListTest extends TestCase {
         list.add(mList);
         assertFalse(mList.equals(list));
     }
-    
+
     @Override
     protected void setUp() throws Exception {
         super.setUp();
