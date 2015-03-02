@@ -8,7 +8,7 @@
 
 package com.chdryra.android.reviewer.test;
 
-import com.chdryra.android.reviewer.GvDataList;
+import com.chdryra.android.reviewer.GvFactList;
 
 /**
  * Created by: Rizwan Choudrey
@@ -17,7 +17,7 @@ import com.chdryra.android.reviewer.GvDataList;
  */
 public class ActivityEditFactsTest extends ActivityEditScreenTest {
     public ActivityEditFactsTest() {
-        super(GvDataList.GvType.FACTS);
+        super(GvFactList.TYPE);
     }
 }
 

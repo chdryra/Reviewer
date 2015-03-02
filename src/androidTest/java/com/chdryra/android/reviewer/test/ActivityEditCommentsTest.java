@@ -11,7 +11,6 @@ package com.chdryra.android.reviewer.test;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.GvCommentList;
-import com.chdryra.android.reviewer.GvDataList;
 import com.chdryra.android.reviewer.R;
 
 /**
@@ -23,7 +22,7 @@ public class ActivityEditCommentsTest extends ActivityEditScreenTest {
     private static final int SPLIT = R.id.menu_item_split_comment;
 
     public ActivityEditCommentsTest() {
-        super(GvDataList.GvType.COMMENTS);
+        super(GvCommentList.TYPE);
     }
 
     @SmallTest

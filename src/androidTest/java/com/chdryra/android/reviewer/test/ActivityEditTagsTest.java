@@ -8,7 +8,7 @@
 
 package com.chdryra.android.reviewer.test;
 
-import com.chdryra.android.reviewer.GvDataList;
+import com.chdryra.android.reviewer.GvTagList;
 
 /**
  * Created by: Rizwan Choudrey
@@ -17,6 +17,6 @@ import com.chdryra.android.reviewer.GvDataList;
  */
 public class ActivityEditTagsTest extends ActivityEditScreenTest {
     public ActivityEditTagsTest() {
-        super(GvDataList.GvType.TAGS);
+        super(GvTagList.TYPE);
     }
 }

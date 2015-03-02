@@ -23,14 +23,14 @@ import com.chdryra.android.testutils.RandomString;
 public class ActivityEditImagesTest extends ActivityEditScreenTest {
 
     public ActivityEditImagesTest() {
-        super(GvDataList.GvType.IMAGES);
+        super(GvImageList.TYPE);
     }
 
     @SmallTest
     public void testBannerButtonAddDone() {
         setUp(false);
 
-        mSolo.clickOnButton("Add " + GvDataList.GvType.IMAGES.getDatumString());
+        mSolo.clickOnButton("Add " + GvImageList.TYPE.getDatumName());
         getInstrumentation().waitForIdleSync();
 
         assertTrue(mSolo.searchText("Select Source"));
@@ -47,7 +47,7 @@ public class ActivityEditImagesTest extends ActivityEditScreenTest {
     @Override
     protected GvDataList.GvData newEditDatum(GvDataList.GvData current) {
         GvImageList.GvImage oldDatum = (GvImageList.GvImage) current;
-        return new GvImageList.GvImage(oldDatum.getBitmap(),
+        return new GvImageList.GvImage(oldDatum.getBitmap(), oldDatum.getDate(),
                 oldDatum.getLatLng(), RandomString.nextSentence(), oldDatum.isCover());
     }
 }

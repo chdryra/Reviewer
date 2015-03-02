@@ -10,8 +10,13 @@ package com.chdryra.android.reviewer.test;
 
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.GvDataList;
+import com.chdryra.android.reviewer.GvChildList;
+import com.chdryra.android.reviewer.GvCommentList;
 import com.chdryra.android.reviewer.GvFactList;
+import com.chdryra.android.reviewer.GvImageList;
+import com.chdryra.android.reviewer.GvLocationList;
+import com.chdryra.android.reviewer.GvTagList;
+import com.chdryra.android.reviewer.GvUrlList;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
 import com.chdryra.android.testutils.RandomString;
 
@@ -113,13 +118,13 @@ public class GvFactListTest extends TestCase {
         mList.add(GvDataMocker.newFactList(NUM));
         assertEquals(NUM, mList.size());
 
-        assertFalse(mList.equals(GvDataMocker.getData(GvDataList.GvType.CHILDREN, NUM)));
-        assertFalse(mList.equals(GvDataMocker.getData(GvDataList.GvType.TAGS, NUM)));
-        assertFalse(mList.equals(GvDataMocker.getData(GvDataList.GvType.LOCATIONS, NUM)));
-        assertFalse(mList.equals(GvDataMocker.getData(GvDataList.GvType.COMMENTS, NUM)));
-        assertFalse(mList.equals(GvDataMocker.getData(GvDataList.GvType.FACTS, NUM)));
-        assertFalse(mList.equals(GvDataMocker.getData(GvDataList.GvType.IMAGES, NUM)));
-        assertFalse(mList.equals(GvDataMocker.getData(GvDataList.GvType.URLS, NUM)));
+        assertFalse(mList.equals(GvDataMocker.getData(GvChildList.TYPE, NUM)));
+        assertFalse(mList.equals(GvDataMocker.getData(GvTagList.TYPE, NUM)));
+        assertFalse(mList.equals(GvDataMocker.getData(GvLocationList.TYPE, NUM)));
+        assertFalse(mList.equals(GvDataMocker.getData(GvCommentList.TYPE, NUM)));
+        assertFalse(mList.equals(GvDataMocker.getData(GvFactList.TYPE, NUM)));
+        assertFalse(mList.equals(GvDataMocker.getData(GvImageList.TYPE, NUM)));
+        assertFalse(mList.equals(GvDataMocker.getData(GvUrlList.TYPE, NUM)));
 
         GvFactList list = new GvFactList();
         assertEquals(0, list.size());

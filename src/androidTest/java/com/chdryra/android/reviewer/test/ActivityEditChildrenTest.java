@@ -11,7 +11,6 @@ package com.chdryra.android.reviewer.test;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.GvChildList;
-import com.chdryra.android.reviewer.GvDataList;
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.test.TestUtils.SoloDataEntry;
 
@@ -27,7 +26,7 @@ public class ActivityEditChildrenTest extends ActivityEditScreenTest {
     private float mOriginalRatingNotAverage;
 
     public ActivityEditChildrenTest() {
-        super(GvDataList.GvType.CHILDREN);
+        super(GvChildList.TYPE);
     }
 
     @SmallTest

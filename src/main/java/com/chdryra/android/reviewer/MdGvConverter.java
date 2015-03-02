@@ -77,7 +77,7 @@ public class MdGvConverter {
     public static GvImageList convert(MdImageList images) {
         GvImageList list = new GvImageList();
         for (DataImage image : images) {
-            list.add(new GvImageList.GvImage(image.getBitmap(), image.getLatLng(),
+            list.add(new GvImageList.GvImage(image.getBitmap(), image.getDate(), image.getLatLng(),
                     image.getCaption(), image.isCover()));
         }
 
@@ -87,7 +87,7 @@ public class MdGvConverter {
     public static GvImageList copy(GvImageList images) {
         GvImageList list = new GvImageList();
         for (DataImage image : images) {
-            list.add(new GvImageList.GvImage(image.getBitmap(), image.getLatLng(),
+            list.add(new GvImageList.GvImage(image.getBitmap(), image.getDate(), image.getLatLng(),
                     image.getCaption(), image.isCover()));
         }
 
@@ -97,7 +97,7 @@ public class MdGvConverter {
     public static MdImageList toMdImageList(Iterable<? extends DataImage> images, Review holder) {
         MdImageList list = new MdImageList(holder);
         for (DataImage image : images) {
-            list.add(new MdImageList.MdImage(image.getBitmap(), image.getLatLng(),
+            list.add(new MdImageList.MdImage(image.getBitmap(), image.getDate(), image.getLatLng(),
                     image.getCaption(), image.isCover(), holder));
         }
 

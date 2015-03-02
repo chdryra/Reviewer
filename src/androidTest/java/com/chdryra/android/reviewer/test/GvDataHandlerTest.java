@@ -23,38 +23,38 @@ import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
  * Email: rizwan.choudrey@gmail.com
  */
 public class GvDataHandlerTest extends AndroidTestCase {
-    private static final GvDataList.GvType[] TYPES   = GvDataMocker.TYPES;
+    private static final GvDataList.GvDataType[] TYPES = GvDataMocker.TYPES;
     private static final int                 NUMDATA = 30;
 
     @SmallTest
     public void testAdd() {
-        for (GvDataList.GvType datatype : TYPES) {
-            testAdd(datatype);
+        for (GvDataList.GvDataType dataType : TYPES) {
+            testAdd(dataType);
         }
     }
 
     @SmallTest
     public void testReplace() {
-        for (GvDataList.GvType datatype : TYPES) {
-            testReplace(datatype);
+        for (GvDataList.GvDataType dataType : TYPES) {
+            testReplace(dataType);
         }
     }
 
     @SmallTest
     public void testDelete() {
-        for (GvDataList.GvType datatype : TYPES) {
-            testDelete(datatype);
+        for (GvDataList.GvDataType dataType : TYPES) {
+            testDelete(dataType);
         }
     }
 
     @SmallTest
     public void testAddConstraint() {
-        GvTagList data = (GvTagList) getData(GvDataList.GvType.TAGS);
+        GvTagList data = (GvTagList) getData(GvTagList.TYPE);
         GvDataHandler noAddHandler = new GvDataHandler<>(data, getNoAddAddConstraint(data));
         GvDataHandler alwaysAddHandler = new GvDataHandler<>(data, getAlwaysAddAddConstraint(data));
 
-        GvTagList addData1 = (GvTagList) getData(GvDataList.GvType.TAGS);
-        GvTagList addData2 = (GvTagList) getData(GvDataList.GvType.TAGS);
+        GvTagList addData1 = (GvTagList) getData(GvTagList.TYPE);
+        GvTagList addData2 = (GvTagList) getData(GvTagList.TYPE);
 
         int originalSize = data.size();
         for (int i = 0; i < addData1.size(); ++i) {
@@ -92,7 +92,7 @@ public class GvDataHandlerTest extends AndroidTestCase {
         };
     }
 
-    private void testAdd(GvDataList.GvType dataType) {
+    private void testAdd(GvDataList.GvDataType dataType) {
         GvDataList data = getData(dataType);
         GvDataHandler handler = FactoryGvDataHandler.newHandler(data);
 
@@ -115,7 +115,7 @@ public class GvDataHandlerTest extends AndroidTestCase {
         }
     }
 
-    private void testDelete(GvDataList.GvType dataType) {
+    private void testDelete(GvDataList.GvDataType dataType) {
         //Test normal deletion
         GvDataList data = getData(dataType);
         int originalSize = data.size();
@@ -141,7 +141,7 @@ public class GvDataHandlerTest extends AndroidTestCase {
         assertEquals(originalSize, data.size());
     }
 
-    private void testReplace(GvDataList.GvType dataType) {
+    private void testReplace(GvDataList.GvDataType dataType) {
         //Test normal deletion
         GvDataList data = getData(dataType);
         int originalSize = data.size();
@@ -167,11 +167,11 @@ public class GvDataHandlerTest extends AndroidTestCase {
 
     }
 
-    private GvDataList getData(GvDataList.GvType dataType) {
+    private GvDataList getData(GvDataList.GvDataType dataType) {
         return getData(dataType, NUMDATA);
     }
 
-    private GvDataList getData(GvDataList.GvType dataType, int size) {
+    private GvDataList getData(GvDataList.GvDataType dataType, int size) {
         return GvDataMocker.getData(dataType, size);
     }
 

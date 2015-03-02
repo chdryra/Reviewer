@@ -12,7 +12,6 @@ import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.DataValidator;
 import com.chdryra.android.reviewer.GvCommentList;
-import com.chdryra.android.reviewer.GvDataList;
 import com.chdryra.android.reviewer.GvFactList;
 import com.chdryra.android.reviewer.GvImageList;
 import com.chdryra.android.reviewer.GvLocationList;
@@ -42,8 +41,7 @@ public class MdGvConverterTest extends TestCase {
         MdCommentList mdData = mMocker.newCommentList(NUM);
 
         GvCommentList gvData = MdGvConverter.convert(mdData);
-        GvCommentList gvData2 = (GvCommentList) MdGvConverter.convert(GvDataList.GvType
-                .COMMENTS, mdData);
+        GvCommentList gvData2 = (GvCommentList) MdGvConverter.convert(GvCommentList.TYPE, mdData);
 
         assertEquals(NUM, mdData.size());
         assertEquals(mdData.size(), gvData.size());
@@ -67,7 +65,7 @@ public class MdGvConverterTest extends TestCase {
     public void testConvertFactList() {
         MdFactList mdData = mMocker.newFactList(NUM);
         GvFactList gvData = MdGvConverter.convert(mdData);
-        GvFactList gvData2 = (GvFactList) MdGvConverter.convert(GvDataList.GvType.FACTS, mdData);
+        GvFactList gvData2 = (GvFactList) MdGvConverter.convert(GvFactList.TYPE, mdData);
 
         assertEquals(NUM, mdData.size());
         assertEquals(mdData.size(), gvData.size());
@@ -94,7 +92,7 @@ public class MdGvConverterTest extends TestCase {
         MdImageList mdData = mMocker.newImageList(NUM);
 
         GvImageList gvData = MdGvConverter.convert(mdData);
-        GvImageList gvData2 = (GvImageList) MdGvConverter.convert(GvDataList.GvType.IMAGES,
+        GvImageList gvData2 = (GvImageList) MdGvConverter.convert(GvImageList.TYPE,
                 mdData);
 
         assertEquals(NUM, mdData.size());
@@ -124,8 +122,8 @@ public class MdGvConverterTest extends TestCase {
     public void testConvertLocationList() {
         MdLocationList mdData = mMocker.newLocationList(NUM);
         GvLocationList gvData = MdGvConverter.convert(mdData);
-        GvLocationList gvData2 = (GvLocationList) MdGvConverter.convert(GvDataList.GvType
-                .LOCATIONS, mdData);
+        GvLocationList gvData2 = (GvLocationList) MdGvConverter.convert(GvLocationList.TYPE,
+                mdData);
 
         assertEquals(NUM, mdData.size());
         assertEquals(mdData.size(), gvData.size());
@@ -151,7 +149,7 @@ public class MdGvConverterTest extends TestCase {
     public void testConvertUrlList() {
         MdUrlList mdData = mMocker.newUrlList(NUM);
         GvUrlList gvData = MdGvConverter.convert(mdData);
-        GvUrlList gvData2 = (GvUrlList) MdGvConverter.convert(GvDataList.GvType.URLS, mdData);
+        GvUrlList gvData2 = (GvUrlList) MdGvConverter.convert(GvUrlList.TYPE, mdData);
 
         assertEquals(NUM, mdData.size());
         assertEquals(mdData.size(), gvData.size());

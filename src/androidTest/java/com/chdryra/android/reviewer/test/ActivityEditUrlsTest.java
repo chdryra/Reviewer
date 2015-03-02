@@ -34,7 +34,7 @@ public class ActivityEditUrlsTest extends ActivityEditScreenTest {
     private Instrumentation.ActivityMonitor mMainMonitor;
 
     public ActivityEditUrlsTest() {
-        super(GvDataList.GvType.URLS);
+        super(GvUrlList.TYPE);
     }
 
     @Override
@@ -80,37 +80,12 @@ public class ActivityEditUrlsTest extends ActivityEditScreenTest {
     @Override
     protected void checkLaunchableShowing(boolean isShowing) {
         if (isShowing) {
-            assertTrue(mSolo.searchText(mDataType.getDatumString()));
-            assertFalse(mSolo.searchText(mDataType.getDataString()));
+            assertTrue(mSolo.searchText(mDataType.getDatumName()));
+            assertFalse(mSolo.searchText(mDataType.getDataName()));
         } else {
-            assertTrue(mSolo.searchText(mDataType.getDataString()));
+            assertTrue(mSolo.searchText(mDataType.getDataName()));
         }
     }
-//
-//    @Override
-//    protected void clickEditConfirm() {
-//        clickMenuDone();
-//    }
-//
-//    @Override
-//    protected void clickEditDelete() {
-//        clickMenuDelete();
-//    }
-//
-//    @Override
-//    protected void clickEditCancel() {
-//        clickMenuUp();
-//    }
-//
-//    @Override
-//    protected void clickAddConfirm() {
-//        clickMenuDone();
-//    }
-//
-//    @Override
-//    protected void clickAddCancel() {
-//        clickMenuUp();
-//    }
 
     @Override
     protected Activity getEditActivity() {

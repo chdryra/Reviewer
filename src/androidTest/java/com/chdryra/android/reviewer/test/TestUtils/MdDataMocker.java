@@ -8,7 +8,12 @@
 
 package com.chdryra.android.reviewer.test.TestUtils;
 
+import com.chdryra.android.reviewer.GvCommentList;
 import com.chdryra.android.reviewer.GvDataList;
+import com.chdryra.android.reviewer.GvFactList;
+import com.chdryra.android.reviewer.GvImageList;
+import com.chdryra.android.reviewer.GvLocationList;
+import com.chdryra.android.reviewer.GvUrlList;
 import com.chdryra.android.reviewer.MdCommentList;
 import com.chdryra.android.reviewer.MdDataList;
 import com.chdryra.android.reviewer.MdFactList;
@@ -17,6 +22,7 @@ import com.chdryra.android.reviewer.MdLocationList;
 import com.chdryra.android.reviewer.MdUrlList;
 import com.chdryra.android.reviewer.Review;
 import com.chdryra.android.testutils.BitmapMocker;
+import com.chdryra.android.testutils.RandomDate;
 import com.chdryra.android.testutils.RandomLatLng;
 import com.chdryra.android.testutils.RandomString;
 
@@ -42,16 +48,16 @@ public class MdDataMocker<T extends Review> {
     }
 
     //Just a convenient method even if it uses GvType.....
-    public MdDataList getData(GvDataList.GvType dataType, int size) {
-        if (dataType == GvDataList.GvType.COMMENTS) {
+    public MdDataList getData(GvDataList.GvDataType dataType, int size) {
+        if (dataType == GvCommentList.TYPE) {
             return newCommentList(size);
-        } else if (dataType == GvDataList.GvType.FACTS) {
+        } else if (dataType == GvFactList.TYPE) {
             return newFactList(size);
-        } else if (dataType == GvDataList.GvType.IMAGES) {
+        } else if (dataType == GvImageList.TYPE) {
             return newImageList(size);
-        } else if (dataType == GvDataList.GvType.LOCATIONS) {
+        } else if (dataType == GvLocationList.TYPE) {
             return newLocationList(size);
-        } else if (dataType == GvDataList.GvType.URLS) {
+        } else if (dataType == GvUrlList.TYPE) {
             return newUrlList(size);
         } else {
             return null;
@@ -109,7 +115,7 @@ public class MdDataMocker<T extends Review> {
 
     public MdImageList.MdImage newImage() {
         return new MdImageList.MdImage(BitmapMocker.nextBitmap(RAND.nextBoolean()),
-                RandomLatLng.nextLatLng(), RandomString.nextSentence(),
+                RandomDate.nextDate(), RandomLatLng.nextLatLng(), RandomString.nextSentence(),
                 RAND.nextBoolean(), mReview);
     }
 

@@ -10,7 +10,6 @@ package com.chdryra.android.reviewer.test;
 
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.GvDataList;
 import com.chdryra.android.reviewer.GvTagList;
 import com.chdryra.android.reviewer.Review;
 import com.chdryra.android.reviewer.TagsManager;
@@ -29,7 +28,7 @@ public class TagsManagerTest extends TestCase {
 
     @SmallTest
     public void testTagAndGetTag() {
-        GvTagList tags = (GvTagList) GvDataMocker.getData(GvDataList.GvType.TAGS, NUM);
+        GvTagList tags = (GvTagList) GvDataMocker.getData(GvTagList.TYPE, NUM);
         Review review = ReviewMocker.newReview();
 
         TagsManager.ReviewTagCollection tagCollection = TagsManager.getTags(review);
@@ -50,14 +49,14 @@ public class TagsManagerTest extends TestCase {
 
     @SmallTest
     public void testTagsReview() {
-        GvTagList tags1 = (GvTagList) GvDataMocker.getData(GvDataList.GvType.TAGS, NUM);
+        GvTagList tags1 = (GvTagList) GvDataMocker.getData(GvTagList.TYPE, NUM);
         GvTagList tags2 = new GvTagList();
         int numShared = NUM / 2;
         for (int i = 0; i < numShared; ++i) {
             tags2.add(tags1.getItem(i));
         }
 
-        GvTagList tagsUnshared = (GvTagList) GvDataMocker.getData(GvDataList.GvType.TAGS,
+        GvTagList tagsUnshared = (GvTagList) GvDataMocker.getData(GvTagList.TYPE,
                 NUM - numShared);
         for (int i = 0; i < tagsUnshared.size(); ++i) {
             tags2.add(tagsUnshared.getItem(i));

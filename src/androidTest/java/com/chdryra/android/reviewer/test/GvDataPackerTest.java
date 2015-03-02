@@ -23,33 +23,33 @@ import junit.framework.TestCase;
  * Email: rizwan.choudrey@gmail.com
  */
 public class GvDataPackerTest extends TestCase {
-    private static final GvDataList.GvType[] TYPES = GvDataMocker.TYPES;
+    private static final GvDataList.GvDataType[] TYPES = GvDataMocker.TYPES;
 
     public void testPackItemUnpackItemBundleStatic() {
-        for (GvDataList.GvType dataType : TYPES) {
+        for (GvDataList.GvDataType dataType : TYPES) {
             testPackItemUnpackItemStatic(dataType, true, false);
         }
     }
 
     public void testPackItemUnpackItemIntentStatic() {
-        for (GvDataList.GvType dataType : TYPES) {
+        for (GvDataList.GvDataType dataType : TYPES) {
             testPackItemUnpackItemStatic(dataType, false, false);
         }
     }
 
     public void testPackItemUnpackItemBundle() {
-        for (GvDataList.GvType dataType : TYPES) {
+        for (GvDataList.GvDataType dataType : TYPES) {
             testPackItemUnpackItemStatic(dataType, true, true);
         }
     }
 
     public void testPackItemUnpackItemIntent() {
-        for (GvDataList.GvType dataType : TYPES) {
+        for (GvDataList.GvDataType dataType : TYPES) {
             testPackItemUnpackItemStatic(dataType, false, true);
         }
     }
 
-    private void testPackItemUnpackItemStatic(GvDataList.GvType
+    private void testPackItemUnpackItemStatic(GvDataList.GvDataType
             dataType, boolean bundle, boolean useUnpacker) {
         testPackItemUnpackItem(GvDataMocker.getDatum(dataType),
                 GvDataMocker.getDatum(dataType), bundle, useUnpacker);

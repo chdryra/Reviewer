@@ -12,6 +12,8 @@ import android.graphics.Bitmap;
 
 import com.google.android.gms.maps.model.LatLng;
 
+import java.util.Date;
+
 /**
  * Created by: Rizwan Choudrey
  * On: 06/12/2014
@@ -36,14 +38,16 @@ public class MdImageList extends MdDataList<MdImageList.MdImage> {
     public static class MdImage implements MdData, DataImage {
 
         private final Bitmap mBitmap;
+        private final Date   mDate;
         private final String mCaption;
         private final LatLng mLatLng;
         private       Review mHoldingReview;
         private boolean mIsCover = false;
 
-        public MdImage(Bitmap bitmap, LatLng latLng, String caption, boolean isCover,
+        public MdImage(Bitmap bitmap, Date date, LatLng latLng, String caption, boolean isCover,
                 Review holdingReview) {
             mBitmap = bitmap;
+            mDate = date;
             mLatLng = latLng;
             mCaption = caption;
             mIsCover = isCover;
@@ -63,6 +67,11 @@ public class MdImageList extends MdDataList<MdImageList.MdImage> {
         @Override
         public Bitmap getBitmap() {
             return mBitmap;
+        }
+
+        @Override
+        public Date getDate() {
+            return mDate;
         }
 
         @Override
@@ -101,6 +110,9 @@ public class MdImageList extends MdDataList<MdImageList.MdImage> {
             if (mLatLng != null ? !mLatLng.equals(mdImage.mLatLng) : mdImage.mLatLng != null) {
                 return false;
             }
+            if (mDate != null ? !mDate.equals(mdImage.mDate) : mdImage.mDate != null) {
+                return false;
+            }
 
             return true;
         }
@@ -109,6 +121,7 @@ public class MdImageList extends MdDataList<MdImageList.MdImage> {
         public int hashCode() {
             int result = mBitmap != null ? mBitmap.hashCode() : 0;
             result = 31 * result + (mCaption != null ? mCaption.hashCode() : 0);
+            result = 31 * result + (mDate != null ? mDate.hashCode() : 0);
             result = 31 * result + (mLatLng != null ? mLatLng.hashCode() : 0);
             result = 31 * result + (mHoldingReview != null ? mHoldingReview.hashCode() : 0);
             result = 31 * result + (mIsCover ? 1 : 0);

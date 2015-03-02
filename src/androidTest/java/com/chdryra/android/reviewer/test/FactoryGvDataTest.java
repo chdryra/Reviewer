@@ -13,7 +13,6 @@ import android.test.suitebuilder.annotation.SmallTest;
 import com.chdryra.android.reviewer.FactoryGvData;
 import com.chdryra.android.reviewer.GvChildList;
 import com.chdryra.android.reviewer.GvCommentList;
-import com.chdryra.android.reviewer.GvDataList;
 import com.chdryra.android.reviewer.GvImageList;
 import com.chdryra.android.reviewer.GvLocationList;
 import com.chdryra.android.reviewer.GvTagList;
@@ -30,12 +29,12 @@ public class FactoryGvDataTest extends TestCase {
 
     @SmallTest
     public void testGvType() {
-        assertEquals(GvDataList.GvType.IMAGES, FactoryGvData.gvType(GvImageList.class));
-        assertEquals(GvDataList.GvType.TAGS, FactoryGvData.gvType(GvTagList.class));
-        assertEquals(GvDataList.GvType.CHILDREN, FactoryGvData.gvType(GvChildList.class));
-        assertEquals(GvDataList.GvType.COMMENTS, FactoryGvData.gvType(GvCommentList.class));
-        assertEquals(GvDataList.GvType.LOCATIONS, FactoryGvData.gvType(GvLocationList.class));
-        assertEquals(GvDataList.GvType.URLS, FactoryGvData.gvType(GvUrlList.class));
+        assertEquals(GvImageList.TYPE, FactoryGvData.gvType(GvImageList.class));
+        assertEquals(GvTagList.TYPE, FactoryGvData.gvType(GvTagList.class));
+        assertEquals(GvChildList.TYPE, FactoryGvData.gvType(GvChildList.class));
+        assertEquals(GvCommentList.TYPE, FactoryGvData.gvType(GvCommentList.class));
+        assertEquals(GvLocationList.TYPE, FactoryGvData.gvType(GvLocationList.class));
+        assertEquals(GvUrlList.TYPE, FactoryGvData.gvType(GvUrlList.class));
     }
 
     @SmallTest

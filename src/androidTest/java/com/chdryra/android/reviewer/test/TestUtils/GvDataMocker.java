@@ -20,8 +20,11 @@ import com.chdryra.android.reviewer.GvTagList;
 import com.chdryra.android.reviewer.GvUrlList;
 import com.chdryra.android.reviewer.ReviewId;
 import com.chdryra.android.testutils.BitmapMocker;
+import com.chdryra.android.testutils.RandomDate;
 import com.chdryra.android.testutils.RandomLatLng;
 import com.chdryra.android.testutils.RandomString;
+
+import org.apache.commons.lang3.ArrayUtils;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -35,9 +38,11 @@ import java.util.Random;
  * Email: rizwan.choudrey@gmail.com
  */
 public class GvDataMocker {
-    public static final  GvDataList.GvDataType[] TYPES            = {GvCommentList.TYPE,
-            GvFactList.TYPE, GvTagList.TYPE, GvLocationList.TYPE, GvUrlList.TYPE,
-            GvChildList.TYPE, GvImageList.TYPE, GvFactList.TYPE};
+    public static final  GvDataList.GvDataType[] DATATYPES        = {GvCommentList.TYPE,
+            GvFactList.TYPE, GvImageList.TYPE, GvLocationList.TYPE, GvUrlList.TYPE, GvTagList.TYPE,
+            GvChildList.TYPE};
+    public static final  GvDataList.GvDataType[] TYPES            = ArrayUtils.addAll(DATATYPES,
+            GvReviewList.TYPE);
     private static final RandomString            STRING_GENERATOR = new RandomString();
     private static final Random                  RAND             = new Random();
 
@@ -165,7 +170,7 @@ public class GvDataMocker {
 
     public static GvImageList.GvImage newImage() {
         return new GvImageList.GvImage(BitmapMocker.nextBitmap(RAND.nextBoolean()),
-                RandomLatLng.nextLatLng(), RandomString.nextSentence(),
+                RandomDate.nextDate(), RandomLatLng.nextLatLng(), RandomString.nextSentence(),
                 RAND.nextBoolean());
     }
 

@@ -15,7 +15,6 @@ import com.chdryra.android.reviewer.ActivityFeed;
 import com.chdryra.android.reviewer.Administrator;
 import com.chdryra.android.reviewer.FactoryReviewView;
 import com.chdryra.android.reviewer.FragmentReviewView;
-import com.chdryra.android.reviewer.GvDataList;
 import com.chdryra.android.reviewer.GvReviewList;
 import com.chdryra.android.reviewer.GvSocialPlatformList;
 import com.chdryra.android.reviewer.R;
@@ -31,8 +30,7 @@ import com.chdryra.android.testutils.RandomString;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ActivityShareScreenTest extends ActivityReviewViewTest {
-    private static final int               TIMEOUT = 10000;
-    private static final GvDataList.GvType TYPE    = GvDataList.GvType.SHARE;
+    private static final int TIMEOUT = 10000;
     private SocialPlatformList mList;
     private Administrator      mAdmin;
 

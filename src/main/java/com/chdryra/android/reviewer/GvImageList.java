@@ -15,6 +15,8 @@ import android.os.Parcelable;
 import com.chdryra.android.mygenerallibrary.ViewHolder;
 import com.google.android.gms.maps.model.LatLng;
 
+import java.util.Comparator;
+import java.util.Date;
 import java.util.Random;
 
 /**
@@ -53,6 +55,31 @@ public class GvImageList extends GvDataList<GvImageList.GvImage> {
         return covers;
     }
 
+    @Override
+    protected Comparator<GvImage> getDefaultComparator() {
+        return new Comparator<GvImage>() {
+            @Override
+            public int compare(GvImage lhs, GvImage rhs) {
+                int comp = 0;
+                if (contains(lhs) && contains(rhs)) {
+                    if (lhs.isCover() && !rhs.isCover()) {
+                        comp = -1;
+                    } else if (!lhs.isCover() && rhs.isCover()) {
+                        comp = 1;
+                    } else {
+                        if (lhs.getDate().after(rhs.getDate())) {
+                            comp = -1;
+                        } else if (lhs.getDate().before(rhs.getDate())) {
+                            comp = 1;
+                        }
+                    }
+                }
+
+                return comp;
+            }
+        };
+    }
+
     /**
      * {@link GvDataList.GvData} version of: {@link com.chdryra
      * .android.reviewer.MdImageList.MdImage}
@@ -69,23 +96,28 @@ public class GvImageList extends GvDataList<GvImageList.GvImage> {
                 return new GvImage[size];
             }
         };
+
         private final Bitmap mBitmap;
+        private final Date   mDate;
         private final LatLng mLatLng;
         private       String mCaption;
         private boolean mIsCover = false;
 
         public GvImage() {
             mBitmap = null;
+            mDate = null;
             mLatLng = null;
         }
 
-        public GvImage(Bitmap bitmap, LatLng latLng) {
+        public GvImage(Bitmap bitmap, Date date, LatLng latLng) {
             mBitmap = bitmap;
+            mDate = date;
             mLatLng = latLng;
         }
 
-        public GvImage(Bitmap bitmap, LatLng latLng, String caption, boolean isCover) {
+        public GvImage(Bitmap bitmap, Date date, LatLng latLng, String caption, boolean isCover) {
             mBitmap = bitmap;
+            mDate = date;
             mCaption = caption;
             mLatLng = latLng;
             mIsCover = isCover;
@@ -96,6 +128,7 @@ public class GvImageList extends GvDataList<GvImageList.GvImage> {
             mCaption = in.readString();
             mLatLng = in.readParcelable(LatLng.class.getClassLoader());
             mIsCover = in.readByte() != 0;
+            mDate = (Date) in.readSerializable();
         }
 
         @Override
@@ -125,6 +158,9 @@ public class GvImageList extends GvDataList<GvImageList.GvImage> {
             if (mLatLng != null ? !mLatLng.equals(gvImage.mLatLng) : gvImage.mLatLng != null) {
                 return false;
             }
+            if (mDate != null ? !mDate.equals(gvImage.mDate) : gvImage.mDate != null) {
+                return false;
+            }
 
             return true;
         }
@@ -133,6 +169,7 @@ public class GvImageList extends GvDataList<GvImageList.GvImage> {
         public int hashCode() {
             int result = mBitmap != null ? mBitmap.hashCode() : 0;
             result = 31 * result + (mLatLng != null ? mLatLng.hashCode() : 0);
+            result = 31 * result + (mDate != null ? mDate.hashCode() : 0);
             result = 31 * result + (mCaption != null ? mCaption.hashCode() : 0);
             result = 31 * result + (mIsCover ? 1 : 0);
             return result;
@@ -149,11 +186,17 @@ public class GvImageList extends GvDataList<GvImageList.GvImage> {
             parcel.writeString(mCaption);
             parcel.writeParcelable(mLatLng, i);
             parcel.writeByte((byte) (isCover() ? 1 : 0));
+            parcel.writeSerializable(mDate);
         }
 
         @Override
         public Bitmap getBitmap() {
             return mBitmap;
+        }
+
+        @Override
+        public Date getDate() {
+            return mDate;
         }
 
         @Override

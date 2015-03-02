@@ -13,6 +13,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -27,6 +28,7 @@ import com.google.android.gms.maps.model.LatLng;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Date;
 
 /**
  * Created by: Rizwan Choudrey
@@ -110,8 +112,10 @@ public class ImageChooser {
             final BitmapLoader.LoadListener loadListener = new BitmapLoader.LoadListener() {
                 @Override
                 public void onBitmapLoaded(Bitmap bitmap) {
-                    LatLng ll = ImageHelper.getLatLngFromEXIF(ImageHelper.getEXIF(mCaptureFile));
-                    listener.onImageChosen(new GvImageList.GvImage(bitmap, ll));
+                    ExifInterface exif = ImageHelper.getExif(mCaptureFile);
+                    LatLng ll = ImageHelper.getLatLngFromExif(exif);
+                    Date date = ImageHelper.getDateTimeFromEXIF(exif);
+                    listener.onImageChosen(new GvImageList.GvImage(bitmap, date, ll));
                 }
             };
 

@@ -27,6 +27,7 @@ import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
 import com.chdryra.android.reviewer.test.TestUtils.MdDataMocker;
 import com.chdryra.android.reviewer.test.TestUtils.ReviewMocker;
 import com.chdryra.android.testutils.BitmapMocker;
+import com.chdryra.android.testutils.RandomDate;
 import com.chdryra.android.testutils.RandomLatLng;
 import com.chdryra.android.testutils.RandomString;
 import com.google.android.gms.maps.model.LatLng;
@@ -34,6 +35,7 @@ import com.google.android.gms.maps.model.LatLng;
 import junit.framework.TestCase;
 
 import java.net.URL;
+import java.util.Date;
 
 /**
  * Created by: Rizwan Choudrey
@@ -100,49 +102,110 @@ public class DataValidatorTest extends TestCase {
     @SmallTest
     public void testValidateImage() {
         Bitmap b = BitmapMocker.nextBitmap(false);
+        Date date = RandomDate.nextDate();
         String caption = RandomString.nextSentence();
         LatLng latLng = RandomLatLng.nextLatLng();
 
         assertFalse(DataValidator.validate(new GvImageList.GvImage()));
-        assertFalse(DataValidator.validate(new GvImageList.GvImage(null, null, null, true)));
-        assertFalse(DataValidator.validate(new GvImageList.GvImage(null, null, null, false)));
-        assertFalse(DataValidator.validate(new GvImageList.GvImage(null, latLng, null, true)));
-        assertFalse(DataValidator.validate(new GvImageList.GvImage(null, latLng, null, false)));
-        assertFalse(DataValidator.validate(new GvImageList.GvImage(null, null, caption, true)));
-        assertFalse(DataValidator.validate(new GvImageList.GvImage(null, null, caption, false)));
-        assertFalse(DataValidator.validate(new GvImageList.GvImage(null, latLng, caption, true)));
-        assertFalse(DataValidator.validate(new GvImageList.GvImage(null, latLng, caption, false)));
+        assertFalse(DataValidator.validate(new GvImageList.GvImage(null, null, null, null, true)));
+        assertFalse(DataValidator.validate(new GvImageList.GvImage(null, null, null, null, false)));
+        assertFalse(DataValidator.validate(new GvImageList.GvImage(null, date, null, null, true)));
+        assertFalse(DataValidator.validate(new GvImageList.GvImage(null, date, null, null, false)));
+        assertFalse(DataValidator.validate(new GvImageList.GvImage(null, null, latLng, null,
+                true)));
+        assertFalse(DataValidator.validate(new GvImageList.GvImage(null, null, latLng, null,
+                false)));
+        assertFalse(DataValidator.validate(new GvImageList.GvImage(null, null, null, caption,
+                true)));
+        assertFalse(DataValidator.validate(new GvImageList.GvImage(null, null, null, caption,
+                false)));
+        assertFalse(DataValidator.validate(new GvImageList.GvImage(null, date, null, caption,
+                true)));
+        assertFalse(DataValidator.validate(new GvImageList.GvImage(null, date, null, caption,
+                false)));
+        assertFalse(DataValidator.validate(new GvImageList.GvImage(null, date, latLng, null,
+                true)));
+        assertFalse(DataValidator.validate(new GvImageList.GvImage(null, date, latLng, null,
+                false)));
+        assertFalse(DataValidator.validate(new GvImageList.GvImage(null, date, latLng, caption,
+                true)));
+        assertFalse(DataValidator.validate(new GvImageList.GvImage(null, date, latLng, caption,
+                false)));
 
-        assertTrue(DataValidator.validate(new GvImageList.GvImage(b, null, null, true)));
-        assertTrue(DataValidator.validate(new GvImageList.GvImage(b, null, null, false)));
-        assertTrue(DataValidator.validate(new GvImageList.GvImage(b, latLng, null, true)));
-        assertTrue(DataValidator.validate(new GvImageList.GvImage(b, latLng, null, false)));
-        assertTrue(DataValidator.validate(new GvImageList.GvImage(b, null, caption, true)));
-        assertTrue(DataValidator.validate(new GvImageList.GvImage(b, null, caption, false)));
-        assertTrue(DataValidator.validate(new GvImageList.GvImage(b, latLng, caption, true)));
-        assertTrue(DataValidator.validate(new GvImageList.GvImage(b, latLng, caption, false)));
+        assertTrue(DataValidator.validate(new GvImageList.GvImage(b, null, null, null, true)));
+        assertTrue(DataValidator.validate(new GvImageList.GvImage(b, null, null, null, false)));
+        assertTrue(DataValidator.validate(new GvImageList.GvImage(b, date, null, null, true)));
+        assertTrue(DataValidator.validate(new GvImageList.GvImage(b, date, null, null, false)));
+        assertTrue(DataValidator.validate(new GvImageList.GvImage(b, null, latLng, null, true)));
+        assertTrue(DataValidator.validate(new GvImageList.GvImage(b, null, latLng, null, false)));
+        assertTrue(DataValidator.validate(new GvImageList.GvImage(b, null, null, caption, true)));
+        assertTrue(DataValidator.validate(new GvImageList.GvImage(b, null, null, caption, false)));
+        assertTrue(DataValidator.validate(new GvImageList.GvImage(b, date, null, caption, true)));
+        assertTrue(DataValidator.validate(new GvImageList.GvImage(b, date, null, caption,
+                false)));
+        assertTrue(DataValidator.validate(new GvImageList.GvImage(b, date, latLng, null, true)));
+        assertTrue(DataValidator.validate(new GvImageList.GvImage(b, date, latLng, null,
+                false)));
+        assertTrue(DataValidator.validate(new GvImageList.GvImage(b, date, latLng, caption, true)));
+        assertTrue(DataValidator.validate(new GvImageList.GvImage(b, date, latLng, caption,
+                false)));
         assertTrue(DataValidator.validate(GvDataMocker.newImage()));
 
-        assertFalse(DataValidator.validate(new MdImageList.MdImage(null, null, null, true, mR)));
-        assertFalse(DataValidator.validate(new MdImageList.MdImage(null, null, null, false, mR)));
-        assertFalse(DataValidator.validate(new MdImageList.MdImage(null, latLng, null, true, mR)));
-        assertFalse(DataValidator.validate(new MdImageList.MdImage(null, latLng, null, false, mR)));
-        assertFalse(DataValidator.validate(new MdImageList.MdImage(null, null, caption, true, mR)));
-        assertFalse(DataValidator.validate(new MdImageList.MdImage(null, null, caption, false,
+        assertFalse(DataValidator.validate(new MdImageList.MdImage(null, null, null, null, true,
                 mR)));
-        assertFalse(DataValidator.validate(new MdImageList.MdImage(null, latLng, caption, true,
+        assertFalse(DataValidator.validate(new MdImageList.MdImage(null, null, null, null, false,
                 mR)));
-        assertFalse(DataValidator.validate(new MdImageList.MdImage(null, latLng, caption, false,
+        assertFalse(DataValidator.validate(new MdImageList.MdImage(null, date, null, null, true,
+                mR)));
+        assertFalse(DataValidator.validate(new MdImageList.MdImage(null, date, null, null, false,
+                mR)));
+        assertFalse(DataValidator.validate(new MdImageList.MdImage(null, null, latLng, null, true,
+                mR)));
+        assertFalse(DataValidator.validate(new MdImageList.MdImage(null, null, latLng, null, false,
+                mR)));
+        assertFalse(DataValidator.validate(new MdImageList.MdImage(null, null, null, caption, true,
+                mR)));
+        assertFalse(DataValidator.validate(new MdImageList.MdImage(null, null, null, caption, false,
+                mR)));
+        assertFalse(DataValidator.validate(new MdImageList.MdImage(null, date, null, caption, true,
+                mR)));
+        assertFalse(DataValidator.validate(new MdImageList.MdImage(null, date, null, caption, false,
+                mR)));
+        assertFalse(DataValidator.validate(new MdImageList.MdImage(null, date, latLng, null,
+                true, mR)));
+        assertFalse(DataValidator.validate(new MdImageList.MdImage(null, date, latLng, null,
+                false, mR)));
+        assertFalse(DataValidator.validate(new MdImageList.MdImage(null, date, latLng, caption,
+                true,
+                mR)));
+        assertFalse(DataValidator.validate(new MdImageList.MdImage(null, date, latLng, caption,
+                false,
                 mR)));
 
-        assertTrue(DataValidator.validate(new MdImageList.MdImage(b, null, null, true, mR)));
-        assertTrue(DataValidator.validate(new MdImageList.MdImage(b, null, null, false, mR)));
-        assertTrue(DataValidator.validate(new MdImageList.MdImage(b, latLng, null, true, mR)));
-        assertTrue(DataValidator.validate(new MdImageList.MdImage(b, latLng, null, false, mR)));
-        assertTrue(DataValidator.validate(new MdImageList.MdImage(b, null, caption, true, mR)));
-        assertTrue(DataValidator.validate(new MdImageList.MdImage(b, null, caption, false, mR)));
-        assertTrue(DataValidator.validate(new MdImageList.MdImage(b, latLng, caption, true, mR)));
-        assertTrue(DataValidator.validate(new MdImageList.MdImage(b, latLng, caption, false, mR)));
+        assertTrue(DataValidator.validate(new MdImageList.MdImage(b, null, null, null, true, mR)));
+        assertTrue(DataValidator.validate(new MdImageList.MdImage(b, null, null, null, false, mR)));
+        assertTrue(DataValidator.validate(new MdImageList.MdImage(b, date, null, null, true, mR)));
+        assertTrue(DataValidator.validate(new MdImageList.MdImage(b, date, null, null, false, mR)));
+        assertTrue(DataValidator.validate(new MdImageList.MdImage(b, null, latLng, null, true,
+                mR)));
+        assertTrue(DataValidator.validate(new MdImageList.MdImage(b, null, latLng, null, false,
+                mR)));
+        assertTrue(DataValidator.validate(new MdImageList.MdImage(b, null, null, caption, true,
+                mR)));
+        assertTrue(DataValidator.validate(new MdImageList.MdImage(b, null, null, caption, false,
+                mR)));
+        assertTrue(DataValidator.validate(new MdImageList.MdImage(b, date, null, caption, true,
+                mR)));
+        assertTrue(DataValidator.validate(new MdImageList.MdImage(b, date, null, caption, false,
+                mR)));
+        assertTrue(DataValidator.validate(new MdImageList.MdImage(b, date, latLng, null, true,
+                mR)));
+        assertTrue(DataValidator.validate(new MdImageList.MdImage(b, date, latLng, null, false,
+                mR)));
+        assertTrue(DataValidator.validate(new MdImageList.MdImage(b, date, latLng, caption, true,
+                mR)));
+        assertTrue(DataValidator.validate(new MdImageList.MdImage(b, date, latLng, caption, false,
+                mR)));
         assertTrue(DataValidator.validate(mMdMocker.newImage()));
     }
 

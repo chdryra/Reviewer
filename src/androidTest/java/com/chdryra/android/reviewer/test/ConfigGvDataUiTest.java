@@ -14,7 +14,9 @@ import android.test.suitebuilder.annotation.SmallTest;
 import com.chdryra.android.reviewer.ConfigGvDataAddEdit;
 import com.chdryra.android.reviewer.ConfigGvDataUi;
 import com.chdryra.android.reviewer.GvDataList;
+import com.chdryra.android.reviewer.GvImageList;
 import com.chdryra.android.reviewer.LaunchableUi;
+import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -32,14 +34,12 @@ import java.util.Set;
  * in the manifest.
  */
 public class ConfigGvDataUiTest extends AndroidTestCase {
-    private static final GvDataList.GvType[] NULLADDS  = {GvDataList.GvType.IMAGES,
-            GvDataList.GvType.FEED, GvDataList.GvType.SHARE};
-    private static final GvDataList.GvType[] NULLEDITS = {GvDataList.GvType.FEED,
-            GvDataList.GvType.SHARE};
+    private static final GvDataList.GvDataType[] DATATYPES = GvDataMocker.DATATYPES;
+    private static final GvDataList.GvDataType[] NULLADDS  = {GvImageList.TYPE};
 
     @SmallTest
     public void testGetConfigAndConfigClass() {
-        for (GvDataList.GvType dataType : GvDataList.GvType.values()) {
+        for (GvDataList.GvDataType dataType : DATATYPES) {
             ConfigGvDataUi.Config config = ConfigGvDataUi.getConfig(dataType);
             assertNotNull(config);
             assertNotNull(config.getAdderConfig());
@@ -51,7 +51,7 @@ public class ConfigGvDataUiTest extends AndroidTestCase {
     public void testReviewDataUIConfigs() {
         ArrayList<Integer> requestCodes = new ArrayList<Integer>();
         ArrayList<String> tags = new ArrayList<String>();
-        for (GvDataList.GvType dataType : GvDataList.GvType.values()) {
+        for (GvDataList.GvDataType dataType : DATATYPES) {
             ConfigGvDataUi.Config config = ConfigGvDataUi.getConfig(dataType);
             assertNotNull(config);
 
@@ -84,14 +84,10 @@ public class ConfigGvDataUiTest extends AndroidTestCase {
             assertTrue(tag.length() > 0);
             tags.add(uiConfig.getTag());
 
-            if (Arrays.asList(NULLEDITS).contains(dataType)) {
-                assertNull(uiConfig.getLaunchable());
-            } else {
-                LaunchableUi ui = uiConfig.getLaunchable();
-                assertNotNull(ui);
-                assertEquals(ConfigGvDataAddEdit.getEditClass(dataType).getName(),
-                        ui.getClass().getName());
-            }
+            LaunchableUi ui = uiConfig.getLaunchable();
+            assertNotNull(ui);
+            assertEquals(ConfigGvDataAddEdit.getEditClass(dataType).getName(),
+                    ui.getClass().getName());
 
             requestCodes.add(uiConfig.getRequestCode());
         }
@@ -107,7 +103,7 @@ public class ConfigGvDataUiTest extends AndroidTestCase {
 
     @SmallTest
     public void testGetReviewDataUI() {
-        for (GvDataList.GvType dataType : GvDataList.GvType.values()) {
+        for (GvDataList.GvDataType dataType : DATATYPES) {
             ConfigGvDataUi.Config config = ConfigGvDataUi.getConfig(dataType);
             assertNotNull(config);
 
@@ -121,13 +117,11 @@ public class ConfigGvDataUiTest extends AndroidTestCase {
             }
 
             //Edit
-            if (!Arrays.asList(NULLEDITS).contains(dataType)) {
-                LaunchableUi fromConfig = config.getEditorConfig().getLaunchable();
-                assertNotNull(fromConfig);
-                LaunchableUi fromStatic = ConfigGvDataUi.getLaunchable(fromConfig.getClass());
-                assertNotNull(fromStatic);
-                assertEquals(fromConfig.getClass(), fromStatic.getClass());
-            }
+            LaunchableUi fromConfig = config.getEditorConfig().getLaunchable();
+            assertNotNull(fromConfig);
+            LaunchableUi fromStatic = ConfigGvDataUi.getLaunchable(fromConfig.getClass());
+            assertNotNull(fromStatic);
+            assertEquals(fromConfig.getClass(), fromStatic.getClass());
         }
     }
 }

@@ -42,8 +42,8 @@ public class LayoutImage extends GvDataViewLayout<GvImageList.GvImage> {
     @Override
     public GvImageList.GvImage createGvDataFromViews() {
         String caption = ((EditText) mViewHolder.getView(CAPTION)).getText().toString().trim();
-        mCurrent = new GvImageList.GvImage(mCurrent.getBitmap(), mCurrent.getLatLng(), caption,
-                mCurrent.isCover());
+        mCurrent = new GvImageList.GvImage(mCurrent.getBitmap(), mCurrent.getDate(),
+                mCurrent.getLatLng(), caption, mCurrent.isCover());
 
         return mCurrent;
     }

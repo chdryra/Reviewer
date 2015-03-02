@@ -42,17 +42,14 @@ import java.util.Map;
  * Email: rizwan.choudrey@gmail.com
  */
 public abstract class ActivityEditScreenTest extends ActivityReviewViewTest {
-    protected static final long                TIMEOUT  = 5000;
-    protected static final int                 DELETE   = com.chdryra.android.reviewer.R.id
+    protected static final long TIMEOUT  = 5000;
+    protected static final int  DELETE   = com.chdryra.android.reviewer.R.id
             .menu_item_delete;
-    protected static final int                 DONE     = com.chdryra.android.reviewer.R.id
+    protected static final int  DONE     = com.chdryra.android.reviewer.R.id
             .menu_item_done;
-    private static final   int                 NUM_DATA = 3;
-    private static final   GvDataList.GvType[] TYPES    = {GvDataList.GvType.COMMENTS, GvDataList
-            .GvType.TAGS, GvDataList.GvType.LOCATIONS, GvDataList.GvType.URLS,
-            GvDataList.GvType.CHILDREN, GvDataList.GvType.FACTS, GvDataList.GvType.IMAGES};
+    private static final   int  NUM_DATA = 3;
 
-    protected GvDataList.GvType               mDataType;
+    protected GvDataList.GvDataType           mDataType;
     protected String                          mOriginalSubject;
     protected float                           mOriginalRating;
     private   GvDataList                      mData;
@@ -68,7 +65,7 @@ public abstract class ActivityEditScreenTest extends ActivityReviewViewTest {
         DELETECONFIRM, DELETECANCEL
     }
 
-    public ActivityEditScreenTest(GvDataList.GvType dataType) {
+    public ActivityEditScreenTest(GvDataList.GvDataType dataType) {
         mDataType = dataType;
     }
 
@@ -354,7 +351,7 @@ public abstract class ActivityEditScreenTest extends ActivityReviewViewTest {
     }
 
     protected void launchAdder() {
-        mSolo.clickOnButton("Add " + mDataType.getDatumString());
+        mSolo.clickOnButton("Add " + mDataType.getDatumName());
     }
 
     protected void clickEditConfirm() {

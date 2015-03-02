@@ -16,7 +16,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.chdryra.android.reviewer.ConfigGvDataAddEdit;
-import com.chdryra.android.reviewer.GvDataList;
 import com.chdryra.android.reviewer.GvImageList;
 import com.chdryra.android.reviewer.LayoutImage;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
@@ -47,7 +46,7 @@ public class LayoutImageTest extends AndroidTestCase {
         GvImageList.GvImage image = GvDataMocker.newImage();
         String deleteConfirm = mLayout.getDeleteConfirmDialogTitle(image);
         assertNotNull(deleteConfirm);
-        assertTrue(deleteConfirm.contains(GvDataList.GvType.IMAGES.getDatumString()));
+        assertTrue(deleteConfirm.contains(GvImageList.TYPE.getDatumName()));
     }
 
     @SmallTest

@@ -12,6 +12,8 @@ import android.graphics.Bitmap;
 
 import com.google.android.gms.maps.model.LatLng;
 
+import java.util.Date;
+
 /**
  * Created by: Rizwan Choudrey
  * On: 09/12/2014
@@ -19,6 +21,8 @@ import com.google.android.gms.maps.model.LatLng;
  */
 public interface DataImage {
     public Bitmap getBitmap();
+
+    public Date getDate();
 
     public String getCaption();
 

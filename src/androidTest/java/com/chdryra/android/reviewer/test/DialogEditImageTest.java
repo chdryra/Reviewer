@@ -28,8 +28,8 @@ public class DialogEditImageTest extends DialogEditGvDataTest<GvImageList
     @Override
     protected GvImageList.GvImage getDataShown() {
         String caption = mSolo.getEditText(0).getText().toString().trim();
-        mCurrent = new GvImageList.GvImage(mCurrent.getBitmap(), mCurrent.getLatLng(),
-                caption, mCurrent.isCover());
+        mCurrent = new GvImageList.GvImage(mCurrent.getBitmap(), mCurrent.getDate(),
+                mCurrent.getLatLng(), caption, mCurrent.isCover());
 
         return mCurrent;
     }
@@ -44,8 +44,8 @@ public class DialogEditImageTest extends DialogEditGvDataTest<GvImageList
     protected GvDataList.GvData getNewDatum() {
         GvImageList.GvImage child = (GvImageList.GvImage) super.getNewDatum();
 
-        mCurrent = new GvImageList.GvImage(mCurrent.getBitmap(), mCurrent.getLatLng(),
-                child.getCaption(), mCurrent.isCover());
+        mCurrent = new GvImageList.GvImage(mCurrent.getBitmap(), mCurrent.getDate(),
+                mCurrent.getLatLng(), child.getCaption(), mCurrent.isCover());
 
         return mCurrent;
     }

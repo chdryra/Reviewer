@@ -30,7 +30,7 @@ public class ActivityEditLocationsTest extends ActivityEditScreenTest {
     private Instrumentation.ActivityMonitor mMainMonitor;
 
     public ActivityEditLocationsTest() {
-        super(GvDataList.GvType.LOCATIONS);
+        super(GvLocationList.TYPE);
     }
 
     public void testBanner() {
@@ -92,10 +92,10 @@ public class ActivityEditLocationsTest extends ActivityEditScreenTest {
     @Override
     protected void checkLaunchableShowing(boolean isShowing) {
         if (isShowing) {
-            assertTrue(mSolo.searchText(mDataType.getDatumString()));
-            assertFalse(mSolo.searchText(mDataType.getDataString()));
+            assertTrue(mSolo.searchText(mDataType.getDatumName()));
+            assertFalse(mSolo.searchText(mDataType.getDataName()));
         } else {
-            assertTrue(mSolo.searchText(mDataType.getDataString()));
+            assertTrue(mSolo.searchText(mDataType.getDataName()));
         }
     }
 
