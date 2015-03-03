@@ -37,6 +37,10 @@ public class ActivityEditUrlsTest extends ActivityEditScreenTest {
         super(GvUrlList.TYPE);
     }
 
+    public void testBanner() {
+        super.testBannerButtonAddDone();
+    }
+
     @Override
     protected void setUpFinish(boolean withData) {
         super.setUpFinish(withData);
@@ -85,6 +89,31 @@ public class ActivityEditUrlsTest extends ActivityEditScreenTest {
         } else {
             assertTrue(mSolo.searchText(mDataType.getDataName()));
         }
+    }
+
+    @Override
+    protected void clickEditConfirm() {
+        clickMenuDone();
+    }
+
+    @Override
+    protected void clickEditDelete() {
+        clickMenuDelete();
+    }
+
+    @Override
+    protected void clickEditCancel() {
+        clickMenuUp();
+    }
+
+    @Override
+    protected void clickAddConfirm() {
+        clickMenuDone();
+    }
+
+    @Override
+    protected void clickAddCancel() {
+        clickMenuUp();
     }
 
     @Override
