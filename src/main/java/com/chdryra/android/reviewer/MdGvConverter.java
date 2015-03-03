@@ -20,7 +20,7 @@ public class MdGvConverter {
     public static GvCommentList convert(MdCommentList comments) {
         GvCommentList list = new GvCommentList();
         for (DataComment comment : comments) {
-            list.add(new GvCommentList.GvComment(comment.getComment()));
+            list.add(new GvCommentList.GvComment(comment.getComment(), comment.isHeadline()));
         }
 
         return list;
@@ -29,7 +29,7 @@ public class MdGvConverter {
     public static GvCommentList copy(GvCommentList comments) {
         GvCommentList list = new GvCommentList();
         for (DataComment comment : comments) {
-            list.add(new GvCommentList.GvComment(comment.getComment()));
+            list.add(new GvCommentList.GvComment(comment.getComment(), comment.isHeadline()));
         }
 
         return list;
@@ -39,7 +39,8 @@ public class MdGvConverter {
             Review holder) {
         MdCommentList list = new MdCommentList(holder);
         for (DataComment comment : comments) {
-            list.add(new MdCommentList.MdComment(comment.getComment(), holder));
+            list.add(new MdCommentList.MdComment(comment.getComment(), comment.isHeadline(),
+                    holder));
         }
 
         return list;

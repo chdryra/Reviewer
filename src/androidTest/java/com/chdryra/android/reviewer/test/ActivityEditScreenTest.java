@@ -13,7 +13,6 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.graphics.Point;
 import android.test.suitebuilder.annotation.SmallTest;
-import android.widget.GridView;
 
 import com.chdryra.android.mygenerallibrary.DialogAlertFragment;
 import com.chdryra.android.mygenerallibrary.DialogDeleteConfirm;
@@ -52,10 +51,10 @@ public abstract class ActivityEditScreenTest extends ActivityReviewViewTest {
     protected GvDataList.GvDataType           mDataType;
     protected String                          mOriginalSubject;
     protected float                           mOriginalRating;
-    private   GvDataList                      mData;
+    protected GvDataList                      mData;
+    protected CallBackSignaler                mSignaler;
     private   ConfigGvDataUi.LaunchableConfig mAddConfig;
     private   ConfigGvDataUi.LaunchableConfig mEditConfig;
-    private   CallBackSignaler                mSignaler;
     private Map<Button, Runnable> mClickRunnables = new HashMap<>();
 
     private boolean mWithData = false;
@@ -471,6 +470,18 @@ public abstract class ActivityEditScreenTest extends ActivityReviewViewTest {
         assertEquals(result, data.equals(fromBuilder));
     }
 
+    protected void clickOnGridItem(final int position) {
+        mSolo.clickInList(position + 1);
+    }
+
+    protected void clickLongOnGridItem(final int position) {
+        mSolo.clickLongInList(position + 1);
+    }
+
+    protected void runOnUiThread(Runnable runnable) {
+        mActivity.runOnUiThread(runnable);
+    }
+
     private ReviewBuilder getParentBuilder() {
         return getBuilder().getParentBuilder();
     }
@@ -602,28 +613,9 @@ public abstract class ActivityEditScreenTest extends ActivityReviewViewTest {
         checkLaunchableShowing(false);
     }
 
-    private void clickOnGridItem(final int position) {
-        final GridView grid = getGridView();
-        Runnable gridItemClick = new Runnable() {
-            @Override
-            public void run() {
-                mSignaler.reset();
-                grid.setSelection(position);
-                grid.performItemClick(grid.getSelectedView(), position,
-                        grid.getItemIdAtPosition(position));
-                mSignaler.signal();
-            }
-        };
-        runOnUiThread(gridItemClick);
-    }
-
     private void click(Button button) {
         runOnUiThread(mClickRunnables.get(button));
         mSignaler.waitForSignal();
-    }
-
-    private void runOnUiThread(Runnable runnable) {
-        mActivity.runOnUiThread(runnable);
     }
 
     private void setAdderDialogButtonClicks() {

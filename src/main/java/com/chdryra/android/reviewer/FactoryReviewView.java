@@ -118,6 +118,8 @@ public class FactoryReviewView {
             GvDataList.GvDataType dataType, String title) {
         if (dataType == GvImageList.TYPE) {
             return new EditImagesBannerButton(title);
+        } else if (dataType == GvCommentList.TYPE) {
+            return new EditCommentsBannerButton(title);
         } else {
             return new EditScreenBannerButton(ConfigGvDataUi.getConfig(dataType).getAdderConfig()
                     , title);

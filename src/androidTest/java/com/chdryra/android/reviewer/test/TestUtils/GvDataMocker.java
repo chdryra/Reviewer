@@ -165,7 +165,7 @@ public class GvDataMocker {
     }
 
     public static GvCommentList.GvComment newComment() {
-        return new GvCommentList.GvComment(STRING_GENERATOR.nextParagraph());
+        return new GvCommentList.GvComment(STRING_GENERATOR.nextParagraph(), RAND.nextBoolean());
     }
 
     public static GvImageList.GvImage newImage() {

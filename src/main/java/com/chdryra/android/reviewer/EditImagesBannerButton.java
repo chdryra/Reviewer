@@ -20,16 +20,12 @@ import com.chdryra.android.mygenerallibrary.ActivityResultCode;
  * Email: rizwan.choudrey@gmail.com
  */
 public class EditImagesBannerButton extends EditScreenBannerButton {
-    private static final String TAG = "BannerButtonAddImageListener";
-
     private ImageChooser mImageChooser;
-    private Fragment     mListener;
 
     public EditImagesBannerButton(String title) {
         super(ConfigGvDataUi.getConfig(GvImageList.TYPE).getAdderConfig(), title);
-        mListener = new AddImageListener() {
-        };
-        registerActionListener(mListener, TAG);
+        setListener(new AddImageListener() {
+        });
     }
 
     @Override
@@ -40,7 +36,7 @@ public class EditImagesBannerButton extends EditScreenBannerButton {
 
     @Override
     public void onClick(View v) {
-        mListener.startActivityForResult(mImageChooser.getChooserIntents(), getRequestCode());
+        getListener().startActivityForResult(mImageChooser.getChooserIntents(), getRequestCode());
     }
 
     private void setCover() {

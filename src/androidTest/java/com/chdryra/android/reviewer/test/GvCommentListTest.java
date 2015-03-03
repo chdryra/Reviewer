@@ -149,9 +149,33 @@ public class GvCommentListTest extends TestCase {
         assertFalse(mList.equals(list));
     }
 
+    @SmallTest
+    public void testSort() {
+        mList.add(GvDataMocker.newCommentList(100));
+        assertFalse(isSorted());
+        mList.sort();
+        assertTrue(isSorted());
+    }
+
     @Override
     protected void setUp() throws Exception {
         super.setUp();
         mList = new GvCommentList();
+    }
+
+    private boolean isSorted() {
+        assertTrue(mList.size() > 0);
+        boolean isSorted = true;
+        for (int i = 0; i < mList.size() - 1; ++i) {
+            GvCommentList.GvComment before = mList.getItem(i);
+            GvCommentList.GvComment after = mList.getItem(i + 1);
+
+            if (!before.isHeadline() && after.isHeadline()) {
+                isSorted = false;
+                break;
+            }
+        }
+
+        return isSorted;
     }
 }

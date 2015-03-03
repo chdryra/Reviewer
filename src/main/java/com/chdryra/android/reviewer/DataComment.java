@@ -15,4 +15,6 @@ package com.chdryra.android.reviewer;
  */
 public interface DataComment {
     public String getComment();
+
+    public boolean isHeadline();
 }

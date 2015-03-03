@@ -110,7 +110,8 @@ public class MdDataMocker<T extends Review> {
     }
 
     public MdCommentList.MdComment newComment() {
-        return new MdCommentList.MdComment(STRING_GENERATOR.nextParagraph(), mReview);
+        return new MdCommentList.MdComment(STRING_GENERATOR.nextParagraph(), RAND.nextBoolean(),
+                mReview);
     }
 
     public MdImageList.MdImage newImage() {

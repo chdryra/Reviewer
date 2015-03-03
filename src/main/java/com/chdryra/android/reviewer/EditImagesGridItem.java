@@ -8,7 +8,6 @@
 
 package com.chdryra.android.reviewer;
 
-import android.app.Fragment;
 import android.os.Bundle;
 import android.view.View;
 
@@ -20,17 +19,13 @@ import com.chdryra.android.mygenerallibrary.DialogAlertFragment;
  * Email: rizwan.choudrey@gmail.com
  */
 public class EditImagesGridItem extends EditScreenGridItem {
-    private static final String TAG            = "GridItemEditImageListener";
     private static final int    IMAGE_AS_COVER = 200;
-    private static final String DIALOG_TAG     = "DialogAlertTag";
     private GvImageList.GvImage mCoverProposition;
-    private Fragment            mListener;
 
     public EditImagesGridItem() {
         super(ConfigGvDataUi.getConfig(GvImageList.TYPE).getEditorConfig());
-        mListener = new EditImageListener() {
-        };
-        registerActionListener(mListener, TAG);
+        setListener(new EditImageListener() {
+        });
     }
 
     @Override
@@ -46,7 +41,7 @@ public class EditImagesGridItem extends EditScreenGridItem {
         mCoverProposition = image;
         String alert = getActivity().getString(R.string.dialog_set_image_as_background);
         DialogAlertFragment dialog = DialogAlertFragment.newDialog(alert, new Bundle());
-        DialogShower.show(dialog, mListener, IMAGE_AS_COVER, DIALOG_TAG);
+        DialogShower.show(dialog, getListener(), IMAGE_AS_COVER, DialogAlertFragment.ALERT_TAG);
     }
 
     private abstract class EditImageListener extends EditListener implements DialogAlertFragment
@@ -56,7 +51,10 @@ public class EditImagesGridItem extends EditScreenGridItem {
         public void onGvDataDelete(GvDataList.GvData data) {
             super.onGvDataDelete(data);
             GvImageList.GvImage image = (GvImageList.GvImage) data;
-            if (image.isCover()) getReviewView().updateCover();
+            if (image.isCover()) {
+                image.setIsCover(false);
+                getReviewView().updateCover();
+            }
         }
 
         @Override

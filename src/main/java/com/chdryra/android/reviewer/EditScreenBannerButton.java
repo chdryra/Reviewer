@@ -29,17 +29,25 @@ public class EditScreenBannerButton extends ReviewViewAction.BannerButtonAction 
     public EditScreenBannerButton(ConfigGvDataUi.LaunchableConfig config, String title) {
         super(title);
         mConfig = config;
-        mListener = new AddListener() {
-        };
-        registerActionListener(mListener, TAG);
+        setListener(new AddListener() {
+        });
     }
 
     @Override
     public void onClick(View v) {
         if (getReviewView() == null) return;
 
-        LauncherUi.launch(mConfig.getLaunchable(), mListener, getRequestCode(),
+        LauncherUi.launch(mConfig.getLaunchable(), getListener(), getRequestCode(),
                 mConfig.getTag(), new Bundle());
+    }
+
+    protected Fragment getListener() {
+        return mListener;
+    }
+
+    protected void setListener(Fragment listener) {
+        mListener = listener;
+        super.registerActionListener(listener, TAG);
     }
 
     //TODO make type safe
@@ -56,7 +64,7 @@ public class EditScreenBannerButton extends ReviewViewAction.BannerButtonAction 
     //Dialogs expected to communicate directly with target fragments so using "invisible"
     // fragment as listener.
     //Restrictions on how fragments are constructed mean I have to use an abstract class...
-    private abstract class AddListener extends Fragment implements DialogAddGvData
+    protected abstract class AddListener extends Fragment implements DialogAddGvData
             .GvDataAddListener {
         @Override
         public boolean onGvDataAdd(GvDataList.GvData data) {

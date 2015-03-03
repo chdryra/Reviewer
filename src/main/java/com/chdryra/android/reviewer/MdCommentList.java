@@ -25,11 +25,13 @@ public class MdCommentList extends MdDataList<MdCommentList.MdComment> {
     }
 
     public static class MdComment implements MdData, DataComment {
-        private final String mComment;
-        private       Review mHoldingReview;
+        private final String  mComment;
+        private       boolean mIsHeadline;
+        private       Review  mHoldingReview;
 
-        public MdComment(String comment, Review holdingReview) {
+        public MdComment(String comment, boolean isHeadline, Review holdingReview) {
             mComment = comment;
+            mIsHeadline = isHeadline;
             mHoldingReview = holdingReview;
         }
 
@@ -49,6 +51,11 @@ public class MdCommentList extends MdDataList<MdCommentList.MdComment> {
         }
 
         @Override
+        public boolean isHeadline() {
+            return mIsHeadline;
+        }
+
+        @Override
         public boolean equals(Object o) {
             if (this == o) return true;
             if (!(o instanceof MdComment)) return false;
@@ -63,6 +70,9 @@ public class MdCommentList extends MdDataList<MdCommentList.MdComment> {
                     mdComment.mHoldingReview != null) {
                 return false;
             }
+            if (mIsHeadline != mdComment.mIsHeadline) {
+                return false;
+            }
 
             return true;
         }
@@ -71,6 +81,7 @@ public class MdCommentList extends MdDataList<MdCommentList.MdComment> {
         public int hashCode() {
             int result = mComment != null ? mComment.hashCode() : 0;
             result = 31 * result + (mHoldingReview != null ? mHoldingReview.hashCode() : 0);
+            result = 31 * result + (mIsHeadline ? 1 : 0);
             return result;
         }
     }

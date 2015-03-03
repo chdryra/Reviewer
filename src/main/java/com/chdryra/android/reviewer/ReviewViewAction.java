@@ -69,7 +69,16 @@ public class ReviewViewAction {
     }
 
     protected void registerActionListener(Fragment listener, String tag) {
-        if (!mListeners.containsKey(tag)) mListeners.put(tag, listener);
+        if (!mListeners.containsKey(tag)) {
+            mListeners.put(tag, listener);
+        } else {
+            unregisterActionListener(tag);
+            registerActionListener(listener, tag);
+        }
+    }
+
+    protected void unregisterActionListener(String tag) {
+        if (mListeners.containsKey(tag)) mListeners.remove(tag);
     }
 
     protected GvDataList getGridData() {

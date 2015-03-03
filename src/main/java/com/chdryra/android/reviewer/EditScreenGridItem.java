@@ -22,15 +22,14 @@ import com.chdryra.android.mygenerallibrary.ActivityResultCode;
  */
 public class EditScreenGridItem extends ReviewViewAction.GridItemAction {
     private static final String TAG = "GridItemEditListener";
-    private final Fragment                        mListener;
-    private       ConfigGvDataUi.LaunchableConfig mConfig;
-    private ReviewView.Editor mEditor;
+    private Fragment                        mListener;
+    private ConfigGvDataUi.LaunchableConfig mConfig;
+    private ReviewView.Editor               mEditor;
 
     public EditScreenGridItem(ConfigGvDataUi.LaunchableConfig config) {
         mConfig = config;
-        mListener = new EditListener() {
-        };
-        registerActionListener(mListener, TAG);
+        setListener(new EditListener() {
+        });
     }
 
     @Override
@@ -48,6 +47,15 @@ public class EditScreenGridItem extends ReviewViewAction.GridItemAction {
 
         LauncherUi.launch(mConfig.getLaunchable(), mListener, getRequestCode(),
                 mConfig.getTag(), args);
+    }
+
+    protected Fragment getListener() {
+        return mListener;
+    }
+
+    protected void setListener(Fragment listener) {
+        mListener = listener;
+        super.registerActionListener(listener, TAG);
     }
 
     protected int getRequestCode() {

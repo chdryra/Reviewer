@@ -69,9 +69,12 @@ public class DataValidatorTest extends TestCase {
         assertTrue(DataValidator.validate(GvDataMocker.newComment()));
 
         Review r = ReviewMocker.newReview();
-        assertFalse(DataValidator.validate(new MdCommentList.MdComment(null, r)));
-        assertFalse(DataValidator.validate(new MdCommentList.MdComment("", r)));
-        assertTrue(DataValidator.validate(new MdCommentList.MdComment(comment, r)));
+        assertFalse(DataValidator.validate(new MdCommentList.MdComment(null, false, r)));
+        assertFalse(DataValidator.validate(new MdCommentList.MdComment(null, true, r)));
+        assertFalse(DataValidator.validate(new MdCommentList.MdComment("", false, r)));
+        assertFalse(DataValidator.validate(new MdCommentList.MdComment("", true, r)));
+        assertTrue(DataValidator.validate(new MdCommentList.MdComment(comment, false, r)));
+        assertTrue(DataValidator.validate(new MdCommentList.MdComment(comment, true, r)));
         assertTrue(DataValidator.validate(mMdMocker.newComment()));
     }
 

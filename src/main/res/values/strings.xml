@@ -18,6 +18,7 @@
     <string name="dialog_url_title">Link</string>
     <string name="dialog_image_content_description">Review image</string>
     <string name="dialog_set_image_as_background">Set image as cover?</string>
+    <string name="dialog_set_comment_as_headline">Set comment as headline?</string>
 
     <!-- Activities & Screens -->
     <string name="activity_title_location">location</string>
