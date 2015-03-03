@@ -158,7 +158,7 @@ public abstract class ActivityEditScreenTest extends ActivityReviewViewTest {
         ReviewBuilder.DataBuilder dbuilder = builder.getDataBuilder(mDataType);
 
         if (mWithData) {
-            mData = GvDataMocker.getData(mDataType, NUM_DATA);
+            mData = newData();
             for (int i = 0; i < mData.size(); ++i) {
                 //TODO make type safe
                 dbuilder.add((GvDataList.GvData) mData.getItem(i));

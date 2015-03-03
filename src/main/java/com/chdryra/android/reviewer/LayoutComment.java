@@ -20,6 +20,8 @@ public class LayoutComment extends GvDataViewLayout<GvCommentList.GvComment> {
     public static final int   COMMENT = R.id.comment_edit_text;
     public static final int[] VIEWS   = new int[]{COMMENT};
 
+    private GvCommentList.GvComment mCurrent;
+
     public LayoutComment(GvDataViewAdd.GvDataAdder adder) {
         super(GvCommentList.GvComment.class, LAYOUT, VIEWS, COMMENT, adder);
     }
@@ -41,11 +43,15 @@ public class LayoutComment extends GvDataViewLayout<GvCommentList.GvComment> {
     @Override
     public GvCommentList.GvComment createGvDataFromViews() {
         EditText commentET = (EditText) mViewHolder.getView(COMMENT);
-        return new GvCommentList.GvComment(commentET.getText().toString().trim());
+        boolean isHeadline = mCurrent != null && mCurrent.isHeadline();
+        mCurrent = new GvCommentList.GvComment(commentET.getText().toString().trim(), isHeadline);
+
+        return mCurrent;
     }
 
     @Override
     public void updateViews(GvCommentList.GvComment comment) {
         ((EditText) mViewHolder.getView(COMMENT)).setText(comment.getComment());
+        mCurrent = comment;
     }
 }

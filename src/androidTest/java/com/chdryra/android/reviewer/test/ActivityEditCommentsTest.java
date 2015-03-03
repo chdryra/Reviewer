@@ -14,7 +14,9 @@ import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.mygenerallibrary.DialogAlertFragment;
 import com.chdryra.android.reviewer.GvCommentList;
+import com.chdryra.android.reviewer.GvDataList;
 import com.chdryra.android.reviewer.R;
+import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
 
 /**
  * Created by: Rizwan Choudrey
@@ -137,6 +139,27 @@ public class ActivityEditCommentsTest extends ActivityEditScreenTest {
         assertTrue(newnewHeadline.isHeadline());
         assertFalse(newHeadline.isHeadline());
         assertFalse(newHeadline.equals(newnewHeadline));
+    }
+
+    @Override
+    protected GvDataList.GvData newEditDatum(GvDataList.GvData oldDatum) {
+        GvCommentList.GvComment newComment = (GvCommentList.GvComment) GvDataMocker.getDatum
+                (mDataType);
+        newComment.setIsHeadline(((GvCommentList.GvComment) oldDatum).isHeadline());
+
+        return newComment;
+    }
+
+    @Override
+    protected GvDataList newData() {
+        GvCommentList comments = (GvCommentList) super.newData();
+        for (GvCommentList.GvComment comment : comments) {
+            comment.setIsHeadline(false);
+        }
+
+        comments.getItem(0).setIsHeadline(true);
+
+        return comments;
     }
 
     private DialogAlertFragment getAlertDialog() {

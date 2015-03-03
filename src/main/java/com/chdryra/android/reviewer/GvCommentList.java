@@ -144,8 +144,7 @@ public class GvCommentList extends GvDataList<GvCommentList.GvComment> {
             return !(mComment != null ? !mComment.equals(gvComment.mComment) : gvComment.mComment
                     != null) && !
                     (mUnsplitParent != null ? !mUnsplitParent.equals(gvComment
-                            .mUnsplitParent) : gvComment.mUnsplitParent != null) &&
-                    mIsHeadline == gvComment.mIsHeadline;
+                            .mUnsplitParent) : gvComment.mUnsplitParent != null);
 
         }
 
