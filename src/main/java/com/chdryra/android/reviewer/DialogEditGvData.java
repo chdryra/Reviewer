@@ -82,14 +82,16 @@ public abstract class DialogEditGvData<T extends GvDataList.GvData>
 
     @Override
     protected View createDialogUi() {
-        return mLayout.inflateAndInitialise(getActivity(), mDatum);
+        return mLayout.createLayoutUi(getActivity(), mDatum);
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mDatum = mPacker.unpack(GvDataPacker.CurrentNewDatum.CURRENT, getArguments());
+        Bundle args = getArguments();
+        mLayout.onActivityAttached(getActivity(), args);
+        mDatum = mPacker.unpack(GvDataPacker.CurrentNewDatum.CURRENT, args);
 
         //TODO make type safe
         mEditListener = (GvDataEditListener<T>) getTargetListener(GvDataEditListener.class);

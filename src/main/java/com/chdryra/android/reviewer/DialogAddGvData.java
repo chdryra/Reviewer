@@ -82,7 +82,7 @@ public abstract class DialogAddGvData<T extends GvDataList.GvData> extends
 
     @Override
     protected View createDialogUi() {
-        return mLayout.inflateAndInitialise(getActivity(), null);
+        return mLayout.createLayoutUi(getActivity(), null);
     }
 
     @Override
@@ -90,6 +90,7 @@ public abstract class DialogAddGvData<T extends GvDataList.GvData> extends
         super.onCreate(savedInstanceState);
 
         Bundle args = getArguments();
+        mLayout.onActivityAttached(getActivity(), args);
         mQuickSet = args != null && args.getBoolean(QUICK_SET);
 
         //TODO make type safe

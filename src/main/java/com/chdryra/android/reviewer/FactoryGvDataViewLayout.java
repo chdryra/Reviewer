@@ -32,6 +32,7 @@ public class FactoryGvDataViewLayout {
         mMap.put(GvFactList.TYPE, LayoutFact.class);
         mMap.put(GvImageList.TYPE, LayoutImage.class);
         mMap.put(GvTagList.TYPE, LayoutTag.class);
+        mMap.put(GvLocationList.TYPE, LayoutLocationAdd.class);
     }
 
     static <T extends GvDataList.GvData> GvDataEditLayout<T> newLayout

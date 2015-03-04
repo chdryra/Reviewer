@@ -58,7 +58,7 @@ public abstract class GvDataEditLayoutTest<T extends GvDataList.GvData> extends 
 
     @Override
     protected void setUp() throws Exception {
-        mLayout.inflateAndInitialise(getContext(), newData());
+        mLayout.createLayoutUi(getContext(), newData());
     }
 
     protected View getView(int viewId) {

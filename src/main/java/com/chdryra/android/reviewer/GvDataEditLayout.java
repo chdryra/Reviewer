@@ -8,7 +8,9 @@
 
 package com.chdryra.android.reviewer;
 
+import android.app.Activity;
 import android.content.Context;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 
@@ -76,10 +78,14 @@ public abstract class GvDataEditLayout<T extends GvDataList.GvData> {
         return (EditText) mHolder.getView(mEditTextId);
     }
 
-    public View inflateAndInitialise(Context context, T data) {
+    public View createLayoutUi(Context context, T data) {
         mHolder.inflate(context);
         mViewManager.initialise(data);
         return mHolder.getView();
+    }
+
+    public void onActivityAttached(Activity activity, Bundle args) {
+
     }
 
     public View getView(int viewId) {

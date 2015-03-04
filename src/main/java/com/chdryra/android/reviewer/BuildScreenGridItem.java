@@ -96,9 +96,7 @@ public class BuildScreenGridItem extends ReviewViewAction.GridItemAction {
     }
 
     private void showQuickDialog(ConfigGvDataUi.Config config) {
-        GvDataList.GvDataType dataType = config.getGvDataType();
-
-        if (dataType == GvImageList.TYPE) {
+        if (config.getGvDataType() == GvImageList.TYPE) {
             mListener.startActivityForResult(mImageChooser.getChooserIntents(),
                     getImageRequestCode());
             return;
@@ -106,18 +104,11 @@ public class BuildScreenGridItem extends ReviewViewAction.GridItemAction {
 
         Bundle args = new Bundle();
         args.putBoolean(DialogAddGvData.QUICK_SET, true);
+        packLatLng(args);
 
         ConfigGvDataUi.LaunchableConfig adderConfig = config.getAdderConfig();
-        LaunchableUi ui;
-        if (dataType == GvLocationList.TYPE) {
-            ui = ConfigGvDataUi.getLaunchable(DialogLocation.class);
-            packLatLng(args);
-        } else {
-            ui = adderConfig.getLaunchable();
-        }
-
-        LauncherUi.launch(ui, mListener, adderConfig.getRequestCode(), adderConfig.getTag(),
-                args);
+        LauncherUi.launch(adderConfig.getLaunchable(), mListener, adderConfig.getRequestCode(),
+                adderConfig.getTag(), args);
     }
 
     private void packLatLng(Bundle args) {
