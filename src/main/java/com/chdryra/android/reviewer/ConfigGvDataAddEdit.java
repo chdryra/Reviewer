@@ -29,6 +29,7 @@ public final class ConfigGvDataAddEdit {
         mMap.put(GvCommentList.TYPE, new AddEditUis(AddComment.class, EditComment.class));
         mMap.put(GvImageList.TYPE, new AddEditUis(null, EditImage.class));
         mMap.put(GvFactList.TYPE, new AddEditUis(AddFact.class, EditFact.class));
+        //mMap.put(GvLocationList.TYPE, new AddEditUis(AddLocation.class, EditLocation.class));
         mMap.put(GvLocationList.TYPE, new AddEditUis(ActivityEditLocationMap.class,
                 ActivityEditLocationMap.class));
         mMap.put(GvUrlList.TYPE, new AddEditUis(ActivityEditUrlBrowser.class,
@@ -81,6 +82,13 @@ public final class ConfigGvDataAddEdit {
         }
     }
 
+    //Location
+    public static class AddLocation extends DialogAddGvData<GvLocationList.GvLocation> {
+        public AddLocation() {
+            super(GvLocationList.class);
+        }
+    }
+
     //Editors
     //Tag
     public static class EditTag extends DialogEditGvData<GvTagList.GvTag> {
@@ -114,6 +122,13 @@ public final class ConfigGvDataAddEdit {
     public static class EditFact extends DialogEditGvData<GvFactList.GvFact> {
         public EditFact() {
             super(GvFactList.class);
+        }
+    }
+
+    //Location
+    public static class EditLocation extends DialogEditGvData<GvLocationList.GvLocation> {
+        public EditLocation() {
+            super(GvLocationList.class);
         }
     }
 

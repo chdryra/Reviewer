@@ -19,4 +19,8 @@ public class ActivityEditTagsTest extends ActivityEditScreenTest {
     public ActivityEditTagsTest() {
         super(GvTagList.TYPE);
     }
+
+    public void testDebug() {
+        super.testBannerButtonAddCancel();
+    }
 }

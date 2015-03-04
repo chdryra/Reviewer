@@ -68,6 +68,11 @@ public class GvLocationList extends GvDataList<GvLocationList.GvLocation> {
         }
 
         @Override
+        public String getStringSummary() {
+            return "@" + getShortenedName();
+        }
+
+        @Override
         public boolean equals(Object o) {
             if (this == o) return true;
             if (!(o instanceof GvLocation)) return false;

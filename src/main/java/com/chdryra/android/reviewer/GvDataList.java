@@ -27,6 +27,7 @@ public abstract class GvDataList<T extends GvDataList.GvData> extends ViewHolder
     public final GvDataType TYPE;
 
     public interface GvData extends ViewHolderData, Parcelable {
+        public String getStringSummary();
     }
 
     protected GvDataList(GvDataType dataName) {

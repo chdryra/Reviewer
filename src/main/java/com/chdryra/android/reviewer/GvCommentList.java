@@ -121,6 +121,11 @@ public class GvCommentList extends GvDataList<GvCommentList.GvComment> {
         }
 
         @Override
+        public String getStringSummary() {
+            return getUnSplitComment().getCommentHeadline() + "...";
+        }
+
+        @Override
         public String getComment() {
             return mComment;
         }

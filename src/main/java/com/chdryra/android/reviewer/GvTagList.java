@@ -69,5 +69,10 @@ public class GvTagList extends GvDataList<GvTagList.GvTag> {
         public ViewHolder newViewHolder() {
             return new VhTag();
         }
+
+        @Override
+        public String getStringSummary() {
+            return "#" + get();
+        }
     }
 }

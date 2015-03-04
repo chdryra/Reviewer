@@ -48,6 +48,11 @@ class GvDualText extends VHDDualString implements GvDataList.GvData {
     }
 
     @Override
+    public String getStringSummary() {
+        return "Upper: " + getUpper() + ", Lower: " + getLower();
+    }
+
+    @Override
     public int describeContents() {
         return 0;
     }

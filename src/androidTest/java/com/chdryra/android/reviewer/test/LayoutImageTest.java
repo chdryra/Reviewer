@@ -9,98 +9,43 @@
 package com.chdryra.android.reviewer.test;
 
 import android.graphics.drawable.BitmapDrawable;
-import android.test.AndroidTestCase;
-import android.test.suitebuilder.annotation.SmallTest;
-import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.chdryra.android.reviewer.ConfigGvDataAddEdit;
 import com.chdryra.android.reviewer.GvImageList;
 import com.chdryra.android.reviewer.LayoutImage;
-import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 23/12/2014
  * Email: rizwan.choudrey@gmail.com
  */
-public class LayoutImageTest extends AndroidTestCase {
-    private LayoutImage mLayout;
+public class LayoutImageTest extends GvDataEditLayoutTest<GvImageList.GvImage> {
+    private ImageView mImageView;
+
+    public LayoutImageTest() {
+        super(GvImageList.TYPE, new LayoutImage(new ConfigGvDataAddEdit.EditImage()));
+    }
+
+    @Override
+    protected void enterData(GvImageList.GvImage datum) {
+        mLayout.updateLayout(datum);
+    }
+
+    @Override
+    protected void checkViewAndDataEquivalence(GvImageList.GvImage datum, boolean result) {
+        assertEquals(result, ((BitmapDrawable) mImageView.getDrawable()).getBitmap().sameAs
+                (datum.getBitmap()));
+        assertEquals(result, mEditText.getText().toString().trim().equals(datum.getCaption()));
+    }
 
     @Override
     public void setUp() throws Exception {
-        mLayout = new LayoutImage(new ConfigGvDataAddEdit.EditImage());
-    }
-
-    @SmallTest
-    public void testGetDialogTitleOnAdd() {
-        GvImageList.GvImage image = GvDataMocker.newImage();
-
-        String title = mLayout.getTitleOnAdd(image);
-        assertNull(title);
-    }
-
-    @SmallTest
-    public void testGetDeleteConfirmDialogTitle() {
-        GvImageList.GvImage image = GvDataMocker.newImage();
-        String deleteConfirm = mLayout.getDeleteConfirmDialogTitle(image);
-        assertNotNull(deleteConfirm);
-        assertTrue(deleteConfirm.contains(GvImageList.TYPE.getDatumName()));
-    }
-
-    @SmallTest
-    public void testCreateGvDataFromViews() {
-        View v = inflate();
-        EditText captionET = (EditText) v.findViewById(LayoutImage.CAPTION);
-        ImageView imageView = (ImageView) v.findViewById(LayoutImage.IMAGE);
-        assertNotNull(captionET);
-        assertNotNull(imageView);
-
-        //unlike other Layouts, passes back what was used to update with new caption if necessary.
-        GvImageList.GvImage imageIn = GvDataMocker.newImage();
-        mLayout.updateViews(imageIn);
-
-        GvImageList.GvImage imageOut = mLayout.createGvDataFromViews();
-        assertNotNull(imageOut);
-        assertEquals(imageIn.getBitmap(), imageOut.getBitmap());
-        assertEquals(imageIn.getCaption(), imageOut.getCaption());
-        assertEquals(imageIn.getLatLng(), imageOut.getLatLng());
-    }
-
-    @SmallTest
-    public void testUpdateViews() {
-        View v = inflate();
-        EditText captionET = (EditText) v.findViewById(LayoutImage.CAPTION);
-        ImageView imageView = (ImageView) v.findViewById(LayoutImage.IMAGE);
-        assertNotNull(captionET);
-        assertNotNull(imageView);
-
-        GvImageList.GvImage imageIn = GvDataMocker.newImage();
-        assertNull(imageView.getDrawable());
-        assertFalse(captionET.getText().toString().trim().equals(imageIn.getCaption()));
-
-        mLayout.updateViews(imageIn);
-        assertNotNull(imageView.getDrawable());
-        assertTrue(((BitmapDrawable) imageView.getDrawable()).getBitmap().sameAs(imageIn
-                .getBitmap()));
-        assertTrue(captionET.getText().toString().trim().equals(imageIn.getCaption()));
-    }
-
-    @SmallTest
-    public void testGetViewHolder() {
-        assertNotNull(mLayout.getViewHolder());
-    }
-
-    @SmallTest
-    public void testGetEditTextForKeyboardAction() {
-        View v = inflate();
-        EditText captionET = (EditText) v.findViewById(LayoutImage.CAPTION);
-        assertEquals(captionET, mLayout.getEditTextForKeyboardAction());
-    }
-
-    private View inflate() {
-        mLayout.getViewHolder().inflate(getContext());
-        return mLayout.getViewHolder().getView();
+        super.setUp();
+        mEditText = (EditText) getView(LayoutImage.CAPTION);
+        mImageView = (ImageView) getView(LayoutImage.IMAGE);
+        assertNotNull(mEditText);
+        assertNotNull(mImageView);
     }
 }

@@ -29,19 +29,19 @@ import com.chdryra.android.mygenerallibrary.DialogCancelDeleteDoneFragment;
  * other functionality is outsourced to the appropriate classes:
  * <ul>
  * <li>{@link GvDataPacker}: Unpacking of received data.</li>
- * <li>{@link GvDataViewHolder}: UI updates and user input extraction</li>
+ * <li>{@link LayoutHolder}: UI updates and user input extraction</li>
  * <li>{@link GvDataEditListener}: commissioning fragment.
  * </ul>
  * </p>
  */
 public abstract class DialogEditGvData<T extends GvDataList.GvData>
-        extends DialogCancelDeleteDoneFragment implements GvDataViewEdit.GvDataEditor,
+        extends DialogCancelDeleteDoneFragment implements GvDataEditLayout.GvDataEditor,
         LaunchableUi {
 
     private GvDataList.GvDataType mDataType;
     private T                     mDatum;
     private GvDataPacker<T>       mPacker;
-    private GvDataViewHolder<T>   mViewHolder;
+    private GvDataEditLayout<T>   mLayout;
     private GvDataEditListener<T> mEditListener;
 
     /**
@@ -58,7 +58,7 @@ public abstract class DialogEditGvData<T extends GvDataList.GvData>
     DialogEditGvData(Class<? extends GvDataList<T>> gvDataListClass) {
         mDataType = FactoryGvData.gvType(gvDataListClass);
         mPacker = new GvDataPacker<>();
-        mViewHolder = FactoryGvDataViewHolder.newHolder(getGvDataType(), this);
+        mLayout = FactoryGvDataViewLayout.newLayout(getGvDataType(), this);
     }
 
     @Override
@@ -82,10 +82,7 @@ public abstract class DialogEditGvData<T extends GvDataList.GvData>
 
     @Override
     protected View createDialogUi() {
-        mViewHolder.inflate(getActivity());
-        mViewHolder.initialiseView(mDatum);
-
-        return mViewHolder.getView();
+        return mLayout.inflateAndInitialise(getActivity(), mDatum);
     }
 
     @Override
@@ -118,7 +115,7 @@ public abstract class DialogEditGvData<T extends GvDataList.GvData>
 
     @Override
     protected void onDoneButtonClick() {
-        mEditListener.onGvDataEdit(mDatum, mViewHolder.getGvData());
+        mEditListener.onGvDataEdit(mDatum, mLayout.createGvData());
     }
 
     @Override

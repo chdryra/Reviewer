@@ -108,6 +108,11 @@ public class GvChildList extends GvDataList<GvChildList.GvChildReview> {
         }
 
         @Override
+        public String getStringSummary() {
+            return getSubject() + ": " + RatingFormatter.outOfFive(getRating());
+        }
+
+        @Override
         public boolean equals(Object o) {
             if (this == o) return true;
             if (!(o instanceof GvChildReview)) return false;

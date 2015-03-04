@@ -84,6 +84,11 @@ public class GvBuildReviewList extends GvDataList<GvBuildReviewList.GvBuildRevie
         }
 
         @Override
+        public String getStringSummary() {
+            return mDataType.getDataName();
+        }
+
+        @Override
         public int describeContents() {
             return 0;
         }

@@ -79,6 +79,11 @@ public class GvFactList extends GvDataList<GvFactList.GvFact> {
         }
 
         @Override
+        public String getStringSummary() {
+            return getLabel() + ": " + getValue();
+        }
+
+        @Override
         public String getLabel() {
             return getUpper();
         }

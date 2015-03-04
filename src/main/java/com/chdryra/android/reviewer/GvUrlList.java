@@ -97,6 +97,11 @@ public class GvUrlList extends GvDataList<GvUrlList.GvUrl> {
         }
 
         @Override
+        public String getStringSummary() {
+            return toShortenedString();
+        }
+
+        @Override
         public boolean equals(Object o) {
             if (this == o) return true;
             if (!(o instanceof GvUrl)) return false;

@@ -16,7 +16,7 @@ import android.widget.ImageView;
  * On: 18/12/2014
  * Email: rizwan.choudrey@gmail.com
  */
-public class LayoutImage extends GvDataViewLayout<GvImageList.GvImage> {
+public class LayoutImage extends GvDataEditLayout<GvImageList.GvImage> {
     public static final int   LAYOUT  = R.layout.dialog_image;
     public static final int   IMAGE   = R.id.dialog_image_image_view;
     public static final int   CAPTION = R.id.dialog_image_caption_edit_text;
@@ -24,24 +24,13 @@ public class LayoutImage extends GvDataViewLayout<GvImageList.GvImage> {
 
     private GvImageList.GvImage mCurrent;
 
-    public LayoutImage(GvDataViewEdit.GvDataEditor editor) {
+    public LayoutImage(GvDataEditor editor) {
         super(GvImageList.GvImage.class, LAYOUT, VIEWS, CAPTION, editor);
     }
 
     @Override
-    public String getTitleOnAdd(GvImageList.GvImage data) {
-        //Standard add dialog not used for images
-        return null;
-    }
-
-    @Override
-    public String getDeleteConfirmDialogTitle(GvImageList.GvImage data) {
-        return GvImageList.TYPE.getDatumName();
-    }
-
-    @Override
-    public GvImageList.GvImage createGvDataFromViews() {
-        String caption = ((EditText) mViewHolder.getView(CAPTION)).getText().toString().trim();
+    public GvImageList.GvImage createGvData() {
+        String caption = ((EditText) getView(CAPTION)).getText().toString().trim();
         mCurrent = new GvImageList.GvImage(mCurrent.getBitmap(), mCurrent.getDate(),
                 mCurrent.getLatLng(), caption, mCurrent.isCover());
 
@@ -49,9 +38,9 @@ public class LayoutImage extends GvDataViewLayout<GvImageList.GvImage> {
     }
 
     @Override
-    public void updateViews(GvImageList.GvImage image) {
-        ImageView imageView = (ImageView) mViewHolder.getView(IMAGE);
-        EditText imageCaption = (EditText) mViewHolder.getView(CAPTION);
+    public void updateLayout(GvImageList.GvImage image) {
+        ImageView imageView = (ImageView) getView(IMAGE);
+        EditText imageCaption = (EditText) getView(CAPTION);
 
         imageView.setImageBitmap(image.getBitmap());
         String caption = image.getCaption();

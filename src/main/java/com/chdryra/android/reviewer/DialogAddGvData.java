@@ -23,7 +23,7 @@ import com.chdryra.android.mygenerallibrary.DialogCancelAddDoneFragment;
  * other functionality is outsourced to the appropriate classes:
  * <ul>
  * <li>{@link GvDataPacker}: Unpacking of received data.</li>
- * <li>{@link GvDataViewHolder}: UI updates and user input extraction</li>
+ * <li>{@link LayoutHolder}: UI updates and user input extraction</li>
  * <li>{@link GvDataAddListener}: commissioning fragment.
  * <li>{@link GvDataHandler}: input validation when QUICK_SET = true.
  * </ul>
@@ -38,13 +38,12 @@ import com.chdryra.android.mygenerallibrary.DialogCancelAddDoneFragment;
  * </p>
  */
 public abstract class DialogAddGvData<T extends GvDataList.GvData> extends
-        DialogCancelAddDoneFragment implements GvDataViewAdd.GvDataAdder, LaunchableUi {
-
+        DialogCancelAddDoneFragment implements GvDataEditLayout.GvDataAdder, LaunchableUi {
     public static final String QUICK_SET = "com.chdryra.android.reviewer.dialog_quick_mode";
 
     private GvDataList.GvDataType        mDataType;
     private ReviewBuilder.DataBuilder<T> mBuilder;
-    private GvDataViewHolder<T>          mViewHolder;
+    private GvDataEditLayout<T>          mLayout;
     private GvDataAddListener<T>         mAddListener;
 
     private boolean mQuickSet = false;
@@ -58,7 +57,7 @@ public abstract class DialogAddGvData<T extends GvDataList.GvData> extends
 
     public DialogAddGvData(Class<? extends GvDataList<T>> dataClass) {
         mDataType = FactoryGvData.gvType(dataClass);
-        mViewHolder = FactoryGvDataViewHolder.newViewHolder(mDataType, this);
+        mLayout = FactoryGvDataViewLayout.newLayout(mDataType, this);
     }
 
     @Override
@@ -83,10 +82,7 @@ public abstract class DialogAddGvData<T extends GvDataList.GvData> extends
 
     @Override
     protected View createDialogUi() {
-        mViewHolder.inflate(getActivity());
-        mViewHolder.initialiseView(null);
-
-        return mViewHolder.getView();
+        return mLayout.inflateAndInitialise(getActivity(), null);
     }
 
     @Override
@@ -110,17 +106,12 @@ public abstract class DialogAddGvData<T extends GvDataList.GvData> extends
 
     @Override
     protected void onAddButtonClick() {
-        T newDatum = mViewHolder.getGvData();
+        T newDatum = mLayout.createGvData();
 
         boolean added = isQuickSet() ? mBuilder.add(newDatum) :
                 newDatum.isValidForDisplay() && mAddListener.onGvDataAdd(newDatum);
 
-        if (added) mViewHolder.updateView(newDatum);
-    }
-
-    @Override
-    protected void onCancelButtonClick() {
-        if (isQuickSet()) mBuilder.setData();
+        if (added) mLayout.onAdd(newDatum);
     }
 
     @Override

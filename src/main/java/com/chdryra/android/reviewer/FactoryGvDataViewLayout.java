@@ -19,13 +19,13 @@ import java.util.HashMap;
  * On: 18/12/2014
  * Email: rizwan.choudrey@gmail.com
  */
-public class FactoryGvDataViewHolder {
+public class FactoryGvDataViewLayout {
     private static final String TAG = "FactoryGvDataViewHolder";
-    private static FactoryGvDataViewHolder sFactory;
-    private final  HashMap<GvDataList.GvDataType, Class<? extends GvDataViewLayout<? extends
+    private static FactoryGvDataViewLayout sFactory;
+    private final  HashMap<GvDataList.GvDataType, Class<? extends GvDataEditLayout<? extends
             GvDataList.GvData>>>           mMap;
 
-    private FactoryGvDataViewHolder() {
+    private FactoryGvDataViewLayout() {
         mMap = new HashMap<>();
         mMap.put(GvChildList.TYPE, LayoutChildReview.class);
         mMap.put(GvCommentList.TYPE, LayoutComment.class);
@@ -34,16 +34,15 @@ public class FactoryGvDataViewHolder {
         mMap.put(GvTagList.TYPE, LayoutTag.class);
     }
 
-    static <T extends GvDataList.GvData> GvDataViewHolder<T> newViewHolder
-            (GvDataList.GvDataType dataType, GvDataViewAdd.GvDataAdder adder) {
-        if (sFactory == null) sFactory = new FactoryGvDataViewHolder();
+    static <T extends GvDataList.GvData> GvDataEditLayout<T> newLayout
+            (GvDataList.GvDataType dataType, GvDataEditLayout.GvDataAdder adder) {
+        if (sFactory == null) sFactory = new FactoryGvDataViewLayout();
         try {
             Constructor ctor = sFactory.mMap.get(dataType)
-                    .getDeclaredConstructor(GvDataViewAdd.GvDataAdder.class);
+                    .getDeclaredConstructor(GvDataEditLayout.GvDataAdder.class);
             try {
                 //TODO make type safe
-                GvDataViewLayout layout = (GvDataViewLayout) ctor.newInstance(adder);
-                return layout.getViewHolder();
+                return (GvDataEditLayout) ctor.newInstance(adder);
             } catch (InstantiationException e) {
                 Log.e(TAG, "Problem constructing ReviewDataAdd dialog for " + dataType
                         .getDatumName(), e);
@@ -62,16 +61,15 @@ public class FactoryGvDataViewHolder {
                 + dataType.getDatumName());
     }
 
-    static <T extends GvDataList.GvData> GvDataViewHolder<T> newHolder
-            (GvDataList.GvDataType dataType, GvDataViewEdit.GvDataEditor editor) {
-        if (sFactory == null) sFactory = new FactoryGvDataViewHolder();
+    static <T extends GvDataList.GvData> GvDataEditLayout<T> newLayout
+            (GvDataList.GvDataType dataType, GvDataEditLayout.GvDataEditor editor) {
+        if (sFactory == null) sFactory = new FactoryGvDataViewLayout();
         try {
             Constructor ctor = sFactory.mMap.get(dataType)
-                    .getDeclaredConstructor(GvDataViewEdit.GvDataEditor.class);
+                    .getDeclaredConstructor(GvDataEditLayout.GvDataEditor.class);
             try {
                 //TODO make type safe
-                GvDataViewLayout dialogGv = (GvDataViewLayout) ctor.newInstance(editor);
-                return dialogGv.getViewHolder();
+                return (GvDataEditLayout) ctor.newInstance(editor);
             } catch (InstantiationException e) {
                 Log.e(TAG, "Problem constructing edit dialog for " + dataType.getDatumName(), e);
             } catch (IllegalAccessException e) {

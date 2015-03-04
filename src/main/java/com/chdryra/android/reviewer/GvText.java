@@ -48,6 +48,11 @@ public class GvText extends VHDString implements GvDataList.GvData {
     }
 
     @Override
+    public String getStringSummary() {
+        return get();
+    }
+
+    @Override
     public int describeContents() {
         return 0;
     }

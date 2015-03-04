@@ -516,11 +516,7 @@ public abstract class ActivityEditScreenTest extends ActivityReviewViewTest {
         checkFragmentSubjectRatingAsExpected();
         checkBuildersSubjectRatingAsExpected();
 
-        //TODO make type safe
-        if (!confirm) {
-            data.remove(data.getItem(data.size() - 1));
-        }
-
+        if (!confirm) data.removeAll();
         GvDataList testData = getAddDataToTestAgainst(data);
 
         checkInGrid(testData, true);

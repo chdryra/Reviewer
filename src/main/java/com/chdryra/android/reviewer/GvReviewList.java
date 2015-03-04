@@ -14,6 +14,8 @@ import android.os.Parcelable;
 
 import com.chdryra.android.mygenerallibrary.ViewHolder;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Comparator;
 import java.util.Date;
 
@@ -172,6 +174,13 @@ public class GvReviewList extends GvDataList<GvReviewList.GvReviewOverview> {
 
         public Date getPublishDate() {
             return mPublishDate;
+        }
+
+        @Override
+        public String getStringSummary() {
+            DateFormat format = SimpleDateFormat.getDateInstance();
+            return getSubject() + ": " + RatingFormatter.outOfFive(getRating()) + "by " +
+                    getAuthor() + " on " + format.format(getPublishDate());
         }
 
         @Override

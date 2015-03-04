@@ -15,41 +15,31 @@ import android.widget.EditText;
  * On: 18/12/2014
  * Email: rizwan.choudrey@gmail.com
  */
-public class LayoutFact extends GvDataViewLayout<GvFactList.GvFact> {
+public class LayoutFact extends GvDataEditLayout<GvFactList.GvFact> {
     public static final int   LAYOUT = R.layout.dialog_fact;
     public static final int   LABEL  = R.id.fact_label_edit_text;
     public static final int   VALUE  = R.id.fact_value_edit_text;
     public static final int[] VIEWS  = new int[]{LABEL, VALUE};
 
-    public LayoutFact(GvDataViewAdd.GvDataAdder adder) {
+    public LayoutFact(GvDataAdder adder) {
         super(GvFactList.GvFact.class, LAYOUT, VIEWS, VALUE, adder);
     }
 
-    public LayoutFact(GvDataViewEdit.GvDataEditor editor) {
+    public LayoutFact(GvDataEditor editor) {
         super(GvFactList.GvFact.class, LAYOUT, VIEWS, VALUE, editor);
     }
 
     @Override
-    public String getTitleOnAdd(GvFactList.GvFact data) {
-        return data.getLabel() + ": " + data.getValue();
-    }
-
-    @Override
-    public String getDeleteConfirmDialogTitle(GvFactList.GvFact data) {
-        return data.getLabel() + ": " + data.getValue();
-    }
-
-    @Override
-    public GvFactList.GvFact createGvDataFromViews() {
-        String label = ((EditText) mViewHolder.getView(LABEL)).getText().toString().trim();
-        String value = ((EditText) mViewHolder.getView(VALUE)).getText().toString().trim();
+    public GvFactList.GvFact createGvData() {
+        String label = ((EditText) getView(LABEL)).getText().toString().trim();
+        String value = ((EditText) getView(VALUE)).getText().toString().trim();
         return new GvFactList.GvFact(label, value);
     }
 
     @Override
-    public void updateViews(GvFactList.GvFact fact) {
-        ((EditText) mViewHolder.getView(LABEL)).setText(fact.getLabel());
-        ((EditText) mViewHolder.getView(VALUE)).setText(fact.getValue());
-        mViewHolder.getView(LABEL).requestFocus();
+    public void updateLayout(GvFactList.GvFact fact) {
+        ((EditText) getView(LABEL)).setText(fact.getLabel());
+        ((EditText) getView(VALUE)).setText(fact.getValue());
+        getView(LABEL).requestFocus();
     }
 }

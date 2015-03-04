@@ -121,6 +121,11 @@ public class GvSocialPlatformList extends GvDataList<GvSocialPlatformList.GvSoci
         }
 
         @Override
+        public String getStringSummary() {
+            return getName() + ": " + getFollowers();
+        }
+
+        @Override
         public void writeToParcel(Parcel parcel, int i) {
             super.writeToParcel(parcel, i);
             parcel.writeInt(mFollowers);

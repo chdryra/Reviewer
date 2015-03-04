@@ -142,6 +142,11 @@ public class GvImageList extends GvDataList<GvImageList.GvImage> {
         }
 
         @Override
+        public String getStringSummary() {
+            return mCaption != null ? TYPE.getDatumName() + ": " + mCaption : TYPE.getDatumName();
+        }
+
+        @Override
         public boolean equals(Object o) {
             if (this == o) return true;
             if (!(o instanceof GvImage)) return false;
