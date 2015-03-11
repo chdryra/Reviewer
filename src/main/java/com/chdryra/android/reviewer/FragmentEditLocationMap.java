@@ -38,7 +38,6 @@ import com.chdryra.android.mygenerallibrary.LocationClientConnector;
 import com.chdryra.android.mygenerallibrary.PlaceAutoCompleteSuggester;
 import com.chdryra.android.mygenerallibrary.PlaceSuggester;
 import com.chdryra.android.mygenerallibrary.StringFilterAdapter;
-import com.chdryra.android.remoteapifetchers.FetcherPlacesAPI;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMap.OnInfoWindowClickListener;
@@ -453,7 +452,7 @@ public class FragmentEditLocationMap extends FragmentDeleteDone implements
         @Override
         protected LatLng doInBackground(String... params) {
             try {
-                return FetcherPlacesAPI.fetchLatLng(params[0]);
+                return PlacesApi.fetchLatLng(params[0]);
             } catch (JSONException e) {
                 Toast.makeText(getActivity(), getResources().getString(R.string
                         .toast_map_search_failed), Toast.LENGTH_SHORT).show();
