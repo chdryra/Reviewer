@@ -40,8 +40,8 @@ public class VhdLocatedPlaceDistance implements ViewHolderData {
         return mPlace;
     }
 
-    public int getDistance() {
-        return (int) mDistanceAndBearings[0];
+    public float getDistance() {
+        return mDistanceAndBearings[0];
     }
 
     @Override

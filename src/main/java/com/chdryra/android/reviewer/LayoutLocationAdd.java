@@ -46,10 +46,11 @@ public class LayoutLocationAdd extends GvDataEditLayout<GvLocationList.GvLocatio
     private static final int SEARCHING_IMAGE    = R.string.edit_text_searching_near_image;
     private static final int NO_LOCATION        = R.string.edit_text_no_suggestions;
 
-    private LatLng                  mLatLng;
+    private LatLng   mCurrentLatLng;
+    private LatLng   mSelectedLatLng;
     private LocatedPlaceAutoCompleter mAutoCompleter;
     private ViewHolderAdapterFiltered mFilter;
-    private Activity                mActivity;
+    private Activity mActivity;
 
     private boolean mLatLngProvided = false;
 
@@ -67,7 +68,7 @@ public class LayoutLocationAdd extends GvDataEditLayout<GvLocationList.GvLocatio
     @Override
     public GvLocationList.GvLocation createGvData() {
         String name = ((EditText) getView(NAME)).getText().toString().trim();
-        return new GvLocationList.GvLocation(mLatLng, name);
+        return new GvLocationList.GvLocation(mSelectedLatLng, name);
     }
 
     @Override
@@ -103,6 +104,7 @@ public class LayoutLocationAdd extends GvDataEditLayout<GvLocationList.GvLocatio
                 VhdLocatedPlaceDistance location = (VhdLocatedPlaceDistance) parent
                         .getAdapter().getItem(position);
                 name.setText(location.getPlace().getName());
+                mSelectedLatLng = location.getPlace().getLatLng();
             }
         });
 
@@ -118,7 +120,7 @@ public class LayoutLocationAdd extends GvDataEditLayout<GvLocationList.GvLocatio
 
         LatLng latLng = args.getParcelable(LATLNG);
         if (latLng != null) {
-            mLatLng = latLng;
+            mCurrentLatLng = latLng;
             boolean fromImage = args.getBoolean(FROM_IMAGE);
             mLatLngProvided = true;
 
@@ -154,7 +156,7 @@ public class LayoutLocationAdd extends GvDataEditLayout<GvLocationList.GvLocatio
             places.add(mNoLocationPlace);
         } else {
             for (LocatedPlace name : names) {
-                places.add(new VhdLocatedPlaceDistance(name, mLatLng));
+                places.add(new VhdLocatedPlaceDistance(name, mCurrentLatLng));
             }
         }
 
@@ -162,24 +164,27 @@ public class LayoutLocationAdd extends GvDataEditLayout<GvLocationList.GvLocatio
     }
 
     private void onLatLngFound(LatLng latLng) {
-        mLatLng = latLng;
+        mCurrentLatLng = latLng;
+        mSelectedLatLng = latLng;
         setMessages();
         findPlaceSuggestions();
     }
 
     private void setMessages() {
-        mNoLocationPlace = new VhdLocatedPlaceDistance(new LocatedPlace(mLatLng, mNoLocation, "",
+        mNoLocationPlace = new VhdLocatedPlaceDistance(new LocatedPlace(mCurrentLatLng,
+                mNoLocation, "",
                 "NoLocationMessage"), null);
-        mSearchingPlace = new VhdLocatedPlaceDistance(new LocatedPlace(mLatLng, mSearching, "",
+        mSearchingPlace = new VhdLocatedPlaceDistance(new LocatedPlace(mCurrentLatLng,
+                mSearching, "",
                 "SearchingMessage"), null);
     }
 
     private void findPlaceSuggestions() {
         //Autocomplete suggestions
-        mAutoCompleter = new LocatedPlaceAutoCompleter(mLatLng);
+        mAutoCompleter = new LocatedPlaceAutoCompleter(mCurrentLatLng);
 
         //Initial suggestions
-        NearestNamesSuggester suggester = new NearestNamesSuggester(mLatLng, this);
+        NearestNamesSuggester suggester = new NearestNamesSuggester(mCurrentLatLng, this);
         suggester.fetchSuggestions(NUMBER_SUGGESTIONS);
 
         //Whilst initial suggestions are being found....

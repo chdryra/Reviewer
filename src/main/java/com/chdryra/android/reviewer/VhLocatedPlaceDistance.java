@@ -10,6 +10,7 @@ package com.chdryra.android.reviewer;
 
 import android.widget.TextView;
 
+import com.chdryra.android.mygenerallibrary.DistanceFormatter;
 import com.chdryra.android.mygenerallibrary.ViewHolderBasic;
 import com.chdryra.android.mygenerallibrary.ViewHolderData;
 
@@ -50,7 +51,10 @@ public class VhLocatedPlaceDistance extends ViewHolderBasic {
     }
 
     private String getDistanceString(VhdLocatedPlaceDistance dist) {
-        int distance = dist.getDistance();
-        return distance == -1 ? "-" : String.valueOf(distance) + "m";
+        float distance = dist.getDistance();
+        return DistanceFormatter.formatMetreDistance(distance, DistanceFormatter.MetricImperial
+                .METRIC);
     }
+
+
 }
