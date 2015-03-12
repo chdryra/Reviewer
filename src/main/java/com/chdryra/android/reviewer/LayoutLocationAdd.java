@@ -20,9 +20,8 @@ import android.widget.ListView;
 
 import com.chdryra.android.myandroidwidgets.ClearableEditText;
 import com.chdryra.android.mygenerallibrary.LocationClientConnector;
-import com.chdryra.android.mygenerallibrary.PlaceAutoCompleteSuggester;
-import com.chdryra.android.mygenerallibrary.PlaceSuggester;
-import com.chdryra.android.mygenerallibrary.StringFilterAdapter;
+import com.chdryra.android.mygenerallibrary.ViewHolderAdapterFiltered;
+import com.chdryra.android.mygenerallibrary.ViewHolderDataList;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
@@ -33,7 +32,7 @@ import java.util.ArrayList;
  * Email: rizwan.choudrey@gmail.com
  */
 public class LayoutLocationAdd extends GvDataEditLayout<GvLocationList.GvLocation>
-        implements LocationClientConnector.Locatable, PlaceSuggester.SuggestionsListener {
+        implements LocationClientConnector.Locatable, NearestNamesSuggester.SuggestionsListener {
     public static final int   LAYOUT = R.layout.dialog_location;
     public static final int   NAME   = R.id.location_edit_text;
     public static final int   LIST   = R.id.suggestions_list_view;
@@ -48,13 +47,18 @@ public class LayoutLocationAdd extends GvDataEditLayout<GvLocationList.GvLocatio
     private static final int NO_LOCATION        = R.string.edit_text_no_suggestions;
 
     private LatLng                  mLatLng;
-    private LocationClientConnector mLocationClient;
-    private PlaceAutoCompleteSuggester mAutoCompleter;
-    private StringFilterAdapter        mFilter;
+    private LocatedPlaceAutoCompleter mAutoCompleter;
+    private ViewHolderAdapterFiltered mFilter;
     private Activity                mActivity;
 
     private boolean mLatLngProvided = false;
-    private boolean mFromImage      = false;
+
+    private String mNoLocation;
+    private String mSearching;
+    private int    mHint;
+
+    private VhdLocatedPlaceDistance mNoLocationPlace;
+    private VhdLocatedPlaceDistance mSearchingPlace;
 
     public LayoutLocationAdd(GvDataAdder adder) {
         super(GvLocationList.GvLocation.class, LAYOUT, VIEWS, NAME, adder);
@@ -90,14 +94,15 @@ public class LayoutLocationAdd extends GvDataEditLayout<GvLocationList.GvLocatio
             }
         });
 
-        if (mFromImage) name.setHint(R.string.edit_text_name_image_location_hint);
+        name.setHint(mHint);
 
         ListView suggestionsList = (ListView) getView(LIST);
         suggestionsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String locationName = (String) parent.getAdapter().getItem(position);
-                name.setText(locationName);
+                VhdLocatedPlaceDistance location = (VhdLocatedPlaceDistance) parent
+                        .getAdapter().getItem(position);
+                name.setText(location.getPlace().getName());
             }
         });
 
@@ -109,14 +114,26 @@ public class LayoutLocationAdd extends GvDataEditLayout<GvLocationList.GvLocatio
     @Override
     public void onActivityAttached(Activity activity, Bundle args) {
         mActivity = activity;
-        mLocationClient = new LocationClientConnector(mActivity, this);
+        mNoLocation = mActivity.getResources().getString(NO_LOCATION);
+
         LatLng latLng = args.getParcelable(LATLNG);
         if (latLng != null) {
             mLatLng = latLng;
-            mFromImage = args.getBoolean(FROM_IMAGE);
+            boolean fromImage = args.getBoolean(FROM_IMAGE);
             mLatLngProvided = true;
+
+            mSearching = mActivity.getResources().getString(fromImage ? SEARCHING_IMAGE :
+                    SEARCHING_NEARBY);
+            mHint = fromImage ? R.string.edit_text_name_image_location_hint
+                    : R.string.edit_text_name_current_location_hint;
+            setMessages();
+
         } else {
-            mLocationClient.connect();
+            mSearching = mActivity.getResources().getString(SEARCHING_NEARBY);
+            mHint = R.string.edit_text_name_current_location_hint;
+            setMessages();
+            LocationClientConnector locationClient = new LocationClientConnector(mActivity, this);
+            locationClient.connect();
         }
     }
 
@@ -131,34 +148,48 @@ public class LayoutLocationAdd extends GvDataEditLayout<GvLocationList.GvLocatio
     }
 
     @Override
-    public void onSuggestionsFound(ArrayList<String> addresses) {
-        if (addresses.size() == 0) addresses.add(mActivity.getResources().getString(NO_LOCATION));
-        setNewSuggestionsAdapter(addresses);
+    public void onNearestNamesSuggested(ArrayList<LocatedPlace> names) {
+        ViewHolderDataList<VhdLocatedPlaceDistance> places = new ViewHolderDataList<>();
+        if (names.size() == 0) {
+            places.add(mNoLocationPlace);
+        } else {
+            for (LocatedPlace name : names) {
+                places.add(new VhdLocatedPlaceDistance(name, mLatLng));
+            }
+        }
+
+        setNewSuggestionsAdapter(places);
     }
 
     private void onLatLngFound(LatLng latLng) {
         mLatLng = latLng;
-        mFromImage = false;
+        setMessages();
         findPlaceSuggestions();
+    }
+
+    private void setMessages() {
+        mNoLocationPlace = new VhdLocatedPlaceDistance(new LocatedPlace(mLatLng, mNoLocation,
+                "NoLocationMessage"), null);
+        mSearchingPlace = new VhdLocatedPlaceDistance(new LocatedPlace(mLatLng, mSearching,
+                "SearchingMessage"), null);
     }
 
     private void findPlaceSuggestions() {
         //Autocomplete suggestions
-        mAutoCompleter = new PlaceAutoCompleteSuggester(mLatLng);
+        mAutoCompleter = new LocatedPlaceAutoCompleter(mLatLng);
 
         //Initial suggestions
-        PlaceSuggester suggester = new PlaceSuggester(mActivity, mLatLng, this);
-        suggester.getSuggestions(NUMBER_SUGGESTIONS);
+        NearestNamesSuggester suggester = new NearestNamesSuggester(mLatLng, this);
+        suggester.fetchSuggestions(NUMBER_SUGGESTIONS);
 
         //Whilst initial suggestions are being found....
-        ArrayList<String> message = new ArrayList<String>();
-        message.add(mActivity.getResources().getString(mFromImage ? SEARCHING_IMAGE :
-                SEARCHING_NEARBY));
+        ViewHolderDataList<VhdLocatedPlaceDistance> message = new ViewHolderDataList<>();
+        message.add(mSearchingPlace);
         setNewSuggestionsAdapter(message);
     }
 
-    private void setNewSuggestionsAdapter(ArrayList<String> suggestions) {
-        mFilter = new StringFilterAdapter(mActivity, suggestions, mAutoCompleter);
+    private void setNewSuggestionsAdapter(ViewHolderDataList<VhdLocatedPlaceDistance> names) {
+        mFilter = new ViewHolderAdapterFiltered(mActivity, names, mAutoCompleter);
         ((ListView) getView(LIST)).setAdapter(mFilter);
     }
 }

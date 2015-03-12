@@ -9,11 +9,14 @@
 package com.chdryra.android.reviewer;
 
 import com.chdryra.android.remoteapifetchers.FetchedAutoComplete;
+import com.chdryra.android.remoteapifetchers.FetchedPlaceDetails;
 import com.chdryra.android.remoteapifetchers.FetchedPlaceSearch;
 import com.chdryra.android.remoteapifetchers.FetcherAutoComplete;
 import com.chdryra.android.remoteapifetchers.FetcherNearbySearch;
+import com.chdryra.android.remoteapifetchers.FetcherPlaceDetails;
 import com.chdryra.android.remoteapifetchers.FetcherTextSearch;
 import com.chdryra.android.remoteapifetchers.GpAutoCompletePredictions;
+import com.chdryra.android.remoteapifetchers.GpPlaceDetailsResult;
 import com.chdryra.android.remoteapifetchers.GpPlaceSearchResults;
 import com.google.android.gms.maps.model.LatLng;
 
@@ -48,5 +51,13 @@ public class PlacesApi {
         FetchedPlaceSearch results = fetcher.getFetched();
 
         return results.getResults();
+    }
+
+    public static GpPlaceDetailsResult fetchDetails(String id) {
+        FetcherPlaceDetails fetcher = new FetcherPlaceDetails(id);
+        fetcher.fetch();
+        FetchedPlaceDetails results = fetcher.getFetched();
+
+        return results.getDetails();
     }
 }

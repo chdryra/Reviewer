@@ -11,14 +11,14 @@ package com.chdryra.android.reviewer.test;
 import android.location.Location;
 import android.test.suitebuilder.annotation.SmallTest;
 
+import com.chdryra.android.remoteapifetchers.GpAutoCompletePredictions;
+import com.chdryra.android.remoteapifetchers.GpPlaceSearchResults;
 import com.chdryra.android.reviewer.PlacesApi;
 import com.google.android.gms.maps.model.LatLng;
 
 import junit.framework.TestCase;
 
 import org.json.JSONException;
-
-import java.util.ArrayList;
 
 /**
  * Created by: Rizwan Choudrey
@@ -32,15 +32,16 @@ public class PlacesApiTest extends TestCase {
 
     @SmallTest
     public void testFetchAutoCompleteSuggestions() {
-        ArrayList<String> res = PlacesApi.fetchAutoCompleteSuggestions(ACQUERY, LATLNG);
+        GpAutoCompletePredictions res = PlacesApi.fetchAutoCompletePredictions(ACQUERY, LATLNG);
         assertNotNull(res);
         assertTrue(res.size() > 0);
     }
 
     @SmallTest
-    public void testFetchLatLng() {
+    public void testFetchTextSearch() {
         try {
-            LatLng latLng = PlacesApi.fetchLatLng(QUERY);
+            GpPlaceSearchResults res = PlacesApi.fetchTextSearchResults(QUERY);
+            LatLng latLng = res.getItem(0).getGeometry().getLatLng();
             assertNotNull(latLng);
             float[] results = new float[1];
             Location.distanceBetween(LATLNG.latitude, LATLNG.longitude, latLng.latitude,
@@ -54,8 +55,8 @@ public class PlacesApiTest extends TestCase {
 
     @SmallTest
     public void testFetchNearestNames() {
-        ArrayList<String> res = PlacesApi.fetchNearestNames(LATLNG, 3);
+        GpPlaceSearchResults res = PlacesApi.fetchNearestNames(LATLNG);
         assertNotNull(res);
-        assertEquals(3, res.size());
+        assertTrue(res.size() > 0);
     }
 }
