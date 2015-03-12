@@ -50,7 +50,7 @@ public class NearestNamesSuggester {
             GpPlaceSearchResults results = PlacesApi.fetchNearestNames(mLatLng);
             for (GpPlaceSearchResults.GpPlaceSearchResult result : results) {
                 places.add(new GooglePlace(result.getGeometry(), result.getName(),
-                        result.getPlaceId()));
+                        result.getAddress(), result.getPlaceId()));
             }
 
             return places;

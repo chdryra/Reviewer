@@ -11,6 +11,7 @@ package com.chdryra.android.reviewer;
 import com.chdryra.android.remoteapifetchers.GpGeometry;
 import com.chdryra.android.remoteapifetchers.GpName;
 import com.chdryra.android.remoteapifetchers.GpPlaceId;
+import com.chdryra.android.remoteapifetchers.GpString;
 
 /**
  * Created by: Rizwan Choudrey
@@ -18,7 +19,7 @@ import com.chdryra.android.remoteapifetchers.GpPlaceId;
  * Email: rizwan.choudrey@gmail.com
  */
 public class GooglePlace extends LocatedPlace {
-    public GooglePlace(GpGeometry geo, GpName name, GpPlaceId id) {
-        super(geo.getLatLng(), name.getString(), id.getString());
+    public GooglePlace(GpGeometry geo, GpName name, GpString formattedAddress, GpPlaceId id) {
+        super(geo.getLatLng(), name.getString(), formattedAddress.getString(), id.getString());
     }
 }

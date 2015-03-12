@@ -18,11 +18,13 @@ import com.google.android.gms.maps.model.LatLng;
 public class LocatedPlace {
     private LatLng mLatLng;
     private String mName;
+    private String mAddress;
     private String mId;
 
-    public LocatedPlace(LatLng latLng, String name, String id) {
+    public LocatedPlace(LatLng latLng, String name, String address, String id) {
         mLatLng = latLng;
         mName = name;
+        mAddress = address;
         mId = id;
     }
 
@@ -32,6 +34,10 @@ public class LocatedPlace {
 
     public String getName() {
         return mName;
+    }
+
+    public String getAddress() {
+        return mAddress;
     }
 
     public String getId() {

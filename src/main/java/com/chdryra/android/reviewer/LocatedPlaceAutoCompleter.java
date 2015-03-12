@@ -37,7 +37,8 @@ public class LocatedPlaceAutoCompleter implements ViewHolderAdapterFiltered.Quer
             GpPlaceDetailsResult details = PlacesApi.fetchDetails(prediction.getPlaceId()
                     .getString());
             LocatedPlace place = new GooglePlace(details.getGeometry(),
-                    details.getName(), details.getPlaceId());
+                    details.getName(), details.getAddress().getFormattedAddress(),
+                    details.getPlaceId());
             filtered.add(new VhdLocatedPlaceDistance(place, mLatLng));
         }
 

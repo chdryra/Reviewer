@@ -168,9 +168,9 @@ public class LayoutLocationAdd extends GvDataEditLayout<GvLocationList.GvLocatio
     }
 
     private void setMessages() {
-        mNoLocationPlace = new VhdLocatedPlaceDistance(new LocatedPlace(mLatLng, mNoLocation,
+        mNoLocationPlace = new VhdLocatedPlaceDistance(new LocatedPlace(mLatLng, mNoLocation, "",
                 "NoLocationMessage"), null);
-        mSearchingPlace = new VhdLocatedPlaceDistance(new LocatedPlace(mLatLng, mSearching,
+        mSearchingPlace = new VhdLocatedPlaceDistance(new LocatedPlace(mLatLng, mSearching, "",
                 "SearchingMessage"), null);
     }
 

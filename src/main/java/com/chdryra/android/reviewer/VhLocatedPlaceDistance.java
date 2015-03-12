@@ -37,13 +37,20 @@ public class VhLocatedPlaceDistance extends ViewHolderBasic {
 
         VhdLocatedPlaceDistance dist = (VhdLocatedPlaceDistance) data;
         if (dist != null && dist.isValidForDisplay()) {
-            mName.setText(dist.getPlace().getName());
-            int distance = dist.getDistance();
-            if (distance != -1) {
-                mDistance.setText(String.valueOf(dist.getDistance()));
-            } else {
-                mDistance.setText("-");
-            }
+            mName.setText(getFormattedName(dist.getPlace()));
+            mDistance.setText(getDistanceString(dist));
         }
+    }
+
+    private String getFormattedName(LocatedPlace place) {
+        String name = place.getName();
+        String address = place.getAddress();
+
+        return name + ", " + address;
+    }
+
+    private String getDistanceString(VhdLocatedPlaceDistance dist) {
+        int distance = dist.getDistance();
+        return distance == -1 ? "-" : String.valueOf(distance) + "m";
     }
 }
