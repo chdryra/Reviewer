@@ -31,9 +31,10 @@
     <string name="edit_text_add_criterion_hint">criterion name&#8230;</string>
     <string name="edit_text_add_comment_hint">comment&#8230;</string>
     <string name="edit_text_name_location_hint">name this location&#8230;</string>
+    <string name="edit_text_fetching_location_hint">fetching location&#8230;</string>
     <string name="edit_text_searching_near_here">searching near here&#8230;</string>
     <string name="edit_text_searching_near_image">searching near image&#8230;</string>
-    <string name="edit_text_name_current_location_hint">name current location&#8230;</string>
+    <string name="edit_text_add_a_location">name current or select another&#8230;</string>
     <string name="edit_text_name_image_location_hint">name image location&#8230;</string>
     <string name="edit_text_no_suggestions">no suggestions found&#8230;</string>
     <string name="edit_text_image_caption_hint">caption&#8230;</string>
@@ -49,6 +50,8 @@
     <!-- ProgressDialogs -->
     <string name="progress_bar_search_location_title">searching&#8230;</string>
     <string name="progress_bar_search_location_message">please wait&#8230;</string>
+    <string name="progress_bar_fetching_location_title">fetching location&#8230;</string>
+    <string name="progress_bar_fetching_location_message">please wait&#8230;</string>
 
     <!-- Buttons -->
     <string name="button_browse">WWW</string>

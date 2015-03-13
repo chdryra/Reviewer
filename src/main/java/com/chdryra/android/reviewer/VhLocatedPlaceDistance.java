@@ -10,7 +10,6 @@ package com.chdryra.android.reviewer;
 
 import android.widget.TextView;
 
-import com.chdryra.android.mygenerallibrary.DistanceFormatter;
 import com.chdryra.android.mygenerallibrary.ViewHolderBasic;
 import com.chdryra.android.mygenerallibrary.ViewHolderData;
 
@@ -20,41 +19,22 @@ import com.chdryra.android.mygenerallibrary.ViewHolderData;
  * Email: rizwan.choudrey@gmail.com
  */
 public class VhLocatedPlaceDistance extends ViewHolderBasic {
-    private static final int LAYOUT   = R.layout.located_view_list_item;
-    private static final int NAME     = R.id.located_place_name_text_view;
-    private static final int DISTANCE = R.id.located_place_distance_text_view;
+    private static final int LAYOUT = R.layout.located_view_list_item;
+    private static final int NAME   = R.id.located_place_name_text_view;
 
     private TextView mName;
-    private TextView mDistance;
 
     public VhLocatedPlaceDistance() {
-        super(LAYOUT, new int[]{NAME, DISTANCE});
+        super(LAYOUT, new int[]{NAME});
     }
 
     @Override
     public void updateView(ViewHolderData data) {
         if (mName == null) mName = (TextView) getView(NAME);
-        if (mDistance == null) mDistance = (TextView) getView(DISTANCE);
 
         VhdLocatedPlaceDistance dist = (VhdLocatedPlaceDistance) data;
         if (dist != null && dist.isValidForDisplay()) {
-            mName.setText(getFormattedName(dist.getPlace()));
-            mDistance.setText(getDistanceString(dist));
+            mName.setText(dist.getPlace().getDescription());
         }
     }
-
-    private String getFormattedName(LocatedPlace place) {
-        String name = place.getName();
-        String address = place.getAddress();
-
-        return name + ", " + address;
-    }
-
-    private String getDistanceString(VhdLocatedPlaceDistance dist) {
-        float distance = dist.getDistance();
-        return DistanceFormatter.formatMetreDistance(distance, DistanceFormatter.MetricImperial
-                .METRIC);
-    }
-
-
 }

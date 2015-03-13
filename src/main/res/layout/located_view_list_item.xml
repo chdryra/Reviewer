@@ -11,23 +11,10 @@
     style="@style/GridCell"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <LinearLayout
+    <TextView
+        android:id="@+id/located_place_name_text_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/located_place_name_text_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"/>
-
-        <TextView
-            android:id="@+id/located_place_distance_text_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="3"
-            android:gravity="center"/>
-    </LinearLayout>
+        android:layout_height="match_parent"
+        android:layout_weight="1"/>
 
 </com.chdryra.android.mygenerallibrary.ViewHolderLayout>

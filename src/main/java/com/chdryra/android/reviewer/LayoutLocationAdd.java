@@ -22,6 +22,7 @@ import com.chdryra.android.myandroidwidgets.ClearableEditText;
 import com.chdryra.android.mygenerallibrary.LocationClientConnector;
 import com.chdryra.android.mygenerallibrary.ViewHolderAdapterFiltered;
 import com.chdryra.android.mygenerallibrary.ViewHolderDataList;
+import com.chdryra.android.remoteapifetchers.GpPlaceDetailsResult;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
@@ -32,7 +33,9 @@ import java.util.ArrayList;
  * Email: rizwan.choudrey@gmail.com
  */
 public class LayoutLocationAdd extends GvDataEditLayout<GvLocationList.GvLocation>
-        implements LocationClientConnector.Locatable, NearestNamesSuggester.SuggestionsListener {
+        implements LocationClientConnector.Locatable,
+        NearestNamesSuggester.SuggestionsListener,
+        PlaceDetailsFetcher.DetailsListener {
     public static final int   LAYOUT = R.layout.dialog_location;
     public static final int   NAME   = R.id.location_edit_text;
     public static final int   LIST   = R.id.suggestions_list_view;
@@ -61,6 +64,8 @@ public class LayoutLocationAdd extends GvDataEditLayout<GvLocationList.GvLocatio
     private VhdLocatedPlaceDistance mNoLocationPlace;
     private VhdLocatedPlaceDistance mSearchingPlace;
 
+    private EditText mNameEditText;
+
     public LayoutLocationAdd(GvDataAdder adder) {
         super(GvLocationList.GvLocation.class, LAYOUT, VIEWS, NAME, adder);
     }
@@ -79,8 +84,8 @@ public class LayoutLocationAdd extends GvDataEditLayout<GvLocationList.GvLocatio
     @Override
     public View createLayoutUi(Context context, GvLocationList.GvLocation data) {
         View v = super.createLayoutUi(context, data);
-        final ClearableEditText name = (ClearableEditText) getView(NAME);
-        name.addTextChangedListener(new TextWatcher() {
+        mNameEditText = (ClearableEditText) getView(NAME);
+        mNameEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
@@ -95,7 +100,7 @@ public class LayoutLocationAdd extends GvDataEditLayout<GvLocationList.GvLocatio
             }
         });
 
-        name.setHint(mHint);
+        mNameEditText.setHint(mHint);
 
         ListView suggestionsList = (ListView) getView(LIST);
         suggestionsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -103,8 +108,14 @@ public class LayoutLocationAdd extends GvDataEditLayout<GvLocationList.GvLocatio
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 VhdLocatedPlaceDistance location = (VhdLocatedPlaceDistance) parent
                         .getAdapter().getItem(position);
-                name.setText(location.getPlace().getName());
-                mSelectedLatLng = location.getPlace().getLatLng();
+
+                PlaceDetailsFetcher fetcher = new PlaceDetailsFetcher(location.getPlace().getId(),
+                        LayoutLocationAdd.this);
+
+                fetcher.fetchDetails();
+
+                mNameEditText.setText(null);
+                mNameEditText.setHint(R.string.edit_text_fetching_location_hint);
             }
         });
 
@@ -127,12 +138,12 @@ public class LayoutLocationAdd extends GvDataEditLayout<GvLocationList.GvLocatio
             mSearching = mActivity.getResources().getString(fromImage ? SEARCHING_IMAGE :
                     SEARCHING_NEARBY);
             mHint = fromImage ? R.string.edit_text_name_image_location_hint
-                    : R.string.edit_text_name_current_location_hint;
+                    : R.string.edit_text_add_a_location;
             setMessages();
 
         } else {
             mSearching = mActivity.getResources().getString(SEARCHING_NEARBY);
-            mHint = R.string.edit_text_name_current_location_hint;
+            mHint = R.string.edit_text_add_a_location;
             setMessages();
             LocationClientConnector locationClient = new LocationClientConnector(mActivity, this);
             locationClient.connect();
@@ -163,6 +174,13 @@ public class LayoutLocationAdd extends GvDataEditLayout<GvLocationList.GvLocatio
         setNewSuggestionsAdapter(places);
     }
 
+    @Override
+    public void onPlaceDetailsFound(GpPlaceDetailsResult details) {
+        mSelectedLatLng = details.getGeometry().getLatLng();
+        mNameEditText.setText(details.getName().getString());
+        mNameEditText.setHint(mHint);
+    }
+
     private void onLatLngFound(LatLng latLng) {
         mCurrentLatLng = latLng;
         mSelectedLatLng = latLng;
@@ -172,11 +190,9 @@ public class LayoutLocationAdd extends GvDataEditLayout<GvLocationList.GvLocatio
 
     private void setMessages() {
         mNoLocationPlace = new VhdLocatedPlaceDistance(new LocatedPlace(mCurrentLatLng,
-                mNoLocation, "",
-                "NoLocationMessage"), null);
+                mNoLocation, "NoLocationMessage"), null);
         mSearchingPlace = new VhdLocatedPlaceDistance(new LocatedPlace(mCurrentLatLng,
-                mSearching, "",
-                "SearchingMessage"), null);
+                mSearching, "SearchingMessage"), null);
     }
 
     private void findPlaceSuggestions() {

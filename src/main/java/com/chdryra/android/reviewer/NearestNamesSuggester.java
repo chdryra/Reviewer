@@ -11,6 +11,7 @@ package com.chdryra.android.reviewer;
 import android.os.AsyncTask;
 
 import com.chdryra.android.remoteapifetchers.GpPlaceSearchResults;
+import com.chdryra.android.remoteapifetchers.PlacesApi;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
@@ -49,8 +50,8 @@ public class NearestNamesSuggester {
             if (mLatLng == null || numberToGet == 0) return places;
             GpPlaceSearchResults results = PlacesApi.fetchNearestNames(mLatLng);
             for (GpPlaceSearchResults.GpPlaceSearchResult result : results) {
-                places.add(new GooglePlace(result.getGeometry(), result.getName(),
-                        result.getAddress(), result.getPlaceId()));
+                places.add(new LocatedPlace(result.getGeometry().getLatLng(),
+                        result.getName().getString(), result.getPlaceId().getString()));
             }
 
             return places;

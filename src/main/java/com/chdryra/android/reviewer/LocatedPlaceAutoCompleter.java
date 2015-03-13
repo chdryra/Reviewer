@@ -11,7 +11,7 @@ package com.chdryra.android.reviewer;
 import com.chdryra.android.mygenerallibrary.ViewHolderAdapterFiltered;
 import com.chdryra.android.mygenerallibrary.ViewHolderDataList;
 import com.chdryra.android.remoteapifetchers.GpAutoCompletePredictions;
-import com.chdryra.android.remoteapifetchers.GpPlaceDetailsResult;
+import com.chdryra.android.remoteapifetchers.PlacesApi;
 import com.google.android.gms.maps.model.LatLng;
 
 /**
@@ -34,11 +34,9 @@ public class LocatedPlaceAutoCompleter implements ViewHolderAdapterFiltered.Quer
         ViewHolderDataList<VhdLocatedPlaceDistance> filtered = new ViewHolderDataList<>();
 
         for (GpAutoCompletePredictions.GpPrediction prediction : predictions) {
-            GpPlaceDetailsResult details = PlacesApi.fetchDetails(prediction.getPlaceId()
-                    .getString());
-            LocatedPlace place = new GooglePlace(details.getGeometry(),
-                    details.getName(), details.getAddress().getFormattedAddress(),
-                    details.getPlaceId());
+            LocatedPlace place = new LocatedPlace(mLatLng, prediction.getDescription()
+                    .getDescription(),
+                    prediction.getPlaceId().getString());
             filtered.add(new VhdLocatedPlaceDistance(place, mLatLng));
         }
 

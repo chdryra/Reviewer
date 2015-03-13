@@ -17,14 +17,12 @@ import com.google.android.gms.maps.model.LatLng;
  */
 public class LocatedPlace {
     private LatLng mLatLng;
-    private String mName;
-    private String mAddress;
+    private String mDescription;
     private String mId;
 
-    public LocatedPlace(LatLng latLng, String name, String address, String id) {
+    public LocatedPlace(LatLng latLng, String description, String id) {
         mLatLng = latLng;
-        mName = name;
-        mAddress = address;
+        mDescription = description;
         mId = id;
     }
 
@@ -32,12 +30,8 @@ public class LocatedPlace {
         return mLatLng;
     }
 
-    public String getName() {
-        return mName;
-    }
-
-    public String getAddress() {
-        return mAddress;
+    public String getDescription() {
+        return mDescription;
     }
 
     public String getId() {
@@ -45,7 +39,7 @@ public class LocatedPlace {
     }
 
     public boolean isValid() {
-        return mLatLng != null && DataValidator.validateString(mName) && DataValidator
+        return mLatLng != null && DataValidator.validateString(mDescription) && DataValidator
                 .validateString(mId);
     }
 }

@@ -50,7 +50,7 @@ public class DialogLocationTest extends
     private final static String SEARCHING      = "searching";
     private final static String SEARCHING_OVER = "name";
     private static final int    NAME_NEARBY    = com.chdryra.android.reviewer.R.string
-            .edit_text_name_current_location_hint;
+            .edit_text_add_a_location;
     private static final int    NAME_IMAGE     = com.chdryra.android.reviewer.R.string
             .edit_text_name_image_location_hint;
 
