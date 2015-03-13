@@ -36,8 +36,8 @@ public class DialogLocation extends DialogCancelActionDoneFragment implements Lo
     public static final  String     LATLNG             = "com.chdryra.android.reviewer.latlng";
     public static final  String     FROM_IMAGE         = "com.chdryra.android.reviewer.from_image";
     public static final  ActionType RESULT_MAP         = ActionType.OTHER;
-    private static final int        LAYOUT             = R.layout.dialog_location;
-    private static final int        EDITTEXT           = R.id.location_edit_text;
+    private static final int        LAYOUT             = R.layout.dialog_location_add;
+    private static final int        EDITTEXT           = R.id.location_add_edit_text;
     private static final int        NUMBER_SUGGESTIONS = 10;
     private static final int        SEARCHING_NEARBY   = R.string.edit_text_searching_near_here;
     private static final int        SEARCHING_IMAGE    = R.string.edit_text_searching_near_image;

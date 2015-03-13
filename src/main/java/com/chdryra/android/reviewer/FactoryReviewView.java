@@ -109,6 +109,8 @@ public class FactoryReviewView {
             return new EditCommentsGridItem();
         } else if (dataType == GvImageList.TYPE) {
             return new EditImagesGridItem();
+        } else if (dataType == GvLocationList.TYPE) {
+            return new EditLocationsGridItem();
         } else {
             return new EditScreenGridItem(ConfigGvDataUi.getConfig(dataType).getEditorConfig());
         }
@@ -118,6 +120,9 @@ public class FactoryReviewView {
             GvDataList.GvDataType dataType, String title) {
         if (dataType == GvImageList.TYPE) {
             return new EditImagesBannerButton(title);
+        }
+        if (dataType == GvLocationList.TYPE) {
+            return new EditLocationsBannerButton(title);
         } else if (dataType == GvCommentList.TYPE) {
             return new EditCommentsBannerButton(title);
         } else {

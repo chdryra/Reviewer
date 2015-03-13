@@ -1,13 +1,14 @@
-<?xml version="1.0" encoding="utf-8"?><!--
-  ~ Copyright (c) 2014, Rizwan Choudrey - All Rights Reserved
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2015, Rizwan Choudrey - All Rights Reserved
   ~ Unauthorized copying of this file, via any medium is strictly prohibited
   ~ Proprietary and confidential
   ~ Author: Rizwan Choudrey
-  ~ Date: 23 September, 2014
+  ~ Date: 13 March, 2015
   -->
 
 <com.chdryra.android.myandroidwidgets.ClearableAutoCompleteTextView
-    android:id="@+id/tag_edit_text"
+    android:id="@+id/location_edit_edit_text"
     style="@style/EditTextCapSentences.AutoComplete.Go"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:hint="@string/edit_text_tag_hint"/>
+    android:hint="@string/edit_text_edit_a_location"/>

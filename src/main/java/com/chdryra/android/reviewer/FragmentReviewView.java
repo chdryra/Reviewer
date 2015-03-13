@@ -265,6 +265,12 @@ public class FragmentReviewView extends Fragment {
                 action.onClick(v);
             }
         });
+        mBannerButton.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                return action.onLongClick(v);
+            }
+        });
     }
 
     void initDataGridUi() {

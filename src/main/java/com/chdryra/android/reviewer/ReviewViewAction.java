@@ -132,6 +132,11 @@ public class ReviewViewAction {
 
         public void onClick(View v) {
         }
+
+        public boolean onLongClick(View v) {
+            onClick(v);
+            return true;
+        }
     }
 
     public static class GridItemAction extends ReviewViewAction {

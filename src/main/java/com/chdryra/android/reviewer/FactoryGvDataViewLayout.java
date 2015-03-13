@@ -23,23 +23,29 @@ public class FactoryGvDataViewLayout {
     private static final String TAG = "FactoryGvDataViewHolder";
     private static FactoryGvDataViewLayout sFactory;
     private final  HashMap<GvDataList.GvDataType, Class<? extends GvDataEditLayout<? extends
-            GvDataList.GvData>>>           mMap;
+            GvDataList.GvData>>>           mMapAdd;
+    private final  HashMap<GvDataList.GvDataType, Class<? extends GvDataEditLayout<? extends
+            GvDataList.GvData>>>           mMapEdit;
 
     private FactoryGvDataViewLayout() {
-        mMap = new HashMap<>();
-        mMap.put(GvChildList.TYPE, LayoutChildReview.class);
-        mMap.put(GvCommentList.TYPE, LayoutComment.class);
-        mMap.put(GvFactList.TYPE, LayoutFact.class);
-        mMap.put(GvImageList.TYPE, LayoutImage.class);
-        mMap.put(GvTagList.TYPE, LayoutTag.class);
-        mMap.put(GvLocationList.TYPE, LayoutLocationAdd.class);
+        mMapAdd = new HashMap<>();
+        mMapAdd.put(GvChildList.TYPE, LayoutChildReview.class);
+        mMapAdd.put(GvCommentList.TYPE, LayoutComment.class);
+        mMapAdd.put(GvFactList.TYPE, LayoutFact.class);
+        mMapAdd.put(GvImageList.TYPE, LayoutImage.class);
+        mMapAdd.put(GvTagList.TYPE, LayoutTag.class);
+        mMapAdd.put(GvLocationList.TYPE, LayoutLocationAdd.class);
+
+        mMapEdit = new HashMap<>();
+        mMapEdit.putAll(mMapAdd);
+        mMapEdit.put(GvLocationList.TYPE, LayoutLocationEdit.class);
     }
 
     static <T extends GvDataList.GvData> GvDataEditLayout<T> newLayout
             (GvDataList.GvDataType dataType, GvDataEditLayout.GvDataAdder adder) {
         if (sFactory == null) sFactory = new FactoryGvDataViewLayout();
         try {
-            Constructor ctor = sFactory.mMap.get(dataType)
+            Constructor ctor = sFactory.mMapAdd.get(dataType)
                     .getDeclaredConstructor(GvDataEditLayout.GvDataAdder.class);
             try {
                 //TODO make type safe
@@ -66,7 +72,7 @@ public class FactoryGvDataViewLayout {
             (GvDataList.GvDataType dataType, GvDataEditLayout.GvDataEditor editor) {
         if (sFactory == null) sFactory = new FactoryGvDataViewLayout();
         try {
-            Constructor ctor = sFactory.mMap.get(dataType)
+            Constructor ctor = sFactory.mMapEdit.get(dataType)
                     .getDeclaredConstructor(GvDataEditLayout.GvDataEditor.class);
             try {
                 //TODO make type safe

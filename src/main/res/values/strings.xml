@@ -19,6 +19,7 @@
     <string name="dialog_image_content_description">Review image</string>
     <string name="dialog_set_image_as_background">Set image as cover?</string>
     <string name="dialog_set_comment_as_headline">Set comment as headline?</string>
+    <string name="dialog_edit_on_map">Edit on map?</string>
 
     <!-- Activities & Screens -->
     <string name="activity_title_location">location</string>
@@ -35,6 +36,7 @@
     <string name="edit_text_searching_near_here">searching near here&#8230;</string>
     <string name="edit_text_searching_near_image">searching near image&#8230;</string>
     <string name="edit_text_add_a_location">name current or select another&#8230;</string>
+    <string name="edit_text_edit_a_location">location name&#8230;</string>
     <string name="edit_text_name_image_location_hint">name image location&#8230;</string>
     <string name="edit_text_no_suggestions">no suggestions found&#8230;</string>
     <string name="edit_text_image_caption_hint">caption&#8230;</string>
@@ -42,7 +44,7 @@
     <string name="edit_text_fact_value_hint">value&#8230;</string>
     <string name="edit_text_url_hint">link&#8230;</string>
     <string name="edit_text_url_text">http://</string>
-    <string name="edit_text_add_tag_hint">add tag&#8230;</string>
+    <string name="edit_text_tag_hint">tag&#8230;</string>
 
     <!-- SearchViews -->
     <string name="search_view_location_hint">search for location&#8230;</string>

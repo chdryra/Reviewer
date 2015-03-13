@@ -84,7 +84,7 @@ public class BuildScreenGridItem extends ReviewViewAction.GridItemAction {
         GvDataPacker.packItem(GvDataPacker.CurrentNewDatum.CURRENT, location, args);
 
         LaunchableUi mapUi = ConfigGvDataUi.getLaunchable(ActivityEditLocationMap.class);
-        LauncherUi.launch(mapUi, mListener, getLocationMRequestCode(), null, args);
+        LauncherUi.launch(mapUi, mListener, getLocationRequestCode(), null, args);
     }
 
     private void startActivity(ConfigGvDataUi.Config config) {
@@ -134,7 +134,7 @@ public class BuildScreenGridItem extends ReviewViewAction.GridItemAction {
                 .getRequestCode();
     }
 
-    private int getLocationMRequestCode() {
+    private int getLocationRequestCode() {
         return ConfigGvDataUi.getConfig(GvLocationList.TYPE).getEditorConfig()
                 .getRequestCode();
     }
@@ -178,7 +178,7 @@ public class BuildScreenGridItem extends ReviewViewAction.GridItemAction {
             ActivityResultCode result = ActivityResultCode.get(resultCode);
 
             boolean imageRequested = requestCode == getImageRequestCode();
-            boolean mapRequested = requestCode == getLocationMRequestCode();
+            boolean mapRequested = requestCode == getLocationRequestCode();
 
             if (imageRequested && mImageChooser.chosenImageExists(result, data)) {
                 mImageChooser.getChosenImage(this);

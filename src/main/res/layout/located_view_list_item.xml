@@ -15,6 +15,7 @@
         android:id="@+id/located_place_name_text_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1"/>
+        android:layout_weight="1"
+        android:textSize="20sp"/>
 
 </com.chdryra.android.mygenerallibrary.ViewHolderLayout>

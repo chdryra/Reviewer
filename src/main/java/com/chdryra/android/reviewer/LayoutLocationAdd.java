@@ -36,8 +36,8 @@ public class LayoutLocationAdd extends GvDataEditLayout<GvLocationList.GvLocatio
         implements LocationClientConnector.Locatable,
         NearestNamesSuggester.SuggestionsListener,
         PlaceDetailsFetcher.DetailsListener {
-    public static final int   LAYOUT = R.layout.dialog_location;
-    public static final int   NAME   = R.id.location_edit_text;
+    public static final int   LAYOUT = R.layout.dialog_location_add;
+    public static final int   NAME   = R.id.location_add_edit_text;
     public static final int   LIST   = R.id.suggestions_list_view;
     public static final int[] VIEWS  = new int[]{NAME, LIST};
 
@@ -49,11 +49,11 @@ public class LayoutLocationAdd extends GvDataEditLayout<GvLocationList.GvLocatio
     private static final int SEARCHING_IMAGE    = R.string.edit_text_searching_near_image;
     private static final int NO_LOCATION        = R.string.edit_text_no_suggestions;
 
-    private LatLng   mCurrentLatLng;
-    private LatLng   mSelectedLatLng;
+    private LatLng                    mCurrentLatLng;
+    private LatLng                    mSelectedLatLng;
     private LocatedPlaceAutoCompleter mAutoCompleter;
     private ViewHolderAdapterFiltered mFilter;
-    private Activity mActivity;
+    private Activity                  mActivity;
 
     private boolean mLatLngProvided = false;
 
@@ -64,7 +64,8 @@ public class LayoutLocationAdd extends GvDataEditLayout<GvLocationList.GvLocatio
     private VhdLocatedPlaceDistance mNoLocationPlace;
     private VhdLocatedPlaceDistance mSearchingPlace;
 
-    private EditText mNameEditText;
+    private EditText                                    mNameEditText;
+    private ViewHolderDataList<VhdLocatedPlaceDistance> mCurrentLatLngPlaces;
 
     public LayoutLocationAdd(GvDataAdder adder) {
         super(GvLocationList.GvLocation.class, LAYOUT, VIEWS, NAME, adder);
@@ -108,14 +109,7 @@ public class LayoutLocationAdd extends GvDataEditLayout<GvLocationList.GvLocatio
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 VhdLocatedPlaceDistance location = (VhdLocatedPlaceDistance) parent
                         .getAdapter().getItem(position);
-
-                PlaceDetailsFetcher fetcher = new PlaceDetailsFetcher(location.getPlace().getId(),
-                        LayoutLocationAdd.this);
-
-                fetcher.fetchDetails();
-
-                mNameEditText.setText(null);
-                mNameEditText.setHint(R.string.edit_text_fetching_location_hint);
+                fetchPlaceDetails(location.getPlace().getId());
             }
         });
 
@@ -151,6 +145,12 @@ public class LayoutLocationAdd extends GvDataEditLayout<GvLocationList.GvLocatio
     }
 
     @Override
+    public void onAdd(GvLocationList.GvLocation data) {
+        super.onAdd(data);
+        setNewSuggestionsAdapter(mCurrentLatLngPlaces);
+    }
+
+    @Override
     public void onLocated(LatLng latLng) {
         onLatLngFound(latLng);
     }
@@ -162,16 +162,16 @@ public class LayoutLocationAdd extends GvDataEditLayout<GvLocationList.GvLocatio
 
     @Override
     public void onNearestNamesSuggested(ArrayList<LocatedPlace> names) {
-        ViewHolderDataList<VhdLocatedPlaceDistance> places = new ViewHolderDataList<>();
+        mCurrentLatLngPlaces = new ViewHolderDataList<>();
         if (names.size() == 0) {
-            places.add(mNoLocationPlace);
+            mCurrentLatLngPlaces.add(mNoLocationPlace);
         } else {
             for (LocatedPlace name : names) {
-                places.add(new VhdLocatedPlaceDistance(name, mCurrentLatLng));
+                mCurrentLatLngPlaces.add(new VhdLocatedPlaceDistance(name, mCurrentLatLng));
             }
         }
 
-        setNewSuggestionsAdapter(places);
+        setNewSuggestionsAdapter(mCurrentLatLngPlaces);
     }
 
     @Override
@@ -179,6 +179,13 @@ public class LayoutLocationAdd extends GvDataEditLayout<GvLocationList.GvLocatio
         mSelectedLatLng = details.getGeometry().getLatLng();
         mNameEditText.setText(details.getName().getString());
         mNameEditText.setHint(mHint);
+    }
+
+    private void fetchPlaceDetails(String id) {
+        mNameEditText.setText(null);
+        mNameEditText.setHint(R.string.edit_text_fetching_location_hint);
+        PlaceDetailsFetcher fetcher = new PlaceDetailsFetcher(id, LayoutLocationAdd.this);
+        fetcher.fetchDetails();
     }
 
     private void onLatLngFound(LatLng latLng) {
