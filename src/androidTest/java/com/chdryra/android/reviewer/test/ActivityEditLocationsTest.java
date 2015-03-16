@@ -15,7 +15,6 @@ import com.chdryra.android.reviewer.ActivityEditLocationMap;
 import com.chdryra.android.reviewer.ActivityReviewView;
 import com.chdryra.android.reviewer.GvDataList;
 import com.chdryra.android.reviewer.GvLocationList;
-import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
 import com.chdryra.android.testutils.RandomString;
 import com.google.android.gms.maps.model.LatLng;
 
@@ -45,8 +44,8 @@ public class ActivityEditLocationsTest extends ActivityEditScreenTest {
     @Override
     protected GvDataList getAddDataToTestAgainst(GvDataList data) {
         if (data.size() == 0) return super.getAddDataToTestAgainst(data);
-        //Random data created won't match up with current location found by map activity.
-        assertEquals(1, data.size());
+        //Random data created won't match up with current location found by default.
+        assertEquals(data.size(), getGridSize());
         LatLng location = ((GvLocationList.GvLocation) getGridItem(0)).getLatLng();
         String name = ((GvLocationList.GvLocation) data.getItem(0)).getName();
         GvLocationList list = new GvLocationList();
@@ -61,64 +60,39 @@ public class ActivityEditLocationsTest extends ActivityEditScreenTest {
         return new GvLocationList.GvLocation(location.getLatLng(), RandomString.nextWord
                 ());
     }
+//
+//    @Override
+//    protected GvDataList newData() {
+//        return GvDataMocker.getData(mDataType, 1);
+//    }
 
-    @Override
-    protected GvDataList newData() {
-        return GvDataMocker.getData(mDataType, 1);
-    }
-
-    @Override
-    protected void waitForLaunchableToLaunch() {
-        ActivityEditLocationMap mapActivity = (ActivityEditLocationMap)
-                mMapMonitor.waitForActivityWithTimeout(TIMEOUT);
-        assertNotNull(mapActivity);
-        assertEquals(ActivityEditLocationMap.class, mapActivity.getClass());
-        getInstrumentation().waitForIdleSync();
-    }
-
-    @Override
-    protected void waitForLaunchableToClose() {
-        ActivityReviewView mainActivity = (ActivityReviewView)
-                mMainMonitor.waitForActivityWithTimeout(TIMEOUT);
-        assertNotNull(mainActivity);
-        assertEquals(ActivityReviewView.class, mainActivity.getClass());
-        getInstrumentation().waitForIdleSync();
-    }
-
-    @Override
-    protected void checkLaunchableShowing(boolean isShowing) {
-        if (isShowing) {
-            assertTrue(mSolo.searchText(mDataType.getDatumName()));
-            assertFalse(mSolo.searchText(mDataType.getDataName()));
-        } else {
-            assertTrue(mSolo.searchText(mDataType.getDataName()));
-        }
-    }
-
-    @Override
-    protected void clickEditConfirm() {
-        clickMenuDone();
-    }
-
-    @Override
-    protected void clickEditDelete() {
-        clickMenuDelete();
-    }
-
-    @Override
-    protected void clickEditCancel() {
-        clickMenuUp();
-    }
-
-    @Override
-    protected void clickAddConfirm() {
-        clickMenuDone();
-    }
-
-    @Override
-    protected void clickAddCancel() {
-        clickMenuUp();
-    }
+//    @Override
+//    protected void waitForLaunchableToLaunch() {
+//        ActivityEditLocationMap mapActivity = (ActivityEditLocationMap)
+//                mMapMonitor.waitForActivityWithTimeout(TIMEOUT);
+//        assertNotNull(mapActivity);
+//        assertEquals(ActivityEditLocationMap.class, mapActivity.getClass());
+//        getInstrumentation().waitForIdleSync();
+//    }
+//
+//    @Override
+//    protected void waitForLaunchableToClose() {
+//        ActivityReviewView mainActivity = (ActivityReviewView)
+//                mMainMonitor.waitForActivityWithTimeout(TIMEOUT);
+//        assertNotNull(mainActivity);
+//        assertEquals(ActivityReviewView.class, mainActivity.getClass());
+//        getInstrumentation().waitForIdleSync();
+//    }
+//
+//    @Override
+//    protected void checkLaunchableShowing(boolean isShowing) {
+//        if (isShowing) {
+//            assertTrue(mSolo.searchText(mDataType.getDatumName()));
+//            assertFalse(mSolo.searchText(mDataType.getDataName()));
+//        } else {
+//            assertTrue(mSolo.searchText(mDataType.getDataName()));
+//        }
+//    }
 
     @Override
     protected Activity getEditActivity() {

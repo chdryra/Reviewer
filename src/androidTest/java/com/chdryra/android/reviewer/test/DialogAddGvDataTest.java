@@ -172,7 +172,7 @@ public abstract class DialogAddGvDataTest<T extends GvDataList.GvData> extends
         return adapter.getGridData();
     }
 
-    private GvDataList.GvData enterDataAndTest() {
+    protected GvDataList.GvData enterDataAndTest() {
         assertTrue(isDataNulled());
         GvDataList.GvData data = GvDataMocker.getDatum(mDialog.getGvDataType());
         enterData(data);
@@ -181,41 +181,7 @@ public abstract class DialogAddGvDataTest<T extends GvDataList.GvData> extends
         return data;
     }
 
-    private void testNotQuickSet(final boolean addButton) {
-        launchDialogAndTestShowing(false);
-
-        final DialogAddListener<T> listener = mListener;
-        final ReviewViewAdapter adap = mAdapter;
-        final DialogCancelAddDoneFragment dialog = mDialog;
-
-        assertNull(listener.getData());
-        assertEquals(0, getData(adap).size());
-        final GvDataList.GvData datum = enterDataAndTest();
-        assertNull(listener.getData());
-
-        mActivity.runOnUiThread(new Runnable() {
-            public void run() {
-                if (addButton) {
-                    dialog.clickAddButton();
-                } else {
-                    dialog.clickDoneButton();
-                }
-
-                assertNotNull(listener.getData());
-                assertEquals(datum, listener.getData());
-
-                assertEquals(0, getData(adap).size());
-                if (addButton) {
-                    assertTrue(dialog.isShowing());
-                    assertTrue(isDataNulled());
-                } else {
-                    assertFalse(dialog.isShowing());
-                }
-            }
-        });
-    }
-
-    private GvDataList.GvData testQuickSet(boolean pressAdd) {
+    protected GvDataList.GvData testQuickSet(boolean pressAdd) {
         final DialogAddListener<T> listener = mListener;
         final DialogCancelAddDoneFragment dialog = mDialog;
 
@@ -232,5 +198,39 @@ public abstract class DialogAddGvDataTest<T extends GvDataList.GvData> extends
         }
 
         return data;
+    }
+
+    private void testNotQuickSet(final boolean addButton) {
+        launchDialogAndTestShowing(false);
+
+        final DialogAddListener<T> listener = mListener;
+        final ReviewViewAdapter adapter = mAdapter;
+        final DialogCancelAddDoneFragment dialog = mDialog;
+
+        assertNull(listener.getData());
+        assertEquals(0, getData(adapter).size());
+        final GvDataList.GvData datum = enterDataAndTest();
+        assertNull(listener.getData());
+
+        mActivity.runOnUiThread(new Runnable() {
+            public void run() {
+                if (addButton) {
+                    dialog.clickAddButton();
+                } else {
+                    dialog.clickDoneButton();
+                }
+
+                assertNotNull(listener.getData());
+                assertEquals(datum, listener.getData());
+
+                assertEquals(0, getData(adapter).size());
+                if (addButton) {
+                    assertTrue(dialog.isShowing());
+                    assertTrue(isDataNulled());
+                } else {
+                    assertFalse(dialog.isShowing());
+                }
+            }
+        });
     }
 }

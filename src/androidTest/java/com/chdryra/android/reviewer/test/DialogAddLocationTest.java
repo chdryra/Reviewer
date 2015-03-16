@@ -1,0 +1,192 @@
+/*
+ * Copyright (c) 2015, Rizwan Choudrey - All Rights Reserved
+ * Unauthorized copying of this file, via any medium is strictly prohibited
+ * Proprietary and confidential
+ * Author: Rizwan Choudrey
+ * Date: 16 March, 2015
+ */
+
+package com.chdryra.android.reviewer.test;
+
+import com.chdryra.android.mygenerallibrary.DialogCancelAddDoneFragment;
+import com.chdryra.android.mygenerallibrary.LocationClientConnector;
+import com.chdryra.android.reviewer.ConfigGvDataAddEdit;
+import com.chdryra.android.reviewer.GvDataList;
+import com.chdryra.android.reviewer.GvLocationList;
+import com.chdryra.android.reviewer.ReviewViewAdapter;
+import com.chdryra.android.reviewer.test.TestUtils.DialogAddListener;
+import com.chdryra.android.testutils.CallBackSignaler;
+import com.chdryra.android.testutils.RandomString;
+import com.google.android.gms.maps.model.LatLng;
+
+/**
+ * Created by: Rizwan Choudrey
+ * On: 16/03/2015
+ * Email: rizwan.choudrey@gmail.com
+ */
+public class DialogAddLocationTest extends DialogAddGvDataTest<GvLocationList.GvLocation>
+        implements LocationClientConnector.Locatable {
+    private static final GvLocationList.GvLocation TAYYABS    =
+            new GvLocationList.GvLocation(new LatLng(51.517264, -0.063484), "Tayyabs");
+    private static final String                    TAYYABSADD = "Fieldgate Street, London, " +
+            "United Kingdom";
+
+    private static final GvLocationList.GvLocation TOWERBRIDGE    =
+            new GvLocationList.GvLocation(new LatLng(51.50418459999999, -0.07632209999999999),
+                    "Tower Bridge");
+    private static final String                    TOWERBRIDGEADD = "Tower Bridge, London, " +
+            "United Kingdom";
+
+    private static final GvLocationList.GvLocation   DISHOOM    =
+            new GvLocationList.GvLocation(new LatLng(51.51243, -0.126909), "Dishoom");
+    private static final GvLocationList.GvLocation[] locs       = {TAYYABS, TOWERBRIDGE, DISHOOM};
+    private static final String                      DISHOOMADD = "Upper St Martin's Lane, " +
+            "London, United Kingdom";
+    private static final String[]                    locsadd    = {TAYYABSADD, TOWERBRIDGEADD,
+            DISHOOMADD};
+
+    private LatLng                  mCurrent;
+    private CallBackSignaler        mSignaler;
+    private LocationClientConnector mLocater;
+
+    public DialogAddLocationTest() {
+        super(ConfigGvDataAddEdit.AddLocation.class);
+    }
+
+    @Override
+    public void testQuickSet() {
+        launchDialogAndTestShowing(true);
+
+        final ReviewViewAdapter controller = mAdapter;
+        assertEquals(0, getData(controller).size());
+
+        final GvDataList.GvData datum1 = testQuickSet(true, 0);
+        final GvDataList.GvData datum2 = testQuickSet(true, 1);
+        final GvDataList.GvData datum3 = testQuickSet(false, 2);
+
+        final DialogCancelAddDoneFragment dialog = mDialog;
+        mActivity.runOnUiThread(new Runnable() {
+            public void run() {
+                dialog.clickDoneButton();
+
+                GvDataList data = getData(controller);
+
+                assertEquals(3, data.size());
+                assertEquals(datum1, data.getItem(0));
+                assertEquals(datum2, data.getItem(1));
+                assertEquals(datum3, data.getItem(2));
+            }
+        });
+    }
+
+    @Override
+    protected void setUp() throws Exception {
+        super.setUp();
+        mLocater = new LocationClientConnector(getActivity(), this);
+        mSignaler = new CallBackSignaler(5000);
+    }
+
+    protected GvDataList.GvData enterDataAndTest() {
+        return enterDataAndTest(0);
+    }
+
+    //Problems with wating for locater thread. Never returns.
+//    @SmallTest
+//    public void testEnterNameForCurrentLocation() {
+//        launchDialogAndTestShowing(true);
+//
+//        final ReviewViewAdapter controller = mAdapter;
+//        assertEquals(0, getData(controller).size());
+//
+//        final GvDataList.GvData datum = enterRandomNameForCurrent();
+//
+//        final DialogCancelAddDoneFragment dialog = mDialog;
+//        mActivity.runOnUiThread(new Runnable() {
+//            public void run() {
+//                dialog.clickDoneButton();
+//
+//                GvDataList data = getData(controller);
+//
+//                assertEquals(1, data.size());
+//                assertEquals(datum, data.getItem(0));
+//            }
+//        });
+//    }
+
+    @Override
+    public void onLocated(LatLng latLng) {
+        mCurrent = latLng;
+        mSignaler.signal();
+        mSignaler.reset();
+    }
+
+    @Override
+    public void onLocationClientConnected(LatLng latLng) {
+        mCurrent = latLng;
+        mSignaler.signal();
+        mSignaler.reset();
+    }
+
+    private GvDataList.GvData enterDataAndTest(int index) {
+        assertTrue(index < 3);
+        assertTrue(isDataNulled());
+        GvDataList.GvData data = locs[index];
+        enterData(data);
+        assertTrue(isDataEntered());
+        mSolo.waitForText(locsadd[index]);
+        mSolo.clickInList(1);
+        mSolo.sleep(3000);
+
+        return data;
+    }
+
+    private GvDataList.GvData testQuickSet(boolean pressAdd, int index) {
+        final DialogAddListener<GvLocationList.GvLocation> listener = mListener;
+        final DialogCancelAddDoneFragment dialog = mDialog;
+
+        assertNull(listener.getData());
+        GvDataList.GvData data = enterDataAndTest(index);
+        assertNull(listener.getData());
+
+        if (pressAdd) {
+            mActivity.runOnUiThread(new Runnable() {
+                public void run() {
+                    dialog.clickAddButton();
+                }
+            });
+        }
+
+        return data;
+    }
+
+    private GvDataList.GvData enterRandomNameForCurrent() {
+        if (mCurrent == null) {
+            getCurrentLocation();
+            mSignaler.waitForSignal();
+        }
+
+        final DialogAddListener<GvLocationList.GvLocation> listener = mListener;
+        final DialogCancelAddDoneFragment dialog = mDialog;
+
+        assertNull(listener.getData());
+        assertTrue(isDataNulled());
+        GvDataList.GvData data = new GvLocationList.GvLocation(mCurrent, RandomString.nextWord());
+        enterData(data);
+        assertTrue(isDataEntered());
+
+        assertNull(listener.getData());
+
+        mActivity.runOnUiThread(new Runnable() {
+            public void run() {
+                dialog.clickAddButton();
+            }
+        });
+
+        return data;
+    }
+
+    private void getCurrentLocation() {
+        mSignaler.reset();
+        mLocater.locate();
+    }
+}
