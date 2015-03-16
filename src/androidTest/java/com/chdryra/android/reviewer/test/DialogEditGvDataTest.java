@@ -23,7 +23,6 @@ import com.chdryra.android.reviewer.ActivityFeed;
 import com.chdryra.android.reviewer.DialogEditGvData;
 import com.chdryra.android.reviewer.GvDataList;
 import com.chdryra.android.reviewer.GvDataPacker;
-import com.chdryra.android.reviewer.GvImageList;
 import com.chdryra.android.reviewer.LauncherUi;
 import com.chdryra.android.reviewer.test.TestUtils.DialogEditListener;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
@@ -188,8 +187,12 @@ public abstract class DialogEditGvDataTest<T extends GvDataList.GvData> extends
         mSolo = new Solo(getInstrumentation(), mActivity);
     }
 
+    protected GvDataList.GvData newDatum() {
+        return GvDataMocker.getDatum(mDialog.getGvDataType());
+    }
+
     protected GvDataList.GvData launchDialogAndTestShowing() {
-        final GvDataList.GvData datum = GvDataMocker.getDatum(mDialog.getGvDataType());
+        final GvDataList.GvData datum = newDatum();
         Bundle args = new Bundle();
         GvDataPacker.packItem(GvDataPacker.CurrentNewDatum.CURRENT, datum, args);
 
@@ -206,9 +209,7 @@ public abstract class DialogEditGvDataTest<T extends GvDataList.GvData> extends
         });
         mSolo.waitForDialogToOpen();
         assertTrue(mDialog.isShowing());
-        if (mDialog.getGvDataType() != GvImageList.TYPE) {
-            assertEquals(datum, getDataShown());
-        }
+        assertEquals(datum, getDataShown());
 
         return datum;
     }

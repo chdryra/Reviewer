@@ -17,8 +17,7 @@ import com.chdryra.android.reviewer.GvImageList;
  * On: 08/01/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class DialogEditImageTest extends DialogEditGvDataTest<GvImageList
-        .GvImage> {
+public class DialogEditImageTest extends DialogEditGvDataTest<GvImageList.GvImage> {
     private GvImageList.GvImage mCurrent;
 
     public DialogEditImageTest() {
@@ -31,6 +30,12 @@ public class DialogEditImageTest extends DialogEditGvDataTest<GvImageList
         mCurrent = new GvImageList.GvImage(mCurrent.getBitmap(), mCurrent.getDate(),
                 mCurrent.getLatLng(), caption, mCurrent.isCover());
 
+        return mCurrent;
+    }
+
+    @Override
+    protected GvDataList.GvData newDatum() {
+        mCurrent = (GvImageList.GvImage) super.newDatum();
         return mCurrent;
     }
 
