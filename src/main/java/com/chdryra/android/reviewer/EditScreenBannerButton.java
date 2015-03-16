@@ -25,12 +25,19 @@ public class EditScreenBannerButton extends ReviewViewAction.BannerButtonAction 
 
     private ConfigGvDataUi.LaunchableConfig mConfig;
     private Fragment                        mListener;
+    private ReviewBuilder.DataBuilder       mCopyBuilder;
 
     public EditScreenBannerButton(ConfigGvDataUi.LaunchableConfig config, String title) {
         super(title);
         mConfig = config;
         setListener(new AddListener() {
         });
+    }
+
+    @Override
+    public void onAttachReviewView() {
+        super.onAttachReviewView();
+        setCopyBuilder();
     }
 
     @Override
@@ -61,14 +68,33 @@ public class EditScreenBannerButton extends ReviewViewAction.BannerButtonAction 
         return mConfig.getRequestCode();
     }
 
+    private void setCopyBuilder() {
+        mCopyBuilder = ((ReviewBuilder.DataBuilder) getAdapter()).getCopy();
+    }
+
     //Dialogs expected to communicate directly with target fragments so using "invisible"
     // fragment as listener.
     //Restrictions on how fragments are constructed mean I have to use an abstract class...
     protected abstract class AddListener extends Fragment implements DialogAddGvData
             .GvDataAddListener {
+
+        //TODO make type safe
         @Override
         public boolean onGvDataAdd(GvDataList.GvData data) {
-            return addData(data);
+            return mCopyBuilder.add(data);
+        }
+
+        @Override
+        public void onGvDataCancel() {
+            setCopyBuilder();
+        }
+
+        @Override
+        public void onGvDataDone() {
+            GvDataList data = mCopyBuilder.getGridData();
+            for (int i = 0; i < data.size(); ++i) {
+                addData((GvDataList.GvData) data.getItem(i));
+            }
         }
 
         @Override

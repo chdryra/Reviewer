@@ -46,7 +46,7 @@ public abstract class ActivityEditScreenTest extends ActivityReviewViewTest {
             .menu_item_delete;
     protected static final int  DONE     = com.chdryra.android.reviewer.R.id
             .menu_item_done;
-    private static final   int  NUM_DATA = 3;
+    protected static final int NUM_DATA = 3;
 
     protected GvDataList.GvDataType           mDataType;
     protected String                          mOriginalSubject;
@@ -387,17 +387,21 @@ public abstract class ActivityEditScreenTest extends ActivityReviewViewTest {
 
     protected void enterData(GvDataList data, boolean confirm) {
         for (int i = 0; i < data.size() - 1; ++i) {
-            SoloDataEntry.enter(mSolo, (GvDataList.GvData) data.getItem(i));
+            enterDatum(data, i);
             clickAddAdd();
         }
 
-        SoloDataEntry.enter(mSolo, ((GvDataList.GvData) data.getItem(data.size() - 1)));
+        enterDatum(data, data.size() - 1);
 
         if (confirm) {
             clickAddConfirm();
         } else {
             clickAddCancel();
         }
+    }
+
+    protected void enterDatum(GvDataList data, int index) {
+        SoloDataEntry.enter(mSolo, (GvDataList.GvData) data.getItem(index));
     }
 
     protected void setDialogButtonClickRunnables() {
@@ -480,6 +484,22 @@ public abstract class ActivityEditScreenTest extends ActivityReviewViewTest {
 
     protected void runOnUiThread(Runnable runnable) {
         mActivity.runOnUiThread(runnable);
+    }
+
+    protected void checkInGrid(GvDataList.GvData datum, boolean result) {
+        if (result) {
+            assertTrue(getGridSize() > 0);
+        }
+
+        boolean inGrid = false;
+        for (int i = 0; i < getGridSize(); ++i) {
+            if (getGridItem(i).equals(datum)) {
+                inGrid = true;
+                break;
+            }
+        }
+
+        assertTrue(result ? inGrid : !inGrid);
     }
 
     private ReviewBuilder getParentBuilder() {
@@ -718,22 +738,6 @@ public abstract class ActivityEditScreenTest extends ActivityReviewViewTest {
             assertFalse(mSolo.searchButton("Cancel"));
             assertFalse(mSolo.searchButton("Done"));
         }
-    }
-
-    private void checkInGrid(GvDataList.GvData datum, boolean result) {
-        if (result) {
-            assertTrue(getGridSize() > 0);
-        }
-
-        boolean inGrid = false;
-        for (int i = 0; i < getGridSize(); ++i) {
-            if (getGridItem(i).equals(datum)) {
-                inGrid = true;
-                break;
-            }
-        }
-
-        assertTrue(result ? inGrid : !inGrid);
     }
 }
 

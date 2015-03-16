@@ -53,6 +53,10 @@ public abstract class DialogAddGvData<T extends GvDataList.GvData> extends
      */
     public interface GvDataAddListener<T extends GvDataList.GvData> {
         boolean onGvDataAdd(T data);
+
+        void onGvDataCancel();
+
+        void onGvDataDone();
     }
 
     public DialogAddGvData(Class<? extends GvDataList<T>> dataClass) {
@@ -116,8 +120,21 @@ public abstract class DialogAddGvData<T extends GvDataList.GvData> extends
     }
 
     @Override
+    protected void onCancelButtonClick() {
+        if (isQuickSet()) {
+            mBuilder.reset();
+        } else {
+            mAddListener.onGvDataCancel();
+        }
+    }
+
+    @Override
     protected void onDoneButtonClick() {
-        if (isQuickSet()) mBuilder.setData();
+        if (isQuickSet()) {
+            mBuilder.setData();
+        } else {
+            mAddListener.onGvDataDone();
+        }
     }
 
     @Override
@@ -127,5 +144,9 @@ public abstract class DialogAddGvData<T extends GvDataList.GvData> extends
 
     boolean isQuickSet() {
         return mQuickSet && mBuilder != null;
+    }
+
+    private void setBuilder() {
+
     }
 }

@@ -172,11 +172,6 @@ public class ReviewBuilder extends ReviewViewAdapterBasic {
         return builder;
     }
 
-    @Override
-    public float getRating() {
-        return isRatingAverage() ? getAverageRating() : mRating;
-    }
-
     private void setData(GvDataList data) {
         GvDataList.GvDataType dataType = data.getGvDataType();
         if (dataType == GvChildList.TYPE) {
@@ -186,6 +181,11 @@ public class ReviewBuilder extends ReviewViewAdapterBasic {
         }
 
         notifyGridDataObservers();
+    }
+
+    @Override
+    public float getRating() {
+        return isRatingAverage() ? getAverageRating() : mRating;
     }
 
     private void newIncrementor() {
@@ -223,6 +223,15 @@ public class ReviewBuilder extends ReviewViewAdapterBasic {
         private DataBuilder(GvDataList<T> data) {
             mData = data;
             mHandler = FactoryGvDataHandler.newHandler(mData);
+        }
+
+        public DataBuilder<T> getCopy() {
+            GvDataList<T> copy = MdGvConverter.copy(mData);
+            return new DataBuilder<>(copy);
+        }
+
+        public void reset() {
+            getParentBuilder().resetDataBuilder(mData.getGvDataType());
         }
 
         public ReviewBuilder getParentBuilder() {

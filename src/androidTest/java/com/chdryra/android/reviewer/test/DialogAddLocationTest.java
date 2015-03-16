@@ -39,10 +39,10 @@ public class DialogAddLocationTest extends DialogAddGvDataTest<GvLocationList.Gv
 
     private static final GvLocationList.GvLocation   DISHOOM    =
             new GvLocationList.GvLocation(new LatLng(51.51243, -0.126909), "Dishoom");
-    private static final GvLocationList.GvLocation[] locs       = {TAYYABS, TOWERBRIDGE, DISHOOM};
+    private static final GvLocationList.GvLocation[] LOCS       = {TAYYABS, TOWERBRIDGE, DISHOOM};
     private static final String                      DISHOOMADD = "Upper St Martin's Lane, " +
             "London, United Kingdom";
-    private static final String[]                    locsadd    = {TAYYABSADD, TOWERBRIDGEADD,
+    private static final String[]                    LOCSADD    = {TAYYABSADD, TOWERBRIDGEADD,
             DISHOOMADD};
 
     private LatLng                  mCurrent;
@@ -130,10 +130,10 @@ public class DialogAddLocationTest extends DialogAddGvDataTest<GvLocationList.Gv
     private GvDataList.GvData enterDataAndTest(int index) {
         assertTrue(index < 3);
         assertTrue(isDataNulled());
-        GvDataList.GvData data = locs[index];
+        GvDataList.GvData data = LOCS[index];
         enterData(data);
         assertTrue(isDataEntered());
-        mSolo.waitForText(locsadd[index]);
+        mSolo.waitForText(LOCSADD[index]);
         mSolo.clickInList(1);
         mSolo.sleep(3000);
 
