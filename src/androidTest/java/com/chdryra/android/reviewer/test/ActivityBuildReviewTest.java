@@ -157,7 +157,7 @@ public class ActivityBuildReviewTest extends ActivityReviewViewTest {
 
     @SmallTest
     public void testLocationEntrySingle() {
-        testClickGridCell(GvLocationList.TYPE, 1);
+        testClickGridCell(GvLocationList.TYPE, 1, true);
     }
 
     @SmallTest
@@ -178,6 +178,11 @@ public class ActivityBuildReviewTest extends ActivityReviewViewTest {
     @SmallTest
     public void testFactEntryMulti() {
         testClickGridCell(GvFactList.TYPE, NUM_DATA);
+    }
+
+    @SmallTest
+    public void testLocationEntryMulti() {
+        testClickGridCell(GvLocationList.TYPE, NUM_DATA, true);
     }
 
     @SmallTest
@@ -276,13 +281,15 @@ public class ActivityBuildReviewTest extends ActivityReviewViewTest {
         checkBuilderChanges(data.getGvDataType());
     }
 
-    protected void enterData(GvDataList data, String tag) {
+    protected void enterData(GvDataList data, String tag, boolean entryWithPause) {
         for (int i = 0; i < data.size() - 1; ++i) {
             SoloDataEntry.enter(mSolo, (GvDataList.GvData) data.getItem(i));
+            if (entryWithPause) mSolo.sleep(2000);
             clickActionButton(tag);
         }
 
         SoloDataEntry.enter(mSolo, ((GvDataList.GvData) data.getItem(data.size() - 1)));
+        if (entryWithPause) mSolo.sleep(2000);
         clickDoneButton(tag);
     }
 
@@ -421,7 +428,12 @@ public class ActivityBuildReviewTest extends ActivityReviewViewTest {
     }
 
     private void testClickGridCell(GvDataList.GvDataType dataType, int numData) {
-        testClickWithoutData(dataType, numData);
+        testClickGridCell(dataType, numData, false);
+    }
+
+    private void testClickGridCell(GvDataList.GvDataType dataType, int numData,
+            boolean entryWithPause) {
+        testClickWithoutData(dataType, numData, entryWithPause);
         testClickWithData(dataType);
     }
 
@@ -439,6 +451,11 @@ public class ActivityBuildReviewTest extends ActivityReviewViewTest {
     }
 
     private void testClickWithoutData(GvDataList.GvDataType dataType, int numData) {
+        testClickWithoutData(dataType, numData, false);
+    }
+
+    private void testClickWithoutData(GvDataList.GvDataType dataType, int numData,
+            boolean entryWithPause) {
         final GvDataList data = GvDataMocker.getData(dataType, numData);
 
         testInBuilder(data, false);
@@ -454,7 +471,7 @@ public class ActivityBuildReviewTest extends ActivityReviewViewTest {
         testDialogShowing(true);
 
         String tag = ConfigGvDataUi.getConfig(dataType).getAdderConfig().getTag();
-        enterData(data, tag);
+        enterData(data, tag, entryWithPause);
 
         mSolo.waitForDialogToClose(TIMEOUT);
         mSolo.sleep(1000);

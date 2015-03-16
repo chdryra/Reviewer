@@ -52,7 +52,7 @@ public class LayoutLocationAdd extends GvDataEditLayout<GvLocationList.GvLocatio
     private LatLng                    mCurrentLatLng;
     private LatLng                    mSelectedLatLng;
     private LocatedPlaceAutoCompleter mAutoCompleter;
-    private ViewHolderAdapterFiltered mFilter;
+    private ViewHolderAdapterFiltered mFilteredAdapter;
     private Activity                  mActivity;
 
     private boolean mLatLngProvided = false;
@@ -93,7 +93,7 @@ public class LayoutLocationAdd extends GvDataEditLayout<GvLocationList.GvLocatio
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (mFilter != null) mFilter.filter(s);
+                if (mFilteredAdapter != null) mFilteredAdapter.filter(s);
             }
 
             @Override
@@ -126,6 +126,7 @@ public class LayoutLocationAdd extends GvDataEditLayout<GvLocationList.GvLocatio
         LatLng latLng = args.getParcelable(LATLNG);
         if (latLng != null) {
             mCurrentLatLng = latLng;
+            mSelectedLatLng = latLng;
             boolean fromImage = args.getBoolean(FROM_IMAGE);
             mLatLngProvided = true;
 
@@ -217,7 +218,7 @@ public class LayoutLocationAdd extends GvDataEditLayout<GvLocationList.GvLocatio
     }
 
     private void setNewSuggestionsAdapter(ViewHolderDataList<VhdLocatedPlaceDistance> names) {
-        mFilter = new ViewHolderAdapterFiltered(mActivity, names, mAutoCompleter);
-        ((ListView) getView(LIST)).setAdapter(mFilter);
+        mFilteredAdapter = new ViewHolderAdapterFiltered(mActivity, names, mAutoCompleter);
+        ((ListView) getView(LIST)).setAdapter(mFilteredAdapter);
     }
 }

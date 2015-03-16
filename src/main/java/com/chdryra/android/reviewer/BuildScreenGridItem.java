@@ -70,23 +70,6 @@ public class BuildScreenGridItem extends ReviewViewAction.GridItemAction {
         return (ReviewBuilder) getAdapter();
     }
 
-    private void addLocation(GvLocationList.GvLocation location) {
-        if (location.isValidForDisplay()) {
-            ReviewBuilder.DataBuilder builder = getBuilder().getDataBuilder(GvLocationList.TYPE);
-            //TODO make type safe
-            builder.add(location);
-            builder.setData();
-        }
-    }
-
-    private void startMapActivity(GvLocationList.GvLocation location) {
-        Bundle args = new Bundle();
-        GvDataPacker.packItem(GvDataPacker.CurrentNewDatum.CURRENT, location, args);
-
-        LaunchableUi mapUi = ConfigGvDataUi.getLaunchable(ActivityEditLocationMap.class);
-        LauncherUi.launch(mapUi, mListener, getLocationRequestCode(), null, args);
-    }
-
     private void startActivity(ConfigGvDataUi.Config config) {
         Intent i = new Intent(getActivity(), ActivityReviewView.class);
         Administrator admin = Administrator.get(getActivity());
@@ -134,15 +117,9 @@ public class BuildScreenGridItem extends ReviewViewAction.GridItemAction {
                 .getRequestCode();
     }
 
-    private int getLocationRequestCode() {
-        return ConfigGvDataUi.getConfig(GvLocationList.TYPE).getEditorConfig()
-                .getRequestCode();
-    }
-
     private abstract class BuildListener extends Fragment implements
             ImageChooser.ImageChooserListener,
-            LocationClientConnector.Locatable,
-            DialogLocation.DialogFragmentLocationListener {
+            LocationClientConnector.Locatable {
 
         @Override
         public void onLocated(LatLng latLng) {
@@ -152,16 +129,6 @@ public class BuildScreenGridItem extends ReviewViewAction.GridItemAction {
         @Override
         public void onLocationClientConnected(LatLng latLng) {
             mLatLng = latLng;
-        }
-
-        @Override
-        public void onLocationChosen(GvLocationList.GvLocation location) {
-            addLocation(location);
-        }
-
-        @Override
-        public void onMapRequested(GvLocationList.GvLocation location) {
-            startMapActivity(location);
         }
 
         @Override
@@ -178,13 +145,9 @@ public class BuildScreenGridItem extends ReviewViewAction.GridItemAction {
             ActivityResultCode result = ActivityResultCode.get(resultCode);
 
             boolean imageRequested = requestCode == getImageRequestCode();
-            boolean mapRequested = requestCode == getLocationRequestCode();
 
             if (imageRequested && mImageChooser.chosenImageExists(result, data)) {
                 mImageChooser.getChosenImage(this);
-            } else if (mapRequested && result.equals(ActivityResultCode.DONE)) {
-                addLocation((GvLocationList.GvLocation) GvDataPacker.unpackItem(GvDataPacker
-                        .CurrentNewDatum.NEW, data));
             } else {
                 super.onActivityResult(requestCode, resultCode, data);
             }
