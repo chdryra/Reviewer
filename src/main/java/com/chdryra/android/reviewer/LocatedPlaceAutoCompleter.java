@@ -35,8 +35,7 @@ public class LocatedPlaceAutoCompleter implements ViewHolderAdapterFiltered.Quer
 
         for (GpAutoCompletePredictions.GpPrediction prediction : predictions) {
             LocatedPlace place = new LocatedPlace(mLatLng, prediction.getDescription()
-                    .getDescription(),
-                    prediction.getPlaceId().getString());
+                    .getDescription(), prediction.getPlaceId().getString());
             filtered.add(new VhdLocatedPlaceDistance(place, mLatLng));
         }
 
