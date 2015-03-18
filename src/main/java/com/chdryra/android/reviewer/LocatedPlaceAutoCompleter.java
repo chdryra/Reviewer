@@ -31,12 +31,12 @@ public class LocatedPlaceAutoCompleter implements ViewHolderAdapterFiltered.Quer
         GpAutoCompletePredictions predictions = PlacesApi.fetchAutoCompletePredictions(query,
                 mLatLng);
 
-        ViewHolderDataList<VhdLocatedPlaceDistance> filtered = new ViewHolderDataList<>();
+        ViewHolderDataList<VhdLocatedPlace> filtered = new ViewHolderDataList<>();
 
         for (GpAutoCompletePredictions.GpPrediction prediction : predictions) {
             LocatedPlace place = new LocatedPlace(mLatLng, prediction.getDescription()
                     .getDescription(), prediction.getPlaceId().getString());
-            filtered.add(new VhdLocatedPlaceDistance(place, mLatLng));
+            filtered.add(new VhdLocatedPlace(place));
         }
 
         return filtered;

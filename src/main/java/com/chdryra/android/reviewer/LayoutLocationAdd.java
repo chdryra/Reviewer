@@ -61,11 +61,11 @@ public class LayoutLocationAdd extends GvDataEditLayout<GvLocationList.GvLocatio
     private String mSearching;
     private int    mHint;
 
-    private VhdLocatedPlaceDistance mNoLocationPlace;
-    private VhdLocatedPlaceDistance mSearchingPlace;
+    private VhdLocatedPlace mNoLocationPlace;
+    private VhdLocatedPlace mSearchingPlace;
 
-    private EditText                                    mNameEditText;
-    private ViewHolderDataList<VhdLocatedPlaceDistance> mCurrentLatLngPlaces;
+    private EditText                            mNameEditText;
+    private ViewHolderDataList<VhdLocatedPlace> mCurrentLatLngPlaces;
 
     public LayoutLocationAdd(GvDataAdder adder) {
         super(GvLocationList.GvLocation.class, LAYOUT, VIEWS, NAME, adder);
@@ -107,7 +107,7 @@ public class LayoutLocationAdd extends GvDataEditLayout<GvLocationList.GvLocatio
         suggestionsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                VhdLocatedPlaceDistance location = (VhdLocatedPlaceDistance) parent
+                VhdLocatedPlace location = (VhdLocatedPlace) parent
                         .getAdapter().getItem(position);
                 fetchPlaceDetails(location.getPlace().getId());
             }
@@ -162,13 +162,13 @@ public class LayoutLocationAdd extends GvDataEditLayout<GvLocationList.GvLocatio
     }
 
     @Override
-    public void onNearestNamesSuggested(ArrayList<LocatedPlace> names) {
+    public void onNearestNamesSuggested(ArrayList<LocatedPlace> places) {
         mCurrentLatLngPlaces = new ViewHolderDataList<>();
-        if (names.size() == 0) {
+        if (places.size() == 0) {
             mCurrentLatLngPlaces.add(mNoLocationPlace);
         } else {
-            for (LocatedPlace name : names) {
-                mCurrentLatLngPlaces.add(new VhdLocatedPlaceDistance(name, mCurrentLatLng));
+            for (LocatedPlace place : places) {
+                mCurrentLatLngPlaces.add(new VhdLocatedPlace(place));
             }
         }
 
@@ -197,10 +197,10 @@ public class LayoutLocationAdd extends GvDataEditLayout<GvLocationList.GvLocatio
     }
 
     private void setMessages() {
-        mNoLocationPlace = new VhdLocatedPlaceDistance(new LocatedPlace(mCurrentLatLng,
-                mNoLocation, "NoLocationMessage"), null);
-        mSearchingPlace = new VhdLocatedPlaceDistance(new LocatedPlace(mCurrentLatLng,
-                mSearching, "SearchingMessage"), null);
+        mNoLocationPlace = new VhdLocatedPlace(new LocatedPlace(mCurrentLatLng,
+                mNoLocation, "NoLocationMessage"));
+        mSearchingPlace = new VhdLocatedPlace(new LocatedPlace(mCurrentLatLng,
+                mSearching, "SearchingMessage"));
     }
 
     private void findPlaceSuggestions() {
@@ -212,12 +212,12 @@ public class LayoutLocationAdd extends GvDataEditLayout<GvLocationList.GvLocatio
         suggester.fetchSuggestions(NUMBER_SUGGESTIONS);
 
         //Whilst initial suggestions are being found....
-        ViewHolderDataList<VhdLocatedPlaceDistance> message = new ViewHolderDataList<>();
+        ViewHolderDataList<VhdLocatedPlace> message = new ViewHolderDataList<>();
         message.add(mSearchingPlace);
         setNewSuggestionsAdapter(message);
     }
 
-    private void setNewSuggestionsAdapter(ViewHolderDataList<VhdLocatedPlaceDistance> names) {
+    private void setNewSuggestionsAdapter(ViewHolderDataList<VhdLocatedPlace> names) {
         mFilteredAdapter = new ViewHolderAdapterFiltered(mActivity, names, mAutoCompleter);
         ((ListView) getView(LIST)).setAdapter(mFilteredAdapter);
     }

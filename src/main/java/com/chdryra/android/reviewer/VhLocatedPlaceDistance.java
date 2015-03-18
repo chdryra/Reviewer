@@ -32,7 +32,7 @@ public class VhLocatedPlaceDistance extends ViewHolderBasic {
     public void updateView(ViewHolderData data) {
         if (mName == null) mName = (TextView) getView(NAME);
 
-        VhdLocatedPlaceDistance dist = (VhdLocatedPlaceDistance) data;
+        VhdLocatedPlace dist = (VhdLocatedPlace) data;
         if (dist != null && dist.isValidForDisplay()) {
             mName.setText(dist.getPlace().getDescription());
         }

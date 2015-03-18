@@ -1,0 +1,39 @@
+/*
+ * Copyright (c) 2015, Rizwan Choudrey - All Rights Reserved
+ * Unauthorized copying of this file, via any medium is strictly prohibited
+ * Proprietary and confidential
+ * Author: Rizwan Choudrey
+ * Date: 18 March, 2015
+ */
+
+package com.chdryra.android.reviewer.test;
+
+import android.test.suitebuilder.annotation.SmallTest;
+
+import com.chdryra.android.mygenerallibrary.ViewHolderDataList;
+import com.chdryra.android.reviewer.GvLocationList;
+import com.chdryra.android.reviewer.LocatedPlaceAutoCompleter;
+import com.google.android.gms.maps.model.LatLng;
+
+import junit.framework.TestCase;
+
+/**
+ * Created by: Rizwan Choudrey
+ * On: 18/03/2015
+ * Email: rizwan.choudrey@gmail.com
+ */
+public class LocatedPlaceAutoCompleterTest extends TestCase {
+    private static final GvLocationList.GvLocation TAYYABS =
+            new GvLocationList.GvLocation(new LatLng(51.517264, -0.063484), "Tayyabs");
+
+    @SmallTest
+    public void testFilter() {
+        LocatedPlaceAutoCompleter filter = new LocatedPlaceAutoCompleter(TAYYABS.getLatLng());
+        ViewHolderDataList filtered = filter.filter("Ta");
+        assertTrue(filtered.size() > 2);
+        filtered = filter.filter("Tayyabs");
+        assertTrue(filtered.size() == 2);
+        filtered = filter.filter("Tayyabsqewhuaudsu");
+        assertTrue(filtered.size() == 0);
+    }
+}
