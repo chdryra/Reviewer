@@ -183,16 +183,16 @@ public class ReviewBuilder extends ReviewViewAdapterBasic {
         notifyGridDataObservers();
     }
 
-    @Override
-    public float getRating() {
-        return isRatingAverage() ? getAverageRating() : mRating;
-    }
-
     private void newIncrementor() {
         String dir = mContext.getString(mContext.getApplicationInfo().labelRes);
         String filename = mSubject.length() > 0 ? mSubject : getAuthor().getName();
         mIncrementor = FileIncrementorFactory.newImageFileIncrementor(FILE_DIR_EXT, dir,
                 filename);
+    }
+
+    @Override
+    public float getRating() {
+        return isRatingAverage() ? getAverageRating() : mRating;
     }
 
     private GvChildList getChildren() {
@@ -217,17 +217,12 @@ public class ReviewBuilder extends ReviewViewAdapterBasic {
     }
 
     public class DataBuilder<T extends GvDataList.GvData> extends ReviewViewAdapterBasic {
-        private GvDataList<T>    mData;
-        private GvDataHandler<T> mHandler;
+        protected GvDataList<T>    mData;
+        private   GvDataHandler<T> mHandler;
 
         private DataBuilder(GvDataList<T> data) {
             mData = data;
             mHandler = FactoryGvDataHandler.newHandler(mData);
-        }
-
-        public DataBuilder<T> getCopy() {
-            GvDataList<T> copy = MdGvConverter.copy(mData);
-            return new DataBuilder<>(copy);
         }
 
         public void reset() {
@@ -241,6 +236,7 @@ public class ReviewBuilder extends ReviewViewAdapterBasic {
         public boolean add(T datum) {
             boolean success = mHandler.add(datum, mContext);
             if (success) notifyGridDataObservers();
+
             return success;
         }
 
@@ -314,6 +310,8 @@ public class ReviewBuilder extends ReviewViewAdapterBasic {
             getParentBuilder().setSubject(subject);
         }
     }
+
+
 
 
     public void setRating(float rating) {

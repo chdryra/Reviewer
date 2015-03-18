@@ -127,8 +127,15 @@ public class GvBuildReviewList extends GvDataList<GvBuildReviewList.GvBuildRevie
         private View getDatumView(ViewGroup parent) {
             ViewHolderData datum = (ViewHolderData) mBuilder.getDataBuilder(mDataType)
                     .getGridData().getItem(0);
-            ViewHolder vh = mDataType == GvLocationList.TYPE ? new VhLocation(true) : datum
-                    .newViewHolder();
+
+            ViewHolder vh;
+            if (mDataType == GvLocationList.TYPE || mDataType == GvTagList.TYPE) {
+                vh = mDataType == GvLocationList.TYPE ? new VhLocation(true) : new VhTag(true);
+            } else {
+                vh = datum.newViewHolder();
+                ;
+            }
+
             if (vh.getView() == null) vh.inflate(mBuilder.getContext(), parent);
             vh.updateView(datum);
             return vh.getView();

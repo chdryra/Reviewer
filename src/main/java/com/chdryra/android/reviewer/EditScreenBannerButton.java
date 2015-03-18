@@ -25,19 +25,12 @@ public class EditScreenBannerButton extends ReviewViewAction.BannerButtonAction 
 
     private ConfigGvDataUi.LaunchableConfig mConfig;
     private Fragment                        mListener;
-    private ReviewBuilder.DataBuilder       mCopyBuilder;
 
     public EditScreenBannerButton(ConfigGvDataUi.LaunchableConfig config, String title) {
         super(title);
         mConfig = config;
-        setListener(new AddListener() {
+        setListener(new AddListener(config.getGVType()) {
         });
-    }
-
-    @Override
-    public void onAttachReviewView() {
-        super.onAttachReviewView();
-        setCopyBuilder();
     }
 
     @Override
@@ -59,7 +52,7 @@ public class EditScreenBannerButton extends ReviewViewAction.BannerButtonAction 
 
     //TODO make type safe
     protected boolean addData(GvDataList.GvData data) {
-        boolean added = ((ReviewBuilder.DataBuilder) getAdapter()).add(data);
+        boolean added = getDataBuilder().add(data);
         getReviewView().updateUi();
         return added;
     }
@@ -68,8 +61,8 @@ public class EditScreenBannerButton extends ReviewViewAction.BannerButtonAction 
         return mConfig.getRequestCode();
     }
 
-    private void setCopyBuilder() {
-        mCopyBuilder = ((ReviewBuilder.DataBuilder) getAdapter()).getCopy();
+    private ReviewBuilder.DataBuilder getDataBuilder() {
+        return ((ReviewBuilder.DataBuilder) getAdapter());
     }
 
     //Dialogs expected to communicate directly with target fragments so using "invisible"
@@ -77,31 +70,37 @@ public class EditScreenBannerButton extends ReviewViewAction.BannerButtonAction 
     //Restrictions on how fragments are constructed mean I have to use an abstract class...
     protected abstract class AddListener extends Fragment implements DialogAddGvData
             .GvDataAddListener {
+        private GvDataList<GvDataList.GvData> mAdded;
+
+        private AddListener(GvDataList.GvDataType dataType) {
+            mAdded = FactoryGvData.newList(dataType);
+        }
 
         //TODO make type safe
         @Override
         public boolean onGvDataAdd(GvDataList.GvData data) {
-            return mCopyBuilder.add(data);
+            boolean success = addData(data);
+            if (success) mAdded.add(data);
+            return success;
         }
 
         @Override
         public void onGvDataCancel() {
-            setCopyBuilder();
+            for (GvDataList.GvData added : mAdded) {
+                getDataBuilder().delete(added);
+            }
         }
 
         @Override
         public void onGvDataDone() {
-            GvDataList data = mCopyBuilder.getGridData();
-            for (int i = 0; i < data.size(); ++i) {
-                addData((GvDataList.GvData) data.getItem(i));
-            }
+            mAdded = FactoryGvData.newList(mAdded.getGvDataType());
         }
 
         @Override
         public void onActivityResult(int requestCode, int resultCode, Intent data) {
             if (requestCode == getRequestCode() && data != null
                     && ActivityResultCode.get(resultCode) == ActivityResultCode.DONE) {
-                addData(GvDataPacker.unpackItem(GvDataPacker.CurrentNewDatum.NEW, data));
+                onGvDataAdd(GvDataPacker.unpackItem(GvDataPacker.CurrentNewDatum.NEW, data));
             }
         }
     }

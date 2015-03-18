@@ -64,18 +64,22 @@ public class EditScreenGridItem extends ReviewViewAction.GridItemAction {
 
     //TODO make type safe
     protected void editData(GvDataList.GvData oldDatum, GvDataList.GvData newDatum) {
-        ((ReviewBuilder.DataBuilder) getAdapter()).replace(oldDatum, newDatum);
+        getDataBuilder().replace(oldDatum, newDatum);
         getReviewView().updateUi();
     }
 
     //TODO make type safe
     protected void deleteData(GvDataList.GvData datum) {
-        ((ReviewBuilder.DataBuilder) getAdapter()).delete(datum);
+        getDataBuilder().delete(datum);
         getReviewView().updateUi();
     }
 
     protected ReviewView.Editor getEditor() {
         return mEditor;
+    }
+
+    private ReviewBuilder.DataBuilder getDataBuilder() {
+        return ((ReviewBuilder.DataBuilder) getAdapter());
     }
 
     protected abstract class EditListener extends Fragment implements DialogEditGvData
@@ -97,10 +101,10 @@ public class EditScreenGridItem extends ReviewViewAction.GridItemAction {
                 GvDataList.GvData oldDatum = GvDataPacker.unpackItem(GvDataPacker
                         .CurrentNewDatum.CURRENT, data);
                 if (ActivityResultCode.get(resultCode) == ActivityResultCode.DONE) {
-                    editData(oldDatum, GvDataPacker.unpackItem(GvDataPacker
+                    onGvDataEdit(oldDatum, GvDataPacker.unpackItem(GvDataPacker
                             .CurrentNewDatum.NEW, data));
                 } else if (ActivityResultCode.get(resultCode) == ActivityResultCode.DELETE) {
-                    deleteData(oldDatum);
+                    onGvDataDelete(oldDatum);
                 }
             }
         }

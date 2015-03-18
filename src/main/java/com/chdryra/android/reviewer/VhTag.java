@@ -8,12 +8,22 @@
 
 package com.chdryra.android.reviewer;
 
+import com.chdryra.android.mygenerallibrary.ViewHolderData;
+
 /**
  * {@link com.chdryra.android.mygenerallibrary.ViewHolder}: {@link com.chdryra.android.reviewer
  * .TagsManager.ReviewTag} ({@link GvText}). Shows tag
  * string.
  */
 class VhTag extends VhText {
-    VhTag() {
+    public VhTag(final boolean hashTag) {
+        super(new VHDataStringGetter() {
+            @Override
+            public String getString(ViewHolderData data) {
+                GvTagList.GvTag tag = (GvTagList.GvTag) data;
+                String hash = hashTag ? "#" : "";
+                return tag != null ? hash + tag.get() : null;
+            }
+        });
     }
 }

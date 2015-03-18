@@ -16,6 +16,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        android:textSize="20sp"/>
+        android:paddingLeft="@dimen/grid_item_text_padding"
+        android:paddingRight="@dimen/grid_item_text_padding"
+        android:textSize="16sp"/>
 
 </com.chdryra.android.mygenerallibrary.ViewHolderLayout>
