@@ -14,8 +14,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-import com.chdryra.android.mygenerallibrary.DialogAlertFragment;
-
 /**
  * Created by: Rizwan Choudrey
  * On: 19/03/2015
@@ -46,8 +44,6 @@ public class EditScreenComments {
 
         public GridItem() {
             super(ConfigGvDataUi.getConfig(GvCommentList.TYPE).getEditorConfig());
-            setListener(new EditCommentListener() {
-            });
         }
 
         @Override
@@ -56,60 +52,42 @@ public class EditScreenComments {
         }
 
         @Override
-        public void onGridItemLongClick(GvDataList.GvData item, View v) {
-            if (getReviewView() == null) return;
-
-            GvCommentList.GvComment comment = (GvCommentList.GvComment) item;
+        protected void deleteData(GvDataList.GvData datum) {
+            super.deleteData(datum);
+            GvCommentList.GvComment comment = (GvCommentList.GvComment) datum;
             if (comment.isHeadline()) {
-                onGridItemClick(item, v);
-                return;
-            }
-
-            mHeadlineProposition = comment;
-            String alert = getActivity().getString(R.string.dialog_set_comment_as_headline);
-            DialogAlertFragment dialog = DialogAlertFragment.newDialog(alert, new Bundle());
-            DialogShower.show(dialog, getListener(), COMMENT_AS_HEADLINE,
-                    DialogAlertFragment.ALERT_TAG);
-        }
-
-        private void setHeadline() {
-            for (GvCommentList.GvComment comment : (GvCommentList) getGridData()) {
-                if (comment == mHeadlineProposition) {
-                    comment.setIsHeadline(true);
-                } else {
-                    comment.setIsHeadline(false);
+                comment.setIsHeadline(false);
+                GvCommentList comments = (GvCommentList) getGridData();
+                if (comments.getHeadlines().size() == 0 && comments.size() > 0) {
+                    comments.getItem(0).setIsHeadline(true);
                 }
             }
         }
 
-        private abstract class EditCommentListener extends EditListener implements
-                DialogAlertFragment
-                .DialogAlertListener {
-
-            @Override
-            public void onGvDataDelete(GvDataList.GvData data) {
-                super.onGvDataDelete(data);
-                GvCommentList.GvComment comment = (GvCommentList.GvComment) data;
-                if (comment.isHeadline()) {
-                    comment.setIsHeadline(false);
-                    GvCommentList comments = (GvCommentList) getGridData();
-                    if (comments.getHeadlines().size() == 0 && comments.size() > 0) {
-                        comments.getItem(0).setIsHeadline(true);
+        @Override
+        protected void onDialogAlertPositive(int requestCode, Bundle args) {
+            if (requestCode == COMMENT_AS_HEADLINE) {
+                GvCommentList.GvComment headline = (GvCommentList.GvComment) GvDataPacker
+                        .unpackItem(GvDataPacker.CurrentNewDatum.CURRENT, args);
+                for (GvCommentList.GvComment comment : (GvCommentList) getGridData()) {
+                    if (comment == headline) {
+                        comment.setIsHeadline(true);
+                    } else {
+                        comment.setIsHeadline(false);
                     }
                 }
+                getReviewView().updateUi();
             }
+        }
 
-            @Override
-            public void onAlertNegative(int requestCode, Bundle args) {
-
-            }
-
-            @Override
-            public void onAlertPositive(int requestCode, Bundle args) {
-                if (requestCode == COMMENT_AS_HEADLINE) {
-                    setHeadline();
-                    getReviewView().updateUi();
-                }
+        @Override
+        public void onGridItemLongClick(GvDataList.GvData item, View v) {
+            GvCommentList.GvComment comment = (GvCommentList.GvComment) item;
+            if (comment.isHeadline()) {
+                super.onGridItemLongClick(item, v);
+            } else {
+                showAlertDialog(getActivity().getString(R.string.dialog_set_comment_as_headline),
+                        COMMENT_AS_HEADLINE, comment);
             }
         }
     }

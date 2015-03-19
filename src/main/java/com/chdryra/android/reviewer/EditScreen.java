@@ -67,6 +67,8 @@ public class EditScreen {
             return new EditScreenImages.GridItem();
         } else if (dataType == GvLocationList.TYPE) {
             return new EditScreenLocations.GridItem();
+        } else if (dataType == GvFactList.TYPE) {
+            return new EditScreenFacts.GridItem();
         } else {
             return new GridItem(ConfigGvDataUi.getConfig(dataType).getEditorConfig());
         }
@@ -175,6 +177,7 @@ public class EditScreen {
 
     public static class GridItem extends ReviewViewAction.GridItemAction {
         private static final String TAG = "GridItemEditListener";
+
         private Fragment                        mListener;
         private ConfigGvDataUi.LaunchableConfig mConfig;
         private ReviewView.Editor               mEditor;
@@ -193,8 +196,6 @@ public class EditScreen {
 
         @Override
         public void onGridItemClick(GvDataList.GvData item, View v) {
-            if (getReviewView() == null) return;
-
             Bundle args = new Bundle();
             GvDataPacker.packItem(GvDataPacker.CurrentNewDatum.CURRENT, item, args);
 
@@ -227,6 +228,21 @@ public class EditScreen {
             getReviewView().updateUi();
         }
 
+        protected void showAlertDialog(String alert, int requestCode, GvDataList.GvData item) {
+            Bundle args = new Bundle();
+            GvDataPacker.packItem(GvDataPacker.CurrentNewDatum.CURRENT, item, args);
+            DialogAlertFragment dialog = DialogAlertFragment.newDialog(alert, args);
+            DialogShower.show(dialog, getListener(), requestCode, DialogAlertFragment.ALERT_TAG);
+        }
+
+        protected void onDialogAlertNegative(int requestCode, Bundle args) {
+
+        }
+
+        protected void onDialogAlertPositive(int requestCode, Bundle args) {
+
+        }
+
         protected ReviewView.Editor getEditor() {
             return mEditor;
         }
@@ -235,8 +251,9 @@ public class EditScreen {
             return ((ReviewBuilder.DataBuilder) getAdapter());
         }
 
-        protected abstract class EditListener extends Fragment implements DialogEditGvData
-                .GvDataEditListener {
+        protected abstract class EditListener extends Fragment
+                implements DialogEditGvData.GvDataEditListener,
+                DialogAlertFragment.DialogAlertListener {
 
             @Override
             public void onGvDataDelete(GvDataList.GvData data) {
@@ -246,6 +263,11 @@ public class EditScreen {
             @Override
             public void onGvDataEdit(GvDataList.GvData oldDatum, GvDataList.GvData newDatum) {
                 editData(oldDatum, newDatum);
+            }
+
+            @Override
+            public void onAlertNegative(int requestCode, Bundle args) {
+                onDialogAlertNegative(requestCode, args);
             }
 
             @Override
@@ -260,6 +282,12 @@ public class EditScreen {
                         onGvDataDelete(oldDatum);
                     }
                 }
+            }
+
+
+            @Override
+            public void onAlertPositive(int requestCode, Bundle args) {
+                onDialogAlertPositive(requestCode, args);
             }
         }
     }
@@ -307,7 +335,7 @@ public class EditScreen {
             mDeleteAction = new MenuActionItem() {
                 @Override
                 public void doAction(MenuItem item) {
-                    showDeleteConfirmDialog();
+                    if (hasDataToDelete()) showDeleteConfirmDialog();
                 }
             };
 

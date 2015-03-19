@@ -11,7 +11,7 @@ package com.chdryra.android.reviewer;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.chdryra.android.mygenerallibrary.ViewHolder;
+import com.chdryra.android.mygenerallibrary.TextUtils;
 
 import java.net.URL;
 
@@ -25,7 +25,6 @@ public class GvUrlList extends GvDataList<GvUrlList.GvUrl> {
     /**
      * {@link GvDataList.GvData} version of: {@link com.chdryra
      * .android.reviewer.MdUrlList.MdUrl}
-     * {@link ViewHolder}: {@link VhUrl}
      * <p>
      * Methods for getting full URL and shortened more readable version.
      * </p>
@@ -41,6 +40,7 @@ public class GvUrlList extends GvDataList<GvUrlList.GvUrl> {
                 return new GvUrl[size];
             }
         };
+
         private URL mUrl;
 
         public GvUrl() {
@@ -48,18 +48,13 @@ public class GvUrlList extends GvDataList<GvUrlList.GvUrl> {
         }
 
         public GvUrl(String label, URL url) {
-            super(label, url.toExternalForm());
+            super(label, TextUtils.toShortenedString(url));
             mUrl = url;
         }
 
         private GvUrl(Parcel in) {
-            super(in.readString(), in.readString());
+            super(in);
             mUrl = (URL) in.readSerializable();
-        }
-
-        @Override
-        public boolean isUrl() {
-            return true;
         }
 
         @Override
@@ -68,33 +63,13 @@ public class GvUrlList extends GvDataList<GvUrlList.GvUrl> {
         }
 
         @Override
-        public String getValue() {
-            return toShortenedString();
+        public boolean isUrl() {
+            return true;
         }
 
         @Override
         public URL getUrl() {
             return mUrl;
-        }
-
-        public String toShortenedString() {
-            String protocol = mUrl.getProtocol();
-            String result = toString().replaceFirst(protocol + ":", "");
-            if (result.startsWith("//")) {
-                result = result.substring(2);
-            }
-
-            result = result.trim();
-            if (result.endsWith("/")) {
-                result = (String) result.subSequence(0, result.length() - 1);
-            }
-
-            return result;
-        }
-
-        @Override
-        public String toString() {
-            return mUrl != null ? mUrl.toExternalForm() : null;
         }
 
         @Override
@@ -104,8 +79,7 @@ public class GvUrlList extends GvDataList<GvUrlList.GvUrl> {
 
         @Override
         public void writeToParcel(Parcel parcel, int i) {
-            parcel.writeString(getLabel());
-            parcel.writeString(super.getValue());
+            super.writeToParcel(parcel, i);
             parcel.writeSerializable(mUrl);
         }
 

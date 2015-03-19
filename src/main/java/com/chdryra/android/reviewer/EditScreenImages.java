@@ -14,7 +14,6 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.chdryra.android.mygenerallibrary.ActivityResultCode;
-import com.chdryra.android.mygenerallibrary.DialogAlertFragment;
 
 /**
  * Created by: Rizwan Choudrey
@@ -72,54 +71,39 @@ public class EditScreenImages {
 
     public static class GridItem extends EditScreen.GridItem {
         private static final int IMAGE_AS_COVER = 200;
-        private GvImageList.GvImage mCoverProposition;
 
         public GridItem() {
             super(ConfigGvDataUi.getConfig(GvImageList.TYPE).getEditorConfig());
-            setListener(new EditImageListener() {
-            });
         }
 
         @Override
         public void onGridItemLongClick(GvDataList.GvData item, View v) {
-            if (getReviewView() == null) return;
-
             GvImageList.GvImage image = (GvImageList.GvImage) item;
             if (image.isCover()) {
-                onGridItemClick(item, v);
-                return;
+                super.onGridItemLongClick(item, v);
+            } else {
+                showAlertDialog(getActivity().getString(R.string.dialog_set_image_as_background),
+                        IMAGE_AS_COVER, image);
             }
-
-            mCoverProposition = image;
-            String alert = getActivity().getString(R.string.dialog_set_image_as_background);
-            DialogAlertFragment dialog = DialogAlertFragment.newDialog(alert, new Bundle());
-            DialogShower.show(dialog, getListener(), IMAGE_AS_COVER, DialogAlertFragment.ALERT_TAG);
         }
 
-        private abstract class EditImageListener extends EditListener implements DialogAlertFragment
-                .DialogAlertListener {
-
-            @Override
-            public void onGvDataDelete(GvDataList.GvData data) {
-                super.onGvDataDelete(data);
-                GvImageList.GvImage image = (GvImageList.GvImage) data;
-                if (image.isCover()) {
-                    image.setIsCover(false);
-                    getReviewView().updateCover();
-                }
+        @Override
+        protected void deleteData(GvDataList.GvData datum) {
+            super.deleteData(datum);
+            GvImageList.GvImage image = (GvImageList.GvImage) datum;
+            if (image.isCover()) {
+                image.setIsCover(false);
+                getReviewView().updateCover();
             }
+        }
 
-            @Override
-            public void onAlertNegative(int requestCode, Bundle args) {
-
-            }
-
-            @Override
-            public void onAlertPositive(int requestCode, Bundle args) {
-                if (requestCode == IMAGE_AS_COVER) {
-                    getEditor().proposeCover(mCoverProposition);
-                    getReviewView().updateUi();
-                }
+        @Override
+        protected void onDialogAlertPositive(int requestCode, Bundle args) {
+            if (requestCode == IMAGE_AS_COVER) {
+                GvImageList.GvImage cover = (GvImageList.GvImage) GvDataPacker.unpackItem
+                        (GvDataPacker.CurrentNewDatum.CURRENT, args);
+                getEditor().proposeCover(cover);
+                getReviewView().updateUi();
             }
         }
     }

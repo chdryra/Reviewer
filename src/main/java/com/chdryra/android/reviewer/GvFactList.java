@@ -73,8 +73,8 @@ public class GvFactList extends GvDataList<GvFactList.GvFact> {
             super(label, value);
         }
 
-        private GvFact(Parcel in) {
-            super(in.readString(), in.readString());
+        protected GvFact(Parcel in) {
+            super(in);
         }
 
         @Override

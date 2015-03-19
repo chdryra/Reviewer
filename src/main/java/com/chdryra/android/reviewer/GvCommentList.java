@@ -34,13 +34,10 @@ public class GvCommentList extends GvDataList<GvCommentList.GvComment> {
         return splitComments;
     }
 
-    public GvCommentList getHeadlines() {
-        GvCommentList headlines = new GvCommentList();
-        for (GvComment image : this) {
-            if (image.isHeadline()) headlines.add(image);
-        }
-
-        return headlines;
+    @Override
+    public void add(GvComment item) {
+        if (size() == 0) item.setIsHeadline(true);
+        super.add(item);
     }
 
     @Override
@@ -60,6 +57,15 @@ public class GvCommentList extends GvDataList<GvCommentList.GvComment> {
                 return comp;
             }
         };
+    }
+
+    public GvCommentList getHeadlines() {
+        GvCommentList headlines = new GvCommentList();
+        for (GvComment image : this) {
+            if (image.isHeadline()) headlines.add(image);
+        }
+
+        return headlines;
     }
 
     /**

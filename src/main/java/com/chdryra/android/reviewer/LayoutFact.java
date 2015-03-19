@@ -57,7 +57,7 @@ public class LayoutFact extends GvDataEditLayout<GvFactList.GvFact> {
     }
 
     private GvUrlList.GvUrl newUrl(String label, String urlString) {
-        String urlGuess = URLUtil.guessUrl(urlString);
+        String urlGuess = URLUtil.guessUrl(urlString.toLowerCase());
         try {
             return new GvUrlList.GvUrl(label, new URL(urlGuess));
         } catch (MalformedURLException e) {
