@@ -22,6 +22,15 @@ public class GvFactList extends GvDataList<GvFactList.GvFact> {
         super(TYPE);
     }
 
+    public GvUrlList getUrls() {
+        GvUrlList urls = new GvUrlList();
+        for (GvFact fact : this) {
+            if (fact.isUrl()) urls.add((GvUrlList.GvUrl) fact);
+        }
+
+        return urls;
+    }
+
     @Override
     protected Comparator<GvFact> getDefaultComparator() {
 
@@ -91,6 +100,11 @@ public class GvFactList extends GvDataList<GvFactList.GvFact> {
         @Override
         public String getValue() {
             return getLower();
+        }
+
+        @Override
+        public boolean isUrl() {
+            return false;
         }
     }
 }

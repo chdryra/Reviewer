@@ -27,18 +27,12 @@ public class MdUrlList extends MdDataList<MdUrlList.MdUrl> {
      * {@link #hasData()}: non-null URL.
      * </p>
      */
-    public static class MdUrl implements MdData, DataUrl {
+    public static class MdUrl extends MdFactList.MdFact implements DataUrl {
         private final URL    mUrl;
-        private       Review mHoldingReview;
 
-        public MdUrl(URL url, Review holdingReview) {
+        public MdUrl(String label, URL url, Review holdingReview) {
+            super(label, url.toExternalForm(), holdingReview);
             mUrl = url;
-            mHoldingReview = holdingReview;
-        }
-
-        @Override
-        public Review getHoldingReview() {
-            return mHoldingReview;
         }
 
         @Override
@@ -47,21 +41,13 @@ public class MdUrlList extends MdDataList<MdUrlList.MdUrl> {
         }
 
         @Override
-        public URL getUrl() {
-            return mUrl;
-        }
-
-        @Override
         public boolean equals(Object o) {
             if (this == o) return true;
             if (!(o instanceof MdUrl)) return false;
+            if (!super.equals(o)) return false;
 
             MdUrl mdUrl = (MdUrl) o;
 
-            if (mHoldingReview != null ? !mHoldingReview.equals(mdUrl.mHoldingReview) : mdUrl
-                    .mHoldingReview != null) {
-                return false;
-            }
             if (mUrl != null ? !mUrl.equals(mdUrl.mUrl) : mdUrl.mUrl != null) return false;
 
             return true;
@@ -69,9 +55,14 @@ public class MdUrlList extends MdDataList<MdUrlList.MdUrl> {
 
         @Override
         public int hashCode() {
-            int result = mUrl != null ? mUrl.hashCode() : 0;
-            result = 31 * result + (mHoldingReview != null ? mHoldingReview.hashCode() : 0);
+            int result = super.hashCode();
+            result = 31 * result + (mUrl != null ? mUrl.hashCode() : 0);
             return result;
+        }
+
+        @Override
+        public URL getUrl() {
+            return mUrl;
         }
     }
 }

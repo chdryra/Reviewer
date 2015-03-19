@@ -58,6 +58,11 @@ public class MdFactList extends MdDataList<MdFactList.MdFact> {
         }
 
         @Override
+        public boolean isUrl() {
+            return false;
+        }
+
+        @Override
         public boolean equals(Object o) {
             if (this == o) return true;
             if (!(o instanceof MdFact)) return false;

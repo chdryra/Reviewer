@@ -31,7 +31,7 @@ import com.chdryra.android.myandroidwidgets.ClearableEditText;
 import com.chdryra.android.mygenerallibrary.FragmentDeleteDone;
 
 import java.net.MalformedURLException;
-import java.net.URISyntaxException;
+import java.net.URL;
 
 /**
  * UI Fragment: web browser. Browser shows URL passed in the arguments,
@@ -162,13 +162,9 @@ public class FragmentEditUrlBrowser extends FragmentDeleteDone {
         String urlString = mWebView.getUrl();
         GvUrlList.GvUrl url = null;
         try {
-            url = new GvUrlList.GvUrl(urlString);
+            url = new GvUrlList.GvUrl(mWebView.getTitle(), new URL(urlString));
         } catch (MalformedURLException e1) {
             Log.i(TAG, "MalformedURLException: " + urlString, e1);
-            Toast.makeText(getActivity(), getResources().getString(R.string.toast_bad_url),
-                    Toast.LENGTH_SHORT).show();
-        } catch (URISyntaxException e2) {
-            Log.i(TAG, "URLSyntaxException: " + urlString, e2);
             Toast.makeText(getActivity(), getResources().getString(R.string.toast_bad_url),
                     Toast.LENGTH_SHORT).show();
         }

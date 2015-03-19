@@ -8,7 +8,14 @@
 
 package com.chdryra.android.reviewer;
 
+import android.webkit.URLUtil;
 import android.widget.EditText;
+
+import com.chdryra.android.mygenerallibrary.TextUtils;
+
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.ArrayList;
 
 /**
  * Created by: Rizwan Choudrey
@@ -33,7 +40,13 @@ public class LayoutFact extends GvDataEditLayout<GvFactList.GvFact> {
     public GvFactList.GvFact createGvData() {
         String label = ((EditText) getView(LABEL)).getText().toString().trim();
         String value = ((EditText) getView(VALUE)).getText().toString().trim();
-        return new GvFactList.GvFact(label, value);
+        ArrayList<String> urls = TextUtils.getLinks(value);
+
+        GvFactList.GvFact fact = null;
+        if (urls.size() > 0) fact = newUrl(label, urls.get(0));
+        if (fact == null) fact = new GvFactList.GvFact(label, value);
+
+        return fact;
     }
 
     @Override
@@ -41,5 +54,15 @@ public class LayoutFact extends GvDataEditLayout<GvFactList.GvFact> {
         ((EditText) getView(LABEL)).setText(fact.getLabel());
         ((EditText) getView(VALUE)).setText(fact.getValue());
         getView(LABEL).requestFocus();
+    }
+
+    private GvUrlList.GvUrl newUrl(String label, String urlString) {
+        String urlGuess = URLUtil.guessUrl(urlString);
+        try {
+            return new GvUrlList.GvUrl(label, new URL(urlGuess));
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }

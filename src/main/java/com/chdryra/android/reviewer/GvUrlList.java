@@ -10,13 +10,9 @@ package com.chdryra.android.reviewer;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.webkit.URLUtil;
 
 import com.chdryra.android.mygenerallibrary.ViewHolder;
 
-import java.net.MalformedURLException;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.net.URL;
 
 public class GvUrlList extends GvDataList<GvUrlList.GvUrl> {
@@ -34,7 +30,7 @@ public class GvUrlList extends GvDataList<GvUrlList.GvUrl> {
      * Methods for getting full URL and shortened more readable version.
      * </p>
      */
-    public static class GvUrl implements GvDataList.GvData, DataUrl {
+    public static class GvUrl extends GvFactList.GvFact implements DataUrl {
         public static final Parcelable.Creator<GvUrl> CREATOR = new Parcelable
                 .Creator<GvUrl>() {
             public GvUrl createFromParcel(Parcel in) {
@@ -48,21 +44,32 @@ public class GvUrlList extends GvDataList<GvUrlList.GvUrl> {
         private URL mUrl;
 
         public GvUrl() {
+            super();
         }
 
-        public GvUrl(URL url) {
+        public GvUrl(String label, URL url) {
+            super(label, url.toExternalForm());
             mUrl = url;
         }
 
         private GvUrl(Parcel in) {
+            super(in.readString(), in.readString());
             mUrl = (URL) in.readSerializable();
         }
 
-        public GvUrl(String stringUrl) throws MalformedURLException, URISyntaxException {
-            URL url = new URL(URLUtil.guessUrl(stringUrl));
-            URI uri = new URI(url.getProtocol(), url.getUserInfo(), url.getHost(), url.getPort(),
-                    url.getPath(), url.getQuery(), url.getRef());
-            mUrl = uri.toURL();
+        @Override
+        public boolean isUrl() {
+            return true;
+        }
+
+        @Override
+        public boolean isValidForDisplay() {
+            return DataValidator.validate(this);
+        }
+
+        @Override
+        public String getValue() {
+            return toShortenedString();
         }
 
         @Override
@@ -86,38 +93,6 @@ public class GvUrlList extends GvDataList<GvUrlList.GvUrl> {
         }
 
         @Override
-        public ViewHolder newViewHolder() {
-            return new VhUrl();
-        }
-
-        @Override
-        public boolean isValidForDisplay() {
-            return DataValidator.validate(this) && DataValidator.validateString(toShortenedString
-                    ());
-        }
-
-        @Override
-        public String getStringSummary() {
-            return toShortenedString();
-        }
-
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) return true;
-            if (!(o instanceof GvUrl)) return false;
-
-            GvUrl gvUrl = (GvUrl) o;
-
-            return !(mUrl != null ? !mUrl.equals(gvUrl.mUrl) : gvUrl.mUrl != null);
-
-        }
-
-        @Override
-        public int hashCode() {
-            return mUrl != null ? mUrl.hashCode() : 0;
-        }
-
-        @Override
         public String toString() {
             return mUrl != null ? mUrl.toExternalForm() : null;
         }
@@ -129,7 +104,29 @@ public class GvUrlList extends GvDataList<GvUrlList.GvUrl> {
 
         @Override
         public void writeToParcel(Parcel parcel, int i) {
+            parcel.writeString(getLabel());
+            parcel.writeString(super.getValue());
             parcel.writeSerializable(mUrl);
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (!(o instanceof GvUrl)) return false;
+            if (!super.equals(o)) return false;
+
+            GvUrl gvUrl = (GvUrl) o;
+
+            if (mUrl != null ? !mUrl.equals(gvUrl.mUrl) : gvUrl.mUrl != null) return false;
+
+            return true;
+        }
+
+        @Override
+        public int hashCode() {
+            int result = super.hashCode();
+            result = 31 * result + (mUrl != null ? mUrl.hashCode() : 0);
+            return result;
         }
     }
 }

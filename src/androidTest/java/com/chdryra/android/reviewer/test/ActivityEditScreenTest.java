@@ -20,7 +20,7 @@ import com.chdryra.android.reviewer.Administrator;
 import com.chdryra.android.reviewer.ConfigGvDataUi;
 import com.chdryra.android.reviewer.DialogAddGvData;
 import com.chdryra.android.reviewer.DialogEditGvData;
-import com.chdryra.android.reviewer.FactoryReviewView;
+import com.chdryra.android.reviewer.EditScreen;
 import com.chdryra.android.reviewer.FragmentReviewView;
 import com.chdryra.android.reviewer.GvChildList;
 import com.chdryra.android.reviewer.GvDataList;
@@ -46,7 +46,7 @@ public abstract class ActivityEditScreenTest extends ActivityReviewViewTest {
             .menu_item_delete;
     protected static final int  DONE     = com.chdryra.android.reviewer.R.id
             .menu_item_done;
-    protected static final int NUM_DATA = 3;
+    protected static final int  NUM_DATA = 3;
 
     protected GvDataList.GvDataType           mDataType;
     protected String                          mOriginalSubject;
@@ -171,7 +171,7 @@ public abstract class ActivityEditScreenTest extends ActivityReviewViewTest {
 
     @Override
     protected ReviewView getView() {
-        return FactoryReviewView.newEditScreen(getInstrumentation().getTargetContext(), mDataType);
+        return EditScreen.newScreen(getInstrumentation().getTargetContext(), mDataType);
     }
 
     @Override

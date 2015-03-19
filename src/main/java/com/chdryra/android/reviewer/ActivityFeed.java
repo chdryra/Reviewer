@@ -17,7 +17,7 @@ public class ActivityFeed extends ActivityReviewView {
 
     @Override
     protected Fragment createFragment() {
-        Administrator.get(this).packView(FactoryReviewView.newFeedScreen(this), getIntent());
+        Administrator.get(this).packView(FeedScreen.newScreen(this), getIntent());
         return new FragmentReviewView();
     }
 

@@ -16,5 +16,6 @@ import java.net.URL;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface DataUrl {
+    public String getLabel();
     public URL getUrl();
 }

@@ -22,7 +22,7 @@ import com.chdryra.android.reviewer.ActivityReviewView;
 import com.chdryra.android.reviewer.Administrator;
 import com.chdryra.android.reviewer.CommentFormatter;
 import com.chdryra.android.reviewer.ConfigGvDataUi;
-import com.chdryra.android.reviewer.FactoryReviewView;
+import com.chdryra.android.reviewer.EditScreen;
 import com.chdryra.android.reviewer.FragmentReviewView;
 import com.chdryra.android.reviewer.GvBuildReviewList;
 import com.chdryra.android.reviewer.GvChildList;
@@ -251,7 +251,7 @@ public class ActivityBuildReviewTest extends ActivityReviewViewTest {
 
     @Override
     protected ReviewView getView() {
-        return FactoryReviewView.newBuildScreen(getInstrumentation().getTargetContext());
+        return EditScreen.newBuildScreen(getInstrumentation().getTargetContext());
     }
 
     @SmallTest

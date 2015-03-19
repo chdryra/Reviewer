@@ -22,7 +22,7 @@ import com.chdryra.android.mygenerallibrary.DialogTwoButtonFragment;
 import com.chdryra.android.reviewer.ActivityReviewView;
 import com.chdryra.android.reviewer.Administrator;
 import com.chdryra.android.reviewer.DialogAddGvData;
-import com.chdryra.android.reviewer.FactoryReviewView;
+import com.chdryra.android.reviewer.EditScreen;
 import com.chdryra.android.reviewer.GvDataList;
 import com.chdryra.android.reviewer.LaunchableUi;
 import com.chdryra.android.reviewer.LauncherUi;
@@ -134,7 +134,7 @@ public abstract class DialogAddGvDataTest<T extends GvDataList.GvData> extends
         Intent i = new Intent();
         Context context = getInstrumentation().getTargetContext();
         Administrator admin = Administrator.get(context);
-        admin.packView(FactoryReviewView.newEditScreen(context, mDialog.getGvDataType()), i);
+        admin.packView(EditScreen.newScreen(context, mDialog.getGvDataType()), i);
         setActivityIntent(i);
         mActivity = getActivity();
 

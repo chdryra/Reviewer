@@ -13,7 +13,7 @@ import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.ActivityFeed;
 import com.chdryra.android.reviewer.Administrator;
-import com.chdryra.android.reviewer.FactoryReviewView;
+import com.chdryra.android.reviewer.EditScreen;
 import com.chdryra.android.reviewer.FragmentReviewView;
 import com.chdryra.android.reviewer.GvReviewList;
 import com.chdryra.android.reviewer.GvSocialPlatformList;
@@ -92,7 +92,7 @@ public class ActivityShareScreenTest extends ActivityReviewViewTest {
 
     @Override
     protected ReviewView getView() {
-        return FactoryReviewView.newShareScreen(getInstrumentation().getTargetContext());
+        return EditScreen.newShareScreen(getInstrumentation().getTargetContext());
     }
 
     @SmallTest

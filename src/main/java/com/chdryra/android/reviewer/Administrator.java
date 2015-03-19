@@ -38,15 +38,15 @@ import java.util.UUID;
  */
 public class Administrator {
     private static final String REVIEWVIEW_ID = "com.chdryra.android.reviewer.review_id";
-    private static final Author AUTHOR = new Author("Rizwan Choudrey");
-    private static final String FEED   = "Feed";
+    private static final Author AUTHOR        = new Author("Rizwan Choudrey");
+    private static final String FEED          = "Feed";
 
     private static Administrator sAdministrator;
 
     private final Context                 mContext;
     private final ReviewCollectionAdapter mPublishedReviews;
-    private final ObjectHolder  mViews;
-    private       ReviewBuilder mReviewBuilder;
+    private final ObjectHolder            mViews;
+    private       ReviewBuilder           mReviewBuilder;
 
     private Administrator(Context context) {
         mContext = context;
@@ -89,10 +89,6 @@ public class Administrator {
 
     public ReviewCollectionAdapter getPublishedReviews() {
         return mPublishedReviews;
-    }
-
-    public ReviewViewAdapter getShareScreenAdapter() {
-        return new ShareScreenViewAdapter(mContext, mReviewBuilder);
     }
 
     public void publishReviewBuilder() {

@@ -16,7 +16,7 @@ import android.test.suitebuilder.annotation.SmallTest;
 import com.chdryra.android.reviewer.ActivityReviewView;
 import com.chdryra.android.reviewer.Administrator;
 import com.chdryra.android.reviewer.Author;
-import com.chdryra.android.reviewer.FactoryReviewView;
+import com.chdryra.android.reviewer.EditScreen;
 import com.chdryra.android.reviewer.GvBuildReviewList;
 import com.chdryra.android.reviewer.GvChildList;
 import com.chdryra.android.reviewer.GvCommentList;
@@ -45,7 +45,7 @@ import java.util.Date;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ReviewBuilderTest extends ActivityInstrumentationTestCase2<ActivityReviewView> {
-    private static final int                 NUM   = 3;
+    private static final int                     NUM   = 3;
     private static final GvDataList.GvDataType[] TYPES = GvDataMocker.DATATYPES;
     private ReviewBuilder mBuilder;
 
@@ -301,7 +301,7 @@ public class ReviewBuilderTest extends ActivityInstrumentationTestCase2<Activity
         Intent i = new Intent();
         Context context = getInstrumentation().getTargetContext();
         Administrator admin = Administrator.get(context);
-        admin.packView(FactoryReviewView.newBuildScreen(context), i);
+        admin.packView(EditScreen.newBuildScreen(context), i);
         setActivityIntent(i);
 
         mBuilder = new ReviewBuilder(getActivity());

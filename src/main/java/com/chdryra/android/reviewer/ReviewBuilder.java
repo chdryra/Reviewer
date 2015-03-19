@@ -167,8 +167,6 @@ public class ReviewBuilder extends ReviewViewAdapterBasic {
             return null;
         }
 
-        mDataBuilders.put(dataType, builder);
-
         return builder;
     }
 
@@ -190,11 +188,6 @@ public class ReviewBuilder extends ReviewViewAdapterBasic {
                 filename);
     }
 
-    @Override
-    public float getRating() {
-        return isRatingAverage() ? getAverageRating() : mRating;
-    }
-
     private GvChildList getChildren() {
         GvChildList children = new GvChildList();
         for (ReviewBuilder childBuilder : mChildren) {
@@ -204,6 +197,11 @@ public class ReviewBuilder extends ReviewViewAdapterBasic {
         }
 
         return children;
+    }
+
+    @Override
+    public float getRating() {
+        return isRatingAverage() ? getAverageRating() : mRating;
     }
 
     private void setChildren(GvChildList children) {
@@ -310,8 +308,6 @@ public class ReviewBuilder extends ReviewViewAdapterBasic {
             getParentBuilder().setSubject(subject);
         }
     }
-
-
 
 
     public void setRating(float rating) {

@@ -139,7 +139,7 @@ public class MdGvConverter {
     public static GvUrlList convert(MdUrlList urls) {
         GvUrlList list = new GvUrlList();
         for (DataUrl url : urls) {
-            list.add(new GvUrlList.GvUrl(url.getUrl()));
+            list.add(new GvUrlList.GvUrl(url.getLabel(), url.getUrl()));
         }
 
         return list;
@@ -148,7 +148,7 @@ public class MdGvConverter {
     public static GvUrlList copy(GvUrlList urls) {
         GvUrlList list = new GvUrlList();
         for (DataUrl url : urls) {
-            list.add(new GvUrlList.GvUrl(url.getUrl()));
+            list.add(new GvUrlList.GvUrl(url.getLabel(), url.getUrl()));
         }
 
         return list;
@@ -167,7 +167,7 @@ public class MdGvConverter {
     public static MdUrlList toMdUrlList(Iterable<? extends DataUrl> urls, Review holder) {
         MdUrlList list = new MdUrlList(holder);
         for (DataUrl url : urls) {
-            list.add(new MdUrlList.MdUrl(url.getUrl(), holder));
+            list.add(new MdUrlList.MdUrl(url.getLabel(), url.getUrl(), holder));
         }
 
         return list;

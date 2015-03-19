@@ -17,4 +17,6 @@ public interface DataFact {
     public String getLabel();
 
     public String getValue();
+
+    public boolean isUrl();
 }

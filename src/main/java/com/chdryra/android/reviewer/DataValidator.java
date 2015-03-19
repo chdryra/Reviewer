@@ -19,7 +19,13 @@ public class DataValidator {
     }
 
     public static boolean validate(DataFact fact) {
-        return NotNull(fact) && validateString(fact.getLabel()) && validateString(fact.getValue());
+        if (fact.isUrl()) {
+            return validateUrl((DataUrl) fact);
+        } else {
+            return NotNull(fact) && validateString(fact.getLabel()) && validateString(fact
+                    .getValue());
+
+        }
     }
 
     public static boolean validate(DataImage image) {
@@ -31,7 +37,7 @@ public class DataValidator {
                 .getName());
     }
 
-    public static boolean validate(DataUrl url) {
+    public static boolean validateUrl(DataUrl url) {
         return NotNull(url) && NotNull(url.getUrl());
     }
 

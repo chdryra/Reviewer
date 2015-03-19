@@ -25,7 +25,7 @@ import com.chdryra.android.mygenerallibrary.DialogCancelActionDoneFragment;
 import com.chdryra.android.reviewer.ActivityReviewView;
 import com.chdryra.android.reviewer.Administrator;
 import com.chdryra.android.reviewer.DialogLocation;
-import com.chdryra.android.reviewer.FactoryReviewView;
+import com.chdryra.android.reviewer.EditScreen;
 import com.chdryra.android.reviewer.GvLocationList;
 import com.chdryra.android.reviewer.LauncherUi;
 import com.chdryra.android.testutils.RandomString;
@@ -176,7 +176,7 @@ public class DialogLocationTest extends
         Intent i = new Intent();
         Context context = getInstrumentation().getTargetContext();
         Administrator admin = Administrator.get(context);
-        admin.packView(FactoryReviewView.newEditScreen(context, GvLocationList.TYPE), i);
+        admin.packView(EditScreen.newScreen(context, GvLocationList.TYPE), i);
         setActivityIntent(i);
 
         mActivity = getActivity();
