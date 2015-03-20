@@ -8,11 +8,16 @@
 
 package com.chdryra.android.reviewer.test;
 
+import android.test.suitebuilder.annotation.SmallTest;
 import android.widget.EditText;
 
 import com.chdryra.android.reviewer.ConfigGvDataAddEdit;
 import com.chdryra.android.reviewer.GvFactList;
+import com.chdryra.android.reviewer.GvUrlList;
 import com.chdryra.android.reviewer.LayoutFact;
+
+import java.net.MalformedURLException;
+import java.net.URL;
 
 /**
  * Created by: Rizwan Choudrey
@@ -20,10 +25,19 @@ import com.chdryra.android.reviewer.LayoutFact;
  * Email: rizwan.choudrey@gmail.com
  */
 public class LayoutFactTest extends GvDataEditLayoutTest<GvFactList.GvFact> {
+    private static final String BBC     = "BBC";
+    private static final String BBC_URL = "http://www.bbc.co.uk/";
+
     private EditText mLabel;
+    private boolean mUrlData = false;
 
     public LayoutFactTest() {
         super(GvFactList.TYPE, new LayoutFact(new ConfigGvDataAddEdit.AddFact()));
+    }
+
+    @SmallTest
+    public void testCreateGvUrlFromViews() {
+        testCreateGvDatumFromViews(true);
     }
 
     @Override
@@ -39,11 +53,39 @@ public class LayoutFactTest extends GvDataEditLayoutTest<GvFactList.GvFact> {
     }
 
     @Override
+    public void testCreateGvDataFromViews() {
+        testCreateGvDatumFromViews(false);
+    }
+
+    @Override
     public void setUp() throws Exception {
         super.setUp();
         mLabel = (EditText) getView(LayoutFact.LABEL);
         mEditText = (EditText) getView(LayoutFact.VALUE);
         assertNotNull(mLabel);
         assertNotNull(mEditText);
+    }
+
+    @Override
+    protected GvFactList.GvFact newData() {
+        if (mUrlData) {
+            try {
+                return new GvUrlList.GvUrl(BBC, new URL(BBC_URL));
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+                fail("Couldn't create URL data");
+            }
+        }
+
+        return super.newData();
+    }
+
+    private void testCreateGvDatumFromViews(boolean isUrl) {
+        mUrlData = isUrl;
+        GvFactList.GvFact datum = newData();
+        enterData(datum);
+        GvFactList.GvFact fromLayout = mLayout.createGvData();
+        assertEquals(isUrl, fromLayout.isUrl());
+        assertEquals(datum, mLayout.createGvData());
     }
 }

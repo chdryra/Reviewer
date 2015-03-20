@@ -17,7 +17,7 @@ import android.widget.GridView;
 
 import com.chdryra.android.reviewer.ActivityReviewView;
 import com.chdryra.android.reviewer.Administrator;
-import com.chdryra.android.reviewer.EditScreen;
+import com.chdryra.android.reviewer.FeedScreen;
 import com.chdryra.android.reviewer.GvDataList;
 import com.chdryra.android.reviewer.GvReviewList;
 import com.chdryra.android.reviewer.R;
@@ -100,8 +100,7 @@ public class ActivityFeedTest extends
         }
 
         Intent i = new Intent();
-        mAdmin.packView(EditScreen.newFeedScreen(getInstrumentation().getTargetContext()),
-                i);
+        mAdmin.packView(FeedScreen.newScreen(getInstrumentation().getTargetContext()), i);
         setActivityIntent(i);
         mActivity = getActivity();
 

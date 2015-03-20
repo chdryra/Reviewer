@@ -15,7 +15,6 @@ import com.chdryra.android.reviewer.GvFactList;
 import com.chdryra.android.reviewer.GvImageList;
 import com.chdryra.android.reviewer.GvLocationList;
 import com.chdryra.android.reviewer.GvTagList;
-import com.chdryra.android.reviewer.GvUrlList;
 import com.robotium.solo.Solo;
 
 /**
@@ -38,7 +37,6 @@ public class SoloDataEntry {
             enterLocation(solo, (GvLocationList.GvLocation) data);
         }
         if (data instanceof GvImageList.GvImage) enterImage(solo, (GvImageList.GvImage) data);
-        if (data instanceof GvUrlList.GvUrl) enterUrl(solo, (GvUrlList.GvUrl) data);
     }
 
     public static void enterTag(Solo solo, GvTagList.GvTag data) {
@@ -72,11 +70,6 @@ public class SoloDataEntry {
     public static void enterImage(Solo solo, GvImageList.GvImage data) {
         solo.clearEditText(solo.getEditText(0));
         solo.enterText(solo.getEditText(0), data.getCaption());
-    }
-
-    public static void enterUrl(Solo solo, GvUrlList.GvUrl data) {
-        solo.clearEditText(solo.getEditText(0));
-        solo.enterText(solo.getEditText(0), data.toString());
     }
 
     public static void enterRating(Solo solo, float rating) {

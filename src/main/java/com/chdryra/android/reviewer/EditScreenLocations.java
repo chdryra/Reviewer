@@ -17,16 +17,26 @@ import android.view.View;
  * Email: rizwan.choudrey@gmail.com
  */
 public class EditScreenLocations {
+
     public static class BannerButton extends EditScreen.BannerButton {
+        private static final int ADD_ON_MAP = 200;
+
         public BannerButton(String title) {
             super(ConfigGvDataUi.getConfig(GvLocationList.TYPE).getAdderConfig(), title);
         }
 
         @Override
         public boolean onLongClick(View v) {
-            LaunchableUi mapUi = ConfigGvDataUi.getLaunchable(ActivityEditLocationMap.class);
-            LauncherUi.launch(mapUi, getListener(), getRequestCode(), null, new Bundle());
+            showAlertDialog(getActivity().getString(R.string.dialog_add_on_map), ADD_ON_MAP, null);
             return true;
+        }
+
+        @Override
+        protected void onDialogAlertPositive(int requestCode, Bundle args) {
+            if (requestCode == ADD_ON_MAP) {
+                LaunchableUi mapUi = ConfigGvDataUi.getLaunchable(ActivityEditLocationMap.class);
+                LauncherUi.launch(mapUi, getListener(), getRequestCode(), null, new Bundle());
+            }
         }
     }
 
@@ -47,7 +57,7 @@ public class EditScreenLocations {
         protected void onDialogAlertPositive(int requestCode, Bundle args) {
             if (requestCode == EDIT_ON_MAP) {
                 LaunchableUi mapUi = ConfigGvDataUi.getLaunchable(ActivityEditLocationMap.class);
-                LauncherUi.launch(mapUi, getListener(), EDIT_ON_MAP, null, args);
+                LauncherUi.launch(mapUi, getListener(), getLaunchableRequestCode(), null, args);
             }
         }
     }

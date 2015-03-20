@@ -31,25 +31,39 @@ import com.google.android.gms.maps.model.LatLng;
  * Email: rizwan.choudrey@gmail.com
  */
 public class BuildScreen {
-    public static ReviewView newScreen(Context context) {
+    private ReviewView          mScreen;
+    private BuildScreenGridItem mGridItem;
+
+    private BuildScreen(Context context) {
         ReviewBuilder builder = Administrator.get(context).getReviewBuilder();
 
-        ReviewView view = new ReviewView.Editor(builder, new BuildScreenModifier(builder));
+        mScreen = new ReviewView.Editor(builder, new BuildScreenModifier(builder));
+        mGridItem = new BuildScreenGridItem();
 
         String screenTitle = context.getResources().getString(R.string.screen_title_build_review);
         String buttonTitle = context.getResources().getString(R.string.button_add_review_data);
-        view.setAction(new SubjectEdit());
-        view.setAction(new BuildScreenRatingBar());
-        view.setAction(ReviewViewAction.BannerButtonAction.newDisplayButton(buttonTitle));
-        view.setAction(new BuildScreenGridItem());
-        view.setAction(new BuildScreenMenu(screenTitle));
+        mScreen.setAction(new SubjectEdit());
+        mScreen.setAction(new BuildScreenRatingBar());
+        mScreen.setAction(ReviewViewAction.BannerButtonAction.newDisplayButton(buttonTitle));
+        mScreen.setAction(mGridItem);
+        mScreen.setAction(new BuildScreenMenu(screenTitle));
 
-        view.getParams().gridAlpha = ReviewView.GridViewImageAlpha.TRANSPARENT;
-
-        return view;
+        mScreen.getParams().gridAlpha = ReviewView.GridViewImageAlpha.TRANSPARENT;
     }
 
-    public static class BuildScreenGridItem extends ReviewViewAction.GridItemAction {
+    public static ReviewView newScreen(Context context) {
+        return new BuildScreen(context).getScreen();
+    }
+
+    private ReviewView getScreen() {
+        return mScreen;
+    }
+
+    private void showTagDialog() {
+        mGridItem.showQuickDialog(ConfigGvDataUi.getConfig(GvTagList.TYPE));
+    }
+
+    private class BuildScreenGridItem extends ReviewViewAction.GridItemAction {
         private static final String TAG = "GridItemBuildUiListener";
         private BuildListener           mListener;
         private LatLng                  mLatLng;
@@ -185,9 +199,10 @@ public class BuildScreen {
         }
     }
 
-    public static class BuildScreenMenu extends ReviewViewAction.MenuAction {
+    private class BuildScreenMenu extends ReviewViewAction.MenuAction {
         public static final  int MENU_AVERAGE_ID = R.id.menu_item_average_rating;
         private static final int MENU            = R.menu.fragment_review_options;
+
         private MenuActionItem    mActionItem;
         private ReviewView.Editor mEditor;
 
@@ -215,11 +230,7 @@ public class BuildScreen {
         }
     }
 
-    public static class BuildScreenRatingBar extends EditScreen.RatingBar {
-        private BuildScreenRatingBar() {
-
-        }
-
+    private class BuildScreenRatingBar extends EditScreen.RatingBar {
         @Override
         public void onRatingChanged(android.widget.RatingBar ratingBar, float rating,
                 boolean fromUser) {
@@ -229,7 +240,7 @@ public class BuildScreen {
         }
     }
 
-    public static class BuildScreenModifier implements ReviewView.ViewModifier {
+    private class BuildScreenModifier implements ReviewView.ViewModifier {
         private ReviewBuilder mBuilder;
 
         private BuildScreenModifier(ReviewBuilder builder) {
@@ -240,29 +251,20 @@ public class BuildScreen {
         public View modify(final FragmentReviewView parent, View v, LayoutInflater inflater,
                 ViewGroup container, Bundle savedInstanceState) {
 
-            final Activity activity = parent.getActivity();
+
             parent.setBannerNotClickable();
+
             View divider = inflater.inflate(R.layout.horizontal_divider, container, false);
+
             Button shareButton = (Button) inflater.inflate(R.layout.review_banner_button, container,
                     false);
-            shareButton.setText(activity.getResources().getString(R.string.button_share));
+            String title = parent.getActivity().getResources().getString(R.string.button_share);
+            shareButton.setText(title);
             shareButton.getLayoutParams().height = ActionBar.LayoutParams.MATCH_PARENT;
             shareButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (parent.getSubject().length() == 0) {
-                        Toast.makeText(activity, R.string.toast_enter_subject,
-                                Toast.LENGTH_SHORT).show();
-                        return;
-                    }
-
-                    if (mBuilder.getDataSize(GvTagList.TYPE) == 0) {
-                        Toast.makeText(activity, R.string.toast_enter_tag,
-                                Toast.LENGTH_SHORT).show();
-                        return;
-                    }
-
-                    requestShareIntent(activity);
+                    requestShareIntent(parent);
                 }
             });
 
@@ -272,7 +274,22 @@ public class BuildScreen {
             return v;
         }
 
-        private void requestShareIntent(Activity activity) {
+        private void requestShareIntent(FragmentReviewView parent) {
+            Activity activity = parent.getActivity();
+
+            if (parent.getSubject().length() == 0) {
+                Toast.makeText(activity, R.string.toast_enter_subject,
+                        Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            if (mBuilder.getDataSize(GvTagList.TYPE) == 0) {
+                Toast.makeText(activity, R.string.toast_enter_tag,
+                        Toast.LENGTH_SHORT).show();
+                showTagDialog();
+                return;
+            }
+
             Intent i = new Intent(activity, ActivityReviewView.class);
             Administrator admin = Administrator.get(activity);
             admin.packView(ShareScreen.newScreen(activity), i);

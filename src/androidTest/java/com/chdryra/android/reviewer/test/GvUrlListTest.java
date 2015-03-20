@@ -39,12 +39,17 @@ public class GvUrlListTest extends TestCase {
 
     @SmallTest
     public void testGvUrl() {
-        URL url1 = GvDataMocker.newUrl().getUrl();
-        URL url2 = GvDataMocker.newUrl().getUrl();
+        GvUrlList.GvUrl testUrl1 = GvDataMocker.newUrl();
+        GvUrlList.GvUrl testUrl2 = GvDataMocker.newUrl();
 
-        GvUrlList.GvUrl gvUrl = new GvUrlList.GvUrl(url1);
-        GvUrlList.GvUrl gvUrlEquals = new GvUrlList.GvUrl(url1);
-        GvUrlList.GvUrl gvUrlNotEquals = new GvUrlList.GvUrl(url2);
+        String url1label = testUrl1.getLabel();
+        String url2label = testUrl2.getLabel();
+        URL url1 = testUrl1.getUrl();
+        URL url2 = testUrl2.getUrl();
+
+        GvUrlList.GvUrl gvUrl = new GvUrlList.GvUrl(url1label, url1);
+        GvUrlList.GvUrl gvUrlEquals = new GvUrlList.GvUrl(url1label, url1);
+        GvUrlList.GvUrl gvUrlNotEquals = new GvUrlList.GvUrl(url2label, url2);
         GvUrlList.GvUrl gvUrlNull = new GvUrlList.GvUrl();
 
         assertNotNull(gvUrl.newViewHolder());
@@ -60,7 +65,7 @@ public class GvUrlListTest extends TestCase {
         URL url = gvUrl.getUrl();
         String urlString = url.toExternalForm();
         assertTrue(urlString.contains("://"));
-        String shortened = gvUrl.toShortenedString();
+        String shortened = gvUrl.getValue();
         assertFalse(shortened.contains("://"));
     }
 

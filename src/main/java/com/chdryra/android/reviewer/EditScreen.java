@@ -78,9 +78,10 @@ public class EditScreen {
             GvDataList.GvDataType dataType, String title) {
         if (dataType == GvImageList.TYPE) {
             return new EditScreenImages.BannerButton(title);
-        }
-        if (dataType == GvLocationList.TYPE) {
+        } else if (dataType == GvLocationList.TYPE) {
             return new EditScreenLocations.BannerButton(title);
+        } else if (dataType == GvFactList.TYPE) {
+            return new EditScreenFacts.BannerButton(title);
         } else if (dataType == GvCommentList.TYPE) {
             return new EditScreenComments.BannerButton(title);
         } else {
@@ -104,8 +105,6 @@ public class EditScreen {
 
         @Override
         public void onClick(View v) {
-            if (getReviewView() == null) return;
-
             LauncherUi.launch(mConfig.getLaunchable(), getListener(), getRequestCode(),
                     mConfig.getTag(), new Bundle());
         }
@@ -130,15 +129,34 @@ public class EditScreen {
             return mConfig.getRequestCode();
         }
 
+        protected void showAlertDialog(String alert, int requestCode, GvDataList.GvData item) {
+            Bundle args = new Bundle();
+            if (item != null) {
+                GvDataPacker.packItem(GvDataPacker.CurrentNewDatum.CURRENT, item, args);
+            }
+            DialogAlertFragment dialog = DialogAlertFragment.newDialog(alert, args);
+            DialogShower.show(dialog, getListener(), requestCode, DialogAlertFragment.ALERT_TAG);
+        }
+
+        protected void onDialogAlertNegative(int requestCode, Bundle args) {
+
+        }
+
+        protected void onDialogAlertPositive(int requestCode, Bundle args) {
+
+        }
+
         private ReviewBuilder.DataBuilder getDataBuilder() {
             return ((ReviewBuilder.DataBuilder) getAdapter());
         }
 
-        //Dialogs expected to communicate directly with target fragments so using "invisible"
+        // /Dialogs expected to communicate directly with target fragments so using "invisible"
         // fragment as listener.
         //Restrictions on how fragments are constructed mean I have to use an abstract class...
-        protected abstract class AddListener extends Fragment implements DialogAddGvData
-                .GvDataAddListener {
+        protected abstract class AddListener extends Fragment
+                implements DialogAddGvData.GvDataAddListener,
+                DialogAlertFragment.DialogAlertListener {
+
             private GvDataList<GvDataList.GvData> mAdded;
 
             private AddListener(GvDataList.GvDataType dataType) {
@@ -166,12 +184,24 @@ public class EditScreen {
             }
 
             @Override
+            public void onAlertNegative(int requestCode, Bundle args) {
+                onDialogAlertNegative(requestCode, args);
+            }
+
+            @Override
             public void onActivityResult(int requestCode, int resultCode, Intent data) {
                 if (requestCode == getRequestCode() && data != null
                         && ActivityResultCode.get(resultCode) == ActivityResultCode.DONE) {
                     onGvDataAdd(GvDataPacker.unpackItem(GvDataPacker.CurrentNewDatum.NEW, data));
                 }
             }
+
+            @Override
+            public void onAlertPositive(int requestCode, Bundle args) {
+                onDialogAlertPositive(requestCode, args);
+            }
+
+
         }
     }
 
@@ -199,7 +229,7 @@ public class EditScreen {
             Bundle args = new Bundle();
             GvDataPacker.packItem(GvDataPacker.CurrentNewDatum.CURRENT, item, args);
 
-            LauncherUi.launch(mConfig.getLaunchable(), mListener, getRequestCode(),
+            LauncherUi.launch(mConfig.getLaunchable(), mListener, getLaunchableRequestCode(),
                     mConfig.getTag(), args);
         }
 
@@ -212,7 +242,7 @@ public class EditScreen {
             super.registerActionListener(listener, TAG);
         }
 
-        protected int getRequestCode() {
+        protected int getLaunchableRequestCode() {
             return mConfig.getRequestCode();
         }
 
@@ -230,7 +260,9 @@ public class EditScreen {
 
         protected void showAlertDialog(String alert, int requestCode, GvDataList.GvData item) {
             Bundle args = new Bundle();
-            GvDataPacker.packItem(GvDataPacker.CurrentNewDatum.CURRENT, item, args);
+            if (item != null) {
+                GvDataPacker.packItem(GvDataPacker.CurrentNewDatum.CURRENT, item, args);
+            }
             DialogAlertFragment dialog = DialogAlertFragment.newDialog(alert, args);
             DialogShower.show(dialog, getListener(), requestCode, DialogAlertFragment.ALERT_TAG);
         }
@@ -271,8 +303,13 @@ public class EditScreen {
             }
 
             @Override
+            public void onAlertPositive(int requestCode, Bundle args) {
+                onDialogAlertPositive(requestCode, args);
+            }
+
+            @Override
             public void onActivityResult(int requestCode, int resultCode, Intent data) {
-                if (requestCode == getRequestCode() && data != null) {
+                if (requestCode == getLaunchableRequestCode() && data != null) {
                     GvDataList.GvData oldDatum = GvDataPacker.unpackItem(GvDataPacker
                             .CurrentNewDatum.CURRENT, data);
                     if (ActivityResultCode.get(resultCode) == ActivityResultCode.DONE) {
@@ -282,12 +319,6 @@ public class EditScreen {
                         onGvDataDelete(oldDatum);
                     }
                 }
-            }
-
-
-            @Override
-            public void onAlertPositive(int requestCode, Bundle args) {
-                onDialogAlertPositive(requestCode, args);
             }
         }
     }

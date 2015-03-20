@@ -237,12 +237,12 @@ public class DataValidatorTest extends TestCase {
         URL url = GvDataMocker.newUrl().getUrl();
 
         assertFalse(DataValidator.validate(new GvUrlList.GvUrl()));
-        assertTrue(DataValidator.validate(new GvUrlList.GvUrl(url)));
+        assertTrue(DataValidator.validate(new GvUrlList.GvUrl(RandomString.nextWord(), url)));
         assertTrue(DataValidator.validate(GvDataMocker.newUrl()));
 
         Review r = ReviewMocker.newReview();
-        assertFalse(DataValidator.validate(new MdUrlList.MdUrl(null, r)));
-        assertTrue(DataValidator.validate(new MdUrlList.MdUrl(url, r)));
+        assertFalse(DataValidator.validate(new MdUrlList.MdUrl(RandomString.nextWord(), null, r)));
+        assertTrue(DataValidator.validate(new MdUrlList.MdUrl(RandomString.nextWord(), url, r)));
         assertTrue(DataValidator.validate(mMdMocker.newUrl()));
     }
 

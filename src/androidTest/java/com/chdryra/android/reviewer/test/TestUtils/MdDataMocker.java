@@ -37,6 +37,7 @@ import java.util.Random;
  */
 public class MdDataMocker<T extends Review> {
     private static final RandomString STRING_GENERATOR = new RandomString();
+    private static final String       URL_LABEL        = "Google";
     private static final String       URL              = "http://www.google.co.uk";
     private static final Random       RAND             = new Random();
     private static URL sUrl;
@@ -140,6 +141,6 @@ public class MdDataMocker<T extends Review> {
             }
         }
 
-        return new MdUrlList.MdUrl(sUrl, mReview);
+        return new MdUrlList.MdUrl(URL_LABEL, sUrl, mReview);
     }
 }

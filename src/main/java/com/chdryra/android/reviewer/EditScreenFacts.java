@@ -17,6 +17,29 @@ import android.view.View;
  * Email: rizwan.choudrey@gmail.com
  */
 public class EditScreenFacts {
+    public static class BannerButton extends EditScreen.BannerButton {
+        private static final int ADD_ON_BROWSER = 200;
+
+        public BannerButton(String title) {
+            super(ConfigGvDataUi.getConfig(GvFactList.TYPE).getAdderConfig(), title);
+        }
+
+        @Override
+        public boolean onLongClick(View v) {
+            showAlertDialog(getActivity().getString(R.string.dialog_add_on_browser),
+                    ADD_ON_BROWSER, null);
+            return true;
+        }
+
+        @Override
+        protected void onDialogAlertPositive(int requestCode, Bundle args) {
+            if (requestCode == ADD_ON_BROWSER) {
+                LaunchableUi mapUi = ConfigGvDataUi.getLaunchable(ActivityEditUrlBrowser.class);
+                LauncherUi.launch(mapUi, getListener(), getRequestCode(), null, new Bundle());
+            }
+        }
+    }
+
     public static class GridItem extends EditScreen.GridItem {
         private static final int EDIT_ON_BROWSER = 200;
 
@@ -40,7 +63,7 @@ public class EditScreenFacts {
             if (requestCode == EDIT_ON_BROWSER) {
                 LaunchableUi mapUi = ConfigGvDataUi.getLaunchable(ActivityEditUrlBrowser
                         .class);
-                LauncherUi.launch(mapUi, getListener(), EDIT_ON_BROWSER, null, args);
+                LauncherUi.launch(mapUi, getListener(), getLaunchableRequestCode(), null, args);
             }
         }
     }

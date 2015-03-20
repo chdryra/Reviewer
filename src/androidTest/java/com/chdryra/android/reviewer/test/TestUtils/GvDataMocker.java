@@ -187,7 +187,7 @@ public class GvDataMocker {
     public static GvUrlList.GvUrl newUrl() {
         try {
             URL url = new URL("http://www." + RandomString.nextWord() + ".co.uk");
-            return new GvUrlList.GvUrl(url);
+            return new GvUrlList.GvUrl(RandomString.nextWord(), url);
         } catch (MalformedURLException e) {
             e.printStackTrace();
             return null;

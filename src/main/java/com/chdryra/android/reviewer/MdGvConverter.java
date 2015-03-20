@@ -49,8 +49,8 @@ public class MdGvConverter {
     //Facts
     public static GvFactList convert(MdFactList facts) {
         GvFactList list = new GvFactList();
-        for (DataFact fact : facts) {
-            list.add(new GvFactList.GvFact(fact.getLabel(), fact.getValue()));
+        for (MdFactList.MdFact fact : facts) {
+            list.add(getGvFactOrUrl(fact));
         }
 
         return list;
@@ -58,17 +58,35 @@ public class MdGvConverter {
 
     public static GvFactList copy(GvFactList facts) {
         GvFactList list = new GvFactList();
-        for (DataFact fact : facts) {
-            list.add(new GvFactList.GvFact(fact.getLabel(), fact.getValue()));
+        for (GvFactList.GvFact fact : facts) {
+            list.add(getGvFactOrUrl(fact));
         }
 
         return list;
     }
 
+    private static GvFactList.GvFact getGvFactOrUrl(DataFact fact) {
+        if (fact.isUrl()) {
+            DataUrl url = (DataUrl) fact;
+            return new GvUrlList.GvUrl(fact.getLabel(), url.getUrl());
+        } else {
+            return new GvFactList.GvFact(fact.getLabel(), fact.getValue());
+        }
+    }
+
+    private static MdFactList.MdFact getMdFactOrUrl(DataFact fact, Review holder) {
+        if (fact.isUrl()) {
+            DataUrl url = (DataUrl) fact;
+            return new MdUrlList.MdUrl(fact.getLabel(), url.getUrl(), holder);
+        } else {
+            return new MdFactList.MdFact(fact.getLabel(), fact.getValue(), holder);
+        }
+    }
+
     public static MdFactList toMdFactList(Iterable<? extends DataFact> facts, Review holder) {
         MdFactList list = new MdFactList(holder);
         for (DataFact fact : facts) {
-            list.add(new MdFactList.MdFact(fact.getLabel(), fact.getValue(), holder));
+            list.add(getMdFactOrUrl(fact, holder));
         }
 
         return list;

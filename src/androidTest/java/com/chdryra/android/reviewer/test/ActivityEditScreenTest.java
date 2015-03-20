@@ -502,7 +502,7 @@ public abstract class ActivityEditScreenTest extends ActivityReviewViewTest {
         assertTrue(result ? inGrid : !inGrid);
     }
 
-    private ReviewBuilder getParentBuilder() {
+    protected ReviewBuilder getParentBuilder() {
         return getBuilder().getParentBuilder();
     }
 

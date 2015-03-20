@@ -13,13 +13,13 @@ import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.ActivityFeed;
 import com.chdryra.android.reviewer.Administrator;
-import com.chdryra.android.reviewer.EditScreen;
 import com.chdryra.android.reviewer.FragmentReviewView;
 import com.chdryra.android.reviewer.GvReviewList;
 import com.chdryra.android.reviewer.GvSocialPlatformList;
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.ReviewBuilder;
 import com.chdryra.android.reviewer.ReviewView;
+import com.chdryra.android.reviewer.ShareScreen;
 import com.chdryra.android.reviewer.SocialPlatformList;
 import com.chdryra.android.reviewer.test.TestUtils.RandomRating;
 import com.chdryra.android.testutils.RandomString;
@@ -92,7 +92,7 @@ public class ActivityShareScreenTest extends ActivityReviewViewTest {
 
     @Override
     protected ReviewView getView() {
-        return EditScreen.newShareScreen(getInstrumentation().getTargetContext());
+        return ShareScreen.newScreen(getInstrumentation().getTargetContext());
     }
 
     @SmallTest

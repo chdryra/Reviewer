@@ -297,8 +297,11 @@ public class FragmentEditLocationMap extends FragmentDeleteDone implements
             addresses.add(0, mSearchLocationName);
         }
 
-        mLocationName.setAdapter(new StringFilterAdapter(getActivity(), addresses,
-                mAutoCompleter));
+        //If done pressed and activity finished whilst this is being done.
+        if (getActivity() != null) {
+            mLocationName.setAdapter(new StringFilterAdapter(getActivity(), addresses,
+                    mAutoCompleter));
+        }
     }
 
     private GvLocationList.GvLocation createGVData() {

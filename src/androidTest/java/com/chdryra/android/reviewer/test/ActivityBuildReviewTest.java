@@ -20,9 +20,9 @@ import android.widget.TextView;
 import com.chdryra.android.mygenerallibrary.DialogCancelActionDoneFragment;
 import com.chdryra.android.reviewer.ActivityReviewView;
 import com.chdryra.android.reviewer.Administrator;
+import com.chdryra.android.reviewer.BuildScreen;
 import com.chdryra.android.reviewer.CommentFormatter;
 import com.chdryra.android.reviewer.ConfigGvDataUi;
-import com.chdryra.android.reviewer.EditScreen;
 import com.chdryra.android.reviewer.FragmentReviewView;
 import com.chdryra.android.reviewer.GvBuildReviewList;
 import com.chdryra.android.reviewer.GvChildList;
@@ -85,12 +85,19 @@ public class ActivityBuildReviewTest extends ActivityReviewViewTest {
         mOriginalSubject = review.getSubject();
         mOriginalRating = review.getRating();
 
+        testDialogShowing(false);
+
         clickShare();
 
-        toast = mActivity.getResources().getString(R.string.toast_enter_tag);
-        assertTrue(mSolo.waitForText(toast));
-
-        testClickWithoutData(GvTagList.TYPE, 1);
+        mSolo.waitForDialogToOpen(TIMEOUT);
+        mSolo.sleep(1000); //need to do this due to UI thread is separate to test thread
+        testDialogShowing(true);
+        final GvDataList data = GvDataMocker.getData(GvTagList.TYPE, 1);
+        String tag = ConfigGvDataUi.getConfig(GvTagList.TYPE).getAdderConfig().getTag();
+        enterData(data, tag, false);
+        mSolo.waitForDialogToClose(TIMEOUT);
+        mSolo.sleep(1000);
+        testDialogShowing(false);
 
         clickShare();
         getInstrumentation().waitForIdleSync();
@@ -251,7 +258,7 @@ public class ActivityBuildReviewTest extends ActivityReviewViewTest {
 
     @Override
     protected ReviewView getView() {
-        return EditScreen.newBuildScreen(getInstrumentation().getTargetContext());
+        return BuildScreen.newScreen(getInstrumentation().getTargetContext());
     }
 
     @SmallTest

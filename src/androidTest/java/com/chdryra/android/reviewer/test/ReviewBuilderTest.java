@@ -16,7 +16,7 @@ import android.test.suitebuilder.annotation.SmallTest;
 import com.chdryra.android.reviewer.ActivityReviewView;
 import com.chdryra.android.reviewer.Administrator;
 import com.chdryra.android.reviewer.Author;
-import com.chdryra.android.reviewer.EditScreen;
+import com.chdryra.android.reviewer.BuildScreen;
 import com.chdryra.android.reviewer.GvBuildReviewList;
 import com.chdryra.android.reviewer.GvChildList;
 import com.chdryra.android.reviewer.GvCommentList;
@@ -301,7 +301,7 @@ public class ReviewBuilderTest extends ActivityInstrumentationTestCase2<Activity
         Intent i = new Intent();
         Context context = getInstrumentation().getTargetContext();
         Administrator admin = Administrator.get(context);
-        admin.packView(EditScreen.newBuildScreen(context), i);
+        admin.packView(BuildScreen.newScreen(context), i);
         setActivityIntent(i);
 
         mBuilder = new ReviewBuilder(getActivity());

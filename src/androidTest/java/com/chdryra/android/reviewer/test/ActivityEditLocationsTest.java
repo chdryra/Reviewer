@@ -71,8 +71,28 @@ public class ActivityEditLocationsTest extends ActivityEditScreenTest {
         checkInBuilders(data, false);
         checkInGrid(data, false);
         checkMapIsShowing(false);
+        String alert = getInstrumentation().getTargetContext().getResources().getString(R.string
+                .dialog_add_on_map);
+        assertFalse(mSolo.searchText(alert));
 
         mSolo.clickLongOnText("Add " + mDataType.getDatumName());
+
+        mSolo.waitForDialogToOpen(TIMEOUT);
+        assertTrue(mSolo.searchText(alert));
+
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                mSignaler.reset();
+                getAlertDialog().clickPositiveButton();
+                mSignaler.signal();
+            }
+        });
+
+        mSignaler.waitForSignal();
+
+        mSolo.waitForDialogToClose(TIMEOUT);
+        assertFalse(mSolo.searchText(alert));
 
         waitForMapToLaunch();
         checkMapIsShowing(true);

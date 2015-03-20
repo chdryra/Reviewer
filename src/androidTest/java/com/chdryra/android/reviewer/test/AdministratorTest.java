@@ -51,11 +51,6 @@ public class AdministratorTest extends ActivityUnitTestCase<ActivityReviewView> 
     }
 
     @SmallTest
-    public void testGetShareScreenAdapter() {
-        assertNotNull(mAdmin.getShareScreenAdapter());
-    }
-
-    @SmallTest
     public void testPublishReviewBuilder() {
         ReviewCollectionAdapter reviews = mAdmin.getPublishedReviews();
         assertNotNull(reviews);
