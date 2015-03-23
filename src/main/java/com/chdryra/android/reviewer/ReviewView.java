@@ -28,16 +28,14 @@ import java.util.Map;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ReviewView implements ReviewViewAdapter.GridDataObserver {
-    private ReviewViewAdapter  mAdapter;
-    private ReviewViewParams   mParams;
-    private FragmentReviewView mParent;
-    private ViewModifier       mModifier;
-
-    private Map<Action, ReviewViewAction> mActions;
-    private HashMap<String, Fragment> mActionListeners;
-
-    private GvDataList                 mGridData;
-    private ArrayList<DataSetObserver> mGridObservers;
+    private final ReviewViewAdapter             mAdapter;
+    private final ReviewViewParams              mParams;
+    private final Map<Action, ReviewViewAction> mActions;
+    private final HashMap<String, Fragment>     mActionListeners;
+    private final ArrayList<DataSetObserver>    mGridObservers;
+    private       FragmentReviewView            mParent;
+    private       ViewModifier                  mModifier;
+    private       GvDataList                    mGridData;
 
     private enum Action {SUBJECTVIEW, RATINGBAR, BANNERBUTTON, GRIDITEM, MENU}
 
@@ -244,14 +242,14 @@ public class ReviewView implements ReviewViewAdapter.GridDataObserver {
     }
 
     public static class ReviewViewParams {
+        public final boolean gridIsVisible = true;
         public GridViewImageAlpha gridAlpha             = GridViewImageAlpha.MEDIUM;
         public CellDimension      cellWidth             = CellDimension.HALF;
         public CellDimension      cellHeight            = CellDimension.QUARTER;
         public boolean            subjectIsVisible      = true;
         public boolean            ratingIsVisible       = true;
         public boolean            bannerButtonIsVisible = true;
-        public boolean            gridIsVisible         = true;
-        public boolean            coverManager          = true;
+        public       boolean coverManager  = true;
     }
 
     public static class Editor extends ReviewView {

@@ -15,7 +15,6 @@ import android.app.Instrumentation;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.mygenerallibrary.DialogAlertFragment;
-import com.chdryra.android.mygenerallibrary.DialogDeleteConfirm;
 import com.chdryra.android.reviewer.ActivityEditLocationMap;
 import com.chdryra.android.reviewer.ActivityReviewView;
 import com.chdryra.android.reviewer.GvDataList;
@@ -48,7 +47,7 @@ public class ActivityEditLocationsTest extends ActivityEditScreenTest {
     private static final   String[]                  LOCSADD        = {TAYYABSADD, TOWERBRIDGEADD,
             DISHOOMADD};
     private static final   int                       TIMEOUT        = 10000;
-    private GvLocationList mLocs;
+    private final GvLocationList mLocs;
 
     private Instrumentation.ActivityMonitor mMapMonitor;
     private Instrumentation.ActivityMonitor mMainMonitor;
@@ -260,12 +259,6 @@ public class ActivityEditLocationsTest extends ActivityEditScreenTest {
     private DialogAlertFragment getAlertDialog() {
         FragmentManager manager = getEditActivity().getFragmentManager();
         Fragment f = manager.findFragmentByTag(DialogAlertFragment.ALERT_TAG);
-        return (DialogAlertFragment) f;
-    }
-
-    private DialogAlertFragment getMapAlertDialog() {
-        FragmentManager manager = getMapActivity().getFragmentManager();
-        Fragment f = manager.findFragmentByTag(DialogDeleteConfirm.DELETE_CONFIRM_TAG);
         return (DialogAlertFragment) f;
     }
 

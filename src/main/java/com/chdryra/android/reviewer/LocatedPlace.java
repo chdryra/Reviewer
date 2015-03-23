@@ -16,9 +16,9 @@ import com.google.android.gms.maps.model.LatLng;
  * Email: rizwan.choudrey@gmail.com
  */
 public class LocatedPlace {
-    private LatLng mLatLng;
-    private String mDescription;
-    private String mId;
+    private final LatLng mLatLng;
+    private final String mDescription;
+    private final String mId;
 
     public LocatedPlace(LatLng latLng, String description, String id) {
         mLatLng = latLng;

@@ -35,7 +35,7 @@ public class ShareScreen {
         String title = context.getResources().getString(R.string.button_social);
         view.setAction(ReviewViewAction.BannerButtonAction.newDisplayButton(title));
         view.setAction(new ShareScreenGridItem());
-        view.setAction(new ReviewViewAction.MenuAction(title, true));
+        view.setAction(new ReviewViewAction.MenuAction(title));
 
         view.getParams().gridAlpha = ReviewView.GridViewImageAlpha.TRANSPARENT;
 
@@ -91,8 +91,8 @@ public class ShareScreen {
     }
 
     public static class ShareScreenViewAdapter extends ReviewViewAdapterBasic {
-        private Context           mContext;
-        private ReviewViewAdapter mAdapter;
+        private final Context           mContext;
+        private final ReviewViewAdapter mAdapter;
 
         private ShareScreenViewAdapter(Context context, ReviewViewAdapter adapter) {
             mContext = context;

@@ -29,7 +29,7 @@ import com.chdryra.android.mygenerallibrary.ViewHolderData;
  */
 public class GvBuildReviewList extends GvDataList<GvBuildReviewList.GvBuildReview> {
     public static final GvDataType TYPE = new GvDataType("create", "create");
-    private ReviewBuilder mBuilder;
+    private final ReviewBuilder mBuilder;
 
     private GvBuildReviewList(ReviewBuilder builder) {
         super(TYPE);
@@ -133,7 +133,6 @@ public class GvBuildReviewList extends GvDataList<GvBuildReviewList.GvBuildRevie
                 vh = mDataType == GvLocationList.TYPE ? new VhLocation(true) : new VhTag(true);
             } else {
                 vh = datum.newViewHolder();
-                ;
             }
 
             if (vh.getView() == null) vh.inflate(mBuilder.getContext(), parent);

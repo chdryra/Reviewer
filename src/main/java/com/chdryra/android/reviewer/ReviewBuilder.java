@@ -38,17 +38,15 @@ public class ReviewBuilder extends ReviewViewAdapterBasic {
             GvChildList.TYPE};
     private static final File                    FILE_DIR_EXT = Environment
             .getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM);
-
+    private final Context                                mContext;
+    private final Map<GvDataList.GvDataType, GvDataList> mData;
+    private final Map<GvDataList.GvDataType, DataBuilder<? extends GvDataList.GvData>>
+                                                         mDataBuilders;
+    private final GvBuildReviewList                      mBuildUi;
     private FileIncrementor mIncrementor;
-    private Context         mContext;
-
-    private String                                                               mSubject;
-    private float                                                                mRating;
-    private Map<GvDataList.GvDataType, GvDataList>                               mData;
-    private Map<GvDataList.GvDataType, DataBuilder<? extends GvDataList.GvData>> mDataBuilders;
-    private ArrayList<ReviewBuilder>                                             mChildren;
-    private GvBuildReviewList                                                    mBuildUi;
-
+    private       String                                 mSubject;
+    private       float                                  mRating;
+    private       ArrayList<ReviewBuilder>               mChildren;
     private boolean mIsAverage = false;
 
     public ReviewBuilder(Context context) {
@@ -120,8 +118,7 @@ public class ReviewBuilder extends ReviewViewAdapterBasic {
                 (GvCommentList) getData(GvCommentList.TYPE),
                 (GvImageList) getData(GvImageList.TYPE),
                 (GvFactList) getData(GvFactList.TYPE),
-                (GvLocationList) getData(GvLocationList.TYPE),
-                (GvUrlList) getData(GvUrlList.TYPE));
+                (GvLocationList) getData(GvLocationList.TYPE));
 
         GvTagList tags = (GvTagList) getData(GvTagList.TYPE);
         TagsManager.tag(root, tags);
@@ -207,11 +204,6 @@ public class ReviewBuilder extends ReviewViewAdapterBasic {
             childBuilder.setRating(child.getRating());
             mChildren.add(childBuilder);
         }
-    }
-
-    @Override
-    public float getRating() {
-        return isRatingAverage() ? getAverageRating() : mRating;
     }
 
     public class DataBuilder<T extends GvDataList.GvData> extends ReviewViewAdapterBasic {
@@ -309,6 +301,13 @@ public class ReviewBuilder extends ReviewViewAdapterBasic {
             getParentBuilder().setSubject(subject);
         }
     }
+
+    @Override
+    public float getRating() {
+        return isRatingAverage() ? getAverageRating() : mRating;
+    }
+
+
 
 
 

@@ -38,12 +38,11 @@ public abstract class DialogEditGvDataTest<T extends GvDataList.GvData> extends
         ActivityInstrumentationTestCase2<ActivityFeed> {
     private static final int    REQUEST_CODE = 1976;
     private static final String DIALOG_TAG   = "TestEditDialog";
-
-    protected Solo                              mSolo;
-    protected DialogEditGvData                  mDialog;
-    protected DialogEditListener<T>             mListener;
-    protected Activity                          mActivity;
-    private   Class<? extends DialogEditGvData> mDialogClass;
+    private final Class<? extends DialogEditGvData> mDialogClass;
+    protected     Solo                              mSolo;
+    protected     DialogEditGvData                  mDialog;
+    protected     DialogEditListener<T>             mListener;
+    protected     Activity                          mActivity;
 
     protected abstract GvDataList.GvData getDataShown();
 

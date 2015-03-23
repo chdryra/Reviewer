@@ -32,7 +32,6 @@ public class ReviewUser implements Review {
     private final MdCommentList  mComments;
     private final MdImageList    mImages;
     private final MdFactList     mFacts;
-    private final MdUrlList      mUrls;
     private final MdLocationList mLocations;
 
     public ReviewUser(Author author, Date publishDate, String subject, float rating) {
@@ -46,7 +45,6 @@ public class ReviewUser implements Review {
         mImages = new MdImageList(this);
         mFacts = new MdFactList(this);
         mLocations = new MdLocationList(this);
-        mUrls = new MdUrlList(this);
 
         mNode = FactoryReview.createReviewNode(this);
     }
@@ -55,8 +53,7 @@ public class ReviewUser implements Review {
             Iterable<? extends DataComment> comments,
             Iterable<? extends DataImage> images,
             Iterable<? extends DataFact> facts,
-            Iterable<? extends DataLocation> locations,
-            Iterable<? extends DataUrl> urls) {
+            Iterable<? extends DataLocation> locations) {
 
         mId = ReviewId.generateId();
         mAuthor = author;
@@ -68,7 +65,6 @@ public class ReviewUser implements Review {
         mImages = MdGvConverter.toMdImageList(images, this);
         mFacts = MdGvConverter.toMdFactList(facts, this);
         mLocations = MdGvConverter.toMdLocationList(locations, this);
-        mUrls = MdGvConverter.toMdUrlList(urls, this);
 
         mNode = FactoryReview.createReviewNode(this);
     }
@@ -131,16 +127,6 @@ public class ReviewUser implements Review {
     @Override
     public boolean hasImages() {
         return mImages.size() > 0;
-    }
-
-    @Override
-    public MdUrlList getUrls() {
-        return mUrls;
-    }
-
-    @Override
-    public boolean hasUrls() {
-        return mUrls.size() > 0;
     }
 
     @Override

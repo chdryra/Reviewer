@@ -23,7 +23,7 @@ import java.util.ArrayList;
  * Email: rizwan.choudrey@gmail.com
  */
 public class CommentFormatterTest extends TestCase {
-    private static int COMMENTS = 100;
+    private static final int COMMENTS = 100;
     private RandomString mGenerator;
 
     @SmallTest

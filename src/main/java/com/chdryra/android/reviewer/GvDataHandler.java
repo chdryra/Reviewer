@@ -24,9 +24,9 @@ import android.widget.Toast;
  * @param <T>: {@link GvDataList.GvData} type.
  */
 public class GvDataHandler<T extends GvDataList.GvData> {
-    private GvDataList<T>        mData;
-    private AddConstraint<T>     mAddConstraint;
-    private ReplaceConstraint<T> mReplaceConstraint;
+    private final GvDataList<T>        mData;
+    private final AddConstraint<T>     mAddConstraint;
+    private final ReplaceConstraint<T> mReplaceConstraint;
 
     public GvDataHandler(GvDataList<T> data) {
         this(data, new AddConstraint<T>());

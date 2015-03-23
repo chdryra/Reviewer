@@ -32,7 +32,6 @@ public class ReviewCollectionAdapterTest extends TestCase {
     private static final int NUM = 10;
     private Author                  mAuthor;
     private Date                    mDate;
-    private String                  mTitle;
     private ReviewCollectionAdapter mAdapter;
 
     @SmallTest
@@ -95,8 +94,8 @@ public class ReviewCollectionAdapterTest extends TestCase {
         super.setUp();
         mAuthor = new Author(RandomString.nextWord());
         mDate = RandomDate.nextDate();
-        mTitle = RandomString.nextWord();
-        mAdapter = new ReviewCollectionAdapter(mAuthor, mDate, mTitle);
+        String title = RandomString.nextWord();
+        mAdapter = new ReviewCollectionAdapter(mAuthor, mDate, title);
     }
 
     private Review[] addReviews(ReviewCollectionAdapter adapter) {

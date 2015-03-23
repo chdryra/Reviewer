@@ -22,7 +22,7 @@ public class RCollection<T> implements Iterable<T> {
     public static final String                     ILLEGAL_STATE = "Have to do at least one next" +
             "() before you can " +
             "delete";
-    private final       LinkedHashMap<ReviewId, T> mData         = new LinkedHashMap<ReviewId, T>();
+    private final       LinkedHashMap<ReviewId, T> mData         = new LinkedHashMap<>();
 
     @Override
     public Iterator<T> iterator() {

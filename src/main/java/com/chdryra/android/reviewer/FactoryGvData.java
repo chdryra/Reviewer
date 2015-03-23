@@ -18,7 +18,7 @@ import java.util.Map;
  */
 public class FactoryGvData {
     private static FactoryGvData sFactory;
-    private Map<GvDataList.GvDataType, GvTypeList> mClasses = new HashMap<>();
+    private final Map<GvDataList.GvDataType, GvTypeList> mClasses = new HashMap<>();
 
     private FactoryGvData() {
         mClasses.put(gvType(GvTagList.class), new GvTypeList<>(GvTagList.class));
@@ -66,7 +66,7 @@ public class FactoryGvData {
     }
 
     private class GvTypeList<L extends GvDataList<T>, T extends GvDataList.GvData> {
-        private Class<L> mList;
+        private final Class<L> mList;
 
         private GvTypeList(Class<L> list) {
             mList = list;

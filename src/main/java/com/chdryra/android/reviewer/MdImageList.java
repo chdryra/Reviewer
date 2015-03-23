@@ -41,7 +41,7 @@ public class MdImageList extends MdDataList<MdImageList.MdImage> {
         private final Date   mDate;
         private final String mCaption;
         private final LatLng mLatLng;
-        private       Review mHoldingReview;
+        private final Review mHoldingReview;
         private boolean mIsCover = false;
 
         public MdImage(Bitmap bitmap, Date date, LatLng latLng, String caption, boolean isCover,

@@ -360,7 +360,7 @@ public class ActivityBuildReviewTest extends ActivityReviewViewTest {
             ArrayList<TextView> tvs = mSolo.getCurrentViews(TextView.class, cell);
             GvTagList.GvTag tag = (GvTagList.GvTag) data.getItem(0);
             assertEquals(1, tvs.size());
-            assertEquals(tag.get(), tvs.get(0).getText().toString());
+            assertEquals("#" + tag.get(), tvs.get(0).getText().toString());
 
         } else if (data.getGvDataType().equals(GvCommentList.TYPE)) {
             ArrayList<TextView> tvs;
@@ -399,7 +399,6 @@ public class ActivityBuildReviewTest extends ActivityReviewViewTest {
         } else if (data.getGvDataType().equals(GvImageList.TYPE)) {
             ArrayList<TextView> tvs;
             tvs = mSolo.getCurrentViews(TextView.class, cell);
-            GvImageList.GvImage image = (GvImageList.GvImage) data.getItem(0);
             assertEquals(2, tvs.size());
             assertEquals(String.valueOf(1), tvs.get(0).getText().toString());
             assertEquals(GvImageList.TYPE.getDatumName(),

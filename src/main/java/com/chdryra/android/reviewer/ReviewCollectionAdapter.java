@@ -22,11 +22,11 @@ import java.util.Date;
  * {@link ReviewViewAdapter} for {@link RCollectionReview} data.
  */
 public class ReviewCollectionAdapter extends ReviewViewAdapterBasic {
-    private Author mAuthor;
-    private Date   mPublishDate;
-    private String mTitle;
+    private final Author mAuthor;
+    private final Date   mPublishDate;
+    private final String mTitle;
 
-    private RCollectionReview<Review> mReviews;
+    private final RCollectionReview<Review> mReviews;
 
 
     public ReviewCollectionAdapter(Author author, Date date, String title) {

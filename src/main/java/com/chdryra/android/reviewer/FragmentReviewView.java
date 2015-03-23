@@ -38,6 +38,7 @@ import com.chdryra.android.mygenerallibrary.ViewHolderAdapter;
  * On: 23/01/2015
  * Email: rizwan.choudrey@gmail.com
  */
+@SuppressWarnings("EmptyMethod")
 public class FragmentReviewView extends Fragment {
     private static final int LAYOUT        = R.layout.fragment_view_review;
     private static final int LINEAR_LAYOUT = R.id.linearlayout;
@@ -204,7 +205,7 @@ public class FragmentReviewView extends Fragment {
             mSubjectView.setFocusable(true);
             ((ClearableEditText) mSubjectView).makeClearable(true);
             mSubjectView.addTextChangedListener(new TextWatcher() {
-                ReviewViewAction.SubjectAction action = mReviewView.getSubjectViewAction();
+                final ReviewViewAction.SubjectAction action = mReviewView.getSubjectViewAction();
 
                 @Override
                 public void onTextChanged(CharSequence s, int start, int before, int count) {

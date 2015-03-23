@@ -38,11 +38,11 @@ public abstract class DialogEditGvData<T extends GvDataList.GvData>
         extends DialogCancelDeleteDoneFragment implements GvDataEditLayout.GvDataEditor,
         LaunchableUi {
 
-    private GvDataList.GvDataType mDataType;
-    private T                     mDatum;
-    private GvDataPacker<T>       mPacker;
-    private GvDataEditLayout<T>   mLayout;
-    private GvDataEditListener<T> mEditListener;
+    private final GvDataList.GvDataType mDataType;
+    private final GvDataPacker<T>       mPacker;
+    private final GvDataEditLayout<T>   mLayout;
+    private       T                     mDatum;
+    private       GvDataEditListener<T> mEditListener;
 
     /**
      * Provides a callback that can be called delete or done buttons are pressed.

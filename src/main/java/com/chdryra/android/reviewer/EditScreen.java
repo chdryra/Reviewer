@@ -90,11 +90,12 @@ public class EditScreen {
         }
     }
 
+    @SuppressWarnings("EmptyMethod")
     public static class BannerButton extends ReviewViewAction.BannerButtonAction {
         private static final String TAG = "ActionBannerButtonAddListener";
 
-        private ConfigGvDataUi.LaunchableConfig mConfig;
-        private Fragment                        mListener;
+        private final ConfigGvDataUi.LaunchableConfig mConfig;
+        private       Fragment                        mListener;
 
         protected BannerButton(ConfigGvDataUi.LaunchableConfig config, String title) {
             super(title);
@@ -129,20 +130,16 @@ public class EditScreen {
             return mConfig.getRequestCode();
         }
 
-        protected void showAlertDialog(String alert, int requestCode, GvDataList.GvData item) {
-            Bundle args = new Bundle();
-            if (item != null) {
-                GvDataPacker.packItem(GvDataPacker.CurrentNewDatum.CURRENT, item, args);
-            }
-            DialogAlertFragment dialog = DialogAlertFragment.newDialog(alert, args);
+        protected void showAlertDialog(String alert, int requestCode) {
+            DialogAlertFragment dialog = DialogAlertFragment.newDialog(alert, new Bundle());
             DialogShower.show(dialog, getListener(), requestCode, DialogAlertFragment.ALERT_TAG);
         }
 
-        protected void onDialogAlertNegative(int requestCode, Bundle args) {
+        protected void onDialogAlertNegative(int requestCode) {
 
         }
 
-        protected void onDialogAlertPositive(int requestCode, Bundle args) {
+        protected void onDialogAlertPositive(int requestCode) {
 
         }
 
@@ -185,7 +182,7 @@ public class EditScreen {
 
             @Override
             public void onAlertNegative(int requestCode, Bundle args) {
-                onDialogAlertNegative(requestCode, args);
+                onDialogAlertNegative(requestCode);
             }
 
             @Override
@@ -198,19 +195,19 @@ public class EditScreen {
 
             @Override
             public void onAlertPositive(int requestCode, Bundle args) {
-                onDialogAlertPositive(requestCode, args);
+                onDialogAlertPositive(requestCode);
             }
 
 
         }
     }
 
+    @SuppressWarnings("EmptyMethod")
     public static class GridItem extends ReviewViewAction.GridItemAction {
         private static final String TAG = "GridItemEditListener";
-
-        private Fragment                        mListener;
-        private ConfigGvDataUi.LaunchableConfig mConfig;
-        private ReviewView.Editor               mEditor;
+        private final ConfigGvDataUi.LaunchableConfig mConfig;
+        private       Fragment                        mListener;
+        private       ReviewView.Editor               mEditor;
 
         protected GridItem(ConfigGvDataUi.LaunchableConfig config) {
             mConfig = config;
@@ -332,28 +329,27 @@ public class EditScreen {
         private static final int                DELETE_CONFIRM = 314;
         private static final String             TAG            = "ActionMenuDeleteDoneGridListener";
 
-        private MenuActionItem mDeleteAction;
-        private MenuActionItem mDoneAction;
+        private final MenuActionItem mDeleteAction;
+        private final MenuActionItem mDoneAction;
 
-        private String  mDeleteWhat;
-        private boolean mDismissOnDelete;
-        private boolean mDismissOnDone;
+        private final String  mDeleteWhat;
+        private final boolean mDismissOnDelete;
+        private final boolean mDismissOnDone;
 
-        private Fragment          mListener;
-        private boolean           mRatingIsAverage;
-        private ReviewView.Editor mEditor;
+        private final Fragment          mListener;
+        private       boolean           mRatingIsAverage;
+        private       ReviewView.Editor mEditor;
 
         public Menu(String title) {
             this(title, title);
         }
 
         public Menu(String title, String deleteWhat) {
-            this(title, deleteWhat, false, true);
+            this(title, deleteWhat, false);
         }
 
-        public Menu(String title, String deleteWhat, boolean dismissOnDelete,
-                boolean dismissOnDone) {
-            this(title, deleteWhat, dismissOnDelete, dismissOnDone, MENU);
+        public Menu(String title, String deleteWhat, boolean dismissOnDelete) {
+            this(title, deleteWhat, dismissOnDelete, true, MENU);
         }
 
         public Menu(String title, String deleteWhat, boolean dismissOnDelete,

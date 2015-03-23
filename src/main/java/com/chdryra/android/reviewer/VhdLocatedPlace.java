@@ -17,7 +17,7 @@ import com.chdryra.android.mygenerallibrary.ViewHolderData;
  * Email: rizwan.choudrey@gmail.com
  */
 public class VhdLocatedPlace implements ViewHolderData {
-    private LocatedPlace mPlace;
+    private final LocatedPlace mPlace;
 
     public VhdLocatedPlace(LocatedPlace place) {
         mPlace = place;

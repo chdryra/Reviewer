@@ -76,10 +76,6 @@ public interface Review extends ReviewId.RDIdAble {
 
     boolean hasImages();
 
-    MdUrlList getUrls();
-
-    boolean hasUrls();
-
     MdLocationList getLocations();
 
     boolean hasLocations();

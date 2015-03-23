@@ -26,8 +26,8 @@ public class MdCommentList extends MdDataList<MdCommentList.MdComment> {
 
     public static class MdComment implements MdData, DataComment {
         private final String  mComment;
-        private       boolean mIsHeadline;
-        private       Review  mHoldingReview;
+        private final boolean mIsHeadline;
+        private final Review  mHoldingReview;
 
         public MdComment(String comment, boolean isHeadline, Review holdingReview) {
             mComment = comment;

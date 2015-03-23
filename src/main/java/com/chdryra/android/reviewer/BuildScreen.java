@@ -31,8 +31,8 @@ import com.google.android.gms.maps.model.LatLng;
  * Email: rizwan.choudrey@gmail.com
  */
 public class BuildScreen {
-    private ReviewView          mScreen;
-    private BuildScreenGridItem mGridItem;
+    private final ReviewView          mScreen;
+    private final BuildScreenGridItem mGridItem;
 
     private BuildScreen(Context context) {
         ReviewBuilder builder = Administrator.get(context).getReviewBuilder();
@@ -65,10 +65,10 @@ public class BuildScreen {
 
     private class BuildScreenGridItem extends ReviewViewAction.GridItemAction {
         private static final String TAG = "GridItemBuildUiListener";
-        private BuildListener           mListener;
-        private LatLng                  mLatLng;
-        private ImageChooser            mImageChooser;
-        private LocationClientConnector mLocationClient;
+        private final BuildListener           mListener;
+        private       LatLng                  mLatLng;
+        private       ImageChooser            mImageChooser;
+        private       LocationClientConnector mLocationClient;
 
         private BuildScreenGridItem() {
             mListener = new BuildListener() {
@@ -203,8 +203,8 @@ public class BuildScreen {
         public static final  int MENU_AVERAGE_ID = R.id.menu_item_average_rating;
         private static final int MENU            = R.menu.fragment_review_options;
 
-        private MenuActionItem    mActionItem;
-        private ReviewView.Editor mEditor;
+        private final MenuActionItem    mActionItem;
+        private       ReviewView.Editor mEditor;
 
         private BuildScreenMenu(String title) {
             super(MENU, title, true);
@@ -241,7 +241,7 @@ public class BuildScreen {
     }
 
     private class BuildScreenModifier implements ReviewView.ViewModifier {
-        private ReviewBuilder mBuilder;
+        private final ReviewBuilder mBuilder;
 
         private BuildScreenModifier(ReviewBuilder builder) {
             mBuilder = builder;

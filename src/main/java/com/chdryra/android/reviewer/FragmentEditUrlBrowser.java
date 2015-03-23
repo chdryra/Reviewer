@@ -46,7 +46,7 @@ import java.net.URL;
  * </p>
  */
 public class FragmentEditUrlBrowser extends FragmentDeleteDone {
-    private static final String TAG = "FragmentReviewUrlBrowser";
+    private static final String TAG = "FragmentEditUrlBrowser";
 
     private GvUrlList.GvUrl   mCurrent;
     private ClearableEditText mUrlEditText;

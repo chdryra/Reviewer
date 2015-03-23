@@ -69,7 +69,8 @@ public class EditScreenComments {
             if (requestCode == COMMENT_AS_HEADLINE) {
                 GvCommentList.GvComment headline = (GvCommentList.GvComment) GvDataPacker
                         .unpackItem(GvDataPacker.CurrentNewDatum.CURRENT, args);
-                for (GvCommentList.GvComment comment : (GvCommentList) getGridData()) {
+                GvCommentList comments = (GvCommentList) getGridData();
+                for (GvCommentList.GvComment comment : comments) {
                     if (comment == headline) {
                         comment.setIsHeadline(true);
                     } else {
@@ -97,9 +98,8 @@ public class EditScreenComments {
         public static final  int MENU_DONE_ID   = R.id.menu_item_done;
         public static final  int MENU_SPLIT_ID  = R.id.menu_item_split_comment;
         private static final int MENU           = R.menu.fragment_review_comment;
-
+        private final DataSetObserver mObserver;
         private boolean mCommentsAreSplit = false;
-        private DataSetObserver mObserver;
 
         public Menu() {
             super(GvCommentList.TYPE.getDataName(), GvCommentList.TYPE.getDataName(), false, true,
@@ -108,11 +108,6 @@ public class EditScreenComments {
                 @Override
                 public void onChanged() {
                     updateGridDataUi();
-                }
-
-                @Override
-                public void onInvalidated() {
-                    super.onInvalidated();
                 }
             };
         }

@@ -28,7 +28,7 @@ public class ReviewTreeNode implements ReviewNode {
 
     private final Review                        mReview;
     private final RCollectionReview<ReviewNode> mChildren;
-    private ReviewTreeNode mParent;
+    private       ReviewTreeNode                mParent;
 
     private boolean mRatingIsAverage = false;
 
@@ -160,16 +160,6 @@ public class ReviewTreeNode implements ReviewNode {
     @Override
     public boolean hasImages() {
         return mReview.hasImages();
-    }
-
-    @Override
-    public MdUrlList getUrls() {
-        return mReview.getUrls();
-    }
-
-    @Override
-    public boolean hasUrls() {
-        return mReview.hasUrls();
     }
 
     @Override

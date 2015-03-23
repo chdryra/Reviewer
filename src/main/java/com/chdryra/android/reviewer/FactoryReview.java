@@ -38,10 +38,9 @@ public class FactoryReview {
             Iterable<? extends DataComment> comments,
             Iterable<? extends DataImage> images,
             Iterable<? extends DataFact> facts,
-            Iterable<? extends DataLocation> locations,
-            Iterable<? extends DataUrl> urls) {
+            Iterable<? extends DataLocation> locations) {
         return getInstance().newReviewUser(author, publishDate, subject, rating, comments,
-                images, facts, locations, urls);
+                images, facts, locations);
     }
 
     public static Review createReviewUser(Author author, Date publishDate, String subject,
@@ -74,10 +73,9 @@ public class FactoryReview {
             Iterable<? extends DataComment> comments,
             Iterable<? extends DataImage> images,
             Iterable<? extends DataFact> facts,
-            Iterable<? extends DataLocation> locations,
-            Iterable<? extends DataUrl> urls) {
+            Iterable<? extends DataLocation> locations) {
         return new ReviewUser(author, publishDate, subject, rating, comments, images, facts,
-                locations, urls);
+                locations);
     }
 
     private ReviewNode newReviewNode(Review review) {

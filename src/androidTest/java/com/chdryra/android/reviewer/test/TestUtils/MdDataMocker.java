@@ -42,7 +42,7 @@ public class MdDataMocker<T extends Review> {
     private static final Random       RAND             = new Random();
     private static URL sUrl;
 
-    private T mReview;
+    private final T mReview;
 
     public MdDataMocker(T review) {
         mReview = review;

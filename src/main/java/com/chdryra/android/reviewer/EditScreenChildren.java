@@ -23,8 +23,8 @@ public class EditScreenChildren {
         public static final  int MENU_AVERAGE_ID = R.id.menu_item_average_rating;
         private static final int MENU            = R.menu.fragment_review_children;
 
-        private MenuItemChildrenRatingAverage mActionItem;
-        private DataSetObserver               mObserver;
+        private final MenuItemChildrenRatingAverage mActionItem;
+        private final DataSetObserver               mObserver;
 
         public Menu() {
             super(GvChildList.TYPE.getDataName(), GvChildList.TYPE.getDataName(), false, true,
@@ -36,11 +36,6 @@ public class EditScreenChildren {
                     if (getEditor().isRatingAverage()) {
                         mActionItem.setAverageRating();
                     }
-                }
-
-                @Override
-                public void onInvalidated() {
-                    super.onInvalidated();
                 }
             };
         }

@@ -27,7 +27,7 @@ public class CommentFormatter {
     }
 
     public static ArrayList<String> split(String comment) {
-        ArrayList<String> comments = new ArrayList<String>();
+        ArrayList<String> comments = new ArrayList<>();
         String remaining = comment;
         while (remaining != null && remaining.length() > 0) {
             String sentence = getFirstSentence(remaining, false);

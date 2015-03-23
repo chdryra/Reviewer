@@ -23,9 +23,9 @@ import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
  * Email: rizwan.choudrey@gmail.com
  */
 public abstract class GvDataEditLayoutTest<T extends GvDataList.GvData> extends AndroidTestCase {
-    protected GvDataEditLayout<T>   mLayout;
-    protected EditText              mEditText;
-    private   GvDataList.GvDataType mDataType;
+    protected final GvDataEditLayout<T>   mLayout;
+    private final   GvDataList.GvDataType mDataType;
+    protected       EditText              mEditText;
 
     protected abstract void enterData(T datum);
 

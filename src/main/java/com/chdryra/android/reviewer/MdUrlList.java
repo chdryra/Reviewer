@@ -28,7 +28,7 @@ public class MdUrlList extends MdDataList<MdUrlList.MdUrl> {
      * </p>
      */
     public static class MdUrl extends MdFactList.MdFact implements DataUrl {
-        private final URL    mUrl;
+        private final URL mUrl;
 
         public MdUrl(String label, URL url, Review holdingReview) {
             super(label, url.toExternalForm(), holdingReview);
@@ -47,16 +47,13 @@ public class MdUrlList extends MdDataList<MdUrlList.MdUrl> {
             if (!super.equals(o)) return false;
 
             MdUrl mdUrl = (MdUrl) o;
-
-            if (mUrl != null ? !mUrl.equals(mdUrl.mUrl) : mdUrl.mUrl != null) return false;
-
-            return true;
+            return mUrl.equals(mdUrl.mUrl);
         }
 
         @Override
         public int hashCode() {
             int result = super.hashCode();
-            result = 31 * result + (mUrl != null ? mUrl.hashCode() : 0);
+            result = 31 * result + mUrl.hashCode();
             return result;
         }
 

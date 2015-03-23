@@ -46,7 +46,6 @@ public class DialogLocationTest extends
     private static final String LISTENER_TAG   = "FragmentListener";
     private final static LatLng LATLNG         = new LatLng(51.5072, -0.1275);
     private final static String ACQUERY        = "Ch";
-    private final static String NAME           = "Charing Cross";
     private final static String SEARCHING      = "searching";
     private final static String SEARCHING_OVER = "name";
     private static final int    NAME_NEARBY    = com.chdryra.android.reviewer.R.string

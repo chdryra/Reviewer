@@ -180,7 +180,7 @@ public class DialogLocation extends DialogCancelActionDoneFragment implements Lo
         suggester.getSuggestions(NUMBER_SUGGESTIONS);
 
         //Whilst initial suggestions are being found....
-        ArrayList<String> message = new ArrayList<String>();
+        ArrayList<String> message = new ArrayList<>();
         message.add(getResources().getString(mFromImage ? SEARCHING_IMAGE : SEARCHING_NEARBY));
         setNewSuggestionsAdapter(message);
     }

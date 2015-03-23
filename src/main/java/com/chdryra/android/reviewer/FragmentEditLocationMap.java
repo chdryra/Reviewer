@@ -70,7 +70,7 @@ import java.util.ArrayList;
  */
 public class FragmentEditLocationMap extends FragmentDeleteDone implements
         LocationClientConnector.Locatable, PlaceSuggester.SuggestionsListener {
-    private final static String TAG                  = "FragmentReviewLocationMap";
+    private final static String TAG                  = "FragmentEditLocationMap";
     private static final String NO_LOCATION          = "no suggestions found...";
     private static final float  DEFAULT_ZOOM         = 15;
     private static final int    NUMBER_DEFAULT_NAMES = 5;

@@ -32,8 +32,8 @@ import java.util.Map;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ReviewViewAction {
-    private ReviewView                mReviewView;
-    private HashMap<String, Fragment> mListeners;
+    private final HashMap<String, Fragment> mListeners;
+    private       ReviewView                mReviewView;
 
     public ReviewViewAction() {
         mListeners = new HashMap<>();
@@ -48,7 +48,7 @@ public class ReviewViewAction {
         mReviewView = reviewView;
         onAttachReviewView();
         for (Map.Entry<String, Fragment> entry : mListeners.entrySet()) {
-            getReviewView().registerActionListener(entry.getValue(), entry.getKey());
+            mReviewView.registerActionListener(entry.getValue(), entry.getKey());
         }
     }
 
@@ -85,6 +85,7 @@ public class ReviewViewAction {
         return getReviewView().getGridData();
     }
 
+    @SuppressWarnings("EmptyMethod")
     public static class SubjectAction extends ReviewViewAction {
 
         public String getSubject() {
@@ -152,12 +153,10 @@ public class ReviewViewAction {
     public static class MenuAction extends ReviewViewAction {
         public static final int                MENU_UP_ID = android.R.id.home;
         public static final ActivityResultCode RESULT_UP  = ActivityResultCode.UP;
-
-        private int mMenuId = -1;
-        private String mTitle;
+        private final String                          mTitle;
+        private final SparseArray<MenuActionItemInfo> mActionItems;
+        private int     mMenuId          = -1;
         private boolean mDisplayHomeAsUp = false;
-
-        private SparseArray<MenuActionItemInfo> mActionItems;
 
         public interface MenuActionItem {
             public void doAction(MenuItem item);
@@ -175,8 +174,8 @@ public class ReviewViewAction {
             if (mDisplayHomeAsUp) addMenuActionItem(getUpActionItem(), MENU_UP_ID, true);
         }
 
-        public MenuAction(String title, boolean displayHomeAsUp) {
-            this(-1, title, displayHomeAsUp);
+        public MenuAction(String title) {
+            this(-1, title, true);
         }
 
         @Override
@@ -238,8 +237,8 @@ public class ReviewViewAction {
         }
 
         private class MenuActionItemInfo {
-            private boolean        mFinishActivity;
-            private MenuActionItem mItem;
+            private final boolean        mFinishActivity;
+            private final MenuActionItem mItem;
 
             private MenuActionItemInfo(MenuActionItem item, boolean finishActivity) {
                 mItem = item;

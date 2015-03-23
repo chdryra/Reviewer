@@ -16,7 +16,7 @@ package com.chdryra.android.reviewer;
  */
 public class MdRating implements MdData {
     private final float  mRating;
-    private       Review mHoldingReview;
+    private final Review mHoldingReview;
 
     public MdRating(float rating, Review holdingReview) {
         mRating = rating;

@@ -16,7 +16,6 @@ import com.chdryra.android.reviewer.GvLocationList;
 import com.chdryra.android.reviewer.ReviewViewAdapter;
 import com.chdryra.android.reviewer.test.TestUtils.DialogAddListener;
 import com.chdryra.android.testutils.CallBackSignaler;
-import com.chdryra.android.testutils.RandomString;
 import com.google.android.gms.maps.model.LatLng;
 
 /**
@@ -155,32 +154,6 @@ public class DialogAddLocationTest extends DialogAddGvDataTest<GvLocationList.Gv
                 }
             });
         }
-
-        return data;
-    }
-
-    private GvDataList.GvData enterRandomNameForCurrent() {
-        if (mCurrent == null) {
-            getCurrentLocation();
-            mSignaler.waitForSignal();
-        }
-
-        final DialogAddListener<GvLocationList.GvLocation> listener = mListener;
-        final DialogCancelAddDoneFragment dialog = mDialog;
-
-        assertNull(listener.getData());
-        assertTrue(isDataNulled());
-        GvDataList.GvData data = new GvLocationList.GvLocation(mCurrent, RandomString.nextWord());
-        enterData(data);
-        assertTrue(isDataEntered());
-
-        assertNull(listener.getData());
-
-        mActivity.runOnUiThread(new Runnable() {
-            public void run() {
-                dialog.clickAddButton();
-            }
-        });
 
         return data;
     }

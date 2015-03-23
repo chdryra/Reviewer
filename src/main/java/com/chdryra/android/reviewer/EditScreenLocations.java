@@ -27,12 +27,12 @@ public class EditScreenLocations {
 
         @Override
         public boolean onLongClick(View v) {
-            showAlertDialog(getActivity().getString(R.string.dialog_add_on_map), ADD_ON_MAP, null);
+            showAlertDialog(getActivity().getString(R.string.dialog_add_on_map), ADD_ON_MAP);
             return true;
         }
 
         @Override
-        protected void onDialogAlertPositive(int requestCode, Bundle args) {
+        protected void onDialogAlertPositive(int requestCode) {
             if (requestCode == ADD_ON_MAP) {
                 LaunchableUi mapUi = ConfigGvDataUi.getLaunchable(ActivityEditLocationMap.class);
                 LauncherUi.launch(mapUi, getListener(), getRequestCode(), null, new Bundle());

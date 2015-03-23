@@ -48,15 +48,14 @@ public abstract class ActivityEditScreenTest extends ActivityReviewViewTest {
             .menu_item_done;
     protected static final int  NUM_DATA = 3;
 
-    protected GvDataList.GvDataType           mDataType;
+    protected final GvDataList.GvDataType mDataType;
+    private final Map<Button, Runnable> mClickRunnables = new HashMap<>();
     protected String                          mOriginalSubject;
     protected float                           mOriginalRating;
     protected GvDataList                      mData;
     protected CallBackSignaler                mSignaler;
     private   ConfigGvDataUi.LaunchableConfig mAddConfig;
     private   ConfigGvDataUi.LaunchableConfig mEditConfig;
-    private Map<Button, Runnable> mClickRunnables = new HashMap<>();
-
     private boolean mWithData = false;
 
     protected enum Button {

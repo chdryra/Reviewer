@@ -29,7 +29,7 @@ public class MdFactList extends MdDataList<MdFactList.MdFact> {
 
         private final String mLabel;
         private final String mValue;
-        private       Review mHoldingReview;
+        private final Review mHoldingReview;
 
         public MdFact(String label, String value, Review holdingReview) {
             mLabel = label;

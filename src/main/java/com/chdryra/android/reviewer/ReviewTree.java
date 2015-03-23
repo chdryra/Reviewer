@@ -27,7 +27,7 @@ import java.util.Date;
  * </p>
  */
 public class ReviewTree implements ReviewNode {
-    private ReviewNode mRoot;
+    private final ReviewNode mRoot;
 
     public ReviewTree(ReviewNode root) {
         mRoot = root;
@@ -111,16 +111,6 @@ public class ReviewTree implements ReviewNode {
     @Override
     public boolean hasImages() {
         return mRoot.hasImages();
-    }
-
-    @Override
-    public MdUrlList getUrls() {
-        return mRoot.getUrls();
-    }
-
-    @Override
-    public boolean hasUrls() {
-        return mRoot.hasUrls();
     }
 
     @Override

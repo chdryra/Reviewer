@@ -41,12 +41,12 @@ public abstract class DialogAddGvDataTest<T extends GvDataList.GvData> extends
         ActivityInstrumentationTestCase2<ActivityReviewView> {
     private static final int    REQUEST_CODE = 1976;
     private static final String DIALOG_TAG   = "TestAddDialog";
-    protected Solo                             mSolo;
-    protected DialogAddGvData                  mDialog;
-    protected DialogAddListener<T>             mListener;
-    protected ReviewViewAdapter                mAdapter;
-    protected Activity                         mActivity;
-    private   Class<? extends DialogAddGvData> mDialogClass;
+    private final Class<? extends DialogAddGvData> mDialogClass;
+    protected     Solo                             mSolo;
+    protected     DialogAddGvData                  mDialog;
+    protected     DialogAddListener<T>             mListener;
+    protected     ReviewViewAdapter                mAdapter;
+    protected     Activity                         mActivity;
 
     protected DialogAddGvDataTest(Class<? extends DialogAddGvData<T>> dialogClass) {
         super(ActivityReviewView.class);

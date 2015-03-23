@@ -31,7 +31,7 @@ public class MdLocationList extends MdDataList<MdLocationList.MdLocation> {
         public static final String LOCATION_DELIMITER = ",|";
         private final LatLng mLatLng;
         private final String mName;
-        private       Review mHoldingReview;
+        private final Review mHoldingReview;
 
         public MdLocation(LatLng latLng, String name, Review holdingReview) {
             mLatLng = latLng;

@@ -27,12 +27,12 @@ public class EditScreenFacts {
         @Override
         public boolean onLongClick(View v) {
             showAlertDialog(getActivity().getString(R.string.dialog_add_on_browser),
-                    ADD_ON_BROWSER, null);
+                    ADD_ON_BROWSER);
             return true;
         }
 
         @Override
-        protected void onDialogAlertPositive(int requestCode, Bundle args) {
+        protected void onDialogAlertPositive(int requestCode) {
             if (requestCode == ADD_ON_BROWSER) {
                 LaunchableUi mapUi = ConfigGvDataUi.getLaunchable(ActivityEditUrlBrowser.class);
                 LauncherUi.launch(mapUi, getListener(), getRequestCode(), null, new Bundle());

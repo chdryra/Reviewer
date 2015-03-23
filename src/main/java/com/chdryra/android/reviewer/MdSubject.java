@@ -16,7 +16,7 @@ package com.chdryra.android.reviewer;
  */
 public class MdSubject implements MdData {
     private final String mSubject;
-    private       Review mHoldingReview;
+    private final Review mHoldingReview;
 
     public MdSubject(String subject, Review review) {
         mSubject = subject;

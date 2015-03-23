@@ -39,8 +39,8 @@ public class FactoryGridCellAdapter {
      * .GvBuildReviewList.GvBuildReview} to handle.
      */
     private static class BuildReviewAdapter extends ViewHolderAdapter {
-        private int mCellWidth;
-        private int mCellHeight;
+        private final int mCellWidth;
+        private final int mCellHeight;
 
         public BuildReviewAdapter(Activity activity, GvDataList data, int cellWidth,
                 int cellHeight) {

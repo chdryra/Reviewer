@@ -97,7 +97,7 @@ public abstract class GvDataEditLayout<T extends GvDataList.GvData> {
     }
 
     private class GvDataViewManagerEdit implements GvDataEditLayout.GvDataEditManager<T> {
-        private GvDataEditor mEditor;
+        private final GvDataEditor mEditor;
 
         private GvDataViewManagerEdit(GvDataEditor editor) {
             mEditor = editor;
@@ -116,7 +116,7 @@ public abstract class GvDataEditLayout<T extends GvDataList.GvData> {
     }
 
     public class GvDataViewManagerAdd implements GvDataEditLayout.GvDataEditManager<T> {
-        private GvDataAdder mAdder;
+        private final GvDataAdder mAdder;
 
         private GvDataViewManagerAdd(GvDataAdder adder) {
             mAdder = adder;

@@ -16,7 +16,7 @@ import java.util.ArrayList;
  * Email: rizwan.choudrey@gmail.com
  */
 public abstract class ReviewViewAdapterBasic implements ReviewViewAdapter {
-    ArrayList<GridDataObserver> mObservers = new ArrayList<>();
+    final ArrayList<GridDataObserver> mObservers = new ArrayList<>();
 
     @Override
     public void registerGridDataObserver(GridDataObserver observer) {

@@ -41,10 +41,10 @@ public abstract class DialogAddGvData<T extends GvDataList.GvData> extends
         DialogCancelAddDoneFragment implements GvDataEditLayout.GvDataAdder, LaunchableUi {
     public static final String QUICK_SET = "com.chdryra.android.reviewer.dialog_quick_mode";
 
-    private GvDataList.GvDataType        mDataType;
-    private ReviewBuilder.DataBuilder<T> mBuilder;
-    private GvDataEditLayout<T>          mLayout;
-    private GvDataAddListener<T>         mAddListener;
+    private final GvDataList.GvDataType        mDataType;
+    private final GvDataEditLayout<T>          mLayout;
+    private       ReviewBuilder.DataBuilder<T> mBuilder;
+    private       GvDataAddListener<T>         mAddListener;
 
     private boolean mQuickSet = false;
 
@@ -144,9 +144,5 @@ public abstract class DialogAddGvData<T extends GvDataList.GvData> extends
 
     boolean isQuickSet() {
         return mQuickSet && mBuilder != null;
-    }
-
-    private void setBuilder() {
-
     }
 }

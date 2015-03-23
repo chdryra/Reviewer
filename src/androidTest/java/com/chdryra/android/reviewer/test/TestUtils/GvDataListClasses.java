@@ -26,7 +26,7 @@ import java.util.Iterator;
  * Email: rizwan.choudrey@gmail.com
  */
 public class GvDataListClasses implements Iterable<Class<? extends GvDataList>> {
-    private ArrayList<Class<? extends GvDataList>> mClasses = new ArrayList<>();
+    private final ArrayList<Class<? extends GvDataList>> mClasses = new ArrayList<>();
 
     private GvDataListClasses() {
         mClasses.add(GvTagList.class);
