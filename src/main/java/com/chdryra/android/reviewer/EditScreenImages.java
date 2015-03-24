@@ -77,7 +77,7 @@ public class EditScreenImages {
         }
 
         @Override
-        public void onGridItemLongClick(GvDataList.GvData item, View v) {
+        public void onGridItemLongClick(GvData item, View v) {
             GvImageList.GvImage image = (GvImageList.GvImage) item;
             if (image.isCover()) {
                 super.onGridItemLongClick(item, v);
@@ -88,7 +88,7 @@ public class EditScreenImages {
         }
 
         @Override
-        protected void deleteData(GvDataList.GvData datum) {
+        protected void deleteData(GvData datum) {
             super.deleteData(datum);
             GvImageList.GvImage image = (GvImageList.GvImage) datum;
             if (image.isCover()) {

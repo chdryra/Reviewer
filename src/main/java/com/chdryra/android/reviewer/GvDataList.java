@@ -8,12 +8,14 @@
 
 package com.chdryra.android.reviewer;
 
+import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.chdryra.android.mygenerallibrary.ViewHolderData;
+import com.chdryra.android.mygenerallibrary.ViewHolder;
 import com.chdryra.android.mygenerallibrary.ViewHolderDataList;
 
-import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * The View layer (V) data equivalent of the Model layer (M) data {@link MdDataList}.
@@ -21,21 +23,64 @@ import java.io.Serializable;
  * ReviewViewAdapter} (A) (Model-View-Adapter pattern).
  * <p/>
  *
- * @param <T>: {@link GvDataList.GvData} type.
+ * @param <T>: {@link GvData} type.GvDataList
  */
-public abstract class GvDataList<T extends GvDataList.GvData> extends ViewHolderDataList<T> {
-    public final GvDataType TYPE;
+public class GvDataList<T extends GvData> extends ViewHolderDataList<T> implements GvData {
+    public static final Parcelable.Creator<GvDataList> CREATOR = new Parcelable
+            .Creator<GvDataList>() {
+        public GvDataList createFromParcel(Parcel in) {
+            return new GvDataList(in);
+        }
 
-    public interface GvData extends ViewHolderData, Parcelable {
-        public String getStringSummary();
+        public GvDataList[] newArray(int size) {
+            return new GvDataList[size];
+        }
+    };
+    public final GvDataType mType;
+    public       Class<T>   mDataClass;
+
+    protected GvDataList(Class<T> dataClass, GvDataType mDataType) {
+        mDataClass = dataClass;
+        mType = mDataType;
     }
 
-    protected GvDataList(GvDataType dataName) {
-        TYPE = dataName;
+    //TODO make type safe
+    public GvDataList(Parcel in) {
+        mDataClass = (Class<T>) in.readValue(Class.class.getClassLoader());
+        mType = (GvDataType) in.readSerializable();
+        T[] data = (T[]) in.readParcelableArray(mDataClass.getClassLoader());
+        mData = new ArrayList<>(Arrays.asList(data));
     }
 
     public GvDataType getGvDataType() {
-        return TYPE;
+        return mType;
+    }
+
+    @Override
+    public String getStringSummary() {
+        return null;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeValue(mDataClass);
+        dest.writeSerializable(mType);
+        dest.writeParcelableArray((T[]) mData.toArray(), flags);
+    }
+
+    @Override
+    public ViewHolder newViewHolder() {
+        return new VhDataList();
+    }
+
+    @Override
+    public boolean isValidForDisplay() {
+        return true;
     }
 
     @Override
@@ -55,48 +100,5 @@ public abstract class GvDataList<T extends GvDataList.GvData> extends ViewHolder
         }
 
         return true;
-    }
-
-    public static class GvDataType implements Serializable {
-        private final String mDatumName;
-        private final String mDataName;
-
-        protected GvDataType(String datum) {
-            mDatumName = datum;
-            mDataName = datum + "s";
-        }
-
-        protected GvDataType(String datum, String data) {
-            mDatumName = datum;
-            mDataName = data;
-        }
-
-        public String getDatumName() {
-            return mDatumName;
-        }
-
-        public String getDataName() {
-            return mDataName;
-        }
-
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) return true;
-            if (!(o instanceof GvDataType)) return false;
-
-            GvDataType that = (GvDataType) o;
-
-            if (!mDataName.equals(that.mDataName)) return false;
-            if (!mDatumName.equals(that.mDatumName)) return false;
-
-            return true;
-        }
-
-        @Override
-        public int hashCode() {
-            int result = mDatumName.hashCode();
-            result = 31 * result + mDataName.hashCode();
-            return result;
-        }
     }
 }

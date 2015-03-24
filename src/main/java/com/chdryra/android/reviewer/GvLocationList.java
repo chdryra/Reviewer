@@ -20,15 +20,15 @@ public class GvLocationList extends GvDataList<GvLocationList.GvLocation> {
     public static final GvDataType TYPE = new GvDataType("location");
 
     public GvLocationList() {
-        super(TYPE);
+        super(GvLocation.class, TYPE);
     }
 
     /**
-     * {@link GvDataList.GvData} version of: {@link com.chdryra
+     * {@link GvData} version of: {@link com.chdryra
      * .android.reviewer.MdLocationList.MdLocation}
      * {@link ViewHolder}: {@link VhLocation}
      */
-    public static class GvLocation implements GvDataList.GvData, DataLocation {
+    public static class GvLocation implements GvData, DataLocation {
         public static final Parcelable.Creator<GvLocation> CREATOR = new Parcelable
                 .Creator<GvLocation>() {
             public GvLocation createFromParcel(Parcel in) {

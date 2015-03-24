@@ -18,7 +18,7 @@ import java.util.Map;
  */
 public class FactoryGvData {
     private static FactoryGvData sFactory;
-    private final Map<GvDataList.GvDataType, GvTypeList> mClasses = new HashMap<>();
+    private final Map<GvDataType, GvTypeList> mClasses = new HashMap<>();
 
     private FactoryGvData() {
         mClasses.put(gvType(GvTagList.class), new GvTypeList<>(GvTagList.class));
@@ -35,18 +35,18 @@ public class FactoryGvData {
         return sFactory;
     }
 
-    public static <T extends GvDataList.GvData> GvDataList.GvDataType gvType
+    public static <T extends GvData> GvDataType gvType
             (Class<? extends GvDataList<T>> dataClass) {
         return newList(dataClass).getGvDataType();
     }
 
     //TODO make type safe
-    public static <T extends GvDataList.GvData> GvDataList<T> newList(GvDataList.GvDataType
+    public static <T extends GvData> GvDataList<T> newList(GvDataType
             dataType) {
         return newList(get().mClasses.get(dataType).mList);
     }
 
-    public static <T extends GvDataList.GvData> GvDataList<T> newList(Class<? extends
+    public static <T extends GvData> GvDataList<T> newList(Class<? extends
             GvDataList<T>> dataClass) {
         try {
             return dataClass.newInstance();
@@ -56,7 +56,7 @@ public class FactoryGvData {
         }
     }
 
-    public static <T extends GvDataList.GvData> T newNull(Class<T> dataClass) {
+    public static <T extends GvData> T newNull(Class<T> dataClass) {
         try {
             return dataClass.newInstance();
         } catch (InstantiationException | IllegalAccessException e) {
@@ -65,7 +65,7 @@ public class FactoryGvData {
         }
     }
 
-    private class GvTypeList<L extends GvDataList<T>, T extends GvDataList.GvData> {
+    private class GvTypeList<L extends GvDataList<T>, T extends GvData> {
         private final Class<L> mList;
 
         private GvTypeList(Class<L> list) {

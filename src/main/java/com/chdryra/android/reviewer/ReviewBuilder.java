@@ -33,36 +33,37 @@ import java.util.Map;
  * user is ready using the {@link #publish(java.util.Date)} method.
  */
 public class ReviewBuilder extends ReviewViewAdapterBasic {
-    private static final GvDataList.GvDataType[] TYPES        = {GvCommentList.TYPE,
+    private static final GvDataType[] TYPES        = {GvCommentList.TYPE,
             GvFactList.TYPE, GvLocationList.TYPE, GvImageList.TYPE, GvUrlList.TYPE, GvTagList.TYPE,
             GvChildList.TYPE};
-    private static final File                    FILE_DIR_EXT = Environment
+    private static final File         FILE_DIR_EXT = Environment
             .getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM);
     private final Context                                mContext;
-    private final Map<GvDataList.GvDataType, GvDataList> mData;
-    private final Map<GvDataList.GvDataType, DataBuilder<? extends GvDataList.GvData>>
-                                                         mDataBuilders;
-    private final GvBuildReviewList                      mBuildUi;
-    private FileIncrementor mIncrementor;
-    private       String                                 mSubject;
-    private       float                                  mRating;
-    private       ArrayList<ReviewBuilder>               mChildren;
+    private final Map<GvDataType, GvDataList> mData;
+    private final Map<GvDataType, DataBuilder<? extends GvData>>
+                                              mDataBuilders;
+    private final GvBuildReviewList           mBuildUi;
+    private       FileIncrementor             mIncrementor;
+    private       String                      mSubject;
+    private       float                       mRating;
+    private       ArrayList<ReviewBuilder>    mChildren;
     private boolean mIsAverage = false;
 
     public ReviewBuilder(Context context) {
         mContext = context;
-        mBuildUi = GvBuildReviewList.newInstance(this);
         mChildren = new ArrayList<>();
 
         mData = new HashMap<>();
         mDataBuilders = new HashMap<>();
-        for (GvDataList.GvDataType dataType : TYPES) {
+        for (GvDataType dataType : TYPES) {
             mData.put(dataType, FactoryGvData.newList(dataType));
             mDataBuilders.put(dataType, newDataBuilder(dataType));
         }
 
         mSubject = "";
         mRating = 0f;
+
+        mBuildUi = GvBuildReviewList.newInstance(this);
 
         newIncrementor();
     }
@@ -100,15 +101,15 @@ public class ReviewBuilder extends ReviewViewAdapterBasic {
         }
     }
 
-    public DataBuilder<? extends GvDataList.GvData> getDataBuilder(GvDataList.GvDataType dataType) {
+    public DataBuilder<? extends GvData> getDataBuilder(GvDataType dataType) {
         return mDataBuilders.get(dataType);
     }
 
-    public void resetDataBuilder(GvDataList.GvDataType dataType) {
+    public void resetDataBuilder(GvDataType dataType) {
         mDataBuilders.get(dataType).resetData();
     }
 
-    public int getDataSize(GvDataList.GvDataType dataType) {
+    public int getDataSize(GvDataType dataType) {
         return getData(dataType).size();
     }
 
@@ -133,16 +134,12 @@ public class ReviewBuilder extends ReviewViewAdapterBasic {
         return FactoryReview.createReviewTree(root, children, mIsAverage);
     }
 
-    public GvDataList getData(GvDataList.GvDataType dataType) {
-        if (dataType == GvChildList.TYPE) {
-            return getChildren();
-        } else {
-            GvDataList data = mData.get(dataType);
-            return data != null ? MdGvConverter.copy(data) : null;
-        }
+    public GvDataList getData(GvDataType dataType) {
+        GvDataList data = mData.get(dataType);
+        return data != null ? MdGvConverter.copy(data) : null;
     }
 
-    private DataBuilder<? extends GvDataList.GvData> newDataBuilder(GvDataList.GvDataType
+    private DataBuilder<? extends GvData> newDataBuilder(GvDataType
             dataType) {
         GvDataList data = getData(dataType);
         DataBuilder<?> builder;
@@ -168,7 +165,7 @@ public class ReviewBuilder extends ReviewViewAdapterBasic {
     }
 
     private void setData(GvDataList data) {
-        GvDataList.GvDataType dataType = data.getGvDataType();
+        GvDataType dataType = data.getGvDataType();
         if (dataType == GvChildList.TYPE) {
             setChildren((GvChildList) data);
         } else if (Arrays.asList(TYPES).contains(dataType)) {
@@ -186,14 +183,7 @@ public class ReviewBuilder extends ReviewViewAdapterBasic {
     }
 
     private GvChildList getChildren() {
-        GvChildList children = new GvChildList();
-        for (ReviewBuilder childBuilder : mChildren) {
-            GvChildList.GvChildReview review = new GvChildList.GvChildReview(childBuilder
-                    .getSubject(), childBuilder.getRating());
-            children.add(review);
-        }
-
-        return children;
+        return (GvChildList) getData(GvChildList.TYPE);
     }
 
     private void setChildren(GvChildList children) {
@@ -204,9 +194,10 @@ public class ReviewBuilder extends ReviewViewAdapterBasic {
             childBuilder.setRating(child.getRating());
             mChildren.add(childBuilder);
         }
+        mData.put(GvChildList.TYPE, MdGvConverter.copy(children));
     }
 
-    public class DataBuilder<T extends GvDataList.GvData> extends ReviewViewAdapterBasic {
+    public class DataBuilder<T extends GvData> extends ReviewViewAdapterBasic {
         protected GvDataList<T>    mData;
         private   GvDataHandler<T> mHandler;
 

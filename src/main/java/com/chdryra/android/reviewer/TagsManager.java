@@ -65,14 +65,14 @@ public class TagsManager {
      * another ReviewTag alphabetically.
      */
     public static class ReviewTag implements Comparable<ReviewTag> {
-        private final RCollectionReview<Review> mReviews;
-        private final String                    mTag;
+        private final ArrayList<ReviewId> mReviews;
+        private final String              mTag;
 
         private ReviewTag(String tag, Review review) {
             //mTag = WordUtils.capitalize(tag);
             mTag = tag;
-            mReviews = new RCollectionReview<>();
-            mReviews.add(review);
+            mReviews = new ArrayList<>();
+            mReviews.add(review.getId());
         }
 
         @Override
@@ -85,7 +85,7 @@ public class TagsManager {
         }
 
         public boolean tagsReview(Review r) {
-            return mReviews.containsId(r.getId());
+            return mReviews.contains(r.getId());
         }
 
         public boolean equals(String tag) {
@@ -97,7 +97,7 @@ public class TagsManager {
         }
 
         private void addReview(Review review) {
-            mReviews.add(review);
+            mReviews.add(review.getId());
         }
     }
 

@@ -19,7 +19,7 @@ public class GvTagList extends GvDataList<GvTagList.GvTag> {
     public static final GvDataType TYPE = new GvDataType("tag");
 
     public GvTagList() {
-        super(TYPE);
+        super(GvTag.class, TYPE);
     }
 
     @Override

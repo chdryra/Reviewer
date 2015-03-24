@@ -25,7 +25,7 @@ import com.chdryra.android.mygenerallibrary.DialogDeleteConfirm;
  * Email: rizwan.choudrey@gmail.com
  */
 public class EditScreen {
-    public static ReviewView newScreen(Context context, GvDataList.GvDataType dataType) {
+    public static ReviewView newScreen(Context context, GvDataType dataType) {
         ReviewBuilder.DataBuilder builder = Administrator.get(context).getReviewBuilder()
                 .getDataBuilder(dataType);
 
@@ -41,7 +41,7 @@ public class EditScreen {
         return view;
     }
 
-    private static void setActions(ReviewView view, GvDataList.GvDataType dataType,
+    private static void setActions(ReviewView view, GvDataType dataType,
             String buttonTitle) {
         view.setAction(new RatingBar());
         view.setAction(newBannerButtonAction(dataType, buttonTitle));
@@ -49,7 +49,7 @@ public class EditScreen {
         view.setAction(newMenuAction(dataType));
     }
 
-    private static ReviewViewAction.MenuAction newMenuAction(GvDataList.GvDataType dataType) {
+    private static ReviewViewAction.MenuAction newMenuAction(GvDataType dataType) {
         if (dataType == GvCommentList.TYPE) {
             return new EditScreenComments.Menu();
         } else if (dataType == GvChildList.TYPE) {
@@ -59,7 +59,7 @@ public class EditScreen {
         }
     }
 
-    private static ReviewViewAction.GridItemAction newGridItemAction(GvDataList.GvDataType
+    private static ReviewViewAction.GridItemAction newGridItemAction(GvDataType
             dataType) {
         if (dataType == GvCommentList.TYPE) {
             return new EditScreenComments.GridItem();
@@ -75,7 +75,7 @@ public class EditScreen {
     }
 
     private static ReviewViewAction.BannerButtonAction newBannerButtonAction(
-            GvDataList.GvDataType dataType, String title) {
+            GvDataType dataType, String title) {
         if (dataType == GvImageList.TYPE) {
             return new EditScreenImages.BannerButton(title);
         } else if (dataType == GvLocationList.TYPE) {
@@ -120,7 +120,7 @@ public class EditScreen {
         }
 
         //TODO make type safe
-        protected boolean addData(GvDataList.GvData data) {
+        protected boolean addData(GvData data) {
             boolean added = getDataBuilder().add(data);
             getReviewView().updateUi();
             return added;
@@ -154,15 +154,15 @@ public class EditScreen {
                 implements DialogAddGvData.GvDataAddListener,
                 DialogAlertFragment.DialogAlertListener {
 
-            private GvDataList<GvDataList.GvData> mAdded;
+            private GvDataList<GvData> mAdded;
 
-            private AddListener(GvDataList.GvDataType dataType) {
+            private AddListener(GvDataType dataType) {
                 mAdded = FactoryGvData.newList(dataType);
             }
 
             //TODO make type safe
             @Override
-            public boolean onGvDataAdd(GvDataList.GvData data) {
+            public boolean onGvDataAdd(GvData data) {
                 boolean success = addData(data);
                 if (success) mAdded.add(data);
                 return success;
@@ -170,7 +170,7 @@ public class EditScreen {
 
             @Override
             public void onGvDataCancel() {
-                for (GvDataList.GvData added : mAdded) {
+                for (GvData added : mAdded) {
                     getDataBuilder().delete(added);
                 }
             }
@@ -222,7 +222,7 @@ public class EditScreen {
         }
 
         @Override
-        public void onGridItemClick(GvDataList.GvData item, View v) {
+        public void onGridItemClick(GvData item, View v) {
             Bundle args = new Bundle();
             GvDataPacker.packItem(GvDataPacker.CurrentNewDatum.CURRENT, item, args);
 
@@ -244,18 +244,18 @@ public class EditScreen {
         }
 
         //TODO make type safe
-        protected void editData(GvDataList.GvData oldDatum, GvDataList.GvData newDatum) {
+        protected void editData(GvData oldDatum, GvData newDatum) {
             getDataBuilder().replace(oldDatum, newDatum);
             getReviewView().updateUi();
         }
 
         //TODO make type safe
-        protected void deleteData(GvDataList.GvData datum) {
+        protected void deleteData(GvData datum) {
             getDataBuilder().delete(datum);
             getReviewView().updateUi();
         }
 
-        protected void showAlertDialog(String alert, int requestCode, GvDataList.GvData item) {
+        protected void showAlertDialog(String alert, int requestCode, GvData item) {
             Bundle args = new Bundle();
             if (item != null) {
                 GvDataPacker.packItem(GvDataPacker.CurrentNewDatum.CURRENT, item, args);
@@ -285,12 +285,12 @@ public class EditScreen {
                 DialogAlertFragment.DialogAlertListener {
 
             @Override
-            public void onGvDataDelete(GvDataList.GvData data) {
+            public void onGvDataDelete(GvData data) {
                 deleteData(data);
             }
 
             @Override
-            public void onGvDataEdit(GvDataList.GvData oldDatum, GvDataList.GvData newDatum) {
+            public void onGvDataEdit(GvData oldDatum, GvData newDatum) {
                 editData(oldDatum, newDatum);
             }
 
@@ -307,7 +307,7 @@ public class EditScreen {
             @Override
             public void onActivityResult(int requestCode, int resultCode, Intent data) {
                 if (requestCode == getLaunchableRequestCode() && data != null) {
-                    GvDataList.GvData oldDatum = GvDataPacker.unpackItem(GvDataPacker
+                    GvData oldDatum = GvDataPacker.unpackItem(GvDataPacker
                             .CurrentNewDatum.CURRENT, data);
                     if (ActivityResultCode.get(resultCode) == ActivityResultCode.DONE) {
                         onGvDataEdit(oldDatum, GvDataPacker.unpackItem(GvDataPacker

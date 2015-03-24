@@ -19,11 +19,11 @@ public class GvUrlList extends GvDataList<GvUrlList.GvUrl> {
     public static final GvDataType TYPE = new GvDataType("link");
 
     public GvUrlList() {
-        super(TYPE);
+        super(GvUrl.class, TYPE);
     }
 
     /**
-     * {@link GvDataList.GvData} version of: {@link com.chdryra
+     * {@link GvData} version of: {@link com.chdryra
      * .android.reviewer.MdUrlList.MdUrl}
      * <p>
      * Methods for getting full URL and shortened more readable version.

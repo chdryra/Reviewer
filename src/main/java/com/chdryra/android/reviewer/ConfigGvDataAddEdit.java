@@ -21,7 +21,7 @@ import java.util.HashMap;
  */
 public final class ConfigGvDataAddEdit {
     private static ConfigGvDataAddEdit sConfig;
-    private final HashMap<GvDataList.GvDataType, AddEditUis> mMap = new HashMap<>();
+    private final HashMap<GvDataType, AddEditUis> mMap = new HashMap<>();
 
     private ConfigGvDataAddEdit() {
         mMap.put(GvTagList.TYPE, new AddEditUis(AddTag.class, EditTag.class));
@@ -34,11 +34,11 @@ public final class ConfigGvDataAddEdit {
                 ActivityEditUrlBrowser.class));
     }
 
-    public static Class<? extends LaunchableUi> getAddClass(GvDataList.GvDataType dataType) {
+    public static Class<? extends LaunchableUi> getAddClass(GvDataType dataType) {
         return get().mMap.get(dataType).getAddClass();
     }
 
-    public static Class<? extends LaunchableUi> getEditClass(GvDataList.GvDataType dataType) {
+    public static Class<? extends LaunchableUi> getEditClass(GvDataType dataType) {
         return get().mMap.get(dataType).getEditClass();
     }
 

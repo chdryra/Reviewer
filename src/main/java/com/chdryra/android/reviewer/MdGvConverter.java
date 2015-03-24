@@ -200,7 +200,7 @@ public class MdGvConverter {
         return list;
     }
 
-    public static GvDataList convert(GvDataList.GvDataType dataType, MdDataList data) {
+    public static GvDataList convert(GvDataType dataType, MdDataList data) {
         if (dataType == GvCommentList.TYPE) {
             return MdGvConverter.convert((MdCommentList) data);
         } else if (dataType == GvFactList.TYPE) {
@@ -217,7 +217,7 @@ public class MdGvConverter {
     }
 
     public static GvDataList copy(GvDataList data) {
-        GvDataList.GvDataType dataType = data.getGvDataType();
+        GvDataType dataType = data.getGvDataType();
         if (dataType == GvCommentList.TYPE) {
             return MdGvConverter.copy((GvCommentList) data);
         } else if (dataType == GvFactList.TYPE) {

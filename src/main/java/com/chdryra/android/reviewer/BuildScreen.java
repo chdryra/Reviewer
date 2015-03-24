@@ -90,16 +90,17 @@ public class BuildScreen {
         }
 
         @Override
-        public void onGridItemClick(GvDataList.GvData item, View v) {
+        public void onGridItemClick(GvData item, View v) {
             executeIntent((GvBuildReviewList.GvBuildReview) item, true);
         }
 
         @Override
-        public void onGridItemLongClick(GvDataList.GvData item, View v) {
+        public void onGridItemLongClick(GvData item, View v) {
             executeIntent((GvBuildReviewList.GvBuildReview) item, false);
         }
 
-        private void executeIntent(GvBuildReviewList.GvBuildReview gridCell, boolean quickDialog) {
+        private void executeIntent(GvBuildReviewList.GvBuildReview gridCell,
+                boolean quickDialog) {
             if (quickDialog && gridCell.getDataSize() == 0) {
                 showQuickDialog(gridCell.getConfig());
             } else {
@@ -114,8 +115,7 @@ public class BuildScreen {
         private void startActivity(ConfigGvDataUi.Config config) {
             Intent i = new Intent(getActivity(), ActivityReviewView.class);
             Administrator admin = Administrator.get(getActivity());
-            admin.packView(EditScreen.newScreen(getActivity(),
-                    config.getGvDataType()), i);
+            admin.packView(EditScreen.newScreen(getActivity(), config.getGvDataType()), i);
 
             mListener.startActivity(i);
         }

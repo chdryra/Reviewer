@@ -59,7 +59,6 @@ public class FactoryReviewTest extends TestCase {
         MdGvEquality.check(mReview.getImages(), mImages);
         MdGvEquality.check(mReview.getFacts(), mFacts);
         MdGvEquality.check(mReview.getLocations(), mLocations);
-        MdGvEquality.check(mReview.getUrls(), mUrls);
     }
 
     @SmallTest
@@ -74,7 +73,6 @@ public class FactoryReviewTest extends TestCase {
         MdGvEquality.check(node.getImages(), mImages);
         MdGvEquality.check(node.getFacts(), mFacts);
         MdGvEquality.check(node.getLocations(), mLocations);
-        MdGvEquality.check(node.getUrls(), mUrls);
 
         assertEquals(mReview, node.getReview());
         assertEquals(mReview.getId(), node.getId());
@@ -99,7 +97,6 @@ public class FactoryReviewTest extends TestCase {
         MdGvEquality.check(tree.getImages(), mImages);
         MdGvEquality.check(tree.getFacts(), mFacts);
         MdGvEquality.check(tree.getLocations(), mLocations);
-        MdGvEquality.check(tree.getUrls(), mUrls);
 
         assertEquals(mReview, tree.getReview());
         assertEquals(mReview.getId(), tree.getId());
@@ -133,6 +130,6 @@ public class FactoryReviewTest extends TestCase {
         mUrls = GvDataMocker.newUrlList(NUM);
 
         mReview = FactoryReview.createReviewUser(mAuthor, mDate, mSubject, mRating,
-                mComments, mImages, mFacts, mLocations, mUrls);
+                mComments, mImages, mFacts, mLocations);
     }
 }

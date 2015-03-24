@@ -34,11 +34,11 @@ import com.chdryra.android.mygenerallibrary.DialogCancelDeleteDoneFragment;
  * </ul>
  * </p>
  */
-public abstract class DialogEditGvData<T extends GvDataList.GvData>
+public abstract class DialogEditGvData<T extends GvData>
         extends DialogCancelDeleteDoneFragment implements GvDataEditLayout.GvDataEditor,
         LaunchableUi {
 
-    private final GvDataList.GvDataType mDataType;
+    private final GvDataType            mDataType;
     private final GvDataPacker<T>       mPacker;
     private final GvDataEditLayout<T>   mLayout;
     private       T                     mDatum;
@@ -47,9 +47,9 @@ public abstract class DialogEditGvData<T extends GvDataList.GvData>
     /**
      * Provides a callback that can be called delete or done buttons are pressed.
      *
-     * @param <T>:{@link GvDataList.GvData} type
+     * @param <T>:{@link GvData} type
      */
-    public interface GvDataEditListener<T extends GvDataList.GvData> {
+    public interface GvDataEditListener<T extends GvData> {
         void onGvDataDelete(T data);
 
         void onGvDataEdit(T oldDatum, T newDatum);
@@ -76,7 +76,7 @@ public abstract class DialogEditGvData<T extends GvDataList.GvData>
         setDeleteWhatTitle(title);
     }
 
-    public GvDataList.GvDataType getGvDataType() {
+    public GvDataType getGvDataType() {
         return mDataType;
     }
 

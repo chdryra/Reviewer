@@ -28,7 +28,7 @@ public class GvReviewList extends GvDataList<GvReviewList.GvReviewOverview> {
     public static final GvDataType TYPE = new GvDataType("feed");
 
     public GvReviewList() {
-        super(TYPE);
+        super(GvReviewOverview.class, TYPE);
     }
 
     public void add(String id, String author, Date publishDate, String subject, float rating,
@@ -65,10 +65,10 @@ public class GvReviewList extends GvDataList<GvReviewList.GvReviewOverview> {
     }
 
     /**
-     * {@link GvDataList.GvData} version of: {@link Review}
+     * {@link GvData} version of: {@link Review}
      * {@link ViewHolder): {@link VhFeed }
      */
-    public static class GvReviewOverview implements GvDataList.GvData {
+    public static class GvReviewOverview implements GvData {
         public static final Parcelable.Creator<GvReviewOverview> CREATOR = new Parcelable
                 .Creator<GvReviewOverview>() {
             public GvReviewOverview createFromParcel(Parcel in) {

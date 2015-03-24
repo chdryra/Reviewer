@@ -22,7 +22,7 @@ public class GvCommentList extends GvDataList<GvCommentList.GvComment> {
     public static final GvDataType TYPE = new GvDataType("comment");
 
     public GvCommentList() {
-        super(TYPE);
+        super(GvComment.class, TYPE);
     }
 
     public GvCommentList getSplitComments() {
@@ -69,14 +69,14 @@ public class GvCommentList extends GvDataList<GvCommentList.GvComment> {
     }
 
     /**
-     * {@link GvDataList.GvData} version of: {@link com.chdryra
+     * {@link GvData} version of: {@link com.chdryra
      * .android.reviewer.MdCommentList.MdComment}
      * {@link ViewHolder}: {@link VhComment}
      * <p>
      * Methods for getting the comment headline and for splitting and unsplitting comments.
      * </p>
      */
-    public static class GvComment implements GvDataList.GvData, DataComment {
+    public static class GvComment implements GvData, DataComment {
         public static final Parcelable.Creator<GvComment> CREATOR = new Parcelable
                 .Creator<GvComment>() {
             public GvComment createFromParcel(Parcel in) {

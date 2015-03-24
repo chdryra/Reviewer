@@ -27,7 +27,7 @@ public class EditScreenComments {
         }
 
         @Override
-        protected boolean addData(GvDataList.GvData data) {
+        protected boolean addData(GvData data) {
             boolean added = super.addData(data);
             if (getGridData().size() == 1) {
                 GvCommentList.GvComment comment = (GvCommentList.GvComment) data;
@@ -47,12 +47,12 @@ public class EditScreenComments {
         }
 
         @Override
-        public void onGridItemClick(GvDataList.GvData item, View v) {
+        public void onGridItemClick(GvData item, View v) {
             super.onGridItemClick(((GvCommentList.GvComment) item).getUnSplitComment(), v);
         }
 
         @Override
-        protected void deleteData(GvDataList.GvData datum) {
+        protected void deleteData(GvData datum) {
             super.deleteData(datum);
             GvCommentList.GvComment comment = (GvCommentList.GvComment) datum;
             if (comment.isHeadline()) {
@@ -82,7 +82,7 @@ public class EditScreenComments {
         }
 
         @Override
-        public void onGridItemLongClick(GvDataList.GvData item, View v) {
+        public void onGridItemLongClick(GvData item, View v) {
             GvCommentList.GvComment comment = (GvCommentList.GvComment) item;
             if (comment.isHeadline()) {
                 super.onGridItemLongClick(item, v);

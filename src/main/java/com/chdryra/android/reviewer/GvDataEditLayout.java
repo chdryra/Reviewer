@@ -22,17 +22,17 @@ import android.widget.EditText;
 
 /**
  * A hotchpotch of methods required in order to use the same xml layout for both adding and
- * editing {@link com.chdryra.android.reviewer.GvDataList.GvData}
+ * editing {@link GvData}
  *
- * @param <T>: {@link com.chdryra.android.reviewer.GvDataList.GvData} type
+ * @param <T>: {@link GvData} type
  */
-public abstract class GvDataEditLayout<T extends GvDataList.GvData> {
+public abstract class GvDataEditLayout<T extends GvData> {
     private final LayoutHolder         mHolder;
     private final GvDataEditManager<T> mViewManager;
     private final T                    mNullingItem;
     private final int                  mEditTextId;
 
-    private interface GvDataEditManager<T extends GvDataList.GvData> {
+    private interface GvDataEditManager<T extends GvData> {
         void initialise(T data);
 
         void onAddEdit(T data);

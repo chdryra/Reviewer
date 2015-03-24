@@ -288,13 +288,13 @@ public class FragmentReviewView extends Fragment {
         final ReviewViewAction.GridItemAction action = mReviewView.getGridItemAction();
         mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-                action.onGridItemClick((GvDataList.GvData) parent.getItemAtPosition(position), v);
+                action.onGridItemClick((GvData) parent.getItemAtPosition(position), v);
             }
         });
 
         mGridView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             public boolean onItemLongClick(AdapterView<?> parent, View v, int position, long id) {
-                action.onGridItemLongClick((GvDataList.GvData) parent.getItemAtPosition(position)
+                action.onGridItemLongClick((GvData) parent.getItemAtPosition(position)
                         , v);
                 return true;
             }
@@ -306,7 +306,7 @@ public class FragmentReviewView extends Fragment {
     }
 
     ViewHolderAdapter getGridViewCellAdapter() {
-        return FactoryGridCellAdapter.newAdapter(getActivity(), mReviewView.getGridViewData(),
+        return new ViewHolderAdapter(getActivity(), mReviewView.getGridViewData(),
                 getGridCellWidth(), getGridCellHeight());
     }
 

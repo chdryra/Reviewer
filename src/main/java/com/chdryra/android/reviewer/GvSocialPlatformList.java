@@ -28,11 +28,11 @@ public class GvSocialPlatformList extends GvDataList<GvSocialPlatformList.GvSoci
 
     //For testing
     public GvSocialPlatformList() {
-        super(TYPE);
+        super(GvSocialPlatform.class, TYPE);
     }
 
     private GvSocialPlatformList(Context context) {
-        super(TYPE);
+        super(GvSocialPlatform.class, TYPE);
         for (SocialPlatform platform : SocialPlatformList.getList(context)) {
             add(new GvSocialPlatform(platform.getName(), platform.getFollowers()));
         }

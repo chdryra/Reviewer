@@ -20,9 +20,9 @@ import android.os.Bundle;
 /**
  * Takes care of packing and unpacking data into Bundles/Intents between different fragments.
  *
- * @param <T>: {@link GvDataList.GvData} type.
+ * @param <T>: {@link GvData} type.
  */
-public class GvDataPacker<T extends GvDataList.GvData> {
+public class GvDataPacker<T extends GvData> {
     private static final String DATUM_CURRENT = "com.chdryra.android.reviewer.data_current";
     private static final String DATUM_NEW     = "com.chdryra.android.reviewer.data_new";
 
@@ -41,21 +41,21 @@ public class GvDataPacker<T extends GvDataList.GvData> {
         }
     }
 
-    public static void packItem(CurrentNewDatum currentNew, GvDataList.GvData item, Bundle args) {
+    public static void packItem(CurrentNewDatum currentNew, GvData item, Bundle args) {
         if (item != null && !item.isValidForDisplay()) item = null;
         args.putParcelable(currentNew.getPackingTag(), item);
     }
 
-    public static void packItem(CurrentNewDatum currentNew, GvDataList.GvData item, Intent data) {
+    public static void packItem(CurrentNewDatum currentNew, GvData item, Intent data) {
         if (item != null && !item.isValidForDisplay()) item = null;
         data.putExtra(currentNew.getPackingTag(), item);
     }
 
-    public static GvDataList.GvData unpackItem(CurrentNewDatum currentNew, Bundle args) {
+    public static GvData unpackItem(CurrentNewDatum currentNew, Bundle args) {
         return args.getParcelable(currentNew.getPackingTag());
     }
 
-    public static GvDataList.GvData unpackItem(CurrentNewDatum currentNew, Intent data) {
+    public static GvData unpackItem(CurrentNewDatum currentNew, Intent data) {
         return data.getParcelableExtra(currentNew.getPackingTag());
     }
 

@@ -21,9 +21,9 @@ import android.widget.Toast;
 /**
  * Handles user inputs of review data. Checks validity of data and compares user input to current
  *
- * @param <T>: {@link GvDataList.GvData} type.
+ * @param <T>: {@link GvData} type.
  */
-public class GvDataHandler<T extends GvDataList.GvData> {
+public class GvDataHandler<T extends GvData> {
     private final GvDataList<T>        mData;
     private final AddConstraint<T>     mAddConstraint;
     private final ReplaceConstraint<T> mReplaceConstraint;
@@ -81,13 +81,13 @@ public class GvDataHandler<T extends GvDataList.GvData> {
         return datum != null && datum.isValidForDisplay();
     }
 
-    public static class AddConstraint<G extends GvDataList.GvData> {
+    public static class AddConstraint<G extends GvData> {
         public boolean passes(GvDataList<G> data, G datum) {
             return !data.contains(datum);
         }
     }
 
-    public static class ReplaceConstraint<G extends GvDataList.GvData> {
+    public static class ReplaceConstraint<G extends GvData> {
         public boolean passes(GvDataList<G> data, G oldDatum, G newDatum) {
             return !data.contains(newDatum);
         }

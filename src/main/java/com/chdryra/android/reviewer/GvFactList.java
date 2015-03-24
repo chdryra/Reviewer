@@ -19,7 +19,7 @@ public class GvFactList extends GvDataList<GvFactList.GvFact> {
     public static final GvDataType TYPE = new GvDataType("fact");
 
     public GvFactList() {
-        super(TYPE);
+        super(GvFact.class, TYPE);
     }
 
     public GvUrlList getUrls() {
@@ -48,7 +48,7 @@ public class GvFactList extends GvDataList<GvFactList.GvFact> {
     }
 
     /**
-     * {@link GvDataList.GvData} version of: {@link com.chdryra
+     * {@link GvData} version of: {@link com.chdryra
      * .android.reviewer.MdFactList.MdFact}
      * {@link ViewHolder}: {@link VhFact}
      */

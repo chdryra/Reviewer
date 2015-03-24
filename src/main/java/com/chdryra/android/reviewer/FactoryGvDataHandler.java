@@ -14,7 +14,7 @@ package com.chdryra.android.reviewer;
  * Email: rizwan.choudrey@gmail.com
  */
 public class FactoryGvDataHandler {
-    public static <T extends GvDataList.GvData> GvDataHandler<T> newHandler
+    public static <T extends GvData> GvDataHandler<T> newHandler
             (GvDataList<T> data) {
         if (data.getGvDataType() == GvImageList.TYPE) {
             return new GvDataHandler<>(data, new GvDataHandler.AddConstraint<T>() {
@@ -44,19 +44,19 @@ public class FactoryGvDataHandler {
         }
     }
 
-    private static <T extends GvDataList.GvData> boolean imageAdd(GvDataList<T> data, T datum) {
+    private static <T extends GvData> boolean imageAdd(GvDataList<T> data, T datum) {
         GvImageList.GvImage image = (GvImageList.GvImage) datum;
         GvImageList list = (GvImageList) data;
         return (image != null && list != null && !list.contains(image.getBitmap()));
     }
 
-    private static <T extends GvDataList.GvData> boolean childAdd(GvDataList<T> data, T datum) {
+    private static <T extends GvData> boolean childAdd(GvDataList<T> data, T datum) {
         GvChildList.GvChildReview child = (GvChildList.GvChildReview) datum;
         GvChildList list = (GvChildList) data;
         return (child != null && list != null && !list.contains(child.getSubject()));
     }
 
-    private static <T extends GvDataList.GvData> boolean childReplace(GvDataList<T> data,
+    private static <T extends GvData> boolean childReplace(GvDataList<T> data,
             T oldDatum, T newDatum) {
         GvChildList.GvChildReview oldChild = (GvChildList.GvChildReview) oldDatum;
         GvChildList.GvChildReview newChild = (GvChildList.GvChildReview) newDatum;

@@ -48,7 +48,7 @@ public class ShareScreen {
         }
 
         @Override
-        public void onGridItemClick(GvDataList.GvData item, View v) {
+        public void onGridItemClick(GvData item, View v) {
             GvSocialPlatformList.GvSocialPlatform platform =
                     (GvSocialPlatformList.GvSocialPlatform) item;
 

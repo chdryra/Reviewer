@@ -22,7 +22,7 @@ public class GvChildList extends GvDataList<GvChildList.GvChildReview> {
     public static final GvDataType TYPE = new GvDataType("criterion", "criteria");
 
     public GvChildList() {
-        super(TYPE);
+        super(GvChildReview.class, TYPE);
     }
 
     public boolean contains(String subject) {
@@ -64,11 +64,11 @@ public class GvChildList extends GvDataList<GvChildList.GvChildReview> {
 
 
     /**
-     * {@link GvDataList.GvData} version of: no equivalent as used
+     * {@link GvData} version of: no equivalent as used
      * for review children (sub-reviews).
      * {@link ViewHolder}: {@link VhChild}
      */
-    public static class GvChildReview implements GvDataList.GvData {
+    public static class GvChildReview implements GvData {
         public static final Parcelable.Creator<GvChildReview> CREATOR = new Parcelable
                 .Creator<GvChildReview>() {
             public GvChildReview createFromParcel(Parcel in) {

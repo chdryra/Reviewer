@@ -48,7 +48,7 @@ public class EditScreenFacts {
         }
 
         @Override
-        public void onGridItemLongClick(GvDataList.GvData item, View v) {
+        public void onGridItemLongClick(GvData item, View v) {
             GvFactList.GvFact fact = (GvFactList.GvFact) item;
             if (!fact.isUrl()) {
                 super.onGridItemLongClick(item, v);

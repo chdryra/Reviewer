@@ -142,10 +142,10 @@ public class ReviewViewAction {
 
     public static class GridItemAction extends ReviewViewAction {
 
-        public void onGridItemClick(GvDataList.GvData item, View v) {
+        public void onGridItemClick(GvData item, View v) {
         }
 
-        public void onGridItemLongClick(GvDataList.GvData item, View v) {
+        public void onGridItemLongClick(GvData item, View v) {
             onGridItemClick(item, v);
         }
     }

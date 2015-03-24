@@ -27,7 +27,7 @@ public class GvImageList extends GvDataList<GvImageList.GvImage> {
     public static final GvDataType TYPE = new GvDataType("image");
 
     public GvImageList() {
-        super(TYPE);
+        super(GvImage.class, TYPE);
     }
 
     public boolean contains(Bitmap bitmap) {
@@ -87,11 +87,11 @@ public class GvImageList extends GvDataList<GvImageList.GvImage> {
     }
 
     /**
-     * {@link GvDataList.GvData} version of: {@link com.chdryra
+     * {@link GvData} version of: {@link com.chdryra
      * .android.reviewer.MdImageList.MdImage}
      * {@link ViewHolder}: {@link VhImage}
      */
-    public static class GvImage implements GvDataList.GvData, DataImage {
+    public static class GvImage implements GvData, DataImage {
         public static final Parcelable.Creator<GvImage> CREATOR = new Parcelable
                 .Creator<GvImage>() {
             public GvImage createFromParcel(Parcel in) {

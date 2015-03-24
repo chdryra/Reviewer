@@ -21,11 +21,11 @@ import java.util.HashMap;
  */
 public class FactoryGvDataViewLayout {
     private static final String TAG = "FactoryGvDataViewHolder";
-    private static FactoryGvDataViewLayout sFactory;
-    private final  HashMap<GvDataList.GvDataType, Class<? extends GvDataEditLayout<? extends
-            GvDataList.GvData>>>           mMapAdd;
-    private final  HashMap<GvDataList.GvDataType, Class<? extends GvDataEditLayout<? extends
-            GvDataList.GvData>>>           mMapEdit;
+    private static FactoryGvDataViewLayout
+            sFactory;
+    private final  HashMap<GvDataType, Class<? extends GvDataEditLayout<? extends GvData>>> mMapAdd;
+    private final  HashMap<GvDataType, Class<? extends GvDataEditLayout<? extends GvData>>>
+                                                                                            mMapEdit;
 
     private FactoryGvDataViewLayout() {
         mMapAdd = new HashMap<>();
@@ -41,8 +41,8 @@ public class FactoryGvDataViewLayout {
         mMapEdit.put(GvLocationList.TYPE, LayoutLocationEdit.class);
     }
 
-    static <T extends GvDataList.GvData> GvDataEditLayout<T> newLayout
-            (GvDataList.GvDataType dataType, GvDataEditLayout.GvDataAdder adder) {
+    static <T extends GvData> GvDataEditLayout<T> newLayout
+            (GvDataType dataType, GvDataEditLayout.GvDataAdder adder) {
         if (sFactory == null) sFactory = new FactoryGvDataViewLayout();
         try {
             Constructor ctor = sFactory.mMapAdd.get(dataType)
@@ -68,8 +68,8 @@ public class FactoryGvDataViewLayout {
                 + dataType.getDatumName());
     }
 
-    static <T extends GvDataList.GvData> GvDataEditLayout<T> newLayout
-            (GvDataList.GvDataType dataType, GvDataEditLayout.GvDataEditor editor) {
+    static <T extends GvData> GvDataEditLayout<T> newLayout
+            (GvDataType dataType, GvDataEditLayout.GvDataEditor editor) {
         if (sFactory == null) sFactory = new FactoryGvDataViewLayout();
         try {
             Constructor ctor = sFactory.mMapEdit.get(dataType)

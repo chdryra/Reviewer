@@ -37,11 +37,11 @@ import com.chdryra.android.mygenerallibrary.DialogCancelAddDoneFragment;
  * ControllerReviewEditable packed in the arguments by the Administrator.
  * </p>
  */
-public abstract class DialogAddGvData<T extends GvDataList.GvData> extends
+public abstract class DialogAddGvData<T extends GvData> extends
         DialogCancelAddDoneFragment implements GvDataEditLayout.GvDataAdder, LaunchableUi {
     public static final String QUICK_SET = "com.chdryra.android.reviewer.dialog_quick_mode";
 
-    private final GvDataList.GvDataType        mDataType;
+    private final GvDataType                   mDataType;
     private final GvDataEditLayout<T>          mLayout;
     private       ReviewBuilder.DataBuilder<T> mBuilder;
     private       GvDataAddListener<T>         mAddListener;
@@ -51,7 +51,7 @@ public abstract class DialogAddGvData<T extends GvDataList.GvData> extends
     /**
      * Provides a callback for when the add button is pressed
      */
-    public interface GvDataAddListener<T extends GvDataList.GvData> {
+    public interface GvDataAddListener<T extends GvData> {
         boolean onGvDataAdd(T data);
 
         void onGvDataCancel();
@@ -80,7 +80,7 @@ public abstract class DialogAddGvData<T extends GvDataList.GvData> extends
         getDialog().setTitle(title);
     }
 
-    public GvDataList.GvDataType getGvDataType() {
+    public GvDataType getGvDataType() {
         return mDataType;
     }
 
