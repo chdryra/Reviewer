@@ -10,7 +10,9 @@ package com.chdryra.android.reviewer.test.TestUtils;
 
 import com.chdryra.android.reviewer.GvChildList;
 import com.chdryra.android.reviewer.GvCommentList;
+import com.chdryra.android.reviewer.GvData;
 import com.chdryra.android.reviewer.GvDataList;
+import com.chdryra.android.reviewer.GvDataType;
 import com.chdryra.android.reviewer.GvFactList;
 import com.chdryra.android.reviewer.GvImageList;
 import com.chdryra.android.reviewer.GvLocationList;
@@ -38,16 +40,16 @@ import java.util.Random;
  * Email: rizwan.choudrey@gmail.com
  */
 public class GvDataMocker {
-    public static final  GvDataList.GvDataType[] DATATYPES        = {GvCommentList.TYPE,
+    public static final  GvDataType[] DATATYPES        = {GvCommentList.TYPE,
             GvFactList.TYPE, GvImageList.TYPE, GvLocationList.TYPE, GvUrlList.TYPE, GvTagList.TYPE,
             GvChildList.TYPE};
-    public static final  GvDataList.GvDataType[] TYPES            = ArrayUtils.addAll(DATATYPES,
+    public static final  GvDataType[] TYPES            = ArrayUtils.addAll(DATATYPES,
             GvReviewList.TYPE);
-    private static final RandomString            STRING_GENERATOR = new RandomString();
-    private static final Random                  RAND             = new Random();
+    private static final RandomString STRING_GENERATOR = new RandomString();
+    private static final Random       RAND             = new Random();
 
     //Just a convenient method even if it uses GvType.....
-    public static GvDataList getData(GvDataList.GvDataType dataType, int size) {
+    public static GvDataList getData(GvDataType dataType, int size) {
         if (dataType == GvCommentList.TYPE) {
             return newCommentList(size);
         } else if (dataType == GvFactList.TYPE) {
@@ -70,7 +72,7 @@ public class GvDataMocker {
     }
 
     //Just a convenient method even if it uses GvType.....
-    public static GvDataList.GvData getDatum(GvDataList.GvDataType dataType) {
+    public static GvData getDatum(GvDataType dataType) {
         if (dataType == GvCommentList.TYPE) {
             return newComment();
         } else if (dataType == GvFactList.TYPE) {

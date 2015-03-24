@@ -21,7 +21,7 @@ import com.chdryra.android.mygenerallibrary.DialogCancelDeleteDoneFragment;
 import com.chdryra.android.mygenerallibrary.DialogDeleteConfirm;
 import com.chdryra.android.reviewer.ActivityFeed;
 import com.chdryra.android.reviewer.DialogEditGvData;
-import com.chdryra.android.reviewer.GvDataList;
+import com.chdryra.android.reviewer.GvData;
 import com.chdryra.android.reviewer.GvDataPacker;
 import com.chdryra.android.reviewer.LauncherUi;
 import com.chdryra.android.reviewer.test.TestUtils.DialogEditListener;
@@ -34,7 +34,7 @@ import com.robotium.solo.Solo;
  * On: 07/01/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public abstract class DialogEditGvDataTest<T extends GvDataList.GvData> extends
+public abstract class DialogEditGvDataTest<T extends GvData> extends
         ActivityInstrumentationTestCase2<ActivityFeed> {
     private static final int    REQUEST_CODE = 1976;
     private static final String DIALOG_TAG   = "TestEditDialog";
@@ -44,7 +44,7 @@ public abstract class DialogEditGvDataTest<T extends GvDataList.GvData> extends
     protected     DialogEditListener<T>             mListener;
     protected     Activity                          mActivity;
 
-    protected abstract GvDataList.GvData getDataShown();
+    protected abstract GvData getDataShown();
 
     protected DialogEditGvDataTest(Class<? extends DialogEditGvData> dialogClass) {
         super(ActivityFeed.class);
@@ -76,7 +76,7 @@ public abstract class DialogEditGvDataTest<T extends GvDataList.GvData> extends
 
     @SmallTest
     public void testDoneButton() {
-        final GvDataList.GvData datumOld = launchDialogAndTestShowing();
+        final GvData datumOld = launchDialogAndTestShowing();
 
         final DialogEditListener<T> listener = mListener;
         final DialogCancelDeleteDoneFragment dialog = mDialog;
@@ -84,7 +84,7 @@ public abstract class DialogEditGvDataTest<T extends GvDataList.GvData> extends
         assertNull(listener.getDataNew());
         assertNull(listener.getDataOld());
 
-        final GvDataList.GvData datumNew = editDataAndTest();
+        final GvData datumNew = editDataAndTest();
 
         assertNull(listener.getDataNew());
         assertNull(listener.getDataOld());
@@ -122,12 +122,12 @@ public abstract class DialogEditGvDataTest<T extends GvDataList.GvData> extends
         testDeleteButtonNoEdit(true, true);
     }
 
-    protected void enterData(GvDataList.GvData datum) {
+    protected void enterData(GvData datum) {
         SoloDataEntry.enter(mSolo, datum);
     }
 
     protected void testDeleteButtonNoEdit(final boolean confirmDelete, final boolean doEdit) {
-        final GvDataList.GvData datumOld = launchDialogAndTestShowing();
+        final GvData datumOld = launchDialogAndTestShowing();
 
         final DialogEditListener<T> listener = mListener;
         final DialogCancelDeleteDoneFragment dialog = mDialog;
@@ -186,12 +186,12 @@ public abstract class DialogEditGvDataTest<T extends GvDataList.GvData> extends
         mSolo = new Solo(getInstrumentation(), mActivity);
     }
 
-    protected GvDataList.GvData newDatum() {
+    protected GvData newDatum() {
         return GvDataMocker.getDatum(mDialog.getGvDataType());
     }
 
-    protected GvDataList.GvData launchDialogAndTestShowing() {
-        final GvDataList.GvData datum = newDatum();
+    protected GvData launchDialogAndTestShowing() {
+        final GvData datum = newDatum();
         Bundle args = new Bundle();
         GvDataPacker.packItem(GvDataPacker.CurrentNewDatum.CURRENT, datum, args);
 
@@ -213,7 +213,7 @@ public abstract class DialogEditGvDataTest<T extends GvDataList.GvData> extends
         return datum;
     }
 
-    protected GvDataList.GvData getNewDatum() {
+    protected GvData getNewDatum() {
         return GvDataMocker.getDatum(mDialog.getGvDataType());
     }
 
@@ -225,9 +225,9 @@ public abstract class DialogEditGvDataTest<T extends GvDataList.GvData> extends
         return dialogConfirm != null && dialogConfirm.isShowing();
     }
 
-    private GvDataList.GvData editDataAndTest() {
-        GvDataList.GvData currentDatum = getDataShown();
-        GvDataList.GvData newDatum = getNewDatum();
+    private GvData editDataAndTest() {
+        GvData currentDatum = getDataShown();
+        GvData newDatum = getNewDatum();
 
         enterData(newDatum);
 

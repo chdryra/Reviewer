@@ -13,7 +13,7 @@ import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.ConfigGvDataAddEdit;
 import com.chdryra.android.reviewer.ConfigGvDataUi;
-import com.chdryra.android.reviewer.GvDataList;
+import com.chdryra.android.reviewer.GvDataType;
 import com.chdryra.android.reviewer.GvImageList;
 import com.chdryra.android.reviewer.LaunchableUi;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
@@ -34,12 +34,12 @@ import java.util.Set;
  * in the manifest.
  */
 public class ConfigGvDataUiTest extends AndroidTestCase {
-    private static final GvDataList.GvDataType[] DATATYPES = GvDataMocker.DATATYPES;
-    private static final GvDataList.GvDataType[] NULLADDS  = {GvImageList.TYPE};
+    private static final GvDataType[] DATATYPES = GvDataMocker.DATATYPES;
+    private static final GvDataType[] NULLADDS  = {GvImageList.TYPE};
 
     @SmallTest
     public void testGetConfigAndConfigClass() {
-        for (GvDataList.GvDataType dataType : DATATYPES) {
+        for (GvDataType dataType : DATATYPES) {
             ConfigGvDataUi.Config config = ConfigGvDataUi.getConfig(dataType);
             assertNotNull(config);
             assertNotNull(config.getAdderConfig());
@@ -51,7 +51,7 @@ public class ConfigGvDataUiTest extends AndroidTestCase {
     public void testReviewDataUIConfigs() {
         ArrayList<Integer> requestCodes = new ArrayList<Integer>();
         ArrayList<String> tags = new ArrayList<String>();
-        for (GvDataList.GvDataType dataType : DATATYPES) {
+        for (GvDataType dataType : DATATYPES) {
             ConfigGvDataUi.Config config = ConfigGvDataUi.getConfig(dataType);
             assertNotNull(config);
 
@@ -103,7 +103,7 @@ public class ConfigGvDataUiTest extends AndroidTestCase {
 
     @SmallTest
     public void testGetReviewDataUI() {
-        for (GvDataList.GvDataType dataType : DATATYPES) {
+        for (GvDataType dataType : DATATYPES) {
             ConfigGvDataUi.Config config = ConfigGvDataUi.getConfig(dataType);
             assertNotNull(config);
 

@@ -10,7 +10,7 @@ package com.chdryra.android.reviewer.test;
 
 import com.chdryra.android.reviewer.ConfigGvDataAddEdit;
 import com.chdryra.android.reviewer.GvCommentList;
-import com.chdryra.android.reviewer.GvDataList;
+import com.chdryra.android.reviewer.GvData;
 
 /**
  * Created by: Rizwan Choudrey
@@ -25,7 +25,7 @@ public class DialogEditCommentTest extends
     }
 
     @Override
-    protected GvDataList.GvData getDataShown() {
+    protected GvData getDataShown() {
         return new GvCommentList.GvComment(mSolo.getEditText(0).getText().toString());
     }
 }

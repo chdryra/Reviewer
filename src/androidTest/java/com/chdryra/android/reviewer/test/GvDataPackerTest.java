@@ -11,8 +11,9 @@ package com.chdryra.android.reviewer.test;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.chdryra.android.reviewer.GvDataList;
+import com.chdryra.android.reviewer.GvData;
 import com.chdryra.android.reviewer.GvDataPacker;
+import com.chdryra.android.reviewer.GvDataType;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
 
 import junit.framework.TestCase;
@@ -23,39 +24,39 @@ import junit.framework.TestCase;
  * Email: rizwan.choudrey@gmail.com
  */
 public class GvDataPackerTest extends TestCase {
-    private static final GvDataList.GvDataType[] TYPES = GvDataMocker.TYPES;
+    private static final GvDataType[] TYPES = GvDataMocker.TYPES;
 
     public void testPackItemUnpackItemBundleStatic() {
-        for (GvDataList.GvDataType dataType : TYPES) {
+        for (GvDataType dataType : TYPES) {
             testPackItemUnpackItemStatic(dataType, true, false);
         }
     }
 
     public void testPackItemUnpackItemIntentStatic() {
-        for (GvDataList.GvDataType dataType : TYPES) {
+        for (GvDataType dataType : TYPES) {
             testPackItemUnpackItemStatic(dataType, false, false);
         }
     }
 
     public void testPackItemUnpackItemBundle() {
-        for (GvDataList.GvDataType dataType : TYPES) {
+        for (GvDataType dataType : TYPES) {
             testPackItemUnpackItemStatic(dataType, true, true);
         }
     }
 
     public void testPackItemUnpackItemIntent() {
-        for (GvDataList.GvDataType dataType : TYPES) {
+        for (GvDataType dataType : TYPES) {
             testPackItemUnpackItemStatic(dataType, false, true);
         }
     }
 
-    private void testPackItemUnpackItemStatic(GvDataList.GvDataType
+    private void testPackItemUnpackItemStatic(GvDataType
             dataType, boolean bundle, boolean useUnpacker) {
         testPackItemUnpackItem(GvDataMocker.getDatum(dataType),
                 GvDataMocker.getDatum(dataType), bundle, useUnpacker);
     }
 
-    private <T extends GvDataList.GvData> void testPackItemUnpackItem(T itemCurrent, T itemNew,
+    private <T extends GvData> void testPackItemUnpackItem(T itemCurrent, T itemNew,
             boolean bundle, boolean useUnpacker) {
         assertNotSame(itemCurrent, itemNew);
 
@@ -63,9 +64,9 @@ public class GvDataPackerTest extends TestCase {
         Bundle args = new Bundle();
         Intent intent = new Intent();
 
-        GvDataList.GvData unpackCurrent = bundle ? unpack(GvDataPacker.CurrentNewDatum.CURRENT,
+        GvData unpackCurrent = bundle ? unpack(GvDataPacker.CurrentNewDatum.CURRENT,
                 args, null) : unpack(GvDataPacker.CurrentNewDatum.CURRENT, intent, unpacker);
-        GvDataList.GvData unpackNew = bundle ? unpack(GvDataPacker.CurrentNewDatum
+        GvData unpackNew = bundle ? unpack(GvDataPacker.CurrentNewDatum
                 .NEW, args, null) : unpack(GvDataPacker.CurrentNewDatum.NEW, intent, unpacker);
         assertNull(unpackCurrent);
         assertNull(unpackNew);
@@ -88,7 +89,7 @@ public class GvDataPackerTest extends TestCase {
         assertSame(itemNew, unpackNew);
     }
 
-    private <T extends GvDataList.GvData> GvDataList.GvData unpack(GvDataPacker.CurrentNewDatum
+    private <T extends GvData> GvData unpack(GvDataPacker.CurrentNewDatum
             currentNew, Bundle args, GvDataPacker<T> unpacker) {
         if (unpacker != null) {
             return unpacker.unpack(currentNew, args);
@@ -97,7 +98,7 @@ public class GvDataPackerTest extends TestCase {
         }
     }
 
-    private <T extends GvDataList.GvData> GvDataList.GvData unpack(GvDataPacker.CurrentNewDatum
+    private <T extends GvData> GvData unpack(GvDataPacker.CurrentNewDatum
             currentNew, Intent intent, GvDataPacker<T> unpacker) {
         if (unpacker != null) {
             return unpacker.unpack(currentNew, intent);

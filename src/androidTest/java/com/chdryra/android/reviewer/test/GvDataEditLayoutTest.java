@@ -13,8 +13,9 @@ import android.test.suitebuilder.annotation.SmallTest;
 import android.view.View;
 import android.widget.EditText;
 
+import com.chdryra.android.reviewer.GvData;
 import com.chdryra.android.reviewer.GvDataEditLayout;
-import com.chdryra.android.reviewer.GvDataList;
+import com.chdryra.android.reviewer.GvDataType;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
 
 /**
@@ -22,16 +23,16 @@ import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
  * On: 04/03/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public abstract class GvDataEditLayoutTest<T extends GvDataList.GvData> extends AndroidTestCase {
-    protected final GvDataEditLayout<T>   mLayout;
-    private final   GvDataList.GvDataType mDataType;
-    protected       EditText              mEditText;
+public abstract class GvDataEditLayoutTest<T extends GvData> extends AndroidTestCase {
+    protected final GvDataEditLayout<T> mLayout;
+    private final   GvDataType          mDataType;
+    protected       EditText            mEditText;
 
     protected abstract void enterData(T datum);
 
     protected abstract void checkViewAndDataEquivalence(T datum, boolean result);
 
-    public GvDataEditLayoutTest(GvDataList.GvDataType dataType, GvDataEditLayout<T> layout) {
+    public GvDataEditLayoutTest(GvDataType dataType, GvDataEditLayout<T> layout) {
         mDataType = dataType;
         mLayout = layout;
     }

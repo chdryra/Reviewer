@@ -9,7 +9,7 @@
 package com.chdryra.android.reviewer.test;
 
 import com.chdryra.android.reviewer.ConfigGvDataAddEdit;
-import com.chdryra.android.reviewer.GvDataList;
+import com.chdryra.android.reviewer.GvData;
 import com.chdryra.android.reviewer.GvFactList;
 
 /**
@@ -24,7 +24,7 @@ public class DialogEditFactTest extends DialogEditGvDataTest<GvFactList.GvFact> 
     }
 
     @Override
-    protected GvDataList.GvData getDataShown() {
+    protected GvData getDataShown() {
         return new GvFactList.GvFact(mSolo.getEditText(0).getText().toString(),
                 mSolo.getEditText(1).getText().toString());
     }

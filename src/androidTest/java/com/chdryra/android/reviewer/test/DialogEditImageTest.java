@@ -9,7 +9,7 @@
 package com.chdryra.android.reviewer.test;
 
 import com.chdryra.android.reviewer.ConfigGvDataAddEdit;
-import com.chdryra.android.reviewer.GvDataList;
+import com.chdryra.android.reviewer.GvData;
 import com.chdryra.android.reviewer.GvImageList;
 
 /**
@@ -34,19 +34,19 @@ public class DialogEditImageTest extends DialogEditGvDataTest<GvImageList.GvImag
     }
 
     @Override
-    protected GvDataList.GvData newDatum() {
+    protected GvData newDatum() {
         mCurrent = (GvImageList.GvImage) super.newDatum();
         return mCurrent;
     }
 
     @Override
-    protected GvDataList.GvData launchDialogAndTestShowing() {
+    protected GvData launchDialogAndTestShowing() {
         mCurrent = (GvImageList.GvImage) super.launchDialogAndTestShowing();
         return mCurrent;
     }
 
     @Override
-    protected GvDataList.GvData getNewDatum() {
+    protected GvData getNewDatum() {
         GvImageList.GvImage child = (GvImageList.GvImage) super.getNewDatum();
 
         mCurrent = new GvImageList.GvImage(mCurrent.getBitmap(), mCurrent.getDate(),

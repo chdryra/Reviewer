@@ -13,7 +13,7 @@ import android.widget.RatingBar;
 
 import com.chdryra.android.reviewer.ConfigGvDataAddEdit;
 import com.chdryra.android.reviewer.GvChildList;
-import com.chdryra.android.reviewer.GvDataList;
+import com.chdryra.android.reviewer.GvData;
 
 /**
  * Created by: Rizwan Choudrey
@@ -28,7 +28,7 @@ public class DialogEditChildTest extends
     }
 
     @Override
-    protected GvDataList.GvData getDataShown() {
+    protected GvData getDataShown() {
         EditText et = mSolo.getEditText(0);
         RatingBar rb = (RatingBar) mSolo.getView(com.chdryra.android.reviewer.R.id
                 .child_rating_bar);

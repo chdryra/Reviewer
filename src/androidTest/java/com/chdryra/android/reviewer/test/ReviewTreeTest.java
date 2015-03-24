@@ -42,7 +42,6 @@ public class ReviewTreeTest extends TestCase {
         assertEquals(mNode.getFacts(), mTree.getFacts());
         assertEquals(mNode.getImages(), mTree.getImages());
         assertEquals(mNode.getLocations(), mTree.getLocations());
-        assertEquals(mNode.getUrls(), mTree.getUrls());
     }
 
     @Override

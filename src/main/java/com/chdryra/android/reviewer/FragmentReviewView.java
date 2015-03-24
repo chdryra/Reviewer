@@ -306,7 +306,7 @@ public class FragmentReviewView extends Fragment {
     }
 
     ViewHolderAdapter getGridViewCellAdapter() {
-        return new ViewHolderAdapter(getActivity(), mReviewView.getGridViewData(),
+        return FactoryGridCellAdapter.newAdapter(getActivity(), mReviewView.getGridViewData(),
                 getGridCellWidth(), getGridCellHeight());
     }
 

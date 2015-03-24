@@ -11,14 +11,14 @@ package com.chdryra.android.reviewer.test.TestUtils;
 import android.app.Fragment;
 
 import com.chdryra.android.reviewer.DialogAddGvData;
-import com.chdryra.android.reviewer.GvDataList;
+import com.chdryra.android.reviewer.GvData;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 05/01/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class DialogAddListener<T extends GvDataList.GvData> extends Fragment implements
+public class DialogAddListener<T extends GvData> extends Fragment implements
         DialogAddGvData.GvDataAddListener<T> {
 
     private T mInterim;

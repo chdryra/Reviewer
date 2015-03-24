@@ -15,7 +15,6 @@ import com.chdryra.android.reviewer.GvCommentList;
 import com.chdryra.android.reviewer.GvFactList;
 import com.chdryra.android.reviewer.GvImageList;
 import com.chdryra.android.reviewer.GvLocationList;
-import com.chdryra.android.reviewer.GvUrlList;
 import com.chdryra.android.reviewer.MdRating;
 import com.chdryra.android.reviewer.MdSubject;
 import com.chdryra.android.reviewer.Review;
@@ -48,7 +47,6 @@ public class ReviewUserTest extends TestCase {
     private GvImageList    mImages;
     private GvFactList     mFacts;
     private GvLocationList mLocations;
-    private GvUrlList      mUrls;
 
     private Review mReview;
 
@@ -103,7 +101,7 @@ public class ReviewUserTest extends TestCase {
     public void testHasComments() {
         assertTrue(mReview.hasComments());
         Review noComments = new ReviewUser(mAuthor, mDate, mSubject, mRating,
-                new GvCommentList(), mImages, mFacts, mLocations, mUrls);
+                new GvCommentList(), mImages, mFacts, mLocations);
         assertFalse(noComments.hasComments());
     }
 
@@ -116,7 +114,7 @@ public class ReviewUserTest extends TestCase {
     public void testHasFacts() {
         assertTrue(mReview.hasFacts());
         Review noFacts = new ReviewUser(mAuthor, mDate, mSubject, mRating,
-                mComments, mImages, new GvFactList(), mLocations, mUrls);
+                mComments, mImages, new GvFactList(), mLocations);
         assertFalse(noFacts.hasFacts());
     }
 
@@ -129,21 +127,8 @@ public class ReviewUserTest extends TestCase {
     public void testHasImages() {
         assertTrue(mReview.hasImages());
         Review noImages = new ReviewUser(mAuthor, mDate, mSubject, mRating,
-                mComments, new GvImageList(), mFacts, mLocations, mUrls);
+                mComments, new GvImageList(), mFacts, mLocations);
         assertFalse(noImages.hasImages());
-    }
-
-    @SmallTest
-    public void testGetUrls() {
-        MdGvEquality.check(mReview.getUrls(), mUrls);
-    }
-
-    @SmallTest
-    public void testHasUrls() {
-        assertTrue(mReview.hasUrls());
-        Review noUrls = new ReviewUser(mAuthor, mDate, mSubject, mRating,
-                mComments, mImages, mFacts, mLocations, new GvUrlList());
-        assertFalse(noUrls.hasUrls());
     }
 
     @SmallTest
@@ -155,7 +140,7 @@ public class ReviewUserTest extends TestCase {
     public void testHasLocations() {
         assertTrue(mReview.hasLocations());
         Review noLocations = new ReviewUser(mAuthor, mDate, mSubject, mRating,
-                mComments, mImages, mFacts, new GvLocationList(), mUrls);
+                mComments, mImages, mFacts, new GvLocationList());
         assertFalse(noLocations.hasLocations());
     }
 
@@ -170,9 +155,8 @@ public class ReviewUserTest extends TestCase {
         mImages = GvDataMocker.newImageList(NUM);
         mFacts = GvDataMocker.newFactList(NUM);
         mLocations = GvDataMocker.newLocationList(NUM);
-        mUrls = GvDataMocker.newUrlList(NUM);
 
         mReview = new ReviewUser(mAuthor, mDate, mSubject, mRating, mComments, mImages, mFacts,
-                mLocations, mUrls);
+                mLocations);
     }
 }

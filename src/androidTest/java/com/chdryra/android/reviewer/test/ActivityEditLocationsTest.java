@@ -17,6 +17,7 @@ import android.test.suitebuilder.annotation.SmallTest;
 import com.chdryra.android.mygenerallibrary.DialogAlertFragment;
 import com.chdryra.android.reviewer.ActivityEditLocationMap;
 import com.chdryra.android.reviewer.ActivityReviewView;
+import com.chdryra.android.reviewer.GvData;
 import com.chdryra.android.reviewer.GvDataList;
 import com.chdryra.android.reviewer.GvLocationList;
 import com.chdryra.android.reviewer.R;
@@ -140,10 +141,9 @@ public class ActivityEditLocationsTest extends ActivityEditScreenTest {
     }
 
     @Override
-    protected GvDataList.GvData newEditDatum(GvDataList.GvData oldDatum) {
+    protected GvData newEditDatum(GvData oldDatum) {
         GvLocationList.GvLocation location = (GvLocationList.GvLocation) oldDatum;
-        return new GvLocationList.GvLocation(location.getLatLng(), RandomString.nextWord
-                ());
+        return new GvLocationList.GvLocation(location.getLatLng(), RandomString.nextWord());
     }
 
     @Override
@@ -154,7 +154,7 @@ public class ActivityEditLocationsTest extends ActivityEditScreenTest {
     @Override
     protected void enterDatum(GvDataList data, int index) {
         assertTrue(index < NUM_DATA);
-        SoloDataEntry.enter(mSolo, (GvDataList.GvData) data.getItem(index));
+        SoloDataEntry.enter(mSolo, (GvData) data.getItem(index));
         mSolo.waitForText(LOCSADD[index]);
         mSolo.clickInList(1);
         mSolo.sleep(3000);

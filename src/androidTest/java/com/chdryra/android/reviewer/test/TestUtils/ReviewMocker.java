@@ -67,7 +67,7 @@ public class ReviewMocker {
             super(Author.NULL_AUTHOR, new Date(), RandomString.nextWord(),
                     RandomRating.nextRating(), GvDataMocker.newCommentList(NUM),
                     GvDataMocker.newImageList(NUM), GvDataMocker.newFactList(NUM),
-                    GvDataMocker.newLocationList(NUM), GvDataMocker.newUrlList(NUM));
+                    GvDataMocker.newLocationList(NUM));
         }
     }
 }

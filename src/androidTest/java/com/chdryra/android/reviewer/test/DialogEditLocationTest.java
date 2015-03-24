@@ -9,7 +9,7 @@
 package com.chdryra.android.reviewer.test;
 
 import com.chdryra.android.reviewer.ConfigGvDataAddEdit;
-import com.chdryra.android.reviewer.GvDataList;
+import com.chdryra.android.reviewer.GvData;
 import com.chdryra.android.reviewer.GvLocationList;
 
 /**
@@ -33,19 +33,19 @@ public class DialogEditLocationTest extends DialogEditGvDataTest<GvLocationList.
     }
 
     @Override
-    protected GvDataList.GvData newDatum() {
+    protected GvData newDatum() {
         mCurrent = (GvLocationList.GvLocation) super.newDatum();
         return mCurrent;
     }
 
     @Override
-    protected GvDataList.GvData launchDialogAndTestShowing() {
+    protected GvData launchDialogAndTestShowing() {
         mCurrent = (GvLocationList.GvLocation) super.launchDialogAndTestShowing();
         return mCurrent;
     }
 
     @Override
-    protected GvDataList.GvData getNewDatum() {
+    protected GvData getNewDatum() {
         GvLocationList.GvLocation child = (GvLocationList.GvLocation) super.getNewDatum();
 
         mCurrent = new GvLocationList.GvLocation(mCurrent.getLatLng(), child.getName());

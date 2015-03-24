@@ -51,7 +51,7 @@ public class VhDataList implements ViewHolder {
 
     @Override
     public View getView() {
-        return mCurrentView.getView();
+        return mCurrentView != null ? mCurrentView.getView() : null;
     }
 
     private void updateDataView(GvDataList data) {

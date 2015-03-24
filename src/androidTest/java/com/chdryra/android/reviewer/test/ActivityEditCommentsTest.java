@@ -14,6 +14,7 @@ import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.mygenerallibrary.DialogAlertFragment;
 import com.chdryra.android.reviewer.GvCommentList;
+import com.chdryra.android.reviewer.GvData;
 import com.chdryra.android.reviewer.GvDataList;
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
@@ -142,7 +143,7 @@ public class ActivityEditCommentsTest extends ActivityEditScreenTest {
     }
 
     @Override
-    protected GvDataList.GvData newEditDatum(GvDataList.GvData oldDatum) {
+    protected GvData newEditDatum(GvData oldDatum) {
         GvCommentList.GvComment newComment = (GvCommentList.GvComment) GvDataMocker.getDatum
                 (mDataType);
         newComment.setIsHeadline(((GvCommentList.GvComment) oldDatum).isHeadline());

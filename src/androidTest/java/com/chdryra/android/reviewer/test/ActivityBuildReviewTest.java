@@ -27,7 +27,9 @@ import com.chdryra.android.reviewer.FragmentReviewView;
 import com.chdryra.android.reviewer.GvBuildReviewList;
 import com.chdryra.android.reviewer.GvChildList;
 import com.chdryra.android.reviewer.GvCommentList;
+import com.chdryra.android.reviewer.GvData;
 import com.chdryra.android.reviewer.GvDataList;
+import com.chdryra.android.reviewer.GvDataType;
 import com.chdryra.android.reviewer.GvFactList;
 import com.chdryra.android.reviewer.GvImageList;
 import com.chdryra.android.reviewer.GvLocationList;
@@ -290,12 +292,12 @@ public class ActivityBuildReviewTest extends ActivityReviewViewTest {
 
     protected void enterData(GvDataList data, String tag, boolean entryWithPause) {
         for (int i = 0; i < data.size() - 1; ++i) {
-            SoloDataEntry.enter(mSolo, (GvDataList.GvData) data.getItem(i));
+            SoloDataEntry.enter(mSolo, (GvData) data.getItem(i));
             if (entryWithPause) mSolo.sleep(2000);
             clickActionButton(tag);
         }
 
-        SoloDataEntry.enter(mSolo, ((GvDataList.GvData) data.getItem(data.size() - 1)));
+        SoloDataEntry.enter(mSolo, ((GvData) data.getItem(data.size() - 1)));
         if (entryWithPause) mSolo.sleep(2000);
         clickDoneButton(tag);
     }
@@ -407,13 +409,14 @@ public class ActivityBuildReviewTest extends ActivityReviewViewTest {
         }
     }
 
-    private void checkNoDataCell(GvDataList.GvDataType dataType, ArrayList<TextView> tvs) {
-        assertEquals(1, tvs.size());
-        assertEquals(dataType.getDataName(), tvs.get(0).getText().toString());
+    private void checkNoDataCell(GvDataType dataType, ArrayList<TextView> tvs) {
+        assertEquals(2, tvs.size());
+        assertEquals("0", tvs.get(0).getText().toString());
+        assertEquals(dataType.getDataName(), tvs.get(1).getText().toString());
     }
 
     private void checkDataCell(GvDataList data, ArrayList<TextView> tvs) {
-        //assertEquals(2, tvs.size()); //inconsistent
+        assertEquals(2, tvs.size()); //inconsistent
         assertEquals(String.valueOf(data.size()), tvs.get(0).getText().toString());
         assertEquals(data.getGvDataType().getDataName(), tvs.get(1).getText().toString());
     }
@@ -433,17 +436,17 @@ public class ActivityBuildReviewTest extends ActivityReviewViewTest {
         }
     }
 
-    private void testClickGridCell(GvDataList.GvDataType dataType, int numData) {
+    private void testClickGridCell(GvDataType dataType, int numData) {
         testClickGridCell(dataType, numData, false);
     }
 
-    private void testClickGridCell(GvDataList.GvDataType dataType, int numData,
+    private void testClickGridCell(GvDataType dataType, int numData,
             boolean entryWithPause) {
         testClickWithoutData(dataType, numData, entryWithPause);
         testClickWithData(dataType);
     }
 
-    private int getItemPosition(GvDataList.GvDataType dataType) {
+    private int getItemPosition(GvDataType dataType) {
         int position = -1;
         for (int i = 0; i < mList.size(); ++i) {
             if (mList.getItem(i).getGvDataType() == dataType) {
@@ -456,11 +459,11 @@ public class ActivityBuildReviewTest extends ActivityReviewViewTest {
         return position;
     }
 
-    private void testClickWithoutData(GvDataList.GvDataType dataType, int numData) {
+    private void testClickWithoutData(GvDataType dataType, int numData) {
         testClickWithoutData(dataType, numData, false);
     }
 
-    private void testClickWithoutData(GvDataList.GvDataType dataType, int numData,
+    private void testClickWithoutData(GvDataType dataType, int numData,
             boolean entryWithPause) {
         final GvDataList data = GvDataMocker.getData(dataType, numData);
 
@@ -489,7 +492,7 @@ public class ActivityBuildReviewTest extends ActivityReviewViewTest {
         checkBuilderDataChanges(data);
     }
 
-    private void testClickWithData(GvDataList.GvDataType dataType) {
+    private void testClickWithData(GvDataType dataType) {
         Instrumentation.ActivityMonitor monitor = testEditScreenNotShowing(dataType);
         int position = getItemPosition(dataType);
         mSolo.clickInList(position + 1);
@@ -546,13 +549,13 @@ public class ActivityBuildReviewTest extends ActivityReviewViewTest {
                 .class.getName(), null, false);
     }
 
-    private Instrumentation.ActivityMonitor testEditScreenNotShowing(GvDataList.GvDataType
+    private Instrumentation.ActivityMonitor testEditScreenNotShowing(GvDataType
             dataType) {
         assertFalse(mSolo.searchText("Add " + dataType.getDataName()));
         return getActivityMonitor();
     }
 
-    private void testEditScreenShowing(GvDataList.GvDataType dataType,
+    private void testEditScreenShowing(GvDataType dataType,
             Instrumentation.ActivityMonitor monitor) {
         ActivityReviewView editActivity = (ActivityReviewView) monitor.waitForActivityWithTimeout
                 (TIMEOUT);
@@ -563,7 +566,7 @@ public class ActivityBuildReviewTest extends ActivityReviewViewTest {
         assertTrue(mSolo.searchText("Add " + dataType.getDatumName()));
     }
 
-    private void testLongPress(GvDataList.GvDataType dataType) {
+    private void testLongPress(GvDataType dataType) {
         Instrumentation.ActivityMonitor monitor = testEditScreenNotShowing(dataType);
 
         mSolo.clickLongOnText(dataType.getDataName());
@@ -573,7 +576,7 @@ public class ActivityBuildReviewTest extends ActivityReviewViewTest {
         mSolo.sleep(1000);
     }
 
-    private void checkBuilderChanges(GvDataList.GvDataType dataType) {
+    private void checkBuilderChanges(GvDataType dataType) {
         for (GvBuildReviewList.GvBuildReview type : mList) {
             if (dataType != null && type.getGvDataType() == dataType) continue;
             assertEquals(0, getBuilder().getDataSize(type.getGvDataType()));

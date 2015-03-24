@@ -14,7 +14,7 @@ import android.test.suitebuilder.annotation.SmallTest;
 import android.view.KeyEvent;
 
 import com.chdryra.android.mygenerallibrary.DialogAlertFragment;
-import com.chdryra.android.reviewer.GvDataList;
+import com.chdryra.android.reviewer.GvData;
 import com.chdryra.android.reviewer.GvImageList;
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.testutils.RandomString;
@@ -49,7 +49,7 @@ public class ActivityEditImagesTest extends ActivityEditScreenTest {
     }
 
     @Override
-    protected GvDataList.GvData newEditDatum(GvDataList.GvData current) {
+    protected GvData newEditDatum(GvData current) {
         GvImageList.GvImage oldDatum = (GvImageList.GvImage) current;
         return new GvImageList.GvImage(oldDatum.getBitmap(), oldDatum.getDate(),
                 oldDatum.getLatLng(), RandomString.nextSentence(), oldDatum.isCover());

@@ -11,14 +11,14 @@ package com.chdryra.android.reviewer.test.TestUtils;
 import android.app.Fragment;
 
 import com.chdryra.android.reviewer.DialogEditGvData;
-import com.chdryra.android.reviewer.GvDataList;
+import com.chdryra.android.reviewer.GvData;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 07/01/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class DialogEditListener<T extends GvDataList.GvData> extends Fragment implements
+public class DialogEditListener<T extends GvData> extends Fragment implements
         DialogEditGvData.GvDataEditListener<T> {
 
     private T mDataOld;

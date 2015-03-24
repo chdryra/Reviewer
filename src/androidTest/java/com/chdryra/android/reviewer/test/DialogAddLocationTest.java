@@ -11,6 +11,7 @@ package com.chdryra.android.reviewer.test;
 import com.chdryra.android.mygenerallibrary.DialogCancelAddDoneFragment;
 import com.chdryra.android.mygenerallibrary.LocationClientConnector;
 import com.chdryra.android.reviewer.ConfigGvDataAddEdit;
+import com.chdryra.android.reviewer.GvData;
 import com.chdryra.android.reviewer.GvDataList;
 import com.chdryra.android.reviewer.GvLocationList;
 import com.chdryra.android.reviewer.ReviewViewAdapter;
@@ -59,9 +60,9 @@ public class DialogAddLocationTest extends DialogAddGvDataTest<GvLocationList.Gv
         final ReviewViewAdapter controller = mAdapter;
         assertEquals(0, getData(controller).size());
 
-        final GvDataList.GvData datum1 = testQuickSet(true, 0);
-        final GvDataList.GvData datum2 = testQuickSet(true, 1);
-        final GvDataList.GvData datum3 = testQuickSet(false, 2);
+        final GvData datum1 = testQuickSet(true, 0);
+        final GvData datum2 = testQuickSet(true, 1);
+        final GvData datum3 = testQuickSet(false, 2);
 
         final DialogCancelAddDoneFragment dialog = mDialog;
         mActivity.runOnUiThread(new Runnable() {
@@ -85,7 +86,7 @@ public class DialogAddLocationTest extends DialogAddGvDataTest<GvLocationList.Gv
         mSignaler = new CallBackSignaler(5000);
     }
 
-    protected GvDataList.GvData enterDataAndTest() {
+    protected GvData enterDataAndTest() {
         return enterDataAndTest(0);
     }
 
@@ -126,10 +127,10 @@ public class DialogAddLocationTest extends DialogAddGvDataTest<GvLocationList.Gv
         mSignaler.reset();
     }
 
-    private GvDataList.GvData enterDataAndTest(int index) {
+    private GvData enterDataAndTest(int index) {
         assertTrue(index < 3);
         assertTrue(isDataNulled());
-        GvDataList.GvData data = LOCS[index];
+        GvData data = LOCS[index];
         enterData(data);
         assertTrue(isDataEntered());
         mSolo.waitForText(LOCSADD[index]);
@@ -139,12 +140,12 @@ public class DialogAddLocationTest extends DialogAddGvDataTest<GvLocationList.Gv
         return data;
     }
 
-    private GvDataList.GvData testQuickSet(boolean pressAdd, int index) {
+    private GvData testQuickSet(boolean pressAdd, int index) {
         final DialogAddListener<GvLocationList.GvLocation> listener = mListener;
         final DialogCancelAddDoneFragment dialog = mDialog;
 
         assertNull(listener.getData());
-        GvDataList.GvData data = enterDataAndTest(index);
+        GvData data = enterDataAndTest(index);
         assertNull(listener.getData());
 
         if (pressAdd) {

@@ -23,6 +23,7 @@ import com.chdryra.android.reviewer.ActivityReviewView;
 import com.chdryra.android.reviewer.Administrator;
 import com.chdryra.android.reviewer.DialogAddGvData;
 import com.chdryra.android.reviewer.EditScreen;
+import com.chdryra.android.reviewer.GvData;
 import com.chdryra.android.reviewer.GvDataList;
 import com.chdryra.android.reviewer.LaunchableUi;
 import com.chdryra.android.reviewer.LauncherUi;
@@ -37,7 +38,7 @@ import com.robotium.solo.Solo;
  * On: 07/01/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public abstract class DialogAddGvDataTest<T extends GvDataList.GvData> extends
+public abstract class DialogAddGvDataTest<T extends GvData> extends
         ActivityInstrumentationTestCase2<ActivityReviewView> {
     private static final int    REQUEST_CODE = 1976;
     private static final String DIALOG_TAG   = "TestAddDialog";
@@ -90,9 +91,9 @@ public abstract class DialogAddGvDataTest<T extends GvDataList.GvData> extends
         final ReviewViewAdapter controller = mAdapter;
         assertEquals(0, getData(controller).size());
 
-        final GvDataList.GvData datum1 = testQuickSet(true);
-        final GvDataList.GvData datum2 = testQuickSet(true);
-        final GvDataList.GvData datum3 = testQuickSet(false);
+        final GvData datum1 = testQuickSet(true);
+        final GvData datum2 = testQuickSet(true);
+        final GvData datum3 = testQuickSet(false);
 
         final DialogCancelAddDoneFragment dialog = mDialog;
         mActivity.runOnUiThread(new Runnable() {
@@ -117,7 +118,7 @@ public abstract class DialogAddGvDataTest<T extends GvDataList.GvData> extends
         return !isDataEntered();
     }
 
-    protected void enterData(GvDataList.GvData datum) {
+    protected void enterData(GvData datum) {
         SoloDataEntry.enter(mSolo, datum);
     }
 
@@ -172,21 +173,21 @@ public abstract class DialogAddGvDataTest<T extends GvDataList.GvData> extends
         return adapter.getGridData();
     }
 
-    protected GvDataList.GvData enterDataAndTest() {
+    protected GvData enterDataAndTest() {
         assertTrue(isDataNulled());
-        GvDataList.GvData data = GvDataMocker.getDatum(mDialog.getGvDataType());
+        GvData data = GvDataMocker.getDatum(mDialog.getGvDataType());
         enterData(data);
         assertTrue(isDataEntered());
 
         return data;
     }
 
-    protected GvDataList.GvData testQuickSet(boolean pressAdd) {
+    protected GvData testQuickSet(boolean pressAdd) {
         final DialogAddListener<T> listener = mListener;
         final DialogCancelAddDoneFragment dialog = mDialog;
 
         assertNull(listener.getData());
-        GvDataList.GvData data = enterDataAndTest();
+        GvData data = enterDataAndTest();
         assertNull(listener.getData());
 
         if (pressAdd) {
@@ -209,7 +210,7 @@ public abstract class DialogAddGvDataTest<T extends GvDataList.GvData> extends
 
         assertNull(listener.getData());
         assertEquals(0, getData(adapter).size());
-        final GvDataList.GvData datum = enterDataAndTest();
+        final GvData datum = enterDataAndTest();
         assertNull(listener.getData());
 
         mActivity.runOnUiThread(new Runnable() {

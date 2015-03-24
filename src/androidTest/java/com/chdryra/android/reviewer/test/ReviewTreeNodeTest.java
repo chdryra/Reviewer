@@ -87,7 +87,6 @@ public class ReviewTreeNodeTest extends TestCase {
         assertEquals(mReview.getFacts(), node.getFacts());
         assertEquals(mReview.getImages(), node.getImages());
         assertEquals(mReview.getLocations(), node.getLocations());
-        assertEquals(mReview.getUrls(), node.getUrls());
     }
 
     @SmallTest

@@ -19,7 +19,7 @@ import android.widget.GridView;
 import com.chdryra.android.reviewer.ActivityReviewView;
 import com.chdryra.android.reviewer.Administrator;
 import com.chdryra.android.reviewer.FragmentReviewView;
-import com.chdryra.android.reviewer.GvDataList;
+import com.chdryra.android.reviewer.GvData;
 import com.chdryra.android.reviewer.ReviewView;
 import com.chdryra.android.reviewer.ReviewViewAdapter;
 import com.robotium.solo.Solo;
@@ -70,8 +70,8 @@ public abstract class ActivityReviewViewTest extends
         return getGridView().getAdapter().getCount();
     }
 
-    protected GvDataList.GvData getGridItem(int position) {
-        return (GvDataList.GvData) getGridView().getItemAtPosition(position);
+    protected GvData getGridItem(int position) {
+        return (GvData) getGridView().getItemAtPosition(position);
     }
 
     protected GridView getGridView() {

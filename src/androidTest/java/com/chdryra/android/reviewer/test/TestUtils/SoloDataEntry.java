@@ -10,7 +10,7 @@ package com.chdryra.android.reviewer.test.TestUtils;
 
 import com.chdryra.android.reviewer.GvChildList;
 import com.chdryra.android.reviewer.GvCommentList;
-import com.chdryra.android.reviewer.GvDataList;
+import com.chdryra.android.reviewer.GvData;
 import com.chdryra.android.reviewer.GvFactList;
 import com.chdryra.android.reviewer.GvImageList;
 import com.chdryra.android.reviewer.GvLocationList;
@@ -23,7 +23,7 @@ import com.robotium.solo.Solo;
  * Email: rizwan.choudrey@gmail.com
  */
 public class SoloDataEntry {
-    public static void enter(Solo solo, GvDataList.GvData data) {
+    public static void enter(Solo solo, GvData data) {
         if (data instanceof GvTagList.GvTag) enterTag(solo, (GvTagList.GvTag) data);
         if (data instanceof GvCommentList.GvComment) {
             enterComment(solo, (GvCommentList.GvComment) data);

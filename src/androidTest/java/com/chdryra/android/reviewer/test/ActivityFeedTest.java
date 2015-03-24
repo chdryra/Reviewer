@@ -18,7 +18,7 @@ import android.widget.GridView;
 import com.chdryra.android.reviewer.ActivityReviewView;
 import com.chdryra.android.reviewer.Administrator;
 import com.chdryra.android.reviewer.FeedScreen;
-import com.chdryra.android.reviewer.GvDataList;
+import com.chdryra.android.reviewer.GvData;
 import com.chdryra.android.reviewer.GvReviewList;
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.ReviewBuilder;
@@ -107,8 +107,8 @@ public class ActivityFeedTest extends
         mSolo = new Solo(getInstrumentation(), mActivity);
     }
 
-    private GvDataList.GvData getGridItem(int position) {
-        return (GvDataList.GvData) getGridView().getItemAtPosition(position);
+    private GvData getGridItem(int position) {
+        return (GvData) getGridView().getItemAtPosition(position);
     }
 
     private GridView getGridView() {

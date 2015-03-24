@@ -14,12 +14,17 @@ package com.chdryra.android.reviewer;
  * Email: rizwan.choudrey@gmail.com
  */
 
+import android.view.View;
+import android.view.ViewGroup;
+
+import com.chdryra.android.mygenerallibrary.ViewHolder;
+
 /**
  * Encapsulates the range of responses and displays available to each data tile depending
  * on the underlying data and user interaction.
  */
 public class GvBuildReviewList extends GvDataList<GvBuildReviewList.GvBuildReview> {
-    public static final GvDataType TYPE = new GvDataType("create2", "create2");
+    public static final GvDataType TYPE = new GvDataType("create", "create");
     private final ReviewBuilder mBuilder;
 
     private GvBuildReviewList(ReviewBuilder builder) {
@@ -39,6 +44,10 @@ public class GvBuildReviewList extends GvDataList<GvBuildReviewList.GvBuildRevie
         return new GvBuildReviewList(adapter);
     }
 
+    @Override
+    public void sort() {
+    }
+
     private <T extends GvData> void add(Class<T> dataClass, GvDataType dataType) {
         add(new GvBuildReview<>(dataClass, dataType, mBuilder));
     }
@@ -48,6 +57,7 @@ public class GvBuildReviewList extends GvDataList<GvBuildReviewList.GvBuildRevie
         private final GvDataType            mDataType;
         private final ConfigGvDataUi.Config mConfig;
         private final ReviewBuilder.DataBuilder<T> mBuilder;
+        private ViewHolder mViewHolder;
 
         private GvBuildReview(Class<T> dataClass, GvDataType dataType, ReviewBuilder builder) {
             super(dataClass, dataType);
@@ -55,6 +65,16 @@ public class GvBuildReviewList extends GvDataList<GvBuildReviewList.GvBuildRevie
             mConfig = ConfigGvDataUi.getConfig(dataType);
             mBuilder = (ReviewBuilder.DataBuilder<T>) builder.getDataBuilder(dataType);
             mBuilder.registerGridDataObserver(this);
+            mViewHolder = super.newViewHolder();
+        }
+
+        public View updateView(ViewGroup parent) {
+            if (mViewHolder.getView() == null) {
+                mViewHolder.inflate(mBuilder.getParentBuilder().getContext(), parent);
+            }
+
+            mViewHolder.updateView(mBuilder.getGridData());
+            return mViewHolder.getView();
         }
 
         public GvDataType getGvDataType() {

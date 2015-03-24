@@ -9,7 +9,7 @@
 package com.chdryra.android.reviewer.test.TestUtils;
 
 import com.chdryra.android.reviewer.GvCommentList;
-import com.chdryra.android.reviewer.GvDataList;
+import com.chdryra.android.reviewer.GvDataType;
 import com.chdryra.android.reviewer.GvFactList;
 import com.chdryra.android.reviewer.GvImageList;
 import com.chdryra.android.reviewer.GvLocationList;
@@ -49,7 +49,7 @@ public class MdDataMocker<T extends Review> {
     }
 
     //Just a convenient method even if it uses GvType.....
-    public MdDataList getData(GvDataList.GvDataType dataType, int size) {
+    public MdDataList getData(GvDataType dataType, int size) {
         if (dataType == GvCommentList.TYPE) {
             return newCommentList(size);
         } else if (dataType == GvFactList.TYPE) {
