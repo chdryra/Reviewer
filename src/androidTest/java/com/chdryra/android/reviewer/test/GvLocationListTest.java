@@ -19,6 +19,7 @@ import com.chdryra.android.reviewer.GvTagList;
 import com.chdryra.android.reviewer.GvUrlList;
 import com.chdryra.android.reviewer.MdLocationList;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
+import com.chdryra.android.reviewer.test.TestUtils.GvDataParcelableTester;
 import com.chdryra.android.testutils.RandomLatLng;
 import com.chdryra.android.testutils.RandomString;
 import com.google.android.gms.maps.model.LatLng;
@@ -42,9 +43,17 @@ public class GvLocationListTest extends TestCase {
     }
 
     @SmallTest
+    public void testParcelable() {
+        GvDataParcelableTester.testParcelable(GvDataMocker.newLocation(false));
+        GvDataParcelableTester.testParcelable(GvDataMocker.newLocation(true));
+        GvDataParcelableTester.testParcelable(GvDataMocker.newLocationList(10, false));
+        GvDataParcelableTester.testParcelable(GvDataMocker.newLocationList(10, true));
+    }
+
+    @SmallTest
     public void testGvLocation() {
-        GvLocationList.GvLocation location1 = GvDataMocker.newLocation();
-        GvLocationList.GvLocation location2 = GvDataMocker.newLocation();
+        GvLocationList.GvLocation location1 = GvDataMocker.newLocation(false);
+        GvLocationList.GvLocation location2 = GvDataMocker.newLocation(false);
 
         LatLng latLng1 = location1.getLatLng();
         String name1 = location1.getName();
@@ -102,7 +111,7 @@ public class GvLocationListTest extends TestCase {
 
     @SmallTest
     public void testEquals() {
-        mList.add(GvDataMocker.newLocationList(NUM));
+        mList.add(GvDataMocker.newLocationList(NUM, false));
         assertEquals(NUM, mList.size());
 
         assertFalse(mList.equals(GvDataMocker.getData(GvChildList.TYPE, NUM)));

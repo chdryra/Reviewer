@@ -264,7 +264,7 @@ public abstract class ActivityEditScreenTest extends ActivityReviewViewTest {
     }
 
     protected GvChildList.GvChildReview editSubjectRating() {
-        GvChildList.GvChildReview child = GvDataMocker.newChild();
+        GvChildList.GvChildReview child = GvDataMocker.newChild(false);
         editSubject(child.getSubject());
         editRating(child.getRating());
         return child;

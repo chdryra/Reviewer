@@ -12,6 +12,7 @@ import com.chdryra.android.reviewer.Author;
 import com.chdryra.android.reviewer.FactoryReview;
 import com.chdryra.android.reviewer.RCollectionReview;
 import com.chdryra.android.reviewer.Review;
+import com.chdryra.android.reviewer.ReviewId;
 import com.chdryra.android.reviewer.ReviewNode;
 import com.chdryra.android.reviewer.ReviewTreeNode;
 import com.chdryra.android.reviewer.ReviewUser;
@@ -64,10 +65,10 @@ public class ReviewMocker {
 
     static class MockReview extends ReviewUser {
         private MockReview() {
-            super(Author.NULL_AUTHOR, new Date(), RandomString.nextWord(),
-                    RandomRating.nextRating(), GvDataMocker.newCommentList(NUM),
-                    GvDataMocker.newImageList(NUM), GvDataMocker.newFactList(NUM),
-                    GvDataMocker.newLocationList(NUM));
+            super(ReviewId.generateId(), Author.NULL_AUTHOR, new Date(), RandomString.nextWord(),
+                    RandomRating.nextRating(), GvDataMocker.newCommentList(NUM, false),
+                    GvDataMocker.newImageList(NUM, false), GvDataMocker.newFactList(NUM, false),
+                    GvDataMocker.newLocationList(NUM, false));
         }
     }
 }

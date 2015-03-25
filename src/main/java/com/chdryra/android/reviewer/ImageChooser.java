@@ -115,7 +115,7 @@ public class ImageChooser {
                     ExifInterface exif = ImageHelper.getExif(mCaptureFile);
                     LatLng ll = ImageHelper.getLatLngFromExif(exif);
                     Date date = ImageHelper.getDateTimeFromEXIF(exif);
-                    listener.onImageChosen(new GvImageList.GvImage(bitmap, date, ll));
+                    listener.onImageChosen(new GvImageList.GvImage(bitmap, date, ll, null, false));
                 }
             };
 

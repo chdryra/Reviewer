@@ -26,7 +26,7 @@ class VhComment extends VhText {
             @Override
             public String getString(ViewHolderData data) {
                 GvCommentList.GvComment comment = (GvCommentList.GvComment) data;
-                return comment != null ? comment.getCommentHeadline() : null;
+                return comment != null ? comment.getHeadline() : null;
             }
         });
 

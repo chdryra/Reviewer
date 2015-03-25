@@ -54,10 +54,10 @@ public class GvBuildReviewList extends GvDataList<GvBuildReviewList.GvBuildRevie
 
     public static class GvBuildReview<T extends GvData> extends GvDataList<T>
             implements ReviewViewAdapter.GridDataObserver {
-        private final GvDataType            mDataType;
-        private final ConfigGvDataUi.Config mConfig;
+        private final GvDataType                   mDataType;
+        private final ConfigGvDataUi.Config        mConfig;
         private final ReviewBuilder.DataBuilder<T> mBuilder;
-        private ViewHolder mViewHolder;
+        private       ViewHolder                   mViewHolder;
 
         private GvBuildReview(Class<T> dataClass, GvDataType dataType, ReviewBuilder builder) {
             super(dataClass, dataType);
@@ -98,5 +98,7 @@ public class GvBuildReviewList extends GvDataList<GvBuildReviewList.GvBuildRevie
         public void onGridDataChanged() {
             mData = mBuilder.getGridData().toArrayList();
         }
+
+
     }
 }

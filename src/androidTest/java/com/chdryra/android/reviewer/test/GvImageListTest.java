@@ -19,6 +19,7 @@ import com.chdryra.android.reviewer.GvLocationList;
 import com.chdryra.android.reviewer.GvTagList;
 import com.chdryra.android.reviewer.GvUrlList;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
+import com.chdryra.android.reviewer.test.TestUtils.GvDataParcelableTester;
 import com.google.android.gms.maps.model.LatLng;
 
 import junit.framework.TestCase;
@@ -40,9 +41,17 @@ public class GvImageListTest extends TestCase {
     }
 
     @SmallTest
+    public void testParcelable() {
+        GvDataParcelableTester.testParcelable(GvDataMocker.newImage(false));
+        GvDataParcelableTester.testParcelable(GvDataMocker.newImage(true));
+        GvDataParcelableTester.testParcelable(GvDataMocker.newImageList(2, false));
+        GvDataParcelableTester.testParcelable(GvDataMocker.newImageList(2, true));
+    }
+
+    @SmallTest
     public void testGvImage() {
-        GvImageList.GvImage image1 = GvDataMocker.newImage();
-        GvImageList.GvImage image2 = GvDataMocker.newImage();
+        GvImageList.GvImage image1 = GvDataMocker.newImage(false);
+        GvImageList.GvImage image2 = GvDataMocker.newImage(false);
 
         Bitmap bitmap1 = image1.getBitmap();
         Date date1 = image1.getDate();
@@ -105,12 +114,12 @@ public class GvImageListTest extends TestCase {
 
     @SmallTest
     public void testContainsBitmap() {
-        GvImageList.GvImage image = GvDataMocker.newImage();
+        GvImageList.GvImage image = GvDataMocker.newImage(false);
         assertFalse(mList.contains(image.getBitmap()));
         mList.add(image);
         assertTrue(mList.contains(image.getBitmap()));
 
-        GvImageList.GvImage image2 = GvDataMocker.newImage();
+        GvImageList.GvImage image2 = GvDataMocker.newImage(false);
         assertFalse(mList.contains(image2.getBitmap()));
         mList.add(image2);
         assertTrue(mList.contains(image2.getBitmap()));
@@ -123,7 +132,7 @@ public class GvImageListTest extends TestCase {
     public void testGetCovers() {
         GvImageList covers = new GvImageList();
         for (int i = 0; i < 100; ++i) {
-            GvImageList.GvImage image = GvDataMocker.newImage();
+            GvImageList.GvImage image = GvDataMocker.newImage(false);
             if (image.isCover()) covers.add(image);
             mList.add(image);
         }
@@ -142,7 +151,7 @@ public class GvImageListTest extends TestCase {
     public void testGetRandomCover() {
         GvImageList covers = new GvImageList();
         for (int i = 0; i < 100; ++i) {
-            GvImageList.GvImage image = GvDataMocker.newImage();
+            GvImageList.GvImage image = GvDataMocker.newImage(false);
             if (image.isCover()) covers.add(image);
             mList.add(image);
         }
@@ -155,7 +164,7 @@ public class GvImageListTest extends TestCase {
 
     @SmallTest
     public void testSort() {
-        mList.add(GvDataMocker.newImageList(100));
+        mList.add(GvDataMocker.newImageList(100, false));
         assertFalse(isSorted());
         mList.sort();
         assertTrue(isSorted());
@@ -163,7 +172,7 @@ public class GvImageListTest extends TestCase {
 
     @SmallTest
     public void testEquals() {
-        mList.add(GvDataMocker.newImageList(NUM));
+        mList.add(GvDataMocker.newImageList(NUM, false));
         assertEquals(NUM, mList.size());
 
         assertFalse(mList.equals(GvDataMocker.getData(GvChildList.TYPE, NUM)));

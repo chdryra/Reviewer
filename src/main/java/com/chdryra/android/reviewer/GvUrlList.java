@@ -22,6 +22,10 @@ public class GvUrlList extends GvDataList<GvUrlList.GvUrl> {
         super(GvUrl.class, TYPE);
     }
 
+    public GvUrlList(GvReviewId id, GvUrlList data) {
+        super(id, data);
+    }
+
     /**
      * {@link GvData} version of: {@link com.chdryra
      * .android.reviewer.MdUrlList.MdUrl}
@@ -49,6 +53,11 @@ public class GvUrlList extends GvDataList<GvUrlList.GvUrl> {
 
         public GvUrl(String label, URL url) {
             super(label, TextUtils.toShortenedString(url));
+            mUrl = url;
+        }
+
+        public GvUrl(GvReviewId id, String label, URL url) {
+            super(id, label, TextUtils.toShortenedString(url));
             mUrl = url;
         }
 

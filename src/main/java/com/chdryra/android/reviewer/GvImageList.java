@@ -30,6 +30,10 @@ public class GvImageList extends GvDataList<GvImageList.GvImage> {
         super(GvImage.class, TYPE);
     }
 
+    public GvImageList(GvReviewId id, GvImageList data) {
+        super(id, data);
+    }
+
     public boolean contains(Bitmap bitmap) {
         for (GvImage image : this) {
             if (image.getBitmap().sameAs(bitmap)) return true;
@@ -40,8 +44,27 @@ public class GvImageList extends GvDataList<GvImageList.GvImage> {
 
     @Override
     public void add(GvImage item) {
-        if (size() == 0) item.setIsCover(true);
-        super.add(item);
+        if (isModifiable()) {
+            if (size() == 0) item.setIsCover(true);
+            super.add(item);
+        }
+    }
+
+    public GvImage getRandomCover() {
+        GvImageList covers = getCovers();
+        if (covers.size() == 0) return new GvImage();
+
+        Random r = new Random();
+        return covers.getItem(r.nextInt(covers.size()));
+    }
+
+    public GvImageList getCovers() {
+        GvImageList covers = new GvImageList();
+        for (GvImage image : this) {
+            if (image.isCover()) covers.add(image);
+        }
+
+        return hasHoldingReview() ? new GvImageList(getHoldingReviewId(), covers) : covers;
     }
 
     @Override
@@ -69,29 +92,12 @@ public class GvImageList extends GvDataList<GvImageList.GvImage> {
         };
     }
 
-    public GvImage getRandomCover() {
-        GvImageList covers = getCovers();
-        if (covers.size() == 0) return new GvImage();
-
-        Random r = new Random();
-        return covers.getItem(r.nextInt(covers.size()));
-    }
-
-    public GvImageList getCovers() {
-        GvImageList covers = new GvImageList();
-        for (GvImage image : this) {
-            if (image.isCover()) covers.add(image);
-        }
-
-        return covers;
-    }
-
     /**
      * {@link GvData} version of: {@link com.chdryra
      * .android.reviewer.MdImageList.MdImage}
      * {@link ViewHolder}: {@link VhImage}
      */
-    public static class GvImage implements GvData, DataImage {
+    public static class GvImage extends GvDataBasic implements DataImage {
         public static final Parcelable.Creator<GvImage> CREATOR = new Parcelable
                 .Creator<GvImage>() {
             public GvImage createFromParcel(Parcel in) {
@@ -115,12 +121,6 @@ public class GvImageList extends GvDataList<GvImageList.GvImage> {
             mLatLng = null;
         }
 
-        public GvImage(Bitmap bitmap, Date date, LatLng latLng) {
-            mBitmap = bitmap;
-            mDate = date;
-            mLatLng = latLng;
-        }
-
         public GvImage(Bitmap bitmap, Date date, LatLng latLng, String caption, boolean isCover) {
             mBitmap = bitmap;
             mDate = date;
@@ -129,7 +129,18 @@ public class GvImageList extends GvDataList<GvImageList.GvImage> {
             mIsCover = isCover;
         }
 
+        public GvImage(GvReviewId id, Bitmap bitmap, Date date, LatLng latLng, String caption,
+                boolean isCover) {
+            super(id);
+            mBitmap = bitmap;
+            mDate = date;
+            mCaption = caption;
+            mLatLng = latLng;
+            mIsCover = isCover;
+        }
+
         GvImage(Parcel in) {
+            super(in);
             mBitmap = in.readParcelable(Bitmap.class.getClassLoader());
             mCaption = in.readString();
             mLatLng = in.readParcelable(LatLng.class.getClassLoader());
@@ -192,6 +203,7 @@ public class GvImageList extends GvDataList<GvImageList.GvImage> {
 
         @Override
         public void writeToParcel(Parcel parcel, int i) {
+            super.writeToParcel(parcel, i);
             parcel.writeParcelable(mBitmap, i);
             parcel.writeString(mCaption);
             parcel.writeParcelable(mLatLng, i);

@@ -23,7 +23,7 @@ import com.chdryra.android.mygenerallibrary.VHDDualString;
  * Parcelable version of {@link com.chdryra.android.mygenerallibrary.VHDDualString} to comply with
  * {@link GvData}
  */
-class GvDualText extends VHDDualString implements GvData {
+public class GvDualText extends VHDDualString implements GvData {
     public static final Parcelable.Creator<GvDualText> CREATOR = new Parcelable
             .Creator<GvDualText>() {
         public GvDualText createFromParcel(Parcel in) {
@@ -34,6 +34,7 @@ class GvDualText extends VHDDualString implements GvData {
             return new GvDualText[size];
         }
     };
+    private GvReviewId mId;
 
     GvDualText() {
         super();
@@ -43,13 +44,29 @@ class GvDualText extends VHDDualString implements GvData {
         super(upper, lower);
     }
 
+    GvDualText(GvReviewId id, String upper, String lower) {
+        super(upper, lower);
+        mId = id;
+    }
+
     GvDualText(Parcel in) {
         super(in.readString(), in.readString());
+        mId = in.readParcelable(GvReviewId.class.getClassLoader());
     }
 
     @Override
     public String getStringSummary() {
         return "Upper: " + getUpper() + ", Lower: " + getLower();
+    }
+
+    @Override
+    public boolean hasHoldingReview() {
+        return mId != null;
+    }
+
+    @Override
+    public GvReviewId getHoldingReviewId() {
+        return mId;
     }
 
     @Override
@@ -61,5 +78,6 @@ class GvDualText extends VHDDualString implements GvData {
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeString(getUpper());
         parcel.writeString(getLower());
+        parcel.writeParcelable(mId, i);
     }
 }

@@ -25,6 +25,10 @@ public class GvChildList extends GvDataList<GvChildList.GvChildReview> {
         super(GvChildReview.class, TYPE);
     }
 
+    public GvChildList(GvReviewId id, GvChildList data) {
+        super(id, data);
+    }
+
     public boolean contains(String subject) {
         for (GvChildReview review : this) {
             if (review.getSubject().equals(subject)) return true;
@@ -68,7 +72,7 @@ public class GvChildList extends GvDataList<GvChildList.GvChildReview> {
      * for review children (sub-reviews).
      * {@link ViewHolder}: {@link VhChild}
      */
-    public static class GvChildReview implements GvData {
+    public static class GvChildReview extends GvDataBasic {
         public static final Parcelable.Creator<GvChildReview> CREATOR = new Parcelable
                 .Creator<GvChildReview>() {
             public GvChildReview createFromParcel(Parcel in) {
@@ -92,7 +96,14 @@ public class GvChildList extends GvDataList<GvChildList.GvChildReview> {
             mRating = rating;
         }
 
+        public GvChildReview(GvReviewId id, String subject, float rating) {
+            super(id);
+            mSubject = subject;
+            mRating = rating;
+        }
+
         GvChildReview(Parcel in) {
+            super(in);
             mSubject = in.readString();
             mRating = in.readFloat();
         }
@@ -119,9 +130,12 @@ public class GvChildList extends GvDataList<GvChildList.GvChildReview> {
 
             GvChildReview that = (GvChildReview) o;
 
-            return Float.compare(that.mRating, mRating) == 0 && !(mSubject != null ? !mSubject
-                    .equals(that.mSubject) : that.mSubject != null);
+            if (Float.compare(that.mRating, mRating) != 0) return false;
+            if (mSubject != null ? !mSubject.equals(that.mSubject) : that.mSubject != null) {
+                return false;
+            }
 
+            return true;
         }
 
         @Override
@@ -138,6 +152,7 @@ public class GvChildList extends GvDataList<GvChildList.GvChildReview> {
 
         @Override
         public void writeToParcel(Parcel parcel, int i) {
+            super.writeToParcel(parcel, i);
             parcel.writeString(mSubject);
             parcel.writeFloat(mRating);
         }

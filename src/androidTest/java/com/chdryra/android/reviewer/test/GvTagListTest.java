@@ -18,6 +18,7 @@ import com.chdryra.android.reviewer.GvLocationList;
 import com.chdryra.android.reviewer.GvTagList;
 import com.chdryra.android.reviewer.GvUrlList;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
+import com.chdryra.android.reviewer.test.TestUtils.GvDataParcelableTester;
 
 import junit.framework.TestCase;
 
@@ -33,6 +34,12 @@ public class GvTagListTest extends TestCase {
     @SmallTest
     public void testGetGvType() {
         assertEquals(GvTagList.TYPE, mList.getGvDataType());
+    }
+
+    @SmallTest
+    public void testParcelable() {
+        GvDataParcelableTester.testParcelable(GvDataMocker.newTag());
+        GvDataParcelableTester.testParcelable(GvDataMocker.newTagList(10));
     }
 
     @SmallTest

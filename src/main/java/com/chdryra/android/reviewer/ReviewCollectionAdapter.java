@@ -58,18 +58,19 @@ public class ReviewCollectionAdapter extends ReviewViewAdapterBasic {
     @Override
     public GvDataList getGridData() {
         GvReviewList data = new GvReviewList();
-        for (Review r : mReviews) {
-            GvImageList images = MdGvConverter.convert(r.getImages());
-            GvCommentList headlines = MdGvConverter.convert(r.getComments()).getHeadlines();
-            GvLocationList locations = MdGvConverter.convert(r.getLocations());
+        for (Review review : mReviews) {
+            GvImageList images = MdGvConverter.convert(review.getImages());
+            GvCommentList headlines = MdGvConverter.convert(review.getComments()).getHeadlines();
+            GvLocationList locations = MdGvConverter.convert(review.getLocations());
 
             Bitmap cover = images.size() > 0 ? images.getRandomCover().getBitmap() : null;
-            String headline = headlines.size() > 0 ? headlines.getItem(0).getCommentHeadline() :
+            String headline = headlines.size() > 0 ? headlines.getItem(0).getHeadline() :
                     null;
             String location = locations.size() > 0 ? locations.getItem(0).getName() : null;
 
-            data.add(r.getId().toString(), r.getAuthor().getName(), r.getPublishDate(),
-                    r.getSubject().get(), r.getRating().get(), cover, headline, location);
+            data.add(review.getId().toString(), review.getAuthor().getName(),
+                    review.getPublishDate(),
+                    review.getSubject().get(), review.getRating().get(), cover, headline, location);
         }
 
         return data;

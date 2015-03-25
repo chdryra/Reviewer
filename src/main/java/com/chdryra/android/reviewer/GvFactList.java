@@ -22,13 +22,17 @@ public class GvFactList extends GvDataList<GvFactList.GvFact> {
         super(GvFact.class, TYPE);
     }
 
+    public GvFactList(GvReviewId id, GvFactList data) {
+        super(id, data);
+    }
+
     public GvUrlList getUrls() {
         GvUrlList urls = new GvUrlList();
         for (GvFact fact : this) {
             if (fact.isUrl()) urls.add((GvUrlList.GvUrl) fact);
         }
 
-        return urls;
+        return hasHoldingReview() ? new GvUrlList(getHoldingReviewId(), urls) : urls;
     }
 
     @Override
@@ -71,6 +75,10 @@ public class GvFactList extends GvDataList<GvFactList.GvFact> {
 
         public GvFact(String label, String value) {
             super(label, value);
+        }
+
+        public GvFact(GvReviewId id, String label, String value) {
+            super(id, label, value);
         }
 
         protected GvFact(Parcel in) {

@@ -123,11 +123,11 @@ public class FactoryReviewTest extends TestCase {
         mDate = RandomDate.nextDate();
         mSubject = RandomString.nextWord();
         mRating = RandomRating.nextRating();
-        mComments = GvDataMocker.newCommentList(NUM);
-        mImages = GvDataMocker.newImageList(NUM);
-        mFacts = GvDataMocker.newFactList(NUM);
-        mLocations = GvDataMocker.newLocationList(NUM);
-        mUrls = GvDataMocker.newUrlList(NUM);
+        mComments = GvDataMocker.newCommentList(NUM, false);
+        mImages = GvDataMocker.newImageList(NUM, false);
+        mFacts = GvDataMocker.newFactList(NUM, false);
+        mLocations = GvDataMocker.newLocationList(NUM, false);
+        mUrls = GvDataMocker.newUrlList(NUM, false);
 
         mReview = FactoryReview.createReviewUser(mAuthor, mDate, mSubject, mRating,
                 mComments, mImages, mFacts, mLocations);

@@ -18,6 +18,7 @@ import com.chdryra.android.reviewer.GvLocationList;
 import com.chdryra.android.reviewer.MdRating;
 import com.chdryra.android.reviewer.MdSubject;
 import com.chdryra.android.reviewer.Review;
+import com.chdryra.android.reviewer.ReviewId;
 import com.chdryra.android.reviewer.ReviewNode;
 import com.chdryra.android.reviewer.ReviewUser;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
@@ -100,7 +101,7 @@ public class ReviewUserTest extends TestCase {
     @SmallTest
     public void testHasComments() {
         assertTrue(mReview.hasComments());
-        Review noComments = new ReviewUser(mAuthor, mDate, mSubject, mRating,
+        Review noComments = new ReviewUser(ReviewId.generateId(), mAuthor, mDate, mSubject, mRating,
                 new GvCommentList(), mImages, mFacts, mLocations);
         assertFalse(noComments.hasComments());
     }
@@ -113,7 +114,7 @@ public class ReviewUserTest extends TestCase {
     @SmallTest
     public void testHasFacts() {
         assertTrue(mReview.hasFacts());
-        Review noFacts = new ReviewUser(mAuthor, mDate, mSubject, mRating,
+        Review noFacts = new ReviewUser(ReviewId.generateId(), mAuthor, mDate, mSubject, mRating,
                 mComments, mImages, new GvFactList(), mLocations);
         assertFalse(noFacts.hasFacts());
     }
@@ -126,7 +127,7 @@ public class ReviewUserTest extends TestCase {
     @SmallTest
     public void testHasImages() {
         assertTrue(mReview.hasImages());
-        Review noImages = new ReviewUser(mAuthor, mDate, mSubject, mRating,
+        Review noImages = new ReviewUser(ReviewId.generateId(), mAuthor, mDate, mSubject, mRating,
                 mComments, new GvImageList(), mFacts, mLocations);
         assertFalse(noImages.hasImages());
     }
@@ -139,8 +140,8 @@ public class ReviewUserTest extends TestCase {
     @SmallTest
     public void testHasLocations() {
         assertTrue(mReview.hasLocations());
-        Review noLocations = new ReviewUser(mAuthor, mDate, mSubject, mRating,
-                mComments, mImages, mFacts, new GvLocationList());
+        Review noLocations = new ReviewUser(ReviewId.generateId(), mAuthor, mDate, mSubject,
+                mRating, mComments, mImages, mFacts, new GvLocationList());
         assertFalse(noLocations.hasLocations());
     }
 
@@ -151,12 +152,12 @@ public class ReviewUserTest extends TestCase {
         mSubject = RandomString.nextWord();
         mRating = RandomRating.nextRating();
 
-        mComments = GvDataMocker.newCommentList(NUM);
-        mImages = GvDataMocker.newImageList(NUM);
-        mFacts = GvDataMocker.newFactList(NUM);
-        mLocations = GvDataMocker.newLocationList(NUM);
+        mComments = GvDataMocker.newCommentList(NUM, false);
+        mImages = GvDataMocker.newImageList(NUM, false);
+        mFacts = GvDataMocker.newFactList(NUM, false);
+        mLocations = GvDataMocker.newLocationList(NUM, false);
 
-        mReview = new ReviewUser(mAuthor, mDate, mSubject, mRating, mComments, mImages, mFacts,
-                mLocations);
+        mReview = new ReviewUser(ReviewId.generateId(), mAuthor, mDate, mSubject, mRating,
+                mComments, mImages, mFacts, mLocations);
     }
 }

@@ -25,6 +25,10 @@ public class GvCommentList extends GvDataList<GvCommentList.GvComment> {
         super(GvComment.class, TYPE);
     }
 
+    public GvCommentList(GvReviewId id, GvCommentList data) {
+        super(id, data);
+    }
+
     public GvCommentList getSplitComments() {
         GvCommentList splitComments = new GvCommentList();
         for (GvComment comment : this) {
@@ -38,6 +42,15 @@ public class GvCommentList extends GvDataList<GvCommentList.GvComment> {
     public void add(GvComment item) {
         if (size() == 0) item.setIsHeadline(true);
         super.add(item);
+    }
+
+    public GvCommentList getHeadlines() {
+        GvCommentList headlines = new GvCommentList();
+        for (GvComment image : this) {
+            if (image.isHeadline()) headlines.add(image);
+        }
+
+        return headlines;
     }
 
     @Override
@@ -59,15 +72,6 @@ public class GvCommentList extends GvDataList<GvCommentList.GvComment> {
         };
     }
 
-    public GvCommentList getHeadlines() {
-        GvCommentList headlines = new GvCommentList();
-        for (GvComment image : this) {
-            if (image.isHeadline()) headlines.add(image);
-        }
-
-        return headlines;
-    }
-
     /**
      * {@link GvData} version of: {@link com.chdryra
      * .android.reviewer.MdCommentList.MdComment}
@@ -76,7 +80,7 @@ public class GvCommentList extends GvDataList<GvCommentList.GvComment> {
      * Methods for getting the comment headline and for splitting and unsplitting comments.
      * </p>
      */
-    public static class GvComment implements GvData, DataComment {
+    public static class GvComment extends GvDataBasic implements DataComment {
         public static final Parcelable.Creator<GvComment> CREATOR = new Parcelable
                 .Creator<GvComment>() {
             public GvComment createFromParcel(Parcel in) {
@@ -97,6 +101,12 @@ public class GvCommentList extends GvDataList<GvCommentList.GvComment> {
             mUnsplitParent = unsplitParent;
         }
 
+        private GvComment(GvReviewId id, String comment, GvComment unsplitParent) {
+            super(id);
+            mComment = comment;
+            mUnsplitParent = unsplitParent;
+        }
+
         public GvComment() {
             mComment = null;
         }
@@ -105,12 +115,24 @@ public class GvCommentList extends GvDataList<GvCommentList.GvComment> {
             mComment = comment;
         }
 
+        public GvComment(GvReviewId id, String comment) {
+            super(id);
+            mComment = comment;
+        }
+
         public GvComment(String comment, boolean isHeadline) {
             mComment = comment;
             mIsHeadline = isHeadline;
         }
 
+        public GvComment(GvReviewId id, String comment, boolean isHeadline) {
+            super(id);
+            mComment = comment;
+            mIsHeadline = isHeadline;
+        }
+
         private GvComment(Parcel in) {
+            super(in);
             mComment = in.readString();
             mUnsplitParent = in.readParcelable(GvComment.class.getClassLoader());
             mIsHeadline = in.readByte() != 0;
@@ -128,7 +150,7 @@ public class GvCommentList extends GvDataList<GvCommentList.GvComment> {
 
         @Override
         public String getStringSummary() {
-            return getUnSplitComment().getCommentHeadline() + "...";
+            return getUnsplitComment().getHeadline() + "...";
         }
 
         @Override
@@ -174,26 +196,28 @@ public class GvCommentList extends GvDataList<GvCommentList.GvComment> {
 
         @Override
         public void writeToParcel(Parcel parcel, int i) {
+            super.writeToParcel(parcel, i);
             parcel.writeString(mComment);
             parcel.writeParcelable(mUnsplitParent, i);
             parcel.writeByte((byte) (mIsHeadline ? 1 : 0));
         }
 
-        public String getCommentHeadline() {
+        public String getHeadline() {
             return CommentFormatter.getHeadline(mComment);
         }
 
-        public GvComment getUnSplitComment() {
-            return mUnsplitParent != null ? mUnsplitParent.getUnSplitComment() : this;
+        public GvComment getUnsplitComment() {
+            return mUnsplitParent != null ? mUnsplitParent.getUnsplitComment() : this;
         }
 
         private GvCommentList getSplitComments() {
             GvCommentList splitComments = new GvCommentList();
             for (String comment : CommentFormatter.split(mComment)) {
-                splitComments.add(new GvComment(comment, this));
+                splitComments.add(new GvComment(getHoldingReviewId(), comment, this));
             }
 
-            return splitComments;
+            return hasHoldingReview() ?
+                    new GvCommentList(getHoldingReviewId(), splitComments) : splitComments;
         }
     }
 }

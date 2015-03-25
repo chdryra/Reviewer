@@ -34,6 +34,7 @@ public class GvText extends VHDString implements GvData {
             return new GvText[size];
         }
     };
+    private GvReviewId mId;
 
     GvText() {
         super();
@@ -43,13 +44,29 @@ public class GvText extends VHDString implements GvData {
         super(text);
     }
 
+    GvText(GvReviewId id, String text) {
+        super(text);
+        mId = id;
+    }
+
     GvText(Parcel in) {
         super(in.readString());
+        mId = in.readParcelable(GvReviewId.class.getClassLoader());
     }
 
     @Override
     public String getStringSummary() {
         return get();
+    }
+
+    @Override
+    public boolean hasHoldingReview() {
+        return mId != null;
+    }
+
+    @Override
+    public GvReviewId getHoldingReviewId() {
+        return mId;
     }
 
     @Override
@@ -60,5 +77,6 @@ public class GvText extends VHDString implements GvData {
     @Override
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeString(get());
+        parcel.writeParcelable(mId, i);
     }
 }

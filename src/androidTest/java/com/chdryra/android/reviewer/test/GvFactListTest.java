@@ -18,6 +18,7 @@ import com.chdryra.android.reviewer.GvLocationList;
 import com.chdryra.android.reviewer.GvTagList;
 import com.chdryra.android.reviewer.GvUrlList;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
+import com.chdryra.android.reviewer.test.TestUtils.GvDataParcelableTester;
 import com.chdryra.android.testutils.RandomString;
 
 import junit.framework.TestCase;
@@ -39,9 +40,17 @@ public class GvFactListTest extends TestCase {
     }
 
     @SmallTest
+    public void testParcelable() {
+        GvDataParcelableTester.testParcelable(GvDataMocker.newFact(false));
+        GvDataParcelableTester.testParcelable(GvDataMocker.newFact(true));
+        GvDataParcelableTester.testParcelable(GvDataMocker.newFactList(10, false));
+        GvDataParcelableTester.testParcelable(GvDataMocker.newFactList(10, true));
+    }
+
+    @SmallTest
     public void testComparator() {
         for (int i = 0; i < 50; ++i) {
-            mList.add(GvDataMocker.newFact());
+            mList.add(GvDataMocker.newFact(false));
         }
 
         assertEquals(50, mList.size());
@@ -74,8 +83,8 @@ public class GvFactListTest extends TestCase {
 
     @SmallTest
     public void testGvFact() {
-        GvFactList.GvFact fact1 = GvDataMocker.newFact();
-        GvFactList.GvFact fact2 = GvDataMocker.newFact();
+        GvFactList.GvFact fact1 = GvDataMocker.newFact(false);
+        GvFactList.GvFact fact2 = GvDataMocker.newFact(false);
 
         String label1 = fact1.getLabel();
         String value1 = fact1.getValue();
@@ -115,7 +124,7 @@ public class GvFactListTest extends TestCase {
 
     @SmallTest
     public void testEquals() {
-        mList.add(GvDataMocker.newFactList(NUM));
+        mList.add(GvDataMocker.newFactList(NUM, false));
         assertEquals(NUM, mList.size());
 
         assertFalse(mList.equals(GvDataMocker.getData(GvChildList.TYPE, NUM)));

@@ -16,6 +16,7 @@ import com.chdryra.android.mygenerallibrary.ViewHolderDataList;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 
 /**
  * The View layer (V) data equivalent of the Model layer (M) data {@link MdDataList}.
@@ -36,12 +37,24 @@ public class GvDataList<T extends GvData> extends ViewHolderDataList<T> implemen
             return new GvDataList[size];
         }
     };
-    public final GvDataType mType;
-    public       Class<T>   mDataClass;
 
-    protected GvDataList(Class<T> dataClass, GvDataType mDataType) {
+    private final GvDataType mType;
+    private final Class<T>   mDataClass;
+    private       GvReviewId mReviewId;
+
+    public GvDataList(Class<T> dataClass, GvDataType mDataType) {
         mDataClass = dataClass;
         mType = mDataType;
+    }
+
+    //TODO come up with a more robust way of doing this.
+    public GvDataList(GvReviewId reviewId, GvDataList<T> data) {
+        mDataClass = data.mDataClass;
+        mType = data.getGvDataType();
+        mReviewId = reviewId;
+        for (T datum : data) {
+            if (reviewId.equals(datum.getHoldingReviewId())) super.add(datum);
+        }
     }
 
     //TODO make type safe
@@ -50,6 +63,7 @@ public class GvDataList<T extends GvData> extends ViewHolderDataList<T> implemen
         mType = (GvDataType) in.readSerializable();
         T[] data = (T[]) in.readParcelableArray(mDataClass.getClassLoader());
         mData = new ArrayList<>(Arrays.asList(data));
+        mReviewId = in.readParcelable(GvReviewId.class.getClassLoader());
     }
 
     public GvDataType getGvDataType() {
@@ -58,7 +72,19 @@ public class GvDataList<T extends GvData> extends ViewHolderDataList<T> implemen
 
     @Override
     public String getStringSummary() {
-        return null;
+        int num = size();
+        String dataString = num == 1 ? mType.getDatumName() : mType.getDataName();
+        return String.valueOf(size()) + " " + dataString;
+    }
+
+    @Override
+    public boolean hasHoldingReview() {
+        return mReviewId != null;
+    }
+
+    @Override
+    public GvReviewId getHoldingReviewId() {
+        return mReviewId;
     }
 
     @Override
@@ -71,6 +97,7 @@ public class GvDataList<T extends GvData> extends ViewHolderDataList<T> implemen
         dest.writeValue(mDataClass);
         dest.writeSerializable(mType);
         dest.writeParcelableArray((T[]) mData.toArray(), flags);
+        dest.writeParcelable(mReviewId, flags);
     }
 
     @Override
@@ -84,21 +111,60 @@ public class GvDataList<T extends GvData> extends ViewHolderDataList<T> implemen
     }
 
     @Override
+    public void add(T item) {
+        if (isModifiable()) super.add(item);
+    }
+
+    @Override
+    public void remove(T item) {
+        if (isModifiable()) super.remove(item);
+    }
+
+    @Override
+    public void removeAll() {
+        if (isModifiable()) super.removeAll();
+    }
+
+    @Override
+    public void add(Iterable<T> list) {
+        if (isModifiable()) super.add(list);
+    }
+
+    @Override
+    public Iterator<T> iterator() {
+        return new GvDataListIterator();
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || !(o instanceof GvDataList)) return false;
+        if (!(o instanceof GvDataList)) return false;
 
-        //TODO make type safe
-        GvDataList<T> other = (GvDataList<T>) o;
+        GvDataList that = (GvDataList) o;
 
-        if (other.size() != size()) return false;
-
-        for (int i = 0; i < size(); ++i) {
-            T datum = getItem(i);
-            T otherDatum = other.getItem(i);
-            if (!datum.equals(otherDatum)) return false;
-        }
+        if (!mDataClass.equals(that.mDataClass)) return false;
+        if (!mReviewId.equals(that.mReviewId)) return false;
+        if (!mType.equals(that.mType)) return false;
 
         return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = mType.hashCode();
+        result = 31 * result + mDataClass.hashCode();
+        result = 31 * result + mReviewId.hashCode();
+        return result;
+    }
+
+    protected boolean isModifiable() {
+        return !hasHoldingReview();
+    }
+
+    public class GvDataListIterator extends SortableListIterator {
+        @Override
+        public void remove() {
+            if (isModifiable()) super.remove();
+        }
     }
 }

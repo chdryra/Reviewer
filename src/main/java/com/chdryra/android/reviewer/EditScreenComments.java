@@ -48,7 +48,7 @@ public class EditScreenComments {
 
         @Override
         public void onGridItemClick(GvData item, View v) {
-            super.onGridItemClick(((GvCommentList.GvComment) item).getUnSplitComment(), v);
+            super.onGridItemClick(((GvCommentList.GvComment) item).getUnsplitComment(), v);
         }
 
         @Override

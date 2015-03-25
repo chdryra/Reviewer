@@ -18,6 +18,7 @@ import com.chdryra.android.reviewer.GvLocationList;
 import com.chdryra.android.reviewer.GvTagList;
 import com.chdryra.android.reviewer.GvUrlList;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
+import com.chdryra.android.reviewer.test.TestUtils.GvDataParcelableTester;
 
 import junit.framework.TestCase;
 
@@ -38,9 +39,17 @@ public class GvUrlListTest extends TestCase {
     }
 
     @SmallTest
+    public void testParcelable() {
+        GvDataParcelableTester.testParcelable(GvDataMocker.newUrl(false));
+        GvDataParcelableTester.testParcelable(GvDataMocker.newUrl(true));
+        GvDataParcelableTester.testParcelable(GvDataMocker.newUrlList(10, false));
+        GvDataParcelableTester.testParcelable(GvDataMocker.newUrlList(10, true));
+    }
+
+    @SmallTest
     public void testGvUrl() {
-        GvUrlList.GvUrl testUrl1 = GvDataMocker.newUrl();
-        GvUrlList.GvUrl testUrl2 = GvDataMocker.newUrl();
+        GvUrlList.GvUrl testUrl1 = GvDataMocker.newUrl(false);
+        GvUrlList.GvUrl testUrl2 = GvDataMocker.newUrl(false);
 
         String url1label = testUrl1.getLabel();
         String url2label = testUrl2.getLabel();
@@ -71,7 +80,7 @@ public class GvUrlListTest extends TestCase {
 
     @SmallTest
     public void testEquals() {
-        mList.add(GvDataMocker.newUrlList(NUM));
+        mList.add(GvDataMocker.newUrlList(NUM, false));
         assertEquals(NUM, mList.size());
 
         assertFalse(mList.equals(GvDataMocker.getData(GvChildList.TYPE, NUM)));

@@ -73,7 +73,7 @@ public class ReviewBuilderTest extends ActivityInstrumentationTestCase2<Activity
 
     @SmallTest
     public void testGetAverageRating() {
-        GvChildList children = GvDataMocker.newChildList(NUM);
+        GvChildList children = GvDataMocker.newChildList(NUM, false);
 
         assertEquals(0f, mBuilder.getAverageRating());
         assertEquals(0f, mBuilder.getRating());
@@ -102,7 +102,7 @@ public class ReviewBuilderTest extends ActivityInstrumentationTestCase2<Activity
     @SmallTest
     public void testGetImages() {
         assertEquals(0, mBuilder.getImages().size());
-        GvImageList images = GvDataMocker.newImageList(NUM);
+        GvImageList images = GvDataMocker.newImageList(NUM, false);
         setBuilderData(images);
         assertEquals(images.size(), mBuilder.getImages().size());
         assertEquals(images, mBuilder.getImages());
@@ -154,7 +154,7 @@ public class ReviewBuilderTest extends ActivityInstrumentationTestCase2<Activity
     @SmallTest
     public void testDataBuilderGetAverageRating() {
         while (mBuilder.getAverageRating() == mBuilder.getRating()) {
-            setBuilderData(GvDataMocker.newChildList(NUM));
+            setBuilderData(GvDataMocker.newChildList(NUM, false));
         }
 
         for (GvDataType dataType : TYPES) {
@@ -183,8 +183,8 @@ public class ReviewBuilderTest extends ActivityInstrumentationTestCase2<Activity
 
     @SmallTest
     public void testDataBuilderGetImages() {
-        GvImageList images = GvDataMocker.newImageList(NUM);
-        GvImageList newImages = GvDataMocker.newImageList(NUM);
+        GvImageList images = GvDataMocker.newImageList(NUM, false);
+        GvImageList newImages = GvDataMocker.newImageList(NUM, false);
         setBuilderData(images);
 
         for (GvDataType dataType : TYPES) {

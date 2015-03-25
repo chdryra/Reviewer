@@ -68,19 +68,6 @@ public class ReviewUser implements Review {
         mNode = FactoryReview.createReviewNode(this);
     }
 
-    public ReviewUser(Author author, Date publishDate, String subject, float rating) {
-        this(ReviewId.generateId(), author, publishDate, subject, rating);
-    }
-
-    public ReviewUser(Author author, Date publishDate, String subject, float rating,
-            Iterable<? extends DataComment> comments,
-            Iterable<? extends DataImage> images,
-            Iterable<? extends DataFact> facts,
-            Iterable<? extends DataLocation> locations) {
-        this(ReviewId.generateId(), author, publishDate, subject, rating, comments, images,
-                facts, locations);
-    }
-
     @Override
     public ReviewId getId() {
         return mId;

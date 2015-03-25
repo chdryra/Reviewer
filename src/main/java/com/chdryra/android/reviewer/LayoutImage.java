@@ -44,10 +44,10 @@ public class LayoutImage extends GvDataEditLayout<GvImageList.GvImage> {
 
         imageView.setImageBitmap(image.getBitmap());
         String caption = image.getCaption();
-        imageCaption.setText(image.getCaption());
+        imageCaption.setText(caption);
 
         //For some reason setSelection(0) doesn't work unless I force set the span of the selection
-        if (caption != null && caption.length() > 0) {
+        if (DataValidator.validateString(caption)) {
             imageCaption.setSelection(0, caption.length());
             imageCaption.setSelection(0);
         }

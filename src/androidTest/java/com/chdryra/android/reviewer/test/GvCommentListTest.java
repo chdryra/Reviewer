@@ -18,6 +18,7 @@ import com.chdryra.android.reviewer.GvLocationList;
 import com.chdryra.android.reviewer.GvTagList;
 import com.chdryra.android.reviewer.GvUrlList;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
+import com.chdryra.android.reviewer.test.TestUtils.GvDataParcelableTester;
 import com.chdryra.android.testutils.RandomString;
 
 import junit.framework.TestCase;
@@ -39,9 +40,17 @@ public class GvCommentListTest extends TestCase {
     }
 
     @SmallTest
+    public void testParcelable() {
+        GvDataParcelableTester.testParcelable(GvDataMocker.newComment(false));
+        GvDataParcelableTester.testParcelable(GvDataMocker.newComment(true));
+        GvDataParcelableTester.testParcelable(GvDataMocker.newCommentList(10, false));
+        GvDataParcelableTester.testParcelable(GvDataMocker.newCommentList(10, true));
+    }
+
+    @SmallTest
     public void testGvComment() {
-        String comment1 = GvDataMocker.newComment().getComment();
-        String comment2 = GvDataMocker.newComment().getComment();
+        String comment1 = GvDataMocker.newComment(false).getComment();
+        String comment2 = GvDataMocker.newComment(false).getComment();
 
         GvCommentList.GvComment gvComment = new GvCommentList.GvComment(comment1);
         GvCommentList.GvComment gvCommentEquals = new GvCommentList.GvComment(comment1);
@@ -74,7 +83,7 @@ public class GvCommentListTest extends TestCase {
 
         //Test getCommentHeadline()
         String first = sentences[0];
-        String headline = parent.getCommentHeadline();
+        String headline = parent.getHeadline();
         if (first.endsWith(".")) headline += ".";
         assertEquals(first, headline);
 
@@ -88,7 +97,7 @@ public class GvCommentListTest extends TestCase {
             assertEquals(one, two);
 
             //Test unsplit
-            assertEquals(parent, split.getItem(i).getUnSplitComment());
+            assertEquals(parent, split.getItem(i).getUnsplitComment());
         }
 
         String paragraph2 = generator.nextParagraph();
@@ -100,7 +109,7 @@ public class GvCommentListTest extends TestCase {
 
         //Test getCommentHeadline()
         first = sentences2[0];
-        headline = parent2.getCommentHeadline();
+        headline = parent2.getHeadline();
         if (first.endsWith(".")) headline += ".";
         assertEquals(first, headline);
 
@@ -117,16 +126,16 @@ public class GvCommentListTest extends TestCase {
 
             //Test unsplit remains correct for either paragraph
             if (i < sentences.length) {
-                assertEquals(parent, split.getItem(i).getUnSplitComment());
+                assertEquals(parent, split.getItem(i).getUnsplitComment());
             } else {
-                assertEquals(parent2, split.getItem(i).getUnSplitComment());
+                assertEquals(parent2, split.getItem(i).getUnsplitComment());
             }
         }
     }
 
     @SmallTest
     public void testEquals() {
-        mList.add(GvDataMocker.newCommentList(NUM));
+        mList.add(GvDataMocker.newCommentList(NUM, false));
         assertEquals(NUM, mList.size());
 
         assertFalse(mList.equals(GvDataMocker.getData(GvChildList.TYPE, NUM)));
@@ -151,7 +160,7 @@ public class GvCommentListTest extends TestCase {
 
     @SmallTest
     public void testSort() {
-        mList.add(GvDataMocker.newCommentList(100));
+        mList.add(GvDataMocker.newCommentList(100, false));
         assertFalse(isSorted());
         mList.sort();
         assertTrue(isSorted());

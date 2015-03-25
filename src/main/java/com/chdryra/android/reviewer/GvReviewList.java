@@ -25,15 +25,18 @@ import java.util.Date;
  * @see com.chdryra.android.reviewer.Administrator
  */
 public class GvReviewList extends GvDataList<GvReviewList.GvReviewOverview> {
-    public static final GvDataType TYPE = new GvDataType("feed");
+    public static final GvDataType TYPE = new GvDataType("reviews");
 
     public GvReviewList() {
         super(GvReviewOverview.class, TYPE);
     }
 
+    public GvReviewList(GvReviewId id, GvReviewList data) {
+        super(id, data);
+    }
+
     public void add(String id, String author, Date publishDate, String subject, float rating,
-            Bitmap coverImage, String headline,
-            String locationName) {
+            Bitmap coverImage, String headline, String locationName) {
         if (!contains(id)) {
             add(new GvReviewOverview(id, author, publishDate, subject, rating, coverImage,
                     headline, locationName));
@@ -68,7 +71,7 @@ public class GvReviewList extends GvDataList<GvReviewList.GvReviewOverview> {
      * {@link GvData} version of: {@link Review}
      * {@link ViewHolder): {@link VhFeed }
      */
-    public static class GvReviewOverview implements GvData {
+    public static class GvReviewOverview extends GvDataBasic {
         public static final Parcelable.Creator<GvReviewOverview> CREATOR = new Parcelable
                 .Creator<GvReviewOverview>() {
             public GvReviewOverview createFromParcel(Parcel in) {
@@ -104,7 +107,22 @@ public class GvReviewList extends GvDataList<GvReviewList.GvReviewOverview> {
             mPublishDate = publishDate;
         }
 
+        public GvReviewOverview(GvReviewId parentId, String id, String author, Date publishDate,
+                String subject, float rating, Bitmap coverImage, String headline,
+                String locationName) {
+            super(parentId);
+            mId = id;
+            mSubject = subject;
+            mRating = rating;
+            mCoverImage = coverImage;
+            mHeadline = headline;
+            mLocationName = locationName;
+            mAuthor = author;
+            mPublishDate = publishDate;
+        }
+
         private GvReviewOverview(Parcel in) {
+            super(in);
             mId = in.readString();
             mSubject = in.readString();
             mRating = in.readFloat();
@@ -134,6 +152,7 @@ public class GvReviewList extends GvDataList<GvReviewList.GvReviewOverview> {
 
         @Override
         public void writeToParcel(Parcel parcel, int i) {
+            super.writeToParcel(parcel, i);
             parcel.writeString(mId);
             parcel.writeString(mSubject);
             parcel.writeFloat(mRating);

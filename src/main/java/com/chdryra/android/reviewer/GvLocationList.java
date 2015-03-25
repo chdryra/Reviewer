@@ -23,12 +23,16 @@ public class GvLocationList extends GvDataList<GvLocationList.GvLocation> {
         super(GvLocation.class, TYPE);
     }
 
+    public GvLocationList(GvReviewId id, GvLocationList data) {
+        super(id, data);
+    }
+
     /**
      * {@link GvData} version of: {@link com.chdryra
      * .android.reviewer.MdLocationList.MdLocation}
      * {@link ViewHolder}: {@link VhLocation}
      */
-    public static class GvLocation implements GvData, DataLocation {
+    public static class GvLocation extends GvDataBasic implements DataLocation {
         public static final Parcelable.Creator<GvLocation> CREATOR = new Parcelable
                 .Creator<GvLocation>() {
             public GvLocation createFromParcel(Parcel in) {
@@ -52,7 +56,14 @@ public class GvLocationList extends GvDataList<GvLocationList.GvLocation> {
             mName = name;
         }
 
+        public GvLocation(GvReviewId id, LatLng latLng, String name) {
+            super(id);
+            mLatLng = latLng;
+            mName = name;
+        }
+
         GvLocation(Parcel in) {
+            super(in);
             mLatLng = in.readParcelable(LatLng.class.getClassLoader());
             mName = in.readString();
         }
@@ -98,6 +109,7 @@ public class GvLocationList extends GvDataList<GvLocationList.GvLocation> {
 
         @Override
         public void writeToParcel(Parcel parcel, int i) {
+            super.writeToParcel(parcel, i);
             parcel.writeParcelable(mLatLng, i);
             parcel.writeString(mName);
         }
