@@ -11,8 +11,8 @@ package com.chdryra.android.reviewer.test;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.mygenerallibrary.ViewHolderDataList;
+import com.chdryra.android.reviewer.GpAutoCompleter;
 import com.chdryra.android.reviewer.GvLocationList;
-import com.chdryra.android.reviewer.LocatedPlaceAutoCompleter;
 import com.google.android.gms.maps.model.LatLng;
 
 import junit.framework.TestCase;
@@ -22,13 +22,13 @@ import junit.framework.TestCase;
  * On: 18/03/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class LocatedPlaceAutoCompleterTest extends TestCase {
+public class GpAutoCompleterTest extends TestCase {
     private static final GvLocationList.GvLocation TAYYABS =
             new GvLocationList.GvLocation(new LatLng(51.517264, -0.063484), "Tayyabs");
 
     @SmallTest
     public void testFilter() {
-        LocatedPlaceAutoCompleter filter = new LocatedPlaceAutoCompleter(TAYYABS.getLatLng());
+        GpAutoCompleter filter = new GpAutoCompleter(TAYYABS.getLatLng());
         ViewHolderDataList filtered = filter.filter("Ta");
         assertTrue(filtered.size() > 2);
         filtered = filter.filter("Tayyabs");

@@ -130,7 +130,7 @@ public class ActivityEditFactsTest extends ActivityEditScreenTest {
 
     protected GvDataList newData() {
         if (mUrlData) {
-            GvUrlList urls = new GvUrlList();
+            GvFactList urls = new GvFactList();
             try {
                 urls.add(new GvUrlList.GvUrl(BBC, new URL(BBC_URL)));
             } catch (MalformedURLException e) {

@@ -18,16 +18,21 @@ import com.chdryra.android.remoteapifetchers.PlacesApi;
  * On: 13/03/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class PlaceDetailsFetcher {
-    private final String          mPlaceId;
+public class GpPlaceDetailsFetcher {
+    private final LocatedPlace.LocationId mPlaceId;
     private final DetailsListener mListener;
 
     public interface DetailsListener {
         public void onPlaceDetailsFound(GpPlaceDetailsResult details);
     }
 
-    public PlaceDetailsFetcher(String placeId, DetailsListener listener) {
-        if (!DataValidator.validateString(placeId)) {
+    public GpPlaceDetailsFetcher(LocatedPlace place, DetailsListener listener) {
+        LocatedPlace.LocationId placeId = place.getId();
+        if (placeId.getProvider() != LocatedPlace.Provider.GOOGLE) {
+            throw new IllegalArgumentException("PlaceId must be a GooglePlaces Id");
+        }
+
+        if (!DataValidator.validateString(placeId.getId())) {
             throw new IllegalArgumentException("PlaceId must have length");
         }
 
@@ -40,13 +45,13 @@ public class PlaceDetailsFetcher {
     }
 
     /**
-     * Finds nearest addresses given a LatLng on a separate thread using
+     * Finds details given a LocatedPlace on a separate thread using
      * {@link com.chdryra.android.mygenerallibrary.GooglePlacesApi}.
      */
     private class DetailsFetcherTask extends AsyncTask<Void, Void, GpPlaceDetailsResult> {
         @Override
         protected GpPlaceDetailsResult doInBackground(Void... params) {
-            return PlacesApi.fetchDetails(mPlaceId);
+            return PlacesApi.fetchDetails(mPlaceId.getId());
         }
 
         @Override

@@ -21,7 +21,8 @@ import java.util.ArrayList;
  * On: 12/03/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class NearestNamesSuggester {
+public class GpNearestNamesSuggester {
+    private static final LocatedPlace.Provider GOOGLE_PLACES = LocatedPlace.Provider.GOOGLE;
     private final LatLng              mLatLng;
     private final SuggestionsListener mListener;
 
@@ -29,29 +30,35 @@ public class NearestNamesSuggester {
         public void onNearestNamesSuggested(ArrayList<LocatedPlace> addresses);
     }
 
-    public NearestNamesSuggester(LatLng latlng, SuggestionsListener listener) {
+    public GpNearestNamesSuggester(LatLng latlng, SuggestionsListener listener) {
         mLatLng = latlng;
         mListener = listener;
     }
 
     public void fetchSuggestions(int number) {
-        new AddressFinderTask().execute(number);
+        new NamesFinderTask().execute(number);
     }
 
     /**
      * Finds nearest addresses given a LatLng on a separate thread using
      * {@link com.chdryra.android.mygenerallibrary.GooglePlacesApi}.
      */
-    private class AddressFinderTask extends AsyncTask<Integer, Void, ArrayList<LocatedPlace>> {
+    private class NamesFinderTask extends AsyncTask<Integer, Void, ArrayList<LocatedPlace>> {
         @Override
         protected ArrayList<LocatedPlace> doInBackground(Integer... params) {
             Integer numberToGet = params[0];
             ArrayList<LocatedPlace> places = new ArrayList<>();
             if (mLatLng == null || numberToGet == 0) return places;
+
             GpPlaceSearchResults results = PlacesApi.fetchNearestNames(mLatLng);
+
             for (GpPlaceSearchResults.GpPlaceSearchResult result : results) {
-                places.add(new LocatedPlace(result.getGeometry().getLatLng(),
-                        result.getName().getString(), result.getPlaceId().getString()));
+                LatLng latlng = result.getGeometry().getLatLng();
+                String description = result.getName().getString();
+                String googleId = result.getPlaceId().getString();
+                LocatedPlace.LocationId id = new LocatedPlace.LocationId(GOOGLE_PLACES, googleId);
+
+                places.add(new LocatedPlace(latlng, description, id));
             }
 
             return places;

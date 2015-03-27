@@ -19,10 +19,11 @@ import com.google.android.gms.maps.model.LatLng;
  * On: 12/03/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class LocatedPlaceAutoCompleter implements ViewHolderAdapterFiltered.QueryFilter {
+public class GpAutoCompleter implements ViewHolderAdapterFiltered.QueryFilter {
+    private static final LocatedPlace.Provider GOOGLE_PLACES = LocatedPlace.Provider.GOOGLE;
     private final LatLng mLatLng;
 
-    public LocatedPlaceAutoCompleter(LatLng latLng) {
+    public GpAutoCompleter(LatLng latLng) {
         mLatLng = latLng;
     }
 
@@ -34,8 +35,11 @@ public class LocatedPlaceAutoCompleter implements ViewHolderAdapterFiltered.Quer
         ViewHolderDataList<VhdLocatedPlace> filtered = new ViewHolderDataList<>();
 
         for (GpAutoCompletePredictions.GpPrediction prediction : predictions) {
-            LocatedPlace place = new LocatedPlace(mLatLng, prediction.getDescription()
-                    .getDescription(), prediction.getPlaceId().getString());
+            String description = prediction.getDescription().getDescription();
+            String googleId = prediction.getPlaceId().getString();
+            LocatedPlace.LocationId id = new LocatedPlace.LocationId(GOOGLE_PLACES, googleId);
+
+            LocatedPlace place = new LocatedPlace(mLatLng, description, id);
             filtered.add(new VhdLocatedPlace(place));
         }
 

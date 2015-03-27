@@ -13,6 +13,7 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
+import android.location.Location;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -150,8 +151,8 @@ public class BuildScreen {
                 }
             }
 
-            args.putParcelable(DialogLocation.LATLNG, latLng);
-            args.putBoolean(DialogLocation.FROM_IMAGE, fromImage);
+            args.putParcelable(LayoutLocationAdd.LATLNG, latLng);
+            args.putBoolean(LayoutLocationAdd.FROM_IMAGE, fromImage);
         }
 
         private int getImageRequestCode() {
@@ -164,13 +165,13 @@ public class BuildScreen {
                 LocationClientConnector.Locatable {
 
             @Override
-            public void onLocated(LatLng latLng) {
-                mLatLng = latLng;
+            public void onLocated(Location location) {
+                mLatLng = new LatLng(location.getLatitude(), location.getLongitude());
             }
 
             @Override
-            public void onLocationClientConnected(LatLng latLng) {
-                mLatLng = latLng;
+            public void onLocationClientConnected(Location location) {
+                onLocated(location);
             }
 
             @Override

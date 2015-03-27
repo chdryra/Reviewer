@@ -16,14 +16,24 @@ import com.google.android.gms.maps.model.LatLng;
  * Email: rizwan.choudrey@gmail.com
  */
 public class LocatedPlace {
-    private final LatLng mLatLng;
-    private final String mDescription;
-    private final String mId;
+    private static final String SEPARATOR = "-";
 
-    public LocatedPlace(LatLng latLng, String description, String id) {
+    private final LatLng     mLatLng;
+    private final String     mDescription;
+    private final LocationId mId;
+
+    public enum Provider {GOOGLE, USER}
+
+    public LocatedPlace(LatLng latLng, String description, LocationId id) {
         mLatLng = latLng;
         mDescription = description;
         mId = id;
+    }
+
+    public LocatedPlace(LatLng latLng, String description) {
+        mLatLng = latLng;
+        mDescription = description;
+        mId = new LocationId(Provider.USER, generateId());
     }
 
     public LatLng getLatLng() {
@@ -34,12 +44,34 @@ public class LocatedPlace {
         return mDescription;
     }
 
-    public String getId() {
+    public LocationId getId() {
         return mId;
     }
 
     public boolean isValid() {
         return mLatLng != null && DataValidator.validateString(mDescription) && DataValidator
-                .validateString(mId);
+                .validateString(mId.getId());
+    }
+
+    private String generateId() {
+        return mLatLng.hashCode() + SEPARATOR + mDescription.hashCode();
+    }
+
+    public static class LocationId {
+        private Provider mProvider;
+        private String   mId;
+
+        public LocationId(Provider provider, String id) {
+            mProvider = provider;
+            mId = id;
+        }
+
+        public Provider getProvider() {
+            return mProvider;
+        }
+
+        public String getId() {
+            return mId;
+        }
     }
 }

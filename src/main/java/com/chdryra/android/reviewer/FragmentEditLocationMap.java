@@ -15,6 +15,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.DataSetObserver;
 import android.database.MatrixCursor;
+import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Editable;
@@ -278,13 +279,13 @@ public class FragmentEditLocationMap extends FragmentDeleteDone implements
     }
 
     @Override
-    public void onLocated(LatLng latLng) {
-        setLatLng(latLng);
+    public void onLocated(Location location) {
+        setLatLng(new LatLng(location.getLatitude(), location.getLongitude()));
     }
 
     @Override
-    public void onLocationClientConnected(LatLng latLng) {
-        if (mNewLatLng == null) onLocated(latLng);
+    public void onLocationClientConnected(Location location) {
+        if (mNewLatLng == null) onLocated(location);
     }
 
     @Override

@@ -10,6 +10,7 @@ package com.chdryra.android.reviewer;
 
 import android.app.Activity;
 import android.content.Context;
+import android.location.Location;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -34,8 +35,8 @@ import java.util.ArrayList;
  */
 public class LayoutLocationAdd extends GvDataEditLayout<GvLocationList.GvLocation>
         implements LocationClientConnector.Locatable,
-        NearestNamesSuggester.SuggestionsListener,
-        PlaceDetailsFetcher.DetailsListener {
+        GpNearestNamesSuggester.SuggestionsListener,
+        GpPlaceDetailsFetcher.DetailsListener {
     public static final int   LAYOUT = R.layout.dialog_location_add;
     public static final int   NAME   = R.id.location_add_edit_text;
     public static final int   LIST   = R.id.suggestions_list_view;
@@ -49,11 +50,11 @@ public class LayoutLocationAdd extends GvDataEditLayout<GvLocationList.GvLocatio
     private static final int SEARCHING_IMAGE    = R.string.edit_text_searching_near_image;
     private static final int NO_LOCATION        = R.string.edit_text_no_suggestions;
 
-    private LatLng                    mCurrentLatLng;
-    private LatLng                    mSelectedLatLng;
-    private LocatedPlaceAutoCompleter mAutoCompleter;
-    private ViewHolderAdapterFiltered mFilteredAdapter;
-    private Activity                  mActivity;
+    private Activity                              mActivity;
+    private LatLng                                mCurrentLatLng;
+    private LatLng                                mSelectedLatLng;
+    private ViewHolderAdapterFiltered             mFilteredAdapter;
+    private ViewHolderAdapterFiltered.QueryFilter mQueryFilter;
 
     private boolean mLatLngProvided = false;
 
@@ -61,8 +62,8 @@ public class LayoutLocationAdd extends GvDataEditLayout<GvLocationList.GvLocatio
     private String mSearching;
     private int    mHint;
 
-    private VhdLocatedPlace mNoLocationPlace;
-    private VhdLocatedPlace mSearchingPlace;
+    private VhdLocatedPlace mNoLocationMessage;
+    private VhdLocatedPlace mSearchingMessage;
 
     private EditText                            mNameEditText;
     private ViewHolderDataList<VhdLocatedPlace> mCurrentLatLngPlaces;
@@ -107,9 +108,8 @@ public class LayoutLocationAdd extends GvDataEditLayout<GvLocationList.GvLocatio
         suggestionsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                VhdLocatedPlace location = (VhdLocatedPlace) parent
-                        .getAdapter().getItem(position);
-                fetchPlaceDetails(location.getPlace().getId());
+                VhdLocatedPlace location = (VhdLocatedPlace) parent.getAdapter().getItem(position);
+                fetchPlaceDetails(location.getPlace());
             }
         });
 
@@ -152,20 +152,20 @@ public class LayoutLocationAdd extends GvDataEditLayout<GvLocationList.GvLocatio
     }
 
     @Override
-    public void onLocated(LatLng latLng) {
-        onLatLngFound(latLng);
+    public void onLocated(Location location) {
+        onLatLngFound(new LatLng(location.getLatitude(), location.getLongitude()));
     }
 
     @Override
-    public void onLocationClientConnected(LatLng latLng) {
-        onLatLngFound(latLng);
+    public void onLocationClientConnected(Location location) {
+        onLocated(location);
     }
 
     @Override
     public void onNearestNamesSuggested(ArrayList<LocatedPlace> places) {
         mCurrentLatLngPlaces = new ViewHolderDataList<>();
         if (places.size() == 0) {
-            mCurrentLatLngPlaces.add(mNoLocationPlace);
+            mCurrentLatLngPlaces.add(mNoLocationMessage);
         } else {
             for (LocatedPlace place : places) {
                 mCurrentLatLngPlaces.add(new VhdLocatedPlace(place));
@@ -182,10 +182,10 @@ public class LayoutLocationAdd extends GvDataEditLayout<GvLocationList.GvLocatio
         mNameEditText.setHint(mHint);
     }
 
-    private void fetchPlaceDetails(String id) {
+    private void fetchPlaceDetails(LocatedPlace place) {
         mNameEditText.setText(null);
         mNameEditText.setHint(R.string.edit_text_fetching_location_hint);
-        PlaceDetailsFetcher fetcher = new PlaceDetailsFetcher(id, LayoutLocationAdd.this);
+        GpPlaceDetailsFetcher fetcher = new GpPlaceDetailsFetcher(place, LayoutLocationAdd.this);
         fetcher.fetchDetails();
     }
 
@@ -197,28 +197,26 @@ public class LayoutLocationAdd extends GvDataEditLayout<GvLocationList.GvLocatio
     }
 
     private void setMessages() {
-        mNoLocationPlace = new VhdLocatedPlace(new LocatedPlace(mCurrentLatLng,
-                mNoLocation, "NoLocationMessage"));
-        mSearchingPlace = new VhdLocatedPlace(new LocatedPlace(mCurrentLatLng,
-                mSearching, "SearchingMessage"));
+        mNoLocationMessage = new VhdLocatedPlace(new LocatedPlace(mCurrentLatLng, mNoLocation));
+        mSearchingMessage = new VhdLocatedPlace(new LocatedPlace(mCurrentLatLng, mSearching));
     }
 
     private void findPlaceSuggestions() {
         //Autocomplete suggestions
-        mAutoCompleter = new LocatedPlaceAutoCompleter(mCurrentLatLng);
+        mQueryFilter = new GpAutoCompleter(mCurrentLatLng);
 
         //Initial suggestions
-        NearestNamesSuggester suggester = new NearestNamesSuggester(mCurrentLatLng, this);
+        GpNearestNamesSuggester suggester = new GpNearestNamesSuggester(mCurrentLatLng, this);
         suggester.fetchSuggestions(NUMBER_SUGGESTIONS);
 
         //Whilst initial suggestions are being found....
         ViewHolderDataList<VhdLocatedPlace> message = new ViewHolderDataList<>();
-        message.add(mSearchingPlace);
+        message.add(mSearchingMessage);
         setNewSuggestionsAdapter(message);
     }
 
     private void setNewSuggestionsAdapter(ViewHolderDataList<VhdLocatedPlace> names) {
-        mFilteredAdapter = new ViewHolderAdapterFiltered(mActivity, names, mAutoCompleter);
+        mFilteredAdapter = new ViewHolderAdapterFiltered(mActivity, names, mQueryFilter);
         ((ListView) getView(LIST)).setAdapter(mFilteredAdapter);
     }
 }
