@@ -8,6 +8,9 @@
 
 package com.chdryra.android.reviewer;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.android.gms.maps.model.LatLng;
 
 /**
@@ -15,14 +18,25 @@ import com.google.android.gms.maps.model.LatLng;
  * On: 12/03/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class LocatedPlace {
+public class LocatedPlace implements Parcelable {
+    public static final Parcelable.Creator<LocatedPlace> CREATOR = new Parcelable
+            .Creator<LocatedPlace>() {
+        public LocatedPlace createFromParcel(Parcel in) {
+            return new LocatedPlace(in);
+        }
+
+        public LocatedPlace[] newArray(int size) {
+            return new LocatedPlace[size];
+        }
+    };
+
     private static final String SEPARATOR = "-";
 
     private final LatLng     mLatLng;
     private final String     mDescription;
     private final LocationId mId;
 
-    public enum Provider {GOOGLE, USER}
+    public enum LocationProvider {GOOGLE, USER}
 
     public LocatedPlace(LatLng latLng, String description, LocationId id) {
         mLatLng = latLng;
@@ -33,7 +47,13 @@ public class LocatedPlace {
     public LocatedPlace(LatLng latLng, String description) {
         mLatLng = latLng;
         mDescription = description;
-        mId = new LocationId(Provider.USER, generateId());
+        mId = new LocationId(LocationProvider.USER, generateId());
+    }
+
+    public LocatedPlace(Parcel in) {
+        mLatLng = in.readParcelable(LatLng.class.getClassLoader());
+        mDescription = in.readString();
+        mId = in.readParcelable(LocationId.class.getClassLoader());
     }
 
     public LatLng getLatLng() {
@@ -48,30 +68,108 @@ public class LocatedPlace {
         return mId;
     }
 
-    public boolean isValid() {
-        return mLatLng != null && DataValidator.validateString(mDescription) && DataValidator
-                .validateString(mId.getId());
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof LocatedPlace)) return false;
+
+        LocatedPlace that = (LocatedPlace) o;
+
+        if (!mDescription.equals(that.mDescription)) return false;
+        if (!mId.equals(that.mId)) return false;
+        if (!mLatLng.equals(that.mLatLng)) return false;
+
+        return true;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
     private String generateId() {
         return mLatLng.hashCode() + SEPARATOR + mDescription.hashCode();
     }
 
-    public static class LocationId {
-        private Provider mProvider;
-        private String   mId;
+    @Override
+    public int hashCode() {
+        int result = mLatLng.hashCode();
+        result = 31 * result + mDescription.hashCode();
+        result = 31 * result + mId.hashCode();
+        return result;
+    }
 
-        public LocationId(Provider provider, String id) {
+    public static class LocationId implements Parcelable {
+        public static final Parcelable.Creator<LocationId> CREATOR = new Parcelable
+                .Creator<LocationId>() {
+            public LocationId createFromParcel(Parcel in) {
+                return new LocationId(in);
+            }
+
+            public LocationId[] newArray(int size) {
+                return new LocationId[size];
+            }
+        };
+
+        private LocationProvider mProvider;
+        private String           mId;
+
+        public LocationId(LocationProvider provider, String providerId) {
             mProvider = provider;
-            mId = id;
+            mId = providerId;
         }
 
-        public Provider getProvider() {
+        public LocationId(Parcel in) {
+            mProvider = (LocationProvider) in.readSerializable();
+            mId = in.readString();
+        }
+
+        public LocationProvider getProvider() {
             return mProvider;
         }
 
         public String getId() {
             return mId;
         }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (!(o instanceof LocationId)) return false;
+
+            LocationId that = (LocationId) o;
+
+            if (!mId.equals(that.mId)) return false;
+            if (mProvider != that.mProvider) return false;
+
+            return true;
+        }
+
+        @Override
+        public int hashCode() {
+            int result = mProvider.hashCode();
+            result = 31 * result + mId.hashCode();
+            return result;
+        }
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel parcel, int i) {
+            parcel.writeSerializable(mProvider);
+            parcel.writeString(mId);
+        }
     }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeParcelable(mLatLng, i);
+        parcel.writeString(mDescription);
+        parcel.writeParcelable(mId, i);
+    }
+
+
 }

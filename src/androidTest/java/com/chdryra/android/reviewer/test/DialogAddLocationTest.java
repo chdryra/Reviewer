@@ -8,6 +8,8 @@
 
 package com.chdryra.android.reviewer.test;
 
+import android.location.Location;
+
 import com.chdryra.android.mygenerallibrary.DialogCancelAddDoneFragment;
 import com.chdryra.android.mygenerallibrary.LocationClientConnector;
 import com.chdryra.android.reviewer.ConfigGvDataAddEdit;
@@ -114,17 +116,15 @@ public class DialogAddLocationTest extends DialogAddGvDataTest<GvLocationList.Gv
 //    }
 
     @Override
-    public void onLocated(LatLng latLng) {
-        mCurrent = latLng;
+    public void onLocated(Location location) {
+        mCurrent = new LatLng(location.getLatitude(), location.getLongitude());
         mSignaler.signal();
         mSignaler.reset();
     }
 
     @Override
-    public void onLocationClientConnected(LatLng latLng) {
-        mCurrent = latLng;
-        mSignaler.signal();
-        mSignaler.reset();
+    public void onLocationClientConnected(Location location) {
+        onLocated(location);
     }
 
     private GvData enterDataAndTest(int index) {

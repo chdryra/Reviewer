@@ -20,7 +20,8 @@ import com.google.android.gms.maps.model.LatLng;
  * Email: rizwan.choudrey@gmail.com
  */
 public class GpAutoCompleter implements ViewHolderAdapterFiltered.QueryFilter {
-    private static final LocatedPlace.Provider GOOGLE_PLACES = LocatedPlace.Provider.GOOGLE;
+    private static final LocatedPlace.LocationProvider GOOGLE_PLACES = LocatedPlace
+            .LocationProvider.GOOGLE;
     private final LatLng mLatLng;
 
     public GpAutoCompleter(LatLng latLng) {

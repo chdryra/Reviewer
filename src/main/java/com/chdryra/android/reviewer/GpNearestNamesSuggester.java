@@ -22,7 +22,8 @@ import java.util.ArrayList;
  * Email: rizwan.choudrey@gmail.com
  */
 public class GpNearestNamesSuggester {
-    private static final LocatedPlace.Provider GOOGLE_PLACES = LocatedPlace.Provider.GOOGLE;
+    private static final LocatedPlace.LocationProvider GOOGLE_PLACES = LocatedPlace
+            .LocationProvider.GOOGLE;
     private final LatLng              mLatLng;
     private final SuggestionsListener mListener;
 

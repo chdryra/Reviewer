@@ -34,7 +34,7 @@ public class VhdLocatedPlace implements ViewHolderData {
 
     @Override
     public boolean isValidForDisplay() {
-        return mPlace.isValid();
+        return mPlace.getLatLng() != null && DataValidator.validateString(mPlace.getDescription());
     }
 
     @Override

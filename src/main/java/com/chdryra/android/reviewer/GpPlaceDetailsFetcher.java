@@ -20,7 +20,7 @@ import com.chdryra.android.remoteapifetchers.PlacesApi;
  */
 public class GpPlaceDetailsFetcher {
     private final LocatedPlace.LocationId mPlaceId;
-    private final DetailsListener mListener;
+    private final DetailsListener         mListener;
 
     public interface DetailsListener {
         public void onPlaceDetailsFound(GpPlaceDetailsResult details);
@@ -28,7 +28,7 @@ public class GpPlaceDetailsFetcher {
 
     public GpPlaceDetailsFetcher(LocatedPlace place, DetailsListener listener) {
         LocatedPlace.LocationId placeId = place.getId();
-        if (placeId.getProvider() != LocatedPlace.Provider.GOOGLE) {
+        if (placeId.getProvider() != LocatedPlace.LocationProvider.GOOGLE) {
             throw new IllegalArgumentException("PlaceId must be a GooglePlaces Id");
         }
 
