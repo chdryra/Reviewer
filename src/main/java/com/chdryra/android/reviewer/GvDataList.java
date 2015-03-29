@@ -143,8 +143,15 @@ public class GvDataList<T extends GvData> extends ViewHolderDataList<T> implemen
         GvDataList that = (GvDataList) o;
 
         if (!mDataClass.equals(that.mDataClass)) return false;
-        if (!mReviewId.equals(that.mReviewId)) return false;
+        if (mReviewId != null ? !mReviewId.equals(that.mReviewId) : that.mReviewId != null) {
+            return false;
+        }
         if (!mType.equals(that.mType)) return false;
+        if (size() != that.size()) return false;
+
+        for (int i = 0; i < size(); ++i) {
+            if (!getItem(i).equals(that.getItem(i))) return false;
+        }
 
         return true;
     }
@@ -153,7 +160,11 @@ public class GvDataList<T extends GvData> extends ViewHolderDataList<T> implemen
     public int hashCode() {
         int result = mType.hashCode();
         result = 31 * result + mDataClass.hashCode();
-        result = 31 * result + mReviewId.hashCode();
+        result = 31 * result + (mReviewId != null ? mReviewId.hashCode() : 0);
+        for (T datum : this) {
+            result = 31 * result + datum.hashCode();
+        }
+
         return result;
     }
 

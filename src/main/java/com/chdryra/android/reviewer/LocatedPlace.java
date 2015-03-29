@@ -30,7 +30,7 @@ public class LocatedPlace implements Parcelable {
         }
     };
 
-    private static final String SEPARATOR = "-";
+    private static final String SEPARATOR = ":";
 
     private final LatLng     mLatLng;
     private final String     mDescription;
@@ -68,6 +68,12 @@ public class LocatedPlace implements Parcelable {
         return mId;
     }
 
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -82,21 +88,9 @@ public class LocatedPlace implements Parcelable {
         return true;
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
     private String generateId() {
-        return mLatLng.hashCode() + SEPARATOR + mDescription.hashCode();
-    }
-
-    @Override
-    public int hashCode() {
-        int result = mLatLng.hashCode();
-        result = 31 * result + mDescription.hashCode();
-        result = 31 * result + mId.hashCode();
-        return result;
+        return String.valueOf(mLatLng.hashCode()) + SEPARATOR + String.valueOf(mDescription
+                .hashCode());
     }
 
     public static class LocationId implements Parcelable {
@@ -163,6 +157,16 @@ public class LocatedPlace implements Parcelable {
             parcel.writeString(mId);
         }
     }
+
+    @Override
+    public int hashCode() {
+        int result = mLatLng.hashCode();
+        result = 31 * result + mDescription.hashCode();
+        result = 31 * result + mId.hashCode();
+        return result;
+    }
+
+
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {

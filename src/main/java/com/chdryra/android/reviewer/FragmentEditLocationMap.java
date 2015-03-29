@@ -9,14 +9,12 @@
 package com.chdryra.android.reviewer;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.database.DataSetObserver;
 import android.database.MatrixCursor;
 import android.location.Location;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -40,7 +38,7 @@ import com.chdryra.android.mygenerallibrary.PlaceAutoCompleteSuggester;
 import com.chdryra.android.mygenerallibrary.PlaceSuggester;
 import com.chdryra.android.mygenerallibrary.StringFilterAdapter;
 import com.chdryra.android.remoteapifetchers.GpPlaceSearchResults;
-import com.chdryra.android.remoteapifetchers.PlacesApi;
+import com.chdryra.android.remoteapifetchers.GpPlaceSearcher;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMap.OnInfoWindowClickListener;
@@ -51,7 +49,6 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import org.jetbrains.annotations.NotNull;
-import org.json.JSONException;
 
 import java.util.ArrayList;
 
@@ -70,7 +67,9 @@ import java.util.ArrayList;
  * </p>
  */
 public class FragmentEditLocationMap extends FragmentDeleteDone implements
-        LocationClientConnector.Locatable, PlaceSuggester.SuggestionsListener {
+        LocationClientConnector.Locatable,
+        PlaceSuggester.SuggestionsListener,
+        GpPlaceSearcher.SearchListener {
     private final static String TAG                  = "FragmentEditLocationMap";
     private static final String NO_LOCATION          = "no suggestions found...";
     private static final float  DEFAULT_ZOOM         = 15;
@@ -275,7 +274,7 @@ public class FragmentEditLocationMap extends FragmentDeleteDone implements
             return;
         }
 
-        gotoSearchLocation(query);
+        searchLocation(query);
     }
 
     @Override
@@ -305,8 +304,21 @@ public class FragmentEditLocationMap extends FragmentDeleteDone implements
         }
     }
 
+    @Override
+    public void onSearchResultsFound(GpPlaceSearchResults results) {
+        ArrayList<LocatedPlace> places = GpLocatedPlaceConverter.convert(results);
+        if (places.size() == 0) {
+            Toast.makeText(getActivity(), getResources().getString(R.string
+                    .toast_map_search_failed), Toast.LENGTH_SHORT).show();
+        } else {
+            setLatLng(places.get(0).getLatLng());
+        }
+        mLocationName.setHint(getResources().getString(R.string.edit_text_name_location_hint));
+    }
+
     private GvLocationList.GvLocation createGVData() {
-        return new GvLocationList.GvLocation(mNewLatLng, mLocationName.getText().toString().trim());
+        String name = mLocationName.getText().toString().trim();
+        return new GvLocationList.GvLocation(mNewLatLng, name);
     }
 
     private void invalidateSuggestions() {
@@ -388,11 +400,14 @@ public class FragmentEditLocationMap extends FragmentDeleteDone implements
         }
     }
 
-    private void gotoSearchLocation(String query) {
+    private void searchLocation(String query) {
         mSearchLocationName = query;
-        new MapSearchTask().execute(mSearchLocationName);
         mSearchView.setQuery(null, false);
         mSearchViewMenuItem.collapseActionView();
+        mLocationName.setHint(getResources().getString(R.string
+                .progress_bar_search_location_title));
+        GpPlaceSearcher searcher = new GpPlaceSearcher(query, this);
+        searcher.fetchResults();
     }
 
     private CursorAdapter getSuggestionsCursorAdapter() {
@@ -452,38 +467,39 @@ public class FragmentEditLocationMap extends FragmentDeleteDone implements
     /**
      * Fragment performs search on a separate thread using this task.
      */
-    private class MapSearchTask extends AsyncTask<String, Void, LatLng> {
-        private ProgressDialog pd;
-
-        @Override
-        protected LatLng doInBackground(String... params) {
-            try {
-                GpPlaceSearchResults results = PlacesApi.fetchTextSearchResults(params[0]);
-                return results.getItem(0).getGeometry().getLatLng();
-            } catch (JSONException e) {
-                Toast.makeText(getActivity(), getResources().getString(R.string
-                        .toast_map_search_failed), Toast.LENGTH_SHORT).show();
-                return null;
-            }
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            pd = new ProgressDialog(getActivity());
-            pd.setTitle(getResources().getString(R.string.progress_bar_search_location_title));
-            pd.setMessage(getResources().getString(R.string.progress_bar_search_location_message));
-            pd.setCancelable(false);
-            pd.setIndeterminate(true);
-            pd.show();
-        }
-
-        @Override
-        protected void onPostExecute(LatLng latlng) {
-            setLatLng(latlng);
-            pd.dismiss();
-        }
-    }
+//    private class MapSearchTask extends AsyncTask<String, Void, LatLng> {
+//        private ProgressDialog pd;
+//
+//        @Override
+//        protected LatLng doInBackground(String... params) {
+//            try {
+//                GpPlaceSearchResults results = PlacesApi.fetchTextSearchResults(params[0]);
+//                return results.getItem(0).getGeometry().getLatLng();
+//            } catch (JSONException e) {
+//                Toast.makeText(getActivity(), getResources().getString(R.string
+//                        .toast_map_search_failed), Toast.LENGTH_SHORT).show();
+//                return null;
+//            }
+//        }
+//
+//        @Override
+//        protected void onPreExecute() {
+//            super.onPreExecute();
+//            pd = new ProgressDialog(getActivity());
+//            pd.setTitle(getResources().getString(R.string.progress_bar_search_location_title));
+//            pd.setMessage(getResources().getString(R.string
+// .progress_bar_search_location_message));
+//            pd.setCancelable(false);
+//            pd.setIndeterminate(true);
+//            pd.show();
+//        }
+//
+//        @Override
+//        protected void onPostExecute(LatLng latlng) {
+//            setLatLng(latlng);
+//            pd.dismiss();
+//        }
+//    }
 
     private class LocationSuggestionsObserver extends DataSetObserver {
         public void onChanged() {

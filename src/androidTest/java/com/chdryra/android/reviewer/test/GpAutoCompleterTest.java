@@ -23,8 +23,10 @@ import junit.framework.TestCase;
  * Email: rizwan.choudrey@gmail.com
  */
 public class GpAutoCompleterTest extends TestCase {
-    private static final GvLocationList.GvLocation TAYYABS =
-            new GvLocationList.GvLocation(new LatLng(51.517264, -0.063484), "Tayyabs");
+    private static final LatLng                    TAYYABS_LL   = new LatLng(51.517264, -0.063484);
+    private static final String                    TAYYABS_NAME = "Tayyabs";
+    private static final GvLocationList.GvLocation TAYYABS      = new GvLocationList.GvLocation
+            (TAYYABS_LL, TAYYABS_NAME);
 
     @SmallTest
     public void testFilter() {
