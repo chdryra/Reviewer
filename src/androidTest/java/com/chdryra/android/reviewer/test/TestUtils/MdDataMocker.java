@@ -8,19 +8,19 @@
 
 package com.chdryra.android.reviewer.test.TestUtils;
 
-import com.chdryra.android.reviewer.GvCommentList;
-import com.chdryra.android.reviewer.GvDataType;
-import com.chdryra.android.reviewer.GvFactList;
-import com.chdryra.android.reviewer.GvImageList;
-import com.chdryra.android.reviewer.GvLocationList;
-import com.chdryra.android.reviewer.GvUrlList;
-import com.chdryra.android.reviewer.MdCommentList;
-import com.chdryra.android.reviewer.MdDataList;
-import com.chdryra.android.reviewer.MdFactList;
-import com.chdryra.android.reviewer.MdImageList;
-import com.chdryra.android.reviewer.MdLocationList;
-import com.chdryra.android.reviewer.MdUrlList;
-import com.chdryra.android.reviewer.Review;
+import com.chdryra.android.reviewer.Model.MdCommentList;
+import com.chdryra.android.reviewer.Model.MdDataList;
+import com.chdryra.android.reviewer.Model.MdFactList;
+import com.chdryra.android.reviewer.Model.MdImageList;
+import com.chdryra.android.reviewer.Model.MdLocationList;
+import com.chdryra.android.reviewer.Model.MdUrlList;
+import com.chdryra.android.reviewer.Model.Review;
+import com.chdryra.android.reviewer.View.GvCommentList;
+import com.chdryra.android.reviewer.View.GvDataType;
+import com.chdryra.android.reviewer.View.GvFactList;
+import com.chdryra.android.reviewer.View.GvImageList;
+import com.chdryra.android.reviewer.View.GvLocationList;
+import com.chdryra.android.reviewer.View.GvUrlList;
 import com.chdryra.android.testutils.BitmapMocker;
 import com.chdryra.android.testutils.RandomDate;
 import com.chdryra.android.testutils.RandomLatLng;

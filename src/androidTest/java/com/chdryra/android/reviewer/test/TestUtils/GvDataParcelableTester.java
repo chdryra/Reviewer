@@ -10,7 +10,7 @@ package com.chdryra.android.reviewer.test.TestUtils;
 
 import android.os.Bundle;
 
-import com.chdryra.android.reviewer.GvData;
+import com.chdryra.android.reviewer.View.GvData;
 
 import junit.framework.Assert;
 

@@ -8,13 +8,13 @@
 
 package com.chdryra.android.reviewer.test.TestUtils;
 
-import com.chdryra.android.reviewer.GvChildList;
-import com.chdryra.android.reviewer.GvCommentList;
-import com.chdryra.android.reviewer.GvData;
-import com.chdryra.android.reviewer.GvFactList;
-import com.chdryra.android.reviewer.GvImageList;
-import com.chdryra.android.reviewer.GvLocationList;
-import com.chdryra.android.reviewer.GvTagList;
+import com.chdryra.android.reviewer.View.GvChildList;
+import com.chdryra.android.reviewer.View.GvCommentList;
+import com.chdryra.android.reviewer.View.GvData;
+import com.chdryra.android.reviewer.View.GvFactList;
+import com.chdryra.android.reviewer.View.GvImageList;
+import com.chdryra.android.reviewer.View.GvLocationList;
+import com.chdryra.android.reviewer.View.GvTagList;
 import com.robotium.solo.Solo;
 
 /**

@@ -8,14 +8,14 @@
 
 package com.chdryra.android.reviewer.test.TestUtils;
 
-import com.chdryra.android.reviewer.Author;
-import com.chdryra.android.reviewer.FactoryReview;
-import com.chdryra.android.reviewer.RCollectionReview;
-import com.chdryra.android.reviewer.Review;
-import com.chdryra.android.reviewer.ReviewId;
-import com.chdryra.android.reviewer.ReviewNode;
-import com.chdryra.android.reviewer.ReviewTreeNode;
-import com.chdryra.android.reviewer.ReviewUser;
+import com.chdryra.android.reviewer.Model.Author;
+import com.chdryra.android.reviewer.Model.FactoryReview;
+import com.chdryra.android.reviewer.Model.RCollectionReview;
+import com.chdryra.android.reviewer.Model.Review;
+import com.chdryra.android.reviewer.Model.ReviewId;
+import com.chdryra.android.reviewer.Model.ReviewNode;
+import com.chdryra.android.reviewer.Model.ReviewTreeNode;
+import com.chdryra.android.reviewer.Model.ReviewUser;
 import com.chdryra.android.testutils.RandomString;
 
 import java.util.Date;
