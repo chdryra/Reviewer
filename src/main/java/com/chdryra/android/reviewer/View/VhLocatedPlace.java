@@ -19,13 +19,13 @@ import com.chdryra.android.reviewer.R;
  * On: 12/03/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class VhLocatedPlaceDistance extends ViewHolderBasic {
+public class VhLocatedPlace extends ViewHolderBasic {
     private static final int LAYOUT = R.layout.located_view_list_item;
     private static final int NAME   = R.id.located_place_name_text_view;
 
     private TextView mName;
 
-    public VhLocatedPlaceDistance() {
+    public VhLocatedPlace() {
         super(LAYOUT, new int[]{NAME});
     }
 

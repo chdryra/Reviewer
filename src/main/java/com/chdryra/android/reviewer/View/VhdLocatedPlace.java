@@ -30,7 +30,7 @@ public class VhdLocatedPlace implements ViewHolderData {
 
     @Override
     public ViewHolder newViewHolder() {
-        return new VhLocatedPlaceDistance();
+        return new VhLocatedPlace();
     }
 
     @Override
