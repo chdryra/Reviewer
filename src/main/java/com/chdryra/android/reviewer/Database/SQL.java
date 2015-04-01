@@ -26,6 +26,7 @@ public class SQL {
     public static final String ALL                  = "*";
     public static final String LIMIT                = "LIMIT";
     public static final String COMMA                = ",";
+    public static final String SEMICOLON            = ";";
     public static final String NEW_LINE             = "\n";
     public static final String SPACE                = " ";
     public static final String OPEN_BRACKET         = "(";
@@ -36,9 +37,6 @@ public class SQL {
 
     public enum Nullable {TRUE, FALSE}
 
-    public enum PrimaryKey {TRUE, FALSE}
-
     private SQL() {
     }
-
 }

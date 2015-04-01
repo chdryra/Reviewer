@@ -87,11 +87,6 @@ public class MdImageList extends MdDataList<MdImageList.MdImage> {
         }
 
         @Override
-        public LatLng getLatLng() {
-            return mLatLng;
-        }
-
-        @Override
         public boolean equals(Object o) {
             if (this == o) return true;
             if (!(o instanceof MdImage)) return false;

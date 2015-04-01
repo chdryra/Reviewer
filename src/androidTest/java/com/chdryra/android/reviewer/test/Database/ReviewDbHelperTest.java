@@ -33,6 +33,7 @@ public class ReviewDbHelperTest extends AndroidTestCase {
 
     @SmallTest
     public void testDatabaseExists() {
+        deleteDatabase();
         SQLiteDatabase db = mHelper.getReadableDatabase();
 
         String dbName = ReviewerDbContract.getContract().getDatabaseName();
@@ -95,5 +96,9 @@ public class ReviewDbHelperTest extends AndroidTestCase {
         ArrayList<String> ret = new ArrayList<>();
         ret.addAll(Arrays.asList(colNames));
         return ret;
+    }
+
+    private void deleteDatabase() {
+        getContext().deleteDatabase(ReviewerDbContract.getContract().getDatabaseName());
     }
 }

@@ -17,27 +17,25 @@ import java.util.ArrayList;
  * On: 30/03/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public abstract class SQLiteTableDefinition implements BaseColumns {
-    private String                  mTableName;
+public class SQLiteTableDefinition implements BaseColumns {
+    private String                          mTableName;
     private ArrayList<SQLiteColumn>         mPrimaryKeys;
-    private ArrayList<SQLiteColumn>         mFkColumns;
     private ArrayList<SQLiteColumn>         mOtherColumns;
     private ArrayList<ForeignKeyConstraint> mFkConstraints;
 
     public SQLiteTableDefinition(String tableName) {
         mTableName = tableName;
         mPrimaryKeys = new ArrayList<>();
-        mFkColumns = new ArrayList<>();
         mOtherColumns = new ArrayList<>();
         mFkConstraints = new ArrayList<>();
     }
 
     public void addColumn(String columnName, SQL.StorageType type, SQL.Nullable nullable) {
-        mOtherColumns.add(new SQLiteColumn(this, columnName, type, nullable));
+        mOtherColumns.add(new SQLiteColumn(columnName, type, nullable));
     }
 
     public void addPrimaryKey(String columnName, SQL.StorageType type) {
-        mPrimaryKeys.add(new SQLiteColumn(this, columnName, type, SQL.Nullable.FALSE, true));
+        mPrimaryKeys.add(new SQLiteColumn(columnName, type, SQL.Nullable.FALSE));
     }
 
     public void addForeignKeyConstraint(String[] columnNames, SQLiteTableDefinition pkTable) {
@@ -110,7 +108,7 @@ public abstract class SQLiteTableDefinition implements BaseColumns {
             return mFkColumns;
         }
 
-        public SQLiteTableDefinition getPkTable() {
+        public SQLiteTableDefinition getForeignTable() {
             return mPkTable;
         }
     }
@@ -119,21 +117,11 @@ public abstract class SQLiteTableDefinition implements BaseColumns {
         private String          mColumnName;
         private SQL.StorageType mType;
         private boolean         mIsNullable;
-        private boolean mIsPrimaryKey = false;
-        private SQLiteTableDefinition mParent;
 
-        private SQLiteColumn(SQLiteTableDefinition parent, String columnName, SQL.StorageType type,
-                SQL.Nullable nullable) {
-            this(parent, columnName, type, nullable, false);
-        }
-
-        private SQLiteColumn(SQLiteTableDefinition parent, String columnName, SQL.StorageType type,
-                SQL.Nullable nullable, boolean isPrimaryKey) {
-            mParent = parent;
+        private SQLiteColumn(String columnName, SQL.StorageType type, SQL.Nullable nullable) {
             mColumnName = columnName;
             mType = type;
             mIsNullable = nullable == SQL.Nullable.TRUE;
-            mIsPrimaryKey = isPrimaryKey;
         }
 
         public String getName() {
@@ -146,10 +134,6 @@ public abstract class SQLiteTableDefinition implements BaseColumns {
 
         public boolean isNullable() {
             return mIsNullable;
-        }
-
-        public boolean isPrimaryKey() {
-            return mIsPrimaryKey;
         }
     }
 }

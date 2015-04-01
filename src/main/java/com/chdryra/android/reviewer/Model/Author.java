@@ -16,17 +16,17 @@ public class Author {
     private final UserId mId;
     private final String mName;
 
-    public Author(String name) {
-        this(name, UserId.generateId());
-    }
-
-    private Author(String name, UserId id) {
+    public Author(String name, UserId id) {
         mName = name;
         mId = id;
     }
 
     public String getName() {
         return mName;
+    }
+
+    public UserId getUserId() {
+        return mId;
     }
 
     @Override

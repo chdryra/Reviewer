@@ -18,20 +18,20 @@ import android.database.sqlite.SQLiteOpenHelper;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ReviewerDbHelper extends SQLiteOpenHelper {
-    private static final ReviewerDbContract CONTRACT   = ReviewerDbContract.getContract();
-    private static final DbCreator          DB_CREATOR = new DbCreator(CONTRACT);
+    private DbCreator mDbCreator;
 
-    public ReviewerDbHelper(Context context) {
-        super(context, CONTRACT.getDatabaseName(), null, CONTRACT.getVersionNumber());
+    public ReviewerDbHelper(Context context, DbContract contract) {
+        super(context, contract.getDatabaseName(), null, contract.getVersionNumber());
+        mDbCreator = new DbCreator(contract);
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        DB_CREATOR.createDatabase(db);
+        mDbCreator.createDatabase(db);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        DB_CREATOR.upgradeDatabase(db, oldVersion, newVersion);
+        mDbCreator.upgradeDatabase(db, oldVersion, newVersion);
     }
 }

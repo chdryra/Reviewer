@@ -14,6 +14,7 @@ import android.content.Intent;
 
 import com.chdryra.android.mygenerallibrary.ObjectHolder;
 import com.chdryra.android.reviewer.Model.Author;
+import com.chdryra.android.reviewer.Model.UserId;
 import com.chdryra.android.reviewer.View.GvSocialPlatformList;
 import com.chdryra.android.reviewer.View.ImageChooser;
 
@@ -41,7 +42,7 @@ import java.util.UUID;
  */
 public class Administrator {
     private static final String REVIEWVIEW_ID = "com.chdryra.android.reviewer.review_id";
-    private static final Author AUTHOR        = new Author("Rizwan Choudrey");
+    private static final Author AUTHOR        = new Author("Rizwan Choudrey", UserId.generateId());
     private static final String FEED          = "Feed";
 
     private static Administrator sAdministrator;

@@ -18,6 +18,7 @@ import com.chdryra.android.reviewer.Model.Author;
 import com.chdryra.android.reviewer.Model.FactoryReview;
 import com.chdryra.android.reviewer.Model.RCollectionReview;
 import com.chdryra.android.reviewer.Model.Review;
+import com.chdryra.android.reviewer.Model.ReviewNode;
 import com.chdryra.android.reviewer.Model.TagsManager;
 import com.chdryra.android.reviewer.View.FactoryGvData;
 import com.chdryra.android.reviewer.View.FactoryGvDataHandler;
@@ -134,7 +135,7 @@ public class ReviewBuilder extends ReviewViewAdapterBasic {
         return getData(dataType).size();
     }
 
-    public Review publish(Date publishDate) {
+    public ReviewNode publish(Date publishDate) {
         Review root = FactoryReview.createReviewUser(getAuthor(),
                 publishDate, getSubject(), getRating(),
                 (GvCommentList) getData(GvCommentList.TYPE),

@@ -10,8 +10,6 @@ package com.chdryra.android.reviewer.Controller;
 
 import android.graphics.Bitmap;
 
-import com.google.android.gms.maps.model.LatLng;
-
 import java.util.Date;
 
 /**
@@ -27,6 +25,4 @@ public interface DataImage {
     public String getCaption();
 
     public boolean isCover();
-
-    public LatLng getLatLng();
 }

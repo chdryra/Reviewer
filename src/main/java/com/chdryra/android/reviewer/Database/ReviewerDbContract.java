@@ -16,20 +16,28 @@ import java.util.ArrayList;
  * Email: rizwan.choudrey@gmail.com
  */
 public final class ReviewerDbContract implements DbContract {
-    public static final String NAME    = "Reviewer.db";
-    public static final int    VERSION = 1;
+    private static final String NAME    = "Reviewer.db";
+    private static final int    VERSION = 1;
 
-    private static ReviewerDbContract     sContract;
-    private ArrayList<SQLiteTableDefinition> mTables;
+    private static ReviewerDbContract               sContract;
+    private        ArrayList<SQLiteTableDefinition> mTables;
+    private        ArrayList<String>                mTableNames;
 
     private ReviewerDbContract() {
         mTables = new ArrayList<>();
         mTables.add(TableReviews.get());
+        mTables.add(TableReviewTrees.get());
         mTables.add(TableComments.get());
         mTables.add(TableFacts.get());
         mTables.add(TableLocations.get());
         mTables.add(TableImages.get());
         mTables.add(TableTags.get());
+        mTables.add(TableAuthors.get());
+
+        mTableNames = new ArrayList<>();
+        for (SQLiteTableDefinition table : mTables) {
+            mTableNames.add(table.getName());
+        }
     }
 
     public static ReviewerDbContract getContract() {
@@ -52,18 +60,30 @@ public final class ReviewerDbContract implements DbContract {
         return mTables;
     }
 
+    @Override
+    public ArrayList<String> getTableNames() {
+        return mTableNames;
+    }
+
     public static class TableReviews extends SQLiteTableDefinition {
-        public static final String TABLE_NAME = "reviews";
+        public static final String TABLE_NAME               = "Reviews";
+        public static final String COLUMN_NAME_REVIEW_ID    = "review_id";
+        public static final String COLUMN_NAME_AUTHOR_ID    = "author_id";
+        public static final String COLUMN_NAME_PUBLISH_DATE = "publish_date";
+        public static final String COLUMN_NAME_SUBJECT      = "subject";
+        public static final String COLUMN_NAME_RATING       = "rating";
+
+
         private static SQLiteTableDefinition sTable;
 
         private TableReviews() {
             super(TABLE_NAME);
-            addPrimaryKey("review_id", SQL.StorageType.TEXT);
-            addColumn("parent_id", SQL.StorageType.TEXT, SQL.Nullable.FALSE);
-            addColumn("author_id", SQL.StorageType.TEXT, SQL.Nullable.FALSE);
-            addColumn("publish_date", SQL.StorageType.INTEGER, SQL.Nullable.FALSE);
-            addColumn("subject", SQL.StorageType.TEXT, SQL.Nullable.FALSE);
-            addColumn("rating", SQL.StorageType.REAL, SQL.Nullable.FALSE);
+            addPrimaryKey(COLUMN_NAME_REVIEW_ID, SQL.StorageType.TEXT);
+            addColumn(COLUMN_NAME_AUTHOR_ID, SQL.StorageType.TEXT, SQL.Nullable.FALSE);
+            addColumn(COLUMN_NAME_PUBLISH_DATE, SQL.StorageType.INTEGER, SQL.Nullable.FALSE);
+            addColumn(COLUMN_NAME_SUBJECT, SQL.StorageType.TEXT, SQL.Nullable.FALSE);
+            addColumn(COLUMN_NAME_RATING, SQL.StorageType.REAL, SQL.Nullable.FALSE);
+            addForeignKeyConstraint(new String[]{COLUMN_NAME_AUTHOR_ID}, TableAuthors.get());
         }
 
         public static SQLiteTableDefinition get() {
@@ -72,17 +92,47 @@ public final class ReviewerDbContract implements DbContract {
         }
     }
 
+    public static class TableReviewTrees extends SQLiteTableDefinition {
+        public static final String TABLE_NAME                    = "ReviewTrees";
+        public static final String COLUMN_NAME_REVIEW_NODE_ID    = "review_node_id";
+        public static final String COLUMN_NAME_REVIEW_ID         = "review_id";
+        public static final String COLUMN_NAME_PARENT_NODE_ID    = "parent_node_id";
+        public static final String COLUMN_NAME_RATING_IS_AVERAGE = "is_average";
+
+        private static SQLiteTableDefinition sTable;
+
+        private TableReviewTrees() {
+            super(TABLE_NAME);
+            addPrimaryKey(COLUMN_NAME_REVIEW_NODE_ID, SQL.StorageType.TEXT);
+            addColumn(COLUMN_NAME_REVIEW_ID, SQL.StorageType.TEXT, SQL.Nullable.FALSE);
+            addColumn(COLUMN_NAME_PARENT_NODE_ID, SQL.StorageType.TEXT, SQL.Nullable.TRUE);
+            addColumn(COLUMN_NAME_RATING_IS_AVERAGE, SQL.StorageType.INTEGER, SQL.Nullable.FALSE);
+            addForeignKeyConstraint(new String[]{COLUMN_NAME_REVIEW_ID}, TableReviews.get());
+            addForeignKeyConstraint(new String[]{COLUMN_NAME_PARENT_NODE_ID}, this);
+        }
+
+        public static SQLiteTableDefinition get() {
+            if (sTable == null) sTable = new TableReviewTrees();
+            return sTable;
+        }
+    }
+
     public static class TableComments extends SQLiteTableDefinition {
-        public static final String TABLE_NAME = "comments";
+        public static final String TABLE_NAME              = "Comments";
+        public static final String COLUMN_NAME_COMMENT_ID  = "comment_id";
+        public static final String COLUMN_NAME_REVIEW_ID   = "review_id";
+        public static final String COLUMN_NAME_COMMENT     = "comment";
+        public static final String COLUMN_NAME_IS_HEADLINE = "is_headline";
+
         private static SQLiteTableDefinition sTable;
 
         private TableComments() {
             super(TABLE_NAME);
-            addPrimaryKey("comment_id", SQL.StorageType.TEXT);
-            addColumn("review_id", SQL.StorageType.TEXT, SQL.Nullable.FALSE);
-            addColumn("comment", SQL.StorageType.TEXT, SQL.Nullable.FALSE);
-            addColumn("is_headline", SQL.StorageType.INTEGER, SQL.Nullable.FALSE);
-            addForeignKeyConstraint(new String[]{"review_id"}, TableReviews.get());
+            addPrimaryKey(COLUMN_NAME_COMMENT_ID, SQL.StorageType.TEXT);
+            addColumn(COLUMN_NAME_REVIEW_ID, SQL.StorageType.TEXT, SQL.Nullable.FALSE);
+            addColumn(COLUMN_NAME_COMMENT, SQL.StorageType.TEXT, SQL.Nullable.FALSE);
+            addColumn(COLUMN_NAME_IS_HEADLINE, SQL.StorageType.INTEGER, SQL.Nullable.FALSE);
+            addForeignKeyConstraint(new String[]{COLUMN_NAME_REVIEW_ID}, TableReviews.get());
         }
 
         public static SQLiteTableDefinition get() {
@@ -92,17 +142,23 @@ public final class ReviewerDbContract implements DbContract {
     }
 
     public static class TableFacts extends SQLiteTableDefinition {
-        public static final String TABLE_NAME = "facts";
+        public static final String TABLE_NAME            = "Facts";
+        public static final String COLUMN_NAME_FACT_ID   = "fact_id";
+        public static final String COLUMN_NAME_REVIEW_ID = "review_id";
+        public static final String COLUMN_NAME_LABEL     = "label";
+        public static final String COLUMN_NAME_VALUE     = "value";
+        public static final String COLUMN_NAME_IS_URL    = "is_url";
+
         private static SQLiteTableDefinition sTable;
 
         private TableFacts() {
             super(TABLE_NAME);
-            addPrimaryKey("fact_id", SQL.StorageType.TEXT);
-            addColumn("review_id", SQL.StorageType.TEXT, SQL.Nullable.FALSE);
-            addColumn("label", SQL.StorageType.TEXT, SQL.Nullable.FALSE);
-            addColumn("value", SQL.StorageType.TEXT, SQL.Nullable.FALSE);
-            addColumn("is_url", SQL.StorageType.INTEGER, SQL.Nullable.FALSE);
-            addForeignKeyConstraint(new String[]{"review_id"}, TableReviews.get());
+            addPrimaryKey(COLUMN_NAME_FACT_ID, SQL.StorageType.TEXT);
+            addColumn(COLUMN_NAME_REVIEW_ID, SQL.StorageType.TEXT, SQL.Nullable.FALSE);
+            addColumn(COLUMN_NAME_LABEL, SQL.StorageType.TEXT, SQL.Nullable.FALSE);
+            addColumn(COLUMN_NAME_VALUE, SQL.StorageType.TEXT, SQL.Nullable.FALSE);
+            addColumn(COLUMN_NAME_IS_URL, SQL.StorageType.INTEGER, SQL.Nullable.FALSE);
+            addForeignKeyConstraint(new String[]{COLUMN_NAME_REVIEW_ID}, TableReviews.get());
         }
 
         public static SQLiteTableDefinition get() {
@@ -112,17 +168,23 @@ public final class ReviewerDbContract implements DbContract {
     }
 
     public static class TableLocations extends SQLiteTableDefinition {
-        public static final String TABLE_NAME = "locations";
+        public static final String TABLE_NAME              = "Locations";
+        public static final String COLUMN_NAME_LOCATION_ID = "location_id";
+        public static final String COLUMN_NAME_REVIEW_ID   = "review_id";
+        public static final String COLUMN_NAME_LATITUDE    = "latitude";
+        public static final String COLUMN_NAME_LONGITUDE   = "longitude";
+        public static final String COLUMN_NAME_NAME        = "name";
+
         private static SQLiteTableDefinition sTable;
 
         private TableLocations() {
             super(TABLE_NAME);
-            addPrimaryKey("location_id", SQL.StorageType.TEXT);
-            addColumn("review_id", SQL.StorageType.TEXT, SQL.Nullable.FALSE);
-            addColumn("latitude", SQL.StorageType.REAL, SQL.Nullable.FALSE);
-            addColumn("longitude", SQL.StorageType.REAL, SQL.Nullable.FALSE);
-            addColumn("name", SQL.StorageType.TEXT, SQL.Nullable.FALSE);
-            addForeignKeyConstraint(new String[]{"review_id"}, TableReviews.get());
+            addPrimaryKey(COLUMN_NAME_LOCATION_ID, SQL.StorageType.TEXT);
+            addColumn(COLUMN_NAME_REVIEW_ID, SQL.StorageType.TEXT, SQL.Nullable.FALSE);
+            addColumn(COLUMN_NAME_LATITUDE, SQL.StorageType.REAL, SQL.Nullable.FALSE);
+            addColumn(COLUMN_NAME_LONGITUDE, SQL.StorageType.REAL, SQL.Nullable.FALSE);
+            addColumn(COLUMN_NAME_NAME, SQL.StorageType.TEXT, SQL.Nullable.FALSE);
+            addForeignKeyConstraint(new String[]{COLUMN_NAME_REVIEW_ID}, TableReviews.get());
         }
 
         public static SQLiteTableDefinition get() {
@@ -132,17 +194,23 @@ public final class ReviewerDbContract implements DbContract {
     }
 
     public static class TableImages extends SQLiteTableDefinition {
-        public static final String TABLE_NAME = "images";
+        public static final String TABLE_NAME            = "Images";
+        public static final String COLUMN_NAME_IMAGE_ID  = "image_id";
+        public static final String COLUMN_NAME_REVIEW_ID = "review_id";
+        public static final String COLUMN_NAME_BITMAP    = "bitmap";
+        public static final String COLUMN_NAME_CAPTION   = "caption";
+        public static final String COLUMN_NAME_IS_COVER  = "is_cover";
+
         private static SQLiteTableDefinition sTable;
 
         private TableImages() {
             super(TABLE_NAME);
-            addPrimaryKey("image_id", SQL.StorageType.TEXT);
-            addColumn("review_id", SQL.StorageType.TEXT, SQL.Nullable.FALSE);
-            addColumn("bitmap", SQL.StorageType.BLOB, SQL.Nullable.FALSE);
-            addColumn("caption", SQL.StorageType.TEXT, SQL.Nullable.TRUE);
-            addColumn("is_cover", SQL.StorageType.INTEGER, SQL.Nullable.FALSE);
-            addForeignKeyConstraint(new String[]{"review_id"}, TableReviews.get());
+            addPrimaryKey(COLUMN_NAME_IMAGE_ID, SQL.StorageType.TEXT);
+            addColumn(COLUMN_NAME_REVIEW_ID, SQL.StorageType.TEXT, SQL.Nullable.FALSE);
+            addColumn(COLUMN_NAME_BITMAP, SQL.StorageType.BLOB, SQL.Nullable.FALSE);
+            addColumn(COLUMN_NAME_CAPTION, SQL.StorageType.TEXT, SQL.Nullable.TRUE);
+            addColumn(COLUMN_NAME_IS_COVER, SQL.StorageType.INTEGER, SQL.Nullable.FALSE);
+            addForeignKeyConstraint(new String[]{COLUMN_NAME_REVIEW_ID}, TableReviews.get());
         }
 
         public static SQLiteTableDefinition get() {
@@ -152,13 +220,35 @@ public final class ReviewerDbContract implements DbContract {
     }
 
     public static class TableTags extends SQLiteTableDefinition {
-        public static final String TABLE_NAME = "tags";
+        public static final String TABLE_NAME          = "Tags";
+        public static final String COLUMN_NAME_TAG     = "tag";
+        public static final String COLUMN_NAME_REVIEWS = "reviews";
+
         private static SQLiteTableDefinition sTable;
 
         private TableTags() {
             super(TABLE_NAME);
-            addPrimaryKey("tag", SQL.StorageType.TEXT);
-            addColumn("reviews", SQL.StorageType.TEXT, SQL.Nullable.FALSE);
+            addPrimaryKey(COLUMN_NAME_TAG, SQL.StorageType.TEXT);
+            addColumn(COLUMN_NAME_REVIEWS, SQL.StorageType.TEXT, SQL.Nullable.FALSE);
+        }
+
+        public static SQLiteTableDefinition get() {
+            if (sTable == null) sTable = new TableTags();
+            return sTable;
+        }
+    }
+
+    public static class TableAuthors extends SQLiteTableDefinition {
+        public static final String TABLE_NAME          = "Authors";
+        public static final String COLUMN_NAME_USER_ID = "user_id";
+        public static final String COLUMN_NAME_NAME    = "name";
+
+        private static SQLiteTableDefinition sTable;
+
+        private TableAuthors() {
+            super(TABLE_NAME);
+            addPrimaryKey(COLUMN_NAME_USER_ID, SQL.StorageType.TEXT);
+            addColumn(COLUMN_NAME_NAME, SQL.StorageType.TEXT, SQL.Nullable.FALSE);
         }
 
         public static SQLiteTableDefinition get() {

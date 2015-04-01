@@ -12,6 +12,8 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
+import org.apache.commons.lang.StringUtils;
+
 import java.util.ArrayList;
 
 /**
@@ -20,7 +22,10 @@ import java.util.ArrayList;
  * Email: rizwan.choudrey@gmail.com
  */
 public class DbCreator {
-    private static final String TAG = "DbCreator";
+    private static final String CHECKS_OFF = "SET foreign_key_checks = 0;";
+    private static final String CHECKS_ON  = "SET foreign_key_checks = 1;";
+    private static final String TAG        = "DbCreator";
+
     private DbContract mContract;
 
     public DbCreator(DbContract contract) {
@@ -41,23 +46,20 @@ public class DbCreator {
     }
 
     public void upgradeDatabase(SQLiteDatabase db, int oldVersion, int newVersion) {
-        ArrayList<SQLiteTableDefinition> tableDefs = mContract.getTableDefinitions();
-        for (SQLiteTableDefinition tableDef : tableDefs) {
-            try {
-                db.execSQL(getDropTableSql(tableDef, oldVersion, newVersion));
-            } catch (SQLException e) {
-                throw new RuntimeException("Problem dropping table " + tableDef.getName(), e);
-            }
+        try {
+            db.execSQL(dropAllTablesSql());
+        } catch (SQLException e) {
+            throw new RuntimeException("Problem dropping tables", e);
         }
     }
 
     private String getCreateTableSql(SQLiteTableDefinition table) {
-        String colDef = getColumnDefinitions(table.getAllColumns());
-        String pkDef = getPrimaryKeyDefinition(table.getPrimaryKeys());
-        String fkDef = getFkConstraintsDefinition(table.getForeignKeyConstraints());
+        String colDef = getColumnDefinitions(table);
+        String pkDef = getPrimaryKeyDefinition(table);
+        String fkDef = getFkConstraintsDefinition(table);
 
         String definition = SQL.CREATE_TABLE + SQL.SPACE + table.getName() + SQL.OPEN_BRACKET;
-        definition += SQL.NEW_LINE + getColumnDefinitions(table.getAllColumns());
+        definition += SQL.NEW_LINE + colDef;
         definition += pkDef.length() > 0 ? SQL.COMMA + SQL.NEW_LINE + pkDef : "";
         definition += fkDef.length() > 0 ? SQL.COMMA + SQL.NEW_LINE + fkDef : "";
         definition += SQL.NEW_LINE + SQL.CLOSE_BRACKET;
@@ -65,7 +67,8 @@ public class DbCreator {
         return definition;
     }
 
-    private String getColumnDefinitions(ArrayList<SQLiteTableDefinition.SQLiteColumn> columns) {
+    private String getColumnDefinitions(SQLiteTableDefinition table) {
+        ArrayList<SQLiteTableDefinition.SQLiteColumn> columns = table.getAllColumns();
         String definition = "";
         if (columns.size() == 0) return definition;
 
@@ -84,22 +87,20 @@ public class DbCreator {
         return definition;
     }
 
-    private String getPrimaryKeyDefinition(ArrayList<SQLiteTableDefinition.SQLiteColumn> pks) {
+    private String getPrimaryKeyDefinition(SQLiteTableDefinition table) {
+        ArrayList<SQLiteTableDefinition.SQLiteColumn> pks = table.getPrimaryKeys();
         String definition = "";
         if (pks.size() == 0) return definition;
 
-        definition += SQL.PRIMARY_KEY + SQL.OPEN_BRACKET;
-        for (SQLiteTableDefinition.SQLiteColumn pk : pks) {
-            definition += pk.getName() + SQL.COMMA;
-        }
-        definition = definition.substring(0, definition.length() - 1);
-        definition += SQL.CLOSE_BRACKET;
+        definition = SQL.PRIMARY_KEY + SQL.OPEN_BRACKET;
+        definition += getCommaSeparatedNames(pks) + SQL.CLOSE_BRACKET;
 
         return definition;
     }
 
-    private String getFkConstraintsDefinition(ArrayList<SQLiteTableDefinition
-            .ForeignKeyConstraint> constraints) {
+    private String getFkConstraintsDefinition(SQLiteTableDefinition table) {
+        ArrayList<SQLiteTableDefinition.ForeignKeyConstraint> constraints = table
+                .getForeignKeyConstraints();
         String definition = "";
         if (constraints.size() == 0) return definition;
 
@@ -113,24 +114,34 @@ public class DbCreator {
 
     private String getFkConstraintDefinition(SQLiteTableDefinition.ForeignKeyConstraint
             constraint) {
+        SQLiteTableDefinition fkTable = constraint.getForeignTable();
+
         String definition = SQL.FOREIGN_KEY + SQL.OPEN_BRACKET;
-        for (SQLiteTableDefinition.SQLiteColumn column : constraint.getFkColumns()) {
-            definition += column.getName() + SQL.COMMA;
-        }
-        definition = definition.substring(0, definition.length() - 1) + SQL.CLOSE_BRACKET;
+        definition += getCommaSeparatedNames(constraint.getFkColumns()) + SQL.CLOSE_BRACKET;
         definition += SQL.SPACE + SQL.REFERENCES + SQL.SPACE;
+        definition += fkTable.getName() + SQL.OPEN_BRACKET;
+        definition += getCommaSeparatedNames(fkTable.getPrimaryKeys()) + SQL.CLOSE_BRACKET;
 
-
-        SQLiteTableDefinition pkTable = constraint.getPkTable();
-        definition += pkTable.getName() + SQL.OPEN_BRACKET;
-        for (SQLiteTableDefinition.SQLiteColumn column : pkTable.getPrimaryKeys()) {
-            definition += column.getName() + SQL.COMMA;
-        }
-
-        return definition.substring(0, definition.length() - 1) + SQL.CLOSE_BRACKET;
+        return definition;
     }
 
-    private String getDropTableSql(SQLiteTableDefinition table, int oldVersion, int newVersion) {
-        return SQL.DROP_TABLE_IF_EXISTS + SQL.SPACE + table.getName();
+    private String dropAllTablesSql() {
+        String tables = StringUtils.join(mContract.getTableNames().toArray(), ",");
+        String dropString = SQL.DROP_TABLE_IF_EXISTS + SQL.SPACE + tables + SQL.SEMICOLON;
+
+        String definition = CHECKS_OFF + SQL.NEW_LINE;
+        definition += dropString + SQL.NEW_LINE;
+        definition += CHECKS_ON;
+
+        return definition;
+    }
+
+    private String getCommaSeparatedNames(ArrayList<SQLiteTableDefinition.SQLiteColumn> cols) {
+        String cs = "";
+        for (SQLiteTableDefinition.SQLiteColumn column : cols) {
+            cs += column.getName() + SQL.COMMA;
+        }
+
+        return cs.substring(0, cs.length() - 1);
     }
 }

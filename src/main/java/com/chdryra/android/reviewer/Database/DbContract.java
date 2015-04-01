@@ -21,4 +21,6 @@ public interface DbContract {
     public int getVersionNumber();
 
     public ArrayList<SQLiteTableDefinition> getTableDefinitions();
+
+    public ArrayList<String> getTableNames();
 }

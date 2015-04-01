@@ -233,7 +233,6 @@ public class GvImageList extends GvDataList<GvImageList.GvImage> {
             return mIsCover;
         }
 
-        @Override
         public LatLng getLatLng() {
             return mLatLng;
         }

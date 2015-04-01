@@ -32,12 +32,16 @@ public class ReviewTreeNode implements ReviewNode {
 
     private boolean mRatingIsAverage = false;
 
-    public ReviewTreeNode(Review root, boolean ratingIsAverage, boolean uniqueId) {
-        mId = uniqueId ? ReviewId.generateId() : root.getId();
+    public ReviewTreeNode(Review root, boolean ratingIsAverage, ReviewId nodeId) {
+        mId = nodeId;
         mReview = root;
         mChildren = new RCollectionReview<>();
         mParent = null;
         mRatingIsAverage = ratingIsAverage;
+    }
+
+    public ReviewTreeNode(Review root, boolean ratingIsAverage) {
+        this(root, ratingIsAverage, root.getId());
     }
 
     //ReviewNode methods
