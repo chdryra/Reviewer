@@ -103,58 +103,53 @@ public class ReviewerDb {
     }
 
     private void addReviewToDb(ReviewNode node, SQLiteDatabase db) {
-        insertReviewsTable(node, db);
-        insertReviewsTreeTable(node, db);
-        insertCommentsTable(node, db);
-        insertFactsTable(node, db);
-        insertLocationsTable(node, db);
-        insertImagesTable(node, db);
+        addToReviewsTable(node, db);
+        addToReviewsTreeTable(node, db);
+        addToCommentsTable(node, db);
+        addToFactsTable(node, db);
+        addToLocationsTable(node, db);
+        addToImagesTable(node, db);
 
         for (ReviewNode child : node.getChildren()) {
             if (!isReviewInDb(child, db)) addReviewToDb(child, db);
         }
     }
 
-    private void insertReviewsTable(ReviewNode node, SQLiteDatabase db) {
-        ReviewerDbRows.ReviewsRow row = new ReviewerDbRows.ReviewsRow(node.getReview());
-        insertRow(row, ReviewerDbContract.TableComments.get(), db);
+    private void addToReviewsTable(ReviewNode node, SQLiteDatabase db) {
+        insertRow(ReviewerDbRows.newRow(node.getReview()),
+                ReviewerDbContract.TableComments.get(), db);
     }
 
-    private void insertReviewsTreeTable(ReviewNode node, SQLiteDatabase db) {
-        ReviewerDbRows.ReviewTreesRow row = new ReviewerDbRows.ReviewTreesRow(node);
-        insertRow(row, ReviewerDbContract.TableComments.get(), db);
-
+    private void addToReviewsTreeTable(ReviewNode node, SQLiteDatabase db) {
+        insertRow(ReviewerDbRows.newRow(node), ReviewerDbContract.TableComments.get(), db);
     }
 
-    private void insertCommentsTable(ReviewNode node, SQLiteDatabase db) {
+    private void addToCommentsTable(ReviewNode node, SQLiteDatabase db) {
         int i = 1;
-        for (MdCommentList.MdComment comment : node.getReview().getComments()) {
-            ReviewerDbRows.CommentsRow row = new ReviewerDbRows.CommentsRow(comment, i++);
-            insertRow(row, ReviewerDbContract.TableComments.get(), db);
+        for (MdCommentList.MdComment datum : node.getReview().getComments()) {
+            insertRow(ReviewerDbRows.newRow(datum, i++), ReviewerDbContract.TableComments.get(),
+                    db);
         }
     }
 
-    private void insertFactsTable(ReviewNode node, SQLiteDatabase db) {
+    private void addToFactsTable(ReviewNode node, SQLiteDatabase db) {
         int i = 1;
-        for (MdFactList.MdFact fact : node.getReview().getFacts()) {
-            ReviewerDbRows.FactsRow row = new ReviewerDbRows.FactsRow(fact, i++);
-            insertRow(row, ReviewerDbContract.TableFacts.get(), db);
+        for (MdFactList.MdFact datum : node.getReview().getFacts()) {
+            insertRow(ReviewerDbRows.newRow(datum, i++), ReviewerDbContract.TableFacts.get(), db);
         }
     }
 
-    private void insertLocationsTable(ReviewNode node, SQLiteDatabase db) {
+    private void addToLocationsTable(ReviewNode node, SQLiteDatabase db) {
         int i = 1;
-        for (MdLocationList.MdLocation location : node.getReview().getLocations()) {
-            ReviewerDbRows.LocationsRow row = new ReviewerDbRows.LocationsRow(location, i++);
-            insertRow(row, ReviewerDbContract.TableImages.get(), db);
+        for (MdLocationList.MdLocation datum : node.getReview().getLocations()) {
+            insertRow(ReviewerDbRows.newRow(datum, i++), ReviewerDbContract.TableImages.get(), db);
         }
     }
 
-    private void insertImagesTable(ReviewNode node, SQLiteDatabase db) {
+    private void addToImagesTable(ReviewNode node, SQLiteDatabase db) {
         int i = 1;
-        for (MdImageList.MdImage image : node.getReview().getImages()) {
-            ReviewerDbRows.ImagesRow row = new ReviewerDbRows.ImagesRow(image, i++);
-            insertRow(row, ReviewerDbContract.TableImages.get(), db);
+        for (MdImageList.MdImage datum : node.getReview().getImages()) {
+            insertRow(ReviewerDbRows.newRow(datum, i++), ReviewerDbContract.TableImages.get(), db);
         }
     }
 

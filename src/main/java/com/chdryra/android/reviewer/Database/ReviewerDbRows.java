@@ -41,6 +41,30 @@ public class ReviewerDbRows {
         public ContentValues getContentValues();
     }
 
+    public static TableRow newRow(ReviewNode node) {
+        return new ReviewTreesRow(node);
+    }
+
+    public static TableRow newRow(Review review) {
+        return new ReviewsRow(review);
+    }
+
+    public static TableRow newRow(MdCommentList.MdComment comment, int index) {
+        return new CommentsRow(comment, index);
+    }
+
+    public static TableRow newRow(MdFactList.MdFact fact, int index) {
+        return new FactsRow(fact, index);
+    }
+
+    public static TableRow newRow(MdLocationList.MdLocation location, int index) {
+        return new LocationsRow(location, index);
+    }
+
+    public static TableRow newRow(MdImageList.MdImage image, int index) {
+        return new ImagesRow(image, index);
+    }
+
     public static class ReviewTreesRow implements TableRow {
         public static final String NODE_ID    = ReviewerDbContract.TableReviewTrees
                 .COLUMN_NAME_REVIEW_NODE_ID;
