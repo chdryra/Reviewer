@@ -18,16 +18,16 @@ import com.chdryra.android.reviewer.Controller.DataValidator;
  */
 public class MdSubject implements MdData {
     private final String mSubject;
-    private final Review mHoldingReview;
+    private final ReviewId mReviewId;
 
-    public MdSubject(String subject, Review review) {
+    public MdSubject(String subject, ReviewId reviewId) {
         mSubject = subject;
-        mHoldingReview = review;
+        mReviewId = reviewId;
     }
 
     @Override
-    public Review getHoldingReview() {
-        return mHoldingReview;
+    public ReviewId getReviewId() {
+        return mReviewId;
     }
 
     @Override
@@ -46,8 +46,8 @@ public class MdSubject implements MdData {
 
         MdSubject rdSubject = (MdSubject) o;
 
-        if (mHoldingReview != null ? !mHoldingReview.equals(rdSubject.mHoldingReview) : rdSubject
-                .mHoldingReview != null) {
+        if (mReviewId != null ? !mReviewId.equals(rdSubject.mReviewId) : rdSubject
+                .mReviewId != null) {
             return false;
         }
         if (mSubject != null ? !mSubject.equals(rdSubject.mSubject) : rdSubject.mSubject != null) {
@@ -60,7 +60,7 @@ public class MdSubject implements MdData {
     @Override
     public int hashCode() {
         int result = mSubject != null ? mSubject.hashCode() : 0;
-        result = 31 * result + (mHoldingReview != null ? mHoldingReview.hashCode() : 0);
+        result = 31 * result + (mReviewId != null ? mReviewId.hashCode() : 0);
         return result;
     }
 }

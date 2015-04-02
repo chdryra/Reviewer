@@ -135,5 +135,9 @@ public class SQLiteTableDefinition implements BaseColumns {
         public boolean isNullable() {
             return mIsNullable;
         }
+
+        public SQLiteTableDefinition getParentTable() {
+            return SQLiteTableDefinition.this;
+        }
     }
 }

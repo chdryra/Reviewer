@@ -20,8 +20,8 @@ import java.net.URL;
  */
 public class MdUrlList extends MdDataList<MdUrlList.MdUrl> {
 
-    public MdUrlList(Review holdingReview) {
-        super(holdingReview);
+    public MdUrlList(ReviewId reviewId) {
+        super(reviewId);
     }
 
     /**
@@ -33,8 +33,8 @@ public class MdUrlList extends MdDataList<MdUrlList.MdUrl> {
     public static class MdUrl extends MdFactList.MdFact implements DataUrl {
         private final URL mUrl;
 
-        public MdUrl(String label, URL url, Review holdingReview) {
-            super(label, url.toExternalForm(), holdingReview);
+        public MdUrl(String label, URL url, ReviewId reviewId) {
+            super(label, url.toExternalForm(), reviewId);
             mUrl = url;
         }
 

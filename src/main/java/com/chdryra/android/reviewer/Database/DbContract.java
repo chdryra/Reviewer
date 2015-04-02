@@ -16,10 +16,6 @@ import java.util.ArrayList;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface DbContract {
-    public String getDatabaseName();
-
-    public int getVersionNumber();
-
     public ArrayList<SQLiteTableDefinition> getTableDefinitions();
 
     public ArrayList<String> getTableNames();

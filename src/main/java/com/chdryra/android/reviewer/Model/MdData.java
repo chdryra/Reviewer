@@ -20,7 +20,7 @@ package com.chdryra.android.reviewer.Model;
 //TODO need to make sure holding review is consistent for all the node wrapping etc. going on.
 // Possibly better to calculate this on the fly using a node visitor as and when needed.
 public interface MdData {
-    Review getHoldingReview();
+    ReviewId getReviewId();
 
     boolean hasData();
 

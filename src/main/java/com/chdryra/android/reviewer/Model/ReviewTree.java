@@ -54,6 +54,11 @@ public class ReviewTree implements ReviewNode {
     }
 
     @Override
+    public boolean isRatingAverageOfChildren() {
+        return mRoot.isRatingAverageOfChildren();
+    }
+
+    @Override
     public ReviewId getId() {
         return mRoot.getId();
     }
@@ -66,11 +71,6 @@ public class ReviewTree implements ReviewNode {
     @Override
     public MdRating getRating() {
         return mRoot.getRating();
-    }
-
-    @Override
-    public ReviewNode getReviewNode() {
-        return this;
     }
 
     @Override

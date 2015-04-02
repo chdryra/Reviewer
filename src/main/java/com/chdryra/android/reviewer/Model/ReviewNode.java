@@ -25,4 +25,6 @@ public interface ReviewNode extends Review {
     public RCollectionReview<ReviewNode> getChildren();
 
     public void acceptVisitor(VisitorReviewNode visitor);
+
+    public boolean isRatingAverageOfChildren();
 }

@@ -19,8 +19,8 @@ import com.google.android.gms.maps.model.LatLng;
  */
 public class MdLocationList extends MdDataList<MdLocationList.MdLocation> {
 
-    public MdLocationList(Review holdingReview) {
-        super(holdingReview);
+    public MdLocationList(ReviewId reviewId) {
+        super(reviewId);
     }
 
     /**
@@ -33,17 +33,17 @@ public class MdLocationList extends MdDataList<MdLocationList.MdLocation> {
         public static final String LOCATION_DELIMITER = ",|";
         private final LatLng mLatLng;
         private final String mName;
-        private final Review mHoldingReview;
+        private final ReviewId mReviewId;
 
-        public MdLocation(LatLng latLng, String name, Review holdingReview) {
+        public MdLocation(LatLng latLng, String name, ReviewId reviewId) {
             mLatLng = latLng;
             mName = name;
-            mHoldingReview = holdingReview;
+            mReviewId = reviewId;
         }
 
         @Override
-        public Review getHoldingReview() {
-            return mHoldingReview;
+        public ReviewId getReviewId() {
+            return mReviewId;
         }
 
         @Override
@@ -68,8 +68,8 @@ public class MdLocationList extends MdDataList<MdLocationList.MdLocation> {
 
             MdLocation that = (MdLocation) o;
 
-            if (mHoldingReview != null ? !mHoldingReview.equals(that.mHoldingReview) : that
-                    .mHoldingReview != null) {
+            if (mReviewId != null ? !mReviewId.equals(that.mReviewId) : that
+                    .mReviewId != null) {
                 return false;
             }
             if (mLatLng != null ? !mLatLng.equals(that.mLatLng) : that.mLatLng != null) {
@@ -84,7 +84,7 @@ public class MdLocationList extends MdDataList<MdLocationList.MdLocation> {
         public int hashCode() {
             int result = mLatLng != null ? mLatLng.hashCode() : 0;
             result = 31 * result + (mName != null ? mName.hashCode() : 0);
-            result = 31 * result + (mHoldingReview != null ? mHoldingReview.hashCode() : 0);
+            result = 31 * result + (mReviewId != null ? mReviewId.hashCode() : 0);
             return result;
         }
     }

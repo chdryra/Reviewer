@@ -60,7 +60,7 @@ public class ReviewUserTest extends TestCase {
     public void testGetSubject() {
         MdSubject subject = mReview.getSubject();
         assertNotNull(subject);
-        assertEquals(mReview, subject.getHoldingReview());
+        assertEquals(mReview, subject.getReviewId());
         assertTrue(subject.hasData());
         assertEquals(mSubject, mReview.getSubject().get());
     }
@@ -69,7 +69,7 @@ public class ReviewUserTest extends TestCase {
     public void testGetRating() {
         MdRating rating = mReview.getRating();
         assertNotNull(rating);
-        assertEquals(mReview, rating.getHoldingReview());
+        assertEquals(mReview, rating.getReviewId());
         assertTrue(rating.hasData());
         assertEquals(mRating, mReview.getRating().get());
     }

@@ -18,8 +18,8 @@ import com.chdryra.android.reviewer.Controller.DataValidator;
  */
 public class MdFactList extends MdDataList<MdFactList.MdFact> {
 
-    public MdFactList(Review holdingReview) {
-        super(holdingReview);
+    public MdFactList(ReviewId reviewId) {
+        super(reviewId);
     }
 
     /**
@@ -32,17 +32,17 @@ public class MdFactList extends MdDataList<MdFactList.MdFact> {
 
         private final String mLabel;
         private final String mValue;
-        private final Review mHoldingReview;
+        private final ReviewId mReviewId;
 
-        public MdFact(String label, String value, Review holdingReview) {
+        public MdFact(String label, String value, ReviewId reviewId) {
             mLabel = label;
             mValue = value;
-            mHoldingReview = holdingReview;
+            mReviewId = reviewId;
         }
 
         @Override
-        public Review getHoldingReview() {
-            return mHoldingReview;
+        public ReviewId getReviewId() {
+            return mReviewId;
         }
 
         @Override
@@ -72,8 +72,8 @@ public class MdFactList extends MdDataList<MdFactList.MdFact> {
 
             MdFact mdFact = (MdFact) o;
 
-            if (mHoldingReview != null ? !mHoldingReview.equals(mdFact.mHoldingReview) : mdFact
-                    .mHoldingReview != null) {
+            if (mReviewId != null ? !mReviewId.equals(mdFact.mReviewId) : mdFact
+                    .mReviewId != null) {
                 return false;
             }
             if (mLabel != null ? !mLabel.equals(mdFact.mLabel) : mdFact.mLabel != null) {
@@ -90,7 +90,7 @@ public class MdFactList extends MdDataList<MdFactList.MdFact> {
         public int hashCode() {
             int result = mLabel != null ? mLabel.hashCode() : 0;
             result = 31 * result + (mValue != null ? mValue.hashCode() : 0);
-            result = 31 * result + (mHoldingReview != null ? mHoldingReview.hashCode() : 0);
+            result = 31 * result + (mReviewId != null ? mReviewId.hashCode() : 0);
             return result;
         }
     }

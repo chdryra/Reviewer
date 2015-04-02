@@ -52,13 +52,6 @@ public interface Review extends ReviewId.RDIdAble {
     MdRating getRating();
 
     //Core methods
-
-    /**
-     * Returns a tree representation of the review. Has the same {@link ReviewId} as the review it
-     * represents.
-     */
-    ReviewNode getReviewNode();
-
     Author getAuthor();
 
     Date getPublishDate();

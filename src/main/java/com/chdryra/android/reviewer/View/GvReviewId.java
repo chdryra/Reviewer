@@ -37,7 +37,7 @@ public class GvReviewId implements GvData {
     }
 
     public GvReviewId(Parcel in) {
-        mId = ReviewId.generateId(in.readString());
+        mId = ReviewId.fromString(in.readString());
     }
 
     public String getId() {

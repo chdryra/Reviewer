@@ -17,10 +17,6 @@ import java.util.Date;
  * <p/>
  * <p>
  * Wraps a {@link Review} object in a node structure with potential children and a parent.
- * Note: this is not necessarily the same node internal to the wrapped {@link Review} and
- * returned by its {@link Review#getReviewNode()} method. A Review may decide to represent
- * itself with its own internal tree structure which will share the same {@link ReviewId} as the
- * review.
  * </p>
  */
 public class ReviewTreeNode implements ReviewNode {
@@ -80,6 +76,11 @@ public class ReviewTreeNode implements ReviewNode {
         visitor.visit(this);
     }
 
+    @Override
+    public boolean isRatingAverageOfChildren() {
+        return mRatingIsAverage;
+    }
+
     public void addChild(ReviewTreeNode childNode) {
         if (mChildren.containsId(childNode.getId())) {
             return;
@@ -119,11 +120,6 @@ public class ReviewTreeNode implements ReviewNode {
         }
 
         return rating;
-    }
-
-    @Override
-    public ReviewNode getReviewNode() {
-        return this;
     }
 
     @Override

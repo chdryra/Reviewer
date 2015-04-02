@@ -23,24 +23,24 @@ public class MdCommentList extends MdDataList<MdCommentList.MdComment> {
      * {@link #hasData()}: A string at least 1 character in length.
      * </p>
      */
-    public MdCommentList(Review holdingReview) {
-        super(holdingReview);
+    public MdCommentList(ReviewId reviewId) {
+        super(reviewId);
     }
 
     public static class MdComment implements MdData, DataComment {
-        private final String  mComment;
-        private final boolean mIsHeadline;
-        private final Review  mHoldingReview;
+        private final String   mComment;
+        private final boolean  mIsHeadline;
+        private final ReviewId mReviewId;
 
-        public MdComment(String comment, boolean isHeadline, Review holdingReview) {
+        public MdComment(String comment, boolean isHeadline, ReviewId reviewId) {
             mComment = comment;
             mIsHeadline = isHeadline;
-            mHoldingReview = holdingReview;
+            mReviewId = reviewId;
         }
 
         @Override
-        public Review getHoldingReview() {
-            return mHoldingReview;
+        public ReviewId getReviewId() {
+            return mReviewId;
         }
 
         @Override
@@ -69,8 +69,8 @@ public class MdCommentList extends MdDataList<MdCommentList.MdComment> {
                     null) {
                 return false;
             }
-            if (mHoldingReview != null ? !mHoldingReview.equals(mdComment.mHoldingReview) :
-                    mdComment.mHoldingReview != null) {
+            if (mReviewId != null ? !mReviewId.equals(mdComment.mReviewId) :
+                    mdComment.mReviewId != null) {
                 return false;
             }
             if (mIsHeadline != mdComment.mIsHeadline) {
@@ -83,7 +83,7 @@ public class MdCommentList extends MdDataList<MdCommentList.MdComment> {
         @Override
         public int hashCode() {
             int result = mComment != null ? mComment.hashCode() : 0;
-            result = 31 * result + (mHoldingReview != null ? mHoldingReview.hashCode() : 0);
+            result = 31 * result + (mReviewId != null ? mReviewId.hashCode() : 0);
             result = 31 * result + (mIsHeadline ? 1 : 0);
             return result;
         }

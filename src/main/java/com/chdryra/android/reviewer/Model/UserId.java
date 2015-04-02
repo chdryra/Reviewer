@@ -21,15 +21,27 @@ import java.util.UUID;
  */
 
 public class UserId {
-    public final static UserId NULL_ID = new UserId(null);
+    public final static UserId NULL_ID = new UserId();
     private final UUID mId;
+
+    private UserId() {
+        mId = null;
+    }
 
     private UserId(UUID id) {
         mId = id;
     }
 
+    private UserId(String rdId) {
+        mId = UUID.fromString(rdId);
+    }
+
     public static UserId generateId() {
         return new UserId(UUID.randomUUID());
+    }
+
+    public static UserId fromString(String rdId) {
+        return new UserId(rdId);
     }
 
     @Override

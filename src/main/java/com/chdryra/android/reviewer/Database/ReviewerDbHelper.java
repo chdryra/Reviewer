@@ -20,9 +20,9 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class ReviewerDbHelper extends SQLiteOpenHelper {
     private DbCreator mDbCreator;
 
-    public ReviewerDbHelper(Context context, DbContract contract) {
-        super(context, contract.getDatabaseName(), null, contract.getVersionNumber());
-        mDbCreator = new DbCreator(contract);
+    public ReviewerDbHelper(Context context, ReviewerDb db) {
+        super(context, db.getDatabaseName(), null, db.getDatabaseVersion());
+        mDbCreator = new DbCreator(db.getContract());
     }
 
     @Override

@@ -23,8 +23,8 @@ import java.util.Date;
  */
 public class MdImageList extends MdDataList<MdImageList.MdImage> {
 
-    public MdImageList(Review holdingReview) {
-        super(holdingReview);
+    public MdImageList(ReviewId reviewId) {
+        super(reviewId);
     }
 
     /**
@@ -43,22 +43,22 @@ public class MdImageList extends MdDataList<MdImageList.MdImage> {
         private final Date   mDate;
         private final String mCaption;
         private final LatLng mLatLng;
-        private final Review mHoldingReview;
+        private final ReviewId mReviewId;
         private boolean mIsCover = false;
 
         public MdImage(Bitmap bitmap, Date date, LatLng latLng, String caption, boolean isCover,
-                Review holdingReview) {
+                ReviewId reviewId) {
             mBitmap = bitmap;
             mDate = date;
             mLatLng = latLng;
             mCaption = caption;
             mIsCover = isCover;
-            mHoldingReview = holdingReview;
+            mReviewId = reviewId;
         }
 
         @Override
-        public Review getHoldingReview() {
-            return mHoldingReview;
+        public ReviewId getReviewId() {
+            return mReviewId;
         }
 
         @Override
@@ -100,8 +100,8 @@ public class MdImageList extends MdDataList<MdImageList.MdImage> {
             if (mCaption != null ? !mCaption.equals(mdImage.mCaption) : mdImage.mCaption != null) {
                 return false;
             }
-            if (mHoldingReview != null ? !mHoldingReview.equals(mdImage.mHoldingReview) : mdImage
-                    .mHoldingReview != null) {
+            if (mReviewId != null ? !mReviewId.equals(mdImage.mReviewId) : mdImage
+                    .mReviewId != null) {
                 return false;
             }
             if (mLatLng != null ? !mLatLng.equals(mdImage.mLatLng) : mdImage.mLatLng != null) {
@@ -120,7 +120,7 @@ public class MdImageList extends MdDataList<MdImageList.MdImage> {
             result = 31 * result + (mCaption != null ? mCaption.hashCode() : 0);
             result = 31 * result + (mDate != null ? mDate.hashCode() : 0);
             result = 31 * result + (mLatLng != null ? mLatLng.hashCode() : 0);
-            result = 31 * result + (mHoldingReview != null ? mHoldingReview.hashCode() : 0);
+            result = 31 * result + (mReviewId != null ? mReviewId.hashCode() : 0);
             result = 31 * result + (mIsCover ? 1 : 0);
             return result;
         }

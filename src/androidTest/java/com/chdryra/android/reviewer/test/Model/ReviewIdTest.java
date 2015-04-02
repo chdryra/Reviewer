@@ -34,7 +34,7 @@ public class ReviewIdTest extends TestCase {
 
         assertFalse(id1.equals(id2));
 
-        ReviewId id3 = ReviewId.generateId(id2.toString());
+        ReviewId id3 = ReviewId.fromString(id2.toString());
         assertNotNull(id3);
         assertFalse(id1.equals(id3));
         assertTrue(id2.equals(id3));

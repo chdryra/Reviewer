@@ -8,23 +8,18 @@
 
 package com.chdryra.android.reviewer.Database;
 
-import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Bitmap;
 import android.util.Log;
 
-import com.chdryra.android.reviewer.Controller.DataValidator;
 import com.chdryra.android.reviewer.Model.MdCommentList;
 import com.chdryra.android.reviewer.Model.MdFactList;
 import com.chdryra.android.reviewer.Model.MdImageList;
 import com.chdryra.android.reviewer.Model.MdLocationList;
-import com.chdryra.android.reviewer.Model.Review;
+import com.chdryra.android.reviewer.Model.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewNode;
-import com.google.android.gms.maps.model.LatLng;
-
-import java.io.ByteArrayOutputStream;
 
 /**
  * Created by: Rizwan Choudrey
@@ -32,24 +27,82 @@ import java.io.ByteArrayOutputStream;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ReviewerDb {
-    private static final String             TAG       = "ReviewerDb";
-    private static final String             SEPARATOR = ":";
-    private static final ReviewerDbContract CONTRACT  = ReviewerDbContract.getContract();
+    private static final String             TAG            = "ReviewerDb";
+    private static final String             DATABASE_NAME  = "Reviewer.db";
+    private static final int                VERSION_NUMBER = 1;
+    private static final ReviewerDbContract CONTRACT       = ReviewerDbContract.getContract();
+
     private static ReviewerDb       sDatabase;
     private        ReviewerDbHelper mHelper;
+    private String mDatabaseName;
 
-    private ReviewerDb(Context context) {
-        mHelper = new ReviewerDbHelper(context, CONTRACT);
+    private ReviewerDb(Context context, String databaseName) {
+        mHelper = new ReviewerDbHelper(context, this);
+        mDatabaseName = databaseName;
     }
 
     public static ReviewerDb getDatabase(Context context) {
-        if (sDatabase == null) sDatabase = new ReviewerDb(context);
+        if (sDatabase == null) sDatabase = new ReviewerDb(context, DATABASE_NAME);
         return sDatabase;
+    }
+
+    public static ReviewerDb getTestDatabase(Context context) {
+        return new ReviewerDb(context, "Test" + DATABASE_NAME);
+    }
+
+    public String getDatabaseName() {
+        return mDatabaseName;
+    }
+
+    public int getDatabaseVersion() {
+        return VERSION_NUMBER;
+    }
+
+    public DbContract getContract() {
+        return CONTRACT;
     }
 
     public void addReviewToDb(ReviewNode node) {
         SQLiteDatabase db = mHelper.getWritableDatabase();
 
+        ReviewNode parent = node.getParent();
+        if (parent != null && !isReviewInDb(parent, db)) {
+            String parentId = parent.getReview().getId().toString();
+            throw new IllegalStateException("Please ensure parent review " + parentId + " has " +
+                    "been saved first!");
+        }
+
+        addReviewToDb(node, db);
+        db.close();
+    }
+
+    public ReviewerDbRows.ReviewTreesRow getReviewTreeRowFor(ReviewId nodeId, SQLiteDatabase db) {
+        String table = ReviewerDbContract.TableReviewTrees.TABLE_NAME;
+        String nodeIdCol = ReviewerDbContract.TableReviewTrees.COLUMN_NAME_REVIEW_NODE_ID;
+
+        Cursor cursor = getRowCursor(db, table, nodeIdCol, nodeId.toString());
+        if (cursor == null || cursor.getCount() == 0) return null;
+
+        cursor.moveToFirst();
+        ReviewerDbRows.ReviewTreesRow row = new ReviewerDbRows.ReviewTreesRow(cursor);
+        cursor.close();
+
+        return row;
+    }
+
+    private Cursor getRowCursor(SQLiteDatabase db, String table, String pkColumn, String pkValue) {
+        String query = SQL.SELECT + SQL.SPACE + SQL.ALL + SQL.SPACE + SQL.FROM + SQL.SPACE + table +
+                SQL.WHERE + SQL.SPACE + pkColumn + " = ?";
+        Cursor cursor = db.rawQuery(query, new String[]{pkValue});
+        if (cursor != null && cursor.getCount() > 1) {
+            cursor.close();
+            throw new IllegalStateException("Cannot have more than 1 row with same primary key!");
+        }
+
+        return cursor;
+    }
+
+    private void addReviewToDb(ReviewNode node, SQLiteDatabase db) {
         insertReviewsTable(node, db);
         insertReviewsTreeTable(node, db);
         insertCommentsTable(node, db);
@@ -58,156 +111,77 @@ public class ReviewerDb {
         insertImagesTable(node, db);
 
         for (ReviewNode child : node.getChildren()) {
-            addReviewToDb(child);
+            if (!isReviewInDb(child, db)) addReviewToDb(child, db);
         }
     }
 
     private void insertReviewsTable(ReviewNode node, SQLiteDatabase db) {
-        Review review = node.getReview();
-
-        String reviewId = review.getId().toString();
-        String authorId = review.getAuthor().getUserId().toString();
-        long publishDate = review.getPublishDate().getTime();
-        String subject = review.getSubject().get();
-        float rating = review.getRating().get();
-
-        ContentValues values = new ContentValues();
-        values.put(ReviewerDbContract.TableReviews.COLUMN_NAME_REVIEW_ID, reviewId);
-        values.put(ReviewerDbContract.TableReviews.COLUMN_NAME_AUTHOR_ID, authorId);
-        values.put(ReviewerDbContract.TableReviews.COLUMN_NAME_PUBLISH_DATE, publishDate);
-        values.put(ReviewerDbContract.TableReviews.COLUMN_NAME_SUBJECT, subject);
-        values.put(ReviewerDbContract.TableReviews.COLUMN_NAME_RATING, rating);
-
-        insertRow(db, ReviewerDbContract.TableReviews.get(), values, reviewId);
+        ReviewerDbRows.ReviewsRow row = new ReviewerDbRows.ReviewsRow(node.getReview());
+        insertRow(row, ReviewerDbContract.TableComments.get(), db);
     }
 
     private void insertReviewsTreeTable(ReviewNode node, SQLiteDatabase db) {
-        String nodeId = node.getId().toString();
-        String reviewId = node.getReview().getId().toString();
+        ReviewerDbRows.ReviewTreesRow row = new ReviewerDbRows.ReviewTreesRow(node);
+        insertRow(row, ReviewerDbContract.TableComments.get(), db);
 
-        ContentValues values = new ContentValues();
-        values.put(ReviewerDbContract.TableReviewTrees.COLUMN_NAME_REVIEW_NODE_ID, nodeId);
-        values.put(ReviewerDbContract.TableReviews.COLUMN_NAME_REVIEW_ID, reviewId);
-
-        ReviewNode parent = node.getParent();
-        if (parent != null) {
-            String parentId = parent.getId().toString();
-            values.put(ReviewerDbContract.TableReviewTrees.COLUMN_NAME_PARENT_NODE_ID, parentId);
-        }
-
-        insertRow(db, ReviewerDbContract.TableReviewTrees.get(), values, nodeId);
     }
 
     private void insertCommentsTable(ReviewNode node, SQLiteDatabase db) {
-        Review review = node.getReview();
-        MdCommentList comments = review.getComments();
-
         int i = 1;
-        for (MdCommentList.MdComment comment : comments) {
-            String reviewId = review.getId().toString();
-            String commentId = reviewId + SEPARATOR + "c" + String.valueOf(i++);
-            String commentString = comment.getComment();
-            int isHeadline = booleanToInt(comment.isHeadline());
-
-            ContentValues values = new ContentValues();
-            values.put(ReviewerDbContract.TableComments.COLUMN_NAME_COMMENT_ID, commentId);
-            values.put(ReviewerDbContract.TableComments.COLUMN_NAME_REVIEW_ID, reviewId);
-            values.put(ReviewerDbContract.TableComments.COLUMN_NAME_COMMENT, commentString);
-            values.put(ReviewerDbContract.TableComments.COLUMN_NAME_IS_HEADLINE, isHeadline);
-
-            insertRow(db, ReviewerDbContract.TableComments.get(), values, commentId);
+        for (MdCommentList.MdComment comment : node.getReview().getComments()) {
+            ReviewerDbRows.CommentsRow row = new ReviewerDbRows.CommentsRow(comment, i++);
+            insertRow(row, ReviewerDbContract.TableComments.get(), db);
         }
     }
 
     private void insertFactsTable(ReviewNode node, SQLiteDatabase db) {
-        Review review = node.getReview();
-        MdFactList facts = review.getFacts();
-
         int i = 1;
-        for (MdFactList.MdFact fact : facts) {
-            String reviewId = review.getId().toString();
-            String factId = reviewId + SEPARATOR + "c" + String.valueOf(i++);
-            String label = fact.getLabel();
-            String value = fact.getValue();
-            int isUrl = booleanToInt(fact.isUrl());
-
-            ContentValues values = new ContentValues();
-            values.put(ReviewerDbContract.TableFacts.COLUMN_NAME_FACT_ID, factId);
-            values.put(ReviewerDbContract.TableFacts.COLUMN_NAME_REVIEW_ID, reviewId);
-            values.put(ReviewerDbContract.TableFacts.COLUMN_NAME_LABEL, label);
-            values.put(ReviewerDbContract.TableFacts.COLUMN_NAME_VALUE, value);
-            values.put(ReviewerDbContract.TableFacts.COLUMN_NAME_IS_URL, isUrl);
-
-            insertRow(db, ReviewerDbContract.TableFacts.get(), values, factId);
+        for (MdFactList.MdFact fact : node.getReview().getFacts()) {
+            ReviewerDbRows.FactsRow row = new ReviewerDbRows.FactsRow(fact, i++);
+            insertRow(row, ReviewerDbContract.TableFacts.get(), db);
         }
     }
 
     private void insertLocationsTable(ReviewNode node, SQLiteDatabase db) {
-        Review review = node.getReview();
-        MdLocationList locations = review.getLocations();
-
         int i = 1;
-        for (MdLocationList.MdLocation location : locations) {
-            String reviewId = review.getId().toString();
-            String locationId = reviewId + SEPARATOR + "f" + String.valueOf(i++);
-            LatLng latlng = location.getLatLng();
-            double latitude = latlng.latitude;
-            double longitude = latlng.longitude;
-            String name = location.getName();
-
-            ContentValues values = new ContentValues();
-            values.put(ReviewerDbContract.TableLocations.COLUMN_NAME_LOCATION_ID, locationId);
-            values.put(ReviewerDbContract.TableLocations.COLUMN_NAME_REVIEW_ID, reviewId);
-            values.put(ReviewerDbContract.TableLocations.COLUMN_NAME_LATITUDE, latitude);
-            values.put(ReviewerDbContract.TableLocations.COLUMN_NAME_LONGITUDE, longitude);
-            values.put(ReviewerDbContract.TableLocations.COLUMN_NAME_NAME, name);
-
-            insertRow(db, ReviewerDbContract.TableLocations.get(), values, locationId);
+        for (MdLocationList.MdLocation location : node.getReview().getLocations()) {
+            ReviewerDbRows.LocationsRow row = new ReviewerDbRows.LocationsRow(location, i++);
+            insertRow(row, ReviewerDbContract.TableImages.get(), db);
         }
     }
 
     private void insertImagesTable(ReviewNode node, SQLiteDatabase db) {
-        Review review = node.getReview();
-        MdImageList images = review.getImages();
-
         int i = 1;
-        for (MdImageList.MdImage image : images) {
-            String reviewId = review.getId().toString();
-            String imageId = reviewId + SEPARATOR + "i" + String.valueOf(i++);
-            Bitmap bitmap = image.getBitmap();
-            ByteArrayOutputStream bos = new ByteArrayOutputStream();
-            bitmap.compress(Bitmap.CompressFormat.PNG, 100, bos);
-            byte[] blob = bos.toByteArray();
-            String caption = image.getCaption();
-            int isCover = booleanToInt(image.isCover());
-
-            ContentValues values = new ContentValues();
-            values.put(ReviewerDbContract.TableImages.COLUMN_NAME_IMAGE_ID, imageId);
-            values.put(ReviewerDbContract.TableImages.COLUMN_NAME_REVIEW_ID, reviewId);
-            values.put(ReviewerDbContract.TableImages.COLUMN_NAME_BITMAP, blob);
-            values.put(ReviewerDbContract.TableImages.COLUMN_NAME_IS_COVER, isCover);
-            if (DataValidator.validateString(caption)) {
-                values.put(ReviewerDbContract.TableImages.COLUMN_NAME_CAPTION, caption);
-            }
-
-            insertRow(db, ReviewerDbContract.TableImages.get(), values, imageId);
+        for (MdImageList.MdImage image : node.getReview().getImages()) {
+            ReviewerDbRows.ImagesRow row = new ReviewerDbRows.ImagesRow(image, i++);
+            insertRow(row, ReviewerDbContract.TableImages.get(), db);
         }
     }
 
-    private int booleanToInt(boolean bool) {
-        return bool ? 1 : 0;
-    }
-
-    private void insertRow(SQLiteDatabase db, SQLiteTableDefinition table, ContentValues values,
-            String item) {
+    private void insertRow(ReviewerDbRows.TableRow row, ReviewerDbContract.ReviewerDbTable table,
+            SQLiteDatabase db) {
         String tableName = table.getName();
-        String message = item + " into " + tableName + " table";
+        String message = row.getRowId() + " into " + tableName + " table ";
         try {
-
-            db.insertOrThrow(tableName, null, values);
-            Log.i(TAG, "Inserted " + message);
+            long rowId = db.insertOrThrow(tableName, null, row.getContentValues());
+            Log.i(TAG, "Inserted " + message + " at row " + String.valueOf(rowId));
         } catch (SQLException e) {
             throw new RuntimeException("Couldn't insert " + message, e);
         }
+    }
+
+    private boolean isReviewInDb(ReviewNode node, SQLiteDatabase db) {
+        String table = ReviewerDbContract.TableReviews.TABLE_NAME;
+        String reviewId = ReviewerDbContract.TableReviews.COLUMN_NAME_REVIEW_ID;
+
+        Cursor cursor = getRowCursor(db, table, reviewId, node.getReview().getId().toString());
+
+        boolean hasRow = false;
+        if (cursor != null) {
+            if (cursor.moveToFirst()) hasRow = true;
+            cursor.close();
+        }
+
+        return hasRow;
     }
 }

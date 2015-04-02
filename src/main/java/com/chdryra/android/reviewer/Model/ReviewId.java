@@ -44,12 +44,12 @@ public class ReviewId implements MdData {
         return new ReviewId();
     }
 
-    public static ReviewId generateId(String rdId) {
+    public static ReviewId fromString(String rdId) {
         return new ReviewId(rdId);
     }
 
     @Override
-    public Review getHoldingReview() {
+    public Review getReviewId() {
         throw new UnsupportedOperationException();
     }
 
