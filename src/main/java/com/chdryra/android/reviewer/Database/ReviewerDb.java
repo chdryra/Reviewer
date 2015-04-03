@@ -76,7 +76,7 @@ public class ReviewerDb {
         db.close();
     }
 
-    public ReviewerDbRows.ReviewTreesRow getReviewTreeRowFor(ReviewId nodeId, SQLiteDatabase db) {
+    public ReviewerDbRow.ReviewTreesRow getReviewTreeRowFor(ReviewId nodeId, SQLiteDatabase db) {
         String table = ReviewerDbContract.TableReviewTrees.TABLE_NAME;
         String nodeIdCol = ReviewerDbContract.TableReviewTrees.COLUMN_NAME_REVIEW_NODE_ID;
 
@@ -84,7 +84,7 @@ public class ReviewerDb {
         if (cursor == null || cursor.getCount() == 0) return null;
 
         cursor.moveToFirst();
-        ReviewerDbRows.ReviewTreesRow row = new ReviewerDbRows.ReviewTreesRow(cursor);
+        ReviewerDbRow.ReviewTreesRow row = new ReviewerDbRow.ReviewTreesRow(cursor);
         cursor.close();
 
         return row;
@@ -116,18 +116,18 @@ public class ReviewerDb {
     }
 
     private void addToReviewsTable(ReviewNode node, SQLiteDatabase db) {
-        insertRow(ReviewerDbRows.newRow(node.getReview()),
+        insertRow(ReviewerDbRow.newRow(node.getReview()),
                 ReviewerDbContract.TableComments.get(), db);
     }
 
     private void addToReviewsTreeTable(ReviewNode node, SQLiteDatabase db) {
-        insertRow(ReviewerDbRows.newRow(node), ReviewerDbContract.TableComments.get(), db);
+        insertRow(ReviewerDbRow.newRow(node), ReviewerDbContract.TableComments.get(), db);
     }
 
     private void addToCommentsTable(ReviewNode node, SQLiteDatabase db) {
         int i = 1;
         for (MdCommentList.MdComment datum : node.getReview().getComments()) {
-            insertRow(ReviewerDbRows.newRow(datum, i++), ReviewerDbContract.TableComments.get(),
+            insertRow(ReviewerDbRow.newRow(datum, i++), ReviewerDbContract.TableComments.get(),
                     db);
         }
     }
@@ -135,25 +135,25 @@ public class ReviewerDb {
     private void addToFactsTable(ReviewNode node, SQLiteDatabase db) {
         int i = 1;
         for (MdFactList.MdFact datum : node.getReview().getFacts()) {
-            insertRow(ReviewerDbRows.newRow(datum, i++), ReviewerDbContract.TableFacts.get(), db);
+            insertRow(ReviewerDbRow.newRow(datum, i++), ReviewerDbContract.TableFacts.get(), db);
         }
     }
 
     private void addToLocationsTable(ReviewNode node, SQLiteDatabase db) {
         int i = 1;
         for (MdLocationList.MdLocation datum : node.getReview().getLocations()) {
-            insertRow(ReviewerDbRows.newRow(datum, i++), ReviewerDbContract.TableImages.get(), db);
+            insertRow(ReviewerDbRow.newRow(datum, i++), ReviewerDbContract.TableImages.get(), db);
         }
     }
 
     private void addToImagesTable(ReviewNode node, SQLiteDatabase db) {
         int i = 1;
         for (MdImageList.MdImage datum : node.getReview().getImages()) {
-            insertRow(ReviewerDbRows.newRow(datum, i++), ReviewerDbContract.TableImages.get(), db);
+            insertRow(ReviewerDbRow.newRow(datum, i++), ReviewerDbContract.TableImages.get(), db);
         }
     }
 
-    private void insertRow(ReviewerDbRows.TableRow row, ReviewerDbContract.ReviewerDbTable table,
+    private void insertRow(ReviewerDbRow.TableRow row, ReviewerDbContract.ReviewerDbTable table,
             SQLiteDatabase db) {
         String tableName = table.getName();
         String message = row.getRowId() + " into " + tableName + " table ";
