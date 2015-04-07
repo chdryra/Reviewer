@@ -26,6 +26,10 @@ public class GvChildList extends GvDataList<GvChildList.GvChildReview> {
         super(GvChildReview.class, TYPE);
     }
 
+    public GvChildList(GvChildList data) {
+        super(data);
+    }
+
     public GvChildList(GvReviewId id, GvChildList data) {
         super(id, data);
     }

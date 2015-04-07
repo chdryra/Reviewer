@@ -12,13 +12,13 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import com.chdryra.android.reviewer.Model.MdCommentList;
 import com.chdryra.android.reviewer.Model.MdFactList;
 import com.chdryra.android.reviewer.Model.MdImageList;
 import com.chdryra.android.reviewer.Model.MdLocationList;
-import com.chdryra.android.reviewer.Model.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewNode;
 
 /**
@@ -62,37 +62,46 @@ public class ReviewerDb {
         return CONTRACT;
     }
 
-    public void addReviewToDb(ReviewNode node) {
-        SQLiteDatabase db = mHelper.getWritableDatabase();
+    public ReviewerDbHelper getHelper() {
+        return mHelper;
+    }
 
+    public void addReviewNodeToDb(ReviewNode node) {
+        SQLiteDatabase db = mHelper.getWritableDatabase();
         ReviewNode parent = node.getParent();
         if (parent != null && !isReviewInDb(parent, db)) {
-            String parentId = parent.getReview().getId().toString();
-            throw new IllegalStateException("Please ensure parent review " + parentId + " has " +
-                    "been saved first!");
+            addReviewNodeToDb(parent);
+            db.close();
+            return;
         }
 
-        addReviewToDb(node, db);
+        db.beginTransaction();
+
+        addReviewNodeToDb(node, db);
+
+        db.setTransactionSuccessful();
+        db.endTransaction();
         db.close();
     }
 
-    public ReviewerDbRow.ReviewTreesRow getReviewTreeRowFor(ReviewId nodeId, SQLiteDatabase db) {
-        String table = ReviewerDbContract.TableReviewTrees.TABLE_NAME;
-        String nodeIdCol = ReviewerDbContract.TableReviewTrees.COLUMN_NAME_REVIEW_NODE_ID;
+    public <T extends ReviewerDbRow.TableRow> ReviewerDbRow.TableRow getRowFor
+            (ReviewerDbContract.ReviewerDbTable table, SQLiteTableDefinition.SQLiteColumn idCol,
+                    String id, Class<T> rowClass) {
+        SQLiteDatabase db = mHelper.getReadableDatabase();
+        Cursor cursor = getRowCursor(db, table.getName(), idCol.getName(), id);
 
-        Cursor cursor = getRowCursor(db, table, nodeIdCol, nodeId.toString());
-        if (cursor == null || cursor.getCount() == 0) return null;
+        if (cursor == null || cursor.getCount() == 0) return ReviewerDbRow.emptyRow(rowClass);
 
         cursor.moveToFirst();
-        ReviewerDbRow.ReviewTreesRow row = new ReviewerDbRow.ReviewTreesRow(cursor);
+        ReviewerDbRow.TableRow row = ReviewerDbRow.newRow(cursor, rowClass);
         cursor.close();
 
         return row;
     }
 
     private Cursor getRowCursor(SQLiteDatabase db, String table, String pkColumn, String pkValue) {
-        String query = SQL.SELECT + SQL.SPACE + SQL.ALL + SQL.SPACE + SQL.FROM + SQL.SPACE + table +
-                SQL.WHERE + SQL.SPACE + pkColumn + " = ?";
+        String query = SQL.SELECT + SQL.ALL + SQL.FROM + table + " " + SQL.WHERE + pkColumn + " =" +
+                " ?";
         Cursor cursor = db.rawQuery(query, new String[]{pkValue});
         if (cursor != null && cursor.getCount() > 1) {
             cursor.close();
@@ -102,7 +111,9 @@ public class ReviewerDb {
         return cursor;
     }
 
-    private void addReviewToDb(ReviewNode node, SQLiteDatabase db) {
+    private void addReviewNodeToDb(ReviewNode node, SQLiteDatabase db) {
+        if (isReviewInDb(node, db)) return;
+
         addToReviewsTable(node, db);
         addToReviewsTreeTable(node, db);
         addToCommentsTable(node, db);
@@ -111,17 +122,17 @@ public class ReviewerDb {
         addToImagesTable(node, db);
 
         for (ReviewNode child : node.getChildren()) {
-            if (!isReviewInDb(child, db)) addReviewToDb(child, db);
+            if (!isReviewInDb(child, db)) addReviewNodeToDb(child, db);
         }
     }
 
     private void addToReviewsTable(ReviewNode node, SQLiteDatabase db) {
         insertRow(ReviewerDbRow.newRow(node.getReview()),
-                ReviewerDbContract.TableComments.get(), db);
+                ReviewerDbContract.TableReviews.get(), db);
     }
 
     private void addToReviewsTreeTable(ReviewNode node, SQLiteDatabase db) {
-        insertRow(ReviewerDbRow.newRow(node), ReviewerDbContract.TableComments.get(), db);
+        insertRow(ReviewerDbRow.newRow(node), ReviewerDbContract.TableReviewTrees.get(), db);
     }
 
     private void addToCommentsTable(ReviewNode node, SQLiteDatabase db) {
@@ -142,7 +153,8 @@ public class ReviewerDb {
     private void addToLocationsTable(ReviewNode node, SQLiteDatabase db) {
         int i = 1;
         for (MdLocationList.MdLocation datum : node.getReview().getLocations()) {
-            insertRow(ReviewerDbRow.newRow(datum, i++), ReviewerDbContract.TableImages.get(), db);
+            insertRow(ReviewerDbRow.newRow(datum, i++), ReviewerDbContract.TableLocations.get(),
+                    db);
         }
     }
 
@@ -167,9 +179,10 @@ public class ReviewerDb {
 
     private boolean isReviewInDb(ReviewNode node, SQLiteDatabase db) {
         String table = ReviewerDbContract.TableReviews.TABLE_NAME;
-        String reviewId = ReviewerDbContract.TableReviews.COLUMN_NAME_REVIEW_ID;
+        String reviewIdCol = ReviewerDbContract.TableReviews.COLUMN_NAME_REVIEW_ID;
+        String id = node.getReview().getId().toString();
 
-        Cursor cursor = getRowCursor(db, table, reviewId, node.getReview().getId().toString());
+        Cursor cursor = getRowCursor(db, table, reviewIdCol, id);
 
         boolean hasRow = false;
         if (cursor != null) {
@@ -178,5 +191,24 @@ public class ReviewerDb {
         }
 
         return hasRow;
+    }
+
+    public static class ReviewerDbHelper extends SQLiteOpenHelper {
+        private DbCreator mDbCreator;
+
+        private ReviewerDbHelper(Context context, ReviewerDb db) {
+            super(context, db.getDatabaseName(), null, db.getDatabaseVersion());
+            mDbCreator = new DbCreator(db.getContract());
+        }
+
+        @Override
+        public void onCreate(SQLiteDatabase db) {
+            mDbCreator.createDatabase(db);
+        }
+
+        @Override
+        public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+            mDbCreator.upgradeDatabase(db, oldVersion, newVersion);
+        }
     }
 }

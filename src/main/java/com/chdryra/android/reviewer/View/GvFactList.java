@@ -24,6 +24,10 @@ public class GvFactList extends GvDataList<GvFactList.GvFact> {
         super(GvFact.class, TYPE);
     }
 
+    public GvFactList(GvFactList data) {
+        super(data);
+    }
+
     public GvFactList(GvReviewId id, GvFactList data) {
         super(id, data);
     }

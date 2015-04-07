@@ -112,7 +112,6 @@ public class MdGvConverterTest extends TestCase {
             assertEquals(mdData.getItem(i).getBitmap(), gvData2.getItem(i).getBitmap());
             assertEquals(mdData.getItem(i).getCaption(), gvData.getItem(i).getCaption());
             assertEquals(mdData.getItem(i).getCaption(), gvData2.getItem(i).getCaption());
-            assertEquals(mdData.getItem(i).getLatLng(), gvData.getItem(i).getLatLng());
             assertEquals(mdData.getItem(i).isCover(), gvData.getItem(i).isCover());
             assertEquals(mdData.getItem(i).isCover(), gvData2.getItem(i).isCover());
         }
@@ -172,6 +171,6 @@ public class MdGvConverterTest extends TestCase {
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        mMocker = new MdDataMocker<>(ReviewMocker.newReview());
+        mMocker = new MdDataMocker(ReviewMocker.newReview().getId());
     }
 }

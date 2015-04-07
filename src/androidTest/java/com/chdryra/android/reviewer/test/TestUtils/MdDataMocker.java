@@ -14,7 +14,7 @@ import com.chdryra.android.reviewer.Model.MdFactList;
 import com.chdryra.android.reviewer.Model.MdImageList;
 import com.chdryra.android.reviewer.Model.MdLocationList;
 import com.chdryra.android.reviewer.Model.MdUrlList;
-import com.chdryra.android.reviewer.Model.Review;
+import com.chdryra.android.reviewer.Model.ReviewId;
 import com.chdryra.android.reviewer.View.GvCommentList;
 import com.chdryra.android.reviewer.View.GvDataType;
 import com.chdryra.android.reviewer.View.GvFactList;
@@ -35,17 +35,17 @@ import java.util.Random;
  * On: 04/12/2014
  * Email: rizwan.choudrey@gmail.com
  */
-public class MdDataMocker<T extends Review> {
+public class MdDataMocker {
     private static final RandomString STRING_GENERATOR = new RandomString();
     private static final String       URL_LABEL        = "Google";
     private static final String       URL              = "http://www.google.co.uk";
     private static final Random       RAND             = new Random();
     private static URL sUrl;
 
-    private final T mReview;
+    private final ReviewId mReviewId;
 
-    public MdDataMocker(T review) {
-        mReview = review;
+    public MdDataMocker(ReviewId id) {
+        mReviewId = id;
     }
 
     //Just a convenient method even if it uses GvType.....
@@ -66,7 +66,7 @@ public class MdDataMocker<T extends Review> {
     }
 
     public MdCommentList newCommentList(int size) {
-        MdCommentList list = new MdCommentList(mReview);
+        MdCommentList list = new MdCommentList(mReviewId);
         for (int i = 0; i < size; ++i) {
             list.add(newComment());
         }
@@ -75,7 +75,7 @@ public class MdDataMocker<T extends Review> {
     }
 
     public MdImageList newImageList(int size) {
-        MdImageList list = new MdImageList(mReview);
+        MdImageList list = new MdImageList(mReviewId);
         for (int i = 0; i < size; ++i) {
             list.add(newImage());
         }
@@ -84,7 +84,7 @@ public class MdDataMocker<T extends Review> {
     }
 
     public MdLocationList newLocationList(int size) {
-        MdLocationList list = new MdLocationList(mReview);
+        MdLocationList list = new MdLocationList(mReviewId);
         for (int i = 0; i < size; ++i) {
             list.add(newLocation());
         }
@@ -93,7 +93,7 @@ public class MdDataMocker<T extends Review> {
     }
 
     public MdFactList newFactList(int size) {
-        MdFactList list = new MdFactList(mReview);
+        MdFactList list = new MdFactList(mReviewId);
         for (int i = 0; i < size; ++i) {
             list.add(newFact());
         }
@@ -102,7 +102,7 @@ public class MdDataMocker<T extends Review> {
     }
 
     public MdUrlList newUrlList(int size) {
-        MdUrlList list = new MdUrlList(mReview);
+        MdUrlList list = new MdUrlList(mReviewId);
         for (int i = 0; i < size; ++i) {
             list.add(newUrl());
         }
@@ -112,24 +112,24 @@ public class MdDataMocker<T extends Review> {
 
     public MdCommentList.MdComment newComment() {
         return new MdCommentList.MdComment(STRING_GENERATOR.nextParagraph(), RAND.nextBoolean(),
-                mReview);
+                mReviewId);
     }
 
     public MdImageList.MdImage newImage() {
         return new MdImageList.MdImage(BitmapMocker.nextBitmap(RAND.nextBoolean()),
-                RandomDate.nextDate(), RandomLatLng.nextLatLng(), RandomString.nextSentence(),
-                RAND.nextBoolean(), mReview);
+                RandomDate.nextDate(), RandomString.nextSentence(),
+                RAND.nextBoolean(), mReviewId);
     }
 
     public MdLocationList.MdLocation newLocation() {
         return new MdLocationList.MdLocation(RandomLatLng.nextLatLng(),
-                RandomString.nextWord(), mReview);
+                RandomString.nextWord(), mReviewId);
     }
 
     public MdFactList.MdFact newFact() {
         return new MdFactList.MdFact(RandomString.nextWord(),
                 RandomString.nextWord(),
-                mReview);
+                mReviewId);
     }
 
     public MdUrlList.MdUrl newUrl() {
@@ -141,6 +141,6 @@ public class MdDataMocker<T extends Review> {
             }
         }
 
-        return new MdUrlList.MdUrl(URL_LABEL, sUrl, mReview);
+        return new MdUrlList.MdUrl(URL_LABEL, sUrl, mReviewId);
     }
 }

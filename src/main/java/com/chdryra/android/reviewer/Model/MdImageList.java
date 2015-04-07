@@ -12,7 +12,6 @@ import android.graphics.Bitmap;
 
 import com.chdryra.android.reviewer.Controller.DataImage;
 import com.chdryra.android.reviewer.Controller.DataValidator;
-import com.google.android.gms.maps.model.LatLng;
 
 import java.util.Date;
 
@@ -42,15 +41,13 @@ public class MdImageList extends MdDataList<MdImageList.MdImage> {
         private final Bitmap mBitmap;
         private final Date   mDate;
         private final String mCaption;
-        private final LatLng mLatLng;
         private final ReviewId mReviewId;
         private boolean mIsCover = false;
 
-        public MdImage(Bitmap bitmap, Date date, LatLng latLng, String caption, boolean isCover,
+        public MdImage(Bitmap bitmap, Date date, String caption, boolean isCover,
                 ReviewId reviewId) {
             mBitmap = bitmap;
             mDate = date;
-            mLatLng = latLng;
             mCaption = caption;
             mIsCover = isCover;
             mReviewId = reviewId;
@@ -104,9 +101,6 @@ public class MdImageList extends MdDataList<MdImageList.MdImage> {
                     .mReviewId != null) {
                 return false;
             }
-            if (mLatLng != null ? !mLatLng.equals(mdImage.mLatLng) : mdImage.mLatLng != null) {
-                return false;
-            }
             if (mDate != null ? !mDate.equals(mdImage.mDate) : mdImage.mDate != null) {
                 return false;
             }
@@ -119,7 +113,6 @@ public class MdImageList extends MdDataList<MdImageList.MdImage> {
             int result = mBitmap != null ? mBitmap.hashCode() : 0;
             result = 31 * result + (mCaption != null ? mCaption.hashCode() : 0);
             result = 31 * result + (mDate != null ? mDate.hashCode() : 0);
-            result = 31 * result + (mLatLng != null ? mLatLng.hashCode() : 0);
             result = 31 * result + (mReviewId != null ? mReviewId.hashCode() : 0);
             result = 31 * result + (mIsCover ? 1 : 0);
             return result;

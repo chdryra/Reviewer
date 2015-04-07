@@ -11,6 +11,7 @@ package com.chdryra.android.reviewer.test.Model;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.Model.Author;
+import com.chdryra.android.reviewer.Model.UserId;
 
 import junit.framework.TestCase;
 
@@ -21,10 +22,11 @@ import junit.framework.TestCase;
  */
 public class AuthorTest extends TestCase {
     private static final String AUTHOR_NAME = "Rizwan Choudrey";
+    private static final UserId ID = UserId.generateId();
 
     @SmallTest
     public void testAuthor() {
-        Author author = new Author(AUTHOR_NAME);
+        Author author = new Author(AUTHOR_NAME, ID);
         String name = author.getName();
         assertEquals(AUTHOR_NAME, name);
     }

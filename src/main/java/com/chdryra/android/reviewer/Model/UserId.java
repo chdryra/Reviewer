@@ -22,6 +22,7 @@ import java.util.UUID;
 
 public class UserId {
     public final static UserId NULL_ID = new UserId();
+    public final static String NULL_ID_STRING = "NULL";
     private final UUID mId;
 
     private UserId() {
@@ -33,7 +34,11 @@ public class UserId {
     }
 
     private UserId(String rdId) {
-        mId = UUID.fromString(rdId);
+        if (rdId.equals(NULL_ID_STRING)) {
+            mId = null;
+        } else {
+            mId = UUID.fromString(rdId);
+        }
     }
 
     public static UserId generateId() {
@@ -56,7 +61,7 @@ public class UserId {
 
     @Override
     public String toString() {
-        return mId.toString();
+        return mId != null ? mId.toString() : NULL_ID_STRING;
     }
 
     public boolean equals(UserId userId) {

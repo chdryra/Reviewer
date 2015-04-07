@@ -30,7 +30,6 @@ public class ReviewTreeTest extends TestCase {
         assertEquals(mNode.getReview(), mTree.getReview());
         assertEquals(mNode.getParent(), mTree.getParent());
         assertEquals(mNode.getId(), mTree.getId());
-        assertEquals(mTree, mTree.getReviewNode());
 
         assertEquals(mNode.getId(), mTree.getId());
         assertEquals(mNode.getSubject(), mTree.getSubject());

@@ -13,12 +13,11 @@ import android.database.sqlite.SQLiteDatabase;
 import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
+import com.chdryra.android.reviewer.Database.ReviewerDb;
 import com.chdryra.android.reviewer.Database.ReviewerDbContract;
-import com.chdryra.android.reviewer.Database.ReviewerDbHelper;
 import com.chdryra.android.reviewer.Database.SQL;
 import com.chdryra.android.reviewer.Database.SQLiteTableDefinition;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -28,17 +27,13 @@ import java.util.Arrays;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ReviewDbHelperTest extends AndroidTestCase {
-    private ReviewerDbHelper                 mHelper;
+    private ReviewerDb                  mDatabase;
+    private ReviewerDb.ReviewerDbHelper mHelper;
     private ArrayList<SQLiteTableDefinition> mTables;
 
     @SmallTest
     public void testDatabaseExists() {
-        deleteDatabase();
         SQLiteDatabase db = mHelper.getReadableDatabase();
-
-        String dbName = ReviewerDbContract.getContract().getDatabaseName();
-        File dbFile = getContext().getDatabasePath(dbName);
-        assertTrue(dbFile.exists());
 
         for (SQLiteTableDefinition table : mTables) {
             assertTrue(tableExists(table, db));
@@ -56,9 +51,15 @@ public class ReviewDbHelperTest extends AndroidTestCase {
 
     @Override
     protected void setUp() throws Exception {
-        mHelper = new ReviewerDbHelper(getContext());
+        mDatabase = ReviewerDb.getTestDatabase(getContext());
+        mHelper = mDatabase.getHelper();
         mTables = new ArrayList<>();
         mTables = ReviewerDbContract.getContract().getTableDefinitions();
+    }
+
+    @Override
+    protected void tearDown() throws Exception {
+        getContext().deleteDatabase(mDatabase.getDatabaseName());
     }
 
     private void testTableColumns(SQLiteTableDefinition tableDef, SQLiteDatabase db) {
@@ -71,8 +72,8 @@ public class ReviewDbHelperTest extends AndroidTestCase {
     }
 
     private boolean tableExists(SQLiteTableDefinition table, SQLiteDatabase database) {
-        String query = SQL.SELECT + SQL.SPACE + SQL.DISTINCT + SQL.SPACE + "tbl_name" + SQL.SPACE;
-        query += SQL.FROM + SQL.SPACE + "sqlite_master" + SQL.SPACE + SQL.WHERE + SQL.SPACE;
+        String query = SQL.SELECT + SQL.DISTINCT + "tbl_name ";
+        query += SQL.FROM + "sqlite_master " + SQL.WHERE;
         query += "tbl_name = '" + table.getName() + "'";
         Cursor cursor = database.rawQuery(query, null);
         if (cursor != null) {
@@ -87,8 +88,7 @@ public class ReviewDbHelperTest extends AndroidTestCase {
     }
 
     private ArrayList<String> getTableColumns(String tableName, SQLiteDatabase db) {
-        String query = SQL.SELECT + SQL.SPACE + SQL.ALL + SQL.SPACE + SQL.FROM + SQL.SPACE +
-                tableName + SQL.SPACE + SQL.LIMIT + SQL.SPACE + "1";
+        String query = SQL.SELECT + SQL.ALL + SQL.FROM + tableName + " " + SQL.LIMIT + "1";
         Cursor cursor = db.rawQuery(query, null);
         String[] colNames = cursor.getColumnNames();
         cursor.close();
@@ -96,9 +96,5 @@ public class ReviewDbHelperTest extends AndroidTestCase {
         ArrayList<String> ret = new ArrayList<>();
         ret.addAll(Arrays.asList(colNames));
         return ret;
-    }
-
-    private void deleteDatabase() {
-        getContext().deleteDatabase(ReviewerDbContract.getContract().getDatabaseName());
     }
 }

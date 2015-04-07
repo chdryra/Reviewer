@@ -50,7 +50,6 @@ public class MdGvEquality {
         for (int i = 0; i < mdData.size(); ++i) {
             Assert.assertNotNull(mdData.getItem(i).getBitmap());
             Assert.assertTrue(mdData.getItem(i).getBitmap().sameAs(gvData.getItem(i).getBitmap()));
-            Assert.assertEquals(mdData.getItem(i).getLatLng(), gvData.getItem(i).getLatLng());
             Assert.assertEquals(mdData.getItem(i).getCaption(), gvData.getItem(i).getCaption());
             Assert.assertEquals(mdData.getItem(i).isCover(), gvData.getItem(i).isCover());
         }

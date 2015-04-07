@@ -15,8 +15,8 @@ import com.chdryra.android.reviewer.Model.MdRating;
 import com.chdryra.android.reviewer.Model.MdSubject;
 import com.chdryra.android.reviewer.Model.Review;
 import com.chdryra.android.reviewer.Model.ReviewId;
-import com.chdryra.android.reviewer.Model.ReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewUser;
+import com.chdryra.android.reviewer.Model.UserId;
 import com.chdryra.android.reviewer.View.GvCommentList;
 import com.chdryra.android.reviewer.View.GvFactList;
 import com.chdryra.android.reviewer.View.GvImageList;
@@ -72,15 +72,6 @@ public class ReviewUserTest extends TestCase {
         assertEquals(mReview, rating.getReviewId());
         assertTrue(rating.hasData());
         assertEquals(mRating, mReview.getRating().get());
-    }
-
-    @SmallTest
-    public void testGetReviewNode() {
-        ReviewNode node = mReview.getReviewNode();
-        assertEquals(mReview, node.getReview());
-        assertEquals(0, node.getChildren().size());
-        assertNull(node.getParent());
-        assertEquals(mReview.getId(), node.getId());
     }
 
     @SmallTest
@@ -147,7 +138,7 @@ public class ReviewUserTest extends TestCase {
 
     @Override
     protected void setUp() throws Exception {
-        mAuthor = new Author(RandomString.nextWord());
+        mAuthor = new Author(RandomString.nextWord(), UserId.generateId());
         mDate = RandomDate.nextDate();
         mSubject = RandomString.nextWord();
         mRating = RandomRating.nextRating();

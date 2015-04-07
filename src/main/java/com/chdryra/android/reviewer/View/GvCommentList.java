@@ -27,6 +27,10 @@ public class GvCommentList extends GvDataList<GvCommentList.GvComment> {
         super(GvComment.class, TYPE);
     }
 
+    public GvCommentList(GvCommentList data) {
+        super(data);
+    }
+
     public GvCommentList(GvReviewId id, GvCommentList data) {
         super(id, data);
     }

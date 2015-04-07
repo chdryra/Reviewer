@@ -15,6 +15,7 @@ import com.chdryra.android.reviewer.Model.FactoryReview;
 import com.chdryra.android.reviewer.Model.RCollectionReview;
 import com.chdryra.android.reviewer.Model.Review;
 import com.chdryra.android.reviewer.Model.ReviewNode;
+import com.chdryra.android.reviewer.Model.UserId;
 import com.chdryra.android.reviewer.View.GvCommentList;
 import com.chdryra.android.reviewer.View.GvFactList;
 import com.chdryra.android.reviewer.View.GvImageList;
@@ -119,7 +120,7 @@ public class FactoryReviewTest extends TestCase {
 
     @Override
     protected void setUp() throws Exception {
-        mAuthor = new Author(RandomString.nextWord());
+        mAuthor = new Author(RandomString.nextWord(), UserId.generateId());
         mDate = RandomDate.nextDate();
         mSubject = RandomString.nextWord();
         mRating = RandomRating.nextRating();

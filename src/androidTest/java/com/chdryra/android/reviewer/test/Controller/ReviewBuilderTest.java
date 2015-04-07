@@ -17,7 +17,6 @@ import com.chdryra.android.reviewer.Controller.Administrator;
 import com.chdryra.android.reviewer.Controller.ReviewBuilder;
 import com.chdryra.android.reviewer.Model.Author;
 import com.chdryra.android.reviewer.Model.RCollectionReview;
-import com.chdryra.android.reviewer.Model.Review;
 import com.chdryra.android.reviewer.Model.ReviewNode;
 import com.chdryra.android.reviewer.Model.TagsManager;
 import com.chdryra.android.reviewer.View.ActivityReviewView;
@@ -252,7 +251,7 @@ public class ReviewBuilderTest extends ActivityInstrumentationTestCase2<Activity
         Author author = mBuilder.getAuthor();
         Date date = RandomDate.nextDate();
 
-        Review published = mBuilder.publish(date);
+        ReviewNode published = mBuilder.publish(date);
 
         assertEquals(subject, published.getSubject().get());
         assertEquals(rating, published.getRating().get());
@@ -271,7 +270,7 @@ public class ReviewBuilderTest extends ActivityInstrumentationTestCase2<Activity
             assertEquals(tag.get(), tagsPublished.getItem(j).get());
         }
 
-        RCollectionReview<ReviewNode> childNodes = published.getReviewNode().getChildren();
+        RCollectionReview<ReviewNode> childNodes = published.getChildren();
         assertEquals(children.size(), childNodes.size());
         for (int i = 0; i < children.size(); ++i) {
             ReviewNode childNode = childNodes.getItem(i);

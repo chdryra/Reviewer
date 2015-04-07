@@ -201,7 +201,7 @@ public class GvDataMocker {
         Boolean isCover = RAND.nextBoolean();
         GvReviewId id = new GvReviewId(ReviewId.generateId());
 
-        return withId ? new GvImageList.GvImage(id, bitmap, date, latLng, caption,
+        return withId ? new GvImageList.GvImage(id, bitmap, date, caption,
                 isCover) : new GvImageList.GvImage(bitmap, date, latLng, caption, isCover);
     }
 

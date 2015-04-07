@@ -58,6 +58,14 @@ public class GvDataList<T extends GvData> extends ViewHolderDataList<T> implemen
         }
     }
 
+    public GvDataList(GvDataList<T> data) {
+        mDataClass = data.mDataClass;
+        mType = data.getGvDataType();
+        for (T datum : data) {
+            super.add(datum);
+        }
+    }
+
     //TODO make type safe
     public GvDataList(Parcel in) {
         mDataClass = (Class<T>) in.readValue(Class.class.getClassLoader());

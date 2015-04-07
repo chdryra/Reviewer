@@ -24,6 +24,10 @@ public class GvUrlList extends GvDataList<GvUrlList.GvUrl> {
         super(GvUrl.class, TYPE);
     }
 
+    public GvUrlList(GvUrlList data) {
+        super(data);
+    }
+
     public GvUrlList(GvReviewId id, GvUrlList data) {
         super(id, data);
     }

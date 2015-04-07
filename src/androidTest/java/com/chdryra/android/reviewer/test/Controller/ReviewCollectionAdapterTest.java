@@ -13,6 +13,7 @@ import android.test.suitebuilder.annotation.SmallTest;
 import com.chdryra.android.reviewer.Controller.ReviewCollectionAdapter;
 import com.chdryra.android.reviewer.Model.Author;
 import com.chdryra.android.reviewer.Model.Review;
+import com.chdryra.android.reviewer.Model.UserId;
 import com.chdryra.android.reviewer.View.GvDataList;
 import com.chdryra.android.reviewer.View.GvReviewList;
 import com.chdryra.android.reviewer.test.TestUtils.ReviewMocker;
@@ -92,7 +93,7 @@ public class ReviewCollectionAdapterTest extends TestCase {
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        mAuthor = new Author(RandomString.nextWord());
+        mAuthor = new Author(RandomString.nextWord(), UserId.generateId());
         mDate = RandomDate.nextDate();
         String title = RandomString.nextWord();
         mAdapter = new ReviewCollectionAdapter(mAuthor, mDate, title);

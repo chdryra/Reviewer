@@ -16,6 +16,7 @@ import com.chdryra.android.reviewer.Model.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewTreeNode;
 import com.chdryra.android.reviewer.Model.ReviewUser;
+import com.chdryra.android.reviewer.Model.UserId;
 import com.chdryra.android.testutils.RandomString;
 
 import java.util.Date;
@@ -42,12 +43,12 @@ public class ReviewMocker {
     private static ReviewNode getNewNode() {
         Review root = new MockReview();
         Review parent = new MockReview();
-        ReviewTreeNode rootNode = new ReviewTreeNode(root, false, false);
-        ReviewTreeNode parentNode = new ReviewTreeNode(parent, false, false);
+        ReviewTreeNode rootNode = new ReviewTreeNode(root, false);
+        ReviewTreeNode parentNode = new ReviewTreeNode(parent, false);
         rootNode.setParent(parentNode);
 
         for (int i = 0; i < NUM; ++i) {
-            rootNode.addChild(new ReviewTreeNode(new MockReview(), false, false));
+            rootNode.addChild(new ReviewTreeNode(new MockReview(), false));
         }
 
         return rootNode;
@@ -65,7 +66,8 @@ public class ReviewMocker {
 
     static class MockReview extends ReviewUser {
         private MockReview() {
-            super(ReviewId.generateId(), Author.NULL_AUTHOR, new Date(), RandomString.nextWord(),
+            super(ReviewId.generateId(), new Author(RandomString.nextWord(), UserId.generateId()),
+                    new Date(), RandomString.nextWord(),
                     RandomRating.nextRating(), GvDataMocker.newCommentList(NUM, false),
                     GvDataMocker.newImageList(NUM, false), GvDataMocker.newFactList(NUM, false),
                     GvDataMocker.newLocationList(NUM, false));

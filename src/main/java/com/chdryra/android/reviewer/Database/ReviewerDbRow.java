@@ -12,6 +12,7 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 
+import com.chdryra.android.reviewer.Controller.DataValidator;
 import com.chdryra.android.reviewer.Model.MdCommentList;
 import com.chdryra.android.reviewer.Model.MdFactList;
 import com.chdryra.android.reviewer.Model.MdImageList;
@@ -20,6 +21,8 @@ import com.chdryra.android.reviewer.Model.Review;
 import com.chdryra.android.reviewer.Model.ReviewNode;
 
 import java.io.ByteArrayOutputStream;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 
 /**
  * Created by: Rizwan Choudrey
@@ -33,6 +36,30 @@ public class ReviewerDbRow {
         public String getRowId();
 
         public ContentValues getContentValues();
+
+        public boolean hasData();
+    }
+
+    public static <T extends TableRow> TableRow emptyRow(Class<T> rowClass) {
+        try {
+            return rowClass.newInstance();
+        } catch (InstantiationException e) {
+            throw new RuntimeException("Couldn't instantiate class " + rowClass.getName(), e);
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException("Couldn't access class " + rowClass.getName(), e);
+        }
+    }
+
+    public static <T extends TableRow> TableRow newRow(Cursor cursor, Class<T> rowClass) {
+        try {
+            Constructor c = rowClass.getConstructor(Cursor.class);
+            return (TableRow) c.newInstance(cursor);
+        } catch (NoSuchMethodException e) {
+            throw new RuntimeException("Couldn't find Cursor constructor for " + rowClass
+                    .getName(), e);
+        } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
+            throw new RuntimeException("Couldn't instantiate class " + rowClass.getName(), e);
+        }
     }
 
     public static TableRow newRow(ReviewNode node) {
@@ -74,6 +101,9 @@ public class ReviewerDbRow {
         private String  mParentId;
         private boolean mIsAverage;
 
+        public ReviewTreesRow() {
+        }
+
         public ReviewTreesRow(ReviewNode node) {
             mNodeId = node.getId().toString();
             mReviewId = node.getReview().getId().toString();
@@ -104,6 +134,11 @@ public class ReviewerDbRow {
 
             return values;
         }
+
+        @Override
+        public boolean hasData() {
+            return DataValidator.validateString(getRowId());
+        }
     }
 
     public static class ReviewsRow implements TableRow {
@@ -119,6 +154,9 @@ public class ReviewerDbRow {
         private long   mPublishDate;
         private String mSubject;
         private float  mRating;
+
+        public ReviewsRow() {
+        }
 
         public ReviewsRow(Review review) {
             mReviewId = review.getId().toString();
@@ -152,6 +190,11 @@ public class ReviewerDbRow {
 
             return values;
         }
+
+        @Override
+        public boolean hasData() {
+            return DataValidator.validateString(getRowId());
+        }
     }
 
     public static class CommentsRow implements TableRow {
@@ -164,6 +207,9 @@ public class ReviewerDbRow {
         private String  mReviewId;
         private String  mComment;
         private boolean mIsHeadline;
+
+        public CommentsRow() {
+        }
 
         public CommentsRow(MdCommentList.MdComment comment, int index) {
             mReviewId = comment.getReviewId().toString();
@@ -194,6 +240,11 @@ public class ReviewerDbRow {
 
             return values;
         }
+
+        @Override
+        public boolean hasData() {
+            return DataValidator.validateString(getRowId());
+        }
     }
 
     public static class FactsRow implements TableRow {
@@ -208,6 +259,9 @@ public class ReviewerDbRow {
         private String        mLabel;
         private String        mValue;
         private boolean       mIsUrl;
+
+        public FactsRow() {
+        }
 
         public FactsRow(MdFactList.MdFact fact, int index) {
             mReviewId = fact.getReviewId().toString();
@@ -241,6 +295,11 @@ public class ReviewerDbRow {
 
             return values;
         }
+
+        @Override
+        public boolean hasData() {
+            return DataValidator.validateString(getRowId());
+        }
     }
 
     public static class LocationsRow implements TableRow {
@@ -256,6 +315,9 @@ public class ReviewerDbRow {
         private double mLatitude;
         private double mLongitude;
         private String        mName;
+
+        public LocationsRow() {
+        }
 
         public LocationsRow(MdLocationList.MdLocation location, int index) {
             mReviewId = location.getReviewId().toString();
@@ -290,6 +352,11 @@ public class ReviewerDbRow {
 
             return values;
         }
+
+        @Override
+        public boolean hasData() {
+            return DataValidator.validateString(getRowId());
+        }
     }
 
     public static class ImagesRow implements TableRow {
@@ -304,6 +371,9 @@ public class ReviewerDbRow {
         private byte[]  mBitmap;
         private String  mCaption;
         private boolean mIsCover;
+
+        public ImagesRow() {
+        }
 
         public ImagesRow(MdImageList.MdImage image, int index) {
             mReviewId = image.getReviewId().toString();
@@ -338,6 +408,11 @@ public class ReviewerDbRow {
             values.put(IS_COVER, mIsCover);
 
             return values;
+        }
+
+        @Override
+        public boolean hasData() {
+            return DataValidator.validateString(getRowId());
         }
     }
 }

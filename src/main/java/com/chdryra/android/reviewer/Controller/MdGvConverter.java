@@ -14,7 +14,7 @@ import com.chdryra.android.reviewer.Model.MdFactList;
 import com.chdryra.android.reviewer.Model.MdImageList;
 import com.chdryra.android.reviewer.Model.MdLocationList;
 import com.chdryra.android.reviewer.Model.MdUrlList;
-import com.chdryra.android.reviewer.Model.Review;
+import com.chdryra.android.reviewer.Model.ReviewId;
 import com.chdryra.android.reviewer.View.GvChildList;
 import com.chdryra.android.reviewer.View.GvCommentList;
 import com.chdryra.android.reviewer.View.GvDataList;
@@ -22,6 +22,7 @@ import com.chdryra.android.reviewer.View.GvDataType;
 import com.chdryra.android.reviewer.View.GvFactList;
 import com.chdryra.android.reviewer.View.GvImageList;
 import com.chdryra.android.reviewer.View.GvLocationList;
+import com.chdryra.android.reviewer.View.GvReviewId;
 import com.chdryra.android.reviewer.View.GvTagList;
 import com.chdryra.android.reviewer.View.GvUrlList;
 
@@ -36,8 +37,9 @@ public class MdGvConverter {
     //Comments
     public static GvCommentList convert(MdCommentList comments) {
         GvCommentList list = new GvCommentList();
-        for (DataComment comment : comments) {
-            list.add(new GvCommentList.GvComment(comment.getComment(), comment.isHeadline()));
+        for (MdCommentList.MdComment comment : comments) {
+            list.add(new GvCommentList.GvComment(new GvReviewId(comment.getReviewId()), comment
+                    .getComment(), comment.isHeadline()));
         }
 
         return list;
@@ -45,7 +47,7 @@ public class MdGvConverter {
 
     public static GvCommentList copy(GvCommentList comments) {
         GvCommentList list = new GvCommentList();
-        for (DataComment comment : comments) {
+        for (GvCommentList.GvComment comment : comments) {
             list.add(new GvCommentList.GvComment(comment.getComment(), comment.isHeadline()));
         }
 
@@ -53,7 +55,7 @@ public class MdGvConverter {
     }
 
     public static MdCommentList toMdCommentList(Iterable<? extends DataComment> comments,
-            Review holder) {
+            ReviewId holder) {
         MdCommentList list = new MdCommentList(holder);
         for (DataComment comment : comments) {
             list.add(new MdCommentList.MdComment(comment.getComment(), comment.isHeadline(),
@@ -82,16 +84,26 @@ public class MdGvConverter {
         return list;
     }
 
-    private static GvFactList.GvFact getGvFactOrUrl(DataFact fact) {
+    private static GvFactList.GvFact getGvFactOrUrl(MdFactList.MdFact fact) {
+        GvReviewId id = new GvReviewId(fact.getReviewId());
         if (fact.isUrl()) {
-            DataUrl url = (DataUrl) fact;
+            MdUrlList.MdUrl url = (MdUrlList.MdUrl) fact;
+            return new GvUrlList.GvUrl(id, fact.getLabel(), url.getUrl());
+        } else {
+            return new GvFactList.GvFact(id, fact.getLabel(), fact.getValue());
+        }
+    }
+
+    private static GvFactList.GvFact getGvFactOrUrl(GvFactList.GvFact fact) {
+        if (fact.isUrl()) {
+            GvUrlList.GvUrl url = (GvUrlList.GvUrl) fact;
             return new GvUrlList.GvUrl(fact.getLabel(), url.getUrl());
         } else {
             return new GvFactList.GvFact(fact.getLabel(), fact.getValue());
         }
     }
 
-    private static MdFactList.MdFact getMdFactOrUrl(DataFact fact, Review holder) {
+    private static MdFactList.MdFact getMdFactOrUrl(DataFact fact, ReviewId holder) {
         if (fact.isUrl()) {
             DataUrl url = (DataUrl) fact;
             return new MdUrlList.MdUrl(fact.getLabel(), url.getUrl(), holder);
@@ -100,7 +112,7 @@ public class MdGvConverter {
         }
     }
 
-    public static MdFactList toMdFactList(Iterable<? extends DataFact> facts, Review holder) {
+    public static MdFactList toMdFactList(Iterable<? extends DataFact> facts, ReviewId holder) {
         MdFactList list = new MdFactList(holder);
         for (DataFact fact : facts) {
             list.add(getMdFactOrUrl(fact, holder));
@@ -112,9 +124,9 @@ public class MdGvConverter {
     //Images
     public static GvImageList convert(MdImageList images) {
         GvImageList list = new GvImageList();
-        for (DataImage image : images) {
-            list.add(new GvImageList.GvImage(image.getBitmap(), image.getDate(), image.getLatLng(),
-                    image.getCaption(), image.isCover()));
+        for (MdImageList.MdImage image : images) {
+            list.add(new GvImageList.GvImage(new GvReviewId(image.getReviewId()), image.getBitmap
+                    (), image.getDate (), image.getCaption(), image.isCover()));
         }
 
         return list;
@@ -122,7 +134,7 @@ public class MdGvConverter {
 
     public static GvImageList copy(GvImageList images) {
         GvImageList list = new GvImageList();
-        for (DataImage image : images) {
+        for (GvImageList.GvImage image : images) {
             list.add(new GvImageList.GvImage(image.getBitmap(), image.getDate(), image.getLatLng(),
                     image.getCaption(), image.isCover()));
         }
@@ -130,10 +142,10 @@ public class MdGvConverter {
         return list;
     }
 
-    public static MdImageList toMdImageList(Iterable<? extends DataImage> images, Review holder) {
+    public static MdImageList toMdImageList(Iterable<? extends DataImage> images, ReviewId holder) {
         MdImageList list = new MdImageList(holder);
         for (DataImage image : images) {
-            list.add(new MdImageList.MdImage(image.getBitmap(), image.getDate(), image.getLatLng(),
+            list.add(new MdImageList.MdImage(image.getBitmap(), image.getDate(),
                     image.getCaption(), image.isCover(), holder));
         }
 
@@ -160,7 +172,7 @@ public class MdGvConverter {
     }
 
     public static MdLocationList toMdLocationList(Iterable<? extends DataLocation> locations,
-            Review holder) {
+            ReviewId holder) {
         MdLocationList list = new MdLocationList(holder);
         for (DataLocation location : locations) {
             list.add(new MdLocationList.MdLocation(location.getLatLng(), location.getName(),
@@ -199,7 +211,7 @@ public class MdGvConverter {
         return list;
     }
 
-    public static MdUrlList toMdUrlList(Iterable<? extends DataUrl> urls, Review holder) {
+    public static MdUrlList toMdUrlList(Iterable<? extends DataUrl> urls, ReviewId holder) {
         MdUrlList list = new MdUrlList(holder);
         for (DataUrl url : urls) {
             list.add(new MdUrlList.MdUrl(url.getLabel(), url.getUrl(), holder));

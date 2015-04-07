@@ -49,8 +49,8 @@ public class ReviewId implements MdData {
     }
 
     @Override
-    public Review getReviewId() {
-        throw new UnsupportedOperationException();
+    public ReviewId getReviewId() {
+        return this;
     }
 
     @Override

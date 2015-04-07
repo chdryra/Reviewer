@@ -240,7 +240,7 @@ public final class ReviewerDbContract implements DbContract {
         }
 
         public static ReviewerDbTable get() {
-            if (sTable == null) sTable = new TableTags();
+            if (sTable == null) sTable = new TableAuthors();
             return sTable;
         }
     }

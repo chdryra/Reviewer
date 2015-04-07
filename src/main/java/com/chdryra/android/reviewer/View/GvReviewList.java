@@ -32,6 +32,10 @@ public class GvReviewList extends GvDataList<GvReviewList.GvReviewOverview> {
         super(GvReviewOverview.class, TYPE);
     }
 
+    public GvReviewList(GvReviewList data) {
+        super(data);
+    }
+
     public GvReviewList(GvReviewId id, GvReviewList data) {
         super(id, data);
     }

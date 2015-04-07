@@ -26,6 +26,10 @@ public class GvLocationList extends GvDataList<GvLocationList.GvLocation> {
         super(GvLocation.class, TYPE);
     }
 
+    public GvLocationList(GvLocationList data) {
+        super(data);
+    }
+
     public GvLocationList(GvReviewId id, GvLocationList data) {
         super(id, data);
     }

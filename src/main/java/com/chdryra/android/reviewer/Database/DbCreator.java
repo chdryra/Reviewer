@@ -58,7 +58,7 @@ public class DbCreator {
         String pkDef = getPrimaryKeyDefinition(table);
         String fkDef = getFkConstraintsDefinition(table);
 
-        String definition = SQL.CREATE_TABLE + SQL.SPACE + table.getName() + SQL.OPEN_BRACKET;
+        String definition = SQL.CREATE_TABLE + table.getName() + SQL.OPEN_BRACKET;
         definition += SQL.NEW_LINE + colDef;
         definition += pkDef.length() > 0 ? SQL.COMMA + SQL.NEW_LINE + pkDef : "";
         definition += fkDef.length() > 0 ? SQL.COMMA + SQL.NEW_LINE + fkDef : "";
@@ -118,7 +118,7 @@ public class DbCreator {
 
         String definition = SQL.FOREIGN_KEY + SQL.OPEN_BRACKET;
         definition += getCommaSeparatedNames(constraint.getFkColumns()) + SQL.CLOSE_BRACKET;
-        definition += SQL.SPACE + SQL.REFERENCES + SQL.SPACE;
+        definition += SQL.SPACE + SQL.REFERENCES;
         definition += fkTable.getName() + SQL.OPEN_BRACKET;
         definition += getCommaSeparatedNames(fkTable.getPrimaryKeys()) + SQL.CLOSE_BRACKET;
 
@@ -127,7 +127,7 @@ public class DbCreator {
 
     private String dropAllTablesSql() {
         String tables = StringUtils.join(mContract.getTableNames().toArray(), ",");
-        String dropString = SQL.DROP_TABLE_IF_EXISTS + SQL.SPACE + tables + SQL.SEMICOLON;
+        String dropString = SQL.DROP_TABLE_IF_EXISTS + tables + SQL.SEMICOLON;
 
         String definition = CHECKS_OFF + SQL.NEW_LINE;
         definition += dropString + SQL.NEW_LINE;

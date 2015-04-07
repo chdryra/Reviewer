@@ -32,6 +32,10 @@ public class GvImageList extends GvDataList<GvImageList.GvImage> {
         super(GvImage.class, TYPE);
     }
 
+    public GvImageList(GvImageList data) {
+        super(data);
+    }
+
     public GvImageList(GvReviewId id, GvImageList data) {
         super(id, data);
     }
@@ -131,13 +135,12 @@ public class GvImageList extends GvDataList<GvImageList.GvImage> {
             mIsCover = isCover;
         }
 
-        public GvImage(GvReviewId id, Bitmap bitmap, Date date, LatLng latLng, String caption,
-                boolean isCover) {
+        public GvImage(GvReviewId id, Bitmap bitmap, Date date, String caption, boolean isCover) {
             super(id);
             mBitmap = bitmap;
             mDate = date;
             mCaption = caption;
-            mLatLng = latLng;
+            mLatLng = null;
             mIsCover = isCover;
         }
 

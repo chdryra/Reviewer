@@ -48,13 +48,13 @@ public class ReviewUser implements Review {
         mId = id;
         mAuthor = author;
         mPublishDate = publishDate;
-        mSubject = new MdSubject(subject, this);
-        mRating = new MdRating(rating, this);
+        mSubject = new MdSubject(subject, mId);
+        mRating = new MdRating(rating, mId);
 
-        mComments = MdGvConverter.toMdCommentList(comments, this);
-        mImages = MdGvConverter.toMdImageList(images, this);
-        mFacts = MdGvConverter.toMdFactList(facts, this);
-        mLocations = MdGvConverter.toMdLocationList(locations, this);
+        mComments = MdGvConverter.toMdCommentList(comments, mId);
+        mImages = MdGvConverter.toMdImageList(images, mId);
+        mFacts = MdGvConverter.toMdFactList(facts, mId);
+        mLocations = MdGvConverter.toMdLocationList(locations, mId);
 
         mNode = FactoryReview.createReviewNode(this);
     }
@@ -63,13 +63,13 @@ public class ReviewUser implements Review {
         mId = id;
         mAuthor = author;
         mPublishDate = publishDate;
-        mSubject = new MdSubject(subject, this);
-        mRating = new MdRating(rating, this);
+        mSubject = new MdSubject(subject, mId);
+        mRating = new MdRating(rating, mId);
 
-        mComments = new MdCommentList(this);
-        mImages = new MdImageList(this);
-        mFacts = new MdFactList(this);
-        mLocations = new MdLocationList(this);
+        mComments = new MdCommentList(mId);
+        mImages = new MdImageList(mId);
+        mFacts = new MdFactList(mId);
+        mLocations = new MdLocationList(mId);
 
         mNode = FactoryReview.createReviewNode(this);
     }
@@ -87,11 +87,6 @@ public class ReviewUser implements Review {
     @Override
     public MdRating getRating() {
         return mRating;
-    }
-
-    @Override
-    public ReviewNode getReviewNode() {
-        return mNode;
     }
 
     @Override
