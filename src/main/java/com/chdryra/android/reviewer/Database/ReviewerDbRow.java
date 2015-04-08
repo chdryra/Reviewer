@@ -13,12 +13,15 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 
 import com.chdryra.android.reviewer.Controller.DataValidator;
+import com.chdryra.android.reviewer.Model.Author;
 import com.chdryra.android.reviewer.Model.MdCommentList;
 import com.chdryra.android.reviewer.Model.MdFactList;
 import com.chdryra.android.reviewer.Model.MdImageList;
 import com.chdryra.android.reviewer.Model.MdLocationList;
 import com.chdryra.android.reviewer.Model.Review;
+import com.chdryra.android.reviewer.Model.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewNode;
+import com.chdryra.android.reviewer.Model.TagsManager;
 
 import java.io.ByteArrayOutputStream;
 import java.lang.reflect.Constructor;
@@ -40,7 +43,7 @@ public class ReviewerDbRow {
         public boolean hasData();
     }
 
-    public static <T extends TableRow> TableRow emptyRow(Class<T> rowClass) {
+    public static <T extends TableRow> T emptyRow(Class<T> rowClass) {
         try {
             return rowClass.newInstance();
         } catch (InstantiationException e) {
@@ -50,15 +53,19 @@ public class ReviewerDbRow {
         }
     }
 
-    public static <T extends TableRow> TableRow newRow(Cursor cursor, Class<T> rowClass) {
+    public static <T extends TableRow> T newRow(Cursor cursor, Class<T> rowClass) {
         try {
             Constructor c = rowClass.getConstructor(Cursor.class);
-            return (TableRow) c.newInstance(cursor);
+            return rowClass.cast(c.newInstance(cursor));
         } catch (NoSuchMethodException e) {
             throw new RuntimeException("Couldn't find Cursor constructor for " + rowClass
                     .getName(), e);
-        } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
+        } catch (InstantiationException e) {
             throw new RuntimeException("Couldn't instantiate class " + rowClass.getName(), e);
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException("Couldn't access class " + rowClass.getName(), e);
+        } catch (InvocationTargetException e) {
+            throw new RuntimeException("Couldn't invoke class " + rowClass.getName(), e);
         }
     }
 
@@ -406,6 +413,90 @@ public class ReviewerDbRow {
             values.put(BITMAP, mBitmap);
             values.put(CAPTION, mCaption);
             values.put(IS_COVER, mIsCover);
+
+            return values;
+        }
+
+        @Override
+        public boolean hasData() {
+            return DataValidator.validateString(getRowId());
+        }
+    }
+
+    public static class TagsRow implements TableRow {
+        public static String TAG     = ReviewerDbContract.TableTags.COLUMN_NAME_TAG;
+        public static String REVIEWS = ReviewerDbContract.TableTags.COLUMN_NAME_REVIEWS;
+
+        private String mTag;
+        private String mReviews;
+
+        public TagsRow() {
+        }
+
+        public TagsRow(TagsManager.ReviewTag tag) {
+            mTag = tag.get();
+            mReviews = "";
+            for (ReviewId id : tag.getReviews()) {
+                mReviews += id.toString() + ",";
+            }
+            mReviews = mReviews.substring(0, mReviews.length() - 1);
+        }
+
+        public TagsRow(Cursor cursor) {
+            mTag = cursor.getString(cursor.getColumnIndexOrThrow(TAG));
+            mReviews = cursor.getString(cursor.getColumnIndexOrThrow(REVIEWS));
+        }
+
+        @Override
+        public String getRowId() {
+            return mTag;
+        }
+
+        @Override
+        public ContentValues getContentValues() {
+            ContentValues values = new ContentValues();
+            values.put(TAG, mTag);
+            values.put(REVIEWS, mReviews);
+
+            return values;
+        }
+
+        @Override
+        public boolean hasData() {
+            return DataValidator.validateString(getRowId());
+        }
+    }
+
+    public static class AuthorsRow implements TableRow {
+        public static String USER_ID     = ReviewerDbContract.TableAuthors.COLUMN_NAME_USER_ID;
+        public static String AUTHOR_NAME = ReviewerDbContract.TableAuthors.COLUMN_NAME_NAME;
+
+        private String mUserId;
+        private String mName;
+
+        public AuthorsRow() {
+        }
+
+        public AuthorsRow(Author author) {
+            mUserId = author.getUserId().toString();
+            mName = author.getName();
+        }
+
+        public AuthorsRow(Cursor cursor) {
+            mUserId = cursor.getString(cursor.getColumnIndexOrThrow(USER_ID));
+            mName = cursor.getString(cursor.getColumnIndexOrThrow(AUTHOR_NAME));
+        }
+
+        @Override
+        public String getRowId() {
+            return mUserId;
+        }
+
+        @Override
+        public ContentValues getContentValues() {
+            ContentValues values = new ContentValues();
+            values.put(USER_ID, mUserId);
+            values.put(AUTHOR_NAME, mName);
 
             return values;
         }

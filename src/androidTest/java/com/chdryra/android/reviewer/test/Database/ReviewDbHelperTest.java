@@ -10,13 +10,14 @@ package com.chdryra.android.reviewer.test.Database;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
 import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
+import com.chdryra.android.reviewer.Database.DbTableDef;
 import com.chdryra.android.reviewer.Database.ReviewerDb;
 import com.chdryra.android.reviewer.Database.ReviewerDbContract;
 import com.chdryra.android.reviewer.Database.SQL;
-import com.chdryra.android.reviewer.Database.SQLiteTableDefinition;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -27,15 +28,15 @@ import java.util.Arrays;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ReviewDbHelperTest extends AndroidTestCase {
-    private ReviewerDb                  mDatabase;
-    private ReviewerDb.ReviewerDbHelper mHelper;
-    private ArrayList<SQLiteTableDefinition> mTables;
+    private ReviewerDb            mDatabase;
+    private SQLiteOpenHelper      mHelper;
+    private ArrayList<DbTableDef> mTables;
 
     @SmallTest
     public void testDatabaseExists() {
         SQLiteDatabase db = mHelper.getReadableDatabase();
 
-        for (SQLiteTableDefinition table : mTables) {
+        for (DbTableDef table : mTables) {
             assertTrue(tableExists(table, db));
         }
     }
@@ -44,7 +45,7 @@ public class ReviewDbHelperTest extends AndroidTestCase {
     public void testTableColumnsCorrect() {
         SQLiteDatabase db = mHelper.getReadableDatabase();
 
-        for (SQLiteTableDefinition table : mTables) {
+        for (DbTableDef table : mTables) {
             testTableColumns(table, db);
         }
     }
@@ -62,7 +63,7 @@ public class ReviewDbHelperTest extends AndroidTestCase {
         getContext().deleteDatabase(mDatabase.getDatabaseName());
     }
 
-    private void testTableColumns(SQLiteTableDefinition tableDef, SQLiteDatabase db) {
+    private void testTableColumns(DbTableDef tableDef, SQLiteDatabase db) {
         ArrayList<String> tableCols = getTableColumns(tableDef.getName(), db);
         ArrayList<String> colNames = tableDef.getColumnNames();
         assertEquals(colNames.size(), tableCols.size());
@@ -71,7 +72,7 @@ public class ReviewDbHelperTest extends AndroidTestCase {
         }
     }
 
-    private boolean tableExists(SQLiteTableDefinition table, SQLiteDatabase database) {
+    private boolean tableExists(DbTableDef table, SQLiteDatabase database) {
         String query = SQL.SELECT + SQL.DISTINCT + "tbl_name ";
         query += SQL.FROM + "sqlite_master " + SQL.WHERE;
         query += "tbl_name = '" + table.getName() + "'";

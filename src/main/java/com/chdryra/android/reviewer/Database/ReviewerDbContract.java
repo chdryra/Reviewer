@@ -17,23 +17,32 @@ import java.util.ArrayList;
  */
 
 public final class ReviewerDbContract implements DbContract {
+    public static final ReviewerDbContract.ReviewerDbTable REVIEWS_TABLE   = TableReviews.get();
+    public static final ReviewerDbContract.ReviewerDbTable TREES_TABLE     = TableReviewTrees.get();
+    public static final ReviewerDbContract.ReviewerDbTable COMMENTS_TABLE  = TableComments.get();
+    public static final ReviewerDbContract.ReviewerDbTable FACTS_TABLE     = TableFacts.get();
+    public static final ReviewerDbContract.ReviewerDbTable LOCATIONS_TABLE = TableLocations.get();
+    public static final ReviewerDbContract.ReviewerDbTable IMAGES_TABLE    = TableImages.get();
+    public static final ReviewerDbContract.ReviewerDbTable AUTHORS_TABLE   = TableAuthors.get();
+    public static final ReviewerDbContract.ReviewerDbTable TAGS_TABLE      = TableTags.get();
+
     private static ReviewerDbContract sContract;
-    private        ArrayList<SQLiteTableDefinition> mTables;
-    private        ArrayList<String>                mTableNames;
+    private ArrayList<DbTableDef> mTables;
+    private ArrayList<String>     mTableNames;
 
     private ReviewerDbContract() {
         mTables = new ArrayList<>();
-        mTables.add(TableReviews.get());
-        mTables.add(TableReviewTrees.get());
-        mTables.add(TableComments.get());
-        mTables.add(TableFacts.get());
-        mTables.add(TableLocations.get());
-        mTables.add(TableImages.get());
-        mTables.add(TableTags.get());
-        mTables.add(TableAuthors.get());
+        mTables.add(REVIEWS_TABLE);
+        mTables.add(TREES_TABLE);
+        mTables.add(COMMENTS_TABLE);
+        mTables.add(FACTS_TABLE);
+        mTables.add(LOCATIONS_TABLE);
+        mTables.add(IMAGES_TABLE);
+        mTables.add(AUTHORS_TABLE);
+        mTables.add(TAGS_TABLE);
 
         mTableNames = new ArrayList<>();
-        for (SQLiteTableDefinition table : mTables) {
+        for (DbTableDef table : mTables) {
             mTableNames.add(table.getName());
         }
     }
@@ -44,7 +53,7 @@ public final class ReviewerDbContract implements DbContract {
     }
 
     @Override
-    public ArrayList<SQLiteTableDefinition> getTableDefinitions() {
+    public ArrayList<DbTableDef> getTableDefinitions() {
         return mTables;
     }
 
@@ -61,8 +70,7 @@ public final class ReviewerDbContract implements DbContract {
         public static final String COLUMN_NAME_SUBJECT      = "subject";
         public static final String COLUMN_NAME_RATING       = "rating";
 
-
-        private static ReviewerDbTable sTable;
+        private static TableReviews sTable;
 
         private TableReviews() {
             super(TABLE_NAME);
@@ -74,7 +82,7 @@ public final class ReviewerDbContract implements DbContract {
             addForeignKeyConstraint(new String[]{COLUMN_NAME_AUTHOR_ID}, TableAuthors.get());
         }
 
-        public static ReviewerDbTable get() {
+        private static TableReviews get() {
             if (sTable == null) sTable = new TableReviews();
             return sTable;
         }
@@ -87,7 +95,7 @@ public final class ReviewerDbContract implements DbContract {
         public static final String COLUMN_NAME_PARENT_NODE_ID    = "parent_node_id";
         public static final String COLUMN_NAME_RATING_IS_AVERAGE = "is_average";
 
-        private static ReviewerDbTable sTable;
+        private static TableReviewTrees sTable;
 
         private TableReviewTrees() {
             super(TABLE_NAME);
@@ -95,11 +103,11 @@ public final class ReviewerDbContract implements DbContract {
             addColumn(COLUMN_NAME_REVIEW_ID, SQL.StorageType.TEXT, SQL.Nullable.FALSE);
             addColumn(COLUMN_NAME_PARENT_NODE_ID, SQL.StorageType.TEXT, SQL.Nullable.TRUE);
             addColumn(COLUMN_NAME_RATING_IS_AVERAGE, SQL.StorageType.INTEGER, SQL.Nullable.FALSE);
-            addForeignKeyConstraint(new String[]{COLUMN_NAME_REVIEW_ID}, TableReviews.get());
+            addForeignKeyConstraint(new String[]{COLUMN_NAME_REVIEW_ID}, REVIEWS_TABLE);
             addForeignKeyConstraint(new String[]{COLUMN_NAME_PARENT_NODE_ID}, this);
         }
 
-        public static ReviewerDbTable get() {
+        private static TableReviewTrees get() {
             if (sTable == null) sTable = new TableReviewTrees();
             return sTable;
         }
@@ -112,7 +120,7 @@ public final class ReviewerDbContract implements DbContract {
         public static final String COLUMN_NAME_COMMENT     = "comment";
         public static final String COLUMN_NAME_IS_HEADLINE = "is_headline";
 
-        private static ReviewerDbTable sTable;
+        private static TableComments sTable;
 
         private TableComments() {
             super(TABLE_NAME);
@@ -120,10 +128,10 @@ public final class ReviewerDbContract implements DbContract {
             addColumn(COLUMN_NAME_REVIEW_ID, SQL.StorageType.TEXT, SQL.Nullable.FALSE);
             addColumn(COLUMN_NAME_COMMENT, SQL.StorageType.TEXT, SQL.Nullable.FALSE);
             addColumn(COLUMN_NAME_IS_HEADLINE, SQL.StorageType.INTEGER, SQL.Nullable.FALSE);
-            addForeignKeyConstraint(new String[]{COLUMN_NAME_REVIEW_ID}, TableReviews.get());
+            addForeignKeyConstraint(new String[]{COLUMN_NAME_REVIEW_ID}, REVIEWS_TABLE);
         }
 
-        public static ReviewerDbTable get() {
+        private static TableComments get() {
             if (sTable == null) sTable = new TableComments();
             return sTable;
         }
@@ -137,7 +145,7 @@ public final class ReviewerDbContract implements DbContract {
         public static final String COLUMN_NAME_VALUE     = "value";
         public static final String COLUMN_NAME_IS_URL    = "is_url";
 
-        private static ReviewerDbTable sTable;
+        private static TableFacts sTable;
 
         private TableFacts() {
             super(TABLE_NAME);
@@ -146,10 +154,10 @@ public final class ReviewerDbContract implements DbContract {
             addColumn(COLUMN_NAME_LABEL, SQL.StorageType.TEXT, SQL.Nullable.FALSE);
             addColumn(COLUMN_NAME_VALUE, SQL.StorageType.TEXT, SQL.Nullable.FALSE);
             addColumn(COLUMN_NAME_IS_URL, SQL.StorageType.INTEGER, SQL.Nullable.FALSE);
-            addForeignKeyConstraint(new String[]{COLUMN_NAME_REVIEW_ID}, TableReviews.get());
+            addForeignKeyConstraint(new String[]{COLUMN_NAME_REVIEW_ID}, REVIEWS_TABLE);
         }
 
-        public static ReviewerDbTable get() {
+        private static TableFacts get() {
             if (sTable == null) sTable = new TableFacts();
             return sTable;
         }
@@ -163,7 +171,7 @@ public final class ReviewerDbContract implements DbContract {
         public static final String COLUMN_NAME_LONGITUDE   = "longitude";
         public static final String COLUMN_NAME_NAME        = "name";
 
-        private static ReviewerDbTable sTable;
+        private static TableLocations sTable;
 
         private TableLocations() {
             super(TABLE_NAME);
@@ -172,10 +180,10 @@ public final class ReviewerDbContract implements DbContract {
             addColumn(COLUMN_NAME_LATITUDE, SQL.StorageType.REAL, SQL.Nullable.FALSE);
             addColumn(COLUMN_NAME_LONGITUDE, SQL.StorageType.REAL, SQL.Nullable.FALSE);
             addColumn(COLUMN_NAME_NAME, SQL.StorageType.TEXT, SQL.Nullable.FALSE);
-            addForeignKeyConstraint(new String[]{COLUMN_NAME_REVIEW_ID}, TableReviews.get());
+            addForeignKeyConstraint(new String[]{COLUMN_NAME_REVIEW_ID}, REVIEWS_TABLE);
         }
 
-        public static ReviewerDbTable get() {
+        private static TableLocations get() {
             if (sTable == null) sTable = new TableLocations();
             return sTable;
         }
@@ -189,7 +197,7 @@ public final class ReviewerDbContract implements DbContract {
         public static final String COLUMN_NAME_CAPTION   = "caption";
         public static final String COLUMN_NAME_IS_COVER  = "is_cover";
 
-        private static ReviewerDbTable sTable;
+        private static TableImages sTable;
 
         private TableImages() {
             super(TABLE_NAME);
@@ -198,10 +206,10 @@ public final class ReviewerDbContract implements DbContract {
             addColumn(COLUMN_NAME_BITMAP, SQL.StorageType.BLOB, SQL.Nullable.FALSE);
             addColumn(COLUMN_NAME_CAPTION, SQL.StorageType.TEXT, SQL.Nullable.TRUE);
             addColumn(COLUMN_NAME_IS_COVER, SQL.StorageType.INTEGER, SQL.Nullable.FALSE);
-            addForeignKeyConstraint(new String[]{COLUMN_NAME_REVIEW_ID}, TableReviews.get());
+            addForeignKeyConstraint(new String[]{COLUMN_NAME_REVIEW_ID}, REVIEWS_TABLE);
         }
 
-        public static ReviewerDbTable get() {
+        private static TableImages get() {
             if (sTable == null) sTable = new TableImages();
             return sTable;
         }
@@ -212,7 +220,7 @@ public final class ReviewerDbContract implements DbContract {
         public static final String COLUMN_NAME_TAG     = "tag";
         public static final String COLUMN_NAME_REVIEWS = "reviews";
 
-        private static ReviewerDbTable sTable;
+        private static TableTags sTable;
 
         private TableTags() {
             super(TABLE_NAME);
@@ -220,7 +228,7 @@ public final class ReviewerDbContract implements DbContract {
             addColumn(COLUMN_NAME_REVIEWS, SQL.StorageType.TEXT, SQL.Nullable.FALSE);
         }
 
-        public static ReviewerDbTable get() {
+        private static TableTags get() {
             if (sTable == null) sTable = new TableTags();
             return sTable;
         }
@@ -231,7 +239,7 @@ public final class ReviewerDbContract implements DbContract {
         public static final String COLUMN_NAME_USER_ID = "user_id";
         public static final String COLUMN_NAME_NAME    = "name";
 
-        private static ReviewerDbTable sTable;
+        private static TableAuthors sTable;
 
         private TableAuthors() {
             super(TABLE_NAME);
@@ -239,13 +247,13 @@ public final class ReviewerDbContract implements DbContract {
             addColumn(COLUMN_NAME_NAME, SQL.StorageType.TEXT, SQL.Nullable.FALSE);
         }
 
-        public static ReviewerDbTable get() {
+        private static TableAuthors get() {
             if (sTable == null) sTable = new TableAuthors();
             return sTable;
         }
     }
 
-    public static class ReviewerDbTable extends SQLiteTableDefinition {
+    public static class ReviewerDbTable extends DbTableDef {
         public ReviewerDbTable(String tableName) {
             super(tableName);
         }

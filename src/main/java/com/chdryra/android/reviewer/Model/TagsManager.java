@@ -86,6 +86,10 @@ public class TagsManager {
             return mTag;
         }
 
+        public ArrayList<ReviewId> getReviews() {
+            return mReviews;
+        }
+
         public boolean tagsReview(Review r) {
             return mReviews.contains(r.getId());
         }

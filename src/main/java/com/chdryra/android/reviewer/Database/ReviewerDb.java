@@ -30,15 +30,15 @@ public class ReviewerDb {
     private static final String             TAG            = "ReviewerDb";
     private static final String             DATABASE_NAME  = "Reviewer.db";
     private static final int                VERSION_NUMBER = 1;
-    private static final ReviewerDbContract CONTRACT       = ReviewerDbContract.getContract();
 
     private static ReviewerDb       sDatabase;
-    private        ReviewerDbHelper mHelper;
+    private SQLiteOpenHelper mHelper;
     private String mDatabaseName;
 
     private ReviewerDb(Context context, String databaseName) {
-        mHelper = new ReviewerDbHelper(context, this);
         mDatabaseName = databaseName;
+        DbContract contract = ReviewerDbContract.getContract();
+        mHelper = new DbHelper(context, new DbManager(contract), mDatabaseName, VERSION_NUMBER);
     }
 
     public static ReviewerDb getDatabase(Context context) {
@@ -54,15 +54,7 @@ public class ReviewerDb {
         return mDatabaseName;
     }
 
-    public int getDatabaseVersion() {
-        return VERSION_NUMBER;
-    }
-
-    public DbContract getContract() {
-        return CONTRACT;
-    }
-
-    public ReviewerDbHelper getHelper() {
+    public SQLiteOpenHelper getHelper() {
         return mHelper;
     }
 
@@ -84,8 +76,8 @@ public class ReviewerDb {
         db.close();
     }
 
-    public <T extends ReviewerDbRow.TableRow> ReviewerDbRow.TableRow getRowFor
-            (ReviewerDbContract.ReviewerDbTable table, SQLiteTableDefinition.SQLiteColumn idCol,
+    public <T extends ReviewerDbRow.TableRow> T getRowFor
+            (ReviewerDbContract.ReviewerDbTable table, DbTableDef.DbColumnDef idCol,
                     String id, Class<T> rowClass) {
         SQLiteDatabase db = mHelper.getReadableDatabase();
         Cursor cursor = getRowCursor(db, table.getName(), idCol.getName(), id);
@@ -93,7 +85,7 @@ public class ReviewerDb {
         if (cursor == null || cursor.getCount() == 0) return ReviewerDbRow.emptyRow(rowClass);
 
         cursor.moveToFirst();
-        ReviewerDbRow.TableRow row = ReviewerDbRow.newRow(cursor, rowClass);
+        T row = ReviewerDbRow.newRow(cursor, rowClass);
         cursor.close();
 
         return row;
@@ -127,41 +119,38 @@ public class ReviewerDb {
     }
 
     private void addToReviewsTable(ReviewNode node, SQLiteDatabase db) {
-        insertRow(ReviewerDbRow.newRow(node.getReview()),
-                ReviewerDbContract.TableReviews.get(), db);
+        insertRow(ReviewerDbRow.newRow(node.getReview()), ReviewerDbContract.REVIEWS_TABLE, db);
     }
 
     private void addToReviewsTreeTable(ReviewNode node, SQLiteDatabase db) {
-        insertRow(ReviewerDbRow.newRow(node), ReviewerDbContract.TableReviewTrees.get(), db);
+        insertRow(ReviewerDbRow.newRow(node), ReviewerDbContract.TREES_TABLE, db);
     }
 
     private void addToCommentsTable(ReviewNode node, SQLiteDatabase db) {
         int i = 1;
         for (MdCommentList.MdComment datum : node.getReview().getComments()) {
-            insertRow(ReviewerDbRow.newRow(datum, i++), ReviewerDbContract.TableComments.get(),
-                    db);
+            insertRow(ReviewerDbRow.newRow(datum, i++), ReviewerDbContract.COMMENTS_TABLE, db);
         }
     }
 
     private void addToFactsTable(ReviewNode node, SQLiteDatabase db) {
         int i = 1;
         for (MdFactList.MdFact datum : node.getReview().getFacts()) {
-            insertRow(ReviewerDbRow.newRow(datum, i++), ReviewerDbContract.TableFacts.get(), db);
+            insertRow(ReviewerDbRow.newRow(datum, i++), ReviewerDbContract.FACTS_TABLE, db);
         }
     }
 
     private void addToLocationsTable(ReviewNode node, SQLiteDatabase db) {
         int i = 1;
         for (MdLocationList.MdLocation datum : node.getReview().getLocations()) {
-            insertRow(ReviewerDbRow.newRow(datum, i++), ReviewerDbContract.TableLocations.get(),
-                    db);
+            insertRow(ReviewerDbRow.newRow(datum, i++), ReviewerDbContract.LOCATIONS_TABLE, db);
         }
     }
 
     private void addToImagesTable(ReviewNode node, SQLiteDatabase db) {
         int i = 1;
         for (MdImageList.MdImage datum : node.getReview().getImages()) {
-            insertRow(ReviewerDbRow.newRow(datum, i++), ReviewerDbContract.TableImages.get(), db);
+            insertRow(ReviewerDbRow.newRow(datum, i++), ReviewerDbContract.IMAGES_TABLE, db);
         }
     }
 
@@ -191,24 +180,5 @@ public class ReviewerDb {
         }
 
         return hasRow;
-    }
-
-    public static class ReviewerDbHelper extends SQLiteOpenHelper {
-        private DbCreator mDbCreator;
-
-        private ReviewerDbHelper(Context context, ReviewerDb db) {
-            super(context, db.getDatabaseName(), null, db.getDatabaseVersion());
-            mDbCreator = new DbCreator(db.getContract());
-        }
-
-        @Override
-        public void onCreate(SQLiteDatabase db) {
-            mDbCreator.createDatabase(db);
-        }
-
-        @Override
-        public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-            mDbCreator.upgradeDatabase(db, oldVersion, newVersion);
-        }
     }
 }

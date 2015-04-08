@@ -21,20 +21,20 @@ import java.util.ArrayList;
  * On: 31/03/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class DbCreator {
+public class DbManager {
     private static final String CHECKS_OFF = "SET foreign_key_checks = 0;";
     private static final String CHECKS_ON  = "SET foreign_key_checks = 1;";
     private static final String TAG        = "DbCreator";
 
     private DbContract mContract;
 
-    public DbCreator(DbContract contract) {
+    public DbManager(DbContract contract) {
         mContract = contract;
     }
 
     public void createDatabase(SQLiteDatabase db) {
-        ArrayList<SQLiteTableDefinition> tableDefs = mContract.getTableDefinitions();
-        for (SQLiteTableDefinition tableDef : tableDefs) {
+        ArrayList<DbTableDef> tableDefs = mContract.getTableDefinitions();
+        for (DbTableDef tableDef : tableDefs) {
             try {
                 String command = getCreateTableSql(tableDef);
                 Log.i(TAG, "Executing SQL:\n" + command);
@@ -53,7 +53,7 @@ public class DbCreator {
         }
     }
 
-    private String getCreateTableSql(SQLiteTableDefinition table) {
+    private String getCreateTableSql(DbTableDef table) {
         String colDef = getColumnDefinitions(table);
         String pkDef = getPrimaryKeyDefinition(table);
         String fkDef = getFkConstraintsDefinition(table);
@@ -67,8 +67,8 @@ public class DbCreator {
         return definition;
     }
 
-    private String getColumnDefinitions(SQLiteTableDefinition table) {
-        ArrayList<SQLiteTableDefinition.SQLiteColumn> columns = table.getAllColumns();
+    private String getColumnDefinitions(DbTableDef table) {
+        ArrayList<DbTableDef.DbColumnDef> columns = table.getAllColumns();
         String definition = "";
         if (columns.size() == 0) return definition;
 
@@ -80,15 +80,15 @@ public class DbCreator {
         return definition;
     }
 
-    private String getColumnDefinition(SQLiteTableDefinition.SQLiteColumn column) {
+    private String getColumnDefinition(DbTableDef.DbColumnDef column) {
         String definition = column.getName() + SQL.SPACE + column.getType().name();
         definition += column.isNullable() ? "" : SQL.SPACE + SQL.NOT_NULL;
 
         return definition;
     }
 
-    private String getPrimaryKeyDefinition(SQLiteTableDefinition table) {
-        ArrayList<SQLiteTableDefinition.SQLiteColumn> pks = table.getPrimaryKeys();
+    private String getPrimaryKeyDefinition(DbTableDef table) {
+        ArrayList<DbTableDef.DbColumnDef> pks = table.getPrimaryKeys();
         String definition = "";
         if (pks.size() == 0) return definition;
 
@@ -98,8 +98,8 @@ public class DbCreator {
         return definition;
     }
 
-    private String getFkConstraintsDefinition(SQLiteTableDefinition table) {
-        ArrayList<SQLiteTableDefinition.ForeignKeyConstraint> constraints = table
+    private String getFkConstraintsDefinition(DbTableDef table) {
+        ArrayList<DbTableDef.ForeignKeyConstraint> constraints = table
                 .getForeignKeyConstraints();
         String definition = "";
         if (constraints.size() == 0) return definition;
@@ -112,9 +112,9 @@ public class DbCreator {
         return definition;
     }
 
-    private String getFkConstraintDefinition(SQLiteTableDefinition.ForeignKeyConstraint
+    private String getFkConstraintDefinition(DbTableDef.ForeignKeyConstraint
             constraint) {
-        SQLiteTableDefinition fkTable = constraint.getForeignTable();
+        DbTableDef fkTable = constraint.getForeignTable();
 
         String definition = SQL.FOREIGN_KEY + SQL.OPEN_BRACKET;
         definition += getCommaSeparatedNames(constraint.getFkColumns()) + SQL.CLOSE_BRACKET;
@@ -136,9 +136,9 @@ public class DbCreator {
         return definition;
     }
 
-    private String getCommaSeparatedNames(ArrayList<SQLiteTableDefinition.SQLiteColumn> cols) {
+    private String getCommaSeparatedNames(ArrayList<DbTableDef.DbColumnDef> cols) {
         String cs = "";
-        for (SQLiteTableDefinition.SQLiteColumn column : cols) {
+        for (DbTableDef.DbColumnDef column : cols) {
             cs += column.getName() + SQL.COMMA;
         }
 
