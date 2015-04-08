@@ -20,6 +20,7 @@ import com.chdryra.android.reviewer.Model.MdFactList;
 import com.chdryra.android.reviewer.Model.MdImageList;
 import com.chdryra.android.reviewer.Model.MdLocationList;
 import com.chdryra.android.reviewer.Model.ReviewNode;
+import com.chdryra.android.reviewer.Model.TagsManager;
 
 /**
  * Created by: Rizwan Choudrey
@@ -112,9 +113,22 @@ public class ReviewerDb {
         addToFactsTable(node, db);
         addToLocationsTable(node, db);
         addToImagesTable(node, db);
+        addToAuthorsTable(node, db);
+        addToTagsTable(node, db);
 
         for (ReviewNode child : node.getChildren()) {
             if (!isReviewInDb(child, db)) addReviewNodeToDb(child, db);
+        }
+    }
+
+    private void addToAuthorsTable(ReviewNode node, SQLiteDatabase db) {
+        insertRow(ReviewerDbRow.newRow(node.getAuthor()), ReviewerDbContract.AUTHORS_TABLE, db);
+    }
+
+    private void addToTagsTable(ReviewNode node, SQLiteDatabase db) {
+        TagsManager.ReviewTagCollection tags = TagsManager.getTags(node);
+        for (TagsManager.ReviewTag tag : tags) {
+            insertOrReplaceRow(ReviewerDbRow.newRow(tag), ReviewerDbContract.TAGS_TABLE, db);
         }
     }
 
@@ -156,8 +170,15 @@ public class ReviewerDb {
 
     private void insertRow(ReviewerDbRow.TableRow row, ReviewerDbContract.ReviewerDbTable table,
             SQLiteDatabase db) {
+        DbTableDef.DbColumnDef idCol = table.getColumn(row.getRowIdColumnName());
+        String id = row.getRowId();
         String tableName = table.getName();
-        String message = row.getRowId() + " into " + tableName + " table ";
+        if (isIdInTable(id, idCol, table, db)) {
+            Log.i(TAG, "Id " + id + " already in table " + table.getName() + ". Ignoring insert");
+            return;
+        }
+
+        String message = id + " into " + tableName + " table ";
         try {
             long rowId = db.insertOrThrow(tableName, null, row.getContentValues());
             Log.i(TAG, "Inserted " + message + " at row " + String.valueOf(rowId));
@@ -166,12 +187,38 @@ public class ReviewerDb {
         }
     }
 
+    private void insertOrReplaceRow(ReviewerDbRow.TableRow row, ReviewerDbContract.ReviewerDbTable
+            table, SQLiteDatabase db) {
+        DbTableDef.DbColumnDef idCol = table.getColumn(row.getRowIdColumnName());
+        String id = row.getRowId();
+        String tableName = table.getName();
+        if (isIdInTable(id, idCol, table, db)) {
+            String message = id + " in " + tableName + " table ";
+            try {
+                long rowId = db.replaceOrThrow(tableName, null, row.getContentValues());
+                Log.i(TAG, "Replaced " + message + " at row " + String.valueOf(rowId));
+            } catch (SQLException e) {
+                throw new RuntimeException("Couldn't replace " + message, e);
+            }
+        } else {
+            insertRow(row, table, db);
+        }
+    }
+
     private boolean isReviewInDb(ReviewNode node, SQLiteDatabase db) {
-        String table = ReviewerDbContract.TableReviews.TABLE_NAME;
-        String reviewIdCol = ReviewerDbContract.TableReviews.COLUMN_NAME_REVIEW_ID;
+        ReviewerDbContract.ReviewerDbTable table = ReviewerDbContract.REVIEWS_TABLE;
+        DbTableDef.DbColumnDef idCol = table.getColumn(ReviewerDbContract.TableReviews
+                .COLUMN_NAME_REVIEW_ID);
         String id = node.getReview().getId().toString();
 
-        Cursor cursor = getRowCursor(db, table, reviewIdCol, id);
+        return isIdInTable(id, idCol, table, db);
+    }
+
+    private boolean isIdInTable(String id, DbTableDef.DbColumnDef idCol, ReviewerDbContract
+            .ReviewerDbTable table, SQLiteDatabase db) {
+        String reviewIdCol = idCol.getName();
+
+        Cursor cursor = getRowCursor(db, table.getName(), reviewIdCol, id);
 
         boolean hasRow = false;
         if (cursor != null) {

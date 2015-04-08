@@ -21,7 +21,7 @@ import com.chdryra.android.mygenerallibrary.SortableList;
 public class MdDataList<T extends MdData> extends SortableList<T> implements MdData {
     private final ReviewId mReviewId;
 
-    MdDataList(ReviewId reviewId) {
+    public MdDataList(ReviewId reviewId) {
         mReviewId = reviewId;
     }
 

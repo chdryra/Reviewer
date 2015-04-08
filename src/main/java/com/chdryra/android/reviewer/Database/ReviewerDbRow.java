@@ -38,6 +38,8 @@ public class ReviewerDbRow {
     public interface TableRow {
         public String getRowId();
 
+        public String getRowIdColumnName();
+
         public ContentValues getContentValues();
 
         public boolean hasData();
@@ -75,6 +77,14 @@ public class ReviewerDbRow {
 
     public static TableRow newRow(Review review) {
         return new ReviewsRow(review);
+    }
+
+    public static TableRow newRow(Author author) {
+        return new AuthorsRow(author);
+    }
+
+    public static TableRow newRow(TagsManager.ReviewTag tag) {
+        return new TagsRow(tag);
     }
 
     public static TableRow newRow(MdCommentList.MdComment comment, int index) {
@@ -129,6 +139,11 @@ public class ReviewerDbRow {
         @Override
         public String getRowId() {
             return mNodeId;
+        }
+
+        @Override
+        public String getRowIdColumnName() {
+            return NODE_ID;
         }
 
         @Override
@@ -187,6 +202,11 @@ public class ReviewerDbRow {
         }
 
         @Override
+        public String getRowIdColumnName() {
+            return REVIEW_ID;
+        }
+
+        @Override
         public ContentValues getContentValues() {
             ContentValues values = new ContentValues();
             values.put(REVIEW_ID, mReviewId);
@@ -235,6 +255,11 @@ public class ReviewerDbRow {
         @Override
         public String getRowId() {
             return mCommentId;
+        }
+
+        @Override
+        public String getRowIdColumnName() {
+            return COMMENT_ID;
         }
 
         @Override
@@ -289,6 +314,11 @@ public class ReviewerDbRow {
         @Override
         public String getRowId() {
             return mFactId;
+        }
+
+        @Override
+        public String getRowIdColumnName() {
+            return FACT_ID;
         }
 
         @Override
@@ -349,6 +379,11 @@ public class ReviewerDbRow {
         }
 
         @Override
+        public String getRowIdColumnName() {
+            return LOCATION_ID;
+        }
+
+        @Override
         public ContentValues getContentValues() {
             ContentValues values = new ContentValues();
             values.put(LOCATION_ID, mLocationId);
@@ -384,7 +419,7 @@ public class ReviewerDbRow {
 
         public ImagesRow(MdImageList.MdImage image, int index) {
             mReviewId = image.getReviewId().toString();
-            mImageId = mReviewId + SEPARATOR + "l" + String.valueOf(index);
+            mImageId = mReviewId + SEPARATOR + "i" + String.valueOf(index);
             mCaption = image.getCaption();
             mIsCover = image.isCover();
             ByteArrayOutputStream bos = new ByteArrayOutputStream();
@@ -403,6 +438,11 @@ public class ReviewerDbRow {
         @Override
         public String getRowId() {
             return mImageId;
+        }
+
+        @Override
+        public String getRowIdColumnName() {
+            return IMAGE_ID;
         }
 
         @Override
@@ -453,6 +493,11 @@ public class ReviewerDbRow {
         }
 
         @Override
+        public String getRowIdColumnName() {
+            return TAG;
+        }
+
+        @Override
         public ContentValues getContentValues() {
             ContentValues values = new ContentValues();
             values.put(TAG, mTag);
@@ -490,6 +535,11 @@ public class ReviewerDbRow {
         @Override
         public String getRowId() {
             return mUserId;
+        }
+
+        @Override
+        public String getRowIdColumnName() {
+            return USER_ID;
         }
 
         @Override

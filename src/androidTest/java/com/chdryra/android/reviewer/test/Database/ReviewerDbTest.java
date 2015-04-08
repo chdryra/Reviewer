@@ -12,6 +12,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.graphics.Bitmap;
 import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
@@ -19,14 +20,22 @@ import com.chdryra.android.reviewer.Database.DbTableDef;
 import com.chdryra.android.reviewer.Database.ReviewerDb;
 import com.chdryra.android.reviewer.Database.ReviewerDbContract;
 import com.chdryra.android.reviewer.Database.ReviewerDbRow;
+import com.chdryra.android.reviewer.Model.Author;
 import com.chdryra.android.reviewer.Model.MdCommentList;
+import com.chdryra.android.reviewer.Model.MdData;
+import com.chdryra.android.reviewer.Model.MdDataList;
 import com.chdryra.android.reviewer.Model.MdFactList;
+import com.chdryra.android.reviewer.Model.MdImageList;
 import com.chdryra.android.reviewer.Model.MdLocationList;
 import com.chdryra.android.reviewer.Model.Review;
 import com.chdryra.android.reviewer.Model.ReviewNode;
 import com.chdryra.android.reviewer.test.TestUtils.ReviewMocker;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by: Rizwan Choudrey
@@ -70,63 +79,45 @@ public class ReviewerDbTest extends AndroidTestCase {
     }
 
     @SmallTest
-    public void testAddReviewToCommentsTable() {
-        ReviewerDbContract.ReviewerDbTable table = ReviewerDbContract.COMMENTS_TABLE;
+    public void testAddReviewToAuthorsTable() {
+        ReviewerDbContract.ReviewerDbTable table = ReviewerDbContract.AUTHORS_TABLE;
 
         assertEquals(0, getNumberRows(table));
         mDatabase.addReviewNodeToDb(mNode);
-        int num = mNode.getComments().size();
-        num += mNode.getParent().getComments().size();
+        Set<Author> authors = new HashSet<>();
+        authors.add(mNode.getAuthor());
+        authors.add(mNode.getParent().getAuthor());
         for (ReviewNode child : mNode.getChildren()) {
-            num += child.getComments().size();
+            authors.add(child.getAuthor());
         }
-        assertEquals(num, getNumberRows(table));
 
-        testCommentsRows(mNode);
-        testCommentsRows(mNode.getParent());
+        assertEquals(authors.size(), getNumberRows(table));
+
+        testAuthorsRow(mNode);
+        testAuthorsRow(mNode.getParent());
         for (ReviewNode child : mNode.getChildren()) {
-            testCommentsRows(child);
+            testAuthorsRow(child);
         }
+    }
+
+    @SmallTest
+    public void testAddReviewToCommentsTable() {
+        testAddReviewToTable(ConfigDb.DbData.COMMENTS);
     }
 
     @SmallTest
     public void testAddReviewToLocationsTable() {
-        ReviewerDbContract.ReviewerDbTable table = ReviewerDbContract.LOCATIONS_TABLE;
+        testAddReviewToTable(ConfigDb.DbData.LOCATIONS);
+    }
 
-        assertEquals(0, getNumberRows(table));
-        mDatabase.addReviewNodeToDb(mNode);
-        int num = mNode.getLocations().size();
-        num += mNode.getParent().getLocations().size();
-        for (ReviewNode child : mNode.getChildren()) {
-            num += child.getLocations().size();
-        }
-        assertEquals(num, getNumberRows(table));
-
-        testLocationsRows(mNode);
-        testLocationsRows(mNode.getParent());
-        for (ReviewNode child : mNode.getChildren()) {
-            testLocationsRows(child);
-        }
+    @SmallTest
+    public void testAddReviewToImagesTable() {
+        testAddReviewToTable(ConfigDb.DbData.IMAGES);
     }
 
     @SmallTest
     public void testAddReviewToFactsTable() {
-        ReviewerDbContract.ReviewerDbTable table = ReviewerDbContract.FACTS_TABLE;
-
-        assertEquals(0, getNumberRows(table));
-        mDatabase.addReviewNodeToDb(mNode);
-        int num = mNode.getFacts().size();
-        num += mNode.getParent().getFacts().size();
-        for (ReviewNode child : mNode.getChildren()) {
-            num += child.getFacts().size();
-        }
-        assertEquals(num, getNumberRows(table));
-
-        testFactsRows(mNode);
-        testFactsRows(mNode.getParent());
-        for (ReviewNode child : mNode.getChildren()) {
-            testFactsRows(child);
-        }
+        testAddReviewToTable(ConfigDb.DbData.FACTS);
     }
 
     @Override
@@ -141,16 +132,72 @@ public class ReviewerDbTest extends AndroidTestCase {
         deleteDatabaseIfNecessary();
     }
 
-    private void testLocationsRows(ReviewNode node) {
-        MdLocationList locations = node.getLocations();
-        for (int i = 0; i < locations.size(); ++i) {
-            testLocationsRow(locations.getItem(i), i + 1);
+    private void testAddReviewToTable(ConfigDb.DbData tableType) {
+        ConfigDb.Config config = ConfigDb.getConfig(tableType);
+        ReviewerDbContract.ReviewerDbTable table = config.getTable();
+
+        assertEquals(0, getNumberRows(table));
+        mDatabase.addReviewNodeToDb(mNode);
+        int num = getData(tableType, mNode).size();
+        num += getData(tableType, mNode.getParent()).size();
+        for (ReviewNode child : mNode.getChildren()) {
+            num += getData(tableType, child).size();
+        }
+        assertEquals(num, getNumberRows(table));
+
+        testRows(tableType, mNode);
+        testRows(tableType, mNode.getParent());
+        for (ReviewNode child : mNode.getChildren()) {
+            testRows(tableType, child);
+        }
+    }
+
+    private void testRows(ConfigDb.DbData dataType, ReviewNode node) {
+        MdDataList comments = getData(dataType, node);
+        for (int i = 0; i < comments.size(); ++i) {
+            testRow(dataType, (MdData) comments.getItem(i), i + 1);
+        }
+    }
+
+    private void testRow(ConfigDb.DbData dataType, MdData datum, int index) {
+        switch (dataType) {
+            case COMMENTS:
+                testCommentsRow((MdCommentList.MdComment) datum, index);
+                break;
+            case FACTS:
+                testFactsRow((MdFactList.MdFact) datum, index);
+                break;
+            case IMAGES:
+                testImagesRow((MdImageList.MdImage) datum, index);
+                break;
+            case LOCATIONS:
+                testLocationsRow((MdLocationList.MdLocation) datum, index);
+                break;
+            default:
+                fail();
+        }
+    }
+
+    private MdDataList getData(ConfigDb.DbData dataType, ReviewNode node) {
+        switch (dataType) {
+            case COMMENTS:
+                return node.getComments();
+            case FACTS:
+                return node.getFacts();
+            case IMAGES:
+                return node.getImages();
+            case LOCATIONS:
+                return node.getLocations();
+            default:
+                fail();
+                return new MdDataList(null);
         }
     }
 
     private void testLocationsRow(MdLocationList.MdLocation location, int index) {
         String id = location.getReviewId().toString() + ReviewerDbRow.SEPARATOR + "l" + String
                 .valueOf(index);
+
         ContentValues vals = getRowVals(ConfigDb.DbData.LOCATIONS, id);
 
         assertEquals(id, vals.get(ReviewerDbRow.LocationsRow.LOCATION_ID));
@@ -161,11 +208,21 @@ public class ReviewerDbTest extends AndroidTestCase {
         assertEquals(location.getName(), vals.get(ReviewerDbRow.LocationsRow.NAME));
     }
 
-    private void testFactsRows(ReviewNode node) {
-        MdFactList facts = node.getFacts();
-        for (int i = 0; i < facts.size(); ++i) {
-            testFactsRow(facts.getItem(i), i + 1);
-        }
+    private void testImagesRow(MdImageList.MdImage image, int index) {
+        String id = image.getReviewId().toString() + ReviewerDbRow.SEPARATOR + "i" + String
+                .valueOf(index);
+
+        ContentValues vals = getRowVals(ConfigDb.DbData.IMAGES, id);
+
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        image.getBitmap().compress(Bitmap.CompressFormat.PNG, 100, bos);
+        byte[] array = bos.toByteArray();
+
+        assertTrue(Arrays.equals(array, (byte[]) vals.get(ReviewerDbRow.ImagesRow.BITMAP)));
+        assertEquals(id, vals.get(ReviewerDbRow.ImagesRow.IMAGE_ID));
+        assertEquals(image.getReviewId().toString(), vals.get(ReviewerDbRow.ImagesRow.REVIEW_ID));
+        assertEquals(image.getCaption(), vals.get(ReviewerDbRow.ImagesRow.CAPTION));
+        assertEquals(image.isCover(), vals.get(ReviewerDbRow.ImagesRow.IS_COVER));
     }
 
     private void testFactsRow(MdFactList.MdFact fact, int index) {
@@ -178,13 +235,6 @@ public class ReviewerDbTest extends AndroidTestCase {
         assertEquals(fact.getLabel(), vals.get(ReviewerDbRow.FactsRow.LABEL));
         assertEquals(fact.getValue(), vals.get(ReviewerDbRow.FactsRow.VALUE));
         assertEquals(fact.isUrl(), vals.get(ReviewerDbRow.FactsRow.IS_URL));
-    }
-
-    private void testCommentsRows(ReviewNode node) {
-        MdCommentList comments = node.getComments();
-        for (int i = 0; i < comments.size(); ++i) {
-            testCommentsRow(comments.getItem(i), i + 1);
-        }
     }
 
     private void testCommentsRow(MdCommentList.MdComment comment, int index) {
@@ -229,6 +279,16 @@ public class ReviewerDbTest extends AndroidTestCase {
         assertEquals(review.getRating().get(), vals.get(ReviewerDbRow.ReviewsRow.RATING));
         assertEquals(authorId, vals.get(ReviewerDbRow.ReviewsRow.AUTHOR_ID));
         assertEquals(millis, vals.get(ReviewerDbRow.ReviewsRow.PUBLISH_DATE));
+    }
+
+    private void testAuthorsRow(ReviewNode node) {
+        Author author = node.getAuthor();
+        String id = author.getUserId().toString();
+
+        ContentValues vals = getRowVals(ConfigDb.DbData.AUTHORS, id);
+
+        assertEquals(id, vals.get(ReviewerDbRow.AuthorsRow.USER_ID));
+        assertEquals(author.getName(), vals.get(ReviewerDbRow.AuthorsRow.AUTHOR_NAME));
     }
 
     private ContentValues getRowVals(ConfigDb.DbData dataType, String id) {
