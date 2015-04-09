@@ -10,8 +10,8 @@ package com.chdryra.android.reviewer.test.Model;
 
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.Model.RCollectionReview;
 import com.chdryra.android.reviewer.Model.Review;
+import com.chdryra.android.reviewer.Model.ReviewIdableList;
 import com.chdryra.android.reviewer.test.TestUtils.ReviewMocker;
 
 import junit.framework.TestCase;
@@ -21,9 +21,9 @@ import junit.framework.TestCase;
  * On: 21/01/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class RCollectionReviewTest extends TestCase {
+public class ReviewIdableListTest extends TestCase {
     private final static int NUM = 100;
-    private RCollectionReview<Review> mCollection;
+    private ReviewIdableList<Review> mCollection;
 
     @SmallTest
     public void testAdd() {
@@ -45,6 +45,6 @@ public class RCollectionReviewTest extends TestCase {
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        mCollection = new RCollectionReview<>();
+        mCollection = new ReviewIdableList<>();
     }
 }

@@ -27,8 +27,8 @@ import com.chdryra.android.reviewer.Model.MdDataList;
 import com.chdryra.android.reviewer.Model.MdFactList;
 import com.chdryra.android.reviewer.Model.MdImageList;
 import com.chdryra.android.reviewer.Model.MdLocationList;
-import com.chdryra.android.reviewer.Model.RCollectionReview;
 import com.chdryra.android.reviewer.Model.Review;
+import com.chdryra.android.reviewer.Model.ReviewIdableList;
 import com.chdryra.android.reviewer.Model.ReviewNode;
 import com.chdryra.android.reviewer.Model.TagsManager;
 import com.chdryra.android.reviewer.View.GvTagList;
@@ -121,7 +121,7 @@ public class ReviewerDbTest extends AndroidTestCase {
         }
 
         ReviewNode parent = mNode.getParent();
-        RCollectionReview<ReviewNode> children = mNode.getChildren();
+        ReviewIdableList<ReviewNode> children = mNode.getChildren();
         GvTagList parentTags = new GvTagList();
         for (int i = 0; i < 3; ++i) {
             GvTagList.GvTag tag = tags.getItem(i);

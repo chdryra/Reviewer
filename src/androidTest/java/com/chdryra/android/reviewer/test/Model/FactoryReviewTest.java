@@ -12,8 +12,8 @@ import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.Model.Author;
 import com.chdryra.android.reviewer.Model.FactoryReview;
-import com.chdryra.android.reviewer.Model.RCollectionReview;
 import com.chdryra.android.reviewer.Model.Review;
+import com.chdryra.android.reviewer.Model.ReviewIdableList;
 import com.chdryra.android.reviewer.Model.ReviewNode;
 import com.chdryra.android.reviewer.Model.UserId;
 import com.chdryra.android.reviewer.View.GvCommentList;
@@ -83,7 +83,7 @@ public class FactoryReviewTest extends TestCase {
 
     @SmallTest
     public void testCreateReviewTree() {
-        RCollectionReview<Review> children = new RCollectionReview<>();
+        ReviewIdableList<Review> children = new ReviewIdableList<>();
         for (int i = 0; i < NUM; ++i) {
             children.add(ReviewMocker.newReview());
         }
@@ -103,7 +103,7 @@ public class FactoryReviewTest extends TestCase {
         assertEquals(mReview.getId(), tree.getId());
         assertNull(tree.getParent());
 
-        RCollectionReview<ReviewNode> childNodes = tree.getChildren();
+        ReviewIdableList<ReviewNode> childNodes = tree.getChildren();
         assertEquals(children.size(), childNodes.size());
         for (int i = 0; i < children.size(); ++i) {
             Review childReview = children.getItem(i);

@@ -19,7 +19,7 @@ import java.util.NoSuchElementException;
  *
  * @param <T>: type that is {@link ReviewId.ReviewIdAble}
  */
-public class RCollectionReview<T extends ReviewId.ReviewIdAble> implements Iterable<T> {
+public class ReviewIdableList<T extends ReviewId.ReviewIdAble> implements Iterable<T> {
     public static final String           NO_ELEMENT    = "No more elements left";
     public static final String           ILLEGAL_STATE = "Have to do at least one next() before " +
             "you can delete";
@@ -46,7 +46,7 @@ public class RCollectionReview<T extends ReviewId.ReviewIdAble> implements Itera
         return mData.containsKey(id);
     }
 
-    public void add(RCollectionReview<T> items) {
+    public void add(ReviewIdableList<T> items) {
         mData.putAll(items.mData);
     }
 
@@ -83,7 +83,7 @@ public class RCollectionReview<T extends ReviewId.ReviewIdAble> implements Itera
         @Override
         public void remove() {
             if (mPosition > 0) {
-                RCollectionReview.this.remove(getId(--mPosition));
+                ReviewIdableList.this.remove(getId(--mPosition));
             } else {
                 throw new IllegalStateException(ILLEGAL_STATE);
             }

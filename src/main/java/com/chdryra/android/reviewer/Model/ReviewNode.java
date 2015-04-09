@@ -22,7 +22,7 @@ public interface ReviewNode extends Review {
 
     public ReviewNode getParent();
 
-    public RCollectionReview<ReviewNode> getChildren();
+    public ReviewIdableList<ReviewNode> getChildren();
 
     public void acceptVisitor(VisitorReviewNode visitor);
 

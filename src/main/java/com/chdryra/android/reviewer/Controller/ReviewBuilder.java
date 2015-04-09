@@ -16,8 +16,8 @@ import com.chdryra.android.mygenerallibrary.FileIncrementor;
 import com.chdryra.android.mygenerallibrary.FileIncrementorFactory;
 import com.chdryra.android.reviewer.Model.Author;
 import com.chdryra.android.reviewer.Model.FactoryReview;
-import com.chdryra.android.reviewer.Model.RCollectionReview;
 import com.chdryra.android.reviewer.Model.Review;
+import com.chdryra.android.reviewer.Model.ReviewIdableList;
 import com.chdryra.android.reviewer.Model.ReviewNode;
 import com.chdryra.android.reviewer.Model.TagsManager;
 import com.chdryra.android.reviewer.View.FactoryGvData;
@@ -146,7 +146,7 @@ public class ReviewBuilder extends ReviewViewAdapterBasic {
         GvTagList tags = (GvTagList) getData(GvTagList.TYPE);
         TagsManager.tag(root, tags);
 
-        RCollectionReview<Review> children = new RCollectionReview<>();
+        ReviewIdableList<Review> children = new ReviewIdableList<>();
         for (ReviewBuilder child : mChildren) {
             Review childReview = child.publish(publishDate);
             TagsManager.tag(childReview, tags);

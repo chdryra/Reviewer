@@ -23,15 +23,15 @@ public class ReviewTreeNode implements ReviewNode {
     private final ReviewId mId;
 
     private final Review                        mReview;
-    private final RCollectionReview<ReviewNode> mChildren;
-    private       ReviewTreeNode                mParent;
+    private final ReviewIdableList<ReviewNode> mChildren;
+    private       ReviewTreeNode               mParent;
 
     private boolean mRatingIsAverage = false;
 
     public ReviewTreeNode(Review root, boolean ratingIsAverage, ReviewId nodeId) {
         mId = nodeId;
         mReview = root;
-        mChildren = new RCollectionReview<>();
+        mChildren = new ReviewIdableList<>();
         mParent = null;
         mRatingIsAverage = ratingIsAverage;
     }
@@ -67,7 +67,7 @@ public class ReviewTreeNode implements ReviewNode {
     }
 
     @Override
-    public RCollectionReview<ReviewNode> getChildren() {
+    public ReviewIdableList<ReviewNode> getChildren() {
         return mChildren;
     }
 

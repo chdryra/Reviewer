@@ -44,7 +44,7 @@ public class ReviewTree implements ReviewNode {
     }
 
     @Override
-    public RCollectionReview<ReviewNode> getChildren() {
+    public ReviewIdableList<ReviewNode> getChildren() {
         return mRoot.getChildren();
     }
 

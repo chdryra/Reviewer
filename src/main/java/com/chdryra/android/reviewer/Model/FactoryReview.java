@@ -58,13 +58,13 @@ public class FactoryReview {
     }
 
     public static ReviewNode createReviewTree(Review review,
-            RCollectionReview<Review> children, boolean isAverage) {
+            ReviewIdableList<Review> children, boolean isAverage) {
 
         return getInstance().newReviewTree(review, children, isAverage);
     }
 
     public static ReviewNode createReviewCollection(Author author, Date publishDate,
-            String subject, RCollectionReview<Review> children) {
+            String subject, ReviewIdableList<Review> children) {
         Review root = createReviewUser(author, publishDate, subject, 0);
         return createReviewTree(root, children, true);
     }
@@ -84,10 +84,10 @@ public class FactoryReview {
     }
 
     private ReviewNode newReviewNode(Review review) {
-        return newReviewTree(review, new RCollectionReview<Review>(), false);
+        return newReviewTree(review, new ReviewIdableList<Review>(), false);
     }
 
-    private ReviewNode newReviewTree(Review root, RCollectionReview<Review> children,
+    private ReviewNode newReviewTree(Review root, ReviewIdableList<Review> children,
             boolean isAverage) {
 
         ReviewTreeNode rootNode = new ReviewTreeNode(root, isAverage);

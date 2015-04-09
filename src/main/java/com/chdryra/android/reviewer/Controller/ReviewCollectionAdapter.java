@@ -18,8 +18,8 @@ import android.graphics.Bitmap;
 
 import com.chdryra.android.reviewer.Model.Author;
 import com.chdryra.android.reviewer.Model.FactoryReview;
-import com.chdryra.android.reviewer.Model.RCollectionReview;
 import com.chdryra.android.reviewer.Model.Review;
+import com.chdryra.android.reviewer.Model.ReviewIdableList;
 import com.chdryra.android.reviewer.Model.ReviewNode;
 import com.chdryra.android.reviewer.View.GvCommentList;
 import com.chdryra.android.reviewer.View.GvDataList;
@@ -30,21 +30,21 @@ import com.chdryra.android.reviewer.View.GvReviewList;
 import java.util.Date;
 
 /**
- * {@link ReviewViewAdapter} for {@link RCollectionReview} data.
+ * {@link ReviewViewAdapter} for {@link ReviewIdableList} data.
  */
 public class ReviewCollectionAdapter extends ReviewViewAdapterBasic {
     private final Author mAuthor;
     private final Date   mPublishDate;
     private final String mTitle;
 
-    private final RCollectionReview<Review> mReviews;
+    private final ReviewIdableList<Review> mReviews;
 
 
     public ReviewCollectionAdapter(Author author, Date date, String title) {
         mAuthor = author;
         mPublishDate = date;
         mTitle = title;
-        mReviews = new RCollectionReview<>();
+        mReviews = new ReviewIdableList<>();
     }
 
     public void add(Review review) {

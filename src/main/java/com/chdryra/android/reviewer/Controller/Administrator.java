@@ -14,7 +14,7 @@ import android.content.Intent;
 
 import com.chdryra.android.mygenerallibrary.ObjectHolder;
 import com.chdryra.android.reviewer.Model.Author;
-import com.chdryra.android.reviewer.Model.RCollectionReview;
+import com.chdryra.android.reviewer.Model.ReviewIdableList;
 import com.chdryra.android.reviewer.Model.UserId;
 import com.chdryra.android.reviewer.View.GvSocialPlatformList;
 import com.chdryra.android.reviewer.View.ImageChooser;
@@ -39,7 +39,7 @@ import java.util.UUID;
  * </ul>
  *
  * @see com.chdryra.android.reviewer.Model.Author
- * @see RCollectionReview
+ * @see ReviewIdableList
  */
 public class Administrator {
     private static final String REVIEWVIEW_ID = "com.chdryra.android.reviewer.review_id";

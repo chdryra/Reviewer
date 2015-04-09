@@ -10,7 +10,7 @@ package com.chdryra.android.reviewer.test.Model;
 
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.Model.RCollectionReview;
+import com.chdryra.android.reviewer.Model.ReviewIdableList;
 import com.chdryra.android.reviewer.Model.ReviewNode;
 import com.chdryra.android.reviewer.Model.VisitorRatingAverageOfChildren;
 import com.chdryra.android.reviewer.test.TestUtils.ReviewMocker;
@@ -30,7 +30,7 @@ public class VisitorRatingAverageOfChildrenTest extends TestCase {
         visitor.visit(node);
 
         float nodeAverage = 0;
-        RCollectionReview<ReviewNode> children = node.getChildren();
+        ReviewIdableList<ReviewNode> children = node.getChildren();
         assertTrue(children.size() > 0);
         for (ReviewNode child : children) {
             nodeAverage += child.getRating().get();
