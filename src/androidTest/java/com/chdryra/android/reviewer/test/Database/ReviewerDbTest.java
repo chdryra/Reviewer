@@ -27,14 +27,21 @@ import com.chdryra.android.reviewer.Model.MdDataList;
 import com.chdryra.android.reviewer.Model.MdFactList;
 import com.chdryra.android.reviewer.Model.MdImageList;
 import com.chdryra.android.reviewer.Model.MdLocationList;
+import com.chdryra.android.reviewer.Model.RCollectionReview;
 import com.chdryra.android.reviewer.Model.Review;
 import com.chdryra.android.reviewer.Model.ReviewNode;
+import com.chdryra.android.reviewer.Model.TagsManager;
+import com.chdryra.android.reviewer.View.GvTagList;
 import com.chdryra.android.reviewer.test.TestUtils.ReviewMocker;
+import com.chdryra.android.testutils.RandomString;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -101,6 +108,60 @@ public class ReviewerDbTest extends AndroidTestCase {
     }
 
     @SmallTest
+    public void testAddReviewToTagsTable() {
+        ReviewerDbContract.ReviewerDbTable table = ReviewerDbContract.TAGS_TABLE;
+
+        int numTags = 5;
+        Map<String, ArrayList<String>> tagsMap = new HashMap<>();
+        GvTagList tags = new GvTagList();
+        for (int i = 0; i < numTags; ++i) {
+            String tag = RandomString.nextWord();
+            tags.add(new GvTagList.GvTag(tag));
+            tagsMap.put(tag, new ArrayList<String>());
+        }
+
+        ReviewNode parent = mNode.getParent();
+        RCollectionReview<ReviewNode> children = mNode.getChildren();
+        GvTagList parentTags = new GvTagList();
+        for (int i = 0; i < 3; ++i) {
+            GvTagList.GvTag tag = tags.getItem(i);
+            parentTags.add(tag);
+            tagsMap.get(tag.get()).add(parent.getReview().getId().toString());
+        }
+        GvTagList nodeTags = new GvTagList();
+        for (int i = 1; i < 4; ++i) {
+            GvTagList.GvTag tag = tags.getItem(i);
+            nodeTags.add(tag);
+            tagsMap.get(tag.get()).add(mNode.getReview().getId().toString());
+        }
+        GvTagList childrenTags = new GvTagList();
+        for (int i = 2; i < 5; ++i) {
+            GvTagList.GvTag tag = tags.getItem(i);
+            childrenTags.add(tag);
+            for (ReviewNode child : children) {
+                tagsMap.get(tag.get()).add(child.getReview().getId().toString());
+            }
+        }
+
+        TagsManager.tag(parent.getReview(), parentTags);
+        assertEquals(3, TagsManager.getTags(parent.getReview()).size());
+        TagsManager.tag(mNode.getReview(), nodeTags);
+        assertEquals(3, TagsManager.getTags(mNode.getReview()).size());
+        for (ReviewNode child : children) {
+            TagsManager.tag(child.getReview(), childrenTags);
+            assertEquals(3, TagsManager.getTags(child.getReview()).size());
+        }
+
+        assertEquals(0, getNumberRows(table));
+        mDatabase.addReviewNodeToDb(mNode);
+        assertEquals(tags.size(), getNumberRows(table));
+
+        for (GvTagList.GvTag tag : tags) {
+            testTag(tag.get(), tagsMap.get(tag.get()));
+        }
+    }
+
+    @SmallTest
     public void testAddReviewToCommentsTable() {
         testAddReviewToTable(ConfigDb.DbData.COMMENTS);
     }
@@ -130,6 +191,18 @@ public class ReviewerDbTest extends AndroidTestCase {
     @Override
     protected void tearDown() throws Exception {
         deleteDatabaseIfNecessary();
+    }
+
+    private void testTag(String tag, ArrayList<String> tagReviews) {
+        ContentValues vals = getRowVals(ConfigDb.DbData.TAGS, tag);
+        String rowTag = (String) vals.get(ReviewerDbRow.TagsRow.TAG);
+        String csvReviews = (String) vals.get(ReviewerDbRow.TagsRow.REVIEWS);
+        ArrayList<String> rowReviews = new ArrayList<>();
+        rowReviews.addAll(Arrays.asList(csvReviews.split(",")));
+
+        assertEquals(tag, rowTag);
+        assertEquals(tagReviews.size(), rowReviews.size());
+        assertEquals(tagReviews, rowReviews);
     }
 
     private void testAddReviewToTable(ConfigDb.DbData tableType) {

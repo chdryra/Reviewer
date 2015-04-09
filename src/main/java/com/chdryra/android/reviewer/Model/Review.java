@@ -41,7 +41,7 @@ import java.util.Date;
  * @see ReviewNode
  */
 
-public interface Review extends ReviewId.RDIdAble {
+public interface Review extends ReviewId.ReviewIdAble {
 
     //Core data
     @Override

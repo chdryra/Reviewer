@@ -30,7 +30,7 @@ import com.chdryra.android.reviewer.View.GvReviewList;
 import java.util.Date;
 
 /**
- * {@link ReviewViewAdapter} for {@link com.chdryra.android.reviewer.Model.RCollectionReview} data.
+ * {@link ReviewViewAdapter} for {@link RCollectionReview} data.
  */
 public class ReviewCollectionAdapter extends ReviewViewAdapterBasic {
     private final Author mAuthor;

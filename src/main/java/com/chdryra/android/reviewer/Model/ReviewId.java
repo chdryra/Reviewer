@@ -28,7 +28,7 @@ public class ReviewId implements MdData {
     /**
      * To facilitate RCollectionReview
      */
-    public interface RDIdAble {
+    public interface ReviewIdAble {
         public ReviewId getId();
     }
 

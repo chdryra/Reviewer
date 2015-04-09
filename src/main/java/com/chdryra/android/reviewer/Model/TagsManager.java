@@ -49,6 +49,13 @@ public class TagsManager {
         }
     }
 
+    //TODO what about ReviewNodes with unique IDs?
+    public static void tag(ReviewNode node, GvTagList tags) {
+        for (GvTagList.GvTag tag : tags) {
+            getManager().tag(node.getReview(), tag.get());
+        }
+    }
+
     private static ReviewTagCollection getTags() {
         return getManager().mTags;
     }
@@ -173,8 +180,7 @@ public class TagsManager {
             public void remove() {
                 if (position <= 0) {
                     throw new IllegalStateException("Have to do at least one next() before you " +
-                            "can " +
-                            "delete");
+                            "can delete");
                 } else {
                     ReviewTagCollection.this.remove(getItem(position));
                 }
