@@ -113,16 +113,15 @@ public class ReviewerDb {
 
     public Review getReviewFromDb(String reviewId) {
         SQLiteDatabase db = mHelper.getReadableDatabase();
-        DbTableDef.DbColumnDef col = REVIEWS.getColumn(COLUMN_NAME_REVIEW_ID);
 
+        DbTableDef.DbColumnDef col = REVIEWS.getColumn(COLUMN_NAME_REVIEW_ID);
         RowReview reviewRow = getRowWhere(db, REVIEWS, col, reviewId);
         ContentValues values = reviewRow.getContentValues();
 
         String subject = values.getAsString(RowReview.SUBJECT);
-        float rating = values.getAsLong(RowReview.RATING);
+        float rating = values.getAsFloat(RowReview.RATING);
         ReviewId id = ReviewId.fromString(values.getAsString(RowReview.REVIEW_ID));
         Date publishDate = new Date(values.getAsLong(RowReview.PUBLISH_DATE));
-
         String userId = values.getAsString(RowReview.AUTHOR_ID);
         col = AUTHORS.getColumn(RowAuthor.USER_ID);
         RowAuthor authorRow = getRowWhere(db, AUTHORS, col, userId);

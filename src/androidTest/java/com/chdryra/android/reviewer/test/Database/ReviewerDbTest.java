@@ -190,6 +190,14 @@ public class ReviewerDbTest extends AndroidTestCase {
         testAddReviewToTable(ConfigDb.DbData.FACTS);
     }
 
+    @SmallTest
+    public void testGetReviewFromDb() {
+        mDatabase.addReviewTreeToDb(mNode);
+        Review review = mNode.getReview();
+        Review reviewDb = mDatabase.getReviewFromDb(review.getId().toString());
+        assertEquals(review, reviewDb);
+    }
+
     @Override
     protected void setUp() throws Exception {
         mDatabase = ReviewerDb.getTestDatabase(getContext());

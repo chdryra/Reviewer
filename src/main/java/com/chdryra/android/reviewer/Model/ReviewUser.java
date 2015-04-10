@@ -27,8 +27,6 @@ import java.util.Date;
  * review data. The review in leaf nodes in a tree.
  */
 public class ReviewUser implements Review {
-    private final ReviewNode mNode;
-
     private final ReviewId  mId;
     private final Author    mAuthor;
     private final Date      mPublishDate;
@@ -55,8 +53,6 @@ public class ReviewUser implements Review {
         mImages = MdGvConverter.toMdImageList(images, mId);
         mFacts = MdGvConverter.toMdFactList(facts, mId);
         mLocations = MdGvConverter.toMdLocationList(locations, mId);
-
-        mNode = FactoryReview.createReviewNode(this);
     }
 
     public ReviewUser(ReviewId id, Author author, Date publishDate, String subject, float rating) {
@@ -70,8 +66,6 @@ public class ReviewUser implements Review {
         mImages = new MdImageList(mId);
         mFacts = new MdFactList(mId);
         mLocations = new MdLocationList(mId);
-
-        mNode = FactoryReview.createReviewNode(this);
     }
 
     @Override
@@ -137,5 +131,38 @@ public class ReviewUser implements Review {
     @Override
     public boolean hasLocations() {
         return mLocations.size() > 0;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ReviewUser)) return false;
+
+        ReviewUser that = (ReviewUser) o;
+
+        if (!mId.equals(that.mId)) return false;
+        if (!mAuthor.equals(that.mAuthor)) return false;
+        if (!mPublishDate.equals(that.mPublishDate)) return false;
+        if (!mSubject.equals(that.mSubject)) return false;
+        if (!mRating.equals(that.mRating)) return false;
+        if (!mComments.equals(that.mComments)) return false;
+        if (!mImages.equals(that.mImages)) return false;
+        if (!mFacts.equals(that.mFacts)) return false;
+        return mLocations.equals(that.mLocations);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = mId.hashCode();
+        result = 31 * result + mAuthor.hashCode();
+        result = 31 * result + mPublishDate.hashCode();
+        result = 31 * result + mSubject.hashCode();
+        result = 31 * result + mRating.hashCode();
+        result = 31 * result + mComments.hashCode();
+        result = 31 * result + mImages.hashCode();
+        result = 31 * result + mFacts.hashCode();
+        result = 31 * result + mLocations.hashCode();
+        return result;
     }
 }
