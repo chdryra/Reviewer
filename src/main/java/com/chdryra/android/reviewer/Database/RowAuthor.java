@@ -13,6 +13,7 @@ import android.database.Cursor;
 
 import com.chdryra.android.reviewer.Controller.DataValidator;
 import com.chdryra.android.reviewer.Model.Author;
+import com.chdryra.android.reviewer.Model.UserId;
 
 /**
  * Created by: Rizwan Choudrey
@@ -61,5 +62,9 @@ public class RowAuthor implements ReviewerDbRow.TableRow {
     @Override
     public boolean hasData() {
         return DataValidator.validateString(getRowId());
+    }
+
+    public Author toAuthor() {
+        return new Author(mName, UserId.fromString(mUserId));
     }
 }

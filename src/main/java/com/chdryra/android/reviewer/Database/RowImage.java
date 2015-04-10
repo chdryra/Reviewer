@@ -11,27 +11,32 @@ package com.chdryra.android.reviewer.Database;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 
 import com.chdryra.android.reviewer.Controller.DataValidator;
 import com.chdryra.android.reviewer.Model.MdImageList;
+import com.chdryra.android.reviewer.Model.ReviewId;
 
 import java.io.ByteArrayOutputStream;
+import java.util.Date;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 09/04/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class RowImage implements ReviewerDbRow.TableRow {
+public class RowImage implements MdDataRow<MdImageList.MdImage> {
     public static String IMAGE_ID  = ReviewerDbContract.TableImages.COLUMN_NAME_IMAGE_ID;
     public static String REVIEW_ID = ReviewerDbContract.TableImages.COLUMN_NAME_REVIEW_ID;
     public static String BITMAP    = ReviewerDbContract.TableImages.COLUMN_NAME_BITMAP;
+    public static String DATE = ReviewerDbContract.TableImages.COLUMN_NAME_IMAGE_DATE;
     public static String CAPTION   = ReviewerDbContract.TableImages.COLUMN_NAME_CAPTION;
     public static String IS_COVER  = ReviewerDbContract.TableImages.COLUMN_NAME_IS_COVER;
 
     private String  mImageId;
     private String  mReviewId;
     private byte[]  mBitmap;
+    private long mDate;
     private String  mCaption;
     private boolean mIsCover;
 
@@ -43,6 +48,7 @@ public class RowImage implements ReviewerDbRow.TableRow {
         mImageId = mReviewId + ReviewerDbRow.SEPARATOR + "i" + String.valueOf(index);
         mCaption = image.getCaption();
         mIsCover = image.isCover();
+        mDate = image.getDate().getTime();
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         image.getBitmap().compress(Bitmap.CompressFormat.PNG, 100, bos);
         mBitmap = bos.toByteArray();
@@ -52,6 +58,7 @@ public class RowImage implements ReviewerDbRow.TableRow {
         mImageId = cursor.getString(cursor.getColumnIndexOrThrow(IMAGE_ID));
         mReviewId = cursor.getString(cursor.getColumnIndexOrThrow(REVIEW_ID));
         mBitmap = cursor.getBlob(cursor.getColumnIndexOrThrow(BITMAP));
+        mDate = cursor.getLong(cursor.getColumnIndexOrThrow(DATE));
         mCaption = cursor.getString(cursor.getColumnIndexOrThrow(CAPTION));
         mIsCover = cursor.getInt(cursor.getColumnIndexOrThrow(IS_COVER)) == 1;
     }
@@ -72,6 +79,7 @@ public class RowImage implements ReviewerDbRow.TableRow {
         values.put(IMAGE_ID, mImageId);
         values.put(REVIEW_ID, mReviewId);
         values.put(BITMAP, mBitmap);
+        values.put(DATE, mDate);
         values.put(CAPTION, mCaption);
         values.put(IS_COVER, mIsCover);
 
@@ -81,5 +89,13 @@ public class RowImage implements ReviewerDbRow.TableRow {
     @Override
     public boolean hasData() {
         return DataValidator.validateString(getRowId());
+    }
+
+    @Override
+    public MdImageList.MdImage toMdData() {
+        Bitmap bitmap = BitmapFactory.decodeByteArray(mBitmap, 0, mBitmap.length);
+        Date date = new Date(mDate);
+        ReviewId id = ReviewId.fromString(mReviewId);
+        return new MdImageList.MdImage(bitmap, date, mCaption, mIsCover, id);
     }
 }

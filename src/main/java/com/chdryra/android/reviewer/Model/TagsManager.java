@@ -35,7 +35,7 @@ public class TagsManager {
     }
 
     public static ReviewTagCollection getTags(Review review) {
-        ReviewTagCollection tags = new ReviewTagCollection();
+        ReviewTagCollection tags = getManager().new ReviewTagCollection();
         for (ReviewTag tag : getTags()) {
             if (tag.tagsReview(review)) tags.add(tag);
         }
@@ -73,7 +73,7 @@ public class TagsManager {
      * Wraps a string plus a collection of reviews tagged with that string. Comparable with
      * another ReviewTag alphabetically.
      */
-    public static class ReviewTag implements Comparable<ReviewTag> {
+    public class ReviewTag implements Comparable<ReviewTag> {
         private final ArrayList<ReviewId> mReviews;
         private final String              mTag;
 
@@ -117,7 +117,7 @@ public class TagsManager {
     /**
      * Iterable collection of ReviewTags.
      */
-    public static class ReviewTagCollection implements Iterable<ReviewTag> {
+    public class ReviewTagCollection implements Iterable<ReviewTag> {
         private final ArrayList<ReviewTag> mTags;
 
         private ReviewTagCollection() {

@@ -17,7 +17,7 @@ import java.util.ArrayList;
  */
 
 public final class ReviewerDbContract implements DbContract {
-    public static final String                         COL_REVIEW_ID   = "review_id";
+    public static final String                         NAME_REVIEW_ID  = "review_id";
     public static final ReviewerDbTable<RowReview>     REVIEWS_TABLE   = TableReviews.get();
     public static final ReviewerDbTable<RowReviewNode> TREES_TABLE     = TableReviewTrees.get();
     public static final ReviewerDbTable<RowComment>    COMMENTS_TABLE  = TableComments.get();
@@ -65,11 +65,11 @@ public final class ReviewerDbContract implements DbContract {
 
     public static class TableReviews extends ReviewerDbTable<RowReview> {
         public static final String TABLE_NAME               = "Reviews";
-        public static final String COLUMN_NAME_REVIEW_ID = COL_REVIEW_ID;
-        public static final String COLUMN_NAME_AUTHOR_ID    = "author_id";
+        public static final String COLUMN_NAME_REVIEW_ID = NAME_REVIEW_ID;
+        public static final String COLUMN_NAME_AUTHOR_ID = "author_id";
         public static final String COLUMN_NAME_PUBLISH_DATE = "publish_date";
-        public static final String COLUMN_NAME_SUBJECT      = "subject";
-        public static final String COLUMN_NAME_RATING       = "rating";
+        public static final String COLUMN_NAME_SUBJECT = "subject";
+        public static final String COLUMN_NAME_RATING = "rating";
 
         private static TableReviews sTable;
 
@@ -92,7 +92,7 @@ public final class ReviewerDbContract implements DbContract {
     public static class TableReviewTrees extends ReviewerDbTable<RowReviewNode> {
         public static final String TABLE_NAME                    = "ReviewTrees";
         public static final String COLUMN_NAME_REVIEW_NODE_ID    = "review_node_id";
-        public static final String COLUMN_NAME_REVIEW_ID = COL_REVIEW_ID;
+        public static final String COLUMN_NAME_REVIEW_ID         = NAME_REVIEW_ID;
         public static final String COLUMN_NAME_PARENT_NODE_ID    = "parent_node_id";
         public static final String COLUMN_NAME_RATING_IS_AVERAGE = "is_average";
 
@@ -117,7 +117,7 @@ public final class ReviewerDbContract implements DbContract {
     public static class TableComments extends ReviewerDbTable<RowComment> {
         public static final String TABLE_NAME              = "Comments";
         public static final String COLUMN_NAME_COMMENT_ID  = "comment_id";
-        public static final String COLUMN_NAME_REVIEW_ID = COL_REVIEW_ID;
+        public static final String COLUMN_NAME_REVIEW_ID   = NAME_REVIEW_ID;
         public static final String COLUMN_NAME_COMMENT     = "comment";
         public static final String COLUMN_NAME_IS_HEADLINE = "is_headline";
 
@@ -141,7 +141,7 @@ public final class ReviewerDbContract implements DbContract {
     public static class TableFacts extends ReviewerDbTable<RowFact> {
         public static final String TABLE_NAME            = "Facts";
         public static final String COLUMN_NAME_FACT_ID   = "fact_id";
-        public static final String COLUMN_NAME_REVIEW_ID = COL_REVIEW_ID;
+        public static final String COLUMN_NAME_REVIEW_ID = NAME_REVIEW_ID;
         public static final String COLUMN_NAME_LABEL     = "label";
         public static final String COLUMN_NAME_VALUE     = "value";
         public static final String COLUMN_NAME_IS_URL    = "is_url";
@@ -167,7 +167,7 @@ public final class ReviewerDbContract implements DbContract {
     public static class TableLocations extends ReviewerDbTable<RowLocation> {
         public static final String TABLE_NAME              = "Locations";
         public static final String COLUMN_NAME_LOCATION_ID = "location_id";
-        public static final String COLUMN_NAME_REVIEW_ID = COL_REVIEW_ID;
+        public static final String COLUMN_NAME_REVIEW_ID   = NAME_REVIEW_ID;
         public static final String COLUMN_NAME_LATITUDE    = "latitude";
         public static final String COLUMN_NAME_LONGITUDE   = "longitude";
         public static final String COLUMN_NAME_NAME        = "name";
@@ -193,8 +193,9 @@ public final class ReviewerDbContract implements DbContract {
     public static class TableImages extends ReviewerDbTable<RowImage> {
         public static final String TABLE_NAME            = "Images";
         public static final String COLUMN_NAME_IMAGE_ID  = "image_id";
-        public static final String COLUMN_NAME_REVIEW_ID = COL_REVIEW_ID;
+        public static final String COLUMN_NAME_REVIEW_ID = NAME_REVIEW_ID;
         public static final String COLUMN_NAME_BITMAP    = "bitmap";
+        public static final String COLUMN_NAME_IMAGE_DATE   = "image_date";
         public static final String COLUMN_NAME_CAPTION   = "caption";
         public static final String COLUMN_NAME_IS_COVER  = "is_cover";
 
@@ -205,6 +206,7 @@ public final class ReviewerDbContract implements DbContract {
             addPrimaryKey(COLUMN_NAME_IMAGE_ID, SQL.StorageType.TEXT);
             addColumn(COLUMN_NAME_REVIEW_ID, SQL.StorageType.TEXT, SQL.Nullable.FALSE);
             addColumn(COLUMN_NAME_BITMAP, SQL.StorageType.BLOB, SQL.Nullable.FALSE);
+            addColumn(COLUMN_NAME_IMAGE_DATE, SQL.StorageType.REAL, SQL.Nullable.TRUE);
             addColumn(COLUMN_NAME_CAPTION, SQL.StorageType.TEXT, SQL.Nullable.TRUE);
             addColumn(COLUMN_NAME_IS_COVER, SQL.StorageType.INTEGER, SQL.Nullable.FALSE);
             addForeignKeyConstraint(new String[]{COLUMN_NAME_REVIEW_ID}, REVIEWS_TABLE);

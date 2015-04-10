@@ -13,13 +13,15 @@ import android.database.Cursor;
 
 import com.chdryra.android.reviewer.Controller.DataValidator;
 import com.chdryra.android.reviewer.Model.MdLocationList;
+import com.chdryra.android.reviewer.Model.ReviewId;
+import com.google.android.gms.maps.model.LatLng;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 09/04/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class RowLocation implements ReviewerDbRow.TableRow {
+public class RowLocation implements MdDataRow<MdLocationList.MdLocation> {
     public static String LOCATION_ID = ReviewerDbContract.TableLocations
             .COLUMN_NAME_LOCATION_ID;
     public static String REVIEW_ID   = ReviewerDbContract.TableLocations.COLUMN_NAME_REVIEW_ID;
@@ -78,5 +80,12 @@ public class RowLocation implements ReviewerDbRow.TableRow {
     @Override
     public boolean hasData() {
         return DataValidator.validateString(getRowId());
+    }
+
+    @Override
+    public MdLocationList.MdLocation toMdData() {
+        LatLng latlng = new LatLng(mLatitude, mLongitude);
+        ReviewId id = ReviewId.fromString(mReviewId);
+        return new MdLocationList.MdLocation(latlng, mName, id);
     }
 }

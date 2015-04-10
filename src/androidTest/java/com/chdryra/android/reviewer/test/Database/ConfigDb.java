@@ -10,6 +10,7 @@ package com.chdryra.android.reviewer.test.Database;
 
 import com.chdryra.android.reviewer.Database.ReviewerDbContract;
 import com.chdryra.android.reviewer.Database.ReviewerDbRow;
+import com.chdryra.android.reviewer.Database.ReviewerDbTable;
 import com.chdryra.android.reviewer.Database.RowAuthor;
 import com.chdryra.android.reviewer.Database.RowComment;
 import com.chdryra.android.reviewer.Database.RowFact;
@@ -79,18 +80,18 @@ public class ConfigDb {
     }
 
     public class Config {
-        private ReviewerDbContract.ReviewerDbTable      mTable;
+        private ReviewerDbTable mTable;
         private String                                  mPkColumn;
         private Class<? extends ReviewerDbRow.TableRow> mRowClass;
 
-        private Config(ReviewerDbContract.ReviewerDbTable table, String pkColumn,
+        private Config(ReviewerDbTable table, String pkColumn,
                 Class<? extends ReviewerDbRow.TableRow> rowClass) {
             mTable = table;
             mPkColumn = pkColumn;
             mRowClass = rowClass;
         }
 
-        public ReviewerDbContract.ReviewerDbTable getTable() {
+        public ReviewerDbTable getTable() {
             return mTable;
         }
 

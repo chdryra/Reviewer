@@ -82,7 +82,9 @@ public class MdFactList extends MdDataList<MdFactList.MdFact> {
             if (mValue != null ? !mValue.equals(mdFact.mValue) : mdFact.mValue != null) {
                 return false;
             }
-
+            if (isUrl() != mdFact.isUrl()) {
+                return false;
+            }
             return true;
         }
 

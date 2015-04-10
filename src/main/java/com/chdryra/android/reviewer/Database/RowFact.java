@@ -25,7 +25,7 @@ import java.net.URL;
  * On: 09/04/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class RowFact implements ReviewerDbRow.TableRow {
+public class RowFact implements MdDataRow<MdFactList.MdFact> {
     public static String FACT_ID   = ReviewerDbContract.TableFacts.COLUMN_NAME_FACT_ID;
     public static String REVIEW_ID = ReviewerDbContract.TableFacts.COLUMN_NAME_REVIEW_ID;
     public static String LABEL     = ReviewerDbContract.TableFacts.COLUMN_NAME_LABEL;

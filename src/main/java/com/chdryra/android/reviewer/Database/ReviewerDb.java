@@ -8,6 +8,7 @@
 
 package com.chdryra.android.reviewer.Database;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
@@ -15,18 +16,22 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import com.chdryra.android.reviewer.Model.Author;
 import com.chdryra.android.reviewer.Model.MdCommentList;
 import com.chdryra.android.reviewer.Model.MdData;
 import com.chdryra.android.reviewer.Model.MdDataList;
 import com.chdryra.android.reviewer.Model.MdFactList;
 import com.chdryra.android.reviewer.Model.MdImageList;
 import com.chdryra.android.reviewer.Model.MdLocationList;
+import com.chdryra.android.reviewer.Model.Review;
 import com.chdryra.android.reviewer.Model.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewNode;
+import com.chdryra.android.reviewer.Model.ReviewUser;
 import com.chdryra.android.reviewer.Model.TagsManager;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Date;
 
 /**
  * Created by: Rizwan Choudrey
@@ -34,13 +39,31 @@ import java.lang.reflect.InvocationTargetException;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ReviewerDb {
-    private static final String             TAG            = "ReviewerDb";
-    private static final String             DATABASE_NAME  = "Reviewer.db";
-    private static final int                VERSION_NUMBER = 1;
+    private static final String                         TAG                   = "ReviewerDb";
+    private static final String                         DATABASE_NAME         = "Reviewer.db";
+    private static final int                            VERSION_NUMBER        = 1;
+    private static final ReviewerDbTable<RowReview>     REVIEWS               =
+            ReviewerDbContract.REVIEWS_TABLE;
+    private static final ReviewerDbTable<RowReviewNode> TREES                 =
+            ReviewerDbContract.TREES_TABLE;
+    private static final ReviewerDbTable<RowComment>    COMMENTS              =
+            ReviewerDbContract.COMMENTS_TABLE;
+    private static final ReviewerDbTable<RowFact>       FACTS                 =
+            ReviewerDbContract.FACTS_TABLE;
+    private static final ReviewerDbTable<RowLocation>   LOCATIONS             =
+            ReviewerDbContract.LOCATIONS_TABLE;
+    private static final ReviewerDbTable<RowImage>      IMAGES                =
+            ReviewerDbContract.IMAGES_TABLE;
+    private static final ReviewerDbTable<RowAuthor>     AUTHORS               =
+            ReviewerDbContract.AUTHORS_TABLE;
+    private static final ReviewerDbTable<RowTag>        TAGS                  =
+            ReviewerDbContract.TAGS_TABLE;
+    private static final String                         COLUMN_NAME_REVIEW_ID =
+            ReviewerDbContract.NAME_REVIEW_ID;
 
     private static ReviewerDb       sDatabase;
     private SQLiteOpenHelper mHelper;
-    private String mDatabaseName;
+    private String           mDatabaseName;
 
     private ReviewerDb(Context context, String databaseName) {
         mDatabaseName = databaseName;
@@ -88,7 +111,37 @@ public class ReviewerDb {
         return getRowWhere(mHelper.getReadableDatabase(), table, idCol, id);
     }
 
-    public <T extends ReviewerDbRow.TableRow> T getRowWhere(SQLiteDatabase db,
+    public Review getReviewFromDb(String reviewId) {
+        SQLiteDatabase db = mHelper.getReadableDatabase();
+        DbTableDef.DbColumnDef col = REVIEWS.getColumn(COLUMN_NAME_REVIEW_ID);
+
+        RowReview reviewRow = getRowWhere(db, REVIEWS, col, reviewId);
+        ContentValues values = reviewRow.getContentValues();
+
+        String subject = values.getAsString(RowReview.SUBJECT);
+        float rating = values.getAsLong(RowReview.RATING);
+        ReviewId id = ReviewId.fromString(values.getAsString(RowReview.REVIEW_ID));
+        Date publishDate = new Date(values.getAsLong(RowReview.PUBLISH_DATE));
+
+        String userId = values.getAsString(RowReview.AUTHOR_ID);
+        col = AUTHORS.getColumn(RowAuthor.USER_ID);
+        RowAuthor authorRow = getRowWhere(db, AUTHORS, col, userId);
+        Author author = authorRow.toAuthor();
+
+        MdCommentList comments = getFromDataTable(db, COMMENTS, reviewId, MdCommentList.class);
+        MdFactList facts = getFromDataTable(db, FACTS, reviewId, MdFactList.class);
+        MdLocationList locations = getFromDataTable(db, LOCATIONS, reviewId, MdLocationList.class);
+        MdImageList images = getFromDataTable(db, IMAGES, reviewId, MdImageList.class);
+
+        Review review = new ReviewUser(id, author, publishDate, subject, rating, comments,
+                images, facts, locations);
+
+        db.close();
+
+        return review;
+    }
+
+    private <T extends ReviewerDbRow.TableRow> T getRowWhere(SQLiteDatabase db,
             ReviewerDbTable<T> table, DbTableDef.DbColumnDef idCol, String id) {
         Cursor cursor = getRowFromTableWhere(db, table.getName(), idCol.getName(), id);
 
@@ -103,51 +156,12 @@ public class ReviewerDb {
         return row;
     }
 
-    public <T extends ReviewerDbRow.TableRow> TableRowList<T> getRowsForReviewId
-            (ReviewerDbTable<T> table, String reviewId) {
-        return getRowsForReviewId(mHelper.getReadableDatabase(), table, reviewId);
-    }
-
-    private void getReviewFromDb(String reviewId) {
-        SQLiteDatabase db = mHelper.getReadableDatabase();
-        String reviewIdCol = ReviewerDbContract.COL_REVIEW_ID;
-
-        ReviewerDbTable<RowReview> reviewsTable = ReviewerDbContract.REVIEWS_TABLE;
-        DbTableDef.DbColumnDef col = reviewsTable.getColumn(reviewIdCol);
-
-        RowReview reviewRow = getRowWhere(reviewsTable, col, reviewId);
-
-
-    }
-
-    private MdCommentList getFromCommentsTable(SQLiteDatabase db, String reviewId) {
-        TableRowList<RowComment> commentsDb = getRowsForReviewId(db, ReviewerDbContract
-                .COMMENTS_TABLE, reviewId);
-        MdCommentList comments = new MdCommentList(ReviewId.fromString(reviewId));
-        for (RowComment commentDb : commentsDb) {
-            comments.add(commentDb.toMdData());
-        }
-
-        return comments;
-    }
-
-    private MdFactList getFromFactsTable(SQLiteDatabase db, String reviewId) {
-        TableRowList<RowFact> factsDb = getRowsForReviewId(db, ReviewerDbContract
-                .FACTS_TABLE, reviewId);
-        MdFactList facts = new MdFactList(ReviewId.fromString(reviewId));
-        for (RowFact factDb : factsDb) {
-            facts.add(factDb.toMdData());
-        }
-
-        return facts;
-    }
-
-    private <T1 extends MdData, T2 extends MdDataRow<T1>> MdDataList<T1>
-    getFromDataTable(ReviewerDbTable<T2> table, SQLiteDatabase db, String reviewId, Class<?
-            extends MdDataList<T1>> listClass) {
-        TableRowList<T2> rows = getRowsForReviewId(db, table, reviewId);
-        MdDataList<T1> dataList = newMdList(listClass, reviewId);
-        for (T2 row : rows) {
+    private <T1 extends MdData, T2 extends MdDataList<T1>, T3 extends MdDataRow<T1>> T2
+    getFromDataTable(SQLiteDatabase db, ReviewerDbTable<T3> table, String reviewId, Class<T2>
+            listClass) {
+        TableRowList<T3> rows = getRowsForReviewId(db, table, reviewId);
+        T2 dataList = newMdList(listClass, reviewId);
+        for (T3 row : rows) {
             dataList.add(row.toMdData());
         }
 
@@ -156,8 +170,7 @@ public class ReviewerDb {
 
     private <T extends ReviewerDbRow.TableRow> TableRowList<T> getRowsForReviewId(SQLiteDatabase db,
             ReviewerDbTable<T> table, String reviewId) {
-        Cursor cursor = getFromTableWhere(db, table.getName(), ReviewerDbContract
-                .COL_REVIEW_ID, reviewId);
+        Cursor cursor = getFromTableWhere(db, table.getName(), COLUMN_NAME_REVIEW_ID, reviewId);
 
         TableRowList<T> list = new TableRowList<>(table.getRowClass());
         if (cursor == null || cursor.getCount() == 0) {
@@ -209,49 +222,49 @@ public class ReviewerDb {
     }
 
     private void addToAuthorsTable(ReviewNode node, SQLiteDatabase db) {
-        insertRow(ReviewerDbRow.newRow(node.getAuthor()), ReviewerDbContract.AUTHORS_TABLE, db);
+        insertRow(ReviewerDbRow.newRow(node.getAuthor()), AUTHORS, db);
     }
 
     private void addToTagsTable(ReviewNode node, SQLiteDatabase db) {
         TagsManager.ReviewTagCollection tags = TagsManager.getTags(node);
         for (TagsManager.ReviewTag tag : tags) {
-            insertOrReplaceRow(ReviewerDbRow.newRow(tag), ReviewerDbContract.TAGS_TABLE, db);
+            insertOrReplaceRow(ReviewerDbRow.newRow(tag), TAGS, db);
         }
     }
 
     private void addToReviewsTable(ReviewNode node, SQLiteDatabase db) {
-        insertRow(ReviewerDbRow.newRow(node.getReview()), ReviewerDbContract.REVIEWS_TABLE, db);
+        insertRow(ReviewerDbRow.newRow(node.getReview()), REVIEWS, db);
     }
 
     private void addToReviewTreesTable(ReviewNode node, SQLiteDatabase db) {
-        insertRow(ReviewerDbRow.newRow(node), ReviewerDbContract.TREES_TABLE, db);
+        insertRow(ReviewerDbRow.newRow(node), TREES, db);
     }
 
     private void addToCommentsTable(ReviewNode node, SQLiteDatabase db) {
         int i = 1;
         for (MdCommentList.MdComment datum : node.getReview().getComments()) {
-            insertRow(ReviewerDbRow.newRow(datum, i++), ReviewerDbContract.COMMENTS_TABLE, db);
+            insertRow(ReviewerDbRow.newRow(datum, i++), COMMENTS, db);
         }
     }
 
     private void addToFactsTable(ReviewNode node, SQLiteDatabase db) {
         int i = 1;
         for (MdFactList.MdFact datum : node.getReview().getFacts()) {
-            insertRow(ReviewerDbRow.newRow(datum, i++), ReviewerDbContract.FACTS_TABLE, db);
+            insertRow(ReviewerDbRow.newRow(datum, i++), FACTS, db);
         }
     }
 
     private void addToLocationsTable(ReviewNode node, SQLiteDatabase db) {
         int i = 1;
         for (MdLocationList.MdLocation datum : node.getReview().getLocations()) {
-            insertRow(ReviewerDbRow.newRow(datum, i++), ReviewerDbContract.LOCATIONS_TABLE, db);
+            insertRow(ReviewerDbRow.newRow(datum, i++), LOCATIONS, db);
         }
     }
 
     private void addToImagesTable(ReviewNode node, SQLiteDatabase db) {
         int i = 1;
         for (MdImageList.MdImage datum : node.getReview().getImages()) {
-            insertRow(ReviewerDbRow.newRow(datum, i++), ReviewerDbContract.IMAGES_TABLE, db);
+            insertRow(ReviewerDbRow.newRow(datum, i++), IMAGES, db);
         }
     }
 
@@ -293,12 +306,8 @@ public class ReviewerDb {
     }
 
     private boolean isReviewInDb(ReviewNode node, SQLiteDatabase db) {
-        ReviewerDbTable table = ReviewerDbContract.REVIEWS_TABLE;
-        DbTableDef.DbColumnDef idCol = table.getColumn(ReviewerDbContract.TableReviews
-                .COLUMN_NAME_REVIEW_ID);
-        String id = node.getReview().getId().toString();
-
-        return isIdInTable(id, idCol, table, db);
+        DbTableDef.DbColumnDef reviewIdCol = REVIEWS.getColumn(COLUMN_NAME_REVIEW_ID);
+        return isIdInTable(node.getReview().getId().toString(), reviewIdCol, REVIEWS, db);
     }
 
     private boolean isIdInTable(String id, DbTableDef.DbColumnDef idCol, ReviewerDbTable table,
@@ -316,7 +325,7 @@ public class ReviewerDb {
         return hasRow;
     }
 
-    private <T extends MdData> MdDataList<T> newMdList(Class<? extends MdDataList<T>> listClass,
+    private <T1 extends MdData, T2 extends MdDataList<T1>> T2 newMdList(Class<T2> listClass,
             String reviewId) {
         ReviewId id = ReviewId.fromString(reviewId);
         try {

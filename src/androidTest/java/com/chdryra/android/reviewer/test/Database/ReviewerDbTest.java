@@ -20,6 +20,7 @@ import com.chdryra.android.reviewer.Database.DbTableDef;
 import com.chdryra.android.reviewer.Database.ReviewerDb;
 import com.chdryra.android.reviewer.Database.ReviewerDbContract;
 import com.chdryra.android.reviewer.Database.ReviewerDbRow;
+import com.chdryra.android.reviewer.Database.ReviewerDbTable;
 import com.chdryra.android.reviewer.Database.RowAuthor;
 import com.chdryra.android.reviewer.Database.RowComment;
 import com.chdryra.android.reviewer.Database.RowFact;
@@ -63,7 +64,7 @@ public class ReviewerDbTest extends AndroidTestCase {
 
     @SmallTest
     public void testAddReviewToReviewsTable() {
-        ReviewerDbContract.ReviewerDbTable table = ReviewerDbContract.REVIEWS_TABLE;
+        ReviewerDbTable table = ReviewerDbContract.REVIEWS_TABLE;
 
         assertEquals(0, getNumberRows(table));
         mDatabase.addReviewTreeToDb(mNode);
@@ -79,7 +80,7 @@ public class ReviewerDbTest extends AndroidTestCase {
 
     @SmallTest
     public void testAddReviewToReviewTreesTable() {
-        ReviewerDbContract.ReviewerDbTable table = ReviewerDbContract.TREES_TABLE;
+        ReviewerDbTable table = ReviewerDbContract.TREES_TABLE;
 
         assertEquals(0, getNumberRows(table));
         mDatabase.addReviewTreeToDb(mNode);
@@ -95,7 +96,7 @@ public class ReviewerDbTest extends AndroidTestCase {
 
     @SmallTest
     public void testAddReviewToAuthorsTable() {
-        ReviewerDbContract.ReviewerDbTable table = ReviewerDbContract.AUTHORS_TABLE;
+        ReviewerDbTable table = ReviewerDbContract.AUTHORS_TABLE;
 
         assertEquals(0, getNumberRows(table));
         mDatabase.addReviewTreeToDb(mNode);
@@ -117,7 +118,7 @@ public class ReviewerDbTest extends AndroidTestCase {
 
     @SmallTest
     public void testAddReviewToTagsTable() {
-        ReviewerDbContract.ReviewerDbTable table = ReviewerDbContract.TAGS_TABLE;
+        ReviewerDbTable table = ReviewerDbContract.TAGS_TABLE;
 
         int numTags = 5;
         Map<String, ArrayList<String>> tagsMap = new HashMap<>();
@@ -215,7 +216,7 @@ public class ReviewerDbTest extends AndroidTestCase {
 
     private void testAddReviewToTable(ConfigDb.DbData tableType) {
         ConfigDb.Config config = ConfigDb.getConfig(tableType);
-        ReviewerDbContract.ReviewerDbTable table = config.getTable();
+        ReviewerDbTable table = config.getTable();
 
         assertEquals(0, getNumberRows(table));
         mDatabase.addReviewTreeToDb(mNode);
@@ -302,6 +303,7 @@ public class ReviewerDbTest extends AndroidTestCase {
         assertTrue(Arrays.equals(array, (byte[]) vals.get(RowImage.BITMAP)));
         assertEquals(id, vals.get(RowImage.IMAGE_ID));
         assertEquals(image.getReviewId().toString(), vals.get(RowImage.REVIEW_ID));
+        assertEquals(image.getDate().getTime(), vals.get(RowImage.DATE));
         assertEquals(image.getCaption(), vals.get(RowImage.CAPTION));
         assertEquals(image.isCover(), vals.get(RowImage.IS_COVER));
     }
@@ -375,7 +377,7 @@ public class ReviewerDbTest extends AndroidTestCase {
     private ContentValues getRowVals(ConfigDb.DbData dataType, String id) {
         ConfigDb.Config config = ConfigDb.getConfig(dataType);
         String pkColumn = config.getPkColumn();
-        ReviewerDbContract.ReviewerDbTable table = config.getTable();
+        ReviewerDbTable table = config.getTable();
         DbTableDef.DbColumnDef idCol = table.getColumn(pkColumn);
 
         ReviewerDbRow.TableRow row = mDatabase.getRowWhere(table, idCol, id);
@@ -384,7 +386,7 @@ public class ReviewerDbTest extends AndroidTestCase {
         return row.getContentValues();
     }
 
-    private long getNumberRows(ReviewerDbContract.ReviewerDbTable table) {
+    private long getNumberRows(ReviewerDbTable table) {
         SQLiteOpenHelper helper = mDatabase.getHelper();
         return DatabaseUtils.queryNumEntries(helper.getReadableDatabase(), table.getName());
     }

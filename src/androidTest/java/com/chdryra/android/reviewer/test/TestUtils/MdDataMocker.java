@@ -38,7 +38,7 @@ import java.util.Random;
 public class MdDataMocker {
     private static final RandomString STRING_GENERATOR = new RandomString();
     private static final String       URL_LABEL        = "Google";
-    private static final String       URL              = "http://www.google.co.uk";
+    private static final String URL = "http://www.google.co.uk/";
     private static final Random       RAND             = new Random();
     private static URL sUrl;
 
