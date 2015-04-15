@@ -26,6 +26,8 @@ import com.chdryra.android.reviewer.Model.MdLocationList;
 import com.chdryra.android.reviewer.Model.Review;
 import com.chdryra.android.reviewer.Model.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewNode;
+import com.chdryra.android.reviewer.Model.ReviewTree;
+import com.chdryra.android.reviewer.Model.ReviewTreeNode;
 import com.chdryra.android.reviewer.Model.ReviewUser;
 import com.chdryra.android.reviewer.Model.TagsManager;
 
@@ -111,11 +113,44 @@ public class ReviewerDb {
         return getRowWhere(mHelper.getReadableDatabase(), table, idCol, id);
     }
 
+    public ReviewNode getReviewTreeFromDb(String nodeId) {
+        SQLiteDatabase db = mHelper.getReadableDatabase();
+
+        RowReviewNode rootRow = findRootNode(nodeId, db);
+        ReviewTreeNode rootNode = getSubTree(rootRow.getRowId(), db);
+        ReviewTree tree = rootNode.createTree();
+        db.close();
+
+        return tree;
+    }
+
+    public RowReviewNode findRootNode(String nodeId, SQLiteDatabase db) {
+        String table = TREES.getName();
+        String nodeCol = RowReviewNode.NODE_ID;
+        String parentCol = RowReviewNode.PARENT_ID;
+        String query = "WITH tree as\n" +
+                "(\n" +
+                "    SELECT t.* FROM " + table + " AS t WHERE t." + nodeCol + " = ?\n" +
+                "\n" +
+                "    UNION ALL \n" +
+                "\n" +
+                "    SELECT t2.* FROM tree JOIN " + table + " AS t2 \n" +
+                "on tree." + parentCol + " = t2." + nodeCol + "\n" +
+                ") \n" +
+                "SELECT * FROM tree WHERE " + parentCol + " is null";
+
+        Log.i(TAG, "Finding root node: " + query);
+        Cursor cursor = db.rawQuery(query, new String[]{nodeId});
+        RowReviewNode row = new RowReviewNode(cursor);
+        cursor.close();
+        return row;
+    }
+
     public Review getReviewFromDb(String reviewId) {
         SQLiteDatabase db = mHelper.getReadableDatabase();
 
-        DbTableDef.DbColumnDef col = REVIEWS.getColumn(COLUMN_NAME_REVIEW_ID);
-        RowReview reviewRow = getRowWhere(db, REVIEWS, col, reviewId);
+        DbTableDef.DbColumnDef colId = REVIEWS.getColumn(COLUMN_NAME_REVIEW_ID);
+        RowReview reviewRow = getRowWhere(db, REVIEWS, colId, reviewId);
         ContentValues values = reviewRow.getContentValues();
 
         String subject = values.getAsString(RowReview.SUBJECT);
@@ -123,8 +158,8 @@ public class ReviewerDb {
         ReviewId id = ReviewId.fromString(values.getAsString(RowReview.REVIEW_ID));
         Date publishDate = new Date(values.getAsLong(RowReview.PUBLISH_DATE));
         String userId = values.getAsString(RowReview.AUTHOR_ID);
-        col = AUTHORS.getColumn(RowAuthor.USER_ID);
-        RowAuthor authorRow = getRowWhere(db, AUTHORS, col, userId);
+        colId = AUTHORS.getColumn(RowAuthor.USER_ID);
+        RowAuthor authorRow = getRowWhere(db, AUTHORS, colId, userId);
         Author author = authorRow.toAuthor();
 
         MdCommentList comments = getFromDataTable(db, COMMENTS, reviewId, MdCommentList.class);
@@ -138,6 +173,29 @@ public class ReviewerDb {
         db.close();
 
         return review;
+    }
+
+    private ReviewTreeNode getSubTree(String nodeId, SQLiteDatabase db) {
+        TableRowList<RowReviewNode> nodes = getRowsForId(db, TREES, RowReviewNode.NODE_ID, nodeId);
+        if (nodes.size() > 1) {
+            throw new IllegalStateException("Can only have 1 node_id = " + nodeId + " in table "
+                    + TREES.getName());
+        }
+
+        RowReviewNode nodeRow = nodes.getItem(0);
+        ContentValues values = nodeRow.getContentValues();
+        Boolean isAverage = values.getAsBoolean(RowReviewNode.IS_AVERAGE);
+        String reviewId = values.getAsString(RowReviewNode.REVIEW_ID);
+        Review review = getReviewFromDb(reviewId);
+        ReviewTreeNode rootNode = new ReviewTreeNode(review, isAverage);
+
+        TableRowList<RowReviewNode> children = getRowsForId(db, TREES, RowReviewNode.PARENT_ID,
+                nodeId);
+        for (RowReviewNode child : children) {
+            rootNode.addChild(getSubTree(child.getRowId(), db));
+        }
+
+        return rootNode;
     }
 
     private <T extends ReviewerDbRow.TableRow> T getRowWhere(SQLiteDatabase db,
@@ -158,7 +216,7 @@ public class ReviewerDb {
     private <T1 extends MdData, T2 extends MdDataList<T1>, T3 extends MdDataRow<T1>> T2
     getFromDataTable(SQLiteDatabase db, ReviewerDbTable<T3> table, String reviewId, Class<T2>
             listClass) {
-        TableRowList<T3> rows = getRowsForReviewId(db, table, reviewId);
+        TableRowList<T3> rows = getRowsForId(db, table, COLUMN_NAME_REVIEW_ID, reviewId);
         T2 dataList = newMdList(listClass, reviewId);
         for (T3 row : rows) {
             dataList.add(row.toMdData());
@@ -167,9 +225,9 @@ public class ReviewerDb {
         return dataList;
     }
 
-    private <T extends ReviewerDbRow.TableRow> TableRowList<T> getRowsForReviewId(SQLiteDatabase db,
-            ReviewerDbTable<T> table, String reviewId) {
-        Cursor cursor = getFromTableWhere(db, table.getName(), COLUMN_NAME_REVIEW_ID, reviewId);
+    private <T extends ReviewerDbRow.TableRow> TableRowList<T> getRowsForId(SQLiteDatabase db,
+            ReviewerDbTable<T> table, String idCol, String id) {
+        Cursor cursor = getFromTableWhere(db, table.getName(), idCol, id);
 
         TableRowList<T> list = new TableRowList<>(table.getRowClass());
         if (cursor == null || cursor.getCount() == 0) {
@@ -198,8 +256,7 @@ public class ReviewerDb {
     }
 
     private Cursor getFromTableWhere(SQLiteDatabase db, String table, String column, String value) {
-        String query = SQL.SELECT + SQL.ALL + SQL.FROM + table + " " + SQL.WHERE + column + " =" +
-                " ?";
+        String query = SQL.SELECT + SQL.ALL + SQL.FROM + table + " " + SQL.WHERE + column + " = ?";
         return db.rawQuery(query, new String[]{value});
     }
 
