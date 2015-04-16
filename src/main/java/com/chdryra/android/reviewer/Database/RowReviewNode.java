@@ -77,4 +77,8 @@ public class RowReviewNode implements ReviewerDbRow.TableRow {
     public boolean hasData() {
         return DataValidator.validateString(getRowId());
     }
+
+    public String getParentId() {
+        return mParentId;
+    }
 }

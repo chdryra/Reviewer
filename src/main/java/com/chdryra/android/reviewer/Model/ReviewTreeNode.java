@@ -51,19 +51,9 @@ public class ReviewTreeNode implements ReviewNode {
         return mParent;
     }
 
-    public void setParent(ReviewTreeNode parentNode) {
-        if (mParent != null && parentNode != null && mParent.getId().equals(parentNode.getId())) {
-            return;
-        }
-
-        if (mParent != null) {
-            mParent.removeChild(this);
-        }
-
-        mParent = parentNode;
-        if (mParent != null) {
-            mParent.addChild(this);
-        }
+    @Override
+    public ReviewNode getRoot() {
+        return mParent != null ? mParent.getRoot() : this;
     }
 
     @Override
@@ -79,6 +69,21 @@ public class ReviewTreeNode implements ReviewNode {
     @Override
     public boolean isRatingAverageOfChildren() {
         return mRatingIsAverage;
+    }
+
+    public void setParent(ReviewTreeNode parentNode) {
+        if (mParent != null && parentNode != null && mParent.getId().equals(parentNode.getId())) {
+            return;
+        }
+
+        if (mParent != null) {
+            mParent.removeChild(this);
+        }
+
+        mParent = parentNode;
+        if (mParent != null) {
+            mParent.addChild(this);
+        }
     }
 
     public void addChild(ReviewTreeNode childNode) {
@@ -173,18 +178,22 @@ public class ReviewTreeNode implements ReviewNode {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (obj == null || obj.getClass() != getClass()) {
-            return false;
-        }
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ReviewNode)) return false;
 
-        ReviewTreeNode objNode = (ReviewTreeNode) obj;
-        return mId.equals(objNode.mId);
+        ReviewNode that = (ReviewNode) o;
+        return ReviewTreeComparer.compareNodes(this, that);
     }
 
     @Override
     public int hashCode() {
-        return mId.hashCode();
+        int result = mId.hashCode();
+        result = 31 * result + mReview.hashCode();
+        result = 31 * result + mChildren.hashCode();
+        result = 31 * result + (mParent != null ? mParent.hashCode() : 0);
+        result = 31 * result + (mRatingIsAverage ? 1 : 0);
+        return result;
     }
 
     public ReviewTree createTree() {

@@ -22,6 +22,8 @@ public interface ReviewNode extends Review {
 
     public ReviewNode getParent();
 
+    public ReviewNode getRoot();
+
     public ReviewIdableList<ReviewNode> getChildren();
 
     public void acceptVisitor(VisitorReviewNode visitor);

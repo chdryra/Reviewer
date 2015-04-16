@@ -32,6 +32,7 @@ public class SQL {
     public static final String OPEN_BRACKET         = "(";
     public static final String CLOSE_BRACKET        = ")";
     public static final String DROP_TABLE_IF_EXISTS = "DROP TABLE IF EXISTS ";
+    public static final String BIND_STRING = "= ? ";
 
     public enum StorageType {TEXT, REAL, INTEGER, BLOB}
 

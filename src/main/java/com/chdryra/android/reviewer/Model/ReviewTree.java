@@ -27,109 +27,118 @@ import java.util.Date;
  * </p>
  */
 public class ReviewTree implements ReviewNode {
-    private final ReviewNode mRoot;
+    private final ReviewNode mNode;
 
-    public ReviewTree(ReviewNode root) {
-        mRoot = root;
+    public ReviewTree(ReviewNode node) {
+        mNode = node;
     }
 
     @Override
     public Review getReview() {
-        return mRoot.getReview();
+        return mNode.getReview();
     }
 
     @Override
     public ReviewNode getParent() {
-        return mRoot.getParent();
+        return mNode.getParent();
+    }
+
+    @Override
+    public ReviewNode getRoot() {
+        return mNode.getRoot();
     }
 
     @Override
     public ReviewIdableList<ReviewNode> getChildren() {
-        return mRoot.getChildren();
+        return mNode.getChildren();
     }
 
     @Override
     public void acceptVisitor(VisitorReviewNode visitor) {
-        visitor.visit(mRoot);
+        visitor.visit(mNode);
     }
 
     @Override
     public boolean isRatingAverageOfChildren() {
-        return mRoot.isRatingAverageOfChildren();
+        return mNode.isRatingAverageOfChildren();
     }
 
     @Override
     public ReviewId getId() {
-        return mRoot.getId();
+        return mNode.getId();
     }
 
     @Override
     public MdSubject getSubject() {
-        return mRoot.getSubject();
+        return mNode.getSubject();
     }
 
     @Override
     public MdRating getRating() {
-        return mRoot.getRating();
+        return mNode.getRating();
     }
 
     @Override
     public Author getAuthor() {
-        return mRoot.getAuthor();
+        return mNode.getAuthor();
     }
 
     @Override
     public Date getPublishDate() {
-        return mRoot.getPublishDate();
+        return mNode.getPublishDate();
     }
 
     @Override
     public MdCommentList getComments() {
-        return mRoot.getComments();
+        return mNode.getComments();
     }
 
     @Override
     public boolean hasComments() {
-        return mRoot.hasComments();
+        return mNode.hasComments();
     }
 
     @Override
     public MdFactList getFacts() {
-        return mRoot.getFacts();
+        return mNode.getFacts();
     }
 
     @Override
     public boolean hasFacts() {
-        return mRoot.hasFacts();
+        return mNode.hasFacts();
     }
 
     @Override
     public MdImageList getImages() {
-        return mRoot.getImages();
+        return mNode.getImages();
     }
 
     @Override
     public boolean hasImages() {
-        return mRoot.hasImages();
+        return mNode.hasImages();
     }
 
     @Override
     public MdLocationList getLocations() {
-        return mRoot.getLocations();
+        return mNode.getLocations();
     }
 
     @Override
     public boolean hasLocations() {
-        return mRoot.hasLocations();
+        return mNode.hasLocations();
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (obj == null || !(obj.getClass() == getClass() || obj.getClass() == mRoot.getClass())) {
-            return false;
-        }
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ReviewNode)) return false;
 
-        ReviewNode objNode = (ReviewNode) obj;
-        return getId().equals(objNode.getId());
+        ReviewNode that = (ReviewNode) o;
+        return ReviewTreeComparer.compareTrees(this, that);
+    }
+
+    @Override
+    public int hashCode() {
+        return mNode.hashCode();
     }
 }

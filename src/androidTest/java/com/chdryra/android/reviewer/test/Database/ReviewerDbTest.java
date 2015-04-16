@@ -39,6 +39,8 @@ import com.chdryra.android.reviewer.Model.MdLocationList;
 import com.chdryra.android.reviewer.Model.Review;
 import com.chdryra.android.reviewer.Model.ReviewIdableList;
 import com.chdryra.android.reviewer.Model.ReviewNode;
+import com.chdryra.android.reviewer.Model.ReviewTreeComparer;
+import com.chdryra.android.reviewer.Model.ReviewTreeNode;
 import com.chdryra.android.reviewer.Model.TagsManager;
 import com.chdryra.android.reviewer.View.GvTagList;
 import com.chdryra.android.reviewer.test.TestUtils.ReviewMocker;
@@ -59,8 +61,8 @@ import java.util.Set;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ReviewerDbTest extends AndroidTestCase {
-    ReviewNode mNode;
-    ReviewerDb mDatabase;
+    ReviewTreeNode mNode;
+    ReviewerDb     mDatabase;
 
     @SmallTest
     public void testAddReviewToReviewsTable() {
@@ -198,10 +200,17 @@ public class ReviewerDbTest extends AndroidTestCase {
         assertEquals(review, reviewDb);
     }
 
+    @SmallTest
+    public void testGetReviewTreeFromDb() {
+        mDatabase.addReviewTreeToDb(mNode);
+        ReviewNode node = mDatabase.getReviewTreeFromDb(mNode.getId().toString());
+        assertTrue(ReviewTreeComparer.compareTrees(mNode, node));
+    }
+
     @Override
     protected void setUp() throws Exception {
         mDatabase = ReviewerDb.getTestDatabase(getContext());
-        mNode = ReviewMocker.newReviewNode();
+        mNode = (ReviewTreeNode) ReviewMocker.newReviewNode();
         deleteDatabaseIfNecessary();
     }
 
