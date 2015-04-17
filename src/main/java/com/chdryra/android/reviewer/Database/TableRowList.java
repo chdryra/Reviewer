@@ -16,9 +16,5 @@ import com.chdryra.android.mygenerallibrary.SortableList;
  * Email: rizwan.choudrey@gmail.com
  */
 public class TableRowList<T extends ReviewerDbRow.TableRow> extends SortableList<T> {
-    private Class<T> mRowClass;
 
-    public TableRowList(Class<T> rowClass) {
-        mRowClass = rowClass;
-    }
 }

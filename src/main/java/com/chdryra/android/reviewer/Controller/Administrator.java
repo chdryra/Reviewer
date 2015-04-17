@@ -13,8 +13,10 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.chdryra.android.mygenerallibrary.ObjectHolder;
+import com.chdryra.android.reviewer.Database.ReviewerDb;
 import com.chdryra.android.reviewer.Model.Author;
 import com.chdryra.android.reviewer.Model.ReviewIdableList;
+import com.chdryra.android.reviewer.Model.ReviewNode;
 import com.chdryra.android.reviewer.Model.UserId;
 import com.chdryra.android.reviewer.View.GvSocialPlatformList;
 import com.chdryra.android.reviewer.View.ImageChooser;
@@ -52,11 +54,17 @@ public class Administrator {
     private final ReviewCollectionAdapter mPublishedReviews;
     private final ObjectHolder            mViews;
     private       ReviewBuilder           mReviewBuilder;
+    private ReviewerDb mDatabase;
 
     private Administrator(Context context) {
         mContext = context;
-        mPublishedReviews = new ReviewCollectionAdapter(AUTHOR, new Date(), FEED);
         mViews = new ObjectHolder();
+        mDatabase = ReviewerDb.getDatabase(mContext);
+        ReviewIdableList<ReviewNode> published = mDatabase.getReviewTreesFromDb();
+        mPublishedReviews = new ReviewCollectionAdapter(AUTHOR, new Date(), FEED);
+        for (ReviewNode node : published) {
+            mPublishedReviews.add(node);
+        }
     }
 
     public static Administrator get(Context c) {
@@ -97,7 +105,9 @@ public class Administrator {
     }
 
     public void publishReviewBuilder() {
-        mPublishedReviews.add(mReviewBuilder.publish(new Date()));
+        ReviewNode published = mReviewBuilder.publish(new Date());
+        mDatabase.addReviewTreeToDb(published);
+        mPublishedReviews.add(published);
         mReviewBuilder = null;
     }
 

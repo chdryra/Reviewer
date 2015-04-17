@@ -39,7 +39,6 @@ public class ReviewCollectionAdapter extends ReviewViewAdapterBasic {
 
     private final ReviewIdableList<Review> mReviews;
 
-
     public ReviewCollectionAdapter(Author author, Date date, String title) {
         mAuthor = author;
         mPublishDate = date;

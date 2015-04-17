@@ -25,8 +25,8 @@ import com.chdryra.android.reviewer.Model.MdImageList;
 import com.chdryra.android.reviewer.Model.MdLocationList;
 import com.chdryra.android.reviewer.Model.Review;
 import com.chdryra.android.reviewer.Model.ReviewId;
+import com.chdryra.android.reviewer.Model.ReviewIdableList;
 import com.chdryra.android.reviewer.Model.ReviewNode;
-import com.chdryra.android.reviewer.Model.ReviewTree;
 import com.chdryra.android.reviewer.Model.ReviewTreeNode;
 import com.chdryra.android.reviewer.Model.ReviewUser;
 import com.chdryra.android.reviewer.Model.TagsManager;
@@ -99,28 +99,28 @@ public class ReviewerDb {
         db.close();
     }
 
-    public <T extends ReviewerDbRow.TableRow> T getRowWhere(
-            ReviewerDbTable<T> table, DbTableDef.DbColumnDef idCol, String id) {
-        return getRowWhere(mHelper.getReadableDatabase(), table, idCol, id);
-    }
+    public ReviewIdableList<ReviewNode> getReviewTreesFromDb() {
+        SQLiteDatabase db = mHelper.getWritableDatabase();
 
-    public ReviewNode getReviewTreeFromDb(String nodeId) {
-        SQLiteDatabase db = mHelper.getReadableDatabase();
+        TableRowList<RowReviewNode> nodes = getRowsWhere(db, TREES, RowReviewNode.PARENT_ID, null);
 
-        RowReviewNode rootRow = findRootNode(nodeId, db);
-        ReviewTreeNode rootNode = getSubTree(rootRow.getRowId(), db);
-        ReviewTree tree = rootNode.createTree();
+        ReviewIdableList<ReviewNode> trees = new ReviewIdableList<>();
+        for (RowReviewNode node : nodes) {
+            ReviewTreeNode tree = getSubTree(node.getRowId(), db);
+            trees.add(tree.createTree());
+        }
+
         db.close();
 
-        return tree;
+        return trees;
     }
 
-    public Review getReviewFromDb(String reviewId) {
+    public <T extends ReviewerDbRow.TableRow> T getRowWhere(ReviewerDbTable<T> table,
+            DbTableDef.DbColumnDef col, String val) {
         SQLiteDatabase db = mHelper.getReadableDatabase();
-        Review review = getReviewFromDb(reviewId, db);
+        T row = getRowWhere(db, table, col, val);
         db.close();
-
-        return review;
+        return row;
     }
 
     private Review getReviewFromDb(String reviewId, SQLiteDatabase db) {
@@ -144,28 +144,6 @@ public class ReviewerDb {
 
         return new ReviewUser(id, author, publishDate, subject, rating, comments,
                 images, facts, locations);
-    }
-
-    private RowReviewNode findRootNode(String nodeId, SQLiteDatabase db) {
-        String table = TREES.getName();
-        String nodeCol = RowReviewNode.NODE_ID;
-        String query = SQL.SELECT + SQL.ALL + SQL.FROM + table + SQL.SPACE + SQL.WHERE + nodeCol
-                + SQL.BIND_STRING;
-
-        Log.i(TAG, "Finding root node: \n" + query);
-        Cursor cursor = db.rawQuery(query, new String[]{nodeId});
-
-        RowReviewNode row;
-        if (cursor.moveToFirst()) {
-            row = new RowReviewNode(cursor);
-            cursor.close();
-        } else {
-            cursor.close();
-            throw new IllegalStateException("Couldn't find root node!");
-        }
-
-        String parentId = row.getParentId();
-        return parentId == null ? row : findRootNode(parentId, db);
     }
 
     private ReviewTreeNode getSubTree(String nodeId, SQLiteDatabase db) {
@@ -192,12 +170,10 @@ public class ReviewerDb {
     }
 
     private <T extends ReviewerDbRow.TableRow> T getRowWhere(SQLiteDatabase db,
-            ReviewerDbTable<T> table, DbTableDef.DbColumnDef idCol, String id) {
-        Cursor cursor = getRowFromTableWhere(db, table.getName(), idCol.getName(), id);
+            ReviewerDbTable<T> table, DbTableDef.DbColumnDef col, String val) {
+        Cursor cursor = getCursorWhere(db, table.getName(), col.getName(), val);
 
-        if (cursor == null || cursor.getCount() == 0) {
-            return ReviewerDbRow.emptyRow(table.getRowClass());
-        }
+        if (cursor.getCount() == 0) return ReviewerDbRow.emptyRow(table.getRowClass());
 
         cursor.moveToFirst();
         T row = ReviewerDbRow.newRow(cursor, table.getRowClass());
@@ -222,12 +198,7 @@ public class ReviewerDb {
             ReviewerDbTable<T> table, String col, String val) {
         Cursor cursor = getFromTableWhere(db, table.getName(), col, val);
 
-        TableRowList<T> list = new TableRowList<>(table.getRowClass());
-        if (cursor == null || cursor.getCount() == 0) {
-            if (cursor != null) cursor.close();
-            return list;
-        }
-
+        TableRowList<T> list = new TableRowList<>();
         while (cursor.moveToNext()) {
             list.add(ReviewerDbRow.newRow(cursor, table.getRowClass()));
         }
@@ -236,7 +207,7 @@ public class ReviewerDb {
         return list;
     }
 
-    private Cursor getRowFromTableWhere(SQLiteDatabase db, String table, String pkColumn, String
+    private Cursor getCursorWhere(SQLiteDatabase db, String table, String pkColumn, String
             pkValue) {
         Cursor cursor = getFromTableWhere(db, table, pkColumn, pkValue);
         if (cursor != null && cursor.getCount() > 1) {
@@ -248,9 +219,9 @@ public class ReviewerDb {
     }
 
     private Cursor getFromTableWhere(SQLiteDatabase db, String table, String column, String value) {
-        String query = SQL.SELECT + SQL.ALL + SQL.FROM + table + " " + SQL.WHERE + column + " = ?";
-        db.rawQuery(query, new String[]{value});
-        return db.rawQuery(query, new String[]{value});
+        String val = value != null ? SQL.SPACE + SQL.BIND_STRING : SQL.SPACE + SQL.IS_NULL;
+        String query = SQL.SELECT + SQL.ALL + SQL.FROM + table + " " + SQL.WHERE + column + val;
+        return value != null ? db.rawQuery(query, new String[]{value}) : db.rawQuery(query, null);
     }
 
     private void addReviewTreeToDb(ReviewNode node, SQLiteDatabase db, boolean ignoreParent) {
@@ -369,7 +340,7 @@ public class ReviewerDb {
             SQLiteDatabase db) {
         String reviewIdCol = idCol.getName();
 
-        Cursor cursor = getRowFromTableWhere(db, table.getName(), reviewIdCol, id);
+        Cursor cursor = getCursorWhere(db, table.getName(), reviewIdCol, id);
 
         boolean hasRow = false;
         if (cursor != null) {

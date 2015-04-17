@@ -39,7 +39,6 @@ import com.chdryra.android.reviewer.Model.MdLocationList;
 import com.chdryra.android.reviewer.Model.Review;
 import com.chdryra.android.reviewer.Model.ReviewIdableList;
 import com.chdryra.android.reviewer.Model.ReviewNode;
-import com.chdryra.android.reviewer.Model.ReviewTreeComparer;
 import com.chdryra.android.reviewer.Model.ReviewTreeNode;
 import com.chdryra.android.reviewer.Model.TagsManager;
 import com.chdryra.android.reviewer.View.GvTagList;
@@ -61,6 +60,8 @@ import java.util.Set;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ReviewerDbTest extends AndroidTestCase {
+    private static final int NUM = 3;
+
     ReviewTreeNode mNode;
     ReviewerDb     mDatabase;
 
@@ -193,18 +194,19 @@ public class ReviewerDbTest extends AndroidTestCase {
     }
 
     @SmallTest
-    public void testGetReviewFromDb() {
-        mDatabase.addReviewTreeToDb(mNode);
-        Review review = mNode.getReview();
-        Review reviewDb = mDatabase.getReviewFromDb(review.getId().toString());
-        assertEquals(review, reviewDb);
-    }
+    public void testGetReviewTreesFromDb() {
+        ReviewIdableList<ReviewNode> nodes = new ReviewIdableList<>();
+        for (int i = 0; i < NUM; ++i) {
+            ReviewNode node = ReviewMocker.newReviewNode();
+            nodes.add(node);
+            mDatabase.addReviewTreeToDb(node);
+        }
 
-    @SmallTest
-    public void testGetReviewTreeFromDb() {
-        mDatabase.addReviewTreeToDb(mNode);
-        ReviewNode node = mDatabase.getReviewTreeFromDb(mNode.getId().toString());
-        assertTrue(ReviewTreeComparer.compareTrees(mNode, node));
+        ReviewIdableList<ReviewNode> fromDb = mDatabase.getReviewTreesFromDb();
+
+        for (int i = 0; i < NUM; ++i) {
+            assertEquals(nodes.getItem(i).getParent(), fromDb.getItem(i));
+        }
     }
 
     @Override
@@ -398,8 +400,8 @@ public class ReviewerDbTest extends AndroidTestCase {
         DbTableDef.DbColumnDef idCol = table.getColumn(pkColumn);
 
         ReviewerDbRow.TableRow row = mDatabase.getRowWhere(table, idCol, id);
-
         assertTrue(row.hasData());
+
         return row.getContentValues();
     }
 
