@@ -65,6 +65,7 @@ public class Administrator {
         for (ReviewNode node : published) {
             mPublishedReviews.add(node);
         }
+        mDatabase.loadTags();
     }
 
     public static Administrator get(Context c) {

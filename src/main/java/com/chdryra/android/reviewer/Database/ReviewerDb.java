@@ -33,6 +33,7 @@ import com.chdryra.android.reviewer.Model.TagsManager;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -73,6 +74,7 @@ public class ReviewerDb {
         mHelper = new DbHelper(context, new DbManager(contract), mDatabaseName, VERSION_NUMBER);
     }
 
+    //API
     public static ReviewerDb getDatabase(Context context) {
         if (sDatabase == null) sDatabase = new ReviewerDb(context, DATABASE_NAME);
         return sDatabase;
@@ -92,23 +94,22 @@ public class ReviewerDb {
 
     public void addReviewTreeToDb(ReviewNode node) {
         SQLiteDatabase db = mHelper.getWritableDatabase();
+
         db.beginTransaction();
         addReviewTreeToDb(node, db, false);
         db.setTransactionSuccessful();
         db.endTransaction();
+
         db.close();
     }
 
     public ReviewIdableList<ReviewNode> getReviewTreesFromDb() {
-        SQLiteDatabase db = mHelper.getWritableDatabase();
+        SQLiteDatabase db = mHelper.getReadableDatabase();
 
-        TableRowList<RowReviewNode> nodes = getRowsWhere(db, TREES, RowReviewNode.PARENT_ID, null);
-
-        ReviewIdableList<ReviewNode> trees = new ReviewIdableList<>();
-        for (RowReviewNode node : nodes) {
-            ReviewTreeNode tree = getSubTree(node.getRowId(), db);
-            trees.add(tree.createTree());
-        }
+        db.beginTransaction();
+        ReviewIdableList<ReviewNode> trees = getReviewTreesFromDb(db);
+        db.setTransactionSuccessful();
+        db.endTransaction();
 
         db.close();
 
@@ -118,23 +119,73 @@ public class ReviewerDb {
     public <T extends ReviewerDbRow.TableRow> T getRowWhere(ReviewerDbTable<T> table,
             DbTableDef.DbColumnDef col, String val) {
         SQLiteDatabase db = mHelper.getReadableDatabase();
-        T row = getRowWhere(db, table, col, val);
+        T row = getRowWhere(db, table, col.getName(), val);
         db.close();
         return row;
     }
 
-    private Review getReviewFromDb(String reviewId, SQLiteDatabase db) {
-        DbTableDef.DbColumnDef colId = REVIEWS.getColumn(COLUMN_NAME_REVIEW_ID);
-        RowReview reviewRow = getRowWhere(db, REVIEWS, colId, reviewId);
-        ContentValues values = reviewRow.getContentValues();
+    public void loadTags() {
+        SQLiteDatabase db = mHelper.getReadableDatabase();
+        for (RowTag tag : getRowsWhere(db, TAGS, null, null)) {
+            ArrayList<String> reviews = tag.getReviewIds();
+            for (String reviewId : reviews) {
+                TagsManager.tag(ReviewId.fromString(reviewId), tag.getTag());
+            }
+        }
+        db.close();
+    }
 
+    public void deleteReviewTreeFromDb(String nodeId) {
+        SQLiteDatabase db = mHelper.getWritableDatabase();
+
+        db.beginTransaction();
+        deleteReviewTreeFromDb(nodeId, db);
+        db.setTransactionSuccessful();
+        db.endTransaction();
+
+        db.close();
+    }
+
+    //Private methods
+    private ReviewIdableList<ReviewNode> getReviewTreesFromDb(SQLiteDatabase db) {
+        TableRowList<RowReviewNode> nodes = getRowsWhere(db, TREES, RowReviewNode.PARENT_ID, null);
+
+        ReviewIdableList<ReviewNode> trees = new ReviewIdableList<>();
+        for (RowReviewNode node : nodes) {
+            ReviewTreeNode tree = getSubTree(node.getRowId(), db);
+            trees.add(tree.createTree());
+        }
+
+        return trees;
+    }
+
+    private void deleteReviewTreeFromDb(String nodeId, SQLiteDatabase db) {
+        RowReviewNode root = getRootNodeRow(nodeId, db);
+        deleteSubTree(root.getNodeId(), db);
+    }
+
+    private RowReviewNode getRootNodeRow(String nodeId, SQLiteDatabase db) {
+        RowReviewNode row = getRowWhere(db, TREES, RowReviewNode.NODE_ID, nodeId);
+        String parentId = row.getParentId();
+        if (parentId != null) return getRootNodeRow(parentId, db);
+
+        return row;
+    }
+
+    private Review getReviewFromDb(String reviewId, SQLiteDatabase db) {
+        RowReview reviewRow = getRowWhere(db, REVIEWS, COLUMN_NAME_REVIEW_ID, reviewId);
+        if (!reviewRow.hasData()) {
+            throw new IllegalArgumentException("ReviewId " + reviewId + " not found!");
+        }
+
+
+        ContentValues values = reviewRow.getContentValues();
         String subject = values.getAsString(RowReview.SUBJECT);
         float rating = values.getAsFloat(RowReview.RATING);
         ReviewId id = ReviewId.fromString(values.getAsString(RowReview.REVIEW_ID));
         Date publishDate = new Date(values.getAsLong(RowReview.PUBLISH_DATE));
         String userId = values.getAsString(RowReview.AUTHOR_ID);
-        colId = AUTHORS.getColumn(RowAuthor.USER_ID);
-        RowAuthor authorRow = getRowWhere(db, AUTHORS, colId, userId);
+        RowAuthor authorRow = getRowWhere(db, AUTHORS, RowAuthor.USER_ID, userId);
         Author author = authorRow.toAuthor();
 
         MdCommentList comments = getFromDataTable(db, COMMENTS, reviewId, MdCommentList.class);
@@ -147,13 +198,11 @@ public class ReviewerDb {
     }
 
     private ReviewTreeNode getSubTree(String nodeId, SQLiteDatabase db) {
-        TableRowList<RowReviewNode> nodes = getRowsWhere(db, TREES, RowReviewNode.NODE_ID, nodeId);
-        if (nodes.size() > 1) {
-            throw new IllegalStateException("Can only have 1 node_id = " + nodeId + " in table "
-                    + TREES.getName());
+        RowReviewNode nodeRow = getRowWhere(db, TREES, RowReviewNode.NODE_ID, nodeId);
+        if (!nodeRow.hasData()) {
+            throw new IllegalArgumentException("NodeId " + nodeId + " not found!");
         }
 
-        RowReviewNode nodeRow = nodes.getItem(0);
         ContentValues values = nodeRow.getContentValues();
         Boolean isAverage = values.getAsBoolean(RowReviewNode.IS_AVERAGE);
         String reviewId = values.getAsString(RowReviewNode.REVIEW_ID);
@@ -170,8 +219,8 @@ public class ReviewerDb {
     }
 
     private <T extends ReviewerDbRow.TableRow> T getRowWhere(SQLiteDatabase db,
-            ReviewerDbTable<T> table, DbTableDef.DbColumnDef col, String val) {
-        Cursor cursor = getCursorWhere(db, table.getName(), col.getName(), val);
+            ReviewerDbTable<T> table, String col, String val) {
+        Cursor cursor = getCursorWhere(db, table.getName(), col, val);
 
         if (cursor.getCount() == 0) return ReviewerDbRow.emptyRow(table.getRowClass());
 
@@ -220,26 +269,21 @@ public class ReviewerDb {
 
     private Cursor getFromTableWhere(SQLiteDatabase db, String table, String column, String value) {
         String val = value != null ? SQL.SPACE + SQL.BIND_STRING : SQL.SPACE + SQL.IS_NULL;
-        String query = SQL.SELECT + SQL.ALL + SQL.FROM + table + " " + SQL.WHERE + column + val;
+        String whereClause = column != null ? " " + SQL.WHERE + column + val : "";
+        String query = SQL.SELECT + SQL.ALL + SQL.FROM + table + whereClause;
         return value != null ? db.rawQuery(query, new String[]{value}) : db.rawQuery(query, null);
     }
 
     private void addReviewTreeToDb(ReviewNode node, SQLiteDatabase db, boolean ignoreParent) {
         ReviewNode parent = node.getParent();
-        if (parent != null && !ignoreParent && !isReviewInDb(parent, db)) {
+        if (parent != null && !ignoreParent && !isReviewTreeInDb(parent, db)) {
             addReviewTreeToDb(parent, db, false);
             return;
         }
 
-        if (isReviewInDb(node, db)) return;
-
-        addToReviewsTable(node, db);
         addToReviewTreesTable(node, db);
-        addToCommentsTable(node, db);
-        addToFactsTable(node, db);
-        addToLocationsTable(node, db);
-        addToImagesTable(node, db);
-        addToAuthorsTable(node, db);
+        addReviewToDb(node.getReview(), db);
+        addToAuthorsTable(node.getAuthor(), db);
         addToTagsTable(node, db);
 
         for (ReviewNode child : node.getChildren()) {
@@ -247,55 +291,133 @@ public class ReviewerDb {
         }
     }
 
-    private void addToAuthorsTable(ReviewNode node, SQLiteDatabase db) {
-        insertRow(ReviewerDbRow.newRow(node.getAuthor()), AUTHORS, db);
+    private void deleteSubTree(String nodeId, SQLiteDatabase db) {
+        RowReviewNode nodeRow = getRowWhere(db, TREES, RowReviewNode.NODE_ID, nodeId);
+        if (!nodeRow.hasData()) {
+            throw new IllegalArgumentException("NodeId " + nodeId + " not found!");
+        }
+
+        deleteRows(RowReviewNode.NODE_ID, nodeId, TREES, db);
+
+        String reviewId = nodeRow.getReviewId();
+        TableRowList<RowReviewNode> nodes = getRowsWhere(db, TREES, RowReviewNode.REVIEW_ID,
+                reviewId);
+        if (nodes.size() == 0) deleteReviewFromDb(reviewId, db);
+
+        TableRowList<RowReviewNode> children = getRowsWhere(db, TREES, RowReviewNode.PARENT_ID,
+                nodeId);
+        for (RowReviewNode child : children) {
+            deleteSubTree(child.getRowId(), db);
+        }
+    }
+
+    private void addReviewToDb(Review review, SQLiteDatabase db) {
+        if (isReviewInDb(review, db)) return;
+
+        addToReviewsTable(review, db);
+        addToCommentsTable(review, db);
+        addToFactsTable(review, db);
+        addToLocationsTable(review, db);
+        addToImagesTable(review, db);
+    }
+
+    private void deleteReviewFromDb(String reviewId, SQLiteDatabase db) {
+        Review review = getReviewFromDb(reviewId, db);
+        Author author = review.getAuthor();
+        TagsManager.ReviewTagCollection tags = TagsManager.getTags(review.getId());
+
+        deleteFromImagesTable(reviewId, db);
+        deleteFromLocationsTable(reviewId, db);
+        deleteFromFactsTable(reviewId, db);
+        deleteFromCommentsTable(reviewId, db);
+        deleteFromReviewsTable(reviewId, db);
+
+        String userId = author.getUserId().toString();
+        TableRowList<RowReview> authored = getRowsWhere(db, REVIEWS, RowReview.AUTHOR_ID, userId);
+        if (authored.size() == 0) deleteFromAuthorsTable(userId, db);
+        for (TagsManager.ReviewTag tag : tags) {
+            if (TagsManager.untag(ReviewId.fromString(reviewId), tag)) {
+                deleteFromTagsTable(tag.get(), db);
+            }
+        }
+    }
+
+    private void addToAuthorsTable(Author author, SQLiteDatabase db) {
+        insertRow(ReviewerDbRow.newRow(author), AUTHORS, db);
+    }
+
+    private void deleteFromAuthorsTable(String userId, SQLiteDatabase db) {
+        deleteRows(RowAuthor.USER_ID, userId, AUTHORS, db);
     }
 
     private void addToTagsTable(ReviewNode node, SQLiteDatabase db) {
-        TagsManager.ReviewTagCollection tags = TagsManager.getTags(node);
+        TagsManager.ReviewTagCollection tags = TagsManager.getTags(node.getId());
         for (TagsManager.ReviewTag tag : tags) {
             insertOrReplaceRow(ReviewerDbRow.newRow(tag), TAGS, db);
         }
     }
 
-    private void addToReviewsTable(ReviewNode node, SQLiteDatabase db) {
-        insertRow(ReviewerDbRow.newRow(node.getReview()), REVIEWS, db);
+    private void deleteFromTagsTable(String tag, SQLiteDatabase db) {
+        deleteRows(RowTag.TAG, tag, TAGS, db);
+    }
+
+    private void addToReviewsTable(Review review, SQLiteDatabase db) {
+        insertRow(ReviewerDbRow.newRow(review), REVIEWS, db);
     }
 
     private void addToReviewTreesTable(ReviewNode node, SQLiteDatabase db) {
         insertRow(ReviewerDbRow.newRow(node), TREES, db);
     }
 
-    private void addToCommentsTable(ReviewNode node, SQLiteDatabase db) {
+    private void deleteFromReviewsTable(String reviewId, SQLiteDatabase db) {
+        deleteRows(COLUMN_NAME_REVIEW_ID, reviewId, REVIEWS, db);
+    }
+
+    private void deleteFromCommentsTable(String reviewId, SQLiteDatabase db) {
+        deleteRows(COLUMN_NAME_REVIEW_ID, reviewId, COMMENTS, db);
+    }
+
+    private void deleteFromFactsTable(String reviewId, SQLiteDatabase db) {
+        deleteRows(COLUMN_NAME_REVIEW_ID, reviewId, FACTS, db);
+    }
+
+    private void deleteFromLocationsTable(String reviewId, SQLiteDatabase db) {
+        deleteRows(COLUMN_NAME_REVIEW_ID, reviewId, LOCATIONS, db);
+    }
+
+    private void deleteFromImagesTable(String reviewId, SQLiteDatabase db) {
+        deleteRows(COLUMN_NAME_REVIEW_ID, reviewId, IMAGES, db);
+    }
+
+    private void addToCommentsTable(Review review, SQLiteDatabase db) {
         int i = 1;
-        for (MdCommentList.MdComment datum : node.getReview().getComments()) {
+        for (MdCommentList.MdComment datum : review.getComments()) {
             insertRow(ReviewerDbRow.newRow(datum, i++), COMMENTS, db);
         }
     }
 
-    private void addToFactsTable(ReviewNode node, SQLiteDatabase db) {
+    private void addToFactsTable(Review review, SQLiteDatabase db) {
         int i = 1;
-        for (MdFactList.MdFact datum : node.getReview().getFacts()) {
+        for (MdFactList.MdFact datum : review.getFacts()) {
             insertRow(ReviewerDbRow.newRow(datum, i++), FACTS, db);
         }
     }
 
-    private void addToLocationsTable(ReviewNode node, SQLiteDatabase db) {
+    private void addToLocationsTable(Review review, SQLiteDatabase db) {
         int i = 1;
-        for (MdLocationList.MdLocation datum : node.getReview().getLocations()) {
+        for (MdLocationList.MdLocation datum : review.getLocations()) {
             insertRow(ReviewerDbRow.newRow(datum, i++), LOCATIONS, db);
         }
     }
 
-    private void addToImagesTable(ReviewNode node, SQLiteDatabase db) {
+    private void addToImagesTable(Review review, SQLiteDatabase db) {
         int i = 1;
-        for (MdImageList.MdImage datum : node.getReview().getImages()) {
+        for (MdImageList.MdImage datum : review.getImages()) {
             insertRow(ReviewerDbRow.newRow(datum, i++), IMAGES, db);
         }
     }
 
-    private void insertRow(ReviewerDbRow.TableRow row, ReviewerDbTable table,
-            SQLiteDatabase db) {
+    private void insertRow(ReviewerDbRow.TableRow row, ReviewerDbTable table, SQLiteDatabase db) {
         DbTableDef.DbColumnDef idCol = table.getColumn(row.getRowIdColumnName());
         String id = row.getRowId();
         String tableName = table.getName();
@@ -310,6 +432,19 @@ public class ReviewerDb {
             Log.i(TAG, "Inserted " + message + " at row " + String.valueOf(rowId));
         } catch (SQLException e) {
             throw new RuntimeException("Couldn't insert " + message, e);
+        }
+    }
+
+    private void deleteRows(String col, String val, ReviewerDbTable table, SQLiteDatabase db) {
+        String tableName = table.getName();
+
+        String message = val + " from " + tableName + " table ";
+        String whereClause = col + SQL.BIND_STRING;
+        try {
+            long rowId = db.delete(tableName, whereClause, new String[]{val});
+            Log.i(TAG, "Deleted " + message + " at row " + String.valueOf(rowId));
+        } catch (SQLException e) {
+            throw new RuntimeException("Couldn't delete " + message, e);
         }
     }
 
@@ -331,9 +466,14 @@ public class ReviewerDb {
         }
     }
 
-    private boolean isReviewInDb(ReviewNode node, SQLiteDatabase db) {
+    private boolean isReviewTreeInDb(ReviewNode node, SQLiteDatabase db) {
+        DbTableDef.DbColumnDef nodeIdCol = TREES.getColumn(RowReviewNode.NODE_ID);
+        return isIdInTable(node.getId().toString(), nodeIdCol, TREES, db);
+    }
+
+    private boolean isReviewInDb(Review review, SQLiteDatabase db) {
         DbTableDef.DbColumnDef reviewIdCol = REVIEWS.getColumn(COLUMN_NAME_REVIEW_ID);
-        return isIdInTable(node.getReview().getId().toString(), reviewIdCol, REVIEWS, db);
+        return isIdInTable(review.getId().toString(), reviewIdCol, REVIEWS, db);
     }
 
     private boolean isIdInTable(String id, DbTableDef.DbColumnDef idCol, ReviewerDbTable table,

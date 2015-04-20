@@ -8,8 +8,6 @@
 
 package com.chdryra.android.reviewer.Model;
 
-import com.chdryra.android.reviewer.View.GvTagList;
-
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -34,39 +32,46 @@ public class TagsManager {
         return sInstance;
     }
 
-    public static ReviewTagCollection getTags(Review review) {
+    public static ReviewTagCollection getTags(ReviewId id) {
         ReviewTagCollection tags = getManager().new ReviewTagCollection();
         for (ReviewTag tag : getTags()) {
-            if (tag.tagsReview(review)) tags.add(tag);
+            if (tag.tagsReview(id)) tags.add(tag);
         }
 
         return tags;
     }
 
-    public static void tag(Review review, GvTagList tags) {
-        for (GvTagList.GvTag tag : tags) {
-            getManager().tag(review, tag.get());
-        }
+    public static void tag(ReviewId id, String tag) {
+        getManager().tagReview(id, tag);
     }
 
-    //TODO what about ReviewNodes with unique IDs?
-    public static void tag(ReviewNode node, GvTagList tags) {
-        for (GvTagList.GvTag tag : tags) {
-            getManager().tag(node.getReview(), tag.get());
-        }
+    public static boolean untag(ReviewId id, ReviewTag tag) {
+        return getManager().untagReview(id, tag);
     }
 
     private static ReviewTagCollection getTags() {
         return getManager().mTags;
     }
 
-    private void tag(Review review, String tag) {
+    private void tagReview(ReviewId id, String tag) {
         ReviewTag reviewTag = getTags().get(tag);
         if (reviewTag == null) {
-            getTags().add(new ReviewTag(tag, review));
+            getTags().add(new ReviewTag(tag, id));
         } else {
-            reviewTag.addReview(review);
+            reviewTag.addReview(id);
         }
+    }
+
+    private boolean untagReview(ReviewId id, ReviewTag tag) {
+        if (tag.tagsReview(id)) {
+            tag.removeReview(id);
+            if (tag.getReviews().size() == 0) {
+                mTags.remove(tag);
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
@@ -77,11 +82,11 @@ public class TagsManager {
         private final ArrayList<ReviewId> mReviews;
         private final String              mTag;
 
-        private ReviewTag(String tag, Review review) {
+        private ReviewTag(String tag, ReviewId id) {
             //mTag = WordUtils.capitalize(tag);
             mTag = tag;
             mReviews = new ArrayList<>();
-            mReviews.add(review.getId());
+            mReviews.add(id);
         }
 
         @Override
@@ -97,8 +102,8 @@ public class TagsManager {
             return mReviews;
         }
 
-        public boolean tagsReview(Review r) {
-            return mReviews.contains(r.getId());
+        public boolean tagsReview(ReviewId id) {
+            return mReviews.contains(id);
         }
 
         public boolean equals(String tag) {
@@ -109,8 +114,12 @@ public class TagsManager {
             return mTag.equals(tag.get()) && mReviews.equals(tag.mReviews);
         }
 
-        private void addReview(Review review) {
-            mReviews.add(review.getId());
+        private void addReview(ReviewId id) {
+            if (!mReviews.contains(id)) mReviews.add(id);
+        }
+
+        private void removeReview(ReviewId id) {
+            mReviews.remove(id);
         }
     }
 

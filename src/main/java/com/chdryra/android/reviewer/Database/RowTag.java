@@ -15,12 +15,16 @@ import com.chdryra.android.reviewer.Controller.DataValidator;
 import com.chdryra.android.reviewer.Model.ReviewId;
 import com.chdryra.android.reviewer.Model.TagsManager;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 /**
  * Created by: Rizwan Choudrey
  * On: 09/04/2015
  * Email: rizwan.choudrey@gmail.com
  */
 public class RowTag implements ReviewerDbRow.TableRow {
+    private static final String SEPARATOR = ",";
     public static String TAG     = ReviewerDbContract.TableTags.COLUMN_NAME_TAG;
     public static String REVIEWS = ReviewerDbContract.TableTags.COLUMN_NAME_REVIEWS;
 
@@ -34,7 +38,7 @@ public class RowTag implements ReviewerDbRow.TableRow {
         mTag = tag.get();
         mReviews = "";
         for (ReviewId id : tag.getReviews()) {
-            mReviews += id.toString() + ",";
+            mReviews += id.toString() + SEPARATOR;
         }
         mReviews = mReviews.substring(0, mReviews.length() - 1);
     }
@@ -66,5 +70,13 @@ public class RowTag implements ReviewerDbRow.TableRow {
     @Override
     public boolean hasData() {
         return DataValidator.validateString(getRowId());
+    }
+
+    public String getTag() {
+        return mTag;
+    }
+
+    public ArrayList<String> getReviewIds() {
+        return new ArrayList<>(Arrays.asList(mReviews.split(SEPARATOR)));
     }
 }

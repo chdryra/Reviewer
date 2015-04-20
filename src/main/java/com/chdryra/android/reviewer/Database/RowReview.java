@@ -78,4 +78,8 @@ public class RowReview implements ReviewerDbRow.TableRow {
     public boolean hasData() {
         return DataValidator.validateString(getRowId());
     }
+
+    public String getAuthorId() {
+        return mAuthorId;
+    }
 }
