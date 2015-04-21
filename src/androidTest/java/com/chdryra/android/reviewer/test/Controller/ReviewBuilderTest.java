@@ -263,7 +263,7 @@ public class ReviewBuilderTest extends ActivityInstrumentationTestCase2<Activity
         MdGvEquality.check(published.getImages(), (GvImageList) images);
         MdGvEquality.check(published.getLocations(), (GvLocationList) locations);
 
-        TagsManager.ReviewTagCollection tagsPublished = TagsManager.getTags(published);
+        TagsManager.ReviewTagCollection tagsPublished = TagsManager.getTags(published.getId());
         assertEquals(tags.size(), tagsPublished.size());
         for (int j = 0; j < tags.size(); ++j) {
             GvTagList.GvTag tag = (GvTagList.GvTag) tags.getItem(j);
@@ -278,7 +278,7 @@ public class ReviewBuilderTest extends ActivityInstrumentationTestCase2<Activity
             assertEquals(child.getSubject(), childNode.getSubject().get());
             assertEquals(child.getRating(), childNode.getRating().get());
             assertEquals(published, childNode.getParent());
-            TagsManager.ReviewTagCollection tagsChild = TagsManager.getTags(childNode);
+            TagsManager.ReviewTagCollection tagsChild = TagsManager.getTags(childNode.getId());
             assertEquals(tags.size(), tagsChild.size());
             for (int j = 0; j < tags.size(); ++j) {
                 GvTagList.GvTag tag = (GvTagList.GvTag) tags.getItem(j);

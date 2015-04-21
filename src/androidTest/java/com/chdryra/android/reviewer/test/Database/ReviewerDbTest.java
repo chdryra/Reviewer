@@ -155,13 +155,13 @@ public class ReviewerDbTest extends AndroidTestCase {
             }
         }
 
-        TagsManager.tag(parent.getReview(), parentTags);
-        assertEquals(3, TagsManager.getTags(parent.getReview()).size());
-        TagsManager.tag(mNode.getReview(), nodeTags);
-        assertEquals(3, TagsManager.getTags(mNode.getReview()).size());
+        TagsManager.tag(parent.getReview().getId(), parentTags.toStringArray());
+        assertEquals(3, TagsManager.getTags(parent.getReview().getId()).size());
+        TagsManager.tag(mNode.getReview().getId(), nodeTags.toStringArray());
+        assertEquals(3, TagsManager.getTags(mNode.getReview().getId()).size());
         for (ReviewNode child : children) {
-            TagsManager.tag(child.getReview(), childrenTags);
-            assertEquals(3, TagsManager.getTags(child.getReview()).size());
+            TagsManager.tag(child.getReview().getId(), childrenTags.toStringArray());
+            assertEquals(3, TagsManager.getTags(child.getReview().getId()).size());
         }
 
         assertEquals(0, getNumberRows(table));

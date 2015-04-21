@@ -13,6 +13,7 @@ import android.os.Parcelable;
 
 import com.chdryra.android.mygenerallibrary.ViewHolder;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 
 public class GvTagList extends GvDataList<GvTagList.GvTag> {
@@ -20,6 +21,15 @@ public class GvTagList extends GvDataList<GvTagList.GvTag> {
 
     public GvTagList() {
         super(GvTag.class, TYPE);
+    }
+
+    public ArrayList<String> toStringArray() {
+        ArrayList<String> tags = new ArrayList<>();
+        for (GvTag tag : this) {
+            tags.add(tag.get());
+        }
+
+        return tags;
     }
 
     @Override

@@ -144,16 +144,12 @@ public class ReviewBuilder extends ReviewViewAdapterBasic {
                 (GvLocationList) getData(GvLocationList.TYPE));
 
         GvTagList tags = (GvTagList) getData(GvTagList.TYPE);
-        for (GvTagList.GvTag tag : tags) {
-            TagsManager.tag(root.getId(), tag.get());
-        }
+        TagsManager.tag(root.getId(), tags.toStringArray());
 
         ReviewIdableList<Review> children = new ReviewIdableList<>();
         for (ReviewBuilder child : mChildren) {
             Review childReview = child.publish(publishDate);
-            for (GvTagList.GvTag tag : tags) {
-                TagsManager.tag(childReview.getId(), tag.get());
-            }
+            TagsManager.tag(childReview.getId(), tags.toStringArray());
             children.add(childReview);
         }
 

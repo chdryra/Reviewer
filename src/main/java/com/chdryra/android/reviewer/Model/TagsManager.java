@@ -45,6 +45,12 @@ public class TagsManager {
         getManager().tagReview(id, tag);
     }
 
+    public static void tag(ReviewId id, ArrayList<String> tags) {
+        for (String tag : tags) {
+            getManager().tagReview(id, tag);
+        }
+    }
+
     public static boolean untag(ReviewId id, ReviewTag tag) {
         return getManager().untagReview(id, tag);
     }

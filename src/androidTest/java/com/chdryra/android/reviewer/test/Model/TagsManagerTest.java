@@ -31,19 +31,19 @@ public class TagsManagerTest extends TestCase {
         GvTagList tags = (GvTagList) GvDataMocker.getData(GvTagList.TYPE, NUM);
         Review review = ReviewMocker.newReview();
 
-        TagsManager.ReviewTagCollection tagCollection = TagsManager.getTags(review);
+        TagsManager.ReviewTagCollection tagCollection = TagsManager.getTags(review.getId());
         assertEquals(0, tagCollection.size());
 
-        TagsManager.tag(review, tags);
+        TagsManager.tag(review.getId(), tags.toStringArray());
 
-        tagCollection = TagsManager.getTags(review);
+        tagCollection = TagsManager.getTags(review.getId());
         assertEquals(tags.size(), tagCollection.size());
         for (int i = 0; i < tags.size(); ++i) {
             assertEquals(tags.getItem(i).get(), tagCollection.getItem(i).get());
         }
 
         Review untagged = ReviewMocker.newReview();
-        TagsManager.ReviewTagCollection empty = TagsManager.getTags(untagged);
+        TagsManager.ReviewTagCollection empty = TagsManager.getTags(untagged.getId());
         assertEquals(0, empty.size());
     }
 
@@ -67,11 +67,11 @@ public class TagsManagerTest extends TestCase {
         Review review1 = ReviewMocker.newReview();
         Review review2 = ReviewMocker.newReview();
 
-        TagsManager.tag(review1, tags1);
-        TagsManager.tag(review2, tags2);
+        TagsManager.tag(review1.getId(), tags1.toStringArray());
+        TagsManager.tag(review2.getId(), tags2.toStringArray());
 
-        TagsManager.ReviewTagCollection tagCollection1 = TagsManager.getTags(review1);
-        TagsManager.ReviewTagCollection tagCollection2 = TagsManager.getTags(review2);
+        TagsManager.ReviewTagCollection tagCollection1 = TagsManager.getTags(review1.getId());
+        TagsManager.ReviewTagCollection tagCollection2 = TagsManager.getTags(review2.getId());
         assertEquals(tags1.size(), tagCollection1.size());
         assertEquals(tags2.size(), tagCollection2.size());
 
@@ -79,17 +79,17 @@ public class TagsManagerTest extends TestCase {
             TagsManager.ReviewTag tag1 = tagCollection1.getItem(i);
             TagsManager.ReviewTag tag2 = tagCollection2.getItem(i);
 
-            assertTrue(tag1.tagsReview(review1));
-            assertTrue(tag2.tagsReview(review2));
+            assertTrue(tag1.tagsReview(review1.getId()));
+            assertTrue(tag2.tagsReview(review2.getId()));
 
             if (i < numShared) {
                 assertTrue(tag1.equals(tag2));
-                assertTrue(tag1.tagsReview(review2));
-                assertTrue(tag2.tagsReview(review1));
+                assertTrue(tag1.tagsReview(review2.getId()));
+                assertTrue(tag2.tagsReview(review1.getId()));
             } else {
                 assertFalse(tag1.equals(tag2));
-                assertFalse(tag1.tagsReview(review2));
-                assertFalse(tag2.tagsReview(review1));
+                assertFalse(tag1.tagsReview(review2.getId()));
+                assertFalse(tag2.tagsReview(review1.getId()));
             }
         }
     }
