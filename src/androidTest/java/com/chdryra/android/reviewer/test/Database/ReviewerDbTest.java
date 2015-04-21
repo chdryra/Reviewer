@@ -67,28 +67,12 @@ public class ReviewerDbTest extends AndroidTestCase {
     ReviewerDb     mDatabase;
 
     @SmallTest
-    public void testAddReviewToReviewsTable() {
-        ReviewerDbTable table = ReviewerDbContract.REVIEWS_TABLE;
-
-        assertEquals(0, getNumberRows(table));
-        mDatabase.addReviewTreeToDb(mNode);
-        int numNodes = 1 + 1 + mNode.getChildren().size();
-        assertEquals(numNodes, getNumberRows(table));
-
-        testReviewsRow(mNode.getReview());
-        testReviewsRow(mNode.getParent().getReview());
-        for (ReviewNode child : mNode.getChildren()) {
-            testReviewsRow(child.getReview());
-        }
-    }
-
-    @SmallTest
-    public void testAddReviewToReviewTreesTable() {
+    public void testAddReviewTreeToReviewTreesTable() {
         ReviewerDbTable table = ReviewerDbContract.TREES_TABLE;
 
         assertEquals(0, getNumberRows(table));
         mDatabase.addReviewTreeToDb(mNode);
-        int numNodes = 1 + 1 + mNode.getChildren().size();
+        int numNodes = 2 + mNode.getChildren().size();
         assertEquals(numNodes, getNumberRows(table));
 
         testReviewTreesRow(mNode);
@@ -99,18 +83,101 @@ public class ReviewerDbTest extends AndroidTestCase {
     }
 
     @SmallTest
+    public void testAddMultipleTrees() {
+        Review parentReview = mNode.getParent().getReview();
+        Review nodeReview = mNode.getReview();
+        ReviewIdableList<Review> childReviews = new ReviewIdableList<>();
+        for (ReviewNode child : mNode.getChildren()) {
+            childReviews.add(child.getReview());
+        }
+
+        //First tree
+        ReviewIdableList<Review> children = new ReviewIdableList<>();
+        children.add(parentReview);
+        children.add(nodeReview);
+
+        ReviewNode tree1 = mNode;
+
+        mDatabase.addReviewTreeToDb(tree1);
+        int parentNode = mNode.getParent() != null ? 1 : 0;
+        int numNodes = 1 + mNode.getChildren().size() + parentNode;
+        assertEquals(numNodes, getNumberRows(ReviewerDbContract.TREES_TABLE));
+
+        long reviewRows = getNumberRows(ReviewerDbContract.REVIEWS_TABLE);
+        long commentsRows = getNumberRows(ReviewerDbContract.COMMENTS_TABLE);
+        long factsRows = getNumberRows(ReviewerDbContract.FACTS_TABLE);
+        long locationsRows = getNumberRows(ReviewerDbContract.LOCATIONS_TABLE);
+        long imagesRows = getNumberRows(ReviewerDbContract.IMAGES_TABLE);
+
+        //Different tree same reviews
+        ReviewTreeNode rootNode = new ReviewTreeNode(childReviews.getItem(0), false,
+                ReviewId.generateId());
+        for (Review child : children) {
+            rootNode.addChild(new ReviewTreeNode(child, false, ReviewId.generateId()));
+        }
+        ReviewNode tree2 = rootNode.createTree();
+        mDatabase.addReviewTreeToDb(tree2);
+        assertEquals(numNodes + 3, getNumberRows(ReviewerDbContract.TREES_TABLE));
+        assertEquals(reviewRows, getNumberRows(ReviewerDbContract.REVIEWS_TABLE));
+        assertEquals(commentsRows, getNumberRows(ReviewerDbContract.COMMENTS_TABLE));
+        assertEquals(factsRows, getNumberRows(ReviewerDbContract.FACTS_TABLE));
+        assertEquals(locationsRows, getNumberRows(ReviewerDbContract.LOCATIONS_TABLE));
+        assertEquals(imagesRows, getNumberRows(ReviewerDbContract.IMAGES_TABLE));
+
+        //Different tree different reviews
+        ReviewNode tree3 = ReviewMocker.newReviewNode();
+        ReviewNode parent3 = tree3.getParent();
+        ReviewIdableList<ReviewNode> children3 = tree3.getChildren();
+
+        mDatabase.addReviewTreeToDb(tree3);
+
+        int numNodes3 = 2 + tree3.getChildren().size();
+        assertEquals(numNodes + 3 + numNodes3, getNumberRows(ReviewerDbContract.TREES_TABLE));
+        assertEquals(reviewRows + numNodes3, getNumberRows(ReviewerDbContract.REVIEWS_TABLE));
+
+        long numComments = commentsRows + tree3.getComments().size() + parent3.getComments().size();
+        long numFacts = factsRows + tree3.getFacts().size() + parent3.getFacts().size();
+        long numLocations = locationsRows + tree3.getLocations().size() + parent3.getLocations()
+                .size();
+        long numImages = imagesRows + tree3.getImages().size() + parent3.getImages().size();
+        for (ReviewNode child : children3) {
+            numComments += child.getComments().size();
+            numFacts += child.getFacts().size();
+            numLocations += child.getLocations().size();
+            numImages += child.getImages().size();
+        }
+
+        assertEquals(numComments, getNumberRows(ReviewerDbContract.COMMENTS_TABLE));
+        assertEquals(numFacts, getNumberRows(ReviewerDbContract.FACTS_TABLE));
+        assertEquals(numLocations, getNumberRows(ReviewerDbContract.LOCATIONS_TABLE));
+        assertEquals(numImages, getNumberRows(ReviewerDbContract.IMAGES_TABLE));
+    }
+
+    @SmallTest
+    public void testAddReviewToReviewsTable() {
+        mDatabase.addReviewTreeToDb(mNode);
+
+        testReviewsRow(mNode.getReview());
+        testReviewsRow(mNode.getParent().getReview());
+        for (ReviewNode child : mNode.getChildren()) {
+            testReviewsRow(child.getReview());
+        }
+    }
+
+    @SmallTest
     public void testAddReviewToAuthorsTable() {
         ReviewerDbTable table = ReviewerDbContract.AUTHORS_TABLE;
 
         assertEquals(0, getNumberRows(table));
+
         mDatabase.addReviewTreeToDb(mNode);
+
         Set<Author> authors = new HashSet<>();
         authors.add(mNode.getAuthor());
         authors.add(mNode.getParent().getAuthor());
         for (ReviewNode child : mNode.getChildren()) {
             authors.add(child.getAuthor());
         }
-
         assertEquals(authors.size(), getNumberRows(table));
 
         testAuthorsRow(mNode);
@@ -189,22 +256,22 @@ public class ReviewerDbTest extends AndroidTestCase {
 
     @SmallTest
     public void testAddReviewToCommentsTable() {
-        testAddReviewToTable(ConfigDb.DbData.COMMENTS);
+        testAddReviewTreeToTable(ConfigDb.DbData.COMMENTS);
     }
 
     @SmallTest
     public void testAddReviewToLocationsTable() {
-        testAddReviewToTable(ConfigDb.DbData.LOCATIONS);
+        testAddReviewTreeToTable(ConfigDb.DbData.LOCATIONS);
     }
 
     @SmallTest
     public void testAddReviewToImagesTable() {
-        testAddReviewToTable(ConfigDb.DbData.IMAGES);
+        testAddReviewTreeToTable(ConfigDb.DbData.IMAGES);
     }
 
     @SmallTest
     public void testAddReviewToFactsTable() {
-        testAddReviewToTable(ConfigDb.DbData.FACTS);
+        testAddReviewTreeToTable(ConfigDb.DbData.FACTS);
     }
 
     @SmallTest
@@ -311,7 +378,7 @@ public class ReviewerDbTest extends AndroidTestCase {
         assertEquals(tagReviews, rowReviews);
     }
 
-    private void testAddReviewToTable(ConfigDb.DbData tableType) {
+    private void testAddReviewTreeToTable(ConfigDb.DbData tableType) {
         ConfigDb.Config config = ConfigDb.getConfig(tableType);
         ReviewerDbTable table = config.getTable();
 
@@ -322,6 +389,7 @@ public class ReviewerDbTest extends AndroidTestCase {
         for (ReviewNode child : mNode.getChildren()) {
             num += getData(tableType, child).size();
         }
+
         assertEquals(num, getNumberRows(table));
 
         testRows(tableType, mNode);
@@ -331,6 +399,21 @@ public class ReviewerDbTest extends AndroidTestCase {
         }
     }
 
+    private void testDeleteReviewTreeToTable(ConfigDb.DbData tableType) {
+        ConfigDb.Config config = ConfigDb.getConfig(tableType);
+        ReviewerDbTable table = config.getTable();
+
+        int num = getData(tableType, mNode).size();
+        num += getData(tableType, mNode.getParent()).size();
+        for (ReviewNode child : mNode.getChildren()) {
+            num += getData(tableType, child).size();
+        }
+
+        assertEquals(num, getNumberRows(table));
+        mDatabase.deleteReviewTreeFromDb(mNode.getId().toString());
+        assertEquals(0, getNumberRows(table));
+    }
+    
     private void testRows(ConfigDb.DbData dataType, ReviewNode node) {
         MdDataList comments = getData(dataType, node);
         for (int i = 0; i < comments.size(); ++i) {

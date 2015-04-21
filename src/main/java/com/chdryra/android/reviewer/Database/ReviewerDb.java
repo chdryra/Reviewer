@@ -160,8 +160,7 @@ public class ReviewerDb {
     }
 
     private void deleteReviewTreeFromDb(String nodeId, SQLiteDatabase db) {
-        RowReviewNode root = getRootNodeRow(nodeId, db);
-        deleteSubTree(root.getNodeId(), db);
+        deleteSubTree(getRootNodeRow(nodeId, db).getNodeId(), db);
     }
 
     private RowReviewNode getRootNodeRow(String nodeId, SQLiteDatabase db) {
@@ -172,7 +171,7 @@ public class ReviewerDb {
         return row;
     }
 
-    private Review getReviewFromDb(String reviewId, SQLiteDatabase db) {
+    private Review getReview(String reviewId, SQLiteDatabase db) {
         RowReview reviewRow = getRowWhere(db, REVIEWS, COLUMN_NAME_REVIEW_ID, reviewId);
         if (!reviewRow.hasData()) {
             throw new IllegalArgumentException("ReviewId " + reviewId + " not found!");
@@ -206,7 +205,7 @@ public class ReviewerDb {
         ContentValues values = nodeRow.getContentValues();
         Boolean isAverage = values.getAsBoolean(RowReviewNode.IS_AVERAGE);
         String reviewId = values.getAsString(RowReviewNode.REVIEW_ID);
-        Review review = getReviewFromDb(reviewId, db);
+        Review review = getReview(reviewId, db);
         ReviewTreeNode rootNode = new ReviewTreeNode(review, isAverage);
 
         TableRowList<RowReviewNode> children = getRowsWhere(db, TREES, RowReviewNode.PARENT_ID,
@@ -322,7 +321,7 @@ public class ReviewerDb {
     }
 
     private void deleteReviewFromDb(String reviewId, SQLiteDatabase db) {
-        Review review = getReviewFromDb(reviewId, db);
+        Review review = getReview(reviewId, db);
         Author author = review.getAuthor();
         TagsManager.ReviewTagCollection tags = TagsManager.getTags(review.getId());
 
