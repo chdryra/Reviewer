@@ -193,7 +193,6 @@ public class FragmentReviewView extends Fragment {
 
     public void updateGridData() {
         ((ViewHolderAdapter) mGridView.getAdapter()).setData(mReviewView.getGridViewData());
-        mReviewView.notifyDataSetChanged();
     }
 
     void initUi() {
