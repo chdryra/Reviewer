@@ -29,7 +29,7 @@ public class EditScreenLocations {
 
         @Override
         public boolean onLongClick(View v) {
-            showAlertDialog(getActivity().getString(R.string.dialog_add_on_map), ADD_ON_MAP);
+            showAlertDialog(getActivity().getString(R.string.alert_add_on_map), ADD_ON_MAP);
             return true;
         }
 
@@ -51,7 +51,7 @@ public class EditScreenLocations {
 
         @Override
         public void onGridItemLongClick(GvData item, View v) {
-            showAlertDialog(getActivity().getString(R.string.dialog_edit_on_map), EDIT_ON_MAP,
+            showAlertDialog(getActivity().getString(R.string.alert_edit_on_map), EDIT_ON_MAP,
                     item);
         }
 

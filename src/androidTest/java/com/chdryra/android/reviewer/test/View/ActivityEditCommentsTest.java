@@ -93,7 +93,7 @@ public class ActivityEditCommentsTest extends ActivityEditScreenTest {
         }
 
         String alert = getInstrumentation().getTargetContext().getResources().getString(R.string
-                .dialog_set_comment_as_headline);
+                .alert_set_comment_as_headline);
 
         assertFalse(mSolo.searchText(alert));
         clickLongOnGridItem(1);

@@ -77,7 +77,7 @@ public class ActivityEditImagesTest extends ActivityEditScreenTest {
         }
 
         String alert = getInstrumentation().getTargetContext().getResources().getString(R.string
-                .dialog_set_image_as_background);
+                .alert_set_image_as_background);
 
         assertFalse(mSolo.searchText(alert));
         clickLongOnGridItem(1);

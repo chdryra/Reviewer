@@ -19,6 +19,7 @@ import android.graphics.Bitmap;
 import com.chdryra.android.reviewer.Model.Author;
 import com.chdryra.android.reviewer.Model.FactoryReview;
 import com.chdryra.android.reviewer.Model.Review;
+import com.chdryra.android.reviewer.Model.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewIdableList;
 import com.chdryra.android.reviewer.Model.ReviewNode;
 import com.chdryra.android.reviewer.View.GvCommentList;
@@ -48,6 +49,10 @@ public class ReviewCollectionAdapter extends ReviewViewAdapterBasic {
 
     public void add(Review review) {
         mReviews.add(review);
+    }
+
+    public void delete(ReviewId id) {
+        mReviews.remove(id);
     }
 
     @Override

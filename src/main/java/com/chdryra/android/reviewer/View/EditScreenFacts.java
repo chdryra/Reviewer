@@ -28,7 +28,7 @@ public class EditScreenFacts {
 
         @Override
         public boolean onLongClick(View v) {
-            showAlertDialog(getActivity().getString(R.string.dialog_add_on_browser),
+            showAlertDialog(getActivity().getString(R.string.alert_add_on_browser),
                     ADD_ON_BROWSER);
             return true;
         }
@@ -55,7 +55,7 @@ public class EditScreenFacts {
             if (!fact.isUrl()) {
                 super.onGridItemLongClick(item, v);
             } else {
-                showAlertDialog(getActivity().getString(R.string.dialog_edit_on_browser),
+                showAlertDialog(getActivity().getString(R.string.alert_edit_on_browser),
                         EDIT_ON_BROWSER, fact);
             }
         }

@@ -84,7 +84,7 @@ public class EditScreenImages {
             if (image.isCover()) {
                 super.onGridItemLongClick(item, v);
             } else {
-                showAlertDialog(getActivity().getString(R.string.dialog_set_image_as_background),
+                showAlertDialog(getActivity().getString(R.string.alert_set_image_as_background),
                         IMAGE_AS_COVER, image);
             }
         }

@@ -72,7 +72,7 @@ public class ActivityEditLocationsTest extends ActivityEditScreenTest {
         checkInGrid(data, false);
         checkMapIsShowing(false);
         String alert = getInstrumentation().getTargetContext().getResources().getString(R.string
-                .dialog_add_on_map);
+                .alert_add_on_map);
         assertFalse(mSolo.searchText(alert));
 
         mSolo.clickLongOnText("Add " + mDataType.getDatumName());
@@ -189,7 +189,7 @@ public class ActivityEditLocationsTest extends ActivityEditScreenTest {
         setUp(true);
 
         String alert = getInstrumentation().getTargetContext().getResources().getString(R.string
-                .dialog_edit_on_map);
+                .alert_edit_on_map);
 
         assertFalse(mSolo.searchText(alert));
         checkMapIsShowing(false);

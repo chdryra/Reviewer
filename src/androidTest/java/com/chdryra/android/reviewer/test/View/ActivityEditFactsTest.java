@@ -44,7 +44,7 @@ public class ActivityEditFactsTest extends ActivityEditScreenTest {
 
         checkBrowserIsShowing(false);
         String alert = getInstrumentation().getTargetContext().getResources().getString(R.string
-                .dialog_add_on_browser);
+                .alert_add_on_browser);
         assertFalse(mSolo.searchText(alert));
 
         mSolo.clickLongOnText("Add " + mDataType.getDatumName());
@@ -76,7 +76,7 @@ public class ActivityEditFactsTest extends ActivityEditScreenTest {
         setUp(true);
 
         String alert = getInstrumentation().getTargetContext().getResources().getString(R.string
-                .dialog_edit_on_browser);
+                .alert_edit_on_browser);
 
         assertFalse(mSolo.searchText(alert));
         checkBrowserIsShowing(false);

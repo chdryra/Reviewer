@@ -193,13 +193,14 @@ public class FragmentReviewView extends Fragment {
 
     public void updateGridData() {
         ((ViewHolderAdapter) mGridView.getAdapter()).setData(mReviewView.getGridViewData());
+        mReviewView.notifyDataSetChanged();
     }
 
     void initUi() {
         initSubjectUi();
         initRatingBarUi();
         initBannerButtonUi();
-        initDataGridUi();
+        initGridDataUi();
     }
 
     void initSubjectUi() {
@@ -216,13 +217,13 @@ public class FragmentReviewView extends Fragment {
                 final ReviewViewAction.SubjectAction action = mReviewView.getSubjectViewAction();
 
                 @Override
-                public void onTextChanged(CharSequence s, int start, int before, int count) {
-                    action.onTextChanged(s, start, before, count);
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                    action.beforeTextChanged(s, start, count, after);
                 }
 
                 @Override
-                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                    action.beforeTextChanged(s, start, count, after);
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    action.onTextChanged(s, start, before, count);
                 }
 
                 @Override
@@ -282,7 +283,7 @@ public class FragmentReviewView extends Fragment {
         });
     }
 
-    void initDataGridUi() {
+    void initGridDataUi() {
         ReviewView.ReviewViewParams params = mReviewView.getParams();
         if (!params.gridIsVisible) {
             mGridView.setVisibility(View.GONE);

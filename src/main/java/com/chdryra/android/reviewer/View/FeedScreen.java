@@ -9,10 +9,14 @@
 package com.chdryra.android.reviewer.View;
 
 import android.app.Activity;
+import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 
+import com.chdryra.android.mygenerallibrary.DialogAlertFragment;
 import com.chdryra.android.reviewer.Controller.Administrator;
 import com.chdryra.android.reviewer.Controller.ReviewView;
 import com.chdryra.android.reviewer.Controller.ReviewViewAction;
@@ -28,6 +32,7 @@ public class FeedScreen {
         ReviewView view = new ReviewView(Administrator.get(context).getPublishedReviews());
 
         view.setAction(new FeedScreenMenu());
+        view.setAction(new GridItem());
 
         ReviewView.ReviewViewParams params = view.getParams();
         params.cellHeight = ReviewView.CellDimension.FULL;
@@ -69,6 +74,58 @@ public class FeedScreen {
             admin.packView(BuildScreen.newScreen(getActivity()), i);
 
             getActivity().startActivity(i);
+        }
+    }
+
+    public static class GridItem extends ReviewViewAction.GridItemAction {
+        private static final String TAG            = "FeedGridItemListener";
+        private static final int    REQUEST_DELETE = 314;
+        private FeedGridItemListener mListener;
+
+        public GridItem() {
+            mListener = new FeedGridItemListener() {
+            };
+            super.registerActionListener(mListener, TAG);
+        }
+
+        @Override
+        public void onGridItemClick(GvData item, View v) {
+            super.onGridItemClick(item, v);
+        }
+
+        @Override
+        public void onGridItemLongClick(GvData item, View v) {
+            String alert = getActivity().getResources().getString(R.string.alert_delete_review);
+            showAlertDialog(alert, REQUEST_DELETE, item);
+        }
+
+        protected void showAlertDialog(String alert, int requestCode, GvData item) {
+            Bundle args = new Bundle();
+            GvDataPacker.packItem(GvDataPacker.CurrentNewDatum.CURRENT, item, args);
+            DialogAlertFragment dialog = DialogAlertFragment.newDialog(alert, args);
+            DialogShower.show(dialog, mListener, requestCode, DialogAlertFragment.ALERT_TAG);
+        }
+
+        protected void onDialogAlertPositive(int requestCode, Bundle args) {
+            if (requestCode == REQUEST_DELETE) {
+                GvData datum = GvDataPacker.unpackItem(GvDataPacker.CurrentNewDatum.CURRENT, args);
+                GvReviewList.GvReviewOverview review = (GvReviewList.GvReviewOverview) datum;
+                Administrator.get(getActivity()).deleteReview(review.getId());
+                getReviewView().resetGridViewData();
+            }
+        }
+
+        protected abstract class FeedGridItemListener extends Fragment
+                implements DialogAlertFragment.DialogAlertListener {
+
+            @Override
+            public void onAlertNegative(int requestCode, Bundle args) {
+            }
+
+            @Override
+            public void onAlertPositive(int requestCode, Bundle args) {
+                onDialogAlertPositive(requestCode, args);
+            }
         }
     }
 }

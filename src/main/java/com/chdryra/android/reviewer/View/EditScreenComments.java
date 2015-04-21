@@ -42,7 +42,6 @@ public class EditScreenComments {
 
     public static class GridItem extends EditScreen.GridItem {
         private static final int COMMENT_AS_HEADLINE = 200;
-        private GvCommentList.GvComment mHeadlineProposition;
 
         public GridItem() {
             super(ConfigGvDataUi.getConfig(GvCommentList.TYPE).getEditorConfig());
@@ -89,7 +88,7 @@ public class EditScreenComments {
             if (comment.isHeadline()) {
                 super.onGridItemLongClick(item, v);
             } else {
-                showAlertDialog(getActivity().getString(R.string.dialog_set_comment_as_headline),
+                showAlertDialog(getActivity().getString(R.string.alert_set_comment_as_headline),
                         COMMENT_AS_HEADLINE, comment);
             }
         }

@@ -15,6 +15,7 @@ import android.content.Intent;
 import com.chdryra.android.mygenerallibrary.ObjectHolder;
 import com.chdryra.android.reviewer.Database.ReviewerDb;
 import com.chdryra.android.reviewer.Model.Author;
+import com.chdryra.android.reviewer.Model.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewIdableList;
 import com.chdryra.android.reviewer.Model.ReviewNode;
 import com.chdryra.android.reviewer.Model.UserId;
@@ -110,6 +111,11 @@ public class Administrator {
         mDatabase.addReviewTreeToDb(published);
         mPublishedReviews.add(published);
         mReviewBuilder = null;
+    }
+
+    public void deleteReview(String reviewId) {
+        mPublishedReviews.delete(ReviewId.fromString(reviewId));
+        mDatabase.deleteReviewTreeFromDb(reviewId);
     }
 
     public GvSocialPlatformList getSocialPlatformList() {
