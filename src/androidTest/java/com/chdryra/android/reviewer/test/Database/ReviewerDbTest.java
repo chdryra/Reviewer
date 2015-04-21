@@ -40,6 +40,7 @@ import com.chdryra.android.reviewer.Model.Review;
 import com.chdryra.android.reviewer.Model.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewIdableList;
 import com.chdryra.android.reviewer.Model.ReviewNode;
+import com.chdryra.android.reviewer.Model.ReviewTreeComparer;
 import com.chdryra.android.reviewer.Model.ReviewTreeNode;
 import com.chdryra.android.reviewer.Model.TagsManager;
 import com.chdryra.android.reviewer.View.GvTagList;
@@ -80,77 +81,6 @@ public class ReviewerDbTest extends AndroidTestCase {
         for (ReviewNode child : mNode.getChildren()) {
             testReviewTreesRow(child);
         }
-    }
-
-    @SmallTest
-    public void testAddMultipleTrees() {
-        Review parentReview = mNode.getParent().getReview();
-        Review nodeReview = mNode.getReview();
-        ReviewIdableList<Review> childReviews = new ReviewIdableList<>();
-        for (ReviewNode child : mNode.getChildren()) {
-            childReviews.add(child.getReview());
-        }
-
-        //First tree
-        ReviewIdableList<Review> children = new ReviewIdableList<>();
-        children.add(parentReview);
-        children.add(nodeReview);
-
-        ReviewNode tree1 = mNode;
-
-        mDatabase.addReviewTreeToDb(tree1);
-        int parentNode = mNode.getParent() != null ? 1 : 0;
-        int numNodes = 1 + mNode.getChildren().size() + parentNode;
-        assertEquals(numNodes, getNumberRows(ReviewerDbContract.TREES_TABLE));
-
-        long reviewRows = getNumberRows(ReviewerDbContract.REVIEWS_TABLE);
-        long commentsRows = getNumberRows(ReviewerDbContract.COMMENTS_TABLE);
-        long factsRows = getNumberRows(ReviewerDbContract.FACTS_TABLE);
-        long locationsRows = getNumberRows(ReviewerDbContract.LOCATIONS_TABLE);
-        long imagesRows = getNumberRows(ReviewerDbContract.IMAGES_TABLE);
-
-        //Different tree same reviews
-        ReviewTreeNode rootNode = new ReviewTreeNode(childReviews.getItem(0), false,
-                ReviewId.generateId());
-        for (Review child : children) {
-            rootNode.addChild(new ReviewTreeNode(child, false, ReviewId.generateId()));
-        }
-        ReviewNode tree2 = rootNode.createTree();
-        mDatabase.addReviewTreeToDb(tree2);
-        assertEquals(numNodes + 3, getNumberRows(ReviewerDbContract.TREES_TABLE));
-        assertEquals(reviewRows, getNumberRows(ReviewerDbContract.REVIEWS_TABLE));
-        assertEquals(commentsRows, getNumberRows(ReviewerDbContract.COMMENTS_TABLE));
-        assertEquals(factsRows, getNumberRows(ReviewerDbContract.FACTS_TABLE));
-        assertEquals(locationsRows, getNumberRows(ReviewerDbContract.LOCATIONS_TABLE));
-        assertEquals(imagesRows, getNumberRows(ReviewerDbContract.IMAGES_TABLE));
-
-        //Different tree different reviews
-        ReviewNode tree3 = ReviewMocker.newReviewNode();
-        ReviewNode parent3 = tree3.getParent();
-        ReviewIdableList<ReviewNode> children3 = tree3.getChildren();
-
-        mDatabase.addReviewTreeToDb(tree3);
-
-        int numNodes3 = 2 + tree3.getChildren().size();
-        assertEquals(numNodes + 3 + numNodes3, getNumberRows(ReviewerDbContract.TREES_TABLE));
-        assertEquals(reviewRows + numNodes3, getNumberRows(ReviewerDbContract.REVIEWS_TABLE));
-
-        long numComments = commentsRows + tree3.getComments().size() + parent3.getComments().size();
-        long numFacts = factsRows + tree3.getFacts().size() + parent3.getFacts().size();
-        long numLocations = locationsRows + tree3.getLocations().size() + parent3.getLocations()
-                .size();
-        long numImages = imagesRows + tree3.getImages().size() + parent3.getImages().size();
-        for (ReviewNode child : children3) {
-            numComments += child.getComments().size();
-            numFacts += child.getFacts().size();
-            numLocations += child.getLocations().size();
-            numImages += child.getImages().size();
-        }
-
-        assertEquals(numComments, getNumberRows(ReviewerDbContract.COMMENTS_TABLE));
-        assertEquals(numFacts, getNumberRows(ReviewerDbContract.FACTS_TABLE));
-        assertEquals(numLocations, getNumberRows(ReviewerDbContract.LOCATIONS_TABLE));
-        assertEquals(numImages, getNumberRows(ReviewerDbContract.IMAGES_TABLE));
     }
 
     @SmallTest
@@ -290,6 +220,235 @@ public class ReviewerDbTest extends AndroidTestCase {
         }
     }
 
+    @SmallTest
+    public void testAddMultipleTrees() {
+        int numTags = 5;
+        GvTagList tags = GvDataMocker.newTagList(numTags);
+        GvTagList tags1 = new GvTagList();
+        GvTagList tags2 = new GvTagList();
+        GvTagList tags3 = new GvTagList();
+        for (int i = 0; i < 3; ++i) {
+            tags1.add(tags.getItem(i));
+        }
+        for (int i = 1; i < 4; ++i) {
+            tags2.add(tags.getItem(i));
+        }
+        for (int i = 2; i < 5; ++i) {
+            tags3.add(tags.getItem(i));
+        }
+
+        //First tree
+        ReviewNode tree1 = mNode;
+        TagsManager.tag(tree1.getId(), tags1.toStringArray());
+
+        mDatabase.addReviewTreeToDb(tree1);
+
+        ReviewIdableList<ReviewNode> fromDb = mDatabase.getReviewTreesFromDb();
+        assertEquals(1, fromDb.size());
+        assertTrue(ReviewTreeComparer.compareTrees(tree1, fromDb.getItem(0)));
+
+        ReviewNode parent1 = mNode.getParent();
+        int numComments = getNumDataInSubTree(parent1, ConfigDb.DbData.COMMENTS);
+        int numFacts = getNumDataInSubTree(parent1, ConfigDb.DbData.FACTS);
+        int numLocations = getNumDataInSubTree(parent1, ConfigDb.DbData.LOCATIONS);
+        int numImages = getNumDataInSubTree(parent1, ConfigDb.DbData.IMAGES);
+        int numNodes1 = 1 + mNode.getChildren().size() + 1;
+        assertEquals(numNodes1, getNumberRows(ReviewerDbContract.TREES_TABLE));
+        assertEquals(numNodes1, getNumberRows(ReviewerDbContract.REVIEWS_TABLE));
+        assertEquals(numNodes1, getNumberRows(ReviewerDbContract.AUTHORS_TABLE));
+        assertEquals(3, getNumberRows(ReviewerDbContract.TAGS_TABLE));
+        assertEquals(numComments, getNumberRows(ReviewerDbContract.COMMENTS_TABLE));
+        assertEquals(numFacts, getNumberRows(ReviewerDbContract.FACTS_TABLE));
+        assertEquals(numLocations, getNumberRows(ReviewerDbContract.LOCATIONS_TABLE));
+        assertEquals(numImages, getNumberRows(ReviewerDbContract.IMAGES_TABLE));
+        assertEquals(numImages, getNumberRows(ReviewerDbContract.IMAGES_TABLE));
+
+        //Different tree same reviews
+        Review parentReview = mNode.getParent().getReview();
+        Review nodeReview = mNode.getReview();
+        ReviewIdableList<Review> childReviews = new ReviewIdableList<>();
+        for (ReviewNode child : mNode.getChildren()) {
+            childReviews.add(child.getReview());
+        }
+        ReviewTreeNode node2 = new ReviewTreeNode(childReviews.getItem(0), false,
+                ReviewId.generateId());
+        ReviewIdableList<Review> children = new ReviewIdableList<>();
+        children.add(parentReview);
+        children.add(nodeReview);
+        for (Review child : children) {
+            node2.addChild(new ReviewTreeNode(child, false, ReviewId.generateId()));
+        }
+        ReviewNode tree2 = node2.createTree();
+        TagsManager.tag(tree2.getId(), tags2.toStringArray());
+
+        mDatabase.addReviewTreeToDb(tree2);
+
+        fromDb = mDatabase.getReviewTreesFromDb();
+        assertEquals(2, fromDb.size());
+        assertTrue(ReviewTreeComparer.compareTrees(tree1, fromDb.getItem(0)));
+        assertTrue(ReviewTreeComparer.compareTrees(tree2, fromDb.getItem(1)));
+
+        int numNodes2 = 1 + tree2.getChildren().size();
+        assertEquals(numNodes1 + numNodes2, getNumberRows(ReviewerDbContract.TREES_TABLE));
+        assertEquals(numNodes1, getNumberRows(ReviewerDbContract.REVIEWS_TABLE));
+        assertEquals(numNodes1, getNumberRows(ReviewerDbContract.AUTHORS_TABLE));
+        assertEquals(4, getNumberRows(ReviewerDbContract.TAGS_TABLE));
+        assertEquals(numComments, getNumberRows(ReviewerDbContract.COMMENTS_TABLE));
+        assertEquals(numFacts, getNumberRows(ReviewerDbContract.FACTS_TABLE));
+        assertEquals(numLocations, getNumberRows(ReviewerDbContract.LOCATIONS_TABLE));
+        assertEquals(numImages, getNumberRows(ReviewerDbContract.IMAGES_TABLE));
+
+        //Different tree different reviews
+        ReviewNode tree3 = ReviewMocker.newReviewNode();
+        TagsManager.tag(tree3.getId(), tags3.toStringArray());
+
+        mDatabase.addReviewTreeToDb(tree3);
+
+        fromDb = mDatabase.getReviewTreesFromDb();
+        assertEquals(3, fromDb.size());
+        assertTrue(ReviewTreeComparer.compareTrees(tree1, fromDb.getItem(0)));
+        assertTrue(ReviewTreeComparer.compareTrees(tree2, fromDb.getItem(1)));
+        assertTrue(ReviewTreeComparer.compareTrees(tree3, fromDb.getItem(2)));
+
+        ReviewNode parent3 = tree3.getParent();
+        numComments += getNumDataInSubTree(parent3, ConfigDb.DbData.COMMENTS);
+        numFacts += getNumDataInSubTree(parent3, ConfigDb.DbData.FACTS);
+        numLocations += getNumDataInSubTree(parent3, ConfigDb.DbData.LOCATIONS);
+        numImages += getNumDataInSubTree(parent3, ConfigDb.DbData.IMAGES);
+        int numNodes3 = 2 + tree3.getChildren().size();
+        int numNodes = numNodes1 + numNodes2 + numNodes3;
+        assertEquals(numNodes, getNumberRows(ReviewerDbContract.TREES_TABLE));
+        assertEquals(numNodes1 + numNodes3, getNumberRows(ReviewerDbContract.REVIEWS_TABLE));
+        assertEquals(numNodes1 + numNodes3, getNumberRows(ReviewerDbContract.AUTHORS_TABLE));
+        assertEquals(5, getNumberRows(ReviewerDbContract.TAGS_TABLE));
+        assertEquals(numComments, getNumberRows(ReviewerDbContract.COMMENTS_TABLE));
+        assertEquals(numFacts, getNumberRows(ReviewerDbContract.FACTS_TABLE));
+        assertEquals(numLocations, getNumberRows(ReviewerDbContract.LOCATIONS_TABLE));
+        assertEquals(numImages, getNumberRows(ReviewerDbContract.IMAGES_TABLE));
+    }
+
+    @SmallTest
+    public void testDeleteReviewTreeFromDb() {
+        int numTags = 5;
+        GvTagList tags = GvDataMocker.newTagList(numTags);
+        GvTagList tags1 = new GvTagList();
+        GvTagList tags2 = new GvTagList();
+        GvTagList tags3 = new GvTagList();
+        for (int i = 0; i < 3; ++i) {
+            tags1.add(tags.getItem(i));
+        }
+        for (int i = 1; i < 4; ++i) {
+            tags2.add(tags.getItem(i));
+        }
+        for (int i = 2; i < 5; ++i) {
+            tags3.add(tags.getItem(i));
+        }
+
+        Review parentReview = mNode.getParent().getReview();
+        Review nodeReview = mNode.getReview();
+        ReviewIdableList<Review> childReviews = new ReviewIdableList<>();
+        for (ReviewNode child : mNode.getChildren()) {
+            childReviews.add(child.getReview());
+        }
+
+        ReviewTreeNode rootNode = new ReviewTreeNode(childReviews.getItem(0), false,
+                ReviewId.generateId());
+        ReviewIdableList<Review> children = new ReviewIdableList<>();
+        children.add(parentReview);
+        children.add(nodeReview);
+        for (Review child : children) {
+            rootNode.addChild(new ReviewTreeNode(child, false, ReviewId.generateId()));
+        }
+        ReviewNode tree1 = mNode;
+        ReviewNode tree2 = rootNode.createTree();
+        ReviewNode tree3 = ReviewMocker.newReviewNode();
+
+        TagsManager.tag(tree1.getId(), tags1.toStringArray());
+        TagsManager.tag(tree2.getId(), tags2.toStringArray());
+        TagsManager.tag(tree3.getId(), tags3.toStringArray());
+
+        mDatabase.addReviewTreeToDb(tree1);
+        mDatabase.addReviewTreeToDb(tree2);
+        mDatabase.addReviewTreeToDb(tree3);
+
+        ReviewIdableList<ReviewNode> fromDb = mDatabase.getReviewTreesFromDb();
+        assertEquals(3, fromDb.size());
+        assertTrue(ReviewTreeComparer.compareTrees(tree1, fromDb.getItem(0)));
+        assertTrue(ReviewTreeComparer.compareTrees(tree2, fromDb.getItem(1)));
+        assertTrue(ReviewTreeComparer.compareTrees(tree3, fromDb.getItem(2)));
+
+        ReviewNode parent1 = tree1.getParent();
+        ReviewNode parent3 = tree3.getParent();
+        long numComments1 = getNumDataInSubTree(parent1, ConfigDb.DbData.COMMENTS);
+        long numFacts1 = getNumDataInSubTree(parent1, ConfigDb.DbData.FACTS);
+        long numLocations1 = getNumDataInSubTree(parent1, ConfigDb.DbData.LOCATIONS);
+        long numImages1 = getNumDataInSubTree(parent1, ConfigDb.DbData.IMAGES);
+        long numComments3 = getNumDataInSubTree(parent3, ConfigDb.DbData.COMMENTS);
+        long numFacts3 = getNumDataInSubTree(parent3, ConfigDb.DbData.FACTS);
+        long numLocations3 = getNumDataInSubTree(parent3, ConfigDb.DbData.LOCATIONS);
+        long numImages3 = getNumDataInSubTree(parent3, ConfigDb.DbData.IMAGES);
+        long numComments = numComments1 + numComments3;
+        long numFacts = numFacts1 + numFacts3;
+        long numLocations = numLocations1 + numLocations3;
+        long numImages = numImages1 + numImages3;
+
+        int numNodes1 = 2 + tree1.getChildren().size();
+        int numNodes2 = 1 + tree2.getChildren().size();
+        int numNodes3 = 2 + tree3.getChildren().size();
+        int numNodes = numNodes1 + numNodes2 + numNodes3;
+
+        assertEquals(numNodes, getNumberRows(ReviewerDbContract.TREES_TABLE));
+        assertEquals(numNodes1 + numNodes3, getNumberRows(ReviewerDbContract.REVIEWS_TABLE));
+        assertEquals(numNodes1 + numNodes3, getNumberRows(ReviewerDbContract.AUTHORS_TABLE));
+        assertEquals(5, getNumberRows(ReviewerDbContract.TAGS_TABLE));
+        assertEquals(numComments, getNumberRows(ReviewerDbContract.COMMENTS_TABLE));
+        assertEquals(numFacts, getNumberRows(ReviewerDbContract.FACTS_TABLE));
+        assertEquals(numLocations, getNumberRows(ReviewerDbContract.LOCATIONS_TABLE));
+        assertEquals(numImages, getNumberRows(ReviewerDbContract.IMAGES_TABLE));
+
+        mDatabase.deleteReviewTreeFromDb(tree3.getId().toString());
+
+        fromDb = mDatabase.getReviewTreesFromDb();
+        assertEquals(2, fromDb.size());
+        assertTrue(ReviewTreeComparer.compareTrees(tree1, fromDb.getItem(0)));
+        assertTrue(ReviewTreeComparer.compareTrees(tree2, fromDb.getItem(1)));
+
+        assertEquals(numNodes - numNodes3, getNumberRows(ReviewerDbContract.TREES_TABLE));
+        assertEquals(numNodes1, getNumberRows(ReviewerDbContract.REVIEWS_TABLE));
+        assertEquals(numNodes1, getNumberRows(ReviewerDbContract.AUTHORS_TABLE));
+        assertEquals(4, getNumberRows(ReviewerDbContract.TAGS_TABLE));
+        assertEquals(numComments1, getNumberRows(ReviewerDbContract.COMMENTS_TABLE));
+        assertEquals(numFacts1, getNumberRows(ReviewerDbContract.FACTS_TABLE));
+        assertEquals(numLocations1, getNumberRows(ReviewerDbContract.LOCATIONS_TABLE));
+        assertEquals(numImages1, getNumberRows(ReviewerDbContract.IMAGES_TABLE));
+
+        mDatabase.deleteReviewTreeFromDb(tree2.getId().toString());
+
+        fromDb = mDatabase.getReviewTreesFromDb();
+        assertEquals(1, fromDb.size());
+        assertTrue(ReviewTreeComparer.compareTrees(tree1, fromDb.getItem(0)));
+
+        assertEquals(numNodes1, getNumberRows(ReviewerDbContract.TREES_TABLE));
+        assertEquals(numNodes1, getNumberRows(ReviewerDbContract.REVIEWS_TABLE));
+        assertEquals(numNodes1, getNumberRows(ReviewerDbContract.AUTHORS_TABLE));
+        assertEquals(3, getNumberRows(ReviewerDbContract.TAGS_TABLE));
+        assertEquals(numComments1, getNumberRows(ReviewerDbContract.COMMENTS_TABLE));
+        assertEquals(numFacts1, getNumberRows(ReviewerDbContract.FACTS_TABLE));
+        assertEquals(numLocations1, getNumberRows(ReviewerDbContract.LOCATIONS_TABLE));
+        assertEquals(numImages1, getNumberRows(ReviewerDbContract.IMAGES_TABLE));
+
+        mDatabase.deleteReviewTreeFromDb(tree1.getId().toString());
+
+        assertEquals(0, getNumberRows(ReviewerDbContract.TREES_TABLE));
+        assertEquals(0, getNumberRows(ReviewerDbContract.REVIEWS_TABLE));
+        assertEquals(0, getNumberRows(ReviewerDbContract.AUTHORS_TABLE));
+        assertEquals(0, getNumberRows(ReviewerDbContract.TAGS_TABLE));
+        assertEquals(0, getNumberRows(ReviewerDbContract.COMMENTS_TABLE));
+        assertEquals(0, getNumberRows(ReviewerDbContract.FACTS_TABLE));
+        assertEquals(0, getNumberRows(ReviewerDbContract.LOCATIONS_TABLE));
+        assertEquals(0, getNumberRows(ReviewerDbContract.IMAGES_TABLE));
+    }
+
     @Override
     protected void setUp() throws Exception {
         mDatabase = ReviewerDb.getTestDatabase(getContext());
@@ -300,6 +459,32 @@ public class ReviewerDbTest extends AndroidTestCase {
     @Override
     protected void tearDown() throws Exception {
         deleteDatabaseIfNecessary();
+    }
+
+    private int getNumDataInSubTree(ReviewNode node, ConfigDb.DbData dataType) {
+        int n = 0;
+        switch (dataType) {
+            case COMMENTS:
+                n = node.getComments().size();
+                break;
+            case FACTS:
+                n = node.getFacts().size();
+                break;
+            case IMAGES:
+                n = node.getImages().size();
+                break;
+            case LOCATIONS:
+                n = node.getLocations().size();
+                break;
+            default:
+                fail();
+        }
+
+        for (ReviewNode child : node.getChildren()) {
+            n += getNumDataInSubTree(child, dataType);
+        }
+
+        return n;
     }
 
     private Map<String, ArrayList<String>> newTagsMap(GvTagList tags) {
