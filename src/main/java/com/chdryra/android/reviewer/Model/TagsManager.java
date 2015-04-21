@@ -116,17 +116,34 @@ public class TagsManager {
             return mTag.equalsIgnoreCase(tag);
         }
 
-        public boolean equals(ReviewTag tag) {
-            return mTag.equals(tag.get()) && mReviews.equals(tag.mReviews);
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (!(o instanceof ReviewTag)) return false;
+
+            ReviewTag reviewTag = (ReviewTag) o;
+
+            if (!mReviews.equals(reviewTag.mReviews)) return false;
+            return mTag.equals(reviewTag.mTag);
+
         }
 
         private void addReview(ReviewId id) {
             if (!mReviews.contains(id)) mReviews.add(id);
         }
 
+        @Override
+        public int hashCode() {
+            int result = mReviews.hashCode();
+            result = 31 * result + mTag.hashCode();
+            return result;
+        }
+
         private void removeReview(ReviewId id) {
             mReviews.remove(id);
         }
+
+
     }
 
     /**
@@ -201,5 +218,23 @@ public class TagsManager {
                 }
             }
         }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (!(o instanceof ReviewTagCollection)) return false;
+
+            ReviewTagCollection that = (ReviewTagCollection) o;
+
+            return mTags.equals(that.mTags);
+
+        }
+
+        @Override
+        public int hashCode() {
+            return mTags.hashCode();
+        }
+
+
     }
 }

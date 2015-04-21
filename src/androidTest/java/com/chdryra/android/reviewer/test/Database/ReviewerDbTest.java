@@ -37,13 +37,14 @@ import com.chdryra.android.reviewer.Model.MdFactList;
 import com.chdryra.android.reviewer.Model.MdImageList;
 import com.chdryra.android.reviewer.Model.MdLocationList;
 import com.chdryra.android.reviewer.Model.Review;
+import com.chdryra.android.reviewer.Model.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewIdableList;
 import com.chdryra.android.reviewer.Model.ReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewTreeNode;
 import com.chdryra.android.reviewer.Model.TagsManager;
 import com.chdryra.android.reviewer.View.GvTagList;
+import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
 import com.chdryra.android.reviewer.test.TestUtils.ReviewMocker;
-import com.chdryra.android.testutils.RandomString;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -123,53 +124,66 @@ public class ReviewerDbTest extends AndroidTestCase {
     public void testAddReviewToTagsTable() {
         ReviewerDbTable table = ReviewerDbContract.TAGS_TABLE;
 
-        int numTags = 5;
-        Map<String, ArrayList<String>> tagsMap = new HashMap<>();
-        GvTagList tags = new GvTagList();
-        for (int i = 0; i < numTags; ++i) {
-            String tag = RandomString.nextWord();
-            tags.add(new GvTagList.GvTag(tag));
-            tagsMap.put(tag, new ArrayList<String>());
-        }
+        Map<String, ArrayList<String>> tagsMap = tagAndTestNodes();
+        assertEquals(0, getNumberRows(table));
+        mDatabase.addReviewTreeToDb(mNode);
+        assertEquals(tagsMap.size(), getNumberRows(table));
 
-        ReviewNode parent = mNode.getParent();
+        for (String tag : tagsMap.keySet()) {
+            testTag(tag, tagsMap.get(tag));
+        }
+    }
+
+    @SmallTest
+    public void testLoadTags() {
+        ReviewerDbTable table = ReviewerDbContract.TAGS_TABLE;
+        Map<String, ArrayList<String>> tagsMap = tagAndTestNodes();
+
+        ReviewId parentId = mNode.getParent().getId();
+        ReviewId nodeId = mNode.getId();
         ReviewIdableList<ReviewNode> children = mNode.getChildren();
-        GvTagList parentTags = new GvTagList();
-        for (int i = 0; i < 3; ++i) {
-            GvTagList.GvTag tag = tags.getItem(i);
-            parentTags.add(tag);
-            tagsMap.get(tag.get()).add(parent.getReview().getId().toString());
-        }
-        GvTagList nodeTags = new GvTagList();
-        for (int i = 1; i < 4; ++i) {
-            GvTagList.GvTag tag = tags.getItem(i);
-            nodeTags.add(tag);
-            tagsMap.get(tag.get()).add(mNode.getReview().getId().toString());
-        }
-        GvTagList childrenTags = new GvTagList();
-        for (int i = 2; i < 5; ++i) {
-            GvTagList.GvTag tag = tags.getItem(i);
-            childrenTags.add(tag);
-            for (ReviewNode child : children) {
-                tagsMap.get(tag.get()).add(child.getReview().getId().toString());
-            }
-        }
 
-        TagsManager.tag(parent.getReview().getId(), parentTags.toStringArray());
-        assertEquals(3, TagsManager.getTags(parent.getReview().getId()).size());
-        TagsManager.tag(mNode.getReview().getId(), nodeTags.toStringArray());
-        assertEquals(3, TagsManager.getTags(mNode.getReview().getId()).size());
+        TagsManager.ReviewTagCollection parentTags = TagsManager.getTags(parentId);
+        assertTrue(parentTags.size() > 0);
+        TagsManager.ReviewTagCollection nodeTags = TagsManager.getTags(nodeId);
+        assertTrue(nodeTags.size() > 0);
+        ArrayList<TagsManager.ReviewTagCollection> childrenTags = new ArrayList<>();
         for (ReviewNode child : children) {
-            TagsManager.tag(child.getReview().getId(), childrenTags.toStringArray());
-            assertEquals(3, TagsManager.getTags(child.getReview().getId()).size());
+            TagsManager.ReviewTagCollection childTags = TagsManager.getTags(child.getId());
+            childrenTags.add(childTags);
+            assertTrue(childTags.size() > 0);
         }
+        assertEquals(children.size(), childrenTags.size());
 
         assertEquals(0, getNumberRows(table));
         mDatabase.addReviewTreeToDb(mNode);
-        assertEquals(tags.size(), getNumberRows(table));
+        assertEquals(tagsMap.size(), getNumberRows(table));
 
-        for (GvTagList.GvTag tag : tags) {
-            testTag(tag.get(), tagsMap.get(tag.get()));
+        for (TagsManager.ReviewTag tag : parentTags) {
+            TagsManager.untag(parentId, tag);
+        }
+        assertEquals(0, TagsManager.getTags(parentId).size());
+
+        for (TagsManager.ReviewTag tag : nodeTags) {
+            TagsManager.untag(nodeId, tag);
+        }
+        assertEquals(0, TagsManager.getTags(nodeId).size());
+
+        for (int i = 0; i < children.size(); ++i) {
+            ReviewId childId = children.getItem(i).getId();
+            for (TagsManager.ReviewTag tag : childrenTags.get(i)) {
+                TagsManager.untag(childId, tag);
+            }
+            assertEquals(0, TagsManager.getTags(childId).size());
+        }
+
+        mDatabase.loadTags();
+
+        checkTagList(parentTags, TagsManager.getTags(parentId), tagsMap);
+        checkTagList(nodeTags, TagsManager.getTags(nodeId), tagsMap);
+        for (int i = 0; i < children.size(); ++i) {
+            ReviewId childId = children.getItem(i).getId();
+            checkTagList(childrenTags.get(i), TagsManager.getTags(childId), tagsMap);
         }
     }
 
@@ -219,6 +233,70 @@ public class ReviewerDbTest extends AndroidTestCase {
     @Override
     protected void tearDown() throws Exception {
         deleteDatabaseIfNecessary();
+    }
+
+    private Map<String, ArrayList<String>> newTagsMap(GvTagList tags) {
+        Map<String, ArrayList<String>> tagsMap = new HashMap<>();
+        for (int i = 0; i < tags.size(); ++i) {
+            tagsMap.put(tags.getItem(i).get(), new ArrayList<String>());
+        }
+
+        return tagsMap;
+    }
+
+    private Map<String, ArrayList<String>> tagAndTestNodes() {
+        int numTags = 5;
+        GvTagList tags = GvDataMocker.newTagList(numTags);
+        Map<String, ArrayList<String>> tagsMap = newTagsMap(tags);
+
+        ReviewNode parent = mNode.getParent();
+        ReviewIdableList<ReviewNode> children = mNode.getChildren();
+
+        GvTagList parentTags = new GvTagList();
+        for (int i = 0; i < 3; ++i) {
+            GvTagList.GvTag tag = tags.getItem(i);
+            parentTags.add(tag);
+            tagsMap.get(tag.get()).add(parent.getReview().getId().toString());
+        }
+        GvTagList nodeTags = new GvTagList();
+        for (int i = 1; i < 4; ++i) {
+            GvTagList.GvTag tag = tags.getItem(i);
+            nodeTags.add(tag);
+            tagsMap.get(tag.get()).add(mNode.getReview().getId().toString());
+        }
+        GvTagList childrenTags = new GvTagList();
+        for (int i = 2; i < 5; ++i) {
+            GvTagList.GvTag tag = tags.getItem(i);
+            childrenTags.add(tag);
+            for (ReviewNode child : children) {
+                tagsMap.get(tag.get()).add(child.getReview().getId().toString());
+            }
+        }
+
+        TagsManager.tag(parent.getReview().getId(), parentTags.toStringArray());
+        assertEquals(3, TagsManager.getTags(parent.getReview().getId()).size());
+        TagsManager.tag(mNode.getReview().getId(), nodeTags.toStringArray());
+        assertEquals(3, TagsManager.getTags(mNode.getReview().getId()).size());
+        for (ReviewNode child : children) {
+            TagsManager.tag(child.getReview().getId(), childrenTags.toStringArray());
+            assertEquals(3, TagsManager.getTags(child.getReview().getId()).size());
+        }
+
+        return tagsMap;
+    }
+
+    private void checkTagList(TagsManager.ReviewTagCollection lhs, TagsManager
+            .ReviewTagCollection rhs, Map<String, ArrayList<String>> reviewIds) {
+        assertEquals(lhs.size(), rhs.size());
+        for (int i = 0; i < rhs.size(); ++i) {
+            TagsManager.ReviewTag tag = rhs.getItem(i);
+            assertEquals(lhs.getItem(i).get(), tag.get());
+            ArrayList<String> tagged = reviewIds.get(tag.get());
+            ArrayList<ReviewId> taggedIds = tag.getReviews();
+            for (int j = 0; j < taggedIds.size(); ++j) {
+                assertEquals(tagged.get(j), taggedIds.get(j).toString());
+            }
+        }
     }
 
     private void testTag(String tag, ArrayList<String> tagReviews) {
