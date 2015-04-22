@@ -26,6 +26,14 @@ public class MdImageList extends MdDataList<MdImageList.MdImage> {
         super(reviewId);
     }
 
+    public MdImageList getCovers() {
+        MdImageList covers = new MdImageList(getReviewId());
+        for (MdImage image : this) {
+            if (image.isCover()) covers.add(image);
+        }
+
+        return covers;
+    }
     /**
      * Review Data: image
      * <p>

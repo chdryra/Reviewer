@@ -48,8 +48,9 @@ public class EditScreenComments {
         }
 
         @Override
-        public void onGridItemClick(GvData item, View v) {
-            super.onGridItemClick(((GvCommentList.GvComment) item).getUnsplitComment(), v);
+        public void onGridItemClick(GvData item, int position, View v) {
+            GvCommentList.GvComment unsplit = ((GvCommentList.GvComment) item).getUnsplitComment();
+            super.onGridItemClick(unsplit, position, v);
         }
 
         @Override
@@ -83,10 +84,10 @@ public class EditScreenComments {
         }
 
         @Override
-        public void onGridItemLongClick(GvData item, View v) {
+        public void onGridItemLongClick(GvData item, int position, View v) {
             GvCommentList.GvComment comment = (GvCommentList.GvComment) item;
             if (comment.isHeadline()) {
-                super.onGridItemLongClick(item, v);
+                super.onGridItemLongClick(item, position, v);
             } else {
                 showAlertDialog(getActivity().getString(R.string.alert_set_comment_as_headline),
                         COMMENT_AS_HEADLINE, comment);

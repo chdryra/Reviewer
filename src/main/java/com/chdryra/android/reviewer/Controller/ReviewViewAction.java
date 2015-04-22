@@ -144,11 +144,11 @@ public class ReviewViewAction {
 
     public static class GridItemAction extends ReviewViewAction {
 
-        public void onGridItemClick(GvData item, View v) {
+        public void onGridItemClick(GvData item, int position, View v) {
         }
 
-        public void onGridItemLongClick(GvData item, View v) {
-            onGridItemClick(item, v);
+        public void onGridItemLongClick(GvData item, int position, View v) {
+            onGridItemClick(item, position, v);
         }
     }
 

@@ -19,15 +19,11 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.chdryra.android.reviewer.Controller.Administrator;
-import com.chdryra.android.reviewer.Controller.ReviewBuilder;
+import com.chdryra.android.reviewer.Controller.ReviewDataAdapter;
 import com.chdryra.android.reviewer.Controller.ReviewView;
 import com.chdryra.android.reviewer.Controller.ReviewViewAction;
 import com.chdryra.android.reviewer.Controller.ReviewViewAdapter;
-import com.chdryra.android.reviewer.Controller.ReviewViewAdapterBasic;
-import com.chdryra.android.reviewer.Model.Author;
 import com.chdryra.android.reviewer.R;
-
-import java.util.Date;
 
 /**
  * Created by: Rizwan Choudrey
@@ -36,9 +32,11 @@ import java.util.Date;
  */
 public class ShareScreen {
     public static ReviewView newScreen(Context context) {
-        ReviewBuilder builder = Administrator.get(context).getReviewBuilder();
-        ReviewViewAdapter adapter = new ShareScreenViewAdapter(context, builder);
+        Administrator admin = Administrator.get(context);
+        ReviewViewAdapter builder = admin.getReviewBuilder();
+        GvDataList platforms = admin.getSocialPlatformList();
 
+        ReviewViewAdapter adapter = new ReviewDataAdapter(context, builder, platforms);
         ReviewView view = new ReviewView(adapter, new ShareScreenModifier());
 
         String title = context.getResources().getString(R.string.button_social);
@@ -51,13 +49,9 @@ public class ShareScreen {
         return view;
     }
 
-    public static class ShareScreenGridItem extends ReviewViewAction.GridItemAction {
-        private ShareScreenGridItem() {
-
-        }
-
+    private static class ShareScreenGridItem extends ReviewViewAction.GridItemAction {
         @Override
-        public void onGridItemClick(GvData item, View v) {
+        public void onGridItemClick(GvData item, int position, View v) {
             GvSocialPlatformList.GvSocialPlatform platform =
                     (GvSocialPlatformList.GvSocialPlatform) item;
 
@@ -66,11 +60,7 @@ public class ShareScreen {
         }
     }
 
-    public static class ShareScreenModifier implements ReviewView.ViewModifier {
-        private ShareScreenModifier() {
-
-        }
-
+    private static class ShareScreenModifier implements ReviewView.ViewModifier {
         @Override
         public View modify(final FragmentReviewView parent, View v, LayoutInflater inflater,
                 ViewGroup container, Bundle savedInstanceState) {
@@ -96,51 +86,6 @@ public class ShareScreen {
             parent.addView(divider);
 
             return v;
-        }
-    }
-
-    public static class ShareScreenViewAdapter extends ReviewViewAdapterBasic {
-        private final Context           mContext;
-        private final ReviewViewAdapter mAdapter;
-
-        private ShareScreenViewAdapter(Context context, ReviewViewAdapter adapter) {
-            mContext = context;
-            mAdapter = adapter;
-        }
-
-        @Override
-        public String getSubject() {
-            return mAdapter.getSubject();
-        }
-
-        @Override
-        public float getRating() {
-            return mAdapter.getRating();
-        }
-
-        @Override
-        public float getAverageRating() {
-            return mAdapter.getAverageRating();
-        }
-
-        @Override
-        public GvDataList getGridData() {
-            return Administrator.get(mContext).getSocialPlatformList();
-        }
-
-        @Override
-        public Author getAuthor() {
-            return mAdapter.getAuthor();
-        }
-
-        @Override
-        public Date getPublishDate() {
-            return mAdapter.getPublishDate();
-        }
-
-        @Override
-        public GvImageList getImages() {
-            return mAdapter.getImages();
         }
     }
 }

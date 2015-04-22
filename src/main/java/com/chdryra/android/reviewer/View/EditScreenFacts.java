@@ -50,10 +50,10 @@ public class EditScreenFacts {
         }
 
         @Override
-        public void onGridItemLongClick(GvData item, View v) {
+        public void onGridItemLongClick(GvData item, int position, View v) {
             GvFactList.GvFact fact = (GvFactList.GvFact) item;
             if (!fact.isUrl()) {
-                super.onGridItemLongClick(item, v);
+                super.onGridItemLongClick(item, position, v);
             } else {
                 showAlertDialog(getActivity().getString(R.string.alert_edit_on_browser),
                         EDIT_ON_BROWSER, fact);

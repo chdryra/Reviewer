@@ -15,7 +15,6 @@ import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.Controller.Administrator;
 import com.chdryra.android.reviewer.Controller.ReviewBuilder;
-import com.chdryra.android.reviewer.Model.Author;
 import com.chdryra.android.reviewer.Model.ReviewIdableList;
 import com.chdryra.android.reviewer.Model.ReviewNode;
 import com.chdryra.android.reviewer.Model.TagsManager;
@@ -34,6 +33,7 @@ import com.chdryra.android.reviewer.View.GvTagList;
 import com.chdryra.android.reviewer.View.GvUrlList;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
 import com.chdryra.android.reviewer.test.TestUtils.MdGvEquality;
+import com.chdryra.android.reviewer.test.TestUtils.RandomAuthor;
 import com.chdryra.android.reviewer.test.TestUtils.RandomRating;
 import com.chdryra.android.testutils.RandomDate;
 import com.chdryra.android.testutils.RandomString;
@@ -89,22 +89,12 @@ public class ReviewBuilderTest extends ActivityInstrumentationTestCase2<Activity
     }
 
     @SmallTest
-    public void testGetAuthor() {
-        assertEquals(Administrator.get(getActivity()).getAuthor(), mBuilder.getAuthor());
-    }
-
-    @SmallTest
-    public void testGetPublishDate() {
-        assertNull(mBuilder.getPublishDate());
-    }
-
-    @SmallTest
     public void testGetImages() {
-        assertEquals(0, mBuilder.getImages().size());
+        assertEquals(0, mBuilder.getCovers().size());
         GvImageList images = GvDataMocker.newImageList(NUM, false);
         setBuilderData(images);
-        assertEquals(images.size(), mBuilder.getImages().size());
-        assertEquals(images, mBuilder.getImages());
+        assertEquals(images.size(), mBuilder.getCovers().size());
+        assertEquals(images, mBuilder.getCovers());
     }
 
     @SmallTest
@@ -167,35 +157,21 @@ public class ReviewBuilderTest extends ActivityInstrumentationTestCase2<Activity
     }
 
     @SmallTest
-    public void testDataBuilderGetAuthor() {
-        for (GvDataType dataType : TYPES) {
-            assertEquals(mBuilder.getAuthor(), mBuilder.getDataBuilder(dataType).getAuthor());
-        }
-    }
-
-    @SmallTest
-    public void testDataBuilderGetPubishDate() {
-        for (GvDataType dataType : TYPES) {
-            assertNull(mBuilder.getDataBuilder(dataType).getPublishDate());
-        }
-    }
-
-    @SmallTest
     public void testDataBuilderGetImages() {
         GvImageList images = GvDataMocker.newImageList(NUM, false);
         GvImageList newImages = GvDataMocker.newImageList(NUM, false);
         setBuilderData(images);
 
         for (GvDataType dataType : TYPES) {
-            assertEquals(images, mBuilder.getImages());
+            assertEquals(images, mBuilder.getCovers());
             ReviewBuilder.DataBuilder builder = mBuilder.getDataBuilder(dataType);
-            assertEquals(images, builder.getImages());
+            assertEquals(images, builder.getCovers());
             setBuilderData(newImages);
-            assertEquals(newImages, mBuilder.getImages());
+            assertEquals(newImages, mBuilder.getCovers());
             if (dataType == GvImageList.TYPE) {
-                assertEquals(images, builder.getImages());
+                assertEquals(images, builder.getCovers());
             } else {
-                assertEquals(newImages, builder.getImages());
+                assertEquals(newImages, builder.getCovers());
             }
             setBuilderData(images);
         }
@@ -248,7 +224,6 @@ public class ReviewBuilderTest extends ActivityInstrumentationTestCase2<Activity
         setBuilderData(children);
         setBuilderData(tags);
 
-        Author author = mBuilder.getAuthor();
         Date date = RandomDate.nextDate();
 
         ReviewNode published = mBuilder.publish(date);
@@ -256,7 +231,6 @@ public class ReviewBuilderTest extends ActivityInstrumentationTestCase2<Activity
         assertEquals(subject, published.getSubject().get());
         assertEquals(rating, published.getRating().get());
         assertEquals(date, published.getPublishDate());
-        assertEquals(author, published.getAuthor());
 
         MdGvEquality.check(published.getComments(), (GvCommentList) comments);
         MdGvEquality.check(published.getFacts(), (GvFactList) facts);
@@ -304,7 +278,7 @@ public class ReviewBuilderTest extends ActivityInstrumentationTestCase2<Activity
         admin.packView(BuildScreen.newScreen(context), i);
         setActivityIntent(i);
 
-        mBuilder = new ReviewBuilder(getActivity());
+        mBuilder = new ReviewBuilder(getActivity(), RandomAuthor.nextAuthor());
     }
 
     private GvDataList getBuilderData(GvDataType dataType) {

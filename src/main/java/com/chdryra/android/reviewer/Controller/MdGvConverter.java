@@ -15,6 +15,8 @@ import com.chdryra.android.reviewer.Model.MdImageList;
 import com.chdryra.android.reviewer.Model.MdLocationList;
 import com.chdryra.android.reviewer.Model.MdUrlList;
 import com.chdryra.android.reviewer.Model.ReviewId;
+import com.chdryra.android.reviewer.Model.ReviewNode;
+import com.chdryra.android.reviewer.Model.TagsManager;
 import com.chdryra.android.reviewer.View.GvChildList;
 import com.chdryra.android.reviewer.View.GvCommentList;
 import com.chdryra.android.reviewer.View.GvDataList;
@@ -264,5 +266,26 @@ public class MdGvConverter {
         } else {
             return null;
         }
+    }
+
+    public static GvTagList convertTags(ReviewId id) {
+        TagsManager.ReviewTagCollection tags = TagsManager.getTags(id);
+        GvTagList tagList = new GvTagList();
+        for (TagsManager.ReviewTag tag : tags) {
+            tagList.add(new GvTagList.GvTag(tag.get()));
+        }
+
+        return tagList;
+    }
+
+    public static GvChildList convertChildren(ReviewNode node) {
+        GvChildList list = new GvChildList();
+        for (ReviewNode child : node.getChildren()) {
+            list.add(new GvChildList.GvChildReview(child.getSubject().get(), child.getRating()
+                    .get()));
+        }
+
+        GvReviewId id = new GvReviewId(node.getId());
+        return new GvChildList(id, list);
     }
 }

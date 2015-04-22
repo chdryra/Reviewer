@@ -96,12 +96,12 @@ public class BuildScreen {
         }
 
         @Override
-        public void onGridItemClick(GvData item, View v) {
+        public void onGridItemClick(GvData item, int position, View v) {
             executeIntent((GvBuildReviewList.GvBuildReview) item, true);
         }
 
         @Override
-        public void onGridItemLongClick(GvData item, View v) {
+        public void onGridItemLongClick(GvData item, int position, View v) {
             executeIntent((GvBuildReviewList.GvBuildReview) item, false);
         }
 

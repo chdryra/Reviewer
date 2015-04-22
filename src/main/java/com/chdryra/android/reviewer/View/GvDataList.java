@@ -97,6 +97,11 @@ public class GvDataList<T extends GvData> extends ViewHolderDataList<T> implemen
     }
 
     @Override
+    public boolean isList() {
+        return true;
+    }
+
+    @Override
     public int describeContents() {
         return 0;
     }

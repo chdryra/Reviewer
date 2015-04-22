@@ -79,6 +79,7 @@ public class GvBuildReviewList extends GvDataList<GvBuildReviewList.GvBuildRevie
             return mViewHolder.getView();
         }
 
+        @Override
         public GvDataType getGvDataType() {
             return mDataType;
         }
@@ -100,7 +101,5 @@ public class GvBuildReviewList extends GvDataList<GvBuildReviewList.GvBuildRevie
         public void onGridDataChanged() {
             mData = mBuilder.getGridData().toArrayList();
         }
-
-
     }
 }

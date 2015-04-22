@@ -40,6 +40,11 @@ public abstract class GvDataBasic implements GvData {
     }
 
     @Override
+    public boolean isList() {
+        return false;
+    }
+
+    @Override
     public int describeContents() {
         return 0;
     }

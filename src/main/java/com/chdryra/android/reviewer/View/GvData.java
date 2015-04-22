@@ -23,4 +23,6 @@ public interface GvData extends ViewHolderData, Parcelable {
     public boolean hasHoldingReview();
 
     public GvReviewId getHoldingReviewId();
+
+    public boolean isList();
 }

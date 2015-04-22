@@ -58,13 +58,13 @@ public class FactoryReview {
     }
 
     public static ReviewNode createReviewTree(Review review,
-            ReviewIdableList<Review> children, boolean isAverage) {
+            ReviewIdableList<? extends Review> children, boolean isAverage) {
 
         return getInstance().newReviewTree(review, children, isAverage);
     }
 
     public static ReviewNode createReviewCollection(Author author, Date publishDate,
-            String subject, ReviewIdableList<Review> children) {
+            String subject, ReviewIdableList<? extends Review> children) {
         Review root = createReviewUser(author, publishDate, subject, 0);
         return createReviewTree(root, children, true);
     }
@@ -87,7 +87,7 @@ public class FactoryReview {
         return newReviewTree(review, new ReviewIdableList<Review>(), false);
     }
 
-    private ReviewNode newReviewTree(Review root, ReviewIdableList<Review> children,
+    private ReviewNode newReviewTree(Review root, ReviewIdableList<? extends Review> children,
             boolean isAverage) {
 
         ReviewTreeNode rootNode = new ReviewTreeNode(root, isAverage);

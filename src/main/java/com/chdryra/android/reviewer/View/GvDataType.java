@@ -19,12 +19,12 @@ public class GvDataType implements Serializable {
     private final String mDatumName;
     private final String mDataName;
 
-    protected GvDataType(String datum) {
+    public GvDataType(String datum) {
         mDatumName = datum;
         mDataName = datum + "s";
     }
 
-    protected GvDataType(String datum, String data) {
+    public GvDataType(String datum, String data) {
         mDatumName = datum;
         mDataName = data;
     }

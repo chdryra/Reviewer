@@ -50,7 +50,7 @@ public class EditScreenLocations {
         }
 
         @Override
-        public void onGridItemLongClick(GvData item, View v) {
+        public void onGridItemLongClick(GvData item, int position, View v) {
             showAlertDialog(getActivity().getString(R.string.alert_edit_on_map), EDIT_ON_MAP,
                     item);
         }

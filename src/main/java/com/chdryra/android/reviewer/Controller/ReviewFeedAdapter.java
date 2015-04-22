@@ -14,6 +14,7 @@ package com.chdryra.android.reviewer.Controller;
  * Email: rizwan.choudrey@gmail.com
  */
 
+import android.content.Context;
 import android.graphics.Bitmap;
 
 import com.chdryra.android.reviewer.Model.Author;
@@ -33,26 +34,27 @@ import java.util.Date;
 /**
  * {@link ReviewViewAdapter} for {@link ReviewIdableList} data.
  */
-public class ReviewCollectionAdapter extends ReviewViewAdapterBasic {
-    private final Author mAuthor;
-    private final Date   mPublishDate;
+public class ReviewFeedAdapter extends ReviewViewAdapterBasic {
     private final String mTitle;
+    private final ReviewIdableList<ReviewNode> mNodes;
+    private Context mContext;
 
-    private final ReviewIdableList<Review> mReviews;
-
-    public ReviewCollectionAdapter(Author author, Date date, String title) {
-        mAuthor = author;
-        mPublishDate = date;
-        mTitle = title;
-        mReviews = new ReviewIdableList<>();
+    public ReviewFeedAdapter(Context context, String authorName) {
+        mContext = context;
+        mTitle = authorName + "'s feed";
+        mNodes = new ReviewIdableList<>();
     }
 
-    public void add(Review review) {
-        mReviews.add(review);
+    public void add(ReviewNode node) {
+        mNodes.add(node);
     }
 
     public void delete(ReviewId id) {
-        mReviews.remove(id);
+        mNodes.remove(id);
+    }
+
+    public Review get(ReviewId id) {
+        return mNodes.get(id);
     }
 
     @Override
@@ -73,7 +75,7 @@ public class ReviewCollectionAdapter extends ReviewViewAdapterBasic {
     @Override
     public GvDataList getGridData() {
         GvReviewList data = new GvReviewList();
-        for (Review review : mReviews) {
+        for (Review review : mNodes) {
             GvImageList images = MdGvConverter.convert(review.getImages());
             GvCommentList headlines = MdGvConverter.convert(review.getComments()).getHeadlines();
             GvLocationList locations = MdGvConverter.convert(review.getLocations());
@@ -92,21 +94,25 @@ public class ReviewCollectionAdapter extends ReviewViewAdapterBasic {
     }
 
     @Override
-    public Author getAuthor() {
-        return mAuthor;
-    }
-
-    @Override
-    public Date getPublishDate() {
-        return mPublishDate;
-    }
-
-    @Override
-    public GvImageList getImages() {
+    public GvImageList getCovers() {
         return null;
     }
 
+    @Override
+    public boolean isExpandable(int index) {
+        return true;
+    }
+
+    @Override
+    public ReviewViewAdapter expandItem(int index) {
+        return new ReviewNodeAdapter(mContext, mNodes.getItem(index));
+    }
+
+    public ReviewViewAdapter expandReview(ReviewId id) {
+        return new ReviewNodeAdapter(mContext, mNodes.get(id));
+    }
+
     private ReviewNode createReview() {
-        return FactoryReview.createReviewCollection(mAuthor, mPublishDate, mTitle, mReviews);
+        return FactoryReview.createReviewCollection(Author.NULL_AUTHOR, new Date(), mTitle, mNodes);
     }
 }

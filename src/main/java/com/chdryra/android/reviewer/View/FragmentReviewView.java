@@ -296,14 +296,15 @@ public class FragmentReviewView extends Fragment {
         final ReviewViewAction.GridItemAction action = mReviewView.getGridItemAction();
         mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-                action.onGridItemClick((GvData) parent.getItemAtPosition(position), v);
+                GvData item = (GvData) parent.getItemAtPosition(position);
+                action.onGridItemClick(item, position, v);
             }
         });
 
         mGridView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             public boolean onItemLongClick(AdapterView<?> parent, View v, int position, long id) {
-                action.onGridItemLongClick((GvData) parent.getItemAtPosition(position)
-                        , v);
+                GvData item = (GvData) parent.getItemAtPosition(position);
+                action.onGridItemLongClick(item, position, v);
                 return true;
             }
         });

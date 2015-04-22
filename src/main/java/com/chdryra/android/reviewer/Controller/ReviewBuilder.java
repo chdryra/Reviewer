@@ -70,9 +70,11 @@ public class ReviewBuilder extends ReviewViewAdapterBasic {
     private       float                       mRating;
     private       ArrayList<ReviewBuilder>    mChildren;
     private boolean mIsAverage = false;
+    private Author mAuthor;
 
-    public ReviewBuilder(Context context) {
+    public ReviewBuilder(Context context, Author author) {
         mContext = context;
+        mAuthor = author;
         mChildren = new ArrayList<>();
 
         mData = new HashMap<>();
@@ -136,7 +138,7 @@ public class ReviewBuilder extends ReviewViewAdapterBasic {
     }
 
     public ReviewNode publish(Date publishDate) {
-        Review root = FactoryReview.createReviewUser(getAuthor(),
+        Review root = FactoryReview.createReviewUser(mAuthor,
                 publishDate, getSubject(), getRating(),
                 (GvCommentList) getData(GvCommentList.TYPE),
                 (GvImageList) getData(GvImageList.TYPE),
@@ -199,7 +201,7 @@ public class ReviewBuilder extends ReviewViewAdapterBasic {
 
     private void newIncrementor() {
         String dir = mContext.getString(mContext.getApplicationInfo().labelRes);
-        String filename = mSubject.length() > 0 ? mSubject : getAuthor().getName();
+        String filename = mSubject.length() > 0 ? mSubject : mAuthor.getName();
         mIncrementor = FileIncrementorFactory.newImageFileIncrementor(FILE_DIR_EXT, dir,
                 filename);
     }
@@ -211,7 +213,7 @@ public class ReviewBuilder extends ReviewViewAdapterBasic {
     private void setChildren(GvChildList children) {
         mChildren = new ArrayList<>();
         for (GvChildList.GvChildReview child : children) {
-            ReviewBuilder childBuilder = new ReviewBuilder(mContext);
+            ReviewBuilder childBuilder = new ReviewBuilder(mContext, mAuthor);
             childBuilder.setSubject(child.getSubject());
             childBuilder.setRating(child.getRating());
             mChildren.add(childBuilder);
@@ -291,19 +293,9 @@ public class ReviewBuilder extends ReviewViewAdapterBasic {
         }
 
         @Override
-        public Author getAuthor() {
-            return getParentBuilder().getAuthor();
-        }
-
-        @Override
-        public Date getPublishDate() {
-            return getParentBuilder().getPublishDate();
-        }
-
-        @Override
-        public GvImageList getImages() {
+        public GvImageList getCovers() {
             return mData.getGvDataType() == GvImageList.TYPE ? (GvImageList) mData :
-                    getParentBuilder().getImages();
+                    getParentBuilder().getCovers();
         }
 
         public void setRating(float rating) {
@@ -337,20 +329,7 @@ public class ReviewBuilder extends ReviewViewAdapterBasic {
         return mBuildUi;
     }
 
-
-    @Override
-    public Author getAuthor() {
-        return Administrator.get(mContext).getAuthor();
-    }
-
-
-    @Override
-    public Date getPublishDate() {
-        return null;
-    }
-
-
-    public GvImageList getImages() {
+    public GvImageList getCovers() {
         return (GvImageList) getData(GvImageList.TYPE);
     }
 }

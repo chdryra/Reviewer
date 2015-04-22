@@ -8,19 +8,19 @@
 
 package com.chdryra.android.reviewer.test.Controller;
 
+import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.Controller.ReviewCollectionAdapter;
+import com.chdryra.android.reviewer.Controller.ReviewFeedAdapter;
 import com.chdryra.android.reviewer.Model.Author;
 import com.chdryra.android.reviewer.Model.Review;
+import com.chdryra.android.reviewer.Model.ReviewNode;
 import com.chdryra.android.reviewer.Model.UserId;
 import com.chdryra.android.reviewer.View.GvDataList;
 import com.chdryra.android.reviewer.View.GvReviewList;
 import com.chdryra.android.reviewer.test.TestUtils.ReviewMocker;
 import com.chdryra.android.testutils.RandomDate;
 import com.chdryra.android.testutils.RandomString;
-
-import junit.framework.TestCase;
 
 import java.util.Date;
 
@@ -29,25 +29,15 @@ import java.util.Date;
  * On: 08/12/2014
  * Email: rizwan.choudrey@gmail.com
  */
-public class ReviewCollectionAdapterTest extends TestCase {
+public class ReviewFeedAdapterTest extends AndroidTestCase {
     private static final int NUM = 10;
     private Author                  mAuthor;
     private Date                    mDate;
-    private ReviewCollectionAdapter mAdapter;
-
-    @SmallTest
-    public void testGetAuthor() {
-        assertEquals(mAuthor, mAdapter.getAuthor());
-    }
-
-    @SmallTest
-    public void testGetPublishDate() {
-        assertEquals(mDate, mAdapter.getPublishDate());
-    }
+    private ReviewFeedAdapter mAdapter;
 
     @SmallTest
     public void testGetImages() {
-        assertNotNull(mAdapter.getImages());
+        assertNotNull(mAdapter.getCovers());
     }
 
     @SmallTest
@@ -95,14 +85,13 @@ public class ReviewCollectionAdapterTest extends TestCase {
         super.setUp();
         mAuthor = new Author(RandomString.nextWord(), UserId.generateId());
         mDate = RandomDate.nextDate();
-        String title = RandomString.nextWord();
-        mAdapter = new ReviewCollectionAdapter(mAuthor, mDate, title);
+        mAdapter = new ReviewFeedAdapter(getContext(), mAuthor.getName());
     }
 
-    private Review[] addReviews(ReviewCollectionAdapter adapter) {
+    private Review[] addReviews(ReviewFeedAdapter adapter) {
         Review[] reviews = new Review[NUM];
         for (int i = 0; i < NUM; ++i) {
-            Review r = ReviewMocker.newReview();
+            ReviewNode r = ReviewMocker.newReviewNode();
             reviews[i] = r;
             adapter.add(r);
         }

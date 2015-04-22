@@ -18,15 +18,23 @@ import java.util.ArrayList;
 public abstract class ReviewViewAdapterBasic implements ReviewViewAdapter {
     final ArrayList<GridDataObserver> mObservers = new ArrayList<>();
 
-    @Override
     public void registerGridDataObserver(GridDataObserver observer) {
         mObservers.add(observer);
     }
 
-    @Override
     public void notifyGridDataObservers() {
         for (GridDataObserver observer : mObservers) {
             observer.onGridDataChanged();
         }
+    }
+
+    @Override
+    public boolean isExpandable(int index) {
+        return false;
+    }
+
+    @Override
+    public ReviewViewAdapter expandItem(int index) {
+        return this;
     }
 }

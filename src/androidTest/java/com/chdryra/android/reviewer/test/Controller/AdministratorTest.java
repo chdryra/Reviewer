@@ -13,7 +13,7 @@ import android.test.ActivityUnitTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.Controller.Administrator;
-import com.chdryra.android.reviewer.Controller.ReviewCollectionAdapter;
+import com.chdryra.android.reviewer.Controller.ReviewViewAdapter;
 import com.chdryra.android.reviewer.View.ActivityReviewView;
 import com.chdryra.android.reviewer.View.GvSocialPlatformList;
 
@@ -52,7 +52,7 @@ public class AdministratorTest extends ActivityUnitTestCase<ActivityReviewView> 
 
     @SmallTest
     public void testPublishReviewBuilder() {
-        ReviewCollectionAdapter reviews = mAdmin.getPublishedReviews();
+        ReviewViewAdapter reviews = mAdmin.getPublishedReviews();
         assertNotNull(reviews);
         assertEquals(0, reviews.getGridData().size());
         mAdmin.newReviewBuilder();

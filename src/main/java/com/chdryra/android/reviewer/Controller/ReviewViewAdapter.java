@@ -14,21 +14,22 @@ package com.chdryra.android.reviewer.Controller;
  * Email: rizwan.choudrey@gmail.com
  */
 
-import com.chdryra.android.reviewer.Model.Author;
 import com.chdryra.android.reviewer.View.GvDataList;
 import com.chdryra.android.reviewer.View.GvImageList;
-
-import java.util.Date;
 
 /**
  * Adapter for {@link com.chdryra.android.reviewer.Model.Review} for passing {@link com.chdryra
  * .android
- * .reviewer.MdData} to View layer as {@link com.chdryra.android.reviewer.View.GvDataList.GvData}
+ * .reviewer.MdData} to View layer as {@link com.chdryra.android.reviewer.View.GvData}
  */
 public interface ReviewViewAdapter {
     public interface GridDataObserver {
         public void onGridDataChanged();
     }
+
+    public void registerGridDataObserver(GridDataObserver observer);
+
+    public void notifyGridDataObservers();
 
     public String getSubject();
 
@@ -38,13 +39,9 @@ public interface ReviewViewAdapter {
 
     public GvDataList getGridData();
 
-    public Author getAuthor();
+    public GvImageList getCovers();
 
-    public Date getPublishDate();
+    public boolean isExpandable(int index);
 
-    public GvImageList getImages();
-
-    public void registerGridDataObserver(GridDataObserver observer);
-
-    public void notifyGridDataObservers();
+    public ReviewViewAdapter expandItem(int index);
 }

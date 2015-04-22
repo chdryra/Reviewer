@@ -227,7 +227,7 @@ public class EditScreen {
         }
 
         @Override
-        public void onGridItemClick(GvData item, View v) {
+        public void onGridItemClick(GvData item, int position, View v) {
             Bundle args = new Bundle();
             GvDataPacker.packItem(GvDataPacker.CurrentNewDatum.CURRENT, item, args);
 

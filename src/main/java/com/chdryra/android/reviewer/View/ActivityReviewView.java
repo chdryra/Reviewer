@@ -8,9 +8,13 @@
 
 package com.chdryra.android.reviewer.View;
 
+import android.app.Activity;
 import android.app.Fragment;
+import android.content.Intent;
 
 import com.chdryra.android.mygenerallibrary.ActivitySingleFragment;
+import com.chdryra.android.reviewer.Controller.Administrator;
+import com.chdryra.android.reviewer.Controller.ReviewView;
 
 /**
  * Created by: Rizwan Choudrey
@@ -18,6 +22,15 @@ import com.chdryra.android.mygenerallibrary.ActivitySingleFragment;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ActivityReviewView extends ActivitySingleFragment {
+    public static void startNewActivity(Activity activity, ReviewView screen) {
+        if (activity == null) return;
+
+        Intent i = new Intent(activity, ActivityReviewView.class);
+        Administrator.get(activity).packView(screen, i);
+
+        activity.startActivity(i);
+    }
+
     protected Fragment createFragment() {
         return new FragmentReviewView();
     }

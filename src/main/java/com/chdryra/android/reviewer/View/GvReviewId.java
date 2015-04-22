@@ -60,6 +60,11 @@ public class GvReviewId implements GvData {
     }
 
     @Override
+    public boolean isList() {
+        return false;
+    }
+
+    @Override
     public ViewHolder newViewHolder() {
         return null;
     }

@@ -79,10 +79,10 @@ public class EditScreenImages {
         }
 
         @Override
-        public void onGridItemLongClick(GvData item, View v) {
+        public void onGridItemLongClick(GvData item, int position, View v) {
             GvImageList.GvImage image = (GvImageList.GvImage) item;
             if (image.isCover()) {
-                super.onGridItemLongClick(item, v);
+                super.onGridItemLongClick(item, position, v);
             } else {
                 showAlertDialog(getActivity().getString(R.string.alert_set_image_as_background),
                         IMAGE_AS_COVER, image);

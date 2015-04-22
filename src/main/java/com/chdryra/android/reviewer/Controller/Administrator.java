@@ -15,10 +15,12 @@ import android.content.Intent;
 import com.chdryra.android.mygenerallibrary.ObjectHolder;
 import com.chdryra.android.reviewer.Database.ReviewerDb;
 import com.chdryra.android.reviewer.Model.Author;
+import com.chdryra.android.reviewer.Model.Review;
 import com.chdryra.android.reviewer.Model.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewIdableList;
 import com.chdryra.android.reviewer.Model.ReviewNode;
 import com.chdryra.android.reviewer.Model.UserId;
+import com.chdryra.android.reviewer.View.GvImageList;
 import com.chdryra.android.reviewer.View.GvSocialPlatformList;
 import com.chdryra.android.reviewer.View.ImageChooser;
 
@@ -47,22 +49,21 @@ import java.util.UUID;
 public class Administrator {
     private static final String REVIEWVIEW_ID = "com.chdryra.android.reviewer.review_id";
     private static final Author AUTHOR        = new Author("Rizwan Choudrey", UserId.generateId());
-    private static final String FEED          = "Feed";
 
     private static Administrator sAdministrator;
 
     private final Context                 mContext;
-    private final ReviewCollectionAdapter mPublishedReviews;
-    private final ObjectHolder            mViews;
-    private       ReviewBuilder           mReviewBuilder;
-    private ReviewerDb mDatabase;
+    private final ReviewFeedAdapter mPublishedReviews;
+    private final ObjectHolder      mViews;
+    private       ReviewBuilder     mReviewBuilder;
+    private       ReviewerDb        mDatabase;
 
     private Administrator(Context context) {
         mContext = context;
         mViews = new ObjectHolder();
         mDatabase = ReviewerDb.getDatabase(mContext);
         ReviewIdableList<ReviewNode> published = mDatabase.getReviewTreesFromDb();
-        mPublishedReviews = new ReviewCollectionAdapter(AUTHOR, new Date(), FEED);
+        mPublishedReviews = new ReviewFeedAdapter(mContext, AUTHOR.getName());
         for (ReviewNode node : published) {
             mPublishedReviews.add(node);
         }
@@ -98,12 +99,16 @@ public class Administrator {
     }
 
     public ReviewBuilder newReviewBuilder() {
-        mReviewBuilder = new ReviewBuilder(mContext);
+        mReviewBuilder = new ReviewBuilder(mContext, AUTHOR);
         return mReviewBuilder;
     }
 
-    public ReviewCollectionAdapter getPublishedReviews() {
+    public ReviewViewAdapter getPublishedReviews() {
         return mPublishedReviews;
+    }
+
+    public ReviewViewAdapter getPublishedReview(String reviewId) {
+        return mPublishedReviews.expandReview(ReviewId.fromString(reviewId));
     }
 
     public void publishReviewBuilder() {
@@ -111,6 +116,10 @@ public class Administrator {
         mDatabase.addReviewTreeToDb(published);
         mPublishedReviews.add(published);
         mReviewBuilder = null;
+    }
+
+    public GvImageList getCoversForReview(String reviewId) {
+        return MdGvConverter.convert(getReview(reviewId).getImages().getCovers());
     }
 
     public void deleteReview(String reviewId) {
@@ -134,5 +143,9 @@ public class Administrator {
         mViews.removeObject(id);
 
         return view;
+    }
+
+    private Review getReview(String reviewId) {
+        return mPublishedReviews.get(ReviewId.fromString(reviewId));
     }
 }

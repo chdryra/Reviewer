@@ -70,6 +70,11 @@ public class GvText extends VHDString implements GvData {
     }
 
     @Override
+    public boolean isList() {
+        return false;
+    }
+
+    @Override
     public int describeContents() {
         return 0;
     }

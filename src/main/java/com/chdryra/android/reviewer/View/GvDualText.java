@@ -70,6 +70,11 @@ public class GvDualText extends VHDDualString implements GvData {
     }
 
     @Override
+    public boolean isList() {
+        return false;
+    }
+
+    @Override
     public int describeContents() {
         return 0;
     }

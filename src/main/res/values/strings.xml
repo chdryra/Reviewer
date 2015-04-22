@@ -22,6 +22,7 @@
     <string name="alert_edit_on_browser">Edit on browser?</string>
     <string name="alert_add_on_browser">Add link using browser?</string>
     <string name="alert_delete_review">Delete published review?</string>
+    <string name="alert_goto_review">Go to review?</string>
 
     <!-- Dialogs -->
     <string name="dialog_url_title">Link</string>

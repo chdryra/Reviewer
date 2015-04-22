@@ -172,7 +172,7 @@ public class ReviewView implements ReviewViewAdapter.GridDataObserver {
 
     public void updateCover() {
         if (mParams.coverManager) {
-            GvImageList images = mAdapter.getImages();
+            GvImageList images = mAdapter.getCovers();
             GvImageList covers = images.getCovers();
             GvImageList.GvImage cover = null;
             if (covers.size() > 0) {
@@ -310,7 +310,7 @@ public class ReviewView implements ReviewViewAdapter.GridDataObserver {
 
         public void proposeCover(GvImageList.GvImage image) {
             if (getParams().coverManager) {
-                GvImageList images = getAdapter().getImages();
+                GvImageList images = getAdapter().getCovers();
                 GvImageList covers = images.getCovers();
                 if (covers.size() == 1 && images.contains(image)) {
                     covers.getItem(0).setIsCover(false);
