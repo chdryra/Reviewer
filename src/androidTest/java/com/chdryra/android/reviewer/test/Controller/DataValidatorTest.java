@@ -210,7 +210,6 @@ public class DataValidatorTest extends TestCase {
         assertTrue(DataValidator.validate(GvDataMocker.newUrl(false)));
 
         ReviewId r = ReviewMocker.newReview().getId();
-        assertFalse(DataValidator.validate(new MdUrlList.MdUrl(RandomString.nextWord(), null, r)));
         assertTrue(DataValidator.validate(new MdUrlList.MdUrl(RandomString.nextWord(), url, r)));
         assertTrue(DataValidator.validate(mMdMocker.newUrl()));
     }

@@ -37,20 +37,20 @@ public class ReviewFeedAdapterTest extends AndroidTestCase {
 
     @SmallTest
     public void testGetImages() {
-        assertNotNull(mAdapter.getCovers());
+        assertNull(mAdapter.getCovers());
     }
 
     @SmallTest
     public void testGetAverageRating() {
-        assertEquals(0, mAdapter.getAverageRating());
+        assertEquals(0f, mAdapter.getAverageRating());
 
         Review[] reviews = addReviews(mAdapter);
-        float rating = 0;
+        float rating = 0f;
         for (Review review : reviews) {
             rating += review.getRating().get() / reviews.length;
         }
 
-        assertEquals(rating, mAdapter.getAverageRating());
+        assertEquals(rating, mAdapter.getAverageRating(), 0.0001);
     }
 
     @SmallTest

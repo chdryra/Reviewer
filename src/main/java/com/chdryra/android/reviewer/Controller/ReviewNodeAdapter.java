@@ -72,9 +72,9 @@ public class ReviewNodeAdapter extends ReviewViewAdapterBasic {
     }
 
     private static class GvReviewNode extends GvDataList<GvDataList> {
-        public static final GvDataType TYPE = new GvDataType("node", "node");
+        private static final GvDataType TYPE = new GvDataType("node", "node");
 
-        public GvReviewNode(ReviewNode node) {
+        private GvReviewNode(ReviewNode node) {
             super(GvDataList.class, TYPE);
             add(MdGvConverter.convertTags(node.getId()));
             add(MdGvConverter.convertChildren(node));

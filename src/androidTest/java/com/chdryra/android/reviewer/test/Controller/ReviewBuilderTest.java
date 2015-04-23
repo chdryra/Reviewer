@@ -33,7 +33,6 @@ import com.chdryra.android.reviewer.View.GvTagList;
 import com.chdryra.android.reviewer.View.GvUrlList;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
 import com.chdryra.android.reviewer.test.TestUtils.MdGvEquality;
-import com.chdryra.android.reviewer.test.TestUtils.RandomAuthor;
 import com.chdryra.android.reviewer.test.TestUtils.RandomRating;
 import com.chdryra.android.testutils.RandomDate;
 import com.chdryra.android.testutils.RandomString;
@@ -162,18 +161,20 @@ public class ReviewBuilderTest extends ActivityInstrumentationTestCase2<Activity
         GvImageList newImages = GvDataMocker.newImageList(NUM, false);
         setBuilderData(images);
 
+        ReviewBuilder.DataBuilder imageBuilder = mBuilder.getDataBuilder(GvImageList.TYPE);
+        imageBuilder.deleteAll();
+        for (GvImageList.GvImage image : newImages) {
+            imageBuilder.add(image);
+        }
+
+        assertEquals(images, mBuilder.getCovers());
         for (GvDataType dataType : TYPES) {
-            assertEquals(images, mBuilder.getCovers());
             ReviewBuilder.DataBuilder builder = mBuilder.getDataBuilder(dataType);
-            assertEquals(images, builder.getCovers());
-            setBuilderData(newImages);
-            assertEquals(newImages, mBuilder.getCovers());
             if (dataType == GvImageList.TYPE) {
-                assertEquals(images, builder.getCovers());
-            } else {
                 assertEquals(newImages, builder.getCovers());
+            } else {
+                assertEquals(images, builder.getCovers());
             }
-            setBuilderData(images);
         }
     }
 
@@ -275,10 +276,11 @@ public class ReviewBuilderTest extends ActivityInstrumentationTestCase2<Activity
         Intent i = new Intent();
         Context context = getInstrumentation().getTargetContext();
         Administrator admin = Administrator.get(context);
+        admin.newReviewBuilder();
         admin.packView(BuildScreen.newScreen(context), i);
         setActivityIntent(i);
 
-        mBuilder = new ReviewBuilder(getActivity(), RandomAuthor.nextAuthor());
+        mBuilder = admin.getReviewBuilder();
     }
 
     private GvDataList getBuilderData(GvDataType dataType) {

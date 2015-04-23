@@ -9,21 +9,23 @@
 package com.chdryra.android.reviewer.test.Controller;
 
 import android.app.Activity;
-import android.test.ActivityUnitTestCase;
+import android.content.Intent;
+import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.Controller.Administrator;
 import com.chdryra.android.reviewer.Controller.ReviewViewAdapter;
 import com.chdryra.android.reviewer.View.ActivityReviewView;
+import com.chdryra.android.reviewer.View.FeedScreen;
 import com.chdryra.android.reviewer.View.GvSocialPlatformList;
+import com.chdryra.android.reviewer.View.ImageChooser;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 02/12/2014
  * Email: rizwan.choudrey@gmail.com
  */
-public class AdministratorTest extends ActivityUnitTestCase<ActivityReviewView> {
-    private Activity      mActivity;
+public class AdministratorTest extends ActivityInstrumentationTestCase2<ActivityReviewView> {
     private Administrator mAdmin;
 
     public AdministratorTest() {
@@ -32,7 +34,11 @@ public class AdministratorTest extends ActivityUnitTestCase<ActivityReviewView> 
 
     @SmallTest
     public void testGetImageChooser() {
-        assertNotNull(Administrator.getImageChooser(mActivity));
+        Activity a = getActivity();
+        ImageChooser im = Administrator.getImageChooser(a);
+        assertNull(Administrator.getImageChooser(getActivity()));
+        mAdmin.newReviewBuilder();
+        assertNotNull(Administrator.getImageChooser(getActivity()));
     }
 
     @SmallTest
@@ -54,11 +60,11 @@ public class AdministratorTest extends ActivityUnitTestCase<ActivityReviewView> 
     public void testPublishReviewBuilder() {
         ReviewViewAdapter reviews = mAdmin.getPublishedReviews();
         assertNotNull(reviews);
-        assertEquals(0, reviews.getGridData().size());
+        int numReviews = reviews.getGridData().size();
         mAdmin.newReviewBuilder();
         assertNotNull(mAdmin.getReviewBuilder());
         mAdmin.publishReviewBuilder();
-        assertEquals(1, reviews.getGridData().size());
+        assertEquals(numReviews + 1, reviews.getGridData().size());
         assertNull(mAdmin.getReviewBuilder());
     }
 
@@ -72,8 +78,13 @@ public class AdministratorTest extends ActivityUnitTestCase<ActivityReviewView> 
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        mActivity = getActivity();
-        mAdmin = Administrator.get(mActivity);
+        mAdmin = Administrator.get(getInstrumentation().getTargetContext());
         assertNotNull(mAdmin);
+        Intent i = new Intent();
+        mAdmin.packView(FeedScreen.newScreen(getInstrumentation().getTargetContext()), i);
+        setActivityIntent(i);
+        Activity a = getActivity();
+        assertNotNull(a);
+        ImageChooser ic = Administrator.getImageChooser(a);
     }
 }
