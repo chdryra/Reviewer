@@ -11,7 +11,6 @@ package com.chdryra.android.reviewer.test.Model;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.Model.ReviewId;
-import com.chdryra.android.testutils.ExceptionTester;
 
 import junit.framework.TestCase;
 
@@ -27,7 +26,7 @@ public class ReviewIdTest extends TestCase {
         ReviewId id1 = ReviewId.generateId();
         assertNotNull(id1);
         assertTrue(id1.hasData());
-        ExceptionTester.test(id1, "getHoldingReview", UnsupportedOperationException.class, null);
+        assertEquals(id1, id1.getReviewId());
 
         ReviewId id2 = ReviewId.generateId();
         assertNotNull(id2);
