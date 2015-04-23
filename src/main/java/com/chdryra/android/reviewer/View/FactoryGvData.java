@@ -8,6 +8,8 @@
 
 package com.chdryra.android.reviewer.View;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -17,6 +19,11 @@ import java.util.Map;
  * Email: rizwan.choudrey@gmail.com
  */
 public class FactoryGvData {
+    private static final String NO_CTOR_ERR        = "Constructor not found: ";
+    private static final String INSTANTIATION_ERR  = "Constructor not found: ";
+    private static final String INVOCATION_ERR     = "Exception thrown by constructor: ";
+    private static final String ILLEGAL_ACCESS_ERR = "Access not allowed to this constructor: ";
+
     private static FactoryGvData sFactory;
     private final Map<GvDataType, GvTypeList> mClasses = new HashMap<>();
 
@@ -35,8 +42,8 @@ public class FactoryGvData {
         return sFactory;
     }
 
-    public static <T extends GvData> GvDataType gvType
-            (Class<? extends GvDataList<T>> dataClass) {
+    public static <T1 extends GvData, T2 extends GvDataList<T1>> GvDataType gvType
+            (Class<T2> dataClass) {
         return newList(dataClass).getGvDataType();
     }
 
@@ -46,22 +53,49 @@ public class FactoryGvData {
         return newList(get().mClasses.get(dataType).mList);
     }
 
-    public static <T extends GvData> GvDataList<T> newList(Class<? extends
-            GvDataList<T>> dataClass) {
+    public static <T1 extends GvData, T2 extends GvDataList<T1>> T2 newList(Class<T2> dataClass) {
         try {
             return dataClass.newInstance();
-        } catch (InstantiationException | IllegalAccessException e) {
+        } catch (InstantiationException e) {
             e.printStackTrace();
-            throw new RuntimeException("Can't create data list: " + dataClass.getName());
+            throw new RuntimeException(INSTANTIATION_ERR + dataClass.getName());
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+            throw new RuntimeException(ILLEGAL_ACCESS_ERR + dataClass.getName());
+        }
+    }
+
+    public static <T1 extends GvData, T2 extends GvDataList<T1>> T2 newList(Class<T2> dataClass,
+            GvReviewId id) {
+        if (id == null) return newList(dataClass);
+
+        try {
+            Constructor<T2> ctor = dataClass.getConstructor(GvReviewId.class);
+            return ctor.newInstance(id);
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+            throw new RuntimeException(NO_CTOR_ERR + dataClass.getName(), e);
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+            throw new RuntimeException(INSTANTIATION_ERR + dataClass.getName(), e);
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+            throw new RuntimeException(ILLEGAL_ACCESS_ERR + dataClass.getName(), e);
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+            throw new RuntimeException(INVOCATION_ERR + dataClass.getName());
         }
     }
 
     public static <T extends GvData> T newNull(Class<T> dataClass) {
         try {
             return dataClass.newInstance();
-        } catch (InstantiationException | IllegalAccessException e) {
+        } catch (InstantiationException e) {
             e.printStackTrace();
-            throw new RuntimeException("Can't create data list: " + dataClass.getName());
+            throw new RuntimeException(INSTANTIATION_ERR + dataClass.getName());
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+            throw new RuntimeException(ILLEGAL_ACCESS_ERR + dataClass.getName());
         }
     }
 

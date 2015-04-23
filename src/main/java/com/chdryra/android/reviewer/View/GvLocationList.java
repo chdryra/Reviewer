@@ -34,6 +34,10 @@ public class GvLocationList extends GvDataList<GvLocationList.GvLocation> {
         super(id, data);
     }
 
+    public GvLocationList(GvReviewId id) {
+        super(id, GvLocation.class, TYPE);
+    }
+
     /**
      * {@link GvData} version of: {@link com.chdryra
      * .android.reviewer.MdLocationList.MdLocation}

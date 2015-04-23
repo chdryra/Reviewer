@@ -12,6 +12,7 @@ import android.content.Context;
 
 import com.chdryra.android.reviewer.Model.ReviewNode;
 import com.chdryra.android.reviewer.Model.VisitorRatingAverageOfChildren;
+import com.chdryra.android.reviewer.View.GvData;
 import com.chdryra.android.reviewer.View.GvDataList;
 import com.chdryra.android.reviewer.View.GvDataType;
 import com.chdryra.android.reviewer.View.GvImageList;
@@ -61,13 +62,13 @@ public class ReviewNodeAdapter extends ReviewViewAdapterBasic {
     }
 
     @Override
-    public boolean isExpandable(int index) {
-        return true;
+    public boolean isExpandable(GvData datum) {
+        return mDataAdapter.isExpandable(datum);
     }
 
     @Override
-    public ReviewViewAdapter expandItem(int index) {
-        return mDataAdapter.expandItem(index);
+    public ReviewViewAdapter expandItem(GvData datum) {
+        return mDataAdapter.expandItem(datum);
     }
 
     private static class GvReviewNode extends GvDataList<GvDataList> {

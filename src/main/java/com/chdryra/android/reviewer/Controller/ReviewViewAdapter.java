@@ -14,6 +14,7 @@ package com.chdryra.android.reviewer.Controller;
  * Email: rizwan.choudrey@gmail.com
  */
 
+import com.chdryra.android.reviewer.View.GvData;
 import com.chdryra.android.reviewer.View.GvDataList;
 import com.chdryra.android.reviewer.View.GvImageList;
 
@@ -41,7 +42,7 @@ public interface ReviewViewAdapter {
 
     public GvImageList getCovers();
 
-    public boolean isExpandable(int index);
+    public boolean isExpandable(GvData datum);
 
-    public ReviewViewAdapter expandItem(int index);
+    public ReviewViewAdapter expandItem(GvData datum);
 }

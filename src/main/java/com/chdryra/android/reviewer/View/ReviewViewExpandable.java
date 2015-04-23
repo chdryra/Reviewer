@@ -72,12 +72,14 @@ public class ReviewViewExpandable {
         @Override
         public void onLongClickExpanded(GvData item, int position, View v, ReviewViewAdapter
                 expanded) {
-            String alert = getActivity().getResources().getString(R.string.alert_goto_review);
-            Bundle args = new Bundle();
-            GvDataPacker.packItem(GvDataPacker.CurrentNewDatum.CURRENT, item, args);
-            DialogAlertFragment dialog = DialogAlertFragment.newDialog(alert, args);
-            DialogShower.show(dialog, mListener, REQUEST_GOTO_REVIEW, DialogAlertFragment
-                    .ALERT_TAG);
+            if (item.hasHoldingReview()) {
+                String alert = getActivity().getResources().getString(R.string.alert_goto_review);
+                Bundle args = new Bundle();
+                GvDataPacker.packItem(GvDataPacker.CurrentNewDatum.CURRENT, item, args);
+                DialogAlertFragment dialog = DialogAlertFragment.newDialog(alert, args);
+                DialogShower.show(dialog, mListener, REQUEST_GOTO_REVIEW, DialogAlertFragment
+                        .ALERT_TAG);
+            }
         }
 
         private void onDialogAlertPositive(int requestCode, Bundle args) {

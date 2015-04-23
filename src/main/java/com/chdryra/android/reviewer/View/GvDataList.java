@@ -16,7 +16,6 @@ import com.chdryra.android.mygenerallibrary.ViewHolderDataList;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Iterator;
 
 /**
  * The View layer (V) data equivalent of the Model layer (M) data {@link com.chdryra.android
@@ -50,20 +49,20 @@ public class GvDataList<T extends GvData> extends ViewHolderDataList<T> implemen
 
     //TODO come up with a more robust way of doing this.
     public GvDataList(GvReviewId reviewId, GvDataList<T> data) {
-        mDataClass = data.mDataClass;
-        mType = data.getGvDataType();
+        this(reviewId, data.mDataClass, data.getGvDataType());
+        super.add(data);
+    }
+
+    public GvDataList(GvReviewId reviewId, Class<T> dataClass, GvDataType mDataType) {
+        mDataClass = dataClass;
+        mType = mDataType;
         mReviewId = reviewId;
-        for (T datum : data) {
-            if (reviewId.equals(datum.getHoldingReviewId())) super.add(datum);
-        }
     }
 
     public GvDataList(GvDataList<T> data) {
         mDataClass = data.mDataClass;
         mType = data.getGvDataType();
-        for (T datum : data) {
-            super.add(datum);
-        }
+        super.add(data);
     }
 
     //TODO make type safe
@@ -77,6 +76,10 @@ public class GvDataList<T extends GvData> extends ViewHolderDataList<T> implemen
 
     public GvDataType getGvDataType() {
         return mType;
+    }
+
+    public boolean contains(GvData datum) {
+        return super.contains(mDataClass.cast(datum));
     }
 
     @Override
@@ -125,31 +128,6 @@ public class GvDataList<T extends GvData> extends ViewHolderDataList<T> implemen
     }
 
     @Override
-    public void add(T item) {
-        if (isModifiable()) super.add(item);
-    }
-
-    @Override
-    public void remove(T item) {
-        if (isModifiable()) super.remove(item);
-    }
-
-    @Override
-    public void removeAll() {
-        if (isModifiable()) super.removeAll();
-    }
-
-    @Override
-    public void add(Iterable<T> list) {
-        if (isModifiable()) super.add(list);
-    }
-
-    @Override
-    public Iterator<T> iterator() {
-        return new GvDataListIterator();
-    }
-
-    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof GvDataList)) return false;
@@ -184,12 +162,5 @@ public class GvDataList<T extends GvData> extends ViewHolderDataList<T> implemen
 
     protected boolean isModifiable() {
         return !hasHoldingReview();
-    }
-
-    public class GvDataListIterator extends SortableListIterator {
-        @Override
-        public void remove() {
-            if (isModifiable()) super.remove();
-        }
     }
 }

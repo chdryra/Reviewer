@@ -96,17 +96,21 @@ public class FeedScreen {
 
         @Override
         public void onClickExpanded(GvData item, int position, View v, ReviewViewAdapter expanded) {
-            requestNewIntent(ReviewViewExpandable.newScreen(mContext, expanded));
+            if (expanded != null) {
+                requestNewIntent(ReviewViewExpandable.newScreen(mContext, expanded));
+            }
         }
 
         @Override
         public void onLongClickExpanded(GvData item, int position, View v, ReviewViewAdapter
                 expanded) {
-            String alert = getActivity().getResources().getString(R.string.alert_delete_review);
-            Bundle args = new Bundle();
-            GvDataPacker.packItem(GvDataPacker.CurrentNewDatum.CURRENT, item, args);
-            DialogAlertFragment dialog = DialogAlertFragment.newDialog(alert, args);
-            DialogShower.show(dialog, mListener, REQUEST_DELETE, DialogAlertFragment.ALERT_TAG);
+            if (expanded != null) {
+                String alert = getActivity().getResources().getString(R.string.alert_delete_review);
+                Bundle args = new Bundle();
+                GvDataPacker.packItem(GvDataPacker.CurrentNewDatum.CURRENT, item, args);
+                DialogAlertFragment dialog = DialogAlertFragment.newDialog(alert, args);
+                DialogShower.show(dialog, mListener, REQUEST_DELETE, DialogAlertFragment.ALERT_TAG);
+            }
         }
 
         private void onDialogAlertPositive(int requestCode, Bundle args) {

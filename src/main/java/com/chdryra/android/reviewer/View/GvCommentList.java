@@ -27,16 +27,23 @@ public class GvCommentList extends GvDataList<GvCommentList.GvComment> {
         super(GvComment.class, TYPE);
     }
 
+    public GvCommentList(GvReviewId id) {
+        super(id, GvComment.class, TYPE);
+    }
+
     public GvCommentList(GvCommentList data) {
-        super(data);
+        this(data.getHoldingReviewId(), data);
     }
 
     public GvCommentList(GvReviewId id, GvCommentList data) {
-        super(id, data);
+        this(id);
+        for (GvComment datum : data) {
+            add(new GvComment(datum));
+        }
     }
 
     public GvCommentList getSplitComments() {
-        GvCommentList splitComments = new GvCommentList();
+        GvCommentList splitComments = new GvCommentList(getHoldingReviewId());
         for (GvComment comment : this) {
             splitComments.add(comment.getSplitComments());
         }
@@ -48,15 +55,6 @@ public class GvCommentList extends GvDataList<GvCommentList.GvComment> {
     public void add(GvComment item) {
         if (size() == 0) item.setIsHeadline(true);
         super.add(item);
-    }
-
-    public GvCommentList getHeadlines() {
-        GvCommentList headlines = new GvCommentList();
-        for (GvComment image : this) {
-            if (image.isHeadline()) headlines.add(image);
-        }
-
-        return headlines;
     }
 
     @Override
@@ -76,6 +74,15 @@ public class GvCommentList extends GvDataList<GvCommentList.GvComment> {
                 return comp;
             }
         };
+    }
+
+    public GvCommentList getHeadlines() {
+        GvCommentList headlines = new GvCommentList(getHoldingReviewId());
+        for (GvComment image : this) {
+            if (image.isHeadline()) headlines.add(image);
+        }
+
+        return headlines;
     }
 
     /**
@@ -135,6 +142,12 @@ public class GvCommentList extends GvDataList<GvCommentList.GvComment> {
             super(id);
             mComment = comment;
             mIsHeadline = isHeadline;
+        }
+
+        public GvComment(GvComment comment) {
+            super(comment.getHoldingReviewId());
+            mComment = comment.getComment();
+            mIsHeadline = comment.isHeadline();
         }
 
         private GvComment(Parcel in) {

@@ -19,6 +19,7 @@ import com.chdryra.android.reviewer.Model.ReviewNode;
 import com.chdryra.android.reviewer.Model.TagsManager;
 import com.chdryra.android.reviewer.View.GvChildList;
 import com.chdryra.android.reviewer.View.GvCommentList;
+import com.chdryra.android.reviewer.View.GvData;
 import com.chdryra.android.reviewer.View.GvDataList;
 import com.chdryra.android.reviewer.View.GvDataType;
 import com.chdryra.android.reviewer.View.GvFactList;
@@ -38,19 +39,10 @@ public class MdGvConverter {
 
     //Comments
     public static GvCommentList convert(MdCommentList comments) {
-        GvCommentList list = new GvCommentList();
+        GvCommentList list = new GvCommentList(new GvReviewId(comments.getReviewId()));
         for (MdCommentList.MdComment comment : comments) {
             list.add(new GvCommentList.GvComment(new GvReviewId(comment.getReviewId()), comment
                     .getComment(), comment.isHeadline()));
-        }
-
-        return list;
-    }
-
-    public static GvCommentList copy(GvCommentList comments) {
-        GvCommentList list = new GvCommentList();
-        for (GvCommentList.GvComment comment : comments) {
-            list.add(new GvCommentList.GvComment(comment.getComment(), comment.isHeadline()));
         }
 
         return list;
@@ -69,7 +61,7 @@ public class MdGvConverter {
 
     //Facts
     public static GvFactList convert(MdFactList facts) {
-        GvFactList list = new GvFactList();
+        GvFactList list = new GvFactList(new GvReviewId(facts.getReviewId()));
         for (MdFactList.MdFact fact : facts) {
             list.add(getGvFactOrUrl(fact));
         }
@@ -250,7 +242,7 @@ public class MdGvConverter {
     public static GvDataList copy(GvDataList data) {
         GvDataType dataType = data.getGvDataType();
         if (dataType == GvCommentList.TYPE) {
-            return MdGvConverter.copy((GvCommentList) data);
+            return new GvCommentList((GvCommentList) data);
         } else if (dataType == GvFactList.TYPE) {
             return MdGvConverter.copy((GvFactList) data);
         } else if (dataType == GvImageList.TYPE) {
@@ -287,5 +279,9 @@ public class MdGvConverter {
 
         GvReviewId id = new GvReviewId(node.getId());
         return new GvChildList(id, list);
+    }
+
+    private static boolean hasId(GvData datum) {
+        return datum.hasHoldingReview();
     }
 }

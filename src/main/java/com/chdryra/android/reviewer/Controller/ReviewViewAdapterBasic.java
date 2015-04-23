@@ -8,6 +8,8 @@
 
 package com.chdryra.android.reviewer.Controller;
 
+import com.chdryra.android.reviewer.View.GvData;
+
 import java.util.ArrayList;
 
 /**
@@ -29,12 +31,12 @@ public abstract class ReviewViewAdapterBasic implements ReviewViewAdapter {
     }
 
     @Override
-    public boolean isExpandable(int index) {
+    public boolean isExpandable(GvData datum) {
         return false;
     }
 
     @Override
-    public ReviewViewAdapter expandItem(int index) {
-        return this;
+    public ReviewViewAdapter expandItem(GvData datum) {
+        return null;
     }
 }

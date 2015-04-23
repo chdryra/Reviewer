@@ -24,6 +24,7 @@ import com.chdryra.android.reviewer.Model.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewIdableList;
 import com.chdryra.android.reviewer.Model.ReviewNode;
 import com.chdryra.android.reviewer.View.GvCommentList;
+import com.chdryra.android.reviewer.View.GvData;
 import com.chdryra.android.reviewer.View.GvDataList;
 import com.chdryra.android.reviewer.View.GvImageList;
 import com.chdryra.android.reviewer.View.GvLocationList;
@@ -99,17 +100,23 @@ public class ReviewFeedAdapter extends ReviewViewAdapterBasic {
     }
 
     @Override
-    public boolean isExpandable(int index) {
-        return true;
+    public boolean isExpandable(GvData datum) {
+        GvReviewList.GvReviewOverview overview = (GvReviewList.GvReviewOverview) datum;
+        return mNodes.containsId(ReviewId.fromString(overview.getId()));
     }
 
     @Override
-    public ReviewViewAdapter expandItem(int index) {
-        return new ReviewNodeAdapter(mContext, mNodes.getItem(index));
+    public ReviewViewAdapter expandItem(GvData datum) {
+        if (isExpandable(datum)) {
+            GvReviewList.GvReviewOverview overview = (GvReviewList.GvReviewOverview) datum;
+            return expandReview(ReviewId.fromString(overview.getId()));
+        } else {
+            return null;
+        }
     }
 
     public ReviewViewAdapter expandReview(ReviewId id) {
-        return new ReviewNodeAdapter(mContext, mNodes.get(id));
+        return mNodes.containsId(id) ? new ReviewNodeAdapter(mContext, mNodes.get(id)) : null;
     }
 
     private ReviewNode createReview() {

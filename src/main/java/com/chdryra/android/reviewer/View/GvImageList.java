@@ -40,6 +40,10 @@ public class GvImageList extends GvDataList<GvImageList.GvImage> {
         super(id, data);
     }
 
+    public GvImageList(GvReviewId id) {
+        super(id, GvImage.class, TYPE);
+    }
+    
     public boolean contains(Bitmap bitmap) {
         for (GvImage image : this) {
             if (image.getBitmap().sameAs(bitmap)) return true;
@@ -50,27 +54,8 @@ public class GvImageList extends GvDataList<GvImageList.GvImage> {
 
     @Override
     public void add(GvImage item) {
-        if (isModifiable()) {
-            if (size() == 0) item.setIsCover(true);
-            super.add(item);
-        }
-    }
-
-    public GvImage getRandomCover() {
-        GvImageList covers = getCovers();
-        if (covers.size() == 0) return new GvImage();
-
-        Random r = new Random();
-        return covers.getItem(r.nextInt(covers.size()));
-    }
-
-    public GvImageList getCovers() {
-        GvImageList covers = new GvImageList();
-        for (GvImage image : this) {
-            if (image.isCover()) covers.add(image);
-        }
-
-        return hasHoldingReview() ? new GvImageList(getHoldingReviewId(), covers) : covers;
+        if (size() == 0) item.setIsCover(true);
+        super.add(item);
     }
 
     @Override
@@ -96,6 +81,23 @@ public class GvImageList extends GvDataList<GvImageList.GvImage> {
                 return comp;
             }
         };
+    }
+
+    public GvImage getRandomCover() {
+        GvImageList covers = getCovers();
+        if (covers.size() == 0) return new GvImage();
+
+        Random r = new Random();
+        return covers.getItem(r.nextInt(covers.size()));
+    }
+
+    public GvImageList getCovers() {
+        GvImageList covers = new GvImageList();
+        for (GvImage image : this) {
+            if (image.isCover()) covers.add(image);
+        }
+
+        return hasHoldingReview() ? new GvImageList(getHoldingReviewId(), covers) : covers;
     }
 
     /**

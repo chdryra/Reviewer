@@ -34,6 +34,10 @@ public class GvChildList extends GvDataList<GvChildList.GvChildReview> {
         super(id, data);
     }
 
+    public GvChildList(GvReviewId id) {
+        super(id, GvChildReview.class, TYPE);
+    }
+
     public boolean contains(String subject) {
         for (GvChildReview review : this) {
             if (review.getSubject().equals(subject)) return true;

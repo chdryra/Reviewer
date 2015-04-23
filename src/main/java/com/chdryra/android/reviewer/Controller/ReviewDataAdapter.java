@@ -60,14 +60,13 @@ public class ReviewDataAdapter extends ReviewViewAdapterBasic {
     }
 
     @Override
-    public boolean isExpandable(int index) {
-        GvData item = (GvData) mData.getItem(index);
-        return item.isList();
+    public boolean isExpandable(GvData datum) {
+        return mData.contains(datum) && datum.isList() && ((GvDataList) datum).size() > 0;
     }
 
     @Override
-    public ReviewViewAdapter expandItem(int index) {
-        GvData item = (GvData) mData.getItem(index);
-        return item.isList() ? new ReviewDataAdapter(mContext, this, (GvDataList) item) : this;
+    public ReviewViewAdapter expandItem(GvData datum) {
+        return isExpandable(datum) ? new ReviewDataAdapter(mContext, this, (GvDataList) datum) :
+                null;
     }
 }
