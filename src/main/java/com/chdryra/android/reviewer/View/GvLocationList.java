@@ -21,21 +21,18 @@ import java.util.StringTokenizer;
 
 public class GvLocationList extends GvDataList<GvLocationList.GvLocation> {
     public static final GvDataType TYPE = new GvDataType("location");
+    public static final Class<GvLocation> DATA_CLASS = GvLocation.class;
 
     public GvLocationList() {
-        super(GvLocation.class, TYPE);
+        super(null, DATA_CLASS, TYPE);
+    }
+
+    public GvLocationList(GvReviewId id) {
+        super(id, DATA_CLASS, TYPE);
     }
 
     public GvLocationList(GvLocationList data) {
         super(data);
-    }
-
-    public GvLocationList(GvReviewId id, GvLocationList data) {
-        super(id, data);
-    }
-
-    public GvLocationList(GvReviewId id) {
-        super(id, GvLocation.class, TYPE);
     }
 
     /**
@@ -71,6 +68,10 @@ public class GvLocationList extends GvDataList<GvLocationList.GvLocation> {
             super(id);
             mLatLng = latLng;
             mName = name;
+        }
+
+        public GvLocation(GvLocation location) {
+            this(location.getReviewId(), location.getLatLng(), location.getName());
         }
 
         GvLocation(Parcel in) {

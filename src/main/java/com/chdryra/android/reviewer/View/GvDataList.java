@@ -42,15 +42,12 @@ public class GvDataList<T extends GvData> extends ViewHolderDataList<T> implemen
     private final Class<T>   mDataClass;
     private       GvReviewId mReviewId;
 
-    public GvDataList(Class<T> dataClass, GvDataType mDataType) {
-        mDataClass = dataClass;
-        mType = mDataType;
-    }
-
-    //TODO come up with a more robust way of doing this.
+    //Copy constructor
     public GvDataList(GvReviewId reviewId, GvDataList<T> data) {
         this(reviewId, data.mDataClass, data.getGvDataType());
-        super.add(data);
+        for (T datum : data) {
+            add(FactoryGvData.copy(datum, mDataClass));
+        }
     }
 
     public GvDataList(GvReviewId reviewId, Class<T> dataClass, GvDataType mDataType) {
@@ -60,9 +57,7 @@ public class GvDataList<T extends GvData> extends ViewHolderDataList<T> implemen
     }
 
     public GvDataList(GvDataList<T> data) {
-        mDataClass = data.mDataClass;
-        mType = data.getGvDataType();
-        super.add(data);
+        this(data.getReviewId(), data);
     }
 
     //TODO make type safe
@@ -90,12 +85,12 @@ public class GvDataList<T extends GvData> extends ViewHolderDataList<T> implemen
     }
 
     @Override
-    public boolean hasHoldingReview() {
+    public boolean hasReviewId() {
         return mReviewId != null;
     }
 
     @Override
-    public GvReviewId getHoldingReviewId() {
+    public GvReviewId getReviewId() {
         return mReviewId;
     }
 
@@ -161,6 +156,6 @@ public class GvDataList<T extends GvData> extends ViewHolderDataList<T> implemen
     }
 
     protected boolean isModifiable() {
-        return !hasHoldingReview();
+        return !hasReviewId();
     }
 }

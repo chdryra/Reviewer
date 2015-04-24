@@ -60,12 +60,12 @@ public class GvText extends VHDString implements GvData {
     }
 
     @Override
-    public boolean hasHoldingReview() {
+    public boolean hasReviewId() {
         return mId != null;
     }
 
     @Override
-    public GvReviewId getHoldingReviewId() {
+    public GvReviewId getReviewId() {
         return mId;
     }
 

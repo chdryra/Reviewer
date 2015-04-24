@@ -16,6 +16,7 @@ import com.chdryra.android.reviewer.View.GvData;
 import com.chdryra.android.reviewer.View.GvDataList;
 import com.chdryra.android.reviewer.View.GvDataType;
 import com.chdryra.android.reviewer.View.GvImageList;
+import com.chdryra.android.reviewer.View.GvReviewId;
 
 /**
  * Created by: Rizwan Choudrey
@@ -75,7 +76,7 @@ public class ReviewNodeAdapter extends ReviewViewAdapterBasic {
         private static final GvDataType TYPE = new GvDataType("node", "node");
 
         private GvReviewNode(ReviewNode node) {
-            super(GvDataList.class, TYPE);
+            super(new GvReviewId(node.getId()), GvDataList.class, TYPE);
             add(MdGvConverter.convertTags(node.getId()));
             add(MdGvConverter.convertChildren(node));
             add(MdGvConverter.convert(node.getImages()));

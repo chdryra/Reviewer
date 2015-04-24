@@ -18,9 +18,14 @@ import java.util.Comparator;
 
 public class GvTagList extends GvDataList<GvTagList.GvTag> {
     public static final GvDataType TYPE = new GvDataType("tag");
+    public static final Class<GvTag> DATA_CLASS = GvTag.class;
 
     public GvTagList() {
-        super(GvTag.class, TYPE);
+        super(null, DATA_CLASS, TYPE);
+    }
+
+    public GvTagList(GvTagList data) {
+        super(data);
     }
 
     public ArrayList<String> toStringArray() {
@@ -69,6 +74,10 @@ public class GvTagList extends GvDataList<GvTagList.GvTag> {
 
         public GvTag(String tag) {
             super(tag);
+        }
+
+        public GvTag(GvTag tag) {
+            this(tag.get());
         }
 
         GvTag(Parcel in) {

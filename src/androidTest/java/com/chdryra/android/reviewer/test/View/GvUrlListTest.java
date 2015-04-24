@@ -10,11 +10,13 @@ package com.chdryra.android.reviewer.test.View;
 
 import android.test.suitebuilder.annotation.SmallTest;
 
+import com.chdryra.android.reviewer.Model.ReviewId;
 import com.chdryra.android.reviewer.View.GvChildList;
 import com.chdryra.android.reviewer.View.GvCommentList;
 import com.chdryra.android.reviewer.View.GvFactList;
 import com.chdryra.android.reviewer.View.GvImageList;
 import com.chdryra.android.reviewer.View.GvLocationList;
+import com.chdryra.android.reviewer.View.GvReviewId;
 import com.chdryra.android.reviewer.View.GvTagList;
 import com.chdryra.android.reviewer.View.GvUrlList;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
@@ -40,16 +42,17 @@ public class GvUrlListTest extends TestCase {
 
     @SmallTest
     public void testParcelable() {
-        GvDataParcelableTester.testParcelable(GvDataMocker.newUrl(false));
-        GvDataParcelableTester.testParcelable(GvDataMocker.newUrl(true));
+        GvDataParcelableTester.testParcelable(GvDataMocker.newUrl(null));
+        GvDataParcelableTester.testParcelable(GvDataMocker.newUrl(new GvReviewId(ReviewId
+                .generateId())));
         GvDataParcelableTester.testParcelable(GvDataMocker.newUrlList(10, false));
         GvDataParcelableTester.testParcelable(GvDataMocker.newUrlList(10, true));
     }
 
     @SmallTest
     public void testGvUrl() {
-        GvUrlList.GvUrl testUrl1 = GvDataMocker.newUrl(false);
-        GvUrlList.GvUrl testUrl2 = GvDataMocker.newUrl(false);
+        GvUrlList.GvUrl testUrl1 = GvDataMocker.newUrl(null);
+        GvUrlList.GvUrl testUrl2 = GvDataMocker.newUrl(null);
 
         String url1label = testUrl1.getLabel();
         String url2label = testUrl2.getLabel();

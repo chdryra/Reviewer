@@ -27,23 +27,20 @@ import java.util.Random;
  */
 public class GvImageList extends GvDataList<GvImageList.GvImage> {
     public static final GvDataType TYPE = new GvDataType("image");
+    public static final Class<GvImage> DATA_CLASS = GvImage.class;
 
     public GvImageList() {
-        super(GvImage.class, TYPE);
+        super(null, GvImage.class, TYPE);
+    }
+
+    public GvImageList(GvReviewId id) {
+        super(id, GvImage.class, TYPE);
     }
 
     public GvImageList(GvImageList data) {
         super(data);
     }
 
-    public GvImageList(GvReviewId id, GvImageList data) {
-        super(id, data);
-    }
-
-    public GvImageList(GvReviewId id) {
-        super(id, GvImage.class, TYPE);
-    }
-    
     public boolean contains(Bitmap bitmap) {
         for (GvImage image : this) {
             if (image.getBitmap().sameAs(bitmap)) return true;
@@ -54,7 +51,7 @@ public class GvImageList extends GvDataList<GvImageList.GvImage> {
 
     @Override
     public void add(GvImage item) {
-        if (size() == 0) item.setIsCover(true);
+        if (!hasReviewId() && size() == 0) item.setIsCover(true);
         super.add(item);
     }
 
@@ -92,12 +89,12 @@ public class GvImageList extends GvDataList<GvImageList.GvImage> {
     }
 
     public GvImageList getCovers() {
-        GvImageList covers = new GvImageList();
+        GvImageList covers = new GvImageList(getReviewId());
         for (GvImage image : this) {
             if (image.isCover()) covers.add(image);
         }
 
-        return hasHoldingReview() ? new GvImageList(getHoldingReviewId(), covers) : covers;
+        return covers;
     }
 
     /**
@@ -144,6 +141,11 @@ public class GvImageList extends GvDataList<GvImageList.GvImage> {
             mCaption = caption;
             mLatLng = null;
             mIsCover = isCover;
+        }
+
+        public GvImage(GvImage image) {
+            this(image.getReviewId(), image.getBitmap(), image.getDate(), image.getCaption(),
+                    image.isCover());
         }
 
         GvImage(Parcel in) {

@@ -19,30 +19,27 @@ import java.util.Comparator;
 
 public class GvFactList extends GvDataList<GvFactList.GvFact> {
     public static final GvDataType TYPE = new GvDataType("fact");
+    public static final Class<GvFact> DATA_CLASS = GvFact.class;
 
     public GvFactList() {
-        super(GvFact.class, TYPE);
+        super(null, DATA_CLASS, TYPE);
+    }
+
+    public GvFactList(GvReviewId id) {
+        super(id, DATA_CLASS, TYPE);
     }
 
     public GvFactList(GvFactList data) {
         super(data);
     }
 
-    public GvFactList(GvReviewId id, GvFactList data) {
-        super(id, data);
-    }
-
-    public GvFactList(GvReviewId id) {
-        super(id, GvFact.class, TYPE);
-    }
-
     public GvUrlList getUrls() {
-        GvUrlList urls = new GvUrlList();
+        GvUrlList urls = new GvUrlList(getReviewId());
         for (GvFact fact : this) {
             if (fact.isUrl()) urls.add((GvUrlList.GvUrl) fact);
         }
 
-        return hasHoldingReview() ? new GvUrlList(getHoldingReviewId(), urls) : urls;
+        return urls;
     }
 
     @Override
@@ -89,6 +86,10 @@ public class GvFactList extends GvDataList<GvFactList.GvFact> {
 
         public GvFact(GvReviewId id, String label, String value) {
             super(id, label, value);
+        }
+
+        public GvFact(GvFact fact) {
+            this(fact.getReviewId(), fact.getLabel(), fact.getValue());
         }
 
         protected GvFact(Parcel in) {

@@ -36,6 +36,10 @@ public class GvReviewId implements GvData {
         mId = id;
     }
 
+    public GvReviewId(GvReviewId id) {
+        this(ReviewId.fromString(id.getId()));
+    }
+
     public GvReviewId(Parcel in) {
         mId = ReviewId.fromString(in.readString());
     }
@@ -50,12 +54,12 @@ public class GvReviewId implements GvData {
     }
 
     @Override
-    public boolean hasHoldingReview() {
+    public boolean hasReviewId() {
         return true;
     }
 
     @Override
-    public GvReviewId getHoldingReviewId() {
+    public GvReviewId getReviewId() {
         return this;
     }
 

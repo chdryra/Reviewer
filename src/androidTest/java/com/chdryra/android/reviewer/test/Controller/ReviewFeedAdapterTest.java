@@ -75,7 +75,7 @@ public class ReviewFeedAdapterTest extends AndroidTestCase {
         for (int i = 0; i < reviews.length; ++i) {
             assertEquals(reviews[i].getRating().get(), oList.getItem(i).getRating());
             assertEquals(reviews[i].getSubject().get(), oList.getItem(i).getSubject());
-            assertEquals(reviews[i].getAuthor().getName(), oList.getItem(i).getAuthor());
+            assertEquals(reviews[i].getAuthor(), oList.getItem(i).getAuthor());
             assertEquals(reviews[i].getPublishDate(), oList.getItem(i).getPublishDate());
         }
     }

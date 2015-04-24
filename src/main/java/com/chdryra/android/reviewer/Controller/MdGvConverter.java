@@ -19,7 +19,6 @@ import com.chdryra.android.reviewer.Model.ReviewNode;
 import com.chdryra.android.reviewer.Model.TagsManager;
 import com.chdryra.android.reviewer.View.GvChildList;
 import com.chdryra.android.reviewer.View.GvCommentList;
-import com.chdryra.android.reviewer.View.GvData;
 import com.chdryra.android.reviewer.View.GvDataList;
 import com.chdryra.android.reviewer.View.GvDataType;
 import com.chdryra.android.reviewer.View.GvFactList;
@@ -70,7 +69,7 @@ public class MdGvConverter {
     }
 
     public static GvFactList copy(GvFactList facts) {
-        GvFactList list = new GvFactList();
+        GvFactList list = new GvFactList(facts.getReviewId());
         for (GvFactList.GvFact fact : facts) {
             list.add(getGvFactOrUrl(fact));
         }
@@ -90,10 +89,9 @@ public class MdGvConverter {
 
     private static GvFactList.GvFact getGvFactOrUrl(GvFactList.GvFact fact) {
         if (fact.isUrl()) {
-            GvUrlList.GvUrl url = (GvUrlList.GvUrl) fact;
-            return new GvUrlList.GvUrl(fact.getLabel(), url.getUrl());
+            return new GvUrlList.GvUrl((GvUrlList.GvUrl) fact);
         } else {
-            return new GvFactList.GvFact(fact.getLabel(), fact.getValue());
+            return new GvFactList.GvFact(fact);
         }
     }
 
@@ -117,20 +115,12 @@ public class MdGvConverter {
 
     //Images
     public static GvImageList convert(MdImageList images) {
-        GvImageList list = new GvImageList();
+        GvImageList list = new GvImageList(new GvReviewId(images.getReviewId()));
         for (MdImageList.MdImage image : images) {
-            list.add(new GvImageList.GvImage(new GvReviewId(image.getReviewId()), image.getBitmap
-                    (), image.getDate (), image.getCaption(), image.isCover()));
-        }
-
-        return list;
-    }
-
-    public static GvImageList copy(GvImageList images) {
-        GvImageList list = new GvImageList();
-        for (GvImageList.GvImage image : images) {
-            list.add(new GvImageList.GvImage(image.getBitmap(), image.getDate(), image.getLatLng(),
-                    image.getCaption(), image.isCover()));
+            GvReviewId id = new GvReviewId(image.getReviewId());
+            GvImageList.GvImage i = new GvImageList.GvImage(id, image.getBitmap
+                    (), image.getDate(), image.getCaption(), image.isCover());
+            list.add(i);
         }
 
         return list;
@@ -148,15 +138,6 @@ public class MdGvConverter {
 
     //Locations
     public static GvLocationList convert(MdLocationList locations) {
-        GvLocationList list = new GvLocationList();
-        for (DataLocation location : locations) {
-            list.add(new GvLocationList.GvLocation(location.getLatLng(), location.getName()));
-        }
-
-        return list;
-    }
-
-    public static GvLocationList copy(GvLocationList locations) {
         GvLocationList list = new GvLocationList();
         for (DataLocation location : locations) {
             list.add(new GvLocationList.GvLocation(location.getLatLng(), location.getName()));
@@ -186,38 +167,10 @@ public class MdGvConverter {
         return list;
     }
 
-    public static GvUrlList copy(GvUrlList urls) {
-        GvUrlList list = new GvUrlList();
-        for (DataUrl url : urls) {
-            list.add(new GvUrlList.GvUrl(url.getLabel(), url.getUrl()));
-        }
-
-        return list;
-    }
-
-    //Criteria
-    public static GvChildList copy(GvChildList children) {
-        GvChildList list = new GvChildList();
-        for (GvChildList.GvChildReview child : children) {
-            list.add(new GvChildList.GvChildReview(child.getSubject(), child.getRating()));
-        }
-
-        return list;
-    }
-
     public static MdUrlList toMdUrlList(Iterable<? extends DataUrl> urls, ReviewId holder) {
         MdUrlList list = new MdUrlList(holder);
         for (DataUrl url : urls) {
             list.add(new MdUrlList.MdUrl(url.getLabel(), url.getUrl(), holder));
-        }
-
-        return list;
-    }
-
-    public static GvTagList copy(GvTagList urls) {
-        GvTagList list = new GvTagList();
-        for (GvTagList.GvTag url : urls) {
-            list.add(new GvTagList.GvTag(url.get()));
         }
 
         return list;
@@ -244,17 +197,17 @@ public class MdGvConverter {
         if (dataType == GvCommentList.TYPE) {
             return new GvCommentList((GvCommentList) data);
         } else if (dataType == GvFactList.TYPE) {
-            return MdGvConverter.copy((GvFactList) data);
+            return copy((GvFactList) data);
         } else if (dataType == GvImageList.TYPE) {
-            return MdGvConverter.copy((GvImageList) data);
+            return new GvImageList((GvImageList) data);
         } else if (dataType == GvLocationList.TYPE) {
-            return MdGvConverter.copy((GvLocationList) data);
+            return new GvLocationList((GvLocationList) data);
         } else if (dataType == GvUrlList.TYPE) {
-            return MdGvConverter.copy((GvUrlList) data);
+            return new GvUrlList((GvUrlList) data);
         } else if (dataType == GvTagList.TYPE) {
-            return MdGvConverter.copy((GvTagList) data);
+            return new GvTagList((GvTagList) data);
         } else if (dataType == GvChildList.TYPE) {
-            return MdGvConverter.copy((GvChildList) data);
+            return new GvChildList((GvChildList) data);
         } else {
             return null;
         }
@@ -271,17 +224,13 @@ public class MdGvConverter {
     }
 
     public static GvChildList convertChildren(ReviewNode node) {
-        GvChildList list = new GvChildList();
+        GvReviewId id = new GvReviewId(node.getId());
+        GvChildList list = new GvChildList(id);
         for (ReviewNode child : node.getChildren()) {
-            list.add(new GvChildList.GvChildReview(child.getSubject().get(), child.getRating()
+            list.add(new GvChildList.GvChildReview(id, child.getSubject().get(), child.getRating()
                     .get()));
         }
 
-        GvReviewId id = new GvReviewId(node.getId());
-        return new GvChildList(id, list);
-    }
-
-    private static boolean hasId(GvData datum) {
-        return datum.hasHoldingReview();
+        return list;
     }
 }

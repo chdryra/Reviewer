@@ -20,9 +20,9 @@ import com.chdryra.android.mygenerallibrary.ViewHolderData;
 public interface GvData extends ViewHolderData, Parcelable {
     public String getStringSummary();
 
-    public boolean hasHoldingReview();
+    public boolean hasReviewId();
 
-    public GvReviewId getHoldingReviewId();
+    public GvReviewId getReviewId();
 
     public boolean isList();
 }

@@ -72,7 +72,7 @@ public class ReviewViewExpandable {
         @Override
         public void onLongClickExpanded(GvData item, int position, View v, ReviewViewAdapter
                 expanded) {
-            if (item.hasHoldingReview()) {
+            if (item.hasReviewId()) {
                 String alert = getActivity().getResources().getString(R.string.alert_goto_review);
                 Bundle args = new Bundle();
                 GvDataPacker.packItem(GvDataPacker.CurrentNewDatum.CURRENT, item, args);
@@ -85,7 +85,7 @@ public class ReviewViewExpandable {
         private void onDialogAlertPositive(int requestCode, Bundle args) {
             if (requestCode == REQUEST_GOTO_REVIEW) {
                 GvData datum = GvDataPacker.unpackItem(GvDataPacker.CurrentNewDatum.CURRENT, args);
-                String id = datum.getHoldingReviewId().getId();
+                String id = datum.getReviewId().getId();
                 startNewScreen(Administrator.get(mContext).getPublishedReview(id));
             }
         }

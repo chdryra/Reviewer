@@ -66,7 +66,7 @@ public class DataValidatorTest extends TestCase {
         assertFalse(DataValidator.validate(new GvCommentList.GvComment()));
         assertFalse(DataValidator.validate(new GvCommentList.GvComment("")));
         assertTrue(DataValidator.validate(new GvCommentList.GvComment(comment)));
-        assertTrue(DataValidator.validate(GvDataMocker.newComment(false)));
+        assertTrue(DataValidator.validate(GvDataMocker.newComment(null)));
 
         ReviewId r = ReviewMocker.newReview().getId();
         assertFalse(DataValidator.validate(new MdCommentList.MdComment(null, false, r)));
@@ -90,7 +90,7 @@ public class DataValidatorTest extends TestCase {
         assertFalse(DataValidator.validate(new GvFactList.GvFact("", value)));
         assertFalse(DataValidator.validate(new GvFactList.GvFact(label, "")));
         assertTrue(DataValidator.validate(new GvFactList.GvFact(label, value)));
-        assertTrue(DataValidator.validate(GvDataMocker.newFact(false)));
+        assertTrue(DataValidator.validate(GvDataMocker.newFact(null)));
 
         assertFalse(DataValidator.validate(new MdFactList.MdFact(null, null, mR)));
         assertFalse(DataValidator.validate(new MdFactList.MdFact("", null, mR)));
@@ -146,7 +146,7 @@ public class DataValidatorTest extends TestCase {
         assertTrue(DataValidator.validate(new GvImageList.GvImage(b, date, latLng, caption, true)));
         assertTrue(DataValidator.validate(new GvImageList.GvImage(b, date, latLng, caption,
                 false)));
-        assertTrue(DataValidator.validate(GvDataMocker.newImage(false)));
+        assertTrue(DataValidator.validate(GvDataMocker.newImage(null)));
 
         assertFalse(DataValidator.validate(new MdImageList.MdImage(null, null, null, true,
                 mR)));
@@ -188,7 +188,7 @@ public class DataValidatorTest extends TestCase {
         assertFalse(DataValidator.validate(new GvLocationList.GvLocation(null, "")));
         assertFalse(DataValidator.validate(new GvLocationList.GvLocation(latLng, "")));
         assertTrue(DataValidator.validate(new GvLocationList.GvLocation(latLng, name)));
-        assertTrue(DataValidator.validate(GvDataMocker.newLocation(false)));
+        assertTrue(DataValidator.validate(GvDataMocker.newLocation(null)));
 
         assertFalse(DataValidator.validate(new MdLocationList.MdLocation(null, null, mR)));
         assertFalse(DataValidator.validate(new MdLocationList.MdLocation(latLng, null, mR)));
@@ -202,12 +202,12 @@ public class DataValidatorTest extends TestCase {
     public void testValidateUrl() {
 
         GvUrlList.GvUrl gvUrl = null;
-        while (gvUrl == null) gvUrl = GvDataMocker.newUrl(false);
+        while (gvUrl == null) gvUrl = GvDataMocker.newUrl(null);
 
         URL url = gvUrl.getUrl();
         assertFalse(DataValidator.validate(new GvUrlList.GvUrl()));
         assertTrue(DataValidator.validate(new GvUrlList.GvUrl(RandomString.nextWord(), url)));
-        assertTrue(DataValidator.validate(GvDataMocker.newUrl(false)));
+        assertTrue(DataValidator.validate(GvDataMocker.newUrl(null)));
 
         ReviewId r = ReviewMocker.newReview().getId();
         assertTrue(DataValidator.validate(new MdUrlList.MdUrl(RandomString.nextWord(), url, r)));

@@ -22,28 +22,22 @@ import java.util.Comparator;
  */
 public class GvCommentList extends GvDataList<GvCommentList.GvComment> {
     public static final GvDataType TYPE = new GvDataType("comment");
+    public static final Class<GvComment> DATA_CLASS = GvComment.class;
 
     public GvCommentList() {
-        super(GvComment.class, TYPE);
+        super(null, DATA_CLASS, TYPE);
     }
 
     public GvCommentList(GvReviewId id) {
-        super(id, GvComment.class, TYPE);
+        super(id, DATA_CLASS, TYPE);
     }
 
     public GvCommentList(GvCommentList data) {
-        this(data.getHoldingReviewId(), data);
-    }
-
-    public GvCommentList(GvReviewId id, GvCommentList data) {
-        this(id);
-        for (GvComment datum : data) {
-            add(new GvComment(datum));
-        }
+        super(data);
     }
 
     public GvCommentList getSplitComments() {
-        GvCommentList splitComments = new GvCommentList(getHoldingReviewId());
+        GvCommentList splitComments = new GvCommentList(getReviewId());
         for (GvComment comment : this) {
             splitComments.add(comment.getSplitComments());
         }
@@ -77,7 +71,7 @@ public class GvCommentList extends GvDataList<GvCommentList.GvComment> {
     }
 
     public GvCommentList getHeadlines() {
-        GvCommentList headlines = new GvCommentList(getHoldingReviewId());
+        GvCommentList headlines = new GvCommentList(getReviewId());
         for (GvComment image : this) {
             if (image.isHeadline()) headlines.add(image);
         }
@@ -109,11 +103,6 @@ public class GvCommentList extends GvDataList<GvCommentList.GvComment> {
         private       GvComment mUnsplitParent;
         private boolean mIsHeadline = false;
 
-        private GvComment(String comment, GvComment unsplitParent) {
-            mComment = comment;
-            mUnsplitParent = unsplitParent;
-        }
-
         private GvComment(GvReviewId id, String comment, GvComment unsplitParent) {
             super(id);
             mComment = comment;
@@ -144,12 +133,12 @@ public class GvCommentList extends GvDataList<GvCommentList.GvComment> {
             mIsHeadline = isHeadline;
         }
 
+        //Copy constructor
         public GvComment(GvComment comment) {
-            super(comment.getHoldingReviewId());
-            mComment = comment.getComment();
-            mIsHeadline = comment.isHeadline();
+            this(comment.getReviewId(), comment.getComment(), comment.isHeadline());
         }
 
+        //Parcel constructor
         private GvComment(Parcel in) {
             super(in);
             mComment = in.readString();
@@ -230,13 +219,12 @@ public class GvCommentList extends GvDataList<GvCommentList.GvComment> {
         }
 
         private GvCommentList getSplitComments() {
-            GvCommentList splitComments = new GvCommentList();
+            GvCommentList splitComments = new GvCommentList(getReviewId());
             for (String comment : CommentFormatter.split(mComment)) {
-                splitComments.add(new GvComment(getHoldingReviewId(), comment, this));
+                splitComments.add(new GvComment(getReviewId(), comment, this));
             }
 
-            return hasHoldingReview() ?
-                    new GvCommentList(getHoldingReviewId(), splitComments) : splitComments;
+            return splitComments;
         }
     }
 }

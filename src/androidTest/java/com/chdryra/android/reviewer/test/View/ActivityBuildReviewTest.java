@@ -597,7 +597,7 @@ public class ActivityBuildReviewTest extends ActivityReviewViewTest {
     }
 
     private GvChildList.GvChildReview editSubjectRating() {
-        GvChildList.GvChildReview child = GvDataMocker.newChild(false);
+        GvChildList.GvChildReview child = GvDataMocker.newChild(null);
         mSolo.clearEditText(mSolo.getEditText(0));
         mSolo.enterText(mSolo.getEditText(0), child.getSubject());
 

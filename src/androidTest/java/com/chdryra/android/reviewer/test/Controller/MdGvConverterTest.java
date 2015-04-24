@@ -9,6 +9,7 @@
 package com.chdryra.android.reviewer.test.Controller;
 
 import android.test.suitebuilder.annotation.SmallTest;
+import android.util.Log;
 
 import com.chdryra.android.reviewer.Controller.DataValidator;
 import com.chdryra.android.reviewer.Controller.MdGvConverter;
@@ -33,7 +34,7 @@ import junit.framework.TestCase;
  * Email: rizwan.choudrey@gmail.com
  */
 public class MdGvConverterTest extends TestCase {
-    private static final int NUM = 100;
+    private static final int NUM = 1;
     public MdDataMocker mMocker;
 
     @SmallTest
@@ -108,12 +109,14 @@ public class MdGvConverterTest extends TestCase {
             assertTrue(DataValidator.validate(gvDatum));
             assertTrue(DataValidator.validate(gvDatum2));
 
-            assertEquals(mdData.getItem(i).getBitmap(), gvData.getItem(i).getBitmap());
-            assertEquals(mdData.getItem(i).getBitmap(), gvData2.getItem(i).getBitmap());
-            assertEquals(mdData.getItem(i).getCaption(), gvData.getItem(i).getCaption());
-            assertEquals(mdData.getItem(i).getCaption(), gvData2.getItem(i).getCaption());
-            assertEquals(mdData.getItem(i).isCover(), gvData.getItem(i).isCover());
-            assertEquals(mdData.getItem(i).isCover(), gvData2.getItem(i).isCover());
+            assertEquals(mdDatum.getBitmap(), gvDatum.getBitmap());
+            assertEquals(mdDatum.getBitmap(), gvDatum2.getBitmap());
+            assertEquals(mdDatum.getCaption(), gvDatum.getCaption());
+            assertEquals(mdDatum.getCaption(), gvDatum2.getCaption());
+            Log.i("TEST", "Number: " + i + ", Md: " + mdDatum.isCover() + ", Gv: " + gvDatum
+                    .isCover());
+            assertEquals(mdDatum.isCover(), gvDatum.isCover());
+            assertEquals(mdDatum.isCover(), gvDatum2.isCover());
         }
     }
 

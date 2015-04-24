@@ -37,7 +37,7 @@ public class GvDualText extends VHDDualString implements GvData {
     private GvReviewId mId;
 
     GvDualText() {
-        super();
+        super("", "");
     }
 
     GvDualText(String upper, String lower) {
@@ -60,12 +60,12 @@ public class GvDualText extends VHDDualString implements GvData {
     }
 
     @Override
-    public boolean hasHoldingReview() {
+    public boolean hasReviewId() {
         return mId != null;
     }
 
     @Override
-    public GvReviewId getHoldingReviewId() {
+    public GvReviewId getReviewId() {
         return mId;
     }
 

@@ -10,11 +10,13 @@ package com.chdryra.android.reviewer.test.View;
 
 import android.test.suitebuilder.annotation.SmallTest;
 
+import com.chdryra.android.reviewer.Model.ReviewId;
 import com.chdryra.android.reviewer.View.GvChildList;
 import com.chdryra.android.reviewer.View.GvCommentList;
 import com.chdryra.android.reviewer.View.GvFactList;
 import com.chdryra.android.reviewer.View.GvImageList;
 import com.chdryra.android.reviewer.View.GvLocationList;
+import com.chdryra.android.reviewer.View.GvReviewId;
 import com.chdryra.android.reviewer.View.GvTagList;
 import com.chdryra.android.reviewer.View.GvUrlList;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
@@ -41,8 +43,9 @@ public class GvFactListTest extends TestCase {
 
     @SmallTest
     public void testParcelable() {
-        GvDataParcelableTester.testParcelable(GvDataMocker.newFact(false));
-        GvDataParcelableTester.testParcelable(GvDataMocker.newFact(true));
+        GvDataParcelableTester.testParcelable(GvDataMocker.newFact(null));
+        GvDataParcelableTester.testParcelable(GvDataMocker.newFact(new GvReviewId(ReviewId
+                .generateId())));
         GvDataParcelableTester.testParcelable(GvDataMocker.newFactList(10, false));
         GvDataParcelableTester.testParcelable(GvDataMocker.newFactList(10, true));
     }
@@ -50,7 +53,7 @@ public class GvFactListTest extends TestCase {
     @SmallTest
     public void testComparator() {
         for (int i = 0; i < 50; ++i) {
-            mList.add(GvDataMocker.newFact(false));
+            mList.add(GvDataMocker.newFact(null));
         }
 
         assertEquals(50, mList.size());
@@ -83,8 +86,8 @@ public class GvFactListTest extends TestCase {
 
     @SmallTest
     public void testGvFact() {
-        GvFactList.GvFact fact1 = GvDataMocker.newFact(false);
-        GvFactList.GvFact fact2 = GvDataMocker.newFact(false);
+        GvFactList.GvFact fact1 = GvDataMocker.newFact(null);
+        GvFactList.GvFact fact2 = GvDataMocker.newFact(null);
 
         String label1 = fact1.getLabel();
         String value1 = fact1.getValue();

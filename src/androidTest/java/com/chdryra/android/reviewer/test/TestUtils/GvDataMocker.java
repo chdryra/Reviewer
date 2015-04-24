@@ -10,6 +10,7 @@ package com.chdryra.android.reviewer.test.TestUtils;
 
 import android.graphics.Bitmap;
 
+import com.chdryra.android.reviewer.Model.Author;
 import com.chdryra.android.reviewer.Model.ReviewId;
 import com.chdryra.android.reviewer.View.GvChildList;
 import com.chdryra.android.reviewer.View.GvCommentList;
@@ -81,21 +82,21 @@ public class GvDataMocker {
     //Just a convenient method even if it uses GvType.....
     public static GvData getDatum(GvDataType dataType, boolean withId) {
         if (dataType == GvCommentList.TYPE) {
-            return newComment(withId);
+            return newComment(getId(withId));
         } else if (dataType == GvFactList.TYPE) {
-            return newFact(withId);
+            return newFact(getId(withId));
         } else if (dataType == GvImageList.TYPE) {
-            return newImage(withId);
+            return newImage(getId(withId));
         } else if (dataType == GvLocationList.TYPE) {
-            return newLocation(withId);
+            return newLocation(getId(withId));
         } else if (dataType == GvUrlList.TYPE) {
-            return newUrl(withId);
+            return newUrl(getId(withId));
         } else if (dataType == GvTagList.TYPE) {
             return newTag();
         } else if (dataType == GvChildList.TYPE) {
-            return newChild(withId);
+            return newChild(getId(withId));
         } else if (dataType == GvReviewList.TYPE) {
-            return newReviewOverview(withId);
+            return newReviewOverview(getId(withId));
         } else {
             return null;
         }
@@ -106,53 +107,53 @@ public class GvDataMocker {
     }
 
     public static GvCommentList newCommentList(int size, boolean withId) {
-        GvCommentList list = new GvCommentList();
+        GvReviewId id = getId(withId);
+        GvCommentList list = new GvCommentList(id);
         for (int i = 0; i < size; ++i) {
-            list.add(newComment(withId));
+            list.add(newComment(id));
         }
 
-        GvReviewId id = new GvReviewId(ReviewId.generateId());
-        return withId ? new GvCommentList(id, list) : list;
+        return list;
     }
 
     public static GvImageList newImageList(int size, boolean withId) {
-        GvImageList list = new GvImageList();
+        GvReviewId id = getId(withId);
+        GvImageList list = new GvImageList(id);
         for (int i = 0; i < size; ++i) {
-            list.add(newImage(withId));
+            list.add(newImage(id));
         }
 
-        GvReviewId id = new GvReviewId(ReviewId.generateId());
-        return withId ? new GvImageList(id, list) : list;
+        return list;
     }
 
     public static GvLocationList newLocationList(int size, boolean withId) {
-        GvLocationList list = new GvLocationList();
+        GvReviewId id = getId(withId);
+        GvLocationList list = new GvLocationList(id);
         for (int i = 0; i < size; ++i) {
-            list.add(newLocation(withId));
+            list.add(newLocation(id));
         }
 
-        GvReviewId id = new GvReviewId(ReviewId.generateId());
-        return withId ? new GvLocationList(id, list) : list;
+        return list;
     }
 
     public static GvFactList newFactList(int size, boolean withId) {
-        GvFactList list = new GvFactList();
+        GvReviewId id = getId(withId);
+        GvFactList list = new GvFactList(id);
         for (int i = 0; i < size; ++i) {
-            list.add(newFact(withId));
+            list.add(newFact(id));
         }
 
-        GvReviewId id = new GvReviewId(ReviewId.generateId());
-        return withId ? new GvFactList(id, list) : list;
+        return list;
     }
 
     public static GvUrlList newUrlList(int size, boolean withId) {
-        GvUrlList list = new GvUrlList();
+        GvReviewId id = getId(withId);
+        GvUrlList list = new GvUrlList(id);
         for (int i = 0; i < size; ++i) {
-            list.add(newUrl(withId));
+            list.add(newUrl(id));
         }
 
-        GvReviewId id = new GvReviewId(ReviewId.generateId());
-        return withId ? new GvUrlList(id, list) : list;
+        return list;
     }
 
     public static GvTagList newTagList(int size) {
@@ -165,110 +166,100 @@ public class GvDataMocker {
     }
 
     public static GvChildList newChildList(int size, boolean withId) {
-        GvChildList list = new GvChildList();
+        GvReviewId id = getId(withId);
+        GvChildList list = new GvChildList(id);
         for (int i = 0; i < size; ++i) {
-            list.add(newChild(withId));
+            list.add(newChild(id));
         }
 
-        GvReviewId id = new GvReviewId(ReviewId.generateId());
-        return withId ? new GvChildList(id, list) : list;
+        return list;
     }
 
     public static GvReviewList newReviewList(int size, boolean withId) {
-        GvReviewList list = new GvReviewList();
+        GvReviewId id = getId(withId);
+        GvReviewList list = new GvReviewList(id);
         for (int i = 0; i < size; ++i) {
-            list.add(newReviewOverview(withId));
+            list.add(newReviewOverview(id));
         }
 
-        GvReviewId id = new GvReviewId(ReviewId.generateId());
-        return withId ? new GvReviewList(id, list) : list;
+        return list;
     }
 
-    public static GvCommentList.GvComment newComment(boolean withId) {
+    public static GvCommentList.GvComment newComment(GvReviewId id) {
         String comment = STRING_GENERATOR.nextParagraph();
         boolean isHeadline = RAND.nextBoolean();
-        GvReviewId id = new GvReviewId(ReviewId.generateId());
 
-        return withId ? new GvCommentList.GvComment(id, comment, isHeadline) : new GvCommentList
-                .GvComment(comment, isHeadline);
+        return new GvCommentList.GvComment(id, comment, isHeadline);
     }
 
-    public static GvImageList.GvImage newImage(boolean withId) {
+    public static GvImageList.GvImage newImage(GvReviewId id) {
         Bitmap bitmap = BitmapMocker.nextBitmap(RAND.nextBoolean());
         Date date = RandomDate.nextDate();
-        LatLng latLng = RandomLatLng.nextLatLng();
         String caption = RandomString.nextSentence();
         Boolean isCover = RAND.nextBoolean();
-        GvReviewId id = new GvReviewId(ReviewId.generateId());
 
-        return withId ? new GvImageList.GvImage(id, bitmap, date, caption,
-                isCover) : new GvImageList.GvImage(bitmap, date, latLng, caption, isCover);
+        return new GvImageList.GvImage(id, bitmap, date, caption, isCover);
     }
 
-    public static GvLocationList.GvLocation newLocation(boolean withId) {
+    public static GvLocationList.GvLocation newLocation(GvReviewId id) {
         LatLng latLng = RandomLatLng.nextLatLng();
         String name = RandomString.nextWord();
-        GvReviewId id = new GvReviewId(ReviewId.generateId());
 
-        return withId ? new GvLocationList.GvLocation(id, latLng, name) : new GvLocationList
-                .GvLocation(latLng, name);
+        return new GvLocationList.GvLocation(id, latLng, name);
     }
 
-    public static GvFactList.GvFact newFact(boolean withId) {
+    public static GvFactList.GvFact newFact(GvReviewId id) {
         String label = RandomString.nextWord();
         String value = RandomString.nextWord();
-        GvReviewId id = new GvReviewId(ReviewId.generateId());
 
-        return withId ? new GvFactList.GvFact(id, label, value) : new GvFactList.GvFact(label,
-                value);
+        return new GvFactList.GvFact(id, label, value);
     }
 
-    public static GvUrlList.GvUrl newUrl(boolean withId) {
+    public static GvUrlList.GvUrl newUrl(GvReviewId id) {
         String label = RandomString.nextWord();
         String urlString = "http://www." + RandomString.nextWord() + ".co.uk";
-        GvReviewId id = new GvReviewId(ReviewId.generateId());
 
         try {
             URL url = new URL(urlString);
-            return withId ? new GvUrlList.GvUrl(id, label, url) : new GvUrlList.GvUrl(label, url);
+            return new GvUrlList.GvUrl(id, label, url);
         } catch (MalformedURLException e) {
             e.printStackTrace();
             return null;
         }
     }
 
-    public static GvChildList.GvChildReview newChild(boolean withId) {
+    public static GvChildList.GvChildReview newChild(GvReviewId id) {
         String subject = RandomString.nextWord();
         float rating = RandomRating.nextRating();
-        GvReviewId id = new GvReviewId(ReviewId.generateId());
 
-        return withId ? new GvChildList.GvChildReview(id, subject, rating)
-                : new GvChildList.GvChildReview(subject, rating);
+        return new GvChildList.GvChildReview(id, subject, rating);
     }
 
     public static GvTagList.GvTag newTag() {
         return new GvTagList.GvTag(RandomString.nextWord());
     }
 
-    public static GvReviewList.GvReviewOverview newReviewOverview(boolean withId) {
-        String id = ReviewId.generateId().toString();
-        String author = RandomString.nextWord();
+    public static GvReviewList.GvReviewOverview newReviewOverview(GvReviewId parentId) {
+        Author author = RandomAuthor.nextAuthor();
         Date date = RandomDate.nextDate();
         String subject = RandomString.nextWord();
         float rating = RandomRating.nextRating();
         Bitmap bitmap = BitmapMocker.nextBitmap(RAND.nextBoolean());
         String comment = RandomString.nextSentence();
         String location = RandomString.nextWord();
-        GvReviewId parentId = new GvReviewId(ReviewId.generateId());
+        GvReviewId id = new GvReviewId(ReviewId.generateId());
 
-        return withId ? new GvReviewList.GvReviewOverview(parentId, id, author, date, subject,
-                rating, bitmap, comment, location) :
-                new GvReviewList.GvReviewOverview(id, author, date, subject, rating, bitmap,
-                        comment, location);
+        return new GvReviewList.GvReviewOverview(parentId, id.toString(), author, date, subject,
+                rating,
+                bitmap, comment, location);
     }
 
     public static GvSocialPlatformList.GvSocialPlatform newSocialPlatform() {
         return new GvSocialPlatformList.GvSocialPlatform(RandomString.nextWord(),
                 RAND.nextInt(100) ^ 2);
+    }
+
+    private static GvReviewId getId(boolean withId) {
+        return withId ? new GvReviewId(ReviewId.generateId()) : null;
     }
 }

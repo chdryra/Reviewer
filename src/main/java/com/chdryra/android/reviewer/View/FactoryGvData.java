@@ -57,10 +57,8 @@ public class FactoryGvData {
         try {
             return dataClass.newInstance();
         } catch (InstantiationException e) {
-            e.printStackTrace();
             throw new RuntimeException(INSTANTIATION_ERR + dataClass.getName());
         } catch (IllegalAccessException e) {
-            e.printStackTrace();
             throw new RuntimeException(ILLEGAL_ACCESS_ERR + dataClass.getName());
         }
     }
@@ -73,16 +71,12 @@ public class FactoryGvData {
             Constructor<T2> ctor = dataClass.getConstructor(GvReviewId.class);
             return ctor.newInstance(id);
         } catch (NoSuchMethodException e) {
-            e.printStackTrace();
             throw new RuntimeException(NO_CTOR_ERR + dataClass.getName(), e);
         } catch (InstantiationException e) {
-            e.printStackTrace();
             throw new RuntimeException(INSTANTIATION_ERR + dataClass.getName(), e);
         } catch (IllegalAccessException e) {
-            e.printStackTrace();
             throw new RuntimeException(ILLEGAL_ACCESS_ERR + dataClass.getName(), e);
         } catch (InvocationTargetException e) {
-            e.printStackTrace();
             throw new RuntimeException(INVOCATION_ERR + dataClass.getName());
         }
     }
@@ -91,11 +85,24 @@ public class FactoryGvData {
         try {
             return dataClass.newInstance();
         } catch (InstantiationException e) {
-            e.printStackTrace();
             throw new RuntimeException(INSTANTIATION_ERR + dataClass.getName());
         } catch (IllegalAccessException e) {
-            e.printStackTrace();
             throw new RuntimeException(ILLEGAL_ACCESS_ERR + dataClass.getName());
+        }
+    }
+
+    public static <T extends GvData> T copy(T datum, Class<T> dataClass) {
+        try {
+            Constructor<T> ctor = dataClass.getConstructor(dataClass);
+            return ctor.newInstance(datum);
+        } catch (NoSuchMethodException e) {
+            throw new RuntimeException(NO_CTOR_ERR + dataClass.getName());
+        } catch (InstantiationException e) {
+            throw new RuntimeException(INSTANTIATION_ERR + dataClass.getName());
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(ILLEGAL_ACCESS_ERR + dataClass.getName());
+        } catch (InvocationTargetException e) {
+            throw new RuntimeException(INVOCATION_ERR + dataClass.getName());
         }
     }
 

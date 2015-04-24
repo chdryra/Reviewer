@@ -10,11 +10,13 @@ package com.chdryra.android.reviewer.test.View;
 
 import android.test.suitebuilder.annotation.SmallTest;
 
+import com.chdryra.android.reviewer.Model.ReviewId;
 import com.chdryra.android.reviewer.View.GvChildList;
 import com.chdryra.android.reviewer.View.GvCommentList;
 import com.chdryra.android.reviewer.View.GvFactList;
 import com.chdryra.android.reviewer.View.GvImageList;
 import com.chdryra.android.reviewer.View.GvLocationList;
+import com.chdryra.android.reviewer.View.GvReviewId;
 import com.chdryra.android.reviewer.View.GvTagList;
 import com.chdryra.android.reviewer.View.GvUrlList;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
@@ -41,16 +43,17 @@ public class GvCommentListTest extends TestCase {
 
     @SmallTest
     public void testParcelable() {
-        GvDataParcelableTester.testParcelable(GvDataMocker.newComment(false));
-        GvDataParcelableTester.testParcelable(GvDataMocker.newComment(true));
+        GvDataParcelableTester.testParcelable(GvDataMocker.newComment(null));
+        GvDataParcelableTester.testParcelable(GvDataMocker.newComment(new GvReviewId(ReviewId
+                .generateId())));
         GvDataParcelableTester.testParcelable(GvDataMocker.newCommentList(10, false));
         GvDataParcelableTester.testParcelable(GvDataMocker.newCommentList(10, true));
     }
 
     @SmallTest
     public void testGvComment() {
-        String comment1 = GvDataMocker.newComment(false).getComment();
-        String comment2 = GvDataMocker.newComment(false).getComment();
+        String comment1 = GvDataMocker.newComment(null).getComment();
+        String comment2 = GvDataMocker.newComment(null).getComment();
 
         GvCommentList.GvComment gvComment = new GvCommentList.GvComment(comment1);
         GvCommentList.GvComment gvCommentEquals = new GvCommentList.GvComment(comment1);

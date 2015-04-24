@@ -52,8 +52,8 @@ public class ReviewDataAdapter extends ReviewViewAdapterBasic {
 
     @Override
     public GvImageList getCovers() {
-        if (mData.hasHoldingReview()) {
-            return CoversManager.getCovers(mContext, mData.getHoldingReviewId());
+        if (mData.hasReviewId()) {
+            return CoversManager.getCovers(mContext, mData.getReviewId());
         } else {
             return mParentAdapter.getCovers();
         }

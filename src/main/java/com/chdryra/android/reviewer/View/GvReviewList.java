@@ -14,6 +14,8 @@ import android.os.Parcelable;
 
 import com.chdryra.android.mygenerallibrary.ViewHolder;
 import com.chdryra.android.reviewer.Controller.DataValidator;
+import com.chdryra.android.reviewer.Model.Author;
+import com.chdryra.android.reviewer.Model.UserId;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -27,20 +29,21 @@ import java.util.Date;
  */
 public class GvReviewList extends GvDataList<GvReviewList.GvReviewOverview> {
     public static final GvDataType TYPE = new GvDataType("reviews");
+    public static final Class<GvReviewOverview> DATA_CLASS = GvReviewOverview.class;
 
     public GvReviewList() {
-        super(GvReviewOverview.class, TYPE);
+        super(null, DATA_CLASS, TYPE);
+    }
+
+    public GvReviewList(GvReviewId parentId) {
+        super(parentId, DATA_CLASS, TYPE);
     }
 
     public GvReviewList(GvReviewList data) {
         super(data);
     }
 
-    public GvReviewList(GvReviewId id, GvReviewList data) {
-        super(id, data);
-    }
-
-    public void add(String id, String author, Date publishDate, String subject, float rating,
+    public void add(String id, Author author, Date publishDate, String subject, float rating,
             Bitmap coverImage, String headline, String locationName) {
         if (!contains(id)) {
             add(new GvReviewOverview(id, author, publishDate, subject, rating, coverImage,
@@ -94,13 +97,13 @@ public class GvReviewList extends GvDataList<GvReviewList.GvReviewOverview> {
         private Bitmap mCoverImage;
         private String mHeadline;
         private String mLocationName;
-        private String mAuthor;
+        private Author mAuthor;
         private Date   mPublishDate;
 
         public GvReviewOverview() {
         }
 
-        public GvReviewOverview(String id, String author, Date publishDate, String subject,
+        public GvReviewOverview(String id, Author author, Date publishDate, String subject,
                 float rating, Bitmap coverImage, String headline, String locationName) {
             mId = id;
             mSubject = subject;
@@ -112,7 +115,7 @@ public class GvReviewList extends GvDataList<GvReviewList.GvReviewOverview> {
             mPublishDate = publishDate;
         }
 
-        public GvReviewOverview(GvReviewId parentId, String id, String author, Date publishDate,
+        public GvReviewOverview(GvReviewId parentId, String id, Author author, Date publishDate,
                 String subject, float rating, Bitmap coverImage, String headline,
                 String locationName) {
             super(parentId);
@@ -126,6 +129,12 @@ public class GvReviewList extends GvDataList<GvReviewList.GvReviewOverview> {
             mPublishDate = publishDate;
         }
 
+        public GvReviewOverview(GvReviewOverview review) {
+            this(review.getReviewId(), review.getId(), review.getAuthor(), review.getPublishDate
+                    (), review.getSubject(), review.getRating(), review.getCoverImage(), review
+                    .getHeadline(), review.getLocationName());
+        }
+
         private GvReviewOverview(Parcel in) {
             super(in);
             mId = in.readString();
@@ -134,7 +143,7 @@ public class GvReviewList extends GvDataList<GvReviewList.GvReviewOverview> {
             mCoverImage = in.readParcelable(Bitmap.class.getClassLoader());
             mHeadline = in.readString();
             mLocationName = in.readString();
-            mAuthor = in.readString();
+            mAuthor = new Author(in.readString(), UserId.fromString(in.readString()));
             mPublishDate = (Date) in.readSerializable();
         }
 
@@ -146,7 +155,7 @@ public class GvReviewList extends GvDataList<GvReviewList.GvReviewOverview> {
         @Override
         public boolean isValidForDisplay() {
             return DataValidator.validateString(mId) && DataValidator.validateString(mSubject)
-                    && DataValidator.validateString(mAuthor) && DataValidator.NotNull
+                    && DataValidator.validateString(mAuthor.getName()) && DataValidator.NotNull
                     (mPublishDate);
         }
 
@@ -164,7 +173,8 @@ public class GvReviewList extends GvDataList<GvReviewList.GvReviewOverview> {
             parcel.writeParcelable(mCoverImage, i);
             parcel.writeString(mHeadline);
             parcel.writeString(mLocationName);
-            parcel.writeString(mAuthor);
+            parcel.writeString(mAuthor.getName());
+            parcel.writeString(mAuthor.getUserId().toString());
             parcel.writeSerializable(mPublishDate);
         }
 
@@ -192,7 +202,7 @@ public class GvReviewList extends GvDataList<GvReviewList.GvReviewOverview> {
             return mHeadline;
         }
 
-        public String getAuthor() {
+        public Author getAuthor() {
             return mAuthor;
         }
 
@@ -204,7 +214,7 @@ public class GvReviewList extends GvDataList<GvReviewList.GvReviewOverview> {
         public String getStringSummary() {
             DateFormat format = SimpleDateFormat.getDateInstance();
             return getSubject() + ": " + RatingFormatter.outOfFive(getRating()) + "by " +
-                    getAuthor() + " on " + format.format(getPublishDate());
+                    getAuthor().getName() + " on " + format.format(getPublishDate());
         }
 
         @Override

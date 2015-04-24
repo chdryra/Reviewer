@@ -11,11 +11,14 @@ package com.chdryra.android.reviewer.test.View;
 import android.graphics.Bitmap;
 import android.test.suitebuilder.annotation.SmallTest;
 
+import com.chdryra.android.reviewer.Model.Author;
+import com.chdryra.android.reviewer.Model.ReviewId;
 import com.chdryra.android.reviewer.View.GvChildList;
 import com.chdryra.android.reviewer.View.GvCommentList;
 import com.chdryra.android.reviewer.View.GvFactList;
 import com.chdryra.android.reviewer.View.GvImageList;
 import com.chdryra.android.reviewer.View.GvLocationList;
+import com.chdryra.android.reviewer.View.GvReviewId;
 import com.chdryra.android.reviewer.View.GvReviewList;
 import com.chdryra.android.reviewer.View.GvTagList;
 import com.chdryra.android.reviewer.View.GvUrlList;
@@ -37,19 +40,20 @@ public class GvReviewListTest extends TestCase {
 
     @SmallTest
     public void testParcelable() {
-        GvDataParcelableTester.testParcelable(GvDataMocker.newReviewOverview(false));
-        GvDataParcelableTester.testParcelable(GvDataMocker.newReviewOverview(true));
+        GvDataParcelableTester.testParcelable(GvDataMocker.newReviewOverview(null));
+        GvDataParcelableTester.testParcelable(GvDataMocker.newReviewOverview(new GvReviewId
+                (ReviewId.generateId())));
         GvDataParcelableTester.testParcelable(GvDataMocker.newReviewList(2, false));
         GvDataParcelableTester.testParcelable(GvDataMocker.newReviewList(2, true));
     }
 
     @SmallTest
     public void testAdd() {
-        GvReviewList.GvReviewOverview review1 = GvDataMocker.newReviewOverview(false);
-        GvReviewList.GvReviewOverview review2 = GvDataMocker.newReviewOverview(false);
+        GvReviewList.GvReviewOverview review1 = GvDataMocker.newReviewOverview(null);
+        GvReviewList.GvReviewOverview review2 = GvDataMocker.newReviewOverview(null);
 
         String id1 = review1.getId();
-        String author1 = review1.getAuthor();
+        Author author1 = review1.getAuthor();
         Date publishDate1 = review1.getPublishDate();
         String subject1 = review1.getSubject();
         float rating1 = review1.getRating();
@@ -58,7 +62,7 @@ public class GvReviewListTest extends TestCase {
         String locationName1 = review1.getLocationName();
 
         String id2 = review2.getId();
-        String author2 = review2.getAuthor();
+        Author author2 = review2.getAuthor();
         Date publishDate2 = review2.getPublishDate();
         String subject2 = review2.getSubject();
         float rating2 = review2.getRating();
@@ -87,8 +91,8 @@ public class GvReviewListTest extends TestCase {
 
     @SmallTest
     public void testContains() {
-        GvReviewList.GvReviewOverview review1 = GvDataMocker.newReviewOverview(false);
-        GvReviewList.GvReviewOverview review2 = GvDataMocker.newReviewOverview(false);
+        GvReviewList.GvReviewOverview review1 = GvDataMocker.newReviewOverview(null);
+        GvReviewList.GvReviewOverview review2 = GvDataMocker.newReviewOverview(null);
 
         String id1 = review1.getId();
         String subject2 = review2.getSubject();
@@ -96,7 +100,7 @@ public class GvReviewListTest extends TestCase {
         Bitmap image2 = review2.getCoverImage();
         String headline2 = review2.getHeadline();
         String locationName2 = review2.getLocationName();
-        String author2 = review2.getAuthor();
+        Author author2 = review2.getAuthor();
         Date publishDate2 = review2.getPublishDate();
 
         assertFalse(mList.contains(review1));
@@ -118,7 +122,7 @@ public class GvReviewListTest extends TestCase {
     @SmallTest
     public void testComparator() {
         for (int i = 0; i < 50; ++i) {
-            mList.add(GvDataMocker.newReviewOverview(false));
+            mList.add(GvDataMocker.newReviewOverview(null));
         }
 
         assertEquals(50, mList.size());
@@ -140,11 +144,11 @@ public class GvReviewListTest extends TestCase {
 
     @SmallTest
     public void testGvReviewOverview() {
-        GvReviewList.GvReviewOverview review1 = GvDataMocker.newReviewOverview(false);
-        GvReviewList.GvReviewOverview review2 = GvDataMocker.newReviewOverview(false);
+        GvReviewList.GvReviewOverview review1 = GvDataMocker.newReviewOverview(null);
+        GvReviewList.GvReviewOverview review2 = GvDataMocker.newReviewOverview(null);
 
         String id1 = review1.getId();
-        String author1 = review1.getAuthor();
+        Author author1 = review1.getAuthor();
         Date date1 = review1.getPublishDate();
         String subject1 = review1.getSubject();
         float rating1 = review1.getRating();
@@ -153,7 +157,7 @@ public class GvReviewListTest extends TestCase {
         String location1 = review1.getLocationName();
 
         String id2 = review2.getId();
-        String author2 = review2.getAuthor();
+        Author author2 = review2.getAuthor();
         Date date2 = review2.getPublishDate();
         String subject2 = review2.getSubject();
         float rating2 = review2.getRating();
@@ -198,7 +202,7 @@ public class GvReviewListTest extends TestCase {
                 author1, date1,
                 subject1, rating1, image1, headline1, location1);
         GvReviewList.GvReviewOverview gvReviewNoAuthor = new GvReviewList.GvReviewOverview(id1,
-                "", date1,
+                Author.NULL_AUTHOR, date1,
                 subject1, rating1, image1, headline1, location1);
         GvReviewList.GvReviewOverview gvReviewNoDate = new GvReviewList.GvReviewOverview(id1,
                 author1,

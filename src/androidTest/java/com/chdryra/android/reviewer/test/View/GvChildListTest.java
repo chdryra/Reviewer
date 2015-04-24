@@ -10,11 +10,13 @@ package com.chdryra.android.reviewer.test.View;
 
 import android.test.suitebuilder.annotation.SmallTest;
 
+import com.chdryra.android.reviewer.Model.ReviewId;
 import com.chdryra.android.reviewer.View.GvChildList;
 import com.chdryra.android.reviewer.View.GvCommentList;
 import com.chdryra.android.reviewer.View.GvFactList;
 import com.chdryra.android.reviewer.View.GvImageList;
 import com.chdryra.android.reviewer.View.GvLocationList;
+import com.chdryra.android.reviewer.View.GvReviewId;
 import com.chdryra.android.reviewer.View.GvTagList;
 import com.chdryra.android.reviewer.View.GvUrlList;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
@@ -41,20 +43,21 @@ public class GvChildListTest extends TestCase {
 
     @SmallTest
     public void testParcelable() {
-        GvDataParcelableTester.testParcelable(GvDataMocker.newChild(false));
-        GvDataParcelableTester.testParcelable(GvDataMocker.newChild(true));
+        GvDataParcelableTester.testParcelable(GvDataMocker.newChild(null));
+        GvDataParcelableTester.testParcelable(GvDataMocker.newChild(new GvReviewId(ReviewId
+                .generateId())));
         GvDataParcelableTester.testParcelable(GvDataMocker.newChildList(10, false));
         GvDataParcelableTester.testParcelable(GvDataMocker.newChildList(10, true));
     }
 
     @SmallTest
     public void testContainsSubject() {
-        GvChildList.GvChildReview child = GvDataMocker.newChild(false);
+        GvChildList.GvChildReview child = GvDataMocker.newChild(null);
         assertFalse(mList.contains(child.getSubject()));
         mList.add(child);
         assertTrue(mList.contains(child.getSubject()));
 
-        GvChildList.GvChildReview child2 = GvDataMocker.newChild(false);
+        GvChildList.GvChildReview child2 = GvDataMocker.newChild(null);
         assertFalse(mList.contains(child2.getSubject()));
         mList.add(child2);
         assertTrue(mList.contains(child2.getSubject()));
@@ -121,8 +124,8 @@ public class GvChildListTest extends TestCase {
 
     @SmallTest
     public void testGvChildReview() {
-        GvChildList.GvChildReview review1 = GvDataMocker.newChild(false);
-        GvChildList.GvChildReview review2 = GvDataMocker.newChild(false);
+        GvChildList.GvChildReview review1 = GvDataMocker.newChild(null);
+        GvChildList.GvChildReview review2 = GvDataMocker.newChild(null);
 
         String subject1 = review1.getSubject();
         float rating1 = review1.getRating();

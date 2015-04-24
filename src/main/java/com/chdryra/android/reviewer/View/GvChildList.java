@@ -21,21 +21,18 @@ import java.util.Comparator;
  */
 public class GvChildList extends GvDataList<GvChildList.GvChildReview> {
     public static final GvDataType TYPE = new GvDataType("criterion", "criteria");
+    public static final Class<GvChildReview> DATA_CLASS = GvChildReview.class;
 
     public GvChildList() {
-        super(GvChildReview.class, TYPE);
-    }
-
-    public GvChildList(GvChildList data) {
-        super(data);
-    }
-
-    public GvChildList(GvReviewId id, GvChildList data) {
-        super(id, data);
+        super(null, DATA_CLASS, TYPE);
     }
 
     public GvChildList(GvReviewId id) {
         super(id, GvChildReview.class, TYPE);
+    }
+
+    public GvChildList(GvChildList data) {
+        super(data);
     }
 
     public boolean contains(String subject) {
@@ -109,6 +106,10 @@ public class GvChildList extends GvDataList<GvChildList.GvChildReview> {
             super(id);
             mSubject = subject;
             mRating = rating;
+        }
+
+        public GvChildReview(GvChildReview child) {
+            this(child.getReviewId(), child.getSubject(), child.getRating());
         }
 
         GvChildReview(Parcel in) {

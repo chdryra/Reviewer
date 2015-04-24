@@ -70,7 +70,7 @@ public class VhFeed extends ViewHolderBasic {
         mRating.setRating(review.getRating());
         mImage.setImageBitmap(review.getCoverImage());
 
-        String author = review.getAuthor();
+        String author = review.getAuthor().getName();
         String date = DateFormat.getDateTimeInstance(DateFormat.MEDIUM,
                 DateFormat.SHORT).format(review.getPublishDate());
         mPublishDate.setText(date + " by " + author);

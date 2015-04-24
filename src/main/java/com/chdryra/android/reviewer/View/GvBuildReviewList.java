@@ -27,19 +27,21 @@ import com.chdryra.android.reviewer.Controller.ReviewViewAdapter;
  */
 public class GvBuildReviewList extends GvDataList<GvBuildReviewList.GvBuildReview> {
     public static final GvDataType TYPE = new GvDataType("create", "create");
+    public static final Class<GvBuildReview> DATA_CLASS = GvBuildReview.class;
+
     private final ReviewBuilder mBuilder;
 
     private GvBuildReviewList(ReviewBuilder builder) {
-        super(GvBuildReview.class, TYPE);
+        super(null, DATA_CLASS, TYPE);
 
         mBuilder = builder;
 
-        add(GvTagList.GvTag.class, GvTagList.TYPE);
-        add(GvChildList.GvChildReview.class, GvChildList.TYPE);
-        add(GvImageList.GvImage.class, GvImageList.TYPE);
-        add(GvCommentList.GvComment.class, GvCommentList.TYPE);
-        add(GvLocationList.GvLocation.class, GvLocationList.TYPE);
-        add(GvFactList.GvFact.class, GvFactList.TYPE);
+        add(GvTagList.DATA_CLASS, GvTagList.TYPE);
+        add(GvChildList.DATA_CLASS, GvChildList.TYPE);
+        add(GvImageList.DATA_CLASS, GvImageList.TYPE);
+        add(GvCommentList.DATA_CLASS, GvCommentList.TYPE);
+        add(GvLocationList.DATA_CLASS, GvLocationList.TYPE);
+        add(GvFactList.DATA_CLASS, GvFactList.TYPE);
     }
 
     public static GvBuildReviewList newInstance(ReviewBuilder adapter) {
@@ -62,7 +64,7 @@ public class GvBuildReviewList extends GvDataList<GvBuildReviewList.GvBuildRevie
         private       ViewHolder                   mViewHolder;
 
         private GvBuildReview(Class<T> dataClass, GvDataType dataType, ReviewBuilder builder) {
-            super(dataClass, dataType);
+            super(null, dataClass, dataType);
             mDataType = dataType;
             mConfig = ConfigGvDataUi.getConfig(dataType);
             mBuilder = (ReviewBuilder.DataBuilder<T>) builder.getDataBuilder(dataType);

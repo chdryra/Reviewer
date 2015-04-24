@@ -86,7 +86,7 @@ public class ReviewFeedAdapter extends ReviewViewAdapterBasic {
                     null;
             String location = locations.size() > 0 ? locations.getItem(0).getName() : null;
 
-            data.add(review.getId().toString(), review.getAuthor().getName(),
+            data.add(review.getId().toString(), review.getAuthor(),
                     review.getPublishDate(),
                     review.getSubject().get(), review.getRating().get(), cover, headline, location);
         }

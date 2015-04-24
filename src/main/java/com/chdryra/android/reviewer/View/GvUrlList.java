@@ -19,22 +19,21 @@ import java.net.URL;
 
 public class GvUrlList extends GvDataList<GvUrlList.GvUrl> {
     public static final GvDataType TYPE = new GvDataType("link");
+    public static final Class<GvUrl> DATA_CLASS = GvUrl.class;
 
     public GvUrlList() {
-        super(GvUrl.class, TYPE);
+        super(null, DATA_CLASS, TYPE);
+    }
+
+
+    public GvUrlList(GvReviewId id) {
+        super(id, DATA_CLASS, TYPE);
     }
 
     public GvUrlList(GvUrlList data) {
         super(data);
     }
 
-    public GvUrlList(GvReviewId id, GvUrlList data) {
-        super(id, data);
-    }
-
-    public GvUrlList(GvReviewId id) {
-        super(id, GvUrl.class, TYPE);
-    }
     /**
      * {@link GvData} version of: {@link com.chdryra
      * .android.reviewer.MdUrlList.MdUrl}
@@ -68,6 +67,10 @@ public class GvUrlList extends GvDataList<GvUrlList.GvUrl> {
         public GvUrl(GvReviewId id, String label, URL url) {
             super(id, label, TextUtils.toShortenedString(url));
             mUrl = url;
+        }
+
+        public GvUrl(GvUrl url) {
+            this(url.getReviewId(), url.getLabel(), url.getUrl());
         }
 
         private GvUrl(Parcel in) {

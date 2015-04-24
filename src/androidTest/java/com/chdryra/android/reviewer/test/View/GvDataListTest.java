@@ -89,7 +89,7 @@ public class GvDataListTest extends TestCase {
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        mList = new GvDataList<>(GvCommentList.GvComment.class, GvCommentList.TYPE);
+        mList = new GvDataList<>(null, GvCommentList.GvComment.class, GvCommentList.TYPE);
     }
 
     private void testAdd(GvReviewId id, GvDataList<GvCommentList.GvComment> list) {
@@ -141,7 +141,7 @@ public class GvDataListTest extends TestCase {
 
         list.remove(comment);
 
-        if (!list.hasHoldingReview()) {
+        if (!list.hasReviewId()) {
             assertEquals(size - 1, list.size());
             assertFalse(list.contains(comment));
         } else {
@@ -155,7 +155,7 @@ public class GvDataListTest extends TestCase {
 
         list.removeAll();
 
-        if (!list.hasHoldingReview()) {
+        if (!list.hasReviewId()) {
             assertEquals(0, list.size());
         } else {
             assertEquals(size, list.size());
@@ -170,7 +170,7 @@ public class GvDataListTest extends TestCase {
             it.remove();
         }
 
-        if (!list.hasHoldingReview()) {
+        if (!list.hasReviewId()) {
             assertEquals(0, list.size());
         } else {
             assertEquals(size, list.size());
