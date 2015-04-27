@@ -62,7 +62,7 @@ public abstract class DialogAddGvData<T extends GvData> extends
         void onGvDataDone();
     }
 
-    public DialogAddGvData(Class<? extends GvDataList<T>> dataClass) {
+    public <T2 extends GvDataList<T>> DialogAddGvData(Class<T2> dataClass) {
         mDataType = FactoryGvData.gvType(dataClass);
         mLayout = FactoryGvDataViewLayout.newLayout(mDataType, this);
     }
