@@ -120,6 +120,11 @@ public class ReviewFeedAdapter extends ReviewViewAdapterBasic {
     }
 
     private ReviewNode createReview() {
-        return FactoryReview.createReviewCollection(Author.NULL_AUTHOR, new Date(), mTitle, mNodes);
+        ReviewIdableList<Review> reviews = new ReviewIdableList<>();
+        for (ReviewNode node : mNodes) {
+            reviews.add(node);
+        }
+
+        return FactoryReview.createReviewCollection(Author.NULL_AUTHOR, new Date(), mTitle, reviews);
     }
 }

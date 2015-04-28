@@ -196,7 +196,7 @@ public class ReviewTreeNode implements ReviewNode {
         return result;
     }
 
-    public ReviewTree createTree() {
+    public ReviewNode createTree() {
         return new ReviewTree(this);
     }
 }

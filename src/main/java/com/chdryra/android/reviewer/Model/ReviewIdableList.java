@@ -58,6 +58,22 @@ public class ReviewIdableList<T extends ReviewId.ReviewIdAble> implements Iterab
         return mData.get(id);
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ReviewIdableList)) return false;
+
+        ReviewIdableList<?> that = (ReviewIdableList<?>) o;
+
+        return mData.equals(that.mData);
+
+    }
+
+    @Override
+    public int hashCode() {
+        return mData.hashCode();
+    }
+
     private ReviewId getId(int position) {
         ReviewId[] keys = mData.keySet().toArray(new ReviewId[mData.size()]);
         return keys[position];

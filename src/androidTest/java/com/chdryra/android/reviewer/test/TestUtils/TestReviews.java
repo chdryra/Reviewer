@@ -16,6 +16,7 @@ import android.graphics.BitmapFactory;
 import com.chdryra.android.mygenerallibrary.ImageHelper;
 import com.chdryra.android.reviewer.Controller.ReviewBuilder;
 import com.chdryra.android.reviewer.Model.Author;
+import com.chdryra.android.reviewer.Model.ReviewIdableList;
 import com.chdryra.android.reviewer.Model.ReviewNode;
 import com.chdryra.android.reviewer.Model.UserId;
 import com.chdryra.android.reviewer.R;
@@ -44,9 +45,11 @@ public class TestReviews {
     private static Author AUTHOR = new Author("Riz", UserId.generateId());
     private static TestReviews     sReviews;
     private        Instrumentation mInstr;
+    private ReviewIdableList<ReviewNode> mNodes;
 
     private TestReviews(Instrumentation instr) {
         mInstr = instr;
+        mNodes = new ReviewIdableList<>();
     }
 
     private static TestReviews get(Instrumentation instr) {
@@ -54,11 +57,14 @@ public class TestReviews {
         return sReviews;
     }
 
-    public static ArrayList<ReviewNode> getReviews(Instrumentation instr) {
+    public static ReviewIdableList<ReviewNode> getReviews(Instrumentation instr) {
         TestReviews reviews = get(instr);
-        ArrayList<ReviewNode> nodes = new ArrayList<>();
-        nodes.add(reviews.getReviewNode(reviews.getReview1()));
-        nodes.add(reviews.getReviewNode(reviews.getReview2()));
+        ReviewIdableList<ReviewNode> nodes = reviews.mNodes;
+        if (nodes.size() == 0) {
+            nodes.add(reviews.getReviewNode(reviews.getReview1()));
+            nodes.add(reviews.getReviewNode(reviews.getReview2()));
+            reviews.mNodes = nodes;
+        }
 
         return nodes;
     }
@@ -106,7 +112,7 @@ public class TestReviews {
     private TestReview getReview1() {
         TestReview review = new TestReview();
         review.mSubject = "Tayyabs";
-        review.mRating = 4f;
+        review.mRating = 4f; //irrelevant as will be average of criteria
         review.mIsRatingAverage = true;
         review.mTags.add("Restaurant");
         review.mTags.add("Pakistani");
@@ -120,7 +126,7 @@ public class TestReviews {
         review.mLocations.add(new Location("Tayyabs", 51.517972, -0.063291));
         review.mFacts.add(new Fact("Starter", "5"));
         review.mFacts.add(new Fact("Main", "8"));
-        review.mFacts.add(new Fact("Dessert", "5"));
+        review.mFacts.add(new Fact("Desert", "5"));
         review.mFacts.add(new Fact("Drinks", "BYO"));
 
         Bitmap image = loadBitmap("tayyabs-14.jpg");
@@ -173,12 +179,12 @@ public class TestReviews {
         image = loadBitmap("Car.jpeg");
         Assert.assertNotNull(image);
         cal = new GregorianCalendar(2015, 4, 26, 13, 0);
-        review.mImages.add(new Image(image, "Skoda Octavia", cal.getTime(), true));
+        review.mImages.add(new Image(image, "Skoda Octavia", cal.getTime(), false));
 
         image = loadBitmap("Cot.jpeg");
         Assert.assertNotNull(image);
         cal = new GregorianCalendar(2015, 4, 26, 14, 15);
-        review.mImages.add(new Image(image, "Cot", cal.getTime(), true));
+        review.mImages.add(new Image(image, "Cot", cal.getTime(), false));
 
         return review;
     }

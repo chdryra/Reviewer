@@ -12,10 +12,10 @@ import android.app.Instrumentation;
 import android.content.Context;
 
 import com.chdryra.android.reviewer.Database.ReviewerDb;
+import com.chdryra.android.reviewer.Model.ReviewIdableList;
 import com.chdryra.android.reviewer.Model.ReviewNode;
 
 import java.io.File;
-import java.util.ArrayList;
 
 /**
  * Created by: Rizwan Choudrey
@@ -29,7 +29,7 @@ public class TestDatabase {
 
     private TestDatabase(Instrumentation instr) {
         mInstr = instr;
-        mDatabase = ReviewerDb.getTestDatabase(mInstr.getContext());
+        mDatabase = ReviewerDb.getTestDatabase(getDbContext());
     }
 
     public static ReviewerDb getDatabase(Instrumentation instr) {
@@ -39,7 +39,7 @@ public class TestDatabase {
     public static void recreateDatabase(Instrumentation instr) {
         TestDatabase tdb = get(instr);
         tdb.deleteDatabaseIfNecessary();
-        ArrayList<ReviewNode> nodes = TestReviews.getReviews(instr);
+        ReviewIdableList<ReviewNode> nodes = TestReviews.getReviews(instr);
         ReviewerDb db = tdb.getDatabase();
         for (ReviewNode node : nodes) {
             db.addReviewTreeToDb(node);
@@ -56,8 +56,12 @@ public class TestDatabase {
     }
 
     private void deleteDatabaseIfNecessary() {
-        Context context = mInstr.getContext();
+        Context context = getDbContext();
         File db = context.getDatabasePath(mDatabase.getDatabaseName());
         if (db.exists()) context.deleteDatabase(mDatabase.getDatabaseName());
+    }
+
+    private Context getDbContext() {
+        return mInstr.getTargetContext();
     }
 }

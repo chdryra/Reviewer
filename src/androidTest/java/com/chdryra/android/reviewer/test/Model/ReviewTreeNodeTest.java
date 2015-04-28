@@ -14,7 +14,6 @@ import com.chdryra.android.reviewer.Model.Review;
 import com.chdryra.android.reviewer.Model.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewIdableList;
 import com.chdryra.android.reviewer.Model.ReviewNode;
-import com.chdryra.android.reviewer.Model.ReviewTree;
 import com.chdryra.android.reviewer.Model.ReviewTreeNode;
 import com.chdryra.android.reviewer.test.TestUtils.ReviewMocker;
 
@@ -147,7 +146,7 @@ public class ReviewTreeNodeTest extends TestCase {
             node.addChild(new ReviewTreeNode(child, false));
         }
 
-        ReviewTree tree = node.createTree();
+        ReviewNode tree = node.createTree();
 
         assertNotNull(tree);
         assertEquals(node.getId(), tree.getId());

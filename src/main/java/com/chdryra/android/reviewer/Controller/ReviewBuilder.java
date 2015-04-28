@@ -17,8 +17,8 @@ import com.chdryra.android.mygenerallibrary.FileIncrementorFactory;
 import com.chdryra.android.reviewer.Model.Author;
 import com.chdryra.android.reviewer.Model.FactoryReview;
 import com.chdryra.android.reviewer.Model.Review;
-import com.chdryra.android.reviewer.Model.ReviewIdableList;
 import com.chdryra.android.reviewer.Model.ReviewNode;
+import com.chdryra.android.reviewer.Model.ReviewTreeNode;
 import com.chdryra.android.reviewer.Model.TagsManager;
 import com.chdryra.android.reviewer.View.FactoryGvData;
 import com.chdryra.android.reviewer.View.FactoryGvDataHandler;
@@ -138,6 +138,22 @@ public class ReviewBuilder extends ReviewViewAdapterBasic {
     }
 
     public ReviewNode publish(Date publishDate) {
+        ReviewTreeNode rootNode = prepareTree(publishDate);
+        ReviewNode published = rootNode.createTree();
+        tagTree(published);
+
+        return published;
+    }
+
+    private void tagTree(ReviewNode node) {
+        GvTagList tags = (GvTagList) getData(GvTagList.TYPE);
+        TagsManager.tag(node.getId(), tags.toStringArray());
+        for (ReviewNode child : node.getChildren()) {
+            tagTree(child);
+        }
+    }
+
+    private ReviewTreeNode prepareTree(Date publishDate) {
         Review root = FactoryReview.createReviewUser(mAuthor,
                 publishDate, getSubject(), getRating(),
                 (GvCommentList) getData(GvCommentList.TYPE),
@@ -145,17 +161,28 @@ public class ReviewBuilder extends ReviewViewAdapterBasic {
                 (GvFactList) getData(GvFactList.TYPE),
                 (GvLocationList) getData(GvLocationList.TYPE));
 
-        GvTagList tags = (GvTagList) getData(GvTagList.TYPE);
-        TagsManager.tag(root.getId(), tags.toStringArray());
-
-        ReviewIdableList<Review> children = new ReviewIdableList<>();
+        ReviewTreeNode rootNode = new ReviewTreeNode(root, mIsAverage);
         for (ReviewBuilder child : mChildren) {
-            Review childReview = child.publish(publishDate);
-            TagsManager.tag(childReview.getId(), tags.toStringArray());
-            children.add(childReview);
+            rootNode.addChild(child.prepareTree(publishDate));
         }
 
-        return FactoryReview.createReviewTree(root, children, mIsAverage);
+        return rootNode;
+    }
+
+    private ReviewTreeNode prepareTree(Date publishDate) {
+        Review root = FactoryReview.createReviewUser(mAuthor,
+                publishDate, getSubject(), getRating(),
+                (GvCommentList) getData(GvCommentList.TYPE),
+                (GvImageList) getData(GvImageList.TYPE),
+                (GvFactList) getData(GvFactList.TYPE),
+                (GvLocationList) getData(GvLocationList.TYPE));
+
+        ReviewTreeNode rootNode = new ReviewTreeNode(root, mIsAverage);
+        for (ReviewBuilder child : mChildren) {
+            rootNode.addChild(child.prepareTree(publishDate));
+        }
+
+        return rootNode;
     }
 
     public GvDataList getData(GvDataType dataType) {

@@ -49,6 +49,7 @@ import java.util.UUID;
 public class Administrator {
     private static final String REVIEWVIEW_ID = "com.chdryra.android.reviewer.review_id";
     private static final Author AUTHOR        = new Author("Rizwan Choudrey", UserId.generateId());
+    private static final boolean USE_TEST_DATABASE = true;
 
     private static Administrator sAdministrator;
 
@@ -61,7 +62,7 @@ public class Administrator {
     private Administrator(Context context) {
         mContext = context;
         mViews = new ObjectHolder();
-        mDatabase = ReviewerDb.getDatabase(mContext);
+        mDatabase = getDatabase();
         ReviewIdableList<ReviewNode> published = mDatabase.getReviewTreesFromDb();
         mPublishedReviews = new ReviewFeedAdapter(mContext, AUTHOR.getName());
         for (ReviewNode node : published) {
@@ -147,5 +148,13 @@ public class Administrator {
 
     private Review getReview(String reviewId) {
         return mPublishedReviews.get(ReviewId.fromString(reviewId));
+    }
+
+    private ReviewerDb getDatabase() {
+        if (USE_TEST_DATABASE) {
+            return ReviewerDb.getTestDatabase(mContext);
+        } else {
+            return ReviewerDb.getDatabase(mContext);
+        }
     }
 }
