@@ -69,6 +69,10 @@ public class GvDataList<T extends GvData> extends ViewHolderDataList<T> implemen
         mReviewId = in.readParcelable(GvReviewId.class.getClassLoader());
     }
 
+    public Class<T> getDataClass() {
+        return mDataClass;
+    }
+
     public GvDataType getGvDataType() {
         return mType;
     }

@@ -9,7 +9,6 @@
 package com.chdryra.android.reviewer.Controller;
 
 import com.chdryra.android.reviewer.Model.MdCommentList;
-import com.chdryra.android.reviewer.Model.MdDataList;
 import com.chdryra.android.reviewer.Model.MdFactList;
 import com.chdryra.android.reviewer.Model.MdImageList;
 import com.chdryra.android.reviewer.Model.MdLocationList;
@@ -35,6 +34,7 @@ import com.chdryra.android.reviewer.View.GvUrlList;
  */
 //TODO how to make this stuff more generic? Type erasure issue for overloading.
 public class MdGvConverter {
+    private static final String BAD_ARG = "Bad argument: ";
 
     //Comments
     public static GvCommentList convert(MdCommentList comments) {
@@ -160,9 +160,10 @@ public class MdGvConverter {
 
     //Urls
     public static GvUrlList convert(MdUrlList urls) {
-        GvUrlList list = new GvUrlList();
-        for (DataUrl url : urls) {
-            list.add(new GvUrlList.GvUrl(url.getLabel(), url.getUrl()));
+        GvUrlList list = new GvUrlList(new GvReviewId(urls.getReviewId()));
+        for (MdUrlList.MdUrl url : urls) {
+            GvReviewId id = new GvReviewId(url.getReviewId());
+            list.add(new GvUrlList.GvUrl(id, url.getLabel(), url.getUrl()));
         }
 
         return list;
@@ -175,22 +176,6 @@ public class MdGvConverter {
         }
 
         return list;
-    }
-
-    public static GvDataList convert(GvDataType dataType, MdDataList data) {
-        if (dataType == GvCommentList.TYPE) {
-            return MdGvConverter.convert((MdCommentList) data);
-        } else if (dataType == GvFactList.TYPE) {
-            return MdGvConverter.convert((MdFactList) data);
-        } else if (dataType == GvImageList.TYPE) {
-            return MdGvConverter.convert((MdImageList) data);
-        } else if (dataType == GvLocationList.TYPE) {
-            return MdGvConverter.convert((MdLocationList) data);
-        } else if (dataType == GvUrlList.TYPE) {
-            return MdGvConverter.convert((MdUrlList) data);
-        } else {
-            return null;
-        }
     }
 
     public static GvDataList copy(GvDataList data) {

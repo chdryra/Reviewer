@@ -9,10 +9,8 @@
 package com.chdryra.android.reviewer.test.TestUtils;
 
 import com.chdryra.android.reviewer.Model.Author;
-import com.chdryra.android.reviewer.Model.FactoryReview;
 import com.chdryra.android.reviewer.Model.Review;
 import com.chdryra.android.reviewer.Model.ReviewId;
-import com.chdryra.android.reviewer.Model.ReviewIdableList;
 import com.chdryra.android.reviewer.Model.ReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewTreeNode;
 import com.chdryra.android.reviewer.Model.ReviewUser;
@@ -55,13 +53,7 @@ public class ReviewMocker {
     }
 
     private static Review getNewReview() {
-        Review root = new MockReview();
-        ReviewIdableList<Review> children = new ReviewIdableList<>();
-        for (int i = 0; i < NUM; ++i) {
-            children.add(new MockReview());
-        }
-
-        return FactoryReview.createReviewTree(root, children, false);
+        return new MockReview();
     }
 
     static class MockReview extends ReviewUser {

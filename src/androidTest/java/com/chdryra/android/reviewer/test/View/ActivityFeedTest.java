@@ -50,7 +50,7 @@ public class ActivityFeedTest extends
 
     @SmallTest
     public void testFeed() {
-        GvReviewList list = (GvReviewList) mAdmin.getPublishedReviews().getGridData();
+        GvReviewList list = (GvReviewList) mAdmin.getFeedAdapter().getGridData();
         assertEquals(NUM, getGridSize());
         GvReviewList.GvReviewOverview oldReview = (GvReviewList.GvReviewOverview) getGridItem(0);
         for (int i = 0; i < NUM; ++i) {
@@ -82,7 +82,7 @@ public class ActivityFeedTest extends
     @Override
     protected void setUp() {
         mAdmin = Administrator.get(getInstrumentation().getTargetContext());
-        mAdapter = mAdmin.getPublishedReviews();
+        mAdapter = mAdmin.getFeedAdapter();
 
         if (mAdapter.getGridData().size() == 0) {
             for (int i = 0; i < NUM; ++i) {
@@ -96,7 +96,7 @@ public class ActivityFeedTest extends
                     e.printStackTrace();
                 }
             }
-            mAdapter = mAdmin.getPublishedReviews();
+            mAdapter = mAdmin.getFeedAdapter();
         }
 
         Intent i = new Intent();

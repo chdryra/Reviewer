@@ -85,7 +85,7 @@ public class ReviewDataScreen {
             if (requestCode == REQUEST_GOTO_REVIEW) {
                 GvData datum = GvDataPacker.unpackItem(GvDataPacker.CurrentNewDatum.CURRENT, args);
                 String id = datum.getReviewId().getId();
-                startNewScreen(Administrator.get(mContext).getPublishedReview(id));
+                startNewScreen(Administrator.get(mContext).getReviewAdapter(id));
             }
         }
 

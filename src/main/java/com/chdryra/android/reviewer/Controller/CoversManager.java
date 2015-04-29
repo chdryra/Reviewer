@@ -11,6 +11,7 @@ package com.chdryra.android.reviewer.Controller;
 import android.content.Context;
 
 import com.chdryra.android.reviewer.Model.ReviewId;
+import com.chdryra.android.reviewer.Model.ReviewNode;
 import com.chdryra.android.reviewer.View.GvImageList;
 import com.chdryra.android.reviewer.View.GvReviewId;
 
@@ -40,7 +41,8 @@ public class CoversManager {
         return getManager(context).getCovers(id.toString());
     }
 
-    private GvImageList getCovers(String id) {
-        return Administrator.get(mContext).getCoversForReview(id);
+    private GvImageList getCovers(String reviewId) {
+        ReviewNode node = Administrator.get(mContext).getReview(reviewId);
+        return MdGvConverter.convert(node.getImages().getCovers());
     }
 }

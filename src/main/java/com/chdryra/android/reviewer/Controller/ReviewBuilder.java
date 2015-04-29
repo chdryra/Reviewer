@@ -55,20 +55,21 @@ import java.util.Map;
  * user is ready using the {@link #publish(java.util.Date)} method.
  */
 public class ReviewBuilder extends ReviewViewAdapterBasic {
-    private static final GvDataType[] TYPES        = {GvCommentList.TYPE,
-            GvFactList.TYPE, GvLocationList.TYPE, GvImageList.TYPE, GvUrlList.TYPE, GvTagList.TYPE,
-            GvChildList.TYPE};
+    private static final GvDataType[] TYPES      = {GvCommentList.TYPE, GvFactList.TYPE,
+            GvLocationList.TYPE, GvImageList.TYPE, GvUrlList.TYPE, GvTagList.TYPE, GvChildList
+            .TYPE};
     private static final File         FILE_DIR_EXT = Environment
             .getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM);
-    private final Context                     mContext;
-    private final Map<GvDataType, GvDataList> mData;
-    private final Map<GvDataType, DataBuilder<? extends GvData>>
-                                              mDataBuilders;
-    private final GvBuildReviewList           mBuildUi;
-    private       FileIncrementor             mIncrementor;
-    private       String                      mSubject;
-    private       float                       mRating;
-    private       ArrayList<ReviewBuilder>    mChildren;
+    private static       String       NO_PUBLISH = "Review is not valid for publication!";
+    private final Context                                        mContext;
+    private final Map<GvDataType, GvDataList>                    mData;
+    private final Map<GvDataType, DataBuilder<? extends GvData>> mDataBuilders;
+    private final GvBuildReviewList                              mBuildUi;
+
+    private FileIncrementor          mIncrementor;
+    private String                   mSubject;
+    private float                    mRating;
+    private ArrayList<ReviewBuilder> mChildren;
     private boolean mIsAverage = false;
     private Author mAuthor;
 
@@ -138,6 +139,10 @@ public class ReviewBuilder extends ReviewViewAdapterBasic {
     }
 
     public ReviewNode publish(Date publishDate) {
+        if (!isValidForPublication()) {
+            throw new IllegalStateException(NO_PUBLISH);
+        }
+
         ReviewTreeNode rootNode = prepareTree(publishDate);
         ReviewNode published = rootNode.createTree();
         tagTree(published);
@@ -148,6 +153,10 @@ public class ReviewBuilder extends ReviewViewAdapterBasic {
     public GvDataList getData(GvDataType dataType) {
         GvDataList data = mData.get(dataType);
         return data != null ? MdGvConverter.copy(data) : null;
+    }
+
+    private boolean isValidForPublication() {
+        return DataValidator.validateString(mSubject) && getData(GvTagList.TYPE).size() > 0;
     }
 
     private void tagTree(ReviewNode node) {

@@ -13,7 +13,6 @@ import android.test.suitebuilder.annotation.SmallTest;
 import com.chdryra.android.reviewer.Model.Author;
 import com.chdryra.android.reviewer.Model.FactoryReview;
 import com.chdryra.android.reviewer.Model.Review;
-import com.chdryra.android.reviewer.Model.ReviewIdableList;
 import com.chdryra.android.reviewer.Model.ReviewNode;
 import com.chdryra.android.reviewer.Model.UserId;
 import com.chdryra.android.reviewer.View.GvCommentList;
@@ -24,7 +23,6 @@ import com.chdryra.android.reviewer.View.GvUrlList;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
 import com.chdryra.android.reviewer.test.TestUtils.MdGvEquality;
 import com.chdryra.android.reviewer.test.TestUtils.RandomRating;
-import com.chdryra.android.reviewer.test.TestUtils.ReviewMocker;
 import com.chdryra.android.testutils.RandomDate;
 import com.chdryra.android.testutils.RandomString;
 
@@ -79,43 +77,6 @@ public class FactoryReviewTest extends TestCase {
         assertEquals(mReview.getId(), node.getId());
         assertNull(node.getParent());
         assertEquals(0, node.getChildren().size());
-    }
-
-    @SmallTest
-    public void testCreateReviewTree() {
-        ReviewIdableList<Review> children = new ReviewIdableList<>();
-        for (int i = 0; i < NUM; ++i) {
-            children.add(ReviewMocker.newReview());
-        }
-
-        ReviewNode tree = FactoryReview.createReviewTree(mReview, children, false);
-
-        assertEquals(mSubject, tree.getSubject().get());
-        assertEquals(mRating, tree.getRating().get());
-        assertEquals(mAuthor, tree.getAuthor());
-        assertEquals(mDate, tree.getPublishDate());
-        MdGvEquality.check(tree.getComments(), mComments);
-        MdGvEquality.check(tree.getImages(), mImages);
-        MdGvEquality.check(tree.getFacts(), mFacts);
-        MdGvEquality.check(tree.getLocations(), mLocations);
-
-        assertEquals(mReview, tree.getReview());
-        assertEquals(mReview.getId(), tree.getId());
-        assertNull(tree.getParent());
-
-        ReviewIdableList<ReviewNode> childNodes = tree.getChildren();
-        assertEquals(children.size(), childNodes.size());
-        for (int i = 0; i < children.size(); ++i) {
-            Review childReview = children.getItem(i);
-            ReviewNode childNode = childNodes.getItem(i);
-            assertEquals(childReview, childNode.getReview());
-            assertEquals(childReview.getSubject(), childNode.getSubject());
-            assertEquals(childReview.getRating(), childNode.getRating());
-            assertEquals(childReview.getAuthor(), childNode.getAuthor());
-            assertEquals(childReview.getPublishDate(), childNode.getPublishDate());
-            assertEquals(tree, childNode.getParent());
-            assertEquals(0, childNode.getChildren().size());
-        }
     }
 
     @Override

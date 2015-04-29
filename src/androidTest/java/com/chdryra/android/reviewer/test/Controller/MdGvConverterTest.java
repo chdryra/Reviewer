@@ -9,7 +9,6 @@
 package com.chdryra.android.reviewer.test.Controller;
 
 import android.test.suitebuilder.annotation.SmallTest;
-import android.util.Log;
 
 import com.chdryra.android.reviewer.Controller.DataValidator;
 import com.chdryra.android.reviewer.Controller.MdGvConverter;
@@ -40,25 +39,20 @@ public class MdGvConverterTest extends TestCase {
     @SmallTest
     public void testConvertCommentList() {
         MdCommentList mdData = mMocker.newCommentList(NUM);
-
         GvCommentList gvData = MdGvConverter.convert(mdData);
-        GvCommentList gvData2 = (GvCommentList) MdGvConverter.convert(GvCommentList.TYPE, mdData);
 
         assertEquals(NUM, mdData.size());
         assertEquals(mdData.size(), gvData.size());
-        assertEquals(mdData.size(), gvData2.size());
 
         for (int i = 0; i < NUM; ++i) {
             MdCommentList.MdComment mdDatum = mdData.getItem(i);
             GvCommentList.GvComment gvDatum = gvData.getItem(i);
-            GvCommentList.GvComment gvDatum2 = gvData2.getItem(i);
 
             assertTrue(DataValidator.validate(mdDatum));
             assertTrue(DataValidator.validate(gvDatum));
-            assertTrue(DataValidator.validate(gvDatum2));
 
-            assertEquals(mdData.getItem(i).getComment(), gvData.getItem(i).getComment());
-            assertEquals(mdData.getItem(i).getComment(), gvData2.getItem(i).getComment());
+            assertEquals(mdDatum.getReviewId().toString(), gvDatum.getReviewId().getId());
+            assertEquals(mdDatum.getComment(), gvDatum.getComment());
         }
     }
 
@@ -66,25 +60,20 @@ public class MdGvConverterTest extends TestCase {
     public void testConvertFactList() {
         MdFactList mdData = mMocker.newFactList(NUM);
         GvFactList gvData = MdGvConverter.convert(mdData);
-        GvFactList gvData2 = (GvFactList) MdGvConverter.convert(GvFactList.TYPE, mdData);
 
         assertEquals(NUM, mdData.size());
         assertEquals(mdData.size(), gvData.size());
-        assertEquals(mdData.size(), gvData2.size());
 
         for (int i = 0; i < NUM; ++i) {
             MdFactList.MdFact mdDatum = mdData.getItem(i);
             GvFactList.GvFact gvDatum = gvData.getItem(i);
-            GvFactList.GvFact gvDatum2 = gvData2.getItem(i);
 
             assertTrue(DataValidator.validate(mdDatum));
             assertTrue(DataValidator.validate(gvDatum));
-            assertTrue(DataValidator.validate(gvDatum2));
 
-            assertEquals(mdData.getItem(i).getLabel(), gvData.getItem(i).getLabel());
-            assertEquals(mdData.getItem(i).getLabel(), gvData2.getItem(i).getLabel());
-            assertEquals(mdData.getItem(i).getValue(), gvData.getItem(i).getValue());
-            assertEquals(mdData.getItem(i).getValue(), gvData2.getItem(i).getValue());
+            assertEquals(mdDatum.getReviewId().toString(), gvDatum.getReviewId().getId());
+            assertEquals(mdDatum.getLabel(), gvDatum.getLabel());
+            assertEquals(mdDatum.getValue(), gvDatum.getValue());
         }
     }
 
@@ -93,30 +82,21 @@ public class MdGvConverterTest extends TestCase {
         MdImageList mdData = mMocker.newImageList(NUM);
 
         GvImageList gvData = MdGvConverter.convert(mdData);
-        GvImageList gvData2 = (GvImageList) MdGvConverter.convert(GvImageList.TYPE,
-                mdData);
 
         assertEquals(NUM, mdData.size());
         assertEquals(mdData.size(), gvData.size());
-        assertEquals(mdData.size(), gvData2.size());
 
         for (int i = 0; i < NUM; ++i) {
             MdImageList.MdImage mdDatum = mdData.getItem(i);
             GvImageList.GvImage gvDatum = gvData.getItem(i);
-            GvImageList.GvImage gvDatum2 = gvData2.getItem(i);
 
             assertTrue(DataValidator.validate(mdDatum));
             assertTrue(DataValidator.validate(gvDatum));
-            assertTrue(DataValidator.validate(gvDatum2));
 
+            assertEquals(mdDatum.getReviewId().toString(), gvDatum.getReviewId().getId());
             assertEquals(mdDatum.getBitmap(), gvDatum.getBitmap());
-            assertEquals(mdDatum.getBitmap(), gvDatum2.getBitmap());
             assertEquals(mdDatum.getCaption(), gvDatum.getCaption());
-            assertEquals(mdDatum.getCaption(), gvDatum2.getCaption());
-            Log.i("TEST", "Number: " + i + ", Md: " + mdDatum.isCover() + ", Gv: " + gvDatum
-                    .isCover());
             assertEquals(mdDatum.isCover(), gvDatum.isCover());
-            assertEquals(mdDatum.isCover(), gvDatum2.isCover());
         }
     }
 
@@ -124,26 +104,20 @@ public class MdGvConverterTest extends TestCase {
     public void testConvertLocationList() {
         MdLocationList mdData = mMocker.newLocationList(NUM);
         GvLocationList gvData = MdGvConverter.convert(mdData);
-        GvLocationList gvData2 = (GvLocationList) MdGvConverter.convert(GvLocationList.TYPE,
-                mdData);
 
         assertEquals(NUM, mdData.size());
         assertEquals(mdData.size(), gvData.size());
-        assertEquals(mdData.size(), gvData2.size());
 
         for (int i = 0; i < NUM; ++i) {
             MdLocationList.MdLocation mdDatum = mdData.getItem(i);
             GvLocationList.GvLocation gvDatum = gvData.getItem(i);
-            GvLocationList.GvLocation gvDatum2 = gvData2.getItem(i);
 
             assertTrue(DataValidator.validate(mdDatum));
             assertTrue(DataValidator.validate(gvDatum));
-            assertTrue(DataValidator.validate(gvDatum2));
 
-            assertEquals(mdData.getItem(i).getLatLng(), gvData.getItem(i).getLatLng());
-            assertEquals(mdData.getItem(i).getLatLng(), gvData2.getItem(i).getLatLng());
-            assertEquals(mdData.getItem(i).getName(), gvData.getItem(i).getName());
-            assertEquals(mdData.getItem(i).getName(), gvData2.getItem(i).getName());
+            assertEquals(mdDatum.getReviewId().toString(), gvDatum.getReviewId().getId());
+            assertEquals(mdDatum.getLatLng(), gvDatum.getLatLng());
+            assertEquals(mdDatum.getName(), gvDatum.getName());
         }
     }
 
@@ -151,23 +125,19 @@ public class MdGvConverterTest extends TestCase {
     public void testConvertUrlList() {
         MdUrlList mdData = mMocker.newUrlList(NUM);
         GvUrlList gvData = MdGvConverter.convert(mdData);
-        GvUrlList gvData2 = (GvUrlList) MdGvConverter.convert(GvUrlList.TYPE, mdData);
 
         assertEquals(NUM, mdData.size());
         assertEquals(mdData.size(), gvData.size());
-        assertEquals(mdData.size(), gvData2.size());
 
         for (int i = 0; i < NUM; ++i) {
             MdUrlList.MdUrl mdDatum = mdData.getItem(i);
             GvUrlList.GvUrl gvDatum = gvData.getItem(i);
-            GvUrlList.GvUrl gvDatum2 = gvData.getItem(i);
 
             assertTrue(DataValidator.validate(mdDatum));
             assertTrue(DataValidator.validate(gvDatum));
-            assertTrue(DataValidator.validate(gvDatum2));
 
+            assertEquals(mdDatum.getReviewId().toString(), gvDatum.getReviewId().getId());
             assertEquals(mdData.getItem(i).getUrl(), gvData.getItem(i).getUrl());
-            assertEquals(mdData.getItem(i).getUrl(), gvData2.getItem(i).getUrl());
         }
     }
 

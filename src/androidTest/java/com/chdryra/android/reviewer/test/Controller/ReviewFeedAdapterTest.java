@@ -13,10 +13,9 @@ import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.Controller.ReviewFeedAdapter;
 import com.chdryra.android.reviewer.Model.Author;
-import com.chdryra.android.reviewer.Model.Review;
+import com.chdryra.android.reviewer.Model.ReviewIdableList;
 import com.chdryra.android.reviewer.Model.ReviewNode;
 import com.chdryra.android.reviewer.Model.UserId;
-import com.chdryra.android.reviewer.View.GvDataList;
 import com.chdryra.android.reviewer.View.GvReviewList;
 import com.chdryra.android.reviewer.test.TestUtils.ReviewMocker;
 import com.chdryra.android.testutils.RandomDate;
@@ -34,7 +33,8 @@ public class ReviewFeedAdapterTest extends AndroidTestCase {
     private Author                  mAuthor;
     private Date                    mDate;
     private ReviewFeedAdapter mAdapter;
-
+    private ReviewIdableList<ReviewNode> mReviews;
+    
     @SmallTest
     public void testGetImages() {
         assertNull(mAdapter.getCovers());
@@ -42,41 +42,25 @@ public class ReviewFeedAdapterTest extends AndroidTestCase {
 
     @SmallTest
     public void testGetAverageRating() {
-        assertEquals(0f, mAdapter.getAverageRating());
-
-        Review[] reviews = addReviews(mAdapter);
         float rating = 0f;
-        for (Review review : reviews) {
-            rating += review.getRating().get() / reviews.length;
+        for (ReviewNode review : mReviews) {
+            rating += review.getRating().get() / mReviews.size();
         }
 
         assertEquals(rating, mAdapter.getAverageRating(), 0.0001);
     }
-
-    @SmallTest
-    public void testAddReview() {
-        GvDataList list = mAdapter.getGridData();
-        assertNotNull(list);
-        assertEquals(0, list.size());
-
-        Review[] reviews = addReviews(mAdapter);
-
-        list = mAdapter.getGridData();
-        assertNotNull(list);
-        assertEquals(reviews.length, list.size());
-    }
-
+    
     @SmallTest
     public void testGetGridData() {
-        Review[] reviews = addReviews(mAdapter);
         GvReviewList oList = (GvReviewList) mAdapter.getGridData();
         assertNotNull(oList);
-        assertEquals(reviews.length, oList.size());
-        for (int i = 0; i < reviews.length; ++i) {
-            assertEquals(reviews[i].getRating().get(), oList.getItem(i).getRating());
-            assertEquals(reviews[i].getSubject().get(), oList.getItem(i).getSubject());
-            assertEquals(reviews[i].getAuthor(), oList.getItem(i).getAuthor());
-            assertEquals(reviews[i].getPublishDate(), oList.getItem(i).getPublishDate());
+        assertEquals(mReviews.size(), oList.size());
+        for (int i = 0; i < mReviews.size(); ++i) {
+            ReviewNode review = mReviews.getItem(i);
+            assertEquals(review.getRating().get(), oList.getItem(i).getRating());
+            assertEquals(review.getSubject().get(), oList.getItem(i).getSubject());
+            assertEquals(review.getAuthor(), oList.getItem(i).getAuthor());
+            assertEquals(review.getPublishDate(), oList.getItem(i).getPublishDate());
         }
     }
 
@@ -85,17 +69,14 @@ public class ReviewFeedAdapterTest extends AndroidTestCase {
         super.setUp();
         mAuthor = new Author(RandomString.nextWord(), UserId.generateId());
         mDate = RandomDate.nextDate();
-        mAdapter = new ReviewFeedAdapter(getContext(), mAuthor.getName());
+        setAdapter();
     }
 
-    private Review[] addReviews(ReviewFeedAdapter adapter) {
-        Review[] reviews = new Review[NUM];
+    private void setAdapter() {
+        mReviews = new ReviewIdableList<>();
         for (int i = 0; i < NUM; ++i) {
-            ReviewNode r = ReviewMocker.newReviewNode();
-            reviews[i] = r;
-            adapter.add(r);
+            mReviews.add(ReviewMocker.newReviewNode());
         }
-
-        return reviews;
+        mAdapter = new ReviewFeedAdapter(getContext(), mAuthor.getName(), mReviews);
     }
 }

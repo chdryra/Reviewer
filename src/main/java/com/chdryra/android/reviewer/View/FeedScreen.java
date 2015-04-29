@@ -33,7 +33,7 @@ public class FeedScreen {
 
     private FeedScreen(Context context) {
         mContext = context;
-        mAdapter = Administrator.get(mContext).getPublishedReviews();
+        mAdapter = Administrator.get(mContext).getFeedAdapter();
         mReviewView = new ReviewView(mAdapter);
 
         mReviewView.setAction(new FeedScreenMenu());
