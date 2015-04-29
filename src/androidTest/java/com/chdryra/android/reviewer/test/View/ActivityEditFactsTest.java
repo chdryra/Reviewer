@@ -12,6 +12,7 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.Instrumentation;
 import android.test.suitebuilder.annotation.SmallTest;
+import android.util.Log;
 
 import com.chdryra.android.mygenerallibrary.DialogAlertFragment;
 import com.chdryra.android.reviewer.R;
@@ -101,7 +102,10 @@ public class ActivityEditFactsTest extends ActivityEditScreenTest {
         assertFalse(mSolo.searchText(alert));
 
         waitForBrowserToLaunch();
+        Log.i("ActivityEditFactsTest", "Waiting for browser to launch...");
         checkBrowserIsShowing(true);
+        Log.i("ActivityEditFactsTest", "Browser launched");
+        clickMenuUp();
     }
 
     @SmallTest

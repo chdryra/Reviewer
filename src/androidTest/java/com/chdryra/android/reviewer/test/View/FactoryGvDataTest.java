@@ -39,12 +39,12 @@ public class FactoryGvDataTest extends TestCase {
 
     @SmallTest
     public void testNewList() {
-        assertTrue(FactoryGvData.newList(GvImageList.class) instanceof GvImageList);
-        assertTrue(FactoryGvData.newList(GvTagList.class) instanceof GvTagList);
-        assertTrue(FactoryGvData.newList(GvChildList.class) instanceof GvChildList);
-        assertTrue(FactoryGvData.newList(GvCommentList.class) instanceof GvCommentList);
-        assertTrue(FactoryGvData.newList(GvLocationList.class) instanceof GvLocationList);
-        assertTrue(FactoryGvData.newList(GvUrlList.class) instanceof GvUrlList);
+        assertNotNull(FactoryGvData.newList(GvImageList.class));
+        assertNotNull(FactoryGvData.newList(GvTagList.class));
+        assertNotNull(FactoryGvData.newList(GvChildList.class));
+        assertNotNull(FactoryGvData.newList(GvCommentList.class));
+        assertNotNull(FactoryGvData.newList(GvLocationList.class));
+        assertNotNull(FactoryGvData.newList(GvUrlList.class));
     }
 
     @SmallTest

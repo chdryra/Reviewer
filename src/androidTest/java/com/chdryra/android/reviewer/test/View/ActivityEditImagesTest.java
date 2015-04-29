@@ -126,6 +126,10 @@ public class ActivityEditImagesTest extends ActivityEditScreenTest {
         assertFalse(newCover.equals(newnewCover));
     }
 
+    public void testTest() {
+        super.testMenuUpCancels();
+    }
+
     private DialogAlertFragment getAlertDialog() {
         FragmentManager manager = getEditActivity().getFragmentManager();
         Fragment f = manager.findFragmentByTag(DialogAlertFragment.ALERT_TAG);
