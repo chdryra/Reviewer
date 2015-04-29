@@ -14,6 +14,7 @@ package com.chdryra.android.reviewer.Controller;
  * Email: rizwan.choudrey@gmail.com
  */
 
+import com.chdryra.android.reviewer.View.GridDataObservable;
 import com.chdryra.android.reviewer.View.GvData;
 import com.chdryra.android.reviewer.View.GvDataList;
 import com.chdryra.android.reviewer.View.GvImageList;
@@ -23,15 +24,7 @@ import com.chdryra.android.reviewer.View.GvImageList;
  * .android
  * .reviewer.MdData} to View layer as {@link com.chdryra.android.reviewer.View.GvData}
  */
-public interface ReviewViewAdapter {
-    public interface GridDataObserver {
-        public void onGridDataChanged();
-    }
-
-    public void registerGridDataObserver(GridDataObserver observer);
-
-    public void notifyGridDataObservers();
-
+public interface ReviewViewAdapter extends GridDataObservable {
     public String getSubject();
 
     public float getRating();

@@ -42,9 +42,9 @@ public class FeedScreen {
         ReviewView.ReviewViewParams params = mReviewView.getParams();
         params.cellHeight = ReviewView.CellDimension.FULL;
         params.cellWidth = ReviewView.CellDimension.FULL;
-        params.subjectIsVisible = false;
-        params.ratingIsVisible = false;
-        params.bannerButtonIsVisible = false;
+        params.subjectIsVisible = true;
+        params.ratingIsVisible = true;
+        params.bannerButtonIsVisible = true;
         params.gridAlpha = ReviewView.GridViewImageAlpha.TRANSPARENT;
         params.coverManager = false;
     }
@@ -97,7 +97,7 @@ public class FeedScreen {
         @Override
         public void onClickExpanded(GvData item, int position, View v, ReviewViewAdapter expanded) {
             if (expanded != null) {
-                requestNewIntent(ReviewViewExpandable.newScreen(mContext, expanded));
+                requestNewIntent(ReviewDataScreen.newScreen(mContext, expanded));
             }
         }
 

@@ -57,16 +57,10 @@ public class FactoryReview {
         return getInstance().newReviewNode(review);
     }
 
-    public static ReviewNode createReviewTree(Review review,
-            ReviewIdableList<? extends Review> children, boolean isAverage) {
-
-        return getInstance().newReviewTree(review, children, isAverage);
-    }
-
     public static ReviewNode createReviewCollection(Author author, Date publishDate,
-            String subject, ReviewIdableList<? extends Review> children) {
+            String subject, ReviewIdableList<ReviewNode> reviews) {
         Review root = createReviewUser(author, publishDate, subject, 0);
-        return createReviewTree(root, children, true);
+        return getInstance().newReviewTree(root, reviews, true);
     }
 
     //Constructors

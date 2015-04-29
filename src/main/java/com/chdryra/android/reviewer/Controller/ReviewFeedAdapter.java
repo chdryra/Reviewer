@@ -40,22 +40,11 @@ public class ReviewFeedAdapter extends ReviewViewAdapterBasic {
     private final ReviewIdableList<ReviewNode> mNodes;
     private Context mContext;
 
-    public ReviewFeedAdapter(Context context, String authorName) {
+    public ReviewFeedAdapter(Context context, String authorName, ReviewIdableList<ReviewNode>
+            nodes) {
         mContext = context;
         mTitle = authorName + "'s feed";
-        mNodes = new ReviewIdableList<>();
-    }
-
-    public void add(ReviewNode node) {
-        mNodes.add(node);
-    }
-
-    public void delete(ReviewId id) {
-        mNodes.remove(id);
-    }
-
-    public Review get(ReviewId id) {
-        return mNodes.get(id);
+        mNodes = nodes;
     }
 
     @Override
@@ -120,11 +109,6 @@ public class ReviewFeedAdapter extends ReviewViewAdapterBasic {
     }
 
     private ReviewNode createReview() {
-        ReviewIdableList<Review> reviews = new ReviewIdableList<>();
-        for (ReviewNode node : mNodes) {
-            reviews.add(node);
-        }
-
-        return FactoryReview.createReviewCollection(Author.NULL_AUTHOR, new Date(), mTitle, reviews);
+        return FactoryReview.createReviewCollection(Author.NULL_AUTHOR, new Date(), mTitle, mNodes);
     }
 }

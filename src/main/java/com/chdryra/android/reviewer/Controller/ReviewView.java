@@ -19,6 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.chdryra.android.reviewer.View.FragmentReviewView;
+import com.chdryra.android.reviewer.View.GridDataObservable;
 import com.chdryra.android.reviewer.View.GvDataList;
 import com.chdryra.android.reviewer.View.GvImageList;
 
@@ -31,7 +32,7 @@ import java.util.Map;
  * On: 24/01/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ReviewView implements ReviewViewAdapter.GridDataObserver {
+public class ReviewView implements GridDataObservable.GridDataObserver {
     private final ReviewViewAdapter             mAdapter;
     private final ReviewViewParams              mParams;
     private final Map<Action, ReviewViewAction> mActions;

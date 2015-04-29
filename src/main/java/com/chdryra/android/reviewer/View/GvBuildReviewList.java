@@ -19,7 +19,6 @@ import android.view.ViewGroup;
 
 import com.chdryra.android.mygenerallibrary.ViewHolder;
 import com.chdryra.android.reviewer.Controller.ReviewBuilder;
-import com.chdryra.android.reviewer.Controller.ReviewViewAdapter;
 
 /**
  * Encapsulates the range of responses and displays available to each data tile depending
@@ -57,7 +56,7 @@ public class GvBuildReviewList extends GvDataList<GvBuildReviewList.GvBuildRevie
     }
 
     public static class GvBuildReview<T extends GvData> extends GvDataList<T>
-            implements ReviewViewAdapter.GridDataObserver {
+            implements GridDataObservable.GridDataObserver {
         private final GvDataType                   mDataType;
         private final ConfigGvDataUi.Config        mConfig;
         private final ReviewBuilder.DataBuilder<T> mBuilder;

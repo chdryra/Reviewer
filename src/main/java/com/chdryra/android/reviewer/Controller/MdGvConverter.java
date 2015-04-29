@@ -138,9 +138,10 @@ public class MdGvConverter {
 
     //Locations
     public static GvLocationList convert(MdLocationList locations) {
-        GvLocationList list = new GvLocationList();
-        for (DataLocation location : locations) {
-            list.add(new GvLocationList.GvLocation(location.getLatLng(), location.getName()));
+        GvLocationList list = new GvLocationList(new GvReviewId(locations.getReviewId()));
+        for (MdLocationList.MdLocation location : locations) {
+            GvReviewId id = new GvReviewId(location.getReviewId());
+            list.add(new GvLocationList.GvLocation(id, location.getLatLng(), location.getName()));
         }
 
         return list;

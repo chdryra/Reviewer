@@ -54,7 +54,8 @@ public class Administrator {
     private static Administrator sAdministrator;
 
     private final Context                 mContext;
-    private final ReviewFeedAdapter mPublishedReviews;
+    private final ReviewIdableList<ReviewNode> mPublishedReviews;
+    private final ReviewFeedAdapter            mFeedAdapter;
     private final ObjectHolder      mViews;
     private       ReviewBuilder     mReviewBuilder;
     private       ReviewerDb        mDatabase;
@@ -63,12 +64,13 @@ public class Administrator {
         mContext = context;
         mViews = new ObjectHolder();
         mDatabase = getDatabase();
-        ReviewIdableList<ReviewNode> published = mDatabase.getReviewTreesFromDb();
-        mPublishedReviews = new ReviewFeedAdapter(mContext, AUTHOR.getName());
-        for (ReviewNode node : published) {
+        mDatabase.loadTags();
+
+        mPublishedReviews = new ReviewIdableList<>();
+        for (ReviewNode node : mDatabase.getReviewTreesFromDb()) {
             mPublishedReviews.add(node);
         }
-        mDatabase.loadTags();
+        mFeedAdapter = new ReviewFeedAdapter(mContext, AUTHOR.getName(), mPublishedReviews);
     }
 
     public static Administrator get(Context c) {
@@ -105,11 +107,11 @@ public class Administrator {
     }
 
     public ReviewViewAdapter getPublishedReviews() {
-        return mPublishedReviews;
+        return mFeedAdapter;
     }
 
     public ReviewViewAdapter getPublishedReview(String reviewId) {
-        return mPublishedReviews.expandReview(ReviewId.fromString(reviewId));
+        return mFeedAdapter.expandReview(ReviewId.fromString(reviewId));
     }
 
     public void publishReviewBuilder() {
@@ -124,7 +126,7 @@ public class Administrator {
     }
 
     public void deleteReview(String reviewId) {
-        mPublishedReviews.delete(ReviewId.fromString(reviewId));
+        mPublishedReviews.remove(ReviewId.fromString(reviewId));
         mDatabase.deleteReviewTreeFromDb(reviewId);
     }
 

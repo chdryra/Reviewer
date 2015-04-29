@@ -24,12 +24,12 @@ import com.chdryra.android.reviewer.R;
  * On: 22/04/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ReviewViewExpandable {
+public class ReviewDataScreen {
     private Context           mContext;
     private ReviewView        mReviewView;
     private ReviewViewAdapter mAdapter;
 
-    private ReviewViewExpandable(Context context, ReviewViewAdapter adapter) {
+    private ReviewDataScreen(Context context, ReviewViewAdapter adapter) {
         mContext = context;
         mAdapter = adapter;
         mReviewView = new ReviewView(mAdapter);
@@ -37,7 +37,7 @@ public class ReviewViewExpandable {
     }
 
     public static ReviewView newScreen(Context context, ReviewViewAdapter adapter) {
-        return new ReviewViewExpandable(context, adapter).getScreen();
+        return new ReviewDataScreen(context, adapter).getScreen();
     }
 
     private ReviewView getScreen() {
@@ -70,8 +70,7 @@ public class ReviewViewExpandable {
         }
 
         @Override
-        public void onLongClickExpanded(GvData item, int position, View v, ReviewViewAdapter
-                expanded) {
+        public void onGridItemLongClick(GvData item, int position, View v) {
             if (item.hasReviewId()) {
                 String alert = getActivity().getResources().getString(R.string.alert_goto_review);
                 Bundle args = new Bundle();

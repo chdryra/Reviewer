@@ -145,6 +145,11 @@ public class ReviewBuilder extends ReviewViewAdapterBasic {
         return published;
     }
 
+    public GvDataList getData(GvDataType dataType) {
+        GvDataList data = mData.get(dataType);
+        return data != null ? MdGvConverter.copy(data) : null;
+    }
+
     private void tagTree(ReviewNode node) {
         GvTagList tags = (GvTagList) getData(GvTagList.TYPE);
         TagsManager.tag(node.getId(), tags.toStringArray());
@@ -167,27 +172,6 @@ public class ReviewBuilder extends ReviewViewAdapterBasic {
         }
 
         return rootNode;
-    }
-
-    private ReviewTreeNode prepareTree(Date publishDate) {
-        Review root = FactoryReview.createReviewUser(mAuthor,
-                publishDate, getSubject(), getRating(),
-                (GvCommentList) getData(GvCommentList.TYPE),
-                (GvImageList) getData(GvImageList.TYPE),
-                (GvFactList) getData(GvFactList.TYPE),
-                (GvLocationList) getData(GvLocationList.TYPE));
-
-        ReviewTreeNode rootNode = new ReviewTreeNode(root, mIsAverage);
-        for (ReviewBuilder child : mChildren) {
-            rootNode.addChild(child.prepareTree(publishDate));
-        }
-
-        return rootNode;
-    }
-
-    public GvDataList getData(GvDataType dataType) {
-        GvDataList data = mData.get(dataType);
-        return data != null ? MdGvConverter.copy(data) : null;
     }
 
     private DataBuilder<? extends GvData> newDataBuilder(GvDataType

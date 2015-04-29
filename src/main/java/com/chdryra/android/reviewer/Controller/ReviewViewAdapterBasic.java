@@ -8,6 +8,7 @@
 
 package com.chdryra.android.reviewer.Controller;
 
+import com.chdryra.android.reviewer.View.GridDataObservable;
 import com.chdryra.android.reviewer.View.GvData;
 
 import java.util.ArrayList;
@@ -18,14 +19,14 @@ import java.util.ArrayList;
  * Email: rizwan.choudrey@gmail.com
  */
 public abstract class ReviewViewAdapterBasic implements ReviewViewAdapter {
-    final ArrayList<GridDataObserver> mObservers = new ArrayList<>();
+    final ArrayList<GridDataObservable.GridDataObserver> mObservers = new ArrayList<>();
 
-    public void registerGridDataObserver(GridDataObserver observer) {
+    public void registerGridDataObserver(GridDataObservable.GridDataObserver observer) {
         mObservers.add(observer);
     }
 
     public void notifyGridDataObservers() {
-        for (GridDataObserver observer : mObservers) {
+        for (GridDataObservable.GridDataObserver observer : mObservers) {
             observer.onGridDataChanged();
         }
     }
