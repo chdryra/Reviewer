@@ -10,7 +10,9 @@ package com.chdryra.android.reviewer.test.Database;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.DatabaseUtils;
+import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.graphics.Bitmap;
 import android.test.AndroidTestCase;
@@ -66,6 +68,27 @@ public class ReviewerDbTest extends AndroidTestCase {
 
     ReviewTreeNode mNode;
     ReviewerDb     mDatabase;
+
+    @SmallTest
+    public void testGetDatabase() {
+        assertNotNull(ReviewerDb.getDatabase(getContext()));
+    }
+
+    @SmallTest
+    public void testGetTestDatabase() {
+        assertNotNull(ReviewerDb.getTestDatabase(getContext()));
+    }
+
+    @SmallTest
+    public void testGetDatabaseName() {
+        assertEquals("Reviewer.db", ReviewerDb.getDatabase(getContext()).getDatabaseName());
+        assertEquals("TestReviewer.db", ReviewerDb.getTestDatabase(getContext()).getDatabaseName());
+    }
+
+    @SmallTest
+    public void testGetHelper() {
+        assertNotNull(mDatabase.getHelper());
+    }
 
     @SmallTest
     public void testAddReviewTreeToReviewTreesTable() {
@@ -598,7 +621,7 @@ public class ReviewerDbTest extends AndroidTestCase {
         mDatabase.deleteReviewTreeFromDb(mNode.getId().toString());
         assertEquals(0, getNumberRows(table));
     }
-    
+
     private void testRows(ConfigDb.DbData dataType, ReviewNode node) {
         MdDataList comments = getData(dataType, node);
         for (int i = 0; i < comments.size(); ++i) {
@@ -744,9 +767,29 @@ public class ReviewerDbTest extends AndroidTestCase {
         String pkColumn = config.getPkColumn();
         ReviewerDbTable table = config.getTable();
         DbTableDef.DbColumnDef idCol = table.getColumn(pkColumn);
+        SQLiteOpenHelper helper = mDatabase.getHelper();
 
-        ReviewerDbRow.TableRow row = mDatabase.getRowWhere(table, idCol, id);
-        assertTrue(row.hasData());
+        String columnName = idCol.getName();
+        String tableName = table.getName();
+        String value = id != null ? " = ?" : " IS NULL";
+        String whereClause = columnName != null ? " WHERE " + columnName + value : "";
+
+        String query = "SELECT * FROM " + tableName + whereClause;
+        String[] args = id != null ? new String[]{id} : null;
+        SQLiteDatabase db = helper.getReadableDatabase();
+        Cursor cursor = db.rawQuery(query, args);
+
+        ReviewerDbRow.TableRow row;
+        if (cursor.getCount() == 0) {
+            row = ReviewerDbRow.emptyRow(table.getRowClass());
+        } else {
+            cursor.moveToFirst();
+            row = ReviewerDbRow.newRow(cursor, table.getRowClass());
+            assertTrue(row.hasData());
+        }
+
+        cursor.close();
+        db.close();
 
         return row.getContentValues();
     }

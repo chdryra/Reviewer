@@ -116,14 +116,6 @@ public class ReviewerDb {
         return trees;
     }
 
-    public <T extends ReviewerDbRow.TableRow> T getRowWhere(ReviewerDbTable<T> table,
-            DbTableDef.DbColumnDef col, String val) {
-        SQLiteDatabase db = mHelper.getReadableDatabase();
-        T row = getRowWhere(db, table, col.getName(), val);
-        db.close();
-        return row;
-    }
-
     public void loadTags() {
         SQLiteDatabase db = mHelper.getReadableDatabase();
         for (RowTag tag : getRowsWhere(db, TAGS, null, null)) {
@@ -268,10 +260,12 @@ public class ReviewerDb {
     }
 
     private Cursor getFromTableWhere(SQLiteDatabase db, String table, String column, String value) {
-        String val = value != null ? SQL.SPACE + SQL.BIND_STRING : SQL.SPACE + SQL.IS_NULL;
+        boolean isNull = value == null;
+        String val = isNull ? SQL.SPACE + SQL.IS_NULL : SQL.SPACE + SQL.BIND_STRING;
         String whereClause = column != null ? " " + SQL.WHERE + column + val : "";
         String query = SQL.SELECT + SQL.ALL + SQL.FROM + table + whereClause;
-        return value != null ? db.rawQuery(query, new String[]{value}) : db.rawQuery(query, null);
+        String[] args = isNull ? null : new String[]{value};
+        return db.rawQuery(query, args);
     }
 
     private void addReviewTreeToDb(ReviewNode node, SQLiteDatabase db, boolean ignoreParent) {
