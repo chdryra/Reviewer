@@ -49,6 +49,7 @@ public class GvTagListTest extends TestCase {
 
         GvTagList.GvTag gvTag = new GvTagList.GvTag(tag1);
         GvTagList.GvTag gvTagEquals = new GvTagList.GvTag(tag1);
+        GvTagList.GvTag gvTagEquals2 = new GvTagList.GvTag(gvTag);
         GvTagList.GvTag gvTagNotEquals = new GvTagList.GvTag(tag2);
         GvTagList.GvTag gvTagNull = new GvTagList.GvTag();
         GvTagList.GvTag gvTagEmpty = new GvTagList.GvTag("");
@@ -59,6 +60,7 @@ public class GvTagListTest extends TestCase {
         assertEquals(tag1, gvTag.get());
 
         assertTrue(gvTag.equals(gvTagEquals));
+        assertTrue(gvTag.equals(gvTagEquals2));
         assertFalse(gvTag.equals(gvTagNotEquals));
 
         assertFalse(gvTagNull.isValidForDisplay());
@@ -96,6 +98,7 @@ public class GvTagListTest extends TestCase {
         assertFalse(mList.equals(GvDataMocker.getData(GvUrlList.TYPE, NUM)));
 
         GvTagList list = new GvTagList();
+        GvTagList list2 = new GvTagList(mList);
         assertEquals(0, list.size());
         for (int i = 0; i < mList.size(); ++i) {
             assertFalse(mList.equals(list));
@@ -103,8 +106,11 @@ public class GvTagListTest extends TestCase {
         }
 
         assertTrue(mList.equals(list));
+        assertTrue(mList.equals(list2));
         list.add(mList);
+        list2.add(mList);
         assertFalse(mList.equals(list));
+        assertFalse(mList.equals(list2));
     }
 
     @Override

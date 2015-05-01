@@ -11,7 +11,6 @@ package com.chdryra.android.reviewer.test.View;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
-import android.graphics.Point;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.mygenerallibrary.DialogAlertFragment;
@@ -32,6 +31,7 @@ import com.chdryra.android.reviewer.View.GvDataList;
 import com.chdryra.android.reviewer.View.GvDataType;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
 import com.chdryra.android.reviewer.test.TestUtils.SoloDataEntry;
+import com.chdryra.android.reviewer.test.TestUtils.SoloUtils;
 import com.chdryra.android.testutils.CallBackSignaler;
 
 import java.util.HashMap;
@@ -193,10 +193,7 @@ public abstract class ActivityEditScreenTest extends ActivityReviewViewTest {
         mAddConfig = ConfigGvDataUi.getConfig(mDataType).getAdderConfig();
         mEditConfig = ConfigGvDataUi.getConfig(mDataType).getEditorConfig();
 
-        //To avoid issues caused by spurious menu touch events in starting activity for test.
-        Point displaySize = new Point();
-        mActivity.getWindowManager().getDefaultDisplay().getSize(displaySize);
-        mSolo.clickLongOnScreen(displaySize.x, displaySize.y);
+        SoloUtils.pretouchScreen(mActivity, mSolo);
 
         setUpFinish(withData);
     }

@@ -97,6 +97,7 @@ public class GvFactListTest extends TestCase {
         GvFactList.GvFact gvFact = new GvFactList.GvFact(label1, value1);
         GvFactList.GvFact gvFactEquals = new GvFactList.GvFact(label1,
                 value1);
+        GvFactList.GvFact gvFactEquals2 = new GvFactList.GvFact(gvFact);
         GvFactList.GvFact gvFactNotEquals1 = new GvFactList.GvFact
                 (label1, value2);
         GvFactList.GvFact gvFactNotEquals2 = new GvFactList.GvFact
@@ -115,6 +116,7 @@ public class GvFactListTest extends TestCase {
         assertEquals(value1, gvFact.getValue());
 
         assertTrue(gvFact.equals(gvFactEquals));
+        assertTrue(gvFact.equals(gvFactEquals2));
         assertFalse(gvFact.equals(gvFactNotEquals1));
         assertFalse(gvFact.equals(gvFactNotEquals2));
         assertFalse(gvFact.equals(gvFactNotEquals3));
@@ -139,6 +141,7 @@ public class GvFactListTest extends TestCase {
         assertFalse(mList.equals(GvDataMocker.getData(GvUrlList.TYPE, NUM)));
 
         GvFactList list = new GvFactList();
+        GvFactList list2 = new GvFactList(mList);
         assertEquals(0, list.size());
         for (int i = 0; i < mList.size(); ++i) {
             assertFalse(mList.equals(list));
@@ -146,8 +149,11 @@ public class GvFactListTest extends TestCase {
         }
 
         assertTrue(mList.equals(list));
+        assertTrue(mList.equals(list2));
         list.add(mList);
+        list2.add(mList);
         assertFalse(mList.equals(list));
+        assertFalse(mList.equals(list2));
     }
 
     @Override

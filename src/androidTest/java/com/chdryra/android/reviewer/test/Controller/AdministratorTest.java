@@ -18,6 +18,9 @@ import com.chdryra.android.reviewer.Controller.ReviewBuilder;
 import com.chdryra.android.reviewer.Controller.ReviewFeedAdapter;
 import com.chdryra.android.reviewer.Controller.ReviewViewAdapter;
 import com.chdryra.android.reviewer.Database.ReviewerDb;
+import com.chdryra.android.reviewer.Model.ReviewId;
+import com.chdryra.android.reviewer.Model.ReviewIdableList;
+import com.chdryra.android.reviewer.Model.ReviewNode;
 import com.chdryra.android.reviewer.View.ActivityReviewView;
 import com.chdryra.android.reviewer.View.FeedScreen;
 import com.chdryra.android.reviewer.View.GvReviewList;
@@ -82,15 +85,20 @@ public class AdministratorTest extends ActivityInstrumentationTestCase2<Activity
 
         ReviewViewAdapter reviews = mAdmin.getFeedAdapter();
         int numReviews = reviews.getGridData().size();
-        assertTrue(numReviews > 0);
         ReviewerDb db = TestDatabase.getDatabase(getInstrumentation());
         int numInDb = db.getReviewTreesFromDb().size();
+        assertEquals(numReviews, numInDb);
+
         ReviewFeedAdapter feed = (ReviewFeedAdapter) reviews;
         GvReviewList list = (GvReviewList) feed.getGridData();
-        GvReviewList.GvReviewOverview r = list.getItem(list.size() - 1);
-        mAdmin.deleteReview(r.getId());
+        GvReviewList.GvReviewOverview mostRecent = list.getItem(list.size() - 1);
+
+        mAdmin.deleteReview(mostRecent.getId());
+
+        ReviewIdableList<ReviewNode> fromDb = db.getReviewTreesFromDb();
         assertEquals(numReviews - 1, reviews.getGridData().size());
-        assertEquals(numInDb - 1, db.getReviewTreesFromDb().size());
+        assertEquals(numInDb - 1, fromDb.size());
+        assertFalse(db.getReviewTreesFromDb().containsId(ReviewId.fromString(mostRecent.getId())));
     }
 
     @SmallTest
@@ -110,13 +118,15 @@ public class AdministratorTest extends ActivityInstrumentationTestCase2<Activity
         setActivityIntent(i);
         Activity a = getActivity();
         assertNotNull(a);
-        ImageChooser ic = Administrator.getImageChooser(a);
     }
 
     private void testPublish() {
         ReviewViewAdapter reviews = mAdmin.getFeedAdapter();
         assertNotNull(reviews);
         int numReviews = reviews.getGridData().size();
+        ReviewerDb db = TestDatabase.getDatabase(getInstrumentation());
+        assertEquals(numReviews, db.getReviewTreesFromDb().size());
+
         ReviewBuilder builder = mAdmin.newReviewBuilder();
         assertNotNull(builder);
         builder.setSubject(RandomString.nextWord());
@@ -129,5 +139,12 @@ public class AdministratorTest extends ActivityInstrumentationTestCase2<Activity
         mAdmin.publishReviewBuilder();
         assertEquals(numReviews + 1, reviews.getGridData().size());
         assertNull(mAdmin.getReviewBuilder());
+
+        ReviewIdableList<ReviewNode> fromDb = db.getReviewTreesFromDb();
+        assertEquals(numReviews + 1, fromDb.size());
+        ReviewFeedAdapter feed = (ReviewFeedAdapter) reviews;
+        GvReviewList list = (GvReviewList) feed.getGridData();
+        GvReviewList.GvReviewOverview mostRecent = list.getItem(list.size() - 1);
+        assertTrue(fromDb.containsId(ReviewId.fromString(mostRecent.getId())));
     }
 }

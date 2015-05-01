@@ -60,15 +60,18 @@ public abstract class DialogAddGvDataTest<T extends GvData> extends
 
         final DialogAddListener<T> listener = mListener;
 
-        assertNull(listener.getData());
+        assertNull(listener.getAddData());
+        assertNull(listener.getDoneData());
         enterDataAndTest();
-        assertNull(listener.getData());
+        assertNull(listener.getAddData());
+        assertNull(listener.getDoneData());
 
         final DialogCancelAddDoneFragment dialog = mDialog;
         mActivity.runOnUiThread(new Runnable() {
             public void run() {
                 dialog.clickCancelButton();
-                assertNull(listener.getData());
+                assertNull(listener.getAddData());
+                assertNull(listener.getDoneData());
                 assertFalse(dialog.isVisible());
             }
         });
@@ -183,12 +186,15 @@ public abstract class DialogAddGvDataTest<T extends GvData> extends
     }
 
     protected GvData testQuickSet(boolean pressAdd) {
+        mListener.reset();
         final DialogAddListener<T> listener = mListener;
         final DialogCancelAddDoneFragment dialog = mDialog;
 
-        assertNull(listener.getData());
+        assertNull(listener.getAddData());
+        assertNull(listener.getDoneData());
         GvData data = enterDataAndTest();
-        assertNull(listener.getData());
+        assertNull(listener.getAddData());
+        assertNull(listener.getDoneData());
 
         if (pressAdd) {
             mActivity.runOnUiThread(new Runnable() {
@@ -208,21 +214,29 @@ public abstract class DialogAddGvDataTest<T extends GvData> extends
         final ReviewViewAdapter adapter = mAdapter;
         final DialogCancelAddDoneFragment dialog = mDialog;
 
-        assertNull(listener.getData());
+        assertNull(listener.getAddData());
+        assertNull(listener.getDoneData());
         assertEquals(0, getData(adapter).size());
         final GvData datum = enterDataAndTest();
-        assertNull(listener.getData());
+        assertNull(listener.getAddData());
+        assertNull(listener.getDoneData());
 
         mActivity.runOnUiThread(new Runnable() {
             public void run() {
+                GvData fromDialog;
                 if (addButton) {
                     dialog.clickAddButton();
+                    fromDialog = listener.getAddData();
+                    assertNotNull(fromDialog);
+                    assertNull(listener.getDoneData());
                 } else {
                     dialog.clickDoneButton();
+                    fromDialog = listener.getDoneData();
+                    assertNotNull(fromDialog);
+                    assertEquals(listener.getAddData(), fromDialog);
                 }
 
-                assertNotNull(listener.getData());
-                assertEquals(datum, listener.getData());
+                assertEquals(datum, fromDialog);
 
                 assertEquals(0, getData(adapter).size());
                 if (addButton) {

@@ -62,8 +62,8 @@ public class ActivityEditImagesTest extends ActivityEditScreenTest {
         for (GvImageList.GvImage image : images) {
             image.setIsCover(false);
         }
-
         images.getItem(0).setIsCover(true);
+
         GvImageList.GvImage oldCover = (GvImageList.GvImage) getGridItem(0);
         assertNotNull(oldCover);
         assertTrue(oldCover.isCover());
@@ -102,8 +102,9 @@ public class ActivityEditImagesTest extends ActivityEditScreenTest {
         assertTrue(newCover.isCover());
         assertFalse(oldCover.isCover());
         assertFalse(oldCover.equals(newCover));
+        images.sort();
         for (int i = 0; i < images.size(); ++i) {
-            if (i == 1) {
+            if (i == 0) {
                 assertTrue(images.getItem(i).isCover());
                 assertEquals(images.getItem(i), newCover);
             } else {
@@ -122,12 +123,7 @@ public class ActivityEditImagesTest extends ActivityEditScreenTest {
         GvImageList.GvImage newnewCover = (GvImageList.GvImage) getGridItem(0);
         assertNotNull(newnewCover);
         assertTrue(newnewCover.isCover());
-        assertFalse(newCover.isCover());
         assertFalse(newCover.equals(newnewCover));
-    }
-
-    public void testTest() {
-        super.testMenuUpCancels();
     }
 
     private DialogAlertFragment getAlertDialog() {

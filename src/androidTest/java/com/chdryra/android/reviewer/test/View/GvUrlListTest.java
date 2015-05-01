@@ -61,6 +61,7 @@ public class GvUrlListTest extends TestCase {
 
         GvUrlList.GvUrl gvUrl = new GvUrlList.GvUrl(url1label, url1);
         GvUrlList.GvUrl gvUrlEquals = new GvUrlList.GvUrl(url1label, url1);
+        GvUrlList.GvUrl gvUrlEquals2 = new GvUrlList.GvUrl(gvUrl);
         GvUrlList.GvUrl gvUrlNotEquals = new GvUrlList.GvUrl(url2label, url2);
         GvUrlList.GvUrl gvUrlNull = new GvUrlList.GvUrl();
 
@@ -70,6 +71,7 @@ public class GvUrlListTest extends TestCase {
         assertEquals(url1, gvUrl.getUrl());
 
         assertTrue(gvUrl.equals(gvUrlEquals));
+        assertTrue(gvUrl.equals(gvUrlEquals2));
         assertFalse(gvUrl.equals(gvUrlNotEquals));
 
         assertFalse(gvUrlNull.isValidForDisplay());
@@ -95,6 +97,7 @@ public class GvUrlListTest extends TestCase {
         assertFalse(mList.equals(GvDataMocker.getData(GvUrlList.TYPE, NUM)));
 
         GvUrlList list = new GvUrlList();
+        GvUrlList list2 = new GvUrlList(mList);
         assertEquals(0, list.size());
         for (int i = 0; i < mList.size(); ++i) {
             assertFalse(mList.equals(list));
@@ -102,8 +105,11 @@ public class GvUrlListTest extends TestCase {
         }
 
         assertTrue(mList.equals(list));
+        assertTrue(mList.equals(list2));
         list.add(mList);
+        list2.add(mList);
         assertFalse(mList.equals(list));
+        assertFalse(mList.equals(list2));
     }
 
     @Override

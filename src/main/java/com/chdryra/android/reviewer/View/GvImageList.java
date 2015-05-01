@@ -49,10 +49,21 @@ public class GvImageList extends GvDataList<GvImageList.GvImage> {
         return false;
     }
 
-    @Override
-    public void add(GvImage item) {
-        if (!hasReviewId() && size() == 0) item.setIsCover(true);
-        super.add(item);
+    public GvImage getRandomCover() {
+        GvImageList covers = getCovers();
+        if (covers.size() == 0) return new GvImage();
+
+        Random r = new Random();
+        return covers.getItem(r.nextInt(covers.size()));
+    }
+
+    public GvImageList getCovers() {
+        GvImageList covers = new GvImageList(getReviewId());
+        for (GvImage image : this) {
+            if (image.isCover()) covers.add(image);
+        }
+
+        return covers;
     }
 
     @Override
@@ -78,23 +89,6 @@ public class GvImageList extends GvDataList<GvImageList.GvImage> {
                 return comp;
             }
         };
-    }
-
-    public GvImage getRandomCover() {
-        GvImageList covers = getCovers();
-        if (covers.size() == 0) return new GvImage();
-
-        Random r = new Random();
-        return covers.getItem(r.nextInt(covers.size()));
-    }
-
-    public GvImageList getCovers() {
-        GvImageList covers = new GvImageList(getReviewId());
-        for (GvImage image : this) {
-            if (image.isCover()) covers.add(image);
-        }
-
-        return covers;
     }
 
     /**

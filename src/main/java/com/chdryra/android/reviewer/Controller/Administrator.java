@@ -147,6 +147,12 @@ public class Administrator {
         return mPublishedReviews.get(ReviewId.fromString(reviewId));
     }
 
+    public void deleteTestDatabase() {
+        if (USE_TEST_DATABASE) {
+            mContext.deleteDatabase(mDatabase.getDatabaseName());
+        }
+    }
+
     private ReviewerDb getDatabase() {
         if (USE_TEST_DATABASE) {
             return ReviewerDb.getTestDatabase(mContext);

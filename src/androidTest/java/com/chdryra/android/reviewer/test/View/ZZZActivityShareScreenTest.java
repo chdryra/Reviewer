@@ -20,7 +20,9 @@ import com.chdryra.android.reviewer.View.ActivityFeed;
 import com.chdryra.android.reviewer.View.FragmentReviewView;
 import com.chdryra.android.reviewer.View.GvReviewList;
 import com.chdryra.android.reviewer.View.GvSocialPlatformList;
+import com.chdryra.android.reviewer.View.GvTagList;
 import com.chdryra.android.reviewer.View.ShareScreen;
+import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
 import com.chdryra.android.reviewer.test.TestUtils.RandomRating;
 import com.chdryra.android.testutils.RandomString;
 
@@ -29,7 +31,7 @@ import com.chdryra.android.testutils.RandomString;
  * On: 10/02/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ActivityShareScreenTest extends ActivityReviewViewTest {
+public class ZZZActivityShareScreenTest extends ActivityReviewViewTest {
     private static final int TIMEOUT = 10000;
     private SocialPlatformList mList;
     private Administrator      mAdmin;
@@ -86,7 +88,11 @@ public class ActivityShareScreenTest extends ActivityReviewViewTest {
 
         builder.setRating(RandomRating.nextRating());
         builder.setSubject(RandomString.nextWord());
-
+        ReviewBuilder.DataBuilder tagBulder = builder.getDataBuilder(GvTagList.TYPE);
+        for (GvTagList.GvTag tag : GvDataMocker.newTagList(3)) {
+            tagBulder.add(tag);
+        }
+        tagBulder.setData();
         mAdapter = builder;
     }
 

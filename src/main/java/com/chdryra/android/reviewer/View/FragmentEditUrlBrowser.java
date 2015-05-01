@@ -56,9 +56,11 @@ public class FragmentEditUrlBrowser extends FragmentDeleteDone {
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mCurrent = (GvUrlList.GvUrl) GvDataPacker.unpackItem(GvDataPacker.CurrentNewDatum
-                        .CURRENT,
-                LauncherUi.getArgsForActivity(getActivity()));
+        Bundle args = LauncherUi.getArgsForActivity(getActivity());
+        if (args != null) {
+            mCurrent = (GvUrlList.GvUrl) GvDataPacker.unpackItem(GvDataPacker.CurrentNewDatum.
+                    CURRENT, args);
+        }
         setDeleteWhatTitle(GvUrlList.TYPE.getDatumName());
         dismissOnDelete();
     }

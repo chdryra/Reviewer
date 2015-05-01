@@ -59,22 +59,6 @@ public class GvDataListTest extends TestCase {
     }
 
     @SmallTest
-    public void testReviewIdConstructorDifferentIds() {
-        GvReviewId id = new GvReviewId(ReviewId.generateId());
-        ArrayList<GvCommentList.GvComment> noIds = newData(null);
-        ArrayList<GvCommentList.GvComment> withIds = newData(id);
-        mList.add(noIds);
-        mList.add(withIds);
-
-        GvDataList<GvCommentList.GvComment> idList = new GvDataList<>(id, mList);
-
-        assertEquals(withIds.size(), idList.size());
-        for (int i = 0; i < withIds.size(); ++i) {
-            assertEquals(withIds.get(i), idList.getItem(i));
-        }
-    }
-
-    @SmallTest
     public void testParcelable() {
         mList.add(newData(null));
         GvDataParcelableTester.testParcelable(mList);
@@ -98,17 +82,13 @@ public class GvDataListTest extends TestCase {
         ArrayList<GvCommentList.GvComment> current = list.toArrayList();
         ArrayList<GvCommentList.GvComment> comments = addData(id, list);
 
-        if (id == null) {
-            assertEquals(size + NUM, list.size());
-            for (int i = 0; i < list.size(); ++i) {
-                if (i < size) {
-                    assertEquals(current.get(i), list.getItem(i));
-                } else {
-                    assertEquals(comments.get(i - size), list.getItem(i));
-                }
+        assertEquals(size + NUM, list.size());
+        for (int i = 0; i < list.size(); ++i) {
+            if (i < size) {
+                assertEquals(current.get(i), list.getItem(i));
+            } else {
+                assertEquals(comments.get(i - size), list.getItem(i));
             }
-        } else {
-            assertEquals(size, list.size());
         }
     }
 
@@ -119,17 +99,13 @@ public class GvDataListTest extends TestCase {
         ArrayList<GvCommentList.GvComment> comments = newData(id);
         list.add(comments);
 
-        if (id == null) {
-            assertEquals(size + NUM, list.size());
-            for (int i = 0; i < list.size(); ++i) {
-                if (i < size) {
-                    assertEquals(current.get(i), list.getItem(i));
-                } else {
-                    assertEquals(comments.get(i - size), list.getItem(i));
-                }
+        assertEquals(size + NUM, list.size());
+        for (int i = 0; i < list.size(); ++i) {
+            if (i < size) {
+                assertEquals(current.get(i), list.getItem(i));
+            } else {
+                assertEquals(comments.get(i - size), list.getItem(i));
             }
-        } else {
-            assertEquals(size, list.size());
         }
     }
 
@@ -141,40 +117,22 @@ public class GvDataListTest extends TestCase {
 
         list.remove(comment);
 
-        if (!list.hasReviewId()) {
-            assertEquals(size - 1, list.size());
-            assertFalse(list.contains(comment));
-        } else {
-            assertEquals(size, list.size());
-            assertTrue(list.contains(comment));
-        }
+        assertEquals(size - 1, list.size());
+        assertFalse(list.contains(comment));
     }
 
     private void testRemoveAll(GvDataList<GvCommentList.GvComment> list) {
-        int size = list.size();
-
         list.removeAll();
-
-        if (!list.hasReviewId()) {
-            assertEquals(0, list.size());
-        } else {
-            assertEquals(size, list.size());
-        }
+        assertEquals(0, list.size());
     }
 
     private void testIteratorRemove(GvDataList<GvCommentList.GvComment> list) {
-        int size = list.size();
         Iterator it = list.iterator();
         while (it.hasNext()) {
             it.next();
             it.remove();
         }
-
-        if (!list.hasReviewId()) {
-            assertEquals(0, list.size());
-        } else {
-            assertEquals(size, list.size());
-        }
+        assertEquals(0, list.size());
     }
 
     private ArrayList<GvCommentList.GvComment> addData(GvReviewId id,

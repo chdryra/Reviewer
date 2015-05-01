@@ -66,6 +66,7 @@ public class GvLocationListTest extends TestCase {
         GvLocationList.GvLocation gvLocation = new GvLocationList.GvLocation(latLng1, name1);
         GvLocationList.GvLocation gvLocationEquals = new GvLocationList.GvLocation(latLng1,
                 name1);
+        GvLocationList.GvLocation gvLocationEquals2 = new GvLocationList.GvLocation(gvLocation);
         GvLocationList.GvLocation gvLocationNotEquals1 = new GvLocationList.GvLocation
                 (latLng1, name2);
         GvLocationList.GvLocation gvLocationNotEquals2 = new GvLocationList.GvLocation
@@ -84,6 +85,7 @@ public class GvLocationListTest extends TestCase {
         assertEquals(name1, gvLocation.getName());
 
         assertTrue(gvLocation.equals(gvLocationEquals));
+        assertTrue(gvLocation.equals(gvLocationEquals2));
         assertFalse(gvLocation.equals(gvLocationNotEquals1));
         assertFalse(gvLocation.equals(gvLocationNotEquals2));
         assertFalse(gvLocation.equals(gvLocationNotEquals3));
@@ -126,6 +128,7 @@ public class GvLocationListTest extends TestCase {
         assertFalse(mList.equals(GvDataMocker.getData(GvUrlList.TYPE, NUM)));
 
         GvLocationList list = new GvLocationList();
+        GvLocationList list2 = new GvLocationList(mList);
         assertEquals(0, list.size());
         for (int i = 0; i < mList.size(); ++i) {
             assertFalse(mList.equals(list));
@@ -133,8 +136,11 @@ public class GvLocationListTest extends TestCase {
         }
 
         assertTrue(mList.equals(list));
+        assertTrue(mList.equals(list2));
         list.add(mList);
+        list2.add(mList);
         assertFalse(mList.equals(list));
+        assertFalse(mList.equals(list2));
     }
 
     @Override

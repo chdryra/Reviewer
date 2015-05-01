@@ -66,6 +66,12 @@ public abstract class ActivityReviewViewTest extends
         mSolo = new Solo(getInstrumentation(), mActivity);
     }
 
+
+    @Override
+    protected void tearDown() throws Exception {
+        if (mActivity != null) mActivity.finish();
+    }
+
     protected int getGridSize() {
         return getGridView().getAdapter().getCount();
     }

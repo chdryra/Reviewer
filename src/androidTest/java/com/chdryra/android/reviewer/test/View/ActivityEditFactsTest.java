@@ -8,11 +8,11 @@
 
 package com.chdryra.android.reviewer.test.View;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.Instrumentation;
 import android.test.suitebuilder.annotation.SmallTest;
-import android.util.Log;
 
 import com.chdryra.android.mygenerallibrary.DialogAlertFragment;
 import com.chdryra.android.reviewer.R;
@@ -67,8 +67,10 @@ public class ActivityEditFactsTest extends ActivityEditScreenTest {
         mSolo.waitForDialogToClose(TIMEOUT);
         assertFalse(mSolo.searchText(alert));
 
-        waitForBrowserToLaunch();
+        Activity browser = waitForBrowserToLaunch();
         checkBrowserIsShowing(true);
+        browser.finish();
+        ;
     }
 
     @SmallTest
@@ -86,7 +88,6 @@ public class ActivityEditFactsTest extends ActivityEditScreenTest {
 
         mSolo.waitForDialogToOpen(TIMEOUT);
         assertTrue(mSolo.searchText(alert));
-
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -101,11 +102,9 @@ public class ActivityEditFactsTest extends ActivityEditScreenTest {
         mSolo.waitForDialogToClose(TIMEOUT);
         assertFalse(mSolo.searchText(alert));
 
-        waitForBrowserToLaunch();
-        Log.i("ActivityEditFactsTest", "Waiting for browser to launch...");
+        Activity browser = waitForBrowserToLaunch();
         checkBrowserIsShowing(true);
-        Log.i("ActivityEditFactsTest", "Browser launched");
-        clickMenuUp();
+        browser.finish();
     }
 
     @SmallTest
@@ -153,12 +152,14 @@ public class ActivityEditFactsTest extends ActivityEditScreenTest {
         return (DialogAlertFragment) f;
     }
 
-    private void waitForBrowserToLaunch() {
+    private ActivityEditUrlBrowser waitForBrowserToLaunch() {
         ActivityEditUrlBrowser browser = (ActivityEditUrlBrowser)
                 mBrowserMonitor.waitForActivityWithTimeout(TIMEOUT);
         assertNotNull(browser);
         assertEquals(ActivityEditUrlBrowser.class, browser.getClass());
         getInstrumentation().waitForIdleSync();
+
+        return browser;
     }
 }
 

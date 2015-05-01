@@ -21,13 +21,13 @@ import com.chdryra.android.reviewer.View.GvData;
 public class DialogAddListener<T extends GvData> extends Fragment implements
         DialogAddGvData.GvDataAddListener<T> {
 
-    private T mInterim;
-    private T mData;
+    private T mAddData;
+    private T mDoneData;
 
     @Override
     public boolean onGvDataAdd(T data) {
         if (data != null) {
-            mInterim = data;
+            mAddData = data;
             return true;
         } else {
             return false;
@@ -36,15 +36,25 @@ public class DialogAddListener<T extends GvData> extends Fragment implements
 
     @Override
     public void onGvDataCancel() {
-        mData = null;
+        mAddData = null;
+        mDoneData = null;
     }
 
     @Override
     public void onGvDataDone() {
-        mData = mInterim;
+        mDoneData = mAddData;
     }
 
-    public T getData() {
-        return mData;
+    public T getAddData() {
+        return mAddData;
+    }
+
+    public T getDoneData() {
+        return mDoneData;
+    }
+
+    public void reset() {
+        mAddData = null;
+        mDoneData = null;
     }
 }

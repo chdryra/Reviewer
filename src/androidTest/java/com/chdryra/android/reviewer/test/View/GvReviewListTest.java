@@ -170,6 +170,7 @@ public class GvReviewListTest extends TestCase {
                 date1, subject1, rating1, image1, headline1, location1);
         GvReviewList.GvReviewOverview gvReviewEquals = new GvReviewList.GvReviewOverview(id1,
                 author1, date1, subject1, rating1, image1, headline1, location1);
+        GvReviewList.GvReviewOverview gvReviewEquals2 = new GvReviewList.GvReviewOverview(gvReview);
 
         GvReviewList.GvReviewOverview gvReviewNotEquals1 = new GvReviewList.GvReviewOverview(id2,
                 author1, date1,
@@ -226,6 +227,7 @@ public class GvReviewListTest extends TestCase {
         assertEquals(location1, gvReview.getLocationName());
 
         assertTrue(gvReview.equals(gvReviewEquals));
+        assertTrue(gvReview.equals(gvReviewEquals2));
         assertFalse(gvReview.equals(gvReviewNotEquals1));
         assertFalse(gvReview.equals(gvReviewNotEquals2));
         assertFalse(gvReview.equals(gvReviewNotEquals3));
@@ -262,6 +264,7 @@ public class GvReviewListTest extends TestCase {
         assertFalse(mList.equals(GvDataMocker.getData(GvUrlList.TYPE, NUM)));
 
         GvReviewList list = new GvReviewList();
+        GvReviewList list2 = new GvReviewList(mList);
         assertEquals(0, list.size());
         for (int i = 0; i < mList.size(); ++i) {
             assertFalse(mList.equals(list));
@@ -269,8 +272,11 @@ public class GvReviewListTest extends TestCase {
         }
 
         assertTrue(mList.equals(list));
+        assertTrue(mList.equals(list2));
         list.add(mList);
+        list2.add(mList);
         assertFalse(mList.equals(list));
+        assertFalse(mList.equals(list2));
     }
 
     @Override

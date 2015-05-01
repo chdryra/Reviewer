@@ -62,10 +62,14 @@ public class DataValidatorTest extends TestCase {
     @SmallTest
     public void testValidateComment() {
         String comment = RandomString.nextSentence();
+        GvCommentList.GvComment invalid = new GvCommentList.GvComment("");
+        GvCommentList.GvComment valid = new GvCommentList.GvComment(comment);
 
         assertFalse(DataValidator.validate(new GvCommentList.GvComment()));
-        assertFalse(DataValidator.validate(new GvCommentList.GvComment("")));
-        assertTrue(DataValidator.validate(new GvCommentList.GvComment(comment)));
+        assertFalse(DataValidator.validate(invalid));
+        assertFalse(DataValidator.validate(new GvCommentList.GvComment(invalid)));
+        assertTrue(DataValidator.validate(valid));
+        assertTrue(DataValidator.validate(new GvCommentList.GvComment(valid)));
         assertTrue(DataValidator.validate(GvDataMocker.newComment(null)));
 
         ReviewId r = ReviewMocker.newReview().getId();

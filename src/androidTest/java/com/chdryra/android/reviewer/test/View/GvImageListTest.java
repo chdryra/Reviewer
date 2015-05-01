@@ -72,6 +72,7 @@ public class GvImageListTest extends TestCase {
                 isCover1);
         GvImageList.GvImage gvImageEquals = new GvImageList.GvImage(bitmap1, date1, latLng1,
                 caption1, isCover1);
+        GvImageList.GvImage gvImageEquals2 = new GvImageList.GvImage(gvImage);
 
         GvImageList.GvImage gvImageNotEquals1 = new GvImageList.GvImage(bitmap1, date2, latLng2,
                 caption2, isCover2);
@@ -104,6 +105,7 @@ public class GvImageListTest extends TestCase {
         gvImage.setIsCover(isCover1);
 
         assertTrue(gvImage.equals(gvImageEquals));
+        assertTrue(gvImage.equals(gvImageEquals2));
         assertFalse(gvImage.equals(gvImageNotEquals1));
         assertFalse(gvImage.equals(gvImageNotEquals2));
         assertFalse(gvImage.equals(gvImageNotEquals3));
@@ -187,6 +189,7 @@ public class GvImageListTest extends TestCase {
         assertFalse(mList.equals(GvDataMocker.getData(GvUrlList.TYPE, NUM)));
 
         GvImageList list = new GvImageList();
+        GvImageList list2 = new GvImageList(mList);
         assertEquals(0, list.size());
         for (int i = 0; i < mList.size(); ++i) {
             assertFalse(mList.equals(list));
@@ -194,8 +197,11 @@ public class GvImageListTest extends TestCase {
         }
 
         assertTrue(mList.equals(list));
+        assertTrue(mList.equals(list2));
         list.add(mList);
+        list2.add(mList);
         assertFalse(mList.equals(list));
+        assertFalse(mList.equals(list2));
     }
 
     @Override

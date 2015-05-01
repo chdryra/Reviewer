@@ -57,6 +57,7 @@ public class GvCommentListTest extends TestCase {
 
         GvCommentList.GvComment gvComment = new GvCommentList.GvComment(comment1);
         GvCommentList.GvComment gvCommentEquals = new GvCommentList.GvComment(comment1);
+        GvCommentList.GvComment gvCommentEquals2 = new GvCommentList.GvComment(gvComment);
         GvCommentList.GvComment gvCommentNotEquals = new GvCommentList.GvComment(comment2);
         GvCommentList.GvComment gvCommentNull = new GvCommentList.GvComment();
         GvCommentList.GvComment gvCommentEmpty = new GvCommentList.GvComment("");
@@ -67,6 +68,7 @@ public class GvCommentListTest extends TestCase {
         assertEquals(comment1, gvComment.getComment());
 
         assertTrue(gvComment.equals(gvCommentEquals));
+        assertTrue(gvComment.equals(gvCommentEquals2));
         assertFalse(gvComment.equals(gvCommentNotEquals));
 
         assertFalse(gvCommentNull.isValidForDisplay());
@@ -150,6 +152,7 @@ public class GvCommentListTest extends TestCase {
         assertFalse(mList.equals(GvDataMocker.getData(GvUrlList.TYPE, NUM)));
 
         GvCommentList list = new GvCommentList();
+        GvCommentList list2 = new GvCommentList(mList);
         assertEquals(0, list.size());
         for (int i = 0; i < mList.size(); ++i) {
             assertFalse(mList.equals(list));
@@ -157,8 +160,11 @@ public class GvCommentListTest extends TestCase {
         }
 
         assertTrue(mList.equals(list));
+        assertTrue(mList.equals(list2));
         list.add(mList);
+        list2.add(mList);
         assertFalse(mList.equals(list));
+        assertFalse(mList.equals(list2));
     }
 
     @SmallTest

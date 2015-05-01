@@ -111,6 +111,7 @@ public class GvChildListTest extends TestCase {
         assertFalse(mList.equals(GvDataMocker.getData(GvUrlList.TYPE, NUM)));
 
         GvChildList list = new GvChildList();
+        GvChildList list2 = new GvChildList(mList);
         assertEquals(0, list.size());
         for (int i = 0; i < mList.size(); ++i) {
             assertFalse(mList.equals(list));
@@ -118,8 +119,11 @@ public class GvChildListTest extends TestCase {
         }
 
         assertTrue(mList.equals(list));
+        assertTrue(mList.equals(list2));
         list.add(mList);
+        list2.add(mList);
         assertFalse(mList.equals(list));
+        assertFalse(mList.equals(list2));
     }
 
     @SmallTest
@@ -135,6 +139,7 @@ public class GvChildListTest extends TestCase {
         GvChildList.GvChildReview gvChild = new GvChildList.GvChildReview(subject1, rating1);
         GvChildList.GvChildReview gvChildEquals = new GvChildList.GvChildReview(subject1,
                 rating1);
+        GvChildList.GvChildReview gvChildEquals2 = new GvChildList.GvChildReview(gvChild);
         GvChildList.GvChildReview gvChildNotEquals1 = new GvChildList.GvChildReview
                 (subject1, rating2);
         GvChildList.GvChildReview gvChildNotEquals2 = new GvChildList.GvChildReview
@@ -151,6 +156,7 @@ public class GvChildListTest extends TestCase {
         assertEquals(rating1, gvChild.getRating());
 
         assertTrue(gvChild.equals(gvChildEquals));
+        assertTrue(gvChild.equals(gvChildEquals2));
         assertFalse(gvChild.equals(gvChildNotEquals1));
         assertFalse(gvChild.equals(gvChildNotEquals2));
         assertFalse(gvChild.equals(gvChildNotEquals3));

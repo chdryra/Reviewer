@@ -144,9 +144,11 @@ public class DialogAddLocationTest extends DialogAddGvDataTest<GvLocationList.Gv
         final DialogAddListener<GvLocationList.GvLocation> listener = mListener;
         final DialogCancelAddDoneFragment dialog = mDialog;
 
-        assertNull(listener.getData());
+        assertNull(listener.getAddData());
+        assertNull(listener.getDoneData());
         GvData data = enterDataAndTest(index);
-        assertNull(listener.getData());
+        assertNull(listener.getAddData());
+        assertNull(listener.getDoneData());
 
         if (pressAdd) {
             mActivity.runOnUiThread(new Runnable() {
@@ -156,6 +158,7 @@ public class DialogAddLocationTest extends DialogAddGvDataTest<GvLocationList.Gv
             });
         }
 
+        assertFalse(mSignaler.timedOut());
         return data;
     }
 

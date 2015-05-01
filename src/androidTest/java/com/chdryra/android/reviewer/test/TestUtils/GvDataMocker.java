@@ -224,7 +224,7 @@ public class GvDataMocker {
             return new GvUrlList.GvUrl(id, label, url);
         } catch (MalformedURLException e) {
             e.printStackTrace();
-            return null;
+            return new GvUrlList.GvUrl();
         }
     }
 

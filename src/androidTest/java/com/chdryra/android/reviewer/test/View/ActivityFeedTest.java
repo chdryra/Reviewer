@@ -13,6 +13,7 @@ import android.app.Instrumentation;
 import android.content.Intent;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.SmallTest;
+import android.util.Log;
 import android.widget.GridView;
 
 import com.chdryra.android.reviewer.Controller.Administrator;
@@ -23,7 +24,10 @@ import com.chdryra.android.reviewer.View.ActivityReviewView;
 import com.chdryra.android.reviewer.View.FeedScreen;
 import com.chdryra.android.reviewer.View.GvData;
 import com.chdryra.android.reviewer.View.GvReviewList;
+import com.chdryra.android.reviewer.View.GvTagList;
+import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
 import com.chdryra.android.reviewer.test.TestUtils.RandomRating;
+import com.chdryra.android.reviewer.test.TestUtils.SoloUtils;
 import com.chdryra.android.testutils.RandomString;
 import com.robotium.solo.Solo;
 
@@ -50,7 +54,7 @@ public class ActivityFeedTest extends
 
     @SmallTest
     public void testFeed() {
-        GvReviewList list = (GvReviewList) mAdmin.getFeedAdapter().getGridData();
+        GvReviewList list = (GvReviewList) mAdapter.getGridData();
         assertEquals(NUM, getGridSize());
         GvReviewList.GvReviewOverview oldReview = (GvReviewList.GvReviewOverview) getGridItem(0);
         for (int i = 0; i < NUM; ++i) {
@@ -68,11 +72,17 @@ public class ActivityFeedTest extends
 
     @SmallTest
     public void testMenuNewReview() {
+        Log.i("ActivityFeedTest", "Enter testMenuNewReview");
         Instrumentation.ActivityMonitor monitor = getInstrumentation().addMonitor
                 (ActivityReviewView.class.getName(), null, false);
 
+//        SoloUtils.pretouchScreen(mActivity, mSolo);
+//        getInstrumentation().waitForIdleSync();
+        Log.i("ActivityFeedTest", "Clicking...");
         mSolo.clickOnActionBarItem(NEWREVIEW);
+        Log.i("ActivityFeedTest", "Clicked");
         getInstrumentation().waitForIdleSync();
+        Log.i("ActivityFeedTest", "Getting activity");
         ActivityReviewView buildActivity = (ActivityReviewView) monitor.waitForActivityWithTimeout
                 (TIMEOUT);
         assertNotNull(buildActivity);
@@ -89,6 +99,12 @@ public class ActivityFeedTest extends
                 ReviewBuilder builder = mAdmin.newReviewBuilder();
                 builder.setSubject(RandomString.nextWord());
                 builder.setRating(RandomRating.nextRating());
+                ReviewBuilder.DataBuilder dataBuilder = builder.getDataBuilder(GvTagList.TYPE);
+                GvTagList tags = GvDataMocker.newTagList(NUM);
+                for (int j = 0; j < tags.size(); ++j) {
+                    dataBuilder.add(tags.getItem(j));
+                }
+                dataBuilder.setData();
                 mAdmin.publishReviewBuilder();
                 try {
                     Thread.sleep(10);
@@ -105,6 +121,13 @@ public class ActivityFeedTest extends
         mActivity = getActivity();
 
         mSolo = new Solo(getInstrumentation(), mActivity);
+        SoloUtils.pretouchScreen(mActivity, mSolo);
+    }
+
+    @Override
+    protected void tearDown() throws Exception {
+        mAdmin.deleteTestDatabase();
+        mActivity.finish();
     }
 
     private GvData getGridItem(int position) {

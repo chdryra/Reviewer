@@ -66,6 +66,7 @@ public class EditScreenImages {
 
             @Override
             public void onImageChosen(GvImageList.GvImage image) {
+                if(getGridData().size() == 0) image.setIsCover(true);
                 if (addData(image) && getGridData().size() == 1) setCover();
             }
         }
@@ -92,11 +93,7 @@ public class EditScreenImages {
         @Override
         protected void deleteData(GvData datum) {
             super.deleteData(datum);
-            GvImageList.GvImage image = (GvImageList.GvImage) datum;
-            if (image.isCover()) {
-                image.setIsCover(false);
-                getReviewView().updateCover();
-            }
+            if (((GvImageList.GvImage) datum).isCover()) getReviewView().updateCover();
         }
 
         @Override
