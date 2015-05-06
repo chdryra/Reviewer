@@ -20,8 +20,6 @@ import com.chdryra.android.mygenerallibrary.DialogAlertFragment;
 import com.chdryra.android.mygenerallibrary.DialogDeleteConfirm;
 import com.chdryra.android.reviewer.Controller.Administrator;
 import com.chdryra.android.reviewer.Controller.ReviewBuilder;
-import com.chdryra.android.reviewer.Controller.ReviewView;
-import com.chdryra.android.reviewer.Controller.ReviewViewAction;
 import com.chdryra.android.reviewer.R;
 
 /**

@@ -12,7 +12,6 @@ import android.database.DataSetObserver;
 import android.view.MenuItem;
 
 import com.chdryra.android.reviewer.Controller.ReviewBuilder;
-import com.chdryra.android.reviewer.Controller.ReviewView;
 import com.chdryra.android.reviewer.R;
 
 /**

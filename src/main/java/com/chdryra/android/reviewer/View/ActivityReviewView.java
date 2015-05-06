@@ -14,7 +14,6 @@ import android.content.Intent;
 
 import com.chdryra.android.mygenerallibrary.ActivitySingleFragment;
 import com.chdryra.android.reviewer.Controller.Administrator;
-import com.chdryra.android.reviewer.Controller.ReviewView;
 
 /**
  * Created by: Rizwan Choudrey

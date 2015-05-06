@@ -85,7 +85,7 @@ public class ReviewFeedAdapter extends ReviewViewAdapterBasic {
 
     @Override
     public GvImageList getCovers() {
-        return null;
+        return new GvImageList();
     }
 
     @Override

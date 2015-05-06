@@ -21,6 +21,7 @@ import com.chdryra.android.reviewer.Model.ReviewNode;
 import com.chdryra.android.reviewer.Model.UserId;
 import com.chdryra.android.reviewer.View.GvSocialPlatformList;
 import com.chdryra.android.reviewer.View.ImageChooser;
+import com.chdryra.android.reviewer.View.ReviewView;
 
 import java.util.Date;
 import java.util.UUID;

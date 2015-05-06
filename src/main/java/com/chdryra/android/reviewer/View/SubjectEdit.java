@@ -11,7 +11,6 @@ package com.chdryra.android.reviewer.View;
 import android.text.Editable;
 
 import com.chdryra.android.reviewer.Controller.ReviewBuilder;
-import com.chdryra.android.reviewer.Controller.ReviewViewAction;
 
 /**
  * Created by: Rizwan Choudrey

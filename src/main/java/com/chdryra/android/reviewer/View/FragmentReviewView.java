@@ -33,8 +33,6 @@ import android.widget.TextView;
 import com.chdryra.android.myandroidwidgets.ClearableEditText;
 import com.chdryra.android.mygenerallibrary.ViewHolderAdapter;
 import com.chdryra.android.reviewer.Controller.Administrator;
-import com.chdryra.android.reviewer.Controller.ReviewView;
-import com.chdryra.android.reviewer.Controller.ReviewViewAction;
 import com.chdryra.android.reviewer.R;
 
 /**

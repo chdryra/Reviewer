@@ -6,7 +6,7 @@
 * Date: 24 January, 2015
 */
 
-package com.chdryra.android.reviewer.Controller;
+package com.chdryra.android.reviewer.View;
 
 import android.app.Activity;
 import android.app.Fragment;
@@ -18,10 +18,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.chdryra.android.reviewer.View.FragmentReviewView;
-import com.chdryra.android.reviewer.View.GridDataObservable;
-import com.chdryra.android.reviewer.View.GvDataList;
-import com.chdryra.android.reviewer.View.GvImageList;
+import com.chdryra.android.reviewer.Controller.ReviewBuilder;
+import com.chdryra.android.reviewer.Controller.ReviewViewAdapter;
 
 import java.util.ArrayList;
 import java.util.HashMap;

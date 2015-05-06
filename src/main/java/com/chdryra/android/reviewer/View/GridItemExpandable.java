@@ -10,7 +10,6 @@ package com.chdryra.android.reviewer.View;
 
 import android.view.View;
 
-import com.chdryra.android.reviewer.Controller.ReviewViewAction;
 import com.chdryra.android.reviewer.Controller.ReviewViewAdapter;
 
 /**

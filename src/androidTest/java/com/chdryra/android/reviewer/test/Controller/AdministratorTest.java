@@ -26,7 +26,6 @@ import com.chdryra.android.reviewer.View.FeedScreen;
 import com.chdryra.android.reviewer.View.GvReviewList;
 import com.chdryra.android.reviewer.View.GvSocialPlatformList;
 import com.chdryra.android.reviewer.View.GvTagList;
-import com.chdryra.android.reviewer.View.ImageChooser;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
 import com.chdryra.android.reviewer.test.TestUtils.TestDatabase;
 import com.chdryra.android.testutils.RandomString;
@@ -46,7 +45,6 @@ public class AdministratorTest extends ActivityInstrumentationTestCase2<Activity
     @SmallTest
     public void testGetImageChooser() {
         Activity a = getActivity();
-        ImageChooser im = Administrator.getImageChooser(a);
         assertNull(Administrator.getImageChooser(getActivity()));
         mAdmin.newReviewBuilder();
         assertNotNull(Administrator.getImageChooser(getActivity()));

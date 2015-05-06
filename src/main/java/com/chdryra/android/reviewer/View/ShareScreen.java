@@ -20,8 +20,6 @@ import android.widget.Button;
 
 import com.chdryra.android.reviewer.Controller.Administrator;
 import com.chdryra.android.reviewer.Controller.ReviewDataAdapter;
-import com.chdryra.android.reviewer.Controller.ReviewView;
-import com.chdryra.android.reviewer.Controller.ReviewViewAction;
 import com.chdryra.android.reviewer.Controller.ReviewViewAdapter;
 import com.chdryra.android.reviewer.R;
 

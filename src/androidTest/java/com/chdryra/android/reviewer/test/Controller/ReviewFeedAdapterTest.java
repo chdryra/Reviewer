@@ -16,6 +16,8 @@ import com.chdryra.android.reviewer.Model.Author;
 import com.chdryra.android.reviewer.Model.ReviewIdableList;
 import com.chdryra.android.reviewer.Model.ReviewNode;
 import com.chdryra.android.reviewer.Model.UserId;
+import com.chdryra.android.reviewer.View.GvData;
+import com.chdryra.android.reviewer.View.GvDataList;
 import com.chdryra.android.reviewer.View.GvReviewList;
 import com.chdryra.android.reviewer.test.TestUtils.ReviewMocker;
 import com.chdryra.android.testutils.RandomDate;
@@ -34,22 +36,28 @@ public class ReviewFeedAdapterTest extends AndroidTestCase {
     private Date                    mDate;
     private ReviewFeedAdapter mAdapter;
     private ReviewIdableList<ReviewNode> mReviews;
-    
+
     @SmallTest
-    public void testGetImages() {
-        assertNull(mAdapter.getCovers());
+    public void testGetSubject() {
+        String title = mAuthor.getName() + "'s feed";
+        assertEquals(title, mAdapter.getSubject());
+    }
+
+    @SmallTest
+    public void testGetRating() {
+        assertEquals(getRating(), mAdapter.getRating(), 0.0001);
     }
 
     @SmallTest
     public void testGetAverageRating() {
-        float rating = 0f;
-        for (ReviewNode review : mReviews) {
-            rating += review.getRating().get() / mReviews.size();
-        }
-
-        assertEquals(rating, mAdapter.getAverageRating(), 0.0001);
+        assertEquals(getRating(), mAdapter.getAverageRating(), 0.0001);
     }
-    
+
+    @SmallTest
+    public void testGetCovers() {
+        assertEquals(0, mAdapter.getCovers().size());
+    }
+
     @SmallTest
     public void testGetGridData() {
         GvReviewList oList = (GvReviewList) mAdapter.getGridData();
@@ -64,6 +72,16 @@ public class ReviewFeedAdapterTest extends AndroidTestCase {
         }
     }
 
+    @SmallTest
+    public void testExpandable() {
+        GvDataList data = mAdapter.getGridData();
+        for (int i = 0; i < data.size(); ++i) {
+            GvData datum = (GvData) data.getItem(i);
+            assertTrue(mAdapter.isExpandable(datum));
+            assertNotNull(mAdapter.expandItem(datum));
+        }
+    }
+
     @Override
     protected void setUp() throws Exception {
         super.setUp();
@@ -75,8 +93,17 @@ public class ReviewFeedAdapterTest extends AndroidTestCase {
     private void setAdapter() {
         mReviews = new ReviewIdableList<>();
         for (int i = 0; i < NUM; ++i) {
-            mReviews.add(ReviewMocker.newReviewNode());
+            mReviews.add(ReviewMocker.newReviewNode(false));
         }
         mAdapter = new ReviewFeedAdapter(getContext(), mAuthor.getName(), mReviews);
+    }
+
+    private float getRating() {
+        float rating = 0f;
+        for (ReviewNode review : mReviews) {
+            rating += review.getRating().get() / mReviews.size();
+        }
+
+        return rating;
     }
 }

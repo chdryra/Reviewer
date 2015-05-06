@@ -25,7 +25,7 @@ import junit.framework.TestCase;
 public class VisitorRatingAverageOfChildrenTest extends TestCase {
     @SmallTest
     public void testGetRating() {
-        ReviewNode node = ReviewMocker.newReviewNode();
+        ReviewNode node = ReviewMocker.newReviewNode(false);
         VisitorRatingAverageOfChildren visitor = new VisitorRatingAverageOfChildren();
         visitor.visit(node);
 

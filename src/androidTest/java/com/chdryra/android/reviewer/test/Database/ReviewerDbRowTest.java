@@ -48,7 +48,7 @@ public class ReviewerDbRowTest extends TestCase {
 
     @SmallTest
     public void testNewRowReviewNode() {
-        assertNotNull(ReviewerDbRow.newRow(ReviewMocker.newReviewNode()));
+        assertNotNull(ReviewerDbRow.newRow(ReviewMocker.newReviewNode(false)));
     }
 
     @SmallTest

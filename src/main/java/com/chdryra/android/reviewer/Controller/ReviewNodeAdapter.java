@@ -59,7 +59,7 @@ public class ReviewNodeAdapter extends ReviewViewAdapterBasic {
 
     @Override
     public GvImageList getCovers() {
-        return CoversManager.getCovers(mContext, mNode.getId());
+        return MdGvConverter.convert(mNode.getImages().getCovers());
     }
 
     @Override

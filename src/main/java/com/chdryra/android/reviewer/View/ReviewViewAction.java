@@ -6,7 +6,7 @@
  * Date: 27 January, 2015
  */
 
-package com.chdryra.android.reviewer.Controller;
+package com.chdryra.android.reviewer.View;
 
 import android.app.ActionBar;
 import android.app.Activity;
@@ -22,8 +22,7 @@ import android.view.View;
 import android.widget.RatingBar;
 
 import com.chdryra.android.mygenerallibrary.ActivityResultCode;
-import com.chdryra.android.reviewer.View.GvData;
-import com.chdryra.android.reviewer.View.GvDataList;
+import com.chdryra.android.reviewer.Controller.ReviewViewAdapter;
 
 import java.util.HashMap;
 import java.util.Map;

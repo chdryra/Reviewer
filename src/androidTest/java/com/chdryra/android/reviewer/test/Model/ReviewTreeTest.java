@@ -45,7 +45,7 @@ public class ReviewTreeTest extends TestCase {
 
     @Override
     protected void setUp() throws Exception {
-        mNode = ReviewMocker.newReviewNode();
+        mNode = ReviewMocker.newReviewNode(false);
         mTree = new ReviewTree(mNode);
     }
 }

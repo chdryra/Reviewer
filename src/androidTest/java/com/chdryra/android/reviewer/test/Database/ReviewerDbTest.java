@@ -231,7 +231,7 @@ public class ReviewerDbTest extends AndroidTestCase {
     public void testGetReviewTreesFromDb() {
         ReviewIdableList<ReviewNode> nodes = new ReviewIdableList<>();
         for (int i = 0; i < NUM; ++i) {
-            ReviewNode node = ReviewMocker.newReviewNode();
+            ReviewNode node = ReviewMocker.newReviewNode(false);
             nodes.add(node);
             mDatabase.addReviewTreeToDb(node);
         }
@@ -322,7 +322,7 @@ public class ReviewerDbTest extends AndroidTestCase {
         assertEquals(numImages, getNumberRows(ReviewerDbContract.IMAGES_TABLE));
 
         //Different tree different reviews
-        ReviewNode tree3 = ReviewMocker.newReviewNode();
+        ReviewNode tree3 = ReviewMocker.newReviewNode(false);
         TagsManager.tag(tree3.getId(), tags3.toStringArray());
 
         mDatabase.addReviewTreeToDb(tree3);
@@ -384,7 +384,7 @@ public class ReviewerDbTest extends AndroidTestCase {
         }
         ReviewNode tree1 = mNode;
         ReviewNode tree2 = rootNode.createTree();
-        ReviewNode tree3 = ReviewMocker.newReviewNode();
+        ReviewNode tree3 = ReviewMocker.newReviewNode(false);
 
         TagsManager.tag(tree1.getId(), tags1.toStringArray());
         TagsManager.tag(tree2.getId(), tags2.toStringArray());
@@ -475,7 +475,7 @@ public class ReviewerDbTest extends AndroidTestCase {
     @Override
     protected void setUp() throws Exception {
         mDatabase = ReviewerDb.getTestDatabase(getContext());
-        mNode = (ReviewTreeNode) ReviewMocker.newReviewNode();
+        mNode = (ReviewTreeNode) ReviewMocker.newReviewNode(false);
         deleteDatabaseIfNecessary();
     }
 

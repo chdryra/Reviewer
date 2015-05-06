@@ -16,8 +16,6 @@ import android.view.View;
 
 import com.chdryra.android.mygenerallibrary.DialogAlertFragment;
 import com.chdryra.android.reviewer.Controller.Administrator;
-import com.chdryra.android.reviewer.Controller.ReviewView;
-import com.chdryra.android.reviewer.Controller.ReviewViewAction;
 import com.chdryra.android.reviewer.Controller.ReviewViewAdapter;
 import com.chdryra.android.reviewer.R;
 
@@ -40,8 +38,8 @@ public class FeedScreen {
         mReviewView.setAction(new GridItem());
 
         ReviewView.ReviewViewParams params = mReviewView.getParams();
-        params.cellHeight = ReviewView.CellDimension.FULL;
-        params.cellWidth = ReviewView.CellDimension.FULL;
+        params.cellHeight = ReviewView.CellDimension.HALF;
+        params.cellWidth = ReviewView.CellDimension.HALF;
         params.subjectIsVisible = true;
         params.ratingIsVisible = true;
         params.bannerButtonIsVisible = true;

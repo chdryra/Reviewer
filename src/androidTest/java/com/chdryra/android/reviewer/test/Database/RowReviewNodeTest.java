@@ -48,7 +48,7 @@ public class RowReviewNodeTest extends TestCase {
 
     @Override
     protected void setUp() throws Exception {
-        mNode = ReviewMocker.newReviewNode();
+        mNode = ReviewMocker.newReviewNode(false);
     }
 
     private void testRow(RowReviewNode row) {

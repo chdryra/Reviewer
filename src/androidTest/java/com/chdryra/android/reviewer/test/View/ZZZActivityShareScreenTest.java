@@ -13,7 +13,6 @@ import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.Controller.Administrator;
 import com.chdryra.android.reviewer.Controller.ReviewBuilder;
-import com.chdryra.android.reviewer.Controller.ReviewView;
 import com.chdryra.android.reviewer.Model.SocialPlatformList;
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.View.ActivityFeed;
@@ -21,6 +20,7 @@ import com.chdryra.android.reviewer.View.FragmentReviewView;
 import com.chdryra.android.reviewer.View.GvReviewList;
 import com.chdryra.android.reviewer.View.GvSocialPlatformList;
 import com.chdryra.android.reviewer.View.GvTagList;
+import com.chdryra.android.reviewer.View.ReviewView;
 import com.chdryra.android.reviewer.View.ShareScreen;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
 import com.chdryra.android.reviewer.test.TestUtils.RandomRating;

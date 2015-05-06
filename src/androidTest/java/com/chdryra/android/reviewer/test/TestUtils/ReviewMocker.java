@@ -34,14 +34,14 @@ public class ReviewMocker {
         return getNewReview();
     }
 
-    public static ReviewNode newReviewNode() {
-        return getNewNode();
+    public static ReviewNode newReviewNode(boolean ratingIsAverage) {
+        return getNewNode(ratingIsAverage);
     }
 
-    private static ReviewNode getNewNode() {
+    private static ReviewNode getNewNode(boolean ratingIsAverage) {
         Review root = new MockReview();
         Review parent = new MockReview();
-        ReviewTreeNode rootNode = new ReviewTreeNode(root, false);
+        ReviewTreeNode rootNode = new ReviewTreeNode(root, ratingIsAverage);
         ReviewTreeNode parentNode = new ReviewTreeNode(parent, false);
         rootNode.setParent(parentNode);
 
