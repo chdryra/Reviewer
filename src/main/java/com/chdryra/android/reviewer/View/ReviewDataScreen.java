@@ -14,7 +14,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.chdryra.android.mygenerallibrary.DialogAlertFragment;
-import com.chdryra.android.reviewer.Controller.Administrator;
+import com.chdryra.android.reviewer.Controller.ReviewFeed;
 import com.chdryra.android.reviewer.Controller.ReviewViewAdapter;
 import com.chdryra.android.reviewer.R;
 
@@ -83,8 +83,7 @@ public class ReviewDataScreen {
         private void onDialogAlertPositive(int requestCode, Bundle args) {
             if (requestCode == REQUEST_GOTO_REVIEW) {
                 GvData datum = GvDataPacker.unpackItem(GvDataPacker.CurrentNewDatum.CURRENT, args);
-                String id = datum.getReviewId().getId();
-                startNewScreen(Administrator.get(mContext).getReviewAdapter(id));
+                startNewScreen(ReviewFeed.getFeedAdapter(mContext).expandItem(datum));
             }
         }
 

@@ -30,20 +30,6 @@ public class ReviewDataAdapterTest extends AndroidTestCase {
     private ReviewNodeAdapter  mNodeAdapter;
     private GvDataList<GvData> mGridData;
 
-    @Override
-    protected void setUp() throws Exception {
-        ReviewNode node = ReviewMocker.newReviewNode(true);
-        mNodeAdapter = new ReviewNodeAdapter(getContext(), node);
-        mGridData = new GvDataList<>(null, GvData.class, new GvDataType("testData"));
-
-        mGridData.add(GvDataMocker.newCommentList(6, false));
-        mGridData.add(GvDataMocker.newFactList(6, false));
-        mGridData.add(GvDataMocker.newLocationList(0, false));
-        mGridData.add(GvDataMocker.newImage(null));
-
-        mAdapter = new ReviewDataAdapter(getContext(), mNodeAdapter, mGridData);
-    }
-
     @SmallTest
     public void testGetSubject() {
         assertEquals(mNodeAdapter.getSubject(), mAdapter.getSubject());
@@ -71,20 +57,6 @@ public class ReviewDataAdapterTest extends AndroidTestCase {
         //TODO test alternative return for grid data with review id.
     }
 
-    @Override
-    protected void setUp() throws Exception {
-        ReviewNode node = ReviewMocker.newReviewNode(true);
-        mNodeAdapter = new ReviewNodeAdapter(getContext(), node);
-        mGridData = new GvDataList<>(null, GvData.class, new GvDataType("testData"));
-
-        mGridData.add(GvDataMocker.newCommentList(6, false));
-        mGridData.add(GvDataMocker.newFactList(6, false));
-        mGridData.add(GvDataMocker.newLocationList(0, false));
-        mGridData.add(GvDataMocker.newImage(null));
-
-        mAdapter = new ReviewDataAdapter(getContext(), mNodeAdapter, mGridData);
-    }
-
     @SmallTest
     public void testExpandable() {
         GvDataList data = mAdapter.getGridData();
@@ -98,5 +70,19 @@ public class ReviewDataAdapterTest extends AndroidTestCase {
                 assertNull(mAdapter.expandItem(datum));
             }
         }
+    }
+
+    @Override
+    protected void setUp() throws Exception {
+        ReviewNode node = ReviewMocker.newReviewNode(true);
+        mNodeAdapter = new ReviewNodeAdapter(getContext(), node);
+        mGridData = new GvDataList<>(null, GvData.class, new GvDataType("testData"));
+
+        mGridData.add(GvDataMocker.newCommentList(6, false));
+        mGridData.add(GvDataMocker.newFactList(6, false));
+        mGridData.add(GvDataMocker.newLocationList(0, false));
+        mGridData.add(GvDataMocker.newImage(null));
+
+        mAdapter = new ReviewDataAdapter(getContext(), mNodeAdapter, mGridData);
     }
 }

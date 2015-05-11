@@ -15,6 +15,7 @@ import android.test.suitebuilder.annotation.SmallTest;
 import com.chdryra.android.reviewer.Controller.Administrator;
 import com.chdryra.android.reviewer.Controller.CoversManager;
 import com.chdryra.android.reviewer.Controller.MdGvConverter;
+import com.chdryra.android.reviewer.Controller.ReviewFeed;
 import com.chdryra.android.reviewer.Controller.ReviewViewAdapter;
 import com.chdryra.android.reviewer.Model.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewNode;
@@ -32,13 +33,13 @@ public class CoversManagerTest extends AndroidTestCase {
     public void testGetCovers() {
         Context context = getContext();
         Administrator admin = Administrator.get(context);
-        ReviewViewAdapter feed = admin.getFeedAdapter();
+        ReviewViewAdapter feed = ReviewFeed.getFeedAdapter(getContext());
         GvReviewList reviews = (GvReviewList) feed.getGridData();
         for (GvReviewList.GvReviewOverview review : reviews) {
             String id = review.getId();
             ReviewId rId = ReviewId.fromString(id);
             GvReviewId gvId = new GvReviewId(rId);
-            ReviewNode node = admin.getReview(rId.toString());
+            ReviewNode node = ReviewFeed.getReviewNode(getContext(), rId.toString());
             GvImageList covers = MdGvConverter.convert(node.getImages().getCovers());
             assertEquals(covers, CoversManager.getCovers(context, gvId));
             assertEquals(covers, CoversManager.getCovers(context, rId));

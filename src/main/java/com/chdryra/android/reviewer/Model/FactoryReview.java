@@ -57,10 +57,14 @@ public class FactoryReview {
         return getInstance().newReviewNode(review);
     }
 
-    public static ReviewNode createReviewCollection(Author author, Date publishDate,
-            String subject, ReviewIdableList<ReviewNode> reviews) {
+    public static ReviewTreeNode createReviewTreeNode(Review review, boolean isAverage) {
+        return getInstance().newReviewTreeNode(review, isAverage);
+    }
+
+    public static ReviewNode createStaticCollection(Author author, Date publishDate,
+            String subject, ReviewIdableList<Review> reviews) {
         Review root = createReviewUser(author, publishDate, subject, 0);
-        return getInstance().newReviewTree(root, reviews, true);
+        return getInstance().newStaticTree(root, reviews, true);
     }
 
     //Constructors
@@ -78,17 +82,26 @@ public class FactoryReview {
     }
 
     private ReviewNode newReviewNode(Review review) {
-        return newReviewTree(review, new ReviewIdableList<Review>(), false);
+        return newStaticTree(review, new ReviewIdableList<Review>(), false);
     }
 
-    private ReviewNode newReviewTree(Review root, ReviewIdableList<? extends Review> children,
-            boolean isAverage) {
+    private ReviewTreeNode newReviewTreeNode(Review review, boolean isAverage) {
+        return new ReviewTreeNode(review, isAverage);
+    }
 
-        ReviewTreeNode rootNode = new ReviewTreeNode(root, isAverage);
+    private <T extends Review> ReviewNode newStaticTree(Review review, ReviewIdableList<T>
+            children, boolean isAverage) {
+        return newDynamicTree(review, children, isAverage).createTree();
+    }
+
+    private <T extends Review> ReviewTreeNode newDynamicTree(Review review, ReviewIdableList<T>
+            children, boolean isAverage) {
+
+        ReviewTreeNode rootNode = new ReviewTreeNode(review, isAverage);
         for (Review child : children) {
-            rootNode.addChild(new ReviewTreeNode(child, false));
+            rootNode.addChild(newReviewTreeNode(child, false));
         }
 
-        return rootNode.createTree();
+        return rootNode;
     }
 }

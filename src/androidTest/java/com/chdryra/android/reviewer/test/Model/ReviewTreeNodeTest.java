@@ -130,7 +130,7 @@ public class ReviewTreeNodeTest extends TestCase {
         assertEquals(node, childNode1.getParent());
         assertEquals(node, childNode2.getParent());
 
-        node.removeChild(childNode1);
+        node.removeChild(childNode1.getId());
         assertEquals(1, node.getChildren().size());
         assertEquals(childNode2, node.getChildren().getItem(0));
         assertNull(childNode1.getParent());

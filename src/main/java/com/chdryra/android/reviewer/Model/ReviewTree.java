@@ -89,13 +89,13 @@ public class ReviewTree implements ReviewNode {
     }
 
     @Override
-    public MdCommentList getComments() {
-        return mNode.getComments();
+    public ReviewNode getInternalNode() {
+        return this;
     }
 
     @Override
-    public boolean hasComments() {
-        return mNode.hasComments();
+    public MdCommentList getComments() {
+        return mNode.getComments();
     }
 
     @Override
@@ -104,28 +104,13 @@ public class ReviewTree implements ReviewNode {
     }
 
     @Override
-    public boolean hasFacts() {
-        return mNode.hasFacts();
-    }
-
-    @Override
     public MdImageList getImages() {
         return mNode.getImages();
     }
 
     @Override
-    public boolean hasImages() {
-        return mNode.hasImages();
-    }
-
-    @Override
     public MdLocationList getLocations() {
         return mNode.getLocations();
-    }
-
-    @Override
-    public boolean hasLocations() {
-        return mNode.hasLocations();
     }
 
     @Override

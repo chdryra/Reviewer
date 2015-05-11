@@ -27,6 +27,7 @@ import com.chdryra.android.reviewer.test.TestUtils.GvDataParcelableTester;
 
 import junit.framework.TestCase;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -59,7 +60,7 @@ public class GvReviewListTest extends TestCase {
         float rating1 = review1.getRating();
         Bitmap image1 = review1.getCoverImage();
         String headline1 = review1.getHeadline();
-        String locationName1 = review1.getLocationName();
+        String locationName1 = review1.getLocationString();
 
         String id2 = review2.getId();
         Author author2 = review2.getAuthor();
@@ -68,10 +69,12 @@ public class GvReviewListTest extends TestCase {
         float rating2 = review2.getRating();
         Bitmap image2 = review2.getCoverImage();
         String headline2 = review2.getHeadline();
-        String locationName2 = review2.getLocationName();
+        String locationName2 = review2.getLocationString();
 
         assertEquals(0, mList.size());
-        mList.add(id1, author1, publishDate1, subject1, rating1, image1, headline1, locationName1);
+        ArrayList<String> locations = new ArrayList<>();
+        locations.add(locationName1);
+        mList.add(id1, author1, publishDate1, subject1, rating1, image1, headline1, locations);
         assertEquals(1, mList.size());
         GvReviewList.GvReviewOverview review = mList.getItem(0);
         assertEquals(id1, review.getId());
@@ -79,13 +82,15 @@ public class GvReviewListTest extends TestCase {
         assertEquals(rating1, review.getRating());
         assertTrue(image1.sameAs(review.getCoverImage()));
         assertEquals(headline1, review.getHeadline());
-        assertEquals(locationName1, review.getLocationName());
+        assertEquals(locationName1, review.getLocationString());
         assertEquals(author1, review.getAuthor());
         assertEquals(publishDate1, review.getPublishDate());
 
-        mList.add(id2, author2, publishDate2, subject2, rating2, image2, headline2, locationName2);
+        locations.clear();
+        locations.add(locationName2);
+        mList.add(id2, author2, publishDate2, subject2, rating2, image2, headline2, locations);
         assertEquals(2, mList.size());
-        mList.add(id1, author2, publishDate2, subject2, rating2, image2, headline2, locationName2);
+        mList.add(id1, author2, publishDate2, subject2, rating2, image2, headline2, locations);
         assertEquals(2, mList.size());
     }
 
@@ -99,7 +104,7 @@ public class GvReviewListTest extends TestCase {
         float rating2 = review2.getRating();
         Bitmap image2 = review2.getCoverImage();
         String headline2 = review2.getHeadline();
-        String locationName2 = review2.getLocationName();
+        String locationName2 = review2.getLocationString();
         Author author2 = review2.getAuthor();
         Date publishDate2 = review2.getPublishDate();
 
@@ -111,8 +116,10 @@ public class GvReviewListTest extends TestCase {
         mList.add(review2);
         assertTrue(mList.contains(review2));
 
+        ArrayList<String> locations = new ArrayList<>();
+        locations.add(locationName2);
         GvReviewList.GvReviewOverview reviewSameId = new GvReviewList.GvReviewOverview(id1,
-                author2, publishDate2, subject2, rating2, image2, headline2, locationName2);
+                author2, publishDate2, subject2, rating2, image2, headline2, locations);
         assertTrue(mList.contains(reviewSameId));
 
         mList.remove(review1);
@@ -154,7 +161,7 @@ public class GvReviewListTest extends TestCase {
         float rating1 = review1.getRating();
         Bitmap image1 = review1.getCoverImage();
         String headline1 = review1.getHeadline();
-        String location1 = review1.getLocationName();
+        String location1 = review1.getLocationString();
 
         String id2 = review2.getId();
         Author author2 = review2.getAuthor();
@@ -163,53 +170,54 @@ public class GvReviewListTest extends TestCase {
         float rating2 = review2.getRating();
         Bitmap image2 = review2.getCoverImage();
         String headline2 = review2.getHeadline();
-        String location2 = review2.getLocationName();
+        String location2 = review2.getLocationString();
 
-
+        ArrayList<String> locations = new ArrayList<>();
+        locations.add(location1);
         GvReviewList.GvReviewOverview gvReview = new GvReviewList.GvReviewOverview(id1, author1,
-                date1, subject1, rating1, image1, headline1, location1);
+                date1, subject1, rating1, image1, headline1, locations);
         GvReviewList.GvReviewOverview gvReviewEquals = new GvReviewList.GvReviewOverview(id1,
-                author1, date1, subject1, rating1, image1, headline1, location1);
+                author1, date1, subject1, rating1, image1, headline1, locations);
         GvReviewList.GvReviewOverview gvReviewEquals2 = new GvReviewList.GvReviewOverview(gvReview);
 
         GvReviewList.GvReviewOverview gvReviewNotEquals1 = new GvReviewList.GvReviewOverview(id2,
                 author1, date1,
-                subject1, rating1, image1, headline1, location1);
+                subject1, rating1, image1, headline1, locations);
         GvReviewList.GvReviewOverview gvReviewNotEquals2 = new GvReviewList.GvReviewOverview(id1,
                 author1, date1,
-                subject2, rating1, image1, headline1, location1);
+                subject2, rating1, image1, headline1, locations);
         GvReviewList.GvReviewOverview gvReviewNotEquals3 = new GvReviewList.GvReviewOverview(id1,
                 author1, date1,
-                subject1, rating2, image1, headline1, location1);
+                subject1, rating2, image1, headline1, locations);
         GvReviewList.GvReviewOverview gvReviewNotEquals4 = new GvReviewList.GvReviewOverview(id1,
                 author1, date1,
-                subject1, rating1, image2, headline1, location1);
+                subject1, rating1, image2, headline1, locations);
         GvReviewList.GvReviewOverview gvReviewNotEquals5 = new GvReviewList.GvReviewOverview(id1,
                 author1, date1,
-                subject1, rating1, image1, headline2, location1);
+                subject1, rating1, image1, headline2, locations);
         GvReviewList.GvReviewOverview gvReviewNotEquals6 = new GvReviewList.GvReviewOverview(id1,
                 author1, date1,
-                subject1, rating1, image1, headline1, location2);
+                subject1, rating1, image1, headline1, locations);
         GvReviewList.GvReviewOverview gvReviewNotEquals7 = new GvReviewList.GvReviewOverview(id1,
                 author2, date1,
-                subject1, rating1, image1, headline1, location1);
+                subject1, rating1, image1, headline1, locations);
         GvReviewList.GvReviewOverview gvReviewNotEquals8 = new GvReviewList.GvReviewOverview(id1,
                 author1, date2,
-                subject1, rating1, image1, headline1, location1);
+                subject1, rating1, image1, headline1, locations);
 
 
         GvReviewList.GvReviewOverview gvReviewNull = new GvReviewList.GvReviewOverview();
         GvReviewList.GvReviewOverview gvReviewNoId = new GvReviewList.GvReviewOverview("",
                 author1, date1,
-                subject1, rating1, image1, headline1, location1);
+                subject1, rating1, image1, headline1, locations);
         GvReviewList.GvReviewOverview gvReviewNoAuthor = new GvReviewList.GvReviewOverview(id1,
                 Author.NULL_AUTHOR, date1,
-                subject1, rating1, image1, headline1, location1);
+                subject1, rating1, image1, headline1, locations);
         GvReviewList.GvReviewOverview gvReviewNoDate = new GvReviewList.GvReviewOverview(id1,
                 author1,
-                null, subject1, rating1, image1, headline1, location1);
+                null, subject1, rating1, image1, headline1, locations);
         GvReviewList.GvReviewOverview gvReviewNoSubject = new GvReviewList.GvReviewOverview(id1,
-                author1, date1, "", rating1, image1, headline1, location1);
+                author1, date1, "", rating1, image1, headline1, locations);
         GvReviewList.GvReviewOverview gvReviewNotEmpty = new GvReviewList.GvReviewOverview(id1,
                 author1, date1, subject1, 0f, null, null, null);
 
@@ -224,7 +232,7 @@ public class GvReviewListTest extends TestCase {
         assertEquals(rating1, gvReview.getRating());
         assertEquals(image1, gvReview.getCoverImage());
         assertEquals(headline1, gvReview.getHeadline());
-        assertEquals(location1, gvReview.getLocationName());
+        assertEquals(location1, gvReview.getLocationString());
 
         assertTrue(gvReview.equals(gvReviewEquals));
         assertTrue(gvReview.equals(gvReviewEquals2));

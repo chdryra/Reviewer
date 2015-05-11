@@ -38,6 +38,8 @@ public class ReviewUser implements Review {
     private final MdFactList     mFacts;
     private final MdLocationList mLocations;
 
+    private ReviewNode mNode;
+
     public ReviewUser(ReviewId id, Author author, Date publishDate, String subject, float rating,
             Iterable<? extends DataComment> comments,
             Iterable<? extends DataImage> images,
@@ -53,6 +55,8 @@ public class ReviewUser implements Review {
         mImages = MdGvConverter.toMdImageList(images, mId);
         mFacts = MdGvConverter.toMdFactList(facts, mId);
         mLocations = MdGvConverter.toMdLocationList(locations, mId);
+
+        mNode = FactoryReview.createReviewNode(this);
     }
 
     public ReviewUser(ReviewId id, Author author, Date publishDate, String subject, float rating) {
@@ -66,6 +70,8 @@ public class ReviewUser implements Review {
         mImages = new MdImageList(mId);
         mFacts = new MdFactList(mId);
         mLocations = new MdLocationList(mId);
+
+        mNode = FactoryReview.createReviewNode(this);
     }
 
     @Override
@@ -94,13 +100,13 @@ public class ReviewUser implements Review {
     }
 
     @Override
-    public MdCommentList getComments() {
-        return mComments;
+    public ReviewNode getInternalNode() {
+        return mNode;
     }
 
     @Override
-    public boolean hasComments() {
-        return mComments.size() > 0;
+    public MdCommentList getComments() {
+        return mComments;
     }
 
     @Override
@@ -109,28 +115,13 @@ public class ReviewUser implements Review {
     }
 
     @Override
-    public boolean hasFacts() {
-        return mFacts.size() > 0;
-    }
-
-    @Override
     public MdImageList getImages() {
         return mImages;
     }
 
     @Override
-    public boolean hasImages() {
-        return mImages.size() > 0;
-    }
-
-    @Override
     public MdLocationList getLocations() {
         return mLocations;
-    }
-
-    @Override
-    public boolean hasLocations() {
-        return mLocations.size() > 0;
     }
 
     @Override

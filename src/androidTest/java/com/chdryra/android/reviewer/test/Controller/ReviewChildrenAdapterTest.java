@@ -11,8 +11,10 @@ package com.chdryra.android.reviewer.test.Controller;
 import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.Controller.ReviewFeedAdapter;
+import com.chdryra.android.reviewer.Controller.ReviewChildrenAdapter;
 import com.chdryra.android.reviewer.Model.Author;
+import com.chdryra.android.reviewer.Model.FactoryReview;
+import com.chdryra.android.reviewer.Model.Review;
 import com.chdryra.android.reviewer.Model.ReviewIdableList;
 import com.chdryra.android.reviewer.Model.ReviewNode;
 import com.chdryra.android.reviewer.Model.UserId;
@@ -20,7 +22,6 @@ import com.chdryra.android.reviewer.View.GvData;
 import com.chdryra.android.reviewer.View.GvDataList;
 import com.chdryra.android.reviewer.View.GvReviewList;
 import com.chdryra.android.reviewer.test.TestUtils.ReviewMocker;
-import com.chdryra.android.testutils.RandomDate;
 import com.chdryra.android.testutils.RandomString;
 
 import java.util.Date;
@@ -30,17 +31,16 @@ import java.util.Date;
  * On: 08/12/2014
  * Email: rizwan.choudrey@gmail.com
  */
-public class ReviewFeedAdapterTest extends AndroidTestCase {
+public class ReviewChildrenAdapterTest extends AndroidTestCase {
     private static final int NUM = 10;
     private Author                  mAuthor;
-    private Date                    mDate;
-    private ReviewFeedAdapter mAdapter;
-    private ReviewIdableList<ReviewNode> mReviews;
+    private ReviewNode               mNode;
+    private ReviewChildrenAdapter    mAdapter;
+    private ReviewIdableList<Review> mReviews;
 
     @SmallTest
     public void testGetSubject() {
-        String title = mAuthor.getName() + "'s feed";
-        assertEquals(title, mAdapter.getSubject());
+        assertEquals(mNode.getSubject().get(), mAdapter.getSubject());
     }
 
     @SmallTest
@@ -64,7 +64,7 @@ public class ReviewFeedAdapterTest extends AndroidTestCase {
         assertNotNull(oList);
         assertEquals(mReviews.size(), oList.size());
         for (int i = 0; i < mReviews.size(); ++i) {
-            ReviewNode review = mReviews.getItem(i);
+            ReviewNode review = (ReviewNode) mReviews.getItem(i);
             assertEquals(review.getRating().get(), oList.getItem(i).getRating());
             assertEquals(review.getSubject().get(), oList.getItem(i).getSubject());
             assertEquals(review.getAuthor(), oList.getItem(i).getAuthor());
@@ -86,7 +86,6 @@ public class ReviewFeedAdapterTest extends AndroidTestCase {
     protected void setUp() throws Exception {
         super.setUp();
         mAuthor = new Author(RandomString.nextWord(), UserId.generateId());
-        mDate = RandomDate.nextDate();
         setAdapter();
     }
 
@@ -95,12 +94,14 @@ public class ReviewFeedAdapterTest extends AndroidTestCase {
         for (int i = 0; i < NUM; ++i) {
             mReviews.add(ReviewMocker.newReviewNode(false));
         }
-        mAdapter = new ReviewFeedAdapter(getContext(), mAuthor.getName(), mReviews);
+        mNode = FactoryReview.createStaticCollection(mAuthor, new Date(),
+                RandomString.nextWord(), mReviews);
+        mAdapter = new ReviewChildrenAdapter(getContext(), mNode);
     }
 
     private float getRating() {
         float rating = 0f;
-        for (ReviewNode review : mReviews) {
+        for (Review review : mReviews) {
             rating += review.getRating().get() / mReviews.size();
         }
 

@@ -42,7 +42,6 @@ import java.util.Date;
  */
 
 public interface Review extends ReviewId.ReviewIdAble {
-
     //Core data
     @Override
     ReviewId getId();
@@ -51,32 +50,25 @@ public interface Review extends ReviewId.ReviewIdAble {
 
     MdRating getRating();
 
-    //Core methods
     Author getAuthor();
 
     Date getPublishDate();
 
+    ReviewNode getInternalNode();
+
     //Optional data
     MdCommentList getComments();
 
-    boolean hasComments();
-
     MdFactList getFacts();
-
-    boolean hasFacts();
 
     MdImageList getImages();
 
-    boolean hasImages();
-
     MdLocationList getLocations();
-
-    boolean hasLocations();
 
     //For speed and comparison
     @Override
-    public boolean equals(Object o);
+    boolean equals(Object o);
 
     @Override
-    public int hashCode();
+    int hashCode();
 }

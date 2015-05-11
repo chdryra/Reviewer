@@ -42,7 +42,7 @@ public class CoversManager {
     }
 
     private GvImageList getCovers(String reviewId) {
-        ReviewNode node = Administrator.get(mContext).getReview(reviewId);
+        ReviewNode node = ReviewFeed.getReviewNode(mContext, reviewId);
         return MdGvConverter.convert(node.getImages().getCovers());
     }
 }

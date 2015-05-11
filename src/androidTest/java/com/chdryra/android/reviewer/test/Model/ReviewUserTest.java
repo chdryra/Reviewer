@@ -90,24 +90,8 @@ public class ReviewUserTest extends TestCase {
     }
 
     @SmallTest
-    public void testHasComments() {
-        assertTrue(mReview.hasComments());
-        Review noComments = new ReviewUser(ReviewId.generateId(), mAuthor, mDate, mSubject, mRating,
-                new GvCommentList(), mImages, mFacts, mLocations);
-        assertFalse(noComments.hasComments());
-    }
-
-    @SmallTest
     public void testGetFacts() {
         MdGvEquality.check(mReview.getFacts(), mFacts);
-    }
-
-    @SmallTest
-    public void testHasFacts() {
-        assertTrue(mReview.hasFacts());
-        Review noFacts = new ReviewUser(ReviewId.generateId(), mAuthor, mDate, mSubject, mRating,
-                mComments, mImages, new GvFactList(), mLocations);
-        assertFalse(noFacts.hasFacts());
     }
 
     @SmallTest
@@ -116,24 +100,8 @@ public class ReviewUserTest extends TestCase {
     }
 
     @SmallTest
-    public void testHasImages() {
-        assertTrue(mReview.hasImages());
-        Review noImages = new ReviewUser(ReviewId.generateId(), mAuthor, mDate, mSubject, mRating,
-                mComments, new GvImageList(), mFacts, mLocations);
-        assertFalse(noImages.hasImages());
-    }
-
-    @SmallTest
     public void testGetLocations() {
         MdGvEquality.check(mReview.getLocations(), mLocations);
-    }
-
-    @SmallTest
-    public void testHasLocations() {
-        assertTrue(mReview.hasLocations());
-        Review noLocations = new ReviewUser(ReviewId.generateId(), mAuthor, mDate, mSubject,
-                mRating, mComments, mImages, mFacts, new GvLocationList());
-        assertFalse(noLocations.hasLocations());
     }
 
     @Override

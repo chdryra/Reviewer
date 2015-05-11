@@ -45,7 +45,7 @@ public class FragmentReviewView extends Fragment {
     private static final int LAYOUT        = R.layout.fragment_view_review;
     private static final int LINEAR_LAYOUT = R.id.linearlayout;
     private static final int SUBJECT       = R.id.subject_edit_text;
-    private static final int RATING        = R.id.rating_bar;
+    private static final int RATING = R.id.review_rating;
     private static final int BUTTON        = R.id.banner_button;
     private static final int GRID          = R.id.gridview_data;
 
@@ -243,17 +243,25 @@ public class FragmentReviewView extends Fragment {
             return;
         }
 
+        final ReviewViewAction.RatingBarAction ratingBarAction = mReviewView.getRatingBarAction();
         if (isEditable()) {
             mRatingBar.setIsIndicator(false);
             mRatingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
                 @Override
                 public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-                    mReviewView.getRatingBarAction().onRatingChanged(ratingBar, rating, fromUser);
+                    ratingBarAction.onRatingChanged(ratingBar, rating, fromUser);
                 }
             });
         } else {
             mRatingBar.setIsIndicator(true);
         }
+
+        mRatingBar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ratingBarAction.onClick(v);
+            }
+        });
     }
 
     void initBannerButtonUi() {

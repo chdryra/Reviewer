@@ -349,6 +349,7 @@ public class ReviewBuilder extends ReviewViewAdapterBasic {
         return mBuildUi;
     }
 
+    @Override
     public GvImageList getCovers() {
         return (GvImageList) getData(GvImageList.TYPE);
     }

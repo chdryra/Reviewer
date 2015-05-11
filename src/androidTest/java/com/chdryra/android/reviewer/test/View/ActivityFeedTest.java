@@ -10,6 +10,7 @@ package com.chdryra.android.reviewer.test.View;
 
 import android.app.Activity;
 import android.app.Instrumentation;
+import android.content.Context;
 import android.content.Intent;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.SmallTest;
@@ -18,6 +19,7 @@ import android.widget.GridView;
 
 import com.chdryra.android.reviewer.Controller.Administrator;
 import com.chdryra.android.reviewer.Controller.ReviewBuilder;
+import com.chdryra.android.reviewer.Controller.ReviewFeed;
 import com.chdryra.android.reviewer.Controller.ReviewViewAdapter;
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.View.ActivityReviewView;
@@ -91,8 +93,9 @@ public class ActivityFeedTest extends
 
     @Override
     protected void setUp() {
-        mAdmin = Administrator.get(getInstrumentation().getTargetContext());
-        mAdapter = mAdmin.getFeedAdapter();
+        Context context = getInstrumentation().getTargetContext();
+        mAdmin = Administrator.get(context);
+        mAdapter = ReviewFeed.getFeedAdapter(context);
 
         if (mAdapter.getGridData().size() == 0) {
             for (int i = 0; i < NUM; ++i) {
@@ -112,7 +115,7 @@ public class ActivityFeedTest extends
                     e.printStackTrace();
                 }
             }
-            mAdapter = mAdmin.getFeedAdapter();
+            mAdapter = ReviewFeed.getFeedAdapter(context);
         }
 
         Intent i = new Intent();
@@ -126,7 +129,7 @@ public class ActivityFeedTest extends
 
     @Override
     protected void tearDown() throws Exception {
-        mAdmin.deleteTestDatabase();
+        ReviewFeed.deleteTestDatabase(getActivity());
         mActivity.finish();
     }
 

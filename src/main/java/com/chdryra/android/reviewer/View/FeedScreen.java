@@ -16,6 +16,7 @@ import android.view.View;
 
 import com.chdryra.android.mygenerallibrary.DialogAlertFragment;
 import com.chdryra.android.reviewer.Controller.Administrator;
+import com.chdryra.android.reviewer.Controller.ReviewFeed;
 import com.chdryra.android.reviewer.Controller.ReviewViewAdapter;
 import com.chdryra.android.reviewer.R;
 
@@ -31,15 +32,15 @@ public class FeedScreen {
 
     private FeedScreen(Context context) {
         mContext = context;
-        mAdapter = Administrator.get(mContext).getFeedAdapter();
+        mAdapter = ReviewFeed.getFeedAdapter(mContext);
         mReviewView = new ReviewView(mAdapter);
 
         mReviewView.setAction(new FeedScreenMenu());
         mReviewView.setAction(new GridItem());
 
         ReviewView.ReviewViewParams params = mReviewView.getParams();
-        params.cellHeight = ReviewView.CellDimension.HALF;
-        params.cellWidth = ReviewView.CellDimension.HALF;
+        params.cellHeight = ReviewView.CellDimension.FULL;
+        params.cellWidth = ReviewView.CellDimension.FULL;
         params.subjectIsVisible = true;
         params.ratingIsVisible = true;
         params.bannerButtonIsVisible = true;
@@ -115,7 +116,7 @@ public class FeedScreen {
             if (requestCode == REQUEST_DELETE) {
                 GvData datum = GvDataPacker.unpackItem(GvDataPacker.CurrentNewDatum.CURRENT, args);
                 GvReviewList.GvReviewOverview review = (GvReviewList.GvReviewOverview) datum;
-                Administrator.get(getActivity()).deleteReview(review.getId());
+                ReviewFeed.removeFromFeed(getActivity(), review.getId());
                 getReviewView().resetGridViewData();
             }
         }
@@ -131,6 +132,13 @@ public class FeedScreen {
             public void onAlertPositive(int requestCode, Bundle args) {
                 onDialogAlertPositive(requestCode, args);
             }
+        }
+    }
+
+    private class RatingBarAction extends ReviewViewAction.RatingBarAction {
+        @Override
+        public void onClick(View v) {
+            super.onClick(v);
         }
     }
 }

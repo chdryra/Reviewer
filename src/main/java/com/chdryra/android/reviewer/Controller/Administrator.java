@@ -13,9 +13,7 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.chdryra.android.mygenerallibrary.ObjectHolder;
-import com.chdryra.android.reviewer.Database.ReviewerDb;
 import com.chdryra.android.reviewer.Model.Author;
-import com.chdryra.android.reviewer.Model.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewIdableList;
 import com.chdryra.android.reviewer.Model.ReviewNode;
 import com.chdryra.android.reviewer.Model.UserId;
@@ -45,39 +43,27 @@ import java.util.UUID;
  * @see com.chdryra.android.reviewer.Model.Author
  * @see ReviewIdableList
  */
-public class Administrator {
+public class Administrator extends ApplicationSingleton{
+    private static final String NAME = "Administrator";
     private static final String  REVIEWVIEW_ID     = "com.chdryra.android.reviewer.review_id";
     private static final Author  AUTHOR            = new Author("Rizwan Choudrey", UserId
             .generateId());
-    private static final boolean USE_TEST_DATABASE = true;
 
     private static Administrator sAdministrator;
 
-    private final Context                      mContext;
-    private final ReviewIdableList<ReviewNode> mPublishedReviews;
-    private final ReviewFeedAdapter            mFeedAdapter;
-    private final ObjectHolder                 mViews;
-    private       ReviewBuilder                mReviewBuilder;
-    private       ReviewerDb                   mDatabase;
+    private final ObjectHolder            mViews;
+    private       ReviewBuilder           mReviewBuilder;
 
     private Administrator(Context context) {
-        mContext = context;
+        super(context, NAME);
         mViews = new ObjectHolder();
-        mDatabase = getDatabase();
-        mDatabase.loadTags();
-
-        mPublishedReviews = new ReviewIdableList<>();
-        for (ReviewNode node : mDatabase.getReviewTreesFromDb()) {
-            mPublishedReviews.add(node);
-        }
-        mFeedAdapter = new ReviewFeedAdapter(mContext, AUTHOR.getName(), mPublishedReviews);
     }
 
     public static Administrator get(Context c) {
         if (sAdministrator == null) {
             sAdministrator = new Administrator(c);
-        } else if (c.getApplicationContext() != sAdministrator.mContext.getApplicationContext()) {
-            throw new RuntimeException("Can only have 1 Administrator per application!");
+        } else {
+            sAdministrator.checkContextOrThrow(c);
         }
 
         return sAdministrator;
@@ -102,32 +88,18 @@ public class Administrator {
     }
 
     public ReviewBuilder newReviewBuilder() {
-        mReviewBuilder = new ReviewBuilder(mContext, AUTHOR);
+        mReviewBuilder = new ReviewBuilder(getContext(), AUTHOR);
         return mReviewBuilder;
-    }
-
-    public ReviewViewAdapter getFeedAdapter() {
-        return mFeedAdapter;
-    }
-
-    public ReviewViewAdapter getReviewAdapter(String reviewId) {
-        return mFeedAdapter.expandReview(ReviewId.fromString(reviewId));
     }
 
     public void publishReviewBuilder() {
         ReviewNode published = mReviewBuilder.publish(new Date());
-        mPublishedReviews.add(published);
-        mDatabase.addReviewTreeToDb(published);
+        ReviewFeed.addToFeed(getContext(), published);
         mReviewBuilder = null;
     }
 
-    public void deleteReview(String reviewId) {
-        mPublishedReviews.remove(ReviewId.fromString(reviewId));
-        mDatabase.deleteReviewTreeFromDb(reviewId);
-    }
-
     public GvSocialPlatformList getSocialPlatformList() {
-        return GvSocialPlatformList.getLatest(mContext);
+        return GvSocialPlatformList.getLatest(getContext());
     }
 
     public void packView(ReviewView view, Intent i) {
@@ -142,23 +114,5 @@ public class Administrator {
         mViews.removeObject(id);
 
         return view;
-    }
-
-    public ReviewNode getReview(String reviewId) {
-        return mPublishedReviews.get(ReviewId.fromString(reviewId));
-    }
-
-    public void deleteTestDatabase() {
-        if (USE_TEST_DATABASE) {
-            mContext.deleteDatabase(mDatabase.getDatabaseName());
-        }
-    }
-
-    private ReviewerDb getDatabase() {
-        if (USE_TEST_DATABASE) {
-            return ReviewerDb.getTestDatabase(mContext);
-        } else {
-            return ReviewerDb.getDatabase(mContext);
-        }
     }
 }

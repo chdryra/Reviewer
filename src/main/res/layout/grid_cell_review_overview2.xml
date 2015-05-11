@@ -1,9 +1,10 @@
-<?xml version="1.0" encoding="utf-8"?><!--
-  ~ Copyright (c) 2014, Rizwan Choudrey - All Rights Reserved
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2015, Rizwan Choudrey - All Rights Reserved
   ~ Unauthorized copying of this file, via any medium is strictly prohibited
   ~ Proprietary and confidential
   ~ Author: Rizwan Choudrey
-  ~ Date: 23 September, 2014
+  ~ Date: 7 May, 2015
   -->
 
 <com.chdryra.android.mygenerallibrary.ViewHolderLayout
@@ -42,7 +43,7 @@
                 android:layout_height="wrap_content"/>
 
             <TextView
-                android:id="@+id/review_location"
+                android:id="@+id/review_tags"
                 style="@style/TextViewGridCell.Small"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>

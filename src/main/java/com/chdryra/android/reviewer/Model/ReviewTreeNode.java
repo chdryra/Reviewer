@@ -94,12 +94,8 @@ public class ReviewTreeNode implements ReviewNode {
         childNode.setParent(this);
     }
 
-    public void removeChild(ReviewTreeNode childNode) {
-        if (!mChildren.containsId(childNode.getId())) {
-            return;
-        }
-        mChildren.remove(childNode.getId());
-        childNode.setParent(null);
+    public void removeChild(ReviewId reviewId) {
+        removeChild((ReviewTreeNode) mChildren.get(reviewId));
     }
 
     //Review methods
@@ -138,13 +134,13 @@ public class ReviewTreeNode implements ReviewNode {
     }
 
     @Override
-    public MdCommentList getComments() {
-        return mReview.getComments();
+    public ReviewNode getInternalNode() {
+        return this;
     }
 
     @Override
-    public boolean hasComments() {
-        return mReview.hasComments();
+    public MdCommentList getComments() {
+        return mReview.getComments();
     }
 
     @Override
@@ -153,28 +149,13 @@ public class ReviewTreeNode implements ReviewNode {
     }
 
     @Override
-    public boolean hasFacts() {
-        return mReview.hasFacts();
-    }
-
-    @Override
     public MdImageList getImages() {
         return mReview.getImages();
     }
 
     @Override
-    public boolean hasImages() {
-        return mReview.hasImages();
-    }
-
-    @Override
     public MdLocationList getLocations() {
         return mReview.getLocations();
-    }
-
-    @Override
-    public boolean hasLocations() {
-        return mReview.hasLocations();
     }
 
     @Override
@@ -198,5 +179,13 @@ public class ReviewTreeNode implements ReviewNode {
 
     public ReviewNode createTree() {
         return new ReviewTree(this);
+    }
+
+    private void removeChild(ReviewTreeNode childNode) {
+        if (!mChildren.containsId(childNode.getId())) {
+            return;
+        }
+        mChildren.remove(childNode.getId());
+        childNode.setParent(null);
     }
 }

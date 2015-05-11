@@ -18,7 +18,7 @@
     <View style="@style/HorizontalDivider"/>
 
     <include
-        android:id="@+id/rating_bar"
+        android:id="@+id/review_rating"
         layout="@layout/review_rating"/>
 
     <View style="@style/HorizontalDivider"/>

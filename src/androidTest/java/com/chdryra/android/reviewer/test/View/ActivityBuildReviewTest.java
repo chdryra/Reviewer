@@ -602,7 +602,7 @@ public class ActivityBuildReviewTest extends ActivityReviewViewTest {
         mSolo.enterText(mSolo.getEditText(0), child.getSubject());
 
         //Kind of simulate touch
-        mSolo.clickOnView(mSolo.getView(R.id.rating_bar));
+        mSolo.clickOnView(mSolo.getView(R.id.review_rating));
         assertFalse(getBuilder().isRatingAverage());
         assertEquals(3.0f, getBuilder().getRating());
         mSolo.setProgressBar(0, (int) (child.getRating() * 2f));

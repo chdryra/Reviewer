@@ -1,9 +1,9 @@
 /*
- * Copyright (c) 2014, Rizwan Choudrey - All Rights Reserved
+ * Copyright (c) 2015, Rizwan Choudrey - All Rights Reserved
  * Unauthorized copying of this file, via any medium is strictly prohibited
  * Proprietary and confidential
  * Author: Rizwan Choudrey
- * Date: 2 December, 2014
+ * Date: 11 May, 2015
  */
 
 package com.chdryra.android.reviewer.test.Controller;
@@ -13,7 +13,6 @@ import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.Controller.Administrator;
-import com.chdryra.android.reviewer.Controller.ReviewBuilder;
 import com.chdryra.android.reviewer.Controller.ReviewChildrenAdapter;
 import com.chdryra.android.reviewer.Controller.ReviewFeed;
 import com.chdryra.android.reviewer.Controller.ReviewViewAdapter;
@@ -24,68 +23,56 @@ import com.chdryra.android.reviewer.Model.ReviewNode;
 import com.chdryra.android.reviewer.View.ActivityReviewView;
 import com.chdryra.android.reviewer.View.FeedScreen;
 import com.chdryra.android.reviewer.View.GvReviewList;
-import com.chdryra.android.reviewer.View.GvSocialPlatformList;
-import com.chdryra.android.reviewer.View.GvTagList;
-import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
+import com.chdryra.android.reviewer.test.TestUtils.ReviewMocker;
 import com.chdryra.android.reviewer.test.TestUtils.TestDatabase;
-import com.chdryra.android.testutils.RandomString;
 
 /**
  * Created by: Rizwan Choudrey
- * On: 02/12/2014
+ * On: 11/05/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class AdministratorTest extends ActivityInstrumentationTestCase2<ActivityReviewView> {
-    private Administrator mAdmin;
-
-    public AdministratorTest() {
+public class ReviewFeedTest extends ActivityInstrumentationTestCase2<ActivityReviewView> {
+    public ReviewFeedTest() {
         super(ActivityReviewView.class);
     }
 
     @SmallTest
-    public void testGetImageChooser() {
-        assertNull(Administrator.getImageChooser(getActivity()));
-        mAdmin.newReviewBuilder();
-        assertNotNull(Administrator.getImageChooser(getActivity()));
+    public void testGetFeedAdapter() {
+        assertNotNull(ReviewFeed.getFeedAdapter(getActivity()));
     }
 
     @SmallTest
-    public void testGetAuthor() {
-        assertNotNull(mAdmin.getAuthor());
+    public void testRemoveFromFeed() {
+        ReviewViewAdapter reviews = ReviewFeed.getFeedAdapter(getActivity());
+        int numReviews = reviews.getGridData().size();
+        ReviewerDb db = TestDatabase.getDatabase(getInstrumentation());
+        int numInDb = db.getReviewTreesFromDb().size();
+        assertEquals(numReviews, numInDb);
+
+        ReviewChildrenAdapter feed = (ReviewChildrenAdapter) reviews;
+        GvReviewList list = (GvReviewList) feed.getGridData();
+        GvReviewList.GvReviewOverview mostRecent = list.getItem(list.size() - 1);
+
+        ReviewFeed.removeFromFeed(getActivity(), mostRecent.getId());
+
+        ReviewIdableList<ReviewNode> fromDb = db.getReviewTreesFromDb();
+        assertEquals(numReviews - 1, reviews.getGridData().size());
+        assertEquals(numInDb - 1, fromDb.size());
+        assertFalse(db.getReviewTreesFromDb().containsId(ReviewId.fromString(mostRecent.getId())));
     }
 
-    @SmallTest
-    public void testGetReviewBuilder() {
-        ReviewBuilder builder = mAdmin.newReviewBuilder();
-        assertNotNull(builder);
-        assertEquals(builder, mAdmin.getReviewBuilder());
-    }
-
-    @SmallTest
-    public void testNewReviewBuilder() {
-        assertNotNull(mAdmin.newReviewBuilder());
-    }
-
-    @SmallTest
-    public void testPublishReviewBuilder() {
+    public void testAddToFeed() {
         ReviewViewAdapter reviews = ReviewFeed.getFeedAdapter(getActivity());
         assertNotNull(reviews);
+        assertNotNull(reviews.getGridData());
         int numReviews = reviews.getGridData().size();
         ReviewerDb db = TestDatabase.getDatabase(getInstrumentation());
         assertEquals(numReviews, db.getReviewTreesFromDb().size());
 
-        ReviewBuilder builder = mAdmin.newReviewBuilder();
-        assertNotNull(builder);
-        builder.setSubject(RandomString.nextWord());
-        GvTagList tags = GvDataMocker.newTagList(3);
-        ReviewBuilder.DataBuilder tagBuilder = builder.getDataBuilder(GvTagList.TYPE);
-        for (GvTagList.GvTag tag : tags) {
-            tagBuilder.add(tag);
-        }
-        tagBuilder.setData();
-        mAdmin.publishReviewBuilder();
+        ReviewNode node = ReviewMocker.newReviewNode(false);
+
+        ReviewFeed.addToFeed(getActivity(), node);
         assertEquals(numReviews + 1, reviews.getGridData().size());
-        assertNull(mAdmin.getReviewBuilder());
 
         ReviewIdableList<ReviewNode> fromDb = db.getReviewTreesFromDb();
         assertEquals(numReviews + 1, fromDb.size());
@@ -95,22 +82,18 @@ public class AdministratorTest extends ActivityInstrumentationTestCase2<Activity
         assertTrue(fromDb.containsId(ReviewId.fromString(mostRecent.getId())));
     }
 
-
-    @SmallTest
-    public void testGetSocialPlatformList() {
-        GvSocialPlatformList list = mAdmin.getSocialPlatformList();
-        assertNotNull(list);
-        assertTrue(list.size() > 0);
-    }
-
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        mAdmin = Administrator.get(getInstrumentation().getTargetContext());
-        assertNotNull(mAdmin);
+        Administrator admin = Administrator.get(getInstrumentation().getTargetContext());
         Intent i = new Intent();
-        mAdmin.packView(FeedScreen.newScreen(getInstrumentation().getTargetContext()), i);
+        admin.packView(FeedScreen.newScreen(getInstrumentation().getTargetContext()), i);
         setActivityIntent(i);
         assertNotNull(getActivity());
+    }
+
+    @Override
+    protected void tearDown() throws Exception {
+        ReviewFeed.deleteTestDatabase(getActivity());
     }
 }

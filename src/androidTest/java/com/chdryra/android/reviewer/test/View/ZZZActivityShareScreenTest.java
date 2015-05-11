@@ -13,6 +13,7 @@ import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.Controller.Administrator;
 import com.chdryra.android.reviewer.Controller.ReviewBuilder;
+import com.chdryra.android.reviewer.Controller.ReviewFeed;
 import com.chdryra.android.reviewer.Model.SocialPlatformList;
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.View.ActivityFeed;
@@ -66,7 +67,7 @@ public class ZZZActivityShareScreenTest extends ActivityReviewViewTest {
     public void testPublishButton() {
         Instrumentation.ActivityMonitor monitor = getInstrumentation().addMonitor(ActivityFeed.class
                 .getName(), null, false);
-        assertEquals(0, mAdmin.getFeedAdapter().getGridData().size());
+        assertEquals(0, ReviewFeed.getFeedAdapter(getActivity()).getGridData().size());
 
         mSolo.clickOnText(getActivity().getResources().getString(R
                 .string.button_publish));
@@ -75,7 +76,7 @@ public class ZZZActivityShareScreenTest extends ActivityReviewViewTest {
         ActivityFeed feedActivity = (ActivityFeed) monitor.waitForActivityWithTimeout(TIMEOUT);
         assertNotNull(feedActivity);
         assertEquals(ActivityFeed.class, feedActivity.getClass());
-        GvReviewList list = (GvReviewList) mAdmin.getFeedAdapter().getGridData();
+        GvReviewList list = (GvReviewList) ReviewFeed.getFeedAdapter(getActivity()).getGridData();
         assertEquals(1, list.size());
         assertEquals(mAdapter.getSubject(), list.getItem(0).getSubject());
         assertEquals(mAdapter.getRating(), list.getItem(0).getRating());

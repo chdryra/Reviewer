@@ -35,6 +35,7 @@ import org.apache.commons.lang3.ArrayUtils;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Random;
 
@@ -246,12 +247,14 @@ public class GvDataMocker {
         float rating = RandomRating.nextRating();
         Bitmap bitmap = BitmapMocker.nextBitmap(RAND.nextBoolean());
         String comment = RandomString.nextSentence();
-        String location = RandomString.nextWord();
+        ArrayList<String> locations = new ArrayList<>();
+        for (int i = 0; i < 3; ++i) {
+            locations.add(RandomString.nextWord());
+        }
         GvReviewId id = new GvReviewId(ReviewId.generateId());
 
         return new GvReviewList.GvReviewOverview(parentId, id.toString(), author, date, subject,
-                rating,
-                bitmap, comment, location);
+                rating, bitmap, comment, locations);
     }
 
     public static GvSocialPlatformList.GvSocialPlatform newSocialPlatform() {

@@ -162,7 +162,7 @@ public class ActivityEditChildrenTest extends ActivityEditScreenTest {
 
     @Override
     protected void editRating(float rating) {
-        if (mIsAverage) mSolo.clickOnView(mSolo.getView(R.id.rating_bar));
+        if (mIsAverage) mSolo.clickOnView(mSolo.getView(R.id.review_rating));
         super.editRating(rating);
     }
 

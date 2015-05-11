@@ -24,12 +24,10 @@ import com.chdryra.android.reviewer.View.GvReviewId;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ReviewNodeAdapter extends ReviewViewAdapterBasic {
-    private Context           mContext;
     private ReviewNode        mNode;
     private ReviewDataAdapter mDataAdapter;
 
     public ReviewNodeAdapter(Context context, ReviewNode node) {
-        mContext = context;
         mNode = node;
         mDataAdapter = new ReviewDataAdapter(context, this, new GvReviewNode(mNode));
     }

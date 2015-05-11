@@ -17,12 +17,11 @@ package com.chdryra.android.reviewer.Controller;
 import android.content.Context;
 import android.graphics.Bitmap;
 
-import com.chdryra.android.reviewer.Model.Author;
-import com.chdryra.android.reviewer.Model.FactoryReview;
 import com.chdryra.android.reviewer.Model.Review;
 import com.chdryra.android.reviewer.Model.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewIdableList;
 import com.chdryra.android.reviewer.Model.ReviewNode;
+import com.chdryra.android.reviewer.Model.VisitorRatingAverageOfChildren;
 import com.chdryra.android.reviewer.View.GvCommentList;
 import com.chdryra.android.reviewer.View.GvData;
 import com.chdryra.android.reviewer.View.GvDataList;
@@ -30,42 +29,42 @@ import com.chdryra.android.reviewer.View.GvImageList;
 import com.chdryra.android.reviewer.View.GvLocationList;
 import com.chdryra.android.reviewer.View.GvReviewList;
 
-import java.util.Date;
+import java.util.ArrayList;
 
 /**
  * {@link ReviewViewAdapter} for {@link ReviewIdableList} data.
  */
-public class ReviewFeedAdapter extends ReviewViewAdapterBasic {
-    private final String mTitle;
-    private final ReviewIdableList<ReviewNode> mNodes;
+public class ReviewChildrenAdapter extends ReviewViewAdapterBasic {
+    private ReviewNode mNode;
     private Context mContext;
 
-    public ReviewFeedAdapter(Context context, String authorName, ReviewIdableList<ReviewNode>
-            nodes) {
+    public ReviewChildrenAdapter(Context context, ReviewNode node) {
         mContext = context;
-        mTitle = authorName + "'s feed";
-        mNodes = nodes;
+        mNode = node;
     }
 
     @Override
     public String getSubject() {
-        return mTitle;
+        return mNode.getSubject().get();
     }
 
     @Override
     public float getRating() {
-        return getAverageRating();
+        return mNode.getRating().get();
     }
 
     @Override
     public float getAverageRating() {
-        return createReview().getRating().get();
+        if (mNode.isRatingAverageOfChildren()) return getRating();
+        VisitorRatingAverageOfChildren visitor = new VisitorRatingAverageOfChildren();
+        visitor.visit(mNode);
+        return visitor.getRating();
     }
 
     @Override
     public GvDataList getGridData() {
         GvReviewList data = new GvReviewList();
-        for (Review review : mNodes) {
+        for (Review review : mNode.getChildren()) {
             GvImageList images = MdGvConverter.convert(review.getImages());
             GvCommentList headlines = MdGvConverter.convert(review.getComments()).getHeadlines();
             GvLocationList locations = MdGvConverter.convert(review.getLocations());
@@ -73,11 +72,15 @@ public class ReviewFeedAdapter extends ReviewViewAdapterBasic {
             Bitmap cover = images.size() > 0 ? images.getRandomCover().getBitmap() : null;
             String headline = headlines.size() > 0 ? headlines.getItem(0).getHeadline() :
                     null;
-            String location = locations.size() > 0 ? locations.getItem(0).getName() : null;
 
-            data.add(review.getId().toString(), review.getAuthor(),
-                    review.getPublishDate(),
-                    review.getSubject().get(), review.getRating().get(), cover, headline, location);
+            ArrayList<String> locationNames = new ArrayList<>();
+            for (GvLocationList.GvLocation location : locations) {
+                locationNames.add(location.getShortenedName());
+            }
+
+            data.add(review.getId().toString(), review.getAuthor(), review.getPublishDate(),
+                    review.getSubject().get(), review.getRating().get(), cover, headline,
+                    locationNames);
         }
 
         return data;
@@ -91,7 +94,7 @@ public class ReviewFeedAdapter extends ReviewViewAdapterBasic {
     @Override
     public boolean isExpandable(GvData datum) {
         GvReviewList.GvReviewOverview overview = (GvReviewList.GvReviewOverview) datum;
-        return mNodes.containsId(ReviewId.fromString(overview.getId()));
+        return mNode.getChildren().containsId(ReviewId.fromString(overview.getId()));
     }
 
     @Override
@@ -105,10 +108,11 @@ public class ReviewFeedAdapter extends ReviewViewAdapterBasic {
     }
 
     public ReviewViewAdapter expandReview(ReviewId id) {
-        return mNodes.containsId(id) ? new ReviewNodeAdapter(mContext, mNodes.get(id)) : null;
+        ReviewIdableList<ReviewNode> nodes = mNode.getChildren();
+        return nodes.containsId(id) ? new ReviewChildrenAdapter(mContext, nodes.get(id)) : null;
     }
 
-    private ReviewNode createReview() {
-        return FactoryReview.createReviewCollection(Author.NULL_AUTHOR, new Date(), mTitle, mNodes);
+    protected Context getContext() {
+        return mContext;
     }
 }

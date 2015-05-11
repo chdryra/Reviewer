@@ -111,6 +111,10 @@ public class ReviewViewAction {
         public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
 
         }
+
+        public void onClick(View v) {
+
+        }
     }
 
     public static class BannerButtonAction extends ReviewViewAction {
