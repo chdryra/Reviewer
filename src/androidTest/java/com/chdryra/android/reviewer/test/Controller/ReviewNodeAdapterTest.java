@@ -1,9 +1,9 @@
 /*
- * Copyright (c) 2015, Rizwan Choudrey - All Rights Reserved
+ * Copyright (c) 2014, Rizwan Choudrey - All Rights Reserved
  * Unauthorized copying of this file, via any medium is strictly prohibited
  * Proprietary and confidential
  * Author: Rizwan Choudrey
- * Date: 6 May, 2015
+ * Date: 8 December, 2014
  */
 
 package com.chdryra.android.reviewer.test.Controller;
@@ -11,34 +11,36 @@ package com.chdryra.android.reviewer.test.Controller;
 import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.Controller.MdGvConverter;
+import com.chdryra.android.reviewer.Controller.ChildListWrapper;
+import com.chdryra.android.reviewer.Controller.ChildrenExpander;
+import com.chdryra.android.reviewer.Controller.GridDataExpander;
+import com.chdryra.android.reviewer.Controller.GridDataWrapper;
 import com.chdryra.android.reviewer.Controller.ReviewNodeAdapter;
+import com.chdryra.android.reviewer.Model.Author;
 import com.chdryra.android.reviewer.Model.FactoryReview;
+import com.chdryra.android.reviewer.Model.Review;
+import com.chdryra.android.reviewer.Model.ReviewIdableList;
 import com.chdryra.android.reviewer.Model.ReviewNode;
-import com.chdryra.android.reviewer.Model.ReviewUser;
-import com.chdryra.android.reviewer.Model.TagsManager;
-import com.chdryra.android.reviewer.Model.VisitorRatingAverageOfChildren;
-import com.chdryra.android.reviewer.View.GvChildList;
-import com.chdryra.android.reviewer.View.GvCommentList;
+import com.chdryra.android.reviewer.Model.UserId;
+import com.chdryra.android.reviewer.View.GvData;
 import com.chdryra.android.reviewer.View.GvDataList;
-import com.chdryra.android.reviewer.View.GvFactList;
-import com.chdryra.android.reviewer.View.GvImageList;
-import com.chdryra.android.reviewer.View.GvLocationList;
-import com.chdryra.android.reviewer.View.GvTagList;
-import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
+import com.chdryra.android.reviewer.View.GvReviewList;
 import com.chdryra.android.reviewer.test.TestUtils.ReviewMocker;
+import com.chdryra.android.testutils.RandomString;
 
 import java.util.Date;
 
 /**
  * Created by: Rizwan Choudrey
- * On: 06/05/2015
+ * On: 08/12/2014
  * Email: rizwan.choudrey@gmail.com
  */
 public class ReviewNodeAdapterTest extends AndroidTestCase {
-    private ReviewNode        mNode;
+    private static final int NUM = 10;
+    private Author                  mAuthor;
+    private ReviewNode               mNode;
     private ReviewNodeAdapter mAdapter;
-    private GvTagList         mTags;
+    private ReviewIdableList<Review> mReviews;
 
     @SmallTest
     public void testGetSubject() {
@@ -47,93 +49,68 @@ public class ReviewNodeAdapterTest extends AndroidTestCase {
 
     @SmallTest
     public void testGetRating() {
-        assertEquals(mNode.getRating().get(), mAdapter.getRating());
+        assertEquals(getRating(), mAdapter.getRating(), 0.0001);
     }
 
     @SmallTest
     public void testGetAverageRating() {
-        assertEquals(mNode.getRating().get(), mAdapter.getAverageRating());
-
-        ReviewNode notAverage = ReviewMocker.newReviewNode(false);
-        ReviewNodeAdapter notAverageAdapter = new ReviewNodeAdapter(getContext(), notAverage);
-        VisitorRatingAverageOfChildren visitor = new VisitorRatingAverageOfChildren();
-        notAverage.acceptVisitor(visitor);
-        float rating = visitor.getRating();
-        assertEquals(rating, notAverageAdapter.getAverageRating());
-        assertFalse(notAverageAdapter.getAverageRating() == notAverage.getRating().get());
-    }
-
-    @SmallTest
-    public void testGetGridData() {
-        GvDataList data = mAdapter.getGridData();
-        assertEquals(6, data.size());
-
-        GvDataList cell = (GvDataList) data.getItem(0);
-        GvTagList tags = (GvTagList) cell;
-        assertEquals(mTags, tags);
-
-        cell = (GvDataList) data.getItem(1);
-        GvChildList criteria = (GvChildList) cell;
-        assertEquals(MdGvConverter.convertChildren(mNode), criteria);
-
-        cell = (GvDataList) data.getItem(2);
-        GvImageList images = (GvImageList) cell;
-        assertEquals(MdGvConverter.convert(mNode.getImages()), images);
-
-        cell = (GvDataList) data.getItem(3);
-        GvCommentList comments = (GvCommentList) cell;
-        assertEquals(MdGvConverter.convert(mNode.getComments()), comments);
-
-        cell = (GvDataList) data.getItem(4);
-        GvLocationList locations = (GvLocationList) cell;
-        assertEquals(MdGvConverter.convert(mNode.getLocations()), locations);
-
-        cell = (GvDataList) data.getItem(5);
-        GvFactList facts = (GvFactList) cell;
-        assertEquals(MdGvConverter.convert(mNode.getFacts()), facts);
+        assertEquals(getRating(), mAdapter.getAverageRating(), 0.0001);
     }
 
     @SmallTest
     public void testGetCovers() {
-        assertEquals(MdGvConverter.convert(mNode.getImages().getCovers()), mAdapter.getCovers());
+        assertEquals(0, mAdapter.getCovers().size());
+    }
+
+    @SmallTest
+    public void testGetGridData() {
+        GvReviewList oList = (GvReviewList) mAdapter.getGridData();
+        assertNotNull(oList);
+        assertEquals(mReviews.size(), oList.size());
+        for (int i = 0; i < mReviews.size(); ++i) {
+            ReviewNode review = (ReviewNode) mReviews.getItem(i);
+            assertEquals(review.getRating().get(), oList.getItem(i).getRating());
+            assertEquals(review.getSubject().get(), oList.getItem(i).getSubject());
+            assertEquals(review.getAuthor(), oList.getItem(i).getAuthor());
+            assertEquals(review.getPublishDate(), oList.getItem(i).getPublishDate());
+        }
     }
 
     @SmallTest
     public void testExpandable() {
-        ReviewUser review = (ReviewUser) FactoryReview.createReviewUser(mNode.getAuthor(), new Date
-                (), mNode.getSubject().get(), mNode.getRating().get(), mNode.getComments(), mNode
-                .getImages(), new GvFactList(), new GvLocationList());
-        ReviewNode node = FactoryReview.createReviewNode(review);
-        ReviewNodeAdapter adapter = new ReviewNodeAdapter(getContext(), node);
-
-        GvDataList data = adapter.getGridData();
+        GvDataList data = mAdapter.getGridData();
         for (int i = 0; i < data.size(); ++i) {
-            GvDataList item = (GvDataList) data.getItem(i);
-            if (item.getGvDataType() == GvCommentList.TYPE
-                    || item.getGvDataType() == GvImageList.TYPE) {
-                assertTrue(adapter.isExpandable(item));
-                assertNotNull(adapter.expandItem(item));
-
-            } else {
-                assertFalse(adapter.isExpandable(item));
-                assertNull(adapter.expandItem(item));
-            }
+            GvData datum = (GvData) data.getItem(i);
+            assertTrue(mAdapter.isExpandable(datum));
+            assertNotNull(mAdapter.expandItem(datum));
         }
     }
 
     @Override
     protected void setUp() throws Exception {
-        mNode = ReviewMocker.newReviewNode(true);
-        mTags = GvDataMocker.newTagList(3);
-        TagsManager.tag(mNode.getId(), mTags.toStringArray());
-        mAdapter = new ReviewNodeAdapter(getContext(), mNode);
+        super.setUp();
+        mAuthor = new Author(RandomString.nextWord(), UserId.generateId());
+        setAdapter();
     }
 
-    @Override
-    protected void tearDown() throws Exception {
-        TagsManager.ReviewTagCollection tags = TagsManager.getTags(mNode.getId());
-        for (TagsManager.ReviewTag tag : tags) {
-            TagsManager.untag(mNode.getId(), tag);
+    private void setAdapter() {
+        mReviews = new ReviewIdableList<>();
+        for (int i = 0; i < NUM; ++i) {
+            mReviews.add(ReviewMocker.newReviewNode(false));
         }
+        mNode = FactoryReview.createStaticCollection(mAuthor, new Date(),
+                RandomString.nextWord(), mReviews);
+        GridDataWrapper wrapper = new ChildListWrapper(mNode);
+        GridDataExpander expander = new ChildrenExpander(mContext, mNode);
+        mAdapter = new ReviewNodeAdapter(getContext(), mNode, wrapper, expander);
+    }
+
+    private float getRating() {
+        float rating = 0f;
+        for (Review review : mReviews) {
+            rating += review.getRating().get() / mReviews.size();
+        }
+
+        return rating;
     }
 }

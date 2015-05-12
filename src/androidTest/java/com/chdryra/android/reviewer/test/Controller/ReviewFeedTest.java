@@ -13,8 +13,8 @@ import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.Controller.Administrator;
-import com.chdryra.android.reviewer.Controller.ReviewChildrenAdapter;
 import com.chdryra.android.reviewer.Controller.ReviewFeed;
+import com.chdryra.android.reviewer.Controller.ReviewNodeAdapter;
 import com.chdryra.android.reviewer.Controller.ReviewViewAdapter;
 import com.chdryra.android.reviewer.Database.ReviewerDb;
 import com.chdryra.android.reviewer.Model.ReviewId;
@@ -49,7 +49,7 @@ public class ReviewFeedTest extends ActivityInstrumentationTestCase2<ActivityRev
         int numInDb = db.getReviewTreesFromDb().size();
         assertEquals(numReviews, numInDb);
 
-        ReviewChildrenAdapter feed = (ReviewChildrenAdapter) reviews;
+        ReviewNodeAdapter feed = (ReviewNodeAdapter) reviews;
         GvReviewList list = (GvReviewList) feed.getGridData();
         GvReviewList.GvReviewOverview mostRecent = list.getItem(list.size() - 1);
 
@@ -76,10 +76,18 @@ public class ReviewFeedTest extends ActivityInstrumentationTestCase2<ActivityRev
 
         ReviewIdableList<ReviewNode> fromDb = db.getReviewTreesFromDb();
         assertEquals(numReviews + 1, fromDb.size());
-        ReviewChildrenAdapter feed = (ReviewChildrenAdapter) reviews;
+        ReviewNodeAdapter feed = (ReviewNodeAdapter) reviews;
         GvReviewList list = (GvReviewList) feed.getGridData();
         GvReviewList.GvReviewOverview mostRecent = list.getItem(list.size() - 1);
         assertTrue(fromDb.containsId(ReviewId.fromString(mostRecent.getId())));
+    }
+
+    @SmallTest
+    public void testGetReviewNode() {
+        ReviewNode node = ReviewMocker.newReviewNode(false);
+        assertNull(ReviewFeed.getReviewNode(getActivity(), node.getId().toString()));
+        ReviewFeed.addToFeed(getActivity(), node);
+        assertNotNull(ReviewFeed.getReviewNode(getActivity(), node.getId().toString()));
     }
 
     @Override

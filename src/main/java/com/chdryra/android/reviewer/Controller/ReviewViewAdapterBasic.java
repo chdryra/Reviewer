@@ -10,6 +10,7 @@ package com.chdryra.android.reviewer.Controller;
 
 import com.chdryra.android.reviewer.View.GridDataObservable;
 import com.chdryra.android.reviewer.View.GvData;
+import com.chdryra.android.reviewer.View.GvDataList;
 
 import java.util.ArrayList;
 
@@ -20,6 +21,8 @@ import java.util.ArrayList;
  */
 public abstract class ReviewViewAdapterBasic implements ReviewViewAdapter {
     final ArrayList<GridDataObservable.GridDataObserver> mObservers = new ArrayList<>();
+    private GridDataWrapper  mWrapper;
+    private GridDataExpander mExpander;
 
     public void registerGridDataObserver(GridDataObservable.GridDataObserver observer) {
         mObservers.add(observer);
@@ -32,12 +35,25 @@ public abstract class ReviewViewAdapterBasic implements ReviewViewAdapter {
     }
 
     @Override
+    public GvDataList getGridData() {
+        return mWrapper != null ? mWrapper.getGridData() : null;
+    }
+
+    @Override
     public boolean isExpandable(GvData datum) {
-        return false;
+        return mExpander != null && mExpander.isExpandable(datum);
     }
 
     @Override
     public ReviewViewAdapter expandItem(GvData datum) {
-        return null;
+        return isExpandable(datum) ? mExpander.expandItem(datum) : null;
+    }
+
+    public void setWrapper(GridDataWrapper wrapper) {
+        mWrapper = wrapper;
+    }
+
+    public void setExpander(GridDataExpander expander) {
+        mExpander = expander;
     }
 }

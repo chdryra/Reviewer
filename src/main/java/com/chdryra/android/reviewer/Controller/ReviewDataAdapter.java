@@ -10,7 +10,6 @@ package com.chdryra.android.reviewer.Controller;
 
 import android.content.Context;
 
-import com.chdryra.android.reviewer.View.GvData;
 import com.chdryra.android.reviewer.View.GvDataList;
 import com.chdryra.android.reviewer.View.GvImageList;
 
@@ -22,12 +21,12 @@ import com.chdryra.android.reviewer.View.GvImageList;
 public class ReviewDataAdapter extends ReviewViewAdapterBasic {
     private Context           mContext;
     private ReviewViewAdapter mParentAdapter;
-    private GvDataList        mData;
 
-    public ReviewDataAdapter(Context context, ReviewViewAdapter parent, GvDataList gridData) {
+    public ReviewDataAdapter(Context context, ReviewViewAdapter parent, GridDataWrapper wrapper) {
         mContext = context;
         mParentAdapter = parent;
-        mData = gridData;
+        setWrapper(wrapper);
+        setExpander(new ReviewDataExpander(mContext, this));
     }
 
     @Override
@@ -46,27 +45,12 @@ public class ReviewDataAdapter extends ReviewViewAdapterBasic {
     }
 
     @Override
-    public GvDataList getGridData() {
-        return mData;
-    }
-
-    @Override
     public GvImageList getCovers() {
-        if (mData.hasReviewId()) {
-            return CoversManager.getCovers(mContext, mData.getReviewId());
+        GvDataList gridData = getGridData();
+        if (gridData.hasReviewId()) {
+            return CoversManager.getCovers(mContext, gridData.getReviewId());
         } else {
             return mParentAdapter.getCovers();
         }
-    }
-
-    @Override
-    public boolean isExpandable(GvData datum) {
-        return mData.contains(datum) && datum.isList() && ((GvDataList) datum).size() > 0;
-    }
-
-    @Override
-    public ReviewViewAdapter expandItem(GvData datum) {
-        return isExpandable(datum) ? new ReviewDataAdapter(mContext, this, (GvDataList) datum) :
-                null;
     }
 }

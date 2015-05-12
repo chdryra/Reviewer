@@ -48,8 +48,8 @@ public class GvReviewList extends GvDataList<GvReviewList.GvReviewOverview> {
     public void add(String id, Author author, Date publishDate, String subject, float rating,
             Bitmap coverImage, String headline, ArrayList<String> locationNames) {
         if (!contains(id)) {
-            add(new GvReviewOverview(id, author, publishDate, subject, rating, coverImage,
-                    headline, locationNames));
+            add(new GvReviewOverview(super.getReviewId(), id, author, publishDate, subject,
+                    rating, coverImage, headline, locationNames));
         }
     }
 
