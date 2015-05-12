@@ -19,15 +19,15 @@ import com.chdryra.android.reviewer.View.GvReviewId;
  * Email: rizwan.choudrey@gmail.com
  */
 public class NodeDataWrapper implements GridDataWrapper {
-    private ReviewNode mNode;
+    private GvReviewNode mData;
 
     public NodeDataWrapper(ReviewNode node) {
-        mNode = node;
+        mData = new GvReviewNode(node);
     }
 
     @Override
     public GvDataList getGridData() {
-        return new GvReviewNode(mNode);
+        return mData;
     }
 
     private static class GvReviewNode extends GvDataList<GvDataList> {

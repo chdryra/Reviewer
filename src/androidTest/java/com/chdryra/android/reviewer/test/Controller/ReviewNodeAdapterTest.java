@@ -14,7 +14,6 @@ import android.test.suitebuilder.annotation.SmallTest;
 import com.chdryra.android.reviewer.Controller.ChildListWrapper;
 import com.chdryra.android.reviewer.Controller.ChildrenExpander;
 import com.chdryra.android.reviewer.Controller.GridDataExpander;
-import com.chdryra.android.reviewer.Controller.GridDataWrapper;
 import com.chdryra.android.reviewer.Controller.ReviewNodeAdapter;
 import com.chdryra.android.reviewer.Model.Author;
 import com.chdryra.android.reviewer.Model.FactoryReview;
@@ -100,9 +99,9 @@ public class ReviewNodeAdapterTest extends AndroidTestCase {
         }
         mNode = FactoryReview.createStaticCollection(mAuthor, new Date(),
                 RandomString.nextWord(), mReviews);
-        GridDataWrapper wrapper = new ChildListWrapper(mNode);
-        GridDataExpander expander = new ChildrenExpander(mContext, mNode);
-        mAdapter = new ReviewNodeAdapter(getContext(), mNode, wrapper, expander);
+        ChildListWrapper wrapper = new ChildListWrapper(mNode);
+        GridDataExpander expander = new ChildrenExpander(mContext, wrapper);
+        mAdapter = new ReviewNodeAdapter(mNode, wrapper, expander);
     }
 
     private float getRating() {

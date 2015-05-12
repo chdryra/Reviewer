@@ -78,7 +78,11 @@ public class GvDataList<T extends GvData> extends ViewHolderDataList<T> implemen
     }
 
     public boolean contains(GvData datum) {
-        return super.contains(mDataClass.cast(datum));
+        try {
+            return super.contains(mDataClass.cast(datum));
+        } catch (ClassCastException e) {
+            return false;
+        }
     }
 
     @Override

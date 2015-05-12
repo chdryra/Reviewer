@@ -12,7 +12,7 @@ import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.Controller.MdGvConverter;
-import com.chdryra.android.reviewer.Controller.ReviewNodeDataAdapter;
+import com.chdryra.android.reviewer.Controller.ReviewNodeAdapter;
 import com.chdryra.android.reviewer.Model.FactoryReview;
 import com.chdryra.android.reviewer.Model.ReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewUser;
@@ -37,8 +37,8 @@ import java.util.Date;
  */
 public class ReviewNodeDataAdapterTest extends AndroidTestCase {
     private ReviewNode        mNode;
-    private ReviewNodeDataAdapter mAdapter;
-    private GvTagList             mTags;
+    private ReviewNodeAdapter.DataAdapter mAdapter;
+    private GvTagList                     mTags;
 
     @SmallTest
     public void testGetSubject() {
@@ -55,7 +55,7 @@ public class ReviewNodeDataAdapterTest extends AndroidTestCase {
         assertEquals(mNode.getRating().get(), mAdapter.getAverageRating());
 
         ReviewNode notAverage = ReviewMocker.newReviewNode(false);
-        ReviewNodeDataAdapter notAverageAdapter = new ReviewNodeDataAdapter(getContext(),
+        ReviewNodeAdapter.DataAdapter notAverageAdapter = new ReviewNodeAdapter.DataAdapter(getContext(),
                 notAverage);
         VisitorRatingAverageOfChildren visitor = new VisitorRatingAverageOfChildren();
         notAverage.acceptVisitor(visitor);
@@ -105,7 +105,8 @@ public class ReviewNodeDataAdapterTest extends AndroidTestCase {
                 (), mNode.getSubject().get(), mNode.getRating().get(), mNode.getComments(), mNode
                 .getImages(), new GvFactList(), new GvLocationList());
         ReviewNode node = FactoryReview.createReviewNode(review);
-        ReviewNodeDataAdapter adapter = new ReviewNodeDataAdapter(getContext(), node);
+        ReviewNodeAdapter.DataAdapter adapter = new ReviewNodeAdapter.DataAdapter(getContext(),
+                node);
 
         GvDataList data = adapter.getGridData();
         for (int i = 0; i < data.size(); ++i) {
@@ -127,7 +128,7 @@ public class ReviewNodeDataAdapterTest extends AndroidTestCase {
         mNode = ReviewMocker.newReviewNode(true);
         mTags = GvDataMocker.newTagList(3);
         TagsManager.tag(mNode.getId(), mTags.toStringArray());
-        mAdapter = new ReviewNodeDataAdapter(getContext(), mNode);
+        mAdapter = new ReviewNodeAdapter.DataAdapter(getContext(), mNode);
     }
 
     @Override

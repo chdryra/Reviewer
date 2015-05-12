@@ -23,29 +23,43 @@ import com.chdryra.android.reviewer.View.GvReviewList;
  */
 public class ChildNodeExpander implements GridDataExpander {
     private Context          mContext;
-    private ChildListWrapper mWrapper;
+    private ChildListWrapper mSource;
 
-    public ChildNodeExpander(Context context, ChildListWrapper wrapper) {
+    public ChildNodeExpander(Context context, ChildListWrapper source) {
         mContext = context;
-        mWrapper = wrapper;
+        mSource = source;
+    }
+
+    public ChildListWrapper getSource() {
+        return mSource;
+    }
+
+    public Context getContext() {
+        return mContext;
     }
 
     @Override
     public boolean isExpandable(GvData datum) {
-        GvReviewList.GvReviewOverview overview = (GvReviewList.GvReviewOverview) datum;
-        return mWrapper.getNode().getChildren().containsId(ReviewId.fromString(overview.getId()));
+        try {
+            GvReviewList.GvReviewOverview overview = (GvReviewList.GvReviewOverview) datum;
+            ReviewId id = ReviewId.fromString(overview.getId());
+            return mSource.getNode().getChildren().containsId(id);
+        } catch (ClassCastException e) {
+            return false;
+        }
     }
 
     @Override
     public ReviewViewAdapter expandItem(GvData datum) {
-        ReviewIdableList<ReviewNode> nodes = mWrapper.getNode().getChildren();
-        GvReviewList.GvReviewOverview overview = (GvReviewList.GvReviewOverview) datum;
-        ReviewId id = ReviewId.fromString(overview.getId());
-        if (nodes.containsId(id)) {
+        if (isExpandable(datum)) {
+            ReviewIdableList<ReviewNode> nodes = mSource.getNode().getChildren();
+            GvReviewList.GvReviewOverview overview = (GvReviewList.GvReviewOverview) datum;
+            ReviewId id = ReviewId.fromString(overview.getId());
             ReviewNode unwrapped = nodes.get(id).getReview().getInternalNode();
+
             return new ReviewNodeAdapter.DataAdapter(mContext, unwrapped);
-        } else {
-            return null;
         }
+
+        return null;
     }
 }
