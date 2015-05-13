@@ -8,7 +8,6 @@
 
 package com.chdryra.android.reviewer.View;
 
-import android.database.DataSetObserver;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -95,29 +94,28 @@ public class EditScreenComments {
         }
     }
 
-    public static class Menu extends EditScreen.Menu {
+    public static class Menu extends EditScreen.Menu implements GridDataObservable.GridDataObserver {
         public static final  int MENU_DELETE_ID = R.id.menu_item_delete;
         public static final  int MENU_DONE_ID   = R.id.menu_item_done;
         public static final  int MENU_SPLIT_ID  = R.id.menu_item_split_comment;
         private static final int MENU           = R.menu.fragment_review_comment;
-        private final DataSetObserver mObserver;
+
         private boolean mCommentsAreSplit = false;
 
         public Menu() {
             super(GvCommentList.TYPE.getDataName(), GvCommentList.TYPE.getDataName(), false, true,
                     MENU);
-            mObserver = new DataSetObserver() {
-                @Override
-                public void onChanged() {
-                    updateGridDataUi();
-                }
-            };
+        }
+
+        @Override
+        public void onGridDataChanged() {
+            updateGridDataUi();
         }
 
         @Override
         public void onAttachReviewView() {
             super.onAttachReviewView();
-            getReviewView().registerGridDataObserver(mObserver);
+            getReviewView().registerGridDataObserver(this);
         }
 
         @Override
@@ -129,7 +127,7 @@ public class EditScreenComments {
 
         @Override
         public void onUnattachReviewView() {
-            getReviewView().unregisterGridDataObserver(mObserver);
+            getReviewView().unregisterGridDataObserver(this);
             super.onUnattachReviewView();
         }
 

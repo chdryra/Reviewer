@@ -17,6 +17,7 @@ import com.chdryra.android.reviewer.Model.Author;
 import com.chdryra.android.reviewer.Model.ReviewIdableList;
 import com.chdryra.android.reviewer.Model.ReviewNode;
 import com.chdryra.android.reviewer.Model.UserId;
+import com.chdryra.android.reviewer.View.GvReviewId;
 import com.chdryra.android.reviewer.View.GvSocialPlatformList;
 import com.chdryra.android.reviewer.View.ImageChooser;
 import com.chdryra.android.reviewer.View.ReviewView;
@@ -96,6 +97,10 @@ public class Administrator extends ApplicationSingleton{
         ReviewNode published = mReviewBuilder.publish(new Date());
         ReviewFeed.addToFeed(getContext(), published);
         mReviewBuilder = null;
+    }
+
+    public ReviewViewAdapter getReviewAdapter(GvReviewId id) {
+        return ReviewFeed.getReviewAdapter(getContext(), id);
     }
 
     public GvSocialPlatformList getSocialPlatformList() {

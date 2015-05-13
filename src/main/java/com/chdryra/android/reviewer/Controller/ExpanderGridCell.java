@@ -18,11 +18,11 @@ import com.chdryra.android.reviewer.View.GvDataList;
  * On: 12/05/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ReviewDataExpander implements GridDataExpander {
+public class ExpanderGridCell implements GridDataExpander {
     private Context           mContext;
     private ReviewViewAdapter mParent;
 
-    public ReviewDataExpander(Context context, ReviewViewAdapter parent) {
+    public ExpanderGridCell(Context context, ReviewViewAdapter parent) {
         mContext = context;
         mParent = parent;
     }
@@ -35,7 +35,7 @@ public class ReviewDataExpander implements GridDataExpander {
 
     @Override
     public ReviewViewAdapter expandItem(GvData datum) {
-        return isExpandable(datum) ? new ReviewDataAdapter(mContext, mParent, new GvDataListWrapper
+        return isExpandable(datum) ? new AdapterGridData(mContext, mParent, new WrapperGvDataList
                 ((GvDataList) datum)) : null;
     }
 }

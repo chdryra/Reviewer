@@ -11,10 +11,13 @@ package com.chdryra.android.reviewer.test.Controller;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.Controller.MdGvConverter;
-import com.chdryra.android.reviewer.Controller.NodeDataWrapper;
+import com.chdryra.android.reviewer.Controller.WrapperGvDataList;
+import com.chdryra.android.reviewer.Model.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewNode;
 import com.chdryra.android.reviewer.Model.TagsManager;
+import com.chdryra.android.reviewer.View.GvDataCollection;
 import com.chdryra.android.reviewer.View.GvDataList;
+import com.chdryra.android.reviewer.View.GvReviewId;
 import com.chdryra.android.reviewer.View.GvTagList;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
 import com.chdryra.android.reviewer.test.TestUtils.ReviewMocker;
@@ -26,23 +29,29 @@ import junit.framework.TestCase;
  * On: 12/05/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class NodeDataWrapperTest extends TestCase {
+public class WrapperReviewDataTest extends TestCase {
     @SmallTest
     public void testGetGridData() {
         ReviewNode node = ReviewMocker.newReviewNode(false);
         GvTagList tags = GvDataMocker.newTagList(3);
         TagsManager.tag(node.getId(), tags.toStringArray());
 
-        NodeDataWrapper wrapper = new NodeDataWrapper(node);
-        GvDataList data = wrapper.getGridData();
+        ReviewId id = node.getId();
+        GvDataCollection data = new GvDataCollection(GvReviewId.getId(id.toString()));
+        data.add(MdGvConverter.getTags(id.toString()));
+        data.add(MdGvConverter.convertChildren(node));
+        data.add(MdGvConverter.convert(node.getImages()));
+        data.add(MdGvConverter.convert(node.getComments()));
+        data.add(MdGvConverter.convert(node.getLocations()));
+        data.add(MdGvConverter.convert(node.getFacts()));
 
-        assertNotNull(data);
-        assertEquals(6, data.size());
-        assertEquals(tags, data.getItem(0));
-        assertEquals(MdGvConverter.convertChildren(node), data.getItem(1));
-        assertEquals(MdGvConverter.convert(node.getImages()), data.getItem(2));
-        assertEquals(MdGvConverter.convert(node.getComments()), data.getItem(3));
-        assertEquals(MdGvConverter.convert(node.getLocations()), data.getItem(4));
-        assertEquals(MdGvConverter.convert(node.getFacts()), data.getItem(5));
+        WrapperGvDataList wrapper = new WrapperGvDataList(data);
+        GvDataList collection = wrapper.getGridData();
+
+        assertNotNull(collection);
+        assertEquals(data.size(), collection.size());
+        for (int i = 0; i < data.size(); ++i) {
+            assertEquals(data.getItem(i), collection.getItem(i));
+        }
     }
 }

@@ -11,8 +11,8 @@ package com.chdryra.android.reviewer.test.Controller;
 import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.Controller.ReviewDataExpander;
-import com.chdryra.android.reviewer.Controller.ReviewNodeAdapter;
+import com.chdryra.android.reviewer.Controller.AdapterReviewNode;
+import com.chdryra.android.reviewer.Controller.ExpanderGridCell;
 import com.chdryra.android.reviewer.Model.ReviewNode;
 import com.chdryra.android.reviewer.Model.TagsManager;
 import com.chdryra.android.reviewer.View.GvCommentList;
@@ -27,16 +27,16 @@ import com.chdryra.android.reviewer.test.TestUtils.ReviewMocker;
  * On: 12/05/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ReviewDataExpanderTest extends AndroidTestCase {
+public class ExpanderGridCellTest extends AndroidTestCase {
     @SmallTest
     public void testExpandItem() {
         ReviewNode node = ReviewMocker.newReviewNode(false);
         GvTagList tags = GvDataMocker.newTagList(3);
         TagsManager.tag(node.getId(), tags.toStringArray());
-        ReviewNodeAdapter.DataAdapter parent = new ReviewNodeAdapter.DataAdapter(getContext(),
+        AdapterReviewNode.DataAdapter parent = new AdapterReviewNode.DataAdapter(getContext(),
                 node);
 
-        ReviewDataExpander expander = new ReviewDataExpander(getContext(), parent);
+        ExpanderGridCell expander = new ExpanderGridCell(getContext(), parent);
         GvCommentList.GvComment comment = GvDataMocker.newComment(null);
         assertFalse(expander.isExpandable(comment));
         assertNull(expander.expandItem(comment));

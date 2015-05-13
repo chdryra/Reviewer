@@ -12,7 +12,6 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.database.DataSetObserver;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,14 +30,14 @@ import java.util.Map;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ReviewView implements GridDataObservable.GridDataObserver {
-    private final ReviewViewAdapter             mAdapter;
     private final ReviewViewParams              mParams;
     private final Map<Action, ReviewViewAction> mActions;
     private final HashMap<String, Fragment>     mActionListeners;
-    private final ArrayList<DataSetObserver>    mGridObservers;
-    private FragmentReviewView mParent;
-    private ViewModifier       mModifier;
-    private GvDataList         mGridData;
+    private final ArrayList<GridDataObservable.GridDataObserver> mGridObservers;
+    private       ReviewViewAdapter                              mAdapter;
+    private       FragmentReviewView                             mParent;
+    private       ViewModifier                                   mModifier;
+    private       GvDataList                                     mGridData;
 
     private enum Action {SUBJECTVIEW, RATINGBAR, BANNERBUTTON, GRIDITEM, MENU}
 
@@ -97,6 +96,7 @@ public class ReviewView implements GridDataObservable.GridDataObserver {
         for (ReviewViewAction action : mActions.values()) {
             action.attachReviewView(this);
         }
+        registerGridDataObserver(parent);
     }
 
     public void setAction(ReviewViewAction.SubjectAction action) {
@@ -132,17 +132,17 @@ public class ReviewView implements GridDataObservable.GridDataObserver {
     }
 
     public GvDataList getGridViewData() {
-        return mGridData;
+        return getGridData();
     }
 
     public void setGridViewData(GvDataList dataToShow) {
         mGridData = dataToShow;
-        mParent.updateGridData();
+        updateParent();
     }
 
     public void resetGridViewData() {
         mGridData = getGridData();
-        mParent.updateGridData();
+        updateParent();
     }
 
     public ReviewViewAction.SubjectAction getSubjectViewAction() {
@@ -211,17 +211,17 @@ public class ReviewView implements GridDataObservable.GridDataObserver {
         return mParent.getRating();
     }
 
-    public void registerGridDataObserver(DataSetObserver observer) {
+    public void registerGridDataObserver(GridDataObservable.GridDataObserver observer) {
         if (!mGridObservers.contains(observer)) mGridObservers.add(observer);
     }
 
-    public void unregisterGridDataObserver(DataSetObserver observer) {
+    public void unregisterGridDataObserver(GridDataObservable.GridDataObserver observer) {
         if (mGridObservers.contains(observer)) mGridObservers.remove(observer);
     }
 
     public void notifyDataSetChanged() {
-        for (DataSetObserver observer : mGridObservers) {
-            observer.onChanged();
+        for (GridDataObservable.GridDataObserver observer : mGridObservers) {
+            observer.onGridDataChanged();
         }
     }
 
@@ -236,7 +236,12 @@ public class ReviewView implements GridDataObservable.GridDataObserver {
 
     @Override
     public void onGridDataChanged() {
+        resetGridViewData();
         notifyDataSetChanged();
+    }
+
+    private void updateParent() {
+        mParent.updateGridData();
     }
 
     private void setAction(Action type, ReviewViewAction action) {

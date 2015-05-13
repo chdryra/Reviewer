@@ -86,7 +86,7 @@ public class GvTagListTest extends TestCase {
 
     @SmallTest
     public void testEquals() {
-        mList.add(GvDataMocker.newTagList(NUM));
+        mList.addList(GvDataMocker.newTagList(NUM));
         assertEquals(NUM, mList.size());
 
         assertFalse(mList.equals(GvDataMocker.getData(GvChildList.TYPE, NUM)));
@@ -107,8 +107,8 @@ public class GvTagListTest extends TestCase {
 
         assertTrue(mList.equals(list));
         assertTrue(mList.equals(list2));
-        list.add(mList);
-        list2.add(mList);
+        list.addList(mList);
+        list2.addList(mList);
         assertFalse(mList.equals(list));
         assertFalse(mList.equals(list2));
     }

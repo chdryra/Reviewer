@@ -18,15 +18,15 @@ import com.chdryra.android.reviewer.View.GvImageList;
  * On: 22/04/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ReviewDataAdapter extends ReviewViewAdapterBasic {
+public class AdapterGridData extends ReviewViewAdapterBasic {
     private Context           mContext;
     private ReviewViewAdapter mParentAdapter;
 
-    public ReviewDataAdapter(Context context, ReviewViewAdapter parent, GridDataWrapper wrapper) {
+    public AdapterGridData(Context context, ReviewViewAdapter parent, GridDataWrapper wrapper) {
         mContext = context;
         mParentAdapter = parent;
         setWrapper(wrapper);
-        setExpander(new ReviewDataExpander(mContext, this));
+        setExpander(new ExpanderGridCell(mContext, this));
     }
 
     @Override

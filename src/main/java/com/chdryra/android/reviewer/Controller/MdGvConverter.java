@@ -9,6 +9,7 @@
 package com.chdryra.android.reviewer.Controller;
 
 import com.chdryra.android.reviewer.Model.MdCommentList;
+import com.chdryra.android.reviewer.Model.MdDataList;
 import com.chdryra.android.reviewer.Model.MdFactList;
 import com.chdryra.android.reviewer.Model.MdImageList;
 import com.chdryra.android.reviewer.Model.MdLocationList;
@@ -34,14 +35,12 @@ import com.chdryra.android.reviewer.View.GvUrlList;
  */
 //TODO how to make this stuff more generic? Type erasure issue for overloading.
 public class MdGvConverter {
-    private static final String BAD_ARG = "Bad argument: ";
-
     //Comments
     public static GvCommentList convert(MdCommentList comments) {
-        GvCommentList list = new GvCommentList(new GvReviewId(comments.getReviewId()));
+        GvCommentList list = new GvCommentList(GvReviewId.getId(comments.getReviewId().toString()));
         for (MdCommentList.MdComment comment : comments) {
-            list.add(new GvCommentList.GvComment(new GvReviewId(comment.getReviewId()), comment
-                    .getComment(), comment.isHeadline()));
+            list.add(new GvCommentList.GvComment(GvReviewId.getId(comment.getReviewId().toString()),
+                    comment.getComment(), comment.isHeadline()));
         }
 
         return list;
@@ -60,7 +59,7 @@ public class MdGvConverter {
 
     //Facts
     public static GvFactList convert(MdFactList facts) {
-        GvFactList list = new GvFactList(new GvReviewId(facts.getReviewId()));
+        GvFactList list = new GvFactList(GvReviewId.getId(facts.getReviewId().toString()));
         for (MdFactList.MdFact fact : facts) {
             list.add(getGvFactOrUrl(fact));
         }
@@ -78,7 +77,7 @@ public class MdGvConverter {
     }
 
     private static GvFactList.GvFact getGvFactOrUrl(MdFactList.MdFact fact) {
-        GvReviewId id = new GvReviewId(fact.getReviewId());
+        GvReviewId id = GvReviewId.getId(fact.getReviewId().toString());
         if (fact.isUrl()) {
             MdUrlList.MdUrl url = (MdUrlList.MdUrl) fact;
             return new GvUrlList.GvUrl(id, fact.getLabel(), url.getUrl());
@@ -115,9 +114,9 @@ public class MdGvConverter {
 
     //Images
     public static GvImageList convert(MdImageList images) {
-        GvImageList list = new GvImageList(new GvReviewId(images.getReviewId()));
+        GvImageList list = new GvImageList(GvReviewId.getId(images.getReviewId().toString()));
         for (MdImageList.MdImage image : images) {
-            GvReviewId id = new GvReviewId(image.getReviewId());
+            GvReviewId id = GvReviewId.getId(image.getReviewId().toString());
             GvImageList.GvImage i = new GvImageList.GvImage(id, image.getBitmap
                     (), image.getDate(), image.getCaption(), image.isCover());
             list.add(i);
@@ -138,9 +137,10 @@ public class MdGvConverter {
 
     //Locations
     public static GvLocationList convert(MdLocationList locations) {
-        GvLocationList list = new GvLocationList(new GvReviewId(locations.getReviewId()));
+        GvLocationList list = new GvLocationList(GvReviewId.getId(locations.getReviewId()
+                .toString()));
         for (MdLocationList.MdLocation location : locations) {
-            GvReviewId id = new GvReviewId(location.getReviewId());
+            GvReviewId id = GvReviewId.getId(location.getReviewId().toString());
             list.add(new GvLocationList.GvLocation(id, location.getLatLng(), location.getName()));
         }
 
@@ -160,9 +160,9 @@ public class MdGvConverter {
 
     //Urls
     public static GvUrlList convert(MdUrlList urls) {
-        GvUrlList list = new GvUrlList(new GvReviewId(urls.getReviewId()));
+        GvUrlList list = new GvUrlList(GvReviewId.getId(urls.getReviewId().toString()));
         for (MdUrlList.MdUrl url : urls) {
-            GvReviewId id = new GvReviewId(url.getReviewId());
+            GvReviewId id = GvReviewId.getId(url.getReviewId().toString());
             list.add(new GvUrlList.GvUrl(id, url.getLabel(), url.getUrl()));
         }
 
@@ -199,7 +199,8 @@ public class MdGvConverter {
         }
     }
 
-    public static GvTagList convertTags(ReviewId id) {
+    public static GvTagList getTags(String reviewId) {
+        ReviewId id = ReviewId.fromString(reviewId);
         TagsManager.ReviewTagCollection tags = TagsManager.getTags(id);
         GvTagList tagList = new GvTagList();
         for (TagsManager.ReviewTag tag : tags) {
@@ -210,7 +211,7 @@ public class MdGvConverter {
     }
 
     public static GvChildList convertChildren(ReviewNode node) {
-        GvReviewId id = new GvReviewId(node.getId());
+        GvReviewId id = GvReviewId.getId(node.getId().toString());
         GvChildList list = new GvChildList(id);
         for (ReviewNode child : node.getChildren()) {
             list.add(new GvChildList.GvChildReview(id, child.getSubject().get(), child.getRating()
@@ -218,5 +219,19 @@ public class MdGvConverter {
         }
 
         return list;
+    }
+
+    public static GvDataList<GvReviewId> convert(MdDataList<ReviewId> reviewIds) {
+        GvDataList<GvReviewId> ids = new GvDataList<>(convert(reviewIds.getReviewId()),
+                GvReviewId.class, GvReviewId.TYPE);
+        for (ReviewId id : reviewIds) {
+            ids.add(convert(id));
+        }
+
+        return ids;
+    }
+
+    public static GvReviewId convert(ReviewId id) {
+        return GvReviewId.getId(id.toString());
     }
 }

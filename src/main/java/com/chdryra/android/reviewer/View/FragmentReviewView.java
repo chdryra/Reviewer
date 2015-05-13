@@ -21,6 +21,7 @@ import android.text.TextWatcher;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -41,7 +42,7 @@ import com.chdryra.android.reviewer.R;
  * Email: rizwan.choudrey@gmail.com
  */
 @SuppressWarnings("EmptyMethod")
-public class FragmentReviewView extends Fragment {
+public class FragmentReviewView extends Fragment implements GridDataObservable.GridDataObserver {
     private static final int LAYOUT        = R.layout.fragment_view_review;
     private static final int LINEAR_LAYOUT = R.id.linearlayout;
     private static final int SUBJECT       = R.id.subject_edit_text;
@@ -193,6 +194,16 @@ public class FragmentReviewView extends Fragment {
         ((ViewHolderAdapter) mGridView.getAdapter()).setData(mReviewView.getGridViewData());
     }
 
+    @Override
+    public void onGridDataChanged() {
+        renewGridAdapter();
+        updateGridData();
+    }
+
+    public void renewGridAdapter() {
+        mGridView.setAdapter(getGridViewCellAdapter());
+    }
+
     void initUi() {
         initSubjectUi();
         initRatingBarUi();
@@ -256,10 +267,12 @@ public class FragmentReviewView extends Fragment {
             mRatingBar.setIsIndicator(true);
         }
 
-        mRatingBar.setOnClickListener(new View.OnClickListener() {
+        mRatingBar.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public void onClick(View v) {
+            public boolean onTouch(View v, MotionEvent event) {
                 ratingBarAction.onClick(v);
+                ;
+                return false;
             }
         });
     }
@@ -295,7 +308,7 @@ public class FragmentReviewView extends Fragment {
             return;
         }
 
-        mGridView.setAdapter(getGridViewCellAdapter());
+        renewGridAdapter();
         mGridView.setColumnWidth(getGridCellWidth());
         mGridView.setNumColumns(getNumberColumns());
 

@@ -11,10 +11,10 @@ package com.chdryra.android.reviewer.test.Controller;
 import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.Controller.ChildListWrapper;
-import com.chdryra.android.reviewer.Controller.ChildrenExpander;
+import com.chdryra.android.reviewer.Controller.AdapterReviewNode;
+import com.chdryra.android.reviewer.Controller.ExpanderChildren;
 import com.chdryra.android.reviewer.Controller.GridDataExpander;
-import com.chdryra.android.reviewer.Controller.ReviewNodeAdapter;
+import com.chdryra.android.reviewer.Controller.WrapperChildList;
 import com.chdryra.android.reviewer.Model.Author;
 import com.chdryra.android.reviewer.Model.FactoryReview;
 import com.chdryra.android.reviewer.Model.Review;
@@ -34,11 +34,11 @@ import java.util.Date;
  * On: 08/12/2014
  * Email: rizwan.choudrey@gmail.com
  */
-public class ReviewNodeAdapterTest extends AndroidTestCase {
+public class AdapterReviewNodeTest extends AndroidTestCase {
     private static final int NUM = 10;
     private Author                  mAuthor;
     private ReviewNode               mNode;
-    private ReviewNodeAdapter mAdapter;
+    private AdapterReviewNode        mAdapter;
     private ReviewIdableList<Review> mReviews;
 
     @SmallTest
@@ -99,9 +99,9 @@ public class ReviewNodeAdapterTest extends AndroidTestCase {
         }
         mNode = FactoryReview.createStaticCollection(mAuthor, new Date(),
                 RandomString.nextWord(), mReviews);
-        ChildListWrapper wrapper = new ChildListWrapper(mNode);
-        GridDataExpander expander = new ChildrenExpander(mContext, wrapper);
-        mAdapter = new ReviewNodeAdapter(mNode, wrapper, expander);
+        WrapperChildList wrapper = new WrapperChildList(mNode);
+        GridDataExpander expander = new ExpanderChildren(mContext, wrapper);
+        mAdapter = new AdapterReviewNode(mNode, wrapper, expander);
     }
 
     private float getRating() {

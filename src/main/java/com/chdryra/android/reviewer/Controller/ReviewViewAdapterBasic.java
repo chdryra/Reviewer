@@ -51,6 +51,7 @@ public abstract class ReviewViewAdapterBasic implements ReviewViewAdapter {
 
     public void setWrapper(GridDataWrapper wrapper) {
         mWrapper = wrapper;
+        notifyGridDataObservers();
     }
 
     public void setExpander(GridDataExpander expander) {

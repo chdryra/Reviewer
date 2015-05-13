@@ -8,7 +8,6 @@
 
 package com.chdryra.android.reviewer.View;
 
-import android.database.DataSetObserver;
 import android.view.MenuItem;
 
 import com.chdryra.android.reviewer.Controller.ReviewBuilder;
@@ -20,27 +19,25 @@ import com.chdryra.android.reviewer.R;
  * Email: rizwan.choudrey@gmail.com
  */
 public class EditScreenChildren {
-    public static class Menu extends EditScreen.Menu {
+    public static class Menu extends EditScreen.Menu implements GridDataObservable.GridDataObserver {
         public static final  int MENU_DELETE_ID  = R.id.menu_item_delete;
         public static final  int MENU_DONE_ID    = R.id.menu_item_done;
         public static final  int MENU_AVERAGE_ID = R.id.menu_item_average_rating;
         private static final int MENU            = R.menu.fragment_review_children;
 
         private final MenuItemChildrenRatingAverage mActionItem;
-        private final DataSetObserver               mObserver;
 
         public Menu() {
             super(GvChildList.TYPE.getDataName(), GvChildList.TYPE.getDataName(), false, true,
                     MENU);
             mActionItem = new MenuItemChildrenRatingAverage();
-            mObserver = new DataSetObserver() {
-                @Override
-                public void onChanged() {
-                    if (getEditor().isRatingAverage()) {
-                        mActionItem.setAverageRating();
-                    }
-                }
-            };
+        }
+
+        @Override
+        public void onGridDataChanged() {
+            if (getEditor().isRatingAverage()) {
+                mActionItem.setAverageRating();
+            }
         }
 
         @Override
@@ -48,7 +45,7 @@ public class EditScreenChildren {
             super.onAttachReviewView();
             ReviewView.Editor editor = getEditor();
 
-            editor.registerGridDataObserver(mObserver);
+            editor.registerGridDataObserver(this);
             ReviewBuilder.DataBuilder adapter = (ReviewBuilder.DataBuilder) editor.getAdapter();
             editor.setRatingAverage(adapter.getParentBuilder().isRatingAverage());
         }
@@ -62,7 +59,7 @@ public class EditScreenChildren {
 
         @Override
         public void onUnattachReviewView() {
-            getReviewView().unregisterGridDataObserver(mObserver);
+            getReviewView().unregisterGridDataObserver(this);
             super.onUnattachReviewView();
         }
 

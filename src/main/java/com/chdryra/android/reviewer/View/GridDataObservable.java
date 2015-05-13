@@ -14,7 +14,7 @@ package com.chdryra.android.reviewer.View;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface GridDataObservable {
-    interface GridDataObserver {
+    public interface GridDataObserver {
         public void onGridDataChanged();
     }
 

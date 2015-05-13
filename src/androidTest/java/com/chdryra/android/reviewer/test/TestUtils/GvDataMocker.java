@@ -251,7 +251,7 @@ public class GvDataMocker {
         for (int i = 0; i < 3; ++i) {
             locations.add(RandomString.nextWord());
         }
-        GvReviewId id = new GvReviewId(ReviewId.generateId());
+        GvReviewId id = GvReviewId.getId(ReviewId.generateId().toString());
 
         return new GvReviewList.GvReviewOverview(parentId, id.toString(), author, date, subject,
                 rating, bitmap, comment, locations);
@@ -263,6 +263,6 @@ public class GvDataMocker {
     }
 
     private static GvReviewId getId(boolean withId) {
-        return withId ? new GvReviewId(ReviewId.generateId()) : null;
+        return withId ? GvReviewId.getId(ReviewId.generateId().toString()) : null;
     }
 }

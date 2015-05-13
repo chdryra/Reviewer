@@ -17,6 +17,8 @@ import com.chdryra.android.reviewer.Model.Review;
 import com.chdryra.android.reviewer.Model.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewTreeNode;
+import com.chdryra.android.reviewer.View.GvReviewId;
+import com.chdryra.android.reviewer.View.GvReviewList;
 
 import java.util.Date;
 
@@ -32,7 +34,8 @@ public class ReviewFeed extends ApplicationSingleton {
     private static ReviewFeed        sFeed;
     private final  ReviewerDb        mDatabase;
     private        ReviewTreeNode    mFeedNode;
-    private ReviewViewAdapter mAdapter;
+    private ReviewViewAdapter mFeedAdapter;
+    private ReviewViewAdapter mAggregateAdapter;
 
     private ReviewFeed(Context context) {
         super(context, NAME);
@@ -41,9 +44,10 @@ public class ReviewFeed extends ApplicationSingleton {
         Review feed = FactoryReview.createReviewUser(author, new Date(), title, 0f);
         mFeedNode = FactoryReview.createReviewTreeNode(feed, true);
 
-        ChildListWrapper wrapper = new ChildListWrapper(mFeedNode);
-        GridDataExpander expander = new ChildNodeExpander(context, wrapper);
-        mAdapter = new ReviewNodeAdapter(mFeedNode, wrapper, expander);
+        WrapperChildList wrapper = new WrapperChildList(mFeedNode);
+        GridDataExpander expander = new ExpanderChildNode(context, wrapper);
+        mFeedAdapter = new AdapterReviewNode(mFeedNode, wrapper, expander);
+        mAggregateAdapter = new AdapterReviewTree(context, mFeedNode);
 
         mDatabase = getDatabase();
         mDatabase.loadTags();
@@ -76,6 +80,14 @@ public class ReviewFeed extends ApplicationSingleton {
         return getFeed(context).getFeedAdapter();
     }
 
+    public static ReviewViewAdapter getAggregateAdapter(Context context) {
+        return getFeed(context).getAggregateAdapter();
+    }
+
+    public static ReviewViewAdapter getReviewAdapter(Context context, GvReviewId id) {
+        return getFeed(context).getReviewAdapter(id.getId());
+    }
+
     public static ReviewNode getReviewNode(Context context, String id) {
         return getFeed(context).getFeedNode().getChildren().get(ReviewId.fromString(id));
     }
@@ -86,17 +98,30 @@ public class ReviewFeed extends ApplicationSingleton {
         }
     }
 
+    private ReviewViewAdapter getReviewAdapter(String reviewId) {
+        GvReviewList list = (GvReviewList) mFeedAdapter.getGridData();
+        for (GvReviewList.GvReviewOverview review : list) {
+            if (review.getId().equals(reviewId)) return mFeedAdapter.expandItem(review);
+        }
+
+        return null;
+    }
+
     private ReviewNode getFeedNode() {
         return mFeedNode;
     }
 
     private ReviewViewAdapter getFeedAdapter() {
-        return mAdapter;
+        return mFeedAdapter;
+    }
+
+    private ReviewViewAdapter getAggregateAdapter() {
+        return mAggregateAdapter;
     }
 
     private void add(ReviewNode node) {
         mFeedNode.addChild(FactoryReview.createReviewTreeNode(node, false));
-        mAdapter.notifyGridDataObservers();
+        mFeedAdapter.notifyGridDataObservers();
     }
 
     private void addToDatabase(ReviewNode node) {
@@ -109,7 +134,7 @@ public class ReviewFeed extends ApplicationSingleton {
 
     private void remove(String reviewId) {
         mFeedNode.removeChild(ReviewId.fromString(reviewId));
-        mAdapter.notifyGridDataObservers();
+        mFeedAdapter.notifyGridDataObservers();
     }
 
     private ReviewerDb getDatabase() {

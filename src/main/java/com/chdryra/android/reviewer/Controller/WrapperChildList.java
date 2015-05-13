@@ -26,10 +26,10 @@ import java.util.ArrayList;
  * On: 12/05/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ChildListWrapper implements GridDataWrapper {
+public class WrapperChildList implements GridDataWrapper {
     private ReviewNode mNode;
 
-    public ChildListWrapper(ReviewNode node) {
+    public WrapperChildList(ReviewNode node) {
         mNode = node;
     }
 
@@ -39,7 +39,7 @@ public class ChildListWrapper implements GridDataWrapper {
 
     @Override
     public GvDataList getGridData() {
-        GvReviewList data = new GvReviewList(new GvReviewId(mNode.getId()));
+        GvReviewList data = new GvReviewList(GvReviewId.getId(mNode.getId().toString()));
         for (Review review : mNode.getChildren()) {
             GvImageList images = MdGvConverter.convert(review.getImages());
             GvCommentList headlines = MdGvConverter.convert(review.getComments()).getHeadlines();

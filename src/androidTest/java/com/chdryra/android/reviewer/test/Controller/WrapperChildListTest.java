@@ -10,8 +10,8 @@ package com.chdryra.android.reviewer.test.Controller;
 
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.Controller.ChildListWrapper;
 import com.chdryra.android.reviewer.Controller.MdGvConverter;
+import com.chdryra.android.reviewer.Controller.WrapperChildList;
 import com.chdryra.android.reviewer.Model.MdImageList;
 import com.chdryra.android.reviewer.Model.MdLocationList;
 import com.chdryra.android.reviewer.Model.ReviewIdableList;
@@ -28,12 +28,12 @@ import junit.framework.TestCase;
  * On: 12/05/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ChildListWrapperTest extends TestCase {
+public class WrapperChildListTest extends TestCase {
 
     @SmallTest
     public void testGetGridData() {
         ReviewNode node = ReviewMocker.newReviewNode(false);
-        ChildListWrapper wrapper = new ChildListWrapper(node);
+        WrapperChildList wrapper = new WrapperChildList(node);
         GvDataList data = wrapper.getGridData();
         assertNotNull(data);
         ReviewIdableList<ReviewNode> children = node.getChildren();

@@ -45,8 +45,8 @@ public class GvImageListTest extends TestCase {
     @SmallTest
     public void testParcelable() {
         GvDataParcelableTester.testParcelable(GvDataMocker.newImage(null));
-        GvDataParcelableTester.testParcelable(GvDataMocker.newImage(new GvReviewId(ReviewId
-                .generateId())));
+        GvDataParcelableTester.testParcelable(GvDataMocker.newImage(GvReviewId.getId(ReviewId
+                .generateId().toString())));
         GvDataParcelableTester.testParcelable(GvDataMocker.newImageList(2, false));
         GvDataParcelableTester.testParcelable(GvDataMocker.newImageList(2, true));
     }
@@ -169,7 +169,7 @@ public class GvImageListTest extends TestCase {
 
     @SmallTest
     public void testSort() {
-        mList.add(GvDataMocker.newImageList(100, false));
+        mList.addList(GvDataMocker.newImageList(100, false));
         assertFalse(isSorted());
         mList.sort();
         assertTrue(isSorted());
@@ -177,7 +177,7 @@ public class GvImageListTest extends TestCase {
 
     @SmallTest
     public void testEquals() {
-        mList.add(GvDataMocker.newImageList(NUM, false));
+        mList.addList(GvDataMocker.newImageList(NUM, false));
         assertEquals(NUM, mList.size());
 
         assertFalse(mList.equals(GvDataMocker.getData(GvChildList.TYPE, NUM)));
@@ -198,8 +198,8 @@ public class GvImageListTest extends TestCase {
 
         assertTrue(mList.equals(list));
         assertTrue(mList.equals(list2));
-        list.add(mList);
-        list2.add(mList);
+        list.addList(mList);
+        list2.addList(mList);
         assertFalse(mList.equals(list));
         assertFalse(mList.equals(list2));
     }

@@ -27,7 +27,7 @@ public class VisitorRatingAverageOfChildrenTest extends TestCase {
     public void testGetRating() {
         ReviewNode node = ReviewMocker.newReviewNode(false);
         VisitorRatingAverageOfChildren visitor = new VisitorRatingAverageOfChildren();
-        visitor.visit(node);
+        node.acceptVisitor(visitor);
 
         float nodeAverage = 0;
         ReviewIdableList<ReviewNode> children = node.getChildren();

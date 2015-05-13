@@ -18,7 +18,10 @@ import com.chdryra.android.mygenerallibrary.DialogAlertFragment;
 import com.chdryra.android.reviewer.Controller.Administrator;
 import com.chdryra.android.reviewer.Controller.ReviewFeed;
 import com.chdryra.android.reviewer.Controller.ReviewViewAdapter;
+import com.chdryra.android.reviewer.Controller.ReviewViewAdapterCollection;
 import com.chdryra.android.reviewer.R;
+
+import java.util.ArrayList;
 
 /**
  * Created by: Rizwan Choudrey
@@ -28,15 +31,21 @@ import com.chdryra.android.reviewer.R;
 public class FeedScreen {
     private Context           mContext;
     private ReviewView        mReviewView;
-    private ReviewViewAdapter mAdapter;
+    private ReviewViewAdapterCollection mAdapters;
 
     private FeedScreen(Context context) {
         mContext = context;
-        mAdapter = ReviewFeed.getFeedAdapter(mContext);
-        mReviewView = new ReviewView(mAdapter);
+
+        ArrayList<ReviewViewAdapter> adapters = new ArrayList<>();
+        adapters.add(ReviewFeed.getFeedAdapter(mContext));
+        adapters.add(ReviewFeed.getAggregateAdapter(mContext));
+
+        mAdapters = new ReviewViewAdapterCollection(adapters);
+        mReviewView = new ReviewView(mAdapters);
 
         mReviewView.setAction(new FeedScreenMenu());
         mReviewView.setAction(new GridItem());
+        mReviewView.setAction(new RatingBarAction());
 
         ReviewView.ReviewViewParams params = mReviewView.getParams();
         params.cellHeight = ReviewView.CellDimension.FULL;
@@ -87,7 +96,7 @@ public class FeedScreen {
         private FeedGridItemListener mListener;
 
         public GridItem() {
-            super(mAdapter);
+            super(mAdapters);
             mListener = new FeedGridItemListener() {
             };
             super.registerActionListener(mListener, TAG);
@@ -138,7 +147,7 @@ public class FeedScreen {
     private class RatingBarAction extends ReviewViewAction.RatingBarAction {
         @Override
         public void onClick(View v) {
-            super.onClick(v);
+            mAdapters.nextAdapter();
         }
     }
 }

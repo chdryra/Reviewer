@@ -21,16 +21,16 @@ import com.chdryra.android.reviewer.View.GvReviewList;
  * On: 12/05/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ChildNodeExpander implements GridDataExpander {
+public class ExpanderChildNode implements GridDataExpander {
     private Context          mContext;
-    private ChildListWrapper mSource;
+    private WrapperChildList mSource;
 
-    public ChildNodeExpander(Context context, ChildListWrapper source) {
+    public ExpanderChildNode(Context context, WrapperChildList source) {
         mContext = context;
         mSource = source;
     }
 
-    public ChildListWrapper getSource() {
+    public WrapperChildList getSource() {
         return mSource;
     }
 
@@ -57,7 +57,7 @@ public class ChildNodeExpander implements GridDataExpander {
             ReviewId id = ReviewId.fromString(overview.getId());
             ReviewNode unwrapped = nodes.get(id).getReview().getInternalNode();
 
-            return new ReviewNodeAdapter.DataAdapter(mContext, unwrapped);
+            return new AdapterReviewNode.DataAdapter(mContext, unwrapped);
         }
 
         return null;

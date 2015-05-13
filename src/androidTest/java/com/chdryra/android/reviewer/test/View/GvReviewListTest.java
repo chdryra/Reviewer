@@ -42,8 +42,8 @@ public class GvReviewListTest extends TestCase {
     @SmallTest
     public void testParcelable() {
         GvDataParcelableTester.testParcelable(GvDataMocker.newReviewOverview(null));
-        GvDataParcelableTester.testParcelable(GvDataMocker.newReviewOverview(new GvReviewId
-                (ReviewId.generateId())));
+        GvDataParcelableTester.testParcelable(GvDataMocker.newReviewOverview(GvReviewId.getId(
+                ReviewId.generateId().toString())));
         GvDataParcelableTester.testParcelable(GvDataMocker.newReviewList(2, false));
         GvDataParcelableTester.testParcelable(GvDataMocker.newReviewList(2, true));
     }
@@ -260,7 +260,7 @@ public class GvReviewListTest extends TestCase {
 
     @SmallTest
     public void testEquals() {
-        mList.add(GvDataMocker.newReviewList(NUM, false));
+        mList.addList(GvDataMocker.newReviewList(NUM, false));
         assertEquals(NUM, mList.size());
 
         assertFalse(mList.equals(GvDataMocker.getData(GvChildList.TYPE, NUM)));
@@ -281,8 +281,8 @@ public class GvReviewListTest extends TestCase {
 
         assertTrue(mList.equals(list));
         assertTrue(mList.equals(list2));
-        list.add(mList);
-        list2.add(mList);
+        list.addList(mList);
+        list2.addList(mList);
         assertFalse(mList.equals(list));
         assertFalse(mList.equals(list2));
     }

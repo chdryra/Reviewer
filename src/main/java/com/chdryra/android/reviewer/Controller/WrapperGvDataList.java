@@ -15,11 +15,11 @@ import com.chdryra.android.reviewer.View.GvDataList;
  * On: 12/05/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class GvDataListWrapper implements GridDataWrapper {
+public class WrapperGvDataList implements GridDataWrapper {
     private GvDataList mData;
 
-    public GvDataListWrapper(GvDataList mdata) {
-        mData = mdata;
+    public WrapperGvDataList(GvDataList data) {
+        mData = data;
     }
 
     @Override

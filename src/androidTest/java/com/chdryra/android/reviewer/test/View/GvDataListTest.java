@@ -36,7 +36,7 @@ public class GvDataListTest extends TestCase {
 
     @SmallTest
     public void testNoReviewIdConstructor() {
-        mList.add(newData(null));
+        mList.addList(newData(null));
 
         testAdd(null, mList);
         testAddIterable(null, mList);
@@ -47,8 +47,8 @@ public class GvDataListTest extends TestCase {
 
     @SmallTest
     public void testReviewIdConstructor() {
-        GvReviewId id = new GvReviewId(ReviewId.generateId());
-        mList.add(newData(id));
+        GvReviewId id = GvReviewId.getId(ReviewId.generateId().toString());
+        mList.addList(newData(id));
         GvDataList<GvCommentList.GvComment> idList = new GvDataList<>(id, mList);
 
         testAdd(id, idList);
@@ -60,12 +60,12 @@ public class GvDataListTest extends TestCase {
 
     @SmallTest
     public void testParcelable() {
-        mList.add(newData(null));
+        mList.addList(newData(null));
         GvDataParcelableTester.testParcelable(mList);
 
-        GvReviewId id = new GvReviewId(ReviewId.generateId());
+        GvReviewId id = GvReviewId.getId(ReviewId.generateId().toString());
         mList.removeAll();
-        mList.add(newData(id));
+        mList.addList(newData(id));
         GvDataList<GvCommentList.GvComment> idList = new GvDataList<>(id, mList);
         GvDataParcelableTester.testParcelable(idList);
     }
@@ -97,7 +97,7 @@ public class GvDataListTest extends TestCase {
 
         ArrayList<GvCommentList.GvComment> current = list.toArrayList();
         ArrayList<GvCommentList.GvComment> comments = newData(id);
-        list.add(comments);
+        list.addList(comments);
 
         assertEquals(size + NUM, list.size());
         for (int i = 0; i < list.size(); ++i) {

@@ -25,17 +25,17 @@ import com.chdryra.android.reviewer.View.GvImageList;
  * .reviewer.MdData} to View layer as {@link com.chdryra.android.reviewer.View.GvData}
  */
 public interface ReviewViewAdapter extends GridDataObservable {
-    public String getSubject();
+    String getSubject();
 
-    public float getRating();
+    float getRating();
 
-    public float getAverageRating();
+    float getAverageRating();
 
-    public GvDataList getGridData();
+    GvDataList getGridData();
 
-    public GvImageList getCovers();
+    GvImageList getCovers();
 
-    public boolean isExpandable(GvData datum);
+    boolean isExpandable(GvData datum);
 
-    public ReviewViewAdapter expandItem(GvData datum);
+    ReviewViewAdapter expandItem(GvData datum);
 }

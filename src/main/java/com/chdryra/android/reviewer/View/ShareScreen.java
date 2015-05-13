@@ -18,10 +18,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.chdryra.android.reviewer.Controller.AdapterGridData;
 import com.chdryra.android.reviewer.Controller.Administrator;
-import com.chdryra.android.reviewer.Controller.GvDataListWrapper;
-import com.chdryra.android.reviewer.Controller.ReviewDataAdapter;
 import com.chdryra.android.reviewer.Controller.ReviewViewAdapter;
+import com.chdryra.android.reviewer.Controller.WrapperGvDataList;
 import com.chdryra.android.reviewer.R;
 
 /**
@@ -35,7 +35,7 @@ public class ShareScreen {
         ReviewViewAdapter builder = admin.getReviewBuilder();
         GvDataList platforms = admin.getSocialPlatformList();
 
-        ReviewViewAdapter adapter = new ReviewDataAdapter(context, builder, new GvDataListWrapper
+        ReviewViewAdapter adapter = new AdapterGridData(context, builder, new WrapperGvDataList
                 (platforms));
         ReviewView view = new ReviewView(adapter, new ShareScreenModifier());
 

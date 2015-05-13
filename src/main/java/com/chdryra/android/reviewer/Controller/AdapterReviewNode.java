@@ -16,21 +16,28 @@ package com.chdryra.android.reviewer.Controller;
 
 import android.content.Context;
 
+import com.chdryra.android.reviewer.Model.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewIdableList;
 import com.chdryra.android.reviewer.Model.ReviewNode;
 import com.chdryra.android.reviewer.Model.VisitorRatingAverageOfChildren;
+import com.chdryra.android.reviewer.View.GvDataCollection;
 import com.chdryra.android.reviewer.View.GvImageList;
+import com.chdryra.android.reviewer.View.GvReviewId;
 
 /**
  * {@link ReviewViewAdapter} for {@link ReviewIdableList} data.
  */
-public class ReviewNodeAdapter extends ReviewViewAdapterBasic {
+public class AdapterReviewNode extends ReviewViewAdapterBasic {
     private ReviewNode mNode;
 
-    public ReviewNodeAdapter(ReviewNode node, GridDataWrapper wrapper, GridDataExpander expander) {
+    public AdapterReviewNode(ReviewNode node, GridDataWrapper wrapper, GridDataExpander expander) {
         mNode = node;
         setWrapper(wrapper);
         setExpander(expander);
+    }
+
+    protected AdapterReviewNode(ReviewNode node) {
+        this(node, null, null);
     }
 
     @Override
@@ -47,7 +54,7 @@ public class ReviewNodeAdapter extends ReviewViewAdapterBasic {
     public float getAverageRating() {
         if (mNode.isRatingAverageOfChildren()) return getRating();
         VisitorRatingAverageOfChildren visitor = new VisitorRatingAverageOfChildren();
-        visitor.visit(mNode);
+        mNode.acceptVisitor(visitor);
         return visitor.getRating();
     }
 
@@ -56,13 +63,28 @@ public class ReviewNodeAdapter extends ReviewViewAdapterBasic {
         return MdGvConverter.convert(mNode.getImages().getCovers());
     }
 
-    public static class DataAdapter extends ReviewNodeAdapter {
+    protected ReviewNode getNode() {
+        return mNode;
+    }
+
+    public static class DataAdapter extends AdapterReviewNode {
         public DataAdapter(Context context, ReviewNode node) {
             super(node, null, null);
-            GridDataWrapper wrapper = new NodeDataWrapper(node);
-            ReviewViewAdapter adapter = new ReviewDataAdapter(context, this, wrapper);
+            ReviewId id = node.getId();
+
+            GvDataCollection data = new GvDataCollection(GvReviewId.getId(id.toString()));
+            data.add(MdGvConverter.getTags(id.toString()));
+            data.add(MdGvConverter.convertChildren(node));
+            data.add(MdGvConverter.convert(node.getImages()));
+            data.add(MdGvConverter.convert(node.getComments()));
+            data.add(MdGvConverter.convert(node.getLocations()));
+            data.add(MdGvConverter.convert(node.getFacts()));
+
+            GridDataWrapper wrapper = new WrapperGvDataList(data);
+            ReviewViewAdapter adapter = new AdapterGridData(context, this, wrapper);
+
             setWrapper(wrapper);
-            setExpander(new ReviewDataExpander(context, adapter));
+            setExpander(new ExpanderGridCell(context, adapter));
         }
     }
 }

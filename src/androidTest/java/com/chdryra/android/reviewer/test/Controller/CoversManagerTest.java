@@ -38,7 +38,7 @@ public class CoversManagerTest extends AndroidTestCase {
         for (GvReviewList.GvReviewOverview review : reviews) {
             String id = review.getId();
             ReviewId rId = ReviewId.fromString(id);
-            GvReviewId gvId = new GvReviewId(rId);
+            GvReviewId gvId = GvReviewId.getId(rId.toString());
             ReviewNode node = ReviewFeed.getReviewNode(getContext(), rId.toString());
             GvImageList covers = MdGvConverter.convert(node.getImages().getCovers());
             assertEquals(covers, CoversManager.getCovers(context, gvId));

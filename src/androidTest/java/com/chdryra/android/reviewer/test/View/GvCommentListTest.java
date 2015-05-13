@@ -44,8 +44,8 @@ public class GvCommentListTest extends TestCase {
     @SmallTest
     public void testParcelable() {
         GvDataParcelableTester.testParcelable(GvDataMocker.newComment(null));
-        GvDataParcelableTester.testParcelable(GvDataMocker.newComment(new GvReviewId(ReviewId
-                .generateId())));
+        GvDataParcelableTester.testParcelable(GvDataMocker.newComment(GvReviewId.getId(ReviewId
+                .generateId().toString())));
         GvDataParcelableTester.testParcelable(GvDataMocker.newCommentList(10, false));
         GvDataParcelableTester.testParcelable(GvDataMocker.newCommentList(10, true));
     }
@@ -140,7 +140,7 @@ public class GvCommentListTest extends TestCase {
 
     @SmallTest
     public void testEquals() {
-        mList.add(GvDataMocker.newCommentList(NUM, false));
+        mList.addList(GvDataMocker.newCommentList(NUM, false));
         assertEquals(NUM, mList.size());
 
         assertFalse(mList.equals(GvDataMocker.getData(GvChildList.TYPE, NUM)));
@@ -161,15 +161,15 @@ public class GvCommentListTest extends TestCase {
 
         assertTrue(mList.equals(list));
         assertTrue(mList.equals(list2));
-        list.add(mList);
-        list2.add(mList);
+        list.addList(mList);
+        list2.addList(mList);
         assertFalse(mList.equals(list));
         assertFalse(mList.equals(list2));
     }
 
     @SmallTest
     public void testSort() {
-        mList.add(GvDataMocker.newCommentList(100, false));
+        mList.addList(GvDataMocker.newCommentList(100, false));
         assertFalse(isSorted());
         mList.sort();
         assertTrue(isSorted());
