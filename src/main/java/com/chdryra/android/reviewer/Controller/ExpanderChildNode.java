@@ -23,15 +23,11 @@ import com.chdryra.android.reviewer.View.GvReviewList;
  */
 public class ExpanderChildNode implements GridDataExpander {
     private Context          mContext;
-    private WrapperChildList mSource;
+    private WrapperChildList mChildren;
 
-    public ExpanderChildNode(Context context, WrapperChildList source) {
+    public ExpanderChildNode(Context context, WrapperChildList children) {
         mContext = context;
-        mSource = source;
-    }
-
-    public WrapperChildList getSource() {
-        return mSource;
+        mChildren = children;
     }
 
     public Context getContext() {
@@ -43,7 +39,7 @@ public class ExpanderChildNode implements GridDataExpander {
         try {
             GvReviewList.GvReviewOverview overview = (GvReviewList.GvReviewOverview) datum;
             ReviewId id = ReviewId.fromString(overview.getId());
-            return mSource.getNode().getChildren().containsId(id);
+            return mChildren.getNode().getChildren().containsId(id);
         } catch (ClassCastException e) {
             return false;
         }
@@ -52,7 +48,7 @@ public class ExpanderChildNode implements GridDataExpander {
     @Override
     public ReviewViewAdapter expandItem(GvData datum) {
         if (isExpandable(datum)) {
-            ReviewIdableList<ReviewNode> nodes = mSource.getNode().getChildren();
+            ReviewIdableList<ReviewNode> nodes = mChildren.getNode().getChildren();
             GvReviewList.GvReviewOverview overview = (GvReviewList.GvReviewOverview) datum;
             ReviewId id = ReviewId.fromString(overview.getId());
             ReviewNode unwrapped = nodes.get(id).getReview().getInternalNode();
@@ -61,5 +57,9 @@ public class ExpanderChildNode implements GridDataExpander {
         }
 
         return null;
+    }
+
+    protected WrapperChildList getChildrenWrapper() {
+        return mChildren;
     }
 }

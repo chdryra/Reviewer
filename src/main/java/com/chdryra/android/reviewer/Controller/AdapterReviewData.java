@@ -21,10 +21,10 @@ import com.chdryra.android.reviewer.View.GvReviewId;
  * On: 13/05/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class AdapterReviewTree extends AdapterReviewNode {
+public class AdapterReviewData extends AdapterReviewNode {
     private NodeDataCollector mCollector;
 
-    public AdapterReviewTree(Context context, ReviewNode node) {
+    public AdapterReviewData(Context context, ReviewNode node) {
         super(node);
         mCollector = new NodeDataCollector(node);
         setExpander(new ExpanderGridCell(context, this));

@@ -68,6 +68,11 @@ public abstract class DialogAddGvData<T extends GvData> extends
     }
 
     @Override
+    public String getLaunchTag() {
+        return "Add" + mDataType.getDatumName();
+    }
+
+    @Override
     public void launch(LauncherUi launcher) {
         launcher.launch(this);
     }

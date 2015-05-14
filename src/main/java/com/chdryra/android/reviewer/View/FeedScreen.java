@@ -29,6 +29,7 @@ import java.util.ArrayList;
  * Email: rizwan.choudrey@gmail.com
  */
 public class FeedScreen {
+    private static final int REQUEST_CODE = 1976;
     private Context           mContext;
     private ReviewView        mReviewView;
     private ReviewViewAdapterCollection mAdapters;
@@ -38,7 +39,6 @@ public class FeedScreen {
 
         ArrayList<ReviewViewAdapter> adapters = new ArrayList<>();
         adapters.add(ReviewFeed.getFeedAdapter(mContext));
-        adapters.add(ReviewFeed.getAggregateAdapter(mContext));
 
         mAdapters = new ReviewViewAdapterCollection(adapters);
         mReviewView = new ReviewView(mAdapters);
@@ -66,8 +66,9 @@ public class FeedScreen {
         return mReviewView;
     }
 
-    private void requestNewIntent(ReviewView newActivityScreen) {
-        ActivityReviewView.startNewActivity(mReviewView.getActivity(), newActivityScreen);
+    private void launch(LaunchableUi ui) {
+        LauncherUi.launch(ui, mReviewView.getParent(), REQUEST_CODE, ui.getLaunchTag(), new
+                Bundle());
     }
 
     private class FeedScreenMenu extends ReviewViewAction.MenuAction {
@@ -84,13 +85,13 @@ public class FeedScreen {
                 @Override
                 public void doAction(MenuItem item) {
                     Administrator.get(mContext).newReviewBuilder();
-                    requestNewIntent(BuildScreen.newScreen(getActivity()));
+                    launch(BuildScreen.newScreen(getActivity()));
                 }
             }, MENU_NEW_REVIEW_ID, false);
         }
     }
 
-    private class GridItem extends GridItemExpandable {
+    private class GridItem extends GridItemExpander {
         private static final String TAG            = "FeedGridItemListener";
         private static final int    REQUEST_DELETE = 314;
         private FeedGridItemListener mListener;
@@ -104,9 +105,7 @@ public class FeedScreen {
 
         @Override
         public void onClickExpanded(GvData item, int position, View v, ReviewViewAdapter expanded) {
-            if (expanded != null) {
-                requestNewIntent(ReviewDataScreen.newScreen(mContext, expanded));
-            }
+            launch(ReviewDataScreen.newScreen(mContext, expanded));
         }
 
         @Override

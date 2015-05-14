@@ -27,7 +27,7 @@ public class CriteriaCollector {
 
     public GvChildList collectCriteria() {
         NodeDataCollector collector = new NodeDataCollector(mNode);
-        ReviewIdableList<ReviewNode> nodes = collector.collectNodes(true);
+        ReviewIdableList<ReviewNode> nodes = collector.collectNodes();
 
         GvChildList criteria = new GvChildList(MdGvConverter.convert(mNode.getId()));
         for (ReviewNode node : nodes) {

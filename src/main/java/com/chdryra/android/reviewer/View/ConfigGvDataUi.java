@@ -8,8 +8,6 @@
 
 package com.chdryra.android.reviewer.View;
 
-import android.util.Log;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -25,7 +23,6 @@ import java.util.Map;
  * </p>
  */
 public final class ConfigGvDataUi {
-    private final static String TAG       = "ConfigReviewDataUI";
     private final static int    DATA_ADD  = 2718;
     private final static int    DATA_EDIT = 2819;
     private static ConfigGvDataUi sConfigGvDataUi;
@@ -44,24 +41,6 @@ public final class ConfigGvDataUi {
 
     public static Config getConfig(GvDataType dataType) {
         return getConfigsMap().get(dataType);
-    }
-
-    public static LaunchableUi getLaunchable(Class<? extends LaunchableUi> uiClass) throws
-            RuntimeException {
-        if (uiClass == null) return null;
-
-        try {
-            return uiClass.newInstance();
-        } catch (java.lang.InstantiationException e) {
-            //If this happens not good so throwing runtime exception
-            Log.e(TAG, "Couldn't create UI for " + uiClass.getName(), e);
-            throw new RuntimeException(e);
-        } catch (IllegalAccessException e) {
-            //If this happens not good so throwing runtime exception
-            Log.e(TAG, "IllegalAccessEception: trying to create " + uiClass.getName()
-                    , e);
-            throw new RuntimeException(e);
-        }
     }
 
     private static Map<GvDataType, Config> getConfigsMap() {
@@ -141,8 +120,8 @@ public final class ConfigGvDataUi {
             return mDataType;
         }
 
-        public LaunchableUi getLaunchable() throws RuntimeException {
-            return ConfigGvDataUi.getLaunchable(mUiClass);
+        public LaunchableUi getLaunchable() {
+            return FactoryLaunchable.newLaunchable(mUiClass);
         }
 
         public int getRequestCode() {

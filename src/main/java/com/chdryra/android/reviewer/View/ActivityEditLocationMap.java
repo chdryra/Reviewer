@@ -18,8 +18,13 @@ import com.chdryra.android.mygenerallibrary.ActivitySingleFragment;
  * UI Activity holding {@link FragmentEditLocationMap}: mapping and editing a location.
  */
 public class ActivityEditLocationMap extends ActivitySingleFragment implements LaunchableUi {
-
+    private static final String TAG = "ActivityEditLocationMap";
     private FragmentEditLocationMap mFragment;
+
+    @Override
+    public String getLaunchTag() {
+        return TAG;
+    }
 
     @Override
     public void launch(LauncherUi launcher) {

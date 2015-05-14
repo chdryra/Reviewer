@@ -15,24 +15,20 @@ package com.chdryra.android.reviewer.Model;
  */
 public class NodeDataCollector {
     private ReviewNode                   mRoot;
-    private ReviewIdableList<ReviewNode> mFlattened;
 
     public NodeDataCollector(ReviewNode root) {
         mRoot = root;
-        refresh();
     }
 
-    public void refresh() {
-        flattenTree();
-    }
-
-    public ReviewIdableList<ReviewNode> collectNodes(boolean unique) {
-        return mFlattened;
+    public ReviewIdableList<ReviewNode> collectNodes() {
+        VisitorTreeFlattener flattener = new VisitorTreeFlattener();
+        mRoot.acceptVisitor(flattener);
+        return flattener.getNodes();
     }
 
     public MdDataList<ReviewId> collectIds(boolean unique) {
         MdDataList<ReviewId> ids = new MdDataList<>(mRoot.getId());
-        for (ReviewNode node : mFlattened) {
+        for (ReviewNode node : collectNodes()) {
             addIfRequired(unique, node.getId(), ids);
         }
 
@@ -41,7 +37,7 @@ public class NodeDataCollector {
 
     public MdDataList<MdSubject> collectSubjects(boolean unique) {
         MdDataList<MdSubject> subjects = new MdDataList<>(mRoot.getId());
-        for (ReviewNode node : mFlattened) {
+        for (ReviewNode node : collectNodes()) {
             addIfRequired(unique, node.getSubject(), subjects);
         }
 
@@ -50,7 +46,7 @@ public class NodeDataCollector {
 
     public MdCommentList collectComments(boolean unique) {
         MdCommentList comments = new MdCommentList(mRoot.getId());
-        for (ReviewNode node : mFlattened) {
+        for (ReviewNode node : collectNodes()) {
             addIfRequired(unique, node.getComments(), comments);
         }
 
@@ -59,7 +55,7 @@ public class NodeDataCollector {
 
     public MdImageList collectImages(boolean unique) {
         MdImageList images = new MdImageList(mRoot.getId());
-        for (ReviewNode node : mFlattened) {
+        for (ReviewNode node : collectNodes()) {
             addIfRequired(unique, node.getImages(), images);
         }
 
@@ -68,7 +64,7 @@ public class NodeDataCollector {
 
     public MdFactList collectFacts(boolean unique) {
         MdFactList facts = new MdFactList(mRoot.getId());
-        for (ReviewNode node : mFlattened) {
+        for (ReviewNode node : collectNodes()) {
             addIfRequired(unique, node.getFacts(), facts);
         }
 
@@ -77,17 +73,11 @@ public class NodeDataCollector {
 
     public MdLocationList collectLocations(boolean unique) {
         MdLocationList locations = new MdLocationList(mRoot.getId());
-        for (ReviewNode node : mFlattened) {
+        for (ReviewNode node : collectNodes()) {
             addIfRequired(unique, node.getLocations(), locations);
         }
 
         return locations;
-    }
-
-    private void flattenTree() {
-        VisitorTreeFlattener flattener = new VisitorTreeFlattener();
-        mRoot.acceptVisitor(flattener);
-        mFlattened = flattener.getNodes();
     }
 
     private <T extends MdData> void addIfRequired(boolean unique, T datum, MdDataList<T> list) {

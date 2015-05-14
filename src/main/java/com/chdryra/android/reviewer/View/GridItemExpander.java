@@ -17,23 +17,21 @@ import com.chdryra.android.reviewer.Controller.ReviewViewAdapter;
  * On: 22/04/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public abstract class GridItemExpandable extends ReviewViewAction.GridItemAction {
+public abstract class GridItemExpander extends ReviewViewAction.GridItemAction {
     private ReviewViewAdapter mAdapter;
 
-    public GridItemExpandable(ReviewViewAdapter adapter) {
+    public GridItemExpander(ReviewViewAdapter adapter) {
         mAdapter = adapter;
     }
 
     ;
 
-    public void onClickExpanded(GvData item, int position, View v,
-            ReviewViewAdapter expanded) {
+    public void onClickExpanded(GvData item, int position, View v, ReviewViewAdapter expanded) {
     }
 
     ;
 
-    public void onLongClickExpanded(GvData item, int position, View v,
-            ReviewViewAdapter expanded) {
+    public void onLongClickExpanded(GvData item, int position, View v, ReviewViewAdapter expanded) {
     }
 
     @Override

@@ -24,7 +24,7 @@ import com.chdryra.android.reviewer.View.GvImageList;
  * .android
  * .reviewer.MdData} to View layer as {@link com.chdryra.android.reviewer.View.GvData}
  */
-public interface ReviewViewAdapter extends GridDataObservable {
+public interface ReviewViewAdapter extends GridDataObservable, GridDataExpander {
     String getSubject();
 
     float getRating();

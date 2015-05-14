@@ -20,6 +20,7 @@ import com.chdryra.android.reviewer.Model.UserId;
 import com.chdryra.android.reviewer.View.GvReviewId;
 import com.chdryra.android.reviewer.View.GvSocialPlatformList;
 import com.chdryra.android.reviewer.View.ImageChooser;
+import com.chdryra.android.reviewer.View.LaunchableUi;
 import com.chdryra.android.reviewer.View.ReviewView;
 
 import java.util.Date;
@@ -99,8 +100,8 @@ public class Administrator extends ApplicationSingleton{
         mReviewBuilder = null;
     }
 
-    public ReviewViewAdapter getReviewAdapter(GvReviewId id) {
-        return ReviewFeed.getReviewAdapter(getContext(), id);
+    public LaunchableUi getReviewLaunchable(GvReviewId id) {
+        return ReviewFeed.getReviewLaunchable(getContext(), id);
     }
 
     public GvSocialPlatformList getSocialPlatformList() {

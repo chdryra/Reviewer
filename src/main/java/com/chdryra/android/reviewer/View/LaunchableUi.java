@@ -19,5 +19,6 @@ package com.chdryra.android.reviewer.View;
  * Usually by calling "launcher.launch(this)".
  */
 public interface LaunchableUi {
+    String getLaunchTag();
     void launch(LauncherUi launcher);
 }

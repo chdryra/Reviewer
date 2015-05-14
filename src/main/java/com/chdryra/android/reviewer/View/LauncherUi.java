@@ -14,6 +14,8 @@ import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.chdryra.android.reviewer.Controller.Administrator;
+
 /**
  * Created by: Rizwan Choudrey
  * On: 23/10/2014
@@ -40,6 +42,7 @@ public class LauncherUi {
 
     public static void launch(LaunchableUi ui, Fragment commissioner, int requestCode, String tag,
             Bundle args) {
+        if (ui == null) return;
         ui.launch(new LauncherUi(commissioner, requestCode, tag, args));
     }
 
@@ -55,5 +58,12 @@ public class LauncherUi {
         Intent i = new Intent(mCommissioner.getActivity(), launchableUI.getClass());
         i.putExtra(LAUNCHER_ARGS, mArgs);
         mCommissioner.startActivityForResult(i, mRequestCode);
+    }
+
+    public void launch(ReviewView reviewView) {
+        Activity activity = mCommissioner.getActivity();
+        Intent i = new Intent(activity, ActivityReviewView.class);
+        Administrator.get(activity).packView(reviewView, i);
+        activity.startActivityForResult(i, mRequestCode);
     }
 }

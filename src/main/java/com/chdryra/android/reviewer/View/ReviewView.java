@@ -29,7 +29,7 @@ import java.util.Map;
  * On: 24/01/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ReviewView implements GridDataObservable.GridDataObserver {
+public class ReviewView implements GridDataObservable.GridDataObserver, LaunchableUi {
     private final ReviewViewParams              mParams;
     private final Map<Action, ReviewViewAction> mActions;
     private final HashMap<String, Fragment>     mActionListeners;
@@ -60,11 +60,11 @@ public class ReviewView implements GridDataObservable.GridDataObserver {
     }
 
     public interface ViewModifier {
-        public View modify(FragmentReviewView parent, View v, LayoutInflater inflater,
+        View modify(FragmentReviewView parent, View v, LayoutInflater inflater,
                 ViewGroup container, Bundle savedInstanceState);
     }
 
-    public ReviewView(ReviewViewAdapter adapter) {
+    public ReviewView(ReviewViewAdapter adapter, ReviewViewParams params) {
         mAdapter = adapter;
         mAdapter.registerGridDataObserver(this);
         mGridData = adapter.getGridData();
@@ -78,7 +78,11 @@ public class ReviewView implements GridDataObservable.GridDataObserver {
         setAction(new ReviewViewAction.GridItemAction());
         setAction(new ReviewViewAction.MenuAction());
 
-        mParams = new ReviewViewParams();
+        mParams = params;
+    }
+
+    public ReviewView(ReviewViewAdapter adapter) {
+        this(adapter, new ReviewViewParams());
     }
 
     public ReviewView(ReviewViewAdapter adapter, ViewModifier modifier) {
@@ -121,6 +125,10 @@ public class ReviewView implements GridDataObservable.GridDataObserver {
 
     public ReviewViewParams getParams() {
         return mParams;
+    }
+
+    public FragmentReviewView getParent() {
+        return mParent;
     }
 
     public Activity getActivity() {
@@ -238,6 +246,16 @@ public class ReviewView implements GridDataObservable.GridDataObserver {
     public void onGridDataChanged() {
         resetGridViewData();
         notifyDataSetChanged();
+    }
+
+    @Override
+    public String getLaunchTag() {
+        return mAdapter.getSubject();
+    }
+
+    @Override
+    public void launch(LauncherUi launcher) {
+        launcher.launch(this);
     }
 
     private void updateParent() {

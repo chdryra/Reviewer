@@ -15,6 +15,12 @@ import android.app.Fragment;
  * disabled).
  */
 public class ActivityEditUrlBrowser extends ActivityReviewView implements LaunchableUi {
+    private static final String TAG = "ActivityEditUrlMap";
+
+    @Override
+    public String getLaunchTag() {
+        return TAG;
+    }
 
     @Override
     public void launch(LauncherUi launcher) {

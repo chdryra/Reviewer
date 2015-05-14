@@ -36,7 +36,7 @@ public class EditScreenFacts {
         @Override
         protected void onDialogAlertPositive(int requestCode) {
             if (requestCode == ADD_ON_BROWSER) {
-                LaunchableUi mapUi = ConfigGvDataUi.getLaunchable(ActivityEditUrlBrowser.class);
+                LaunchableUi mapUi = FactoryLaunchable.newLaunchable(ActivityEditUrlBrowser.class);
                 LauncherUi.launch(mapUi, getListener(), getRequestCode(), null, new Bundle());
             }
         }
@@ -63,7 +63,7 @@ public class EditScreenFacts {
         @Override
         protected void onDialogAlertPositive(int requestCode, Bundle args) {
             if (requestCode == EDIT_ON_BROWSER) {
-                LaunchableUi mapUi = ConfigGvDataUi.getLaunchable(ActivityEditUrlBrowser
+                LaunchableUi mapUi = FactoryLaunchable.newLaunchable(ActivityEditUrlBrowser
                         .class);
                 LauncherUi.launch(mapUi, getListener(), getLaunchableRequestCode(), null, args);
             }

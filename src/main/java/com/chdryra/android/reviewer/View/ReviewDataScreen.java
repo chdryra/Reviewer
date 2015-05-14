@@ -24,6 +24,7 @@ import com.chdryra.android.reviewer.R;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ReviewDataScreen {
+    private static final int REQUEST_CODE = 1976;
     private Context           mContext;
     private ReviewView        mReviewView;
     private ReviewViewAdapter mAdapter;
@@ -43,15 +44,12 @@ public class ReviewDataScreen {
         return mReviewView;
     }
 
-    private void startNewScreen(ReviewViewAdapter adapter) {
-        requestNewIntent(newScreen(mContext, adapter));
+    private void startNewScreen(LaunchableUi ui) {
+        LauncherUi.launch(ui, mReviewView.getParent(), REQUEST_CODE,
+                ui.getLaunchTag(), new Bundle());
     }
 
-    private void requestNewIntent(ReviewView newActivityScreen) {
-        ActivityReviewView.startNewActivity(mReviewView.getActivity(), newActivityScreen);
-    }
-
-    private class GridItem extends GridItemExpandable {
+    private class GridItem extends GridItemExpander {
         private static final String TAG                 = "ReviewViewExpandableGridItemListener";
         private static final int    REQUEST_GOTO_REVIEW = 314;
         private GridItemListener mListener;
@@ -65,7 +63,7 @@ public class ReviewDataScreen {
 
         @Override
         public void onClickExpanded(GvData item, int position, View v, ReviewViewAdapter expanded) {
-            startNewScreen(expanded);
+            startNewScreen(newScreen(mContext, expanded));
         }
 
         @Override
@@ -83,7 +81,9 @@ public class ReviewDataScreen {
         private void onDialogAlertPositive(int requestCode, Bundle args) {
             if (requestCode == REQUEST_GOTO_REVIEW) {
                 GvData datum = GvDataPacker.unpackItem(GvDataPacker.CurrentNewDatum.CURRENT, args);
-                startNewScreen(Administrator.get(mContext).getReviewAdapter(datum.getReviewId()));
+                LaunchableUi ui = Administrator.get(mContext).getReviewLaunchable(datum
+                        .getReviewId());
+                startNewScreen(ui);
             }
         }
 

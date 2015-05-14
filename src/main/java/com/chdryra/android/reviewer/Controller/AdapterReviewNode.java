@@ -30,10 +30,10 @@ import com.chdryra.android.reviewer.View.GvReviewId;
 public class AdapterReviewNode extends ReviewViewAdapterBasic {
     private ReviewNode mNode;
 
-    public AdapterReviewNode(ReviewNode node, GridDataWrapper wrapper, GridDataExpander expander) {
+    public AdapterReviewNode(ReviewNode node, GridDataWrapper wrapper, GridDataExpander launcher) {
         mNode = node;
         setWrapper(wrapper);
-        setExpander(expander);
+        setExpander(launcher);
     }
 
     protected AdapterReviewNode(ReviewNode node) {

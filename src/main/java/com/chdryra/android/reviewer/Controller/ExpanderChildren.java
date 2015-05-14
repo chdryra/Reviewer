@@ -31,11 +31,12 @@ public class ExpanderChildren extends ExpanderChildNode {
         if (isExpandable(datum)) {
             GvReviewList.GvReviewOverview overview = (GvReviewList.GvReviewOverview) datum;
             ReviewId id = ReviewId.fromString(overview.getId());
-            ReviewIdableList<ReviewNode> children = getSource().getNode().getChildren();
+            ReviewIdableList<ReviewNode> children = getChildrenWrapper().getNode().getChildren();
             if (children.containsId(id)) {
                 ReviewNode child = children.get(id);
                 WrapperChildList wrapper = new WrapperChildList(child);
                 GridDataExpander expander = new ExpanderChildren(getContext(), wrapper);
+
                 return new AdapterReviewNode(child, wrapper, expander);
             }
         }

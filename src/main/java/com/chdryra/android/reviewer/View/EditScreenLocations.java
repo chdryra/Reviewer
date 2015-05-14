@@ -36,7 +36,7 @@ public class EditScreenLocations {
         @Override
         protected void onDialogAlertPositive(int requestCode) {
             if (requestCode == ADD_ON_MAP) {
-                LaunchableUi mapUi = ConfigGvDataUi.getLaunchable(ActivityEditLocationMap.class);
+                LaunchableUi mapUi = FactoryLaunchable.newLaunchable(ActivityEditLocationMap.class);
                 LauncherUi.launch(mapUi, getListener(), getRequestCode(), null, new Bundle());
             }
         }
@@ -58,7 +58,7 @@ public class EditScreenLocations {
         @Override
         protected void onDialogAlertPositive(int requestCode, Bundle args) {
             if (requestCode == EDIT_ON_MAP) {
-                LaunchableUi mapUi = ConfigGvDataUi.getLaunchable(ActivityEditLocationMap.class);
+                LaunchableUi mapUi = FactoryLaunchable.newLaunchable(ActivityEditLocationMap.class);
                 LauncherUi.launch(mapUi, getListener(), getLaunchableRequestCode(), null, args);
             }
         }

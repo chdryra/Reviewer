@@ -56,10 +56,15 @@ public abstract class DialogEditGvData<T extends GvData>
         void onGvDataEdit(T oldDatum, T newDatum);
     }
 
-    public DialogEditGvData(Class<? extends GvDataList<T>> gvDataListClass) {
+    public <T2 extends GvDataList<T>> DialogEditGvData(Class<T2> gvDataListClass) {
         mDataType = FactoryGvData.gvType(gvDataListClass);
         mPacker = new GvDataPacker<>();
         mLayout = FactoryGvDataViewLayout.newLayout(getGvDataType(), this);
+    }
+
+    @Override
+    public String getLaunchTag() {
+        return "Edit" + mDataType.getDatumName();
     }
 
     @Override
