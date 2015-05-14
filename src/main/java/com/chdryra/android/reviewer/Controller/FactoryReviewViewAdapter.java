@@ -34,12 +34,4 @@ public class FactoryReviewViewAdapter {
                 wrapper));
         return new AdapterReviewNode(node, wrapper, expander);
     }
-
-    public static ReviewViewAdapter newNodeDataAdapter(Context context, ReviewNode node) {
-        GridDataWrapper wrapper = new WrapperNodeData(node);
-        GridDataExpander expander = new ExpanderGridCell(context, new AdapterReviewNode(node,
-                wrapper));
-        return new AdapterReviewNode(node, wrapper, expander);
-    }
-
 }

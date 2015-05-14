@@ -50,10 +50,9 @@ public class ExpanderChildNode implements GridDataExpander {
         if (isExpandable(datum)) {
             ReviewIdableList<ReviewNode> nodes = mChildren.getNode().getChildren();
             GvReviewList.GvReviewOverview overview = (GvReviewList.GvReviewOverview) datum;
-            ReviewId id = ReviewId.fromString(overview.getId());
-            ReviewNode unwrapped = nodes.get(id).getReview().getInternalNode();
+            ReviewNode node = nodes.get(ReviewId.fromString(overview.getId()));
 
-            return FactoryReviewViewAdapter.newNodeDataAdapter(mContext, unwrapped);
+            return FactoryReviewViewAdapter.newTreeDataAdapter(mContext, node);
         }
 
         return null;
