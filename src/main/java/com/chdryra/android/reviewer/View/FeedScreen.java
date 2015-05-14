@@ -18,10 +18,7 @@ import com.chdryra.android.mygenerallibrary.DialogAlertFragment;
 import com.chdryra.android.reviewer.Controller.Administrator;
 import com.chdryra.android.reviewer.Controller.ReviewFeed;
 import com.chdryra.android.reviewer.Controller.ReviewViewAdapter;
-import com.chdryra.android.reviewer.Controller.ReviewViewAdapterCollection;
 import com.chdryra.android.reviewer.R;
-
-import java.util.ArrayList;
 
 /**
  * Created by: Rizwan Choudrey
@@ -32,16 +29,13 @@ public class FeedScreen {
     private static final int REQUEST_CODE = 1976;
     private Context           mContext;
     private ReviewView        mReviewView;
-    private ReviewViewAdapterCollection mAdapters;
+    private ReviewViewAdapter mAdapter;
 
     private FeedScreen(Context context) {
         mContext = context;
 
-        ArrayList<ReviewViewAdapter> adapters = new ArrayList<>();
-        adapters.add(ReviewFeed.getFeedAdapter(mContext));
-
-        mAdapters = new ReviewViewAdapterCollection(adapters);
-        mReviewView = new ReviewView(mAdapters);
+        mAdapter = ReviewFeed.getFeedAdapter(mContext);
+        mReviewView = new ReviewView(mAdapter);
 
         mReviewView.setAction(new FeedScreenMenu());
         mReviewView.setAction(new GridItem());
@@ -97,7 +91,7 @@ public class FeedScreen {
         private FeedGridItemListener mListener;
 
         public GridItem() {
-            super(mAdapters);
+            super(mAdapter);
             mListener = new FeedGridItemListener() {
             };
             super.registerActionListener(mListener, TAG);
@@ -146,7 +140,7 @@ public class FeedScreen {
     private class RatingBarAction extends ReviewViewAction.RatingBarAction {
         @Override
         public void onClick(View v) {
-            mAdapters.nextAdapter();
+            launch(ReviewDataScreen.newScreen(mContext, ReviewFeed.getAggregateAdapter(mContext)));
         }
     }
 }

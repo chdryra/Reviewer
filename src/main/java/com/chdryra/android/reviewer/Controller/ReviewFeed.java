@@ -46,7 +46,7 @@ public class ReviewFeed extends ApplicationSingleton {
         Review feed = FactoryReview.createReviewUser(author, new Date(), title, 0f);
 
         mFeedNode = FactoryReview.createReviewTreeNode(feed, true);
-        mFeedAdapter = FactoryReviewViewAdapter.newChildViewAdapter(context, mFeedNode);
+        mFeedAdapter = FactoryReviewViewAdapter.newChildListAdapter(context, mFeedNode);
 
         mDatabase = getDatabase();
         mDatabase.loadTags();
@@ -77,6 +77,10 @@ public class ReviewFeed extends ApplicationSingleton {
 
     public static ReviewViewAdapter getFeedAdapter(Context context) {
         return getFeed(context).getFeedAdapter();
+    }
+
+    public static ReviewViewAdapter getAggregateAdapter(Context context) {
+        return ((AdapterReviewNode) getFeed(context).getFeedAdapter()).getTreeDataAdapter(context);
     }
 
     public static LaunchableUi getReviewLaunchable(Context context, GvReviewId id) {

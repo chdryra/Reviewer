@@ -8,10 +8,6 @@
 
 package com.chdryra.android.reviewer.Controller;
 
-import android.content.Context;
-
-import com.chdryra.android.reviewer.Model.ReviewId;
-import com.chdryra.android.reviewer.Model.ReviewNode;
 import com.chdryra.android.reviewer.View.GvImageList;
 import com.chdryra.android.reviewer.View.GvReviewId;
 
@@ -20,29 +16,6 @@ import com.chdryra.android.reviewer.View.GvReviewId;
  * On: 22/04/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class CoversManager {
-    private static CoversManager sManager;
-    private        Context       mContext;
-
-    private CoversManager(Context context) {
-        mContext = context;
-    }
-
-    private static CoversManager getManager(Context context) {
-        if (sManager == null) sManager = new CoversManager(context);
-        return sManager;
-    }
-
-    public static GvImageList getCovers(Context context, GvReviewId id) {
-        return getManager(context).getCovers(id.getId());
-    }
-
-    public static GvImageList getCovers(Context context, ReviewId id) {
-        return getManager(context).getCovers(id.toString());
-    }
-
-    private GvImageList getCovers(String reviewId) {
-        ReviewNode node = ReviewFeed.getReviewNode(mContext, reviewId);
-        return MdGvConverter.convert(node.getImages().getCovers());
-    }
+public interface CoversManager {
+    GvImageList getCovers(GvReviewId id);
 }

@@ -30,14 +30,18 @@ import com.chdryra.android.reviewer.View.GvReviewId;
 public class AdapterReviewNode extends ReviewViewAdapterBasic {
     private ReviewNode mNode;
 
-    public AdapterReviewNode(ReviewNode node, GridDataWrapper wrapper, GridDataExpander launcher) {
+    public AdapterReviewNode(ReviewNode node, GridDataWrapper wrapper, GridDataExpander expander) {
         mNode = node;
         setWrapper(wrapper);
-        setExpander(launcher);
+        setExpander(expander);
     }
 
-    protected AdapterReviewNode(ReviewNode node) {
-        this(node, null, null);
+    public AdapterReviewNode(ReviewNode node, GridDataWrapper wrapper) {
+        this(node, wrapper, null);
+    }
+
+    public ReviewViewAdapter getTreeDataAdapter(Context context) {
+        return FactoryReviewViewAdapter.newTreeDataAdapter(context, mNode);
     }
 
     @Override
@@ -63,10 +67,6 @@ public class AdapterReviewNode extends ReviewViewAdapterBasic {
         return MdGvConverter.convert(mNode.getImages().getCovers());
     }
 
-    protected ReviewNode getNode() {
-        return mNode;
-    }
-
     public static class DataAdapter extends AdapterReviewNode {
         public DataAdapter(Context context, ReviewNode node) {
             super(node, null, null);
@@ -81,7 +81,7 @@ public class AdapterReviewNode extends ReviewViewAdapterBasic {
             data.add(MdGvConverter.convert(node.getFacts()));
 
             GridDataWrapper wrapper = new WrapperGvDataList(data);
-            ReviewViewAdapter adapter = new AdapterGridData(context, this, wrapper);
+            ReviewViewAdapter adapter = new AdapterReviewViewAdapter(context, this, wrapper);
 
             setWrapper(wrapper);
             setExpander(new ExpanderGridCell(context, adapter));

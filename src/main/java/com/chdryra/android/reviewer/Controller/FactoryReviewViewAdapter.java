@@ -22,13 +22,24 @@ public class FactoryReviewViewAdapter {
 
     }
 
-    public static ReviewViewAdapter newChildViewAdapter(Context context, ReviewNode node) {
+    public static ReviewViewAdapter newChildListAdapter(Context context, ReviewNode node) {
         WrapperChildList wrapper = new WrapperChildList(node);
-        GridDataExpander launcher = new ExpanderChildNode(context, wrapper);
-        return new AdapterReviewNode(node, wrapper, launcher);
+        GridDataExpander expander = new ExpanderChildNode(context, wrapper);
+        return new AdapterReviewNode(node, wrapper, expander);
     }
 
-    public static ReviewViewAdapter newDataViewAdapter(Context context, ReviewNode node) {
-        return new AdapterReviewData(context, node);
+    public static ReviewViewAdapter newTreeDataAdapter(Context context, ReviewNode node) {
+        GridDataWrapper wrapper = new WrapperTreeData(node);
+        GridDataExpander expander = new ExpanderGridCell(context, new AdapterReviewNode(node,
+                wrapper));
+        return new AdapterReviewNode(node, wrapper, expander);
     }
+
+    public static ReviewViewAdapter newNodeDataAdapter(Context context, ReviewNode node) {
+        GridDataWrapper wrapper = new WrapperNodeData(node);
+        GridDataExpander expander = new ExpanderGridCell(context, new AdapterReviewNode(node,
+                wrapper));
+        return new AdapterReviewNode(node, wrapper, expander);
+    }
+
 }

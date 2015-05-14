@@ -26,11 +26,14 @@ public class CriteriaCollector {
     }
 
     public GvChildList collectCriteria() {
-        NodeDataCollector collector = new NodeDataCollector(mNode);
-        ReviewIdableList<ReviewNode> nodes = collector.collectNodes();
+        ReviewIdableList<ReviewNode> nodes = collectNodes(mNode);
+        ReviewIdableList<ReviewNode> criteriaNodes = new ReviewIdableList<>();
+        for (ReviewNode node : nodes) {
+            criteriaNodes.add(collectNodes(node.getReview().getInternalNode()));
+        }
 
         GvChildList criteria = new GvChildList(MdGvConverter.convert(mNode.getId()));
-        for (ReviewNode node : nodes) {
+        for (ReviewNode node : criteriaNodes) {
             GvChildList children = MdGvConverter.convertChildren(node);
             for (GvChildList.GvChildReview child : children) {
                 if (!criteria.contains(child.getSubject())) criteria.add(child);
@@ -38,5 +41,10 @@ public class CriteriaCollector {
         }
 
         return criteria;
+    }
+
+    private ReviewIdableList<ReviewNode> collectNodes(ReviewNode node) {
+        NodeDataCollector collector = new NodeDataCollector(node);
+        return collector.collectNodes();
     }
 }

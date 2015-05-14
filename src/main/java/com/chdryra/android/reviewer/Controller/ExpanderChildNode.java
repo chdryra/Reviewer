@@ -53,7 +53,7 @@ public class ExpanderChildNode implements GridDataExpander {
             ReviewId id = ReviewId.fromString(overview.getId());
             ReviewNode unwrapped = nodes.get(id).getReview().getInternalNode();
 
-            return new AdapterReviewNode.DataAdapter(mContext, unwrapped);
+            return FactoryReviewViewAdapter.newNodeDataAdapter(mContext, unwrapped);
         }
 
         return null;

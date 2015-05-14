@@ -10,7 +10,6 @@ package com.chdryra.android.reviewer.Controller;
 
 import android.content.Context;
 
-import com.chdryra.android.reviewer.View.GvDataList;
 import com.chdryra.android.reviewer.View.GvImageList;
 
 /**
@@ -18,15 +17,14 @@ import com.chdryra.android.reviewer.View.GvImageList;
  * On: 22/04/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class AdapterGridData extends ReviewViewAdapterBasic {
-    private Context           mContext;
+public class AdapterReviewViewAdapter extends ReviewViewAdapterBasic {
     private ReviewViewAdapter mParentAdapter;
 
-    public AdapterGridData(Context context, ReviewViewAdapter parent, GridDataWrapper wrapper) {
-        mContext = context;
+    public AdapterReviewViewAdapter(Context context, ReviewViewAdapter parent, GridDataWrapper
+            wrapper) {
         mParentAdapter = parent;
         setWrapper(wrapper);
-        setExpander(new ExpanderGridCell(mContext, this));
+        setExpander(new ExpanderGridCell(context, this));
     }
 
     @Override
@@ -46,11 +44,6 @@ public class AdapterGridData extends ReviewViewAdapterBasic {
 
     @Override
     public GvImageList getCovers() {
-        GvDataList gridData = getGridData();
-        if (gridData.hasReviewId()) {
-            return CoversManager.getCovers(mContext, gridData.getReviewId());
-        } else {
-            return mParentAdapter.getCovers();
-        }
+        return mParentAdapter.getCovers();
     }
 }
