@@ -10,6 +10,7 @@ package com.chdryra.android.reviewer.test.Controller;
 
 import android.content.Intent;
 import android.test.ActivityInstrumentationTestCase2;
+import android.test.UiThreadTest;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.Controller.AdapterReviewNode;
@@ -22,6 +23,7 @@ import com.chdryra.android.reviewer.Model.ReviewIdableList;
 import com.chdryra.android.reviewer.Model.ReviewNode;
 import com.chdryra.android.reviewer.View.ActivityReviewView;
 import com.chdryra.android.reviewer.View.FeedScreen;
+import com.chdryra.android.reviewer.View.GvReviewId;
 import com.chdryra.android.reviewer.View.GvReviewList;
 import com.chdryra.android.reviewer.test.TestUtils.ReviewMocker;
 import com.chdryra.android.reviewer.test.TestUtils.TestDatabase;
@@ -42,52 +44,89 @@ public class ReviewFeedTest extends ActivityInstrumentationTestCase2<ActivityRev
     }
 
     @SmallTest
-    public void testRemoveFromFeed() {
-        ReviewViewAdapter reviews = ReviewFeed.getFeedAdapter(getActivity());
-        int numReviews = reviews.getGridData().size();
-        ReviewerDb db = TestDatabase.getDatabase(getInstrumentation());
-        int numInDb = db.getReviewTreesFromDb().size();
-        assertEquals(numReviews, numInDb);
-
-        AdapterReviewNode feed = (AdapterReviewNode) reviews;
-        GvReviewList list = (GvReviewList) feed.getGridData();
-        GvReviewList.GvReviewOverview mostRecent = list.getItem(list.size() - 1);
-
-        ReviewFeed.removeFromFeed(getActivity(), mostRecent.getId());
-
-        ReviewIdableList<ReviewNode> fromDb = db.getReviewTreesFromDb();
-        assertEquals(numReviews - 1, reviews.getGridData().size());
-        assertEquals(numInDb - 1, fromDb.size());
-        assertFalse(db.getReviewTreesFromDb().containsId(ReviewId.fromString(mostRecent.getId())));
-    }
-
-    public void testAddToFeed() {
-        ReviewViewAdapter reviews = ReviewFeed.getFeedAdapter(getActivity());
-        assertNotNull(reviews);
-        assertNotNull(reviews.getGridData());
-        int numReviews = reviews.getGridData().size();
-        ReviewerDb db = TestDatabase.getDatabase(getInstrumentation());
-        assertEquals(numReviews, db.getReviewTreesFromDb().size());
-
-        ReviewNode node = ReviewMocker.newReviewNode(false);
-
-        ReviewFeed.addToFeed(getActivity(), node);
-        assertEquals(numReviews + 1, reviews.getGridData().size());
-
-        ReviewIdableList<ReviewNode> fromDb = db.getReviewTreesFromDb();
-        assertEquals(numReviews + 1, fromDb.size());
-        AdapterReviewNode feed = (AdapterReviewNode) reviews;
-        GvReviewList list = (GvReviewList) feed.getGridData();
-        GvReviewList.GvReviewOverview mostRecent = list.getItem(list.size() - 1);
-        assertTrue(fromDb.containsId(ReviewId.fromString(mostRecent.getId())));
+    public void testAggregateAdapter() {
+        assertNotNull(ReviewFeed.getAggregateAdapter(getActivity()));
     }
 
     @SmallTest
-    public void testGetReviewNode() {
+    @UiThreadTest
+    public void testGetReviewLaunchable() {
         ReviewNode node = ReviewMocker.newReviewNode(false);
-        assertNull(ReviewFeed.getReviewNode(getActivity(), node.getId().toString()));
+        GvReviewId id = GvReviewId.getId(node.getId().toString());
+        assertNull(ReviewFeed.getReviewLaunchable(getActivity(), id));
         ReviewFeed.addToFeed(getActivity(), node);
-        assertNotNull(ReviewFeed.getReviewNode(getActivity(), node.getId().toString()));
+        assertNotNull(ReviewFeed.getReviewLaunchable(getActivity(), id));
+    }
+
+    @SmallTest
+    @UiThreadTest
+    public void testRemoveFromFeed() {
+        ReviewNode node = ReviewMocker.newReviewNode(false);
+        ReviewId nodeId = node.getRoot().getId();
+        ReviewFeed.addToFeed(getActivity(), node);
+
+        ReviewViewAdapter reviews = ReviewFeed.getFeedAdapter(getActivity());
+        int numReviews = reviews.getGridData().size();
+        ReviewerDb db = TestDatabase.getDatabase(getInstrumentation());
+        ReviewIdableList<ReviewNode> fromDb = db.getReviewTreesFromDb();
+        int numInDb = fromDb.size();
+        assertTrue(numReviews > 0);
+        assertEquals(numReviews, numInDb);
+        assertTrue(fromDb.containsId(nodeId));
+
+        AdapterReviewNode feed = (AdapterReviewNode) reviews;
+
+        GvReviewList list = (GvReviewList) feed.getGridData();
+        GvReviewList.GvReviewOverview mostRecent = list.getItem(list.size() - 1);
+        assertEquals(nodeId.toString(), mostRecent.getId());
+
+        ReviewFeed.removeFromFeed(getActivity(), node.getId().toString());
+
+        list = (GvReviewList) feed.getGridData();
+        if (list.size() > 0) {
+            mostRecent = list.getItem(list.size() - 1);
+            assertFalse(nodeId.toString().equals(mostRecent.getId()));
+        }
+
+        fromDb = db.getReviewTreesFromDb();
+        assertEquals(numReviews - 1, reviews.getGridData().size());
+        assertEquals(numInDb - 1, fromDb.size());
+        assertFalse(fromDb.containsId(nodeId));
+    }
+
+    @SmallTest
+    @UiThreadTest
+    public void testAddToFeed() {
+        ReviewViewAdapter reviews = ReviewFeed.getFeedAdapter(getActivity());
+        assertNotNull(reviews);
+        GvReviewList list = (GvReviewList) reviews.getGridData();
+        assertNotNull(list);
+
+        int numReviews = list.size();
+        ReviewerDb db = TestDatabase.getDatabase(getInstrumentation());
+        ReviewIdableList<ReviewNode> fromDb = db.getReviewTreesFromDb();
+        assertEquals(numReviews, fromDb.size());
+
+        ReviewNode node = ReviewMocker.newReviewNode(false);
+        ReviewId nodeId = node.getRoot().getId();
+
+        assertFalse(fromDb.containsId(nodeId));
+        if (numReviews > 0) {
+            for (int i = 0; i < list.size(); ++i) {
+                assertFalse(nodeId.toString().equals(list.getItem(i).getId()));
+            }
+        }
+
+        ReviewFeed.addToFeed(getActivity(), node);
+
+        assertEquals(numReviews + 1, reviews.getGridData().size());
+        fromDb = db.getReviewTreesFromDb();
+        assertEquals(numReviews + 1, fromDb.size());
+        assertTrue(fromDb.containsId(node.getRoot().getId()));
+
+        list = (GvReviewList) reviews.getGridData();
+        GvReviewList.GvReviewOverview mostRecent = list.getItem(list.size() - 1);
+        assertEquals(nodeId.toString(), mostRecent.getId());
     }
 
     @Override
@@ -103,5 +142,6 @@ public class ReviewFeedTest extends ActivityInstrumentationTestCase2<ActivityRev
     @Override
     protected void tearDown() throws Exception {
         ReviewFeed.deleteTestDatabase(getActivity());
+        TestDatabase.recreateDatabase(getInstrumentation());
     }
 }

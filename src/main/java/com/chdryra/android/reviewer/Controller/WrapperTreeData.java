@@ -8,8 +8,8 @@
 
 package com.chdryra.android.reviewer.Controller;
 
-import com.chdryra.android.reviewer.Model.NodeDataCollector;
 import com.chdryra.android.reviewer.Model.ReviewNode;
+import com.chdryra.android.reviewer.Model.TreeDataGetter;
 import com.chdryra.android.reviewer.View.GvDataCollection;
 import com.chdryra.android.reviewer.View.GvDataList;
 import com.chdryra.android.reviewer.View.GvReviewId;
@@ -21,11 +21,13 @@ import com.chdryra.android.reviewer.View.GvReviewId;
  */
 public class WrapperTreeData implements GridDataWrapper {
     private ReviewNode mNode;
-    private NodeDataCollector mCollector;
+    private boolean        mUniqueData;
+    private TreeDataGetter mGetter;
 
-    public WrapperTreeData(ReviewNode node) {
+    public WrapperTreeData(ReviewNode node, boolean uniqueData) {
         mNode = node;
-        mCollector = new NodeDataCollector(node);
+        mGetter = new TreeDataGetter(mNode);
+        mUniqueData = uniqueData;
     }
 
     @Override
@@ -36,10 +38,10 @@ public class WrapperTreeData implements GridDataWrapper {
         CriteriaCollector criteriaCollector = new CriteriaCollector(mNode);
         data.add(tagCollector.collectTags());
         data.add(criteriaCollector.collectCriteria());
-        data.add(MdGvConverter.convert(mCollector.collectImages(true)));
-        data.add(MdGvConverter.convert(mCollector.collectComments(true)));
-        data.add(MdGvConverter.convert(mCollector.collectLocations(true)));
-        data.add(MdGvConverter.convert(mCollector.collectFacts(true)));
+        data.add(MdGvConverter.convert(mGetter.getImages(mUniqueData)));
+        data.add(MdGvConverter.convert(mGetter.getComments(mUniqueData)));
+        data.add(MdGvConverter.convert(mGetter.getLocations(mUniqueData)));
+        data.add(MdGvConverter.convert(mGetter.getFacts(mUniqueData)));
 
         return data;
     }

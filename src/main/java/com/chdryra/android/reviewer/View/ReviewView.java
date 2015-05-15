@@ -259,7 +259,7 @@ public class ReviewView implements GridDataObservable.GridDataObserver, Launchab
     }
 
     private void updateParent() {
-        mParent.updateGridData();
+        if (mParent != null) mParent.updateGridData();
     }
 
     private void setAction(Action type, ReviewViewAction action) {

@@ -89,7 +89,7 @@ public class ReviewTree implements ReviewNode {
     }
 
     @Override
-    public ReviewNode getInternalNode() {
+    public ReviewNode getTreeRepresentation() {
         return this;
     }
 

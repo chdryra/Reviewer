@@ -10,6 +10,7 @@ package com.chdryra.android.reviewer.test.Controller;
 
 import android.content.Intent;
 import android.test.ActivityInstrumentationTestCase2;
+import android.test.UiThreadTest;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.Controller.AdapterReviewNode;
@@ -67,6 +68,7 @@ public class AdministratorTest extends ActivityInstrumentationTestCase2<Activity
     }
 
     @SmallTest
+    @UiThreadTest
     public void testPublishReviewBuilder() {
         ReviewViewAdapter reviews = ReviewFeed.getFeedAdapter(getActivity());
         assertNotNull(reviews);

@@ -8,6 +8,7 @@
 
 package com.chdryra.android.reviewer.test.Controller;
 
+import android.graphics.Bitmap;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.Controller.MdGvConverter;
@@ -58,7 +59,15 @@ public class WrapperChildListTest extends TestCase {
             assertEquals(headline, item.getHeadline());
             MdImageList covers = child.getImages().getCovers();
             if (covers.size() > 0) {
-                assertTrue(covers.getItem(0).getBitmap().sameAs(item.getCoverImage()));
+                boolean isCover = false;
+                Bitmap cover = item.getCoverImage();
+                for (MdImageList.MdImage image : covers) {
+                    if (cover.sameAs(image.getBitmap())) {
+                        isCover = true;
+                        break;
+                    }
+                }
+                assertTrue(isCover);
             }
         }
     }

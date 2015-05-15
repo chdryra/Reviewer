@@ -35,7 +35,7 @@ import java.util.Date;
  * On: 06/05/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ReviewNodeDataAdapterTest extends AndroidTestCase {
+public class AdapterReviewNodeDataAdapterTest extends AndroidTestCase {
     private ReviewNode        mNode;
     private AdapterReviewNode.DataAdapter mAdapter;
     private GvTagList                     mTags;

@@ -111,17 +111,11 @@ public class ConfigGvDataUiTest extends AndroidTestCase {
             if (!Arrays.asList(NULLADDS).contains(dataType)) {
                 LaunchableUi fromConfig = config.getAdderConfig().getLaunchable();
                 assertNotNull(fromConfig);
-                LaunchableUi fromStatic = ConfigGvDataUi.getLaunchable(fromConfig.getClass());
-                assertNotNull(fromStatic);
-                assertEquals(fromConfig.getClass(), fromStatic.getClass());
             }
 
             //Edit
             LaunchableUi fromConfig = config.getEditorConfig().getLaunchable();
             assertNotNull(fromConfig);
-            LaunchableUi fromStatic = ConfigGvDataUi.getLaunchable(fromConfig.getClass());
-            assertNotNull(fromStatic);
-            assertEquals(fromConfig.getClass(), fromStatic.getClass());
         }
     }
 }

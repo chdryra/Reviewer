@@ -54,7 +54,7 @@ public interface Review extends ReviewId.ReviewIdAble {
 
     Date getPublishDate();
 
-    ReviewNode getInternalNode();
+    ReviewNode getTreeRepresentation();
 
     //Optional data
     MdCommentList getComments();

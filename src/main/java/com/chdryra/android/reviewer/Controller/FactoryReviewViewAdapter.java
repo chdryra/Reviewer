@@ -29,7 +29,7 @@ public class FactoryReviewViewAdapter {
     }
 
     public static ReviewViewAdapter newTreeDataAdapter(Context context, ReviewNode node) {
-        GridDataWrapper wrapper = new WrapperTreeData(node);
+        GridDataWrapper wrapper = new WrapperTreeData(node, true);
         GridDataExpander expander = new ExpanderGridCell(context, new AdapterReviewNode(node,
                 wrapper));
         return new AdapterReviewNode(node, wrapper, expander);

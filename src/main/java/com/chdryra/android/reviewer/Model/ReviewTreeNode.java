@@ -134,28 +134,52 @@ public class ReviewTreeNode implements ReviewNode {
     }
 
     @Override
-    public ReviewNode getInternalNode() {
+    public ReviewNode getTreeRepresentation() {
         return this;
     }
 
     @Override
     public MdCommentList getComments() {
-        return mReview.getComments();
+        MdCommentList comments = new MdCommentList(mId);
+        comments.addList(mReview.getComments());
+        for (ReviewNode child : mChildren) {
+            comments.addList(child.getComments());
+        }
+
+        return comments;
     }
 
     @Override
     public MdFactList getFacts() {
-        return mReview.getFacts();
+        MdFactList facts = new MdFactList(mId);
+        facts.addList(mReview.getFacts());
+        for (ReviewNode child : mChildren) {
+            facts.addList(child.getFacts());
+        }
+
+        return facts;
     }
 
     @Override
     public MdImageList getImages() {
-        return mReview.getImages();
+        MdImageList images = new MdImageList(mId);
+        images.addList(mReview.getImages());
+        for (ReviewNode child : mChildren) {
+            images.addList(child.getImages());
+        }
+
+        return images;
     }
 
     @Override
     public MdLocationList getLocations() {
-        return mReview.getLocations();
+        MdLocationList locations = new MdLocationList(mId);
+        locations.addList(mReview.getLocations());
+        for (ReviewNode child : mChildren) {
+            locations.addList(child.getLocations());
+        }
+
+        return locations;
     }
 
     @Override

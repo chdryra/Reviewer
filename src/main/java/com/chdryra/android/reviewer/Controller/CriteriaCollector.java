@@ -8,9 +8,9 @@
 
 package com.chdryra.android.reviewer.Controller;
 
-import com.chdryra.android.reviewer.Model.NodeDataCollector;
 import com.chdryra.android.reviewer.Model.ReviewIdableList;
 import com.chdryra.android.reviewer.Model.ReviewNode;
+import com.chdryra.android.reviewer.Model.TreeDataGetter;
 import com.chdryra.android.reviewer.View.GvChildList;
 
 /**
@@ -29,7 +29,7 @@ public class CriteriaCollector {
         ReviewIdableList<ReviewNode> nodes = collectNodes(mNode);
         ReviewIdableList<ReviewNode> criteriaNodes = new ReviewIdableList<>();
         for (ReviewNode node : nodes) {
-            criteriaNodes.add(collectNodes(node.getReview().getInternalNode()));
+            criteriaNodes.add(collectNodes(node.getReview().getTreeRepresentation()));
         }
 
         GvChildList criteria = new GvChildList(MdGvConverter.convert(mNode.getId()));
@@ -44,7 +44,7 @@ public class CriteriaCollector {
     }
 
     private ReviewIdableList<ReviewNode> collectNodes(ReviewNode node) {
-        NodeDataCollector collector = new NodeDataCollector(node);
-        return collector.collectNodes();
+        TreeDataGetter getter = new TreeDataGetter(node);
+        return getter.getNodes();
     }
 }

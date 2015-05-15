@@ -100,7 +100,7 @@ public class ReviewUser implements Review {
     }
 
     @Override
-    public ReviewNode getInternalNode() {
+    public ReviewNode getTreeRepresentation() {
         return mNode;
     }
 

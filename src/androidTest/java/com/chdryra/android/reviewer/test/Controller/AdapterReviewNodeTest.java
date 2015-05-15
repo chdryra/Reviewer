@@ -58,7 +58,7 @@ public class AdapterReviewNodeTest extends AndroidTestCase {
 
     @SmallTest
     public void testGetCovers() {
-        assertEquals(0, mAdapter.getCovers().size());
+        assertEquals(mNode.getImages().getCovers().size(), mAdapter.getCovers().size());
     }
 
     @SmallTest

@@ -13,69 +13,61 @@ package com.chdryra.android.reviewer.Model;
  * On: 13/05/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class NodeDataCollector {
+public class TreeDataGetter {
     private ReviewNode                   mRoot;
 
-    public NodeDataCollector(ReviewNode root) {
+    public TreeDataGetter(ReviewNode root) {
         mRoot = root;
     }
 
-    public ReviewIdableList<ReviewNode> collectNodes() {
+    public ReviewIdableList<ReviewNode> getNodes() {
         VisitorTreeFlattener flattener = new VisitorTreeFlattener();
         mRoot.acceptVisitor(flattener);
         return flattener.getNodes();
     }
 
-    public MdDataList<ReviewId> collectIds(boolean unique) {
+    public MdDataList<ReviewId> getIds(boolean unique) {
         MdDataList<ReviewId> ids = new MdDataList<>(mRoot.getId());
-        for (ReviewNode node : collectNodes()) {
+        for (ReviewNode node : getNodes()) {
             addIfRequired(unique, node.getId(), ids);
         }
 
         return ids;
     }
 
-    public MdDataList<MdSubject> collectSubjects(boolean unique) {
+    public MdDataList<MdSubject> getSubjects(boolean unique) {
         MdDataList<MdSubject> subjects = new MdDataList<>(mRoot.getId());
-        for (ReviewNode node : collectNodes()) {
+        for (ReviewNode node : getNodes()) {
             addIfRequired(unique, node.getSubject(), subjects);
         }
 
         return subjects;
     }
 
-    public MdCommentList collectComments(boolean unique) {
+    public MdCommentList getComments(boolean unique) {
         MdCommentList comments = new MdCommentList(mRoot.getId());
-        for (ReviewNode node : collectNodes()) {
-            addIfRequired(unique, node.getComments(), comments);
-        }
+        addIfRequired(unique, mRoot.getComments(), comments);
 
         return comments;
     }
 
-    public MdImageList collectImages(boolean unique) {
+    public MdImageList getImages(boolean unique) {
         MdImageList images = new MdImageList(mRoot.getId());
-        for (ReviewNode node : collectNodes()) {
-            addIfRequired(unique, node.getImages(), images);
-        }
+        addIfRequired(unique, mRoot.getImages(), images);
 
         return images;
     }
 
-    public MdFactList collectFacts(boolean unique) {
+    public MdFactList getFacts(boolean unique) {
         MdFactList facts = new MdFactList(mRoot.getId());
-        for (ReviewNode node : collectNodes()) {
-            addIfRequired(unique, node.getFacts(), facts);
-        }
+        addIfRequired(unique, mRoot.getFacts(), facts);
 
         return facts;
     }
 
-    public MdLocationList collectLocations(boolean unique) {
+    public MdLocationList getLocations(boolean unique) {
         MdLocationList locations = new MdLocationList(mRoot.getId());
-        for (ReviewNode node : collectNodes()) {
-            addIfRequired(unique, node.getLocations(), locations);
-        }
+        addIfRequired(unique, mRoot.getLocations(), locations);
 
         return locations;
     }

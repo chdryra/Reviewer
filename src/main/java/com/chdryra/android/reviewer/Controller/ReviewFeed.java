@@ -15,8 +15,10 @@ import com.chdryra.android.reviewer.Model.Author;
 import com.chdryra.android.reviewer.Model.FactoryReview;
 import com.chdryra.android.reviewer.Model.Review;
 import com.chdryra.android.reviewer.Model.ReviewId;
+import com.chdryra.android.reviewer.Model.ReviewIdableList;
 import com.chdryra.android.reviewer.Model.ReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewTreeNode;
+import com.chdryra.android.reviewer.Model.TreeDataGetter;
 import com.chdryra.android.reviewer.View.GvReviewId;
 import com.chdryra.android.reviewer.View.GvReviewList;
 import com.chdryra.android.reviewer.View.LaunchableUi;
@@ -66,13 +68,12 @@ public class ReviewFeed extends ApplicationSingleton {
     }
 
     public static void addToFeed(Context context, ReviewNode node) {
-        getFeed(context).add(node);
-        getFeed(context).addToDatabase(node);
+        getFeed(context).add(node.getRoot());
+        getFeed(context).addToDatabase(node.getRoot());
     }
 
     public static void removeFromFeed(Context context, String reviewId) {
-        getFeed(context).remove(reviewId);
-        getFeed(context).deleteFromDatabase(reviewId);
+        getFeed(context).removeFromFeed(reviewId);
     }
 
     public static ReviewViewAdapter getFeedAdapter(Context context) {
@@ -87,30 +88,31 @@ public class ReviewFeed extends ApplicationSingleton {
         return getFeed(context).getReviewLaunchable(id.getId());
     }
 
-    public static ReviewNode getReviewNode(Context context, String id) {
-        return getFeed(context).getFeedNode().getChildren().get(ReviewId.fromString(id));
-    }
-
     public static void deleteTestDatabase(Context context) {
         if (USE_TEST_DATABASE) {
             context.deleteDatabase(getFeed(context).mDatabase.getDatabaseName());
         }
     }
 
+    private void removeFromFeed(String reviewId) {
+        ReviewId id = findRootNodeId(reviewId);
+        remove(id);
+        deleteFromDatabase(id);
+    }
+
     private LaunchableUi getReviewLaunchable(String reviewId) {
+        ReviewId id = findRootNodeId(reviewId);
+        if (id == null) return null;
+
         GvReviewList list = (GvReviewList) mFeedAdapter.getGridData();
         for (GvReviewList.GvReviewOverview review : list) {
-            if (review.getId().equals(reviewId)) {
+            if (review.getId().equals(id.toString())) {
                 ReviewViewAdapter adapter = mFeedAdapter.expandItem(review);
                 return ReviewDataScreen.newScreen(getContext(), adapter);
             }
         }
 
         return null;
-    }
-
-    private ReviewNode getFeedNode() {
-        return mFeedNode;
     }
 
     private ReviewViewAdapter getFeedAdapter() {
@@ -126,12 +128,12 @@ public class ReviewFeed extends ApplicationSingleton {
         mDatabase.addReviewTreeToDb(node);
     }
 
-    private void deleteFromDatabase(String reviewId) {
-        mDatabase.deleteReviewTreeFromDb(reviewId);
+    private void deleteFromDatabase(ReviewId id) {
+        mDatabase.deleteReviewTreeFromDb(id.toString());
     }
 
-    private void remove(String reviewId) {
-        mFeedNode.removeChild(ReviewId.fromString(reviewId));
+    private void remove(ReviewId id) {
+        mFeedNode.removeChild(id);
         mFeedAdapter.notifyGridDataObservers();
     }
 
@@ -141,5 +143,20 @@ public class ReviewFeed extends ApplicationSingleton {
         } else {
             return ReviewerDb.getDatabase(getContext());
         }
+    }
+
+    private ReviewId findRootNodeId(String reviewId) {
+        ReviewId id = ReviewId.fromString(reviewId);
+        ReviewNode root = null;
+        for (ReviewNode child : mFeedNode.getChildren()) {
+            ReviewNode tree = child.getReview().getTreeRepresentation();
+            ReviewIdableList<ReviewNode> nodes = new TreeDataGetter(tree).getNodes();
+            if (nodes.containsId(id)) {
+                root = nodes.getItem(0);
+                break;
+            }
+        }
+
+        return root != null ? root.getId() : null;
     }
 }

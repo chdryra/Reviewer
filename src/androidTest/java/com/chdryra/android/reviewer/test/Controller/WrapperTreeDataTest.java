@@ -29,7 +29,7 @@ import junit.framework.TestCase;
  * On: 12/05/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class WrapperReviewDataTest extends TestCase {
+public class WrapperTreeDataTest extends TestCase {
     @SmallTest
     public void testGetGridData() {
         ReviewNode node = ReviewMocker.newReviewNode(false);
