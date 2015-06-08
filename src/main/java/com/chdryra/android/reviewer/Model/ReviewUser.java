@@ -24,7 +24,7 @@ import java.util.Date;
 
 /**
  * The fundamental {@link Review} implementation that holds the
- * review data. The review in leaf nodes in a tree.
+ * review data.
  */
 public class ReviewUser implements Review {
     private final ReviewId  mId;

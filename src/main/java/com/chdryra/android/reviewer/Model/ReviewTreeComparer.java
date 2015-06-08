@@ -18,17 +18,11 @@ public class ReviewTreeComparer {
         if (lhs.isRatingAverageOfChildren() != rhs.isRatingAverageOfChildren()) return false;
         if (!lhs.getId().equals(rhs.getId())) return false;
         if (!lhs.getReview().equals(rhs.getReview())) return false;
-
-        ReviewIdableList<ReviewNode> lchildren = lhs.getChildren();
-        ReviewIdableList<ReviewNode> rchildren = rhs.getChildren();
-        if (lchildren.size() != rchildren.size()) return false;
-        for (ReviewNode child : rchildren) {
-            if (!lchildren.containsId(child.getId())) return false;
-        }
+        if (!lhs.getChildren().equals(rhs.getChildren())) return false;
 
         ReviewNode lParent = lhs.getParent();
         ReviewNode rParent = rhs.getParent();
-        return (lParent != null ? lParent.getId().equals(rParent.getId()) : rParent == null);
+        return lParent == null ? rParent == null : lParent.getId().equals(rParent.getId());
     }
 
     public static boolean compareTrees(ReviewNode lhs, ReviewNode rhs) {

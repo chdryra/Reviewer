@@ -32,10 +32,10 @@ public class ReviewTreeNodeTest extends TestCase {
 
     @SmallTest
     public void testSetParent() {
-        ReviewTreeNode node = new ReviewTreeNode(mReview, false);
+        ReviewTreeNode node = new ReviewTreeNode(mReview, false, mReview.getId());
         assertNull(node.getParent());
 
-        ReviewTreeNode parentNode = new ReviewTreeNode(mParent, false);
+        ReviewTreeNode parentNode = new ReviewTreeNode(mParent, false, mParent.getId());
         assertEquals(0, parentNode.getChildren().size());
 
         node.setParent(parentNode);
@@ -48,13 +48,13 @@ public class ReviewTreeNodeTest extends TestCase {
 
     @SmallTest
     public void testAddChild() {
-        ReviewTreeNode node = new ReviewTreeNode(mReview, false);
+        ReviewTreeNode node = new ReviewTreeNode(mReview, false, mReview.getId());
         assertEquals(0, node.getChildren().size());
 
         ReviewIdableList<ReviewTreeNode> children = new ReviewIdableList<>();
         int i = 0;
         for (Review child : mChildren) {
-            ReviewTreeNode childNode = new ReviewTreeNode(child, false);
+            ReviewTreeNode childNode = new ReviewTreeNode(child, false, child.getId());
             children.add(childNode);
 
             assertNull(childNode.getParent());
@@ -75,7 +75,7 @@ public class ReviewTreeNodeTest extends TestCase {
 
     @SmallTest
     public void testReviewGetters() {
-        ReviewTreeNode node = new ReviewTreeNode(mReview, false);
+        ReviewTreeNode node = new ReviewTreeNode(mReview, false, mReview.getId());
 
         assertEquals(mReview.getId(), node.getId());
         assertEquals(mReview.getSubject(), node.getSubject());
@@ -91,9 +91,9 @@ public class ReviewTreeNodeTest extends TestCase {
 
     @SmallTest
     public void testGetRatingAverage() {
-        ReviewTreeNode node = new ReviewTreeNode(mReview, true);
+        ReviewTreeNode node = new ReviewTreeNode(mReview, true, mReview.getId());
         for (Review child : mChildren) {
-            node.addChild(new ReviewTreeNode(child, false));
+            node.addChild(new ReviewTreeNode(child, false, child.getId()));
         }
 
         float rating = 0;
@@ -111,9 +111,11 @@ public class ReviewTreeNodeTest extends TestCase {
 
     @SmallTest
     public void testRemoveChild() {
-        ReviewTreeNode node = new ReviewTreeNode(mReview, true);
-        ReviewTreeNode childNode1 = new ReviewTreeNode(mChildren.getItem(0), false);
-        ReviewTreeNode childNode2 = new ReviewTreeNode(mChildren.getItem(1), false);
+        ReviewTreeNode node = new ReviewTreeNode(mReview, true, mReview.getId());
+        Review child1 = mChildren.getItem(0);
+        Review child2 = mChildren.getItem(1);
+        ReviewTreeNode childNode1 = new ReviewTreeNode(child1, false, child1.getId());
+        ReviewTreeNode childNode2 = new ReviewTreeNode(child2, false, child2.getId());
 
         assertEquals(0, node.getChildren().size());
         assertNull(childNode1.getParent());
@@ -140,10 +142,10 @@ public class ReviewTreeNodeTest extends TestCase {
 
     @SmallTest
     public void testCreateTree() {
-        ReviewTreeNode node = new ReviewTreeNode(mReview, false);
-        node.setParent(new ReviewTreeNode(mParent, false));
+        ReviewTreeNode node = new ReviewTreeNode(mReview, false, mReview.getId());
+        node.setParent(new ReviewTreeNode(mParent, false, mParent.getId()));
         for (Review child : mChildren) {
-            node.addChild(new ReviewTreeNode(child, false));
+            node.addChild(new ReviewTreeNode(child, false, child.getId()));
         }
 
         ReviewNode tree = node.createTree();

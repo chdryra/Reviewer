@@ -41,12 +41,13 @@ public class ReviewMocker {
     private static ReviewNode getNewNode(boolean ratingIsAverage) {
         Review root = new MockReview();
         Review parent = new MockReview();
-        ReviewTreeNode rootNode = new ReviewTreeNode(root, ratingIsAverage);
-        ReviewTreeNode parentNode = new ReviewTreeNode(parent, false);
+        ReviewTreeNode rootNode = new ReviewTreeNode(root, ratingIsAverage, root.getId());
+        ReviewTreeNode parentNode = new ReviewTreeNode(parent, false, parent.getId());
         rootNode.setParent(parentNode);
 
         for (int i = 0; i < NUM; ++i) {
-            rootNode.addChild(new ReviewTreeNode(new MockReview(), false));
+            Review review = new MockReview();
+            rootNode.addChild(new ReviewTreeNode(review, false, review.getId()));
         }
 
         return rootNode;

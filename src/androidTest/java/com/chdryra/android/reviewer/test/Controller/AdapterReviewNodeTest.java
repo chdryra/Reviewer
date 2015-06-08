@@ -20,6 +20,7 @@ import com.chdryra.android.reviewer.Model.FactoryReview;
 import com.chdryra.android.reviewer.Model.Review;
 import com.chdryra.android.reviewer.Model.ReviewIdableList;
 import com.chdryra.android.reviewer.Model.ReviewNode;
+import com.chdryra.android.reviewer.Model.ReviewTreeNode;
 import com.chdryra.android.reviewer.Model.UserId;
 import com.chdryra.android.reviewer.View.GvData;
 import com.chdryra.android.reviewer.View.GvDataList;
@@ -39,7 +40,7 @@ public class AdapterReviewNodeTest extends AndroidTestCase {
     private Author                  mAuthor;
     private ReviewNode               mNode;
     private AdapterReviewNode        mAdapter;
-    private ReviewIdableList<Review> mReviews;
+    private ReviewIdableList<ReviewNode> mReviews;
 
     @SmallTest
     public void testGetSubject() {
@@ -67,7 +68,7 @@ public class AdapterReviewNodeTest extends AndroidTestCase {
         assertNotNull(oList);
         assertEquals(mReviews.size(), oList.size());
         for (int i = 0; i < mReviews.size(); ++i) {
-            ReviewNode review = (ReviewNode) mReviews.getItem(i);
+            ReviewNode review = mReviews.getItem(i);
             assertEquals(review.getRating().get(), oList.getItem(i).getRating());
             assertEquals(review.getSubject().get(), oList.getItem(i).getSubject());
             assertEquals(review.getAuthor(), oList.getItem(i).getAuthor());
@@ -93,12 +94,18 @@ public class AdapterReviewNodeTest extends AndroidTestCase {
     }
 
     private void setAdapter() {
+
+        Review review = FactoryReview.createReviewUser(mAuthor, new Date(), RandomString.nextWord
+                (), 0f);
+        ReviewTreeNode collection = FactoryReview.createReviewTreeNode(review, true);
         mReviews = new ReviewIdableList<>();
         for (int i = 0; i < NUM; ++i) {
-            mReviews.add(ReviewMocker.newReviewNode(false));
+            ReviewTreeNode child = (ReviewTreeNode) ReviewMocker.newReviewNode(false);
+            mReviews.add(child);
+            collection.addChild(child);
         }
-        mNode = FactoryReview.createStaticCollection(mAuthor, new Date(),
-                RandomString.nextWord(), mReviews);
+
+        mNode = collection;
         WrapperChildList wrapper = new WrapperChildList(mNode);
         GridDataExpander expander = new ExpanderChildren(mContext, wrapper);
         mAdapter = new AdapterReviewNode(mNode, wrapper, expander);

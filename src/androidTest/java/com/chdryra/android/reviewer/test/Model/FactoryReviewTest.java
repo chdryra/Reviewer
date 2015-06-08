@@ -19,7 +19,6 @@ import com.chdryra.android.reviewer.View.GvCommentList;
 import com.chdryra.android.reviewer.View.GvFactList;
 import com.chdryra.android.reviewer.View.GvImageList;
 import com.chdryra.android.reviewer.View.GvLocationList;
-import com.chdryra.android.reviewer.View.GvUrlList;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
 import com.chdryra.android.reviewer.test.TestUtils.MdGvEquality;
 import com.chdryra.android.reviewer.test.TestUtils.RandomRating;
@@ -46,7 +45,6 @@ public class FactoryReviewTest extends TestCase {
     private GvImageList    mImages;
     private GvFactList     mFacts;
     private GvLocationList mLocations;
-    private GvUrlList      mUrls;
 
     @SmallTest
     public void testCreateReviewUser() {
@@ -89,7 +87,6 @@ public class FactoryReviewTest extends TestCase {
         mImages = GvDataMocker.newImageList(NUM, false);
         mFacts = GvDataMocker.newFactList(NUM, false);
         mLocations = GvDataMocker.newLocationList(NUM, false);
-        mUrls = GvDataMocker.newUrlList(NUM, false);
 
         mReview = FactoryReview.createReviewUser(mAuthor, mDate, mSubject, mRating,
                 mComments, mImages, mFacts, mLocations);

@@ -37,7 +37,7 @@ public class SocialPlatformList implements Iterable<SocialPlatformList.SocialPla
 
         private final int mPlatformId;
 
-        private Platform(int platformId) {
+        Platform(int platformId) {
             mPlatformId = platformId;
         }
 

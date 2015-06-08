@@ -15,6 +15,10 @@ import com.chdryra.android.reviewer.View.GvDataList;
  * On: 12/05/2015
  * Email: rizwan.choudrey@gmail.com
  */
+
+/**
+ *
+ */
 public interface GridDataWrapper {
     GvDataList getGridData();
 }

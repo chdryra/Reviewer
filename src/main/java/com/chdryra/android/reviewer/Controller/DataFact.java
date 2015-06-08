@@ -14,9 +14,9 @@ package com.chdryra.android.reviewer.Controller;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface DataFact {
-    public String getLabel();
+    String getLabel();
 
-    public String getValue();
+    String getValue();
 
-    public boolean isUrl();
+    boolean isUrl();
 }

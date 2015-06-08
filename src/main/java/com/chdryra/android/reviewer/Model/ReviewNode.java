@@ -12,21 +12,21 @@ package com.chdryra.android.reviewer.Model;
  * Tree representation of a review.
  * <p/>
  * <p>
- * Can add other reviews as children or as a parent allowing a structured representation of how
+ * Can have other reviews as children or as a parent allowing a structured representation of how
  * reviews may relate to each other, for example a user review with sub-criteria as children
  * or a meta review with other reviews as children.
  * </p>
  */
 public interface ReviewNode extends Review {
-    public Review getReview();
+    Review getReview();
 
-    public ReviewNode getParent();
+    ReviewNode getParent();
 
-    public ReviewNode getRoot();
+    ReviewNode getRoot();
 
-    public ReviewIdableList<ReviewNode> getChildren();
+    ReviewIdableList<ReviewNode> getChildren();
 
-    public void acceptVisitor(VisitorReviewNode visitor);
+    void acceptVisitor(VisitorReviewNode visitor);
 
-    public boolean isRatingAverageOfChildren();
+    boolean isRatingAverageOfChildren();
 }

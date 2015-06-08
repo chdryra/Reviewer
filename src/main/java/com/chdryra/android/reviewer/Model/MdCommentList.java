@@ -16,12 +16,14 @@ import com.chdryra.android.reviewer.Controller.DataValidator;
  * On: 06/12/2014
  * Email: rizwan.choudrey@gmail.com
  */
+
+/**
+ * Review Data: list for {@link com.chdryra.android.reviewer.Model.MdCommentList.MdComment}
+ */
+
 public class MdCommentList extends MdDataList<MdCommentList.MdComment> {
     /**
-     * Review Data: comment
-     * <p>
-     * {@link #hasData()}: A string at least 1 character in length.
-     * </p>
+     * Review Data: comment.
      */
     public MdCommentList(ReviewId reviewId) {
         super(reviewId);

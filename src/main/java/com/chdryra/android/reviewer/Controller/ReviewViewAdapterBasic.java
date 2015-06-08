@@ -19,6 +19,10 @@ import java.util.ArrayList;
  * On: 23/02/2015
  * Email: rizwan.choudrey@gmail.com
  */
+
+/**
+ * Primary implementation of {@link ReviewViewAdapter}.
+ */
 public abstract class ReviewViewAdapterBasic implements ReviewViewAdapter {
     final ArrayList<GridDataObservable.GridDataObserver> mObservers = new ArrayList<>();
     private GridDataWrapper  mWrapper;

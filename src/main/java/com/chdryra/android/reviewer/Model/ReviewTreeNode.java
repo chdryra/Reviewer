@@ -36,10 +36,6 @@ public class ReviewTreeNode implements ReviewNode {
         mRatingIsAverage = ratingIsAverage;
     }
 
-    public ReviewTreeNode(Review root, boolean ratingIsAverage) {
-        this(root, ratingIsAverage, root.getId());
-    }
-
     //ReviewNode methods
     @Override
     public Review getReview() {

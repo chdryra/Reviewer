@@ -39,10 +39,6 @@ public class MdImageList extends MdDataList<MdImageList.MdImage> {
      * <p>
      * Consists of bitmap and optionally caption, LatLng. Also knows whether a cover image.
      * </p>
-     * <p/>
-     * <p>
-     * {@link #hasData()}: non-null bitmap.
-     * </p>
      */
     public static class MdImage implements MdData, DataImage {
 

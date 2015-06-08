@@ -19,11 +19,12 @@ public class DataValidator {
     }
 
     public static boolean validate(DataFact fact) {
+        if (!NotNull(fact)) return false;
+
         if (fact.isUrl()) {
             return validateUrl((DataUrl) fact);
         } else {
-            return NotNull(fact) && validateString(fact.getLabel()) && validateString(fact
-                    .getValue());
+            return validateString(fact.getLabel()) && validateString(fact.getValue());
 
         }
     }
@@ -38,7 +39,7 @@ public class DataValidator {
     }
 
     public static boolean validateUrl(DataUrl url) {
-        return NotNull(url) && NotNull(url.getUrl());
+        return NotNull(url) && NotNull(url.getUrl()) && validateString(url.getLabel());
     }
 
     public static boolean validateString(String string) {

@@ -16,6 +16,11 @@ import com.chdryra.android.reviewer.Controller.DataValidator;
  * On: 06/12/2014
  * Email: rizwan.choudrey@gmail.com
  */
+
+/**
+ * Review Data: list for {@link com.chdryra.android.reviewer.Model.MdFactList.MdFact}
+ */
+
 public class MdFactList extends MdDataList<MdFactList.MdFact> {
 
     public MdFactList(ReviewId reviewId) {
@@ -24,9 +29,6 @@ public class MdFactList extends MdDataList<MdFactList.MdFact> {
 
     /**
      * Review Data: fact
-     * <p>
-     * {@link #hasData()}: Label and value strings at least 1 character in length
-     * </p>
      */
     public static class MdFact implements MdData, DataFact {
 

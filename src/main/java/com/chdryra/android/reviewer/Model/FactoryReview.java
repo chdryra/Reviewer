@@ -61,12 +61,6 @@ public class FactoryReview {
         return getInstance().newReviewTreeNode(review, isAverage);
     }
 
-    public static ReviewNode createStaticCollection(Author author, Date publishDate,
-            String subject, ReviewIdableList<Review> reviews) {
-        Review root = createReviewUser(author, publishDate, subject, 0);
-        return getInstance().newStaticTree(root, reviews, true);
-    }
-
     //Constructors
     private Review newReviewUser(Author author, Date publishDate, String subject, float rating) {
         return new ReviewUser(ReviewId.generateId(), author, publishDate, subject, rating);
@@ -86,7 +80,7 @@ public class FactoryReview {
     }
 
     private ReviewTreeNode newReviewTreeNode(Review review, boolean isAverage) {
-        return new ReviewTreeNode(review, isAverage);
+        return new ReviewTreeNode(review, isAverage, review.getId());
     }
 
     private <T extends Review> ReviewNode newStaticTree(Review review, ReviewIdableList<T>
@@ -97,7 +91,7 @@ public class FactoryReview {
     private <T extends Review> ReviewTreeNode newDynamicTree(Review review, ReviewIdableList<T>
             children, boolean isAverage) {
 
-        ReviewTreeNode rootNode = new ReviewTreeNode(review, isAverage);
+        ReviewTreeNode rootNode = new ReviewTreeNode(review, isAverage, review.getId());
         for (Review child : children) {
             rootNode.addChild(newReviewTreeNode(child, false));
         }

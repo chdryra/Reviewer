@@ -17,16 +17,14 @@ package com.chdryra.android.reviewer.Model;
  * </p>
  */
 
-//TODO need to make sure holding review is consistent for all the node wrapping etc. going on.
-// Possibly better to calculate this on the fly using a node visitor as and when needed.
 public interface MdData {
     ReviewId getReviewId();
 
     boolean hasData();
 
     @Override
-    public boolean equals(Object obj);
+    boolean equals(Object obj);
 
     @Override
-    public int hashCode();
+    int hashCode();
 }

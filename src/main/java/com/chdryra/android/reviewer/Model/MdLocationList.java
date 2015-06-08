@@ -25,9 +25,6 @@ public class MdLocationList extends MdDataList<MdLocationList.MdLocation> {
 
     /**
      * Review Data: location
-     * <p>
-     * {@link #hasData()}: A LatLng plus a name at least 1 character in length.
-     * </p>
      */
     public static class MdLocation implements MdData, DataLocation {
         public static final String LOCATION_DELIMITER = ",|";

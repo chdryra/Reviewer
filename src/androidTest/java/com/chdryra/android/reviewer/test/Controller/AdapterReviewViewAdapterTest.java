@@ -28,7 +28,7 @@ import com.chdryra.android.reviewer.test.TestUtils.ReviewMocker;
  */
 public class AdapterReviewViewAdapterTest extends AndroidTestCase {
     private AdapterReviewViewAdapter      mAdapter;
-    private AdapterReviewNode.DataAdapter mNodeAdapter;
+    private AdapterReviewNode mNodeAdapter;
     private GvDataList<GvData>            mGridData;
 
     @SmallTest
@@ -76,15 +76,15 @@ public class AdapterReviewViewAdapterTest extends AndroidTestCase {
     @Override
     protected void setUp() throws Exception {
         ReviewNode node = ReviewMocker.newReviewNode(true);
-        mNodeAdapter = new AdapterReviewNode.DataAdapter(getContext(), node);
-        mGridData = new GvDataList<>(null, GvData.class, new GvDataType("testData"));
 
+        mGridData = new GvDataList<>(null, GvData.class, new GvDataType("testData"));
         mGridData.add(GvDataMocker.newCommentList(6, false));
         mGridData.add(GvDataMocker.newFactList(6, false));
         mGridData.add(GvDataMocker.newLocationList(0, false));
         mGridData.add(GvDataMocker.newImage(null));
 
-        mAdapter = new AdapterReviewViewAdapter(getContext(), mNodeAdapter, new WrapperGvDataList
-                (mGridData));
+        WrapperGvDataList wrapper = new WrapperGvDataList(mGridData);
+        mNodeAdapter = new AdapterReviewNode(node, wrapper);
+        mAdapter = new AdapterReviewViewAdapter(getContext(), mNodeAdapter, wrapper);
     }
 }

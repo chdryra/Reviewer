@@ -13,11 +13,13 @@ import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.Controller.AdapterReviewNode;
 import com.chdryra.android.reviewer.Controller.ExpanderGridCell;
+import com.chdryra.android.reviewer.Controller.WrapperGvDataList;
 import com.chdryra.android.reviewer.Model.ReviewNode;
 import com.chdryra.android.reviewer.Model.TagsManager;
 import com.chdryra.android.reviewer.View.GvCommentList;
 import com.chdryra.android.reviewer.View.GvData;
 import com.chdryra.android.reviewer.View.GvDataList;
+import com.chdryra.android.reviewer.View.GvDataType;
 import com.chdryra.android.reviewer.View.GvTagList;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
 import com.chdryra.android.reviewer.test.TestUtils.ReviewMocker;
@@ -31,20 +33,28 @@ public class ExpanderGridCellTest extends AndroidTestCase {
     @SmallTest
     public void testExpandItem() {
         ReviewNode node = ReviewMocker.newReviewNode(false);
+
         GvTagList tags = GvDataMocker.newTagList(3);
         TagsManager.tag(node.getId(), tags.toStringArray());
-        AdapterReviewNode.DataAdapter parent = new AdapterReviewNode.DataAdapter(getContext(),
-                node);
+
+        GvDataList<GvData> data = new GvDataList<>(null, GvData.class, new GvDataType("testData"));
+        data.add(GvDataMocker.newCommentList(6, false));
+        data.add(GvDataMocker.newFactList(6, false));
+        data.add(GvDataMocker.newLocationList(0, false));
+        data.add(GvDataMocker.newImage(null));
+
+        WrapperGvDataList wrapper = new WrapperGvDataList(data);
+        AdapterReviewNode parent = new AdapterReviewNode(node, wrapper);
 
         ExpanderGridCell expander = new ExpanderGridCell(getContext(), parent);
         GvCommentList.GvComment comment = GvDataMocker.newComment(null);
         assertFalse(expander.isExpandable(comment));
         assertNull(expander.expandItem(comment));
 
-        GvDataList data = parent.getGridData();
-        assertTrue(data.size() > 0);
+        GvDataList gridData = parent.getGridData();
+        assertTrue(gridData.size() > 0);
         for (int i = 0; i < data.size(); ++i) {
-            GvData datum = (GvData) data.getItem(i);
+            GvData datum = data.getItem(i);
             assertNotNull(expander.expandItem(datum));
         }
     }

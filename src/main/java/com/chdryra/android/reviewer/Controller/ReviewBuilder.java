@@ -60,7 +60,6 @@ public class ReviewBuilder extends ReviewViewAdapterBasic {
             .TYPE};
     private static final File         FILE_DIR_EXT = Environment
             .getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM);
-    private static       String       NO_PUBLISH = "Review is not valid for publication!";
     private final Context                                        mContext;
     private final Map<GvDataType, GvDataList>                    mData;
     private final Map<GvDataType, DataBuilder<? extends GvData>> mDataBuilders;
@@ -140,7 +139,7 @@ public class ReviewBuilder extends ReviewViewAdapterBasic {
 
     public ReviewNode publish(Date publishDate) {
         if (!isValidForPublication()) {
-            throw new IllegalStateException(NO_PUBLISH);
+            throw new IllegalStateException("Review is not valid for publication!");
         }
 
         ReviewTreeNode rootNode = prepareTree(publishDate);
@@ -175,7 +174,7 @@ public class ReviewBuilder extends ReviewViewAdapterBasic {
                 (GvFactList) getData(GvFactList.TYPE),
                 (GvLocationList) getData(GvLocationList.TYPE));
 
-        ReviewTreeNode rootNode = new ReviewTreeNode(root, mIsAverage);
+        ReviewTreeNode rootNode = FactoryReview.createReviewTreeNode(root, mIsAverage);
         for (ReviewBuilder child : mChildren) {
             rootNode.addChild(child.prepareTree(publishDate));
         }
@@ -284,6 +283,11 @@ public class ReviewBuilder extends ReviewViewAdapterBasic {
             getParentBuilder().setData(mData);
         }
 
+        @Override
+        public GvDataList getGridData() {
+            return mData;
+        }
+
         //TODO make type safe
         private void resetData() {
             mData = getData(mData.getGvDataType());
@@ -307,10 +311,6 @@ public class ReviewBuilder extends ReviewViewAdapterBasic {
                     .getAverageRating() : getRating();
         }
 
-        @Override
-        public GvDataList getGridData() {
-            return mData;
-        }
 
         @Override
         public GvImageList getCovers() {

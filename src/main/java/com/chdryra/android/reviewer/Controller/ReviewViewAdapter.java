@@ -15,14 +15,12 @@ package com.chdryra.android.reviewer.Controller;
  */
 
 import com.chdryra.android.reviewer.View.GridDataObservable;
-import com.chdryra.android.reviewer.View.GvData;
 import com.chdryra.android.reviewer.View.GvDataList;
 import com.chdryra.android.reviewer.View.GvImageList;
 
 /**
  * Adapter for {@link com.chdryra.android.reviewer.Model.Review} for passing {@link com.chdryra
- * .android
- * .reviewer.MdData} to View layer as {@link com.chdryra.android.reviewer.View.GvData}
+ * .android.reviewer.MdData} to View layer as {@link com.chdryra.android.reviewer.View.GvData}
  */
 public interface ReviewViewAdapter extends GridDataObservable, GridDataExpander {
     String getSubject();
@@ -34,8 +32,4 @@ public interface ReviewViewAdapter extends GridDataObservable, GridDataExpander 
     GvDataList getGridData();
 
     GvImageList getCovers();
-
-    boolean isExpandable(GvData datum);
-
-    ReviewViewAdapter expandItem(GvData datum);
 }

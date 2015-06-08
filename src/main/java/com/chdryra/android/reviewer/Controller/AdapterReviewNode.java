@@ -16,17 +16,14 @@ package com.chdryra.android.reviewer.Controller;
 
 import android.content.Context;
 
-import com.chdryra.android.reviewer.Model.ReviewId;
-import com.chdryra.android.reviewer.Model.ReviewIdableList;
 import com.chdryra.android.reviewer.Model.ReviewNode;
 import com.chdryra.android.reviewer.Model.VisitorRatingAverageOfChildren;
-import com.chdryra.android.reviewer.View.GvDataCollection;
 import com.chdryra.android.reviewer.View.GvImageList;
-import com.chdryra.android.reviewer.View.GvReviewId;
 
 /**
- * {@link ReviewViewAdapter} for {@link ReviewIdableList} data.
+ * {@link ReviewViewAdapter} for a {@link ReviewNode}.
  */
+
 public class AdapterReviewNode extends ReviewViewAdapterBasic {
     private ReviewNode mNode;
 
@@ -65,26 +62,5 @@ public class AdapterReviewNode extends ReviewViewAdapterBasic {
     @Override
     public GvImageList getCovers() {
         return MdGvConverter.convert(mNode.getImages().getCovers());
-    }
-
-    public static class DataAdapter extends AdapterReviewNode {
-        public DataAdapter(Context context, ReviewNode node) {
-            super(node, null, null);
-            ReviewId id = node.getId();
-
-            GvDataCollection data = new GvDataCollection(GvReviewId.getId(id.toString()));
-            data.add(MdGvConverter.getTags(id.toString()));
-            data.add(MdGvConverter.convertChildren(node));
-            data.add(MdGvConverter.convert(node.getImages()));
-            data.add(MdGvConverter.convert(node.getComments()));
-            data.add(MdGvConverter.convert(node.getLocations()));
-            data.add(MdGvConverter.convert(node.getFacts()));
-
-            GridDataWrapper wrapper = new WrapperGvDataList(data);
-            ReviewViewAdapter adapter = new AdapterReviewViewAdapter(context, this, wrapper);
-
-            setWrapper(wrapper);
-            setExpander(new ExpanderGridCell(context, adapter));
-        }
     }
 }

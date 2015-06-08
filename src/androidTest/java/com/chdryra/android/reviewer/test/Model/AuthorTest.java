@@ -27,7 +27,7 @@ public class AuthorTest extends TestCase {
     @SmallTest
     public void testAuthor() {
         Author author = new Author(AUTHOR_NAME, ID);
-        String name = author.getName();
-        assertEquals(AUTHOR_NAME, name);
+        assertEquals(AUTHOR_NAME, author.getName());
+        assertEquals(ID, author.getUserId());
     }
 }
