@@ -26,6 +26,10 @@ import java.util.ArrayList;
  * On: 12/05/2015
  * Email: rizwan.choudrey@gmail.com
  */
+
+/**
+ * Grid data is {@link GvReviewList}.
+ */
 public class WrapperChildList implements GridDataWrapper {
     private ReviewNode mNode;
 

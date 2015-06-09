@@ -37,7 +37,7 @@ public class ReviewView implements GridDataObservable.GridDataObserver, Launchab
     private       ReviewViewAdapter                              mAdapter;
     private       FragmentReviewView                             mParent;
     private       ViewModifier                                   mModifier;
-    private       GvDataList                                     mGridData;
+    private GvDataList mGridViewData;
 
     private enum Action {SUBJECTVIEW, RATINGBAR, BANNERBUTTON, GRIDITEM, MENU}
 
@@ -50,7 +50,7 @@ public class ReviewView implements GridDataObservable.GridDataObserver, Launchab
 
         private final int mAlpha;
 
-        private GridViewImageAlpha(int alpha) {
+        GridViewImageAlpha(int alpha) {
             this.mAlpha = alpha;
         }
 
@@ -67,7 +67,7 @@ public class ReviewView implements GridDataObservable.GridDataObserver, Launchab
     public ReviewView(ReviewViewAdapter adapter, ReviewViewParams params) {
         mAdapter = adapter;
         mAdapter.registerGridDataObserver(this);
-        mGridData = adapter.getGridData();
+        mGridViewData = adapter.getGridData();
         mGridObservers = new ArrayList<>();
         mActionListeners = new HashMap<>();
         mActions = new HashMap<>();
@@ -140,16 +140,16 @@ public class ReviewView implements GridDataObservable.GridDataObserver, Launchab
     }
 
     public GvDataList getGridViewData() {
-        return getGridData();
+        return mGridViewData != null ? mGridViewData : getGridData();
     }
 
     public void setGridViewData(GvDataList dataToShow) {
-        mGridData = dataToShow;
+        mGridViewData = dataToShow;
         updateParent();
     }
 
     public void resetGridViewData() {
-        mGridData = getGridData();
+        mGridViewData = null;
         updateParent();
     }
 

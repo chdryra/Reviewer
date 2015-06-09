@@ -19,6 +19,12 @@ import com.chdryra.android.reviewer.View.GvReviewId;
  * On: 14/05/2015
  * Email: rizwan.choudrey@gmail.com
  */
+
+/**
+ * Grid data is a summary of how many of each type of {@link com.chdryra.android.reviewer.Model
+ * .MdData}. {@link com.chdryra.android.reviewer.Model.TagsManager.ReviewTag} is in the tree.
+ * Includes number of reviews and subjects if a meta-review.
+ */
 public class WrapperTreeData implements GridDataWrapper {
     private ReviewNode mNode;
     private boolean        mUniqueData;
