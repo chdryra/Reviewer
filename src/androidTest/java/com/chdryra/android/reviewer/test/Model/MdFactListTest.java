@@ -13,6 +13,7 @@ import android.test.suitebuilder.annotation.SmallTest;
 import com.chdryra.android.reviewer.Model.MdFactList;
 import com.chdryra.android.reviewer.Model.ReviewId;
 import com.chdryra.android.reviewer.test.TestUtils.MdDataUtils;
+import com.chdryra.android.reviewer.test.TestUtils.RandomReviewId;
 import com.chdryra.android.testutils.RandomString;
 
 import junit.framework.TestCase;
@@ -23,7 +24,7 @@ import junit.framework.TestCase;
  * Email: rizwan.choudrey@gmail.com
  */
 public class MdFactListTest extends TestCase {
-    private static final ReviewId ID = ReviewId.generateId();
+    private static final ReviewId ID = RandomReviewId.nextId();
 
     @SmallTest
     public void testMdFactHasData() {
@@ -70,7 +71,7 @@ public class MdFactListTest extends TestCase {
         String value1 = RandomString.nextWord();
         String label2 = RandomString.nextWord();
         String value2 = RandomString.nextWord();
-        ReviewId id2 = ReviewId.generateId();
+        ReviewId id2 = RandomReviewId.nextId();
 
         MdFactList.MdFact fact1 = new MdFactList.MdFact(label1, value1, ID);
 

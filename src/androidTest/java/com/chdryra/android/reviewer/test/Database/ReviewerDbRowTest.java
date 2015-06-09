@@ -19,7 +19,6 @@ import com.chdryra.android.reviewer.Database.RowLocation;
 import com.chdryra.android.reviewer.Database.RowReview;
 import com.chdryra.android.reviewer.Database.RowReviewNode;
 import com.chdryra.android.reviewer.Database.RowTag;
-import com.chdryra.android.reviewer.Model.ReviewId;
 import com.chdryra.android.reviewer.test.TestUtils.MdDataMocker;
 import com.chdryra.android.reviewer.test.TestUtils.RandomAuthor;
 import com.chdryra.android.reviewer.test.TestUtils.ReviewMocker;
@@ -84,6 +83,6 @@ public class ReviewerDbRowTest extends TestCase {
 
     @Override
     protected void setUp() throws Exception {
-        mMocker = new MdDataMocker(ReviewId.generateId());
+        mMocker = new MdDataMocker();
     }
 }

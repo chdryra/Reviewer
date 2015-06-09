@@ -51,7 +51,7 @@ public class UserId {
 
     @Override
     public boolean equals(Object obj) {
-        return obj != null && obj.getClass() == getClass() && this.equals((UserId) obj);
+        return obj != null && obj.getClass() == getClass() && this.mId.equals(((UserId) obj).mId);
     }
 
     @Override
@@ -62,9 +62,5 @@ public class UserId {
     @Override
     public String toString() {
         return mId != null ? mId.toString() : NULL_ID_STRING;
-    }
-
-    public boolean equals(UserId userId) {
-        return mId.equals(userId.mId);
     }
 }

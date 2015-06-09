@@ -35,9 +35,17 @@ public class WrapperTreeData implements GridDataWrapper {
         GvReviewId id = GvReviewId.getId(mNode.getId().toString());
         GvDataCollection data = new GvDataCollection(id);
         TagCollector tagCollector = new TagCollector(mNode);
-        CriteriaCollector criteriaCollector = new CriteriaCollector(mNode);
+        SubReviewCollector subReviewCollector = new SubReviewCollector(mNode);
+
+        WrapperChildList wrapper = new WrapperChildList(mNode);
+        GvDataList reviews = wrapper.getGridData();
+        if (reviews.size() > 0) {
+            data.add(reviews);
+            data.add(MdGvConverter.convertChildren(mNode));
+        }
+
         data.add(tagCollector.collectTags());
-        data.add(criteriaCollector.collectCriteria());
+        data.add(subReviewCollector.collectCriteria());
         data.add(MdGvConverter.convert(mGetter.getImages(mUniqueData)));
         data.add(MdGvConverter.convert(mGetter.getComments(mUniqueData)));
         data.add(MdGvConverter.convert(mGetter.getLocations(mUniqueData)));

@@ -13,6 +13,7 @@ import android.test.suitebuilder.annotation.SmallTest;
 import com.chdryra.android.reviewer.Model.MdCommentList;
 import com.chdryra.android.reviewer.Model.ReviewId;
 import com.chdryra.android.reviewer.test.TestUtils.MdDataUtils;
+import com.chdryra.android.reviewer.test.TestUtils.RandomReviewId;
 import com.chdryra.android.testutils.RandomString;
 
 import junit.framework.TestCase;
@@ -23,7 +24,7 @@ import junit.framework.TestCase;
  * Email: rizwan.choudrey@gmail.com
  */
 public class MdCommentListTest extends TestCase {
-    private static final ReviewId ID = ReviewId.generateId();
+    private static final ReviewId ID = RandomReviewId.nextId();
 
     @SmallTest
     public void testMdCommentHasData() {
@@ -56,7 +57,7 @@ public class MdCommentListTest extends TestCase {
     public void testMdCommentEqualsHash() {
         String string1 = RandomString.nextSentence();
         String string2 = RandomString.nextSentence();
-        ReviewId id2 = ReviewId.generateId();
+        ReviewId id2 = RandomReviewId.nextId();
 
         MdCommentList.MdComment comment1 = new MdCommentList.MdComment(string1, true, ID);
 

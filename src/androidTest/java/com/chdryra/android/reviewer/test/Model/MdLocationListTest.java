@@ -13,6 +13,7 @@ import android.test.suitebuilder.annotation.SmallTest;
 import com.chdryra.android.reviewer.Model.MdLocationList;
 import com.chdryra.android.reviewer.Model.ReviewId;
 import com.chdryra.android.reviewer.test.TestUtils.MdDataUtils;
+import com.chdryra.android.reviewer.test.TestUtils.RandomReviewId;
 import com.chdryra.android.testutils.RandomLatLng;
 import com.chdryra.android.testutils.RandomString;
 import com.google.android.gms.maps.model.LatLng;
@@ -25,7 +26,7 @@ import junit.framework.TestCase;
  * Email: rizwan.choudrey@gmail.com
  */
 public class MdLocationListTest extends TestCase {
-    private static final ReviewId ID = ReviewId.generateId();
+    private static final ReviewId ID = RandomReviewId.nextId();
 
     @SmallTest
     public void testMdLocationHasData() {
@@ -60,7 +61,7 @@ public class MdLocationListTest extends TestCase {
         String name1 = RandomString.nextWord();
         LatLng latLng2 = RandomLatLng.nextLatLng();
         String name2 = RandomString.nextWord();
-        ReviewId id2 = ReviewId.generateId();
+        ReviewId id2 = RandomReviewId.nextId();
 
         MdLocationList.MdLocation location1 = new MdLocationList.MdLocation(latLng1, name1, ID);
 

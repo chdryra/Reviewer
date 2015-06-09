@@ -14,6 +14,7 @@ import com.chdryra.android.reviewer.Model.MdRating;
 import com.chdryra.android.reviewer.Model.ReviewId;
 import com.chdryra.android.reviewer.test.TestUtils.MdDataUtils;
 import com.chdryra.android.reviewer.test.TestUtils.RandomRating;
+import com.chdryra.android.reviewer.test.TestUtils.RandomReviewId;
 
 import junit.framework.TestCase;
 
@@ -23,7 +24,7 @@ import junit.framework.TestCase;
  * Email: rizwan.choudrey@gmail.com
  */
 public class MdRatingTest extends TestCase {
-    private static final ReviewId ID = ReviewId.generateId();
+    private static final ReviewId ID = RandomReviewId.nextId();
 
     @SmallTest
     public void testGetters() {
@@ -44,7 +45,7 @@ public class MdRatingTest extends TestCase {
     public void testEqualsHash() {
         float score1 = 1f;
         float score2 = 2f;
-        ReviewId id2 = ReviewId.generateId();
+        ReviewId id2 = RandomReviewId.nextId();
 
         MdRating rating1 = new MdRating(score1, ID);
         MdDataUtils.testEqualsHash(rating1, new MdRating(score2, ID), false);

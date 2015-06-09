@@ -15,7 +15,6 @@ import android.test.suitebuilder.annotation.SmallTest;
 import com.chdryra.android.reviewer.Database.ReviewerDbRow;
 import com.chdryra.android.reviewer.Database.RowComment;
 import com.chdryra.android.reviewer.Model.MdCommentList;
-import com.chdryra.android.reviewer.Model.ReviewId;
 import com.chdryra.android.reviewer.test.TestUtils.MdDataMocker;
 
 import junit.framework.TestCase;
@@ -50,7 +49,7 @@ public class RowCommentTest extends TestCase {
 
     @Override
     protected void setUp() throws Exception {
-        MdDataMocker mocker = new MdDataMocker(ReviewId.generateId());
+        MdDataMocker mocker = new MdDataMocker();
         mComment = mocker.newComment();
     }
 

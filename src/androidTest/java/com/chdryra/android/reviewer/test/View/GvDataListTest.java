@@ -10,11 +10,11 @@ package com.chdryra.android.reviewer.test.View;
 
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.Model.ReviewId;
 import com.chdryra.android.reviewer.View.GvCommentList;
 import com.chdryra.android.reviewer.View.GvDataList;
 import com.chdryra.android.reviewer.View.GvReviewId;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataParcelableTester;
+import com.chdryra.android.reviewer.test.TestUtils.RandomReviewId;
 import com.chdryra.android.testutils.RandomString;
 
 import junit.framework.TestCase;
@@ -47,7 +47,7 @@ public class GvDataListTest extends TestCase {
 
     @SmallTest
     public void testReviewIdConstructor() {
-        GvReviewId id = GvReviewId.getId(ReviewId.generateId().toString());
+        GvReviewId id = RandomReviewId.nextGvReviewId();
         mList.addList(newData(id));
         GvDataList<GvCommentList.GvComment> idList = new GvDataList<>(id, mList);
 
@@ -63,7 +63,7 @@ public class GvDataListTest extends TestCase {
         mList.addList(newData(null));
         GvDataParcelableTester.testParcelable(mList);
 
-        GvReviewId id = GvReviewId.getId(ReviewId.generateId().toString());
+        GvReviewId id = RandomReviewId.nextGvReviewId();
         mList.removeAll();
         mList.addList(newData(id));
         GvDataList<GvCommentList.GvComment> idList = new GvDataList<>(id, mList);

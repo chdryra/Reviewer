@@ -11,7 +11,6 @@ package com.chdryra.android.reviewer.test.TestUtils;
 import android.graphics.Bitmap;
 
 import com.chdryra.android.reviewer.Model.Author;
-import com.chdryra.android.reviewer.Model.ReviewId;
 import com.chdryra.android.reviewer.View.GvChildList;
 import com.chdryra.android.reviewer.View.GvCommentList;
 import com.chdryra.android.reviewer.View.GvData;
@@ -251,7 +250,7 @@ public class GvDataMocker {
         for (int i = 0; i < 3; ++i) {
             locations.add(RandomString.nextWord());
         }
-        GvReviewId id = GvReviewId.getId(ReviewId.generateId().toString());
+        GvReviewId id = GvReviewId.getId(RandomReviewId.nextId().toString());
 
         return new GvReviewList.GvReviewOverview(parentId, id.toString(), author, date, subject,
                 rating, bitmap, comment, locations);
@@ -263,6 +262,6 @@ public class GvDataMocker {
     }
 
     private static GvReviewId getId(boolean withId) {
-        return withId ? GvReviewId.getId(ReviewId.generateId().toString()) : null;
+        return withId ? GvReviewId.getId(RandomReviewId.nextId().toString()) : null;
     }
 }

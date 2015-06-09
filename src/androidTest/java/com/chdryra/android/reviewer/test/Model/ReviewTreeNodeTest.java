@@ -11,10 +11,10 @@ package com.chdryra.android.reviewer.test.Model;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.Model.Review;
-import com.chdryra.android.reviewer.Model.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewIdableList;
 import com.chdryra.android.reviewer.Model.ReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewTreeNode;
+import com.chdryra.android.reviewer.test.TestUtils.RandomReviewId;
 import com.chdryra.android.reviewer.test.TestUtils.ReviewMocker;
 
 import junit.framework.TestCase;
@@ -105,7 +105,7 @@ public class ReviewTreeNodeTest extends TestCase {
 
     @SmallTest
     public void testGetIdUnique() {
-        ReviewTreeNode node = new ReviewTreeNode(mReview, false, ReviewId.generateId());
+        ReviewTreeNode node = new ReviewTreeNode(mReview, false, RandomReviewId.nextId());
         assertFalse(mReview.getId().equals(node.getId()));
     }
 

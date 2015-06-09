@@ -11,17 +11,16 @@ package com.chdryra.android.reviewer.test.View;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.Model.MdLocationList;
-import com.chdryra.android.reviewer.Model.ReviewId;
 import com.chdryra.android.reviewer.View.GvChildList;
 import com.chdryra.android.reviewer.View.GvCommentList;
 import com.chdryra.android.reviewer.View.GvFactList;
 import com.chdryra.android.reviewer.View.GvImageList;
 import com.chdryra.android.reviewer.View.GvLocationList;
-import com.chdryra.android.reviewer.View.GvReviewId;
 import com.chdryra.android.reviewer.View.GvTagList;
 import com.chdryra.android.reviewer.View.GvUrlList;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataParcelableTester;
+import com.chdryra.android.reviewer.test.TestUtils.RandomReviewId;
 import com.chdryra.android.testutils.RandomLatLng;
 import com.chdryra.android.testutils.RandomString;
 import com.google.android.gms.maps.model.LatLng;
@@ -47,8 +46,8 @@ public class GvLocationListTest extends TestCase {
     @SmallTest
     public void testParcelable() {
         GvDataParcelableTester.testParcelable(GvDataMocker.newLocation(null));
-        GvDataParcelableTester.testParcelable(GvDataMocker.newLocation(GvReviewId.getId(ReviewId
-                .generateId().toString())));
+        GvDataParcelableTester.testParcelable(GvDataMocker.newLocation(RandomReviewId
+                .nextGvReviewId()));
         GvDataParcelableTester.testParcelable(GvDataMocker.newLocationList(10, false));
         GvDataParcelableTester.testParcelable(GvDataMocker.newLocationList(10, true));
     }

@@ -63,7 +63,7 @@ public class FactoryReview {
 
     //Constructors
     private Review newReviewUser(Author author, Date publishDate, String subject, float rating) {
-        return new ReviewUser(ReviewId.generateId(), author, publishDate, subject, rating);
+        return new ReviewUser(ReviewId.generateId(author), author, publishDate, subject, rating);
     }
 
     private Review newReviewUser(Author author, Date publishDate, String subject, float rating,
@@ -71,7 +71,7 @@ public class FactoryReview {
             Iterable<? extends DataImage> images,
             Iterable<? extends DataFact> facts,
             Iterable<? extends DataLocation> locations) {
-        return new ReviewUser(ReviewId.generateId(), author, publishDate, subject, rating,
+        return new ReviewUser(ReviewId.generateId(author), author, publishDate, subject, rating,
                 comments, images, facts, locations);
     }
 

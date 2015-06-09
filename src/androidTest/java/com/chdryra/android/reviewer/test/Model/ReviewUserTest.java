@@ -14,7 +14,6 @@ import com.chdryra.android.reviewer.Model.Author;
 import com.chdryra.android.reviewer.Model.MdRating;
 import com.chdryra.android.reviewer.Model.MdSubject;
 import com.chdryra.android.reviewer.Model.Review;
-import com.chdryra.android.reviewer.Model.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewUser;
 import com.chdryra.android.reviewer.Model.UserId;
 import com.chdryra.android.reviewer.View.GvCommentList;
@@ -24,6 +23,7 @@ import com.chdryra.android.reviewer.View.GvLocationList;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
 import com.chdryra.android.reviewer.test.TestUtils.MdGvEquality;
 import com.chdryra.android.reviewer.test.TestUtils.RandomRating;
+import com.chdryra.android.reviewer.test.TestUtils.RandomReviewId;
 import com.chdryra.android.testutils.RandomDate;
 import com.chdryra.android.testutils.RandomString;
 
@@ -116,7 +116,7 @@ public class ReviewUserTest extends TestCase {
         mFacts = GvDataMocker.newFactList(NUM, false);
         mLocations = GvDataMocker.newLocationList(NUM, false);
 
-        mReview = new ReviewUser(ReviewId.generateId(), mAuthor, mDate, mSubject, mRating,
+        mReview = new ReviewUser(RandomReviewId.nextId(), mAuthor, mDate, mSubject, mRating,
                 mComments, mImages, mFacts, mLocations);
     }
 }

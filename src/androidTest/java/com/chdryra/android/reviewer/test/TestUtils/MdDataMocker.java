@@ -44,6 +44,9 @@ public class MdDataMocker {
 
     private final ReviewId mReviewId;
 
+    public MdDataMocker() {
+        mReviewId = RandomReviewId.nextId();
+    }
     public MdDataMocker(ReviewId id) {
         mReviewId = id;
     }

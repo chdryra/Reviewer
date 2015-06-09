@@ -18,10 +18,10 @@ import com.chdryra.android.reviewer.View.GvChildList;
  * On: 13/05/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class CriteriaCollector {
+public class SubReviewCollector {
     private ReviewNode mNode;
 
-    public CriteriaCollector(ReviewNode node) {
+    public SubReviewCollector(ReviewNode node) {
         mNode = node;
     }
 

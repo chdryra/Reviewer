@@ -10,7 +10,9 @@ package com.chdryra.android.reviewer.test.Model;
 
 import android.test.suitebuilder.annotation.SmallTest;
 
+import com.chdryra.android.reviewer.Model.Author;
 import com.chdryra.android.reviewer.Model.ReviewId;
+import com.chdryra.android.reviewer.test.TestUtils.RandomAuthor;
 
 import junit.framework.TestCase;
 
@@ -23,12 +25,12 @@ public class ReviewIdTest extends TestCase {
 
     @SmallTest
     public void testReviewId() {
-        ReviewId id1 = ReviewId.generateId();
+        ReviewId id1 = ReviewId.generateId(RandomAuthor.nextAuthor());
         assertNotNull(id1);
         assertTrue(id1.hasData());
         assertEquals(id1, id1.getReviewId());
 
-        ReviewId id2 = ReviewId.generateId();
+        ReviewId id2 = ReviewId.generateId(RandomAuthor.nextAuthor());
         assertNotNull(id2);
 
         assertFalse(id1.equals(id2));
@@ -37,5 +39,11 @@ public class ReviewIdTest extends TestCase {
         assertNotNull(id3);
         assertFalse(id1.equals(id3));
         assertTrue(id2.equals(id3));
+
+        //Test concurrency i.e. if called potentially within 1ms, id is still unique.
+        Author author = RandomAuthor.nextAuthor();
+        ReviewId id4 = ReviewId.generateId(author);
+        ReviewId id5 = ReviewId.generateId(author);
+        assertFalse(id4.equals(id5));
     }
 }

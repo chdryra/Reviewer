@@ -15,7 +15,6 @@ import android.test.suitebuilder.annotation.SmallTest;
 import com.chdryra.android.reviewer.Database.ReviewerDbRow;
 import com.chdryra.android.reviewer.Database.RowLocation;
 import com.chdryra.android.reviewer.Model.MdLocationList;
-import com.chdryra.android.reviewer.Model.ReviewId;
 import com.chdryra.android.reviewer.test.TestUtils.MdDataMocker;
 import com.google.android.gms.maps.model.LatLng;
 
@@ -52,7 +51,7 @@ public class RowLocationTest extends TestCase {
 
     @Override
     protected void setUp() throws Exception {
-        MdDataMocker mocker = new MdDataMocker(ReviewId.generateId());
+        MdDataMocker mocker = new MdDataMocker();
         mLocation = mocker.newLocation();
     }
 

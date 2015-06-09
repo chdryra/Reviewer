@@ -14,6 +14,7 @@ import android.webkit.URLUtil;
 import com.chdryra.android.reviewer.Model.MdUrlList;
 import com.chdryra.android.reviewer.Model.ReviewId;
 import com.chdryra.android.reviewer.test.TestUtils.MdDataUtils;
+import com.chdryra.android.reviewer.test.TestUtils.RandomReviewId;
 import com.chdryra.android.testutils.RandomString;
 
 import junit.framework.TestCase;
@@ -27,7 +28,7 @@ import java.net.URL;
  * Email: rizwan.choudrey@gmail.com
  */
 public class MdUrlListTest extends TestCase {
-    private static final ReviewId ID = ReviewId.generateId();
+    private static final ReviewId ID = RandomReviewId.nextId();
     private URL mUrl;
 
     @SmallTest
@@ -72,7 +73,7 @@ public class MdUrlListTest extends TestCase {
             fail();
         }
 
-        ReviewId id2 = ReviewId.generateId();
+        ReviewId id2 = RandomReviewId.nextId();
 
         MdUrlList.MdUrl url1 = new MdUrlList.MdUrl(label1, link1, ID);
 

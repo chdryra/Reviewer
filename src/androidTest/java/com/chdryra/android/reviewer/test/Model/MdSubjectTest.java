@@ -13,6 +13,7 @@ import android.test.suitebuilder.annotation.SmallTest;
 import com.chdryra.android.reviewer.Model.MdSubject;
 import com.chdryra.android.reviewer.Model.ReviewId;
 import com.chdryra.android.reviewer.test.TestUtils.MdDataUtils;
+import com.chdryra.android.reviewer.test.TestUtils.RandomReviewId;
 import com.chdryra.android.testutils.RandomString;
 
 import junit.framework.TestCase;
@@ -23,7 +24,7 @@ import junit.framework.TestCase;
  * Email: rizwan.choudrey@gmail.com
  */
 public class MdSubjectTest extends TestCase {
-    private static final ReviewId ID = ReviewId.generateId();
+    private static final ReviewId ID = RandomReviewId.nextId();
 
     @SmallTest
     public void testGetters() {
@@ -46,7 +47,7 @@ public class MdSubjectTest extends TestCase {
     public void testEqualsHash() {
         String title1 = RandomString.nextWord();
         String title2 = RandomString.nextWord();
-        ReviewId id2 = ReviewId.generateId();
+        ReviewId id2 = RandomReviewId.nextId();
 
         MdSubject subject = new MdSubject(title1, ID);
         MdDataUtils.testEqualsHash(subject, new MdSubject(title2, ID), false);

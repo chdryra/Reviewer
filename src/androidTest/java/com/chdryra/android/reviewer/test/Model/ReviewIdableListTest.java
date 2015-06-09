@@ -12,6 +12,7 @@ import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.Model.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewIdableList;
+import com.chdryra.android.reviewer.test.TestUtils.RandomReviewId;
 
 import junit.framework.TestCase;
 
@@ -106,7 +107,7 @@ public class ReviewIdableListTest extends TestCase {
         private ReviewId mId;
 
         public Idable() {
-            mId = ReviewId.generateId();
+            mId = RandomReviewId.nextId();
         }
 
         @Override

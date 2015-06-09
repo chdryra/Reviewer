@@ -12,18 +12,17 @@ import android.graphics.Bitmap;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.Model.Author;
-import com.chdryra.android.reviewer.Model.ReviewId;
 import com.chdryra.android.reviewer.View.GvChildList;
 import com.chdryra.android.reviewer.View.GvCommentList;
 import com.chdryra.android.reviewer.View.GvFactList;
 import com.chdryra.android.reviewer.View.GvImageList;
 import com.chdryra.android.reviewer.View.GvLocationList;
-import com.chdryra.android.reviewer.View.GvReviewId;
 import com.chdryra.android.reviewer.View.GvReviewList;
 import com.chdryra.android.reviewer.View.GvTagList;
 import com.chdryra.android.reviewer.View.GvUrlList;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataParcelableTester;
+import com.chdryra.android.reviewer.test.TestUtils.RandomReviewId;
 
 import junit.framework.TestCase;
 
@@ -42,8 +41,8 @@ public class GvReviewListTest extends TestCase {
     @SmallTest
     public void testParcelable() {
         GvDataParcelableTester.testParcelable(GvDataMocker.newReviewOverview(null));
-        GvDataParcelableTester.testParcelable(GvDataMocker.newReviewOverview(GvReviewId.getId(
-                ReviewId.generateId().toString())));
+        GvDataParcelableTester.testParcelable(GvDataMocker.newReviewOverview(RandomReviewId
+                .nextGvReviewId()));
         GvDataParcelableTester.testParcelable(GvDataMocker.newReviewList(2, false));
         GvDataParcelableTester.testParcelable(GvDataMocker.newReviewList(2, true));
     }

@@ -13,6 +13,13 @@ package com.chdryra.android.reviewer.Model;
  * On: 13/05/2015
  * Email: rizwan.choudrey@gmail.com
  */
+
+/**
+ * Collects data from ReviewTree. Not very robust at the moment as assumes {@link ReviewTreeNode}
+ * underlying all {@link ReviewNode}s. Uses {@link ReviewTreeNode} implementation of getComments
+ * () etc. to recursively pull data from the tree. This class just ensures that the data items are
+ * unique.
+ */
 public class TreeDataGetter {
     private ReviewNode                   mRoot;
 

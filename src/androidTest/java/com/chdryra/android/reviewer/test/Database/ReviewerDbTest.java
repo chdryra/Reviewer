@@ -47,6 +47,7 @@ import com.chdryra.android.reviewer.Model.ReviewTreeNode;
 import com.chdryra.android.reviewer.Model.TagsManager;
 import com.chdryra.android.reviewer.View.GvTagList;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
+import com.chdryra.android.reviewer.test.TestUtils.RandomReviewId;
 import com.chdryra.android.reviewer.test.TestUtils.ReviewMocker;
 
 import java.io.ByteArrayOutputStream;
@@ -293,13 +294,13 @@ public class ReviewerDbTest extends AndroidTestCase {
         for (ReviewNode child : mNode.getChildren()) {
             childReviews.add(child.getReview());
         }
-        ReviewTreeNode node2 = new ReviewTreeNode(childReviews.getItem(0), false,
-                ReviewId.generateId());
+        ReviewTreeNode node2 = new ReviewTreeNode(childReviews.getItem(0), false, RandomReviewId
+                .nextId());
         ReviewIdableList<Review> children = new ReviewIdableList<>();
         children.add(parentReview);
         children.add(nodeReview);
         for (Review child : children) {
-            node2.addChild(new ReviewTreeNode(child, false, ReviewId.generateId()));
+            node2.addChild(new ReviewTreeNode(child, false, RandomReviewId.nextId()));
         }
         ReviewNode tree2 = node2.createTree();
         TagsManager.tag(tree2.getId(), tags2.toStringArray());
@@ -375,12 +376,12 @@ public class ReviewerDbTest extends AndroidTestCase {
         }
 
         ReviewTreeNode rootNode = new ReviewTreeNode(childReviews.getItem(0), false,
-                ReviewId.generateId());
+                RandomReviewId.nextId());
         ReviewIdableList<Review> children = new ReviewIdableList<>();
         children.add(parentReview);
         children.add(nodeReview);
         for (Review child : children) {
-            rootNode.addChild(new ReviewTreeNode(child, false, ReviewId.generateId()));
+            rootNode.addChild(new ReviewTreeNode(child, false, RandomReviewId.nextId()));
         }
         ReviewNode tree1 = mNode;
         ReviewNode tree2 = rootNode.createTree();

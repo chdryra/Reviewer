@@ -14,5 +14,5 @@ package com.chdryra.android.reviewer.Model;
  * targeted towards rating calculations.
  */
 public interface VisitorRatingCalculator extends VisitorReviewNode {
-    public float getRating();
+    float getRating();
 }

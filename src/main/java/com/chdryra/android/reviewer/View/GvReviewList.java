@@ -30,7 +30,7 @@ import java.util.Date;
  * @see com.chdryra.android.reviewer.Controller.Administrator
  */
 public class GvReviewList extends GvDataList<GvReviewList.GvReviewOverview> {
-    public static final GvDataType TYPE = new GvDataType("reviews");
+    public static final GvDataType TYPE = new GvDataType("review");
     public static final Class<GvReviewOverview> DATA_CLASS = GvReviewOverview.class;
 
     public GvReviewList() {

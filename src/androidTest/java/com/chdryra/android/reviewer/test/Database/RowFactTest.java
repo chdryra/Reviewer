@@ -16,7 +16,6 @@ import com.chdryra.android.reviewer.Database.ReviewerDbRow;
 import com.chdryra.android.reviewer.Database.RowFact;
 import com.chdryra.android.reviewer.Model.MdFactList;
 import com.chdryra.android.reviewer.Model.MdUrlList;
-import com.chdryra.android.reviewer.Model.ReviewId;
 import com.chdryra.android.reviewer.test.TestUtils.MdDataMocker;
 
 import junit.framework.TestCase;
@@ -59,7 +58,7 @@ public class RowFactTest extends TestCase {
 
     @Override
     protected void setUp() throws Exception {
-        MdDataMocker mocker = new MdDataMocker(ReviewId.generateId());
+        MdDataMocker mocker = new MdDataMocker();
         mFact = mocker.newFact();
         mUrl = mocker.newUrl();
     }

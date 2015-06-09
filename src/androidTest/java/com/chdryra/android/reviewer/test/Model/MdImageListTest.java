@@ -15,6 +15,7 @@ import com.chdryra.android.reviewer.Model.MdImageList;
 import com.chdryra.android.reviewer.Model.ReviewId;
 import com.chdryra.android.reviewer.test.TestUtils.MdDataMocker;
 import com.chdryra.android.reviewer.test.TestUtils.MdDataUtils;
+import com.chdryra.android.reviewer.test.TestUtils.RandomReviewId;
 import com.chdryra.android.testutils.BitmapMocker;
 import com.chdryra.android.testutils.RandomDate;
 import com.chdryra.android.testutils.RandomString;
@@ -29,7 +30,7 @@ import java.util.Date;
  * Email: rizwan.choudrey@gmail.com
  */
 public class MdImageListTest extends TestCase {
-    private static final ReviewId ID = ReviewId.generateId();
+    private static final ReviewId ID = RandomReviewId.nextId();
 
     @SmallTest
     public void testGetCovers() {
@@ -94,7 +95,7 @@ public class MdImageListTest extends TestCase {
         Bitmap bitmap2 = BitmapMocker.nextBitmap();
         Date date2 = RandomDate.nextDate();
         String caption2 = RandomString.nextSentence();
-        ReviewId id2 = ReviewId.generateId();
+        ReviewId id2 = RandomReviewId.nextId();
 
         MdImageList.MdImage image1 = new MdImageList.MdImage(bitmap1, date1, caption1, false, ID);
 

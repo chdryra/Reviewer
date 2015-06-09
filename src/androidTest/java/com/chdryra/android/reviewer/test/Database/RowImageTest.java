@@ -16,7 +16,6 @@ import android.test.suitebuilder.annotation.SmallTest;
 import com.chdryra.android.reviewer.Database.ReviewerDbRow;
 import com.chdryra.android.reviewer.Database.RowImage;
 import com.chdryra.android.reviewer.Model.MdImageList;
-import com.chdryra.android.reviewer.Model.ReviewId;
 import com.chdryra.android.reviewer.test.TestUtils.MdDataMocker;
 
 import junit.framework.TestCase;
@@ -54,7 +53,7 @@ public class RowImageTest extends TestCase {
 
     @Override
     protected void setUp() throws Exception {
-        MdDataMocker mocker = new MdDataMocker(ReviewId.generateId());
+        MdDataMocker mocker = new MdDataMocker();
         mImage = mocker.newImage();
     }
 

@@ -8,16 +8,12 @@
 
 package com.chdryra.android.reviewer.test.TestUtils;
 
-import com.chdryra.android.reviewer.Model.Author;
 import com.chdryra.android.reviewer.Model.Review;
-import com.chdryra.android.reviewer.Model.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewTreeNode;
 import com.chdryra.android.reviewer.Model.ReviewUser;
-import com.chdryra.android.reviewer.Model.UserId;
+import com.chdryra.android.testutils.RandomDate;
 import com.chdryra.android.testutils.RandomString;
-
-import java.util.Date;
 
 /**
  * Created by: Rizwan Choudrey
@@ -59,8 +55,8 @@ public class ReviewMocker {
 
     static class MockReview extends ReviewUser {
         private MockReview() {
-            super(ReviewId.generateId(), new Author(RandomString.nextWord(), UserId.generateId()),
-                    new Date(), RandomString.nextWord(),
+            super(RandomReviewId.nextId(), RandomAuthor.nextAuthor(),
+                    RandomDate.nextDate(), RandomString.nextWord(),
                     RandomRating.nextRating(), GvDataMocker.newCommentList(NUM, false),
                     GvDataMocker.newImageList(NUM, false), GvDataMocker.newFactList(NUM, false),
                     GvDataMocker.newLocationList(NUM, false));

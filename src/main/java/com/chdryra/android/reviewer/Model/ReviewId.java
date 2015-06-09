@@ -8,7 +8,7 @@
 
 package com.chdryra.android.reviewer.Model;
 
-import java.util.UUID;
+import java.util.Date;
 
 /**
  * Review Data: Wrapper for a UUID
@@ -23,7 +23,10 @@ import java.util.UUID;
  * //TODO There's a reason couldn't use holding review but can't remember. Find out.
  */
 public class ReviewId implements MdData {
-    private final UUID mId;
+    private static final String SPLITTER = "-T-";
+    private static ReviewIdGenerator mGenerator;
+    private final  UserId            mId;
+    private        long              mTime;
 
     /**
      * To facilitate RCollectionReview
@@ -32,16 +35,20 @@ public class ReviewId implements MdData {
         ReviewId getId();
     }
 
-    private ReviewId() {
-        mId = UUID.randomUUID();
+    private ReviewId(UserId id, long time) {
+        mId = id;
+        mTime = time;
     }
 
     private ReviewId(String rdId) {
-        mId = UUID.fromString(rdId);
+        String[] split = rdId.split(SPLITTER);
+        mId = UserId.fromString(split[0]);
+        mTime = Long.parseLong(split[1]);
     }
 
-    public static ReviewId generateId() {
-        return new ReviewId();
+    public synchronized static ReviewId generateId(Author author) {
+        if (mGenerator == null) mGenerator = new ReviewIdGenerator();
+        return mGenerator.generateId(author);
     }
 
     public static ReviewId fromString(String rdId) {
@@ -58,21 +65,40 @@ public class ReviewId implements MdData {
         return true;
     }
 
-    public boolean equals(ReviewId reviewId) {
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ReviewId)) return false;
+
+        ReviewId reviewId = (ReviewId) o;
+
+        if (mTime != reviewId.mTime) return false;
         return mId.equals(reviewId.mId);
     }
 
     @Override
-    public boolean equals(Object obj) {
-        return obj != null && obj.getClass() == getClass() && this.equals((ReviewId) obj);
-    }
-
-    @Override
     public int hashCode() {
-        return mId.hashCode();
+        int result = mId.hashCode();
+        result = 31 * result + (int) (mTime ^ (mTime >>> 32));
+        return result;
     }
 
     public String toString() {
-        return mId.toString();
+        return mId.toString() + SPLITTER + String.valueOf(mTime);
+    }
+
+    private static class ReviewIdGenerator {
+        private UserId mLastId;
+        private long   mLastTime;
+
+        private ReviewId generateId(Author author) {
+            UserId id = author.getUserId();
+            long time = new Date().getTime();
+            if (id.equals(mLastId) && time == mLastTime) time++;
+            mLastId = id;
+            mLastTime = time;
+
+            return new ReviewId(id, time);
+        }
     }
 }
