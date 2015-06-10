@@ -15,6 +15,6 @@ import junit.framework.TestCase;
  * On: 09/06/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class TreeDataGetterTest extends TestCase {
+public class ChildDataGetterTest extends TestCase {
 
 }

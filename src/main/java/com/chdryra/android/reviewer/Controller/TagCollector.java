@@ -11,7 +11,7 @@ package com.chdryra.android.reviewer.Controller;
 import com.chdryra.android.reviewer.Model.MdDataList;
 import com.chdryra.android.reviewer.Model.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewNode;
-import com.chdryra.android.reviewer.Model.TreeDataGetter;
+import com.chdryra.android.reviewer.Model.VisitorTreeFlattener;
 import com.chdryra.android.reviewer.View.GvTagList;
 
 /**
@@ -27,8 +27,7 @@ public class TagCollector {
     }
 
     public GvTagList collectTags() {
-        TreeDataGetter collector = new TreeDataGetter(mNode);
-        MdDataList<ReviewId> ids = collector.getIds(true);
+        MdDataList<ReviewId> ids = getIds();
 
         GvTagList tags = new GvTagList();
         for (ReviewId id : ids) {
@@ -39,5 +38,14 @@ public class TagCollector {
         }
 
         return tags;
+    }
+
+    public MdDataList<ReviewId> getIds() {
+        MdDataList<ReviewId> ids = new MdDataList<>(mNode.getId());
+        for (ReviewNode node : VisitorTreeFlattener.flatten(mNode)) {
+            ids.add(node.getId());
+        }
+
+        return ids;
     }
 }

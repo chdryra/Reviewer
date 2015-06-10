@@ -23,6 +23,7 @@ import com.chdryra.android.reviewer.Model.MdDataList;
 import com.chdryra.android.reviewer.Model.MdFactList;
 import com.chdryra.android.reviewer.Model.MdImageList;
 import com.chdryra.android.reviewer.Model.MdLocationList;
+import com.chdryra.android.reviewer.Model.PublishDate;
 import com.chdryra.android.reviewer.Model.Review;
 import com.chdryra.android.reviewer.Model.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewIdableList;
@@ -34,7 +35,6 @@ import com.chdryra.android.reviewer.Model.TagsManager;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
-import java.util.Date;
 
 /**
  * Created by: Rizwan Choudrey
@@ -174,7 +174,7 @@ public class ReviewerDb {
         String subject = values.getAsString(RowReview.SUBJECT);
         float rating = values.getAsFloat(RowReview.RATING);
         ReviewId id = ReviewId.fromString(values.getAsString(RowReview.REVIEW_ID));
-        Date publishDate = new Date(values.getAsLong(RowReview.PUBLISH_DATE));
+        PublishDate publishDate = PublishDate.then(values.getAsLong(RowReview.PUBLISH_DATE));
         String userId = values.getAsString(RowReview.AUTHOR_ID);
         RowAuthor authorRow = getRowWhere(db, AUTHORS, RowAuthor.USER_ID, userId);
         Author author = authorRow.toAuthor();

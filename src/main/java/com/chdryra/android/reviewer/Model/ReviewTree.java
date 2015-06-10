@@ -8,8 +8,6 @@
 
 package com.chdryra.android.reviewer.Model;
 
-import java.util.Date;
-
 /**
  * Created by: Rizwan Choudrey
  * On: 03/10/2014
@@ -84,7 +82,7 @@ public class ReviewTree implements ReviewNode {
     }
 
     @Override
-    public Date getPublishDate() {
+    public PublishDate getPublishDate() {
         return mNode.getPublishDate();
     }
 

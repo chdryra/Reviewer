@@ -106,7 +106,7 @@ public class TestReviews {
         }
         b.setData();
 
-        return builder.publish(new Date());
+        return builder.publish(RandomPublishDate.nextDate());
     }
 
     private TestReview getReview1() {

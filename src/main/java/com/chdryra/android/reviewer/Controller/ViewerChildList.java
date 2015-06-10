@@ -18,7 +18,6 @@ import com.chdryra.android.reviewer.View.GvImageList;
 import com.chdryra.android.reviewer.View.GvLocationList;
 import com.chdryra.android.reviewer.View.GvReviewId;
 import com.chdryra.android.reviewer.View.GvReviewList;
-import com.chdryra.android.reviewer.View.ReviewViewParams;
 
 import java.util.ArrayList;
 
@@ -32,8 +31,6 @@ import java.util.ArrayList;
  * Grid data is {@link GvReviewList}.
  */
 public class ViewerChildList implements GridDataViewer {
-    private static final ReviewViewParams.GridViewParams PARAMS =
-            new ReviewViewParams.GridViewParams();
     private ReviewNode mNode;
 
     public ViewerChildList(ReviewNode node) {
@@ -61,7 +58,8 @@ public class ViewerChildList implements GridDataViewer {
                 locationNames.add(location.getShortenedName());
             }
 
-            data.add(review.getId().toString(), review.getAuthor(), review.getPublishDate(),
+            data.add(review.getId().toString(), review.getAuthor(), review.getPublishDate()
+                            .getDate(),
                     review.getSubject().get(), review.getRating().get(), cover, headline,
                     locationNames);
         }

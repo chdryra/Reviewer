@@ -10,7 +10,7 @@ package com.chdryra.android.reviewer.Controller;
 
 import com.chdryra.android.reviewer.Model.ReviewIdableList;
 import com.chdryra.android.reviewer.Model.ReviewNode;
-import com.chdryra.android.reviewer.Model.TreeDataGetter;
+import com.chdryra.android.reviewer.Model.VisitorTreeFlattener;
 import com.chdryra.android.reviewer.View.GvChildList;
 
 /**
@@ -44,7 +44,6 @@ public class SubReviewCollector {
     }
 
     private ReviewIdableList<ReviewNode> collectNodes(ReviewNode node) {
-        TreeDataGetter getter = new TreeDataGetter(node);
-        return getter.getNodes();
+        return VisitorTreeFlattener.flatten(node);
     }
 }

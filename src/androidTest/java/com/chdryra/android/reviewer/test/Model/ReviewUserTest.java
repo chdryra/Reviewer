@@ -13,6 +13,7 @@ import android.test.suitebuilder.annotation.SmallTest;
 import com.chdryra.android.reviewer.Model.Author;
 import com.chdryra.android.reviewer.Model.MdRating;
 import com.chdryra.android.reviewer.Model.MdSubject;
+import com.chdryra.android.reviewer.Model.PublishDate;
 import com.chdryra.android.reviewer.Model.Review;
 import com.chdryra.android.reviewer.Model.ReviewUser;
 import com.chdryra.android.reviewer.Model.UserId;
@@ -22,14 +23,12 @@ import com.chdryra.android.reviewer.View.GvImageList;
 import com.chdryra.android.reviewer.View.GvLocationList;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
 import com.chdryra.android.reviewer.test.TestUtils.MdGvEquality;
+import com.chdryra.android.reviewer.test.TestUtils.RandomPublishDate;
 import com.chdryra.android.reviewer.test.TestUtils.RandomRating;
 import com.chdryra.android.reviewer.test.TestUtils.RandomReviewId;
-import com.chdryra.android.testutils.RandomDate;
 import com.chdryra.android.testutils.RandomString;
 
 import junit.framework.TestCase;
-
-import java.util.Date;
 
 /**
  * Created by: Rizwan Choudrey
@@ -40,9 +39,9 @@ public class ReviewUserTest extends TestCase {
     private static final int NUM = 5;
 
     private Author mAuthor;
-    private Date   mDate;
-    private String mSubject;
-    private float  mRating;
+    private PublishDate mDate;
+    private String      mSubject;
+    private float       mRating;
 
     private GvCommentList  mComments;
     private GvImageList    mImages;
@@ -107,7 +106,7 @@ public class ReviewUserTest extends TestCase {
     @Override
     protected void setUp() throws Exception {
         mAuthor = new Author(RandomString.nextWord(), UserId.generateId());
-        mDate = RandomDate.nextDate();
+        mDate = RandomPublishDate.nextDate();
         mSubject = RandomString.nextWord();
         mRating = RandomRating.nextRating();
 

@@ -12,6 +12,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.chdryra.android.mygenerallibrary.VHDString;
+import com.chdryra.android.mygenerallibrary.ViewHolder;
 
 /**
  * Created by: Rizwan Choudrey
@@ -36,22 +37,27 @@ public class GvText extends VHDString implements GvData {
     };
     private GvReviewId mId;
 
-    GvText() {
+    public GvText() {
         super();
     }
 
-    GvText(String text) {
+    public GvText(String text) {
         super(text);
     }
 
-    GvText(GvReviewId id, String text) {
+    public GvText(GvReviewId id, String text) {
         super(text);
         mId = id;
     }
 
-    GvText(Parcel in) {
+    public GvText(Parcel in) {
         super(in.readString());
         mId = in.readParcelable(GvReviewId.class.getClassLoader());
+    }
+
+    @Override
+    public ViewHolder getViewHolder() {
+        return new VhText();
     }
 
     @Override

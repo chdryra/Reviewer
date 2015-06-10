@@ -17,6 +17,7 @@ import com.chdryra.android.reviewer.Controller.GridDataExpander;
 import com.chdryra.android.reviewer.Controller.ViewerChildList;
 import com.chdryra.android.reviewer.Model.Author;
 import com.chdryra.android.reviewer.Model.FactoryReview;
+import com.chdryra.android.reviewer.Model.PublishDate;
 import com.chdryra.android.reviewer.Model.Review;
 import com.chdryra.android.reviewer.Model.ReviewIdableList;
 import com.chdryra.android.reviewer.Model.ReviewNode;
@@ -27,8 +28,6 @@ import com.chdryra.android.reviewer.View.GvDataList;
 import com.chdryra.android.reviewer.View.GvReviewList;
 import com.chdryra.android.reviewer.test.TestUtils.ReviewMocker;
 import com.chdryra.android.testutils.RandomString;
-
-import java.util.Date;
 
 /**
  * Created by: Rizwan Choudrey
@@ -95,7 +94,8 @@ public class AdapterReviewNodeTest extends AndroidTestCase {
 
     private void setAdapter() {
 
-        Review review = FactoryReview.createReviewUser(mAuthor, new Date(), RandomString.nextWord
+        Review review = FactoryReview.createReviewUser(mAuthor, PublishDate.now(), RandomString
+                .nextWord
                 (), 0f);
         ReviewTreeNode collection = FactoryReview.createReviewTreeNode(review, true);
         mReviews = new ReviewIdableList<>();

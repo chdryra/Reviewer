@@ -39,7 +39,7 @@ public class RowReview implements ReviewerDbRow.TableRow {
     public RowReview(Review review) {
         mReviewId = review.getId().toString();
         mAuthorId = review.getAuthor().getUserId().toString();
-        mPublishDate = review.getPublishDate().getTime();
+        mPublishDate = review.getPublishDate().getDate().getTime();
         mSubject = review.getSubject().get();
         mRating = review.getRating().get();
     }

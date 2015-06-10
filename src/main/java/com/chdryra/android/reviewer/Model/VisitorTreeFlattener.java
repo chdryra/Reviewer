@@ -16,6 +16,12 @@ package com.chdryra.android.reviewer.Model;
 public class VisitorTreeFlattener implements VisitorReviewNode {
     ReviewIdableList<ReviewNode> mNodes = new ReviewIdableList<>();
 
+    public static ReviewIdableList<ReviewNode> flatten(ReviewNode node) {
+        VisitorTreeFlattener flattener = new VisitorTreeFlattener();
+        node.acceptVisitor(flattener);
+        return flattener.getNodes();
+    }
+
     @Override
     public void visit(ReviewNode node) {
         mNodes.add(node);

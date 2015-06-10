@@ -8,8 +8,6 @@
 
 package com.chdryra.android.reviewer.Model;
 
-import java.util.Date;
-
 /**
  * The fundamental interface for all review classes.
  * <p/>
@@ -52,7 +50,7 @@ public interface Review extends ReviewId.ReviewIdAble {
 
     Author getAuthor();
 
-    Date getPublishDate();
+    PublishDate getPublishDate();
 
     ReviewNode getTreeRepresentation();
 

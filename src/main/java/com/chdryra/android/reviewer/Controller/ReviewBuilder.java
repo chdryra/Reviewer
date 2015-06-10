@@ -16,6 +16,7 @@ import com.chdryra.android.mygenerallibrary.FileIncrementor;
 import com.chdryra.android.mygenerallibrary.FileIncrementorFactory;
 import com.chdryra.android.reviewer.Model.Author;
 import com.chdryra.android.reviewer.Model.FactoryReview;
+import com.chdryra.android.reviewer.Model.PublishDate;
 import com.chdryra.android.reviewer.Model.Review;
 import com.chdryra.android.reviewer.Model.ReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewTreeNode;
@@ -39,7 +40,6 @@ import com.chdryra.android.reviewer.View.ImageChooser;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -137,7 +137,7 @@ public class ReviewBuilder extends ReviewViewAdapterBasic {
         return getData(dataType).size();
     }
 
-    public ReviewNode publish(Date publishDate) {
+    public ReviewNode publish(PublishDate publishDate) {
         if (!isValidForPublication()) {
             throw new IllegalStateException("Review is not valid for publication!");
         }
@@ -166,7 +166,7 @@ public class ReviewBuilder extends ReviewViewAdapterBasic {
         }
     }
 
-    private ReviewTreeNode prepareTree(Date publishDate) {
+    private ReviewTreeNode prepareTree(PublishDate publishDate) {
         Review root = FactoryReview.createReviewUser(mAuthor,
                 publishDate, getSubject(), getRating(),
                 (GvCommentList) getData(GvCommentList.TYPE),

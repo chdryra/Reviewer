@@ -13,8 +13,6 @@ import com.chdryra.android.reviewer.Controller.DataFact;
 import com.chdryra.android.reviewer.Controller.DataImage;
 import com.chdryra.android.reviewer.Controller.DataLocation;
 
-import java.util.Date;
-
 /**
  * Factory for creating Reviews and ReviewNodes.
  * <p/>
@@ -38,7 +36,7 @@ public class FactoryReview {
         return sFactory;
     }
 
-    public static Review createReviewUser(Author author, Date publishDate, String subject,
+    public static Review createReviewUser(Author author, PublishDate publishDate, String subject,
             float rating,
             Iterable<? extends DataComment> comments,
             Iterable<? extends DataImage> images,
@@ -48,7 +46,7 @@ public class FactoryReview {
                 images, facts, locations);
     }
 
-    public static Review createReviewUser(Author author, Date publishDate, String subject,
+    public static Review createReviewUser(Author author, PublishDate publishDate, String subject,
             float rating) {
         return getInstance().newReviewUser(author, publishDate, subject, rating);
     }
@@ -62,11 +60,13 @@ public class FactoryReview {
     }
 
     //Constructors
-    private Review newReviewUser(Author author, Date publishDate, String subject, float rating) {
+    private Review newReviewUser(Author author, PublishDate publishDate, String subject, float
+            rating) {
         return new ReviewUser(ReviewId.generateId(author), author, publishDate, subject, rating);
     }
 
-    private Review newReviewUser(Author author, Date publishDate, String subject, float rating,
+    private Review newReviewUser(Author author, PublishDate publishDate, String subject, float
+            rating,
             Iterable<? extends DataComment> comments,
             Iterable<? extends DataImage> images,
             Iterable<? extends DataFact> facts,

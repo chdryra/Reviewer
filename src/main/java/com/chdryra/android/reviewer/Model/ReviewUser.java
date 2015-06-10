@@ -14,8 +14,6 @@ import com.chdryra.android.reviewer.Controller.DataImage;
 import com.chdryra.android.reviewer.Controller.DataLocation;
 import com.chdryra.android.reviewer.Controller.MdGvConverter;
 
-import java.util.Date;
-
 /**
  * Created by: Rizwan Choudrey
  * On: 13/02/2015
@@ -29,7 +27,7 @@ import java.util.Date;
 public class ReviewUser implements Review {
     private final ReviewId  mId;
     private final Author    mAuthor;
-    private final Date      mPublishDate;
+    private final PublishDate mPublishDate;
     private final MdSubject mSubject;
     private final MdRating  mRating;
 
@@ -40,7 +38,8 @@ public class ReviewUser implements Review {
 
     private ReviewNode mNode;
 
-    public ReviewUser(ReviewId id, Author author, Date publishDate, String subject, float rating,
+    public ReviewUser(ReviewId id, Author author, PublishDate publishDate, String subject, float
+            rating,
             Iterable<? extends DataComment> comments,
             Iterable<? extends DataImage> images,
             Iterable<? extends DataFact> facts,
@@ -59,7 +58,8 @@ public class ReviewUser implements Review {
         mNode = FactoryReview.createReviewNode(this);
     }
 
-    public ReviewUser(ReviewId id, Author author, Date publishDate, String subject, float rating) {
+    public ReviewUser(ReviewId id, Author author, PublishDate publishDate, String subject, float
+            rating) {
         mId = id;
         mAuthor = author;
         mPublishDate = publishDate;
@@ -95,7 +95,7 @@ public class ReviewUser implements Review {
     }
 
     @Override
-    public Date getPublishDate() {
+    public PublishDate getPublishDate() {
         return mPublishDate;
     }
 

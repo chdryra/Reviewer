@@ -8,8 +8,8 @@
 
 package com.chdryra.android.reviewer.Controller;
 
+import com.chdryra.android.reviewer.Model.ChildDataGetter;
 import com.chdryra.android.reviewer.Model.ReviewNode;
-import com.chdryra.android.reviewer.Model.TreeDataGetter;
 import com.chdryra.android.reviewer.View.GvDataCollection;
 import com.chdryra.android.reviewer.View.GvDataList;
 import com.chdryra.android.reviewer.View.GvReviewId;
@@ -27,13 +27,11 @@ import com.chdryra.android.reviewer.View.GvReviewId;
  */
 public class ViewerTreeData implements GridDataViewer {
     private ReviewNode mNode;
-    private boolean        mUniqueData;
-    private TreeDataGetter mGetter;
+    private ChildDataGetter mGetter;
 
-    public ViewerTreeData(ReviewNode node, boolean uniqueData) {
+    public ViewerTreeData(ReviewNode node) {
         mNode = node;
-        mGetter = new TreeDataGetter(mNode);
-        mUniqueData = uniqueData;
+        mGetter = new ChildDataGetter(mNode);
     }
 
     @Override
@@ -47,15 +45,15 @@ public class ViewerTreeData implements GridDataViewer {
         GvDataList reviews = wrapper.getGridData();
         if (reviews.size() > 0) {
             data.add(reviews);
-            data.add(MdGvConverter.convertChildren(mNode));
+            data.add(MdGvConverter.convertSubjects(mNode));
         }
 
         data.add(tagCollector.collectTags());
         data.add(subReviewCollector.collectCriteria());
-        data.add(MdGvConverter.convert(mGetter.getImages(mUniqueData)));
-        data.add(MdGvConverter.convert(mGetter.getComments(mUniqueData)));
-        data.add(MdGvConverter.convert(mGetter.getLocations(mUniqueData)));
-        data.add(MdGvConverter.convert(mGetter.getFacts(mUniqueData)));
+        data.add(MdGvConverter.convert(mGetter.getImages()));
+        data.add(MdGvConverter.convert(mGetter.getComments()));
+        data.add(MdGvConverter.convert(mGetter.getLocations()));
+        data.add(MdGvConverter.convert(mGetter.getFacts()));
 
         return data;
     }

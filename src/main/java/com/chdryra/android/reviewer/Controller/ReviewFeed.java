@@ -13,18 +13,17 @@ import android.content.Context;
 import com.chdryra.android.reviewer.Database.ReviewerDb;
 import com.chdryra.android.reviewer.Model.Author;
 import com.chdryra.android.reviewer.Model.FactoryReview;
+import com.chdryra.android.reviewer.Model.PublishDate;
 import com.chdryra.android.reviewer.Model.Review;
 import com.chdryra.android.reviewer.Model.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewIdableList;
 import com.chdryra.android.reviewer.Model.ReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewTreeNode;
-import com.chdryra.android.reviewer.Model.TreeDataGetter;
+import com.chdryra.android.reviewer.Model.VisitorTreeFlattener;
 import com.chdryra.android.reviewer.View.GvReviewId;
 import com.chdryra.android.reviewer.View.GvReviewList;
 import com.chdryra.android.reviewer.View.LaunchableUi;
 import com.chdryra.android.reviewer.View.ReviewDataScreen;
-
-import java.util.Date;
 
 /**
  * Created by: Rizwan Choudrey
@@ -45,7 +44,7 @@ public class ReviewFeed extends ApplicationSingleton {
         super(context, NAME);
         Author author = Administrator.get(context).getAuthor();
         String title = author.getName() + "'s feed";
-        Review feed = FactoryReview.createReviewUser(author, new Date(), title, 0f);
+        Review feed = FactoryReview.createReviewUser(author, PublishDate.now(), title, 0f);
 
         mFeedNode = FactoryReview.createReviewTreeNode(feed, true);
         mFeedAdapter = FactoryReviewViewAdapter.newChildListAdapter(context, mFeedNode);
@@ -147,16 +146,16 @@ public class ReviewFeed extends ApplicationSingleton {
 
     private ReviewId findRootNodeId(String reviewId) {
         ReviewId id = ReviewId.fromString(reviewId);
-        ReviewNode root = null;
+        ReviewId root = null;
         for (ReviewNode child : mFeedNode.getChildren()) {
             ReviewNode tree = child.getReview().getTreeRepresentation();
-            ReviewIdableList<ReviewNode> nodes = new TreeDataGetter(tree).getNodes();
+            ReviewIdableList<ReviewNode> nodes = VisitorTreeFlattener.flatten(tree);
             if (nodes.containsId(id)) {
-                root = nodes.getItem(0);
+                root = nodes.getItem(0).getId();
                 break;
             }
         }
 
-        return root != null ? root.getId() : null;
+        return root;
     }
 }

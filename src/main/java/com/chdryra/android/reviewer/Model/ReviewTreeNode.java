@@ -8,8 +8,6 @@
 
 package com.chdryra.android.reviewer.Model;
 
-import java.util.Date;
-
 /**
  * Creates a new unique {@link ReviewId} if required so can represent a new review structure even
  * though it wraps an existing review.
@@ -125,7 +123,7 @@ public class ReviewTreeNode implements ReviewNode {
     }
 
     @Override
-    public Date getPublishDate() {
+    public PublishDate getPublishDate() {
         return mReview.getPublishDate();
     }
 

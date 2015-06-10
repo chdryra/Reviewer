@@ -15,6 +15,7 @@ import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.Controller.Administrator;
 import com.chdryra.android.reviewer.Controller.ReviewBuilder;
+import com.chdryra.android.reviewer.Model.PublishDate;
 import com.chdryra.android.reviewer.Model.ReviewIdableList;
 import com.chdryra.android.reviewer.Model.ReviewNode;
 import com.chdryra.android.reviewer.Model.TagsManager;
@@ -226,8 +227,7 @@ public class ReviewBuilderTest extends ActivityInstrumentationTestCase2<Activity
         setBuilderData(tags);
 
         Date date = RandomDate.nextDate();
-
-        ReviewNode published = mBuilder.publish(date);
+        ReviewNode published = mBuilder.publish(PublishDate.then(date.getTime()));
 
         assertEquals(subject, published.getSubject().get());
         assertEquals(rating, published.getRating().get());

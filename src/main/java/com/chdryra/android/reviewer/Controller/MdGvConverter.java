@@ -8,11 +8,13 @@
 
 package com.chdryra.android.reviewer.Controller;
 
+import com.chdryra.android.reviewer.Model.ChildDataGetter;
 import com.chdryra.android.reviewer.Model.MdCommentList;
 import com.chdryra.android.reviewer.Model.MdDataList;
 import com.chdryra.android.reviewer.Model.MdFactList;
 import com.chdryra.android.reviewer.Model.MdImageList;
 import com.chdryra.android.reviewer.Model.MdLocationList;
+import com.chdryra.android.reviewer.Model.MdSubject;
 import com.chdryra.android.reviewer.Model.MdUrlList;
 import com.chdryra.android.reviewer.Model.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewNode;
@@ -25,7 +27,10 @@ import com.chdryra.android.reviewer.View.GvFactList;
 import com.chdryra.android.reviewer.View.GvImageList;
 import com.chdryra.android.reviewer.View.GvLocationList;
 import com.chdryra.android.reviewer.View.GvReviewId;
+import com.chdryra.android.reviewer.View.GvSubjectList;
 import com.chdryra.android.reviewer.View.GvTagList;
+import com.chdryra.android.reviewer.View.GvText;
+import com.chdryra.android.reviewer.View.GvTextList;
 import com.chdryra.android.reviewer.View.GvUrlList;
 
 /**
@@ -216,6 +221,17 @@ public class MdGvConverter {
         for (ReviewNode child : node.getChildren()) {
             list.add(new GvChildList.GvChildReview(id, child.getSubject().get(), child.getRating()
                     .get()));
+        }
+
+        return list;
+    }
+
+    public static GvTextList convertSubjects(ReviewNode node) {
+        GvReviewId id = GvReviewId.getId(node.getId().toString());
+        GvSubjectList list = new GvSubjectList(id);
+        ChildDataGetter getter = new ChildDataGetter(node);
+        for (MdSubject subject : getter.getSubjects()) {
+            list.add(new GvText(GvReviewId.getId(subject.getReviewId().toString()), subject.get()));
         }
 
         return list;
