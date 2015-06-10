@@ -68,7 +68,7 @@ public class GvBuildReviewList extends GvDataList<GvBuildReviewList.GvBuildRevie
             mConfig = ConfigGvDataUi.getConfig(dataType);
             mBuilder = (ReviewBuilder.DataBuilder<T>) builder.getDataBuilder(dataType);
             mBuilder.registerGridDataObserver(this);
-            mViewHolder = super.newViewHolder();
+            mViewHolder = super.getViewHolder();
         }
 
         public View updateView(ViewGroup parent) {

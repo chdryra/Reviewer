@@ -18,6 +18,7 @@ import com.chdryra.android.reviewer.View.GvImageList;
 import com.chdryra.android.reviewer.View.GvLocationList;
 import com.chdryra.android.reviewer.View.GvReviewId;
 import com.chdryra.android.reviewer.View.GvReviewList;
+import com.chdryra.android.reviewer.View.ReviewViewParams;
 
 import java.util.ArrayList;
 
@@ -30,10 +31,12 @@ import java.util.ArrayList;
 /**
  * Grid data is {@link GvReviewList}.
  */
-public class WrapperChildList implements GridDataWrapper {
+public class ViewerChildList implements GridDataViewer {
+    private static final ReviewViewParams.GridViewParams PARAMS =
+            new ReviewViewParams.GridViewParams();
     private ReviewNode mNode;
 
-    public WrapperChildList(ReviewNode node) {
+    public ViewerChildList(ReviewNode node) {
         mNode = node;
     }
 

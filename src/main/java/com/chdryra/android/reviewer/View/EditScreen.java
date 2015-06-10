@@ -38,7 +38,8 @@ public class EditScreen {
                 dataType.getDatumName());
 
         if (dataType == GvImageList.TYPE) {
-            view.getParams().cellHeight = ReviewView.CellDimension.HALF;
+            ReviewViewParams.CellDimension half = ReviewViewParams.CellDimension.HALF;
+            view.getParams().setCellHeight(half).setCellWidth(half);
         }
 
         return view;

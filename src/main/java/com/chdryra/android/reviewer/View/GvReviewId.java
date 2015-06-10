@@ -60,22 +60,17 @@ public class GvReviewId implements GvData {
     }
 
     @Override
-    public boolean hasReviewId() {
-        return true;
-    }
-
-    @Override
     public GvReviewId getReviewId() {
         return this;
     }
 
     @Override
-    public boolean isList() {
+    public boolean hasElements() {
         return false;
     }
 
     @Override
-    public ViewHolder newViewHolder() {
+    public ViewHolder getViewHolder() {
         return null;
     }
 

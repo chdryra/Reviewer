@@ -20,9 +20,9 @@ import android.widget.Button;
 
 import com.chdryra.android.reviewer.Controller.AdapterReviewViewAdapter;
 import com.chdryra.android.reviewer.Controller.Administrator;
-import com.chdryra.android.reviewer.Controller.GridDataWrapper;
+import com.chdryra.android.reviewer.Controller.GridDataViewer;
 import com.chdryra.android.reviewer.Controller.ReviewViewAdapter;
-import com.chdryra.android.reviewer.Controller.WrapperGvDataList;
+import com.chdryra.android.reviewer.Controller.ViewerGvDataList;
 import com.chdryra.android.reviewer.R;
 
 /**
@@ -36,7 +36,7 @@ public class ShareScreen {
         ReviewViewAdapter builder = admin.getReviewBuilder();
         GvDataList platforms = admin.getSocialPlatformList();
 
-        GridDataWrapper wrapper = new WrapperGvDataList(platforms);
+        GridDataViewer wrapper = new ViewerGvDataList(platforms);
         ReviewViewAdapter adapter = new AdapterReviewViewAdapter(context, builder, wrapper);
         ReviewView view = new ReviewView(adapter, new ShareScreenModifier());
 
@@ -45,7 +45,7 @@ public class ShareScreen {
         view.setAction(new ShareScreenGridItem());
         view.setAction(new ReviewViewAction.MenuAction(title));
 
-        view.getParams().gridAlpha = ReviewView.GridViewImageAlpha.TRANSPARENT;
+        view.getParams().setGridAlpha(ReviewViewParams.GridViewAlpha.TRANSPARENT);
 
         return view;
     }

@@ -148,7 +148,7 @@ public class GvChildListTest extends TestCase {
         GvChildList.GvChildReview gvChildNull = new GvChildList.GvChildReview();
         GvChildList.GvChildReview gvChildEmpty = new GvChildList.GvChildReview("", rating1);
 
-        assertNotNull(gvChild.newViewHolder());
+        assertNotNull(gvChild.getViewHolder());
         assertTrue(gvChild.isValidForDisplay());
 
         assertEquals(subject1, gvChild.getSubject());

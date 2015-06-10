@@ -10,7 +10,7 @@ package com.chdryra.android.reviewer.test.Controller;
 
 import com.chdryra.android.reviewer.Controller.ExpanderChildren;
 import com.chdryra.android.reviewer.Controller.GridDataExpander;
-import com.chdryra.android.reviewer.Controller.WrapperChildList;
+import com.chdryra.android.reviewer.Controller.ViewerChildList;
 
 /**
  * Created by: Rizwan Choudrey
@@ -18,7 +18,7 @@ import com.chdryra.android.reviewer.Controller.WrapperChildList;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ExpanderChildrenTest extends ExpanderChildNodeTest {
-    protected GridDataExpander getExpander(WrapperChildList wrapper) {
+    protected GridDataExpander getExpander(ViewerChildList wrapper) {
         return new ExpanderChildren(getContext(), wrapper);
     }
 }

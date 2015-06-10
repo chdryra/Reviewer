@@ -10,7 +10,7 @@ package com.chdryra.android.reviewer.test.Controller;
 
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.Controller.WrapperGvDataList;
+import com.chdryra.android.reviewer.Controller.ViewerGvDataList;
 import com.chdryra.android.reviewer.View.GvCommentList;
 import com.chdryra.android.reviewer.View.GvDataList;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
@@ -22,11 +22,11 @@ import junit.framework.TestCase;
  * On: 12/05/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class WrapperGvDataListTest extends TestCase {
+public class ViewerGvDataListTest extends TestCase {
     @SmallTest
     public void testGetGridData() {
         GvDataList data = GvDataMocker.getData(GvCommentList.TYPE, 10);
-        WrapperGvDataList wrapper = new WrapperGvDataList(data);
+        ViewerGvDataList wrapper = new ViewerGvDataList(data);
 
         assertEquals(data, wrapper.getGridData());
     }

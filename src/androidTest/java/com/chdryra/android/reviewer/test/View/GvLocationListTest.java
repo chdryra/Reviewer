@@ -77,7 +77,7 @@ public class GvLocationListTest extends TestCase {
         GvLocationList.GvLocation gvLocationEmpty2 = new GvLocationList.GvLocation(null, name1);
         GvLocationList.GvLocation gvLocationEmpty3 = new GvLocationList.GvLocation(null, "");
 
-        assertNotNull(gvLocation.newViewHolder());
+        assertNotNull(gvLocation.getViewHolder());
         assertTrue(gvLocation.isValidForDisplay());
 
         assertEquals(latLng1, gvLocation.getLatLng());

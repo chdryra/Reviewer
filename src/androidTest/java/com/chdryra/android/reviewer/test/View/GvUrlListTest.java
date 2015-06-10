@@ -63,7 +63,7 @@ public class GvUrlListTest extends TestCase {
         GvUrlList.GvUrl gvUrlNotEquals = new GvUrlList.GvUrl(url2label, url2);
         GvUrlList.GvUrl gvUrlNull = new GvUrlList.GvUrl();
 
-        assertNotNull(gvUrl.newViewHolder());
+        assertNotNull(gvUrl.getViewHolder());
         assertTrue(gvUrl.isValidForDisplay());
 
         assertEquals(url1, gvUrl.getUrl());

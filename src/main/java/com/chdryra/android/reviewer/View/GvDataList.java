@@ -93,18 +93,13 @@ public class GvDataList<T extends GvData> extends ViewHolderDataList<T> implemen
     }
 
     @Override
-    public boolean hasReviewId() {
-        return mReviewId != null;
-    }
-
-    @Override
     public GvReviewId getReviewId() {
         return mReviewId;
     }
 
     @Override
-    public boolean isList() {
-        return true;
+    public boolean hasElements() {
+        return size() > 0;
     }
 
     @Override
@@ -121,7 +116,7 @@ public class GvDataList<T extends GvData> extends ViewHolderDataList<T> implemen
     }
 
     @Override
-    public ViewHolder newViewHolder() {
+    public ViewHolder getViewHolder() {
         return new VhDataList();
     }
 
@@ -161,9 +156,5 @@ public class GvDataList<T extends GvData> extends ViewHolderDataList<T> implemen
         }
 
         return result;
-    }
-
-    protected boolean isModifiable() {
-        return !hasReviewId();
     }
 }

@@ -97,7 +97,7 @@ public class GvFactList extends GvDataList<GvFactList.GvFact> {
         }
 
         @Override
-        public ViewHolder newViewHolder() {
+        public ViewHolder getViewHolder() {
             return new VhFact();
         }
 

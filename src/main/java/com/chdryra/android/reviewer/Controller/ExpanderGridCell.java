@@ -29,15 +29,14 @@ public class ExpanderGridCell implements GridDataExpander {
 
     @Override
     public boolean isExpandable(GvData datum) {
-        GvDataList data = mParent.getGridData();
-        return data.contains(datum) && datum.isList() && ((GvDataList) datum).size() > 0;
+        return mParent.getGridData().contains(datum) && datum.hasElements();
     }
 
     @Override
     public ReviewViewAdapter expandItem(GvData datum) {
         if (isExpandable(datum)) {
-            GridDataWrapper wrapper = new WrapperGvDataList((GvDataList) datum);
-            return new AdapterReviewViewAdapter(mContext, mParent, wrapper);
+            GridDataViewer gridViewer = new ViewerGvDataList((GvDataList) datum);
+            return new AdapterReviewViewAdapter(mContext, mParent, gridViewer);
         }
 
         return null;

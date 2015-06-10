@@ -73,7 +73,7 @@ public class GvSocialPlatformListTest extends AndroidTestCase {
         GvSocialPlatformList.GvSocialPlatform gvPlatformEmpty = new GvSocialPlatformList
                 .GvSocialPlatform("", followers1);
 
-        assertNotNull(gvPlatform.newViewHolder());
+        assertNotNull(gvPlatform.getViewHolder());
         assertTrue(gvPlatform.isValidForDisplay());
 
         assertEquals(name1, gvPlatform.getName());

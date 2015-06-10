@@ -72,8 +72,9 @@ public class FragmentReviewView extends Fragment implements GridDataObservable.G
         mReviewView = Administrator.get(getActivity()).unpackView(getActivity().getIntent());
         mReviewView.attachFragment(this);
 
-        ReviewView.ReviewViewParams params = mReviewView.getParams();
-        setGridCellDimension(params.cellWidth, params.cellHeight);
+        ReviewViewParams params = mReviewView.getParams();
+        setGridCellDimension(params.getGridViewParams().getCellWidth(),
+                params.getGridViewParams().getCellHeight());
         setHasOptionsMenu(true);
     }
 
@@ -178,8 +179,8 @@ public class FragmentReviewView extends Fragment implements GridDataObservable.G
             } else {
                 mLinearLayout.setBackgroundDrawable(bitmap);
             }
-            ReviewView.ReviewViewParams params = mReviewView.getParams();
-            mGridView.getBackground().setAlpha(params.gridAlpha.getAlpha());
+            ReviewViewParams params = mReviewView.getParams();
+            mGridView.getBackground().setAlpha(params.getGridViewParams().getGridAlpha());
         } else {
             removeCover();
         }
@@ -187,7 +188,7 @@ public class FragmentReviewView extends Fragment implements GridDataObservable.G
 
     public void removeCover() {
         mLinearLayout.setBackgroundColor(Color.TRANSPARENT);
-        mGridView.getBackground().setAlpha(ReviewView.GridViewImageAlpha.OPAQUE.getAlpha());
+        mGridView.getBackground().setAlpha(ReviewViewParams.GridViewAlpha.OPAQUE.getAlpha());
     }
 
     public void updateGridData() {
@@ -212,8 +213,8 @@ public class FragmentReviewView extends Fragment implements GridDataObservable.G
     }
 
     void initSubjectUi() {
-        ReviewView.ReviewViewParams params = mReviewView.getParams();
-        if (!params.subjectIsVisible) {
+        ReviewViewParams params = mReviewView.getParams();
+        if (!params.isSubjectVisible()) {
             mSubjectView.setVisibility(View.GONE);
             return;
         }
@@ -248,8 +249,8 @@ public class FragmentReviewView extends Fragment implements GridDataObservable.G
     }
 
     void initRatingBarUi() {
-        ReviewView.ReviewViewParams params = mReviewView.getParams();
-        if (!params.ratingIsVisible) {
+        ReviewViewParams params = mReviewView.getParams();
+        if (!params.isRatingVisible()) {
             mRatingBar.setVisibility(View.GONE);
             return;
         }
@@ -278,8 +279,8 @@ public class FragmentReviewView extends Fragment implements GridDataObservable.G
     }
 
     void initBannerButtonUi() {
-        ReviewView.ReviewViewParams params = mReviewView.getParams();
-        if (!params.bannerButtonIsVisible) {
+        ReviewViewParams params = mReviewView.getParams();
+        if (!params.isBannerButtonVisible()) {
             mBannerButton.setVisibility(View.GONE);
             return;
         }
@@ -302,11 +303,7 @@ public class FragmentReviewView extends Fragment implements GridDataObservable.G
     }
 
     void initGridDataUi() {
-        ReviewView.ReviewViewParams params = mReviewView.getParams();
-        if (!params.gridIsVisible) {
-            mGridView.setVisibility(View.GONE);
-            return;
-        }
+        ReviewViewParams params = mReviewView.getParams();
 
         renewGridAdapter();
         mGridView.setColumnWidth(getGridCellWidth());
@@ -366,20 +363,20 @@ public class FragmentReviewView extends Fragment implements GridDataObservable.G
         mReviewView.notifyDataSetChanged();
     }
 
-    private void setGridCellDimension(ReviewView.CellDimension width,
-            ReviewView.CellDimension height) {
+    private void setGridCellDimension(ReviewViewParams.CellDimension width,
+            ReviewViewParams.CellDimension height) {
         mCellWidthDivider = 1;
         mCellHeightDivider = 1;
 
-        if (width == ReviewView.CellDimension.HALF) {
+        if (width == ReviewViewParams.CellDimension.HALF) {
             mCellWidthDivider = 2;
-        } else if (width == ReviewView.CellDimension.QUARTER) {
+        } else if (width == ReviewViewParams.CellDimension.QUARTER) {
             mCellWidthDivider = 4;
         }
 
-        if (height == ReviewView.CellDimension.HALF) {
+        if (height == ReviewViewParams.CellDimension.HALF) {
             mCellHeightDivider = 2;
-        } else if (height == ReviewView.CellDimension.QUARTER) {
+        } else if (height == ReviewViewParams.CellDimension.QUARTER) {
             mCellHeightDivider = 4;
         }
     }

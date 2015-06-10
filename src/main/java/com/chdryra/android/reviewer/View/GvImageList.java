@@ -152,7 +152,7 @@ public class GvImageList extends GvDataList<GvImageList.GvImage> {
         }
 
         @Override
-        public ViewHolder newViewHolder() {
+        public ViewHolder getViewHolder() {
             return new VhImage();
         }
 

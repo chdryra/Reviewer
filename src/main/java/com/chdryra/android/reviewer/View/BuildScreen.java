@@ -52,7 +52,7 @@ public class BuildScreen {
         mScreen.setAction(mGridItem);
         mScreen.setAction(new BuildScreenMenu(screenTitle));
 
-        mScreen.getParams().gridAlpha = ReviewView.GridViewImageAlpha.TRANSPARENT;
+        mScreen.getParams().setGridAlpha(ReviewViewParams.GridViewAlpha.TRANSPARENT);
     }
 
     public static ReviewView newScreen(Context context) {

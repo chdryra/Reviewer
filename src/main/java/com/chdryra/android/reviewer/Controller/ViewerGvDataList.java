@@ -15,10 +15,15 @@ import com.chdryra.android.reviewer.View.GvDataList;
  * On: 12/05/2015
  * Email: rizwan.choudrey@gmail.com
  */
+public class ViewerGvDataList implements GridDataViewer {
+    private GvDataList mData;
 
-/**
- *
- */
-public interface GridDataWrapper {
-    GvDataList getGridData();
+    public ViewerGvDataList(GvDataList data) {
+        mData = data;
+    }
+
+    @Override
+    public GvDataList getGridData() {
+        return mData;
+    }
 }

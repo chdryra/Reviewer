@@ -41,14 +41,12 @@ public class FeedScreen {
         mReviewView.setAction(new GridItem());
         mReviewView.setAction(new RatingBarAction());
 
-        ReviewView.ReviewViewParams params = mReviewView.getParams();
-        params.cellHeight = ReviewView.CellDimension.FULL;
-        params.cellWidth = ReviewView.CellDimension.FULL;
-        params.subjectIsVisible = true;
-        params.ratingIsVisible = true;
-        params.bannerButtonIsVisible = true;
-        params.gridAlpha = ReviewView.GridViewImageAlpha.TRANSPARENT;
-        params.coverManager = false;
+        ReviewViewParams.CellDimension full = ReviewViewParams.CellDimension.FULL;
+        ReviewViewParams.GridViewAlpha trans = ReviewViewParams.GridViewAlpha.TRANSPARENT;
+        ReviewViewParams params = mReviewView.getParams();
+
+        params.setSubjectVisible(true).setRatingVisible(true).setBannerButtonVisible(true)
+                .setCoverManager(false).setCellHeight(full).setCellWidth(full).setGridAlpha(trans);
     }
 
     public static ReviewView newScreen(Context context) {

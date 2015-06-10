@@ -23,9 +23,9 @@ import com.chdryra.android.reviewer.View.GvReviewList;
  */
 public class ExpanderChildNode implements GridDataExpander {
     private Context          mContext;
-    private WrapperChildList mChildren;
+    private ViewerChildList mChildren;
 
-    public ExpanderChildNode(Context context, WrapperChildList children) {
+    public ExpanderChildNode(Context context, ViewerChildList children) {
         mContext = context;
         mChildren = children;
     }
@@ -58,7 +58,7 @@ public class ExpanderChildNode implements GridDataExpander {
         return null;
     }
 
-    protected WrapperChildList getChildrenWrapper() {
+    protected ViewerChildList getChildrenWrapper() {
         return mChildren;
     }
 }

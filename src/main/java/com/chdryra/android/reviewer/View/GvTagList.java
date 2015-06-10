@@ -85,7 +85,7 @@ public class GvTagList extends GvDataList<GvTagList.GvTag> {
         }
 
         @Override
-        public ViewHolder newViewHolder() {
+        public ViewHolder getViewHolder() {
             return new VhTag(false);
         }
 

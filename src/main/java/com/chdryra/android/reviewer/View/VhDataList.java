@@ -70,7 +70,7 @@ public class VhDataList implements ViewHolder {
         if (dataType == GvLocationList.TYPE || dataType == GvTagList.TYPE) {
             mCurrentView = dataType == GvLocationList.TYPE ? new VhLocation(true) : new VhTag(true);
         } else {
-            mCurrentView = datum.newViewHolder();
+            mCurrentView = datum.getViewHolder();
         }
 
         if (mCurrentView.getView() == null) mCurrentView.inflate(mContext, mParent);

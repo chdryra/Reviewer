@@ -119,7 +119,7 @@ public class GvChildList extends GvDataList<GvChildList.GvChildReview> {
         }
 
         @Override
-        public ViewHolder newViewHolder() {
+        public ViewHolder getViewHolder() {
             return new VhChild();
         }
 

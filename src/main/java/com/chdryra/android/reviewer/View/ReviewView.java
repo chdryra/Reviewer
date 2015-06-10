@@ -41,24 +41,6 @@ public class ReviewView implements GridDataObservable.GridDataObserver, Launchab
 
     private enum Action {SUBJECTVIEW, RATINGBAR, BANNERBUTTON, GRIDITEM, MENU}
 
-    public enum CellDimension {FULL, HALF, QUARTER}
-
-    public enum GridViewImageAlpha {
-        TRANSPARENT(0),
-        MEDIUM(200),
-        OPAQUE(255);
-
-        private final int mAlpha;
-
-        GridViewImageAlpha(int alpha) {
-            this.mAlpha = alpha;
-        }
-
-        public int getAlpha() {
-            return mAlpha;
-        }
-    }
-
     public interface ViewModifier {
         View modify(FragmentReviewView parent, View v, LayoutInflater inflater,
                 ViewGroup container, Bundle savedInstanceState);
@@ -178,7 +160,7 @@ public class ReviewView implements GridDataObservable.GridDataObserver, Launchab
     }
 
     public void updateCover() {
-        if (mParams.coverManager) {
+        if (mParams.manageCover()) {
             GvImageList images = mAdapter.getCovers();
             GvImageList covers = images.getCovers();
             GvImageList.GvImage cover = null;
@@ -267,17 +249,6 @@ public class ReviewView implements GridDataObservable.GridDataObserver, Launchab
         if (mParent != null) action.attachReviewView(this);
     }
 
-    public static class ReviewViewParams {
-        public final boolean gridIsVisible = true;
-        public GridViewImageAlpha gridAlpha             = GridViewImageAlpha.MEDIUM;
-        public CellDimension      cellWidth             = CellDimension.HALF;
-        public CellDimension      cellHeight            = CellDimension.QUARTER;
-        public boolean            subjectIsVisible      = true;
-        public boolean            ratingIsVisible       = true;
-        public boolean            bannerButtonIsVisible = true;
-        public       boolean coverManager  = true;
-    }
-
     public static class Editor extends ReviewView {
         private FragmentReviewView mParent;
         private boolean mRatingIsAverage = false;
@@ -331,7 +302,7 @@ public class ReviewView implements GridDataObservable.GridDataObserver, Launchab
         }
 
         public void proposeCover(GvImageList.GvImage image) {
-            if (getParams().coverManager) {
+            if (getParams().manageCover()) {
                 GvImageList images = getAdapter().getCovers();
                 GvImageList covers = images.getCovers();
                 if (covers.size() == 1 && images.contains(image)) {

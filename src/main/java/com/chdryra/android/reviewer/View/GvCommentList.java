@@ -147,7 +147,7 @@ public class GvCommentList extends GvDataList<GvCommentList.GvComment> {
         }
 
         @Override
-        public ViewHolder newViewHolder() {
+        public ViewHolder getViewHolder() {
             return new VhComment();
         }
 

@@ -81,7 +81,7 @@ public class GvLocationList extends GvDataList<GvLocationList.GvLocation> {
         }
 
         @Override
-        public ViewHolder newViewHolder() {
+        public ViewHolder getViewHolder() {
             return new VhLocation(false);
         }
 

@@ -20,7 +20,7 @@ import com.chdryra.android.reviewer.View.GvImageList;
 public class AdapterReviewViewAdapter extends ReviewViewAdapterBasic {
     private ReviewViewAdapter mParentAdapter;
 
-    public AdapterReviewViewAdapter(Context context, ReviewViewAdapter parent, GridDataWrapper
+    public AdapterReviewViewAdapter(Context context, ReviewViewAdapter parent, GridDataViewer
             wrapper) {
         mParentAdapter = parent;
         setWrapper(wrapper);

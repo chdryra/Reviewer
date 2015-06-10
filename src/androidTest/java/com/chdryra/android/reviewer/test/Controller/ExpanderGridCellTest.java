@@ -13,7 +13,7 @@ import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.Controller.AdapterReviewNode;
 import com.chdryra.android.reviewer.Controller.ExpanderGridCell;
-import com.chdryra.android.reviewer.Controller.WrapperGvDataList;
+import com.chdryra.android.reviewer.Controller.ViewerGvDataList;
 import com.chdryra.android.reviewer.Model.ReviewNode;
 import com.chdryra.android.reviewer.Model.TagsManager;
 import com.chdryra.android.reviewer.View.GvCommentList;
@@ -43,7 +43,7 @@ public class ExpanderGridCellTest extends AndroidTestCase {
         data.add(GvDataMocker.newLocationList(0, false));
         data.add(GvDataMocker.newImage(null));
 
-        WrapperGvDataList wrapper = new WrapperGvDataList(data);
+        ViewerGvDataList wrapper = new ViewerGvDataList(data);
         AdapterReviewNode parent = new AdapterReviewNode(node, wrapper);
 
         ExpanderGridCell expander = new ExpanderGridCell(getContext(), parent);

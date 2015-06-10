@@ -54,7 +54,7 @@ public class GvTagListTest extends TestCase {
         GvTagList.GvTag gvTagNull = new GvTagList.GvTag();
         GvTagList.GvTag gvTagEmpty = new GvTagList.GvTag("");
 
-        assertNotNull(gvTag.newViewHolder());
+        assertNotNull(gvTag.getViewHolder());
         assertTrue(gvTag.isValidForDisplay());
 
         assertEquals(tag1, gvTag.get());

@@ -61,7 +61,7 @@ public class GvCommentListTest extends TestCase {
         GvCommentList.GvComment gvCommentNull = new GvCommentList.GvComment();
         GvCommentList.GvComment gvCommentEmpty = new GvCommentList.GvComment("");
 
-        assertNotNull(gvComment.newViewHolder());
+        assertNotNull(gvComment.getViewHolder());
         assertTrue(gvComment.isValidForDisplay());
 
         assertEquals(comment1, gvComment.getComment());

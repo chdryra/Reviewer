@@ -22,7 +22,7 @@ import com.chdryra.android.reviewer.View.GvReviewList;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ExpanderChildren extends ExpanderChildNode {
-    public ExpanderChildren(Context context, WrapperChildList source) {
+    public ExpanderChildren(Context context, ViewerChildList source) {
         super(context, source);
     }
 
@@ -34,7 +34,7 @@ public class ExpanderChildren extends ExpanderChildNode {
             ReviewIdableList<ReviewNode> children = getChildrenWrapper().getNode().getChildren();
             if (children.containsId(id)) {
                 ReviewNode child = children.get(id);
-                WrapperChildList wrapper = new WrapperChildList(child);
+                ViewerChildList wrapper = new ViewerChildList(child);
                 GridDataExpander expander = new ExpanderChildren(getContext(), wrapper);
 
                 return new AdapterReviewNode(child, wrapper, expander);

@@ -30,17 +30,12 @@ public abstract class GvDataBasic implements GvData {
     }
 
     @Override
-    public boolean hasReviewId() {
-        return mReviewId != null;
-    }
-
-    @Override
     public GvReviewId getReviewId() {
         return mReviewId;
     }
 
     @Override
-    public boolean isList() {
+    public boolean hasElements() {
         return false;
     }
 

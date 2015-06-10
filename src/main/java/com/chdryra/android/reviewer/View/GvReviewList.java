@@ -150,7 +150,7 @@ public class GvReviewList extends GvDataList<GvReviewList.GvReviewOverview> {
         }
 
         @Override
-        public ViewHolder newViewHolder() {
+        public ViewHolder getViewHolder() {
             return new VhFeed();
         }
 

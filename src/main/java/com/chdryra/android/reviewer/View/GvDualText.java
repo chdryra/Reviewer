@@ -60,17 +60,12 @@ public class GvDualText extends VHDDualString implements GvData {
     }
 
     @Override
-    public boolean hasReviewId() {
-        return mId != null;
-    }
-
-    @Override
     public GvReviewId getReviewId() {
         return mId;
     }
 
     @Override
-    public boolean isList() {
+    public boolean hasElements() {
         return false;
     }
 

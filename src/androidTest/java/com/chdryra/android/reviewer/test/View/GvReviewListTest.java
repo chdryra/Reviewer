@@ -220,7 +220,7 @@ public class GvReviewListTest extends TestCase {
         GvReviewList.GvReviewOverview gvReviewNotEmpty = new GvReviewList.GvReviewOverview(id1,
                 author1, date1, subject1, 0f, null, null, null);
 
-        assertNotNull(gvReview.newViewHolder());
+        assertNotNull(gvReview.getViewHolder());
         assertTrue(gvReview.isValidForDisplay());
 
         assertEquals(id1, gvReview.getId());

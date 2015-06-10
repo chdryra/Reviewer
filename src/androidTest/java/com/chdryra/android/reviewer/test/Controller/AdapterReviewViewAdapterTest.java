@@ -13,7 +13,7 @@ import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.Controller.AdapterReviewNode;
 import com.chdryra.android.reviewer.Controller.AdapterReviewViewAdapter;
-import com.chdryra.android.reviewer.Controller.WrapperGvDataList;
+import com.chdryra.android.reviewer.Controller.ViewerGvDataList;
 import com.chdryra.android.reviewer.Model.ReviewNode;
 import com.chdryra.android.reviewer.View.GvData;
 import com.chdryra.android.reviewer.View.GvDataList;
@@ -83,7 +83,7 @@ public class AdapterReviewViewAdapterTest extends AndroidTestCase {
         mGridData.add(GvDataMocker.newLocationList(0, false));
         mGridData.add(GvDataMocker.newImage(null));
 
-        WrapperGvDataList wrapper = new WrapperGvDataList(mGridData);
+        ViewerGvDataList wrapper = new ViewerGvDataList(mGridData);
         mNodeAdapter = new AdapterReviewNode(node, wrapper);
         mAdapter = new AdapterReviewViewAdapter(getContext(), mNodeAdapter, wrapper);
     }

@@ -14,7 +14,7 @@ import android.test.suitebuilder.annotation.SmallTest;
 import com.chdryra.android.reviewer.Controller.AdapterReviewNode;
 import com.chdryra.android.reviewer.Controller.ExpanderChildren;
 import com.chdryra.android.reviewer.Controller.GridDataExpander;
-import com.chdryra.android.reviewer.Controller.WrapperChildList;
+import com.chdryra.android.reviewer.Controller.ViewerChildList;
 import com.chdryra.android.reviewer.Model.Author;
 import com.chdryra.android.reviewer.Model.FactoryReview;
 import com.chdryra.android.reviewer.Model.Review;
@@ -106,7 +106,7 @@ public class AdapterReviewNodeTest extends AndroidTestCase {
         }
 
         mNode = collection;
-        WrapperChildList wrapper = new WrapperChildList(mNode);
+        ViewerChildList wrapper = new ViewerChildList(mNode);
         GridDataExpander expander = new ExpanderChildren(mContext, wrapper);
         mAdapter = new AdapterReviewNode(mNode, wrapper, expander);
     }

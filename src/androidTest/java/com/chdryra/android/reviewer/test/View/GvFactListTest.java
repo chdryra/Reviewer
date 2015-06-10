@@ -108,7 +108,7 @@ public class GvFactListTest extends TestCase {
         GvFactList.GvFact gvFactEmpty2 = new GvFactList.GvFact("", value1);
         GvFactList.GvFact gvFactEmpty3 = new GvFactList.GvFact("", "");
 
-        assertNotNull(gvFact.newViewHolder());
+        assertNotNull(gvFact.getViewHolder());
         assertTrue(gvFact.isValidForDisplay());
 
         assertEquals(label1, gvFact.getLabel());

@@ -29,7 +29,7 @@ public class VhdLocatedPlace implements ViewHolderData {
     }
 
     @Override
-    public ViewHolder newViewHolder() {
+    public ViewHolder getViewHolder() {
         return new VhLocatedPlace();
     }
 

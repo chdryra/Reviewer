@@ -90,7 +90,7 @@ public class GvImageListTest extends TestCase {
                 isCover1);
 
 
-        assertNotNull(gvImage.newViewHolder());
+        assertNotNull(gvImage.getViewHolder());
         assertTrue(gvImage.isValidForDisplay());
 
         assertTrue(bitmap1.sameAs(gvImage.getBitmap()));

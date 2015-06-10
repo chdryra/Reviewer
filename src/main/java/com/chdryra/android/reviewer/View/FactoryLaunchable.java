@@ -47,18 +47,18 @@ public class FactoryLaunchable {
     }
 
     public static LaunchableUi newLaunchable(ReviewViewAdapter adapter,
-            ReviewView.ReviewViewParams params) {
+            ReviewViewParams params) {
         return getFactory().new LaunchableReviewView(adapter, params);
     }
 
     public static LaunchableUi newLaunchable(ReviewViewAdapter adapter) {
-        return getFactory().new LaunchableReviewView(adapter, new ReviewView.ReviewViewParams());
+        return getFactory().new LaunchableReviewView(adapter, new ReviewViewParams());
     }
 
     private class LaunchableReviewView extends ActivityReviewView implements LaunchableUi {
         private ReviewView mView;
 
-        private LaunchableReviewView(ReviewViewAdapter adapter, ReviewView.ReviewViewParams
+        private LaunchableReviewView(ReviewViewAdapter adapter, ReviewViewParams
                 params) {
             mView = new ReviewView(adapter, params);
         }

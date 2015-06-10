@@ -68,7 +68,7 @@ public class ReviewDataScreen {
 
         @Override
         public void onGridItemLongClick(GvData item, int position, View v) {
-            if (item.hasReviewId()) {
+            if (item.getReviewId() != null) {
                 String alert = getActivity().getResources().getString(R.string.alert_goto_review);
                 Bundle args = new Bundle();
                 GvDataPacker.packItem(GvDataPacker.CurrentNewDatum.CURRENT, item, args);

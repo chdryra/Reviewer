@@ -94,7 +94,7 @@ public class GvSocialPlatformList extends GvDataList<GvSocialPlatformList.GvSoci
         }
 
         @Override
-        public ViewHolder newViewHolder() {
+        public ViewHolder getViewHolder() {
             return new VhSocialPlatform();
         }
 

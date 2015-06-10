@@ -14,7 +14,7 @@ import android.test.suitebuilder.annotation.SmallTest;
 import com.chdryra.android.reviewer.Controller.ExpanderChildNode;
 import com.chdryra.android.reviewer.Controller.GridDataExpander;
 import com.chdryra.android.reviewer.Controller.ReviewViewAdapter;
-import com.chdryra.android.reviewer.Controller.WrapperChildList;
+import com.chdryra.android.reviewer.Controller.ViewerChildList;
 import com.chdryra.android.reviewer.View.GvCommentList;
 import com.chdryra.android.reviewer.View.GvReviewList;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
@@ -26,7 +26,7 @@ import com.chdryra.android.reviewer.test.TestUtils.ReviewMocker;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ExpanderChildNodeTest extends AndroidTestCase {
-    private WrapperChildList mWrapper;
+    private ViewerChildList mWrapper;
     private GridDataExpander mExpander;
 
     @SmallTest
@@ -47,11 +47,11 @@ public class ExpanderChildNodeTest extends AndroidTestCase {
 
     @Override
     protected void setUp() throws Exception {
-        mWrapper = new WrapperChildList(ReviewMocker.newReviewNode(false));
+        mWrapper = new ViewerChildList(ReviewMocker.newReviewNode(false));
         mExpander = getExpander(mWrapper);
     }
 
-    protected GridDataExpander getExpander(WrapperChildList wrapper) {
+    protected GridDataExpander getExpander(ViewerChildList wrapper) {
         return new ExpanderChildNode(getContext(), wrapper);
     }
 }

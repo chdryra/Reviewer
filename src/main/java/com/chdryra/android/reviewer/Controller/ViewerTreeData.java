@@ -25,12 +25,12 @@ import com.chdryra.android.reviewer.View.GvReviewId;
  * .MdData}. {@link com.chdryra.android.reviewer.Model.TagsManager.ReviewTag} is in the tree.
  * Includes number of reviews and subjects if a meta-review.
  */
-public class WrapperTreeData implements GridDataWrapper {
+public class ViewerTreeData implements GridDataViewer {
     private ReviewNode mNode;
     private boolean        mUniqueData;
     private TreeDataGetter mGetter;
 
-    public WrapperTreeData(ReviewNode node, boolean uniqueData) {
+    public ViewerTreeData(ReviewNode node, boolean uniqueData) {
         mNode = node;
         mGetter = new TreeDataGetter(mNode);
         mUniqueData = uniqueData;
@@ -43,7 +43,7 @@ public class WrapperTreeData implements GridDataWrapper {
         TagCollector tagCollector = new TagCollector(mNode);
         SubReviewCollector subReviewCollector = new SubReviewCollector(mNode);
 
-        WrapperChildList wrapper = new WrapperChildList(mNode);
+        ViewerChildList wrapper = new ViewerChildList(mNode);
         GvDataList reviews = wrapper.getGridData();
         if (reviews.size() > 0) {
             data.add(reviews);
