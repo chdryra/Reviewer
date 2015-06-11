@@ -19,8 +19,8 @@ import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.mygenerallibrary.DialogCancelAddDoneFragment;
 import com.chdryra.android.mygenerallibrary.DialogTwoButtonFragment;
-import com.chdryra.android.reviewer.Adapter.ApplicationSingletons.Administrator;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewAdapter;
+import com.chdryra.android.reviewer.ApplicationSingletons.Administrator;
 import com.chdryra.android.reviewer.View.ActivitiesFragments.ActivityReviewView;
 import com.chdryra.android.reviewer.View.Dialogs.DialogAddGvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;

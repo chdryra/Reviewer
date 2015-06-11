@@ -11,9 +11,9 @@ package com.chdryra.android.reviewer.test.View.ZZZProblemTests;
 import android.app.Instrumentation;
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.Adapter.ApplicationSingletons.Administrator;
-import com.chdryra.android.reviewer.Adapter.ApplicationSingletons.ReviewFeed;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilder;
+import com.chdryra.android.reviewer.ApplicationSingletons.Administrator;
+import com.chdryra.android.reviewer.ApplicationSingletons.ReviewFeed;
 import com.chdryra.android.reviewer.Model.Social.SocialPlatformList;
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.View.ActivitiesFragments.ActivityFeed;

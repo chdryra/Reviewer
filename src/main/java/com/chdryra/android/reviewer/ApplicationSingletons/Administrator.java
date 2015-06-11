@@ -6,7 +6,7 @@
  * Date: 23 September, 2014
  */
 
-package com.chdryra.android.reviewer.Adapter.ApplicationSingletons;
+package com.chdryra.android.reviewer.ApplicationSingletons;
 
 import android.app.Activity;
 import android.content.Context;

@@ -10,7 +10,7 @@ package com.chdryra.android.reviewer.View.ActivitiesFragments;
 
 import android.app.Fragment;
 
-import com.chdryra.android.reviewer.Adapter.ApplicationSingletons.Administrator;
+import com.chdryra.android.reviewer.ApplicationSingletons.Administrator;
 import com.chdryra.android.reviewer.View.Screens.FeedScreen;
 
 /**
