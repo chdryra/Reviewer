@@ -13,8 +13,8 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.chdryra.android.mygenerallibrary.ViewHolder;
-import com.chdryra.android.reviewer.Controller.DataAdapterModel.DataImage;
-import com.chdryra.android.reviewer.Controller.DataAdapterModel.DataValidator;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataImage;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.Comparator;

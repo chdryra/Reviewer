@@ -8,7 +8,7 @@
 
 package com.chdryra.android.reviewer.Model.ReviewData;
 
-import com.chdryra.android.reviewer.Controller.DataAdapterModel.DataValidator;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
 
 /**
  * Review Data: subject

@@ -14,7 +14,7 @@ import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.chdryra.android.reviewer.Controller.ApplicationSingletons.Administrator;
+import com.chdryra.android.reviewer.Adapter.ApplicationSingletons.Administrator;
 import com.chdryra.android.reviewer.View.ActivitiesFragments.ActivityReviewView;
 import com.chdryra.android.reviewer.View.Dialogs.DialogShower;
 import com.chdryra.android.reviewer.View.Screens.ReviewView;

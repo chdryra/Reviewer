@@ -8,11 +8,11 @@
 
 package com.chdryra.android.reviewer.Model.ReviewStructure;
 
-import com.chdryra.android.reviewer.Controller.DataAdapterModel.DataComment;
-import com.chdryra.android.reviewer.Controller.DataAdapterModel.DataFact;
-import com.chdryra.android.reviewer.Controller.DataAdapterModel.DataImage;
-import com.chdryra.android.reviewer.Controller.DataAdapterModel.DataLocation;
-import com.chdryra.android.reviewer.Controller.DataAdapterModel.MdGvConverter;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataComment;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataFact;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataImage;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataLocation;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.MdGvConverter;
 import com.chdryra.android.reviewer.Model.ReviewData.MdCommentList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdFactList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdImageList;

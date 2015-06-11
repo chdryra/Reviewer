@@ -10,7 +10,7 @@ package com.chdryra.android.reviewer.View.Launcher;
 
 import android.util.Log;
 
-import com.chdryra.android.reviewer.Controller.ReviewAdapterModel.ReviewViewAdapter;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewAdapter;
 import com.chdryra.android.reviewer.View.ActivitiesFragments.ActivityReviewView;
 import com.chdryra.android.reviewer.View.Screens.ReviewView;
 import com.chdryra.android.reviewer.View.Screens.ReviewViewParams;

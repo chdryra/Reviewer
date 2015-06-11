@@ -10,7 +10,7 @@ package com.chdryra.android.reviewer.View.Screens;
 
 import android.text.Editable;
 
-import com.chdryra.android.reviewer.Controller.ReviewAdapterModel.ReviewBuilder;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilder;
 
 /**
  * Created by: Rizwan Choudrey

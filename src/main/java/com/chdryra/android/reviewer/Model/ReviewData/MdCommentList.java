@@ -8,8 +8,8 @@
 
 package com.chdryra.android.reviewer.Model.ReviewData;
 
-import com.chdryra.android.reviewer.Controller.DataAdapterModel.DataComment;
-import com.chdryra.android.reviewer.Controller.DataAdapterModel.DataValidator;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataComment;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
 
 /**
  * Created by: Rizwan Choudrey

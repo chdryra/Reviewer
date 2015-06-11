@@ -8,8 +8,8 @@
 
 package com.chdryra.android.reviewer.Model.ReviewData;
 
-import com.chdryra.android.reviewer.Controller.DataAdapterModel.DataLocation;
-import com.chdryra.android.reviewer.Controller.DataAdapterModel.DataValidator;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataLocation;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
 import com.google.android.gms.maps.model.LatLng;
 
 /**

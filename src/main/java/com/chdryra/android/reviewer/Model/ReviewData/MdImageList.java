@@ -10,8 +10,8 @@ package com.chdryra.android.reviewer.Model.ReviewData;
 
 import android.graphics.Bitmap;
 
-import com.chdryra.android.reviewer.Controller.DataAdapterModel.DataImage;
-import com.chdryra.android.reviewer.Controller.DataAdapterModel.DataValidator;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataImage;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
 
 import java.util.Date;
 

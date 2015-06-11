@@ -12,7 +12,7 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.webkit.URLUtil;
 
-import com.chdryra.android.reviewer.Controller.DataAdapterModel.DataValidator;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
 import com.chdryra.android.reviewer.Model.ReviewData.MdFactList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdUrlList;
 import com.chdryra.android.reviewer.Model.ReviewData.ReviewId;

@@ -24,8 +24,8 @@ import android.widget.Toast;
 
 import com.chdryra.android.mygenerallibrary.ActivityResultCode;
 import com.chdryra.android.mygenerallibrary.LocationClientConnector;
-import com.chdryra.android.reviewer.Controller.ApplicationSingletons.Administrator;
-import com.chdryra.android.reviewer.Controller.ReviewAdapterModel.ReviewBuilder;
+import com.chdryra.android.reviewer.Adapter.ApplicationSingletons.Administrator;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilder;
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.View.ActivitiesFragments.ActivityReviewView;
 import com.chdryra.android.reviewer.View.ActivitiesFragments.FragmentReviewView;

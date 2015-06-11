@@ -14,8 +14,8 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.chdryra.android.mygenerallibrary.DialogCancelAddDoneFragment;
-import com.chdryra.android.reviewer.Controller.ApplicationSingletons.Administrator;
-import com.chdryra.android.reviewer.Controller.ReviewAdapterModel.ReviewBuilder;
+import com.chdryra.android.reviewer.Adapter.ApplicationSingletons.Administrator;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilder;
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.View.GvDataModel.FactoryGvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;

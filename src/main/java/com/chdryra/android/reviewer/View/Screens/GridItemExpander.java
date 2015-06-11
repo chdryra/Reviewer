@@ -10,7 +10,7 @@ package com.chdryra.android.reviewer.View.Screens;
 
 import android.view.View;
 
-import com.chdryra.android.reviewer.Controller.ReviewAdapterModel.ReviewViewAdapter;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewAdapter;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 
 /**

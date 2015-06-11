@@ -12,8 +12,8 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.chdryra.android.mygenerallibrary.ViewHolder;
-import com.chdryra.android.reviewer.Controller.DataAdapterModel.DataFact;
-import com.chdryra.android.reviewer.Controller.DataAdapterModel.DataValidator;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataFact;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
 
 import java.util.Comparator;
 

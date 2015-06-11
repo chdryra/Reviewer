@@ -17,10 +17,10 @@ import android.test.suitebuilder.annotation.SmallTest;
 import android.util.Log;
 import android.widget.GridView;
 
-import com.chdryra.android.reviewer.Controller.ApplicationSingletons.Administrator;
-import com.chdryra.android.reviewer.Controller.ApplicationSingletons.ReviewFeed;
-import com.chdryra.android.reviewer.Controller.ReviewAdapterModel.ReviewBuilder;
-import com.chdryra.android.reviewer.Controller.ReviewAdapterModel.ReviewViewAdapter;
+import com.chdryra.android.reviewer.Adapter.ApplicationSingletons.Administrator;
+import com.chdryra.android.reviewer.Adapter.ApplicationSingletons.ReviewFeed;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilder;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewAdapter;
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.View.ActivitiesFragments.ActivityReviewView;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;

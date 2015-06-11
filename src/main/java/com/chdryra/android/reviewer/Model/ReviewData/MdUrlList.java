@@ -8,8 +8,8 @@
 
 package com.chdryra.android.reviewer.Model.ReviewData;
 
-import com.chdryra.android.reviewer.Controller.DataAdapterModel.DataUrl;
-import com.chdryra.android.reviewer.Controller.DataAdapterModel.DataValidator;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataUrl;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
 
 import java.net.URL;
 

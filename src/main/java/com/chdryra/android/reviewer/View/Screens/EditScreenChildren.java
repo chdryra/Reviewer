@@ -10,7 +10,7 @@ package com.chdryra.android.reviewer.View.Screens;
 
 import android.view.MenuItem;
 
-import com.chdryra.android.reviewer.Controller.ReviewAdapterModel.ReviewBuilder;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilder;
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.View.GvDataModel.GvChildList;
 
