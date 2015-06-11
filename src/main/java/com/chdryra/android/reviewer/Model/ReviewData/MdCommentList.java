@@ -22,13 +22,14 @@ import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
  */
 
 public class MdCommentList extends MdDataList<MdCommentList.MdComment> {
-    /**
-     * Review Data: comment.
-     */
+
     public MdCommentList(ReviewId reviewId) {
         super(reviewId);
     }
 
+    /**
+     * Review Data: comment
+     */
     public static class MdComment implements MdData, DataComment {
         private final String   mComment;
         private final boolean  mIsHeadline;

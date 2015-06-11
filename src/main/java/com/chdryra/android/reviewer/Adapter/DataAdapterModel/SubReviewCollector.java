@@ -26,12 +26,13 @@ public class SubReviewCollector {
     }
 
     public GvChildList collectCriteria() {
-        ReviewIdableList<ReviewNode> nodes = collectNodes(mNode);
-        ReviewIdableList<ReviewNode> criteriaNodes = new ReviewIdableList<>();
-        for (ReviewNode node : nodes) {
-            criteriaNodes.add(collectNodes(node.getReview().getTreeRepresentation()));
-        }
+        //ReviewIdableList<ReviewNode> nodes = collectNodes(mNode.expand());
+        //ReviewIdableList<ReviewNode> criteriaNodes = new ReviewIdableList<>();
+//        for (ReviewNode node : nodes) {
+//            criteriaNodes.add(collectNodes(node.expand()));
+//        }
 
+        ReviewIdableList<ReviewNode> criteriaNodes = mNode.expand().getChildren();
         GvChildList criteria = new GvChildList(MdGvConverter.convert(mNode.getId()));
         for (ReviewNode node : criteriaNodes) {
             GvChildList children = MdGvConverter.convertChildren(node);

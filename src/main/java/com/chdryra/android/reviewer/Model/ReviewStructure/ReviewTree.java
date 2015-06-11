@@ -60,6 +60,11 @@ public class ReviewTree implements ReviewNode {
     }
 
     @Override
+    public ReviewNode expand() {
+        return mNode.expand();
+    }
+
+    @Override
     public ReviewIdableList<ReviewNode> getChildren() {
         return mNode.getChildren();
     }

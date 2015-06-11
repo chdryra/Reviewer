@@ -66,6 +66,11 @@ public class ReviewTreeNode implements ReviewNode {
     }
 
     @Override
+    public ReviewNode expand() {
+        return getReview().getTreeRepresentation();
+    }
+
+    @Override
     public ReviewIdableList<ReviewNode> getChildren() {
         return mChildren;
     }
@@ -149,46 +154,22 @@ public class ReviewTreeNode implements ReviewNode {
 
     @Override
     public MdCommentList getComments() {
-        MdCommentList comments = new MdCommentList(mId);
-        comments.addList(mReview.getComments());
-        for (ReviewNode child : mChildren) {
-            comments.addList(child.getComments());
-        }
-
-        return comments;
+        return mReview.getComments();
     }
 
     @Override
     public MdFactList getFacts() {
-        MdFactList facts = new MdFactList(mId);
-        facts.addList(mReview.getFacts());
-        for (ReviewNode child : mChildren) {
-            facts.addList(child.getFacts());
-        }
-
-        return facts;
+        return mReview.getFacts();
     }
 
     @Override
     public MdImageList getImages() {
-        MdImageList images = new MdImageList(mId);
-        images.addList(mReview.getImages());
-        for (ReviewNode child : mChildren) {
-            images.addList(child.getImages());
-        }
-
-        return images;
+        return mReview.getImages();
     }
 
     @Override
     public MdLocationList getLocations() {
-        MdLocationList locations = new MdLocationList(mId);
-        locations.addList(mReview.getLocations());
-        for (ReviewNode child : mChildren) {
-            locations.addList(child.getLocations());
-        }
-
-        return locations;
+        return mReview.getLocations();
     }
 
     @Override

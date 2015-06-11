@@ -31,8 +31,7 @@ public class PublishDate {
     }
 
     public static PublishDate then(long time) {
-        long now = new Date().getTime();
-        if (time > now) {
+        if (time > new Date().getTime()) {
             throw new IllegalStateException("Publish date must not be in the future!");
         }
 
@@ -45,5 +44,21 @@ public class PublishDate {
 
     public long getTime() {
         return mDate.getTime();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof PublishDate)) return false;
+
+        PublishDate that = (PublishDate) o;
+
+        return mDate.equals(that.mDate);
+
+    }
+
+    @Override
+    public int hashCode() {
+        return mDate.hashCode();
     }
 }

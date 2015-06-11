@@ -42,42 +42,38 @@ public class ChildDataGetter {
     }
 
     public MdCommentList getComments() {
-//        MdCommentList comments = new MdCommentList(mRoot.getId());
-//        for(ReviewNode node : mRoot.getChildren()) {
-//            comments.addList(node.getReview().getComments());
-//        }
-//
-//        return comments;
-        return mRoot.getComments();
+        MdCommentList comments = new MdCommentList(mRoot.getId());
+        for (ReviewNode node : mRoot.getChildren()) {
+            comments.addList(node.getReview().getComments());
+        }
+
+        return comments;
     }
 
     public MdImageList getImages() {
-//        MdImageList images = new MdImageList(mRoot.getId());
-//        for(ReviewNode node : mRoot.getChildren()) {
-//            images.addList(node.getReview().getImages());
-//        }
-//
-//        return images;
-        return mRoot.getImages();
+        MdImageList images = new MdImageList(mRoot.getId());
+        for (ReviewNode node : mRoot.getChildren()) {
+            images.addList(node.getReview().getImages());
+        }
+
+        return images;
     }
 
     public MdFactList getFacts() {
-//        MdFactList facts = new MdFactList(mRoot.getId());
-//        for(ReviewNode node : mRoot.getChildren()) {
-//            facts.addList(node.getReview().getFacts());
-//        }
-//
-//        return facts;
-        return mRoot.getFacts();
+        MdFactList facts = new MdFactList(mRoot.getId());
+        for (ReviewNode node : mRoot.getChildren()) {
+            facts.addList(node.getReview().getFacts());
+        }
+
+        return facts;
     }
 
     public MdLocationList getLocations() {
-//        MdLocationList locations = new MdLocationList(mRoot.getId());
-//        for(ReviewNode node : mRoot.getChildren()) {
-//            locations.addList(node.getReview().getLocations());
-//        }
-//
-//        return locations;
-        return mRoot.getLocations();
+        MdLocationList locations = new MdLocationList(mRoot.getId());
+        for (ReviewNode node : mRoot.getChildren()) {
+            locations.addList(node.getReview().getLocations());
+        }
+
+        return locations;
     }
 }

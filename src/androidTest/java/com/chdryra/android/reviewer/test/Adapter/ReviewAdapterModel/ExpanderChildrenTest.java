@@ -19,6 +19,6 @@ import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ViewerChildList;
  */
 public class ExpanderChildrenTest extends ExpanderChildNodeTest {
     protected GridDataExpander getExpander(ViewerChildList wrapper) {
-        return new ExpanderChildren(getContext(), wrapper);
+        return new ExpanderChildren(getContext(), mNode);
     }
 }

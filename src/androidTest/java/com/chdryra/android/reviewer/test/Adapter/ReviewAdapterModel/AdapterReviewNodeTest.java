@@ -107,7 +107,7 @@ public class AdapterReviewNodeTest extends AndroidTestCase {
 
         mNode = collection;
         ViewerChildList wrapper = new ViewerChildList(mNode);
-        GridDataExpander expander = new ExpanderChildren(mContext, wrapper);
+        GridDataExpander expander = new ExpanderChildren(mContext, mNode);
         mAdapter = new AdapterReviewNode(mNode, wrapper, expander);
     }
 

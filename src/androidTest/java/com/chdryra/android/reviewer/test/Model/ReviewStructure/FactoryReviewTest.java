@@ -14,6 +14,7 @@ import com.chdryra.android.reviewer.Model.ReviewData.PublishDate;
 import com.chdryra.android.reviewer.Model.ReviewStructure.FactoryReview;
 import com.chdryra.android.reviewer.Model.ReviewStructure.Review;
 import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
+import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewTreeNode;
 import com.chdryra.android.reviewer.Model.UserData.Author;
 import com.chdryra.android.reviewer.Model.UserData.UserId;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
@@ -59,21 +60,17 @@ public class FactoryReviewTest extends TestCase {
 
     @SmallTest
     public void testCreateReviewNode() {
-        ReviewNode node = FactoryReview.createReviewNode(mReview);
+        checkNode(FactoryReview.createReviewNode(mReview));
+    }
 
-        assertEquals(mSubject, node.getSubject().get());
-        assertEquals(mRating, node.getRating().get());
-        assertEquals(mAuthor, node.getAuthor());
-        assertEquals(mDate, node.getPublishDate());
-        MdGvEquality.check(node.getComments(), mComments);
-        MdGvEquality.check(node.getImages(), mImages);
-        MdGvEquality.check(node.getFacts(), mFacts);
-        MdGvEquality.check(node.getLocations(), mLocations);
-
-        assertEquals(mReview, node.getReview());
-        assertEquals(mReview.getId(), node.getId());
-        assertNull(node.getParent());
-        assertEquals(0, node.getChildren().size());
+    @SmallTest
+    public void testCreateReviewTreeNode() {
+        ReviewTreeNode node = FactoryReview.createReviewTreeNode(mReview, true);
+        checkNode(node);
+        assertTrue(node.isRatingAverageOfChildren());
+        node = FactoryReview.createReviewTreeNode(mReview, false);
+        checkNode(node);
+        assertFalse(node.isRatingAverageOfChildren());
     }
 
     @Override
@@ -89,5 +86,21 @@ public class FactoryReviewTest extends TestCase {
 
         mReview = FactoryReview.createReviewUser(mAuthor, mDate, mSubject, mRating,
                 mComments, mImages, mFacts, mLocations);
+    }
+
+    private void checkNode(ReviewNode node) {
+        assertEquals(mSubject, node.getSubject().get());
+        assertEquals(node.isRatingAverageOfChildren() ? 0f : mRating, node.getRating().get());
+        assertEquals(mAuthor, node.getAuthor());
+        assertEquals(mDate, node.getPublishDate());
+        MdGvEquality.check(node.getComments(), mComments);
+        MdGvEquality.check(node.getImages(), mImages);
+        MdGvEquality.check(node.getFacts(), mFacts);
+        MdGvEquality.check(node.getLocations(), mLocations);
+
+        assertEquals(mReview, node.getReview());
+        assertEquals(mReview.getId(), node.getId());
+        assertNull(node.getParent());
+        assertEquals(0, node.getChildren().size());
     }
 }
