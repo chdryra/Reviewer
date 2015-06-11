@@ -11,12 +11,12 @@ package com.chdryra.android.reviewer.test.Controller;
 import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.Controller.ExpanderChildNode;
-import com.chdryra.android.reviewer.Controller.GridDataExpander;
-import com.chdryra.android.reviewer.Controller.ReviewViewAdapter;
-import com.chdryra.android.reviewer.Controller.ViewerChildList;
-import com.chdryra.android.reviewer.View.GvCommentList;
-import com.chdryra.android.reviewer.View.GvReviewList;
+import com.chdryra.android.reviewer.Controller.ReviewAdapterModel.ExpanderChildNode;
+import com.chdryra.android.reviewer.Controller.ReviewAdapterModel.GridDataExpander;
+import com.chdryra.android.reviewer.Controller.ReviewAdapterModel.ReviewViewAdapter;
+import com.chdryra.android.reviewer.Controller.ReviewAdapterModel.ViewerChildList;
+import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
+import com.chdryra.android.reviewer.View.GvDataModel.GvReviewList;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
 import com.chdryra.android.reviewer.test.TestUtils.ReviewMocker;
 

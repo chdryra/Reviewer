@@ -10,15 +10,15 @@ package com.chdryra.android.reviewer.test.Controller;
 
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.Controller.MdGvConverter;
-import com.chdryra.android.reviewer.Controller.ViewerGvDataList;
-import com.chdryra.android.reviewer.Model.ReviewId;
-import com.chdryra.android.reviewer.Model.ReviewNode;
-import com.chdryra.android.reviewer.Model.TagsManager;
-import com.chdryra.android.reviewer.View.GvDataCollection;
-import com.chdryra.android.reviewer.View.GvDataList;
-import com.chdryra.android.reviewer.View.GvReviewId;
-import com.chdryra.android.reviewer.View.GvTagList;
+import com.chdryra.android.reviewer.Controller.DataAdapterModel.MdGvConverter;
+import com.chdryra.android.reviewer.Controller.ReviewAdapterModel.ViewerGvDataList;
+import com.chdryra.android.reviewer.Model.ReviewData.ReviewId;
+import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
+import com.chdryra.android.reviewer.Model.Tagging.TagsManager;
+import com.chdryra.android.reviewer.View.GvDataModel.GvDataCollection;
+import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
+import com.chdryra.android.reviewer.View.GvDataModel.GvReviewId;
+import com.chdryra.android.reviewer.View.GvDataModel.GvTagList;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
 import com.chdryra.android.reviewer.test.TestUtils.ReviewMocker;
 

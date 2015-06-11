@@ -10,7 +10,7 @@ package com.chdryra.android.reviewer.test.View;
 
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.View.CommentFormatter;
+import com.chdryra.android.reviewer.View.Utils.CommentFormatter;
 import com.chdryra.android.testutils.RandomString;
 
 import junit.framework.TestCase;

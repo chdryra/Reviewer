@@ -8,10 +8,10 @@
 
 package com.chdryra.android.reviewer.test.TestUtils;
 
-import com.chdryra.android.reviewer.Model.Review;
-import com.chdryra.android.reviewer.Model.ReviewNode;
-import com.chdryra.android.reviewer.Model.ReviewTreeNode;
-import com.chdryra.android.reviewer.Model.ReviewUser;
+import com.chdryra.android.reviewer.Model.ReviewStructure.Review;
+import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
+import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewTreeNode;
+import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewUser;
 import com.chdryra.android.testutils.RandomString;
 
 /**

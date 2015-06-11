@@ -11,12 +11,12 @@ package com.chdryra.android.reviewer.test.View;
 import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.View.FactoryGvDataHandler;
-import com.chdryra.android.reviewer.View.GvData;
-import com.chdryra.android.reviewer.View.GvDataHandler;
-import com.chdryra.android.reviewer.View.GvDataList;
-import com.chdryra.android.reviewer.View.GvDataType;
-import com.chdryra.android.reviewer.View.GvTagList;
+import com.chdryra.android.reviewer.View.GvDataModel.FactoryGvDataHandler;
+import com.chdryra.android.reviewer.View.GvDataModel.GvData;
+import com.chdryra.android.reviewer.View.GvDataModel.GvDataHandler;
+import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
+import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
+import com.chdryra.android.reviewer.View.GvDataModel.GvTagList;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
 
 /**

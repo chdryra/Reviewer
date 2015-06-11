@@ -11,14 +11,14 @@ package com.chdryra.android.reviewer.Database;
 import android.content.ContentValues;
 import android.database.Cursor;
 
-import com.chdryra.android.reviewer.Model.Author;
-import com.chdryra.android.reviewer.Model.MdCommentList;
-import com.chdryra.android.reviewer.Model.MdFactList;
-import com.chdryra.android.reviewer.Model.MdImageList;
-import com.chdryra.android.reviewer.Model.MdLocationList;
-import com.chdryra.android.reviewer.Model.Review;
-import com.chdryra.android.reviewer.Model.ReviewNode;
-import com.chdryra.android.reviewer.Model.TagsManager;
+import com.chdryra.android.reviewer.Model.ReviewData.MdCommentList;
+import com.chdryra.android.reviewer.Model.ReviewData.MdFactList;
+import com.chdryra.android.reviewer.Model.ReviewData.MdImageList;
+import com.chdryra.android.reviewer.Model.ReviewData.MdLocationList;
+import com.chdryra.android.reviewer.Model.ReviewStructure.Review;
+import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
+import com.chdryra.android.reviewer.Model.Tagging.TagsManager;
+import com.chdryra.android.reviewer.Model.UserData.Author;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;

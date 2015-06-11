@@ -11,21 +11,21 @@ package com.chdryra.android.reviewer.test.Controller;
 import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.Controller.AdapterReviewNode;
-import com.chdryra.android.reviewer.Controller.ExpanderChildren;
-import com.chdryra.android.reviewer.Controller.GridDataExpander;
-import com.chdryra.android.reviewer.Controller.ViewerChildList;
-import com.chdryra.android.reviewer.Model.Author;
-import com.chdryra.android.reviewer.Model.FactoryReview;
-import com.chdryra.android.reviewer.Model.PublishDate;
-import com.chdryra.android.reviewer.Model.Review;
-import com.chdryra.android.reviewer.Model.ReviewIdableList;
-import com.chdryra.android.reviewer.Model.ReviewNode;
-import com.chdryra.android.reviewer.Model.ReviewTreeNode;
-import com.chdryra.android.reviewer.Model.UserId;
-import com.chdryra.android.reviewer.View.GvData;
-import com.chdryra.android.reviewer.View.GvDataList;
-import com.chdryra.android.reviewer.View.GvReviewList;
+import com.chdryra.android.reviewer.Controller.ReviewAdapterModel.AdapterReviewNode;
+import com.chdryra.android.reviewer.Controller.ReviewAdapterModel.ExpanderChildren;
+import com.chdryra.android.reviewer.Controller.ReviewAdapterModel.GridDataExpander;
+import com.chdryra.android.reviewer.Controller.ReviewAdapterModel.ViewerChildList;
+import com.chdryra.android.reviewer.Model.ReviewData.PublishDate;
+import com.chdryra.android.reviewer.Model.ReviewData.ReviewIdableList;
+import com.chdryra.android.reviewer.Model.ReviewStructure.FactoryReview;
+import com.chdryra.android.reviewer.Model.ReviewStructure.Review;
+import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
+import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewTreeNode;
+import com.chdryra.android.reviewer.Model.UserData.Author;
+import com.chdryra.android.reviewer.Model.UserData.UserId;
+import com.chdryra.android.reviewer.View.GvDataModel.GvData;
+import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
+import com.chdryra.android.reviewer.View.GvDataModel.GvReviewList;
 import com.chdryra.android.reviewer.test.TestUtils.ReviewMocker;
 import com.chdryra.android.testutils.RandomString;
 
@@ -96,7 +96,7 @@ public class AdapterReviewNodeTest extends AndroidTestCase {
 
         Review review = FactoryReview.createReviewUser(mAuthor, PublishDate.now(), RandomString
                 .nextWord
-                (), 0f);
+                        (), 0f);
         ReviewTreeNode collection = FactoryReview.createReviewTreeNode(review, true);
         mReviews = new ReviewIdableList<>();
         for (int i = 0; i < NUM; ++i) {

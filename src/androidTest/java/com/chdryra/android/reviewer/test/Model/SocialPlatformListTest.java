@@ -11,7 +11,7 @@ package com.chdryra.android.reviewer.test.Model;
 import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.Model.SocialPlatformList;
+import com.chdryra.android.reviewer.Model.Social.SocialPlatformList;
 
 /**
  * Created by: Rizwan Choudrey

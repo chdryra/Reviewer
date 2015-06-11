@@ -12,9 +12,9 @@ import android.graphics.drawable.BitmapDrawable;
 import android.widget.EditText;
 import android.widget.ImageView;
 
-import com.chdryra.android.reviewer.View.ConfigGvDataAddEdit;
-import com.chdryra.android.reviewer.View.GvImageList;
-import com.chdryra.android.reviewer.View.LayoutImage;
+import com.chdryra.android.reviewer.View.Configs.ConfigGvDataAddEdit;
+import com.chdryra.android.reviewer.View.Dialogs.LayoutImage;
+import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
 
 /**
  * Created by: Rizwan Choudrey

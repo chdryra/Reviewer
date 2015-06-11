@@ -11,10 +11,10 @@ package com.chdryra.android.reviewer.test.View;
 import android.test.suitebuilder.annotation.SmallTest;
 import android.widget.EditText;
 
-import com.chdryra.android.reviewer.View.ConfigGvDataAddEdit;
-import com.chdryra.android.reviewer.View.GvFactList;
-import com.chdryra.android.reviewer.View.GvUrlList;
-import com.chdryra.android.reviewer.View.LayoutFact;
+import com.chdryra.android.reviewer.View.Configs.ConfigGvDataAddEdit;
+import com.chdryra.android.reviewer.View.Dialogs.LayoutFact;
+import com.chdryra.android.reviewer.View.GvDataModel.GvFactList;
+import com.chdryra.android.reviewer.View.GvDataModel.GvUrlList;
 
 import java.net.MalformedURLException;
 import java.net.URL;

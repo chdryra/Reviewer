@@ -13,7 +13,7 @@ import android.database.MatrixCursor;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.Database.RowAuthor;
-import com.chdryra.android.reviewer.Model.Author;
+import com.chdryra.android.reviewer.Model.UserData.Author;
 import com.chdryra.android.reviewer.test.TestUtils.RandomAuthor;
 
 import junit.framework.TestCase;

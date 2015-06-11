@@ -11,9 +11,9 @@ package com.chdryra.android.reviewer.test.View;
 import android.widget.EditText;
 import android.widget.RatingBar;
 
-import com.chdryra.android.reviewer.View.ConfigGvDataAddEdit;
-import com.chdryra.android.reviewer.View.GvChildList;
-import com.chdryra.android.reviewer.View.LayoutChildReview;
+import com.chdryra.android.reviewer.View.Configs.ConfigGvDataAddEdit;
+import com.chdryra.android.reviewer.View.Dialogs.LayoutChildReview;
+import com.chdryra.android.reviewer.View.GvDataModel.GvChildList;
 
 /**
  * Created by: Rizwan Choudrey

@@ -8,9 +8,9 @@
 
 package com.chdryra.android.reviewer.test.View;
 
-import com.chdryra.android.reviewer.View.ConfigGvDataAddEdit;
-import com.chdryra.android.reviewer.View.GvData;
-import com.chdryra.android.reviewer.View.GvLocationList;
+import com.chdryra.android.reviewer.View.Configs.ConfigGvDataAddEdit;
+import com.chdryra.android.reviewer.View.GvDataModel.GvData;
+import com.chdryra.android.reviewer.View.GvDataModel.GvLocationList;
 
 /**
  * Created by: Rizwan Choudrey

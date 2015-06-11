@@ -11,9 +11,9 @@ package com.chdryra.android.reviewer.Database;
 import android.content.ContentValues;
 import android.database.Cursor;
 
-import com.chdryra.android.reviewer.Controller.DataValidator;
-import com.chdryra.android.reviewer.Model.ReviewId;
-import com.chdryra.android.reviewer.Model.TagsManager;
+import com.chdryra.android.reviewer.Controller.DataAdapterModel.DataValidator;
+import com.chdryra.android.reviewer.Model.ReviewData.ReviewId;
+import com.chdryra.android.reviewer.Model.Tagging.TagsManager;
 
 import java.util.ArrayList;
 import java.util.Arrays;

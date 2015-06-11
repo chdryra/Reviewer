@@ -11,9 +11,9 @@ package com.chdryra.android.reviewer.Database;
 import android.content.ContentValues;
 import android.database.Cursor;
 
-import com.chdryra.android.reviewer.Controller.DataValidator;
-import com.chdryra.android.reviewer.Model.Author;
-import com.chdryra.android.reviewer.Model.UserId;
+import com.chdryra.android.reviewer.Controller.DataAdapterModel.DataValidator;
+import com.chdryra.android.reviewer.Model.UserData.Author;
+import com.chdryra.android.reviewer.Model.UserData.UserId;
 
 /**
  * Created by: Rizwan Choudrey

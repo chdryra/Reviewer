@@ -8,9 +8,9 @@
 
 package com.chdryra.android.reviewer.test.Controller;
 
-import com.chdryra.android.reviewer.Controller.ExpanderChildren;
-import com.chdryra.android.reviewer.Controller.GridDataExpander;
-import com.chdryra.android.reviewer.Controller.ViewerChildList;
+import com.chdryra.android.reviewer.Controller.ReviewAdapterModel.ExpanderChildren;
+import com.chdryra.android.reviewer.Controller.ReviewAdapterModel.GridDataExpander;
+import com.chdryra.android.reviewer.Controller.ReviewAdapterModel.ViewerChildList;
 
 /**
  * Created by: Rizwan Choudrey

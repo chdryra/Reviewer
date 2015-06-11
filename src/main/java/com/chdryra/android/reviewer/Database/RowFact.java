@@ -12,10 +12,10 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.webkit.URLUtil;
 
-import com.chdryra.android.reviewer.Controller.DataValidator;
-import com.chdryra.android.reviewer.Model.MdFactList;
-import com.chdryra.android.reviewer.Model.MdUrlList;
-import com.chdryra.android.reviewer.Model.ReviewId;
+import com.chdryra.android.reviewer.Controller.DataAdapterModel.DataValidator;
+import com.chdryra.android.reviewer.Model.ReviewData.MdFactList;
+import com.chdryra.android.reviewer.Model.ReviewData.MdUrlList;
+import com.chdryra.android.reviewer.Model.ReviewData.ReviewId;
 
 import java.net.MalformedURLException;
 import java.net.URL;

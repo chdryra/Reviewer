@@ -8,7 +8,7 @@
 
 package com.chdryra.android.reviewer.Database;
 
-import com.chdryra.android.reviewer.Model.MdData;
+import com.chdryra.android.reviewer.Model.ReviewData.MdData;
 
 /**
  * Created by: Rizwan Choudrey

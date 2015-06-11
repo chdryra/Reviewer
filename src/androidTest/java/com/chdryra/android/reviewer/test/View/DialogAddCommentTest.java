@@ -8,8 +8,8 @@
 
 package com.chdryra.android.reviewer.test.View;
 
-import com.chdryra.android.reviewer.View.ConfigGvDataAddEdit;
-import com.chdryra.android.reviewer.View.GvCommentList;
+import com.chdryra.android.reviewer.View.Configs.ConfigGvDataAddEdit;
+import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
 
 /**
  * Created by: Rizwan Choudrey

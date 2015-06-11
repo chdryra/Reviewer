@@ -11,7 +11,7 @@ package com.chdryra.android.reviewer.test.View;
 import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.View.GvSocialPlatformList;
+import com.chdryra.android.reviewer.View.GvDataModel.GvSocialPlatformList;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
 
 /**

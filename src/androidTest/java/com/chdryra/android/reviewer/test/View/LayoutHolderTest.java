@@ -12,7 +12,7 @@ import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 import android.view.View;
 
-import com.chdryra.android.reviewer.View.LayoutHolder;
+import com.chdryra.android.reviewer.View.Dialogs.LayoutHolder;
 
 /**
  * Created by: Rizwan Choudrey

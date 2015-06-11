@@ -16,12 +16,12 @@ import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.SmallTest;
 import android.widget.GridView;
 
-import com.chdryra.android.reviewer.Controller.Administrator;
-import com.chdryra.android.reviewer.Controller.ReviewViewAdapter;
-import com.chdryra.android.reviewer.View.ActivityReviewView;
-import com.chdryra.android.reviewer.View.FragmentReviewView;
-import com.chdryra.android.reviewer.View.GvData;
-import com.chdryra.android.reviewer.View.ReviewView;
+import com.chdryra.android.reviewer.Controller.ApplicationSingletons.Administrator;
+import com.chdryra.android.reviewer.Controller.ReviewAdapterModel.ReviewViewAdapter;
+import com.chdryra.android.reviewer.View.ActivitiesFragments.ActivityReviewView;
+import com.chdryra.android.reviewer.View.ActivitiesFragments.FragmentReviewView;
+import com.chdryra.android.reviewer.View.GvDataModel.GvData;
+import com.chdryra.android.reviewer.View.Screens.ReviewView;
 import com.robotium.solo.Solo;
 
 import java.util.ArrayList;

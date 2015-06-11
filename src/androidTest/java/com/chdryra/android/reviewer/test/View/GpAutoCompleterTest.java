@@ -11,8 +11,8 @@ package com.chdryra.android.reviewer.test.View;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.mygenerallibrary.ViewHolderDataList;
-import com.chdryra.android.reviewer.View.GpAutoCompleter;
-import com.chdryra.android.reviewer.View.GvLocationList;
+import com.chdryra.android.reviewer.View.GvDataModel.GvLocationList;
+import com.chdryra.android.reviewer.View.Utils.GpAutoCompleter;
 import com.google.android.gms.maps.model.LatLng;
 
 import junit.framework.TestCase;

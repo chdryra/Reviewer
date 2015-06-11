@@ -11,16 +11,16 @@ package com.chdryra.android.reviewer.test.Controller;
 import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.Controller.AdapterReviewNode;
-import com.chdryra.android.reviewer.Controller.ExpanderGridCell;
-import com.chdryra.android.reviewer.Controller.ViewerGvDataList;
-import com.chdryra.android.reviewer.Model.ReviewNode;
-import com.chdryra.android.reviewer.Model.TagsManager;
-import com.chdryra.android.reviewer.View.GvCommentList;
-import com.chdryra.android.reviewer.View.GvData;
-import com.chdryra.android.reviewer.View.GvDataList;
-import com.chdryra.android.reviewer.View.GvDataType;
-import com.chdryra.android.reviewer.View.GvTagList;
+import com.chdryra.android.reviewer.Controller.ReviewAdapterModel.AdapterReviewNode;
+import com.chdryra.android.reviewer.Controller.ReviewAdapterModel.ExpanderGridCell;
+import com.chdryra.android.reviewer.Controller.ReviewAdapterModel.ViewerGvDataList;
+import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
+import com.chdryra.android.reviewer.Model.Tagging.TagsManager;
+import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
+import com.chdryra.android.reviewer.View.GvDataModel.GvData;
+import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
+import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
+import com.chdryra.android.reviewer.View.GvDataModel.GvTagList;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
 import com.chdryra.android.reviewer.test.TestUtils.ReviewMocker;
 
