@@ -9,9 +9,11 @@
 package com.chdryra.android.reviewer.test.Adapter.ReviewAdapterModel;
 
 import android.graphics.Bitmap;
+import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.MdGvConverter;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ExpanderChildNode;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ViewerChildList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdImageList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdLocationList;
@@ -22,19 +24,18 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvReviewList;
 import com.chdryra.android.reviewer.test.TestUtils.ReviewMocker;
 
-import junit.framework.TestCase;
-
 /**
  * Created by: Rizwan Choudrey
  * On: 12/05/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ViewerChildListTest extends TestCase {
+public class ViewerChildListTest extends AndroidTestCase {
 
     @SmallTest
     public void testGetGridData() {
         ReviewNode node = ReviewMocker.newReviewNode(false);
-        ViewerChildList wrapper = new ViewerChildList(node);
+        ExpanderChildNode expander = new ExpanderChildNode(getContext(), node);
+        ViewerChildList wrapper = new ViewerChildList(node, expander);
         GvDataList data = wrapper.getGridData();
         assertNotNull(data);
         ReviewIdableList<ReviewNode> children = node.getChildren();
@@ -46,7 +47,7 @@ public class ViewerChildListTest extends TestCase {
             assertEquals(child.getSubject().get(), item.getSubject());
             assertEquals(child.getRating().get(), item.getRating());
             assertEquals(child.getAuthor(), item.getAuthor());
-            assertEquals(child.getPublishDate(), item.getPublishDate());
+            assertEquals(child.getPublishDate().getDate(), item.getPublishDate());
             MdLocationList locs = child.getLocations();
             String location = locs.getItem(0).getName();
             if (locs.size() > 1) {

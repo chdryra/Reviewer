@@ -13,7 +13,7 @@ import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.AdapterReviewNode;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ExpanderChildren;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.GridDataExpander;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.GridCellExpander;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ViewerChildList;
 import com.chdryra.android.reviewer.Model.ReviewData.PublishDate;
 import com.chdryra.android.reviewer.Model.ReviewData.ReviewIdableList;
@@ -106,9 +106,9 @@ public class AdapterReviewNodeTest extends AndroidTestCase {
         }
 
         mNode = collection;
-        ViewerChildList wrapper = new ViewerChildList(mNode);
-        GridDataExpander expander = new ExpanderChildren(mContext, mNode);
-        mAdapter = new AdapterReviewNode(mNode, wrapper, expander);
+        GridCellExpander expander = new ExpanderChildren(mContext, mNode);
+        ViewerChildList wrapper = new ViewerChildList(mNode, expander);
+        mAdapter = new AdapterReviewNode(mNode, wrapper);
     }
 
     private float getRating() {

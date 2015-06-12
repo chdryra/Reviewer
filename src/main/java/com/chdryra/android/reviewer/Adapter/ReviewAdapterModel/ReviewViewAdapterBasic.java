@@ -26,7 +26,6 @@ import java.util.ArrayList;
 public abstract class ReviewViewAdapterBasic implements ReviewViewAdapter {
     final ArrayList<GridDataObservable.GridDataObserver> mObservers = new ArrayList<>();
     private GridDataViewer mWrapper;
-    private GridDataExpander mExpander;
 
     @Override
     public GvDataList getGridData() {
@@ -45,20 +44,16 @@ public abstract class ReviewViewAdapterBasic implements ReviewViewAdapter {
 
     @Override
     public boolean isExpandable(GvData datum) {
-        return mExpander != null && mExpander.isExpandable(datum);
+        return mWrapper != null && mWrapper.isExpandable(datum);
     }
 
     @Override
     public ReviewViewAdapter expandItem(GvData datum) {
-        return isExpandable(datum) ? mExpander.expandItem(datum) : null;
+        return isExpandable(datum) ? mWrapper.expandItem(datum) : null;
     }
 
     public void setWrapper(GridDataViewer wrapper) {
         mWrapper = wrapper;
         notifyGridDataObservers();
-    }
-
-    public void setExpander(GridDataExpander expander) {
-        mExpander = expander;
     }
 }

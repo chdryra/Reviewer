@@ -10,6 +10,7 @@ package com.chdryra.android.reviewer.Adapter.ReviewAdapterModel;
 
 import android.content.Context;
 
+import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
 
 /**
@@ -19,12 +20,13 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
  */
 public class AdapterReviewViewAdapter extends ReviewViewAdapterBasic {
     private ReviewViewAdapter mParentAdapter;
+    private GridCellExpander mExpander;
 
     public AdapterReviewViewAdapter(Context context, ReviewViewAdapter parent, GridDataViewer
             wrapper) {
         mParentAdapter = parent;
         setWrapper(wrapper);
-        setExpander(new ExpanderGridCell(context, this));
+        mExpander = new ExpanderGridCell(context, this);
     }
 
     @Override
@@ -45,5 +47,15 @@ public class AdapterReviewViewAdapter extends ReviewViewAdapterBasic {
     @Override
     public GvImageList getCovers() {
         return mParentAdapter.getCovers();
+    }
+
+    @Override
+    public boolean isExpandable(GvData datum) {
+        return mExpander.isExpandable(datum);
+    }
+
+    @Override
+    public ReviewViewAdapter expandItem(GvData datum) {
+        return isExpandable(datum) ? mExpander.expandItem(datum) : null;
     }
 }

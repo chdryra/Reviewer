@@ -15,8 +15,8 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvData;
  * On: 12/05/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public interface GridDataExpander {
-    boolean isExpandable(GvData datum);
+public interface GridCellExpander<T extends GvData> {
+    boolean isExpandable(T datum);
 
-    ReviewViewAdapter expandItem(GvData datum);
+    ReviewViewAdapter expandItem(T datum);
 }

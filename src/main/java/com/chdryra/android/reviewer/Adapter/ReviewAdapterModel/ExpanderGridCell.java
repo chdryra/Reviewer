@@ -18,7 +18,7 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
  * On: 12/05/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ExpanderGridCell implements GridDataExpander {
+public class ExpanderGridCell implements GridCellExpander<GvData> {
     private Context           mContext;
     private ReviewViewAdapter mParent;
 
@@ -35,8 +35,8 @@ public class ExpanderGridCell implements GridDataExpander {
     @Override
     public ReviewViewAdapter expandItem(GvData datum) {
         if (isExpandable(datum)) {
-            GridDataViewer gridViewer = new ViewerGvDataList((GvDataList) datum);
-            return new AdapterReviewViewAdapter(mContext, mParent, gridViewer);
+            return FactoryReviewViewAdapter.newGvDataListAdapter(mContext, mParent, (GvDataList)
+                    datum);
         }
 
         return null;

@@ -50,7 +50,7 @@ public class ReviewFeed extends ApplicationSingleton {
         Review feed = FactoryReview.createReviewUser(author, PublishDate.now(), title, 0f);
 
         mFeedNode = FactoryReview.createReviewTreeNode(feed, true);
-        mFeedAdapter = FactoryReviewViewAdapter.newChildListAdapter(context, mFeedNode);
+        mFeedAdapter = FactoryReviewViewAdapter.newChildOverviewAdapter(context, mFeedNode);
 
         mDatabase = getDatabase();
         mDatabase.loadTags();

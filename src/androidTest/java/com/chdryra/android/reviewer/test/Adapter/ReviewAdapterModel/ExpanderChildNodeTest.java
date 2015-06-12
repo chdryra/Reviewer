@@ -12,13 +12,11 @@ import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ExpanderChildNode;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.GridDataExpander;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.GridCellExpander;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewAdapter;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ViewerChildList;
 import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
-import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvReviewList;
-import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
 import com.chdryra.android.reviewer.test.TestUtils.ReviewMocker;
 
 /**
@@ -29,15 +27,11 @@ import com.chdryra.android.reviewer.test.TestUtils.ReviewMocker;
 public class ExpanderChildNodeTest extends AndroidTestCase {
     protected ReviewNode mNode;
     private ViewerChildList mWrapper;
-    private GridDataExpander mExpander;
+    private GridCellExpander<GvReviewList.GvReviewOverview> mExpander;
 
     @SmallTest
     public void testExpandItem() {
-        GvCommentList.GvComment comment = GvDataMocker.newComment(null);
-        assertFalse(mExpander.isExpandable(comment));
-        assertNull(mExpander.expandItem(comment));
-
-        GvReviewList children = (GvReviewList) mWrapper.getGridData();
+        GvReviewList children = mWrapper.getGridData();
         for (GvReviewList.GvReviewOverview child : children) {
             ReviewViewAdapter adapter = mExpander.expandItem(child);
             assertNotNull(adapter);
@@ -50,11 +44,11 @@ public class ExpanderChildNodeTest extends AndroidTestCase {
     @Override
     protected void setUp() throws Exception {
         mNode = ReviewMocker.newReviewNode(false);
-        mWrapper = new ViewerChildList(mNode);
         mExpander = getExpander(mWrapper);
+        mWrapper = new ViewerChildList(mNode, mExpander);
     }
 
-    protected GridDataExpander getExpander(ViewerChildList wrapper) {
+    protected GridCellExpander<GvReviewList.GvReviewOverview> getExpander(ViewerChildList wrapper) {
         return new ExpanderChildNode(getContext(), mNode);
     }
 }

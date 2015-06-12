@@ -11,6 +11,7 @@ package com.chdryra.android.reviewer.Adapter.ReviewAdapterModel;
 import android.content.Context;
 
 import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
+import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
 
 /**
  * Created by: Rizwan Choudrey
@@ -22,16 +23,26 @@ public class FactoryReviewViewAdapter {
 
     }
 
+    public static ReviewViewAdapter newChildOverviewAdapter(Context context, ReviewNode node) {
+        ExpanderChildNode expander = new ExpanderChildNode(context, node);
+        ViewerChildList wrapper = new ViewerChildList(node, expander);
+        return new AdapterReviewNode(node, wrapper);
+    }
+
     public static ReviewViewAdapter newChildListAdapter(Context context, ReviewNode node) {
-        ViewerChildList wrapper = new ViewerChildList(node);
-        GridDataExpander expander = new ExpanderChildNode(context, node);
-        return new AdapterReviewNode(node, wrapper, expander);
+        ExpanderChildNode expander = new ExpanderChildNode(context, node);
+        ViewerChildList wrapper = new ViewerChildList(node, expander);
+        return new AdapterReviewNode(node, wrapper);
     }
 
     public static ReviewViewAdapter newTreeDataAdapter(Context context, ReviewNode node) {
-        GridDataViewer wrapper = new ViewerTreeData(node);
-        ReviewViewAdapter parent = new AdapterReviewNode(node, wrapper);
-        GridDataExpander expander = new ExpanderGridCell(context, parent);
-        return new AdapterReviewNode(node, wrapper, expander);
+        GridDataViewer wrapper = new ViewerTreeData(context, node);
+        return new AdapterReviewNode(node, wrapper);
+    }
+
+    public static ReviewViewAdapter newGvDataListAdapter(Context context, ReviewViewAdapter parent,
+            GvDataList data) {
+        GridDataViewer wrapper = new ViewerGvDataList(context, parent, data);
+        return new AdapterReviewViewAdapter(context, parent, wrapper);
     }
 }

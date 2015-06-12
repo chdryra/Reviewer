@@ -13,7 +13,6 @@ import android.content.Context;
 import com.chdryra.android.reviewer.Model.ReviewData.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewData.ReviewIdableList;
 import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
-import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvReviewList;
 
 /**
@@ -21,7 +20,7 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvReviewList;
  * On: 12/05/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ExpanderChildNode implements GridDataExpander {
+public class ExpanderChildNode implements GridCellExpander<GvReviewList.GvReviewOverview> {
     private Context          mContext;
     private ReviewNode mParent;
 
@@ -35,10 +34,9 @@ public class ExpanderChildNode implements GridDataExpander {
     }
 
     @Override
-    public boolean isExpandable(GvData datum) {
+    public boolean isExpandable(GvReviewList.GvReviewOverview datum) {
         try {
-            GvReviewList.GvReviewOverview overview = (GvReviewList.GvReviewOverview) datum;
-            ReviewId id = ReviewId.fromString(overview.getId());
+            ReviewId id = ReviewId.fromString(datum.getId());
             return mParent.getChildren().containsId(id);
         } catch (ClassCastException e) {
             return false;
@@ -46,11 +44,10 @@ public class ExpanderChildNode implements GridDataExpander {
     }
 
     @Override
-    public ReviewViewAdapter expandItem(GvData datum) {
+    public ReviewViewAdapter expandItem(GvReviewList.GvReviewOverview datum) {
         if (isExpandable(datum)) {
             ReviewIdableList<ReviewNode> nodes = mParent.getChildren();
-            GvReviewList.GvReviewOverview overview = (GvReviewList.GvReviewOverview) datum;
-            ReviewNode node = nodes.get(ReviewId.fromString(overview.getId()));
+            ReviewNode node = nodes.get(ReviewId.fromString(datum.getId()));
 
             return FactoryReviewViewAdapter.newTreeDataAdapter(mContext, node);
         }

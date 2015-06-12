@@ -9,7 +9,7 @@
 package com.chdryra.android.reviewer.test.Adapter.ReviewAdapterModel;
 
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ExpanderChildren;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.GridDataExpander;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.GridCellExpander;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ViewerChildList;
 
 /**
@@ -18,7 +18,7 @@ import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ViewerChildList;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ExpanderChildrenTest extends ExpanderChildNodeTest {
-    protected GridDataExpander getExpander(ViewerChildList wrapper) {
+    protected GridCellExpander getExpander(ViewerChildList wrapper) {
         return new ExpanderChildren(getContext(), mNode);
     }
 }
