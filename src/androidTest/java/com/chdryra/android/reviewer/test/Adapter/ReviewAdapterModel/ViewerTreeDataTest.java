@@ -8,10 +8,11 @@
 
 package com.chdryra.android.reviewer.test.Adapter.ReviewAdapterModel;
 
+import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.MdGvConverter;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ViewerGvDataList;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ViewerTreeData;
 import com.chdryra.android.reviewer.Model.ReviewData.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
 import com.chdryra.android.reviewer.Model.Tagging.TagsManager;
@@ -22,14 +23,12 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvTagList;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
 import com.chdryra.android.reviewer.test.TestUtils.ReviewMocker;
 
-import junit.framework.TestCase;
-
 /**
  * Created by: Rizwan Choudrey
  * On: 12/05/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ViewerTreeDataTest extends TestCase {
+public class ViewerTreeDataTest extends AndroidTestCase {
     @SmallTest
     public void testGetGridData() {
         ReviewNode node = ReviewMocker.newReviewNode(false);
@@ -45,7 +44,7 @@ public class ViewerTreeDataTest extends TestCase {
         data.add(MdGvConverter.convert(node.getLocations()));
         data.add(MdGvConverter.convert(node.getFacts()));
 
-        ViewerGvDataList wrapper = new ViewerGvDataList(data);
+        ViewerTreeData wrapper = new ViewerTreeData(getContext(), node);
         GvDataList collection = wrapper.getGridData();
 
         assertNotNull(collection);

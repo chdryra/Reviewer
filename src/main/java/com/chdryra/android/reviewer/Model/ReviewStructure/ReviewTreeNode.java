@@ -8,6 +8,7 @@
 
 package com.chdryra.android.reviewer.Model.ReviewStructure;
 
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.TreeDataAggregator;
 import com.chdryra.android.reviewer.Model.ReviewData.MdCommentList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdFactList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdImageList;
@@ -36,9 +37,9 @@ public class ReviewTreeNode implements ReviewNode {
     private final ReviewId mId;
 
     private final Review                        mReview;
+    private final TreeDataAggregator mAggregator;
     private final ReviewIdableList<ReviewNode> mChildren;
     private       ReviewTreeNode               mParent;
-
     private boolean mRatingIsAverage = false;
 
     public ReviewTreeNode(Review root, boolean ratingIsAverage, ReviewId nodeId) {
@@ -47,6 +48,7 @@ public class ReviewTreeNode implements ReviewNode {
         mChildren = new ReviewIdableList<>();
         mParent = null;
         mRatingIsAverage = ratingIsAverage;
+        mAggregator = new TreeDataAggregator(this);
     }
 
     //ReviewNode methods
@@ -154,22 +156,22 @@ public class ReviewTreeNode implements ReviewNode {
 
     @Override
     public MdCommentList getComments() {
-        return mReview.getComments();
+        return mAggregator.getComments();
     }
 
     @Override
     public MdFactList getFacts() {
-        return mReview.getFacts();
+        return mAggregator.getFacts();
     }
 
     @Override
     public MdImageList getImages() {
-        return mReview.getImages();
+        return mAggregator.getImages();
     }
 
     @Override
     public MdLocationList getLocations() {
-        return mReview.getLocations();
+        return mAggregator.getLocations();
     }
 
     @Override

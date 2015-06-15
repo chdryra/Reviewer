@@ -11,11 +11,12 @@ package com.chdryra.android.reviewer.Adapter.ReviewAdapterModel;
 import android.content.Context;
 
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.MdGvConverter;
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.SubReviewCollector;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.TagCollector;
+import com.chdryra.android.reviewer.Model.ReviewData.ReviewIdableList;
 import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
 import com.chdryra.android.reviewer.Model.Tagging.TagsManager;
-import com.chdryra.android.reviewer.Model.TreeMethods.ChildDataGetter;
+import com.chdryra.android.reviewer.Model.TreeMethods.VisitorTreeFlattener;
+import com.chdryra.android.reviewer.View.GvDataModel.GvChildList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataCollection;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvReviewId;
@@ -35,12 +36,12 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvReviewList;
 public class ViewerTreeData implements GridDataViewer<GvDataList> {
     private Context mContext;
     private ReviewNode mNode;
-    private ChildDataGetter mGetter;
+    private TreeDataAggregator mGetter;
 
-    public ViewerTreeData(Context contex, ReviewNode node) {
-        mContext = contex;
+    public ViewerTreeData(Context context, ReviewNode node) {
+        mContext = context;
         mNode = node;
-        mGetter = new ChildDataGetter(mNode);
+        mGetter = new TreeDataAggregator(mNode);
     }
 
     @Override
@@ -48,7 +49,6 @@ public class ViewerTreeData implements GridDataViewer<GvDataList> {
         GvReviewId id = GvReviewId.getId(mNode.getId().toString());
         GvDataCollection data = new GvDataCollection(id);
         TagCollector tagCollector = new TagCollector(mNode);
-        SubReviewCollector subReviewCollector = new SubReviewCollector(mNode);
 
         ViewerChildList wrapper = new ViewerChildList(mNode, null);
         GvReviewList reviews = wrapper.getGridData();
@@ -58,7 +58,7 @@ public class ViewerTreeData implements GridDataViewer<GvDataList> {
         }
 
         data.add(tagCollector.collectTags());
-        data.add(subReviewCollector.collectCriteria());
+        data.add(collectCriteria());
         data.add(MdGvConverter.convert(mGetter.getImages()));
         data.add(MdGvConverter.convert(mGetter.getComments()));
         data.add(MdGvConverter.convert(mGetter.getLocations()));
@@ -85,5 +85,19 @@ public class ViewerTreeData implements GridDataViewer<GvDataList> {
         }
 
         return null;
+    }
+
+    public GvChildList collectCriteria() {
+        GvChildList criteria = new GvChildList(GvReviewId.getId(mNode.getId().toString()));
+        criteria.addList(MdGvConverter.convertChildren(mNode.expand()));
+        for (ReviewNode node : mNode.getChildren()) {
+            criteria.addList(MdGvConverter.convertChildren(node.expand()));
+        }
+
+        return criteria;
+    }
+
+    private ReviewIdableList<ReviewNode> collectNodes(ReviewNode node) {
+        return VisitorTreeFlattener.flatten(node);
     }
 }
