@@ -11,8 +11,8 @@ package com.chdryra.android.reviewer.test.View.GvDataModel;
 import android.test.suitebuilder.annotation.SmallTest;
 import android.widget.EditText;
 
-import com.chdryra.android.reviewer.View.Configs.ConfigGvDataAddEdit;
-import com.chdryra.android.reviewer.View.Dialogs.LayoutFact;
+import com.chdryra.android.reviewer.View.Configs.ConfigGvDataAddEditView;
+import com.chdryra.android.reviewer.View.Dialogs.AddEditFact;
 import com.chdryra.android.reviewer.View.GvDataModel.GvFactList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvUrlList;
 
@@ -24,15 +24,15 @@ import java.net.URL;
  * On: 23/12/2014
  * Email: rizwan.choudrey@gmail.com
  */
-public class LayoutFactTest extends GvDataEditLayoutTest<GvFactList.GvFact> {
+public class AddEditFactTest extends AddEditLayoutTest<GvFactList.GvFact> {
     private static final String BBC     = "BBC";
     private static final String BBC_URL = "http://www.bbc.co.uk/";
 
     private EditText mLabel;
     private boolean mUrlData = false;
 
-    public LayoutFactTest() {
-        super(GvFactList.TYPE, new LayoutFact(new ConfigGvDataAddEdit.AddFact()));
+    public AddEditFactTest() {
+        super(GvFactList.TYPE, new AddEditFact(new ConfigGvDataAddEditView.AddFact()));
     }
 
     @SmallTest
@@ -60,8 +60,8 @@ public class LayoutFactTest extends GvDataEditLayoutTest<GvFactList.GvFact> {
     @Override
     public void setUp() throws Exception {
         super.setUp();
-        mLabel = (EditText) getView(LayoutFact.LABEL);
-        mEditText = (EditText) getView(LayoutFact.VALUE);
+        mLabel = (EditText) getView(AddEditFact.LABEL);
+        mEditText = (EditText) getView(AddEditFact.VALUE);
         assertNotNull(mLabel);
         assertNotNull(mEditText);
     }

@@ -13,7 +13,6 @@ import android.widget.ImageView;
 
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
 import com.chdryra.android.reviewer.R;
-import com.chdryra.android.reviewer.View.GvDataModel.GvDataEditLayout;
 import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
 
 /**
@@ -21,7 +20,7 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
  * On: 18/12/2014
  * Email: rizwan.choudrey@gmail.com
  */
-public class LayoutImage extends GvDataEditLayout<GvImageList.GvImage> {
+public class EditImage extends AddEditLayout<GvImageList.GvImage> {
     public static final int   LAYOUT  = R.layout.dialog_image;
     public static final int   IMAGE   = R.id.dialog_image_image_view;
     public static final int   CAPTION = R.id.dialog_image_caption_edit_text;
@@ -29,7 +28,7 @@ public class LayoutImage extends GvDataEditLayout<GvImageList.GvImage> {
 
     private GvImageList.GvImage mCurrent;
 
-    public LayoutImage(GvDataEditor editor) {
+    public EditImage(GvDataEditor editor) {
         super(GvImageList.GvImage.class, LAYOUT, VIEWS, CAPTION, editor);
     }
 

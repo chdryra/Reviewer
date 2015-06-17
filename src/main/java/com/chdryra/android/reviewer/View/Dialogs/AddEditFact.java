@@ -13,7 +13,6 @@ import android.widget.EditText;
 
 import com.chdryra.android.mygenerallibrary.TextUtils;
 import com.chdryra.android.reviewer.R;
-import com.chdryra.android.reviewer.View.GvDataModel.GvDataEditLayout;
 import com.chdryra.android.reviewer.View.GvDataModel.GvFactList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvUrlList;
 
@@ -26,17 +25,17 @@ import java.util.ArrayList;
  * On: 18/12/2014
  * Email: rizwan.choudrey@gmail.com
  */
-public class LayoutFact extends GvDataEditLayout<GvFactList.GvFact> {
+public class AddEditFact extends AddEditLayout<GvFactList.GvFact> {
     public static final int   LAYOUT = R.layout.dialog_fact;
     public static final int   LABEL  = R.id.fact_label_edit_text;
     public static final int   VALUE  = R.id.fact_value_edit_text;
     public static final int[] VIEWS  = new int[]{LABEL, VALUE};
 
-    public LayoutFact(GvDataAdder adder) {
+    public AddEditFact(GvDataAdder adder) {
         super(GvFactList.GvFact.class, LAYOUT, VIEWS, VALUE, adder);
     }
 
-    public LayoutFact(GvDataEditor editor) {
+    public AddEditFact(GvDataEditor editor) {
         super(GvFactList.GvFact.class, LAYOUT, VIEWS, VALUE, editor);
     }
 

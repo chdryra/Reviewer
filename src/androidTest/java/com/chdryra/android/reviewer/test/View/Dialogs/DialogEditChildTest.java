@@ -11,7 +11,7 @@ package com.chdryra.android.reviewer.test.View.Dialogs;
 import android.widget.EditText;
 import android.widget.RatingBar;
 
-import com.chdryra.android.reviewer.View.Configs.ConfigGvDataAddEdit;
+import com.chdryra.android.reviewer.View.Configs.ConfigGvDataAddEditView;
 import com.chdryra.android.reviewer.View.GvDataModel.GvChildList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 
@@ -24,7 +24,7 @@ public class DialogEditChildTest extends
         DialogEditGvDataTest<GvChildList.GvChildReview> {
 
     public DialogEditChildTest() {
-        super(ConfigGvDataAddEdit.EditChild.class);
+        super(ConfigGvDataAddEditView.EditChild.class);
     }
 
     @Override

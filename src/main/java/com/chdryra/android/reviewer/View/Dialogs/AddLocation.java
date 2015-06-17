@@ -28,7 +28,6 @@ import com.chdryra.android.remoteapifetchers.GpPlaceDetailsFetcher;
 import com.chdryra.android.remoteapifetchers.GpPlaceDetailsResult;
 import com.chdryra.android.remoteapifetchers.GpPlaceSearchResults;
 import com.chdryra.android.reviewer.R;
-import com.chdryra.android.reviewer.View.GvDataModel.GvDataEditLayout;
 import com.chdryra.android.reviewer.View.GvDataModel.GvLocationList;
 import com.chdryra.android.reviewer.View.GvDataModel.VhdLocatedPlace;
 import com.chdryra.android.reviewer.View.Utils.GpAutoCompleter;
@@ -43,7 +42,7 @@ import java.util.ArrayList;
  * On: 04/03/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class LayoutLocationAdd extends GvDataEditLayout<GvLocationList.GvLocation>
+public class AddLocation extends AddEditLayout<GvLocationList.GvLocation>
         implements LocationClientConnector.Locatable,
         GpNearestNamesSuggester.SuggestionsListener,
         GpPlaceDetailsFetcher.DetailsListener {
@@ -77,7 +76,7 @@ public class LayoutLocationAdd extends GvDataEditLayout<GvLocationList.GvLocatio
     private EditText                            mNameEditText;
     private ViewHolderDataList<VhdLocatedPlace> mCurrentLatLngPlaces;
 
-    public LayoutLocationAdd(GvDataAdder adder) {
+    public AddLocation(GvDataAdder adder) {
         super(GvLocationList.GvLocation.class, LAYOUT, VIEWS, NAME, adder);
     }
 
@@ -85,6 +84,12 @@ public class LayoutLocationAdd extends GvDataEditLayout<GvLocationList.GvLocatio
     public GvLocationList.GvLocation createGvData() {
         String name = ((EditText) getView(NAME)).getText().toString().trim();
         return new GvLocationList.GvLocation(mSelectedLatLng, name);
+    }
+
+    @Override
+    public void onAdd(GvLocationList.GvLocation data) {
+        super.onAdd(data);
+        setNewSuggestionsAdapter(mCurrentLatLngPlaces);
     }
 
     @Override
@@ -147,12 +152,6 @@ public class LayoutLocationAdd extends GvDataEditLayout<GvLocationList.GvLocatio
     }
 
     @Override
-    public void onAdd(GvLocationList.GvLocation data) {
-        super.onAdd(data);
-        setNewSuggestionsAdapter(mCurrentLatLngPlaces);
-    }
-
-    @Override
     public void onLocated(Location location) {
         onLatLngFound(new LatLng(location.getLatitude(), location.getLongitude()));
     }
@@ -188,7 +187,7 @@ public class LayoutLocationAdd extends GvDataEditLayout<GvLocationList.GvLocatio
         mNameEditText.setText(null);
         mNameEditText.setHint(R.string.edit_text_fetching_location_hint);
         String placeId = place.getId().getId();
-        GpPlaceDetailsFetcher fetcher = new GpPlaceDetailsFetcher(placeId, LayoutLocationAdd.this);
+        GpPlaceDetailsFetcher fetcher = new GpPlaceDetailsFetcher(placeId, AddLocation.this);
         fetcher.fetchDetails();
     }
 

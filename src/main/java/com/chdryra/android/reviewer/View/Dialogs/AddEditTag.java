@@ -11,7 +11,6 @@ package com.chdryra.android.reviewer.View.Dialogs;
 import android.widget.EditText;
 
 import com.chdryra.android.reviewer.R;
-import com.chdryra.android.reviewer.View.GvDataModel.GvDataEditLayout;
 import com.chdryra.android.reviewer.View.GvDataModel.GvTagList;
 
 /**
@@ -19,16 +18,16 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvTagList;
  * On: 18/12/2014
  * Email: rizwan.choudrey@gmail.com
  */
-public class LayoutTag extends GvDataEditLayout<GvTagList.GvTag> {
+public class AddEditTag extends AddEditLayout<GvTagList.GvTag> {
     public static final int   LAYOUT = R.layout.dialog_tag;
     public static final int   TAG    = R.id.tag_edit_text;
     public static final int[] VIEWS  = new int[]{TAG};
 
-    public LayoutTag(GvDataAdder adder) {
+    public AddEditTag(GvDataAdder adder) {
         super(GvTagList.GvTag.class, LAYOUT, VIEWS, TAG, adder);
     }
 
-    public LayoutTag(GvDataEditor editor) {
+    public AddEditTag(GvDataEditor editor) {
         super(GvTagList.GvTag.class, LAYOUT, VIEWS, TAG, editor);
     }
 

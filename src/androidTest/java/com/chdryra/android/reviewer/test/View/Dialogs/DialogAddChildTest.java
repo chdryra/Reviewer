@@ -10,7 +10,7 @@ package com.chdryra.android.reviewer.test.View.Dialogs;
 
 import android.widget.RatingBar;
 
-import com.chdryra.android.reviewer.View.Configs.ConfigGvDataAddEdit;
+import com.chdryra.android.reviewer.View.Configs.ConfigGvDataAddEditView;
 import com.chdryra.android.reviewer.View.GvDataModel.GvChildList;
 
 /**
@@ -22,7 +22,7 @@ public class DialogAddChildTest extends
         DialogAddGvDataTest<GvChildList.GvChildReview> {
 
     public DialogAddChildTest() {
-        super(ConfigGvDataAddEdit.AddChild.class);
+        super(ConfigGvDataAddEditView.AddChild.class);
     }
 
     @Override

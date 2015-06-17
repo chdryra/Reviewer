@@ -8,7 +8,7 @@
 
 package com.chdryra.android.reviewer.test.View.Dialogs;
 
-import com.chdryra.android.reviewer.View.Configs.ConfigGvDataAddEdit;
+import com.chdryra.android.reviewer.View.Configs.ConfigGvDataAddEditView;
 import com.chdryra.android.reviewer.View.GvDataModel.GvTagList;
 
 /**
@@ -19,7 +19,7 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvTagList;
 public class DialogEditTagTest extends DialogEditGvDataTest<GvTagList.GvTag> {
 
     public DialogEditTagTest() {
-        super(ConfigGvDataAddEdit.EditTag.class);
+        super(ConfigGvDataAddEditView.EditTag.class);
     }
 
     @Override

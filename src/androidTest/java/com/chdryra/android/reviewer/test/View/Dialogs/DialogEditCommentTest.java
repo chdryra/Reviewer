@@ -8,7 +8,7 @@
 
 package com.chdryra.android.reviewer.test.View.Dialogs;
 
-import com.chdryra.android.reviewer.View.Configs.ConfigGvDataAddEdit;
+import com.chdryra.android.reviewer.View.Configs.ConfigGvDataAddEditView;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 
@@ -21,7 +21,7 @@ public class DialogEditCommentTest extends
         DialogEditGvDataTest<GvCommentList.GvComment> {
 
     public DialogEditCommentTest() {
-        super(ConfigGvDataAddEdit.EditComment.class);
+        super(ConfigGvDataAddEditView.EditComment.class);
     }
 
     @Override

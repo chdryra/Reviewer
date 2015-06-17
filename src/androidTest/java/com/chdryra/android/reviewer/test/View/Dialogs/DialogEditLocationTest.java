@@ -8,7 +8,7 @@
 
 package com.chdryra.android.reviewer.test.View.Dialogs;
 
-import com.chdryra.android.reviewer.View.Configs.ConfigGvDataAddEdit;
+import com.chdryra.android.reviewer.View.Configs.ConfigGvDataAddEditView;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvLocationList;
 
@@ -21,7 +21,7 @@ public class DialogEditLocationTest extends DialogEditGvDataTest<GvLocationList.
     private GvLocationList.GvLocation mCurrent;
 
     public DialogEditLocationTest() {
-        super(ConfigGvDataAddEdit.EditLocation.class);
+        super(ConfigGvDataAddEditView.EditLocation.class);
     }
 
     @Override

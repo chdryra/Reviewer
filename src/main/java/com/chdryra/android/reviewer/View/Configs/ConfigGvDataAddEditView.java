@@ -11,6 +11,7 @@ package com.chdryra.android.reviewer.View.Configs;
 import com.chdryra.android.reviewer.View.ActivitiesFragments.ActivityEditUrlBrowser;
 import com.chdryra.android.reviewer.View.Dialogs.DialogAddGvData;
 import com.chdryra.android.reviewer.View.Dialogs.DialogEditGvData;
+import com.chdryra.android.reviewer.View.Dialogs.DialogGvDataView;
 import com.chdryra.android.reviewer.View.GvDataModel.GvChildList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
@@ -32,19 +33,23 @@ import java.util.HashMap;
 /**
  * Defines the adder, editor and display UIs to use with each data type.
  */
-public final class ConfigGvDataAddEdit {
-    private static ConfigGvDataAddEdit sConfig;
-    private final HashMap<GvDataType, AddEditUis> mMap = new HashMap<>();
+public final class ConfigGvDataAddEditView {
+    private static ConfigGvDataAddEditView sConfig;
+    private final HashMap<GvDataType, AddEditViewUis> mMap = new HashMap<>();
 
-    private ConfigGvDataAddEdit() {
-        mMap.put(GvTagList.TYPE, new AddEditUis(AddTag.class, EditTag.class));
-        mMap.put(GvChildList.TYPE, new AddEditUis(AddChild.class, EditChild.class));
-        mMap.put(GvCommentList.TYPE, new AddEditUis(AddComment.class, EditComment.class));
-        mMap.put(GvImageList.TYPE, new AddEditUis(null, EditImage.class));
-        mMap.put(GvFactList.TYPE, new AddEditUis(AddFact.class, EditFact.class));
-        mMap.put(GvLocationList.TYPE, new AddEditUis(AddLocation.class, EditLocation.class));
-        mMap.put(GvUrlList.TYPE, new AddEditUis(ActivityEditUrlBrowser.class,
-                ActivityEditUrlBrowser.class));
+    private ConfigGvDataAddEditView() {
+        mMap.put(GvTagList.TYPE, new AddEditViewUis(AddTag.class, EditTag.class, ViewTag.class));
+        mMap.put(GvChildList.TYPE, new AddEditViewUis(AddChild.class, EditChild.class, ViewChild
+                .class));
+        mMap.put(GvCommentList.TYPE, new AddEditViewUis(AddComment.class, EditComment.class,
+                ViewComment.class));
+        mMap.put(GvImageList.TYPE, new AddEditViewUis(null, EditImage.class, ViewImage.class));
+        mMap.put(GvFactList.TYPE, new AddEditViewUis(AddFact.class, EditFact.class, ViewFact
+                .class));
+        mMap.put(GvLocationList.TYPE, new AddEditViewUis(AddLocation.class, EditLocation.class,
+                ViewLocation.class));
+        mMap.put(GvUrlList.TYPE, new AddEditViewUis(ActivityEditUrlBrowser.class,
+                ActivityEditUrlBrowser.class, ActivityEditUrlBrowser.class));
     }
 
     public static Class<? extends LaunchableUi> getAddClass(GvDataType dataType) {
@@ -55,8 +60,12 @@ public final class ConfigGvDataAddEdit {
         return get().mMap.get(dataType).getEditClass();
     }
 
-    private static ConfigGvDataAddEdit get() {
-        if (sConfig == null) sConfig = new ConfigGvDataAddEdit();
+    public static Class<? extends LaunchableUi> getViewClass(GvDataType dataType) {
+        return get().mMap.get(dataType).getViewClass();
+    }
+
+    private static ConfigGvDataAddEditView get() {
+        if (sConfig == null) sConfig = new ConfigGvDataAddEditView();
 
         return sConfig;
     }
@@ -67,7 +76,7 @@ public final class ConfigGvDataAddEdit {
     //Tag
     public static class AddTag extends DialogAddGvData<GvTagList.GvTag> {
         public AddTag() {
-            super(GvTagList.class);
+            super(GvTagList.GvTag.class);
         }
     }
 
@@ -75,28 +84,28 @@ public final class ConfigGvDataAddEdit {
     public static class AddChild extends
             DialogAddGvData<GvChildList.GvChildReview> {
         public AddChild() {
-            super(GvChildList.class);
+            super(GvChildList.GvChildReview.class);
         }
     }
 
     //Comment
     public static class AddComment extends DialogAddGvData<GvCommentList.GvComment> {
         public AddComment() {
-            super(GvCommentList.class);
+            super(GvCommentList.GvComment.class);
         }
     }
 
     //Fact
     public static class AddFact extends DialogAddGvData<GvFactList.GvFact> {
         public AddFact() {
-            super(GvFactList.class);
+            super(GvFactList.GvFact.class);
         }
     }
 
     //Location
     public static class AddLocation extends DialogAddGvData<GvLocationList.GvLocation> {
         public AddLocation() {
-            super(GvLocationList.class);
+            super(GvLocationList.GvLocation.class);
         }
     }
 
@@ -104,56 +113,101 @@ public final class ConfigGvDataAddEdit {
     //Tag
     public static class EditTag extends DialogEditGvData<GvTagList.GvTag> {
         public EditTag() {
-            super(GvTagList.class);
+            super(GvTagList.GvTag.class);
         }
     }
 
     //Child
     public static class EditChild extends DialogEditGvData<GvChildList.GvChildReview> {
         public EditChild() {
-            super(GvChildList.class);
+            super(GvChildList.GvChildReview.class);
         }
     }
 
     //Comment
     public static class EditComment extends DialogEditGvData<GvCommentList.GvComment> {
         public EditComment() {
-            super(GvCommentList.class);
+            super(GvCommentList.GvComment.class);
         }
     }
 
     //Image
     public static class EditImage extends DialogEditGvData<GvImageList.GvImage> {
         public EditImage() {
-            super(GvImageList.class);
+            super(GvImageList.GvImage.class);
         }
     }
 
     //Fact
     public static class EditFact extends DialogEditGvData<GvFactList.GvFact> {
         public EditFact() {
-            super(GvFactList.class);
+            super(GvFactList.GvFact.class);
         }
     }
 
     //Location
     public static class EditLocation extends DialogEditGvData<GvLocationList.GvLocation> {
         public EditLocation() {
-            super(GvLocationList.class);
+            super(GvLocationList.GvLocation.class);
+        }
+    }
+
+    //Viewers
+    //Tag
+    public static class ViewTag extends DialogGvDataView<GvTagList.GvTag> {
+        public ViewTag() {
+            super(GvTagList.GvTag.class);
+        }
+    }
+
+    //Child
+    public static class ViewChild extends DialogGvDataView<GvChildList.GvChildReview> {
+        public ViewChild() {
+            super(GvChildList.GvChildReview.class);
+        }
+    }
+
+    //Comment
+    public static class ViewComment extends DialogGvDataView<GvCommentList.GvComment> {
+        public ViewComment() {
+            super(GvCommentList.GvComment.class);
+        }
+    }
+
+    //Image
+    public static class ViewImage extends DialogGvDataView<GvImageList.GvImage> {
+        public ViewImage() {
+            super(GvImageList.GvImage.class);
+        }
+    }
+
+    //Fact
+    public static class ViewFact extends DialogGvDataView<GvFactList.GvFact> {
+        public ViewFact() {
+            super(GvFactList.GvFact.class);
+        }
+    }
+
+    //Location
+    public static class ViewLocation extends DialogGvDataView<GvLocationList.GvLocation> {
+        public ViewLocation() {
+            super(GvLocationList.GvLocation.class);
         }
     }
 
     /**
      * Packages together an add and edit UI.
      */
-    class AddEditUis {
+    class AddEditViewUis {
         private final Class<? extends LaunchableUi> mAdd;
         private final Class<? extends LaunchableUi> mEdit;
+        private final Class<? extends LaunchableUi> mView;
 
-        private AddEditUis(Class<? extends LaunchableUi> add,
-                Class<? extends LaunchableUi> edit) {
+        private AddEditViewUis(Class<? extends LaunchableUi> add,
+                Class<? extends LaunchableUi> edit, Class<? extends LaunchableUi> view) {
             mAdd = add;
             mEdit = edit;
+            mView = view;
         }
 
         Class<? extends LaunchableUi> getAddClass() {
@@ -162,6 +216,10 @@ public final class ConfigGvDataAddEdit {
 
         Class<? extends LaunchableUi> getEditClass() {
             return mEdit;
+        }
+
+        Class<? extends LaunchableUi> getViewClass() {
+            return mView;
         }
     }
 }

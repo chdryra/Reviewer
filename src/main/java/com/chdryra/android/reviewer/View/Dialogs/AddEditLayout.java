@@ -6,15 +6,12 @@
  * Date: 17 December, 2014
  */
 
-package com.chdryra.android.reviewer.View.GvDataModel;
+package com.chdryra.android.reviewer.View.Dialogs;
 
-import android.app.Activity;
-import android.content.Context;
-import android.os.Bundle;
-import android.view.View;
 import android.widget.EditText;
 
-import com.chdryra.android.reviewer.View.Dialogs.LayoutHolder;
+import com.chdryra.android.reviewer.View.GvDataModel.FactoryGvData;
+import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 
 /**
  * Created by: Rizwan Choudrey
@@ -28,8 +25,7 @@ import com.chdryra.android.reviewer.View.Dialogs.LayoutHolder;
  *
  * @param <T>: {@link GvData} type
  */
-public abstract class GvDataEditLayout<T extends GvData> {
-    private final LayoutHolder         mHolder;
+public abstract class AddEditLayout<T extends GvData> extends DialogLayout<T> {
     private final GvDataEditManager<T> mViewManager;
     private final T                    mNullingItem;
     private final int                  mEditTextId;
@@ -41,34 +37,32 @@ public abstract class GvDataEditLayout<T extends GvData> {
     }
 
     public interface GvDataEditor {
-        public void setKeyboardAction(EditText editText);
+        void setKeyboardAction(EditText editText);
 
-        public void setDeleteConfirmTitle(String title);
+        void setDeleteConfirmTitle(String title);
     }
 
     public interface GvDataAdder {
-        public void setKeyboardAction(EditText editText);
+        void setKeyboardAction(EditText editText);
 
-        public void setTitle(String title);
+        void setTitle(String title);
     }
 
     public abstract T createGvData();
 
-    public abstract void updateLayout(T data);
-
-    public GvDataEditLayout(Class<T> gvDataClass, int layoutId, int[] viewIds,
+    public AddEditLayout(Class<T> gvDataClass, int layoutId, int[] viewIds,
             int keyboardEditTextId, GvDataAdder adder) {
+        super(layoutId, viewIds);
         mEditTextId = keyboardEditTextId;
         mViewManager = new GvDataViewManagerAdd(adder);
-        mHolder = new LayoutHolder(layoutId, viewIds);
         mNullingItem = FactoryGvData.newNull(gvDataClass);
     }
 
-    public GvDataEditLayout(Class<T> gvDataClass, int layoutId, int[] viewIds,
+    public AddEditLayout(Class<T> gvDataClass, int layoutId, int[] viewIds,
             int keyboardEditTextId, GvDataEditor editor) {
+        super(layoutId, viewIds);
         mEditTextId = keyboardEditTextId;
         mViewManager = new GvDataViewManagerEdit(editor);
-        mHolder = new LayoutHolder(layoutId, viewIds);
         mNullingItem = FactoryGvData.newNull(gvDataClass);
     }
 
@@ -77,28 +71,19 @@ public abstract class GvDataEditLayout<T extends GvData> {
     }
 
     public EditText getEditTextForKeyboardAction() {
-        return (EditText) mHolder.getView(mEditTextId);
+        return (EditText) getView(mEditTextId);
     }
 
-    public View createLayoutUi(Context context, T data) {
-        mHolder.inflate(context);
+    @Override
+    public void initialise(T data) {
         mViewManager.initialise(data);
-        return mHolder.getView();
-    }
-
-    public void onActivityAttached(Activity activity, Bundle args) {
-
-    }
-
-    public View getView(int viewId) {
-        return mHolder.getView(viewId);
     }
 
     public void onAdd(T data) {
         mViewManager.onAddEdit(data);
     }
 
-    private class GvDataViewManagerEdit implements GvDataEditLayout.GvDataEditManager<T> {
+    private class GvDataViewManagerEdit implements AddEditLayout.GvDataEditManager<T> {
         private final GvDataEditor mEditor;
 
         private GvDataViewManagerEdit(GvDataEditor editor) {
@@ -117,7 +102,7 @@ public abstract class GvDataEditLayout<T extends GvData> {
         }
     }
 
-    public class GvDataViewManagerAdd implements GvDataEditLayout.GvDataEditManager<T> {
+    public class GvDataViewManagerAdd implements AddEditLayout.GvDataEditManager<T> {
         private final GvDataAdder mAdder;
 
         private GvDataViewManagerAdd(GvDataAdder adder) {

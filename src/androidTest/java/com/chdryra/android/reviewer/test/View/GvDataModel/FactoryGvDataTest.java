@@ -29,12 +29,12 @@ public class FactoryGvDataTest extends TestCase {
 
     @SmallTest
     public void testGvType() {
-        assertEquals(GvImageList.TYPE, FactoryGvData.gvType(GvImageList.class));
-        assertEquals(GvTagList.TYPE, FactoryGvData.gvType(GvTagList.class));
-        assertEquals(GvChildList.TYPE, FactoryGvData.gvType(GvChildList.class));
-        assertEquals(GvCommentList.TYPE, FactoryGvData.gvType(GvCommentList.class));
-        assertEquals(GvLocationList.TYPE, FactoryGvData.gvType(GvLocationList.class));
-        assertEquals(GvUrlList.TYPE, FactoryGvData.gvType(GvUrlList.class));
+        assertEquals(GvImageList.TYPE, FactoryGvData.gvTypeFromList(GvImageList.class));
+        assertEquals(GvTagList.TYPE, FactoryGvData.gvTypeFromList(GvTagList.class));
+        assertEquals(GvChildList.TYPE, FactoryGvData.gvTypeFromList(GvChildList.class));
+        assertEquals(GvCommentList.TYPE, FactoryGvData.gvTypeFromList(GvCommentList.class));
+        assertEquals(GvLocationList.TYPE, FactoryGvData.gvTypeFromList(GvLocationList.class));
+        assertEquals(GvUrlList.TYPE, FactoryGvData.gvTypeFromList(GvUrlList.class));
     }
 
     @SmallTest

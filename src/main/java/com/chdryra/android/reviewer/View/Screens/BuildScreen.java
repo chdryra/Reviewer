@@ -30,8 +30,8 @@ import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.View.ActivitiesFragments.ActivityReviewView;
 import com.chdryra.android.reviewer.View.ActivitiesFragments.FragmentReviewView;
 import com.chdryra.android.reviewer.View.Configs.ConfigGvDataUi;
+import com.chdryra.android.reviewer.View.Dialogs.AddLocation;
 import com.chdryra.android.reviewer.View.Dialogs.DialogAddGvData;
-import com.chdryra.android.reviewer.View.Dialogs.LayoutLocationAdd;
 import com.chdryra.android.reviewer.View.GvDataModel.GvBuildReviewList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
@@ -165,8 +165,8 @@ public class BuildScreen {
                 }
             }
 
-            args.putParcelable(LayoutLocationAdd.LATLNG, latLng);
-            args.putBoolean(LayoutLocationAdd.FROM_IMAGE, fromImage);
+            args.putParcelable(AddLocation.LATLNG, latLng);
+            args.putBoolean(AddLocation.FROM_IMAGE, fromImage);
         }
 
         private int getImageRequestCode() {

@@ -11,7 +11,7 @@ package com.chdryra.android.reviewer.test.View.Configs;
 import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.View.Configs.ConfigGvDataAddEdit;
+import com.chdryra.android.reviewer.View.Configs.ConfigGvDataAddEditView;
 import com.chdryra.android.reviewer.View.Configs.ConfigGvDataUi;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
 import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
@@ -69,7 +69,7 @@ public class ConfigGvDataUiTest extends AndroidTestCase {
             } else {
                 LaunchableUi ui = uiConfig.getLaunchable();
                 assertNotNull(ui);
-                assertEquals(ConfigGvDataAddEdit.getAddClass(dataType).getName(),
+                assertEquals(ConfigGvDataAddEditView.getAddClass(dataType).getName(),
                         ui.getClass().getName());
             }
 
@@ -86,7 +86,7 @@ public class ConfigGvDataUiTest extends AndroidTestCase {
 
             LaunchableUi ui = uiConfig.getLaunchable();
             assertNotNull(ui);
-            assertEquals(ConfigGvDataAddEdit.getEditClass(dataType).getName(),
+            assertEquals(ConfigGvDataAddEditView.getEditClass(dataType).getName(),
                     ui.getClass().getName());
 
             requestCodes.add(uiConfig.getRequestCode());

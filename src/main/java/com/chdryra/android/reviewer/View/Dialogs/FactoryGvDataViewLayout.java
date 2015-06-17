@@ -13,7 +13,6 @@ import android.util.Log;
 import com.chdryra.android.reviewer.View.GvDataModel.GvChildList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
-import com.chdryra.android.reviewer.View.GvDataModel.GvDataEditLayout;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
 import com.chdryra.android.reviewer.View.GvDataModel.GvFactList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
@@ -33,74 +32,95 @@ public class FactoryGvDataViewLayout {
     private static final String TAG = "FactoryGvDataViewHolder";
     private static FactoryGvDataViewLayout
                                                                                             sFactory;
-    private final  HashMap<GvDataType, Class<? extends GvDataEditLayout<? extends GvData>>> mMapAdd;
-    private final  HashMap<GvDataType, Class<? extends GvDataEditLayout<? extends GvData>>>
-                                                                                            mMapEdit;
+    private final HashMap<GvDataType, Class<? extends AddEditLayout<? extends GvData>>> mMapAdd;
+    private final HashMap<GvDataType, Class<? extends AddEditLayout<? extends GvData>>>
+                                                                                        mMapEdit;
+    private final HashMap<GvDataType, Class<? extends DialogLayout<? extends GvData>>>
+                                                                                        mMapView;
 
     private FactoryGvDataViewLayout() {
         mMapAdd = new HashMap<>();
-        mMapAdd.put(GvChildList.TYPE, LayoutChildReview.class);
-        mMapAdd.put(GvCommentList.TYPE, LayoutComment.class);
-        mMapAdd.put(GvFactList.TYPE, LayoutFact.class);
-        mMapAdd.put(GvImageList.TYPE, LayoutImage.class);
-        mMapAdd.put(GvTagList.TYPE, LayoutTag.class);
-        mMapAdd.put(GvLocationList.TYPE, LayoutLocationAdd.class);
+        mMapAdd.put(GvChildList.TYPE, AddEditChildReview.class);
+        mMapAdd.put(GvCommentList.TYPE, AddEditComment.class);
+        mMapAdd.put(GvFactList.TYPE, AddEditFact.class);
+        mMapAdd.put(GvImageList.TYPE, EditImage.class);
+        mMapAdd.put(GvTagList.TYPE, AddEditTag.class);
+        mMapAdd.put(GvLocationList.TYPE, AddLocation.class);
 
         mMapEdit = new HashMap<>();
         mMapEdit.putAll(mMapAdd);
-        mMapEdit.put(GvLocationList.TYPE, LayoutLocationEdit.class);
+        mMapEdit.put(GvLocationList.TYPE, EditLocation.class);
+
+        mMapView = new HashMap<>();
+        mMapView.putAll(mMapEdit);
+        mMapView.put(GvChildList.TYPE, ViewChildReview.class);
     }
 
-    public static <T extends GvData> GvDataEditLayout<T> newLayout
-            (GvDataType dataType, GvDataEditLayout.GvDataAdder adder) {
+    public static <T extends GvData> AddEditLayout<T> newLayout
+            (GvDataType dataType, AddEditLayout.GvDataAdder adder) {
         if (sFactory == null) sFactory = new FactoryGvDataViewLayout();
         try {
             Constructor ctor = sFactory.mMapAdd.get(dataType)
-                    .getDeclaredConstructor(GvDataEditLayout.GvDataAdder.class);
+                    .getDeclaredConstructor(AddEditLayout.GvDataAdder.class);
             try {
                 //TODO make type safe
-                return (GvDataEditLayout) ctor.newInstance(adder);
+                return (AddEditLayout) ctor.newInstance(adder);
             } catch (InstantiationException e) {
-                Log.e(TAG, "Problem constructing ReviewDataAdd dialog for " + dataType
-                        .getDatumName(), e);
+                Log.e(TAG, "Problem constructing add layout for " + dataType.getDatumName(), e);
             } catch (IllegalAccessException e) {
-                Log.e(TAG, "Illegal access whilst constructing ReviewDataAdd dialog for " +
-                        dataType.getDatumName(), e);
+                Log.e(TAG, "Illegal access whilst constructing add layout for " + dataType
+                        .getDatumName(), e);
             } catch (InvocationTargetException e) {
-                Log.e(TAG, "Invocation exception whilst constructing ReviewDataAdd dialog for" +
+                Log.e(TAG, "Invocation exception whilst constructing add layout for" +
                         " " + dataType.getDatumName(), e);
             }
         } catch (NoSuchMethodException e) {
             Log.e(TAG, "NoSuchMethodException finding constructor", e);
         }
 
-        throw new RuntimeException("DialogReviewDataAddFragment Dialog Constructor problems for "
-                + dataType.getDatumName());
+        throw new RuntimeException("Add layout constructor problems for " + dataType
+                .getDatumName());
     }
 
-    public static <T extends GvData> GvDataEditLayout<T> newLayout
-            (GvDataType dataType, GvDataEditLayout.GvDataEditor editor) {
+    public static <T extends GvData> AddEditLayout<T> newLayout
+            (GvDataType dataType, AddEditLayout.GvDataEditor editor) {
         if (sFactory == null) sFactory = new FactoryGvDataViewLayout();
         try {
             Constructor ctor = sFactory.mMapEdit.get(dataType)
-                    .getDeclaredConstructor(GvDataEditLayout.GvDataEditor.class);
+                    .getDeclaredConstructor(AddEditLayout.GvDataEditor.class);
             try {
                 //TODO make type safe
-                return (GvDataEditLayout) ctor.newInstance(editor);
+                return (AddEditLayout) ctor.newInstance(editor);
             } catch (InstantiationException e) {
-                Log.e(TAG, "Problem constructing edit dialog for " + dataType.getDatumName(), e);
+                Log.e(TAG, "Problem constructing edit layout for " + dataType.getDatumName(), e);
             } catch (IllegalAccessException e) {
-                Log.e(TAG, "Illegal access whilst constructing edit dialog for " + dataType
+                Log.e(TAG, "Illegal access whilst constructing edit layout for " + dataType
                         .getDatumName(), e);
             } catch (InvocationTargetException e) {
-                Log.e(TAG, "Invocation exception whilst constructing edit dialog for" + dataType
+                Log.e(TAG, "Invocation exception whilst constructing edit layout for" + dataType
                         .getDatumName(), e);
             }
         } catch (NoSuchMethodException e) {
             Log.e(TAG, "NoSuchMethodException finding constructor", e);
         }
 
-        throw new RuntimeException("DialogReviewDataEditFragment Dialog Constructor problem for "
-                + dataType.getDatumName());
+        throw new RuntimeException("Add layout constructor problems for " + dataType.getDatumName
+                ());
+    }
+
+    public static <T extends GvData> DialogLayout<T> newLayout
+            (GvDataType dataType) {
+        if (sFactory == null) sFactory = new FactoryGvDataViewLayout();
+        try {
+            //TODO make type safe
+            return (DialogLayout) sFactory.mMapView.get(dataType).newInstance();
+        } catch (InstantiationException e) {
+            Log.e(TAG, "Problem constructing edit dialog for " + dataType.getDatumName(), e);
+        } catch (IllegalAccessException e) {
+            Log.e(TAG, "Illegal access whilst constructing edit dialog for " + dataType
+                    .getDatumName(), e);
+        }
+        throw new RuntimeException("view layout constructor problem for " + dataType.getDatumName
+                ());
     }
 }

@@ -10,8 +10,8 @@ package com.chdryra.android.reviewer.test.View.GvDataModel;
 
 import android.widget.EditText;
 
-import com.chdryra.android.reviewer.View.Configs.ConfigGvDataAddEdit;
-import com.chdryra.android.reviewer.View.Dialogs.LayoutComment;
+import com.chdryra.android.reviewer.View.Configs.ConfigGvDataAddEditView;
+import com.chdryra.android.reviewer.View.Dialogs.AddEditComment;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
 
 /**
@@ -19,9 +19,9 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
  * On: 23/12/2014
  * Email: rizwan.choudrey@gmail.com
  */
-public class LayoutCommentTest extends GvDataEditLayoutTest<GvCommentList.GvComment> {
-    public LayoutCommentTest() {
-        super(GvCommentList.TYPE, new LayoutComment(new ConfigGvDataAddEdit.AddComment()));
+public class AddEditCommentTest extends AddEditLayoutTest<GvCommentList.GvComment> {
+    public AddEditCommentTest() {
+        super(GvCommentList.TYPE, new AddEditComment(new ConfigGvDataAddEditView.AddComment()));
     }
 
     @Override
@@ -37,7 +37,7 @@ public class LayoutCommentTest extends GvDataEditLayoutTest<GvCommentList.GvComm
     @Override
     public void setUp() throws Exception {
         super.setUp();
-        mEditText = (EditText) getView(LayoutComment.COMMENT);
+        mEditText = (EditText) getView(AddEditComment.COMMENT);
         assertNotNull(mEditText);
     }
 }

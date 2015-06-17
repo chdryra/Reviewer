@@ -10,8 +10,8 @@ package com.chdryra.android.reviewer.test.View.GvDataModel;
 
 import android.widget.EditText;
 
-import com.chdryra.android.reviewer.View.Configs.ConfigGvDataAddEdit;
-import com.chdryra.android.reviewer.View.Dialogs.LayoutTag;
+import com.chdryra.android.reviewer.View.Configs.ConfigGvDataAddEditView;
+import com.chdryra.android.reviewer.View.Dialogs.AddEditTag;
 import com.chdryra.android.reviewer.View.GvDataModel.GvTagList;
 
 /**
@@ -19,9 +19,9 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvTagList;
  * On: 23/12/2014
  * Email: rizwan.choudrey@gmail.com
  */
-public class LayoutTagTest extends GvDataEditLayoutTest<GvTagList.GvTag> {
-    public LayoutTagTest() {
-        super(GvTagList.TYPE, new LayoutTag(new ConfigGvDataAddEdit.AddTag()));
+public class AddEditTagTest extends AddEditLayoutTest<GvTagList.GvTag> {
+    public AddEditTagTest() {
+        super(GvTagList.TYPE, new AddEditTag(new ConfigGvDataAddEditView.AddTag()));
     }
 
     @Override
@@ -37,7 +37,7 @@ public class LayoutTagTest extends GvDataEditLayoutTest<GvTagList.GvTag> {
     @Override
     public void setUp() throws Exception {
         super.setUp();
-        mEditText = (EditText) getView(LayoutTag.TAG);
+        mEditText = (EditText) getView(AddEditTag.TAG);
         assertNotNull(mEditText);
     }
 }

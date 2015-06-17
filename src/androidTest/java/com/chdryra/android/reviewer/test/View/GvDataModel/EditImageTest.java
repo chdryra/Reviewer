@@ -12,8 +12,8 @@ import android.graphics.drawable.BitmapDrawable;
 import android.widget.EditText;
 import android.widget.ImageView;
 
-import com.chdryra.android.reviewer.View.Configs.ConfigGvDataAddEdit;
-import com.chdryra.android.reviewer.View.Dialogs.LayoutImage;
+import com.chdryra.android.reviewer.View.Configs.ConfigGvDataAddEditView;
+import com.chdryra.android.reviewer.View.Dialogs.EditImage;
 import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
 
 /**
@@ -21,11 +21,11 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
  * On: 23/12/2014
  * Email: rizwan.choudrey@gmail.com
  */
-public class LayoutImageTest extends GvDataEditLayoutTest<GvImageList.GvImage> {
+public class EditImageTest extends AddEditLayoutTest<GvImageList.GvImage> {
     private ImageView mImageView;
 
-    public LayoutImageTest() {
-        super(GvImageList.TYPE, new LayoutImage(new ConfigGvDataAddEdit.EditImage()));
+    public EditImageTest() {
+        super(GvImageList.TYPE, new EditImage(new ConfigGvDataAddEditView.EditImage()));
     }
 
     @Override
@@ -43,8 +43,8 @@ public class LayoutImageTest extends GvDataEditLayoutTest<GvImageList.GvImage> {
     @Override
     public void setUp() throws Exception {
         super.setUp();
-        mEditText = (EditText) getView(LayoutImage.CAPTION);
-        mImageView = (ImageView) getView(LayoutImage.IMAGE);
+        mEditText = (EditText) getView(EditImage.CAPTION);
+        mImageView = (ImageView) getView(EditImage.IMAGE);
         assertNotNull(mEditText);
         assertNotNull(mImageView);
     }

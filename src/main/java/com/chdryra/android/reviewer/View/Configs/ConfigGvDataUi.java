@@ -29,7 +29,7 @@ import java.util.Map;
  * <p/>
  * <p>
  * Retrieves relevant add, edit and display UIs for each {@link com.chdryra.android.reviewer
- * .GVReviewDataList.GVType} from {@link ConfigGvDataAddEdit}
+ * .GVReviewDataList.GVType} from {@link ConfigGvDataAddEditView}
  * and packages them with request codes and tags so that they can be appropriately launched
  * by whichever UI needs them in response to a user interaction.
  * </p>
@@ -71,11 +71,13 @@ public final class ConfigGvDataUi {
         private final GvDataType       mDataType;
         private final LaunchableConfig mAddConfig;
         private final LaunchableConfig mEditConfig;
+        private final LaunchableConfig mViewConfig;
 
         private Config(GvDataType dataType) {
             mDataType = dataType;
             mAddConfig = initAddConfig();
             mEditConfig = initEditConfig();
+            mViewConfig = initViewConfig();
         }
 
         public GvDataType getGvDataType() {
@@ -90,14 +92,23 @@ public final class ConfigGvDataUi {
             return mEditConfig;
         }
 
+        public LaunchableConfig getViewConfig() {
+            return mViewConfig;
+        }
+
         private LaunchableConfig initAddConfig() {
-            return new LaunchableConfig(mDataType, ConfigGvDataAddEdit.getAddClass(mDataType),
+            return new LaunchableConfig(mDataType, ConfigGvDataAddEditView.getAddClass(mDataType),
                     DATA_ADD, mDataType.getDatumName().toUpperCase() + "_ADD_TAG");
         }
 
         private LaunchableConfig initEditConfig() {
-            return new LaunchableConfig(mDataType, ConfigGvDataAddEdit.getEditClass(mDataType),
+            return new LaunchableConfig(mDataType, ConfigGvDataAddEditView.getEditClass(mDataType),
                     DATA_EDIT, mDataType.getDatumName().toUpperCase() + "_EDIT_TAG");
+        }
+
+        private LaunchableConfig initViewConfig() {
+            return new LaunchableConfig(mDataType, ConfigGvDataAddEditView.getViewClass(mDataType),
+                    DATA_EDIT, mDataType.getDatumName().toUpperCase() + "_VIEW_TAG");
         }
     }
 

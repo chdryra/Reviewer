@@ -8,7 +8,7 @@
 
 package com.chdryra.android.reviewer.test.View.Dialogs;
 
-import com.chdryra.android.reviewer.View.Configs.ConfigGvDataAddEdit;
+import com.chdryra.android.reviewer.View.Configs.ConfigGvDataAddEditView;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
 
@@ -21,7 +21,7 @@ public class DialogEditImageTest extends DialogEditGvDataTest<GvImageList.GvImag
     private GvImageList.GvImage mCurrent;
 
     public DialogEditImageTest() {
-        super(ConfigGvDataAddEdit.EditImage.class);
+        super(ConfigGvDataAddEditView.EditImage.class);
     }
 
     @Override

@@ -12,25 +12,24 @@ import android.widget.EditText;
 
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvDataEditLayout;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 17/12/2014
  * Email: rizwan.choudrey@gmail.com
  */
-public class LayoutComment extends GvDataEditLayout<GvCommentList.GvComment> {
+public class AddEditComment extends AddEditLayout<GvCommentList.GvComment> {
     public static final int   LAYOUT  = R.layout.dialog_comment;
     public static final int   COMMENT = R.id.comment_edit_text;
     public static final int[] VIEWS   = new int[]{COMMENT};
 
     private GvCommentList.GvComment mCurrent;
 
-    public LayoutComment(GvDataAdder adder) {
+    public AddEditComment(GvDataAdder adder) {
         super(GvCommentList.GvComment.class, LAYOUT, VIEWS, COMMENT, adder);
     }
 
-    public LayoutComment(GvDataEditor editor) {
+    public AddEditComment(GvDataEditor editor) {
         super(GvCommentList.GvComment.class, LAYOUT, VIEWS, COMMENT, editor);
     }
 

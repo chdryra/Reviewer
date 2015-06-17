@@ -17,8 +17,6 @@ import com.chdryra.android.mygenerallibrary.DialogCancelDeleteDoneFragment;
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.View.GvDataModel.FactoryGvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
-import com.chdryra.android.reviewer.View.GvDataModel.GvDataEditLayout;
-import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataPacker;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
 import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
@@ -45,12 +43,12 @@ import com.chdryra.android.reviewer.View.Launcher.LauncherUi;
  * </p>
  */
 public abstract class DialogEditGvData<T extends GvData>
-        extends DialogCancelDeleteDoneFragment implements GvDataEditLayout.GvDataEditor,
+        extends DialogCancelDeleteDoneFragment implements AddEditLayout.GvDataEditor,
         LaunchableUi {
 
     private final GvDataType            mDataType;
     private final GvDataPacker<T>       mPacker;
-    private final GvDataEditLayout<T>   mLayout;
+    private final AddEditLayout<T> mLayout;
     private       T                     mDatum;
     private       GvDataEditListener<T> mEditListener;
 
@@ -65,8 +63,8 @@ public abstract class DialogEditGvData<T extends GvData>
         void onGvDataEdit(T oldDatum, T newDatum);
     }
 
-    public <T2 extends GvDataList<T>> DialogEditGvData(Class<T2> gvDataListClass) {
-        mDataType = FactoryGvData.gvType(gvDataListClass);
+    public DialogEditGvData(Class<T> dataClass) {
+        mDataType = FactoryGvData.gvType(dataClass);
         mPacker = new GvDataPacker<>();
         mLayout = FactoryGvDataViewLayout.newLayout(getGvDataType(), this);
     }

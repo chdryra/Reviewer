@@ -18,7 +18,7 @@ import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewAdapter
 import com.chdryra.android.reviewer.ApplicationSingletons.Administrator;
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.View.Configs.ConfigGvDataUi;
-import com.chdryra.android.reviewer.View.Dialogs.DialogEditGvData;
+import com.chdryra.android.reviewer.View.Dialogs.DialogGvDataView;
 import com.chdryra.android.reviewer.View.Dialogs.DialogShower;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataPacker;
@@ -79,7 +79,7 @@ public class ReviewDataScreen {
             Bundle args = new Bundle();
             GvDataPacker.packItem(GvDataPacker.CurrentNewDatum.CURRENT, item, args);
             ConfigGvDataUi.LaunchableConfig config = ConfigGvDataUi.getConfig(item.getGvDataType())
-                    .getEditorConfig();
+                    .getViewConfig();
             LauncherUi.launch(config.getLaunchable(), mListener, config.getRequestCode(), config
                     .getTag(), args);
         }
@@ -111,7 +111,8 @@ public class ReviewDataScreen {
         }
 
         protected abstract class GridItemListener extends Fragment
-                implements DialogAlertFragment.DialogAlertListener, DialogEditGvData.GvDataEditListener {
+                implements DialogAlertFragment.DialogAlertListener, DialogGvDataView
+                .GotoReviewListener {
 
             @Override
             public void onAlertNegative(int requestCode, Bundle args) {
@@ -123,13 +124,10 @@ public class ReviewDataScreen {
             }
 
             @Override
-            public void onGvDataDelete(GvData data) {
-
-            }
-
-            @Override
-            public void onGvDataEdit(GvData oldDatum, GvData newDatum) {
-
+            public void onGotoReview(GvData datum) {
+                LaunchableUi ui = Administrator.get(mContext).getReviewLaunchable(datum
+                        .getReviewId());
+                startNewScreen(ui);
             }
         }
     }

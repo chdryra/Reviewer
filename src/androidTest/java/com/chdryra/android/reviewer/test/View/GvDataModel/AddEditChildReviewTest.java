@@ -11,8 +11,8 @@ package com.chdryra.android.reviewer.test.View.GvDataModel;
 import android.widget.EditText;
 import android.widget.RatingBar;
 
-import com.chdryra.android.reviewer.View.Configs.ConfigGvDataAddEdit;
-import com.chdryra.android.reviewer.View.Dialogs.LayoutChildReview;
+import com.chdryra.android.reviewer.View.Configs.ConfigGvDataAddEditView;
+import com.chdryra.android.reviewer.View.Dialogs.AddEditChildReview;
 import com.chdryra.android.reviewer.View.GvDataModel.GvChildList;
 
 /**
@@ -20,11 +20,11 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvChildList;
  * On: 15/12/2014
  * Email: rizwan.choudrey@gmail.com
  */
-public class LayoutChildReviewTest extends GvDataEditLayoutTest<GvChildList.GvChildReview> {
+public class AddEditChildReviewTest extends AddEditLayoutTest<GvChildList.GvChildReview> {
     private RatingBar mRatingBar;
 
-    public LayoutChildReviewTest() {
-        super(GvChildList.TYPE, new LayoutChildReview(new ConfigGvDataAddEdit.AddChild()));
+    public AddEditChildReviewTest() {
+        super(GvChildList.TYPE, new AddEditChildReview(new ConfigGvDataAddEditView.AddChild()));
     }
 
     @Override
@@ -42,8 +42,8 @@ public class LayoutChildReviewTest extends GvDataEditLayoutTest<GvChildList.GvCh
     @Override
     public void setUp() throws Exception {
         super.setUp();
-        mEditText = (EditText) getView(LayoutChildReview.SUBJECT);
-        mRatingBar = (RatingBar) getView(LayoutChildReview.RATING);
+        mEditText = (EditText) getView(AddEditChildReview.SUBJECT);
+        mRatingBar = (RatingBar) getView(AddEditChildReview.RATING);
         assertNotNull(mEditText);
         assertNotNull(mRatingBar);
     }

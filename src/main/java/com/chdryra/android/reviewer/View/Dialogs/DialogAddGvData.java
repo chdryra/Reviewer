@@ -19,9 +19,7 @@ import com.chdryra.android.reviewer.ApplicationSingletons.Administrator;
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.View.GvDataModel.FactoryGvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
-import com.chdryra.android.reviewer.View.GvDataModel.GvDataEditLayout;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataHandler;
-import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataPacker;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
 import com.chdryra.android.reviewer.View.Launcher.LaunchableUi;
@@ -50,11 +48,11 @@ import com.chdryra.android.reviewer.View.Launcher.LauncherUi;
  * </p>
  */
 public abstract class DialogAddGvData<T extends GvData> extends
-        DialogCancelAddDoneFragment implements GvDataEditLayout.GvDataAdder, LaunchableUi {
+        DialogCancelAddDoneFragment implements AddEditLayout.GvDataAdder, LaunchableUi {
     public static final String QUICK_SET = "com.chdryra.android.reviewer.dialog_quick_mode";
 
     private final GvDataType                   mDataType;
-    private final GvDataEditLayout<T>          mLayout;
+    private final AddEditLayout<T> mLayout;
     private       ReviewBuilder.DataBuilder<T> mBuilder;
     private       GvDataAddListener<T>         mAddListener;
 
@@ -71,7 +69,8 @@ public abstract class DialogAddGvData<T extends GvData> extends
         void onGvDataDone();
     }
 
-    public <T2 extends GvDataList<T>> DialogAddGvData(Class<T2> dataClass) {
+    //Use Class<T2> instead of sending type for extra type safety...
+    public DialogAddGvData(Class<T> dataClass) {
         mDataType = FactoryGvData.gvType(dataClass);
         mLayout = FactoryGvDataViewLayout.newLayout(mDataType, this);
     }
