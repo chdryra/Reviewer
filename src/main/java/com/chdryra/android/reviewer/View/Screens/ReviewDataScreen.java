@@ -18,7 +18,7 @@ import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewAdapter
 import com.chdryra.android.reviewer.ApplicationSingletons.Administrator;
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.View.Configs.ConfigGvDataUi;
-import com.chdryra.android.reviewer.View.Dialogs.DialogGvData;
+import com.chdryra.android.reviewer.View.Dialogs.DialogGvDataView;
 import com.chdryra.android.reviewer.View.Dialogs.DialogShower;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataPacker;
@@ -111,7 +111,7 @@ public class ReviewDataScreen {
         }
 
         protected abstract class GridItemListener extends Fragment
-                implements DialogAlertFragment.DialogAlertListener, DialogGvData
+                implements DialogAlertFragment.DialogAlertListener, DialogGvDataView
                 .GotoReviewListener {
 
             @Override

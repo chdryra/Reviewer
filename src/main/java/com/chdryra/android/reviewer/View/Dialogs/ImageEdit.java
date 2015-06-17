@@ -20,15 +20,15 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
  * On: 18/12/2014
  * Email: rizwan.choudrey@gmail.com
  */
-public class EditImage extends AddEditLayout<GvImageList.GvImage> {
-    public static final int   LAYOUT  = R.layout.dialog_image;
-    public static final int   IMAGE   = R.id.dialog_image_image_view;
-    public static final int   CAPTION = R.id.dialog_image_caption_edit_text;
+public class ImageEdit extends AddEditLayout<GvImageList.GvImage> {
+    public static final int LAYOUT  = R.layout.dialog_image_edit;
+    public static final int IMAGE   = R.id.photo_image_view;
+    public static final int CAPTION = R.id.caption_edit_text;
     public static final int[] VIEWS   = new int[]{IMAGE, CAPTION};
 
     private GvImageList.GvImage mCurrent;
 
-    public EditImage(GvDataEditor editor) {
+    public ImageEdit(GvDataEditor editor) {
         super(GvImageList.GvImage.class, LAYOUT, VIEWS, CAPTION, editor);
     }
 

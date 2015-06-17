@@ -19,7 +19,7 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
  * Email: rizwan.choudrey@gmail.com
  */
 public class AddEditComment extends AddEditLayout<GvCommentList.GvComment> {
-    public static final int   LAYOUT  = R.layout.dialog_comment;
+    public static final int LAYOUT = R.layout.dialog_comment_add_edit;
     public static final int   COMMENT = R.id.comment_edit_text;
     public static final int[] VIEWS   = new int[]{COMMENT};
 

@@ -80,7 +80,7 @@ public class GvUrlList extends GvDataList<GvUrlList.GvUrl> {
 
         @Override
         public GvDataType getGvDataType() {
-            return TYPE;
+            return GvUrlList.TYPE;
         }
 
         @Override

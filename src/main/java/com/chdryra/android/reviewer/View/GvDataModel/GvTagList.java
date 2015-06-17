@@ -25,6 +25,10 @@ public class GvTagList extends GvDataList<GvTagList.GvTag> {
         super(null, DATA_CLASS, TYPE);
     }
 
+    public GvTagList(GvReviewId id) {
+        super(id, DATA_CLASS, TYPE);
+    }
+
     public GvTagList(GvTagList data) {
         super(data);
     }
@@ -77,6 +81,10 @@ public class GvTagList extends GvDataList<GvTagList.GvTag> {
             super(tag);
         }
 
+        public GvTag(GvReviewId id, String tag) {
+            super(id, tag);
+        }
+
         public GvTag(GvTag tag) {
             this(tag.get());
         }
@@ -87,7 +95,7 @@ public class GvTagList extends GvDataList<GvTagList.GvTag> {
 
         @Override
         public GvDataType getGvDataType() {
-            return TYPE;
+            return GvTagList.TYPE;
         }
 
         @Override

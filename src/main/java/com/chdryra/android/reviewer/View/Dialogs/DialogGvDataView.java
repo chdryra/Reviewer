@@ -89,7 +89,7 @@ public abstract class DialogGvDataView<T extends GvData> extends DialogTwoButton
         if (type == GvImageList.TYPE) {
             setDialogTitle(null);
         } else {
-            setDialogTitle(getResources().getString(R.string.view) + " " + type.getDatumName());
+            setDialogTitle(type.getDatumName());
         }
     }
 

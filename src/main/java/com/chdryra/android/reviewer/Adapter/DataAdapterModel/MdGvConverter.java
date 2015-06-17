@@ -207,9 +207,10 @@ public class MdGvConverter {
     public static GvTagList getTags(String reviewId) {
         ReviewId id = ReviewId.fromString(reviewId);
         TagsManager.ReviewTagCollection tags = TagsManager.getTags(id);
-        GvTagList tagList = new GvTagList();
+        GvReviewId gvid = GvReviewId.getId(reviewId);
+        GvTagList tagList = new GvTagList(gvid);
         for (TagsManager.ReviewTag tag : tags) {
-            tagList.add(new GvTagList.GvTag(tag.get()));
+            tagList.add(new GvTagList.GvTag(gvid, tag.get()));
         }
 
         return tagList;

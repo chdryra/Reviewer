@@ -98,7 +98,7 @@ public class GvFactList extends GvDataList<GvFactList.GvFact> {
 
         @Override
         public GvDataType getGvDataType() {
-            return TYPE;
+            return GvFactList.TYPE;
         }
 
         @Override

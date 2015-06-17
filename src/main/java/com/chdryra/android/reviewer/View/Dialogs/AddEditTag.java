@@ -19,7 +19,7 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvTagList;
  * Email: rizwan.choudrey@gmail.com
  */
 public class AddEditTag extends AddEditLayout<GvTagList.GvTag> {
-    public static final int   LAYOUT = R.layout.dialog_tag;
+    public static final int LAYOUT = R.layout.dialog_tag_add_edit;
     public static final int   TAG    = R.id.tag_edit_text;
     public static final int[] VIEWS  = new int[]{TAG};
 

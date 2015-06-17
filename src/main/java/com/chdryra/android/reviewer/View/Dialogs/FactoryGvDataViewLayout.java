@@ -43,7 +43,7 @@ public class FactoryGvDataViewLayout {
         mMapAdd.put(GvChildList.TYPE, AddEditChildReview.class);
         mMapAdd.put(GvCommentList.TYPE, AddEditComment.class);
         mMapAdd.put(GvFactList.TYPE, AddEditFact.class);
-        mMapAdd.put(GvImageList.TYPE, EditImage.class);
+        mMapAdd.put(GvImageList.TYPE, ImageEdit.class);
         mMapAdd.put(GvTagList.TYPE, AddEditTag.class);
         mMapAdd.put(GvLocationList.TYPE, AddLocation.class);
 
@@ -54,6 +54,10 @@ public class FactoryGvDataViewLayout {
         mMapView = new HashMap<>();
         mMapView.putAll(mMapEdit);
         mMapView.put(GvChildList.TYPE, ViewChildReview.class);
+        mMapView.put(GvCommentList.TYPE, ViewComment.class);
+        mMapView.put(GvFactList.TYPE, ViewFact.class);
+        mMapView.put(GvImageList.TYPE, ViewImage.class);
+        mMapView.put(GvTagList.TYPE, ViewTag.class);
     }
 
     public static <T extends GvData> AddEditLayout<T> newLayout

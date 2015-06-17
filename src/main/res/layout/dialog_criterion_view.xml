@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) 2015, Rizwan Choudrey - All Rights Reserved
+  ~ Unauthorized copying of this file, via any medium is strictly prohibited
+  ~ Proprietary and confidential
+  ~ Author: Rizwan Choudrey
+  ~ Date: 17 June, 2015
+  -->
+
+<LinearLayout
+    style="@style/LineaLayoutVertical.WrappedVertical"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <TextView
+        android:id="@+id/child_name_text_view"
+        style="@style/TextView.Large"
+        android:gravity="center"
+        android:hint="@string/edit_text_add_criterion_hint"/>
+
+    <RatingBar
+        android:id="@+id/child_rating_bar"
+        style="@style/RatingBarFiveStar.Indicator.PointOneStep"/>
+
+</LinearLayout>

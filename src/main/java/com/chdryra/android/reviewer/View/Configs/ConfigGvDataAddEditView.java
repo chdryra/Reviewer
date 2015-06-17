@@ -8,6 +8,7 @@
 
 package com.chdryra.android.reviewer.View.Configs;
 
+import com.chdryra.android.reviewer.View.ActivitiesFragments.ActivityEditLocationMap;
 import com.chdryra.android.reviewer.View.ActivitiesFragments.ActivityEditUrlBrowser;
 import com.chdryra.android.reviewer.View.Dialogs.DialogGvDataAdd;
 import com.chdryra.android.reviewer.View.Dialogs.DialogGvDataEdit;
@@ -47,7 +48,7 @@ public final class ConfigGvDataAddEditView {
         mMap.put(GvFactList.TYPE, new AddEditViewUis(AddFact.class, EditFact.class, ViewFact
                 .class));
         mMap.put(GvLocationList.TYPE, new AddEditViewUis(AddLocation.class, EditLocation.class,
-                ViewLocation.class));
+                ActivityEditLocationMap.class));
         mMap.put(GvUrlList.TYPE, new AddEditViewUis(ActivityEditUrlBrowser.class,
                 ActivityEditUrlBrowser.class, ActivityEditUrlBrowser.class));
     }

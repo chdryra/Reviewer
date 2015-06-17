@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?><!--
-  ~ Copyright (c) 2014, Rizwan Choudrey - All Rights Reserved
+  ~ Copyright (c) 2015, Rizwan Choudrey - All Rights Reserved
   ~ Unauthorized copying of this file, via any medium is strictly prohibited
   ~ Proprietary and confidential
   ~ Author: Rizwan Choudrey
-  ~ Date: 23 September, 2014
+  ~ Date: 17 June, 2015
   -->
 
 <LinearLayout
@@ -11,18 +11,17 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <ImageView
-        android:id="@+id/dialog_image_image_view"
-        android:layout_width="match_parent"
+        android:id="@+id/photo_image_view"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:adjustViewBounds="true"
         android:contentDescription="@string/dialog_image_content_description"
         android:scaleType="centerInside"/>
 
-    <com.chdryra.android.myandroidwidgets.ClearableEditText
-        android:id="@+id/dialog_image_caption_edit_text"
-        style="@style/EditTextCapSentences.Done"
-        android:cursorVisible="false"
-        android:hint="@string/edit_text_image_caption_hint"/>
+    <TextView
+        android:id="@+id/caption_text_view"
+        style="@style/TextView"
+        android:gravity="center"/>
 
 </LinearLayout>
