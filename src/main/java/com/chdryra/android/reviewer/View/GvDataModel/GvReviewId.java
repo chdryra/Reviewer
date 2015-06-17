@@ -55,6 +55,11 @@ public class GvReviewId implements GvData {
     }
 
     @Override
+    public GvDataType getGvDataType() {
+        return TYPE;
+    }
+
+    @Override
     public String getStringSummary() {
         return getId();
     }

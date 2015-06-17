@@ -17,6 +17,8 @@ import com.chdryra.android.mygenerallibrary.DialogAlertFragment;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewAdapter;
 import com.chdryra.android.reviewer.ApplicationSingletons.Administrator;
 import com.chdryra.android.reviewer.R;
+import com.chdryra.android.reviewer.View.Configs.ConfigGvDataUi;
+import com.chdryra.android.reviewer.View.Dialogs.DialogEditGvData;
 import com.chdryra.android.reviewer.View.Dialogs.DialogShower;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataPacker;
@@ -67,8 +69,24 @@ public class ReviewDataScreen {
         }
 
         @Override
-        public void onClickExpanded(GvData item, int position, View v, ReviewViewAdapter expanded) {
+        public void onClickExpandable(GvData item, int position, View v, ReviewViewAdapter
+                expanded) {
             startNewScreen(newScreen(mContext, expanded));
+        }
+
+        @Override
+        public void onClickNotExpandable(GvData item, int position, View v) {
+            Bundle args = new Bundle();
+            GvDataPacker.packItem(GvDataPacker.CurrentNewDatum.CURRENT, item, args);
+            ConfigGvDataUi.LaunchableConfig config = ConfigGvDataUi.getConfig(item.getGvDataType())
+                    .getEditorConfig();
+            LauncherUi.launch(config.getLaunchable(), mListener, config.getRequestCode(), config
+                    .getTag(), args);
+        }
+
+        @Override
+        public void onLongClickNotExpandable(GvData item, int position, View v) {
+
         }
 
         @Override
@@ -93,7 +111,7 @@ public class ReviewDataScreen {
         }
 
         protected abstract class GridItemListener extends Fragment
-                implements DialogAlertFragment.DialogAlertListener {
+                implements DialogAlertFragment.DialogAlertListener, DialogEditGvData.GvDataEditListener {
 
             @Override
             public void onAlertNegative(int requestCode, Bundle args) {
@@ -102,6 +120,16 @@ public class ReviewDataScreen {
             @Override
             public void onAlertPositive(int requestCode, Bundle args) {
                 onDialogAlertPositive(requestCode, args);
+            }
+
+            @Override
+            public void onGvDataDelete(GvData data) {
+
+            }
+
+            @Override
+            public void onGvDataEdit(GvData oldDatum, GvData newDatum) {
+
             }
         }
     }

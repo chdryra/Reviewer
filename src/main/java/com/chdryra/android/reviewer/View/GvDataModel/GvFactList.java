@@ -97,6 +97,16 @@ public class GvFactList extends GvDataList<GvFactList.GvFact> {
         }
 
         @Override
+        public GvDataType getGvDataType() {
+            return TYPE;
+        }
+
+        @Override
+        public String getStringSummary() {
+            return getLabel() + ": " + getValue();
+        }
+
+        @Override
         public ViewHolder getViewHolder() {
             return new VhFact();
         }
@@ -104,11 +114,6 @@ public class GvFactList extends GvDataList<GvFactList.GvFact> {
         @Override
         public boolean isValidForDisplay() {
             return DataValidator.validate(this);
-        }
-
-        @Override
-        public String getStringSummary() {
-            return getLabel() + ": " + getValue();
         }
 
         @Override

@@ -94,17 +94,15 @@ public class GvChildList extends GvDataList<GvChildList.GvChildReview> {
         private final float  mRating;
 
         public GvChildReview() {
-            mSubject = null;
-            mRating = 0f;
+            this(null, 0f);
         }
 
         public GvChildReview(String subject, float rating) {
-            mSubject = subject;
-            mRating = rating;
+            this(null, subject, rating);
         }
 
         public GvChildReview(GvReviewId id, String subject, float rating) {
-            super(id);
+            super(TYPE, id);
             mSubject = subject;
             mRating = rating;
         }

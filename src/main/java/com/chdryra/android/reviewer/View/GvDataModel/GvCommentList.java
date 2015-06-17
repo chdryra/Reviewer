@@ -105,31 +105,29 @@ public class GvCommentList extends GvDataList<GvCommentList.GvComment> {
         private boolean mIsHeadline = false;
 
         private GvComment(GvReviewId id, String comment, GvComment unsplitParent) {
-            super(id);
+            super(TYPE, id);
             mComment = comment;
             mUnsplitParent = unsplitParent;
         }
 
         public GvComment() {
-            mComment = null;
+            this(null, null, false);
         }
 
         public GvComment(String comment) {
-            mComment = comment;
+            this(null, comment, false);
         }
 
         public GvComment(GvReviewId id, String comment) {
-            super(id);
-            mComment = comment;
+            this(id, comment, false);
         }
 
         public GvComment(String comment, boolean isHeadline) {
-            mComment = comment;
-            mIsHeadline = isHeadline;
+            this(null, comment, isHeadline);
         }
 
         public GvComment(GvReviewId id, String comment, boolean isHeadline) {
-            super(id);
+            super(TYPE, id);
             mComment = comment;
             mIsHeadline = isHeadline;
         }

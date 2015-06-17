@@ -73,6 +73,7 @@ public class GvBuildReviewList extends GvDataList<GvBuildReviewList.GvBuildRevie
             mViewHolder = super.getViewHolder();
         }
 
+
         public View updateView(ViewGroup parent) {
             if (mViewHolder.getView() == null) {
                 mViewHolder.inflate(mBuilder.getParentBuilder().getContext(), parent);

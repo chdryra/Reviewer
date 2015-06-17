@@ -106,24 +106,19 @@ public class GvReviewList extends GvDataList<GvReviewList.GvReviewOverview> {
         private Date   mPublishDate;
 
         public GvReviewOverview() {
+            super(TYPE);
         }
 
         public GvReviewOverview(String id, Author author, Date publishDate, String subject,
                 float rating, Bitmap coverImage, String headline, ArrayList<String> locationNames) {
-            mId = id;
-            mSubject = subject;
-            mRating = rating;
-            mCoverImage = coverImage;
-            mHeadline = headline;
-            mLocationNames = locationNames;
-            mAuthor = author;
-            mPublishDate = publishDate;
+            this(null, id, author, publishDate, subject, rating, coverImage, headline,
+                    locationNames);
         }
 
         public GvReviewOverview(GvReviewId parentId, String id, Author author, Date publishDate,
                 String subject, float rating, Bitmap coverImage, String headline,
                 ArrayList<String> locationNames) {
-            super(parentId);
+            super(TYPE, parentId);
             mId = id;
             mSubject = subject;
             mRating = rating;

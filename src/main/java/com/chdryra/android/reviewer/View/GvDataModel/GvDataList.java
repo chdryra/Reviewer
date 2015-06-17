@@ -74,16 +74,9 @@ public class GvDataList<T extends GvData> extends ViewHolderDataList<T> implemen
         return mDataClass;
     }
 
+    @Override
     public GvDataType getGvDataType() {
         return mType;
-    }
-
-    public boolean contains(GvData datum) {
-        try {
-            return super.contains(mDataClass.cast(datum));
-        } catch (ClassCastException e) {
-            return false;
-        }
     }
 
     @Override
@@ -101,6 +94,14 @@ public class GvDataList<T extends GvData> extends ViewHolderDataList<T> implemen
     @Override
     public boolean hasElements() {
         return size() > 0;
+    }
+
+    public boolean contains(GvData datum) {
+        try {
+            return super.contains(mDataClass.cast(datum));
+        } catch (ClassCastException e) {
+            return false;
+        }
     }
 
     @Override

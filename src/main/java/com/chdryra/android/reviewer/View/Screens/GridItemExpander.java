@@ -27,25 +27,33 @@ public abstract class GridItemExpander extends ReviewViewAction.GridItemAction {
 
     ;
 
-    public void onClickExpanded(GvData item, int position, View v, ReviewViewAdapter expanded) {
+    public void onClickExpandable(GvData item, int position, View v, ReviewViewAdapter expanded) {
     }
 
-    ;
+    public void onLongClickExpandable(GvData item, int position, View v, ReviewViewAdapter expanded) {
+    }
 
-    public void onLongClickExpanded(GvData item, int position, View v, ReviewViewAdapter expanded) {
+    public void onClickNotExpandable(GvData item, int position, View v) {
+    }
+
+    public void onLongClickNotExpandable(GvData item, int position, View v) {
     }
 
     @Override
     public void onGridItemClick(GvData item, int position, View v) {
         if (mAdapter.isExpandable(item)) {
-            onClickExpanded(item, position, v, mAdapter.expandItem(item));
+            onClickExpandable(item, position, v, mAdapter.expandItem(item));
+        } else {
+            onClickNotExpandable(item, position, v);
         }
     }
 
     @Override
     public void onGridItemLongClick(GvData item, int position, View v) {
         if (mAdapter.isExpandable(item)) {
-            onLongClickExpanded(item, position, v, mAdapter.expandItem(item));
+            onLongClickExpandable(item, position, v, mAdapter.expandItem(item));
+        } else {
+            onLongClickNotExpandable(item, position, v);
         }
     }
 }

@@ -95,6 +95,23 @@ public class GvSocialPlatformList extends GvDataList<GvSocialPlatformList.GvSoci
         }
 
         @Override
+        public GvDataType getGvDataType() {
+            return TYPE;
+        }
+
+        @Override
+        public String getStringSummary() {
+            return getName() + ": " + getFollowers();
+        }
+
+        @Override
+        public void writeToParcel(Parcel parcel, int i) {
+            super.writeToParcel(parcel, i);
+            parcel.writeInt(mFollowers);
+            parcel.writeByte((byte) (mIsChosen ? 1 : 0));
+        }
+
+        @Override
         public ViewHolder getViewHolder() {
             return new VhSocialPlatform();
         }
@@ -122,18 +139,6 @@ public class GvSocialPlatformList extends GvDataList<GvSocialPlatformList.GvSoci
             result = 31 * result + mFollowers;
             result = 31 * result + (mIsChosen ? 1 : 0);
             return result;
-        }
-
-        @Override
-        public String getStringSummary() {
-            return getName() + ": " + getFollowers();
-        }
-
-        @Override
-        public void writeToParcel(Parcel parcel, int i) {
-            super.writeToParcel(parcel, i);
-            parcel.writeInt(mFollowers);
-            parcel.writeByte((byte) (mIsChosen ? 1 : 0));
         }
 
         public String getName() {

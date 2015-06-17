@@ -55,17 +55,15 @@ public class GvLocationList extends GvDataList<GvLocationList.GvLocation> {
         private final String mName;
 
         public GvLocation() {
-            mLatLng = null;
-            mName = null;
+            this(null, null, null);
         }
 
         public GvLocation(LatLng latLng, String name) {
-            mLatLng = latLng;
-            mName = name;
+            this(null, latLng, name);
         }
 
         public GvLocation(GvReviewId id, LatLng latLng, String name) {
-            super(id);
+            super(TYPE, id);
             mLatLng = latLng;
             mName = name;
         }

@@ -86,13 +86,18 @@ public class GvTagList extends GvDataList<GvTagList.GvTag> {
         }
 
         @Override
-        public ViewHolder getViewHolder() {
-            return new VhTag(false);
+        public GvDataType getGvDataType() {
+            return TYPE;
         }
 
         @Override
         public String getStringSummary() {
             return "#" + get();
+        }
+
+        @Override
+        public ViewHolder getViewHolder() {
+            return new VhTag(false);
         }
     }
 }

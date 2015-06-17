@@ -18,6 +18,8 @@ import com.chdryra.android.mygenerallibrary.ViewHolderData;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface GvData extends ViewHolderData, Parcelable {
+    public GvDataType getGvDataType();
+
     public String getStringSummary();
 
     public GvReviewId getReviewId();

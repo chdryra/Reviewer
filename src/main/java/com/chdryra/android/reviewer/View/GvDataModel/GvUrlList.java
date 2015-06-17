@@ -79,6 +79,11 @@ public class GvUrlList extends GvDataList<GvUrlList.GvUrl> {
         }
 
         @Override
+        public GvDataType getGvDataType() {
+            return TYPE;
+        }
+
+        @Override
         public boolean isValidForDisplay() {
             return DataValidator.validate(this);
         }

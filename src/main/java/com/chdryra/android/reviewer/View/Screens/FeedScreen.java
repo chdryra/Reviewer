@@ -102,12 +102,13 @@ public class FeedScreen {
         }
 
         @Override
-        public void onClickExpanded(GvData item, int position, View v, ReviewViewAdapter expanded) {
+        public void onClickExpandable(GvData item, int position, View v, ReviewViewAdapter
+                expanded) {
             launch(ReviewDataScreen.newScreen(mContext, expanded));
         }
 
         @Override
-        public void onLongClickExpanded(GvData item, int position, View v, ReviewViewAdapter
+        public void onLongClickExpandable(GvData item, int position, View v, ReviewViewAdapter
                 expanded) {
             if (expanded != null) {
                 String alert = getActivity().getResources().getString(R.string.alert_delete_review);
