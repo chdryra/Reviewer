@@ -21,7 +21,7 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvData;
  * Email: rizwan.choudrey@gmail.com
  */
 public class DialogEditChildTest extends
-        DialogEditGvDataTest<GvChildList.GvChildReview> {
+        DialogGvDataEditTest<GvChildList.GvChildReview> {
 
     public DialogEditChildTest() {
         super(ConfigGvDataAddEditView.EditChild.class);

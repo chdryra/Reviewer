@@ -14,6 +14,7 @@ import android.view.View;
 
 import com.chdryra.android.mygenerallibrary.DialogTwoButtonFragment;
 import com.chdryra.android.reviewer.R;
+import com.chdryra.android.reviewer.View.GvDataModel.FactoryGvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataPacker;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
@@ -26,12 +27,12 @@ import com.chdryra.android.reviewer.View.Launcher.LauncherUi;
  * On: 17/06/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public abstract class DialogGvData<T extends GvData>
-        extends DialogTwoButtonFragment implements LaunchableUi {
+public abstract class DialogGvDataView<T extends GvData> extends DialogTwoButtonFragment implements
+        LaunchableUi {
     public static final ActionType GOTO_REVIEW_ACTION = ActionType.OTHER;
     public static final ActionType DONE_ACTION        = ActionType.DONE;
 
-    private final GvDataPacker<T>       mPacker;
+    private final GvDataType mDataType;
     private       DialogLayout<T>       mLayout;
     private       GotoReviewListener<T> mListener;
     private       T                     mDatum;
@@ -45,13 +46,13 @@ public abstract class DialogGvData<T extends GvData>
         void onGotoReview(T data);
     }
 
-    public DialogGvData(Class<T> dataClass) {
-        mPacker = new GvDataPacker<>();
+    public DialogGvDataView(Class<T> dataClass) {
+        mDataType = FactoryGvData.gvType(dataClass);
     }
 
     @Override
     public String getLaunchTag() {
-        return "View" + mDatum.getGvDataType().getDatumName();
+        return "View" + mDataType.getDatumName();
     }
 
     @Override
@@ -76,7 +77,8 @@ public abstract class DialogGvData<T extends GvData>
         hideKeyboardOnLaunch();
 
         Bundle args = getArguments();
-        mDatum = mPacker.unpack(GvDataPacker.CurrentNewDatum.CURRENT, args);
+        GvDataPacker<T> unpacker = new GvDataPacker<>();
+        mDatum = unpacker.unpack(GvDataPacker.CurrentNewDatum.CURRENT, args);
         mLayout = FactoryGvDataViewLayout.newLayout(mDatum.getGvDataType());
         mLayout.onActivityAttached(getActivity(), args);
 
@@ -102,3 +104,4 @@ public abstract class DialogGvData<T extends GvData>
         return null;
     }
 }
+

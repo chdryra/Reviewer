@@ -20,7 +20,7 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvTagList;
 /**
  * More of a black-box behaviour (integration) test than unit test
  */
-public class DialogAddTagTest extends DialogAddGvDataTest<GvTagList.GvTag> {
+public class DialogAddTagTest extends DialogGvDataAddTest<GvTagList.GvTag> {
 
     public DialogAddTagTest() {
         super(ConfigGvDataAddEditView.AddTag.class);

@@ -47,7 +47,7 @@ import com.chdryra.android.reviewer.View.Launcher.LauncherUi;
  * ControllerReviewEditable packed in the arguments by the Administrator.
  * </p>
  */
-public abstract class DialogAddGvData<T extends GvData> extends
+public abstract class DialogGvDataAdd<T extends GvData> extends
         DialogCancelAddDoneFragment implements AddEditLayout.GvDataAdder, LaunchableUi {
     public static final String QUICK_SET = "com.chdryra.android.reviewer.dialog_quick_mode";
 
@@ -70,7 +70,7 @@ public abstract class DialogAddGvData<T extends GvData> extends
     }
 
     //Use Class<T2> instead of sending type for extra type safety...
-    public DialogAddGvData(Class<T> dataClass) {
+    public DialogGvDataAdd(Class<T> dataClass) {
         mDataType = FactoryGvData.gvType(dataClass);
     }
 

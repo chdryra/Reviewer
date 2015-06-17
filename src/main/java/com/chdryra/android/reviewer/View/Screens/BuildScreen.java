@@ -31,7 +31,7 @@ import com.chdryra.android.reviewer.View.ActivitiesFragments.ActivityReviewView;
 import com.chdryra.android.reviewer.View.ActivitiesFragments.FragmentReviewView;
 import com.chdryra.android.reviewer.View.Configs.ConfigGvDataUi;
 import com.chdryra.android.reviewer.View.Dialogs.AddLocation;
-import com.chdryra.android.reviewer.View.Dialogs.DialogAddGvData;
+import com.chdryra.android.reviewer.View.Dialogs.DialogGvDataAdd;
 import com.chdryra.android.reviewer.View.GvDataModel.GvBuildReviewList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
@@ -143,7 +143,7 @@ public class BuildScreen {
             }
 
             Bundle args = new Bundle();
-            args.putBoolean(DialogAddGvData.QUICK_SET, true);
+            args.putBoolean(DialogGvDataAdd.QUICK_SET, true);
             packLatLng(args);
 
             ConfigGvDataUi.LaunchableConfig adderConfig = config.getAdderConfig();

@@ -16,7 +16,7 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvTagList;
  * On: 07/01/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class DialogEditTagTest extends DialogEditGvDataTest<GvTagList.GvTag> {
+public class DialogEditTagTest extends DialogGvDataEditTest<GvTagList.GvTag> {
 
     public DialogEditTagTest() {
         super(ConfigGvDataAddEditView.EditTag.class);

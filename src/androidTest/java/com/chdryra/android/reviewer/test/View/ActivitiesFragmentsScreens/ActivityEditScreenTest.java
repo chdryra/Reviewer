@@ -21,8 +21,8 @@ import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewAdapter
 import com.chdryra.android.reviewer.ApplicationSingletons.Administrator;
 import com.chdryra.android.reviewer.View.ActivitiesFragments.FragmentReviewView;
 import com.chdryra.android.reviewer.View.Configs.ConfigGvDataUi;
-import com.chdryra.android.reviewer.View.Dialogs.DialogAddGvData;
-import com.chdryra.android.reviewer.View.Dialogs.DialogEditGvData;
+import com.chdryra.android.reviewer.View.Dialogs.DialogGvDataAdd;
+import com.chdryra.android.reviewer.View.Dialogs.DialogGvDataEdit;
 import com.chdryra.android.reviewer.View.GvDataModel.GvChildList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
@@ -710,16 +710,16 @@ public abstract class ActivityEditScreenTest extends ActivityReviewViewTest {
         });
     }
 
-    private DialogEditGvData getEditDialog() {
+    private DialogGvDataEdit getEditDialog() {
         FragmentManager manager = getActivity().getFragmentManager();
         Fragment f = manager.findFragmentByTag(mEditConfig.getTag());
-        return (DialogEditGvData) f;
+        return (DialogGvDataEdit) f;
     }
 
-    private DialogAddGvData getAddDialog() {
+    private DialogGvDataAdd getAddDialog() {
         FragmentManager manager = getActivity().getFragmentManager();
         Fragment f = manager.findFragmentByTag(mAddConfig.getTag());
-        return (DialogAddGvData) f;
+        return (DialogGvDataAdd) f;
     }
 
     private DialogAlertFragment getDeleteConfirmDialog() {

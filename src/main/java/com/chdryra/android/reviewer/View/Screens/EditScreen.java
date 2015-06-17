@@ -22,8 +22,8 @@ import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilder;
 import com.chdryra.android.reviewer.ApplicationSingletons.Administrator;
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.View.Configs.ConfigGvDataUi;
-import com.chdryra.android.reviewer.View.Dialogs.DialogAddGvData;
-import com.chdryra.android.reviewer.View.Dialogs.DialogEditGvData;
+import com.chdryra.android.reviewer.View.Dialogs.DialogGvDataAdd;
+import com.chdryra.android.reviewer.View.Dialogs.DialogGvDataEdit;
 import com.chdryra.android.reviewer.View.Dialogs.DialogShower;
 import com.chdryra.android.reviewer.View.GvDataModel.FactoryGvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvChildList;
@@ -170,7 +170,7 @@ public class EditScreen {
         // fragment as listener.
         //Restrictions on how fragments are constructed mean I have to use an abstract class...
         protected abstract class AddListener extends Fragment
-                implements DialogAddGvData.GvDataAddListener,
+                implements DialogGvDataAdd.GvDataAddListener,
                 DialogAlertFragment.DialogAlertListener {
 
             private GvDataList<GvData> mAdded;
@@ -300,7 +300,7 @@ public class EditScreen {
         }
 
         protected abstract class EditListener extends Fragment
-                implements DialogEditGvData.GvDataEditListener,
+                implements DialogGvDataEdit.GvDataEditListener,
                 DialogAlertFragment.DialogAlertListener {
 
             @Override

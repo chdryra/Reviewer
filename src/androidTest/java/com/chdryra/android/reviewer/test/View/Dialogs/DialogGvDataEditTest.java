@@ -20,7 +20,7 @@ import com.chdryra.android.mygenerallibrary.DialogAlertFragment;
 import com.chdryra.android.mygenerallibrary.DialogCancelDeleteDoneFragment;
 import com.chdryra.android.mygenerallibrary.DialogDeleteConfirm;
 import com.chdryra.android.reviewer.View.ActivitiesFragments.ActivityFeed;
-import com.chdryra.android.reviewer.View.Dialogs.DialogEditGvData;
+import com.chdryra.android.reviewer.View.Dialogs.DialogGvDataEdit;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataPacker;
 import com.chdryra.android.reviewer.View.Launcher.LauncherUi;
@@ -34,19 +34,19 @@ import com.robotium.solo.Solo;
  * On: 07/01/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public abstract class DialogEditGvDataTest<T extends GvData> extends
+public abstract class DialogGvDataEditTest<T extends GvData> extends
         ActivityInstrumentationTestCase2<ActivityFeed> {
     private static final int    REQUEST_CODE = 1976;
     private static final String DIALOG_TAG   = "TestEditDialog";
-    private final Class<? extends DialogEditGvData> mDialogClass;
+    private final Class<? extends DialogGvDataEdit> mDialogClass;
     protected     Solo                              mSolo;
-    protected     DialogEditGvData                  mDialog;
+    protected     DialogGvDataEdit                  mDialog;
     protected     DialogEditListener<T>             mListener;
     protected     Activity                          mActivity;
 
     protected abstract GvData getDataShown();
 
-    protected DialogEditGvDataTest(Class<? extends DialogEditGvData> dialogClass) {
+    protected DialogGvDataEditTest(Class<? extends DialogGvDataEdit> dialogClass) {
         super(ActivityFeed.class);
         mDialogClass = dialogClass;
     }

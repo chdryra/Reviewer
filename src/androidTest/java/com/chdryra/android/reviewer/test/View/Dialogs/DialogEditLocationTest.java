@@ -17,7 +17,7 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvLocationList;
  * On: 16/03/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class DialogEditLocationTest extends DialogEditGvDataTest<GvLocationList.GvLocation> {
+public class DialogEditLocationTest extends DialogGvDataEditTest<GvLocationList.GvLocation> {
     private GvLocationList.GvLocation mCurrent;
 
     public DialogEditLocationTest() {

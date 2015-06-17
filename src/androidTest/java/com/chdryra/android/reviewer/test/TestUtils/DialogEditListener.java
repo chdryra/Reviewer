@@ -10,7 +10,7 @@ package com.chdryra.android.reviewer.test.TestUtils;
 
 import android.app.Fragment;
 
-import com.chdryra.android.reviewer.View.Dialogs.DialogEditGvData;
+import com.chdryra.android.reviewer.View.Dialogs.DialogGvDataEdit;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 
 /**
@@ -19,7 +19,7 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvData;
  * Email: rizwan.choudrey@gmail.com
  */
 public class DialogEditListener<T extends GvData> extends Fragment implements
-        DialogEditGvData.GvDataEditListener<T> {
+        DialogGvDataEdit.GvDataEditListener<T> {
 
     private T mDataOld;
     private T mDataNew;

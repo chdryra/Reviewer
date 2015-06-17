@@ -19,7 +19,7 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvChildList;
  * Email: rizwan.choudrey@gmail.com
  */
 public class DialogAddChildTest extends
-        DialogAddGvDataTest<GvChildList.GvChildReview> {
+        DialogGvDataAddTest<GvChildList.GvChildReview> {
 
     public DialogAddChildTest() {
         super(ConfigGvDataAddEditView.AddChild.class);

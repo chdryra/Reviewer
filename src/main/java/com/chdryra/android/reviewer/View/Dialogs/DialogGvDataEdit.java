@@ -42,13 +42,12 @@ import com.chdryra.android.reviewer.View.Launcher.LauncherUi;
  * </ul>
  * </p>
  */
-public abstract class DialogEditGvData<T extends GvData>
+public abstract class DialogGvDataEdit<T extends GvData>
         extends DialogCancelDeleteDoneFragment implements AddEditLayout.GvDataEditor,
         LaunchableUi {
 
     private final GvDataType            mDataType;
-    private final GvDataPacker<T>       mPacker;
-    private final AddEditLayout<T> mLayout;
+    private AddEditLayout<T> mLayout;
     private       T                     mDatum;
     private       GvDataEditListener<T> mEditListener;
 
@@ -63,10 +62,8 @@ public abstract class DialogEditGvData<T extends GvData>
         void onGvDataEdit(T oldDatum, T newDatum);
     }
 
-    public DialogEditGvData(Class<T> dataClass) {
+    public DialogGvDataEdit(Class<T> dataClass) {
         mDataType = FactoryGvData.gvType(dataClass);
-        mPacker = new GvDataPacker<>();
-        mLayout = FactoryGvDataViewLayout.newLayout(getGvDataType(), this);
     }
 
     @Override
@@ -103,8 +100,10 @@ public abstract class DialogEditGvData<T extends GvData>
         super.onCreate(savedInstanceState);
 
         Bundle args = getArguments();
+        mLayout = FactoryGvDataViewLayout.newLayout(getGvDataType(), this);
         mLayout.onActivityAttached(getActivity(), args);
-        mDatum = mPacker.unpack(GvDataPacker.CurrentNewDatum.CURRENT, args);
+        GvDataPacker<T> unpacker = new GvDataPacker<>();
+        mDatum = unpacker.unpack(GvDataPacker.CurrentNewDatum.CURRENT, args);
 
         //TODO make type safe
         mEditListener = (GvDataEditListener<T>) getTargetListener(GvDataEditListener.class);

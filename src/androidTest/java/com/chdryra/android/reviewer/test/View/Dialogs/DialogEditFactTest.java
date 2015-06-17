@@ -17,7 +17,7 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvFactList;
  * On: 08/01/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class DialogEditFactTest extends DialogEditGvDataTest<GvFactList.GvFact> {
+public class DialogEditFactTest extends DialogGvDataEditTest<GvFactList.GvFact> {
 
     public DialogEditFactTest() {
         super(ConfigGvDataAddEditView.EditFact.class);

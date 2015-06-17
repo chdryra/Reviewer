@@ -22,7 +22,7 @@ import com.chdryra.android.mygenerallibrary.DialogTwoButtonFragment;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewAdapter;
 import com.chdryra.android.reviewer.ApplicationSingletons.Administrator;
 import com.chdryra.android.reviewer.View.ActivitiesFragments.ActivityReviewView;
-import com.chdryra.android.reviewer.View.Dialogs.DialogAddGvData;
+import com.chdryra.android.reviewer.View.Dialogs.DialogGvDataAdd;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
 import com.chdryra.android.reviewer.View.Launcher.LaunchableUi;
@@ -38,18 +38,18 @@ import com.robotium.solo.Solo;
  * On: 07/01/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public abstract class DialogAddGvDataTest<T extends GvData> extends
+public abstract class DialogGvDataAddTest<T extends GvData> extends
         ActivityInstrumentationTestCase2<ActivityReviewView> {
     private static final int    REQUEST_CODE = 1976;
     private static final String DIALOG_TAG   = "TestAddDialog";
-    private final Class<? extends DialogAddGvData> mDialogClass;
+    private final Class<? extends DialogGvDataAdd> mDialogClass;
     protected     Solo                             mSolo;
-    protected     DialogAddGvData                  mDialog;
+    protected     DialogGvDataAdd                  mDialog;
     protected     DialogAddListener<T>             mListener;
     protected     ReviewViewAdapter                mAdapter;
     protected     Activity                         mActivity;
 
-    protected DialogAddGvDataTest(Class<? extends DialogAddGvData<T>> dialogClass) {
+    protected DialogGvDataAddTest(Class<? extends DialogGvDataAdd<T>> dialogClass) {
         super(ActivityReviewView.class);
         mDialogClass = dialogClass;
     }
@@ -152,7 +152,7 @@ public abstract class DialogAddGvDataTest<T extends GvData> extends
 
     protected void launchDialogAndTestShowing(boolean quickSet) {
         Bundle args = new Bundle();
-        args.putBoolean(DialogAddGvData.QUICK_SET, quickSet);
+        args.putBoolean(DialogGvDataAdd.QUICK_SET, quickSet);
 
         final DialogAddListener<T> listener = mListener;
         final DialogTwoButtonFragment dialog = mDialog;

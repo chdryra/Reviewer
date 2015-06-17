@@ -17,7 +17,7 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
  * On: 08/01/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class DialogEditImageTest extends DialogEditGvDataTest<GvImageList.GvImage> {
+public class DialogEditImageTest extends DialogGvDataEditTest<GvImageList.GvImage> {
     private GvImageList.GvImage mCurrent;
 
     public DialogEditImageTest() {

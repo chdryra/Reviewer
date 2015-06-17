@@ -26,7 +26,7 @@ import com.google.android.gms.maps.model.LatLng;
  * On: 16/03/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class DialogAddLocationTest extends DialogAddGvDataTest<GvLocationList.GvLocation>
+public class DialogAddLocationTest extends DialogGvDataAddTest<GvLocationList.GvLocation>
         implements LocationClientConnector.Locatable {
     private static final GvLocationList.GvLocation TAYYABS    =
             new GvLocationList.GvLocation(new LatLng(51.517264, -0.063484), "Tayyabs");
