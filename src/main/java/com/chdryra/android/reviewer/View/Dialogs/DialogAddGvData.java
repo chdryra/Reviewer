@@ -52,7 +52,7 @@ public abstract class DialogAddGvData<T extends GvData> extends
     public static final String QUICK_SET = "com.chdryra.android.reviewer.dialog_quick_mode";
 
     private final GvDataType                   mDataType;
-    private final AddEditLayout<T> mLayout;
+    private AddEditLayout<T> mLayout;
     private       ReviewBuilder.DataBuilder<T> mBuilder;
     private       GvDataAddListener<T>         mAddListener;
 
@@ -72,7 +72,6 @@ public abstract class DialogAddGvData<T extends GvData> extends
     //Use Class<T2> instead of sending type for extra type safety...
     public DialogAddGvData(Class<T> dataClass) {
         mDataType = FactoryGvData.gvType(dataClass);
-        mLayout = FactoryGvDataViewLayout.newLayout(mDataType, this);
     }
 
     @Override
@@ -110,6 +109,7 @@ public abstract class DialogAddGvData<T extends GvData> extends
         super.onCreate(savedInstanceState);
 
         Bundle args = getArguments();
+        mLayout = FactoryGvDataViewLayout.newLayout(mDataType, this);
         mLayout.onActivityAttached(getActivity(), args);
         mQuickSet = args != null && args.getBoolean(QUICK_SET);
 
