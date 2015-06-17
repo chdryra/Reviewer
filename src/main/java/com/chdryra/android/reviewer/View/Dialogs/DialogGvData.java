@@ -26,7 +26,7 @@ import com.chdryra.android.reviewer.View.Launcher.LauncherUi;
  * On: 17/06/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public abstract class DialogGvDataView<T extends GvData>
+public abstract class DialogGvData<T extends GvData>
         extends DialogTwoButtonFragment implements LaunchableUi {
     public static final ActionType GOTO_REVIEW_ACTION = ActionType.OTHER;
     public static final ActionType DONE_ACTION        = ActionType.DONE;
@@ -45,7 +45,7 @@ public abstract class DialogGvDataView<T extends GvData>
         void onGotoReview(T data);
     }
 
-    public DialogGvDataView(Class<T> dataClass) {
+    public DialogGvData(Class<T> dataClass) {
         mPacker = new GvDataPacker<>();
     }
 
