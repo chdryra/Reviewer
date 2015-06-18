@@ -30,6 +30,7 @@ import java.util.HashMap;
  */
 public class FactoryGvDataViewLayout {
     private static final String TAG = "FactoryGvDataViewHolder";
+    private final static Class<ViewText> DEFAULT_VIEW = ViewText.class;
     private static FactoryGvDataViewLayout
                                                                                             sFactory;
     private final HashMap<GvDataType, Class<? extends AddEditLayout<? extends GvData>>> mMapAdd;
@@ -116,8 +117,11 @@ public class FactoryGvDataViewLayout {
             (GvDataType dataType) {
         if (sFactory == null) sFactory = new FactoryGvDataViewLayout();
         try {
+            Class<? extends DialogLayout<? extends GvData>> viewClass = sFactory.mMapView.get
+                    (dataType);
+            if(viewClass == null) viewClass = DEFAULT_VIEW;
             //TODO make type safe
-            return (DialogLayout) sFactory.mMapView.get(dataType).newInstance();
+            return (DialogLayout<T>) viewClass.newInstance();
         } catch (InstantiationException e) {
             Log.e(TAG, "Problem constructing edit dialog for " + dataType.getDatumName(), e);
         } catch (IllegalAccessException e) {

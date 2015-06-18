@@ -22,6 +22,7 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvLocationList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvTagList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvUrlList;
 import com.chdryra.android.reviewer.View.Launcher.LaunchableUi;
+import com.chdryra.android.reviewer.View.Screens.ReviewView;
 
 import java.util.HashMap;
 
@@ -35,6 +36,7 @@ import java.util.HashMap;
  * Defines the adder, editor and display UIs to use with each data type.
  */
 public final class ConfigGvDataAddEditView {
+    private static final Class<? extends LaunchableUi> DEFAULT_LAUNCHABLE = ReviewView.class;
     private static ConfigGvDataAddEditView sConfig;
     private final HashMap<GvDataType, AddEditViewUis> mMap = new HashMap<>();
 

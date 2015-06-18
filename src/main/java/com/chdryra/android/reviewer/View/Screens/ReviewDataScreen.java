@@ -74,10 +74,16 @@ public class ReviewDataScreen {
         public void onClickNotExpandable(GvData item, int position, View v) {
             Bundle args = new Bundle();
             GvDataPacker.packItem(GvDataPacker.CurrentNewDatum.CURRENT, item, args);
-            ConfigGvDataUi.LaunchableConfig config = ConfigGvDataUi.getConfig(item.getGvDataType())
-                    .getViewConfig();
-            LauncherUi.launch(config.getLaunchable(), mListener, config.getRequestCode(), config
-                    .getTag(), args);
+            ConfigGvDataUi.Config config = ConfigGvDataUi.getConfig(item.getGvDataType());
+            if (config != null) {
+                ConfigGvDataUi.LaunchableConfig view = config.getViewConfig();
+                LauncherUi.launch(view.getLaunchable(), mListener, view.getRequestCode(), view
+                        .getTag(), args);
+            } else {
+                DialogGvDataView<GvData> dialog = DialogGvDataView.getTextDialog(item.getGvDataType());
+                LauncherUi.launch(dialog, mListener, REQUEST_CODE, dialog.getLaunchTag(), args);
+            }
+
         }
 
         @Override

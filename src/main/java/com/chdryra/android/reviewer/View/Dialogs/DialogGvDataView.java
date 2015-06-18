@@ -32,10 +32,10 @@ public abstract class DialogGvDataView<T extends GvData> extends DialogTwoButton
     public static final ActionType GOTO_REVIEW_ACTION = ActionType.OTHER;
     public static final ActionType DONE_ACTION        = ActionType.DONE;
 
-    private final GvDataType mDataType;
-    private       DialogLayout<T>       mLayout;
-    private       GotoReviewListener<T> mListener;
-    private       T                     mDatum;
+    private GvDataType            mDataType;
+    private DialogLayout<T>       mLayout;
+    private GotoReviewListener<T> mListener;
+    private T                     mDatum;
 
     /**
      * Provides a callback that can be called delete or done buttons are pressed.
@@ -46,8 +46,18 @@ public abstract class DialogGvDataView<T extends GvData> extends DialogTwoButton
         void onGotoReview(T data);
     }
 
-    public DialogGvDataView(Class<T> dataClass) {
+    protected DialogGvDataView(Class<T> dataClass) {
         mDataType = FactoryGvData.gvType(dataClass);
+    }
+
+    private DialogGvDataView(GvDataType dataType) {
+        mDataType = dataType;
+    }
+
+    public static <T extends GvData> DialogGvDataView<GvData> getTextDialog(GvDataType dataType) {
+        return new DialogGvDataView<GvData>(dataType) {
+
+        };
     }
 
     @Override

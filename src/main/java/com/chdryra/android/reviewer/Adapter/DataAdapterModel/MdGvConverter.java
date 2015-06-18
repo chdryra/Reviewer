@@ -15,14 +15,18 @@ import com.chdryra.android.reviewer.Model.ReviewData.MdImageList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdLocationList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdSubject;
 import com.chdryra.android.reviewer.Model.ReviewData.MdUrlList;
+import com.chdryra.android.reviewer.Model.ReviewData.PublishDate;
 import com.chdryra.android.reviewer.Model.ReviewData.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
 import com.chdryra.android.reviewer.Model.Tagging.TagsManager;
 import com.chdryra.android.reviewer.Model.TreeMethods.ChildDataGetter;
+import com.chdryra.android.reviewer.Model.UserData.Author;
+import com.chdryra.android.reviewer.View.GvDataModel.GvAuthorList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvChildList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
+import com.chdryra.android.reviewer.View.GvDataModel.GvDateList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvFactList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvLocationList;
@@ -227,12 +231,37 @@ public class MdGvConverter {
         return list;
     }
 
-    public static GvTextList convertSubjects(ReviewNode node) {
+    public static GvTextList convertChildSubjects(ReviewNode node) {
         GvReviewId id = GvReviewId.getId(node.getId().toString());
         GvSubjectList list = new GvSubjectList(id);
         ChildDataGetter getter = new ChildDataGetter(node);
         for (MdSubject subject : getter.getSubjects()) {
             list.add(new GvText(GvReviewId.getId(subject.getReviewId().toString()), subject.get()));
+        }
+
+        return list;
+    }
+
+    public static GvAuthorList convertChildAuthors(ReviewNode node) {
+        GvReviewId id = GvReviewId.getId(node.getId().toString());
+        GvAuthorList list = new GvAuthorList(id);
+        for (ReviewNode child : node.getChildren()) {
+            GvReviewId childId = GvReviewId.getId(child.getId().toString());
+            Author author = child.getAuthor();
+            list.add(new GvAuthorList.GvAuthor(childId, author.getName(), author.getUserId()
+                    .toString()));
+        }
+
+        return list;
+    }
+
+    public static GvDateList convertChildPublishDates(ReviewNode node) {
+        GvReviewId id = GvReviewId.getId(node.getId().toString());
+        GvDateList list = new GvDateList(id);
+        for (ReviewNode child : node.getChildren()) {
+            GvReviewId childId = GvReviewId.getId(child.getId().toString());
+            PublishDate date = child.getPublishDate();
+            list.add(new GvDateList.GvDate(childId, date.getDate()));
         }
 
         return list;

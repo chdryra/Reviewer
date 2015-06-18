@@ -12,10 +12,8 @@ import android.content.Context;
 
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.MdGvConverter;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.TagCollector;
-import com.chdryra.android.reviewer.Model.ReviewData.ReviewIdableList;
 import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
 import com.chdryra.android.reviewer.Model.Tagging.TagsManager;
-import com.chdryra.android.reviewer.Model.TreeMethods.VisitorTreeFlattener;
 import com.chdryra.android.reviewer.View.GvDataModel.GvChildList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataCollection;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
@@ -54,7 +52,9 @@ public class ViewerTreeData implements GridDataViewer<GvDataList> {
         GvReviewList reviews = wrapper.getGridData();
         if (reviews.size() > 0) {
             data.add(reviews);
-            data.add(MdGvConverter.convertSubjects(mNode));
+            data.add(MdGvConverter.convertChildAuthors(mNode));
+            data.add(MdGvConverter.convertChildSubjects(mNode));
+            data.add(MdGvConverter.convertChildPublishDates(mNode));
         }
 
         data.add(tagCollector.collectTags());
@@ -69,25 +69,30 @@ public class ViewerTreeData implements GridDataViewer<GvDataList> {
 
     @Override
     public boolean isExpandable(GvDataList datum) {
-        return getGridData().contains(datum) && datum.hasElements();
+        GvDataCollection gridData = getGridData();
+        for (GvDataList list : gridData) {
+            list.sort();
+        }
+        datum.sort();
+        return gridData.contains(datum) && datum.hasElements();
     }
 
     @Override
     public ReviewViewAdapter expandItem(GvDataList datum) {
         if (isExpandable(datum)) {
-            if (datum.getGvDataType() == GvReviewList.TYPE) {
-                return FactoryReviewViewAdapter.newChildOverviewAdapter(mContext, mNode);
-            }
-
             ReviewViewAdapter parent = FactoryReviewViewAdapter.newChildOverviewAdapter(mContext,
                     mNode);
+            if (datum.getGvDataType() == GvReviewList.TYPE) {
+                return parent;
+            }
+
             return FactoryReviewViewAdapter.newGvDataListAdapter(mContext, parent, datum);
         }
 
         return null;
     }
 
-    public GvChildList collectCriteria() {
+    private GvChildList collectCriteria() {
         GvChildList criteria = new GvChildList(GvReviewId.getId(mNode.getId().toString()));
         criteria.addList(MdGvConverter.convertChildren(mNode.expand()));
         for (ReviewNode node : mNode.getChildren()) {
@@ -95,9 +100,5 @@ public class ViewerTreeData implements GridDataViewer<GvDataList> {
         }
 
         return criteria;
-    }
-
-    private ReviewIdableList<ReviewNode> collectNodes(ReviewNode node) {
-        return VisitorTreeFlattener.flatten(node);
     }
 }
