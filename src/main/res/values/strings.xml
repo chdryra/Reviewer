@@ -28,7 +28,6 @@
     <!-- Dialogs -->
     <string name="dialog_url_title">Link</string>
     <string name="dialog_image_content_description">Review image</string>
-    <string name="dialog_gvdata_goto_review_label">Review</string>
 
     <!-- Activities & Screens -->
     <string name="activity_title_location">location</string>
@@ -72,6 +71,8 @@
     <string name="button_publish">Publish</string>
     <string name="button_social">Social</string>
     <string name="button_add">Add</string>
+    <string name="button_goto_review">Review</string>
+    <string name="button_goto_google_maps">GMaps</string>
 
     <!-- Image Buttons -->
     <string name="button_revert_location_cd">revert location</string>

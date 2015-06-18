@@ -73,7 +73,7 @@ public class FragmentEditUrlBrowser extends FragmentDeleteDone {
             Bundle savedInstanceState) {
         setDisplayHomeAsUp(true);
 
-        View v = inflater.inflate(R.layout.fragment_review_url_browse, container, false);
+        View v = inflater.inflate(R.layout.fragment_review_url_browser, container, false);
         mWebView = (WebView) v.findViewById(R.id.web_view);
         mUrlEditText = (ClearableEditText) v.findViewById(R.id.edit_text_url);
 

@@ -70,7 +70,7 @@ public abstract class DialogGvDataView<T extends GvData> extends DialogTwoButton
         super.onCreate(savedInstanceState);
 
         setLeftButtonAction(GOTO_REVIEW_ACTION);
-        setLeftButtonText(getResources().getString(R.string.dialog_gvdata_goto_review_label));
+        setLeftButtonText(getResources().getString(R.string.button_goto_review));
         setRightButtonAction(DONE_ACTION);
         dismissDialogOnLeftClick();
         dismissDialogOnRightClick();

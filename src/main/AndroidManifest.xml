@@ -95,6 +95,19 @@
                 android:resource="@xml/searchable_location_map"/>
         </activity>
 
+        <!-- Browser choose link -->
+        <activity
+            android:name=".View.ActivitiesFragments.ActivityViewReviewLocation"
+            android:configChanges="orientation"
+            android:exported="true"
+            android:label="@string/activity_title_location"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Reviewer">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".View.ActivitiesFragments.ActivityReviewView"/>
+        </activity>
+
         <!-- Key for GMaps and setting up Google Play -->
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"

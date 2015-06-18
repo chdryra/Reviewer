@@ -120,7 +120,7 @@ public class FragmentEditLocationMap extends FragmentDeleteDone implements
             Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
 
-        View v = inflater.inflate(R.layout.fragment_review_location_map, container, false);
+        View v = inflater.inflate(R.layout.fragment_review_location_map_edit, container, false);
 
         mMapView = (MapView) v.findViewById(R.id.mapView);
         mMapView.onCreate(savedInstanceState);

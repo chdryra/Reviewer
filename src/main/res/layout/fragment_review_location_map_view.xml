@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) 2014, Rizwan Choudrey - All Rights Reserved
+  ~ Unauthorized copying of this file, via any medium is strictly prohibited
+  ~ Proprietary and confidential
+  ~ Author: Rizwan Choudrey
+  ~ Date: 23 September, 2014
+  -->
+
+<LinearLayout
+    android:id="@+id/mapLinearLayout"
+    style="@style/LineaLayoutVertical.WrappedVertical"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <com.google.android.gms.maps.MapView
+        android:id="@+id/mapView"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:clickable="true"
+        tools:ignore="InefficientWeight"/>
+
+    <View style="@style/HorizontalDivider"/>
+
+    <include
+        android:id="@+id/buttons"
+        layout="@layout/dialog_three_button_layout"
+        />
+
+</LinearLayout>

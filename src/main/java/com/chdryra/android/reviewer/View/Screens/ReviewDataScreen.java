@@ -15,15 +15,14 @@ import android.view.View;
 
 import com.chdryra.android.mygenerallibrary.DialogAlertFragment;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewAdapter;
-import com.chdryra.android.reviewer.ApplicationSingletons.Administrator;
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.View.Configs.ConfigGvDataUi;
 import com.chdryra.android.reviewer.View.Dialogs.DialogGvDataView;
 import com.chdryra.android.reviewer.View.Dialogs.DialogShower;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataPacker;
-import com.chdryra.android.reviewer.View.Launcher.LaunchableUi;
 import com.chdryra.android.reviewer.View.Launcher.LauncherUi;
+import com.chdryra.android.reviewer.View.Launcher.ReviewLauncher;
 
 /**
  * Created by: Rizwan Choudrey
@@ -51,11 +50,6 @@ public class ReviewDataScreen {
         return mReviewView;
     }
 
-    private void startNewScreen(LaunchableUi ui) {
-        LauncherUi.launch(ui, mReviewView.getParent(), REQUEST_CODE,
-                ui.getLaunchTag(), new Bundle());
-    }
-
     private class GridItem extends GridItemExpander {
         private static final String TAG                 = "ReviewViewExpandableGridItemListener";
         private static final int    REQUEST_GOTO_REVIEW = 314;
@@ -71,7 +65,9 @@ public class ReviewDataScreen {
         @Override
         public void onClickExpandable(GvData item, int position, View v, ReviewViewAdapter
                 expanded) {
-            startNewScreen(newScreen(mContext, expanded));
+            ReviewView screen = newScreen(mContext, expanded);
+            LauncherUi.launch(screen, mReviewView.getParent(), REQUEST_CODE,
+                    screen.getLaunchTag(), new Bundle());
         }
 
         @Override
@@ -86,7 +82,7 @@ public class ReviewDataScreen {
 
         @Override
         public void onLongClickNotExpandable(GvData item, int position, View v) {
-
+            onClickNotExpandable(item, position, v);
         }
 
         @Override
@@ -104,9 +100,7 @@ public class ReviewDataScreen {
         private void onDialogAlertPositive(int requestCode, Bundle args) {
             if (requestCode == REQUEST_GOTO_REVIEW) {
                 GvData datum = GvDataPacker.unpackItem(GvDataPacker.CurrentNewDatum.CURRENT, args);
-                LaunchableUi ui = Administrator.get(mContext).getReviewLaunchable(datum
-                        .getReviewId());
-                startNewScreen(ui);
+                ReviewLauncher.launchReview(mContext, mReviewView.getParent(), datum.getReviewId());
             }
         }
 
@@ -125,9 +119,7 @@ public class ReviewDataScreen {
 
             @Override
             public void onGotoReview(GvData datum) {
-                LaunchableUi ui = Administrator.get(mContext).getReviewLaunchable(datum
-                        .getReviewId());
-                startNewScreen(ui);
+                ReviewLauncher.launchReview(mContext, mReviewView.getParent(), datum.getReviewId());
             }
         }
     }
