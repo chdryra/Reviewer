@@ -12,8 +12,10 @@ import android.app.Instrumentation;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.webkit.URLUtil;
 
 import com.chdryra.android.mygenerallibrary.ImageHelper;
+import com.chdryra.android.mygenerallibrary.TextUtils;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilder;
 import com.chdryra.android.reviewer.Model.ReviewData.ReviewIdableList;
 import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
@@ -26,12 +28,15 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvFactList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvLocationList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvTagList;
+import com.chdryra.android.reviewer.View.GvDataModel.GvUrlList;
 import com.google.android.gms.maps.model.LatLng;
 
 import junit.framework.Assert;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -81,7 +86,15 @@ public class TestReviews {
         b.setData();
         b = builder.getDataBuilder(GvFactList.TYPE);
         for (Fact fact : review.mFacts) {
-            b.add(new GvFactList.GvFact(fact.mLabel, fact.mValue));
+            GvFactList.GvFact f = new GvFactList.GvFact(fact.mLabel, fact.mValue);
+            if (fact.mIsUrl) {
+                try {
+                    f = new GvUrlList.GvUrl(fact.mLabel, new URL(fact.mValue));
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                }
+            }
+            b.add(f);
         }
         b.setData();
         b = builder.getDataBuilder(GvLocationList.TYPE);
@@ -128,6 +141,7 @@ public class TestReviews {
         review.mFacts.add(new Fact("Main", "8"));
         review.mFacts.add(new Fact("Desert", "5"));
         review.mFacts.add(new Fact("Drinks", "BYO"));
+        review.mFacts.add(new Fact("Link", "http://www.tayyabs.co.uk/"));
 
         Bitmap image = loadBitmap("tayyabs-14.jpg");
         Assert.assertNotNull(image);
@@ -250,10 +264,16 @@ public class TestReviews {
     private class Fact {
         private String mLabel;
         private String mValue;
+        private boolean mIsUrl = false;
 
         public Fact(String label, String value) {
             mLabel = label;
             mValue = value;
+            ArrayList<String> urls = TextUtils.getLinks(value);
+            if (urls.size() > 0) {
+                mValue = URLUtil.guessUrl(urls.get(0).toLowerCase());
+                mIsUrl = true;
+            }
         }
     }
 

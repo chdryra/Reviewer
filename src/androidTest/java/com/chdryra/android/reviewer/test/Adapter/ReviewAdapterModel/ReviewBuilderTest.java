@@ -231,7 +231,7 @@ public class ReviewBuilderTest extends ActivityInstrumentationTestCase2<Activity
 
         assertEquals(subject, published.getSubject().get());
         assertEquals(rating, published.getRating().get());
-        assertEquals(date, published.getPublishDate());
+        assertEquals(date, published.getPublishDate().getDate());
 
         MdGvEquality.check(published.getComments(), (GvCommentList) comments);
         MdGvEquality.check(published.getFacts(), (GvFactList) facts);

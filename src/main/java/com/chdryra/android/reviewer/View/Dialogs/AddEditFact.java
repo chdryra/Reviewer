@@ -59,13 +59,12 @@ public class AddEditFact extends AddEditLayout<GvFactList.GvFact> {
         getView(LABEL).requestFocus();
     }
 
-    private GvUrlList.GvUrl newUrl(String label, String urlString) {
+    private GvFactList.GvFact newUrl(String label, String urlString) {
         String urlGuess = URLUtil.guessUrl(urlString.toLowerCase());
         try {
             return new GvUrlList.GvUrl(label, new URL(urlGuess));
         } catch (MalformedURLException e) {
-            e.printStackTrace();
-            return null;
+            return new GvFactList.GvFact(label, urlString);
         }
     }
 }

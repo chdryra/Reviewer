@@ -80,6 +80,7 @@ public class GvReviewList extends GvDataList<GvReviewList.GvReviewOverview> {
         return false;
     }
 
+
     /**
      * {@link GvData} version of: {@link Review}
      * {@link ViewHolder): {@link VhFeed }
@@ -229,6 +230,8 @@ public class GvReviewList extends GvDataList<GvReviewList.GvReviewOverview> {
 
         @Override
         public boolean equals(Object o) {
+            //ignoring cover image as randomly chosen so screws up equality when comparing two
+            // generated GvReviewLists...
             if (this == o) return true;
             if (!(o instanceof GvReviewOverview)) return false;
 
@@ -238,10 +241,6 @@ public class GvReviewList extends GvDataList<GvReviewList.GvReviewOverview> {
             if (mId != null ? !mId.equals(that.mId) : that.mId != null) return false;
             if (mSubject != null ? !mSubject.equals(that.mSubject) : that.mSubject != null)
                 return false;
-            if (mCoverImage != null ? !mCoverImage.equals(that.mCoverImage) : that.mCoverImage !=
-                    null) {
-                return false;
-            }
             if (mHeadline != null ? !mHeadline.equals(that.mHeadline) : that.mHeadline != null) {
                 return false;
             }
@@ -261,7 +260,6 @@ public class GvReviewList extends GvDataList<GvReviewList.GvReviewOverview> {
             int result = mId != null ? mId.hashCode() : 0;
             result = 31 * result + (mSubject != null ? mSubject.hashCode() : 0);
             result = 31 * result + (mRating != +0.0f ? Float.floatToIntBits(mRating) : 0);
-            result = 31 * result + (mCoverImage != null ? mCoverImage.hashCode() : 0);
             result = 31 * result + (mHeadline != null ? mHeadline.hashCode() : 0);
             result = 31 * result + (mLocationNames != null ? mLocationNames.hashCode() : 0);
             result = 31 * result + (mAuthor != null ? mAuthor.hashCode() : 0);

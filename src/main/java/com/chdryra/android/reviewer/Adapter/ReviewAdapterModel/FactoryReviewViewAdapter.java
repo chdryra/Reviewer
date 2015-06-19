@@ -29,12 +29,6 @@ public class FactoryReviewViewAdapter {
         return new AdapterReviewNode(node, wrapper);
     }
 
-    public static ReviewViewAdapter newChildListAdapter(Context context, ReviewNode node) {
-        ExpanderChildNode expander = new ExpanderChildNode(context, node);
-        ViewerChildList wrapper = new ViewerChildList(node, expander);
-        return new AdapterReviewNode(node, wrapper);
-    }
-
     public static ReviewViewAdapter newTreeDataAdapter(Context context, ReviewNode node) {
         GridDataViewer wrapper = new ViewerTreeData(context, node);
         return new AdapterReviewNode(node, wrapper);

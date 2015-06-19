@@ -71,7 +71,7 @@ public class AdapterReviewNodeTest extends AndroidTestCase {
             assertEquals(review.getRating().get(), oList.getItem(i).getRating());
             assertEquals(review.getSubject().get(), oList.getItem(i).getSubject());
             assertEquals(review.getAuthor(), oList.getItem(i).getAuthor());
-            assertEquals(review.getPublishDate(), oList.getItem(i).getPublishDate());
+            assertEquals(review.getPublishDate().getDate(), oList.getItem(i).getPublishDate());
         }
     }
 
