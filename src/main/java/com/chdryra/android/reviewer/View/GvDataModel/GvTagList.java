@@ -14,10 +14,7 @@ import android.os.Parcelable;
 import com.chdryra.android.mygenerallibrary.ViewHolder;
 import com.chdryra.android.reviewer.Model.Tagging.TagsManager;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-
-public class GvTagList extends GvDataList<GvTagList.GvTag> {
+public class GvTagList extends GvTextList<GvTagList.GvTag> {
     public static final GvDataType TYPE = new GvDataType("tag");
     public static final Class<GvTag> DATA_CLASS = GvTag.class;
 
@@ -31,26 +28,6 @@ public class GvTagList extends GvDataList<GvTagList.GvTag> {
 
     public GvTagList(GvTagList data) {
         super(data);
-    }
-
-    public ArrayList<String> toStringArray() {
-        ArrayList<String> tags = new ArrayList<>();
-        for (GvTag tag : this) {
-            tags.add(tag.get());
-        }
-
-        return tags;
-    }
-
-    @Override
-    protected Comparator<GvTag> getDefaultComparator() {
-        return new Comparator<GvTag>() {
-
-            @Override
-            public int compare(GvTag lhs, GvTag rhs) {
-                return lhs.get().compareToIgnoreCase(rhs.get());
-            }
-        };
     }
 
     /**
@@ -86,7 +63,7 @@ public class GvTagList extends GvDataList<GvTagList.GvTag> {
         }
 
         public GvTag(GvTag tag) {
-            this(tag.get());
+            this(tag.getReviewId(), tag.get());
         }
 
         GvTag(Parcel in) {

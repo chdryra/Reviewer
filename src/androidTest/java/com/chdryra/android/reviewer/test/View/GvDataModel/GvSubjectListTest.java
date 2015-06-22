@@ -3,7 +3,7 @@
  * Unauthorized copying of this file, via any medium is strictly prohibited
  * Proprietary and confidential
  * Author: Rizwan Choudrey
- * Date: 15 January, 2015
+ * Date: 22 June, 2015
  */
 
 package com.chdryra.android.reviewer.test.View.GvDataModel;
@@ -15,7 +15,8 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvFactList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvLocationList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvTagList;
+import com.chdryra.android.reviewer.View.GvDataModel.GvSubjectList;
+import com.chdryra.android.reviewer.View.GvDataModel.GvText;
 import com.chdryra.android.reviewer.View.GvDataModel.GvUrlList;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataParcelableTester;
@@ -28,60 +29,61 @@ import junit.framework.TestCase;
  * On: 15/01/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class GvTagListTest extends TestCase {
+public class GvSubjectListTest extends TestCase {
     private static final int NUM = 50;
-    private GvTagList mList;
+    private GvSubjectList mList;
 
     @SmallTest
     public void testGetGvType() {
-        assertEquals(GvTagList.TYPE, mList.getGvDataType());
+        assertEquals(GvSubjectList.TYPE, mList.getGvDataType());
     }
 
     @SmallTest
     public void testParcelable() {
-        GvDataParcelableTester.testParcelable(GvDataMocker.newTag(null));
-        GvDataParcelableTester.testParcelable(GvDataMocker.newTag(RandomReviewId.nextGvReviewId()));
-        GvDataParcelableTester.testParcelable(GvDataMocker.newTagList(10, false));
-        GvDataParcelableTester.testParcelable(GvDataMocker.newTagList(10, true));
+        GvDataParcelableTester.testParcelable(GvDataMocker.newSubject(null));
+        GvDataParcelableTester.testParcelable(GvDataMocker.newSubject(RandomReviewId
+                .nextGvReviewId()));
+        GvDataParcelableTester.testParcelable(GvDataMocker.newSubjectList(10, false));
+        GvDataParcelableTester.testParcelable(GvDataMocker.newSubjectList(10, true));
     }
 
     @SmallTest
-    public void testGvTag() {
-        String tag1 = GvDataMocker.newTag(null).get();
-        String tag2 = GvDataMocker.newTag(null).get();
+    public void testGvSubject() {
+        String subject1 = GvDataMocker.newSubject(null).get();
+        String subject2 = GvDataMocker.newSubject(null).get();
 
-        GvTagList.GvTag gvTag = new GvTagList.GvTag(tag1);
-        GvTagList.GvTag gvTagEquals = new GvTagList.GvTag(tag1);
-        GvTagList.GvTag gvTagEquals2 = new GvTagList.GvTag(gvTag);
-        GvTagList.GvTag gvTagNotEquals = new GvTagList.GvTag(tag2);
-        GvTagList.GvTag gvTagNull = new GvTagList.GvTag();
-        GvTagList.GvTag gvTagEmpty = new GvTagList.GvTag("");
+        GvText gvSubject = new GvText(subject1);
+        GvText gvSubjectEquals = new GvText(subject1);
+        GvText gvSubjectEquals2 = new GvText(gvSubject);
+        GvText gvSubjectNotEquals = new GvText(subject2);
+        GvText gvSubjectNull = new GvText();
+        GvText gvSubjectEmpty = new GvText("");
 
-        assertNotNull(gvTag.getViewHolder());
-        assertTrue(gvTag.isValidForDisplay());
+        assertNotNull(gvSubject.getViewHolder());
+        assertTrue(gvSubject.isValidForDisplay());
 
-        assertEquals(tag1, gvTag.get());
+        assertEquals(subject1, gvSubject.get());
 
-        assertTrue(gvTag.equals(gvTagEquals));
-        assertTrue(gvTag.equals(gvTagEquals2));
-        assertFalse(gvTag.equals(gvTagNotEquals));
+        assertTrue(gvSubject.equals(gvSubjectEquals));
+        assertTrue(gvSubject.equals(gvSubjectEquals2));
+        assertFalse(gvSubject.equals(gvSubjectNotEquals));
 
-        assertFalse(gvTagNull.isValidForDisplay());
-        assertFalse(gvTagEmpty.isValidForDisplay());
+        assertFalse(gvSubjectNull.isValidForDisplay());
+        assertFalse(gvSubjectEmpty.isValidForDisplay());
     }
 
     @SmallTest
     public void testComparator() {
         for (int i = 0; i < 50; ++i) {
-            mList.add(GvDataMocker.newTag(null));
+            mList.add(GvDataMocker.newSubject(null));
         }
 
         assertEquals(50, mList.size());
 
         mList.sort();
-        GvTagList.GvTag prev = mList.getItem(0);
+        GvText prev = mList.getItem(0);
         for (int i = 1; i < mList.size(); ++i) {
-            GvTagList.GvTag next = mList.getItem(i);
+            GvText next = mList.getItem(i);
             assertTrue(prev.get().compareToIgnoreCase(next.get()) < 0);
             prev = next;
         }
@@ -89,19 +91,19 @@ public class GvTagListTest extends TestCase {
 
     @SmallTest
     public void testEquals() {
-        mList.addList(GvDataMocker.newTagList(NUM, false));
+        mList.addList(GvDataMocker.newSubjectList(NUM, false));
         assertEquals(NUM, mList.size());
 
         assertFalse(mList.equals(GvDataMocker.getData(GvChildList.TYPE, NUM)));
-        assertFalse(mList.equals(GvDataMocker.getData(GvTagList.TYPE, NUM)));
+        assertFalse(mList.equals(GvDataMocker.getData(GvSubjectList.TYPE, NUM)));
         assertFalse(mList.equals(GvDataMocker.getData(GvLocationList.TYPE, NUM)));
         assertFalse(mList.equals(GvDataMocker.getData(GvCommentList.TYPE, NUM)));
         assertFalse(mList.equals(GvDataMocker.getData(GvFactList.TYPE, NUM)));
         assertFalse(mList.equals(GvDataMocker.getData(GvImageList.TYPE, NUM)));
         assertFalse(mList.equals(GvDataMocker.getData(GvUrlList.TYPE, NUM)));
 
-        GvTagList list = new GvTagList();
-        GvTagList list2 = new GvTagList(mList);
+        GvSubjectList list = new GvSubjectList();
+        GvSubjectList list2 = new GvSubjectList(mList);
         assertEquals(0, list.size());
         for (int i = 0; i < mList.size(); ++i) {
             assertFalse(mList.equals(list));
@@ -119,6 +121,6 @@ public class GvTagListTest extends TestCase {
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        mList = new GvTagList();
+        mList = new GvSubjectList();
     }
 }

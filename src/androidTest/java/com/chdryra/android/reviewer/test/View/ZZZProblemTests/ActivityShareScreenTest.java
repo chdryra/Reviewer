@@ -91,7 +91,7 @@ public class ActivityShareScreenTest extends ActivityReviewViewTest {
         builder.setRating(RandomRating.nextRating());
         builder.setSubject(RandomString.nextWord());
         ReviewBuilder.DataBuilder tagBulder = builder.getDataBuilder(GvTagList.TYPE);
-        for (GvTagList.GvTag tag : GvDataMocker.newTagList(3)) {
+        for (GvTagList.GvTag tag : GvDataMocker.newTagList(3, false)) {
             tagBulder.add(tag);
         }
         tagBulder.setData();

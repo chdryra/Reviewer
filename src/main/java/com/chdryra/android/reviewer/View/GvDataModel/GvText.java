@@ -56,6 +56,10 @@ public class GvText extends VHDString implements GvData {
         mId = in.readParcelable(GvReviewId.class.getClassLoader());
     }
 
+    public GvText(GvText text) {
+        this(text.getReviewId(), text.get());
+    }
+
     @Override
     public GvDataType getGvDataType() {
         return TYPE;

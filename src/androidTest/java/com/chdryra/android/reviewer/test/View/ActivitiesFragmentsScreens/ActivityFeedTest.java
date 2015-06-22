@@ -103,7 +103,7 @@ public class ActivityFeedTest extends
                 builder.setSubject(RandomString.nextWord());
                 builder.setRating(RandomRating.nextRating());
                 ReviewBuilder.DataBuilder dataBuilder = builder.getDataBuilder(GvTagList.TYPE);
-                GvTagList tags = GvDataMocker.newTagList(NUM);
+                GvTagList tags = GvDataMocker.newTagList(NUM, false);
                 for (int j = 0; j < tags.size(); ++j) {
                     dataBuilder.add(tags.getItem(j));
                 }

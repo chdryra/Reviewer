@@ -11,18 +11,23 @@ package com.chdryra.android.reviewer.test.TestUtils;
 import android.graphics.Bitmap;
 
 import com.chdryra.android.reviewer.Model.UserData.Author;
+import com.chdryra.android.reviewer.View.GvDataModel.GvAuthorList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvChildList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
+import com.chdryra.android.reviewer.View.GvDataModel.GvDateList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvFactList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvLocationList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvReviewId;
 import com.chdryra.android.reviewer.View.GvDataModel.GvReviewList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvSocialPlatformList;
+import com.chdryra.android.reviewer.View.GvDataModel.GvSubjectList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvTagList;
+import com.chdryra.android.reviewer.View.GvDataModel.GvText;
+import com.chdryra.android.reviewer.View.GvDataModel.GvTextList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvUrlList;
 import com.chdryra.android.testutils.BitmapMocker;
 import com.chdryra.android.testutils.RandomDate;
@@ -65,11 +70,15 @@ public class GvDataMocker {
         } else if (dataType == GvUrlList.TYPE) {
             return newUrlList(size, withId);
         } else if (dataType == GvTagList.TYPE) {
-            return newTagList(size);
+            return newTagList(size, withId);
         } else if (dataType == GvChildList.TYPE) {
             return newChildList(size, withId);
         } else if (dataType == GvReviewList.TYPE) {
             return newReviewList(size, withId);
+        } else if (dataType == GvAuthorList.TYPE) {
+            return newAuthorList(size, withId);
+        } else if (dataType == GvSubjectList.TYPE) {
+            return newSubjectList(size, withId);
         } else {
             return null;
         }
@@ -92,11 +101,15 @@ public class GvDataMocker {
         } else if (dataType == GvUrlList.TYPE) {
             return newUrl(getId(withId));
         } else if (dataType == GvTagList.TYPE) {
-            return newTag();
+            return newTag(getId(withId));
         } else if (dataType == GvChildList.TYPE) {
             return newChild(getId(withId));
         } else if (dataType == GvReviewList.TYPE) {
             return newReviewOverview(getId(withId));
+        } else if (dataType == GvAuthorList.TYPE) {
+            return newAuthor(getId(withId));
+        } else if (dataType == GvSubjectList.TYPE) {
+            return newSubject(getId(withId));
         } else {
             return null;
         }
@@ -156,10 +169,11 @@ public class GvDataMocker {
         return list;
     }
 
-    public static GvTagList newTagList(int size) {
-        GvTagList list = new GvTagList();
+    public static GvTagList newTagList(int size, boolean withId) {
+        GvReviewId id = getId(withId);
+        GvTagList list = new GvTagList(id);
         for (int i = 0; i < size; ++i) {
-            list.add(newTag());
+            list.add(newTag(id));
         }
 
         return list;
@@ -180,6 +194,36 @@ public class GvDataMocker {
         GvReviewList list = new GvReviewList(id);
         for (int i = 0; i < size; ++i) {
             list.add(newReviewOverview(id));
+        }
+
+        return list;
+    }
+
+    public static GvAuthorList newAuthorList(int size, boolean withId) {
+        GvReviewId id = getId(withId);
+        GvAuthorList list = new GvAuthorList(id);
+        for (int i = 0; i < size; ++i) {
+            list.add(newAuthor(id));
+        }
+
+        return list;
+    }
+
+    public static GvSubjectList newSubjectList(int size, boolean withId) {
+        GvReviewId id = getId(withId);
+        GvSubjectList list = new GvSubjectList(id);
+        for (int i = 0; i < size; ++i) {
+            list.add(newSubject(id));
+        }
+
+        return list;
+    }
+
+    public static GvTextList<GvText> newTextList(int size, boolean withId) {
+        GvReviewId id = getId(withId);
+        GvTextList<GvText> list = new GvTextList<>(id, GvText.class, GvText.TYPE);
+        for (int i = 0; i < size; ++i) {
+            list.add(newText(id));
         }
 
         return list;
@@ -235,8 +279,25 @@ public class GvDataMocker {
         return new GvChildList.GvChildReview(id, subject, rating);
     }
 
-    public static GvTagList.GvTag newTag() {
-        return new GvTagList.GvTag(RandomString.nextWord());
+    public static GvTagList.GvTag newTag(GvReviewId id) {
+        return new GvTagList.GvTag(id, RandomString.nextWord());
+    }
+
+    public static GvText newText(GvReviewId id) {
+        return new GvText(id, RandomString.nextWord());
+    }
+
+    public static GvSubjectList.GvSubject newSubject(GvReviewId id) {
+        return new GvSubjectList.GvSubject(id, RandomString.nextWord());
+    }
+
+    public static GvAuthorList.GvAuthor newAuthor(GvReviewId id) {
+        Author author = RandomAuthor.nextAuthor();
+        return new GvAuthorList.GvAuthor(id, author.getName(), author.getUserId().toString());
+    }
+
+    public static GvDateList.GvDate newDate() {
+        return new GvDateList.GvDate(RandomDate.nextDate());
     }
 
     public static GvReviewList.GvReviewOverview newReviewOverview(GvReviewId parentId) {

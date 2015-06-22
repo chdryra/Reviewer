@@ -33,7 +33,7 @@ public class ExpanderGridCellTest extends AndroidTestCase {
     @SmallTest
     public void testExpandItem() {
         ReviewNode node = ReviewMocker.newReviewNode(false);
-        GvTagList tags = GvDataMocker.newTagList(3);
+        GvTagList tags = GvDataMocker.newTagList(3, false);
         TagsManager.tag(node.getId(), tags.toStringArray());
         ReviewViewAdapter parent = FactoryReviewViewAdapter.newTreeDataAdapter(mContext,
                 node);

@@ -96,6 +96,18 @@ public class GvDataList<T extends GvData> extends ViewHolderDataList<T> implemen
         return size() > 0;
     }
 
+    @Override
+    public void add(T item) {
+        if (item.getGvDataType() == mType) {
+            super.add(item);
+        } else {
+            String wrong = item.getGvDataType().getDatumName();
+            String right = mType.getDatumName();
+            String message = "Type mismatch! Item is: " + wrong + ", should be: " + right;
+            throw new IllegalArgumentException(message);
+        }
+    }
+
     public boolean contains(GvData datum) {
         try {
             return super.contains(mDataClass.cast(datum));

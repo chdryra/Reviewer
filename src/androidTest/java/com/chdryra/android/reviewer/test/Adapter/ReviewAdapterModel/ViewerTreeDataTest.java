@@ -38,7 +38,7 @@ public class ViewerTreeDataTest extends AndroidTestCase {
     @SmallTest
     public void testGetGridDataMeta() {
         ReviewNode node = ReviewMocker.newReviewNode(false);
-        GvTagList tags = GvDataMocker.newTagList(3);
+        GvTagList tags = GvDataMocker.newTagList(3, false);
         TagsManager.tag(node.getId(), tags.toStringArray());
 
         ViewerTreeData wrapper = new ViewerTreeData(getContext(), node);
@@ -72,7 +72,7 @@ public class ViewerTreeDataTest extends AndroidTestCase {
     public void testGetGridDataReview() {
         ReviewNode unwrapped = ReviewMocker.newReviewNode(false);
         ReviewNode node = FactoryReview.createReviewNode(unwrapped);
-        GvTagList tags = GvDataMocker.newTagList(3);
+        GvTagList tags = GvDataMocker.newTagList(3, false);
         TagsManager.tag(node.getId(), tags.toStringArray());
 
         ViewerTreeData wrapper = new ViewerTreeData(getContext(), node);

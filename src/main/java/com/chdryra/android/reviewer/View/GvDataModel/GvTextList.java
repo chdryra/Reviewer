@@ -8,23 +8,48 @@
 
 package com.chdryra.android.reviewer.View.GvDataModel;
 
+import java.util.ArrayList;
+import java.util.Comparator;
+
 /**
  * Created by: Rizwan Choudrey
  * On: 10/06/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class GvTextList extends GvDataList<GvText> {
-    private static final Class<GvText> DATA_CLASS = GvText.class;
-
-    public GvTextList(GvDataType type) {
-        super(null, DATA_CLASS, type);
+public class GvTextList<T extends GvText> extends GvDataList<T> {
+    public GvTextList(Class<T> dataClass, GvDataType type) {
+        super(null, dataClass, type);
     }
 
-    public GvTextList(GvReviewId id, GvDataType type) {
-        super(id, GvText.class, type);
+    public GvTextList(GvReviewId id, Class<T> dataClass, GvDataType type) {
+        super(id, dataClass, type);
     }
 
-    public GvTextList(GvTextList data) {
+    public GvTextList(GvTextList<T> data) {
         super(data);
+    }
+
+    public static GvTextList<GvText> newTextList() {
+        return new GvTextList<>(GvText.class, GvText.TYPE);
+    }
+
+    public ArrayList<String> toStringArray() {
+        ArrayList<String> strings = new ArrayList<>();
+        for (T tag : this) {
+            strings.add(tag.get());
+        }
+
+        return strings;
+    }
+
+    @Override
+    protected Comparator<T> getDefaultComparator() {
+        return new Comparator<T>() {
+
+            @Override
+            public int compare(T lhs, T rhs) {
+                return lhs.get().compareToIgnoreCase(rhs.get());
+            }
+        };
     }
 }

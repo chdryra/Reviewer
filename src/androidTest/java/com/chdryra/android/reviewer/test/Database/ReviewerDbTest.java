@@ -247,7 +247,7 @@ public class ReviewerDbTest extends AndroidTestCase {
     @SmallTest
     public void testAddMultipleTrees() {
         int numTags = 5;
-        GvTagList tags = GvDataMocker.newTagList(numTags);
+        GvTagList tags = GvDataMocker.newTagList(numTags, false);
         GvTagList tags1 = new GvTagList();
         GvTagList tags2 = new GvTagList();
         GvTagList tags3 = new GvTagList();
@@ -354,7 +354,7 @@ public class ReviewerDbTest extends AndroidTestCase {
     @SmallTest
     public void testDeleteReviewTreeFromDb() {
         int numTags = 5;
-        GvTagList tags = GvDataMocker.newTagList(numTags);
+        GvTagList tags = GvDataMocker.newTagList(numTags, false);
         GvTagList tags1 = new GvTagList();
         GvTagList tags2 = new GvTagList();
         GvTagList tags3 = new GvTagList();
@@ -522,7 +522,7 @@ public class ReviewerDbTest extends AndroidTestCase {
 
     private Map<String, ArrayList<String>> tagAndTestNodes() {
         int numTags = 5;
-        GvTagList tags = GvDataMocker.newTagList(numTags);
+        GvTagList tags = GvDataMocker.newTagList(numTags, false);
         Map<String, ArrayList<String>> tagsMap = newTagsMap(tags);
 
         ReviewNode parent = mNode.getParent();
