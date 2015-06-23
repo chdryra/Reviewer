@@ -134,6 +134,10 @@ public class GvChildListTest extends TestCase {
         float rating1 = review1.getRating();
         String subject2 = review2.getSubject();
         float rating2 = review2.getRating();
+        while (rating1 == rating2) {
+            review2 = GvDataMocker.newChild(null);
+            rating2 = review2.getRating();
+        }
 
         GvChildList.GvChildReview gvChild = new GvChildList.GvChildReview(subject1, rating1);
         GvChildList.GvChildReview gvChildEquals = new GvChildList.GvChildReview(subject1,

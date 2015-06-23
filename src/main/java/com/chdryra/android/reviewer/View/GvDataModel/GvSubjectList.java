@@ -17,15 +17,14 @@ import android.os.Parcelable;
  * Email: rizwan.choudrey@gmail.com
  */
 public class GvSubjectList extends GvTextList<GvSubjectList.GvSubject> {
-    public static final GvDataType TYPE = new GvDataType("subject");
-    public static final Class<GvSubject> DATA_CLASS = GvSubject.class;
+    public static final GvDataType<GvSubject> TYPE = new GvDataType<>(GvSubject.class, "subject");
 
     public GvSubjectList() {
-        super(DATA_CLASS, TYPE);
+        super(TYPE);
     }
 
     public GvSubjectList(GvReviewId id) {
-        super(id, DATA_CLASS, TYPE);
+        super(id, TYPE);
     }
 
     public GvSubjectList(GvSubjectList data) {
@@ -65,7 +64,7 @@ public class GvSubjectList extends GvTextList<GvSubjectList.GvSubject> {
         }
 
         @Override
-        public GvDataType getGvDataType() {
+        public GvDataType<GvSubject> getGvDataType() {
             return GvSubjectList.TYPE;
         }
     }

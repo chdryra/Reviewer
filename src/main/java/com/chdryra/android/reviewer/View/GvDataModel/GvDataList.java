@@ -39,20 +39,18 @@ public class GvDataList<T extends GvData> extends ViewHolderDataList<T> implemen
         }
     };
 
-    private final GvDataType mType;
-    private final Class<T>   mDataClass;
+    private final GvDataType<T> mType;
     private       GvReviewId mReviewId;
 
     //Copy constructor
     public GvDataList(GvReviewId reviewId, GvDataList<T> data) {
-        this(reviewId, data.mDataClass, data.getGvDataType());
+        this(reviewId, data.getGvDataType());
         for (T datum : data) {
-            add(FactoryGvData.copy(datum, mDataClass));
+            add(FactoryGvData.copy(datum));
         }
     }
 
-    public GvDataList(GvReviewId reviewId, Class<T> dataClass, GvDataType mDataType) {
-        mDataClass = dataClass;
+    public GvDataList(GvReviewId reviewId, GvDataType<T> mDataType) {
         mType = mDataType;
         mReviewId = reviewId;
     }
@@ -63,19 +61,14 @@ public class GvDataList<T extends GvData> extends ViewHolderDataList<T> implemen
 
     //TODO make type safe
     public GvDataList(Parcel in) {
-        mDataClass = (Class<T>) in.readValue(Class.class.getClassLoader());
-        mType = (GvDataType) in.readSerializable();
-        T[] data = (T[]) in.readParcelableArray(mDataClass.getClassLoader());
+        mType = in.readParcelable(GvDataType.class.getClassLoader());
+        T[] data = (T[]) in.readParcelableArray(mType.getDataClass().getClassLoader());
         mData = new ArrayList<>(Arrays.asList(data));
         mReviewId = in.readParcelable(GvReviewId.class.getClassLoader());
     }
 
-    public Class<T> getDataClass() {
-        return mDataClass;
-    }
-
     @Override
-    public GvDataType getGvDataType() {
+    public GvDataType<T> getGvDataType() {
         return mType;
     }
 
@@ -97,20 +90,13 @@ public class GvDataList<T extends GvData> extends ViewHolderDataList<T> implemen
     }
 
     @Override
-    public void add(T item) {
-        if (item.getGvDataType() == mType) {
-            super.add(item);
-        } else {
-            String wrong = item.getGvDataType().getDatumName();
-            String right = mType.getDatumName();
-            String message = "Type mismatch! Item is: " + wrong + ", should be: " + right;
-            throw new IllegalArgumentException(message);
-        }
+    public boolean isList() {
+        return true;
     }
 
     public boolean contains(GvData datum) {
         try {
-            return super.contains(mDataClass.cast(datum));
+            return super.contains(mType.getDataClass().cast(datum));
         } catch (ClassCastException e) {
             return false;
         }
@@ -123,8 +109,7 @@ public class GvDataList<T extends GvData> extends ViewHolderDataList<T> implemen
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeValue(mDataClass);
-        dest.writeSerializable(mType);
+        dest.writeParcelable(mType, flags);
         dest.writeParcelableArray((T[]) mData.toArray(), flags);
         dest.writeParcelable(mReviewId, flags);
     }
@@ -144,9 +129,10 @@ public class GvDataList<T extends GvData> extends ViewHolderDataList<T> implemen
         if (this == o) return true;
         if (!(o instanceof GvDataList)) return false;
 
-        GvDataList that = (GvDataList) o;
+        GvDataList<?> that = (GvDataList<?>) o;
 
-        if (!mDataClass.equals(that.mDataClass)) return false;
+        if (!mType.equals(that.mType)) return false;
+
         if (mReviewId != null ? !mReviewId.equals(that.mReviewId) : that.mReviewId != null) {
             return false;
         }
@@ -163,12 +149,7 @@ public class GvDataList<T extends GvData> extends ViewHolderDataList<T> implemen
     @Override
     public int hashCode() {
         int result = mType.hashCode();
-        result = 31 * result + mDataClass.hashCode();
         result = 31 * result + (mReviewId != null ? mReviewId.hashCode() : 0);
-        for (T datum : this) {
-            result = 31 * result + datum.hashCode();
-        }
-
         return result;
     }
 }

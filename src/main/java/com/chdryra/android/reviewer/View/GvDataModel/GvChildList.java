@@ -21,15 +21,15 @@ import java.util.Comparator;
  * Used for review children (sub-reviews).
  */
 public class GvChildList extends GvDataList<GvChildList.GvChildReview> {
-    public static final GvDataType TYPE = new GvDataType("criterion", "criteria");
-    public static final Class<GvChildReview> DATA_CLASS = GvChildReview.class;
+    public static final GvDataType<GvChildReview> TYPE = new GvDataType<>(GvChildReview.class,
+            "criterion", "criteria");
 
     public GvChildList() {
-        super(null, DATA_CLASS, TYPE);
+        super(null, TYPE);
     }
 
     public GvChildList(GvReviewId id) {
-        super(id, GvChildReview.class, TYPE);
+        super(id, TYPE);
     }
 
     public GvChildList(GvChildList data) {
@@ -79,7 +79,7 @@ public class GvChildList extends GvDataList<GvChildList.GvChildReview> {
      * for review children (sub-reviews).
      * {@link ViewHolder}: {@link VhChild}
      */
-    public static class GvChildReview extends GvDataBasic {
+    public static class GvChildReview extends GvDataBasic<GvChildReview> {
         public static final Parcelable.Creator<GvChildReview> CREATOR = new Parcelable
                 .Creator<GvChildReview>() {
             public GvChildReview createFromParcel(Parcel in) {

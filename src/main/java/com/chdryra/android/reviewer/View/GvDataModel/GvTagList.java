@@ -15,15 +15,14 @@ import com.chdryra.android.mygenerallibrary.ViewHolder;
 import com.chdryra.android.reviewer.Model.Tagging.TagsManager;
 
 public class GvTagList extends GvTextList<GvTagList.GvTag> {
-    public static final GvDataType TYPE = new GvDataType("tag");
-    public static final Class<GvTag> DATA_CLASS = GvTag.class;
+    public static final GvDataType<GvTag> TYPE = new GvDataType<>(GvTag.class, "tag");
 
     public GvTagList() {
-        super(null, DATA_CLASS, TYPE);
+        super(null, TYPE);
     }
 
     public GvTagList(GvReviewId id) {
-        super(id, DATA_CLASS, TYPE);
+        super(id, TYPE);
     }
 
     public GvTagList(GvTagList data) {
@@ -71,7 +70,7 @@ public class GvTagList extends GvTextList<GvTagList.GvTag> {
         }
 
         @Override
-        public GvDataType getGvDataType() {
+        public GvDataType<GvTag> getGvDataType() {
             return GvTagList.TYPE;
         }
 

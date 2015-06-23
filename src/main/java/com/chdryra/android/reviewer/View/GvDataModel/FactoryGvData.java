@@ -94,9 +94,10 @@ public class FactoryGvData {
         }
     }
 
-    public static <T extends GvData> T copy(T datum, Class<T> dataClass) {
+    public static <T extends GvData> T copy(T datum) {
+        Class<T> dataClass = (Class<T>) datum.getClass();
         try {
-            Constructor<T> ctor = dataClass.getConstructor(dataClass);
+            Constructor<T> ctor = dataClass.getConstructor(datum.getClass());
             return ctor.newInstance(datum);
         } catch (NoSuchMethodException e) {
             throw new RuntimeException(NO_CTOR_ERR + dataClass.getName());

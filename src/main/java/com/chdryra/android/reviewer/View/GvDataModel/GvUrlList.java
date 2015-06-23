@@ -18,16 +18,15 @@ import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
 import java.net.URL;
 
 public class GvUrlList extends GvDataList<GvUrlList.GvUrl> {
-    public static final GvDataType TYPE = new GvDataType("link");
-    public static final Class<GvUrl> DATA_CLASS = GvUrl.class;
+    public static final GvDataType<GvUrl> TYPE = new GvDataType<>(GvUrl.class, "link");
 
     public GvUrlList() {
-        super(null, DATA_CLASS, TYPE);
+        super(null, TYPE);
     }
 
 
     public GvUrlList(GvReviewId id) {
-        super(id, DATA_CLASS, TYPE);
+        super(id, TYPE);
     }
 
     public GvUrlList(GvUrlList data) {
@@ -79,7 +78,7 @@ public class GvUrlList extends GvDataList<GvUrlList.GvUrl> {
         }
 
         @Override
-        public GvDataType getGvDataType() {
+        public GvDataType<GvUrl> getGvDataType() {
             return GvUrlList.TYPE;
         }
 

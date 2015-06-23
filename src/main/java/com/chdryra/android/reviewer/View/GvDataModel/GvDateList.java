@@ -24,15 +24,14 @@ import java.util.Date;
  * Email: rizwan.choudrey@gmail.com
  */
 public class GvDateList extends GvDataList<GvDateList.GvDate> {
-    public static final GvDataType    TYPE       = new GvDataType("date");
-    public static final Class<GvDate> DATA_CLASS = GvDate.class;
+    public static final GvDataType<GvDate> TYPE = new GvDataType<>(GvDate.class, "date");
 
     public GvDateList() {
-        super(null, DATA_CLASS, TYPE);
+        super(null, TYPE);
     }
 
     public GvDateList(GvReviewId id) {
-        super(id, DATA_CLASS, TYPE);
+        super(id, TYPE);
     }
 
     public GvDateList(GvDateList data) {
@@ -58,7 +57,7 @@ public class GvDateList extends GvDataList<GvDateList.GvDate> {
      * Ignores case when comparing dates.
      * </p>
      */
-    public static class GvDate extends GvDataBasic {
+    public static class GvDate extends GvDataBasic<GvDate> {
         public static final Parcelable.Creator<GvDate> CREATOR = new Parcelable
                 .Creator<GvDate>() {
             public GvDate createFromParcel(Parcel in) {
@@ -91,11 +90,6 @@ public class GvDateList extends GvDataList<GvDateList.GvDate> {
         GvDate(Parcel in) {
             super(in);
             mDate = (Date) in.readSerializable();
-        }
-
-        @Override
-        public GvDataType getGvDataType() {
-            return GvDateList.TYPE;
         }
 
         @Override

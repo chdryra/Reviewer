@@ -20,7 +20,8 @@ import com.chdryra.android.reviewer.Model.ReviewData.ReviewId;
  * Email: rizwan.choudrey@gmail.com
  */
 public class GvReviewId implements GvData {
-    public static final GvDataType TYPE = new GvDataType("ReviewId");
+    public static final GvDataType<GvReviewId> TYPE = new GvDataType<>(GvReviewId.class,
+            "ReviewId");
 
     public static final Parcelable.Creator<GvReviewId> CREATOR = new Parcelable
             .Creator<GvReviewId>() {
@@ -55,7 +56,7 @@ public class GvReviewId implements GvData {
     }
 
     @Override
-    public GvDataType getGvDataType() {
+    public GvDataType<GvReviewId> getGvDataType() {
         return TYPE;
     }
 
@@ -71,6 +72,11 @@ public class GvReviewId implements GvData {
 
     @Override
     public boolean hasElements() {
+        return false;
+    }
+
+    @Override
+    public boolean isList() {
         return false;
     }
 

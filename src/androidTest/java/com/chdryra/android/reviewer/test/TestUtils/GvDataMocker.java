@@ -221,7 +221,7 @@ public class GvDataMocker {
 
     public static GvTextList<GvText> newTextList(int size, boolean withId) {
         GvReviewId id = getId(withId);
-        GvTextList<GvText> list = new GvTextList<>(id, GvText.class, GvText.TYPE);
+        GvTextList<GvText> list = GvTextList.newTextList();
         for (int i = 0; i < size; ++i) {
             list.add(newText(id));
         }

@@ -27,12 +27,12 @@ import java.util.Comparator;
  * @see SocialPlatformList
  */
 public class GvSocialPlatformList extends GvDataList<GvSocialPlatformList.GvSocialPlatform> {
-    public static final GvDataType TYPE = new GvDataType("share");
-    public static final Class<GvSocialPlatform> DATA_CLASS = GvSocialPlatform.class;
+    public static final GvDataType<GvSocialPlatform> TYPE = new GvDataType<>(GvSocialPlatform
+            .class, "share", "share");
 
     //For testing
     public GvSocialPlatformList() {
-        super(null, DATA_CLASS, TYPE);
+        super(null, TYPE);
     }
 
     private GvSocialPlatformList(Context context) {
@@ -95,8 +95,8 @@ public class GvSocialPlatformList extends GvDataList<GvSocialPlatformList.GvSoci
         }
 
         @Override
-        public GvDataType getGvDataType() {
-            return TYPE;
+        public GvDataType<GvSocialPlatform> getGvDataType() {
+            return GvSocialPlatformList.TYPE;
         }
 
         @Override

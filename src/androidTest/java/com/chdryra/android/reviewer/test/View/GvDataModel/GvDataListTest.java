@@ -73,7 +73,7 @@ public class GvDataListTest extends TestCase {
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        mList = new GvDataList<>(null, GvCommentList.GvComment.class, GvCommentList.TYPE);
+        mList = new GvDataList<>(null, GvCommentList.TYPE);
     }
 
     private void testAdd(GvReviewId id, GvDataList<GvCommentList.GvComment> list) {

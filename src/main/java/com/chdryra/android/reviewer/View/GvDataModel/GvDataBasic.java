@@ -15,26 +15,26 @@ import android.os.Parcel;
  * On: 25/03/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public abstract class GvDataBasic implements GvData {
-    private GvDataType mType;
+public abstract class GvDataBasic<T extends GvData> implements GvData {
+    private GvDataType<T> mType;
     private GvReviewId mReviewId;
 
-    protected GvDataBasic(GvDataType type) {
+    protected GvDataBasic(GvDataType<T> type) {
         mType = type;
     }
 
-    protected GvDataBasic(GvDataType type, GvReviewId reviewId) {
+    protected GvDataBasic(GvDataType<T> type, GvReviewId reviewId) {
         mType = type;
         mReviewId = reviewId;
     }
 
     public GvDataBasic(Parcel in) {
-        mType = (GvDataType) in.readSerializable();
+        mType = in.readParcelable(GvDataType.class.getClassLoader());
         mReviewId = in.readParcelable(GvReviewId.class.getClassLoader());
     }
 
     @Override
-    public GvDataType getGvDataType() {
+    public GvDataType<T> getGvDataType() {
         return mType;
     }
 
@@ -49,13 +49,18 @@ public abstract class GvDataBasic implements GvData {
     }
 
     @Override
+    public boolean isList() {
+        return false;
+    }
+
+    @Override
     public int describeContents() {
         return 0;
     }
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeSerializable(mType);
+        parcel.writeParcelable(mType, i);
         parcel.writeParcelable(mReviewId, i);
     }
 }

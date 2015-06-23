@@ -14,7 +14,6 @@ import android.os.Parcelable;
 import com.chdryra.android.mygenerallibrary.ViewHolder;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
 
-import java.util.ArrayList;
 import java.util.Comparator;
 
 /**
@@ -23,28 +22,18 @@ import java.util.Comparator;
  * Email: rizwan.choudrey@gmail.com
  */
 public class GvAuthorList extends GvDataList<GvAuthorList.GvAuthor> {
-    public static final GvDataType      TYPE       = new GvDataType("author");
-    public static final Class<GvAuthor> DATA_CLASS = GvAuthor.class;
+    public static final GvDataType<GvAuthor> TYPE = new GvDataType<>(GvAuthor.class, "author");
 
     public GvAuthorList() {
-        super(null, DATA_CLASS, TYPE);
+        super(null, TYPE);
     }
 
     public GvAuthorList(GvReviewId id) {
-        super(id, DATA_CLASS, TYPE);
+        super(id, TYPE);
     }
 
     public GvAuthorList(GvAuthorList data) {
         super(data);
-    }
-
-    public ArrayList<String> toStringArray() {
-        ArrayList<String> authors = new ArrayList<>();
-        for (GvAuthor author : this) {
-            authors.add(author.getName());
-        }
-
-        return authors;
     }
 
     @Override
@@ -66,7 +55,7 @@ public class GvAuthorList extends GvDataList<GvAuthorList.GvAuthor> {
      * Ignores case when comparing authors.
      * </p>
      */
-    public static class GvAuthor extends GvDataBasic {
+    public static class GvAuthor extends GvDataBasic<GvAuthor> {
         public static final Parcelable.Creator<GvAuthor> CREATOR = new Parcelable
                 .Creator<GvAuthor>() {
             public GvAuthor createFromParcel(Parcel in) {
@@ -102,11 +91,6 @@ public class GvAuthorList extends GvDataList<GvAuthorList.GvAuthor> {
             super(in);
             mName = in.readString();
             mUserId = in.readString();
-        }
-
-        @Override
-        public GvDataType getGvDataType() {
-            return GvAuthorList.TYPE;
         }
 
         @Override

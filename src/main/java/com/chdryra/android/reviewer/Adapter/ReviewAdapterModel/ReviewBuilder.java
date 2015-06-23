@@ -127,8 +127,9 @@ public class ReviewBuilder extends ReviewViewAdapterBasic {
         }
     }
 
-    public DataBuilder<? extends GvData> getDataBuilder(GvDataType dataType) {
-        return mDataBuilders.get(dataType);
+    //TODO make type safe
+    public <T extends GvData> DataBuilder<T> getDataBuilder(GvDataType<T> dataType) {
+        return (DataBuilder<T>) mDataBuilders.get(dataType);
     }
 
     public void resetDataBuilder(GvDataType dataType) {
@@ -286,7 +287,7 @@ public class ReviewBuilder extends ReviewViewAdapterBasic {
         }
 
         @Override
-        public GvDataList getGridData() {
+        public GvDataList<T> getGridData() {
             return mData;
         }
 

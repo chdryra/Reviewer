@@ -14,15 +14,15 @@ package com.chdryra.android.reviewer.View.GvDataModel;
  * Email: rizwan.choudrey@gmail.com
  */
 public class GvDataCollection extends GvDataList<GvDataList> {
-    public static final GvDataType        TYPE       = new GvDataType("ReviewDataCollection");
-    public static final Class<GvDataList> DATA_CLASS = GvDataList.class;
+    public static final GvDataType<GvDataList> TYPE = new GvDataType<>(GvDataList
+            .class, "ReviewDataCollection");
 
     public GvDataCollection() {
-        super(null, DATA_CLASS, TYPE);
+        super(null, TYPE);
     }
 
     public GvDataCollection(GvReviewId id) {
-        super(id, DATA_CLASS, TYPE);
+        super(id, TYPE);
     }
 
     public GvDataCollection(GvDataCollection data) {

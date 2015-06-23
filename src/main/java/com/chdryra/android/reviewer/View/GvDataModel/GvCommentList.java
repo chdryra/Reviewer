@@ -22,15 +22,14 @@ import java.util.Comparator;
  * Includes method for generating split comments {@link GvCommentList} from current list.
  */
 public class GvCommentList extends GvDataList<GvCommentList.GvComment> {
-    public static final GvDataType TYPE = new GvDataType("comment");
-    public static final Class<GvComment> DATA_CLASS = GvComment.class;
+    public static final GvDataType<GvComment> TYPE = new GvDataType<>(GvComment.class, "comment");
 
     public GvCommentList() {
-        super(null, DATA_CLASS, TYPE);
+        super(null, TYPE);
     }
 
     public GvCommentList(GvReviewId id) {
-        super(id, DATA_CLASS, TYPE);
+        super(id, TYPE);
     }
 
     public GvCommentList(GvCommentList data) {
@@ -88,7 +87,7 @@ public class GvCommentList extends GvDataList<GvCommentList.GvComment> {
      * Methods for getting the comment headline and for splitting and unsplitting comments.
      * </p>
      */
-    public static class GvComment extends GvDataBasic implements DataComment {
+    public static class GvComment extends GvDataBasic<GvComment> implements DataComment {
         public static final Parcelable.Creator<GvComment> CREATOR = new Parcelable
                 .Creator<GvComment>() {
             public GvComment createFromParcel(Parcel in) {

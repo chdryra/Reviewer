@@ -167,12 +167,14 @@ public class GvReviewListTest extends TestCase {
         Date date2 = review2.getPublishDate();
         String subject2 = review2.getSubject();
         float rating2 = review2.getRating();
-        Bitmap image2 = review2.getCoverImage();
         String headline2 = review2.getHeadline();
         String location2 = review2.getLocationString();
 
         ArrayList<String> locations = new ArrayList<>();
+        ArrayList<String> locations2 = new ArrayList<>();
         locations.add(location1);
+        locations2.add(location1);
+        locations2.add(location2);
         GvReviewList.GvReviewOverview gvReview = new GvReviewList.GvReviewOverview(id1, author1,
                 date1, subject1, rating1, image1, headline1, locations);
         GvReviewList.GvReviewOverview gvReviewEquals = new GvReviewList.GvReviewOverview(id1,
@@ -188,15 +190,12 @@ public class GvReviewListTest extends TestCase {
         GvReviewList.GvReviewOverview gvReviewNotEquals3 = new GvReviewList.GvReviewOverview(id1,
                 author1, date1,
                 subject1, rating2, image1, headline1, locations);
-        GvReviewList.GvReviewOverview gvReviewNotEquals4 = new GvReviewList.GvReviewOverview(id1,
-                author1, date1,
-                subject1, rating1, image2, headline1, locations);
         GvReviewList.GvReviewOverview gvReviewNotEquals5 = new GvReviewList.GvReviewOverview(id1,
                 author1, date1,
                 subject1, rating1, image1, headline2, locations);
         GvReviewList.GvReviewOverview gvReviewNotEquals6 = new GvReviewList.GvReviewOverview(id1,
                 author1, date1,
-                subject1, rating1, image1, headline1, locations);
+                subject1, rating1, image1, headline1, locations2);
         GvReviewList.GvReviewOverview gvReviewNotEquals7 = new GvReviewList.GvReviewOverview(id1,
                 author2, date1,
                 subject1, rating1, image1, headline1, locations);
@@ -238,7 +237,6 @@ public class GvReviewListTest extends TestCase {
         assertFalse(gvReview.equals(gvReviewNotEquals1));
         assertFalse(gvReview.equals(gvReviewNotEquals2));
         assertFalse(gvReview.equals(gvReviewNotEquals3));
-        assertFalse(gvReview.equals(gvReviewNotEquals4));
         assertFalse(gvReview.equals(gvReviewNotEquals5));
         assertFalse(gvReview.equals(gvReviewNotEquals6));
         assertFalse(gvReview.equals(gvReviewNotEquals7));

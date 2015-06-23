@@ -246,7 +246,7 @@ public class ReviewBuilderTest extends ActivityInstrumentationTestCase2<Activity
         }
 
         ReviewIdableList<ReviewNode> childNodes = published.getChildren();
-        assertEquals(children.size(), childNodes.size());
+        assertEquals(children.size(), childNodes.size()); //works in debug but not normal run?
         for (int i = 0; i < children.size(); ++i) {
             ReviewNode childNode = childNodes.getItem(i);
             GvChildList.GvChildReview child = (GvChildList.GvChildReview) children.getItem(i);

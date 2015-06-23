@@ -33,7 +33,6 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvLocationList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvReviewId;
 import com.chdryra.android.reviewer.View.GvDataModel.GvSubjectList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvTagList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvText;
 import com.chdryra.android.reviewer.View.GvDataModel.GvTextList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvUrlList;
 
@@ -236,7 +235,8 @@ public class MdGvConverter {
         GvSubjectList list = new GvSubjectList(id);
         ChildDataGetter getter = new ChildDataGetter(node);
         for (MdSubject subject : getter.getSubjects()) {
-            list.add(new GvText(GvReviewId.getId(subject.getReviewId().toString()), subject.get()));
+            list.add(new GvSubjectList.GvSubject(GvReviewId.getId(subject.getReviewId().toString()),
+                    subject.get()));
         }
 
         return list;
@@ -269,7 +269,7 @@ public class MdGvConverter {
 
     public static GvDataList<GvReviewId> convert(MdDataList<ReviewId> reviewIds) {
         GvDataList<GvReviewId> ids = new GvDataList<>(convert(reviewIds.getReviewId()),
-                GvReviewId.class, GvReviewId.TYPE);
+                GvReviewId.TYPE);
         for (ReviewId id : reviewIds) {
             ids.add(convert(id));
         }
