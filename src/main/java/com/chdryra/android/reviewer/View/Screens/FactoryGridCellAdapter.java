@@ -9,11 +9,10 @@
 package com.chdryra.android.reviewer.View.Screens;
 
 import android.app.Activity;
-import android.view.View;
-import android.view.ViewGroup;
 
 import com.chdryra.android.mygenerallibrary.ViewHolderAdapter;
 import com.chdryra.android.reviewer.View.GvDataModel.GvBuildReviewList;
+import com.chdryra.android.reviewer.View.GvDataModel.GvDataCollection;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
 
 /**
@@ -27,40 +26,9 @@ public class FactoryGridCellAdapter {
 
     public static ViewHolderAdapter newAdapter(Activity activity, GvDataList data, int cellWidth,
             int cellHeight) {
-        if (data.getGvDataType() == GvBuildReviewList.TYPE) {
-            return new BuildReviewAdapter(activity, data, cellWidth, cellHeight);
-        } else {
-            return new ViewHolderAdapter(activity, data, cellWidth, cellHeight);
-        }
-    }
-
-    /**
-     * Provides the adapter for the GridView of data tiles when building a review. Can't use the
-     * ViewHolder pattern here because each cell can have its own unique look so reuse is not an
-     * option. The view update requests are forwarded to the underlying {@link GvBuildReviewList
-     * .GvBuildReview} to handle.
-     */
-    private static class BuildReviewAdapter extends ViewHolderAdapter {
-        private final int mCellWidth;
-        private final int mCellHeight;
-
-        public BuildReviewAdapter(Activity activity, GvDataList data, int cellWidth,
-                int cellHeight) {
-            super(activity, data, cellWidth, cellHeight);
-            mCellWidth = cellWidth;
-            mCellHeight = cellHeight;
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            convertView = ((GvBuildReviewList.GvBuildReview) getItem(position)).updateView(parent);
-            convertView.getLayoutParams().width = mCellWidth;
-            convertView.getLayoutParams().height = mCellHeight;
-
-            return convertView;
-        }
-
-
+        boolean uniqueViews = data.getGvDataType() == GvDataCollection.TYPE ||
+                data.getGvDataType() == GvBuildReviewList.TYPE;
+        return new ViewHolderAdapter(activity, data, cellWidth, cellHeight, uniqueViews);
     }
 }
 

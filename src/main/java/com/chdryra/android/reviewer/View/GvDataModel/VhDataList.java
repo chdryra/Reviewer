@@ -12,7 +12,6 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.chdryra.android.mygenerallibrary.VHDDualString;
 import com.chdryra.android.mygenerallibrary.ViewHolder;
 import com.chdryra.android.mygenerallibrary.ViewHolderData;
 
@@ -30,6 +29,7 @@ public class VhDataList implements ViewHolder {
 
     public VhDataList() {
         mDataView = new VhDualText();
+        mCurrentView = mDataView;
     }
 
     @Override
@@ -51,7 +51,7 @@ public class VhDataList implements ViewHolder {
 
     @Override
     public View getView() {
-        return mCurrentView != null ? mCurrentView.getView() : null;
+        return mCurrentView.getView();
     }
 
     private void updateDataView(GvDataList data) {
@@ -59,7 +59,7 @@ public class VhDataList implements ViewHolder {
         GvDataType dataType = data.getGvDataType();
 
         String type = number == 1 ? dataType.getDatumName() : dataType.getDataName();
-        mDataView.updateView(new VHDDualString(String.valueOf(number), type));
+        mDataView.updateView(new GvDualText(String.valueOf(number), type));
         mCurrentView = mDataView;
     }
 
@@ -73,13 +73,7 @@ public class VhDataList implements ViewHolder {
             mCurrentView = datum.getViewHolder();
         }
 
-        if (mCurrentView.getView() == null) mCurrentView.inflate(mContext, mParent);
+        mCurrentView.inflate(mContext, mParent);
         mCurrentView.updateView(datum);
     }
-
-//    private void updateNoDataView(GvDataList data) {
-//        mCurrentView = new VhText();
-//        if (mCurrentView.getView() == null) mCurrentView.inflate(mContext, mParent);
-//        mCurrentView.updateView(new VHDString(data.getGvDataType().getDataName()));
-//    }
 }

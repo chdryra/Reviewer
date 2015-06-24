@@ -20,6 +20,6 @@ public class VhFact extends VhDualText {
     @Override
     public void updateView(ViewHolderData data) {
         GvFactList.GvFact fact = (GvFactList.GvFact) data;
-        if (fact != null) super.updateView(fact.getLabel(), fact.getValue());
+        super.updateView(fact.getLabel(), fact.getValue());
     }
 }

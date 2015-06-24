@@ -12,6 +12,14 @@ repositories {
     mavenCentral()
 }
 
+//Because both RemoteAPIFetchers and testUtils depend on this. Can only include once otherwise
+// 'pre-verified class resolved to unexpected implementation' errors. Therefore excluding from
+// TestUtils.
+configurations {
+    androidTestCompile.exclude group: 'com.google.android.gms'
+    androidTestCompile.exclude module: 'play-services:6.1.71'
+}
+
 dependencies {
     compile project(':MyAndroidWidgets')
     compile project(':MyGeneralLibrary')
