@@ -17,12 +17,15 @@ import java.util.Comparator;
  * Email: rizwan.choudrey@gmail.com
  */
 public class GvTextList<T extends GvText> extends GvDataList<T> {
-    public GvTextList(GvDataType<T> type) {
-        super(null, type);
+    private static final GvDataType<GvTextList> TYPE
+            = GvTypeMaker.newType(GvTextList.class, GvText.TYPE);
+
+    public GvTextList(Class<T> dataClass, GvDataType type) {
+        super(dataClass, type, null);
     }
 
-    public GvTextList(GvReviewId id, GvDataType<T> type) {
-        super(id, type);
+    public GvTextList(Class<T> dataClass, GvDataType type, GvReviewId id) {
+        super(dataClass, type, id);
     }
 
     public GvTextList(GvTextList<T> data) {
@@ -30,7 +33,7 @@ public class GvTextList<T extends GvText> extends GvDataList<T> {
     }
 
     public static GvTextList<GvText> newTextList() {
-        return new GvTextList<>(GvText.TYPE);
+        return new GvTextList<>(GvText.class, GvTextList.TYPE);
     }
 
     public ArrayList<String> toStringArray() {

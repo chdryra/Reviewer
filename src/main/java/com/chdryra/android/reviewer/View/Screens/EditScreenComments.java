@@ -18,6 +18,7 @@ import com.chdryra.android.reviewer.View.Configs.ConfigGvDataUi;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataPacker;
+import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
 
 /**
  * Created by: Rizwan Choudrey
@@ -25,10 +26,15 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvDataPacker;
  * Email: rizwan.choudrey@gmail.com
  */
 public class EditScreenComments {
+    private static final GvDataType<GvCommentList.GvComment> TYPE   =
+            GvCommentList.GvComment.TYPE;
+    private static final ConfigGvDataUi.Config               CONFIG =
+            ConfigGvDataUi.getConfig(TYPE);
+
     public static class BannerButton extends EditScreen.BannerButton {
 
         public BannerButton(String title) {
-            super(ConfigGvDataUi.getConfig(GvCommentList.TYPE).getAdderConfig(), title);
+            super(CONFIG.getAdderConfig(), title);
         }
 
         @Override
@@ -47,7 +53,7 @@ public class EditScreenComments {
         private static final int COMMENT_AS_HEADLINE = 200;
 
         public GridItem() {
-            super(ConfigGvDataUi.getConfig(GvCommentList.TYPE).getEditorConfig());
+            super(CONFIG.getEditorConfig());
         }
 
         @Override
@@ -98,7 +104,8 @@ public class EditScreenComments {
         }
     }
 
-    public static class Menu extends EditScreen.Menu implements GridDataObservable.GridDataObserver {
+    public static class Menu extends EditScreen.Menu implements GridDataObservable
+            .GridDataObserver {
         public static final  int MENU_DELETE_ID = R.id.menu_item_delete;
         public static final  int MENU_DONE_ID   = R.id.menu_item_done;
         public static final  int MENU_SPLIT_ID  = R.id.menu_item_split_comment;
@@ -107,8 +114,7 @@ public class EditScreenComments {
         private boolean mCommentsAreSplit = false;
 
         public Menu() {
-            super(GvCommentList.TYPE.getDataName(), GvCommentList.TYPE.getDataName(), false, true,
-                    MENU);
+            super(TYPE.getDataName(), TYPE.getDataName(), false, true, MENU);
         }
 
         @Override

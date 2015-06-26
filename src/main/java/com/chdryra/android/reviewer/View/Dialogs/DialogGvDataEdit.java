@@ -15,7 +15,6 @@ import android.widget.EditText;
 
 import com.chdryra.android.mygenerallibrary.DialogCancelDeleteDoneFragment;
 import com.chdryra.android.reviewer.R;
-import com.chdryra.android.reviewer.View.GvDataModel.FactoryGvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataPacker;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
@@ -46,7 +45,7 @@ public abstract class DialogGvDataEdit<T extends GvData>
         extends DialogCancelDeleteDoneFragment implements AddEditLayout.GvDataEditor,
         LaunchableUi {
 
-    private final GvDataType            mDataType;
+    private final GvDataType<T> mDataType;
     private AddEditLayout<T> mLayout;
     private       T                     mDatum;
     private       GvDataEditListener<T> mEditListener;
@@ -62,8 +61,8 @@ public abstract class DialogGvDataEdit<T extends GvData>
         void onGvDataEdit(T oldDatum, T newDatum);
     }
 
-    public DialogGvDataEdit(Class<T> dataClass) {
-        mDataType = FactoryGvData.gvType(dataClass);
+    public DialogGvDataEdit(GvDataType<T> dataType) {
+        mDataType = dataType;
     }
 
     @Override
@@ -108,7 +107,7 @@ public abstract class DialogGvDataEdit<T extends GvData>
         //TODO make type safe
         mEditListener = (GvDataEditListener<T>) getTargetListener(GvDataEditListener.class);
 
-        if (getGvDataType() == GvImageList.TYPE) {
+        if (getGvDataType() == GvImageList.GvImage.TYPE) {
             setDialogTitle(null);
             hideKeyboardOnLaunch();
         } else {

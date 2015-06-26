@@ -14,7 +14,6 @@ import android.view.View;
 
 import com.chdryra.android.mygenerallibrary.DialogTwoButtonFragment;
 import com.chdryra.android.reviewer.R;
-import com.chdryra.android.reviewer.View.GvDataModel.FactoryGvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataPacker;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
@@ -32,7 +31,7 @@ public abstract class DialogGvDataView<T extends GvData> extends DialogTwoButton
     public static final ActionType GOTO_REVIEW_ACTION = ActionType.OTHER;
     public static final ActionType DONE_ACTION        = ActionType.DONE;
 
-    private GvDataType            mDataType;
+    private GvDataType<T> mDataType;
     private DialogLayout<T>       mLayout;
     private GotoReviewListener<T> mListener;
     private T                     mDatum;
@@ -46,17 +45,14 @@ public abstract class DialogGvDataView<T extends GvData> extends DialogTwoButton
         void onGotoReview(T data);
     }
 
-    protected DialogGvDataView(Class<T> dataClass) {
-        mDataType = FactoryGvData.gvType(dataClass);
-    }
-
-    private DialogGvDataView(GvDataType dataType) {
+    protected DialogGvDataView(GvDataType<T> dataType) {
         mDataType = dataType;
     }
 
-    public static <T extends GvData> DialogGvDataView<GvData> getTextDialog(GvDataType dataType) {
-        return new DialogGvDataView<GvData>(dataType) {
-
+    public static DialogGvDataView<GvData> getTextDialog(GvDataType dataType) {
+        GvDataType<GvData> genericType = new GvDataType<>(GvData.class, dataType.getDatumName(),
+                dataType.getDataName());
+        return new DialogGvDataView<GvData>(genericType) {
         };
     }
 
@@ -96,7 +92,7 @@ public abstract class DialogGvDataView<T extends GvData> extends DialogTwoButton
         mListener = (GotoReviewListener<T>) getTargetListener(GotoReviewListener.class);
 
         GvDataType type = mDatum.getGvDataType();
-        if (type == GvImageList.TYPE) {
+        if (type == GvImageList.GvImage.TYPE) {
             setDialogTitle(null);
         } else {
             setDialogTitle(type.getDatumName());

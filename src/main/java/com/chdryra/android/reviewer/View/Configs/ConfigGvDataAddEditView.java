@@ -41,18 +41,22 @@ public final class ConfigGvDataAddEditView {
     private final HashMap<GvDataType, AddEditViewUis> mMap = new HashMap<>();
 
     private ConfigGvDataAddEditView() {
-        mMap.put(GvTagList.TYPE, new AddEditViewUis(AddTag.class, EditTag.class, ViewTag.class));
-        mMap.put(GvChildList.TYPE, new AddEditViewUis(AddChild.class, EditChild.class, ViewChild
-                .class));
-        mMap.put(GvCommentList.TYPE, new AddEditViewUis(AddComment.class, EditComment.class,
-                ViewComment.class));
-        mMap.put(GvImageList.TYPE, new AddEditViewUis(null, EditImage.class, ViewImage.class));
-        mMap.put(GvFactList.TYPE, new AddEditViewUis(AddFact.class, EditFact.class, ViewFact
-                .class));
-        mMap.put(GvLocationList.TYPE, new AddEditViewUis(AddLocation.class, EditLocation.class,
-                ActivityViewReviewLocation.class));
-        mMap.put(GvUrlList.TYPE, new AddEditViewUis(ActivityEditUrlBrowser.class,
-                ActivityEditUrlBrowser.class, ActivityEditUrlBrowser.class));
+        mMap.put(GvTagList.GvTag.TYPE,
+                new AddEditViewUis(AddTag.class, EditTag.class, ViewTag.class));
+        mMap.put(GvChildList.GvChildReview.TYPE,
+                new AddEditViewUis(AddChild.class, EditChild.class, ViewChild.class));
+        mMap.put(GvCommentList.GvComment.TYPE,
+                new AddEditViewUis(AddComment.class, EditComment.class, ViewComment.class));
+        mMap.put(GvImageList.GvImage.TYPE,
+                new AddEditViewUis(null, EditImage.class, ViewImage.class));
+        mMap.put(GvFactList.GvFact.TYPE,
+                new AddEditViewUis(AddFact.class, EditFact.class, ViewFact.class));
+        mMap.put(GvLocationList.GvLocation.TYPE,
+                new AddEditViewUis(AddLocation.class, EditLocation.class,
+                        ActivityViewReviewLocation.class));
+        mMap.put(GvUrlList.GvUrl.TYPE,
+                new AddEditViewUis(ActivityEditUrlBrowser.class, ActivityEditUrlBrowser.class,
+                        ActivityEditUrlBrowser.class));
     }
 
     public static Class<? extends LaunchableUi> getAddClass(GvDataType dataType) {
@@ -79,7 +83,7 @@ public final class ConfigGvDataAddEditView {
     //Tag
     public static class AddTag extends DialogGvDataAdd<GvTagList.GvTag> {
         public AddTag() {
-            super(GvTagList.GvTag.class);
+            super(GvTagList.GvTag.TYPE);
         }
     }
 
@@ -87,28 +91,28 @@ public final class ConfigGvDataAddEditView {
     public static class AddChild extends
             DialogGvDataAdd<GvChildList.GvChildReview> {
         public AddChild() {
-            super(GvChildList.GvChildReview.class);
+            super(GvChildList.GvChildReview.TYPE);
         }
     }
 
     //Comment
     public static class AddComment extends DialogGvDataAdd<GvCommentList.GvComment> {
         public AddComment() {
-            super(GvCommentList.GvComment.class);
+            super(GvCommentList.GvComment.TYPE);
         }
     }
 
     //Fact
     public static class AddFact extends DialogGvDataAdd<GvFactList.GvFact> {
         public AddFact() {
-            super(GvFactList.GvFact.class);
+            super(GvFactList.GvFact.TYPE);
         }
     }
 
     //Location
     public static class AddLocation extends DialogGvDataAdd<GvLocationList.GvLocation> {
         public AddLocation() {
-            super(GvLocationList.GvLocation.class);
+            super(GvLocationList.GvLocation.TYPE);
         }
     }
 
@@ -116,42 +120,42 @@ public final class ConfigGvDataAddEditView {
     //Tag
     public static class EditTag extends DialogGvDataEdit<GvTagList.GvTag> {
         public EditTag() {
-            super(GvTagList.GvTag.class);
+            super(GvTagList.GvTag.TYPE);
         }
     }
 
     //Child
     public static class EditChild extends DialogGvDataEdit<GvChildList.GvChildReview> {
         public EditChild() {
-            super(GvChildList.GvChildReview.class);
+            super(GvChildList.GvChildReview.TYPE);
         }
     }
 
     //Comment
     public static class EditComment extends DialogGvDataEdit<GvCommentList.GvComment> {
         public EditComment() {
-            super(GvCommentList.GvComment.class);
+            super(GvCommentList.GvComment.TYPE);
         }
     }
 
     //Image
     public static class EditImage extends DialogGvDataEdit<GvImageList.GvImage> {
         public EditImage() {
-            super(GvImageList.GvImage.class);
+            super(GvImageList.GvImage.TYPE);
         }
     }
 
     //Fact
     public static class EditFact extends DialogGvDataEdit<GvFactList.GvFact> {
         public EditFact() {
-            super(GvFactList.GvFact.class);
+            super(GvFactList.GvFact.TYPE);
         }
     }
 
     //Location
     public static class EditLocation extends DialogGvDataEdit<GvLocationList.GvLocation> {
         public EditLocation() {
-            super(GvLocationList.GvLocation.class);
+            super(GvLocationList.GvLocation.TYPE);
         }
     }
 
@@ -159,42 +163,42 @@ public final class ConfigGvDataAddEditView {
     //Tag
     public static class ViewTag extends DialogGvDataView<GvTagList.GvTag> {
         public ViewTag() {
-            super(GvTagList.GvTag.class);
+            super(GvTagList.GvTag.TYPE);
         }
     }
 
     //Child
     public static class ViewChild extends DialogGvDataView<GvChildList.GvChildReview> {
         public ViewChild() {
-            super(GvChildList.GvChildReview.class);
+            super(GvChildList.GvChildReview.TYPE);
         }
     }
 
     //Comment
     public static class ViewComment extends DialogGvDataView<GvCommentList.GvComment> {
         public ViewComment() {
-            super(GvCommentList.GvComment.class);
+            super(GvCommentList.GvComment.TYPE);
         }
     }
 
     //Image
     public static class ViewImage extends DialogGvDataView<GvImageList.GvImage> {
         public ViewImage() {
-            super(GvImageList.GvImage.class);
+            super(GvImageList.GvImage.TYPE);
         }
     }
 
     //Fact
     public static class ViewFact extends DialogGvDataView<GvFactList.GvFact> {
         public ViewFact() {
-            super(GvFactList.GvFact.class);
+            super(GvFactList.GvFact.TYPE);
         }
     }
 
     //Location
     public static class ViewLocation extends DialogGvDataView<GvLocationList.GvLocation> {
         public ViewLocation() {
-            super(GvLocationList.GvLocation.class);
+            super(GvLocationList.GvLocation.TYPE);
         }
     }
 

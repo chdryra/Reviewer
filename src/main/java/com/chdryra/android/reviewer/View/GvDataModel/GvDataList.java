@@ -27,7 +27,8 @@ import java.util.Arrays;
  *
  * @param <T>: {@link GvData} type.GvDataList
  */
-public class GvDataList<T extends GvData> extends ViewHolderDataList<T> implements GvData {
+public class GvDataList<T extends GvData> extends ViewHolderDataList<T> implements
+        GvDataCollection {
     public static final Parcelable.Creator<GvDataList> CREATOR = new Parcelable
             .Creator<GvDataList>() {
         public GvDataList createFromParcel(Parcel in) {
@@ -39,22 +40,25 @@ public class GvDataList<T extends GvData> extends ViewHolderDataList<T> implemen
         }
     };
 
-    private final GvDataType<T> mType;
+    private final Class<T>   mDataClass;
+    private final GvDataType mType;
     private       GvReviewId mReviewId;
 
-    //Copy constructor
     public GvDataList(GvReviewId reviewId, GvDataList<T> data) {
-        this(reviewId, data.getGvDataType());
+        this(data.mDataClass, data.getGvDataType(), reviewId);
         for (T datum : data) {
             add(FactoryGvData.copy(datum));
         }
     }
 
-    public GvDataList(GvReviewId reviewId, GvDataType<T> mDataType) {
-        mType = mDataType;
+    public GvDataList(Class<T> dataClass, GvDataType mDataType, GvReviewId
+            reviewId) {
         mReviewId = reviewId;
+        mType = mDataType;
+        mDataClass = dataClass;
     }
 
+    //Copy constructor
     public GvDataList(GvDataList<T> data) {
         this(data.getReviewId(), data);
     }
@@ -62,13 +66,14 @@ public class GvDataList<T extends GvData> extends ViewHolderDataList<T> implemen
     //TODO make type safe
     public GvDataList(Parcel in) {
         mType = in.readParcelable(GvDataType.class.getClassLoader());
-        T[] data = (T[]) in.readParcelableArray(mType.getDataClass().getClassLoader());
+        mDataClass = (Class<T>) in.readValue(Class.class.getClassLoader());
+        T[] data = (T[]) in.readParcelableArray(mDataClass.getClassLoader());
         mData = new ArrayList<>(Arrays.asList(data));
         mReviewId = in.readParcelable(GvReviewId.class.getClassLoader());
     }
 
     @Override
-    public GvDataType<T> getGvDataType() {
+    public GvDataType getGvDataType() {
         return mType;
     }
 
@@ -94,9 +99,10 @@ public class GvDataList<T extends GvData> extends ViewHolderDataList<T> implemen
         return true;
     }
 
+    //TODO make typesafe
     public boolean contains(GvData datum) {
         try {
-            return super.contains(mType.getDataClass().cast(datum));
+            return super.contains((T) datum);
         } catch (ClassCastException e) {
             return false;
         }
@@ -110,6 +116,7 @@ public class GvDataList<T extends GvData> extends ViewHolderDataList<T> implemen
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeParcelable(mType, flags);
+        dest.writeValue(mDataClass);
         dest.writeParcelableArray((T[]) mData.toArray(), flags);
         dest.writeParcelable(mReviewId, flags);
     }

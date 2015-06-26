@@ -75,7 +75,7 @@ public class BuildScreen {
     }
 
     private void showTagDialog() {
-        mGridItem.showQuickDialog(ConfigGvDataUi.getConfig(GvTagList.TYPE));
+        mGridItem.showQuickDialog(ConfigGvDataUi.getConfig(GvTagList.GvTag.TYPE));
     }
 
     private class BuildScreenGridItem extends ReviewViewAction.GridItemAction {
@@ -136,7 +136,7 @@ public class BuildScreen {
         }
 
         private void showQuickDialog(ConfigGvDataUi.Config config) {
-            if (config.getGvDataType() == GvImageList.TYPE) {
+            if (config.getGvDataType() == GvImageList.GvImage.TYPE) {
                 mListener.startActivityForResult(mImageChooser.getChooserIntents(),
                         getImageRequestCode());
                 return;
@@ -155,7 +155,7 @@ public class BuildScreen {
             LatLng latLng = mLatLng;
             boolean fromImage = false;
 
-            GvImageList images = (GvImageList) getBuilder().getDataBuilder(GvImageList.TYPE)
+            GvImageList images = (GvImageList) getBuilder().getDataBuilder(GvImageList.GvImage.TYPE)
                     .getGridData();
             if (images.size() > 0) {
                 LatLng coverLatLng = images.getCovers().getItem(0).getLatLng();
@@ -170,7 +170,7 @@ public class BuildScreen {
         }
 
         private int getImageRequestCode() {
-            return ConfigGvDataUi.getConfig(GvImageList.TYPE).getAdderConfig()
+            return ConfigGvDataUi.getConfig(GvImageList.GvImage.TYPE).getAdderConfig()
                     .getRequestCode();
         }
 
@@ -191,7 +191,8 @@ public class BuildScreen {
             @Override
             public void onImageChosen(GvImageList.GvImage image) {
                 image.setIsCover(true);
-                ReviewBuilder.DataBuilder builder = getBuilder().getDataBuilder(GvImageList.TYPE);
+                ReviewBuilder.DataBuilder builder = getBuilder().getDataBuilder(GvImageList
+                        .GvImage.TYPE);
                 builder.add(image);
                 builder.setData();
                 getReviewView().updateUi();
@@ -298,7 +299,7 @@ public class BuildScreen {
                 return;
             }
 
-            if (mBuilder.getDataSize(GvTagList.TYPE) == 0) {
+            if (mBuilder.getDataSize(GvTagList.GvTag.TYPE) == 0) {
                 Toast.makeText(activity, R.string.toast_enter_tag,
                         Toast.LENGTH_SHORT).show();
                 showTagDialog();

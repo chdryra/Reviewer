@@ -16,14 +16,14 @@ package com.chdryra.android.reviewer.View.GvDataModel;
 public class FactoryGvDataHandler {
     public static <T extends GvData> GvDataHandler<T> newHandler
             (GvDataList<T> data) {
-        if (data.getGvDataType() == GvImageList.TYPE) {
+        if (data.getGvDataType() == GvImageList.GvImage.TYPE) {
             return new GvDataHandler<>(data, new GvDataHandler.AddConstraint<T>() {
                 @Override
                 public boolean passes(GvDataList<T> data, T datum) {
                     return imageAdd(data, datum);
                 }
             });
-        } else if (data.getGvDataType() == GvChildList.TYPE) {
+        } else if (data.getGvDataType() == GvChildList.GvChildReview.TYPE) {
             GvDataHandler.AddConstraint<T> add = new GvDataHandler.AddConstraint<T>() {
                 @Override
                 public boolean passes(GvDataList<T> data, T datum) {

@@ -18,14 +18,15 @@ import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
 import java.util.Comparator;
 
 public class GvFactList extends GvDataList<GvFactList.GvFact> {
-    public static final GvDataType<GvFact> TYPE = new GvDataType<>(GvFact.class, "fact");
+    public static final GvDataType<GvFactList> TYPE =
+            GvTypeMaker.newType(GvFactList.class, GvFact.TYPE);
 
     public GvFactList() {
-        super(null, TYPE);
+        super(GvFact.class, TYPE, null);
     }
 
     public GvFactList(GvReviewId id) {
-        super(id, TYPE);
+        super(GvFact.class, TYPE, id);
     }
 
     public GvFactList(GvFactList data) {
@@ -74,6 +75,7 @@ public class GvFactList extends GvDataList<GvFactList.GvFact> {
                 return new GvFact[size];
             }
         };
+        public static GvDataType<GvFact> TYPE = GvTypeMaker.newType(GvFact.class, "fact");
 
         public GvFact() {
             super();
@@ -97,7 +99,7 @@ public class GvFactList extends GvDataList<GvFactList.GvFact> {
 
         @Override
         public GvDataType<? extends GvFact> getGvDataType() {
-            return GvFactList.TYPE;
+            return GvFact.TYPE;
         }
 
         @Override

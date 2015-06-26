@@ -15,6 +15,7 @@ import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.View.ActivitiesFragments.ActivityEditUrlBrowser;
 import com.chdryra.android.reviewer.View.Configs.ConfigGvDataUi;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
+import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
 import com.chdryra.android.reviewer.View.GvDataModel.GvFactList;
 import com.chdryra.android.reviewer.View.Launcher.FactoryLaunchable;
 import com.chdryra.android.reviewer.View.Launcher.LaunchableUi;
@@ -26,11 +27,16 @@ import com.chdryra.android.reviewer.View.Launcher.LauncherUi;
  * Email: rizwan.choudrey@gmail.com
  */
 public class EditScreenFacts {
+    private static final GvDataType<GvFactList.GvFact> TYPE   =
+            GvFactList.GvFact.TYPE;
+    private static final ConfigGvDataUi.Config         CONFIG =
+            ConfigGvDataUi.getConfig(TYPE);
+
     public static class BannerButton extends EditScreen.BannerButton {
         private static final int ADD_ON_BROWSER = 200;
 
         public BannerButton(String title) {
-            super(ConfigGvDataUi.getConfig(GvFactList.TYPE).getAdderConfig(), title);
+            super(CONFIG.getAdderConfig(), title);
         }
 
         @Override
@@ -53,7 +59,7 @@ public class EditScreenFacts {
         private static final int EDIT_ON_BROWSER = 200;
 
         public GridItem() {
-            super(ConfigGvDataUi.getConfig(GvFactList.TYPE).getEditorConfig());
+            super(CONFIG.getEditorConfig());
         }
 
         @Override

@@ -52,7 +52,7 @@ public class EditScreen {
         setActions(view, dataType, context.getResources().getString(R.string.button_add) + " " +
                 dataType.getDatumName());
 
-        if (dataType == GvImageList.TYPE) {
+        if (dataType == GvImageList.GvImage.TYPE) {
             ReviewViewParams.CellDimension half = ReviewViewParams.CellDimension.HALF;
             view.getParams().setCellHeight(half).setCellWidth(half);
         }
@@ -69,9 +69,9 @@ public class EditScreen {
     }
 
     private static ReviewViewAction.MenuAction newMenuAction(GvDataType dataType) {
-        if (dataType == GvCommentList.TYPE) {
+        if (dataType == GvCommentList.GvComment.TYPE) {
             return new EditScreenComments.Menu();
-        } else if (dataType == GvChildList.TYPE) {
+        } else if (dataType == GvChildList.GvChildReview.TYPE) {
             return new EditScreenChildren.Menu();
         } else {
             return new Menu(dataType.getDataName());
@@ -80,13 +80,13 @@ public class EditScreen {
 
     private static ReviewViewAction.GridItemAction newGridItemAction(GvDataType
             dataType) {
-        if (dataType == GvCommentList.TYPE) {
+        if (dataType == GvCommentList.GvComment.TYPE) {
             return new EditScreenComments.GridItem();
-        } else if (dataType == GvImageList.TYPE) {
+        } else if (dataType == GvImageList.GvImage.TYPE) {
             return new EditScreenImages.GridItem();
-        } else if (dataType == GvLocationList.TYPE) {
+        } else if (dataType == GvLocationList.GvLocation.TYPE) {
             return new EditScreenLocations.GridItem();
-        } else if (dataType == GvFactList.TYPE) {
+        } else if (dataType == GvFactList.GvFact.TYPE) {
             return new EditScreenFacts.GridItem();
         } else {
             return new GridItem(ConfigGvDataUi.getConfig(dataType).getEditorConfig());
@@ -95,13 +95,13 @@ public class EditScreen {
 
     private static ReviewViewAction.BannerButtonAction newBannerButtonAction(
             GvDataType dataType, String title) {
-        if (dataType == GvImageList.TYPE) {
+        if (dataType == GvImageList.GvImage.TYPE) {
             return new EditScreenImages.BannerButton(title);
-        } else if (dataType == GvLocationList.TYPE) {
+        } else if (dataType == GvLocationList.GvLocation.TYPE) {
             return new EditScreenLocations.BannerButton(title);
-        } else if (dataType == GvFactList.TYPE) {
+        } else if (dataType == GvFactList.GvFact.TYPE) {
             return new EditScreenFacts.BannerButton(title);
-        } else if (dataType == GvCommentList.TYPE) {
+        } else if (dataType == GvCommentList.GvComment.TYPE) {
             return new EditScreenComments.BannerButton(title);
         } else {
             return new BannerButton(ConfigGvDataUi.getConfig(dataType).getAdderConfig()
@@ -173,13 +173,14 @@ public class EditScreen {
                 implements DialogGvDataAdd.GvDataAddListener,
                 DialogAlertFragment.DialogAlertListener {
 
+            private GvDataType mDataType;
             private GvDataList<GvData> mAdded;
 
             private AddListener(GvDataType dataType) {
-                mAdded = FactoryGvData.newList(dataType);
+                mDataType = dataType;
+                initDataList();
             }
 
-            //TODO make type safe
             @Override
             public boolean onGvDataAdd(GvData data) {
                 boolean success = addData(data);
@@ -196,7 +197,7 @@ public class EditScreen {
 
             @Override
             public void onGvDataDone() {
-                mAdded = FactoryGvData.newList(mAdded.getGvDataType());
+                initDataList();
             }
 
             @Override
@@ -210,6 +211,11 @@ public class EditScreen {
                         && ActivityResultCode.get(resultCode) == ActivityResultCode.DONE) {
                     onGvDataAdd(GvDataPacker.unpackItem(GvDataPacker.CurrentNewDatum.NEW, data));
                 }
+            }
+
+            //TODO make type safe
+            private void initDataList() {
+                mAdded = FactoryGvData.newDataList(mDataType);
             }
 
             @Override

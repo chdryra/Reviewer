@@ -42,7 +42,8 @@ public class VhDataList implements ViewHolder {
     @Override
     public void updateView(ViewHolderData data) {
         GvDataList dataList = (GvDataList) data;
-        if (dataList.size() != 1 || dataList.getGvDataType() == GvImageList.TYPE) {
+        if (dataList.size() != 1 ||
+                dataList.getGvDataType().getElementType() == GvImageList.GvImage.TYPE) {
             updateDataView(dataList);
         } else {
             updateDatumView(dataList);
@@ -56,7 +57,7 @@ public class VhDataList implements ViewHolder {
 
     private void updateDataView(GvDataList data) {
         int number = data.size();
-        GvDataType dataType = data.getGvDataType();
+        GvDataType dataType = data.getGvDataType().getElementType();
 
         String type = number == 1 ? dataType.getDatumName() : dataType.getDataName();
         mDataView.updateView(new GvDualText(String.valueOf(number), type));
@@ -65,10 +66,11 @@ public class VhDataList implements ViewHolder {
 
     private void updateDatumView(GvDataList data) {
         ViewHolderData datum = (ViewHolderData) data.getItem(0);
-        GvDataType dataType = data.getGvDataType();
+        GvDataType dataType = data.getGvDataType().getElementType();
 
-        if (dataType == GvLocationList.TYPE || dataType == GvTagList.TYPE) {
-            mCurrentView = dataType == GvLocationList.TYPE ? new VhLocation(true) : new VhTag(true);
+        if (dataType == GvLocationList.GvLocation.TYPE || dataType == GvTagList.GvTag.TYPE) {
+            mCurrentView = dataType == GvLocationList.GvLocation.TYPE ? new VhLocation(true) :
+                    new VhTag(true);
         } else {
             mCurrentView = datum.getViewHolder();
         }

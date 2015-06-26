@@ -20,8 +20,8 @@ import com.chdryra.android.reviewer.Model.ReviewData.ReviewId;
  * Email: rizwan.choudrey@gmail.com
  */
 public class GvReviewId implements GvData {
-    public static final GvDataType<GvReviewId> TYPE = new GvDataType<>(GvReviewId.class,
-            "ReviewId");
+    public static final GvDataType<GvReviewId> TYPE =
+            GvTypeMaker.newType(GvReviewId.class, "ReviewId");
 
     public static final Parcelable.Creator<GvReviewId> CREATOR = new Parcelable
             .Creator<GvReviewId>() {

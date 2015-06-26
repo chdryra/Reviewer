@@ -3,20 +3,22 @@
  * Unauthorized copying of this file, via any medium is strictly prohibited
  * Proprietary and confidential
  * Author: Rizwan Choudrey
- * Date: 26 June, 2015
+ * Date: 25 June, 2015
  */
 
-package com.chdryra.android.reviewer.View.GvDataModel;
+package com.chdryra.android.reviewer.View.GvDataAlgorithms;
 
 /**
  * Created by: Rizwan Choudrey
- * On: 26/06/2015
+ * On: 25/06/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public interface GvDataCollection<T extends GvData> extends GvData {
-    int size();
+public interface GvKey {
+    String getLabel();
 
-    void sort();
+    @Override
+    boolean equals(Object other);
 
-    T getItem(int position);
+    @Override
+    int hashCode();
 }

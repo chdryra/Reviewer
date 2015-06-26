@@ -35,20 +35,20 @@ import java.util.Map;
  * </p>
  */
 public final class ConfigGvDataUi {
-    private final static int    DATA_ADD  = 2718;
-    private final static int    DATA_EDIT = 2819;
+    public static final GvDataType[] TYPES = {GvCommentList.GvComment.TYPE, GvFactList
+            .GvFact.TYPE, GvLocationList.GvLocation.TYPE, GvImageList.GvImage.TYPE, GvUrlList
+            .GvUrl.TYPE, GvTagList.GvTag.TYPE, GvChildList.GvChildReview.TYPE};
+
+    private static final int DATA_ADD  = 2718;
+    private static final int DATA_EDIT = 2819;
     private static ConfigGvDataUi sConfigGvDataUi;
 
     private final Map<GvDataType, Config> mConfigsMap = new HashMap<>();
 
     private ConfigGvDataUi() {
-        mConfigsMap.put(GvTagList.TYPE, new Config(GvTagList.TYPE));
-        mConfigsMap.put(GvChildList.TYPE, new Config(GvChildList.TYPE));
-        mConfigsMap.put(GvCommentList.TYPE, new Config(GvCommentList.TYPE));
-        mConfigsMap.put(GvImageList.TYPE, new Config(GvImageList.TYPE));
-        mConfigsMap.put(GvFactList.TYPE, new Config(GvFactList.TYPE));
-        mConfigsMap.put(GvLocationList.TYPE, new Config(GvLocationList.TYPE));
-        mConfigsMap.put(GvUrlList.TYPE, new Config(GvUrlList.TYPE));
+        for (GvDataType type : TYPES) {
+            mConfigsMap.put(type, new Config(type));
+        }
     }
 
     public static Config getConfig(GvDataType dataType) {

@@ -25,7 +25,7 @@ import com.chdryra.android.mygenerallibrary.ViewHolder;
  * {@link GvData}
  */
 public class GvText extends VHDString implements GvData {
-    public static final GvDataType<GvText> TYPE = new GvDataType<>(GvText.class, "text");
+    public static final GvDataType<GvText> TYPE = GvTypeMaker.newType(GvText.class, "text");
     public static final Parcelable.Creator<GvText> CREATOR = new Parcelable
             .Creator<GvText>() {
         public GvText createFromParcel(Parcel in) {

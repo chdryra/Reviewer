@@ -19,6 +19,7 @@ import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.View.Configs.ConfigGvDataUi;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataPacker;
+import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
 import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
 import com.chdryra.android.reviewer.View.Utils.ImageChooser;
 
@@ -28,11 +29,16 @@ import com.chdryra.android.reviewer.View.Utils.ImageChooser;
  * Email: rizwan.choudrey@gmail.com
  */
 public class EditScreenImages {
+    private static final GvDataType<GvImageList.GvImage> TYPE   =
+            GvImageList.GvImage.TYPE;
+    private static final ConfigGvDataUi.Config           CONFIG =
+            ConfigGvDataUi.getConfig(TYPE);
+
     public static class BannerButton extends EditScreen.BannerButton {
         private ImageChooser mImageChooser;
 
         public BannerButton(String title) {
-            super(ConfigGvDataUi.getConfig(GvImageList.TYPE).getAdderConfig(), title);
+            super(CONFIG.getAdderConfig(), title);
             setListener(new AddImageListener() {
             });
         }
@@ -81,7 +87,7 @@ public class EditScreenImages {
         private static final int IMAGE_AS_COVER = 200;
 
         public GridItem() {
-            super(ConfigGvDataUi.getConfig(GvImageList.TYPE).getEditorConfig());
+            super(CONFIG.getEditorConfig());
         }
 
         @Override

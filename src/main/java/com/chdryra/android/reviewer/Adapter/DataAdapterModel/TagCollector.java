@@ -33,7 +33,7 @@ public class TagCollector {
         for (ReviewId id : ids) {
             GvTagList nodeTags = MdGvConverter.getTags(id.toString());
             for (GvTagList.GvTag tag : nodeTags) {
-                if (!tags.contains(tag)) tags.add(tag);
+                tags.add(tag);
             }
         }
 

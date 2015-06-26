@@ -17,14 +17,15 @@ import android.os.Parcelable;
  * Email: rizwan.choudrey@gmail.com
  */
 public class GvSubjectList extends GvTextList<GvSubjectList.GvSubject> {
-    public static final GvDataType<GvSubject> TYPE = new GvDataType<>(GvSubject.class, "subject");
+    private static final GvDataType<GvSubjectList> TYPE
+            = GvTypeMaker.newType(GvSubjectList.class, GvSubject.TYPE);
 
     public GvSubjectList() {
-        super(TYPE);
+        super(GvSubject.class, TYPE, null);
     }
 
     public GvSubjectList(GvReviewId id) {
-        super(id, TYPE);
+        super(GvSubject.class, TYPE, id);
     }
 
     public GvSubjectList(GvSubjectList data) {
@@ -32,6 +33,8 @@ public class GvSubjectList extends GvTextList<GvSubjectList.GvSubject> {
     }
 
     public static class GvSubject extends GvText {
+        public static final GvDataType<GvSubject> TYPE =
+                GvTypeMaker.newType(GvSubject.class, "subject");
         public static final Parcelable.Creator<GvSubject> CREATOR = new Parcelable
                 .Creator<GvSubject>() {
             public GvSubject createFromParcel(Parcel in) {
@@ -65,7 +68,7 @@ public class GvSubjectList extends GvTextList<GvSubjectList.GvSubject> {
 
         @Override
         public GvDataType<GvSubject> getGvDataType() {
-            return GvSubjectList.TYPE;
+            return GvSubject.TYPE;
         }
     }
 }

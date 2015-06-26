@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilder;
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.View.GvDataModel.GvChildList;
+import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
 
 /**
  * Created by: Rizwan Choudrey
@@ -20,6 +21,9 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvChildList;
  * Email: rizwan.choudrey@gmail.com
  */
 public class EditScreenChildren {
+    private static final GvDataType<GvChildList.GvChildReview> TYPE =
+            GvChildList.GvChildReview.TYPE;
+
     public static class Menu extends EditScreen.Menu implements GridDataObservable.GridDataObserver {
         public static final  int MENU_DELETE_ID  = R.id.menu_item_delete;
         public static final  int MENU_DONE_ID    = R.id.menu_item_done;
@@ -29,8 +33,7 @@ public class EditScreenChildren {
         private final MenuItemChildrenRatingAverage mActionItem;
 
         public Menu() {
-            super(GvChildList.TYPE.getDataName(), GvChildList.TYPE.getDataName(), false, true,
-                    MENU);
+            super(TYPE.getDataName(), TYPE.getDataName(), false, true, MENU);
             mActionItem = new MenuItemChildrenRatingAverage();
         }
 

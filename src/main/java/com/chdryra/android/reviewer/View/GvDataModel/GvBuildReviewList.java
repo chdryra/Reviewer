@@ -14,10 +14,6 @@ package com.chdryra.android.reviewer.View.GvDataModel;
  * Email: rizwan.choudrey@gmail.com
  */
 
-import android.view.View;
-import android.view.ViewGroup;
-
-import com.chdryra.android.mygenerallibrary.ViewHolder;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilder;
 import com.chdryra.android.reviewer.View.Configs.ConfigGvDataUi;
 import com.chdryra.android.reviewer.View.Screens.GridDataObservable;
@@ -27,21 +23,22 @@ import com.chdryra.android.reviewer.View.Screens.GridDataObservable;
  * on the underlying data and user interaction.
  */
 public class GvBuildReviewList extends GvDataList<GvBuildReviewList.GvBuildReview> {
-    public static final GvDataType<GvBuildReview> TYPE = new GvDataType<>(GvBuildReview.class,
-            "create", "create");
+    public static final GvDataType<GvBuildReviewList> TYPE =
+            GvTypeMaker.newType(GvBuildReviewList.class, GvBuildReview.TYPE);
+
     private final ReviewBuilder mBuilder;
 
     private GvBuildReviewList(ReviewBuilder builder) {
-        super(null, TYPE);
+        super(GvBuildReview.class, TYPE, null);
 
         mBuilder = builder;
 
-        add(GvTagList.TYPE);
-        add(GvChildList.TYPE);
-        add(GvImageList.TYPE);
-        add(GvCommentList.TYPE);
-        add(GvLocationList.TYPE);
-        add(GvFactList.TYPE);
+        add(GvTagList.GvTag.TYPE);
+        add(GvChildList.GvChildReview.TYPE);
+        add(GvImageList.GvImage.TYPE);
+        add(GvCommentList.GvComment.TYPE);
+        add(GvLocationList.GvLocation.TYPE);
+        add(GvFactList.GvFact.TYPE);
     }
 
     public static GvBuildReviewList newInstance(ReviewBuilder adapter) {
@@ -58,33 +55,20 @@ public class GvBuildReviewList extends GvDataList<GvBuildReviewList.GvBuildRevie
 
     public static class GvBuildReview<T extends GvData> extends GvDataList<T>
             implements GridDataObservable.GridDataObserver {
+
+        public static GvDataType<GvBuildReview> TYPE =
+                GvTypeMaker.newType(GvBuildReview.class, "create", "create");
+
         private final GvDataType<T> mDataType;
         private final ConfigGvDataUi.Config        mConfig;
         private final ReviewBuilder.DataBuilder<T> mBuilder;
-        private       ViewHolder                   mViewHolder;
 
         private GvBuildReview(GvDataType<T> dataType, ReviewBuilder builder) {
-            super(null, dataType);
+            super(dataType.getDataClass(), dataType, null);
             mDataType = dataType;
             mConfig = ConfigGvDataUi.getConfig(dataType);
             mBuilder = builder.getDataBuilder(dataType);
             mBuilder.registerGridDataObserver(this);
-            mViewHolder = super.getViewHolder();
-        }
-
-
-        public View updateView(ViewGroup parent) {
-            if (mViewHolder.getView() == null) {
-                mViewHolder.inflate(mBuilder.getParentBuilder().getContext(), parent);
-            }
-
-            mViewHolder.updateView(mBuilder.getGridData());
-            return mViewHolder.getView();
-        }
-
-        @Override
-        public GvDataType<T> getGvDataType() {
-            return mDataType;
         }
 
         @Override

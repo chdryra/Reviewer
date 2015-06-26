@@ -23,6 +23,7 @@ import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewTreeNode;
 import com.chdryra.android.reviewer.Model.Tagging.TagsManager;
 import com.chdryra.android.reviewer.Model.UserData.Author;
+import com.chdryra.android.reviewer.View.Configs.ConfigGvDataUi;
 import com.chdryra.android.reviewer.View.GvDataModel.FactoryGvData;
 import com.chdryra.android.reviewer.View.GvDataModel.FactoryGvDataHandler;
 import com.chdryra.android.reviewer.View.GvDataModel.GvBuildReviewList;
@@ -36,7 +37,6 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvFactList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvLocationList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvTagList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvUrlList;
 import com.chdryra.android.reviewer.View.Utils.ImageChooser;
 
 import java.io.File;
@@ -57,14 +57,12 @@ import java.util.Map;
  * user is ready using the {@link #publish(PublishDate)} method.
  */
 public class ReviewBuilder extends ReviewViewAdapterBasic {
-    private static final GvDataType[] TYPES      = {GvCommentList.TYPE, GvFactList.TYPE,
-            GvLocationList.TYPE, GvImageList.TYPE, GvUrlList.TYPE, GvTagList.TYPE, GvChildList
-            .TYPE};
+    private static final GvDataType[] TYPES = ConfigGvDataUi.TYPES;
     private static final File         FILE_DIR_EXT = Environment
             .getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM);
     private final Context                                        mContext;
-    private final Map<GvDataType, GvDataList>                    mData;
-    private final Map<GvDataType, DataBuilder<? extends GvData>> mDataBuilders;
+    private final Map<GvDataType<? extends GvData>, GvDataList<?>>  mData;
+    private final Map<GvDataType<? extends GvData>, DataBuilder<?>> mDataBuilders;
     private final GvBuildReviewList                              mBuildUi;
 
     private FileIncrementor          mIncrementor;
@@ -82,7 +80,7 @@ public class ReviewBuilder extends ReviewViewAdapterBasic {
         mData = new HashMap<>();
         mDataBuilders = new HashMap<>();
         for (GvDataType dataType : TYPES) {
-            mData.put(dataType, FactoryGvData.newList(dataType));
+            mData.put(dataType, FactoryGvData.newDataList(dataType));
             mDataBuilders.put(dataType, newDataBuilder(dataType));
         }
 
@@ -133,7 +131,7 @@ public class ReviewBuilder extends ReviewViewAdapterBasic {
     }
 
     public void resetDataBuilder(GvDataType dataType) {
-        mDataBuilders.get(dataType).resetData();
+        getDataBuilder(dataType).resetData();
     }
 
     public int getDataSize(GvDataType dataType) {
@@ -152,17 +150,17 @@ public class ReviewBuilder extends ReviewViewAdapterBasic {
         return published;
     }
 
-    public GvDataList getData(GvDataType dataType) {
+    public <T extends GvData> GvDataList<T> getData(GvDataType<T> dataType) {
         GvDataList data = mData.get(dataType);
         return data != null ? MdGvConverter.copy(data) : null;
     }
 
     private boolean isValidForPublication() {
-        return DataValidator.validateString(mSubject) && getData(GvTagList.TYPE).size() > 0;
+        return DataValidator.validateString(mSubject) && getData(GvTagList.GvTag.TYPE).size() > 0;
     }
 
     private void tagTree(ReviewNode node) {
-        GvTagList tags = (GvTagList) getData(GvTagList.TYPE);
+        GvTagList tags = (GvTagList) getData(GvTagList.GvTag.TYPE);
         TagsManager.tag(node.getId(), tags.toStringArray());
         for (ReviewNode child : node.getChildren()) {
             tagTree(child);
@@ -172,10 +170,10 @@ public class ReviewBuilder extends ReviewViewAdapterBasic {
     private ReviewTreeNode prepareTree(PublishDate publishDate) {
         Review root = FactoryReview.createReviewUser(mAuthor,
                 publishDate, getSubject(), getRating(),
-                (GvCommentList) getData(GvCommentList.TYPE),
-                (GvImageList) getData(GvImageList.TYPE),
-                (GvFactList) getData(GvFactList.TYPE),
-                (GvLocationList) getData(GvLocationList.TYPE));
+                getData(GvCommentList.GvComment.TYPE),
+                getData(GvImageList.GvImage.TYPE),
+                getData(GvFactList.GvFact.TYPE),
+                getData(GvLocationList.GvLocation.TYPE));
 
         ReviewTreeNode rootNode = FactoryReview.createReviewTreeNode(root, mIsAverage);
         for (ReviewBuilder child : mChildren) {
@@ -185,34 +183,14 @@ public class ReviewBuilder extends ReviewViewAdapterBasic {
         return rootNode;
     }
 
-    private DataBuilder<? extends GvData> newDataBuilder(GvDataType
-            dataType) {
-        GvDataList data = getData(dataType);
-        DataBuilder<?> builder;
-        if (dataType == GvChildList.TYPE) {
-            builder = new DataBuilder<>((GvChildList) data);
-        } else if (dataType == GvCommentList.TYPE) {
-            builder = new DataBuilder<>((GvCommentList) data);
-        } else if (dataType == GvImageList.TYPE) {
-            builder = new DataBuilder<>((GvImageList) data);
-        } else if (dataType == GvFactList.TYPE) {
-            builder = new DataBuilder<>((GvFactList) data);
-        } else if (dataType == GvLocationList.TYPE) {
-            builder = new DataBuilder<>((GvLocationList) data);
-        } else if (dataType == GvUrlList.TYPE) {
-            builder = new DataBuilder<>((GvUrlList) data);
-        } else if (dataType == GvTagList.TYPE) {
-            builder = new DataBuilder<>((GvTagList) data);
-        } else {
-            return null;
-        }
-
-        return builder;
+    private <T extends GvData> DataBuilder<T> newDataBuilder(GvDataType<T> dataType) {
+        return new DataBuilder<>(getData(dataType));
     }
 
-    private void setData(GvDataList data) {
-        GvDataType dataType = data.getGvDataType();
-        if (dataType == GvChildList.TYPE) {
+    //TODO make type safe
+    private <T extends GvData> void setData(GvDataList<T> data) {
+        GvDataType<T> dataType = data.getGvDataType().getElementType();
+        if (dataType == GvChildList.GvChildReview.TYPE) {
             setChildren((GvChildList) data);
         } else if (Arrays.asList(TYPES).contains(dataType)) {
             mData.put(dataType, MdGvConverter.copy(data));
@@ -229,7 +207,7 @@ public class ReviewBuilder extends ReviewViewAdapterBasic {
     }
 
     private GvChildList getChildren() {
-        return (GvChildList) getData(GvChildList.TYPE);
+        return (GvChildList) getData(GvChildList.GvChildReview.TYPE);
     }
 
     private void setChildren(GvChildList children) {
@@ -240,7 +218,7 @@ public class ReviewBuilder extends ReviewViewAdapterBasic {
             childBuilder.setRating(child.getRating());
             mChildren.add(childBuilder);
         }
-        mData.put(GvChildList.TYPE, MdGvConverter.copy(children));
+        mData.put(GvChildList.GvChildReview.TYPE, MdGvConverter.copy(children));
     }
 
     public class DataBuilder<T extends GvData> extends ReviewViewAdapterBasic {
@@ -253,7 +231,7 @@ public class ReviewBuilder extends ReviewViewAdapterBasic {
         }
 
         public void reset() {
-            getParentBuilder().resetDataBuilder(mData.getGvDataType());
+            getParentBuilder().resetDataBuilder(mData.getGvDataType().getElementType());
         }
 
         public ReviewBuilder getParentBuilder() {
@@ -293,7 +271,7 @@ public class ReviewBuilder extends ReviewViewAdapterBasic {
 
         //TODO make type safe
         private void resetData() {
-            mData = getData(mData.getGvDataType());
+            mData = getData(mData.getGvDataType().getElementType());
             mHandler = FactoryGvDataHandler.newHandler(mData);
             notifyGridDataObservers();
         }
@@ -310,15 +288,15 @@ public class ReviewBuilder extends ReviewViewAdapterBasic {
 
         @Override
         public float getAverageRating() {
-            return mData.getGvDataType() == GvChildList.TYPE ? ReviewBuilder.this
-                    .getAverageRating() : getRating();
+            return mData.getGvDataType().getElementType() == GvChildList.GvChildReview.TYPE ?
+                    ReviewBuilder.this.getAverageRating() : getRating();
         }
 
 
         @Override
         public GvImageList getCovers() {
-            return mData.getGvDataType() == GvImageList.TYPE ? (GvImageList) mData :
-                    getParentBuilder().getCovers();
+            return mData.getGvDataType().getElementType() == GvImageList.GvImage.TYPE ?
+                    (GvImageList) mData : getParentBuilder().getCovers();
         }
 
         public void setRating(float rating) {
@@ -354,6 +332,6 @@ public class ReviewBuilder extends ReviewViewAdapterBasic {
 
     @Override
     public GvImageList getCovers() {
-        return (GvImageList) getData(GvImageList.TYPE);
+        return (GvImageList) getData(GvImageList.GvImage.TYPE);
     }
 }

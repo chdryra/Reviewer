@@ -18,10 +18,11 @@ import com.chdryra.android.reviewer.Model.Tagging.TagsManager;
 import com.chdryra.android.reviewer.View.GvDataModel.GvAuthorList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvChildList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvDataCollection;
+import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDateList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvFactList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
+import com.chdryra.android.reviewer.View.GvDataModel.GvList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvLocationList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvReviewList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvSubjectList;
@@ -42,29 +43,29 @@ public class ViewerTreeDataTest extends AndroidTestCase {
         TagsManager.tag(node.getId(), tags.toStringArray());
 
         ViewerTreeData wrapper = new ViewerTreeData(getContext(), node);
-        GvDataCollection collection = wrapper.getGridData();
+        GvList collection = wrapper.getGridData();
         assertNotNull(collection);
         assertEquals(10, collection.size());
 
-        assertEquals(node.getChildren().size(), collection.getItem(0).size());
+        assertEquals(node.getChildren().size(), ((GvDataList)collection.getItem(0)).size());
         assertEquals(GvReviewList.TYPE, collection.getItem(0).getGvDataType());
-        assertEquals(node.getChildren().size(), collection.getItem(1).size());
+        assertEquals(node.getChildren().size(), ((GvDataList)collection.getItem(1)).size());
         assertEquals(GvAuthorList.TYPE, collection.getItem(1).getGvDataType());
-        assertEquals(node.getChildren().size(), collection.getItem(2).size());
+        assertEquals(node.getChildren().size(), ((GvDataList)collection.getItem(2)).size());
         assertEquals(GvSubjectList.TYPE, collection.getItem(2).getGvDataType());
+        assertEquals(node.getChildren().size(), ((GvDataList) collection.getItem(3)).size());
         assertEquals(GvDateList.TYPE, collection.getItem(3).getGvDataType());
-        assertEquals(node.getChildren().size(), collection.getItem(3).size());
-        assertEquals(tags.size(), collection.getItem(4).size());
+        assertEquals(tags.size(), ((GvDataList)collection.getItem(4)).size());
         assertEquals(GvTagList.TYPE, collection.getItem(4).getGvDataType());
-        assertEquals(0, collection.getItem(5).size());
+        assertEquals(0, ((GvDataList)collection.getItem(5)).size());
         assertEquals(GvChildList.TYPE, collection.getItem(5).getGvDataType());
-        assertEquals(node.getImages().size(), collection.getItem(6).size());
+        assertEquals(node.getImages().size(), ((GvDataList)collection.getItem(6)).size());
         assertEquals(GvImageList.TYPE, collection.getItem(6).getGvDataType());
-        assertEquals(node.getComments().size(), collection.getItem(7).size());
+        assertEquals(node.getComments().size(), ((GvDataList)collection.getItem(7)).size());
         assertEquals(GvCommentList.TYPE, collection.getItem(7).getGvDataType());
-        assertEquals(node.getLocations().size(), collection.getItem(8).size());
+        assertEquals(node.getLocations().size(), ((GvDataList)collection.getItem(8)).size());
         assertEquals(GvLocationList.TYPE, collection.getItem(8).getGvDataType());
-        assertEquals(node.getFacts().size(), collection.getItem(9).size());
+        assertEquals(node.getFacts().size(), ((GvDataList)collection.getItem(9)).size());
         assertEquals(GvFactList.TYPE, collection.getItem(9).getGvDataType());
     }
 
@@ -76,21 +77,21 @@ public class ViewerTreeDataTest extends AndroidTestCase {
         TagsManager.tag(node.getId(), tags.toStringArray());
 
         ViewerTreeData wrapper = new ViewerTreeData(getContext(), node);
-        GvDataCollection collection = wrapper.getGridData();
+        GvList collection = wrapper.getGridData();
         assertNotNull(collection);
         assertEquals(6, collection.size());
 
-        assertEquals(tags.size(), collection.getItem(0).size());
+        assertEquals(tags.size(), ((GvDataList)collection.getItem(0)).size());
         assertEquals(GvTagList.TYPE, collection.getItem(0).getGvDataType());
-        assertEquals(unwrapped.getChildren().size(), collection.getItem(1).size());
+        assertEquals(unwrapped.getChildren().size(), ((GvDataList)collection.getItem(1)).size());
         assertEquals(GvChildList.TYPE, collection.getItem(1).getGvDataType());
-        assertEquals(node.getImages().size(), collection.getItem(2).size());
+        assertEquals(node.getImages().size(), ((GvDataList)collection.getItem(2)).size());
         assertEquals(GvImageList.TYPE, collection.getItem(2).getGvDataType());
-        assertEquals(node.getComments().size(), collection.getItem(3).size());
+        assertEquals(node.getComments().size(), ((GvDataList)collection.getItem(3)).size());
         assertEquals(GvCommentList.TYPE, collection.getItem(3).getGvDataType());
-        assertEquals(node.getLocations().size(), collection.getItem(4).size());
+        assertEquals(node.getLocations().size(), ((GvDataList)collection.getItem(4)).size());
         assertEquals(GvLocationList.TYPE, collection.getItem(4).getGvDataType());
-        assertEquals(node.getFacts().size(), collection.getItem(5).size());
+        assertEquals(node.getFacts().size(), ((GvDataList)collection.getItem(5)).size());
         assertEquals(GvFactList.TYPE, collection.getItem(5).getGvDataType());
     }
 }

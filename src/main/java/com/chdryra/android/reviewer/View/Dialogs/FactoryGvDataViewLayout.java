@@ -41,24 +41,24 @@ public class FactoryGvDataViewLayout {
 
     private FactoryGvDataViewLayout() {
         mMapAdd = new HashMap<>();
-        mMapAdd.put(GvChildList.TYPE, AddEditChildReview.class);
-        mMapAdd.put(GvCommentList.TYPE, AddEditComment.class);
-        mMapAdd.put(GvFactList.TYPE, AddEditFact.class);
-        mMapAdd.put(GvImageList.TYPE, ImageEdit.class);
-        mMapAdd.put(GvTagList.TYPE, AddEditTag.class);
-        mMapAdd.put(GvLocationList.TYPE, AddLocation.class);
+        mMapAdd.put(GvChildList.GvChildReview.TYPE, AddEditChildReview.class);
+        mMapAdd.put(GvCommentList.GvComment.TYPE, AddEditComment.class);
+        mMapAdd.put(GvFactList.GvFact.TYPE, AddEditFact.class);
+        mMapAdd.put(GvImageList.GvImage.TYPE, ImageEdit.class);
+        mMapAdd.put(GvTagList.GvTag.TYPE, AddEditTag.class);
+        mMapAdd.put(GvLocationList.GvLocation.TYPE, AddLocation.class);
 
         mMapEdit = new HashMap<>();
         mMapEdit.putAll(mMapAdd);
-        mMapEdit.put(GvLocationList.TYPE, EditLocation.class);
+        mMapEdit.put(GvLocationList.GvLocation.TYPE, EditLocation.class);
 
         mMapView = new HashMap<>();
         mMapView.putAll(mMapEdit);
-        mMapView.put(GvChildList.TYPE, ViewChildReview.class);
-        mMapView.put(GvCommentList.TYPE, ViewComment.class);
-        mMapView.put(GvFactList.TYPE, ViewFact.class);
-        mMapView.put(GvImageList.TYPE, ViewImage.class);
-        mMapView.put(GvTagList.TYPE, ViewTag.class);
+        mMapView.put(GvChildList.GvChildReview.TYPE, ViewChildReview.class);
+        mMapView.put(GvCommentList.GvComment.TYPE, ViewComment.class);
+        mMapView.put(GvFactList.GvFact.TYPE, ViewFact.class);
+        mMapView.put(GvImageList.GvImage.TYPE, ViewImage.class);
+        mMapView.put(GvTagList.GvTag.TYPE, ViewTag.class);
     }
 
     public static <T extends GvData> AddEditLayout<T> newLayout

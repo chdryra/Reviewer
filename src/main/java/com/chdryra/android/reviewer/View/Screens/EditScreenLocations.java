@@ -15,6 +15,7 @@ import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.View.ActivitiesFragments.ActivityEditLocationMap;
 import com.chdryra.android.reviewer.View.Configs.ConfigGvDataUi;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
+import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
 import com.chdryra.android.reviewer.View.GvDataModel.GvLocationList;
 import com.chdryra.android.reviewer.View.Launcher.FactoryLaunchable;
 import com.chdryra.android.reviewer.View.Launcher.LaunchableUi;
@@ -26,12 +27,16 @@ import com.chdryra.android.reviewer.View.Launcher.LauncherUi;
  * Email: rizwan.choudrey@gmail.com
  */
 public class EditScreenLocations {
+    private static final GvDataType<GvLocationList.GvLocation> TYPE   =
+            GvLocationList.GvLocation.TYPE;
+    private static final ConfigGvDataUi.Config                 CONFIG =
+            ConfigGvDataUi.getConfig(TYPE);
 
     public static class BannerButton extends EditScreen.BannerButton {
         private static final int ADD_ON_MAP = 200;
 
         public BannerButton(String title) {
-            super(ConfigGvDataUi.getConfig(GvLocationList.TYPE).getAdderConfig(), title);
+            super(CONFIG.getAdderConfig(), title);
         }
 
         @Override
@@ -53,7 +58,7 @@ public class EditScreenLocations {
         private static final int EDIT_ON_MAP = 200;
 
         public GridItem() {
-            super(ConfigGvDataUi.getConfig(GvLocationList.TYPE).getEditorConfig());
+            super(CONFIG.getEditorConfig());
         }
 
         @Override

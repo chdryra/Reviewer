@@ -33,15 +33,15 @@ import java.util.Date;
  * @see Administrator
  */
 public class GvReviewList extends GvDataList<GvReviewList.GvReviewOverview> {
-    public static final GvDataType<GvReviewOverview> TYPE = new GvDataType<>(GvReviewOverview
-            .class, "review");
+    private static final GvDataType<GvReviewList> TYPE
+            = GvTypeMaker.newType(GvReviewList.class, GvReviewOverview.TYPE);
 
     public GvReviewList() {
-        super(null, TYPE);
+        super(GvReviewOverview.class, TYPE, null);
     }
 
     public GvReviewList(GvReviewId parentId) {
-        super(parentId, TYPE);
+        super(GvReviewOverview.class, TYPE, parentId);
     }
 
     public GvReviewList(GvReviewList data) {
@@ -86,6 +86,8 @@ public class GvReviewList extends GvDataList<GvReviewList.GvReviewOverview> {
      * {@link ViewHolder): {@link VhFeed }
      */
     public static class GvReviewOverview extends GvDataBasic<GvReviewOverview> {
+        public static final GvDataType<GvReviewOverview> TYPE =
+                GvTypeMaker.newType(GvReviewOverview.class, "review");
         public static final Parcelable.Creator<GvReviewOverview> CREATOR = new Parcelable
                 .Creator<GvReviewOverview>() {
             public GvReviewOverview createFromParcel(Parcel in) {
@@ -107,7 +109,7 @@ public class GvReviewList extends GvDataList<GvReviewList.GvReviewOverview> {
         private Date   mPublishDate;
 
         public GvReviewOverview() {
-            super(TYPE);
+            super(GvReviewOverview.TYPE);
         }
 
         public GvReviewOverview(String id, Author author, Date publishDate, String subject,
@@ -119,7 +121,7 @@ public class GvReviewList extends GvDataList<GvReviewList.GvReviewOverview> {
         public GvReviewOverview(GvReviewId parentId, String id, Author author, Date publishDate,
                 String subject, float rating, Bitmap coverImage, String headline,
                 ArrayList<String> locationNames) {
-            super(TYPE, parentId);
+            super(GvReviewOverview.TYPE, parentId);
             mId = id;
             mSubject = subject;
             mRating = rating;

@@ -17,7 +17,6 @@ import com.chdryra.android.mygenerallibrary.DialogCancelAddDoneFragment;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilder;
 import com.chdryra.android.reviewer.ApplicationSingletons.Administrator;
 import com.chdryra.android.reviewer.R;
-import com.chdryra.android.reviewer.View.GvDataModel.FactoryGvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataHandler;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataPacker;
@@ -51,7 +50,7 @@ public abstract class DialogGvDataAdd<T extends GvData> extends
         DialogCancelAddDoneFragment implements AddEditLayout.GvDataAdder, LaunchableUi {
     public static final String QUICK_SET = "com.chdryra.android.reviewer.dialog_quick_mode";
 
-    private final GvDataType                   mDataType;
+    private final GvDataType<T> mDataType;
     private AddEditLayout<T> mLayout;
     private       ReviewBuilder.DataBuilder<T> mBuilder;
     private       GvDataAddListener<T>         mAddListener;
@@ -70,8 +69,8 @@ public abstract class DialogGvDataAdd<T extends GvData> extends
     }
 
     //Use Class<T2> instead of sending type for extra type safety...
-    public DialogGvDataAdd(Class<T> dataClass) {
-        mDataType = FactoryGvData.gvType(dataClass);
+    public DialogGvDataAdd(GvDataType<T> dataType) {
+        mDataType = dataType;
     }
 
     @Override
@@ -95,7 +94,7 @@ public abstract class DialogGvDataAdd<T extends GvData> extends
         getDialog().setTitle(title);
     }
 
-    public GvDataType getGvDataType() {
+    public GvDataType<T> getGvDataType() {
         return mDataType;
     }
 
@@ -113,9 +112,7 @@ public abstract class DialogGvDataAdd<T extends GvData> extends
         mLayout.onActivityAttached(getActivity(), args);
         mQuickSet = args != null && args.getBoolean(QUICK_SET);
 
-        //TODO make type safe
-        mBuilder = (ReviewBuilder.DataBuilder<T>) Administrator.get(getActivity())
-                .getReviewBuilder().getDataBuilder(mDataType);
+        mBuilder = Administrator.get(getActivity()).getReviewBuilder().getDataBuilder(mDataType);
 
         //TODO make type safe
         if (!isQuickSet()) {

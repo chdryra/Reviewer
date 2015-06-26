@@ -64,7 +64,7 @@ public class FragmentEditUrlBrowser extends FragmentDeleteDone {
             mCurrent = (GvUrlList.GvUrl) GvDataPacker.unpackItem(GvDataPacker.CurrentNewDatum.
                     CURRENT, args);
         }
-        setDeleteWhatTitle(GvUrlList.TYPE.getDatumName());
+        setDeleteWhatTitle(GvUrlList.GvUrl.TYPE.getDatumName());
         dismissOnDelete();
     }
 

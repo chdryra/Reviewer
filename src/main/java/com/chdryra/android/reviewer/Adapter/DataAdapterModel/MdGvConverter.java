@@ -9,7 +9,6 @@
 package com.chdryra.android.reviewer.Adapter.DataAdapterModel;
 
 import com.chdryra.android.reviewer.Model.ReviewData.MdCommentList;
-import com.chdryra.android.reviewer.Model.ReviewData.MdDataList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdFactList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdImageList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdLocationList;
@@ -29,12 +28,15 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDateList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvFactList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
+import com.chdryra.android.reviewer.View.GvDataModel.GvList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvLocationList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvReviewId;
 import com.chdryra.android.reviewer.View.GvDataModel.GvSubjectList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvTagList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvTextList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvUrlList;
+
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * Created by: Rizwan Choudrey
@@ -230,29 +232,50 @@ public class MdGvConverter {
         return list;
     }
 
-    public static GvTextList convertChildSubjects(ReviewNode node) {
+    public static GvList convertChildSubjects(ReviewNode node) {
         GvReviewId id = GvReviewId.getId(node.getId().toString());
-        GvSubjectList list = new GvSubjectList(id);
+        Map<String, GvSubjectList> subjectMap = new LinkedHashMap<>();
         ChildDataGetter getter = new ChildDataGetter(node);
-        for (MdSubject subject : getter.getSubjects()) {
-            list.add(new GvSubjectList.GvSubject(GvReviewId.getId(subject.getReviewId().toString()),
-                    subject.get()));
+        for (MdSubject mdSubject : getter.getSubjects()) {
+            String subject = mdSubject.get();
+            GvReviewId subjectId = GvReviewId.getId(mdSubject.getReviewId().toString());
+            GvSubjectList.GvSubject gvSubject = new GvSubjectList.GvSubject(subjectId, subject);
+            if (!subjectMap.containsKey(subject)) {
+                subjectMap.put(subject, new GvSubjectList(id));
+            }
+
+            subjectMap.get(subject).add(gvSubject);
         }
 
-        return list;
+        GvList collection = new GvList(id);
+        for (Map.Entry<String, GvSubjectList> entry : subjectMap.entrySet()) {
+            collection.add(entry.getValue());
+        }
+
+        return collection;
     }
 
-    public static GvAuthorList convertChildAuthors(ReviewNode node) {
+    public static GvList convertChildAuthors(ReviewNode node) {
         GvReviewId id = GvReviewId.getId(node.getId().toString());
-        GvAuthorList list = new GvAuthorList(id);
+        Map<Author, GvAuthorList> authorMap = new LinkedHashMap<>();
         for (ReviewNode child : node.getChildren()) {
             GvReviewId childId = GvReviewId.getId(child.getId().toString());
             Author author = child.getAuthor();
-            list.add(new GvAuthorList.GvAuthor(childId, author.getName(), author.getUserId()
-                    .toString()));
+            GvAuthorList.GvAuthor gvAuthor = new GvAuthorList.GvAuthor(childId, author.getName(),
+                    author.getUserId().toString());
+            if (!authorMap.containsKey(author)) {
+                authorMap.put(author, new GvAuthorList(id));
+            }
+
+            authorMap.get(author).add(gvAuthor);
         }
 
-        return list;
+        GvList collection = new GvList(id);
+        for (Map.Entry<Author, GvAuthorList> entry : authorMap.entrySet()) {
+            collection.add(entry.getValue());
+        }
+
+        return collection;
     }
 
     public static GvDateList convertChildPublishDates(ReviewNode node) {
@@ -265,19 +288,5 @@ public class MdGvConverter {
         }
 
         return list;
-    }
-
-    public static GvDataList<GvReviewId> convert(MdDataList<ReviewId> reviewIds) {
-        GvDataList<GvReviewId> ids = new GvDataList<>(convert(reviewIds.getReviewId()),
-                GvReviewId.TYPE);
-        for (ReviewId id : reviewIds) {
-            ids.add(convert(id));
-        }
-
-        return ids;
-    }
-
-    public static GvReviewId convert(ReviewId id) {
-        return GvReviewId.getId(id.toString());
     }
 }

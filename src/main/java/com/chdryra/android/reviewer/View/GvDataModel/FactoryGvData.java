@@ -28,13 +28,13 @@ public class FactoryGvData {
     private final Map<GvDataType, GvTypeList> mClasses = new HashMap<>();
 
     private FactoryGvData() {
-        mClasses.put(gvTypeFromList(GvTagList.class), new GvTypeList<>(GvTagList.class));
-        mClasses.put(gvTypeFromList(GvChildList.class), new GvTypeList<>(GvChildList.class));
-        mClasses.put(gvTypeFromList(GvCommentList.class), new GvTypeList<>(GvCommentList.class));
-        mClasses.put(gvTypeFromList(GvFactList.class), new GvTypeList<>(GvFactList.class));
-        mClasses.put(gvTypeFromList(GvImageList.class), new GvTypeList<>(GvImageList.class));
-        mClasses.put(gvTypeFromList(GvLocationList.class), new GvTypeList<>(GvLocationList.class));
-        mClasses.put(gvTypeFromList(GvUrlList.class), new GvTypeList<>(GvUrlList.class));
+        mClasses.put(GvTagList.GvTag.TYPE, new GvTypeList<>(GvTagList.class));
+        mClasses.put(GvChildList.GvChildReview.TYPE, new GvTypeList<>(GvChildList.class));
+        mClasses.put(GvCommentList.GvComment.TYPE, new GvTypeList<>(GvCommentList.class));
+        mClasses.put(GvFactList.GvFact.TYPE, new GvTypeList<>(GvFactList.class));
+        mClasses.put(GvImageList.GvImage.TYPE, new GvTypeList<>(GvImageList.class));
+        mClasses.put(GvLocationList.GvLocation.TYPE, new GvTypeList<>(GvLocationList.class));
+        mClasses.put(GvUrlList.GvUrl.TYPE, new GvTypeList<>(GvUrlList.class));
     }
 
     private static FactoryGvData get() {
@@ -42,21 +42,13 @@ public class FactoryGvData {
         return sFactory;
     }
 
-    public static <T1 extends GvData, T2 extends GvDataList<T1>> GvDataType gvTypeFromList
-            (Class<T2> dataClass) {
-        return newList(dataClass).getGvDataType();
-    }
-
-    public static <T extends GvData> GvDataType gvType(Class<T> dataClass) {
-        return newNull(dataClass).getGvDataType();
-    }
-
     //TODO make type safe
-    public static <T extends GvData> GvDataList<T> newList(GvDataType dataType) {
-        return newList(get().mClasses.get(dataType).mList);
+    public static <T extends GvData> GvDataList<T> newDataList(GvDataType<T> dataType) {
+        return newDataList(get().mClasses.get(dataType).mList);
     }
 
-    public static <T1 extends GvData, T2 extends GvDataList<T1>> T2 newList(Class<T2> dataClass) {
+    private static <T1 extends GvData, T2 extends GvDataList<T1>> T2 newDataList(Class<T2>
+            dataClass) {
         try {
             return dataClass.newInstance();
         } catch (InstantiationException e) {
@@ -66,9 +58,9 @@ public class FactoryGvData {
         }
     }
 
-    public static <T1 extends GvData, T2 extends GvDataList<T1>> T2 newList(Class<T2> dataClass,
+    public static <T1 extends GvData, T2 extends GvDataList<T1>> T2 newDataList(Class<T2> dataClass,
             GvReviewId id) {
-        if (id == null) return newList(dataClass);
+        if (id == null) return newDataList(dataClass);
 
         try {
             Constructor<T2> ctor = dataClass.getConstructor(GvReviewId.class);

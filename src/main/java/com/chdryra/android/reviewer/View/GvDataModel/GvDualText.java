@@ -24,8 +24,6 @@ import com.chdryra.android.mygenerallibrary.VHDDualString;
  * {@link GvData}
  */
 public class GvDualText extends VHDDualString implements GvData {
-    public static final GvDataType<GvDualText> TYPE = new GvDataType<>(GvDualText.class,
-            "DualText");
     public static final Parcelable.Creator<GvDualText> CREATOR = new Parcelable
             .Creator<GvDualText>() {
         public GvDualText createFromParcel(Parcel in) {
@@ -36,6 +34,8 @@ public class GvDualText extends VHDDualString implements GvData {
             return new GvDualText[size];
         }
     };
+    private static final GvDataType<GvDualText> TYPE
+            = GvTypeMaker.newType(GvDualText.class, "DualText");
     private GvReviewId mId;
 
     GvDualText() {

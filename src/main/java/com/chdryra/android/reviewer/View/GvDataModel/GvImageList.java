@@ -26,14 +26,15 @@ import java.util.Random;
  * used as a background image for a review.
  */
 public class GvImageList extends GvDataList<GvImageList.GvImage> {
-    public static final GvDataType<GvImage> TYPE = new GvDataType<>(GvImage.class, "image");
+    public static final GvDataType<GvImageList> TYPE =
+            GvTypeMaker.newType(GvImageList.class, GvImage.TYPE);
 
     public GvImageList() {
-        super(null, TYPE);
+        super(GvImage.class, TYPE, null);
     }
 
     public GvImageList(GvReviewId id) {
-        super(id, TYPE);
+        super(GvImage.class, TYPE, id);
     }
 
     public GvImageList(GvImageList data) {
@@ -96,6 +97,7 @@ public class GvImageList extends GvDataList<GvImageList.GvImage> {
      * {@link ViewHolder}: {@link VhImage}
      */
     public static class GvImage extends GvDataBasic<GvImage> implements DataImage {
+        public static final GvDataType<GvImage> TYPE = GvTypeMaker.newType(GvImage.class, "image");
         public static final Parcelable.Creator<GvImage> CREATOR = new Parcelable
                 .Creator<GvImage>() {
             public GvImage createFromParcel(Parcel in) {
@@ -114,14 +116,14 @@ public class GvImageList extends GvDataList<GvImageList.GvImage> {
         private boolean mIsCover = false;
 
         public GvImage() {
-            super(TYPE);
+            super(GvImage.TYPE);
             mBitmap = null;
             mDate = null;
             mLatLng = null;
         }
 
         public GvImage(Bitmap bitmap, Date date, LatLng latLng, String caption, boolean isCover) {
-            super(TYPE);
+            super(GvImage.TYPE);
             mBitmap = bitmap;
             mDate = date;
             mCaption = caption;
@@ -130,7 +132,7 @@ public class GvImageList extends GvDataList<GvImageList.GvImage> {
         }
 
         public GvImage(GvReviewId id, Bitmap bitmap, Date date, String caption, boolean isCover) {
-            super(TYPE, id);
+            super(GvImage.TYPE, id);
             mBitmap = bitmap;
             mDate = date;
             mCaption = caption;

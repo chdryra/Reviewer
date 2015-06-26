@@ -22,14 +22,15 @@ import java.util.Comparator;
  * Email: rizwan.choudrey@gmail.com
  */
 public class GvAuthorList extends GvDataList<GvAuthorList.GvAuthor> {
-    public static final GvDataType<GvAuthor> TYPE = new GvDataType<>(GvAuthor.class, "author");
+    private static final GvDataType<GvAuthorList> TYPE =
+            GvTypeMaker.newType(GvAuthorList.class, GvAuthor.TYPE);
 
     public GvAuthorList() {
-        super(null, TYPE);
+        super(GvAuthor.class, TYPE, null);
     }
 
     public GvAuthorList(GvReviewId id) {
-        super(id, TYPE);
+        super(GvAuthor.class, TYPE, id);
     }
 
     public GvAuthorList(GvAuthorList data) {
@@ -56,6 +57,8 @@ public class GvAuthorList extends GvDataList<GvAuthorList.GvAuthor> {
      * </p>
      */
     public static class GvAuthor extends GvDataBasic<GvAuthor> {
+        public static final GvDataType<GvAuthor> TYPE =
+                GvTypeMaker.newType(GvAuthor.class, "author");
         public static final Parcelable.Creator<GvAuthor> CREATOR = new Parcelable
                 .Creator<GvAuthor>() {
             public GvAuthor createFromParcel(Parcel in) {
@@ -66,6 +69,7 @@ public class GvAuthorList extends GvDataList<GvAuthorList.GvAuthor> {
                 return new GvAuthor[size];
             }
         };
+
         private String mName;
         private String mUserId;
 
@@ -78,7 +82,7 @@ public class GvAuthorList extends GvDataList<GvAuthorList.GvAuthor> {
         }
 
         public GvAuthor(GvReviewId id, String name, String userId) {
-            super(TYPE, id);
+            super(GvAuthor.TYPE, id);
             mName = name;
             mUserId = userId;
         }
