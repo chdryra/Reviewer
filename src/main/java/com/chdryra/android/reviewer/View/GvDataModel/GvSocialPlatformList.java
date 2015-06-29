@@ -27,7 +27,7 @@ import java.util.Comparator;
  * @see SocialPlatformList
  */
 public class GvSocialPlatformList extends GvDataList<GvSocialPlatformList.GvSocialPlatform> {
-    private static final GvDataType<GvSocialPlatformList> TYPE =
+    public static final GvDataType<GvSocialPlatformList> TYPE =
             GvTypeMaker.newType(GvSocialPlatformList.class, GvSocialPlatform.TYPE);
 
     //For testing

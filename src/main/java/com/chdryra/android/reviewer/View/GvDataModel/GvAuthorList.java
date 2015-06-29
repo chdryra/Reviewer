@@ -22,7 +22,7 @@ import java.util.Comparator;
  * Email: rizwan.choudrey@gmail.com
  */
 public class GvAuthorList extends GvDataList<GvAuthorList.GvAuthor> {
-    private static final GvDataType<GvAuthorList> TYPE =
+    public static final GvDataType<GvAuthorList> TYPE =
             GvTypeMaker.newType(GvAuthorList.class, GvAuthor.TYPE);
 
     public GvAuthorList() {

@@ -77,7 +77,8 @@ public class AdapterReviewViewAdapterTest extends AndroidTestCase {
     protected void setUp() throws Exception {
         ReviewNode node = ReviewMocker.newReviewNode(true);
 
-        mGridData = new GvDataList<>(null, new GvDataType<>(GvData.class, "testData"));
+        mGridData = new GvDataList<>(GvData.class, new GvDataType<>(GvData.class, "testData"),
+                null);
         mGridData.add(GvDataMocker.newCommentList(6, false));
         mGridData.add(GvDataMocker.newFactList(6, false));
         mGridData.add(GvDataMocker.newLocationList(0, false));

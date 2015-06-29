@@ -307,7 +307,8 @@ public class ActivityBuildReviewTest extends ActivityReviewViewTest {
     }
 
     private float getAverageRating(boolean nearestHalf) {
-        GvChildList children = (GvChildList) getBuilder().getDataBuilder(GvChildList.TYPE)
+        GvChildList children = (GvChildList) getBuilder().getDataBuilder(GvChildList
+                .GvChildReview.TYPE)
                 .getGridData();
 
         float rating = children.getAverageRating();

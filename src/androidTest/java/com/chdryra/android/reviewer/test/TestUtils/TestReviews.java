@@ -17,6 +17,7 @@ import android.webkit.URLUtil;
 import com.chdryra.android.mygenerallibrary.ImageHelper;
 import com.chdryra.android.mygenerallibrary.TextUtils;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilder;
+import com.chdryra.android.reviewer.Model.ReviewData.PublishDate;
 import com.chdryra.android.reviewer.Model.ReviewData.ReviewIdableList;
 import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
 import com.chdryra.android.reviewer.Model.UserData.Author;
@@ -79,12 +80,12 @@ public class TestReviews {
         builder.setSubject(review.mSubject);
         builder.setRating(review.mRating);
         builder.setRatingIsAverage(review.mIsRatingAverage);
-        ReviewBuilder.DataBuilder b = builder.getDataBuilder(GvCommentList.TYPE);
+        ReviewBuilder.DataBuilder b = builder.getDataBuilder(GvCommentList.GvComment.TYPE);
         for (String comment : review.mComments) {
             b.add(new GvCommentList.GvComment(comment));
         }
         b.setData();
-        b = builder.getDataBuilder(GvFactList.TYPE);
+        b = builder.getDataBuilder(GvFactList.GvFact.TYPE);
         for (Fact fact : review.mFacts) {
             GvFactList.GvFact f = new GvFactList.GvFact(fact.mLabel, fact.mValue);
             if (fact.mIsUrl) {
@@ -97,29 +98,29 @@ public class TestReviews {
             b.add(f);
         }
         b.setData();
-        b = builder.getDataBuilder(GvLocationList.TYPE);
+        b = builder.getDataBuilder(GvLocationList.GvLocation.TYPE);
         for (Location Location : review.mLocations) {
             b.add(new GvLocationList.GvLocation(Location.mLatLng, Location.mName));
         }
         b.setData();
-        b = builder.getDataBuilder(GvImageList.TYPE);
+        b = builder.getDataBuilder(GvImageList.GvImage.TYPE);
         for (Image image : review.mImages) {
             b.add(new GvImageList.GvImage(image.mBitmap, image.mDate, null, image.mCaption, image
                     .mIsCover));
         }
         b.setData();
-        b = builder.getDataBuilder(GvChildList.TYPE);
+        b = builder.getDataBuilder(GvChildList.GvChildReview.TYPE);
         for (Criterion child : review.mCriteria) {
             b.add(new GvChildList.GvChildReview(child.mSubject, child.mRating));
         }
         b.setData();
-        b = builder.getDataBuilder(GvTagList.TYPE);
+        b = builder.getDataBuilder(GvTagList.GvTag.TYPE);
         for (String tag : review.mTags) {
             b.add(new GvTagList.GvTag(tag));
         }
         b.setData();
 
-        return builder.publish(RandomPublishDate.nextDate());
+        return builder.publish(PublishDate.then(review.mPublishDate.getTime()));
     }
 
     private TestReview getReview1() {
@@ -151,6 +152,9 @@ public class TestReviews {
         Assert.assertNotNull(image);
         cal = new GregorianCalendar(2015, 1, 25, 19, 0);
         review.mImages.add(new Image(image, "Frontage", cal.getTime(), false));
+
+        cal = new GregorianCalendar(2015, 1, 25, 19, 30);
+        review.mPublishDate = cal.getTime();
 
         return review;
     }
@@ -200,6 +204,9 @@ public class TestReviews {
         cal = new GregorianCalendar(2015, 4, 26, 14, 15);
         review.mImages.add(new Image(image, "Cot", cal.getTime(), false));
 
+        cal = new GregorianCalendar(2015, 4, 26, 14, 30);
+        review.mPublishDate = cal.getTime();
+
         return review;
     }
 
@@ -239,6 +246,7 @@ public class TestReviews {
         private ArrayList<Location>  mLocations = new ArrayList<>();
         private ArrayList<Fact>      mFacts     = new ArrayList<>();
         private ArrayList<Image>     mImages    = new ArrayList<>();
+        private Date mPublishDate;
     }
 
     private class Criterion {

@@ -60,10 +60,10 @@ public class ReviewBuilder extends ReviewViewAdapterBasic {
     private static final GvDataType[] TYPES = ConfigGvDataUi.TYPES;
     private static final File         FILE_DIR_EXT = Environment
             .getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM);
-    private final Context                                        mContext;
+    private final Context           mContext;
     private final Map<GvDataType<? extends GvData>, GvDataList<?>>  mData;
     private final Map<GvDataType<? extends GvData>, DataBuilder<?>> mDataBuilders;
-    private final GvBuildReviewList                              mBuildUi;
+    private final GvBuildReviewList mBuildUi;
 
     private FileIncrementor          mIncrementor;
     private String                   mSubject;
@@ -130,7 +130,7 @@ public class ReviewBuilder extends ReviewViewAdapterBasic {
         return (DataBuilder<T>) mDataBuilders.get(dataType);
     }
 
-    public void resetDataBuilder(GvDataType dataType) {
+    public <T extends GvData> void resetDataBuilder(GvDataType<T> dataType) {
         getDataBuilder(dataType).resetData();
     }
 
@@ -288,7 +288,7 @@ public class ReviewBuilder extends ReviewViewAdapterBasic {
 
         @Override
         public float getAverageRating() {
-            return mData.getGvDataType().getElementType() == GvChildList.GvChildReview.TYPE ?
+            return mData.getGvDataType() == GvChildList.TYPE ?
                     ReviewBuilder.this.getAverageRating() : getRating();
         }
 

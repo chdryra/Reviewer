@@ -95,7 +95,7 @@ public class TestReviewsTest extends InstrumentationTestCase {
 
         //Facts
         MdFactList facts = node.getFacts();
-        assertEquals(4, facts.size());
+        assertEquals(5, facts.size());
 
         assertEquals("Starter", facts.getItem(0).getLabel());
         assertEquals("5", facts.getItem(0).getValue());

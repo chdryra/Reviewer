@@ -70,6 +70,10 @@ public class GvDataType<T extends GvData> implements Parcelable {
         return this;
     }
 
+    public boolean isCompoundType() {
+        return getElementType() != this;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

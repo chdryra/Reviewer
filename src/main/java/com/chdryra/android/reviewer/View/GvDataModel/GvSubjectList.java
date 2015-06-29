@@ -17,7 +17,7 @@ import android.os.Parcelable;
  * Email: rizwan.choudrey@gmail.com
  */
 public class GvSubjectList extends GvTextList<GvSubjectList.GvSubject> {
-    private static final GvDataType<GvSubjectList> TYPE
+    public static final GvDataType<GvSubjectList> TYPE
             = GvTypeMaker.newType(GvSubjectList.class, GvSubject.TYPE);
 
     public GvSubjectList() {

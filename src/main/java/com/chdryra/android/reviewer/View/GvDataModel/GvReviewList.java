@@ -33,7 +33,7 @@ import java.util.Date;
  * @see Administrator
  */
 public class GvReviewList extends GvDataList<GvReviewList.GvReviewOverview> {
-    private static final GvDataType<GvReviewList> TYPE
+    public static final GvDataType<GvReviewList> TYPE
             = GvTypeMaker.newType(GvReviewList.class, GvReviewOverview.TYPE);
 
     public GvReviewList() {

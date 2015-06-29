@@ -28,23 +28,13 @@ import junit.framework.TestCase;
 public class FactoryGvDataTest extends TestCase {
 
     @SmallTest
-    public void testGvType() {
-        assertEquals(GvImageList.TYPE, FactoryGvData.gvTypeFromList(GvImageList.class));
-        assertEquals(GvTagList.TYPE, FactoryGvData.gvTypeFromList(GvTagList.class));
-        assertEquals(GvChildList.TYPE, FactoryGvData.gvTypeFromList(GvChildList.class));
-        assertEquals(GvCommentList.TYPE, FactoryGvData.gvTypeFromList(GvCommentList.class));
-        assertEquals(GvLocationList.TYPE, FactoryGvData.gvTypeFromList(GvLocationList.class));
-        assertEquals(GvUrlList.TYPE, FactoryGvData.gvTypeFromList(GvUrlList.class));
-    }
-
-    @SmallTest
     public void testNewList() {
-        assertNotNull(FactoryGvData.newDataList(GvImageList.class));
-        assertNotNull(FactoryGvData.newDataList(GvTagList.class));
-        assertNotNull(FactoryGvData.newDataList(GvChildList.class));
-        assertNotNull(FactoryGvData.newDataList(GvCommentList.class));
-        assertNotNull(FactoryGvData.newDataList(GvLocationList.class));
-        assertNotNull(FactoryGvData.newDataList(GvUrlList.class));
+        assertNotNull(FactoryGvData.newDataList(GvImageList.GvImage.TYPE));
+        assertNotNull(FactoryGvData.newDataList(GvTagList.GvTag.TYPE));
+        assertNotNull(FactoryGvData.newDataList(GvChildList.GvChildReview.TYPE));
+        assertNotNull(FactoryGvData.newDataList(GvCommentList.GvComment.TYPE));
+        assertNotNull(FactoryGvData.newDataList(GvLocationList.GvLocation.TYPE));
+        assertNotNull(FactoryGvData.newDataList(GvUrlList.GvUrl.TYPE));
     }
 
     @SmallTest

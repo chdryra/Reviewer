@@ -44,10 +44,12 @@ public class FactoryGvData {
 
     //TODO make type safe
     public static <T extends GvData> GvDataList<T> newDataList(GvDataType<T> dataType) {
-        return newDataList(get().mClasses.get(dataType).mList);
+        Class dataClass = dataType.isCompoundType() ? dataType.getDataClass() : get().mClasses.get
+                (dataType).mList;
+        return newDataList(dataClass);
     }
 
-    private static <T1 extends GvData, T2 extends GvDataList<T1>> T2 newDataList(Class<T2>
+    public static <T1 extends GvData, T2 extends GvDataList<T1>> T2 newDataList(Class<T2>
             dataClass) {
         try {
             return dataClass.newInstance();

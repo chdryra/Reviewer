@@ -24,7 +24,7 @@ import java.util.Date;
  * Email: rizwan.choudrey@gmail.com
  */
 public class GvDateList extends GvDataList<GvDateList.GvDate> {
-    private static final GvDataType<GvDateList> TYPE
+    public static final GvDataType<GvDateList> TYPE
             = GvTypeMaker.newType(GvDateList.class, GvDate.TYPE);
 
     public GvDateList() {
