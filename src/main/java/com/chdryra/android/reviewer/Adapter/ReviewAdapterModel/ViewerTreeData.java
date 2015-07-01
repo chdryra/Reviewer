@@ -11,7 +11,6 @@ package com.chdryra.android.reviewer.Adapter.ReviewAdapterModel;
 import android.content.Context;
 
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.MdGvConverter;
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.TagCollector;
 import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
 import com.chdryra.android.reviewer.Model.Tagging.TagsManager;
 import com.chdryra.android.reviewer.View.GvDataModel.GvChildList;

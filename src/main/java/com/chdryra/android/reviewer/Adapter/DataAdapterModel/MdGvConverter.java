@@ -247,7 +247,7 @@ public class MdGvConverter {
             subjectMap.get(subject).add(gvSubject);
         }
 
-        GvList collection = new GvList(id);
+        GvList collection = new GvList(id, GvSubjectList.TYPE);
         for (Map.Entry<String, GvSubjectList> entry : subjectMap.entrySet()) {
             collection.add(entry.getValue());
         }
@@ -255,7 +255,7 @@ public class MdGvConverter {
         return collection;
     }
 
-    public static GvList convertChildAuthors(ReviewNode node) {
+    public static GvDataList convertChildAuthors(ReviewNode node) {
         GvReviewId id = GvReviewId.getId(node.getId().toString());
         Map<Author, GvAuthorList> authorMap = new LinkedHashMap<>();
         for (ReviewNode child : node.getChildren()) {
@@ -270,7 +270,7 @@ public class MdGvConverter {
             authorMap.get(author).add(gvAuthor);
         }
 
-        GvList collection = new GvList(id);
+        GvList collection = new GvList(id, GvAuthorList.TYPE);
         for (Map.Entry<Author, GvAuthorList> entry : authorMap.entrySet()) {
             collection.add(entry.getValue());
         }

@@ -50,9 +50,15 @@ public class ViewerTreeDataTest extends AndroidTestCase {
         assertEquals(node.getChildren().size(), ((GvDataList)collection.getItem(0)).size());
         assertEquals(GvReviewList.TYPE, collection.getItem(0).getGvDataType());
         assertEquals(node.getChildren().size(), ((GvDataList)collection.getItem(1)).size());
-        assertEquals(GvAuthorList.TYPE, collection.getItem(1).getGvDataType());
+        assertEquals(GvAuthorList.TYPE.getDatumName(), collection.getItem(1).getGvDataType()
+                .getDatumName());
+        assertEquals(GvAuthorList.TYPE.getDataName(), collection.getItem(1).getGvDataType()
+                .getDataName());
         assertEquals(node.getChildren().size(), ((GvDataList)collection.getItem(2)).size());
-        assertEquals(GvSubjectList.TYPE, collection.getItem(2).getGvDataType());
+        assertEquals(GvSubjectList.TYPE.getDatumName(), collection.getItem(2).getGvDataType()
+                .getDatumName());
+        assertEquals(GvSubjectList.TYPE.getDataName(), collection.getItem(2).getGvDataType()
+                .getDataName());
         assertEquals(node.getChildren().size(), ((GvDataList) collection.getItem(3)).size());
         assertEquals(GvDateList.TYPE, collection.getItem(3).getGvDataType());
         assertEquals(tags.size(), ((GvDataList)collection.getItem(4)).size());

@@ -6,8 +6,9 @@
  * Date: 13 May, 2015
  */
 
-package com.chdryra.android.reviewer.Adapter.DataAdapterModel;
+package com.chdryra.android.reviewer.Adapter.ReviewAdapterModel;
 
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.MdGvConverter;
 import com.chdryra.android.reviewer.Model.ReviewData.MdDataList;
 import com.chdryra.android.reviewer.Model.ReviewData.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
@@ -27,25 +28,18 @@ public class TagCollector {
     }
 
     public GvTagList collectTags() {
-        MdDataList<ReviewId> ids = getIds();
-
-        GvTagList tags = new GvTagList();
-        for (ReviewId id : ids) {
-            GvTagList nodeTags = MdGvConverter.getTags(id.toString());
-            for (GvTagList.GvTag tag : nodeTags) {
-                tags.add(tag);
-            }
-        }
-
-        return tags;
-    }
-
-    public MdDataList<ReviewId> getIds() {
         MdDataList<ReviewId> ids = new MdDataList<>(mNode.getId());
         for (ReviewNode node : VisitorTreeFlattener.flatten(mNode)) {
             ids.add(node.getId());
         }
 
-        return ids;
+        GvTagList tags = new GvTagList();
+        for (ReviewId id : ids) {
+            for (GvTagList.GvTag tag : MdGvConverter.getTags(id.toString())) {
+                tags.add(tag);
+            }
+        }
+
+        return tags;
     }
 }
