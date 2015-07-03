@@ -3,22 +3,18 @@
  * Unauthorized copying of this file, via any medium is strictly prohibited
  * Proprietary and confidential
  * Author: Rizwan Choudrey
- * Date: 25 June, 2015
+ * Date: 3 July, 2015
  */
 
 package com.chdryra.android.reviewer.View.GvDataAlgorithms;
 
+import org.jetbrains.annotations.NotNull;
+
 /**
  * Created by: Rizwan Choudrey
- * On: 25/06/2015
+ * On: 03/07/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public interface GvKey {
-    String getLabel();
-
-    @Override
-    boolean equals(Object other);
-
-    @Override
-    int hashCode();
+public interface SimilarityLevel<T> {
+    boolean lessThanOrEqualTo(@NotNull T similarityThreshold);
 }

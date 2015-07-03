@@ -8,15 +8,11 @@
 
 package com.chdryra.android.reviewer.View.GvDataAlgorithms;
 
-import com.chdryra.android.reviewer.View.GvDataModel.GvData;
-
 /**
  * Created by: Rizwan Choudrey
  * On: 25/06/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public interface GvComparator<T extends GvData> {
-    int compare(T datum1, T datum2);
-
-    GvKey getKey(T datum);
+public interface SimilarityComparitor<T, S extends SimilarityLevel> {
+    S compare(T lhs, T rhs);
 }
