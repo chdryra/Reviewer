@@ -18,17 +18,17 @@ import com.google.android.gms.maps.model.LatLng;
  * On: 03/07/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ComparitorGvLocationDistance implements SimilarityComparitor<GvLocationList
-        .GvLocation, SimilarityFloat> {
+public class ComparitorGvLocationDistance implements DifferenceComparitor<GvLocationList
+        .GvLocation, DifferenceFloat> {
 
     @Override
-    public SimilarityFloat compare(GvLocationList.GvLocation lhs, GvLocationList.GvLocation
+    public DifferenceFloat compare(GvLocationList.GvLocation lhs, GvLocationList.GvLocation
             rhs) {
         float[] res = new float[1];
         LatLng ll1 = lhs.getLatLng();
-        LatLng ll2 = lhs.getLatLng();
+        LatLng ll2 = rhs.getLatLng();
         Location.distanceBetween(ll1.latitude, ll1.longitude, ll2.latitude, ll2.longitude, res);
 
-        return new SimilarityFloat(res[0]);
+        return new DifferenceFloat(res[0]);
     }
 }

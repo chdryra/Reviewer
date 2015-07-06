@@ -15,18 +15,18 @@ import org.apache.commons.lang3.StringUtils;
  * On: 03/07/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class StringComparitor implements SimilarityComparitor<String, SimilarityPercentage> {
+public class ComparitorShortString implements DifferenceComparitor<String, DifferencePercentage> {
 
     @Override
-    public SimilarityPercentage compare(String lhs, String rhs) {
+    public DifferencePercentage compare(String lhs, String rhs) {
         boolean string1Longer = lhs.length() > rhs.length();
         String longer = string1Longer ? lhs : rhs;
         String shorter = string1Longer ? rhs : lhs;
 
         int longerLength = longer.length();
-        double pcntDiff = longerLength == 0 ? 1.0 : 1 - StringUtils.getLevenshteinDistance
+        double pcntSame = longerLength == 0 ? 0.0 : StringUtils.getLevenshteinDistance
                 (longer, shorter) / (double) longerLength;
 
-        return new SimilarityPercentage(pcntDiff);
+        return new DifferencePercentage(pcntSame);
     }
 }

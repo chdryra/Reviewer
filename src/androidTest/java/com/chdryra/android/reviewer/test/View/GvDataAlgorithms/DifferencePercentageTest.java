@@ -10,7 +10,7 @@ package com.chdryra.android.reviewer.test.View.GvDataAlgorithms;
 
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.View.GvDataAlgorithms.SimilarityFloat;
+import com.chdryra.android.reviewer.View.GvDataAlgorithms.DifferencePercentage;
 
 import junit.framework.TestCase;
 
@@ -21,16 +21,16 @@ import java.util.Random;
  * On: 03/07/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class SimilarityFloatTest extends TestCase {
+public class DifferencePercentageTest extends TestCase {
     @SmallTest
     public void testLessThanOrEqualTo() {
-        float threshold = 0.5f;
-        SimilarityFloat similarityThreshold = new SimilarityFloat(threshold);
+        double threshold = 0.5;
+        DifferencePercentage similarityThreshold = new DifferencePercentage(threshold);
         Random r = new Random();
         for (int i = 0; i < 100; i++) {
-            float rFloat = r.nextFloat();
-            SimilarityFloat randomFloat = new SimilarityFloat(rFloat);
-            if (rFloat > threshold) {
+            double rDouble = r.nextDouble();
+            DifferencePercentage randomFloat = new DifferencePercentage(rDouble);
+            if (rDouble > threshold) {
                 assertFalse(randomFloat.lessThanOrEqualTo(similarityThreshold));
             } else {
                 assertTrue(randomFloat.lessThanOrEqualTo(similarityThreshold));

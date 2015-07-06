@@ -15,10 +15,16 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvAuthorList;
  * On: 03/07/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ComparitorGvAuthor implements SimilarityComparitor<GvAuthorList.GvAuthor,
-        SimilarityBoolean> {
+public class ComparitorGvAuthor implements DifferenceComparitor<GvAuthorList.GvAuthor,
+        DifferenceBoolean> {
     @Override
-    public SimilarityBoolean compare(GvAuthorList.GvAuthor lhs, GvAuthorList.GvAuthor rhs) {
-        return new SimilarityBoolean(lhs.getUserId().equals(rhs.getUserId()));
+    public DifferenceBoolean compare(GvAuthorList.GvAuthor lhs, GvAuthorList.GvAuthor rhs) {
+        boolean sameId = lhs.getUserId().equals(rhs.getUserId());
+        boolean sameName = lhs.getName().equals(rhs.getName());
+        if (sameId && !sameName) {
+            throw new RuntimeException("GvAuthors have same ID but different names!");
+        }
+
+        return new DifferenceBoolean(sameId);
     }
 }

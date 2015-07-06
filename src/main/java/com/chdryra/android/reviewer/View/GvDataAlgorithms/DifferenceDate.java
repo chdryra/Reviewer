@@ -15,15 +15,17 @@ import org.jetbrains.annotations.NotNull;
  * On: 03/07/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class SimilarityBoolean implements SimilarityLevel<SimilarityBoolean> {
-    private boolean mValue;
+public class DifferenceDate implements DifferenceLevel<DifferenceDate> {
+    private DateBucket mDateLevel;
 
-    public SimilarityBoolean(boolean value) {
-        mValue = value;
+    public enum DateBucket {DAY, MONTH, YEAR, NONE}
+
+    public DifferenceDate(DateBucket dateLevel) {
+        mDateLevel = dateLevel;
     }
 
     @Override
-    public boolean lessThanOrEqualTo(@NotNull SimilarityBoolean similarityThreshold) {
-        return mValue == similarityThreshold.mValue;
+    public boolean lessThanOrEqualTo(@NotNull DifferenceDate differenceThreshold) {
+        return mDateLevel.ordinal() <= differenceThreshold.mDateLevel.ordinal();
     }
 }

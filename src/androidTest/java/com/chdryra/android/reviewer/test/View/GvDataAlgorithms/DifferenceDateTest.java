@@ -10,7 +10,7 @@ package com.chdryra.android.reviewer.test.View.GvDataAlgorithms;
 
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.View.GvDataAlgorithms.SimilarityDate;
+import com.chdryra.android.reviewer.View.GvDataAlgorithms.DifferenceDate;
 
 import junit.framework.TestCase;
 
@@ -19,13 +19,13 @@ import junit.framework.TestCase;
  * On: 03/07/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class SimilarityDateTest extends TestCase {
+public class DifferenceDateTest extends TestCase {
     @SmallTest
     public void testLessThanOrEqualTo() {
-        SimilarityDate day = new SimilarityDate(SimilarityDate.DateBucket.DAY);
-        SimilarityDate month = new SimilarityDate(SimilarityDate.DateBucket.MONTH);
-        SimilarityDate year = new SimilarityDate(SimilarityDate.DateBucket.YEAR);
-        SimilarityDate none = new SimilarityDate(SimilarityDate.DateBucket.NONE);
+        DifferenceDate day = new DifferenceDate(DifferenceDate.DateBucket.DAY);
+        DifferenceDate month = new DifferenceDate(DifferenceDate.DateBucket.MONTH);
+        DifferenceDate year = new DifferenceDate(DifferenceDate.DateBucket.YEAR);
+        DifferenceDate none = new DifferenceDate(DifferenceDate.DateBucket.NONE);
 
         assertTrue(day.lessThanOrEqualTo(day));
         assertTrue(day.lessThanOrEqualTo(month));

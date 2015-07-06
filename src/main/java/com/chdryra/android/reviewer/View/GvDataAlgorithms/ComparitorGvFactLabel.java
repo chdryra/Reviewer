@@ -15,12 +15,12 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvFactList;
  * On: 03/07/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ComparitorGvFactLabel implements SimilarityComparitor<GvFactList.GvFact,
-        SimilarityPercentage> {
+public class ComparitorGvFactLabel implements DifferenceComparitor<GvFactList.GvFact,
+        DifferencePercentage> {
 
     @Override
-    public SimilarityPercentage compare(GvFactList.GvFact lhs, GvFactList.GvFact rhs) {
-        StringComparitor comparitor = new StringComparitor();
+    public DifferencePercentage compare(GvFactList.GvFact lhs, GvFactList.GvFact rhs) {
+        ComparitorShortString comparitor = new ComparitorShortString();
         return comparitor.compare(lhs.getLabel().toLowerCase(), rhs.getLabel().toLowerCase());
     }
 }

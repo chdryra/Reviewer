@@ -15,13 +15,13 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvLocationList;
  * On: 03/07/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ComparitorGvLocationName implements SimilarityComparitor<GvLocationList.GvLocation,
-        SimilarityPercentage> {
+public class ComparitorGvLocationName implements DifferenceComparitor<GvLocationList.GvLocation,
+        DifferencePercentage> {
 
     @Override
-    public SimilarityPercentage compare(GvLocationList.GvLocation lhs, GvLocationList
+    public DifferencePercentage compare(GvLocationList.GvLocation lhs, GvLocationList
             .GvLocation rhs) {
-        StringComparitor comparitor = new StringComparitor();
+        ComparitorShortString comparitor = new ComparitorShortString();
         return comparitor.compare(lhs.getName().toLowerCase(), rhs.getName().toLowerCase());
     }
 }

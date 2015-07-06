@@ -17,26 +17,26 @@ import java.util.Calendar;
  * On: 03/07/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ComparitorGvDate implements SimilarityComparitor<GvDateList.GvDate, SimilarityDate> {
+public class ComparitorGvDate implements DifferenceComparitor<GvDateList.GvDate, DifferenceDate> {
 
     @Override
-    public SimilarityDate compare(GvDateList.GvDate lhs, GvDateList.GvDate rhs) {
+    public DifferenceDate compare(GvDateList.GvDate lhs, GvDateList.GvDate rhs) {
         Calendar cal1 = Calendar.getInstance();
         Calendar cal2 = Calendar.getInstance();
         cal1.setTime(lhs.getDate());
         cal2.setTime(rhs.getDate());
 
-        SimilarityDate.DateBucket similarity = SimilarityDate.DateBucket.NONE;
+        DifferenceDate.DateBucket similarity = DifferenceDate.DateBucket.NONE;
         if (cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR)) {
             if (cal1.get(Calendar.DAY_OF_YEAR) == cal2.get(Calendar.DAY_OF_YEAR)) {
-                similarity = SimilarityDate.DateBucket.DAY;
+                similarity = DifferenceDate.DateBucket.DAY;
             } else if (cal1.get(Calendar.MONTH) == cal2.get(Calendar.MONTH)) {
-                similarity = SimilarityDate.DateBucket.MONTH;
+                similarity = DifferenceDate.DateBucket.MONTH;
             } else {
-                similarity = SimilarityDate.DateBucket.YEAR;
+                similarity = DifferenceDate.DateBucket.YEAR;
             }
         }
 
-        return new SimilarityDate(similarity);
+        return new DifferenceDate(similarity);
     }
 }

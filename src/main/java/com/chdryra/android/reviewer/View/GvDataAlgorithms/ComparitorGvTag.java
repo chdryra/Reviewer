@@ -15,12 +15,12 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvTagList;
  * On: 03/07/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ComparitorGvTag implements SimilarityComparitor<GvTagList.GvTag,
-        SimilarityPercentage> {
+public class ComparitorGvTag implements DifferenceComparitor<GvTagList.GvTag,
+        DifferencePercentage> {
 
     @Override
-    public SimilarityPercentage compare(GvTagList.GvTag lhs, GvTagList.GvTag rhs) {
-        StringComparitor comparitor = new StringComparitor();
+    public DifferencePercentage compare(GvTagList.GvTag lhs, GvTagList.GvTag rhs) {
+        ComparitorShortString comparitor = new ComparitorShortString();
         return comparitor.compare(lhs.get().toLowerCase(), rhs.get().toLowerCase());
     }
 }

@@ -15,15 +15,15 @@ import org.jetbrains.annotations.NotNull;
  * On: 03/07/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class SimilarityFloat implements SimilarityLevel<SimilarityFloat> {
+public class DifferenceFloat implements DifferenceLevel<DifferenceFloat> {
     private float mValue;
 
-    public SimilarityFloat(float value) {
+    public DifferenceFloat(float value) {
         mValue = value;
     }
 
     @Override
-    public boolean lessThanOrEqualTo(@NotNull SimilarityFloat similarityThreshold) {
-        return mValue <= similarityThreshold.mValue;
+    public boolean lessThanOrEqualTo(@NotNull DifferenceFloat differenceThreshold) {
+        return mValue <= differenceThreshold.mValue;
     }
 }

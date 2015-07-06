@@ -13,6 +13,6 @@ package com.chdryra.android.reviewer.View.GvDataAlgorithms;
  * On: 25/06/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public interface SimilarityComparitor<T, S extends SimilarityLevel> {
+public interface DifferenceComparitor<T, S extends DifferenceLevel> {
     S compare(T lhs, T rhs);
 }

@@ -15,10 +15,10 @@ import org.jetbrains.annotations.NotNull;
  * On: 03/07/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class SimilarityPercentage implements SimilarityLevel<SimilarityPercentage> {
+public class DifferencePercentage implements DifferenceLevel<DifferencePercentage> {
     private double mPercentage;
 
-    public SimilarityPercentage(double percentage) {
+    public DifferencePercentage(double percentage) {
         if (percentage < 0 || percentage > 1) {
             throw new IllegalArgumentException("Percentage should be between 0 and 1!");
         }
@@ -27,7 +27,7 @@ public class SimilarityPercentage implements SimilarityLevel<SimilarityPercentag
     }
 
     @Override
-    public boolean lessThanOrEqualTo(@NotNull SimilarityPercentage similarityThreshold) {
-        return mPercentage <= similarityThreshold.mPercentage;
+    public boolean lessThanOrEqualTo(@NotNull DifferencePercentage differenceThreshold) {
+        return mPercentage <= differenceThreshold.mPercentage;
     }
 }

@@ -10,7 +10,7 @@ package com.chdryra.android.reviewer.test.View.GvDataAlgorithms;
 
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.View.GvDataAlgorithms.SimilarityBoolean;
+import com.chdryra.android.reviewer.View.GvDataAlgorithms.DifferenceBoolean;
 
 import junit.framework.TestCase;
 
@@ -19,14 +19,14 @@ import junit.framework.TestCase;
  * On: 03/07/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class SimilarityBooleanTest extends TestCase {
+public class DifferenceBooleanTest extends TestCase {
     @SmallTest
     public void testLessThanOrEqualTo() {
-        SimilarityBoolean thresholdTrue = new SimilarityBoolean(true);
-        SimilarityBoolean thresholdFalse = new SimilarityBoolean(false);
+        DifferenceBoolean thresholdTrue = new DifferenceBoolean(true);
+        DifferenceBoolean thresholdFalse = new DifferenceBoolean(false);
 
-        SimilarityBoolean boolTrue = new SimilarityBoolean(true);
-        SimilarityBoolean boolFalse = new SimilarityBoolean(false);
+        DifferenceBoolean boolTrue = new DifferenceBoolean(true);
+        DifferenceBoolean boolFalse = new DifferenceBoolean(false);
 
         assertTrue(boolTrue.lessThanOrEqualTo(thresholdTrue));
         assertFalse(boolTrue.lessThanOrEqualTo(thresholdFalse));

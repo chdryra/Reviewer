@@ -15,11 +15,20 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvReviewList;
  * On: 03/07/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ComparitorGvReviewOverview implements SimilarityComparitor<GvReviewList
-        .GvReviewOverview, SimilarityBoolean> {
+public class ComparitorGvReviewOverview implements DifferenceComparitor<GvReviewList
+        .GvReviewOverview, DifferenceBoolean> {
     @Override
-    public SimilarityBoolean compare(GvReviewList.GvReviewOverview lhs, GvReviewList
+    public DifferenceBoolean compare(GvReviewList.GvReviewOverview lhs, GvReviewList
             .GvReviewOverview rhs) {
-        return new SimilarityBoolean(lhs.getId().equals(rhs.getId()));
+        boolean sameId = lhs.getId().equals(rhs.getId());
+        boolean diff = lhs.getAuthor() != rhs.getAuthor() || !lhs.getHeadline().equals(rhs
+                .getHeadline()) || lhs.getPublishDate() != rhs.getPublishDate() || !lhs
+                .getLocationString().equals(rhs.getLocationString()) || lhs.getRating() != rhs
+                .getRating();
+        if (sameId && diff) {
+            throw new RuntimeException("ReviewId same but other data different!");
+        }
+
+        return new DifferenceBoolean(sameId);
     }
 }

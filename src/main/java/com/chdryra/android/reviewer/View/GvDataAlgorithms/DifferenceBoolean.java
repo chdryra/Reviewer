@@ -15,6 +15,15 @@ import org.jetbrains.annotations.NotNull;
  * On: 03/07/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public interface SimilarityLevel<T> {
-    boolean lessThanOrEqualTo(@NotNull T similarityThreshold);
+public class DifferenceBoolean implements DifferenceLevel<DifferenceBoolean> {
+    private boolean mValue;
+
+    public DifferenceBoolean(boolean value) {
+        mValue = value;
+    }
+
+    @Override
+    public boolean lessThanOrEqualTo(@NotNull DifferenceBoolean differenceThreshold) {
+        return mValue == differenceThreshold.mValue;
+    }
 }
