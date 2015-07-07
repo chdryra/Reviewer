@@ -3,31 +3,32 @@
  * Unauthorized copying of this file, via any medium is strictly prohibited
  * Proprietary and confidential
  * Author: Rizwan Choudrey
- * Date: 6 July, 2015
+ * Date: 7 July, 2015
  */
 
 package com.chdryra.android.reviewer.test.View.GvDataAlgorithms;
 
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.View.GvDataAlgorithms.ComparitorShortString;
+import com.chdryra.android.reviewer.View.GvDataAlgorithms.ComparitorGvComment;
 import com.chdryra.android.reviewer.View.GvDataAlgorithms.DifferencePercentage;
+import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
 
 import junit.framework.TestCase;
 
 /**
  * Created by: Rizwan Choudrey
- * On: 06/07/2015
+ * On: 07/07/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ComparitorShortStringTest extends TestCase {
+public class ComparitorGvCommentTest extends TestCase {
     @SmallTest
     public void testCompare() {
-        String kitten = "kitten";
-        String sitting = "sitting";
-        String empty = "";
+        GvCommentList.GvComment kitten = new GvCommentList.GvComment("kitten");
+        GvCommentList.GvComment sitting = new GvCommentList.GvComment("sitting");
+        GvCommentList.GvComment empty = new GvCommentList.GvComment("");
 
-        ComparitorShortString comparitor = new ComparitorShortString();
+        ComparitorGvComment comparitor = new ComparitorGvComment();
         DifferencePercentage none = new DifferencePercentage(0.0);
         DifferencePercentage all = new DifferencePercentage(1.0);
         DifferencePercentage expected = new DifferencePercentage(3.0 / 7.0);

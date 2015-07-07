@@ -15,12 +15,13 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvChildList;
  * On: 03/07/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ComparitorGvChildReview implements DifferenceComparitor<GvChildList.GvChildReview,
-        DifferencePercentage> {
-    @Override
-    public DifferencePercentage compare(GvChildList.GvChildReview lhs, GvChildList.GvChildReview
-            rhs) {
-        ComparitorShortString comparitor = new ComparitorShortString();
-        return comparitor.compare(lhs.getSubject().toLowerCase(), rhs.getSubject().toLowerCase());
+public class ComparitorGvChildReview extends ComparitorStringable<GvChildList.GvChildReview> {
+    public ComparitorGvChildReview() {
+        super(new StringGetter<GvChildList.GvChildReview>() {
+            @Override
+            public String getString(GvChildList.GvChildReview datum) {
+                return datum.getSubject().toLowerCase();
+            }
+        });
     }
 }
