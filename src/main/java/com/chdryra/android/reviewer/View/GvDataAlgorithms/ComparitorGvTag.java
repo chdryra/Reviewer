@@ -17,9 +17,9 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvTagList;
  */
 public class ComparitorGvTag extends ComparitorStringable<GvTagList.GvTag> {
     public ComparitorGvTag() {
-        super(new StringGetter<GvTagList.GvTag>() {
+        super(new DataGetter<GvTagList.GvTag, String>() {
             @Override
-            public String getString(GvTagList.GvTag datum) {
+            public String getData(GvTagList.GvTag datum) {
                 return datum.get().toLowerCase();
             }
         });

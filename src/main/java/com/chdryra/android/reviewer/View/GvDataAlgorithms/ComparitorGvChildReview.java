@@ -17,9 +17,9 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvChildList;
  */
 public class ComparitorGvChildReview extends ComparitorStringable<GvChildList.GvChildReview> {
     public ComparitorGvChildReview() {
-        super(new StringGetter<GvChildList.GvChildReview>() {
+        super(new DataGetter<GvChildList.GvChildReview, String>() {
             @Override
-            public String getString(GvChildList.GvChildReview datum) {
+            public String getData(GvChildList.GvChildReview datum) {
                 return datum.getSubject().toLowerCase();
             }
         });

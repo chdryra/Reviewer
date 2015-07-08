@@ -19,10 +19,10 @@ import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
  * On: 15/06/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class TreeDataAggregator {
+public class TreeDataGetter {
     private ReviewNode mRoot;
 
-    public TreeDataAggregator(ReviewNode root) {
+    public TreeDataGetter(ReviewNode root) {
         mRoot = root;
     }
 
@@ -30,7 +30,7 @@ public class TreeDataAggregator {
         MdCommentList comments = new MdCommentList(mRoot.getId());
         comments.addList(mRoot.getReview().getComments());
         for (ReviewNode node : mRoot.getChildren()) {
-            TreeDataAggregator getter = new TreeDataAggregator(node);
+            TreeDataGetter getter = new TreeDataGetter(node);
             comments.addList(getter.getComments());
         }
 
@@ -41,7 +41,7 @@ public class TreeDataAggregator {
         MdImageList images = new MdImageList(mRoot.getId());
         images.addList(mRoot.getReview().getImages());
         for (ReviewNode node : mRoot.getChildren()) {
-            TreeDataAggregator getter = new TreeDataAggregator(node);
+            TreeDataGetter getter = new TreeDataGetter(node);
             images.addList(getter.getImages());
         }
 
@@ -52,7 +52,7 @@ public class TreeDataAggregator {
         MdFactList facts = new MdFactList(mRoot.getId());
         facts.addList(mRoot.getReview().getFacts());
         for (ReviewNode node : mRoot.getChildren()) {
-            TreeDataAggregator getter = new TreeDataAggregator(node);
+            TreeDataGetter getter = new TreeDataGetter(node);
             facts.addList(getter.getFacts());
         }
 
@@ -63,7 +63,7 @@ public class TreeDataAggregator {
         MdLocationList locations = new MdLocationList(mRoot.getId());
         locations.addList(mRoot.getReview().getLocations());
         for (ReviewNode node : mRoot.getChildren()) {
-            TreeDataAggregator getter = new TreeDataAggregator(node);
+            TreeDataGetter getter = new TreeDataGetter(node);
             locations.addList(getter.getLocations());
         }
 

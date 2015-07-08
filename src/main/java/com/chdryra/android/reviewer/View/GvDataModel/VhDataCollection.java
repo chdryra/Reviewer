@@ -20,14 +20,14 @@ import com.chdryra.android.mygenerallibrary.ViewHolderData;
  * On: 24/03/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class VhDataList implements ViewHolder {
+public class VhDataCollection implements ViewHolder {
     private Context   mContext;
     private ViewGroup mParent;
 
     private ViewHolder mDataView;
     private ViewHolder mCurrentView;
 
-    public VhDataList() {
+    public VhDataCollection() {
         mDataView = new VhDualText();
         mCurrentView = mDataView;
     }
@@ -41,7 +41,7 @@ public class VhDataList implements ViewHolder {
 
     @Override
     public void updateView(ViewHolderData data) {
-        GvDataList dataList = (GvDataList) data;
+        GvDataCollection dataList = (GvDataCollection) data;
         if (dataList.size() != 1 ||
                 dataList.getGvDataType().getElementType() == GvImageList.GvImage.TYPE) {
             updateDataView(dataList);
@@ -55,7 +55,7 @@ public class VhDataList implements ViewHolder {
         return mCurrentView.getView();
     }
 
-    private void updateDataView(GvDataList data) {
+    private void updateDataView(GvDataCollection data) {
         int number = data.size();
         GvDataType dataType = data.getGvDataType().getElementType();
 
@@ -64,8 +64,8 @@ public class VhDataList implements ViewHolder {
         mCurrentView = mDataView;
     }
 
-    private void updateDatumView(GvDataList data) {
-        ViewHolderData datum = (ViewHolderData) data.getItem(0);
+    private void updateDatumView(GvDataCollection data) {
+        ViewHolderData datum = data.getItem(0);
         GvDataType dataType = data.getGvDataType().getElementType();
 
         if (dataType == GvLocationList.GvLocation.TYPE || dataType == GvTagList.GvTag.TYPE) {

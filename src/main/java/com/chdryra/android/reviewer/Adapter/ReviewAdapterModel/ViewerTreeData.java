@@ -34,12 +34,12 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvReviewList;
 public class ViewerTreeData implements GridDataViewer<GvData> {
     private Context mContext;
     private ReviewNode mNode;
-    private TreeDataAggregator mGetter;
+    private TreeDataGetter mGetter;
 
     public ViewerTreeData(Context context, ReviewNode node) {
         mContext = context;
         mNode = node;
-        mGetter = new TreeDataAggregator(mNode);
+        mGetter = new TreeDataGetter(mNode);
     }
 
     @Override
@@ -69,12 +69,12 @@ public class ViewerTreeData implements GridDataViewer<GvData> {
 
     @Override
     public boolean isExpandable(GvData datum) {
-        if(!datum.isList()) return false;
+        if (!datum.isList()) return false;
 
-        GvDataList data = (GvDataList)datum;
+        GvDataList data = (GvDataList) datum;
         GvList gridData = getGridData();
         for (GvData list : gridData) {
-            if(list.isList()) ((GvDataList)list).sort();
+            if (list.isList()) ((GvDataList) list).sort();
         }
         data.sort();
 

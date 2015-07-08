@@ -25,6 +25,6 @@ public class ComparitorGvAuthor implements DifferenceComparitor<GvAuthorList.GvA
             throw new RuntimeException("GvAuthors have same ID but different names!");
         }
 
-        return new DifferenceBoolean(sameId);
+        return new DifferenceBoolean(!sameId);
     }
 }

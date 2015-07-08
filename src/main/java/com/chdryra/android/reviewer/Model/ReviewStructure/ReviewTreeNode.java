@@ -8,7 +8,7 @@
 
 package com.chdryra.android.reviewer.Model.ReviewStructure;
 
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.TreeDataAggregator;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.TreeDataGetter;
 import com.chdryra.android.reviewer.Model.ReviewData.MdCommentList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdFactList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdImageList;
@@ -37,7 +37,7 @@ public class ReviewTreeNode implements ReviewNode {
     private final ReviewId mId;
 
     private final Review                        mReview;
-    private final TreeDataAggregator mAggregator;
+    private final TreeDataGetter mAggregator;
     private final ReviewIdableList<ReviewNode> mChildren;
     private       ReviewTreeNode               mParent;
     private boolean mRatingIsAverage = false;
@@ -48,7 +48,7 @@ public class ReviewTreeNode implements ReviewNode {
         mChildren = new ReviewIdableList<>();
         mParent = null;
         mRatingIsAverage = ratingIsAverage;
-        mAggregator = new TreeDataAggregator(this);
+        mAggregator = new TreeDataGetter(this);
     }
 
     //ReviewNode methods

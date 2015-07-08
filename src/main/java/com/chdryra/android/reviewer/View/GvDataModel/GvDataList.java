@@ -123,7 +123,7 @@ public class GvDataList<T extends GvData> extends ViewHolderDataList<T> implemen
 
     @Override
     public ViewHolder getViewHolder() {
-        return new VhDataList();
+        return new VhDataCollection();
     }
 
     @Override

@@ -13,22 +13,17 @@ package com.chdryra.android.reviewer.View.GvDataAlgorithms;
  * On: 07/07/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ComparitorStringable<T> implements DifferenceComparitor<T,
-        DifferencePercentage> {
+public class ComparitorStringable<T> implements DifferenceComparitor<T, DifferencePercentage> {
 
-    private StringGetter<T> mGetter;
+    private DataGetter<T, String> mGetter;
 
-    public interface StringGetter<T> {
-        String getString(T datum);
-    }
-
-    public ComparitorStringable(StringGetter<T> getter) {
+    public ComparitorStringable(DataGetter<T, String> getter) {
         mGetter = getter;
     }
 
     @Override
     public DifferencePercentage compare(T lhs, T rhs) {
         ComparitorString comparitor = new ComparitorString();
-        return comparitor.compare(mGetter.getString(lhs), mGetter.getString(rhs));
+        return comparitor.compare(mGetter.getData(lhs), mGetter.getData(rhs));
     }
 }
