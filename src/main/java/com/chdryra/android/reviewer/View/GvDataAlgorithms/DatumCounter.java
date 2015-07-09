@@ -29,6 +29,7 @@ public class DatumCounter<T extends GvData, D> {
         mCountMap = new LinkedHashMap<>();
         for (T datum : data) {
             D item = getter.getData(datum);
+            if (item == null) continue;
             Integer num = mCountMap.get(item);
             num = num == null ? 1 : num + 1;
             mCountMap.put(item, num);
@@ -61,5 +62,9 @@ public class DatumCounter<T extends GvData, D> {
 
     public int getNonMaxCount() {
         return mNonMaxCount;
+    }
+
+    public int getCount() {
+        return mCountMap.size();
     }
 }

@@ -20,6 +20,6 @@ public class ComparitorGvImageBitmap implements DifferenceComparitor<GvImageList
 
     @Override
     public DifferenceBoolean compare(GvImageList.GvImage lhs, GvImageList.GvImage rhs) {
-        return new DifferenceBoolean(lhs.getBitmap().sameAs(rhs.getBitmap()));
+        return new DifferenceBoolean(!lhs.getBitmap().sameAs(rhs.getBitmap()));
     }
 }

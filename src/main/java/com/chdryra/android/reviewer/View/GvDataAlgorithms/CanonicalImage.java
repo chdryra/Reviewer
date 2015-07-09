@@ -8,7 +8,6 @@
 
 package com.chdryra.android.reviewer.View.GvDataAlgorithms;
 
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
 
@@ -29,18 +28,30 @@ public class CanonicalImage implements CanonicalDatumMaker<GvImageList.GvImage> 
         GvImageList.GvImage reference = data.getItem(0);
         ComparitorGvImageBitmap comparitor = new ComparitorGvImageBitmap();
         DifferenceBoolean none = new DifferenceBoolean(false);
-        int numCaptions = 0;
         Date finalDate = reference.getDate();
         for (GvImageList.GvImage image : data) {
             if (!comparitor.compare(reference, image).lessThanOrEqualTo(none)) return nullImage;
-            if (DataValidator.validateString(image.getCaption())) numCaptions++;
             Date imageDate = image.getDate();
             if (imageDate.after(finalDate)) finalDate = imageDate;
         }
 
-        String caption = String.valueOf(numCaptions) + " captions";
+        DatumCounter<GvImageList.GvImage, String> captionCounter =
+                new DatumCounter<>(data, new DataGetter<GvImageList.GvImage, String>() {
+                    @Override
+                    public String getData(GvImageList.GvImage datum) {
+                        return datum.getCaption();
+                    }
+                });
+
+        int num = captionCounter.getCount();
+        String caption = String.valueOf(num) + " captions";
+        if (num == 0) {
+            caption = null;
+        } else if (num == 1) {
+            caption = captionCounter.getMaxItem();
+        }
+
         return new GvImageList.GvImage(data.getReviewId(), reference.getBitmap(), finalDate,
-                caption,
-                true);
+                caption, true);
     }
 }

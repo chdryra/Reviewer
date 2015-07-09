@@ -34,10 +34,9 @@ public class CanonicalDate implements CanonicalDatumMaker<GvDateList.GvDate> {
         Date canon = counter.getMaxItem();
         int nonMax = counter.getNonMaxCount();
         if (nonMax > 0) {
-            Date finalDate = data.getItem(0).getDate();
             for (GvDateList.GvDate date : data) {
-                canon = date.getDate();
-                if (canon.after(finalDate)) finalDate = canon;
+                Date candidate = date.getDate();
+                if (candidate.after(canon)) canon = candidate;
             }
         }
 

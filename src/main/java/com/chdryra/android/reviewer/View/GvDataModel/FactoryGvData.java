@@ -35,6 +35,9 @@ public class FactoryGvData {
         mClasses.put(GvImageList.GvImage.TYPE, new GvTypeList<>(GvImageList.class));
         mClasses.put(GvLocationList.GvLocation.TYPE, new GvTypeList<>(GvLocationList.class));
         mClasses.put(GvUrlList.GvUrl.TYPE, new GvTypeList<>(GvUrlList.class));
+        mClasses.put(GvAuthorList.GvAuthor.TYPE, new GvTypeList<>(GvAuthorList.class));
+        mClasses.put(GvDateList.GvDate.TYPE, new GvTypeList<>(GvDateList.class));
+        mClasses.put(GvSubjectList.GvSubject.TYPE, new GvTypeList<>(GvSubjectList.class));
     }
 
     private static FactoryGvData get() {
@@ -47,6 +50,13 @@ public class FactoryGvData {
         Class dataClass = dataType.isCompoundType() ? dataType.getDataClass() : get().mClasses.get
                 (dataType).mList;
         return newDataList(dataClass);
+    }
+
+    public static <T extends GvData> GvDataList<T> newDataList(GvDataType<T> dataType, GvReviewId
+            id) {
+        Class dataClass = dataType.isCompoundType() ? dataType.getDataClass() : get().mClasses.get
+                (dataType).mList;
+        return newDataList(dataClass, id);
     }
 
     public static <T1 extends GvData, T2 extends GvDataList<T1>> T2 newDataList(Class<T2>

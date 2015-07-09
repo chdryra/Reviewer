@@ -1,0 +1,51 @@
+/*
+ * Copyright (c) 2015, Rizwan Choudrey - All Rights Reserved
+ * Unauthorized copying of this file, via any medium is strictly prohibited
+ * Proprietary and confidential
+ * Author: Rizwan Choudrey
+ * Date: 9 July, 2015
+ */
+
+package com.chdryra.android.reviewer.test.View.GvDataAlgorithms;
+
+import com.chdryra.android.reviewer.View.GvDataAlgorithms.CanonicalAuthor;
+import com.chdryra.android.reviewer.View.GvDataAlgorithms.CanonicalDatumMaker;
+import com.chdryra.android.reviewer.View.GvDataModel.GvAuthorList;
+import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
+
+/**
+ * Created by: Rizwan Choudrey
+ * On: 09/07/2015
+ * Email: rizwan.choudrey@gmail.com
+ */
+public class CanonicalAuthorTest extends CanonicalGvDataTest<GvAuthorList.GvAuthor> {
+    private static final GvAuthorList.GvAuthor AUTHOR1 = GvDataMocker.newAuthor(null);
+    private static final GvAuthorList.GvAuthor AUTHOR2 = GvDataMocker.newAuthor(null);
+    private static final GvAuthorList.GvAuthor AUTHOR3 = GvDataMocker.newAuthor(null);
+    private static final GvAuthorList.GvAuthor AUTHOR4 = GvDataMocker.newAuthor(null);
+
+    @Override
+    protected GvAuthorList.GvAuthor getTestDatum() {
+        return AUTHOR1;
+    }
+
+    @Override
+    protected CanonicalDatumMaker<GvAuthorList.GvAuthor> getCanonicalMaker() {
+        return new CanonicalAuthor();
+    }
+
+    @Override
+    protected void additionalTests() {
+        checkDifferentAuthorsNotValid();
+    }
+
+    private void checkDifferentAuthorsNotValid() {
+        mData = newDataList();
+        mData.add(AUTHOR1);
+        mData.add(AUTHOR2);
+        mData.add(AUTHOR3);
+        mData.add(AUTHOR4);
+        GvAuthorList.GvAuthor canon = mCanonical.getCanonical(mData);
+        assertFalse(canon.isValidForDisplay());
+    }
+}

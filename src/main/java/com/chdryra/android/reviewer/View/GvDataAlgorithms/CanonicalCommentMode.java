@@ -16,7 +16,7 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
  * On: 08/07/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class CanonicalComment implements CanonicalDatumMaker<GvCommentList.GvComment> {
+public class CanonicalCommentMode implements CanonicalDatumMaker<GvCommentList.GvComment> {
     @Override
     public GvCommentList.GvComment getCanonical(GvDataList<GvCommentList.GvComment> data) {
         if (data.size() == 0) return new GvCommentList.GvComment(data.getReviewId(), "");
