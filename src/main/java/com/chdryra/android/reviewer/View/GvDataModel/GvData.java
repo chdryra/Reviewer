@@ -26,5 +26,5 @@ public interface GvData extends ViewHolderData, Parcelable {
 
     boolean hasElements();
 
-    boolean isList();
+    boolean isCollection();
 }

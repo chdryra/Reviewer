@@ -77,7 +77,7 @@ public class GvDualText extends VHDDualString implements GvData {
     }
 
     @Override
-    public boolean isList() {
+    public boolean isCollection() {
         return false;
     }
 

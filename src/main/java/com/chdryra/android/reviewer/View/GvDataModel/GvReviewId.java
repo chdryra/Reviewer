@@ -76,7 +76,7 @@ public class GvReviewId implements GvData {
     }
 
     @Override
-    public boolean isList() {
+    public boolean isCollection() {
         return false;
     }
 

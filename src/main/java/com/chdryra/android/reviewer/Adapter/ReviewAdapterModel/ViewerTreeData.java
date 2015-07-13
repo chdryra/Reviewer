@@ -15,6 +15,7 @@ import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
 import com.chdryra.android.reviewer.Model.Tagging.TagsManager;
 import com.chdryra.android.reviewer.View.GvDataModel.GvChildList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
+import com.chdryra.android.reviewer.View.GvDataModel.GvDataCollection;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvReviewId;
@@ -69,12 +70,12 @@ public class ViewerTreeData implements GridDataViewer<GvData> {
 
     @Override
     public boolean isExpandable(GvData datum) {
-        if (!datum.isList()) return false;
+        if (!datum.isCollection()) return false;
 
         GvDataList data = (GvDataList) datum;
         GvList gridData = getGridData();
         for (GvData list : gridData) {
-            if (list.isList()) ((GvDataList) list).sort();
+            if (list.isCollection()) ((GvDataCollection) list).sort();
         }
         data.sort();
 

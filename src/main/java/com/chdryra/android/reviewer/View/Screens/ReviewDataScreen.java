@@ -72,7 +72,7 @@ public class ReviewDataScreen {
 
         @Override
         public void onClickNotExpandable(GvData item, int position, View v) {
-            if (item.isList()) return;
+            if (item.isCollection()) return;
             Bundle args = new Bundle();
             GvDataPacker.packItem(GvDataPacker.CurrentNewDatum.CURRENT, item, args);
             ConfigGvDataUi.Config config = ConfigGvDataUi.getConfig(item.getGvDataType());
