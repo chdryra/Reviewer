@@ -41,7 +41,7 @@ public class GvDataList<T extends GvData> extends ViewHolderDataList<T> implemen
     };
 
     private final Class<T>   mDataClass;
-    private final GvDataType<T> mType;
+    private final GvDataType mType;
     private       GvReviewId mReviewId;
 
     public GvDataList(GvReviewId reviewId, GvDataList<T> data) {
@@ -51,7 +51,8 @@ public class GvDataList<T extends GvData> extends ViewHolderDataList<T> implemen
         }
     }
 
-    public GvDataList(Class<T> dataClass, GvDataType<T> mDataType, GvReviewId reviewId) {
+    public GvDataList(Class<T> dataClass, GvDataType mDataType, GvReviewId
+            reviewId) {
         mReviewId = reviewId;
         mType = mDataType;
         mDataClass = dataClass;
@@ -72,7 +73,7 @@ public class GvDataList<T extends GvData> extends ViewHolderDataList<T> implemen
     }
 
     @Override
-    public GvDataType<T> getGvDataType() {
+    public GvDataType getGvDataType() {
         return mType;
     }
 

@@ -21,7 +21,8 @@ import java.util.Map;
  * On: 13/07/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class GvDataMap<T extends GvData> implements GvDataCollection<T> {
+public class GvDataMap<T1 extends GvData, T2 extends GvDataCollection<T1>> implements
+        GvDataCollection<T2> {
     public static final Parcelable.Creator<GvDataMap> CREATOR = new Parcelable
             .Creator<GvDataMap>() {
         public GvDataMap createFromParcel(Parcel in) {
@@ -33,11 +34,11 @@ public class GvDataMap<T extends GvData> implements GvDataCollection<T> {
         }
     };
 
-    private Map<T, T>     mMap;
-    private GvDataType<T> mType;
+    private Map<T1, T2>     mMap;
+    private GvDataType<T1> mType;
     private GvReviewId    mReviewId;
 
-    public GvDataMap(GvDataType<T> dataType, GvReviewId reviewId) {
+    public GvDataMap(GvDataType<T1> dataType, GvReviewId reviewId) {
         mMap = new LinkedHashMap<>();
         mType = dataType;
         mReviewId = reviewId;
@@ -48,23 +49,29 @@ public class GvDataMap<T extends GvData> implements GvDataCollection<T> {
         mMap = new LinkedHashMap<>();
         mReviewId = in.readParcelable(GvReviewId.class.getClassLoader());
         mType = in.readParcelable(GvDataType.class.getClassLoader());
-        Class<T> dataClass = mType.getDataClass();
+        Class<T1> dataClass = mType.getDataClass();
         int size = in.readInt();
         for (int i = 0; i < size; i++) {
-            T key = in.readParcelable(dataClass.getClassLoader());
-            T value = in.readParcelable(dataClass.getClassLoader());
+            T1 key = in.readParcelable(dataClass.getClassLoader());
+            T2 value = in.readParcelable(dataClass.getClassLoader());
             mMap.put(key, value);
         }
     }
 
+    public void put(T1 key, T2 datum) {
+        mMap.put(key, datum);
+    }
+
     @Override
-    public GvDataType<T> getGvDataType() {
+    public GvDataType<T1> getGvDataType() {
         return mType;
     }
 
     @Override
     public String getStringSummary() {
-        return null;
+        int num = size();
+        String dataString = num == 1 ? mType.getDatumName() : mType.getDataName();
+        return String.valueOf(size()) + " " + dataString;
     }
 
     @Override
@@ -93,9 +100,9 @@ public class GvDataMap<T extends GvData> implements GvDataCollection<T> {
     }
 
     @Override
-    public T getItem(int position) {
+    public T2 getItem(int position) {
         int i = 0;
-        for (Map.Entry<T, T> entry : mMap.entrySet()) {
+        for (Map.Entry<T1, T2> entry : mMap.entrySet()) {
             if (position == i++) return entry.getValue();
         }
 
@@ -122,7 +129,7 @@ public class GvDataMap<T extends GvData> implements GvDataCollection<T> {
         dest.writeInt(mMap.size());
         dest.writeParcelable(mReviewId, flags);
         dest.writeParcelable(mType, flags);
-        for (Map.Entry<T, T> entry : mMap.entrySet()) {
+        for (Map.Entry<T1, T2> entry : mMap.entrySet()) {
             dest.writeParcelable(entry.getKey(), flags);
             dest.writeParcelable(entry.getValue(), flags);
         }
