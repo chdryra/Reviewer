@@ -57,13 +57,15 @@ public class GvTypeMaker {
     }
 
     private <T extends GvData> GvDataType<T> returnOrThrow(GvDataType<T> dataType) {
-        if (mTypes.contains(dataType)) {
-            String message = "Compound (" + dataType.getDataClass().getName() + ", " +
-                    dataType.getDatumName() + ", " + dataType.getDataName() + " already exists!";
-            throw new IllegalArgumentException(message);
-        } else {
-            mTypes.add(dataType);
-            return dataType;
-        }
+//        if (mTypes.contains(dataType)) {
+//            String message = "Compound (" + dataType.getDataClass().getName() + ", " +
+//                    dataType.getDatumName() + ", " + dataType.getDataName() + " already exists!";
+//            throw new IllegalArgumentException(message);
+//        } else {
+//            mTypes.add(dataType);
+//            return dataType;
+//        }
+
+        return dataType;
     }
 }

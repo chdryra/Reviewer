@@ -1,10 +1,10 @@
 /*
- * Copyright (c) 2015, Rizwan Choudrey - All Rights Reserved
- * Unauthorized copying of this file, via any medium is strictly prohibited
- * Proprietary and confidential
- * Author: Rizwan Choudrey
- * Date: 13 July, 2015
- */
+* Copyright (c) 2015, Rizwan Choudrey - All Rights Reserved
+* Unauthorized copying of this file, via any medium is strictly prohibited
+* Proprietary and confidential
+* Author: Rizwan Choudrey
+* Date: 13 July, 2015
+*/
 
 package com.chdryra.android.reviewer.View.GvDataModel;
 
@@ -15,14 +15,15 @@ import com.chdryra.android.mygenerallibrary.ViewHolder;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 13/07/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class GvDataMap<T1 extends GvData, T2 extends GvDataCollection<T1>> implements
-        GvDataCollection<T2> {
+public class GvDataMap<T1 extends GvData, T2 extends GvData> implements
+        GvDataCollection<T1> {
     public static final Parcelable.Creator<GvDataMap> CREATOR = new Parcelable
             .Creator<GvDataMap>() {
         public GvDataMap createFromParcel(Parcel in) {
@@ -34,26 +35,32 @@ public class GvDataMap<T1 extends GvData, T2 extends GvDataCollection<T1>> imple
         }
     };
 
-    private Map<T1, T2>     mMap;
-    private GvDataType<T1> mType;
-    private GvReviewId    mReviewId;
+    private Map<T1, T2> mMap;
+    private GvDataType<T1> mKeyType;
+    private GvDataType<T2> mValueType;
+    private GvReviewId mReviewId;
+    private GvDataType mType;
 
-    public GvDataMap(GvDataType<T1> dataType, GvReviewId reviewId) {
+    public GvDataMap(GvDataType<T1> keyType, GvDataType<T2> valueType, GvReviewId reviewId) {
         mMap = new LinkedHashMap<>();
-        mType = dataType;
+        mKeyType = keyType;
+        mValueType = valueType;
         mReviewId = reviewId;
+        mType = GvTypeMaker.newType(this.getClass(), keyType);
     }
 
     //TODO make type safe
     public GvDataMap(Parcel in) {
         mMap = new LinkedHashMap<>();
         mReviewId = in.readParcelable(GvReviewId.class.getClassLoader());
-        mType = in.readParcelable(GvDataType.class.getClassLoader());
-        Class<T1> dataClass = mType.getDataClass();
+        mKeyType = in.readParcelable(GvDataType.class.getClassLoader());
+        mValueType = in.readParcelable(GvDataType.class.getClassLoader());
+        Class<T1> keyClass = mKeyType.getDataClass();
+        Class<T2> valueClass = mValueType.getDataClass();
         int size = in.readInt();
         for (int i = 0; i < size; i++) {
-            T1 key = in.readParcelable(dataClass.getClassLoader());
-            T2 value = in.readParcelable(dataClass.getClassLoader());
+            T1 key = in.readParcelable(keyClass.getClassLoader());
+            T2 value = in.readParcelable(valueClass.getClassLoader());
             mMap.put(key, value);
         }
     }
@@ -63,15 +70,14 @@ public class GvDataMap<T1 extends GvData, T2 extends GvDataCollection<T1>> imple
     }
 
     @Override
-    public GvDataType<T1> getGvDataType() {
+    public GvDataType getGvDataType() {
         return mType;
     }
 
     @Override
     public String getStringSummary() {
-        int num = size();
-        String dataString = num == 1 ? mType.getDatumName() : mType.getDataName();
-        return String.valueOf(size()) + " " + dataString;
+        return String.valueOf(size()) + " " + mKeyType.getDatumName() + ":" + mValueType
+                .getDatumName() + " pairs";
     }
 
     @Override
@@ -100,10 +106,10 @@ public class GvDataMap<T1 extends GvData, T2 extends GvDataCollection<T1>> imple
     }
 
     @Override
-    public T2 getItem(int position) {
+    public T1 getItem(int position) {
         int i = 0;
         for (Map.Entry<T1, T2> entry : mMap.entrySet()) {
-            if (position == i++) return entry.getValue();
+            if (position == i++) return entry.getKey();
         }
 
         return null;
@@ -111,12 +117,30 @@ public class GvDataMap<T1 extends GvData, T2 extends GvDataCollection<T1>> imple
 
     @Override
     public ViewHolder getViewHolder() {
-        return null;
+        return new VhDataCollection();
     }
 
     @Override
     public boolean isValidForDisplay() {
         return size() > 0;
+    }
+
+    public void removeAll() {
+        mMap.clear();
+    }
+
+    public GvDataList<T1> getKeyList() {
+        Set<T1> keys = mMap.keySet();
+        GvDataList<T1> keyList = FactoryGvData.newDataList(mKeyType, mReviewId);
+        for(T1 key : keys) {
+            keyList.add(key);
+        }
+
+        return keyList;
+    }
+
+    public T2 get(T1 key) {
+        return mMap.get(key);
     }
 
     @Override
@@ -128,7 +152,8 @@ public class GvDataMap<T1 extends GvData, T2 extends GvDataCollection<T1>> imple
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(mMap.size());
         dest.writeParcelable(mReviewId, flags);
-        dest.writeParcelable(mType, flags);
+        dest.writeParcelable(mKeyType, flags);
+        dest.writeParcelable(mValueType, flags);
         for (Map.Entry<T1, T2> entry : mMap.entrySet()) {
             dest.writeParcelable(entry.getKey(), flags);
             dest.writeParcelable(entry.getValue(), flags);

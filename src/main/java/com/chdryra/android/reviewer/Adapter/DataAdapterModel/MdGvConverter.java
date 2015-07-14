@@ -255,27 +255,18 @@ public class MdGvConverter {
         return collection;
     }
 
-    public static GvDataList convertChildAuthors(ReviewNode node) {
+    public static GvAuthorList convertChildAuthors(ReviewNode node) {
         GvReviewId id = GvReviewId.getId(node.getId().toString());
-        Map<Author, GvAuthorList> authorMap = new LinkedHashMap<>();
+        GvAuthorList authors = new GvAuthorList(id);
         for (ReviewNode child : node.getChildren()) {
             GvReviewId childId = GvReviewId.getId(child.getId().toString());
             Author author = child.getAuthor();
-            GvAuthorList.GvAuthor gvAuthor = new GvAuthorList.GvAuthor(childId, author.getName(),
-                    author.getUserId().toString());
-            if (!authorMap.containsKey(author)) {
-                authorMap.put(author, new GvAuthorList(id));
-            }
+            authors.add(new GvAuthorList.GvAuthor(childId, author.getName(),
+                    author.getUserId().toString()));
 
-            authorMap.get(author).add(gvAuthor);
         }
 
-        GvList collection = new GvList(id, GvAuthorList.TYPE);
-        for (Map.Entry<Author, GvAuthorList> entry : authorMap.entrySet()) {
-            collection.add(entry.getValue());
-        }
-
-        return collection;
+        return authors;
     }
 
     public static GvDateList convertChildPublishDates(ReviewNode node) {

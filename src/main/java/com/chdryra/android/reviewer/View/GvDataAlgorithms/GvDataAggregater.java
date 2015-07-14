@@ -11,35 +11,37 @@ package com.chdryra.android.reviewer.View.GvDataAlgorithms;
 import com.chdryra.android.reviewer.View.GvDataModel.FactoryGvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
+import com.chdryra.android.reviewer.View.GvDataModel.GvDataMap;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
-
-import java.util.LinkedHashMap;
-import java.util.Map;
+import com.chdryra.android.reviewer.View.GvDataModel.GvList;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 13/07/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class Aggregator<T extends GvData> {
+public class GvDataAggregater<T extends GvData> {
     private GvDataList<T> mData;
 
-    public Aggregator(GvDataList<T> data) {
+    public GvDataAggregater(GvDataList<T> data) {
         mData = data;
     }
 
-    public <D> Map<T, GvDataList<T>> aggregate
-            (DifferenceComparitor<T, DifferenceLevel<D>> comparitor,
-                    D minimumDifference, CanonicalDatumMaker<T> canonical) {
-        Map<T, GvDataList<T>> map = new LinkedHashMap<>();
-        GvDataType<T> type = mData.getGvDataType();
-        GvDataList<T> data = FactoryGvData.newDataList(type);
-        for (T reference : data) {
-            GvDataList<T> similar = FactoryGvData.newDataList(type, mData.getReviewId());
+    public <D1, D2 extends DifferenceLevel<D1>> GvDataMap<T, GvDataList<T>> aggregate
+            (DifferenceComparitor<T, D2> comparitor,
+             D1 minimumDifference, CanonicalDatumMaker<T> canonical) {
+        //TODO make type safe
+        GvDataType listType = mData.getGvDataType();
+        GvList allocated = new GvList();
+        GvDataMap<T, GvDataList<T>> map = new GvDataMap<>(listType.getElementType(), listType, mData.getReviewId());
+        for (T reference : mData) {
+            if(allocated.contains(reference)) continue;
+            GvDataList<T> similar = FactoryGvData.newDataList(listType, mData.getReviewId());
             for (T candidate : mData) {
-                DifferenceLevel<D> difference = comparitor.compare(reference, candidate);
+                D2 difference = comparitor.compare(reference, candidate);
                 if (difference.lessThanOrEqualTo(minimumDifference)) {
                     similar.add(candidate);
+                    allocated.add(candidate);
                 }
             }
             T canon = canonical.getCanonical(similar);

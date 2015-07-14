@@ -122,6 +122,7 @@ public class GvDataListTest extends TestCase {
     }
 
     private void testRemoveAll(GvDataList<GvCommentList.GvComment> list) {
+        assertTrue(list.size() > 0);
         list.removeAll();
         assertEquals(0, list.size());
     }

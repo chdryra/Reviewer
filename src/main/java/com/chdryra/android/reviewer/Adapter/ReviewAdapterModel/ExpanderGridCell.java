@@ -35,8 +35,8 @@ public class ExpanderGridCell implements GridCellExpander<GvData> {
     @Override
     public ReviewViewAdapter expandItem(GvData datum) {
         if (isExpandable(datum)) {
-            return FactoryReviewViewAdapter.newGvDataListAdapter(mContext, mParent, (GvDataList)
-                    datum);
+            return FactoryReviewViewAdapter.newGvDataCollectionAdapter(mContext, mParent,
+                    (GvDataList) datum);
         }
 
         return null;

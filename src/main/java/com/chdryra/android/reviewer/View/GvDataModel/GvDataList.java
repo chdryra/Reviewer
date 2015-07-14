@@ -28,7 +28,7 @@ import java.util.Arrays;
  * @param <T>: {@link GvData} type.GvDataList
  */
 public class GvDataList<T extends GvData> extends ViewHolderDataList<T> implements
-        GvDataCollection {
+        GvDataCollection<T> {
     public static final Parcelable.Creator<GvDataList> CREATOR = new Parcelable
             .Creator<GvDataList>() {
         public GvDataList createFromParcel(Parcel in) {

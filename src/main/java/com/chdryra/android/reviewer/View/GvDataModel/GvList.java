@@ -27,7 +27,7 @@ public class GvList extends GvDataList<GvData> {
     }
 
     public <T extends GvData> GvList(GvReviewId id, GvDataType<T> elementType) {
-        super(GvData.class, GvTypeMaker.newType(GvData.class, elementType.getDatumName(),
+        super(GvData.class, GvTypeMaker.newType(GvList.class, elementType.getDatumName(),
                 elementType.getDataName()), id);
     }
 

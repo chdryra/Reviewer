@@ -13,10 +13,13 @@ import android.content.Context;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.MdGvConverter;
 import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
 import com.chdryra.android.reviewer.Model.Tagging.TagsManager;
+import com.chdryra.android.reviewer.View.GvDataAlgorithms.Aggregater;
+import com.chdryra.android.reviewer.View.GvDataModel.GvAuthorList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvChildList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataCollection;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
+import com.chdryra.android.reviewer.View.GvDataModel.GvDataMap;
 import com.chdryra.android.reviewer.View.GvDataModel.GvList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvReviewId;
 import com.chdryra.android.reviewer.View.GvDataModel.GvReviewList;
@@ -53,7 +56,10 @@ public class ViewerTreeData implements GridDataViewer<GvData> {
         GvReviewList reviews = wrapper.getGridData();
         if (reviews.size() > 0) {
             data.add(reviews);
-            data.add(MdGvConverter.convertChildAuthors(mNode));
+            GvDataMap<GvAuthorList.GvAuthor, GvDataList<GvAuthorList.GvAuthor>> map = Aggregater.aggregate
+                    (MdGvConverter.convertChildAuthors(mNode));
+            data.add(map);
+            //data.add(MdGvConverter.convertChildAuthors(mNode));
             data.add(MdGvConverter.convertChildSubjects(mNode));
             data.add(MdGvConverter.convertChildPublishDates(mNode));
         }
@@ -72,10 +78,10 @@ public class ViewerTreeData implements GridDataViewer<GvData> {
     public boolean isExpandable(GvData datum) {
         if (!datum.isCollection()) return false;
 
-        GvDataList data = (GvDataList) datum;
+        GvDataCollection data = (GvDataCollection) datum;
         GvList gridData = getGridData();
         for (GvData list : gridData) {
-            if (list.isCollection()) ((GvDataCollection) list).sort();
+            ((GvDataCollection) list).sort();
         }
         data.sort();
 
@@ -91,8 +97,8 @@ public class ViewerTreeData implements GridDataViewer<GvData> {
                 return parent;
             }
 
-            return FactoryReviewViewAdapter.newGvDataListAdapter(mContext, parent, (GvDataList)
-                    datum);
+            return FactoryReviewViewAdapter.newGvDataCollectionAdapter(mContext, parent,
+                    (GvDataList)datum);
         }
 
         return null;
