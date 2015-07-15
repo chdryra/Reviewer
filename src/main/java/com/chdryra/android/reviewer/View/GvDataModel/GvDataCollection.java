@@ -19,4 +19,6 @@ public interface GvDataCollection<T extends GvData> extends GvData {
     void sort();
 
     T getItem(int position);
+
+    GvDataList<T> toList();
 }

@@ -28,15 +28,11 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDateList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvFactList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvLocationList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvReviewId;
 import com.chdryra.android.reviewer.View.GvDataModel.GvSubjectList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvTagList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvUrlList;
-
-import java.util.LinkedHashMap;
-import java.util.Map;
 
 /**
  * Created by: Rizwan Choudrey
@@ -232,27 +228,17 @@ public class MdGvConverter {
         return list;
     }
 
-    public static GvList convertChildSubjects(ReviewNode node) {
+    public static GvSubjectList convertChildSubjects(ReviewNode node) {
         GvReviewId id = GvReviewId.getId(node.getId().toString());
-        Map<String, GvSubjectList> subjectMap = new LinkedHashMap<>();
+        GvSubjectList subjects = new GvSubjectList(id);
         ChildDataGetter getter = new ChildDataGetter(node);
         for (MdSubject mdSubject : getter.getSubjects()) {
-            String subject = mdSubject.get();
             GvReviewId subjectId = GvReviewId.getId(mdSubject.getReviewId().toString());
-            GvSubjectList.GvSubject gvSubject = new GvSubjectList.GvSubject(subjectId, subject);
-            if (!subjectMap.containsKey(subject)) {
-                subjectMap.put(subject, new GvSubjectList(id));
-            }
-
-            subjectMap.get(subject).add(gvSubject);
+            String subject = mdSubject.get();
+            subjects.add(new GvSubjectList.GvSubject(subjectId, subject));
         }
 
-        GvList collection = new GvList(id, GvSubjectList.TYPE);
-        for (Map.Entry<String, GvSubjectList> entry : subjectMap.entrySet()) {
-            collection.add(entry.getValue());
-        }
-
-        return collection;
+        return subjects;
     }
 
     public static GvAuthorList convertChildAuthors(ReviewNode node) {

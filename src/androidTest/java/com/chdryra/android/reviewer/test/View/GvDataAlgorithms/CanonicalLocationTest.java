@@ -8,8 +8,8 @@
 
 package com.chdryra.android.reviewer.test.View.GvDataAlgorithms;
 
-import com.chdryra.android.reviewer.View.GvDataAlgorithms.CanonicalDatumMaker;
-import com.chdryra.android.reviewer.View.GvDataAlgorithms.CanonicalLocation;
+import com.chdryra.android.reviewer.View.GvDataAggregation.CanonicalDatumMaker;
+import com.chdryra.android.reviewer.View.GvDataAggregation.CanonicalLocation;
 import com.chdryra.android.reviewer.View.GvDataModel.GvLocationList;
 import com.google.android.gms.maps.model.LatLng;
 

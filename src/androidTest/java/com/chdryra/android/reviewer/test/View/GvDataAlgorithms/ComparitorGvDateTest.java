@@ -10,8 +10,8 @@ package com.chdryra.android.reviewer.test.View.GvDataAlgorithms;
 
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.View.GvDataAlgorithms.ComparitorGvDate;
-import com.chdryra.android.reviewer.View.GvDataAlgorithms.DifferenceDate;
+import com.chdryra.android.reviewer.View.GvDataAggregation.ComparitorGvDate;
+import com.chdryra.android.reviewer.View.GvDataAggregation.DifferenceDate;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDateList;
 
 import junit.framework.TestCase;
@@ -40,7 +40,7 @@ public class ComparitorGvDateTest extends TestCase {
         DifferenceDate day = new DifferenceDate(DifferenceDate.DateBucket.DAY);
         DifferenceDate month = new DifferenceDate(DifferenceDate.DateBucket.MONTH);
         DifferenceDate year = new DifferenceDate(DifferenceDate.DateBucket.YEAR);
-        DifferenceDate none = new DifferenceDate(DifferenceDate.DateBucket.NONE);
+        DifferenceDate none = new DifferenceDate(DifferenceDate.DateBucket.MORE_THAN_YEAR);
 
         ComparitorGvDate comparitor = new ComparitorGvDate();
 

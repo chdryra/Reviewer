@@ -35,12 +35,8 @@ public class ExpanderChildNode implements GridCellExpander<GvReviewList.GvReview
 
     @Override
     public boolean isExpandable(GvReviewList.GvReviewOverview datum) {
-        try {
-            ReviewId id = ReviewId.fromString(datum.getId());
-            return mParent.getChildren().containsId(id);
-        } catch (ClassCastException e) {
-            return false;
-        }
+        ReviewId id = ReviewId.fromString(datum.getId());
+        return mParent.getChildren().containsId(id);
     }
 
     @Override

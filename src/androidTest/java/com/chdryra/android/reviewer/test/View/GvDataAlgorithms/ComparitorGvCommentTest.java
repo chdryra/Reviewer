@@ -10,8 +10,8 @@ package com.chdryra.android.reviewer.test.View.GvDataAlgorithms;
 
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.View.GvDataAlgorithms.ComparitorGvComment;
-import com.chdryra.android.reviewer.View.GvDataAlgorithms.DifferencePercentage;
+import com.chdryra.android.reviewer.View.GvDataAggregation.ComparitorGvComment;
+import com.chdryra.android.reviewer.View.GvDataAggregation.DifferencePercentage;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
 
 import junit.framework.TestCase;

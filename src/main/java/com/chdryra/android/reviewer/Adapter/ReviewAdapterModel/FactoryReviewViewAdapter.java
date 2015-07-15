@@ -11,7 +11,7 @@ package com.chdryra.android.reviewer.Adapter.ReviewAdapterModel;
 import android.content.Context;
 
 import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
-import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
+import com.chdryra.android.reviewer.View.GvDataModel.GvDataCollection;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataMap;
 
 /**
@@ -36,14 +36,14 @@ public class FactoryReviewViewAdapter {
     }
 
     public static ReviewViewAdapter newGvDataCollectionAdapter(Context context, ReviewViewAdapter
-            parent, GvDataList data) {
-        GridDataViewer wrapper = new ViewerGvDataList(context, parent, data);
+            parent, GvDataCollection data) {
+        GridDataViewer wrapper = new ViewerGvDataCollection(context, parent, data);
         return new AdapterReviewViewAdapter(context, parent, wrapper);
     }
 
     public static ReviewViewAdapter newGvDataCollectionAdapter(Context context, ReviewViewAdapter
             parent, GvDataMap data) {
         GridDataViewer wrapper = new ViewerGvDataMap(context, parent, data);
-        return new AdapterReviewViewAdapter(context, parent, wrapper);
+        return new AdapterReviewViewAdapter(parent, wrapper, wrapper);
     }
 }

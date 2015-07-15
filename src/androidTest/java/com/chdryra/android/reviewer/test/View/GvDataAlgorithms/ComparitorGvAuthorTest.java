@@ -11,8 +11,8 @@ package com.chdryra.android.reviewer.test.View.GvDataAlgorithms;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.Model.UserData.Author;
-import com.chdryra.android.reviewer.View.GvDataAlgorithms.ComparitorGvAuthor;
-import com.chdryra.android.reviewer.View.GvDataAlgorithms.DifferenceBoolean;
+import com.chdryra.android.reviewer.View.GvDataAggregation.ComparitorGvAuthor;
+import com.chdryra.android.reviewer.View.GvDataAggregation.DifferenceBoolean;
 import com.chdryra.android.reviewer.View.GvDataModel.GvAuthorList;
 import com.chdryra.android.reviewer.test.TestUtils.RandomAuthor;
 import com.chdryra.android.testutils.ExceptionTester;

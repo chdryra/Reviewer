@@ -29,6 +29,13 @@ public class AdapterReviewViewAdapter extends ReviewViewAdapterBasic {
         mExpander = new ExpanderGridCell(context, this);
     }
 
+    public AdapterReviewViewAdapter(ReviewViewAdapter parent, GridDataViewer
+            wrapper, GridCellExpander expander) {
+        mParentAdapter = parent;
+        setWrapper(wrapper);
+        mExpander = expander;
+    }
+
     @Override
     public String getSubject() {
         return mParentAdapter.getSubject();

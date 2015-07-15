@@ -96,6 +96,11 @@ public class GvDataMap<T1 extends GvData, T2 extends GvData> implements
     }
 
     @Override
+    public GvDataList<T1> toList() {
+        return getKeyList();
+    }
+
+    @Override
     public int size() {
         return mMap.size();
     }
@@ -158,5 +163,32 @@ public class GvDataMap<T1 extends GvData, T2 extends GvData> implements
             dest.writeParcelable(entry.getKey(), flags);
             dest.writeParcelable(entry.getValue(), flags);
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof GvDataMap)) return false;
+
+        GvDataMap<?, ?> gvDataMap = (GvDataMap<?, ?>) o;
+
+        if (!mMap.equals(gvDataMap.mMap)) return false;
+        if (!mKeyType.equals(gvDataMap.mKeyType)) return false;
+        if (!mValueType.equals(gvDataMap.mValueType)) return false;
+        if (mReviewId != null ? !mReviewId.equals(gvDataMap.mReviewId) : gvDataMap.mReviewId !=
+                null)
+            return false;
+        return mType.equals(gvDataMap.mType);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = mMap.hashCode();
+        result = 31 * result + mKeyType.hashCode();
+        result = 31 * result + mValueType.hashCode();
+        result = 31 * result + (mReviewId != null ? mReviewId.hashCode() : 0);
+        result = 31 * result + mType.hashCode();
+        return result;
     }
 }

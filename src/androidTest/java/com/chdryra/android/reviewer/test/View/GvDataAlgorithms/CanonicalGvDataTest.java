@@ -10,7 +10,7 @@ package com.chdryra.android.reviewer.test.View.GvDataAlgorithms;
 
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.View.GvDataAlgorithms.CanonicalDatumMaker;
+import com.chdryra.android.reviewer.View.GvDataAggregation.CanonicalDatumMaker;
 import com.chdryra.android.reviewer.View.GvDataModel.FactoryGvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;

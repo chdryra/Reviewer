@@ -107,9 +107,9 @@ public class GvDataMapTest extends TestCase {
         mMap.put(key1, value1);
         mMap.put(key2, value2);
         mMap.put(key3, value3);
-        assertEquals(value1, mMap.getItem(0));
-        assertEquals(value2, mMap.getItem(1));
-        assertEquals(value3, mMap.getItem(2));
+        assertEquals(key1, mMap.getItem(0));
+        assertEquals(key2, mMap.getItem(1));
+        assertEquals(key3, mMap.getItem(2));
     }
 
     @SmallTest

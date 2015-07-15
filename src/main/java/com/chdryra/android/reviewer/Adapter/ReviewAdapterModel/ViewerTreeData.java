@@ -13,12 +13,10 @@ import android.content.Context;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.MdGvConverter;
 import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
 import com.chdryra.android.reviewer.Model.Tagging.TagsManager;
-import com.chdryra.android.reviewer.View.GvDataAlgorithms.Aggregater;
-import com.chdryra.android.reviewer.View.GvDataModel.GvAuthorList;
+import com.chdryra.android.reviewer.View.GvDataAggregation.Aggregater;
 import com.chdryra.android.reviewer.View.GvDataModel.GvChildList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataCollection;
-import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataMap;
 import com.chdryra.android.reviewer.View.GvDataModel.GvList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvReviewId;
@@ -56,27 +54,24 @@ public class ViewerTreeData implements GridDataViewer<GvData> {
         GvReviewList reviews = wrapper.getGridData();
         if (reviews.size() > 0) {
             data.add(reviews);
-            GvDataMap<GvAuthorList.GvAuthor, GvDataList<GvAuthorList.GvAuthor>> map = Aggregater.aggregate
-                    (MdGvConverter.convertChildAuthors(mNode));
-            data.add(map);
-            //data.add(MdGvConverter.convertChildAuthors(mNode));
-            data.add(MdGvConverter.convertChildSubjects(mNode));
-            data.add(MdGvConverter.convertChildPublishDates(mNode));
+            data.add(Aggregater.aggregate(MdGvConverter.convertChildAuthors(mNode)));
+            data.add(Aggregater.aggregate(MdGvConverter.convertChildSubjects(mNode)));
+            data.add(Aggregater.aggregate(MdGvConverter.convertChildPublishDates(mNode)));
         }
 
-        data.add(tagCollector.collectTags());
-        data.add(collectCriteria());
-        data.add(MdGvConverter.convert(mGetter.getImages()));
-        data.add(MdGvConverter.convert(mGetter.getComments()));
-        data.add(MdGvConverter.convert(mGetter.getLocations()));
-        data.add(MdGvConverter.convert(mGetter.getFacts()));
+        data.add(Aggregater.aggregate(tagCollector.collectTags()));
+        data.add(Aggregater.aggregate(collectCriteria()));
+        data.add(Aggregater.aggregate(MdGvConverter.convert(mGetter.getImages())));
+        data.add(Aggregater.aggregate(MdGvConverter.convert(mGetter.getComments())));
+        data.add(Aggregater.aggregate(MdGvConverter.convert(mGetter.getLocations())));
+        data.add(Aggregater.aggregate(MdGvConverter.convert(mGetter.getFacts())));
 
         return data;
     }
 
     @Override
     public boolean isExpandable(GvData datum) {
-        if (!datum.isCollection()) return false;
+        if (!datum.hasElements()) return false;
 
         GvDataCollection data = (GvDataCollection) datum;
         GvList gridData = getGridData();
@@ -85,7 +80,7 @@ public class ViewerTreeData implements GridDataViewer<GvData> {
         }
         data.sort();
 
-        return gridData.contains(datum) && datum.hasElements();
+        return gridData.contains(datum);
     }
 
     @Override
@@ -98,7 +93,7 @@ public class ViewerTreeData implements GridDataViewer<GvData> {
             }
 
             return FactoryReviewViewAdapter.newGvDataCollectionAdapter(mContext, parent,
-                    (GvDataList)datum);
+                    (GvDataMap) datum);
         }
 
         return null;

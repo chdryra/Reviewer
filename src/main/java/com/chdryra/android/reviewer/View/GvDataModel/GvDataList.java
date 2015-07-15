@@ -99,6 +99,11 @@ public class GvDataList<T extends GvData> extends ViewHolderDataList<T> implemen
         return true;
     }
 
+    @Override
+    public GvDataList<T> toList() {
+        return this;
+    }
+
     //TODO make typesafe
     public boolean contains(GvData datum) {
         try {

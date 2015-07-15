@@ -8,8 +8,8 @@
 
 package com.chdryra.android.reviewer.test.View.GvDataAlgorithms;
 
-import com.chdryra.android.reviewer.View.GvDataAlgorithms.CanonicalChildReview;
-import com.chdryra.android.reviewer.View.GvDataAlgorithms.CanonicalDatumMaker;
+import com.chdryra.android.reviewer.View.GvDataAggregation.CanonicalChildReview;
+import com.chdryra.android.reviewer.View.GvDataAggregation.CanonicalDatumMaker;
 import com.chdryra.android.reviewer.View.GvDataModel.GvChildList;
 import com.chdryra.android.testutils.RandomString;
 

@@ -3,6 +3,7 @@ package com.chdryra.android.reviewer.Adapter.ReviewAdapterModel;
 import android.content.Context;
 
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
+import com.chdryra.android.reviewer.View.GvDataModel.GvDataCollection;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataMap;
 import com.chdryra.android.reviewer.View.GvDataModel.GvList;
@@ -50,8 +51,15 @@ public class ViewerGvDataMap implements GridDataViewer {
     public ReviewViewAdapter expandItem(GvData datum) {
         if(isExpandable(datum)) {
             GvData value = mData.get(datum);
-            GvList wrapped = new GvList(value.getReviewId());
-            return FactoryReviewViewAdapter.newGvDataCollectionAdapter(mContext, mParent, wrapped);
+            GvDataCollection expanded;
+            if(value.isCollection()) {
+                expanded = (GvDataCollection) value;
+            } else {
+                GvList list = new GvList(value.getReviewId());
+                list.add(value);
+                expanded = list;
+            }
+            return FactoryReviewViewAdapter.newGvDataCollectionAdapter(mContext, mParent, expanded);
         }
 
         return null;
