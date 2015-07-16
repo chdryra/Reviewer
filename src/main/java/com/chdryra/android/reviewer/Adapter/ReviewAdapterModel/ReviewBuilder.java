@@ -27,7 +27,7 @@ import com.chdryra.android.reviewer.View.Configs.ConfigGvDataUi;
 import com.chdryra.android.reviewer.View.GvDataModel.FactoryGvData;
 import com.chdryra.android.reviewer.View.GvDataModel.FactoryGvDataHandler;
 import com.chdryra.android.reviewer.View.GvDataModel.GvBuildReviewList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvChildList;
+import com.chdryra.android.reviewer.View.GvDataModel.GvChildReviewList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataHandler;
@@ -190,8 +190,8 @@ public class ReviewBuilder extends ReviewViewAdapterBasic {
     //TODO make type safe
     private <T extends GvData> void setData(GvDataList<T> data) {
         GvDataType<T> dataType = data.getGvDataType().getElementType();
-        if (dataType == GvChildList.GvChildReview.TYPE) {
-            setChildren((GvChildList) data);
+        if (dataType == GvChildReviewList.GvChildReview.TYPE) {
+            setChildren((GvChildReviewList) data);
         } else if (Arrays.asList(TYPES).contains(dataType)) {
             mData.put(dataType, MdGvConverter.copy(data));
         }
@@ -206,19 +206,43 @@ public class ReviewBuilder extends ReviewViewAdapterBasic {
                 filename);
     }
 
-    private GvChildList getChildren() {
-        return (GvChildList) getData(GvChildList.GvChildReview.TYPE);
+    private GvChildReviewList getChildren() {
+        return (GvChildReviewList) getData(GvChildReviewList.GvChildReview.TYPE);
     }
 
-    private void setChildren(GvChildList children) {
+    private void setChildren(GvChildReviewList children) {
         mChildren = new ArrayList<>();
-        for (GvChildList.GvChildReview child : children) {
+        for (GvChildReviewList.GvChildReview child : children) {
             ReviewBuilder childBuilder = new ReviewBuilder(mContext, mAuthor);
             childBuilder.setSubject(child.getSubject());
             childBuilder.setRating(child.getRating());
             mChildren.add(childBuilder);
         }
-        mData.put(GvChildList.GvChildReview.TYPE, MdGvConverter.copy(children));
+        mData.put(GvChildReviewList.GvChildReview.TYPE, MdGvConverter.copy(children));
+    }
+
+    @Override
+    public float getRating() {
+        return isRatingAverage() ? getAverageRating() : mRating;
+    }
+
+    public void setRating(float rating) {
+        if (!isRatingAverage()) mRating = rating;
+    }
+
+    @Override
+    public float getAverageRating() {
+        return getChildren().getAverageRating();
+    }
+
+    @Override
+    public GvDataList getGridData() {
+        return mBuildUi;
+    }
+
+    @Override
+    public GvImageList getCovers() {
+        return (GvImageList) getData(GvImageList.GvImage.TYPE);
     }
 
     public class DataBuilder<T extends GvData> extends ReviewViewAdapterBasic {
@@ -281,57 +305,29 @@ public class ReviewBuilder extends ReviewViewAdapterBasic {
             return getParentBuilder().getSubject();
         }
 
+        public void setSubject(String subject) {
+            getParentBuilder().setSubject(subject);
+        }
+
         @Override
         public float getRating() {
             return getParentBuilder().getRating();
-        }
-
-        @Override
-        public float getAverageRating() {
-            return mData.getGvDataType() == GvChildList.TYPE ?
-                    ReviewBuilder.this.getAverageRating() : getRating();
-        }
-
-
-        @Override
-        public GvImageList getCovers() {
-            return mData.getGvDataType().getElementType() == GvImageList.GvImage.TYPE ?
-                    (GvImageList) mData : getParentBuilder().getCovers();
         }
 
         public void setRating(float rating) {
             getParentBuilder().setRating(rating);
         }
 
-        public void setSubject(String subject) {
-            getParentBuilder().setSubject(subject);
+        @Override
+        public float getAverageRating() {
+            return mData.getGvDataType() == GvChildReviewList.TYPE ?
+                    ReviewBuilder.this.getAverageRating() : getRating();
         }
-    }
 
-    @Override
-    public float getRating() {
-        return isRatingAverage() ? getAverageRating() : mRating;
-    }
-
-
-    public void setRating(float rating) {
-        if (!isRatingAverage()) mRating = rating;
-    }
-
-
-    @Override
-    public float getAverageRating() {
-        return getChildren().getAverageRating();
-    }
-
-
-    @Override
-    public GvDataList getGridData() {
-        return mBuildUi;
-    }
-
-    @Override
-    public GvImageList getCovers() {
-        return (GvImageList) getData(GvImageList.GvImage.TYPE);
+        @Override
+        public GvImageList getCovers() {
+            return mData.getGvDataType().getElementType() == GvImageList.GvImage.TYPE ?
+                    (GvImageList) mData : getParentBuilder().getCovers();
+        }
     }
 }

@@ -21,7 +21,7 @@ import com.chdryra.android.reviewer.Model.Tagging.TagsManager;
 import com.chdryra.android.reviewer.Model.TreeMethods.ChildDataGetter;
 import com.chdryra.android.reviewer.Model.UserData.Author;
 import com.chdryra.android.reviewer.View.GvDataModel.GvAuthorList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvChildList;
+import com.chdryra.android.reviewer.View.GvDataModel.GvChildReviewList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
@@ -198,8 +198,8 @@ public class MdGvConverter {
             return new GvUrlList((GvUrlList) data);
         } else if (dataType == GvTagList.TYPE) {
             return new GvTagList((GvTagList) data);
-        } else if (dataType == GvChildList.TYPE) {
-            return new GvChildList((GvChildList) data);
+        } else if (dataType == GvChildReviewList.TYPE) {
+            return new GvChildReviewList((GvChildReviewList) data);
         } else {
             return null;
         }
@@ -217,11 +217,12 @@ public class MdGvConverter {
         return tagList;
     }
 
-    public static GvChildList convertChildren(ReviewNode node) {
+    public static GvChildReviewList convertChildren(ReviewNode node) {
         GvReviewId id = GvReviewId.getId(node.getId().toString());
-        GvChildList list = new GvChildList(id);
+        GvChildReviewList list = new GvChildReviewList(id);
         for (ReviewNode child : node.getChildren()) {
-            list.add(new GvChildList.GvChildReview(id, child.getSubject().get(), child.getRating()
+            list.add(new GvChildReviewList.GvChildReview(id, child.getSubject().get(), child
+                    .getRating()
                     .get()));
         }
 

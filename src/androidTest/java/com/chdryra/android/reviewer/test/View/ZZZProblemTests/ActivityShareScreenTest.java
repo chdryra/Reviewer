@@ -18,7 +18,7 @@ import com.chdryra.android.reviewer.Model.Social.SocialPlatformList;
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.View.ActivitiesFragments.ActivityFeed;
 import com.chdryra.android.reviewer.View.ActivitiesFragments.FragmentReviewView;
-import com.chdryra.android.reviewer.View.GvDataModel.GvReviewList;
+import com.chdryra.android.reviewer.View.GvDataModel.GvReviewOverviewList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvSocialPlatformList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvTagList;
 import com.chdryra.android.reviewer.View.Screens.ReviewView;
@@ -77,7 +77,8 @@ public class ActivityShareScreenTest extends ActivityReviewViewTest {
         ActivityFeed feedActivity = (ActivityFeed) monitor.waitForActivityWithTimeout(TIMEOUT);
         assertNotNull(feedActivity);
         assertEquals(ActivityFeed.class, feedActivity.getClass());
-        GvReviewList list = (GvReviewList) ReviewFeed.getFeedAdapter(getActivity()).getGridData();
+        GvReviewOverviewList list = (GvReviewOverviewList) ReviewFeed.getFeedAdapter(getActivity
+                ()).getGridData();
         assertEquals(1, list.size());
         assertEquals(mAdapter.getSubject(), list.getItem(0).getSubject());
         assertEquals(mAdapter.getRating(), list.getItem(0).getRating());

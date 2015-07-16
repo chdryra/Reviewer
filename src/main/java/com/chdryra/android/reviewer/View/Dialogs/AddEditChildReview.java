@@ -12,36 +12,36 @@ import android.widget.EditText;
 import android.widget.RatingBar;
 
 import com.chdryra.android.reviewer.R;
-import com.chdryra.android.reviewer.View.GvDataModel.GvChildList;
+import com.chdryra.android.reviewer.View.GvDataModel.GvChildReviewList;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 17/12/2014
  * Email: rizwan.choudrey@gmail.com
  */
-public class AddEditChildReview extends AddEditLayout<GvChildList.GvChildReview> {
+public class AddEditChildReview extends AddEditLayout<GvChildReviewList.GvChildReview> {
     public static final int LAYOUT = R.layout.dialog_criterion_add_edit;
     public static final int   SUBJECT = R.id.child_name_edit_text;
     public static final int   RATING  = R.id.child_rating_bar;
     public static final int[] VIEWS   = new int[]{SUBJECT, RATING};
 
     public AddEditChildReview(GvDataAdder adder) {
-        super(GvChildList.GvChildReview.class, LAYOUT, VIEWS, SUBJECT, adder);
+        super(GvChildReviewList.GvChildReview.class, LAYOUT, VIEWS, SUBJECT, adder);
     }
 
     public AddEditChildReview(GvDataEditor editor) {
-        super(GvChildList.GvChildReview.class, LAYOUT, VIEWS, SUBJECT, editor);
+        super(GvChildReviewList.GvChildReview.class, LAYOUT, VIEWS, SUBJECT, editor);
     }
 
     @Override
-    public GvChildList.GvChildReview createGvData() {
+    public GvChildReviewList.GvChildReview createGvData() {
         String subject = ((EditText) getView(SUBJECT)).getText().toString().trim();
         float rating = ((RatingBar) getView(RATING)).getRating();
-        return new GvChildList.GvChildReview(subject, rating);
+        return new GvChildReviewList.GvChildReview(subject, rating);
     }
 
     @Override
-    public void updateLayout(GvChildList.GvChildReview data) {
+    public void updateLayout(GvChildReviewList.GvChildReview data) {
         ((EditText) getView(SUBJECT)).setText(data.getSubject());
         ((RatingBar) getView(RATING)).setRating(data.getRating());
     }

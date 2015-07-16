@@ -100,4 +100,23 @@ public class GvText extends VHDString implements GvData {
         parcel.writeString(get());
         parcel.writeParcelable(mId, i);
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof GvText)) return false;
+        if (!super.equals(o)) return false;
+
+        GvText gvText = (GvText) o;
+
+        return !(mId != null ? !mId.equals(gvText.mId) : gvText.mId != null);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = super.hashCode();
+        result = 31 * result + (mId != null ? mId.hashCode() : 0);
+        return result;
+    }
 }

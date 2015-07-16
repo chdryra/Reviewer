@@ -27,4 +27,10 @@ public interface GvData extends ViewHolderData, Parcelable {
     boolean hasElements();
 
     boolean isCollection();
+
+    @Override
+    boolean equals(Object o);
+
+    @Override
+    int hashCode();
 }

@@ -10,7 +10,7 @@ package com.chdryra.android.reviewer.test.View.GvDataModel;
 
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.View.GvDataModel.GvChildList;
+import com.chdryra.android.reviewer.View.GvDataModel.GvChildReviewList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvFactList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
@@ -58,6 +58,8 @@ public class GvCommentListTest extends TestCase {
         GvCommentList.GvComment gvCommentEquals = new GvCommentList.GvComment(comment1);
         GvCommentList.GvComment gvCommentEquals2 = new GvCommentList.GvComment(gvComment);
         GvCommentList.GvComment gvCommentNotEquals = new GvCommentList.GvComment(comment2);
+        GvCommentList.GvComment gvCommentNotEqual2 = new GvCommentList.GvComment(RandomReviewId
+                .nextGvReviewId(), comment1);
         GvCommentList.GvComment gvCommentNull = new GvCommentList.GvComment();
         GvCommentList.GvComment gvCommentEmpty = new GvCommentList.GvComment("");
 
@@ -69,6 +71,7 @@ public class GvCommentListTest extends TestCase {
         assertTrue(gvComment.equals(gvCommentEquals));
         assertTrue(gvComment.equals(gvCommentEquals2));
         assertFalse(gvComment.equals(gvCommentNotEquals));
+        assertFalse(gvComment.equals(gvCommentNotEqual2));
 
         assertFalse(gvCommentNull.isValidForDisplay());
         assertFalse(gvCommentEmpty.isValidForDisplay());
@@ -142,7 +145,7 @@ public class GvCommentListTest extends TestCase {
         mList.addList(GvDataMocker.newCommentList(NUM, false));
         assertEquals(NUM, mList.size());
 
-        assertFalse(mList.equals(GvDataMocker.getData(GvChildList.TYPE, NUM)));
+        assertFalse(mList.equals(GvDataMocker.getData(GvChildReviewList.TYPE, NUM)));
         assertFalse(mList.equals(GvDataMocker.getData(GvTagList.TYPE, NUM)));
         assertFalse(mList.equals(GvDataMocker.getData(GvLocationList.TYPE, NUM)));
         assertFalse(mList.equals(GvDataMocker.getData(GvCommentList.TYPE, NUM)));

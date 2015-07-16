@@ -26,7 +26,7 @@ import com.chdryra.android.reviewer.View.Dialogs.DialogGvDataAdd;
 import com.chdryra.android.reviewer.View.Dialogs.DialogGvDataEdit;
 import com.chdryra.android.reviewer.View.Dialogs.DialogShower;
 import com.chdryra.android.reviewer.View.GvDataModel.FactoryGvData;
-import com.chdryra.android.reviewer.View.GvDataModel.GvChildList;
+import com.chdryra.android.reviewer.View.GvDataModel.GvChildReviewList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
@@ -71,7 +71,7 @@ public class EditScreen {
     private static ReviewViewAction.MenuAction newMenuAction(GvDataType dataType) {
         if (dataType == GvCommentList.GvComment.TYPE) {
             return new EditScreenComments.Menu();
-        } else if (dataType == GvChildList.GvChildReview.TYPE) {
+        } else if (dataType == GvChildReviewList.GvChildReview.TYPE) {
             return new EditScreenChildren.Menu();
         } else {
             return new Menu(dataType.getDataName());

@@ -16,7 +16,7 @@ import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.GridCellExpander;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewAdapter;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ViewerChildList;
 import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
-import com.chdryra.android.reviewer.View.GvDataModel.GvReviewList;
+import com.chdryra.android.reviewer.View.GvDataModel.GvReviewOverviewList;
 import com.chdryra.android.reviewer.test.TestUtils.ReviewMocker;
 
 /**
@@ -27,12 +27,12 @@ import com.chdryra.android.reviewer.test.TestUtils.ReviewMocker;
 public class ExpanderChildNodeTest extends AndroidTestCase {
     protected ReviewNode mNode;
     private ViewerChildList mWrapper;
-    private GridCellExpander<GvReviewList.GvReviewOverview> mExpander;
+    private GridCellExpander<GvReviewOverviewList.GvReviewOverview> mExpander;
 
     @SmallTest
     public void testExpandItem() {
-        GvReviewList children = mWrapper.getGridData();
-        for (GvReviewList.GvReviewOverview child : children) {
+        GvReviewOverviewList children = mWrapper.getGridData();
+        for (GvReviewOverviewList.GvReviewOverview child : children) {
             ReviewViewAdapter adapter = mExpander.expandItem(child);
             assertNotNull(adapter);
             assertEquals(child.getSubject(), adapter.getSubject());
@@ -48,7 +48,8 @@ public class ExpanderChildNodeTest extends AndroidTestCase {
         mWrapper = new ViewerChildList(mNode, mExpander);
     }
 
-    protected GridCellExpander<GvReviewList.GvReviewOverview> getExpander(ViewerChildList wrapper) {
+    protected GridCellExpander<GvReviewOverviewList.GvReviewOverview> getExpander(ViewerChildList
+                                                                                          wrapper) {
         return new ExpanderChildNode(getContext(), mNode);
     }
 }

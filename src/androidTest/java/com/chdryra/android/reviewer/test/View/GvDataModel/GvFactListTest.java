@@ -10,7 +10,7 @@ package com.chdryra.android.reviewer.test.View.GvDataModel;
 
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.View.GvDataModel.GvChildList;
+import com.chdryra.android.reviewer.View.GvDataModel.GvChildReviewList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvFactList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
@@ -103,6 +103,8 @@ public class GvFactListTest extends TestCase {
                 (label2, value1);
         GvFactList.GvFact gvFactNotEquals3 = new GvFactList.GvFact
                 (label2, value2);
+        GvFactList.GvFact gvFactNotEquals4 = new GvFactList.GvFact
+                (RandomReviewId.nextGvReviewId(), label1, value1);
         GvFactList.GvFact gvFactNull = new GvFactList.GvFact();
         GvFactList.GvFact gvFactEmpty1 = new GvFactList.GvFact(label1, "");
         GvFactList.GvFact gvFactEmpty2 = new GvFactList.GvFact("", value1);
@@ -119,6 +121,7 @@ public class GvFactListTest extends TestCase {
         assertFalse(gvFact.equals(gvFactNotEquals1));
         assertFalse(gvFact.equals(gvFactNotEquals2));
         assertFalse(gvFact.equals(gvFactNotEquals3));
+        assertFalse(gvFact.equals(gvFactNotEquals4));
 
         assertFalse(gvFactNull.isValidForDisplay());
         assertFalse(gvFactEmpty1.isValidForDisplay());
@@ -131,7 +134,7 @@ public class GvFactListTest extends TestCase {
         mList.addList(GvDataMocker.newFactList(NUM, false));
         assertEquals(NUM, mList.size());
 
-        assertFalse(mList.equals(GvDataMocker.getData(GvChildList.TYPE, NUM)));
+        assertFalse(mList.equals(GvDataMocker.getData(GvChildReviewList.TYPE, NUM)));
         assertFalse(mList.equals(GvDataMocker.getData(GvTagList.TYPE, NUM)));
         assertFalse(mList.equals(GvDataMocker.getData(GvLocationList.TYPE, NUM)));
         assertFalse(mList.equals(GvDataMocker.getData(GvCommentList.TYPE, NUM)));

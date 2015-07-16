@@ -12,7 +12,7 @@ import android.graphics.Bitmap;
 
 import com.chdryra.android.reviewer.Model.UserData.Author;
 import com.chdryra.android.reviewer.View.GvDataModel.GvAuthorList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvChildList;
+import com.chdryra.android.reviewer.View.GvDataModel.GvChildReviewList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
@@ -22,7 +22,7 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvFactList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvLocationList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvReviewId;
-import com.chdryra.android.reviewer.View.GvDataModel.GvReviewList;
+import com.chdryra.android.reviewer.View.GvDataModel.GvReviewOverviewList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvSocialPlatformList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvSubjectList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvTagList;
@@ -51,9 +51,9 @@ import java.util.Random;
 public class GvDataMocker {
     public static final  GvDataType[] DATATYPES        = {GvCommentList.TYPE,
             GvFactList.TYPE, GvImageList.TYPE, GvLocationList.TYPE, GvUrlList.TYPE, GvTagList.TYPE,
-            GvChildList.TYPE};
+            GvChildReviewList.TYPE};
     public static final  GvDataType[] TYPES            = ArrayUtils.addAll(DATATYPES,
-            GvReviewList.TYPE);
+            GvReviewOverviewList.TYPE);
     private static final RandomString STRING_GENERATOR = new RandomString();
     private static final Random       RAND             = new Random();
 
@@ -71,9 +71,9 @@ public class GvDataMocker {
             return newUrlList(size, withId);
         } else if (dataType == GvTagList.TYPE) {
             return newTagList(size, withId);
-        } else if (dataType == GvChildList.TYPE) {
+        } else if (dataType == GvChildReviewList.TYPE) {
             return newChildList(size, withId);
-        } else if (dataType == GvReviewList.TYPE) {
+        } else if (dataType == GvReviewOverviewList.TYPE) {
             return newReviewList(size, withId);
         } else if (dataType == GvAuthorList.TYPE) {
             return newAuthorList(size, withId);
@@ -102,9 +102,9 @@ public class GvDataMocker {
             return newUrl(getId(withId));
         } else if (dataType == GvTagList.TYPE) {
             return newTag(getId(withId));
-        } else if (dataType == GvChildList.TYPE) {
+        } else if (dataType == GvChildReviewList.TYPE) {
             return newChild(getId(withId));
-        } else if (dataType == GvReviewList.TYPE) {
+        } else if (dataType == GvReviewOverviewList.TYPE) {
             return newReviewOverview(getId(withId));
         } else if (dataType == GvAuthorList.TYPE) {
             return newAuthor(getId(withId));
@@ -179,9 +179,9 @@ public class GvDataMocker {
         return list;
     }
 
-    public static GvChildList newChildList(int size, boolean withId) {
+    public static GvChildReviewList newChildList(int size, boolean withId) {
         GvReviewId id = getId(withId);
-        GvChildList list = new GvChildList(id);
+        GvChildReviewList list = new GvChildReviewList(id);
         for (int i = 0; i < size; ++i) {
             list.add(newChild(id));
         }
@@ -189,9 +189,9 @@ public class GvDataMocker {
         return list;
     }
 
-    public static GvReviewList newReviewList(int size, boolean withId) {
+    public static GvReviewOverviewList newReviewList(int size, boolean withId) {
         GvReviewId id = getId(withId);
-        GvReviewList list = new GvReviewList(id);
+        GvReviewOverviewList list = new GvReviewOverviewList(id);
         for (int i = 0; i < size; ++i) {
             list.add(newReviewOverview(id));
         }
@@ -272,11 +272,11 @@ public class GvDataMocker {
         }
     }
 
-    public static GvChildList.GvChildReview newChild(GvReviewId id) {
+    public static GvChildReviewList.GvChildReview newChild(GvReviewId id) {
         String subject = RandomString.nextWord();
         float rating = RandomRating.nextRating();
 
-        return new GvChildList.GvChildReview(id, subject, rating);
+        return new GvChildReviewList.GvChildReview(id, subject, rating);
     }
 
     public static GvTagList.GvTag newTag(GvReviewId id) {
@@ -300,7 +300,7 @@ public class GvDataMocker {
         return new GvDateList.GvDate(RandomDate.nextDate());
     }
 
-    public static GvReviewList.GvReviewOverview newReviewOverview(GvReviewId parentId) {
+    public static GvReviewOverviewList.GvReviewOverview newReviewOverview(GvReviewId parentId) {
         Author author = RandomAuthor.nextAuthor();
         Date date = RandomDate.nextDate();
         String subject = RandomString.nextWord();
@@ -313,7 +313,8 @@ public class GvDataMocker {
         }
         GvReviewId id = GvReviewId.getId(RandomReviewId.nextId().toString());
 
-        return new GvReviewList.GvReviewOverview(parentId, id.toString(), author, date, subject,
+        return new GvReviewOverviewList.GvReviewOverview(parentId, id.toString(), author, date,
+                subject,
                 rating, bitmap, comment, locations);
     }
 

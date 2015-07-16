@@ -55,7 +55,7 @@ public class VhFeed extends ViewHolderBasic {
         if (mTags == null) mTags = (TextView) getView(TAGS);
         if (mPublishDate == null) mPublishDate = (TextView) getView(PUBLISH);
 
-        GvReviewList.GvReviewOverview review = (GvReviewList.GvReviewOverview) data;
+        GvReviewOverviewList.GvReviewOverview review = (GvReviewOverviewList.GvReviewOverview) data;
         if (review == null || !review.isValidForDisplay()) return;
 
         mSubject.setText(review.getSubject());

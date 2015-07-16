@@ -13,7 +13,7 @@ import android.content.Context;
 import com.chdryra.android.reviewer.Model.ReviewData.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewData.ReviewIdableList;
 import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
-import com.chdryra.android.reviewer.View.GvDataModel.GvReviewList;
+import com.chdryra.android.reviewer.View.GvDataModel.GvReviewOverviewList;
 
 /**
  * Created by: Rizwan Choudrey
@@ -26,7 +26,7 @@ public class ExpanderChildren extends ExpanderChildNode {
     }
 
     @Override
-    public ReviewViewAdapter expandItem(GvReviewList.GvReviewOverview datum) {
+    public ReviewViewAdapter expandItem(GvReviewOverviewList.GvReviewOverview datum) {
         if (isExpandable(datum)) {
             ReviewId id = ReviewId.fromString(datum.getId());
             ReviewIdableList<ReviewNode> children = getParent().getChildren();

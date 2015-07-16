@@ -92,4 +92,23 @@ public class GvDualText extends VHDDualString implements GvData {
         parcel.writeString(getLower());
         parcel.writeParcelable(mId, i);
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof GvDualText)) return false;
+        if (!super.equals(o)) return false;
+
+        GvDualText that = (GvDualText) o;
+
+        return !(mId != null ? !mId.equals(that.mId) : that.mId != null);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = super.hashCode();
+        result = 31 * result + (mId != null ? mId.hashCode() : 0);
+        return result;
+    }
 }

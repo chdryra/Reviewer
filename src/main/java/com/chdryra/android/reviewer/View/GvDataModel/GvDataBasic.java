@@ -63,4 +63,23 @@ public abstract class GvDataBasic<T extends GvData> implements GvData {
         parcel.writeParcelable(mType, i);
         parcel.writeParcelable(mReviewId, i);
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof GvDataBasic)) return false;
+
+        GvDataBasic<?> that = (GvDataBasic<?>) o;
+
+        if (!mType.equals(that.mType)) return false;
+        return !(mReviewId != null ? !mReviewId.equals(that.mReviewId) : that.mReviewId != null);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = mType.hashCode();
+        result = 31 * result + (mReviewId != null ? mReviewId.hashCode() : 0);
+        return result;
+    }
 }

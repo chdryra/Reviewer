@@ -10,7 +10,7 @@ package com.chdryra.android.reviewer.test.View.GvDataModel;
 
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.View.GvDataModel.GvChildList;
+import com.chdryra.android.reviewer.View.GvDataModel.GvChildReviewList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvFactList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
@@ -61,6 +61,8 @@ public class GvUrlListTest extends TestCase {
         GvUrlList.GvUrl gvUrlEquals = new GvUrlList.GvUrl(url1label, url1);
         GvUrlList.GvUrl gvUrlEquals2 = new GvUrlList.GvUrl(gvUrl);
         GvUrlList.GvUrl gvUrlNotEquals = new GvUrlList.GvUrl(url2label, url2);
+        GvUrlList.GvUrl gvUrlNotEquals2 = new GvUrlList.GvUrl(RandomReviewId.nextGvReviewId(),
+                url1label, url1);
         GvUrlList.GvUrl gvUrlNull = new GvUrlList.GvUrl();
 
         assertNotNull(gvUrl.getViewHolder());
@@ -71,6 +73,7 @@ public class GvUrlListTest extends TestCase {
         assertTrue(gvUrl.equals(gvUrlEquals));
         assertTrue(gvUrl.equals(gvUrlEquals2));
         assertFalse(gvUrl.equals(gvUrlNotEquals));
+        assertFalse(gvUrl.equals(gvUrlNotEquals2));
 
         assertFalse(gvUrlNull.isValidForDisplay());
 
@@ -86,7 +89,7 @@ public class GvUrlListTest extends TestCase {
         mList.addList(GvDataMocker.newUrlList(NUM, false));
         assertEquals(NUM, mList.size());
 
-        assertFalse(mList.equals(GvDataMocker.getData(GvChildList.TYPE, NUM)));
+        assertFalse(mList.equals(GvDataMocker.getData(GvChildReviewList.TYPE, NUM)));
         assertFalse(mList.equals(GvDataMocker.getData(GvTagList.TYPE, NUM)));
         assertFalse(mList.equals(GvDataMocker.getData(GvLocationList.TYPE, NUM)));
         assertFalse(mList.equals(GvDataMocker.getData(GvCommentList.TYPE, NUM)));

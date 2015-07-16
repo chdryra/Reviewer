@@ -39,6 +39,7 @@ public class GvTextTest extends TestCase {
         GvText gvTextEquals = new GvText(text1);
         GvText gvTextEquals2 = new GvText(gvText);
         GvText gvTextNotEquals = new GvText(text2);
+        GvText gvTextNotEquals2 = new GvText(RandomReviewId.nextGvReviewId(), text1);
         GvText gvTextNull = new GvText();
         GvText gvTextEmpty = new GvText("");
 
@@ -50,6 +51,7 @@ public class GvTextTest extends TestCase {
         assertTrue(gvText.equals(gvTextEquals));
         assertTrue(gvText.equals(gvTextEquals2));
         assertFalse(gvText.equals(gvTextNotEquals));
+        assertFalse(gvText.equals(gvTextNotEquals2));
 
         assertFalse(gvTextNull.isValidForDisplay());
         assertFalse(gvTextEmpty.isValidForDisplay());

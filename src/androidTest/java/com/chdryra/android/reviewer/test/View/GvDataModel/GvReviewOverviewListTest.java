@@ -12,12 +12,12 @@ import android.graphics.Bitmap;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.Model.UserData.Author;
-import com.chdryra.android.reviewer.View.GvDataModel.GvChildList;
+import com.chdryra.android.reviewer.View.GvDataModel.GvChildReviewList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvFactList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvLocationList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvReviewList;
+import com.chdryra.android.reviewer.View.GvDataModel.GvReviewOverviewList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvTagList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvUrlList;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
@@ -34,9 +34,9 @@ import java.util.Date;
  * On: 15/01/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class GvReviewListTest extends TestCase {
+public class GvReviewOverviewListTest extends TestCase {
     private static final int NUM = 50;
-    private GvReviewList mList;
+    private GvReviewOverviewList mList;
 
     @SmallTest
     public void testParcelable() {
@@ -49,8 +49,8 @@ public class GvReviewListTest extends TestCase {
 
     @SmallTest
     public void testAdd() {
-        GvReviewList.GvReviewOverview review1 = GvDataMocker.newReviewOverview(null);
-        GvReviewList.GvReviewOverview review2 = GvDataMocker.newReviewOverview(null);
+        GvReviewOverviewList.GvReviewOverview review1 = GvDataMocker.newReviewOverview(null);
+        GvReviewOverviewList.GvReviewOverview review2 = GvDataMocker.newReviewOverview(null);
 
         String id1 = review1.getId();
         Author author1 = review1.getAuthor();
@@ -75,7 +75,7 @@ public class GvReviewListTest extends TestCase {
         locations.add(locationName1);
         mList.add(id1, author1, publishDate1, subject1, rating1, image1, headline1, locations);
         assertEquals(1, mList.size());
-        GvReviewList.GvReviewOverview review = mList.getItem(0);
+        GvReviewOverviewList.GvReviewOverview review = mList.getItem(0);
         assertEquals(id1, review.getId());
         assertEquals(subject1, review.getSubject());
         assertEquals(rating1, review.getRating());
@@ -95,8 +95,8 @@ public class GvReviewListTest extends TestCase {
 
     @SmallTest
     public void testContains() {
-        GvReviewList.GvReviewOverview review1 = GvDataMocker.newReviewOverview(null);
-        GvReviewList.GvReviewOverview review2 = GvDataMocker.newReviewOverview(null);
+        GvReviewOverviewList.GvReviewOverview review1 = GvDataMocker.newReviewOverview(null);
+        GvReviewOverviewList.GvReviewOverview review2 = GvDataMocker.newReviewOverview(null);
 
         String id1 = review1.getId();
         String subject2 = review2.getSubject();
@@ -117,7 +117,8 @@ public class GvReviewListTest extends TestCase {
 
         ArrayList<String> locations = new ArrayList<>();
         locations.add(locationName2);
-        GvReviewList.GvReviewOverview reviewSameId = new GvReviewList.GvReviewOverview(id1,
+        GvReviewOverviewList.GvReviewOverview reviewSameId = new GvReviewOverviewList
+                .GvReviewOverview(id1,
                 author2, publishDate2, subject2, rating2, image2, headline2, locations);
         assertTrue(mList.contains(reviewSameId));
 
@@ -134,10 +135,10 @@ public class GvReviewListTest extends TestCase {
         assertEquals(50, mList.size());
 
         mList.sort();
-        GvReviewList.GvReviewOverview prev = mList.getItem(0);
+        GvReviewOverviewList.GvReviewOverview prev = mList.getItem(0);
         for (int i = 1; i < mList.size(); ++i) {
             mList.getItem(i);
-            GvReviewList.GvReviewOverview next = mList.getItem(i);
+            GvReviewOverviewList.GvReviewOverview next = mList.getItem(i);
             Date prevDate = prev.getPublishDate();
             Date nextDate = next.getPublishDate();
             if (prevDate != nextDate) {
@@ -150,8 +151,8 @@ public class GvReviewListTest extends TestCase {
 
     @SmallTest
     public void testGvReviewOverview() {
-        GvReviewList.GvReviewOverview review1 = GvDataMocker.newReviewOverview(null);
-        GvReviewList.GvReviewOverview review2 = GvDataMocker.newReviewOverview(null);
+        GvReviewOverviewList.GvReviewOverview review1 = GvDataMocker.newReviewOverview(null);
+        GvReviewOverviewList.GvReviewOverview review2 = GvDataMocker.newReviewOverview(null);
 
         String id1 = review1.getId();
         Author author1 = review1.getAuthor();
@@ -175,48 +176,48 @@ public class GvReviewListTest extends TestCase {
         locations.add(location1);
         locations2.add(location1);
         locations2.add(location2);
-        GvReviewList.GvReviewOverview gvReview = new GvReviewList.GvReviewOverview(id1, author1,
+        GvReviewOverviewList.GvReviewOverview gvReview = new GvReviewOverviewList.GvReviewOverview(id1, author1,
                 date1, subject1, rating1, image1, headline1, locations);
-        GvReviewList.GvReviewOverview gvReviewEquals = new GvReviewList.GvReviewOverview(id1,
+        GvReviewOverviewList.GvReviewOverview gvReviewEquals = new GvReviewOverviewList.GvReviewOverview(id1,
                 author1, date1, subject1, rating1, image1, headline1, locations);
-        GvReviewList.GvReviewOverview gvReviewEquals2 = new GvReviewList.GvReviewOverview(gvReview);
+        GvReviewOverviewList.GvReviewOverview gvReviewEquals2 = new GvReviewOverviewList.GvReviewOverview(gvReview);
 
-        GvReviewList.GvReviewOverview gvReviewNotEquals1 = new GvReviewList.GvReviewOverview(id2,
+        GvReviewOverviewList.GvReviewOverview gvReviewNotEquals1 = new GvReviewOverviewList.GvReviewOverview(id2,
                 author1, date1,
                 subject1, rating1, image1, headline1, locations);
-        GvReviewList.GvReviewOverview gvReviewNotEquals2 = new GvReviewList.GvReviewOverview(id1,
+        GvReviewOverviewList.GvReviewOverview gvReviewNotEquals2 = new GvReviewOverviewList.GvReviewOverview(id1,
                 author1, date1,
                 subject2, rating1, image1, headline1, locations);
-        GvReviewList.GvReviewOverview gvReviewNotEquals3 = new GvReviewList.GvReviewOverview(id1,
+        GvReviewOverviewList.GvReviewOverview gvReviewNotEquals3 = new GvReviewOverviewList.GvReviewOverview(id1,
                 author1, date1,
                 subject1, rating2, image1, headline1, locations);
-        GvReviewList.GvReviewOverview gvReviewNotEquals5 = new GvReviewList.GvReviewOverview(id1,
+        GvReviewOverviewList.GvReviewOverview gvReviewNotEquals5 = new GvReviewOverviewList.GvReviewOverview(id1,
                 author1, date1,
                 subject1, rating1, image1, headline2, locations);
-        GvReviewList.GvReviewOverview gvReviewNotEquals6 = new GvReviewList.GvReviewOverview(id1,
+        GvReviewOverviewList.GvReviewOverview gvReviewNotEquals6 = new GvReviewOverviewList.GvReviewOverview(id1,
                 author1, date1,
                 subject1, rating1, image1, headline1, locations2);
-        GvReviewList.GvReviewOverview gvReviewNotEquals7 = new GvReviewList.GvReviewOverview(id1,
+        GvReviewOverviewList.GvReviewOverview gvReviewNotEquals7 = new GvReviewOverviewList.GvReviewOverview(id1,
                 author2, date1,
                 subject1, rating1, image1, headline1, locations);
-        GvReviewList.GvReviewOverview gvReviewNotEquals8 = new GvReviewList.GvReviewOverview(id1,
+        GvReviewOverviewList.GvReviewOverview gvReviewNotEquals8 = new GvReviewOverviewList.GvReviewOverview(id1,
                 author1, date2,
                 subject1, rating1, image1, headline1, locations);
 
-
-        GvReviewList.GvReviewOverview gvReviewNull = new GvReviewList.GvReviewOverview();
-        GvReviewList.GvReviewOverview gvReviewNoId = new GvReviewList.GvReviewOverview("",
+        GvReviewOverviewList.GvReviewOverview gvReviewNull = new GvReviewOverviewList
+                .GvReviewOverview();
+        GvReviewOverviewList.GvReviewOverview gvReviewNoId = new GvReviewOverviewList.GvReviewOverview("",
                 author1, date1,
                 subject1, rating1, image1, headline1, locations);
-        GvReviewList.GvReviewOverview gvReviewNoAuthor = new GvReviewList.GvReviewOverview(id1,
+        GvReviewOverviewList.GvReviewOverview gvReviewNoAuthor = new GvReviewOverviewList.GvReviewOverview(id1,
                 Author.NULL_AUTHOR, date1,
                 subject1, rating1, image1, headline1, locations);
-        GvReviewList.GvReviewOverview gvReviewNoDate = new GvReviewList.GvReviewOverview(id1,
+        GvReviewOverviewList.GvReviewOverview gvReviewNoDate = new GvReviewOverviewList.GvReviewOverview(id1,
                 author1,
                 null, subject1, rating1, image1, headline1, locations);
-        GvReviewList.GvReviewOverview gvReviewNoSubject = new GvReviewList.GvReviewOverview(id1,
+        GvReviewOverviewList.GvReviewOverview gvReviewNoSubject = new GvReviewOverviewList.GvReviewOverview(id1,
                 author1, date1, "", rating1, image1, headline1, locations);
-        GvReviewList.GvReviewOverview gvReviewNotEmpty = new GvReviewList.GvReviewOverview(id1,
+        GvReviewOverviewList.GvReviewOverview gvReviewNotEmpty = new GvReviewOverviewList.GvReviewOverview(id1,
                 author1, date1, subject1, 0f, null, null, null);
 
         assertNotNull(gvReview.getViewHolder());
@@ -252,7 +253,7 @@ public class GvReviewListTest extends TestCase {
 
     @SmallTest
     public void testGetGvType() {
-        assertEquals(GvReviewList.TYPE, mList.getGvDataType());
+        assertEquals(GvReviewOverviewList.TYPE, mList.getGvDataType());
     }
 
     @SmallTest
@@ -260,7 +261,7 @@ public class GvReviewListTest extends TestCase {
         mList.addList(GvDataMocker.newReviewList(NUM, false));
         assertEquals(NUM, mList.size());
 
-        assertFalse(mList.equals(GvDataMocker.getData(GvChildList.TYPE, NUM)));
+        assertFalse(mList.equals(GvDataMocker.getData(GvChildReviewList.TYPE, NUM)));
         assertFalse(mList.equals(GvDataMocker.getData(GvTagList.TYPE, NUM)));
         assertFalse(mList.equals(GvDataMocker.getData(GvLocationList.TYPE, NUM)));
         assertFalse(mList.equals(GvDataMocker.getData(GvCommentList.TYPE, NUM)));
@@ -268,8 +269,8 @@ public class GvReviewListTest extends TestCase {
         assertFalse(mList.equals(GvDataMocker.getData(GvImageList.TYPE, NUM)));
         assertFalse(mList.equals(GvDataMocker.getData(GvUrlList.TYPE, NUM)));
 
-        GvReviewList list = new GvReviewList();
-        GvReviewList list2 = new GvReviewList(mList);
+        GvReviewOverviewList list = new GvReviewOverviewList();
+        GvReviewOverviewList list2 = new GvReviewOverviewList(mList);
         assertEquals(0, list.size());
         for (int i = 0; i < mList.size(); ++i) {
             assertFalse(mList.equals(list));
@@ -287,6 +288,6 @@ public class GvReviewListTest extends TestCase {
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        mList = new GvReviewList();
+        mList = new GvReviewOverviewList();
     }
 }

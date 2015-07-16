@@ -21,7 +21,7 @@ import com.chdryra.android.reviewer.Model.ReviewData.ReviewIdableList;
 import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvReviewList;
+import com.chdryra.android.reviewer.View.GvDataModel.GvReviewOverviewList;
 import com.chdryra.android.reviewer.test.TestUtils.ReviewMocker;
 
 /**
@@ -40,10 +40,10 @@ public class ViewerChildListTest extends AndroidTestCase {
         assertNotNull(data);
         ReviewIdableList<ReviewNode> children = node.getChildren();
         assertEquals(children.size(), data.size());
-        GvReviewList list = (GvReviewList) data;
+        GvReviewOverviewList list = (GvReviewOverviewList) data;
         for (int i = 0; i < children.size(); ++i) {
             ReviewNode child = children.getItem(i);
-            GvReviewList.GvReviewOverview item = list.getItem(i);
+            GvReviewOverviewList.GvReviewOverview item = list.getItem(i);
             assertEquals(child.getSubject().get(), item.getSubject());
             assertEquals(child.getRating().get(), item.getRating());
             assertEquals(child.getAuthor(), item.getAuthor());

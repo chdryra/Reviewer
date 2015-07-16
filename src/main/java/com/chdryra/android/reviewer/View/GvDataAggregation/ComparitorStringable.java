@@ -14,7 +14,7 @@ package com.chdryra.android.reviewer.View.GvDataAggregation;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ComparitorStringable<T> implements DifferenceComparitor<T, DifferencePercentage> {
-
+    private static final ComparitorString COMPARITOR = new ComparitorString();
     private DataGetter<T, String> mGetter;
 
     public ComparitorStringable(DataGetter<T, String> getter) {
@@ -23,7 +23,6 @@ public class ComparitorStringable<T> implements DifferenceComparitor<T, Differen
 
     @Override
     public DifferencePercentage compare(T lhs, T rhs) {
-        ComparitorString comparitor = new ComparitorString();
-        return comparitor.compare(mGetter.getData(lhs), mGetter.getData(rhs));
+        return COMPARITOR.compare(mGetter.getData(lhs), mGetter.getData(rhs));
     }
 }

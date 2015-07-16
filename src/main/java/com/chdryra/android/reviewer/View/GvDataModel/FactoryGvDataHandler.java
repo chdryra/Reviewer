@@ -23,7 +23,7 @@ public class FactoryGvDataHandler {
                     return imageAdd(data, datum);
                 }
             });
-        } else if (data.getGvDataType() == GvChildList.GvChildReview.TYPE) {
+        } else if (data.getGvDataType() == GvChildReviewList.GvChildReview.TYPE) {
             GvDataHandler.AddConstraint<T> add = new GvDataHandler.AddConstraint<T>() {
                 @Override
                 public boolean passes(GvDataList<T> data, T datum) {
@@ -51,16 +51,16 @@ public class FactoryGvDataHandler {
     }
 
     private static <T extends GvData> boolean childAdd(GvDataList<T> data, T datum) {
-        GvChildList.GvChildReview child = (GvChildList.GvChildReview) datum;
-        GvChildList list = (GvChildList) data;
+        GvChildReviewList.GvChildReview child = (GvChildReviewList.GvChildReview) datum;
+        GvChildReviewList list = (GvChildReviewList) data;
         return (child != null && list != null && !list.contains(child.getSubject()));
     }
 
     private static <T extends GvData> boolean childReplace(GvDataList<T> data,
             T oldDatum, T newDatum) {
-        GvChildList.GvChildReview oldChild = (GvChildList.GvChildReview) oldDatum;
-        GvChildList.GvChildReview newChild = (GvChildList.GvChildReview) newDatum;
-        GvChildList list = (GvChildList) data;
+        GvChildReviewList.GvChildReview oldChild = (GvChildReviewList.GvChildReview) oldDatum;
+        GvChildReviewList.GvChildReview newChild = (GvChildReviewList.GvChildReview) newDatum;
+        GvChildReviewList list = (GvChildReviewList) data;
 
         return (oldChild.getSubject().equals(newChild.getSubject()) || !list.contains(newChild
                 .getSubject()));

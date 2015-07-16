@@ -12,7 +12,7 @@ import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.View.GvDataAggregation.ComparitorGvReviewOverview;
 import com.chdryra.android.reviewer.View.GvDataAggregation.DifferenceBoolean;
-import com.chdryra.android.reviewer.View.GvDataModel.GvReviewList;
+import com.chdryra.android.reviewer.View.GvDataModel.GvReviewOverviewList;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
 import com.chdryra.android.testutils.ExceptionTester;
 
@@ -28,15 +28,17 @@ import java.util.ArrayList;
 public class ComparitorGvReviewOverviewTest extends TestCase {
     @SmallTest
     public void testCompare() {
-        GvReviewList.GvReviewOverview lhsReview = GvDataMocker.newReviewOverview(null);
-        GvReviewList.GvReviewOverview rhsReview = GvDataMocker.newReviewOverview(null);
+        GvReviewOverviewList.GvReviewOverview lhsReview = GvDataMocker.newReviewOverview(null);
+        GvReviewOverviewList.GvReviewOverview rhsReview = GvDataMocker.newReviewOverview(null);
 
         ComparitorGvReviewOverview comparitor = new ComparitorGvReviewOverview();
         DifferenceBoolean same = new DifferenceBoolean(true);
         DifferenceBoolean notSame = new DifferenceBoolean(false);
 
-        GvReviewList.GvReviewOverview lhs = new GvReviewList.GvReviewOverview(lhsReview);
-        GvReviewList.GvReviewOverview rhs = new GvReviewList.GvReviewOverview(lhsReview);
+        GvReviewOverviewList.GvReviewOverview lhs = new GvReviewOverviewList.GvReviewOverview
+                (lhsReview);
+        GvReviewOverviewList.GvReviewOverview rhs = new GvReviewOverviewList.GvReviewOverview
+                (lhsReview);
 
         DifferenceBoolean difference = comparitor.compare(lhs, rhs);
         assertTrue(difference.lessThanOrEqualTo(same));
@@ -45,7 +47,7 @@ public class ComparitorGvReviewOverviewTest extends TestCase {
         assertTrue(difference.lessThanOrEqualTo(same));
         assertFalse(difference.lessThanOrEqualTo(notSame));
 
-        rhs = new GvReviewList.GvReviewOverview(rhsReview);
+        rhs = new GvReviewOverviewList.GvReviewOverview(rhsReview);
         difference = comparitor.compare(lhs, rhs);
         assertFalse(difference.lessThanOrEqualTo(same));
         assertTrue(difference.lessThanOrEqualTo(notSame));
@@ -53,10 +55,10 @@ public class ComparitorGvReviewOverviewTest extends TestCase {
         assertFalse(difference.lessThanOrEqualTo(same));
         assertTrue(difference.lessThanOrEqualTo(notSame));
 
-        rhs = new GvReviewList.GvReviewOverview(lhsReview.getId(), rhs.getAuthor(), rhs
+        rhs = new GvReviewOverviewList.GvReviewOverview(lhsReview.getId(), rhs.getAuthor(), rhs
                 .getPublishDate(), rhs.getSubject(), rhs.getRating(), rhs.getCoverImage(), rhs
                 .getHeadline(), new ArrayList<String>());
-        GvReviewList.GvReviewOverview[] params = new GvReviewList.GvReviewOverview[2];
+        GvReviewOverviewList.GvReviewOverview[] params = new GvReviewOverviewList.GvReviewOverview[2];
         params[0] = lhs;
         params[1] = rhs;
         ExceptionTester.test(comparitor, "compare", params, RuntimeException.class,

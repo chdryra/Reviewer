@@ -32,23 +32,27 @@ public class GvDataAggregater<T extends GvData> {
              D1 minimumDifference, CanonicalDatumMaker<T> canonical) {
         //TODO make type safe
         GvDataType listType = mData.getGvDataType();
-        GvList allocated = new GvList();
-        GvDataMap<T, GvDataList<T>> map =
+        GvDataMap<T, GvDataList<T>> results =
                 new GvDataMap<>(listType.getElementType(), listType, mData.getReviewId());
+
+        GvList allocated = new GvList();
         for (T reference : mData) {
             if(allocated.contains(reference)) continue;
             GvDataList<T> similar = FactoryGvData.newDataList(listType, mData.getReviewId());
+            similar.add(reference);
+            allocated.add(reference);
             for (T candidate : mData) {
+                if (allocated.contains(candidate)) continue;
                 D2 difference = comparitor.compare(reference, candidate);
                 if (difference.lessThanOrEqualTo(minimumDifference)) {
                     similar.add(candidate);
                     allocated.add(candidate);
                 }
             }
-            T canon = canonical.getCanonical(similar);
-            map.put(canon, similar);
+
+            results.put(canonical.getCanonical(similar), similar);
         }
 
-        return map;
+        return results;
     }
 }

@@ -99,17 +99,20 @@ public class GvLocationList extends GvDataList<GvLocationList.GvLocation> {
         public boolean equals(Object o) {
             if (this == o) return true;
             if (!(o instanceof GvLocation)) return false;
+            if (!super.equals(o)) return false;
 
             GvLocation that = (GvLocation) o;
 
-            return !(mLatLng != null ? !mLatLng.equals(that.mLatLng) : that.mLatLng != null) && !
-                    (mName != null ? !mName.equals(that.mName) : that.mName != null);
+            if (mLatLng != null ? !mLatLng.equals(that.mLatLng) : that.mLatLng != null)
+                return false;
+            return !(mName != null ? !mName.equals(that.mName) : that.mName != null);
 
         }
 
         @Override
         public int hashCode() {
-            int result = mLatLng != null ? mLatLng.hashCode() : 0;
+            int result = super.hashCode();
+            result = 31 * result + (mLatLng != null ? mLatLng.hashCode() : 0);
             result = 31 * result + (mName != null ? mName.hashCode() : 0);
             return result;
         }

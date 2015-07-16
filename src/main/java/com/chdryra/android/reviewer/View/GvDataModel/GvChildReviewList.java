@@ -20,19 +20,19 @@ import java.util.Comparator;
 /**
  * Used for review children (sub-reviews).
  */
-public class GvChildList extends GvDataList<GvChildList.GvChildReview> {
-    public static final GvDataType<GvChildList> TYPE =
-            GvTypeMaker.newType(GvChildList.class, GvChildReview.TYPE);
+public class GvChildReviewList extends GvDataList<GvChildReviewList.GvChildReview> {
+    public static final GvDataType<GvChildReviewList> TYPE =
+            GvTypeMaker.newType(GvChildReviewList.class, GvChildReview.TYPE);
 
-    public GvChildList() {
+    public GvChildReviewList() {
         super(GvChildReview.class, TYPE, null);
     }
 
-    public GvChildList(GvReviewId id) {
+    public GvChildReviewList(GvReviewId id) {
         super(GvChildReview.class, TYPE, id);
     }
 
-    public GvChildList(GvChildList data) {
+    public GvChildReviewList(GvChildReviewList data) {
         super(data);
     }
 
@@ -139,20 +139,19 @@ public class GvChildList extends GvDataList<GvChildList.GvChildReview> {
         public boolean equals(Object o) {
             if (this == o) return true;
             if (!(o instanceof GvChildReview)) return false;
+            if (!super.equals(o)) return false;
 
             GvChildReview that = (GvChildReview) o;
 
             if (Float.compare(that.mRating, mRating) != 0) return false;
-            if (mSubject != null ? !mSubject.equals(that.mSubject) : that.mSubject != null) {
-                return false;
-            }
+            return !(mSubject != null ? !mSubject.equals(that.mSubject) : that.mSubject != null);
 
-            return true;
         }
 
         @Override
         public int hashCode() {
-            int result = mSubject != null ? mSubject.hashCode() : 0;
+            int result = super.hashCode();
+            result = 31 * result + (mSubject != null ? mSubject.hashCode() : 0);
             result = 31 * result + (mRating != +0.0f ? Float.floatToIntBits(mRating) : 0);
             return result;
         }

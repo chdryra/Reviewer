@@ -16,7 +16,7 @@ import com.chdryra.android.reviewer.Model.ReviewStructure.FactoryReview;
 import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
 import com.chdryra.android.reviewer.Model.Tagging.TagsManager;
 import com.chdryra.android.reviewer.View.GvDataModel.GvAuthorList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvChildList;
+import com.chdryra.android.reviewer.View.GvDataModel.GvChildReviewList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDateList;
@@ -24,7 +24,7 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvFactList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvLocationList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvReviewList;
+import com.chdryra.android.reviewer.View.GvDataModel.GvReviewOverviewList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvSubjectList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvTagList;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
@@ -48,7 +48,7 @@ public class ViewerTreeDataTest extends AndroidTestCase {
         assertEquals(10, collection.size());
 
         assertEquals(node.getChildren().size(), ((GvDataList)collection.getItem(0)).size());
-        assertEquals(GvReviewList.TYPE, collection.getItem(0).getGvDataType());
+        assertEquals(GvReviewOverviewList.TYPE, collection.getItem(0).getGvDataType());
         assertEquals(node.getChildren().size(), ((GvDataList)collection.getItem(1)).size());
         assertEquals(GvAuthorList.TYPE.getDatumName(), collection.getItem(1).getGvDataType()
                 .getDatumName());
@@ -64,7 +64,7 @@ public class ViewerTreeDataTest extends AndroidTestCase {
         assertEquals(tags.size(), ((GvDataList)collection.getItem(4)).size());
         assertEquals(GvTagList.TYPE, collection.getItem(4).getGvDataType());
         assertEquals(0, ((GvDataList)collection.getItem(5)).size());
-        assertEquals(GvChildList.TYPE, collection.getItem(5).getGvDataType());
+        assertEquals(GvChildReviewList.TYPE, collection.getItem(5).getGvDataType());
         assertEquals(node.getImages().size(), ((GvDataList)collection.getItem(6)).size());
         assertEquals(GvImageList.TYPE, collection.getItem(6).getGvDataType());
         assertEquals(node.getComments().size(), ((GvDataList)collection.getItem(7)).size());
@@ -90,7 +90,7 @@ public class ViewerTreeDataTest extends AndroidTestCase {
         assertEquals(tags.size(), ((GvDataList)collection.getItem(0)).size());
         assertEquals(GvTagList.TYPE, collection.getItem(0).getGvDataType());
         assertEquals(unwrapped.getChildren().size(), ((GvDataList)collection.getItem(1)).size());
-        assertEquals(GvChildList.TYPE, collection.getItem(1).getGvDataType());
+        assertEquals(GvChildReviewList.TYPE, collection.getItem(1).getGvDataType());
         assertEquals(node.getImages().size(), ((GvDataList)collection.getItem(2)).size());
         assertEquals(GvImageList.TYPE, collection.getItem(2).getGvDataType());
         assertEquals(node.getComments().size(), ((GvDataList)collection.getItem(3)).size());

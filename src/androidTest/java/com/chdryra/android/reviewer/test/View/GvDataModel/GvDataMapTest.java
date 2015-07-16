@@ -6,7 +6,7 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvAuthorList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataMap;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
 import com.chdryra.android.reviewer.View.GvDataModel.GvReviewId;
-import com.chdryra.android.reviewer.View.GvDataModel.GvReviewList;
+import com.chdryra.android.reviewer.View.GvDataModel.GvReviewOverviewList;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataParcelableTester;
 import com.chdryra.android.reviewer.test.TestUtils.RandomReviewId;
@@ -22,7 +22,7 @@ public class GvDataMapTest extends TestCase {
     private static final int NUM = 10;
 
     private GvReviewId mId;
-    private GvDataMap<GvAuthorList.GvAuthor, GvReviewList> mMap;
+    private GvDataMap<GvAuthorList.GvAuthor, GvReviewOverviewList> mMap;
 
 
     @Override
@@ -40,7 +40,7 @@ public class GvDataMapTest extends TestCase {
     }
 
     private void newMap() {
-        mMap = new GvDataMap<>(GvAuthorList.GvAuthor.TYPE, GvReviewList.TYPE, mId);
+        mMap = new GvDataMap<>(GvAuthorList.GvAuthor.TYPE, GvReviewOverviewList.TYPE, mId);
     }
 
     @SmallTest
@@ -63,7 +63,7 @@ public class GvDataMapTest extends TestCase {
         addData();
         addData();
         GvDataType keyType = GvAuthorList.GvAuthor.TYPE;
-        GvDataType valueType = GvReviewList.TYPE;
+        GvDataType valueType = GvReviewOverviewList.TYPE;
         String expected = String.valueOf(2) + " " + keyType.getDatumName() + ":" + valueType
                 .getDatumName() + " pairs";
         assertEquals(expected, mMap.getStringSummary());
@@ -99,9 +99,9 @@ public class GvDataMapTest extends TestCase {
         GvAuthorList.GvAuthor key1 = GvDataMocker.newAuthor(null);
         GvAuthorList.GvAuthor key2 = GvDataMocker.newAuthor(null);
         GvAuthorList.GvAuthor key3 = GvDataMocker.newAuthor(null);
-        GvReviewList value1 = GvDataMocker.newReviewList(NUM, false);
-        GvReviewList value2 = GvDataMocker.newReviewList(NUM, false);
-        GvReviewList value3 = GvDataMocker.newReviewList(NUM, false);
+        GvReviewOverviewList value1 = GvDataMocker.newReviewList(NUM, false);
+        GvReviewOverviewList value2 = GvDataMocker.newReviewList(NUM, false);
+        GvReviewOverviewList value3 = GvDataMocker.newReviewList(NUM, false);
 
         assertNull(mMap.getItem(0));
         mMap.put(key1, value1);
@@ -128,8 +128,8 @@ public class GvDataMapTest extends TestCase {
 
     }
 
-    private GvReviewList newData(GvReviewId id) {
-        GvReviewList list = new GvReviewList(id);
+    private GvReviewOverviewList newData(GvReviewId id) {
+        GvReviewOverviewList list = new GvReviewOverviewList(id);
         for (int i = 0; i < NUM; ++i) {
             list.add(GvDataMocker.newReviewOverview(id));
         }

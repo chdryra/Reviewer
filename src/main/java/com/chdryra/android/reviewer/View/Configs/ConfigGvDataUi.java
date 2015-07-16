@@ -8,7 +8,7 @@
 
 package com.chdryra.android.reviewer.View.Configs;
 
-import com.chdryra.android.reviewer.View.GvDataModel.GvChildList;
+import com.chdryra.android.reviewer.View.GvDataModel.GvChildReviewList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
 import com.chdryra.android.reviewer.View.GvDataModel.GvFactList;
@@ -37,7 +37,7 @@ import java.util.Map;
 public final class ConfigGvDataUi {
     public static final GvDataType[] TYPES = {GvCommentList.GvComment.TYPE, GvFactList
             .GvFact.TYPE, GvLocationList.GvLocation.TYPE, GvImageList.GvImage.TYPE, GvUrlList
-            .GvUrl.TYPE, GvTagList.GvTag.TYPE, GvChildList.GvChildReview.TYPE};
+            .GvUrl.TYPE, GvTagList.GvTag.TYPE, GvChildReviewList.GvChildReview.TYPE};
 
     private static final int DATA_ADD  = 2718;
     private static final int DATA_EDIT = 2819;

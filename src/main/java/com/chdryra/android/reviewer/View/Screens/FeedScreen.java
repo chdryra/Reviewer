@@ -22,7 +22,7 @@ import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.View.Dialogs.DialogShower;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataPacker;
-import com.chdryra.android.reviewer.View.GvDataModel.GvReviewList;
+import com.chdryra.android.reviewer.View.GvDataModel.GvReviewOverviewList;
 import com.chdryra.android.reviewer.View.Launcher.LaunchableUi;
 import com.chdryra.android.reviewer.View.Launcher.LauncherUi;
 
@@ -122,7 +122,8 @@ public class FeedScreen {
         private void onDialogAlertPositive(int requestCode, Bundle args) {
             if (requestCode == REQUEST_DELETE) {
                 GvData datum = GvDataPacker.unpackItem(GvDataPacker.CurrentNewDatum.CURRENT, args);
-                GvReviewList.GvReviewOverview review = (GvReviewList.GvReviewOverview) datum;
+                GvReviewOverviewList.GvReviewOverview review = (GvReviewOverviewList
+                        .GvReviewOverview) datum;
                 ReviewFeed.removeFromFeed(getActivity(), review.getId());
                 getReviewView().resetGridViewData();
             }

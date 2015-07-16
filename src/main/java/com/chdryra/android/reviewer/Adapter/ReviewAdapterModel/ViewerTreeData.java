@@ -14,13 +14,13 @@ import com.chdryra.android.reviewer.Adapter.DataAdapterModel.MdGvConverter;
 import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
 import com.chdryra.android.reviewer.Model.Tagging.TagsManager;
 import com.chdryra.android.reviewer.View.GvDataAggregation.Aggregater;
-import com.chdryra.android.reviewer.View.GvDataModel.GvChildList;
+import com.chdryra.android.reviewer.View.GvDataModel.GvChildReviewList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataCollection;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataMap;
 import com.chdryra.android.reviewer.View.GvDataModel.GvList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvReviewId;
-import com.chdryra.android.reviewer.View.GvDataModel.GvReviewList;
+import com.chdryra.android.reviewer.View.GvDataModel.GvReviewOverviewList;
 
 /**
  * Created by: Rizwan Choudrey
@@ -51,7 +51,7 @@ public class ViewerTreeData implements GridDataViewer<GvData> {
         TagCollector tagCollector = new TagCollector(mNode);
 
         ViewerChildList wrapper = new ViewerChildList(mNode, null);
-        GvReviewList reviews = wrapper.getGridData();
+        GvReviewOverviewList reviews = wrapper.getGridData();
         if (reviews.size() > 0) {
             data.add(reviews);
             data.add(Aggregater.aggregate(MdGvConverter.convertChildAuthors(mNode)));
@@ -88,7 +88,7 @@ public class ViewerTreeData implements GridDataViewer<GvData> {
         if (isExpandable(datum)) {
             ReviewViewAdapter parent = FactoryReviewViewAdapter.newChildOverviewAdapter(mContext,
                     mNode);
-            if (datum.getGvDataType() == GvReviewList.GvReviewOverview.TYPE) {
+            if (datum.getGvDataType() == GvReviewOverviewList.GvReviewOverview.TYPE) {
                 return parent;
             }
 
@@ -99,8 +99,9 @@ public class ViewerTreeData implements GridDataViewer<GvData> {
         return null;
     }
 
-    private GvChildList collectCriteria() {
-        GvChildList criteria = new GvChildList(GvReviewId.getId(mNode.getId().toString()));
+    private GvChildReviewList collectCriteria() {
+        GvChildReviewList criteria = new GvChildReviewList(GvReviewId.getId(mNode.getId()
+                .toString()));
         criteria.addList(MdGvConverter.convertChildren(mNode.expand()));
         for (ReviewNode node : mNode.getChildren()) {
             criteria.addList(MdGvConverter.convertChildren(node.expand()));

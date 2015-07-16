@@ -39,7 +39,7 @@ public class VhChild extends ViewHolderBasic {
         if (mSubject == null) mSubject = (TextView) getView(SUBJECT);
         if (mRating == null) mRating = (RatingBar) getView(RATING);
 
-        GvChildList.GvChildReview criterion = (GvChildList.GvChildReview) data;
+        GvChildReviewList.GvChildReview criterion = (GvChildReviewList.GvChildReview) data;
         if (criterion != null) {
             mSubject.setText(criterion.getSubject());
             mRating.setRating(criterion.getRating());

@@ -11,7 +11,7 @@ package com.chdryra.android.reviewer.test.View.GvDataModel;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.View.GvDataModel.FactoryGvData;
-import com.chdryra.android.reviewer.View.GvDataModel.GvChildList;
+import com.chdryra.android.reviewer.View.GvDataModel.GvChildReviewList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvLocationList;
@@ -31,7 +31,7 @@ public class FactoryGvDataTest extends TestCase {
     public void testNewList() {
         assertNotNull(FactoryGvData.newDataList(GvImageList.GvImage.TYPE));
         assertNotNull(FactoryGvData.newDataList(GvTagList.GvTag.TYPE));
-        assertNotNull(FactoryGvData.newDataList(GvChildList.GvChildReview.TYPE));
+        assertNotNull(FactoryGvData.newDataList(GvChildReviewList.GvChildReview.TYPE));
         assertNotNull(FactoryGvData.newDataList(GvCommentList.GvComment.TYPE));
         assertNotNull(FactoryGvData.newDataList(GvLocationList.GvLocation.TYPE));
         assertNotNull(FactoryGvData.newDataList(GvUrlList.GvUrl.TYPE));
@@ -41,7 +41,8 @@ public class FactoryGvDataTest extends TestCase {
     public void testNewNull() {
         assertFalse(FactoryGvData.newNull(GvImageList.GvImage.class).isValidForDisplay());
         assertFalse(FactoryGvData.newNull(GvTagList.GvTag.class).isValidForDisplay());
-        assertFalse(FactoryGvData.newNull(GvChildList.GvChildReview.class).isValidForDisplay());
+        assertFalse(FactoryGvData.newNull(GvChildReviewList.GvChildReview.class)
+                .isValidForDisplay());
         assertFalse(FactoryGvData.newNull(GvCommentList.GvComment.class).isValidForDisplay());
         assertFalse(FactoryGvData.newNull(GvLocationList.GvLocation.class).isValidForDisplay());
         assertFalse(FactoryGvData.newNull(GvUrlList.GvUrl.class).isValidForDisplay());

@@ -23,7 +23,7 @@ import com.chdryra.android.reviewer.View.ActivitiesFragments.FragmentReviewView;
 import com.chdryra.android.reviewer.View.Configs.ConfigGvDataUi;
 import com.chdryra.android.reviewer.View.Dialogs.DialogGvDataAdd;
 import com.chdryra.android.reviewer.View.Dialogs.DialogGvDataEdit;
-import com.chdryra.android.reviewer.View.GvDataModel.GvChildList;
+import com.chdryra.android.reviewer.View.GvDataModel.GvChildReviewList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
@@ -60,11 +60,6 @@ public abstract class ActivityEditScreenTest extends ActivityReviewViewTest {
     private   ConfigGvDataUi.LaunchableConfig mEditConfig;
     private boolean mWithData = false;
 
-    protected enum Button {
-        ADDCANCEL, ADDADD, ADDDONE, EDITCANCEL, EDITDELETE, EDITDONE,
-        DELETECONFIRM, DELETECANCEL
-    }
-
     public ActivityEditScreenTest(GvDataType dataType) {
         mDataType = dataType;
     }
@@ -73,7 +68,7 @@ public abstract class ActivityEditScreenTest extends ActivityReviewViewTest {
     public void testSubjectRatingChange() {
         setUp(false);
 
-        GvChildList.GvChildReview child = editSubjectRating();
+        GvChildReviewList.GvChildReview child = editSubjectRating();
 
         mSolo.sleep(500);
 
@@ -260,8 +255,8 @@ public abstract class ActivityEditScreenTest extends ActivityReviewViewTest {
         assertEquals(nearestHalf, fragment.getRating());
     }
 
-    protected GvChildList.GvChildReview editSubjectRating() {
-        GvChildList.GvChildReview child = GvDataMocker.newChild(null);
+    protected GvChildReviewList.GvChildReview editSubjectRating() {
+        GvChildReviewList.GvChildReview child = GvDataMocker.newChild(null);
         editSubject(child.getSubject());
         editRating(child.getRating());
         return child;
@@ -736,6 +731,11 @@ public abstract class ActivityEditScreenTest extends ActivityReviewViewTest {
             assertFalse(mSolo.searchButton("Cancel"));
             assertFalse(mSolo.searchButton("Done"));
         }
+    }
+
+    protected enum Button {
+        ADDCANCEL, ADDADD, ADDDONE, EDITCANCEL, EDITDELETE, EDITDONE,
+        DELETECONFIRM, DELETECANCEL
     }
 }
 

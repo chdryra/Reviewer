@@ -21,7 +21,7 @@ import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
 import com.chdryra.android.reviewer.Model.Tagging.TagsManager;
 import com.chdryra.android.reviewer.View.ActivitiesFragments.ActivityReviewView;
 import com.chdryra.android.reviewer.View.GvDataModel.GvBuildReviewList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvChildList;
+import com.chdryra.android.reviewer.View.GvDataModel.GvChildReviewList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
@@ -72,7 +72,7 @@ public class ReviewBuilderTest extends ActivityInstrumentationTestCase2<Activity
 
     @SmallTest
     public void testGetAverageRating() {
-        GvChildList children = GvDataMocker.newChildList(NUM, false);
+        GvChildReviewList children = GvDataMocker.newChildList(NUM, false);
 
         assertEquals(0f, mBuilder.getAverageRating());
         assertEquals(0f, mBuilder.getRating());
@@ -148,7 +148,7 @@ public class ReviewBuilderTest extends ActivityInstrumentationTestCase2<Activity
 
         for (GvDataType dataType : TYPES) {
             ReviewBuilder.DataBuilder builder = mBuilder.getDataBuilder(dataType);
-            if (dataType == GvChildList.TYPE) {
+            if (dataType == GvChildReviewList.TYPE) {
                 assertEquals(mBuilder.getAverageRating(), builder.getAverageRating());
             } else {
                 assertEquals(mBuilder.getRating(), builder.getAverageRating());
@@ -199,7 +199,7 @@ public class ReviewBuilderTest extends ActivityInstrumentationTestCase2<Activity
         assertNotNull(mBuilder.getDataBuilder(GvImageList.TYPE));
         assertNotNull(mBuilder.getDataBuilder(GvLocationList.TYPE));
         assertNotNull(mBuilder.getDataBuilder(GvUrlList.TYPE));
-        assertNotNull(mBuilder.getDataBuilder(GvChildList.TYPE));
+        assertNotNull(mBuilder.getDataBuilder(GvChildReviewList.TYPE));
         assertNotNull(mBuilder.getDataBuilder(GvTagList.TYPE));
     }
 
@@ -213,7 +213,7 @@ public class ReviewBuilderTest extends ActivityInstrumentationTestCase2<Activity
         GvDataList images = GvDataMocker.getData(GvImageList.TYPE, NUM);
         GvDataList locations = GvDataMocker.getData(GvLocationList.TYPE, NUM);
         GvDataList urls = GvDataMocker.getData(GvUrlList.TYPE, NUM);
-        GvDataList children = GvDataMocker.getData(GvChildList.TYPE, NUM);
+        GvDataList children = GvDataMocker.getData(GvChildReviewList.TYPE, NUM);
         GvDataList tags = GvDataMocker.getData(GvTagList.TYPE, NUM);
 
         mBuilder.setSubject(subject);
@@ -249,7 +249,8 @@ public class ReviewBuilderTest extends ActivityInstrumentationTestCase2<Activity
         assertEquals(children.size(), childNodes.size()); //works in debug but not normal run?
         for (int i = 0; i < children.size(); ++i) {
             ReviewNode childNode = childNodes.getItem(i);
-            GvChildList.GvChildReview child = (GvChildList.GvChildReview) children.getItem(i);
+            GvChildReviewList.GvChildReview child = (GvChildReviewList.GvChildReview) children
+                    .getItem(i);
             assertEquals(child.getSubject(), childNode.getSubject().get());
             assertEquals(child.getRating(), childNode.getRating().get());
             assertEquals(published, childNode.getParent());

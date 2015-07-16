@@ -29,7 +29,8 @@ public class FactoryGvData {
 
     private FactoryGvData() {
         mClasses.put(GvTagList.GvTag.TYPE, new GvTypeList<>(GvTagList.class));
-        mClasses.put(GvChildList.GvChildReview.TYPE, new GvTypeList<>(GvChildList.class));
+        mClasses.put(GvChildReviewList.GvChildReview.TYPE, new GvTypeList<>(GvChildReviewList
+                .class));
         mClasses.put(GvCommentList.GvComment.TYPE, new GvTypeList<>(GvCommentList.class));
         mClasses.put(GvFactList.GvFact.TYPE, new GvTypeList<>(GvFactList.class));
         mClasses.put(GvImageList.GvImage.TYPE, new GvTypeList<>(GvImageList.class));

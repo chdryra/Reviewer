@@ -24,7 +24,7 @@ import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewTreeNode;
 import com.chdryra.android.reviewer.Model.TreeMethods.VisitorTreeFlattener;
 import com.chdryra.android.reviewer.Model.UserData.Author;
 import com.chdryra.android.reviewer.View.GvDataModel.GvReviewId;
-import com.chdryra.android.reviewer.View.GvDataModel.GvReviewList;
+import com.chdryra.android.reviewer.View.GvDataModel.GvReviewOverviewList;
 import com.chdryra.android.reviewer.View.Launcher.LaunchableUi;
 import com.chdryra.android.reviewer.View.Screens.ReviewDataScreen;
 
@@ -106,8 +106,8 @@ public class ReviewFeed extends ApplicationSingleton {
         ReviewId id = findRootNodeId(reviewId);
         if (id == null) return null;
 
-        GvReviewList list = (GvReviewList) mFeedAdapter.getGridData();
-        for (GvReviewList.GvReviewOverview review : list) {
+        GvReviewOverviewList list = (GvReviewOverviewList) mFeedAdapter.getGridData();
+        for (GvReviewOverviewList.GvReviewOverview review : list) {
             if (review.getId().equals(id.toString())) {
                 ReviewViewAdapter adapter = mFeedAdapter.expandItem(review);
                 return ReviewDataScreen.newScreen(getContext(), adapter);

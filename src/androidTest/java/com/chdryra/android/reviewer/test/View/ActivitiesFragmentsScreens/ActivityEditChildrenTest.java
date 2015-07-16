@@ -11,7 +11,7 @@ package com.chdryra.android.reviewer.test.View.ActivitiesFragmentsScreens;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.R;
-import com.chdryra.android.reviewer.View.GvDataModel.GvChildList;
+import com.chdryra.android.reviewer.View.GvDataModel.GvChildReviewList;
 import com.chdryra.android.reviewer.test.TestUtils.SoloDataEntry;
 
 /**
@@ -26,7 +26,7 @@ public class ActivityEditChildrenTest extends ActivityEditScreenTest {
     private float mOriginalRatingNotAverage;
 
     public ActivityEditChildrenTest() {
-        super(GvChildList.TYPE);
+        super(GvChildReviewList.TYPE);
     }
 
     @SmallTest
@@ -170,7 +170,8 @@ public class ActivityEditChildrenTest extends ActivityEditScreenTest {
         int numCells = getGridSize();
         float rating = 0;
         for (int i = 0; i < numCells; ++i) {
-            GvChildList.GvChildReview review = (GvChildList.GvChildReview) getGridItem(i);
+            GvChildReviewList.GvChildReview review = (GvChildReviewList.GvChildReview)
+                    getGridItem(i);
             rating += review.getRating() / numCells;
         }
 

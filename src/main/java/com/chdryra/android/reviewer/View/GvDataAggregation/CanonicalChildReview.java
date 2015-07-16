@@ -8,7 +8,7 @@
 
 package com.chdryra.android.reviewer.View.GvDataAggregation;
 
-import com.chdryra.android.reviewer.View.GvDataModel.GvChildList;
+import com.chdryra.android.reviewer.View.GvDataModel.GvChildReviewList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
 
 /**
@@ -16,15 +16,17 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
  * On: 08/07/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class CanonicalChildReview implements CanonicalDatumMaker<GvChildList.GvChildReview> {
+public class CanonicalChildReview implements CanonicalDatumMaker<GvChildReviewList.GvChildReview> {
     @Override
-    public GvChildList.GvChildReview getCanonical(GvDataList<GvChildList.GvChildReview> data) {
-        if (data.size() == 0) return new GvChildList.GvChildReview(data.getReviewId(), "", 0f);
+    public GvChildReviewList.GvChildReview getCanonical(GvDataList<GvChildReviewList
+            .GvChildReview> data) {
+        if (data.size() == 0)
+            return new GvChildReviewList.GvChildReview(data.getReviewId(), "", 0f);
 
-        DatumCounter<GvChildList.GvChildReview, String> counter = new DatumCounter<>(data,
-                new DataGetter<GvChildList.GvChildReview, String>() {
+        DatumCounter<GvChildReviewList.GvChildReview, String> counter = new DatumCounter<>(data,
+                new DataGetter<GvChildReviewList.GvChildReview, String>() {
                     @Override
-                    public String getData(GvChildList.GvChildReview datum) {
+                    public String getData(GvChildReviewList.GvChildReview datum) {
                         return datum.getSubject();
                     }
                 });
@@ -33,9 +35,9 @@ public class CanonicalChildReview implements CanonicalDatumMaker<GvChildList.GvC
         int nonMax = counter.getNonMaxCount();
         if (nonMax > 0) maxSubject += " + " + String.valueOf(nonMax);
         float average = 0f;
-        for (GvChildList.GvChildReview child : data) {
+        for (GvChildReviewList.GvChildReview child : data) {
             average += child.getRating() / (float) data.size();
         }
-        return new GvChildList.GvChildReview(data.getReviewId(), maxSubject, average);
+        return new GvChildReviewList.GvChildReview(data.getReviewId(), maxSubject, average);
     }
 }

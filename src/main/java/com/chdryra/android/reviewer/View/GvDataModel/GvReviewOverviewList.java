@@ -32,19 +32,19 @@ import java.util.Date;
  *
  * @see Administrator
  */
-public class GvReviewList extends GvDataList<GvReviewList.GvReviewOverview> {
-    public static final GvDataType<GvReviewList> TYPE
-            = GvTypeMaker.newType(GvReviewList.class, GvReviewOverview.TYPE);
+public class GvReviewOverviewList extends GvDataList<GvReviewOverviewList.GvReviewOverview> {
+    public static final GvDataType<GvReviewOverviewList> TYPE
+            = GvTypeMaker.newType(GvReviewOverviewList.class, GvReviewOverview.TYPE);
 
-    public GvReviewList() {
+    public GvReviewOverviewList() {
         super(GvReviewOverview.class, TYPE, null);
     }
 
-    public GvReviewList(GvReviewId parentId) {
+    public GvReviewOverviewList(GvReviewId parentId) {
         super(GvReviewOverview.class, TYPE, parentId);
     }
 
-    public GvReviewList(GvReviewList data) {
+    public GvReviewOverviewList(GvReviewOverviewList data) {
         super(data);
     }
 
@@ -230,12 +230,13 @@ public class GvReviewList extends GvDataList<GvReviewList.GvReviewOverview> {
                     getAuthor().getName() + " on " + format.format(getPublishDate());
         }
 
+        //ignoring cover image as randomly chosen so screws up equality when comparing two
+        // generated GvReviewLists...
         @Override
         public boolean equals(Object o) {
-            //ignoring cover image as randomly chosen so screws up equality when comparing two
-            // generated GvReviewLists...
             if (this == o) return true;
             if (!(o instanceof GvReviewOverview)) return false;
+            if (!super.equals(o)) return false;
 
             GvReviewOverview that = (GvReviewOverview) o;
 
@@ -243,13 +244,11 @@ public class GvReviewList extends GvDataList<GvReviewList.GvReviewOverview> {
             if (mId != null ? !mId.equals(that.mId) : that.mId != null) return false;
             if (mSubject != null ? !mSubject.equals(that.mSubject) : that.mSubject != null)
                 return false;
-            if (mHeadline != null ? !mHeadline.equals(that.mHeadline) : that.mHeadline != null) {
+            if (mHeadline != null ? !mHeadline.equals(that.mHeadline) : that.mHeadline != null)
                 return false;
-            }
             if (mLocationNames != null ? !mLocationNames.equals(that.mLocationNames) : that
-                    .mLocationNames != null) {
+                    .mLocationNames != null)
                 return false;
-            }
             if (mAuthor != null ? !mAuthor.equals(that.mAuthor) : that.mAuthor != null)
                 return false;
             return !(mPublishDate != null ? !mPublishDate.equals(that.mPublishDate) : that
@@ -259,9 +258,11 @@ public class GvReviewList extends GvDataList<GvReviewList.GvReviewOverview> {
 
         @Override
         public int hashCode() {
-            int result = mId != null ? mId.hashCode() : 0;
+            int result = super.hashCode();
+            result = 31 * result + (mId != null ? mId.hashCode() : 0);
             result = 31 * result + (mSubject != null ? mSubject.hashCode() : 0);
             result = 31 * result + (mRating != +0.0f ? Float.floatToIntBits(mRating) : 0);
+            result = 31 * result + (mCoverImage != null ? mCoverImage.hashCode() : 0);
             result = 31 * result + (mHeadline != null ? mHeadline.hashCode() : 0);
             result = 31 * result + (mLocationNames != null ? mLocationNames.hashCode() : 0);
             result = 31 * result + (mAuthor != null ? mAuthor.hashCode() : 0);

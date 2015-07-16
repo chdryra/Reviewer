@@ -173,30 +173,27 @@ public class GvImageList extends GvDataList<GvImageList.GvImage> {
         public boolean equals(Object o) {
             if (this == o) return true;
             if (!(o instanceof GvImage)) return false;
+            if (!super.equals(o)) return false;
 
             GvImage gvImage = (GvImage) o;
 
-            if (mBitmap != null ? !mBitmap.sameAs(gvImage.mBitmap) : gvImage.mBitmap != null) {
+            if (mIsCover != gvImage.mIsCover) return false;
+            if (mBitmap != null ? !mBitmap.sameAs(gvImage.mBitmap) : gvImage.mBitmap != null)
                 return false;
-            }
-            if (mCaption != null ? !mCaption.equals(gvImage.mCaption) : gvImage.mCaption != null) {
+            if (mDate != null ? !mDate.equals(gvImage.mDate) : gvImage.mDate != null) return false;
+            if (mLatLng != null ? !mLatLng.equals(gvImage.mLatLng) : gvImage.mLatLng != null)
                 return false;
-            }
-            if (mLatLng != null ? !mLatLng.equals(gvImage.mLatLng) : gvImage.mLatLng != null) {
-                return false;
-            }
-            if (mDate != null ? !mDate.equals(gvImage.mDate) : gvImage.mDate != null) {
-                return false;
-            }
+            return !(mCaption != null ? !mCaption.equals(gvImage.mCaption) : gvImage.mCaption !=
+                    null);
 
-            return true;
         }
 
         @Override
         public int hashCode() {
-            int result = mBitmap != null ? mBitmap.hashCode() : 0;
-            result = 31 * result + (mLatLng != null ? mLatLng.hashCode() : 0);
+            int result = super.hashCode();
+            result = 31 * result + (mBitmap != null ? mBitmap.hashCode() : 0);
             result = 31 * result + (mDate != null ? mDate.hashCode() : 0);
+            result = 31 * result + (mLatLng != null ? mLatLng.hashCode() : 0);
             result = 31 * result + (mCaption != null ? mCaption.hashCode() : 0);
             result = 31 * result + (mIsCover ? 1 : 0);
             return result;

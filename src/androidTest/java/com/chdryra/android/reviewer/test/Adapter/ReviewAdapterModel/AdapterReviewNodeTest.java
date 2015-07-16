@@ -25,7 +25,7 @@ import com.chdryra.android.reviewer.Model.UserData.Author;
 import com.chdryra.android.reviewer.Model.UserData.UserId;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvReviewList;
+import com.chdryra.android.reviewer.View.GvDataModel.GvReviewOverviewList;
 import com.chdryra.android.reviewer.test.TestUtils.ReviewMocker;
 import com.chdryra.android.testutils.RandomString;
 
@@ -63,7 +63,7 @@ public class AdapterReviewNodeTest extends AndroidTestCase {
 
     @SmallTest
     public void testGetGridData() {
-        GvReviewList oList = (GvReviewList) mAdapter.getGridData();
+        GvReviewOverviewList oList = (GvReviewOverviewList) mAdapter.getGridData();
         assertNotNull(oList);
         assertEquals(mReviews.size(), oList.size());
         for (int i = 0; i < mReviews.size(); ++i) {

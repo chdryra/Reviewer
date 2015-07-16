@@ -22,8 +22,8 @@ import java.util.Set;
  * On: 13/07/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class GvDataMap<T1 extends GvData, T2 extends GvData> implements
-        GvDataCollection<T1> {
+public class GvDataMap<K extends GvData, V extends GvData> implements
+        GvDataCollection<K> {
     public static final Parcelable.Creator<GvDataMap> CREATOR = new Parcelable
             .Creator<GvDataMap>() {
         public GvDataMap createFromParcel(Parcel in) {
@@ -35,13 +35,13 @@ public class GvDataMap<T1 extends GvData, T2 extends GvData> implements
         }
     };
 
-    private Map<T1, T2> mMap;
-    private GvDataType<T1> mKeyType;
-    private GvDataType<T2> mValueType;
+    private Map<K, V> mMap;
+    private GvDataType<K> mKeyType;
+    private GvDataType<V> mValueType;
     private GvReviewId mReviewId;
     private GvDataType mType;
 
-    public GvDataMap(GvDataType<T1> keyType, GvDataType<T2> valueType, GvReviewId reviewId) {
+    public GvDataMap(GvDataType<K> keyType, GvDataType<V> valueType, GvReviewId reviewId) {
         mMap = new LinkedHashMap<>();
         mKeyType = keyType;
         mValueType = valueType;
@@ -55,17 +55,17 @@ public class GvDataMap<T1 extends GvData, T2 extends GvData> implements
         mReviewId = in.readParcelable(GvReviewId.class.getClassLoader());
         mKeyType = in.readParcelable(GvDataType.class.getClassLoader());
         mValueType = in.readParcelable(GvDataType.class.getClassLoader());
-        Class<T1> keyClass = mKeyType.getDataClass();
-        Class<T2> valueClass = mValueType.getDataClass();
+        Class<K> keyClass = mKeyType.getDataClass();
+        Class<V> valueClass = mValueType.getDataClass();
         int size = in.readInt();
         for (int i = 0; i < size; i++) {
-            T1 key = in.readParcelable(keyClass.getClassLoader());
-            T2 value = in.readParcelable(valueClass.getClassLoader());
+            K key = in.readParcelable(keyClass.getClassLoader());
+            V value = in.readParcelable(valueClass.getClassLoader());
             mMap.put(key, value);
         }
     }
 
-    public void put(T1 key, T2 datum) {
+    public void put(K key, V datum) {
         mMap.put(key, datum);
     }
 
@@ -96,7 +96,7 @@ public class GvDataMap<T1 extends GvData, T2 extends GvData> implements
     }
 
     @Override
-    public GvDataList<T1> toList() {
+    public GvDataList<K> toList() {
         return getKeyList();
     }
 
@@ -111,9 +111,9 @@ public class GvDataMap<T1 extends GvData, T2 extends GvData> implements
     }
 
     @Override
-    public T1 getItem(int position) {
+    public K getItem(int position) {
         int i = 0;
-        for (Map.Entry<T1, T2> entry : mMap.entrySet()) {
+        for (Map.Entry<K, V> entry : mMap.entrySet()) {
             if (position == i++) return entry.getKey();
         }
 
@@ -134,17 +134,21 @@ public class GvDataMap<T1 extends GvData, T2 extends GvData> implements
         mMap.clear();
     }
 
-    public GvDataList<T1> getKeyList() {
-        Set<T1> keys = mMap.keySet();
-        GvDataList<T1> keyList = FactoryGvData.newDataList(mKeyType, mReviewId);
-        for(T1 key : keys) {
+    public GvDataList<K> getKeyList() {
+        Set<K> keys = mMap.keySet();
+        GvDataList<K> keyList = FactoryGvData.newDataList(mKeyType, mReviewId);
+        for (K key : keys) {
             keyList.add(key);
         }
 
         return keyList;
     }
 
-    public T2 get(T1 key) {
+    public Set<Map.Entry<K, V>> entrySet() {
+        return mMap.entrySet();
+    }
+
+    public V get(K key) {
         return mMap.get(key);
     }
 
@@ -159,7 +163,7 @@ public class GvDataMap<T1 extends GvData, T2 extends GvData> implements
         dest.writeParcelable(mReviewId, flags);
         dest.writeParcelable(mKeyType, flags);
         dest.writeParcelable(mValueType, flags);
-        for (Map.Entry<T1, T2> entry : mMap.entrySet()) {
+        for (Map.Entry<K, V> entry : mMap.entrySet()) {
             dest.writeParcelable(entry.getKey(), flags);
             dest.writeParcelable(entry.getValue(), flags);
         }

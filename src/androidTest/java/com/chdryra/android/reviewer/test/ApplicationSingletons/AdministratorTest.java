@@ -23,7 +23,7 @@ import com.chdryra.android.reviewer.Model.ReviewData.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewData.ReviewIdableList;
 import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
 import com.chdryra.android.reviewer.View.ActivitiesFragments.ActivityReviewView;
-import com.chdryra.android.reviewer.View.GvDataModel.GvReviewList;
+import com.chdryra.android.reviewer.View.GvDataModel.GvReviewOverviewList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvSocialPlatformList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvTagList;
 import com.chdryra.android.reviewer.View.Screens.FeedScreen;
@@ -92,8 +92,8 @@ public class AdministratorTest extends ActivityInstrumentationTestCase2<Activity
         ReviewIdableList<ReviewNode> fromDb = db.getReviewTreesFromDb();
         assertEquals(numReviews + 1, fromDb.size());
         AdapterReviewNode feed = (AdapterReviewNode) reviews;
-        GvReviewList list = (GvReviewList) feed.getGridData();
-        GvReviewList.GvReviewOverview mostRecent = list.getItem(list.size() - 1);
+        GvReviewOverviewList list = (GvReviewOverviewList) feed.getGridData();
+        GvReviewOverviewList.GvReviewOverview mostRecent = list.getItem(list.size() - 1);
         assertTrue(fromDb.containsId(ReviewId.fromString(mostRecent.getId())));
     }
 

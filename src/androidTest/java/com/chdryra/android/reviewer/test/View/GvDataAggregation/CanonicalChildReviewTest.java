@@ -10,7 +10,7 @@ package com.chdryra.android.reviewer.test.View.GvDataAggregation;
 
 import com.chdryra.android.reviewer.View.GvDataAggregation.CanonicalChildReview;
 import com.chdryra.android.reviewer.View.GvDataAggregation.CanonicalDatumMaker;
-import com.chdryra.android.reviewer.View.GvDataModel.GvChildList;
+import com.chdryra.android.reviewer.View.GvDataModel.GvChildReviewList;
 import com.chdryra.android.testutils.RandomString;
 
 /**
@@ -18,7 +18,7 @@ import com.chdryra.android.testutils.RandomString;
  * On: 09/07/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class CanonicalChildReviewTest extends CanonicalGvDataTest<GvChildList.GvChildReview> {
+public class CanonicalChildReviewTest extends CanonicalGvDataTest<GvChildReviewList.GvChildReview> {
     private static final String SUBJECT1 = RandomString.nextWord();
     private static final String SUBJECT2 = RandomString.nextWord();
     private static final String SUBJECT3 = RandomString.nextWord();
@@ -27,12 +27,12 @@ public class CanonicalChildReviewTest extends CanonicalGvDataTest<GvChildList.Gv
     private static final float  RATING3  = 3f;
 
     @Override
-    protected GvChildList.GvChildReview getTestDatum() {
-        return new GvChildList.GvChildReview(SUBJECT1, RATING1);
+    protected GvChildReviewList.GvChildReview getTestDatum() {
+        return new GvChildReviewList.GvChildReview(SUBJECT1, RATING1);
     }
 
     @Override
-    protected CanonicalDatumMaker<GvChildList.GvChildReview> getCanonicalMaker() {
+    protected CanonicalDatumMaker<GvChildReviewList.GvChildReview> getCanonicalMaker() {
         return new CanonicalChildReview();
     }
 
@@ -44,21 +44,25 @@ public class CanonicalChildReviewTest extends CanonicalGvDataTest<GvChildList.Gv
 
     private void checkSameSubjectDifferentRatings() {
         mData = newDataList();
-        GvChildList.GvChildReview review1 = new GvChildList.GvChildReview(SUBJECT1, RATING1);
-        GvChildList.GvChildReview review2 = new GvChildList.GvChildReview(SUBJECT1, RATING2);
-        GvChildList.GvChildReview review3 = new GvChildList.GvChildReview(SUBJECT1, RATING3);
-        GvChildList.GvChildReview review4 = new GvChildList.GvChildReview(SUBJECT1, RATING3);
+        GvChildReviewList.GvChildReview review1 = new GvChildReviewList.GvChildReview(SUBJECT1,
+                RATING1);
+        GvChildReviewList.GvChildReview review2 = new GvChildReviewList.GvChildReview(SUBJECT1,
+                RATING2);
+        GvChildReviewList.GvChildReview review3 = new GvChildReviewList.GvChildReview(SUBJECT1,
+                RATING3);
+        GvChildReviewList.GvChildReview review4 = new GvChildReviewList.GvChildReview(SUBJECT1,
+                RATING3);
         mData.add(review1);
         mData.add(review2);
         mData.add(review3);
         mData.add(review4);
 
         float avg = 0f;
-        for (GvChildList.GvChildReview child : mData) {
+        for (GvChildReviewList.GvChildReview child : mData) {
             avg += child.getRating() / (float) mData.size();
         }
 
-        GvChildList.GvChildReview canon = mCanonical.getCanonical(mData);
+        GvChildReviewList.GvChildReview canon = mCanonical.getCanonical(mData);
         assertTrue(canon.isValidForDisplay());
         assertEquals(SUBJECT1, canon.getSubject());
         assertEquals(avg, canon.getRating());
@@ -66,12 +70,17 @@ public class CanonicalChildReviewTest extends CanonicalGvDataTest<GvChildList.Gv
 
     private void checkDifferent() {
         mData = newDataList();
-        GvChildList.GvChildReview review1 = new GvChildList.GvChildReview(SUBJECT2, RATING1);
-        GvChildList.GvChildReview review2 = new GvChildList.GvChildReview(SUBJECT2, RATING2);
-        GvChildList.GvChildReview review3 = new GvChildList.GvChildReview(SUBJECT3, RATING3);
-        GvChildList.GvChildReview review4 = new GvChildList.GvChildReview(SUBJECT2, RATING3);
-        GvChildList.GvChildReview review5 = new GvChildList.GvChildReview(SUBJECT2, RATING3);
-        GvChildList.GvChildReview review6 = new GvChildList.GvChildReview(SUBJECT3, RATING3);
+        GvChildReviewList.GvChildReview review1 = new GvChildReviewList.GvChildReview(SUBJECT2,
+                RATING1);
+        GvChildReviewList.GvChildReview review2 = new GvChildReviewList.GvChildReview(SUBJECT2,
+                RATING2);
+        GvChildReviewList.GvChildReview review3 = new GvChildReviewList.GvChildReview(SUBJECT3,
+                RATING3);
+        GvChildReviewList.GvChildReview review4 = new GvChildReviewList.GvChildReview(SUBJECT2,
+                RATING3);
+        GvChildReviewList.GvChildReview review5 = new GvChildReviewList.GvChildReview(SUBJECT2,
+                RATING3);
+        GvChildReviewList.GvChildReview review6 = new GvChildReviewList.GvChildReview(SUBJECT3, RATING3);
         mData.add(review1);
         mData.add(review2);
         mData.add(review3);
@@ -80,11 +89,11 @@ public class CanonicalChildReviewTest extends CanonicalGvDataTest<GvChildList.Gv
         mData.add(review6);
 
         float avg = 0f;
-        for (GvChildList.GvChildReview child : mData) {
+        for (GvChildReviewList.GvChildReview child : mData) {
             avg += child.getRating() / (float) mData.size();
         }
 
-        GvChildList.GvChildReview canon = mCanonical.getCanonical(mData);
+        GvChildReviewList.GvChildReview canon = mCanonical.getCanonical(mData);
         assertTrue(canon.isValidForDisplay());
         assertEquals(SUBJECT2 + " + 1", canon.getSubject());
         assertEquals(avg, canon.getRating());

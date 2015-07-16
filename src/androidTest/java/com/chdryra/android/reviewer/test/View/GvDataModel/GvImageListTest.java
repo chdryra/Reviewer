@@ -11,7 +11,7 @@ package com.chdryra.android.reviewer.test.View.GvDataModel;
 import android.graphics.Bitmap;
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.View.GvDataModel.GvChildList;
+import com.chdryra.android.reviewer.View.GvDataModel.GvChildReviewList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvFactList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
@@ -82,6 +82,9 @@ public class GvImageListTest extends TestCase {
                 caption1, isCover2);
         GvImageList.GvImage gvImageNotEquals5 = new GvImageList.GvImage(bitmap2, date2, latLng2,
                 caption2, isCover2);
+        GvImageList.GvImage gvImageNotEquals6 = new GvImageList.GvImage(RandomReviewId
+                .nextGvReviewId(),
+                bitmap1, date1, caption1, isCover1);
 
         GvImageList.GvImage gvImageNull = new GvImageList.GvImage();
         GvImageList.GvImage gvImageEmpty = new GvImageList.GvImage(null, date1, latLng1, caption1,
@@ -109,6 +112,7 @@ public class GvImageListTest extends TestCase {
         assertFalse(gvImage.equals(gvImageNotEquals3));
         assertFalse(gvImage.equals(gvImageNotEquals4));
         assertFalse(gvImage.equals(gvImageNotEquals5));
+        assertFalse(gvImage.equals(gvImageNotEquals6));
 
         assertFalse(gvImageNull.isValidForDisplay());
         assertFalse(gvImageEmpty.isValidForDisplay());
@@ -178,7 +182,7 @@ public class GvImageListTest extends TestCase {
         mList.addList(GvDataMocker.newImageList(NUM, false));
         assertEquals(NUM, mList.size());
 
-        assertFalse(mList.equals(GvDataMocker.getData(GvChildList.TYPE, NUM)));
+        assertFalse(mList.equals(GvDataMocker.getData(GvChildReviewList.TYPE, NUM)));
         assertFalse(mList.equals(GvDataMocker.getData(GvTagList.TYPE, NUM)));
         assertFalse(mList.equals(GvDataMocker.getData(GvLocationList.TYPE, NUM)));
         assertFalse(mList.equals(GvDataMocker.getData(GvCommentList.TYPE, NUM)));

@@ -130,6 +130,7 @@ public class GvDateList extends GvDataList<GvDateList.GvDate> {
         public boolean equals(Object o) {
             if (this == o) return true;
             if (!(o instanceof GvDate)) return false;
+            if (!super.equals(o)) return false;
 
             GvDate gvDate = (GvDate) o;
 
@@ -139,7 +140,9 @@ public class GvDateList extends GvDataList<GvDateList.GvDate> {
 
         @Override
         public int hashCode() {
-            return mDate != null ? mDate.hashCode() : 0;
+            int result = super.hashCode();
+            result = 31 * result + (mDate != null ? mDate.hashCode() : 0);
+            return result;
         }
     }
 }

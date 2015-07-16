@@ -17,7 +17,7 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvLocationList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvReviewId;
-import com.chdryra.android.reviewer.View.GvDataModel.GvReviewList;
+import com.chdryra.android.reviewer.View.GvDataModel.GvReviewOverviewList;
 
 import java.util.ArrayList;
 
@@ -28,13 +28,13 @@ import java.util.ArrayList;
  */
 
 /**
- * Grid data is {@link GvReviewList}.
+ * Grid data is {@link GvReviewOverviewList}.
  */
-public class ViewerChildList implements GridDataViewer<GvReviewList.GvReviewOverview> {
+public class ViewerChildList implements GridDataViewer<GvReviewOverviewList.GvReviewOverview> {
     private ReviewNode mNode;
-    private GridCellExpander<GvReviewList.GvReviewOverview> mExpander;
+    private GridCellExpander<GvReviewOverviewList.GvReviewOverview> mExpander;
 
-    public ViewerChildList(ReviewNode node, GridCellExpander<GvReviewList.GvReviewOverview>
+    public ViewerChildList(ReviewNode node, GridCellExpander<GvReviewOverviewList.GvReviewOverview>
             expander) {
         mNode = node;
         mExpander = expander;
@@ -45,8 +45,9 @@ public class ViewerChildList implements GridDataViewer<GvReviewList.GvReviewOver
     }
 
     @Override
-    public GvReviewList getGridData() {
-        GvReviewList data = new GvReviewList(GvReviewId.getId(mNode.getId().toString()));
+    public GvReviewOverviewList getGridData() {
+        GvReviewOverviewList data = new GvReviewOverviewList(GvReviewId.getId(mNode.getId()
+                .toString()));
         for (Review review : mNode.getChildren()) {
             GvImageList images = MdGvConverter.convert(review.getImages());
             GvCommentList headlines = MdGvConverter.convert(review.getComments()).getHeadlines();
@@ -71,12 +72,12 @@ public class ViewerChildList implements GridDataViewer<GvReviewList.GvReviewOver
     }
 
     @Override
-    public boolean isExpandable(GvReviewList.GvReviewOverview datum) {
+    public boolean isExpandable(GvReviewOverviewList.GvReviewOverview datum) {
         return mExpander.isExpandable(datum);
     }
 
     @Override
-    public ReviewViewAdapter expandItem(GvReviewList.GvReviewOverview datum) {
+    public ReviewViewAdapter expandItem(GvReviewOverviewList.GvReviewOverview datum) {
         return mExpander.expandItem(datum);
     }
 }

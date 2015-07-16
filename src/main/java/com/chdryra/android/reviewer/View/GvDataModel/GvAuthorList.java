@@ -128,12 +128,12 @@ public class GvAuthorList extends GvDataList<GvAuthorList.GvAuthor> {
         public boolean equals(Object o) {
             if (this == o) return true;
             if (!(o instanceof GvAuthor)) return false;
+            if (!super.equals(o)) return false;
 
             GvAuthor gvAuthor = (GvAuthor) o;
 
-            if (mName != null ? !mName.equals(gvAuthor.mName) : gvAuthor.mName != null) {
+            if (mName != null ? !mName.equals(gvAuthor.mName) : gvAuthor.mName != null)
                 return false;
-            }
             return !(mUserId != null ? !mUserId.equals(gvAuthor.mUserId) : gvAuthor.mUserId !=
                     null);
 
@@ -141,7 +141,8 @@ public class GvAuthorList extends GvDataList<GvAuthorList.GvAuthor> {
 
         @Override
         public int hashCode() {
-            int result = mName != null ? mName.hashCode() : 0;
+            int result = super.hashCode();
+            result = 31 * result + (mName != null ? mName.hashCode() : 0);
             result = 31 * result + (mUserId != null ? mUserId.hashCode() : 0);
             return result;
         }

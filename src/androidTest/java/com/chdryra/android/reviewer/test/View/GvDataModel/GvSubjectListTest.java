@@ -10,7 +10,7 @@ package com.chdryra.android.reviewer.test.View.GvDataModel;
 
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.View.GvDataModel.GvChildList;
+import com.chdryra.android.reviewer.View.GvDataModel.GvChildReviewList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvFactList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
@@ -52,12 +52,14 @@ public class GvSubjectListTest extends TestCase {
         String subject1 = GvDataMocker.newSubject(null).get();
         String subject2 = GvDataMocker.newSubject(null).get();
 
-        GvText gvSubject = new GvText(subject1);
-        GvText gvSubjectEquals = new GvText(subject1);
-        GvText gvSubjectEquals2 = new GvText(gvSubject);
-        GvText gvSubjectNotEquals = new GvText(subject2);
-        GvText gvSubjectNull = new GvText();
-        GvText gvSubjectEmpty = new GvText("");
+        GvSubjectList.GvSubject gvSubject = new GvSubjectList.GvSubject(subject1);
+        GvSubjectList.GvSubject gvSubjectEquals = new GvSubjectList.GvSubject(subject1);
+        GvSubjectList.GvSubject gvSubjectEquals2 = new GvSubjectList.GvSubject(gvSubject);
+        GvSubjectList.GvSubject gvSubjectNotEquals = new GvSubjectList.GvSubject(subject2);
+        GvSubjectList.GvSubject gvSubjectNotEquals2 = new GvSubjectList.GvSubject(RandomReviewId
+                .nextGvReviewId(), subject1);
+        GvSubjectList.GvSubject gvSubjectNull = new GvSubjectList.GvSubject();
+        GvSubjectList.GvSubject gvSubjectEmpty = new GvSubjectList.GvSubject("");
 
         assertNotNull(gvSubject.getViewHolder());
         assertTrue(gvSubject.isValidForDisplay());
@@ -67,6 +69,7 @@ public class GvSubjectListTest extends TestCase {
         assertTrue(gvSubject.equals(gvSubjectEquals));
         assertTrue(gvSubject.equals(gvSubjectEquals2));
         assertFalse(gvSubject.equals(gvSubjectNotEquals));
+        assertFalse(gvSubject.equals(gvSubjectNotEquals2));
 
         assertFalse(gvSubjectNull.isValidForDisplay());
         assertFalse(gvSubjectEmpty.isValidForDisplay());
@@ -94,7 +97,7 @@ public class GvSubjectListTest extends TestCase {
         mList.addList(GvDataMocker.newSubjectList(NUM, false));
         assertEquals(NUM, mList.size());
 
-        assertFalse(mList.equals(GvDataMocker.getData(GvChildList.TYPE, NUM)));
+        assertFalse(mList.equals(GvDataMocker.getData(GvChildReviewList.TYPE, NUM)));
         assertFalse(mList.equals(GvDataMocker.getData(GvSubjectList.TYPE, NUM)));
         assertFalse(mList.equals(GvDataMocker.getData(GvLocationList.TYPE, NUM)));
         assertFalse(mList.equals(GvDataMocker.getData(GvCommentList.TYPE, NUM)));

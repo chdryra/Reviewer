@@ -1,7 +1,7 @@
 package com.chdryra.android.reviewer.View.GvDataAggregation;
 
 import com.chdryra.android.reviewer.View.GvDataModel.GvAuthorList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvChildList;
+import com.chdryra.android.reviewer.View.GvDataModel.GvChildReviewList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
@@ -23,9 +23,12 @@ public class Aggregater {
     private static final DifferencePercentage SAME_PCNT = new DifferencePercentage(0);
     private static final DifferenceDate SAME_DAY = new DifferenceDate(DifferenceDate.DateBucket
             .DAY);
-    private static final DifferenceFloat TEN_METRES = new DifferenceFloat(10);
+    private static final DifferenceFloat TEN_METRES = new DifferenceFloat(10f);
     private static final DifferenceLocation SAME_LOC = new DifferenceLocation(TEN_METRES,
             SAME_PCNT);
+
+    private Aggregater() {
+    }
 
     public static GvDataMap<GvAuthorList.GvAuthor, GvDataList<GvAuthorList.GvAuthor>> aggregate
             (GvAuthorList data) {
@@ -57,14 +60,18 @@ public class Aggregater {
         return aggregate(data, new ComparitorGvImageBitmap(), SAME_BOOL, new CanonicalImage());
     }
 
-    public static GvDataMap<GvLocationList.GvLocation, GvDataList<GvLocationList.GvLocation>> aggregate
+    public static GvDataMap<GvLocationList.GvLocation, GvDataList<GvLocationList.GvLocation>>
+    aggregate
             (GvLocationList data) {
         return aggregate(data, new ComparitorGvLocation(), SAME_LOC, new CanonicalLocation());
     }
 
-    public static GvDataMap<GvChildList.GvChildReview, GvDataList<GvChildList.GvChildReview>> aggregate
-            (GvChildList data) {
-        return aggregate(data, new ComparitorGvChildReview(), SAME_PCNT, new CanonicalChildReview());
+    public static GvDataMap<GvChildReviewList.GvChildReview, GvDataList<GvChildReviewList
+            .GvChildReview>>
+    aggregate
+            (GvChildReviewList data) {
+        return aggregate(data, new ComparitorGvChildReview(), SAME_PCNT, new CanonicalChildReview
+                ());
     }
 
     public static GvDataMap<GvFactList.GvFact, GvDataList<GvFactList.GvFact>> aggregate

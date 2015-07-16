@@ -16,7 +16,7 @@ import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.FactoryReviewView
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewAdapter;
 import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
 import com.chdryra.android.reviewer.Model.Tagging.TagsManager;
-import com.chdryra.android.reviewer.View.GvDataModel.GvChildList;
+import com.chdryra.android.reviewer.View.GvDataModel.GvChildReviewList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
@@ -46,7 +46,7 @@ public class ExpanderGridCellTest extends AndroidTestCase {
         assertTrue(data.size() > 0);
         for (int i = 0; i < data.size(); ++i) {
             GvData datum = (GvData) data.getItem(i);
-            if (datum.getGvDataType() != GvChildList.TYPE) {
+            if (datum.getGvDataType() != GvChildReviewList.TYPE) {
                 assertNotNull(expander.expandItem(datum));
             } else {
                 assertNull(expander.expandItem(datum));

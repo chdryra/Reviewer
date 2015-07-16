@@ -13,7 +13,7 @@ import com.chdryra.android.reviewer.View.ActivitiesFragments.ActivityViewReviewL
 import com.chdryra.android.reviewer.View.Dialogs.DialogGvDataAdd;
 import com.chdryra.android.reviewer.View.Dialogs.DialogGvDataEdit;
 import com.chdryra.android.reviewer.View.Dialogs.DialogGvDataView;
-import com.chdryra.android.reviewer.View.GvDataModel.GvChildList;
+import com.chdryra.android.reviewer.View.GvDataModel.GvChildReviewList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
 import com.chdryra.android.reviewer.View.GvDataModel.GvFactList;
@@ -41,7 +41,7 @@ public final class ConfigGvDataAddEditView {
     private ConfigGvDataAddEditView() {
         mMap.put(GvTagList.GvTag.TYPE,
                 new AddEditViewUis(AddTag.class, EditTag.class, ViewTag.class));
-        mMap.put(GvChildList.GvChildReview.TYPE,
+        mMap.put(GvChildReviewList.GvChildReview.TYPE,
                 new AddEditViewUis(AddChild.class, EditChild.class, ViewChild.class));
         mMap.put(GvCommentList.GvComment.TYPE,
                 new AddEditViewUis(AddComment.class, EditComment.class, ViewComment.class));
@@ -87,9 +87,9 @@ public final class ConfigGvDataAddEditView {
 
     //Child
     public static class AddChild extends
-            DialogGvDataAdd<GvChildList.GvChildReview> {
+            DialogGvDataAdd<GvChildReviewList.GvChildReview> {
         public AddChild() {
-            super(GvChildList.GvChildReview.TYPE);
+            super(GvChildReviewList.GvChildReview.TYPE);
         }
     }
 
@@ -123,9 +123,9 @@ public final class ConfigGvDataAddEditView {
     }
 
     //Child
-    public static class EditChild extends DialogGvDataEdit<GvChildList.GvChildReview> {
+    public static class EditChild extends DialogGvDataEdit<GvChildReviewList.GvChildReview> {
         public EditChild() {
-            super(GvChildList.GvChildReview.TYPE);
+            super(GvChildReviewList.GvChildReview.TYPE);
         }
     }
 
@@ -166,9 +166,9 @@ public final class ConfigGvDataAddEditView {
     }
 
     //Child
-    public static class ViewChild extends DialogGvDataView<GvChildList.GvChildReview> {
+    public static class ViewChild extends DialogGvDataView<GvChildReviewList.GvChildReview> {
         public ViewChild() {
-            super(GvChildList.GvChildReview.TYPE);
+            super(GvChildReviewList.GvChildReview.TYPE);
         }
     }
 

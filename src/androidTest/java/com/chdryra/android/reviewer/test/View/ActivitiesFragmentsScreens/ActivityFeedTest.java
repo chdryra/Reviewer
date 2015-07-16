@@ -24,7 +24,7 @@ import com.chdryra.android.reviewer.ApplicationSingletons.ReviewFeed;
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.View.ActivitiesFragments.ActivityReviewView;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
-import com.chdryra.android.reviewer.View.GvDataModel.GvReviewList;
+import com.chdryra.android.reviewer.View.GvDataModel.GvReviewOverviewList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvTagList;
 import com.chdryra.android.reviewer.View.Screens.FeedScreen;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
@@ -56,11 +56,12 @@ public class ActivityFeedTest extends
 
     @SmallTest
     public void testFeed() {
-        GvReviewList list = (GvReviewList) mAdapter.getGridData();
+        GvReviewOverviewList list = (GvReviewOverviewList) mAdapter.getGridData();
         assertEquals(NUM, getGridSize());
-        GvReviewList.GvReviewOverview oldReview = (GvReviewList.GvReviewOverview) getGridItem(0);
+        GvReviewOverviewList.GvReviewOverview oldReview = (GvReviewOverviewList.GvReviewOverview)
+                getGridItem(0);
         for (int i = 0; i < NUM; ++i) {
-            GvReviewList.GvReviewOverview review = (GvReviewList.GvReviewOverview) getGridItem(i);
+            GvReviewOverviewList.GvReviewOverview review = (GvReviewOverviewList.GvReviewOverview) getGridItem(i);
             int j = list.size() - i - 1;
             assertEquals(list.getItem(j).getSubject(), review.getSubject());
             assertEquals(list.getItem(j).getRating(), review.getRating());

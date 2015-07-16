@@ -11,7 +11,7 @@ package com.chdryra.android.reviewer.test.View.GvDataModel;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.Model.ReviewData.MdLocationList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvChildList;
+import com.chdryra.android.reviewer.View.GvDataModel.GvChildReviewList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvFactList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
@@ -72,6 +72,8 @@ public class GvLocationListTest extends TestCase {
                 (latLng2, name1);
         GvLocationList.GvLocation gvLocationNotEquals3 = new GvLocationList.GvLocation
                 (latLng2, name2);
+        GvLocationList.GvLocation gvLocationNotEquals4 = new GvLocationList.GvLocation
+                (RandomReviewId.nextGvReviewId(), latLng1, name1);
         GvLocationList.GvLocation gvLocationNull = new GvLocationList.GvLocation();
         GvLocationList.GvLocation gvLocationEmpty1 = new GvLocationList.GvLocation(latLng1, "");
         GvLocationList.GvLocation gvLocationEmpty2 = new GvLocationList.GvLocation(null, name1);
@@ -88,6 +90,7 @@ public class GvLocationListTest extends TestCase {
         assertFalse(gvLocation.equals(gvLocationNotEquals1));
         assertFalse(gvLocation.equals(gvLocationNotEquals2));
         assertFalse(gvLocation.equals(gvLocationNotEquals3));
+        assertFalse(gvLocation.equals(gvLocationNotEquals4));
 
         assertFalse(gvLocationNull.isValidForDisplay());
         assertFalse(gvLocationEmpty1.isValidForDisplay());
@@ -118,7 +121,7 @@ public class GvLocationListTest extends TestCase {
         mList.addList(GvDataMocker.newLocationList(NUM, false));
         assertEquals(NUM, mList.size());
 
-        assertFalse(mList.equals(GvDataMocker.getData(GvChildList.TYPE, NUM)));
+        assertFalse(mList.equals(GvDataMocker.getData(GvChildReviewList.TYPE, NUM)));
         assertFalse(mList.equals(GvDataMocker.getData(GvTagList.TYPE, NUM)));
         assertFalse(mList.equals(GvDataMocker.getData(GvLocationList.TYPE, NUM)));
         assertFalse(mList.equals(GvDataMocker.getData(GvCommentList.TYPE, NUM)));

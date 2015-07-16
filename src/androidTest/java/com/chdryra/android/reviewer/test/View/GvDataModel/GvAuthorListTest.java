@@ -11,7 +11,7 @@ package com.chdryra.android.reviewer.test.View.GvDataModel;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.View.GvDataModel.GvAuthorList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvChildList;
+import com.chdryra.android.reviewer.View.GvDataModel.GvChildReviewList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvFactList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
@@ -54,6 +54,8 @@ public class GvAuthorListTest extends TestCase {
         GvAuthorList.GvAuthor author2 = GvDataMocker.newAuthor(null);
         String name2 = author2.getName();
         String id2 = author2.getUserId();
+        GvAuthorList.GvAuthor author3 = new GvAuthorList.GvAuthor(RandomReviewId.nextGvReviewId()
+                , name1, id1);
 
         GvAuthorList.GvAuthor gvAuthor = new GvAuthorList.GvAuthor(name1, id1);
         GvAuthorList.GvAuthor gvAuthorEquals = new GvAuthorList.GvAuthor(name1, id1);
@@ -61,6 +63,8 @@ public class GvAuthorListTest extends TestCase {
         GvAuthorList.GvAuthor gvAuthorNotEquals1 = new GvAuthorList.GvAuthor(name2, id1);
         GvAuthorList.GvAuthor gvAuthorNotEquals2 = new GvAuthorList.GvAuthor(name2, id2);
         GvAuthorList.GvAuthor gvAuthorNotEquals3 = new GvAuthorList.GvAuthor(name1, id2);
+        GvAuthorList.GvAuthor gvAuthorNotEquals4 = new GvAuthorList.GvAuthor(RandomReviewId
+                .nextGvReviewId(), name1, id1);
         GvAuthorList.GvAuthor gvAuthorNull = new GvAuthorList.GvAuthor();
         GvAuthorList.GvAuthor gvAuthorEmpty1 = new GvAuthorList.GvAuthor(null, "");
         GvAuthorList.GvAuthor gvAuthorEmpty2 = new GvAuthorList.GvAuthor("", null);
@@ -76,6 +80,7 @@ public class GvAuthorListTest extends TestCase {
         assertFalse(gvAuthor.equals(gvAuthorNotEquals1));
         assertFalse(gvAuthor.equals(gvAuthorNotEquals2));
         assertFalse(gvAuthor.equals(gvAuthorNotEquals3));
+        assertFalse(gvAuthor.equals(gvAuthorNotEquals4));
 
         assertFalse(gvAuthorNull.isValidForDisplay());
         assertFalse(gvAuthorEmpty1.isValidForDisplay());
@@ -105,7 +110,7 @@ public class GvAuthorListTest extends TestCase {
         mList.addList(GvDataMocker.newAuthorList(NUM, false));
         assertEquals(NUM, mList.size());
 
-        assertFalse(mList.equals(GvDataMocker.getData(GvChildList.TYPE, NUM)));
+        assertFalse(mList.equals(GvDataMocker.getData(GvChildReviewList.TYPE, NUM)));
         assertFalse(mList.equals(GvDataMocker.getData(GvAuthorList.TYPE, NUM)));
         assertFalse(mList.equals(GvDataMocker.getData(GvLocationList.TYPE, NUM)));
         assertFalse(mList.equals(GvDataMocker.getData(GvCommentList.TYPE, NUM)));

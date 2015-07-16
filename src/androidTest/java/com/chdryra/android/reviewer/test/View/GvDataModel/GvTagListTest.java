@@ -10,7 +10,7 @@ package com.chdryra.android.reviewer.test.View.GvDataModel;
 
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.View.GvDataModel.GvChildList;
+import com.chdryra.android.reviewer.View.GvDataModel.GvChildReviewList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvFactList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
@@ -54,6 +54,8 @@ public class GvTagListTest extends TestCase {
         GvTagList.GvTag gvTagEquals = new GvTagList.GvTag(tag1);
         GvTagList.GvTag gvTagEquals2 = new GvTagList.GvTag(gvTag);
         GvTagList.GvTag gvTagNotEquals = new GvTagList.GvTag(tag2);
+        GvTagList.GvTag gvTagNotEquals2 = new GvTagList.GvTag(RandomReviewId.nextGvReviewId(),
+                tag1);
         GvTagList.GvTag gvTagNull = new GvTagList.GvTag();
         GvTagList.GvTag gvTagEmpty = new GvTagList.GvTag("");
 
@@ -65,6 +67,7 @@ public class GvTagListTest extends TestCase {
         assertTrue(gvTag.equals(gvTagEquals));
         assertTrue(gvTag.equals(gvTagEquals2));
         assertFalse(gvTag.equals(gvTagNotEquals));
+        assertFalse(gvTag.equals(gvTagNotEquals2));
 
         assertFalse(gvTagNull.isValidForDisplay());
         assertFalse(gvTagEmpty.isValidForDisplay());
@@ -92,7 +95,7 @@ public class GvTagListTest extends TestCase {
         mList.addList(GvDataMocker.newTagList(NUM, false));
         assertEquals(NUM, mList.size());
 
-        assertFalse(mList.equals(GvDataMocker.getData(GvChildList.TYPE, NUM)));
+        assertFalse(mList.equals(GvDataMocker.getData(GvChildReviewList.TYPE, NUM)));
         assertFalse(mList.equals(GvDataMocker.getData(GvTagList.TYPE, NUM)));
         assertFalse(mList.equals(GvDataMocker.getData(GvLocationList.TYPE, NUM)));
         assertFalse(mList.equals(GvDataMocker.getData(GvCommentList.TYPE, NUM)));

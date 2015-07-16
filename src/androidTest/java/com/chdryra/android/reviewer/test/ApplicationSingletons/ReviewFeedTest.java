@@ -23,7 +23,7 @@ import com.chdryra.android.reviewer.Model.ReviewData.ReviewIdableList;
 import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
 import com.chdryra.android.reviewer.View.ActivitiesFragments.ActivityReviewView;
 import com.chdryra.android.reviewer.View.GvDataModel.GvReviewId;
-import com.chdryra.android.reviewer.View.GvDataModel.GvReviewList;
+import com.chdryra.android.reviewer.View.GvDataModel.GvReviewOverviewList;
 import com.chdryra.android.reviewer.View.Screens.FeedScreen;
 import com.chdryra.android.reviewer.test.TestUtils.ReviewMocker;
 import com.chdryra.android.reviewer.test.TestUtils.TestDatabase;
@@ -76,13 +76,13 @@ public class ReviewFeedTest extends ActivityInstrumentationTestCase2<ActivityRev
 
         AdapterReviewNode feed = (AdapterReviewNode) reviews;
 
-        GvReviewList list = (GvReviewList) feed.getGridData();
-        GvReviewList.GvReviewOverview mostRecent = list.getItem(list.size() - 1);
+        GvReviewOverviewList list = (GvReviewOverviewList) feed.getGridData();
+        GvReviewOverviewList.GvReviewOverview mostRecent = list.getItem(list.size() - 1);
         assertEquals(nodeId.toString(), mostRecent.getId());
 
         ReviewFeed.removeFromFeed(getActivity(), node.getId().toString());
 
-        list = (GvReviewList) feed.getGridData();
+        list = (GvReviewOverviewList) feed.getGridData();
         if (list.size() > 0) {
             mostRecent = list.getItem(list.size() - 1);
             assertFalse(nodeId.toString().equals(mostRecent.getId()));
@@ -99,7 +99,7 @@ public class ReviewFeedTest extends ActivityInstrumentationTestCase2<ActivityRev
     public void testAddToFeed() {
         ReviewViewAdapter reviews = ReviewFeed.getFeedAdapter(getActivity());
         assertNotNull(reviews);
-        GvReviewList list = (GvReviewList) reviews.getGridData();
+        GvReviewOverviewList list = (GvReviewOverviewList) reviews.getGridData();
         assertNotNull(list);
 
         int numReviews = list.size();
@@ -124,8 +124,8 @@ public class ReviewFeedTest extends ActivityInstrumentationTestCase2<ActivityRev
         assertEquals(numReviews + 1, fromDb.size());
         assertTrue(fromDb.containsId(node.getRoot().getId()));
 
-        list = (GvReviewList) reviews.getGridData();
-        GvReviewList.GvReviewOverview mostRecent = list.getItem(list.size() - 1);
+        list = (GvReviewOverviewList) reviews.getGridData();
+        GvReviewOverviewList.GvReviewOverview mostRecent = list.getItem(list.size() - 1);
         assertEquals(nodeId.toString(), mostRecent.getId());
     }
 

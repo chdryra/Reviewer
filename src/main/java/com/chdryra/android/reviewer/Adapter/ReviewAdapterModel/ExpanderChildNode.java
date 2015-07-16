@@ -13,14 +13,14 @@ import android.content.Context;
 import com.chdryra.android.reviewer.Model.ReviewData.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewData.ReviewIdableList;
 import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
-import com.chdryra.android.reviewer.View.GvDataModel.GvReviewList;
+import com.chdryra.android.reviewer.View.GvDataModel.GvReviewOverviewList;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 12/05/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ExpanderChildNode implements GridCellExpander<GvReviewList.GvReviewOverview> {
+public class ExpanderChildNode implements GridCellExpander<GvReviewOverviewList.GvReviewOverview> {
     private Context          mContext;
     private ReviewNode mParent;
 
@@ -34,13 +34,13 @@ public class ExpanderChildNode implements GridCellExpander<GvReviewList.GvReview
     }
 
     @Override
-    public boolean isExpandable(GvReviewList.GvReviewOverview datum) {
+    public boolean isExpandable(GvReviewOverviewList.GvReviewOverview datum) {
         ReviewId id = ReviewId.fromString(datum.getId());
         return mParent.getChildren().containsId(id);
     }
 
     @Override
-    public ReviewViewAdapter expandItem(GvReviewList.GvReviewOverview datum) {
+    public ReviewViewAdapter expandItem(GvReviewOverviewList.GvReviewOverview datum) {
         if (isExpandable(datum)) {
             ReviewIdableList<ReviewNode> nodes = mParent.getChildren();
             ReviewNode node = nodes.get(ReviewId.fromString(datum.getId()));

@@ -180,19 +180,23 @@ public class GvCommentList extends GvDataList<GvCommentList.GvComment> {
         public boolean equals(Object o) {
             if (this == o) return true;
             if (!(o instanceof GvComment)) return false;
+            if (!super.equals(o)) return false;
 
             GvComment gvComment = (GvComment) o;
 
-            return !(mComment != null ? !mComment.equals(gvComment.mComment) : gvComment.mComment
-                    != null) && !
-                    (mUnsplitParent != null ? !mUnsplitParent.equals(gvComment
-                            .mUnsplitParent) : gvComment.mUnsplitParent != null);
+            if (mIsHeadline != gvComment.mIsHeadline) return false;
+            if (mComment != null ? !mComment.equals(gvComment.mComment) : gvComment.mComment !=
+                    null)
+                return false;
+            return !(mUnsplitParent != null ? !mUnsplitParent.equals(gvComment.mUnsplitParent) :
+                    gvComment.mUnsplitParent != null);
 
         }
 
         @Override
         public int hashCode() {
-            int result = mComment != null ? mComment.hashCode() : 0;
+            int result = super.hashCode();
+            result = 31 * result + (mComment != null ? mComment.hashCode() : 0);
             result = 31 * result + (mUnsplitParent != null ? mUnsplitParent.hashCode() : 0);
             result = 31 * result + (mIsHeadline ? 1 : 0);
             return result;
