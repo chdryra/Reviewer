@@ -6,14 +6,15 @@
  * Date: 6 July, 2015
  */
 
-package com.chdryra.android.reviewer.test.View.GvDataAlgorithms;
+package com.chdryra.android.reviewer.test.View.GvDataAggregation;
 
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.View.GvDataAggregation.ComparitorGvFactLabel;
+import com.chdryra.android.reviewer.View.GvDataAggregation.ComparitorGvLocationName;
 import com.chdryra.android.reviewer.View.GvDataAggregation.DifferencePercentage;
-import com.chdryra.android.reviewer.View.GvDataModel.GvFactList;
-import com.chdryra.android.testutils.RandomString;
+import com.chdryra.android.reviewer.View.GvDataModel.GvLocationList;
+import com.chdryra.android.testutils.RandomLatLng;
+import com.google.android.gms.maps.model.LatLng;
 
 import junit.framework.TestCase;
 
@@ -22,23 +23,21 @@ import junit.framework.TestCase;
  * On: 06/07/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ComparitorGvFactLabelTest extends TestCase {
+public class ComparitorGvLocationNameTest extends TestCase {
     @SmallTest
     public void testCompare() {
-        String lhsLabel = "kitten";
-        String rhsLabel = "sitting";
-        String empty = "";
-        String lhsValue = RandomString.nextWord();
-        String rhsValue = RandomString.nextWord();
+        LatLng lhsLatLng = RandomLatLng.nextLatLng();
+        LatLng rhsLatLng = RandomLatLng.nextLatLng();
+        String lhsName = "kitten";
+        String rhsName = "sitting";
 
-        ComparitorGvFactLabel comparitor = new ComparitorGvFactLabel();
+        ComparitorGvLocationName comparitor = new ComparitorGvLocationName();
         DifferencePercentage none = new DifferencePercentage(0.0);
-        DifferencePercentage all = new DifferencePercentage(1.0);
         DifferencePercentage expected = new DifferencePercentage(3.0 / 7.0);
         DifferencePercentage expectedDelta = new DifferencePercentage(3.0 / 7.0 - 0.01);
 
-        GvFactList.GvFact lhs = new GvFactList.GvFact(lhsLabel, lhsValue);
-        GvFactList.GvFact rhs = new GvFactList.GvFact(lhsLabel, lhsValue);
+        GvLocationList.GvLocation lhs = new GvLocationList.GvLocation(lhsLatLng, lhsName);
+        GvLocationList.GvLocation rhs = new GvLocationList.GvLocation(lhsLatLng, lhsName);
         DifferencePercentage difference = comparitor.compare(lhs, lhs);
         assertTrue(difference.lessThanOrEqualTo(none));
         difference = comparitor.compare(lhs, rhs);
@@ -46,35 +45,18 @@ public class ComparitorGvFactLabelTest extends TestCase {
         difference = comparitor.compare(rhs, lhs);
         assertTrue(difference.lessThanOrEqualTo(none));
 
-
-        rhs = new GvFactList.GvFact(lhsLabel, rhsValue);
+        rhs = new GvLocationList.GvLocation(rhsLatLng, lhsName);
         difference = comparitor.compare(lhs, rhs);
         assertTrue(difference.lessThanOrEqualTo(none));
         difference = comparitor.compare(rhs, lhs);
         assertTrue(difference.lessThanOrEqualTo(none));
 
-        rhs = new GvFactList.GvFact(rhsLabel, rhsValue);
+        rhs = new GvLocationList.GvLocation(rhsLatLng, rhsName);
         difference = comparitor.compare(lhs, rhs);
         assertTrue(difference.lessThanOrEqualTo(expected));
         assertFalse(difference.lessThanOrEqualTo(expectedDelta));
         difference = comparitor.compare(rhs, lhs);
         assertTrue(difference.lessThanOrEqualTo(expected));
         assertFalse(difference.lessThanOrEqualTo(expectedDelta));
-
-        rhs = new GvFactList.GvFact(empty, lhsValue);
-        difference = comparitor.compare(lhs, rhs);
-        assertTrue(difference.lessThanOrEqualTo(all));
-        assertFalse(difference.lessThanOrEqualTo(none));
-        difference = comparitor.compare(rhs, lhs);
-        assertTrue(difference.lessThanOrEqualTo(all));
-        assertFalse(difference.lessThanOrEqualTo(none));
-
-        rhs = new GvFactList.GvFact(empty, rhsValue);
-        difference = comparitor.compare(lhs, rhs);
-        assertTrue(difference.lessThanOrEqualTo(all));
-        assertFalse(difference.lessThanOrEqualTo(none));
-        difference = comparitor.compare(rhs, lhs);
-        assertTrue(difference.lessThanOrEqualTo(all));
-        assertFalse(difference.lessThanOrEqualTo(none));
     }
 }

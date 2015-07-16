@@ -6,7 +6,7 @@
  * Date: 3 July, 2015
  */
 
-package com.chdryra.android.reviewer.test.View.GvDataAlgorithms;
+package com.chdryra.android.reviewer.test.View.GvDataAggregation;
 
 import android.test.suitebuilder.annotation.SmallTest;
 
@@ -25,15 +25,15 @@ public class DifferenceFloatTest extends TestCase {
     @SmallTest
     public void testLessThanOrEqualTo() {
         float threshold = 0.5f;
-        DifferenceFloat similarityThreshold = new DifferenceFloat(threshold);
+        DifferenceFloat differenceThreshold = new DifferenceFloat(threshold);
         Random r = new Random();
         for (int i = 0; i < 100; i++) {
             float rFloat = r.nextFloat();
             DifferenceFloat randomFloat = new DifferenceFloat(rFloat);
             if (rFloat > threshold) {
-                assertFalse(randomFloat.lessThanOrEqualTo(similarityThreshold));
+                assertFalse(randomFloat.lessThanOrEqualTo(differenceThreshold));
             } else {
-                assertTrue(randomFloat.lessThanOrEqualTo(similarityThreshold));
+                assertTrue(randomFloat.lessThanOrEqualTo(differenceThreshold));
             }
         }
     }

@@ -6,7 +6,7 @@
  * Date: 6 July, 2015
  */
 
-package com.chdryra.android.reviewer.test.View.GvDataAlgorithms;
+package com.chdryra.android.reviewer.test.View.GvDataAggregation;
 
 import android.location.Location;
 import android.test.suitebuilder.annotation.SmallTest;
@@ -39,6 +39,7 @@ public class ComparitorGvLocationDistanceTest extends TestCase {
         double midLongitude = minLongitude + (maxLongitude - minLongitude) / 2.0;
         LatLng ll3 = new LatLng(midLatitude, midLongitude);
 
+        //Check distances make sense
         float[] res = new float[1];
         Location.distanceBetween(ll1.latitude, ll1.longitude, ll2.latitude, ll2.longitude, res);
         DifferenceFloat maxDistance = new DifferenceFloat(res[0]);
@@ -50,6 +51,7 @@ public class ComparitorGvLocationDistanceTest extends TestCase {
 
         ComparitorGvLocationDistance comparitor = new ComparitorGvLocationDistance();
 
+        //Check same location = zero distance
         GvLocationList.GvLocation lhs = new GvLocationList.GvLocation(loc1);
         GvLocationList.GvLocation rhs = new GvLocationList.GvLocation(loc1);
         DifferenceFloat difference = comparitor.compare(lhs, rhs);
@@ -57,6 +59,7 @@ public class ComparitorGvLocationDistanceTest extends TestCase {
         difference = comparitor.compare(rhs, lhs);
         assertTrue(difference.lessThanOrEqualTo(zeroDistance));
 
+        //Check different location at correct distance
         rhs = new GvLocationList.GvLocation(loc2);
         difference = comparitor.compare(lhs, rhs);
         assertFalse(difference.lessThanOrEqualTo(zeroDistance));
@@ -67,6 +70,7 @@ public class ComparitorGvLocationDistanceTest extends TestCase {
         assertFalse(difference.lessThanOrEqualTo(midDistance));
         assertTrue(difference.lessThanOrEqualTo(maxDistance));
 
+        //Check name doesn't affect result
         rhs = new GvLocationList.GvLocation(ll2, loc1.getName());
         difference = comparitor.compare(lhs, rhs);
         assertFalse(difference.lessThanOrEqualTo(zeroDistance));
@@ -77,6 +81,7 @@ public class ComparitorGvLocationDistanceTest extends TestCase {
         assertFalse(difference.lessThanOrEqualTo(midDistance));
         assertTrue(difference.lessThanOrEqualTo(maxDistance));
 
+        //Check midpoint at correct distance
         rhs = new GvLocationList.GvLocation(ll3, loc1.getName());
         difference = comparitor.compare(lhs, rhs);
         assertFalse(difference.lessThanOrEqualTo(zeroDistance));
@@ -87,5 +92,4 @@ public class ComparitorGvLocationDistanceTest extends TestCase {
         assertTrue(difference.lessThanOrEqualTo(midDistance));
         assertTrue(difference.lessThanOrEqualTo(maxDistance));
     }
-
 }

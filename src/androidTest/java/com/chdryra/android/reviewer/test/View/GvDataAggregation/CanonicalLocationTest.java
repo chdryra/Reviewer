@@ -6,7 +6,7 @@
  * Date: 10 July, 2015
  */
 
-package com.chdryra.android.reviewer.test.View.GvDataAlgorithms;
+package com.chdryra.android.reviewer.test.View.GvDataAggregation;
 
 import com.chdryra.android.reviewer.View.GvDataAggregation.CanonicalDatumMaker;
 import com.chdryra.android.reviewer.View.GvDataAggregation.CanonicalLocation;

@@ -6,37 +6,34 @@
  * Date: 6 July, 2015
  */
 
-package com.chdryra.android.reviewer.test.View.GvDataAlgorithms;
+package com.chdryra.android.reviewer.test.View.GvDataAggregation;
 
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.View.GvDataAggregation.ComparitorGvReviewOverview;
+import com.chdryra.android.reviewer.View.GvDataAggregation.ComparitorGvImageBitmap;
 import com.chdryra.android.reviewer.View.GvDataAggregation.DifferenceBoolean;
-import com.chdryra.android.reviewer.View.GvDataModel.GvReviewList;
+import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
-import com.chdryra.android.testutils.ExceptionTester;
 
 import junit.framework.TestCase;
-
-import java.util.ArrayList;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 06/07/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ComparitorGvReviewOverviewTest extends TestCase {
+public class ComparitorGvImageBitmapTest extends TestCase {
     @SmallTest
     public void testCompare() {
-        GvReviewList.GvReviewOverview lhsReview = GvDataMocker.newReviewOverview(null);
-        GvReviewList.GvReviewOverview rhsReview = GvDataMocker.newReviewOverview(null);
+        GvImageList.GvImage lhsImage = GvDataMocker.newImage(null);
+        GvImageList.GvImage rhsImage = GvDataMocker.newImage(null);
 
-        ComparitorGvReviewOverview comparitor = new ComparitorGvReviewOverview();
+        ComparitorGvImageBitmap comparitor = new ComparitorGvImageBitmap();
         DifferenceBoolean same = new DifferenceBoolean(true);
         DifferenceBoolean notSame = new DifferenceBoolean(false);
 
-        GvReviewList.GvReviewOverview lhs = new GvReviewList.GvReviewOverview(lhsReview);
-        GvReviewList.GvReviewOverview rhs = new GvReviewList.GvReviewOverview(lhsReview);
+        GvImageList.GvImage lhs = new GvImageList.GvImage(lhsImage);
+        GvImageList.GvImage rhs = new GvImageList.GvImage(lhsImage);
 
         DifferenceBoolean difference = comparitor.compare(lhs, rhs);
         assertTrue(difference.lessThanOrEqualTo(same));
@@ -45,7 +42,7 @@ public class ComparitorGvReviewOverviewTest extends TestCase {
         assertTrue(difference.lessThanOrEqualTo(same));
         assertFalse(difference.lessThanOrEqualTo(notSame));
 
-        rhs = new GvReviewList.GvReviewOverview(rhsReview);
+        rhs = new GvImageList.GvImage(rhsImage);
         difference = comparitor.compare(lhs, rhs);
         assertFalse(difference.lessThanOrEqualTo(same));
         assertTrue(difference.lessThanOrEqualTo(notSame));
@@ -53,13 +50,13 @@ public class ComparitorGvReviewOverviewTest extends TestCase {
         assertFalse(difference.lessThanOrEqualTo(same));
         assertTrue(difference.lessThanOrEqualTo(notSame));
 
-        rhs = new GvReviewList.GvReviewOverview(lhsReview.getId(), rhs.getAuthor(), rhs
-                .getPublishDate(), rhs.getSubject(), rhs.getRating(), rhs.getCoverImage(), rhs
-                .getHeadline(), new ArrayList<String>());
-        GvReviewList.GvReviewOverview[] params = new GvReviewList.GvReviewOverview[2];
-        params[0] = lhs;
-        params[1] = rhs;
-        ExceptionTester.test(comparitor, "compare", params, RuntimeException.class,
-                "ReviewId same but other data different!");
+        rhs = new GvImageList.GvImage(lhs.getBitmap(), rhs.getDate(), rhs.getLatLng(), rhs
+                .getCaption(), rhs.isCover());
+        difference = comparitor.compare(lhs, rhs);
+        assertTrue(difference.lessThanOrEqualTo(same));
+        assertFalse(difference.lessThanOrEqualTo(notSame));
+        difference = comparitor.compare(rhs, lhs);
+        assertTrue(difference.lessThanOrEqualTo(same));
+        assertFalse(difference.lessThanOrEqualTo(notSame));
     }
 }
