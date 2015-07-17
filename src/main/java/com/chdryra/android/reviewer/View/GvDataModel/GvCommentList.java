@@ -47,12 +47,6 @@ public class GvCommentList extends GvDataList<GvCommentList.GvComment> {
     }
 
     @Override
-    public void add(GvComment item) {
-        if (size() == 0) item.setIsHeadline(true);
-        super.add(item);
-    }
-
-    @Override
     protected Comparator<GvComment> getDefaultComparator() {
         return new Comparator<GvComment>() {
             @Override
@@ -73,8 +67,8 @@ public class GvCommentList extends GvDataList<GvCommentList.GvComment> {
 
     public GvCommentList getHeadlines() {
         GvCommentList headlines = new GvCommentList(getReviewId());
-        for (GvComment image : this) {
-            if (image.isHeadline()) headlines.add(image);
+        for (GvComment comment : this) {
+            if (comment.isHeadline()) headlines.add(comment);
         }
 
         return headlines;
@@ -103,7 +97,7 @@ public class GvCommentList extends GvDataList<GvCommentList.GvComment> {
         };
 
         private final String    mComment;
-        private       GvComment mUnsplitParent;
+        private GvComment mUnsplitParent = null;
         private boolean mIsHeadline = false;
 
         private GvComment(GvReviewId id, String comment, GvComment unsplitParent) {
