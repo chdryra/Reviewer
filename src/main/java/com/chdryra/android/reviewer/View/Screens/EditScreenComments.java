@@ -31,24 +31,6 @@ public class EditScreenComments {
     private static final ConfigGvDataUi.Config               CONFIG =
             ConfigGvDataUi.getConfig(TYPE);
 
-    public static class BannerButton extends EditScreen.BannerButton {
-
-        public BannerButton(String title) {
-            super(CONFIG.getAdderConfig(), title);
-        }
-
-        @Override
-        protected boolean addData(GvData data) {
-            boolean added = super.addData(data);
-            if (getGridData().size() == 1) {
-                GvCommentList.GvComment comment = (GvCommentList.GvComment) data;
-                comment.setIsHeadline(true);
-                getReviewView().updateUi();
-            }
-            return added;
-        }
-    }
-
     public static class GridItem extends EditScreen.GridItem {
         private static final int COMMENT_AS_HEADLINE = 200;
 
@@ -60,19 +42,6 @@ public class EditScreenComments {
         public void onGridItemClick(GvData item, int position, View v) {
             GvCommentList.GvComment unsplit = ((GvCommentList.GvComment) item).getUnsplitComment();
             super.onGridItemClick(unsplit, position, v);
-        }
-
-        @Override
-        protected void deleteData(GvData datum) {
-            super.deleteData(datum);
-            GvCommentList.GvComment comment = (GvCommentList.GvComment) datum;
-            if (comment.isHeadline()) {
-                comment.setIsHeadline(false);
-                GvCommentList comments = (GvCommentList) getGridData();
-                if (comments.getHeadlines().size() == 0 && comments.size() > 0) {
-                    comments.getItem(0).setIsHeadline(true);
-                }
-            }
         }
 
         @Override

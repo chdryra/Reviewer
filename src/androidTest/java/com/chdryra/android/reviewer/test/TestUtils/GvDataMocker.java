@@ -59,25 +59,25 @@ public class GvDataMocker {
 
     //Just a convenient method even if it uses GvType.....
     public static GvDataList getData(GvDataType dataType, int size, boolean withId) {
-        if (dataType == GvCommentList.TYPE) {
+        if (dataType.getElementType() == GvCommentList.GvComment.TYPE) {
             return newCommentList(size, withId);
-        } else if (dataType == GvFactList.TYPE) {
+        } else if (dataType.getElementType() == GvFactList.GvFact.TYPE) {
             return newFactList(size, withId);
-        } else if (dataType == GvImageList.TYPE) {
+        } else if (dataType.getElementType() == GvImageList.GvImage.TYPE) {
             return newImageList(size, withId);
-        } else if (dataType == GvLocationList.TYPE) {
+        } else if (dataType.getElementType() == GvLocationList.GvLocation.TYPE) {
             return newLocationList(size, withId);
-        } else if (dataType == GvUrlList.TYPE) {
+        } else if (dataType.getElementType() == GvUrlList.GvUrl.TYPE) {
             return newUrlList(size, withId);
-        } else if (dataType == GvTagList.TYPE) {
+        } else if (dataType.getElementType() == GvTagList.GvTag.TYPE) {
             return newTagList(size, withId);
-        } else if (dataType == GvChildReviewList.TYPE) {
+        } else if (dataType.getElementType() == GvChildReviewList.GvChildReview.TYPE) {
             return newChildList(size, withId);
-        } else if (dataType == GvReviewOverviewList.TYPE) {
+        } else if (dataType.getElementType() == GvReviewOverviewList.GvReviewOverview.TYPE) {
             return newReviewList(size, withId);
-        } else if (dataType == GvAuthorList.TYPE) {
+        } else if (dataType.getElementType() == GvAuthorList.GvAuthor.TYPE) {
             return newAuthorList(size, withId);
-        } else if (dataType == GvSubjectList.TYPE) {
+        } else if (dataType.getElementType() == GvSubjectList.GvSubject.TYPE) {
             return newSubjectList(size, withId);
         } else {
             return null;
@@ -90,25 +90,25 @@ public class GvDataMocker {
 
     //Just a convenient method even if it uses GvType.....
     public static GvData getDatum(GvDataType dataType, boolean withId) {
-        if (dataType == GvCommentList.TYPE) {
+        if (dataType.getElementType() == GvCommentList.GvComment.TYPE) {
             return newComment(getId(withId));
-        } else if (dataType == GvFactList.TYPE) {
+        } else if (dataType.getElementType() == GvFactList.GvFact.TYPE) {
             return newFact(getId(withId));
-        } else if (dataType == GvImageList.TYPE) {
+        } else if (dataType.getElementType() == GvImageList.GvImage.TYPE) {
             return newImage(getId(withId));
-        } else if (dataType == GvLocationList.TYPE) {
+        } else if (dataType.getElementType() == GvLocationList.GvLocation.TYPE) {
             return newLocation(getId(withId));
-        } else if (dataType == GvUrlList.TYPE) {
+        } else if (dataType.getElementType() == GvUrlList.GvUrl.TYPE) {
             return newUrl(getId(withId));
-        } else if (dataType == GvTagList.TYPE) {
+        } else if (dataType.getElementType() == GvTagList.GvTag.TYPE) {
             return newTag(getId(withId));
-        } else if (dataType == GvChildReviewList.TYPE) {
+        } else if (dataType.getElementType() == GvChildReviewList.GvChildReview.TYPE) {
             return newChild(getId(withId));
-        } else if (dataType == GvReviewOverviewList.TYPE) {
+        } else if (dataType.getElementType() == GvReviewOverviewList.GvReviewOverview.TYPE) {
             return newReviewOverview(getId(withId));
-        } else if (dataType == GvAuthorList.TYPE) {
+        } else if (dataType.getElementType() == GvAuthorList.GvAuthor.TYPE) {
             return newAuthor(getId(withId));
-        } else if (dataType == GvSubjectList.TYPE) {
+        } else if (dataType.getElementType() == GvSubjectList.GvSubject.TYPE) {
             return newSubject(getId(withId));
         } else {
             return null;

@@ -41,9 +41,25 @@ public class ReviewIdTest extends TestCase {
         assertTrue(id2.equals(id3));
 
         //Test concurrency i.e. if called potentially within 1ms, id is still unique.
-        Author author = RandomAuthor.nextAuthor();
-        ReviewId id4 = ReviewId.generateId(author);
-        ReviewId id5 = ReviewId.generateId(author);
-        assertFalse(id4.equals(id5));
+        Author author1 = RandomAuthor.nextAuthor();
+        Author author2 = RandomAuthor.nextAuthor();
+        int num = 10;
+        ReviewId[] ids_1 = new ReviewId[num];
+        ReviewId[] ids_2 = new ReviewId[num];
+        for (int i = 0; i < num; ++i) {
+            ids_1[i] = ReviewId.generateId(author1);
+            ids_2[i] = ReviewId.generateId(author2);
+        }
+
+        for (int i = 0; i < ids_1.length; ++i) {
+            for (int j = i + 1; j < ids_1.length; ++j) {
+                assertFalse(ids_1[i].equals(ids_1[j]));
+            }
+        }
+        for (int i = 0; i < ids_2.length; ++i) {
+            for (int j = i + 1; j < ids_2.length; ++j) {
+                assertFalse(ids_2[i].equals(ids_2[j]));
+            }
+        }
     }
 }

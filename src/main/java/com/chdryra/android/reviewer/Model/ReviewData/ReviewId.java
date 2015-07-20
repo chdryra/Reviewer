@@ -11,6 +11,7 @@ package com.chdryra.android.reviewer.Model.ReviewData;
 import com.chdryra.android.reviewer.Model.UserData.Author;
 import com.chdryra.android.reviewer.Model.UserData.UserId;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -30,13 +31,6 @@ public class ReviewId implements MdData {
     private static ReviewIdGenerator mGenerator;
     private final UserId mId;
     private       long   mTime;
-
-    /**
-     * To facilitate RCollectionReview
-     */
-    public interface ReviewIdAble {
-        ReviewId getId();
-    }
 
     private ReviewId(UserId id, long time) {
         mId = id;
@@ -90,18 +84,29 @@ public class ReviewId implements MdData {
         return mId.toString() + SPLITTER + String.valueOf(mTime);
     }
 
+    /**
+     * To facilitate RCollectionReview
+     */
+    public interface ReviewIdAble {
+        ReviewId getId();
+    }
+
     private static class ReviewIdGenerator {
-        private UserId mLastId;
+        private ArrayList<UserId> mUserIds = new ArrayList<>();
         private long   mLastTime;
 
         private ReviewId generateId(Author author) {
             UserId id = author.getUserId();
             long time = new Date().getTime();
-            if (id.equals(mLastId) && time == mLastTime) time++;
-            mLastId = id;
+            if (mUserIds.contains(id)) {
+                if (time <= mLastTime) time = mLastTime + 1;
+            } else {
+                mUserIds.add(id);
+            }
+
             mLastTime = time;
 
-            return new ReviewId(id, time);
+            return new ReviewId(id, mLastTime);
         }
     }
 }

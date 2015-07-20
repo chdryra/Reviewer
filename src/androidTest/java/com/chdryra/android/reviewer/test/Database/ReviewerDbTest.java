@@ -504,10 +504,6 @@ public class ReviewerDbTest extends AndroidTestCase {
                 fail();
         }
 
-        for (ReviewNode child : node.getChildren()) {
-            n += getNumDataInSubTree(child, dataType);
-        }
-
         return n;
     }
 
@@ -593,34 +589,15 @@ public class ReviewerDbTest extends AndroidTestCase {
 
         assertEquals(0, getNumberRows(table));
         mDatabase.addReviewTreeToDb(mNode);
-        int num = getData(tableType, mNode).size();
-        num += getData(tableType, mNode.getParent()).size();
-        for (ReviewNode child : mNode.getChildren()) {
-            num += getData(tableType, child).size();
-        }
+        int num = getData(tableType, mNode.getRoot()).size();
 
         assertEquals(num, getNumberRows(table));
 
-        testRows(tableType, mNode);
-        testRows(tableType, mNode.getParent());
+        testRows(tableType, mNode.getReview().getTreeRepresentation());
+        testRows(tableType, mNode.getParent().getReview().getTreeRepresentation());
         for (ReviewNode child : mNode.getChildren()) {
-            testRows(tableType, child);
+            testRows(tableType, child.getReview().getTreeRepresentation());
         }
-    }
-
-    private void testDeleteReviewTreeToTable(ConfigDb.DbData tableType) {
-        ConfigDb.Config config = ConfigDb.getConfig(tableType);
-        ReviewerDbTable table = config.getTable();
-
-        int num = getData(tableType, mNode).size();
-        num += getData(tableType, mNode.getParent()).size();
-        for (ReviewNode child : mNode.getChildren()) {
-            num += getData(tableType, child).size();
-        }
-
-        assertEquals(num, getNumberRows(table));
-        mDatabase.deleteReviewTreeFromDb(mNode.getId().toString());
-        assertEquals(0, getNumberRows(table));
     }
 
     private void testRows(ConfigDb.DbData dataType, ReviewNode node) {

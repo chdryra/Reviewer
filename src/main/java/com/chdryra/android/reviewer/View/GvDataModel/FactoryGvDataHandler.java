@@ -8,6 +8,8 @@
 
 package com.chdryra.android.reviewer.View.GvDataModel;
 
+import android.content.Context;
+
 /**
  * Created by: Rizwan Choudrey
  * On: 12/12/2014
@@ -39,6 +41,9 @@ public class FactoryGvDataHandler {
             };
 
             return new GvDataHandler<>(data, add, replace);
+        } else if (data.getGvDataType().getElementType() == GvCommentList.GvComment.TYPE) {
+            //TODO make type safe
+            return (GvDataHandler<T>) new GvCommentHandler((GvCommentList) data);
         } else {
             return new GvDataHandler<>(data);
         }
@@ -64,5 +69,36 @@ public class FactoryGvDataHandler {
 
         return (oldChild.getSubject().equals(newChild.getSubject()) || !list.contains(newChild
                 .getSubject()));
+    }
+
+    private static class GvCommentHandler extends GvDataHandler<GvCommentList.GvComment> {
+        public GvCommentHandler(GvCommentList data) {
+            super(data);
+        }
+
+        @Override
+        public boolean add(GvCommentList.GvComment newDatum, Context context) {
+            if (getData().size() == 0) newDatum.setIsHeadline(true);
+            return super.add(newDatum, context);
+        }
+
+        @Override
+        public void replace(GvCommentList.GvComment oldDatum, GvCommentList.GvComment newDatum,
+                            Context context) {
+            newDatum.setIsHeadline(oldDatum.isHeadline());
+            super.replace(oldDatum, newDatum, context);
+        }
+
+        @Override
+        public void delete(GvCommentList.GvComment data) {
+            super.delete(data);
+            if (data.isHeadline()) {
+                data.setIsHeadline(false);
+                GvCommentList comments = (GvCommentList) getData();
+                if (comments.getHeadlines().size() == 0 && comments.size() > 0) {
+                    comments.getItem(0).setIsHeadline(true);
+                }
+            }
+        }
     }
 }

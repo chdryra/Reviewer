@@ -246,7 +246,7 @@ public class ReviewBuilderTest extends ActivityInstrumentationTestCase2<Activity
         }
 
         ReviewIdableList<ReviewNode> childNodes = published.getChildren();
-        assertEquals(children.size(), childNodes.size()); //works in debug but not normal run?
+        assertEquals(children.size(), childNodes.size());
         for (int i = 0; i < children.size(); ++i) {
             ReviewNode childNode = childNodes.getItem(i);
             GvChildReviewList.GvChildReview child = (GvChildReviewList.GvChildReview) children
@@ -292,7 +292,7 @@ public class ReviewBuilderTest extends ActivityInstrumentationTestCase2<Activity
         ReviewBuilder.DataBuilder builder = mBuilder.getDataBuilder(data.getGvDataType());
         for (int i = 0; i < data.size(); ++i) {
             GvData datum = (GvData) data.getItem(i);
-            builder.add(datum);
+            assertTrue(builder.add(datum));
         }
         builder.setData();
     }

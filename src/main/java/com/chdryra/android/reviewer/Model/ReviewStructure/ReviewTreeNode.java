@@ -8,7 +8,6 @@
 
 package com.chdryra.android.reviewer.Model.ReviewStructure;
 
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.TreeDataGetter;
 import com.chdryra.android.reviewer.Model.ReviewData.MdCommentList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdFactList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdImageList;
@@ -19,6 +18,7 @@ import com.chdryra.android.reviewer.Model.ReviewData.PublishDate;
 import com.chdryra.android.reviewer.Model.ReviewData.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewData.ReviewIdableList;
 import com.chdryra.android.reviewer.Model.TreeMethods.ReviewTreeComparer;
+import com.chdryra.android.reviewer.Model.TreeMethods.TreeDataGetter;
 import com.chdryra.android.reviewer.Model.TreeMethods.VisitorRatingAverageOfChildren;
 import com.chdryra.android.reviewer.Model.TreeMethods.VisitorRatingCalculator;
 import com.chdryra.android.reviewer.Model.TreeMethods.VisitorReviewNode;
@@ -37,7 +37,7 @@ public class ReviewTreeNode implements ReviewNode {
     private final ReviewId mId;
 
     private final Review                        mReview;
-    private final TreeDataGetter mAggregator;
+    private final TreeDataGetter mGetter;
     private final ReviewIdableList<ReviewNode> mChildren;
     private       ReviewTreeNode               mParent;
     private boolean mRatingIsAverage = false;
@@ -48,7 +48,7 @@ public class ReviewTreeNode implements ReviewNode {
         mChildren = new ReviewIdableList<>();
         mParent = null;
         mRatingIsAverage = ratingIsAverage;
-        mAggregator = new TreeDataGetter(this);
+        mGetter = new TreeDataGetter(this);
     }
 
     //ReviewNode methods
@@ -60,6 +60,21 @@ public class ReviewTreeNode implements ReviewNode {
     @Override
     public ReviewNode getParent() {
         return mParent;
+    }
+
+    public void setParent(ReviewTreeNode parentNode) {
+        if (mParent != null && parentNode != null && mParent.getId().equals(parentNode.getId())) {
+            return;
+        }
+
+        if (mParent != null) {
+            mParent.removeChild(this);
+        }
+
+        mParent = parentNode;
+        if (mParent != null) {
+            mParent.addChild(this);
+        }
     }
 
     @Override
@@ -87,27 +102,14 @@ public class ReviewTreeNode implements ReviewNode {
         return mRatingIsAverage;
     }
 
-    public void setParent(ReviewTreeNode parentNode) {
-        if (mParent != null && parentNode != null && mParent.getId().equals(parentNode.getId())) {
-            return;
-        }
-
-        if (mParent != null) {
-            mParent.removeChild(this);
-        }
-
-        mParent = parentNode;
-        if (mParent != null) {
-            mParent.addChild(this);
-        }
-    }
-
-    public void addChild(ReviewTreeNode childNode) {
+    public boolean addChild(ReviewTreeNode childNode) {
         if (mChildren.containsId(childNode.getId())) {
-            return;
+            return false;
         }
         mChildren.add(childNode);
         childNode.setParent(this);
+
+        return true;
     }
 
     public void removeChild(ReviewId reviewId) {
@@ -156,22 +158,22 @@ public class ReviewTreeNode implements ReviewNode {
 
     @Override
     public MdCommentList getComments() {
-        return mAggregator.getComments();
+        return mGetter.getComments();
     }
 
     @Override
     public MdFactList getFacts() {
-        return mAggregator.getFacts();
+        return mGetter.getFacts();
     }
 
     @Override
     public MdImageList getImages() {
-        return mAggregator.getImages();
+        return mGetter.getImages();
     }
 
     @Override
     public MdLocationList getLocations() {
-        return mAggregator.getLocations();
+        return mGetter.getLocations();
     }
 
     @Override

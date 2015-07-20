@@ -73,6 +73,10 @@ public class GvDataHandler<T extends GvData> {
         mData.remove(data);
     }
 
+    protected GvDataList<T> getData() {
+        return mData;
+    }
+
     private void makeToastHasItem(Context context) {
         String toast = context.getResources().getString(R.string.toast_has) + " " + mData
                 .getGvDataType().getDatumName();

@@ -176,6 +176,7 @@ public class ReviewBuilder extends ReviewViewAdapterBasic {
                 getData(GvLocationList.GvLocation.TYPE));
 
         ReviewTreeNode rootNode = FactoryReview.createReviewTreeNode(root, mIsAverage);
+
         for (ReviewBuilder child : mChildren) {
             rootNode.addChild(child.prepareTree(publishDate));
         }

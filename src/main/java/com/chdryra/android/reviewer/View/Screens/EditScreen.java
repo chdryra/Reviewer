@@ -101,8 +101,6 @@ public class EditScreen {
             return new EditScreenLocations.BannerButton(title);
         } else if (dataType == GvFactList.GvFact.TYPE) {
             return new EditScreenFacts.BannerButton(title);
-        } else if (dataType == GvCommentList.GvComment.TYPE) {
-            return new EditScreenComments.BannerButton(title);
         } else {
             return new BannerButton(ConfigGvDataUi.getConfig(dataType).getAdderConfig()
                     , title);
