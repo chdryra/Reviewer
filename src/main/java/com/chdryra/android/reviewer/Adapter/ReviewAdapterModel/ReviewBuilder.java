@@ -151,7 +151,7 @@ public class ReviewBuilder extends ReviewViewAdapterBasic {
     }
 
     public <T extends GvData> GvDataList<T> getData(GvDataType<T> dataType) {
-        GvDataList data = mData.get(dataType);
+        GvDataList data = mData.get(dataType.getElementType());
         return data != null ? MdGvConverter.copy(data) : null;
     }
 
@@ -184,8 +184,9 @@ public class ReviewBuilder extends ReviewViewAdapterBasic {
         return rootNode;
     }
 
+    //TODO make type safe
     private <T extends GvData> DataBuilder<T> newDataBuilder(GvDataType<T> dataType) {
-        return new DataBuilder<>(getData(dataType));
+        return new DataBuilder<>(MdGvConverter.copy(getData(dataType)));
     }
 
     //TODO make type safe
@@ -256,7 +257,7 @@ public class ReviewBuilder extends ReviewViewAdapterBasic {
         }
 
         public void reset() {
-            getParentBuilder().resetDataBuilder(mData.getGvDataType().getElementType());
+            getParentBuilder().resetDataBuilder(mData.getGvDataType());
         }
 
         public ReviewBuilder getParentBuilder() {

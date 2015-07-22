@@ -47,9 +47,9 @@ import com.chdryra.android.reviewer.View.Utils.GpLocatedPlaceConverter;
 import com.chdryra.android.reviewer.View.Utils.LocatedPlace;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.GoogleMap.OnInfoWindowClickListener;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
+import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -75,15 +75,15 @@ import java.util.ArrayList;
 public class FragmentEditLocationMap extends FragmentDeleteDone implements
         LocationClientConnector.Locatable,
         PlaceSuggester.SuggestionsListener,
-        GpPlaceSearcher.SearchListener {
+        GpPlaceSearcher.SearchListener, OnMapReadyCallback {
     private final static String TAG                  = "FragmentEditLocationMap";
     private static final String NO_LOCATION          = "no suggestions found...";
     private static final float  DEFAULT_ZOOM         = 15;
     private static final int    NUMBER_DEFAULT_NAMES = 5;
 
     private GvLocationList.GvLocation mCurrent;
-    private GoogleMap                 mGoogleMap;
-    private MapView                   mMapView;
+    private GoogleMap mGoogleMap;
+    private MapView mMapView;
 
     private SearchView          mSearchView;
     private MenuItem            mSearchViewMenuItem;
@@ -122,14 +122,12 @@ public class FragmentEditLocationMap extends FragmentDeleteDone implements
 
         View v = inflater.inflate(R.layout.fragment_review_location_map_edit, container, false);
 
-        mMapView = (MapView) v.findViewById(R.id.mapView);
-        mMapView.onCreate(savedInstanceState);
-        mGoogleMap = ((MapView) v.findViewById(R.id.mapView)).getMap();
         mLocationName = (ClearableAutoCompleteTextView) v.findViewById(R.id
                 .edit_text_name_location);
         mRevertButton = (ImageButton) v.findViewById(R.id.revert_location_image_button);
-
-        initUI();
+        mMapView = (MapView) v.findViewById(R.id.mapView);
+        mMapView.onCreate(savedInstanceState);
+        mMapView.getMapAsync(this);
 
         return v;
     }
@@ -181,6 +179,12 @@ public class FragmentEditLocationMap extends FragmentDeleteDone implements
                 return false;
             }
         });
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        mGoogleMap = googleMap;
+        initUI();
     }
 
     @Override
@@ -347,7 +351,7 @@ public class FragmentEditLocationMap extends FragmentDeleteDone implements
                 return false;
             }
         });
-        mGoogleMap.setOnInfoWindowClickListener(new OnInfoWindowClickListener() {
+        mGoogleMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
 
             @Override
             public void onInfoWindowClick(Marker marker) {

@@ -94,8 +94,8 @@ public class ActivityBuildReviewTest extends ActivityReviewViewTest {
         mSolo.waitForDialogToOpen(TIMEOUT);
         mSolo.sleep(1000); //need to do this due to UI thread is separate to test thread
         testDialogShowing(true);
-        final GvDataList data = GvDataMocker.getData(GvTagList.TYPE, 1);
-        String tag = ConfigGvDataUi.getConfig(GvTagList.TYPE).getAdderConfig().getTag();
+        final GvDataList data = GvDataMocker.getData(GvTagList.GvTag.TYPE, 1);
+        String tag = ConfigGvDataUi.getConfig(GvTagList.GvTag.TYPE).getAdderConfig().getTag();
         enterData(data, tag, false);
         mSolo.waitForDialogToClose(TIMEOUT);
         mSolo.sleep(1000);

@@ -43,7 +43,8 @@ import com.chdryra.android.reviewer.View.Launcher.LauncherUi;
  * Email: rizwan.choudrey@gmail.com
  */
 public class EditScreen {
-    public static ReviewView newScreen(Context context, GvDataType dataType) {
+    public static ReviewView newScreen(Context context, GvDataType type) {
+        GvDataType dataType = type.getElementType();
         ReviewBuilder.DataBuilder builder = Administrator.get(context).getReviewBuilder()
                 .getDataBuilder(dataType);
 

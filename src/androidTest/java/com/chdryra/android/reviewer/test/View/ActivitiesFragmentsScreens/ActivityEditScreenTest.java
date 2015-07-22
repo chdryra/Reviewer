@@ -553,14 +553,20 @@ public abstract class ActivityEditScreenTest extends ActivityReviewViewTest {
 
         deleteGridItem(0, confirm);
 
+        GvData currentDatumUnModified = parentDatum(currentDatum);
+
         checkInGrid(currentDatum, !confirm);
         checkInBuilder(currentDatum, !confirm);
-        checkInParentBuilder(currentDatum, true);
+        checkInParentBuilder(currentDatumUnModified, true);
 
         clickMenuDone();
 
-        checkInParentBuilder(currentDatum, !confirm);
+        checkInParentBuilder(currentDatumUnModified, !confirm);
         checkBuildersSubjectRatingOnDone();
+    }
+
+    protected GvData parentDatum(GvData currentDatum) {
+        return currentDatum;
     }
 
     private void testMenuDelete(boolean confirm) {

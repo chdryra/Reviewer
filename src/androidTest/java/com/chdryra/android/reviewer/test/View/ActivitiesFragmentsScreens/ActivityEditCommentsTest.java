@@ -32,6 +32,11 @@ public class ActivityEditCommentsTest extends ActivityEditScreenTest {
     }
 
     @SmallTest
+    public void testDebug() {
+        testGridItemDeleteConfirm();
+    }
+
+    @SmallTest
     public void testMenuSplitUnsplitComments() {
         setUp(true);
         GvCommentList comments = (GvCommentList) mAdapter.getGridData();
@@ -161,6 +166,13 @@ public class ActivityEditCommentsTest extends ActivityEditScreenTest {
         comments.getItem(0).setIsHeadline(true);
 
         return comments;
+    }
+
+    @Override
+    protected GvData parentDatum(GvData currentDatum) {
+        GvCommentList.GvComment comment = (GvCommentList.GvComment) currentDatum;
+        comment.setIsHeadline(true);
+        return comment;
     }
 
     private DialogAlertFragment getAlertDialog() {
