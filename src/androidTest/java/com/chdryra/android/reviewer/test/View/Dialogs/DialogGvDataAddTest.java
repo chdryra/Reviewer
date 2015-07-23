@@ -23,6 +23,7 @@ import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewAdapter
 import com.chdryra.android.reviewer.ApplicationSingletons.Administrator;
 import com.chdryra.android.reviewer.View.ActivitiesFragments.ActivityReviewView;
 import com.chdryra.android.reviewer.View.Dialogs.DialogGvDataAdd;
+import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
 import com.chdryra.android.reviewer.View.Launcher.LaunchableUi;
@@ -94,17 +95,24 @@ public abstract class DialogGvDataAddTest<T extends GvData> extends
         final ReviewViewAdapter controller = mAdapter;
         assertEquals(0, getData(controller).size());
 
-        final GvData datum1 = testQuickSet(true);
+        final GvData datum0 = testQuickSet(true);
         final GvData datum2 = testQuickSet(true);
         final GvData datum3 = testQuickSet(false);
 
         final DialogCancelAddDoneFragment dialog = mDialog;
+
         mActivity.runOnUiThread(new Runnable() {
             public void run() {
                 dialog.clickDoneButton();
 
                 GvDataList data = getData(controller);
 
+                GvData datum1 = datum0;
+                if (datum0.getGvDataType().equals(GvCommentList.GvComment.TYPE)) {
+                    GvCommentList.GvComment comment = (GvCommentList.GvComment) datum0;
+                    comment.setIsHeadline(true);
+                    datum1 = comment;
+                }
                 assertEquals(3, data.size());
                 assertEquals(datum1, data.getItem(0));
                 assertEquals(datum2, data.getItem(1));
