@@ -17,7 +17,6 @@ import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.mygenerallibrary.DialogAlertFragment;
-import com.chdryra.android.mygenerallibrary.DialogCancelDeleteDoneFragment;
 import com.chdryra.android.mygenerallibrary.DialogDeleteConfirm;
 import com.chdryra.android.reviewer.View.ActivitiesFragments.ActivityFeed;
 import com.chdryra.android.reviewer.View.Dialogs.DialogGvDataEdit;
@@ -27,6 +26,7 @@ import com.chdryra.android.reviewer.View.Launcher.LauncherUi;
 import com.chdryra.android.reviewer.test.TestUtils.DialogEditListener;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
 import com.chdryra.android.reviewer.test.TestUtils.SoloDataEntry;
+import com.chdryra.android.testutils.CallBackSignaler;
 import com.robotium.solo.Solo;
 
 /**
@@ -43,13 +43,15 @@ public abstract class DialogGvDataEditTest<T extends GvData> extends
     protected     DialogGvDataEdit                  mDialog;
     protected     DialogEditListener<T>             mListener;
     protected     Activity                          mActivity;
-
-    protected abstract GvData getDataShown();
+    protected CallBackSignaler mSignaler;
 
     protected DialogGvDataEditTest(Class<? extends DialogGvDataEdit> dialogClass) {
         super(ActivityFeed.class);
         mDialogClass = dialogClass;
+        mSignaler = new CallBackSignaler(30);
     }
+
+    protected abstract GvData getDataShown();
 
     @SmallTest
     public void testCancelButton() {
@@ -62,44 +64,32 @@ public abstract class DialogGvDataEditTest<T extends GvData> extends
 
         editDataAndTest();
 
-        final DialogCancelDeleteDoneFragment dialog = mDialog;
-        mActivity.runOnUiThread(new Runnable() {
-            public void run() {
-                dialog.clickCancelButton();
+        pressDialogButton(DialogButton.CANCEL);
 
-                assertNull(listener.getDataOld());
-                assertNull(listener.getDataNew());
-                assertFalse(dialog.isShowing());
-            }
-        });
+        assertNull(listener.getDataOld());
+        assertNull(listener.getDataNew());
+        assertFalse(mDialog.isShowing());
     }
 
     @SmallTest
     public void testDoneButton() {
         final GvData datumOld = launchDialogAndTestShowing();
 
-        final DialogEditListener<T> listener = mListener;
-        final DialogCancelDeleteDoneFragment dialog = mDialog;
+        assertNull(mListener.getDataNew());
+        assertNull(mListener.getDataOld());
 
-        assertNull(listener.getDataNew());
-        assertNull(listener.getDataOld());
+        GvData datumNew = editDataAndTest();
 
-        final GvData datumNew = editDataAndTest();
+        assertNull(mListener.getDataNew());
+        assertNull(mListener.getDataOld());
 
-        assertNull(listener.getDataNew());
-        assertNull(listener.getDataOld());
+        pressDialogButton(DialogButton.DONE);
 
-        mActivity.runOnUiThread(new Runnable() {
-            public void run() {
-                dialog.clickDoneButton();
-
-                assertNotNull(listener.getDataOld());
-                assertNotNull(listener.getDataNew());
-                assertEquals(datumOld, listener.getDataOld());
-                assertEquals(datumNew, listener.getDataNew());
-                assertFalse(dialog.isShowing());
-            }
-        });
+        assertNotNull(mListener.getDataOld());
+        assertNotNull(mListener.getDataNew());
+        assertEquals(datumOld, mListener.getDataOld());
+        assertEquals(datumNew, mListener.getDataNew());
+        assertFalse(mDialog.isShowing());
     }
 
     @SmallTest
@@ -127,47 +117,49 @@ public abstract class DialogGvDataEditTest<T extends GvData> extends
     }
 
     protected void testDeleteButtonNoEdit(final boolean confirmDelete, final boolean doEdit) {
-        final GvData datumOld = launchDialogAndTestShowing();
+        GvData datumOld = launchDialogAndTestShowing();
 
-        final DialogEditListener<T> listener = mListener;
-        final DialogCancelDeleteDoneFragment dialog = mDialog;
-        final Solo solo = mSolo;
-        final String deleteConfirmTag = DialogDeleteConfirm.DELETE_CONFIRM_TAG;
+        String deleteConfirmTag = DialogDeleteConfirm.DELETE_CONFIRM_TAG;
 
         if (doEdit) editDataAndTest();
 
         assertFalse(deleteConfirmIsShowing());
-        mActivity.runOnUiThread(new Runnable() {
-            public void run() {
-                dialog.clickDeleteButton();
-            }
-        });
-        solo.waitForFragmentByTag(deleteConfirmTag);
+
+        pressDialogButton(DialogButton.DELETE);
+
+        mSolo.waitForFragmentByTag(deleteConfirmTag);
         assertTrue(deleteConfirmIsShowing());
 
-        assertNull(listener.getDataOld());
-        assertNull(listener.getDataNew());
+        assertNull(mListener.getDataOld());
+        assertNull(mListener.getDataNew());
 
+        mSignaler.reset();
         final DialogAlertFragment dialogConfirm = (DialogAlertFragment) mActivity
                 .getFragmentManager().findFragmentByTag(deleteConfirmTag);
         mActivity.runOnUiThread(new Runnable() {
             public void run() {
                 if (confirmDelete) {
                     dialogConfirm.clickPositiveButton();
-                    assertFalse(dialogConfirm.isShowing());
-                    assertFalse(dialog.isShowing());
-                    assertNotNull(listener.getDataOld());
-                    assertNull(listener.getDataNew());
-                    assertEquals(datumOld, listener.getDataOld());
                 } else {
                     dialogConfirm.clickNegativeButton();
-                    assertFalse(dialogConfirm.isShowing());
-                    assertTrue(dialog.isShowing());
-                    assertNull(listener.getDataOld());
-                    assertNull(listener.getDataNew());
                 }
+                mSignaler.signal();
             }
         });
+
+        mSignaler.waitForSignal();
+        if (confirmDelete) {
+            assertFalse(dialogConfirm.isShowing());
+            assertFalse(mDialog.isShowing());
+            assertNotNull(mListener.getDataOld());
+            assertNull(mListener.getDataNew());
+            assertEquals(datumOld, mListener.getDataOld());
+        } else {
+            assertFalse(dialogConfirm.isShowing());
+            assertTrue(mDialog.isShowing());
+            assertNull(mListener.getDataOld());
+            assertNull(mListener.getDataNew());
+        }
     }
 
     @Override
@@ -213,7 +205,7 @@ public abstract class DialogGvDataEditTest<T extends GvData> extends
         return datum;
     }
 
-    protected GvData getNewDatum() {
+    protected GvData getEditDatum() {
         return GvDataMocker.getDatum(mDialog.getGvDataType());
     }
 
@@ -227,14 +219,34 @@ public abstract class DialogGvDataEditTest<T extends GvData> extends
 
     private GvData editDataAndTest() {
         GvData currentDatum = getDataShown();
-        GvData newDatum = getNewDatum();
+        GvData editDatum = getEditDatum();
 
-        enterData(newDatum);
+        enterData(editDatum);
 
-        assertFalse(currentDatum.equals(newDatum));
-        assertEquals(newDatum, getDataShown());
+        assertFalse(currentDatum.equals(editDatum));
+        assertEquals(editDatum, getDataShown());
 
-        return newDatum;
+        return editDatum;
     }
+
+    private void pressDialogButton(final DialogButton button) {
+        mSignaler.reset();
+        mActivity.runOnUiThread(new Runnable() {
+            public void run() {
+                if (button == DialogButton.CANCEL) {
+                    mDialog.clickCancelButton();
+                } else if (button == DialogButton.DELETE) {
+                    mDialog.clickDeleteButton();
+                } else if (button == DialogButton.DONE) {
+                    mDialog.clickDoneButton();
+                }
+                mSignaler.signal();
+            }
+        });
+
+        mSignaler.waitForSignal();
+    }
+
+    private enum DialogButton {CANCEL, DELETE, DONE}
 }
 

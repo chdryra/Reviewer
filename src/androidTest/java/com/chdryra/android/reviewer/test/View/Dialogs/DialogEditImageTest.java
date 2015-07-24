@@ -46,8 +46,8 @@ public class DialogEditImageTest extends DialogGvDataEditTest<GvImageList.GvImag
     }
 
     @Override
-    protected GvData getNewDatum() {
-        GvImageList.GvImage child = (GvImageList.GvImage) super.getNewDatum();
+    protected GvData getEditDatum() {
+        GvImageList.GvImage child = (GvImageList.GvImage) super.getEditDatum();
 
         mCurrent = new GvImageList.GvImage(mCurrent.getBitmap(), mCurrent.getDate(),
                 mCurrent.getLatLng(), child.getCaption(), mCurrent.isCover());

@@ -45,8 +45,8 @@ public class DialogEditLocationTest extends DialogGvDataEditTest<GvLocationList.
     }
 
     @Override
-    protected GvData getNewDatum() {
-        GvLocationList.GvLocation child = (GvLocationList.GvLocation) super.getNewDatum();
+    protected GvData getEditDatum() {
+        GvLocationList.GvLocation child = (GvLocationList.GvLocation) super.getEditDatum();
 
         mCurrent = new GvLocationList.GvLocation(mCurrent.getLatLng(), child.getName());
 

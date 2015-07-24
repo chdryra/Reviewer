@@ -25,6 +25,18 @@ public class DialogEditCommentTest extends
     }
 
     @Override
+    protected GvData newDatum() {
+        GvCommentList.GvComment data = (GvCommentList.GvComment) super.newDatum();
+        data.setIsHeadline(false);
+        return data;
+    }
+
+    @Override
+    protected GvData getEditDatum() {
+        return newDatum();
+    }
+
+    @Override
     protected GvData getDataShown() {
         return new GvCommentList.GvComment(mSolo.getEditText(0).getText().toString());
     }

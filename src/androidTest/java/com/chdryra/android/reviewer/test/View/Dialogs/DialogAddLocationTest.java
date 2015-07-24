@@ -12,7 +12,6 @@ import android.location.Location;
 
 import com.chdryra.android.mygenerallibrary.DialogCancelAddDoneFragment;
 import com.chdryra.android.mygenerallibrary.LocationClientConnector;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewAdapter;
 import com.chdryra.android.reviewer.View.Configs.ConfigGvDataAddEditView;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
@@ -59,26 +58,19 @@ public class DialogAddLocationTest extends DialogGvDataAddTest<GvLocationList.Gv
     public void testQuickSet() {
         launchDialogAndTestShowing(true);
 
-        final ReviewViewAdapter controller = mAdapter;
-        assertEquals(0, getData(controller).size());
+        assertEquals(0, getData(mAdapter).size());
 
-        final GvData datum1 = testQuickSet(true, 0);
-        final GvData datum2 = testQuickSet(true, 1);
-        final GvData datum3 = testQuickSet(false, 2);
+        GvData datum1 = testQuickSet(true, 0);
+        GvData datum2 = testQuickSet(true, 1);
+        GvData datum3 = testQuickSet(false, 2);
 
-        final DialogCancelAddDoneFragment dialog = mDialog;
-        mActivity.runOnUiThread(new Runnable() {
-            public void run() {
-                dialog.clickDoneButton();
+        pressDialogButton(DialogButton.DONE);
+        GvDataList data = getData(mAdapter);
 
-                GvDataList data = getData(controller);
-
-                assertEquals(3, data.size());
-                assertEquals(datum1, data.getItem(0));
-                assertEquals(datum2, data.getItem(1));
-                assertEquals(datum3, data.getItem(2));
-            }
-        });
+        assertEquals(3, data.size());
+        assertEquals(datum1, data.getItem(0));
+        assertEquals(datum2, data.getItem(1));
+        assertEquals(datum3, data.getItem(2));
     }
 
     @Override
@@ -90,41 +82,6 @@ public class DialogAddLocationTest extends DialogGvDataAddTest<GvLocationList.Gv
 
     protected GvData enterDataAndTest() {
         return enterDataAndTest(0);
-    }
-
-    //Problems with wating for locater thread. Never returns.
-//    @SmallTest
-//    public void testEnterNameForCurrentLocation() {
-//        launchDialogAndTestShowing(true);
-//
-//        final ReviewViewAdapter controller = mAdapter;
-//        assertEquals(0, getData(controller).size());
-//
-//        final GvDataList.GvData datum = enterRandomNameForCurrent();
-//
-//        final DialogCancelAddDoneFragment dialog = mDialog;
-//        mActivity.runOnUiThread(new Runnable() {
-//            public void run() {
-//                dialog.clickDoneButton();
-//
-//                GvDataList data = getData(controller);
-//
-//                assertEquals(1, data.size());
-//                assertEquals(datum, data.getItem(0));
-//            }
-//        });
-//    }
-
-    @Override
-    public void onLocated(Location location) {
-        mCurrent = new LatLng(location.getLatitude(), location.getLongitude());
-        mSignaler.signal();
-        mSignaler.reset();
-    }
-
-    @Override
-    public void onLocationClientConnected(Location location) {
-        onLocated(location);
     }
 
     private GvData enterDataAndTest(int index) {
@@ -162,8 +119,56 @@ public class DialogAddLocationTest extends DialogGvDataAddTest<GvLocationList.Gv
         return data;
     }
 
-    private void getCurrentLocation() {
+    //Problems with wating for locater thread. Never returns.
+//    @SmallTest
+//    public void testEnterNameForCurrentLocation() {
+//        launchDialogAndTestShowing(true);
+//
+//        assertEquals(0, getData(mAdapter).size());
+//
+//        GvData datum = enterRandomNameForCurrent();
+//
+//        pressDialogButton(DialogButton.DONE);
+//
+//        GvDataList data = getData(mAdapter);
+//
+//        assertEquals(1, data.size());
+//        assertEquals(datum, data.getItem(0));
+//    }
+//
+    @Override
+    public void onLocated(Location location) {
+        mCurrent = new LatLng(location.getLatitude(), location.getLongitude());
+        mSignaler.signal();
         mSignaler.reset();
-        mLocater.locate();
     }
+
+    @Override
+    public void onLocationClientConnected(Location location) {
+        onLocated(location);
+    }
+//
+//    private GvData enterRandomNameForCurrent() {
+//        assertTrue(isDataNulled());
+//        getCurrentLocation();
+//        mSignaler.waitForSignal();
+//        GvLocationList.GvLocation data =
+//                new GvLocationList.GvLocation(mCurrent, RandomString.nextWord());
+//        enterData(data);
+//        assertTrue(isDataEntered());
+//        mSolo.waitForText(data.getName());
+//        mSolo.clickInList(1);
+//        mSolo.sleep(3000);
+//
+//        return data;
+//    }
+//
+//    private void getCurrentLocation() {
+//        mSignaler.reset();
+//        mActivity.runOnUiThread(new Runnable() {
+//            public void run() {
+//                mLocater.locate();
+//            }
+//        });
+//    }
 }
