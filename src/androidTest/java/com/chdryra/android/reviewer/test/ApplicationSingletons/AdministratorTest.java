@@ -45,7 +45,9 @@ public class AdministratorTest extends ActivityInstrumentationTestCase2<Activity
 
     @SmallTest
     public void testGetImageChooser() {
-        assertNull(Administrator.getImageChooser(getActivity()));
+        if (mAdmin.getReviewBuilder() == null) {
+            assertNull(Administrator.getImageChooser(getActivity()));
+        }
         mAdmin.newReviewBuilder();
         assertNotNull(Administrator.getImageChooser(getActivity()));
     }

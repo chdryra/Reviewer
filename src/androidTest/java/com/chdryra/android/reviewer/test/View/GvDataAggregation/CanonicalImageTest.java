@@ -91,7 +91,6 @@ public class CanonicalImageTest extends CanonicalGvDataTest<GvImageList.GvImage>
 
         GvImageList.GvImage canon = mCanonical.getCanonical(mData);
         assertTrue(canon.isValidForDisplay());
-        assertEquals(mId, canon.getReviewId());
         assertTrue(bitmap.sameAs(canon.getBitmap()));
         assertEquals(imageDate4, canon.getDate());
         assertNull(canon.getCaption());
@@ -122,7 +121,6 @@ public class CanonicalImageTest extends CanonicalGvDataTest<GvImageList.GvImage>
 
         GvImageList.GvImage canon = mCanonical.getCanonical(mData);
         assertTrue(canon.isValidForDisplay());
-        assertEquals(mId, canon.getReviewId());
         assertTrue(bitmap.sameAs(canon.getBitmap()));
         assertEquals(imageDate1, canon.getDate());
         assertEquals("3 captions", canon.getCaption());

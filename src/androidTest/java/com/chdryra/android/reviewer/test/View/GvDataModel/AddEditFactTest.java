@@ -67,7 +67,7 @@ public class AddEditFactTest extends AddEditLayoutTest<GvFactList.GvFact> {
     }
 
     @Override
-    protected GvFactList.GvFact newData() {
+    protected GvFactList.GvFact newDatum() {
         if (mUrlData) {
             try {
                 return new GvUrlList.GvUrl(BBC, new URL(BBC_URL));
@@ -77,12 +77,12 @@ public class AddEditFactTest extends AddEditLayoutTest<GvFactList.GvFact> {
             }
         }
 
-        return super.newData();
+        return super.newDatum();
     }
 
     private void testCreateGvDatumFromViews(boolean isUrl) {
         mUrlData = isUrl;
-        GvFactList.GvFact datum = newData();
+        GvFactList.GvFact datum = newDatum();
         enterData(datum);
         GvFactList.GvFact fromLayout = mLayout.createGvData();
         assertEquals(isUrl, fromLayout.isUrl());

@@ -125,7 +125,9 @@ public class GvDataMapTest extends TestCase {
     }
 
     private void addData() {
-
+        GvAuthorList.GvAuthor author = GvDataMocker.newAuthor(null);
+        GvReviewOverviewList reviews = GvDataMocker.newReviewList(NUM, false);
+        mMap.put(author, reviews);
     }
 
     private GvReviewOverviewList newData(GvReviewId id) {

@@ -40,4 +40,11 @@ public class AddEditCommentTest extends AddEditLayoutTest<GvCommentList.GvCommen
         mEditText = (EditText) getView(AddEditComment.COMMENT);
         assertNotNull(mEditText);
     }
+
+    @Override
+    protected GvCommentList.GvComment newDatum() {
+        GvCommentList.GvComment data = super.newDatum();
+        data.setIsHeadline(false);
+        return data;
+    }
 }

@@ -27,8 +27,8 @@ import junit.framework.TestCase;
 public class ComparitorGvAuthorTest extends TestCase {
     @SmallTest
     public void testCompare() {
-        DifferenceBoolean same = new DifferenceBoolean(true);
-        DifferenceBoolean notSame = new DifferenceBoolean(false);
+        DifferenceBoolean same = new DifferenceBoolean(false);
+        DifferenceBoolean notSame = new DifferenceBoolean(true);
         ComparitorGvAuthor comparitor = new ComparitorGvAuthor();
 
         Author lhsAuthor = RandomAuthor.nextAuthor();

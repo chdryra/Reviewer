@@ -29,8 +29,8 @@ public class ComparitorGvImageBitmapTest extends TestCase {
         GvImageList.GvImage rhsImage = GvDataMocker.newImage(null);
 
         ComparitorGvImageBitmap comparitor = new ComparitorGvImageBitmap();
-        DifferenceBoolean same = new DifferenceBoolean(true);
-        DifferenceBoolean notSame = new DifferenceBoolean(false);
+        DifferenceBoolean same = new DifferenceBoolean(false);
+        DifferenceBoolean notSame = new DifferenceBoolean(true);
 
         GvImageList.GvImage lhs = new GvImageList.GvImage(lhsImage);
         GvImageList.GvImage rhs = new GvImageList.GvImage(lhsImage);

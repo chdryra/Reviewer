@@ -24,6 +24,10 @@ public class CanonicalAuthorTest extends CanonicalGvDataTest<GvAuthorList.GvAuth
     private static final GvAuthorList.GvAuthor AUTHOR3 = GvDataMocker.newAuthor(null);
     private static final GvAuthorList.GvAuthor AUTHOR4 = GvDataMocker.newAuthor(null);
 
+    public void testGetCanon() {
+        super.testGetCanonical();
+    }
+
     @Override
     protected GvAuthorList.GvAuthor getTestDatum() {
         return AUTHOR1;

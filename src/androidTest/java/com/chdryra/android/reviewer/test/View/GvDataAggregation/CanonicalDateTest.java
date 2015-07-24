@@ -44,9 +44,9 @@ public class CanonicalDateTest extends CanonicalGvDataTest<GvDateList.GvDate> {
     private void checkDifferentDates() {
         mData = newDataList();
         GvDateList.GvDate date1 = new GvDateList.GvDate(DATE1);
-        GvDateList.GvDate date2 = new GvDateList.GvDate(DATE1);
-        GvDateList.GvDate date3 = new GvDateList.GvDate(DATE1);
-        GvDateList.GvDate date4 = new GvDateList.GvDate(DATE1);
+        GvDateList.GvDate date2 = new GvDateList.GvDate(DATE2);
+        GvDateList.GvDate date3 = new GvDateList.GvDate(DATE3);
+        GvDateList.GvDate date4 = new GvDateList.GvDate(DATE4);
         mData.add(date1);
         mData.add(date2);
         mData.add(date3);
