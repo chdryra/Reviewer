@@ -19,13 +19,13 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.FactoryReviewViewAdapter;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilder;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewAdapter;
 import com.chdryra.android.reviewer.ApplicationSingletons.Administrator;
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.View.ActivitiesFragments.ActivityFeed;
 import com.chdryra.android.reviewer.View.ActivitiesFragments.FragmentReviewView;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
-import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvSocialPlatformList;
 
 /**
@@ -36,8 +36,8 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvSocialPlatformList;
 public class ShareScreen {
     public static ReviewView newScreen(Context context) {
         Administrator admin = Administrator.get(context);
-        ReviewViewAdapter builder = admin.getReviewBuilder();
-        GvDataList platforms = admin.getSocialPlatformList();
+        ReviewBuilder builder = admin.getReviewBuilder();
+        GvSocialPlatformList platforms = admin.getSocialPlatformList();
 
         ReviewViewAdapter adapter = FactoryReviewViewAdapter.newGvDataCollectionAdapter(context,
                 builder, platforms);

@@ -16,9 +16,9 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvList;
 public class ViewerGvDataMap<K extends GvData> implements GridDataViewer<K> {
     private GvDataMap<K, ? extends GvData> mData;
     private Context mContext;
-    private ReviewViewAdapter<K> mParent;
+    private ReviewViewAdapter<? extends GvData> mParent;
 
-    public ViewerGvDataMap(Context context, ReviewViewAdapter<K> parent,
+    public ViewerGvDataMap(Context context, ReviewViewAdapter<? extends GvData> parent,
                            GvDataMap<K, ? extends GvData> data) {
         mData = data;
         mParent = parent;
@@ -52,9 +52,9 @@ public class ViewerGvDataMap<K extends GvData> implements GridDataViewer<K> {
     public ReviewViewAdapter<? extends GvData> expandItem(K datum) {
         if(isExpandable(datum)) {
             GvData value = mData.get(datum);
-            GvDataCollection expanded;
+            GvDataCollection<? extends GvData> expanded;
             if(value.isCollection()) {
-                expanded = (GvDataCollection) value;
+                expanded = (GvDataCollection<? extends GvData>) value;
             } else {
                 GvList list = new GvList(value.getReviewId());
                 list.add(value);

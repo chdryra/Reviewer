@@ -19,9 +19,9 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
  */
 public class ViewerGvDataCollection<T extends GvData> implements GridDataViewer<T> {
     private GvDataCollection<T> mData;
-    private ExpanderGridCell<T> mExpander;
+    private ExpanderGridCell mExpander;
 
-    public ViewerGvDataCollection(ExpanderGridCell<T> expander, GvDataCollection<T> data) {
+    public ViewerGvDataCollection(ExpanderGridCell expander, GvDataCollection<T> data) {
         mData = data;
         mExpander = expander;
     }

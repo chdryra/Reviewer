@@ -13,6 +13,7 @@ import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.AdapterReviewNode;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.AdapterReviewViewAdapter;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ExpanderGridCell;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ViewerGvDataCollection;
 import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
@@ -27,8 +28,8 @@ import com.chdryra.android.reviewer.test.TestUtils.ReviewMocker;
  * Email: rizwan.choudrey@gmail.com
  */
 public class AdapterReviewViewAdapterTest extends AndroidTestCase {
-    private AdapterReviewViewAdapter      mAdapter;
-    private AdapterReviewNode mNodeAdapter;
+    private AdapterReviewViewAdapter<GvData> mAdapter;
+    private AdapterReviewNode<GvData> mNodeAdapter;
     private GvDataList<GvData>            mGridData;
 
     @SmallTest
@@ -48,8 +49,7 @@ public class AdapterReviewViewAdapterTest extends AndroidTestCase {
 
     @SmallTest
     public void testGridData() {
-        GvDataList<GvData> data = (GvDataList<GvData>) mAdapter.getGridData();
-        assertEquals(mGridData, data);
+        assertEquals(mGridData, mAdapter.getGridData());
     }
 
     @SmallTest
@@ -84,8 +84,9 @@ public class AdapterReviewViewAdapterTest extends AndroidTestCase {
         mGridData.add(GvDataMocker.newLocationList(0, false));
         mGridData.add(GvDataMocker.newImage(null));
 
-        ViewerGvDataCollection wrapper = new ViewerGvDataCollection(getContext(), mNodeAdapter, mGridData);
-        mNodeAdapter = new AdapterReviewNode(node, wrapper);
-        mAdapter = new AdapterReviewViewAdapter(getContext(), mNodeAdapter, wrapper);
+        ExpanderGridCell expander = new ExpanderGridCell(getContext(), mNodeAdapter);
+        ViewerGvDataCollection<GvData> wrapper = new ViewerGvDataCollection<>(expander, mGridData);
+        mNodeAdapter = new AdapterReviewNode<>(node, wrapper);
+        mAdapter = new AdapterReviewViewAdapter<>(getContext(), mNodeAdapter, wrapper);
     }
 }

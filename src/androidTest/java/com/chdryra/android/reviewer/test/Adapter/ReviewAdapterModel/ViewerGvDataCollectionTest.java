@@ -11,12 +11,14 @@ package com.chdryra.android.reviewer.test.Adapter.ReviewAdapterModel;
 import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ExpanderGridCell;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.FactoryReviewViewAdapter;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewAdapter;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ViewerGvDataCollection;
 import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
+import com.chdryra.android.reviewer.View.GvDataModel.GvReviewOverviewList;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
 import com.chdryra.android.reviewer.test.TestUtils.ReviewMocker;
 
@@ -28,12 +30,14 @@ import com.chdryra.android.reviewer.test.TestUtils.ReviewMocker;
 public class ViewerGvDataCollectionTest extends AndroidTestCase {
     @SmallTest
     public void testGetGridData() {
-        GvDataList data = GvDataMocker.getData(GvCommentList.TYPE, 10);
+        GvDataList<GvCommentList.GvComment> data = (GvCommentList) GvDataMocker.getData
+                (GvCommentList.TYPE, 10);
 
         ReviewNode node = ReviewMocker.newReviewNode(false);
-        ReviewViewAdapter parent = FactoryReviewViewAdapter.newChildOverviewAdapter(getContext(),
-                node);
-        ViewerGvDataCollection wrapper = new ViewerGvDataCollection(getContext(), parent, data);
+        ReviewViewAdapter<GvReviewOverviewList.GvReviewOverview> parent =
+                FactoryReviewViewAdapter.newChildOverviewAdapter(getContext(), node);
+        ExpanderGridCell expander = new ExpanderGridCell(getContext(), parent);
+        ViewerGvDataCollection<GvCommentList.GvComment> wrapper = new ViewerGvDataCollection<>(expander, data);
 
         assertEquals(data, wrapper.getGridData());
     }
