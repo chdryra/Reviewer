@@ -18,19 +18,19 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
  * On: 22/04/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class AdapterReviewViewAdapter extends ReviewViewAdapterBasic {
+public class AdapterReviewViewAdapter<T extends GvData> extends ReviewViewAdapterBasic<T> {
     private ReviewViewAdapter mParentAdapter;
-    private GridCellExpander mExpander;
+    private GridCellExpander<T> mExpander;
 
-    public AdapterReviewViewAdapter(Context context, ReviewViewAdapter parent, GridDataViewer
+    public AdapterReviewViewAdapter(Context context, ReviewViewAdapter parent, GridDataViewer<T>
             wrapper) {
         mParentAdapter = parent;
         setWrapper(wrapper);
-        mExpander = new ExpanderGridCell(context, this);
+        mExpander = new ExpanderGridCell<>(context, this);
     }
 
-    public AdapterReviewViewAdapter(ReviewViewAdapter parent, GridDataViewer
-            wrapper, GridCellExpander expander) {
+    public AdapterReviewViewAdapter(ReviewViewAdapter<T> parent, GridDataViewer<T>
+            wrapper, GridCellExpander<T> expander) {
         mParentAdapter = parent;
         setWrapper(wrapper);
         mExpander = expander;
@@ -57,12 +57,12 @@ public class AdapterReviewViewAdapter extends ReviewViewAdapterBasic {
     }
 
     @Override
-    public boolean isExpandable(GvData datum) {
+    public boolean isExpandable(T datum) {
         return mExpander.isExpandable(datum);
     }
 
     @Override
-    public ReviewViewAdapter expandItem(GvData datum) {
+    public ReviewViewAdapter<? extends GvData> expandItem(T datum) {
         return isExpandable(datum) ? mExpander.expandItem(datum) : null;
     }
 }

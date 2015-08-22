@@ -14,7 +14,7 @@ package com.chdryra.android.reviewer.Adapter.DataAdapterModel;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface DataComment {
-    public String getComment();
+    String getComment();
 
-    public boolean isHeadline();
+    boolean isHeadline();
 }

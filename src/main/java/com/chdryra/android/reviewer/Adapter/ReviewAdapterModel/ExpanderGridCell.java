@@ -18,23 +18,24 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvDataCollection;
  * On: 12/05/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ExpanderGridCell implements GridCellExpander<GvData> {
+public class ExpanderGridCell<T extends GvData> implements GridCellExpander<T> {
     private Context           mContext;
-    private ReviewViewAdapter mParent;
+    private ReviewViewAdapter<T> mParent;
 
-    public ExpanderGridCell(Context context, ReviewViewAdapter parent) {
+    public ExpanderGridCell(Context context, ReviewViewAdapter<T> parent) {
         mContext = context;
         mParent = parent;
     }
 
     @Override
-    public boolean isExpandable(GvData datum) {
+    public boolean isExpandable(T datum) {
         return mParent.getGridData().contains(datum) && datum.hasElements();
     }
 
     @Override
-    public ReviewViewAdapter expandItem(GvData datum) {
+    public ReviewViewAdapter<? extends GvData> expandItem(T datum) {
         if (isExpandable(datum)) {
+            //TODO it works but is wrong. Can't guarantee mParent is typed like GvDataCollection...
             return FactoryReviewViewAdapter.newGvDataCollectionAdapter(mContext, mParent,
                     (GvDataCollection) datum);
         }

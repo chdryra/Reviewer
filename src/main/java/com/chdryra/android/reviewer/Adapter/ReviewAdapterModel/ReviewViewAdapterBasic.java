@@ -23,12 +23,12 @@ import java.util.ArrayList;
 /**
  * Primary implementation of {@link ReviewViewAdapter}.
  */
-public abstract class ReviewViewAdapterBasic implements ReviewViewAdapter {
+public abstract class ReviewViewAdapterBasic<T extends GvData> implements ReviewViewAdapter<T> {
     final ArrayList<GridDataObservable.GridDataObserver> mObservers = new ArrayList<>();
-    private GridDataViewer mWrapper;
+    private GridDataViewer<T> mWrapper;
 
     @Override
-    public GvDataList getGridData() {
+    public GvDataList<T> getGridData() {
         return mWrapper != null ? mWrapper.getGridData() : null;
     }
 
@@ -43,16 +43,16 @@ public abstract class ReviewViewAdapterBasic implements ReviewViewAdapter {
     }
 
     @Override
-    public boolean isExpandable(GvData datum) {
+    public boolean isExpandable(T datum) {
         return mWrapper != null && mWrapper.isExpandable(datum);
     }
 
     @Override
-    public ReviewViewAdapter expandItem(GvData datum) {
+    public ReviewViewAdapter<? extends GvData> expandItem(T datum) {
         return isExpandable(datum) ? mWrapper.expandItem(datum) : null;
     }
 
-    public void setWrapper(GridDataViewer wrapper) {
+    public void setWrapper(GridDataViewer<T> wrapper) {
         mWrapper = wrapper;
         notifyGridDataObservers();
     }

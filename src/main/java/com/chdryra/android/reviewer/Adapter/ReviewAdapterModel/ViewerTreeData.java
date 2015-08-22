@@ -85,14 +85,15 @@ public class ViewerTreeData implements GridDataViewer<GvData> {
     }
 
     @Override
-    public ReviewViewAdapter expandItem(GvData datum) {
+    public ReviewViewAdapter<? extends GvData> expandItem(GvData datum) {
         if (isExpandable(datum)) {
-            ReviewViewAdapter parent = FactoryReviewViewAdapter.newChildOverviewAdapter(mContext,
-                    mNode);
-            if (datum.getGvDataType() == GvReviewOverviewList.GvReviewOverview.TYPE) {
+            ReviewViewAdapter<? extends GvData> parent =
+                    FactoryReviewViewAdapter.newChildOverviewAdapter(mContext, mNode);
+            if (datum.getGvDataType() == GvReviewOverviewList.TYPE) {
                 return parent;
             }
 
+            //TODO it works but is wrong. Can't guarantee mParent is typed like GvDataMap...
             return FactoryReviewViewAdapter.newGvDataCollectionAdapter(mContext, parent,
                     (GvDataMap) datum);
         }

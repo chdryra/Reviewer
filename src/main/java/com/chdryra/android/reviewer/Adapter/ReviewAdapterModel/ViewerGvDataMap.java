@@ -13,24 +13,25 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvList;
  * On: 14/07/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ViewerGvDataMap implements GridDataViewer {
-    private GvDataMap mData;
+public class ViewerGvDataMap<K extends GvData> implements GridDataViewer<K> {
+    private GvDataMap<K, ? extends GvData> mData;
     private Context mContext;
-    private ReviewViewAdapter mParent;
+    private ReviewViewAdapter<K> mParent;
 
-    public ViewerGvDataMap(Context context, ReviewViewAdapter parent, GvDataMap data) {
+    public ViewerGvDataMap(Context context, ReviewViewAdapter<K> parent,
+                           GvDataMap<K, ? extends GvData> data) {
         mData = data;
         mParent = parent;
         mContext = context;
     }
 
     @Override
-    public GvDataList getGridData() {
+    public GvDataList<K> getGridData() {
         return mData.getKeyList();
     }
 
     @Override
-    public boolean isExpandable(GvData datum) {
+    public boolean isExpandable(K datum) {
         try {
             GvData value = mData.get(datum);
             if(value != null) {
@@ -48,7 +49,7 @@ public class ViewerGvDataMap implements GridDataViewer {
     }
 
     @Override
-    public ReviewViewAdapter expandItem(GvData datum) {
+    public ReviewViewAdapter<? extends GvData> expandItem(K datum) {
         if(isExpandable(datum)) {
             GvData value = mData.get(datum);
             GvDataCollection expanded;

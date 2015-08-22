@@ -18,11 +18,11 @@ import java.util.Date;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface DataImage {
-    public Bitmap getBitmap();
+    Bitmap getBitmap();
 
-    public Date getDate();
+    Date getDate();
 
-    public String getCaption();
+    String getCaption();
 
-    public boolean isCover();
+    boolean isCover();
 }

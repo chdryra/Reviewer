@@ -11,6 +11,7 @@ package com.chdryra.android.reviewer.Adapter.ReviewAdapterModel;
 import android.content.Context;
 
 import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
+import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataCollection;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataMap;
 
@@ -24,26 +25,29 @@ public class FactoryReviewViewAdapter {
 
     }
 
-    public static ReviewViewAdapter newChildOverviewAdapter(Context context, ReviewNode node) {
+    public static ReviewViewAdapter<? extends GvData> newChildOverviewAdapter(Context context,
+                                                                              ReviewNode node) {
         ExpanderChildNode expander = new ExpanderChildNode(context, node);
         ViewerChildList wrapper = new ViewerChildList(node, expander);
-        return new AdapterReviewNode(node, wrapper);
+        return new AdapterReviewNode<>(node, wrapper);
     }
 
-    public static ReviewViewAdapter newTreeDataAdapter(Context context, ReviewNode node) {
-        GridDataViewer wrapper = new ViewerTreeData(context, node);
-        return new AdapterReviewNode(node, wrapper);
+    public static ReviewViewAdapter<? extends GvData> newTreeDataAdapter(Context context,
+                                                                         ReviewNode node) {
+        ViewerTreeData wrapper = new ViewerTreeData(context, node);
+        return new AdapterReviewNode<>(node, wrapper);
     }
 
-    public static ReviewViewAdapter newGvDataCollectionAdapter(Context context, ReviewViewAdapter
-            parent, GvDataCollection data) {
-        GridDataViewer wrapper = new ViewerGvDataCollection(context, parent, data);
-        return new AdapterReviewViewAdapter(context, parent, wrapper);
+    public static <T extends GvData> ReviewViewAdapter<? extends GvData> newGvDataCollectionAdapter(
+            Context context, ReviewViewAdapter<T> parent, GvDataCollection<T> data) {
+        ExpanderGridCell<T> expander = new ExpanderGridCell<>(context, parent);
+        ViewerGvDataCollection<T> wrapper = new ViewerGvDataCollection<>(expander, data);
+        return new AdapterReviewViewAdapter<>(context, parent, wrapper);
     }
 
-    public static ReviewViewAdapter newGvDataCollectionAdapter(Context context, ReviewViewAdapter
-            parent, GvDataMap data) {
-        GridDataViewer wrapper = new ViewerGvDataMap(context, parent, data);
-        return new AdapterReviewViewAdapter(parent, wrapper, wrapper);
+    public static <T extends GvData> ReviewViewAdapter<? extends GvData> newGvDataCollectionAdapter(
+            Context context, ReviewViewAdapter<T> parent, GvDataMap<T, ? extends GvData> data) {
+        ViewerGvDataMap<T> wrapper = new ViewerGvDataMap<>(context, parent, data);
+        return new AdapterReviewViewAdapter<>(parent, wrapper, wrapper);
     }
 }
