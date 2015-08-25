@@ -84,9 +84,9 @@ public class AdapterReviewViewAdapterTest extends AndroidTestCase {
         mGridData.add(GvDataMocker.newLocationList(0, false));
         mGridData.add(GvDataMocker.newImage(null));
 
-        ExpanderGridCell expander = new ExpanderGridCell(getContext(), mNodeAdapter);
+        ExpanderGridCell expander = new ExpanderGridCell(mNodeAdapter);
         ViewerGvDataCollection<GvData> wrapper = new ViewerGvDataCollection<>(expander, mGridData);
         mNodeAdapter = new AdapterReviewNode<>(node, wrapper);
-        mAdapter = new AdapterReviewViewAdapter<>(getContext(), mNodeAdapter, wrapper);
+        mAdapter = new AdapterReviewViewAdapter<>(mNodeAdapter, wrapper);
     }
 }

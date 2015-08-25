@@ -8,8 +8,6 @@
 
 package com.chdryra.android.reviewer.Adapter.ReviewAdapterModel;
 
-import android.content.Context;
-
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.MdGvConverter;
 import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
 import com.chdryra.android.reviewer.Model.Tagging.TagsManager;
@@ -35,12 +33,10 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvReviewOverviewList;
  * Includes number of reviews and subjects if a meta-review.
  */
 public class ViewerTreeData implements GridDataViewer<GvData> {
-    private Context mContext;
     private ReviewNode mNode;
     private TreeDataGetter mGetter;
 
-    public ViewerTreeData(Context context, ReviewNode node) {
-        mContext = context;
+    public ViewerTreeData(ReviewNode node) {
         mNode = node;
         mGetter = new TreeDataGetter(mNode);
     }
@@ -51,7 +47,7 @@ public class ViewerTreeData implements GridDataViewer<GvData> {
         GvList data = new GvList(id);
         TagCollector tagCollector = new TagCollector(mNode);
 
-        ViewerChildList wrapper = new ViewerChildList(mNode, null);
+        ViewerChildList wrapper = new ViewerChildList(mNode);
         GvReviewOverviewList reviews = wrapper.getGridData();
         if (reviews.size() > 0) {
             data.add(reviews);
@@ -88,13 +84,13 @@ public class ViewerTreeData implements GridDataViewer<GvData> {
     public ReviewViewAdapter<? extends GvData> expandItem(GvData datum) {
         if (isExpandable(datum)) {
             ReviewViewAdapter<? extends GvData> parent =
-                    FactoryReviewViewAdapter.newChildOverviewAdapter(mContext, mNode);
+                    FactoryReviewViewAdapter.newChildListAdapter(mNode);
             if (datum.getGvDataType() == GvReviewOverviewList.TYPE) {
                 return parent;
             }
 
-            //TODO it works but is wrong. Can't guarantee mParent is typed like GvDataMap...
-            return FactoryReviewViewAdapter.newGvDataCollectionAdapter(mContext, parent,
+            //TODO make typesafe
+            return FactoryReviewViewAdapter.newGvDataCollectionAdapter(parent,
                     (GvDataMap) datum);
         }
 

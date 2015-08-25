@@ -42,7 +42,7 @@ public class ViewerTreeDataTest extends AndroidTestCase {
         GvTagList tags = GvDataMocker.newTagList(3, false);
         TagsManager.tag(node.getId(), tags.toStringArray());
 
-        ViewerTreeData wrapper = new ViewerTreeData(getContext(), node);
+        ViewerTreeData wrapper = new ViewerTreeData(node);
         GvList collection = wrapper.getGridData();
         assertNotNull(collection);
         assertEquals(10, collection.size());
@@ -83,7 +83,7 @@ public class ViewerTreeDataTest extends AndroidTestCase {
         GvTagList tags = GvDataMocker.newTagList(3, false);
         TagsManager.tag(node.getId(), tags.toStringArray());
 
-        ViewerTreeData wrapper = new ViewerTreeData(getContext(), node);
+        ViewerTreeData wrapper = new ViewerTreeData(node);
         GvList collection = wrapper.getGridData();
         assertNotNull(collection);
         assertEquals(6, collection.size());

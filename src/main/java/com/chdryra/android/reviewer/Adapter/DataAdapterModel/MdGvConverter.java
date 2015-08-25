@@ -8,6 +8,8 @@
 
 package com.chdryra.android.reviewer.Adapter.DataAdapterModel;
 
+import android.graphics.Bitmap;
+
 import com.chdryra.android.reviewer.Model.ReviewData.MdCommentList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdFactList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdImageList;
@@ -16,6 +18,8 @@ import com.chdryra.android.reviewer.Model.ReviewData.MdSubject;
 import com.chdryra.android.reviewer.Model.ReviewData.MdUrlList;
 import com.chdryra.android.reviewer.Model.ReviewData.PublishDate;
 import com.chdryra.android.reviewer.Model.ReviewData.ReviewId;
+import com.chdryra.android.reviewer.Model.ReviewData.ReviewIdableList;
+import com.chdryra.android.reviewer.Model.ReviewStructure.Review;
 import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
 import com.chdryra.android.reviewer.Model.Tagging.TagsManager;
 import com.chdryra.android.reviewer.Model.TreeMethods.ChildDataGetter;
@@ -30,9 +34,12 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvFactList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvLocationList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvReviewId;
+import com.chdryra.android.reviewer.View.GvDataModel.GvReviewOverviewList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvSubjectList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvTagList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvUrlList;
+
+import java.util.ArrayList;
 
 /**
  * Created by: Rizwan Choudrey
@@ -53,7 +60,7 @@ public class MdGvConverter {
     }
 
     public static MdCommentList toMdCommentList(Iterable<? extends DataComment> comments,
-            ReviewId holder) {
+                                                ReviewId holder) {
         MdCommentList list = new MdCommentList(holder);
         for (DataComment comment : comments) {
             list.add(new MdCommentList.MdComment(comment.getComment(), comment.isHeadline(),
@@ -154,7 +161,7 @@ public class MdGvConverter {
     }
 
     public static MdLocationList toMdLocationList(Iterable<? extends DataLocation> locations,
-            ReviewId holder) {
+                                                  ReviewId holder) {
         MdLocationList list = new MdLocationList(holder);
         for (DataLocation location : locations) {
             list.add(new MdLocationList.MdLocation(location.getLatLng(), location.getName(),
@@ -182,6 +189,38 @@ public class MdGvConverter {
         }
 
         return list;
+    }
+
+    public static <T extends Review> GvReviewOverviewList convert(ReviewIdableList<T> reviews,
+                                                                  ReviewId holder) {
+        GvReviewOverviewList data = new GvReviewOverviewList(GvReviewId.getId(holder.toString()));
+        for (Review review : reviews) {
+            data.add(convert(review, holder));
+        }
+
+        return data;
+    }
+
+    public static <T extends Review> GvReviewOverviewList.GvReviewOverview convert(T review,
+                                                                                   ReviewId
+                                                                                           holder) {
+        GvReviewId id = GvReviewId.getId(holder.toString());
+        GvImageList images = MdGvConverter.convert(review.getImages());
+        GvCommentList headlines = MdGvConverter.convert(review.getComments()).getHeadlines();
+        GvLocationList locations = MdGvConverter.convert(review.getLocations());
+
+        Bitmap cover = images.size() > 0 ? images.getRandomCover().getBitmap() : null;
+        String headline = headlines.size() > 0 ? headlines.getItem(0).getHeadline() :
+                null;
+
+        ArrayList<String> locationNames = new ArrayList<>();
+        for (GvLocationList.GvLocation location : locations) {
+            locationNames.add(location.getShortenedName());
+        }
+
+        return new GvReviewOverviewList.GvReviewOverview(id, review.getId().toString(),
+                review.getAuthor(), review.getPublishDate().getDate(), review.getSubject().get(),
+                review.getRating().get(), cover, headline, locationNames);
     }
 
     public static GvDataList copy(GvDataList data) {

@@ -12,8 +12,6 @@ import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.AdapterReviewNode;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ExpanderChildren;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.GridCellExpander;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ViewerChildList;
 import com.chdryra.android.reviewer.Model.ReviewData.PublishDate;
 import com.chdryra.android.reviewer.Model.ReviewData.ReviewIdableList;
@@ -23,8 +21,6 @@ import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewTreeNode;
 import com.chdryra.android.reviewer.Model.UserData.Author;
 import com.chdryra.android.reviewer.Model.UserData.UserId;
-import com.chdryra.android.reviewer.View.GvDataModel.GvData;
-import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvReviewOverviewList;
 import com.chdryra.android.reviewer.test.TestUtils.ReviewMocker;
 import com.chdryra.android.testutils.RandomString;
@@ -38,7 +34,7 @@ public class AdapterReviewNodeTest extends AndroidTestCase {
     private static final int NUM = 10;
     private Author                  mAuthor;
     private ReviewNode               mNode;
-    private AdapterReviewNode        mAdapter;
+    private AdapterReviewNode<GvReviewOverviewList.GvReviewOverview> mAdapter;
     private ReviewIdableList<ReviewNode> mReviews;
 
     @SmallTest
@@ -77,9 +73,9 @@ public class AdapterReviewNodeTest extends AndroidTestCase {
 
     @SmallTest
     public void testExpandable() {
-        GvDataList data = mAdapter.getGridData();
+        GvReviewOverviewList data = (GvReviewOverviewList) mAdapter.getGridData();
         for (int i = 0; i < data.size(); ++i) {
-            GvData datum = (GvData) data.getItem(i);
+            GvReviewOverviewList.GvReviewOverview datum = data.getItem(i);
             assertTrue(mAdapter.isExpandable(datum));
             assertNotNull(mAdapter.expandItem(datum));
         }
@@ -106,9 +102,8 @@ public class AdapterReviewNodeTest extends AndroidTestCase {
         }
 
         mNode = collection;
-        GridCellExpander expander = new ExpanderChildren(mContext, mNode);
-        ViewerChildList wrapper = new ViewerChildList(mNode, expander);
-        mAdapter = new AdapterReviewNode(mNode, wrapper);
+        ViewerChildList wrapper = new ViewerChildList(mNode);
+        mAdapter = new AdapterReviewNode<>(mNode, wrapper);
     }
 
     private float getRating() {

@@ -8,8 +8,6 @@
 
 package com.chdryra.android.reviewer.Adapter.ReviewAdapterModel;
 
-import android.content.Context;
-
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataCollection;
 
@@ -19,11 +17,9 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvDataCollection;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ExpanderGridCell implements GridCellExpander {
-    private Context           mContext;
     private ReviewViewAdapter<? extends GvData> mParent;
 
-    public ExpanderGridCell(Context context, ReviewViewAdapter<? extends GvData> parent) {
-        mContext = context;
+    public ExpanderGridCell(ReviewViewAdapter<? extends GvData> parent) {
         mParent = parent;
     }
 
@@ -35,8 +31,7 @@ public class ExpanderGridCell implements GridCellExpander {
     @Override
     public ReviewViewAdapter<? extends GvData> expandItem(GvData datum) {
         if (isExpandable(datum)) {
-            //TODO it works but is wrong. Can't guarantee mParent is typed like GvDataCollection...
-            return FactoryReviewViewAdapter.newGvDataCollectionAdapter(mContext, mParent,
+            return FactoryReviewViewAdapter.newGvDataCollectionAdapter(mParent,
                     (GvDataCollection<? extends GvData>) datum);
         }
 

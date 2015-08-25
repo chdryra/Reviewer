@@ -39,8 +39,8 @@ public class ShareScreen {
         ReviewBuilder builder = admin.getReviewBuilder();
         GvSocialPlatformList platforms = admin.getSocialPlatformList();
 
-        ReviewViewAdapter adapter = FactoryReviewViewAdapter.newGvDataCollectionAdapter(context,
-                builder, platforms);
+        ReviewViewAdapter adapter = FactoryReviewViewAdapter.newGvDataCollectionAdapter(builder,
+                platforms);
         ReviewView view = new ReviewView(adapter, new ShareScreenModifier());
 
         String title = context.getResources().getString(R.string.button_social);

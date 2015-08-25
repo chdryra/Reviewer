@@ -8,19 +8,11 @@
 
 package com.chdryra.android.reviewer.Adapter.ReviewAdapterModel;
 
-import android.graphics.Bitmap;
-
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.MdGvConverter;
-import com.chdryra.android.reviewer.Model.ReviewStructure.Review;
+import com.chdryra.android.reviewer.Model.ReviewData.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
-import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
-import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvLocationList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvReviewId;
 import com.chdryra.android.reviewer.View.GvDataModel.GvReviewOverviewList;
-
-import java.util.ArrayList;
 
 /**
  * Created by: Rizwan Choudrey
@@ -33,53 +25,30 @@ import java.util.ArrayList;
  */
 public class ViewerChildList implements GridDataViewer<GvReviewOverviewList.GvReviewOverview> {
     private ReviewNode mNode;
-    private GridCellExpander<GvReviewOverviewList.GvReviewOverview> mExpander;
 
-    public ViewerChildList(ReviewNode node, GridCellExpander<GvReviewOverviewList.GvReviewOverview>
-            expander) {
+    public ViewerChildList(ReviewNode node) {
         mNode = node;
-        mExpander = expander;
-    }
-
-    public ReviewNode getNode() {
-        return mNode;
     }
 
     @Override
     public GvReviewOverviewList getGridData() {
-        GvReviewOverviewList data = new GvReviewOverviewList(GvReviewId.getId(mNode.getId()
-                .toString()));
-        for (Review review : mNode.getChildren()) {
-            GvImageList images = MdGvConverter.convert(review.getImages());
-            GvCommentList headlines = MdGvConverter.convert(review.getComments()).getHeadlines();
-            GvLocationList locations = MdGvConverter.convert(review.getLocations());
-
-            Bitmap cover = images.size() > 0 ? images.getRandomCover().getBitmap() : null;
-            String headline = headlines.size() > 0 ? headlines.getItem(0).getHeadline() :
-                    null;
-
-            ArrayList<String> locationNames = new ArrayList<>();
-            for (GvLocationList.GvLocation location : locations) {
-                locationNames.add(location.getShortenedName());
-            }
-
-            data.add(review.getId().toString(), review.getAuthor(), review.getPublishDate()
-                            .getDate(),
-                    review.getSubject().get(), review.getRating().get(), cover, headline,
-                    locationNames);
-        }
-
-        return data;
+        return MdGvConverter.convert(mNode.getChildren(), mNode.getId());
     }
 
     @Override
     public boolean isExpandable(GvReviewOverviewList.GvReviewOverview datum) {
-        return mExpander.isExpandable(datum);
+        ReviewId id = ReviewId.fromString(datum.getId());
+        return mNode.getChildren().containsId(id);
     }
 
     @Override
     public ReviewViewAdapter<? extends GvData> expandItem(GvReviewOverviewList.GvReviewOverview
                                                                       datum) {
-        return mExpander.expandItem(datum);
+        if (isExpandable(datum)) {
+            ReviewNode node = mNode.getChildren().get(ReviewId.fromString(datum.getId()));
+            return FactoryReviewViewAdapter.newTreeDataAdapter(node);
+        } else {
+            return null;
+        }
     }
 }

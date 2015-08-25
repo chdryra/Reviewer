@@ -35,8 +35,8 @@ public class ViewerGvDataCollectionTest extends AndroidTestCase {
 
         ReviewNode node = ReviewMocker.newReviewNode(false);
         ReviewViewAdapter<GvReviewOverviewList.GvReviewOverview> parent =
-                FactoryReviewViewAdapter.newChildOverviewAdapter(getContext(), node);
-        ExpanderGridCell expander = new ExpanderGridCell(getContext(), parent);
+                FactoryReviewViewAdapter.newChildListAdapter(node);
+        ExpanderGridCell expander = new ExpanderGridCell(parent);
         ViewerGvDataCollection<GvCommentList.GvComment> wrapper = new ViewerGvDataCollection<>(expander, data);
 
         assertEquals(data, wrapper.getGridData());

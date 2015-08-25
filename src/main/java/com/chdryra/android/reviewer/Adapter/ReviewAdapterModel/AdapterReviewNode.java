@@ -14,8 +14,6 @@ package com.chdryra.android.reviewer.Adapter.ReviewAdapterModel;
  * Email: rizwan.choudrey@gmail.com
  */
 
-import android.content.Context;
-
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.MdGvConverter;
 import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
 import com.chdryra.android.reviewer.Model.TreeMethods.VisitorRatingAverageOfChildren;
@@ -34,8 +32,8 @@ public class AdapterReviewNode<T extends GvData> extends ReviewViewAdapterBasic<
         setWrapper(wrapper);
     }
 
-    public ReviewViewAdapter getTreeDataAdapter(Context context) {
-        return FactoryReviewViewAdapter.newTreeDataAdapter(context, mNode);
+    public ReviewViewAdapter getTreeDataAdapter() {
+        return FactoryReviewViewAdapter.newTreeDataAdapter(mNode);
     }
 
     @Override

@@ -1,7 +1,5 @@
 package com.chdryra.android.reviewer.Adapter.ReviewAdapterModel;
 
-import android.content.Context;
-
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataCollection;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
@@ -15,14 +13,12 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvList;
  */
 public class ViewerGvDataMap<K extends GvData> implements GridDataViewer<K> {
     private GvDataMap<K, ? extends GvData> mData;
-    private Context mContext;
     private ReviewViewAdapter<? extends GvData> mParent;
 
-    public ViewerGvDataMap(Context context, ReviewViewAdapter<? extends GvData> parent,
-                           GvDataMap<K, ? extends GvData> data) {
+    public ViewerGvDataMap(ReviewViewAdapter<? extends GvData> parent, GvDataMap<K, ? extends
+            GvData> data) {
         mData = data;
         mParent = parent;
-        mContext = context;
     }
 
     @Override
@@ -32,20 +28,9 @@ public class ViewerGvDataMap<K extends GvData> implements GridDataViewer<K> {
 
     @Override
     public boolean isExpandable(K datum) {
-        try {
-            GvData value = mData.get(datum);
-            if(value != null) {
-                if(value.isCollection()) {
-                    return value.hasElements();
-                } else {
-                    return value.isValidForDisplay();
-                }
-            }
-        } catch (Exception e) {
-            return false;
-        }
-
-        return false;
+        GvData value = mData.get(datum);
+        return value != null &&
+                (value.isCollection() ? value.hasElements() : value.isValidForDisplay());
     }
 
     @Override
@@ -60,7 +45,7 @@ public class ViewerGvDataMap<K extends GvData> implements GridDataViewer<K> {
                 list.add(value);
                 expanded = list;
             }
-            return FactoryReviewViewAdapter.newGvDataCollectionAdapter(mContext, mParent, expanded);
+            return FactoryReviewViewAdapter.newGvDataCollectionAdapter(mParent, expanded);
         }
 
         return null;

@@ -73,7 +73,8 @@ public class GvReviewOverviewListTest extends TestCase {
         assertEquals(0, mList.size());
         ArrayList<String> locations = new ArrayList<>();
         locations.add(locationName1);
-        mList.add(id1, author1, publishDate1, subject1, rating1, image1, headline1, locations);
+        mList.add(new GvReviewOverviewList.GvReviewOverview(id1, author1, publishDate1, subject1,
+                rating1, image1, headline1, locations));
         assertEquals(1, mList.size());
         GvReviewOverviewList.GvReviewOverview review = mList.getItem(0);
         assertEquals(id1, review.getId());
@@ -87,9 +88,11 @@ public class GvReviewOverviewListTest extends TestCase {
 
         locations.clear();
         locations.add(locationName2);
-        mList.add(id2, author2, publishDate2, subject2, rating2, image2, headline2, locations);
+        mList.add(new GvReviewOverviewList.GvReviewOverview(id2, author2, publishDate2, subject2,
+                rating2, image2, headline2, locations));
         assertEquals(2, mList.size());
-        mList.add(id1, author2, publishDate2, subject2, rating2, image2, headline2, locations);
+        mList.add(new GvReviewOverviewList.GvReviewOverview(id1, author2, publishDate2, subject2,
+                rating2, image2, headline2, locations));
         assertEquals(2, mList.size());
     }
 
@@ -176,48 +179,63 @@ public class GvReviewOverviewListTest extends TestCase {
         locations.add(location1);
         locations2.add(location1);
         locations2.add(location2);
-        GvReviewOverviewList.GvReviewOverview gvReview = new GvReviewOverviewList.GvReviewOverview(id1, author1,
+        GvReviewOverviewList.GvReviewOverview gvReview = new GvReviewOverviewList
+                .GvReviewOverview(id1, author1,
                 date1, subject1, rating1, image1, headline1, locations);
-        GvReviewOverviewList.GvReviewOverview gvReviewEquals = new GvReviewOverviewList.GvReviewOverview(id1,
+        GvReviewOverviewList.GvReviewOverview gvReviewEquals = new GvReviewOverviewList
+                .GvReviewOverview(id1,
                 author1, date1, subject1, rating1, image1, headline1, locations);
-        GvReviewOverviewList.GvReviewOverview gvReviewEquals2 = new GvReviewOverviewList.GvReviewOverview(gvReview);
+        GvReviewOverviewList.GvReviewOverview gvReviewEquals2 = new GvReviewOverviewList
+                .GvReviewOverview(gvReview);
 
-        GvReviewOverviewList.GvReviewOverview gvReviewNotEquals1 = new GvReviewOverviewList.GvReviewOverview(id2,
+        GvReviewOverviewList.GvReviewOverview gvReviewNotEquals1 = new GvReviewOverviewList
+                .GvReviewOverview(id2,
                 author1, date1,
                 subject1, rating1, image1, headline1, locations);
-        GvReviewOverviewList.GvReviewOverview gvReviewNotEquals2 = new GvReviewOverviewList.GvReviewOverview(id1,
+        GvReviewOverviewList.GvReviewOverview gvReviewNotEquals2 = new GvReviewOverviewList
+                .GvReviewOverview(id1,
                 author1, date1,
                 subject2, rating1, image1, headline1, locations);
-        GvReviewOverviewList.GvReviewOverview gvReviewNotEquals3 = new GvReviewOverviewList.GvReviewOverview(id1,
+        GvReviewOverviewList.GvReviewOverview gvReviewNotEquals3 = new GvReviewOverviewList
+                .GvReviewOverview(id1,
                 author1, date1,
                 subject1, rating2, image1, headline1, locations);
-        GvReviewOverviewList.GvReviewOverview gvReviewNotEquals5 = new GvReviewOverviewList.GvReviewOverview(id1,
+        GvReviewOverviewList.GvReviewOverview gvReviewNotEquals5 = new GvReviewOverviewList
+                .GvReviewOverview(id1,
                 author1, date1,
                 subject1, rating1, image1, headline2, locations);
-        GvReviewOverviewList.GvReviewOverview gvReviewNotEquals6 = new GvReviewOverviewList.GvReviewOverview(id1,
+        GvReviewOverviewList.GvReviewOverview gvReviewNotEquals6 = new GvReviewOverviewList
+                .GvReviewOverview(id1,
                 author1, date1,
                 subject1, rating1, image1, headline1, locations2);
-        GvReviewOverviewList.GvReviewOverview gvReviewNotEquals7 = new GvReviewOverviewList.GvReviewOverview(id1,
+        GvReviewOverviewList.GvReviewOverview gvReviewNotEquals7 = new GvReviewOverviewList
+                .GvReviewOverview(id1,
                 author2, date1,
                 subject1, rating1, image1, headline1, locations);
-        GvReviewOverviewList.GvReviewOverview gvReviewNotEquals8 = new GvReviewOverviewList.GvReviewOverview(id1,
+        GvReviewOverviewList.GvReviewOverview gvReviewNotEquals8 = new GvReviewOverviewList
+                .GvReviewOverview(id1,
                 author1, date2,
                 subject1, rating1, image1, headline1, locations);
 
         GvReviewOverviewList.GvReviewOverview gvReviewNull = new GvReviewOverviewList
                 .GvReviewOverview();
-        GvReviewOverviewList.GvReviewOverview gvReviewNoId = new GvReviewOverviewList.GvReviewOverview("",
+        GvReviewOverviewList.GvReviewOverview gvReviewNoId = new GvReviewOverviewList
+                .GvReviewOverview("",
                 author1, date1,
                 subject1, rating1, image1, headline1, locations);
-        GvReviewOverviewList.GvReviewOverview gvReviewNoAuthor = new GvReviewOverviewList.GvReviewOverview(id1,
+        GvReviewOverviewList.GvReviewOverview gvReviewNoAuthor = new GvReviewOverviewList
+                .GvReviewOverview(id1,
                 Author.NULL_AUTHOR, date1,
                 subject1, rating1, image1, headline1, locations);
-        GvReviewOverviewList.GvReviewOverview gvReviewNoDate = new GvReviewOverviewList.GvReviewOverview(id1,
+        GvReviewOverviewList.GvReviewOverview gvReviewNoDate = new GvReviewOverviewList
+                .GvReviewOverview(id1,
                 author1,
                 null, subject1, rating1, image1, headline1, locations);
-        GvReviewOverviewList.GvReviewOverview gvReviewNoSubject = new GvReviewOverviewList.GvReviewOverview(id1,
+        GvReviewOverviewList.GvReviewOverview gvReviewNoSubject = new GvReviewOverviewList
+                .GvReviewOverview(id1,
                 author1, date1, "", rating1, image1, headline1, locations);
-        GvReviewOverviewList.GvReviewOverview gvReviewNotEmpty = new GvReviewOverviewList.GvReviewOverview(id1,
+        GvReviewOverviewList.GvReviewOverview gvReviewNotEmpty = new GvReviewOverviewList
+                .GvReviewOverview(id1,
                 author1, date1, subject1, 0f, null, null, null);
 
         assertNotNull(gvReview.getViewHolder());
