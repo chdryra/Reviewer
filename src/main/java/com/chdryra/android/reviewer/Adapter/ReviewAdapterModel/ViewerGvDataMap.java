@@ -29,8 +29,15 @@ public class ViewerGvDataMap<K extends GvData> implements GridDataViewer<K> {
     @Override
     public boolean isExpandable(K datum) {
         GvData value = mData.get(datum);
-        return value != null &&
-                (value.isCollection() ? value.hasElements() : value.isValidForDisplay());
+        if (value != null) {
+            if (value.isCollection()) {
+                return ((GvDataCollection) value).size() > 0;
+            } else {
+                return value.isValidForDisplay();
+            }
+        }
+
+        return false;
     }
 
     @Override

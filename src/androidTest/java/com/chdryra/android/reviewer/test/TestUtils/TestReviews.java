@@ -69,6 +69,7 @@ public class TestReviews {
         if (nodes.size() == 0) {
             nodes.add(reviews.getReviewNode(reviews.getReview1()));
             nodes.add(reviews.getReviewNode(reviews.getReview2()));
+            nodes.add(reviews.getReviewNode(reviews.getReview3()));
             reviews.mNodes = nodes;
         }
 
@@ -205,6 +206,41 @@ public class TestReviews {
         review.mImages.add(new Image(image, "Cot", cal.getTime(), false));
 
         cal = new GregorianCalendar(2015, 4, 26, 14, 30);
+        review.mPublishDate = cal.getTime();
+
+        return review;
+    }
+
+    private TestReview getReview3() {
+        TestReview review = new TestReview();
+        review.mSubject = "Tayyabs";
+        review.mRating = 3f; //irrelevant as will be average of criteria
+        review.mIsRatingAverage = true;
+        review.mTags.add("Restaurant");
+        review.mTags.add("Pakistani");
+        review.mTags.add("London");
+        review.mCriteria.add(new Criterion("Food", 3f));
+        review.mCriteria.add(new Criterion("Service", 1f));
+        review.mCriteria.add(new Criterion("Value", 4f));
+        review.mComments.add("Food not so good today and service preety mediocre.");
+        review.mComments.add("Very busy today and they couldn't cope.");
+        review.mComments.add("Food was cold.");
+        review.mLocations.add(new Location("Tayyabs", 51.517972, -0.063291));
+        review.mFacts.add(new Fact("Starter", "5"));
+        review.mFacts.add(new Fact("Main", "9"));
+        review.mFacts.add(new Fact("Desert", "4"));
+        review.mFacts.add(new Fact("Link", "http://www.tayyabs.co.uk/"));
+
+        Bitmap image = loadBitmap("tayyabs-14.jpg");
+        Assert.assertNotNull(image);
+        GregorianCalendar cal = new GregorianCalendar(2015, 7, 20, 12, 15);
+        review.mImages.add(new Image(image, "Lamb chops", cal.getTime(), true));
+        image = loadBitmap("tayyabs.jpg");
+        Assert.assertNotNull(image);
+        cal = new GregorianCalendar(2015, 7, 20, 12, 0);
+        review.mImages.add(new Image(image, "Restaurant", cal.getTime(), false));
+
+        cal = new GregorianCalendar(2015, 7, 20, 12, 30);
         review.mPublishDate = cal.getTime();
 
         return review;

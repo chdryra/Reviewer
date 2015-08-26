@@ -13,6 +13,7 @@ import com.chdryra.android.reviewer.Model.ReviewData.MdDataList;
 import com.chdryra.android.reviewer.Model.ReviewData.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
 import com.chdryra.android.reviewer.Model.TreeMethods.VisitorTreeFlattener;
+import com.chdryra.android.reviewer.View.GvDataModel.GvReviewId;
 import com.chdryra.android.reviewer.View.GvDataModel.GvTagList;
 
 /**
@@ -33,7 +34,7 @@ public class TagCollector {
             ids.add(node.getId());
         }
 
-        GvTagList tags = new GvTagList();
+        GvTagList tags = new GvTagList(GvReviewId.getId(mNode.getId().toString()));
         for (ReviewId id : ids) {
             for (GvTagList.GvTag tag : MdGvConverter.getTags(id.toString())) {
                 tags.add(tag);
