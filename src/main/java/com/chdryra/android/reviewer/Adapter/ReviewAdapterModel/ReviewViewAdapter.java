@@ -40,6 +40,9 @@ public interface ReviewViewAdapter<T extends GvData> extends GridDataObservable,
     void registerGridDataObserver(GridDataObserver observer);
 
     @Override
+    void unregisterGridDataObserver(GridDataObserver observer);
+
+    @Override
     void notifyGridDataObservers();
 
     @Override

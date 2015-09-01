@@ -26,7 +26,7 @@ import java.text.DateFormat;
  * On: 07/05/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class VhFeed extends ViewHolderBasic {
+public class VhReviewOverview extends ViewHolderBasic {
     private static final int LAYOUT = R.layout.grid_cell_review_overview2;
     private static final int SUBJECT  = R.id.review_subject;
     private static final int RATING = R.id.review_rating;
@@ -42,7 +42,7 @@ public class VhFeed extends ViewHolderBasic {
     private TextView mTags;
     private TextView  mPublishDate;
 
-    VhFeed() {
+    VhReviewOverview() {
         super(LAYOUT, new int[]{LAYOUT, SUBJECT, RATING, IMAGE, HEADLINE, TAGS, PUBLISH});
     }
 

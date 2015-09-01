@@ -14,11 +14,13 @@ package com.chdryra.android.reviewer.View.Screens;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface GridDataObservable {
+    void registerGridDataObserver(GridDataObserver observer);
+
+    void unregisterGridDataObserver(GridDataObserver observer);
+
+    void notifyGridDataObservers();
+
     interface GridDataObserver {
         void onGridDataChanged();
     }
-
-    void registerGridDataObserver(GridDataObserver observer);
-
-    void notifyGridDataObservers();
 }

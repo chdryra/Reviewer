@@ -18,6 +18,7 @@ import com.chdryra.android.mygenerallibrary.DialogAlertFragment;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewAdapter;
 import com.chdryra.android.reviewer.ApplicationSingletons.Administrator;
 import com.chdryra.android.reviewer.ApplicationSingletons.ReviewFeed;
+import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.View.Dialogs.DialogShower;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
@@ -25,48 +26,37 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvDataPacker;
 import com.chdryra.android.reviewer.View.GvDataModel.GvReviewOverviewList;
 import com.chdryra.android.reviewer.View.Launcher.LaunchableUi;
 import com.chdryra.android.reviewer.View.Launcher.LauncherUi;
+import com.chdryra.android.reviewer.View.Utils.RequestCodeGenerator;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 19/03/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class FeedScreen {
-    private static final int REQUEST_CODE = 1976;
-    private Context           mContext;
+public class FeedScreen implements ReviewFeed.ReviewFeedObserver {
+    private static final int REQUEST_CODE = RequestCodeGenerator.getCode("FeedScreen");
+
+    private Context mContext;
     private ReviewView        mReviewView;
-    private ReviewViewAdapter mAdapter;
 
     private FeedScreen(Context context) {
         mContext = context;
-
-        mAdapter = ReviewFeed.getFeedAdapter(mContext);
-        mReviewView = new ReviewView(mAdapter);
-
-        mReviewView.setAction(new FeedScreenMenu());
-        mReviewView.setAction(new GridItem());
-        mReviewView.setAction(new RatingBarAction());
-
-        ReviewViewParams.CellDimension full = ReviewViewParams.CellDimension.FULL;
-        ReviewViewParams.GridViewAlpha trans = ReviewViewParams.GridViewAlpha.TRANSPARENT;
-        ReviewViewParams params = mReviewView.getParams();
-
-        params.setSubjectVisible(true).setRatingVisible(true).setBannerButtonVisible(true)
-                .setCoverManager(false).setCellHeight(full).setCellWidth(full).setGridAlpha(trans);
+        ReviewFeed.registerObserver(context, this);
+        ReviewNode feedNode = ReviewFeed.getFeedNode(context);
+        mReviewView = ReviewListScreen.newScreen(feedNode, new GridItem(), new FeedScreenMenu());
     }
 
     public static ReviewView newScreen(Context context) {
-        FeedScreen screen = new FeedScreen(context);
-        return screen.getScreen();
+        return new FeedScreen(context).getReviewView();
     }
 
-    private ReviewView getScreen() {
+    @Override
+    public void onFeedUpdated() {
+        mReviewView.notifyDataSetChanged();
+    }
+
+    private ReviewView getReviewView() {
         return mReviewView;
-    }
-
-    private void launch(LaunchableUi ui) {
-        LauncherUi.launch(ui, mReviewView.getParent(), REQUEST_CODE, ui.getLaunchTag(), new
-                Bundle());
     }
 
     private class FeedScreenMenu extends ReviewViewAction.MenuAction {
@@ -83,28 +73,25 @@ public class FeedScreen {
                 @Override
                 public void doAction(MenuItem item) {
                     Administrator.get(mContext).newReviewBuilder();
-                    launch(BuildScreen.newScreen(getActivity()));
+                    LaunchableUi ui = BuildScreen.newScreen(getActivity());
+                    LauncherUi.launch(ui, mReviewView.getParent(), REQUEST_CODE, ui.getLaunchTag
+                            (), new
+                            Bundle());
                 }
             }, MENU_NEW_REVIEW_ID, false);
         }
     }
 
-    private class GridItem extends GridItemExpander {
+    private class GridItem extends ReviewDataScreen.GiLaunchReviewDataScreen {
         private static final String TAG            = "FeedGridItemListener";
         private static final int    REQUEST_DELETE = 314;
         private FeedGridItemListener mListener;
 
         public GridItem() {
-            super(mAdapter);
+            super(mContext);
             mListener = new FeedGridItemListener() {
             };
             super.registerActionListener(mListener, TAG);
-        }
-
-        @Override
-        public void onClickExpandable(GvData item, int position, View v, ReviewViewAdapter
-                expanded) {
-            launch(ReviewDataScreen.newScreen(mContext, expanded));
         }
 
         @Override
@@ -140,13 +127,6 @@ public class FeedScreen {
             public void onAlertPositive(int requestCode, Bundle args) {
                 onDialogAlertPositive(requestCode, args);
             }
-        }
-    }
-
-    private class RatingBarAction extends ReviewViewAction.RatingBarAction {
-        @Override
-        public void onClick(View v) {
-            launch(ReviewDataScreen.newScreen(mContext, ReviewFeed.getAggregateAdapter(mContext)));
         }
     }
 }

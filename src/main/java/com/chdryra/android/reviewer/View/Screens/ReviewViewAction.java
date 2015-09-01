@@ -165,10 +165,6 @@ public class ReviewViewAction {
         private int     mMenuId          = -1;
         private boolean mDisplayHomeAsUp = false;
 
-        public interface MenuActionItem {
-            public void doAction(MenuItem item);
-        }
-
         public MenuAction() {
             this(-1, null, false);
         }
@@ -241,6 +237,10 @@ public class ReviewViewAction {
                     sendResult(RESULT_UP);
                 }
             };
+        }
+
+        public interface MenuActionItem {
+            void doAction(MenuItem item);
         }
 
         private class MenuActionItemInfo {

@@ -79,7 +79,7 @@ public class GvReviewOverviewList extends GvDataList<GvReviewOverviewList.GvRevi
 
     /**
      * {@link GvData} version of: {@link Review}
-     * {@link ViewHolder): {@link VhFeed }
+     * {@link ViewHolder): {@link VhReviewOverview }
      */
     public static class GvReviewOverview extends GvDataBasic<GvReviewOverview> {
         public static final GvDataType<GvReviewOverview> TYPE =
@@ -148,7 +148,7 @@ public class GvReviewOverviewList extends GvDataList<GvReviewOverviewList.GvRevi
 
         @Override
         public ViewHolder getViewHolder() {
-            return new VhFeed();
+            return new VhReviewOverview();
         }
 
         @Override

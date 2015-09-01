@@ -84,7 +84,8 @@ public class Aggregater {
                                      DifferenceComparitor<T, D2> comparitor,
                                      D1 threshold,
                                      CanonicalDatumMaker<T> canonical) {
-        GvDataAggregater<T> aggregater = new GvDataAggregater<>(data);
-        return aggregater.aggregate(comparitor, threshold, canonical);
+        GvDataAggregater<T, D1, D2> aggregater = new GvDataAggregater<>(comparitor, threshold,
+                canonical);
+        return aggregater.aggregate(data);
     }
 }

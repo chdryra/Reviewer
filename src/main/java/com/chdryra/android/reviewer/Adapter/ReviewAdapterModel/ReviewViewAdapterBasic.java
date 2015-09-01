@@ -33,7 +33,11 @@ public abstract class ReviewViewAdapterBasic<T extends GvData> implements Review
     }
 
     public void registerGridDataObserver(GridDataObservable.GridDataObserver observer) {
-        mObservers.add(observer);
+        if (!mObservers.contains(observer)) mObservers.add(observer);
+    }
+
+    public void unregisterGridDataObserver(GridDataObservable.GridDataObserver observer) {
+        if (mObservers.contains(observer)) mObservers.remove(observer);
     }
 
     public void notifyGridDataObservers() {

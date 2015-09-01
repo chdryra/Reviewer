@@ -1,11 +1,3 @@
-/*
- * Copyright (c) 2015, Rizwan Choudrey - All Rights Reserved
- * Unauthorized copying of this file, via any medium is strictly prohibited
- * Proprietary and confidential
- * Author: Rizwan Choudrey
- * Date: 13 July, 2015
- */
-
 package com.chdryra.android.reviewer.View.GvDataAggregation;
 
 import com.chdryra.android.reviewer.View.GvDataModel.FactoryGvData;
@@ -17,42 +9,47 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvList;
 
 /**
  * Created by: Rizwan Choudrey
- * On: 13/07/2015
+ * On: 26/08/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class GvDataAggregater<T extends GvData> {
-    private GvDataList<T> mData;
+public class GvDataAggregater<T extends GvData, D1, D2 extends DifferenceLevel<D1>> {
+    private DifferenceComparitor<T, D2> mComparitor;
+    private D1 mMinimumDifference;
+    private CanonicalDatumMaker<T> mCanonical;
 
-    public GvDataAggregater(GvDataList<T> data) {
-        mData = data;
+    public GvDataAggregater(DifferenceComparitor<T, D2> comparitor, D1 minimumDifference,
+                            CanonicalDatumMaker<T> canonical) {
+        mComparitor = comparitor;
+        mMinimumDifference = minimumDifference;
+        mCanonical = canonical;
     }
 
-    public <D1, D2 extends DifferenceLevel<D1>> GvDataMap<T, GvDataList<T>> aggregate
-            (DifferenceComparitor<T, D2> comparitor,
-             D1 minimumDifference, CanonicalDatumMaker<T> canonical) {
+    public GvDataMap<T, GvDataList<T>> aggregate(GvDataList<T> data) {
+        GvDataType listType = data.getGvDataType();
         //TODO make type safe
-        GvDataType listType = mData.getGvDataType();
         GvDataMap<T, GvDataList<T>> results =
-                new GvDataMap<>(listType.getElementType(), listType, mData.getReviewId());
+                new GvDataMap<>(listType.getElementType(), listType, data.getReviewId());
 
         GvList allocated = new GvList();
-        for (T reference : mData) {
+        for (T reference : data) {
             if(allocated.contains(reference)) continue;
-            GvDataList<T> similar = FactoryGvData.newDataList(listType, mData.getReviewId());
+            //TODO make type safe
+            GvDataList<T> similar = FactoryGvData.newDataList(listType, data.getReviewId());
             similar.add(reference);
             allocated.add(reference);
-            for (T candidate : mData) {
+            for (T candidate : data) {
                 if (allocated.contains(candidate)) continue;
-                D2 difference = comparitor.compare(reference, candidate);
-                if (difference.lessThanOrEqualTo(minimumDifference)) {
+                D2 difference = mComparitor.compare(reference, candidate);
+                if (difference.lessThanOrEqualTo(mMinimumDifference)) {
                     similar.add(candidate);
                     allocated.add(candidate);
                 }
             }
 
-            results.put(canonical.getCanonical(similar), similar);
+            results.put(mCanonical.getCanonical(similar), similar);
         }
 
         return results;
     }
 }
+

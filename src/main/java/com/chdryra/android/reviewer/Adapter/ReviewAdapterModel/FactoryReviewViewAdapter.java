@@ -24,7 +24,7 @@ public class FactoryReviewViewAdapter {
 
     }
 
-    public static ReviewViewAdapter<GvReviewOverviewList.GvReviewOverview>
+    public static AdapterReviewNode<GvReviewOverviewList.GvReviewOverview>
     newChildListAdapter(ReviewNode node) {
         return new AdapterReviewNode<>(node, new ViewerChildList(node));
     }

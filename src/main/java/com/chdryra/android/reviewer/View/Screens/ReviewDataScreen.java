@@ -23,6 +23,7 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataPacker;
 import com.chdryra.android.reviewer.View.Launcher.LauncherUi;
 import com.chdryra.android.reviewer.View.Launcher.ReviewLauncher;
+import com.chdryra.android.reviewer.View.Utils.RequestCodeGenerator;
 
 /**
  * Created by: Rizwan Choudrey
@@ -30,15 +31,13 @@ import com.chdryra.android.reviewer.View.Launcher.ReviewLauncher;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ReviewDataScreen {
-    private static final int REQUEST_CODE = 1976;
+    private static final int REQUEST_CODE = RequestCodeGenerator.getCode("ReviewDataScreen");
     private Context           mContext;
     private ReviewView        mReviewView;
-    private ReviewViewAdapter mAdapter;
 
     private ReviewDataScreen(Context context, ReviewViewAdapter adapter) {
         mContext = context;
-        mAdapter = adapter;
-        mReviewView = new ReviewView(mAdapter);
+        mReviewView = new ReviewView(adapter);
         mReviewView.setAction(new GridItem());
     }
 
@@ -50,13 +49,35 @@ public class ReviewDataScreen {
         return mReviewView;
     }
 
+    /**
+     * Created by: Rizwan Choudrey
+     * On: 30/08/2015
+     * Email: rizwan.choudrey@gmail.com
+     */
+    public static class GiLaunchReviewDataScreen extends GridItemExpander {
+        private static final int REQUEST_CODE = RequestCodeGenerator.getCode
+                ("GiLaunchReviewDataScreen");
+        private Context mContext;
+
+        protected GiLaunchReviewDataScreen(Context context) {
+            mContext = context;
+        }
+
+        @Override
+        public void onClickExpandable(GvData item, int position, View v, ReviewViewAdapter
+                expanded) {
+            ReviewView ui = newScreen(mContext, expanded);
+            LauncherUi.launch(ui, getReviewView().getParent(), REQUEST_CODE, ui.getLaunchTag(), new
+                    Bundle());
+        }
+    }
+
     private class GridItem extends GridItemExpander {
         private static final String TAG                 = "ReviewViewExpandableGridItemListener";
         private static final int    REQUEST_GOTO_REVIEW = 314;
         private GridItemListener mListener;
 
         public GridItem() {
-            super(mAdapter);
             mListener = new GridItemListener() {
             };
             super.registerActionListener(mListener, TAG);

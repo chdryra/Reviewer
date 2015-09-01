@@ -19,9 +19,7 @@ import com.chdryra.android.reviewer.Model.ReviewData.ReviewIdableList;
 import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
 import com.chdryra.android.reviewer.Model.UserData.Author;
 import com.chdryra.android.reviewer.Model.UserData.UserId;
-import com.chdryra.android.reviewer.View.GvDataModel.GvReviewId;
 import com.chdryra.android.reviewer.View.GvDataModel.GvSocialPlatformList;
-import com.chdryra.android.reviewer.View.Launcher.LaunchableUi;
 import com.chdryra.android.reviewer.View.Screens.ReviewView;
 import com.chdryra.android.reviewer.View.Utils.ImageChooser;
 
@@ -52,7 +50,7 @@ public class Administrator extends ApplicationSingleton{
     private static final Author  AUTHOR            = new Author("Rizwan Choudrey", UserId
             .generateId());
 
-    private static Administrator sAdministrator;
+    private static Administrator sSingleton;
 
     private final ObjectHolder            mViews;
     private ReviewBuilder mReviewBuilder;
@@ -63,13 +61,8 @@ public class Administrator extends ApplicationSingleton{
     }
 
     public static Administrator get(Context c) {
-        if (sAdministrator == null) {
-            sAdministrator = new Administrator(c);
-        } else {
-            sAdministrator.checkContextOrThrow(c);
-        }
-
-        return sAdministrator;
+        sSingleton = getSingleton(sSingleton, Administrator.class, c);
+        return sSingleton;
     }
 
     public static ImageChooser getImageChooser(Activity activity) {
@@ -99,10 +92,6 @@ public class Administrator extends ApplicationSingleton{
         ReviewNode published = mReviewBuilder.publish(PublishDate.now());
         ReviewFeed.addToFeed(getContext(), published);
         mReviewBuilder = null;
-    }
-
-    public LaunchableUi getReviewLaunchable(GvReviewId id) {
-        return ReviewFeed.getReviewLaunchable(getContext(), id);
     }
 
     public GvSocialPlatformList getSocialPlatformList() {

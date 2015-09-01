@@ -10,23 +10,16 @@ package com.chdryra.android.reviewer.ApplicationSingletons;
 
 import android.content.Context;
 
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.AdapterReviewNode;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.FactoryReviewViewAdapter;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewAdapter;
 import com.chdryra.android.reviewer.Database.ReviewerDb;
 import com.chdryra.android.reviewer.Model.ReviewData.PublishDate;
 import com.chdryra.android.reviewer.Model.ReviewData.ReviewId;
-import com.chdryra.android.reviewer.Model.ReviewData.ReviewIdableList;
 import com.chdryra.android.reviewer.Model.ReviewStructure.FactoryReview;
 import com.chdryra.android.reviewer.Model.ReviewStructure.Review;
 import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewTreeNode;
-import com.chdryra.android.reviewer.Model.TreeMethods.VisitorTreeFlattener;
 import com.chdryra.android.reviewer.Model.UserData.Author;
-import com.chdryra.android.reviewer.View.GvDataModel.GvReviewId;
-import com.chdryra.android.reviewer.View.GvDataModel.GvReviewOverviewList;
-import com.chdryra.android.reviewer.View.Launcher.LaunchableUi;
-import com.chdryra.android.reviewer.View.Screens.ReviewDataScreen;
+
+import java.util.ArrayList;
 
 /**
  * Created by: Rizwan Choudrey
@@ -37,20 +30,20 @@ public class ReviewFeed extends ApplicationSingleton {
     private static final String  NAME              = "ReviewFeed";
     private static final boolean USE_TEST_DATABASE = true;
 
-    private static ReviewFeed sFeed;
+    private static ReviewFeed sSingleton;
 
     private final ReviewerDb mDatabase;
     private ReviewTreeNode mFeedNode;
-    private ReviewViewAdapter mFeedAdapter;
+    private ArrayList<ReviewFeedObserver> mObservers;
 
     private ReviewFeed(Context context) {
         super(context, NAME);
+        mObservers = new ArrayList<>();
+
         Author author = Administrator.get(context).getAuthor();
         String title = author.getName() + "'s feed";
         Review feed = FactoryReview.createReviewUser(author, PublishDate.now(), title, 0f);
-
         mFeedNode = FactoryReview.createReviewTreeNode(feed, true);
-        mFeedAdapter = FactoryReviewViewAdapter.newChildListAdapter(mFeedNode);
 
         mDatabase = getDatabase();
         mDatabase.loadTags();
@@ -60,13 +53,8 @@ public class ReviewFeed extends ApplicationSingleton {
     }
 
     private static ReviewFeed getFeed(Context context) {
-        if (sFeed == null) {
-            sFeed = new ReviewFeed(context);
-        } else {
-            sFeed.checkContextOrThrow(context);
-        }
-
-        return sFeed;
+        sSingleton = getSingleton(sSingleton, ReviewFeed.class, context);
+        return sSingleton;
     }
 
     public static void addToFeed(Context context, ReviewNode node) {
@@ -78,16 +66,8 @@ public class ReviewFeed extends ApplicationSingleton {
         getFeed(context).removeFromFeed(reviewId);
     }
 
-    public static ReviewViewAdapter getFeedAdapter(Context context) {
-        return getFeed(context).getFeedAdapter();
-    }
-
-    public static ReviewViewAdapter getAggregateAdapter(Context context) {
-        return ((AdapterReviewNode) getFeed(context).getFeedAdapter()).getTreeDataAdapter();
-    }
-
-    public static LaunchableUi getReviewLaunchable(Context context, GvReviewId id) {
-        return getFeed(context).getReviewLaunchable(id.getId());
+    public static ReviewNode getFeedNode(Context context) {
+        return getFeed(context).getFeedNode();
     }
 
     public static void deleteTestDatabase(Context context) {
@@ -96,34 +76,27 @@ public class ReviewFeed extends ApplicationSingleton {
         }
     }
 
+    public static void registerObserver(Context context, ReviewFeedObserver observer) {
+        getFeed(context).registerObserver(observer);
+    }
+
+    private ReviewNode getFeedNode() {
+        return mFeedNode;
+    }
+
+    private void registerObserver(ReviewFeedObserver observer) {
+        mObservers.add(observer);
+    }
+
     private void removeFromFeed(String reviewId) {
-        ReviewId id = findRootNodeId(reviewId);
+        ReviewId id = ReviewId.fromString(reviewId);
         remove(id);
         deleteFromDatabase(id);
     }
 
-    private LaunchableUi getReviewLaunchable(String reviewId) {
-        ReviewId id = findRootNodeId(reviewId);
-        if (id == null) return null;
-
-        GvReviewOverviewList list = (GvReviewOverviewList) mFeedAdapter.getGridData();
-        for (GvReviewOverviewList.GvReviewOverview review : list) {
-            if (review.getId().equals(id.toString())) {
-                ReviewViewAdapter adapter = mFeedAdapter.expandItem(review);
-                return ReviewDataScreen.newScreen(getContext(), adapter);
-            }
-        }
-
-        return null;
-    }
-
-    private ReviewViewAdapter getFeedAdapter() {
-        return mFeedAdapter;
-    }
-
     private void add(ReviewNode node) {
         mFeedNode.addChild(FactoryReview.createReviewTreeNode(node, false));
-        mFeedAdapter.notifyGridDataObservers();
+        notifyObservers();
     }
 
     private void addToDatabase(ReviewNode node) {
@@ -136,7 +109,7 @@ public class ReviewFeed extends ApplicationSingleton {
 
     private void remove(ReviewId id) {
         mFeedNode.removeChild(id);
-        mFeedAdapter.notifyGridDataObservers();
+        notifyObservers();
     }
 
     private ReviewerDb getDatabase() {
@@ -147,18 +120,13 @@ public class ReviewFeed extends ApplicationSingleton {
         }
     }
 
-    private ReviewId findRootNodeId(String reviewId) {
-        ReviewId id = ReviewId.fromString(reviewId);
-        ReviewId root = null;
-        for (ReviewNode child : mFeedNode.getChildren()) {
-            ReviewNode tree = child.getReview().getTreeRepresentation();
-            ReviewIdableList<ReviewNode> nodes = VisitorTreeFlattener.flatten(tree);
-            if (nodes.containsId(id)) {
-                root = nodes.getItem(0).getId();
-                break;
-            }
+    private void notifyObservers() {
+        for (ReviewFeedObserver observer : mObservers) {
+            observer.onFeedUpdated();
         }
+    }
 
-        return root;
+    public interface ReviewFeedObserver {
+        void onFeedUpdated();
     }
 }

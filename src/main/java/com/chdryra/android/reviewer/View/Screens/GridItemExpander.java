@@ -19,14 +19,6 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvData;
  * Email: rizwan.choudrey@gmail.com
  */
 public abstract class GridItemExpander extends ReviewViewAction.GridItemAction {
-    private ReviewViewAdapter mAdapter;
-
-    public GridItemExpander(ReviewViewAdapter adapter) {
-        mAdapter = adapter;
-    }
-
-    ;
-
     public void onClickExpandable(GvData item, int position, View v, ReviewViewAdapter expanded) {
     }
 
@@ -41,8 +33,8 @@ public abstract class GridItemExpander extends ReviewViewAction.GridItemAction {
 
     @Override
     public void onGridItemClick(GvData item, int position, View v) {
-        if (mAdapter.isExpandable(item)) {
-            onClickExpandable(item, position, v, mAdapter.expandItem(item));
+        if (getAdapter().isExpandable(item)) {
+            onClickExpandable(item, position, v, getAdapter().expandItem(item));
         } else {
             onClickNotExpandable(item, position, v);
         }
@@ -50,8 +42,8 @@ public abstract class GridItemExpander extends ReviewViewAction.GridItemAction {
 
     @Override
     public void onGridItemLongClick(GvData item, int position, View v) {
-        if (mAdapter.isExpandable(item)) {
-            onLongClickExpandable(item, position, v, mAdapter.expandItem(item));
+        if (getAdapter().isExpandable(item)) {
+            onLongClickExpandable(item, position, v, getAdapter().expandItem(item));
         } else {
             onLongClickNotExpandable(item, position, v);
         }
