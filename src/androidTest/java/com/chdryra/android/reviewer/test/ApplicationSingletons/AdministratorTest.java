@@ -13,17 +13,13 @@ import android.test.ActivityInstrumentationTestCase2;
 import android.test.UiThreadTest;
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.AdapterReviewNode;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilder;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewAdapter;
 import com.chdryra.android.reviewer.ApplicationSingletons.Administrator;
 import com.chdryra.android.reviewer.ApplicationSingletons.ReviewFeed;
 import com.chdryra.android.reviewer.Database.ReviewerDb;
-import com.chdryra.android.reviewer.Model.ReviewData.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewData.ReviewIdableList;
 import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
 import com.chdryra.android.reviewer.View.ActivitiesFragments.ActivityReviewView;
-import com.chdryra.android.reviewer.View.GvDataModel.GvReviewOverviewList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvSocialPlatformList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvTagList;
 import com.chdryra.android.reviewer.View.Screens.FeedScreen;
@@ -72,9 +68,9 @@ public class AdministratorTest extends ActivityInstrumentationTestCase2<Activity
     @SmallTest
     @UiThreadTest
     public void testPublishReviewBuilder() {
-        ReviewViewAdapter reviews = ReviewFeed.getFeedAdapter(getActivity());
-        assertNotNull(reviews);
-        int numReviews = reviews.getGridData().size();
+        ReviewNode feedNode = ReviewFeed.getFeedNode(getActivity());
+        assertNotNull(feedNode);
+        int numReviews = feedNode.getChildren().size();
         ReviewerDb db = TestDatabase.getDatabase(getInstrumentation());
         assertEquals(numReviews, db.getReviewTreesFromDb().size());
 
@@ -88,15 +84,16 @@ public class AdministratorTest extends ActivityInstrumentationTestCase2<Activity
         }
         tagBuilder.setData();
         mAdmin.publishReviewBuilder();
-        assertEquals(numReviews + 1, reviews.getGridData().size());
+
+        ReviewIdableList<ReviewNode> reviews = feedNode.getChildren();
+        int newSize = reviews.size();
+        assertEquals(numReviews + 1, newSize);
         assertNull(mAdmin.getReviewBuilder());
 
         ReviewIdableList<ReviewNode> fromDb = db.getReviewTreesFromDb();
         assertEquals(numReviews + 1, fromDb.size());
-        AdapterReviewNode feed = (AdapterReviewNode) reviews;
-        GvReviewOverviewList list = (GvReviewOverviewList) feed.getGridData();
-        GvReviewOverviewList.GvReviewOverview mostRecent = list.getItem(list.size() - 1);
-        assertTrue(fromDb.containsId(ReviewId.fromString(mostRecent.getId())));
+        ReviewNode mostRecent = reviews.getItem(newSize - 1);
+        assertTrue(fromDb.containsId(mostRecent.getId()));
     }
 
 

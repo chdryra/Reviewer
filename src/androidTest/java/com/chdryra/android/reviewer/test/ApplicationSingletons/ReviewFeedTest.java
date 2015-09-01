@@ -13,8 +13,6 @@ import android.test.ActivityInstrumentationTestCase2;
 import android.test.UiThreadTest;
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.AdapterReviewNode;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewAdapter;
 import com.chdryra.android.reviewer.ApplicationSingletons.Administrator;
 import com.chdryra.android.reviewer.ApplicationSingletons.ReviewFeed;
 import com.chdryra.android.reviewer.Database.ReviewerDb;
@@ -22,8 +20,6 @@ import com.chdryra.android.reviewer.Model.ReviewData.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewData.ReviewIdableList;
 import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
 import com.chdryra.android.reviewer.View.ActivitiesFragments.ActivityReviewView;
-import com.chdryra.android.reviewer.View.GvDataModel.GvReviewId;
-import com.chdryra.android.reviewer.View.GvDataModel.GvReviewOverviewList;
 import com.chdryra.android.reviewer.View.Screens.FeedScreen;
 import com.chdryra.android.reviewer.test.TestUtils.ReviewMocker;
 import com.chdryra.android.reviewer.test.TestUtils.TestDatabase;
@@ -39,23 +35,8 @@ public class ReviewFeedTest extends ActivityInstrumentationTestCase2<ActivityRev
     }
 
     @SmallTest
-    public void testGetFeedAdapter() {
-        assertNotNull(ReviewFeed.getFeedAdapter(getActivity()));
-    }
-
-    @SmallTest
-    public void testAggregateAdapter() {
-        assertNotNull(ReviewFeed.getAggregateAdapter(getActivity()));
-    }
-
-    @SmallTest
-    @UiThreadTest
-    public void testGetReviewLaunchable() {
-        ReviewNode node = ReviewMocker.newReviewNode(false);
-        GvReviewId id = GvReviewId.getId(node.getId().toString());
-        assertNull(ReviewFeed.getReviewLaunchable(getActivity(), id));
-        ReviewFeed.addToFeed(getActivity(), node);
-        assertNotNull(ReviewFeed.getReviewLaunchable(getActivity(), id));
+    public void testGetFeedNode() {
+        assertNotNull(ReviewFeed.getFeedNode(getActivity()));
     }
 
     @SmallTest
@@ -65,8 +46,8 @@ public class ReviewFeedTest extends ActivityInstrumentationTestCase2<ActivityRev
         ReviewId nodeId = node.getRoot().getId();
         ReviewFeed.addToFeed(getActivity(), node);
 
-        ReviewViewAdapter reviews = ReviewFeed.getFeedAdapter(getActivity());
-        int numReviews = reviews.getGridData().size();
+        ReviewNode feedNode = ReviewFeed.getFeedNode(getActivity());
+        int numReviews = feedNode.getChildren().size();
         ReviewerDb db = TestDatabase.getDatabase(getInstrumentation());
         ReviewIdableList<ReviewNode> fromDb = db.getReviewTreesFromDb();
         int numInDb = fromDb.size();
@@ -74,22 +55,19 @@ public class ReviewFeedTest extends ActivityInstrumentationTestCase2<ActivityRev
         assertEquals(numReviews, numInDb);
         assertTrue(fromDb.containsId(nodeId));
 
-        AdapterReviewNode feed = (AdapterReviewNode) reviews;
-
-        GvReviewOverviewList list = (GvReviewOverviewList) feed.getGridData();
-        GvReviewOverviewList.GvReviewOverview mostRecent = list.getItem(list.size() - 1);
-        assertEquals(nodeId.toString(), mostRecent.getId());
+        ReviewIdableList<ReviewNode> reviews = feedNode.getChildren();
+        ReviewNode mostRecent = reviews.getItem(reviews.size() - 1);
+        assertEquals(nodeId, mostRecent.getId());
 
         ReviewFeed.removeFromFeed(getActivity(), node.getId().toString());
 
-        list = (GvReviewOverviewList) feed.getGridData();
-        if (list.size() > 0) {
-            mostRecent = list.getItem(list.size() - 1);
-            assertFalse(nodeId.toString().equals(mostRecent.getId()));
+        if (reviews.size() > 0) {
+            mostRecent = reviews.getItem(reviews.size() - 1);
+            assertFalse(nodeId.equals(mostRecent.getId()));
         }
 
         fromDb = db.getReviewTreesFromDb();
-        assertEquals(numReviews - 1, reviews.getGridData().size());
+        assertEquals(numReviews - 1, reviews.size());
         assertEquals(numInDb - 1, fromDb.size());
         assertFalse(fromDb.containsId(nodeId));
     }
@@ -97,12 +75,11 @@ public class ReviewFeedTest extends ActivityInstrumentationTestCase2<ActivityRev
     @SmallTest
     @UiThreadTest
     public void testAddToFeed() {
-        ReviewViewAdapter reviews = ReviewFeed.getFeedAdapter(getActivity());
-        assertNotNull(reviews);
-        GvReviewOverviewList list = (GvReviewOverviewList) reviews.getGridData();
-        assertNotNull(list);
+        ReviewNode feedNode = ReviewFeed.getFeedNode(getActivity());
+        assertNotNull(feedNode);
 
-        int numReviews = list.size();
+        ReviewIdableList<ReviewNode> reviews = feedNode.getChildren();
+        int numReviews = reviews.size();
         ReviewerDb db = TestDatabase.getDatabase(getInstrumentation());
         ReviewIdableList<ReviewNode> fromDb = db.getReviewTreesFromDb();
         assertEquals(numReviews, fromDb.size());
@@ -112,21 +89,20 @@ public class ReviewFeedTest extends ActivityInstrumentationTestCase2<ActivityRev
 
         assertFalse(fromDb.containsId(nodeId));
         if (numReviews > 0) {
-            for (int i = 0; i < list.size(); ++i) {
-                assertFalse(nodeId.toString().equals(list.getItem(i).getId()));
+            for (int i = 0; i < numReviews; ++i) {
+                assertFalse(nodeId.equals(reviews.getItem(i).getId()));
             }
         }
 
         ReviewFeed.addToFeed(getActivity(), node);
 
-        assertEquals(numReviews + 1, reviews.getGridData().size());
+        assertEquals(numReviews + 1, reviews.size());
         fromDb = db.getReviewTreesFromDb();
         assertEquals(numReviews + 1, fromDb.size());
         assertTrue(fromDb.containsId(node.getRoot().getId()));
 
-        list = (GvReviewOverviewList) reviews.getGridData();
-        GvReviewOverviewList.GvReviewOverview mostRecent = list.getItem(list.size() - 1);
-        assertEquals(nodeId.toString(), mostRecent.getId());
+        ReviewNode mostRecent = reviews.getItem(reviews.size() - 1);
+        assertEquals(nodeId, mostRecent.getId());
     }
 
     @Override

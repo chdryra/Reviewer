@@ -70,6 +70,7 @@ public class TestReviews {
             nodes.add(reviews.getReviewNode(reviews.getReview1()));
             nodes.add(reviews.getReviewNode(reviews.getReview2()));
             nodes.add(reviews.getReviewNode(reviews.getReview3()));
+            nodes.add(reviews.getReviewNode(reviews.getReview4()));
             reviews.mNodes = nodes;
         }
 
@@ -241,6 +242,20 @@ public class TestReviews {
         review.mImages.add(new Image(image, "Restaurant", cal.getTime(), false));
 
         cal = new GregorianCalendar(2015, 7, 20, 12, 30);
+        review.mPublishDate = cal.getTime();
+
+        return review;
+    }
+
+    private TestReview getReview4() {
+        TestReview review = new TestReview();
+        review.mSubject = "Asda Nappies";
+        review.mRating = 3f; //irrelevant as will be average of criteria
+        review.mIsRatingAverage = true;
+        review.mTags.add("Nappies");
+        review.mTags.add("Asda");
+
+        GregorianCalendar cal = new GregorianCalendar(2015, 7, 20, 12, 30);
         review.mPublishDate = cal.getTime();
 
         return review;

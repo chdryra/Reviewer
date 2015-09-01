@@ -27,6 +27,7 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvReviewOverviewList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvTagList;
 import com.chdryra.android.reviewer.View.Screens.FeedScreen;
+import com.chdryra.android.reviewer.View.Screens.ReviewView;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
 import com.chdryra.android.reviewer.test.TestUtils.RandomRating;
 import com.chdryra.android.reviewer.test.TestUtils.SoloUtils;
@@ -96,7 +97,8 @@ public class ActivityFeedTest extends
     protected void setUp() {
         Context context = getInstrumentation().getTargetContext();
         mAdmin = Administrator.get(context);
-        mAdapter = ReviewFeed.getFeedAdapter(context);
+        ReviewView feedScreen = FeedScreen.newScreen(context);
+        mAdapter = feedScreen.getAdapter();
 
         if (mAdapter.getGridData().size() == 0) {
             for (int i = 0; i < NUM; ++i) {
@@ -116,7 +118,8 @@ public class ActivityFeedTest extends
                     e.printStackTrace();
                 }
             }
-            mAdapter = ReviewFeed.getFeedAdapter(context);
+            feedScreen = FeedScreen.newScreen(context);
+            mAdapter = feedScreen.getAdapter();
         }
 
         Intent i = new Intent();

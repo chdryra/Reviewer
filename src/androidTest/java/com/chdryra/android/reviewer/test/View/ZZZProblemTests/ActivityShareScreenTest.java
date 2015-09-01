@@ -14,11 +14,12 @@ import android.test.suitebuilder.annotation.SmallTest;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilder;
 import com.chdryra.android.reviewer.ApplicationSingletons.Administrator;
 import com.chdryra.android.reviewer.ApplicationSingletons.ReviewFeed;
+import com.chdryra.android.reviewer.Model.ReviewData.ReviewIdableList;
+import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
 import com.chdryra.android.reviewer.Model.Social.SocialPlatformList;
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.View.ActivitiesFragments.ActivityFeed;
 import com.chdryra.android.reviewer.View.ActivitiesFragments.FragmentReviewView;
-import com.chdryra.android.reviewer.View.GvDataModel.GvReviewOverviewList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvSocialPlatformList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvTagList;
 import com.chdryra.android.reviewer.View.Screens.ReviewView;
@@ -68,7 +69,7 @@ public class ActivityShareScreenTest extends ActivityReviewViewTest {
     public void testPublishButton() {
         Instrumentation.ActivityMonitor monitor = getInstrumentation().addMonitor(ActivityFeed.class
                 .getName(), null, false);
-        assertEquals(0, ReviewFeed.getFeedAdapter(getActivity()).getGridData().size());
+        assertEquals(0, ReviewFeed.getFeedNode(getActivity()).getChildren().size());
 
         mSolo.clickOnText(getActivity().getResources().getString(R
                 .string.button_publish));
@@ -77,11 +78,10 @@ public class ActivityShareScreenTest extends ActivityReviewViewTest {
         ActivityFeed feedActivity = (ActivityFeed) monitor.waitForActivityWithTimeout(TIMEOUT);
         assertNotNull(feedActivity);
         assertEquals(ActivityFeed.class, feedActivity.getClass());
-        GvReviewOverviewList list = (GvReviewOverviewList) ReviewFeed.getFeedAdapter(getActivity
-                ()).getGridData();
+        ReviewIdableList<ReviewNode> list = ReviewFeed.getFeedNode(getActivity()).getChildren();
         assertEquals(1, list.size());
-        assertEquals(mAdapter.getSubject(), list.getItem(0).getSubject());
-        assertEquals(mAdapter.getRating(), list.getItem(0).getRating());
+        assertEquals(mAdapter.getSubject(), list.getItem(0).getSubject().get());
+        assertEquals(mAdapter.getRating(), list.getItem(0).getRating().get());
         feedActivity.finish();
     }
 

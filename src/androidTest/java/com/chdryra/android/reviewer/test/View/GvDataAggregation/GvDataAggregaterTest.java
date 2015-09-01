@@ -32,9 +32,10 @@ public class GvDataAggregaterTest extends TestCase {
         DifferencePercentage minDiff = new DifferencePercentage(0.85);
         CanonicalCommentMode canonical = new CanonicalCommentMode();
 
-        GvDataAggregater<GvCommentList.GvComment> aggregater = new GvDataAggregater<>(data);
+        GvDataAggregater<GvCommentList.GvComment, DifferencePercentage, DifferencePercentage>
+                aggregater = new GvDataAggregater<>(comparitor, minDiff, canonical);
         GvDataMap<GvCommentList.GvComment, GvDataList<GvCommentList.GvComment>> results;
-        results = aggregater.aggregate(comparitor, minDiff, canonical);
+        results = aggregater.aggregate(data);
 
         assertTrue(results.size() > 0);
         int total = 0;
