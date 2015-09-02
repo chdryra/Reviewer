@@ -127,7 +127,7 @@ public class GvDataMap<K extends GvData, V extends GvData> implements
 
     @Override
     public boolean isValidForDisplay() {
-        return size() > 0;
+        return true;
     }
 
     public void removeAll() {

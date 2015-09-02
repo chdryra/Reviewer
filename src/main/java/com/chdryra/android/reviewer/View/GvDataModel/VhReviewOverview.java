@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.chdryra.android.mygenerallibrary.TextUtils;
 import com.chdryra.android.mygenerallibrary.ViewHolderBasic;
 import com.chdryra.android.mygenerallibrary.ViewHolderData;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
 import com.chdryra.android.reviewer.Model.ReviewData.ReviewId;
 import com.chdryra.android.reviewer.Model.Tagging.TagsManager;
 import com.chdryra.android.reviewer.R;
@@ -66,13 +67,16 @@ public class VhReviewOverview extends ViewHolderBasic {
         String date = DateFormat.getDateTimeInstance(DateFormat.SHORT,
                 DateFormat.SHORT).format(review.getPublishDate());
         String location = review.getLocationString();
-        mPublishDate.setText(date + " by " + author + " @" + location);
+        String locationStem = DataValidator.validateString(location) ? " @" + location : "";
+        mPublishDate.setText(date + " by " + author + locationStem);
 
         mTags.setText(getTagString(review.getId()));
 
         String headline = review.getHeadline();
-        if (headline != null && headline.length() > 0) {
+        if (DataValidator.validateString(headline)) {
             mHeadline.setText("\"" + headline + "\"");
+        } else {
+            mHeadline.setText("");
         }
     }
 

@@ -93,7 +93,7 @@
     <orderEntry type="library" exported="" name="commons-lang3-3.4" level="project" />
     <orderEntry type="library" exported="" name="annotations" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="robotium-solo-5.2.1" level="project" />
-    <orderEntry type="module" module-name="TestUtils" exported="" />
+    <orderEntry type="module" module-name="TestUtils" exported="" scope="TEST" />
     <orderEntry type="module" module-name="MyGeneralLibrary" exported="" />
     <orderEntry type="module" module-name="MyAndroidWidgets" exported="" />
   </component>
