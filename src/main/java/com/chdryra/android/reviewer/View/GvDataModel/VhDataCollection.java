@@ -66,15 +66,7 @@ public class VhDataCollection implements ViewHolder {
 
     private void updateDatumView(GvDataCollection data) {
         ViewHolderData datum = data.getItem(0);
-        GvDataType dataType = data.getGvDataType().getElementType();
-
-        if (dataType == GvLocationList.GvLocation.TYPE || dataType == GvTagList.GvTag.TYPE) {
-            mCurrentView = dataType == GvLocationList.GvLocation.TYPE ? new VhLocation(true) :
-                    new VhTag(true);
-        } else {
-            mCurrentView = datum.getViewHolder();
-        }
-
+        mCurrentView = datum.getViewHolder();
         mCurrentView.inflate(mContext, mParent);
         mCurrentView.updateView(datum);
     }

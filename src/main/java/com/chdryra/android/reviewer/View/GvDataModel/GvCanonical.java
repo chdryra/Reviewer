@@ -27,6 +27,7 @@ public class GvCanonical<T extends GvData> implements GvDataCollection<T> {
     private GvDataType mType;
 
     public GvCanonical(T canonical, GvDataList<T> data) {
+        mCanonical = canonical;
         mData = data;
         mType = GvTypeMaker.newType(this.getClass(), canonical.getGvDataType());
     }
@@ -35,6 +36,10 @@ public class GvCanonical<T extends GvData> implements GvDataCollection<T> {
         mType = in.readParcelable(GvDataType.class.getClassLoader());
         mCanonical = in.readParcelable(mType.getDataClass().getClassLoader());
         mData = in.readParcelable(GvDataList.class.getClassLoader());
+    }
+
+    public T getCanonical() {
+        return mCanonical;
     }
 
     @Override
@@ -118,7 +123,7 @@ public class GvCanonical<T extends GvData> implements GvDataCollection<T> {
 
     @Override
     public ViewHolder getViewHolder() {
-        return mCanonical.getViewHolder();
+        return new VhCanonical(mCanonical.getGvDataType());
     }
 
     @Override
