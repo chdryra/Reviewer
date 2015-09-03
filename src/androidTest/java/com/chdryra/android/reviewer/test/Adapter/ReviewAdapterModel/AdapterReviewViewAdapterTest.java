@@ -19,6 +19,7 @@ import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
+import com.chdryra.android.reviewer.View.GvDataModel.GvTypeMaker;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
 import com.chdryra.android.reviewer.test.TestUtils.ReviewMocker;
 
@@ -77,8 +78,8 @@ public class AdapterReviewViewAdapterTest extends AndroidTestCase {
     protected void setUp() throws Exception {
         ReviewNode node = ReviewMocker.newReviewNode(true);
 
-        mGridData = new GvDataList<>(GvData.class, new GvDataType<>(GvData.class, "testData"),
-                null);
+        GvDataType<GvData> type = GvTypeMaker.newType(GvData.class, "testData");
+        mGridData = new GvDataList<>(GvTypeMaker.newType(GvDataList.class, type), null);
         mGridData.add(GvDataMocker.newCommentList(6, false));
         mGridData.add(GvDataMocker.newFactList(6, false));
         mGridData.add(GvDataMocker.newLocationList(0, false));

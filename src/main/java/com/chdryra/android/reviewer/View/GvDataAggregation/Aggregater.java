@@ -1,11 +1,11 @@
 package com.chdryra.android.reviewer.View.GvDataAggregation;
 
 import com.chdryra.android.reviewer.View.GvDataModel.GvAuthorList;
+import com.chdryra.android.reviewer.View.GvDataModel.GvCanonicalList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvChildReviewList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvDataMap;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDateList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvFactList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
@@ -30,60 +30,49 @@ public class Aggregater {
     private Aggregater() {
     }
 
-    public static GvDataMap<GvAuthorList.GvAuthor, GvDataList<GvAuthorList.GvAuthor>> aggregate
-            (GvAuthorList data) {
+    public static GvCanonicalList<GvAuthorList.GvAuthor> aggregate(GvAuthorList data) {
         return aggregate(data, new ComparitorGvAuthor(), SAME_BOOL, new CanonicalAuthor());
     }
 
-    public static GvDataMap<GvSubjectList.GvSubject, GvDataList<GvSubjectList.GvSubject>> aggregate
-            (GvSubjectList data) {
+    public static GvCanonicalList<GvSubjectList.GvSubject> aggregate(GvSubjectList data) {
         return aggregate(data, new ComparitorGvSubject(), SAME_PCNT, new CanonicalSubjectMode());
     }
 
-    public static GvDataMap<GvTagList.GvTag, GvDataList<GvTagList.GvTag>> aggregate
-            (GvTagList data) {
+    public static GvCanonicalList<GvTagList.GvTag> aggregate(GvTagList data) {
         return aggregate(data, new ComparitorGvTag(), SAME_PCNT, new CanonicalTagMode());
     }
 
-    public static GvDataMap<GvCommentList.GvComment, GvDataList<GvCommentList.GvComment>> aggregate
-            (GvCommentList data) {
+    public static GvCanonicalList<GvCommentList.GvComment> aggregate(GvCommentList data) {
         return aggregate(data, new ComparitorGvComment(), SAME_PCNT, new CanonicalCommentMode());
     }
 
-    public static GvDataMap<GvDateList.GvDate, GvDataList<GvDateList.GvDate>> aggregate
-            (GvDateList data) {
+    public static GvCanonicalList<GvDateList.GvDate> aggregate(GvDateList data) {
         return aggregate(data, new ComparitorGvDate(), SAME_DAY, new CanonicalDate());
     }
 
-    public static GvDataMap<GvImageList.GvImage, GvDataList<GvImageList.GvImage>> aggregate
-            (GvImageList data) {
+    public static GvCanonicalList<GvImageList.GvImage> aggregate(GvImageList data) {
         return aggregate(data, new ComparitorGvImageBitmap(), SAME_BOOL, new CanonicalImage());
     }
 
-    public static GvDataMap<GvLocationList.GvLocation, GvDataList<GvLocationList.GvLocation>>
-    aggregate
-            (GvLocationList data) {
+    public static GvCanonicalList<GvLocationList.GvLocation> aggregate(GvLocationList data) {
         return aggregate(data, new ComparitorGvLocation(), SAME_LOC, new CanonicalLocation());
     }
 
-    public static GvDataMap<GvChildReviewList.GvChildReview, GvDataList<GvChildReviewList
-            .GvChildReview>>
-    aggregate
-            (GvChildReviewList data) {
+    public static GvCanonicalList<GvChildReviewList.GvChildReview> aggregate(GvChildReviewList
+                                                                                     data) {
         return aggregate(data, new ComparitorGvChildReview(), SAME_PCNT, new CanonicalChildReview
                 ());
     }
 
-    public static GvDataMap<GvFactList.GvFact, GvDataList<GvFactList.GvFact>> aggregate
-            (GvFactList data) {
+    public static GvCanonicalList<GvFactList.GvFact> aggregate(GvFactList data) {
         return aggregate(data, new ComparitorGvFactLabel(), SAME_PCNT, new CanonicalFact());
     }
 
-    private static <T extends GvData, D1, D2 extends DifferenceLevel<D1>> GvDataMap<T,
-            GvDataList<T>> aggregate(GvDataList<T> data,
-                                     DifferenceComparitor<T, D2> comparitor,
-                                     D1 threshold,
-                                     CanonicalDatumMaker<T> canonical) {
+    private static <T extends GvData, D1, D2 extends DifferenceLevel<D1>> GvCanonicalList<T>
+    aggregate(GvDataList<T> data,
+              DifferenceComparitor<T, D2> comparitor,
+              D1 threshold,
+              CanonicalDatumMaker<T> canonical) {
         GvDataAggregater<T, D1, D2> aggregater = new GvDataAggregater<>(comparitor, threshold,
                 canonical);
         return aggregater.aggregate(data);

@@ -6,15 +6,12 @@ import com.chdryra.android.reviewer.View.GvDataAggregation.CanonicalCommentMode;
 import com.chdryra.android.reviewer.View.GvDataAggregation.ComparitorGvComment;
 import com.chdryra.android.reviewer.View.GvDataAggregation.DifferencePercentage;
 import com.chdryra.android.reviewer.View.GvDataAggregation.GvDataAggregater;
+import com.chdryra.android.reviewer.View.GvDataModel.GvCanonical;
+import com.chdryra.android.reviewer.View.GvDataModel.GvCanonicalList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvDataMap;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
 
 import junit.framework.TestCase;
-
-import java.util.Map;
-import java.util.Set;
 
 /**
  * Created by: Rizwan Choudrey
@@ -34,18 +31,13 @@ public class GvDataAggregaterTest extends TestCase {
 
         GvDataAggregater<GvCommentList.GvComment, DifferencePercentage, DifferencePercentage>
                 aggregater = new GvDataAggregater<>(comparitor, minDiff, canonical);
-        GvDataMap<GvCommentList.GvComment, GvDataList<GvCommentList.GvComment>> results;
-        results = aggregater.aggregate(data);
+        GvCanonicalList<GvCommentList.GvComment> results = aggregater.aggregate(data);
 
         assertTrue(results.size() > 0);
         int total = 0;
-        Set<Map.Entry<GvCommentList.GvComment, GvDataList<GvCommentList.GvComment>>> entrySet;
-        entrySet = results.entrySet();
-        for (Map.Entry<GvCommentList.GvComment, GvDataList<GvCommentList.GvComment>> entry :
-                entrySet) {
-            GvCommentList.GvComment key = entry.getKey();
-            GvCommentList values = (GvCommentList) entry.getValue();
-            assertEquals(canonical.getCanonical(values), key);
+        for (GvCanonical<GvCommentList.GvComment> gvCanonical : results) {
+            GvCommentList values = (GvCommentList) gvCanonical.toList();
+            assertEquals(canonical.getCanonical(values), gvCanonical.getCanonical());
             int numVals = values.size();
             assertTrue(numVals > 0 && numVals < NUM);
             total += numVals;

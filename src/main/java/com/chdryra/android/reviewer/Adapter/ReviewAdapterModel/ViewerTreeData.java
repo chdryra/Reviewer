@@ -12,7 +12,7 @@ import com.chdryra.android.reviewer.Adapter.DataAdapterModel.MdGvConverter;
 import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
 import com.chdryra.android.reviewer.Model.Tagging.TagsManager;
 import com.chdryra.android.reviewer.Model.TreeMethods.TreeDataGetter;
-import com.chdryra.android.reviewer.View.GvDataAggregation.Aggregater2;
+import com.chdryra.android.reviewer.View.GvDataAggregation.Aggregater;
 import com.chdryra.android.reviewer.View.GvDataModel.GvChildReviewList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataCollection;
@@ -50,17 +50,17 @@ public class ViewerTreeData implements GridDataViewer<GvData> {
         GvReviewOverviewList reviews = wrapper.getGridData();
         if (reviews.size() > 0) {
             data.add(reviews);
-            data.add(Aggregater2.aggregate(MdGvConverter.convertChildAuthors(mNode)));
-            data.add(Aggregater2.aggregate(MdGvConverter.convertChildSubjects(mNode)));
-            data.add(Aggregater2.aggregate(MdGvConverter.convertChildPublishDates(mNode)));
+            data.add(Aggregater.aggregate(MdGvConverter.convertChildAuthors(mNode)));
+            data.add(Aggregater.aggregate(MdGvConverter.convertChildSubjects(mNode)));
+            data.add(Aggregater.aggregate(MdGvConverter.convertChildPublishDates(mNode)));
         }
 
-        data.add(Aggregater2.aggregate(tagCollector.collectTags()));
-        data.add(Aggregater2.aggregate(collectCriteria()));
-        data.add(Aggregater2.aggregate(MdGvConverter.convert(mGetter.getImages())));
-        data.add(Aggregater2.aggregate(MdGvConverter.convert(mGetter.getComments())));
-        data.add(Aggregater2.aggregate(MdGvConverter.convert(mGetter.getLocations())));
-        data.add(Aggregater2.aggregate(MdGvConverter.convert(mGetter.getFacts())));
+        data.add(Aggregater.aggregate(tagCollector.collectTags()));
+        data.add(Aggregater.aggregate(collectCriteria()));
+        data.add(Aggregater.aggregate(MdGvConverter.convert(mGetter.getImages())));
+        data.add(Aggregater.aggregate(MdGvConverter.convert(mGetter.getComments())));
+        data.add(Aggregater.aggregate(MdGvConverter.convert(mGetter.getLocations())));
+        data.add(Aggregater.aggregate(MdGvConverter.convert(mGetter.getFacts())));
 
         return data;
     }

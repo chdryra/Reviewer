@@ -6,10 +6,10 @@ import android.test.suitebuilder.annotation.SmallTest;
 import com.chdryra.android.mygenerallibrary.LatLngMidpoint;
 import com.chdryra.android.reviewer.View.GvDataAggregation.Aggregater;
 import com.chdryra.android.reviewer.View.GvDataModel.GvAuthorList;
+import com.chdryra.android.reviewer.View.GvDataModel.GvCanonical;
+import com.chdryra.android.reviewer.View.GvDataModel.GvCanonicalList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvChildReviewList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvDataMap;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDateList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvFactList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
@@ -70,16 +70,16 @@ public class AggregaterTest extends TestCase {
         }
         assertEquals(total, authors.size());
 
-        GvDataMap<GvAuthorList.GvAuthor, GvDataList<GvAuthorList.GvAuthor>> results
-                = Aggregater.aggregate(authors);
+        GvCanonicalList<GvAuthorList.GvAuthor> results = Aggregater.aggregate(authors);
         assertEquals(references.length, results.size());
 
         for (int i = 0; i < references.length; ++i) {
-            GvAuthorList.GvAuthor key = results.getItem(i);
-            GvAuthorList values = (GvAuthorList) results.get(key);
+            GvCanonical<GvAuthorList.GvAuthor> gvCanonical = results.getItem(i);
+            GvAuthorList.GvAuthor canonical = gvCanonical.getCanonical();
+            GvAuthorList values = (GvAuthorList) gvCanonical.toList();
             GvAuthorList.GvAuthor reference = references[i];
-            assertEquals(reference.getName(), key.getName());
-            assertEquals(reference.getUserId(), key.getUserId());
+            assertEquals(reference.getName(), canonical.getName());
+            assertEquals(reference.getUserId(), canonical.getUserId());
             assertEquals(referenceNums[i], values.size());
             for (int j = 0; j < values.size(); ++j) {
                 GvAuthorList.GvAuthor value = values.getItem(j);
@@ -123,15 +123,15 @@ public class AggregaterTest extends TestCase {
         }
         assertEquals(total, subjects.size());
 
-        GvDataMap<GvSubjectList.GvSubject, GvDataList<GvSubjectList.GvSubject>> results
-                = Aggregater.aggregate(subjects);
+        GvCanonicalList<GvSubjectList.GvSubject> results = Aggregater.aggregate(subjects);
         assertEquals(references.length, results.size());
 
         for (int i = 0; i < references.length; ++i) {
-            GvSubjectList.GvSubject key = results.getItem(i);
-            GvSubjectList values = (GvSubjectList) results.get(key);
+            GvCanonical<GvSubjectList.GvSubject> gvCanonical = results.getItem(i);
+            GvSubjectList values = (GvSubjectList) gvCanonical.toList();
             GvSubjectList.GvSubject reference = references[i];
-            assertEquals(reference.get(), key.get());
+            GvSubjectList.GvSubject canonical = gvCanonical.getCanonical();
+            assertEquals(reference.get(), canonical.get());
             assertEquals(referenceNums[i], values.size());
             for (int j = 0; j < values.size(); ++j) {
                 GvSubjectList.GvSubject value = values.getItem(j);
@@ -174,15 +174,15 @@ public class AggregaterTest extends TestCase {
         }
         assertEquals(total, tags.size());
 
-        GvDataMap<GvTagList.GvTag, GvDataList<GvTagList.GvTag>> results
-                = Aggregater.aggregate(tags);
+        GvCanonicalList<GvTagList.GvTag> results = Aggregater.aggregate(tags);
         assertEquals(references.length, results.size());
 
         for (int i = 0; i < references.length; ++i) {
-            GvTagList.GvTag key = results.getItem(i);
-            GvTagList values = (GvTagList) results.get(key);
+            GvCanonical<GvTagList.GvTag> gvCanonical = results.getItem(i);
+            GvTagList.GvTag canonical = gvCanonical.getCanonical();
+            GvTagList values = (GvTagList) gvCanonical.toList();
             GvTagList.GvTag reference = references[i];
-            assertEquals(reference.get(), key.get());
+            assertEquals(reference.get(), canonical.get());
             assertEquals(referenceNums[i], values.size());
             for (int j = 0; j < values.size(); ++j) {
                 GvTagList.GvTag value = values.getItem(j);
@@ -225,15 +225,15 @@ public class AggregaterTest extends TestCase {
         }
         assertEquals(total, comments.size());
 
-        GvDataMap<GvCommentList.GvComment, GvDataList<GvCommentList.GvComment>> results
-                = Aggregater.aggregate(comments);
+        GvCanonicalList<GvCommentList.GvComment> results = Aggregater.aggregate(comments);
         assertEquals(references.length, results.size());
 
         for (int i = 0; i < references.length; ++i) {
-            GvCommentList.GvComment key = results.getItem(i);
-            GvCommentList values = (GvCommentList) results.get(key);
+            GvCanonical<GvCommentList.GvComment> gvCanonical = results.getItem(i);
+            GvCommentList.GvComment canonical = gvCanonical.getCanonical();
+            GvCommentList values = (GvCommentList) gvCanonical.toList();
             GvCommentList.GvComment reference = references[i];
-            assertEquals(reference.getComment(), key.getComment());
+            assertEquals(reference.getComment(), canonical.getComment());
             assertEquals(referenceNums[i], values.size());
             for (int j = 0; j < values.size(); ++j) {
                 GvCommentList.GvComment value = values.getItem(j);
@@ -307,15 +307,15 @@ public class AggregaterTest extends TestCase {
         }
         assertEquals(total, dates.size());
 
-        GvDataMap<GvDateList.GvDate, GvDataList<GvDateList.GvDate>> results
-                = Aggregater.aggregate(dates);
+        GvCanonicalList<GvDateList.GvDate> results = Aggregater.aggregate(dates);
         assertEquals(refDates.length - 1, results.size());
 
         for (int i = 1; i < refDates.length; ++i) {
-            GvDateList.GvDate key = results.getItem(i - 1);
-            GvDateList values = (GvDateList) results.get(key);
+            GvCanonical<GvDateList.GvDate> gvCanonical = results.getItem(i - 1);
+            GvDateList.GvDate canonical = gvCanonical.getCanonical();
+            GvDateList values = (GvDateList) gvCanonical.toList();
             GvDateList.GvDate reference = refDates[i];
-            assertEquals(reference.getDate(), key.getDate());
+            assertEquals(reference.getDate(), canonical.getDate());
             assertEquals(refNums[i - 1], values.size());
             for (int j = 0; j < values.size(); ++j) {
                 GvDateList.GvDate value = values.getItem(j);
@@ -376,15 +376,15 @@ public class AggregaterTest extends TestCase {
         }
         assertEquals(total, images.size());
 
-        GvDataMap<GvImageList.GvImage, GvDataList<GvImageList.GvImage>> results
-                = Aggregater.aggregate(images);
+        GvCanonicalList<GvImageList.GvImage> results = Aggregater.aggregate(images);
         assertEquals(references.length - 1, results.size());
 
         for (int i = 0; i < references.length - 1; ++i) {
-            GvImageList.GvImage key = results.getItem(i);
-            GvImageList values = (GvImageList) results.get(key);
+            GvCanonical<GvImageList.GvImage> gvCanonical = results.getItem(i);
+            GvImageList.GvImage canonical = gvCanonical.getCanonical();
+            GvImageList values = (GvImageList) gvCanonical.toList();
             GvImageList.GvImage reference = references[i];
-            assertEquals(reference.getBitmap(), key.getBitmap());
+            assertEquals(reference.getBitmap(), canonical.getBitmap());
             assertEquals(refNums[i], values.size());
             for (int j = 0; j < values.size(); ++j) {
                 GvImageList.GvImage value = values.getItem(j);
@@ -452,17 +452,18 @@ public class AggregaterTest extends TestCase {
 
         assertEquals(total, locations.size());
 
-        GvDataMap<GvLocationList.GvLocation, GvDataList<GvLocationList.GvLocation>> results
-                = Aggregater.aggregate(locations);
+        GvCanonicalList<GvLocationList.GvLocation> results = Aggregater.aggregate(locations);
         assertEquals(references.length, results.size());
 
         for (int i = 0; i < references.length; ++i) {
-            GvLocationList.GvLocation key = results.getItem(i);
-            GvLocationList values = (GvLocationList) results.get(key);
+            GvCanonical<GvLocationList.GvLocation> gvCanonical = results.getItem(i);
+            GvLocationList.GvLocation canonical = gvCanonical.getCanonical();
+            GvLocationList values = (GvLocationList) gvCanonical.toList();
             GvLocationList.GvLocation reference = references[i];
-            assertEquals(reference.getLatLng().latitude, key.getLatLng().latitude, 0.0000001);
-            assertEquals(reference.getLatLng().longitude, key.getLatLng().longitude, 0.0000001);
-            assertEquals(reference.getName(), key.getName());
+            assertEquals(reference.getLatLng().latitude, canonical.getLatLng().latitude, 0.0000001);
+            assertEquals(reference.getLatLng().longitude, canonical.getLatLng().longitude, 0
+            .0000001);
+            assertEquals(reference.getName(), canonical.getName());
             assertEquals(refNums[i], values.size());
             for (int j = 0; j < values.size(); ++j) {
                 GvLocationList.GvLocation value = values.getItem(j);
@@ -533,17 +534,16 @@ public class AggregaterTest extends TestCase {
 
         assertEquals(total, reviews.size());
 
-        GvDataMap<GvChildReviewList.GvChildReview, GvDataList<GvChildReviewList.GvChildReview>>
-                results
-                = Aggregater.aggregate(reviews);
+        GvCanonicalList<GvChildReviewList.GvChildReview> results = Aggregater.aggregate(reviews);
         assertEquals(references.length, results.size());
 
         for (int i = 0; i < references.length; ++i) {
-            GvChildReviewList.GvChildReview key = results.getItem(i);
-            GvChildReviewList values = (GvChildReviewList) results.get(key);
+            GvCanonical<GvChildReviewList.GvChildReview> gvCanonical = results.getItem(i);
+            GvChildReviewList.GvChildReview canonical = gvCanonical.getCanonical();
+            GvChildReviewList values = (GvChildReviewList) gvCanonical.toList();
             GvChildReviewList.GvChildReview reference = references[i];
-            assertEquals(reference.getSubject(), key.getSubject());
-            assertEquals(reference.getRating(), key.getRating(), 0.0001);
+            assertEquals(reference.getSubject(), canonical.getSubject());
+            assertEquals(reference.getRating(), canonical.getRating(), 0.0001);
             assertEquals(refNums[i], values.size());
             average = 0f;
             for (int j = 0; j < values.size(); ++j) {
@@ -604,16 +604,16 @@ public class AggregaterTest extends TestCase {
 
         assertEquals(total, facts.size());
 
-        GvDataMap<GvFactList.GvFact, GvDataList<GvFactList.GvFact>> results
-                = Aggregater.aggregate(facts);
+        GvCanonicalList<GvFactList.GvFact> results = Aggregater.aggregate(facts);
         assertEquals(references.length, results.size());
 
         for (int i = 0; i < references.length; ++i) {
-            GvFactList.GvFact key = results.getItem(i);
-            GvFactList values = (GvFactList) results.get(key);
+            GvCanonical<GvFactList.GvFact> gvCanonical = results.getItem(i);
+            GvFactList.GvFact canonical = gvCanonical.getCanonical();
+            GvFactList values = (GvFactList) gvCanonical.toList();
             GvFactList.GvFact reference = references[i];
-            assertEquals(reference.getLabel(), key.getLabel());
-            assertEquals(reference.getValue(), key.getValue());
+            assertEquals(reference.getLabel(), canonical.getLabel());
+            assertEquals(reference.getValue(), canonical.getValue());
             assertEquals(refNums[i], values.size());
             for (int j = 0; j < values.size(); ++j) {
                 GvFactList.GvFact value = values.getItem(j);

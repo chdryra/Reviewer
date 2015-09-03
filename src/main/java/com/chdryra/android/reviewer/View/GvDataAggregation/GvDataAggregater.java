@@ -1,15 +1,16 @@
 package com.chdryra.android.reviewer.View.GvDataAggregation;
 
 import com.chdryra.android.reviewer.View.GvDataModel.FactoryGvData;
+import com.chdryra.android.reviewer.View.GvDataModel.GvCanonical;
+import com.chdryra.android.reviewer.View.GvDataModel.GvCanonicalList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvDataMap;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
 import com.chdryra.android.reviewer.View.GvDataModel.GvList;
 
 /**
  * Created by: Rizwan Choudrey
- * On: 26/08/2015
+ * On: 02/09/2015
  * Email: rizwan.choudrey@gmail.com
  */
 public class GvDataAggregater<T extends GvData, D1, D2 extends DifferenceLevel<D1>> {
@@ -24,15 +25,14 @@ public class GvDataAggregater<T extends GvData, D1, D2 extends DifferenceLevel<D
         mCanonical = canonical;
     }
 
-    public GvDataMap<T, GvDataList<T>> aggregate(GvDataList<T> data) {
+    public GvCanonicalList<T> aggregate(GvDataList<T> data) {
         GvDataType listType = data.getGvDataType();
-        //TODO make type safe
-        GvDataMap<T, GvDataList<T>> results =
-                new GvDataMap<>(listType.getElementType(), listType, data.getReviewId());
 
         GvList allocated = new GvList();
+        //TODO mae type safe
+        GvCanonicalList<T> results = new GvCanonicalList<>(listType.getElementType());
         for (T reference : data) {
-            if(allocated.contains(reference)) continue;
+            if (allocated.contains(reference)) continue;
             //TODO make type safe
             GvDataList<T> similar = FactoryGvData.newDataList(listType, data.getReviewId());
             similar.add(reference);
@@ -46,10 +46,11 @@ public class GvDataAggregater<T extends GvData, D1, D2 extends DifferenceLevel<D
                 }
             }
 
-            results.put(mCanonical.getCanonical(similar), similar);
+            results.add(new GvCanonical<>(mCanonical.getCanonical(similar), similar));
         }
 
         return results;
     }
 }
+
 
