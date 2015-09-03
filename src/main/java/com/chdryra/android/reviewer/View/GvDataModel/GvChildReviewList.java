@@ -25,11 +25,11 @@ public class GvChildReviewList extends GvDataList<GvChildReviewList.GvChildRevie
             GvTypeMaker.newType(GvChildReviewList.class, GvChildReview.TYPE);
 
     public GvChildReviewList() {
-        super(GvChildReview.class, TYPE, null);
+        super(TYPE, null);
     }
 
     public GvChildReviewList(GvReviewId id) {
-        super(GvChildReview.class, TYPE, id);
+        super(TYPE, id);
     }
 
     public GvChildReviewList(GvChildReviewList data) {

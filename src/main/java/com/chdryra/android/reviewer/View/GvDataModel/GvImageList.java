@@ -30,11 +30,11 @@ public class GvImageList extends GvDataList<GvImageList.GvImage> {
             GvTypeMaker.newType(GvImageList.class, GvImage.TYPE);
 
     public GvImageList() {
-        super(GvImage.class, TYPE, null);
+        super(TYPE, null);
     }
 
     public GvImageList(GvReviewId id) {
-        super(GvImage.class, TYPE, id);
+        super(TYPE, id);
     }
 
     public GvImageList(GvImageList data) {

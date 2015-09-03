@@ -99,6 +99,18 @@ public class FactoryGvData {
         }
     }
 
+    public static <T extends GvData> GvDataType getType(Class<T> dataClass) {
+        return newNull(dataClass).getGvDataType();
+    }
+
+    public static <T extends GvData> Class<GvCanonical<T>> getCanonicalClass(Class<T>
+                                                                                     canonicalClass) {
+        GvDataList<T> list = newDataList(getType(canonicalClass));
+        T nullData = newNull(canonicalClass);
+        GvCanonical<T> nullCanonical = new GvCanonical<T>(nullData, list);
+        return (Class<GvCanonical<T>>) nullCanonical.getClass();
+    }
+
     public static <T extends GvData> T copy(T datum) {
         Class<T> dataClass = (Class<T>) datum.getClass();
         try {

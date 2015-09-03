@@ -22,12 +22,12 @@ public class GvUrlList extends GvDataList<GvUrlList.GvUrl> {
             .TYPE);
 
     public GvUrlList() {
-        super(GvUrl.class, TYPE, null);
+        super(TYPE, null);
     }
 
 
     public GvUrlList(GvReviewId id) {
-        super(GvUrl.class, TYPE, id);
+        super(TYPE, id);
     }
 
     public GvUrlList(GvUrlList data) {

@@ -20,12 +20,12 @@ public class GvTextList<T extends GvText> extends GvDataList<T> {
     private static final GvDataType<GvTextList> TYPE
             = GvTypeMaker.newType(GvTextList.class, GvText.TYPE);
 
-    public GvTextList(Class<T> dataClass, GvDataType type) {
-        super(dataClass, type, null);
+    public GvTextList(GvDataType type) {
+        super(type, null);
     }
 
-    public GvTextList(Class<T> dataClass, GvDataType type, GvReviewId id) {
-        super(dataClass, type, id);
+    public GvTextList(GvDataType type, GvReviewId id) {
+        super(type, id);
     }
 
     public GvTextList(GvTextList<T> data) {
@@ -33,7 +33,7 @@ public class GvTextList<T extends GvText> extends GvDataList<T> {
     }
 
     public static GvTextList<GvText> newTextList() {
-        return new GvTextList<>(GvText.class, GvTextList.TYPE);
+        return new GvTextList<>(GvTextList.TYPE);
     }
 
     public ArrayList<String> toStringArray() {

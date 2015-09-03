@@ -22,11 +22,11 @@ public class GvFactList extends GvDataList<GvFactList.GvFact> {
             GvTypeMaker.newType(GvFactList.class, GvFact.TYPE);
 
     public GvFactList() {
-        super(GvFact.class, TYPE, null);
+        super(TYPE, null);
     }
 
     public GvFactList(GvReviewId id) {
-        super(GvFact.class, TYPE, id);
+        super(TYPE, id);
     }
 
     public GvFactList(GvFactList data) {

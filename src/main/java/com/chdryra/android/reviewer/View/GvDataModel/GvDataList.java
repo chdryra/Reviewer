@@ -40,22 +40,20 @@ public class GvDataList<T extends GvData> extends ViewHolderDataList<T> implemen
         }
     };
 
-    private final Class<T>   mDataClass;
-    private final GvDataType mType;
+    private final GvDataType<? extends GvDataList<T>> mType;
     private       GvReviewId mReviewId;
 
+    //TODO make type safe
     public GvDataList(GvReviewId reviewId, GvDataList<T> data) {
-        this(data.mDataClass, data.getGvDataType(), reviewId);
+        this(data.getGvDataType(), reviewId);
         for (T datum : data) {
             add(FactoryGvData.copy(datum));
         }
     }
 
-    public GvDataList(Class<T> dataClass, GvDataType mDataType, GvReviewId
-            reviewId) {
+    public <T2 extends GvDataList<T>> GvDataList(GvDataType<T2> mDataType, GvReviewId reviewId) {
         mReviewId = reviewId;
         mType = mDataType;
-        mDataClass = dataClass;
     }
 
     //Copy constructor
@@ -66,8 +64,7 @@ public class GvDataList<T extends GvData> extends ViewHolderDataList<T> implemen
     //TODO make type safe
     public GvDataList(Parcel in) {
         mType = in.readParcelable(GvDataType.class.getClassLoader());
-        mDataClass = (Class<T>) in.readValue(Class.class.getClassLoader());
-        T[] data = (T[]) in.readParcelableArray(mDataClass.getClassLoader());
+        T[] data = (T[]) in.readParcelableArray(mType.getClass().getClassLoader());
         mData = new ArrayList<>(Arrays.asList(data));
         mReviewId = in.readParcelable(GvReviewId.class.getClassLoader());
     }
@@ -121,7 +118,6 @@ public class GvDataList<T extends GvData> extends ViewHolderDataList<T> implemen
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeParcelable(mType, flags);
-        dest.writeValue(mDataClass);
         dest.writeParcelableArray((T[]) mData.toArray(), flags);
         dest.writeParcelable(mReviewId, flags);
     }

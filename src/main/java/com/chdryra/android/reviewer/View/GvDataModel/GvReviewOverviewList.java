@@ -37,11 +37,11 @@ public class GvReviewOverviewList extends GvDataList<GvReviewOverviewList.GvRevi
             = GvTypeMaker.newType(GvReviewOverviewList.class, GvReviewOverview.TYPE);
 
     public GvReviewOverviewList() {
-        super(GvReviewOverview.class, TYPE, null);
+        super(TYPE, null);
     }
 
     public GvReviewOverviewList(GvReviewId parentId) {
-        super(GvReviewOverview.class, TYPE, parentId);
+        super(TYPE, parentId);
     }
 
     public GvReviewOverviewList(GvReviewOverviewList data) {

@@ -24,11 +24,11 @@ public class GvLocationList extends GvDataList<GvLocationList.GvLocation> {
             GvTypeMaker.newType(GvLocationList.class, GvLocation.TYPE);
 
     public GvLocationList() {
-        super(GvLocation.class, TYPE, null);
+        super(TYPE, null);
     }
 
     public GvLocationList(GvReviewId id) {
-        super(GvLocation.class, TYPE, id);
+        super(TYPE, id);
     }
 
     public GvLocationList(GvLocationList data) {

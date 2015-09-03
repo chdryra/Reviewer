@@ -32,7 +32,7 @@ public class GvSocialPlatformList extends GvDataList<GvSocialPlatformList.GvSoci
 
     //For testing
     public GvSocialPlatformList() {
-        super(GvSocialPlatform.class, TYPE, null);
+        super(TYPE, null);
     }
 
     private GvSocialPlatformList(Context context) {

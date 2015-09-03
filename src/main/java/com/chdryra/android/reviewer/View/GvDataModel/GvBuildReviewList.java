@@ -29,7 +29,7 @@ public class GvBuildReviewList extends GvDataList<GvBuildReviewList.GvBuildRevie
     private final ReviewBuilder mBuilder;
 
     private GvBuildReviewList(ReviewBuilder builder) {
-        super(GvBuildReview.class, TYPE, null);
+        super(TYPE, null);
 
         mBuilder = builder;
 
@@ -64,7 +64,7 @@ public class GvBuildReviewList extends GvDataList<GvBuildReviewList.GvBuildRevie
         private final ReviewBuilder.DataBuilder<T> mBuilder;
 
         private GvBuildReview(GvDataType<T> dataType, ReviewBuilder builder) {
-            super(dataType.getDataClass(), dataType, null);
+            super(TYPE, null);
             mDataType = dataType;
             mConfig = ConfigGvDataUi.getConfig(dataType);
             mBuilder = builder.getDataBuilder(dataType);

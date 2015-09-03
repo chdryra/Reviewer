@@ -26,11 +26,11 @@ public class GvAuthorList extends GvDataList<GvAuthorList.GvAuthor> {
             GvTypeMaker.newType(GvAuthorList.class, GvAuthor.TYPE);
 
     public GvAuthorList() {
-        super(GvAuthor.class, TYPE, null);
+        super(TYPE, null);
     }
 
     public GvAuthorList(GvReviewId id) {
-        super(GvAuthor.class, TYPE, id);
+        super(TYPE, id);
     }
 
     public GvAuthorList(GvAuthorList data) {

@@ -28,11 +28,11 @@ public class GvDateList extends GvDataList<GvDateList.GvDate> {
             = GvTypeMaker.newType(GvDateList.class, GvDate.TYPE);
 
     public GvDateList() {
-        super(GvDate.class, TYPE, null);
+        super(TYPE, null);
     }
 
     public GvDateList(GvReviewId id) {
-        super(GvDate.class, TYPE, id);
+        super(TYPE, id);
     }
 
     public GvDateList(GvDateList data) {

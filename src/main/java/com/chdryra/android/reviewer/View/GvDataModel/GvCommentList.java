@@ -26,11 +26,11 @@ public class GvCommentList extends GvDataList<GvCommentList.GvComment> {
             = GvTypeMaker.newType(GvCommentList.class, GvComment.TYPE);
 
     public GvCommentList() {
-        super(GvComment.class, TYPE, null);
+        super(TYPE, null);
     }
 
     public GvCommentList(GvReviewId id) {
-        super(GvComment.class, TYPE, id);
+        super(TYPE, id);
     }
 
     public GvCommentList(GvCommentList data) {

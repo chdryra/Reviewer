@@ -19,11 +19,11 @@ public class GvTagList extends GvTextList<GvTagList.GvTag> {
             .TYPE);
 
     public GvTagList() {
-        super(GvTag.class, TYPE);
+        super(TYPE);
     }
 
     public GvTagList(GvReviewId id) {
-        super(GvTag.class, TYPE, id);
+        super(TYPE, id);
     }
 
     public GvTagList(GvTagList data) {
