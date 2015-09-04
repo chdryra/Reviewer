@@ -19,15 +19,20 @@ public class GvTagList extends GvTextList<GvTagList.GvTag> {
             .TYPE);
 
     public GvTagList() {
-        super(TYPE);
+        super(GvTag.TYPE);
     }
 
     public GvTagList(GvReviewId id) {
-        super(TYPE, id);
+        super(GvTag.TYPE, id);
     }
 
     public GvTagList(GvTagList data) {
         super(data);
+    }
+
+    @Override
+    public GvDataType getGvDataType() {
+        return TYPE;
     }
 
     /**

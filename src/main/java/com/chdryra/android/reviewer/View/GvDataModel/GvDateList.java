@@ -15,7 +15,6 @@ import com.chdryra.android.mygenerallibrary.ViewHolder;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Comparator;
 import java.util.Date;
 
 /**
@@ -37,17 +36,6 @@ public class GvDateList extends GvDataList<GvDateList.GvDate> {
 
     public GvDateList(GvDateList data) {
         super(data);
-    }
-
-    @Override
-    protected Comparator<GvDate> getDefaultComparator() {
-        return new Comparator<GvDate>() {
-
-            @Override
-            public int compare(GvDate lhs, GvDate rhs) {
-                return lhs.mDate.compareTo(rhs.mDate);
-            }
-        };
     }
 
     /**

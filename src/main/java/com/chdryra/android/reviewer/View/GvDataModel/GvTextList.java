@@ -9,7 +9,6 @@
 package com.chdryra.android.reviewer.View.GvDataModel;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 
 /**
  * Created by: Rizwan Choudrey
@@ -17,15 +16,15 @@ import java.util.Comparator;
  * Email: rizwan.choudrey@gmail.com
  */
 public class GvTextList<T extends GvText> extends GvDataList<T> {
-    private static final GvDataType<GvTextList> TYPE
+    public static final GvDataType<GvTextList> TYPE
             = GvTypeMaker.newType(GvTextList.class, GvText.TYPE);
 
-    public GvTextList(GvDataType type) {
-        super(type, null);
+    public GvTextList(GvDataType<T> type) {
+        this(type, null);
     }
 
-    public GvTextList(GvDataType type, GvReviewId id) {
-        super(type, id);
+    public GvTextList(GvDataType<T> type, GvReviewId id) {
+        super(GvTypeMaker.newType(GvTextList.class, type), id);
     }
 
     public GvTextList(GvTextList<T> data) {
@@ -33,7 +32,7 @@ public class GvTextList<T extends GvText> extends GvDataList<T> {
     }
 
     public static GvTextList<GvText> newTextList() {
-        return new GvTextList<>(GvTextList.TYPE);
+        return new GvTextList<>(GvText.TYPE);
     }
 
     public ArrayList<String> toStringArray() {
@@ -43,16 +42,5 @@ public class GvTextList<T extends GvText> extends GvDataList<T> {
         }
 
         return strings;
-    }
-
-    @Override
-    protected Comparator<T> getDefaultComparator() {
-        return new Comparator<T>() {
-
-            @Override
-            public int compare(T lhs, T rhs) {
-                return lhs.get().compareToIgnoreCase(rhs.get());
-            }
-        };
     }
 }

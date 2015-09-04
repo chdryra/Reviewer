@@ -19,7 +19,7 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvLocationList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvTagList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvUrlList;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
-import com.chdryra.android.reviewer.test.TestUtils.GvDataParcelableTester;
+import com.chdryra.android.reviewer.test.TestUtils.ParcelableTester;
 import com.chdryra.android.reviewer.test.TestUtils.RandomReviewId;
 import com.chdryra.android.testutils.RandomLatLng;
 import com.chdryra.android.testutils.RandomString;
@@ -45,11 +45,11 @@ public class GvLocationListTest extends TestCase {
 
     @SmallTest
     public void testParcelable() {
-        GvDataParcelableTester.testParcelable(GvDataMocker.newLocation(null));
-        GvDataParcelableTester.testParcelable(GvDataMocker.newLocation(RandomReviewId
+        ParcelableTester.testParcelable(GvDataMocker.newLocation(null));
+        ParcelableTester.testParcelable(GvDataMocker.newLocation(RandomReviewId
                 .nextGvReviewId()));
-        GvDataParcelableTester.testParcelable(GvDataMocker.newLocationList(10, false));
-        GvDataParcelableTester.testParcelable(GvDataMocker.newLocationList(10, true));
+        ParcelableTester.testParcelable(GvDataMocker.newLocationList(10, false));
+        ParcelableTester.testParcelable(GvDataMocker.newLocationList(10, true));
     }
 
     @SmallTest

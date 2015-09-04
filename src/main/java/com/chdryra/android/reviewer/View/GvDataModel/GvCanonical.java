@@ -49,7 +49,7 @@ public class GvCanonical<T extends GvData> implements GvDataCollection<T> {
 
     @Override
     public void sort() {
-
+        mData.sort();
     }
 
     @Override
@@ -110,6 +110,16 @@ public class GvCanonical<T extends GvData> implements GvDataCollection<T> {
     }
 
     @Override
+    public ViewHolder getViewHolder() {
+        return new VhCanonical(mCanonical.getGvDataType());
+    }
+
+    @Override
+    public boolean isValidForDisplay() {
+        return mCanonical.isValidForDisplay();
+    }
+
+    @Override
     public int describeContents() {
         return 0;
     }
@@ -119,15 +129,5 @@ public class GvCanonical<T extends GvData> implements GvDataCollection<T> {
         dest.writeParcelable(mType, flags);
         dest.writeParcelable(mCanonical, flags);
         dest.writeParcelable(mData, flags);
-    }
-
-    @Override
-    public ViewHolder getViewHolder() {
-        return new VhCanonical(mCanonical.getGvDataType());
-    }
-
-    @Override
-    public boolean isValidForDisplay() {
-        return mCanonical.isValidForDisplay();
     }
 }

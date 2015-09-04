@@ -17,7 +17,6 @@ import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataImage;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
 import com.google.android.gms.maps.model.LatLng;
 
-import java.util.Comparator;
 import java.util.Date;
 import java.util.Random;
 
@@ -64,31 +63,6 @@ public class GvImageList extends GvDataList<GvImageList.GvImage> {
         }
 
         return covers;
-    }
-
-    @Override
-    protected Comparator<GvImage> getDefaultComparator() {
-        return new Comparator<GvImage>() {
-            @Override
-            public int compare(GvImage lhs, GvImage rhs) {
-                int comp = 0;
-                if (contains(lhs) && contains(rhs)) {
-                    if (lhs.isCover() && !rhs.isCover()) {
-                        comp = -1;
-                    } else if (!lhs.isCover() && rhs.isCover()) {
-                        comp = 1;
-                    } else {
-                        if (lhs.getDate().after(rhs.getDate())) {
-                            comp = -1;
-                        } else if (lhs.getDate().before(rhs.getDate())) {
-                            comp = 1;
-                        }
-                    }
-                }
-
-                return comp;
-            }
-        };
     }
 
     /**

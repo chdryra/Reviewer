@@ -9,8 +9,7 @@
 package com.chdryra.android.reviewer.test.TestUtils;
 
 import android.os.Bundle;
-
-import com.chdryra.android.reviewer.View.GvDataModel.GvData;
+import android.os.Parcelable;
 
 import junit.framework.Assert;
 
@@ -19,12 +18,12 @@ import junit.framework.Assert;
  * On: 25/03/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class GvDataParcelableTester {
-    public static void testParcelable(GvData datum) {
+public class ParcelableTester {
+    public static <T extends Parcelable> void testParcelable(T parcelable) {
         Bundle args = new Bundle();
         String key = "key";
-        args.putParcelable(key, datum);
-        GvData ret = args.getParcelable(key);
-        Assert.assertEquals(datum, ret);
+        args.putParcelable(key, parcelable);
+        T ret = args.getParcelable(key);
+        Assert.assertEquals(parcelable, ret);
     }
 }

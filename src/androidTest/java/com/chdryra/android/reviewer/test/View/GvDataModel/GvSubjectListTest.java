@@ -19,7 +19,7 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvSubjectList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvText;
 import com.chdryra.android.reviewer.View.GvDataModel.GvUrlList;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
-import com.chdryra.android.reviewer.test.TestUtils.GvDataParcelableTester;
+import com.chdryra.android.reviewer.test.TestUtils.ParcelableTester;
 import com.chdryra.android.reviewer.test.TestUtils.RandomReviewId;
 
 import junit.framework.TestCase;
@@ -40,11 +40,11 @@ public class GvSubjectListTest extends TestCase {
 
     @SmallTest
     public void testParcelable() {
-        GvDataParcelableTester.testParcelable(GvDataMocker.newSubject(null));
-        GvDataParcelableTester.testParcelable(GvDataMocker.newSubject(RandomReviewId
+        ParcelableTester.testParcelable(GvDataMocker.newSubject(null));
+        ParcelableTester.testParcelable(GvDataMocker.newSubject(RandomReviewId
                 .nextGvReviewId()));
-        GvDataParcelableTester.testParcelable(GvDataMocker.newSubjectList(10, false));
-        GvDataParcelableTester.testParcelable(GvDataMocker.newSubjectList(10, true));
+        ParcelableTester.testParcelable(GvDataMocker.newSubjectList(10, false));
+        ParcelableTester.testParcelable(GvDataMocker.newSubjectList(10, true));
     }
 
     @SmallTest

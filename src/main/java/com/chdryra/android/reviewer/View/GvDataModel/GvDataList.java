@@ -14,9 +14,11 @@ import android.os.Parcelable;
 import com.chdryra.android.mygenerallibrary.ViewHolder;
 import com.chdryra.android.mygenerallibrary.ViewHolderDataList;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewAdapter;
+import com.chdryra.android.reviewer.View.GvDataSorting.GvDataSorters;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 
 /**
  * The View layer (V) data equivalent of the Model layer (M) data {@link com.chdryra.android
@@ -101,7 +103,7 @@ public class GvDataList<T extends GvData> extends ViewHolderDataList<T> implemen
         return this;
     }
 
-    //TODO make typesafe
+    //TODO make type safe
     public boolean contains(GvData datum) {
         try {
             return super.contains((T) datum);
@@ -118,6 +120,7 @@ public class GvDataList<T extends GvData> extends ViewHolderDataList<T> implemen
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeParcelable(mType, flags);
+        //TODO make type safe
         dest.writeParcelableArray((T[]) mData.toArray(), flags);
         dest.writeParcelable(mReviewId, flags);
     }
@@ -130,6 +133,11 @@ public class GvDataList<T extends GvData> extends ViewHolderDataList<T> implemen
     @Override
     public boolean isValidForDisplay() {
         return true;
+    }
+
+    @Override
+    protected Comparator<T> getDefaultComparator() {
+        return GvDataSorters.getDefaultComparator(mType.getElementType());
     }
 
     @Override

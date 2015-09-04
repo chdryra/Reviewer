@@ -13,7 +13,7 @@ import android.test.suitebuilder.annotation.SmallTest;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvReviewId;
-import com.chdryra.android.reviewer.test.TestUtils.GvDataParcelableTester;
+import com.chdryra.android.reviewer.test.TestUtils.ParcelableTester;
 import com.chdryra.android.reviewer.test.TestUtils.RandomReviewId;
 import com.chdryra.android.testutils.RandomString;
 
@@ -61,13 +61,13 @@ public class GvDataListTest extends TestCase {
     @SmallTest
     public void testParcelable() {
         mList.addList(newData(null));
-        GvDataParcelableTester.testParcelable(mList);
+        ParcelableTester.testParcelable(mList);
 
         GvReviewId id = RandomReviewId.nextGvReviewId();
         mList.removeAll();
         mList.addList(newData(id));
         GvDataList<GvCommentList.GvComment> idList = new GvDataList<>(id, mList);
-        GvDataParcelableTester.testParcelable(idList);
+        ParcelableTester.testParcelable(idList);
     }
 
     @Override

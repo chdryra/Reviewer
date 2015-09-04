@@ -15,8 +15,6 @@ import com.chdryra.android.mygenerallibrary.ViewHolder;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataFact;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
 
-import java.util.Comparator;
-
 public class GvFactList extends GvDataList<GvFactList.GvFact> {
     public static final GvDataType<GvFactList> TYPE =
             GvTypeMaker.newType(GvFactList.class, GvFact.TYPE);
@@ -40,22 +38,6 @@ public class GvFactList extends GvDataList<GvFactList.GvFact> {
         }
 
         return urls;
-    }
-
-    @Override
-    protected Comparator<GvFact> getDefaultComparator() {
-
-        return new Comparator<GvFact>() {
-            @Override
-            public int compare(GvFact lhs, GvFact rhs) {
-                int comp = lhs.getLabel().compareTo(rhs.getLabel());
-                if (comp == 0) {
-                    comp = lhs.getValue().compareTo(rhs.getValue());
-                }
-
-                return comp;
-            }
-        };
     }
 
     /**

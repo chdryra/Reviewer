@@ -18,7 +18,7 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvLocationList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvUrlList;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
-import com.chdryra.android.reviewer.test.TestUtils.GvDataParcelableTester;
+import com.chdryra.android.reviewer.test.TestUtils.ParcelableTester;
 import com.chdryra.android.reviewer.test.TestUtils.RandomReviewId;
 
 import junit.framework.TestCase;
@@ -39,11 +39,11 @@ public class GvAuthorListTest extends TestCase {
 
     @SmallTest
     public void testParcelable() {
-        GvDataParcelableTester.testParcelable(GvDataMocker.newAuthor(null));
-        GvDataParcelableTester.testParcelable(GvDataMocker.newAuthor(RandomReviewId
+        ParcelableTester.testParcelable(GvDataMocker.newAuthor(null));
+        ParcelableTester.testParcelable(GvDataMocker.newAuthor(RandomReviewId
                 .nextGvReviewId()));
-        GvDataParcelableTester.testParcelable(GvDataMocker.newAuthorList(10, false));
-        GvDataParcelableTester.testParcelable(GvDataMocker.newAuthorList(10, true));
+        ParcelableTester.testParcelable(GvDataMocker.newAuthorList(10, false));
+        ParcelableTester.testParcelable(GvDataMocker.newAuthorList(10, true));
     }
 
     @SmallTest

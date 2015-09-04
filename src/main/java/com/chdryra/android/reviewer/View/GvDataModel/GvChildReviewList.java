@@ -15,8 +15,6 @@ import com.chdryra.android.mygenerallibrary.ViewHolder;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
 import com.chdryra.android.reviewer.View.Utils.RatingFormatter;
 
-import java.util.Comparator;
-
 /**
  * Used for review children (sub-reviews).
  */
@@ -52,27 +50,6 @@ public class GvChildReviewList extends GvDataList<GvChildReviewList.GvChildRevie
 
         return rating;
     }
-
-    @Override
-    protected Comparator<GvChildReview> getDefaultComparator() {
-
-        return new Comparator<GvChildReview>() {
-            @Override
-            public int compare(GvChildReview lhs, GvChildReview rhs) {
-                int comp = lhs.getSubject().compareTo(rhs.getSubject());
-                if (comp == 0) {
-                    if (lhs.getRating() < rhs.getRating()) {
-                        comp = 1;
-                    } else if (lhs.getRating() > rhs.getRating()) {
-                        comp = -1;
-                    }
-                }
-
-                return comp;
-            }
-        };
-    }
-
 
     /**
      * {@link GvData} version of: no equivalent as used

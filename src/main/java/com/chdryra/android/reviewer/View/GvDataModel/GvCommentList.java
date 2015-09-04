@@ -16,8 +16,6 @@ import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataComment;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
 import com.chdryra.android.reviewer.View.Utils.CommentFormatter;
 
-import java.util.Comparator;
-
 /**
  * Includes method for generating split comments {@link GvCommentList} from current list.
  */
@@ -44,25 +42,6 @@ public class GvCommentList extends GvDataList<GvCommentList.GvComment> {
         }
 
         return splitComments;
-    }
-
-    @Override
-    protected Comparator<GvComment> getDefaultComparator() {
-        return new Comparator<GvComment>() {
-            @Override
-            public int compare(GvComment lhs, GvComment rhs) {
-                int comp = 0;
-                if (contains(lhs) && contains(rhs)) {
-                    if (lhs.isHeadline() && !rhs.isHeadline()) {
-                        comp = -1;
-                    } else if (!lhs.isHeadline() && rhs.isHeadline()) {
-                        comp = 1;
-                    }
-                }
-
-                return comp;
-            }
-        };
     }
 
     public GvCommentList getHeadlines() {

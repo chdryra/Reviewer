@@ -24,7 +24,6 @@ import com.chdryra.android.reviewer.View.Utils.RatingFormatter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.Date;
 
 /**
@@ -55,17 +54,6 @@ public class GvReviewOverviewList extends GvDataList<GvReviewOverviewList.GvRevi
     @Override
     public boolean contains(GvReviewOverview item) {
         return contains(item.getId());
-    }
-
-    @Override
-    protected Comparator<GvReviewOverview> getDefaultComparator() {
-
-        return new Comparator<GvReviewOverview>() {
-            @Override
-            public int compare(GvReviewOverview lhs, GvReviewOverview rhs) {
-                return rhs.getPublishDate().compareTo(lhs.getPublishDate());
-            }
-        };
     }
 
     private boolean contains(String id) {

@@ -12,7 +12,7 @@ import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.View.GvDataModel.GvText;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
-import com.chdryra.android.reviewer.test.TestUtils.GvDataParcelableTester;
+import com.chdryra.android.reviewer.test.TestUtils.ParcelableTester;
 import com.chdryra.android.reviewer.test.TestUtils.RandomReviewId;
 
 import junit.framework.TestCase;
@@ -25,8 +25,8 @@ import junit.framework.TestCase;
 public class GvTextTest extends TestCase {
     @SmallTest
     public void testParcelable() {
-        GvDataParcelableTester.testParcelable(GvDataMocker.newText(null));
-        GvDataParcelableTester.testParcelable(GvDataMocker.newText(RandomReviewId.nextGvReviewId
+        ParcelableTester.testParcelable(GvDataMocker.newText(null));
+        ParcelableTester.testParcelable(GvDataMocker.newText(RandomReviewId.nextGvReviewId
                 ()));
     }
 

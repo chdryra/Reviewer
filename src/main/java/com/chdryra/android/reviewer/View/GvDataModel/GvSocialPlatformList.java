@@ -18,8 +18,6 @@ import com.chdryra.android.reviewer.ApplicationSingletons.Administrator;
 import com.chdryra.android.reviewer.Model.Social.SocialPlatformList;
 import com.chdryra.android.reviewer.Model.Social.SocialPlatformList.SocialPlatform;
 
-import java.util.Comparator;
-
 /**
  * Used for social sharing screen showing social platforms and number of followers.
  *
@@ -45,17 +43,6 @@ public class GvSocialPlatformList extends GvDataList<GvSocialPlatformList.GvSoci
     public static GvSocialPlatformList getLatest(Context context) {
         SocialPlatformList.update(context);
         return new GvSocialPlatformList(context);
-    }
-
-    @Override
-    protected Comparator<GvSocialPlatform> getDefaultComparator() {
-        return new Comparator<GvSocialPlatform>() {
-
-            @Override
-            public int compare(GvSocialPlatform lhs, GvSocialPlatform rhs) {
-                return rhs.getFollowers() - lhs.getFollowers();
-            }
-        };
     }
 
     /**

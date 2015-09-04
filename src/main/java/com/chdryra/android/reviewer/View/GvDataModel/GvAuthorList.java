@@ -14,8 +14,6 @@ import android.os.Parcelable;
 import com.chdryra.android.mygenerallibrary.ViewHolder;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
 
-import java.util.Comparator;
-
 /**
  * Created by: Rizwan Choudrey
  * On: 18/06/2015
@@ -35,17 +33,6 @@ public class GvAuthorList extends GvDataList<GvAuthorList.GvAuthor> {
 
     public GvAuthorList(GvAuthorList data) {
         super(data);
-    }
-
-    @Override
-    protected Comparator<GvAuthor> getDefaultComparator() {
-        return new Comparator<GvAuthor>() {
-
-            @Override
-            public int compare(GvAuthor lhs, GvAuthor rhs) {
-                return lhs.getName().compareToIgnoreCase(rhs.getName());
-            }
-        };
     }
 
     /**
