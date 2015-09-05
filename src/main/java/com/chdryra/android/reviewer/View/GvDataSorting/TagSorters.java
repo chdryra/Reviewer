@@ -9,7 +9,7 @@ import java.util.Comparator;
  * On: 04/09/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class TagSorters extends SortingCollection<GvTagList.GvTag> {
+public class TagSorters extends SorterCollection<GvTagList.GvTag> {
     private static TagSorters sSorters = new TagSorters();
 
     private TagSorters() {

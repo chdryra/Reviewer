@@ -461,8 +461,8 @@ public class AggregaterTest extends TestCase {
             GvLocationList values = (GvLocationList) gvCanonical.toList();
             GvLocationList.GvLocation reference = references[i];
             assertEquals(reference.getLatLng().latitude, canonical.getLatLng().latitude, 0.0000001);
-            assertEquals(reference.getLatLng().longitude, canonical.getLatLng().longitude, 0
-            .0000001);
+            assertEquals(reference.getLatLng().longitude, canonical.getLatLng().longitude,
+                    0.0000001);
             assertEquals(reference.getName(), canonical.getName());
             assertEquals(refNums[i], values.size());
             for (int j = 0; j < values.size(); ++j) {

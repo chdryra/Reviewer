@@ -34,7 +34,7 @@ public class GvDataSorters {
         mMap.put(GvText.TYPE, TextSorters.getSorters());
         mMap.put(GvSubjectList.GvSubject.TYPE, SubjectSorters.getSorters());
         mMap.put(GvAuthorList.GvAuthor.TYPE, AuthorSorters.getSorters());
-        mMap.put(GvChildReviewList.GvChildReview.TYPE, ChildReviewSorters.getSorters());
+        mMap.put(GvChildReviewList.GvChildReview.TYPE, ChildReviewSorters.getComparators());
         mMap.put(GvCommentList.GvComment.TYPE, CommentSorters.getSorters());
         mMap.put(GvDateList.GvDate.TYPE, DateSorters.getSorters());
         mMap.put(GvFactList.GvFact.TYPE, FactSorters.getSorters());
@@ -52,7 +52,7 @@ public class GvDataSorters {
     }
 
     public static <T extends GvData> Comparator<T> getDefaultComparator(GvDataType<T> elementType) {
-        SortingCollection<T> sorters = get().mMap.get(elementType);
+        SorterCollection<T> sorters = get().mMap.get(elementType);
         return sorters != null ? sorters.getDefault() : new Comparator<T>() {
             @Override
             public int compare(T lhs, T rhs) {
@@ -63,16 +63,16 @@ public class GvDataSorters {
 
     //To help with type safety
     private class ComparatorMappings {
-        private Map<GvDataType<? extends GvData>, SortingCollection<? extends GvData>> mMap =
+        private Map<GvDataType<? extends GvData>, SorterCollection<? extends GvData>> mMap =
                 new HashMap<>();
 
-        private <T extends GvData> void put(GvDataType<T> dataType, SortingCollection<T> sorters) {
+        private <T extends GvData> void put(GvDataType<T> dataType, SorterCollection<T> sorters) {
             mMap.put(dataType, sorters);
         }
 
         //TODO make type safe (although it kind of is really...)
-        private <T extends GvData> SortingCollection<T> get(GvDataType<T> dataType) {
-            return (SortingCollection<T>) mMap.get(dataType);
+        private <T extends GvData> SorterCollection<T> get(GvDataType<T> dataType) {
+            return (SorterCollection<T>) mMap.get(dataType);
         }
     }
 }

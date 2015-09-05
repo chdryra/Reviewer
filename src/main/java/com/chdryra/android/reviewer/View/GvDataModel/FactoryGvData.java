@@ -39,6 +39,8 @@ public class FactoryGvData {
         mClasses.put(GvAuthorList.GvAuthor.TYPE, new GvTypeList<>(GvAuthorList.class));
         mClasses.put(GvDateList.GvDate.TYPE, new GvTypeList<>(GvDateList.class));
         mClasses.put(GvSubjectList.GvSubject.TYPE, new GvTypeList<>(GvSubjectList.class));
+        mClasses.put(GvReviewOverviewList.GvReviewOverview.TYPE, new GvTypeList<>
+                (GvReviewOverviewList.class));
     }
 
     private static FactoryGvData get() {

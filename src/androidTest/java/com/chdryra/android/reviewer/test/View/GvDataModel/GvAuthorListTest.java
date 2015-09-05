@@ -54,8 +54,6 @@ public class GvAuthorListTest extends TestCase {
         GvAuthorList.GvAuthor author2 = GvDataMocker.newAuthor(null);
         String name2 = author2.getName();
         String id2 = author2.getUserId();
-        GvAuthorList.GvAuthor author3 = new GvAuthorList.GvAuthor(RandomReviewId.nextGvReviewId()
-                , name1, id1);
 
         GvAuthorList.GvAuthor gvAuthor = new GvAuthorList.GvAuthor(name1, id1);
         GvAuthorList.GvAuthor gvAuthorEquals = new GvAuthorList.GvAuthor(name1, id1);

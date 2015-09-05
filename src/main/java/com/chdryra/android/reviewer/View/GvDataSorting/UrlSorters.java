@@ -9,7 +9,7 @@ import java.util.Comparator;
  * On: 04/09/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class UrlSorters extends SortingCollection<GvUrlList.GvUrl> {
+public class UrlSorters extends SorterCollection<GvUrlList.GvUrl> {
     private static UrlSorters sSorters = new UrlSorters();
 
     private UrlSorters() {

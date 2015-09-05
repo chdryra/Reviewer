@@ -9,7 +9,7 @@ import java.util.Comparator;
  * On: 04/09/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class FactSorters extends SortingCollection<GvFactList.GvFact> {
+public class FactSorters extends SorterCollection<GvFactList.GvFact> {
     private static FactSorters sSorters = new FactSorters();
 
     private FactSorters() {

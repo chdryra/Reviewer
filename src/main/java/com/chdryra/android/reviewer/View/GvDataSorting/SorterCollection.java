@@ -10,11 +10,11 @@ import java.util.Comparator;
  * On: 03/09/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public abstract class SortingCollection<T extends GvData> {
+public abstract class SorterCollection<T extends GvData> {
     private ArrayList<Comparator<T>> mComparators;
     private int mIndex = 0;
 
-    protected SortingCollection(Comparator<T> defaultComparator) {
+    protected SorterCollection(Comparator<T> defaultComparator) {
         mComparators = new ArrayList<>();
         add(defaultComparator);
     }

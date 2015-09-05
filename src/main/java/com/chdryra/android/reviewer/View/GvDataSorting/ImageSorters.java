@@ -9,7 +9,7 @@ import java.util.Comparator;
  * On: 04/09/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ImageSorters extends SortingCollection<GvImageList.GvImage> {
+public class ImageSorters extends SorterCollection<GvImageList.GvImage> {
     private static ImageSorters sSorters = new ImageSorters();
 
     private ImageSorters() {

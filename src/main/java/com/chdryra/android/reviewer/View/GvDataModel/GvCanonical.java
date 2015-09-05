@@ -5,6 +5,8 @@ import android.os.Parcelable;
 
 import com.chdryra.android.mygenerallibrary.ViewHolder;
 
+import org.jetbrains.annotations.NotNull;
+
 /**
  * Created by: Rizwan Choudrey
  * On: 02/09/2015
@@ -26,10 +28,18 @@ public class GvCanonical<T extends GvData> implements GvDataCollection<T> {
     private GvDataList<T> mData;
     private GvDataType mType;
 
-    public GvCanonical(T canonical, GvDataList<T> data) {
+    public GvCanonical(@NotNull T canonical, @NotNull GvDataList<T> data) {
         mCanonical = canonical;
+        if (data.size() == 0) {
+            throw new IllegalArgumentException("Data must have size!");
+        }
         mData = data;
         mType = GvTypeMaker.newType(this.getClass(), canonical.getGvDataType());
+    }
+
+    public GvCanonical(GvCanonical<T> gvCanoncial) {
+        this(FactoryGvData.copy(gvCanoncial.getCanonical()), FactoryGvData.copy(gvCanoncial
+                .toList()));
     }
 
     public GvCanonical(Parcel in) {

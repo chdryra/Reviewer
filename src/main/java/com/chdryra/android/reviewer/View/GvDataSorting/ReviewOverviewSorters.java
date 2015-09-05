@@ -9,7 +9,7 @@ import java.util.Comparator;
  * On: 04/09/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ReviewOverviewSorters extends SortingCollection<GvReviewOverviewList
+public class ReviewOverviewSorters extends SorterCollection<GvReviewOverviewList
         .GvReviewOverview> {
     private static ReviewOverviewSorters sSorters = new ReviewOverviewSorters();
 

@@ -9,7 +9,7 @@ import java.util.Comparator;
  * On: 04/09/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class DateSorters extends SortingCollection<GvDateList.GvDate> {
+public class DateSorters extends SorterCollection<GvDateList.GvDate> {
     private static DateSorters sSorters = new DateSorters();
 
     private DateSorters() {

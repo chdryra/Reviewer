@@ -9,7 +9,7 @@ import java.util.Comparator;
  * On: 04/09/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class TextSorters extends SortingCollection<GvText> {
+public class TextSorters extends SorterCollection<GvText> {
     private static TextSorters sSorters = new TextSorters();
 
     private TextSorters() {

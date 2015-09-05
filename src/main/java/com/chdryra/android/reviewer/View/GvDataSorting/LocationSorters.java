@@ -9,7 +9,7 @@ import java.util.Comparator;
  * On: 04/09/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class LocationSorters extends SortingCollection<GvLocationList.GvLocation> {
+public class LocationSorters extends SorterCollection<GvLocationList.GvLocation> {
     private static LocationSorters sSorters = new LocationSorters();
 
     private LocationSorters() {
