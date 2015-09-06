@@ -9,18 +9,18 @@ import java.util.Comparator;
  * On: 04/09/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class CommentSorters extends SorterCollection<GvCommentList.GvComment> {
-    private static CommentSorters sSorters = new CommentSorters();
+public class CommentComparators extends ComparatorCollection<GvCommentList.GvComment> {
+    private static CommentComparators sComparators = new CommentComparators();
 
-    private CommentSorters() {
-        super(new HeadlineComparator());
+    private CommentComparators() {
+        super(new HeadlineThenAlphabetical());
     }
 
-    public static CommentSorters getSorters() {
-        return sSorters;
+    public static CommentComparators getComparators() {
+        return sComparators;
     }
 
-    private static class HeadlineComparator implements Comparator<GvCommentList.GvComment> {
+    private static class HeadlineThenAlphabetical implements Comparator<GvCommentList.GvComment> {
         @Override
         public int compare(GvCommentList.GvComment lhs, GvCommentList.GvComment rhs) {
             int comp;

@@ -2,6 +2,8 @@ package com.chdryra.android.reviewer.View.GvDataSorting;
 
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 import java.util.Comparator;
 
@@ -10,11 +12,11 @@ import java.util.Comparator;
  * On: 03/09/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public abstract class SorterCollection<T extends GvData> {
+public abstract class ComparatorCollection<T extends GvData> {
     private ArrayList<Comparator<T>> mComparators;
     private int mIndex = 0;
 
-    protected SorterCollection(Comparator<T> defaultComparator) {
+    protected ComparatorCollection(@NotNull Comparator<T> defaultComparator) {
         mComparators = new ArrayList<>();
         add(defaultComparator);
     }
@@ -31,5 +33,9 @@ public abstract class SorterCollection<T extends GvData> {
 
     public Comparator<T> getDefault() {
         return mComparators.get(0);
+    }
+
+    public int size() {
+        return mComparators.size();
     }
 }

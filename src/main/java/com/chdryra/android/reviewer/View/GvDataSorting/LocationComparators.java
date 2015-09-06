@@ -9,18 +9,18 @@ import java.util.Comparator;
  * On: 04/09/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class LocationSorters extends SorterCollection<GvLocationList.GvLocation> {
-    private static LocationSorters sSorters = new LocationSorters();
+public class LocationComparators extends ComparatorCollection<GvLocationList.GvLocation> {
+    private static LocationComparators sComparators = new LocationComparators();
 
-    private LocationSorters() {
-        super(new LocationComparator());
+    private LocationComparators() {
+        super(new LocationNameAlphabetical());
     }
 
-    public static LocationSorters getSorters() {
-        return sSorters;
+    public static LocationComparators getComparators() {
+        return sComparators;
     }
 
-    private static class LocationComparator implements Comparator<GvLocationList.GvLocation> {
+    private static class LocationNameAlphabetical implements Comparator<GvLocationList.GvLocation> {
         @Override
         public int compare(GvLocationList.GvLocation lhs, GvLocationList.GvLocation rhs) {
             return lhs.getName().compareToIgnoreCase(rhs.getName());

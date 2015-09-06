@@ -9,19 +9,19 @@ import java.util.Comparator;
  * On: 04/09/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ReviewOverviewSorters extends SorterCollection<GvReviewOverviewList
+public class ReviewOverviewComparators extends ComparatorCollection<GvReviewOverviewList
         .GvReviewOverview> {
-    private static ReviewOverviewSorters sSorters = new ReviewOverviewSorters();
+    private static ReviewOverviewComparators sComparators = new ReviewOverviewComparators();
 
-    private ReviewOverviewSorters() {
-        super(new DefaultComparator());
+    private ReviewOverviewComparators() {
+        super(new MostRecentPublished());
     }
 
-    public static ReviewOverviewSorters getSorters() {
-        return sSorters;
+    public static ReviewOverviewComparators getComparators() {
+        return sComparators;
     }
 
-    private static class DefaultComparator implements Comparator<GvReviewOverviewList
+    private static class MostRecentPublished implements Comparator<GvReviewOverviewList
             .GvReviewOverview> {
 
         @Override

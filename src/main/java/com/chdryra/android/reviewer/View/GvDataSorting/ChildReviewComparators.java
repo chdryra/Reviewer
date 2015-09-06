@@ -9,18 +9,18 @@ import java.util.Comparator;
  * On: 04/09/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ChildReviewSorters extends SorterCollection<GvChildReviewList.GvChildReview> {
-    private static ChildReviewSorters sSorters = new ChildReviewSorters();
+public class ChildReviewComparators extends ComparatorCollection<GvChildReviewList.GvChildReview> {
+    private static ChildReviewComparators sComparators = new ChildReviewComparators();
 
-    public ChildReviewSorters() {
-        super(new DefaultComparator());
+    public ChildReviewComparators() {
+        super(new SubjectThenRating());
     }
 
-    public static ChildReviewSorters getComparators() {
-        return sSorters;
+    public static ChildReviewComparators getComparators() {
+        return sComparators;
     }
 
-    private static class DefaultComparator implements Comparator<GvChildReviewList.GvChildReview> {
+    private static class SubjectThenRating implements Comparator<GvChildReviewList.GvChildReview> {
         @Override
         public int compare(GvChildReviewList.GvChildReview lhs, GvChildReviewList.GvChildReview
                 rhs) {

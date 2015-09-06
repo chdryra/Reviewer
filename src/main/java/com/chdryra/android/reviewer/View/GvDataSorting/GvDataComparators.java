@@ -25,34 +25,36 @@ import java.util.Map;
  * On: 03/09/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class GvDataSorters {
-    private static GvDataSorters sComparator;
+public class GvDataComparators {
+    private static GvDataComparators sComparator;
     private ComparatorMappings mMap;
 
-    private GvDataSorters() {
+    private GvDataComparators() {
         mMap = new ComparatorMappings();
-        mMap.put(GvText.TYPE, TextSorters.getSorters());
-        mMap.put(GvSubjectList.GvSubject.TYPE, SubjectSorters.getSorters());
-        mMap.put(GvAuthorList.GvAuthor.TYPE, AuthorSorters.getSorters());
-        mMap.put(GvChildReviewList.GvChildReview.TYPE, ChildReviewSorters.getComparators());
-        mMap.put(GvCommentList.GvComment.TYPE, CommentSorters.getSorters());
-        mMap.put(GvDateList.GvDate.TYPE, DateSorters.getSorters());
-        mMap.put(GvFactList.GvFact.TYPE, FactSorters.getSorters());
-        mMap.put(GvImageList.GvImage.TYPE, ImageSorters.getSorters());
-        mMap.put(GvLocationList.GvLocation.TYPE, LocationSorters.getSorters());
-        mMap.put(GvReviewOverviewList.GvReviewOverview.TYPE, ReviewOverviewSorters.getSorters());
-        mMap.put(GvSocialPlatformList.GvSocialPlatform.TYPE, SocialPlatformSorters.getSorters());
-        mMap.put(GvTagList.GvTag.TYPE, TagSorters.getSorters());
-        mMap.put(GvUrlList.GvUrl.TYPE, UrlSorters.getSorters());
+        mMap.put(GvText.TYPE, TextComparators.getComparators());
+        mMap.put(GvSubjectList.GvSubject.TYPE, SubjectComparators.getComparators());
+        mMap.put(GvAuthorList.GvAuthor.TYPE, AuthorComparators.getComparators());
+        mMap.put(GvChildReviewList.GvChildReview.TYPE, ChildReviewComparators.getComparators());
+        mMap.put(GvCommentList.GvComment.TYPE, CommentComparators.getComparators());
+        mMap.put(GvDateList.GvDate.TYPE, DateComparators.getComparators());
+        mMap.put(GvFactList.GvFact.TYPE, FactComparators.getComparators());
+        mMap.put(GvImageList.GvImage.TYPE, ImageComparators.getComparators());
+        mMap.put(GvLocationList.GvLocation.TYPE, LocationComparators.getComparators());
+        mMap.put(GvReviewOverviewList.GvReviewOverview.TYPE, ReviewOverviewComparators
+                .getComparators());
+        mMap.put(GvSocialPlatformList.GvSocialPlatform.TYPE, SocialPlatformComparators
+                .getComparators());
+        mMap.put(GvTagList.GvTag.TYPE, TagComparators.getComparators());
+        mMap.put(GvUrlList.GvUrl.TYPE, UrlComparators.getComparators());
     }
 
-    private static GvDataSorters get() {
-        if (sComparator == null) sComparator = new GvDataSorters();
+    private static GvDataComparators get() {
+        if (sComparator == null) sComparator = new GvDataComparators();
         return sComparator;
     }
 
     public static <T extends GvData> Comparator<T> getDefaultComparator(GvDataType<T> elementType) {
-        SorterCollection<T> sorters = get().mMap.get(elementType);
+        ComparatorCollection<T> sorters = get().mMap.get(elementType);
         return sorters != null ? sorters.getDefault() : new Comparator<T>() {
             @Override
             public int compare(T lhs, T rhs) {
@@ -63,16 +65,16 @@ public class GvDataSorters {
 
     //To help with type safety
     private class ComparatorMappings {
-        private Map<GvDataType<? extends GvData>, SorterCollection<? extends GvData>> mMap =
+        private Map<GvDataType<? extends GvData>, ComparatorCollection<? extends GvData>> mMap =
                 new HashMap<>();
 
-        private <T extends GvData> void put(GvDataType<T> dataType, SorterCollection<T> sorters) {
+        private <T extends GvData> void put(GvDataType<T> dataType, ComparatorCollection<T> sorters) {
             mMap.put(dataType, sorters);
         }
 
         //TODO make type safe (although it kind of is really...)
-        private <T extends GvData> SorterCollection<T> get(GvDataType<T> dataType) {
-            return (SorterCollection<T>) mMap.get(dataType);
+        private <T extends GvData> ComparatorCollection<T> get(GvDataType<T> dataType) {
+            return (ComparatorCollection<T>) mMap.get(dataType);
         }
     }
 }

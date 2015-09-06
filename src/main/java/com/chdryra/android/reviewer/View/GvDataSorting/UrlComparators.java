@@ -9,21 +9,26 @@ import java.util.Comparator;
  * On: 04/09/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class UrlSorters extends SorterCollection<GvUrlList.GvUrl> {
-    private static UrlSorters sSorters = new UrlSorters();
+public class UrlComparators extends ComparatorCollection<GvUrlList.GvUrl> {
+    private static UrlComparators sComparators = new UrlComparators();
 
-    private UrlSorters() {
+    private UrlComparators() {
         super(new UrlLabelComparator());
     }
 
-    public static UrlSorters getSorters() {
-        return sSorters;
+    public static UrlComparators getComparators() {
+        return sComparators;
     }
 
     private static class UrlLabelComparator implements Comparator<GvUrlList.GvUrl> {
         @Override
         public int compare(GvUrlList.GvUrl lhs, GvUrlList.GvUrl rhs) {
-            return lhs.getLabel().compareToIgnoreCase(rhs.getLabel());
+            int comp = lhs.getLabel().compareToIgnoreCase(rhs.getLabel());
+            if (comp == 0) {
+                comp = lhs.getValue().compareToIgnoreCase(rhs.getValue());
+            }
+
+            return comp;
         }
     }
 }

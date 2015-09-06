@@ -14,7 +14,7 @@ import android.os.Parcelable;
 import com.chdryra.android.mygenerallibrary.ViewHolder;
 import com.chdryra.android.mygenerallibrary.ViewHolderDataList;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewAdapter;
-import com.chdryra.android.reviewer.View.GvDataSorting.GvDataSorters;
+import com.chdryra.android.reviewer.View.GvDataSorting.GvDataComparators;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -137,7 +137,7 @@ public class GvDataList<T extends GvData> extends ViewHolderDataList<T> implemen
 
     @Override
     protected Comparator<T> getDefaultComparator() {
-        return GvDataSorters.getDefaultComparator(mType.getElementType());
+        return GvDataComparators.getDefaultComparator(mType.getElementType());
     }
 
     @Override

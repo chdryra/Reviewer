@@ -9,18 +9,18 @@ import java.util.Comparator;
  * On: 03/09/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class AuthorSorters extends SorterCollection<GvAuthorList.GvAuthor> {
-    private static AuthorSorters sSorters = new AuthorSorters();
+public class AuthorComparators extends ComparatorCollection<GvAuthorList.GvAuthor> {
+    private static AuthorComparators sComparators = new AuthorComparators();
 
-    private AuthorSorters() {
-        super(new NameComparator());
+    private AuthorComparators() {
+        super(new AlphabeticalIgnoreCase());
     }
 
-    public static AuthorSorters getSorters() {
-        return sSorters;
+    public static AuthorComparators getComparators() {
+        return sComparators;
     }
 
-    private static class NameComparator implements Comparator<GvAuthorList.GvAuthor> {
+    private static class AlphabeticalIgnoreCase implements Comparator<GvAuthorList.GvAuthor> {
         @Override
         public int compare(GvAuthorList.GvAuthor lhs, GvAuthorList.GvAuthor rhs) {
             return lhs.getName().compareToIgnoreCase(rhs.getName());

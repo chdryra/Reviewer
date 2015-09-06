@@ -9,18 +9,18 @@ import java.util.Comparator;
  * On: 04/09/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ImageSorters extends SorterCollection<GvImageList.GvImage> {
-    private static ImageSorters sSorters = new ImageSorters();
+public class ImageComparators extends ComparatorCollection<GvImageList.GvImage> {
+    private static ImageComparators sComparators = new ImageComparators();
 
-    private ImageSorters() {
-        super(new ImageComparator());
+    private ImageComparators() {
+        super(new CoverThenMostRecent());
     }
 
-    public static ImageSorters getSorters() {
-        return sSorters;
+    public static ImageComparators getComparators() {
+        return sComparators;
     }
 
-    private static class ImageComparator implements Comparator<GvImageList.GvImage> {
+    private static class CoverThenMostRecent implements Comparator<GvImageList.GvImage> {
         @Override
         public int compare(GvImageList.GvImage lhs, GvImageList.GvImage rhs) {
             int comp = 0;
@@ -29,11 +29,7 @@ public class ImageSorters extends SorterCollection<GvImageList.GvImage> {
             } else if (!lhs.isCover() && rhs.isCover()) {
                 comp = 1;
             } else {
-                if (lhs.getDate().after(rhs.getDate())) {
-                    comp = -1;
-                } else if (lhs.getDate().before(rhs.getDate())) {
-                    comp = 1;
-                }
+                return rhs.getDate().compareTo(lhs.getDate());
             }
 
             return comp;

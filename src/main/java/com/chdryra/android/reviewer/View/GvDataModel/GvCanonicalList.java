@@ -1,6 +1,6 @@
 package com.chdryra.android.reviewer.View.GvDataModel;
 
-import com.chdryra.android.reviewer.View.GvDataSorting.GvDataSorters;
+import com.chdryra.android.reviewer.View.GvDataSorting.GvDataComparators;
 
 import java.util.Comparator;
 
@@ -18,13 +18,13 @@ public class GvCanonicalList<T extends GvData> extends GvDataList<GvCanonical<T>
 
     public GvCanonicalList(GvDataType<T> type, GvReviewId id) {
         super(GvTypeMaker.newType(GvCanonicalList.class, type), id);
-        mComparator = GvDataSorters.getDefaultComparator(type);
+        mComparator = GvDataComparators.getDefaultComparator(type);
     }
 
     public GvCanonicalList(GvCanonicalList<T> data) {
         super(data);
         //TODO make type safe
-        mComparator = GvDataSorters.getDefaultComparator(data.getGvDataType().getElementType());
+        mComparator = GvDataComparators.getDefaultComparator(data.getGvDataType().getElementType());
     }
 
     @Override
