@@ -174,7 +174,7 @@ public class FragmentViewReviewLocation extends Fragment implements
     }
 
     private void onGotoReviewSelected() {
-        ReviewLauncher.launchReview(getActivity(), this, mCurrent.getReviewId());
+        ReviewLauncher.launchReview(getActivity(), this, mCurrent);
     }
 
     private void initUI() {

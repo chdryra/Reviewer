@@ -26,14 +26,14 @@ public class GvDataAggregater<T extends GvData, D1, D2 extends DifferenceLevel<D
     }
 
     public GvCanonicalList<T> aggregate(GvDataList<T> data) {
-        GvDataType listType = data.getGvDataType();
+        //TODO make type safe
+        GvDataType<T> listType = data.getGvDataType();
+        GvDataType<T> elementType = listType.getElementType();
 
         GvList allocated = new GvList();
-        //TODO mae type safe
-        GvCanonicalList<T> results = new GvCanonicalList<>(listType.getElementType());
+        GvCanonicalList<T> results = new GvCanonicalList<>(elementType);
         for (T reference : data) {
             if (allocated.contains(reference)) continue;
-            //TODO make type safe
             GvDataList<T> similar = FactoryGvData.newDataList(listType, data.getReviewId());
             similar.add(reference);
             allocated.add(reference);

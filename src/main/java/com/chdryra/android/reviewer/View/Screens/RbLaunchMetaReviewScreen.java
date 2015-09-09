@@ -1,6 +1,5 @@
 package com.chdryra.android.reviewer.View.Screens;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 
@@ -16,17 +15,12 @@ import com.chdryra.android.reviewer.View.Utils.RequestCodeGenerator;
 public class RbLaunchMetaReviewScreen extends ReviewViewAction.RatingBarAction {
     private static final int REQUEST_CODE = RequestCodeGenerator.getCode
             ("RbLaunchMetaReviewScreen");
-    private Context mContext;
-
-    public RbLaunchMetaReviewScreen(Context context) {
-        mContext = context;
-    }
 
     @Override
     public void onClick(View v) {
         try {
             AdapterReviewNode adapter = (AdapterReviewNode) getAdapter();
-            ReviewView ui = ReviewDataScreen.newScreen(mContext, adapter.getTreeDataAdapter());
+            ReviewView ui = ReviewDataScreen.newScreen(adapter.getTreeDataAdapter());
             LauncherUi.launch(ui, getReviewView().getParent(), REQUEST_CODE, ui.getLaunchTag(), new
                     Bundle());
         } catch (ClassCastException e) {

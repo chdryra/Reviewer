@@ -36,18 +36,17 @@ import com.chdryra.android.reviewer.View.Utils.RequestCodeGenerator;
 public class FeedScreen implements ReviewFeed.ReviewFeedObserver {
     private static final int REQUEST_CODE = RequestCodeGenerator.getCode("FeedScreen");
 
-    private Context mContext;
     private ReviewView        mReviewView;
 
-    private FeedScreen(Context context) {
-        mContext = context;
-        ReviewFeed.registerObserver(context, this);
-        ReviewNode feedNode = ReviewFeed.getFeedNode(context);
+    private FeedScreen(ReviewNode feedNode) {
         mReviewView = ReviewListScreen.newScreen(feedNode, new GridItem(), new FeedScreenMenu());
     }
 
     public static ReviewView newScreen(Context context) {
-        return new FeedScreen(context).getReviewView();
+        ReviewNode feedNode = ReviewFeed.getFeedNode(context);
+        FeedScreen screen = new FeedScreen(feedNode);
+        ReviewFeed.registerObserver(context, screen);
+        return screen.getReviewView();
     }
 
     @Override
@@ -59,7 +58,7 @@ public class FeedScreen implements ReviewFeed.ReviewFeedObserver {
         return mReviewView;
     }
 
-    private class FeedScreenMenu extends ReviewViewAction.MenuAction {
+    private static class FeedScreenMenu extends ReviewViewAction.MenuAction {
         public static final  int MENU_NEW_REVIEW_ID = R.id.menu_item_new_review;
         private static final int MENU               = R.menu.fragment_feed;
 
@@ -72,23 +71,21 @@ public class FeedScreen implements ReviewFeed.ReviewFeedObserver {
             addMenuActionItem(new MenuActionItem() {
                 @Override
                 public void doAction(MenuItem item) {
-                    Administrator.get(mContext).newReviewBuilder();
+                    Administrator.get(getActivity()).newReviewBuilder();
                     LaunchableUi ui = BuildScreen.newScreen(getActivity());
-                    LauncherUi.launch(ui, mReviewView.getParent(), REQUEST_CODE, ui.getLaunchTag
-                            (), new
-                            Bundle());
+                    LauncherUi.launch(ui, getReviewView().getParent(), REQUEST_CODE, ui.getLaunchTag
+                            (), new Bundle());
                 }
             }, MENU_NEW_REVIEW_ID, false);
         }
     }
 
-    private class GridItem extends ReviewDataScreen.GiLaunchReviewDataScreen {
+    private static class GridItem extends GiLaunchReviewDataScreen {
         private static final String TAG            = "FeedGridItemListener";
         private static final int    REQUEST_DELETE = 314;
         private FeedGridItemListener mListener;
 
         public GridItem() {
-            super(mContext);
             mListener = new FeedGridItemListener() {
             };
             super.registerActionListener(mListener, TAG);

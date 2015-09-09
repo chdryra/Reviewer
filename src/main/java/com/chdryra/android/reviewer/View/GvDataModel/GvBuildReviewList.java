@@ -64,7 +64,7 @@ public class GvBuildReviewList extends GvDataList<GvBuildReviewList.GvBuildRevie
         private final ReviewBuilder.DataBuilder<T> mBuilder;
 
         private GvBuildReview(GvDataType<T> dataType, ReviewBuilder builder) {
-            super(TYPE, null);
+            super(GvTypeMaker.newType(GvBuildReview.class, dataType), null);
             mDataType = dataType;
             mConfig = ConfigGvDataUi.getConfig(dataType);
             mBuilder = builder.getDataBuilder(dataType);

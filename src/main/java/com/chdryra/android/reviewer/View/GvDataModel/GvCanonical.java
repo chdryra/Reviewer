@@ -7,12 +7,14 @@ import com.chdryra.android.mygenerallibrary.ViewHolder;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Iterator;
+
 /**
  * Created by: Rizwan Choudrey
  * On: 02/09/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class GvCanonical<T extends GvData> implements GvDataCollection<T> {
+public class GvCanonical<T extends GvData> implements GvDataCollection<T>, Iterable<T> {
     public static final Parcelable.Creator<GvCanonical> CREATOR = new Parcelable
             .Creator<GvCanonical>() {
         public GvCanonical createFromParcel(Parcel in) {
@@ -89,7 +91,7 @@ public class GvCanonical<T extends GvData> implements GvDataCollection<T> {
 
     @Override
     public boolean hasElements() {
-        return mData.size() > 0;
+        return mData.size() > 1;
     }
 
     @Override
@@ -127,6 +129,11 @@ public class GvCanonical<T extends GvData> implements GvDataCollection<T> {
     @Override
     public boolean isValidForDisplay() {
         return mCanonical.isValidForDisplay();
+    }
+
+    @Override
+    public Iterator<T> iterator() {
+        return mData.iterator();
     }
 
     @Override

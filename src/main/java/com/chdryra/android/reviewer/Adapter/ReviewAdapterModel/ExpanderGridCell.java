@@ -25,7 +25,7 @@ public class ExpanderGridCell implements GridCellExpander {
 
     @Override
     public boolean isExpandable(GvData datum) {
-        return mParent.getGridData().contains(datum) && datum.hasElements();
+        return datum.hasElements() && mParent.getGridData().contains(datum);
     }
 
     @Override

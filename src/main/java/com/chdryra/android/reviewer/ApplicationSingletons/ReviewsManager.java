@@ -2,8 +2,10 @@ package com.chdryra.android.reviewer.ApplicationSingletons;
 
 import android.content.Context;
 
-import com.chdryra.android.reviewer.Model.ReviewData.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
+import com.chdryra.android.reviewer.View.GvDataModel.GvData;
+import com.chdryra.android.reviewer.View.GvDataModel.GvDataCollection;
+import com.chdryra.android.reviewer.View.GvDataModel.GvReviewId;
 
 /**
  * Created by: Rizwan Choudrey
@@ -23,33 +25,17 @@ public class ReviewsManager extends ApplicationSingleton {
         return sSingleton;
     }
 
-    public static ReviewNode getReviewNode(Context context, String reviewId) {
-        ReviewsManager manager = get(context);
-        ReviewNode root = manager.getFeedNode();
-        return manager.findNode(root, reviewId);
+    private static ReviewNode getReviewNode(Context context, String reviewId) {
+        return ReviewFeed.findInFeed(context, reviewId);
     }
 
-    private ReviewNode getFeedNode() {
-        return ReviewFeed.getFeedNode(getContext());
-    }
-
-    private ReviewNode findNode(ReviewNode root, String reviewId) {
-        ReviewId id = ReviewId.fromString(reviewId);
-        ReviewNode node = null;
-        if (root.getId().equals(id)) {
-            node = root;
+    public static ReviewNode getReviewNode(Context context, GvData datum) {
+        GvReviewId id = datum.getReviewId();
+        if (!datum.isCollection()) {
+            return getReviewNode(context, id.getId());
         } else {
-            for (ReviewNode child : root.getChildren()) {
-                node = findNode(child, reviewId);
-                if (node != null) {
-                    break;
-                } else {
-                    node = findNode(child.getReview().getTreeRepresentation(), reviewId);
-                    if (node != null) break;
-                }
-            }
+            return ReviewMaker.createMetaReview(context, (GvDataCollection<? extends GvData>) datum,
+                    datum.getStringSummary());
         }
-
-        return node;
     }
 }

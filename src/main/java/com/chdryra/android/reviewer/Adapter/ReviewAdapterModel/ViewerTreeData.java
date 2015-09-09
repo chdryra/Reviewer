@@ -42,18 +42,20 @@ public class ViewerTreeData implements GridDataViewer<GvData> {
 
     @Override
     public GvList getGridData() {
+        return mNode.getChildren().size() > 0 ? getAggregateGridData() : getNodeGridData();
+    }
+
+    private GvList getAggregateGridData() {
         GvReviewId id = GvReviewId.getId(mNode.getId().toString());
         GvList data = new GvList(id);
-        TagCollector tagCollector = new TagCollector(mNode);
 
+        TagCollector tagCollector = new TagCollector(mNode);
         ViewerChildList wrapper = new ViewerChildList(mNode);
-        GvReviewOverviewList reviews = wrapper.getGridData();
-        if (reviews.size() > 0) {
-            data.add(reviews);
-            data.add(Aggregater.aggregate(MdGvConverter.convertChildAuthors(mNode)));
-            data.add(Aggregater.aggregate(MdGvConverter.convertChildSubjects(mNode)));
-            data.add(Aggregater.aggregate(MdGvConverter.convertChildPublishDates(mNode)));
-        }
+
+        data.add(wrapper.getGridData());
+        data.add(Aggregater.aggregate(MdGvConverter.convertChildAuthors(mNode)));
+        data.add(Aggregater.aggregate(MdGvConverter.convertChildSubjects(mNode)));
+        data.add(Aggregater.aggregate(MdGvConverter.convertChildPublishDates(mNode)));
 
         data.add(Aggregater.aggregate(tagCollector.collectTags()));
         data.add(Aggregater.aggregate(collectCriteria()));
@@ -61,6 +63,21 @@ public class ViewerTreeData implements GridDataViewer<GvData> {
         data.add(Aggregater.aggregate(MdGvConverter.convert(mGetter.getComments())));
         data.add(Aggregater.aggregate(MdGvConverter.convert(mGetter.getLocations())));
         data.add(Aggregater.aggregate(MdGvConverter.convert(mGetter.getFacts())));
+
+        return data;
+    }
+
+    private GvList getNodeGridData() {
+        GvReviewId id = GvReviewId.getId(mNode.getId().toString());
+        GvList data = new GvList(id);
+        TagCollector tagCollector = new TagCollector(mNode);
+
+        data.add(tagCollector.collectTags());
+        data.add(collectCriteria());
+        data.add(MdGvConverter.convert(mGetter.getImages()));
+        data.add(MdGvConverter.convert(mGetter.getComments()));
+        data.add(MdGvConverter.convert(mGetter.getLocations()));
+        data.add(MdGvConverter.convert(mGetter.getFacts()));
 
         return data;
     }

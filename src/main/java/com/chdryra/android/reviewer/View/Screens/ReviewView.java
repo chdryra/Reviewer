@@ -44,13 +44,6 @@ public class ReviewView implements GridDataObservable.GridDataObserver, Launchab
     private ViewModifier       mModifier;
     private GvDataList mGridViewData;
 
-    private enum Action {SUBJECTVIEW, RATINGBAR, BANNERBUTTON, GRIDITEM, MENU}
-
-    public interface ViewModifier {
-        View modify(FragmentReviewView parent, View v, LayoutInflater inflater,
-                ViewGroup container, Bundle savedInstanceState);
-    }
-
     public ReviewView(ReviewViewAdapter adapter, ReviewViewParams params) {
         mAdapter = adapter;
         mAdapter.registerGridDataObserver(this);
@@ -250,8 +243,17 @@ public class ReviewView implements GridDataObservable.GridDataObserver, Launchab
     }
 
     private void setAction(Action type, ReviewViewAction action) {
-        mActions.put(type, action);
-        if (mParent != null) action.attachReviewView(this);
+        if (action != null) {
+            mActions.put(type, action);
+            if (mParent != null) action.attachReviewView(this);
+        }
+    }
+
+    private enum Action {SUBJECTVIEW, RATINGBAR, BANNERBUTTON, GRIDITEM, MENU}
+
+    public interface ViewModifier {
+        View modify(FragmentReviewView parent, View v, LayoutInflater inflater,
+                    ViewGroup container, Bundle savedInstanceState);
     }
 
     public static class Editor extends ReviewView {

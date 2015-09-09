@@ -70,6 +70,10 @@ public class ReviewFeed extends ApplicationSingleton {
         return getFeed(context).getFeedNode();
     }
 
+    public static ReviewNode findInFeed(Context context, String reviewId) {
+        return getFeed(context).findInFeed(ReviewId.fromString(reviewId));
+    }
+
     public static void deleteTestDatabase(Context context) {
         if (USE_TEST_DATABASE) {
             context.deleteDatabase(getFeed(context).mDatabase.getDatabaseName());
@@ -78,6 +82,10 @@ public class ReviewFeed extends ApplicationSingleton {
 
     public static void registerObserver(Context context, ReviewFeedObserver observer) {
         getFeed(context).registerObserver(observer);
+    }
+
+    public ReviewNode findInFeed(ReviewId id) {
+        return mFeedNode.getChildren().get(id);
     }
 
     private ReviewNode getFeedNode() {
