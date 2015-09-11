@@ -21,20 +21,15 @@ public class GvSubjectList extends GvTextList<GvSubjectList.GvSubject> {
             = GvTypeMaker.newType(GvSubjectList.class, GvSubject.TYPE);
 
     public GvSubjectList() {
-        super(GvSubject.TYPE, null);
+        super(TYPE, null);
     }
 
     public GvSubjectList(GvReviewId id) {
-        super(GvSubject.TYPE, id);
+        super(TYPE, id);
     }
 
     public GvSubjectList(GvSubjectList data) {
         super(data);
-    }
-
-    @Override
-    public GvDataType getGvDataType() {
-        return TYPE;
     }
 
     public static class GvSubject extends GvText {

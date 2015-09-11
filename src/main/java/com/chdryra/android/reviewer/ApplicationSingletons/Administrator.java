@@ -13,7 +13,7 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.chdryra.android.mygenerallibrary.ObjectHolder;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilder;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilderAdapter;
 import com.chdryra.android.reviewer.Model.ReviewData.PublishDate;
 import com.chdryra.android.reviewer.Model.ReviewData.ReviewIdableList;
 import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
@@ -53,7 +53,7 @@ public class Administrator extends ApplicationSingleton{
     private static Administrator sSingleton;
 
     private final ObjectHolder            mViews;
-    private ReviewBuilder mReviewBuilder;
+    private ReviewBuilderAdapter mReviewBuilderAdapter;
 
     private Administrator(Context context) {
         super(context, NAME);
@@ -68,8 +68,8 @@ public class Administrator extends ApplicationSingleton{
     public static ImageChooser getImageChooser(Activity activity) {
         Administrator admin = get(activity);
         ImageChooser chooser = null;
-        if (admin.mReviewBuilder != null) {
-            chooser = admin.mReviewBuilder.getImageChooser(activity);
+        if (admin.mReviewBuilderAdapter != null) {
+            chooser = admin.mReviewBuilderAdapter.getImageChooser(activity);
         }
 
         return chooser;
@@ -79,19 +79,19 @@ public class Administrator extends ApplicationSingleton{
         return AUTHOR;
     }
 
-    public ReviewBuilder getReviewBuilder() {
-        return mReviewBuilder;
+    public ReviewBuilderAdapter getReviewBuilder() {
+        return mReviewBuilderAdapter;
     }
 
-    public ReviewBuilder newReviewBuilder() {
-        mReviewBuilder = new ReviewBuilder(getContext(), AUTHOR);
-        return mReviewBuilder;
+    public ReviewBuilderAdapter newReviewBuilder() {
+        mReviewBuilderAdapter = new ReviewBuilderAdapter(getContext(), AUTHOR);
+        return mReviewBuilderAdapter;
     }
 
     public void publishReviewBuilder() {
-        ReviewNode published = mReviewBuilder.publish(PublishDate.now());
+        ReviewNode published = mReviewBuilderAdapter.publish(PublishDate.now());
         ReviewFeed.addToFeed(getContext(), published);
-        mReviewBuilder = null;
+        mReviewBuilderAdapter = null;
     }
 
     public GvSocialPlatformList getSocialPlatformList() {

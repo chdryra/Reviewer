@@ -17,7 +17,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilder;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilderAdapter;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewAdapter;
 import com.chdryra.android.reviewer.View.ActivitiesFragments.FragmentReviewView;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
@@ -260,12 +260,12 @@ public class ReviewView implements GridDataObservable.GridDataObserver, Launchab
         private FragmentReviewView mParent;
         private boolean mRatingIsAverage = false;
 
-        public Editor(ReviewBuilder.DataBuilder builder) {
+        public Editor(ReviewBuilderAdapter.DataBuilder builder) {
             super(builder);
             mRatingIsAverage = builder.getParentBuilder().isRatingAverage();
         }
 
-        public Editor(ReviewBuilder builder, ViewModifier modifier) {
+        public Editor(ReviewBuilderAdapter builder, ViewModifier modifier) {
             super(builder, modifier);
             mRatingIsAverage = builder.isRatingAverage();
         }

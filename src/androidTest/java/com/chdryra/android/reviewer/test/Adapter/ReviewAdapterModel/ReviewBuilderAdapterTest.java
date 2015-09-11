@@ -13,7 +13,7 @@ import android.content.Intent;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilder;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilderAdapter;
 import com.chdryra.android.reviewer.ApplicationSingletons.Administrator;
 import com.chdryra.android.reviewer.Model.ReviewData.PublishDate;
 import com.chdryra.android.reviewer.Model.ReviewData.ReviewIdableList;
@@ -45,12 +45,12 @@ import java.util.Date;
  * On: 17/02/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ReviewBuilderTest extends ActivityInstrumentationTestCase2<ActivityReviewView> {
+public class ReviewBuilderAdapterTest extends ActivityInstrumentationTestCase2<ActivityReviewView> {
     private static final int          NUM   = 3;
     private static final GvDataType[] TYPES = GvDataMocker.DATATYPES;
-    private ReviewBuilder mBuilder;
+    private ReviewBuilderAdapter mBuilder;
 
-    public ReviewBuilderTest() {
+    public ReviewBuilderAdapterTest() {
         super(ActivityReviewView.class);
     }
 
@@ -102,7 +102,7 @@ public class ReviewBuilderTest extends ActivityInstrumentationTestCase2<Activity
         assertEquals("", mBuilder.getSubject());
         String subject = RandomString.nextWord();
         for (GvDataType dataType : TYPES) {
-            ReviewBuilder.DataBuilder builder = mBuilder.getDataBuilder(dataType);
+            ReviewBuilderAdapter.DataBuilder builder = mBuilder.getDataBuilder(dataType);
             assertEquals("", builder.getSubject());
             mBuilder.setSubject(subject);
             assertEquals(subject, builder.getSubject());
@@ -120,7 +120,7 @@ public class ReviewBuilderTest extends ActivityInstrumentationTestCase2<Activity
         assertEquals(0f, mBuilder.getRating());
         float rating = RandomRating.nextRating();
         for (GvDataType dataType : TYPES) {
-            ReviewBuilder.DataBuilder builder = mBuilder.getDataBuilder(dataType);
+            ReviewBuilderAdapter.DataBuilder builder = mBuilder.getDataBuilder(dataType);
             assertEquals(0f, builder.getRating());
             mBuilder.setRating(rating);
             assertEquals(rating, builder.getRating());
@@ -147,7 +147,7 @@ public class ReviewBuilderTest extends ActivityInstrumentationTestCase2<Activity
         }
 
         for (GvDataType dataType : TYPES) {
-            ReviewBuilder.DataBuilder builder = mBuilder.getDataBuilder(dataType);
+            ReviewBuilderAdapter.DataBuilder builder = mBuilder.getDataBuilder(dataType);
             if (dataType == GvChildReviewList.TYPE) {
                 assertEquals(mBuilder.getAverageRating(), builder.getAverageRating());
             } else {
@@ -162,7 +162,7 @@ public class ReviewBuilderTest extends ActivityInstrumentationTestCase2<Activity
         GvImageList newImages = GvDataMocker.newImageList(NUM, false);
         setBuilderData(images);
 
-        ReviewBuilder.DataBuilder imageBuilder = mBuilder.getDataBuilder(GvImageList.TYPE);
+        ReviewBuilderAdapter.DataBuilder imageBuilder = mBuilder.getDataBuilder(GvImageList.TYPE);
         imageBuilder.deleteAll();
         for (GvImageList.GvImage image : newImages) {
             imageBuilder.add(image);
@@ -170,7 +170,7 @@ public class ReviewBuilderTest extends ActivityInstrumentationTestCase2<Activity
 
         assertEquals(images, mBuilder.getCovers());
         for (GvDataType dataType : TYPES) {
-            ReviewBuilder.DataBuilder builder = mBuilder.getDataBuilder(dataType);
+            ReviewBuilderAdapter.DataBuilder builder = mBuilder.getDataBuilder(dataType);
             if (dataType == GvImageList.TYPE) {
                 assertEquals(newImages, builder.getCovers());
             } else {
@@ -289,7 +289,7 @@ public class ReviewBuilderTest extends ActivityInstrumentationTestCase2<Activity
     }
 
     private void setBuilderData(GvDataList data) {
-        ReviewBuilder.DataBuilder builder = mBuilder.getDataBuilder(data.getGvDataType());
+        ReviewBuilderAdapter.DataBuilder builder = mBuilder.getDataBuilder(data.getGvDataType());
         for (int i = 0; i < data.size(); ++i) {
             GvData datum = (GvData) data.getItem(i);
             assertTrue(builder.add(datum));

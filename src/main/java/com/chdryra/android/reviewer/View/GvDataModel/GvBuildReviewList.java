@@ -14,7 +14,7 @@ package com.chdryra.android.reviewer.View.GvDataModel;
  * Email: rizwan.choudrey@gmail.com
  */
 
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilder;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilderAdapter;
 import com.chdryra.android.reviewer.View.Configs.ConfigGvDataUi;
 import com.chdryra.android.reviewer.View.Screens.GridDataObservable;
 
@@ -26,9 +26,9 @@ public class GvBuildReviewList extends GvDataList<GvBuildReviewList.GvBuildRevie
     public static final GvDataType<GvBuildReviewList> TYPE =
             GvTypeMaker.newType(GvBuildReviewList.class, GvBuildReview.TYPE);
 
-    private final ReviewBuilder mBuilder;
+    private final ReviewBuilderAdapter mBuilder;
 
-    private GvBuildReviewList(ReviewBuilder builder) {
+    private GvBuildReviewList(ReviewBuilderAdapter builder) {
         super(TYPE, null);
 
         mBuilder = builder;
@@ -41,7 +41,7 @@ public class GvBuildReviewList extends GvDataList<GvBuildReviewList.GvBuildRevie
         add(GvFactList.GvFact.TYPE);
     }
 
-    public static GvBuildReviewList newInstance(ReviewBuilder adapter) {
+    public static GvBuildReviewList newInstance(ReviewBuilderAdapter adapter) {
         return new GvBuildReviewList(adapter);
     }
 
@@ -61,9 +61,9 @@ public class GvBuildReviewList extends GvDataList<GvBuildReviewList.GvBuildRevie
 
         private final GvDataType<T> mDataType;
         private final ConfigGvDataUi.Config        mConfig;
-        private final ReviewBuilder.DataBuilder<T> mBuilder;
+        private final ReviewBuilderAdapter.DataBuilder<T> mBuilder;
 
-        private GvBuildReview(GvDataType<T> dataType, ReviewBuilder builder) {
+        private GvBuildReview(GvDataType<T> dataType, ReviewBuilderAdapter builder) {
             super(GvTypeMaker.newType(GvBuildReview.class, dataType), null);
             mDataType = dataType;
             mConfig = ConfigGvDataUi.getConfig(dataType);

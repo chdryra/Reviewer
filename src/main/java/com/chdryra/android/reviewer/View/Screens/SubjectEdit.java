@@ -10,7 +10,7 @@ package com.chdryra.android.reviewer.View.Screens;
 
 import android.text.Editable;
 
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilder;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilderAdapter;
 
 /**
  * Created by: Rizwan Choudrey
@@ -33,7 +33,7 @@ public class SubjectEdit extends ReviewViewAction.SubjectAction {
     }
 
     private void setSubject(String subject) {
-        ReviewBuilder controller = (ReviewBuilder) getAdapter();
+        ReviewBuilderAdapter controller = (ReviewBuilderAdapter) getAdapter();
         controller.setSubject(subject);
     }
 }

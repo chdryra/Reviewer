@@ -13,7 +13,7 @@ import android.test.ActivityInstrumentationTestCase2;
 import android.test.UiThreadTest;
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilder;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilderAdapter;
 import com.chdryra.android.reviewer.ApplicationSingletons.Administrator;
 import com.chdryra.android.reviewer.ApplicationSingletons.ReviewFeed;
 import com.chdryra.android.reviewer.Database.ReviewerDb;
@@ -55,7 +55,7 @@ public class AdministratorTest extends ActivityInstrumentationTestCase2<Activity
 
     @SmallTest
     public void testGetReviewBuilder() {
-        ReviewBuilder builder = mAdmin.newReviewBuilder();
+        ReviewBuilderAdapter builder = mAdmin.newReviewBuilder();
         assertNotNull(builder);
         assertEquals(builder, mAdmin.getReviewBuilder());
     }
@@ -74,11 +74,11 @@ public class AdministratorTest extends ActivityInstrumentationTestCase2<Activity
         ReviewerDb db = TestDatabase.getDatabase(getInstrumentation());
         assertEquals(numReviews, db.getReviewTreesFromDb().size());
 
-        ReviewBuilder builder = mAdmin.newReviewBuilder();
+        ReviewBuilderAdapter builder = mAdmin.newReviewBuilder();
         assertNotNull(builder);
         builder.setSubject(RandomString.nextWord());
         GvTagList tags = GvDataMocker.newTagList(3, false);
-        ReviewBuilder.DataBuilder tagBuilder = builder.getDataBuilder(GvTagList.TYPE);
+        ReviewBuilderAdapter.DataBuilder tagBuilder = builder.getDataBuilder(GvTagList.TYPE);
         for (GvTagList.GvTag tag : tags) {
             tagBuilder.add(tag);
         }

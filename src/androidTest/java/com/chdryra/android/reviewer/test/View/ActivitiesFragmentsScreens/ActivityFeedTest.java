@@ -17,7 +17,7 @@ import android.test.suitebuilder.annotation.SmallTest;
 import android.util.Log;
 import android.widget.GridView;
 
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilder;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilderAdapter;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewAdapter;
 import com.chdryra.android.reviewer.ApplicationSingletons.Administrator;
 import com.chdryra.android.reviewer.ApplicationSingletons.ReviewFeed;
@@ -102,10 +102,11 @@ public class ActivityFeedTest extends
 
         if (mAdapter.getGridData().size() == 0) {
             for (int i = 0; i < NUM; ++i) {
-                ReviewBuilder builder = mAdmin.newReviewBuilder();
+                ReviewBuilderAdapter builder = mAdmin.newReviewBuilder();
                 builder.setSubject(RandomString.nextWord());
                 builder.setRating(RandomRating.nextRating());
-                ReviewBuilder.DataBuilder dataBuilder = builder.getDataBuilder(GvTagList.TYPE);
+                ReviewBuilderAdapter.DataBuilder dataBuilder = builder.getDataBuilder(GvTagList
+                        .TYPE);
                 GvTagList tags = GvDataMocker.newTagList(NUM, false);
                 for (int j = 0; j < tags.size(); ++j) {
                     dataBuilder.add(tags.getItem(j));

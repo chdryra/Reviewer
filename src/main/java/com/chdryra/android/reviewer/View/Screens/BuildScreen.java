@@ -24,7 +24,7 @@ import android.widget.Toast;
 
 import com.chdryra.android.mygenerallibrary.ActivityResultCode;
 import com.chdryra.android.mygenerallibrary.LocationClientConnector;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilder;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilderAdapter;
 import com.chdryra.android.reviewer.ApplicationSingletons.Administrator;
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.View.ActivitiesFragments.ActivityReviewView;
@@ -50,7 +50,7 @@ public class BuildScreen {
     private final BuildScreenGridItem mGridItem;
 
     private BuildScreen(Context context) {
-        ReviewBuilder builder = Administrator.get(context).getReviewBuilder();
+        ReviewBuilderAdapter builder = Administrator.get(context).getReviewBuilder();
 
         mScreen = new ReviewView.Editor(builder, new BuildScreenModifier(builder));
         mGridItem = new BuildScreenGridItem();
@@ -123,8 +123,8 @@ public class BuildScreen {
             }
         }
 
-        private ReviewBuilder getBuilder() {
-            return (ReviewBuilder) getAdapter();
+        private ReviewBuilderAdapter getBuilder() {
+            return (ReviewBuilderAdapter) getAdapter();
         }
 
         private void startActivity(ConfigGvDataUi.Config config) {
@@ -191,7 +191,7 @@ public class BuildScreen {
             @Override
             public void onImageChosen(GvImageList.GvImage image) {
                 image.setIsCover(true);
-                ReviewBuilder.DataBuilder builder = getBuilder().getDataBuilder(GvImageList
+                ReviewBuilderAdapter.DataBuilder builder = getBuilder().getDataBuilder(GvImageList
                         .GvImage.TYPE);
                 builder.add(image);
                 builder.setData();
@@ -227,7 +227,7 @@ public class BuildScreen {
             mActionItem = new MenuActionItem() {
                 @Override
                 public void doAction(MenuItem item) {
-                    ReviewBuilder builder = (ReviewBuilder) getAdapter();
+                    ReviewBuilderAdapter builder = (ReviewBuilderAdapter) getAdapter();
                     builder.setRatingIsAverage(true);
                     mEditor.setRating(builder.getRating());
                 }
@@ -251,15 +251,15 @@ public class BuildScreen {
         public void onRatingChanged(android.widget.RatingBar ratingBar, float rating,
                 boolean fromUser) {
             super.onRatingChanged(ratingBar, rating, fromUser);
-            if (fromUser) ((ReviewBuilder) getAdapter()).setRatingIsAverage(false);
-            ((ReviewBuilder) getAdapter()).setRating(rating);
+            if (fromUser) ((ReviewBuilderAdapter) getAdapter()).setRatingIsAverage(false);
+            ((ReviewBuilderAdapter) getAdapter()).setRating(rating);
         }
     }
 
     private class BuildScreenModifier implements ReviewView.ViewModifier {
-        private final ReviewBuilder mBuilder;
+        private final ReviewBuilderAdapter mBuilder;
 
-        private BuildScreenModifier(ReviewBuilder builder) {
+        private BuildScreenModifier(ReviewBuilderAdapter builder) {
             mBuilder = builder;
         }
 

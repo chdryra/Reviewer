@@ -27,7 +27,6 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvSocialPlatformList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvSubjectList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvTagList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvText;
-import com.chdryra.android.reviewer.View.GvDataModel.GvTextList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvUrlList;
 import com.chdryra.android.testutils.BitmapMocker;
 import com.chdryra.android.testutils.RandomDate;
@@ -214,16 +213,6 @@ public class GvDataMocker {
         GvSubjectList list = new GvSubjectList(id);
         for (int i = 0; i < size; ++i) {
             list.add(newSubject(id));
-        }
-
-        return list;
-    }
-
-    public static GvTextList<GvText> newTextList(int size, boolean withId) {
-        GvReviewId id = getId(withId);
-        GvTextList<GvText> list = GvTextList.newTextList();
-        for (int i = 0; i < size; ++i) {
-            list.add(newText(id));
         }
 
         return list;

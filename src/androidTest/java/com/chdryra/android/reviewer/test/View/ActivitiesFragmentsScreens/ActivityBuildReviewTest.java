@@ -18,7 +18,7 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.chdryra.android.mygenerallibrary.DialogCancelActionDoneFragment;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilder;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilderAdapter;
 import com.chdryra.android.reviewer.ApplicationSingletons.Administrator;
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.View.ActivitiesFragments.ActivityReviewView;
@@ -302,8 +302,8 @@ public class ActivityBuildReviewTest extends ActivityReviewViewTest {
         clickDoneButton(tag);
     }
 
-    private ReviewBuilder getBuilder() {
-        return (ReviewBuilder) mAdapter;
+    private ReviewBuilderAdapter getBuilder() {
+        return (ReviewBuilderAdapter) mAdapter;
     }
 
     private float getAverageRating(boolean nearestHalf) {
@@ -364,7 +364,7 @@ public class ActivityBuildReviewTest extends ActivityReviewViewTest {
             ArrayList<TextView> tvs = mSolo.getCurrentViews(TextView.class, cell);
             GvTagList.GvTag tag = (GvTagList.GvTag) data.getItem(0);
             assertEquals(1, tvs.size());
-            assertEquals("#" + tag.get(), tvs.get(0).getText().toString());
+            assertEquals(tag.get(), tvs.get(0).getText().toString());
 
         } else if (data.getGvDataType().equals(GvCommentList.TYPE)) {
             ArrayList<TextView> tvs;
@@ -387,7 +387,7 @@ public class ActivityBuildReviewTest extends ActivityReviewViewTest {
             tvs = mSolo.getCurrentViews(TextView.class, cell);
             GvLocationList.GvLocation location = (GvLocationList.GvLocation) data.getItem(0);
             assertEquals(1, tvs.size());
-            assertEquals("@" + location.getName(), tvs.get(0).getText().toString());
+            assertEquals(location.getName(), tvs.get(0).getText().toString());
 
         } else if (data.getGvDataType().equals(GvChildReviewList.TYPE)) {
             ArrayList<TextView> tvs;

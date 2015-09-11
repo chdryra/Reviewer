@@ -16,7 +16,7 @@ import android.test.suitebuilder.annotation.SmallTest;
 import com.chdryra.android.mygenerallibrary.DialogAlertFragment;
 import com.chdryra.android.mygenerallibrary.DialogDeleteConfirm;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.MdGvConverter;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilder;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilderAdapter;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewAdapter;
 import com.chdryra.android.reviewer.ApplicationSingletons.Administrator;
 import com.chdryra.android.reviewer.View.ActivitiesFragments.FragmentReviewView;
@@ -149,9 +149,9 @@ public abstract class ActivityEditScreenTest extends ActivityReviewViewTest {
 
     @Override
     protected void setAdapter() {
-        ReviewBuilder builder = Administrator.get(getInstrumentation().getTargetContext())
+        ReviewBuilderAdapter builder = Administrator.get(getInstrumentation().getTargetContext())
                 .getReviewBuilder();
-        ReviewBuilder.DataBuilder dbuilder = builder.getDataBuilder(mDataType);
+        ReviewBuilderAdapter.DataBuilder dbuilder = builder.getDataBuilder(mDataType);
 
         if (mWithData) {
             mData = newData();
@@ -437,8 +437,8 @@ public abstract class ActivityEditScreenTest extends ActivityReviewViewTest {
         assertTrue(result ? inBuilder : !inBuilder);
     }
 
-    protected ReviewBuilder.DataBuilder getBuilder() {
-        return (ReviewBuilder.DataBuilder) mAdapter;
+    protected ReviewBuilderAdapter.DataBuilder getBuilder() {
+        return (ReviewBuilderAdapter.DataBuilder) mAdapter;
     }
 
     protected void checkInBuilders(GvDataList data, boolean result) {
@@ -495,7 +495,7 @@ public abstract class ActivityEditScreenTest extends ActivityReviewViewTest {
         assertTrue(result ? inGrid : !inGrid);
     }
 
-    protected ReviewBuilder getParentBuilder() {
+    protected ReviewBuilderAdapter getParentBuilder() {
         return getBuilder().getParentBuilder();
     }
 

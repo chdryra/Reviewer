@@ -16,7 +16,7 @@ import android.webkit.URLUtil;
 
 import com.chdryra.android.mygenerallibrary.ImageHelper;
 import com.chdryra.android.mygenerallibrary.TextUtils;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilder;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilderAdapter2;
 import com.chdryra.android.reviewer.Model.ReviewData.PublishDate;
 import com.chdryra.android.reviewer.Model.ReviewData.ReviewIdableList;
 import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
@@ -78,11 +78,12 @@ public class TestReviews {
     }
 
     private ReviewNode getReviewNode(TestReview review) {
-        ReviewBuilder builder = new ReviewBuilder(mInstr.getTargetContext(), AUTHOR);
+        ReviewBuilderAdapter2 builder = new ReviewBuilderAdapter2(mInstr.getTargetContext(),
+                AUTHOR);
         builder.setSubject(review.mSubject);
         builder.setRating(review.mRating);
         builder.setRatingIsAverage(review.mIsRatingAverage);
-        ReviewBuilder.DataBuilder b = builder.getDataBuilder(GvCommentList.GvComment.TYPE);
+        ReviewBuilderAdapter2.DataBuilder b = builder.getDataBuilder(GvCommentList.GvComment.TYPE);
         for (String comment : review.mComments) {
             b.add(new GvCommentList.GvComment(comment));
         }

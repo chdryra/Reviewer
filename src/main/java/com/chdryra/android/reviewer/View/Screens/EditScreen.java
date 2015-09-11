@@ -18,7 +18,7 @@ import android.view.View;
 import com.chdryra.android.mygenerallibrary.ActivityResultCode;
 import com.chdryra.android.mygenerallibrary.DialogAlertFragment;
 import com.chdryra.android.mygenerallibrary.DialogDeleteConfirm;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilder;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilderAdapter;
 import com.chdryra.android.reviewer.ApplicationSingletons.Administrator;
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.View.Configs.ConfigGvDataUi;
@@ -45,7 +45,7 @@ import com.chdryra.android.reviewer.View.Launcher.LauncherUi;
 public class EditScreen {
     public static ReviewView newScreen(Context context, GvDataType type) {
         GvDataType dataType = type.getElementType();
-        ReviewBuilder.DataBuilder builder = Administrator.get(context).getReviewBuilder()
+        ReviewBuilderAdapter.DataBuilder builder = Administrator.get(context).getReviewBuilder()
                 .getDataBuilder(dataType);
 
         ReviewView view = new ReviewView.Editor(builder);
@@ -161,8 +161,8 @@ public class EditScreen {
 
         }
 
-        private ReviewBuilder.DataBuilder getDataBuilder() {
-            return ((ReviewBuilder.DataBuilder) getAdapter());
+        private ReviewBuilderAdapter.DataBuilder getDataBuilder() {
+            return ((ReviewBuilderAdapter.DataBuilder) getAdapter());
         }
 
         // /Dialogs expected to communicate directly with target fragments so using "invisible"
@@ -300,8 +300,8 @@ public class EditScreen {
             return mEditor;
         }
 
-        private ReviewBuilder.DataBuilder getDataBuilder() {
-            return ((ReviewBuilder.DataBuilder) getAdapter());
+        private ReviewBuilderAdapter.DataBuilder getDataBuilder() {
+            return ((ReviewBuilderAdapter.DataBuilder) getAdapter());
         }
 
         protected abstract class EditListener extends Fragment
@@ -419,7 +419,7 @@ public class EditScreen {
 
         @Override
         protected void doUpSelected() {
-            ReviewBuilder builder = getBuilder().getParentBuilder();
+            ReviewBuilderAdapter builder = getBuilder().getParentBuilder();
             builder.setRatingIsAverage(mRatingIsAverage);
             builder.resetDataBuilder(getGridData().getGvDataType());
             super.doUpSelected();
@@ -452,8 +452,8 @@ public class EditScreen {
             }
         }
 
-        protected ReviewBuilder.DataBuilder getBuilder() {
-            return (ReviewBuilder.DataBuilder) getAdapter();
+        protected ReviewBuilderAdapter.DataBuilder getBuilder() {
+            return (ReviewBuilderAdapter.DataBuilder) getAdapter();
         }
 
         protected ReviewView.Editor getEditor() {
@@ -462,7 +462,7 @@ public class EditScreen {
 
         private void doDoneSelected() {
             ReviewView view = getReviewView();
-            ReviewBuilder.DataBuilder builder = getBuilder();
+            ReviewBuilderAdapter.DataBuilder builder = getBuilder();
 
             builder.setData();
             builder.setSubject(view.getSubject());

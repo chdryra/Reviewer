@@ -11,7 +11,7 @@ package com.chdryra.android.reviewer.test.View.ZZZProblemTests;
 import android.app.Instrumentation;
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilder;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilderAdapter;
 import com.chdryra.android.reviewer.ApplicationSingletons.Administrator;
 import com.chdryra.android.reviewer.ApplicationSingletons.ReviewFeed;
 import com.chdryra.android.reviewer.Model.ReviewData.ReviewIdableList;
@@ -87,11 +87,11 @@ public class ActivityShareScreenTest extends ActivityReviewViewTest {
 
     @Override
     protected void setAdapter() {
-        ReviewBuilder builder = mAdmin.newReviewBuilder();
+        ReviewBuilderAdapter builder = mAdmin.newReviewBuilder();
 
         builder.setRating(RandomRating.nextRating());
         builder.setSubject(RandomString.nextWord());
-        ReviewBuilder.DataBuilder tagBulder = builder.getDataBuilder(GvTagList.TYPE);
+        ReviewBuilderAdapter.DataBuilder tagBulder = builder.getDataBuilder(GvTagList.TYPE);
         for (GvTagList.GvTag tag : GvDataMocker.newTagList(3, false)) {
             tagBulder.add(tag);
         }

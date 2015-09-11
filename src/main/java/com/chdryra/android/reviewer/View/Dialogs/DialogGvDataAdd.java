@@ -14,7 +14,7 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.chdryra.android.mygenerallibrary.DialogCancelAddDoneFragment;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilder;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilderAdapter;
 import com.chdryra.android.reviewer.ApplicationSingletons.Administrator;
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
@@ -52,21 +52,10 @@ public abstract class DialogGvDataAdd<T extends GvData> extends
 
     private final GvDataType<T> mDataType;
     private AddEditLayout<T> mLayout;
-    private       ReviewBuilder.DataBuilder<T> mBuilder;
+    private ReviewBuilderAdapter.DataBuilder<T> mBuilder;
     private       GvDataAddListener<T>         mAddListener;
 
     private boolean mQuickSet = false;
-
-    /**
-     * Provides a callback for when the add button is pressed
-     */
-    public interface GvDataAddListener<T extends GvData> {
-        boolean onGvDataAdd(T data);
-
-        void onGvDataCancel();
-
-        void onGvDataDone();
-    }
 
     //Use Class<T2> instead of sending type for extra type safety...
     public DialogGvDataAdd(GvDataType<T> dataType) {
@@ -157,5 +146,16 @@ public abstract class DialogGvDataAdd<T extends GvData> extends
 
     boolean isQuickSet() {
         return mQuickSet && mBuilder != null;
+    }
+
+    /**
+     * Provides a callback for when the add button is pressed
+     */
+    public interface GvDataAddListener<T extends GvData> {
+        boolean onGvDataAdd(T data);
+
+        void onGvDataCancel();
+
+        void onGvDataDone();
     }
 }
