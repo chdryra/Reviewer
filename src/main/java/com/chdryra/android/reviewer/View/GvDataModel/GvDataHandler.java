@@ -45,6 +45,11 @@ public class GvDataHandler<T extends GvData> {
         mReplaceConstraint = relaceConstraint;
     }
 
+    public GvDataType<T> getGvDataType() {
+        //TODO make type safe
+        return mData.getGvDataType();
+    }
+
     public boolean add(T newDatum, Context context) {
         if (isValid(newDatum)) {
             if (mAddConstraint.passes(mData, newDatum)) {
@@ -73,7 +78,12 @@ public class GvDataHandler<T extends GvData> {
         mData.remove(data);
     }
 
-    protected GvDataList<T> getData() {
+    public void deleteAll() {
+        mData.removeAll();
+        ;
+    }
+
+    public GvDataList<T> getData() {
         return mData;
     }
 

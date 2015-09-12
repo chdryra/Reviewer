@@ -10,6 +10,7 @@ package com.chdryra.android.reviewer.View.Configs;
 
 import com.chdryra.android.reviewer.View.GvDataModel.GvChildReviewList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
+import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
 import com.chdryra.android.reviewer.View.GvDataModel.GvFactList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
@@ -20,6 +21,7 @@ import com.chdryra.android.reviewer.View.Launcher.FactoryLaunchable;
 import com.chdryra.android.reviewer.View.Launcher.LaunchableUi;
 import com.chdryra.android.reviewer.View.Launcher.LauncherUi;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -35,13 +37,20 @@ import java.util.Map;
  * </p>
  */
 public final class ConfigGvDataUi {
-    public static final GvDataType[] TYPES = {GvCommentList.GvComment.TYPE, GvFactList
-            .GvFact.TYPE, GvLocationList.GvLocation.TYPE, GvImageList.GvImage.TYPE, GvUrlList
-            .GvUrl.TYPE, GvTagList.GvTag.TYPE, GvChildReviewList.GvChildReview.TYPE};
-
+    public static final ArrayList<GvDataType<? extends GvData>> TYPES = new ArrayList<>();
     private static final int DATA_ADD  = 2718;
     private static final int DATA_EDIT = 2819;
     private static ConfigGvDataUi sConfigGvDataUi;
+
+    static {
+        TYPES.add(GvCommentList.GvComment.TYPE);
+        TYPES.add(GvFactList.GvFact.TYPE);
+        TYPES.add(GvLocationList.GvLocation.TYPE);
+        TYPES.add(GvImageList.GvImage.TYPE);
+        TYPES.add(GvUrlList.GvUrl.TYPE);
+        TYPES.add(GvTagList.GvTag.TYPE);
+        TYPES.add(GvChildReviewList.GvChildReview.TYPE);
+    }
 
     private final Map<GvDataType, Config> mConfigsMap = new HashMap<>();
 

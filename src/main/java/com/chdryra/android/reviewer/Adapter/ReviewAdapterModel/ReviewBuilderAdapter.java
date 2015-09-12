@@ -28,6 +28,7 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
 import com.chdryra.android.reviewer.View.Utils.ImageChooser;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -43,11 +44,11 @@ import java.util.Map;
  * user is ready using the {@link #publish(PublishDate)} method.
  */
 public class ReviewBuilderAdapter extends ReviewViewAdapterBasic {
-    private static final GvDataType[] TYPES = ConfigGvDataUi.TYPES;
+    public static final ArrayList<GvDataType<? extends GvData>> TYPES = ConfigGvDataUi.TYPES;
     private static final File FILE_DIR_EXT = Environment
             .getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM);
 
-    private final Map<GvDataType<? extends GvData>, DataBuilder<?>> mDataBuilders;
+    private final Map<GvDataType, DataBuilder> mDataBuilders;
     private final Context mContext;
     private final Author mAuthor;
     private final GvBuildReviewList mBuildUi;
@@ -60,7 +61,7 @@ public class ReviewBuilderAdapter extends ReviewViewAdapterBasic {
         mBuilder = new ReviewBuilder(context, author);
 
         mDataBuilders = new HashMap<>();
-        for (GvDataType dataType : TYPES) {
+        for (GvDataType<? extends GvData> dataType : TYPES) {
             mDataBuilders.put(dataType.getElementType(), newDataBuilder(dataType.getElementType()));
         }
         newIncrementor();
@@ -100,8 +101,8 @@ public class ReviewBuilderAdapter extends ReviewViewAdapterBasic {
     }
 
     //TODO make type safe
-    public <T extends GvData> DataBuilder<T> getDataBuilder(GvDataType<T> dataType) {
-        return (DataBuilder<T>) mDataBuilders.get(dataType.getElementType());
+    public DataBuilder getDataBuilder(GvDataType dataType) {
+        return mDataBuilders.get(dataType.getElementType());
     }
 
     public <T extends GvData> void resetDataBuilder(GvDataType<T> dataType) {
@@ -113,16 +114,15 @@ public class ReviewBuilderAdapter extends ReviewViewAdapterBasic {
     }
 
     public ReviewNode publish(PublishDate publishDate) {
-        return mBuilder.publish(publishDate);
+        return mBuilder.buildReview(publishDate);
     }
 
     public <T extends GvData> GvDataList<T> getData(GvDataType<T> dataType) {
         return mBuilder.getData(dataType);
     }
 
-    //TODO make type safe
     private <T extends GvData> DataBuilder<T> newDataBuilder(GvDataType<T> dataType) {
-        return new DataBuilder<>(dataType.getElementType());
+        return new DataBuilder<>(dataType);
     }
 
     //TODO make type safe
@@ -171,7 +171,7 @@ public class ReviewBuilderAdapter extends ReviewViewAdapterBasic {
         private GvDataType<T> mType;
 
         private DataBuilder(GvDataType<T> type) {
-            mType = type.getElementType();
+            mType = type;
             mDataBuilder = mBuilder.getDataBuilder(mType);
             reset();
         }

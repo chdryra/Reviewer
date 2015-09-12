@@ -119,6 +119,7 @@ public class GvDataType<T extends GvData> implements Parcelable {
                 return new GvCompoundType[size];
             }
         };
+
         private final GvDataType<T1> mElementType;
 
         private GvCompoundType(Class<T2> dataClass, GvDataType<T1> elementType) {
