@@ -25,22 +25,9 @@ public class FactoryGvData {
     private static final String ILLEGAL_ACCESS_ERR = "Access not allowed to this constructor: ";
 
     private static FactoryGvData sFactory;
-    private final Map<GvDataType, GvTypeList> mClasses = new HashMap<>();
+    private final ListsMap mMap = new ListsMap();
 
     private FactoryGvData() {
-        mClasses.put(GvTagList.GvTag.TYPE, new GvTypeList<>(GvTagList.class));
-        mClasses.put(GvChildReviewList.GvChildReview.TYPE, new GvTypeList<>(GvChildReviewList
-                .class));
-        mClasses.put(GvCommentList.GvComment.TYPE, new GvTypeList<>(GvCommentList.class));
-        mClasses.put(GvFactList.GvFact.TYPE, new GvTypeList<>(GvFactList.class));
-        mClasses.put(GvImageList.GvImage.TYPE, new GvTypeList<>(GvImageList.class));
-        mClasses.put(GvLocationList.GvLocation.TYPE, new GvTypeList<>(GvLocationList.class));
-        mClasses.put(GvUrlList.GvUrl.TYPE, new GvTypeList<>(GvUrlList.class));
-        mClasses.put(GvAuthorList.GvAuthor.TYPE, new GvTypeList<>(GvAuthorList.class));
-        mClasses.put(GvDateList.GvDate.TYPE, new GvTypeList<>(GvDateList.class));
-        mClasses.put(GvSubjectList.GvSubject.TYPE, new GvTypeList<>(GvSubjectList.class));
-        mClasses.put(GvReviewOverviewList.GvReviewOverview.TYPE, new GvTypeList<>
-                (GvReviewOverviewList.class));
     }
 
     private static FactoryGvData get() {
@@ -48,46 +35,41 @@ public class FactoryGvData {
         return sFactory;
     }
 
-    //TODO make type safe
     public static <T extends GvData> GvDataList<T> newDataList(GvDataType<T> dataType) {
-        Class dataClass = dataType.isCompoundType() ? dataType.getDataClass() : get().mClasses.get
-                (dataType).mList;
-        return newDataList(dataClass);
+        return newDataList(get().mMap.get(dataType));
     }
 
-    public static <T extends GvData> GvDataList<T> newDataList(GvDataType<T> dataType, GvReviewId
-            id) {
-        Class dataClass = dataType.isCompoundType() ? dataType.getDataClass() : get().mClasses.get
-                (dataType).mList;
-        return newDataList(dataClass, id);
+    public static <T extends GvData> GvDataList<T> newDataList(GvDataType<T> dataType,
+                                                               GvReviewId id) {
+        return newDataList(get().mMap.get(dataType), id);
     }
 
     public static <T1 extends GvData, T2 extends GvDataList<T1>> T2 newDataList(Class<T2>
-            dataClass) {
+                                                                                        listClass) {
         try {
-            return dataClass.newInstance();
+            return listClass.newInstance();
         } catch (InstantiationException e) {
-            throw new RuntimeException(INSTANTIATION_ERR + dataClass.getName());
+            throw new RuntimeException(INSTANTIATION_ERR + listClass.getName());
         } catch (IllegalAccessException e) {
-            throw new RuntimeException(ILLEGAL_ACCESS_ERR + dataClass.getName());
+            throw new RuntimeException(ILLEGAL_ACCESS_ERR + listClass.getName());
         }
     }
 
-    public static <T1 extends GvData, T2 extends GvDataList<T1>> T2 newDataList(Class<T2> dataClass,
-            GvReviewId id) {
-        if (id == null) return newDataList(dataClass);
+    public static <T1 extends GvData, T2 extends GvDataList<T1>> T2 newDataList(
+            Class<T2> listClass, GvReviewId id) {
+        if (id == null) return newDataList(listClass);
 
         try {
-            Constructor<T2> ctor = dataClass.getConstructor(GvReviewId.class);
+            Constructor<T2> ctor = listClass.getConstructor(GvReviewId.class);
             return ctor.newInstance(id);
         } catch (NoSuchMethodException e) {
-            throw new RuntimeException(NO_CTOR_ERR + dataClass.getName(), e);
+            throw new RuntimeException(NO_CTOR_ERR + listClass.getName(), e);
         } catch (InstantiationException e) {
-            throw new RuntimeException(INSTANTIATION_ERR + dataClass.getName(), e);
+            throw new RuntimeException(INSTANTIATION_ERR + listClass.getName(), e);
         } catch (IllegalAccessException e) {
-            throw new RuntimeException(ILLEGAL_ACCESS_ERR + dataClass.getName(), e);
+            throw new RuntimeException(ILLEGAL_ACCESS_ERR + listClass.getName(), e);
         } catch (InvocationTargetException e) {
-            throw new RuntimeException(INVOCATION_ERR + dataClass.getName());
+            throw new RuntimeException(INVOCATION_ERR + listClass.getName());
         }
     }
 
@@ -102,7 +84,8 @@ public class FactoryGvData {
     }
 
     public static <T extends GvData> T copy(T datum) {
-        Class<T> dataClass = (Class<T>) datum.getClass();
+        //TODO make type safe
+        Class<T> dataClass = (Class<T>) datum.getGvDataType().getDataClass();
         try {
             Constructor<T> ctor = dataClass.getConstructor(datum.getClass());
             return ctor.newInstance(datum);
@@ -117,11 +100,32 @@ public class FactoryGvData {
         }
     }
 
-    private class GvTypeList<L extends GvDataList<T>, T extends GvData> {
-        private final Class<L> mList;
+    //To aid type safety
+    private class ListsMap {
+        private Map<GvDataType, Class> mClasses = new HashMap<>();
 
-        private GvTypeList(Class<L> list) {
-            mList = list;
+        public ListsMap() {
+            add(GvTagList.GvTag.TYPE, GvTagList.class);
+            add(GvChildReviewList.GvChildReview.TYPE, GvChildReviewList.class);
+            add(GvCommentList.GvComment.TYPE, GvCommentList.class);
+            add(GvFactList.GvFact.TYPE, GvFactList.class);
+            add(GvImageList.GvImage.TYPE, GvImageList.class);
+            add(GvLocationList.GvLocation.TYPE, GvLocationList.class);
+            add(GvUrlList.GvUrl.TYPE, GvUrlList.class);
+            add(GvAuthorList.GvAuthor.TYPE, GvAuthorList.class);
+            add(GvDateList.GvDate.TYPE, GvDateList.class);
+            add(GvSubjectList.GvSubject.TYPE, GvSubjectList.class);
+            add(GvReviewOverviewList.GvReviewOverview.TYPE, GvReviewOverviewList.class);
+        }
+
+        private <T1 extends GvData, T2 extends GvDataList<T1>> void add(GvDataType<T1> dataType,
+                                                                        Class<T2> listType) {
+            mClasses.put(dataType, listType);
+        }
+
+        //TODO make type safe but it is really....
+        private <T extends GvData> Class<? extends GvDataList<T>> get(GvDataType<T> dataType) {
+            return mClasses.get(dataType);
         }
     }
 }

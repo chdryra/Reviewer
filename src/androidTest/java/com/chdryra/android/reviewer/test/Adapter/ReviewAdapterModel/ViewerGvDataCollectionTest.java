@@ -31,7 +31,7 @@ public class ViewerGvDataCollectionTest extends AndroidTestCase {
     @SmallTest
     public void testGetGridData() {
         GvDataList<GvCommentList.GvComment> data = (GvCommentList) GvDataMocker.getData
-                (GvCommentList.TYPE, 10);
+                (GvCommentList.GvComment.TYPE, 10);
 
         ReviewNode node = ReviewMocker.newReviewNode(false);
         ReviewViewAdapter<GvReviewOverviewList.GvReviewOverview> parent =

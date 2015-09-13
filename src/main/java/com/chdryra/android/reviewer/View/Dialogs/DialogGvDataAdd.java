@@ -52,7 +52,7 @@ public abstract class DialogGvDataAdd<T extends GvData> extends
 
     private final GvDataType<T> mDataType;
     private AddEditLayout<T> mLayout;
-    private ReviewBuilderAdapter.DataBuilder<T> mBuilder;
+    private ReviewBuilderAdapter.DataBuilderAdapter<T> mBuilder;
     private       GvDataAddListener<T>         mAddListener;
 
     private boolean mQuickSet = false;

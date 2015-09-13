@@ -21,7 +21,7 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvTagList;
  */
 public class AddEditTagTest extends AddEditLayoutTest<GvTagList.GvTag> {
     public AddEditTagTest() {
-        super(GvTagList.TYPE, new AddEditTag(new ConfigGvDataAddEditView.AddTag()));
+        super(GvTagList.GvTag.TYPE, new AddEditTag(new ConfigGvDataAddEditView.AddTag()));
     }
 
     @Override

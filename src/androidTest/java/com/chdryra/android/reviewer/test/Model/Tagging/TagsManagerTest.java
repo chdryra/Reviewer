@@ -28,7 +28,7 @@ public class TagsManagerTest extends TestCase {
 
     @SmallTest
     public void testTagAndGetTag() {
-        GvTagList tags = (GvTagList) GvDataMocker.getData(GvTagList.TYPE, NUM);
+        GvTagList tags = (GvTagList) GvDataMocker.getData(GvTagList.GvTag.TYPE, NUM);
         Review review = ReviewMocker.newReview();
 
         TagsManager.ReviewTagCollection tagCollection = TagsManager.getTags(review.getId());
@@ -49,14 +49,14 @@ public class TagsManagerTest extends TestCase {
 
     @SmallTest
     public void testTagsReview() {
-        GvTagList tags1 = (GvTagList) GvDataMocker.getData(GvTagList.TYPE, NUM);
+        GvTagList tags1 = (GvTagList) GvDataMocker.getData(GvTagList.GvTag.TYPE, NUM);
         GvTagList tags2 = new GvTagList();
         int numShared = NUM / 2;
         for (int i = 0; i < numShared; ++i) {
             tags2.add(tags1.getItem(i));
         }
 
-        GvTagList tagsUnshared = (GvTagList) GvDataMocker.getData(GvTagList.TYPE,
+        GvTagList tagsUnshared = (GvTagList) GvDataMocker.getData(GvTagList.GvTag.TYPE,
                 NUM - numShared);
         for (int i = 0; i < tagsUnshared.size(); ++i) {
             tags2.add(tagsUnshared.getItem(i));

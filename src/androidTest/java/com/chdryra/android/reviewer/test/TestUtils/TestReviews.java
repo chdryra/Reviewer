@@ -82,7 +82,8 @@ public class TestReviews {
         builder.setSubject(review.mSubject);
         builder.setRating(review.mRating);
         builder.setRatingIsAverage(review.mIsRatingAverage);
-        ReviewBuilderAdapter.DataBuilder b = builder.getDataBuilder(GvCommentList.GvComment.TYPE);
+        ReviewBuilderAdapter.DataBuilderAdapter b = builder.getDataBuilder(GvCommentList
+                .GvComment.TYPE);
         for (String comment : review.mComments) {
             b.add(new GvCommentList.GvComment(comment));
         }

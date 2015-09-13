@@ -86,7 +86,7 @@ public class ReviewBuilder {
 
     //TODO make type safe
     public <T extends GvData> DataBuilder<T> getDataBuilder(GvDataType<T> dataType) {
-        return (DataBuilder<T>) mDataBuilders.get(dataType.getElementType());
+        return (DataBuilder<T>) mDataBuilders.get(dataType);
     }
 
     public <T extends GvData> void resetDataBuilder(GvDataType<T> dataType) {
@@ -107,7 +107,7 @@ public class ReviewBuilder {
 
     //TODO make type safe
     public <T extends GvData> GvDataList<T> getData(GvDataType<T> dataType) {
-        GvDataList data = mData.get(dataType.getElementType());
+        GvDataList data = mData.get(dataType);
         return data != null ? MdGvConverter.copy(data) : null;
     }
 
@@ -145,11 +145,10 @@ public class ReviewBuilder {
         return new DataBuilder<>(MdGvConverter.copy(getData(dataType)));
     }
 
-    //TODO make type safe
     public <T extends GvData> void setData(GvDataList<T> data) {
-        GvDataType<T> dataType = data.getGvDataType().getElementType();
+        GvDataType<T> dataType = data.getGvDataType();
         if (dataType == GvChildReviewList.GvChildReview.TYPE) {
-            setChildren((GvChildReviewList) data);
+            setChildren(data);
         } else if (TYPES.contains(dataType)) {
             mData.put(dataType, MdGvConverter.copy(data));
         }
@@ -159,9 +158,9 @@ public class ReviewBuilder {
         return (GvChildReviewList) getData(GvChildReviewList.GvChildReview.TYPE);
     }
 
-    private void setChildren(GvChildReviewList children) {
+    private void setChildren(GvDataList children) {
         mChildren = new ArrayList<>();
-        for (GvChildReviewList.GvChildReview child : children) {
+        for (GvChildReviewList.GvChildReview child : (GvChildReviewList) children) {
             ReviewBuilder childBuilder = new ReviewBuilder(mContext, mAuthor);
             childBuilder.setSubject(child.getSubject());
             childBuilder.setRating(child.getRating());
@@ -222,8 +221,7 @@ public class ReviewBuilder {
         }
 
         public void resetData() {
-            //TODO make type safe
-            GvDataType<T> type = mHandler.getGvDataType().getElementType();
+            GvDataType<T> type = mHandler.getGvDataType();
             mHandler = FactoryGvDataHandler.newHandler(getData(type));
         }
 
@@ -244,8 +242,7 @@ public class ReviewBuilder {
         }
 
         public float getAverageRating() {
-            return mHandler.getGvDataType().getElementType() == GvChildReviewList.GvChildReview
-                    .TYPE ?
+            return mHandler.getGvDataType() == GvChildReviewList.GvChildReview.TYPE ?
                     ReviewBuilder.this.getAverageRating() : getRating();
         }
     }

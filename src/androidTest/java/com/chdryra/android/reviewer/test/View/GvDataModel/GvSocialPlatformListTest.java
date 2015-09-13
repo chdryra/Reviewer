@@ -24,7 +24,7 @@ public class GvSocialPlatformListTest extends AndroidTestCase {
 
     @SmallTest
     public void testGetGvType() {
-        assertEquals(GvSocialPlatformList.TYPE, mList.getGvDataType());
+        assertEquals(GvSocialPlatformList.GvSocialPlatform.TYPE, mList.getGvDataType());
     }
 
     @SmallTest

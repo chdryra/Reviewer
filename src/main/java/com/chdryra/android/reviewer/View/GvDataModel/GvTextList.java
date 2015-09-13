@@ -16,14 +16,14 @@ import java.util.ArrayList;
  * Email: rizwan.choudrey@gmail.com
  */
 public class GvTextList<T extends GvText> extends GvDataList<T> {
-    public static final GvDataType<GvTextList> TYPE
+    private static final GvDataType<GvTextList> TYPE
             = GvTypeMaker.newType(GvTextList.class, GvText.TYPE);
 
-    public <T2 extends GvTextList<T>> GvTextList(GvDataType<T2> type) {
+    public GvTextList(GvDataType<T> type) {
         this(type, null);
     }
 
-    public <T2 extends GvTextList<T>> GvTextList(GvDataType<T2> type, GvReviewId id) {
+    public GvTextList(GvDataType<T> type, GvReviewId id) {
         super(type, id);
     }
 

@@ -5,7 +5,7 @@ import android.test.suitebuilder.annotation.SmallTest;
 import com.chdryra.android.reviewer.View.GvDataModel.FactoryGvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvAuthorList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCanonical;
-import com.chdryra.android.reviewer.View.GvDataModel.GvCanonicalList;
+import com.chdryra.android.reviewer.View.GvDataModel.GvCanonicalCollection;
 import com.chdryra.android.reviewer.View.GvDataModel.GvChildReviewList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
@@ -29,9 +29,9 @@ import junit.framework.TestCase;
  * On: 04/09/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class GvCanonicalListTest extends TestCase {
+public class GvCanonicalCollectionTest extends TestCase {
     private static final int NUM = 5;
-    private GvCanonicalList<GvCommentList.GvComment> mList;
+    private GvCanonicalCollection<GvCommentList.GvComment> mList;
 
     @SmallTest
     public void testParcelable() {
@@ -53,35 +53,33 @@ public class GvCanonicalListTest extends TestCase {
     }
 
     private <T extends GvData> void checkComparator(GvDataType<T> type) {
-        GvCanonicalList<T> list = newList(type);
-        GvDataList<T> canonicals = FactoryGvData.newDataList(type);
-        for (GvCanonical<T> gvCanonical : list) {
-            canonicals.add(gvCanonical.getCanonical());
-        }
+        GvCanonicalCollection<T> list = newList(type);
+        GvDataList<T> canonicals = list.toList();
         list.sort();
         canonicals.sort();
         for (int i = 0; i < list.size(); ++i) {
-            assertEquals(canonicals.getItem(i), list.getItem(i).getCanonical());
+            assertEquals(canonicals.getItem(i), list.getItem(i));
         }
     }
 
     @SmallTest
     public void testEquals() {
-        GvCanonicalList<GvCommentList.GvComment> listNotEquals = new GvCanonicalList<>
-                (GvCommentList.GvComment.TYPE, mList.getReviewId());
-        GvCommentList.GvComment comment1 = mList.getItem(0).getCanonical();
-        GvCommentList.GvComment comment2 = mList.getItem(1).getCanonical();
+        GvCanonicalCollection<GvCommentList.GvComment> listNotEquals = new GvCanonicalCollection<>
+                (GvCommentList.GvComment.TYPE);
+        GvCommentList.GvComment comment1 = mList.getItem(0);
+        GvCommentList.GvComment comment2 = mList.getItem(1);
         GvCommentList.GvComment comment3 = GvDataMocker.newComment(RandomReviewId.nextGvReviewId());
-        GvDataList<GvCommentList.GvComment> similar1 = mList.getItem(0).toList();
-        GvDataList<GvCommentList.GvComment> similar2 = mList.getItem(1).toList();
+        GvDataList<GvCommentList.GvComment> similar1 = mList.getCanonicalItem(0).toList();
+        GvDataList<GvCommentList.GvComment> similar2 = mList.getCanonicalItem(1).toList();
         GvCommentList similar3 = GvDataMocker.newCommentList(NUM, true);
 
         listNotEquals.add(new GvCanonical<>(comment1, similar1));
         listNotEquals.add(new GvCanonical<>(comment2, similar2));
         listNotEquals.add(new GvCanonical<>(comment3, similar3));
 
-        GvCanonicalList<GvCommentList.GvComment> listEquals = FactoryGvData.copy(mList);
-        GvCanonicalList<GvCommentList.GvComment> listEquals2 = FactoryGvData.copy(listNotEquals);
+        GvCanonicalCollection<GvCommentList.GvComment> listEquals = FactoryGvData.copy(mList);
+        GvCanonicalCollection<GvCommentList.GvComment> listEquals2 = FactoryGvData.copy
+                (listNotEquals);
 
         assertTrue(mList.equals(listEquals));
         assertFalse(mList.equals(listNotEquals));
@@ -93,13 +91,12 @@ public class GvCanonicalListTest extends TestCase {
         mList = newList(GvCommentList.GvComment.TYPE);
     }
 
-    private <T extends GvData> GvCanonicalList<T> newList(GvDataType<T> type) {
-        GvCanonicalList<T> list = new GvCanonicalList<>(type, RandomReviewId.nextGvReviewId());
+    private <T extends GvData> GvCanonicalCollection<T> newList(GvDataType<T> type) {
+        GvCanonicalCollection<T> list = new GvCanonicalCollection<>(type);
         for (int i = 0; i < NUM; ++i) {
             T canonical = (T) GvDataMocker.getDatum(type);
             GvDataList<T> data = GvDataMocker.getData(type, NUM);
-            //TODO make type safe
-            list.add(new GvCanonical<T>(canonical, data));
+            list.add(new GvCanonical<>(canonical, data));
         }
         return list;
     }

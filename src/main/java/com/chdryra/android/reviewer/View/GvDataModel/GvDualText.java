@@ -35,7 +35,7 @@ public class GvDualText extends VHDDualString implements GvData {
         }
     };
     private static final GvDataType<GvDualText> TYPE
-            = GvTypeMaker.newType(GvDualText.class, "DualText");
+            = new GvDataType<>(GvDualText.class, "DualText");
     private GvReviewId mId;
 
     GvDualText() {

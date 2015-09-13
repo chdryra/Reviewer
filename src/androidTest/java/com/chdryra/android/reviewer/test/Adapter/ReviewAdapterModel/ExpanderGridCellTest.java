@@ -46,7 +46,7 @@ public class ExpanderGridCellTest extends AndroidTestCase {
         assertTrue(data.size() > 0);
         for (int i = 0; i < data.size(); ++i) {
             GvData datum = (GvData) data.getItem(i);
-            if (datum.getGvDataType().getElementType() != GvChildReviewList.GvChildReview.TYPE) {
+            if (datum.getGvDataType() != GvChildReviewList.GvChildReview.TYPE) {
                 assertNotNull(expander.expandItem(datum));
             } else {
                 assertNull(expander.expandItem(datum));

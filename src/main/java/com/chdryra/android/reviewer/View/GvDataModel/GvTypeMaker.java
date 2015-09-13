@@ -8,6 +8,9 @@
 
 package com.chdryra.android.reviewer.View.GvDataModel;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.ArrayList;
 
 /**
@@ -28,44 +31,64 @@ public class GvTypeMaker {
         return sMaker;
     }
 
-    public static <T extends GvData> GvDataType<T> newType(Class<T> dataClass, String datum) {
-        return get().createType(dataClass, datum);
-    }
-
-    public static <T extends GvData> GvDataType<T> newType(Class<T> dataClass, String datum,
-            String data) {
-        return get().createType(dataClass, datum, data);
-    }
-
-    public static <T1 extends GvData, T2 extends GvDataCollection<T1>> GvDataType<T2>
+    public static <T1 extends GvData, T2 extends GvDataCollection> GvDataType<T2>
     newType(Class<T2> dataClass, GvDataType<T1> elementType) {
-        return get().createCompoundType(dataClass, elementType);
+        return new GvCompoundType<>(dataClass, elementType);
     }
 
-    private <T extends GvData> GvDataType<T> createType(Class<T> dataClass, String datum) {
-        return returnOrThrow(new GvDataType<>(dataClass, datum));
-    }
+    private static class GvCompoundType<T1 extends GvData, T2 extends GvDataCollection<T1>> extends
+            GvDataType<T2> {
+        public static final Creator<GvCompoundType> CREATOR = new Parcelable
+                .Creator<GvCompoundType>() {
+            public GvCompoundType createFromParcel(Parcel in) {
+                return new GvCompoundType(in);
+            }
 
-    private <T extends GvData> GvDataType<T> createType(Class<T> dataClass, String datum, String
-            data) {
-        return returnOrThrow(new GvDataType<>(dataClass, datum, data));
-    }
+            public GvCompoundType[] newArray(int size) {
+                return new GvCompoundType[size];
+            }
+        };
 
-    private <T1 extends GvData, T2 extends GvDataCollection<T1>> GvDataType<T2> createCompoundType
-            (Class<T2> dataClass, GvDataType<T1> elementType) {
-        return returnOrThrow(GvDataType.compoundType(dataClass, elementType));
-    }
+        private final GvDataType<T1> mElementType;
 
-    private <T extends GvData> GvDataType<T> returnOrThrow(GvDataType<T> dataType) {
-//        if (mTypes.contains(dataType)) {
-//            String message = "Compound (" + dataType.getDataClass().getName() + ", " +
-//                    dataType.getDatumName() + ", " + dataType.getDataName() + " already exists!";
-//            throw new IllegalArgumentException(message);
-//        } else {
-//            mTypes.add(dataType);
-//            return dataType;
-//        }
+        private GvCompoundType(Class<T2> dataClass, GvDataType<T1> elementType) {
+            super(dataClass, elementType.getDatumName(), elementType.getDataName());
+            mElementType = elementType;
+        }
 
-        return dataType;
+        public GvCompoundType(Parcel in) {
+            super(in);
+            mElementType = in.readParcelable(GvDataType.class.getClassLoader());
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (!(o instanceof GvCompoundType)) return false;
+            if (!super.equals(o)) return false;
+
+            GvCompoundType<?, ?> that = (GvCompoundType<?, ?>) o;
+
+            return mElementType.equals(that.mElementType);
+
+        }
+
+        @Override
+        public int hashCode() {
+            int result = super.hashCode();
+            result = 31 * result + mElementType.hashCode();
+            return result;
+        }
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            super.writeToParcel(dest, flags);
+            dest.writeParcelable(mElementType, flags);
+        }
     }
 }

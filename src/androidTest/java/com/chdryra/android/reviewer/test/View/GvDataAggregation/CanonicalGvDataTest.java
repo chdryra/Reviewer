@@ -47,7 +47,7 @@ public abstract class CanonicalGvDataTest<T extends GvData> extends TestCase {
     }
 
     protected GvDataList<T> newDataList() {
-        return FactoryGvData.newDataList(getTestDatum().getGvDataType(), null);
+        return (GvDataList<T>) FactoryGvData.newDataList(getTestDatum().getGvDataType(), null);
     }
 
     protected void checkSame() {

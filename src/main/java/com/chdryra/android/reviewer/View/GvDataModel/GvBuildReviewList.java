@@ -23,13 +23,10 @@ import com.chdryra.android.reviewer.View.Screens.GridDataObservable;
  * on the underlying data and user interaction.
  */
 public class GvBuildReviewList extends GvDataList<GvBuildReviewList.GvBuildReview> {
-    public static final GvDataType<GvBuildReviewList> TYPE =
-            GvTypeMaker.newType(GvBuildReviewList.class, GvBuildReview.TYPE);
-
     private final ReviewBuilderAdapter mBuilder;
 
     private GvBuildReviewList(ReviewBuilderAdapter builder) {
-        super(TYPE, null);
+        super(GvBuildReview.TYPE, null);
 
         mBuilder = builder;
 
@@ -57,15 +54,13 @@ public class GvBuildReviewList extends GvDataList<GvBuildReviewList.GvBuildRevie
             implements GridDataObservable.GridDataObserver {
 
         public static GvDataType<GvBuildReview> TYPE =
-                GvTypeMaker.newType(GvBuildReview.class, "create", "create");
+                new GvDataType<>(GvBuildReview.class, "create", "create");
 
-        private final GvDataType<T> mDataType;
         private final ConfigGvDataUi.Config        mConfig;
-        private final ReviewBuilderAdapter.DataBuilder<T> mBuilder;
+        private final ReviewBuilderAdapter.DataBuilderAdapter<T> mBuilder;
 
         private GvBuildReview(GvDataType<T> dataType, ReviewBuilderAdapter builder) {
-            super(GvTypeMaker.newType(GvBuildReview.class, dataType), null);
-            mDataType = dataType;
+            super(dataType, null);
             mConfig = ConfigGvDataUi.getConfig(dataType);
             mBuilder = builder.getDataBuilder(dataType);
             mBuilder.registerGridDataObserver(this);
@@ -73,7 +68,7 @@ public class GvBuildReviewList extends GvDataList<GvBuildReviewList.GvBuildRevie
 
         @Override
         public String getStringSummary() {
-            return mDataType.getDataName();
+            return getGvDataType().getDataName();
         }
 
         public ConfigGvDataUi.Config getConfig() {

@@ -37,7 +37,7 @@ public class ActivityEditFactsTest extends ActivityEditScreenTest {
     private boolean mUrlData = false;
 
     public ActivityEditFactsTest() {
-        super(GvFactList.TYPE);
+        super(GvFactList.GvFact.TYPE);
     }
 
     public void testLongClickBannerButtonShowsBrowser() {
@@ -118,7 +118,7 @@ public class ActivityEditFactsTest extends ActivityEditScreenTest {
 
     protected void checkBrowserIsShowing(boolean isShowing) {
         if (isShowing) {
-            assertTrue(mSolo.searchText(GvUrlList.TYPE.getDatumName()));
+            assertTrue(mSolo.searchText(GvUrlList.GvUrl.TYPE.getDatumName()));
         } else {
             assertTrue(mSolo.searchText(mDataType.getDataName()));
         }

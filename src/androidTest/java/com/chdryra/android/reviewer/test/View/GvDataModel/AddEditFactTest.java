@@ -32,7 +32,7 @@ public class AddEditFactTest extends AddEditLayoutTest<GvFactList.GvFact> {
     private boolean mUrlData = false;
 
     public AddEditFactTest() {
-        super(GvFactList.TYPE, new AddEditFact(new ConfigGvDataAddEditView.AddFact()));
+        super(GvFactList.GvFact.TYPE, new AddEditFact(new ConfigGvDataAddEditView.AddFact()));
     }
 
     @SmallTest

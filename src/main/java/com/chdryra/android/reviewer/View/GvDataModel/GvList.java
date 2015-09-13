@@ -14,9 +14,8 @@ package com.chdryra.android.reviewer.View.GvDataModel;
  * Email: rizwan.choudrey@gmail.com
  */
 public class GvList extends GvDataList<GvData> {
-    public static final GvDataType<GvList> TYPE =
-            GvTypeMaker.newType(GvList.class, GvTypeMaker.newType(GvData.class, "ReviewDatum",
-                    "ReviewData"));
+    public static final GvDataType<GvData> TYPE =
+            new GvDataType<>(GvData.class, "Review Data", "Review Data");
 
     public GvList() {
         super(TYPE, null);
@@ -28,5 +27,10 @@ public class GvList extends GvDataList<GvData> {
 
     public GvList(GvList data) {
         super(data);
+    }
+
+    @Override
+    public boolean contains(GvData datum) {
+        return mData.contains(datum);
     }
 }

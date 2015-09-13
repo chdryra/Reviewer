@@ -43,9 +43,9 @@ import com.chdryra.android.reviewer.View.Launcher.LauncherUi;
  * Email: rizwan.choudrey@gmail.com
  */
 public class EditScreen {
-    public static ReviewView newScreen(Context context, GvDataType type) {
-        GvDataType dataType = type.getElementType();
-        ReviewBuilderAdapter.DataBuilder builder = Administrator.get(context).getReviewBuilder()
+    public static ReviewView newScreen(Context context, GvDataType dataType) {
+        ReviewBuilderAdapter.DataBuilderAdapter builder = Administrator.get(context)
+                .getReviewBuilder()
                 .getDataBuilder(dataType);
 
         ReviewView view = new ReviewView.Editor(builder);
@@ -161,8 +161,8 @@ public class EditScreen {
 
         }
 
-        private ReviewBuilderAdapter.DataBuilder getDataBuilder() {
-            return ((ReviewBuilderAdapter.DataBuilder) getAdapter());
+        private ReviewBuilderAdapter.DataBuilderAdapter getDataBuilder() {
+            return ((ReviewBuilderAdapter.DataBuilderAdapter) getAdapter());
         }
 
         // /Dialogs expected to communicate directly with target fragments so using "invisible"
@@ -300,8 +300,8 @@ public class EditScreen {
             return mEditor;
         }
 
-        private ReviewBuilderAdapter.DataBuilder getDataBuilder() {
-            return ((ReviewBuilderAdapter.DataBuilder) getAdapter());
+        private ReviewBuilderAdapter.DataBuilderAdapter getDataBuilder() {
+            return ((ReviewBuilderAdapter.DataBuilderAdapter) getAdapter());
         }
 
         protected abstract class EditListener extends Fragment
@@ -452,8 +452,8 @@ public class EditScreen {
             }
         }
 
-        protected ReviewBuilderAdapter.DataBuilder getBuilder() {
-            return (ReviewBuilderAdapter.DataBuilder) getAdapter();
+        protected ReviewBuilderAdapter.DataBuilderAdapter getBuilder() {
+            return (ReviewBuilderAdapter.DataBuilderAdapter) getAdapter();
         }
 
         protected ReviewView.Editor getEditor() {
@@ -462,7 +462,7 @@ public class EditScreen {
 
         private void doDoneSelected() {
             ReviewView view = getReviewView();
-            ReviewBuilderAdapter.DataBuilder builder = getBuilder();
+            ReviewBuilderAdapter.DataBuilderAdapter builder = getBuilder();
 
             builder.setData();
             builder.setSubject(view.getSubject());

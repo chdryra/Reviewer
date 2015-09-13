@@ -151,7 +151,7 @@ public abstract class ActivityEditScreenTest extends ActivityReviewViewTest {
     protected void setAdapter() {
         ReviewBuilderAdapter builder = Administrator.get(getInstrumentation().getTargetContext())
                 .getReviewBuilder();
-        ReviewBuilderAdapter.DataBuilder dbuilder = builder.getDataBuilder(mDataType);
+        ReviewBuilderAdapter.DataBuilderAdapter dbuilder = builder.getDataBuilder(mDataType);
 
         if (mWithData) {
             mData = newData();
@@ -437,8 +437,8 @@ public abstract class ActivityEditScreenTest extends ActivityReviewViewTest {
         assertTrue(result ? inBuilder : !inBuilder);
     }
 
-    protected ReviewBuilderAdapter.DataBuilder getBuilder() {
-        return (ReviewBuilderAdapter.DataBuilder) mAdapter;
+    protected ReviewBuilderAdapter.DataBuilderAdapter getBuilder() {
+        return (ReviewBuilderAdapter.DataBuilderAdapter) mAdapter;
     }
 
     protected void checkInBuilders(GvDataList data, boolean result) {

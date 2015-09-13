@@ -25,15 +25,12 @@ import java.util.Random;
  * used as a background image for a review.
  */
 public class GvImageList extends GvDataList<GvImageList.GvImage> {
-    public static final GvDataType<GvImageList> TYPE =
-            GvTypeMaker.newType(GvImageList.class, GvImage.TYPE);
-
     public GvImageList() {
-        super(TYPE, null);
+        super(GvImage.TYPE, null);
     }
 
     public GvImageList(GvReviewId id) {
-        super(TYPE, id);
+        super(GvImage.TYPE, id);
     }
 
     public GvImageList(GvImageList data) {
@@ -71,7 +68,7 @@ public class GvImageList extends GvDataList<GvImageList.GvImage> {
      * {@link ViewHolder}: {@link VhImage}
      */
     public static class GvImage extends GvDataBasic<GvImage> implements DataImage {
-        public static final GvDataType<GvImage> TYPE = GvTypeMaker.newType(GvImage.class, "image");
+        public static final GvDataType<GvImage> TYPE = new GvDataType<>(GvImage.class, "image");
         public static final Parcelable.Creator<GvImage> CREATOR = new Parcelable
                 .Creator<GvImage>() {
             public GvImage createFromParcel(Parcel in) {

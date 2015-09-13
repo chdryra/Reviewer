@@ -105,13 +105,13 @@ public class ActivityFeedTest extends
                 ReviewBuilderAdapter builder = mAdmin.newReviewBuilder();
                 builder.setSubject(RandomString.nextWord());
                 builder.setRating(RandomRating.nextRating());
-                ReviewBuilderAdapter.DataBuilder dataBuilder = builder.getDataBuilder(GvTagList
-                        .TYPE);
+                ReviewBuilderAdapter.DataBuilderAdapter dataBuilderAdapter =
+                        builder.getDataBuilder(GvTagList.GvTag.TYPE);
                 GvTagList tags = GvDataMocker.newTagList(NUM, false);
                 for (int j = 0; j < tags.size(); ++j) {
-                    dataBuilder.add(tags.getItem(j));
+                    dataBuilderAdapter.add(tags.getItem(j));
                 }
-                dataBuilder.setData();
+                dataBuilderAdapter.setData();
                 mAdmin.publishReviewBuilder();
                 try {
                     Thread.sleep(10);

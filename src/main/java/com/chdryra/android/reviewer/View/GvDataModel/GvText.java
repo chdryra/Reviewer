@@ -14,6 +14,8 @@ import android.os.Parcelable;
 import com.chdryra.android.mygenerallibrary.VHDString;
 import com.chdryra.android.mygenerallibrary.ViewHolder;
 
+import org.jetbrains.annotations.NotNull;
+
 /**
  * Created by: Rizwan Choudrey
  * On: 17/10/2014
@@ -24,8 +26,8 @@ import com.chdryra.android.mygenerallibrary.ViewHolder;
  * Parcelable version of {@link com.chdryra.android.mygenerallibrary.VHDString} to comply with
  * {@link GvData}
  */
-public class GvText extends VHDString implements GvData {
-    public static final GvDataType<GvText> TYPE = GvTypeMaker.newType(GvText.class, "text");
+public class GvText<T extends GvText> extends VHDString implements GvData {
+    public static final GvDataType<GvText> TYPE = new GvDataType<>(GvText.class, "text");
     public static final Parcelable.Creator<GvText> CREATOR = new Parcelable
             .Creator<GvText>() {
         public GvText createFromParcel(Parcel in) {
@@ -36,33 +38,35 @@ public class GvText extends VHDString implements GvData {
             return new GvText[size];
         }
     };
+
+    private GvDataType<T> mType;
     private GvReviewId mId;
 
-    public GvText() {
+    public GvText(@NotNull GvDataType<T> type) {
         super();
+        mType = type;
     }
 
-    public GvText(String text) {
+    public GvText(@NotNull GvDataType<T> type, String text) {
         super(text);
+        mType = type;
     }
 
-    public GvText(GvReviewId id, String text) {
+    public GvText(GvDataType<T> type, GvReviewId id, String text) {
         super(text);
         mId = id;
+        mType = type;
     }
 
     public GvText(Parcel in) {
         super(in.readString());
+        mType = in.readParcelable(GvDataType.class.getClassLoader());
         mId = in.readParcelable(GvReviewId.class.getClassLoader());
     }
 
-    public GvText(GvText text) {
-        this(text.getReviewId(), text.get());
-    }
-
     @Override
-    public GvDataType<? extends GvText> getGvDataType() {
-        return TYPE;
+    public GvDataType<T> getGvDataType() {
+        return mType;
     }
 
     @Override
@@ -98,6 +102,7 @@ public class GvText extends VHDString implements GvData {
     @Override
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeString(get());
+        parcel.writeParcelable(mType, i);
         parcel.writeParcelable(mId, i);
     }
 
@@ -107,8 +112,9 @@ public class GvText extends VHDString implements GvData {
         if (!(o instanceof GvText)) return false;
         if (!super.equals(o)) return false;
 
-        GvText gvText = (GvText) o;
+        GvText<?> gvText = (GvText<?>) o;
 
+        if (!mType.equals(gvText.mType)) return false;
         return !(mId != null ? !mId.equals(gvText.mId) : gvText.mId != null);
 
     }
@@ -116,6 +122,7 @@ public class GvText extends VHDString implements GvData {
     @Override
     public int hashCode() {
         int result = super.hashCode();
+        result = 31 * result + mType.hashCode();
         result = 31 * result + (mId != null ? mId.hashCode() : 0);
         return result;
     }

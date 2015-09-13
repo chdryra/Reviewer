@@ -28,7 +28,7 @@ public class ActivityEditCommentsTest extends ActivityEditScreenTest {
     private static final int SPLIT = R.id.menu_item_split_comment;
 
     public ActivityEditCommentsTest() {
-        super(GvCommentList.TYPE);
+        super(GvCommentList.GvComment.TYPE);
     }
 
     @SmallTest

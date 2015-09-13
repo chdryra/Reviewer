@@ -54,7 +54,7 @@ public class ActivityEditLocationsTest extends ActivityEditScreenTest {
     private Instrumentation.ActivityMonitor mMainMonitor;
 
     public ActivityEditLocationsTest() {
-        super(GvLocationList.TYPE);
+        super(GvLocationList.GvLocation.TYPE);
         mLocs = new GvLocationList();
         mLocs.add(TAYYABS);
         mLocs.add(TOWERBRIDGE);

@@ -20,15 +20,12 @@ import com.google.android.gms.maps.model.LatLng;
 import java.util.StringTokenizer;
 
 public class GvLocationList extends GvDataList<GvLocationList.GvLocation> {
-    public static final GvDataType<GvLocationList> TYPE =
-            GvTypeMaker.newType(GvLocationList.class, GvLocation.TYPE);
-
     public GvLocationList() {
-        super(TYPE, null);
+        super(GvLocation.TYPE, null);
     }
 
     public GvLocationList(GvReviewId id) {
-        super(TYPE, id);
+        super(GvLocation.TYPE, id);
     }
 
     public GvLocationList(GvLocationList data) {
@@ -41,7 +38,7 @@ public class GvLocationList extends GvDataList<GvLocationList.GvLocation> {
      * {@link ViewHolder}: {@link VhLocation}
      */
     public static class GvLocation extends GvDataBasic<GvLocation> implements DataLocation {
-        public static final GvDataType<GvLocation> TYPE = GvTypeMaker.newType(GvLocation.class,
+        public static final GvDataType<GvLocation> TYPE = new GvDataType<>(GvLocation.class,
                 "location");
         public static final Parcelable.Creator<GvLocation> CREATOR = new Parcelable
                 .Creator<GvLocation>() {

@@ -17,6 +17,6 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvTagList;
  */
 public class ActivityEditTagsTest extends ActivityEditScreenTest {
     public ActivityEditTagsTest() {
-        super(GvTagList.TYPE);
+        super(GvTagList.GvTag.TYPE);
     }
 }

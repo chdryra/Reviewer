@@ -70,8 +70,7 @@ public class ReviewDataScreen {
             if (item.hasElements()) return;
             Bundle args = new Bundle();
             GvDataPacker.packItem(GvDataPacker.CurrentNewDatum.CURRENT, item, args);
-            ConfigGvDataUi.Config config = ConfigGvDataUi.getConfig(item.getGvDataType()
-                    .getElementType());
+            ConfigGvDataUi.Config config = ConfigGvDataUi.getConfig(item.getGvDataType());
             if (config != null) {
                 ConfigGvDataUi.LaunchableConfig view = config.getViewConfig();
                 LauncherUi.launch(view.getLaunchable(), mListener, view.getRequestCode(), view

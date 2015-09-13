@@ -18,16 +18,12 @@ import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
 import java.net.URL;
 
 public class GvUrlList extends GvDataList<GvUrlList.GvUrl> {
-    public static final GvDataType<GvUrlList> TYPE = GvTypeMaker.newType(GvUrlList.class, GvUrl
-            .TYPE);
-
     public GvUrlList() {
-        super(TYPE, null);
+        super(GvUrl.TYPE, null);
     }
 
-
     public GvUrlList(GvReviewId id) {
-        super(TYPE, id);
+        super(GvUrl.TYPE, id);
     }
 
     public GvUrlList(GvUrlList data) {
@@ -42,8 +38,7 @@ public class GvUrlList extends GvDataList<GvUrlList.GvUrl> {
      * </p>
      */
     public static class GvUrl extends GvFactList.GvFact implements DataUrl {
-        public static final GvDataType<GvUrl> TYPE = GvTypeMaker.newType(GvUrl.class,
-                "link");
+        public static final GvDataType<GvUrl> TYPE = new GvDataType<>(GvUrl.class, "link");
         public static final Parcelable.Creator<GvUrl> CREATOR = new Parcelable
                 .Creator<GvUrl>() {
             public GvUrl createFromParcel(Parcel in) {

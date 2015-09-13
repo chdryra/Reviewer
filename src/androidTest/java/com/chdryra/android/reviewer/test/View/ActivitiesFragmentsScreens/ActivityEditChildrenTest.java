@@ -26,7 +26,7 @@ public class ActivityEditChildrenTest extends ActivityEditScreenTest {
     private float mOriginalRatingNotAverage;
 
     public ActivityEditChildrenTest() {
-        super(GvChildReviewList.TYPE);
+        super(GvChildReviewList.GvChildReview.TYPE);
     }
 
     @SmallTest

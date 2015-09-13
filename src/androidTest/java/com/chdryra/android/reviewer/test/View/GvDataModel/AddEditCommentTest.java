@@ -21,7 +21,8 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
  */
 public class AddEditCommentTest extends AddEditLayoutTest<GvCommentList.GvComment> {
     public AddEditCommentTest() {
-        super(GvCommentList.TYPE, new AddEditComment(new ConfigGvDataAddEditView.AddComment()));
+        super(GvCommentList.GvComment.TYPE,
+                new AddEditComment(new ConfigGvDataAddEditView.AddComment()));
     }
 
     @Override

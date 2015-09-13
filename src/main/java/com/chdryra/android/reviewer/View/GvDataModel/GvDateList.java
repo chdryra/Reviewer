@@ -23,15 +23,12 @@ import java.util.Date;
  * Email: rizwan.choudrey@gmail.com
  */
 public class GvDateList extends GvDataList<GvDateList.GvDate> {
-    public static final GvDataType<GvDateList> TYPE
-            = GvTypeMaker.newType(GvDateList.class, GvDate.TYPE);
-
     public GvDateList() {
-        super(TYPE, null);
+        super(GvDate.TYPE, null);
     }
 
     public GvDateList(GvReviewId id) {
-        super(TYPE, id);
+        super(GvDate.TYPE, id);
     }
 
     public GvDateList(GvDateList data) {
@@ -47,7 +44,7 @@ public class GvDateList extends GvDataList<GvDateList.GvDate> {
      * </p>
      */
     public static class GvDate extends GvDataBasic<GvDate> {
-        public static final GvDataType<GvDate> TYPE = GvTypeMaker.newType(GvDate.class, "date");
+        public static final GvDataType<GvDate> TYPE = new GvDataType<>(GvDate.class, "date");
         public static final Parcelable.Creator<GvDate> CREATOR = new Parcelable
                 .Creator<GvDate>() {
             public GvDate createFromParcel(Parcel in) {

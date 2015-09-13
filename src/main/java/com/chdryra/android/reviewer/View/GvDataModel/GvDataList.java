@@ -16,6 +16,8 @@ import com.chdryra.android.mygenerallibrary.ViewHolderDataList;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewAdapter;
 import com.chdryra.android.reviewer.View.GvDataSorting.GvDataComparators;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -42,10 +44,9 @@ public class GvDataList<T extends GvData> extends ViewHolderDataList<T> implemen
         }
     };
 
-    private final GvDataType<? extends GvDataList<T>> mType;
+    private final GvDataType<T> mType;
     private       GvReviewId mReviewId;
 
-    //TODO make type safe
     public GvDataList(GvReviewId reviewId, GvDataList<T> data) {
         this(data.getGvDataType(), reviewId);
         for (T datum : data) {
@@ -53,7 +54,7 @@ public class GvDataList<T extends GvData> extends ViewHolderDataList<T> implemen
         }
     }
 
-    public <T2 extends GvDataList<T>> GvDataList(GvDataType<T2> mDataType, GvReviewId reviewId) {
+    public GvDataList(@NotNull GvDataType<T> mDataType, GvReviewId reviewId) {
         mReviewId = reviewId;
         mType = mDataType;
     }
@@ -63,16 +64,16 @@ public class GvDataList<T extends GvData> extends ViewHolderDataList<T> implemen
         this(data.getReviewId(), data);
     }
 
-    //TODO make type safe
     public GvDataList(Parcel in) {
         mType = in.readParcelable(GvDataType.class.getClassLoader());
-        T[] data = (T[]) in.readParcelableArray(mType.getClass().getClassLoader());
+        //TODO make type safe
+        T[] data = (T[]) in.readParcelableArray(mType.getDataClass().getClassLoader());
         mData = new ArrayList<>(Arrays.asList(data));
         mReviewId = in.readParcelable(GvReviewId.class.getClassLoader());
     }
 
     @Override
-    public GvDataType getGvDataType() {
+    public GvDataType<T> getGvDataType() {
         return mType;
     }
 
@@ -103,13 +104,8 @@ public class GvDataList<T extends GvData> extends ViewHolderDataList<T> implemen
         return this;
     }
 
-    //TODO make type safe
     public boolean contains(GvData datum) {
-        try {
-            return super.contains((T) datum);
-        } catch (ClassCastException e) {
-            return false;
-        }
+        return super.contains(mType.cast(datum));
     }
 
     @Override
@@ -137,7 +133,7 @@ public class GvDataList<T extends GvData> extends ViewHolderDataList<T> implemen
 
     @Override
     protected Comparator<T> getDefaultComparator() {
-        return GvDataComparators.getDefaultComparator(mType.getElementType());
+        return GvDataComparators.getDefaultComparator(mType);
     }
 
     @Override
@@ -145,7 +141,7 @@ public class GvDataList<T extends GvData> extends ViewHolderDataList<T> implemen
         if (this == o) return true;
         if (!(o instanceof GvDataList)) return false;
 
-        GvDataList<?> that = (GvDataList<?>) o;
+        GvDataList<? extends GvData> that = (GvDataList<? extends GvData>) o;
 
         if (!mType.equals(that.mType)) return false;
 
@@ -156,6 +152,7 @@ public class GvDataList<T extends GvData> extends ViewHolderDataList<T> implemen
         if (size() != that.size()) return false;
 
         for (int i = 0; i < size(); ++i) {
+            //TODO make type safe
             if (!getItem(i).equals(that.getItem(i))) return false;
         }
 

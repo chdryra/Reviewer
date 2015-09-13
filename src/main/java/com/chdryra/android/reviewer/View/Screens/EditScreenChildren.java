@@ -50,7 +50,8 @@ public class EditScreenChildren {
             ReviewView.Editor editor = getEditor();
 
             editor.registerGridDataObserver(this);
-            ReviewBuilderAdapter.DataBuilder adapter = (ReviewBuilderAdapter.DataBuilder) editor
+            ReviewBuilderAdapter.DataBuilderAdapter adapter = (ReviewBuilderAdapter
+                    .DataBuilderAdapter) editor
                     .getAdapter();
             editor.setRatingAverage(adapter.getParentBuilder().isRatingAverage());
         }

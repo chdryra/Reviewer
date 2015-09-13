@@ -20,15 +20,12 @@ import com.chdryra.android.reviewer.View.Utils.CommentFormatter;
  * Includes method for generating split comments {@link GvCommentList} from current list.
  */
 public class GvCommentList extends GvDataList<GvCommentList.GvComment> {
-    public static final GvDataType<GvCommentList> TYPE
-            = GvTypeMaker.newType(GvCommentList.class, GvComment.TYPE);
-
     public GvCommentList() {
-        super(TYPE, null);
+        super(GvComment.TYPE, null);
     }
 
     public GvCommentList(GvReviewId id) {
-        super(TYPE, id);
+        super(GvComment.TYPE, id);
     }
 
     public GvCommentList(GvCommentList data) {
@@ -63,7 +60,7 @@ public class GvCommentList extends GvDataList<GvCommentList.GvComment> {
      */
     public static class GvComment extends GvDataBasic<GvComment> implements DataComment {
         public static final GvDataType<GvComment> TYPE =
-                GvTypeMaker.newType(GvComment.class, "comment");
+                new GvDataType<>(GvComment.class, "comment");
         public static final Parcelable.Creator<GvComment> CREATOR = new Parcelable
                 .Creator<GvComment>() {
             public GvComment createFromParcel(Parcel in) {

@@ -101,7 +101,7 @@ public class ViewerTreeData implements GridDataViewer<GvData> {
         if (isExpandable(datum)) {
             ReviewViewAdapter<? extends GvData> parent =
                     FactoryReviewViewAdapter.newChildListAdapter(mNode);
-            if (datum.getGvDataType() == GvReviewOverviewList.TYPE) {
+            if (datum.getGvDataType() == GvReviewOverviewList.GvReviewOverview.TYPE) {
                 return parent;
             }
 

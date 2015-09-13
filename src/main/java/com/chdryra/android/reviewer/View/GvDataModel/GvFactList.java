@@ -16,15 +16,12 @@ import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataFact;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
 
 public class GvFactList extends GvDataList<GvFactList.GvFact> {
-    public static final GvDataType<GvFactList> TYPE =
-            GvTypeMaker.newType(GvFactList.class, GvFact.TYPE);
-
     public GvFactList() {
-        super(TYPE, null);
+        super(GvFact.TYPE, null);
     }
 
     public GvFactList(GvReviewId id) {
-        super(TYPE, id);
+        super(GvFact.TYPE, id);
     }
 
     public GvFactList(GvFactList data) {
@@ -57,7 +54,7 @@ public class GvFactList extends GvDataList<GvFactList.GvFact> {
                 return new GvFact[size];
             }
         };
-        public static GvDataType<GvFact> TYPE = GvTypeMaker.newType(GvFact.class, "fact");
+        public static GvDataType<GvFact> TYPE = new GvDataType<>(GvFact.class, "fact");
 
         public GvFact() {
             super();

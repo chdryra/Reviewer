@@ -48,7 +48,7 @@ public class ReviewBuilderAdapter extends ReviewViewAdapterBasic {
     private static final File FILE_DIR_EXT = Environment
             .getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM);
 
-    private final Map<GvDataType, DataBuilder> mDataBuilders;
+    private final DataBuildersMap mDataBuilders;
     private final Context mContext;
     private final Author mAuthor;
     private final GvBuildReviewList mBuildUi;
@@ -59,13 +59,9 @@ public class ReviewBuilderAdapter extends ReviewViewAdapterBasic {
         mContext = context;
         mAuthor = author;
         mBuilder = new ReviewBuilder(context, author);
-
-        mDataBuilders = new HashMap<>();
-        for (GvDataType<? extends GvData> dataType : TYPES) {
-            mDataBuilders.put(dataType.getElementType(), newDataBuilder(dataType.getElementType()));
-        }
-        newIncrementor();
+        mDataBuilders = new DataBuildersMap();
         mBuildUi = GvBuildReviewList.newInstance(this);
+        newIncrementor();
     }
 
     public Context getContext() {
@@ -100,9 +96,8 @@ public class ReviewBuilderAdapter extends ReviewViewAdapterBasic {
         }
     }
 
-    //TODO make type safe
-    public DataBuilder getDataBuilder(GvDataType dataType) {
-        return mDataBuilders.get(dataType.getElementType());
+    public <T extends GvData> DataBuilderAdapter<T> getDataBuilder(GvDataType<T> dataType) {
+        return mDataBuilders.get(dataType);
     }
 
     public <T extends GvData> void resetDataBuilder(GvDataType<T> dataType) {
@@ -121,14 +116,8 @@ public class ReviewBuilderAdapter extends ReviewViewAdapterBasic {
         return mBuilder.getData(dataType);
     }
 
-    private <T extends GvData> DataBuilder<T> newDataBuilder(GvDataType<T> dataType) {
-        return new DataBuilder<>(dataType);
-    }
-
-    //TODO make type safe
-    private <T extends GvData> void setData(GvDataList<T> data) {
-        mBuilder.setData(data);
-        notifyGridDataObservers();
+    private <T extends GvData> DataBuilderAdapter<T> newDataBuilder(GvDataType<T> dataType) {
+        return new DataBuilderAdapter<>(dataType);
     }
 
     private void newIncrementor() {
@@ -166,11 +155,11 @@ public class ReviewBuilderAdapter extends ReviewViewAdapterBasic {
         return (GvImageList) getData(GvImageList.GvImage.TYPE);
     }
 
-    public class DataBuilder<T extends GvData> extends ReviewViewAdapterBasic {
+    public class DataBuilderAdapter<T extends GvData> extends ReviewViewAdapterBasic {
         private ReviewBuilder.DataBuilder<T> mDataBuilder;
         private GvDataType<T> mType;
 
-        private DataBuilder(GvDataType<T> type) {
+        private DataBuilderAdapter(GvDataType<T> type) {
             mType = type;
             mDataBuilder = mBuilder.getDataBuilder(mType);
             reset();
@@ -240,8 +229,34 @@ public class ReviewBuilderAdapter extends ReviewViewAdapterBasic {
 
         @Override
         public GvImageList getCovers() {
-            return getGridData().getGvDataType().getElementType() == GvImageList.GvImage.TYPE ?
-                    (GvImageList) getGridData() : getParentBuilder().getCovers();
+            GvDataList images = getParentBuilder().getCovers();
+            if (mType == GvImageList.GvImage.TYPE) {
+                images = getGridData();
+            }
+
+            return (GvImageList) images;
+        }
+    }
+
+    //To ensure type safety
+    private class DataBuildersMap {
+        private final Map<GvDataType<? extends GvData>, DataBuilderAdapter<? extends GvData>>
+                mDataBuilders;
+
+        private DataBuildersMap() {
+            mDataBuilders = new HashMap<>();
+            for (GvDataType<? extends GvData> dataType : TYPES) {
+                add(dataType);
+            }
+        }
+
+        private <T extends GvData> void add(GvDataType<T> type) {
+            mDataBuilders.put(type, newDataBuilder(type));
+        }
+
+        //TODO make type safe although it really is....
+        private <T extends GvData> DataBuilderAdapter<T> get(GvDataType<T> type) {
+            return (DataBuilderAdapter<T>) mDataBuilders.get(type);
         }
     }
 }

@@ -32,15 +32,12 @@ import java.util.Date;
  * @see Administrator
  */
 public class GvReviewOverviewList extends GvDataList<GvReviewOverviewList.GvReviewOverview> {
-    public static final GvDataType<GvReviewOverviewList> TYPE
-            = GvTypeMaker.newType(GvReviewOverviewList.class, GvReviewOverview.TYPE);
-
     public GvReviewOverviewList() {
-        super(TYPE, null);
+        super(GvReviewOverview.TYPE, null);
     }
 
     public GvReviewOverviewList(GvReviewId parentId) {
-        super(TYPE, parentId);
+        super(GvReviewOverview.TYPE, parentId);
     }
 
     public GvReviewOverviewList(GvReviewOverviewList data) {
@@ -71,7 +68,7 @@ public class GvReviewOverviewList extends GvDataList<GvReviewOverviewList.GvRevi
      */
     public static class GvReviewOverview extends GvDataBasic<GvReviewOverview> {
         public static final GvDataType<GvReviewOverview> TYPE =
-                GvTypeMaker.newType(GvReviewOverview.class, "review");
+                new GvDataType<>(GvReviewOverview.class, "review");
         public static final Parcelable.Creator<GvReviewOverview> CREATOR = new Parcelable
                 .Creator<GvReviewOverview>() {
             public GvReviewOverview createFromParcel(Parcel in) {

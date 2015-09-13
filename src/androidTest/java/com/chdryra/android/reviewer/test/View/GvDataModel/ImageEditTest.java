@@ -25,7 +25,7 @@ public class ImageEditTest extends AddEditLayoutTest<GvImageList.GvImage> {
     private ImageView mImageView;
 
     public ImageEditTest() {
-        super(GvImageList.TYPE, new ImageEdit(new ConfigGvDataAddEditView.EditImage()));
+        super(GvImageList.GvImage.TYPE, new ImageEdit(new ConfigGvDataAddEditView.EditImage()));
     }
 
     @Override

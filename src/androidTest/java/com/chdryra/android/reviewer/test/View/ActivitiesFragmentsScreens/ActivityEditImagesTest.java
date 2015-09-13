@@ -27,14 +27,14 @@ import com.chdryra.android.testutils.RandomString;
 public class ActivityEditImagesTest extends ActivityEditScreenTest {
 
     public ActivityEditImagesTest() {
-        super(GvImageList.TYPE);
+        super(GvImageList.GvImage.TYPE);
     }
 
     @SmallTest
     public void testBannerButtonAddDone() {
         setUp(false);
 
-        mSolo.clickOnButton("Add " + GvImageList.TYPE.getDatumName());
+        mSolo.clickOnButton("Add " + GvImageList.GvImage.TYPE.getDatumName());
         getInstrumentation().waitForIdleSync();
 
         assertTrue(mSolo.searchText("Select Source"));

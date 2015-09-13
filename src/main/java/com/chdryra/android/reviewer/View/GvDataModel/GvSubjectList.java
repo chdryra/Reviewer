@@ -17,24 +17,21 @@ import android.os.Parcelable;
  * Email: rizwan.choudrey@gmail.com
  */
 public class GvSubjectList extends GvTextList<GvSubjectList.GvSubject> {
-    public static final GvDataType<GvSubjectList> TYPE
-            = GvTypeMaker.newType(GvSubjectList.class, GvSubject.TYPE);
-
     public GvSubjectList() {
-        super(TYPE, null);
+        super(GvSubject.TYPE, null);
     }
 
     public GvSubjectList(GvReviewId id) {
-        super(TYPE, id);
+        super(GvSubject.TYPE, id);
     }
 
     public GvSubjectList(GvSubjectList data) {
         super(data);
     }
 
-    public static class GvSubject extends GvText {
+    public static class GvSubject extends GvText<GvSubject> {
         public static final GvDataType<GvSubject> TYPE =
-                GvTypeMaker.newType(GvSubject.class, "subject");
+                new GvDataType<>(GvSubject.class, "subject");
         public static final Parcelable.Creator<GvSubject> CREATOR = new Parcelable
                 .Creator<GvSubject>() {
             public GvSubject createFromParcel(Parcel in) {
@@ -47,15 +44,15 @@ public class GvSubjectList extends GvTextList<GvSubjectList.GvSubject> {
         };
 
         public GvSubject() {
-            super();
+            super(TYPE);
         }
 
         public GvSubject(String subject) {
-            super(subject);
+            super(TYPE, subject);
         }
 
         public GvSubject(GvReviewId id, String subject) {
-            super(id, subject);
+            super(TYPE, id, subject);
         }
 
         public GvSubject(GvSubject subject) {
@@ -64,11 +61,6 @@ public class GvSubjectList extends GvTextList<GvSubjectList.GvSubject> {
 
         GvSubject(Parcel in) {
             super(in);
-        }
-
-        @Override
-        public GvDataType<GvSubject> getGvDataType() {
-            return GvSubject.TYPE;
         }
     }
 }

@@ -28,20 +28,15 @@ public class GvCanonical<T extends GvData> implements GvDataCollection<T>, Itera
 
     private T mCanonical;
     private GvDataList<T> mData;
-    private GvDataType mType;
+    private GvDataType<T> mType;
 
     public GvCanonical(@NotNull T canonical, @NotNull GvDataList<T> data) {
         mCanonical = canonical;
+        mType = (GvDataType<T>) canonical.getGvDataType();
         if (data.size() == 0) {
             throw new IllegalArgumentException("Data must have size!");
         }
         mData = data;
-        mType = GvTypeMaker.newType(this.getClass(), canonical.getGvDataType());
-    }
-
-    public GvCanonical(GvCanonical<T> gvCanoncial) {
-        this(FactoryGvData.copy(gvCanoncial.getCanonical()), FactoryGvData.copy(gvCanoncial
-                .toList()));
     }
 
     public GvCanonical(Parcel in) {
@@ -75,7 +70,7 @@ public class GvCanonical<T extends GvData> implements GvDataCollection<T>, Itera
     }
 
     @Override
-    public GvDataType getGvDataType() {
+    public GvDataType<T> getGvDataType() {
         return mType;
     }
 

@@ -34,7 +34,7 @@ public class GvTagListTest extends TestCase {
 
     @SmallTest
     public void testGetGvType() {
-        assertEquals(GvTagList.TYPE, mList.getGvDataType());
+        assertEquals(GvTagList.GvTag.TYPE, mList.getGvDataType());
     }
 
     @SmallTest
@@ -95,13 +95,13 @@ public class GvTagListTest extends TestCase {
         mList.addList(GvDataMocker.newTagList(NUM, false));
         assertEquals(NUM, mList.size());
 
-        assertFalse(mList.equals(GvDataMocker.getData(GvChildReviewList.TYPE, NUM)));
-        assertFalse(mList.equals(GvDataMocker.getData(GvTagList.TYPE, NUM)));
-        assertFalse(mList.equals(GvDataMocker.getData(GvLocationList.TYPE, NUM)));
-        assertFalse(mList.equals(GvDataMocker.getData(GvCommentList.TYPE, NUM)));
-        assertFalse(mList.equals(GvDataMocker.getData(GvFactList.TYPE, NUM)));
-        assertFalse(mList.equals(GvDataMocker.getData(GvImageList.TYPE, NUM)));
-        assertFalse(mList.equals(GvDataMocker.getData(GvUrlList.TYPE, NUM)));
+        assertFalse(mList.equals(GvDataMocker.getData(GvChildReviewList.GvChildReview.TYPE, NUM)));
+        assertFalse(mList.equals(GvDataMocker.getData(GvTagList.GvTag.TYPE, NUM)));
+        assertFalse(mList.equals(GvDataMocker.getData(GvLocationList.GvLocation.TYPE, NUM)));
+        assertFalse(mList.equals(GvDataMocker.getData(GvCommentList.GvComment.TYPE, NUM)));
+        assertFalse(mList.equals(GvDataMocker.getData(GvFactList.GvFact.TYPE, NUM)));
+        assertFalse(mList.equals(GvDataMocker.getData(GvImageList.GvImage.TYPE, NUM)));
+        assertFalse(mList.equals(GvDataMocker.getData(GvUrlList.GvUrl.TYPE, NUM)));
 
         GvTagList list = new GvTagList();
         GvTagList list2 = new GvTagList(mList);

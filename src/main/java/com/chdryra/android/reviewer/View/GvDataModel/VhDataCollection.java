@@ -43,7 +43,7 @@ public class VhDataCollection implements ViewHolder {
     public void updateView(ViewHolderData data) {
         GvDataCollection dataList = (GvDataCollection) data;
         if (dataList.size() != 1 ||
-                dataList.getGvDataType().getElementType() == GvImageList.GvImage.TYPE) {
+                dataList.getGvDataType() == GvImageList.GvImage.TYPE) {
             updateDataView(dataList);
         } else {
             updateDatumView(dataList);
@@ -57,7 +57,7 @@ public class VhDataCollection implements ViewHolder {
 
     private void updateDataView(GvDataCollection data) {
         int number = data.size();
-        GvDataType dataType = data.getGvDataType().getElementType();
+        GvDataType dataType = data.getGvDataType();
 
         String type = number == 1 ? dataType.getDatumName() : dataType.getDataName();
         mDataView.updateView(new GvDualText(String.valueOf(number), type));

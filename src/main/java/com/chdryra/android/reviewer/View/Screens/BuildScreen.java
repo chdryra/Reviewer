@@ -191,7 +191,8 @@ public class BuildScreen {
             @Override
             public void onImageChosen(GvImageList.GvImage image) {
                 image.setIsCover(true);
-                ReviewBuilderAdapter.DataBuilder builder = getBuilder().getDataBuilder(GvImageList
+                ReviewBuilderAdapter.DataBuilderAdapter builder = getBuilder().getDataBuilder
+                        (GvImageList
                         .GvImage.TYPE);
                 builder.add(image);
                 builder.setData();

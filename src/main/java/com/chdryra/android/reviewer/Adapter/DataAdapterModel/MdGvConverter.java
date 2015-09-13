@@ -225,19 +225,19 @@ public class MdGvConverter {
 
     public static GvDataList copy(GvDataList data) {
         GvDataType dataType = data.getGvDataType();
-        if (dataType == GvCommentList.TYPE) {
+        if (dataType == GvCommentList.GvComment.TYPE) {
             return new GvCommentList((GvCommentList) data);
-        } else if (dataType == GvFactList.TYPE) {
+        } else if (dataType == GvFactList.GvFact.TYPE) {
             return copy((GvFactList) data);
-        } else if (dataType == GvImageList.TYPE) {
+        } else if (dataType == GvImageList.GvImage.TYPE) {
             return new GvImageList((GvImageList) data);
-        } else if (dataType == GvLocationList.TYPE) {
+        } else if (dataType == GvLocationList.GvLocation.TYPE) {
             return new GvLocationList((GvLocationList) data);
-        } else if (dataType == GvUrlList.TYPE) {
+        } else if (dataType == GvUrlList.GvUrl.TYPE) {
             return new GvUrlList((GvUrlList) data);
-        } else if (dataType == GvTagList.TYPE) {
+        } else if (dataType == GvTagList.GvTag.TYPE) {
             return new GvTagList((GvTagList) data);
-        } else if (dataType == GvChildReviewList.TYPE) {
+        } else if (dataType == GvChildReviewList.GvChildReview.TYPE) {
             return new GvChildReviewList((GvChildReviewList) data);
         } else {
             return null;

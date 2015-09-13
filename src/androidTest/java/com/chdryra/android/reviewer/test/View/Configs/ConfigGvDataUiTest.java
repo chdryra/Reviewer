@@ -13,6 +13,7 @@ import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.View.Configs.ConfigGvDataAddEditView;
 import com.chdryra.android.reviewer.View.Configs.ConfigGvDataUi;
+import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
 import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
 import com.chdryra.android.reviewer.View.Launcher.LaunchableUi;
@@ -34,12 +35,12 @@ import java.util.Set;
  * in the manifest.
  */
 public class ConfigGvDataUiTest extends AndroidTestCase {
-    private static final GvDataType[] DATATYPES = GvDataMocker.DATATYPES;
-    private static final GvDataType[] NULLADDS  = {GvImageList.TYPE};
+    private static final ArrayList<GvDataType<? extends GvData>> TYPES = GvDataMocker.TYPES;
+    private static final GvDataType[] NULLADDS  = {GvImageList.GvImage.TYPE};
 
     @SmallTest
     public void testGetConfigAndConfigClass() {
-        for (GvDataType dataType : DATATYPES) {
+        for (GvDataType dataType : TYPES) {
             ConfigGvDataUi.Config config = ConfigGvDataUi.getConfig(dataType);
             assertNotNull(config);
             assertNotNull(config.getAdderConfig());
@@ -51,13 +52,13 @@ public class ConfigGvDataUiTest extends AndroidTestCase {
     public void testReviewDataUIConfigs() {
         ArrayList<Integer> requestCodes = new ArrayList<Integer>();
         ArrayList<String> tags = new ArrayList<String>();
-        for (GvDataType dataType : DATATYPES) {
+        for (GvDataType dataType : TYPES) {
             ConfigGvDataUi.Config config = ConfigGvDataUi.getConfig(dataType);
             assertNotNull(config);
 
             //Add
             ConfigGvDataUi.LaunchableConfig uiConfig = config.getAdderConfig();
-            assertEquals(dataType.getElementType(), uiConfig.getGVType().getElementType());
+            assertEquals(dataType, uiConfig.getGVType());
 
             String tag = uiConfig.getTag(); //tags make sense
             assertNotNull(tag);
@@ -77,7 +78,7 @@ public class ConfigGvDataUiTest extends AndroidTestCase {
 
             //Edit
             uiConfig = config.getEditorConfig();
-            assertEquals(dataType.getElementType(), uiConfig.getGVType().getElementType());
+            assertEquals(dataType, uiConfig.getGVType());
 
             tag = uiConfig.getTag();
             assertNotNull(tag);
@@ -103,7 +104,7 @@ public class ConfigGvDataUiTest extends AndroidTestCase {
 
     @SmallTest
     public void testGetReviewDataUI() {
-        for (GvDataType dataType : DATATYPES) {
+        for (GvDataType dataType : TYPES) {
             ConfigGvDataUi.Config config = ConfigGvDataUi.getConfig(dataType);
             assertNotNull(config);
 

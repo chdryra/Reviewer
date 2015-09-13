@@ -19,13 +19,15 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
 import com.chdryra.android.reviewer.View.GvDataModel.GvTagList;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
 
+import java.util.ArrayList;
+
 /**
  * Created by: Rizwan Choudrey
  * On: 15/12/2014
  * Email: rizwan.choudrey@gmail.com
  */
 public class GvDataHandlerTest extends AndroidTestCase {
-    private static final GvDataType[] TYPES   = GvDataMocker.TYPES;
+    private static final ArrayList<GvDataType<? extends GvData>> TYPES = GvDataMocker.TYPES;
     private static final int          NUMDATA = 30;
 
     @SmallTest
@@ -51,12 +53,12 @@ public class GvDataHandlerTest extends AndroidTestCase {
 
     @SmallTest
     public void testAddConstraint() {
-        GvTagList data = (GvTagList) getData(GvTagList.TYPE);
+        GvTagList data = (GvTagList) getData(GvTagList.GvTag.TYPE);
         GvDataHandler noAddHandler = new GvDataHandler<>(data, getNoAddAddConstraint(data));
         GvDataHandler alwaysAddHandler = new GvDataHandler<>(data, getAlwaysAddAddConstraint(data));
 
-        GvTagList addData1 = (GvTagList) getData(GvTagList.TYPE);
-        GvTagList addData2 = (GvTagList) getData(GvTagList.TYPE);
+        GvTagList addData1 = (GvTagList) getData(GvTagList.GvTag.TYPE);
+        GvTagList addData2 = (GvTagList) getData(GvTagList.GvTag.TYPE);
 
         int originalSize = data.size();
         for (int i = 0; i < addData1.size(); ++i) {

@@ -61,7 +61,7 @@ public final class ConfigGvDataUi {
     }
 
     public static Config getConfig(GvDataType dataType) {
-        return getConfigsMap().get(dataType.getElementType());
+        return getConfigsMap().get(dataType);
     }
 
     private static Map<GvDataType, Config> getConfigsMap() {

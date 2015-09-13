@@ -25,12 +25,9 @@ import com.chdryra.android.reviewer.Model.Social.SocialPlatformList.SocialPlatfo
  * @see SocialPlatformList
  */
 public class GvSocialPlatformList extends GvDataList<GvSocialPlatformList.GvSocialPlatform> {
-    public static final GvDataType<GvSocialPlatformList> TYPE =
-            GvTypeMaker.newType(GvSocialPlatformList.class, GvSocialPlatform.TYPE);
-
     //For testing
     public GvSocialPlatformList() {
-        super(TYPE, null);
+        super(GvSocialPlatform.TYPE, null);
     }
 
     private GvSocialPlatformList(Context context) {
@@ -53,7 +50,7 @@ public class GvSocialPlatformList extends GvDataList<GvSocialPlatformList.GvSoci
      */
     public static class GvSocialPlatform extends GvDualText {
         public static final GvDataType<GvSocialPlatform>         TYPE       =
-                GvTypeMaker.newType(GvSocialPlatform.class, "share", "share");
+                new GvDataType<>(GvSocialPlatform.class, "share", "share");
         public static final Parcelable.Creator<GvSocialPlatform> CREATOR    = new Parcelable
                 .Creator<GvSocialPlatform>() {
             public GvSocialPlatform createFromParcel(Parcel in) {

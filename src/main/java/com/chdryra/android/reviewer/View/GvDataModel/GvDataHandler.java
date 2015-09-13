@@ -46,7 +46,6 @@ public class GvDataHandler<T extends GvData> {
     }
 
     public GvDataType<T> getGvDataType() {
-        //TODO make type safe
         return mData.getGvDataType();
     }
 
@@ -80,7 +79,6 @@ public class GvDataHandler<T extends GvData> {
 
     public void deleteAll() {
         mData.removeAll();
-        ;
     }
 
     public GvDataList<T> getData() {

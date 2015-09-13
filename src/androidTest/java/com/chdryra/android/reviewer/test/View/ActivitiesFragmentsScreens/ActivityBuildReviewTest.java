@@ -229,7 +229,7 @@ public class ActivityBuildReviewTest extends ActivityReviewViewTest {
         mOriginalRating = child.getRating();
         assertFalse(getBuilder().isRatingAverage());
 
-        testClickWithoutData(GvChildReviewList.TYPE, NUM_DATA);
+        testClickWithoutData(GvChildReviewList.GvChildReview.TYPE, NUM_DATA);
 
         assertFalse(getBuilder().isRatingAverage());
         while (child.getRating() == getAverageRating(true)) child = editSubjectRating();
@@ -287,7 +287,7 @@ public class ActivityBuildReviewTest extends ActivityReviewViewTest {
 
     protected void checkBuilderDataChanges(GvDataList data) {
         testInBuilder(data, true);
-        checkBuilderChanges(data.getGvDataType().getElementType());
+        checkBuilderChanges(data.getGvDataType());
     }
 
     protected void enterData(GvDataList data, String tag, boolean entryWithPause) {
@@ -320,7 +320,7 @@ public class ActivityBuildReviewTest extends ActivityReviewViewTest {
         GvDataList fromBuilder = getBuilder().getDataBuilder(data.getGvDataType()).getGridData();
         fromBuilder.sort();
         data.sort();
-        if (data.getGvDataType().getElementType() == GvLocationList.GvLocation.TYPE) {
+        if (data.getGvDataType() == GvLocationList.GvLocation.TYPE) {
             testInBuilderLocationNames(data, fromBuilder, result);
         } else {
             assertEquals(result, data.equals(fromBuilder));
@@ -360,13 +360,13 @@ public class ActivityBuildReviewTest extends ActivityReviewViewTest {
 
     private void checkDatumCell(View cell, GvDataList data) {
         assertEquals(1, data.size());
-        if (data.getGvDataType().equals(GvTagList.TYPE)) {
+        if (data.getGvDataType().equals(GvTagList.GvTag.TYPE)) {
             ArrayList<TextView> tvs = mSolo.getCurrentViews(TextView.class, cell);
             GvTagList.GvTag tag = (GvTagList.GvTag) data.getItem(0);
             assertEquals(1, tvs.size());
             assertEquals(tag.get(), tvs.get(0).getText().toString());
 
-        } else if (data.getGvDataType().equals(GvCommentList.TYPE)) {
+        } else if (data.getGvDataType().equals(GvCommentList.GvComment.TYPE)) {
             ArrayList<TextView> tvs;
             tvs = mSolo.getCurrentViews(TextView.class, cell);
             GvCommentList.GvComment comment = (GvCommentList.GvComment) data.getItem(0);
@@ -374,7 +374,7 @@ public class ActivityBuildReviewTest extends ActivityReviewViewTest {
             String headline = CommentFormatter.getHeadline(comment.getComment());
             assertEquals(headline, tvs.get(0).getText().toString());
 
-        } else if (data.getGvDataType().equals(GvFactList.TYPE)) {
+        } else if (data.getGvDataType().equals(GvFactList.GvFact.TYPE)) {
             ArrayList<TextView> tvs;
             tvs = mSolo.getCurrentViews(TextView.class, cell);
             GvFactList.GvFact fact = (GvFactList.GvFact) data.getItem(0);
@@ -382,14 +382,14 @@ public class ActivityBuildReviewTest extends ActivityReviewViewTest {
             assertEquals(fact.getLabel(), tvs.get(0).getText().toString());
             assertEquals(fact.getValue(), tvs.get(1).getText().toString());
 
-        } else if (data.getGvDataType().equals(GvLocationList.TYPE)) {
+        } else if (data.getGvDataType().equals(GvLocationList.GvLocation.TYPE)) {
             ArrayList<TextView> tvs;
             tvs = mSolo.getCurrentViews(TextView.class, cell);
             GvLocationList.GvLocation location = (GvLocationList.GvLocation) data.getItem(0);
             assertEquals(1, tvs.size());
             assertEquals(location.getName(), tvs.get(0).getText().toString());
 
-        } else if (data.getGvDataType().equals(GvChildReviewList.TYPE)) {
+        } else if (data.getGvDataType().equals(GvChildReviewList.GvChildReview.TYPE)) {
             ArrayList<TextView> tvs;
             tvs = mSolo.getCurrentViews(TextView.class, cell);
             ArrayList<RatingBar> bars = mSolo.getCurrentViews(RatingBar.class, cell);
@@ -400,12 +400,12 @@ public class ActivityBuildReviewTest extends ActivityReviewViewTest {
             assertEquals(childReview.getSubject(), tvs.get(0).getText().toString());
             assertEquals(childReview.getRating(), bars.get(0).getRating());
 
-        } else if (data.getGvDataType().equals(GvImageList.TYPE)) {
+        } else if (data.getGvDataType().equals(GvImageList.GvImage.TYPE)) {
             ArrayList<TextView> tvs;
             tvs = mSolo.getCurrentViews(TextView.class, cell);
             assertEquals(2, tvs.size());
             assertEquals(String.valueOf(1), tvs.get(0).getText().toString());
-            assertEquals(GvImageList.TYPE.getDatumName(),
+            assertEquals(GvImageList.GvImage.TYPE.getDatumName(),
                     tvs.get(1).getText().toString());
 
         }
@@ -451,7 +451,7 @@ public class ActivityBuildReviewTest extends ActivityReviewViewTest {
     private int getItemPosition(GvDataType dataType) {
         int position = -1;
         for (int i = 0; i < mList.size(); ++i) {
-            if (mList.getItem(i).getGvDataType().getElementType() == dataType.getElementType()) {
+            if (mList.getItem(i).getGvDataType() == dataType) {
                 position = i;
                 break;
             }
@@ -467,7 +467,7 @@ public class ActivityBuildReviewTest extends ActivityReviewViewTest {
 
     private GvDataList getData(GvDataType dataType, int numData) {
         GvDataList data;
-        if (dataType.getElementType() == GvCommentList.GvComment.TYPE) {
+        if (dataType == GvCommentList.GvComment.TYPE) {
             GvCommentList mocked = GvDataMocker.newCommentList(numData, false);
             GvCommentList comments = new GvCommentList();
             for (int i = 0; i < numData; ++i) {
@@ -476,7 +476,7 @@ public class ActivityBuildReviewTest extends ActivityReviewViewTest {
                 comments.add(new GvCommentList.GvComment(mock.getComment(), isHeadline));
             }
             data = comments;
-        } else if (dataType.getElementType() == GvImageList.GvImage.TYPE) {
+        } else if (dataType == GvImageList.GvImage.TYPE) {
             GvImageList mocked = GvDataMocker.newImageList(numData, false);
             GvImageList images = new GvImageList();
             for (int i = 0; i < numData; ++i) {
@@ -608,7 +608,7 @@ public class ActivityBuildReviewTest extends ActivityReviewViewTest {
 
     private void checkBuilderChanges(GvDataType dataType) {
         for (GvBuildReviewList.GvBuildReview type : mList) {
-            if (dataType != null && type.getGvDataType().getElementType() == dataType) continue;
+            if (dataType != null && type.getGvDataType() == dataType) continue;
             assertEquals(0, getBuilder().getDataSize(type.getGvDataType()));
         }
     }

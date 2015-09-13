@@ -22,58 +22,56 @@ public class FactoryGvDataHandler {
             return new GvDataHandler<>(data, new GvDataHandler.AddConstraint<T>() {
                 @Override
                 public boolean passes(GvDataList<T> data, T datum) {
-                    return imageAdd(data, datum);
+                    return imageAdd(data, (GvImageList.GvImage) datum);
                 }
             });
         } else if (data.getGvDataType() == GvChildReviewList.GvChildReview.TYPE) {
             GvDataHandler.AddConstraint<T> add = new GvDataHandler.AddConstraint<T>() {
                 @Override
                 public boolean passes(GvDataList<T> data, T datum) {
-                    return childAdd(data, datum);
+                    return childAdd(data, (GvChildReviewList.GvChildReview) datum);
                 }
             };
 
             GvDataHandler.ReplaceConstraint<T> replace = new GvDataHandler.ReplaceConstraint<T>() {
                 @Override
                 public boolean passes(GvDataList<T> data, T oldDatum, T newDatum) {
-                    return childReplace(data, oldDatum, newDatum);
+                    return childReplace(data,
+                            (GvChildReviewList.GvChildReview) oldDatum,
+                            (GvChildReviewList.GvChildReview) newDatum);
                 }
             };
 
             return new GvDataHandler<>(data, add, replace);
-        } else if (data.getGvDataType().getElementType() == GvCommentList.GvComment.TYPE) {
+        } else if (data.getGvDataType() == GvCommentList.GvComment.TYPE) {
             //TODO make type safe
-            return (GvDataHandler<T>) new GvCommentHandler((GvCommentList) data);
+            return (GvDataHandler) new GvCommentHandler(data);
         } else {
             return new GvDataHandler<>(data);
         }
     }
 
-    private static <T extends GvData> boolean imageAdd(GvDataList<T> data, T datum) {
-        GvImageList.GvImage image = (GvImageList.GvImage) datum;
-        GvImageList list = (GvImageList) data;
-        return (image != null && list != null && !list.contains(image.getBitmap()));
+    private static boolean imageAdd(GvDataList list, GvImageList.GvImage image) {
+        GvImageList images = (GvImageList) list;
+        return (image != null && list != null && !images.contains(image.getBitmap()));
     }
 
-    private static <T extends GvData> boolean childAdd(GvDataList<T> data, T datum) {
-        GvChildReviewList.GvChildReview child = (GvChildReviewList.GvChildReview) datum;
-        GvChildReviewList list = (GvChildReviewList) data;
-        return (child != null && list != null && !list.contains(child.getSubject()));
+    private static boolean childAdd(GvDataList list, GvChildReviewList.GvChildReview child) {
+        GvChildReviewList children = (GvChildReviewList) list;
+        return (child != null && list != null && !children.contains(child.getSubject()));
     }
 
-    private static <T extends GvData> boolean childReplace(GvDataList<T> data,
-            T oldDatum, T newDatum) {
-        GvChildReviewList.GvChildReview oldChild = (GvChildReviewList.GvChildReview) oldDatum;
-        GvChildReviewList.GvChildReview newChild = (GvChildReviewList.GvChildReview) newDatum;
-        GvChildReviewList list = (GvChildReviewList) data;
-
-        return (oldChild.getSubject().equals(newChild.getSubject()) || !list.contains(newChild
+    private static boolean childReplace(GvDataList list,
+                                        GvChildReviewList.GvChildReview oldChild,
+                                        GvChildReviewList.GvChildReview newChild) {
+        GvChildReviewList children = (GvChildReviewList) list;
+        return (oldChild.getSubject().equals(newChild.getSubject()) || !children.contains(newChild
                 .getSubject()));
     }
 
     private static class GvCommentHandler extends GvDataHandler<GvCommentList.GvComment> {
-        public GvCommentHandler(GvCommentList data) {
-            super(data);
+        public GvCommentHandler(GvDataList data) {
+            super((GvCommentList) data);
         }
 
         @Override

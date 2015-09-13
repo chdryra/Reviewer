@@ -20,15 +20,12 @@ import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
  * Email: rizwan.choudrey@gmail.com
  */
 public class GvAuthorList extends GvDataList<GvAuthorList.GvAuthor> {
-    public static final GvDataType<GvAuthorList> TYPE =
-            GvTypeMaker.newType(GvAuthorList.class, GvAuthor.TYPE);
-
     public GvAuthorList() {
-        super(TYPE, null);
+        super(GvAuthor.TYPE, null);
     }
 
     public GvAuthorList(GvReviewId id) {
-        super(TYPE, id);
+        super(GvAuthor.TYPE, id);
     }
 
     public GvAuthorList(GvAuthorList data) {
@@ -45,7 +42,7 @@ public class GvAuthorList extends GvDataList<GvAuthorList.GvAuthor> {
      */
     public static class GvAuthor extends GvDataBasic<GvAuthor> {
         public static final GvDataType<GvAuthor> TYPE =
-                GvTypeMaker.newType(GvAuthor.class, "author");
+                new GvDataType<>(GvAuthor.class, "author");
         public static final Parcelable.Creator<GvAuthor> CREATOR = new Parcelable
                 .Creator<GvAuthor>() {
             public GvAuthor createFromParcel(Parcel in) {

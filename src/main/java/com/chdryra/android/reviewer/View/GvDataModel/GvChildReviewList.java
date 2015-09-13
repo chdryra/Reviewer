@@ -19,15 +19,12 @@ import com.chdryra.android.reviewer.View.Utils.RatingFormatter;
  * Used for review children (sub-reviews).
  */
 public class GvChildReviewList extends GvDataList<GvChildReviewList.GvChildReview> {
-    public static final GvDataType<GvChildReviewList> TYPE =
-            GvTypeMaker.newType(GvChildReviewList.class, GvChildReview.TYPE);
-
     public GvChildReviewList() {
-        super(TYPE, null);
+        super(GvChildReview.TYPE, null);
     }
 
     public GvChildReviewList(GvReviewId id) {
-        super(TYPE, id);
+        super(GvChildReview.TYPE, id);
     }
 
     public GvChildReviewList(GvChildReviewList data) {
@@ -58,7 +55,7 @@ public class GvChildReviewList extends GvDataList<GvChildReviewList.GvChildRevie
      */
     public static class GvChildReview extends GvDataBasic<GvChildReview> {
         public static final GvDataType<GvChildReview> TYPE =
-                GvTypeMaker.newType(GvChildReview.class, "criterion", "criteria");
+                new GvDataType<>(GvChildReview.class, "criterion", "criteria");
         public static final Parcelable.Creator<GvChildReview> CREATOR = new Parcelable
                 .Creator<GvChildReview>() {
             public GvChildReview createFromParcel(Parcel in) {

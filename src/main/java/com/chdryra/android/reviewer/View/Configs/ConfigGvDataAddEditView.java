@@ -58,15 +58,15 @@ public final class ConfigGvDataAddEditView {
     }
 
     public static Class<? extends LaunchableUi> getAddClass(GvDataType dataType) {
-        return get().mMap.get(dataType.getElementType()).getAddClass();
+        return get().mMap.get(dataType).getAddClass();
     }
 
     public static Class<? extends LaunchableUi> getEditClass(GvDataType dataType) {
-        return get().mMap.get(dataType.getElementType()).getEditClass();
+        return get().mMap.get(dataType).getEditClass();
     }
 
     public static Class<? extends LaunchableUi> getViewClass(GvDataType dataType) {
-        return get().mMap.get(dataType.getElementType()).getViewClass();
+        return get().mMap.get(dataType).getViewClass();
     }
 
     private static ConfigGvDataAddEditView get() {

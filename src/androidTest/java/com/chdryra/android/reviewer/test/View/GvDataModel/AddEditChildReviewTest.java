@@ -24,8 +24,8 @@ public class AddEditChildReviewTest extends AddEditLayoutTest<GvChildReviewList.
     private RatingBar mRatingBar;
 
     public AddEditChildReviewTest() {
-        super(GvChildReviewList.TYPE, new AddEditChildReview(new ConfigGvDataAddEditView.AddChild
-                ()));
+        super(GvChildReviewList.GvChildReview.TYPE,
+                new AddEditChildReview(new ConfigGvDataAddEditView.AddChild()));
     }
 
     @Override

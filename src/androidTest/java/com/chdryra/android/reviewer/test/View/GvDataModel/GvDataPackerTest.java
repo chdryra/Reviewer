@@ -18,13 +18,15 @@ import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
 
 import junit.framework.TestCase;
 
+import java.util.ArrayList;
+
 /**
  * Created by: Rizwan Choudrey
  * On: 16/12/2014
  * Email: rizwan.choudrey@gmail.com
  */
 public class GvDataPackerTest extends TestCase {
-    private static final GvDataType[] TYPES = GvDataMocker.TYPES;
+    private static final ArrayList<GvDataType<? extends GvData>> TYPES = GvDataMocker.TYPES;
 
     public void testPackItemUnpackItemBundleStatic() {
         for (GvDataType dataType : TYPES) {

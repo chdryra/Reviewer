@@ -260,7 +260,7 @@ public class ReviewView implements GridDataObservable.GridDataObserver, Launchab
         private FragmentReviewView mParent;
         private boolean mRatingIsAverage = false;
 
-        public Editor(ReviewBuilderAdapter.DataBuilder builder) {
+        public Editor(ReviewBuilderAdapter.DataBuilderAdapter builder) {
             super(builder);
             mRatingIsAverage = builder.getParentBuilder().isRatingAverage();
         }
