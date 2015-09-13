@@ -54,11 +54,14 @@ public class GvCanonicalCollectionTest extends TestCase {
 
     private <T extends GvData> void checkComparator(GvDataType<T> type) {
         GvCanonicalCollection<T> list = newList(type);
-        GvDataList<T> canonicals = list.toList();
+        GvDataList<T> canonicals = FactoryGvData.newDataList(list.getGvDataType());
+        for (GvCanonical canonical : list) {
+            canonicals.add((T) canonical.getCanonical());
+        }
         list.sort();
         canonicals.sort();
         for (int i = 0; i < list.size(); ++i) {
-            assertEquals(canonicals.getItem(i), list.getItem(i));
+            assertEquals(canonicals.getItem(i), list.getItem(i).getCanonical());
         }
     }
 
@@ -66,11 +69,11 @@ public class GvCanonicalCollectionTest extends TestCase {
     public void testEquals() {
         GvCanonicalCollection<GvCommentList.GvComment> listNotEquals = new GvCanonicalCollection<>
                 (GvCommentList.GvComment.TYPE);
-        GvCommentList.GvComment comment1 = mList.getItem(0);
-        GvCommentList.GvComment comment2 = mList.getItem(1);
+        GvCommentList.GvComment comment1 = mList.getItem(0).getCanonical();
+        GvCommentList.GvComment comment2 = mList.getItem(1).getCanonical();
         GvCommentList.GvComment comment3 = GvDataMocker.newComment(RandomReviewId.nextGvReviewId());
-        GvDataList<GvCommentList.GvComment> similar1 = mList.getCanonicalItem(0).toList();
-        GvDataList<GvCommentList.GvComment> similar2 = mList.getCanonicalItem(1).toList();
+        GvDataList<GvCommentList.GvComment> similar1 = mList.getItem(0).toList();
+        GvDataList<GvCommentList.GvComment> similar2 = mList.getItem(1).toList();
         GvCommentList similar3 = GvDataMocker.newCommentList(NUM, true);
 
         listNotEquals.add(new GvCanonical<>(comment1, similar1));

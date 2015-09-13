@@ -74,7 +74,7 @@ public class AggregaterTest extends TestCase {
         assertEquals(references.length, results.size());
 
         for (int i = 0; i < references.length; ++i) {
-            GvCanonical<GvAuthorList.GvAuthor> gvCanonical = results.getCanonicalItem(i);
+            GvCanonical<GvAuthorList.GvAuthor> gvCanonical = results.getItem(i);
             GvAuthorList.GvAuthor canonical = gvCanonical.getCanonical();
             GvAuthorList values = (GvAuthorList) gvCanonical.toList();
             GvAuthorList.GvAuthor reference = references[i];
@@ -127,7 +127,7 @@ public class AggregaterTest extends TestCase {
         assertEquals(references.length, results.size());
 
         for (int i = 0; i < references.length; ++i) {
-            GvCanonical<GvSubjectList.GvSubject> gvCanonical = results.getCanonicalItem(i);
+            GvCanonical<GvSubjectList.GvSubject> gvCanonical = results.getItem(i);
             GvSubjectList values = (GvSubjectList) gvCanonical.toList();
             GvSubjectList.GvSubject reference = references[i];
             GvSubjectList.GvSubject canonical = gvCanonical.getCanonical();
@@ -178,7 +178,7 @@ public class AggregaterTest extends TestCase {
         assertEquals(references.length, results.size());
 
         for (int i = 0; i < references.length; ++i) {
-            GvCanonical<GvTagList.GvTag> gvCanonical = results.getCanonicalItem(i);
+            GvCanonical<GvTagList.GvTag> gvCanonical = results.getItem(i);
             GvTagList.GvTag canonical = gvCanonical.getCanonical();
             GvTagList values = (GvTagList) gvCanonical.toList();
             GvTagList.GvTag reference = references[i];
@@ -229,7 +229,7 @@ public class AggregaterTest extends TestCase {
         assertEquals(references.length, results.size());
 
         for (int i = 0; i < references.length; ++i) {
-            GvCanonical<GvCommentList.GvComment> gvCanonical = results.getCanonicalItem(i);
+            GvCanonical<GvCommentList.GvComment> gvCanonical = results.getItem(i);
             GvCommentList.GvComment canonical = gvCanonical.getCanonical();
             GvCommentList values = (GvCommentList) gvCanonical.toList();
             GvCommentList.GvComment reference = references[i];
@@ -311,7 +311,7 @@ public class AggregaterTest extends TestCase {
         assertEquals(refDates.length - 1, results.size());
 
         for (int i = 1; i < refDates.length; ++i) {
-            GvCanonical<GvDateList.GvDate> gvCanonical = results.getCanonicalItem(i - 1);
+            GvCanonical<GvDateList.GvDate> gvCanonical = results.getItem(i - 1);
             GvDateList.GvDate canonical = gvCanonical.getCanonical();
             GvDateList values = (GvDateList) gvCanonical.toList();
             GvDateList.GvDate reference = refDates[i];
@@ -380,7 +380,7 @@ public class AggregaterTest extends TestCase {
         assertEquals(references.length - 1, results.size());
 
         for (int i = 0; i < references.length - 1; ++i) {
-            GvCanonical<GvImageList.GvImage> gvCanonical = results.getCanonicalItem(i);
+            GvCanonical<GvImageList.GvImage> gvCanonical = results.getItem(i);
             GvImageList.GvImage canonical = gvCanonical.getCanonical();
             GvImageList values = (GvImageList) gvCanonical.toList();
             GvImageList.GvImage reference = references[i];
@@ -456,7 +456,7 @@ public class AggregaterTest extends TestCase {
         assertEquals(references.length, results.size());
 
         for (int i = 0; i < references.length; ++i) {
-            GvCanonical<GvLocationList.GvLocation> gvCanonical = results.getCanonicalItem(i);
+            GvCanonical<GvLocationList.GvLocation> gvCanonical = results.getItem(i);
             GvLocationList.GvLocation canonical = gvCanonical.getCanonical();
             GvLocationList values = (GvLocationList) gvCanonical.toList();
             GvLocationList.GvLocation reference = references[i];
@@ -539,7 +539,7 @@ public class AggregaterTest extends TestCase {
         assertEquals(references.length, results.size());
 
         for (int i = 0; i < references.length; ++i) {
-            GvCanonical<GvChildReviewList.GvChildReview> gvCanonical = results.getCanonicalItem(i);
+            GvCanonical<GvChildReviewList.GvChildReview> gvCanonical = results.getItem(i);
             GvChildReviewList.GvChildReview canonical = gvCanonical.getCanonical();
             GvChildReviewList values = (GvChildReviewList) gvCanonical.toList();
             GvChildReviewList.GvChildReview reference = references[i];
@@ -609,7 +609,7 @@ public class AggregaterTest extends TestCase {
         assertEquals(references.length, results.size());
 
         for (int i = 0; i < references.length; ++i) {
-            GvCanonical<GvFactList.GvFact> gvCanonical = results.getCanonicalItem(i);
+            GvCanonical<GvFactList.GvFact> gvCanonical = results.getItem(i);
             GvFactList.GvFact canonical = gvCanonical.getCanonical();
             GvFactList values = (GvFactList) gvCanonical.toList();
             GvFactList.GvFact reference = references[i];

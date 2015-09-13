@@ -36,7 +36,7 @@ public class GvDataAggregaterTest extends TestCase {
         assertTrue(results.size() > 0);
         int total = 0;
         for (int i = 0; i < results.size(); ++i) {
-            GvCanonical<GvCommentList.GvComment> gvCanonical = results.getCanonicalItem(i);
+            GvCanonical<GvCommentList.GvComment> gvCanonical = results.getItem(i);
             GvCommentList values = (GvCommentList) gvCanonical.toList();
             assertEquals(canonical.getCanonical(values), gvCanonical.getCanonical());
             int numVals = values.size();

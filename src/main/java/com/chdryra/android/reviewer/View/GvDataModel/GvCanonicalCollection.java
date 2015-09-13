@@ -7,13 +7,15 @@ import com.chdryra.android.mygenerallibrary.ViewHolder;
 import com.chdryra.android.reviewer.View.GvDataSorting.GvDataComparators;
 
 import java.util.Comparator;
+import java.util.Iterator;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 02/09/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class GvCanonicalCollection<T extends GvData> implements GvDataCollection<T> {
+public class GvCanonicalCollection<T extends GvData> implements GvDataCollection<GvCanonical>,
+        Iterable<GvCanonical> {
     public static final Parcelable.Creator<GvCanonicalCollection> CREATOR = new Parcelable
             .Creator<GvCanonicalCollection>() {
         public GvCanonicalCollection createFromParcel(Parcel in) {
@@ -58,23 +60,14 @@ public class GvCanonicalCollection<T extends GvData> implements GvDataCollection
     }
 
     @Override
-    public T getItem(int position) {
-        return getCanonicalItem(position).getCanonical();
-    }
-
-    public GvCanonical<T> getCanonicalItem(int position) {
+    public GvCanonical<T> getItem(int position) {
         //TODO make type safe
-        return (GvCanonical<T>) mData.getItem(position);
+        return mData.getItem(position);
     }
 
     @Override
-    public GvDataList<T> toList() {
-        GvDataList<T> list = FactoryGvData.newDataList(mType);
-        for (GvCanonical canonical : mData) {
-            //TODO make type safe
-            list.add((T) canonical.getCanonical());
-        }
-        return list;
+    public GvDataList<GvCanonical> toList() {
+        return mData;
     }
 
     @Override
@@ -121,6 +114,11 @@ public class GvCanonicalCollection<T extends GvData> implements GvDataCollection
     @Override
     public boolean isValidForDisplay() {
         return true;
+    }
+
+    @Override
+    public Iterator<GvCanonical> iterator() {
+        return mData.iterator();
     }
 
     private void setComparator() {
