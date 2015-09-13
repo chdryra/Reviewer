@@ -86,7 +86,7 @@ public class GvCanonical<T extends GvData> implements GvDataCollection<T>, Itera
 
     @Override
     public boolean hasElements() {
-        return mData.size() > 1;
+        return mData.size() > 0;
     }
 
     @Override

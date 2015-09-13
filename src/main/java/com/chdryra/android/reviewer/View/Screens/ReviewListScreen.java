@@ -1,9 +1,9 @@
 package com.chdryra.android.reviewer.View.Screens;
 
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.AdapterReviewNode;
+import android.content.Context;
+
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.FactoryReviewViewAdapter;
 import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
-import com.chdryra.android.reviewer.View.GvDataModel.GvReviewOverviewList;
 
 /**
  * Created by: Rizwan Choudrey
@@ -12,14 +12,11 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvReviewOverviewList;
  */
 public class ReviewListScreen {
     private ReviewView mReviewView;
-    private AdapterReviewNode<GvReviewOverviewList.GvReviewOverview> mAdapter;
 
-    private ReviewListScreen(ReviewNode node,
+    private ReviewListScreen(Context context, ReviewNode node,
                              ReviewViewAction.GridItemAction giAction,
                              ReviewViewAction.MenuAction menuAction) {
-        mAdapter = FactoryReviewViewAdapter.newChildListAdapter(node);
-
-        mReviewView = new ReviewView(mAdapter);
+        mReviewView = new ReviewView(FactoryReviewViewAdapter.newChildListAdapter(context, node));
         mReviewView.setAction(giAction);
         mReviewView.setAction(menuAction);
         mReviewView.setAction(new RbLaunchMetaReviewScreen());
@@ -32,14 +29,15 @@ public class ReviewListScreen {
                 .setCoverManager(false).setCellHeight(full).setCellWidth(full).setGridAlpha(trans);
     }
 
-    public static ReviewView newScreen(ReviewNode node,
+    public static ReviewView newScreen(Context context, ReviewNode node,
                                        ReviewViewAction.GridItemAction giAction,
                                        ReviewViewAction.MenuAction menuAction) {
-        return new ReviewListScreen(node, giAction, menuAction).getReviewView();
+        return new ReviewListScreen(context, node, giAction, menuAction).getReviewView();
     }
 
-    public static ReviewView newScreen(ReviewNode node) {
-        return new ReviewListScreen(node, new GiLaunchReviewDataScreen(), null).getReviewView();
+    public static ReviewView newScreen(Context context, ReviewNode node) {
+        return new ReviewListScreen(context, node, new GiLaunchReviewDataScreen(), null)
+                .getReviewView();
     }
 
     private ReviewView getReviewView() {

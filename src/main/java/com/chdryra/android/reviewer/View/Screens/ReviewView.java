@@ -46,6 +46,7 @@ public class ReviewView implements GridDataObservable.GridDataObserver, Launchab
 
     public ReviewView(ReviewViewAdapter adapter, ReviewViewParams params) {
         mAdapter = adapter;
+        mAdapter.registerReviewView(this);
         mAdapter.registerGridDataObserver(this);
         mGridViewData = adapter.getGridData();
         mGridObservers = new ArrayList<>();

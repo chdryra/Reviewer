@@ -8,6 +8,8 @@
 
 package com.chdryra.android.reviewer.Adapter.ReviewAdapterModel;
 
+import android.content.Context;
+
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.MdGvConverter;
 import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
 import com.chdryra.android.reviewer.Model.Tagging.TagsManager;
@@ -32,10 +34,14 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvReviewOverviewList;
  * Includes number of reviews and subjects if a meta-review.
  */
 public class ViewerTreeData implements GridDataViewer<GvData> {
+    private Context mContext;
     private ReviewNode mNode;
     private TreeDataGetter mGetter;
+    private GvList mCache;
+    private boolean mIsAggregate = false;
 
-    public ViewerTreeData(ReviewNode node) {
+    public ViewerTreeData(Context context, ReviewNode node) {
+        mContext = context;
         mNode = node;
         mGetter = new TreeDataGetter(mNode);
     }
@@ -50,7 +56,7 @@ public class ViewerTreeData implements GridDataViewer<GvData> {
         GvList data = new GvList(id);
 
         TagCollector tagCollector = new TagCollector(mNode);
-        ViewerChildList wrapper = new ViewerChildList(mNode);
+        ViewerChildList wrapper = new ViewerChildList(mContext, mNode);
 
         data.add(wrapper.getGridData());
         data.add(Aggregater.aggregate(MdGvConverter.convertChildAuthors(mNode)));
@@ -64,6 +70,8 @@ public class ViewerTreeData implements GridDataViewer<GvData> {
         data.add(Aggregater.aggregate(MdGvConverter.convert(mGetter.getLocations())));
         data.add(Aggregater.aggregate(MdGvConverter.convert(mGetter.getFacts())));
 
+        mCache = data;
+        mIsAggregate = true;
         return data;
     }
 
@@ -79,35 +87,43 @@ public class ViewerTreeData implements GridDataViewer<GvData> {
         data.add(MdGvConverter.convert(mGetter.getLocations()));
         data.add(MdGvConverter.convert(mGetter.getFacts()));
 
+        mCache = data;
+        mIsAggregate = false;
         return data;
     }
 
     @Override
     public boolean isExpandable(GvData datum) {
-        if (!datum.hasElements()) return false;
+        if (!datum.hasElements() || mCache == null) return false;
 
         GvDataCollection data = (GvDataCollection) datum;
-        GvList gridData = getGridData();
-        for (GvData list : gridData) {
+        for (GvData list : mCache) {
             ((GvDataCollection) list).sort();
         }
         data.sort();
 
-        return gridData.contains(datum);
+        return mCache.contains(datum);
     }
 
     @Override
     public ReviewViewAdapter<? extends GvData> expandItem(GvData datum) {
         if (isExpandable(datum)) {
             ReviewViewAdapter<? extends GvData> parent =
-                    FactoryReviewViewAdapter.newChildListAdapter(mNode);
+                    FactoryReviewViewAdapter.newChildListAdapter(mContext, mNode);
             if (datum.getGvDataType() == GvReviewOverviewList.GvReviewOverview.TYPE) {
                 return parent;
             }
 
+            GvDataCollection<? extends GvData> data = (GvDataCollection<? extends GvData>) datum;
+            ReviewViewAdapter<? extends GvData> adapter;
             //TODO make typesafe
-            return FactoryReviewViewAdapter.newGvDataCollectionAdapter(parent,
-                    (GvDataCollection) datum);
+            if (mIsAggregate) {
+                adapter = FactoryReviewViewAdapter.newExpandToReviewsAdapter(mContext, data,
+                        parent.getSubject());
+            } else {
+                adapter = FactoryReviewViewAdapter.newExpandToDataAdapter(parent, data);
+            }
+            return adapter;
         }
 
         return null;

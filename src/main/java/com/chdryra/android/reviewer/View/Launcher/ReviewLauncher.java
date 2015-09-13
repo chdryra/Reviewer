@@ -41,7 +41,7 @@ public class ReviewLauncher {
             meta = node;
         }
 
-        LaunchableUi ui = ReviewListScreen.newScreen(meta);
+        LaunchableUi ui = ReviewListScreen.newScreen(context, meta);
         String tag = node.getSubject().get();
         int requestCode = RequestCodeGenerator.getCode(tag);
         LauncherUi.launch(ui, commissioner, requestCode, tag, new Bundle());

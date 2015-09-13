@@ -38,13 +38,14 @@ public class FeedScreen implements ReviewFeed.ReviewFeedObserver {
 
     private ReviewView        mReviewView;
 
-    private FeedScreen(ReviewNode feedNode) {
-        mReviewView = ReviewListScreen.newScreen(feedNode, new GridItem(), new FeedScreenMenu());
+    private FeedScreen(Context context, ReviewNode feedNode) {
+        mReviewView = ReviewListScreen.newScreen(context, feedNode, new GridItem(), new
+                FeedScreenMenu());
     }
 
     public static ReviewView newScreen(Context context) {
         ReviewNode feedNode = ReviewFeed.getFeedNode(context);
-        FeedScreen screen = new FeedScreen(feedNode);
+        FeedScreen screen = new FeedScreen(context, feedNode);
         ReviewFeed.registerObserver(context, screen);
         return screen.getReviewView();
     }

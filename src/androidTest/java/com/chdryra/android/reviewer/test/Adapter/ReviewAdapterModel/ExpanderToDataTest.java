@@ -11,7 +11,7 @@ package com.chdryra.android.reviewer.test.Adapter.ReviewAdapterModel;
 import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ExpanderGridCell;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ExpanderToData;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.FactoryReviewViewAdapter;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewAdapter;
 import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
@@ -29,7 +29,7 @@ import com.chdryra.android.reviewer.test.TestUtils.ReviewMocker;
  * On: 12/05/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ExpanderGridCellTest extends AndroidTestCase {
+public class ExpanderToDataTest extends AndroidTestCase {
     @SmallTest
     public void testExpandItem() {
         ReviewNode node = ReviewMocker.newReviewNode(false);
@@ -38,7 +38,7 @@ public class ExpanderGridCellTest extends AndroidTestCase {
         ReviewViewAdapter<? extends GvData> parent = FactoryReviewViewAdapter.newTreeDataAdapter
                 (node);
 
-        ExpanderGridCell expander = new ExpanderGridCell(parent);
+        ExpanderToData expander = new ExpanderToData(parent);
         GvCommentList.GvComment comment = GvDataMocker.newComment(null);
         assertFalse(expander.isExpandable(comment));
         assertNull(expander.expandItem(comment));

@@ -11,7 +11,7 @@ package com.chdryra.android.reviewer.test.Adapter.ReviewAdapterModel;
 import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ExpanderGridCell;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ExpanderToData;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.FactoryReviewViewAdapter;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewAdapter;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ViewerGvDataCollection;
@@ -36,7 +36,7 @@ public class ViewerGvDataCollectionTest extends AndroidTestCase {
         ReviewNode node = ReviewMocker.newReviewNode(false);
         ReviewViewAdapter<GvReviewOverviewList.GvReviewOverview> parent =
                 FactoryReviewViewAdapter.newChildListAdapter(node);
-        ExpanderGridCell expander = new ExpanderGridCell(parent);
+        ExpanderToData expander = new ExpanderToData(parent);
         ViewerGvDataCollection<GvCommentList.GvComment> wrapper = new ViewerGvDataCollection<>(expander, data);
 
         assertEquals(data, wrapper.getGridData());
