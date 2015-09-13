@@ -12,6 +12,7 @@ import android.util.Log;
 
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewAdapter;
 import com.chdryra.android.reviewer.View.ActivitiesFragments.ActivityReviewView;
+import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.Screens.ReviewView;
 import com.chdryra.android.reviewer.View.Screens.ReviewViewParams;
 
@@ -49,19 +50,19 @@ public class FactoryLaunchable {
         }
     }
 
-    public static LaunchableUi newLaunchable(ReviewViewAdapter adapter,
+    public static LaunchableUi newLaunchable(ReviewViewAdapter<? extends GvData> adapter,
             ReviewViewParams params) {
         return getFactory().new LaunchableReviewView(adapter, params);
     }
 
-    public static LaunchableUi newLaunchable(ReviewViewAdapter adapter) {
+    public static LaunchableUi newLaunchable(ReviewViewAdapter<? extends GvData> adapter) {
         return getFactory().new LaunchableReviewView(adapter, new ReviewViewParams());
     }
 
     private class LaunchableReviewView extends ActivityReviewView implements LaunchableUi {
         private ReviewView mView;
 
-        private LaunchableReviewView(ReviewViewAdapter adapter, ReviewViewParams
+        private LaunchableReviewView(ReviewViewAdapter<? extends GvData> adapter, ReviewViewParams
                 params) {
             mView = new ReviewView(adapter, params);
         }

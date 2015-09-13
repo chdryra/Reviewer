@@ -6,6 +6,7 @@ import com.chdryra.android.reviewer.ApplicationSingletons.ReviewMaker;
 import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataCollection;
+import com.chdryra.android.reviewer.View.Screens.ReviewListScreen;
 
 /**
  * Created by: Rizwan Choudrey
@@ -40,7 +41,7 @@ public class ExpanderToReviews<T extends GvData> implements GridCellExpander<T> 
         if (isExpandable(datum)) {
             GvDataCollection data = (GvDataCollection) datum;
             ReviewNode node = ReviewMaker.createMetaReview(mContext, data, data.getStringSummary());
-            return FactoryReviewViewAdapter.newChildListAdapter(mContext, node);
+            return ReviewListScreen.newScreen(mContext, node).getAdapter();
         }
 
         return null;

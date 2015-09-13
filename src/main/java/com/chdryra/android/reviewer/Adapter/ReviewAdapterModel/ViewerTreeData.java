@@ -21,6 +21,7 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvDataCollection;
 import com.chdryra.android.reviewer.View.GvDataModel.GvList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvReviewId;
 import com.chdryra.android.reviewer.View.GvDataModel.GvReviewOverviewList;
+import com.chdryra.android.reviewer.View.Screens.ReviewListScreen;
 
 /**
  * Created by: Rizwan Choudrey
@@ -108,15 +109,14 @@ public class ViewerTreeData implements GridDataViewer<GvData> {
     @Override
     public ReviewViewAdapter<? extends GvData> expandItem(GvData datum) {
         if (isExpandable(datum)) {
-            ReviewViewAdapter<? extends GvData> parent =
-                    FactoryReviewViewAdapter.newChildListAdapter(mContext, mNode);
+            ReviewViewAdapter<? extends GvData> parent
+                    = ReviewListScreen.newScreen(mContext, mNode).getAdapter();
             if (datum.getGvDataType() == GvReviewOverviewList.GvReviewOverview.TYPE) {
                 return parent;
             }
 
             GvDataCollection<? extends GvData> data = (GvDataCollection<? extends GvData>) datum;
             ReviewViewAdapter<? extends GvData> adapter;
-            //TODO make typesafe
             if (mIsAggregate) {
                 adapter = FactoryReviewViewAdapter.newExpandToReviewsAdapter(mContext, data,
                         parent.getSubject());

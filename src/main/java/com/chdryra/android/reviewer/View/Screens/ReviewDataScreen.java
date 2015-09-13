@@ -60,7 +60,8 @@ public class ReviewDataScreen {
         @Override
         public void onClickExpandable(GvData item, int position, View v, ReviewViewAdapter
                 expanded) {
-            ReviewView screen = newScreen(expanded);
+            ReviewView screen = expanded.getReviewView();
+            if (screen == null) screen = newScreen(expanded);
             LauncherUi.launch(screen, getReviewView().getParent(), REQUEST_CODE,
                     screen.getLaunchTag(), new Bundle());
         }

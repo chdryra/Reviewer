@@ -35,8 +35,8 @@ public class FactoryReviewViewAdapter {
         return new AdapterReviewNode<>(node, new ViewerTreeData(context, node));
     }
 
-    public static ReviewViewAdapter<? extends GvData> newExpandToDataAdapter(
-            ReviewViewAdapter<? extends GvData> parent, GvDataCollection data) {
+    public static <T extends GvData> ReviewViewAdapter<? extends GvData> newExpandToDataAdapter(
+            ReviewViewAdapter<? extends GvData> parent, GvDataCollection<T> data) {
         return newGvDataCollectionAdapter(parent, data, new ExpanderToData(parent));
     }
 
@@ -50,7 +50,8 @@ public class FactoryReviewViewAdapter {
 
     private static <T extends GvData> ReviewViewAdapter<? extends GvData>
     newGvDataCollectionAdapter(
-            ReviewViewAdapter<? extends GvData> parent, GvDataCollection<T> data,
+            ReviewViewAdapter<? extends GvData> parent,
+            GvDataCollection<T> data,
             GridCellExpander<T> expander) {
         ViewerGvDataCollection<T> wrapper = new ViewerGvDataCollection<>(expander, data);
         return new AdapterReviewViewAdapter<>(parent, wrapper, expander);
