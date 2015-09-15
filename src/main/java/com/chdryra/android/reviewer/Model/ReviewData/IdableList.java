@@ -19,9 +19,9 @@ import java.util.NoSuchElementException;
  * A list for objects that have their own reference {@link ReviewId}
  * such as {@link Review}s and {@link MdData}.
  *
- * @param <T>: type that is {@link ReviewId.ReviewIdAble}
+ * @param <T>: type that is {@link ReviewId.IdAble}
  */
-public class ReviewIdableList<T extends ReviewId.ReviewIdAble> implements Iterable<T> {
+public class IdableList<T extends ReviewId.IdAble> implements Iterable<T> {
     public static final String           NO_ELEMENT    = "No more elements left";
     public static final String           ILLEGAL_STATE = "Have to do at least one next() before " +
             "you can delete";
@@ -48,7 +48,7 @@ public class ReviewIdableList<T extends ReviewId.ReviewIdAble> implements Iterab
         return mData.containsKey(id);
     }
 
-    public void add(ReviewIdableList<T> items) {
+    public void add(IdableList<T> items) {
         mData.putAll(items.mData);
     }
 
@@ -63,9 +63,9 @@ public class ReviewIdableList<T extends ReviewId.ReviewIdAble> implements Iterab
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof ReviewIdableList)) return false;
+        if (!(o instanceof IdableList)) return false;
 
-        ReviewIdableList<?> that = (ReviewIdableList<?>) o;
+        IdableList<?> that = (IdableList<?>) o;
 
         return mData.equals(that.mData);
 
@@ -101,7 +101,7 @@ public class ReviewIdableList<T extends ReviewId.ReviewIdAble> implements Iterab
         @Override
         public void remove() {
             if (mPosition > 0) {
-                ReviewIdableList.this.remove(getId(--mPosition));
+                IdableList.this.remove(getId(--mPosition));
             } else {
                 throw new IllegalStateException(ILLEGAL_STATE);
             }

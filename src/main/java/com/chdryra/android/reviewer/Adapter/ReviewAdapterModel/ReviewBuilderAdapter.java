@@ -16,7 +16,7 @@ import com.chdryra.android.mygenerallibrary.FileIncrementor;
 import com.chdryra.android.mygenerallibrary.FileIncrementorFactory;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
 import com.chdryra.android.reviewer.Model.ReviewData.PublishDate;
-import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
+import com.chdryra.android.reviewer.Model.ReviewStructure.Review;
 import com.chdryra.android.reviewer.Model.UserData.Author;
 import com.chdryra.android.reviewer.View.Configs.ConfigGvDataUi;
 import com.chdryra.android.reviewer.View.GvDataModel.GvBuildReviewList;
@@ -108,7 +108,7 @@ public class ReviewBuilderAdapter extends ReviewViewAdapterBasic {
         return getData(dataType).size();
     }
 
-    public ReviewNode publish(PublishDate publishDate) {
+    public Review publish(PublishDate publishDate) {
         return mBuilder.buildReview(publishDate);
     }
 

@@ -14,7 +14,9 @@ package com.chdryra.android.reviewer.Model.ReviewStructure;
  * Email: rizwan.choudrey@gmail.com
  */
 
+import com.chdryra.android.reviewer.Model.ReviewData.IdableList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdCommentList;
+import com.chdryra.android.reviewer.Model.ReviewData.MdCriteriaList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdFactList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdImageList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdLocationList;
@@ -22,7 +24,6 @@ import com.chdryra.android.reviewer.Model.ReviewData.MdRating;
 import com.chdryra.android.reviewer.Model.ReviewData.MdSubject;
 import com.chdryra.android.reviewer.Model.ReviewData.PublishDate;
 import com.chdryra.android.reviewer.Model.ReviewData.ReviewId;
-import com.chdryra.android.reviewer.Model.ReviewData.ReviewIdableList;
 import com.chdryra.android.reviewer.Model.TreeMethods.ReviewTreeComparer;
 import com.chdryra.android.reviewer.Model.TreeMethods.VisitorReviewNode;
 import com.chdryra.android.reviewer.Model.UserData.Author;
@@ -65,7 +66,7 @@ public class ReviewTree implements ReviewNode {
     }
 
     @Override
-    public ReviewIdableList<ReviewNode> getChildren() {
+    public IdableList<ReviewNode> getChildren() {
         return mNode.getChildren();
     }
 
@@ -107,6 +108,16 @@ public class ReviewTree implements ReviewNode {
     @Override
     public ReviewNode getTreeRepresentation() {
         return this;
+    }
+
+    @Override
+    public boolean isRatingAverageOfCriteria() {
+        return mNode.isRatingAverageOfChildren();
+    }
+
+    @Override
+    public MdCriteriaList getCriteria() {
+        return mNode.getCriteria();
     }
 
     @Override

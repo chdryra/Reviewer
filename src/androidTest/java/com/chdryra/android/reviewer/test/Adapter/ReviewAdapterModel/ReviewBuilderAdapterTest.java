@@ -15,8 +15,8 @@ import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilderAdapter;
 import com.chdryra.android.reviewer.ApplicationSingletons.Administrator;
+import com.chdryra.android.reviewer.Model.ReviewData.IdableList;
 import com.chdryra.android.reviewer.Model.ReviewData.PublishDate;
-import com.chdryra.android.reviewer.Model.ReviewData.ReviewIdableList;
 import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
 import com.chdryra.android.reviewer.Model.Tagging.TagsManager;
 import com.chdryra.android.reviewer.View.ActivitiesFragments.ActivityReviewView;
@@ -247,7 +247,7 @@ public class ReviewBuilderAdapterTest extends ActivityInstrumentationTestCase2<A
             assertEquals(tag.get(), tagsPublished.getItem(j).get());
         }
 
-        ReviewIdableList<ReviewNode> childNodes = published.getChildren();
+        IdableList<ReviewNode> childNodes = published.getChildren();
         assertEquals(children.size(), childNodes.size());
         for (int i = 0; i < children.size(); ++i) {
             ReviewNode childNode = childNodes.getItem(i);

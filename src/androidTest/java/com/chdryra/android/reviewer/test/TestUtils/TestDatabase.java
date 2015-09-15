@@ -12,7 +12,7 @@ import android.app.Instrumentation;
 import android.content.Context;
 
 import com.chdryra.android.reviewer.Database.ReviewerDb;
-import com.chdryra.android.reviewer.Model.ReviewData.ReviewIdableList;
+import com.chdryra.android.reviewer.Model.ReviewData.IdableList;
 import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
 
 import java.io.File;
@@ -39,7 +39,7 @@ public class TestDatabase {
     public static void recreateDatabase(Instrumentation instr) {
         TestDatabase tdb = get(instr);
         tdb.deleteDatabaseIfNecessary();
-        ReviewIdableList<ReviewNode> nodes = TestReviews.getReviews(instr);
+        IdableList<ReviewNode> nodes = TestReviews.getReviews(instr);
         ReviewerDb db = tdb.getDatabase();
         for (ReviewNode node : nodes) {
             db.addReviewTreeToDb(node);

@@ -16,8 +16,8 @@ import android.test.suitebuilder.annotation.SmallTest;
 import com.chdryra.android.reviewer.ApplicationSingletons.Administrator;
 import com.chdryra.android.reviewer.ApplicationSingletons.ReviewFeed;
 import com.chdryra.android.reviewer.Database.ReviewerDb;
+import com.chdryra.android.reviewer.Model.ReviewData.IdableList;
 import com.chdryra.android.reviewer.Model.ReviewData.ReviewId;
-import com.chdryra.android.reviewer.Model.ReviewData.ReviewIdableList;
 import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
 import com.chdryra.android.reviewer.View.ActivitiesFragments.ActivityReviewView;
 import com.chdryra.android.reviewer.View.Screens.FeedScreen;
@@ -49,13 +49,13 @@ public class ReviewFeedTest extends ActivityInstrumentationTestCase2<ActivityRev
         ReviewNode feedNode = ReviewFeed.getFeedNode(getActivity());
         int numReviews = feedNode.getChildren().size();
         ReviewerDb db = TestDatabase.getDatabase(getInstrumentation());
-        ReviewIdableList<ReviewNode> fromDb = db.getReviewTreesFromDb();
+        IdableList<ReviewNode> fromDb = db.getReviewTreesFromDb();
         int numInDb = fromDb.size();
         assertTrue(numReviews > 0);
         assertEquals(numReviews, numInDb);
         assertTrue(fromDb.containsId(nodeId));
 
-        ReviewIdableList<ReviewNode> reviews = feedNode.getChildren();
+        IdableList<ReviewNode> reviews = feedNode.getChildren();
         ReviewNode mostRecent = reviews.getItem(reviews.size() - 1);
         assertEquals(nodeId, mostRecent.getId());
 
@@ -78,10 +78,10 @@ public class ReviewFeedTest extends ActivityInstrumentationTestCase2<ActivityRev
         ReviewNode feedNode = ReviewFeed.getFeedNode(getActivity());
         assertNotNull(feedNode);
 
-        ReviewIdableList<ReviewNode> reviews = feedNode.getChildren();
+        IdableList<ReviewNode> reviews = feedNode.getChildren();
         int numReviews = reviews.size();
         ReviewerDb db = TestDatabase.getDatabase(getInstrumentation());
-        ReviewIdableList<ReviewNode> fromDb = db.getReviewTreesFromDb();
+        IdableList<ReviewNode> fromDb = db.getReviewTreesFromDb();
         assertEquals(numReviews, fromDb.size());
 
         ReviewNode node = ReviewMocker.newReviewNode(false);

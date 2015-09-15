@@ -2,9 +2,9 @@ package com.chdryra.android.reviewer.ApplicationSingletons;
 
 import android.content.Context;
 
+import com.chdryra.android.reviewer.Model.ReviewData.IdableList;
 import com.chdryra.android.reviewer.Model.ReviewData.PublishDate;
 import com.chdryra.android.reviewer.Model.ReviewData.ReviewId;
-import com.chdryra.android.reviewer.Model.ReviewData.ReviewIdableList;
 import com.chdryra.android.reviewer.Model.ReviewStructure.FactoryReview;
 import com.chdryra.android.reviewer.Model.ReviewStructure.Review;
 import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
@@ -42,21 +42,21 @@ public class ReviewMaker extends ApplicationSingleton {
         ReviewTreeNode parent = new ReviewTreeNode(meta, true, ReviewId.generateId(maker.mAuthor));
         for (int i = 0; i < data.size(); ++i) {
             T item = data.getItem(i);
-            ReviewNode node = ReviewsManager.getReviewNode(context, item);
-            parent.addChild(FactoryReview.createReviewTreeNode(node, false));
+            Review review = ReviewsManager.getReview(context, item);
+            parent.addChild(FactoryReview.createReviewTreeNode(review, false));
         }
 
         return parent.createTree();
     }
 
     public static ReviewNode createMetaReview(Context context,
-                                              ReviewIdableList<ReviewNode> nodes,
+                                              IdableList<Review> reviews,
                                               String subject) {
         ReviewMaker maker = get(context);
         Review meta = FactoryReview.createReviewUser(maker.mAuthor, PublishDate.now(), subject, 0f);
         ReviewTreeNode parent = new ReviewTreeNode(meta, true, ReviewId.generateId(maker.mAuthor));
-        for (ReviewNode node : nodes) {
-            parent.addChild(FactoryReview.createReviewTreeNode(node, false));
+        for (Review review : reviews) {
+            parent.addChild(FactoryReview.createReviewTreeNode(review, false));
         }
 
         return parent.createTree();

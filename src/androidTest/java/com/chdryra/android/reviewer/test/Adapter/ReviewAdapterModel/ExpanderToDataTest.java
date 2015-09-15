@@ -36,7 +36,7 @@ public class ExpanderToDataTest extends AndroidTestCase {
         GvTagList tags = GvDataMocker.newTagList(3, false);
         TagsManager.tag(node.getId(), tags.toStringArray());
         ReviewViewAdapter<? extends GvData> parent = FactoryReviewViewAdapter.newTreeDataAdapter
-                (node);
+                (getContext(), node);
 
         ExpanderToData expander = new ExpanderToData(parent);
         GvCommentList.GvComment comment = GvDataMocker.newComment(null);

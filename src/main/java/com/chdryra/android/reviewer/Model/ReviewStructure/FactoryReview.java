@@ -12,9 +12,13 @@ import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataComment;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataFact;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataImage;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataLocation;
+import com.chdryra.android.reviewer.Model.ReviewData.IdableList;
+import com.chdryra.android.reviewer.Model.ReviewData.MdCommentList;
+import com.chdryra.android.reviewer.Model.ReviewData.MdFactList;
+import com.chdryra.android.reviewer.Model.ReviewData.MdImageList;
+import com.chdryra.android.reviewer.Model.ReviewData.MdLocationList;
 import com.chdryra.android.reviewer.Model.ReviewData.PublishDate;
 import com.chdryra.android.reviewer.Model.ReviewData.ReviewId;
-import com.chdryra.android.reviewer.Model.ReviewData.ReviewIdableList;
 import com.chdryra.android.reviewer.Model.UserData.Author;
 
 /**
@@ -45,18 +49,15 @@ public class FactoryReview {
             Iterable<? extends DataComment> comments,
             Iterable<? extends DataImage> images,
             Iterable<? extends DataFact> facts,
-            Iterable<? extends DataLocation> locations) {
+            Iterable<? extends DataLocation> locations,
+            IdableList<Review> criteria, boolean ratingIsAverage) {
         return getInstance().newReviewUser(author, publishDate, subject, rating, comments,
-                images, facts, locations);
+                images, facts, locations, criteria, ratingIsAverage);
     }
 
     public static Review createReviewUser(Author author, PublishDate publishDate, String subject,
             float rating) {
         return getInstance().newReviewUser(author, publishDate, subject, rating);
-    }
-
-    public static ReviewNode createReviewNode(Review review) {
-        return getInstance().newReviewNode(review);
     }
 
     public static ReviewTreeNode createReviewTreeNode(Review review, boolean isAverage) {
@@ -66,7 +67,10 @@ public class FactoryReview {
     //Constructors
     private Review newReviewUser(Author author, PublishDate publishDate, String subject, float
             rating) {
-        return new ReviewUser(ReviewId.generateId(author), author, publishDate, subject, rating);
+        ReviewId id = ReviewId.generateId(author);
+        return new ReviewUser(id, author, publishDate, subject, rating,
+                new MdCommentList(id), new MdImageList(id), new MdFactList(id),
+                new MdLocationList(id), new IdableList<Review>(), false);
     }
 
     private Review newReviewUser(Author author, PublishDate publishDate, String subject, float
@@ -74,32 +78,13 @@ public class FactoryReview {
             Iterable<? extends DataComment> comments,
             Iterable<? extends DataImage> images,
             Iterable<? extends DataFact> facts,
-            Iterable<? extends DataLocation> locations) {
+            Iterable<? extends DataLocation> locations,
+            IdableList<Review> criteria, boolean ratingIsAverage) {
         return new ReviewUser(ReviewId.generateId(author), author, publishDate, subject, rating,
-                comments, images, facts, locations);
-    }
-
-    private ReviewNode newReviewNode(Review review) {
-        return newStaticTree(review, new ReviewIdableList<Review>(), false);
+                comments, images, facts, locations, criteria, ratingIsAverage);
     }
 
     private ReviewTreeNode newReviewTreeNode(Review review, boolean isAverage) {
         return new ReviewTreeNode(review, isAverage, review.getId());
-    }
-
-    private <T extends Review> ReviewNode newStaticTree(Review review, ReviewIdableList<T>
-            children, boolean isAverage) {
-        return newDynamicTree(review, children, isAverage).createTree();
-    }
-
-    private <T extends Review> ReviewTreeNode newDynamicTree(Review review, ReviewIdableList<T>
-            children, boolean isAverage) {
-
-        ReviewTreeNode rootNode = new ReviewTreeNode(review, isAverage, review.getId());
-        for (Review child : children) {
-            rootNode.addChild(newReviewTreeNode(child, false));
-        }
-
-        return rootNode;
     }
 }

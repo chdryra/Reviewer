@@ -8,7 +8,9 @@
 
 package com.chdryra.android.reviewer.Model.ReviewStructure;
 
+import com.chdryra.android.reviewer.Model.ReviewData.IdableList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdCommentList;
+import com.chdryra.android.reviewer.Model.ReviewData.MdCriteriaList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdFactList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdImageList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdLocationList;
@@ -16,7 +18,6 @@ import com.chdryra.android.reviewer.Model.ReviewData.MdRating;
 import com.chdryra.android.reviewer.Model.ReviewData.MdSubject;
 import com.chdryra.android.reviewer.Model.ReviewData.PublishDate;
 import com.chdryra.android.reviewer.Model.ReviewData.ReviewId;
-import com.chdryra.android.reviewer.Model.ReviewData.ReviewIdableList;
 import com.chdryra.android.reviewer.Model.TreeMethods.ReviewTreeComparer;
 import com.chdryra.android.reviewer.Model.TreeMethods.TreeDataGetter;
 import com.chdryra.android.reviewer.Model.TreeMethods.VisitorRatingAverageOfChildren;
@@ -38,14 +39,14 @@ public class ReviewTreeNode implements ReviewNode {
 
     private final Review                        mReview;
     private final TreeDataGetter mGetter;
-    private final ReviewIdableList<ReviewNode> mChildren;
+    private final IdableList<ReviewNode> mChildren;
     private       ReviewTreeNode               mParent;
     private boolean mRatingIsAverage = false;
 
     public ReviewTreeNode(Review root, boolean ratingIsAverage, ReviewId nodeId) {
         mId = nodeId;
         mReview = root;
-        mChildren = new ReviewIdableList<>();
+        mChildren = new IdableList<>();
         mParent = null;
         mRatingIsAverage = ratingIsAverage;
         mGetter = new TreeDataGetter(this);
@@ -88,7 +89,7 @@ public class ReviewTreeNode implements ReviewNode {
     }
 
     @Override
-    public ReviewIdableList<ReviewNode> getChildren() {
+    public IdableList<ReviewNode> getChildren() {
         return mChildren;
     }
 
@@ -154,6 +155,16 @@ public class ReviewTreeNode implements ReviewNode {
     @Override
     public ReviewNode getTreeRepresentation() {
         return this;
+    }
+
+    @Override
+    public boolean isRatingAverageOfCriteria() {
+        return !mRatingIsAverage && mReview.isRatingAverageOfCriteria();
+    }
+
+    @Override
+    public MdCriteriaList getCriteria() {
+        return mGetter.getCriteria();
     }
 
     @Override

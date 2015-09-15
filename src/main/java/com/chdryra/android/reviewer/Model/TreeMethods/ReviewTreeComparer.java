@@ -8,7 +8,7 @@
 
 package com.chdryra.android.reviewer.Model.TreeMethods;
 
-import com.chdryra.android.reviewer.Model.ReviewData.ReviewIdableList;
+import com.chdryra.android.reviewer.Model.ReviewData.IdableList;
 import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
 
 /**
@@ -37,8 +37,8 @@ public class ReviewTreeComparer {
 
     public static boolean compareSubTrees(ReviewNode lhs, ReviewNode rhs) {
         if (!compareNodes(lhs, rhs)) return false;
-        ReviewIdableList<ReviewNode> lchildren = lhs.getChildren();
-        ReviewIdableList<ReviewNode> rchildren = rhs.getChildren();
+        IdableList<ReviewNode> lchildren = lhs.getChildren();
+        IdableList<ReviewNode> rchildren = rhs.getChildren();
         if (lchildren.size() != rchildren.size()) return false;
         for (int i = 0; i < lchildren.size(); ++i) {
             if (!compareSubTrees(lchildren.getItem(i), rchildren.getItem(i))) return false;

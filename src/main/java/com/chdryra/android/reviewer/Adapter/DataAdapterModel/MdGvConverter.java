@@ -10,7 +10,9 @@ package com.chdryra.android.reviewer.Adapter.DataAdapterModel;
 
 import android.graphics.Bitmap;
 
+import com.chdryra.android.reviewer.Model.ReviewData.IdableList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdCommentList;
+import com.chdryra.android.reviewer.Model.ReviewData.MdCriteriaList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdFactList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdImageList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdLocationList;
@@ -18,7 +20,6 @@ import com.chdryra.android.reviewer.Model.ReviewData.MdSubject;
 import com.chdryra.android.reviewer.Model.ReviewData.MdUrlList;
 import com.chdryra.android.reviewer.Model.ReviewData.PublishDate;
 import com.chdryra.android.reviewer.Model.ReviewData.ReviewId;
-import com.chdryra.android.reviewer.Model.ReviewData.ReviewIdableList;
 import com.chdryra.android.reviewer.Model.ReviewStructure.Review;
 import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
 import com.chdryra.android.reviewer.Model.Tagging.TagsManager;
@@ -191,7 +192,20 @@ public class MdGvConverter {
         return list;
     }
 
-    public static <T extends Review> GvReviewOverviewList convert(ReviewIdableList<T> reviews,
+    //Criteria
+    public static GvChildReviewList convert(MdCriteriaList criteria) {
+        GvChildReviewList list = new GvChildReviewList(GvReviewId.getId(criteria.getReviewId()
+                .toString()));
+        for (MdCriteriaList.MdCriterion criterion : criteria) {
+            GvReviewId id = GvReviewId.getId(criterion.getReviewId().toString());
+            list.add(new GvChildReviewList.GvChildReview(id, criterion.getSubject(), criterion
+                    .getRating()));
+        }
+
+        return list;
+    }
+
+    public static <T extends Review> GvReviewOverviewList convert(IdableList<T> reviews,
                                                                   ReviewId holder) {
         GvReviewOverviewList data = new GvReviewOverviewList(GvReviewId.getId(holder.toString()));
         for (Review review : reviews) {
@@ -254,18 +268,6 @@ public class MdGvConverter {
         }
 
         return tagList;
-    }
-
-    public static GvChildReviewList convertChildren(ReviewNode node) {
-        GvReviewId id = GvReviewId.getId(node.getId().toString());
-        GvChildReviewList list = new GvChildReviewList(id);
-        for (ReviewNode child : node.getChildren()) {
-            list.add(new GvChildReviewList.GvChildReview(id, child.getSubject().get(), child
-                    .getRating()
-                    .get()));
-        }
-
-        return list;
     }
 
     public static GvSubjectList convertChildSubjects(ReviewNode node) {

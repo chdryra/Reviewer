@@ -25,14 +25,14 @@ public class ReviewsManager extends ApplicationSingleton {
         return sSingleton;
     }
 
-    private static ReviewNode getReviewNode(Context context, String reviewId) {
+    private static ReviewNode getReview(Context context, String reviewId) {
         return ReviewFeed.findInFeed(context, reviewId);
     }
 
-    public static ReviewNode getReviewNode(Context context, GvData datum) {
+    public static ReviewNode getReview(Context context, GvData datum) {
         GvReviewId id = datum.getReviewId();
         if (!datum.isCollection()) {
-            return getReviewNode(context, id.getId());
+            return getReview(context, id.getId());
         } else {
             return ReviewMaker.createMetaReview(context, (GvDataCollection<? extends GvData>) datum,
                     datum.getStringSummary());

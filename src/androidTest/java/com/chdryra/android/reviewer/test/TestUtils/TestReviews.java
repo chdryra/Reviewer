@@ -17,8 +17,8 @@ import android.webkit.URLUtil;
 import com.chdryra.android.mygenerallibrary.ImageHelper;
 import com.chdryra.android.mygenerallibrary.TextUtils;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilderAdapter;
+import com.chdryra.android.reviewer.Model.ReviewData.IdableList;
 import com.chdryra.android.reviewer.Model.ReviewData.PublishDate;
-import com.chdryra.android.reviewer.Model.ReviewData.ReviewIdableList;
 import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
 import com.chdryra.android.reviewer.Model.UserData.Author;
 import com.chdryra.android.reviewer.Model.UserData.UserId;
@@ -51,11 +51,11 @@ public class TestReviews {
     private static Author AUTHOR = new Author("Riz", UserId.generateId());
     private static TestReviews     sReviews;
     private        Instrumentation mInstr;
-    private ReviewIdableList<ReviewNode> mNodes;
+    private IdableList<ReviewNode> mNodes;
 
     private TestReviews(Instrumentation instr) {
         mInstr = instr;
-        mNodes = new ReviewIdableList<>();
+        mNodes = new IdableList<>();
     }
 
     private static TestReviews get(Instrumentation instr) {
@@ -63,9 +63,9 @@ public class TestReviews {
         return sReviews;
     }
 
-    public static ReviewIdableList<ReviewNode> getReviews(Instrumentation instr) {
+    public static IdableList<ReviewNode> getReviews(Instrumentation instr) {
         TestReviews reviews = get(instr);
-        ReviewIdableList<ReviewNode> nodes = reviews.mNodes;
+        IdableList<ReviewNode> nodes = reviews.mNodes;
         if (nodes.size() == 0) {
             nodes.add(reviews.getReviewNode(reviews.getReview1()));
             nodes.add(reviews.getReviewNode(reviews.getReview2()));

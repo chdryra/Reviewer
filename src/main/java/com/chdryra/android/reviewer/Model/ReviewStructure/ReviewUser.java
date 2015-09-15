@@ -13,7 +13,9 @@ import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataFact;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataImage;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataLocation;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.MdGvConverter;
+import com.chdryra.android.reviewer.Model.ReviewData.IdableList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdCommentList;
+import com.chdryra.android.reviewer.Model.ReviewData.MdCriteriaList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdFactList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdImageList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdLocationList;
@@ -39,7 +41,7 @@ public class ReviewUser implements Review {
     private final PublishDate mPublishDate;
     private final MdSubject   mSubject;
     private final MdRating    mRating;
-
+    private final MdCriteriaList mCriteria;
     private final MdCommentList  mComments;
     private final MdImageList    mImages;
     private final MdFactList     mFacts;
@@ -52,7 +54,9 @@ public class ReviewUser implements Review {
             Iterable<? extends DataComment> comments,
             Iterable<? extends DataImage> images,
             Iterable<? extends DataFact> facts,
-            Iterable<? extends DataLocation> locations) {
+                      Iterable<? extends DataLocation> locations,
+                      IdableList<Review> criteria,
+                      boolean ratingIsAverage) {
         mId = id;
         mAuthor = author;
         mPublishDate = publishDate;
@@ -64,23 +68,13 @@ public class ReviewUser implements Review {
         mFacts = MdGvConverter.toMdFactList(facts, mId);
         mLocations = MdGvConverter.toMdLocationList(locations, mId);
 
-        mNode = FactoryReview.createReviewNode(this);
-    }
+        ReviewTreeNode node = FactoryReview.createReviewTreeNode(this, ratingIsAverage);
+        for (Review criterion : criteria) {
+            node.addChild(FactoryReview.createReviewTreeNode(criterion, false));
+        }
+        mNode = node.createTree();
 
-    public ReviewUser(ReviewId id, Author author, PublishDate publishDate, String subject, float
-            rating) {
-        mId = id;
-        mAuthor = author;
-        mPublishDate = publishDate;
-        mSubject = new MdSubject(subject, mId);
-        mRating = new MdRating(rating, mId);
-
-        mComments = new MdCommentList(mId);
-        mImages = new MdImageList(mId);
-        mFacts = new MdFactList(mId);
-        mLocations = new MdLocationList(mId);
-
-        mNode = FactoryReview.createReviewNode(this);
+        mCriteria = new MdCriteriaList(mNode);
     }
 
     @Override
@@ -111,6 +105,16 @@ public class ReviewUser implements Review {
     @Override
     public ReviewNode getTreeRepresentation() {
         return mNode;
+    }
+
+    @Override
+    public boolean isRatingAverageOfCriteria() {
+        return mNode.isRatingAverageOfCriteria();
+    }
+
+    @Override
+    public MdCriteriaList getCriteria() {
+        return mCriteria;
     }
 
     @Override
@@ -145,10 +149,12 @@ public class ReviewUser implements Review {
         if (!mPublishDate.equals(that.mPublishDate)) return false;
         if (!mSubject.equals(that.mSubject)) return false;
         if (!mRating.equals(that.mRating)) return false;
+        if (!mCriteria.equals(that.mCriteria)) return false;
         if (!mComments.equals(that.mComments)) return false;
         if (!mImages.equals(that.mImages)) return false;
         if (!mFacts.equals(that.mFacts)) return false;
-        return mLocations.equals(that.mLocations);
+        if (!mLocations.equals(that.mLocations)) return false;
+        return mNode.equals(that.mNode);
 
     }
 
@@ -159,10 +165,12 @@ public class ReviewUser implements Review {
         result = 31 * result + mPublishDate.hashCode();
         result = 31 * result + mSubject.hashCode();
         result = 31 * result + mRating.hashCode();
+        result = 31 * result + mCriteria.hashCode();
         result = 31 * result + mComments.hashCode();
         result = 31 * result + mImages.hashCode();
         result = 31 * result + mFacts.hashCode();
         result = 31 * result + mLocations.hashCode();
+        result = 31 * result + mNode.hashCode();
         return result;
     }
 }

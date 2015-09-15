@@ -15,11 +15,11 @@ import android.test.InstrumentationTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.mygenerallibrary.ImageHelper;
+import com.chdryra.android.reviewer.Model.ReviewData.IdableList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdCommentList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdFactList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdImageList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdLocationList;
-import com.chdryra.android.reviewer.Model.ReviewData.ReviewIdableList;
 import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
 import com.chdryra.android.reviewer.Model.Tagging.TagsManager;
 import com.chdryra.android.reviewer.R;
@@ -37,7 +37,7 @@ public class TestReviewsTest extends InstrumentationTestCase {
 
     @SmallTest
     public void testGetReviews() {
-        ReviewIdableList<ReviewNode> reviews = TestReviews.getReviews(getInstrumentation());
+        IdableList<ReviewNode> reviews = TestReviews.getReviews(getInstrumentation());
         assertEquals(2, reviews.size());
         testReview1(reviews.getItem(0));
         testReview2(reviews.getItem(1));
@@ -56,7 +56,7 @@ public class TestReviewsTest extends InstrumentationTestCase {
         assertEquals("London", tags.getItem(2).get());
 
         //Children
-        ReviewIdableList<ReviewNode> children = node.getChildren();
+        IdableList<ReviewNode> children = node.getChildren();
         assertEquals(3, tags.size());
 
         ReviewNode child = children.getItem(0);
@@ -137,7 +137,7 @@ public class TestReviewsTest extends InstrumentationTestCase {
         assertEquals("Baby", tags.getItem(3).get());
 
         //Children
-        ReviewIdableList<ReviewNode> children = node.getChildren();
+        IdableList<ReviewNode> children = node.getChildren();
         assertEquals(3, children.size());
 
         ReviewNode child = children.getItem(0);

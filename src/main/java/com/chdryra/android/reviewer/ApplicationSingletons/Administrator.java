@@ -14,9 +14,9 @@ import android.content.Intent;
 
 import com.chdryra.android.mygenerallibrary.ObjectHolder;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilderAdapter;
+import com.chdryra.android.reviewer.Model.ReviewData.IdableList;
 import com.chdryra.android.reviewer.Model.ReviewData.PublishDate;
-import com.chdryra.android.reviewer.Model.ReviewData.ReviewIdableList;
-import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
+import com.chdryra.android.reviewer.Model.ReviewStructure.Review;
 import com.chdryra.android.reviewer.Model.UserData.Author;
 import com.chdryra.android.reviewer.Model.UserData.UserId;
 import com.chdryra.android.reviewer.View.GvDataModel.GvSocialPlatformList;
@@ -42,7 +42,7 @@ import java.util.UUID;
  * </ul>
  *
  * @see Author
- * @see ReviewIdableList
+ * @see IdableList
  */
 public class Administrator extends ApplicationSingleton{
     private static final String NAME = "Administrator";
@@ -89,7 +89,7 @@ public class Administrator extends ApplicationSingleton{
     }
 
     public void publishReviewBuilder() {
-        ReviewNode published = mReviewBuilderAdapter.publish(PublishDate.now());
+        Review published = mReviewBuilderAdapter.publish(PublishDate.now());
         ReviewFeed.addToFeed(getContext(), published);
         mReviewBuilderAdapter = null;
     }

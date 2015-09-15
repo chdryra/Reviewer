@@ -8,7 +8,7 @@
 
 package com.chdryra.android.reviewer.Model.TreeMethods;
 
-import com.chdryra.android.reviewer.Model.ReviewData.ReviewIdableList;
+import com.chdryra.android.reviewer.Model.ReviewData.IdableList;
 import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
 
 /**
@@ -17,9 +17,9 @@ import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
  * Email: rizwan.choudrey@gmail.com
  */
 public class VisitorTreeFlattener implements VisitorReviewNode {
-    ReviewIdableList<ReviewNode> mNodes = new ReviewIdableList<>();
+    IdableList<ReviewNode> mNodes = new IdableList<>();
 
-    public static ReviewIdableList<ReviewNode> flatten(ReviewNode node) {
+    public static IdableList<ReviewNode> flatten(ReviewNode node) {
         VisitorTreeFlattener flattener = new VisitorTreeFlattener();
         node.acceptVisitor(flattener);
         return flattener.getNodes();
@@ -33,7 +33,7 @@ public class VisitorTreeFlattener implements VisitorReviewNode {
         }
     }
 
-    public ReviewIdableList<ReviewNode> getNodes() {
+    public IdableList<ReviewNode> getNodes() {
         return mNodes;
     }
 }

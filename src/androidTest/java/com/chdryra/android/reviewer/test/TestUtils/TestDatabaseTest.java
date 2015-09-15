@@ -12,7 +12,7 @@ import android.test.InstrumentationTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.Database.ReviewerDb;
-import com.chdryra.android.reviewer.Model.ReviewData.ReviewIdableList;
+import com.chdryra.android.reviewer.Model.ReviewData.IdableList;
 import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
 import com.chdryra.android.reviewer.Model.TreeMethods.ReviewTreeComparer;
 
@@ -28,8 +28,8 @@ public class TestDatabaseTest extends InstrumentationTestCase {
         TestDatabase.recreateDatabase(getInstrumentation());
         ReviewerDb db = TestDatabase.getDatabase(getInstrumentation());
         assertNotNull(db);
-        ReviewIdableList<ReviewNode> testNodes = TestReviews.getReviews(getInstrumentation());
-        ReviewIdableList<ReviewNode> nodes = db.getReviewTreesFromDb();
+        IdableList<ReviewNode> testNodes = TestReviews.getReviews(getInstrumentation());
+        IdableList<ReviewNode> nodes = db.getReviewTreesFromDb();
         assertEquals(testNodes.size(), nodes.size());
         for (int i = 0; i < nodes.size(); ++i) {
             assertTrue(ReviewTreeComparer.compareTrees(testNodes.getItem(i), nodes.getItem(i)));

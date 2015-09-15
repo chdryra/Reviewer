@@ -8,7 +8,7 @@
 
 package com.chdryra.android.reviewer.Model.ReviewStructure;
 
-import com.chdryra.android.reviewer.Model.ReviewData.ReviewIdableList;
+import com.chdryra.android.reviewer.Model.ReviewData.IdableList;
 import com.chdryra.android.reviewer.Model.TreeMethods.VisitorReviewNode;
 
 /**
@@ -29,7 +29,7 @@ public interface ReviewNode extends Review {
 
     ReviewNode expand();
 
-    ReviewIdableList<ReviewNode> getChildren();
+    IdableList<ReviewNode> getChildren();
 
     void acceptVisitor(VisitorReviewNode visitor);
 

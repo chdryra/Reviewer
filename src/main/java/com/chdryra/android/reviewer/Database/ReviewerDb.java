@@ -16,6 +16,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import com.chdryra.android.reviewer.Model.ReviewData.IdableList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdCommentList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdData;
 import com.chdryra.android.reviewer.Model.ReviewData.MdDataList;
@@ -24,7 +25,6 @@ import com.chdryra.android.reviewer.Model.ReviewData.MdImageList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdLocationList;
 import com.chdryra.android.reviewer.Model.ReviewData.PublishDate;
 import com.chdryra.android.reviewer.Model.ReviewData.ReviewId;
-import com.chdryra.android.reviewer.Model.ReviewData.ReviewIdableList;
 import com.chdryra.android.reviewer.Model.ReviewStructure.Review;
 import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewTreeNode;
@@ -103,11 +103,11 @@ public class ReviewerDb {
         db.close();
     }
 
-    public ReviewIdableList<ReviewNode> getReviewTreesFromDb() {
+    public IdableList<ReviewNode> getReviewTreesFromDb() {
         SQLiteDatabase db = mHelper.getReadableDatabase();
 
         db.beginTransaction();
-        ReviewIdableList<ReviewNode> trees = getReviewTreesFromDb(db);
+        IdableList<ReviewNode> trees = getReviewTreesFromDb(db);
         db.setTransactionSuccessful();
         db.endTransaction();
 
@@ -139,10 +139,10 @@ public class ReviewerDb {
     }
 
     //Private methods
-    private ReviewIdableList<ReviewNode> getReviewTreesFromDb(SQLiteDatabase db) {
+    private IdableList<ReviewNode> getReviewTreesFromDb(SQLiteDatabase db) {
         TableRowList<RowReviewNode> nodes = getRowsWhere(db, TREES, RowReviewNode.PARENT_ID, null);
 
-        ReviewIdableList<ReviewNode> trees = new ReviewIdableList<>();
+        IdableList<ReviewNode> trees = new IdableList<>();
         for (RowReviewNode node : nodes) {
             ReviewTreeNode tree = getSubTree(node.getRowId(), db);
             trees.add(tree.createTree());
@@ -183,9 +183,12 @@ public class ReviewerDb {
         MdFactList facts = getFromDataTable(db, FACTS, reviewId, MdFactList.class);
         MdLocationList locations = getFromDataTable(db, LOCATIONS, reviewId, MdLocationList.class);
         MdImageList images = getFromDataTable(db, IMAGES, reviewId, MdImageList.class);
+//
+//        return new ReviewUser(id, author, publishDate, subject, rating, comments,
+//                images, facts, locations);
 
         return new ReviewUser(id, author, publishDate, subject, rating, comments,
-                images, facts, locations);
+                images, facts, locations, new IdableList<Review>(), false);
     }
 
     private ReviewTreeNode getSubTree(String nodeId, SQLiteDatabase db) {

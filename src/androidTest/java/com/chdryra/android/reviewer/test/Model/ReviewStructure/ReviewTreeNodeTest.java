@@ -10,7 +10,7 @@ package com.chdryra.android.reviewer.test.Model.ReviewStructure;
 
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.Model.ReviewData.ReviewIdableList;
+import com.chdryra.android.reviewer.Model.ReviewData.IdableList;
 import com.chdryra.android.reviewer.Model.ReviewStructure.Review;
 import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewTreeNode;
@@ -28,7 +28,7 @@ public class ReviewTreeNodeTest extends TestCase {
     private static final int NUM = 3;
     private Review                    mReview;
     private Review                    mParent;
-    private ReviewIdableList<Review> mChildren;
+    private IdableList<Review> mChildren;
 
     @SmallTest
     public void testSetParent() {
@@ -51,7 +51,7 @@ public class ReviewTreeNodeTest extends TestCase {
         ReviewTreeNode node = new ReviewTreeNode(mReview, false, mReview.getId());
         assertEquals(0, node.getChildren().size());
 
-        ReviewIdableList<ReviewTreeNode> children = new ReviewIdableList<>();
+        IdableList<ReviewTreeNode> children = new IdableList<>();
         int i = 0;
         for (Review child : mChildren) {
             ReviewTreeNode childNode = new ReviewTreeNode(child, false, child.getId());
@@ -66,7 +66,7 @@ public class ReviewTreeNodeTest extends TestCase {
             assertEquals(node, childNode.getParent());
         }
 
-        ReviewIdableList<ReviewNode> nodeChildren = node.getChildren();
+        IdableList<ReviewNode> nodeChildren = node.getChildren();
         assertEquals(children.size(), nodeChildren.size());
         for (i = 0; i < children.size(); ++i) {
             assertEquals(children.getItem(i), nodeChildren.getItem(i));
@@ -160,7 +160,7 @@ public class ReviewTreeNodeTest extends TestCase {
     protected void setUp() throws Exception {
         mReview = ReviewMocker.newReview();
         mParent = ReviewMocker.newReview();
-        mChildren = new ReviewIdableList<>();
+        mChildren = new IdableList<>();
         for (int i = 0; i < NUM; ++i) {
             mChildren.add(ReviewMocker.newReview());
         }

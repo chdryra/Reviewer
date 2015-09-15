@@ -46,10 +46,10 @@ public class ReviewFeed extends ApplicationSingleton {
         mFeedNode = FactoryReview.createReviewTreeNode(feed, true);
 
         mDatabase = getDatabase();
-        mDatabase.loadTags();
-        for (ReviewNode node : mDatabase.getReviewTreesFromDb()) {
-            add(node);
-        }
+//        mDatabase.loadTags();
+//        for (ReviewNode node : mDatabase.getReviewTreesFromDb()) {
+//            add(node);
+//        }
     }
 
     private static ReviewFeed getFeed(Context context) {
@@ -57,9 +57,8 @@ public class ReviewFeed extends ApplicationSingleton {
         return sSingleton;
     }
 
-    public static void addToFeed(Context context, ReviewNode node) {
-        getFeed(context).add(node.getRoot());
-        getFeed(context).addToDatabase(node.getRoot());
+    public static void addToFeed(Context context, Review review) {
+        getFeed(context).add(review);
     }
 
     public static void removeFromFeed(Context context, String reviewId) {
@@ -99,11 +98,13 @@ public class ReviewFeed extends ApplicationSingleton {
     private void removeFromFeed(String reviewId) {
         ReviewId id = ReviewId.fromString(reviewId);
         remove(id);
-        deleteFromDatabase(id);
+        //deleteFromDatabase(id);
     }
 
-    private void add(ReviewNode node) {
-        mFeedNode.addChild(FactoryReview.createReviewTreeNode(node, false));
+    private void add(Review review) {
+        ReviewTreeNode node = FactoryReview.createReviewTreeNode(review, false);
+        //addToDatabase(node);
+        mFeedNode.addChild(node);
         notifyObservers();
     }
 

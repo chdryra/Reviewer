@@ -9,6 +9,7 @@
 package com.chdryra.android.reviewer.Model.ReviewStructure;
 
 import com.chdryra.android.reviewer.Model.ReviewData.MdCommentList;
+import com.chdryra.android.reviewer.Model.ReviewData.MdCriteriaList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdFactList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdImageList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdLocationList;
@@ -49,7 +50,7 @@ import com.chdryra.android.reviewer.Model.UserData.Author;
  * @see ReviewNode
  */
 
-public interface Review extends ReviewId.ReviewIdAble {
+public interface Review extends ReviewId.IdAble {
     //Core data
     @Override
     ReviewId getId();
@@ -64,7 +65,11 @@ public interface Review extends ReviewId.ReviewIdAble {
 
     ReviewNode getTreeRepresentation();
 
+    boolean isRatingAverageOfCriteria();
+
     //Optional data
+    MdCriteriaList getCriteria();
+
     MdCommentList getComments();
 
     MdFactList getFacts();

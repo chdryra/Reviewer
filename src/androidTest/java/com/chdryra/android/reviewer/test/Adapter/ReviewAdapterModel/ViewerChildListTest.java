@@ -14,9 +14,9 @@ import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.MdGvConverter;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ViewerChildList;
+import com.chdryra.android.reviewer.Model.ReviewData.IdableList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdImageList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdLocationList;
-import com.chdryra.android.reviewer.Model.ReviewData.ReviewIdableList;
 import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
@@ -36,7 +36,7 @@ public class ViewerChildListTest extends AndroidTestCase {
         ViewerChildList wrapper = new ViewerChildList(node);
         GvDataList data = wrapper.getGridData();
         assertNotNull(data);
-        ReviewIdableList<ReviewNode> children = node.getChildren();
+        IdableList<ReviewNode> children = node.getChildren();
         assertEquals(children.size(), data.size());
         GvReviewOverviewList list = (GvReviewOverviewList) data;
         for (int i = 0; i < children.size(); ++i) {

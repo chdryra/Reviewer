@@ -13,8 +13,8 @@ import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.AdapterReviewNode;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ViewerChildList;
+import com.chdryra.android.reviewer.Model.ReviewData.IdableList;
 import com.chdryra.android.reviewer.Model.ReviewData.PublishDate;
-import com.chdryra.android.reviewer.Model.ReviewData.ReviewIdableList;
 import com.chdryra.android.reviewer.Model.ReviewStructure.FactoryReview;
 import com.chdryra.android.reviewer.Model.ReviewStructure.Review;
 import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
@@ -35,7 +35,7 @@ public class AdapterReviewNodeTest extends AndroidTestCase {
     private Author                  mAuthor;
     private ReviewNode               mNode;
     private AdapterReviewNode<GvReviewOverviewList.GvReviewOverview> mAdapter;
-    private ReviewIdableList<ReviewNode> mReviews;
+    private IdableList<ReviewNode> mReviews;
 
     @SmallTest
     public void testGetSubject() {
@@ -94,7 +94,7 @@ public class AdapterReviewNodeTest extends AndroidTestCase {
                 .nextWord
                         (), 0f);
         ReviewTreeNode collection = FactoryReview.createReviewTreeNode(review, true);
-        mReviews = new ReviewIdableList<>();
+        mReviews = new IdableList<>();
         for (int i = 0; i < NUM; ++i) {
             ReviewTreeNode child = (ReviewTreeNode) ReviewMocker.newReviewNode(false);
             mReviews.add(child);
@@ -102,7 +102,7 @@ public class AdapterReviewNodeTest extends AndroidTestCase {
         }
 
         mNode = collection;
-        ViewerChildList wrapper = new ViewerChildList(mNode);
+        ViewerChildList wrapper = new ViewerChildList(getContext(), mNode);
         mAdapter = new AdapterReviewNode<>(mNode, wrapper);
     }
 

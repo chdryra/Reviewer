@@ -14,7 +14,8 @@ import android.os.Bundle;
 
 import com.chdryra.android.reviewer.ApplicationSingletons.ReviewMaker;
 import com.chdryra.android.reviewer.ApplicationSingletons.ReviewsManager;
-import com.chdryra.android.reviewer.Model.ReviewData.ReviewIdableList;
+import com.chdryra.android.reviewer.Model.ReviewData.IdableList;
+import com.chdryra.android.reviewer.Model.ReviewStructure.Review;
 import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.Screens.ReviewListScreen;
@@ -27,22 +28,20 @@ import com.chdryra.android.reviewer.View.Utils.RequestCodeGenerator;
  */
 public class ReviewLauncher {
     public static void launchReview(Context context, Fragment commissioner, GvData datum) {
-        ReviewNode node = ReviewsManager.getReviewNode(context, datum);
+        Review node = ReviewsManager.getReview(context, datum);
         launchReview(context, commissioner, node);
     }
 
-    public static void launchReview(Context context, Fragment commissioner, ReviewNode node) {
-        ReviewNode meta;
-        if (node.getChildren().size() == 0) {
-            ReviewIdableList<ReviewNode> single = new ReviewIdableList<>();
-            single.add(node.expand());
-            meta = ReviewMaker.createMetaReview(context, single, node.getSubject().get());
-        } else {
-            meta = node;
+    public static void launchReview(Context context, Fragment commissioner, Review review) {
+        ReviewNode meta = review.getTreeRepresentation();
+        if (meta.getChildren().size() == 0) {
+            IdableList<Review> single = new IdableList<>();
+            single.add(review);
+            meta = ReviewMaker.createMetaReview(context, single, review.getSubject().get());
         }
 
         LaunchableUi ui = ReviewListScreen.newScreen(context, meta);
-        String tag = node.getSubject().get();
+        String tag = review.getSubject().get();
         int requestCode = RequestCodeGenerator.getCode(tag);
         LauncherUi.launch(ui, commissioner, requestCode, tag, new Bundle());
     }

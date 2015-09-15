@@ -10,7 +10,7 @@ package com.chdryra.android.reviewer.test.Model.TreeMethods;
 
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.Model.ReviewData.ReviewIdableList;
+import com.chdryra.android.reviewer.Model.ReviewData.IdableList;
 import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
 import com.chdryra.android.reviewer.Model.TreeMethods.VisitorTreeFlattener;
 import com.chdryra.android.reviewer.test.TestUtils.ReviewMocker;
@@ -29,16 +29,16 @@ public class VisitorTreeFlattenerTest extends TestCase {
         VisitorTreeFlattener visitor = new VisitorTreeFlattener();
         node.acceptVisitor(visitor);
 
-        ReviewIdableList<ReviewNode> nodes = visitor.getNodes();
-        ReviewIdableList<ReviewNode> flattened = flatten(node);
+        IdableList<ReviewNode> nodes = visitor.getNodes();
+        IdableList<ReviewNode> flattened = flatten(node);
         assertEquals(flattened.size(), nodes.size());
         for (ReviewNode item : flattened) {
             assertTrue(nodes.containsId(item.getId()));
         }
     }
 
-    private ReviewIdableList<ReviewNode> flatten(ReviewNode node) {
-        ReviewIdableList<ReviewNode> nodes = new ReviewIdableList<>();
+    private IdableList<ReviewNode> flatten(ReviewNode node) {
+        IdableList<ReviewNode> nodes = new IdableList<>();
         nodes.add(node);
 
         for (ReviewNode child : node.getChildren()) {

@@ -10,8 +10,8 @@ package com.chdryra.android.reviewer.test.Model.ReviewData;
 
 import android.test.suitebuilder.annotation.SmallTest;
 
+import com.chdryra.android.reviewer.Model.ReviewData.IdableList;
 import com.chdryra.android.reviewer.Model.ReviewData.ReviewId;
-import com.chdryra.android.reviewer.Model.ReviewData.ReviewIdableList;
 import com.chdryra.android.reviewer.test.TestUtils.RandomReviewId;
 
 import junit.framework.TestCase;
@@ -21,9 +21,9 @@ import junit.framework.TestCase;
  * On: 21/01/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ReviewIdableListTest extends TestCase {
+public class IdableListTest extends TestCase {
     private final static int NUM = 100;
-    private ReviewIdableList<Idable> mCollection;
+    private IdableList<Idable> mCollection;
 
     @SmallTest
     public void testAddContainsIdSizeGet() {
@@ -52,7 +52,7 @@ public class ReviewIdableListTest extends TestCase {
         }
         assertEquals(NUM, mCollection.size());
 
-        ReviewIdableList<Idable> collection = new ReviewIdableList<>();
+        IdableList<Idable> collection = new IdableList<>();
         assertEquals(0, collection.size());
         collection.add(mCollection);
         assertEquals(NUM, collection.size());
@@ -85,7 +85,7 @@ public class ReviewIdableListTest extends TestCase {
         }
         assertEquals(NUM, mCollection.size());
 
-        ReviewIdableList<Idable> collection = new ReviewIdableList<>();
+        IdableList<Idable> collection = new IdableList<>();
         collection.add(mCollection);
         assertTrue(mCollection.equals(collection));
         Idable newIdable = new Idable();
@@ -100,10 +100,10 @@ public class ReviewIdableListTest extends TestCase {
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        mCollection = new ReviewIdableList<>();
+        mCollection = new IdableList<>();
     }
 
-    private static class Idable implements ReviewId.ReviewIdAble {
+    private static class Idable implements ReviewId.IdAble {
         private ReviewId mId;
 
         public Idable() {

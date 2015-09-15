@@ -16,7 +16,7 @@ import java.util.ArrayList;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface DbContract {
-    public ArrayList<DbTableDef> getTableDefinitions();
+    ArrayList<DbTableDef> getTableDefinitions();
 
-    public ArrayList<String> getTableNames();
+    ArrayList<String> getTableNames();
 }

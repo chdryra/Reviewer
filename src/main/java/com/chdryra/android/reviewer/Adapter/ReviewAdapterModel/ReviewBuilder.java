@@ -4,11 +4,11 @@ import android.content.Context;
 
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.MdGvConverter;
+import com.chdryra.android.reviewer.Model.ReviewData.IdableList;
+import com.chdryra.android.reviewer.Model.ReviewData.MdCriteriaList;
 import com.chdryra.android.reviewer.Model.ReviewData.PublishDate;
 import com.chdryra.android.reviewer.Model.ReviewStructure.FactoryReview;
 import com.chdryra.android.reviewer.Model.ReviewStructure.Review;
-import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
-import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewTreeNode;
 import com.chdryra.android.reviewer.Model.Tagging.TagsManager;
 import com.chdryra.android.reviewer.Model.UserData.Author;
 import com.chdryra.android.reviewer.View.Configs.ConfigGvDataUi;
@@ -93,16 +93,15 @@ public class ReviewBuilder {
         getDataBuilder(dataType).resetData();
     }
 
-    public ReviewNode buildReview(PublishDate publishDate) {
+    public Review buildReview(PublishDate publishDate) {
         if (!isValidForPublication()) {
             throw new IllegalStateException("Review is not valid for publication!");
         }
 
-        ReviewTreeNode rootNode = prepareTree(publishDate);
-        ReviewNode published = rootNode.createTree();
-        tagTree(published);
+        Review review = assembleReview(publishDate);
+        tagReview(review);
 
-        return published;
+        return review;
     }
 
     //TODO make type safe
@@ -115,29 +114,27 @@ public class ReviewBuilder {
         return DataValidator.validateString(mSubject) && getData(GvTagList.GvTag.TYPE).size() > 0;
     }
 
-    private void tagTree(ReviewNode node) {
+    private void tagReview(Review review) {
         GvTagList tags = (GvTagList) getData(GvTagList.GvTag.TYPE);
-        TagsManager.tag(node.getId(), tags.toStringArray());
-        for (ReviewNode child : node.getChildren()) {
-            tagTree(child);
+        TagsManager.tag(review.getId(), tags.toStringArray());
+        for (MdCriteriaList.MdCriterion criterion : review.getCriteria()) {
+            tagReview(criterion.getReview());
         }
     }
 
-    private ReviewTreeNode prepareTree(PublishDate publishDate) {
-        Review root = FactoryReview.createReviewUser(mAuthor,
+    private Review assembleReview(PublishDate publishDate) {
+        IdableList<Review> criteria = new IdableList<>();
+        for (ReviewBuilder child : mChildren) {
+            criteria.add(child.assembleReview(publishDate));
+        }
+
+        return FactoryReview.createReviewUser(mAuthor,
                 publishDate, getSubject(), getRating(),
                 getData(GvCommentList.GvComment.TYPE),
                 getData(GvImageList.GvImage.TYPE),
                 getData(GvFactList.GvFact.TYPE),
-                getData(GvLocationList.GvLocation.TYPE));
-
-        ReviewTreeNode rootNode = FactoryReview.createReviewTreeNode(root, mIsAverage);
-
-        for (ReviewBuilder child : mChildren) {
-            rootNode.addChild(child.prepareTree(publishDate));
-        }
-
-        return rootNode;
+                getData(GvLocationList.GvLocation.TYPE),
+                criteria, mIsAverage);
     }
 
     //TODO make type safe
