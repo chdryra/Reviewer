@@ -8,12 +8,12 @@ import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
  * On: 15/09/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class MdCriteriaList extends MdDataList<MdCriteriaList.MdCriterion> {
-    public MdCriteriaList(ReviewId reviewId) {
+public class MdCriterionList extends MdDataList<MdCriterionList.MdCriterion> {
+    public MdCriterionList(ReviewId reviewId) {
         super(reviewId);
     }
 
-    public MdCriteriaList(ReviewNode parent) {
+    public MdCriterionList(ReviewNode parent) {
         super(parent.getId());
         for (ReviewNode criterion : parent.getChildren()) {
             add(new MdCriterion(criterion.getReview(), getReviewId()));

@@ -12,7 +12,7 @@ import android.graphics.Bitmap;
 
 import com.chdryra.android.reviewer.Model.ReviewData.IdableList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdCommentList;
-import com.chdryra.android.reviewer.Model.ReviewData.MdCriteriaList;
+import com.chdryra.android.reviewer.Model.ReviewData.MdCriterionList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdFactList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdImageList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdLocationList;
@@ -193,10 +193,10 @@ public class MdGvConverter {
     }
 
     //Criteria
-    public static GvChildReviewList convert(MdCriteriaList criteria) {
+    public static GvChildReviewList convert(MdCriterionList criteria) {
         GvChildReviewList list = new GvChildReviewList(GvReviewId.getId(criteria.getReviewId()
                 .toString()));
-        for (MdCriteriaList.MdCriterion criterion : criteria) {
+        for (MdCriterionList.MdCriterion criterion : criteria) {
             GvReviewId id = GvReviewId.getId(criterion.getReviewId().toString());
             list.add(new GvChildReviewList.GvChildReview(id, criterion.getSubject(), criterion
                     .getRating()));

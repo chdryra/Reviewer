@@ -15,6 +15,7 @@ import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.AdapterReviewNode
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ViewerChildList;
 import com.chdryra.android.reviewer.Model.ReviewData.IdableList;
 import com.chdryra.android.reviewer.Model.ReviewData.PublishDate;
+import com.chdryra.android.reviewer.Model.ReviewData.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewStructure.FactoryReview;
 import com.chdryra.android.reviewer.Model.ReviewStructure.Review;
 import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
@@ -89,10 +90,8 @@ public class AdapterReviewNodeTest extends AndroidTestCase {
     }
 
     private void setAdapter() {
-
-        Review review = FactoryReview.createReviewUser(mAuthor, PublishDate.now(), RandomString
-                .nextWord
-                        (), 0f);
+        ReviewId.ReviewPublisher publisher = ReviewId.newPublisher(mAuthor, PublishDate.now());
+        Review review = FactoryReview.createReviewUser(publisher, RandomString.nextWord(), 0f);
         ReviewTreeNode collection = FactoryReview.createReviewTreeNode(review, true);
         mReviews = new IdableList<>();
         for (int i = 0; i < NUM; ++i) {

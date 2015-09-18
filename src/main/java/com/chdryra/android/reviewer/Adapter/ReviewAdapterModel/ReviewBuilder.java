@@ -5,8 +5,9 @@ import android.content.Context;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.MdGvConverter;
 import com.chdryra.android.reviewer.Model.ReviewData.IdableList;
-import com.chdryra.android.reviewer.Model.ReviewData.MdCriteriaList;
+import com.chdryra.android.reviewer.Model.ReviewData.MdCriterionList;
 import com.chdryra.android.reviewer.Model.ReviewData.PublishDate;
+import com.chdryra.android.reviewer.Model.ReviewData.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewStructure.FactoryReview;
 import com.chdryra.android.reviewer.Model.ReviewStructure.Review;
 import com.chdryra.android.reviewer.Model.Tagging.TagsManager;
@@ -46,6 +47,7 @@ public class ReviewBuilder {
     private ArrayList<ReviewBuilder> mChildren;
     private boolean mIsAverage = false;
     private Author mAuthor;
+    private PublishDate mPublishDate;
 
     public ReviewBuilder(Context context, Author author) {
         mContext = context;
@@ -61,6 +63,11 @@ public class ReviewBuilder {
 
         mSubject = "";
         mRating = 0f;
+    }
+
+    public ReviewBuilder(Context context, ReviewId.ReviewPublisher publisher) {
+        this(context, publisher.getAuthor());
+        mPublishDate = publisher.getDate();
     }
 
     public Context getContext() {
@@ -93,12 +100,14 @@ public class ReviewBuilder {
         getDataBuilder(dataType).resetData();
     }
 
-    public Review buildReview(PublishDate publishDate) {
+    public Review buildReview() {
         if (!isValidForPublication()) {
             throw new IllegalStateException("Review is not valid for publication!");
         }
 
-        Review review = assembleReview(publishDate);
+        PublishDate date = mPublishDate != null ? mPublishDate : PublishDate.now();
+        ReviewId.ReviewPublisher publisher = ReviewId.newPublisher(mAuthor, date);
+        Review review = assembleReview(publisher);
         tagReview(review);
 
         return review;
@@ -117,19 +126,18 @@ public class ReviewBuilder {
     private void tagReview(Review review) {
         GvTagList tags = (GvTagList) getData(GvTagList.GvTag.TYPE);
         TagsManager.tag(review.getId(), tags.toStringArray());
-        for (MdCriteriaList.MdCriterion criterion : review.getCriteria()) {
+        for (MdCriterionList.MdCriterion criterion : review.getCriteria()) {
             tagReview(criterion.getReview());
         }
     }
 
-    private Review assembleReview(PublishDate publishDate) {
+    private Review assembleReview(ReviewId.ReviewPublisher publisher) {
         IdableList<Review> criteria = new IdableList<>();
         for (ReviewBuilder child : mChildren) {
-            criteria.add(child.assembleReview(publishDate));
+            criteria.add(child.assembleReview(publisher));
         }
 
-        return FactoryReview.createReviewUser(mAuthor,
-                publishDate, getSubject(), getRating(),
+        return FactoryReview.createReviewUser(publisher, getSubject(), getRating(),
                 getData(GvCommentList.GvComment.TYPE),
                 getData(GvImageList.GvImage.TYPE),
                 getData(GvFactList.GvFact.TYPE),

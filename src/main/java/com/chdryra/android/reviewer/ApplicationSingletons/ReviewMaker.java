@@ -37,24 +37,21 @@ public class ReviewMaker extends ApplicationSingleton {
     public static <T extends GvData> ReviewNode createMetaReview(Context context,
                                                                  GvDataCollection<T> data,
                                                                  String subject) {
-        ReviewMaker maker = get(context);
-        Review meta = FactoryReview.createReviewUser(maker.mAuthor, PublishDate.now(), subject, 0f);
-        ReviewTreeNode parent = new ReviewTreeNode(meta, true, ReviewId.generateId(maker.mAuthor));
+        IdableList<Review> reviews = new IdableList<>();
         for (int i = 0; i < data.size(); ++i) {
-            T item = data.getItem(i);
-            Review review = ReviewsManager.getReview(context, item);
-            parent.addChild(FactoryReview.createReviewTreeNode(review, false));
+            reviews.add(ReviewsManager.getReview(context, data.getItem(i)));
         }
 
-        return parent.createTree();
+        return createMetaReview(context, reviews, subject);
     }
 
     public static ReviewNode createMetaReview(Context context,
                                               IdableList<Review> reviews,
                                               String subject) {
         ReviewMaker maker = get(context);
-        Review meta = FactoryReview.createReviewUser(maker.mAuthor, PublishDate.now(), subject, 0f);
-        ReviewTreeNode parent = new ReviewTreeNode(meta, true, ReviewId.generateId(maker.mAuthor));
+        ReviewId.ReviewPublisher publisher = ReviewId.newPublisher(maker.mAuthor, PublishDate.now());
+        Review meta = FactoryReview.createReviewUser(publisher, subject, 0f);
+        ReviewTreeNode parent = FactoryReview.createReviewTreeNode(meta, true);
         for (Review review : reviews) {
             parent.addChild(FactoryReview.createReviewTreeNode(review, false));
         }

@@ -9,7 +9,7 @@
 package com.chdryra.android.reviewer.Model.TreeMethods;
 
 import com.chdryra.android.reviewer.Model.ReviewData.MdCommentList;
-import com.chdryra.android.reviewer.Model.ReviewData.MdCriteriaList;
+import com.chdryra.android.reviewer.Model.ReviewData.MdCriterionList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdFactList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdImageList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdLocationList;
@@ -27,8 +27,8 @@ public class TreeDataGetter {
         mRoot = root;
     }
 
-    public MdCriteriaList getCriteria() {
-        MdCriteriaList criteria = new MdCriteriaList(mRoot.getId());
+    public MdCriterionList getCriteria() {
+        MdCriterionList criteria = new MdCriterionList(mRoot.getId());
         criteria.addList(mRoot.getReview().getCriteria());
         for (ReviewNode node : mRoot.getChildren()) {
             TreeDataGetter getter = new TreeDataGetter(node);

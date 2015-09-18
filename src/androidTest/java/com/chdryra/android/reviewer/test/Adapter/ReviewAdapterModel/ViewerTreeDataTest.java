@@ -12,7 +12,6 @@ import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ViewerTreeData;
-import com.chdryra.android.reviewer.Model.ReviewStructure.FactoryReview;
 import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
 import com.chdryra.android.reviewer.Model.Tagging.TagsManager;
 import com.chdryra.android.reviewer.View.GvDataModel.GvAuthorList;
@@ -42,7 +41,7 @@ public class ViewerTreeDataTest extends AndroidTestCase {
         GvTagList tags = GvDataMocker.newTagList(3, false);
         TagsManager.tag(node.getId(), tags.toStringArray());
 
-        ViewerTreeData wrapper = new ViewerTreeData(node);
+        ViewerTreeData wrapper = new ViewerTreeData(getContext(), node);
         GvList collection = wrapper.getGridData();
         assertNotNull(collection);
         assertEquals(10, collection.size());
@@ -72,19 +71,18 @@ public class ViewerTreeDataTest extends AndroidTestCase {
 
     @SmallTest
     public void testGetGridDataReview() {
-        ReviewNode unwrapped = ReviewMocker.newReviewNode(false);
-        ReviewNode node = FactoryReview.createReviewNode(unwrapped);
+        ReviewNode node = ReviewMocker.newReviewNode(false);
         GvTagList tags = GvDataMocker.newTagList(3, false);
         TagsManager.tag(node.getId(), tags.toStringArray());
 
-        ViewerTreeData wrapper = new ViewerTreeData(node);
+        ViewerTreeData wrapper = new ViewerTreeData(getContext(), node);
         GvList collection = wrapper.getGridData();
         assertNotNull(collection);
         assertEquals(6, collection.size());
 
         assertEquals(tags.size(), ((GvDataCollection) collection.getItem(0)).size());
         assertEquals(GvTagList.GvTag.TYPE, collection.getItem(0).getGvDataType());
-        assertEquals(unwrapped.getChildren().size(), ((GvDataCollection) collection.getItem(1))
+        assertEquals(node.getChildren().size(), ((GvDataCollection) collection.getItem(1))
                 .size());
         assertEquals(GvChildReviewList.GvChildReview.TYPE, collection.getItem(1).getGvDataType());
         assertEquals(node.getImages().size(), ((GvDataCollection) collection.getItem(2)).size());

@@ -15,7 +15,7 @@ import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataLocation;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.MdGvConverter;
 import com.chdryra.android.reviewer.Model.ReviewData.IdableList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdCommentList;
-import com.chdryra.android.reviewer.Model.ReviewData.MdCriteriaList;
+import com.chdryra.android.reviewer.Model.ReviewData.MdCriterionList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdFactList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdImageList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdLocationList;
@@ -41,7 +41,7 @@ public class ReviewUser implements Review {
     private final PublishDate mPublishDate;
     private final MdSubject   mSubject;
     private final MdRating    mRating;
-    private final MdCriteriaList mCriteria;
+    private final MdCriterionList mCriteria;
     private final MdCommentList  mComments;
     private final MdImageList    mImages;
     private final MdFactList     mFacts;
@@ -74,7 +74,7 @@ public class ReviewUser implements Review {
         }
         mNode = node.createTree();
 
-        mCriteria = new MdCriteriaList(mNode);
+        mCriteria = new MdCriterionList(mNode);
     }
 
     @Override
@@ -113,7 +113,7 @@ public class ReviewUser implements Review {
     }
 
     @Override
-    public MdCriteriaList getCriteria() {
+    public MdCriterionList getCriteria() {
         return mCriteria;
     }
 

@@ -8,6 +8,7 @@
 
 package com.chdryra.android.reviewer.test.TestUtils;
 
+import com.chdryra.android.reviewer.Model.ReviewData.IdableList;
 import com.chdryra.android.reviewer.Model.ReviewStructure.Review;
 import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewTreeNode;
@@ -58,7 +59,7 @@ public class ReviewMocker {
                     RandomPublishDate.nextDate(), RandomString.nextWord(),
                     RandomRating.nextRating(), GvDataMocker.newCommentList(NUM, false),
                     GvDataMocker.newImageList(NUM, false), GvDataMocker.newFactList(NUM, false),
-                    GvDataMocker.newLocationList(NUM, false));
+                    GvDataMocker.newLocationList(NUM, false), new IdableList<Review>(), false);
         }
     }
 }

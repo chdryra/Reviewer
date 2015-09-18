@@ -16,10 +16,11 @@ import android.webkit.URLUtil;
 
 import com.chdryra.android.mygenerallibrary.ImageHelper;
 import com.chdryra.android.mygenerallibrary.TextUtils;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilderAdapter;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilder;
 import com.chdryra.android.reviewer.Model.ReviewData.IdableList;
 import com.chdryra.android.reviewer.Model.ReviewData.PublishDate;
-import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
+import com.chdryra.android.reviewer.Model.ReviewData.ReviewId;
+import com.chdryra.android.reviewer.Model.ReviewStructure.Review;
 import com.chdryra.android.reviewer.Model.UserData.Author;
 import com.chdryra.android.reviewer.Model.UserData.UserId;
 import com.chdryra.android.reviewer.R;
@@ -51,11 +52,11 @@ public class TestReviews {
     private static Author AUTHOR = new Author("Riz", UserId.generateId());
     private static TestReviews     sReviews;
     private        Instrumentation mInstr;
-    private IdableList<ReviewNode> mNodes;
+    private IdableList<Review> mReviews;
 
     private TestReviews(Instrumentation instr) {
         mInstr = instr;
-        mNodes = new IdableList<>();
+        mReviews = new IdableList<>();
     }
 
     private static TestReviews get(Instrumentation instr) {
@@ -63,26 +64,28 @@ public class TestReviews {
         return sReviews;
     }
 
-    public static IdableList<ReviewNode> getReviews(Instrumentation instr) {
-        TestReviews reviews = get(instr);
-        IdableList<ReviewNode> nodes = reviews.mNodes;
-        if (nodes.size() == 0) {
-            nodes.add(reviews.getReviewNode(reviews.getReview1()));
-            nodes.add(reviews.getReviewNode(reviews.getReview2()));
-            nodes.add(reviews.getReviewNode(reviews.getReview3()));
-            nodes.add(reviews.getReviewNode(reviews.getReview4()));
-            reviews.mNodes = nodes;
+    public static IdableList<Review> getReviews(Instrumentation instr) {
+        TestReviews testReviews = get(instr);
+        IdableList<Review> reviews = testReviews.mReviews;
+        if (reviews.size() == 0) {
+            reviews.add(testReviews.getReview(testReviews.getReview1()));
+            reviews.add(testReviews.getReview(testReviews.getReview2()));
+            reviews.add(testReviews.getReview(testReviews.getReview3()));
+            reviews.add(testReviews.getReview(testReviews.getReview4()));
+            testReviews.mReviews = reviews;
         }
 
-        return nodes;
+        return reviews;
     }
 
-    private ReviewNode getReviewNode(TestReview review) {
-        ReviewBuilderAdapter builder = new ReviewBuilderAdapter(mInstr.getTargetContext(), AUTHOR);
+    private Review getReview(TestReview review) {
+        ReviewId.ReviewPublisher publisher = ReviewId.newPublisher(AUTHOR,
+                PublishDate.then(review.mPublishDate.getTime()));
+        ReviewBuilder builder = new ReviewBuilder(mInstr.getTargetContext(), publisher);
         builder.setSubject(review.mSubject);
         builder.setRating(review.mRating);
         builder.setRatingIsAverage(review.mIsRatingAverage);
-        ReviewBuilderAdapter.DataBuilderAdapter b = builder.getDataBuilder(GvCommentList
+        ReviewBuilder.DataBuilder b = builder.getDataBuilder(GvCommentList
                 .GvComment.TYPE);
         for (String comment : review.mComments) {
             b.add(new GvCommentList.GvComment(comment));
@@ -123,7 +126,8 @@ public class TestReviews {
         }
         b.setData();
 
-        return builder.publish(PublishDate.then(review.mPublishDate.getTime()));
+
+        return builder.buildReview();
     }
 
     private TestReview getReview1() {

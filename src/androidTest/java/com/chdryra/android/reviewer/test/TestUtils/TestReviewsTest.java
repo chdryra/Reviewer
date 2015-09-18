@@ -17,10 +17,11 @@ import android.test.suitebuilder.annotation.SmallTest;
 import com.chdryra.android.mygenerallibrary.ImageHelper;
 import com.chdryra.android.reviewer.Model.ReviewData.IdableList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdCommentList;
+import com.chdryra.android.reviewer.Model.ReviewData.MdCriterionList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdFactList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdImageList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdLocationList;
-import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
+import com.chdryra.android.reviewer.Model.ReviewStructure.Review;
 import com.chdryra.android.reviewer.Model.Tagging.TagsManager;
 import com.chdryra.android.reviewer.R;
 
@@ -37,48 +38,51 @@ public class TestReviewsTest extends InstrumentationTestCase {
 
     @SmallTest
     public void testGetReviews() {
-        IdableList<ReviewNode> reviews = TestReviews.getReviews(getInstrumentation());
+        IdableList<Review> reviews = TestReviews.getReviews(getInstrumentation());
         assertEquals(2, reviews.size());
         testReview1(reviews.getItem(0));
         testReview2(reviews.getItem(1));
     }
 
-    private void testReview1(ReviewNode node) {
-        assertEquals("Tayyabs", node.getSubject().get());
-        assertTrue(node.isRatingAverageOfChildren());
-        assertEquals(3.5f, node.getRating().get());
+    private void testReview1(Review review) {
+        assertEquals("Tayyabs", review.getSubject().get());
+        assertTrue(review.isRatingAverageOfCriteria());
+        assertEquals(3.5f, review.getRating().get());
 
         //Tags
-        TagsManager.ReviewTagCollection tags = TagsManager.getTags(node.getId());
+        TagsManager.ReviewTagCollection tags = TagsManager.getTags(review.getId());
         assertEquals(3, tags.size());
         assertEquals("Restaurant", tags.getItem(0).get());
         assertEquals("Pakistani", tags.getItem(1).get());
         assertEquals("London", tags.getItem(2).get());
 
         //Children
-        IdableList<ReviewNode> children = node.getChildren();
+        MdCriterionList criteria = review.getCriteria();
         assertEquals(3, tags.size());
 
-        ReviewNode child = children.getItem(0);
+        MdCriterionList.MdCriterion criterion = criteria.getItem(0);
+        assertEquals(review, criterion.getReviewId());
+        Review child = criterion.getReview();
         assertEquals("Food", child.getSubject().get());
         assertEquals(4f, child.getRating().get());
-        assertEquals(0, child.getChildren().size());
-        assertEquals(node, child.getParent());
+        assertEquals(0, child.getCriteria().size());
 
-        child = children.getItem(1);
+        criterion = criteria.getItem(1);
+        child = criterion.getReview();
+        assertEquals(review.getId(), criterion.getReviewId());
         assertEquals("Service", child.getSubject().get());
         assertEquals(2f, child.getRating().get());
-        assertEquals(0, child.getChildren().size());
-        assertEquals(node, child.getParent());
+        assertEquals(0, child.getCriteria().size());
 
-        child = children.getItem(2);
+        criterion = criteria.getItem(2);
+        child = criterion.getReview();
+        assertEquals(review.getId(), criterion.getReviewId());
         assertEquals("Value", child.getSubject().get());
         assertEquals(4.5f, child.getRating().get());
-        assertEquals(0, child.getChildren().size());
-        assertEquals(node, child.getParent());
+        assertEquals(0, child.getCriteria().size());
 
         //Comments
-        MdCommentList comments = node.getComments();
+        MdCommentList comments = review.getComments();
         assertEquals(3, comments.size());
         assertEquals("Good food but variable service. Very good value though.", comments.getItem
                 (0).getComment());
@@ -86,7 +90,7 @@ public class TestReviewsTest extends InstrumentationTestCase {
         assertEquals("Be prepared to queue at peak times.", comments.getItem(2).getComment());
 
         //Locations
-        MdLocationList locations = node.getLocations();
+        MdLocationList locations = review.getLocations();
         assertEquals(1, locations.size());
         MdLocationList.MdLocation location = locations.getItem(0);
         assertEquals("Tayyabs", location.getName());
@@ -94,7 +98,7 @@ public class TestReviewsTest extends InstrumentationTestCase {
         assertEquals(-0.063291, location.getLatLng().longitude);
 
         //Facts
-        MdFactList facts = node.getFacts();
+        MdFactList facts = review.getFacts();
         assertEquals(5, facts.size());
 
         assertEquals("Starter", facts.getItem(0).getLabel());
@@ -107,7 +111,7 @@ public class TestReviewsTest extends InstrumentationTestCase {
         assertEquals("BYO", facts.getItem(3).getValue());
 
         //Images
-        MdImageList images = node.getImages();
+        MdImageList images = review.getImages();
         assertEquals(2, images.size());
 
         MdImageList.MdImage image = images.getItem(0);
@@ -123,13 +127,13 @@ public class TestReviewsTest extends InstrumentationTestCase {
         assertTrue(loadBitmap("tayyabs.jpg").sameAs(image.getBitmap()));
     }
 
-    private void testReview2(ReviewNode node) {
-        assertEquals("The Weekend", node.getSubject().get());
-        assertFalse(node.isRatingAverageOfChildren());
-        assertEquals(5f, node.getRating().get());
+    private void testReview2(Review review) {
+        assertEquals("The Weekend", review.getSubject().get());
+        assertFalse(review.isRatingAverageOfCriteria());
+        assertEquals(5f, review.getRating().get());
 
         //Tags
-        TagsManager.ReviewTagCollection tags = TagsManager.getTags(node.getId());
+        TagsManager.ReviewTagCollection tags = TagsManager.getTags(review.getId());
         assertEquals(4, tags.size());
         assertEquals("Reading", tags.getItem(0).get());
         assertEquals("Mum", tags.getItem(1).get());
@@ -137,29 +141,32 @@ public class TestReviewsTest extends InstrumentationTestCase {
         assertEquals("Baby", tags.getItem(3).get());
 
         //Children
-        IdableList<ReviewNode> children = node.getChildren();
+        MdCriterionList children = review.getCriteria();
         assertEquals(3, children.size());
 
-        ReviewNode child = children.getItem(0);
+        MdCriterionList.MdCriterion criterion = children.getItem(0);
+        Review child = criterion.getReview();
+        assertEquals(review.getId(), criterion.getReviewId());
         assertEquals("Friday", child.getSubject().get());
         assertEquals(4f, child.getRating().get());
-        assertEquals(0, child.getChildren().size());
-        assertEquals(node, child.getParent());
+        assertEquals(0, child.getCriteria().size());
 
-        child = children.getItem(1);
+        criterion = children.getItem(1);
+        child = criterion.getReview();
+        assertEquals(review.getId(), criterion.getReviewId());
         assertEquals("Saturday", child.getSubject().get());
         assertEquals(3.5f, child.getRating().get());
-        assertEquals(0, child.getChildren().size());
-        assertEquals(node, child.getParent());
+        assertEquals(0, child.getCriteria().size());
 
-        child = children.getItem(2);
+        criterion = children.getItem(2);
+        child = criterion.getReview();
+        assertEquals(review.getId(), criterion.getReviewId());
         assertEquals("Sunday", child.getSubject().get());
         assertEquals(4f, child.getRating().get());
-        assertEquals(0, child.getChildren().size());
-        assertEquals(node, child.getParent());
+        assertEquals(0, child.getCriteria().size());
 
         //Comments
-        MdCommentList comments = node.getComments();
+        MdCommentList comments = review.getComments();
         assertEquals(3, comments.size());
         assertEquals("Mum made curry which was awesome! Had coconut cake for dessert. Also great " +
                 "but ate too much.", comments.getItem(0).getComment());
@@ -171,7 +178,7 @@ public class TestReviewsTest extends InstrumentationTestCase {
                 " mum anyway...", comments.getItem(2).getComment());
 
         //Locations
-        MdLocationList locations = node.getLocations();
+        MdLocationList locations = review.getLocations();
         assertEquals(4, locations.size());
 
         MdLocationList.MdLocation location = locations.getItem(0);
@@ -195,7 +202,7 @@ public class TestReviewsTest extends InstrumentationTestCase {
         assertEquals(-0.960154, location.getLatLng().longitude);
 
         //Facts
-        MdFactList facts = node.getFacts();
+        MdFactList facts = review.getFacts();
         assertEquals(6, facts.size());
         assertEquals("Friday dinner", facts.getItem(0).getLabel());
         assertEquals("Curry and coconut & chocolate cake", facts.getItem(0).getValue());
@@ -212,7 +219,7 @@ public class TestReviewsTest extends InstrumentationTestCase {
 
 
         //Images
-        MdImageList images = node.getImages();
+        MdImageList images = review.getImages();
         assertEquals(3, images.size());
 
         MdImageList.MdImage image = images.getItem(0);

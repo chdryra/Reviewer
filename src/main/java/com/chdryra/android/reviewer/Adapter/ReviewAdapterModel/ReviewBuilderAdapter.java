@@ -108,8 +108,8 @@ public class ReviewBuilderAdapter extends ReviewViewAdapterBasic {
         return getData(dataType).size();
     }
 
-    public Review publish(PublishDate publishDate) {
-        return mBuilder.buildReview(publishDate);
+    public Review publish() {
+        return mBuilder.buildReview();
     }
 
     public <T extends GvData> GvDataList<T> getData(GvDataType<T> dataType) {

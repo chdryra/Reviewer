@@ -15,9 +15,8 @@ import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilderAdapter;
 import com.chdryra.android.reviewer.ApplicationSingletons.Administrator;
-import com.chdryra.android.reviewer.Model.ReviewData.IdableList;
-import com.chdryra.android.reviewer.Model.ReviewData.PublishDate;
-import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
+import com.chdryra.android.reviewer.Model.ReviewData.MdCriterionList;
+import com.chdryra.android.reviewer.Model.ReviewStructure.Review;
 import com.chdryra.android.reviewer.Model.Tagging.TagsManager;
 import com.chdryra.android.reviewer.View.ActivitiesFragments.ActivityReviewView;
 import com.chdryra.android.reviewer.View.GvDataModel.GvBuildReviewList;
@@ -229,11 +228,10 @@ public class ReviewBuilderAdapterTest extends ActivityInstrumentationTestCase2<A
         setBuilderData(tags);
 
         Date date = RandomDate.nextDate();
-        ReviewNode published = mBuilder.publish(PublishDate.then(date.getTime()));
+        Review published = mBuilder.publish();
 
         assertEquals(subject, published.getSubject().get());
         assertEquals(rating, published.getRating().get());
-        assertEquals(date, published.getPublishDate().getDate());
 
         MdGvEquality.check(published.getComments(), (GvCommentList) comments);
         MdGvEquality.check(published.getFacts(), (GvFactList) facts);
@@ -247,16 +245,18 @@ public class ReviewBuilderAdapterTest extends ActivityInstrumentationTestCase2<A
             assertEquals(tag.get(), tagsPublished.getItem(j).get());
         }
 
-        IdableList<ReviewNode> childNodes = published.getChildren();
-        assertEquals(children.size(), childNodes.size());
+        MdCriterionList criteria = published.getCriteria();
+        assertEquals(children.size(), criteria.size());
         for (int i = 0; i < children.size(); ++i) {
-            ReviewNode childNode = childNodes.getItem(i);
+            MdCriterionList.MdCriterion criterion = criteria.getItem(i);
+            assertEquals(published.getId(), criterion.getReviewId());
+            Review childReview = criterion.getReview();
+
             GvChildReviewList.GvChildReview child = (GvChildReviewList.GvChildReview) children
                     .getItem(i);
-            assertEquals(child.getSubject(), childNode.getSubject().get());
-            assertEquals(child.getRating(), childNode.getRating().get());
-            assertEquals(published, childNode.getParent());
-            TagsManager.ReviewTagCollection tagsChild = TagsManager.getTags(childNode.getId());
+            assertEquals(child.getSubject(), childReview.getSubject().get());
+            assertEquals(child.getRating(), childReview.getRating().get());
+            TagsManager.ReviewTagCollection tagsChild = TagsManager.getTags(childReview.getId());
             assertEquals(tags.size(), tagsChild.size());
             for (int j = 0; j < tags.size(); ++j) {
                 GvTagList.GvTag tag = (GvTagList.GvTag) tags.getItem(j);

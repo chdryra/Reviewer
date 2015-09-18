@@ -11,6 +11,9 @@ package com.chdryra.android.reviewer.Model.ReviewData;
 import com.chdryra.android.reviewer.Model.UserData.Author;
 import com.chdryra.android.reviewer.Model.UserData.UserId;
 
+import java.util.ArrayList;
+import java.util.Date;
+
 /**
  * Review Data: Wrapper for a UUID
  * <p>
@@ -23,40 +26,35 @@ import com.chdryra.android.reviewer.Model.UserData.UserId;
  * <p/>
  * //TODO There's a reason couldn't use holding review but can't remember. Find out.
  */
-public class ReviewId implements MdData {
-    private static final String SPLITTER = ":";
+public class ReviewId3 implements MdData {
+    private static final String SPLITTER = "-T-";
+    private static ReviewIdGenerator mGenerator;
     private final UserId mId;
-    private       long   mTime;
-    private int mIncrement;
-    private String mString;
+    private long mTime;
 
-    private ReviewId(UserId id, long time, int increment) {
+    private ReviewId3(UserId id, long time) {
         mId = id;
         mTime = time;
-        mIncrement = increment;
-        mString = mId.toString() + SPLITTER + String.valueOf(mTime) + SPLITTER +
-                String.valueOf(increment);
     }
 
-    private ReviewId(String rdId) {
+    private ReviewId3(String rdId) {
         String[] split = rdId.split(SPLITTER);
         mId = UserId.fromString(split[0]);
         mTime = Long.parseLong(split[1]);
-        mIncrement = Integer.parseInt(split[2]);
-        mString = rdId;
     }
 
-    public static ReviewPublisher newPublisher(Author author, PublishDate date) {
-        return new ReviewPublisher(author, date);
+    public synchronized static ReviewId3 generateId(Author author) {
+        if (mGenerator == null) mGenerator = new ReviewIdGenerator();
+        return mGenerator.generateId(author);
     }
 
-    public static ReviewId fromString(String rdId) {
-        return new ReviewId(rdId);
+    public static ReviewId3 fromString(String rdId) {
+        return new ReviewId3(rdId);
     }
 
     @Override
     public ReviewId getReviewId() {
-        return this;
+        return null;
     }
 
     @Override
@@ -67,55 +65,48 @@ public class ReviewId implements MdData {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof ReviewId)) return false;
+        if (!(o instanceof ReviewId3)) return false;
 
-        ReviewId reviewId = (ReviewId) o;
+        ReviewId3 reviewId = (ReviewId3) o;
 
         if (mTime != reviewId.mTime) return false;
-        if (mIncrement != reviewId.mIncrement) return false;
         return mId.equals(reviewId.mId);
-
     }
 
     @Override
     public int hashCode() {
         int result = mId.hashCode();
         result = 31 * result + (int) (mTime ^ (mTime >>> 32));
-        result = 31 * result + mIncrement;
         return result;
     }
 
     public String toString() {
-        return mString;
+        return mId.toString() + SPLITTER + String.valueOf(mTime);
     }
 
     /**
      * To facilitate RCollectionReview
      */
     public interface IdAble {
-        ReviewId getId();
+        ReviewId3 getId();
     }
 
-    public static class ReviewPublisher {
-        private Author mAuthor;
-        private PublishDate mDate;
-        private int mIndex;
+    private static class ReviewIdGenerator {
+        private ArrayList<UserId> mUserIds = new ArrayList<>();
+        private long mLastTime;
 
-        private ReviewPublisher(Author author, PublishDate date) {
-            mAuthor = author;
-            mDate = date;
-        }
+        private ReviewId3 generateId(Author author) {
+            UserId id = author.getUserId();
+            long time = new Date().getTime();
+            if (mUserIds.contains(id)) {
+                if (time <= mLastTime) time = mLastTime + 1;
+            } else {
+                mUserIds.add(id);
+            }
 
-        public Author getAuthor() {
-            return mAuthor;
-        }
+            mLastTime = time;
 
-        public PublishDate getDate() {
-            return mDate;
-        }
-
-        public ReviewId nextId() {
-            return new ReviewId(mAuthor.getUserId(), mDate.getTime(), mIndex++);
+            return new ReviewId3(id, mLastTime);
         }
     }
 }

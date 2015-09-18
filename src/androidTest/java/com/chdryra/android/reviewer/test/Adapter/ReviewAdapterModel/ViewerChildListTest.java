@@ -33,7 +33,7 @@ public class ViewerChildListTest extends AndroidTestCase {
     @SmallTest
     public void testGetGridData() {
         ReviewNode node = ReviewMocker.newReviewNode(false);
-        ViewerChildList wrapper = new ViewerChildList(node);
+        ViewerChildList wrapper = new ViewerChildList(getContext(), node);
         GvDataList data = wrapper.getGridData();
         assertNotNull(data);
         IdableList<ReviewNode> children = node.getChildren();

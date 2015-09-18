@@ -15,7 +15,6 @@ import android.content.Intent;
 import com.chdryra.android.mygenerallibrary.ObjectHolder;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilderAdapter;
 import com.chdryra.android.reviewer.Model.ReviewData.IdableList;
-import com.chdryra.android.reviewer.Model.ReviewData.PublishDate;
 import com.chdryra.android.reviewer.Model.ReviewStructure.Review;
 import com.chdryra.android.reviewer.Model.UserData.Author;
 import com.chdryra.android.reviewer.Model.UserData.UserId;
@@ -89,7 +88,7 @@ public class Administrator extends ApplicationSingleton{
     }
 
     public void publishReviewBuilder() {
-        Review published = mReviewBuilderAdapter.publish(PublishDate.now());
+        Review published = mReviewBuilderAdapter.publish();
         ReviewFeed.addToFeed(getContext(), published);
         mReviewBuilderAdapter = null;
     }

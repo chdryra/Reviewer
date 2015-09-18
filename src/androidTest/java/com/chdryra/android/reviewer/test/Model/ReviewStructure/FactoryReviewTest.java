@@ -10,7 +10,10 @@ package com.chdryra.android.reviewer.test.Model.ReviewStructure;
 
 import android.test.suitebuilder.annotation.SmallTest;
 
+import com.chdryra.android.reviewer.Model.ReviewData.IdableList;
+import com.chdryra.android.reviewer.Model.ReviewData.MdCriterionList;
 import com.chdryra.android.reviewer.Model.ReviewData.PublishDate;
+import com.chdryra.android.reviewer.Model.ReviewData.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewStructure.FactoryReview;
 import com.chdryra.android.reviewer.Model.ReviewStructure.Review;
 import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
@@ -45,6 +48,7 @@ public class FactoryReviewTest extends TestCase {
     private GvImageList    mImages;
     private GvFactList     mFacts;
     private GvLocationList mLocations;
+    private IdableList<Review> mCriteria;
 
     @SmallTest
     public void testCreateReviewUser() {
@@ -56,11 +60,13 @@ public class FactoryReviewTest extends TestCase {
         MdGvEquality.check(mReview.getImages(), mImages);
         MdGvEquality.check(mReview.getFacts(), mFacts);
         MdGvEquality.check(mReview.getLocations(), mLocations);
-    }
 
-    @SmallTest
-    public void testCreateReviewNode() {
-        checkNode(FactoryReview.createReviewNode(mReview));
+        assertFalse(mReview.isRatingAverageOfCriteria());
+        MdCriterionList criteria = mReview.getCriteria();
+        assertEquals(mCriteria.size(), criteria.size());
+        for (int i = 0; i < NUM; ++i) {
+            assertEquals(mCriteria.getItem(i), criteria.getItem(i));
+        }
     }
 
     @SmallTest
@@ -83,9 +89,28 @@ public class FactoryReviewTest extends TestCase {
         mImages = GvDataMocker.newImageList(NUM, false);
         mFacts = GvDataMocker.newFactList(NUM, false);
         mLocations = GvDataMocker.newLocationList(NUM, false);
+        mCriteria = new IdableList<>();
+        for (int i = 0; i < NUM; ++i) {
+            mCriteria.add(nextReview());
+        }
+        ReviewId.ReviewPublisher publisher = ReviewId.newPublisher(mAuthor, mDate);
+        mReview = FactoryReview.createReviewUser(publisher, mSubject, mRating,
+                mComments, mImages, mFacts, mLocations, mCriteria, false);
+    }
 
-        mReview = FactoryReview.createReviewUser(mAuthor, mDate, mSubject, mRating,
-                mComments, mImages, mFacts, mLocations);
+    private Review nextReview() {
+        Author author = new Author(RandomString.nextWord(), UserId.generateId());
+        PublishDate date = RandomPublishDate.nextDate();
+        String subject = RandomString.nextWord();
+        float rating = RandomRating.nextRating();
+        GvCommentList comments = GvDataMocker.newCommentList(NUM, false);
+        GvImageList images = GvDataMocker.newImageList(NUM, false);
+        GvFactList facts = GvDataMocker.newFactList(NUM, false);
+        GvLocationList locations = GvDataMocker.newLocationList(NUM, false);
+
+        ReviewId.ReviewPublisher publisher = ReviewId.newPublisher(author, date);
+        return FactoryReview.createReviewUser(publisher, subject, rating,
+                comments, images, facts, locations, new IdableList<Review>(), false);
     }
 
     private void checkNode(ReviewNode node) {

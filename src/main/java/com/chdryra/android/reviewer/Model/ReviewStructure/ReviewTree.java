@@ -16,7 +16,7 @@ package com.chdryra.android.reviewer.Model.ReviewStructure;
 
 import com.chdryra.android.reviewer.Model.ReviewData.IdableList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdCommentList;
-import com.chdryra.android.reviewer.Model.ReviewData.MdCriteriaList;
+import com.chdryra.android.reviewer.Model.ReviewData.MdCriterionList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdFactList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdImageList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdLocationList;
@@ -116,7 +116,7 @@ public class ReviewTree implements ReviewNode {
     }
 
     @Override
-    public MdCriteriaList getCriteria() {
+    public MdCriterionList getCriteria() {
         return mNode.getCriteria();
     }
 

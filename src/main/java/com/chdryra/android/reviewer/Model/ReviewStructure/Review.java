@@ -9,7 +9,7 @@
 package com.chdryra.android.reviewer.Model.ReviewStructure;
 
 import com.chdryra.android.reviewer.Model.ReviewData.MdCommentList;
-import com.chdryra.android.reviewer.Model.ReviewData.MdCriteriaList;
+import com.chdryra.android.reviewer.Model.ReviewData.MdCriterionList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdFactList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdImageList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdLocationList;
@@ -68,7 +68,7 @@ public interface Review extends ReviewId.IdAble {
     boolean isRatingAverageOfCriteria();
 
     //Optional data
-    MdCriteriaList getCriteria();
+    MdCriterionList getCriteria();
 
     MdCommentList getComments();
 

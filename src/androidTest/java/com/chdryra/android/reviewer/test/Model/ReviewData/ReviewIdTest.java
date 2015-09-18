@@ -10,6 +10,7 @@ package com.chdryra.android.reviewer.test.Model.ReviewData;
 
 import android.test.suitebuilder.annotation.SmallTest;
 
+import com.chdryra.android.reviewer.Model.ReviewData.PublishDate;
 import com.chdryra.android.reviewer.Model.ReviewData.ReviewId;
 import com.chdryra.android.reviewer.Model.UserData.Author;
 import com.chdryra.android.reviewer.test.TestUtils.RandomAuthor;
@@ -25,12 +26,15 @@ public class ReviewIdTest extends TestCase {
 
     @SmallTest
     public void testReviewId() {
-        ReviewId id1 = ReviewId.generateId(RandomAuthor.nextAuthor());
+        Author author = RandomAuthor.nextAuthor();
+        PublishDate date = PublishDate.now();
+        ReviewId.ReviewPublisher publisher = ReviewId.newPublisher(author, date);
+        ReviewId id1 = publisher.nextId();
         assertNotNull(id1);
         assertTrue(id1.hasData());
         assertEquals(id1, id1.getReviewId());
 
-        ReviewId id2 = ReviewId.generateId(RandomAuthor.nextAuthor());
+        ReviewId id2 = publisher.nextId();
         assertNotNull(id2);
 
         assertFalse(id1.equals(id2));
@@ -39,27 +43,5 @@ public class ReviewIdTest extends TestCase {
         assertNotNull(id3);
         assertFalse(id1.equals(id3));
         assertTrue(id2.equals(id3));
-
-        //Test concurrency i.e. if called potentially within 1ms, id is still unique.
-        Author author1 = RandomAuthor.nextAuthor();
-        Author author2 = RandomAuthor.nextAuthor();
-        int num = 10;
-        ReviewId[] ids_1 = new ReviewId[num];
-        ReviewId[] ids_2 = new ReviewId[num];
-        for (int i = 0; i < num; ++i) {
-            ids_1[i] = ReviewId.generateId(author1);
-            ids_2[i] = ReviewId.generateId(author2);
-        }
-
-        for (int i = 0; i < ids_1.length; ++i) {
-            for (int j = i + 1; j < ids_1.length; ++j) {
-                assertFalse(ids_1[i].equals(ids_1[j]));
-            }
-        }
-        for (int i = 0; i < ids_2.length; ++i) {
-            for (int j = i + 1; j < ids_2.length; ++j) {
-                assertFalse(ids_2[i].equals(ids_2[j]));
-            }
-        }
     }
 }

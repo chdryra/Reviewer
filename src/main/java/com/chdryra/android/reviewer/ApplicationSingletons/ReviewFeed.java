@@ -42,7 +42,8 @@ public class ReviewFeed extends ApplicationSingleton {
 
         Author author = Administrator.get(context).getAuthor();
         String title = author.getName() + "'s feed";
-        Review feed = FactoryReview.createReviewUser(author, PublishDate.now(), title, 0f);
+        ReviewId.ReviewPublisher publisher = ReviewId.newPublisher(author, PublishDate.now());
+        Review feed = FactoryReview.createReviewUser(publisher, title, 0f);
         mFeedNode = FactoryReview.createReviewTreeNode(feed, true);
 
         mDatabase = getDatabase();

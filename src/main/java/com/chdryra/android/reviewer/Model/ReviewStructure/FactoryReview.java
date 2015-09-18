@@ -17,9 +17,7 @@ import com.chdryra.android.reviewer.Model.ReviewData.MdCommentList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdFactList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdImageList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdLocationList;
-import com.chdryra.android.reviewer.Model.ReviewData.PublishDate;
 import com.chdryra.android.reviewer.Model.ReviewData.ReviewId;
-import com.chdryra.android.reviewer.Model.UserData.Author;
 
 /**
  * Factory for creating Reviews and ReviewNodes.
@@ -44,20 +42,20 @@ public class FactoryReview {
         return sFactory;
     }
 
-    public static Review createReviewUser(Author author, PublishDate publishDate, String subject,
+    public static Review createReviewUser(ReviewId.ReviewPublisher publisher, String subject,
             float rating,
             Iterable<? extends DataComment> comments,
             Iterable<? extends DataImage> images,
             Iterable<? extends DataFact> facts,
             Iterable<? extends DataLocation> locations,
             IdableList<Review> criteria, boolean ratingIsAverage) {
-        return getInstance().newReviewUser(author, publishDate, subject, rating, comments,
+        return getInstance().newReviewUser(publisher, subject, rating, comments,
                 images, facts, locations, criteria, ratingIsAverage);
     }
 
-    public static Review createReviewUser(Author author, PublishDate publishDate, String subject,
+    public static Review createReviewUser(ReviewId.ReviewPublisher publisher, String subject,
             float rating) {
-        return getInstance().newReviewUser(author, publishDate, subject, rating);
+        return getInstance().newReviewUser(publisher, subject, rating);
     }
 
     public static ReviewTreeNode createReviewTreeNode(Review review, boolean isAverage) {
@@ -65,23 +63,22 @@ public class FactoryReview {
     }
 
     //Constructors
-    private Review newReviewUser(Author author, PublishDate publishDate, String subject, float
+    private Review newReviewUser(ReviewId.ReviewPublisher publisher, String subject, float
             rating) {
-        ReviewId id = ReviewId.generateId(author);
-        return new ReviewUser(id, author, publishDate, subject, rating,
+        ReviewId id = publisher.nextId();
+        return new ReviewUser(id, publisher.getAuthor(), publisher.getDate(), subject, rating,
                 new MdCommentList(id), new MdImageList(id), new MdFactList(id),
                 new MdLocationList(id), new IdableList<Review>(), false);
     }
 
-    private Review newReviewUser(Author author, PublishDate publishDate, String subject, float
-            rating,
+    private Review newReviewUser(ReviewId.ReviewPublisher publisher, String subject, float rating,
             Iterable<? extends DataComment> comments,
             Iterable<? extends DataImage> images,
             Iterable<? extends DataFact> facts,
             Iterable<? extends DataLocation> locations,
             IdableList<Review> criteria, boolean ratingIsAverage) {
-        return new ReviewUser(ReviewId.generateId(author), author, publishDate, subject, rating,
-                comments, images, facts, locations, criteria, ratingIsAverage);
+        return new ReviewUser(publisher.nextId(), publisher.getAuthor(), publisher.getDate(),
+                subject, rating, comments, images, facts, locations, criteria, ratingIsAverage);
     }
 
     private ReviewTreeNode newReviewTreeNode(Review review, boolean isAverage) {
