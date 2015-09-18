@@ -19,7 +19,7 @@ import com.chdryra.android.mygenerallibrary.TextUtils;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilder;
 import com.chdryra.android.reviewer.Model.ReviewData.IdableList;
 import com.chdryra.android.reviewer.Model.ReviewData.PublishDate;
-import com.chdryra.android.reviewer.Model.ReviewData.ReviewId;
+import com.chdryra.android.reviewer.Model.ReviewData.ReviewPublisher;
 import com.chdryra.android.reviewer.Model.ReviewStructure.Review;
 import com.chdryra.android.reviewer.Model.UserData.Author;
 import com.chdryra.android.reviewer.Model.UserData.UserId;
@@ -79,7 +79,7 @@ public class TestReviews {
     }
 
     private Review getReview(TestReview review) {
-        ReviewId.ReviewPublisher publisher = ReviewId.newPublisher(AUTHOR,
+        ReviewPublisher publisher = new ReviewPublisher(AUTHOR,
                 PublishDate.then(review.mPublishDate.getTime()));
         ReviewBuilder builder = new ReviewBuilder(mInstr.getTargetContext(), publisher);
         builder.setSubject(review.mSubject);

@@ -17,7 +17,6 @@ import com.chdryra.android.reviewer.Database.RowFact;
 import com.chdryra.android.reviewer.Database.RowImage;
 import com.chdryra.android.reviewer.Database.RowLocation;
 import com.chdryra.android.reviewer.Database.RowReview;
-import com.chdryra.android.reviewer.Database.RowReviewNode;
 import com.chdryra.android.reviewer.Database.RowTag;
 
 import java.util.HashMap;
@@ -32,18 +31,12 @@ public class ConfigDb {
     private static ConfigDb            sConfig;
     private        Map<DbData, Config> mConfigsMap;
 
-    public enum DbData {REVIEWS, REVIEW_TREES, COMMENTS, FACTS, LOCATIONS, IMAGES, AUTHORS, TAGS}
-
     private ConfigDb() {
         mConfigsMap = new HashMap<>();
         mConfigsMap.put(DbData.REVIEWS,
                 new Config(ReviewerDbContract.REVIEWS_TABLE,
                         ReviewerDbContract.TableReviews.COLUMN_NAME_REVIEW_ID,
                         RowReview.class));
-        mConfigsMap.put(DbData.REVIEW_TREES,
-                new Config(ReviewerDbContract.TREES_TABLE,
-                        ReviewerDbContract.TableReviewTrees.COLUMN_NAME_REVIEW_NODE_ID,
-                        RowReviewNode.class));
         mConfigsMap.put(DbData.COMMENTS,
                 new Config(ReviewerDbContract.COMMENTS_TABLE,
                         ReviewerDbContract.TableComments.COLUMN_NAME_COMMENT_ID,
@@ -78,6 +71,8 @@ public class ConfigDb {
     public static Config getConfig(DbData dataType) {
         return getConfig().mConfigsMap.get(dataType);
     }
+
+    public enum DbData {REVIEWS, REVIEW_TREES, COMMENTS, FACTS, LOCATIONS, IMAGES, AUTHORS, TAGS}
 
     public class Config {
         private ReviewerDbTable mTable;

@@ -18,8 +18,7 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvReviewId;
  */
 public class RandomReviewId {
     public static ReviewId nextId() {
-        return ReviewId.newPublisher(RandomAuthor.nextAuthor(), RandomPublishDate.nextDate())
-                .nextId();
+        return ReviewId.newId(RandomPublisher.nextPublisher());
     }
 
     public static String nextIdString() {

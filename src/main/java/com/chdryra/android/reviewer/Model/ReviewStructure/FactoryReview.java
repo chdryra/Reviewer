@@ -17,7 +17,9 @@ import com.chdryra.android.reviewer.Model.ReviewData.MdCommentList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdFactList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdImageList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdLocationList;
-import com.chdryra.android.reviewer.Model.ReviewData.ReviewId;
+import com.chdryra.android.reviewer.Model.ReviewData.ReviewPublisher;
+
+import java.util.ArrayList;
 
 /**
  * Factory for creating Reviews and ReviewNodes.
@@ -42,7 +44,7 @@ public class FactoryReview {
         return sFactory;
     }
 
-    public static Review createReviewUser(ReviewId.ReviewPublisher publisher, String subject,
+    public static Review createReviewUser(ReviewPublisher publisher, String subject,
             float rating,
             Iterable<? extends DataComment> comments,
             Iterable<? extends DataImage> images,
@@ -53,7 +55,7 @@ public class FactoryReview {
                 images, facts, locations, criteria, ratingIsAverage);
     }
 
-    public static Review createReviewUser(ReviewId.ReviewPublisher publisher, String subject,
+    public static Review createReviewUser(ReviewPublisher publisher, String subject,
             float rating) {
         return getInstance().newReviewUser(publisher, subject, rating);
     }
@@ -63,22 +65,24 @@ public class FactoryReview {
     }
 
     //Constructors
-    private Review newReviewUser(ReviewId.ReviewPublisher publisher, String subject, float
+    private Review newReviewUser(ReviewPublisher publisher, String subject, float
             rating) {
-        ReviewId id = publisher.nextId();
-        return new ReviewUser(id, publisher.getAuthor(), publisher.getDate(), subject, rating,
-                new MdCommentList(id), new MdImageList(id), new MdFactList(id),
-                new MdLocationList(id), new IdableList<Review>(), false);
+        return new ReviewUser(publisher, subject, rating,
+                new ArrayList<MdCommentList.MdComment>(),
+                new ArrayList<MdImageList.MdImage>(),
+                new ArrayList<MdFactList.MdFact>(),
+                new ArrayList<MdLocationList.MdLocation>(),
+                new IdableList<Review>(), false);
     }
 
-    private Review newReviewUser(ReviewId.ReviewPublisher publisher, String subject, float rating,
+    private Review newReviewUser(ReviewPublisher publisher, String subject, float rating,
             Iterable<? extends DataComment> comments,
             Iterable<? extends DataImage> images,
             Iterable<? extends DataFact> facts,
             Iterable<? extends DataLocation> locations,
             IdableList<Review> criteria, boolean ratingIsAverage) {
-        return new ReviewUser(publisher.nextId(), publisher.getAuthor(), publisher.getDate(),
-                subject, rating, comments, images, facts, locations, criteria, ratingIsAverage);
+        return new ReviewUser(publisher, subject, rating, comments, images, facts, locations,
+                criteria, ratingIsAverage);
     }
 
     private ReviewTreeNode newReviewTreeNode(Review review, boolean isAverage) {

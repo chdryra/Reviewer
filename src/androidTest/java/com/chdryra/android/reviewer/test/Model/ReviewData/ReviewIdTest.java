@@ -12,6 +12,7 @@ import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.Model.ReviewData.PublishDate;
 import com.chdryra.android.reviewer.Model.ReviewData.ReviewId;
+import com.chdryra.android.reviewer.Model.ReviewData.ReviewPublisher;
 import com.chdryra.android.reviewer.Model.UserData.Author;
 import com.chdryra.android.reviewer.test.TestUtils.RandomAuthor;
 
@@ -28,13 +29,13 @@ public class ReviewIdTest extends TestCase {
     public void testReviewId() {
         Author author = RandomAuthor.nextAuthor();
         PublishDate date = PublishDate.now();
-        ReviewId.ReviewPublisher publisher = ReviewId.newPublisher(author, date);
-        ReviewId id1 = publisher.nextId();
+        ReviewPublisher publisher = new ReviewPublisher(author, date);
+        ReviewId id1 = ReviewId.newId(publisher);
         assertNotNull(id1);
         assertTrue(id1.hasData());
         assertEquals(id1, id1.getReviewId());
 
-        ReviewId id2 = publisher.nextId();
+        ReviewId id2 = ReviewId.newId(publisher);
         assertNotNull(id2);
 
         assertFalse(id1.equals(id2));

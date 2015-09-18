@@ -12,11 +12,11 @@ import android.content.ContentValues;
 import android.database.Cursor;
 
 import com.chdryra.android.reviewer.Model.ReviewData.MdCommentList;
+import com.chdryra.android.reviewer.Model.ReviewData.MdCriterionList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdFactList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdImageList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdLocationList;
 import com.chdryra.android.reviewer.Model.ReviewStructure.Review;
-import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
 import com.chdryra.android.reviewer.Model.Tagging.TagsManager;
 import com.chdryra.android.reviewer.Model.UserData.Author;
 
@@ -30,16 +30,6 @@ import java.lang.reflect.InvocationTargetException;
  */
 public class ReviewerDbRow {
     public static final String SEPARATOR = ":";
-
-    public interface TableRow {
-        public String getRowId();
-
-        public String getRowIdColumnName();
-
-        public ContentValues getContentValues();
-
-        public boolean hasData();
-    }
 
     public static <T extends TableRow> T emptyRow(Class<T> rowClass) {
         try {
@@ -67,12 +57,12 @@ public class ReviewerDbRow {
         }
     }
 
-    public static TableRow newRow(ReviewNode node) {
-        return new RowReviewNode(node);
-    }
-
     public static TableRow newRow(Review review) {
         return new RowReview(review);
+    }
+
+    public static TableRow newRow(MdCriterionList.MdCriterion criterion) {
+        return new RowReview(criterion);
     }
 
     public static TableRow newRow(Author author) {
@@ -97,5 +87,15 @@ public class ReviewerDbRow {
 
     public static TableRow newRow(MdImageList.MdImage image, int index) {
         return new RowImage(image, index);
+    }
+
+    public interface TableRow {
+        public String getRowId();
+
+        public String getRowIdColumnName();
+
+        public ContentValues getContentValues();
+
+        public boolean hasData();
     }
 }

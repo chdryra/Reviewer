@@ -35,14 +35,14 @@ public class ReviewMocker {
     }
 
     private static ReviewNode getNewNode(boolean ratingIsAverage) {
-        Review root = new MockReview();
-        Review parent = new MockReview();
+        Review root = new MockReview(getCriteria(true));
+        Review parent = new MockReview(getCriteria(false));
         ReviewTreeNode rootNode = new ReviewTreeNode(root, ratingIsAverage, root.getId());
         ReviewTreeNode parentNode = new ReviewTreeNode(parent, false, parent.getId());
         rootNode.setParent(parentNode);
 
         for (int i = 0; i < NUM; ++i) {
-            Review review = new MockReview();
+            Review review = new MockReview(getCriteria(true));
             rootNode.addChild(new ReviewTreeNode(review, false, review.getId()));
         }
 
@@ -50,16 +50,24 @@ public class ReviewMocker {
     }
 
     private static Review getNewReview() {
-        return new MockReview();
+        return new MockReview(getCriteria(true));
+    }
+
+    private static IdableList<Review> getCriteria(boolean nonZero) {
+        IdableList<Review> criteria = new IdableList<>();
+        if (nonZero) {
+            criteria.add(new MockReview(new IdableList<Review>()));
+        }
+
+        return criteria;
     }
 
     static class MockReview extends ReviewUser {
-        private MockReview() {
-            super(RandomReviewId.nextId(), RandomAuthor.nextAuthor(),
-                    RandomPublishDate.nextDate(), RandomString.nextWord(),
+        private MockReview(IdableList<Review> criteria) {
+            super(RandomPublisher.nextPublisher(), RandomString.nextWord(),
                     RandomRating.nextRating(), GvDataMocker.newCommentList(NUM, false),
                     GvDataMocker.newImageList(NUM, false), GvDataMocker.newFactList(NUM, false),
-                    GvDataMocker.newLocationList(NUM, false), new IdableList<Review>(), false);
+                    GvDataMocker.newLocationList(NUM, false), criteria, false);
         }
     }
 }

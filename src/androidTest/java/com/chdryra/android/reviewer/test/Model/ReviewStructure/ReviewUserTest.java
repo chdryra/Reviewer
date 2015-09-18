@@ -10,10 +10,15 @@ package com.chdryra.android.reviewer.test.Model.ReviewStructure;
 
 import android.test.suitebuilder.annotation.SmallTest;
 
+import com.chdryra.android.reviewer.Model.ReviewData.IdableList;
+import com.chdryra.android.reviewer.Model.ReviewData.MdCriterionList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdRating;
 import com.chdryra.android.reviewer.Model.ReviewData.MdSubject;
 import com.chdryra.android.reviewer.Model.ReviewData.PublishDate;
+import com.chdryra.android.reviewer.Model.ReviewData.ReviewPublisher;
+import com.chdryra.android.reviewer.Model.ReviewStructure.FactoryReview;
 import com.chdryra.android.reviewer.Model.ReviewStructure.Review;
+import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewUser;
 import com.chdryra.android.reviewer.Model.UserData.Author;
 import com.chdryra.android.reviewer.Model.UserData.UserId;
@@ -25,7 +30,6 @@ import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
 import com.chdryra.android.reviewer.test.TestUtils.MdGvEquality;
 import com.chdryra.android.reviewer.test.TestUtils.RandomPublishDate;
 import com.chdryra.android.reviewer.test.TestUtils.RandomRating;
-import com.chdryra.android.reviewer.test.TestUtils.RandomReviewId;
 import com.chdryra.android.testutils.RandomString;
 
 import junit.framework.TestCase;
@@ -48,7 +52,9 @@ public class ReviewUserTest extends TestCase {
     private GvFactList     mFacts;
     private GvLocationList mLocations;
 
+    private ReviewPublisher mPublisher;
     private Review mReview;
+    private IdableList<Review> mCriteria;
 
     @SmallTest
     public void testGetId() {
@@ -103,6 +109,27 @@ public class ReviewUserTest extends TestCase {
         MdGvEquality.check(mReview.getLocations(), mLocations);
     }
 
+    @SmallTest
+    public void testGetCriteria() {
+        MdCriterionList criteria = mReview.getCriteria();
+        assertEquals(mReview.getId(), criteria.getReviewId());
+        assertEquals(mCriteria.size(), criteria.size());
+        for (int i = 0; i < criteria.size(); ++i) {
+            MdCriterionList.MdCriterion criterion = criteria.getItem(i);
+            Review criterionReview = mCriteria.getItem(i);
+            assertEquals(mReview.getId(), criterion.getReviewId());
+            assertEquals(criterionReview, criterion.getReview());
+        }
+    }
+
+    @SmallTest
+    public void testGetTreeRepresentation() {
+        ReviewNode node = mReview.getTreeRepresentation();
+        assertEquals(mReview, node.getReview());
+        assertEquals(0, node.getChildren().size());
+        assertFalse(node.isRatingAverageOfChildren());
+    }
+
     @Override
     protected void setUp() throws Exception {
         mAuthor = new Author(RandomString.nextWord(), UserId.generateId());
@@ -115,7 +142,19 @@ public class ReviewUserTest extends TestCase {
         mFacts = GvDataMocker.newFactList(NUM, false);
         mLocations = GvDataMocker.newLocationList(NUM, false);
 
-        mReview = new ReviewUser(RandomReviewId.nextId(), mAuthor, mDate, mSubject, mRating,
-                mComments, mImages, mFacts, mLocations);
+        mPublisher = new ReviewPublisher(mAuthor, mDate);
+
+        mCriteria = new IdableList<>();
+        for (int i = 0; i < NUM; ++i) {
+            mCriteria.add(newCriterion(mPublisher));
+        }
+
+        mReview = new ReviewUser(mPublisher, mSubject, mRating, mComments, mImages, mFacts,
+                mLocations, mCriteria, false);
+    }
+
+    private Review newCriterion(ReviewPublisher publisher) {
+        return FactoryReview.createReviewUser(publisher, RandomString.nextWord(), RandomRating
+                .nextRating());
     }
 }

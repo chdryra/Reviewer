@@ -1,7 +1,6 @@
 package com.chdryra.android.reviewer.Model.ReviewData;
 
 import com.chdryra.android.reviewer.Model.ReviewStructure.Review;
-import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
 
 /**
  * Created by: Rizwan Choudrey
@@ -13,20 +12,16 @@ public class MdCriterionList extends MdDataList<MdCriterionList.MdCriterion> {
         super(reviewId);
     }
 
-    public MdCriterionList(ReviewNode parent) {
-        super(parent.getId());
-        for (ReviewNode criterion : parent.getChildren()) {
-            add(new MdCriterion(criterion.getReview(), getReviewId()));
+    public MdCriterionList(IdableList<Review> criteria, ReviewId parentId) {
+        super(parentId);
+        for (Review criterion : criteria) {
+            add(new MdCriterion(criterion, getReviewId()));
         }
     }
 
     public static class MdCriterion implements MdData {
         private ReviewId mParentId;
         private Review mCriterion;
-
-        public MdCriterion(ReviewId parent) {
-            mParentId = parent;
-        }
 
         public MdCriterion(Review criterion, ReviewId parent) {
             mParentId = parent;

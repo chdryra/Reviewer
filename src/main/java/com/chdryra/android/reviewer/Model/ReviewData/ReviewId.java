@@ -8,7 +8,6 @@
 
 package com.chdryra.android.reviewer.Model.ReviewData;
 
-import com.chdryra.android.reviewer.Model.UserData.Author;
 import com.chdryra.android.reviewer.Model.UserData.UserId;
 
 /**
@@ -30,12 +29,12 @@ public class ReviewId implements MdData {
     private int mIncrement;
     private String mString;
 
-    private ReviewId(UserId id, long time, int increment) {
-        mId = id;
-        mTime = time;
-        mIncrement = increment;
+    private ReviewId(ReviewPublisher publisher) {
+        mId = publisher.getUserId();
+        mTime = publisher.getTime();
+        mIncrement = publisher.getIncrement();
         mString = mId.toString() + SPLITTER + String.valueOf(mTime) + SPLITTER +
-                String.valueOf(increment);
+                String.valueOf(mIncrement);
     }
 
     private ReviewId(String rdId) {
@@ -46,8 +45,8 @@ public class ReviewId implements MdData {
         mString = rdId;
     }
 
-    public static ReviewPublisher newPublisher(Author author, PublishDate date) {
-        return new ReviewPublisher(author, date);
+    public static ReviewId newId(ReviewPublisher publisher) {
+        return new ReviewId(publisher);
     }
 
     public static ReviewId fromString(String rdId) {
@@ -94,28 +93,5 @@ public class ReviewId implements MdData {
      */
     public interface IdAble {
         ReviewId getId();
-    }
-
-    public static class ReviewPublisher {
-        private Author mAuthor;
-        private PublishDate mDate;
-        private int mIndex;
-
-        private ReviewPublisher(Author author, PublishDate date) {
-            mAuthor = author;
-            mDate = date;
-        }
-
-        public Author getAuthor() {
-            return mAuthor;
-        }
-
-        public PublishDate getDate() {
-            return mDate;
-        }
-
-        public ReviewId nextId() {
-            return new ReviewId(mAuthor.getUserId(), mDate.getTime(), mIndex++);
-        }
     }
 }

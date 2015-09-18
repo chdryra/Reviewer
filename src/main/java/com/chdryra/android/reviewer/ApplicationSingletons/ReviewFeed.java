@@ -13,6 +13,7 @@ import android.content.Context;
 import com.chdryra.android.reviewer.Database.ReviewerDb;
 import com.chdryra.android.reviewer.Model.ReviewData.PublishDate;
 import com.chdryra.android.reviewer.Model.ReviewData.ReviewId;
+import com.chdryra.android.reviewer.Model.ReviewData.ReviewPublisher;
 import com.chdryra.android.reviewer.Model.ReviewStructure.FactoryReview;
 import com.chdryra.android.reviewer.Model.ReviewStructure.Review;
 import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
@@ -42,15 +43,15 @@ public class ReviewFeed extends ApplicationSingleton {
 
         Author author = Administrator.get(context).getAuthor();
         String title = author.getName() + "'s feed";
-        ReviewId.ReviewPublisher publisher = ReviewId.newPublisher(author, PublishDate.now());
+        ReviewPublisher publisher = new ReviewPublisher(author, PublishDate.now());
         Review feed = FactoryReview.createReviewUser(publisher, title, 0f);
         mFeedNode = FactoryReview.createReviewTreeNode(feed, true);
 
         mDatabase = getDatabase();
-//        mDatabase.loadTags();
-//        for (ReviewNode node : mDatabase.getReviewTreesFromDb()) {
-//            add(node);
-//        }
+        mDatabase.loadTags();
+        for (Review review : mDatabase.getReviewsFromDb()) {
+            add(review);
+        }
     }
 
     private static ReviewFeed getFeed(Context context) {
@@ -99,22 +100,22 @@ public class ReviewFeed extends ApplicationSingleton {
     private void removeFromFeed(String reviewId) {
         ReviewId id = ReviewId.fromString(reviewId);
         remove(id);
-        //deleteFromDatabase(id);
+        deleteFromDatabase(id);
     }
 
     private void add(Review review) {
         ReviewTreeNode node = FactoryReview.createReviewTreeNode(review, false);
-        //addToDatabase(node);
         mFeedNode.addChild(node);
+        addToDatabase(review);
         notifyObservers();
     }
 
-    private void addToDatabase(ReviewNode node) {
-        mDatabase.addReviewTreeToDb(node);
+    private void addToDatabase(Review review) {
+        mDatabase.addReviewToDb(review);
     }
 
     private void deleteFromDatabase(ReviewId id) {
-        mDatabase.deleteReviewTreeFromDb(id.toString());
+        mDatabase.deleteReviewFromDb(id.toString());
     }
 
     private void remove(ReviewId id) {

@@ -7,7 +7,7 @@ import com.chdryra.android.reviewer.Adapter.DataAdapterModel.MdGvConverter;
 import com.chdryra.android.reviewer.Model.ReviewData.IdableList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdCriterionList;
 import com.chdryra.android.reviewer.Model.ReviewData.PublishDate;
-import com.chdryra.android.reviewer.Model.ReviewData.ReviewId;
+import com.chdryra.android.reviewer.Model.ReviewData.ReviewPublisher;
 import com.chdryra.android.reviewer.Model.ReviewStructure.FactoryReview;
 import com.chdryra.android.reviewer.Model.ReviewStructure.Review;
 import com.chdryra.android.reviewer.Model.Tagging.TagsManager;
@@ -65,7 +65,7 @@ public class ReviewBuilder {
         mRating = 0f;
     }
 
-    public ReviewBuilder(Context context, ReviewId.ReviewPublisher publisher) {
+    public ReviewBuilder(Context context, ReviewPublisher publisher) {
         this(context, publisher.getAuthor());
         mPublishDate = publisher.getDate();
     }
@@ -106,8 +106,7 @@ public class ReviewBuilder {
         }
 
         PublishDate date = mPublishDate != null ? mPublishDate : PublishDate.now();
-        ReviewId.ReviewPublisher publisher = ReviewId.newPublisher(mAuthor, date);
-        Review review = assembleReview(publisher);
+        Review review = assembleReview(new ReviewPublisher(mAuthor, date));
         tagReview(review);
 
         return review;
@@ -131,7 +130,7 @@ public class ReviewBuilder {
         }
     }
 
-    private Review assembleReview(ReviewId.ReviewPublisher publisher) {
+    private Review assembleReview(ReviewPublisher publisher) {
         IdableList<Review> criteria = new IdableList<>();
         for (ReviewBuilder child : mChildren) {
             criteria.add(child.assembleReview(publisher));
@@ -150,12 +149,16 @@ public class ReviewBuilder {
         return new DataBuilder<>(MdGvConverter.copy(getData(dataType)));
     }
 
-    public <T extends GvData> void setData(GvDataList<T> data) {
+    public <T extends GvData> void setData(GvDataList<T> data, boolean copy) {
         GvDataType<T> dataType = data.getGvDataType();
         if (dataType == GvChildReviewList.GvChildReview.TYPE) {
             setChildren(data);
         } else if (TYPES.contains(dataType)) {
-            mData.put(dataType, MdGvConverter.copy(data));
+            if (copy) {
+                mData.put(dataType, MdGvConverter.copy(data));
+            } else {
+                mData.put(dataType, data);
+            }
         }
     }
 
@@ -218,7 +221,7 @@ public class ReviewBuilder {
         }
 
         public void setData() {
-            getParentBuilder().setData(getGvData());
+            getParentBuilder().setData(getGvData(), true);
         }
 
         public GvDataList<T> getGvData() {

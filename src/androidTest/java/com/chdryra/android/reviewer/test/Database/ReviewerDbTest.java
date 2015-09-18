@@ -67,7 +67,7 @@ import java.util.Set;
 public class ReviewerDbTest extends AndroidTestCase {
     private static final int NUM = 3;
 
-    ReviewTreeNode mNode;
+    Review mReview;
     ReviewerDb     mDatabase;
 
     @SmallTest
@@ -92,28 +92,12 @@ public class ReviewerDbTest extends AndroidTestCase {
     }
 
     @SmallTest
-    public void testAddReviewTreeToReviewTreesTable() {
-        ReviewerDbTable table = ReviewerDbContract.TREES_TABLE;
-
-        assertEquals(0, getNumberRows(table));
-        mDatabase.addReviewTreeToDb(mNode);
-        int numNodes = 2 + mNode.getChildren().size();
-        assertEquals(numNodes, getNumberRows(table));
-
-        testReviewTreesRow(mNode);
-        testReviewTreesRow(mNode.getParent());
-        for (ReviewNode child : mNode.getChildren()) {
-            testReviewTreesRow(child);
-        }
-    }
-
-    @SmallTest
     public void testAddReviewToReviewsTable() {
-        mDatabase.addReviewTreeToDb(mNode);
+        mDatabase.addReviewToDb(mReview);
 
-        testReviewsRow(mNode.getReview());
-        testReviewsRow(mNode.getParent().getReview());
-        for (ReviewNode child : mNode.getChildren()) {
+        testReviewsRow(mReview);
+        testReviewsRow(mReview.getParent().getReview());
+        for (ReviewNode child : mReview.getChildren()) {
             testReviewsRow(child.getReview());
         }
     }
@@ -124,19 +108,19 @@ public class ReviewerDbTest extends AndroidTestCase {
 
         assertEquals(0, getNumberRows(table));
 
-        mDatabase.addReviewTreeToDb(mNode);
+        mDatabase.addReviewTreeToDb(mReview);
 
         Set<Author> authors = new HashSet<>();
-        authors.add(mNode.getAuthor());
-        authors.add(mNode.getParent().getAuthor());
-        for (ReviewNode child : mNode.getChildren()) {
+        authors.add(mReview.getAuthor());
+        authors.add(mReview.getParent().getAuthor());
+        for (ReviewNode child : mReview.getChildren()) {
             authors.add(child.getAuthor());
         }
         assertEquals(authors.size(), getNumberRows(table));
 
-        testAuthorsRow(mNode);
-        testAuthorsRow(mNode.getParent());
-        for (ReviewNode child : mNode.getChildren()) {
+        testAuthorsRow(mReview);
+        testAuthorsRow(mReview.getParent());
+        for (ReviewNode child : mReview.getChildren()) {
             testAuthorsRow(child);
         }
     }
@@ -147,7 +131,7 @@ public class ReviewerDbTest extends AndroidTestCase {
 
         Map<String, ArrayList<String>> tagsMap = tagAndTestNodes();
         assertEquals(0, getNumberRows(table));
-        mDatabase.addReviewTreeToDb(mNode);
+        mDatabase.addReviewTreeToDb(mReview);
         assertEquals(tagsMap.size(), getNumberRows(table));
 
         for (String tag : tagsMap.keySet()) {
@@ -160,9 +144,9 @@ public class ReviewerDbTest extends AndroidTestCase {
         ReviewerDbTable table = ReviewerDbContract.TAGS_TABLE;
         Map<String, ArrayList<String>> tagsMap = tagAndTestNodes();
 
-        ReviewId parentId = mNode.getParent().getId();
-        ReviewId nodeId = mNode.getId();
-        IdableList<ReviewNode> children = mNode.getChildren();
+        ReviewId parentId = mReview.getParent().getId();
+        ReviewId nodeId = mReview.getId();
+        IdableList<ReviewNode> children = mReview.getChildren();
 
         TagsManager.ReviewTagCollection parentTags = TagsManager.getTags(parentId);
         assertTrue(parentTags.size() > 0);
@@ -177,7 +161,7 @@ public class ReviewerDbTest extends AndroidTestCase {
         assertEquals(children.size(), childrenTags.size());
 
         assertEquals(0, getNumberRows(table));
-        mDatabase.addReviewTreeToDb(mNode);
+        mDatabase.addReviewTreeToDb(mReview);
         assertEquals(tagsMap.size(), getNumberRows(table));
 
         for (TagsManager.ReviewTag tag : parentTags) {
@@ -262,7 +246,7 @@ public class ReviewerDbTest extends AndroidTestCase {
         }
 
         //First tree
-        ReviewNode tree1 = mNode;
+        ReviewNode tree1 = mReview;
         TagsManager.tag(tree1.getId(), tags1.toStringArray());
 
         mDatabase.addReviewTreeToDb(tree1);
@@ -271,12 +255,12 @@ public class ReviewerDbTest extends AndroidTestCase {
         assertEquals(1, fromDb.size());
         assertTrue(ReviewTreeComparer.compareTrees(tree1, fromDb.getItem(0)));
 
-        ReviewNode parent1 = mNode.getParent();
+        ReviewNode parent1 = mReview.getParent();
         int numComments = getNumDataInSubTree(parent1, ConfigDb.DbData.COMMENTS);
         int numFacts = getNumDataInSubTree(parent1, ConfigDb.DbData.FACTS);
         int numLocations = getNumDataInSubTree(parent1, ConfigDb.DbData.LOCATIONS);
         int numImages = getNumDataInSubTree(parent1, ConfigDb.DbData.IMAGES);
-        int numNodes1 = 1 + mNode.getChildren().size() + 1;
+        int numNodes1 = 1 + mReview.getChildren().size() + 1;
         assertEquals(numNodes1, getNumberRows(ReviewerDbContract.TREES_TABLE));
         assertEquals(numNodes1, getNumberRows(ReviewerDbContract.REVIEWS_TABLE));
         assertEquals(numNodes1, getNumberRows(ReviewerDbContract.AUTHORS_TABLE));
@@ -288,10 +272,10 @@ public class ReviewerDbTest extends AndroidTestCase {
         assertEquals(numImages, getNumberRows(ReviewerDbContract.IMAGES_TABLE));
 
         //Different tree same reviews
-        Review parentReview = mNode.getParent().getReview();
-        Review nodeReview = mNode.getReview();
+        Review parentReview = mReview.getParent().getReview();
+        Review nodeReview = mReview.getReview();
         IdableList<Review> childReviews = new IdableList<>();
-        for (ReviewNode child : mNode.getChildren()) {
+        for (ReviewNode child : mReview.getChildren()) {
             childReviews.add(child.getReview());
         }
         ReviewTreeNode node2 = new ReviewTreeNode(childReviews.getItem(0), false, RandomReviewId
@@ -368,10 +352,10 @@ public class ReviewerDbTest extends AndroidTestCase {
             tags3.add(tags.getItem(i));
         }
 
-        Review parentReview = mNode.getParent().getReview();
-        Review nodeReview = mNode.getReview();
+        Review parentReview = mReview.getParent().getReview();
+        Review nodeReview = mReview.getReview();
         IdableList<Review> childReviews = new IdableList<>();
-        for (ReviewNode child : mNode.getChildren()) {
+        for (ReviewNode child : mReview.getChildren()) {
             childReviews.add(child.getReview());
         }
 
@@ -383,7 +367,7 @@ public class ReviewerDbTest extends AndroidTestCase {
         for (Review child : children) {
             rootNode.addChild(new ReviewTreeNode(child, false, RandomReviewId.nextId()));
         }
-        ReviewNode tree1 = mNode;
+        ReviewNode tree1 = mReview;
         ReviewNode tree2 = rootNode.createTree();
         ReviewNode tree3 = ReviewMocker.newReviewNode(false);
 
@@ -476,7 +460,7 @@ public class ReviewerDbTest extends AndroidTestCase {
     @Override
     protected void setUp() throws Exception {
         mDatabase = ReviewerDb.getTestDatabase(getContext());
-        mNode = (ReviewTreeNode) ReviewMocker.newReviewNode(false);
+        mReview = (ReviewTreeNode) ReviewMocker.newReviewNode(false);
         deleteDatabaseIfNecessary();
     }
 
@@ -521,8 +505,8 @@ public class ReviewerDbTest extends AndroidTestCase {
         GvTagList tags = GvDataMocker.newTagList(numTags, false);
         Map<String, ArrayList<String>> tagsMap = newTagsMap(tags);
 
-        ReviewNode parent = mNode.getParent();
-        IdableList<ReviewNode> children = mNode.getChildren();
+        ReviewNode parent = mReview.getParent();
+        IdableList<ReviewNode> children = mReview.getChildren();
 
         GvTagList parentTags = new GvTagList();
         for (int i = 0; i < 3; ++i) {
@@ -534,7 +518,7 @@ public class ReviewerDbTest extends AndroidTestCase {
         for (int i = 1; i < 4; ++i) {
             GvTagList.GvTag tag = tags.getItem(i);
             nodeTags.add(tag);
-            tagsMap.get(tag.get()).add(mNode.getReview().getId().toString());
+            tagsMap.get(tag.get()).add(mReview.getReview().getId().toString());
         }
         GvTagList childrenTags = new GvTagList();
         for (int i = 2; i < 5; ++i) {
@@ -547,8 +531,8 @@ public class ReviewerDbTest extends AndroidTestCase {
 
         TagsManager.tag(parent.getReview().getId(), parentTags.toStringArray());
         assertEquals(3, TagsManager.getTags(parent.getReview().getId()).size());
-        TagsManager.tag(mNode.getReview().getId(), nodeTags.toStringArray());
-        assertEquals(3, TagsManager.getTags(mNode.getReview().getId()).size());
+        TagsManager.tag(mReview.getReview().getId(), nodeTags.toStringArray());
+        assertEquals(3, TagsManager.getTags(mReview.getReview().getId()).size());
         for (ReviewNode child : children) {
             TagsManager.tag(child.getReview().getId(), childrenTags.toStringArray());
             assertEquals(3, TagsManager.getTags(child.getReview().getId()).size());
@@ -588,14 +572,14 @@ public class ReviewerDbTest extends AndroidTestCase {
         ReviewerDbTable table = config.getTable();
 
         assertEquals(0, getNumberRows(table));
-        mDatabase.addReviewTreeToDb(mNode);
-        int num = getData(tableType, mNode.getRoot()).size();
+        mDatabase.addReviewTreeToDb(mReview);
+        int num = getData(tableType, mReview.getRoot()).size();
 
         assertEquals(num, getNumberRows(table));
 
-        testRows(tableType, mNode.getReview().getTreeRepresentation());
-        testRows(tableType, mNode.getParent().getReview().getTreeRepresentation());
-        for (ReviewNode child : mNode.getChildren()) {
+        testRows(tableType, mReview.getReview().getTreeRepresentation());
+        testRows(tableType, mReview.getParent().getReview().getTreeRepresentation());
+        for (ReviewNode child : mReview.getChildren()) {
             testRows(tableType, child.getReview().getTreeRepresentation());
         }
     }
@@ -706,7 +690,7 @@ public class ReviewerDbTest extends AndroidTestCase {
         ReviewNode parent = node.getParent();
         assertEquals(id, vals.get(RowReviewNode.NODE_ID));
         assertEquals(review.getId().toString(), vals.get(RowReviewNode.REVIEW_ID));
-        assertEquals(mNode.isRatingAverageOfChildren(),
+        assertEquals(mReview.isRatingAverageOfChildren(),
                 vals.get(RowReviewNode.IS_AVERAGE));
         if (parent != null) {
             assertEquals(parent.getId().toString(), vals.get(RowReviewNode

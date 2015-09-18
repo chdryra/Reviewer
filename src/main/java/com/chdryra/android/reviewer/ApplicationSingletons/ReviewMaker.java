@@ -4,7 +4,7 @@ import android.content.Context;
 
 import com.chdryra.android.reviewer.Model.ReviewData.IdableList;
 import com.chdryra.android.reviewer.Model.ReviewData.PublishDate;
-import com.chdryra.android.reviewer.Model.ReviewData.ReviewId;
+import com.chdryra.android.reviewer.Model.ReviewData.ReviewPublisher;
 import com.chdryra.android.reviewer.Model.ReviewStructure.FactoryReview;
 import com.chdryra.android.reviewer.Model.ReviewStructure.Review;
 import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
@@ -49,7 +49,7 @@ public class ReviewMaker extends ApplicationSingleton {
                                               IdableList<Review> reviews,
                                               String subject) {
         ReviewMaker maker = get(context);
-        ReviewId.ReviewPublisher publisher = ReviewId.newPublisher(maker.mAuthor, PublishDate.now());
+        ReviewPublisher publisher = new ReviewPublisher(maker.mAuthor, PublishDate.now());
         Review meta = FactoryReview.createReviewUser(publisher, subject, 0f);
         ReviewTreeNode parent = FactoryReview.createReviewTreeNode(meta, true);
         for (Review review : reviews) {

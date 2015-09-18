@@ -13,7 +13,7 @@ import android.test.suitebuilder.annotation.SmallTest;
 import com.chdryra.android.reviewer.Model.ReviewData.IdableList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdCriterionList;
 import com.chdryra.android.reviewer.Model.ReviewData.PublishDate;
-import com.chdryra.android.reviewer.Model.ReviewData.ReviewId;
+import com.chdryra.android.reviewer.Model.ReviewData.ReviewPublisher;
 import com.chdryra.android.reviewer.Model.ReviewStructure.FactoryReview;
 import com.chdryra.android.reviewer.Model.ReviewStructure.Review;
 import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
@@ -93,7 +93,7 @@ public class FactoryReviewTest extends TestCase {
         for (int i = 0; i < NUM; ++i) {
             mCriteria.add(nextReview());
         }
-        ReviewId.ReviewPublisher publisher = ReviewId.newPublisher(mAuthor, mDate);
+        ReviewPublisher publisher = new ReviewPublisher(mAuthor, mDate);
         mReview = FactoryReview.createReviewUser(publisher, mSubject, mRating,
                 mComments, mImages, mFacts, mLocations, mCriteria, false);
     }
@@ -108,7 +108,7 @@ public class FactoryReviewTest extends TestCase {
         GvFactList facts = GvDataMocker.newFactList(NUM, false);
         GvLocationList locations = GvDataMocker.newLocationList(NUM, false);
 
-        ReviewId.ReviewPublisher publisher = ReviewId.newPublisher(author, date);
+        ReviewPublisher publisher = new ReviewPublisher(author, date);
         return FactoryReview.createReviewUser(publisher, subject, rating,
                 comments, images, facts, locations, new IdableList<Review>(), false);
     }

@@ -23,6 +23,7 @@ import com.chdryra.android.reviewer.Model.ReviewData.MdRating;
 import com.chdryra.android.reviewer.Model.ReviewData.MdSubject;
 import com.chdryra.android.reviewer.Model.ReviewData.PublishDate;
 import com.chdryra.android.reviewer.Model.ReviewData.ReviewId;
+import com.chdryra.android.reviewer.Model.ReviewData.ReviewPublisher;
 import com.chdryra.android.reviewer.Model.UserData.Author;
 
 /**
@@ -46,10 +47,11 @@ public class ReviewUser implements Review {
     private final MdImageList    mImages;
     private final MdFactList     mFacts;
     private final MdLocationList mLocations;
+    private final boolean mRatingIsAverage;
 
     private ReviewNode mNode;
 
-    public ReviewUser(ReviewId id, Author author, PublishDate publishDate, String subject, float
+    public ReviewUser(ReviewPublisher publisher, String subject, float
             rating,
             Iterable<? extends DataComment> comments,
             Iterable<? extends DataImage> images,
@@ -57,24 +59,28 @@ public class ReviewUser implements Review {
                       Iterable<? extends DataLocation> locations,
                       IdableList<Review> criteria,
                       boolean ratingIsAverage) {
-        mId = id;
-        mAuthor = author;
-        mPublishDate = publishDate;
+        mId = ReviewId.newId(publisher);
+        mAuthor = publisher.getAuthor();
+        mPublishDate = publisher.getDate();
         mSubject = new MdSubject(subject, mId);
-        mRating = new MdRating(rating, mId);
 
         mComments = MdGvConverter.toMdCommentList(comments, mId);
         mImages = MdGvConverter.toMdImageList(images, mId);
         mFacts = MdGvConverter.toMdFactList(facts, mId);
         mLocations = MdGvConverter.toMdLocationList(locations, mId);
 
-        ReviewTreeNode node = FactoryReview.createReviewTreeNode(this, ratingIsAverage);
-        for (Review criterion : criteria) {
-            node.addChild(FactoryReview.createReviewTreeNode(criterion, false));
+        if (ratingIsAverage) {
+            ReviewTreeNode node = FactoryReview.createReviewTreeNode(this, true);
+            for (Review criterion : criteria) {
+                node.addChild(FactoryReview.createReviewTreeNode(criterion, false));
+            }
+            rating = node.getRating().get();
         }
-        mNode = node.createTree();
 
-        mCriteria = new MdCriterionList(mNode);
+        mRating = new MdRating(rating, mId);
+        mRatingIsAverage = ratingIsAverage;
+        mNode = FactoryReview.createReviewTreeNode(this, false).createTree();
+        mCriteria = new MdCriterionList(criteria, mId);
     }
 
     @Override
@@ -109,7 +115,7 @@ public class ReviewUser implements Review {
 
     @Override
     public boolean isRatingAverageOfCriteria() {
-        return mNode.isRatingAverageOfCriteria();
+        return mRatingIsAverage;
     }
 
     @Override
@@ -144,6 +150,7 @@ public class ReviewUser implements Review {
 
         ReviewUser that = (ReviewUser) o;
 
+        if (mRatingIsAverage != that.mRatingIsAverage) return false;
         if (!mId.equals(that.mId)) return false;
         if (!mAuthor.equals(that.mAuthor)) return false;
         if (!mPublishDate.equals(that.mPublishDate)) return false;
@@ -166,6 +173,7 @@ public class ReviewUser implements Review {
         result = 31 * result + mSubject.hashCode();
         result = 31 * result + mRating.hashCode();
         result = 31 * result + mCriteria.hashCode();
+        result = 31 * result + (mRatingIsAverage ? 1 : 0);
         result = 31 * result + mComments.hashCode();
         result = 31 * result + mImages.hashCode();
         result = 31 * result + mFacts.hashCode();
