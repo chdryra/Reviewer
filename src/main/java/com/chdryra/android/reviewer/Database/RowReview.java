@@ -57,7 +57,7 @@ public class RowReview implements ReviewerDbRow.TableRow {
 
     public RowReview(Cursor cursor) {
         mReviewId = cursor.getString(cursor.getColumnIndexOrThrow(REVIEW_ID));
-        mReviewId = cursor.getString(cursor.getColumnIndexOrThrow(PARENT_ID));
+        mParentId = cursor.getString(cursor.getColumnIndexOrThrow(PARENT_ID));
         mAuthorId = cursor.getString(cursor.getColumnIndexOrThrow(AUTHOR_ID));
         mPublishDate = cursor.getLong(cursor.getColumnIndexOrThrow(PUBLISH_DATE));
         mSubject = cursor.getString(cursor.getColumnIndexOrThrow(SUBJECT));

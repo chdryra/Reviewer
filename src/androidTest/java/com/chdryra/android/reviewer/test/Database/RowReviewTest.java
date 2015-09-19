@@ -13,6 +13,7 @@ import android.database.MatrixCursor;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.Database.RowReview;
+import com.chdryra.android.reviewer.Model.ReviewData.MdCriterionList;
 import com.chdryra.android.reviewer.Model.ReviewStructure.Review;
 import com.chdryra.android.reviewer.test.TestUtils.ReviewMocker;
 
@@ -25,39 +26,53 @@ import junit.framework.TestCase;
  */
 public class RowReviewTest extends TestCase {
     private Review mReview;
-
+    private MdCriterionList.MdCriterion mCriterion;
+    
     @SmallTest
     public void testReviewConstructor() {
-        testRow(new RowReview(mReview));
+        testRow(mReview, null, new RowReview(mReview));
+        testRow(mCriterion.getReview(), mCriterion.getReviewId().toString(), new RowReview
+                (mCriterion));
     }
 
     @SmallTest
     public void testToCursorConstructor() {
-        String[] cols = new String[]{RowReview.REVIEW_ID, RowReview.AUTHOR_ID, RowReview
-                .PUBLISH_DATE, RowReview.SUBJECT, RowReview.RATING};
+        testToCursorConstructor(mReview, null);
+        testToCursorConstructor(mCriterion.getReview(), mCriterion.getReviewId().toString());
+    }
+
+    private void testToCursorConstructor(Review review, String parentId) {
+        String[] cols = new String[]{RowReview.REVIEW_ID, RowReview.PARENT_ID, RowReview.AUTHOR_ID,
+                RowReview.PUBLISH_DATE, RowReview.SUBJECT, RowReview.RATING, RowReview.IS_AVERAGE};
 
         MatrixCursor cursor = new MatrixCursor(cols);
-        String reviewId = mReview.getId().toString();
-        String authorId = mReview.getAuthor().getUserId().toString();
-        cursor.addRow(new Object[]{reviewId, authorId, mReview.getPublishDate().getTime(),
-                mReview.getSubject().get(), mReview.getRating().get()});
+        String reviewId = review.getId().toString();
+        String authorId = review.getAuthor().getUserId().toString();
+        cursor.addRow(new Object[]{reviewId, parentId, authorId, review.getPublishDate().getTime(),
+                review.getSubject().get(), review.getRating().get(), review
+                .isRatingAverageOfCriteria()});
         cursor.moveToFirst();
-        testRow(new RowReview(cursor));
+        testRow(review, parentId, new RowReview(cursor));
     }
 
     @Override
     protected void setUp() throws Exception {
         mReview = ReviewMocker.newReview();
+        MdCriterionList criteria = mReview.getCriteria();
+        mCriterion = criteria.getItem(0);
     }
 
-    private void testRow(RowReview row) {
-        String authorId = mReview.getAuthor().getUserId().toString();
+    private void testRow(Review review, String parentId, RowReview row) {
+        String authorId = review.getAuthor().getUserId().toString();
         ContentValues values = row.getContentValues();
-        assertEquals(mReview.getId().toString(), values.getAsString(RowReview.REVIEW_ID));
+        assertEquals(review.getId().toString(), values.getAsString(RowReview.REVIEW_ID));
+        assertEquals(parentId, values.getAsString(RowReview.PARENT_ID));
         assertEquals(authorId, values.getAsString(RowReview.AUTHOR_ID));
-        assertEquals(mReview.getPublishDate().getTime(), (long) values.getAsLong(RowReview
+        assertEquals(review.getPublishDate().getTime(), (long) values.getAsLong(RowReview
                 .PUBLISH_DATE));
-        assertEquals(mReview.getSubject().get(), values.getAsString(RowReview.SUBJECT));
-        assertEquals(mReview.getRating().get(), values.getAsFloat(RowReview.RATING));
+        assertEquals(review.getSubject().get(), values.getAsString(RowReview.SUBJECT));
+        assertEquals(review.getRating().get(), values.getAsFloat(RowReview.RATING));
+        assertEquals(review.isRatingAverageOfCriteria(),
+                values.getAsBoolean(RowReview.IS_AVERAGE).booleanValue());
     }
 }

@@ -80,7 +80,10 @@ public final class ReviewerDbContract implements DbContract {
             addColumn(COLUMN_NAME_PUBLISH_DATE, SQL.StorageType.INTEGER, SQL.Nullable.FALSE);
             addColumn(COLUMN_NAME_SUBJECT, SQL.StorageType.TEXT, SQL.Nullable.FALSE);
             addColumn(COLUMN_NAME_RATING, SQL.StorageType.REAL, SQL.Nullable.FALSE);
+            addColumn(COLUMN_NAME_RATING_IS_AVERAGE, SQL.StorageType.INTEGER, SQL.Nullable.FALSE);
+            addColumn(COLUMN_NAME_PARENT_ID, SQL.StorageType.TEXT, SQL.Nullable.TRUE);
             addForeignKeyConstraint(new String[]{COLUMN_NAME_AUTHOR_ID}, TableAuthors.get());
+            addForeignKeyConstraint(new String[]{COLUMN_NAME_PARENT_ID}, this);
         }
 
         private static TableReviews get() {
