@@ -32,6 +32,7 @@ import com.chdryra.android.reviewer.Model.ReviewData.ReviewPublisher;
 import com.chdryra.android.reviewer.Model.ReviewStructure.Review;
 import com.chdryra.android.reviewer.Model.Tagging.TagsManager;
 import com.chdryra.android.reviewer.Model.UserData.Author;
+import com.chdryra.android.reviewer.View.GvDataModel.GvTagList;
 
 import junit.framework.Assert;
 
@@ -188,10 +189,25 @@ public class ReviewerDb {
         builder.setData(MdGvConverter.convert(criteria), false);
         builder.setRatingIsAverage(values.getAsBoolean(RowReview.IS_AVERAGE));
 
+        setTags(builder, id);
         Review review = builder.buildReview();
         Assert.assertEquals(id, review.getId());
 
         return review;
+    }
+
+    private void setTags(ReviewBuilder builder, ReviewId id) {
+        TagsManager.ReviewTagCollection tags = TagsManager.getTags(id);
+        if (tags.size() == 0) {
+            loadTags();
+            tags = TagsManager.getTags(id);
+        }
+
+        GvTagList tagList = new GvTagList();
+        for (TagsManager.ReviewTag tag : tags) {
+            tagList.add(new GvTagList.GvTag(tag.get()));
+        }
+        builder.setData(tagList, false);
     }
 
     private <T extends ReviewerDbRow.TableRow> T getRowWhere(SQLiteDatabase db,
@@ -317,7 +333,7 @@ public class ReviewerDb {
 
     private void addCriteriaToReviewsTable(Review review, SQLiteDatabase db) {
         for (MdCriterionList.MdCriterion criterion : review.getCriteria()) {
-            addToReviewsTable(criterion.getReview(), db);
+            insertRow(ReviewerDbRow.newRow(criterion), REVIEWS, db);
         }
     }
 

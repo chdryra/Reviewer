@@ -5,7 +5,6 @@ import android.content.Context;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.MdGvConverter;
 import com.chdryra.android.reviewer.Model.ReviewData.IdableList;
-import com.chdryra.android.reviewer.Model.ReviewData.MdCriterionList;
 import com.chdryra.android.reviewer.Model.ReviewData.PublishDate;
 import com.chdryra.android.reviewer.Model.ReviewData.ReviewPublisher;
 import com.chdryra.android.reviewer.Model.ReviewStructure.FactoryReview;
@@ -107,7 +106,8 @@ public class ReviewBuilder {
 
         PublishDate date = mPublishDate != null ? mPublishDate : PublishDate.now();
         Review review = assembleReview(new ReviewPublisher(mAuthor, date));
-        tagReview(review);
+        GvTagList tags = (GvTagList) getData(GvTagList.GvTag.TYPE);
+        TagsManager.tag(review.getId(), tags.toStringArray());
 
         return review;
     }
@@ -119,15 +119,7 @@ public class ReviewBuilder {
     }
 
     private boolean isValidForPublication() {
-        return DataValidator.validateString(mSubject) && getData(GvTagList.GvTag.TYPE).size() > 0;
-    }
-
-    private void tagReview(Review review) {
-        GvTagList tags = (GvTagList) getData(GvTagList.GvTag.TYPE);
-        TagsManager.tag(review.getId(), tags.toStringArray());
-        for (MdCriterionList.MdCriterion criterion : review.getCriteria()) {
-            tagReview(criterion.getReview());
-        }
+        return DataValidator.validateString(mSubject);
     }
 
     private Review assembleReview(ReviewPublisher publisher) {

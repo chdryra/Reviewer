@@ -50,7 +50,7 @@ public class RowReviewTest extends TestCase {
         String authorId = review.getAuthor().getUserId().toString();
         cursor.addRow(new Object[]{reviewId, parentId, authorId, review.getPublishDate().getTime(),
                 review.getSubject().get(), review.getRating().get(), review
-                .isRatingAverageOfCriteria()});
+                .isRatingAverageOfCriteria() ? 1 : 0});
         cursor.moveToFirst();
         testRow(review, parentId, new RowReview(cursor));
     }

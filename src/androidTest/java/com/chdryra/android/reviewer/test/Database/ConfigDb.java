@@ -72,7 +72,7 @@ public class ConfigDb {
         return getConfig().mConfigsMap.get(dataType);
     }
 
-    public enum DbData {REVIEWS, REVIEW_TREES, COMMENTS, FACTS, LOCATIONS, IMAGES, AUTHORS, TAGS}
+    public enum DbData {REVIEWS, COMMENTS, FACTS, LOCATIONS, IMAGES, AUTHORS, TAGS}
 
     public class Config {
         private ReviewerDbTable mTable;

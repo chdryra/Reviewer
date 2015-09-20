@@ -57,7 +57,7 @@ public class TagsManager {
         return getManager().untagReview(id, tag);
     }
 
-    private static ReviewTagCollection getTags() {
+    public static ReviewTagCollection getTags() {
         return getManager().mTags;
     }
 
@@ -193,6 +193,22 @@ public class TagsManager {
             mTags.remove(tag);
         }
 
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (!(o instanceof ReviewTagCollection)) return false;
+
+            ReviewTagCollection that = (ReviewTagCollection) o;
+
+            return mTags.equals(that.mTags);
+
+        }
+
+        @Override
+        public int hashCode() {
+            return mTags.hashCode();
+        }
+
         public class ReviewTagIterator implements Iterator<ReviewTag> {
             int position = 0;
 
@@ -219,22 +235,6 @@ public class TagsManager {
                     ReviewTagCollection.this.remove(getItem(position));
                 }
             }
-        }
-
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) return true;
-            if (!(o instanceof ReviewTagCollection)) return false;
-
-            ReviewTagCollection that = (ReviewTagCollection) o;
-
-            return mTags.equals(that.mTags);
-
-        }
-
-        @Override
-        public int hashCode() {
-            return mTags.hashCode();
         }
 
 
