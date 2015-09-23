@@ -17,6 +17,7 @@ import com.chdryra.android.reviewer.Model.ReviewData.MdCommentList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdFactList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdImageList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdLocationList;
+import com.chdryra.android.reviewer.Model.ReviewData.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewData.ReviewPublisher;
 
 import java.util.ArrayList;
@@ -67,7 +68,8 @@ public class FactoryReview {
     //Constructors
     private Review newReviewUser(ReviewPublisher publisher, String subject, float
             rating) {
-        return new ReviewUser(publisher, subject, rating,
+        return new ReviewUser(ReviewId.newId(publisher), publisher.getAuthor(), publisher.getDate(),
+                subject, rating,
                 new ArrayList<MdCommentList.MdComment>(),
                 new ArrayList<MdImageList.MdImage>(),
                 new ArrayList<MdFactList.MdFact>(),
@@ -81,8 +83,8 @@ public class FactoryReview {
             Iterable<? extends DataFact> facts,
             Iterable<? extends DataLocation> locations,
             IdableList<Review> criteria, boolean ratingIsAverage) {
-        return new ReviewUser(publisher, subject, rating, comments, images, facts, locations,
-                criteria, ratingIsAverage);
+        return new ReviewUser(ReviewId.newId(publisher), publisher.getAuthor(), publisher.getDate(),
+                subject, rating, comments, images, facts, locations, criteria, ratingIsAverage);
     }
 
     private ReviewTreeNode newReviewTreeNode(Review review, boolean isAverage) {

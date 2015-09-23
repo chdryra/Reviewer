@@ -4,12 +4,12 @@ import android.content.Context;
 
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.MdGvConverter;
+import com.chdryra.android.reviewer.ApplicationSingletons.TagsManager;
 import com.chdryra.android.reviewer.Model.ReviewData.IdableList;
 import com.chdryra.android.reviewer.Model.ReviewData.PublishDate;
 import com.chdryra.android.reviewer.Model.ReviewData.ReviewPublisher;
 import com.chdryra.android.reviewer.Model.ReviewStructure.FactoryReview;
 import com.chdryra.android.reviewer.Model.ReviewStructure.Review;
-import com.chdryra.android.reviewer.Model.Tagging.TagsManager;
 import com.chdryra.android.reviewer.Model.UserData.Author;
 import com.chdryra.android.reviewer.View.Configs.ConfigGvDataUi;
 import com.chdryra.android.reviewer.View.GvDataModel.FactoryGvData;
@@ -107,7 +107,7 @@ public class ReviewBuilder {
         PublishDate date = mPublishDate != null ? mPublishDate : PublishDate.now();
         Review review = assembleReview(new ReviewPublisher(mAuthor, date));
         GvTagList tags = (GvTagList) getData(GvTagList.GvTag.TYPE);
-        TagsManager.tag(review.getId(), tags.toStringArray());
+        TagsManager.tag(mContext, review.getId(), tags.toStringArray());
 
         return review;
     }

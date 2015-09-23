@@ -18,6 +18,7 @@ import android.graphics.Bitmap;
 import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
+import com.chdryra.android.reviewer.ApplicationSingletons.TagsManager;
 import com.chdryra.android.reviewer.Database.DbTableDef;
 import com.chdryra.android.reviewer.Database.ReviewerDb;
 import com.chdryra.android.reviewer.Database.ReviewerDbContract;
@@ -41,7 +42,6 @@ import com.chdryra.android.reviewer.Model.ReviewData.MdLocationList;
 import com.chdryra.android.reviewer.Model.ReviewData.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewData.ReviewPublisher;
 import com.chdryra.android.reviewer.Model.ReviewStructure.Review;
-import com.chdryra.android.reviewer.Model.Tagging.TagsManager;
 import com.chdryra.android.reviewer.Model.UserData.Author;
 import com.chdryra.android.reviewer.View.GvDataModel.GvTagList;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
@@ -182,13 +182,14 @@ public class ReviewerDbTest extends AndroidTestCase {
         //Untag reviews
         for (Review review : mReviews) {
             ReviewId reviewId = review.getId();
-            TagsManager.ReviewTagCollection reviewTags = TagsManager.getTags(reviewId);
+            TagsManager.ReviewTagCollection reviewTags = TagsManager.getTags(getContext(),
+                    reviewId);
             assertTrue(reviewTags.size() > 0);
             for (TagsManager.ReviewTag tag : reviewTags) {
-                TagsManager.untag(reviewId, tag);
+                TagsManager.untag(getContext(), reviewId, tag);
             }
 
-            assertEquals(0, TagsManager.getTags(reviewId).size());
+            assertEquals(0, TagsManager.getTags(getContext(), reviewId).size());
         }
 
         mDatabase.loadTags();
@@ -196,9 +197,9 @@ public class ReviewerDbTest extends AndroidTestCase {
         //Reviews should be retagged
         for (Review review : mReviews) {
             ReviewId reviewId = review.getId();
-            TagsManager.ReviewTagCollection reviewTags = TagsManager.getTags(reviewId);
+            TagsManager.ReviewTagCollection reviewTags = TagsManager.getTags(getContext(), reviewId);
             assertTrue(reviewTags.size() > 0);
-            checkTagList(reviewTags, TagsManager.getTags(reviewId));
+            checkTagList(reviewTags, TagsManager.getTags(getContext(), reviewId));
         }
     }
 
@@ -223,13 +224,13 @@ public class ReviewerDbTest extends AndroidTestCase {
     }
 
     @SmallTest
-    public void testGetReviewsFromDb() {
-        IdableList<Review> fromDb = mDatabase.getReviewsFromDb();
+    public void testLoadReviewsFromDb() {
+        IdableList<Review> fromDb = mDatabase.loadReviewsFromDb();
         assertEquals(0, fromDb.size());
 
         addReviewsToDatabase();
 
-        fromDb = mDatabase.getReviewsFromDb();
+        fromDb = mDatabase.loadReviewsFromDb();
         assertEquals(mReviews.size(), fromDb.size());
         for (Review review : mReviews) {
             ReviewId id = review.getId();
@@ -243,10 +244,10 @@ public class ReviewerDbTest extends AndroidTestCase {
     public void testDeleteReviewFromDb() {
         addReviewsToDatabase();
         for (Review review : mReviews) {
-            IdableList<Review> fromDb = mDatabase.getReviewsFromDb();
+            IdableList<Review> fromDb = mDatabase.loadReviewsFromDb();
             assertNotNull(fromDb.get(review.getId()));
             deleteReviewFromDb(review);
-            fromDb = mDatabase.getReviewsFromDb();
+            fromDb = mDatabase.loadReviewsFromDb();
             assertNull(fromDb.get(review.getId()));
         }
     }
@@ -267,30 +268,32 @@ public class ReviewerDbTest extends AndroidTestCase {
     @Override
     protected void tearDown() throws Exception {
         deleteDatabaseIfNecessary();
-        TagsManager.ReviewTagCollection tags = TagsManager.getTags();
+        TagsManager.ReviewTagCollection tags = TagsManager.getTags(getContext());
         for (TagsManager.ReviewTag tag : tags) {
-            for (ReviewId id : tag.getReviews()) {
-                TagsManager.untag(id, tag);
+            ArrayList<ReviewId> ids = tag.getReviews();
+            for (ReviewId id : ids) {
+                TagsManager.untag(getContext(), id, tag);
             }
         }
+        assertTrue(TagsManager.getTags(getContext()).size() == 0);
     }
 
     private Map<String, ArrayList<String>> tagReviews() {
-        int numTags = 6;
+        int numTags = 2;
         GvTagList tags = GvDataMocker.newTagList(numTags, false);
 
         Random r = new Random();
         for (Review review : mReviews) {
             ReviewId id = review.getId();
-            for (int i = 0; i < numTags; ++i) {
+            for (int i = 0; i < 2; ++i) {
                 int index = r.nextInt(numTags);
                 String tag = tags.getItem(index).get();
-                TagsManager.tag(id, tag);
+                TagsManager.tag(getContext(), id, tag);
             }
         }
 
         Map<String, ArrayList<String>> tagsMap = new HashMap<>();
-        TagsManager.ReviewTagCollection tagCollection = TagsManager.getTags();
+        TagsManager.ReviewTagCollection tagCollection = TagsManager.getTags(getContext());
         for (TagsManager.ReviewTag tag : tagCollection) {
             ArrayList<String> reviewList = new ArrayList<>();
             ArrayList<ReviewId> tagged = tag.getReviews();

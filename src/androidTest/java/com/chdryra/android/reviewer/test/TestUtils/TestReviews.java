@@ -260,7 +260,7 @@ public class TestReviews {
         review.mTags.add("Nappies");
         review.mTags.add("Asda");
 
-        GregorianCalendar cal = new GregorianCalendar(2015, 7, 20, 12, 30);
+        GregorianCalendar cal = new GregorianCalendar(2015, 7, 20, 12, 45);
         review.mPublishDate = cal.getTime();
 
         return review;

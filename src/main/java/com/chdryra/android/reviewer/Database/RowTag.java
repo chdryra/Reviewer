@@ -12,8 +12,8 @@ import android.content.ContentValues;
 import android.database.Cursor;
 
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
+import com.chdryra.android.reviewer.ApplicationSingletons.TagsManager;
 import com.chdryra.android.reviewer.Model.ReviewData.ReviewId;
-import com.chdryra.android.reviewer.Model.Tagging.TagsManager;
 
 import java.util.ArrayList;
 import java.util.Arrays;

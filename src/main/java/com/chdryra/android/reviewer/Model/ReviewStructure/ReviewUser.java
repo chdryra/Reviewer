@@ -23,7 +23,6 @@ import com.chdryra.android.reviewer.Model.ReviewData.MdRating;
 import com.chdryra.android.reviewer.Model.ReviewData.MdSubject;
 import com.chdryra.android.reviewer.Model.ReviewData.PublishDate;
 import com.chdryra.android.reviewer.Model.ReviewData.ReviewId;
-import com.chdryra.android.reviewer.Model.ReviewData.ReviewPublisher;
 import com.chdryra.android.reviewer.Model.UserData.Author;
 
 /**
@@ -51,7 +50,7 @@ public class ReviewUser implements Review {
 
     private ReviewNode mNode;
 
-    public ReviewUser(ReviewPublisher publisher, String subject, float
+    public ReviewUser(ReviewId id, Author author, PublishDate publishDate, String subject, float
             rating,
             Iterable<? extends DataComment> comments,
             Iterable<? extends DataImage> images,
@@ -59,11 +58,10 @@ public class ReviewUser implements Review {
                       Iterable<? extends DataLocation> locations,
                       IdableList<Review> criteria,
                       boolean ratingIsAverage) {
-        mId = ReviewId.newId(publisher);
-        mAuthor = publisher.getAuthor();
-        mPublishDate = publisher.getDate();
+        mId = id;
+        mAuthor = author;
+        mPublishDate = publishDate;
         mSubject = new MdSubject(subject, mId);
-
         mComments = MdGvConverter.toMdCommentList(comments, mId);
         mImages = MdGvConverter.toMdImageList(images, mId);
         mFacts = MdGvConverter.toMdFactList(facts, mId);
@@ -160,8 +158,7 @@ public class ReviewUser implements Review {
         if (!mComments.equals(that.mComments)) return false;
         if (!mImages.equals(that.mImages)) return false;
         if (!mFacts.equals(that.mFacts)) return false;
-        if (!mLocations.equals(that.mLocations)) return false;
-        return mNode.equals(that.mNode);
+        return mLocations.equals(that.mLocations);
 
     }
 
@@ -173,12 +170,11 @@ public class ReviewUser implements Review {
         result = 31 * result + mSubject.hashCode();
         result = 31 * result + mRating.hashCode();
         result = 31 * result + mCriteria.hashCode();
-        result = 31 * result + (mRatingIsAverage ? 1 : 0);
         result = 31 * result + mComments.hashCode();
         result = 31 * result + mImages.hashCode();
         result = 31 * result + mFacts.hashCode();
         result = 31 * result + mLocations.hashCode();
-        result = 31 * result + mNode.hashCode();
+        result = 31 * result + (mRatingIsAverage ? 1 : 0);
         return result;
     }
 }

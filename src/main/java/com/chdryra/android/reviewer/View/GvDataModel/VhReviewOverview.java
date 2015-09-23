@@ -16,8 +16,8 @@ import com.chdryra.android.mygenerallibrary.TextUtils;
 import com.chdryra.android.mygenerallibrary.ViewHolderBasic;
 import com.chdryra.android.mygenerallibrary.ViewHolderData;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
+import com.chdryra.android.reviewer.ApplicationSingletons.TagsManager;
 import com.chdryra.android.reviewer.Model.ReviewData.ReviewId;
-import com.chdryra.android.reviewer.Model.Tagging.TagsManager;
 import com.chdryra.android.reviewer.R;
 
 import java.text.DateFormat;
@@ -81,7 +81,8 @@ public class VhReviewOverview extends ViewHolderBasic {
     }
 
     private String getTagString(String reviewId) {
-        TagsManager.ReviewTagCollection tags = TagsManager.getTags(ReviewId.fromString(reviewId));
+        TagsManager.ReviewTagCollection tags = TagsManager.getTags(getView().getContext(),
+                ReviewId.fromString(reviewId));
         int i = tags.size();
         String tagsString = getTagString(tags, i--);
         while (i > -1 && TextUtils.isTooLargeForTextView(mTags, tagsString)) {

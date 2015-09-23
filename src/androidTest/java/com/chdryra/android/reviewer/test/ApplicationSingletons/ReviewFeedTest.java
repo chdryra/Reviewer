@@ -50,7 +50,7 @@ public class ReviewFeedTest extends ActivityInstrumentationTestCase2<ActivityRev
         ReviewNode feedNode = ReviewFeed.getFeedNode(getActivity());
         int numReviews = feedNode.getChildren().size();
         ReviewerDb db = TestDatabase.getDatabase(getInstrumentation());
-        IdableList<Review> fromDb = db.getReviewsFromDb();
+        IdableList<Review> fromDb = db.loadReviewsFromDb();
         int numInDb = fromDb.size();
         assertTrue(numReviews > 0);
         assertEquals(numReviews, numInDb);
@@ -67,7 +67,7 @@ public class ReviewFeedTest extends ActivityInstrumentationTestCase2<ActivityRev
             assertFalse(nodeId.equals(mostRecent.getId()));
         }
 
-        fromDb = db.getReviewsFromDb();
+        fromDb = db.loadReviewsFromDb();
         assertEquals(numReviews - 1, reviews.size());
         assertEquals(numInDb - 1, fromDb.size());
         assertFalse(fromDb.containsId(nodeId));
@@ -82,7 +82,7 @@ public class ReviewFeedTest extends ActivityInstrumentationTestCase2<ActivityRev
         IdableList<ReviewNode> reviews = feedNode.getChildren();
         int numReviews = reviews.size();
         ReviewerDb db = TestDatabase.getDatabase(getInstrumentation());
-        IdableList<Review> fromDb = db.getReviewsFromDb();
+        IdableList<Review> fromDb = db.loadReviewsFromDb();
         assertEquals(numReviews, fromDb.size());
 
         ReviewNode node = ReviewMocker.newReviewNode(false);
@@ -98,7 +98,7 @@ public class ReviewFeedTest extends ActivityInstrumentationTestCase2<ActivityRev
         ReviewFeed.addToFeed(getActivity(), node);
 
         assertEquals(numReviews + 1, reviews.size());
-        fromDb = db.getReviewsFromDb();
+        fromDb = db.loadReviewsFromDb();
         assertEquals(numReviews + 1, fromDb.size());
         assertTrue(fromDb.containsId(node.getRoot().getId()));
 

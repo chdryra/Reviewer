@@ -9,6 +9,7 @@
 package com.chdryra.android.reviewer.test.TestUtils;
 
 import com.chdryra.android.reviewer.Model.ReviewData.IdableList;
+import com.chdryra.android.reviewer.Model.ReviewData.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewData.ReviewPublisher;
 import com.chdryra.android.reviewer.Model.ReviewStructure.Review;
 import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
@@ -74,7 +75,7 @@ public class ReviewMocker {
         IdableList<Review> criteria = new IdableList<>();
         if (publisher != null) {
             for (int i = 0; i < NUM; ++i) {
-                criteria.add(new MockReview(publisher, new IdableList<Review>()));
+                criteria.add(new MockReview(publisher));
             }
         }
 
@@ -83,10 +84,25 @@ public class ReviewMocker {
 
     static class MockReview extends ReviewUser {
         private MockReview(ReviewPublisher publisher, IdableList<Review> criteria) {
-            super(publisher, RandomString.nextWord(),
-                    RandomRating.nextRating(), GvDataMocker.newCommentList(NUM, false),
-                    GvDataMocker.newImageList(NUM, false), GvDataMocker.newFactList(NUM, false),
-                    GvDataMocker.newLocationList(NUM, false), criteria, false);
+            super(ReviewId.newId(publisher), publisher.getAuthor(), publisher.getDate(),
+                    RandomString.nextWord(),
+                    RandomRating.nextRating(),
+                    GvDataMocker.newCommentList(NUM, false),
+                    GvDataMocker.newImageList(NUM, false),
+                    GvDataMocker.newFactList(NUM, false),
+                    GvDataMocker.newLocationList(NUM, false),
+                    criteria, false);
+        }
+
+        private MockReview(ReviewPublisher publisher) {
+            super(ReviewId.newId(publisher), publisher.getAuthor(), publisher.getDate(),
+                    RandomString.nextWord(),
+                    RandomRating.nextRating(),
+                    GvDataMocker.newCommentList(0, false),
+                    GvDataMocker.newImageList(0, false),
+                    GvDataMocker.newFactList(0, false),
+                    GvDataMocker.newLocationList(0, false),
+                    new IdableList<Review>(), false);
         }
     }
 }

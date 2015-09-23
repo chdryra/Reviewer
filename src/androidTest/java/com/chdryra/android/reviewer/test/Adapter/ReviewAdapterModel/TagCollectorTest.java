@@ -1,16 +1,15 @@
 package com.chdryra.android.reviewer.test.Adapter.ReviewAdapterModel;
 
+import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.TagCollector;
+import com.chdryra.android.reviewer.ApplicationSingletons.TagsManager;
 import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
-import com.chdryra.android.reviewer.Model.Tagging.TagsManager;
 import com.chdryra.android.reviewer.Model.TreeMethods.VisitorTreeFlattener;
 import com.chdryra.android.reviewer.View.GvDataModel.GvTagList;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
 import com.chdryra.android.reviewer.test.TestUtils.ReviewMocker;
-
-import junit.framework.TestCase;
 
 import java.util.Random;
 
@@ -19,7 +18,7 @@ import java.util.Random;
  * On: 25/08/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class TagCollectorTest extends TestCase {
+public class TagCollectorTest extends AndroidTestCase {
     @SmallTest
     public void testCollectTags() {
         GvTagList tags = GvDataMocker.newTagList(5, false);
@@ -32,14 +31,14 @@ public class TagCollectorTest extends TestCase {
             for (int i = 0; i < numTags; ++i) {
                 int index = rand.nextInt(tagsAvailable.size());
                 GvTagList.GvTag tagToApply = tagsAvailable.getItem(index);
-                TagsManager.tag(tagged.getId(), tagToApply.get());
+                TagsManager.tag(getContext(), tagged.getId(), tagToApply.get());
                 appliedTags.add(tagToApply);
                 tagsAvailable.remove(tagToApply);
             }
         }
 
         TagCollector collector = new TagCollector(node.getParent());
-        GvTagList collected = collector.collectTags();
+        GvTagList collected = collector.collectTags(getContext());
         assertEquals(appliedTags.size(), collected.size());
         appliedTags.sort();
         collected.sort();

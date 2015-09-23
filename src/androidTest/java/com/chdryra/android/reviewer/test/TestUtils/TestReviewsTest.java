@@ -15,6 +15,7 @@ import android.test.InstrumentationTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.mygenerallibrary.ImageHelper;
+import com.chdryra.android.reviewer.ApplicationSingletons.TagsManager;
 import com.chdryra.android.reviewer.Model.ReviewData.IdableList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdCommentList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdCriterionList;
@@ -22,7 +23,6 @@ import com.chdryra.android.reviewer.Model.ReviewData.MdFactList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdImageList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdLocationList;
 import com.chdryra.android.reviewer.Model.ReviewStructure.Review;
-import com.chdryra.android.reviewer.Model.Tagging.TagsManager;
 import com.chdryra.android.reviewer.R;
 
 import java.io.IOException;
@@ -50,7 +50,8 @@ public class TestReviewsTest extends InstrumentationTestCase {
         assertEquals(3.5f, review.getRating().get());
 
         //Tags
-        TagsManager.ReviewTagCollection tags = TagsManager.getTags(review.getId());
+        TagsManager.ReviewTagCollection tags = TagsManager.getTags(getInstrumentation()
+                .getContext(), review.getId());
         assertEquals(3, tags.size());
         assertEquals("Restaurant", tags.getItem(0).get());
         assertEquals("Pakistani", tags.getItem(1).get());
@@ -133,7 +134,8 @@ public class TestReviewsTest extends InstrumentationTestCase {
         assertEquals(5f, review.getRating().get());
 
         //Tags
-        TagsManager.ReviewTagCollection tags = TagsManager.getTags(review.getId());
+        TagsManager.ReviewTagCollection tags = TagsManager.getTags(getInstrumentation()
+                .getContext(), review.getId());
         assertEquals(4, tags.size());
         assertEquals("Reading", tags.getItem(0).get());
         assertEquals("Mum", tags.getItem(1).get());

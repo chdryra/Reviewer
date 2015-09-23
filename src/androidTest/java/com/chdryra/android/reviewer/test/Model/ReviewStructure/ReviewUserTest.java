@@ -15,6 +15,7 @@ import com.chdryra.android.reviewer.Model.ReviewData.MdCriterionList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdRating;
 import com.chdryra.android.reviewer.Model.ReviewData.MdSubject;
 import com.chdryra.android.reviewer.Model.ReviewData.PublishDate;
+import com.chdryra.android.reviewer.Model.ReviewData.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewData.ReviewPublisher;
 import com.chdryra.android.reviewer.Model.ReviewStructure.FactoryReview;
 import com.chdryra.android.reviewer.Model.ReviewStructure.Review;
@@ -149,7 +150,8 @@ public class ReviewUserTest extends TestCase {
             mCriteria.add(newCriterion(mPublisher));
         }
 
-        mReview = new ReviewUser(mPublisher, mSubject, mRating, mComments, mImages, mFacts,
+        mReview = new ReviewUser(ReviewId.newId(mPublisher), mPublisher.getAuthor(),
+                mPublisher.getDate(), mSubject, mRating, mComments, mImages, mFacts,
                 mLocations, mCriteria, false);
     }
 

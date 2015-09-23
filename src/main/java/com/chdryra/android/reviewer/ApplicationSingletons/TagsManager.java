@@ -6,7 +6,9 @@
  * Date: 10 October, 2014
  */
 
-package com.chdryra.android.reviewer.Model.Tagging;
+package com.chdryra.android.reviewer.ApplicationSingletons;
+
+import android.content.Context;
 
 import com.chdryra.android.reviewer.Model.ReviewData.ReviewId;
 
@@ -21,50 +23,53 @@ import java.util.NoSuchElementException;
 /**
  * The singleton that manages the tagging and untagging of Reviews.
  */
-public class TagsManager {
-    private static TagsManager         sInstance;
+public class TagsManager extends ApplicationSingleton {
+    private static final String NAME = "TagsManager";
+    private static TagsManager sSingleton;
+
     private final  ReviewTagCollection mTags;
 
-    private TagsManager() {
+    private TagsManager(Context context) {
+        super(context, NAME);
         mTags = new ReviewTagCollection();
     }
 
-    private static TagsManager getManager() {
-        if (sInstance == null) sInstance = new TagsManager();
-        return sInstance;
+    public static TagsManager get(Context c) {
+        sSingleton = getSingleton(sSingleton, TagsManager.class, c);
+        return sSingleton;
     }
 
-    public static ReviewTagCollection getTags(ReviewId id) {
-        ReviewTagCollection tags = getManager().new ReviewTagCollection();
-        for (ReviewTag tag : getTags()) {
+    public static ReviewTagCollection getTags(Context context, ReviewId id) {
+        ReviewTagCollection tags = new ReviewTagCollection();
+        for (ReviewTag tag : get(context).mTags) {
             if (tag.tagsReview(id)) tags.add(tag);
         }
 
         return tags;
     }
 
-    public static void tag(ReviewId id, String tag) {
-        getManager().tagReview(id, tag);
+    public static void tag(Context context, ReviewId id, String tag) {
+        get(context).tagReview(id, tag);
     }
 
-    public static void tag(ReviewId id, ArrayList<String> tags) {
+    public static void tag(Context context, ReviewId id, ArrayList<String> tags) {
         for (String tag : tags) {
-            getManager().tagReview(id, tag);
+            get(context).tagReview(id, tag);
         }
     }
 
-    public static boolean untag(ReviewId id, ReviewTag tag) {
-        return getManager().untagReview(id, tag);
+    public static boolean untag(Context context, ReviewId id, ReviewTag tag) {
+        return get(context).untagReview(id, tag);
     }
 
-    public static ReviewTagCollection getTags() {
-        return getManager().mTags;
+    public static ReviewTagCollection getTags(Context context) {
+        return new ReviewTagCollection(get(context).mTags);
     }
 
     private void tagReview(ReviewId id, String tag) {
-        ReviewTag reviewTag = getTags().get(tag);
+        ReviewTag reviewTag = mTags.get(tag);
         if (reviewTag == null) {
-            getTags().add(new ReviewTag(tag, id));
+            mTags.add(new ReviewTag(tag, id));
         } else {
             reviewTag.addReview(id);
         }
@@ -83,79 +88,17 @@ public class TagsManager {
     }
 
     /**
-     * Wraps a string plus a collection of reviews tagged with that string. Comparable with
-     * another ReviewTag alphabetically.
-     */
-    public class ReviewTag implements Comparable<ReviewTag> {
-        private final ArrayList<ReviewId> mReviews;
-        private final String              mTag;
-
-        private ReviewTag(String tag, ReviewId id) {
-            //mTag = WordUtils.capitalize(tag);
-            mTag = tag;
-            mReviews = new ArrayList<>();
-            mReviews.add(id);
-        }
-
-        @Override
-        public int compareTo(@NotNull ReviewTag another) {
-            return mTag.compareToIgnoreCase(another.mTag);
-        }
-
-        public String get() {
-            return mTag;
-        }
-
-        public ArrayList<ReviewId> getReviews() {
-            return mReviews;
-        }
-
-        public boolean tagsReview(ReviewId id) {
-            return mReviews.contains(id);
-        }
-
-        public boolean equals(String tag) {
-            return mTag.equalsIgnoreCase(tag);
-        }
-
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) return true;
-            if (!(o instanceof ReviewTag)) return false;
-
-            ReviewTag reviewTag = (ReviewTag) o;
-
-            if (!mReviews.equals(reviewTag.mReviews)) return false;
-            return mTag.equals(reviewTag.mTag);
-
-        }
-
-        private void addReview(ReviewId id) {
-            if (!mReviews.contains(id)) mReviews.add(id);
-        }
-
-        private void removeReview(ReviewId id) {
-            mReviews.remove(id);
-        }
-
-        @Override
-        public int hashCode() {
-            int result = mReviews.hashCode();
-            result = 31 * result + mTag.hashCode();
-            return result;
-        }
-
-
-    }
-
-    /**
      * Iterable collection of ReviewTags.
      */
-    public class ReviewTagCollection implements Iterable<ReviewTag> {
+    public static class ReviewTagCollection implements Iterable<ReviewTag> {
         private final ArrayList<ReviewTag> mTags;
 
         private ReviewTagCollection() {
             mTags = new ArrayList<>();
+        }
+
+        private ReviewTagCollection(ReviewTagCollection tags) {
+            mTags = new ArrayList<>(tags.mTags);
         }
 
         @Override
@@ -235,6 +178,72 @@ public class TagsManager {
                     ReviewTagCollection.this.remove(getItem(position));
                 }
             }
+        }
+
+
+    }
+
+    /**
+     * Wraps a string plus a collection of reviews tagged with that string. Comparable with
+     * another ReviewTag alphabetically.
+     */
+    public class ReviewTag implements Comparable<ReviewTag> {
+        private final ArrayList<ReviewId> mReviews;
+        private final String mTag;
+
+        private ReviewTag(String tag, ReviewId id) {
+            //mTag = WordUtils.capitalize(tag);
+            mTag = tag;
+            mReviews = new ArrayList<>();
+            mReviews.add(id);
+        }
+
+        @Override
+        public int compareTo(@NotNull ReviewTag another) {
+            return mTag.compareToIgnoreCase(another.mTag);
+        }
+
+        public String get() {
+            return mTag;
+        }
+
+        public ArrayList<ReviewId> getReviews() {
+            return new ArrayList<>(mReviews);
+        }
+
+        public boolean tagsReview(ReviewId id) {
+            return mReviews.contains(id);
+        }
+
+        public boolean equals(String tag) {
+            return mTag.equalsIgnoreCase(tag);
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (!(o instanceof ReviewTag)) return false;
+
+            ReviewTag reviewTag = (ReviewTag) o;
+
+            if (!mReviews.equals(reviewTag.mReviews)) return false;
+            return mTag.equals(reviewTag.mTag);
+
+        }
+
+        private void addReview(ReviewId id) {
+            if (!mReviews.contains(id)) mReviews.add(id);
+        }
+
+        private void removeReview(ReviewId id) {
+            mReviews.remove(id);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = mReviews.hashCode();
+            result = 31 * result + mTag.hashCode();
+            return result;
         }
 
 

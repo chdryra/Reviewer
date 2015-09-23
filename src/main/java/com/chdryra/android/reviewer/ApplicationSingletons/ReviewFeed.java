@@ -49,7 +49,7 @@ public class ReviewFeed extends ApplicationSingleton {
 
         mDatabase = getDatabase();
         mDatabase.loadTags();
-        for (Review review : mDatabase.getReviewsFromDb()) {
+        for (Review review : mDatabase.loadReviewsFromDb()) {
             add(review);
         }
     }

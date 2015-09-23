@@ -12,8 +12,8 @@ import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ViewerTreeData;
+import com.chdryra.android.reviewer.ApplicationSingletons.TagsManager;
 import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
-import com.chdryra.android.reviewer.Model.Tagging.TagsManager;
 import com.chdryra.android.reviewer.View.GvDataModel.GvAuthorList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvChildReviewList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
@@ -39,7 +39,7 @@ public class ViewerTreeDataTest extends AndroidTestCase {
     public void testGetGridDataMeta() {
         ReviewNode node = ReviewMocker.newReviewNode(false);
         GvTagList tags = GvDataMocker.newTagList(3, false);
-        TagsManager.tag(node.getId(), tags.toStringArray());
+        TagsManager.tag(getContext(), node.getId(), tags.toStringArray());
 
         ViewerTreeData wrapper = new ViewerTreeData(getContext(), node);
         GvList collection = wrapper.getGridData();
@@ -73,7 +73,7 @@ public class ViewerTreeDataTest extends AndroidTestCase {
     public void testGetGridDataReview() {
         ReviewNode node = ReviewMocker.newReviewNode(false);
         GvTagList tags = GvDataMocker.newTagList(3, false);
-        TagsManager.tag(node.getId(), tags.toStringArray());
+        TagsManager.tag(getContext(), node.getId(), tags.toStringArray());
 
         ViewerTreeData wrapper = new ViewerTreeData(getContext(), node);
         GvList collection = wrapper.getGridData();

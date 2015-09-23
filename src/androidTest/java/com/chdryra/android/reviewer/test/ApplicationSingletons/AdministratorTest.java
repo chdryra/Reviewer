@@ -73,7 +73,7 @@ public class AdministratorTest extends ActivityInstrumentationTestCase2<Activity
         assertNotNull(feedNode);
         int numReviews = feedNode.getChildren().size();
         ReviewerDb db = TestDatabase.getDatabase(getInstrumentation());
-        assertEquals(numReviews, db.getReviewsFromDb().size());
+        assertEquals(numReviews, db.loadReviewsFromDb().size());
 
         ReviewBuilderAdapter builder = mAdmin.newReviewBuilder();
         assertNotNull(builder);
@@ -92,7 +92,7 @@ public class AdministratorTest extends ActivityInstrumentationTestCase2<Activity
         assertEquals(numReviews + 1, newSize);
         assertNull(mAdmin.getReviewBuilder());
 
-        IdableList<Review> fromDb = db.getReviewsFromDb();
+        IdableList<Review> fromDb = db.loadReviewsFromDb();
         assertEquals(numReviews + 1, fromDb.size());
         ReviewNode mostRecent = reviews.getItem(newSize - 1);
         assertTrue(fromDb.containsId(mostRecent.getId()));

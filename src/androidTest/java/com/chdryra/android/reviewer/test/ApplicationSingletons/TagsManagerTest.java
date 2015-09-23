@@ -6,24 +6,26 @@
  * Date: 18 February, 2015
  */
 
-package com.chdryra.android.reviewer.test.Model.Tagging;
+package com.chdryra.android.reviewer.test.ApplicationSingletons;
 
+import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
+import com.chdryra.android.reviewer.ApplicationSingletons.TagsManager;
+import com.chdryra.android.reviewer.Model.ReviewData.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewStructure.Review;
-import com.chdryra.android.reviewer.Model.Tagging.TagsManager;
 import com.chdryra.android.reviewer.View.GvDataModel.GvTagList;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
 import com.chdryra.android.reviewer.test.TestUtils.ReviewMocker;
 
-import junit.framework.TestCase;
+import java.util.ArrayList;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 18/02/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class TagsManagerTest extends TestCase {
+public class TagsManagerTest extends AndroidTestCase {
     private static final int NUM = 4;
 
     @SmallTest
@@ -31,19 +33,20 @@ public class TagsManagerTest extends TestCase {
         GvTagList tags = (GvTagList) GvDataMocker.getData(GvTagList.GvTag.TYPE, NUM);
         Review review = ReviewMocker.newReview();
 
-        TagsManager.ReviewTagCollection tagCollection = TagsManager.getTags(review.getId());
+        TagsManager.ReviewTagCollection tagCollection = TagsManager.getTags(getContext(), review
+                .getId());
         assertEquals(0, tagCollection.size());
 
-        TagsManager.tag(review.getId(), tags.toStringArray());
+        TagsManager.tag(getContext(), review.getId(), tags.toStringArray());
 
-        tagCollection = TagsManager.getTags(review.getId());
+        tagCollection = TagsManager.getTags(getContext(), review.getId());
         assertEquals(tags.size(), tagCollection.size());
         for (int i = 0; i < tags.size(); ++i) {
             assertEquals(tags.getItem(i).get(), tagCollection.getItem(i).get());
         }
 
         Review untagged = ReviewMocker.newReview();
-        TagsManager.ReviewTagCollection empty = TagsManager.getTags(untagged.getId());
+        TagsManager.ReviewTagCollection empty = TagsManager.getTags(getContext(), untagged.getId());
         assertEquals(0, empty.size());
     }
 
@@ -67,11 +70,12 @@ public class TagsManagerTest extends TestCase {
         Review review1 = ReviewMocker.newReview();
         Review review2 = ReviewMocker.newReview();
 
-        TagsManager.tag(review1.getId(), tags1.toStringArray());
-        TagsManager.tag(review2.getId(), tags2.toStringArray());
+        TagsManager.tag(getContext(), review1.getId(), tags1.toStringArray());
+        TagsManager.tag(getContext(), review2.getId(), tags2.toStringArray());
 
-        TagsManager.ReviewTagCollection tagCollection1 = TagsManager.getTags(review1.getId());
-        TagsManager.ReviewTagCollection tagCollection2 = TagsManager.getTags(review2.getId());
+        TagsManager.ReviewTagCollection tagCollection1 = TagsManager.getTags(getContext(),
+                review1.getId());
+        TagsManager.ReviewTagCollection tagCollection2 = TagsManager.getTags(getContext(), review2.getId());
         assertEquals(tags1.size(), tagCollection1.size());
         assertEquals(tags2.size(), tagCollection2.size());
 
@@ -92,5 +96,44 @@ public class TagsManagerTest extends TestCase {
                 assertFalse(tag2.tagsReview(review1.getId()));
             }
         }
+    }
+
+    @SmallTest
+    public void testUntagReview() {
+        GvTagList tags = (GvTagList) GvDataMocker.getData(GvTagList.GvTag.TYPE, NUM);
+        Review review = ReviewMocker.newReview();
+
+        TagsManager.ReviewTagCollection tagCollection = TagsManager.getTags(getContext(), review
+                .getId());
+        assertEquals(0, tagCollection.size());
+
+        TagsManager.tag(getContext(), review.getId(), tags.toStringArray());
+
+        tagCollection = TagsManager.getTags(getContext(), review.getId());
+        assertEquals(tags.size(), tagCollection.size());
+        for (int i = 0; i < tags.size(); ++i) {
+            assertEquals(tags.getItem(i).get(), tagCollection.getItem(i).get());
+        }
+
+        assertEquals(tags.size(), TagsManager.getTags(getContext()).size());
+        for (TagsManager.ReviewTag tag : tagCollection) {
+            assertTrue(tag.tagsReview(review.getId()));
+            TagsManager.untag(getContext(), review.getId(), tag);
+            assertFalse(tag.tagsReview(review.getId()));
+        }
+
+        assertEquals(0, TagsManager.getTags(getContext()).size());
+    }
+
+    @Override
+    protected void tearDown() throws Exception {
+        TagsManager.ReviewTagCollection tags = TagsManager.getTags(getContext());
+        for (TagsManager.ReviewTag tag : tags) {
+            ArrayList<ReviewId> ids = tag.getReviews();
+            for (ReviewId id : ids) {
+                TagsManager.untag(getContext(), id, tag);
+            }
+        }
+        assertTrue(TagsManager.getTags(getContext()).size() == 0);
     }
 }

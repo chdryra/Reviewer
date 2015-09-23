@@ -14,8 +14,8 @@ import android.test.suitebuilder.annotation.SmallTest;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ExpanderToData;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.FactoryReviewViewAdapter;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewAdapter;
+import com.chdryra.android.reviewer.ApplicationSingletons.TagsManager;
 import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
-import com.chdryra.android.reviewer.Model.Tagging.TagsManager;
 import com.chdryra.android.reviewer.View.GvDataModel.GvChildReviewList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
@@ -34,7 +34,7 @@ public class ExpanderToDataTest extends AndroidTestCase {
     public void testExpandItem() {
         ReviewNode node = ReviewMocker.newReviewNode(false);
         GvTagList tags = GvDataMocker.newTagList(3, false);
-        TagsManager.tag(node.getId(), tags.toStringArray());
+        TagsManager.tag(getContext(), node.getId(), tags.toStringArray());
         ReviewViewAdapter<? extends GvData> parent = FactoryReviewViewAdapter.newTreeDataAdapter
                 (getContext(), node);
 

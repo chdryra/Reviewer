@@ -11,8 +11,8 @@ package com.chdryra.android.reviewer.Adapter.ReviewAdapterModel;
 import android.content.Context;
 
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.MdGvConverter;
+import com.chdryra.android.reviewer.ApplicationSingletons.TagsManager;
 import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
-import com.chdryra.android.reviewer.Model.Tagging.TagsManager;
 import com.chdryra.android.reviewer.View.GvDataAggregation.Aggregater;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataCollection;
@@ -60,7 +60,7 @@ public class ViewerTreeData implements GridDataViewer<GvData> {
         data.add(Aggregater.aggregate(MdGvConverter.convertChildSubjects(mNode)));
         data.add(Aggregater.aggregate(MdGvConverter.convertChildPublishDates(mNode)));
 
-        data.add(Aggregater.aggregate(tagCollector.collectTags()));
+        data.add(Aggregater.aggregate(tagCollector.collectTags(mContext)));
         data.add(Aggregater.aggregate(MdGvConverter.convert(mNode.getCriteria())));
         data.add(Aggregater.aggregate(MdGvConverter.convert(mNode.getImages())));
         data.add(Aggregater.aggregate(MdGvConverter.convert(mNode.getComments())));
@@ -77,7 +77,7 @@ public class ViewerTreeData implements GridDataViewer<GvData> {
         GvList data = new GvList(id);
         TagCollector tagCollector = new TagCollector(mNode);
 
-        data.add(tagCollector.collectTags());
+        data.add(tagCollector.collectTags(mContext));
         data.add(MdGvConverter.convert(mNode.getCriteria()));
         data.add(MdGvConverter.convert(mNode.getImages()));
         data.add(MdGvConverter.convert(mNode.getComments()));

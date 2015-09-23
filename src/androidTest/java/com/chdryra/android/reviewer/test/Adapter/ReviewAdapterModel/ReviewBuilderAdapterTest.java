@@ -15,9 +15,9 @@ import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilderAdapter;
 import com.chdryra.android.reviewer.ApplicationSingletons.Administrator;
+import com.chdryra.android.reviewer.ApplicationSingletons.TagsManager;
 import com.chdryra.android.reviewer.Model.ReviewData.MdCriterionList;
 import com.chdryra.android.reviewer.Model.ReviewStructure.Review;
-import com.chdryra.android.reviewer.Model.Tagging.TagsManager;
 import com.chdryra.android.reviewer.View.ActivitiesFragments.ActivityReviewView;
 import com.chdryra.android.reviewer.View.GvDataModel.GvBuildReviewList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvChildReviewList;
@@ -238,7 +238,8 @@ public class ReviewBuilderAdapterTest extends ActivityInstrumentationTestCase2<A
         MdGvEquality.check(published.getImages(), (GvImageList) images);
         MdGvEquality.check(published.getLocations(), (GvLocationList) locations);
 
-        TagsManager.ReviewTagCollection tagsPublished = TagsManager.getTags(published.getId());
+        TagsManager.ReviewTagCollection tagsPublished = TagsManager.getTags(getActivity(),
+                published.getId());
         assertEquals(tags.size(), tagsPublished.size());
         for (int j = 0; j < tags.size(); ++j) {
             GvTagList.GvTag tag = (GvTagList.GvTag) tags.getItem(j);
@@ -256,7 +257,7 @@ public class ReviewBuilderAdapterTest extends ActivityInstrumentationTestCase2<A
                     .getItem(i);
             assertEquals(child.getSubject(), childReview.getSubject().get());
             assertEquals(child.getRating(), childReview.getRating().get());
-            TagsManager.ReviewTagCollection tagsChild = TagsManager.getTags(childReview.getId());
+            TagsManager.ReviewTagCollection tagsChild = TagsManager.getTags(getActivity(), childReview.getId());
             assertEquals(tags.size(), tagsChild.size());
             for (int j = 0; j < tags.size(); ++j) {
                 GvTagList.GvTag tag = (GvTagList.GvTag) tags.getItem(j);

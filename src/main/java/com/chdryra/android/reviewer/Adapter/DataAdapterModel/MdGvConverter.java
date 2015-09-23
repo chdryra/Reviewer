@@ -8,8 +8,10 @@
 
 package com.chdryra.android.reviewer.Adapter.DataAdapterModel;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 
+import com.chdryra.android.reviewer.ApplicationSingletons.TagsManager;
 import com.chdryra.android.reviewer.Model.ReviewData.IdableList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdCommentList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdCriterionList;
@@ -22,7 +24,6 @@ import com.chdryra.android.reviewer.Model.ReviewData.PublishDate;
 import com.chdryra.android.reviewer.Model.ReviewData.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewStructure.Review;
 import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
-import com.chdryra.android.reviewer.Model.Tagging.TagsManager;
 import com.chdryra.android.reviewer.Model.TreeMethods.ChildDataGetter;
 import com.chdryra.android.reviewer.Model.UserData.Author;
 import com.chdryra.android.reviewer.View.GvDataModel.GvAuthorList;
@@ -258,9 +259,9 @@ public class MdGvConverter {
         }
     }
 
-    public static GvTagList getTags(String reviewId) {
+    public static GvTagList getTags(Context context, String reviewId) {
         ReviewId id = ReviewId.fromString(reviewId);
-        TagsManager.ReviewTagCollection tags = TagsManager.getTags(id);
+        TagsManager.ReviewTagCollection tags = TagsManager.getTags(context, id);
         GvReviewId gvid = GvReviewId.getId(reviewId);
         GvTagList tagList = new GvTagList(gvid);
         for (TagsManager.ReviewTag tag : tags) {
