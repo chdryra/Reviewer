@@ -46,6 +46,10 @@ public class TestDatabase {
         }
     }
 
+    public static void deleteDatabase(Instrumentation instr) {
+        get(instr).deleteDatabaseIfNecessary();
+    }
+
     private static TestDatabase get(Instrumentation instr) {
         if (sDatabase == null) sDatabase = new TestDatabase(instr);
         return sDatabase;

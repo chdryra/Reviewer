@@ -90,12 +90,12 @@ public class ReviewerDbRow {
     }
 
     public interface TableRow {
-        public String getRowId();
+        String getRowId();
 
-        public String getRowIdColumnName();
+        String getRowIdColumnName();
 
-        public ContentValues getContentValues();
+        ContentValues getContentValues();
 
-        public boolean hasData();
+        boolean hasData();
     }
 }

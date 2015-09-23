@@ -47,7 +47,7 @@ public class MdCriterionList extends MdDataList<MdCriterionList.MdCriterion> {
 
         @Override
         public boolean hasData() {
-            return mCriterion != null;
+            return mCriterion != null && mParentId != null;
         }
 
         @Override

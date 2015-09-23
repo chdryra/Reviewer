@@ -53,14 +53,6 @@ public class ReviewId implements MdData {
         return new ReviewId(rdId);
     }
 
-    public UserId getUserId() {
-        return mId;
-    }
-
-    public long getTime() {
-        return mTime;
-    }
-
     @Override
     public ReviewId getReviewId() {
         return this;

@@ -58,7 +58,7 @@ public class ApplicationSingleton {
         } catch (IllegalAccessException e) {
             throw new RuntimeException(ILLEGAL_ACCESS_ERR + singletonClass.getName(), e);
         } catch (InvocationTargetException e) {
-            throw new RuntimeException(INVOCATION_ERR + singletonClass.getName());
+            throw new RuntimeException(INVOCATION_ERR + singletonClass.getName(), e);
         }
     }
 

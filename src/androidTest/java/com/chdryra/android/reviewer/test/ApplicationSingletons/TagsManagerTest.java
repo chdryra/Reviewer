@@ -99,6 +99,39 @@ public class TagsManagerTest extends AndroidTestCase {
     }
 
     @SmallTest
+    public void testGetTags() {
+        GvTagList tags1 = (GvTagList) GvDataMocker.getData(GvTagList.GvTag.TYPE, NUM);
+        GvTagList tags2 = new GvTagList();
+        int numShared = NUM / 2;
+        for (int i = 0; i < numShared; ++i) {
+            tags2.add(tags1.getItem(i));
+        }
+
+        GvTagList tagsUnshared = (GvTagList) GvDataMocker.getData(GvTagList.GvTag.TYPE,
+                NUM - numShared);
+        for (int i = 0; i < tagsUnshared.size(); ++i) {
+            tags2.add(tagsUnshared.getItem(i));
+        }
+
+        Review review1 = ReviewMocker.newReview();
+        Review review2 = ReviewMocker.newReview();
+
+        TagsManager.tag(getContext(), review1.getId(), tags1.toStringArray());
+        TagsManager.tag(getContext(), review2.getId(), tags2.toStringArray());
+
+        TagsManager.ReviewTagCollection allTags = TagsManager.getTags(getContext());
+        assertEquals(tags1.size() + tagsUnshared.size(), allTags.size());
+        GvTagList allocated = new GvTagList();
+        for(int i = 0; i < NUM; ++i) {
+            TagsManager.ReviewTag tag = allTags.getItem(i);
+            GvTagList.GvTag gvTag = new GvTagList.GvTag(tag.get());
+            assertTrue(tags1.contains(gvTag) || tagsUnshared.contains(gvTag));
+            assertFalse(allocated.contains(gvTag));
+            allocated.add(gvTag);
+        }
+    }
+
+    @SmallTest
     public void testUntagReview() {
         GvTagList tags = (GvTagList) GvDataMocker.getData(GvTagList.GvTag.TYPE, NUM);
         Review review = ReviewMocker.newReview();
