@@ -225,22 +225,6 @@ public class ReviewBuilder {
             mHandler = FactoryGvDataHandler.newHandler(getData(type));
         }
 
-        public String getSubject() {
-            return getParentBuilder().getSubject();
-        }
-
-        public void setSubject(String subject) {
-            getParentBuilder().setSubject(subject);
-        }
-
-        public float getRating() {
-            return getParentBuilder().getRating();
-        }
-
-        public void setRating(float rating) {
-            getParentBuilder().setRating(rating);
-        }
-
         public float getAverageRating() {
             return mHandler.getGvDataType() == GvChildReviewList.GvChildReview.TYPE ?
                     ReviewBuilder.this.getAverageRating() : getRating();

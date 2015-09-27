@@ -60,8 +60,12 @@ public class VhDataCollection implements ViewHolder {
         GvDataType dataType = data.getGvDataType();
 
         String type = number == 1 ? dataType.getDatumName() : dataType.getDataName();
-        mDataView.updateView(new GvDualText(String.valueOf(number), type));
+        mDataView.updateView(new GvDualText(getUpperString(number), type));
         mCurrentView = mDataView;
+    }
+
+    protected String getUpperString(int number) {
+        return String.valueOf(number);
     }
 
     private void updateDatumView(GvDataCollection data) {

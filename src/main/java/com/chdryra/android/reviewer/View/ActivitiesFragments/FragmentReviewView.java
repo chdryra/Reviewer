@@ -16,14 +16,14 @@ import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.DisplayMetrics;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.GridView;
@@ -229,24 +229,18 @@ public class FragmentReviewView extends Fragment implements GridDataObservable.G
         if (isEditable()) {
             mSubjectView.setFocusable(true);
             ((ClearableEditText) mSubjectView).makeClearable(true);
-            mSubjectView.addTextChangedListener(new TextWatcher() {
+            mSubjectView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
                 final ReviewViewAction.SubjectAction action = mReviewView.getSubjectViewAction();
-
                 @Override
-                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                    action.beforeTextChanged(s, start, count, after);
-                }
+                public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                    if (actionId == EditorInfo.IME_ACTION_DONE ||
+                            event.getAction() == KeyEvent.ACTION_DOWN &&
+                                    event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
 
-                @Override
-                public void onTextChanged(CharSequence s, int start, int before, int count) {
-                    action.onTextChanged(s, start, before, count);
-                }
-
-                @Override
-                public void afterTextChanged(Editable s) {
-                    if (s.toString().length() > 0) {
-                        action.afterTextChanged(s);
+                        action.onEditorDone(v.getText());
+                        return true;
                     }
+                    return false;
                 }
             });
         } else {

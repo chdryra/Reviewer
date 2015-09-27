@@ -14,6 +14,7 @@ package com.chdryra.android.reviewer.View.GvDataModel;
  * Email: rizwan.choudrey@gmail.com
  */
 
+import com.chdryra.android.mygenerallibrary.ViewHolder;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilderAdapter;
 import com.chdryra.android.reviewer.View.Configs.ConfigGvDataUi;
 import com.chdryra.android.reviewer.View.Screens.GridDataObservable;
@@ -69,6 +70,11 @@ public class GvBuildReviewList extends GvDataList<GvBuildReviewList.GvBuildRevie
         @Override
         public String getStringSummary() {
             return getGvDataType().getDataName();
+        }
+
+        @Override
+        public ViewHolder getViewHolder() {
+            return new VhBuildReviewData();
         }
 
         public ConfigGvDataUi.Config getConfig() {

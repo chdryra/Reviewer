@@ -13,7 +13,6 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
 import android.support.v4.app.NavUtils;
-import android.text.Editable;
 import android.util.SparseArray;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -90,18 +89,12 @@ public class ReviewViewAction {
 
     @SuppressWarnings("EmptyMethod")
     public static class SubjectAction extends ReviewViewAction {
-
         public String getSubject() {
             return getAdapter().getSubject();
         }
 
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-        }
+        public void onEditorDone(CharSequence s) {
 
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-        }
-
-        public void afterTextChanged(Editable s) {
         }
     }
 

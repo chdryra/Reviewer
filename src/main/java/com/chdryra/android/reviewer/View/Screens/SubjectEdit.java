@@ -8,8 +8,6 @@
 
 package com.chdryra.android.reviewer.View.Screens;
 
-import android.text.Editable;
-
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilderAdapter;
 
 /**
@@ -18,22 +16,9 @@ import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilderAdap
  * Email: rizwan.choudrey@gmail.com
  */
 public class SubjectEdit extends ReviewViewAction.SubjectAction {
-    //Because clear button not picked up by afterTextChanged
     @Override
-    public void onTextChanged(CharSequence s, int start, int before, int count) {
-        if (s.length() == 0 && getAdapter().getSubject() != null && getAdapter().getSubject()
-                .length() > 0) {
-            setSubject(s.toString());
-        }
-    }
-
-    @Override
-    public void afterTextChanged(Editable s) {
-        setSubject(s.toString());
-    }
-
-    private void setSubject(String subject) {
+    public void onEditorDone(CharSequence s) {
         ReviewBuilderAdapter controller = (ReviewBuilderAdapter) getAdapter();
-        controller.setSubject(subject);
+        controller.setSubject(s.toString());
     }
 }
