@@ -78,6 +78,19 @@ public class BuildScreen {
         mGridItem.showQuickDialog(ConfigGvDataUi.getConfig(GvTagList.GvTag.TYPE));
     }
 
+    /**
+     * Created by: Rizwan Choudrey
+     * On: 24/01/2015
+     * Email: rizwan.choudrey@gmail.com
+     */
+    public static class SubjectEdit extends ReviewViewAction.SubjectAction {
+        @Override
+        public void onEditorDone(CharSequence s) {
+            ReviewBuilderAdapter adapter = (ReviewBuilderAdapter) getAdapter();
+            adapter.setSubject(s.toString());
+        }
+    }
+
     private class BuildScreenGridItem extends ReviewViewAction.GridItemAction {
         private static final String TAG = "GridItemBuildUiListener";
         private final BuildListener           mListener;
@@ -114,8 +127,7 @@ public class BuildScreen {
             executeIntent((GvBuildReviewList.GvBuildReview) item, false);
         }
 
-        private void executeIntent(GvBuildReviewList.GvBuildReview gridCell,
-                boolean quickDialog) {
+        private void executeIntent(GvBuildReviewList.GvBuildReview gridCell, boolean quickDialog) {
             if (quickDialog && gridCell.getDataSize() == 0) {
                 showQuickDialog(gridCell.getConfig());
             } else {
@@ -218,7 +230,7 @@ public class BuildScreen {
 
     private class BuildScreenMenu extends ReviewViewAction.MenuAction {
         public static final  int MENU_AVERAGE_ID = R.id.menu_item_average_rating;
-        private static final int MENU            = R.menu.fragment_review_options;
+        private static final int MENU = R.menu.menu_build_review;
 
         private final MenuActionItem    mActionItem;
         private       ReviewView.Editor mEditor;
@@ -227,7 +239,7 @@ public class BuildScreen {
             super(MENU, title, true);
             mActionItem = new MenuActionItem() {
                 @Override
-                public void doAction(MenuItem item) {
+                public void doAction(Context context, MenuItem item) {
                     ReviewBuilderAdapter builder = (ReviewBuilderAdapter) getAdapter();
                     builder.setRatingIsAverage(true);
                     mEditor.setRating(builder.getRating());
@@ -243,7 +255,7 @@ public class BuildScreen {
 
         @Override
         protected void addMenuItems() {
-            addMenuActionItem(mActionItem, MENU_AVERAGE_ID, false);
+            bindMenuActionItem(mActionItem, MENU_AVERAGE_ID, false);
         }
     }
 

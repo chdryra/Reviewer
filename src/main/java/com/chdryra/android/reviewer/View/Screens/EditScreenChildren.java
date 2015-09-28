@@ -8,6 +8,7 @@
 
 package com.chdryra.android.reviewer.View.Screens;
 
+import android.content.Context;
 import android.view.MenuItem;
 
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilderAdapter;
@@ -28,7 +29,7 @@ public class EditScreenChildren {
         public static final  int MENU_DELETE_ID  = R.id.menu_item_delete;
         public static final  int MENU_DONE_ID    = R.id.menu_item_done;
         public static final  int MENU_AVERAGE_ID = R.id.menu_item_average_rating;
-        private static final int MENU            = R.menu.fragment_review_children;
+        private static final int MENU = R.menu.menu_edit_children;
 
         private final MenuItemChildrenRatingAverage mActionItem;
 
@@ -39,28 +40,25 @@ public class EditScreenChildren {
 
         @Override
         public void onGridDataChanged() {
-            if (getEditor().isRatingAverage()) {
-                mActionItem.setAverageRating();
-            }
+            if (getEditor().isRatingAverage()) mActionItem.setAverageRating();
         }
 
         @Override
         public void onAttachReviewView() {
             super.onAttachReviewView();
-            ReviewView.Editor editor = getEditor();
 
+            ReviewView.Editor editor = getEditor();
             editor.registerGridDataObserver(this);
             ReviewBuilderAdapter.DataBuilderAdapter adapter = (ReviewBuilderAdapter
-                    .DataBuilderAdapter) editor
-                    .getAdapter();
+                    .DataBuilderAdapter) editor.getAdapter();
             editor.setRatingAverage(adapter.getParentBuilder().isRatingAverage());
         }
 
         @Override
         protected void addMenuItems() {
-            addDefaultDeleteActionItem(MENU_DELETE_ID);
-            addDefaultDoneActionItem(MENU_DONE_ID);
-            addMenuActionItem(mActionItem, MENU_AVERAGE_ID, false);
+            bindDefaultDeleteActionItem(MENU_DELETE_ID);
+            bindDefaultDoneActionItem(MENU_DONE_ID);
+            bindMenuActionItem(mActionItem, MENU_AVERAGE_ID, false);
         }
 
         @Override
@@ -81,7 +79,7 @@ public class EditScreenChildren {
             }
 
             @Override
-            public void doAction(MenuItem item) {
+            public void doAction(Context context, MenuItem item) {
                 getEditor().setRatingAverage(true);
                 setAverageRating();
             }

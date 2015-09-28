@@ -9,9 +9,7 @@
 package com.chdryra.android.reviewer.View.Screens;
 
 import android.os.Bundle;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.View.Configs.ConfigGvDataUi;
@@ -78,17 +76,18 @@ public class EditScreenComments {
         public static final  int MENU_DELETE_ID = R.id.menu_item_delete;
         public static final  int MENU_DONE_ID   = R.id.menu_item_done;
         public static final  int MENU_SPLIT_ID  = R.id.menu_item_split_comment;
-        private static final int MENU           = R.menu.fragment_review_comment;
+        private static final int MENU = R.menu.menu_edit_comments;
 
-        private boolean mCommentsAreSplit = false;
+        private final MaiSplitComments mSplitter;
 
         public Menu() {
             super(TYPE.getDataName(), TYPE.getDataName(), false, true, MENU);
+            mSplitter = new MaiSplitComments(this);
         }
 
         @Override
         public void onGridDataChanged() {
-            updateGridDataUi();
+            mSplitter.updateGridDataUi();
         }
 
         @Override
@@ -99,53 +98,15 @@ public class EditScreenComments {
 
         @Override
         protected void addMenuItems() {
-            addDefaultDeleteActionItem(MENU_DELETE_ID);
-            addDefaultDoneActionItem(MENU_DONE_ID);
-            addMenuActionItem(getSplitOrUnsplitCommentsAction(), MENU_SPLIT_ID, false);
+            bindDefaultDeleteActionItem(MENU_DELETE_ID);
+            bindDefaultDoneActionItem(MENU_DONE_ID);
+            bindMenuActionItem(mSplitter, MENU_SPLIT_ID, false);
         }
 
         @Override
         public void onUnattachReviewView() {
             getReviewView().unregisterGridDataObserver(this);
             super.onUnattachReviewView();
-        }
-
-        private MenuActionItem getSplitOrUnsplitCommentsAction() {
-            return new MenuActionItem() {
-                @Override
-                public void doAction(MenuItem item) {
-                    splitOrUnsplitComments(item);
-                }
-            };
-        }
-
-        private void updateGridDataUi() {
-            //Change grid data
-            GvCommentList comments = (GvCommentList) getGridData();
-            if (comments != null) {
-                if (mCommentsAreSplit) {
-                    getReviewView().setGridViewData(comments.getSplitComments());
-                } else {
-                    getReviewView().resetGridViewData();
-                }
-            }
-        }
-
-        private void splitOrUnsplitComments(MenuItem item) {
-            mCommentsAreSplit = !mCommentsAreSplit;
-
-            //Change menu icons
-            item.setIcon(mCommentsAreSplit ? R.drawable.ic_action_return_from_full_screen : R
-                    .drawable.ic_action_full_screen);
-            if (mCommentsAreSplit) {
-                Toast.makeText(getActivity(), R.string.toast_split_comment,
-                        Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(getActivity(), R.string.toast_unsplit_comment,
-                        Toast.LENGTH_SHORT).show();
-            }
-
-            updateGridDataUi();
         }
     }
 }

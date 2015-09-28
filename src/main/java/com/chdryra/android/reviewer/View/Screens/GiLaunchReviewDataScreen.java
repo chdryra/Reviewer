@@ -20,7 +20,7 @@ public class GiLaunchReviewDataScreen extends GridItemExpander {
     @Override
     public void onClickExpandable(GvData item, int position, View v, ReviewViewAdapter
             expanded) {
-        ReviewView ui = ReviewDataScreen.newScreen(expanded);
+        ReviewView ui = ReviewDataScreen.newScreen(expanded, item.getGvDataType());
         LauncherUi.launch(ui, getReviewView().getParent(), REQUEST_CODE, ui.getLaunchTag(), new
                 Bundle());
     }

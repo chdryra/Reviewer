@@ -43,20 +43,20 @@ import com.chdryra.android.reviewer.View.Launcher.LauncherUi;
  * Email: rizwan.choudrey@gmail.com
  */
 public class EditScreen {
+    private EditScreen() {
+
+    }
+
     public static ReviewView newScreen(Context context, GvDataType dataType) {
         ReviewBuilderAdapter.DataBuilderAdapter builder = Administrator.get(context)
-                .getReviewBuilder()
-                .getDataBuilder(dataType);
+                .getReviewBuilder().getDataBuilder(dataType);
 
         ReviewView view = new ReviewView.Editor(builder);
 
         setActions(view, dataType, context.getResources().getString(R.string.button_add) + " " +
                 dataType.getDatumName());
 
-        if (dataType == GvImageList.GvImage.TYPE) {
-            ReviewViewParams.CellDimension half = ReviewViewParams.CellDimension.HALF;
-            view.getParams().setCellHeight(half).setCellWidth(half);
-        }
+        DefaultScreenParameters.setParams(view, dataType);
 
         return view;
     }
@@ -103,12 +103,10 @@ public class EditScreen {
         } else if (dataType == GvFactList.GvFact.TYPE) {
             return new EditScreenFacts.BannerButton(title);
         } else {
-            return new BannerButton(ConfigGvDataUi.getConfig(dataType).getAdderConfig()
-                    , title);
+            return new BannerButton(ConfigGvDataUi.getConfig(dataType).getAdderConfig(), title);
         }
     }
 
-    @SuppressWarnings("EmptyMethod")
     public static class BannerButton extends ReviewViewAction.BannerButtonAction {
         private static final String TAG = "ActionBannerButtonAddListener";
 
@@ -189,6 +187,7 @@ public class EditScreen {
 
             @Override
             public void onGvDataCancel() {
+                //TODO make type safe
                 for (GvData added : mAdded) {
                     getDataBuilder().delete(added);
                 }
@@ -385,14 +384,14 @@ public class EditScreen {
 
             mDeleteAction = new MenuActionItem() {
                 @Override
-                public void doAction(MenuItem item) {
+                public void doAction(Context context, MenuItem item) {
                     if (hasDataToDelete()) showDeleteConfirmDialog();
                 }
             };
 
             mDoneAction = new MenuActionItem() {
                 @Override
-                public void doAction(MenuItem item) {
+                public void doAction(Context context, MenuItem item) {
                     doDoneSelected();
                     sendResult(RESULT_DONE);
                 }
@@ -413,8 +412,8 @@ public class EditScreen {
 
         @Override
         protected void addMenuItems() {
-            addDefaultDeleteActionItem(MENU_DELETE_ID);
-            addDefaultDoneActionItem(MENU_DONE_ID);
+            bindDefaultDeleteActionItem(MENU_DELETE_ID);
+            bindDefaultDoneActionItem(MENU_DONE_ID);
         }
 
         @Override
@@ -425,12 +424,12 @@ public class EditScreen {
             super.doUpSelected();
         }
 
-        protected void addDefaultDeleteActionItem(int deleteId) {
-            addMenuActionItem(getDeleteAction(), deleteId, false);
+        protected void bindDefaultDeleteActionItem(int deleteId) {
+            bindMenuActionItem(getDeleteAction(), deleteId, false);
         }
 
-        protected void addDefaultDoneActionItem(int doneId) {
-            addMenuActionItem(getDoneAction(), doneId, mDismissOnDone);
+        protected void bindDefaultDoneActionItem(int doneId) {
+            bindMenuActionItem(getDoneAction(), doneId, mDismissOnDone);
         }
 
         protected MenuActionItem getDeleteAction() {

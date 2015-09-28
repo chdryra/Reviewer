@@ -34,7 +34,7 @@ public class GvCommentList extends GvDataList<GvCommentList.GvComment> {
 
     public GvCommentList getSplitComments() {
         GvCommentList splitComments = new GvCommentList(getReviewId());
-        for (GvComment comment : this) {
+        for (GvCommentList.GvComment comment : this) {
             splitComments.addList(comment.getSplitComments());
         }
 
@@ -147,6 +147,19 @@ public class GvCommentList extends GvDataList<GvCommentList.GvComment> {
         }
 
         @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel parcel, int i) {
+            super.writeToParcel(parcel, i);
+            parcel.writeString(mComment);
+            parcel.writeParcelable(mUnsplitParent, i);
+            parcel.writeByte((byte) (mIsHeadline ? 1 : 0));
+        }
+
+        @Override
         public boolean equals(Object o) {
             if (this == o) return true;
             if (!(o instanceof GvComment)) return false;
@@ -172,19 +185,6 @@ public class GvCommentList extends GvDataList<GvCommentList.GvComment> {
             return result;
         }
 
-        @Override
-        public int describeContents() {
-            return 0;
-        }
-
-        @Override
-        public void writeToParcel(Parcel parcel, int i) {
-            super.writeToParcel(parcel, i);
-            parcel.writeString(mComment);
-            parcel.writeParcelable(mUnsplitParent, i);
-            parcel.writeByte((byte) (mIsHeadline ? 1 : 0));
-        }
-
         public String getHeadline() {
             return CommentFormatter.getHeadline(mComment);
         }
@@ -193,7 +193,7 @@ public class GvCommentList extends GvDataList<GvCommentList.GvComment> {
             return mUnsplitParent != null ? mUnsplitParent.getUnsplitComment() : this;
         }
 
-        private GvCommentList getSplitComments() {
+        public GvCommentList getSplitComments() {
             GvCommentList splitComments = new GvCommentList(getReviewId());
             for (String comment : CommentFormatter.split(mComment)) {
                 splitComments.add(new GvComment(getReviewId(), comment, this));

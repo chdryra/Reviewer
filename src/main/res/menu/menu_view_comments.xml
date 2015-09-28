@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) 2014, Rizwan Choudrey - All Rights Reserved
+  ~ Unauthorized copying of this file, via any medium is strictly prohibited
+  ~ Proprietary and confidential
+  ~ Author: Rizwan Choudrey
+  ~ Date: 23 September, 2014
+  -->
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:tools="http://schemas.android.com/tools">
+    <item
+        android:id="@+id/menu_item_split_comment"
+        android:icon="@drawable/ic_action_full_screen"
+        android:showAsAction="always|withText"
+        android:title="@string/menu_options"
+        tools:ignore="AlwaysShowAction"/>
+</menu>

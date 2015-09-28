@@ -228,9 +228,9 @@ public class TestReviews {
         review.mCriteria.add(new Criterion("Food", 3f));
         review.mCriteria.add(new Criterion("Service", 1f));
         review.mCriteria.add(new Criterion("Value", 4f));
-        review.mComments.add("Food not so good today and service preety mediocre.");
+        review.mComments.add("Food not so good today. Service was pretty mediocre.");
         review.mComments.add("Very busy today and they couldn't cope.");
-        review.mComments.add("Food was cold.");
+        review.mComments.add("Food was cold. Food came late.");
         review.mLocations.add(new Location("Tayyabs", 51.517972, -0.063291));
         review.mFacts.add(new Fact("Starter", "5"));
         review.mFacts.add(new Fact("Main", "9"));

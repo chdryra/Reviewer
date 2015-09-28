@@ -14,6 +14,8 @@ import com.chdryra.android.reviewer.Adapter.DataAdapterModel.MdGvConverter;
 import com.chdryra.android.reviewer.ApplicationSingletons.TagsManager;
 import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
 import com.chdryra.android.reviewer.View.GvDataAggregation.Aggregater;
+import com.chdryra.android.reviewer.View.GvDataModel.GvCanonicalCollection;
+import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataCollection;
 import com.chdryra.android.reviewer.View.GvDataModel.GvList;
@@ -46,6 +48,54 @@ public class ViewerTreeData implements GridDataViewer<GvData> {
     @Override
     public GvList getGridData() {
         return mNode.getChildren().size() > 0 ? getAggregateGridData() : getNodeGridData();
+    }
+
+    @Override
+    public boolean isExpandable(GvData datum) {
+        if (!datum.hasElements() || mCache == null) return false;
+
+        GvDataCollection data = (GvDataCollection) datum;
+        for (GvData list : mCache) {
+            ((GvDataCollection) list).sort();
+        }
+        data.sort();
+
+        return mCache.contains(datum);
+    }
+
+    @Override
+    public ReviewViewAdapter<? extends GvData> expandItem(GvData datum) {
+        if (isExpandable(datum)) {
+            ReviewViewAdapter<? extends GvData> parent
+                    = ReviewListScreen.newScreen(mContext, mNode).getAdapter();
+            if (datum.getGvDataType() == GvReviewOverviewList.GvReviewOverview.TYPE) {
+                return parent;
+            }
+
+            GvDataCollection<? extends GvData> data = (GvDataCollection<? extends GvData>) datum;
+            ReviewViewAdapter<? extends GvData> adapter;
+            if (mIsAggregate) {
+                String subject = parent.getSubject();
+                if (data.getGvDataType() == GvCommentList.GvComment.TYPE) {
+                    //TODO make type safe
+                    GvCanonicalCollection<GvCommentList.GvComment> comments =
+                            (GvCanonicalCollection<GvCommentList.GvComment>) data;
+                    adapter = FactoryReviewViewAdapter.newExpandToReviewsAdapterForComments
+                            (mContext,
+                                                                                            comments,
+                                                                                            subject);
+                } else {
+                    adapter = FactoryReviewViewAdapter.newExpandToReviewsAdapter(mContext, data,
+                                                                                 subject);
+
+                }
+            } else {
+                adapter = FactoryReviewViewAdapter.newExpandToDataAdapter(parent, data);
+            }
+            return adapter;
+        }
+
+        return null;
     }
 
     private GvList getAggregateGridData() {
@@ -87,41 +137,5 @@ public class ViewerTreeData implements GridDataViewer<GvData> {
         mCache = data;
         mIsAggregate = false;
         return data;
-    }
-
-    @Override
-    public boolean isExpandable(GvData datum) {
-        if (!datum.hasElements() || mCache == null) return false;
-
-        GvDataCollection data = (GvDataCollection) datum;
-        for (GvData list : mCache) {
-            ((GvDataCollection) list).sort();
-        }
-        data.sort();
-
-        return mCache.contains(datum);
-    }
-
-    @Override
-    public ReviewViewAdapter<? extends GvData> expandItem(GvData datum) {
-        if (isExpandable(datum)) {
-            ReviewViewAdapter<? extends GvData> parent
-                    = ReviewListScreen.newScreen(mContext, mNode).getAdapter();
-            if (datum.getGvDataType() == GvReviewOverviewList.GvReviewOverview.TYPE) {
-                return parent;
-            }
-
-            GvDataCollection<? extends GvData> data = (GvDataCollection<? extends GvData>) datum;
-            ReviewViewAdapter<? extends GvData> adapter;
-            if (mIsAggregate) {
-                adapter = FactoryReviewViewAdapter.newExpandToReviewsAdapter(mContext, data,
-                        parent.getSubject());
-            } else {
-                adapter = FactoryReviewViewAdapter.newExpandToDataAdapter(parent, data);
-            }
-            return adapter;
-        }
-
-        return null;
     }
 }

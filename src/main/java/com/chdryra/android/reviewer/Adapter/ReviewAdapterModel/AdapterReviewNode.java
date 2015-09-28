@@ -32,6 +32,10 @@ public class AdapterReviewNode<T extends GvData> extends ReviewViewAdapterBasic<
         setWrapper(wrapper);
     }
 
+    protected AdapterReviewNode(ReviewNode node) {
+        mNode = node;
+    }
+
     public ReviewViewAdapter getTreeDataAdapter() {
         return FactoryReviewViewAdapter.newTreeDataAdapter(getReviewView().getActivity(), mNode);
     }

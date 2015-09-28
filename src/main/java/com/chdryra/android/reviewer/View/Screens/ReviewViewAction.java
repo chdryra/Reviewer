@@ -11,6 +11,7 @@ package com.chdryra.android.reviewer.View.Screens;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.NavUtils;
 import android.util.SparseArray;
@@ -167,7 +168,7 @@ public class ReviewViewAction {
             mTitle = title;
             mDisplayHomeAsUp = displayHomeAsUp;
             mActionItems = new SparseArray<>();
-            if (mDisplayHomeAsUp) addMenuActionItem(getUpActionItem(), MENU_UP_ID, true);
+            if (mDisplayHomeAsUp) bindMenuActionItem(getUpActionItem(), MENU_UP_ID, true);
         }
 
         public MenuAction(String title) {
@@ -193,14 +194,15 @@ public class ReviewViewAction {
             if (hasOptionsMenu()) inflater.inflate(mMenuId, menu);
         }
 
-        public void addMenuActionItem(MenuActionItem item, int itemId, boolean finishActivity) {
+        public void bindMenuActionItem(MenuActionItem item, int itemId, boolean finishActivity) {
             mActionItems.put(itemId, new MenuActionItemInfo(item, finishActivity));
         }
 
         public boolean onItemSelected(android.view.MenuItem item) {
-            MenuActionItemInfo actionItem = mActionItems.get(item.getItemId());
+            int itemId = item.getItemId();
+            MenuActionItemInfo actionItem = mActionItems.get(itemId);
             if (actionItem != null) {
-                actionItem.mItem.doAction(item);
+                actionItem.mItem.doAction(getActivity(), item);
                 if (actionItem.mFinishActivity) getActivity().finish();
                 return true;
             }
@@ -225,7 +227,7 @@ public class ReviewViewAction {
         private MenuActionItem getUpActionItem() {
             return new MenuActionItem() {
                 @Override
-                public void doAction(MenuItem item) {
+                public void doAction(Context context, MenuItem item) {
                     doUpSelected();
                     sendResult(RESULT_UP);
                 }
@@ -233,7 +235,7 @@ public class ReviewViewAction {
         }
 
         public interface MenuActionItem {
-            void doAction(MenuItem item);
+            void doAction(Context context, MenuItem item);
         }
 
         private class MenuActionItemInfo {

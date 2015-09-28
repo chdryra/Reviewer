@@ -61,7 +61,7 @@ public class FeedScreen implements ReviewFeed.ReviewFeedObserver {
 
     private static class FeedScreenMenu extends ReviewViewAction.MenuAction {
         public static final  int MENU_NEW_REVIEW_ID = R.id.menu_item_new_review;
-        private static final int MENU               = R.menu.fragment_feed;
+        private static final int MENU = R.menu.menu_feed;
 
         private FeedScreenMenu() {
             super(MENU, null, false);
@@ -69,11 +69,11 @@ public class FeedScreen implements ReviewFeed.ReviewFeedObserver {
 
         @Override
         protected void addMenuItems() {
-            addMenuActionItem(new MenuActionItem() {
+            bindMenuActionItem(new MenuActionItem() {
                 @Override
-                public void doAction(MenuItem item) {
-                    Administrator.get(getActivity()).newReviewBuilder();
-                    LaunchableUi ui = BuildScreen.newScreen(getActivity());
+                public void doAction(Context context, MenuItem item) {
+                    Administrator.get(context).newReviewBuilder();
+                    LaunchableUi ui = BuildScreen.newScreen(context);
                     LauncherUi.launch(ui, getReviewView().getParent(), REQUEST_CODE, ui.getLaunchTag
                             (), new Bundle());
                 }

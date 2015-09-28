@@ -20,6 +20,7 @@ import com.chdryra.android.reviewer.View.Dialogs.DialogGvDataView;
 import com.chdryra.android.reviewer.View.Dialogs.DialogShower;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataPacker;
+import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
 import com.chdryra.android.reviewer.View.Launcher.LauncherUi;
 import com.chdryra.android.reviewer.View.Launcher.ReviewLauncher;
 import com.chdryra.android.reviewer.View.Utils.RequestCodeGenerator;
@@ -33,13 +34,21 @@ public class ReviewDataScreen {
     private static final int REQUEST_CODE = RequestCodeGenerator.getCode("ReviewDataScreen");
     private ReviewView        mReviewView;
 
-    private ReviewDataScreen(ReviewViewAdapter adapter) {
+    private ReviewDataScreen(ReviewViewAdapter<? extends GvData> adapter) {
         mReviewView = new ReviewView(adapter);
         mReviewView.setAction(new GridItem());
     }
 
-    public static ReviewView newScreen(ReviewViewAdapter adapter) {
-        return new ReviewDataScreen(adapter).getScreen();
+    public static ReviewView newScreen(ReviewViewAdapter<? extends GvData> adapter) {
+        return new  ReviewDataScreen(adapter).getScreen();
+    }
+
+    public static ReviewView newScreen(ReviewViewAdapter<? extends GvData> adapter,
+                                       GvDataType forDefaults) {
+        ReviewView screen = newScreen(adapter);
+        DefaultScreenParameters.setParams(screen, forDefaults);
+        DefaultScreenMenus.setMenu(screen, forDefaults);
+        return screen;
     }
 
     private ReviewView getScreen() {
@@ -61,7 +70,8 @@ public class ReviewDataScreen {
         public void onClickExpandable(GvData item, int position, View v, ReviewViewAdapter
                 expanded) {
             ReviewView screen = expanded.getReviewView();
-            if (screen == null) screen = newScreen(expanded);
+            //TODO make type safe
+            if (screen == null) screen = newScreen(expanded, item.getGvDataType());
             LauncherUi.launch(screen, getReviewView().getParent(), REQUEST_CODE,
                     screen.getLaunchTag(), new Bundle());
         }

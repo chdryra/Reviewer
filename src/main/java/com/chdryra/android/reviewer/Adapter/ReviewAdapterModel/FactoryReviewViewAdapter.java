@@ -12,6 +12,8 @@ import android.content.Context;
 
 import com.chdryra.android.reviewer.ApplicationSingletons.ReviewMaker;
 import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
+import com.chdryra.android.reviewer.View.GvDataModel.GvCanonicalCollection;
+import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataCollection;
 import com.chdryra.android.reviewer.View.GvDataModel.GvReviewOverviewList;
@@ -43,17 +45,21 @@ public class FactoryReviewViewAdapter {
     public static <T extends GvData> ReviewViewAdapter<? extends GvData> newExpandToReviewsAdapter(
             Context context, GvDataCollection<T> data, String subject) {
         ExpanderToReviews<T> expander = new ExpanderToReviews<>(context, data);
-        ReviewNode node = ReviewMaker.createMetaReview(context, data, subject);
         ViewerGvDataCollection<T> wrapper = new ViewerGvDataCollection<>(expander, data);
+        ReviewNode node = ReviewMaker.createMetaReview(context, data, subject);
         return new AdapterReviewNode<>(node, wrapper);
     }
 
+    public static ReviewViewAdapter<? extends GvData> newExpandToReviewsAdapterForComments(
+            Context context, GvCanonicalCollection<GvCommentList.GvComment> data, String subject) {
+        ReviewNode node = ReviewMaker.createMetaReview(context, data, subject);
+        return new AdapterCommentsAggregate(context, node, data);
+    }
+
     private static <T extends GvData> ReviewViewAdapter<? extends GvData>
-    newGvDataCollectionAdapter(
-            ReviewViewAdapter<? extends GvData> parent,
-            GvDataCollection<T> data,
+    newGvDataCollectionAdapter(ReviewViewAdapter<? extends GvData> parent, GvDataCollection<T> data,
             GridCellExpander<T> expander) {
         ViewerGvDataCollection<T> wrapper = new ViewerGvDataCollection<>(expander, data);
-        return new AdapterReviewViewAdapter<>(parent, wrapper, expander);
+        return new AdapterReviewViewAdapter<>(parent, wrapper);
     }
 }
