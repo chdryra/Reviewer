@@ -13,8 +13,8 @@ import com.chdryra.android.reviewer.View.ActivitiesFragments.ActivityViewReviewL
 import com.chdryra.android.reviewer.View.Dialogs.DialogGvDataAdd;
 import com.chdryra.android.reviewer.View.Dialogs.DialogGvDataEdit;
 import com.chdryra.android.reviewer.View.Dialogs.DialogGvDataView;
-import com.chdryra.android.reviewer.View.GvDataModel.GvChildReviewList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
+import com.chdryra.android.reviewer.View.GvDataModel.GvCriterionList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
 import com.chdryra.android.reviewer.View.GvDataModel.GvFactList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
@@ -41,7 +41,7 @@ public final class ConfigGvDataAddEditView {
     private ConfigGvDataAddEditView() {
         mMap.put(GvTagList.GvTag.TYPE,
                 new AddEditViewUis(AddTag.class, EditTag.class, ViewTag.class));
-        mMap.put(GvChildReviewList.GvChildReview.TYPE,
+        mMap.put(GvCriterionList.GvCriterion.TYPE,
                 new AddEditViewUis(AddChild.class, EditChild.class, ViewChild.class));
         mMap.put(GvCommentList.GvComment.TYPE,
                 new AddEditViewUis(AddComment.class, EditComment.class, ViewComment.class));
@@ -87,9 +87,9 @@ public final class ConfigGvDataAddEditView {
 
     //Child
     public static class AddChild extends
-            DialogGvDataAdd<GvChildReviewList.GvChildReview> {
+            DialogGvDataAdd<GvCriterionList.GvCriterion> {
         public AddChild() {
-            super(GvChildReviewList.GvChildReview.TYPE);
+            super(GvCriterionList.GvCriterion.TYPE);
         }
     }
 
@@ -123,9 +123,9 @@ public final class ConfigGvDataAddEditView {
     }
 
     //Child
-    public static class EditChild extends DialogGvDataEdit<GvChildReviewList.GvChildReview> {
+    public static class EditChild extends DialogGvDataEdit<GvCriterionList.GvCriterion> {
         public EditChild() {
-            super(GvChildReviewList.GvChildReview.TYPE);
+            super(GvCriterionList.GvCriterion.TYPE);
         }
     }
 
@@ -166,9 +166,9 @@ public final class ConfigGvDataAddEditView {
     }
 
     //Child
-    public static class ViewChild extends DialogGvDataView<GvChildReviewList.GvChildReview> {
+    public static class ViewChild extends DialogGvDataView<GvCriterionList.GvCriterion> {
         public ViewChild() {
-            super(GvChildReviewList.GvChildReview.TYPE);
+            super(GvCriterionList.GvCriterion.TYPE);
         }
     }
 

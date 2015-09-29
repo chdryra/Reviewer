@@ -10,8 +10,8 @@ package com.chdryra.android.reviewer.View.Dialogs;
 
 import android.util.Log;
 
-import com.chdryra.android.reviewer.View.GvDataModel.GvChildReviewList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
+import com.chdryra.android.reviewer.View.GvDataModel.GvCriterionList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
 import com.chdryra.android.reviewer.View.GvDataModel.GvFactList;
@@ -41,7 +41,7 @@ public class FactoryGvDataViewLayout {
 
     private FactoryGvDataViewLayout() {
         mMapAdd = new HashMap<>();
-        mMapAdd.put(GvChildReviewList.GvChildReview.TYPE, AddEditChildReview.class);
+        mMapAdd.put(GvCriterionList.GvCriterion.TYPE, AddEditChildReview.class);
         mMapAdd.put(GvCommentList.GvComment.TYPE, AddEditComment.class);
         mMapAdd.put(GvFactList.GvFact.TYPE, AddEditFact.class);
         mMapAdd.put(GvImageList.GvImage.TYPE, ImageEdit.class);
@@ -54,7 +54,7 @@ public class FactoryGvDataViewLayout {
 
         mMapView = new HashMap<>();
         mMapView.putAll(mMapEdit);
-        mMapView.put(GvChildReviewList.GvChildReview.TYPE, ViewChildReview.class);
+        mMapView.put(GvCriterionList.GvCriterion.TYPE, ViewChildReview.class);
         mMapView.put(GvCommentList.GvComment.TYPE, ViewComment.class);
         mMapView.put(GvFactList.GvFact.TYPE, ViewFact.class);
         mMapView.put(GvImageList.GvImage.TYPE, ViewImage.class);

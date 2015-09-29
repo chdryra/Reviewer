@@ -25,8 +25,8 @@ import com.chdryra.android.reviewer.View.ActivitiesFragments.ActivityReviewView;
 import com.chdryra.android.reviewer.View.ActivitiesFragments.FragmentReviewView;
 import com.chdryra.android.reviewer.View.Configs.ConfigGvDataUi;
 import com.chdryra.android.reviewer.View.GvDataModel.GvBuildReviewList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvChildReviewList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
+import com.chdryra.android.reviewer.View.GvDataModel.GvCriterionList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
@@ -61,7 +61,7 @@ public class ActivityBuildReviewTest extends ActivityReviewViewTest {
 
     @SmallTest
     public void testSubjectRatingChange() {
-        GvChildReviewList.GvChildReview child = editSubjectRating();
+        GvCriterionList.GvCriterion child = editSubjectRating();
 
         checkFragmentSubjectRating(child.getSubject(), child.getRating());
         checkAdapterSubjectRating(child.getSubject(), child.getRating());
@@ -83,7 +83,7 @@ public class ActivityBuildReviewTest extends ActivityReviewViewTest {
         String toast = mActivity.getResources().getString(R.string.toast_enter_subject);
         assertTrue(mSolo.waitForText(toast));
 
-        GvChildReviewList.GvChildReview review = editSubjectRating();
+        GvCriterionList.GvCriterion review = editSubjectRating();
         mOriginalSubject = review.getSubject();
         mOriginalRating = review.getRating();
 
@@ -121,7 +121,7 @@ public class ActivityBuildReviewTest extends ActivityReviewViewTest {
 
     @SmallTest
     public void testCriteriaLongPress() {
-        testLongPress(GvChildReviewList.GvChildReview.TYPE);
+        testLongPress(GvCriterionList.GvCriterion.TYPE);
     }
 
     @SmallTest
@@ -151,7 +151,7 @@ public class ActivityBuildReviewTest extends ActivityReviewViewTest {
 
     @SmallTest
     public void testCriteriaEntrySingle() {
-        testClickGridCell(GvChildReviewList.GvChildReview.TYPE, 1);
+        testClickGridCell(GvCriterionList.GvCriterion.TYPE, 1);
     }
 
     @SmallTest
@@ -176,7 +176,7 @@ public class ActivityBuildReviewTest extends ActivityReviewViewTest {
 
     @SmallTest
     public void testCriteriaEntryMulti() {
-        testClickGridCell(GvChildReviewList.GvChildReview.TYPE, NUM_DATA);
+        testClickGridCell(GvCriterionList.GvCriterion.TYPE, NUM_DATA);
     }
 
     @SmallTest
@@ -211,7 +211,7 @@ public class ActivityBuildReviewTest extends ActivityReviewViewTest {
 
     @SmallTest
     public void testMenuAverage() {
-        GvChildReviewList.GvChildReview child = editSubjectRating();
+        GvCriterionList.GvCriterion child = editSubjectRating();
         checkFragmentSubjectRating(child.getSubject(), child.getRating());
         checkAdapterSubjectRating(child.getSubject(), child.getRating());
         assertFalse(getBuilder().isRatingAverage());
@@ -229,7 +229,7 @@ public class ActivityBuildReviewTest extends ActivityReviewViewTest {
         mOriginalRating = child.getRating();
         assertFalse(getBuilder().isRatingAverage());
 
-        testClickWithoutData(GvChildReviewList.GvChildReview.TYPE, NUM_DATA);
+        testClickWithoutData(GvCriterionList.GvCriterion.TYPE, NUM_DATA);
 
         assertFalse(getBuilder().isRatingAverage());
         while (child.getRating() == getAverageRating(true)) child = editSubjectRating();
@@ -307,9 +307,8 @@ public class ActivityBuildReviewTest extends ActivityReviewViewTest {
     }
 
     private float getAverageRating(boolean nearestHalf) {
-        GvChildReviewList children = (GvChildReviewList) getBuilder().getDataBuilder
-                (GvChildReviewList
-                .GvChildReview.TYPE)
+        GvCriterionList children = (GvCriterionList) getBuilder().getDataBuilder
+                (GvCriterionList.GvCriterion.TYPE)
                 .getGridData();
 
         float rating = children.getAverageRating();
@@ -389,11 +388,11 @@ public class ActivityBuildReviewTest extends ActivityReviewViewTest {
             assertEquals(1, tvs.size());
             assertEquals(location.getName(), tvs.get(0).getText().toString());
 
-        } else if (data.getGvDataType().equals(GvChildReviewList.GvChildReview.TYPE)) {
+        } else if (data.getGvDataType().equals(GvCriterionList.GvCriterion.TYPE)) {
             ArrayList<TextView> tvs;
             tvs = mSolo.getCurrentViews(TextView.class, cell);
             ArrayList<RatingBar> bars = mSolo.getCurrentViews(RatingBar.class, cell);
-            GvChildReviewList.GvChildReview childReview = (GvChildReviewList.GvChildReview) data
+            GvCriterionList.GvCriterion childReview = (GvCriterionList.GvCriterion) data
                     .getItem(0);
             assertEquals(1, tvs.size());
             assertEquals(1, bars.size());
@@ -626,8 +625,8 @@ public class ActivityBuildReviewTest extends ActivityReviewViewTest {
         checkFragmentSubjectRating(mOriginalSubject, mOriginalRating);
     }
 
-    private GvChildReviewList.GvChildReview editSubjectRating() {
-        GvChildReviewList.GvChildReview child = GvDataMocker.newChild(null);
+    private GvCriterionList.GvCriterion editSubjectRating() {
+        GvCriterionList.GvCriterion child = GvDataMocker.newChild(null);
         mSolo.clearEditText(mSolo.getEditText(0));
         mSolo.enterText(mSolo.getEditText(0), child.getSubject());
 

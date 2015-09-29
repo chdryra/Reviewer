@@ -16,8 +16,8 @@ import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.FactoryReviewView
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewAdapter;
 import com.chdryra.android.reviewer.ApplicationSingletons.TagsManager;
 import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
-import com.chdryra.android.reviewer.View.GvDataModel.GvChildReviewList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
+import com.chdryra.android.reviewer.View.GvDataModel.GvCriterionList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvTagList;
@@ -46,7 +46,7 @@ public class ExpanderToDataTest extends AndroidTestCase {
         assertTrue(data.size() > 0);
         for (int i = 0; i < data.size(); ++i) {
             GvData datum = (GvData) data.getItem(i);
-            if (datum.getGvDataType() != GvChildReviewList.GvChildReview.TYPE) {
+            if (datum.getGvDataType() != GvCriterionList.GvCriterion.TYPE) {
                 assertNotNull(expander.expandItem(datum));
             } else {
                 assertNull(expander.expandItem(datum));

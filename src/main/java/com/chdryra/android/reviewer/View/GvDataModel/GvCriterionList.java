@@ -18,21 +18,21 @@ import com.chdryra.android.reviewer.View.Utils.RatingFormatter;
 /**
  * Used for review children (sub-reviews).
  */
-public class GvChildReviewList extends GvDataList<GvChildReviewList.GvChildReview> {
-    public GvChildReviewList() {
-        super(GvChildReview.TYPE, null);
+public class GvCriterionList extends GvDataList<GvCriterionList.GvCriterion> {
+    public GvCriterionList() {
+        super(GvCriterion.TYPE, null);
     }
 
-    public GvChildReviewList(GvReviewId id) {
-        super(GvChildReview.TYPE, id);
+    public GvCriterionList(GvReviewId id) {
+        super(GvCriterion.TYPE, id);
     }
 
-    public GvChildReviewList(GvChildReviewList data) {
+    public GvCriterionList(GvCriterionList data) {
         super(data);
     }
 
     public boolean contains(String subject) {
-        for (GvChildReview review : this) {
+        for (GvCriterion review : this) {
             if (review.getSubject().equals(subject)) return true;
         }
 
@@ -41,7 +41,7 @@ public class GvChildReviewList extends GvDataList<GvChildReviewList.GvChildRevie
 
     public float getAverageRating() {
         float rating = 0;
-        for (GvChildReview review : this) {
+        for (GvCriterion review : this) {
             rating += review.getRating() / size();
         }
 
@@ -53,42 +53,42 @@ public class GvChildReviewList extends GvDataList<GvChildReviewList.GvChildRevie
      * for review children (sub-reviews).
      * {@link ViewHolder}: {@link VhChild}
      */
-    public static class GvChildReview extends GvDataBasic<GvChildReview> {
-        public static final GvDataType<GvChildReview> TYPE =
-                new GvDataType<>(GvChildReview.class, "criterion", "criteria");
-        public static final Parcelable.Creator<GvChildReview> CREATOR = new Parcelable
-                .Creator<GvChildReview>() {
-            public GvChildReview createFromParcel(Parcel in) {
-                return new GvChildReview(in);
+    public static class GvCriterion extends GvDataBasic<GvCriterion> {
+        public static final GvDataType<GvCriterion> TYPE =
+                new GvDataType<>(GvCriterion.class, "criterion", "criteria");
+        public static final Parcelable.Creator<GvCriterion> CREATOR = new Parcelable
+                .Creator<GvCriterion>() {
+            public GvCriterion createFromParcel(Parcel in) {
+                return new GvCriterion(in);
             }
 
-            public GvChildReview[] newArray(int size) {
-                return new GvChildReview[size];
+            public GvCriterion[] newArray(int size) {
+                return new GvCriterion[size];
             }
         };
 
         private final String mSubject;
         private final float  mRating;
 
-        public GvChildReview() {
+        public GvCriterion() {
             this(null, 0f);
         }
 
-        public GvChildReview(String subject, float rating) {
+        public GvCriterion(String subject, float rating) {
             this(null, subject, rating);
         }
 
-        public GvChildReview(GvReviewId id, String subject, float rating) {
-            super(GvChildReview.TYPE, id);
+        public GvCriterion(GvReviewId id, String subject, float rating) {
+            super(GvCriterion.TYPE, id);
             mSubject = subject;
             mRating = rating;
         }
 
-        public GvChildReview(GvChildReview child) {
+        public GvCriterion(GvCriterion child) {
             this(child.getReviewId(), child.getSubject(), child.getRating());
         }
 
-        GvChildReview(Parcel in) {
+        GvCriterion(Parcel in) {
             super(in);
             mSubject = in.readString();
             mRating = in.readFloat();
@@ -110,12 +110,24 @@ public class GvChildReviewList extends GvDataList<GvChildReviewList.GvChildRevie
         }
 
         @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel parcel, int i) {
+            super.writeToParcel(parcel, i);
+            parcel.writeString(mSubject);
+            parcel.writeFloat(mRating);
+        }
+
+        @Override
         public boolean equals(Object o) {
             if (this == o) return true;
-            if (!(o instanceof GvChildReview)) return false;
+            if (!(o instanceof GvCriterion)) return false;
             if (!super.equals(o)) return false;
 
-            GvChildReview that = (GvChildReview) o;
+            GvCriterion that = (GvCriterion) o;
 
             if (Float.compare(that.mRating, mRating) != 0) return false;
             return !(mSubject != null ? !mSubject.equals(that.mSubject) : that.mSubject != null);
@@ -128,18 +140,6 @@ public class GvChildReviewList extends GvDataList<GvChildReviewList.GvChildRevie
             result = 31 * result + (mSubject != null ? mSubject.hashCode() : 0);
             result = 31 * result + (mRating != +0.0f ? Float.floatToIntBits(mRating) : 0);
             return result;
-        }
-
-        @Override
-        public int describeContents() {
-            return 0;
-        }
-
-        @Override
-        public void writeToParcel(Parcel parcel, int i) {
-            super.writeToParcel(parcel, i);
-            parcel.writeString(mSubject);
-            parcel.writeFloat(mRating);
         }
 
         public String getSubject() {

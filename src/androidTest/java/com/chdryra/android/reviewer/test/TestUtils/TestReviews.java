@@ -24,8 +24,8 @@ import com.chdryra.android.reviewer.Model.ReviewStructure.Review;
 import com.chdryra.android.reviewer.Model.UserData.Author;
 import com.chdryra.android.reviewer.Model.UserData.UserId;
 import com.chdryra.android.reviewer.R;
-import com.chdryra.android.reviewer.View.GvDataModel.GvChildReviewList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
+import com.chdryra.android.reviewer.View.GvDataModel.GvCriterionList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvFactList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvLocationList;
@@ -115,9 +115,9 @@ public class TestReviews {
                     .mIsCover));
         }
         b.setData();
-        b = builder.getDataBuilder(GvChildReviewList.GvChildReview.TYPE);
+        b = builder.getDataBuilder(GvCriterionList.GvCriterion.TYPE);
         for (Criterion child : review.mCriteria) {
-            b.add(new GvChildReviewList.GvChildReview(child.mSubject, child.mRating));
+            b.add(new GvCriterionList.GvCriterion(child.mSubject, child.mRating));
         }
         b.setData();
         b = builder.getDataBuilder(GvTagList.GvTag.TYPE);

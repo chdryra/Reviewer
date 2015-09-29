@@ -2,7 +2,7 @@ package com.chdryra.android.reviewer.test.View.GvDataSorting;
 
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.View.GvDataModel.GvChildReviewList;
+import com.chdryra.android.reviewer.View.GvDataModel.GvCriterionList;
 import com.chdryra.android.reviewer.View.GvDataSorting.ChildReviewComparators;
 import com.chdryra.android.reviewer.test.TestUtils.ComparatorTester;
 
@@ -13,26 +13,26 @@ import java.util.Comparator;
  * On: 05/09/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ChildReviewComparatorsTest extends ComparatorCollectionTest<GvChildReviewList
-        .GvChildReview> {
+public class ChildReviewComparatorsTest extends ComparatorCollectionTest<GvCriterionList
+        .GvCriterion> {
     public ChildReviewComparatorsTest() {
         super(ChildReviewComparators.getComparators());
     }
 
     @SmallTest
     public void testDefaultComparator() {
-        Comparator<GvChildReviewList.GvChildReview> comparator = mComparators.getDefault();
+        Comparator<GvCriterionList.GvCriterion> comparator = mComparators.getDefault();
 
-        GvChildReviewList.GvChildReview reviewA1 = new GvChildReviewList.GvChildReview("A", 1f);
-        GvChildReviewList.GvChildReview reviewA12 = new GvChildReviewList.GvChildReview("A", 1f);
-        GvChildReviewList.GvChildReview reviewA2 = new GvChildReviewList.GvChildReview("A", 2f);
-        GvChildReviewList.GvChildReview reviewA3 = new GvChildReviewList.GvChildReview("a", 2f);
-        GvChildReviewList.GvChildReview reviewB1 = new GvChildReviewList.GvChildReview("B", 1f);
-        GvChildReviewList.GvChildReview reviewB2 = new GvChildReviewList.GvChildReview("b", 5f);
-        GvChildReviewList.GvChildReview reviewC1 = new GvChildReviewList.GvChildReview("C", 2f);
-        GvChildReviewList.GvChildReview reviewC2 = new GvChildReviewList.GvChildReview("c", 1f);
+        GvCriterionList.GvCriterion reviewA1 = new GvCriterionList.GvCriterion("A", 1f);
+        GvCriterionList.GvCriterion reviewA12 = new GvCriterionList.GvCriterion("A", 1f);
+        GvCriterionList.GvCriterion reviewA2 = new GvCriterionList.GvCriterion("A", 2f);
+        GvCriterionList.GvCriterion reviewA3 = new GvCriterionList.GvCriterion("a", 2f);
+        GvCriterionList.GvCriterion reviewB1 = new GvCriterionList.GvCriterion("B", 1f);
+        GvCriterionList.GvCriterion reviewB2 = new GvCriterionList.GvCriterion("b", 5f);
+        GvCriterionList.GvCriterion reviewC1 = new GvCriterionList.GvCriterion("C", 2f);
+        GvCriterionList.GvCriterion reviewC2 = new GvCriterionList.GvCriterion("c", 1f);
 
-        ComparatorTester<GvChildReviewList.GvChildReview> tester = new ComparatorTester<>
+        ComparatorTester<GvCriterionList.GvCriterion> tester = new ComparatorTester<>
                 (comparator);
         tester.testEquals(reviewA1, reviewA1);
         tester.testEquals(reviewA1, reviewA12);

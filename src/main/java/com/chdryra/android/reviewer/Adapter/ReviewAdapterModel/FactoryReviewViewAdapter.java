@@ -14,6 +14,7 @@ import com.chdryra.android.reviewer.ApplicationSingletons.ReviewMaker;
 import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCanonicalCollection;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
+import com.chdryra.android.reviewer.View.GvDataModel.GvCriterionList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataCollection;
 import com.chdryra.android.reviewer.View.GvDataModel.GvReviewOverviewList;
@@ -54,6 +55,13 @@ public class FactoryReviewViewAdapter {
             Context context, GvCanonicalCollection<GvCommentList.GvComment> data, String subject) {
         ReviewNode node = ReviewMaker.createMetaReview(context, data, subject);
         return new AdapterCommentsAggregate(context, node, data);
+    }
+
+    public static ReviewViewAdapter<? extends GvData> newExpandToCriteriaModeAdapter(
+            Context context, GvCanonicalCollection<GvCriterionList.GvCriterion> data, String
+            subject) {
+        ReviewNode node = ReviewMaker.createMetaReview(context, data, subject);
+        return new AdapterCriteriaAggregate(context, node, data);
     }
 
     private static <T extends GvData> ReviewViewAdapter<? extends GvData>

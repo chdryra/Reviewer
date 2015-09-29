@@ -10,9 +10,9 @@ package com.chdryra.android.reviewer.test.View.GvDataAggregation;
 
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.View.GvDataAggregation.ComparitorGvChildReview;
+import com.chdryra.android.reviewer.View.GvDataAggregation.ComparitorGvCriterionSubject;
 import com.chdryra.android.reviewer.View.GvDataAggregation.DifferencePercentage;
-import com.chdryra.android.reviewer.View.GvDataModel.GvChildReviewList;
+import com.chdryra.android.reviewer.View.GvDataModel.GvCriterionList;
 import com.chdryra.android.reviewer.test.TestUtils.RandomRating;
 
 import junit.framework.TestCase;
@@ -22,7 +22,7 @@ import junit.framework.TestCase;
  * On: 06/07/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ComparitorGvChildReviewTest extends TestCase {
+public class ComparitorGvCriterionTest extends TestCase {
     @SmallTest
     public void testCompare() {
         String lhsSubject = "kitten";
@@ -31,15 +31,15 @@ public class ComparitorGvChildReviewTest extends TestCase {
         float lhsRating = RandomRating.nextRating();
         float rhsRating = 5f - lhsRating;
 
-        ComparitorGvChildReview comparitor = new ComparitorGvChildReview();
+        ComparitorGvCriterionSubject comparitor = new ComparitorGvCriterionSubject();
         DifferencePercentage none = new DifferencePercentage(0.0);
         DifferencePercentage all = new DifferencePercentage(1.0);
         DifferencePercentage expected = new DifferencePercentage(3.0 / 7.0);
         DifferencePercentage expectedDelta = new DifferencePercentage(3.0 / 7.0 - 0.01);
 
-        GvChildReviewList.GvChildReview lhs = new GvChildReviewList.GvChildReview(lhsSubject,
+        GvCriterionList.GvCriterion lhs = new GvCriterionList.GvCriterion(lhsSubject,
                 lhsRating);
-        GvChildReviewList.GvChildReview rhs = new GvChildReviewList.GvChildReview(lhsSubject,
+        GvCriterionList.GvCriterion rhs = new GvCriterionList.GvCriterion(lhsSubject,
                 lhsRating);
         DifferencePercentage difference = comparitor.compare(lhs, lhs);
         assertTrue(difference.lessThanOrEqualTo(none));
@@ -48,13 +48,13 @@ public class ComparitorGvChildReviewTest extends TestCase {
         difference = comparitor.compare(rhs, lhs);
         assertTrue(difference.lessThanOrEqualTo(none));
 
-        rhs = new GvChildReviewList.GvChildReview(lhsSubject, rhsRating);
+        rhs = new GvCriterionList.GvCriterion(lhsSubject, rhsRating);
         difference = comparitor.compare(lhs, rhs);
         assertTrue(difference.lessThanOrEqualTo(none));
         difference = comparitor.compare(rhs, lhs);
         assertTrue(difference.lessThanOrEqualTo(none));
 
-        rhs = new GvChildReviewList.GvChildReview(rhsSubject, lhsRating);
+        rhs = new GvCriterionList.GvCriterion(rhsSubject, lhsRating);
         difference = comparitor.compare(lhs, rhs);
         assertTrue(difference.lessThanOrEqualTo(expected));
         assertFalse(difference.lessThanOrEqualTo(expectedDelta));
@@ -62,7 +62,7 @@ public class ComparitorGvChildReviewTest extends TestCase {
         assertTrue(difference.lessThanOrEqualTo(expected));
         assertFalse(difference.lessThanOrEqualTo(expectedDelta));
 
-        rhs = new GvChildReviewList.GvChildReview(rhsSubject, rhsRating);
+        rhs = new GvCriterionList.GvCriterion(rhsSubject, rhsRating);
         difference = comparitor.compare(lhs, rhs);
         assertTrue(difference.lessThanOrEqualTo(expected));
         assertFalse(difference.lessThanOrEqualTo(expectedDelta));
@@ -70,7 +70,7 @@ public class ComparitorGvChildReviewTest extends TestCase {
         assertTrue(difference.lessThanOrEqualTo(expected));
         assertFalse(difference.lessThanOrEqualTo(expectedDelta));
 
-        rhs = new GvChildReviewList.GvChildReview(empty, lhsRating);
+        rhs = new GvCriterionList.GvCriterion(empty, lhsRating);
         difference = comparitor.compare(lhs, rhs);
         assertTrue(difference.lessThanOrEqualTo(all));
         assertFalse(difference.lessThanOrEqualTo(expected));
@@ -78,7 +78,7 @@ public class ComparitorGvChildReviewTest extends TestCase {
         assertTrue(difference.lessThanOrEqualTo(all));
         assertFalse(difference.lessThanOrEqualTo(expected));
 
-        rhs = new GvChildReviewList.GvChildReview(empty, rhsRating);
+        rhs = new GvCriterionList.GvCriterion(empty, rhsRating);
         difference = comparitor.compare(lhs, rhs);
         assertTrue(difference.lessThanOrEqualTo(all));
         assertFalse(difference.lessThanOrEqualTo(expected));

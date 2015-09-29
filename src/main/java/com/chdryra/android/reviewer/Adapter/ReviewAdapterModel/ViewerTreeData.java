@@ -16,6 +16,7 @@ import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
 import com.chdryra.android.reviewer.View.GvDataAggregation.Aggregater;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCanonicalCollection;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
+import com.chdryra.android.reviewer.View.GvDataModel.GvCriterionList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataCollection;
 import com.chdryra.android.reviewer.View.GvDataModel.GvList;
@@ -81,13 +82,16 @@ public class ViewerTreeData implements GridDataViewer<GvData> {
                     GvCanonicalCollection<GvCommentList.GvComment> comments =
                             (GvCanonicalCollection<GvCommentList.GvComment>) data;
                     adapter = FactoryReviewViewAdapter.newExpandToReviewsAdapterForComments
-                            (mContext,
-                                                                                            comments,
-                                                                                            subject);
+                            (mContext, comments, subject);
+                } else if (data.getGvDataType() == GvCriterionList.GvCriterion.TYPE) {
+                    //TODO make type safe
+                    GvCanonicalCollection<GvCriterionList.GvCriterion> criteria =
+                            (GvCanonicalCollection<GvCriterionList.GvCriterion>) data;
+                    adapter = FactoryReviewViewAdapter.newExpandToCriteriaModeAdapter
+                            (mContext, criteria, subject);
                 } else {
                     adapter = FactoryReviewViewAdapter.newExpandToReviewsAdapter(mContext, data,
-                                                                                 subject);
-
+                            subject);
                 }
             } else {
                 adapter = FactoryReviewViewAdapter.newExpandToDataAdapter(parent, data);

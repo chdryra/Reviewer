@@ -32,7 +32,7 @@ public class GvBuildReviewList extends GvDataList<GvBuildReviewList.GvBuildRevie
         mBuilder = builder;
 
         add(GvTagList.GvTag.TYPE);
-        add(GvChildReviewList.GvChildReview.TYPE);
+        add(GvCriterionList.GvCriterion.TYPE);
         add(GvImageList.GvImage.TYPE);
         add(GvCommentList.GvComment.TYPE);
         add(GvLocationList.GvLocation.TYPE);

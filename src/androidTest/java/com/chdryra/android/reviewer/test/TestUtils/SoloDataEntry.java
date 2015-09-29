@@ -8,8 +8,8 @@
 
 package com.chdryra.android.reviewer.test.TestUtils;
 
-import com.chdryra.android.reviewer.View.GvDataModel.GvChildReviewList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
+import com.chdryra.android.reviewer.View.GvDataModel.GvCriterionList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvFactList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
@@ -28,9 +28,9 @@ public class SoloDataEntry {
         if (data instanceof GvCommentList.GvComment) {
             enterComment(solo, (GvCommentList.GvComment) data);
         }
-        if (data instanceof GvChildReviewList.GvChildReview) {
+        if (data instanceof GvCriterionList.GvCriterion) {
             enterCriterion(solo,
-                    (GvChildReviewList.GvChildReview) data);
+                    (GvCriterionList.GvCriterion) data);
         }
         if (data instanceof GvFactList.GvFact) enterFact(solo, (GvFactList.GvFact) data);
         if (data instanceof GvLocationList.GvLocation) {
@@ -49,7 +49,7 @@ public class SoloDataEntry {
         solo.enterText(solo.getEditText(0), data.getComment());
     }
 
-    public static void enterCriterion(Solo solo, GvChildReviewList.GvChildReview data) {
+    public static void enterCriterion(Solo solo, GvCriterionList.GvCriterion data) {
         solo.clearEditText(solo.getEditText(0));
         solo.enterText(solo.getEditText(0), data.getSubject());
         solo.setProgressBar(0, (int) (data.getRating() * 2f));

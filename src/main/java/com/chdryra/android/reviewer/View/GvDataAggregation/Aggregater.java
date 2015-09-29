@@ -2,8 +2,8 @@ package com.chdryra.android.reviewer.View.GvDataAggregation;
 
 import com.chdryra.android.reviewer.View.GvDataModel.GvAuthorList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCanonicalCollection;
-import com.chdryra.android.reviewer.View.GvDataModel.GvChildReviewList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
+import com.chdryra.android.reviewer.View.GvDataModel.GvCriterionList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDateList;
@@ -58,10 +58,17 @@ public class Aggregater {
         return aggregate(data, new ComparitorGvLocation(), SAME_LOC, new CanonicalLocation());
     }
 
-    public static GvCanonicalCollection<GvChildReviewList.GvChildReview> aggregate(GvChildReviewList
-                                                                                     data) {
-        return aggregate(data, new ComparitorGvChildReview(), SAME_PCNT, new CanonicalChildReview
-                ());
+    public static GvCanonicalCollection<GvCriterionList.GvCriterion> aggregate(GvCriterionList
+                                                                                       data) {
+        return aggregate(data, new ComparitorGvCriterionSubject(), SAME_PCNT, new
+                CanonicalCriterionAverage());
+    }
+
+    public static GvCanonicalCollection<GvCriterionList.GvCriterion> aggregateCriteriaMode
+            (GvCriterionList
+                                                                                                   data) {
+        return aggregate(data, new ComparitorGvCriterion(), SAME_BOOL, new
+                CanonicalCriterionMode());
     }
 
     public static GvCanonicalCollection<GvFactList.GvFact> aggregate(GvFactList data) {

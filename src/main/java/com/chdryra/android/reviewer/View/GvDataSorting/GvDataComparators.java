@@ -1,8 +1,8 @@
 package com.chdryra.android.reviewer.View.GvDataSorting;
 
 import com.chdryra.android.reviewer.View.GvDataModel.GvAuthorList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvChildReviewList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
+import com.chdryra.android.reviewer.View.GvDataModel.GvCriterionList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDateList;
@@ -34,7 +34,7 @@ public class GvDataComparators {
         mMap.put(GvText.TYPE, TextComparators.getComparators());
         mMap.put(GvSubjectList.GvSubject.TYPE, SubjectComparators.getComparators());
         mMap.put(GvAuthorList.GvAuthor.TYPE, AuthorComparators.getComparators());
-        mMap.put(GvChildReviewList.GvChildReview.TYPE, ChildReviewComparators.getComparators());
+        mMap.put(GvCriterionList.GvCriterion.TYPE, ChildReviewComparators.getComparators());
         mMap.put(GvCommentList.GvComment.TYPE, CommentComparators.getComparators());
         mMap.put(GvDateList.GvDate.TYPE, DateComparators.getComparators());
         mMap.put(GvFactList.GvFact.TYPE, FactComparators.getComparators());

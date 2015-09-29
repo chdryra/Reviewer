@@ -13,29 +13,29 @@ import android.widget.RatingBar;
 
 import com.chdryra.android.reviewer.View.Configs.ConfigGvDataAddEditView;
 import com.chdryra.android.reviewer.View.Dialogs.AddEditChildReview;
-import com.chdryra.android.reviewer.View.GvDataModel.GvChildReviewList;
+import com.chdryra.android.reviewer.View.GvDataModel.GvCriterionList;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 15/12/2014
  * Email: rizwan.choudrey@gmail.com
  */
-public class AddEditChildReviewTest extends AddEditLayoutTest<GvChildReviewList.GvChildReview> {
+public class AddEditChildReviewTest extends AddEditLayoutTest<GvCriterionList.GvCriterion> {
     private RatingBar mRatingBar;
 
     public AddEditChildReviewTest() {
-        super(GvChildReviewList.GvChildReview.TYPE,
+        super(GvCriterionList.GvCriterion.TYPE,
                 new AddEditChildReview(new ConfigGvDataAddEditView.AddChild()));
     }
 
     @Override
-    protected void enterData(GvChildReviewList.GvChildReview child) {
+    protected void enterData(GvCriterionList.GvCriterion child) {
         mEditText.setText(child.getSubject());
         mRatingBar.setRating(child.getRating());
     }
 
     @Override
-    protected void checkViewAndDataEquivalence(GvChildReviewList.GvChildReview datum, boolean result) {
+    protected void checkViewAndDataEquivalence(GvCriterionList.GvCriterion datum, boolean result) {
         assertEquals(result, mEditText.getText().toString().trim().equals(datum.getSubject()));
         if (result) assertTrue(mRatingBar.getRating() == datum.getRating());
     }

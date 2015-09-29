@@ -1,6 +1,6 @@
 package com.chdryra.android.reviewer.View.GvDataSorting;
 
-import com.chdryra.android.reviewer.View.GvDataModel.GvChildReviewList;
+import com.chdryra.android.reviewer.View.GvDataModel.GvCriterionList;
 
 import java.util.Comparator;
 
@@ -9,7 +9,7 @@ import java.util.Comparator;
  * On: 04/09/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ChildReviewComparators extends ComparatorCollection<GvChildReviewList.GvChildReview> {
+public class ChildReviewComparators extends ComparatorCollection<GvCriterionList.GvCriterion> {
     private static ChildReviewComparators sComparators = new ChildReviewComparators();
 
     public ChildReviewComparators() {
@@ -20,9 +20,9 @@ public class ChildReviewComparators extends ComparatorCollection<GvChildReviewLi
         return sComparators;
     }
 
-    private static class SubjectThenRating implements Comparator<GvChildReviewList.GvChildReview> {
+    private static class SubjectThenRating implements Comparator<GvCriterionList.GvCriterion> {
         @Override
-        public int compare(GvChildReviewList.GvChildReview lhs, GvChildReviewList.GvChildReview
+        public int compare(GvCriterionList.GvCriterion lhs, GvCriterionList.GvCriterion
                 rhs) {
             int comp = lhs.getSubject().compareToIgnoreCase(rhs.getSubject());
             if (comp == 0) {

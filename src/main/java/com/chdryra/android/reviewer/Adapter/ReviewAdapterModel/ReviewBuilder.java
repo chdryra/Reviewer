@@ -14,8 +14,8 @@ import com.chdryra.android.reviewer.Model.UserData.Author;
 import com.chdryra.android.reviewer.View.Configs.ConfigGvDataUi;
 import com.chdryra.android.reviewer.View.GvDataModel.FactoryGvData;
 import com.chdryra.android.reviewer.View.GvDataModel.FactoryGvDataHandler;
-import com.chdryra.android.reviewer.View.GvDataModel.GvChildReviewList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
+import com.chdryra.android.reviewer.View.GvDataModel.GvCriterionList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataHandler;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
@@ -143,7 +143,7 @@ public class ReviewBuilder {
 
     public <T extends GvData> void setData(GvDataList<T> data, boolean copy) {
         GvDataType<T> dataType = data.getGvDataType();
-        if (dataType == GvChildReviewList.GvChildReview.TYPE) {
+        if (dataType == GvCriterionList.GvCriterion.TYPE) {
             setChildren(data);
         } else if (TYPES.contains(dataType)) {
             if (copy) {
@@ -154,19 +154,19 @@ public class ReviewBuilder {
         }
     }
 
-    private GvChildReviewList getChildren() {
-        return (GvChildReviewList) getData(GvChildReviewList.GvChildReview.TYPE);
+    private GvCriterionList getChildren() {
+        return (GvCriterionList) getData(GvCriterionList.GvCriterion.TYPE);
     }
 
     private void setChildren(GvDataList children) {
         mChildren = new ArrayList<>();
-        for (GvChildReviewList.GvChildReview child : (GvChildReviewList) children) {
+        for (GvCriterionList.GvCriterion child : (GvCriterionList) children) {
             ReviewBuilder childBuilder = new ReviewBuilder(mContext, mAuthor);
             childBuilder.setSubject(child.getSubject());
             childBuilder.setRating(child.getRating());
             mChildren.add(childBuilder);
         }
-        mData.put(GvChildReviewList.GvChildReview.TYPE, MdGvConverter.copy(children));
+        mData.put(GvCriterionList.GvCriterion.TYPE, MdGvConverter.copy(children));
     }
 
     public float getRating() {
@@ -226,7 +226,7 @@ public class ReviewBuilder {
         }
 
         public float getAverageRating() {
-            return mHandler.getGvDataType() == GvChildReviewList.GvChildReview.TYPE ?
+            return mHandler.getGvDataType() == GvCriterionList.GvCriterion.TYPE ?
                     ReviewBuilder.this.getAverageRating() : getRating();
         }
     }

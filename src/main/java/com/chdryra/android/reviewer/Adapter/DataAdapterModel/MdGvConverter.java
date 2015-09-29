@@ -27,8 +27,8 @@ import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
 import com.chdryra.android.reviewer.Model.TreeMethods.ChildDataGetter;
 import com.chdryra.android.reviewer.Model.UserData.Author;
 import com.chdryra.android.reviewer.View.GvDataModel.GvAuthorList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvChildReviewList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
+import com.chdryra.android.reviewer.View.GvDataModel.GvCriterionList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDateList;
@@ -194,12 +194,12 @@ public class MdGvConverter {
     }
 
     //Criteria
-    public static GvChildReviewList convert(MdCriterionList criteria) {
-        GvChildReviewList list = new GvChildReviewList(GvReviewId.getId(criteria.getReviewId()
+    public static GvCriterionList convert(MdCriterionList criteria) {
+        GvCriterionList list = new GvCriterionList(GvReviewId.getId(criteria.getReviewId()
                 .toString()));
         for (MdCriterionList.MdCriterion criterion : criteria) {
             GvReviewId id = GvReviewId.getId(criterion.getReviewId().toString());
-            list.add(new GvChildReviewList.GvChildReview(id, criterion.getSubject(), criterion
+            list.add(new GvCriterionList.GvCriterion(id, criterion.getSubject(), criterion
                     .getRating()));
         }
 
@@ -252,8 +252,8 @@ public class MdGvConverter {
             return new GvUrlList((GvUrlList) data);
         } else if (dataType == GvTagList.GvTag.TYPE) {
             return new GvTagList((GvTagList) data);
-        } else if (dataType == GvChildReviewList.GvChildReview.TYPE) {
-            return new GvChildReviewList((GvChildReviewList) data);
+        } else if (dataType == GvCriterionList.GvCriterion.TYPE) {
+            return new GvCriterionList((GvCriterionList) data);
         } else {
             return null;
         }

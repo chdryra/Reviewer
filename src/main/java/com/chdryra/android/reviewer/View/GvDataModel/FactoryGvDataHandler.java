@@ -25,11 +25,11 @@ public class FactoryGvDataHandler {
                     return imageAdd(data, (GvImageList.GvImage) datum);
                 }
             });
-        } else if (data.getGvDataType() == GvChildReviewList.GvChildReview.TYPE) {
+        } else if (data.getGvDataType() == GvCriterionList.GvCriterion.TYPE) {
             GvDataHandler.AddConstraint<T> add = new GvDataHandler.AddConstraint<T>() {
                 @Override
                 public boolean passes(GvDataList<T> data, T datum) {
-                    return childAdd(data, (GvChildReviewList.GvChildReview) datum);
+                    return childAdd(data, (GvCriterionList.GvCriterion) datum);
                 }
             };
 
@@ -37,8 +37,8 @@ public class FactoryGvDataHandler {
                 @Override
                 public boolean passes(GvDataList<T> data, T oldDatum, T newDatum) {
                     return childReplace(data,
-                            (GvChildReviewList.GvChildReview) oldDatum,
-                            (GvChildReviewList.GvChildReview) newDatum);
+                            (GvCriterionList.GvCriterion) oldDatum,
+                            (GvCriterionList.GvCriterion) newDatum);
                 }
             };
 
@@ -56,15 +56,15 @@ public class FactoryGvDataHandler {
         return (image != null && list != null && !images.contains(image.getBitmap()));
     }
 
-    private static boolean childAdd(GvDataList list, GvChildReviewList.GvChildReview child) {
-        GvChildReviewList children = (GvChildReviewList) list;
+    private static boolean childAdd(GvDataList list, GvCriterionList.GvCriterion child) {
+        GvCriterionList children = (GvCriterionList) list;
         return (child != null && list != null && !children.contains(child.getSubject()));
     }
 
     private static boolean childReplace(GvDataList list,
-                                        GvChildReviewList.GvChildReview oldChild,
-                                        GvChildReviewList.GvChildReview newChild) {
-        GvChildReviewList children = (GvChildReviewList) list;
+                                        GvCriterionList.GvCriterion oldChild,
+                                        GvCriterionList.GvCriterion newChild) {
+        GvCriterionList children = (GvCriterionList) list;
         return (oldChild.getSubject().equals(newChild.getSubject()) || !children.contains(newChild
                 .getSubject()));
     }

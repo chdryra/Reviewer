@@ -23,7 +23,7 @@ import com.chdryra.android.reviewer.View.ActivitiesFragments.FragmentReviewView;
 import com.chdryra.android.reviewer.View.Configs.ConfigGvDataUi;
 import com.chdryra.android.reviewer.View.Dialogs.DialogGvDataAdd;
 import com.chdryra.android.reviewer.View.Dialogs.DialogGvDataEdit;
-import com.chdryra.android.reviewer.View.GvDataModel.GvChildReviewList;
+import com.chdryra.android.reviewer.View.GvDataModel.GvCriterionList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
@@ -68,7 +68,7 @@ public abstract class ActivityEditScreenTest extends ActivityReviewViewTest {
     public void testSubjectRatingChange() {
         setUp(false);
 
-        GvChildReviewList.GvChildReview child = editSubjectRating();
+        GvCriterionList.GvCriterion child = editSubjectRating();
 
         mSolo.sleep(500);
 
@@ -255,8 +255,8 @@ public abstract class ActivityEditScreenTest extends ActivityReviewViewTest {
         assertEquals(nearestHalf, fragment.getRating());
     }
 
-    protected GvChildReviewList.GvChildReview editSubjectRating() {
-        GvChildReviewList.GvChildReview child = GvDataMocker.newChild(null);
+    protected GvCriterionList.GvCriterion editSubjectRating() {
+        GvCriterionList.GvCriterion child = GvDataMocker.newChild(null);
         editSubject(child.getSubject());
         editRating(child.getRating());
         return child;

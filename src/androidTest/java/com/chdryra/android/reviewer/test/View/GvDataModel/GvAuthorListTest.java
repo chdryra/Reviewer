@@ -11,8 +11,8 @@ package com.chdryra.android.reviewer.test.View.GvDataModel;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.View.GvDataModel.GvAuthorList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvChildReviewList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
+import com.chdryra.android.reviewer.View.GvDataModel.GvCriterionList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvFactList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvLocationList;
@@ -108,7 +108,7 @@ public class GvAuthorListTest extends TestCase {
         mList.addList(GvDataMocker.newAuthorList(NUM, false));
         assertEquals(NUM, mList.size());
 
-        assertFalse(mList.equals(GvDataMocker.getData(GvChildReviewList.GvChildReview.TYPE, NUM)));
+        assertFalse(mList.equals(GvDataMocker.getData(GvCriterionList.GvCriterion.TYPE, NUM)));
         assertFalse(mList.equals(GvDataMocker.getData(GvAuthorList.GvAuthor.TYPE, NUM)));
         assertFalse(mList.equals(GvDataMocker.getData(GvLocationList.GvLocation.TYPE, NUM)));
         assertFalse(mList.equals(GvDataMocker.getData(GvCommentList.GvComment.TYPE, NUM)));

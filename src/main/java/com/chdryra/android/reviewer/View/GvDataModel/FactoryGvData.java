@@ -106,7 +106,7 @@ public class FactoryGvData {
 
         public ListsMap() {
             add(GvTagList.GvTag.TYPE, GvTagList.class);
-            add(GvChildReviewList.GvChildReview.TYPE, GvChildReviewList.class);
+            add(GvCriterionList.GvCriterion.TYPE, GvCriterionList.class);
             add(GvCommentList.GvComment.TYPE, GvCommentList.class);
             add(GvFactList.GvFact.TYPE, GvFactList.class);
             add(GvImageList.GvImage.TYPE, GvImageList.class);

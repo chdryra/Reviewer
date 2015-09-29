@@ -8,8 +8,8 @@ import com.chdryra.android.reviewer.View.GvDataAggregation.Aggregater;
 import com.chdryra.android.reviewer.View.GvDataModel.GvAuthorList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCanonical;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCanonicalCollection;
-import com.chdryra.android.reviewer.View.GvDataModel.GvChildReviewList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
+import com.chdryra.android.reviewer.View.GvDataModel.GvCriterionList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDateList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvFactList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
@@ -481,12 +481,12 @@ public class AggregaterTest extends TestCase {
     @SmallTest
     public void testAggregateChildreview() {
         String subject = RandomString.nextWord();
-        GvChildReviewList.GvChildReview review1 =
-                new GvChildReviewList.GvChildReview(subject, RandomRating.nextRating());
-        GvChildReviewList.GvChildReview review2 =
-                new GvChildReviewList.GvChildReview(subject, RandomRating.nextRating());
-        GvChildReviewList.GvChildReview review3 = GvDataMocker.newChild(null);
-        GvChildReviewList.GvChildReview review4 = GvDataMocker.newChild(null);
+        GvCriterionList.GvCriterion review1 =
+                new GvCriterionList.GvCriterion(subject, RandomRating.nextRating());
+        GvCriterionList.GvCriterion review2 =
+                new GvCriterionList.GvCriterion(subject, RandomRating.nextRating());
+        GvCriterionList.GvCriterion review3 = GvDataMocker.newChild(null);
+        GvCriterionList.GvCriterion review4 = GvDataMocker.newChild(null);
 
         int num1 = randNum();
         int num2 = randNum();
@@ -501,7 +501,7 @@ public class AggregaterTest extends TestCase {
             total += number;
         }
 
-        GvChildReviewList reviews = new GvChildReviewList();
+        GvCriterionList reviews = new GvCriterionList();
         int size1 = 0;
         int size2 = 0;
         int size3 = 0;
@@ -509,46 +509,46 @@ public class AggregaterTest extends TestCase {
         float average = 0f;
         for (int i = 0; i < maxIter; ++i) {
             if (size1++ < num1) {
-                reviews.add(new GvChildReviewList.GvChildReview(RandomReviewId
+                reviews.add(new GvCriterionList.GvCriterion(RandomReviewId
                         .nextGvReviewId(), review1.getSubject(), review1.getRating()));
                 average += review1.getRating();
             }
             if (size2++ < num2) {
-                reviews.add(new GvChildReviewList.GvChildReview(RandomReviewId
+                reviews.add(new GvCriterionList.GvCriterion(RandomReviewId
                         .nextGvReviewId(), review2.getSubject(), review2.getRating()));
                 average += review2.getRating();
             }
             if (size3++ < num3) {
-                reviews.add(new GvChildReviewList.GvChildReview(RandomReviewId
+                reviews.add(new GvCriterionList.GvCriterion(RandomReviewId
                         .nextGvReviewId(), review3.getSubject(), review3.getRating()));
             }
             if (size4++ < num4) {
-                reviews.add(new GvChildReviewList.GvChildReview(RandomReviewId
+                reviews.add(new GvCriterionList.GvCriterion(RandomReviewId
                         .nextGvReviewId(), review4.getSubject(), review4.getRating()));
             }
         }
         average /= num1 + num2;
-        GvChildReviewList.GvChildReview canon = new GvChildReviewList.GvChildReview(subject,
+        GvCriterionList.GvCriterion canon = new GvCriterionList.GvCriterion(subject,
                 average);
-        GvChildReviewList.GvChildReview[] references = {canon, review3, review4};
+        GvCriterionList.GvCriterion[] references = {canon, review3, review4};
 
         assertEquals(total, reviews.size());
 
-        GvCanonicalCollection<GvChildReviewList.GvChildReview> results = Aggregater.aggregate
+        GvCanonicalCollection<GvCriterionList.GvCriterion> results = Aggregater.aggregate
                 (reviews);
         assertEquals(references.length, results.size());
 
         for (int i = 0; i < references.length; ++i) {
-            GvCanonical<GvChildReviewList.GvChildReview> gvCanonical = results.getItem(i);
-            GvChildReviewList.GvChildReview canonical = gvCanonical.getCanonical();
-            GvChildReviewList values = (GvChildReviewList) gvCanonical.toList();
-            GvChildReviewList.GvChildReview reference = references[i];
+            GvCanonical<GvCriterionList.GvCriterion> gvCanonical = results.getItem(i);
+            GvCriterionList.GvCriterion canonical = gvCanonical.getCanonical();
+            GvCriterionList values = (GvCriterionList) gvCanonical.toList();
+            GvCriterionList.GvCriterion reference = references[i];
             assertEquals(reference.getSubject(), canonical.getSubject());
             assertEquals(reference.getRating(), canonical.getRating(), 0.0001);
             assertEquals(refNums[i], values.size());
             average = 0f;
             for (int j = 0; j < values.size(); ++j) {
-                GvChildReviewList.GvChildReview value = values.getItem(j);
+                GvCriterionList.GvCriterion value = values.getItem(j);
                 assertEquals(reference.getSubject(), value.getSubject());
                 average += value.getRating();
             }

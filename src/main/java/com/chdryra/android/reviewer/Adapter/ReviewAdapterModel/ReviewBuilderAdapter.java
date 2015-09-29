@@ -20,7 +20,7 @@ import com.chdryra.android.reviewer.Model.ReviewStructure.Review;
 import com.chdryra.android.reviewer.Model.UserData.Author;
 import com.chdryra.android.reviewer.View.Configs.ConfigGvDataUi;
 import com.chdryra.android.reviewer.View.GvDataModel.GvBuildReviewList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvChildReviewList;
+import com.chdryra.android.reviewer.View.GvDataModel.GvCriterionList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
@@ -144,17 +144,13 @@ public class ReviewBuilderAdapter extends ReviewViewAdapterBasic {
                 filename);
     }
 
-    private GvChildReviewList getChildren() {
-        return (GvChildReviewList) getData(GvChildReviewList.GvChildReview.TYPE);
+    private GvCriterionList getChildren() {
+        return (GvCriterionList) getData(GvCriterionList.GvCriterion.TYPE);
     }
 
     @Override
     public GvDataList getGridData() {
         return mBuildUi;
-    }
-
-    public float getRating() {
-        return mBuilder.getRating();
     }
 
     public class DataBuilderAdapter<T extends GvData> extends ReviewViewAdapterBasic {
@@ -241,8 +237,8 @@ public class ReviewBuilderAdapter extends ReviewViewAdapterBasic {
         }
     }
 
-    public void setRating(float rating) {
-        mBuilder.setRating(rating);
+    public float getRating() {
+        return mBuilder.getRating();
     }
 
     //To ensure type safety
@@ -266,6 +262,11 @@ public class ReviewBuilderAdapter extends ReviewViewAdapterBasic {
             return (DataBuilderAdapter<T>) mDataBuilders.get(type);
         }
     }
+
+    public void setRating(float rating) {
+        mBuilder.setRating(rating);
+    }
+
 
     @Override
     public float getAverageRating() {

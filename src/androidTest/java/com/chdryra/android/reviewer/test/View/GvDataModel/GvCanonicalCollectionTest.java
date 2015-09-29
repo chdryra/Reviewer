@@ -6,8 +6,8 @@ import com.chdryra.android.reviewer.View.GvDataModel.FactoryGvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvAuthorList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCanonical;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCanonicalCollection;
-import com.chdryra.android.reviewer.View.GvDataModel.GvChildReviewList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
+import com.chdryra.android.reviewer.View.GvDataModel.GvCriterionList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
@@ -47,7 +47,7 @@ public class GvCanonicalCollectionTest extends TestCase {
         checkComparator(GvLocationList.GvLocation.TYPE);
         checkComparator(GvFactList.GvFact.TYPE);
         checkComparator(GvUrlList.GvUrl.TYPE);
-        checkComparator(GvChildReviewList.GvChildReview.TYPE);
+        checkComparator(GvCriterionList.GvCriterion.TYPE);
         checkComparator(GvReviewOverviewList.GvReviewOverview.TYPE);
         checkComparator(GvImageList.GvImage.TYPE);
     }
