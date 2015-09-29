@@ -46,8 +46,9 @@ public class ReviewDataScreen {
     public static ReviewView newScreen(ReviewViewAdapter<? extends GvData> adapter,
                                        GvDataType forDefaults) {
         ReviewView screen = newScreen(adapter);
-        DefaultScreenParameters.setParams(screen, forDefaults);
-        DefaultScreenMenus.setMenu(screen, forDefaults);
+        DefaultParameters.setParams(screen, forDefaults);
+        DefaultMenus.setMenu(screen, forDefaults);
+        DefaultGridActions.setGridAction(screen, forDefaults);
         return screen;
     }
 
@@ -55,7 +56,7 @@ public class ReviewDataScreen {
         return mReviewView;
     }
 
-    private static class GridItem extends GridItemExpander {
+    public static class GridItem extends GridItemExpander {
         private static final String TAG                 = "ReviewViewExpandableGridItemListener";
         private static final int    REQUEST_GOTO_REVIEW = 314;
         private GridItemListener mListener;
@@ -78,7 +79,7 @@ public class ReviewDataScreen {
 
         @Override
         public void onClickNotExpandable(GvData item, int position, View v) {
-            if (item.hasElements()) return;
+            if (item.isCollection()) return;
             Bundle args = new Bundle();
             GvDataPacker.packItem(GvDataPacker.CurrentNewDatum.CURRENT, item, args);
             ConfigGvDataUi.Config config = ConfigGvDataUi.getConfig(item.getGvDataType());

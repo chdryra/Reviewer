@@ -56,7 +56,7 @@ public class EditScreen {
         setActions(view, dataType, context.getResources().getString(R.string.button_add) + " " +
                 dataType.getDatumName());
 
-        DefaultScreenParameters.setParams(view, dataType);
+        DefaultParameters.setParams(view, dataType);
 
         return view;
     }

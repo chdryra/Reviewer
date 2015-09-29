@@ -87,6 +87,6 @@ public class AdapterReviewViewAdapterTest extends AndroidTestCase {
         ExpanderToData expander = new ExpanderToData(mNodeAdapter);
         ViewerGvDataCollection<GvData> wrapper = new ViewerGvDataCollection<>(expander, mGridData);
         mNodeAdapter = new AdapterReviewNode<>(node, wrapper);
-        mAdapter = new AdapterReviewViewAdapter<>(mNodeAdapter, wrapper, expander);
+        mAdapter = new AdapterReviewViewAdapter<>(mNodeAdapter, wrapper);
     }
 }

@@ -141,7 +141,7 @@ public class TestReviews {
         review.mCriteria.add(new Criterion("Food", 4f));
         review.mCriteria.add(new Criterion("Service", 2f));
         review.mCriteria.add(new Criterion("Value", 4.5f));
-        review.mComments.add("Good food but variable service. Very good value though.");
+        review.mComments.add("Good food. Variable service. Very good value.");
         review.mComments.add("Drinks are BYO.");
         review.mComments.add("Be prepared to queue at peak times.");
         review.mLocations.add(new Location("Tayyabs", 51.517972, -0.063291));
@@ -228,7 +228,7 @@ public class TestReviews {
         review.mCriteria.add(new Criterion("Food", 3f));
         review.mCriteria.add(new Criterion("Service", 1f));
         review.mCriteria.add(new Criterion("Value", 4f));
-        review.mComments.add("Food not so good today. Service was pretty mediocre.");
+        review.mComments.add("Food not so good today. Variable service.");
         review.mComments.add("Very busy today and they couldn't cope.");
         review.mComments.add("Food was cold. Food came late.");
         review.mLocations.add(new Location("Tayyabs", 51.517972, -0.063291));
