@@ -41,15 +41,15 @@ public class ExpanderToDataTest extends AndroidTestCase {
         ExpanderToData expander = new ExpanderToData(parent);
         GvCommentList.GvComment comment = GvDataMocker.newComment(null);
         assertFalse(expander.isExpandable(comment));
-        assertNull(expander.expandItem(comment));
+        assertNull(expander.expandGridCell(comment));
         GvDataList data = parent.getGridData();
         assertTrue(data.size() > 0);
         for (int i = 0; i < data.size(); ++i) {
             GvData datum = (GvData) data.getItem(i);
             if (datum.getGvDataType() != GvCriterionList.GvCriterion.TYPE) {
-                assertNotNull(expander.expandItem(datum));
+                assertNotNull(expander.expandGridCell(datum));
             } else {
-                assertNull(expander.expandItem(datum));
+                assertNull(expander.expandGridCell(datum));
             }
         }
     }

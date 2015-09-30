@@ -20,7 +20,7 @@ public class RbLaunchMetaReviewScreen extends ReviewViewAction.RatingBarAction {
     public void onClick(View v) {
         try {
             AdapterReviewNode adapter = (AdapterReviewNode) getAdapter();
-            ReviewView ui = ReviewDataScreen.newScreen(adapter.getTreeDataAdapter());
+            ReviewView ui = ReviewDataScreen.newScreen(adapter.expandGridData());
             LauncherUi.launch(ui, getReviewView().getParent(), REQUEST_CODE, ui.getLaunchTag(), new
                     Bundle());
         } catch (ClassCastException e) {

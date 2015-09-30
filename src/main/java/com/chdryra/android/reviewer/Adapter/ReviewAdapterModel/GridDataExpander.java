@@ -9,14 +9,19 @@
 package com.chdryra.android.reviewer.Adapter.ReviewAdapterModel;
 
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
+import com.chdryra.android.reviewer.View.GvDataModel.GvDataCollection;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 12/05/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public interface GridCellExpander<T extends GvData> {
+public interface GridDataExpander<T extends GvData> {
     boolean isExpandable(T datum);
 
-    ReviewViewAdapter<? extends GvData> expandItem(T datum);
+    ReviewViewAdapter<? extends GvData> expandGridCell(T datum);
+
+    ReviewViewAdapter<? extends GvData> expandGridData();
+
+    void setData(GvDataCollection<T> data);
 }

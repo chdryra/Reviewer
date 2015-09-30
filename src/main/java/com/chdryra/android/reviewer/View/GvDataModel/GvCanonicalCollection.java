@@ -71,6 +71,11 @@ public class GvCanonicalCollection<T extends GvData> implements GvDataCollection
     }
 
     @Override
+    public boolean contains(GvCanonical item) {
+        return mData.contains(item);
+    }
+
+    @Override
     public GvDataType<T> getGvDataType() {
         return mType;
     }

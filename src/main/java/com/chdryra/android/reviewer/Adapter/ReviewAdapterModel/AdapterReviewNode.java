@@ -36,10 +36,6 @@ public class AdapterReviewNode<T extends GvData> extends ReviewViewAdapterBasic<
         mNode = node;
     }
 
-    public ReviewViewAdapter getTreeDataAdapter() {
-        return FactoryReviewViewAdapter.newTreeDataAdapter(getReviewView().getActivity(), mNode);
-    }
-
     @Override
     public String getSubject() {
         return mNode.getSubject().get();

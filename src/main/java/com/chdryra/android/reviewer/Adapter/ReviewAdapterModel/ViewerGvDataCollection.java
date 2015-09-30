@@ -19,11 +19,12 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
  */
 public class ViewerGvDataCollection<T extends GvData> implements GridDataViewer<T> {
     private GvDataCollection<T> mData;
-    private GridCellExpander<T> mExpander;
+    private GridDataExpander<T> mExpander;
 
-    public ViewerGvDataCollection(GridCellExpander<T> expander, GvDataCollection<T> data) {
+    public ViewerGvDataCollection(GridDataExpander<T> expander, GvDataCollection<T> data) {
         mData = data;
         mExpander = expander;
+        setData(data);
     }
 
     @Override
@@ -37,7 +38,18 @@ public class ViewerGvDataCollection<T extends GvData> implements GridDataViewer<
     }
 
     @Override
-    public ReviewViewAdapter<? extends GvData> expandItem(T datum) {
-        return mExpander.expandItem(datum);
+    public ReviewViewAdapter<? extends GvData> expandGridCell(T datum) {
+        return mExpander.expandGridCell(datum);
+    }
+
+    @Override
+    public ReviewViewAdapter<? extends GvData> expandGridData() {
+        return mExpander.expandGridData();
+    }
+
+    @Override
+    public void setData(GvDataCollection<T> data) {
+        mData = data;
+        mExpander.setData(data);
     }
 }

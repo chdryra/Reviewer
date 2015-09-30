@@ -15,25 +15,18 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvData;
  * Email: rizwan.choudrey@gmail.com
  */
 public class AdapterCriteriaAggregate extends AdapterReviewNode<GvCanonical> {
-    private GvCanonicalCollection<GvCriterionList.GvCriterion> mCriteria;
     private Context mContext;
 
     public AdapterCriteriaAggregate(Context context, ReviewNode node,
                                     GvCanonicalCollection<GvCriterionList.GvCriterion> criteria) {
         super(node);
         mContext = context;
-        mCriteria = criteria;
-        ExpanderToReviews<GvCanonical> expander = new ExpanderToReviews<>(mContext, mCriteria);
-        setWrapper(new ViewerGvDataCollection<>(expander, mCriteria));
-    }
-
-    private GvCanonicalCollection<GvCriterionList.GvCriterion> aggregate
-            (GvCanonical<GvCriterionList.GvCriterion> canonical) {
-        return Aggregater.aggregateCriteriaMode((GvCriterionList) canonical.toList());
+        ExpanderToReviews<GvCanonical> expander = new ExpanderToReviews<>(mContext);
+        setWrapper(new ViewerGvDataCollection<>(expander, criteria));
     }
 
     @Override
-    public ReviewViewAdapter<? extends GvData> expandItem(GvCanonical datum) {
+    public ReviewViewAdapter<? extends GvData> expandGridCell(GvCanonical datum) {
         if (!isExpandable(datum)) return null;
 
         GvCanonicalCollection<GvCriterionList.GvCriterion> newAggregate

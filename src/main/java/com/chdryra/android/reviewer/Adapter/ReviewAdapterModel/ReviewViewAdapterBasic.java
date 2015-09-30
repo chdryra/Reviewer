@@ -9,6 +9,7 @@
 package com.chdryra.android.reviewer.Adapter.ReviewAdapterModel;
 
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
+import com.chdryra.android.reviewer.View.GvDataModel.GvDataCollection;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
 import com.chdryra.android.reviewer.View.Screens.GridDataObservable;
 import com.chdryra.android.reviewer.View.Screens.ReviewView;
@@ -35,6 +36,16 @@ public abstract class ReviewViewAdapterBasic<T extends GvData> implements Review
     }
 
     @Override
+    public void registerReviewView(ReviewView view) {
+        mView = view;
+    }
+
+    @Override
+    public ReviewView getReviewView() {
+        return mView;
+    }
+
+    @Override
     public void registerGridDataObserver(GridDataObservable.GridDataObserver observer) {
         if (!mObservers.contains(observer)) mObservers.add(observer);
     }
@@ -57,18 +68,18 @@ public abstract class ReviewViewAdapterBasic<T extends GvData> implements Review
     }
 
     @Override
-    public ReviewViewAdapter<? extends GvData> expandItem(T datum) {
-        return isExpandable(datum) ? mWrapper.expandItem(datum) : null;
+    public ReviewViewAdapter<? extends GvData> expandGridCell(T datum) {
+        return isExpandable(datum) ? mWrapper.expandGridCell(datum) : null;
     }
 
     @Override
-    public void registerReviewView(ReviewView view) {
-        mView = view;
+    public ReviewViewAdapter<? extends GvData> expandGridData() {
+        return mWrapper.expandGridData();
     }
 
     @Override
-    public ReviewView getReviewView() {
-        return mView;
+    public void setData(GvDataCollection<T> data) {
+        if (mWrapper != null) mWrapper.setData(data);
     }
 
     public void setWrapper(GridDataViewer<T> wrapper) {

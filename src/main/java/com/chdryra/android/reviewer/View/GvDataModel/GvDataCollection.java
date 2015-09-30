@@ -21,4 +21,6 @@ public interface GvDataCollection<T extends GvData> extends GvData {
     T getItem(int position);
 
     GvDataList<T> toList();
+
+    boolean contains(T item);
 }

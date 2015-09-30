@@ -78,7 +78,7 @@ public class AdapterReviewNodeTest extends AndroidTestCase {
         for (int i = 0; i < data.size(); ++i) {
             GvReviewOverviewList.GvReviewOverview datum = data.getItem(i);
             assertTrue(mAdapter.isExpandable(datum));
-            assertNotNull(mAdapter.expandItem(datum));
+            assertNotNull(mAdapter.expandGridCell(datum));
         }
     }
 

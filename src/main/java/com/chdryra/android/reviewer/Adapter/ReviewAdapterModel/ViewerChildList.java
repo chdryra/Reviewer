@@ -14,6 +14,7 @@ import com.chdryra.android.reviewer.Adapter.DataAdapterModel.MdGvConverter;
 import com.chdryra.android.reviewer.Model.ReviewData.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
+import com.chdryra.android.reviewer.View.GvDataModel.GvDataCollection;
 import com.chdryra.android.reviewer.View.GvDataModel.GvReviewOverviewList;
 
 /**
@@ -46,7 +47,7 @@ public class ViewerChildList implements GridDataViewer<GvReviewOverviewList.GvRe
     }
 
     @Override
-    public ReviewViewAdapter<? extends GvData> expandItem(GvReviewOverviewList.GvReviewOverview
+    public ReviewViewAdapter<? extends GvData> expandGridCell(GvReviewOverviewList.GvReviewOverview
                                                                       datum) {
         if (isExpandable(datum)) {
             ReviewNode node = mNode.getChildren().get(ReviewId.fromString(datum.getId()));
@@ -54,5 +55,15 @@ public class ViewerChildList implements GridDataViewer<GvReviewOverviewList.GvRe
         } else {
             return null;
         }
+    }
+
+    @Override
+    public ReviewViewAdapter<? extends GvData> expandGridData() {
+        return FactoryReviewViewAdapter.newTreeDataAdapter(mContext, mNode);
+    }
+
+    @Override
+    public void setData(GvDataCollection<GvReviewOverviewList.GvReviewOverview> data) {
+
     }
 }

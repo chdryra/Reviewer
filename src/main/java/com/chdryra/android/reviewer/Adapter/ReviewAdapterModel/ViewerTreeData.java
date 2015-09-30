@@ -65,7 +65,7 @@ public class ViewerTreeData implements GridDataViewer<GvData> {
     }
 
     @Override
-    public ReviewViewAdapter<? extends GvData> expandItem(GvData datum) {
+    public ReviewViewAdapter<? extends GvData> expandGridCell(GvData datum) {
         if (isExpandable(datum)) {
             ReviewViewAdapter<? extends GvData> parent
                     = ReviewListScreen.newScreen(mContext, mNode).getAdapter();
@@ -94,12 +94,26 @@ public class ViewerTreeData implements GridDataViewer<GvData> {
                             subject);
                 }
             } else {
-                adapter = FactoryReviewViewAdapter.newExpandToDataAdapter(parent, data);
+                adapter = FactoryReviewViewAdapter.newExpandToDataAdapter(mContext, parent, data);
             }
             return adapter;
         }
 
         return null;
+    }
+
+    @Override
+    public ReviewViewAdapter<? extends GvData> expandGridData() {
+        if (mNode.getChildren().size() > 0) {
+            return FactoryReviewViewAdapter.newChildListAdapter(mContext, mNode);
+        }
+
+        return null;
+    }
+
+    @Override
+    public void setData(GvDataCollection<GvData> data) {
+
     }
 
     private GvList getAggregateGridData() {

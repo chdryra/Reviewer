@@ -36,7 +36,7 @@ public class AdapterCommentsAggregate extends AdapterReviewNode<GvCanonical> {
             current = mComments;
         }
 
-        ExpanderToReviews<GvCanonical> expander = new ExpanderToReviews<>(mContext, current);
+        ExpanderToReviews<GvCanonical> expander = new ExpanderToReviews<>(mContext);
         setWrapper(new ViewerGvDataCollection<>(expander, current));
     }
 

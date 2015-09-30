@@ -12,12 +12,9 @@ import android.app.Fragment;
 import android.os.Bundle;
 import android.view.View;
 
-import com.chdryra.android.mygenerallibrary.DialogAlertFragment;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewAdapter;
-import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.View.Configs.ConfigGvDataUi;
 import com.chdryra.android.reviewer.View.Dialogs.DialogGvDataView;
-import com.chdryra.android.reviewer.View.Dialogs.DialogShower;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataPacker;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
@@ -36,6 +33,7 @@ public class ReviewDataScreen {
 
     private ReviewDataScreen(ReviewViewAdapter<? extends GvData> adapter) {
         mReviewView = new ReviewView(adapter);
+        mReviewView.setAction(new RatingBar());
         mReviewView.setAction(new GridItem());
     }
 
@@ -57,8 +55,7 @@ public class ReviewDataScreen {
     }
 
     public static class GridItem extends GridItemExpander {
-        private static final String TAG                 = "ReviewViewExpandableGridItemListener";
-        private static final int    REQUEST_GOTO_REVIEW = 314;
+        private static final String TAG = "ReviewViewExpandableGridItemListener";
         private GridItemListener mListener;
 
         public GridItem() {
@@ -90,45 +87,24 @@ public class ReviewDataScreen {
             }
         }
 
-        @Override
-        public void onLongClickNotExpandable(GvData item, int position, View v) {
-            onClickNotExpandable(item, position, v);
-        }
-
-        @Override
-        public void onGridItemLongClick(GvData item, int position, View v) {
-            String alert = getActivity().getResources().getString(R.string.alert_goto_review);
-            Bundle args = new Bundle();
-            GvDataPacker.packItem(GvDataPacker.CurrentNewDatum.CURRENT, item, args);
-            DialogAlertFragment dialog = DialogAlertFragment.newDialog(alert, args);
-            DialogShower.show(dialog, mListener, REQUEST_GOTO_REVIEW, DialogAlertFragment
-                    .ALERT_TAG);
-        }
-
-        private void onDialogAlertPositive(int requestCode, Bundle args) {
-            if (requestCode == REQUEST_GOTO_REVIEW) {
-                GvData datum = GvDataPacker.unpackItem(GvDataPacker.CurrentNewDatum.CURRENT, args);
-                ReviewLauncher.launchReview(getActivity(), getReviewView().getParent(), datum);
-            }
-        }
-
         protected abstract class GridItemListener extends Fragment
-                implements DialogAlertFragment.DialogAlertListener, DialogGvDataView
-                .GotoReviewListener {
-
-            @Override
-            public void onAlertNegative(int requestCode, Bundle args) {
-            }
-
-            @Override
-            public void onAlertPositive(int requestCode, Bundle args) {
-                onDialogAlertPositive(requestCode, args);
-            }
-
+                implements DialogGvDataView.GotoReviewListener {
             @Override
             public void onGotoReview(GvData datum) {
                 ReviewLauncher.launchReview(getActivity(), getReviewView().getParent(), datum);
             }
+        }
+    }
+
+    public static class RatingBar extends ReviewViewAction.RatingBarAction {
+        private static final int REQUEST_CODE = RequestCodeGenerator.getCode
+                ("ReviewDataScreen.RatingBar");
+
+        @Override
+        public void onClick(View v) {
+            ReviewView ui = ReviewDataScreen.newScreen(getAdapter().expandGridData());
+            LauncherUi.launch(ui, getReviewView().getParent(), REQUEST_CODE, ui.getLaunchTag(), new
+                    Bundle());
         }
     }
 }

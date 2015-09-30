@@ -65,6 +65,16 @@ public class GvCanonical<T extends GvData> implements GvDataCollection<T>, Itera
     }
 
     @Override
+    public boolean contains(T item) {
+        return mData.contains(item);
+    }
+
+    @Override
+    public boolean contains(T item) {
+        return mData.contains(item);
+    }
+
+    @Override
     public GvDataList<T> toList() {
         return mData;
     }

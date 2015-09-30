@@ -65,10 +65,10 @@ public class AdapterReviewViewAdapterTest extends AndroidTestCase {
             GvData datum = (GvData) data.getItem(i);
             if (i < 2) {
                 assertTrue(mAdapter.isExpandable(datum));
-                assertNotNull(mAdapter.expandItem(datum));
+                assertNotNull(mAdapter.expandGridCell(datum));
             } else {
                 assertFalse(mAdapter.isExpandable(datum));
-                assertNull(mAdapter.expandItem(datum));
+                assertNull(mAdapter.expandGridCell(datum));
             }
         }
     }

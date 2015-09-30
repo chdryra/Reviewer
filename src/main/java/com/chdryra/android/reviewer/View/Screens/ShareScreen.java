@@ -39,7 +39,8 @@ public class ShareScreen {
         ReviewBuilderAdapter builder = admin.getReviewBuilder();
         GvSocialPlatformList platforms = admin.getSocialPlatformList();
 
-        ReviewViewAdapter adapter = FactoryReviewViewAdapter.newExpandToDataAdapter(builder,
+        ReviewViewAdapter adapter = FactoryReviewViewAdapter.newExpandToDataAdapter(context,
+                builder,
                 platforms);
         ReviewView view = new ReviewView(adapter, new ShareScreenModifier());
 

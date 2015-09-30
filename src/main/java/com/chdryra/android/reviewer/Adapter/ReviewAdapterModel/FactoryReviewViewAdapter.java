@@ -39,13 +39,13 @@ public class FactoryReviewViewAdapter {
     }
 
     public static <T extends GvData> ReviewViewAdapter<? extends GvData> newExpandToDataAdapter(
-            ReviewViewAdapter<? extends GvData> parent, GvDataCollection<T> data) {
-        return newGvDataCollectionAdapter(parent, data, new ExpanderToData(parent));
+            Context context, ReviewViewAdapter<? extends GvData> parent, GvDataCollection<T> data) {
+        return newGvDataCollectionAdapter(parent, data, new ExpanderToData<T>(context, parent));
     }
 
     public static <T extends GvData> ReviewViewAdapter<? extends GvData> newExpandToReviewsAdapter(
             Context context, GvDataCollection<T> data, String subject) {
-        ExpanderToReviews<T> expander = new ExpanderToReviews<>(context, data);
+        ExpanderToReviews<T> expander = new ExpanderToReviews<>(context);
         ViewerGvDataCollection<T> wrapper = new ViewerGvDataCollection<>(expander, data);
         ReviewNode node = ReviewMaker.createMetaReview(context, data, subject);
         return new AdapterReviewNode<>(node, wrapper);
@@ -66,7 +66,7 @@ public class FactoryReviewViewAdapter {
 
     private static <T extends GvData> ReviewViewAdapter<? extends GvData>
     newGvDataCollectionAdapter(ReviewViewAdapter<? extends GvData> parent, GvDataCollection<T> data,
-            GridCellExpander<T> expander) {
+                               GridDataExpander<T> expander) {
         ViewerGvDataCollection<T> wrapper = new ViewerGvDataCollection<>(expander, data);
         return new AdapterReviewViewAdapter<>(parent, wrapper);
     }

@@ -8,6 +8,13 @@
 
 package com.chdryra.android.reviewer.Adapter.ReviewAdapterModel;
 
+import android.content.Context;
+
+import com.chdryra.android.reviewer.ApplicationSingletons.ReviewMaker;
+import com.chdryra.android.reviewer.ApplicationSingletons.ReviewsManager;
+import com.chdryra.android.reviewer.Model.ReviewData.IdableList;
+import com.chdryra.android.reviewer.Model.ReviewStructure.Review;
+import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataCollection;
 
@@ -16,25 +23,51 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvDataCollection;
  * On: 12/05/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ExpanderToData implements GridCellExpander {
+public class ExpanderToData<T extends GvData> implements GridDataExpander<T> {
     private ReviewViewAdapter<? extends GvData> mParent;
+    private GvDataCollection<T> mData;
+    private Context mContext;
 
-    public ExpanderToData(ReviewViewAdapter<? extends GvData> parent) {
+    public ExpanderToData(Context context, ReviewViewAdapter<? extends GvData> parent) {
+        mContext = context;
         mParent = parent;
     }
 
     @Override
-    public boolean isExpandable(GvData datum) {
-        return datum.hasElements() && mParent.getGridData().contains(datum);
+    public boolean isExpandable(T datum) {
+        if (mData == null) return false;
+        return datum.hasElements() && mData.contains(datum);
     }
 
     @Override
-    public ReviewViewAdapter<? extends GvData> expandItem(GvData datum) {
+    public ReviewViewAdapter<? extends GvData> expandGridCell(T datum) {
         if (isExpandable(datum)) {
-            return FactoryReviewViewAdapter.newExpandToDataAdapter(mParent,
+            return FactoryReviewViewAdapter.newExpandToDataAdapter(mContext, mParent,
                     (GvDataCollection<? extends GvData>) datum);
         }
 
         return null;
+    }
+
+    @Override
+    public ReviewViewAdapter<? extends GvData> expandGridData() {
+        IdableList<Review> nodes = new IdableList<>();
+        for (int i = 0; i < mData.size(); ++i) {
+            ReviewNode node = getReviewNode(mData.getItem(i));
+            if (node != null) nodes.add(node);
+        }
+
+        ReviewNode meta = ReviewMaker.createMetaReview(mContext, nodes, mData.getStringSummary());
+        return FactoryReviewViewAdapter.newTreeDataAdapter(mContext, meta);
+    }
+
+    @Override
+    public void setData(GvDataCollection<T> data) {
+        mData = data;
+    }
+
+    private ReviewNode getReviewNode(T item) {
+        if (item.isCollection() && !item.hasElements()) return null;
+        return ReviewsManager.getReview(mContext, item);
     }
 }

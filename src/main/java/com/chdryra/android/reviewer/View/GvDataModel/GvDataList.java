@@ -104,8 +104,14 @@ public class GvDataList<T extends GvData> extends ViewHolderDataList<T> implemen
         return this;
     }
 
-    public boolean contains(GvData datum) {
+    @Override
+    public boolean contains(T datum) {
         return super.contains(mType.cast(datum));
+    }
+
+    @Override
+    protected Comparator<T> getDefaultComparator() {
+        return GvDataComparators.getDefaultComparator(mType);
     }
 
     @Override
@@ -129,11 +135,6 @@ public class GvDataList<T extends GvData> extends ViewHolderDataList<T> implemen
     @Override
     public boolean isValidForDisplay() {
         return true;
-    }
-
-    @Override
-    protected Comparator<T> getDefaultComparator() {
-        return GvDataComparators.getDefaultComparator(mType);
     }
 
     @Override
