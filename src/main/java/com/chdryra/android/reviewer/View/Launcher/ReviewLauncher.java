@@ -12,11 +12,14 @@ import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
 
-import com.chdryra.android.reviewer.ApplicationSingletons.ReviewMaker;
-import com.chdryra.android.reviewer.ApplicationSingletons.ReviewsManager;
-import com.chdryra.android.reviewer.Model.ReviewData.IdableList;
+import com.chdryra.android.reviewer.ApplicationSingletons.Administrator;
+import com.chdryra.android.reviewer.Model.ReviewData.PublishDate;
+import com.chdryra.android.reviewer.Model.ReviewData.ReviewPublisher;
+import com.chdryra.android.reviewer.Model.ReviewStructure.FactoryReview;
 import com.chdryra.android.reviewer.Model.ReviewStructure.Review;
 import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
+import com.chdryra.android.reviewer.Model.TagsModel.TagsManager;
+import com.chdryra.android.reviewer.ReviewsProviderModel.ReviewsRepository;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.Screens.ReviewListScreen;
 import com.chdryra.android.reviewer.View.Utils.RequestCodeGenerator;
@@ -28,19 +31,16 @@ import com.chdryra.android.reviewer.View.Utils.RequestCodeGenerator;
  */
 public class ReviewLauncher {
     public static void launchReview(Context context, Fragment commissioner, GvData datum) {
-        Review node = ReviewsManager.getReview(context, datum);
-        launchReview(context, commissioner, node);
+        ReviewsRepository repo = Administrator.get(context).getReviewsRepository();
+        launchReview(context, commissioner, repo.getReview(datum), repo.getTagsManager());
     }
 
-    public static void launchReview(Context context, Fragment commissioner, Review review) {
-        ReviewNode meta = review.getTreeRepresentation();
-        if (meta.getChildren().size() == 0) {
-            IdableList<Review> single = new IdableList<>();
-            single.add(review);
-            meta = ReviewMaker.createMetaReview(context, single, review.getSubject().get());
-        }
-
-        LaunchableUi ui = ReviewListScreen.newScreen(context, meta);
+    private static void launchReview(Context context, Fragment commissioner, Review review,
+                                     TagsManager tagsManager) {
+        ReviewPublisher publisher = new ReviewPublisher(review.getAuthor(),
+                PublishDate.then(review.getPublishDate().getTime()));
+        ReviewNode meta = FactoryReview.createMetaReview(review, publisher);
+        LaunchableUi ui = ReviewListScreen.newScreen(context, meta, tagsManager);
         String tag = review.getSubject().get();
         int requestCode = RequestCodeGenerator.getCode(tag);
         LauncherUi.launch(ui, commissioner, requestCode, tag, new Bundle());

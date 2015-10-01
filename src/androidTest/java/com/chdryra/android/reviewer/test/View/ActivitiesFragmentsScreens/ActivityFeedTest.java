@@ -20,13 +20,13 @@ import android.widget.GridView;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilderAdapter;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewAdapter;
 import com.chdryra.android.reviewer.ApplicationSingletons.Administrator;
-import com.chdryra.android.reviewer.ApplicationSingletons.ReviewFeed;
 import com.chdryra.android.reviewer.R;
+import com.chdryra.android.reviewer.ReviewsProviderModel.ReviewNodeProvider;
 import com.chdryra.android.reviewer.View.ActivitiesFragments.ActivityReviewView;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvReviewOverviewList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvTagList;
-import com.chdryra.android.reviewer.View.Screens.FeedScreen;
+import com.chdryra.android.reviewer.View.Screens.AuthorFeedScreen;
 import com.chdryra.android.reviewer.View.Screens.ReviewView;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
 import com.chdryra.android.reviewer.test.TestUtils.RandomRating;
@@ -97,7 +97,7 @@ public class ActivityFeedTest extends
     protected void setUp() {
         Context context = getInstrumentation().getTargetContext();
         mAdmin = Administrator.get(context);
-        ReviewView feedScreen = FeedScreen.newScreen(context);
+        ReviewView feedScreen = AuthorFeedScreen.newScreen(context);
         mAdapter = feedScreen.getAdapter();
 
         if (mAdapter.getGridData().size() == 0) {
@@ -119,12 +119,12 @@ public class ActivityFeedTest extends
                     e.printStackTrace();
                 }
             }
-            feedScreen = FeedScreen.newScreen(context);
+            feedScreen = AuthorFeedScreen.newScreen(context);
             mAdapter = feedScreen.getAdapter();
         }
 
         Intent i = new Intent();
-        mAdmin.packView(FeedScreen.newScreen(getInstrumentation().getTargetContext()), i);
+        mAdmin.packView(AuthorFeedScreen.newScreen(getInstrumentation().getTargetContext()), i);
         setActivityIntent(i);
         mActivity = getActivity();
 
@@ -134,7 +134,7 @@ public class ActivityFeedTest extends
 
     @Override
     protected void tearDown() throws Exception {
-        ReviewFeed.deleteTestDatabase(getActivity());
+        ReviewNodeProvider.deleteTestDatabase(getActivity());
         mActivity.finish();
     }
 

@@ -14,14 +14,14 @@ import android.test.UiThreadTest;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.ApplicationSingletons.Administrator;
-import com.chdryra.android.reviewer.ApplicationSingletons.ReviewFeed;
 import com.chdryra.android.reviewer.Database.ReviewerDb;
 import com.chdryra.android.reviewer.Model.ReviewData.IdableList;
 import com.chdryra.android.reviewer.Model.ReviewData.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewStructure.Review;
 import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
+import com.chdryra.android.reviewer.ReviewsProviderModel.ReviewNodeProvider;
 import com.chdryra.android.reviewer.View.ActivitiesFragments.ActivityReviewView;
-import com.chdryra.android.reviewer.View.Screens.FeedScreen;
+import com.chdryra.android.reviewer.View.Screens.AuthorFeedScreen;
 import com.chdryra.android.reviewer.test.TestUtils.ReviewMocker;
 import com.chdryra.android.reviewer.test.TestUtils.TestDatabase;
 
@@ -30,14 +30,14 @@ import com.chdryra.android.reviewer.test.TestUtils.TestDatabase;
  * On: 11/05/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ReviewFeedTest extends ActivityInstrumentationTestCase2<ActivityReviewView> {
-    public ReviewFeedTest() {
+public class ReviewNodeProviderTest extends ActivityInstrumentationTestCase2<ActivityReviewView> {
+    public ReviewNodeProviderTest() {
         super(ActivityReviewView.class);
     }
 
     @SmallTest
     public void testGetFeedNode() {
-        assertNotNull(ReviewFeed.getFeedNode(getActivity()));
+        assertNotNull(ReviewNodeProvider.getReviewNode(getActivity()));
     }
 
     @SmallTest
@@ -45,9 +45,9 @@ public class ReviewFeedTest extends ActivityInstrumentationTestCase2<ActivityRev
     public void testRemoveFromFeed() {
         ReviewNode node = ReviewMocker.newReviewNode(false);
         ReviewId nodeId = node.getRoot().getId();
-        ReviewFeed.addToFeed(getActivity(), node);
+        ReviewNodeProvider.addToFeed(getActivity(), node);
 
-        ReviewNode feedNode = ReviewFeed.getFeedNode(getActivity());
+        ReviewNode feedNode = ReviewNodeProvider.getReviewNode(getActivity());
         int numReviews = feedNode.getChildren().size();
         ReviewerDb db = TestDatabase.getDatabase(getInstrumentation());
         IdableList<Review> fromDb = db.loadReviewsFromDb();
@@ -60,7 +60,7 @@ public class ReviewFeedTest extends ActivityInstrumentationTestCase2<ActivityRev
         ReviewNode mostRecent = reviews.getItem(reviews.size() - 1);
         assertEquals(nodeId, mostRecent.getId());
 
-        ReviewFeed.removeFromFeed(getActivity(), node.getId().toString());
+        ReviewNodeProvider.removeFromFeed(getActivity(), node.getId().toString());
 
         if (reviews.size() > 0) {
             mostRecent = reviews.getItem(reviews.size() - 1);
@@ -76,7 +76,7 @@ public class ReviewFeedTest extends ActivityInstrumentationTestCase2<ActivityRev
     @SmallTest
     @UiThreadTest
     public void testAddToFeed() {
-        ReviewNode feedNode = ReviewFeed.getFeedNode(getActivity());
+        ReviewNode feedNode = ReviewNodeProvider.getReviewNode(getActivity());
         assertNotNull(feedNode);
 
         IdableList<ReviewNode> reviews = feedNode.getChildren();
@@ -95,7 +95,7 @@ public class ReviewFeedTest extends ActivityInstrumentationTestCase2<ActivityRev
             }
         }
 
-        ReviewFeed.addToFeed(getActivity(), node);
+        ReviewNodeProvider.addToFeed(getActivity(), node);
 
         assertEquals(numReviews + 1, reviews.size());
         fromDb = db.loadReviewsFromDb();
@@ -111,14 +111,14 @@ public class ReviewFeedTest extends ActivityInstrumentationTestCase2<ActivityRev
         super.setUp();
         Administrator admin = Administrator.get(getInstrumentation().getTargetContext());
         Intent i = new Intent();
-        admin.packView(FeedScreen.newScreen(getInstrumentation().getTargetContext()), i);
+        admin.packView(AuthorFeedScreen.newScreen(getInstrumentation().getTargetContext()), i);
         setActivityIntent(i);
         assertNotNull(getActivity());
     }
 
     @Override
     protected void tearDown() throws Exception {
-        ReviewFeed.deleteTestDatabase(getActivity());
+        ReviewNodeProvider.deleteTestDatabase(getActivity());
         TestDatabase.recreateDatabase(getInstrumentation());
     }
 }

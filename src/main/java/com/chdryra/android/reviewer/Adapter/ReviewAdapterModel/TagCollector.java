@@ -8,12 +8,11 @@
 
 package com.chdryra.android.reviewer.Adapter.ReviewAdapterModel;
 
-import android.content.Context;
-
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.MdGvConverter;
 import com.chdryra.android.reviewer.Model.ReviewData.MdDataList;
 import com.chdryra.android.reviewer.Model.ReviewData.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
+import com.chdryra.android.reviewer.Model.TagsModel.TagsManager;
 import com.chdryra.android.reviewer.Model.TreeMethods.VisitorTreeFlattener;
 import com.chdryra.android.reviewer.View.GvDataModel.GvReviewId;
 import com.chdryra.android.reviewer.View.GvDataModel.GvTagList;
@@ -25,12 +24,14 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvTagList;
  */
 public class TagCollector {
     private ReviewNode mNode;
+    private TagsManager mTagsManager;
 
-    public TagCollector(ReviewNode node) {
+    public TagCollector(ReviewNode node, TagsManager tagsManager) {
         mNode = node;
+        mTagsManager = tagsManager;
     }
 
-    public GvTagList collectTags(Context context) {
+    public GvTagList collectTags() {
         MdDataList<ReviewId> ids = new MdDataList<>(mNode.getId());
         for (ReviewNode node : VisitorTreeFlattener.flatten(mNode)) {
             ids.add(node.getId());
@@ -38,7 +39,7 @@ public class TagCollector {
 
         GvTagList tags = new GvTagList(GvReviewId.getId(mNode.getId().toString()));
         for (ReviewId id : ids) {
-            for (GvTagList.GvTag tag : MdGvConverter.getTags(context, id.toString())) {
+            for (GvTagList.GvTag tag : MdGvConverter.getTags(id.toString(), mTagsManager)) {
                 tags.add(tag);
             }
         }

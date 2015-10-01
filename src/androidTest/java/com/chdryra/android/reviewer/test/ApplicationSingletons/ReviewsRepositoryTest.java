@@ -5,12 +5,12 @@ import android.test.InstrumentationTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.MdGvConverter;
-import com.chdryra.android.reviewer.ApplicationSingletons.ReviewFeed;
-import com.chdryra.android.reviewer.ApplicationSingletons.ReviewsManager;
 import com.chdryra.android.reviewer.Model.ReviewData.MdCommentList;
 import com.chdryra.android.reviewer.Model.ReviewData.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewStructure.Review;
 import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
+import com.chdryra.android.reviewer.ReviewsProviderModel.ReviewNodeProvider;
+import com.chdryra.android.reviewer.ReviewsProviderModel.ReviewsRepository;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
 import com.chdryra.android.reviewer.test.TestUtils.TestDatabase;
 
@@ -21,7 +21,7 @@ import java.util.ArrayList;
  * On: 23/09/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ReviewsManagerTest extends InstrumentationTestCase {
+public class ReviewsRepositoryTest extends InstrumentationTestCase {
     ReviewNode mFeed;
     Context mContext;
 
@@ -29,7 +29,7 @@ public class ReviewsManagerTest extends InstrumentationTestCase {
     protected void setUp() throws Exception {
         TestDatabase.recreateDatabase(getInstrumentation());
         mContext = getInstrumentation().getTargetContext();
-        mFeed = ReviewFeed.getFeedNode(mContext);
+        mFeed = ReviewNodeProvider.getReviewNode(mContext);
         assertTrue(mFeed.getChildren().size() > 0);
     }
 
@@ -47,7 +47,7 @@ public class ReviewsManagerTest extends InstrumentationTestCase {
 
         GvCommentList comments = MdGvConverter.convert(allComments);
         for (GvCommentList.GvComment comment : comments) {
-            Review review = ReviewsManager.getReview(mContext, comment);
+            Review review = ReviewsRepository.getReview(mContext, comment);
             assertNotNull(review);
             assertEquals(comment.getReviewId().getId(), review.getId().toString());
             GvCommentList reviewComments = MdGvConverter.convert(review.getComments());
@@ -75,7 +75,7 @@ public class ReviewsManagerTest extends InstrumentationTestCase {
 
         //Create meta review
         GvCommentList comments = MdGvConverter.convert(commentsOfInterest);
-        Review review = ReviewsManager.getReview(mContext, comments);
+        Review review = ReviewsRepository.getReview(mContext, comments);
         assertNotNull(review);
 
         //Check all comments of interest present

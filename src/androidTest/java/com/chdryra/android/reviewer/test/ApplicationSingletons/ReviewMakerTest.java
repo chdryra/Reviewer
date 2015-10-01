@@ -5,12 +5,11 @@ import android.test.InstrumentationTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.MdGvConverter;
-import com.chdryra.android.reviewer.ApplicationSingletons.ReviewFeed;
-import com.chdryra.android.reviewer.ApplicationSingletons.ReviewMaker;
 import com.chdryra.android.reviewer.Model.ReviewData.IdableList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdCommentList;
 import com.chdryra.android.reviewer.Model.ReviewStructure.Review;
 import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
+import com.chdryra.android.reviewer.ReviewsProviderModel.ReviewNodeProvider;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
 import com.chdryra.android.reviewer.test.TestUtils.RandomReviewId;
 import com.chdryra.android.reviewer.test.TestUtils.ReviewMocker;
@@ -33,7 +32,7 @@ public class ReviewMakerTest extends InstrumentationTestCase {
     protected void setUp() throws Exception {
         TestDatabase.recreateDatabase(getInstrumentation());
         mContext = getInstrumentation().getTargetContext();
-        mFeed = ReviewFeed.getFeedNode(mContext);
+        mFeed = ReviewNodeProvider.getReviewNode(mContext);
         assertTrue(mFeed.getChildren().size() > 0);
     }
 

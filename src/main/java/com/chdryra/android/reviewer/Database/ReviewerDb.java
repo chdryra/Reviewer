@@ -16,7 +16,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-import com.chdryra.android.reviewer.ApplicationSingletons.TagsManager;
 import com.chdryra.android.reviewer.Model.ReviewData.IdableList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdCommentList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdCriterionList;
@@ -29,6 +28,7 @@ import com.chdryra.android.reviewer.Model.ReviewData.PublishDate;
 import com.chdryra.android.reviewer.Model.ReviewData.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewStructure.Review;
 import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewUser;
+import com.chdryra.android.reviewer.Model.TagsModel.TagsManager;
 import com.chdryra.android.reviewer.Model.UserData.Author;
 
 import java.lang.reflect.Constructor;
@@ -61,26 +61,24 @@ public class ReviewerDb {
     private static final String                         COLUMN_NAME_REVIEW_ID =
             ReviewerDbContract.NAME_REVIEW_ID;
 
-    private static ReviewerDb       sDatabase;
     private SQLiteOpenHelper mHelper;
     private String           mDatabaseName;
-    private Context mContext;
+    private TagsManager mTagsManager;
 
-    private ReviewerDb(Context context, String databaseName) {
+    private ReviewerDb(Context context, String databaseName, TagsManager tagsManager) {
         mDatabaseName = databaseName;
-        mContext = context;
         DbContract contract = ReviewerDbContract.getContract();
-        mHelper = new DbHelper(mContext, new DbManager(contract), mDatabaseName, VERSION_NUMBER);
+        mHelper = new DbHelper(context, new DbManager(contract), mDatabaseName, VERSION_NUMBER);
+        mTagsManager = tagsManager;
     }
 
     //API
-    public static ReviewerDb getDatabase(Context context) {
-        if (sDatabase == null) sDatabase = new ReviewerDb(context, DATABASE_NAME);
-        return sDatabase;
+    public static ReviewerDb getDatabase(Context context, TagsManager tagsManager) {
+        return new ReviewerDb(context, DATABASE_NAME, tagsManager);
     }
 
-    public static ReviewerDb getTestDatabase(Context context) {
-        return new ReviewerDb(context, "Test" + DATABASE_NAME);
+    public static ReviewerDb getTestDatabase(Context context, TagsManager tagsManager) {
+        return new ReviewerDb(context, "Test" + DATABASE_NAME, tagsManager);
     }
 
     public String getDatabaseName() {
@@ -102,6 +100,20 @@ public class ReviewerDb {
         db.close();
     }
 
+    public Review loadReviewFromDb(String reviewId) {
+        SQLiteDatabase db = mHelper.getReadableDatabase();
+
+        db.beginTransaction();
+        RowReview row = getRowWhere(db, REVIEWS, RowReview.REVIEW_ID, reviewId);
+        Review review = buildReview(row, db);
+        db.setTransactionSuccessful();
+        db.endTransaction();
+
+        db.close();
+
+        return review;
+    }
+
     public IdableList<Review> loadReviewsFromDb() {
         SQLiteDatabase db = mHelper.getReadableDatabase();
 
@@ -115,17 +127,11 @@ public class ReviewerDb {
         return reviews;
     }
 
-    public void loadTags() {
-        SQLiteDatabase db = mHelper.getReadableDatabase();
-        loadTags(db);
-        db.close();
-    }
-
     private void loadTags(SQLiteDatabase db) {
         for (RowTag tag : getRowsWhere(db, TAGS, null, null)) {
             ArrayList<String> reviews = tag.getReviewIds();
             for (String reviewId : reviews) {
-                TagsManager.tag(mContext, ReviewId.fromString(reviewId), tag.getTag());
+                mTagsManager.tagReview(ReviewId.fromString(reviewId), tag.getTag());
             }
         }
     }
@@ -139,6 +145,10 @@ public class ReviewerDb {
         db.endTransaction();
 
         db.close();
+    }
+
+    public TagsManager getTagsManager() {
+        return mTagsManager;
     }
 
     //Private methods
@@ -179,10 +189,8 @@ public class ReviewerDb {
     }
 
     private void setTags(ReviewId id, SQLiteDatabase db) {
-        TagsManager.ReviewTagCollection tags = TagsManager.getTags(mContext, id);
-        if (tags.size() == 0) {
-            loadTags(db);
-        }
+        TagsManager.ReviewTagCollection tags = mTagsManager.getTags(id);
+        if (tags.size() == 0) loadTags(db);
     }
 
     private <T extends ReviewerDbRow.TableRow> T getRowWhere(SQLiteDatabase db,
@@ -275,10 +283,9 @@ public class ReviewerDb {
         TableRowList<RowReview> authored = getRowsWhere(db, REVIEWS, RowReview.AUTHOR_ID, userId);
         if (authored.size() == 0) deleteFromAuthorsTable(userId, db);
 
-        TagsManager.ReviewTagCollection tags = TagsManager.getTags(mContext,
-                ReviewId.fromString(reviewId));
+        TagsManager.ReviewTagCollection tags = mTagsManager.getTags(ReviewId.fromString(reviewId));
         for (TagsManager.ReviewTag tag : tags) {
-            if (TagsManager.untag(mContext, ReviewId.fromString(reviewId), tag)) {
+            if (mTagsManager.untagReview(ReviewId.fromString(reviewId), tag)) {
                 deleteFromTagsTable(tag.get(), db);
             }
         }
@@ -293,7 +300,7 @@ public class ReviewerDb {
     }
 
     private void addToTagsTable(Review review, SQLiteDatabase db) {
-        TagsManager.ReviewTagCollection tags = TagsManager.getTags(mContext, review.getId());
+        TagsManager.ReviewTagCollection tags = mTagsManager.getTags(review.getId());
         for (TagsManager.ReviewTag tag : tags) {
             insertOrReplaceRow(ReviewerDbRow.newRow(tag), TAGS, db);
         }

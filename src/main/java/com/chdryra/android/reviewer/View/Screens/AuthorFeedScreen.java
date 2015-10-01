@@ -17,9 +17,11 @@ import android.view.View;
 import com.chdryra.android.mygenerallibrary.DialogAlertFragment;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewAdapter;
 import com.chdryra.android.reviewer.ApplicationSingletons.Administrator;
-import com.chdryra.android.reviewer.ApplicationSingletons.ReviewFeed;
-import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
+import com.chdryra.android.reviewer.Model.ReviewData.ReviewId;
+import com.chdryra.android.reviewer.Model.ReviewStructure.Review;
 import com.chdryra.android.reviewer.R;
+import com.chdryra.android.reviewer.ReviewsProviderModel.ReviewNodeProvider;
+import com.chdryra.android.reviewer.ReviewsProviderModel.ReviewsProviderObserver;
 import com.chdryra.android.reviewer.View.Dialogs.DialogShower;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataPacker;
@@ -33,25 +35,32 @@ import com.chdryra.android.reviewer.View.Utils.RequestCodeGenerator;
  * On: 19/03/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class FeedScreen implements ReviewFeed.ReviewFeedObserver {
+public class AuthorFeedScreen implements ReviewsProviderObserver {
     private static final int REQUEST_CODE = RequestCodeGenerator.getCode("FeedScreen");
 
+    private ReviewNodeProvider mProvider;
     private ReviewView        mReviewView;
 
-    private FeedScreen(Context context, ReviewNode feedNode) {
-        mReviewView = ReviewListScreen.newScreen(context, feedNode, new GridItem(), new
-                FeedScreenMenu());
+    private AuthorFeedScreen(Context context, ReviewNodeProvider provider) {
+        mProvider = provider;
+        mReviewView = ReviewListScreen.newScreen(context, provider.getReviewNode()
+                , provider.getTagsManager(), new GridItem(), new FeedScreenMenu());
     }
 
     public static ReviewView newScreen(Context context) {
-        ReviewNode feedNode = ReviewFeed.getFeedNode(context);
-        FeedScreen screen = new FeedScreen(context, feedNode);
-        ReviewFeed.registerObserver(context, screen);
+        ReviewNodeProvider feed = Administrator.get(context).getAuthorFeed();
+        AuthorFeedScreen screen = new AuthorFeedScreen(context, feed);
+        feed.registerObserver(screen);
         return screen.getReviewView();
     }
 
     @Override
-    public void onFeedUpdated() {
+    public void onReviewAdded(Review review) {
+        mReviewView.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onReviewRemoved(ReviewId id) {
         mReviewView.notifyDataSetChanged();
     }
 
@@ -81,7 +90,7 @@ public class FeedScreen implements ReviewFeed.ReviewFeedObserver {
         }
     }
 
-    private static class GridItem extends GiLaunchReviewDataScreen {
+    private class GridItem extends GiLaunchReviewDataScreen {
         private static final String TAG            = "FeedGridItemListener";
         private static final int    REQUEST_DELETE = 314;
         private FeedGridItemListener mListener;
@@ -109,8 +118,7 @@ public class FeedScreen implements ReviewFeed.ReviewFeedObserver {
                 GvData datum = GvDataPacker.unpackItem(GvDataPacker.CurrentNewDatum.CURRENT, args);
                 GvReviewOverviewList.GvReviewOverview review = (GvReviewOverviewList
                         .GvReviewOverview) datum;
-                ReviewFeed.removeFromFeed(getActivity(), review.getId());
-                getReviewView().resetGridViewData();
+                Administrator.get(getActivity()).deleteFromAuthorsFeed(review.getId());
             }
         }
 

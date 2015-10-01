@@ -13,6 +13,7 @@ import android.content.Context;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.MdGvConverter;
 import com.chdryra.android.reviewer.Model.ReviewData.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
+import com.chdryra.android.reviewer.Model.TagsModel.TagsManager;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataCollection;
 import com.chdryra.android.reviewer.View.GvDataModel.GvReviewOverviewList;
@@ -29,15 +30,17 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvReviewOverviewList;
 public class ViewerChildList implements GridDataViewer<GvReviewOverviewList.GvReviewOverview> {
     private Context mContext;
     private ReviewNode mNode;
+    private TagsManager mTagsManager;
 
-    public ViewerChildList(Context context, ReviewNode node) {
+    public ViewerChildList(Context context, ReviewNode node, TagsManager tagsManager) {
         mContext = context;
         mNode = node;
+        mTagsManager = tagsManager;
     }
 
     @Override
     public GvReviewOverviewList getGridData() {
-        return MdGvConverter.convert(mNode.getChildren(), mNode.getId());
+        return MdGvConverter.convert(mNode.getChildren(), mNode.getId(), mTagsManager);
     }
 
     @Override
@@ -51,7 +54,7 @@ public class ViewerChildList implements GridDataViewer<GvReviewOverviewList.GvRe
                                                                       datum) {
         if (isExpandable(datum)) {
             ReviewNode node = mNode.getChildren().get(ReviewId.fromString(datum.getId()));
-            return FactoryReviewViewAdapter.newTreeDataAdapter(mContext, node);
+            return FactoryReviewViewAdapter.newTreeDataAdapter(mContext, node, mTagsManager);
         } else {
             return null;
         }
@@ -59,7 +62,7 @@ public class ViewerChildList implements GridDataViewer<GvReviewOverviewList.GvRe
 
     @Override
     public ReviewViewAdapter<? extends GvData> expandGridData() {
-        return FactoryReviewViewAdapter.newTreeDataAdapter(mContext, mNode);
+        return FactoryReviewViewAdapter.newTreeDataAdapter(mContext, mNode, mTagsManager);
     }
 
     @Override

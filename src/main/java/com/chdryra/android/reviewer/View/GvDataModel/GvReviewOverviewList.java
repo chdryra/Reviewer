@@ -86,6 +86,7 @@ public class GvReviewOverviewList extends GvDataList<GvReviewOverviewList.GvRevi
         private Bitmap mCoverImage;
         private String mHeadline;
         private ArrayList<String> mLocationNames;
+        private ArrayList<String> mTags;
         private Author mAuthor;
         private Date   mPublishDate;
 
@@ -94,14 +95,15 @@ public class GvReviewOverviewList extends GvDataList<GvReviewOverviewList.GvRevi
         }
 
         public GvReviewOverview(String id, Author author, Date publishDate, String subject,
-                float rating, Bitmap coverImage, String headline, ArrayList<String> locationNames) {
+                float rating, Bitmap coverImage, String headline, ArrayList<String> locationNames,
+                                ArrayList<String> tags) {
             this(null, id, author, publishDate, subject, rating, coverImage, headline,
-                    locationNames);
+                    locationNames, tags);
         }
 
         public GvReviewOverview(GvReviewId parentId, String id, Author author, Date publishDate,
                 String subject, float rating, Bitmap coverImage, String headline,
-                ArrayList<String> locationNames) {
+                ArrayList<String> locationNames, ArrayList<String> tags) {
             super(GvReviewOverview.TYPE, parentId);
             mId = id;
             mSubject = subject;
@@ -109,6 +111,7 @@ public class GvReviewOverviewList extends GvDataList<GvReviewOverviewList.GvRevi
             mCoverImage = coverImage;
             mHeadline = headline;
             mLocationNames = locationNames;
+            mTags = tags;
             mAuthor = author;
             mPublishDate = publishDate;
         }
@@ -116,7 +119,7 @@ public class GvReviewOverviewList extends GvDataList<GvReviewOverviewList.GvRevi
         public GvReviewOverview(GvReviewOverview review) {
             this(review.getReviewId(), review.getId(), review.getAuthor(), review.getPublishDate
                     (), review.getSubject(), review.getRating(), review.getCoverImage(), review
-                    .getHeadline(), review.mLocationNames);
+                    .getHeadline(), review.mLocationNames, review.mTags);
         }
 
         private GvReviewOverview(Parcel in) {
@@ -127,6 +130,7 @@ public class GvReviewOverviewList extends GvDataList<GvReviewOverviewList.GvRevi
             mCoverImage = in.readParcelable(Bitmap.class.getClassLoader());
             mHeadline = in.readString();
             mLocationNames = TextUtils.splitString(in.readString(), ",");
+            mTags = TextUtils.splitString(in.readString(), ",");
             mAuthor = new Author(in.readString(), UserId.fromString(in.readString()));
             mPublishDate = (Date) in.readSerializable();
         }
@@ -157,9 +161,54 @@ public class GvReviewOverviewList extends GvDataList<GvReviewOverviewList.GvRevi
             parcel.writeParcelable(mCoverImage, i);
             parcel.writeString(mHeadline);
             parcel.writeString(TextUtils.commaDelimited(mLocationNames));
+            parcel.writeString(TextUtils.commaDelimited(mTags));
             parcel.writeString(mAuthor.getName());
             parcel.writeString(mAuthor.getUserId().toString());
             parcel.writeSerializable(mPublishDate);
+        }
+
+        //ignoring cover image as randomly chosen so screws up equality when comparing two
+        // generated GvReviewLists...
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (!(o instanceof GvReviewOverview)) return false;
+            if (!super.equals(o)) return false;
+
+            GvReviewOverview that = (GvReviewOverview) o;
+
+            if (Float.compare(that.mRating, mRating) != 0) return false;
+            if (mId != null ? !mId.equals(that.mId) : that.mId != null) return false;
+            if (mSubject != null ? !mSubject.equals(that.mSubject) : that.mSubject != null)
+                return false;
+            if (mHeadline != null ? !mHeadline.equals(that.mHeadline) : that.mHeadline != null)
+                return false;
+            if (mLocationNames != null ? !mLocationNames.equals(that.mLocationNames) : that
+                    .mLocationNames != null)
+                return false;
+            if (mTags != null ? !mTags.equals(that.mTags) : that
+                    .mTags != null)
+                return false;
+            if (mAuthor != null ? !mAuthor.equals(that.mAuthor) : that.mAuthor != null)
+                return false;
+            return !(mPublishDate != null ? !mPublishDate.equals(that.mPublishDate) : that
+                    .mPublishDate != null);
+
+        }
+
+        @Override
+        public int hashCode() {
+            int result = super.hashCode();
+            result = 31 * result + (mId != null ? mId.hashCode() : 0);
+            result = 31 * result + (mSubject != null ? mSubject.hashCode() : 0);
+            result = 31 * result + (mRating != +0.0f ? Float.floatToIntBits(mRating) : 0);
+            result = 31 * result + (mCoverImage != null ? mCoverImage.hashCode() : 0);
+            result = 31 * result + (mHeadline != null ? mHeadline.hashCode() : 0);
+            result = 31 * result + (mLocationNames != null ? mLocationNames.hashCode() : 0);
+            result = 31 * result + (mTags != null ? mTags.hashCode() : 0);
+            result = 31 * result + (mAuthor != null ? mAuthor.hashCode() : 0);
+            result = 31 * result + (mPublishDate != null ? mPublishDate.hashCode() : 0);
+            return result;
         }
 
         public String getId() {
@@ -192,6 +241,10 @@ public class GvReviewOverviewList extends GvDataList<GvReviewOverviewList.GvRevi
             return location;
         }
 
+        public ArrayList<String> getTags() {
+            return mTags;
+        }
+
         public String getHeadline() {
             return mHeadline;
         }
@@ -209,46 +262,6 @@ public class GvReviewOverviewList extends GvDataList<GvReviewOverviewList.GvRevi
             DateFormat format = SimpleDateFormat.getDateInstance();
             return getSubject() + ": " + RatingFormatter.outOfFive(getRating()) + "by " +
                     getAuthor().getName() + " on " + format.format(getPublishDate());
-        }
-
-        //ignoring cover image as randomly chosen so screws up equality when comparing two
-        // generated GvReviewLists...
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) return true;
-            if (!(o instanceof GvReviewOverview)) return false;
-            if (!super.equals(o)) return false;
-
-            GvReviewOverview that = (GvReviewOverview) o;
-
-            if (Float.compare(that.mRating, mRating) != 0) return false;
-            if (mId != null ? !mId.equals(that.mId) : that.mId != null) return false;
-            if (mSubject != null ? !mSubject.equals(that.mSubject) : that.mSubject != null)
-                return false;
-            if (mHeadline != null ? !mHeadline.equals(that.mHeadline) : that.mHeadline != null)
-                return false;
-            if (mLocationNames != null ? !mLocationNames.equals(that.mLocationNames) : that
-                    .mLocationNames != null)
-                return false;
-            if (mAuthor != null ? !mAuthor.equals(that.mAuthor) : that.mAuthor != null)
-                return false;
-            return !(mPublishDate != null ? !mPublishDate.equals(that.mPublishDate) : that
-                    .mPublishDate != null);
-
-        }
-
-        @Override
-        public int hashCode() {
-            int result = super.hashCode();
-            result = 31 * result + (mId != null ? mId.hashCode() : 0);
-            result = 31 * result + (mSubject != null ? mSubject.hashCode() : 0);
-            result = 31 * result + (mRating != +0.0f ? Float.floatToIntBits(mRating) : 0);
-            result = 31 * result + (mCoverImage != null ? mCoverImage.hashCode() : 0);
-            result = 31 * result + (mHeadline != null ? mHeadline.hashCode() : 0);
-            result = 31 * result + (mLocationNames != null ? mLocationNames.hashCode() : 0);
-            result = 31 * result + (mAuthor != null ? mAuthor.hashCode() : 0);
-            result = 31 * result + (mPublishDate != null ? mPublishDate.hashCode() : 0);
-            return result;
         }
     }
 }

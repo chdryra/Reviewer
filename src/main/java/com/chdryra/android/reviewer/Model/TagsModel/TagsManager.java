@@ -6,9 +6,7 @@
  * Date: 10 October, 2014
  */
 
-package com.chdryra.android.reviewer.ApplicationSingletons;
-
-import android.content.Context;
+package com.chdryra.android.reviewer.Model.TagsModel;
 
 import com.chdryra.android.reviewer.Model.ReviewData.ReviewId;
 
@@ -23,50 +21,33 @@ import java.util.NoSuchElementException;
 /**
  * The singleton that manages the tagging and untagging of Reviews.
  */
-public class TagsManager extends ApplicationSingleton {
-    private static final String NAME = "TagsManager";
-    private static TagsManager sSingleton;
-
+public class TagsManager {
     private final  ReviewTagCollection mTags;
 
-    private TagsManager(Context context) {
-        super(context, NAME);
+    public TagsManager() {
         mTags = new ReviewTagCollection();
     }
 
-    public static TagsManager get(Context c) {
-        sSingleton = getSingleton(sSingleton, TagsManager.class, c);
-        return sSingleton;
-    }
-
-    public static ReviewTagCollection getTags(Context context, ReviewId id) {
+    public ReviewTagCollection getTags(ReviewId id) {
         ReviewTagCollection tags = new ReviewTagCollection();
-        for (ReviewTag tag : get(context).mTags) {
+        for (ReviewTag tag : mTags) {
             if (tag.tagsReview(id)) tags.add(tag);
         }
 
         return tags;
     }
 
-    public static void tag(Context context, ReviewId id, String tag) {
-        get(context).tagReview(id, tag);
-    }
-
-    public static void tag(Context context, ReviewId id, ArrayList<String> tags) {
+    public void tagReview(ReviewId id, ArrayList<String> tags) {
         for (String tag : tags) {
-            get(context).tagReview(id, tag);
+            tagReview(id, tag);
         }
     }
 
-    public static boolean untag(Context context, ReviewId id, ReviewTag tag) {
-        return get(context).untagReview(id, tag);
+    public ReviewTagCollection getTags() {
+        return new ReviewTagCollection(mTags);
     }
 
-    public static ReviewTagCollection getTags(Context context) {
-        return new ReviewTagCollection(get(context).mTags);
-    }
-
-    private void tagReview(ReviewId id, String tag) {
+    public void tagReview(ReviewId id, String tag) {
         ReviewTag reviewTag = mTags.get(tag);
         if (reviewTag == null) {
             mTags.add(new ReviewTag(tag, id));
@@ -75,7 +56,7 @@ public class TagsManager extends ApplicationSingleton {
         }
     }
 
-    private boolean untagReview(ReviewId id, ReviewTag tag) {
+    public boolean untagReview(ReviewId id, ReviewTag tag) {
         if (tag.tagsReview(id)) {
             tag.removeReview(id);
             if (tag.getReviews().size() == 0) {
@@ -114,6 +95,14 @@ public class TagsManager extends ApplicationSingleton {
             return mTags.get(position);
         }
 
+        public ArrayList<String> toStringArray() {
+            ArrayList<String> tagArray = new ArrayList<>();
+            for (TagsManager.ReviewTag tag : mTags) {
+                tagArray.add(tag.get());
+            }
+            return tagArray;
+        }
+
         private ReviewTag get(String tag) {
             ReviewTag rTag = null;
             for (ReviewTag reviewTag : mTags) {
@@ -147,11 +136,6 @@ public class TagsManager extends ApplicationSingleton {
 
         }
 
-        @Override
-        public int hashCode() {
-            return mTags.hashCode();
-        }
-
         public class ReviewTagIterator implements Iterator<ReviewTag> {
             int position = 0;
 
@@ -178,6 +162,11 @@ public class TagsManager extends ApplicationSingleton {
                     ReviewTagCollection.this.remove(getItem(position));
                 }
             }
+        }
+
+        @Override
+        public int hashCode() {
+            return mTags.hashCode();
         }
 
 
@@ -219,6 +208,10 @@ public class TagsManager extends ApplicationSingleton {
             return mTag.equalsIgnoreCase(tag);
         }
 
+        private void addReview(ReviewId id) {
+            if (!mReviews.contains(id)) mReviews.add(id);
+        }
+
         @Override
         public boolean equals(Object o) {
             if (this == o) return true;
@@ -231,13 +224,10 @@ public class TagsManager extends ApplicationSingleton {
 
         }
 
-        private void addReview(ReviewId id) {
-            if (!mReviews.contains(id)) mReviews.add(id);
-        }
-
         private void removeReview(ReviewId id) {
             mReviews.remove(id);
         }
+
 
         @Override
         public int hashCode() {

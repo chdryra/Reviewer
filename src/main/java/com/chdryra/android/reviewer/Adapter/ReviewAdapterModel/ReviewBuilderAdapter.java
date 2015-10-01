@@ -17,6 +17,7 @@ import com.chdryra.android.mygenerallibrary.FileIncrementorFactory;
 import com.chdryra.android.mygenerallibrary.TextUtils;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
 import com.chdryra.android.reviewer.Model.ReviewStructure.Review;
+import com.chdryra.android.reviewer.Model.TagsModel.TagsManager;
 import com.chdryra.android.reviewer.Model.UserData.Author;
 import com.chdryra.android.reviewer.View.Configs.ConfigGvDataUi;
 import com.chdryra.android.reviewer.View.GvDataModel.GvBuildReviewList;
@@ -56,10 +57,10 @@ public class ReviewBuilderAdapter extends ReviewViewAdapterBasic {
     private ReviewBuilder mBuilder;
     private GvTagList.GvTag mSubjectTag;
 
-    public ReviewBuilderAdapter(Context context, Author author) {
+    public ReviewBuilderAdapter(Context context, Author author, TagsManager tagsManager) {
         mContext = context;
         mAuthor = author;
-        mBuilder = new ReviewBuilder(context, author);
+        mBuilder = new ReviewBuilder(context, author, tagsManager);
         mDataBuilders = new DataBuildersMap();
         mBuildUi = GvBuildReviewList.newInstance(this);
         newIncrementor();
@@ -237,10 +238,6 @@ public class ReviewBuilderAdapter extends ReviewViewAdapterBasic {
         }
     }
 
-    public float getRating() {
-        return mBuilder.getRating();
-    }
-
     //To ensure type safety
     private class DataBuildersMap {
         private final Map<GvDataType<? extends GvData>, DataBuilderAdapter<? extends GvData>>
@@ -262,6 +259,11 @@ public class ReviewBuilderAdapter extends ReviewViewAdapterBasic {
             return (DataBuilderAdapter<T>) mDataBuilders.get(type);
         }
     }
+
+    public float getRating() {
+        return mBuilder.getRating();
+    }
+
 
     public void setRating(float rating) {
         mBuilder.setRating(rating);

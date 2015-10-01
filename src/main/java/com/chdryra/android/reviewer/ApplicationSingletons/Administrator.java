@@ -14,10 +14,15 @@ import android.content.Intent;
 
 import com.chdryra.android.mygenerallibrary.ObjectHolder;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilderAdapter;
+import com.chdryra.android.reviewer.Database.ReviewerDb;
 import com.chdryra.android.reviewer.Model.ReviewData.IdableList;
 import com.chdryra.android.reviewer.Model.ReviewStructure.Review;
+import com.chdryra.android.reviewer.Model.TagsModel.TagsManager;
 import com.chdryra.android.reviewer.Model.UserData.Author;
 import com.chdryra.android.reviewer.Model.UserData.UserId;
+import com.chdryra.android.reviewer.ReviewsProviderModel.ReviewNodeProvider;
+import com.chdryra.android.reviewer.ReviewsProviderModel.ReviewerDbProvider;
+import com.chdryra.android.reviewer.ReviewsProviderModel.ReviewsRepository;
 import com.chdryra.android.reviewer.View.GvDataModel.GvSocialPlatformList;
 import com.chdryra.android.reviewer.View.Screens.ReviewView;
 import com.chdryra.android.reviewer.View.Utils.ImageChooser;
@@ -52,11 +57,20 @@ public class Administrator extends ApplicationSingleton{
     private static Administrator sSingleton;
 
     private final ObjectHolder            mViews;
+    private final ReviewNodeProvider mAuthorFeed;
+    private final ReviewerDbProvider mDatabase;
+    private final ReviewsRepository mReviewsRepository;
+    private final TagsManager mTagsManager;
     private ReviewBuilderAdapter mReviewBuilderAdapter;
 
     private Administrator(Context context) {
         super(context, NAME);
         mViews = new ObjectHolder();
+        mTagsManager = new TagsManager();
+        mDatabase = new ReviewerDbProvider(ReviewerDb.getTestDatabase(context, mTagsManager));
+        String title = AUTHOR.getName() + "'s feed";
+        mAuthorFeed = new ReviewNodeProvider(mDatabase, AUTHOR, title);
+        mReviewsRepository = new ReviewsRepository(mAuthorFeed, mTagsManager, AUTHOR);
     }
 
     public static Administrator get(Context c) {
@@ -78,19 +92,35 @@ public class Administrator extends ApplicationSingleton{
         return AUTHOR;
     }
 
+    public ReviewNodeProvider getAuthorFeed() {
+        return mAuthorFeed;
+    }
+
+    public ReviewsRepository getReviewsRepository() {
+        return mReviewsRepository;
+    }
+
+    public TagsManager getTagsManager() {
+        return mTagsManager;
+    }
+
     public ReviewBuilderAdapter getReviewBuilder() {
         return mReviewBuilderAdapter;
     }
 
     public ReviewBuilderAdapter newReviewBuilder() {
-        mReviewBuilderAdapter = new ReviewBuilderAdapter(getContext(), AUTHOR);
+        mReviewBuilderAdapter = new ReviewBuilderAdapter(getContext(), AUTHOR, mTagsManager);
         return mReviewBuilderAdapter;
     }
 
     public void publishReviewBuilder() {
         Review published = mReviewBuilderAdapter.publish();
-        ReviewFeed.addToFeed(getContext(), published);
+        mDatabase.addReviewToDb(published);
         mReviewBuilderAdapter = null;
+    }
+
+    public void deleteFromAuthorsFeed(String reviewId) {
+        mDatabase.deleteReviewFromDb(reviewId);
     }
 
     public GvSocialPlatformList getSocialPlatformList() {

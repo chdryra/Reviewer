@@ -8,10 +8,8 @@
 
 package com.chdryra.android.reviewer.Adapter.DataAdapterModel;
 
-import android.content.Context;
 import android.graphics.Bitmap;
 
-import com.chdryra.android.reviewer.ApplicationSingletons.TagsManager;
 import com.chdryra.android.reviewer.Model.ReviewData.IdableList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdCommentList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdCriterionList;
@@ -24,6 +22,7 @@ import com.chdryra.android.reviewer.Model.ReviewData.PublishDate;
 import com.chdryra.android.reviewer.Model.ReviewData.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewStructure.Review;
 import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
+import com.chdryra.android.reviewer.Model.TagsModel.TagsManager;
 import com.chdryra.android.reviewer.Model.TreeMethods.ChildDataGetter;
 import com.chdryra.android.reviewer.Model.UserData.Author;
 import com.chdryra.android.reviewer.View.GvDataModel.GvAuthorList;
@@ -207,18 +206,19 @@ public class MdGvConverter {
     }
 
     public static <T extends Review> GvReviewOverviewList convert(IdableList<T> reviews,
-                                                                  ReviewId holder) {
+                                                                  ReviewId holder,
+                                                                  TagsManager tagsManager) {
         GvReviewOverviewList data = new GvReviewOverviewList(GvReviewId.getId(holder.toString()));
         for (Review review : reviews) {
-            data.add(convert(review, holder));
+            data.add(convert(review, holder, tagsManager));
         }
 
         return data;
     }
 
     public static <T extends Review> GvReviewOverviewList.GvReviewOverview convert(T review,
-                                                                                   ReviewId
-                                                                                           holder) {
+                                                                                   ReviewId holder,
+                                                                                   TagsManager tagsManager) {
         GvReviewId id = GvReviewId.getId(holder.toString());
         GvImageList images = MdGvConverter.convert(review.getImages());
         GvCommentList headlines = MdGvConverter.convert(review.getComments()).getHeadlines();
@@ -233,9 +233,11 @@ public class MdGvConverter {
             locationNames.add(location.getShortenedName());
         }
 
+        ArrayList<String> tags = tagsManager.getTags(review.getId()).toStringArray();
+
         return new GvReviewOverviewList.GvReviewOverview(id, review.getId().toString(),
                 review.getAuthor(), review.getPublishDate().getDate(), review.getSubject().get(),
-                review.getRating().get(), cover, headline, locationNames);
+                review.getRating().get(), cover, headline, locationNames, tags);
     }
 
     public static GvDataList copy(GvDataList data) {
@@ -259,9 +261,9 @@ public class MdGvConverter {
         }
     }
 
-    public static GvTagList getTags(Context context, String reviewId) {
+    public static GvTagList getTags(String reviewId, TagsManager tagsManager) {
         ReviewId id = ReviewId.fromString(reviewId);
-        TagsManager.ReviewTagCollection tags = TagsManager.getTags(context, id);
+        TagsManager.ReviewTagCollection tags = tagsManager.getTags(id);
         GvReviewId gvid = GvReviewId.getId(reviewId);
         GvTagList tagList = new GvTagList(gvid);
         for (TagsManager.ReviewTag tag : tags) {
