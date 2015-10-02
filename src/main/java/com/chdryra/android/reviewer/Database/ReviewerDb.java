@@ -44,21 +44,21 @@ public class ReviewerDb {
     private static final String                         TAG                   = "ReviewerDb";
     private static final String                         DATABASE_NAME         = "Reviewer.db";
     private static final int                            VERSION_NUMBER        = 1;
-    private static final ReviewerDbTable<RowReview>     REVIEWS               =
+    public static final ReviewerDbTable<RowReview>     REVIEWS               =
             ReviewerDbContract.REVIEWS_TABLE;
-    private static final ReviewerDbTable<RowComment>    COMMENTS              =
+    public static final ReviewerDbTable<RowComment>    COMMENTS              =
             ReviewerDbContract.COMMENTS_TABLE;
-    private static final ReviewerDbTable<RowFact>       FACTS                 =
+    public static final ReviewerDbTable<RowFact>       FACTS                 =
             ReviewerDbContract.FACTS_TABLE;
-    private static final ReviewerDbTable<RowLocation>   LOCATIONS             =
+    public static final ReviewerDbTable<RowLocation>   LOCATIONS             =
             ReviewerDbContract.LOCATIONS_TABLE;
-    private static final ReviewerDbTable<RowImage>      IMAGES                =
+    public static final ReviewerDbTable<RowImage>      IMAGES                =
             ReviewerDbContract.IMAGES_TABLE;
-    private static final ReviewerDbTable<RowAuthor>     AUTHORS               =
+    public static final ReviewerDbTable<RowAuthor>     AUTHORS               =
             ReviewerDbContract.AUTHORS_TABLE;
-    private static final ReviewerDbTable<RowTag>        TAGS                  =
+    public static final ReviewerDbTable<RowTag>        TAGS                  =
             ReviewerDbContract.TAGS_TABLE;
-    private static final String                         COLUMN_NAME_REVIEW_ID =
+    public static final String                         COLUMN_NAME_REVIEW_ID =
             ReviewerDbContract.NAME_REVIEW_ID;
 
     private SQLiteOpenHelper mHelper;
@@ -152,7 +152,7 @@ public class ReviewerDb {
     }
 
     //Private methods
-    private IdableList<Review> loadReviewsFromDbWhere(SQLiteDatabase db, String col, String val) {
+    public IdableList<Review> loadReviewsFromDbWhere(SQLiteDatabase db, String col, String val) {
         TableRowList<RowReview> reviewsList = getRowsWhere(db, REVIEWS, col, val);
 
         IdableList<Review> reviews = new IdableList<>();
@@ -193,7 +193,7 @@ public class ReviewerDb {
         if (tags.size() == 0) loadTags(db);
     }
 
-    private <T extends ReviewerDbRow.TableRow> T getRowWhere(SQLiteDatabase db,
+    public <T extends ReviewerDbRow.TableRow> T getRowWhere(SQLiteDatabase db,
             ReviewerDbTable<T> table, String col, String val) {
         Cursor cursor = getCursorWhere(db, table.getName(), col, val);
 
@@ -206,7 +206,7 @@ public class ReviewerDb {
         return row;
     }
 
-    private <T1 extends MdData, T2 extends MdDataList<T1>, T3 extends MdDataRow<T1>> T2
+    public <T1 extends MdData, T2 extends MdDataList<T1>, T3 extends MdDataRow<T1>> T2
     loadFromDataTable(SQLiteDatabase db, ReviewerDbTable<T3> table, String reviewId, Class<T2>
             listClass) {
         TableRowList<T3> rows = getRowsWhere(db, table, COLUMN_NAME_REVIEW_ID, reviewId);
