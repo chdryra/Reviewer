@@ -12,7 +12,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.chdryra.android.mygenerallibrary.ViewHolder;
-import com.chdryra.android.reviewer.ApplicationSingletons.TagsManager;
+import com.chdryra.android.reviewer.Model.TagsModel.TagsManager;
 
 public class GvTagList extends GvTextList<GvTagList.GvTag> {
     public GvTagList() {

@@ -15,15 +15,15 @@ import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilderAdapter;
 import com.chdryra.android.reviewer.ApplicationSingletons.Administrator;
-import com.chdryra.android.reviewer.ApplicationSingletons.ReviewFeed;
 import com.chdryra.android.reviewer.Database.ReviewerDb;
 import com.chdryra.android.reviewer.Model.ReviewData.IdableList;
 import com.chdryra.android.reviewer.Model.ReviewStructure.Review;
 import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
+import com.chdryra.android.reviewer.ReviewsProviderModel.ReviewNodeProvider;
 import com.chdryra.android.reviewer.View.ActivitiesFragments.ActivityReviewView;
 import com.chdryra.android.reviewer.View.GvDataModel.GvSocialPlatformList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvTagList;
-import com.chdryra.android.reviewer.View.Screens.FeedScreen;
+import com.chdryra.android.reviewer.View.Screens.AuthorFeedScreen;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
 import com.chdryra.android.reviewer.test.TestUtils.TestDatabase;
 import com.chdryra.android.testutils.RandomString;
@@ -69,7 +69,7 @@ public class AdministratorTest extends ActivityInstrumentationTestCase2<Activity
     @SmallTest
     @UiThreadTest
     public void testPublishReviewBuilder() {
-        ReviewNode feedNode = ReviewFeed.getFeedNode(getActivity());
+        ReviewNode feedNode = ReviewNodeProvider.getReviewNode(getActivity());
         assertNotNull(feedNode);
         int numReviews = feedNode.getChildren().size();
         ReviewerDb db = TestDatabase.getDatabase(getInstrumentation());
@@ -112,7 +112,7 @@ public class AdministratorTest extends ActivityInstrumentationTestCase2<Activity
         mAdmin = Administrator.get(getInstrumentation().getTargetContext());
         assertNotNull(mAdmin);
         Intent i = new Intent();
-        mAdmin.packView(FeedScreen.newScreen(getInstrumentation().getTargetContext()), i);
+        mAdmin.packView(AuthorFeedScreen.newScreen(getInstrumentation().getTargetContext()), i);
         setActivityIntent(i);
         assertNotNull(getActivity());
     }

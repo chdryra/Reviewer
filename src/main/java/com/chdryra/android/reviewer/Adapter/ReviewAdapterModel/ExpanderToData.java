@@ -10,11 +10,9 @@ package com.chdryra.android.reviewer.Adapter.ReviewAdapterModel;
 
 import android.content.Context;
 
-import com.chdryra.android.reviewer.ApplicationSingletons.ReviewMaker;
-import com.chdryra.android.reviewer.ApplicationSingletons.ReviewsManager;
-import com.chdryra.android.reviewer.Model.ReviewData.IdableList;
-import com.chdryra.android.reviewer.Model.ReviewStructure.Review;
+import com.chdryra.android.reviewer.ApplicationSingletons.Administrator;
 import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
+import com.chdryra.android.reviewer.ReviewsProviderModel.ReviewsRepository;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataCollection;
 
@@ -51,23 +49,13 @@ public class ExpanderToData<T extends GvData> implements GridDataExpander<T> {
 
     @Override
     public ReviewViewAdapter<? extends GvData> expandGridData() {
-        IdableList<Review> nodes = new IdableList<>();
-        for (int i = 0; i < mData.size(); ++i) {
-            ReviewNode node = getReviewNode(mData.getItem(i));
-            if (node != null) nodes.add(node);
-        }
-
-        ReviewNode meta = ReviewMaker.createMetaReview(mContext, nodes, mData.getStringSummary());
-        return FactoryReviewViewAdapter.newTreeDataAdapter(mContext, meta);
+        ReviewsRepository repo = Administrator.get(mContext).getReviewsRepository();
+        ReviewNode meta = repo.createMetaReview(mData, mData.getStringSummary());
+        return FactoryReviewViewAdapter.newTreeDataAdapter(mContext, meta, repo.getTagsManager());
     }
 
     @Override
     public void setData(GvDataCollection<T> data) {
         mData = data;
-    }
-
-    private ReviewNode getReviewNode(T item) {
-        if (item.isCollection() && !item.hasElements()) return null;
-        return ReviewsManager.getReview(mContext, item);
     }
 }

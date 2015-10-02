@@ -11,8 +11,8 @@ package com.chdryra.android.reviewer.Adapter.ReviewAdapterModel;
 import android.content.Context;
 
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.MdGvConverter;
-import com.chdryra.android.reviewer.ApplicationSingletons.TagsManager;
 import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
+import com.chdryra.android.reviewer.Model.TagsModel.TagsManager;
 import com.chdryra.android.reviewer.View.GvDataAggregation.Aggregater;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCanonicalCollection;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
@@ -38,12 +38,14 @@ import com.chdryra.android.reviewer.View.Screens.ReviewListScreen;
 public class ViewerTreeData implements GridDataViewer<GvData> {
     private Context mContext;
     private ReviewNode mNode;
+    private TagsManager mTagsManager;
     private GvList mCache;
     private boolean mIsAggregate = false;
 
-    public ViewerTreeData(Context context, ReviewNode node) {
+    public ViewerTreeData(Context context, ReviewNode node, TagsManager tagsManager) {
         mContext = context;
         mNode = node;
+        mTagsManager = tagsManager;
     }
 
     @Override
@@ -68,7 +70,7 @@ public class ViewerTreeData implements GridDataViewer<GvData> {
     public ReviewViewAdapter<? extends GvData> expandGridCell(GvData datum) {
         if (isExpandable(datum)) {
             ReviewViewAdapter<? extends GvData> parent
-                    = ReviewListScreen.newScreen(mContext, mNode).getAdapter();
+                    = ReviewListScreen.newScreen(mContext, mNode, mTagsManager).getAdapter();
             if (datum.getGvDataType() == GvReviewOverviewList.GvReviewOverview.TYPE) {
                 return parent;
             }
@@ -105,7 +107,7 @@ public class ViewerTreeData implements GridDataViewer<GvData> {
     @Override
     public ReviewViewAdapter<? extends GvData> expandGridData() {
         if (mNode.getChildren().size() > 0) {
-            return FactoryReviewViewAdapter.newChildListAdapter(mContext, mNode);
+            return FactoryReviewViewAdapter.newChildListAdapter(mContext, mNode, mTagsManager);
         }
 
         return null;
@@ -120,15 +122,15 @@ public class ViewerTreeData implements GridDataViewer<GvData> {
         GvReviewId id = GvReviewId.getId(mNode.getId().toString());
         GvList data = new GvList(id);
 
-        TagCollector tagCollector = new TagCollector(mNode);
-        ViewerChildList wrapper = new ViewerChildList(mContext, mNode);
+        TagCollector tagCollector = new TagCollector(mNode, mTagsManager);
+        ViewerChildList wrapper = new ViewerChildList(mContext, mNode, mTagsManager);
 
         data.add(wrapper.getGridData());
         data.add(Aggregater.aggregate(MdGvConverter.convertChildAuthors(mNode)));
         data.add(Aggregater.aggregate(MdGvConverter.convertChildSubjects(mNode)));
         data.add(Aggregater.aggregate(MdGvConverter.convertChildPublishDates(mNode)));
 
-        data.add(Aggregater.aggregate(tagCollector.collectTags(mContext)));
+        data.add(Aggregater.aggregate(tagCollector.collectTags()));
         data.add(Aggregater.aggregate(MdGvConverter.convert(mNode.getCriteria())));
         data.add(Aggregater.aggregate(MdGvConverter.convert(mNode.getImages())));
         data.add(Aggregater.aggregate(MdGvConverter.convert(mNode.getComments())));
@@ -143,9 +145,9 @@ public class ViewerTreeData implements GridDataViewer<GvData> {
     private GvList getNodeGridData() {
         GvReviewId id = GvReviewId.getId(mNode.getId().toString());
         GvList data = new GvList(id);
-        TagCollector tagCollector = new TagCollector(mNode);
+        TagCollector tagCollector = new TagCollector(mNode, mTagsManager);
 
-        data.add(tagCollector.collectTags(mContext));
+        data.add(tagCollector.collectTags());
         data.add(MdGvConverter.convert(mNode.getCriteria()));
         data.add(MdGvConverter.convert(mNode.getImages()));
         data.add(MdGvConverter.convert(mNode.getComments()));

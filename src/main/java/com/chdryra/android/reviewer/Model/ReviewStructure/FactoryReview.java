@@ -65,6 +65,28 @@ public class FactoryReview {
         return getInstance().newReviewTreeNode(review, isAverage);
     }
 
+    public static ReviewNode createMetaReview(Review review, ReviewPublisher publisher) {
+        ReviewNode meta = review.getTreeRepresentation();
+        if (meta.getChildren().size() == 0) {
+            IdableList<Review> single = new IdableList<>();
+            single.add(review);
+            meta = createMetaReview(single, publisher, review.getSubject().get());
+        }
+
+        return meta;
+    }
+
+    public static ReviewNode createMetaReview(IdableList<Review> reviews,
+                                              ReviewPublisher publisher, String subject) {
+        Review meta = FactoryReview.createReviewUser(publisher, subject, 0f);
+        ReviewTreeNode parent = FactoryReview.createReviewTreeNode(meta, true);
+        for (Review review : reviews) {
+            parent.addChild(FactoryReview.createReviewTreeNode(review, false));
+        }
+
+        return parent.createTree();
+    }
+
     //Constructors
     private Review newReviewUser(ReviewPublisher publisher, String subject, float
             rating) {

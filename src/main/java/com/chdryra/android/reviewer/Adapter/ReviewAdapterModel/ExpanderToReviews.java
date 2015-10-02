@@ -2,11 +2,10 @@ package com.chdryra.android.reviewer.Adapter.ReviewAdapterModel;
 
 import android.content.Context;
 
-import com.chdryra.android.reviewer.ApplicationSingletons.ReviewMaker;
-import com.chdryra.android.reviewer.ApplicationSingletons.ReviewsManager;
-import com.chdryra.android.reviewer.Model.ReviewData.IdableList;
-import com.chdryra.android.reviewer.Model.ReviewStructure.Review;
+import com.chdryra.android.reviewer.ApplicationSingletons.Administrator;
 import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
+import com.chdryra.android.reviewer.Model.TagsModel.TagsManager;
+import com.chdryra.android.reviewer.ReviewsProviderModel.ReviewsRepository;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataCollection;
 import com.chdryra.android.reviewer.View.Screens.ReviewListScreen;
@@ -41,8 +40,10 @@ public class ExpanderToReviews<T extends GvData> implements GridDataExpander<T> 
     @Override
     public ReviewViewAdapter<? extends GvData> expandGridCell(T datum) {
         if (isExpandable(datum)) {
-            ReviewNode node = getReviewNode(datum);
-            if (node != null) return getReviewListScreen(node);
+            String title = mData.getStringSummary();
+            ReviewsRepository repo = getRepository();
+            ReviewNode meta = repo.createMetaReview((GvDataCollection) datum, title);
+            if (meta != null) return getReviewListScreen(meta, repo.getTagsManager());
         }
 
         return null;
@@ -50,14 +51,9 @@ public class ExpanderToReviews<T extends GvData> implements GridDataExpander<T> 
 
     @Override
     public ReviewViewAdapter<? extends GvData> expandGridData() {
-        IdableList<Review> nodes = new IdableList<>();
-        for (int i = 0; i < mData.size(); ++i) {
-            ReviewNode node = getReviewNode(mData.getItem(i));
-            if (node != null) nodes.add(node);
-        }
-
-        ReviewNode meta = ReviewMaker.createMetaReview(mContext, nodes, mData.getStringSummary());
-        return getReviewListScreen(meta);
+        ReviewsRepository repo = getRepository();
+        ReviewNode meta = repo.createMetaReview(mData, mData.getStringSummary());
+        return getReviewListScreen(meta, repo.getTagsManager());
     }
 
     @Override
@@ -65,12 +61,11 @@ public class ExpanderToReviews<T extends GvData> implements GridDataExpander<T> 
         mData = data;
     }
 
-    private ReviewNode getReviewNode(T item) {
-        if (item.isCollection() && !item.hasElements()) return null;
-        return ReviewsManager.getReview(mContext, item);
+    private ReviewsRepository getRepository() {
+        return Administrator.get(mContext).getReviewsRepository();
     }
 
-    private ReviewViewAdapter<? extends GvData> getReviewListScreen(ReviewNode node) {
-        return ReviewListScreen.newScreen(mContext, node).getAdapter();
+    private ReviewViewAdapter<? extends GvData> getReviewListScreen(ReviewNode node, TagsManager tagsManager) {
+        return ReviewListScreen.newScreen(mContext, node,tagsManager).getAdapter();
     }
 }

@@ -13,11 +13,11 @@ import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilderAdapter;
 import com.chdryra.android.reviewer.ApplicationSingletons.Administrator;
-import com.chdryra.android.reviewer.ApplicationSingletons.ReviewFeed;
 import com.chdryra.android.reviewer.Model.ReviewData.IdableList;
 import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
 import com.chdryra.android.reviewer.Model.Social.SocialPlatformList;
 import com.chdryra.android.reviewer.R;
+import com.chdryra.android.reviewer.ReviewsProviderModel.ReviewNodeProvider;
 import com.chdryra.android.reviewer.View.ActivitiesFragments.ActivityFeed;
 import com.chdryra.android.reviewer.View.ActivitiesFragments.FragmentReviewView;
 import com.chdryra.android.reviewer.View.GvDataModel.GvSocialPlatformList;
@@ -69,7 +69,7 @@ public class ActivityShareScreenTest extends ActivityReviewViewTest {
     public void testPublishButton() {
         Instrumentation.ActivityMonitor monitor = getInstrumentation().addMonitor(ActivityFeed.class
                 .getName(), null, false);
-        assertEquals(0, ReviewFeed.getFeedNode(getActivity()).getChildren().size());
+        assertEquals(0, ReviewNodeProvider.getReviewNode(getActivity()).getChildren().size());
 
         mSolo.clickOnText(getActivity().getResources().getString(R
                 .string.button_publish));
@@ -78,7 +78,7 @@ public class ActivityShareScreenTest extends ActivityReviewViewTest {
         ActivityFeed feedActivity = (ActivityFeed) monitor.waitForActivityWithTimeout(TIMEOUT);
         assertNotNull(feedActivity);
         assertEquals(ActivityFeed.class, feedActivity.getClass());
-        IdableList<ReviewNode> list = ReviewFeed.getFeedNode(getActivity()).getChildren();
+        IdableList<ReviewNode> list = ReviewNodeProvider.getReviewNode(getActivity()).getChildren();
         assertEquals(1, list.size());
         assertEquals(mAdapter.getSubject(), list.getItem(0).getSubject().get());
         assertEquals(mAdapter.getRating(), list.getItem(0).getRating().get());

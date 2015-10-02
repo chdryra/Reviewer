@@ -10,8 +10,10 @@ package com.chdryra.android.reviewer.Adapter.ReviewAdapterModel;
 
 import android.content.Context;
 
-import com.chdryra.android.reviewer.ApplicationSingletons.ReviewMaker;
+import com.chdryra.android.reviewer.ApplicationSingletons.Administrator;
 import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
+import com.chdryra.android.reviewer.Model.TagsModel.TagsManager;
+import com.chdryra.android.reviewer.ReviewsProviderModel.ReviewsRepository;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCanonicalCollection;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCriterionList;
@@ -30,12 +32,13 @@ public class FactoryReviewViewAdapter {
     }
 
     public static AdapterReviewNode<GvReviewOverviewList.GvReviewOverview>
-    newChildListAdapter(Context context, ReviewNode node) {
-        return new AdapterReviewNode<>(node, new ViewerChildList(context, node));
+    newChildListAdapter(Context context, ReviewNode node, TagsManager tagsManager) {
+        return new AdapterReviewNode<>(node, new ViewerChildList(context, node, tagsManager));
     }
 
-    public static ReviewViewAdapter<GvData> newTreeDataAdapter(Context context, ReviewNode node) {
-        return new AdapterReviewNode<>(node, new ViewerTreeData(context, node));
+    public static ReviewViewAdapter<GvData> newTreeDataAdapter(Context context, ReviewNode node,
+                                                               TagsManager tagsManager) {
+        return new AdapterReviewNode<>(node, new ViewerTreeData(context, node, tagsManager));
     }
 
     public static <T extends GvData> ReviewViewAdapter<? extends GvData> newExpandToDataAdapter(
@@ -47,20 +50,20 @@ public class FactoryReviewViewAdapter {
             Context context, GvDataCollection<T> data, String subject) {
         ExpanderToReviews<T> expander = new ExpanderToReviews<>(context);
         ViewerGvDataCollection<T> wrapper = new ViewerGvDataCollection<>(expander, data);
-        ReviewNode node = ReviewMaker.createMetaReview(context, data, subject);
+        ReviewNode node = getRepository(context).createMetaReview(data, subject);
         return new AdapterReviewNode<>(node, wrapper);
     }
 
     public static ReviewViewAdapter<? extends GvData> newExpandToReviewsAdapterForComments(
             Context context, GvCanonicalCollection<GvCommentList.GvComment> data, String subject) {
-        ReviewNode node = ReviewMaker.createMetaReview(context, data, subject);
+        ReviewNode node = getRepository(context).createMetaReview(data, subject);
         return new AdapterCommentsAggregate(context, node, data);
     }
 
     public static ReviewViewAdapter<? extends GvData> newExpandToCriteriaModeAdapter(
             Context context, GvCanonicalCollection<GvCriterionList.GvCriterion> data, String
             subject) {
-        ReviewNode node = ReviewMaker.createMetaReview(context, data, subject);
+        ReviewNode node = getRepository(context).createMetaReview(data, subject);
         return new AdapterCriteriaAggregate(context, node, data);
     }
 
@@ -69,5 +72,9 @@ public class FactoryReviewViewAdapter {
                                GridDataExpander<T> expander) {
         ViewerGvDataCollection<T> wrapper = new ViewerGvDataCollection<>(expander, data);
         return new AdapterReviewViewAdapter<>(parent, wrapper);
+    }
+
+    private static ReviewsRepository getRepository(Context context) {
+        return Administrator.get(context).getReviewsRepository();
     }
 }

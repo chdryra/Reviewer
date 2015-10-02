@@ -16,11 +16,10 @@ import com.chdryra.android.mygenerallibrary.TextUtils;
 import com.chdryra.android.mygenerallibrary.ViewHolderBasic;
 import com.chdryra.android.mygenerallibrary.ViewHolderData;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
-import com.chdryra.android.reviewer.ApplicationSingletons.TagsManager;
-import com.chdryra.android.reviewer.Model.ReviewData.ReviewId;
 import com.chdryra.android.reviewer.R;
 
 import java.text.DateFormat;
+import java.util.ArrayList;
 
 /**
  * Created by: Rizwan Choudrey
@@ -70,7 +69,7 @@ public class VhReviewOverview extends ViewHolderBasic {
         String locationStem = DataValidator.validateString(location) ? " @" + location : "";
         mPublishDate.setText(date + " by " + author + locationStem);
 
-        mTags.setText(getTagString(review.getId()));
+        mTags.setText(getTagString(review.getTags()));
 
         String headline = review.getHeadline();
         if (DataValidator.validateString(headline)) {
@@ -80,9 +79,7 @@ public class VhReviewOverview extends ViewHolderBasic {
         }
     }
 
-    private String getTagString(String reviewId) {
-        TagsManager.ReviewTagCollection tags = TagsManager.getTags(getView().getContext(),
-                ReviewId.fromString(reviewId));
+    private String getTagString(ArrayList<String> tags) {
         int i = tags.size();
         String tagsString = getTagString(tags, i--);
         while (i > -1 && TextUtils.isTooLargeForTextView(mTags, tagsString)) {
@@ -92,13 +89,13 @@ public class VhReviewOverview extends ViewHolderBasic {
         return tagsString;
     }
 
-    private String getTagString(TagsManager.ReviewTagCollection tags, int maxTags) {
+    private String getTagString(ArrayList<String> tags, int maxTags) {
         String tagsString = "";
         int size = Math.min(tags.size(), Math.max(maxTags, tags.size()));
         int diff = tags.size() - size;
         int i = 0;
         while (i < size) {
-            tagsString += "#" + tags.getItem(i).get() + " ";
+            tagsString += "#" + tags.get(i) + " ";
             ++i;
         }
 
