@@ -72,10 +72,10 @@ public class ReviewUser implements Review {
             for (Review criterion : criteria) {
                 node.addChild(FactoryReview.createReviewTreeNode(criterion, false));
             }
-            rating = node.getRating().get();
+            rating = node.getRating().getValue();
         }
 
-        mRating = new MdRating(rating, mId);
+        mRating = new MdRating(rating, 1, mId);
         mRatingIsAverage = ratingIsAverage;
         mNode = FactoryReview.createReviewTreeNode(this, false).createTree();
         mCriteria = new MdCriterionList(criteria, mId);

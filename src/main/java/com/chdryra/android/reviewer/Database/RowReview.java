@@ -46,7 +46,7 @@ public class RowReview implements ReviewerDbRow.TableRow {
         mAuthorId = review.getAuthor().getUserId().toString();
         mPublishDate = review.getPublishDate().getDate().getTime();
         mSubject = review.getSubject().get();
-        mRating = review.getRating().get();
+        mRating = review.getRating().getValue();
         mRatingIsAverage = review.isRatingAverageOfCriteria();
     }
 

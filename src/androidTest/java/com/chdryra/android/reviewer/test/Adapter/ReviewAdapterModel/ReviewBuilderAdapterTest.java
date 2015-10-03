@@ -231,7 +231,7 @@ public class ReviewBuilderAdapterTest extends ActivityInstrumentationTestCase2<A
         Review published = mBuilder.publish();
 
         assertEquals(subject, published.getSubject().get());
-        assertEquals(rating, published.getRating().get());
+        assertEquals(rating, published.getRating().getValue());
 
         MdGvEquality.check(published.getComments(), (GvCommentList) comments);
         MdGvEquality.check(published.getFacts(), (GvFactList) facts);
@@ -256,7 +256,7 @@ public class ReviewBuilderAdapterTest extends ActivityInstrumentationTestCase2<A
             GvCriterionList.GvCriterion child = (GvCriterionList.GvCriterion) children
                     .getItem(i);
             assertEquals(child.getSubject(), childReview.getSubject().get());
-            assertEquals(child.getRating(), childReview.getRating().get());
+            assertEquals(child.getRating(), childReview.getRating().getValue());
             TagsManager.ReviewTagCollection tagsChild = TagsManager.getTags(getActivity(), childReview.getId());
             assertEquals(tags.size(), tagsChild.size());
             for (int j = 0; j < tags.size(); ++j) {

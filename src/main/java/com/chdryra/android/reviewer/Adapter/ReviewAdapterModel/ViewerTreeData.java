@@ -11,6 +11,7 @@ package com.chdryra.android.reviewer.Adapter.ReviewAdapterModel;
 import android.content.Context;
 
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.MdGvConverter;
+import com.chdryra.android.reviewer.Model.ReviewData.IdableList;
 import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
 import com.chdryra.android.reviewer.Model.TagsModel.TagsManager;
 import com.chdryra.android.reviewer.View.GvDataAggregation.Aggregater;
@@ -46,11 +47,16 @@ public class ViewerTreeData implements GridDataViewer<GvData> {
         mContext = context;
         mNode = node;
         mTagsManager = tagsManager;
+        mIsAggregate = mNode.getChildren().size() > 1;
     }
 
     @Override
     public GvList getGridData() {
-        return mNode.getChildren().size() > 0 ? getAggregateGridData() : getNodeGridData();
+        IdableList<ReviewNode> children = mNode.getChildren();
+        int numChildren = children.size();
+        if(numChildren > 1) return getAggregateGridData();
+
+        return getNodeGridData(children.size() == 0 ? mNode : children.getItem(0));
     }
 
     @Override
@@ -69,8 +75,7 @@ public class ViewerTreeData implements GridDataViewer<GvData> {
     @Override
     public ReviewViewAdapter<? extends GvData> expandGridCell(GvData datum) {
         if (isExpandable(datum)) {
-            ReviewViewAdapter<? extends GvData> parent
-                    = ReviewListScreen.newScreen(mContext, mNode, mTagsManager).getAdapter();
+            ReviewViewAdapter<? extends GvData> parent = getReviewListAdapter();
             if (datum.getGvDataType() == GvReviewOverviewList.GvReviewOverview.TYPE) {
                 return parent;
             }
@@ -78,7 +83,7 @@ public class ViewerTreeData implements GridDataViewer<GvData> {
             GvDataCollection<? extends GvData> data = (GvDataCollection<? extends GvData>) datum;
             ReviewViewAdapter<? extends GvData> adapter;
             if (mIsAggregate) {
-                String subject = parent.getSubject();
+                String subject = data.getStringSummary();
                 if (data.getGvDataType() == GvCommentList.GvComment.TYPE) {
                     //TODO make type safe
                     GvCanonicalCollection<GvCommentList.GvComment> comments =
@@ -106,16 +111,20 @@ public class ViewerTreeData implements GridDataViewer<GvData> {
 
     @Override
     public ReviewViewAdapter<? extends GvData> expandGridData() {
-        if (mNode.getChildren().size() > 0) {
-            return FactoryReviewViewAdapter.newChildListAdapter(mContext, mNode, mTagsManager);
-        }
-
-        return null;
+        return getReviewListAdapter();
     }
 
     @Override
     public void setData(GvDataCollection<GvData> data) {
 
+    }
+
+    private ReviewViewAdapter<? extends GvData> getReviewListAdapter() {
+        if(mIsAggregate) {
+            return ReviewListScreen.newScreen(mContext, mNode, mTagsManager).getAdapter();
+        } else {
+            return ReviewListScreen.newScreen(mContext, mNode.getReview(), mTagsManager).getAdapter();
+        }
     }
 
     private GvList getAggregateGridData() {
@@ -137,25 +146,25 @@ public class ViewerTreeData implements GridDataViewer<GvData> {
         data.add(Aggregater.aggregate(MdGvConverter.convert(mNode.getLocations())));
         data.add(Aggregater.aggregate(MdGvConverter.convert(mNode.getFacts())));
 
-        mCache = data;
         mIsAggregate = true;
+        mCache = data;
         return data;
     }
 
-    private GvList getNodeGridData() {
-        GvReviewId id = GvReviewId.getId(mNode.getId().toString());
+    private GvList getNodeGridData(ReviewNode node) {
+        GvReviewId id = GvReviewId.getId(node.getId().toString());
         GvList data = new GvList(id);
-        TagCollector tagCollector = new TagCollector(mNode, mTagsManager);
+        TagCollector tagCollector = new TagCollector(node, mTagsManager);
 
         data.add(tagCollector.collectTags());
-        data.add(MdGvConverter.convert(mNode.getCriteria()));
-        data.add(MdGvConverter.convert(mNode.getImages()));
-        data.add(MdGvConverter.convert(mNode.getComments()));
-        data.add(MdGvConverter.convert(mNode.getLocations()));
-        data.add(MdGvConverter.convert(mNode.getFacts()));
+        data.add(MdGvConverter.convert(node.getCriteria()));
+        data.add(MdGvConverter.convert(node.getImages()));
+        data.add(MdGvConverter.convert(node.getComments()));
+        data.add(MdGvConverter.convert(node.getLocations()));
+        data.add(MdGvConverter.convert(node.getFacts()));
 
-        mCache = data;
         mIsAggregate = false;
+        mCache = data;
         return data;
     }
 }

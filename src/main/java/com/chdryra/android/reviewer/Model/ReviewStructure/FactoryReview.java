@@ -17,6 +17,7 @@ import com.chdryra.android.reviewer.Model.ReviewData.MdCommentList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdFactList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdImageList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdLocationList;
+import com.chdryra.android.reviewer.Model.ReviewData.PublishDate;
 import com.chdryra.android.reviewer.Model.ReviewData.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewData.ReviewPublisher;
 
@@ -65,15 +66,13 @@ public class FactoryReview {
         return getInstance().newReviewTreeNode(review, isAverage);
     }
 
-    public static ReviewNode createMetaReview(Review review, ReviewPublisher publisher) {
-        ReviewNode meta = review.getTreeRepresentation();
-        if (meta.getChildren().size() == 0) {
-            IdableList<Review> single = new IdableList<>();
-            single.add(review);
-            meta = createMetaReview(single, publisher, review.getSubject().get());
-        }
+    public static ReviewNode createMetaReview(Review review) {
+        ReviewPublisher publisher = new ReviewPublisher(review.getAuthor(),
+                PublishDate.then(review.getPublishDate().getTime()));
+        IdableList<Review> single = new IdableList<>();
+        single.add(review);
 
-        return meta;
+        return createMetaReview(single, publisher, review.getSubject().get());
     }
 
     public static ReviewNode createMetaReview(IdableList<Review> reviews,

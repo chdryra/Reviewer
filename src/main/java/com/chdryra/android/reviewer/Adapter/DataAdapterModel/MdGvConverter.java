@@ -237,7 +237,7 @@ public class MdGvConverter {
 
         return new GvReviewOverviewList.GvReviewOverview(id, review.getId().toString(),
                 review.getAuthor(), review.getPublishDate().getDate(), review.getSubject().get(),
-                review.getRating().get(), cover, headline, locationNames, tags);
+                review.getRating().getValue(), cover, headline, locationNames, tags);
     }
 
     public static GvDataList copy(GvDataList data) {

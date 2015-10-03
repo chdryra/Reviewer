@@ -30,7 +30,7 @@ public class MdRatingTest extends TestCase {
     public void testGetters() {
         float score = RandomRating.nextRating();
         MdRating rating = new MdRating(score, ID);
-        assertEquals(score, rating.get());
+        assertEquals(score, rating.getValue());
         assertEquals(ID, rating.getReviewId());
     }
 

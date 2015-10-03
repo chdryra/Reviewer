@@ -134,7 +134,7 @@ public class ReviewTreeNode implements ReviewNode {
         if (mRatingIsAverage) {
             VisitorRatingCalculator visitor = new VisitorRatingAverageOfChildren();
             acceptVisitor(visitor);
-            rating = new MdRating(visitor.getRating(), mId);
+            rating = new MdRating(visitor.getRating(), visitor.getWeight(), mId);
         } else {
             rating = mReview.getRating();
         }

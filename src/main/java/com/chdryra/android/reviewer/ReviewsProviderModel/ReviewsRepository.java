@@ -8,6 +8,7 @@ import com.chdryra.android.reviewer.Model.ReviewStructure.FactoryReview;
 import com.chdryra.android.reviewer.Model.ReviewStructure.Review;
 import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
 import com.chdryra.android.reviewer.Model.TagsModel.TagsManager;
+import com.chdryra.android.reviewer.Model.TreeMethods.VisitorReviewsGetter;
 import com.chdryra.android.reviewer.Model.UserData.Author;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataCollection;
@@ -77,5 +78,12 @@ public class ReviewsRepository implements ReviewsProvider {
         return FactoryReview.createMetaReview(reviews, publisher, subject);
     }
 
+    public <T extends GvData> ReviewNode createFlattenedMetaReview(GvDataCollection<T> data,
+                                                          String subject) {
+        ReviewNode meta = createMetaReview(data, subject);
+        IdableList<Review> flattened = VisitorReviewsGetter.flatten(meta);
 
+        ReviewPublisher publisher = new ReviewPublisher(mAuthor, PublishDate.now());
+        return FactoryReview.createMetaReview(flattened, publisher, subject);
+    }
 }

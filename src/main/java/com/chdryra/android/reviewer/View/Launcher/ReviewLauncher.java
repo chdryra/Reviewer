@@ -13,11 +13,7 @@ import android.content.Context;
 import android.os.Bundle;
 
 import com.chdryra.android.reviewer.ApplicationSingletons.Administrator;
-import com.chdryra.android.reviewer.Model.ReviewData.PublishDate;
-import com.chdryra.android.reviewer.Model.ReviewData.ReviewPublisher;
-import com.chdryra.android.reviewer.Model.ReviewStructure.FactoryReview;
 import com.chdryra.android.reviewer.Model.ReviewStructure.Review;
-import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
 import com.chdryra.android.reviewer.Model.TagsModel.TagsManager;
 import com.chdryra.android.reviewer.ReviewsProviderModel.ReviewsRepository;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
@@ -37,10 +33,7 @@ public class ReviewLauncher {
 
     private static void launchReview(Context context, Fragment commissioner, Review review,
                                      TagsManager tagsManager) {
-        ReviewPublisher publisher = new ReviewPublisher(review.getAuthor(),
-                PublishDate.then(review.getPublishDate().getTime()));
-        ReviewNode meta = FactoryReview.createMetaReview(review, publisher);
-        LaunchableUi ui = ReviewListScreen.newScreen(context, meta, tagsManager);
+        LaunchableUi ui = ReviewListScreen.newScreen(context, review, tagsManager);
         String tag = review.getSubject().get();
         int requestCode = RequestCodeGenerator.getCode(tag);
         LauncherUi.launch(ui, commissioner, requestCode, tag, new Bundle());

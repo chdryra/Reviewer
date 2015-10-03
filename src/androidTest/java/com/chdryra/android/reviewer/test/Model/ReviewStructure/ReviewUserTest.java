@@ -77,7 +77,7 @@ public class ReviewUserTest extends TestCase {
         assertNotNull(rating);
         assertEquals(mReview.getId(), rating.getReviewId());
         assertTrue(rating.hasData());
-        assertEquals(mRating, mReview.getRating().get());
+        assertEquals(mRating, mReview.getRating().getValue());
     }
 
     @SmallTest

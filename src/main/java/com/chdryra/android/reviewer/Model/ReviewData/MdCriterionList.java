@@ -33,7 +33,7 @@ public class MdCriterionList extends MdDataList<MdCriterionList.MdCriterion> {
         }
 
         public float getRating() {
-            return mCriterion.getRating().get();
+            return mCriterion.getRating().getValue();
         }
 
         public Review getReview() {

@@ -48,14 +48,14 @@ public class ReviewMakerTest extends InstrumentationTestCase {
         for (int i = 0; i < NUM; ++i) {
             Review review = ReviewMocker.newReview();
             reviews.add(review);
-            averageRating += review.getRating().get() / NUM;
+            averageRating += review.getRating().getValue() / NUM;
         }
         String subject = RandomString.nextWord();
 
         ReviewNode meta = ReviewMaker.createMetaReview(mContext, reviews, subject);
 
         assertEquals(subject, meta.getSubject().get());
-        assertEquals(averageRating, meta.getRating().get());
+        assertEquals(averageRating, meta.getRating().getValue());
         IdableList<ReviewNode> children = meta.getChildren();
         assertEquals(NUM, children.size());
         for (int i = 0; i < NUM; ++i) {
@@ -84,9 +84,9 @@ public class ReviewMakerTest extends InstrumentationTestCase {
 
         ReviewNode meta = ReviewMaker.createMetaReview(mContext, comments, subject);
 
-        float averageRating = 0.5f * (review1.getRating().get() + review2.getRating().get());
+        float averageRating = 0.5f * (review1.getRating().getValue() + review2.getRating().getValue());
         assertEquals(subject, meta.getSubject().get());
-        assertEquals(averageRating, meta.getRating().get());
+        assertEquals(averageRating, meta.getRating().getValue());
         IdableList<ReviewNode> children = meta.getChildren();
         assertEquals(2, children.size());
         assertEquals(review1, children.getItem(0).getReview());

@@ -17,4 +17,5 @@ import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
  */
 public interface VisitorRatingCalculator extends VisitorReviewNode {
     float getRating();
+    int getWeight();
 }

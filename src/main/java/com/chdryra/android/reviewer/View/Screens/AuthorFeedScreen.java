@@ -17,12 +17,14 @@ import android.view.View;
 import com.chdryra.android.mygenerallibrary.DialogAlertFragment;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewAdapter;
 import com.chdryra.android.reviewer.ApplicationSingletons.Administrator;
+import com.chdryra.android.reviewer.Model.ReviewData.PublishDate;
 import com.chdryra.android.reviewer.Model.ReviewData.ReviewId;
+import com.chdryra.android.reviewer.Model.ReviewData.ReviewPublisher;
+import com.chdryra.android.reviewer.Model.ReviewStructure.FactoryReview;
 import com.chdryra.android.reviewer.Model.ReviewStructure.Review;
-import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
+import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewTreeNode;
 import com.chdryra.android.reviewer.Model.UserData.Author;
 import com.chdryra.android.reviewer.R;
-import com.chdryra.android.reviewer.ReviewsProviderModel.ConvertProvider;
 import com.chdryra.android.reviewer.ReviewsProviderModel.ReviewsProvider;
 import com.chdryra.android.reviewer.ReviewsProviderModel.ReviewsProviderObserver;
 import com.chdryra.android.reviewer.View.Dialogs.DialogShower;
@@ -41,39 +43,49 @@ import com.chdryra.android.reviewer.View.Utils.RequestCodeGenerator;
 public class AuthorFeedScreen implements ReviewsProviderObserver {
     private static final int REQUEST_CODE = RequestCodeGenerator.getCode("FeedScreen");
 
-    private ReviewsProvider mProvider;
-    private ReviewNode mNode;
+    private ReviewTreeNode mNode;
     private ReviewView        mReviewView;
 
     private AuthorFeedScreen(Context context, ReviewsProvider provider, Author author) {
-        mProvider = provider;
         String title = author.getName() + "'s feed";
-        mNode = ConvertProvider.getReviewNode(mProvider, author, title);
+        ReviewPublisher publisher = new ReviewPublisher(author, PublishDate.now());
+        Review root = FactoryReview.createReviewUser(publisher, title, 0f);
+        mNode = FactoryReview.createReviewTreeNode(root, true);
+        for(Review review : provider.getReviews()) {
+            addReview(review);
+        }
+
         mReviewView = ReviewListScreen.newScreen(context, mNode
                 , provider.getTagsManager(), new GridItem(), new FeedScreenMenu());
+
+        provider.registerObserver(this);
     }
 
     public static ReviewView newScreen(Context context) {
         ReviewsProvider provider = Administrator.get(context).getReviewsRepository();
         Author author = Administrator.get(context).getAuthor();
         AuthorFeedScreen screen = new AuthorFeedScreen(context, provider, author);
-        provider.registerObserver(screen);
         return screen.getReviewView();
     }
 
     @Override
     public void onReviewAdded(Review review) {
-        addNode(review);
-        mReviewView.notifyDataSetChanged();
+        addReview(review);
+        mReviewView.onGridDataChanged();
     }
 
     @Override
     public void onReviewRemoved(ReviewId id) {
-        mReviewView.notifyDataSetChanged();
+        removeReview(id);
+        mReviewView.onGridDataChanged();
     }
 
-    private void addNode(Review review) {
-        mNode = ConvertProvider.getReviewNode(mProvider, mNode.getAuthor(), mNode.getSubject().get());
+    private void addReview(Review review) {
+        mNode.addChild(FactoryReview.createReviewTreeNode(review, false));
+    }
+
+    private void removeReview(ReviewId id) {
+        mNode.removeChild(id);
     }
 
     private ReviewView getReviewView() {

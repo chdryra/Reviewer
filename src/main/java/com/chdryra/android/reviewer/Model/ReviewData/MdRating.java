@@ -16,11 +16,13 @@ package com.chdryra.android.reviewer.Model.ReviewData;
  */
 public class MdRating implements MdData {
     private final float  mRating;
+    private final int  mWeight;
     private final ReviewId mReviewId;
 
-    public MdRating(float rating, ReviewId reviewId) {
+    public MdRating(float rating, int weight, ReviewId reviewId) {
         mRating = rating;
         mReviewId = reviewId;
+        mWeight = weight;
     }
 
     @Override
@@ -33,8 +35,12 @@ public class MdRating implements MdData {
         return true;
     }
 
-    public float get() {
+    public float getValue() {
         return mRating;
+    }
+
+    public int getWeight() {
+        return mWeight;
     }
 
     @Override
@@ -45,18 +51,16 @@ public class MdRating implements MdData {
         MdRating mdRating = (MdRating) o;
 
         if (Float.compare(mdRating.mRating, mRating) != 0) return false;
-        if (mReviewId != null ? !mReviewId.equals(mdRating.mReviewId) : mdRating
-                .mReviewId != null) {
-            return false;
-        }
+        if (mWeight != mdRating.mWeight) return false;
+        return mReviewId.equals(mdRating.mReviewId);
 
-        return true;
     }
 
     @Override
     public int hashCode() {
         int result = (mRating != +0.0f ? Float.floatToIntBits(mRating) : 0);
-        result = 31 * result + (mReviewId != null ? mReviewId.hashCode() : 0);
+        result = 31 * result + mWeight;
+        result = 31 * result + mReviewId.hashCode();
         return result;
     }
 }

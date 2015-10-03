@@ -43,7 +43,7 @@ public class AdapterReviewNode<T extends GvData> extends ReviewViewAdapterBasic<
 
     @Override
     public float getRating() {
-        return mNode.getRating().get();
+        return mNode.getRating().getValue();
     }
 
     @Override

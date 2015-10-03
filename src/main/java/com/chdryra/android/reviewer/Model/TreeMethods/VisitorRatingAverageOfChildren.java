@@ -8,6 +8,8 @@
 
 package com.chdryra.android.reviewer.Model.TreeMethods;
 
+import com.chdryra.android.reviewer.Model.ReviewData.IdableList;
+import com.chdryra.android.reviewer.Model.ReviewData.MdRating;
 import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
 
 /**
@@ -15,20 +17,29 @@ import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
  */
 public class VisitorRatingAverageOfChildren implements VisitorRatingCalculator {
     private float mRating = 0;
+    private int mWeight = 0;
 
     @Override
-    public void visit(ReviewNode reviewNode) {
-        float total = 0;
-        for (ReviewNode child : reviewNode.getChildren()) {
-            total += child.getRating().get();
+    public void visit(ReviewNode node) {
+        IdableList<ReviewNode> children = node.getChildren();
+        if(children.size() == 0) mWeight = 1;
+        for (ReviewNode child : children) {
+            MdRating rating = child.getRating();
+            int weight = rating.getWeight();
+            mRating += rating.getValue() * weight;
+            mWeight += rating.getWeight();
         }
 
-        int num = reviewNode.getChildren().size();
-        mRating = num > 0 ? total / num : 0;
+        mRating /= mWeight;
     }
 
     @Override
     public float getRating() {
         return mRating;
+    }
+
+    @Override
+    public int getWeight() {
+        return mWeight;
     }
 }

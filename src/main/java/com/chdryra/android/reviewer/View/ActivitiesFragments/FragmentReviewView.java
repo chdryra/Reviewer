@@ -361,7 +361,7 @@ public class FragmentReviewView extends Fragment implements GridDataObservable.G
 
     void updateGridDataUi() {
         ((ViewHolderAdapter) mGridView.getAdapter()).notifyDataSetChanged();
-        mReviewView.notifyDataSetChanged();
+        mReviewView.notifyObservers();
     }
 
     private void setGridCellDimension(ReviewViewParams.CellDimension width,

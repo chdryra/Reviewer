@@ -81,7 +81,7 @@ public class ActivityShareScreenTest extends ActivityReviewViewTest {
         IdableList<ReviewNode> list = ReviewNodeProvider.getReviewNode(getActivity()).getChildren();
         assertEquals(1, list.size());
         assertEquals(mAdapter.getSubject(), list.getItem(0).getSubject().get());
-        assertEquals(mAdapter.getRating(), list.getItem(0).getRating().get());
+        assertEquals(mAdapter.getRating(), list.getItem(0).getRating().getValue());
         feedActivity.finish();
     }
 

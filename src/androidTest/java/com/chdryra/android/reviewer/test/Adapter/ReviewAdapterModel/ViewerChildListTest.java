@@ -43,7 +43,7 @@ public class ViewerChildListTest extends AndroidTestCase {
             ReviewNode child = children.getItem(i);
             GvReviewOverviewList.GvReviewOverview item = list.getItem(i);
             assertEquals(child.getSubject().get(), item.getSubject());
-            assertEquals(child.getRating().get(), item.getRating());
+            assertEquals(child.getRating().getValue(), item.getRating());
             assertEquals(child.getAuthor(), item.getAuthor());
             assertEquals(child.getPublishDate().getDate(), item.getPublishDate());
             MdLocationList locs = child.getLocations();

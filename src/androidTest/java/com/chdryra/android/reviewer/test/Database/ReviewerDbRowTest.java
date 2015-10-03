@@ -60,7 +60,7 @@ public class ReviewerDbRowTest extends TestCase {
         String reviewId = review.getId().toString();
         String authorId = review.getAuthor().getUserId().toString();
         cursor.addRow(new Object[]{reviewId, parentId, authorId, review.getPublishDate().getTime(),
-                review.getSubject().get(), review.getRating().get(), review
+                review.getSubject().get(), review.getRating().getValue(), review
                 .isRatingAverageOfCriteria() ? 1 : 0});
         cursor.moveToFirst();
         assertNotNull(ReviewerDbRow.newRow(cursor, RowReview.class));

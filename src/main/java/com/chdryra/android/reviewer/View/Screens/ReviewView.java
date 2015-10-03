@@ -209,7 +209,7 @@ public class ReviewView implements GridDataObservable.GridDataObserver, Launchab
         if (mGridObservers.contains(observer)) mGridObservers.remove(observer);
     }
 
-    public void notifyDataSetChanged() {
+    public void notifyObservers() {
         for (GridDataObservable.GridDataObserver observer : mGridObservers) {
             observer.onGridDataChanged();
         }
@@ -227,7 +227,7 @@ public class ReviewView implements GridDataObservable.GridDataObserver, Launchab
     @Override
     public void onGridDataChanged() {
         resetGridViewData();
-        notifyDataSetChanged();
+        notifyObservers();
     }
 
     @Override

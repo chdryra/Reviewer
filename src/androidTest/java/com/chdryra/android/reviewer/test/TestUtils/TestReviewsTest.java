@@ -47,7 +47,7 @@ public class TestReviewsTest extends InstrumentationTestCase {
     private void testReview1(Review review) {
         assertEquals("Tayyabs", review.getSubject().get());
         assertTrue(review.isRatingAverageOfCriteria());
-        assertEquals(3.5f, review.getRating().get());
+        assertEquals(3.5f, review.getRating().getValue());
 
         //Tags
         TagsManager.ReviewTagCollection tags = TagsManager.getTags(getInstrumentation()
@@ -65,21 +65,21 @@ public class TestReviewsTest extends InstrumentationTestCase {
         assertEquals(review, criterion.getReviewId());
         Review child = criterion.getReview();
         assertEquals("Food", child.getSubject().get());
-        assertEquals(4f, child.getRating().get());
+        assertEquals(4f, child.getRating().getValue());
         assertEquals(0, child.getCriteria().size());
 
         criterion = criteria.getItem(1);
         child = criterion.getReview();
         assertEquals(review.getId(), criterion.getReviewId());
         assertEquals("Service", child.getSubject().get());
-        assertEquals(2f, child.getRating().get());
+        assertEquals(2f, child.getRating().getValue());
         assertEquals(0, child.getCriteria().size());
 
         criterion = criteria.getItem(2);
         child = criterion.getReview();
         assertEquals(review.getId(), criterion.getReviewId());
         assertEquals("Value", child.getSubject().get());
-        assertEquals(4.5f, child.getRating().get());
+        assertEquals(4.5f, child.getRating().getValue());
         assertEquals(0, child.getCriteria().size());
 
         //Comments
@@ -131,7 +131,7 @@ public class TestReviewsTest extends InstrumentationTestCase {
     private void testReview2(Review review) {
         assertEquals("The Weekend", review.getSubject().get());
         assertFalse(review.isRatingAverageOfCriteria());
-        assertEquals(5f, review.getRating().get());
+        assertEquals(5f, review.getRating().getValue());
 
         //Tags
         TagsManager.ReviewTagCollection tags = TagsManager.getTags(getInstrumentation()
@@ -150,21 +150,21 @@ public class TestReviewsTest extends InstrumentationTestCase {
         Review child = criterion.getReview();
         assertEquals(review.getId(), criterion.getReviewId());
         assertEquals("Friday", child.getSubject().get());
-        assertEquals(4f, child.getRating().get());
+        assertEquals(4f, child.getRating().getValue());
         assertEquals(0, child.getCriteria().size());
 
         criterion = children.getItem(1);
         child = criterion.getReview();
         assertEquals(review.getId(), criterion.getReviewId());
         assertEquals("Saturday", child.getSubject().get());
-        assertEquals(3.5f, child.getRating().get());
+        assertEquals(3.5f, child.getRating().getValue());
         assertEquals(0, child.getCriteria().size());
 
         criterion = children.getItem(2);
         child = criterion.getReview();
         assertEquals(review.getId(), criterion.getReviewId());
         assertEquals("Sunday", child.getSubject().get());
-        assertEquals(4f, child.getRating().get());
+        assertEquals(4f, child.getRating().getValue());
         assertEquals(0, child.getCriteria().size());
 
         //Comments

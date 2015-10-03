@@ -41,7 +41,7 @@ public class MdCriterionListTest extends TestCase {
         MdCriterionList.MdCriterion criterion = new MdCriterionList.MdCriterion(review, parentId);
 
         assertEquals(review.getSubject().get(), criterion.getSubject());
-        assertEquals(review.getRating().get(), criterion.getRating());
+        assertEquals(review.getRating().getValue(), criterion.getRating());
         assertEquals(review, criterion.getReview());
         assertEquals(parentId, criterion.getReviewId());
     }

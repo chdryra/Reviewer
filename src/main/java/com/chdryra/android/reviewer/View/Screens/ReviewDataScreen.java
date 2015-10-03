@@ -102,7 +102,10 @@ public class ReviewDataScreen {
 
         @Override
         public void onClick(View v) {
-            ReviewView ui = ReviewDataScreen.newScreen(getAdapter().expandGridData());
+            ReviewViewAdapter<? extends GvData> expanded = getAdapter().expandGridData();
+            if(expanded == null) return;
+            ReviewView ui = expanded.getReviewView();
+            if(ui == null) ui = ReviewDataScreen.newScreen(expanded);
             LauncherUi.launch(ui, getReviewView().getParent(), REQUEST_CODE, ui.getLaunchTag(), new
                     Bundle());
         }

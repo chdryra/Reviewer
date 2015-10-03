@@ -33,7 +33,7 @@ public class VisitorRatingAverageOfChildrenTest extends TestCase {
         IdableList<ReviewNode> children = node.getChildren();
         assertTrue(children.size() > 0);
         for (ReviewNode child : children) {
-            nodeAverage += child.getRating().get();
+            nodeAverage += child.getRating().getValue();
         }
 
         nodeAverage /= children.size();

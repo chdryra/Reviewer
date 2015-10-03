@@ -494,7 +494,7 @@ public class ReviewerDbTest extends AndroidTestCase {
 
         assertEquals(id, vals.get(RowReview.REVIEW_ID));
         assertEquals(review.getSubject().get(), vals.get(RowReview.SUBJECT));
-        assertEquals(review.getRating().get(), vals.get(RowReview.RATING));
+        assertEquals(review.getRating().getValue(), vals.get(RowReview.RATING));
         assertEquals(review.getAuthor().getUserId().toString(), vals.get(RowReview.AUTHOR_ID));
         assertEquals(review.getPublishDate().getTime(), vals.get(RowReview.PUBLISH_DATE));
         assertEquals(review.isRatingAverageOfCriteria(),

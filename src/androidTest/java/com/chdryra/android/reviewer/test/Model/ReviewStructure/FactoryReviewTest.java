@@ -53,7 +53,7 @@ public class FactoryReviewTest extends TestCase {
     @SmallTest
     public void testCreateReviewUser() {
         assertEquals(mSubject, mReview.getSubject().get());
-        assertEquals(mRating, mReview.getRating().get());
+        assertEquals(mRating, mReview.getRating().getValue());
         assertEquals(mAuthor, mReview.getAuthor());
         assertEquals(mDate, mReview.getPublishDate());
         MdGvEquality.check(mReview.getComments(), mComments);
@@ -115,7 +115,7 @@ public class FactoryReviewTest extends TestCase {
 
     private void checkNode(ReviewNode node) {
         assertEquals(mSubject, node.getSubject().get());
-        assertEquals(node.isRatingAverageOfChildren() ? 0f : mRating, node.getRating().get());
+        assertEquals(node.isRatingAverageOfChildren() ? 0f : mRating, node.getRating().getValue());
         assertEquals(mAuthor, node.getAuthor());
         assertEquals(mDate, node.getPublishDate());
         MdGvEquality.check(node.getComments(), mComments);

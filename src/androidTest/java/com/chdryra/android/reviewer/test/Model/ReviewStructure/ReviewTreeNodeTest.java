@@ -98,9 +98,9 @@ public class ReviewTreeNodeTest extends TestCase {
 
         float rating = 0;
         for (Review child : mChildren) {
-            rating += child.getRating().get() / mChildren.size();
+            rating += child.getRating().getValue() / mChildren.size();
         }
-        assertEquals(rating, node.getRating().get(), 0.0001);
+        assertEquals(rating, node.getRating().getValue(), 0.0001);
     }
 
     @SmallTest

@@ -12,7 +12,7 @@ import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.Model.ReviewData.IdableList;
 import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
-import com.chdryra.android.reviewer.Model.TreeMethods.VisitorTreeFlattener;
+import com.chdryra.android.reviewer.Model.TreeMethods.VisitorReviewsGetter;
 import com.chdryra.android.reviewer.test.TestUtils.ReviewMocker;
 
 import junit.framework.TestCase;
@@ -22,11 +22,11 @@ import junit.framework.TestCase;
  * On: 09/06/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class VisitorTreeFlattenerTest extends TestCase {
+public class VisitorReviewsGetterTest extends TestCase {
     @SmallTest
     public void testVisit() {
         ReviewNode node = ReviewMocker.newReviewNode(false);
-        VisitorTreeFlattener visitor = new VisitorTreeFlattener();
+        VisitorReviewsGetter visitor = new VisitorReviewsGetter();
         node.acceptVisitor(visitor);
 
         IdableList<ReviewNode> nodes = visitor.getNodes();

@@ -13,27 +13,13 @@ import java.util.ArrayList;
  * On: 30/09/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ReviewerDbProvider implements ReviewsProvider {
+public class ReviewerDbProvider implements ReviewsProvider, ReviewerDb.ReviewerDbObserver {
     private ReviewerDb mDatabase;
     private ArrayList<ReviewsProviderObserver> mObservers;
 
     public ReviewerDbProvider(ReviewerDb database) {
         mDatabase = database;
         mObservers = new ArrayList<>();
-    }
-
-    public void addReviewToDb(Review review) {
-        mDatabase.addReviewToDb(review);
-        for (ReviewsProviderObserver observer : mObservers) {
-            observer.onReviewAdded(review);
-        }
-    }
-
-    public void deleteReviewFromDb(String reviewId) {
-        mDatabase.deleteReviewFromDb(reviewId);
-        for (ReviewsProviderObserver observer : mObservers) {
-            observer.onReviewRemoved(ReviewId.fromString(reviewId));
-        }
     }
 
     @Override
@@ -59,5 +45,19 @@ public class ReviewerDbProvider implements ReviewsProvider {
     @Override
     public void unregisterObserver(ReviewsProviderObserver observer) {
         mObservers.remove(observer);
+    }
+
+    @Override
+    public void onReviewAdded(Review review) {
+        for (ReviewsProviderObserver observer : mObservers) {
+            observer.onReviewAdded(review);
+        }
+    }
+
+    @Override
+    public void onReviewDeleted(String reviewId) {
+        for (ReviewsProviderObserver observer : mObservers) {
+            observer.onReviewRemoved(ReviewId.fromString(reviewId));
+        }
     }
 }

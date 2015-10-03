@@ -56,7 +56,7 @@ public class Administrator extends ApplicationSingleton{
     private static Administrator sSingleton;
 
     private final ObjectHolder            mViews;
-    private final ReviewerDbProvider mDatabase;
+    private final ReviewerDb mDatabase;
     private final ReviewsRepository mReviewsRepository;
     private final TagsManager mTagsManager;
     private ReviewBuilderAdapter mReviewBuilderAdapter;
@@ -65,8 +65,10 @@ public class Administrator extends ApplicationSingleton{
         super(context, NAME);
         mViews = new ObjectHolder();
         mTagsManager = new TagsManager();
-        mDatabase = new ReviewerDbProvider(ReviewerDb.getTestDatabase(context, mTagsManager));
-        mReviewsRepository = new ReviewsRepository(mDatabase, AUTHOR);
+        mDatabase = ReviewerDb.getTestDatabase(context, mTagsManager);
+        ReviewerDbProvider provider  = new ReviewerDbProvider(mDatabase);
+        mDatabase.registerObserver(provider);
+        mReviewsRepository = new ReviewsRepository(provider, AUTHOR);
     }
 
     public static Administrator get(Context c) {

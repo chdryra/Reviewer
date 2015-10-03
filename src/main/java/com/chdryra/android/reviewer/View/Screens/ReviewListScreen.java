@@ -4,6 +4,8 @@ import android.content.Context;
 
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.FactoryReviewViewAdapter;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewAdapter;
+import com.chdryra.android.reviewer.Model.ReviewStructure.FactoryReview;
+import com.chdryra.android.reviewer.Model.ReviewStructure.Review;
 import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
 import com.chdryra.android.reviewer.Model.TagsModel.TagsManager;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
@@ -45,6 +47,11 @@ public class ReviewListScreen {
     public static ReviewView newScreen(Context context, ReviewNode node, TagsManager tagsManager) {
         return new ReviewListScreen(context, node, tagsManager, new GiLaunchReviewDataScreen(), null)
                 .getReviewView();
+    }
+
+    public static ReviewView newScreen(Context context, Review review, TagsManager tagsManager) {
+        ReviewNode meta = FactoryReview.createMetaReview(review);
+        return newScreen(context, meta, tagsManager);
     }
 
     private ReviewView getReviewView() {

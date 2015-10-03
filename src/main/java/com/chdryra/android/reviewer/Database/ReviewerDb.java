@@ -64,15 +64,30 @@ public class ReviewerDb {
     private SQLiteOpenHelper mHelper;
     private String           mDatabaseName;
     private TagsManager mTagsManager;
+    ArrayList<ReviewerDbObserver> mObservers;
+
+    public interface ReviewerDbObserver {
+        void onReviewAdded(Review review);
+        void onReviewDeleted(String reviewId);
+    }
 
     private ReviewerDb(Context context, String databaseName, TagsManager tagsManager) {
         mDatabaseName = databaseName;
         DbContract contract = ReviewerDbContract.getContract();
         mHelper = new DbHelper(context, new DbManager(contract), mDatabaseName, VERSION_NUMBER);
         mTagsManager = tagsManager;
+        mObservers = new ArrayList<>();
     }
 
     //API
+    public void registerObserver(ReviewerDbObserver observer) {
+        mObservers.add(observer);
+    }
+
+    public void unregisterObserver(ReviewerDbObserver observer) {
+        mObservers.remove(observer);
+    }
+
     public static ReviewerDb getDatabase(Context context, TagsManager tagsManager) {
         return new ReviewerDb(context, DATABASE_NAME, tagsManager);
     }
@@ -93,11 +108,12 @@ public class ReviewerDb {
         SQLiteDatabase db = mHelper.getWritableDatabase();
 
         db.beginTransaction();
-        addReviewToDb(review, db);
+        boolean success = addReviewToDb(review, db);
         db.setTransactionSuccessful();
         db.endTransaction();
-
         db.close();
+
+        if(success) notifyOnAddReview(review);
     }
 
     public Review loadReviewFromDb(String reviewId) {
@@ -106,6 +122,7 @@ public class ReviewerDb {
         db.beginTransaction();
         RowReview row = getRowWhere(db, REVIEWS, RowReview.REVIEW_ID, reviewId);
         Review review = buildReview(row, db);
+        //Review review = new ReviewUserDb(row, this);
         db.setTransactionSuccessful();
         db.endTransaction();
 
@@ -119,6 +136,7 @@ public class ReviewerDb {
 
         db.beginTransaction();
         IdableList<Review> reviews = loadReviewsFromDbWhere(db, RowReview.PARENT_ID, null);
+        loadTags(db);
         db.setTransactionSuccessful();
         db.endTransaction();
 
@@ -140,30 +158,46 @@ public class ReviewerDb {
         SQLiteDatabase db = mHelper.getWritableDatabase();
 
         db.beginTransaction();
-        deleteReviewFromDb(reviewId, db);
+        boolean success = deleteReviewFromDb(reviewId, db);
         db.setTransactionSuccessful();
         db.endTransaction();
-
         db.close();
+
+        if(success) notifyOnDeleteReview(reviewId);
     }
 
     public TagsManager getTagsManager() {
         return mTagsManager;
     }
 
-    //Private methods
     public IdableList<Review> loadReviewsFromDbWhere(SQLiteDatabase db, String col, String val) {
         TableRowList<RowReview> reviewsList = getRowsWhere(db, REVIEWS, col, val);
 
         IdableList<Review> reviews = new IdableList<>();
         for (RowReview reviewRow : reviewsList) {
             reviews.add(buildReview(reviewRow, db));
+            //reviews.add(new ReviewUserDb(reviewRow, this));
         }
 
         return reviews;
     }
 
+    //Private methods
+    private void notifyOnAddReview(Review review) {
+        for(ReviewerDbObserver observer : mObservers) {
+            observer.onReviewAdded(review);
+        }
+    }
+
+    private void notifyOnDeleteReview(String reviewId) {
+        for(ReviewerDbObserver observer : mObservers) {
+            observer.onReviewDeleted(reviewId);
+        }
+    }
+
     private Review buildReview(RowReview reviewRow, SQLiteDatabase db) {
+        if(!reviewRow.hasData()) return null;
+
         ContentValues values = reviewRow.getContentValues();
 
         String reviewId = values.getAsString(RowReview.REVIEW_ID);
@@ -251,8 +285,8 @@ public class ReviewerDb {
         return db.rawQuery(query, args);
     }
 
-    private void addReviewToDb(Review review, SQLiteDatabase db) {
-        if (isReviewInDb(review, db)) return;
+    private boolean addReviewToDb(Review review, SQLiteDatabase db) {
+        if (isReviewInDb(review, db)) return false;
 
         Author author = review.getAuthor();
         String userId = author.getUserId().toString();
@@ -267,10 +301,14 @@ public class ReviewerDb {
         addToLocationsTable(review, db);
         addToImagesTable(review, db);
         addToTagsTable(review, db);
+
+        return true;
     }
 
-    private void deleteReviewFromDb(String reviewId, SQLiteDatabase db) {
+    private boolean deleteReviewFromDb(String reviewId, SQLiteDatabase db) {
         RowReview row = getRowWhere(db, REVIEWS, COLUMN_NAME_REVIEW_ID, reviewId);
+        if(!row.hasData()) return false;
+
         String userId = row.getContentValues().getAsString(RowReview.AUTHOR_ID);
 
         deleteFromImagesTable(reviewId, db);
@@ -289,6 +327,8 @@ public class ReviewerDb {
                 deleteFromTagsTable(tag.get(), db);
             }
         }
+
+        return true;
     }
 
     private void addToAuthorsTable(Author author, SQLiteDatabase db) {

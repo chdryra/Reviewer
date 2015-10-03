@@ -49,7 +49,7 @@ public class RowReviewTest extends TestCase {
         String reviewId = review.getId().toString();
         String authorId = review.getAuthor().getUserId().toString();
         cursor.addRow(new Object[]{reviewId, parentId, authorId, review.getPublishDate().getTime(),
-                review.getSubject().get(), review.getRating().get(), review
+                review.getSubject().get(), review.getRating().getValue(), review
                 .isRatingAverageOfCriteria() ? 1 : 0});
         cursor.moveToFirst();
         testRow(review, parentId, new RowReview(cursor));
@@ -71,7 +71,7 @@ public class RowReviewTest extends TestCase {
         assertEquals(review.getPublishDate().getTime(), (long) values.getAsLong(RowReview
                 .PUBLISH_DATE));
         assertEquals(review.getSubject().get(), values.getAsString(RowReview.SUBJECT));
-        assertEquals(review.getRating().get(), values.getAsFloat(RowReview.RATING));
+        assertEquals(review.getRating().getValue(), values.getAsFloat(RowReview.RATING));
         assertEquals(review.isRatingAverageOfCriteria(),
                 values.getAsBoolean(RowReview.IS_AVERAGE).booleanValue());
     }

@@ -65,7 +65,7 @@ public class AdapterReviewNodeTest extends AndroidTestCase {
         assertEquals(mReviews.size(), oList.size());
         for (int i = 0; i < mReviews.size(); ++i) {
             ReviewNode review = mReviews.getItem(i);
-            assertEquals(review.getRating().get(), oList.getItem(i).getRating());
+            assertEquals(review.getRating().getValue(), oList.getItem(i).getRating());
             assertEquals(review.getSubject().get(), oList.getItem(i).getSubject());
             assertEquals(review.getAuthor(), oList.getItem(i).getAuthor());
             assertEquals(review.getPublishDate().getDate(), oList.getItem(i).getPublishDate());
@@ -108,7 +108,7 @@ public class AdapterReviewNodeTest extends AndroidTestCase {
     private float getRating() {
         float rating = 0f;
         for (Review review : mReviews) {
-            rating += review.getRating().get() / mReviews.size();
+            rating += review.getRating().getValue() / mReviews.size();
         }
 
         return rating;

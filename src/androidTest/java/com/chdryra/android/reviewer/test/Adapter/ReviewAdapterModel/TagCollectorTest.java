@@ -6,7 +6,7 @@ import android.test.suitebuilder.annotation.SmallTest;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.TagCollector;
 import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
 import com.chdryra.android.reviewer.Model.TagsModel.TagsManager;
-import com.chdryra.android.reviewer.Model.TreeMethods.VisitorTreeFlattener;
+import com.chdryra.android.reviewer.Model.TreeMethods.VisitorReviewsGetter;
 import com.chdryra.android.reviewer.View.GvDataModel.GvTagList;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
 import com.chdryra.android.reviewer.test.TestUtils.ReviewMocker;
@@ -25,7 +25,7 @@ public class TagCollectorTest extends AndroidTestCase {
         ReviewNode node = ReviewMocker.newReviewNode(false);
         GvTagList appliedTags = new GvTagList();
         Random rand = new Random();
-        for (ReviewNode tagged : VisitorTreeFlattener.flatten(node.getParent())) {
+        for (ReviewNode tagged : VisitorReviewsGetter.flatten(node.getParent())) {
             int numTags = rand.nextInt(5) + 1;
             GvTagList tagsAvailable = new GvTagList(tags);
             for (int i = 0; i < numTags; ++i) {
