@@ -110,8 +110,8 @@ public class ViewerTreeData implements GridDataViewer<GvData> {
     }
 
     @Override
-    public ReviewViewAdapter<? extends GvData> expandGridData() {
-        return getReviewListAdapter();
+    public ReviewViewAdapter expandGridData() {
+        return null;
     }
 
     @Override
@@ -119,7 +119,7 @@ public class ViewerTreeData implements GridDataViewer<GvData> {
 
     }
 
-    private ReviewViewAdapter<? extends GvData> getReviewListAdapter() {
+    private ReviewViewAdapter getReviewListAdapter() {
         if(mIsAggregate) {
             return ReviewListScreen.newScreen(mContext, mNode, mTagsManager).getAdapter();
         } else {

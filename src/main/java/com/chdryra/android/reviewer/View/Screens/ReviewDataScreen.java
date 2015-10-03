@@ -31,17 +31,17 @@ public class ReviewDataScreen {
     private static final int REQUEST_CODE = RequestCodeGenerator.getCode("ReviewDataScreen");
     private ReviewView        mReviewView;
 
-    private ReviewDataScreen(ReviewViewAdapter<? extends GvData> adapter) {
+    private ReviewDataScreen(ReviewViewAdapter adapter) {
         mReviewView = new ReviewView(adapter);
         mReviewView.setAction(new RatingBar());
         mReviewView.setAction(new GridItem());
     }
 
-    public static ReviewView newScreen(ReviewViewAdapter<? extends GvData> adapter) {
+    public static ReviewView newScreen(ReviewViewAdapter adapter) {
         return new  ReviewDataScreen(adapter).getScreen();
     }
 
-    public static ReviewView newScreen(ReviewViewAdapter<? extends GvData> adapter,
+    public static ReviewView newScreen(ReviewViewAdapter adapter,
                                        GvDataType forDefaults) {
         ReviewView screen = newScreen(adapter);
         DefaultParameters.setParams(screen, forDefaults);
@@ -102,7 +102,7 @@ public class ReviewDataScreen {
 
         @Override
         public void onClick(View v) {
-            ReviewViewAdapter<? extends GvData> expanded = getAdapter().expandGridData();
+            ReviewViewAdapter expanded = getAdapter().expandGridData();
             if(expanded == null) return;
             ReviewView ui = expanded.getReviewView();
             if(ui == null) ui = ReviewDataScreen.newScreen(expanded);

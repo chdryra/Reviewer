@@ -38,7 +38,7 @@ public class ExpanderToData<T extends GvData> implements GridDataExpander<T> {
     }
 
     @Override
-    public ReviewViewAdapter<? extends GvData> expandGridCell(T datum) {
+    public ReviewViewAdapter expandGridCell(T datum) {
         if (isExpandable(datum)) {
             return FactoryReviewViewAdapter.newExpandToDataAdapter(mContext, mParent,
                     (GvDataCollection<? extends GvData>) datum);
@@ -48,7 +48,7 @@ public class ExpanderToData<T extends GvData> implements GridDataExpander<T> {
     }
 
     @Override
-    public ReviewViewAdapter<? extends GvData> expandGridData() {
+    public ReviewViewAdapter expandGridData() {
         ReviewsRepository repo = Administrator.get(mContext).getReviewsRepository();
         ReviewNode meta = repo.createMetaReview(mData, mData.getStringSummary());
         return FactoryReviewViewAdapter.newTreeDataAdapter(mContext, meta, repo.getTagsManager());

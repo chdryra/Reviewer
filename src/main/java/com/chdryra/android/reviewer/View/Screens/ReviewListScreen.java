@@ -27,7 +27,7 @@ public class ReviewListScreen {
         mReviewView = new ReviewView(adapter);
         mReviewView.setAction(giAction);
         mReviewView.setAction(menuAction);
-        mReviewView.setAction(new RbLaunchMetaReviewScreen());
+        mReviewView.setAction(new ReviewDataScreen.RatingBar());
 
         ReviewViewParams.CellDimension full = ReviewViewParams.CellDimension.FULL;
         ReviewViewParams.GridViewAlpha trans = ReviewViewParams.GridViewAlpha.TRANSPARENT;

@@ -28,10 +28,10 @@ public interface GridDataViewer<T extends GvData> extends GridDataExpander<T> {
     boolean isExpandable(T datum);
 
     @Override
-    ReviewViewAdapter<? extends GvData> expandGridCell(T datum);
+    ReviewViewAdapter expandGridCell(T datum);
 
     @Override
-    ReviewViewAdapter<? extends GvData> expandGridData();
+    ReviewViewAdapter expandGridData();
 
     @Override
     void setData(GvDataCollection<T> data);

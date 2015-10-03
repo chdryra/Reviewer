@@ -19,9 +19,9 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvDataCollection;
 public interface GridDataExpander<T extends GvData> {
     boolean isExpandable(T datum);
 
-    ReviewViewAdapter<? extends GvData> expandGridCell(T datum);
+    ReviewViewAdapter expandGridCell(T datum);
 
-    ReviewViewAdapter<? extends GvData> expandGridData();
+    ReviewViewAdapter expandGridData();
 
     void setData(GvDataCollection<T> data);
 }

@@ -20,7 +20,6 @@ import android.view.ViewGroup;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilderAdapter;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewAdapter;
 import com.chdryra.android.reviewer.View.ActivitiesFragments.FragmentReviewView;
-import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
 import com.chdryra.android.reviewer.View.Launcher.LaunchableUi;
@@ -40,12 +39,12 @@ public class ReviewView implements GridDataObservable.GridDataObserver, Launchab
     private final Map<Action, ReviewViewAction> mActions;
     private final HashMap<String, Fragment>     mActionListeners;
     private final ArrayList<GridDataObservable.GridDataObserver> mGridObservers;
-    private ReviewViewAdapter<? extends GvData> mAdapter;
+    private ReviewViewAdapter mAdapter;
     private FragmentReviewView mParent;
     private ViewModifier       mModifier;
     private GvDataList mGridViewData;
 
-    public ReviewView(ReviewViewAdapter<? extends GvData> adapter, ReviewViewParams params) {
+    public ReviewView(ReviewViewAdapter adapter, ReviewViewParams params) {
         mAdapter = adapter;
         mAdapter.registerReviewView(this);
         mAdapter.registerGridDataObserver(this);
@@ -63,16 +62,16 @@ public class ReviewView implements GridDataObservable.GridDataObserver, Launchab
         mParams = params;
     }
 
-    public ReviewView(ReviewViewAdapter<? extends GvData> adapter) {
+    public ReviewView(ReviewViewAdapter adapter) {
         this(adapter, new ReviewViewParams());
     }
 
-    public ReviewView(ReviewViewAdapter<? extends GvData> adapter, ViewModifier modifier) {
+    public ReviewView(ReviewViewAdapter adapter, ViewModifier modifier) {
         this(adapter);
         mModifier = modifier;
     }
 
-    public ReviewViewAdapter<? extends GvData> getAdapter() {
+    public ReviewViewAdapter getAdapter() {
         return mAdapter;
     }
 
