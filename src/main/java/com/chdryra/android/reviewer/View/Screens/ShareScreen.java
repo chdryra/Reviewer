@@ -40,18 +40,21 @@ public class ShareScreen {
         GvSocialPlatformList platforms = admin.getSocialPlatformList();
 
         ReviewViewAdapter adapter = FactoryReviewViewAdapter.newExpandToDataAdapter(context,
-                builder,
-                platforms);
-        ReviewView view = new ReviewView(adapter, new ShareScreenModifier());
+                builder, platforms);
 
+        ReviewViewActionCollection actions = new ReviewViewActionCollection();
         String title = context.getResources().getString(R.string.button_social);
-        view.setAction(ReviewViewAction.BannerButtonAction.newDisplayButton(title));
-        view.setAction(new ShareScreenGridItem());
-        view.setAction(new ReviewViewAction.MenuAction(title));
+        actions.setAction(ReviewViewAction.BannerButtonAction.newDisplayButton(title));
+        actions.setAction(new ShareScreenGridItem());
+        actions.setAction(new ReviewViewAction.MenuAction(title));
 
-        view.getParams().setGridAlpha(ReviewViewParams.GridViewAlpha.TRANSPARENT);
+        ReviewViewParams params = new ReviewViewParams();
+        params.setGridAlpha(ReviewViewParams.GridViewAlpha.TRANSPARENT);
 
-        return view;
+        ReviewViewPerspective perspective =
+                new ReviewViewPerspective(adapter, params, actions, new ShareScreenModifier());
+
+        return new ReviewView(perspective);
     }
 
     private static class ShareScreenGridItem extends ReviewViewAction.GridItemAction {
@@ -65,7 +68,7 @@ public class ShareScreen {
         }
     }
 
-    private static class ShareScreenModifier implements ReviewView.ViewModifier {
+    private static class ShareScreenModifier implements ReviewViewPerspective.ReviewViewModifier {
         @Override
         public View modify(final FragmentReviewView parent, View v, LayoutInflater inflater,
                 ViewGroup container, Bundle savedInstanceState) {

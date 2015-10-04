@@ -13,9 +13,11 @@ public class DefaultGridActions {
 
     }
 
-    public static void setGridAction(ReviewView view, GvDataType dataType) {
+    public static ReviewViewAction.GridItemAction getGridAction(GvDataType dataType) {
         if (dataType == GvCommentList.GvComment.TYPE) {
-            view.setAction(new ViewScreenComments.CommentsGridItem());
+            return new ViewScreenComments.CommentsGridItem();
+        } else {
+            return new GiDataLauncher();
         }
     }
 }

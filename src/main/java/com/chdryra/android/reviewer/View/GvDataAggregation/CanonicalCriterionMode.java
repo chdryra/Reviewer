@@ -11,8 +11,7 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
 public class CanonicalCriterionMode implements CanonicalDatumMaker<GvCriterionList.GvCriterion> {
     @Override
     public GvCriterionList.GvCriterion getCanonical(GvDataList<GvCriterionList.GvCriterion> data) {
-        if (data.size() == 0)
-            return new GvCriterionList.GvCriterion(data.getReviewId(), "", 0f);
+        if (data.size() == 0) return new GvCriterionList.GvCriterion(data.getReviewId(), "", 0f);
 
         DatumCounter<GvCriterionList.GvCriterion, String> subjectCounter = new DatumCounter<>(data,
                 new DataGetter<GvCriterionList.GvCriterion, String>() {
@@ -31,6 +30,8 @@ public class CanonicalCriterionMode implements CanonicalDatumMaker<GvCriterionLi
         });
 
         String maxSubject = subjectCounter.getMaxItem();
+        int nonMax = subjectCounter.getNonMaxCount();
+        if (nonMax > 0) maxSubject += " + " + String.valueOf(nonMax);
         float maxRating = ratingCounter.getMaxItem();
         return new GvCriterionList.GvCriterion(data.getReviewId(), maxSubject, maxRating);
     }

@@ -24,17 +24,19 @@ public class ReviewListScreen {
         ReviewViewAdapter<? extends GvData> adapter =
                 FactoryReviewViewAdapter.newChildListAdapter(context, node, tagsManager);
 
-        mReviewView = new ReviewView(adapter);
-        mReviewView.setAction(giAction);
-        mReviewView.setAction(menuAction);
-        mReviewView.setAction(new ReviewDataScreen.RatingBar());
+        ReviewViewActionCollection actions = new ReviewViewActionCollection();
+        actions.setAction(giAction);
+        if(menuAction != null) actions.setAction(menuAction);
+        actions.setAction(new RbExpandGrid());
 
+        ReviewViewParams params = new ReviewViewParams();
         ReviewViewParams.CellDimension full = ReviewViewParams.CellDimension.FULL;
         ReviewViewParams.GridViewAlpha trans = ReviewViewParams.GridViewAlpha.TRANSPARENT;
-        ReviewViewParams params = mReviewView.getParams();
-
         params.setSubjectVisible(true).setRatingVisible(true).setBannerButtonVisible(true)
                 .setCoverManager(false).setCellHeight(full).setCellWidth(full).setGridAlpha(trans);
+
+        ReviewViewPerspective perspective = new ReviewViewPerspective(adapter, params, actions);
+        mReviewView = new ReviewView(perspective);
     }
 
     public static ReviewView newScreen(Context context, ReviewNode node, TagsManager tagsManager,
@@ -45,13 +47,12 @@ public class ReviewListScreen {
     }
 
     public static ReviewView newScreen(Context context, ReviewNode node, TagsManager tagsManager) {
-        return new ReviewListScreen(context, node, tagsManager, new GiLaunchReviewDataScreen(), null)
-                .getReviewView();
+        return new ReviewListScreen(context, node, tagsManager, new GiLaunchReviewDataScreen(),
+                null).getReviewView();
     }
 
     public static ReviewView newScreen(Context context, Review review, TagsManager tagsManager) {
-        ReviewNode meta = FactoryReview.createMetaReview(review);
-        return newScreen(context, meta, tagsManager);
+        return newScreen(context, FactoryReview.createMetaReview(review), tagsManager);
     }
 
     private ReviewView getReviewView() {

@@ -13,7 +13,7 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvData;
  */
 public class ViewScreenComments {
 
-    public static class CommentsGridItem extends ReviewDataScreen.GridItem {
+    public static class CommentsGridItem extends GiDataLauncher {
         @Override
         public void onClickNotExpandable(GvData item, int position, View v) {
             try {

@@ -157,10 +157,10 @@ public class ReviewViewAction {
         private final String                          mTitle;
         private final SparseArray<MenuActionItemInfo> mActionItems;
         private int     mMenuId          = -1;
-        private boolean mDisplayHomeAsUp = false;
+        private boolean mDisplayHomeAsUp = true;
 
         public MenuAction() {
-            this(-1, null, false);
+            this(-1, null, true);
         }
 
         public MenuAction(int menuId, String title, boolean displayHomeAsUp) {

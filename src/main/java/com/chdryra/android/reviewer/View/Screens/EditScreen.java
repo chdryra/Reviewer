@@ -48,25 +48,23 @@ public class EditScreen {
     }
 
     public static ReviewView newScreen(Context context, GvDataType dataType) {
-        ReviewBuilderAdapter.DataBuilderAdapter builder = Administrator.get(context)
-                .getReviewBuilder().getDataBuilder(dataType);
+        ReviewBuilderAdapter builder = Administrator.get(context).getReviewBuilder();
+        String buttonLabel = context.getResources().getString(R.string.button_add);
+        buttonLabel += " " + dataType.getDatumName();
 
-        ReviewView view = new ReviewView.Editor(builder);
-
-        setActions(view, dataType, context.getResources().getString(R.string.button_add) + " " +
-                dataType.getDatumName());
-
-        DefaultParameters.setParams(view, dataType);
-
-        return view;
+        ReviewBuilderAdapter.DataBuilderAdapter adapter = builder.getDataBuilder(dataType);
+        ReviewViewActionCollection actions = getActions(dataType, buttonLabel);
+        ReviewViewParams params = DefaultParameters.getParams(dataType);
+        return new ReviewView.Editor(adapter, params, actions);
     }
 
-    private static void setActions(ReviewView view, GvDataType dataType,
-            String buttonTitle) {
-        view.setAction(new RatingBar());
-        view.setAction(newBannerButtonAction(dataType, buttonTitle));
-        view.setAction(newGridItemAction(dataType));
-        view.setAction(newMenuAction(dataType));
+    private static ReviewViewActionCollection getActions(GvDataType dataType, String buttonTitle) {
+        ReviewViewActionCollection actions = new ReviewViewActionCollection();
+        actions.setAction(new RatingBar());
+        actions.setAction(newBannerButtonAction(dataType, buttonTitle));
+        actions.setAction(newGridItemAction(dataType));
+        actions.setAction(newMenuAction(dataType));
+        return actions;
     }
 
     private static ReviewViewAction.MenuAction newMenuAction(GvDataType dataType) {

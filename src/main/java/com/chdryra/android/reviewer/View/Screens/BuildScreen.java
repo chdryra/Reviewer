@@ -50,20 +50,22 @@ public class BuildScreen {
     private final BuildScreenGridItem mGridItem;
 
     private BuildScreen(Context context) {
-        ReviewBuilderAdapter builder = Administrator.get(context).getReviewBuilder();
-
-        mScreen = new ReviewView.Editor(builder, new BuildScreenModifier(builder));
         mGridItem = new BuildScreenGridItem();
 
+        ReviewBuilderAdapter builder = Administrator.get(context).getReviewBuilder();
+        ReviewViewActionCollection actions = new ReviewViewActionCollection();
+        actions.setAction(mGridItem);
         String screenTitle = context.getResources().getString(R.string.screen_title_build_review);
         String buttonTitle = context.getResources().getString(R.string.button_add_review_data);
-        mScreen.setAction(new SubjectEdit());
-        mScreen.setAction(new BuildScreenRatingBar());
-        mScreen.setAction(ReviewViewAction.BannerButtonAction.newDisplayButton(buttonTitle));
-        mScreen.setAction(mGridItem);
-        mScreen.setAction(new BuildScreenMenu(screenTitle));
+        actions.setAction(new SubjectEdit());
+        actions.setAction(new BuildScreenRatingBar());
+        actions.setAction(ReviewViewAction.BannerButtonAction.newDisplayButton(buttonTitle));
+        actions.setAction(mGridItem);
+        actions.setAction(new BuildScreenMenu(screenTitle));
+        ReviewViewParams params = new ReviewViewParams();
+        params.setGridAlpha(ReviewViewParams.GridViewAlpha.TRANSPARENT);
 
-        mScreen.getParams().setGridAlpha(ReviewViewParams.GridViewAlpha.TRANSPARENT);
+        mScreen = new ReviewView.Editor(builder, params, actions, new BuildScreenModifier(builder));
     }
 
     public static ReviewView newScreen(Context context) {
@@ -269,7 +271,7 @@ public class BuildScreen {
         }
     }
 
-    private class BuildScreenModifier implements ReviewView.ViewModifier {
+    private class BuildScreenModifier implements ReviewViewPerspective.ReviewViewModifier {
         private final ReviewBuilderAdapter mBuilder;
 
         private BuildScreenModifier(ReviewBuilderAdapter builder) {

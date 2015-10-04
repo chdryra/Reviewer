@@ -73,15 +73,15 @@ public class ViewerTreeData implements GridDataViewer<GvData> {
     }
 
     @Override
-    public ReviewViewAdapter<? extends GvData> expandGridCell(GvData datum) {
+    public ReviewViewAdapter expandGridCell(GvData datum) {
         if (isExpandable(datum)) {
-            ReviewViewAdapter<? extends GvData> parent = getReviewListAdapter();
+            ReviewViewAdapter parent = getReviewListAdapter();
             if (datum.getGvDataType() == GvReviewOverviewList.GvReviewOverview.TYPE) {
                 return parent;
             }
 
-            GvDataCollection<? extends GvData> data = (GvDataCollection<? extends GvData>) datum;
-            ReviewViewAdapter<? extends GvData> adapter;
+            GvDataCollection data = (GvDataCollection) datum;
+            ReviewViewAdapter adapter;
             if (mIsAggregate) {
                 String subject = data.getStringSummary();
                 if (data.getGvDataType() == GvCommentList.GvComment.TYPE) {

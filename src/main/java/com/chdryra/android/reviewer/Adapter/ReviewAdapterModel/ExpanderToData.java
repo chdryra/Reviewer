@@ -22,11 +22,11 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvDataCollection;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ExpanderToData<T extends GvData> implements GridDataExpander<T> {
-    private ReviewViewAdapter<? extends GvData> mParent;
+    private ReviewViewAdapter mParent;
     private GvDataCollection<T> mData;
     private Context mContext;
 
-    public ExpanderToData(Context context, ReviewViewAdapter<? extends GvData> parent) {
+    public ExpanderToData(Context context, ReviewViewAdapter parent) {
         mContext = context;
         mParent = parent;
     }
@@ -41,7 +41,7 @@ public class ExpanderToData<T extends GvData> implements GridDataExpander<T> {
     public ReviewViewAdapter expandGridCell(T datum) {
         if (isExpandable(datum)) {
             return FactoryReviewViewAdapter.newExpandToDataAdapter(mContext, mParent,
-                    (GvDataCollection<? extends GvData>) datum);
+                    (GvDataCollection) datum);
         }
 
         return null;

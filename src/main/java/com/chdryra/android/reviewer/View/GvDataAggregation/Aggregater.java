@@ -65,8 +65,7 @@ public class Aggregater {
     }
 
     public static GvCanonicalCollection<GvCriterionList.GvCriterion> aggregateCriteriaMode
-            (GvCriterionList
-                                                                                                   data) {
+            (GvCriterionList data) {
         return aggregate(data, new ComparitorGvCriterion(), SAME_BOOL, new
                 CanonicalCriterionMode());
     }

@@ -35,77 +35,39 @@ import java.util.Map;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ReviewView implements GridDataObservable.GridDataObserver, LaunchableUi {
-    private final ReviewViewParams              mParams;
-    private final Map<Action, ReviewViewAction> mActions;
-    private final HashMap<String, Fragment>     mActionListeners;
-    private final ArrayList<GridDataObservable.GridDataObserver> mGridObservers;
-    private ReviewViewAdapter mAdapter;
+    private ReviewViewPerspective mPerspective;
+    private HashMap<String, Fragment>     mActionListeners;
+    private ArrayList<GridDataObservable.GridDataObserver> mGridObservers;
     private FragmentReviewView mParent;
-    private ViewModifier       mModifier;
     private GvDataList mGridViewData;
 
-    public ReviewView(ReviewViewAdapter adapter, ReviewViewParams params) {
-        mAdapter = adapter;
-        mAdapter.registerReviewView(this);
-        mAdapter.registerGridDataObserver(this);
-        mGridViewData = adapter.getGridData();
+    public ReviewView(ReviewViewPerspective perspective) {
+        mPerspective = perspective;
         mGridObservers = new ArrayList<>();
         mActionListeners = new HashMap<>();
-        mActions = new HashMap<>();
-
-        setAction(new ReviewViewAction.SubjectAction());
-        setAction(new ReviewViewAction.RatingBarAction());
-        setAction(new ReviewViewAction.BannerButtonAction());
-        setAction(new ReviewViewAction.GridItemAction());
-        setAction(new ReviewViewAction.MenuAction());
-
-        mParams = params;
+        configure();
     }
 
-    public ReviewView(ReviewViewAdapter adapter) {
-        this(adapter, new ReviewViewParams());
-    }
-
-    public ReviewView(ReviewViewAdapter adapter, ViewModifier modifier) {
-        this(adapter);
-        mModifier = modifier;
+    private void configure() {
+        ReviewViewAdapter adapter = mPerspective.getAdapter();
+        adapter.registerReviewView(this);
+        adapter.registerGridDataObserver(this);
+        setGridViewData(adapter.getGridData());
     }
 
     public ReviewViewAdapter getAdapter() {
-        return mAdapter;
+        return mPerspective.getAdapter();
     }
 
     public void attachFragment(FragmentReviewView parent) {
         if (mParent != null) throw new RuntimeException("There is a Fragment already attached");
         mParent = parent;
-        for (ReviewViewAction action : mActions.values()) {
-            action.attachReviewView(this);
-        }
-        registerGridDataObserver(parent);
-    }
-
-    public void setAction(ReviewViewAction.SubjectAction action) {
-        setAction(Action.SUBJECTVIEW, action);
-    }
-
-    public void setAction(ReviewViewAction.RatingBarAction action) {
-        setAction(Action.RATINGBAR, action);
-    }
-
-    public void setAction(ReviewViewAction.BannerButtonAction action) {
-        setAction(Action.BANNERBUTTON, action);
-    }
-
-    public void setAction(ReviewViewAction.GridItemAction action) {
-        setAction(Action.GRIDITEM, action);
-    }
-
-    public void setAction(ReviewViewAction.MenuAction action) {
-        setAction(Action.MENU, action);
+        mPerspective.getActions().attachReviewView(this);
+        registerGridDataObserver(mParent);
     }
 
     public ReviewViewParams getParams() {
-        return mParams;
+        return mPerspective.getParams();
     }
 
     public FragmentReviewView getParent() {
@@ -117,7 +79,7 @@ public class ReviewView implements GridDataObservable.GridDataObserver, Launchab
     }
 
     public GvDataList getGridData() {
-        return mAdapter.getGridData();
+        return getAdapter().getGridData();
     }
 
     public GvDataList getGridViewData() {
@@ -135,23 +97,23 @@ public class ReviewView implements GridDataObservable.GridDataObserver, Launchab
     }
 
     public ReviewViewAction.SubjectAction getSubjectViewAction() {
-        return (ReviewViewAction.SubjectAction) mActions.get(Action.SUBJECTVIEW);
+        return mPerspective.getActions().getSubjectAction();
     }
 
     public ReviewViewAction.RatingBarAction getRatingBarAction() {
-        return (ReviewViewAction.RatingBarAction) mActions.get(Action.RATINGBAR);
+        return mPerspective.getActions().getRatingBarAction();
     }
 
     public ReviewViewAction.BannerButtonAction getBannerButtonAction() {
-        return (ReviewViewAction.BannerButtonAction) mActions.get(Action.BANNERBUTTON);
+        return mPerspective.getActions().getBannerButtonAction();
     }
 
     public ReviewViewAction.GridItemAction getGridItemAction() {
-        return (ReviewViewAction.GridItemAction) mActions.get(Action.GRIDITEM);
+        return mPerspective.getActions().getGridItemAction();
     }
 
     public ReviewViewAction.MenuAction getMenuAction() {
-        return (ReviewViewAction.MenuAction) mActions.get(Action.MENU);
+        return mPerspective.getActions().getMenuAction();
     }
 
     public boolean isEditable() {
@@ -159,8 +121,8 @@ public class ReviewView implements GridDataObservable.GridDataObserver, Launchab
     }
 
     public void updateCover() {
-        if (mParams.manageCover()) {
-            GvImageList images = mAdapter.getCovers();
+        if (getParams().manageCover()) {
+            GvImageList images = getAdapter().getCovers();
             GvImageList covers = images.getCovers();
             GvImageList.GvImage cover = null;
             if (covers.size() > 0) {
@@ -216,8 +178,9 @@ public class ReviewView implements GridDataObservable.GridDataObserver, Launchab
 
     public View modifyIfNeccesary(View v, LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
-        if (mModifier != null) {
-            return mModifier.modify(mParent, v, inflater, container, savedInstanceState);
+        ReviewViewPerspective.ReviewViewModifier modifier = mPerspective.getModifier();
+        if (modifier != null) {
+            return modifier.modify(mParent, v, inflater, container, savedInstanceState);
         } else {
             return v;
         }
@@ -231,7 +194,7 @@ public class ReviewView implements GridDataObservable.GridDataObserver, Launchab
 
     @Override
     public String getLaunchTag() {
-        return mAdapter.getSubject();
+        return getAdapter().getSubject();
     }
 
     @Override
@@ -243,31 +206,21 @@ public class ReviewView implements GridDataObservable.GridDataObserver, Launchab
         if (mParent != null) mParent.updateGridData();
     }
 
-    private void setAction(Action type, ReviewViewAction action) {
-        if (action != null) {
-            mActions.put(type, action);
-            if (mParent != null) action.attachReviewView(this);
-        }
-    }
-
-    private enum Action {SUBJECTVIEW, RATINGBAR, BANNERBUTTON, GRIDITEM, MENU}
-
-    public interface ViewModifier {
-        View modify(FragmentReviewView parent, View v, LayoutInflater inflater,
-                    ViewGroup container, Bundle savedInstanceState);
-    }
-
     public static class Editor extends ReviewView {
         private FragmentReviewView mParent;
         private boolean mRatingIsAverage = false;
 
-        public Editor(ReviewBuilderAdapter.DataBuilderAdapter builder) {
-            super(builder);
+        public Editor(ReviewBuilderAdapter.DataBuilderAdapter builder,
+                      ReviewViewParams params,
+                      ReviewViewActionCollection actions) {
+            super(new ReviewViewPerspective(builder, params, actions));
             mRatingIsAverage = builder.getParentBuilder().isRatingAverage();
         }
 
-        public Editor(ReviewBuilderAdapter builder, ViewModifier modifier) {
-            super(builder, modifier);
+        public Editor(ReviewBuilderAdapter builder, ReviewViewParams params,
+                      ReviewViewActionCollection actions,
+                      ReviewViewPerspective.ReviewViewModifier modifier) {
+            super(new ReviewViewPerspective(builder, params, actions, modifier));
             mRatingIsAverage = builder.isRatingAverage();
         }
 

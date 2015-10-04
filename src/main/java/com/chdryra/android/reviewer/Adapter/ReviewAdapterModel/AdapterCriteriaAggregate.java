@@ -31,7 +31,19 @@ public class AdapterCriteriaAggregate extends AdapterReviewNode<GvCanonical> {
 
         GvCanonicalCollection<GvCriterionList.GvCriterion> newAggregate
                 = Aggregater.aggregateCriteriaMode((GvCriterionList) datum.toList());
+
+        int diffSubject = 0;
+        GvCriterionList.GvCriterion reference = newAggregate.getItem(0).getCanonical();
+        String refSubject = reference.getSubject();
+        for(int i = 1; i < newAggregate.size(); ++i) {
+            GvCriterionList.GvCriterion next = newAggregate.getItem(i).getCanonical();
+            String subject = next.getSubject();
+            if(!refSubject.equals(refSubject)) diffSubject++;
+        }
+
+        String diff = diffSubject > 0 ? " + " + String.valueOf(diffSubject) : "";
+        String subject = refSubject + diff;
         return FactoryReviewViewAdapter.newExpandToReviewsAdapter(mContext, newAggregate,
-                getSubject());
+                subject);
     }
 }

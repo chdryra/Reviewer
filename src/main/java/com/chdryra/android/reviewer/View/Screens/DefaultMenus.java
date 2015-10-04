@@ -13,9 +13,11 @@ public class DefaultMenus {
 
     }
 
-    public static void setMenu(ReviewView view, GvDataType dataType) {
+    public static ReviewViewAction.MenuAction getMenu(GvDataType dataType) {
         if (dataType == GvCommentList.GvComment.TYPE) {
-            view.setAction(new ViewScreenComments.CommentsMenu());
+            return new ViewScreenComments.CommentsMenu();
+        } else {
+            return new ReviewViewAction.MenuAction();
         }
     }
 }

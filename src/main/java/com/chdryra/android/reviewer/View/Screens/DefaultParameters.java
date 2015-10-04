@@ -9,10 +9,13 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
  * Email: rizwan.choudrey@gmail.com
  */
 public class DefaultParameters {
-    public static void setParams(ReviewView view, GvDataType dataType) {
+    public static ReviewViewParams getParams(GvDataType dataType) {
+        ReviewViewParams params = new ReviewViewParams();
         if (dataType == GvImageList.GvImage.TYPE) {
             ReviewViewParams.CellDimension half = ReviewViewParams.CellDimension.HALF;
-            view.getParams().setCellHeight(half).setCellWidth(half);
+            params.setCellHeight(half).setCellWidth(half);
         }
+
+        return params;
     }
 }
