@@ -27,9 +27,9 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
 public class AdapterReviewNode<T extends GvData> extends ReviewViewAdapterBasic<T> {
     private ReviewNode mNode;
 
-    public AdapterReviewNode(ReviewNode node, GridDataViewer<T> wrapper) {
+    public AdapterReviewNode(ReviewNode node, GridDataViewer<T> viewer) {
         mNode = node;
-        setWrapper(wrapper);
+        setViewer(viewer);
     }
 
     protected AdapterReviewNode(ReviewNode node) {

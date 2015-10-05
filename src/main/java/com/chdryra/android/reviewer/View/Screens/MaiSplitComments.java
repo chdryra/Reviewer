@@ -32,7 +32,6 @@ public class MaiSplitComments implements ReviewViewAction.MenuAction.MenuActionI
     public void doAction(Context context, MenuItem item) {
         mCommentsAreSplit = !mCommentsAreSplit;
 
-        //Change menu icons
         item.setIcon(mCommentsAreSplit ? UNSPLIT_ICON : SPLIT_ICON);
         if (mCommentsAreSplit) {
             Toast.makeText(context, TOAST_SPLIT, Toast.LENGTH_SHORT).show();

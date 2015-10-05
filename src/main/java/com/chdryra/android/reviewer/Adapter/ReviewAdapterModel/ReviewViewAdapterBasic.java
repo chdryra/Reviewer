@@ -83,7 +83,7 @@ public abstract class ReviewViewAdapterBasic<T extends GvData> implements Review
         notifyGridDataObservers();
     }
 
-    public void setWrapper(GridDataViewer<T> wrapper) {
+    public void setViewer(GridDataViewer<T> wrapper) {
         mWrapper = wrapper;
         notifyGridDataObservers();
     }

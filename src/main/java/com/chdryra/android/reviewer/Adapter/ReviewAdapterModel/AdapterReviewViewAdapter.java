@@ -21,7 +21,7 @@ public class AdapterReviewViewAdapter<T extends GvData> extends ReviewViewAdapte
 
     public AdapterReviewViewAdapter(ReviewViewAdapter parent, GridDataViewer<T> wrapper) {
         mParentAdapter = parent;
-        setWrapper(wrapper);
+        setViewer(wrapper);
     }
 
     @Override

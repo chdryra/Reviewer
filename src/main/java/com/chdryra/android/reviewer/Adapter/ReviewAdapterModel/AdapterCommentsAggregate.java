@@ -22,7 +22,7 @@ public class AdapterCommentsAggregate extends AdapterReviewNode<GvCanonical> {
         super(node);
         mComments = comments;
         ExpanderToReviews<GvCanonical> expander = new ExpanderToReviews<>(context);
-        setWrapper(new ViewerGvDataCollection<>(expander, mComments));
+        setViewer(new ViewerGvDataCollection<>(expander, mComments));
         setSplit(false);
     }
 

@@ -82,7 +82,7 @@ public class FactoryReviewViewAdapter {
 
     private static <T extends GvData> ReviewViewAdapter newExpandToReviewsAdapter(
             Context context, GvDataCollection<T> data, String subject,
-            ViewerGvDataCollection<T> viewer) {
+            GridDataViewer<T> viewer) {
         ReviewNode node = getRepository(context).createMetaReview(data, subject);
         return new AdapterReviewNode<>(node, viewer);
     }
