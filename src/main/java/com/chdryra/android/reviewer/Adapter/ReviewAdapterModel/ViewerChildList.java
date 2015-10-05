@@ -11,11 +11,9 @@ package com.chdryra.android.reviewer.Adapter.ReviewAdapterModel;
 import android.content.Context;
 
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.MdGvConverter;
-import com.chdryra.android.reviewer.Model.ReviewData.IdableList;
 import com.chdryra.android.reviewer.Model.ReviewData.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
 import com.chdryra.android.reviewer.Model.TagsModel.TagsManager;
-import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataCollection;
 import com.chdryra.android.reviewer.View.GvDataModel.GvReviewOverviewList;
 
@@ -51,7 +49,7 @@ public class ViewerChildList implements GridDataViewer<GvReviewOverviewList.GvRe
     }
 
     @Override
-    public ReviewViewAdapter<? extends GvData> expandGridCell(GvReviewOverviewList.GvReviewOverview
+    public ReviewViewAdapter expandGridCell(GvReviewOverviewList.GvReviewOverview
                                                                       datum) {
         if (isExpandable(datum)) {
             ReviewNode node = mNode.getChildren().get(ReviewId.fromString(datum.getId()));
@@ -62,12 +60,8 @@ public class ViewerChildList implements GridDataViewer<GvReviewOverviewList.GvRe
     }
 
     @Override
-    public ReviewViewAdapter<? extends GvData> expandGridData() {
-        ReviewNode node = mNode;
-        IdableList<ReviewNode> children = mNode.getChildren();
-        if(children.size() == 1) node = children.getItem(0);
-
-        return FactoryReviewViewAdapter.newTreeDataAdapter(mContext, node, mTagsManager);
+    public ReviewViewAdapter expandGridData() {
+        return FactoryReviewViewAdapter.newTreeDataAdapter(mContext, mNode, mTagsManager);
     }
 
     @Override

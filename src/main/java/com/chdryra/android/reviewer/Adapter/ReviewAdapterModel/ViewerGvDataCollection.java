@@ -27,10 +27,6 @@ public class ViewerGvDataCollection<T extends GvData> implements GridDataViewer<
         setData(data);
     }
 
-    protected GvDataCollection<T> getData() {
-        return mData;
-    }
-
     @Override
     public GvDataList<T> getGridData() {
         return mData.toList();

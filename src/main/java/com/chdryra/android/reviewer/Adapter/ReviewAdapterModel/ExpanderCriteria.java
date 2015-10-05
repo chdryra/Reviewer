@@ -44,7 +44,7 @@ public class ExpanderCriteria extends ExpanderToReviews<GvCanonical> {
 
         String diff = diffSubject > 0 ? " + " + String.valueOf(diffSubject) : "";
         String subject = refSubject + diff;
-        return FactoryReviewViewAdapter.newExpandToReviewsAdapterForCanonical(getContext(),
+        return FactoryReviewViewAdapter.newExpandToReviewsAdapterForAggregate(getContext(),
                 newAggregate, subject);
     }
 }

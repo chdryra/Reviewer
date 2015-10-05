@@ -11,6 +11,7 @@ package com.chdryra.android.reviewer.Adapter.ReviewAdapterModel;
 import android.content.Context;
 
 import com.chdryra.android.reviewer.ApplicationSingletons.Administrator;
+import com.chdryra.android.reviewer.Model.ReviewData.IdableList;
 import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
 import com.chdryra.android.reviewer.Model.TagsModel.TagsManager;
 import com.chdryra.android.reviewer.ReviewsProviderModel.ReviewsRepository;
@@ -41,7 +42,17 @@ public class FactoryReviewViewAdapter {
 
     public static ReviewViewAdapter<GvData> newTreeDataAdapter(Context context, ReviewNode node,
                                                                TagsManager tagsManager) {
-        return new AdapterReviewNode<>(node, new ViewerTreeData(context, node, tagsManager));
+        IdableList<ReviewNode> children = node.getChildren();
+
+        GridDataViewer<GvData> viewer;
+        if(children.size() > 1) {
+            viewer = new ViewerTreeData(context, node, tagsManager);
+        } else {
+            ReviewNode review = children.size() == 0 ? node : children.getItem(0);
+            viewer = new ViewerNodeData(context, review, tagsManager);
+        }
+
+        return new AdapterReviewNode<>(node, viewer);
     }
 
     public static <T extends GvData> ReviewViewAdapter newExpandToDataAdapter(
@@ -49,7 +60,14 @@ public class FactoryReviewViewAdapter {
         return newGvDataCollectionAdapter(parent, data, new ExpanderToData<T>(context, parent));
     }
 
-    public static <T extends GvData> ReviewViewAdapter newExpandToReviewsAdapterForCanonical(
+    public static <T extends GvData> ReviewViewAdapter newExpandToDataAdapter(
+            Context context, ReviewNode parent, GvDataCollection<T> data) {
+        ExpanderToData2<T> expander = new ExpanderToData2<>(context, parent);
+        ViewerGvDataCollection<T> wrapper = new ViewerGvDataCollection<>(expander, data);
+        return new AdapterReviewNode<>(parent, wrapper);
+    }
+
+    public static <T extends GvData> ReviewViewAdapter newExpandToReviewsAdapterForAggregate(
             Context context, GvCanonicalCollection<T> data, String subject) {
         if (data.getGvDataType() == GvCommentList.GvComment.TYPE) {
             //TODO make type safe
