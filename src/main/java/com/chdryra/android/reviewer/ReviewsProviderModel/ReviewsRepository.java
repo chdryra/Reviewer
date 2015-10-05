@@ -78,6 +78,15 @@ public class ReviewsRepository implements ReviewsProvider {
         return FactoryReview.createMetaReview(reviews, publisher, subject);
     }
 
+    public <T extends GvData> ReviewNode createMetaReview(GvData datum,
+                                                          String subject) {
+        if(datum.isCollection()) {
+            return createMetaReview((GvDataCollection<? extends GvData>) datum, subject);
+        }
+
+        return FactoryReview.createMetaReview(getReview(datum));
+    }
+
     public <T extends GvData> ReviewNode createFlattenedMetaReview(GvDataCollection<T> data,
                                                           String subject) {
         ReviewNode meta = createMetaReview(data, subject);

@@ -35,11 +35,11 @@ import java.util.Map;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ReviewBuilder {
-    public static final ArrayList<GvDataType<? extends GvData>> TYPES = ConfigGvDataUi.TYPES;
+    public static final ArrayList<GvDataType> TYPES = ConfigGvDataUi.BUILD_TYPES;
 
     private final Context mContext;
-    private final Map<GvDataType<? extends GvData>, GvDataList<?>> mData;
-    private final Map<GvDataType<? extends GvData>, DataBuilder<?>> mDataBuilders;
+    private final Map<GvDataType, GvDataList> mData;
+    private final Map<GvDataType, DataBuilder> mDataBuilders;
 
     private String                   mSubject;
     private float                    mRating;
@@ -47,7 +47,6 @@ public class ReviewBuilder {
     private boolean mIsAverage = false;
     private Author mAuthor;
     private TagsManager mTagsManager;
-    private PublishDate mPublishDate;
 
     public ReviewBuilder(Context context, Author author, TagsManager tagsManager) {
         mContext = context;
@@ -57,18 +56,13 @@ public class ReviewBuilder {
 
         mData = new HashMap<>();
         mDataBuilders = new HashMap<>();
-        for (GvDataType<? extends GvData> dataType : TYPES) {
+        for (GvDataType dataType : TYPES) {
             mData.put(dataType, FactoryGvData.newDataList(dataType));
             mDataBuilders.put(dataType, newDataBuilder(dataType));
         }
 
         mSubject = "";
         mRating = 0f;
-    }
-
-    public ReviewBuilder(Context context, ReviewPublisher publisher, TagsManager tagsManager) {
-        this(context, publisher.getAuthor(), tagsManager);
-        mPublishDate = publisher.getDate();
     }
 
     public Context getContext() {
@@ -106,7 +100,7 @@ public class ReviewBuilder {
             throw new IllegalStateException("Review is not valid for publication!");
         }
 
-        PublishDate date = mPublishDate != null ? mPublishDate : PublishDate.now();
+        PublishDate date = PublishDate.now();
         Review review = assembleReview(new ReviewPublisher(mAuthor, date));
         GvTagList tags = (GvTagList) getData(GvTagList.GvTag.TYPE);
         mTagsManager.tagReview(review.getId(), tags.toStringArray());

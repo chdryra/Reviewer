@@ -46,7 +46,7 @@ import java.util.Random;
  * Email: rizwan.choudrey@gmail.com
  */
 public class GvDataMocker {
-    public static final  ArrayList<GvDataType<? extends GvData>> TYPES = ConfigGvDataUi.TYPES;
+    public static final  ArrayList<GvDataType<? extends GvData>> TYPES = ConfigGvDataUi.BUILD_TYPES;
     private static final RandomString STRING_GENERATOR = new RandomString();
     private static final Random       RAND             = new Random();
 

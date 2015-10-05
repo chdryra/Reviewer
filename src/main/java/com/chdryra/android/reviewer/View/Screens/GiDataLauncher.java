@@ -6,6 +6,7 @@ import android.view.View;
 
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewAdapter;
 import com.chdryra.android.reviewer.View.Configs.ConfigGvDataUi;
+import com.chdryra.android.reviewer.View.GvDataModel.GvCanonical;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataPacker;
 import com.chdryra.android.reviewer.View.Launcher.LauncherUi;
@@ -33,7 +34,8 @@ public class GiDataLauncher extends GridItemExpander {
             expanded) {
         ReviewView screen = expanded.getReviewView();
         if (screen == null) screen = ReviewDataScreen.newScreen(expanded, item.getGvDataType());
-        LauncherUi.launch(screen, getReviewView().getParent(), REQUEST_CODE, screen.getLaunchTag(), new Bundle());
+        LauncherUi.launch(screen, getReviewView().getParent(), REQUEST_CODE, screen.getLaunchTag
+                (), new Bundle());
     }
 
     @Override
@@ -47,6 +49,23 @@ public class GiDataLauncher extends GridItemExpander {
             LauncherUi.launch(view.getLaunchable(), mListener, view.getRequestCode(), view
                     .getTag(), args);
         }
+    }
+
+    @Override
+    public void onLongClickExpandable(GvData item, int position, View v, ReviewViewAdapter
+            expanded) {
+        GvData datum = item;
+        if(item instanceof GvCanonical) {
+            GvCanonical canonical = (GvCanonical) item;
+            datum = canonical.size() == 1 ? canonical.getItem(0) : canonical.getCanonical();
+        }
+
+        onClickNotExpandable(datum, position, v);
+    }
+
+    @Override
+    public void onLongClickNotExpandable(GvData item, int position, View v) {
+        onClickNotExpandable(item, position, v);
     }
 
     protected abstract class GridItemListener extends Fragment {

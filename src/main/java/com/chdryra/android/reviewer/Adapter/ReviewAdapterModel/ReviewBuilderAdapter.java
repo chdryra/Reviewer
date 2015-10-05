@@ -45,7 +45,7 @@ import java.util.Map;
  * .reviewer.Model.Review} object
  */
 public class ReviewBuilderAdapter extends ReviewViewAdapterBasic {
-    public static final ArrayList<GvDataType<? extends GvData>> TYPES = ConfigGvDataUi.TYPES;
+    public static final ArrayList<GvDataType> TYPES = ConfigGvDataUi.BUILD_TYPES;
     private static final File FILE_DIR_EXT = Environment
             .getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM);
 

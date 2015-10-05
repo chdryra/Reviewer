@@ -10,11 +10,12 @@ package com.chdryra.android.reviewer.View.Configs;
 
 import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCriterionList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
+import com.chdryra.android.reviewer.View.GvDataModel.GvDateList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvFactList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvLocationList;
+import com.chdryra.android.reviewer.View.GvDataModel.GvSubjectList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvTagList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvUrlList;
 import com.chdryra.android.reviewer.View.Launcher.FactoryLaunchable;
@@ -37,25 +38,30 @@ import java.util.Map;
  * </p>
  */
 public final class ConfigGvDataUi {
-    public static final ArrayList<GvDataType<? extends GvData>> TYPES = new ArrayList<>();
+    public static final ArrayList<GvDataType> BUILD_TYPES = new ArrayList<>();
+    public static final ArrayList<GvDataType> ALL_TYPES = new ArrayList<>();
     private static final int DATA_ADD  = 2718;
     private static final int DATA_EDIT = 2819;
     private static ConfigGvDataUi sConfigGvDataUi;
 
     static {
-        TYPES.add(GvCommentList.GvComment.TYPE);
-        TYPES.add(GvFactList.GvFact.TYPE);
-        TYPES.add(GvLocationList.GvLocation.TYPE);
-        TYPES.add(GvImageList.GvImage.TYPE);
-        TYPES.add(GvUrlList.GvUrl.TYPE);
-        TYPES.add(GvTagList.GvTag.TYPE);
-        TYPES.add(GvCriterionList.GvCriterion.TYPE);
+        BUILD_TYPES.add(GvCommentList.GvComment.TYPE);
+        BUILD_TYPES.add(GvFactList.GvFact.TYPE);
+        BUILD_TYPES.add(GvLocationList.GvLocation.TYPE);
+        BUILD_TYPES.add(GvImageList.GvImage.TYPE);
+        BUILD_TYPES.add(GvUrlList.GvUrl.TYPE);
+        BUILD_TYPES.add(GvTagList.GvTag.TYPE);
+        BUILD_TYPES.add(GvCriterionList.GvCriterion.TYPE);
+
+        ALL_TYPES.addAll(BUILD_TYPES);
+        ALL_TYPES.add(GvSubjectList.GvSubject.TYPE);
+        ALL_TYPES.add(GvDateList.GvDate.TYPE);
     }
 
     private final Map<GvDataType, Config> mConfigsMap = new HashMap<>();
 
     private ConfigGvDataUi() {
-        for (GvDataType type : TYPES) {
+        for (GvDataType type : ALL_TYPES) {
             mConfigsMap.put(type, new Config(type));
         }
     }

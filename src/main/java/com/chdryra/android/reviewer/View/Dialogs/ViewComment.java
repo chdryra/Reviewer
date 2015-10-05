@@ -19,8 +19,8 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ViewComment extends DialogLayout<GvCommentList.GvComment> {
-    public static final int   LAYOUT  = R.layout.dialog_comment_view;
-    public static final int   COMMENT = R.id.comment_text_view;
+    public static final int   LAYOUT  = R.layout.dialog_text_view;
+    public static final int   COMMENT = R.id.medium_text_view;
     public static final int[] VIEWS   = new int[]{COMMENT};
 
     public ViewComment() {

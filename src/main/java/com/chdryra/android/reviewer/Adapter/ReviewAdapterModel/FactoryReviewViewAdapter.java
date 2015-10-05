@@ -14,11 +14,14 @@ import com.chdryra.android.reviewer.ApplicationSingletons.Administrator;
 import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
 import com.chdryra.android.reviewer.Model.TagsModel.TagsManager;
 import com.chdryra.android.reviewer.ReviewsProviderModel.ReviewsRepository;
+import com.chdryra.android.reviewer.View.GvDataModel.GvCanonical;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCanonicalCollection;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCriterionList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataCollection;
+import com.chdryra.android.reviewer.View.GvDataModel.GvFactList;
+import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvReviewOverviewList;
 
 /**
@@ -46,25 +49,42 @@ public class FactoryReviewViewAdapter {
         return newGvDataCollectionAdapter(parent, data, new ExpanderToData<T>(context, parent));
     }
 
-    public static <T extends GvData> ReviewViewAdapter<? extends GvData> newExpandToReviewsAdapter(
+    public static <T extends GvData> ReviewViewAdapter newExpandToReviewsAdapterForCanonical(
+            Context context, GvCanonicalCollection<T> data, String subject) {
+        if (data.getGvDataType() == GvCommentList.GvComment.TYPE) {
+            //TODO make type safe
+            ReviewNode node = getRepository(context).createMetaReview(data, subject);
+            return new AdapterCommentsAggregate(context, node,
+                    (GvCanonicalCollection<GvCommentList.GvComment>) data);
+        }
+
+        ExpanderToReviews<GvCanonical> expander;
+        if (data.getGvDataType() == GvCriterionList.GvCriterion.TYPE) {
+            expander = new ExpanderCriteria(context);
+        } else if(data.getGvDataType() == GvFactList.GvFact.TYPE) {
+            expander = new ExpanderFacts(context);
+        } else if(data.getGvDataType() == GvImageList.GvImage.TYPE) {
+            expander = new ExpanderImages(context);
+        } else {
+            expander = new ExpanderToReviews<>(context);
+        }
+
+        ViewerGvDataCollection<GvCanonical> viewer = new ViewerGvDataCollection<>(expander, data);
+        return newExpandToReviewsAdapter(context, data, subject, viewer);
+    }
+
+    public static <T extends GvData> ReviewViewAdapter newExpandToReviewsAdapter(
             Context context, GvDataCollection<T> data, String subject) {
         ExpanderToReviews<T> expander = new ExpanderToReviews<>(context);
-        ViewerGvDataCollection<T> wrapper = new ViewerGvDataCollection<>(expander, data);
-        ReviewNode node = getRepository(context).createMetaReview(data, subject);
-        return new AdapterReviewNode<>(node, wrapper);
+        ViewerGvDataCollection<T> viewer = new ViewerGvDataCollection<>(expander, data);
+        return newExpandToReviewsAdapter(context, data, subject, viewer);
     }
 
-    public static ReviewViewAdapter<? extends GvData> newExpandToReviewsAdapterForComments(
-            Context context, GvCanonicalCollection<GvCommentList.GvComment> data, String subject) {
+    private static <T extends GvData> ReviewViewAdapter newExpandToReviewsAdapter(
+            Context context, GvDataCollection<T> data, String subject,
+            ViewerGvDataCollection<T> viewer) {
         ReviewNode node = getRepository(context).createMetaReview(data, subject);
-        return new AdapterCommentsAggregate(context, node, data);
-    }
-
-    public static ReviewViewAdapter<? extends GvData> newExpandToCriteriaModeAdapter(
-            Context context, GvCanonicalCollection<GvCriterionList.GvCriterion> data, String
-            subject) {
-        ReviewNode node = getRepository(context).createMetaReview(data, subject);
-        return new AdapterCriteriaAggregate(context, node, data);
+        return new AdapterReviewNode<>(node, viewer);
     }
 
     private static <T extends GvData> ReviewViewAdapter

@@ -7,7 +7,7 @@
   -->
 
 <TextView
-    android:id="@+id/comment_text_view"
+    android:id="@+id/medium_text_view"
     style="@style/TextView"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:gravity="top"/>

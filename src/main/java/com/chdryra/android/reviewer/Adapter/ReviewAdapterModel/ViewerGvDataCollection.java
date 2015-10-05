@@ -27,6 +27,10 @@ public class ViewerGvDataCollection<T extends GvData> implements GridDataViewer<
         setData(data);
     }
 
+    protected GvDataCollection<T> getData() {
+        return mData;
+    }
+
     @Override
     public GvDataList<T> getGridData() {
         return mData.toList();
@@ -38,12 +42,12 @@ public class ViewerGvDataCollection<T extends GvData> implements GridDataViewer<
     }
 
     @Override
-    public ReviewViewAdapter<? extends GvData> expandGridCell(T datum) {
+    public ReviewViewAdapter expandGridCell(T datum) {
         return mExpander.expandGridCell(datum);
     }
 
     @Override
-    public ReviewViewAdapter<? extends GvData> expandGridData() {
+    public ReviewViewAdapter expandGridData() {
         return mExpander.expandGridData();
     }
 

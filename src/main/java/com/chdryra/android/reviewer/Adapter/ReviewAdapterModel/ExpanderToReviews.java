@@ -23,15 +23,17 @@ public class ExpanderToReviews<T extends GvData> implements GridDataExpander<T> 
         mContext = context;
     }
 
+    protected Context getContext() {
+        return mContext;
+    }
+
     @Override
     public boolean isExpandable(T datum) {
         boolean isExpandable = false;
-        if (datum.hasElements()) {
-            for (int i = 0; i < mData.size(); ++i) {
-                T item = mData.getItem(i);
-                isExpandable = item.equals(datum);
-                if (isExpandable) break;
-            }
+        for (int i = 0; i < mData.size(); ++i) {
+            T item = mData.getItem(i);
+            isExpandable = item.equals(datum);
+            if (isExpandable) break;
         }
 
         return isExpandable;
@@ -42,7 +44,7 @@ public class ExpanderToReviews<T extends GvData> implements GridDataExpander<T> 
         if (isExpandable(datum)) {
             String title = datum.getStringSummary();
             ReviewsRepository repo = getRepository();
-            ReviewNode meta = repo.createMetaReview((GvDataCollection) datum, title);
+            ReviewNode meta = repo.createMetaReview(datum, title);
             if (meta != null) return getReviewsScreen(meta, repo.getTagsManager());
         }
 

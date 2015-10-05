@@ -16,9 +16,11 @@ import com.chdryra.android.reviewer.View.Dialogs.DialogGvDataView;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCriterionList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
+import com.chdryra.android.reviewer.View.GvDataModel.GvDateList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvFactList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvLocationList;
+import com.chdryra.android.reviewer.View.GvDataModel.GvSubjectList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvTagList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvUrlList;
 import com.chdryra.android.reviewer.View.Launcher.LaunchableUi;
@@ -55,6 +57,10 @@ public final class ConfigGvDataAddEditView {
         mMap.put(GvUrlList.GvUrl.TYPE,
                 new AddEditViewUis(ActivityEditUrlBrowser.class, ActivityEditUrlBrowser.class,
                         ActivityEditUrlBrowser.class));
+        mMap.put(GvSubjectList.GvSubject.TYPE,
+                new AddEditViewUis(null, null, ViewSubject.class));
+        mMap.put(GvDateList.GvDate.TYPE,
+                new AddEditViewUis(null, null, ViewDate.class));
     }
 
     public static Class<? extends LaunchableUi> getAddClass(GvDataType dataType) {
@@ -197,6 +203,20 @@ public final class ConfigGvDataAddEditView {
     public static class ViewLocation extends DialogGvDataView<GvLocationList.GvLocation> {
         public ViewLocation() {
             super(GvLocationList.GvLocation.TYPE);
+        }
+    }
+
+    //Subject
+    public static class ViewSubject extends DialogGvDataView<GvSubjectList.GvSubject> {
+        public ViewSubject() {
+            super(GvSubjectList.GvSubject.TYPE);
+        }
+    }
+
+    //Date
+    public static class ViewDate extends DialogGvDataView<GvDateList.GvDate> {
+        public ViewDate() {
+            super(GvDateList.GvDate.TYPE);
         }
     }
 

@@ -129,7 +129,7 @@ public class GvCommentList extends GvDataList<GvCommentList.GvComment> {
 
         @Override
         public String getStringSummary() {
-            return getUnsplitComment().getHeadline() + "...";
+            return getUnsplitComment().getHeadline();
         }
 
         @Override
@@ -140,6 +140,11 @@ public class GvCommentList extends GvDataList<GvCommentList.GvComment> {
         @Override
         public boolean isHeadline() {
             return mIsHeadline;
+        }
+
+        @Override
+        public String toString() {
+            return getComment();
         }
 
         public void setIsHeadline(boolean isHeadline) {

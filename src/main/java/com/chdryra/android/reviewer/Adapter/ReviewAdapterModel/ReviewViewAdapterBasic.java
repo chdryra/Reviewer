@@ -68,18 +68,19 @@ public abstract class ReviewViewAdapterBasic<T extends GvData> implements Review
     }
 
     @Override
-    public ReviewViewAdapter<? extends GvData> expandGridCell(T datum) {
+    public ReviewViewAdapter expandGridCell(T datum) {
         return isExpandable(datum) ? mWrapper.expandGridCell(datum) : null;
     }
 
     @Override
-    public ReviewViewAdapter<? extends GvData> expandGridData() {
+    public ReviewViewAdapter expandGridData() {
         return mWrapper.expandGridData();
     }
 
     @Override
     public void setData(GvDataCollection<T> data) {
         if (mWrapper != null) mWrapper.setData(data);
+        notifyGridDataObservers();
     }
 
     public void setWrapper(GridDataViewer<T> wrapper) {
