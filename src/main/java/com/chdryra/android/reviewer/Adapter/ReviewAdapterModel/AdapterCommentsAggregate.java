@@ -3,6 +3,7 @@ package com.chdryra.android.reviewer.Adapter.ReviewAdapterModel;
 import android.content.Context;
 
 import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
+import com.chdryra.android.reviewer.ReviewsProviderModel.ReviewsRepository;
 import com.chdryra.android.reviewer.View.GvDataAggregation.Aggregater;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCanonical;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCanonicalCollection;
@@ -18,11 +19,13 @@ public class AdapterCommentsAggregate extends AdapterReviewNode<GvCanonical> {
     private GvCanonicalCollection<GvCommentList.GvComment> mCommentsSplit;
 
     public AdapterCommentsAggregate(Context context, ReviewNode node,
-                                    GvCanonicalCollection<GvCommentList.GvComment> comments) {
+                                    GvCanonicalCollection<GvCommentList.GvComment> comments,
+                                    ReviewsRepository repository) {
         super(node);
         mComments = comments;
-        ExpanderToReviews<GvCanonical> expander = new ExpanderToReviews<>(context);
-        setViewer(new ViewerGvDataCollection<>(expander, mComments));
+        ViewerToReviews<GvCanonical> viewer = new ViewerToReviews<>(context, repository);
+        viewer.setData(mComments);
+        setViewer(viewer);
         setSplit(false);
     }
 

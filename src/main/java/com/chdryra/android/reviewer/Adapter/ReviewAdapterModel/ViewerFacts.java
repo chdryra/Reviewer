@@ -2,6 +2,7 @@ package com.chdryra.android.reviewer.Adapter.ReviewAdapterModel;
 
 import android.content.Context;
 
+import com.chdryra.android.reviewer.ReviewsProviderModel.ReviewsRepository;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCanonical;
 import com.chdryra.android.reviewer.View.GvDataModel.GvFactList;
 
@@ -10,9 +11,9 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvFactList;
  * On: 05/10/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ExpanderFacts extends ExpanderToReviews<GvCanonical> {
-    public ExpanderFacts(Context context) {
-        super(context);
+public class ViewerFacts extends ViewerToReviews<GvCanonical> {
+    public ViewerFacts(Context context, ReviewsRepository repository) {
+        super(context, repository);
     }
 
     @Override
@@ -30,6 +31,6 @@ public class ExpanderFacts extends ExpanderToReviews<GvCanonical> {
 
         GvFactList.GvFact canonical = (GvFactList.GvFact) datum.getCanonical();
         return FactoryReviewViewAdapter.newExpandToReviewsAdapter(getContext(), datum.toList(),
-                canonical.getLabel());
+                getReviewsRepository(), canonical.getLabel());
     }
 }

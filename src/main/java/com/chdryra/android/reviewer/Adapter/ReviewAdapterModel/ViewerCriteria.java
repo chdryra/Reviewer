@@ -2,6 +2,7 @@ package com.chdryra.android.reviewer.Adapter.ReviewAdapterModel;
 
 import android.content.Context;
 
+import com.chdryra.android.reviewer.ReviewsProviderModel.ReviewsRepository;
 import com.chdryra.android.reviewer.View.GvDataAggregation.Aggregater;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCanonical;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCanonicalCollection;
@@ -12,9 +13,9 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvCriterionList;
  * On: 05/10/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ExpanderCriteria extends ExpanderToReviews<GvCanonical> {
-    public ExpanderCriteria(Context context) {
-        super(context);
+public class ViewerCriteria extends ViewerToReviews<GvCanonical> {
+    public ViewerCriteria(Context context, ReviewsRepository repository) {
+        super(context, repository);
     }
 
     @Override
@@ -45,6 +46,6 @@ public class ExpanderCriteria extends ExpanderToReviews<GvCanonical> {
         String diff = diffSubject > 0 ? " + " + String.valueOf(diffSubject) : "";
         String subject = refSubject + diff;
         return FactoryReviewViewAdapter.newExpandToReviewsAdapterForAggregate(getContext(),
-                newAggregate, subject);
+                newAggregate, getReviewsRepository(), subject);
     }
 }

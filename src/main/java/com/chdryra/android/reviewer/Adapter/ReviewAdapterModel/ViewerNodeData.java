@@ -13,6 +13,7 @@ import android.content.Context;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.MdGvConverter;
 import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
 import com.chdryra.android.reviewer.Model.TagsModel.TagsManager;
+import com.chdryra.android.reviewer.ReviewsProviderModel.ReviewsRepository;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataCollection;
 import com.chdryra.android.reviewer.View.GvDataModel.GvList;
@@ -34,13 +35,13 @@ import com.chdryra.android.reviewer.View.Screens.ReviewListScreen;
 public class ViewerNodeData implements GridDataViewer<GvData> {
     private Context mContext;
     private ReviewNode mNode;
-    private TagsManager mTagsManager;
+    private ReviewsRepository mRepository;
     private GvList mCache;
 
-    public ViewerNodeData(Context context, ReviewNode node, TagsManager tagsManager) {
+    public ViewerNodeData(Context context, ReviewNode node, ReviewsRepository repository) {
         mContext = context;
         mNode = node;
-        mTagsManager = tagsManager;
+        mRepository = repository;
     }
 
     @Override
@@ -95,14 +96,14 @@ public class ViewerNodeData implements GridDataViewer<GvData> {
         return mNode;
     }
 
-    protected TagsManager getTagsManager() {
-        return mTagsManager;
+    protected ReviewsRepository getRepository() {
+        return mRepository;
     }
 
     protected GvList makeGridData() {
         GvReviewId id = GvReviewId.getId(mNode.getId().toString());
         GvList data = new GvList(id);
-        TagCollector tagCollector = new TagCollector(mNode, mTagsManager);
+        TagCollector tagCollector = new TagCollector(mNode, mRepository.getTagsManager());
 
         data.add(tagCollector.collectTags());
         data.add(MdGvConverter.convert(mNode.getCriteria()));
@@ -115,10 +116,10 @@ public class ViewerNodeData implements GridDataViewer<GvData> {
     }
 
     protected ReviewViewAdapter expandReviews() {
-        return ReviewListScreen.newScreen(mContext, mNode.getReview(), mTagsManager).getAdapter();
+        return ReviewListScreen.newScreen(mContext, mNode.getReview(), mRepository).getAdapter();
     }
 
     protected ReviewViewAdapter expandData(GvDataCollection data) {
-        return FactoryReviewViewAdapter.newExpandToDataAdapter(mContext, mNode, data);
+        return FactoryReviewViewAdapter.newExpandToDataAdapter(mContext, mNode, data, mRepository);
     }
 }

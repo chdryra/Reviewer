@@ -13,7 +13,6 @@ import android.content.Context;
 import com.chdryra.android.reviewer.ApplicationSingletons.Administrator;
 import com.chdryra.android.reviewer.Model.ReviewData.IdableList;
 import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
-import com.chdryra.android.reviewer.Model.TagsModel.TagsManager;
 import com.chdryra.android.reviewer.ReviewsProviderModel.ReviewsRepository;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCanonical;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCanonicalCollection;
@@ -36,65 +35,60 @@ public class FactoryReviewViewAdapter {
     }
 
     public static AdapterReviewNode<GvReviewOverviewList.GvReviewOverview>
-    newChildListAdapter(Context context, ReviewNode node, TagsManager tagsManager) {
-        return new AdapterReviewNode<>(node, new ViewerChildList(context, node, tagsManager));
+    newChildListAdapter(Context context, ReviewNode node, ReviewsRepository repository) {
+        return new AdapterReviewNode<>(node, new ViewerChildList(context, node, repository));
     }
 
     public static ReviewViewAdapter<GvData> newTreeDataAdapter(Context context, ReviewNode node,
-                                                               TagsManager tagsManager) {
+                                                               ReviewsRepository repository) {
         IdableList<ReviewNode> children = node.getChildren();
 
         GridDataViewer<GvData> viewer;
         if(children.size() > 1) {
-            viewer = new ViewerTreeData(context, node, tagsManager);
+            viewer = new ViewerTreeData(context, node, repository);
         } else {
             ReviewNode review = children.size() == 0 ? node : children.getItem(0);
-            viewer = new ViewerNodeData(context, review, tagsManager);
+            viewer = new ViewerNodeData(context, review, repository);
         }
 
         return new AdapterReviewNode<>(node, viewer);
     }
 
     public static <T extends GvData> ReviewViewAdapter newExpandToDataAdapter(
-            Context context, ReviewViewAdapter parent, GvDataCollection<T> data) {
-        return newGvDataCollectionAdapter(parent, data, new ExpanderToData<T>(context, parent));
-    }
-
-    public static <T extends GvData> ReviewViewAdapter newExpandToDataAdapter(
-            Context context, ReviewNode parent, GvDataCollection<T> data) {
-        ExpanderToData2<T> expander = new ExpanderToData2<>(context, parent);
-        ViewerGvDataCollection<T> wrapper = new ViewerGvDataCollection<>(expander, data);
-        return new AdapterReviewNode<>(parent, wrapper);
+            Context context, ReviewNode parent, GvDataCollection<T> data, ReviewsRepository repository) {
+        GridDataViewer<T> viewer = new ViewerToData<>(context, parent, repository);
+        viewer.setData(data);
+        return new AdapterReviewNode<>(parent, viewer);
     }
 
     public static <T extends GvData> ReviewViewAdapter newExpandToReviewsAdapterForAggregate(
-            Context context, GvCanonicalCollection<T> data, String subject) {
+            Context context, GvCanonicalCollection<T> data, ReviewsRepository repository, String subject) {
         if (data.getGvDataType() == GvCommentList.GvComment.TYPE) {
             //TODO make type safe
             ReviewNode node = getRepository(context).createMetaReview(data, subject);
             return new AdapterCommentsAggregate(context, node,
-                    (GvCanonicalCollection<GvCommentList.GvComment>) data);
+                    (GvCanonicalCollection<GvCommentList.GvComment>) data, repository);
         }
 
-        ExpanderToReviews<GvCanonical> expander;
+        ViewerToReviews<GvCanonical> viewer;
         if (data.getGvDataType() == GvCriterionList.GvCriterion.TYPE) {
-            expander = new ExpanderCriteria(context);
+            viewer = new ViewerCriteria(context, repository);
         } else if(data.getGvDataType() == GvFactList.GvFact.TYPE) {
-            expander = new ExpanderFacts(context);
+            viewer = new ViewerFacts(context, repository);
         } else if(data.getGvDataType() == GvImageList.GvImage.TYPE) {
-            expander = new ExpanderImages(context);
+            viewer = new ViewerImages(context, repository);
         } else {
-            expander = new ExpanderToReviews<>(context);
+            viewer = new ViewerToReviews<>(context, repository);
         }
 
-        ViewerGvDataCollection<GvCanonical> viewer = new ViewerGvDataCollection<>(expander, data);
+        viewer.setData(data);
         return newExpandToReviewsAdapter(context, data, subject, viewer);
     }
 
     public static <T extends GvData> ReviewViewAdapter newExpandToReviewsAdapter(
-            Context context, GvDataCollection<T> data, String subject) {
-        ExpanderToReviews<T> expander = new ExpanderToReviews<>(context);
-        ViewerGvDataCollection<T> viewer = new ViewerGvDataCollection<>(expander, data);
+            Context context, GvDataCollection<T> data, ReviewsRepository repository, String subject) {
+        ViewerToReviews<T> viewer = new ViewerToReviews<>(context, repository);
+        viewer.setData(data);
         return newExpandToReviewsAdapter(context, data, subject, viewer);
     }
 
@@ -103,13 +97,6 @@ public class FactoryReviewViewAdapter {
             GridDataViewer<T> viewer) {
         ReviewNode node = getRepository(context).createMetaReview(data, subject);
         return new AdapterReviewNode<>(node, viewer);
-    }
-
-    private static <T extends GvData> ReviewViewAdapter
-    newGvDataCollectionAdapter(ReviewViewAdapter parent, GvDataCollection<T> data,
-                               GridDataExpander<T> expander) {
-        ViewerGvDataCollection<T> wrapper = new ViewerGvDataCollection<>(expander, data);
-        return new AdapterReviewViewAdapter<>(parent, wrapper);
     }
 
     private static ReviewsRepository getRepository(Context context) {

@@ -17,22 +17,14 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
  * On: 12/05/2015
  * Email: rizwan.choudrey@gmail.com
  */
-
-/**
- *
- */
-public interface GridDataViewer<T extends GvData> extends GridDataExpander<T> {
+public interface GridDataViewer<T extends GvData> {
     GvDataList<T> getGridData();
 
-    @Override
     boolean isExpandable(T datum);
 
-    @Override
     ReviewViewAdapter expandGridCell(T datum);
 
-    @Override
     ReviewViewAdapter expandGridData();
 
-    @Override
     void setData(GvDataCollection<T> data);
 }

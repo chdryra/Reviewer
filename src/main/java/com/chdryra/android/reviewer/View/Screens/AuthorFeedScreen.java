@@ -25,8 +25,8 @@ import com.chdryra.android.reviewer.Model.ReviewStructure.Review;
 import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewTreeNode;
 import com.chdryra.android.reviewer.Model.UserData.Author;
 import com.chdryra.android.reviewer.R;
-import com.chdryra.android.reviewer.ReviewsProviderModel.ReviewsProvider;
 import com.chdryra.android.reviewer.ReviewsProviderModel.ReviewsProviderObserver;
+import com.chdryra.android.reviewer.ReviewsProviderModel.ReviewsRepository;
 import com.chdryra.android.reviewer.View.Dialogs.DialogShower;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataPacker;
@@ -46,23 +46,23 @@ public class AuthorFeedScreen implements ReviewsProviderObserver {
     private ReviewTreeNode mNode;
     private ReviewView        mReviewView;
 
-    private AuthorFeedScreen(Context context, ReviewsProvider provider, Author author) {
+    private AuthorFeedScreen(Context context, ReviewsRepository repository, Author author) {
         String title = author.getName() + "'s feed";
         ReviewPublisher publisher = new ReviewPublisher(author, PublishDate.now());
         Review root = FactoryReview.createReviewUser(publisher, title, 0f);
         mNode = FactoryReview.createReviewTreeNode(root, true);
-        for(Review review : provider.getReviews()) {
+        for(Review review : repository.getReviews()) {
             addReview(review);
         }
 
         mReviewView = ReviewListScreen.newScreen(context, mNode
-                , provider.getTagsManager(), new GridItem(), new FeedScreenMenu());
+                , repository, new GridItem(), new FeedScreenMenu());
 
-        provider.registerObserver(this);
+        repository.registerObserver(this);
     }
 
     public static ReviewView newScreen(Context context) {
-        ReviewsProvider provider = Administrator.get(context).getReviewsRepository();
+        ReviewsRepository provider = Administrator.get(context).getReviewsRepository();
         Author author = Administrator.get(context).getAuthor();
         AuthorFeedScreen screen = new AuthorFeedScreen(context, provider, author);
         return screen.getReviewView();

@@ -7,7 +7,7 @@ import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewAdapter
 import com.chdryra.android.reviewer.Model.ReviewStructure.FactoryReview;
 import com.chdryra.android.reviewer.Model.ReviewStructure.Review;
 import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
-import com.chdryra.android.reviewer.Model.TagsModel.TagsManager;
+import com.chdryra.android.reviewer.ReviewsProviderModel.ReviewsRepository;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 
 /**
@@ -18,11 +18,11 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 public class ReviewListScreen {
     private ReviewView mReviewView;
 
-    private ReviewListScreen(Context context, ReviewNode node, TagsManager tagsManager,
+    private ReviewListScreen(Context context, ReviewNode node, ReviewsRepository repository,
                              ReviewViewAction.GridItemAction giAction,
                              ReviewViewAction.MenuAction menuAction) {
         ReviewViewAdapter<? extends GvData> adapter =
-                FactoryReviewViewAdapter.newChildListAdapter(context, node, tagsManager);
+                FactoryReviewViewAdapter.newChildListAdapter(context, node, repository);
 
         ReviewViewActionCollection actions = new ReviewViewActionCollection();
         actions.setAction(giAction);
@@ -39,20 +39,20 @@ public class ReviewListScreen {
         mReviewView = new ReviewView(perspective);
     }
 
-    public static ReviewView newScreen(Context context, ReviewNode node, TagsManager tagsManager,
+    public static ReviewView newScreen(Context context, ReviewNode node, ReviewsRepository repository,
                                        ReviewViewAction.GridItemAction giAction,
                                        ReviewViewAction.MenuAction menuAction) {
-        return new ReviewListScreen(context, node, tagsManager, giAction, menuAction)
+        return new ReviewListScreen(context, node, repository, giAction, menuAction)
                 .getReviewView();
     }
 
-    public static ReviewView newScreen(Context context, ReviewNode node, TagsManager tagsManager) {
-        return new ReviewListScreen(context, node, tagsManager, new GiLaunchReviewDataScreen(),
+    public static ReviewView newScreen(Context context, ReviewNode node, ReviewsRepository repository) {
+        return new ReviewListScreen(context, node, repository, new GiLaunchReviewDataScreen(),
                 null).getReviewView();
     }
 
-    public static ReviewView newScreen(Context context, Review review, TagsManager tagsManager) {
-        return newScreen(context, FactoryReview.createMetaReview(review), tagsManager);
+    public static ReviewView newScreen(Context context, Review review, ReviewsRepository repository) {
+        return newScreen(context, FactoryReview.createMetaReview(review), repository);
     }
 
     private ReviewView getReviewView() {

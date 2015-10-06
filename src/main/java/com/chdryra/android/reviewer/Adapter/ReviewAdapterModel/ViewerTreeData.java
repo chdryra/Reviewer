@@ -4,7 +4,7 @@ import android.content.Context;
 
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.MdGvConverter;
 import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
-import com.chdryra.android.reviewer.Model.TagsModel.TagsManager;
+import com.chdryra.android.reviewer.ReviewsProviderModel.ReviewsRepository;
 import com.chdryra.android.reviewer.View.GvDataAggregation.Aggregater;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCanonicalCollection;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataCollection;
@@ -18,21 +18,20 @@ import com.chdryra.android.reviewer.View.Screens.ReviewListScreen;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ViewerTreeData extends ViewerNodeData {
-
-    public ViewerTreeData(Context context, ReviewNode node, TagsManager tagsManager) {
-        super(context, node, tagsManager);
+    public ViewerTreeData(Context context, ReviewNode node, ReviewsRepository repository) {
+        super(context, node, repository);
     }
 
     @Override
     protected GvList makeGridData() {
         ReviewNode node = getReviewNode();
-        TagsManager tagsManager = getTagsManager();
+        ReviewsRepository repository = getRepository();
 
         GvReviewId id = GvReviewId.getId(node.getId().toString());
         GvList data = new GvList(id);
 
-        TagCollector tagCollector = new TagCollector(node, tagsManager);
-        ViewerChildList wrapper = new ViewerChildList(getContext(), node, tagsManager);
+        TagCollector tagCollector = new TagCollector(node, repository.getTagsManager());
+        ViewerChildList wrapper = new ViewerChildList(getContext(), node, repository);
 
         data.add(wrapper.getGridData());
         data.add(Aggregater.aggregate(MdGvConverter.convertChildAuthors(node)));
@@ -51,13 +50,13 @@ public class ViewerTreeData extends ViewerNodeData {
 
     @Override
     protected ReviewViewAdapter expandReviews() {
-        return ReviewListScreen.newScreen(getContext(), getReviewNode(), getTagsManager()).getAdapter();
+        return ReviewListScreen.newScreen(getContext(), getReviewNode(), getRepository()).getAdapter();
     }
 
     @Override
     protected ReviewViewAdapter expandData(GvDataCollection data) {
         String subject = data.getStringSummary();
         return FactoryReviewViewAdapter.newExpandToReviewsAdapterForAggregate(getContext(),
-                (GvCanonicalCollection) data, subject);
+                (GvCanonicalCollection) data, getRepository(), subject);
     }
 }

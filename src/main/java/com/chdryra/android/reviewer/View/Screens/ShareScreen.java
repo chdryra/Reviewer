@@ -18,14 +18,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.FactoryReviewViewAdapter;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.GridDataViewer;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilderAdapter;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewAdapter;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewAdapterBasic;
 import com.chdryra.android.reviewer.ApplicationSingletons.Administrator;
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.View.ActivitiesFragments.ActivityFeed;
 import com.chdryra.android.reviewer.View.ActivitiesFragments.FragmentReviewView;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
+import com.chdryra.android.reviewer.View.GvDataModel.GvDataCollection;
+import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
+import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvSocialPlatformList;
 
 /**
@@ -37,10 +41,8 @@ public class ShareScreen {
     public static ReviewView newScreen(Context context) {
         Administrator admin = Administrator.get(context);
         ReviewBuilderAdapter builder = admin.getReviewBuilder();
-        GvSocialPlatformList platforms = admin.getSocialPlatformList();
 
-        ReviewViewAdapter adapter = FactoryReviewViewAdapter.newExpandToDataAdapter(context,
-                builder, platforms);
+        ReviewViewAdapter adapter = new ShareScreenAdapter(context, builder);
 
         ReviewViewActionCollection actions = new ReviewViewActionCollection();
         String title = context.getResources().getString(R.string.button_social);
@@ -94,6 +96,65 @@ public class ShareScreen {
             parent.addView(divider);
 
             return v;
+        }
+    }
+
+    private static class ShareScreenAdapter extends ReviewViewAdapterBasic<GvSocialPlatformList.GvSocialPlatform> {
+        private ReviewBuilderAdapter mBuilder;
+        private Context mContext;
+
+        private ShareScreenAdapter(Context context, ReviewBuilderAdapter builder) {
+            mBuilder = builder;
+            mContext = context;
+            setViewer(new ShareScreenViewer());
+        }
+
+        @Override
+        public String getSubject() {
+            return mBuilder.getSubject();
+        }
+
+        @Override
+        public float getRating() {
+            return mBuilder.getRating();
+        }
+
+        @Override
+        public float getAverageRating() {
+            return mBuilder.getAverageRating();
+        }
+
+        @Override
+        public GvImageList getCovers() {
+            return mBuilder.getCovers();
+        }
+
+        private class ShareScreenViewer implements GridDataViewer<GvSocialPlatformList.GvSocialPlatform> {
+
+            @Override
+            public GvDataList<GvSocialPlatformList.GvSocialPlatform> getGridData() {
+                return Administrator.get(mContext).getSocialPlatformList();
+            }
+
+            @Override
+            public boolean isExpandable(GvSocialPlatformList.GvSocialPlatform datum) {
+                return false;
+            }
+
+            @Override
+            public ReviewViewAdapter expandGridCell(GvSocialPlatformList.GvSocialPlatform datum) {
+                return null;
+            }
+
+            @Override
+            public ReviewViewAdapter expandGridData() {
+                return null;
+            }
+
+            @Override
+            public void setData(GvDataCollection<GvSocialPlatformList.GvSocialPlatform> data) {
+
+            }
         }
     }
 }

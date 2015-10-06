@@ -13,7 +13,7 @@ import android.content.Context;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.MdGvConverter;
 import com.chdryra.android.reviewer.Model.ReviewData.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
-import com.chdryra.android.reviewer.Model.TagsModel.TagsManager;
+import com.chdryra.android.reviewer.ReviewsProviderModel.ReviewsRepository;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataCollection;
 import com.chdryra.android.reviewer.View.GvDataModel.GvReviewOverviewList;
 
@@ -29,17 +29,17 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvReviewOverviewList;
 public class ViewerChildList implements GridDataViewer<GvReviewOverviewList.GvReviewOverview> {
     private Context mContext;
     private ReviewNode mNode;
-    private TagsManager mTagsManager;
+    private ReviewsRepository mRepository;
 
-    public ViewerChildList(Context context, ReviewNode node, TagsManager tagsManager) {
+    public ViewerChildList(Context context, ReviewNode node, ReviewsRepository repository) {
         mContext = context;
         mNode = node;
-        mTagsManager = tagsManager;
+        mRepository = repository;
     }
 
     @Override
     public GvReviewOverviewList getGridData() {
-        return MdGvConverter.convert(mNode.getChildren(), mNode.getId(), mTagsManager);
+        return MdGvConverter.convert(mNode.getChildren(), mNode.getId(), mRepository.getTagsManager());
     }
 
     @Override
@@ -53,7 +53,7 @@ public class ViewerChildList implements GridDataViewer<GvReviewOverviewList.GvRe
                                                                       datum) {
         if (isExpandable(datum)) {
             ReviewNode node = mNode.getChildren().get(ReviewId.fromString(datum.getId()));
-            return FactoryReviewViewAdapter.newTreeDataAdapter(mContext, node, mTagsManager);
+            return FactoryReviewViewAdapter.newTreeDataAdapter(mContext, node, mRepository);
         } else {
             return null;
         }
@@ -61,7 +61,7 @@ public class ViewerChildList implements GridDataViewer<GvReviewOverviewList.GvRe
 
     @Override
     public ReviewViewAdapter expandGridData() {
-        return FactoryReviewViewAdapter.newTreeDataAdapter(mContext, mNode, mTagsManager);
+        return FactoryReviewViewAdapter.newTreeDataAdapter(mContext, mNode, mRepository);
     }
 
     @Override
