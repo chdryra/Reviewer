@@ -16,7 +16,6 @@ package com.chdryra.android.reviewer.Adapter.ReviewAdapterModel;
 
 import com.chdryra.android.reviewer.Model.ReviewStructure.Review;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
-import com.chdryra.android.reviewer.View.GvDataModel.GvDataCollection;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
 import com.chdryra.android.reviewer.View.Screens.GridDataObservable;
@@ -59,7 +58,4 @@ public interface ReviewViewAdapter<T extends GvData> extends GridDataObservable,
 
     @Override
     ReviewViewAdapter expandGridData();
-
-    @Override
-    void setData(GvDataCollection<T> data);
 }

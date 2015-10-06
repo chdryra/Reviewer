@@ -9,7 +9,6 @@
 package com.chdryra.android.reviewer.Adapter.ReviewAdapterModel;
 
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
-import com.chdryra.android.reviewer.View.GvDataModel.GvDataCollection;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
 import com.chdryra.android.reviewer.View.Screens.GridDataObservable;
 import com.chdryra.android.reviewer.View.Screens.ReviewView;
@@ -74,13 +73,7 @@ public abstract class ReviewViewAdapterBasic<T extends GvData> implements Review
 
     @Override
     public ReviewViewAdapter expandGridData() {
-        return mWrapper.expandGridData();
-    }
-
-    @Override
-    public void setData(GvDataCollection<T> data) {
-        if (mWrapper != null) mWrapper.setData(data);
-        notifyGridDataObservers();
+        return mWrapper != null ? mWrapper.expandGridData() : null;
     }
 
     public void setViewer(GridDataViewer<T> wrapper) {

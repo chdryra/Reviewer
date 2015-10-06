@@ -19,9 +19,11 @@ public class ViewerToData<T extends GvData> implements GridDataViewer<T> {
     private Context mContext;
     private ReviewsRepository mRepository;
 
-    public ViewerToData(Context context, ReviewNode node, ReviewsRepository repository) {
+    public ViewerToData(Context context, ReviewNode node, GvDataCollection<T> data,
+                        ReviewsRepository repository) {
         mContext = context;
         mNode = node;
+        mData = data;
         mRepository = repository;
     }
 
@@ -32,7 +34,7 @@ public class ViewerToData<T extends GvData> implements GridDataViewer<T> {
 
     @Override
     public boolean isExpandable(T datum) {
-        return datum.hasElements() && mData != null && mData.contains(datum);
+        return datum.hasElements() && mData.contains(datum);
     }
 
     @Override
@@ -49,11 +51,6 @@ public class ViewerToData<T extends GvData> implements GridDataViewer<T> {
     public ReviewViewAdapter expandGridData() {
         ReviewNode meta = mRepository.createMetaReview(mData, mData.getStringSummary());
         return FactoryReviewViewAdapter.newTreeDataAdapter(mContext, meta, mRepository);
-    }
-
-    @Override
-    public void setData(GvDataCollection<T> data) {
-        mData = data;
     }
 }
 

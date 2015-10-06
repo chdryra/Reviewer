@@ -16,11 +16,12 @@ import com.chdryra.android.reviewer.View.Screens.ReviewListScreen;
  */
 public class ViewerToReviews<T extends GvData> implements GridDataViewer<T> {
     private Context mContext;
-    private ReviewsRepository mRepository;
     private GvDataCollection<T> mData;
+    private ReviewsRepository mRepository;
 
-    public ViewerToReviews(Context context, ReviewsRepository repository) {
+    public ViewerToReviews(Context context, GvDataCollection<T> data, ReviewsRepository repository) {
         mContext = context;
+        mData = data;
         mRepository = repository;
     }
 
@@ -31,6 +32,8 @@ public class ViewerToReviews<T extends GvData> implements GridDataViewer<T> {
 
     @Override
     public boolean isExpandable(T datum) {
+        if(mData == null) return false;
+
         boolean isExpandable = false;
         for (int i = 0; i < mData.size(); ++i) {
             T item = mData.getItem(i);
@@ -56,11 +59,6 @@ public class ViewerToReviews<T extends GvData> implements GridDataViewer<T> {
     public ReviewViewAdapter expandGridData() {
         ReviewNode meta = mRepository.createFlattenedMetaReview(mData, mData.getStringSummary());
         return getReviewsScreen(meta);
-    }
-
-    @Override
-    public void setData(GvDataCollection<T> data) {
-        mData = data;
     }
 
     protected Context getContext() {

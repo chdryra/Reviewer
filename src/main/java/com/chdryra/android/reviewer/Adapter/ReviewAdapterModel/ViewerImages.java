@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.chdryra.android.reviewer.ReviewsProviderModel.ReviewsRepository;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCanonical;
+import com.chdryra.android.reviewer.View.GvDataModel.GvCanonicalCollection;
 import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
 
 /**
@@ -12,8 +13,9 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ViewerImages extends ViewerToReviews<GvCanonical> {
-    public ViewerImages(Context context, ReviewsRepository repository) {
-        super(context, repository);
+    public ViewerImages(Context context, GvCanonicalCollection<GvImageList.GvImage> data,
+                        ReviewsRepository repository) {
+        super(context, data, repository);
     }
 
     @Override

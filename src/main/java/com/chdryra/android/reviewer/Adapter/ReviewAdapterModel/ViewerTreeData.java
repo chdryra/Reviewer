@@ -7,9 +7,10 @@ import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
 import com.chdryra.android.reviewer.ReviewsProviderModel.ReviewsRepository;
 import com.chdryra.android.reviewer.View.GvDataAggregation.Aggregater;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCanonicalCollection;
-import com.chdryra.android.reviewer.View.GvDataModel.GvDataCollection;
+import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvReviewId;
+import com.chdryra.android.reviewer.View.GvDataModel.GvReviewOverviewList;
 import com.chdryra.android.reviewer.View.Screens.ReviewListScreen;
 
 /**
@@ -17,9 +18,26 @@ import com.chdryra.android.reviewer.View.Screens.ReviewListScreen;
  * On: 05/10/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ViewerTreeData extends ViewerNodeData {
+public class ViewerTreeData extends ViewerReviewData {
     public ViewerTreeData(Context context, ReviewNode node, ReviewsRepository repository) {
         super(context, node, repository);
+    }
+
+    @Override
+    public ReviewViewAdapter expandGridCell(GvData datum) {
+        ReviewViewAdapter adapter = null;
+        if (isExpandable(datum)) {
+            if (datum.getGvDataType() == GvReviewOverviewList.GvReviewOverview.TYPE) {
+                adapter = ReviewListScreen.newScreen(getContext(), getReviewNode(),
+                        getRepository()).getAdapter();;
+            } else {
+                String subject = datum.getStringSummary();
+                adapter = FactoryReviewViewAdapter.newExpandToReviewsAdapterForAggregate(
+                        getContext(), (GvCanonicalCollection) datum, getRepository(), subject);
+            }
+        }
+
+        return adapter;
     }
 
     @Override
@@ -27,12 +45,10 @@ public class ViewerTreeData extends ViewerNodeData {
         ReviewNode node = getReviewNode();
         ReviewsRepository repository = getRepository();
 
-        GvReviewId id = GvReviewId.getId(node.getId().toString());
-        GvList data = new GvList(id);
-
         TagCollector tagCollector = new TagCollector(node, repository.getTagsManager());
         ViewerChildList wrapper = new ViewerChildList(getContext(), node, repository);
 
+        GvList data = new GvList(GvReviewId.getId(node.getId().toString()));
         data.add(wrapper.getGridData());
         data.add(Aggregater.aggregate(MdGvConverter.convertChildAuthors(node)));
         data.add(Aggregater.aggregate(MdGvConverter.convertChildSubjects(node)));
@@ -46,17 +62,5 @@ public class ViewerTreeData extends ViewerNodeData {
         data.add(Aggregater.aggregate(MdGvConverter.convert(node.getFacts())));
 
         return data;
-    }
-
-    @Override
-    protected ReviewViewAdapter expandReviews() {
-        return ReviewListScreen.newScreen(getContext(), getReviewNode(), getRepository()).getAdapter();
-    }
-
-    @Override
-    protected ReviewViewAdapter expandData(GvDataCollection data) {
-        String subject = data.getStringSummary();
-        return FactoryReviewViewAdapter.newExpandToReviewsAdapterForAggregate(getContext(),
-                (GvCanonicalCollection) data, getRepository(), subject);
     }
 }

@@ -14,8 +14,9 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvCriterionList;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ViewerCriteria extends ViewerToReviews<GvCanonical> {
-    public ViewerCriteria(Context context, ReviewsRepository repository) {
-        super(context, repository);
+    public ViewerCriteria(Context context, GvCanonicalCollection<GvCriterionList.GvCriterion> data,
+                          ReviewsRepository repository) {
+        super(context, data, repository);
     }
 
     @Override

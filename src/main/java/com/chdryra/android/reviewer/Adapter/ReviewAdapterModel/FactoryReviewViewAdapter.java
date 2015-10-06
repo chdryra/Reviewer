@@ -47,8 +47,8 @@ public class FactoryReviewViewAdapter {
         if(children.size() > 1) {
             viewer = new ViewerTreeData(context, node, repository);
         } else {
-            ReviewNode review = children.size() == 0 ? node : children.getItem(0);
-            viewer = new ViewerNodeData(context, review, repository);
+            ReviewNode toExpand = children.size() == 0 ? node : children.getItem(0);
+            viewer = new ViewerTreeData(context, toExpand.expand(), repository);
         }
 
         return new AdapterReviewNode<>(node, viewer);
@@ -56,15 +56,14 @@ public class FactoryReviewViewAdapter {
 
     public static <T extends GvData> ReviewViewAdapter newExpandToDataAdapter(
             Context context, ReviewNode parent, GvDataCollection<T> data, ReviewsRepository repository) {
-        GridDataViewer<T> viewer = new ViewerToData<>(context, parent, repository);
-        viewer.setData(data);
+        GridDataViewer<T> viewer = new ViewerToData<>(context, parent, data, repository);
         return new AdapterReviewNode<>(parent, viewer);
     }
 
+    //TODO make type safe
     public static <T extends GvData> ReviewViewAdapter newExpandToReviewsAdapterForAggregate(
             Context context, GvCanonicalCollection<T> data, ReviewsRepository repository, String subject) {
         if (data.getGvDataType() == GvCommentList.GvComment.TYPE) {
-            //TODO make type safe
             ReviewNode node = getRepository(context).createMetaReview(data, subject);
             return new AdapterCommentsAggregate(context, node,
                     (GvCanonicalCollection<GvCommentList.GvComment>) data, repository);
@@ -72,23 +71,24 @@ public class FactoryReviewViewAdapter {
 
         ViewerToReviews<GvCanonical> viewer;
         if (data.getGvDataType() == GvCriterionList.GvCriterion.TYPE) {
-            viewer = new ViewerCriteria(context, repository);
+            viewer = new ViewerCriteria(context,
+                    (GvCanonicalCollection<GvCriterionList.GvCriterion>) data, repository);
         } else if(data.getGvDataType() == GvFactList.GvFact.TYPE) {
-            viewer = new ViewerFacts(context, repository);
+            viewer = new ViewerFacts(context,
+                    (GvCanonicalCollection<GvFactList.GvFact>) data, repository);
         } else if(data.getGvDataType() == GvImageList.GvImage.TYPE) {
-            viewer = new ViewerImages(context, repository);
+            viewer = new ViewerImages(context,
+                    (GvCanonicalCollection<GvImageList.GvImage>) data, repository);
         } else {
-            viewer = new ViewerToReviews<>(context, repository);
+            viewer = new ViewerToReviews<>(context, data, repository);
         }
 
-        viewer.setData(data);
         return newExpandToReviewsAdapter(context, data, subject, viewer);
     }
 
     public static <T extends GvData> ReviewViewAdapter newExpandToReviewsAdapter(
             Context context, GvDataCollection<T> data, ReviewsRepository repository, String subject) {
-        ViewerToReviews<T> viewer = new ViewerToReviews<>(context, repository);
-        viewer.setData(data);
+        ViewerToReviews<T> viewer = new ViewerToReviews<>(context, data, repository);
         return newExpandToReviewsAdapter(context, data, subject, viewer);
     }
 
