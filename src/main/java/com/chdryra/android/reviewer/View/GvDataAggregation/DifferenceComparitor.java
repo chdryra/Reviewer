@@ -14,5 +14,6 @@ package com.chdryra.android.reviewer.View.GvDataAggregation;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface DifferenceComparitor<T, S extends DifferenceLevel> {
+    //abstract
     S compare(T lhs, T rhs);
 }

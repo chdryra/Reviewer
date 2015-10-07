@@ -26,10 +26,11 @@ import com.chdryra.android.reviewer.R;
  * @param <T>: {@link GvData} type.
  */
 public class GvDataHandler<T extends GvData> {
-    private final GvDataList<T>        mData;
-    private final AddConstraint<T>     mAddConstraint;
+    private final GvDataList<T> mData;
+    private final AddConstraint<T> mAddConstraint;
     private final ReplaceConstraint<T> mReplaceConstraint;
 
+    //Constructors
     public GvDataHandler(GvDataList<T> data) {
         this(data, new AddConstraint<T>());
     }
@@ -39,14 +40,19 @@ public class GvDataHandler<T extends GvData> {
     }
 
     public GvDataHandler(GvDataList<T> data, AddConstraint<T> addConstraint,
-            ReplaceConstraint<T> relaceConstraint) {
+                         ReplaceConstraint<T> relaceConstraint) {
         mData = data;
         mAddConstraint = addConstraint;
         mReplaceConstraint = relaceConstraint;
     }
 
+    //public methods
     public GvDataType<T> getGvDataType() {
         return mData.getGvDataType();
+    }
+
+    public GvDataList<T> getData() {
+        return mData;
     }
 
     public boolean add(T newDatum, Context context) {
@@ -81,10 +87,6 @@ public class GvDataHandler<T extends GvData> {
         mData.removeAll();
     }
 
-    public GvDataList<T> getData() {
-        return mData;
-    }
-
     private void makeToastHasItem(Context context) {
         String toast = context.getResources().getString(R.string.toast_has) + " " + mData
                 .getGvDataType().getDatumName();
@@ -95,6 +97,7 @@ public class GvDataHandler<T extends GvData> {
         return datum != null && datum.isValidForDisplay();
     }
 
+    //Classes
     public static class AddConstraint<G extends GvData> {
         public boolean passes(GvDataList<G> data, G datum) {
             return !data.contains(datum);

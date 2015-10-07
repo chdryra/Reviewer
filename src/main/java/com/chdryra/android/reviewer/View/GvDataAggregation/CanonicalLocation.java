@@ -19,6 +19,7 @@ import com.google.android.gms.maps.model.LatLng;
  * Email: rizwan.choudrey@gmail.com
  */
 public class CanonicalLocation implements CanonicalDatumMaker<GvLocationList.GvLocation> {
+    //Overridden
     @Override
     public GvLocationList.GvLocation getCanonical(GvDataList<GvLocationList.GvLocation> data) {
         if (data.size() == 0) return new GvLocationList.GvLocation(data.getReviewId(), null, "");
@@ -33,6 +34,7 @@ public class CanonicalLocation implements CanonicalDatumMaker<GvLocationList.GvL
 
         DatumCounter<GvLocationList.GvLocation, String> counter = new DatumCounter<>(data,
                 new DataGetter<GvLocationList.GvLocation, String>() {
+                    //Overridden
                     @Override
                     public String getData(GvLocationList.GvLocation datum) {
                         return datum.getName();

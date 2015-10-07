@@ -19,15 +19,17 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ViewImage extends DialogLayout<GvImageList.GvImage> {
-    public static final int   LAYOUT  = R.layout.dialog_image_view;
-    public static final int   IMAGE   = R.id.photo_image_view;
-    public static final int   CAPTION = R.id.caption_text_view;
-    public static final int[] VIEWS   = new int[]{IMAGE, CAPTION};
+    public static final int LAYOUT = R.layout.dialog_image_view;
+    public static final int IMAGE = R.id.photo_image_view;
+    public static final int CAPTION = R.id.caption_text_view;
+    public static final int[] VIEWS = new int[]{IMAGE, CAPTION};
 
+    //Constructors
     public ViewImage() {
         super(LAYOUT, VIEWS);
     }
 
+    //Overridden
     @Override
     public void updateLayout(GvImageList.GvImage image) {
         android.widget.ImageView imageView = (android.widget.ImageView) getView(IMAGE);

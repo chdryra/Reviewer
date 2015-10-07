@@ -29,20 +29,30 @@ import com.chdryra.android.reviewer.View.Utils.ImageChooser;
  * Email: rizwan.choudrey@gmail.com
  */
 public class EditScreenImages {
-    private static final GvDataType<GvImageList.GvImage> TYPE   =
+    private static final GvDataType<GvImageList.GvImage> TYPE =
             GvImageList.GvImage.TYPE;
-    private static final ConfigGvDataUi.Config           CONFIG =
+    private static final ConfigGvDataUi.Config CONFIG =
             ConfigGvDataUi.getConfig(TYPE);
 
+    //Classes
     public static class BannerButton extends EditScreen.BannerButton {
         private ImageChooser mImageChooser;
 
+        //Constructors
         public BannerButton(String title) {
             super(CONFIG.getAdderConfig(), title);
             setListener(new AddImageListener() {
             });
         }
 
+        private void setCover() {
+            GvImageList images = (GvImageList) getGridData();
+            GvImageList.GvImage cover = images.getItem(0);
+            cover.setIsCover(true);
+            getReviewView().updateView();
+        }
+
+        //Overridden
         @Override
         public void onAttachReviewView() {
             super.onAttachReviewView();
@@ -55,16 +65,10 @@ public class EditScreenImages {
                     getRequestCode());
         }
 
-        private void setCover() {
-            GvImageList images = (GvImageList) getGridData();
-            GvImageList.GvImage cover = images.getItem(0);
-            cover.setIsCover(true);
-            getReviewView().updateUi();
-        }
-
         private abstract class AddImageListener extends Fragment implements ImageChooser
                 .ImageChooserListener {
 
+            //Overridden
             @Override
             public void onActivityResult(int requestCode, int resultCode, Intent data) {
                 boolean correctCode = requestCode == getRequestCode();
@@ -77,7 +81,7 @@ public class EditScreenImages {
 
             @Override
             public void onImageChosen(GvImageList.GvImage image) {
-                if(getGridData().size() == 0) image.setIsCover(true);
+                if (getGridData().size() == 0) image.setIsCover(true);
                 if (addData(image) && getGridData().size() == 1) setCover();
             }
         }
@@ -86,10 +90,12 @@ public class EditScreenImages {
     public static class GridItem extends EditScreen.GridItem {
         private static final int IMAGE_AS_COVER = 200;
 
+        //Constructors
         public GridItem() {
             super(CONFIG.getEditorConfig());
         }
 
+        //Overridden
         @Override
         public void onGridItemLongClick(GvData item, int position, View v) {
             GvImageList.GvImage image = (GvImageList.GvImage) item;
@@ -113,7 +119,7 @@ public class EditScreenImages {
                 GvImageList.GvImage cover = (GvImageList.GvImage) GvDataPacker.unpackItem
                         (GvDataPacker.CurrentNewDatum.CURRENT, args);
                 getEditor().proposeCover(cover);
-                getReviewView().updateUi();
+                getReviewView().updateView();
             }
         }
     }

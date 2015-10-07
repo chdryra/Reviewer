@@ -26,21 +26,7 @@ public class CanonicalDateTest extends CanonicalGvDataTest<GvDateList.GvDate> {
     private static final Date DATE3 = RandomDate.nextDate();
     private static final Date DATE4 = RandomDate.nextDate();
 
-    @Override
-    protected GvDateList.GvDate getTestDatum() {
-        return new GvDateList.GvDate(DATE1);
-    }
-
-    @Override
-    protected CanonicalDatumMaker<GvDateList.GvDate> getCanonicalMaker() {
-        return new CanonicalDate();
-    }
-
-    @Override
-    protected void additionalTests() {
-        checkDifferentDates();
-    }
-
+    //protected methods
     private void checkDifferentDates() {
         mData = newDataList();
         GvDateList.GvDate date1 = new GvDateList.GvDate(DATE1);
@@ -62,5 +48,21 @@ public class CanonicalDateTest extends CanonicalGvDataTest<GvDateList.GvDate> {
         GvDateList.GvDate canon = mCanonical.getCanonical(mData);
         assertTrue(canon.isValidForDisplay());
         assertEquals(maxDate, canon.getDate());
+    }
+
+    //Overridden
+    @Override
+    protected void additionalTests() {
+        checkDifferentDates();
+    }
+
+    @Override
+    protected GvDateList.GvDate getTestDatum() {
+        return new GvDateList.GvDate(DATE1);
+    }
+
+    @Override
+    protected CanonicalDatumMaker<GvDateList.GvDate> getCanonicalMaker() {
+        return new CanonicalDate();
     }
 }

@@ -17,12 +17,14 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvFactList;
  * Email: rizwan.choudrey@gmail.com
  */
 public class CanonicalFact implements CanonicalDatumMaker<GvFactList.GvFact> {
+    //Overridden
     @Override
     public GvFactList.GvFact getCanonical(GvDataList<GvFactList.GvFact> data) {
         if (data.size() == 0) return new GvFactList.GvFact(data.getReviewId(), "", "");
 
         DatumCounter<GvFactList.GvFact, String> counter = new DatumCounter<>(data,
                 new DataGetter<GvFactList.GvFact, String>() {
+                    //Overridden
                     @Override
                     public String getData(GvFactList.GvFact datum) {
                         return datum.getLabel();

@@ -19,6 +19,7 @@ import java.util.Calendar;
  */
 public class ComparitorGvDate implements DifferenceComparitor<GvDateList.GvDate, DifferenceDate> {
 
+    //Overridden
     @Override
     public DifferenceDate compare(GvDateList.GvDate lhs, GvDateList.GvDate rhs) {
         Calendar cal1 = Calendar.getInstance();

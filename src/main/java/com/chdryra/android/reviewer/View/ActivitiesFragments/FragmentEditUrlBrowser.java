@@ -52,10 +52,48 @@ import java.net.URL;
 public class FragmentEditUrlBrowser extends FragmentDeleteDone {
     private static final String TAG = "FragmentEditUrlBrowser";
 
-    private GvUrlList.GvUrl   mCurrent;
+    private GvUrlList.GvUrl mCurrent;
     private ClearableEditText mUrlEditText;
-    private WebView           mWebView;
-    private String            mSearchUrl;
+    private WebView mWebView;
+    private String mSearchUrl;
+
+    private GvUrlList.GvUrl createGVData() {
+        String urlString = mWebView.getUrl();
+        GvUrlList.GvUrl url = null;
+        try {
+            url = new GvUrlList.GvUrl(mWebView.getTitle(), new URL(urlString));
+        } catch (MalformedURLException e1) {
+            Log.i(TAG, "MalformedURLException: " + urlString, e1);
+            Toast.makeText(getActivity(), getResources().getString(R.string.toast_bad_url),
+                    Toast.LENGTH_SHORT).show();
+        }
+
+        return url;
+    }
+
+    private void loadUrl() {
+        String urlString = URLUtil.guessUrl(mUrlEditText.getText().toString());
+        mWebView.loadUrl(urlString);
+    }
+
+    //Overridden
+    @Override
+    protected boolean hasDataToDelete() {
+        return mCurrent != null;
+    }
+
+    @Override
+    protected void onDeleteSelected() {
+        GvDataPacker.packItem(GvDataPacker.CurrentNewDatum.CURRENT, mCurrent,
+                getNewReturnData());
+    }
+
+    @Override
+    protected void onDoneSelected() {
+        Intent i = getNewReturnData();
+        GvDataPacker.packItem(GvDataPacker.CurrentNewDatum.CURRENT, mCurrent, i);
+        GvDataPacker.packItem(GvDataPacker.CurrentNewDatum.NEW, createGVData(), i);
+    }
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,7 +108,7 @@ public class FragmentEditUrlBrowser extends FragmentDeleteDone {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState) {
+                             Bundle savedInstanceState) {
         setDisplayHomeAsUp(true);
 
         View v = inflater.inflate(R.layout.fragment_review_url_browser, container, false);
@@ -79,6 +117,7 @@ public class FragmentEditUrlBrowser extends FragmentDeleteDone {
 
         mWebView.setWebViewClient(new URLWebViewClient());
         mWebView.setOnKeyListener(new View.OnKeyListener() {
+            //Overridden
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if (event.getAction() == KeyEvent.ACTION_UP && keyCode == KeyEvent.KEYCODE_BACK) {
@@ -92,6 +131,7 @@ public class FragmentEditUrlBrowser extends FragmentDeleteDone {
                                 .setTitle("Return")
                                 .setMessage("Return to review?")
                                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                    //Overridden
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
                                         onUpSelected();
@@ -115,6 +155,7 @@ public class FragmentEditUrlBrowser extends FragmentDeleteDone {
         mWebView.loadUrl(urlString);
 
         mUrlEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            //Overridden
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_GO) {
@@ -146,44 +187,8 @@ public class FragmentEditUrlBrowser extends FragmentDeleteDone {
         }
     }
 
-    @Override
-    protected boolean hasDataToDelete() {
-        return mCurrent != null;
-    }
-
-    @Override
-    protected void onDeleteSelected() {
-        GvDataPacker.packItem(GvDataPacker.CurrentNewDatum.CURRENT, mCurrent,
-                getNewReturnData());
-    }
-
-    @Override
-    protected void onDoneSelected() {
-        Intent i = getNewReturnData();
-        GvDataPacker.packItem(GvDataPacker.CurrentNewDatum.CURRENT, mCurrent, i);
-        GvDataPacker.packItem(GvDataPacker.CurrentNewDatum.NEW, createGVData(), i);
-    }
-
-    private GvUrlList.GvUrl createGVData() {
-        String urlString = mWebView.getUrl();
-        GvUrlList.GvUrl url = null;
-        try {
-            url = new GvUrlList.GvUrl(mWebView.getTitle(), new URL(urlString));
-        } catch (MalformedURLException e1) {
-            Log.i(TAG, "MalformedURLException: " + urlString, e1);
-            Toast.makeText(getActivity(), getResources().getString(R.string.toast_bad_url),
-                    Toast.LENGTH_SHORT).show();
-        }
-
-        return url;
-    }
-
-    private void loadUrl() {
-        String urlString = URLUtil.guessUrl(mUrlEditText.getText().toString());
-        mWebView.loadUrl(urlString);
-    }
-
     private class URLWebViewClient extends WebViewClient {
+        //Overridden
         @Override
         public void onPageFinished(WebView view, String url) {
             mUrlEditText.setText(view.getUrl());

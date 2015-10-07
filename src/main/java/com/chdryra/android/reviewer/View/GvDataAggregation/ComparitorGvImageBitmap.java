@@ -18,6 +18,7 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
 public class ComparitorGvImageBitmap implements DifferenceComparitor<GvImageList.GvImage,
         DifferenceBoolean> {
 
+    //Overridden
     @Override
     public DifferenceBoolean compare(GvImageList.GvImage lhs, GvImageList.GvImage rhs) {
         return new DifferenceBoolean(!lhs.getBitmap().sameAs(rhs.getBitmap()));

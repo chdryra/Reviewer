@@ -16,8 +16,10 @@ import com.chdryra.android.mygenerallibrary.ViewHolderData;
  * string.
  */
 public class VhTag extends VhText {
+    //Constructors
     public VhTag(final boolean hashTag) {
         super(new VHDataStringGetter() {
+            //Overridden
             @Override
             public String getString(ViewHolderData data) {
                 GvTagList.GvTag tag = (GvTagList.GvTag) data;

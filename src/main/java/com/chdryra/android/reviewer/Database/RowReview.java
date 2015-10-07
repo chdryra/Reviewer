@@ -21,23 +21,24 @@ import com.chdryra.android.reviewer.Model.ReviewStructure.Review;
  * Email: rizwan.choudrey@gmail.com
  */
 public class RowReview implements ReviewerDbRow.TableRow {
-    public static String REVIEW_ID    = ReviewerDbContract.TableReviews.COLUMN_NAME_REVIEW_ID;
-    public static String PARENT_ID    = ReviewerDbContract.TableReviews.COLUMN_NAME_PARENT_ID;
-    public static String AUTHOR_ID    = ReviewerDbContract.TableReviews.COLUMN_NAME_AUTHOR_ID;
+    public static String REVIEW_ID = ReviewerDbContract.TableReviews.COLUMN_NAME_REVIEW_ID;
+    public static String PARENT_ID = ReviewerDbContract.TableReviews.COLUMN_NAME_PARENT_ID;
+    public static String AUTHOR_ID = ReviewerDbContract.TableReviews.COLUMN_NAME_AUTHOR_ID;
     public static String PUBLISH_DATE = ReviewerDbContract.TableReviews
             .COLUMN_NAME_PUBLISH_DATE;
-    public static String SUBJECT      = ReviewerDbContract.TableReviews.COLUMN_NAME_SUBJECT;
-    public static String RATING       = ReviewerDbContract.TableReviews.COLUMN_NAME_RATING;
+    public static String SUBJECT = ReviewerDbContract.TableReviews.COLUMN_NAME_SUBJECT;
+    public static String RATING = ReviewerDbContract.TableReviews.COLUMN_NAME_RATING;
     public static String IS_AVERAGE = ReviewerDbContract.TableReviews.COLUMN_NAME_RATING_IS_AVERAGE;
 
     private String mReviewId;
     private String mParentId;
     private String mAuthorId;
-    private long   mPublishDate;
+    private long mPublishDate;
     private String mSubject;
-    private float  mRating;
-    private boolean  mRatingIsAverage;
+    private float mRating;
+    private boolean mRatingIsAverage;
 
+    //Constructors
     public RowReview() {
     }
 
@@ -65,6 +66,7 @@ public class RowReview implements ReviewerDbRow.TableRow {
         mRatingIsAverage = cursor.getInt(cursor.getColumnIndexOrThrow(IS_AVERAGE)) == 1;
     }
 
+    //Overridden
     @Override
     public String getRowId() {
         return mReviewId;

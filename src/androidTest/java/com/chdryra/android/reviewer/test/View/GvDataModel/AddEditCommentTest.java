@@ -20,11 +20,13 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
  * Email: rizwan.choudrey@gmail.com
  */
 public class AddEditCommentTest extends AddEditLayoutTest<GvCommentList.GvComment> {
+    //Constructors
     public AddEditCommentTest() {
         super(GvCommentList.GvComment.TYPE,
                 new AddEditComment(new ConfigGvDataAddEditView.AddComment()));
     }
 
+    //Overridden
     @Override
     protected void enterData(GvCommentList.GvComment comment) {
         mEditText.setText(comment.getComment());
@@ -36,16 +38,16 @@ public class AddEditCommentTest extends AddEditLayoutTest<GvCommentList.GvCommen
     }
 
     @Override
-    public void setUp() throws Exception {
-        super.setUp();
-        mEditText = (EditText) getView(AddEditComment.COMMENT);
-        assertNotNull(mEditText);
-    }
-
-    @Override
     protected GvCommentList.GvComment newDatum() {
         GvCommentList.GvComment data = super.newDatum();
         data.setIsHeadline(false);
         return data;
+    }
+
+    @Override
+    public void setUp() throws Exception {
+        super.setUp();
+        mEditText = (EditText) getView(AddEditComment.COMMENT);
+        assertNotNull(mEditText);
     }
 }

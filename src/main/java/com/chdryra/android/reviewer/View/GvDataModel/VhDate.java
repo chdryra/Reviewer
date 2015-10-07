@@ -19,8 +19,10 @@ import java.text.SimpleDateFormat;
  * Email: rizwan.choudrey@gmail.com
  */
 public class VhDate extends VhText {
+    //Constructors
     public VhDate() {
         super(new VHDataStringGetter() {
+            //Overridden
             @Override
             public String getString(ViewHolderData data) {
                 GvDateList.GvDate date = (GvDateList.GvDate) data;

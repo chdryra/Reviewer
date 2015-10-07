@@ -30,12 +30,18 @@ public class ViewerChildList implements GridDataViewer<GvReviewOverviewList.GvRe
     private ReviewNode mNode;
     private ReviewsRepository mRepository;
 
+    //Constructors
     public ViewerChildList(Context context, ReviewNode node, ReviewsRepository repository) {
         mContext = context;
         mNode = node;
         mRepository = repository;
     }
 
+    private ReviewViewAdapter newNodeDataAdapter(ReviewNode node) {
+        return FactoryReviewViewAdapter.newNodeDataAdapter(mContext, node, mRepository);
+    }
+
+    //Overridden
     @Override
     public GvReviewOverviewList getGridData() {
         return MdGvConverter.convert(mNode.getChildren(), mNode.getId(), mRepository
@@ -61,9 +67,5 @@ public class ViewerChildList implements GridDataViewer<GvReviewOverviewList.GvRe
     @Override
     public ReviewViewAdapter expandGridData() {
         return newNodeDataAdapter(mNode);
-    }
-
-    private ReviewViewAdapter newNodeDataAdapter(ReviewNode node) {
-        return FactoryReviewViewAdapter.newNodeDataAdapter(mContext, node, mRepository);
     }
 }

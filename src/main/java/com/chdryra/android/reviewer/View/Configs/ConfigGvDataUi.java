@@ -40,7 +40,7 @@ import java.util.Map;
 public final class ConfigGvDataUi {
     public static final ArrayList<GvDataType> BUILD_TYPES = new ArrayList<>();
     public static final ArrayList<GvDataType> ALL_TYPES = new ArrayList<>();
-    private static final int DATA_ADD  = 2718;
+    private static final int DATA_ADD = 2718;
     private static final int DATA_EDIT = 2819;
     private static ConfigGvDataUi sConfigGvDataUi;
 
@@ -66,10 +66,12 @@ public final class ConfigGvDataUi {
         }
     }
 
+    //Static methods
     public static Config getConfig(GvDataType dataType) {
         return getConfigsMap().get(dataType);
     }
 
+    //private methods
     private static Map<GvDataType, Config> getConfigsMap() {
         if (sConfigGvDataUi == null) {
             sConfigGvDataUi = new ConfigGvDataUi();
@@ -83,7 +85,7 @@ public final class ConfigGvDataUi {
      * {@link GvDataType}.
      */
     public class Config {
-        private final GvDataType       mDataType;
+        private final GvDataType mDataType;
         private final LaunchableConfig mAddConfig;
         private final LaunchableConfig mEditConfig;
         private final LaunchableConfig mViewConfig;
@@ -95,6 +97,7 @@ public final class ConfigGvDataUi {
             mViewConfig = initViewConfig();
         }
 
+        //public methods
         public GvDataType getGvDataType() {
             return mDataType;
         }
@@ -140,10 +143,10 @@ public final class ConfigGvDataUi {
      * {@link LauncherUi}
      */
     public class LaunchableConfig {
-        private final GvDataType                    mDataType;
+        private final GvDataType mDataType;
         private final Class<? extends LaunchableUi> mUiClass;
-        private final int                           mRequestCode;
-        private final String                        mTag;
+        private final int mRequestCode;
+        private final String mTag;
 
         private LaunchableConfig(GvDataType dataType, Class<? extends LaunchableUi>
                 UiClass, int requestCode, String tag) {
@@ -154,6 +157,7 @@ public final class ConfigGvDataUi {
         }
 
 
+        //public methods
         public GvDataType getGVType() {
             return mDataType;
         }

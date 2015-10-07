@@ -8,6 +8,7 @@ import com.chdryra.android.reviewer.Model.ReviewStructure.Review;
  * Email: rizwan.choudrey@gmail.com
  */
 public class MdCriterionList extends MdDataList<MdCriterionList.MdCriterion> {
+    //Constructors
     public MdCriterionList(ReviewId reviewId) {
         super(reviewId);
     }
@@ -19,15 +20,18 @@ public class MdCriterionList extends MdDataList<MdCriterionList.MdCriterion> {
         }
     }
 
+    //Classes
     public static class MdCriterion implements MdData {
         private ReviewId mParentId;
         private Review mCriterion;
 
+        //Constructors
         public MdCriterion(Review criterion, ReviewId parent) {
             mParentId = parent;
             mCriterion = criterion;
         }
 
+        //public methods
         public String getSubject() {
             return mCriterion.getSubject().get();
         }
@@ -40,6 +44,7 @@ public class MdCriterionList extends MdDataList<MdCriterionList.MdCriterion> {
             return mCriterion;
         }
 
+        //Overridden
         @Override
         public ReviewId getReviewId() {
             return mParentId;

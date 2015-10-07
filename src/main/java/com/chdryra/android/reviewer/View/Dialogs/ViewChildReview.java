@@ -20,15 +20,17 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvCriterionList;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ViewChildReview extends DialogLayout<GvCriterionList.GvCriterion> {
-    public static final int LAYOUT  = R.layout.dialog_criterion_view;
+    public static final int LAYOUT = R.layout.dialog_criterion_view;
     public static final int SUBJECT = R.id.child_name_text_view;
-    public static final int   RATING  = R.id.child_rating_bar;
-    public static final int[] VIEWS   = new int[]{SUBJECT, RATING};
+    public static final int RATING = R.id.child_rating_bar;
+    public static final int[] VIEWS = new int[]{SUBJECT, RATING};
 
+    //Constructors
     public ViewChildReview() {
         super(LAYOUT, VIEWS);
     }
 
+    //Overridden
     @Override
     public void updateLayout(GvCriterionList.GvCriterion data) {
         ((TextView) getView(SUBJECT)).setText(data.getSubject());

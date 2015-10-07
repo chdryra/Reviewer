@@ -20,30 +20,33 @@ import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
 public class VisitorReviewsGetter implements VisitorReviewNode {
     IdableList<Review> mReviews = new IdableList<>();
 
+    //Static methods
     public static IdableList<Review> flatten(ReviewNode node) {
         VisitorReviewsGetter flattener = new VisitorReviewsGetter();
         node.acceptVisitor(flattener);
         return flattener.getReviews();
     }
 
+    //public methods
+    public IdableList<Review> getReviews() {
+        return mReviews;
+    }
+
+    //Overridden
     @Override
     public void visit(ReviewNode node) {
         IdableList<ReviewNode> children = node.getChildren();
         ReviewNode expanded = node.expand();
-        if(children.size() == 0) {
-            if(expanded.getReview() == node.getReview()) {
+        if (children.size() == 0) {
+            if (expanded.getReview() == node.getReview()) {
                 mReviews.add(node.getReview());
             } else {
                 expanded.acceptVisitor(this);
             }
         } else {
-            for(ReviewNode child : children) {
+            for (ReviewNode child : children) {
                 child.acceptVisitor(this);
             }
         }
-    }
-
-    public IdableList<Review> getReviews() {
-        return mReviews;
     }
 }

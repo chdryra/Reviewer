@@ -23,33 +23,10 @@ public class ReviewsRepository implements ReviewsProvider {
     private ReviewsProvider mProvider;
     private Author mAuthor;
 
+    //Constructors
     public ReviewsRepository(ReviewsProvider provider, Author author) {
         mProvider = provider;
         mAuthor = author;
-    }
-
-    @Override
-    public Review getReview(ReviewId id) {
-        return mProvider.getReview(id);
-    }
-
-    @Override
-    public IdableList<Review> getReviews() {
-        return mProvider.getReviews();
-    }
-
-    public TagsManager getTagsManager() {
-        return mProvider.getTagsManager();
-    }
-
-    @Override
-    public void registerObserver(ReviewsProviderObserver observer) {
-        mProvider.registerObserver(observer);
-    }
-
-    @Override
-    public void unregisterObserver(ReviewsProviderObserver observer) {
-        mProvider.unregisterObserver(observer);
     }
 
     public TagsManager.ReviewTagCollection getTags(ReviewId id) {
@@ -80,7 +57,7 @@ public class ReviewsRepository implements ReviewsProvider {
 
     public <T extends GvData> ReviewNode createMetaReview(GvData datum,
                                                           String subject) {
-        if(datum.isCollection()) {
+        if (datum.isCollection()) {
             return createMetaReview((GvDataCollection<? extends GvData>) datum, subject);
         }
 
@@ -88,11 +65,36 @@ public class ReviewsRepository implements ReviewsProvider {
     }
 
     public <T extends GvData> ReviewNode createFlattenedMetaReview(GvDataCollection<T> data,
-                                                          String subject) {
+                                                                   String subject) {
         ReviewNode meta = createMetaReview(data, subject);
         IdableList<Review> flattened = VisitorReviewsGetter.flatten(meta);
 
         ReviewPublisher publisher = new ReviewPublisher(mAuthor, PublishDate.now());
         return FactoryReview.createMetaReview(flattened, publisher, subject);
+    }
+
+    //Overridden
+    @Override
+    public Review getReview(ReviewId id) {
+        return mProvider.getReview(id);
+    }
+
+    @Override
+    public IdableList<Review> getReviews() {
+        return mProvider.getReviews();
+    }
+
+    public TagsManager getTagsManager() {
+        return mProvider.getTagsManager();
+    }
+
+    @Override
+    public void registerObserver(ReviewsProviderObserver observer) {
+        mProvider.registerObserver(observer);
+    }
+
+    @Override
+    public void unregisterObserver(ReviewsProviderObserver observer) {
+        mProvider.unregisterObserver(observer);
     }
 }

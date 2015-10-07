@@ -14,6 +14,7 @@ public class TagComparators extends ComparatorCollection<GvTagList.GvTag> {
         super(new TextComparators.AlphabeticalIgnoreCase<GvTagList.GvTag>());
     }
 
+    //Static methods
     public static TagComparators getComparators() {
         return sComparators;
     }

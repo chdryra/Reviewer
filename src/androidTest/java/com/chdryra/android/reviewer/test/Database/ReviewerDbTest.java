@@ -113,14 +113,6 @@ public class ReviewerDbTest extends AndroidTestCase {
         assertEquals(0, getNumberRows(table));
     }
 
-    private void testReviewInReviewsTable(Review review, boolean hasData) {
-        testReviewsRow(review, null, hasData);
-        MdCriterionList criteria = review.getCriteria();
-        for (MdCriterionList.MdCriterion criterion : criteria) {
-            testReviewsRow(criterion.getReview(), criterion.getReviewId().toString(), hasData);
-        }
-    }
-
     @SmallTest
     public void testAuthorsTable() {
         ReviewerDbTable table = ReviewerDbContract.AUTHORS_TABLE;
@@ -197,7 +189,8 @@ public class ReviewerDbTest extends AndroidTestCase {
         //Reviews should be retagged
         for (Review review : mReviews) {
             ReviewId reviewId = review.getId();
-            TagsManager.ReviewTagCollection reviewTags = TagsManager.getTags(getContext(), reviewId);
+            TagsManager.ReviewTagCollection reviewTags = TagsManager.getTags(getContext(),
+                    reviewId);
             assertTrue(reviewTags.size() > 0);
             checkTagList(reviewTags, TagsManager.getTags(getContext(), reviewId));
         }
@@ -252,30 +245,12 @@ public class ReviewerDbTest extends AndroidTestCase {
         }
     }
 
-    @Override
-    protected void setUp() throws Exception {
-        mDatabase = ReviewerDb.getTestDatabase(getContext());
-        mReviews = new ArrayList<>();
-        ReviewPublisher publisher = RandomPublisher.nextPublisher();
-        for (int i = 0; i < NUM; ++i) {
-            if (i > 1) publisher = RandomPublisher.nextPublisher();
-            mReviews.add(ReviewMocker.newReview(publisher));
+    private void testReviewInReviewsTable(Review review, boolean hasData) {
+        testReviewsRow(review, null, hasData);
+        MdCriterionList criteria = review.getCriteria();
+        for (MdCriterionList.MdCriterion criterion : criteria) {
+            testReviewsRow(criterion.getReview(), criterion.getReviewId().toString(), hasData);
         }
-        mTagsMap = tagReviews();
-        deleteDatabaseIfNecessary();
-    }
-
-    @Override
-    protected void tearDown() throws Exception {
-        deleteDatabaseIfNecessary();
-        TagsManager.ReviewTagCollection tags = TagsManager.getTags(getContext());
-        for (TagsManager.ReviewTag tag : tags) {
-            ArrayList<ReviewId> ids = tag.getReviews();
-            for (ReviewId id : ids) {
-                TagsManager.untag(getContext(), id, tag);
-            }
-        }
-        assertTrue(TagsManager.getTags(getContext()).size() == 0);
     }
 
     private Map<String, ArrayList<String>> tagReviews() {
@@ -565,5 +540,32 @@ public class ReviewerDbTest extends AndroidTestCase {
 
     private void deleteReviewFromDb(Review review) {
         mDatabase.deleteReviewFromDb(review.getId().toString());
+    }
+
+    //Overridden
+    @Override
+    protected void setUp() throws Exception {
+        mDatabase = ReviewerDb.getTestDatabase(getContext());
+        mReviews = new ArrayList<>();
+        ReviewPublisher publisher = RandomPublisher.nextPublisher();
+        for (int i = 0; i < NUM; ++i) {
+            if (i > 1) publisher = RandomPublisher.nextPublisher();
+            mReviews.add(ReviewMocker.newReview(publisher));
+        }
+        mTagsMap = tagReviews();
+        deleteDatabaseIfNecessary();
+    }
+
+    @Override
+    protected void tearDown() throws Exception {
+        deleteDatabaseIfNecessary();
+        TagsManager.ReviewTagCollection tags = TagsManager.getTags(getContext());
+        for (TagsManager.ReviewTag tag : tags) {
+            ArrayList<ReviewId> ids = tag.getReviews();
+            for (ReviewId id : ids) {
+                TagsManager.untag(getContext(), id, tag);
+            }
+        }
+        assertTrue(TagsManager.getTags(getContext()).size() == 0);
     }
 }

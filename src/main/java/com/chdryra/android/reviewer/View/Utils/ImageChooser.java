@@ -38,24 +38,27 @@ import java.util.Date;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ImageChooser {
-    private static final String TAG              = "ImageChooser";
-    private static final String ERROR_CREATE     = "Couldn't create file";
+    private static final String TAG = "ImageChooser";
+    private static final String ERROR_CREATE = "Couldn't create file";
     private static final String ERROR_NO_STORAGE = "No storage available";
 
-    private final Activity        mActivity;
+    private final Activity mActivity;
     private final FileIncrementor mFileIncrementor;
-    private       String          mCaptureFile;
+    private String mCaptureFile;
 
     public interface ImageChooserListener {
+        //abstract
         public void onImageChosen(GvImageList.GvImage image);
     }
 
+    //Constructors
     public ImageChooser(Activity activity,
-            FileIncrementorFactory.ImageFileIncrementor fileIncrementor) {
+                        FileIncrementorFactory.ImageFileIncrementor fileIncrementor) {
         mActivity = activity;
         mFileIncrementor = fileIncrementor;
     }
 
+    //public methods
     public Intent getChooserIntents() {
         try {
             createNewCaptureFile();
@@ -112,6 +115,7 @@ public class ImageChooser {
             int maxHeight = (int) mActivity.getResources().getDimension(R.dimen.imageMaxHeight);
 
             final BitmapLoader.LoadListener loadListener = new BitmapLoader.LoadListener() {
+                //Overridden
                 @Override
                 public void onBitmapLoaded(Bitmap bitmap) {
                     ExifInterface exif = ImageHelper.getExif(mCaptureFile);

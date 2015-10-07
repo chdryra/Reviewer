@@ -22,10 +22,16 @@ import java.util.NoSuchElementException;
  * The singleton that manages the tagging and untagging of Reviews.
  */
 public class TagsManager {
-    private final  ReviewTagCollection mTags;
+    private final ReviewTagCollection mTags;
 
+    //Constructors
     public TagsManager() {
         mTags = new ReviewTagCollection();
+    }
+
+    //public methods
+    public ReviewTagCollection getTags() {
+        return new ReviewTagCollection(mTags);
     }
 
     public ReviewTagCollection getTags(ReviewId id) {
@@ -41,10 +47,6 @@ public class TagsManager {
         for (String tag : tags) {
             tagReview(id, tag);
         }
-    }
-
-    public ReviewTagCollection getTags() {
-        return new ReviewTagCollection(mTags);
     }
 
     public void tagReview(ReviewId id, String tag) {
@@ -68,6 +70,7 @@ public class TagsManager {
         return false;
     }
 
+//Classes
     /**
      * Iterable collection of ReviewTags.
      */
@@ -80,11 +83,6 @@ public class TagsManager {
 
         private ReviewTagCollection(ReviewTagCollection tags) {
             mTags = new ArrayList<>(tags.mTags);
-        }
-
-        @Override
-        public Iterator<ReviewTag> iterator() {
-            return new ReviewTagIterator();
         }
 
         public int size() {
@@ -125,6 +123,12 @@ public class TagsManager {
             mTags.remove(tag);
         }
 
+        //Overridden
+        @Override
+        public Iterator<ReviewTag> iterator() {
+            return new ReviewTagIterator();
+        }
+
         @Override
         public boolean equals(Object o) {
             if (this == o) return true;
@@ -139,6 +143,7 @@ public class TagsManager {
         public class ReviewTagIterator implements Iterator<ReviewTag> {
             int position = 0;
 
+            //Overridden
             @Override
             public boolean hasNext() {
                 return position < size() && getItem(position) != null;
@@ -187,17 +192,13 @@ public class TagsManager {
             mReviews.add(id);
         }
 
-        @Override
-        public int compareTo(@NotNull ReviewTag another) {
-            return mTag.compareToIgnoreCase(another.mTag);
+        //public methods
+        public ArrayList<ReviewId> getReviews() {
+            return new ArrayList<>(mReviews);
         }
 
         public String get() {
             return mTag;
-        }
-
-        public ArrayList<ReviewId> getReviews() {
-            return new ArrayList<>(mReviews);
         }
 
         public boolean tagsReview(ReviewId id) {
@@ -212,6 +213,16 @@ public class TagsManager {
             if (!mReviews.contains(id)) mReviews.add(id);
         }
 
+        private void removeReview(ReviewId id) {
+            mReviews.remove(id);
+        }
+
+        //Overridden
+        @Override
+        public int compareTo(@NotNull ReviewTag another) {
+            return mTag.compareToIgnoreCase(another.mTag);
+        }
+
         @Override
         public boolean equals(Object o) {
             if (this == o) return true;
@@ -222,10 +233,6 @@ public class TagsManager {
             if (!mReviews.equals(reviewTag.mReviews)) return false;
             return mTag.equals(reviewTag.mTag);
 
-        }
-
-        private void removeReview(ReviewId id) {
-            mReviews.remove(id);
         }
 
 

@@ -22,15 +22,10 @@ import java.util.NoSuchElementException;
  * @param <T>: type that is {@link ReviewId.IdAble}
  */
 public class IdableList<T extends ReviewId.IdAble> implements Iterable<T> {
-    public static final String           NO_ELEMENT    = "No more elements left";
-    public static final String           ILLEGAL_STATE = "Have to do at least one next() before " +
+    public static final String NO_ELEMENT = "No more elements left";
+    public static final String ILLEGAL_STATE = "Have to do at least one next() before " +
             "you can delete";
-    private final       Map<ReviewId, T> mData         = new LinkedHashMap<>();
-
-    @Override
-    public Iterator<T> iterator() {
-        return new ReviewIdableListIterator();
-    }
+    private final Map<ReviewId, T> mData = new LinkedHashMap<>();
 
     public int size() {
         return mData.size();
@@ -60,6 +55,17 @@ public class IdableList<T extends ReviewId.IdAble> implements Iterable<T> {
         return mData.get(id);
     }
 
+    private ReviewId getId(int position) {
+        ReviewId[] keys = mData.keySet().toArray(new ReviewId[mData.size()]);
+        return keys[position];
+    }
+
+    //Overridden
+    @Override
+    public Iterator<T> iterator() {
+        return new ReviewIdableListIterator();
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -76,14 +82,10 @@ public class IdableList<T extends ReviewId.IdAble> implements Iterable<T> {
         return mData.hashCode();
     }
 
-    private ReviewId getId(int position) {
-        ReviewId[] keys = mData.keySet().toArray(new ReviewId[mData.size()]);
-        return keys[position];
-    }
-
     public class ReviewIdableListIterator implements Iterator<T> {
         private int mPosition = 0;
 
+        //Overridden
         @Override
         public boolean hasNext() {
             return mPosition < size() && getItem(mPosition) != null;

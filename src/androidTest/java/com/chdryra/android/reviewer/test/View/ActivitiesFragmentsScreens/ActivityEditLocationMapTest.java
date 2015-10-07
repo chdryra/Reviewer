@@ -20,6 +20,7 @@ import com.chdryra.android.reviewer.View.ActivitiesFragments.ActivityEditLocatio
  */
 public class ActivityEditLocationMapTest extends
         SingleLaunchActivityTestCase<ActivityEditLocationMap> {
+    //Constructors
     public ActivityEditLocationMapTest() {
         super("com.chdryra.android.reviewer", ActivityEditLocationMap.class);
     }

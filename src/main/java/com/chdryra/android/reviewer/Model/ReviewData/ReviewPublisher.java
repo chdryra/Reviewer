@@ -13,11 +13,13 @@ public class ReviewPublisher {
     private PublishDate mDate;
     private int mIndex;
 
+    //Constructors
     public ReviewPublisher(Author author, PublishDate date) {
         mAuthor = author;
         mDate = date;
     }
 
+    //public methods
     public Author getAuthor() {
         return mAuthor;
     }

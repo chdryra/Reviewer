@@ -31,28 +31,29 @@ import com.google.android.gms.maps.model.LatLng;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ActivityEditLocationsTest extends ActivityEditScreenTest {
-    protected static final int                       NUM_DATA       = 3;
-    private static final   GvLocationList.GvLocation TAYYABS        =
+    protected static final int NUM_DATA = 3;
+    private static final GvLocationList.GvLocation TAYYABS =
             new GvLocationList.GvLocation(new LatLng(51.517264, -0.063484), "Tayyabs");
-    private static final   String                    TAYYABSADD     = "Fieldgate Street, London, " +
+    private static final String TAYYABSADD = "Fieldgate Street, London, " +
             "United Kingdom";
-    private static final   GvLocationList.GvLocation TOWERBRIDGE    =
+    private static final GvLocationList.GvLocation TOWERBRIDGE =
             new GvLocationList.GvLocation(new LatLng(51.50418459999999, -0.07632209999999999),
                     "Tower Bridge");
-    private static final   String                    TOWERBRIDGEADD = "Tower Bridge, London, " +
+    private static final String TOWERBRIDGEADD = "Tower Bridge, London, " +
             "United Kingdom";
-    private static final   GvLocationList.GvLocation DISHOOM        =
+    private static final GvLocationList.GvLocation DISHOOM =
             new GvLocationList.GvLocation(new LatLng(51.51243, -0.126909), "Dishoom");
-    private static final   String                    DISHOOMADD     = "Upper St Martin's Lane, " +
+    private static final String DISHOOMADD = "Upper St Martin's Lane, " +
             "London, United Kingdom";
-    private static final   String[]                  LOCSADD        = {TAYYABSADD, TOWERBRIDGEADD,
+    private static final String[] LOCSADD = {TAYYABSADD, TOWERBRIDGEADD,
             DISHOOMADD};
-    private static final   int                       TIMEOUT        = 10000;
+    private static final int TIMEOUT = 10000;
     private final GvLocationList mLocs;
 
     private Instrumentation.ActivityMonitor mMapMonitor;
     private Instrumentation.ActivityMonitor mMainMonitor;
 
+    //Constructors
     public ActivityEditLocationsTest() {
         super(GvLocationList.GvLocation.TYPE);
         mLocs = new GvLocationList();
@@ -81,6 +82,7 @@ public class ActivityEditLocationsTest extends ActivityEditScreenTest {
         assertTrue(mSolo.searchText(alert));
 
         runOnUiThread(new Runnable() {
+            //Overridden
             @Override
             public void run() {
                 mSignaler.reset();
@@ -131,35 +133,6 @@ public class ActivityEditLocationsTest extends ActivityEditScreenTest {
         testLongClickGridItemEditOnMap(true);
     }
 
-    @Override
-    protected void setUpFinish(boolean withData) {
-        super.setUpFinish(withData);
-        mMainMonitor = getInstrumentation().addMonitor(ActivityReviewView.class.getName(), null,
-                false);
-        mMapMonitor = getInstrumentation().addMonitor(ActivityEditLocationMap.class.getName(),
-                null, false);
-    }
-
-    @Override
-    protected GvData newEditDatum(GvData oldDatum) {
-        GvLocationList.GvLocation location = (GvLocationList.GvLocation) oldDatum;
-        return new GvLocationList.GvLocation(location.getLatLng(), RandomString.nextWord());
-    }
-
-    @Override
-    protected GvDataList newData() {
-        return mLocs;
-    }
-
-    @Override
-    protected void enterDatum(GvDataList data, int index) {
-        assertTrue(index < NUM_DATA);
-        SoloDataEntry.enter(mSolo, (GvData) data.getItem(index));
-        mSolo.waitForText(LOCSADD[index]);
-        mSolo.clickInList(1);
-        mSolo.sleep(3000);
-    }
-
     protected void waitForMapToClose() {
         ActivityReviewView mainActivity = (ActivityReviewView)
                 mMainMonitor.waitForActivityWithTimeout(TIMEOUT);
@@ -175,6 +148,20 @@ public class ActivityEditLocationsTest extends ActivityEditScreenTest {
         } else {
             assertTrue(mSolo.searchText(mDataType.getDataName()));
         }
+    }
+
+    //private methods
+    private DialogAlertFragment getAlertDialog() {
+        FragmentManager manager = getEditActivity().getFragmentManager();
+        Fragment f = manager.findFragmentByTag(DialogAlertFragment.ALERT_TAG);
+        return (DialogAlertFragment) f;
+    }
+
+    private Activity getMapActivity() {
+        Activity activity = mMapMonitor.getLastActivity();
+        if (activity == null) activity = mActivity;
+
+        return activity;
     }
 
     private void waitForMapToLaunch() {
@@ -256,17 +243,34 @@ public class ActivityEditLocationsTest extends ActivityEditScreenTest {
         checkInGrid(testData, !delete);
     }
 
-    private DialogAlertFragment getAlertDialog() {
-        FragmentManager manager = getEditActivity().getFragmentManager();
-        Fragment f = manager.findFragmentByTag(DialogAlertFragment.ALERT_TAG);
-        return (DialogAlertFragment) f;
+    //Overridden
+    @Override
+    protected void setUpFinish(boolean withData) {
+        super.setUpFinish(withData);
+        mMainMonitor = getInstrumentation().addMonitor(ActivityReviewView.class.getName(), null,
+                false);
+        mMapMonitor = getInstrumentation().addMonitor(ActivityEditLocationMap.class.getName(),
+                null, false);
     }
 
-    private Activity getMapActivity() {
-        Activity activity = mMapMonitor.getLastActivity();
-        if (activity == null) activity = mActivity;
+    @Override
+    protected GvData newEditDatum(GvData oldDatum) {
+        GvLocationList.GvLocation location = (GvLocationList.GvLocation) oldDatum;
+        return new GvLocationList.GvLocation(location.getLatLng(), RandomString.nextWord());
+    }
 
-        return activity;
+    @Override
+    protected GvDataList newData() {
+        return mLocs;
+    }
+
+    @Override
+    protected void enterDatum(GvDataList data, int index) {
+        assertTrue(index < NUM_DATA);
+        SoloDataEntry.enter(mSolo, (GvData) data.getItem(index));
+        mSolo.waitForText(LOCSADD[index]);
+        mSolo.clickInList(1);
+        mSolo.sleep(3000);
     }
 }
 

@@ -21,8 +21,9 @@ public abstract class ComparatorCollection<T extends GvData> {
         add(defaultComparator);
     }
 
-    protected void add(Comparator<T> comparator) {
-        mComparators.add(comparator);
+    //public methods
+    public Comparator<T> getDefault() {
+        return mComparators.get(0);
     }
 
     public Comparator<T> next() {
@@ -31,11 +32,11 @@ public abstract class ComparatorCollection<T extends GvData> {
         return comparator;
     }
 
-    public Comparator<T> getDefault() {
-        return mComparators.get(0);
-    }
-
     public int size() {
         return mComparators.size();
+    }
+
+    protected void add(Comparator<T> comparator) {
+        mComparators.add(comparator);
     }
 }

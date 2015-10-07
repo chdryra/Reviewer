@@ -47,15 +47,15 @@ import java.util.UUID;
  * @see Author
  * @see IdableList
  */
-public class Administrator extends ApplicationSingleton{
+public class Administrator extends ApplicationSingleton {
     private static final String NAME = "Administrator";
-    private static final String  REVIEWVIEW_ID     = "com.chdryra.android.reviewer.review_id";
-    private static final Author  AUTHOR            = new Author("Rizwan Choudrey", UserId
+    private static final String REVIEWVIEW_ID = "com.chdryra.android.reviewer.review_id";
+    private static final Author AUTHOR = new Author("Rizwan Choudrey", UserId
             .generateId());
 
     private static Administrator sSingleton;
 
-    private final ObjectHolder            mViews;
+    private final ObjectHolder mViews;
     private final ReviewerDb mDatabase;
     private final ReviewsRepository mReviewsRepository;
     private final TagsManager mTagsManager;
@@ -66,11 +66,12 @@ public class Administrator extends ApplicationSingleton{
         mViews = new ObjectHolder();
         mTagsManager = new TagsManager();
         mDatabase = ReviewerDb.getTestDatabase(context, mTagsManager);
-        ReviewerDbProvider provider  = new ReviewerDbProvider(mDatabase);
+        ReviewerDbProvider provider = new ReviewerDbProvider(mDatabase);
         mDatabase.registerObserver(provider);
         mReviewsRepository = new ReviewsRepository(provider, AUTHOR);
     }
 
+    //Static methods
     public static Administrator get(Context c) {
         sSingleton = getSingleton(sSingleton, Administrator.class, c);
         return sSingleton;
@@ -86,6 +87,7 @@ public class Administrator extends ApplicationSingleton{
         return chooser;
     }
 
+    //public methods
     public Author getAuthor() {
         return AUTHOR;
     }
@@ -102,6 +104,10 @@ public class Administrator extends ApplicationSingleton{
         return mReviewBuilderAdapter;
     }
 
+    public GvSocialPlatformList getSocialPlatformList() {
+        return GvSocialPlatformList.getLatest(getContext());
+    }
+
     public ReviewBuilderAdapter newReviewBuilder() {
         mReviewBuilderAdapter = new ReviewBuilderAdapter(getContext(), AUTHOR, mTagsManager);
         return mReviewBuilderAdapter;
@@ -115,10 +121,6 @@ public class Administrator extends ApplicationSingleton{
 
     public void deleteFromAuthorsFeed(String reviewId) {
         mDatabase.deleteReviewFromDb(reviewId);
-    }
-
-    public GvSocialPlatformList getSocialPlatformList() {
-        return GvSocialPlatformList.getLatest(getContext());
     }
 
     public void packView(ReviewView view, Intent i) {

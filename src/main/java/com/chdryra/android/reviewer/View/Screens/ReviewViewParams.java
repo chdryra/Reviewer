@@ -14,11 +14,11 @@ package com.chdryra.android.reviewer.View.Screens;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ReviewViewParams {
-    private GridViewParams mGridViewParams      = new GridViewParams();
-    private boolean        mSubjectVisible      = true;
-    private boolean        mRatingVisible       = true;
-    private boolean        mBannerButtonVisible = true;
-    private boolean        mCoverManager        = true;
+    private GridViewParams mGridViewParams = new GridViewParams();
+    private boolean mSubjectVisible = true;
+    private boolean mRatingVisible = true;
+    private boolean mBannerButtonVisible = true;
+    private boolean mCoverManager = true;
 
     public enum GridViewAlpha {
         TRANSPARENT(0),
@@ -31,6 +31,7 @@ public class ReviewViewParams {
             this.mAlpha = alpha;
         }
 
+        //public methods
         public int getAlpha() {
             return mAlpha;
         }
@@ -38,6 +39,7 @@ public class ReviewViewParams {
 
     public enum CellDimension {FULL, HALF, QUARTER}
 
+    //public methods
     public GridViewParams getGridViewParams() {
         return mGridViewParams;
     }
@@ -93,12 +95,14 @@ public class ReviewViewParams {
         return this;
     }
 
+    //Classes
     public static class GridViewParams {
-        public static final GridViewParams DEFAULT     = new GridViewParams();
-        private             GridViewAlpha  mGridAlpha  = GridViewAlpha.MEDIUM;
-        private             CellDimension  mCellWidth  = CellDimension.HALF;
-        private             CellDimension  mCellHeight = CellDimension.QUARTER;
+        public static final GridViewParams DEFAULT = new GridViewParams();
+        private GridViewAlpha mGridAlpha = GridViewAlpha.MEDIUM;
+        private CellDimension mCellWidth = CellDimension.HALF;
+        private CellDimension mCellHeight = CellDimension.QUARTER;
 
+        //public methods
         public int getGridAlpha() {
             return mGridAlpha.getAlpha();
         }

@@ -35,6 +35,7 @@ public class GvDataList<T extends GvData> extends ViewHolderDataList<T> implemen
         GvDataCollection<T> {
     public static final Parcelable.Creator<GvDataList> CREATOR = new Parcelable
             .Creator<GvDataList>() {
+        //Overridden
         public GvDataList createFromParcel(Parcel in) {
             return new GvDataList(in);
         }
@@ -45,8 +46,9 @@ public class GvDataList<T extends GvData> extends ViewHolderDataList<T> implemen
     };
 
     private final GvDataType<T> mType;
-    private       GvReviewId mReviewId;
+    private GvReviewId mReviewId;
 
+    //Constructors
     public GvDataList(GvReviewId reviewId, GvDataList<T> data) {
         this(data.getGvDataType(), reviewId);
         for (T datum : data) {
@@ -72,6 +74,7 @@ public class GvDataList<T extends GvData> extends ViewHolderDataList<T> implemen
         mReviewId = in.readParcelable(GvReviewId.class.getClassLoader());
     }
 
+    //Overridden
     @Override
     public GvDataType<T> getGvDataType() {
         return mType;

@@ -52,19 +52,6 @@ public class GvCanonicalCollectionTest extends TestCase {
         checkComparator(GvImageList.GvImage.TYPE);
     }
 
-    private <T extends GvData> void checkComparator(GvDataType<T> type) {
-        GvCanonicalCollection<T> list = newList(type);
-        GvDataList<T> canonicals = FactoryGvData.newDataList(list.getGvDataType());
-        for (GvCanonical canonical : list) {
-            canonicals.add((T) canonical.getCanonical());
-        }
-        list.sort();
-        canonicals.sort();
-        for (int i = 0; i < list.size(); ++i) {
-            assertEquals(canonicals.getItem(i), list.getItem(i).getCanonical());
-        }
-    }
-
     @SmallTest
     public void testEquals() {
         GvCanonicalCollection<GvCommentList.GvComment> listNotEquals = new GvCanonicalCollection<>
@@ -89,9 +76,17 @@ public class GvCanonicalCollectionTest extends TestCase {
         assertTrue(listEquals2.equals(listNotEquals));
     }
 
-    @Override
-    protected void setUp() throws Exception {
-        mList = newList(GvCommentList.GvComment.TYPE);
+    private <T extends GvData> void checkComparator(GvDataType<T> type) {
+        GvCanonicalCollection<T> list = newList(type);
+        GvDataList<T> canonicals = FactoryGvData.newDataList(list.getGvDataType());
+        for (GvCanonical canonical : list) {
+            canonicals.add((T) canonical.getCanonical());
+        }
+        list.sort();
+        canonicals.sort();
+        for (int i = 0; i < list.size(); ++i) {
+            assertEquals(canonicals.getItem(i), list.getItem(i).getCanonical());
+        }
     }
 
     private <T extends GvData> GvCanonicalCollection<T> newList(GvDataType<T> type) {
@@ -102,5 +97,11 @@ public class GvCanonicalCollectionTest extends TestCase {
             list.add(new GvCanonical<>(canonical, data));
         }
         return list;
+    }
+
+    //Overridden
+    @Override
+    protected void setUp() throws Exception {
+        mList = newList(GvCommentList.GvComment.TYPE);
     }
 }

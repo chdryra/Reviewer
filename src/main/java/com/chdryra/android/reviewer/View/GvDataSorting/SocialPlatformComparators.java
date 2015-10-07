@@ -17,6 +17,7 @@ public class SocialPlatformComparators extends ComparatorCollection<GvSocialPlat
         super(new MostFollowersTheAlphabetical());
     }
 
+    //Static methods
     public static SocialPlatformComparators getComparators() {
         return sComparators;
     }
@@ -24,6 +25,7 @@ public class SocialPlatformComparators extends ComparatorCollection<GvSocialPlat
     private static class MostFollowersTheAlphabetical implements Comparator<GvSocialPlatformList
             .GvSocialPlatform> {
 
+        //Overridden
         @Override
         public int compare(GvSocialPlatformList.GvSocialPlatform lhs, GvSocialPlatformList
                 .GvSocialPlatform rhs) {

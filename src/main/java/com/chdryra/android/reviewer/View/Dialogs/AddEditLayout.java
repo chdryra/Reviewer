@@ -27,31 +27,36 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvData;
  */
 public abstract class AddEditLayout<T extends GvData> extends DialogLayout<T> {
     private final GvDataEditManager<T> mViewManager;
-    private final T                    mNullingItem;
-    private final int                  mEditTextId;
+    private final T mNullingItem;
+    private final int mEditTextId;
 
     private interface GvDataEditManager<T extends GvData> {
+        //abstract
         void initialise(T data);
 
         void onAddEdit(T data);
     }
 
     public interface GvDataEditor {
+        //abstract
         void setKeyboardAction(EditText editText);
 
         void setDeleteConfirmTitle(String title);
     }
 
     public interface GvDataAdder {
+        //abstract
         void setKeyboardAction(EditText editText);
 
         void setTitle(String title);
     }
 
+    //abstract
     public abstract T createGvData();
 
+    //Constructors
     public AddEditLayout(Class<T> gvDataClass, int layoutId, int[] viewIds,
-            int keyboardEditTextId, GvDataAdder adder) {
+                         int keyboardEditTextId, GvDataAdder adder) {
         super(layoutId, viewIds);
         mEditTextId = keyboardEditTextId;
         mViewManager = new GvDataViewManagerAdd(adder);
@@ -59,47 +64,30 @@ public abstract class AddEditLayout<T extends GvData> extends DialogLayout<T> {
     }
 
     public AddEditLayout(Class<T> gvDataClass, int layoutId, int[] viewIds,
-            int keyboardEditTextId, GvDataEditor editor) {
+                         int keyboardEditTextId, GvDataEditor editor) {
         super(layoutId, viewIds);
         mEditTextId = keyboardEditTextId;
         mViewManager = new GvDataViewManagerEdit(editor);
         mNullingItem = FactoryGvData.newNull(gvDataClass);
     }
 
-    public void clearViews() {
-        updateLayout(mNullingItem);
-    }
-
+    //public methods
     public EditText getEditTextForKeyboardAction() {
         return (EditText) getView(mEditTextId);
     }
 
-    @Override
-    public void initialise(T data) {
-        mViewManager.initialise(data);
+    public void clearViews() {
+        updateLayout(mNullingItem);
     }
 
     public void onAdd(T data) {
         mViewManager.onAddEdit(data);
     }
 
-    private class GvDataViewManagerEdit implements AddEditLayout.GvDataEditManager<T> {
-        private final GvDataEditor mEditor;
-
-        private GvDataViewManagerEdit(GvDataEditor editor) {
-            mEditor = editor;
-        }
-
-        @Override
-        public void initialise(T data) {
-            mEditor.setKeyboardAction(getEditTextForKeyboardAction());
-            mEditor.setDeleteConfirmTitle(data.getStringSummary());
-            updateLayout(data);
-        }
-
-        @Override
-        public void onAddEdit(T data) {
-        }
+    //Overridden
+    @Override
+    public void initialise(T data) {
+        mViewManager.initialise(data);
     }
 
     public class GvDataViewManagerAdd implements AddEditLayout.GvDataEditManager<T> {
@@ -109,6 +97,7 @@ public abstract class AddEditLayout<T extends GvData> extends DialogLayout<T> {
             mAdder = adder;
         }
 
+        //Overridden
         @Override
         public void initialise(T data) {
             mAdder.setKeyboardAction(getEditTextForKeyboardAction());
@@ -118,6 +107,26 @@ public abstract class AddEditLayout<T extends GvData> extends DialogLayout<T> {
         public void onAddEdit(T data) {
             clearViews();
             mAdder.setTitle("+ " + data.getStringSummary());
+        }
+    }
+
+    private class GvDataViewManagerEdit implements AddEditLayout.GvDataEditManager<T> {
+        private final GvDataEditor mEditor;
+
+        private GvDataViewManagerEdit(GvDataEditor editor) {
+            mEditor = editor;
+        }
+
+        //Overridden
+        @Override
+        public void initialise(T data) {
+            mEditor.setKeyboardAction(getEditTextForKeyboardAction());
+            mEditor.setDeleteConfirmTitle(data.getStringSummary());
+            updateLayout(data);
+        }
+
+        @Override
+        public void onAddEdit(T data) {
         }
     }
 }

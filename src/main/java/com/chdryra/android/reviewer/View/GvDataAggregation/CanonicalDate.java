@@ -19,12 +19,14 @@ import java.util.Date;
  * Email: rizwan.choudrey@gmail.com
  */
 public class CanonicalDate implements CanonicalDatumMaker<GvDateList.GvDate> {
+    //Overridden
     @Override
     public GvDateList.GvDate getCanonical(GvDataList<GvDateList.GvDate> data) {
         if (data.size() == 0) return new GvDateList.GvDate(data.getReviewId(), null);
 
         DatumCounter<GvDateList.GvDate, Date> counter = new DatumCounter<>(data,
                 new DataGetter<GvDateList.GvDate, Date>() {
+                    //Overridden
                     @Override
                     public Date getData(GvDateList.GvDate datum) {
                         return datum.getDate();

@@ -17,6 +17,7 @@ import java.util.Comparator;
 public abstract class ComparatorCollectionTest<T extends GvData> extends TestCase {
     protected ComparatorCollection<T> mComparators;
 
+    //Constructors
     public ComparatorCollectionTest(ComparatorCollection<T> collection) {
         mComparators = collection;
     }

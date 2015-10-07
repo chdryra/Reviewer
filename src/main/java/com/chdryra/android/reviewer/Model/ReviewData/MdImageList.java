@@ -22,10 +22,12 @@ import java.util.Date;
  */
 public class MdImageList extends MdDataList<MdImageList.MdImage> {
 
+    //Constructors
     public MdImageList(ReviewId reviewId) {
         super(reviewId);
     }
 
+    //public methods
     public MdImageList getCovers() {
         MdImageList covers = new MdImageList(getReviewId());
         for (MdImage image : this) {
@@ -34,6 +36,8 @@ public class MdImageList extends MdDataList<MdImageList.MdImage> {
 
         return covers;
     }
+
+//Classes
     /**
      * Review Data: image
      * <p>
@@ -43,13 +47,14 @@ public class MdImageList extends MdDataList<MdImageList.MdImage> {
     public static class MdImage implements MdData, DataImage {
 
         private final Bitmap mBitmap;
-        private final Date   mDate;
+        private final Date mDate;
         private final String mCaption;
         private final ReviewId mReviewId;
         private boolean mIsCover = false;
 
+        //Constructors
         public MdImage(Bitmap bitmap, Date date, String caption, boolean isCover,
-                ReviewId reviewId) {
+                       ReviewId reviewId) {
             mBitmap = bitmap;
             mDate = date;
             mCaption = caption;
@@ -57,6 +62,7 @@ public class MdImageList extends MdDataList<MdImageList.MdImage> {
             mReviewId = reviewId;
         }
 
+        //Overridden
         @Override
         public ReviewId getReviewId() {
             return mReviewId;

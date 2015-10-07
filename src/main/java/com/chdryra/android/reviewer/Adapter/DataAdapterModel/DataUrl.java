@@ -16,7 +16,9 @@ import java.net.URL;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface DataUrl extends DataFact {
-    String getLabel();
-
+    //abstract
     URL getUrl();
+
+    //Overridden
+    String getLabel();
 }

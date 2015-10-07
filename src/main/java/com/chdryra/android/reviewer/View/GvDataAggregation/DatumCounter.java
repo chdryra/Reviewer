@@ -21,10 +21,11 @@ import java.util.Map;
  */
 public class DatumCounter<T extends GvData, D> {
     private Map<D, Integer> mCountMap;
-    private D               mMaxItem;
-    private int             mMaxCount;
-    private int             mNonMaxCount;
+    private D mMaxItem;
+    private int mMaxCount;
+    private int mNonMaxCount;
 
+    //Constructors
     public DatumCounter(GvDataList<T> data, DataGetter<T, D> getter) {
         mCountMap = new LinkedHashMap<>();
         for (T datum : data) {
@@ -48,6 +49,7 @@ public class DatumCounter<T extends GvData, D> {
         mNonMaxCount = mCountMap.size() - 1;
     }
 
+    //public methods
     public Map<D, Integer> getCountMap() {
         return mCountMap;
     }

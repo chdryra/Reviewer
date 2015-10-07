@@ -21,9 +21,10 @@ import com.chdryra.android.reviewer.R;
  * </p>
  */
 public class VhText extends VHString {
-    private static final int LAYOUT   = R.layout.grid_cell_text;
+    private static final int LAYOUT = R.layout.grid_cell_text;
     private static final int TEXTVIEW = R.id.grid_cell_text_view;
 
+    //Constructors
     public VhText() {
         super(LAYOUT, TEXTVIEW);
     }

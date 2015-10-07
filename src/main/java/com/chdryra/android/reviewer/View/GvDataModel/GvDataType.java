@@ -19,6 +19,7 @@ import android.os.Parcelable;
 public class GvDataType<T extends GvData> implements Parcelable {
     public static final Parcelable.Creator<GvDataType> CREATOR = new Parcelable
             .Creator<GvDataType>() {
+        //Overridden
         public GvDataType createFromParcel(Parcel in) {
             return new GvDataType(in);
         }
@@ -32,6 +33,7 @@ public class GvDataType<T extends GvData> implements Parcelable {
     private final String mDatumName;
     private final String mDataName;
 
+    //Constructors
     public GvDataType(Class<T> dataClass, String datum) {
         this(dataClass, datum, datum + "s");
     }
@@ -49,6 +51,7 @@ public class GvDataType<T extends GvData> implements Parcelable {
         mDataName = in.readString();
     }
 
+    //public methods
     public String getDatumName() {
         return mDatumName;
     }
@@ -65,6 +68,7 @@ public class GvDataType<T extends GvData> implements Parcelable {
         return mDataClass.cast(datum);
     }
 
+    //Overridden
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

@@ -97,6 +97,7 @@ public class IdableListTest extends TestCase {
         assertFalse(mCollection.equals(collection));
     }
 
+    //Overridden
     @Override
     protected void setUp() throws Exception {
         super.setUp();
@@ -106,10 +107,12 @@ public class IdableListTest extends TestCase {
     private static class Idable implements ReviewId.IdAble {
         private ReviewId mId;
 
+        //Constructors
         public Idable() {
             mId = RandomReviewId.nextId();
         }
 
+        //Overridden
         @Override
         public ReviewId getId() {
             return mId;

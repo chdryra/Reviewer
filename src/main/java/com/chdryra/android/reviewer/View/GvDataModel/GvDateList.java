@@ -23,6 +23,7 @@ import java.util.Date;
  * Email: rizwan.choudrey@gmail.com
  */
 public class GvDateList extends GvDataList<GvDateList.GvDate> {
+    //Constructors
     public GvDateList() {
         super(GvDate.TYPE, null);
     }
@@ -35,6 +36,7 @@ public class GvDateList extends GvDataList<GvDateList.GvDate> {
         super(data);
     }
 
+//Classes
     /**
      * {@link } version of: {@link java.util.Date}
      * {@link ViewHolder}: {@link VhDate}
@@ -47,6 +49,7 @@ public class GvDateList extends GvDataList<GvDateList.GvDate> {
         public static final GvDataType<GvDate> TYPE = new GvDataType<>(GvDate.class, "date");
         public static final Parcelable.Creator<GvDate> CREATOR = new Parcelable
                 .Creator<GvDate>() {
+            //Overridden
             public GvDate createFromParcel(Parcel in) {
                 return new GvDate(in);
             }
@@ -58,6 +61,7 @@ public class GvDateList extends GvDataList<GvDateList.GvDate> {
 
         private Date mDate;
 
+        //Constructors
         public GvDate() {
             this(null, null);
         }
@@ -80,6 +84,12 @@ public class GvDateList extends GvDataList<GvDateList.GvDate> {
             mDate = (Date) in.readSerializable();
         }
 
+        //public methods
+        public Date getDate() {
+            return mDate;
+        }
+
+        //Overridden
         @Override
         public int describeContents() {
             return 0;
@@ -89,26 +99,6 @@ public class GvDateList extends GvDataList<GvDateList.GvDate> {
         public void writeToParcel(Parcel parcel, int i) {
             super.writeToParcel(parcel, i);
             parcel.writeSerializable(mDate);
-        }
-
-        @Override
-        public String getStringSummary() {
-            DateFormat format = SimpleDateFormat.getDateInstance();
-            return format.format(mDate);
-        }
-
-        @Override
-        public ViewHolder getViewHolder() {
-            return new VhDate();
-        }
-
-        @Override
-        public boolean isValidForDisplay() {
-            return mDate != null;
-        }
-
-        public Date getDate() {
-            return mDate;
         }
 
         @Override
@@ -128,6 +118,22 @@ public class GvDateList extends GvDataList<GvDateList.GvDate> {
             int result = super.hashCode();
             result = 31 * result + (mDate != null ? mDate.hashCode() : 0);
             return result;
+        }
+
+        @Override
+        public String getStringSummary() {
+            DateFormat format = SimpleDateFormat.getDateInstance();
+            return format.format(mDate);
+        }
+
+        @Override
+        public ViewHolder getViewHolder() {
+            return new VhDate();
+        }
+
+        @Override
+        public boolean isValidForDisplay() {
+            return mDate != null;
         }
     }
 }

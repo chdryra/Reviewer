@@ -28,8 +28,10 @@ import java.util.Map;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ConfigDb {
-    private static ConfigDb            sConfig;
-    private        Map<DbData, Config> mConfigsMap;
+    private static ConfigDb sConfig;
+    private Map<DbData, Config> mConfigsMap;
+
+    public enum DbData {REVIEWS, COMMENTS, FACTS, LOCATIONS, IMAGES, AUTHORS, TAGS}
 
     private ConfigDb() {
         mConfigsMap = new HashMap<>();
@@ -63,29 +65,30 @@ public class ConfigDb {
                         RowTag.class));
     }
 
+    //Static methods
+    public static Config getConfig(DbData dataType) {
+        return getConfig().mConfigsMap.get(dataType);
+    }
+
+    //private methods
     private static ConfigDb getConfig() {
         if (sConfig == null) sConfig = new ConfigDb();
         return sConfig;
     }
 
-    public static Config getConfig(DbData dataType) {
-        return getConfig().mConfigsMap.get(dataType);
-    }
-
-    public enum DbData {REVIEWS, COMMENTS, FACTS, LOCATIONS, IMAGES, AUTHORS, TAGS}
-
     public class Config {
         private ReviewerDbTable mTable;
-        private String                                  mPkColumn;
+        private String mPkColumn;
         private Class<? extends ReviewerDbRow.TableRow> mRowClass;
 
         private Config(ReviewerDbTable table, String pkColumn,
-                Class<? extends ReviewerDbRow.TableRow> rowClass) {
+                       Class<? extends ReviewerDbRow.TableRow> rowClass) {
             mTable = table;
             mPkColumn = pkColumn;
             mRowClass = rowClass;
         }
 
+        //public methods
         public ReviewerDbTable getTable() {
             return mTable;
         }

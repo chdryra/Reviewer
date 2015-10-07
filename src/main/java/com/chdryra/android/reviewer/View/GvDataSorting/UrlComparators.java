@@ -16,11 +16,13 @@ public class UrlComparators extends ComparatorCollection<GvUrlList.GvUrl> {
         super(new UrlLabelComparator());
     }
 
+    //Static methods
     public static UrlComparators getComparators() {
         return sComparators;
     }
 
     private static class UrlLabelComparator implements Comparator<GvUrlList.GvUrl> {
+        //Overridden
         @Override
         public int compare(GvUrlList.GvUrl lhs, GvUrlList.GvUrl rhs) {
             int comp = lhs.getLabel().compareToIgnoreCase(rhs.getLabel());

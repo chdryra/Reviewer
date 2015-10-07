@@ -21,8 +21,10 @@ import com.chdryra.android.mygenerallibrary.ViewHolderData;
  */
 public class VhComment extends VhText {
 
+    //Constructors
     public VhComment() {
         super(new VHDataStringGetter() {
+            //Overridden
             @Override
             public String getString(ViewHolderData data) {
                 GvCommentList.GvComment comment = (GvCommentList.GvComment) data;

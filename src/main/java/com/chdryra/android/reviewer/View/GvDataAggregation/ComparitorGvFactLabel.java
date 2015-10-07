@@ -16,8 +16,10 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvFactList;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ComparitorGvFactLabel extends ComparitorStringable<GvFactList.GvFact> {
+    //Constructors
     public ComparitorGvFactLabel() {
         super(new DataGetter<GvFactList.GvFact, String>() {
+            //Overridden
             @Override
             public String getData(GvFactList.GvFact datum) {
                 return datum.getLabel().toLowerCase();

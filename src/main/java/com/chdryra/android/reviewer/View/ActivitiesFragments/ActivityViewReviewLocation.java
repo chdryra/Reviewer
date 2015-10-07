@@ -21,6 +21,7 @@ import com.chdryra.android.reviewer.View.Launcher.LauncherUi;
 public class ActivityViewReviewLocation extends ActivitySingleFragment implements LaunchableUi {
     private static final String TAG = "ActivityViewReviewLocation";
 
+    //Overridden
     @Override
     public String getLaunchTag() {
         return TAG;

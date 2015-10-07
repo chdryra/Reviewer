@@ -23,24 +23,28 @@ import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
 
 public class MdCommentList extends MdDataList<MdCommentList.MdComment> {
 
+    //Constructors
     public MdCommentList(ReviewId reviewId) {
         super(reviewId);
     }
 
+//Classes
     /**
      * Review Data: comment
      */
     public static class MdComment implements MdData, DataComment {
-        private final String   mComment;
-        private final boolean  mIsHeadline;
+        private final String mComment;
+        private final boolean mIsHeadline;
         private final ReviewId mReviewId;
 
+        //Constructors
         public MdComment(String comment, boolean isHeadline, ReviewId reviewId) {
             mComment = comment;
             mIsHeadline = isHeadline;
             mReviewId = reviewId;
         }
 
+        //Overridden
         @Override
         public ReviewId getReviewId() {
             return mReviewId;

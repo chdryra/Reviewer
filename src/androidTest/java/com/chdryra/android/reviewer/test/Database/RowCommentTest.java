@@ -47,10 +47,10 @@ public class RowCommentTest extends TestCase {
         testRow(new RowComment(cursor));
     }
 
-    @Override
-    protected void setUp() throws Exception {
-        MdDataMocker mocker = new MdDataMocker();
-        mComment = mocker.newComment();
+    //private methods
+    private String getDatumId() {
+        return mComment.getReviewId().toString() + ReviewerDbRow.SEPARATOR + "c" + String.valueOf
+                (INDEX);
     }
 
     private void testRow(RowComment row) {
@@ -62,8 +62,10 @@ public class RowCommentTest extends TestCase {
         assertEquals(mComment, row.toMdData());
     }
 
-    private String getDatumId() {
-        return mComment.getReviewId().toString() + ReviewerDbRow.SEPARATOR + "c" + String.valueOf
-                (INDEX);
+    //Overridden
+    @Override
+    protected void setUp() throws Exception {
+        MdDataMocker mocker = new MdDataMocker();
+        mComment = mocker.newComment();
     }
 }

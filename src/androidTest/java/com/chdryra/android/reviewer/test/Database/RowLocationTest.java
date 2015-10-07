@@ -49,10 +49,10 @@ public class RowLocationTest extends TestCase {
         testRow(new RowLocation(cursor));
     }
 
-    @Override
-    protected void setUp() throws Exception {
-        MdDataMocker mocker = new MdDataMocker();
-        mLocation = mocker.newLocation();
+    //private methods
+    private String getDatumId() {
+        return mLocation.getReviewId().toString() + ReviewerDbRow.SEPARATOR + "l" + String.valueOf
+                (INDEX);
     }
 
     private void testRow(RowLocation row) {
@@ -66,8 +66,10 @@ public class RowLocationTest extends TestCase {
         assertEquals(mLocation, row.toMdData());
     }
 
-    private String getDatumId() {
-        return mLocation.getReviewId().toString() + ReviewerDbRow.SEPARATOR + "l" + String.valueOf
-                (INDEX);
+    //Overridden
+    @Override
+    protected void setUp() throws Exception {
+        MdDataMocker mocker = new MdDataMocker();
+        mLocation = mocker.newLocation();
     }
 }

@@ -18,14 +18,30 @@ public class ViewerAggregateToData<T extends GvData> implements GridDataViewer<G
     private GvCanonicalCollection<T> mData;
     private ReviewsRepository mRepository;
 
+    //Constructors
     public ViewerAggregateToData(Context context,
-                       GvCanonicalCollection<T> data,
-                       ReviewsRepository repository) {
+                                 GvCanonicalCollection<T> data,
+                                 ReviewsRepository repository) {
         mContext = context;
         mData = data;
         mRepository = repository;
     }
 
+    //protected methods
+    protected Context getContext() {
+        return mContext;
+    }
+
+    protected ReviewsRepository getRepository() {
+        return mRepository;
+    }
+
+    protected ReviewViewAdapter newDataToReviewsAdapter(GvCanonical datum) {
+        return FactoryReviewViewAdapter.newDataToReviewsAdapter(mContext, datum.toList(),
+                mRepository, datum.getCanonical().getStringSummary());
+    }
+
+    //Overridden
     @Override
     public GvDataList<GvCanonical> getGridData() {
         return mData.toList();
@@ -41,7 +57,7 @@ public class ViewerAggregateToData<T extends GvData> implements GridDataViewer<G
         ReviewViewAdapter adapter;
         if (!isExpandable(datum)) {
             adapter = null;
-        } else if(datum.size() == 1) {
+        } else if (datum.size() == 1) {
             return new ViewerDataToReviews<>(mContext, mData, mRepository).expandGridCell(datum);
         } else {
             adapter = newDataToReviewsAdapter(datum);
@@ -53,18 +69,5 @@ public class ViewerAggregateToData<T extends GvData> implements GridDataViewer<G
     @Override
     public ReviewViewAdapter expandGridData() {
         return new ViewerDataToReviews<>(mContext, mData, mRepository).expandGridData();
-    }
-
-    protected Context getContext() {
-        return mContext;
-    }
-
-    protected ReviewsRepository getRepository() {
-        return mRepository;
-    }
-
-    protected ReviewViewAdapter newDataToReviewsAdapter(GvCanonical datum) {
-        return FactoryReviewViewAdapter.newDataToReviewsAdapter(mContext, datum.toList(),
-                mRepository, datum.getCanonical().getStringSummary());
     }
 }

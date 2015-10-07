@@ -57,6 +57,7 @@ public class CommentFormatterTest extends TestCase {
         }
     }
 
+    //Overridden
     @Override
     protected void setUp() throws Exception {
         super.setUp();

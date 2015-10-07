@@ -20,10 +20,12 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvTagList;
  * Email: rizwan.choudrey@gmail.com
  */
 public class AddEditTagTest extends AddEditLayoutTest<GvTagList.GvTag> {
+    //Constructors
     public AddEditTagTest() {
         super(GvTagList.GvTag.TYPE, new AddEditTag(new ConfigGvDataAddEditView.AddTag()));
     }
 
+    //Overridden
     @Override
     protected void enterData(GvTagList.GvTag comment) {
         mEditText.setText(comment.get());

@@ -17,6 +17,7 @@ import com.chdryra.android.mygenerallibrary.ViewHolderData;
  * above, number followers below.
  */
 public class VhSocialPlatform extends VhDualText {
+    //Overridden
     @Override
     public void updateView(ViewHolderData data) {
         GvSocialPlatformList.GvSocialPlatform platform = (GvSocialPlatformList.GvSocialPlatform)

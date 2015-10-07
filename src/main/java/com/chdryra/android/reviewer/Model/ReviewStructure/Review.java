@@ -51,10 +51,7 @@ import com.chdryra.android.reviewer.Model.UserData.Author;
  */
 
 public interface Review extends ReviewId.IdAble {
-    //Core data
-    @Override
-    ReviewId getId();
-
+    //abstract
     MdSubject getSubject();
 
     MdRating getRating();
@@ -77,6 +74,11 @@ public interface Review extends ReviewId.IdAble {
     MdImageList getImages();
 
     MdLocationList getLocations();
+
+    //Overridden
+    //Core data
+    @Override
+    ReviewId getId();
 
     //For speed and comparison
     @Override

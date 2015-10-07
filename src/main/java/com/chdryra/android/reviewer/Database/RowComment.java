@@ -21,16 +21,17 @@ import com.chdryra.android.reviewer.Model.ReviewData.ReviewId;
  * Email: rizwan.choudrey@gmail.com
  */
 public class RowComment implements MdDataRow<MdCommentList.MdComment> {
-    public static String COMMENT_ID  = ReviewerDbContract.TableComments.COLUMN_NAME_COMMENT_ID;
-    public static String REVIEW_ID   = ReviewerDbContract.TableComments.COLUMN_NAME_REVIEW_ID;
-    public static String COMMENT     = ReviewerDbContract.TableComments.COLUMN_NAME_COMMENT;
+    public static String COMMENT_ID = ReviewerDbContract.TableComments.COLUMN_NAME_COMMENT_ID;
+    public static String REVIEW_ID = ReviewerDbContract.TableComments.COLUMN_NAME_REVIEW_ID;
+    public static String COMMENT = ReviewerDbContract.TableComments.COLUMN_NAME_COMMENT;
     public static String IS_HEADLINE = ReviewerDbContract.TableComments.COLUMN_NAME_IS_HEADLINE;
 
-    private String  mCommentId;
-    private String  mReviewId;
-    private String  mComment;
+    private String mCommentId;
+    private String mReviewId;
+    private String mComment;
     private boolean mIsHeadline;
 
+    //Constructors
     public RowComment() {
     }
 
@@ -48,6 +49,7 @@ public class RowComment implements MdDataRow<MdCommentList.MdComment> {
         mIsHeadline = cursor.getInt(cursor.getColumnIndexOrThrow(IS_HEADLINE)) == 1;
     }
 
+    //Overridden
     @Override
     public String getRowId() {
         return mCommentId;

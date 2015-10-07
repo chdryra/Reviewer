@@ -11,6 +11,7 @@ import com.chdryra.android.reviewer.Model.TagsModel.TagsManager;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface ReviewsProvider {
+    //abstract
     Review getReview(ReviewId id);
 
     IdableList<Review> getReviews();

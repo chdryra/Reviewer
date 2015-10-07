@@ -17,12 +17,14 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
  * Email: rizwan.choudrey@gmail.com
  */
 public class CanonicalCommentMode implements CanonicalDatumMaker<GvCommentList.GvComment> {
+    //Overridden
     @Override
     public GvCommentList.GvComment getCanonical(GvDataList<GvCommentList.GvComment> data) {
         if (data.size() == 0) return new GvCommentList.GvComment(data.getReviewId(), "");
 
         DatumCounter<GvCommentList.GvComment, String> counter = new DatumCounter<>(data,
                 new DataGetter<GvCommentList.GvComment, String>() {
+                    //Overridden
                     @Override
                     public String getData(GvCommentList.GvComment datum) {
                         return datum.getComment();

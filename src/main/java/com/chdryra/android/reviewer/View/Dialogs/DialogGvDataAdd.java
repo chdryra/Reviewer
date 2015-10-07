@@ -53,15 +53,45 @@ public abstract class DialogGvDataAdd<T extends GvData> extends
     private final GvDataType<T> mDataType;
     private AddEditLayout<T> mLayout;
     private ReviewBuilderAdapter.DataBuilderAdapter<T> mBuilder;
-    private       GvDataAddListener<T>         mAddListener;
+    private GvDataAddListener<T> mAddListener;
 
     private boolean mQuickSet = false;
 
+    /**
+     * Provides a callback for when the add button is pressed
+     */
+    public interface GvDataAddListener<T extends GvData> {
+        //abstract
+        boolean onGvDataAdd(T data);
+
+        void onGvDataCancel();
+
+        void onGvDataDone();
+    }
+
+    //Constructors
     //Use Class<T2> instead of sending type for extra type safety...
     public DialogGvDataAdd(GvDataType<T> dataType) {
         mDataType = dataType;
     }
 
+    //public methods
+    public GvDataType<T> getGvDataType() {
+        return mDataType;
+    }
+
+    //protected methods
+    @Override
+    protected Intent getReturnData() {
+        return null;
+    }
+
+    //package private methods
+    boolean isQuickSet() {
+        return mQuickSet && mBuilder != null;
+    }
+
+    //Overridden
     @Override
     public String getLaunchTag() {
         return "Add" + mDataType.getDatumName();
@@ -83,8 +113,14 @@ public abstract class DialogGvDataAdd<T extends GvData> extends
         getDialog().setTitle(title);
     }
 
-    public GvDataType<T> getGvDataType() {
-        return mDataType;
+    @Override
+    protected void onAddButtonClick() {
+        T newDatum = mLayout.createGvData();
+
+        boolean added = isQuickSet() ? mBuilder.add(newDatum) :
+                newDatum.isValidForDisplay() && mAddListener.onGvDataAdd(newDatum);
+
+        if (added) mLayout.onAdd(newDatum);
     }
 
     @Override
@@ -112,16 +148,6 @@ public abstract class DialogGvDataAdd<T extends GvData> extends
     }
 
     @Override
-    protected void onAddButtonClick() {
-        T newDatum = mLayout.createGvData();
-
-        boolean added = isQuickSet() ? mBuilder.add(newDatum) :
-                newDatum.isValidForDisplay() && mAddListener.onGvDataAdd(newDatum);
-
-        if (added) mLayout.onAdd(newDatum);
-    }
-
-    @Override
     protected void onCancelButtonClick() {
         if (isQuickSet()) {
             mBuilder.reset();
@@ -137,25 +163,5 @@ public abstract class DialogGvDataAdd<T extends GvData> extends
         } else {
             mAddListener.onGvDataDone();
         }
-    }
-
-    @Override
-    protected Intent getReturnData() {
-        return null;
-    }
-
-    boolean isQuickSet() {
-        return mQuickSet && mBuilder != null;
-    }
-
-    /**
-     * Provides a callback for when the add button is pressed
-     */
-    public interface GvDataAddListener<T extends GvData> {
-        boolean onGvDataAdd(T data);
-
-        void onGvDataCancel();
-
-        void onGvDataDone();
     }
 }

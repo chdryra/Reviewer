@@ -17,11 +17,12 @@ public class GiLaunchReviewDataScreen extends GridItemExpander {
     private static final int REQUEST_CODE = RequestCodeGenerator.getCode
             ("GiLaunchReviewDataScreen");
 
+    //Overridden
     @Override
     public void onClickExpandable(GvData item, int position, View v, ReviewViewAdapter
             expanded) {
         ReviewView ui = ReviewDataScreen.newScreen(expanded, item.getGvDataType());
-        LauncherUi.launch(ui, getReviewView().getParent(), REQUEST_CODE, ui.getLaunchTag(), new
+        LauncherUi.launch(ui, getReviewView().getFragment(), REQUEST_CODE, ui.getLaunchTag(), new
                 Bundle());
     }
 }

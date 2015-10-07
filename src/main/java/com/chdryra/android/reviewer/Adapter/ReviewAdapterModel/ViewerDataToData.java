@@ -19,6 +19,7 @@ public class ViewerDataToData<T extends GvData> implements GridDataViewer<T> {
     private GvDataCollection<T> mData;
     private ReviewsRepository mRepository;
 
+    //Constructors
     public ViewerDataToData(Context context,
                             ReviewNode node,
                             GvDataCollection<T> data,
@@ -29,6 +30,7 @@ public class ViewerDataToData<T extends GvData> implements GridDataViewer<T> {
         mRepository = repository;
     }
 
+    //Overridden
     @Override
     public GvDataList<T> getGridData() {
         return mData.toList();

@@ -19,10 +19,12 @@ import com.google.android.gms.maps.model.LatLng;
  */
 public class MdLocationList extends MdDataList<MdLocationList.MdLocation> {
 
+    //Constructors
     public MdLocationList(ReviewId reviewId) {
         super(reviewId);
     }
 
+//Classes
     /**
      * Review Data: location
      */
@@ -32,12 +34,14 @@ public class MdLocationList extends MdDataList<MdLocationList.MdLocation> {
         private final String mName;
         private final ReviewId mReviewId;
 
+        //Constructors
         public MdLocation(LatLng latLng, String name, ReviewId reviewId) {
             mLatLng = latLng;
             mName = name;
             mReviewId = reviewId;
         }
 
+        //Overridden
         @Override
         public ReviewId getReviewId() {
             return mReviewId;

@@ -25,10 +25,12 @@ import java.util.ArrayList;
 public class GpAutoCompleter implements ViewHolderAdapterFiltered.QueryFilter {
     private final LatLng mLatLng;
 
+    //Constructors
     public GpAutoCompleter(LatLng latLng) {
         mLatLng = latLng;
     }
 
+    //Overridden
     @Override
     public ViewHolderDataList filter(String query) {
         GpAutoCompletePredictions predictions = PlacesApi.fetchAutoCompletePredictions(query,

@@ -20,7 +20,7 @@ import com.chdryra.android.reviewer.View.Dialogs.LayoutHolder;
  * Email: rizwan.choudrey@gmail.com
  */
 public class LayoutHolderTest extends AndroidTestCase {
-    private static final int   LAYOUT  = com.chdryra.android.reviewer.R.layout.dialog_holder_test;
+    private static final int LAYOUT = com.chdryra.android.reviewer.R.layout.dialog_holder_test;
     private static final int[] VIEWIDS = {com.chdryra.android.reviewer.R.id.edit_text1,
             com.chdryra.android.reviewer.R.id.edit_text2};
 
@@ -37,14 +37,15 @@ public class LayoutHolderTest extends AndroidTestCase {
         }
     }
 
+    //private methods
+    private LayoutHolder getHolder() {
+        return new LayoutHolder(LAYOUT, VIEWIDS);
+    }
 
+    //Overridden
     @Override
     protected void setUp() throws Exception {
         super.setUp();
         mHolder = getHolder();
-    }
-
-    private LayoutHolder getHolder() {
-        return new LayoutHolder(LAYOUT, VIEWIDS);
     }
 }

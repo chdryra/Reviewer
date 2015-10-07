@@ -106,6 +106,7 @@ public class GvSocialPlatformListTest extends AndroidTestCase {
         }
     }
 
+    //Overridden
     @Override
     protected void setUp() throws Exception {
         super.setUp();

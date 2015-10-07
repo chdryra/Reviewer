@@ -23,11 +23,13 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvCriterionList;
 public class AddEditChildReviewTest extends AddEditLayoutTest<GvCriterionList.GvCriterion> {
     private RatingBar mRatingBar;
 
+    //Constructors
     public AddEditChildReviewTest() {
         super(GvCriterionList.GvCriterion.TYPE,
                 new AddEditChildReview(new ConfigGvDataAddEditView.AddChild()));
     }
 
+    //Overridden
     @Override
     protected void enterData(GvCriterionList.GvCriterion child) {
         mEditText.setText(child.getSubject());

@@ -28,7 +28,7 @@ import junit.framework.TestCase;
 public class RowFactTest extends TestCase {
     private static final int INDEX = 314;
     private MdFactList.MdFact mFact;
-    private MdUrlList.MdUrl   mUrl;
+    private MdUrlList.MdUrl mUrl;
 
     @SmallTest
     public void testDataConstructor() {
@@ -56,11 +56,10 @@ public class RowFactTest extends TestCase {
         testRow(new RowFact(cursor), true);
     }
 
-    @Override
-    protected void setUp() throws Exception {
-        MdDataMocker mocker = new MdDataMocker();
-        mFact = mocker.newFact();
-        mUrl = mocker.newUrl();
+    //private methods
+    private String getDatumId() {
+        return mFact.getReviewId().toString() + ReviewerDbRow.SEPARATOR + "f" + String.valueOf
+                (INDEX);
     }
 
     private void testRow(RowFact row, boolean isUrl) {
@@ -74,8 +73,11 @@ public class RowFactTest extends TestCase {
         assertEquals(isUrl ? mUrl : mFact, row.toMdData());
     }
 
-    private String getDatumId() {
-        return mFact.getReviewId().toString() + ReviewerDbRow.SEPARATOR + "f" + String.valueOf
-                (INDEX);
+    //Overridden
+    @Override
+    protected void setUp() throws Exception {
+        MdDataMocker mocker = new MdDataMocker();
+        mFact = mocker.newFact();
+        mUrl = mocker.newUrl();
     }
 }

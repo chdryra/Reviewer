@@ -36,25 +36,26 @@ import com.chdryra.android.reviewer.Model.UserData.Author;
  * review data.
  */
 public class ReviewUser implements Review {
-    private final ReviewId    mId;
-    private final Author      mAuthor;
+    private final ReviewId mId;
+    private final Author mAuthor;
     private final PublishDate mPublishDate;
-    private final MdSubject   mSubject;
-    private final MdRating    mRating;
+    private final MdSubject mSubject;
+    private final MdRating mRating;
     private final MdCriterionList mCriteria;
-    private final MdCommentList  mComments;
-    private final MdImageList    mImages;
-    private final MdFactList     mFacts;
+    private final MdCommentList mComments;
+    private final MdImageList mImages;
+    private final MdFactList mFacts;
     private final MdLocationList mLocations;
     private final boolean mRatingIsAverage;
 
     private ReviewNode mNode;
 
+    //Constructors
     public ReviewUser(ReviewId id, Author author, PublishDate publishDate, String subject, float
             rating,
-            Iterable<? extends DataComment> comments,
-            Iterable<? extends DataImage> images,
-            Iterable<? extends DataFact> facts,
+                      Iterable<? extends DataComment> comments,
+                      Iterable<? extends DataImage> images,
+                      Iterable<? extends DataFact> facts,
                       Iterable<? extends DataLocation> locations,
                       IdableList<Review> criteria,
                       boolean ratingIsAverage) {
@@ -81,11 +82,7 @@ public class ReviewUser implements Review {
         mCriteria = new MdCriterionList(criteria, mId);
     }
 
-    @Override
-    public ReviewId getId() {
-        return mId;
-    }
-
+    //Overridden
     @Override
     public MdSubject getSubject() {
         return mSubject;
@@ -139,6 +136,11 @@ public class ReviewUser implements Review {
     @Override
     public MdLocationList getLocations() {
         return mLocations;
+    }
+
+    @Override
+    public ReviewId getId() {
+        return mId;
     }
 
     @Override

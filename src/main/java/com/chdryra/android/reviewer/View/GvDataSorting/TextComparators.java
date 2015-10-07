@@ -16,11 +16,14 @@ public class TextComparators extends ComparatorCollection<GvText> {
         super(new AlphabeticalIgnoreCase<>());
     }
 
+    //Static methods
     public static TextComparators getComparators() {
         return sComparators;
     }
 
+    //Classes
     public static class AlphabeticalIgnoreCase<T extends GvText> implements Comparator<T> {
+        //Overridden
         @Override
         public int compare(T lhs, T rhs) {
             return lhs.get().compareToIgnoreCase(rhs.get());

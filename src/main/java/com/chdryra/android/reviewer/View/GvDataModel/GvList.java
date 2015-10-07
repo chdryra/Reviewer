@@ -17,6 +17,7 @@ public class GvList extends GvDataList<GvData> {
     public static final GvDataType<GvData> TYPE =
             new GvDataType<>(GvData.class, "Review Data", "Review Data");
 
+    //Constructors
     public GvList() {
         super(TYPE, null);
     }
@@ -29,6 +30,7 @@ public class GvList extends GvDataList<GvData> {
         super(data);
     }
 
+    //Overridden
     @Override
     public boolean contains(GvData datum) {
         return mData.contains(datum);

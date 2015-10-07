@@ -25,12 +25,13 @@ import java.net.URL;
  * Email: rizwan.choudrey@gmail.com
  */
 public class AddEditFactTest extends AddEditLayoutTest<GvFactList.GvFact> {
-    private static final String BBC     = "BBC";
+    private static final String BBC = "BBC";
     private static final String BBC_URL = "http://www.bbc.co.uk/";
 
     private EditText mLabel;
     private boolean mUrlData = false;
 
+    //Constructors
     public AddEditFactTest() {
         super(GvFactList.GvFact.TYPE, new AddEditFact(new ConfigGvDataAddEditView.AddFact()));
     }
@@ -40,6 +41,16 @@ public class AddEditFactTest extends AddEditLayoutTest<GvFactList.GvFact> {
         testCreateGvDatumFromViews(true);
     }
 
+    private void testCreateGvDatumFromViews(boolean isUrl) {
+        mUrlData = isUrl;
+        GvFactList.GvFact datum = newDatum();
+        enterData(datum);
+        GvFactList.GvFact fromLayout = mLayout.createGvData();
+        assertEquals(isUrl, fromLayout.isUrl());
+        assertEquals(datum, mLayout.createGvData());
+    }
+
+    //Overridden
     @Override
     protected void enterData(GvFactList.GvFact datum) {
         mLabel.setText(datum.getLabel());
@@ -58,15 +69,6 @@ public class AddEditFactTest extends AddEditLayoutTest<GvFactList.GvFact> {
     }
 
     @Override
-    public void setUp() throws Exception {
-        super.setUp();
-        mLabel = (EditText) getView(AddEditFact.LABEL);
-        mEditText = (EditText) getView(AddEditFact.VALUE);
-        assertNotNull(mLabel);
-        assertNotNull(mEditText);
-    }
-
-    @Override
     protected GvFactList.GvFact newDatum() {
         if (mUrlData) {
             try {
@@ -80,12 +82,12 @@ public class AddEditFactTest extends AddEditLayoutTest<GvFactList.GvFact> {
         return super.newDatum();
     }
 
-    private void testCreateGvDatumFromViews(boolean isUrl) {
-        mUrlData = isUrl;
-        GvFactList.GvFact datum = newDatum();
-        enterData(datum);
-        GvFactList.GvFact fromLayout = mLayout.createGvData();
-        assertEquals(isUrl, fromLayout.isUrl());
-        assertEquals(datum, mLayout.createGvData());
+    @Override
+    public void setUp() throws Exception {
+        super.setUp();
+        mLabel = (EditText) getView(AddEditFact.LABEL);
+        mEditText = (EditText) getView(AddEditFact.VALUE);
+        assertNotNull(mLabel);
+        assertNotNull(mEditText);
     }
 }

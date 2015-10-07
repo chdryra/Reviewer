@@ -23,25 +23,9 @@ public class CanonicalCriterionAverageTest extends CanonicalGvDataTest<GvCriteri
     private static final String SUBJECT1 = RandomString.nextWord();
     private static final String SUBJECT2 = RandomString.nextWord();
     private static final String SUBJECT3 = RandomString.nextWord();
-    private static final float  RATING1  = 1f;
-    private static final float  RATING2  = 2f;
-    private static final float  RATING3  = 3f;
-
-    @Override
-    protected GvCriterionList.GvCriterion getTestDatum() {
-        return new GvCriterionList.GvCriterion(SUBJECT1, RATING1);
-    }
-
-    @Override
-    protected CanonicalDatumMaker<GvCriterionList.GvCriterion> getCanonicalMaker() {
-        return new CanonicalCriterionAverage();
-    }
-
-    @Override
-    protected void additionalTests() {
-        checkDifferent();
-        checkSameSubjectDifferentRatings();
-    }
+    private static final float RATING1 = 1f;
+    private static final float RATING2 = 2f;
+    private static final float RATING3 = 3f;
 
     private void checkSameSubjectDifferentRatings() {
         mData = newDataList();
@@ -98,5 +82,22 @@ public class CanonicalCriterionAverageTest extends CanonicalGvDataTest<GvCriteri
         assertTrue(canon.isValidForDisplay());
         assertEquals(SUBJECT2 + " + 1", canon.getSubject());
         assertEquals(avg, canon.getRating());
+    }
+
+    //Overridden
+    @Override
+    protected void additionalTests() {
+        checkDifferent();
+        checkSameSubjectDifferentRatings();
+    }
+
+    @Override
+    protected GvCriterionList.GvCriterion getTestDatum() {
+        return new GvCriterionList.GvCriterion(SUBJECT1, RATING1);
+    }
+
+    @Override
+    protected CanonicalDatumMaker<GvCriterionList.GvCriterion> getCanonicalMaker() {
+        return new CanonicalCriterionAverage();
     }
 }

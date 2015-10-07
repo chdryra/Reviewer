@@ -20,8 +20,9 @@ import java.util.StringTokenizer;
  */
 public class CommentFormatter {
     public static final String SENTENCE_DELIMITERS = ".!?";
-    public static final String IGNORE_DELIMITER    = ".";
+    public static final String IGNORE_DELIMITER = ".";
 
+    //Static methods
     public static String getHeadline(String comment) {
         return getFirstSentence(comment, true);
     }

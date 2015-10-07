@@ -36,7 +36,7 @@ import java.util.Set;
  */
 public class ConfigGvDataUiTest extends AndroidTestCase {
     private static final ArrayList<GvDataType<? extends GvData>> TYPES = GvDataMocker.TYPES;
-    private static final GvDataType[] NULLADDS  = {GvImageList.GvImage.TYPE};
+    private static final GvDataType[] NULLADDS = {GvImageList.GvImage.TYPE};
 
     @SmallTest
     public void testGetConfigAndConfigClass() {

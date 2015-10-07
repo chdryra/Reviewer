@@ -19,14 +19,16 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvTagList;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ViewTag extends DialogLayout<GvTagList.GvTag> {
-    public static final int   LAYOUT = R.layout.dialog_text_view_large;
-    public static final int   TAG    = R.id.large_text_view;
-    public static final int[] VIEWS  = new int[]{TAG};
+    public static final int LAYOUT = R.layout.dialog_text_view_large;
+    public static final int TAG = R.id.large_text_view;
+    public static final int[] VIEWS = new int[]{TAG};
 
+    //Constructors
     public ViewTag() {
         super(LAYOUT, VIEWS);
     }
 
+    //Overridden
     @Override
     public void updateLayout(GvTagList.GvTag tag) {
         ((TextView) getView(TAG)).setText(tag.get());

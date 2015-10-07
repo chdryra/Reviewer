@@ -17,10 +17,12 @@ public class ComparitorStringable<T> implements DifferenceComparitor<T, Differen
     private static final ComparitorString COMPARITOR = new ComparitorString();
     private DataGetter<T, String> mGetter;
 
+    //Constructors
     public ComparitorStringable(DataGetter<T, String> getter) {
         mGetter = getter;
     }
 
+    //Overridden
     @Override
     public DifferencePercentage compare(T lhs, T rhs) {
         return COMPARITOR.compare(mGetter.getData(lhs), mGetter.getData(rhs));

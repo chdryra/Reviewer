@@ -39,25 +39,28 @@ public class GvBuildReviewList extends GvDataList<GvBuildReviewList.GvBuildRevie
         add(GvFactList.GvFact.TYPE);
     }
 
+    //Static methods
     public static GvBuildReviewList newInstance(ReviewBuilderAdapter adapter) {
         return new GvBuildReviewList(adapter);
-    }
-
-    @Override
-    public void sort() {
     }
 
     private <T extends GvData> void add(GvDataType<T> dataType) {
         add(new GvBuildReview<>(dataType, mBuilder));
     }
 
+    //Overridden
+    @Override
+    public void sort() {
+    }
+
+    //Classes
     public static class GvBuildReview<T extends GvData> extends GvDataList<T>
             implements GridDataObservable.GridDataObserver {
 
         public static GvDataType<GvBuildReview> TYPE =
                 new GvDataType<>(GvBuildReview.class, "create", "create");
 
-        private final ConfigGvDataUi.Config        mConfig;
+        private final ConfigGvDataUi.Config mConfig;
         private final ReviewBuilderAdapter.DataBuilderAdapter<T> mBuilder;
 
         private GvBuildReview(GvDataType<T> dataType, ReviewBuilderAdapter builder) {
@@ -67,6 +70,16 @@ public class GvBuildReviewList extends GvDataList<GvBuildReviewList.GvBuildRevie
             mBuilder.registerGridDataObserver(this);
         }
 
+        //public methods
+        public ConfigGvDataUi.Config getConfig() {
+            return mConfig;
+        }
+
+        public int getDataSize() {
+            return mBuilder.getGridData().size();
+        }
+
+        //Overridden
         @Override
         public String getStringSummary() {
             return getGvDataType().getDataName();
@@ -75,14 +88,6 @@ public class GvBuildReviewList extends GvDataList<GvBuildReviewList.GvBuildRevie
         @Override
         public ViewHolder getViewHolder() {
             return new VhBuildReviewData();
-        }
-
-        public ConfigGvDataUi.Config getConfig() {
-            return mConfig;
-        }
-
-        public int getDataSize() {
-            return mBuilder.getGridData().size();
         }
 
         @Override

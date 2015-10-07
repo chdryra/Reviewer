@@ -20,8 +20,8 @@ import java.util.LinkedList;
  * for finding latest number of followers on each platform.
  */
 public class SocialPlatformList implements Iterable<SocialPlatformList.SocialPlatform> {
-    private static SocialPlatformList         sList;
-    private final  LinkedList<SocialPlatform> mPlatforms;
+    private static SocialPlatformList sList;
+    private final LinkedList<SocialPlatform> mPlatforms;
 
     /**
      * Enum for specifying the social platforms available together with their text labels.
@@ -54,6 +54,7 @@ public class SocialPlatformList implements Iterable<SocialPlatformList.SocialPla
         }
     }
 
+    //Static methods
     public static SocialPlatformList getList(Context context) {
         if (sList == null) {
             sList = new SocialPlatformList(context);
@@ -72,6 +73,7 @@ public class SocialPlatformList implements Iterable<SocialPlatformList.SocialPla
         return mPlatforms.size();
     }
 
+    //Overridden
     @Override
     public Iterator<SocialPlatform> iterator() {
         return mPlatforms.iterator();
@@ -83,13 +85,14 @@ public class SocialPlatformList implements Iterable<SocialPlatformList.SocialPla
      */
     public class SocialPlatform {
         private final String mName;
-        private       int    mFollowers;
+        private int mFollowers;
 
         private SocialPlatform(String name) {
             mName = name;
             update();
         }
 
+        //public methods
         public String getName() {
             return mName;
         }

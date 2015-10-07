@@ -49,6 +49,8 @@ public abstract class DialogGvDataAddTest<T extends GvData> extends
     protected Activity mActivity;
     protected CallBackSignaler mSignaler;
 
+    protected enum DialogButton {CANCEL, ADD, DONE}
+
     protected DialogGvDataAddTest(Class<? extends DialogGvDataAdd<T>> dialogClass) {
         super(ActivityReviewView.class);
         mDialogClass = dialogClass;
@@ -106,6 +108,7 @@ public abstract class DialogGvDataAddTest<T extends GvData> extends
         assertTrue(data.contains(datum3));
     }
 
+    //protected methods
     protected boolean isDataEntered() {
         return mSolo.getEditText(0).getText().toString().length() > 0;
     }
@@ -116,31 +119,6 @@ public abstract class DialogGvDataAddTest<T extends GvData> extends
 
     protected void enterData(GvData datum) {
         SoloDataEntry.enter(mSolo, datum);
-    }
-
-    @Override
-    protected void setUp() throws Exception {
-        super.setUp();
-
-        mDialog = mDialogClass.newInstance();
-        mListener = new DialogAddListener<>();
-
-        mAdapter = Administrator.get(getInstrumentation().getTargetContext())
-                .newReviewBuilder().getDataBuilder(mDialog.getGvDataType());
-
-        Intent i = new Intent();
-        Context context = getInstrumentation().getTargetContext();
-        Administrator admin = Administrator.get(context);
-        admin.packView(EditScreen.newScreen(context, mDialog.getGvDataType()), i);
-        setActivityIntent(i);
-        mActivity = getActivity();
-
-        FragmentManager manager = mActivity.getFragmentManager();
-        FragmentTransaction ft = manager.beginTransaction();
-        ft.add(mListener, DIALOG_TAG);
-        ft.commit();
-
-        mSolo = new Solo(getInstrumentation(), mActivity);
     }
 
     protected void launchDialogAndTestShowing(boolean quickSet) {
@@ -154,6 +132,7 @@ public abstract class DialogGvDataAddTest<T extends GvData> extends
         final FragmentManager manager = mActivity.getFragmentManager();
         mSignaler.reset();
         mActivity.runOnUiThread(new Runnable() {
+            //Overridden
             public void run() {
                 manager.executePendingTransactions();
                 mSignaler.signal();
@@ -193,6 +172,24 @@ public abstract class DialogGvDataAddTest<T extends GvData> extends
         return data;
     }
 
+    protected void pressDialogButton(final DialogButton button) {
+        mSignaler.reset();
+        mActivity.runOnUiThread(new Runnable() {
+            public void run() {
+                if (button == DialogButton.CANCEL) {
+                    mDialog.clickCancelButton();
+                } else if (button == DialogButton.ADD) {
+                    mDialog.clickAddButton();
+                } else if (button == DialogButton.DONE) {
+                    mDialog.clickDoneButton();
+                }
+                mSignaler.signal();
+            }
+        });
+
+        mSignaler.waitForSignal();
+    }
+
     private void testNotQuickSet(final boolean addButton) {
         launchDialogAndTestShowing(false);
 
@@ -227,23 +224,29 @@ public abstract class DialogGvDataAddTest<T extends GvData> extends
         }
     }
 
-    protected void pressDialogButton(final DialogButton button) {
-        mSignaler.reset();
-        mActivity.runOnUiThread(new Runnable() {
-            public void run() {
-                if (button == DialogButton.CANCEL) {
-                    mDialog.clickCancelButton();
-                } else if (button == DialogButton.ADD) {
-                    mDialog.clickAddButton();
-                } else if (button == DialogButton.DONE) {
-                    mDialog.clickDoneButton();
-                }
-                mSignaler.signal();
-            }
-        });
+    //Overridden
+    @Override
+    protected void setUp() throws Exception {
+        super.setUp();
 
-        mSignaler.waitForSignal();
+        mDialog = mDialogClass.newInstance();
+        mListener = new DialogAddListener<>();
+
+        mAdapter = Administrator.get(getInstrumentation().getTargetContext())
+                .newReviewBuilder().getDataBuilder(mDialog.getGvDataType());
+
+        Intent i = new Intent();
+        Context context = getInstrumentation().getTargetContext();
+        Administrator admin = Administrator.get(context);
+        admin.packView(EditScreen.newScreen(context, mDialog.getGvDataType()), i);
+        setActivityIntent(i);
+        mActivity = getActivity();
+
+        FragmentManager manager = mActivity.getFragmentManager();
+        FragmentTransaction ft = manager.beginTransaction();
+        ft.add(mListener, DIALOG_TAG);
+        ft.commit();
+
+        mSolo = new Solo(getInstrumentation(), mActivity);
     }
-
-    protected enum DialogButton {CANCEL, ADD, DONE}
 }

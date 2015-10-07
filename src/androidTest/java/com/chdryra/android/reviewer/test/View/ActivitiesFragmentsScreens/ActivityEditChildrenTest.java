@@ -25,6 +25,7 @@ public class ActivityEditChildrenTest extends ActivityEditScreenTest {
     private boolean mIsAverage = false;
     private float mOriginalRatingNotAverage;
 
+    //Constructors
     public ActivityEditChildrenTest() {
         super(GvCriterionList.GvCriterion.TYPE);
     }
@@ -112,16 +113,23 @@ public class ActivityEditChildrenTest extends ActivityEditScreenTest {
         assertEquals(mGridRatingBeforeDone, getBuilder().getParentBuilder().getRating());
     }
 
+    private float getAverageRating(boolean nearestHalf) {
+        int numCells = getGridSize();
+        float rating = 0;
+        for (int i = 0; i < numCells; ++i) {
+            GvCriterionList.GvCriterion review = (GvCriterionList.GvCriterion)
+                    getGridItem(i);
+            rating += review.getRating() / numCells;
+        }
+
+        return nearestHalf ? Math.round(rating * 2f) / 2f : rating;
+    }
+
+    //Overridden
     @Override
     protected void clickMenuDone() {
         mGridRatingBeforeDone = getAverageRating(false);
         super.clickMenuDone();
-    }
-
-    @Override
-    protected void setAdapter() {
-        super.setAdapter();
-        getBuilder().getParentBuilder().setRatingIsAverage(mIsAverage);
     }
 
     @Override
@@ -166,16 +174,10 @@ public class ActivityEditChildrenTest extends ActivityEditScreenTest {
         super.editRating(rating);
     }
 
-    private float getAverageRating(boolean nearestHalf) {
-        int numCells = getGridSize();
-        float rating = 0;
-        for (int i = 0; i < numCells; ++i) {
-            GvCriterionList.GvCriterion review = (GvCriterionList.GvCriterion)
-                    getGridItem(i);
-            rating += review.getRating() / numCells;
-        }
-
-        return nearestHalf ? Math.round(rating * 2f) / 2f : rating;
+    @Override
+    protected void setAdapter() {
+        super.setAdapter();
+        getBuilder().getParentBuilder().setRatingIsAverage(mIsAverage);
     }
 }
 

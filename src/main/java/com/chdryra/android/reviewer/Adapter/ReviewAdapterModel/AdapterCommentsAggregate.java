@@ -20,6 +20,7 @@ public class AdapterCommentsAggregate extends AdapterReviewNode<GvCanonical> {
     private GvCanonicalCollection<GvCommentList.GvComment> mCommentsSplit;
     private ReviewsRepository mRepository;
 
+    //Constructors
     public AdapterCommentsAggregate(Context context, ReviewNode node,
                                     GvCanonicalCollection<GvCommentList.GvComment> comments,
                                     ReviewsRepository repository) {

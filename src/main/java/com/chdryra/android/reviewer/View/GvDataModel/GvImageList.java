@@ -25,6 +25,7 @@ import java.util.Random;
  * used as a background image for a review.
  */
 public class GvImageList extends GvDataList<GvImageList.GvImage> {
+    //Constructors
     public GvImageList() {
         super(GvImage.TYPE, null);
     }
@@ -37,14 +38,7 @@ public class GvImageList extends GvDataList<GvImageList.GvImage> {
         super(data);
     }
 
-    public boolean contains(Bitmap bitmap) {
-        for (GvImage image : this) {
-            if (image.getBitmap().sameAs(bitmap)) return true;
-        }
-
-        return false;
-    }
-
+    //public methods
     public GvImage getRandomCover() {
         GvImageList covers = getCovers();
         if (covers.size() == 0) return new GvImage();
@@ -62,6 +56,15 @@ public class GvImageList extends GvDataList<GvImageList.GvImage> {
         return covers;
     }
 
+    public boolean contains(Bitmap bitmap) {
+        for (GvImage image : this) {
+            if (image.getBitmap().sameAs(bitmap)) return true;
+        }
+
+        return false;
+    }
+
+//Classes
     /**
      * {@link GvData} version of: {@link com.chdryra
      * .android.reviewer.MdImageList.MdImage}
@@ -71,6 +74,7 @@ public class GvImageList extends GvDataList<GvImageList.GvImage> {
         public static final GvDataType<GvImage> TYPE = new GvDataType<>(GvImage.class, "image");
         public static final Parcelable.Creator<GvImage> CREATOR = new Parcelable
                 .Creator<GvImage>() {
+            //Overridden
             public GvImage createFromParcel(Parcel in) {
                 return new GvImage(in);
             }
@@ -81,11 +85,12 @@ public class GvImageList extends GvDataList<GvImageList.GvImage> {
         };
 
         private final Bitmap mBitmap;
-        private final Date   mDate;
+        private final Date mDate;
         private final LatLng mLatLng;
-        private       String mCaption;
+        private String mCaption;
         private boolean mIsCover = false;
 
+        //Constructors
         public GvImage() {
             super(GvImage.TYPE);
             mBitmap = null;
@@ -125,6 +130,16 @@ public class GvImageList extends GvDataList<GvImageList.GvImage> {
             mDate = (Date) in.readSerializable();
         }
 
+        //public methods
+        public LatLng getLatLng() {
+            return mLatLng;
+        }
+
+        public void setIsCover(boolean isCover) {
+            mIsCover = isCover;
+        }
+
+        //Overridden
         @Override
         public ViewHolder getViewHolder() {
             return new VhImage();
@@ -138,6 +153,21 @@ public class GvImageList extends GvDataList<GvImageList.GvImage> {
         @Override
         public String getStringSummary() {
             return mCaption != null ? TYPE.getDatumName() + ": " + mCaption : TYPE.getDatumName();
+        }
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel parcel, int i) {
+            super.writeToParcel(parcel, i);
+            parcel.writeParcelable(mBitmap, i);
+            parcel.writeString(mCaption);
+            parcel.writeParcelable(mLatLng, i);
+            parcel.writeByte((byte) (isCover() ? 1 : 0));
+            parcel.writeSerializable(mDate);
         }
 
         @Override
@@ -171,21 +201,6 @@ public class GvImageList extends GvDataList<GvImageList.GvImage> {
         }
 
         @Override
-        public int describeContents() {
-            return 0;
-        }
-
-        @Override
-        public void writeToParcel(Parcel parcel, int i) {
-            super.writeToParcel(parcel, i);
-            parcel.writeParcelable(mBitmap, i);
-            parcel.writeString(mCaption);
-            parcel.writeParcelable(mLatLng, i);
-            parcel.writeByte((byte) (isCover() ? 1 : 0));
-            parcel.writeSerializable(mDate);
-        }
-
-        @Override
         public Bitmap getBitmap() {
             return mBitmap;
         }
@@ -203,14 +218,6 @@ public class GvImageList extends GvDataList<GvImageList.GvImage> {
         @Override
         public boolean isCover() {
             return mIsCover;
-        }
-
-        public LatLng getLatLng() {
-            return mLatLng;
-        }
-
-        public void setIsCover(boolean isCover) {
-            mIsCover = isCover;
         }
     }
 }

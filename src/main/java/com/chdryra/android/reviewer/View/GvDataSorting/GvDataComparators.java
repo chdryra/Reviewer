@@ -48,14 +48,11 @@ public class GvDataComparators {
         mMap.put(GvUrlList.GvUrl.TYPE, UrlComparators.getComparators());
     }
 
-    private static GvDataComparators get() {
-        if (sComparator == null) sComparator = new GvDataComparators();
-        return sComparator;
-    }
-
+    //Static methods
     public static <T extends GvData> Comparator<T> getDefaultComparator(GvDataType<T> elementType) {
         ComparatorCollection<T> sorters = get().mMap.get(elementType);
         return sorters != null ? sorters.getDefault() : new Comparator<T>() {
+            //Overridden
             @Override
             public int compare(T lhs, T rhs) {
                 return 0;
@@ -63,12 +60,18 @@ public class GvDataComparators {
         };
     }
 
+    private static GvDataComparators get() {
+        if (sComparator == null) sComparator = new GvDataComparators();
+        return sComparator;
+    }
+
     //To help with type safety
     private class ComparatorMappings {
         private Map<GvDataType<? extends GvData>, ComparatorCollection<? extends GvData>> mMap =
                 new HashMap<>();
 
-        private <T extends GvData> void put(GvDataType<T> dataType, ComparatorCollection<T> sorters) {
+        private <T extends GvData> void put(GvDataType<T> dataType, ComparatorCollection<T>
+                sorters) {
             mMap.put(dataType, sorters);
         }
 

@@ -19,6 +19,7 @@ import java.util.Date;
  * Email: rizwan.choudrey@gmail.com
  */
 public class CanonicalImage implements CanonicalDatumMaker<GvImageList.GvImage> {
+    //Overridden
     @Override
     public GvImageList.GvImage getCanonical(GvDataList<GvImageList.GvImage> data) {
         GvImageList.GvImage nullImage = new GvImageList.GvImage(data.getReviewId(), null, null,
@@ -37,6 +38,7 @@ public class CanonicalImage implements CanonicalDatumMaker<GvImageList.GvImage> 
 
         DatumCounter<GvImageList.GvImage, String> captionCounter =
                 new DatumCounter<>(data, new DataGetter<GvImageList.GvImage, String>() {
+                    //Overridden
                     @Override
                     public String getData(GvImageList.GvImage datum) {
                         return datum.getCaption();

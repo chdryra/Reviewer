@@ -28,23 +28,7 @@ public class CanonicalFactTest extends CanonicalGvDataTest<GvFactList.GvFact> {
     private static final String VALUE3 = RandomString.nextWord();
     private static final String VALUE4 = RandomString.nextWord();
 
-    @Override
-    protected GvFactList.GvFact getTestDatum() {
-        return new GvFactList.GvFact(LABEL1, VALUE1);
-    }
-
-    @Override
-    protected CanonicalDatumMaker<GvFactList.GvFact> getCanonicalMaker() {
-        return new CanonicalFact();
-    }
-
-    @Override
-    protected void additionalTests() {
-        checkDifferentFacts();
-        checkSameLabelDifferentValues();
-        checkDifferentLabelsSameValues();
-    }
-
+    //protected methods
     private void checkDifferentFacts() {
         mData = newDataList();
         GvFactList.GvFact fact1 = new GvFactList.GvFact(LABEL1, VALUE1);
@@ -109,5 +93,23 @@ public class CanonicalFactTest extends CanonicalGvDataTest<GvFactList.GvFact> {
         assertTrue(canon.isValidForDisplay());
         assertEquals(LABEL2 + " + 2", canon.getLabel());
         assertEquals(VALUE1, canon.getValue());
+    }
+
+    //Overridden
+    @Override
+    protected void additionalTests() {
+        checkDifferentFacts();
+        checkSameLabelDifferentValues();
+        checkDifferentLabelsSameValues();
+    }
+
+    @Override
+    protected GvFactList.GvFact getTestDatum() {
+        return new GvFactList.GvFact(LABEL1, VALUE1);
+    }
+
+    @Override
+    protected CanonicalDatumMaker<GvFactList.GvFact> getCanonicalMaker() {
+        return new CanonicalFact();
     }
 }

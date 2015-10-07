@@ -24,6 +24,7 @@ public class EqualsVerifierTest extends TestCase {
             mComment = comment;
         }
 
+        //Overridden
         @Override
         public boolean equals(Object o) {
             if (this == o) return true;

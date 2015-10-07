@@ -28,10 +28,12 @@ import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
 public class ChildDataGetter {
     private ReviewNode mRoot;
 
+    //Constructors
     public ChildDataGetter(ReviewNode root) {
         mRoot = root;
     }
 
+    //public methods
     public MdDataList<MdSubject> getSubjects() {
         MdDataList<MdSubject> subjects = new MdDataList<>(mRoot.getId());
         for (ReviewNode node : mRoot.getChildren()) {

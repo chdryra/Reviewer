@@ -12,15 +12,18 @@ import java.util.Comparator;
 public class ChildReviewComparators extends ComparatorCollection<GvCriterionList.GvCriterion> {
     private static ChildReviewComparators sComparators = new ChildReviewComparators();
 
+    //Constructors
     public ChildReviewComparators() {
         super(new SubjectThenRating());
     }
 
+    //Static methods
     public static ChildReviewComparators getComparators() {
         return sComparators;
     }
 
     private static class SubjectThenRating implements Comparator<GvCriterionList.GvCriterion> {
+        //Overridden
         @Override
         public int compare(GvCriterionList.GvCriterion lhs, GvCriterionList.GvCriterion
                 rhs) {

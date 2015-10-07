@@ -28,19 +28,6 @@ public class ReviewMakerTest extends InstrumentationTestCase {
     ReviewNode mFeed;
     Context mContext;
 
-    @Override
-    protected void setUp() throws Exception {
-        TestDatabase.recreateDatabase(getInstrumentation());
-        mContext = getInstrumentation().getTargetContext();
-        mFeed = ReviewNodeProvider.getReviewNode(mContext);
-        assertTrue(mFeed.getChildren().size() > 0);
-    }
-
-    @Override
-    protected void tearDown() throws Exception {
-        TestDatabase.deleteDatabase(getInstrumentation());
-    }
-
     @SmallTest
     public void testCreateMetaReviewReviewList() {
         IdableList<Review> reviews = new IdableList<>();
@@ -84,13 +71,28 @@ public class ReviewMakerTest extends InstrumentationTestCase {
 
         ReviewNode meta = ReviewMaker.createMetaReview(mContext, comments, subject);
 
-        float averageRating = 0.5f * (review1.getRating().getValue() + review2.getRating().getValue());
+        float averageRating = 0.5f * (review1.getRating().getValue() + review2.getRating()
+                .getValue());
         assertEquals(subject, meta.getSubject().get());
         assertEquals(averageRating, meta.getRating().getValue());
         IdableList<ReviewNode> children = meta.getChildren();
         assertEquals(2, children.size());
         assertEquals(review1, children.getItem(0).getReview());
         assertEquals(review2, children.getItem(1).getReview());
+    }
+
+    //Overridden
+    @Override
+    protected void setUp() throws Exception {
+        TestDatabase.recreateDatabase(getInstrumentation());
+        mContext = getInstrumentation().getTargetContext();
+        mFeed = ReviewNodeProvider.getReviewNode(mContext);
+        assertTrue(mFeed.getChildren().size() > 0);
+    }
+
+    @Override
+    protected void tearDown() throws Exception {
+        TestDatabase.deleteDatabase(getInstrumentation());
     }
 
 }

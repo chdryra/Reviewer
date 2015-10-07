@@ -25,6 +25,7 @@ import com.chdryra.android.reviewer.View.Utils.RequestCodeGenerator;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ReviewLauncher {
+    //Static methods
     public static void launchReview(Context context, Fragment commissioner, GvData datum) {
         ReviewsRepository repo = Administrator.get(context).getReviewsRepository();
         launchReview(context, commissioner, repo.getReview(datum), repo);

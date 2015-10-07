@@ -15,6 +15,7 @@ import java.util.Comparator;
  */
 public class FactComparatorsTest extends ComparatorCollectionTest<GvFactList.GvFact> {
 
+    //Constructors
     public FactComparatorsTest() {
         super(FactComparators.getComparators());
     }

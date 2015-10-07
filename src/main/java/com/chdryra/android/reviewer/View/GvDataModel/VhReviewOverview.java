@@ -28,24 +28,50 @@ import java.util.ArrayList;
  */
 public class VhReviewOverview extends ViewHolderBasic {
     private static final int LAYOUT = R.layout.grid_cell_review_overview2;
-    private static final int SUBJECT  = R.id.review_subject;
+    private static final int SUBJECT = R.id.review_subject;
     private static final int RATING = R.id.review_rating;
-    private static final int IMAGE    = R.id.review_image;
+    private static final int IMAGE = R.id.review_image;
     private static final int HEADLINE = R.id.review_headline;
-    private static final int TAGS   = R.id.review_tags;
-    private static final int PUBLISH  = R.id.review_publish_data;
+    private static final int TAGS = R.id.review_tags;
+    private static final int PUBLISH = R.id.review_publish_data;
 
-    private TextView  mSubject;
+    private TextView mSubject;
     private RatingBar mRating;
     private ImageView mImage;
-    private TextView  mHeadline;
+    private TextView mHeadline;
     private TextView mTags;
-    private TextView  mPublishDate;
+    private TextView mPublishDate;
 
     VhReviewOverview() {
         super(LAYOUT, new int[]{LAYOUT, SUBJECT, RATING, IMAGE, HEADLINE, TAGS, PUBLISH});
     }
 
+    private String getTagString(ArrayList<String> tags) {
+        int i = tags.size();
+        String tagsString = getTagString(tags, i--);
+        while (i > -1 && TextUtils.isTooLargeForTextView(mTags, tagsString)) {
+            tagsString = getTagString(tags, i--);
+        }
+
+        return tagsString;
+    }
+
+    private String getTagString(ArrayList<String> tags, int maxTags) {
+        String tagsString = "";
+        int size = Math.min(tags.size(), Math.max(maxTags, tags.size()));
+        int diff = tags.size() - size;
+        int i = 0;
+        while (i < size) {
+            tagsString += "#" + tags.get(i) + " ";
+            ++i;
+        }
+
+        if (diff > 0) tagsString += "+ " + String.valueOf(diff) + "#";
+
+        return tagsString.trim();
+    }
+
+    //Overridden
     @Override
     public void updateView(ViewHolderData data) {
         if (mSubject == null) mSubject = (TextView) getView(SUBJECT);
@@ -77,31 +103,6 @@ public class VhReviewOverview extends ViewHolderBasic {
         } else {
             mHeadline.setText("");
         }
-    }
-
-    private String getTagString(ArrayList<String> tags) {
-        int i = tags.size();
-        String tagsString = getTagString(tags, i--);
-        while (i > -1 && TextUtils.isTooLargeForTextView(mTags, tagsString)) {
-            tagsString = getTagString(tags, i--);
-        }
-
-        return tagsString;
-    }
-
-    private String getTagString(ArrayList<String> tags, int maxTags) {
-        String tagsString = "";
-        int size = Math.min(tags.size(), Math.max(maxTags, tags.size()));
-        int diff = tags.size() - size;
-        int i = 0;
-        while (i < size) {
-            tagsString += "#" + tags.get(i) + " ";
-            ++i;
-        }
-
-        if (diff > 0) tagsString += "+ " + String.valueOf(diff) + "#";
-
-        return tagsString.trim();
     }
 }
 

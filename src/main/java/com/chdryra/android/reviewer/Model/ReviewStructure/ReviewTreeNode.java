@@ -37,12 +37,13 @@ import com.chdryra.android.reviewer.Model.UserData.Author;
 public class ReviewTreeNode implements ReviewNode {
     private final ReviewId mId;
 
-    private final Review                        mReview;
+    private final Review mReview;
     private final TreeDataGetter mGetter;
     private final IdableList<ReviewNode> mChildren;
-    private       ReviewTreeNode               mParent;
+    private ReviewTreeNode mParent;
     private boolean mRatingIsAverage = false;
 
+    //Constructors
     public ReviewTreeNode(Review root, boolean ratingIsAverage, ReviewId nodeId) {
         mId = nodeId;
         mReview = root;
@@ -52,6 +53,33 @@ public class ReviewTreeNode implements ReviewNode {
         mGetter = new TreeDataGetter(this);
     }
 
+    public boolean addChild(ReviewTreeNode childNode) {
+        if (mChildren.containsId(childNode.getId())) {
+            return false;
+        }
+        mChildren.add(childNode);
+        childNode.setParent(this);
+
+        return true;
+    }
+
+    public void removeChild(ReviewId reviewId) {
+        removeChild((ReviewTreeNode) mChildren.get(reviewId));
+    }
+
+    public ReviewNode createTree() {
+        return new ReviewTree(this);
+    }
+
+    private void removeChild(ReviewTreeNode childNode) {
+        if (!mChildren.containsId(childNode.getId())) {
+            return;
+        }
+        mChildren.remove(childNode.getId());
+        childNode.setParent(null);
+    }
+
+    //Overridden
     //ReviewNode methods
     @Override
     public Review getReview() {
@@ -101,26 +129,6 @@ public class ReviewTreeNode implements ReviewNode {
     @Override
     public boolean isRatingAverageOfChildren() {
         return mRatingIsAverage;
-    }
-
-    public boolean addChild(ReviewTreeNode childNode) {
-        if (mChildren.containsId(childNode.getId())) {
-            return false;
-        }
-        mChildren.add(childNode);
-        childNode.setParent(this);
-
-        return true;
-    }
-
-    public void removeChild(ReviewId reviewId) {
-        removeChild((ReviewTreeNode) mChildren.get(reviewId));
-    }
-
-    //Review methods
-    @Override
-    public ReviewId getId() {
-        return mId;
     }
 
     @Override
@@ -187,6 +195,12 @@ public class ReviewTreeNode implements ReviewNode {
         return mGetter.getLocations();
     }
 
+    //Review methods
+    @Override
+    public ReviewId getId() {
+        return mId;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -204,17 +218,5 @@ public class ReviewTreeNode implements ReviewNode {
         result = 31 * result + (mParent != null ? mParent.hashCode() : 0);
         result = 31 * result + (mRatingIsAverage ? 1 : 0);
         return result;
-    }
-
-    public ReviewNode createTree() {
-        return new ReviewTree(this);
-    }
-
-    private void removeChild(ReviewTreeNode childNode) {
-        if (!mChildren.containsId(childNode.getId())) {
-            return;
-        }
-        mChildren.remove(childNode.getId());
-        childNode.setParent(null);
     }
 }

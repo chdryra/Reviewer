@@ -19,35 +19,20 @@ import com.google.android.gms.maps.model.LatLng;
  * Email: rizwan.choudrey@gmail.com
  */
 public class CanonicalLocationTest extends CanonicalGvDataTest<GvLocationList.GvLocation> {
-    private static final String NYC     = "New York";
+    private static final String NYC = "New York";
     private static final double NYC_LAT = 40.7143528;
     private static final double NYC_LNG = -74.0059731;
 
-    private static final String CHI     = "Chicago";
+    private static final String CHI = "Chicago";
     private static final double CHI_LAT = 41.8781136;
     private static final double CHI_LNG = -87.6297982;
 
-    private static final String ATL     = "Atalanta";
+    private static final String ATL = "Atalanta";
     private static final double ATL_LAT = 33.7489954;
     private static final double ATL_LNG = -84.3879824;
 
     private static final double MID_LAT = 39.423527;
     private static final double MID_LNG = -80.077744;
-
-    @Override
-    protected GvLocationList.GvLocation getTestDatum() {
-        return new GvLocationList.GvLocation(new LatLng(NYC_LAT, NYC_LNG), NYC);
-    }
-
-    @Override
-    protected CanonicalDatumMaker<GvLocationList.GvLocation> getCanonicalMaker() {
-        return new CanonicalLocation();
-    }
-
-    @Override
-    protected void additionalTests() {
-        checkMidpoint();
-    }
 
     private void checkMidpoint() {
         LatLng nycLL = new LatLng(NYC_LAT, NYC_LNG);
@@ -71,5 +56,21 @@ public class CanonicalLocationTest extends CanonicalGvDataTest<GvLocationList.Gv
         assertEquals(mid.getName(), canon.getName());
         assertEquals(mid.getLatLng().latitude, canon.getLatLng().latitude, 0.01);
         assertEquals(mid.getLatLng().longitude, canon.getLatLng().longitude, 0.01);
+    }
+
+    //Overridden
+    @Override
+    protected void additionalTests() {
+        checkMidpoint();
+    }
+
+    @Override
+    protected GvLocationList.GvLocation getTestDatum() {
+        return new GvLocationList.GvLocation(new LatLng(NYC_LAT, NYC_LNG), NYC);
+    }
+
+    @Override
+    protected CanonicalDatumMaker<GvLocationList.GvLocation> getCanonicalMaker() {
+        return new CanonicalLocation();
     }
 }

@@ -20,6 +20,7 @@ import com.google.android.gms.maps.model.LatLng;
 import java.util.StringTokenizer;
 
 public class GvLocationList extends GvDataList<GvLocationList.GvLocation> {
+    //Constructors
     public GvLocationList() {
         super(GvLocation.TYPE, null);
     }
@@ -32,6 +33,7 @@ public class GvLocationList extends GvDataList<GvLocationList.GvLocation> {
         super(data);
     }
 
+//Classes
     /**
      * {@link GvData} version of: {@link com.chdryra
      * .android.reviewer.MdLocationList.MdLocation}
@@ -42,6 +44,7 @@ public class GvLocationList extends GvDataList<GvLocationList.GvLocation> {
                 "location");
         public static final Parcelable.Creator<GvLocation> CREATOR = new Parcelable
                 .Creator<GvLocation>() {
+            //Overridden
             public GvLocation createFromParcel(Parcel in) {
                 return new GvLocation(in);
             }
@@ -53,6 +56,7 @@ public class GvLocationList extends GvDataList<GvLocationList.GvLocation> {
         private final LatLng mLatLng;
         private final String mName;
 
+        //Constructors
         public GvLocation() {
             this(null, null, null);
         }
@@ -77,6 +81,19 @@ public class GvLocationList extends GvDataList<GvLocationList.GvLocation> {
             mName = in.readString();
         }
 
+        //public methods
+        public String getShortenedName() {
+            String shortened = mName;
+            if (mName != null) {
+                StringTokenizer tokens = new StringTokenizer(mName,
+                        MdLocationList.MdLocation.LOCATION_DELIMITER);
+                shortened = tokens.nextToken();
+            }
+
+            return shortened != null ? shortened.trim() : mName;
+        }
+
+        //Overridden
         @Override
         public ViewHolder getViewHolder() {
             return new VhLocation(false);
@@ -90,6 +107,18 @@ public class GvLocationList extends GvDataList<GvLocationList.GvLocation> {
         @Override
         public String getStringSummary() {
             return "@" + getShortenedName();
+        }
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel parcel, int i) {
+            super.writeToParcel(parcel, i);
+            parcel.writeParcelable(mLatLng, i);
+            parcel.writeString(mName);
         }
 
         @Override
@@ -115,18 +144,6 @@ public class GvLocationList extends GvDataList<GvLocationList.GvLocation> {
         }
 
         @Override
-        public int describeContents() {
-            return 0;
-        }
-
-        @Override
-        public void writeToParcel(Parcel parcel, int i) {
-            super.writeToParcel(parcel, i);
-            parcel.writeParcelable(mLatLng, i);
-            parcel.writeString(mName);
-        }
-
-        @Override
         public LatLng getLatLng() {
             return mLatLng;
         }
@@ -134,17 +151,6 @@ public class GvLocationList extends GvDataList<GvLocationList.GvLocation> {
         @Override
         public String getName() {
             return mName;
-        }
-
-        public String getShortenedName() {
-            String shortened = mName;
-            if (mName != null) {
-                StringTokenizer tokens = new StringTokenizer(mName,
-                        MdLocationList.MdLocation.LOCATION_DELIMITER);
-                shortened = tokens.nextToken();
-            }
-
-            return shortened != null ? shortened.trim() : mName;
         }
     }
 }

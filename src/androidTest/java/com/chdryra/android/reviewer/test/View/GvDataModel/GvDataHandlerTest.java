@@ -28,7 +28,7 @@ import java.util.ArrayList;
  */
 public class GvDataHandlerTest extends AndroidTestCase {
     private static final ArrayList<GvDataType<? extends GvData>> TYPES = GvDataMocker.TYPES;
-    private static final int          NUMDATA = 30;
+    private static final int NUMDATA = 30;
 
     @SmallTest
     public void testAdd() {
@@ -79,6 +79,7 @@ public class GvDataHandlerTest extends AndroidTestCase {
     private <T extends GvData> GvDataHandler.AddConstraint<T> getNoAddAddConstraint
             (GvDataList<T> dummy) {
         return new GvDataHandler.AddConstraint<T>() {
+            //Overridden
             @Override
             public boolean passes(GvDataList<T> data, T datum) {
                 return false;
@@ -189,7 +190,7 @@ public class GvDataHandlerTest extends AndroidTestCase {
     }
 
     private <T extends GvData> void replaceItem(GvDataHandler<T> handler, T toReplace,
-            T replaceWith) {
+                                                T replaceWith) {
         handler.replace(toReplace, replaceWith, getContext());
     }
 

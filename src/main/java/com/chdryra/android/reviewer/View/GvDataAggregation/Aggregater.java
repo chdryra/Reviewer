@@ -30,6 +30,7 @@ public class Aggregater {
     private Aggregater() {
     }
 
+    //Static methods
     public static GvCanonicalCollection<GvAuthorList.GvAuthor> aggregate(GvAuthorList data) {
         return aggregate(data, new ComparitorGvAuthor(), SAME_BOOL, new CanonicalAuthor());
     }

@@ -25,17 +25,18 @@ import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
  */
 public abstract class AddEditLayoutTest<T extends GvData> extends AndroidTestCase {
     protected final AddEditLayout<T> mLayout;
-    private final   GvDataType       mDataType;
-    protected       EditText         mEditText;
-
-    public AddEditLayoutTest(GvDataType dataType, AddEditLayout<T> layout) {
-        mDataType = dataType;
-        mLayout = layout;
-    }
+    private final GvDataType mDataType;
+    protected EditText mEditText;
 
     protected abstract void enterData(T datum);
 
     protected abstract void checkViewAndDataEquivalence(T datum, boolean result);
+
+    //Constructors
+    public AddEditLayoutTest(GvDataType dataType, AddEditLayout<T> layout) {
+        mDataType = dataType;
+        mLayout = layout;
+    }
 
     @SmallTest
     public void testCreateGvDataFromViews() {
@@ -57,16 +58,17 @@ public abstract class AddEditLayoutTest<T extends GvData> extends AndroidTestCas
         assertEquals(mEditText, mLayout.getEditTextForKeyboardAction());
     }
 
-    @Override
-    protected void setUp() throws Exception {
-        mLayout.createLayoutUi(getContext(), newDatum());
-    }
-
     protected View getView(int viewId) {
         return mLayout.getView(viewId);
     }
 
     protected T newDatum() {
         return (T) GvDataMocker.getDatum(mDataType);
+    }
+
+    //Overridden
+    @Override
+    protected void setUp() throws Exception {
+        mLayout.createLayoutUi(getContext(), newDatum());
     }
 }

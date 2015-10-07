@@ -23,8 +23,10 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 public abstract class DialogLayout<T extends GvData> {
     private final LayoutHolder mHolder;
 
+    //abstract
     public abstract void updateLayout(T data);
 
+    //Constructors
     public DialogLayout(int layoutId, int[] viewIds) {
         mHolder = new LayoutHolder(layoutId, viewIds);
     }

@@ -27,61 +27,32 @@ import com.google.android.gms.maps.model.LatLng;
  */
 public class DialogAddLocationTest extends DialogGvDataAddTest<GvLocationList.GvLocation>
         implements LocationClientConnector.Locatable {
-    private static final GvLocationList.GvLocation TAYYABS    =
+    private static final GvLocationList.GvLocation TAYYABS =
             new GvLocationList.GvLocation(new LatLng(51.517264, -0.063484), "Tayyabs");
-    private static final String                    TAYYABSADD = "Fieldgate Street, London, " +
+    private static final String TAYYABSADD = "Fieldgate Street, London, " +
             "United Kingdom";
 
-    private static final GvLocationList.GvLocation TOWERBRIDGE    =
+    private static final GvLocationList.GvLocation TOWERBRIDGE =
             new GvLocationList.GvLocation(new LatLng(51.50418459999999, -0.07632209999999999),
                     "Tower Bridge");
-    private static final String                    TOWERBRIDGEADD = "Tower Bridge, London, " +
+    private static final String TOWERBRIDGEADD = "Tower Bridge, London, " +
             "United Kingdom";
 
-    private static final GvLocationList.GvLocation   DISHOOM    =
+    private static final GvLocationList.GvLocation DISHOOM =
             new GvLocationList.GvLocation(new LatLng(51.51243, -0.126909), "Dishoom");
-    private static final GvLocationList.GvLocation[] LOCS       = {TAYYABS, TOWERBRIDGE, DISHOOM};
-    private static final String                      DISHOOMADD = "Upper St Martin's Lane, " +
+    private static final GvLocationList.GvLocation[] LOCS = {TAYYABS, TOWERBRIDGE, DISHOOM};
+    private static final String DISHOOMADD = "Upper St Martin's Lane, " +
             "London, United Kingdom";
-    private static final String[]                    LOCSADD    = {TAYYABSADD, TOWERBRIDGEADD,
+    private static final String[] LOCSADD = {TAYYABSADD, TOWERBRIDGEADD,
             DISHOOMADD};
 
-    private LatLng                  mCurrent;
-    private CallBackSignaler        mSignaler;
+    private LatLng mCurrent;
+    private CallBackSignaler mSignaler;
     private LocationClientConnector mLocater;
 
+    //Constructors
     public DialogAddLocationTest() {
         super(ConfigGvDataAddEditView.AddLocation.class);
-    }
-
-    @Override
-    public void testQuickSet() {
-        launchDialogAndTestShowing(true);
-
-        assertEquals(0, getData(mAdapter).size());
-
-        GvData datum1 = testQuickSet(true, 0);
-        GvData datum2 = testQuickSet(true, 1);
-        GvData datum3 = testQuickSet(false, 2);
-
-        pressDialogButton(DialogButton.DONE);
-        GvDataList data = getData(mAdapter);
-
-        assertEquals(3, data.size());
-        assertEquals(datum1, data.getItem(0));
-        assertEquals(datum2, data.getItem(1));
-        assertEquals(datum3, data.getItem(2));
-    }
-
-    @Override
-    protected void setUp() throws Exception {
-        super.setUp();
-        mLocater = new LocationClientConnector(getActivity(), this);
-        mSignaler = new CallBackSignaler(5000);
-    }
-
-    protected GvData enterDataAndTest() {
-        return enterDataAndTest(0);
     }
 
     private GvData enterDataAndTest(int index) {
@@ -109,6 +80,7 @@ public class DialogAddLocationTest extends DialogGvDataAddTest<GvLocationList.Gv
 
         if (pressAdd) {
             mActivity.runOnUiThread(new Runnable() {
+                //Overridden
                 public void run() {
                     dialog.clickAddButton();
                 }
@@ -117,6 +89,37 @@ public class DialogAddLocationTest extends DialogGvDataAddTest<GvLocationList.Gv
 
         assertFalse(mSignaler.timedOut());
         return data;
+    }
+
+    //Overridden
+    @Override
+    public void testQuickSet() {
+        launchDialogAndTestShowing(true);
+
+        assertEquals(0, getData(mAdapter).size());
+
+        GvData datum1 = testQuickSet(true, 0);
+        GvData datum2 = testQuickSet(true, 1);
+        GvData datum3 = testQuickSet(false, 2);
+
+        pressDialogButton(DialogButton.DONE);
+        GvDataList data = getData(mAdapter);
+
+        assertEquals(3, data.size());
+        assertEquals(datum1, data.getItem(0));
+        assertEquals(datum2, data.getItem(1));
+        assertEquals(datum3, data.getItem(2));
+    }
+
+    protected GvData enterDataAndTest() {
+        return enterDataAndTest(0);
+    }
+
+    @Override
+    protected void setUp() throws Exception {
+        super.setUp();
+        mLocater = new LocationClientConnector(getActivity(), this);
+        mSignaler = new CallBackSignaler(5000);
     }
 
     //Problems with wating for locater thread. Never returns.

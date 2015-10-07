@@ -14,6 +14,7 @@ package com.chdryra.android.reviewer.Adapter.DataAdapterModel;
  * Email: rizwan.choudrey@gmail.com
  */
 public class DataValidator {
+    //Static methods
     public static boolean validate(DataComment comment) {
         return NotNull(comment) && validateString(comment.getComment());
     }

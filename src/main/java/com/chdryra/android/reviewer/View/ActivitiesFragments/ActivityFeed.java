@@ -19,6 +19,7 @@ import com.chdryra.android.reviewer.View.Screens.ReviewView;
  */
 public class ActivityFeed extends ActivityReviewView {
 
+    //Overridden
     @Override
     protected Fragment createFragment() {
         ReviewView feedScreen = AuthorFeedScreen.newScreen(this);

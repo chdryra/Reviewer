@@ -44,13 +44,14 @@ import java.util.ArrayList;
 public class ActivityFeedTest extends
         ActivityInstrumentationTestCase2<ActivityReviewView> {
     private static final int NEWREVIEW = R.id.menu_item_new_review;
-    private static final int NUM       = 5;
-    private static final int TIMEOUT   = 10000;
+    private static final int NUM = 5;
+    private static final int TIMEOUT = 10000;
     protected ReviewViewAdapter mAdapter;
-    protected Activity          mActivity;
-    protected Solo              mSolo;
-    private   Administrator     mAdmin;
+    protected Activity mActivity;
+    protected Solo mSolo;
+    private Administrator mAdmin;
 
+    //Constructors
     public ActivityFeedTest() {
         super(ActivityReviewView.class);
     }
@@ -62,7 +63,8 @@ public class ActivityFeedTest extends
         GvReviewOverviewList.GvReviewOverview oldReview = (GvReviewOverviewList.GvReviewOverview)
                 getGridItem(0);
         for (int i = 0; i < NUM; ++i) {
-            GvReviewOverviewList.GvReviewOverview review = (GvReviewOverviewList.GvReviewOverview) getGridItem(i);
+            GvReviewOverviewList.GvReviewOverview review = (GvReviewOverviewList
+                    .GvReviewOverview) getGridItem(i);
             int j = list.size() - i - 1;
             assertEquals(list.getItem(j).getSubject(), review.getSubject());
             assertEquals(list.getItem(j).getRating(), review.getRating());
@@ -93,6 +95,22 @@ public class ActivityFeedTest extends
         assertEquals(ActivityReviewView.class, buildActivity.getClass());
     }
 
+    //private methods
+    private GridView getGridView() {
+        ArrayList views = mSolo.getCurrentViews(GridView.class);
+        assertEquals(1, views.size());
+        return (GridView) views.get(0);
+    }
+
+    private int getGridSize() {
+        return getGridView().getAdapter().getCount();
+    }
+
+    private GvData getGridItem(int position) {
+        return (GvData) getGridView().getItemAtPosition(position);
+    }
+
+    //Overridden
     @Override
     protected void setUp() {
         Context context = getInstrumentation().getTargetContext();
@@ -136,19 +154,5 @@ public class ActivityFeedTest extends
     protected void tearDown() throws Exception {
         ReviewNodeProvider.deleteTestDatabase(getActivity());
         mActivity.finish();
-    }
-
-    private GvData getGridItem(int position) {
-        return (GvData) getGridView().getItemAtPosition(position);
-    }
-
-    private GridView getGridView() {
-        ArrayList views = mSolo.getCurrentViews(GridView.class);
-        assertEquals(1, views.size());
-        return (GridView) views.get(0);
-    }
-
-    private int getGridSize() {
-        return getGridView().getAdapter().getCount();
     }
 }

@@ -20,9 +20,10 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvTagList;
  */
 public class AddEditTag extends AddEditLayout<GvTagList.GvTag> {
     public static final int LAYOUT = R.layout.dialog_tag_add_edit;
-    public static final int   TAG    = R.id.tag_edit_text;
-    public static final int[] VIEWS  = new int[]{TAG};
+    public static final int TAG = R.id.tag_edit_text;
+    public static final int[] VIEWS = new int[]{TAG};
 
+    //Constructors
     public AddEditTag(GvDataAdder adder) {
         super(GvTagList.GvTag.class, LAYOUT, VIEWS, TAG, adder);
     }
@@ -31,6 +32,7 @@ public class AddEditTag extends AddEditLayout<GvTagList.GvTag> {
         super(GvTagList.GvTag.class, LAYOUT, VIEWS, TAG, editor);
     }
 
+    //Overridden
     @Override
     public GvTagList.GvTag createGvData() {
         return new GvTagList.GvTag(((EditText) getView(TAG)).getText().toString().trim());

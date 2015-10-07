@@ -18,12 +18,13 @@ import com.google.android.gms.maps.model.LatLng;
 public class LocatedPlace {
     private static final String SEPARATOR = ":";
 
-    private final LatLng     mLatLng;
-    private final String     mDescription;
+    private final LatLng mLatLng;
+    private final String mDescription;
     private final LocationId mId;
 
     public enum LocationProvider {GOOGLE, USER}
 
+    //Constructors
     public LocatedPlace(LatLng latLng, String description, LocationId id) {
         mLatLng = latLng;
         mDescription = description;
@@ -36,6 +37,7 @@ public class LocatedPlace {
         mId = new LocationId(LocationProvider.USER, generateId());
     }
 
+    //public methods
     public LatLng getLatLng() {
         return mLatLng;
     }
@@ -53,15 +55,18 @@ public class LocatedPlace {
                 .hashCode());
     }
 
+    //Classes
     public static class LocationId {
         private LocationProvider mProvider;
-        private String           mId;
+        private String mId;
 
+        //Constructors
         public LocationId(LocationProvider provider, String providerId) {
             mProvider = provider;
             mId = providerId;
         }
 
+        //public methods
         public LocationProvider getProvider() {
             return mProvider;
         }
@@ -70,6 +75,7 @@ public class LocatedPlace {
             return mId;
         }
 
+        //Overridden
         @Override
         public boolean equals(Object o) {
             if (this == o) return true;

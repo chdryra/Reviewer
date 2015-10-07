@@ -23,10 +23,12 @@ import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
 public class TreeDataGetter {
     private ReviewNode mRoot;
 
+    //Constructors
     public TreeDataGetter(ReviewNode root) {
         mRoot = root;
     }
 
+    //public methods
     public MdCriterionList getCriteria() {
         MdCriterionList criteria = new MdCriterionList(mRoot.getId());
         criteria.addList(mRoot.getReview().getCriteria());

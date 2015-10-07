@@ -17,6 +17,11 @@ import org.apache.commons.lang3.StringUtils;
  */
 public class ComparitorString implements DifferenceComparitor<String, DifferencePercentage> {
 
+    private int getEditDistance(String longer, String shorter) {
+        return StringUtils.getLevenshteinDistance(longer, shorter);
+    }
+
+    //Overridden
     @Override
     public DifferencePercentage compare(String lhs, String rhs) {
         boolean string1Longer = lhs.length() > rhs.length();
@@ -28,9 +33,5 @@ public class ComparitorString implements DifferenceComparitor<String, Difference
                 getEditDistance(longer, shorter) / (double) longerLength;
 
         return new DifferencePercentage(pcntDiff);
-    }
-
-    private int getEditDistance(String longer, String shorter) {
-        return StringUtils.getLevenshteinDistance(longer, shorter);
     }
 }

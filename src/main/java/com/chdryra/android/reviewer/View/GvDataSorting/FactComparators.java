@@ -16,11 +16,13 @@ public class FactComparators extends ComparatorCollection<GvFactList.GvFact> {
         super(new AlphabeticalLabelThenValue());
     }
 
+    //Static methods
     public static FactComparators getComparators() {
         return sComparators;
     }
 
     private static class AlphabeticalLabelThenValue implements Comparator<GvFactList.GvFact> {
+        //Overridden
         @Override
         public int compare(GvFactList.GvFact lhs, GvFactList.GvFact rhs) {
             int comp = lhs.getLabel().compareToIgnoreCase(rhs.getLabel());

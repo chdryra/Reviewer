@@ -75,7 +75,8 @@ public class TagsManagerTest extends AndroidTestCase {
 
         TagsManager.ReviewTagCollection tagCollection1 = TagsManager.getTags(getContext(),
                 review1.getId());
-        TagsManager.ReviewTagCollection tagCollection2 = TagsManager.getTags(getContext(), review2.getId());
+        TagsManager.ReviewTagCollection tagCollection2 = TagsManager.getTags(getContext(),
+                review2.getId());
         assertEquals(tags1.size(), tagCollection1.size());
         assertEquals(tags2.size(), tagCollection2.size());
 
@@ -122,7 +123,7 @@ public class TagsManagerTest extends AndroidTestCase {
         TagsManager.ReviewTagCollection allTags = TagsManager.getTags(getContext());
         assertEquals(tags1.size() + tagsUnshared.size(), allTags.size());
         GvTagList allocated = new GvTagList();
-        for(int i = 0; i < NUM; ++i) {
+        for (int i = 0; i < NUM; ++i) {
             TagsManager.ReviewTag tag = allTags.getItem(i);
             GvTagList.GvTag gvTag = new GvTagList.GvTag(tag.get());
             assertTrue(tags1.contains(gvTag) || tagsUnshared.contains(gvTag));
@@ -158,6 +159,7 @@ public class TagsManagerTest extends AndroidTestCase {
         assertEquals(0, TagsManager.getTags(getContext()).size());
     }
 
+    //Overridden
     @Override
     protected void tearDown() throws Exception {
         TagsManager.ReviewTagCollection tags = TagsManager.getTags(getContext());

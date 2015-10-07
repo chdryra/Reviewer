@@ -34,13 +34,12 @@ import java.util.ArrayList;
 public abstract class ActivityReviewViewTest extends
         ActivityInstrumentationTestCase2<ActivityReviewView> {
     protected ReviewViewAdapter mAdapter;
-    protected Activity          mActivity;
-    protected Solo              mSolo;
+    protected Activity mActivity;
+    protected Solo mSolo;
 
     protected abstract void setAdapter();
 
-    protected abstract ReviewView getView();
-
+    //Constructors
     public ActivityReviewViewTest() {
         super(ActivityReviewView.class);
     }
@@ -52,6 +51,30 @@ public abstract class ActivityReviewViewTest extends
         assertEquals(mAdapter.getRating(), fragment.getRating());
     }
 
+    //protected methods
+    protected abstract ReviewView getView();
+
+    protected int getGridSize() {
+        return getGridView().getAdapter().getCount();
+    }
+
+    protected GridView getGridView() {
+        ArrayList views = mSolo.getCurrentViews(GridView.class);
+        assertEquals(1, views.size());
+        return (GridView) views.get(0);
+    }
+
+    protected FragmentReviewView getFragmentViewReview() {
+        FragmentManager manager = getActivity().getFragmentManager();
+        Fragment f = manager.findFragmentById(ActivityReviewView.FRAGMENT_ID);
+        return (FragmentReviewView) f;
+    }
+
+    protected GvData getGridItem(int position) {
+        return (GvData) getGridView().getItemAtPosition(position);
+    }
+
+    //Overridden
     @Override
     protected void setUp() {
         getInstrumentation().setInTouchMode(false);
@@ -66,29 +89,8 @@ public abstract class ActivityReviewViewTest extends
         mSolo = new Solo(getInstrumentation(), mActivity);
     }
 
-
     @Override
     protected void tearDown() throws Exception {
         if (mActivity != null) mActivity.finish();
-    }
-
-    protected int getGridSize() {
-        return getGridView().getAdapter().getCount();
-    }
-
-    protected GvData getGridItem(int position) {
-        return (GvData) getGridView().getItemAtPosition(position);
-    }
-
-    protected GridView getGridView() {
-        ArrayList views = mSolo.getCurrentViews(GridView.class);
-        assertEquals(1, views.size());
-        return (GridView) views.get(0);
-    }
-
-    protected FragmentReviewView getFragmentViewReview() {
-        FragmentManager manager = getActivity().getFragmentManager();
-        Fragment f = manager.findFragmentById(ActivityReviewView.FRAGMENT_ID);
-        return (FragmentReviewView) f;
     }
 }

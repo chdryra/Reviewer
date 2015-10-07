@@ -17,6 +17,7 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvReviewId;
  * Email: rizwan.choudrey@gmail.com
  */
 public class RandomReviewId {
+    //Static methods
     public static ReviewId nextId() {
         return ReviewId.newId(RandomPublisher.nextPublisher());
     }

@@ -15,6 +15,7 @@ import com.chdryra.android.mygenerallibrary.ViewHolder;
 import com.chdryra.android.reviewer.Model.TagsModel.TagsManager;
 
 public class GvTagList extends GvTextList<GvTagList.GvTag> {
+    //Constructors
     public GvTagList() {
         super(GvTag.TYPE);
     }
@@ -27,6 +28,7 @@ public class GvTagList extends GvTextList<GvTagList.GvTag> {
         super(data);
     }
 
+//Classes
     /**
      * {@link } version of: {@link TagsManager.ReviewTag}
      * {@link ViewHolder}: {@link VhTag}
@@ -39,6 +41,7 @@ public class GvTagList extends GvTextList<GvTagList.GvTag> {
         public static final GvDataType<GvTag> TYPE = new GvDataType<>(GvTag.class, "tag");
         public static final Parcelable.Creator<GvTag> CREATOR = new Parcelable
                 .Creator<GvTag>() {
+            //Overridden
             public GvTag createFromParcel(Parcel in) {
                 return new GvTag(in);
             }
@@ -48,6 +51,7 @@ public class GvTagList extends GvTextList<GvTagList.GvTag> {
             }
         };
 
+        //Constructors
         public GvTag() {
             super(TYPE);
         }
@@ -68,6 +72,7 @@ public class GvTagList extends GvTextList<GvTagList.GvTag> {
             super(in);
         }
 
+        //Overridden
         @Override
         public GvDataType<GvTag> getGvDataType() {
             return GvTag.TYPE;

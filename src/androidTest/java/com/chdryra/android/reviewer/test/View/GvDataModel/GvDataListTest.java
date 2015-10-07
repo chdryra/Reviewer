@@ -29,7 +29,7 @@ import java.util.Random;
  * Email: rizwan.choudrey@gmail.com
  */
 public class GvDataListTest extends TestCase {
-    private static final int    NUM  = 10;
+    private static final int NUM = 10;
     private static final Random RAND = new Random();
 
     private GvDataList<GvCommentList.GvComment> mList;
@@ -68,12 +68,6 @@ public class GvDataListTest extends TestCase {
         mList.addList(newData(id));
         GvDataList<GvCommentList.GvComment> idList = new GvDataList<>(id, mList);
         ParcelableTester.testParcelable(idList);
-    }
-
-    @Override
-    protected void setUp() throws Exception {
-        super.setUp();
-        mList = new GvDataList<>(GvCommentList.GvComment.TYPE, null);
     }
 
     private void testAdd(GvReviewId id, GvDataList<GvCommentList.GvComment> list) {
@@ -137,7 +131,7 @@ public class GvDataListTest extends TestCase {
     }
 
     private ArrayList<GvCommentList.GvComment> addData(GvReviewId id,
-            GvDataList<GvCommentList.GvComment> list) {
+                                                       GvDataList<GvCommentList.GvComment> list) {
         ArrayList<GvCommentList.GvComment> comments = newData(id);
         for (int i = 0; i < NUM; ++i) {
             list.add(comments.get(i));
@@ -156,5 +150,12 @@ public class GvDataListTest extends TestCase {
         }
 
         return comments;
+    }
+
+    //Overridden
+    @Override
+    protected void setUp() throws Exception {
+        super.setUp();
+        mList = new GvDataList<>(GvCommentList.GvComment.TYPE, null);
     }
 }

@@ -13,7 +13,9 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvData;
  */
 public class ViewScreenComments {
 
+    //Classes
     public static class CommentsGridItem extends GiDataLauncher {
+        //Overridden
         @Override
         public void onClickNotExpandable(GvData item, int position, View v) {
             try {
@@ -32,11 +34,13 @@ public class ViewScreenComments {
 
         private final MaiSplitComments mSplitter;
 
+        //Constructors
         public CommentsMenu() {
             super(MENU, GvCommentList.GvComment.TYPE.getDataName(), true);
             mSplitter = new MaiSplitComments(this);
         }
 
+        //Overridden
         @Override
         protected void addMenuItems() {
             bindMenuActionItem(mSplitter, MENU_SPLIT_ID, false);

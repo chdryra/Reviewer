@@ -17,6 +17,7 @@ import java.util.Iterator;
 public class GvCanonical<T extends GvData> implements GvDataCollection<T>, Iterable<T> {
     public static final Parcelable.Creator<GvCanonical> CREATOR = new Parcelable
             .Creator<GvCanonical>() {
+        //Overridden
         public GvCanonical createFromParcel(Parcel in) {
             return new GvCanonical(in);
         }
@@ -30,6 +31,7 @@ public class GvCanonical<T extends GvData> implements GvDataCollection<T>, Itera
     private GvDataList<T> mData;
     private GvDataType<T> mType;
 
+    //Constructors
     public GvCanonical(@NotNull T canonical, @NotNull GvDataList<T> data) {
         mCanonical = canonical;
         mType = (GvDataType<T>) canonical.getGvDataType();
@@ -45,10 +47,12 @@ public class GvCanonical<T extends GvData> implements GvDataCollection<T>, Itera
         mData = in.readParcelable(GvDataList.class.getClassLoader());
     }
 
+    //public methods
     public T getCanonical() {
         return mCanonical;
     }
 
+    //Overridden
     @Override
     public int size() {
         return mData.size();

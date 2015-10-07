@@ -20,15 +20,27 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
 public class DialogEditImageTest extends DialogGvDataEditTest<GvImageList.GvImage> {
     private GvImageList.GvImage mCurrent;
 
+    //Constructors
     public DialogEditImageTest() {
         super(ConfigGvDataAddEditView.EditImage.class);
     }
 
+    //protected methods
     @Override
     protected GvImageList.GvImage getDataShown() {
         String caption = mSolo.getEditText(0).getText().toString().trim();
         mCurrent = new GvImageList.GvImage(mCurrent.getBitmap(), mCurrent.getDate(),
                 mCurrent.getLatLng(), caption, mCurrent.isCover());
+
+        return mCurrent;
+    }
+
+    @Override
+    protected GvData getEditDatum() {
+        GvImageList.GvImage child = (GvImageList.GvImage) super.getEditDatum();
+
+        mCurrent = new GvImageList.GvImage(mCurrent.getBitmap(), mCurrent.getDate(),
+                mCurrent.getLatLng(), child.getCaption(), mCurrent.isCover());
 
         return mCurrent;
     }
@@ -42,16 +54,6 @@ public class DialogEditImageTest extends DialogGvDataEditTest<GvImageList.GvImag
     @Override
     protected GvData launchDialogAndTestShowing() {
         mCurrent = (GvImageList.GvImage) super.launchDialogAndTestShowing();
-        return mCurrent;
-    }
-
-    @Override
-    protected GvData getEditDatum() {
-        GvImageList.GvImage child = (GvImageList.GvImage) super.getEditDatum();
-
-        mCurrent = new GvImageList.GvImage(mCurrent.getBitmap(), mCurrent.getDate(),
-                mCurrent.getLatLng(), child.getCaption(), mCurrent.isCover());
-
         return mCurrent;
     }
 }

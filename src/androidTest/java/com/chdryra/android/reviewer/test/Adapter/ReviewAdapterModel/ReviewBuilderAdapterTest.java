@@ -46,10 +46,11 @@ import java.util.Date;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ReviewBuilderAdapterTest extends ActivityInstrumentationTestCase2<ActivityReviewView> {
-    private static final int          NUM   = 3;
+    private static final int NUM = 3;
     private static final ArrayList<GvDataType<? extends GvData>> TYPES = GvDataMocker.TYPES;
     private ReviewBuilderAdapter mBuilder;
 
+    //Constructors
     public ReviewBuilderAdapterTest() {
         super(ActivityReviewView.class);
     }
@@ -257,7 +258,8 @@ public class ReviewBuilderAdapterTest extends ActivityInstrumentationTestCase2<A
                     .getItem(i);
             assertEquals(child.getSubject(), childReview.getSubject().get());
             assertEquals(child.getRating(), childReview.getRating().getValue());
-            TagsManager.ReviewTagCollection tagsChild = TagsManager.getTags(getActivity(), childReview.getId());
+            TagsManager.ReviewTagCollection tagsChild = TagsManager.getTags(getActivity(),
+                    childReview.getId());
             assertEquals(tags.size(), tagsChild.size());
             for (int j = 0; j < tags.size(); ++j) {
                 GvTagList.GvTag tag = (GvTagList.GvTag) tags.getItem(j);
@@ -273,20 +275,6 @@ public class ReviewBuilderAdapterTest extends ActivityInstrumentationTestCase2<A
         assertTrue(mBuilder.isRatingAverage());
     }
 
-    @Override
-    protected void setUp() throws Exception {
-        getInstrumentation().setInTouchMode(false);
-
-        Intent i = new Intent();
-        Context context = getInstrumentation().getTargetContext();
-        Administrator admin = Administrator.get(context);
-        admin.newReviewBuilder();
-        admin.packView(BuildScreen.newScreen(context), i);
-        setActivityIntent(i);
-
-        mBuilder = admin.getReviewBuilder();
-    }
-
     private GvDataList getBuilderData(GvDataType dataType) {
         return mBuilder.getDataBuilder(dataType).getGridData();
     }
@@ -299,5 +287,20 @@ public class ReviewBuilderAdapterTest extends ActivityInstrumentationTestCase2<A
             assertTrue(builder.add(datum));
         }
         builder.setData();
+    }
+
+    //Overridden
+    @Override
+    protected void setUp() throws Exception {
+        getInstrumentation().setInTouchMode(false);
+
+        Intent i = new Intent();
+        Context context = getInstrumentation().getTargetContext();
+        Administrator admin = Administrator.get(context);
+        admin.newReviewBuilder();
+        admin.packView(BuildScreen.newScreen(context), i);
+        setActivityIntent(i);
+
+        mBuilder = admin.getReviewBuilder();
     }
 }

@@ -20,15 +20,15 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 public class DialogEditCommentTest extends
         DialogGvDataEditTest<GvCommentList.GvComment> {
 
+    //Constructors
     public DialogEditCommentTest() {
         super(ConfigGvDataAddEditView.EditComment.class);
     }
 
+    //protected methods
     @Override
-    protected GvData newDatum() {
-        GvCommentList.GvComment data = (GvCommentList.GvComment) super.newDatum();
-        data.setIsHeadline(false);
-        return data;
+    protected GvData getDataShown() {
+        return new GvCommentList.GvComment(mSolo.getEditText(0).getText().toString());
     }
 
     @Override
@@ -37,8 +37,10 @@ public class DialogEditCommentTest extends
     }
 
     @Override
-    protected GvData getDataShown() {
-        return new GvCommentList.GvComment(mSolo.getEditText(0).getText().toString());
+    protected GvData newDatum() {
+        GvCommentList.GvComment data = (GvCommentList.GvComment) super.newDatum();
+        data.setIsHeadline(false);
+        return data;
     }
 }
 

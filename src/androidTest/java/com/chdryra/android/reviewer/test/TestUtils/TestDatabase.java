@@ -23,15 +23,16 @@ import java.io.File;
  * Email: rizwan.choudrey@gmail.com
  */
 public class TestDatabase {
-    private static TestDatabase    sDatabase;
-    private        ReviewerDb      mDatabase;
-    private        Instrumentation mInstr;
+    private static TestDatabase sDatabase;
+    private ReviewerDb mDatabase;
+    private Instrumentation mInstr;
 
     private TestDatabase(Instrumentation instr) {
         mInstr = instr;
         mDatabase = ReviewerDb.getTestDatabase(getDbContext());
     }
 
+    //Static methods
     public static ReviewerDb getDatabase(Instrumentation instr) {
         return get(instr).getDatabase();
     }
@@ -55,17 +56,18 @@ public class TestDatabase {
         return sDatabase;
     }
 
+    //private methods
     private ReviewerDb getDatabase() {
         return mDatabase;
+    }
+
+    private Context getDbContext() {
+        return mInstr.getTargetContext();
     }
 
     private void deleteDatabaseIfNecessary() {
         Context context = getDbContext();
         File db = context.getDatabasePath(mDatabase.getDatabaseName());
         if (db.exists()) context.deleteDatabase(mDatabase.getDatabaseName());
-    }
-
-    private Context getDbContext() {
-        return mInstr.getTargetContext();
     }
 }

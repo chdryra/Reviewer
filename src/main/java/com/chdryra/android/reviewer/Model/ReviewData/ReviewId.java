@@ -25,9 +25,17 @@ import com.chdryra.android.reviewer.Model.UserData.UserId;
 public class ReviewId implements MdData {
     private static final String SPLITTER = ":";
     private final UserId mId;
-    private       long   mTime;
+    private long mTime;
     private int mIncrement;
     private String mString;
+
+    /**
+     * To facilitate RCollectionReview
+     */
+    public interface IdAble {
+        //abstract
+        ReviewId getId();
+    }
 
     private ReviewId(ReviewPublisher publisher) {
         mId = publisher.getUserId();
@@ -45,6 +53,7 @@ public class ReviewId implements MdData {
         mString = rdId;
     }
 
+    //Static methods
     public static ReviewId newId(ReviewPublisher publisher) {
         return new ReviewId(publisher);
     }
@@ -53,6 +62,7 @@ public class ReviewId implements MdData {
         return new ReviewId(rdId);
     }
 
+    //Overridden
     @Override
     public ReviewId getReviewId() {
         return this;
@@ -86,12 +96,5 @@ public class ReviewId implements MdData {
 
     public String toString() {
         return mString;
-    }
-
-    /**
-     * To facilitate RCollectionReview
-     */
-    public interface IdAble {
-        ReviewId getId();
     }
 }

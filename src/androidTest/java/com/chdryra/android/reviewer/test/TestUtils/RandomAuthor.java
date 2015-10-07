@@ -18,6 +18,7 @@ import com.chdryra.android.testutils.RandomString;
  * Email: rizwan.choudrey@gmail.com
  */
 public class RandomAuthor {
+    //Static methods
     public static Author nextAuthor() {
         return new Author(RandomString.nextWord(), UserId.generateId());
     }

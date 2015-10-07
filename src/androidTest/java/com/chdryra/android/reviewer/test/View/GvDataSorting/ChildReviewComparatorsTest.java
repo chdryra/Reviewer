@@ -15,6 +15,7 @@ import java.util.Comparator;
  */
 public class ChildReviewComparatorsTest extends ComparatorCollectionTest<GvCriterionList
         .GvCriterion> {
+    //Constructors
     public ChildReviewComparatorsTest() {
         super(ChildReviewComparators.getComparators());
     }

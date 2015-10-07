@@ -46,7 +46,7 @@ import com.google.android.gms.maps.model.LatLng;
  * Email: rizwan.choudrey@gmail.com
  */
 public class BuildScreen {
-    private final ReviewView          mScreen;
+    private final ReviewView mScreen;
     private final BuildScreenGridItem mGridItem;
 
     private BuildScreen(Context context) {
@@ -65,13 +65,15 @@ public class BuildScreen {
         ReviewViewParams params = new ReviewViewParams();
         params.setGridAlpha(ReviewViewParams.GridViewAlpha.TRANSPARENT);
 
-        mScreen = new ReviewView.Editor(builder, params, actions, new BuildScreenModifier(builder));
+        mScreen = new ReviewEditor(builder, params, actions, new BuildScreenModifier(builder));
     }
 
+    //Static methods
     public static ReviewView newScreen(Context context) {
         return new BuildScreen(context).getScreen();
     }
 
+    //private methods
     private ReviewView getScreen() {
         return mScreen;
     }
@@ -80,12 +82,14 @@ public class BuildScreen {
         mGridItem.showQuickDialog(ConfigGvDataUi.getConfig(GvTagList.GvTag.TYPE));
     }
 
+//Classes
     /**
      * Created by: Rizwan Choudrey
      * On: 24/01/2015
      * Email: rizwan.choudrey@gmail.com
      */
     public static class SubjectEdit extends ReviewViewAction.SubjectAction {
+        //Overridden
         @Override
         public void onEditorDone(CharSequence s) {
             ReviewBuilderAdapter adapter = (ReviewBuilderAdapter) getAdapter();
@@ -95,10 +99,10 @@ public class BuildScreen {
 
     private class BuildScreenGridItem extends ReviewViewAction.GridItemAction {
         private static final String TAG = "GridItemBuildUiListener";
-        private final BuildListener           mListener;
-        private       LatLng                  mLatLng;
-        private       ImageChooser            mImageChooser;
-        private       LocationClientConnector mLocationClient;
+        private final BuildListener mListener;
+        private LatLng mLatLng;
+        private ImageChooser mImageChooser;
+        private LocationClientConnector mLocationClient;
 
         private BuildScreenGridItem() {
             mListener = new BuildListener() {
@@ -106,27 +110,14 @@ public class BuildScreen {
             registerActionListener(mListener, TAG);
         }
 
-        @Override
-        public void onUnattachReviewView() {
-            super.onUnattachReviewView();
-            mLocationClient.disconnect();
+        //private methods
+        private ReviewBuilderAdapter getBuilder() {
+            return (ReviewBuilderAdapter) getAdapter();
         }
 
-        @Override
-        public void onAttachReviewView() {
-            mImageChooser = Administrator.getImageChooser(getActivity());
-            mLocationClient = new LocationClientConnector(getActivity(), mListener);
-            mLocationClient.connect();
-        }
-
-        @Override
-        public void onGridItemClick(GvData item, int position, View v) {
-            executeIntent((GvBuildReviewList.GvBuildReview) item, true);
-        }
-
-        @Override
-        public void onGridItemLongClick(GvData item, int position, View v) {
-            executeIntent((GvBuildReviewList.GvBuildReview) item, false);
+        private int getImageRequestCode() {
+            return ConfigGvDataUi.getConfig(GvImageList.GvImage.TYPE).getAdderConfig()
+                    .getRequestCode();
         }
 
         private void executeIntent(GvBuildReviewList.GvBuildReview gridCell, boolean quickDialog) {
@@ -135,10 +126,6 @@ public class BuildScreen {
             } else {
                 startActivity(gridCell.getConfig());
             }
-        }
-
-        private ReviewBuilderAdapter getBuilder() {
-            return (ReviewBuilderAdapter) getAdapter();
         }
 
         private void startActivity(ConfigGvDataUi.Config config) {
@@ -183,15 +170,35 @@ public class BuildScreen {
             args.putBoolean(AddLocation.FROM_IMAGE, fromImage);
         }
 
-        private int getImageRequestCode() {
-            return ConfigGvDataUi.getConfig(GvImageList.GvImage.TYPE).getAdderConfig()
-                    .getRequestCode();
+        //Overridden
+        @Override
+        public void onUnattachReviewView() {
+            super.onUnattachReviewView();
+            mLocationClient.disconnect();
+        }
+
+        @Override
+        public void onAttachReviewView() {
+            mImageChooser = Administrator.getImageChooser(getActivity());
+            mLocationClient = new LocationClientConnector(getActivity(), mListener);
+            mLocationClient.connect();
+        }
+
+        @Override
+        public void onGridItemClick(GvData item, int position, View v) {
+            executeIntent((GvBuildReviewList.GvBuildReview) item, true);
+        }
+
+        @Override
+        public void onGridItemLongClick(GvData item, int position, View v) {
+            executeIntent((GvBuildReviewList.GvBuildReview) item, false);
         }
 
         private abstract class BuildListener extends Fragment implements
                 ImageChooser.ImageChooserListener,
                 LocationClientConnector.Locatable {
 
+            //Overridden
             @Override
             public void onLocated(Location location) {
                 mLatLng = new LatLng(location.getLatitude(), location.getLongitude());
@@ -207,10 +214,10 @@ public class BuildScreen {
                 image.setIsCover(true);
                 ReviewBuilderAdapter.DataBuilderAdapter builder = getBuilder().getDataBuilder
                         (GvImageList
-                        .GvImage.TYPE);
+                                .GvImage.TYPE);
                 builder.add(image);
                 builder.setData();
-                getReviewView().updateUi();
+                getReviewView().updateView();
             }
 
             @Override
@@ -225,46 +232,50 @@ public class BuildScreen {
                     super.onActivityResult(requestCode, resultCode, data);
                 }
 
-                getReviewView().updateUi();
+                getReviewView().updateView();
             }
         }
     }
 
     private class BuildScreenMenu extends ReviewViewAction.MenuAction {
-        public static final  int MENU_AVERAGE_ID = R.id.menu_item_average_rating;
+        public static final int MENU_AVERAGE_ID = R.id.menu_item_average_rating;
         private static final int MENU = R.menu.menu_build_review;
 
-        private final MenuActionItem    mActionItem;
-        private       ReviewView.Editor mEditor;
+        private final MenuActionItem mActionItem;
+        private ReviewEditor mEditor;
 
         private BuildScreenMenu(String title) {
             super(MENU, title, true);
             mActionItem = new MenuActionItem() {
+                //Overridden
                 @Override
                 public void doAction(Context context, MenuItem item) {
                     ReviewBuilderAdapter builder = (ReviewBuilderAdapter) getAdapter();
                     builder.setRatingIsAverage(true);
-                    mEditor.setRating(builder.getRating());
+                    mEditor.setRatingAverage(true);
+                    mEditor.setRating(builder.getRating(), false);
                 }
             };
+        }
+
+        //Overridden
+        @Override
+        protected void addMenuItems() {
+            bindMenuActionItem(mActionItem, MENU_AVERAGE_ID, false);
         }
 
         @Override
         public void onAttachReviewView() {
             super.onAttachReviewView();
-            mEditor = ReviewView.Editor.cast(getReviewView());
-        }
-
-        @Override
-        protected void addMenuItems() {
-            bindMenuActionItem(mActionItem, MENU_AVERAGE_ID, false);
+            mEditor = ReviewEditor.cast(getReviewView());
         }
     }
 
     private class BuildScreenRatingBar extends EditScreen.RatingBar {
+        //Overridden
         @Override
         public void onRatingChanged(android.widget.RatingBar ratingBar, float rating,
-                boolean fromUser) {
+                                    boolean fromUser) {
             super.onRatingChanged(ratingBar, rating, fromUser);
             if (fromUser) ((ReviewBuilderAdapter) getAdapter()).setRatingIsAverage(false);
             ((ReviewBuilderAdapter) getAdapter()).setRating(rating);
@@ -276,33 +287,6 @@ public class BuildScreen {
 
         private BuildScreenModifier(ReviewBuilderAdapter builder) {
             mBuilder = builder;
-        }
-
-        @Override
-        public View modify(final FragmentReviewView parent, View v, LayoutInflater inflater,
-                ViewGroup container, Bundle savedInstanceState) {
-
-
-            parent.setBannerNotClickable();
-
-            View divider = inflater.inflate(R.layout.horizontal_divider, container, false);
-
-            Button shareButton = (Button) inflater.inflate(R.layout.review_banner_button, container,
-                    false);
-            String title = parent.getActivity().getResources().getString(R.string.button_share);
-            shareButton.setText(title);
-            shareButton.getLayoutParams().height = ActionBar.LayoutParams.MATCH_PARENT;
-            shareButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    requestShareIntent(parent);
-                }
-            });
-
-            parent.addView(shareButton);
-            parent.addView(divider);
-
-            return v;
         }
 
         private void requestShareIntent(FragmentReviewView parent) {
@@ -326,6 +310,35 @@ public class BuildScreen {
             admin.packView(ShareScreen.newScreen(activity), i);
 
             activity.startActivity(i);
+        }
+
+        //Overridden
+        @Override
+        public View modify(final FragmentReviewView parent, View v, LayoutInflater inflater,
+                           ViewGroup container, Bundle savedInstanceState) {
+
+
+            parent.setBannerNotClickable();
+
+            View divider = inflater.inflate(R.layout.horizontal_divider, container, false);
+
+            Button shareButton = (Button) inflater.inflate(R.layout.review_banner_button, container,
+                    false);
+            String title = parent.getActivity().getResources().getString(R.string.button_share);
+            shareButton.setText(title);
+            shareButton.getLayoutParams().height = ActionBar.LayoutParams.MATCH_PARENT;
+            shareButton.setOnClickListener(new View.OnClickListener() {
+                //Overridden
+                @Override
+                public void onClick(View v) {
+                    requestShareIntent(parent);
+                }
+            });
+
+            parent.addView(shareButton);
+            parent.addView(divider);
+
+            return v;
         }
     }
 }

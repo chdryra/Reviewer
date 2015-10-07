@@ -24,6 +24,7 @@ public class GpLocatedPlaceConverter {
     private static final LocatedPlace.LocationProvider GOOGLE_PLACES = LocatedPlace
             .LocationProvider.GOOGLE;
 
+    //Static methods
     public static LocatedPlace convert(GpPlaceDetailsResult details) {
         LatLng latlng = details.getGeometry().getLatLng();
         String description = details.getName().getString();

@@ -16,10 +16,12 @@ import android.content.Context;
  * Email: rizwan.choudrey@gmail.com
  */
 public class FactoryGvDataHandler {
+    //Static methods
     public static <T extends GvData> GvDataHandler<T> newHandler
             (GvDataList<T> data) {
         if (data.getGvDataType() == GvImageList.GvImage.TYPE) {
             return new GvDataHandler<>(data, new GvDataHandler.AddConstraint<T>() {
+                //Overridden
                 @Override
                 public boolean passes(GvDataList<T> data, T datum) {
                     return imageAdd(data, (GvImageList.GvImage) datum);
@@ -34,6 +36,7 @@ public class FactoryGvDataHandler {
             };
 
             GvDataHandler.ReplaceConstraint<T> replace = new GvDataHandler.ReplaceConstraint<T>() {
+                //Overridden
                 @Override
                 public boolean passes(GvDataList<T> data, T oldDatum, T newDatum) {
                     return childReplace(data,
@@ -70,10 +73,12 @@ public class FactoryGvDataHandler {
     }
 
     private static class GvCommentHandler extends GvDataHandler<GvCommentList.GvComment> {
+        //Constructors
         public GvCommentHandler(GvDataList data) {
             super((GvCommentList) data);
         }
 
+        //Overridden
         @Override
         public boolean add(GvCommentList.GvComment newDatum, Context context) {
             if (getData().size() == 0) newDatum.setIsHeadline(true);

@@ -23,6 +23,7 @@ import com.robotium.solo.Solo;
  * Email: rizwan.choudrey@gmail.com
  */
 public class SoloDataEntry {
+    //Static methods
     public static void enter(Solo solo, GvData data) {
         if (data instanceof GvTagList.GvTag) enterTag(solo, (GvTagList.GvTag) data);
         if (data instanceof GvCommentList.GvComment) {

@@ -21,12 +21,13 @@ import com.chdryra.android.reviewer.Model.UserData.UserId;
  * Email: rizwan.choudrey@gmail.com
  */
 public class RowAuthor implements ReviewerDbRow.TableRow {
-    public static String USER_ID     = ReviewerDbContract.TableAuthors.COLUMN_NAME_USER_ID;
+    public static String USER_ID = ReviewerDbContract.TableAuthors.COLUMN_NAME_USER_ID;
     public static String AUTHOR_NAME = ReviewerDbContract.TableAuthors.COLUMN_NAME_NAME;
 
     private String mUserId;
     private String mName;
 
+    //Constructors
     public RowAuthor() {
     }
 
@@ -40,6 +41,11 @@ public class RowAuthor implements ReviewerDbRow.TableRow {
         mName = cursor.getString(cursor.getColumnIndexOrThrow(AUTHOR_NAME));
     }
 
+    public Author toAuthor() {
+        return new Author(mName, UserId.fromString(mUserId));
+    }
+
+    //Overridden
     @Override
     public String getRowId() {
         return mUserId;
@@ -62,9 +68,5 @@ public class RowAuthor implements ReviewerDbRow.TableRow {
     @Override
     public boolean hasData() {
         return DataValidator.validateString(getRowId());
-    }
-
-    public Author toAuthor() {
-        return new Author(mName, UserId.fromString(mUserId));
     }
 }

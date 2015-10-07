@@ -16,6 +16,7 @@ import java.util.Comparator;
 public class SocialPlatformComparatorsTest extends ComparatorCollectionTest<GvSocialPlatformList
         .GvSocialPlatform> {
 
+    //Constructors
     public SocialPlatformComparatorsTest() {
         super(SocialPlatformComparators.getComparators());
     }

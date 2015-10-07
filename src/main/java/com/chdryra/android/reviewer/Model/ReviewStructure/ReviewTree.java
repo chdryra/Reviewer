@@ -41,10 +41,12 @@ import com.chdryra.android.reviewer.Model.UserData.Author;
 public class ReviewTree implements ReviewNode {
     private final ReviewNode mNode;
 
+    //Constructors
     public ReviewTree(ReviewNode node) {
         mNode = node;
     }
 
+    //Overridden
     @Override
     public Review getReview() {
         return mNode.getReview();
@@ -78,11 +80,6 @@ public class ReviewTree implements ReviewNode {
     @Override
     public boolean isRatingAverageOfChildren() {
         return mNode.isRatingAverageOfChildren();
-    }
-
-    @Override
-    public ReviewId getId() {
-        return mNode.getId();
     }
 
     @Override
@@ -138,6 +135,11 @@ public class ReviewTree implements ReviewNode {
     @Override
     public MdLocationList getLocations() {
         return mNode.getLocations();
+    }
+
+    @Override
+    public ReviewId getId() {
+        return mNode.getId();
     }
 
     @Override

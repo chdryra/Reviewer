@@ -34,11 +34,12 @@ public class ReviewUserDb implements Review {
     private ReviewerDb mDatabase;
     private UserId mUserId;
     private PublishDate mPublishDate;
-    private MdSubject   mSubject;
-    private MdRating    mRating;
+    private MdSubject mSubject;
+    private MdRating mRating;
     private boolean mRatingIsAverage;
     private ReviewNode mNode;
 
+    //Constructors
     public ReviewUserDb(RowReview row, ReviewerDb database) {
         mDatabase = database;
         init(row);
@@ -65,11 +66,33 @@ public class ReviewUserDb implements Review {
         mNode = FactoryReview.createReviewTreeNode(this, false).createTree();
     }
 
-    @Override
-    public ReviewId getId() {
-        return mReviewId;
+    private <T extends ReviewerDbRow.TableRow> T getRowWhere(ReviewerDbTable<T> table, String
+            col, String val) {
+        SQLiteDatabase db = mDatabase.getHelper().getReadableDatabase();
+
+        db.beginTransaction();
+        T row = mDatabase.getRowWhere(db, table, col, val);
+        db.setTransactionSuccessful();
+        db.endTransaction();
+        db.close();
+
+        return row;
     }
 
+    private <T1 extends MdData, T2 extends MdDataList<T1>, T3 extends MdDataRow<T1>> T2
+    loadFromDataTable(ReviewerDbTable<T3> table, Class<T2> listClass) {
+        SQLiteDatabase db = mDatabase.getHelper().getReadableDatabase();
+
+        db.beginTransaction();
+        T2 data = mDatabase.loadFromDataTable(db, table, mReviewId.toString(), listClass);
+        db.setTransactionSuccessful();
+        db.endTransaction();
+        db.close();
+
+        return data;
+    }
+
+    //Overridden
     @Override
     public MdSubject getSubject() {
         return mSubject;
@@ -129,28 +152,8 @@ public class ReviewUserDb implements Review {
         return loadFromDataTable(ReviewerDb.LOCATIONS, MdLocationList.class);
     }
 
-    private <T extends ReviewerDbRow.TableRow> T getRowWhere(ReviewerDbTable<T> table, String col, String val) {
-        SQLiteDatabase db = mDatabase.getHelper().getReadableDatabase();
-
-        db.beginTransaction();
-        T row = mDatabase.getRowWhere(db, table, col, val);
-        db.setTransactionSuccessful();
-        db.endTransaction();
-        db.close();
-
-        return row;
-    }
-
-    private <T1 extends MdData, T2 extends MdDataList<T1>, T3 extends MdDataRow<T1>> T2
-    loadFromDataTable(ReviewerDbTable<T3> table, Class<T2> listClass) {
-        SQLiteDatabase db = mDatabase.getHelper().getReadableDatabase();
-
-        db.beginTransaction();
-        T2 data = mDatabase.loadFromDataTable(db, table, mReviewId.toString(), listClass);
-        db.setTransactionSuccessful();
-        db.endTransaction();
-        db.close();
-
-        return data;
+    @Override
+    public ReviewId getId() {
+        return mReviewId;
     }
 }

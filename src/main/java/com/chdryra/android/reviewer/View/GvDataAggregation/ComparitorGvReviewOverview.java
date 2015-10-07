@@ -17,6 +17,7 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvReviewOverviewList;
  */
 public class ComparitorGvReviewOverview implements DifferenceComparitor<GvReviewOverviewList
         .GvReviewOverview, DifferenceBoolean> {
+    //Overridden
     @Override
     public DifferenceBoolean compare(GvReviewOverviewList.GvReviewOverview lhs, GvReviewOverviewList
             .GvReviewOverview rhs) {

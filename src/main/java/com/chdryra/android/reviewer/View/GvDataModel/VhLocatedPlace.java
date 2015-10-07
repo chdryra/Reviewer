@@ -21,14 +21,16 @@ import com.chdryra.android.reviewer.R;
  */
 public class VhLocatedPlace extends ViewHolderBasic {
     private static final int LAYOUT = R.layout.located_view_list_item;
-    private static final int NAME   = R.id.located_place_name_text_view;
+    private static final int NAME = R.id.located_place_name_text_view;
 
     private TextView mName;
 
+    //Constructors
     public VhLocatedPlace() {
         super(LAYOUT, new int[]{NAME});
     }
 
+    //Overridden
     @Override
     public void updateView(ViewHolderData data) {
         if (mName == null) mName = (TextView) getView(NAME);

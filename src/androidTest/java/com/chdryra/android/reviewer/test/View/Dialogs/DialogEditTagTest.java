@@ -18,10 +18,12 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvTagList;
  */
 public class DialogEditTagTest extends DialogGvDataEditTest<GvTagList.GvTag> {
 
+    //Constructors
     public DialogEditTagTest() {
         super(ConfigGvDataAddEditView.EditTag.class);
     }
 
+    //protected methods
     @Override
     protected GvTagList.GvTag getDataShown() {
         return new GvTagList.GvTag(mSolo.getEditText(0).getText().toString());

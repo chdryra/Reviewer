@@ -9,6 +9,7 @@ import com.chdryra.android.reviewer.Model.ReviewStructure.Review;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface ReviewsProviderObserver {
+    //abstract
     void onReviewAdded(Review review);
 
     void onReviewRemoved(ReviewId id);

@@ -20,11 +20,13 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class DbHelper extends SQLiteOpenHelper {
     private DbManager mDbManager;
 
+    //Constructors
     public DbHelper(Context context, DbManager dbManager, String databaseName, int version) {
         super(context, databaseName, null, version);
         mDbManager = dbManager;
     }
 
+    //Overridden
     @Override
     public void onCreate(SQLiteDatabase db) {
         mDbManager.createDatabase(db);

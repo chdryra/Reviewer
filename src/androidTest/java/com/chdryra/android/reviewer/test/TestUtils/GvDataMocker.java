@@ -46,10 +46,11 @@ import java.util.Random;
  * Email: rizwan.choudrey@gmail.com
  */
 public class GvDataMocker {
-    public static final  ArrayList<GvDataType<? extends GvData>> TYPES = ConfigGvDataUi.BUILD_TYPES;
+    public static final ArrayList<GvDataType<? extends GvData>> TYPES = ConfigGvDataUi.BUILD_TYPES;
     private static final RandomString STRING_GENERATOR = new RandomString();
-    private static final Random       RAND             = new Random();
+    private static final Random RAND = new Random();
 
+    //Static methods
     //Just a convenient method even if it uses GvType.....
     public static GvDataList getData(GvDataType dataType, int size, boolean withId) {
         if (dataType == GvCommentList.GvComment.TYPE) {

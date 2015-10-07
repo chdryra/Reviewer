@@ -20,10 +20,12 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 public class DialogAddCommentTest extends
         DialogGvDataAddTest<GvCommentList.GvComment> {
 
+    //Constructors
     public DialogAddCommentTest() {
         super(ConfigGvDataAddEditView.AddComment.class);
     }
 
+    //Overridden
     protected GvData enterDataAndTest() {
         GvCommentList.GvComment data = (GvCommentList.GvComment) super.enterDataAndTest();
         data.setIsHeadline(false);

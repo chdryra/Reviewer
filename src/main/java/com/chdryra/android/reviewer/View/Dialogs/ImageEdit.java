@@ -21,17 +21,19 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ImageEdit extends AddEditLayout<GvImageList.GvImage> {
-    public static final int LAYOUT  = R.layout.dialog_image_edit;
-    public static final int IMAGE   = R.id.photo_image_view;
+    public static final int LAYOUT = R.layout.dialog_image_edit;
+    public static final int IMAGE = R.id.photo_image_view;
     public static final int CAPTION = R.id.caption_edit_text;
-    public static final int[] VIEWS   = new int[]{IMAGE, CAPTION};
+    public static final int[] VIEWS = new int[]{IMAGE, CAPTION};
 
     private GvImageList.GvImage mCurrent;
 
+    //Constructors
     public ImageEdit(GvDataEditor editor) {
         super(GvImageList.GvImage.class, LAYOUT, VIEWS, CAPTION, editor);
     }
 
+    //Overridden
     @Override
     public GvImageList.GvImage createGvData() {
         String caption = ((EditText) getView(CAPTION)).getText().toString().trim();

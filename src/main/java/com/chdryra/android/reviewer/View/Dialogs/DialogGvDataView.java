@@ -27,16 +27,17 @@ import com.chdryra.android.reviewer.View.Launcher.LauncherUi;
  */
 public abstract class DialogGvDataView<T extends GvData> extends DialogTwoButtonFragment implements
         LaunchableUi {
-    public static final ActionType DONE_ACTION        = ActionType.DONE;
+    public static final ActionType DONE_ACTION = ActionType.DONE;
 
     private GvDataType<T> mDataType;
-    private DialogLayout<T>       mLayout;
-    private T                     mDatum;
+    private DialogLayout<T> mLayout;
+    private T mDatum;
 
     protected DialogGvDataView(GvDataType<T> dataType) {
         mDataType = dataType;
     }
 
+    //Overridden
     @Override
     public String getLaunchTag() {
         return "View" + mDataType.getDatumName();
@@ -50,6 +51,11 @@ public abstract class DialogGvDataView<T extends GvData> extends DialogTwoButton
     @Override
     protected View createDialogUi() {
         return mLayout.createLayoutUi(getActivity(), mDatum);
+    }
+
+    @Override
+    protected Intent getReturnData() {
+        return null;
     }
 
     @Override
@@ -73,11 +79,6 @@ public abstract class DialogGvDataView<T extends GvData> extends DialogTwoButton
         } else {
             setDialogTitle(type.getDatumName());
         }
-    }
-
-    @Override
-    protected Intent getReturnData() {
-        return null;
     }
 }
 

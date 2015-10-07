@@ -31,6 +31,18 @@ import java.lang.reflect.InvocationTargetException;
 public class ReviewerDbRow {
     public static final String SEPARATOR = ":";
 
+    public interface TableRow {
+        //abstract
+        String getRowId();
+
+        String getRowIdColumnName();
+
+        ContentValues getContentValues();
+
+        boolean hasData();
+    }
+
+    //Static methods
     public static <T extends TableRow> T emptyRow(Class<T> rowClass) {
         try {
             return rowClass.newInstance();
@@ -87,15 +99,5 @@ public class ReviewerDbRow {
 
     public static TableRow newRow(MdImageList.MdImage image, int index) {
         return new RowImage(image, index);
-    }
-
-    public interface TableRow {
-        String getRowId();
-
-        String getRowIdColumnName();
-
-        ContentValues getContentValues();
-
-        boolean hasData();
     }
 }

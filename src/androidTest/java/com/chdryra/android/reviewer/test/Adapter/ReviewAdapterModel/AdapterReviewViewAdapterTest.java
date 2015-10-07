@@ -30,7 +30,7 @@ import com.chdryra.android.reviewer.test.TestUtils.ReviewMocker;
 public class AdapterReviewViewAdapterTest extends AndroidTestCase {
     private AdapterReviewViewAdapter<GvData> mAdapter;
     private AdapterReviewNode<GvData> mNodeAdapter;
-    private GvDataList<GvData>            mGridData;
+    private GvDataList<GvData> mGridData;
 
     @SmallTest
     public void testGetSubject() {
@@ -73,6 +73,7 @@ public class AdapterReviewViewAdapterTest extends AndroidTestCase {
         }
     }
 
+    //Overridden
     @Override
     protected void setUp() throws Exception {
         ReviewNode node = ReviewMocker.newReviewNode(true);

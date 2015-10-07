@@ -26,20 +26,21 @@ import java.util.Date;
  * Email: rizwan.choudrey@gmail.com
  */
 public class RowImage implements MdDataRow<MdImageList.MdImage> {
-    public static String IMAGE_ID  = ReviewerDbContract.TableImages.COLUMN_NAME_IMAGE_ID;
+    public static String IMAGE_ID = ReviewerDbContract.TableImages.COLUMN_NAME_IMAGE_ID;
     public static String REVIEW_ID = ReviewerDbContract.TableImages.COLUMN_NAME_REVIEW_ID;
-    public static String BITMAP    = ReviewerDbContract.TableImages.COLUMN_NAME_BITMAP;
+    public static String BITMAP = ReviewerDbContract.TableImages.COLUMN_NAME_BITMAP;
     public static String DATE = ReviewerDbContract.TableImages.COLUMN_NAME_IMAGE_DATE;
-    public static String CAPTION   = ReviewerDbContract.TableImages.COLUMN_NAME_CAPTION;
-    public static String IS_COVER  = ReviewerDbContract.TableImages.COLUMN_NAME_IS_COVER;
+    public static String CAPTION = ReviewerDbContract.TableImages.COLUMN_NAME_CAPTION;
+    public static String IS_COVER = ReviewerDbContract.TableImages.COLUMN_NAME_IS_COVER;
 
-    private String  mImageId;
-    private String  mReviewId;
-    private byte[]  mBitmap;
+    private String mImageId;
+    private String mReviewId;
+    private byte[] mBitmap;
     private long mDate;
-    private String  mCaption;
+    private String mCaption;
     private boolean mIsCover;
 
+    //Constructors
     public RowImage() {
     }
 
@@ -63,6 +64,7 @@ public class RowImage implements MdDataRow<MdImageList.MdImage> {
         mIsCover = cursor.getInt(cursor.getColumnIndexOrThrow(IS_COVER)) == 1;
     }
 
+    //Overridden
     @Override
     public String getRowId() {
         return mImageId;

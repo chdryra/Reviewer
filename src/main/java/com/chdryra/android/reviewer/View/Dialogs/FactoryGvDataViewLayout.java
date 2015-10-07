@@ -32,12 +32,12 @@ public class FactoryGvDataViewLayout {
     private static final String TAG = "FactoryGvDataViewHolder";
     private final static Class<ViewText> DEFAULT_VIEW = ViewText.class;
     private static FactoryGvDataViewLayout
-                                                                                            sFactory;
+            sFactory;
     private final HashMap<GvDataType, Class<? extends AddEditLayout<? extends GvData>>> mMapAdd;
     private final HashMap<GvDataType, Class<? extends AddEditLayout<? extends GvData>>>
-                                                                                        mMapEdit;
+            mMapEdit;
     private final HashMap<GvDataType, Class<? extends DialogLayout<? extends GvData>>>
-                                                                                        mMapView;
+            mMapView;
 
     private FactoryGvDataViewLayout() {
         mMapAdd = new HashMap<>();
@@ -61,6 +61,7 @@ public class FactoryGvDataViewLayout {
         mMapView.put(GvTagList.GvTag.TYPE, ViewTag.class);
     }
 
+    //Static methods
     public static <T extends GvData> AddEditLayout<T> newLayout
             (GvDataType dataType, AddEditLayout.GvDataAdder adder) {
         if (sFactory == null) sFactory = new FactoryGvDataViewLayout();
@@ -119,7 +120,7 @@ public class FactoryGvDataViewLayout {
         try {
             Class<? extends DialogLayout<? extends GvData>> viewClass = sFactory.mMapView.get
                     (dataType);
-            if(viewClass == null) viewClass = DEFAULT_VIEW;
+            if (viewClass == null) viewClass = DEFAULT_VIEW;
             //TODO make type safe
             return (DialogLayout<T>) viewClass.newInstance();
         } catch (InstantiationException e) {

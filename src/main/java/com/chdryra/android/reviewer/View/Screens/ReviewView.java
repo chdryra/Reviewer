@@ -17,7 +17,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilderAdapter;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewAdapter;
 import com.chdryra.android.reviewer.View.ActivitiesFragments.FragmentReviewView;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
@@ -36,46 +35,46 @@ import java.util.Map;
  */
 public class ReviewView implements GridDataObservable.GridDataObserver, LaunchableUi {
     private ReviewViewPerspective mPerspective;
-    private HashMap<String, Fragment>     mActionListeners;
+    private HashMap<String, Fragment> mActionListeners;
     private ArrayList<GridDataObservable.GridDataObserver> mGridObservers;
-    private FragmentReviewView mParent;
+    private FragmentReviewView mFragment;
     private GvDataList mGridViewData;
 
+    //Constructors
     public ReviewView(ReviewViewPerspective perspective) {
         mPerspective = perspective;
         mGridObservers = new ArrayList<>();
         mActionListeners = new HashMap<>();
-        configure();
-    }
 
-    private void configure() {
         ReviewViewAdapter adapter = mPerspective.getAdapter();
         adapter.registerReviewView(this);
         adapter.registerGridDataObserver(this);
         setGridViewData(adapter.getGridData());
     }
 
+    //public methods
     public ReviewViewAdapter getAdapter() {
         return mPerspective.getAdapter();
-    }
-
-    public void attachFragment(FragmentReviewView parent) {
-        if (mParent != null) throw new RuntimeException("There is a Fragment already attached");
-        mParent = parent;
-        mPerspective.getActions().attachReviewView(this);
-        registerGridDataObserver(mParent);
     }
 
     public ReviewViewParams getParams() {
         return mPerspective.getParams();
     }
 
-    public FragmentReviewView getParent() {
-        return mParent;
+    public FragmentReviewView getFragment() {
+        return mFragment;
     }
 
     public Activity getActivity() {
-        return mParent.getActivity();
+        return mFragment.getActivity();
+    }
+
+    public String getSubject() {
+        return getAdapter().getSubject();
+    }
+
+    public float getRating() {
+        return getAdapter().getRating();
     }
 
     public GvDataList getGridData() {
@@ -88,12 +87,7 @@ public class ReviewView implements GridDataObservable.GridDataObserver, Launchab
 
     public void setGridViewData(GvDataList dataToShow) {
         mGridViewData = dataToShow;
-        updateParent();
-    }
-
-    public void resetGridViewData() {
-        mGridViewData = null;
-        updateParent();
+        updateView();
     }
 
     public ReviewViewAction.SubjectAction getSubjectViewAction() {
@@ -120,6 +114,26 @@ public class ReviewView implements GridDataObservable.GridDataObserver, Launchab
         return false;
     }
 
+    public String getFragmentSubject() {
+        return mFragment.getSubject();
+    }
+
+    public float getFragmentRating() {
+        return mFragment.getRating();
+    }
+
+    public void attachFragment(FragmentReviewView parent) {
+        if (mFragment != null) throw new RuntimeException("There is a Fragment already attached");
+        mFragment = parent;
+        mPerspective.getActions().attachReviewView(this);
+        registerGridDataObserver(mFragment);
+    }
+
+    public void resetGridViewData() {
+        mGridViewData = null;
+        updateView();
+    }
+
     public void updateCover() {
         if (getParams().manageCover()) {
             GvImageList images = getAdapter().getCovers();
@@ -132,16 +146,16 @@ public class ReviewView implements GridDataObservable.GridDataObserver, Launchab
                 cover.setIsCover(true);
             }
 
-            mParent.setCover(cover);
+            mFragment.setCover(cover);
         }
     }
 
-    public void updateUi() {
-        mParent.updateUi();
+    public void updateView() {
+        notifyObservers();
     }
 
     public void attachActionListeners() {
-        FragmentManager manager = mParent.getFragmentManager();
+        FragmentManager manager = mFragment.getFragmentManager();
         FragmentTransaction ft = manager.beginTransaction();
         for (Map.Entry<String, Fragment> entry : mActionListeners.entrySet()) {
             ft.add(entry.getValue(), entry.getKey());
@@ -152,14 +166,6 @@ public class ReviewView implements GridDataObservable.GridDataObserver, Launchab
 
     public void registerActionListener(Fragment listener, String tag) {
         if (!mActionListeners.containsKey(tag)) mActionListeners.put(tag, listener);
-    }
-
-    public String getSubject() {
-        return mParent.getSubject();
-    }
-
-    public float getRating() {
-        return mParent.getRating();
     }
 
     public void registerGridDataObserver(GridDataObservable.GridDataObserver observer) {
@@ -177,15 +183,16 @@ public class ReviewView implements GridDataObservable.GridDataObserver, Launchab
     }
 
     public View modifyIfNeccesary(View v, LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState) {
+                                  Bundle savedInstanceState) {
         ReviewViewPerspective.ReviewViewModifier modifier = mPerspective.getModifier();
         if (modifier != null) {
-            return modifier.modify(mParent, v, inflater, container, savedInstanceState);
+            return modifier.modify(mFragment, v, inflater, container, savedInstanceState);
         } else {
             return v;
         }
     }
 
+    //Overridden
     @Override
     public void onGridDataChanged() {
         resetGridViewData();
@@ -200,81 +207,5 @@ public class ReviewView implements GridDataObservable.GridDataObserver, Launchab
     @Override
     public void launch(LauncherUi launcher) {
         launcher.launch(this);
-    }
-
-    private void updateParent() {
-        if (mParent != null) mParent.updateGridData();
-    }
-
-    public static class Editor extends ReviewView {
-        private FragmentReviewView mParent;
-        private boolean mRatingIsAverage = false;
-
-        public Editor(ReviewBuilderAdapter.DataBuilderAdapter builder,
-                      ReviewViewParams params,
-                      ReviewViewActionCollection actions) {
-            super(new ReviewViewPerspective(builder, params, actions));
-            mRatingIsAverage = builder.getParentBuilder().isRatingAverage();
-        }
-
-        public Editor(ReviewBuilderAdapter builder, ReviewViewParams params,
-                      ReviewViewActionCollection actions,
-                      ReviewViewPerspective.ReviewViewModifier modifier) {
-            super(new ReviewViewPerspective(builder, params, actions, modifier));
-            mRatingIsAverage = builder.isRatingAverage();
-        }
-
-        public static Editor cast(ReviewView view) {
-            Editor editor;
-            try {
-                editor = (ReviewView.Editor) view;
-            } catch (ClassCastException e) {
-                throw new ClassCastException("ReviewView must be an Editor");
-            }
-            return editor;
-        }
-
-        @Override
-        public void attachFragment(FragmentReviewView parent) {
-            mParent = parent;
-            super.attachFragment(parent);
-        }
-
-        @Override
-        public boolean isEditable() {
-            return true;
-        }
-
-        @Override
-        public float getRating() {
-            return mRatingIsAverage ? getAdapter().getAverageRating() : super.getRating();
-        }
-
-        public void setRating(float rating) {
-            mParent.setRating(rating);
-        }
-
-        public boolean isRatingAverage() {
-            return mRatingIsAverage;
-        }
-
-        public void setRatingAverage(boolean isAverage) {
-            mRatingIsAverage = isAverage;
-        }
-
-        public void proposeCover(GvImageList.GvImage image) {
-            if (getParams().manageCover()) {
-                GvImageList images = getAdapter().getCovers();
-                GvImageList covers = images.getCovers();
-                if (covers.size() == 1 && images.contains(image)) {
-                    covers.getItem(0).setIsCover(false);
-                    image.setIsCover(true);
-                }
-            }
-        }
-
-        public void setSubject(String subject) {
-            mParent.setSubject(subject);
-        }
     }
 }

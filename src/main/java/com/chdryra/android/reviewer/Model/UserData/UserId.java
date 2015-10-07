@@ -41,6 +41,7 @@ public class UserId {
         }
     }
 
+    //Static methods
     public static UserId generateId() {
         return new UserId(UUID.randomUUID());
     }
@@ -49,6 +50,7 @@ public class UserId {
         return new UserId(rdId);
     }
 
+    //Overridden
     @Override
     public boolean equals(Object obj) {
         return obj != null && obj.getClass() == getClass() && this.mId.equals(((UserId) obj).mId);

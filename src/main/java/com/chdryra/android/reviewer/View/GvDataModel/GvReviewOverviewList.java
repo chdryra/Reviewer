@@ -32,6 +32,7 @@ import java.util.Date;
  * @see Administrator
  */
 public class GvReviewOverviewList extends GvDataList<GvReviewOverviewList.GvReviewOverview> {
+    //Constructors
     public GvReviewOverviewList() {
         super(GvReviewOverview.TYPE, null);
     }
@@ -44,6 +45,15 @@ public class GvReviewOverviewList extends GvDataList<GvReviewOverviewList.GvRevi
         super(data);
     }
 
+    private boolean contains(String id) {
+        for (GvReviewOverview review : this) {
+            if (review.getId().equals(id)) return true;
+        }
+
+        return false;
+    }
+
+    //Overridden
     public void add(GvReviewOverview overview) {
         if (!contains(overview.getId())) super.add(overview);
     }
@@ -53,15 +63,7 @@ public class GvReviewOverviewList extends GvDataList<GvReviewOverviewList.GvRevi
         return contains(item.getId());
     }
 
-    private boolean contains(String id) {
-        for (GvReviewOverview review : this) {
-            if (review.getId().equals(id)) return true;
-        }
-
-        return false;
-    }
-
-
+//Classes
     /**
      * {@link GvData} version of: {@link Review}
      * {@link ViewHolder): {@link VhReviewOverview }
@@ -71,6 +73,7 @@ public class GvReviewOverviewList extends GvDataList<GvReviewOverviewList.GvRevi
                 new GvDataType<>(GvReviewOverview.class, "review");
         public static final Parcelable.Creator<GvReviewOverview> CREATOR = new Parcelable
                 .Creator<GvReviewOverview>() {
+            //Overridden
             public GvReviewOverview createFromParcel(Parcel in) {
                 return new GvReviewOverview(in);
             }
@@ -82,28 +85,30 @@ public class GvReviewOverviewList extends GvDataList<GvReviewOverviewList.GvRevi
 
         private String mId;
         private String mSubject;
-        private float  mRating;
+        private float mRating;
         private Bitmap mCoverImage;
         private String mHeadline;
         private ArrayList<String> mLocationNames;
         private ArrayList<String> mTags;
         private Author mAuthor;
-        private Date   mPublishDate;
+        private Date mPublishDate;
 
+        //Constructors
         public GvReviewOverview() {
             super(GvReviewOverview.TYPE);
         }
 
         public GvReviewOverview(String id, Author author, Date publishDate, String subject,
-                float rating, Bitmap coverImage, String headline, ArrayList<String> locationNames,
+                                float rating, Bitmap coverImage, String headline,
+                                ArrayList<String> locationNames,
                                 ArrayList<String> tags) {
             this(null, id, author, publishDate, subject, rating, coverImage, headline,
                     locationNames, tags);
         }
 
         public GvReviewOverview(GvReviewId parentId, String id, Author author, Date publishDate,
-                String subject, float rating, Bitmap coverImage, String headline,
-                ArrayList<String> locationNames, ArrayList<String> tags) {
+                                String subject, float rating, Bitmap coverImage, String headline,
+                                ArrayList<String> locationNames, ArrayList<String> tags) {
             super(GvReviewOverview.TYPE, parentId);
             mId = id;
             mSubject = subject;
@@ -135,6 +140,54 @@ public class GvReviewOverviewList extends GvDataList<GvReviewOverviewList.GvRevi
             mPublishDate = (Date) in.readSerializable();
         }
 
+        //public methods
+        public String getId() {
+            return mId;
+        }
+
+        public String getSubject() {
+            return mSubject;
+        }
+
+        public float getRating() {
+            return mRating;
+        }
+
+        public Bitmap getCoverImage() {
+            return mCoverImage;
+        }
+
+        public String getLocationString() {
+            String location = null;
+            int locs = mLocationNames.size();
+            if (locs > 0) {
+                location = mLocationNames.get(0);
+                if (locs > 1) {
+                    String loc = locs == 2 ? " loc" : " locs";
+                    location += " +" + String.valueOf(mLocationNames.size() - 1) + loc;
+                }
+            }
+
+            return location;
+        }
+
+        public ArrayList<String> getTags() {
+            return mTags;
+        }
+
+        public String getHeadline() {
+            return mHeadline;
+        }
+
+        public Author getAuthor() {
+            return mAuthor;
+        }
+
+        public Date getPublishDate() {
+            return mPublishDate;
+        }
+
+        //Overridden
         @Override
         public ViewHolder getViewHolder() {
             return new VhReviewOverview();
@@ -209,52 +262,6 @@ public class GvReviewOverviewList extends GvDataList<GvReviewOverviewList.GvRevi
             result = 31 * result + (mAuthor != null ? mAuthor.hashCode() : 0);
             result = 31 * result + (mPublishDate != null ? mPublishDate.hashCode() : 0);
             return result;
-        }
-
-        public String getId() {
-            return mId;
-        }
-
-        public String getSubject() {
-            return mSubject;
-        }
-
-        public float getRating() {
-            return mRating;
-        }
-
-        public Bitmap getCoverImage() {
-            return mCoverImage;
-        }
-
-        public String getLocationString() {
-            String location = null;
-            int locs = mLocationNames.size();
-            if (locs > 0) {
-                location = mLocationNames.get(0);
-                if (locs > 1) {
-                    String loc = locs == 2 ? " loc" : " locs";
-                    location += " +" + String.valueOf(mLocationNames.size() - 1) + loc;
-                }
-            }
-
-            return location;
-        }
-
-        public ArrayList<String> getTags() {
-            return mTags;
-        }
-
-        public String getHeadline() {
-            return mHeadline;
-        }
-
-        public Author getAuthor() {
-            return mAuthor;
-        }
-
-        public Date getPublishDate() {
-            return mPublishDate;
         }
 
         @Override

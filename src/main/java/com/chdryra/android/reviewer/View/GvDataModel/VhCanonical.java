@@ -15,11 +15,13 @@ import com.chdryra.android.mygenerallibrary.ViewHolderData;
 public class VhCanonical implements ViewHolder {
     ViewHolder mViewHolder;
 
+    //Constructors
     public VhCanonical(GvDataType dataType) {
         GvData nullItem = FactoryGvData.newNull(dataType.getDataClass());
         mViewHolder = nullItem.getViewHolder();
     }
 
+    //Overridden
     @Override
     public void inflate(Context context, ViewGroup parent) {
         mViewHolder.inflate(context, parent);

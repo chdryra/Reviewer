@@ -76,7 +76,8 @@ public class ViewerReviewDataTest extends AndroidTestCase {
         GvTagList tags = GvDataMocker.newTagList(3, false);
         TagsManager.tag(getContext(), node.getId(), tags.toStringArray());
 
-        ViewerNodeData.ViewerReviewData wrapper = new ViewerNodeData.ViewerReviewData(getContext(), node);
+        ViewerNodeData.ViewerReviewData wrapper = new ViewerNodeData.ViewerReviewData(getContext
+                (), node);
         GvList collection = wrapper.getGridData();
         assertNotNull(collection);
         assertEquals(6, collection.size());

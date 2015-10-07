@@ -16,6 +16,7 @@ import com.google.android.gms.maps.model.LatLng;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface DataLocation {
+    //abstract
     LatLng getLatLng();
 
     String getName();

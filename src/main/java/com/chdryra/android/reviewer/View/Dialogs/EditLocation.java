@@ -20,16 +20,18 @@ import com.google.android.gms.maps.model.LatLng;
  * Email: rizwan.choudrey@gmail.com
  */
 public class EditLocation extends AddEditLayout<GvLocationList.GvLocation> {
-    public static final int   LAYOUT   = R.layout.dialog_location_edit;
-    public static final int   LOCATION = R.id.location_edit_edit_text;
-    public static final int[] VIEWS    = new int[]{LOCATION};
+    public static final int LAYOUT = R.layout.dialog_location_edit;
+    public static final int LOCATION = R.id.location_edit_edit_text;
+    public static final int[] VIEWS = new int[]{LOCATION};
 
     private LatLng mLatLng;
 
+    //Constructors
     public EditLocation(GvDataEditor editor) {
         super(GvLocationList.GvLocation.class, LAYOUT, VIEWS, LOCATION, editor);
     }
 
+    //Overridden
     @Override
     public GvLocationList.GvLocation createGvData() {
         return new GvLocationList.GvLocation(mLatLng, ((EditText) getView(LOCATION)).getText()

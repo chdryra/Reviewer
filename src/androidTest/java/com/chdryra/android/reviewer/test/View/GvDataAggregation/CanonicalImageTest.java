@@ -30,31 +30,7 @@ public class CanonicalImageTest extends CanonicalGvDataTest<GvImageList.GvImage>
     private static final GvImageList.GvImage IMAGE3 = GvDataMocker.newImage(null);
     private static final GvImageList.GvImage IMAGE4 = GvDataMocker.newImage(null);
 
-    @Override
-    protected GvImageList.GvImage getTestDatum() {
-        return IMAGE1;
-    }
-
-    @Override
-    protected CanonicalDatumMaker<GvImageList.GvImage> getCanonicalMaker() {
-        return new CanonicalImage();
-    }
-
-    @Override
-    protected void additionalTests() {
-        checkDifferentBitmapsNotValid();
-        checkSameBitmapsDifferentDatesNoCaptions();
-        checkSameBitmapsDifferentCaptions();
-    }
-
-    @Override
-    protected void checkEquality(GvImageList.GvImage lhs, GvImageList.GvImage rhs) {
-        assertTrue(lhs.getBitmap().sameAs(rhs.getBitmap()));
-        assertTrue(lhs.getCaption().equals(rhs.getCaption()));
-        assertTrue(lhs.getDate().equals(rhs.getDate()));
-        assertEquals(lhs.getLatLng(), rhs.getLatLng());
-    }
-
+    //protected methods
     private void checkDifferentBitmapsNotValid() {
         mData = newDataList();
         mData.add(IMAGE1);
@@ -125,5 +101,31 @@ public class CanonicalImageTest extends CanonicalGvDataTest<GvImageList.GvImage>
         assertEquals(imageDate1, canon.getDate());
         assertEquals("3 captions", canon.getCaption());
         assertTrue(canon.isCover());
+    }
+
+    //Overridden
+    @Override
+    protected void additionalTests() {
+        checkDifferentBitmapsNotValid();
+        checkSameBitmapsDifferentDatesNoCaptions();
+        checkSameBitmapsDifferentCaptions();
+    }
+
+    @Override
+    protected GvImageList.GvImage getTestDatum() {
+        return IMAGE1;
+    }
+
+    @Override
+    protected CanonicalDatumMaker<GvImageList.GvImage> getCanonicalMaker() {
+        return new CanonicalImage();
+    }
+
+    @Override
+    protected void checkEquality(GvImageList.GvImage lhs, GvImageList.GvImage rhs) {
+        assertTrue(lhs.getBitmap().sameAs(rhs.getBitmap()));
+        assertTrue(lhs.getCaption().equals(rhs.getCaption()));
+        assertTrue(lhs.getDate().equals(rhs.getDate()));
+        assertEquals(lhs.getLatLng(), rhs.getLatLng());
     }
 }

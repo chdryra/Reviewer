@@ -25,14 +25,6 @@ public class ReviewsRepositoryTest extends InstrumentationTestCase {
     ReviewNode mFeed;
     Context mContext;
 
-    @Override
-    protected void setUp() throws Exception {
-        TestDatabase.recreateDatabase(getInstrumentation());
-        mContext = getInstrumentation().getTargetContext();
-        mFeed = ReviewNodeProvider.getReviewNode(mContext);
-        assertTrue(mFeed.getChildren().size() > 0);
-    }
-
     @SmallTest
     public void testGetReviewDatum() {
         //Just check for comments as generic wrt GvData
@@ -88,6 +80,15 @@ public class ReviewsRepositoryTest extends InstrumentationTestCase {
         for (GvCommentList.GvComment comment : reviewComments) {
             assertTrue(ids.contains(comment.getReviewId().getId()));
         }
+    }
+
+    //Overridden
+    @Override
+    protected void setUp() throws Exception {
+        TestDatabase.recreateDatabase(getInstrumentation());
+        mContext = getInstrumentation().getTargetContext();
+        mFeed = ReviewNodeProvider.getReviewNode(mContext);
+        assertTrue(mFeed.getChildren().size() > 0);
     }
 
     @Override

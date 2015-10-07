@@ -104,6 +104,7 @@ public class ReviewerDbRowTest extends TestCase {
         assertNotNull(ReviewerDbRow.newRow(mMocker.newImage(), 0));
     }
 
+    //Overridden
     @Override
     protected void setUp() throws Exception {
         mMocker = new MdDataMocker();

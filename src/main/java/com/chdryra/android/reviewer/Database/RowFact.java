@@ -26,18 +26,19 @@ import java.net.URL;
  * Email: rizwan.choudrey@gmail.com
  */
 public class RowFact implements MdDataRow<MdFactList.MdFact> {
-    public static String FACT_ID   = ReviewerDbContract.TableFacts.COLUMN_NAME_FACT_ID;
+    public static String FACT_ID = ReviewerDbContract.TableFacts.COLUMN_NAME_FACT_ID;
     public static String REVIEW_ID = ReviewerDbContract.TableFacts.COLUMN_NAME_REVIEW_ID;
-    public static String LABEL     = ReviewerDbContract.TableFacts.COLUMN_NAME_LABEL;
-    public static String VALUE     = ReviewerDbContract.TableFacts.COLUMN_NAME_VALUE;
-    public static String IS_URL    = ReviewerDbContract.TableFacts.COLUMN_NAME_IS_URL;
+    public static String LABEL = ReviewerDbContract.TableFacts.COLUMN_NAME_LABEL;
+    public static String VALUE = ReviewerDbContract.TableFacts.COLUMN_NAME_VALUE;
+    public static String IS_URL = ReviewerDbContract.TableFacts.COLUMN_NAME_IS_URL;
 
-    private String  mFactId;
-    private String  mReviewId;
-    private String  mLabel;
-    private String  mValue;
+    private String mFactId;
+    private String mReviewId;
+    private String mLabel;
+    private String mValue;
     private boolean mIsUrl;
 
+    //Constructors
     public RowFact() {
     }
 
@@ -57,6 +58,7 @@ public class RowFact implements MdDataRow<MdFactList.MdFact> {
         mIsUrl = cursor.getInt(cursor.getColumnIndexOrThrow(IS_URL)) == 1;
     }
 
+    //Overridden
     @Override
     public String getRowId() {
         return mFactId;

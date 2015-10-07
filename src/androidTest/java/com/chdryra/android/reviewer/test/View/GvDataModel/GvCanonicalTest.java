@@ -94,7 +94,7 @@ public class GvCanonicalTest extends TestCase {
     @SmallTest
     public void testGetItem() {
         assertEquals(mData.size(), mGvCanonical.size());
-        for(int i = 0; i < mGvCanonical.size(); ++i) {
+        for (int i = 0; i < mGvCanonical.size(); ++i) {
             assertEquals(mData.getItem(i), mGvCanonical.getItem(i));
         }
     }
@@ -137,6 +137,7 @@ public class GvCanonicalTest extends TestCase {
         assertFalse(canonical.isValidForDisplay());
     }
 
+    //Overridden
     @Override
     protected void setUp() throws Exception {
         mCanonical = GvDataMocker.newAuthor(RandomReviewId.nextGvReviewId());
@@ -145,7 +146,7 @@ public class GvCanonicalTest extends TestCase {
             data = GvDataMocker.newAuthorList(NUM, true);
             mData = FactoryGvData.copy(data);
             data.sort();
-        } while(mData.equals(data));
+        } while (mData.equals(data));
         mGvCanonical = new GvCanonical<>(mCanonical, mData);
     }
 }

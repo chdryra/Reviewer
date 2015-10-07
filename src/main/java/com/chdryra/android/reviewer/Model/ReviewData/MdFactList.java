@@ -23,10 +23,12 @@ import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
 
 public class MdFactList extends MdDataList<MdFactList.MdFact> {
 
+    //Constructors
     public MdFactList(ReviewId reviewId) {
         super(reviewId);
     }
 
+//Classes
     /**
      * Review Data: fact
      */
@@ -36,12 +38,14 @@ public class MdFactList extends MdDataList<MdFactList.MdFact> {
         private final String mValue;
         private final ReviewId mReviewId;
 
+        //Constructors
         public MdFact(String label, String value, ReviewId reviewId) {
             mLabel = label;
             mValue = value;
             mReviewId = reviewId;
         }
 
+        //Overridden
         @Override
         public ReviewId getReviewId() {
             return mReviewId;

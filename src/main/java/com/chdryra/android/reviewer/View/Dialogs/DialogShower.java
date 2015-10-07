@@ -16,14 +16,15 @@ import android.os.Bundle;
  * Takes care of showing requested dialogs via a static <code>show(.)</code> method.
  */
 public class DialogShower {
+    //Static methods
     public static void show(DialogFragment dialog, Fragment targetFragment, int requestCode,
-            String tag, Bundle args) {
+                            String tag, Bundle args) {
         dialog.setArguments(args);
         show(dialog, targetFragment, requestCode, tag);
     }
 
     public static void show(DialogFragment dialog, Fragment targetFragment, int requestCode,
-            String tag) {
+                            String tag) {
         dialog.setTargetFragment(targetFragment, requestCode);
         dialog.show(targetFragment.getFragmentManager(), tag);
     }

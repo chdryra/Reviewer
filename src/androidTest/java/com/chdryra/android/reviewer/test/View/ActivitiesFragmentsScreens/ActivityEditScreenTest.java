@@ -43,23 +43,29 @@ import java.util.Map;
  * Email: rizwan.choudrey@gmail.com
  */
 public abstract class ActivityEditScreenTest extends ActivityReviewViewTest {
-    protected static final long TIMEOUT  = 5000;
-    protected static final int  DELETE   = com.chdryra.android.reviewer.R.id
+    protected static final long TIMEOUT = 5000;
+    protected static final int DELETE = com.chdryra.android.reviewer.R.id
             .menu_item_delete;
-    protected static final int  DONE     = com.chdryra.android.reviewer.R.id
+    protected static final int DONE = com.chdryra.android.reviewer.R.id
             .menu_item_done;
-    protected static final int  NUM_DATA = 3;
+    protected static final int NUM_DATA = 3;
 
     protected final GvDataType mDataType;
     private final Map<Button, Runnable> mClickRunnables = new HashMap<>();
-    protected String                          mOriginalSubject;
-    protected float                           mOriginalRating;
-    protected GvDataList                      mData;
-    protected CallBackSignaler                mSignaler;
-    private   ConfigGvDataUi.LaunchableConfig mAddConfig;
-    private   ConfigGvDataUi.LaunchableConfig mEditConfig;
+    protected String mOriginalSubject;
+    protected float mOriginalRating;
+    protected GvDataList mData;
+    protected CallBackSignaler mSignaler;
+    private ConfigGvDataUi.LaunchableConfig mAddConfig;
+    private ConfigGvDataUi.LaunchableConfig mEditConfig;
     private boolean mWithData = false;
 
+    protected enum Button {
+        ADDCANCEL, ADDADD, ADDDONE, EDITCANCEL, EDITDELETE, EDITDONE,
+        DELETECONFIRM, DELETECANCEL
+    }
+
+    //Constructors
     public ActivityEditScreenTest(GvDataType dataType) {
         mDataType = dataType;
     }
@@ -135,6 +141,19 @@ public abstract class ActivityEditScreenTest extends ActivityReviewViewTest {
         checkInBuilder(mData, true);
     }
 
+    //protected methods
+    protected Activity getEditActivity() {
+        return mActivity;
+    }
+
+    protected ReviewBuilderAdapter.DataBuilderAdapter getBuilder() {
+        return (ReviewBuilderAdapter.DataBuilderAdapter) mAdapter;
+    }
+
+    protected ReviewBuilderAdapter getParentBuilder() {
+        return getBuilder().getParentBuilder();
+    }
+
     protected void clickMenuDelete() {
         mSolo.clickOnActionBarItem(DELETE);
     }
@@ -145,39 +164,6 @@ public abstract class ActivityEditScreenTest extends ActivityReviewViewTest {
 
     protected void clickMenuUp() {
         mSolo.clickOnActionBarHomeButton();
-    }
-
-    @Override
-    protected void setAdapter() {
-        ReviewBuilderAdapter builder = Administrator.get(getInstrumentation().getTargetContext())
-                .getReviewBuilder();
-        ReviewBuilderAdapter.DataBuilderAdapter dbuilder = builder.getDataBuilder(mDataType);
-
-        if (mWithData) {
-            mData = newData();
-            for (int i = 0; i < mData.size(); ++i) {
-                //TODO make type safe
-                dbuilder.add((GvData) mData.getItem(i));
-            }
-            dbuilder.setData();
-        }
-
-        mAdapter = dbuilder;
-    }
-
-    @Override
-    protected ReviewView getView() {
-        return EditScreen.newScreen(getInstrumentation().getTargetContext(), mDataType);
-    }
-
-    @Override
-    public void testSubjectRating() {
-        setUp(false);
-        super.testSubjectRating();
-    }
-
-    @Override
-    protected void setUp() {
     }
 
     protected void setUp(boolean withData) {
@@ -239,7 +225,7 @@ public abstract class ActivityEditScreenTest extends ActivityReviewViewTest {
     }
 
     protected void checkBuilderSubjectRating(ReviewViewAdapter builder, String subject,
-            float rating) {
+                                             float rating) {
         assertEquals(subject, builder.getSubject());
         assertEquals(rating, builder.getRating(), 0.01);
     }
@@ -405,10 +391,6 @@ public abstract class ActivityEditScreenTest extends ActivityReviewViewTest {
         setDeleteConfirmButtonClicks();
     }
 
-    protected Activity getEditActivity() {
-        return mActivity;
-    }
-
     protected void checkInBuilders(GvData datum, boolean result) {
         checkInBuilder(datum, result);
         checkInParentBuilder(datum, result);
@@ -435,10 +417,6 @@ public abstract class ActivityEditScreenTest extends ActivityReviewViewTest {
         }
 
         assertTrue(result ? inBuilder : !inBuilder);
-    }
-
-    protected ReviewBuilderAdapter.DataBuilderAdapter getBuilder() {
-        return (ReviewBuilderAdapter.DataBuilderAdapter) mAdapter;
     }
 
     protected void checkInBuilders(GvDataList data, boolean result) {
@@ -495,8 +473,27 @@ public abstract class ActivityEditScreenTest extends ActivityReviewViewTest {
         assertTrue(result ? inGrid : !inGrid);
     }
 
-    protected ReviewBuilderAdapter getParentBuilder() {
-        return getBuilder().getParentBuilder();
+    protected GvData parentDatum(GvData currentDatum) {
+        return currentDatum;
+    }
+
+    //private methods
+    private DialogGvDataEdit getEditDialog() {
+        FragmentManager manager = getActivity().getFragmentManager();
+        Fragment f = manager.findFragmentByTag(mEditConfig.getTag());
+        return (DialogGvDataEdit) f;
+    }
+
+    private DialogGvDataAdd getAddDialog() {
+        FragmentManager manager = getActivity().getFragmentManager();
+        Fragment f = manager.findFragmentByTag(mAddConfig.getTag());
+        return (DialogGvDataAdd) f;
+    }
+
+    private DialogAlertFragment getDeleteConfirmDialog() {
+        FragmentManager manager = getEditActivity().getFragmentManager();
+        Fragment f = manager.findFragmentByTag(DialogDeleteConfirm.DELETE_CONFIRM_TAG);
+        return (DialogAlertFragment) f;
     }
 
     private void testConfirmDialogShowing(boolean isShowing) {
@@ -565,10 +562,6 @@ public abstract class ActivityEditScreenTest extends ActivityReviewViewTest {
         checkBuildersSubjectRatingOnDone();
     }
 
-    protected GvData parentDatum(GvData currentDatum) {
-        return currentDatum;
-    }
-
     private void testMenuDelete(boolean confirm) {
         setUp(true);
 
@@ -635,6 +628,7 @@ public abstract class ActivityEditScreenTest extends ActivityReviewViewTest {
 
     private void setAdderDialogButtonClicks() {
         mClickRunnables.put(Button.ADDCANCEL, new Runnable() {
+            //Overridden
             @Override
             public void run() {
                 mSignaler.reset();
@@ -711,24 +705,6 @@ public abstract class ActivityEditScreenTest extends ActivityReviewViewTest {
         });
     }
 
-    private DialogGvDataEdit getEditDialog() {
-        FragmentManager manager = getActivity().getFragmentManager();
-        Fragment f = manager.findFragmentByTag(mEditConfig.getTag());
-        return (DialogGvDataEdit) f;
-    }
-
-    private DialogGvDataAdd getAddDialog() {
-        FragmentManager manager = getActivity().getFragmentManager();
-        Fragment f = manager.findFragmentByTag(mAddConfig.getTag());
-        return (DialogGvDataAdd) f;
-    }
-
-    private DialogAlertFragment getDeleteConfirmDialog() {
-        FragmentManager manager = getEditActivity().getFragmentManager();
-        Fragment f = manager.findFragmentByTag(DialogDeleteConfirm.DELETE_CONFIRM_TAG);
-        return (DialogAlertFragment) f;
-    }
-
     private void testDialogShowing(boolean isShowing) {
         if (isShowing) {
             assertTrue(mSolo.searchButton("Cancel"));
@@ -739,9 +715,38 @@ public abstract class ActivityEditScreenTest extends ActivityReviewViewTest {
         }
     }
 
-    protected enum Button {
-        ADDCANCEL, ADDADD, ADDDONE, EDITCANCEL, EDITDELETE, EDITDONE,
-        DELETECONFIRM, DELETECANCEL
+    //Overridden
+    @Override
+    protected void setAdapter() {
+        ReviewBuilderAdapter builder = Administrator.get(getInstrumentation().getTargetContext())
+                .getReviewBuilder();
+        ReviewBuilderAdapter.DataBuilderAdapter dbuilder = builder.getDataBuilder(mDataType);
+
+        if (mWithData) {
+            mData = newData();
+            for (int i = 0; i < mData.size(); ++i) {
+                //TODO make type safe
+                dbuilder.add((GvData) mData.getItem(i));
+            }
+            dbuilder.setData();
+        }
+
+        mAdapter = dbuilder;
+    }
+
+    @Override
+    public void testSubjectRating() {
+        setUp(false);
+        super.testSubjectRating();
+    }
+
+    @Override
+    protected ReviewView getView() {
+        return EditScreen.newScreen(getInstrumentation().getTargetContext(), mDataType);
+    }
+
+    @Override
+    protected void setUp() {
     }
 }
 

@@ -23,19 +23,33 @@ public class GiDataLauncher extends GridItemExpander {
 
     private GridItemListener mListener;
 
+    //Constructors
     public GiDataLauncher() {
         mListener = new GridItemListener() {
         };
         super.registerActionListener(mListener, TAG);
     }
 
+    //Overridden
     @Override
     public void onClickExpandable(GvData item, int position, View v, ReviewViewAdapter
             expanded) {
         ReviewView screen = expanded.getReviewView();
         if (screen == null) screen = ReviewDataScreen.newScreen(expanded, item.getGvDataType());
-        LauncherUi.launch(screen, getReviewView().getParent(), REQUEST_CODE, screen.getLaunchTag
+        LauncherUi.launch(screen, getReviewView().getFragment(), REQUEST_CODE, screen.getLaunchTag
                 (), new Bundle());
+    }
+
+    @Override
+    public void onLongClickExpandable(GvData item, int position, View v, ReviewViewAdapter
+            expanded) {
+        GvData datum = item;
+        if (item instanceof GvCanonical) {
+            GvCanonical canonical = (GvCanonical) item;
+            datum = canonical.size() == 1 ? canonical.getItem(0) : canonical.getCanonical();
+        }
+
+        onClickNotExpandable(datum, position, v);
     }
 
     @Override
@@ -49,18 +63,6 @@ public class GiDataLauncher extends GridItemExpander {
             LauncherUi.launch(view.getLaunchable(), mListener, view.getRequestCode(), view
                     .getTag(), args);
         }
-    }
-
-    @Override
-    public void onLongClickExpandable(GvData item, int position, View v, ReviewViewAdapter
-            expanded) {
-        GvData datum = item;
-        if(item instanceof GvCanonical) {
-            GvCanonical canonical = (GvCanonical) item;
-            datum = canonical.size() == 1 ? canonical.getItem(0) : canonical.getCanonical();
-        }
-
-        onClickNotExpandable(datum, position, v);
     }
 
     @Override

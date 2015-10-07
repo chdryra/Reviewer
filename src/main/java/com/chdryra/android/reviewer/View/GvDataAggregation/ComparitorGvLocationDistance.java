@@ -21,6 +21,7 @@ import com.google.android.gms.maps.model.LatLng;
 public class ComparitorGvLocationDistance implements DifferenceComparitor<GvLocationList
         .GvLocation, DifferenceFloat> {
 
+    //Overridden
     @Override
     public DifferenceFloat compare(GvLocationList.GvLocation lhs, GvLocationList.GvLocation
             rhs) {

@@ -16,7 +16,6 @@ package com.chdryra.android.reviewer.Adapter.ReviewAdapterModel;
 
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.MdGvConverter;
 import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
-import com.chdryra.android.reviewer.Model.TreeMethods.VisitorRatingAverageOfChildren;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
 
@@ -27,6 +26,7 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
 public class AdapterReviewNode<T extends GvData> extends ReviewViewAdapterBasic<T> {
     private ReviewNode mNode;
 
+    //Constructors
     public AdapterReviewNode(ReviewNode node, GridDataViewer<T> viewer) {
         mNode = node;
         setViewer(viewer);
@@ -36,6 +36,7 @@ public class AdapterReviewNode<T extends GvData> extends ReviewViewAdapterBasic<
         mNode = node;
     }
 
+    //Overridden
     @Override
     public String getSubject() {
         return mNode.getSubject().get();
@@ -44,14 +45,6 @@ public class AdapterReviewNode<T extends GvData> extends ReviewViewAdapterBasic<
     @Override
     public float getRating() {
         return mNode.getRating().getValue();
-    }
-
-    @Override
-    public float getAverageRating() {
-        if (mNode.isRatingAverageOfChildren()) return getRating();
-        VisitorRatingAverageOfChildren visitor = new VisitorRatingAverageOfChildren();
-        mNode.acceptVisitor(visitor);
-        return visitor.getRating();
     }
 
     @Override

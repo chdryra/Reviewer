@@ -44,14 +44,14 @@ public class AuthorFeedScreen implements ReviewsProviderObserver {
     private static final int REQUEST_CODE = RequestCodeGenerator.getCode("FeedScreen");
 
     private ReviewTreeNode mNode;
-    private ReviewView        mReviewView;
+    private ReviewView mReviewView;
 
     private AuthorFeedScreen(Context context, ReviewsRepository repository, Author author) {
         String title = author.getName() + "'s feed";
         ReviewPublisher publisher = new ReviewPublisher(author, PublishDate.now());
         Review root = FactoryReview.createReviewUser(publisher, title, 0f);
         mNode = FactoryReview.createReviewTreeNode(root, true);
-        for(Review review : repository.getReviews()) {
+        for (Review review : repository.getReviews()) {
             addReview(review);
         }
 
@@ -61,6 +61,7 @@ public class AuthorFeedScreen implements ReviewsProviderObserver {
         repository.registerObserver(this);
     }
 
+    //Static methods
     public static ReviewView newScreen(Context context) {
         ReviewsRepository provider = Administrator.get(context).getReviewsRepository();
         Author author = Administrator.get(context).getAuthor();
@@ -68,6 +69,20 @@ public class AuthorFeedScreen implements ReviewsProviderObserver {
         return screen.getReviewView();
     }
 
+    //private methods
+    private ReviewView getReviewView() {
+        return mReviewView;
+    }
+
+    private void addReview(Review review) {
+        mNode.addChild(FactoryReview.createReviewTreeNode(review, false));
+    }
+
+    private void removeReview(ReviewId id) {
+        mNode.removeChild(id);
+    }
+
+    //Overridden
     @Override
     public void onReviewAdded(Review review) {
         addReview(review);
@@ -80,51 +95,53 @@ public class AuthorFeedScreen implements ReviewsProviderObserver {
         mReviewView.onGridDataChanged();
     }
 
-    private void addReview(Review review) {
-        mNode.addChild(FactoryReview.createReviewTreeNode(review, false));
-    }
-
-    private void removeReview(ReviewId id) {
-        mNode.removeChild(id);
-    }
-
-    private ReviewView getReviewView() {
-        return mReviewView;
-    }
-
     private static class FeedScreenMenu extends ReviewViewAction.MenuAction {
-        public static final  int MENU_NEW_REVIEW_ID = R.id.menu_item_new_review;
+        public static final int MENU_NEW_REVIEW_ID = R.id.menu_item_new_review;
         private static final int MENU = R.menu.menu_feed;
 
         private FeedScreenMenu() {
             super(MENU, null, false);
         }
 
+        //Overridden
         @Override
         protected void addMenuItems() {
             bindMenuActionItem(new MenuActionItem() {
+                //Overridden
                 @Override
                 public void doAction(Context context, MenuItem item) {
                     Administrator.get(context).newReviewBuilder();
                     LaunchableUi ui = BuildScreen.newScreen(context);
-                    LauncherUi.launch(ui, getReviewView().getParent(), REQUEST_CODE, ui.getLaunchTag
-                            (), new Bundle());
+                    LauncherUi.launch(ui, getReviewView().getFragment(), REQUEST_CODE, ui
+                            .getLaunchTag
+                                    (), new Bundle());
                 }
             }, MENU_NEW_REVIEW_ID, false);
         }
     }
 
     private class GridItem extends GiLaunchReviewDataScreen {
-        private static final String TAG            = "FeedGridItemListener";
-        private static final int    REQUEST_DELETE = 314;
+        private static final String TAG = "FeedGridItemListener";
+        private static final int REQUEST_DELETE = 314;
         private FeedGridItemListener mListener;
 
+        //Constructors
         public GridItem() {
             mListener = new FeedGridItemListener() {
             };
             super.registerActionListener(mListener, TAG);
         }
 
+        private void onDialogAlertPositive(int requestCode, Bundle args) {
+            if (requestCode == REQUEST_DELETE) {
+                GvData datum = GvDataPacker.unpackItem(GvDataPacker.CurrentNewDatum.CURRENT, args);
+                GvReviewOverviewList.GvReviewOverview review = (GvReviewOverviewList
+                        .GvReviewOverview) datum;
+                Administrator.get(getActivity()).deleteFromAuthorsFeed(review.getId());
+            }
+        }
+
+        //Overridden
         @Override
         public void onLongClickExpandable(GvData item, int position, View v, ReviewViewAdapter
                 expanded) {
@@ -137,18 +154,10 @@ public class AuthorFeedScreen implements ReviewsProviderObserver {
             }
         }
 
-        private void onDialogAlertPositive(int requestCode, Bundle args) {
-            if (requestCode == REQUEST_DELETE) {
-                GvData datum = GvDataPacker.unpackItem(GvDataPacker.CurrentNewDatum.CURRENT, args);
-                GvReviewOverviewList.GvReviewOverview review = (GvReviewOverviewList
-                        .GvReviewOverview) datum;
-                Administrator.get(getActivity()).deleteFromAuthorsFeed(review.getId());
-            }
-        }
-
         protected abstract class FeedGridItemListener extends Fragment
                 implements DialogAlertFragment.DialogAlertListener {
 
+            //Overridden
             @Override
             public void onAlertNegative(int requestCode, Bundle args) {
             }

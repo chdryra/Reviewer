@@ -16,8 +16,10 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ComparitorGvComment extends ComparitorStringable<GvCommentList.GvComment> {
+    //Constructors
     public ComparitorGvComment() {
         super(new DataGetter<GvCommentList.GvComment, String>() {
+            //Overridden
             @Override
             public String getData(GvCommentList.GvComment datum) {
                 return datum.getComment().toLowerCase();

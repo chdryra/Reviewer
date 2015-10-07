@@ -27,10 +27,11 @@ import java.util.ArrayList;
  */
 public class AddEditFact extends AddEditLayout<GvFactList.GvFact> {
     public static final int LAYOUT = R.layout.dialog_fact_add_edit;
-    public static final int   LABEL  = R.id.fact_label_edit_text;
-    public static final int   VALUE  = R.id.fact_value_edit_text;
-    public static final int[] VIEWS  = new int[]{LABEL, VALUE};
+    public static final int LABEL = R.id.fact_label_edit_text;
+    public static final int VALUE = R.id.fact_value_edit_text;
+    public static final int[] VIEWS = new int[]{LABEL, VALUE};
 
+    //Constructors
     public AddEditFact(GvDataAdder adder) {
         super(GvFactList.GvFact.class, LAYOUT, VIEWS, VALUE, adder);
     }
@@ -39,6 +40,16 @@ public class AddEditFact extends AddEditLayout<GvFactList.GvFact> {
         super(GvFactList.GvFact.class, LAYOUT, VIEWS, VALUE, editor);
     }
 
+    private GvFactList.GvFact newUrl(String label, String urlString) {
+        String urlGuess = URLUtil.guessUrl(urlString.toLowerCase());
+        try {
+            return new GvUrlList.GvUrl(label, new URL(urlGuess));
+        } catch (MalformedURLException e) {
+            return new GvFactList.GvFact(label, urlString);
+        }
+    }
+
+    //Overridden
     @Override
     public GvFactList.GvFact createGvData() {
         String label = ((EditText) getView(LABEL)).getText().toString().trim();
@@ -57,14 +68,5 @@ public class AddEditFact extends AddEditLayout<GvFactList.GvFact> {
         ((EditText) getView(LABEL)).setText(fact.getLabel());
         ((EditText) getView(VALUE)).setText(fact.getValue());
         getView(LABEL).requestFocus();
-    }
-
-    private GvFactList.GvFact newUrl(String label, String urlString) {
-        String urlGuess = URLUtil.guessUrl(urlString.toLowerCase());
-        try {
-            return new GvUrlList.GvUrl(label, new URL(urlGuess));
-        } catch (MalformedURLException e) {
-            return new GvFactList.GvFact(label, urlString);
-        }
     }
 }

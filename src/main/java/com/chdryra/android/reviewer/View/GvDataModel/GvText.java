@@ -30,6 +30,7 @@ public class GvText<T extends GvText> extends VHDString implements GvData {
     public static final GvDataType<GvText> TYPE = new GvDataType<>(GvText.class, "text");
     public static final Parcelable.Creator<GvText> CREATOR = new Parcelable
             .Creator<GvText>() {
+        //Overridden
         public GvText createFromParcel(Parcel in) {
             return new GvText(in);
         }
@@ -42,6 +43,7 @@ public class GvText<T extends GvText> extends VHDString implements GvData {
     private GvDataType<T> mType;
     private GvReviewId mId;
 
+    //Constructors
     public GvText(@NotNull GvDataType<T> type) {
         super();
         mType = type;
@@ -64,6 +66,7 @@ public class GvText<T extends GvText> extends VHDString implements GvData {
         mId = in.readParcelable(GvReviewId.class.getClassLoader());
     }
 
+    //Overridden
     @Override
     public GvDataType<T> getGvDataType() {
         return mType;
@@ -95,18 +98,6 @@ public class GvText<T extends GvText> extends VHDString implements GvData {
     }
 
     @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeString(get());
-        parcel.writeParcelable(mType, i);
-        parcel.writeParcelable(mId, i);
-    }
-
-    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof GvText)) return false;
@@ -125,5 +116,17 @@ public class GvText<T extends GvText> extends VHDString implements GvData {
         result = 31 * result + mType.hashCode();
         result = 31 * result + (mId != null ? mId.hashCode() : 0);
         return result;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(get());
+        parcel.writeParcelable(mType, i);
+        parcel.writeParcelable(mId, i);
     }
 }

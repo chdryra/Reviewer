@@ -24,10 +24,12 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
 public class ImageEditTest extends AddEditLayoutTest<GvImageList.GvImage> {
     private ImageView mImageView;
 
+    //Constructors
     public ImageEditTest() {
         super(GvImageList.GvImage.TYPE, new ImageEdit(new ConfigGvDataAddEditView.EditImage()));
     }
 
+    //Overridden
     @Override
     protected void enterData(GvImageList.GvImage datum) {
         mLayout.updateLayout(datum);

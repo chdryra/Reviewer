@@ -45,12 +45,12 @@ public class ReviewUserTest extends TestCase {
 
     private Author mAuthor;
     private PublishDate mDate;
-    private String      mSubject;
-    private float       mRating;
+    private String mSubject;
+    private float mRating;
 
-    private GvCommentList  mComments;
-    private GvImageList    mImages;
-    private GvFactList     mFacts;
+    private GvCommentList mComments;
+    private GvImageList mImages;
+    private GvFactList mFacts;
     private GvLocationList mLocations;
 
     private ReviewPublisher mPublisher;
@@ -131,6 +131,12 @@ public class ReviewUserTest extends TestCase {
         assertFalse(node.isRatingAverageOfChildren());
     }
 
+    private Review newCriterion(ReviewPublisher publisher) {
+        return FactoryReview.createReviewUser(publisher, RandomString.nextWord(), RandomRating
+                .nextRating());
+    }
+
+    //Overridden
     @Override
     protected void setUp() throws Exception {
         mAuthor = new Author(RandomString.nextWord(), UserId.generateId());
@@ -153,10 +159,5 @@ public class ReviewUserTest extends TestCase {
         mReview = new ReviewUser(ReviewId.newId(mPublisher), mPublisher.getAuthor(),
                 mPublisher.getDate(), mSubject, mRating, mComments, mImages, mFacts,
                 mLocations, mCriteria, false);
-    }
-
-    private Review newCriterion(ReviewPublisher publisher) {
-        return FactoryReview.createReviewUser(publisher, RandomString.nextWord(), RandomRating
-                .nextRating());
     }
 }

@@ -24,10 +24,10 @@ import com.google.android.gms.maps.model.LatLng;
 public class RowLocation implements MdDataRow<MdLocationList.MdLocation> {
     public static String LOCATION_ID = ReviewerDbContract.TableLocations
             .COLUMN_NAME_LOCATION_ID;
-    public static String REVIEW_ID   = ReviewerDbContract.TableLocations.COLUMN_NAME_REVIEW_ID;
-    public static String LAT         = ReviewerDbContract.TableLocations.COLUMN_NAME_LATITUDE;
-    public static String LNG         = ReviewerDbContract.TableLocations.COLUMN_NAME_LONGITUDE;
-    public static String NAME        = ReviewerDbContract.TableLocations.COLUMN_NAME_NAME;
+    public static String REVIEW_ID = ReviewerDbContract.TableLocations.COLUMN_NAME_REVIEW_ID;
+    public static String LAT = ReviewerDbContract.TableLocations.COLUMN_NAME_LATITUDE;
+    public static String LNG = ReviewerDbContract.TableLocations.COLUMN_NAME_LONGITUDE;
+    public static String NAME = ReviewerDbContract.TableLocations.COLUMN_NAME_NAME;
 
     private String mLocationId;
     private String mReviewId;
@@ -35,6 +35,7 @@ public class RowLocation implements MdDataRow<MdLocationList.MdLocation> {
     private double mLongitude;
     private String mName;
 
+    //Constructors
     public RowLocation() {
     }
 
@@ -55,6 +56,7 @@ public class RowLocation implements MdDataRow<MdLocationList.MdLocation> {
     }
 
 
+    //Overridden
     @Override
     public String getRowId() {
         return mLocationId;

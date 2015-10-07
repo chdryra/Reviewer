@@ -143,7 +143,7 @@ public class GvCriterionListTest extends TestCase {
                 rating1);
         GvCriterionList.GvCriterion gvChildEquals = new GvCriterionList.GvCriterion
                 (subject1,
-                rating1);
+                        rating1);
         GvCriterionList.GvCriterion gvChildEquals2 = new GvCriterionList.GvCriterion
                 (gvChild);
         GvCriterionList.GvCriterion gvChildNotEquals1 = new GvCriterionList.GvCriterion
@@ -174,6 +174,7 @@ public class GvCriterionListTest extends TestCase {
         assertFalse(gvChildEmpty.isValidForDisplay());
     }
 
+    //Overridden
     @Override
     protected void setUp() throws Exception {
         super.setUp();

@@ -16,11 +16,13 @@ public class LocationComparators extends ComparatorCollection<GvLocationList.GvL
         super(new LocationNameAlphabetical());
     }
 
+    //Static methods
     public static LocationComparators getComparators() {
         return sComparators;
     }
 
     private static class LocationNameAlphabetical implements Comparator<GvLocationList.GvLocation> {
+        //Overridden
         @Override
         public int compare(GvLocationList.GvLocation lhs, GvLocationList.GvLocation rhs) {
             return lhs.getName().compareToIgnoreCase(rhs.getName());

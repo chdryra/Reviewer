@@ -18,6 +18,7 @@ public class GvDataAggregater<T extends GvData, D1, D2 extends DifferenceLevel<D
     private D1 mMinimumDifference;
     private CanonicalDatumMaker<T> mCanonical;
 
+    //Constructors
     public GvDataAggregater(DifferenceComparitor<T, D2> comparitor, D1 minimumDifference,
                             CanonicalDatumMaker<T> canonical) {
         mComparitor = comparitor;

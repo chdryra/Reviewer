@@ -43,6 +43,7 @@ public class ReviewTreeTest extends TestCase {
         assertEquals(mNode.getLocations(), mTree.getLocations());
     }
 
+    //Overridden
     @Override
     protected void setUp() throws Exception {
         mNode = ReviewMocker.newReviewNode(false);

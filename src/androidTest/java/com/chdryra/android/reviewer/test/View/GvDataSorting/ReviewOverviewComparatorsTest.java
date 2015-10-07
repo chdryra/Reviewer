@@ -24,6 +24,7 @@ import java.util.GregorianCalendar;
 public class ReviewOverviewComparatorsTest extends ComparatorCollectionTest<GvReviewOverviewList
         .GvReviewOverview> {
 
+    //Constructors
     public ReviewOverviewComparatorsTest() {
         super(ReviewOverviewComparators.getComparators());
     }

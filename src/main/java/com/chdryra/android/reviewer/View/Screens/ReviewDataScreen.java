@@ -20,6 +20,7 @@ public class ReviewDataScreen {
     private ReviewDataScreen() {
     }
 
+    //Static methods
     public static ReviewView newScreen(ReviewViewAdapter adapter) {
         ReviewViewParams params = new ReviewViewParams();
 

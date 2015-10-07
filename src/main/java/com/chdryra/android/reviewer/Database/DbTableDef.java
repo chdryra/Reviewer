@@ -18,16 +18,47 @@ import java.util.ArrayList;
  * Email: rizwan.choudrey@gmail.com
  */
 public class DbTableDef implements BaseColumns {
-    private String                          mTableName;
+    private String mTableName;
     private ArrayList<DbColumnDef> mPrimaryKeys;
     private ArrayList<DbColumnDef> mOtherColumns;
     private ArrayList<ForeignKeyConstraint> mFkConstraints;
 
+    //Constructors
     public DbTableDef(String tableName) {
         mTableName = tableName;
         mPrimaryKeys = new ArrayList<>();
         mOtherColumns = new ArrayList<>();
         mFkConstraints = new ArrayList<>();
+    }
+
+    //public methods
+    public String getName() {
+        return mTableName;
+    }
+
+    public ArrayList<DbColumnDef> getPrimaryKeys() {
+        return mPrimaryKeys;
+    }
+
+    public ArrayList<ForeignKeyConstraint> getForeignKeyConstraints() {
+        return mFkConstraints;
+    }
+
+    public ArrayList<DbColumnDef> getAllColumns() {
+        ArrayList<DbColumnDef> columns = new ArrayList<>();
+        columns.addAll(mPrimaryKeys);
+        columns.addAll(mOtherColumns);
+        return columns;
+    }
+
+    public ArrayList<String> getColumnNames() {
+        ArrayList<DbColumnDef> columns = getAllColumns();
+        ArrayList<String> columnNames = new ArrayList<>(columns.size());
+        for (DbColumnDef column : columns) {
+            columnNames.add(column.getName());
+        }
+
+        return columnNames;
     }
 
     public void addColumn(String columnName, SQL.StorageType type, SQL.Nullable nullable) {
@@ -57,10 +88,6 @@ public class DbTableDef implements BaseColumns {
         mFkConstraints.add(new ForeignKeyConstraint(fkColumns, pkTable));
     }
 
-    public String getName() {
-        return mTableName;
-    }
-
     public DbColumnDef getColumn(String name) {
         for (DbColumnDef column : getAllColumns()) {
             if (column.getName().equals(name)) return column;
@@ -69,41 +96,17 @@ public class DbTableDef implements BaseColumns {
         return null;
     }
 
-    public ArrayList<DbColumnDef> getPrimaryKeys() {
-        return mPrimaryKeys;
-    }
-
-    public ArrayList<ForeignKeyConstraint> getForeignKeyConstraints() {
-        return mFkConstraints;
-    }
-
-    public ArrayList<DbColumnDef> getAllColumns() {
-        ArrayList<DbColumnDef> columns = new ArrayList<>();
-        columns.addAll(mPrimaryKeys);
-        columns.addAll(mOtherColumns);
-        return columns;
-    }
-
-    public ArrayList<String> getColumnNames() {
-        ArrayList<DbColumnDef> columns = getAllColumns();
-        ArrayList<String> columnNames = new ArrayList<>(columns.size());
-        for (DbColumnDef column : columns) {
-            columnNames.add(column.getName());
-        }
-
-        return columnNames;
-    }
-
     public class ForeignKeyConstraint {
         private ArrayList<DbColumnDef> mFkColumns;
-        private DbTableDef             mPkTable;
+        private DbTableDef mPkTable;
 
         private ForeignKeyConstraint(ArrayList<DbColumnDef> fkColumns,
-                DbTableDef pkTable) {
+                                     DbTableDef pkTable) {
             mFkColumns = fkColumns;
             mPkTable = pkTable;
         }
 
+        //public methods
         public ArrayList<DbColumnDef> getFkColumns() {
             return mFkColumns;
         }
@@ -114,9 +117,9 @@ public class DbTableDef implements BaseColumns {
     }
 
     public class DbColumnDef {
-        private String          mColumnName;
+        private String mColumnName;
         private SQL.StorageType mType;
-        private boolean         mIsNullable;
+        private boolean mIsNullable;
 
         private DbColumnDef(String columnName, SQL.StorageType type, SQL.Nullable nullable) {
             mColumnName = columnName;
@@ -124,6 +127,7 @@ public class DbTableDef implements BaseColumns {
             mIsNullable = nullable == SQL.Nullable.TRUE;
         }
 
+        //public methods
         public String getName() {
             return mColumnName;
         }

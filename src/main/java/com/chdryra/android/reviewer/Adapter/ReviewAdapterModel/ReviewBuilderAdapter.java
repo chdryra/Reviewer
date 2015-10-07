@@ -21,7 +21,6 @@ import com.chdryra.android.reviewer.Model.TagsModel.TagsManager;
 import com.chdryra.android.reviewer.Model.UserData.Author;
 import com.chdryra.android.reviewer.View.Configs.ConfigGvDataUi;
 import com.chdryra.android.reviewer.View.GvDataModel.GvBuildReviewList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvCriterionList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
@@ -57,6 +56,7 @@ public class ReviewBuilderAdapter extends ReviewViewAdapterBasic {
     private ReviewBuilder mBuilder;
     private GvTagList.GvTag mSubjectTag;
 
+    //Constructors
     public ReviewBuilderAdapter(Context context, Author author, TagsManager tagsManager) {
         mContext = context;
         mAuthor = author;
@@ -66,37 +66,17 @@ public class ReviewBuilderAdapter extends ReviewViewAdapterBasic {
         newIncrementor();
     }
 
+    //public methods
     public Context getContext() {
         return mContext;
     }
 
-    @Override
-    public String getSubject() {
-        return mBuilder.getSubject();
-    }
-
-    public void setSubject(String subject) {
-        mBuilder.setSubject(subject);
-        newIncrementor();
-        mSubjectTag = adjustTagsIfNecessary(mSubjectTag, subject);
-    }
-
-    private GvTagList.GvTag adjustTagsIfNecessary(GvTagList.GvTag toRemove, String toAdd) {
-        DataBuilderAdapter<GvTagList.GvTag> tagBuilder = getDataBuilder(GvTagList.GvTag.TYPE);
-        GvTagList tags = (GvTagList) tagBuilder.getGridData();
-        String camel = TextUtils.toCamelCase(toAdd);
-        GvTagList.GvTag newTag = new GvTagList.GvTag(camel);
-        boolean added = DataValidator.validateString(camel) && !tags.contains(newTag)
-                && tagBuilder.add(newTag);
-        tagBuilder.delete(toRemove);
-        tagBuilder.setData();
-        notifyGridDataObservers();
-
-        return added ? newTag : null;
-    }
-
     public boolean isRatingAverage() {
         return mBuilder.isRatingAverage();
+    }
+
+    public float getAverageRating() {
+        return mBuilder.getAverageRating();
     }
 
     public void setRatingIsAverage(boolean ratingIsAverage) {
@@ -133,6 +113,22 @@ public class ReviewBuilderAdapter extends ReviewViewAdapterBasic {
         return mBuilder.getData(dataType);
     }
 
+    private GvTagList.GvTag adjustTagsIfNecessary(GvTagList.GvTag toRemove, String toAdd) {
+        String camel = TextUtils.toCamelCase(toAdd);
+        GvTagList.GvTag newTag = new GvTagList.GvTag(camel);
+        if (newTag.equals(toRemove)) return toRemove;
+
+        DataBuilderAdapter<GvTagList.GvTag> tagBuilder = getDataBuilder(GvTagList.GvTag.TYPE);
+        GvTagList tags = (GvTagList) tagBuilder.getGridData();
+        boolean added = DataValidator.validateString(camel) && !tags.contains(newTag)
+                && tagBuilder.add(newTag);
+        tagBuilder.delete(toRemove);
+        tagBuilder.setData();
+        notifyGridDataObservers();
+
+        return added ? newTag : null;
+    }
+
     private <T extends GvData> DataBuilderAdapter<T> newDataBuilder(GvDataType<T> dataType) {
         return new DataBuilderAdapter<>(dataType);
     }
@@ -145,8 +141,16 @@ public class ReviewBuilderAdapter extends ReviewViewAdapterBasic {
                 filename);
     }
 
-    private GvCriterionList getChildren() {
-        return (GvCriterionList) getData(GvCriterionList.GvCriterion.TYPE);
+    //Overridden
+    @Override
+    public String getSubject() {
+        return mBuilder.getSubject();
+    }
+
+    public void setSubject(String subject) {
+        mBuilder.setSubject(subject);
+        newIncrementor();
+        mSubjectTag = adjustTagsIfNecessary(mSubjectTag, subject);
     }
 
     @Override
@@ -164,8 +168,13 @@ public class ReviewBuilderAdapter extends ReviewViewAdapterBasic {
             reset();
         }
 
+        //public methods
         public ReviewBuilderAdapter getParentBuilder() {
             return ReviewBuilderAdapter.this;
+        }
+
+        public float getAverageRating() {
+            return getParentBuilder().getAverageRating();
         }
 
         public boolean add(T datum) {
@@ -222,17 +231,12 @@ public class ReviewBuilderAdapter extends ReviewViewAdapterBasic {
             getParentBuilder().setRating(rating);
         }
 
-        @Override
-        public float getAverageRating() {
-            return mDataBuilder.getAverageRating();
-        }
+
 
         @Override
         public GvImageList getCovers() {
             GvDataList images = getParentBuilder().getCovers();
-            if (mType == GvImageList.GvImage.TYPE) {
-                images = getGridData();
-            }
+            if (mType == GvImageList.GvImage.TYPE) images = getGridData();
 
             return (GvImageList) images;
         }
@@ -270,18 +274,9 @@ public class ReviewBuilderAdapter extends ReviewViewAdapterBasic {
     }
 
 
-    @Override
-    public float getAverageRating() {
-        return getChildren().getAverageRating();
-    }
-
 
     @Override
     public GvImageList getCovers() {
         return (GvImageList) getData(GvImageList.GvImage.TYPE);
     }
-
-
-
-
 }

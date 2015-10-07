@@ -16,11 +16,13 @@ public class ImageComparators extends ComparatorCollection<GvImageList.GvImage> 
         super(new CoverThenMostRecent());
     }
 
+    //Static methods
     public static ImageComparators getComparators() {
         return sComparators;
     }
 
     private static class CoverThenMostRecent implements Comparator<GvImageList.GvImage> {
+        //Overridden
         @Override
         public int compare(GvImageList.GvImage lhs, GvImageList.GvImage rhs) {
             int comp = 0;

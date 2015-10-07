@@ -53,13 +53,14 @@ public class GvDataPackerTest extends TestCase {
     }
 
     private void testPackItemUnpackItemStatic(GvDataType
-            dataType, boolean bundle, boolean useUnpacker) {
+                                                      dataType, boolean bundle, boolean
+                                                      useUnpacker) {
         testPackItemUnpackItem(GvDataMocker.getDatum(dataType),
                 GvDataMocker.getDatum(dataType), bundle, useUnpacker);
     }
 
     private <T extends GvData> void testPackItemUnpackItem(T itemCurrent, T itemNew,
-            boolean bundle, boolean useUnpacker) {
+                                                           boolean bundle, boolean useUnpacker) {
         assertNotSame(itemCurrent, itemNew);
 
         GvDataPacker<T> unpacker = useUnpacker ? new GvDataPacker<T>() : null;
@@ -92,7 +93,8 @@ public class GvDataPackerTest extends TestCase {
     }
 
     private <T extends GvData> GvData unpack(GvDataPacker.CurrentNewDatum
-            currentNew, Bundle args, GvDataPacker<T> unpacker) {
+                                                     currentNew, Bundle args, GvDataPacker<T>
+                                                     unpacker) {
         if (unpacker != null) {
             return unpacker.unpack(currentNew, args);
         } else {
@@ -101,7 +103,8 @@ public class GvDataPackerTest extends TestCase {
     }
 
     private <T extends GvData> GvData unpack(GvDataPacker.CurrentNewDatum
-            currentNew, Intent intent, GvDataPacker<T> unpacker) {
+                                                     currentNew, Intent intent, GvDataPacker<T>
+                                                     unpacker) {
         if (unpacker != null) {
             return unpacker.unpack(currentNew, intent);
         } else {

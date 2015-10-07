@@ -46,11 +46,13 @@ public final class ReviewerDbContract implements DbContract {
         }
     }
 
+    //Static methods
     public static ReviewerDbContract getContract() {
         if (sContract == null) sContract = new ReviewerDbContract();
         return sContract;
     }
 
+    //Overridden
     @Override
     public ArrayList<DbTableDef> getTableDefinitions() {
         return mTables;
@@ -61,6 +63,7 @@ public final class ReviewerDbContract implements DbContract {
         return mTableNames;
     }
 
+    //Classes
     public static class TableReviews extends ReviewerDbTable<RowReview> {
         public static final String TABLE_NAME = "Reviews";
         public static final String COLUMN_NAME_REVIEW_ID = NAME_REVIEW_ID;

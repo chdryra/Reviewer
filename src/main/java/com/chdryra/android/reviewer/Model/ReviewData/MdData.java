@@ -18,10 +18,12 @@ package com.chdryra.android.reviewer.Model.ReviewData;
  */
 
 public interface MdData {
+    //abstract
     ReviewId getReviewId();
 
     boolean hasData();
 
+    //Overridden
     @Override
     boolean equals(Object obj);
 

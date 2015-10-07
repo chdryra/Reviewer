@@ -39,14 +39,14 @@ import junit.framework.TestCase;
  */
 public class FactoryReviewTest extends TestCase {
     private static final int NUM = 3;
-    private Review         mReview;
-    private Author         mAuthor;
+    private Review mReview;
+    private Author mAuthor;
     private PublishDate mDate;
-    private String         mSubject;
-    private float          mRating;
-    private GvCommentList  mComments;
-    private GvImageList    mImages;
-    private GvFactList     mFacts;
+    private String mSubject;
+    private float mRating;
+    private GvCommentList mComments;
+    private GvImageList mImages;
+    private GvFactList mFacts;
     private GvLocationList mLocations;
     private IdableList<Review> mCriteria;
 
@@ -79,25 +79,6 @@ public class FactoryReviewTest extends TestCase {
         assertFalse(node.isRatingAverageOfChildren());
     }
 
-    @Override
-    protected void setUp() throws Exception {
-        mAuthor = new Author(RandomString.nextWord(), UserId.generateId());
-        mDate = RandomPublishDate.nextDate();
-        mSubject = RandomString.nextWord();
-        mRating = RandomRating.nextRating();
-        mComments = GvDataMocker.newCommentList(NUM, false);
-        mImages = GvDataMocker.newImageList(NUM, false);
-        mFacts = GvDataMocker.newFactList(NUM, false);
-        mLocations = GvDataMocker.newLocationList(NUM, false);
-        mCriteria = new IdableList<>();
-        for (int i = 0; i < NUM; ++i) {
-            mCriteria.add(nextReview());
-        }
-        ReviewPublisher publisher = new ReviewPublisher(mAuthor, mDate);
-        mReview = FactoryReview.createReviewUser(publisher, mSubject, mRating,
-                mComments, mImages, mFacts, mLocations, mCriteria, false);
-    }
-
     private Review nextReview() {
         Author author = new Author(RandomString.nextWord(), UserId.generateId());
         PublishDate date = RandomPublishDate.nextDate();
@@ -127,5 +108,25 @@ public class FactoryReviewTest extends TestCase {
         assertEquals(mReview.getId(), node.getId());
         assertNull(node.getParent());
         assertEquals(0, node.getChildren().size());
+    }
+
+    //Overridden
+    @Override
+    protected void setUp() throws Exception {
+        mAuthor = new Author(RandomString.nextWord(), UserId.generateId());
+        mDate = RandomPublishDate.nextDate();
+        mSubject = RandomString.nextWord();
+        mRating = RandomRating.nextRating();
+        mComments = GvDataMocker.newCommentList(NUM, false);
+        mImages = GvDataMocker.newImageList(NUM, false);
+        mFacts = GvDataMocker.newFactList(NUM, false);
+        mLocations = GvDataMocker.newLocationList(NUM, false);
+        mCriteria = new IdableList<>();
+        for (int i = 0; i < NUM; ++i) {
+            mCriteria.add(nextReview());
+        }
+        ReviewPublisher publisher = new ReviewPublisher(mAuthor, mDate);
+        mReview = FactoryReview.createReviewUser(publisher, mSubject, mRating,
+                mComments, mImages, mFacts, mLocations, mCriteria, false);
     }
 }

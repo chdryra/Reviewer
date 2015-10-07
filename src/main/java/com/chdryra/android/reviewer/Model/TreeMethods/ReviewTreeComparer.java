@@ -17,6 +17,7 @@ import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ReviewTreeComparer {
+    //Static methods
     public static boolean compareNodes(ReviewNode lhs, ReviewNode rhs) {
         if (lhs.isRatingAverageOfChildren() != rhs.isRatingAverageOfChildren()) return false;
         if (!lhs.getId().equals(rhs.getId())) return false;

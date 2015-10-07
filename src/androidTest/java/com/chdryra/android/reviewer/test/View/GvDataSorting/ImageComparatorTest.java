@@ -21,6 +21,7 @@ import java.util.GregorianCalendar;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ImageComparatorTest extends ComparatorCollectionTest<GvImageList.GvImage> {
+    //Constructors
     public ImageComparatorTest() {
         super(ImageComparators.getComparators());
     }

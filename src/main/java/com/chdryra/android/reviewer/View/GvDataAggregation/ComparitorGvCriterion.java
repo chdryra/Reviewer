@@ -9,6 +9,7 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvCriterionList;
  */
 public class ComparitorGvCriterion implements
         DifferenceComparitor<GvCriterionList.GvCriterion, DifferenceBoolean> {
+    //Overridden
     @Override
     public DifferenceBoolean compare(GvCriterionList.GvCriterion lhs, GvCriterionList.GvCriterion
             rhs) {

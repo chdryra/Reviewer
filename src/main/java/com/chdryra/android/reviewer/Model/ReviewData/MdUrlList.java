@@ -20,10 +20,12 @@ import java.net.URL;
  */
 public class MdUrlList extends MdDataList<MdUrlList.MdUrl> {
 
+    //Constructors
     public MdUrlList(ReviewId reviewId) {
         super(reviewId);
     }
 
+//Classes
     /**
      * Review Data: URL
      * <p>
@@ -33,11 +35,13 @@ public class MdUrlList extends MdDataList<MdUrlList.MdUrl> {
     public static class MdUrl extends MdFactList.MdFact implements DataUrl {
         private final URL mUrl;
 
+        //Constructors
         public MdUrl(String label, URL url, ReviewId reviewId) {
             super(label, url.toExternalForm(), reviewId);
             mUrl = url;
         }
 
+        //Overridden
         @Override
         public boolean hasData() {
             return DataValidator.validate(this);

@@ -17,6 +17,7 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
  * Email: rizwan.choudrey@gmail.com
  */
 public class CanonicalAuthor implements CanonicalDatumMaker<GvAuthorList.GvAuthor> {
+    //Overridden
     @Override
     public GvAuthorList.GvAuthor getCanonical(GvDataList<GvAuthorList.GvAuthor> data) {
         GvAuthorList.GvAuthor nullAuthor = new GvAuthorList.GvAuthor(data.getReviewId(), "", "");

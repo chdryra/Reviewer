@@ -12,12 +12,34 @@ public class ReviewViewActionCollection {
     private ReviewViewAction.GridItemAction mGridItemAction;
     private ReviewViewAction.MenuAction mMenuAction;
 
+    //Constructors
     public ReviewViewActionCollection() {
         mSubjectAction = new ReviewViewAction.SubjectAction();
         mRatingBarAction = new ReviewViewAction.RatingBarAction();
         mBannerButtonAction = new ReviewViewAction.BannerButtonAction();
         mGridItemAction = new ReviewViewAction.GridItemAction();
         mMenuAction = new ReviewViewAction.MenuAction();
+    }
+
+    //public methods
+    public ReviewViewAction.SubjectAction getSubjectAction() {
+        return mSubjectAction;
+    }
+
+    public ReviewViewAction.RatingBarAction getRatingBarAction() {
+        return mRatingBarAction;
+    }
+
+    public ReviewViewAction.BannerButtonAction getBannerButtonAction() {
+        return mBannerButtonAction;
+    }
+
+    public ReviewViewAction.GridItemAction getGridItemAction() {
+        return mGridItemAction;
+    }
+
+    public ReviewViewAction.MenuAction getMenuAction() {
+        return mMenuAction;
     }
 
     public void setAction(ReviewViewAction.MenuAction action) {
@@ -38,26 +60,6 @@ public class ReviewViewActionCollection {
 
     public void setAction(ReviewViewAction.GridItemAction action) {
         mGridItemAction = action;
-    }
-
-    public ReviewViewAction.SubjectAction getSubjectAction() {
-        return mSubjectAction;
-    }
-
-    public ReviewViewAction.RatingBarAction getRatingBarAction() {
-        return mRatingBarAction;
-    }
-
-    public ReviewViewAction.BannerButtonAction getBannerButtonAction() {
-        return mBannerButtonAction;
-    }
-
-    public ReviewViewAction.GridItemAction getGridItemAction() {
-        return mGridItemAction;
-    }
-
-    public ReviewViewAction.MenuAction getMenuAction() {
-        return mMenuAction;
     }
 
     public void attachReviewView(ReviewView view) {

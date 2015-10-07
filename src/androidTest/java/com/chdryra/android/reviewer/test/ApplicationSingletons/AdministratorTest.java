@@ -35,6 +35,7 @@ import com.chdryra.android.testutils.RandomString;
 public class AdministratorTest extends ActivityInstrumentationTestCase2<ActivityReviewView> {
     private Administrator mAdmin;
 
+    //Constructors
     public AdministratorTest() {
         super(ActivityReviewView.class);
     }
@@ -105,6 +106,7 @@ public class AdministratorTest extends ActivityInstrumentationTestCase2<Activity
         assertTrue(list.size() > 0);
     }
 
+    //Overridden
     @Override
     protected void setUp() throws Exception {
         super.setUp();

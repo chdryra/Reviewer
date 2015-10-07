@@ -15,7 +15,6 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvReviewId;
 import com.chdryra.android.reviewer.View.GvDataModel.GvReviewOverviewList;
-import com.chdryra.android.reviewer.View.Screens.ReviewListScreen;
 
 /**
  * Created by: Rizwan Choudrey
@@ -25,14 +24,15 @@ import com.chdryra.android.reviewer.View.Screens.ReviewListScreen;
 public class ViewerNodeData implements GridDataViewer<GvData> {
     private GridDataViewer<GvData> mViewer;
 
+    //Constructors
     public ViewerNodeData(Context context, ReviewNode node, ReviewsRepository repository) {
         IdableList<ReviewNode> children = node.getChildren();
-        if(children.size() > 1) {
+        if (children.size() > 1) {
             mViewer = new ViewerTreeData(context, node, repository);
         } else {
             ReviewNode toExpand = children.size() == 0 ? node : children.getItem(0);
             ReviewNode expanded = toExpand.expand();
-            if(expanded.equals(toExpand)) {
+            if (expanded.equals(toExpand)) {
                 mViewer = new ViewerReviewData(context, expanded, repository);
             } else {
                 mViewer = new ViewerNodeData(context, expanded, repository);
@@ -40,6 +40,7 @@ public class ViewerNodeData implements GridDataViewer<GvData> {
         }
     }
 
+    //Overridden
     @Override
     public GvDataList<GvData> getGridData() {
         return mViewer.getGridData();
@@ -57,46 +58,17 @@ public class ViewerNodeData implements GridDataViewer<GvData> {
             mRepository = repository;
         }
 
+        //protected methods
         protected Context getContext() {
             return mContext;
-        }
-
-        @Override
-        public GvList getGridData() {
-            GvList data = makeGridData();
-            mCache = data;
-            return data;
         }
 
         protected ReviewNode getReviewNode() {
             return mNode;
         }
 
-        @Override
-        public boolean isExpandable(GvData datum) {
-            if (!datum.hasElements() || mCache == null) return false;
-
-            GvDataCollection data = (GvDataCollection) datum;
-            for (GvData list : mCache) {
-                ((GvDataCollection) list).sort();
-            }
-            data.sort();
-
-            return mCache.contains(datum);
-        }
-
         protected ReviewsRepository getRepository() {
             return mRepository;
-        }
-
-        @Override
-        public ReviewViewAdapter expandGridCell(GvData datum) {
-            if (isExpandable(datum)) {
-                return FactoryReviewViewAdapter.newDataToDataAdapter(mContext, mNode,
-                        (GvDataCollection<? extends GvData>) datum, mRepository);
-            } else {
-                return null;
-            }
         }
 
         protected GvList makeGridData() {
@@ -116,16 +88,47 @@ public class ViewerNodeData implements GridDataViewer<GvData> {
         }
 
         @Override
+        public GvList getGridData() {
+            GvList data = makeGridData();
+            mCache = data;
+            return data;
+        }
+
+
+
+        @Override
+        public boolean isExpandable(GvData datum) {
+            if (!datum.hasElements() || mCache == null) return false;
+
+            GvDataCollection data = (GvDataCollection) datum;
+            for (GvData list : mCache) {
+                ((GvDataCollection) list).sort();
+            }
+            data.sort();
+
+            return mCache.contains(datum);
+        }
+
+
+
+        @Override
+        public ReviewViewAdapter expandGridCell(GvData datum) {
+            if (isExpandable(datum)) {
+                return FactoryReviewViewAdapter.newDataToDataAdapter(mContext, mNode,
+                        (GvDataCollection<? extends GvData>) datum, mRepository);
+            } else {
+                return null;
+            }
+        }
+
+
+
+        @Override
         public ReviewViewAdapter expandGridData() {
             return null;
         }
 
 
-    }
-
-    @Override
-    public boolean isExpandable(GvData datum) {
-        return mViewer.isExpandable(datum);
     }
 
     /**
@@ -138,23 +141,7 @@ public class ViewerNodeData implements GridDataViewer<GvData> {
             super(context, node, repository);
         }
 
-        @Override
-        public ReviewViewAdapter expandGridCell(GvData datum) {
-            ReviewViewAdapter adapter = null;
-            if (isExpandable(datum)) {
-                if (datum.getGvDataType() == GvReviewOverviewList.GvReviewOverview.TYPE) {
-                    adapter = ReviewListScreen.newScreen(getContext(), getReviewNode(),
-                            getRepository()).getAdapter();
-                } else {
-                    String subject = datum.getStringSummary();
-                    adapter = FactoryReviewViewAdapter.newAggregateToReviewsAdapter(
-                            getContext(), (GvCanonicalCollection) datum, getRepository(), subject);
-                }
-            }
-
-            return adapter;
-        }
-
+        //Overridden
         @Override
         protected GvList makeGridData() {
             ReviewNode node = getReviewNode();
@@ -178,7 +165,30 @@ public class ViewerNodeData implements GridDataViewer<GvData> {
 
             return data;
         }
+
+        @Override
+        public ReviewViewAdapter expandGridCell(GvData datum) {
+            ReviewViewAdapter adapter = null;
+            if (isExpandable(datum)) {
+                if (datum.getGvDataType() == GvReviewOverviewList.GvReviewOverview.TYPE) {
+                    adapter = FactoryReviewViewAdapter.newReviewsListAdapter(getContext(),
+                            getReviewNode(), getRepository());
+                } else {
+                    String subject = datum.getStringSummary();
+                    adapter = FactoryReviewViewAdapter.newAggregateToReviewsAdapter(
+                            getContext(), (GvCanonicalCollection) datum, getRepository(), subject);
+                }
+            }
+
+            return adapter;
+        }
     }
+
+    @Override
+    public boolean isExpandable(GvData datum) {
+        return mViewer.isExpandable(datum);
+    }
+
 
     @Override
     public ReviewViewAdapter expandGridCell(GvData datum) {

@@ -47,8 +47,8 @@ public abstract class DialogGvDataEdit<T extends GvData>
 
     private final GvDataType<T> mDataType;
     private AddEditLayout<T> mLayout;
-    private       T                     mDatum;
-    private       GvDataEditListener<T> mEditListener;
+    private T mDatum;
+    private GvDataEditListener<T> mEditListener;
 
     /**
      * Provides a callback that can be called delete or done buttons are pressed.
@@ -56,15 +56,29 @@ public abstract class DialogGvDataEdit<T extends GvData>
      * @param <T>:{@link GvData} type
      */
     public interface GvDataEditListener<T extends GvData> {
+        //abstract
         void onGvDataDelete(T data);
 
         void onGvDataEdit(T oldDatum, T newDatum);
     }
 
+    //Constructors
     public DialogGvDataEdit(GvDataType<T> dataType) {
         mDataType = dataType;
     }
 
+    //public methods
+    public GvDataType getGvDataType() {
+        return mDataType;
+    }
+
+    //protected methods
+    @Override
+    protected Intent getReturnData() {
+        return null;
+    }
+
+    //Overridden
     @Override
     public String getLaunchTag() {
         return "Edit" + mDataType.getDatumName();
@@ -85,8 +99,14 @@ public abstract class DialogGvDataEdit<T extends GvData>
         setDeleteWhatTitle(title);
     }
 
-    public GvDataType getGvDataType() {
-        return mDataType;
+    @Override
+    protected void onConfirmedDeleteButtonClick() {
+        mEditListener.onGvDataDelete(mDatum);
+    }
+
+    @Override
+    protected boolean hasDataToDelete() {
+        return mDatum != null;
     }
 
     @Override
@@ -117,22 +137,7 @@ public abstract class DialogGvDataEdit<T extends GvData>
     }
 
     @Override
-    protected void onConfirmedDeleteButtonClick() {
-        mEditListener.onGvDataDelete(mDatum);
-    }
-
-    @Override
-    protected boolean hasDataToDelete() {
-        return mDatum != null;
-    }
-
-    @Override
     protected void onDoneButtonClick() {
         mEditListener.onGvDataEdit(mDatum, mLayout.createGvData());
-    }
-
-    @Override
-    protected Intent getReturnData() {
-        return null;
     }
 }

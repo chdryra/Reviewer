@@ -24,7 +24,7 @@ import android.os.Bundle;
  */
 public class GvDataPacker<T extends GvData> {
     private static final String DATUM_CURRENT = "com.chdryra.android.reviewer.data_current";
-    private static final String DATUM_NEW     = "com.chdryra.android.reviewer.data_new";
+    private static final String DATUM_NEW = "com.chdryra.android.reviewer.data_new";
 
     public enum CurrentNewDatum {
         CURRENT(DATUM_CURRENT),
@@ -36,11 +36,13 @@ public class GvDataPacker<T extends GvData> {
             mTag = tag;
         }
 
+        //private methods
         private String getPackingTag() {
             return mTag;
         }
     }
 
+    //Static methods
     public static void packItem(CurrentNewDatum currentNew, GvData item, Bundle args) {
         if (item != null && !item.isValidForDisplay()) item = null;
         args.putParcelable(currentNew.getPackingTag(), item);

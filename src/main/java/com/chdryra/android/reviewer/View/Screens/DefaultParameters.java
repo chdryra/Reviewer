@@ -9,6 +9,7 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
  * Email: rizwan.choudrey@gmail.com
  */
 public class DefaultParameters {
+    //Static methods
     public static ReviewViewParams getParams(GvDataType dataType) {
         ReviewViewParams params = new ReviewViewParams();
         if (dataType == GvImageList.GvImage.TYPE) {

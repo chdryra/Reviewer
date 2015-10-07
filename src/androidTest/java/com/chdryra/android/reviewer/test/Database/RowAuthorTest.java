@@ -40,15 +40,16 @@ public class RowAuthorTest extends TestCase {
         testRow(new RowAuthor(cursor));
     }
 
-    @Override
-    protected void setUp() throws Exception {
-        mAuthor = RandomAuthor.nextAuthor();
-    }
-
     private void testRow(RowAuthor row) {
         ContentValues values = row.getContentValues();
         assertEquals(mAuthor.getName(), values.getAsString(RowAuthor.AUTHOR_NAME));
         assertEquals(mAuthor.getUserId().toString(), values.getAsString(RowAuthor.USER_ID));
         assertEquals(mAuthor, row.toAuthor());
+    }
+
+    //Overridden
+    @Override
+    protected void setUp() throws Exception {
+        mAuthor = RandomAuthor.nextAuthor();
     }
 }

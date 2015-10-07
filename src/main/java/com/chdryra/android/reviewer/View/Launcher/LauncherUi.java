@@ -32,9 +32,9 @@ import com.chdryra.android.reviewer.View.Screens.ReviewView;
 public class LauncherUi {
     private static final String LAUNCHER_ARGS = "com.chdryra.android.review.args_key";
     private final Fragment mCommissioner;
-    private final int      mRequestCode;
-    private final String   mTag;
-    private final Bundle   mArgs;
+    private final int mRequestCode;
+    private final String mTag;
+    private final Bundle mArgs;
 
     private LauncherUi(Fragment commissioner, int requestCode, String tag, Bundle args) {
         mCommissioner = commissioner;
@@ -43,8 +43,9 @@ public class LauncherUi {
         mArgs = args;
     }
 
+    //Static methods
     public static void launch(LaunchableUi ui, Fragment commissioner, int requestCode, String tag,
-            Bundle args) {
+                              Bundle args) {
         if (ui == null) return;
         ui.launch(new LauncherUi(commissioner, requestCode, tag, args));
     }

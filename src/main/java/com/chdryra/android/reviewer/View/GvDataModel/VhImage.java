@@ -21,14 +21,16 @@ import com.chdryra.android.reviewer.R;
  */
 public class VhImage extends ViewHolderBasic {
     private static final int LAYOUT = R.layout.grid_cell_image;
-    private static final int IMAGE  = R.id.image_view;
+    private static final int IMAGE = R.id.image_view;
 
     private ImageView mImage;
 
+    //Constructors
     public VhImage() {
         super(LAYOUT, new int[]{IMAGE});
     }
 
+    //Overridden
     @Override
     public void updateView(ViewHolderData data) {
         if (mImage == null) mImage = (ImageView) getView(IMAGE);

@@ -58,7 +58,8 @@ public class ComparitorGvReviewOverviewTest extends TestCase {
         rhs = new GvReviewOverviewList.GvReviewOverview(lhsReview.getId(), rhs.getAuthor(), rhs
                 .getPublishDate(), rhs.getSubject(), rhs.getRating(), rhs.getCoverImage(), rhs
                 .getHeadline(), new ArrayList<String>());
-        GvReviewOverviewList.GvReviewOverview[] params = new GvReviewOverviewList.GvReviewOverview[2];
+        GvReviewOverviewList.GvReviewOverview[] params = new GvReviewOverviewList
+                .GvReviewOverview[2];
         params[0] = lhs;
         params[1] = rhs;
         ExceptionTester.test(comparitor, "compare", params, RuntimeException.class,

@@ -66,6 +66,7 @@ public class MdDataListTest extends TestCase {
         assertFalse(mData.hashCode() == newData.hashCode());
     }
 
+    //Overridden
     @Override
     protected void setUp() throws Exception {
         mData = new MdDataList<>(ID);
@@ -74,10 +75,12 @@ public class MdDataListTest extends TestCase {
     private static class TestDatum implements MdData {
         private ReviewId mId;
 
+        //Constructors
         public TestDatum() {
             mId = RandomReviewId.nextId();
         }
 
+        //Overridden
         @Override
         public ReviewId getReviewId() {
             return mId;

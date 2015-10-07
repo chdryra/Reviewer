@@ -177,12 +177,7 @@ public class GvCommentListTest extends TestCase {
         assertTrue(isSorted());
     }
 
-    @Override
-    protected void setUp() throws Exception {
-        super.setUp();
-        mList = new GvCommentList();
-    }
-
+    //private methods
     private boolean isSorted() {
         assertTrue(mList.size() > 0);
         boolean isSorted = true;
@@ -197,5 +192,12 @@ public class GvCommentListTest extends TestCase {
         }
 
         return isSorted;
+    }
+
+    //Overridden
+    @Override
+    protected void setUp() throws Exception {
+        super.setUp();
+        mList = new GvCommentList();
     }
 }

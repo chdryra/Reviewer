@@ -30,12 +30,13 @@ import java.net.URL;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ActivityEditFactsTest extends ActivityEditScreenTest {
-    private static final String BBC     = "BBC";
+    private static final String BBC = "BBC";
     private static final String BBC_URL = "http://www.bbc.co.uk/";
 
     private Instrumentation.ActivityMonitor mBrowserMonitor;
     private boolean mUrlData = false;
 
+    //Constructors
     public ActivityEditFactsTest() {
         super(GvFactList.GvFact.TYPE);
     }
@@ -54,6 +55,7 @@ public class ActivityEditFactsTest extends ActivityEditScreenTest {
         assertTrue(mSolo.searchText(alert));
 
         runOnUiThread(new Runnable() {
+            //Overridden
             @Override
             public void run() {
                 mSignaler.reset();
@@ -124,6 +126,24 @@ public class ActivityEditFactsTest extends ActivityEditScreenTest {
         }
     }
 
+    //private methods
+    private DialogAlertFragment getAlertDialog() {
+        FragmentManager manager = getEditActivity().getFragmentManager();
+        Fragment f = manager.findFragmentByTag(DialogAlertFragment.ALERT_TAG);
+        return (DialogAlertFragment) f;
+    }
+
+    private ActivityEditUrlBrowser waitForBrowserToLaunch() {
+        ActivityEditUrlBrowser browser = (ActivityEditUrlBrowser)
+                mBrowserMonitor.waitForActivityWithTimeout(TIMEOUT);
+        assertNotNull(browser);
+        assertEquals(ActivityEditUrlBrowser.class, browser.getClass());
+        getInstrumentation().waitForIdleSync();
+
+        return browser;
+    }
+
+    //Overridden
     @Override
     protected void setUpFinish(boolean withData) {
         super.setUpFinish(withData);
@@ -144,22 +164,6 @@ public class ActivityEditFactsTest extends ActivityEditScreenTest {
         } else {
             return super.newData();
         }
-    }
-
-    private DialogAlertFragment getAlertDialog() {
-        FragmentManager manager = getEditActivity().getFragmentManager();
-        Fragment f = manager.findFragmentByTag(DialogAlertFragment.ALERT_TAG);
-        return (DialogAlertFragment) f;
-    }
-
-    private ActivityEditUrlBrowser waitForBrowserToLaunch() {
-        ActivityEditUrlBrowser browser = (ActivityEditUrlBrowser)
-                mBrowserMonitor.waitForActivityWithTimeout(TIMEOUT);
-        assertNotNull(browser);
-        assertEquals(ActivityEditUrlBrowser.class, browser.getClass());
-        getInstrumentation().waitForIdleSync();
-
-        return browser;
     }
 }
 

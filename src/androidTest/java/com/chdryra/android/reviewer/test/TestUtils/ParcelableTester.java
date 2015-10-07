@@ -19,6 +19,7 @@ import junit.framework.Assert;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ParcelableTester {
+    //Static methods
     public static <T extends Parcelable> void testParcelable(T parcelable) {
         Bundle args = new Bundle();
         String key = "key";

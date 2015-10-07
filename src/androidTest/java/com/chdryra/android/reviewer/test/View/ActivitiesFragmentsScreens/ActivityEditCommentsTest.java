@@ -27,6 +27,7 @@ import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
 public class ActivityEditCommentsTest extends ActivityEditScreenTest {
     private static final int SPLIT = R.id.menu_item_split_comment;
 
+    //Constructors
     public ActivityEditCommentsTest() {
         super(GvCommentList.GvComment.TYPE);
     }
@@ -106,6 +107,7 @@ public class ActivityEditCommentsTest extends ActivityEditScreenTest {
         assertTrue(mSolo.searchText(alert));
 
         runOnUiThread(new Runnable() {
+            //Overridden
             @Override
             public void run() {
                 mSignaler.reset();
@@ -147,6 +149,14 @@ public class ActivityEditCommentsTest extends ActivityEditScreenTest {
         assertFalse(newHeadline.equals(newnewHeadline));
     }
 
+    //private methods
+    private DialogAlertFragment getAlertDialog() {
+        FragmentManager manager = getEditActivity().getFragmentManager();
+        Fragment f = manager.findFragmentByTag(DialogAlertFragment.ALERT_TAG);
+        return (DialogAlertFragment) f;
+    }
+
+    //Overridden
     @Override
     protected GvData newEditDatum(GvData oldDatum) {
         GvCommentList.GvComment newComment = (GvCommentList.GvComment) GvDataMocker.getDatum
@@ -173,11 +183,5 @@ public class ActivityEditCommentsTest extends ActivityEditScreenTest {
         GvCommentList.GvComment comment = (GvCommentList.GvComment) currentDatum;
         comment.setIsHeadline(true);
         return comment;
-    }
-
-    private DialogAlertFragment getAlertDialog() {
-        FragmentManager manager = getEditActivity().getFragmentManager();
-        Fragment f = manager.findFragmentByTag(DialogAlertFragment.ALERT_TAG);
-        return (DialogAlertFragment) f;
     }
 }

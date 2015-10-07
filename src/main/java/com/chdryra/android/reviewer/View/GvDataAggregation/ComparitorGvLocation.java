@@ -12,6 +12,7 @@ public class ComparitorGvLocation implements
     private static final ComparitorGvLocationName NAME_COMP = new ComparitorGvLocationName();
     private static final ComparitorGvLocationDistance LOC_COMP = new ComparitorGvLocationDistance();
 
+    //Overridden
     @Override
     public DifferenceLocation compare(GvLocationList.GvLocation lhs, GvLocationList.GvLocation
             rhs) {

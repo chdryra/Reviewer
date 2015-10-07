@@ -50,28 +50,267 @@ import com.chdryra.android.reviewer.View.Screens.ReviewViewParams;
  */
 @SuppressWarnings("EmptyMethod")
 public class FragmentReviewView extends Fragment implements GridDataObservable.GridDataObserver {
-    private static final int LAYOUT        = R.layout.fragment_view_review;
+    private static final int LAYOUT = R.layout.fragment_view_review;
     private static final int LINEAR_LAYOUT = R.id.linearlayout;
-    private static final int SUBJECT       = R.id.subject_edit_text;
+    private static final int SUBJECT = R.id.subject_edit_text;
     private static final int RATING = R.id.review_rating;
-    private static final int BUTTON        = R.id.banner_button;
-    private static final int GRID          = R.id.gridview_data;
+    private static final int BUTTON = R.id.banner_button;
+    private static final int GRID = R.id.gridview_data;
 
     private LinearLayout mLinearLayout;
-    private TextView     mSubjectView;
-    private RatingBar    mRatingBar;
-    private Button       mBannerButton;
-    private GridView     mGridView;
+    private TextView mSubjectView;
+    private RatingBar mRatingBar;
+    private Button mBannerButton;
+    private GridView mGridView;
 
     private ReviewView mReviewView;
 
     private int mMaxGridCellWidth;
     private int mMaxGridCellHeight;
-    private int mCellWidthDivider  = 1;
+    private int mCellWidthDivider = 1;
     private int mCellHeightDivider = 1;
 
     private boolean mIsModified = false;
 
+    //public methods
+    public String getSubject() {
+        return mSubjectView.getText().toString().trim();
+    }
+
+    public float getRating() {
+        return mRatingBar.getRating();
+    }
+
+    public void setRating(float rating) {
+        mRatingBar.setRating(rating);
+    }
+
+    public void addView(View v) {
+        if (!mIsModified) {
+            mGridView.getLayoutParams().height = ActionBar.LayoutParams.WRAP_CONTENT;
+            mIsModified = true;
+        }
+
+        mLinearLayout.addView(v);
+    }
+
+    public void setBannerNotClickable() {
+        mBannerButton.setClickable(false);
+    }
+
+    @SuppressWarnings("deprecation")
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+    public void setCover(GvImageList.GvImage cover) {
+        if (cover != null && cover.isValidForDisplay()) {
+            BitmapDrawable bitmap = new BitmapDrawable(getResources(), cover.getBitmap());
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                mLinearLayout.setBackground(bitmap);
+            } else {
+                mLinearLayout.setBackgroundDrawable(bitmap);
+            }
+            ReviewViewParams params = mReviewView.getParams();
+            mGridView.getBackground().setAlpha(params.getGridViewParams().getGridAlpha());
+        } else {
+            removeCover();
+        }
+    }
+
+    //private methods
+    private boolean isEditable() {
+        return mReviewView.isEditable();
+    }
+
+    private int getGridCellWidth() {
+        return mMaxGridCellWidth / mCellWidthDivider;
+    }
+
+    private int getGridCellHeight() {
+        return mMaxGridCellHeight / mCellHeightDivider;
+    }
+
+    private int getNumberColumns() {
+        return mCellWidthDivider;
+    }
+
+    private void updateUi() {
+        updateSubjectUi();
+        updateRatingBarUi();
+        updateBannerButtonUi();
+        updateGridDataUi();
+        updateCover();
+    }
+
+    private void updateCover() {
+        mReviewView.updateCover();
+    }
+
+    private void removeCover() {
+        mLinearLayout.setBackgroundColor(Color.TRANSPARENT);
+        mGridView.getBackground().setAlpha(ReviewViewParams.GridViewAlpha.OPAQUE.getAlpha());
+    }
+
+    private void initUi() {
+        initSubjectUi();
+        initRatingBarUi();
+        initBannerButtonUi();
+        initGridDataUi();
+    }
+
+    private void initSubjectUi() {
+        ReviewViewParams params = mReviewView.getParams();
+        if (!params.isSubjectVisible()) {
+            mSubjectView.setVisibility(View.GONE);
+            return;
+        }
+
+        if (isEditable()) {
+            mSubjectView.setFocusable(true);
+            ((ClearableEditText) mSubjectView).makeClearable(true);
+            mSubjectView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+                final ReviewViewAction.SubjectAction action = mReviewView.getSubjectViewAction();
+
+                //Overridden
+                @Override
+                public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                    if (actionId == EditorInfo.IME_ACTION_DONE ||
+                            event.getAction() == KeyEvent.ACTION_DOWN &&
+                                    event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
+
+                        action.onEditorDone(v.getText());
+                        return true;
+                    }
+                    return false;
+                }
+            });
+        } else {
+            mSubjectView.setFocusable(false);
+            ((ClearableEditText) mSubjectView).makeClearable(false);
+        }
+
+        updateSubjectUi();
+    }
+
+    private void initRatingBarUi() {
+        ReviewViewParams params = mReviewView.getParams();
+        if (!params.isRatingVisible()) {
+            mRatingBar.setVisibility(View.GONE);
+            return;
+        }
+
+        final ReviewViewAction.RatingBarAction ratingBarAction = mReviewView.getRatingBarAction();
+        if (isEditable()) {
+            mRatingBar.setIsIndicator(false);
+            mRatingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+                //Overridden
+                @Override
+                public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+                    ratingBarAction.onRatingChanged(ratingBar, rating, fromUser);
+                }
+            });
+        } else {
+            mRatingBar.setIsIndicator(true);
+        }
+
+        mRatingBar.setOnTouchListener(new View.OnTouchListener() {
+            //Overridden
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                ratingBarAction.onClick(v);
+                return false;
+            }
+        });
+
+        updateRatingBarUi();
+    }
+
+    private void initBannerButtonUi() {
+        ReviewViewParams params = mReviewView.getParams();
+        if (!params.isBannerButtonVisible()) {
+            mBannerButton.setVisibility(View.GONE);
+            return;
+        }
+
+        final ReviewViewAction.BannerButtonAction action = mReviewView.getBannerButtonAction();
+        mBannerButton.setText(action.getButtonTitle());
+        mBannerButton.setTextColor(mSubjectView.getTextColors().getDefaultColor());
+        mBannerButton.setOnClickListener(new View.OnClickListener() {
+            //Overridden
+            @Override
+            public void onClick(View v) {
+                action.onClick(v);
+            }
+        });
+        mBannerButton.setOnLongClickListener(new View.OnLongClickListener() {
+            //Overridden
+            @Override
+            public boolean onLongClick(View v) {
+                return action.onLongClick(v);
+            }
+        });
+
+        updateBannerButtonUi();
+    }
+
+    private void initGridDataUi() {
+        ViewHolderAdapter adapter = FactoryGridCellAdapter.newAdapter(getActivity(),
+                mReviewView.getGridViewData(), getGridCellWidth(), getGridCellHeight());
+        mGridView.setAdapter(adapter);
+        mGridView.setColumnWidth(getGridCellWidth());
+        mGridView.setNumColumns(getNumberColumns());
+
+        final ReviewViewAction.GridItemAction action = mReviewView.getGridItemAction();
+        mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            //Overridden
+            public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+                GvData item = (GvData) parent.getItemAtPosition(position);
+                action.onGridItemClick(item, position, v);
+            }
+        });
+
+        mGridView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            //Overridden
+            public boolean onItemLongClick(AdapterView<?> parent, View v, int position, long id) {
+                GvData item = (GvData) parent.getItemAtPosition(position);
+                action.onGridItemLongClick(item, position, v);
+                return true;
+            }
+        });
+    }
+
+    private void updateSubjectUi() {
+        mSubjectView.setText(mReviewView.getSubject());
+    }
+
+    private void updateRatingBarUi() {
+        mRatingBar.setRating(mReviewView.getRating());
+    }
+
+    private void updateBannerButtonUi() {
+    }
+
+    private void updateGridDataUi() {
+        ((ViewHolderAdapter) mGridView.getAdapter()).setData(mReviewView.getGridViewData());
+    }
+
+    private void setGridCellDimension(ReviewViewParams.CellDimension width,
+                                      ReviewViewParams.CellDimension height) {
+        mCellWidthDivider = 1;
+        mCellHeightDivider = 1;
+
+        if (width == ReviewViewParams.CellDimension.HALF) {
+            mCellWidthDivider = 2;
+        } else if (width == ReviewViewParams.CellDimension.QUARTER) {
+            mCellWidthDivider = 4;
+        }
+
+        if (height == ReviewViewParams.CellDimension.HALF) {
+            mCellHeightDivider = 2;
+        } else if (height == ReviewViewParams.CellDimension.QUARTER) {
+            mCellHeightDivider = 4;
+        }
+    }
+
+    //Overridden
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,7 +326,7 @@ public class FragmentReviewView extends Fragment implements GridDataObservable.G
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState) {
+                             Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
 
         View v = inflater.inflate(LAYOUT, container, false);
@@ -106,7 +345,6 @@ public class FragmentReviewView extends Fragment implements GridDataObservable.G
         mMaxGridCellHeight = mMaxGridCellWidth;
 
         initUi();
-        updateUi();
 
         return mReviewView.modifyIfNeccesary(v, inflater, container, savedInstanceState);
     }
@@ -135,256 +373,15 @@ public class FragmentReviewView extends Fragment implements GridDataObservable.G
                 .onOptionsItemSelected(item);
     }
 
-    public void updateUi() {
-        updateSubjectUi();
-        updateRatingBarUi();
-        updateBannerButtonUi();
-        updateGridDataUi();
-        updateCover();
-    }
-
-    public String getSubject() {
-        return mSubjectView.getText().toString().trim();
-    }
-
-    public void setSubject(String subject) {
-        mSubjectView.setText(subject);
-    }
-
-    public float getRating() {
-        return mRatingBar.getRating();
-    }
-
-    public void setRating(float rating) {
-        mRatingBar.setRating(rating);
-    }
-
-    public void addView(View v) {
-        if (!mIsModified) {
-            mGridView.getLayoutParams().height = ActionBar.LayoutParams.WRAP_CONTENT;
-            mIsModified = true;
-        }
-
-        mLinearLayout.addView(v);
-    }
-
-    public void setBannerNotClickable() {
-        mBannerButton.setClickable(false);
-    }
-
-    public void updateCover() {
-        mReviewView.updateCover();
-    }
-
-    @SuppressWarnings("deprecation")
-    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
-    public void setCover(GvImageList.GvImage cover) {
-        if (cover != null && cover.isValidForDisplay()) {
-            BitmapDrawable bitmap = new BitmapDrawable(getResources(), cover.getBitmap());
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                mLinearLayout.setBackground(bitmap);
-            } else {
-                mLinearLayout.setBackgroundDrawable(bitmap);
-            }
-            ReviewViewParams params = mReviewView.getParams();
-            mGridView.getBackground().setAlpha(params.getGridViewParams().getGridAlpha());
-        } else {
-            removeCover();
-        }
-    }
-
-    public void removeCover() {
-        mLinearLayout.setBackgroundColor(Color.TRANSPARENT);
-        mGridView.getBackground().setAlpha(ReviewViewParams.GridViewAlpha.OPAQUE.getAlpha());
-    }
-
-    public void updateGridData() {
-        ((ViewHolderAdapter) mGridView.getAdapter()).setData(mReviewView.getGridViewData());
-    }
-
     @Override
     public void onGridDataChanged() {
-        renewGridAdapter();
-        updateGridData();
-    }
-
-    public void renewGridAdapter() {
-        mGridView.setAdapter(getGridViewCellAdapter());
-    }
-
-    void initUi() {
-        initSubjectUi();
-        initRatingBarUi();
-        initBannerButtonUi();
-        initGridDataUi();
-    }
-
-    void initSubjectUi() {
-        ReviewViewParams params = mReviewView.getParams();
-        if (!params.isSubjectVisible()) {
-            mSubjectView.setVisibility(View.GONE);
-            return;
-        }
-
-        if (isEditable()) {
-            mSubjectView.setFocusable(true);
-            ((ClearableEditText) mSubjectView).makeClearable(true);
-            mSubjectView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-                final ReviewViewAction.SubjectAction action = mReviewView.getSubjectViewAction();
-                @Override
-                public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                    if (actionId == EditorInfo.IME_ACTION_DONE ||
-                            event.getAction() == KeyEvent.ACTION_DOWN &&
-                                    event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
-
-                        action.onEditorDone(v.getText());
-                        return true;
-                    }
-                    return false;
-                }
-            });
-        } else {
-            mSubjectView.setFocusable(false);
-            ((ClearableEditText) mSubjectView).makeClearable(false);
-        }
-    }
-
-    void initRatingBarUi() {
-        ReviewViewParams params = mReviewView.getParams();
-        if (!params.isRatingVisible()) {
-            mRatingBar.setVisibility(View.GONE);
-            return;
-        }
-
-        final ReviewViewAction.RatingBarAction ratingBarAction = mReviewView.getRatingBarAction();
-        if (isEditable()) {
-            mRatingBar.setIsIndicator(false);
-            mRatingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
-                @Override
-                public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-                    ratingBarAction.onRatingChanged(ratingBar, rating, fromUser);
-                }
-            });
-        } else {
-            mRatingBar.setIsIndicator(true);
-        }
-
-        mRatingBar.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                ratingBarAction.onClick(v);
-                ;
-                return false;
-            }
-        });
-    }
-
-    void initBannerButtonUi() {
-        ReviewViewParams params = mReviewView.getParams();
-        if (!params.isBannerButtonVisible()) {
-            mBannerButton.setVisibility(View.GONE);
-            return;
-        }
-
-        final ReviewViewAction.BannerButtonAction action = mReviewView.getBannerButtonAction();
-        mBannerButton.setText(action.getButtonTitle());
-        mBannerButton.setTextColor(mSubjectView.getTextColors().getDefaultColor());
-        mBannerButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                action.onClick(v);
-            }
-        });
-        mBannerButton.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                return action.onLongClick(v);
-            }
-        });
-    }
-
-    void initGridDataUi() {
-        ReviewViewParams params = mReviewView.getParams();
-
-        renewGridAdapter();
-        mGridView.setColumnWidth(getGridCellWidth());
-        mGridView.setNumColumns(getNumberColumns());
-
-        final ReviewViewAction.GridItemAction action = mReviewView.getGridItemAction();
-        mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-                GvData item = (GvData) parent.getItemAtPosition(position);
-                action.onGridItemClick(item, position, v);
-            }
-        });
-
-        mGridView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            public boolean onItemLongClick(AdapterView<?> parent, View v, int position, long id) {
-                GvData item = (GvData) parent.getItemAtPosition(position);
-                action.onGridItemLongClick(item, position, v);
-                return true;
-            }
-        });
-    }
-
-    boolean isEditable() {
-        return mReviewView.isEditable();
-    }
-
-    ViewHolderAdapter getGridViewCellAdapter() {
-        return FactoryGridCellAdapter.newAdapter(getActivity(), mReviewView.getGridViewData(),
-                getGridCellWidth(), getGridCellHeight());
-    }
-
-    int getGridCellWidth() {
-        return mMaxGridCellWidth / mCellWidthDivider;
-    }
-
-    int getGridCellHeight() {
-        return mMaxGridCellHeight / mCellHeightDivider;
-    }
-
-    int getNumberColumns() {
-        return mCellWidthDivider;
-    }
-
-    void updateSubjectUi() {
-        mSubjectView.setText(mReviewView.getSubjectViewAction().getSubject());
-    }
-
-    void updateRatingBarUi() {
-        mRatingBar.setRating(mReviewView.getRatingBarAction().getRating());
-    }
-
-    void updateBannerButtonUi() {
-    }
-
-    void updateGridDataUi() {
-        ((ViewHolderAdapter) mGridView.getAdapter()).notifyDataSetChanged();
-        mReviewView.notifyObservers();
-    }
-
-    private void setGridCellDimension(ReviewViewParams.CellDimension width,
-            ReviewViewParams.CellDimension height) {
-        mCellWidthDivider = 1;
-        mCellHeightDivider = 1;
-
-        if (width == ReviewViewParams.CellDimension.HALF) {
-            mCellWidthDivider = 2;
-        } else if (width == ReviewViewParams.CellDimension.QUARTER) {
-            mCellWidthDivider = 4;
-        }
-
-        if (height == ReviewViewParams.CellDimension.HALF) {
-            mCellHeightDivider = 2;
-        } else if (height == ReviewViewParams.CellDimension.QUARTER) {
-            mCellHeightDivider = 4;
-        }
+        updateUi();
     }
 
     //Have to do this hacky crap because FragmentManager cannot properly deal with child
     // fragments as executePendingTransactions not properly synchronised pre API 17.
     private class AttachActionListenersTask extends AsyncTask<Void, Void, Void> {
+        //Overridden
         protected Void doInBackground(Void... params) {
             return null;
         }

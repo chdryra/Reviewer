@@ -25,6 +25,7 @@ public class GvReviewId implements GvData {
 
     public static final Parcelable.Creator<GvReviewId> CREATOR = new Parcelable
             .Creator<GvReviewId>() {
+        //Overridden
         public GvReviewId createFromParcel(Parcel in) {
             return new GvReviewId(in);
         }
@@ -35,10 +36,7 @@ public class GvReviewId implements GvData {
     };
     private ReviewId mId;
 
-    private GvReviewId(ReviewId id) {
-        mId = id;
-    }
-
+    //Constructors
     public GvReviewId(GvReviewId id) {
         this(ReviewId.fromString(id.getId()));
     }
@@ -47,14 +45,21 @@ public class GvReviewId implements GvData {
         mId = ReviewId.fromString(in.readString());
     }
 
+    private GvReviewId(ReviewId id) {
+        mId = id;
+    }
+
+    //Static methods
     public static GvReviewId getId(String id) {
         return new GvReviewId(ReviewId.fromString(id));
     }
 
+    //public methods
     public String getId() {
         return mId.toString();
     }
 
+    //Overridden
     @Override
     public GvDataType<GvReviewId> getGvDataType() {
         return TYPE;

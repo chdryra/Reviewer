@@ -28,8 +28,8 @@ import java.util.Arrays;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ReviewDbHelperTest extends AndroidTestCase {
-    private ReviewerDb            mDatabase;
-    private SQLiteOpenHelper      mHelper;
+    private ReviewerDb mDatabase;
+    private SQLiteOpenHelper mHelper;
     private ArrayList<DbTableDef> mTables;
 
     @SmallTest
@@ -48,19 +48,6 @@ public class ReviewDbHelperTest extends AndroidTestCase {
         for (DbTableDef table : mTables) {
             testTableColumns(table, db);
         }
-    }
-
-    @Override
-    protected void setUp() throws Exception {
-        mDatabase = ReviewerDb.getTestDatabase(getContext());
-        mHelper = mDatabase.getHelper();
-        mTables = new ArrayList<>();
-        mTables = ReviewerDbContract.getContract().getTableDefinitions();
-    }
-
-    @Override
-    protected void tearDown() throws Exception {
-        getContext().deleteDatabase(mDatabase.getDatabaseName());
     }
 
     private void testTableColumns(DbTableDef tableDef, SQLiteDatabase db) {
@@ -97,5 +84,19 @@ public class ReviewDbHelperTest extends AndroidTestCase {
         ArrayList<String> ret = new ArrayList<>();
         ret.addAll(Arrays.asList(colNames));
         return ret;
+    }
+
+    //Overridden
+    @Override
+    protected void setUp() throws Exception {
+        mDatabase = ReviewerDb.getTestDatabase(getContext());
+        mHelper = mDatabase.getHelper();
+        mTables = new ArrayList<>();
+        mTables = ReviewerDbContract.getContract().getTableDefinitions();
+    }
+
+    @Override
+    protected void tearDown() throws Exception {
+        getContext().deleteDatabase(mDatabase.getDatabaseName());
     }
 }

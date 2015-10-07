@@ -14,6 +14,7 @@ package com.chdryra.android.reviewer.View.GvDataModel;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface GvDataCollection<T extends GvData> extends GvData {
+    //abstract
     int size();
 
     void sort();

@@ -16,6 +16,7 @@ import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataFact;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
 
 public class GvFactList extends GvDataList<GvFactList.GvFact> {
+    //Constructors
     public GvFactList() {
         super(GvFact.TYPE, null);
     }
@@ -28,6 +29,7 @@ public class GvFactList extends GvDataList<GvFactList.GvFact> {
         super(data);
     }
 
+    //public methods
     public GvUrlList getUrls() {
         GvUrlList urls = new GvUrlList(getReviewId());
         for (GvFact fact : this) {
@@ -37,6 +39,7 @@ public class GvFactList extends GvDataList<GvFactList.GvFact> {
         return urls;
     }
 
+//Classes
     /**
      * {@link GvData} version of: {@link com.chdryra
      * .android.reviewer.MdFactList.MdFact}
@@ -46,6 +49,7 @@ public class GvFactList extends GvDataList<GvFactList.GvFact> {
     public static class GvFact extends GvDualText implements DataFact {
         public static final Parcelable.Creator<GvFact> CREATOR = new Parcelable
                 .Creator<GvFact>() {
+            //Overridden
             public GvFact createFromParcel(Parcel in) {
                 return new GvFact(in);
             }
@@ -56,6 +60,7 @@ public class GvFactList extends GvDataList<GvFactList.GvFact> {
         };
         public static GvDataType<GvFact> TYPE = new GvDataType<>(GvFact.class, "fact");
 
+        //Constructors
         public GvFact() {
             super();
         }
@@ -76,6 +81,7 @@ public class GvFactList extends GvDataList<GvFactList.GvFact> {
             super(in);
         }
 
+        //Overridden
         @Override
         public GvDataType<? extends GvFact> getGvDataType() {
             return GvFact.TYPE;

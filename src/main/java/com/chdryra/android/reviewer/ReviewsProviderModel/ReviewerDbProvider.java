@@ -17,11 +17,13 @@ public class ReviewerDbProvider implements ReviewsProvider, ReviewerDb.ReviewerD
     private ReviewerDb mDatabase;
     private ArrayList<ReviewsProviderObserver> mObservers;
 
+    //Constructors
     public ReviewerDbProvider(ReviewerDb database) {
         mDatabase = database;
         mObservers = new ArrayList<>();
     }
 
+    //Overridden
     @Override
     public Review getReview(ReviewId id) {
         return mDatabase.loadReviewFromDb(id.toString());

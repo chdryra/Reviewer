@@ -49,6 +49,7 @@ import java.util.ArrayList;
  */
 //TODO how to make this stuff more generic? Type erasure issue for overloading.
 public class MdGvConverter {
+    //Static methods
     //Comments
     public static GvCommentList convert(MdCommentList comments) {
         GvCommentList list = new GvCommentList(GvReviewId.getId(comments.getReviewId().toString()));
@@ -88,33 +89,6 @@ public class MdGvConverter {
         }
 
         return list;
-    }
-
-    private static GvFactList.GvFact getGvFactOrUrl(MdFactList.MdFact fact) {
-        GvReviewId id = GvReviewId.getId(fact.getReviewId().toString());
-        if (fact.isUrl()) {
-            MdUrlList.MdUrl url = (MdUrlList.MdUrl) fact;
-            return new GvUrlList.GvUrl(id, fact.getLabel(), url.getUrl());
-        } else {
-            return new GvFactList.GvFact(id, fact.getLabel(), fact.getValue());
-        }
-    }
-
-    private static GvFactList.GvFact getGvFactOrUrl(GvFactList.GvFact fact) {
-        if (fact.isUrl()) {
-            return new GvUrlList.GvUrl((GvUrlList.GvUrl) fact);
-        } else {
-            return new GvFactList.GvFact(fact);
-        }
-    }
-
-    private static MdFactList.MdFact getMdFactOrUrl(DataFact fact, ReviewId holder) {
-        if (fact.isUrl()) {
-            DataUrl url = (DataUrl) fact;
-            return new MdUrlList.MdUrl(fact.getLabel(), url.getUrl(), holder);
-        } else {
-            return new MdFactList.MdFact(fact.getLabel(), fact.getValue(), holder);
-        }
     }
 
     public static MdFactList toMdFactList(Iterable<? extends DataFact> facts, ReviewId holder) {
@@ -218,7 +192,8 @@ public class MdGvConverter {
 
     public static <T extends Review> GvReviewOverviewList.GvReviewOverview convert(T review,
                                                                                    ReviewId holder,
-                                                                                   TagsManager tagsManager) {
+                                                                                   TagsManager
+                                                                                           tagsManager) {
         GvReviewId id = GvReviewId.getId(holder.toString());
         GvImageList images = MdGvConverter.convert(review.getImages());
         GvCommentList headlines = MdGvConverter.convert(review.getComments()).getHeadlines();
@@ -310,5 +285,32 @@ public class MdGvConverter {
         }
 
         return list;
+    }
+
+    private static GvFactList.GvFact getGvFactOrUrl(MdFactList.MdFact fact) {
+        GvReviewId id = GvReviewId.getId(fact.getReviewId().toString());
+        if (fact.isUrl()) {
+            MdUrlList.MdUrl url = (MdUrlList.MdUrl) fact;
+            return new GvUrlList.GvUrl(id, fact.getLabel(), url.getUrl());
+        } else {
+            return new GvFactList.GvFact(id, fact.getLabel(), fact.getValue());
+        }
+    }
+
+    private static GvFactList.GvFact getGvFactOrUrl(GvFactList.GvFact fact) {
+        if (fact.isUrl()) {
+            return new GvUrlList.GvUrl((GvUrlList.GvUrl) fact);
+        } else {
+            return new GvFactList.GvFact(fact);
+        }
+    }
+
+    private static MdFactList.MdFact getMdFactOrUrl(DataFact fact, ReviewId holder) {
+        if (fact.isUrl()) {
+            DataUrl url = (DataUrl) fact;
+            return new MdUrlList.MdUrl(fact.getLabel(), url.getUrl(), holder);
+        } else {
+            return new MdFactList.MdFact(fact.getLabel(), fact.getValue(), holder);
+        }
     }
 }

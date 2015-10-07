@@ -21,10 +21,12 @@ import com.chdryra.android.mygenerallibrary.SortableList;
 public class MdDataList<T extends MdData> extends SortableList<T> implements MdData {
     private final ReviewId mReviewId;
 
+    //Constructors
     public MdDataList(ReviewId reviewId) {
         mReviewId = reviewId;
     }
 
+    //Overridden
     @Override
     public ReviewId getReviewId() {
         return mReviewId;

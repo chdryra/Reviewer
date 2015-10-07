@@ -19,9 +19,9 @@ import java.util.Map;
  * Email: rizwan.choudrey@gmail.com
  */
 public class FactoryGvData {
-    private static final String NO_CTOR_ERR        = "Constructor not found: ";
-    private static final String INSTANTIATION_ERR  = "Constructor not found: ";
-    private static final String INVOCATION_ERR     = "Exception thrown by constructor: ";
+    private static final String NO_CTOR_ERR = "Constructor not found: ";
+    private static final String INSTANTIATION_ERR = "Constructor not found: ";
+    private static final String INVOCATION_ERR = "Exception thrown by constructor: ";
     private static final String ILLEGAL_ACCESS_ERR = "Access not allowed to this constructor: ";
 
     private static FactoryGvData sFactory;
@@ -30,11 +30,7 @@ public class FactoryGvData {
     private FactoryGvData() {
     }
 
-    private static FactoryGvData get() {
-        if (sFactory == null) sFactory = new FactoryGvData();
-        return sFactory;
-    }
-
+    //Static methods
     public static <T extends GvData> GvDataList<T> newDataList(GvDataType<T> dataType) {
         return newDataList(get().mMap.get(dataType));
     }
@@ -100,10 +96,16 @@ public class FactoryGvData {
         }
     }
 
+    private static FactoryGvData get() {
+        if (sFactory == null) sFactory = new FactoryGvData();
+        return sFactory;
+    }
+
     //To aid type safety
     private class ListsMap {
         private Map<GvDataType, Class> mClasses = new HashMap<>();
 
+        //Constructors
         public ListsMap() {
             add(GvTagList.GvTag.TYPE, GvTagList.class);
             add(GvCriterionList.GvCriterion.TYPE, GvCriterionList.class);

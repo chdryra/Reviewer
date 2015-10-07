@@ -20,6 +20,7 @@ import com.robotium.solo.Solo;
  */
 public class SoloUtils {
 
+    //Static methods
     public static void pretouchScreen(Activity activity, Solo solo) {
         //To avoid issues caused by spurious menu touch events in starting activity for test.
         Point displaySize = new Point();

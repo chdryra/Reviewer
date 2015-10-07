@@ -51,10 +51,16 @@ public class RowImageTest extends TestCase {
         testRow(new RowImage(cursor));
     }
 
-    @Override
-    protected void setUp() throws Exception {
-        MdDataMocker mocker = new MdDataMocker();
-        mImage = mocker.newImage();
+    //private methods
+    private String getDatumId() {
+        return mImage.getReviewId().toString() + ReviewerDbRow.SEPARATOR + "i" + String.valueOf
+                (INDEX);
+    }
+
+    private byte[] getByteArray() {
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        mImage.getBitmap().compress(Bitmap.CompressFormat.PNG, 100, bos);
+        return bos.toByteArray();
     }
 
     private void testRow(RowImage row) {
@@ -68,14 +74,10 @@ public class RowImageTest extends TestCase {
         assertEquals(mImage, row.toMdData());
     }
 
-    private String getDatumId() {
-        return mImage.getReviewId().toString() + ReviewerDbRow.SEPARATOR + "i" + String.valueOf
-                (INDEX);
-    }
-
-    private byte[] getByteArray() {
-        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        mImage.getBitmap().compress(Bitmap.CompressFormat.PNG, 100, bos);
-        return bos.toByteArray();
+    //Overridden
+    @Override
+    protected void setUp() throws Exception {
+        MdDataMocker mocker = new MdDataMocker();
+        mImage = mocker.newImage();
     }
 }

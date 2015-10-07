@@ -16,8 +16,10 @@ import com.chdryra.android.mygenerallibrary.ViewHolderData;
  * Email: rizwan.choudrey@gmail.com
  */
 public class VhAuthor extends VhText {
+    //Constructors
     public VhAuthor() {
         super(new VHDataStringGetter() {
+            //Overridden
             @Override
             public String getString(ViewHolderData data) {
                 GvAuthorList.GvAuthor author = (GvAuthorList.GvAuthor) data;

@@ -29,11 +29,12 @@ public abstract class ReviewViewAdapterBasic<T extends GvData> implements Review
     private GridDataViewer<T> mWrapper;
     private ReviewView mView;
 
-    @Override
-    public GvDataList<T> getGridData() {
-        return mWrapper != null ? mWrapper.getGridData() : null;
+    public void setViewer(GridDataViewer<T> wrapper) {
+        mWrapper = wrapper;
+        notifyGridDataObservers();
     }
 
+    //Overridden
     @Override
     public void registerReviewView(ReviewView view) {
         mView = view;
@@ -45,20 +46,8 @@ public abstract class ReviewViewAdapterBasic<T extends GvData> implements Review
     }
 
     @Override
-    public void registerGridDataObserver(GridDataObservable.GridDataObserver observer) {
-        if (!mObservers.contains(observer)) mObservers.add(observer);
-    }
-
-    @Override
-    public void unregisterGridDataObserver(GridDataObservable.GridDataObserver observer) {
-        if (mObservers.contains(observer)) mObservers.remove(observer);
-    }
-
-    @Override
-    public void notifyGridDataObservers() {
-        for (GridDataObservable.GridDataObserver observer : mObservers) {
-            observer.onGridDataChanged();
-        }
+    public GvDataList<T> getGridData() {
+        return mWrapper != null ? mWrapper.getGridData() : null;
     }
 
     @Override
@@ -76,8 +65,20 @@ public abstract class ReviewViewAdapterBasic<T extends GvData> implements Review
         return mWrapper != null ? mWrapper.expandGridData() : null;
     }
 
-    public void setViewer(GridDataViewer<T> wrapper) {
-        mWrapper = wrapper;
-        notifyGridDataObservers();
+    @Override
+    public void registerGridDataObserver(GridDataObservable.GridDataObserver observer) {
+        if (!mObservers.contains(observer)) mObservers.add(observer);
+    }
+
+    @Override
+    public void unregisterGridDataObserver(GridDataObservable.GridDataObserver observer) {
+        if (mObservers.contains(observer)) mObservers.remove(observer);
+    }
+
+    @Override
+    public void notifyGridDataObservers() {
+        for (GridDataObservable.GridDataObserver observer : mObservers) {
+            observer.onGridDataChanged();
+        }
     }
 }

@@ -21,6 +21,7 @@ public class FactoryLaunchable {
     private FactoryLaunchable() {
     }
 
+    //Static methods
     public static LaunchableUi newLaunchable(Class<? extends LaunchableUi> uiClass) throws
             RuntimeException {
         if (uiClass == null) return null;

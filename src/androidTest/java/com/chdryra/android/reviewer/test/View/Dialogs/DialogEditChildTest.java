@@ -23,10 +23,12 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 public class DialogEditChildTest extends
         DialogGvDataEditTest<GvCriterionList.GvCriterion> {
 
+    //Constructors
     public DialogEditChildTest() {
         super(ConfigGvDataAddEditView.EditChild.class);
     }
 
+    //protected methods
     @Override
     protected GvData getDataShown() {
         EditText et = mSolo.getEditText(0);

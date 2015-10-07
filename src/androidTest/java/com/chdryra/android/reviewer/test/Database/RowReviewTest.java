@@ -27,7 +27,7 @@ import junit.framework.TestCase;
 public class RowReviewTest extends TestCase {
     private Review mReview;
     private MdCriterionList.MdCriterion mCriterion;
-    
+
     @SmallTest
     public void testReviewConstructor() {
         testRow(mReview, null, new RowReview(mReview));
@@ -55,13 +55,6 @@ public class RowReviewTest extends TestCase {
         testRow(review, parentId, new RowReview(cursor));
     }
 
-    @Override
-    protected void setUp() throws Exception {
-        mReview = ReviewMocker.newReview();
-        MdCriterionList criteria = mReview.getCriteria();
-        mCriterion = criteria.getItem(0);
-    }
-
     private void testRow(Review review, String parentId, RowReview row) {
         String authorId = review.getAuthor().getUserId().toString();
         ContentValues values = row.getContentValues();
@@ -74,5 +67,13 @@ public class RowReviewTest extends TestCase {
         assertEquals(review.getRating().getValue(), values.getAsFloat(RowReview.RATING));
         assertEquals(review.isRatingAverageOfCriteria(),
                 values.getAsBoolean(RowReview.IS_AVERAGE).booleanValue());
+    }
+
+    //Overridden
+    @Override
+    protected void setUp() throws Exception {
+        mReview = ReviewMocker.newReview();
+        MdCriterionList criteria = mReview.getCriteria();
+        mCriterion = criteria.getItem(0);
     }
 }

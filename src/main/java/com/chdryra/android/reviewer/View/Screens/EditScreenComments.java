@@ -24,24 +24,21 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
  * Email: rizwan.choudrey@gmail.com
  */
 public class EditScreenComments {
-    private static final GvDataType<GvCommentList.GvComment> TYPE   =
+    private static final GvDataType<GvCommentList.GvComment> TYPE =
             GvCommentList.GvComment.TYPE;
-    private static final ConfigGvDataUi.Config               CONFIG =
+    private static final ConfigGvDataUi.Config CONFIG =
             ConfigGvDataUi.getConfig(TYPE);
 
+    //Classes
     public static class GridItem extends EditScreen.GridItem {
         private static final int COMMENT_AS_HEADLINE = 200;
 
+        //Constructors
         public GridItem() {
             super(CONFIG.getEditorConfig());
         }
 
-        @Override
-        public void onGridItemClick(GvData item, int position, View v) {
-            GvCommentList.GvComment unsplit = ((GvCommentList.GvComment) item).getUnsplitComment();
-            super.onGridItemClick(unsplit, position, v);
-        }
-
+        //Overridden
         @Override
         protected void onDialogAlertPositive(int requestCode, Bundle args) {
             if (requestCode == COMMENT_AS_HEADLINE) {
@@ -55,8 +52,14 @@ public class EditScreenComments {
                         comment.setIsHeadline(false);
                     }
                 }
-                getReviewView().updateUi();
+                getReviewView().updateView();
             }
+        }
+
+        @Override
+        public void onGridItemClick(GvData item, int position, View v) {
+            GvCommentList.GvComment unsplit = ((GvCommentList.GvComment) item).getUnsplitComment();
+            super.onGridItemClick(unsplit, position, v);
         }
 
         @Override
@@ -73,27 +76,23 @@ public class EditScreenComments {
 
     public static class Menu extends EditScreen.Menu implements GridDataObservable
             .GridDataObserver {
-        public static final  int MENU_DELETE_ID = R.id.menu_item_delete;
-        public static final  int MENU_DONE_ID   = R.id.menu_item_done;
-        public static final  int MENU_SPLIT_ID  = R.id.menu_item_split_comment;
+        public static final int MENU_DELETE_ID = R.id.menu_item_delete;
+        public static final int MENU_DONE_ID = R.id.menu_item_done;
+        public static final int MENU_SPLIT_ID = R.id.menu_item_split_comment;
         private static final int MENU = R.menu.menu_edit_comments;
 
         private final MaiSplitComments mSplitter;
 
+        //Constructors
         public Menu() {
             super(TYPE.getDataName(), TYPE.getDataName(), false, true, MENU);
             mSplitter = new MaiSplitComments(this);
         }
 
+        //Overridden
         @Override
         public void onGridDataChanged() {
             mSplitter.updateGridDataUi();
-        }
-
-        @Override
-        public void onAttachReviewView() {
-            super.onAttachReviewView();
-            getReviewView().registerGridDataObserver(this);
         }
 
         @Override
@@ -101,6 +100,12 @@ public class EditScreenComments {
             bindDefaultDeleteActionItem(MENU_DELETE_ID);
             bindDefaultDoneActionItem(MENU_DONE_ID);
             bindMenuActionItem(mSplitter, MENU_SPLIT_ID, false);
+        }
+
+        @Override
+        public void onAttachReviewView() {
+            super.onAttachReviewView();
+            getReviewView().registerGridDataObserver(this);
         }
 
         @Override

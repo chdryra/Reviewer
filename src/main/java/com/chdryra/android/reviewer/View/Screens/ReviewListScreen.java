@@ -26,7 +26,7 @@ public class ReviewListScreen {
 
         ReviewViewActionCollection actions = new ReviewViewActionCollection();
         actions.setAction(giAction);
-        if(menuAction != null) actions.setAction(menuAction);
+        if (menuAction != null) actions.setAction(menuAction);
         actions.setAction(new RbExpandGrid());
 
         ReviewViewParams params = new ReviewViewParams();
@@ -39,22 +39,27 @@ public class ReviewListScreen {
         mReviewView = new ReviewView(perspective);
     }
 
-    public static ReviewView newScreen(Context context, ReviewNode node, ReviewsRepository repository,
+    //Static methods
+    public static ReviewView newScreen(Context context, ReviewNode node, ReviewsRepository
+            repository,
                                        ReviewViewAction.GridItemAction giAction,
                                        ReviewViewAction.MenuAction menuAction) {
         return new ReviewListScreen(context, node, repository, giAction, menuAction)
                 .getReviewView();
     }
 
-    public static ReviewView newScreen(Context context, ReviewNode node, ReviewsRepository repository) {
+    public static ReviewView newScreen(Context context, ReviewNode node, ReviewsRepository
+            repository) {
         return new ReviewListScreen(context, node, repository, new GiLaunchReviewDataScreen(),
                 null).getReviewView();
     }
 
-    public static ReviewView newScreen(Context context, Review review, ReviewsRepository repository) {
+    public static ReviewView newScreen(Context context, Review review, ReviewsRepository
+            repository) {
         return newScreen(context, FactoryReview.createMetaReview(review), repository);
     }
 
+    //private methods
     private ReviewView getReviewView() {
         return mReviewView;
     }

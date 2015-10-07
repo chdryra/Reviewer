@@ -26,6 +26,7 @@ public class PublishDate {
         mDate = new Date(time);
     }
 
+    //Static methods
     public static PublishDate now() {
         return new PublishDate();
     }
@@ -38,6 +39,7 @@ public class PublishDate {
         return new PublishDate(time);
     }
 
+    //public methods
     public Date getDate() {
         return mDate;
     }
@@ -46,6 +48,7 @@ public class PublishDate {
         return mDate.getTime();
     }
 
+    //Overridden
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

@@ -28,6 +28,7 @@ public class ReviewMocker {
     private ReviewMocker() {
     }
 
+    //Static methods
     public static Review newReview(ReviewPublisher publisher) {
         return getNewReview(publisher, true);
     }

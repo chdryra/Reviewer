@@ -16,9 +16,10 @@ import com.chdryra.android.mygenerallibrary.NumberFormatter;
  * Email: rizwan.choudrey@gmail.com
  */
 public class RatingFormatter extends NumberFormatter {
-    private static final int DIGITS    = 2;
+    private static final int DIGITS = 2;
     private static final int MAXRATING = 5;
 
+    //Static methods
     public static String twoSignificantDigits(float rating) {
         return roundToSignificant(rating, DIGITS);
     }

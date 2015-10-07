@@ -23,6 +23,7 @@ public class ActivityEditLocationMap extends ActivitySingleFragment implements L
     private static final String TAG = "ActivityEditLocationMap";
     private FragmentEditLocationMap mFragment;
 
+    //Overridden
     @Override
     public String getLaunchTag() {
         return TAG;

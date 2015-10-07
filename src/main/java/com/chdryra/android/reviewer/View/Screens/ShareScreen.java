@@ -37,6 +37,7 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvSocialPlatformList;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ShareScreen {
+    //Static methods
     public static ReviewView newScreen(Context context) {
         Administrator admin = Administrator.get(context);
         ReviewBuilderAdapter builder = admin.getReviewBuilder();
@@ -59,6 +60,7 @@ public class ShareScreen {
     }
 
     private static class ShareScreenGridItem extends ReviewViewAction.GridItemAction {
+        //Overridden
         @Override
         public void onGridItemClick(GvData item, int position, View v) {
             GvSocialPlatformList.GvSocialPlatform platform =
@@ -70,9 +72,10 @@ public class ShareScreen {
     }
 
     private static class ShareScreenModifier implements ReviewViewPerspective.ReviewViewModifier {
+        //Overridden
         @Override
         public View modify(final FragmentReviewView parent, View v, LayoutInflater inflater,
-                ViewGroup container, Bundle savedInstanceState) {
+                           ViewGroup container, Bundle savedInstanceState) {
 
             final Activity activity = parent.getActivity();
             parent.setBannerNotClickable();
@@ -82,6 +85,7 @@ public class ShareScreen {
             publishButton.setText(activity.getResources().getString(R.string.button_publish));
             publishButton.getLayoutParams().height = ActionBar.LayoutParams.MATCH_PARENT;
             publishButton.setOnClickListener(new View.OnClickListener() {
+                //Overridden
                 @Override
                 public void onClick(View v) {
                     Administrator.get(activity).publishReviewBuilder();
@@ -98,7 +102,8 @@ public class ShareScreen {
         }
     }
 
-    private static class ShareScreenAdapter extends ReviewViewAdapterBasic<GvSocialPlatformList.GvSocialPlatform> {
+    private static class ShareScreenAdapter extends ReviewViewAdapterBasic<GvSocialPlatformList
+            .GvSocialPlatform> {
         private ReviewBuilderAdapter mBuilder;
         private Context mContext;
 
@@ -108,6 +113,7 @@ public class ShareScreen {
             setViewer(new ShareScreenViewer());
         }
 
+        //Overridden
         @Override
         public String getSubject() {
             return mBuilder.getSubject();
@@ -119,17 +125,14 @@ public class ShareScreen {
         }
 
         @Override
-        public float getAverageRating() {
-            return mBuilder.getAverageRating();
-        }
-
-        @Override
         public GvImageList getCovers() {
             return mBuilder.getCovers();
         }
 
-        private class ShareScreenViewer implements GridDataViewer<GvSocialPlatformList.GvSocialPlatform> {
+        private class ShareScreenViewer implements GridDataViewer<GvSocialPlatformList
+                .GvSocialPlatform> {
 
+            //Overridden
             @Override
             public GvDataList<GvSocialPlatformList.GvSocialPlatform> getGridData() {
                 return Administrator.get(mContext).getSocialPlatformList();

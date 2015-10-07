@@ -23,15 +23,21 @@ import android.view.View;
  * holding Views on some {@link com.chdryra.android.reviewer.View.GvDataModel.GvData}.
  */
 public class LayoutHolder {
-    private final int               mLayout;
-    private final int[]             mUpdateableViewIds;
+    private final int mLayout;
+    private final int[] mUpdateableViewIds;
     private final SparseArray<View> mUpdateableViews;
-    private       View              mInflated;
+    private View mInflated;
 
+    //Constructors
     public LayoutHolder(int layoutId, int[] viewIds) {
         mLayout = layoutId;
         mUpdateableViewIds = viewIds;
         mUpdateableViews = new SparseArray<>(mUpdateableViewIds.length);
+    }
+
+    //public methods
+    public View getView() {
+        return mInflated;
     }
 
     public void inflate(Context context) {
@@ -41,10 +47,6 @@ public class LayoutHolder {
                 mUpdateableViews.put(viewId, mInflated.findViewById(viewId));
             }
         }
-    }
-
-    public View getView() {
-        return mInflated;
     }
 
     public final View getView(int viewId) {

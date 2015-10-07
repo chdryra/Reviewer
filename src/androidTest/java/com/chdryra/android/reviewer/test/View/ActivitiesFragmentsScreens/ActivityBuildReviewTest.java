@@ -50,14 +50,14 @@ import java.util.ArrayList;
  */
 public class ActivityBuildReviewTest extends ActivityReviewViewTest {
     private static final int NUM_DATA = 3;
-    private static final int TIMEOUT  = 10000;
-    private static final int AVERAGE  = R.id.menu_item_average_rating;
+    private static final int TIMEOUT = 10000;
+    private static final int AVERAGE = R.id.menu_item_average_rating;
 
-    private Administrator     mAdmin;
+    private Administrator mAdmin;
     private GvBuildReviewList mList;
-    private String            mOriginalSubject;
-    private float             mOriginalRating;
-    private CallBackSignaler  mSignaler;
+    private String mOriginalSubject;
+    private float mOriginalRating;
+    private CallBackSignaler mSignaler;
 
     @SmallTest
     public void testSubjectRatingChange() {
@@ -253,38 +253,6 @@ public class ActivityBuildReviewTest extends ActivityReviewViewTest {
         assertEquals(rating, mAdapter.getRating(), 0.01);
     }
 
-    @Override
-    protected void setAdapter() {
-        mAdapter = mAdmin.newReviewBuilder();
-    }
-
-    @Override
-    protected ReviewView getView() {
-        return BuildScreen.newScreen(getInstrumentation().getTargetContext());
-    }
-
-    @SmallTest
-    public void testSubjectRating() {
-        FragmentReviewView fragment = getFragmentViewReview();
-        assertEquals(mAdapter.getSubject(), fragment.getSubject());
-        assertEquals(mAdapter.getRating(), fragment.getRating());
-    }
-
-    @Override
-    protected void setUp() {
-        mAdmin = Administrator.get(getInstrumentation().getTargetContext());
-        super.setUp();
-
-        mList = (GvBuildReviewList) mAdapter.getGridData();
-        mOriginalSubject = mAdapter.getSubject();
-        mOriginalRating = mAdapter.getRating();
-
-        checkSubjectRating();
-        checkBuilderChanges(null);
-
-        mSignaler = new CallBackSignaler(5);
-    }
-
     protected void checkBuilderDataChanges(GvDataList data) {
         testInBuilder(data, true);
         checkBuilderChanges(data.getGvDataType());
@@ -302,8 +270,14 @@ public class ActivityBuildReviewTest extends ActivityReviewViewTest {
         clickDoneButton(tag);
     }
 
+    //private methods
     private ReviewBuilderAdapter getBuilder() {
         return (ReviewBuilderAdapter) mAdapter;
+    }
+
+    private Instrumentation.ActivityMonitor getActivityMonitor() {
+        return getInstrumentation().addMonitor(ActivityReviewView
+                .class.getName(), null, false);
     }
 
     private float getAverageRating(boolean nearestHalf) {
@@ -327,7 +301,7 @@ public class ActivityBuildReviewTest extends ActivityReviewViewTest {
     }
 
     private void testInBuilderLocationNames(GvDataList data, GvDataList fromBuilder,
-            boolean result) {
+                                            boolean result) {
         //LatLng is current latlng set by phone GPS so can only compare names
         GvLocationList dataLocations = (GvLocationList) data;
         GvLocationList builderLocations = (GvLocationList) fromBuilder;
@@ -442,7 +416,7 @@ public class ActivityBuildReviewTest extends ActivityReviewViewTest {
     }
 
     private void testClickGridCell(GvDataType dataType, int numData,
-            boolean entryWithPause) {
+                                   boolean entryWithPause) {
         testClickWithoutData(dataType, numData, entryWithPause);
         testClickWithData(dataType);
     }
@@ -491,11 +465,11 @@ public class ActivityBuildReviewTest extends ActivityReviewViewTest {
 
         return data;
     }
-    
+
     private void testClickWithoutData(GvDataType dataType, int numData,
-            boolean entryWithPause) {
+                                      boolean entryWithPause) {
         final GvDataList data = getData(dataType, numData);
-        
+
         testInBuilder(data, false);
         testInGrid(data, false);
 
@@ -539,6 +513,7 @@ public class ActivityBuildReviewTest extends ActivityReviewViewTest {
 
     private void clickActionButton(final String tag) {
         Runnable clicker = new Runnable() {
+            //Overridden
             @Override
             public void run() {
                 mSignaler.reset();
@@ -573,19 +548,14 @@ public class ActivityBuildReviewTest extends ActivityReviewViewTest {
         }
     }
 
-    private Instrumentation.ActivityMonitor getActivityMonitor() {
-        return getInstrumentation().addMonitor(ActivityReviewView
-                .class.getName(), null, false);
-    }
-
     private Instrumentation.ActivityMonitor testEditScreenNotShowing(GvDataType
-            dataType) {
+                                                                             dataType) {
         assertFalse(mSolo.searchText("Add " + dataType.getDataName()));
         return getActivityMonitor();
     }
 
     private void testEditScreenShowing(GvDataType dataType,
-            Instrumentation.ActivityMonitor monitor) {
+                                       Instrumentation.ActivityMonitor monitor) {
         ActivityReviewView editActivity = (ActivityReviewView) monitor.waitForActivityWithTimeout
                 (TIMEOUT);
         assertNotNull(editActivity);
@@ -642,5 +612,38 @@ public class ActivityBuildReviewTest extends ActivityReviewViewTest {
     private void clickShare() {
         mSolo.clickOnText(getActivity().getResources().getString(R
                 .string.button_share));
+    }
+
+    //Overridden
+    @Override
+    protected void setAdapter() {
+        mAdapter = mAdmin.newReviewBuilder();
+    }
+
+    @SmallTest
+    public void testSubjectRating() {
+        FragmentReviewView fragment = getFragmentViewReview();
+        assertEquals(mAdapter.getSubject(), fragment.getSubject());
+        assertEquals(mAdapter.getRating(), fragment.getRating());
+    }
+
+    @Override
+    protected ReviewView getView() {
+        return BuildScreen.newScreen(getInstrumentation().getTargetContext());
+    }
+
+    @Override
+    protected void setUp() {
+        mAdmin = Administrator.get(getInstrumentation().getTargetContext());
+        super.setUp();
+
+        mList = (GvBuildReviewList) mAdapter.getGridData();
+        mOriginalSubject = mAdapter.getSubject();
+        mOriginalRating = mAdapter.getRating();
+
+        checkSubjectRating();
+        checkBuilderChanges(null);
+
+        mSignaler = new CallBackSignaler(5);
     }
 }

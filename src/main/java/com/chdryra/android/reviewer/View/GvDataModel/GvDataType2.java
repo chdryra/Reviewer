@@ -18,6 +18,7 @@ import android.os.Parcelable;
  */
 public class GvDataType2<T extends GvData> implements Parcelable {
     public static final Creator<GvDataType2> CREATOR = new Parcelable.Creator<GvDataType2>() {
+        //Overridden
         public GvDataType2 createFromParcel(Parcel in) {
             return new GvDataType2(in);
         }
@@ -31,6 +32,7 @@ public class GvDataType2<T extends GvData> implements Parcelable {
     private final String mDatumName;
     private final String mDataName;
 
+    //Constructors
     public GvDataType2(Class<T> dataClass, String datum) {
         this(dataClass, datum, datum + "s");
     }
@@ -48,11 +50,13 @@ public class GvDataType2<T extends GvData> implements Parcelable {
         mDataName = in.readString();
     }
 
+    //Static methods
     public static <T1 extends GvData, T2 extends GvDataCollection<T1>> GvDataType2<T2> compoundType
             (Class<T2> dataClass, GvDataType2<T1> elementType) {
         return new GvCompoundType<>(dataClass, elementType);
     }
 
+    //public methods
     public String getDatumName() {
         return mDatumName;
     }
@@ -73,6 +77,7 @@ public class GvDataType2<T extends GvData> implements Parcelable {
         return getElementType() != this;
     }
 
+    //Overridden
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -121,16 +126,18 @@ public class GvDataType2<T extends GvData> implements Parcelable {
 
         private final GvDataType2<T1> mElementType;
 
-        private GvCompoundType(Class<T2> dataClass, GvDataType2<T1> elementType) {
-            super(dataClass, elementType.getDatumName(), elementType.getDataName());
-            mElementType = elementType;
-        }
-
+        //Constructors
         public GvCompoundType(Parcel in) {
             super(in);
             mElementType = in.readParcelable(GvDataType2.class.getClassLoader());
         }
 
+        private GvCompoundType(Class<T2> dataClass, GvDataType2<T1> elementType) {
+            super(dataClass, elementType.getDatumName(), elementType.getDataName());
+            mElementType = elementType;
+        }
+
+        //Overridden
         @Override
         public GvDataType2 getElementType() {
             return mElementType;

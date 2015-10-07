@@ -21,37 +21,30 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
  * On: 19/03/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class EditScreenChildren {
+public class EditScreenCriteria {
     private static final GvDataType<GvCriterionList.GvCriterion> TYPE =
             GvCriterionList.GvCriterion.TYPE;
 
-    public static class Menu extends EditScreen.Menu implements GridDataObservable.GridDataObserver {
-        public static final  int MENU_DELETE_ID  = R.id.menu_item_delete;
-        public static final  int MENU_DONE_ID    = R.id.menu_item_done;
-        public static final  int MENU_AVERAGE_ID = R.id.menu_item_average_rating;
+    //Classes
+    public static class Menu extends EditScreen.Menu implements GridDataObservable
+            .GridDataObserver {
+        public static final int MENU_DELETE_ID = R.id.menu_item_delete;
+        public static final int MENU_DONE_ID = R.id.menu_item_done;
+        public static final int MENU_AVERAGE_ID = R.id.menu_item_average_rating;
         private static final int MENU = R.menu.menu_edit_children;
 
         private final MenuItemChildrenRatingAverage mActionItem;
 
+        //Constructors
         public Menu() {
             super(TYPE.getDataName(), TYPE.getDataName(), false, true, MENU);
             mActionItem = new MenuItemChildrenRatingAverage();
         }
 
+        //Overridden
         @Override
         public void onGridDataChanged() {
             if (getEditor().isRatingAverage()) mActionItem.setAverageRating();
-        }
-
-        @Override
-        public void onAttachReviewView() {
-            super.onAttachReviewView();
-
-            ReviewView.Editor editor = getEditor();
-            editor.registerGridDataObserver(this);
-            ReviewBuilderAdapter.DataBuilderAdapter adapter = (ReviewBuilderAdapter
-                    .DataBuilderAdapter) editor.getAdapter();
-            editor.setRatingAverage(adapter.getParentBuilder().isRatingAverage());
         }
 
         @Override
@@ -59,6 +52,17 @@ public class EditScreenChildren {
             bindDefaultDeleteActionItem(MENU_DELETE_ID);
             bindDefaultDoneActionItem(MENU_DONE_ID);
             bindMenuActionItem(mActionItem, MENU_AVERAGE_ID, false);
+        }
+
+        @Override
+        public void onAttachReviewView() {
+            super.onAttachReviewView();
+
+            ReviewEditor editor = getEditor();
+            editor.registerGridDataObserver(this);
+            ReviewBuilderAdapter.DataBuilderAdapter adapter = (ReviewBuilderAdapter
+                    .DataBuilderAdapter) editor.getAdapter();
+            editor.setRatingAverage(adapter.getParentBuilder().isRatingAverage());
         }
 
         @Override
@@ -75,9 +79,10 @@ public class EditScreenChildren {
                     rating += child.getRating() / children.size();
                 }
 
-                getEditor().setRating(rating);
+                getEditor().setRating(rating, false);
             }
 
+            //Overridden
             @Override
             public void doAction(Context context, MenuItem item) {
                 getEditor().setRatingAverage(true);

@@ -12,6 +12,7 @@ import java.util.Comparator;
 public class ComparatorTester<T> {
     private Comparator<T> mComparator;
 
+    //Constructors
     public ComparatorTester(Comparator<T> comparator) {
         mComparator = comparator;
     }

@@ -17,6 +17,7 @@ import com.chdryra.android.testutils.RandomDate;
  * Email: rizwan.choudrey@gmail.com
  */
 public class RandomPublishDate {
+    //Static methods
     public static PublishDate nextDate() {
         return PublishDate.then(RandomDate.nextDate().getTime());
     }

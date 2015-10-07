@@ -26,33 +26,9 @@ import com.chdryra.android.testutils.RandomString;
  */
 public class ActivityEditImagesTest extends ActivityEditScreenTest {
 
+    //Constructors
     public ActivityEditImagesTest() {
         super(GvImageList.GvImage.TYPE);
-    }
-
-    @SmallTest
-    public void testBannerButtonAddDone() {
-        setUp(false);
-
-        mSolo.clickOnButton("Add " + GvImageList.GvImage.TYPE.getDatumName());
-        getInstrumentation().waitForIdleSync();
-
-        assertTrue(mSolo.searchText("Select Source"));
-        assertTrue(mSolo.searchText("Camera"));
-        assertTrue(mSolo.searchText("Gallery"));
-        getInstrumentation().sendKeyDownUpSync(KeyEvent.KEYCODE_BACK);
-    }
-
-    @Override
-    public void testBannerButtonAddCancel() {
-
-    }
-
-    @Override
-    protected GvData newEditDatum(GvData current) {
-        GvImageList.GvImage oldDatum = (GvImageList.GvImage) current;
-        return new GvImageList.GvImage(oldDatum.getBitmap(), oldDatum.getDate(),
-                oldDatum.getLatLng(), RandomString.nextSentence(), oldDatum.isCover());
     }
 
     @SmallTest
@@ -85,6 +61,7 @@ public class ActivityEditImagesTest extends ActivityEditScreenTest {
         assertTrue(mSolo.searchText(alert));
 
         runOnUiThread(new Runnable() {
+            //Overridden
             @Override
             public void run() {
                 mSignaler.reset();
@@ -126,10 +103,37 @@ public class ActivityEditImagesTest extends ActivityEditScreenTest {
         assertFalse(newCover.equals(newnewCover));
     }
 
+    //private methods
     private DialogAlertFragment getAlertDialog() {
         FragmentManager manager = getEditActivity().getFragmentManager();
         Fragment f = manager.findFragmentByTag(DialogAlertFragment.ALERT_TAG);
         return (DialogAlertFragment) f;
+    }
+
+    //Overridden
+    @SmallTest
+    public void testBannerButtonAddDone() {
+        setUp(false);
+
+        mSolo.clickOnButton("Add " + GvImageList.GvImage.TYPE.getDatumName());
+        getInstrumentation().waitForIdleSync();
+
+        assertTrue(mSolo.searchText("Select Source"));
+        assertTrue(mSolo.searchText("Camera"));
+        assertTrue(mSolo.searchText("Gallery"));
+        getInstrumentation().sendKeyDownUpSync(KeyEvent.KEYCODE_BACK);
+    }
+
+    @Override
+    public void testBannerButtonAddCancel() {
+
+    }
+
+    @Override
+    protected GvData newEditDatum(GvData current) {
+        GvImageList.GvImage oldDatum = (GvImageList.GvImage) current;
+        return new GvImageList.GvImage(oldDatum.getBitmap(), oldDatum.getDate(),
+                oldDatum.getLatLng(), RandomString.nextSentence(), oldDatum.isCover());
     }
 }
 

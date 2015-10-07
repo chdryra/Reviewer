@@ -18,6 +18,7 @@ public class GvCanonicalCollection<T extends GvData> implements GvDataCollection
         Iterable<GvCanonical> {
     public static final Parcelable.Creator<GvCanonicalCollection> CREATOR = new Parcelable
             .Creator<GvCanonicalCollection>() {
+        //Overridden
         public GvCanonicalCollection createFromParcel(Parcel in) {
             return new GvCanonicalCollection(in);
         }
@@ -31,6 +32,7 @@ public class GvCanonicalCollection<T extends GvData> implements GvDataCollection
     private GvDataType<T> mType;
     private Comparator<GvCanonical> mComparator;
 
+    //Constructors
     public GvCanonicalCollection(GvDataType<T> type) {
         mType = type;
         GvDataType<GvCanonical> listType =
@@ -49,6 +51,19 @@ public class GvCanonicalCollection<T extends GvData> implements GvDataCollection
         mData.add(canonical);
     }
 
+    private void setComparator() {
+        final Comparator<T> comparator = GvDataComparators.getDefaultComparator(mType);
+        mComparator = new Comparator<GvCanonical>() {
+            //Overridden
+            @Override
+            public int compare(GvCanonical lhs, GvCanonical rhs) {
+                //TODO make type safe
+                return comparator.compare((T) lhs.getCanonical(), (T) rhs.getCanonical());
+            }
+        };
+    }
+
+    //Overridden
     @Override
     public int size() {
         return mData.size();
@@ -124,17 +139,6 @@ public class GvCanonicalCollection<T extends GvData> implements GvDataCollection
     @Override
     public Iterator<GvCanonical> iterator() {
         return mData.iterator();
-    }
-
-    private void setComparator() {
-        final Comparator<T> comparator = GvDataComparators.getDefaultComparator(mType);
-        mComparator = new Comparator<GvCanonical>() {
-            @Override
-            public int compare(GvCanonical lhs, GvCanonical rhs) {
-                //TODO make type safe
-                return comparator.compare((T) lhs.getCanonical(), (T) rhs.getCanonical());
-            }
-        };
     }
 
     @Override

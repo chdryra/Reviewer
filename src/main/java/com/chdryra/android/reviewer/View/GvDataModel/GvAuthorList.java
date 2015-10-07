@@ -20,6 +20,7 @@ import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
  * Email: rizwan.choudrey@gmail.com
  */
 public class GvAuthorList extends GvDataList<GvAuthorList.GvAuthor> {
+    //Constructors
     public GvAuthorList() {
         super(GvAuthor.TYPE, null);
     }
@@ -32,6 +33,7 @@ public class GvAuthorList extends GvDataList<GvAuthorList.GvAuthor> {
         super(data);
     }
 
+//Classes
     /**
      * {@link } version of: {@link com.chdryra.android.reviewer.Model.UserData.Author}
      * {@link ViewHolder}: {@link VhAuthor}
@@ -45,6 +47,7 @@ public class GvAuthorList extends GvDataList<GvAuthorList.GvAuthor> {
                 new GvDataType<>(GvAuthor.class, "author");
         public static final Parcelable.Creator<GvAuthor> CREATOR = new Parcelable
                 .Creator<GvAuthor>() {
+            //Overridden
             public GvAuthor createFromParcel(Parcel in) {
                 return new GvAuthor(in);
             }
@@ -57,6 +60,7 @@ public class GvAuthorList extends GvDataList<GvAuthorList.GvAuthor> {
         private String mName;
         private String mUserId;
 
+        //Constructors
         public GvAuthor() {
             this(null, null, null);
         }
@@ -81,6 +85,16 @@ public class GvAuthorList extends GvDataList<GvAuthorList.GvAuthor> {
             mUserId = in.readString();
         }
 
+        //public methods
+        public String getName() {
+            return mName;
+        }
+
+        public String getUserId() {
+            return mUserId;
+        }
+
+        //Overridden
         @Override
         public int describeContents() {
             return 0;
@@ -91,21 +105,6 @@ public class GvAuthorList extends GvDataList<GvAuthorList.GvAuthor> {
             super.writeToParcel(parcel, i);
             parcel.writeString(mName);
             parcel.writeString(mUserId);
-        }
-
-        @Override
-        public String getStringSummary() {
-            return mName;
-        }
-
-        @Override
-        public ViewHolder getViewHolder() {
-            return new VhAuthor();
-        }
-
-        @Override
-        public boolean isValidForDisplay() {
-            return DataValidator.validateString(mName) && DataValidator.validateString(mUserId);
         }
 
         @Override
@@ -131,12 +130,19 @@ public class GvAuthorList extends GvDataList<GvAuthorList.GvAuthor> {
             return result;
         }
 
-        public String getName() {
+        @Override
+        public String getStringSummary() {
             return mName;
         }
 
-        public String getUserId() {
-            return mUserId;
+        @Override
+        public ViewHolder getViewHolder() {
+            return new VhAuthor();
+        }
+
+        @Override
+        public boolean isValidForDisplay() {
+            return DataValidator.validateString(mName) && DataValidator.validateString(mUserId);
         }
     }
 }

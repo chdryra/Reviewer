@@ -16,11 +16,13 @@ public class DateComparators extends ComparatorCollection<GvDateList.GvDate> {
         super(new MostRecentFirst());
     }
 
+    //Static methods
     public static DateComparators getComparators() {
         return sComparators;
     }
 
     private static class MostRecentFirst implements Comparator<GvDateList.GvDate> {
+        //Overridden
         @Override
         public int compare(GvDateList.GvDate lhs, GvDateList.GvDate rhs) {
             return rhs.getDate().compareTo(lhs.getDate());

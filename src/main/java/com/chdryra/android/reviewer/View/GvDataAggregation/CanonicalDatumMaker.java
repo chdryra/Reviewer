@@ -17,5 +17,6 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface CanonicalDatumMaker<T extends GvData> {
+    //abstract
     T getCanonical(GvDataList<T> data);
 }

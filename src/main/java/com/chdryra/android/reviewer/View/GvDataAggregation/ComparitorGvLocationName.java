@@ -16,8 +16,10 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvLocationList;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ComparitorGvLocationName extends ComparitorStringable<GvLocationList.GvLocation> {
+    //Constructors
     public ComparitorGvLocationName() {
         super(new DataGetter<GvLocationList.GvLocation, String>() {
+            //Overridden
             @Override
             public String getData(GvLocationList.GvLocation datum) {
                 return datum.getName().toLowerCase();

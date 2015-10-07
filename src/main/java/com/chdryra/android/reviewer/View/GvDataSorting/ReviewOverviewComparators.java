@@ -17,6 +17,7 @@ public class ReviewOverviewComparators extends ComparatorCollection<GvReviewOver
         super(new MostRecentPublished());
     }
 
+    //Static methods
     public static ReviewOverviewComparators getComparators() {
         return sComparators;
     }
@@ -24,6 +25,7 @@ public class ReviewOverviewComparators extends ComparatorCollection<GvReviewOver
     private static class MostRecentPublished implements Comparator<GvReviewOverviewList
             .GvReviewOverview> {
 
+        //Overridden
         @Override
         public int compare(GvReviewOverviewList.GvReviewOverview lhs, GvReviewOverviewList
                 .GvReviewOverview rhs) {

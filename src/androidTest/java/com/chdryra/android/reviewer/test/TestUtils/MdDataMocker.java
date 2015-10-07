@@ -37,16 +37,18 @@ import java.util.Random;
  */
 public class MdDataMocker {
     private static final RandomString STRING_GENERATOR = new RandomString();
-    private static final String       URL_LABEL        = "Google";
+    private static final String URL_LABEL = "Google";
     private static final String URL = "http://www.google.co.uk/";
-    private static final Random       RAND             = new Random();
+    private static final Random RAND = new Random();
     private static URL sUrl;
 
     private final ReviewId mReviewId;
 
+    //Constructors
     public MdDataMocker() {
         mReviewId = RandomReviewId.nextId();
     }
+
     public MdDataMocker(ReviewId id) {
         mReviewId = id;
     }

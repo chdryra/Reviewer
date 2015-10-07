@@ -36,22 +36,22 @@ import com.robotium.solo.Solo;
  */
 public abstract class DialogGvDataEditTest<T extends GvData> extends
         ActivityInstrumentationTestCase2<ActivityFeed> {
-    private static final int    REQUEST_CODE = 1976;
-    private static final String DIALOG_TAG   = "TestEditDialog";
+    private static final int REQUEST_CODE = 1976;
+    private static final String DIALOG_TAG = "TestEditDialog";
     private final Class<? extends DialogGvDataEdit> mDialogClass;
-    protected     Solo                              mSolo;
-    protected     DialogGvDataEdit                  mDialog;
-    protected     DialogEditListener<T>             mListener;
-    protected     Activity                          mActivity;
+    protected Solo mSolo;
+    protected DialogGvDataEdit mDialog;
+    protected DialogEditListener<T> mListener;
+    protected Activity mActivity;
     protected CallBackSignaler mSignaler;
+
+    private enum DialogButton {CANCEL, DELETE, DONE}
 
     protected DialogGvDataEditTest(Class<? extends DialogGvDataEdit> dialogClass) {
         super(ActivityFeed.class);
         mDialogClass = dialogClass;
         mSignaler = new CallBackSignaler(30);
     }
-
-    protected abstract GvData getDataShown();
 
     @SmallTest
     public void testCancelButton() {
@@ -112,6 +112,13 @@ public abstract class DialogGvDataEditTest<T extends GvData> extends
         testDeleteButtonNoEdit(true, true);
     }
 
+    //protected methods
+    protected abstract GvData getDataShown();
+
+    protected GvData getEditDatum() {
+        return GvDataMocker.getDatum(mDialog.getGvDataType());
+    }
+
     protected void enterData(GvData datum) {
         SoloDataEntry.enter(mSolo, datum);
     }
@@ -137,6 +144,7 @@ public abstract class DialogGvDataEditTest<T extends GvData> extends
         final DialogAlertFragment dialogConfirm = (DialogAlertFragment) mActivity
                 .getFragmentManager().findFragmentByTag(deleteConfirmTag);
         mActivity.runOnUiThread(new Runnable() {
+            //Overridden
             public void run() {
                 if (confirmDelete) {
                     dialogConfirm.clickPositiveButton();
@@ -160,22 +168,6 @@ public abstract class DialogGvDataEditTest<T extends GvData> extends
             assertNull(mListener.getDataOld());
             assertNull(mListener.getDataNew());
         }
-    }
-
-    @Override
-    protected void setUp() throws Exception {
-        super.setUp();
-
-        mDialog = mDialogClass.newInstance();
-
-        mListener = new DialogEditListener<>();
-        FragmentManager manager = getActivity().getFragmentManager();
-        FragmentTransaction ft = manager.beginTransaction();
-        ft.add(mListener, DIALOG_TAG);
-        ft.commit();
-
-        mActivity = getActivity();
-        mSolo = new Solo(getInstrumentation(), mActivity);
     }
 
     protected GvData newDatum() {
@@ -203,10 +195,6 @@ public abstract class DialogGvDataEditTest<T extends GvData> extends
         assertEquals(datum, getDataShown());
 
         return datum;
-    }
-
-    protected GvData getEditDatum() {
-        return GvDataMocker.getDatum(mDialog.getGvDataType());
     }
 
     private boolean deleteConfirmIsShowing() {
@@ -247,6 +235,21 @@ public abstract class DialogGvDataEditTest<T extends GvData> extends
         mSignaler.waitForSignal();
     }
 
-    private enum DialogButton {CANCEL, DELETE, DONE}
+    //Overridden
+    @Override
+    protected void setUp() throws Exception {
+        super.setUp();
+
+        mDialog = mDialogClass.newInstance();
+
+        mListener = new DialogEditListener<>();
+        FragmentManager manager = getActivity().getFragmentManager();
+        FragmentTransaction ft = manager.beginTransaction();
+        ft.add(mListener, DIALOG_TAG);
+        ft.commit();
+
+        mActivity = getActivity();
+        mSolo = new Solo(getInstrumentation(), mActivity);
+    }
 }
 

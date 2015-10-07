@@ -26,6 +26,7 @@ import com.chdryra.android.reviewer.View.Screens.ReviewView;
  * .android.reviewer.MdData} to View layer as {@link GvData}
  */
 public interface ReviewViewAdapter<T extends GvData> extends GridDataViewer<T>, GridDataObservable {
+    //abstract
     void registerReviewView(ReviewView view);
 
     ReviewView getReviewView();
@@ -34,10 +35,9 @@ public interface ReviewViewAdapter<T extends GvData> extends GridDataViewer<T>, 
 
     float getRating();
 
-    float getAverageRating();
-
     GvImageList getCovers();
 
+    //Overridden
     @Override
     GvDataList<T> getGridData();
 

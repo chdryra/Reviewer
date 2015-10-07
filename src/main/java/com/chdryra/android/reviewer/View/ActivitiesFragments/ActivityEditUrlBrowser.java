@@ -20,6 +20,7 @@ import com.chdryra.android.reviewer.View.Launcher.LauncherUi;
 public class ActivityEditUrlBrowser extends ActivityReviewView implements LaunchableUi {
     private static final String TAG = "ActivityEditUrlMap";
 
+    //Overridden
     @Override
     public String getLaunchTag() {
         return TAG;

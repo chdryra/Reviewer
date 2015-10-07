@@ -18,6 +18,7 @@ import junit.framework.Assert;
  * Email: rizwan.choudrey@gmail.com
  */
 public class MdDataUtils {
+    //Static methods
     public static void testEqualsHash(MdData lhs, MdData rhs, boolean result) {
         if (result) {
             Assert.assertTrue(lhs.equals(rhs));

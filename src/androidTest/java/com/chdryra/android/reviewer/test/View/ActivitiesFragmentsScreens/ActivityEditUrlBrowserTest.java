@@ -20,6 +20,7 @@ import com.chdryra.android.reviewer.View.ActivitiesFragments.ActivityEditUrlBrow
  */
 public class ActivityEditUrlBrowserTest extends
         SingleLaunchActivityTestCase<ActivityEditUrlBrowser> {
+    //Constructors
     public ActivityEditUrlBrowserTest() {
         super("com.chdryra.android.reviewer", ActivityEditUrlBrowser.class);
     }

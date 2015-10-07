@@ -47,6 +47,7 @@ public class EditScreen {
 
     }
 
+    //Static methods
     public static ReviewView newScreen(Context context, GvDataType dataType) {
         ReviewBuilderAdapter builder = Administrator.get(context).getReviewBuilder();
         String buttonLabel = context.getResources().getString(R.string.button_add);
@@ -55,7 +56,7 @@ public class EditScreen {
         ReviewBuilderAdapter.DataBuilderAdapter adapter = builder.getDataBuilder(dataType);
         ReviewViewActionCollection actions = getActions(dataType, buttonLabel);
         ReviewViewParams params = DefaultParameters.getParams(dataType);
-        return new ReviewView.Editor(adapter, params, actions);
+        return new ReviewEditor(adapter, params, actions);
     }
 
     private static ReviewViewActionCollection getActions(GvDataType dataType, String buttonTitle) {
@@ -71,14 +72,14 @@ public class EditScreen {
         if (dataType == GvCommentList.GvComment.TYPE) {
             return new EditScreenComments.Menu();
         } else if (dataType == GvCriterionList.GvCriterion.TYPE) {
-            return new EditScreenChildren.Menu();
+            return new EditScreenCriteria.Menu();
         } else {
             return new Menu(dataType.getDataName());
         }
     }
 
     private static ReviewViewAction.GridItemAction newGridItemAction(GvDataType
-            dataType) {
+                                                                             dataType) {
         if (dataType == GvCommentList.GvComment.TYPE) {
             return new EditScreenComments.GridItem();
         } else if (dataType == GvImageList.GvImage.TYPE) {
@@ -105,11 +106,12 @@ public class EditScreen {
         }
     }
 
+    //Classes
     public static class BannerButton extends ReviewViewAction.BannerButtonAction {
         private static final String TAG = "ActionBannerButtonAddListener";
 
         private final ConfigGvDataUi.LaunchableConfig mConfig;
-        private       Fragment                        mListener;
+        private Fragment mListener;
 
         protected BannerButton(ConfigGvDataUi.LaunchableConfig config, String title) {
             super(title);
@@ -118,12 +120,7 @@ public class EditScreen {
             });
         }
 
-        @Override
-        public void onClick(View v) {
-            LauncherUi.launch(mConfig.getLaunchable(), getListener(), getRequestCode(),
-                    mConfig.getTag(), new Bundle());
-        }
-
+        //protected methods
         protected Fragment getListener() {
             return mListener;
         }
@@ -133,15 +130,15 @@ public class EditScreen {
             super.registerActionListener(listener, TAG);
         }
 
+        protected int getRequestCode() {
+            return mConfig.getRequestCode();
+        }
+
         //TODO make type safe
         protected boolean addData(GvData data) {
             boolean added = getDataBuilder().add(data);
-            getReviewView().updateUi();
+            getReviewView().updateView();
             return added;
-        }
-
-        protected int getRequestCode() {
-            return mConfig.getRequestCode();
         }
 
         protected void showAlertDialog(String alert, int requestCode) {
@@ -157,8 +154,16 @@ public class EditScreen {
 
         }
 
+        //private methods
         private ReviewBuilderAdapter.DataBuilderAdapter getDataBuilder() {
             return ((ReviewBuilderAdapter.DataBuilderAdapter) getAdapter());
+        }
+
+        //Overridden
+        @Override
+        public void onClick(View v) {
+            LauncherUi.launch(mConfig.getLaunchable(), getListener(), getRequestCode(),
+                    mConfig.getTag(), new Bundle());
         }
 
         // /Dialogs expected to communicate directly with target fragments so using "invisible"
@@ -176,6 +181,12 @@ public class EditScreen {
                 initDataList();
             }
 
+            //TODO make type safe
+            private void initDataList() {
+                mAdded = FactoryGvData.newDataList(mDataType);
+            }
+
+            //Overridden
             @Override
             public boolean onGvDataAdd(GvData data) {
                 boolean success = addData(data);
@@ -209,11 +220,6 @@ public class EditScreen {
                 }
             }
 
-            //TODO make type safe
-            private void initDataList() {
-                mAdded = FactoryGvData.newDataList(mDataType);
-            }
-
             @Override
             public void onAlertPositive(int requestCode, Bundle args) {
                 onDialogAlertPositive(requestCode);
@@ -227,8 +233,8 @@ public class EditScreen {
     public static class GridItem extends ReviewViewAction.GridItemAction {
         private static final String TAG = "GridItemEditListener";
         private final ConfigGvDataUi.LaunchableConfig mConfig;
-        private       Fragment                        mListener;
-        private       ReviewView.Editor               mEditor;
+        private Fragment mListener;
+        private ReviewEditor mEditor;
 
         protected GridItem(ConfigGvDataUi.LaunchableConfig config) {
             mConfig = config;
@@ -236,21 +242,7 @@ public class EditScreen {
             });
         }
 
-        @Override
-        public void onAttachReviewView() {
-            super.onAttachReviewView();
-            mEditor = ReviewView.Editor.cast(getReviewView());
-        }
-
-        @Override
-        public void onGridItemClick(GvData item, int position, View v) {
-            Bundle args = new Bundle();
-            GvDataPacker.packItem(GvDataPacker.CurrentNewDatum.CURRENT, item, args);
-
-            LauncherUi.launch(mConfig.getLaunchable(), mListener, getLaunchableRequestCode(),
-                    mConfig.getTag(), args);
-        }
-
+        //protected methods
         protected Fragment getListener() {
             return mListener;
         }
@@ -264,16 +256,20 @@ public class EditScreen {
             return mConfig.getRequestCode();
         }
 
+        protected ReviewEditor getEditor() {
+            return mEditor;
+        }
+
         //TODO make type safe
         protected void editData(GvData oldDatum, GvData newDatum) {
             getDataBuilder().replace(oldDatum, newDatum);
-            getReviewView().updateUi();
+            getReviewView().updateView();
         }
 
         //TODO make type safe
         protected void deleteData(GvData datum) {
             getDataBuilder().delete(datum);
-            getReviewView().updateUi();
+            getReviewView().updateView();
         }
 
         protected void showAlertDialog(String alert, int requestCode, GvData item) {
@@ -293,18 +289,32 @@ public class EditScreen {
 
         }
 
-        protected ReviewView.Editor getEditor() {
-            return mEditor;
-        }
-
+        //private methods
         private ReviewBuilderAdapter.DataBuilderAdapter getDataBuilder() {
             return ((ReviewBuilderAdapter.DataBuilderAdapter) getAdapter());
+        }
+
+        //Overridden
+        @Override
+        public void onAttachReviewView() {
+            super.onAttachReviewView();
+            mEditor = ReviewEditor.cast(getReviewView());
+        }
+
+        @Override
+        public void onGridItemClick(GvData item, int position, View v) {
+            Bundle args = new Bundle();
+            GvDataPacker.packItem(GvDataPacker.CurrentNewDatum.CURRENT, item, args);
+
+            LauncherUi.launch(mConfig.getLaunchable(), mListener, getLaunchableRequestCode(),
+                    mConfig.getTag(), args);
         }
 
         protected abstract class EditListener extends Fragment
                 implements DialogGvDataEdit.GvDataEditListener,
                 DialogAlertFragment.DialogAlertListener {
 
+            //Overridden
             @Override
             public void onGvDataDelete(GvData data) {
                 deleteData(data);
@@ -342,25 +352,26 @@ public class EditScreen {
     }
 
     public static class Menu extends ReviewViewAction.MenuAction {
-        public static final  int                MENU_DELETE_ID = R.id.menu_item_delete;
-        public static final  int                MENU_DONE_ID   = R.id.menu_item_done;
-        public static final  ActivityResultCode RESULT_DELETE  = ActivityResultCode.DELETE;
-        public static final  ActivityResultCode RESULT_DONE    = ActivityResultCode.DONE;
-        private static final int                MENU           = R.menu.menu_delete_done;
-        private static final int                DELETE_CONFIRM = 314;
-        private static final String             TAG            = "ActionMenuDeleteDoneGridListener";
+        public static final int MENU_DELETE_ID = R.id.menu_item_delete;
+        public static final int MENU_DONE_ID = R.id.menu_item_done;
+        public static final ActivityResultCode RESULT_DELETE = ActivityResultCode.DELETE;
+        public static final ActivityResultCode RESULT_DONE = ActivityResultCode.DONE;
+        private static final int MENU = R.menu.menu_delete_done;
+        private static final int DELETE_CONFIRM = 314;
+        private static final String TAG = "ActionMenuDeleteDoneGridListener";
 
         private final MenuActionItem mDeleteAction;
         private final MenuActionItem mDoneAction;
 
-        private final String  mDeleteWhat;
+        private final String mDeleteWhat;
         private final boolean mDismissOnDelete;
         private final boolean mDismissOnDone;
 
-        private final Fragment          mListener;
-        private       boolean           mRatingIsAverage;
-        private       ReviewView.Editor mEditor;
+        private final Fragment mListener;
+        private boolean mRatingIsAverage;
+        private ReviewEditor mEditor;
 
+        //Constructors
         public Menu(String title) {
             this(title, title);
         }
@@ -374,13 +385,14 @@ public class EditScreen {
         }
 
         public Menu(String title, String deleteWhat, boolean dismissOnDelete,
-                boolean dismissOnDone, int menuId) {
+                    boolean dismissOnDone, int menuId) {
             super(menuId, title, true);
             mDeleteWhat = deleteWhat;
             mDismissOnDelete = dismissOnDelete;
             mDismissOnDone = dismissOnDone;
 
             mDeleteAction = new MenuActionItem() {
+                //Overridden
                 @Override
                 public void doAction(Context context, MenuItem item) {
                     if (hasDataToDelete()) showDeleteConfirmDialog();
@@ -401,13 +413,63 @@ public class EditScreen {
             registerActionListener(mListener, TAG);
         }
 
-        @Override
-        public void onAttachReviewView() {
-            super.onAttachReviewView();
-            mEditor = ReviewView.Editor.cast(getReviewView());
-            mRatingIsAverage = getBuilder().getParentBuilder().isRatingAverage();
+        //protected methods
+        protected MenuActionItem getDeleteAction() {
+            return mDeleteAction;
         }
 
+        protected MenuActionItem getDoneAction() {
+            return mDoneAction;
+        }
+
+        protected ReviewBuilderAdapter.DataBuilderAdapter getBuilder() {
+            return (ReviewBuilderAdapter.DataBuilderAdapter) getAdapter();
+        }
+
+        protected ReviewEditor getEditor() {
+            return mEditor;
+        }
+
+        protected void bindDefaultDeleteActionItem(int deleteId) {
+            bindMenuActionItem(getDeleteAction(), deleteId, false);
+        }
+
+        protected void bindDefaultDoneActionItem(int doneId) {
+            bindMenuActionItem(getDoneAction(), doneId, mDismissOnDone);
+        }
+
+        protected void doDeleteSelected() {
+            if (hasDataToDelete()) {
+                getBuilder().deleteAll();
+                getReviewView().updateView();
+                if (mDismissOnDelete) {
+                    sendResult(RESULT_DELETE);
+                    getActivity().finish();
+                }
+            }
+        }
+
+        private void doDoneSelected() {
+            ReviewView view = getReviewView();
+            ReviewBuilderAdapter.DataBuilderAdapter builder = getBuilder();
+
+            builder.setData();
+            builder.setSubject(view.getFragmentSubject());
+            builder.getParentBuilder().setRatingIsAverage(mEditor.isRatingAverage());
+            builder.setRating(view.getFragmentRating());
+        }
+
+        private void showDeleteConfirmDialog() {
+            String deleteWhat = "all " + mDeleteWhat;
+            DialogDeleteConfirm.showDialog(deleteWhat, mListener, DELETE_CONFIRM,
+                    getActivity().getFragmentManager());
+        }
+
+        private boolean hasDataToDelete() {
+            return getGridData() != null && getGridData().size() > 0;
+        }
+
+        //Overridden
         @Override
         protected void addMenuItems() {
             bindDefaultDeleteActionItem(MENU_DELETE_ID);
@@ -422,59 +484,11 @@ public class EditScreen {
             super.doUpSelected();
         }
 
-        protected void bindDefaultDeleteActionItem(int deleteId) {
-            bindMenuActionItem(getDeleteAction(), deleteId, false);
-        }
-
-        protected void bindDefaultDoneActionItem(int doneId) {
-            bindMenuActionItem(getDoneAction(), doneId, mDismissOnDone);
-        }
-
-        protected MenuActionItem getDeleteAction() {
-            return mDeleteAction;
-        }
-
-        protected MenuActionItem getDoneAction() {
-            return mDoneAction;
-        }
-
-        protected void doDeleteSelected() {
-            if (hasDataToDelete()) {
-                getBuilder().deleteAll();
-                getReviewView().updateUi();
-                if (mDismissOnDelete) {
-                    sendResult(RESULT_DELETE);
-                    getActivity().finish();
-                }
-            }
-        }
-
-        protected ReviewBuilderAdapter.DataBuilderAdapter getBuilder() {
-            return (ReviewBuilderAdapter.DataBuilderAdapter) getAdapter();
-        }
-
-        protected ReviewView.Editor getEditor() {
-            return mEditor;
-        }
-
-        private void doDoneSelected() {
-            ReviewView view = getReviewView();
-            ReviewBuilderAdapter.DataBuilderAdapter builder = getBuilder();
-
-            builder.setData();
-            builder.setSubject(view.getSubject());
-            builder.getParentBuilder().setRatingIsAverage(mEditor.isRatingAverage());
-            builder.setRating(view.getRating());
-        }
-
-        private void showDeleteConfirmDialog() {
-            String deleteWhat = "all " + mDeleteWhat;
-            DialogDeleteConfirm.showDialog(deleteWhat, mListener, DELETE_CONFIRM,
-                    getActivity().getFragmentManager());
-        }
-
-        private boolean hasDataToDelete() {
-            return getGridData() != null && getGridData().size() > 0;
+        @Override
+        public void onAttachReviewView() {
+            super.onAttachReviewView();
+            mEditor = ReviewEditor.cast(getReviewView());
+            mRatingIsAverage = getBuilder().getParentBuilder().isRatingAverage();
         }
 
         private abstract class DeleteConfirmListener extends Fragment implements DialogAlertFragment
@@ -493,23 +507,26 @@ public class EditScreen {
     }
 
     public static class RatingBar extends ReviewViewAction.RatingBarAction {
-        private ReviewView.Editor mEditor;
+        private ReviewEditor mEditor;
 
         protected RatingBar() {
 
         }
 
+        //Overridden
         @Override
         public void onRatingChanged(android.widget.RatingBar ratingBar, float rating,
-                boolean fromUser) {
-            mEditor.setRating(rating);
-            if (fromUser) mEditor.setRatingAverage(false);
+                                    boolean fromUser) {
+            if (fromUser) {
+                mEditor.setRatingAverage(false);
+                mEditor.setRating(rating, true);
+            }
         }
 
         @Override
         public void onAttachReviewView() {
             super.onAttachReviewView();
-            mEditor = ReviewView.Editor.cast(getReviewView());
+            mEditor = ReviewEditor.cast(getReviewView());
         }
 
 

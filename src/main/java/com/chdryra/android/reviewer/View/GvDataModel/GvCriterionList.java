@@ -19,6 +19,7 @@ import com.chdryra.android.reviewer.View.Utils.RatingFormatter;
  * Used for review children (sub-reviews).
  */
 public class GvCriterionList extends GvDataList<GvCriterionList.GvCriterion> {
+    //Constructors
     public GvCriterionList() {
         super(GvCriterion.TYPE, null);
     }
@@ -31,14 +32,7 @@ public class GvCriterionList extends GvDataList<GvCriterionList.GvCriterion> {
         super(data);
     }
 
-    public boolean contains(String subject) {
-        for (GvCriterion review : this) {
-            if (review.getSubject().equals(subject)) return true;
-        }
-
-        return false;
-    }
-
+    //public methods
     public float getAverageRating() {
         float rating = 0;
         for (GvCriterion review : this) {
@@ -48,6 +42,15 @@ public class GvCriterionList extends GvDataList<GvCriterionList.GvCriterion> {
         return rating;
     }
 
+    public boolean contains(String subject) {
+        for (GvCriterion review : this) {
+            if (review.getSubject().equals(subject)) return true;
+        }
+
+        return false;
+    }
+
+//Classes
     /**
      * {@link GvData} version of: no equivalent as used
      * for review children (sub-reviews).
@@ -58,6 +61,7 @@ public class GvCriterionList extends GvDataList<GvCriterionList.GvCriterion> {
                 new GvDataType<>(GvCriterion.class, "criterion", "criteria");
         public static final Parcelable.Creator<GvCriterion> CREATOR = new Parcelable
                 .Creator<GvCriterion>() {
+            //Overridden
             public GvCriterion createFromParcel(Parcel in) {
                 return new GvCriterion(in);
             }
@@ -68,8 +72,9 @@ public class GvCriterionList extends GvDataList<GvCriterionList.GvCriterion> {
         };
 
         private final String mSubject;
-        private final float  mRating;
+        private final float mRating;
 
+        //Constructors
         public GvCriterion() {
             this(null, 0f);
         }
@@ -94,6 +99,16 @@ public class GvCriterionList extends GvDataList<GvCriterionList.GvCriterion> {
             mRating = in.readFloat();
         }
 
+        //public methods
+        public String getSubject() {
+            return mSubject;
+        }
+
+        public float getRating() {
+            return mRating;
+        }
+
+        //Overridden
         @Override
         public ViewHolder getViewHolder() {
             return new VhChild();
@@ -140,14 +155,6 @@ public class GvCriterionList extends GvDataList<GvCriterionList.GvCriterion> {
             result = 31 * result + (mSubject != null ? mSubject.hashCode() : 0);
             result = 31 * result + (mRating != +0.0f ? Float.floatToIntBits(mRating) : 0);
             return result;
-        }
-
-        public String getSubject() {
-            return mSubject;
-        }
-
-        public float getRating() {
-            return mRating;
         }
     }
 }

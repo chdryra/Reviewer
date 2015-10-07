@@ -16,11 +16,13 @@ package com.chdryra.android.reviewer.Database;
 public class ReviewerDbTable<T extends ReviewerDbRow.TableRow> extends DbTableDef {
     private Class<T> mRowClass;
 
+    //Constructors
     public ReviewerDbTable(String tableName, Class<T> rowClass) {
         super(tableName);
         mRowClass = rowClass;
     }
 
+    //public methods
     public Class<T> getRowClass() {
         return mRowClass;
     }

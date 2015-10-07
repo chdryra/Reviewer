@@ -24,22 +24,9 @@ public class MaiSplitComments implements ReviewViewAction.MenuAction.MenuActionI
     private boolean mCommentsAreSplit = false;
     private ReviewViewAction.MenuAction mParent;
 
+    //Constructors
     public MaiSplitComments(ReviewViewAction.MenuAction parent) {
         mParent = parent;
-    }
-
-    @Override
-    public void doAction(Context context, MenuItem item) {
-        mCommentsAreSplit = !mCommentsAreSplit;
-
-        item.setIcon(mCommentsAreSplit ? UNSPLIT_ICON : SPLIT_ICON);
-        if (mCommentsAreSplit) {
-            Toast.makeText(context, TOAST_SPLIT, Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(context, TOAST_UNSPLIT, Toast.LENGTH_SHORT).show();
-        }
-
-        updateGridDataUi();
     }
 
     public void updateGridDataUi() {
@@ -60,5 +47,20 @@ public class MaiSplitComments implements ReviewViewAction.MenuAction.MenuActionI
             AdapterCommentsAggregate adapter = (AdapterCommentsAggregate) view.getAdapter();
             adapter.setSplit(mCommentsAreSplit);
         }
+    }
+
+    //Overridden
+    @Override
+    public void doAction(Context context, MenuItem item) {
+        mCommentsAreSplit = !mCommentsAreSplit;
+
+        item.setIcon(mCommentsAreSplit ? UNSPLIT_ICON : SPLIT_ICON);
+        if (mCommentsAreSplit) {
+            Toast.makeText(context, TOAST_SPLIT, Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(context, TOAST_UNSPLIT, Toast.LENGTH_SHORT).show();
+        }
+
+        updateGridDataUi();
     }
 }

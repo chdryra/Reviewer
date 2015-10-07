@@ -16,6 +16,7 @@ import java.util.Comparator;
  * Email: rizwan.choudrey@gmail.com
  */
 public class LocationComparatorsTest extends ComparatorCollectionTest<GvLocationList.GvLocation> {
+    //Constructors
     public LocationComparatorsTest() {
         super(LocationComparators.getComparators());
     }

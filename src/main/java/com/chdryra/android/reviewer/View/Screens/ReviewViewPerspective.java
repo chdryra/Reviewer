@@ -19,6 +19,13 @@ public class ReviewViewPerspective {
     private ReviewViewActionCollection mActions;
     private ReviewViewModifier mModifier;
 
+    public interface ReviewViewModifier {
+        //abstract
+        View modify(FragmentReviewView parent, View v, LayoutInflater inflater,
+                    ViewGroup container, Bundle savedInstanceState);
+    }
+
+    //Constructors
     public ReviewViewPerspective(ReviewViewAdapter adapter,
                                  ReviewViewParams params,
                                  ReviewViewActionCollection actions) {
@@ -35,6 +42,7 @@ public class ReviewViewPerspective {
         mModifier = modifier;
     }
 
+    //public methods
     public ReviewViewAdapter getAdapter() {
         return mAdapter;
     }
@@ -49,11 +57,6 @@ public class ReviewViewPerspective {
 
     public ReviewViewModifier getModifier() {
         return mModifier;
-    }
-
-    public interface ReviewViewModifier {
-        View modify(FragmentReviewView parent, View v, LayoutInflater inflater,
-                    ViewGroup container, Bundle savedInstanceState);
     }
 }
 

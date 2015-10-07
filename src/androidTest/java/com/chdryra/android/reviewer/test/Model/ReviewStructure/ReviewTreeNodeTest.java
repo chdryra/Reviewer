@@ -26,8 +26,8 @@ import junit.framework.TestCase;
  */
 public class ReviewTreeNodeTest extends TestCase {
     private static final int NUM = 3;
-    private Review                    mReview;
-    private Review                    mParent;
+    private Review mReview;
+    private Review mParent;
     private IdableList<Review> mChildren;
 
     @SmallTest
@@ -156,6 +156,7 @@ public class ReviewTreeNodeTest extends TestCase {
         assertEquals(node.getChildren(), tree.getChildren());
     }
 
+    //Overridden
     @Override
     protected void setUp() throws Exception {
         mReview = ReviewMocker.newReview();

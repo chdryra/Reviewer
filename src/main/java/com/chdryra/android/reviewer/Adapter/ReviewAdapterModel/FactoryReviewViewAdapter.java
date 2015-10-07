@@ -32,6 +32,7 @@ public class FactoryReviewViewAdapter {
 
     }
 
+    //Static methods
     public static ReviewViewAdapter newReviewsListAdapter(Context context, ReviewNode node,
                                                           ReviewsRepository repository) {
         return ReviewListScreen.newScreen(context, node, repository).getAdapter();

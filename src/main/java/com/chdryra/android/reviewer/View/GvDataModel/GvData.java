@@ -18,6 +18,7 @@ import com.chdryra.android.mygenerallibrary.ViewHolderData;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface GvData extends ViewHolderData, Parcelable {
+    //abstract
     GvDataType<? extends GvData> getGvDataType();
 
     String getStringSummary();
@@ -28,6 +29,7 @@ public interface GvData extends ViewHolderData, Parcelable {
 
     boolean isCollection();
 
+    //Overridden
     @Override
     boolean equals(Object o);
 

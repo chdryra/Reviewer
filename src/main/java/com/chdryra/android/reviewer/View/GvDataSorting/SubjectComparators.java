@@ -14,6 +14,7 @@ public class SubjectComparators extends ComparatorCollection<GvSubjectList.GvSub
         super(new TextComparators.AlphabeticalIgnoreCase<GvSubjectList.GvSubject>());
     }
 
+    //Static methods
     public static SubjectComparators getComparators() {
         return sComparators;
     }

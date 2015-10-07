@@ -16,11 +16,13 @@ public class CommentComparators extends ComparatorCollection<GvCommentList.GvCom
         super(new HeadlineThenAlphabetical());
     }
 
+    //Static methods
     public static CommentComparators getComparators() {
         return sComparators;
     }
 
     private static class HeadlineThenAlphabetical implements Comparator<GvCommentList.GvComment> {
+        //Overridden
         @Override
         public int compare(GvCommentList.GvComment lhs, GvCommentList.GvComment rhs) {
             int comp;

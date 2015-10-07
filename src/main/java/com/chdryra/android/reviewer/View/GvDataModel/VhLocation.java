@@ -18,8 +18,10 @@ import com.chdryra.android.mygenerallibrary.ViewHolderData;
  */
 public class VhLocation extends VhText {
 
+    //Constructors
     public VhLocation(final boolean showAt) {
         super(new VHDataStringGetter() {
+            //Overridden
             @Override
             public String getString(ViewHolderData data) {
                 GvLocationList.GvLocation location = (GvLocationList.GvLocation) data;

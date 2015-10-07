@@ -33,8 +33,8 @@ import com.chdryra.android.testutils.RandomString;
  */
 public class AdapterReviewNodeTest extends AndroidTestCase {
     private static final int NUM = 10;
-    private Author                  mAuthor;
-    private ReviewNode               mNode;
+    private Author mAuthor;
+    private ReviewNode mNode;
     private AdapterReviewNode<GvReviewOverviewList.GvReviewOverview> mAdapter;
     private IdableList<ReviewNode> mReviews;
 
@@ -82,11 +82,14 @@ public class AdapterReviewNodeTest extends AndroidTestCase {
         }
     }
 
-    @Override
-    protected void setUp() throws Exception {
-        super.setUp();
-        mAuthor = new Author(RandomString.nextWord(), UserId.generateId());
-        setAdapter();
+    //private methods
+    private float getRating() {
+        float rating = 0f;
+        for (Review review : mReviews) {
+            rating += review.getRating().getValue() / mReviews.size();
+        }
+
+        return rating;
     }
 
     private void setAdapter() {
@@ -105,12 +108,11 @@ public class AdapterReviewNodeTest extends AndroidTestCase {
         mAdapter = new AdapterReviewNode<>(mNode, wrapper);
     }
 
-    private float getRating() {
-        float rating = 0f;
-        for (Review review : mReviews) {
-            rating += review.getRating().getValue() / mReviews.size();
-        }
-
-        return rating;
+    //Overridden
+    @Override
+    protected void setUp() throws Exception {
+        super.setUp();
+        mAuthor = new Author(RandomString.nextWord(), UserId.generateId());
+        setAdapter();
     }
 }

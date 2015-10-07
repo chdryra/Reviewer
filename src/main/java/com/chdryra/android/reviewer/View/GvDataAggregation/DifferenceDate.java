@@ -20,10 +20,12 @@ public class DifferenceDate implements DifferenceLevel<DifferenceDate> {
 
     public enum DateBucket {DAY, MONTH, YEAR, MORE_THAN_YEAR}
 
+    //Constructors
     public DifferenceDate(DateBucket dateLevel) {
         mDateLevel = dateLevel;
     }
 
+    //Overridden
     @Override
     public boolean lessThanOrEqualTo(@NotNull DifferenceDate differenceThreshold) {
         return mDateLevel.ordinal() <= differenceThreshold.mDateLevel.ordinal();

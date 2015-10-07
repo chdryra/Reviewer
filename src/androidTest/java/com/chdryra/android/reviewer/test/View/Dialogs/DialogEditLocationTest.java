@@ -20,14 +20,25 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvLocationList;
 public class DialogEditLocationTest extends DialogGvDataEditTest<GvLocationList.GvLocation> {
     private GvLocationList.GvLocation mCurrent;
 
+    //Constructors
     public DialogEditLocationTest() {
         super(ConfigGvDataAddEditView.EditLocation.class);
     }
 
+    //protected methods
     @Override
     protected GvLocationList.GvLocation getDataShown() {
         String name = mSolo.getEditText(0).getText().toString().trim();
         mCurrent = new GvLocationList.GvLocation(mCurrent.getLatLng(), name);
+
+        return mCurrent;
+    }
+
+    @Override
+    protected GvData getEditDatum() {
+        GvLocationList.GvLocation child = (GvLocationList.GvLocation) super.getEditDatum();
+
+        mCurrent = new GvLocationList.GvLocation(mCurrent.getLatLng(), child.getName());
 
         return mCurrent;
     }
@@ -41,15 +52,6 @@ public class DialogEditLocationTest extends DialogGvDataEditTest<GvLocationList.
     @Override
     protected GvData launchDialogAndTestShowing() {
         mCurrent = (GvLocationList.GvLocation) super.launchDialogAndTestShowing();
-        return mCurrent;
-    }
-
-    @Override
-    protected GvData getEditDatum() {
-        GvLocationList.GvLocation child = (GvLocationList.GvLocation) super.getEditDatum();
-
-        mCurrent = new GvLocationList.GvLocation(mCurrent.getLatLng(), child.getName());
-
         return mCurrent;
     }
 }

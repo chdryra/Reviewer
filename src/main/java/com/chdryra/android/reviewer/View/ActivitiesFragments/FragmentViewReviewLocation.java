@@ -52,8 +52,8 @@ public class FragmentViewReviewLocation extends Fragment implements
     private static final float DEFAULT_ZOOM = 15;
 
     private GvLocationList.GvLocation mCurrent;
-    private GoogleMap                 mGoogleMap;
-    private MapView                   mMapView;
+    private GoogleMap mGoogleMap;
+    private MapView mMapView;
 
     private Button mGotoReviewButton;
     private Button mGotoMapsButton;
@@ -61,6 +61,83 @@ public class FragmentViewReviewLocation extends Fragment implements
 
     private LocationClientConnector mLocationClient;
 
+    private void onDoneSelected() {
+        getActivity().finish();
+    }
+
+    private void onGotoMapsSelected() {
+
+    }
+
+    private void onGotoReviewSelected() {
+        ReviewLauncher.launchReview(getActivity(), this, mCurrent);
+    }
+
+    private void initUI() {
+        initGoogleMapUI();
+        initButtonUI();
+    }
+
+    private void initGoogleMapUI() {
+        mGoogleMap.setMyLocationEnabled(true);
+        mGoogleMap.setOnMyLocationButtonClickListener(new GoogleMap
+                .OnMyLocationButtonClickListener() {
+            //Overridden
+            @Override
+            public boolean onMyLocationButtonClick() {
+                mLocationClient.locate();
+                return false;
+            }
+        });
+        mGoogleMap.setOnInfoWindowClickListener(new OnInfoWindowClickListener() {
+
+            //Overridden
+            @Override
+            public void onInfoWindowClick(Marker marker) {
+                marker.hideInfoWindow();
+            }
+        });
+        zoomToLatLng();
+    }
+
+    private void initButtonUI() {
+        mGotoReviewButton.setOnClickListener(new View.OnClickListener() {
+            //Overridden
+            @Override
+            public void onClick(View v) {
+                onGotoReviewSelected();
+            }
+        });
+        mGotoMapsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onGotoMapsSelected();
+            }
+        });
+        mDoneButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onDoneSelected();
+            }
+        });
+    }
+
+    private void zoomToLatLng() {
+        mGoogleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(mCurrent.getLatLng(),
+                DEFAULT_ZOOM));
+        updateMapMarker();
+    }
+
+    private void updateMapMarker() {
+        MarkerOptions markerOptions = new MarkerOptions().position(mCurrent.getLatLng());
+        markerOptions.title(mCurrent.getShortenedName());
+        markerOptions.draggable(false);
+        mGoogleMap.clear();
+        Marker marker = mGoogleMap.addMarker(markerOptions);
+        marker.showInfoWindow();
+    }
+
+    //Overridden
     @Override
     public void onLocated(Location location) {
 
@@ -91,7 +168,7 @@ public class FragmentViewReviewLocation extends Fragment implements
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState) {
+                             Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
 
         View v = inflater.inflate(R.layout.fragment_review_location_map_view, container, false);
@@ -163,78 +240,5 @@ public class FragmentViewReviewLocation extends Fragment implements
         if (mMapView != null) {
             mMapView.onDestroy();
         }
-    }
-
-    private void onDoneSelected() {
-        getActivity().finish();
-    }
-
-    private void onGotoMapsSelected() {
-
-    }
-
-    private void onGotoReviewSelected() {
-        ReviewLauncher.launchReview(getActivity(), this, mCurrent);
-    }
-
-    private void initUI() {
-        initGoogleMapUI();
-        initButtonUI();
-    }
-
-    private void initGoogleMapUI() {
-        mGoogleMap.setMyLocationEnabled(true);
-        mGoogleMap.setOnMyLocationButtonClickListener(new GoogleMap
-                .OnMyLocationButtonClickListener() {
-            @Override
-            public boolean onMyLocationButtonClick() {
-                mLocationClient.locate();
-                return false;
-            }
-        });
-        mGoogleMap.setOnInfoWindowClickListener(new OnInfoWindowClickListener() {
-
-            @Override
-            public void onInfoWindowClick(Marker marker) {
-                marker.hideInfoWindow();
-            }
-        });
-        zoomToLatLng();
-    }
-
-    private void initButtonUI() {
-        mGotoReviewButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onGotoReviewSelected();
-            }
-        });
-        mGotoMapsButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onGotoMapsSelected();
-            }
-        });
-        mDoneButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onDoneSelected();
-            }
-        });
-    }
-
-    private void zoomToLatLng() {
-        mGoogleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(mCurrent.getLatLng(),
-                DEFAULT_ZOOM));
-        updateMapMarker();
-    }
-
-    private void updateMapMarker() {
-        MarkerOptions markerOptions = new MarkerOptions().position(mCurrent.getLatLng());
-        markerOptions.title(mCurrent.getShortenedName());
-        markerOptions.draggable(false);
-        mGoogleMap.clear();
-        Marker marker = mGoogleMap.addMarker(markerOptions);
-        marker.showInfoWindow();
     }
 }

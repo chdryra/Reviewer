@@ -41,13 +41,14 @@ public class ReviewBuilder {
     private final Map<GvDataType, GvDataList> mData;
     private final Map<GvDataType, DataBuilder> mDataBuilders;
 
-    private String                   mSubject;
-    private float                    mRating;
+    private String mSubject;
+    private float mRating;
     private ArrayList<ReviewBuilder> mChildren;
     private boolean mIsAverage = false;
     private Author mAuthor;
     private TagsManager mTagsManager;
 
+    //Constructors
     public ReviewBuilder(Context context, Author author, TagsManager tagsManager) {
         mContext = context;
         mAuthor = author;
@@ -65,6 +66,7 @@ public class ReviewBuilder {
         mRating = 0f;
     }
 
+    //public methods
     public Context getContext() {
         return mContext;
     }
@@ -81,9 +83,21 @@ public class ReviewBuilder {
         return mIsAverage;
     }
 
+    public float getRating() {
+        return isRatingAverage() ? getAverageRating() : mRating;
+    }
+
+    public void setRating(float rating) {
+        if (!isRatingAverage()) mRating = rating;
+    }
+
+    public float getAverageRating() {
+        return getCriteria().getAverageRating();
+    }
+
     public void setRatingIsAverage(boolean ratingIsAverage) {
         mIsAverage = ratingIsAverage;
-        if (ratingIsAverage) mRating = getChildren().getAverageRating();
+        if (ratingIsAverage) mRating = getCriteria().getAverageRating();
     }
 
     //TODO make type safe
@@ -114,8 +128,26 @@ public class ReviewBuilder {
         return data != null ? MdGvConverter.copy(data) : null;
     }
 
+    public <T extends GvData> void setData(GvDataList<T> data, boolean copy) {
+        GvDataType<T> dataType = data.getGvDataType();
+        if (dataType == GvCriterionList.GvCriterion.TYPE) {
+            setChildren(data);
+        } else if (TYPES.contains(dataType)) {
+            if (copy) {
+                mData.put(dataType, MdGvConverter.copy(data));
+            } else {
+                mData.put(dataType, data);
+            }
+        }
+    }
+
+    //private methods
     private boolean isValidForPublication() {
         return DataValidator.validateString(mSubject);
+    }
+
+    private GvCriterionList getCriteria() {
+        return (GvCriterionList) getData(GvCriterionList.GvCriterion.TYPE);
     }
 
     private Review assembleReview(ReviewPublisher publisher) {
@@ -137,23 +169,6 @@ public class ReviewBuilder {
         return new DataBuilder<>(MdGvConverter.copy(getData(dataType)));
     }
 
-    public <T extends GvData> void setData(GvDataList<T> data, boolean copy) {
-        GvDataType<T> dataType = data.getGvDataType();
-        if (dataType == GvCriterionList.GvCriterion.TYPE) {
-            setChildren(data);
-        } else if (TYPES.contains(dataType)) {
-            if (copy) {
-                mData.put(dataType, MdGvConverter.copy(data));
-            } else {
-                mData.put(dataType, data);
-            }
-        }
-    }
-
-    private GvCriterionList getChildren() {
-        return (GvCriterionList) getData(GvCriterionList.GvCriterion.TYPE);
-    }
-
     private void setChildren(GvDataList children) {
         mChildren = new ArrayList<>();
         for (GvCriterionList.GvCriterion child : (GvCriterionList) children) {
@@ -165,18 +180,6 @@ public class ReviewBuilder {
         mData.put(GvCriterionList.GvCriterion.TYPE, MdGvConverter.copy(children));
     }
 
-    public float getRating() {
-        return isRatingAverage() ? getAverageRating() : mRating;
-    }
-
-    public void setRating(float rating) {
-        if (!isRatingAverage()) mRating = rating;
-    }
-
-    public float getAverageRating() {
-        return getChildren().getAverageRating();
-    }
-
     public class DataBuilder<T extends GvData> {
         private GvDataHandler<T> mHandler;
 
@@ -184,12 +187,17 @@ public class ReviewBuilder {
             mHandler = FactoryGvDataHandler.newHandler(data);
         }
 
-        public void reset() {
-            getParentBuilder().resetDataBuilder(mHandler.getGvDataType());
-        }
-
+        //public methods
         public ReviewBuilder getParentBuilder() {
             return ReviewBuilder.this;
+        }
+
+        public GvDataList<T> getGvData() {
+            return mHandler.getData();
+        }
+
+        public void reset() {
+            getParentBuilder().resetDataBuilder(mHandler.getGvDataType());
         }
 
         public boolean add(T datum) {
@@ -212,18 +220,9 @@ public class ReviewBuilder {
             getParentBuilder().setData(getGvData(), true);
         }
 
-        public GvDataList<T> getGvData() {
-            return mHandler.getData();
-        }
-
         public void resetData() {
             GvDataType<T> type = mHandler.getGvDataType();
             mHandler = FactoryGvDataHandler.newHandler(getData(type));
-        }
-
-        public float getAverageRating() {
-            return mHandler.getGvDataType() == GvCriterionList.GvCriterion.TYPE ?
-                    ReviewBuilder.this.getAverageRating() : getRating();
         }
     }
 }

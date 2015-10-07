@@ -35,30 +35,24 @@ public class FactoryReview {
 
     private static FactoryReview sFactory = null;
 
+    //Constructors
     private FactoryReview() {
     }
 
-    private static FactoryReview getInstance() {
-        if (sFactory == null) {
-            sFactory = new FactoryReview();
-        }
-
-        return sFactory;
-    }
-
+    //Static methods
     public static Review createReviewUser(ReviewPublisher publisher, String subject,
-            float rating,
-            Iterable<? extends DataComment> comments,
-            Iterable<? extends DataImage> images,
-            Iterable<? extends DataFact> facts,
-            Iterable<? extends DataLocation> locations,
-            IdableList<Review> criteria, boolean ratingIsAverage) {
+                                          float rating,
+                                          Iterable<? extends DataComment> comments,
+                                          Iterable<? extends DataImage> images,
+                                          Iterable<? extends DataFact> facts,
+                                          Iterable<? extends DataLocation> locations,
+                                          IdableList<Review> criteria, boolean ratingIsAverage) {
         return getInstance().newReviewUser(publisher, subject, rating, comments,
                 images, facts, locations, criteria, ratingIsAverage);
     }
 
     public static Review createReviewUser(ReviewPublisher publisher, String subject,
-            float rating) {
+                                          float rating) {
         return getInstance().newReviewUser(publisher, subject, rating);
     }
 
@@ -86,7 +80,15 @@ public class FactoryReview {
         return parent.createTree();
     }
 
-    //Constructors
+    //private methods
+    private static FactoryReview getInstance() {
+        if (sFactory == null) {
+            sFactory = new FactoryReview();
+        }
+
+        return sFactory;
+    }
+
     private Review newReviewUser(ReviewPublisher publisher, String subject, float
             rating) {
         return new ReviewUser(ReviewId.newId(publisher), publisher.getAuthor(), publisher.getDate(),
@@ -99,11 +101,11 @@ public class FactoryReview {
     }
 
     private Review newReviewUser(ReviewPublisher publisher, String subject, float rating,
-            Iterable<? extends DataComment> comments,
-            Iterable<? extends DataImage> images,
-            Iterable<? extends DataFact> facts,
-            Iterable<? extends DataLocation> locations,
-            IdableList<Review> criteria, boolean ratingIsAverage) {
+                                 Iterable<? extends DataComment> comments,
+                                 Iterable<? extends DataImage> images,
+                                 Iterable<? extends DataFact> facts,
+                                 Iterable<? extends DataLocation> locations,
+                                 IdableList<Review> criteria, boolean ratingIsAverage) {
         return new ReviewUser(ReviewId.newId(publisher), publisher.getAuthor(), publisher.getDate(),
                 subject, rating, comments, images, facts, locations, criteria, ratingIsAverage);
     }

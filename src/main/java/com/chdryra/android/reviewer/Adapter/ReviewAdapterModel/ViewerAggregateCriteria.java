@@ -14,12 +14,14 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvCriterionList;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ViewerAggregateCriteria extends ViewerAggregateToData<GvCriterionList.GvCriterion> {
+    //Constructors
     public ViewerAggregateCriteria(Context context,
                                    GvCanonicalCollection<GvCriterionList.GvCriterion> data,
                                    ReviewsRepository repository) {
         super(context, data, repository);
     }
 
+    //Overridden
     @Override
     protected ReviewViewAdapter newDataToReviewsAdapter(GvCanonical datum) {
         GvCanonicalCollection<GvCriterionList.GvCriterion> newAggregate

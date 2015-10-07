@@ -19,11 +19,17 @@ import java.util.ArrayList;
  * Email: rizwan.choudrey@gmail.com
  */
 public class GvTypeMaker {
-    private static GvTypeMaker           sMaker;
-    private        ArrayList<GvDataType> mTypes;
+    private static GvTypeMaker sMaker;
+    private ArrayList<GvDataType> mTypes;
 
     private GvTypeMaker() {
         mTypes = new ArrayList<>();
+    }
+
+    //Static methods
+    public static <T1 extends GvData, T2 extends GvDataCollection> GvDataType<T2>
+    newType(Class<T2> dataClass, GvDataType<T1> elementType) {
+        return new GvCompoundType<>(dataClass, elementType);
     }
 
     private static GvTypeMaker get() {
@@ -31,15 +37,11 @@ public class GvTypeMaker {
         return sMaker;
     }
 
-    public static <T1 extends GvData, T2 extends GvDataCollection> GvDataType<T2>
-    newType(Class<T2> dataClass, GvDataType<T1> elementType) {
-        return new GvCompoundType<>(dataClass, elementType);
-    }
-
     private static class GvCompoundType<T1 extends GvData, T2 extends GvDataCollection<T1>> extends
             GvDataType<T2> {
         public static final Creator<GvCompoundType> CREATOR = new Parcelable
                 .Creator<GvCompoundType>() {
+            //Overridden
             public GvCompoundType createFromParcel(Parcel in) {
                 return new GvCompoundType(in);
             }
@@ -51,16 +53,18 @@ public class GvTypeMaker {
 
         private final GvDataType<T1> mElementType;
 
-        private GvCompoundType(Class<T2> dataClass, GvDataType<T1> elementType) {
-            super(dataClass, elementType.getDatumName(), elementType.getDataName());
-            mElementType = elementType;
-        }
-
+        //Constructors
         public GvCompoundType(Parcel in) {
             super(in);
             mElementType = in.readParcelable(GvDataType.class.getClassLoader());
         }
 
+        private GvCompoundType(Class<T2> dataClass, GvDataType<T1> elementType) {
+            super(dataClass, elementType.getDatumName(), elementType.getDataName());
+            mElementType = elementType;
+        }
+
+        //Overridden
         @Override
         public boolean equals(Object o) {
             if (this == o) return true;

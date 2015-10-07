@@ -15,6 +15,7 @@ import java.util.Comparator;
  */
 public class TagComparatorsTest extends ComparatorCollectionTest<GvTagList.GvTag> {
 
+    //Constructors
     public TagComparatorsTest() {
         super(TagComparators.getComparators());
     }

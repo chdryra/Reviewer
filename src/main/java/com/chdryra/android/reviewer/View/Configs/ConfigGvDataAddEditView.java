@@ -63,6 +63,7 @@ public final class ConfigGvDataAddEditView {
                 new AddEditViewUis(null, null, ViewDate.class));
     }
 
+    //Static methods
     public static Class<? extends LaunchableUi> getAddClass(GvDataType dataType) {
         return get().mMap.get(dataType).getAddClass();
     }
@@ -84,8 +85,10 @@ public final class ConfigGvDataAddEditView {
     //Adders
     //Need these subclasses as can't programmatically instantiate classes that utilise generics.
 
+    //Classes
     //Tag
     public static class AddTag extends DialogGvDataAdd<GvTagList.GvTag> {
+        //Constructors
         public AddTag() {
             super(GvTagList.GvTag.TYPE);
         }
@@ -94,6 +97,7 @@ public final class ConfigGvDataAddEditView {
     //Child
     public static class AddChild extends
             DialogGvDataAdd<GvCriterionList.GvCriterion> {
+        //Constructors
         public AddChild() {
             super(GvCriterionList.GvCriterion.TYPE);
         }
@@ -101,6 +105,7 @@ public final class ConfigGvDataAddEditView {
 
     //Comment
     public static class AddComment extends DialogGvDataAdd<GvCommentList.GvComment> {
+        //Constructors
         public AddComment() {
             super(GvCommentList.GvComment.TYPE);
         }
@@ -108,6 +113,7 @@ public final class ConfigGvDataAddEditView {
 
     //Fact
     public static class AddFact extends DialogGvDataAdd<GvFactList.GvFact> {
+        //Constructors
         public AddFact() {
             super(GvFactList.GvFact.TYPE);
         }
@@ -115,6 +121,7 @@ public final class ConfigGvDataAddEditView {
 
     //Location
     public static class AddLocation extends DialogGvDataAdd<GvLocationList.GvLocation> {
+        //Constructors
         public AddLocation() {
             super(GvLocationList.GvLocation.TYPE);
         }
@@ -123,6 +130,7 @@ public final class ConfigGvDataAddEditView {
     //Editors
     //Tag
     public static class EditTag extends DialogGvDataEdit<GvTagList.GvTag> {
+        //Constructors
         public EditTag() {
             super(GvTagList.GvTag.TYPE);
         }
@@ -130,6 +138,7 @@ public final class ConfigGvDataAddEditView {
 
     //Child
     public static class EditChild extends DialogGvDataEdit<GvCriterionList.GvCriterion> {
+        //Constructors
         public EditChild() {
             super(GvCriterionList.GvCriterion.TYPE);
         }
@@ -137,6 +146,7 @@ public final class ConfigGvDataAddEditView {
 
     //Comment
     public static class EditComment extends DialogGvDataEdit<GvCommentList.GvComment> {
+        //Constructors
         public EditComment() {
             super(GvCommentList.GvComment.TYPE);
         }
@@ -144,6 +154,7 @@ public final class ConfigGvDataAddEditView {
 
     //Image
     public static class EditImage extends DialogGvDataEdit<GvImageList.GvImage> {
+        //Constructors
         public EditImage() {
             super(GvImageList.GvImage.TYPE);
         }
@@ -151,6 +162,7 @@ public final class ConfigGvDataAddEditView {
 
     //Fact
     public static class EditFact extends DialogGvDataEdit<GvFactList.GvFact> {
+        //Constructors
         public EditFact() {
             super(GvFactList.GvFact.TYPE);
         }
@@ -158,6 +170,7 @@ public final class ConfigGvDataAddEditView {
 
     //Location
     public static class EditLocation extends DialogGvDataEdit<GvLocationList.GvLocation> {
+        //Constructors
         public EditLocation() {
             super(GvLocationList.GvLocation.TYPE);
         }
@@ -166,6 +179,7 @@ public final class ConfigGvDataAddEditView {
     //Viewers
     //Tag
     public static class ViewTag extends DialogGvDataView<GvTagList.GvTag> {
+        //Constructors
         public ViewTag() {
             super(GvTagList.GvTag.TYPE);
         }
@@ -173,6 +187,7 @@ public final class ConfigGvDataAddEditView {
 
     //Child
     public static class ViewChild extends DialogGvDataView<GvCriterionList.GvCriterion> {
+        //Constructors
         public ViewChild() {
             super(GvCriterionList.GvCriterion.TYPE);
         }
@@ -180,6 +195,7 @@ public final class ConfigGvDataAddEditView {
 
     //Comment
     public static class ViewComment extends DialogGvDataView<GvCommentList.GvComment> {
+        //Constructors
         public ViewComment() {
             super(GvCommentList.GvComment.TYPE);
         }
@@ -187,6 +203,7 @@ public final class ConfigGvDataAddEditView {
 
     //Image
     public static class ViewImage extends DialogGvDataView<GvImageList.GvImage> {
+        //Constructors
         public ViewImage() {
             super(GvImageList.GvImage.TYPE);
         }
@@ -194,6 +211,7 @@ public final class ConfigGvDataAddEditView {
 
     //Fact
     public static class ViewFact extends DialogGvDataView<GvFactList.GvFact> {
+        //Constructors
         public ViewFact() {
             super(GvFactList.GvFact.TYPE);
         }
@@ -201,6 +219,7 @@ public final class ConfigGvDataAddEditView {
 
     //Location
     public static class ViewLocation extends DialogGvDataView<GvLocationList.GvLocation> {
+        //Constructors
         public ViewLocation() {
             super(GvLocationList.GvLocation.TYPE);
         }
@@ -208,6 +227,7 @@ public final class ConfigGvDataAddEditView {
 
     //Subject
     public static class ViewSubject extends DialogGvDataView<GvSubjectList.GvSubject> {
+        //Constructors
         public ViewSubject() {
             super(GvSubjectList.GvSubject.TYPE);
         }
@@ -215,6 +235,7 @@ public final class ConfigGvDataAddEditView {
 
     //Date
     public static class ViewDate extends DialogGvDataView<GvDateList.GvDate> {
+        //Constructors
         public ViewDate() {
             super(GvDateList.GvDate.TYPE);
         }
@@ -229,12 +250,14 @@ public final class ConfigGvDataAddEditView {
         private final Class<? extends LaunchableUi> mView;
 
         private AddEditViewUis(Class<? extends LaunchableUi> add,
-                Class<? extends LaunchableUi> edit, Class<? extends LaunchableUi> view) {
+                               Class<? extends LaunchableUi> edit, Class<? extends LaunchableUi>
+                                       view) {
             mAdd = add;
             mEdit = edit;
             mView = view;
         }
 
+        //package private methods
         Class<? extends LaunchableUi> getAddClass() {
             return mAdd;
         }

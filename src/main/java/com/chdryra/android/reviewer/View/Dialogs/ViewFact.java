@@ -19,15 +19,17 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvFactList;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ViewFact extends DialogLayout<GvFactList.GvFact> {
-    public static final int   LAYOUT = R.layout.dialog_fact_view;
-    public static final int   LABEL  = R.id.fact_label_text_view;
-    public static final int   VALUE  = R.id.fact_value_text_view;
-    public static final int[] VIEWS  = new int[]{LABEL, VALUE};
+    public static final int LAYOUT = R.layout.dialog_fact_view;
+    public static final int LABEL = R.id.fact_label_text_view;
+    public static final int VALUE = R.id.fact_value_text_view;
+    public static final int[] VIEWS = new int[]{LABEL, VALUE};
 
+    //Constructors
     public ViewFact() {
         super(LAYOUT, VIEWS);
     }
 
+    //Overridden
     @Override
     public void updateLayout(GvFactList.GvFact fact) {
         ((TextView) getView(LABEL)).setText(fact.getLabel());

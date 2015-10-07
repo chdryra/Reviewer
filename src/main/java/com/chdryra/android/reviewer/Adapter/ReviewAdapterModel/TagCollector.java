@@ -27,6 +27,7 @@ public class TagCollector {
     private ReviewNode mNode;
     private TagsManager mTagsManager;
 
+    //Constructors
     public TagCollector(ReviewNode node, TagsManager tagsManager) {
         mNode = node;
         mTagsManager = tagsManager;

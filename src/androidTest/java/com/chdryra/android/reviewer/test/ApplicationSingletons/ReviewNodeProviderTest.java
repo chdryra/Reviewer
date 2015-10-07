@@ -31,6 +31,7 @@ import com.chdryra.android.reviewer.test.TestUtils.TestDatabase;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ReviewNodeProviderTest extends ActivityInstrumentationTestCase2<ActivityReviewView> {
+    //Constructors
     public ReviewNodeProviderTest() {
         super(ActivityReviewView.class);
     }
@@ -106,6 +107,7 @@ public class ReviewNodeProviderTest extends ActivityInstrumentationTestCase2<Act
         assertEquals(nodeId, mostRecent.getId());
     }
 
+    //Overridden
     @Override
     protected void setUp() throws Exception {
         super.setUp();

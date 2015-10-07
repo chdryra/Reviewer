@@ -18,6 +18,7 @@ import org.jetbrains.annotations.NotNull;
 public class DifferencePercentage implements DifferenceLevel<DifferencePercentage> {
     private double mPercentage;
 
+    //Constructors
     public DifferencePercentage(double percentage) {
         if (percentage < 0 || percentage > 1) {
             throw new IllegalArgumentException("Percentage should be between 0 and 1!");
@@ -26,6 +27,7 @@ public class DifferencePercentage implements DifferenceLevel<DifferencePercentag
         mPercentage = percentage;
     }
 
+    //Overridden
     @Override
     public boolean lessThanOrEqualTo(@NotNull DifferencePercentage differenceThreshold) {
         return mPercentage <= differenceThreshold.mPercentage;

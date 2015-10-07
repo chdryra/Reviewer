@@ -19,6 +19,12 @@ public abstract class GvDataBasic<T extends GvData> implements GvData {
     private GvDataType<T> mType;
     private GvReviewId mReviewId;
 
+    //Constructors
+    public GvDataBasic(Parcel in) {
+        mType = in.readParcelable(GvDataType.class.getClassLoader());
+        mReviewId = in.readParcelable(GvReviewId.class.getClassLoader());
+    }
+
     protected GvDataBasic(GvDataType<T> type) {
         mType = type;
     }
@@ -28,11 +34,7 @@ public abstract class GvDataBasic<T extends GvData> implements GvData {
         mReviewId = reviewId;
     }
 
-    public GvDataBasic(Parcel in) {
-        mType = in.readParcelable(GvDataType.class.getClassLoader());
-        mReviewId = in.readParcelable(GvReviewId.class.getClassLoader());
-    }
-
+    //Overridden
     @Override
     public GvDataType<T> getGvDataType() {
         return mType;

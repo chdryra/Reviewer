@@ -17,6 +17,7 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
  * Email: rizwan.choudrey@gmail.com
  */
 public class CanonicalCriterionAverage implements CanonicalDatumMaker<GvCriterionList.GvCriterion> {
+    //Overridden
     @Override
     public GvCriterionList.GvCriterion getCanonical(GvDataList<GvCriterionList.GvCriterion> data) {
         if (data.size() == 0)
@@ -24,6 +25,7 @@ public class CanonicalCriterionAverage implements CanonicalDatumMaker<GvCriterio
 
         DatumCounter<GvCriterionList.GvCriterion, String> counter = new DatumCounter<>(data,
                 new DataGetter<GvCriterionList.GvCriterion, String>() {
+                    //Overridden
                     @Override
                     public String getData(GvCriterionList.GvCriterion datum) {
                         return datum.getSubject();

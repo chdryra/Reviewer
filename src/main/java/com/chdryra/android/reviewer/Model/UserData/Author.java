@@ -16,11 +16,13 @@ public class Author {
     private final UserId mId;
     private final String mName;
 
+    //Constructors
     public Author(String name, UserId id) {
         mName = name;
         mId = id;
     }
 
+    //public methods
     public String getName() {
         return mName;
     }
@@ -29,6 +31,7 @@ public class Author {
         return mId;
     }
 
+    //Overridden
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

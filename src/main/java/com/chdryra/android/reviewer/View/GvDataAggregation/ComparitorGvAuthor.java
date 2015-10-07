@@ -17,6 +17,7 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvAuthorList;
  */
 public class ComparitorGvAuthor implements DifferenceComparitor<GvAuthorList.GvAuthor,
         DifferenceBoolean> {
+    //Overridden
     @Override
     public DifferenceBoolean compare(GvAuthorList.GvAuthor lhs, GvAuthorList.GvAuthor rhs) {
         boolean sameId = lhs.getUserId().equals(rhs.getUserId());

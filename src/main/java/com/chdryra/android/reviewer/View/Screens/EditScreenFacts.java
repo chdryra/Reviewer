@@ -27,18 +27,21 @@ import com.chdryra.android.reviewer.View.Launcher.LauncherUi;
  * Email: rizwan.choudrey@gmail.com
  */
 public class EditScreenFacts {
-    private static final GvDataType<GvFactList.GvFact> TYPE   =
+    private static final GvDataType<GvFactList.GvFact> TYPE =
             GvFactList.GvFact.TYPE;
-    private static final ConfigGvDataUi.Config         CONFIG =
+    private static final ConfigGvDataUi.Config CONFIG =
             ConfigGvDataUi.getConfig(TYPE);
 
+    //Classes
     public static class BannerButton extends EditScreen.BannerButton {
         private static final int ADD_ON_BROWSER = 200;
 
+        //Constructors
         public BannerButton(String title) {
             super(CONFIG.getAdderConfig(), title);
         }
 
+        //Overridden
         @Override
         public boolean onLongClick(View v) {
             showAlertDialog(getActivity().getString(R.string.alert_add_on_browser),
@@ -58,10 +61,12 @@ public class EditScreenFacts {
     public static class GridItem extends EditScreen.GridItem {
         private static final int EDIT_ON_BROWSER = 200;
 
+        //Constructors
         public GridItem() {
             super(CONFIG.getEditorConfig());
         }
 
+        //Overridden
         @Override
         public void onGridItemLongClick(GvData item, int position, View v) {
             GvFactList.GvFact fact = (GvFactList.GvFact) item;

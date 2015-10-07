@@ -27,6 +27,7 @@ public class ActivityReviewView extends ActivitySingleFragment {
 //        activity.startActivity(i);
 //    }
 
+    //Overridden
     protected Fragment createFragment() {
         return new FragmentReviewView();
     }

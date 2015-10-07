@@ -16,11 +16,13 @@ public class AuthorComparators extends ComparatorCollection<GvAuthorList.GvAutho
         super(new AlphabeticalIgnoreCase());
     }
 
+    //Static methods
     public static AuthorComparators getComparators() {
         return sComparators;
     }
 
     private static class AlphabeticalIgnoreCase implements Comparator<GvAuthorList.GvAuthor> {
+        //Overridden
         @Override
         public int compare(GvAuthorList.GvAuthor lhs, GvAuthorList.GvAuthor rhs) {
             return lhs.getName().compareToIgnoreCase(rhs.getName());

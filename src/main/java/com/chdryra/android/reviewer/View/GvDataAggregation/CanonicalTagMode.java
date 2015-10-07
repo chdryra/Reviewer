@@ -17,12 +17,14 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvTagList;
  * Email: rizwan.choudrey@gmail.com
  */
 public class CanonicalTagMode implements CanonicalDatumMaker<GvTagList.GvTag> {
+    //Overridden
     @Override
     public GvTagList.GvTag getCanonical(GvDataList<GvTagList.GvTag> data) {
         if (data.size() == 0) return new GvTagList.GvTag(data.getReviewId(), "");
 
         DatumCounter<GvTagList.GvTag, String> counter = new DatumCounter<>(data,
                 new DataGetter<GvTagList.GvTag, String>() {
+                    //Overridden
                     @Override
                     public String getData(GvTagList.GvTag datum) {
                         return datum.get();

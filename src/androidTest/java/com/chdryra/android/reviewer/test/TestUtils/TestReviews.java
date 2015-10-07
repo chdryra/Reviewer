@@ -50,8 +50,8 @@ import java.util.GregorianCalendar;
  */
 public class TestReviews {
     private static Author AUTHOR = new Author("Riz", UserId.generateId());
-    private static TestReviews     sReviews;
-    private        Instrumentation mInstr;
+    private static TestReviews sReviews;
+    private Instrumentation mInstr;
     private IdableList<Review> mReviews;
 
     private TestReviews(Instrumentation instr) {
@@ -59,11 +59,7 @@ public class TestReviews {
         mReviews = new IdableList<>();
     }
 
-    private static TestReviews get(Instrumentation instr) {
-        if (sReviews == null) sReviews = new TestReviews(instr);
-        return sReviews;
-    }
-
+    //Static methods
     public static IdableList<Review> getReviews(Instrumentation instr) {
         TestReviews testReviews = get(instr);
         IdableList<Review> reviews = testReviews.mReviews;
@@ -78,58 +74,12 @@ public class TestReviews {
         return reviews;
     }
 
-    private Review getReview(TestReview review) {
-        ReviewPublisher publisher = new ReviewPublisher(AUTHOR,
-                PublishDate.then(review.mPublishDate.getTime()));
-        ReviewBuilder builder = new ReviewBuilder(mInstr.getTargetContext(), publisher);
-        builder.setSubject(review.mSubject);
-        builder.setRating(review.mRating);
-        builder.setRatingIsAverage(review.mIsRatingAverage);
-        ReviewBuilder.DataBuilder b = builder.getDataBuilder(GvCommentList
-                .GvComment.TYPE);
-        for (String comment : review.mComments) {
-            b.add(new GvCommentList.GvComment(comment));
-        }
-        b.setData();
-        b = builder.getDataBuilder(GvFactList.GvFact.TYPE);
-        for (Fact fact : review.mFacts) {
-            GvFactList.GvFact f = new GvFactList.GvFact(fact.mLabel, fact.mValue);
-            if (fact.mIsUrl) {
-                try {
-                    f = new GvUrlList.GvUrl(fact.mLabel, new URL(fact.mValue));
-                } catch (MalformedURLException e) {
-                    e.printStackTrace();
-                }
-            }
-            b.add(f);
-        }
-        b.setData();
-        b = builder.getDataBuilder(GvLocationList.GvLocation.TYPE);
-        for (Location Location : review.mLocations) {
-            b.add(new GvLocationList.GvLocation(Location.mLatLng, Location.mName));
-        }
-        b.setData();
-        b = builder.getDataBuilder(GvImageList.GvImage.TYPE);
-        for (Image image : review.mImages) {
-            b.add(new GvImageList.GvImage(image.mBitmap, image.mDate, null, image.mCaption, image
-                    .mIsCover));
-        }
-        b.setData();
-        b = builder.getDataBuilder(GvCriterionList.GvCriterion.TYPE);
-        for (Criterion child : review.mCriteria) {
-            b.add(new GvCriterionList.GvCriterion(child.mSubject, child.mRating));
-        }
-        b.setData();
-        b = builder.getDataBuilder(GvTagList.GvTag.TYPE);
-        for (String tag : review.mTags) {
-            b.add(new GvTagList.GvTag(tag));
-        }
-        b.setData();
-
-
-        return builder.buildReview();
+    private static TestReviews get(Instrumentation instr) {
+        if (sReviews == null) sReviews = new TestReviews(instr);
+        return sReviews;
     }
 
+    //private methods
     private TestReview getReview1() {
         TestReview review = new TestReview();
         review.mSubject = "Tayyabs";
@@ -266,6 +216,58 @@ public class TestReviews {
         return review;
     }
 
+    private Review getReview(TestReview review) {
+        ReviewPublisher publisher = new ReviewPublisher(AUTHOR,
+                PublishDate.then(review.mPublishDate.getTime()));
+        ReviewBuilder builder = new ReviewBuilder(mInstr.getTargetContext(), publisher);
+        builder.setSubject(review.mSubject);
+        builder.setRating(review.mRating);
+        builder.setRatingIsAverage(review.mIsRatingAverage);
+        ReviewBuilder.DataBuilder b = builder.getDataBuilder(GvCommentList
+                .GvComment.TYPE);
+        for (String comment : review.mComments) {
+            b.add(new GvCommentList.GvComment(comment));
+        }
+        b.setData();
+        b = builder.getDataBuilder(GvFactList.GvFact.TYPE);
+        for (Fact fact : review.mFacts) {
+            GvFactList.GvFact f = new GvFactList.GvFact(fact.mLabel, fact.mValue);
+            if (fact.mIsUrl) {
+                try {
+                    f = new GvUrlList.GvUrl(fact.mLabel, new URL(fact.mValue));
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                }
+            }
+            b.add(f);
+        }
+        b.setData();
+        b = builder.getDataBuilder(GvLocationList.GvLocation.TYPE);
+        for (Location Location : review.mLocations) {
+            b.add(new GvLocationList.GvLocation(Location.mLatLng, Location.mName));
+        }
+        b.setData();
+        b = builder.getDataBuilder(GvImageList.GvImage.TYPE);
+        for (Image image : review.mImages) {
+            b.add(new GvImageList.GvImage(image.mBitmap, image.mDate, null, image.mCaption, image
+                    .mIsCover));
+        }
+        b.setData();
+        b = builder.getDataBuilder(GvCriterionList.GvCriterion.TYPE);
+        for (Criterion child : review.mCriteria) {
+            b.add(new GvCriterionList.GvCriterion(child.mSubject, child.mRating));
+        }
+        b.setData();
+        b = builder.getDataBuilder(GvTagList.GvTag.TYPE);
+        for (String tag : review.mTags) {
+            b.add(new GvTagList.GvTag(tag));
+        }
+        b.setData();
+
+
+        return builder.buildReview();
+    }
+
     private Bitmap loadBitmap(String fileName) {
         InputStream is = null;
         Bitmap bitmap = null;
@@ -293,21 +295,21 @@ public class TestReviews {
     }
 
     public class TestReview {
-        private String  mSubject;
-        private float   mRating;
+        private String mSubject;
+        private float mRating;
         private boolean mIsRatingAverage;
-        private ArrayList<String>    mTags      = new ArrayList<>();
-        private ArrayList<Criterion> mCriteria  = new ArrayList<>();
-        private ArrayList<String>    mComments  = new ArrayList<>();
-        private ArrayList<Location>  mLocations = new ArrayList<>();
-        private ArrayList<Fact>      mFacts     = new ArrayList<>();
-        private ArrayList<Image>     mImages    = new ArrayList<>();
+        private ArrayList<String> mTags = new ArrayList<>();
+        private ArrayList<Criterion> mCriteria = new ArrayList<>();
+        private ArrayList<String> mComments = new ArrayList<>();
+        private ArrayList<Location> mLocations = new ArrayList<>();
+        private ArrayList<Fact> mFacts = new ArrayList<>();
+        private ArrayList<Image> mImages = new ArrayList<>();
         private Date mPublishDate;
     }
 
     private class Criterion {
         private String mSubject;
-        private float  mRating;
+        private float mRating;
 
         private Criterion(String subject, float rating) {
             mSubject = subject;
@@ -330,6 +332,7 @@ public class TestReviews {
         private String mValue;
         private boolean mIsUrl = false;
 
+        //Constructors
         public Fact(String label, String value) {
             mLabel = label;
             mValue = value;
@@ -342,11 +345,12 @@ public class TestReviews {
     }
 
     private class Image {
-        private Bitmap  mBitmap;
-        private String  mCaption;
-        private Date    mDate;
+        private Bitmap mBitmap;
+        private String mCaption;
+        private Date mDate;
         private boolean mIsCover;
 
+        //Constructors
         public Image(Bitmap bitmap, String caption, Date date, boolean isCover) {
             mBitmap = bitmap;
             mCaption = caption;

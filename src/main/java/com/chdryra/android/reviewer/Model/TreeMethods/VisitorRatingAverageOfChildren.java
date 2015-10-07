@@ -19,10 +19,11 @@ public class VisitorRatingAverageOfChildren implements VisitorRatingCalculator {
     private float mRating = 0;
     private int mWeight = 0;
 
+    //Overridden
     @Override
     public void visit(ReviewNode node) {
         IdableList<ReviewNode> children = node.getChildren();
-        if(children.size() == 0) mWeight = 1;
+        if (children.size() == 0) mWeight = 1;
         for (ReviewNode child : children) {
             MdRating rating = child.getRating();
             int weight = rating.getWeight();

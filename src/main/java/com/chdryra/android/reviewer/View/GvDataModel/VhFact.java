@@ -17,6 +17,7 @@ import com.chdryra.android.mygenerallibrary.ViewHolderData;
  * fact value bottom.
  */
 public class VhFact extends VhDualText {
+    //Overridden
     @Override
     public void updateView(ViewHolderData data) {
         GvFactList.GvFact fact = (GvFactList.GvFact) data;

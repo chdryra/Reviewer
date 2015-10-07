@@ -206,12 +206,7 @@ public class GvImageListTest extends TestCase {
         assertFalse(mList.equals(list2));
     }
 
-    @Override
-    protected void setUp() throws Exception {
-        super.setUp();
-        mList = new GvImageList();
-    }
-
+    //private methods
     private boolean isSorted() {
         assertTrue(mList.size() > 0);
         boolean isSorted = true;
@@ -233,5 +228,12 @@ public class GvImageListTest extends TestCase {
         }
 
         return isSorted;
+    }
+
+    //Overridden
+    @Override
+    protected void setUp() throws Exception {
+        super.setUp();
+        mList = new GvImageList();
     }
 }

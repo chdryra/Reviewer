@@ -25,6 +25,7 @@ import com.chdryra.android.reviewer.Model.Social.SocialPlatformList.SocialPlatfo
  * @see SocialPlatformList
  */
 public class GvSocialPlatformList extends GvDataList<GvSocialPlatformList.GvSocialPlatform> {
+    //Constructors
     //For testing
     public GvSocialPlatformList() {
         super(GvSocialPlatform.TYPE, null);
@@ -37,11 +38,13 @@ public class GvSocialPlatformList extends GvDataList<GvSocialPlatformList.GvSoci
         }
     }
 
+    //Static methods
     public static GvSocialPlatformList getLatest(Context context) {
         SocialPlatformList.update(context);
         return new GvSocialPlatformList(context);
     }
 
+//Classes
     /**
      * {@link } version of: no equivalent as used for review sharing screen.
      * {@link ViewHolder}: {@link VhSocialPlatform}
@@ -49,10 +52,11 @@ public class GvSocialPlatformList extends GvDataList<GvSocialPlatformList.GvSoci
      * @see SocialPlatformList
      */
     public static class GvSocialPlatform extends GvDualText {
-        public static final GvDataType<GvSocialPlatform>         TYPE       =
+        public static final GvDataType<GvSocialPlatform> TYPE =
                 new GvDataType<>(GvSocialPlatform.class, "share", "share");
-        public static final Parcelable.Creator<GvSocialPlatform> CREATOR    = new Parcelable
+        public static final Parcelable.Creator<GvSocialPlatform> CREATOR = new Parcelable
                 .Creator<GvSocialPlatform>() {
+            //Overridden
             public GvSocialPlatform createFromParcel(Parcel in) {
                 return new GvSocialPlatform(in);
             }
@@ -61,9 +65,10 @@ public class GvSocialPlatformList extends GvDataList<GvSocialPlatformList.GvSoci
                 return new GvSocialPlatform[size];
             }
         };
-        private             int                                  mFollowers = 0;
-        private             boolean                              mIsChosen  = false;
+        private int mFollowers = 0;
+        private boolean mIsChosen = false;
 
+        //Constructors
         public GvSocialPlatform() {
         }
 
@@ -80,6 +85,24 @@ public class GvSocialPlatformList extends GvDataList<GvSocialPlatformList.GvSoci
             mIsChosen = in.readByte() != 0;
         }
 
+        //public methods
+        public String getName() {
+            return getUpper();
+        }
+
+        public int getFollowers() {
+            return mFollowers;
+        }
+
+        public boolean isChosen() {
+            return mIsChosen;
+        }
+
+        public void press() {
+            mIsChosen = !mIsChosen;
+        }
+
+        //Overridden
         @Override
         public GvDataType<GvSocialPlatform> getGvDataType() {
             return GvSocialPlatform.TYPE;
@@ -95,16 +118,6 @@ public class GvSocialPlatformList extends GvDataList<GvSocialPlatformList.GvSoci
             super.writeToParcel(parcel, i);
             parcel.writeInt(mFollowers);
             parcel.writeByte((byte) (mIsChosen ? 1 : 0));
-        }
-
-        @Override
-        public ViewHolder getViewHolder() {
-            return new VhSocialPlatform();
-        }
-
-        @Override
-        public boolean isValidForDisplay() {
-            return DataValidator.validateString(getName());
         }
 
         @Override
@@ -127,20 +140,14 @@ public class GvSocialPlatformList extends GvDataList<GvSocialPlatformList.GvSoci
             return result;
         }
 
-        public String getName() {
-            return getUpper();
+        @Override
+        public ViewHolder getViewHolder() {
+            return new VhSocialPlatform();
         }
 
-        public int getFollowers() {
-            return mFollowers;
-        }
-
-        public boolean isChosen() {
-            return mIsChosen;
-        }
-
-        public void press() {
-            mIsChosen = !mIsChosen;
+        @Override
+        public boolean isValidForDisplay() {
+            return DataValidator.validateString(getName());
         }
     }
 }

@@ -36,14 +36,24 @@ import java.util.Map;
  */
 public class ReviewViewAction {
     private final HashMap<String, Fragment> mListeners;
-    private       ReviewView                mReviewView;
+    private ReviewView mReviewView;
 
+    //Constructors
     public ReviewViewAction() {
         mListeners = new HashMap<>();
     }
 
+    //public methods
     public ReviewView getReviewView() {
         return mReviewView;
+    }
+
+    public ReviewViewAdapter getAdapter() {
+        return mReviewView.getAdapter();
+    }
+
+    public Activity getActivity() {
+        return mReviewView != null ? mReviewView.getActivity() : null;
     }
 
     public void attachReviewView(ReviewView reviewView) {
@@ -63,12 +73,9 @@ public class ReviewViewAction {
 
     }
 
-    public ReviewViewAdapter getAdapter() {
-        return mReviewView.getAdapter();
-    }
-
-    public Activity getActivity() {
-        return mReviewView != null ? mReviewView.getActivity() : null;
+    //protected methods
+    protected GvDataList getGridData() {
+        return getReviewView().getGridData();
     }
 
     protected void registerActionListener(Fragment listener, String tag) {
@@ -84,12 +91,10 @@ public class ReviewViewAction {
         if (mListeners.containsKey(tag)) mListeners.remove(tag);
     }
 
-    protected GvDataList getGridData() {
-        return getReviewView().getGridData();
-    }
-
+    //Classes
     @SuppressWarnings("EmptyMethod")
     public static class SubjectAction extends ReviewViewAction {
+        //public methods
         public String getSubject() {
             return getAdapter().getSubject();
         }
@@ -100,6 +105,7 @@ public class ReviewViewAction {
     }
 
     public static class RatingBarAction extends ReviewViewAction {
+        //public methods
         public float getRating() {
             return getAdapter().getRating();
         }
@@ -116,6 +122,7 @@ public class ReviewViewAction {
     public static class BannerButtonAction extends ReviewViewAction {
         private String mTitle;
 
+        //Constructors
         public BannerButtonAction() {
         }
 
@@ -123,11 +130,13 @@ public class ReviewViewAction {
             mTitle = title;
         }
 
+        //Static methods
         public static BannerButtonAction newDisplayButton(final String title) {
             return new BannerButtonAction(title) {
             };
         }
 
+        //public methods
         public String getButtonTitle() {
             return mTitle;
         }
@@ -152,13 +161,19 @@ public class ReviewViewAction {
     }
 
     public static class MenuAction extends ReviewViewAction {
-        public static final int                MENU_UP_ID = android.R.id.home;
-        public static final ActivityResultCode RESULT_UP  = ActivityResultCode.UP;
-        private final String                          mTitle;
+        public static final int MENU_UP_ID = android.R.id.home;
+        public static final ActivityResultCode RESULT_UP = ActivityResultCode.UP;
+        private final String mTitle;
         private final SparseArray<MenuActionItemInfo> mActionItems;
-        private int     mMenuId          = -1;
+        private int mMenuId = -1;
         private boolean mDisplayHomeAsUp = true;
 
+        public interface MenuActionItem {
+            //abstract
+            void doAction(Context context, MenuItem item);
+        }
+
+        //Constructors
         public MenuAction() {
             this(-1, null, true);
         }
@@ -173,17 +188,6 @@ public class ReviewViewAction {
 
         public MenuAction(String title) {
             this(-1, title, true);
-        }
-
-        @Override
-        public void onAttachReviewView() {
-            ActionBar actionBar = getActivity().getActionBar();
-            if (actionBar != null) {
-                actionBar.setDisplayHomeAsUpEnabled(mDisplayHomeAsUp);
-                actionBar.setDisplayShowHomeEnabled(false);
-                if (mTitle != null) actionBar.setTitle(mTitle);
-                addMenuItems();
-            }
         }
 
         public boolean hasOptionsMenu() {
@@ -224,8 +228,10 @@ public class ReviewViewAction {
             }
         }
 
+        //private methods
         private MenuActionItem getUpActionItem() {
             return new MenuActionItem() {
+                //Overridden
                 @Override
                 public void doAction(Context context, MenuItem item) {
                     doUpSelected();
@@ -234,12 +240,20 @@ public class ReviewViewAction {
             };
         }
 
-        public interface MenuActionItem {
-            void doAction(Context context, MenuItem item);
+        //Overridden
+        @Override
+        public void onAttachReviewView() {
+            ActionBar actionBar = getActivity().getActionBar();
+            if (actionBar != null) {
+                actionBar.setDisplayHomeAsUpEnabled(mDisplayHomeAsUp);
+                actionBar.setDisplayShowHomeEnabled(false);
+                if (mTitle != null) actionBar.setTitle(mTitle);
+                addMenuItems();
+            }
         }
 
         private class MenuActionItemInfo {
-            private final boolean        mFinishActivity;
+            private final boolean mFinishActivity;
             private final MenuActionItem mItem;
 
             private MenuActionItemInfo(MenuActionItem item, boolean finishActivity) {

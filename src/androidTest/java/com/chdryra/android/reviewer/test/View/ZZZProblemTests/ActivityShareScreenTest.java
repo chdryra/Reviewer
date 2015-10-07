@@ -37,7 +37,7 @@ import com.chdryra.android.testutils.RandomString;
 public class ActivityShareScreenTest extends ActivityReviewViewTest {
     private static final int TIMEOUT = 10000;
     private SocialPlatformList mList;
-    private Administrator      mAdmin;
+    private Administrator mAdmin;
 
     @SmallTest
     public void testPlatformNamesFollowers() {
@@ -85,6 +85,11 @@ public class ActivityShareScreenTest extends ActivityReviewViewTest {
         feedActivity.finish();
     }
 
+    private GvSocialPlatformList.GvSocialPlatform getPlatform(int index) {
+        return (GvSocialPlatformList.GvSocialPlatform) getGridItem(index);
+    }
+
+    //Overridden
     @Override
     protected void setAdapter() {
         ReviewBuilderAdapter builder = mAdmin.newReviewBuilder();
@@ -100,11 +105,6 @@ public class ActivityShareScreenTest extends ActivityReviewViewTest {
         mAdapter = builder;
     }
 
-    @Override
-    protected ReviewView getView() {
-        return ShareScreen.newScreen(getInstrumentation().getTargetContext());
-    }
-
     @SmallTest
     public void testSubjectRating() {
         FragmentReviewView fragment = getFragmentViewReview();
@@ -113,13 +113,14 @@ public class ActivityShareScreenTest extends ActivityReviewViewTest {
     }
 
     @Override
+    protected ReviewView getView() {
+        return ShareScreen.newScreen(getInstrumentation().getTargetContext());
+    }
+
+    @Override
     protected void setUp() {
         mList = SocialPlatformList.getList(getInstrumentation().getTargetContext());
         mAdmin = Administrator.get(getInstrumentation().getTargetContext());
         super.setUp();
-    }
-
-    private GvSocialPlatformList.GvSocialPlatform getPlatform(int index) {
-        return (GvSocialPlatformList.GvSocialPlatform) getGridItem(index);
     }
 }

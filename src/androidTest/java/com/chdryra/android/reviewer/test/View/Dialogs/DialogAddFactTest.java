@@ -19,10 +19,12 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvFactList;
 public class DialogAddFactTest extends
         DialogGvDataAddTest<GvFactList.GvFact> {
 
+    //Constructors
     public DialogAddFactTest() {
         super(ConfigGvDataAddEditView.AddFact.class);
     }
 
+    //protected methods
     @Override
     protected boolean isDataEntered() {
         return mSolo.getEditText(0).getText().toString().length() > 0 && mSolo.getEditText(1)

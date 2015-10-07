@@ -19,19 +19,20 @@ import java.lang.reflect.InvocationTargetException;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ApplicationSingleton {
-    private static final String NO_CTOR_ERR        = "Constructor not found: ";
-    private static final String INSTANTIATION_ERR  = "Constructor not found: ";
-    private static final String INVOCATION_ERR     = "Exception thrown by constructor: ";
+    private static final String NO_CTOR_ERR = "Constructor not found: ";
+    private static final String INSTANTIATION_ERR = "Constructor not found: ";
+    private static final String INVOCATION_ERR = "Exception thrown by constructor: ";
     private static final String ILLEGAL_ACCESS_ERR = "Access not allowed to this constructor: ";
 
     private Context mContext;
-    private String  mName;
+    private String mName;
 
     protected ApplicationSingleton(Context context, String name) {
         mContext = context;
         mName = name;
     }
 
+    //Static methods
     public static <T extends ApplicationSingleton> T getSingleton(T staticSingleton,
                                                                   Class<T> singletonClass,
                                                                   Context context) {
@@ -62,13 +63,14 @@ public class ApplicationSingleton {
         }
     }
 
+    //protected methods
+    protected Context getContext() {
+        return mContext;
+    }
+
     protected void checkContextOrThrow(Context context) {
         if (context.getApplicationContext() != mContext.getApplicationContext()) {
             throw new RuntimeException("Can only have 1 " + mName + " per application!");
         }
-    }
-
-    protected Context getContext() {
-        return mContext;
     }
 }

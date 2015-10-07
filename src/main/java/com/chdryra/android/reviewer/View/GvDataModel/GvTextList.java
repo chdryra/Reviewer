@@ -19,6 +19,7 @@ public class GvTextList<T extends GvText> extends GvDataList<T> {
     private static final GvDataType<GvTextList> TYPE
             = GvTypeMaker.newType(GvTextList.class, GvText.TYPE);
 
+    //Constructors
     public GvTextList(GvDataType<T> type) {
         this(type, null);
     }

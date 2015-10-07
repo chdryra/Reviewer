@@ -29,6 +29,7 @@ import junit.framework.Assert;
  * Email: rizwan.choudrey@gmail.com
  */
 public class MdGvEquality {
+    //Static methods
     public static void check(MdCommentList mdData, GvCommentList gvData) {
         checkSizes(mdData, gvData);
         for (int i = 0; i < mdData.size(); ++i) {

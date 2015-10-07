@@ -25,12 +25,13 @@ import java.util.Arrays;
  */
 public class RowTag implements ReviewerDbRow.TableRow {
     private static final String SEPARATOR = ",";
-    public static String TAG     = ReviewerDbContract.TableTags.COLUMN_NAME_TAG;
+    public static String TAG = ReviewerDbContract.TableTags.COLUMN_NAME_TAG;
     public static String REVIEWS = ReviewerDbContract.TableTags.COLUMN_NAME_REVIEWS;
 
     private String mTag;
     private String mReviews;
 
+    //Constructors
     public RowTag() {
     }
 
@@ -48,6 +49,16 @@ public class RowTag implements ReviewerDbRow.TableRow {
         mReviews = cursor.getString(cursor.getColumnIndexOrThrow(REVIEWS));
     }
 
+    //public methods
+    public String getTag() {
+        return mTag;
+    }
+
+    public ArrayList<String> getReviewIds() {
+        return new ArrayList<>(Arrays.asList(mReviews.split(SEPARATOR)));
+    }
+
+    //Overridden
     @Override
     public String getRowId() {
         return mTag;
@@ -70,13 +81,5 @@ public class RowTag implements ReviewerDbRow.TableRow {
     @Override
     public boolean hasData() {
         return DataValidator.validateString(getRowId());
-    }
-
-    public String getTag() {
-        return mTag;
-    }
-
-    public ArrayList<String> getReviewIds() {
-        return new ArrayList<>(Arrays.asList(mReviews.split(SEPARATOR)));
     }
 }

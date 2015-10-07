@@ -119,6 +119,7 @@ public class GvTagListTest extends TestCase {
         assertFalse(mList.equals(list2));
     }
 
+    //Overridden
     @Override
     protected void setUp() throws Exception {
         super.setUp();

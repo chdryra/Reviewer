@@ -76,28 +76,229 @@ public class FragmentEditLocationMap extends FragmentDeleteDone implements
         LocationClientConnector.Locatable,
         PlaceSuggester.SuggestionsListener,
         GpPlaceSearcher.SearchListener, OnMapReadyCallback {
-    private final static String TAG                  = "FragmentEditLocationMap";
-    private static final String NO_LOCATION          = "no suggestions found...";
-    private static final float  DEFAULT_ZOOM         = 15;
-    private static final int    NUMBER_DEFAULT_NAMES = 5;
+    private final static String TAG = "FragmentEditLocationMap";
+    private static final String NO_LOCATION = "no suggestions found...";
+    private static final float DEFAULT_ZOOM = 15;
+    private static final int NUMBER_DEFAULT_NAMES = 5;
 
     private GvLocationList.GvLocation mCurrent;
     private GoogleMap mGoogleMap;
     private MapView mMapView;
 
-    private SearchView          mSearchView;
-    private MenuItem            mSearchViewMenuItem;
+    private SearchView mSearchView;
+    private MenuItem mSearchViewMenuItem;
     private StringFilterAdapter mSearchAdapter;
 
     private ClearableAutoCompleteTextView mLocationName;
-    private ImageButton                   mRevertButton;
+    private ImageButton mRevertButton;
 
     private LatLng mNewLatLng;
 
     private LocationClientConnector mLocationClient;
-    private String                  mSearchLocationName;
+    private String mSearchLocationName;
 
     private PlaceAutoCompleteSuggester mAutoCompleter;
+
+    public void handleSearch() {
+        Intent intent = getActivity().getIntent();
+        String query;
+        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+            query = intent.getStringExtra(SearchManager.QUERY);
+        } else if (Intent.ACTION_PICK.equals(intent.getAction())) {
+            query = intent.getData().getLastPathSegment();
+        } else {
+            return;
+        }
+
+        searchLocation(query);
+    }
+
+    //private methods
+    private CursorAdapter getSuggestionsCursorAdapter() {
+        //TODO More efficient way of constructing an appropriate Suggestions Cursor Adapter.
+        //For some inexplicable reason SearchView only accepts CursorAdapters for suggestions.
+        //Place name suggestions are fetched using the ArrayAdapter LocationNameAdapter.
+        //This is a (clunky) way of taking suggestions from LocationNameAdapter and putting in a
+        // CursorAdapter.
+        String[] columnNames = {"_id", SearchManager.SUGGEST_COLUMN_INTENT_DATA};
+        String[] suggestion_row = new String[columnNames.length];
+        MatrixCursor suggestions_cursor = new MatrixCursor(columnNames);
+        for (int i = 0; i < mSearchAdapter.getCount(); ++i) {
+            suggestion_row[0] = String.valueOf(mSearchAdapter.getItemId(i));
+            suggestion_row[1] = mSearchAdapter.getItem(i);
+            suggestions_cursor.addRow(suggestion_row);
+            Log.i(TAG, suggestion_row[0] + ", " + suggestion_row[1]);
+        }
+
+        String[] from = {SearchManager.SUGGEST_COLUMN_INTENT_DATA};
+        int[] to = {android.R.id.text1};
+        return new SimpleCursorAdapter(getActivity(), android.R.layout.simple_list_item_1,
+                suggestions_cursor, from, to, 0);
+    }
+
+    private GvLocationList.GvLocation createGVData() {
+        String name = mLocationName.getText().toString().trim();
+        return new GvLocationList.GvLocation(mNewLatLng, name);
+    }
+
+    private void invalidateSuggestions() {
+        mSearchView.setSuggestionsAdapter(null);
+    }
+
+    private void initUI() {
+        initLocationNameUI();
+        initGoogleMapUI();
+        initRevertButtonUI();
+    }
+
+    private void initGoogleMapUI() {
+        mGoogleMap.setMyLocationEnabled(true);
+        mGoogleMap.setOnMyLocationButtonClickListener(new GoogleMap
+                .OnMyLocationButtonClickListener() {
+            //Overridden
+            @Override
+            public boolean onMyLocationButtonClick() {
+                mLocationClient.locate();
+                return false;
+            }
+        });
+        mGoogleMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+
+            //Overridden
+            @Override
+            public void onInfoWindowClick(Marker marker) {
+                marker.hideInfoWindow();
+            }
+        });
+        mGoogleMap.setOnMarkerDragListener(new GoogleMap.OnMarkerDragListener() {
+
+            //Overridden
+            @Override
+            public void onMarkerDragStart(Marker marker) {
+            }
+
+            @Override
+            public void onMarkerDrag(Marker arg0) {
+            }
+
+            @Override
+            public void onMarkerDragEnd(Marker marker) {
+                setLatLng(marker.getPosition());
+            }
+        });
+    }
+
+    private void initLocationNameUI() {
+        mLocationName.addTextChangedListener(new TextWatcher() {
+
+            //Overridden
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                updateMapMarker();
+            }
+        });
+    }
+
+    private void initRevertButtonUI() {
+        if (mCurrent != null) {
+            mRevertButton.setOnClickListener(new View.OnClickListener() {
+                //Overridden
+                @Override
+                public void onClick(View v) {
+                    mSearchLocationName = null;
+                    setLatLng(mCurrent.getLatLng());
+                    mLocationName.setText(mCurrent.getName());
+                    mLocationName.hideChrome();
+                }
+            });
+            mRevertButton.performClick();
+        } else {
+            mRevertButton.setVisibility(View.GONE);
+        }
+    }
+
+    private void searchLocation(String query) {
+        mSearchLocationName = query;
+        mSearchView.setQuery(null, false);
+        mSearchViewMenuItem.collapseActionView();
+        mLocationName.setHint(getResources().getString(R.string
+                .progress_bar_search_location_title));
+        GpPlaceSearcher searcher = new GpPlaceSearcher(query, this);
+        searcher.fetchResults();
+    }
+
+    private void setLatLng(LatLng latlang) {
+        mNewLatLng = latlang;
+        updateSuggestionAdapters();
+        zoomToLatLng();
+    }
+
+    private void updateSuggestionAdapters() {
+        mAutoCompleter = new PlaceAutoCompleteSuggester(mNewLatLng);
+        PlaceSuggester suggestions = new PlaceSuggester(getActivity(), mNewLatLng, this);
+
+        mSearchAdapter = new StringFilterAdapter(getActivity(), null, mAutoCompleter);
+        mSearchAdapter.registerDataSetObserver(new LocationSuggestionsObserver());
+
+        mLocationName.setText(null);
+        suggestions.getSuggestions(NUMBER_DEFAULT_NAMES);
+    }
+
+    private void zoomToLatLng() {
+        if (mNewLatLng == null) return;
+        mGoogleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(mNewLatLng, DEFAULT_ZOOM));
+        updateMapMarker();
+    }
+
+    private void updateMapMarker() {
+        MarkerOptions markerOptions = new MarkerOptions().position(mNewLatLng);
+        markerOptions.title(mLocationName.getText().toString());
+        markerOptions.draggable(true);
+        mGoogleMap.clear();
+        Marker marker = mGoogleMap.addMarker(markerOptions);
+        marker.showInfoWindow();
+    }
+
+    //Overridden
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        mGoogleMap = googleMap;
+        initUI();
+    }
+
+    @Override
+    protected boolean hasDataToDelete() {
+        return mCurrent != null;
+    }
+
+    @Override
+    protected void onDeleteSelected() {
+        GvDataPacker.packItem(GvDataPacker.CurrentNewDatum.CURRENT, mCurrent,
+                getNewReturnData());
+    }
+
+    @Override
+    protected void onDoneSelected() {
+        if (mLocationName.length() == 0) {
+            Toast.makeText(getActivity(), R.string.toast_enter_location, Toast.LENGTH_SHORT).show();
+            setDismissOnDone(false);
+            return;
+        } else {
+            setDismissOnDone(true);
+        }
+
+        Intent i = getNewReturnData();
+        GvDataPacker.packItem(GvDataPacker.CurrentNewDatum.CURRENT, mCurrent, i);
+        GvDataPacker.packItem(GvDataPacker.CurrentNewDatum.NEW, createGVData(), i);
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -117,7 +318,7 @@ public class FragmentEditLocationMap extends FragmentDeleteDone implements
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState) {
+                             Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
 
         View v = inflater.inflate(R.layout.fragment_review_location_map_edit, container, false);
@@ -149,6 +350,7 @@ public class FragmentEditLocationMap extends FragmentDeleteDone implements
         mSearchView.setIconifiedByDefault(false);
         mSearchView.setQueryHint(getResources().getString(R.string.search_view_location_hint));
         mSearchView.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
+            //Overridden
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus) {
@@ -163,6 +365,7 @@ public class FragmentEditLocationMap extends FragmentDeleteDone implements
         });
 
         mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            //Overridden
             @Override
             public boolean onQueryTextSubmit(String query) {
                 return false;
@@ -179,38 +382,6 @@ public class FragmentEditLocationMap extends FragmentDeleteDone implements
                 return false;
             }
         });
-    }
-
-    @Override
-    public void onMapReady(GoogleMap googleMap) {
-        mGoogleMap = googleMap;
-        initUI();
-    }
-
-    @Override
-    protected boolean hasDataToDelete() {
-        return mCurrent != null;
-    }
-
-    @Override
-    protected void onDeleteSelected() {
-        GvDataPacker.packItem(GvDataPacker.CurrentNewDatum.CURRENT, mCurrent,
-                getNewReturnData());
-    }
-
-    @Override
-    protected void onDoneSelected() {
-        if (mLocationName.length() == 0) {
-            Toast.makeText(getActivity(), R.string.toast_enter_location, Toast.LENGTH_SHORT).show();
-            setDismissOnDone(false);
-            return;
-        } else {
-            setDismissOnDone(true);
-        }
-
-        Intent i = getNewReturnData();
-        GvDataPacker.packItem(GvDataPacker.CurrentNewDatum.CURRENT, mCurrent, i);
-        GvDataPacker.packItem(GvDataPacker.CurrentNewDatum.NEW, createGVData(), i);
     }
 
     @Override
@@ -273,20 +444,6 @@ public class FragmentEditLocationMap extends FragmentDeleteDone implements
         }
     }
 
-    public void handleSearch() {
-        Intent intent = getActivity().getIntent();
-        String query;
-        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
-            query = intent.getStringExtra(SearchManager.QUERY);
-        } else if (Intent.ACTION_PICK.equals(intent.getAction())) {
-            query = intent.getData().getLastPathSegment();
-        } else {
-            return;
-        }
-
-        searchLocation(query);
-    }
-
     @Override
     public void onLocated(Location location) {
         setLatLng(new LatLng(location.getLatitude(), location.getLongitude()));
@@ -324,154 +481,6 @@ public class FragmentEditLocationMap extends FragmentDeleteDone implements
             setLatLng(places.get(0).getLatLng());
         }
         mLocationName.setHint(getResources().getString(R.string.edit_text_name_location_hint));
-    }
-
-    private GvLocationList.GvLocation createGVData() {
-        String name = mLocationName.getText().toString().trim();
-        return new GvLocationList.GvLocation(mNewLatLng, name);
-    }
-
-    private void invalidateSuggestions() {
-        mSearchView.setSuggestionsAdapter(null);
-    }
-
-    private void initUI() {
-        initLocationNameUI();
-        initGoogleMapUI();
-        initRevertButtonUI();
-    }
-
-    private void initGoogleMapUI() {
-        mGoogleMap.setMyLocationEnabled(true);
-        mGoogleMap.setOnMyLocationButtonClickListener(new GoogleMap
-                .OnMyLocationButtonClickListener() {
-            @Override
-            public boolean onMyLocationButtonClick() {
-                mLocationClient.locate();
-                return false;
-            }
-        });
-        mGoogleMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
-
-            @Override
-            public void onInfoWindowClick(Marker marker) {
-                marker.hideInfoWindow();
-            }
-        });
-        mGoogleMap.setOnMarkerDragListener(new GoogleMap.OnMarkerDragListener() {
-
-            @Override
-            public void onMarkerDragStart(Marker marker) {
-            }
-
-            @Override
-            public void onMarkerDrag(Marker arg0) {
-            }
-
-            @Override
-            public void onMarkerDragEnd(Marker marker) {
-                setLatLng(marker.getPosition());
-            }
-        });
-    }
-
-    private void initLocationNameUI() {
-        mLocationName.addTextChangedListener(new TextWatcher() {
-
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                updateMapMarker();
-            }
-        });
-    }
-
-    private void initRevertButtonUI() {
-        if (mCurrent != null) {
-            mRevertButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    mSearchLocationName = null;
-                    setLatLng(mCurrent.getLatLng());
-                    mLocationName.setText(mCurrent.getName());
-                    mLocationName.hideChrome();
-                }
-            });
-            mRevertButton.performClick();
-        } else {
-            mRevertButton.setVisibility(View.GONE);
-        }
-    }
-
-    private void searchLocation(String query) {
-        mSearchLocationName = query;
-        mSearchView.setQuery(null, false);
-        mSearchViewMenuItem.collapseActionView();
-        mLocationName.setHint(getResources().getString(R.string
-                .progress_bar_search_location_title));
-        GpPlaceSearcher searcher = new GpPlaceSearcher(query, this);
-        searcher.fetchResults();
-    }
-
-    private CursorAdapter getSuggestionsCursorAdapter() {
-        //TODO More efficient way of constructing an appropriate Suggestions Cursor Adapter.
-        //For some inexplicable reason SearchView only accepts CursorAdapters for suggestions.
-        //Place name suggestions are fetched using the ArrayAdapter LocationNameAdapter.
-        //This is a (clunky) way of taking suggestions from LocationNameAdapter and putting in a
-        // CursorAdapter.
-        String[] columnNames = {"_id", SearchManager.SUGGEST_COLUMN_INTENT_DATA};
-        String[] suggestion_row = new String[columnNames.length];
-        MatrixCursor suggestions_cursor = new MatrixCursor(columnNames);
-        for (int i = 0; i < mSearchAdapter.getCount(); ++i) {
-            suggestion_row[0] = String.valueOf(mSearchAdapter.getItemId(i));
-            suggestion_row[1] = mSearchAdapter.getItem(i);
-            suggestions_cursor.addRow(suggestion_row);
-            Log.i(TAG, suggestion_row[0] + ", " + suggestion_row[1]);
-        }
-
-        String[] from = {SearchManager.SUGGEST_COLUMN_INTENT_DATA};
-        int[] to = {android.R.id.text1};
-        return new SimpleCursorAdapter(getActivity(), android.R.layout.simple_list_item_1,
-                suggestions_cursor, from, to, 0);
-    }
-
-    private void setLatLng(LatLng latlang) {
-        mNewLatLng = latlang;
-        updateSuggestionAdapters();
-        zoomToLatLng();
-    }
-
-    private void updateSuggestionAdapters() {
-        mAutoCompleter = new PlaceAutoCompleteSuggester(mNewLatLng);
-        PlaceSuggester suggestions = new PlaceSuggester(getActivity(), mNewLatLng, this);
-
-        mSearchAdapter = new StringFilterAdapter(getActivity(), null, mAutoCompleter);
-        mSearchAdapter.registerDataSetObserver(new LocationSuggestionsObserver());
-
-        mLocationName.setText(null);
-        suggestions.getSuggestions(NUMBER_DEFAULT_NAMES);
-    }
-
-    private void zoomToLatLng() {
-        if (mNewLatLng == null) return;
-        mGoogleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(mNewLatLng, DEFAULT_ZOOM));
-        updateMapMarker();
-    }
-
-    private void updateMapMarker() {
-        MarkerOptions markerOptions = new MarkerOptions().position(mNewLatLng);
-        markerOptions.title(mLocationName.getText().toString());
-        markerOptions.draggable(true);
-        mGoogleMap.clear();
-        Marker marker = mGoogleMap.addMarker(markerOptions);
-        marker.showInfoWindow();
     }
 
     /**
@@ -512,6 +521,7 @@ public class FragmentEditLocationMap extends FragmentDeleteDone implements
 //    }
 
     private class LocationSuggestionsObserver extends DataSetObserver {
+        //Overridden
         public void onChanged() {
             mSearchView.setSuggestionsAdapter(getSuggestionsCursorAdapter());
         }

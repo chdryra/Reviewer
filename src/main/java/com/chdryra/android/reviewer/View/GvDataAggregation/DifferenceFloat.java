@@ -18,10 +18,12 @@ import org.jetbrains.annotations.NotNull;
 public class DifferenceFloat implements DifferenceLevel<DifferenceFloat> {
     private float mValue;
 
+    //Constructors
     public DifferenceFloat(float value) {
         mValue = value;
     }
 
+    //Overridden
     @Override
     public boolean lessThanOrEqualTo(@NotNull DifferenceFloat differenceThreshold) {
         return mValue <= differenceThreshold.mValue;

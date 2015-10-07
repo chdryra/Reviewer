@@ -23,12 +23,8 @@ import junit.framework.TestCase;
  * Email: rizwan.choudrey@gmail.com
  */
 public abstract class CanonicalGvDataTest<T extends GvData> extends TestCase {
-    protected GvDataList<T>          mData;
+    protected GvDataList<T> mData;
     protected CanonicalDatumMaker<T> mCanonical;
-
-    protected abstract T getTestDatum();
-
-    protected abstract CanonicalDatumMaker<T> getCanonicalMaker();
 
     protected abstract void additionalTests();
 
@@ -39,12 +35,10 @@ public abstract class CanonicalGvDataTest<T extends GvData> extends TestCase {
         additionalTests();
     }
 
-    @Override
-    protected void setUp() throws Exception {
-        mCanonical = getCanonicalMaker();
-        //TODO make type safe
-        mData = newDataList();
-    }
+    //protected methods
+    protected abstract T getTestDatum();
+
+    protected abstract CanonicalDatumMaker<T> getCanonicalMaker();
 
     protected GvDataList<T> newDataList() {
         return (GvDataList<T>) FactoryGvData.newDataList(getTestDatum().getGvDataType(), null);
@@ -72,5 +66,13 @@ public abstract class CanonicalGvDataTest<T extends GvData> extends TestCase {
     private void checkEmpty() {
         T canon = mCanonical.getCanonical(mData);
         assertFalse(canon.isValidForDisplay());
+    }
+
+    //Overridden
+    @Override
+    protected void setUp() throws Exception {
+        mCanonical = getCanonicalMaker();
+        //TODO make type safe
+        mData = newDataList();
     }
 }

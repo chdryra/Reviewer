@@ -20,11 +20,17 @@ public class MdSubject implements MdData {
     private final String mSubject;
     private final ReviewId mReviewId;
 
+    //Constructors
     public MdSubject(String subject, ReviewId reviewId) {
         mSubject = subject;
         mReviewId = reviewId;
     }
 
+    public String get() {
+        return mSubject;
+    }
+
+    //Overridden
     @Override
     public ReviewId getReviewId() {
         return mReviewId;
@@ -33,10 +39,6 @@ public class MdSubject implements MdData {
     @Override
     public boolean hasData() {
         return DataValidator.validateString(mSubject);
-    }
-
-    public String get() {
-        return mSubject;
     }
 
     @Override

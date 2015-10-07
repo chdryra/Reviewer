@@ -21,10 +21,12 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvCriterionList;
 public class DialogAddChildTest extends
         DialogGvDataAddTest<GvCriterionList.GvCriterion> {
 
+    //Constructors
     public DialogAddChildTest() {
         super(ConfigGvDataAddEditView.AddChild.class);
     }
 
+    //protected methods
     @Override
     protected boolean isDataNulled() {
         RatingBar rb = (RatingBar) mSolo.getView(com.chdryra.android.reviewer.R.id
