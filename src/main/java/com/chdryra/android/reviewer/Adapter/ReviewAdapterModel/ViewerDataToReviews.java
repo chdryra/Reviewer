@@ -7,19 +7,20 @@ import com.chdryra.android.reviewer.ReviewsProviderModel.ReviewsRepository;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataCollection;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
-import com.chdryra.android.reviewer.View.Screens.ReviewListScreen;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 13/09/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ViewerToReviews<T extends GvData> implements GridDataViewer<T> {
+public class ViewerDataToReviews<T extends GvData> implements GridDataViewer<T> {
     private Context mContext;
     private GvDataCollection<T> mData;
     private ReviewsRepository mRepository;
 
-    public ViewerToReviews(Context context, GvDataCollection<T> data, ReviewsRepository repository) {
+    public ViewerDataToReviews(Context context,
+                               GvDataCollection<T> data,
+                               ReviewsRepository repository) {
         mContext = context;
         mData = data;
         mRepository = repository;
@@ -27,49 +28,31 @@ public class ViewerToReviews<T extends GvData> implements GridDataViewer<T> {
 
     @Override
     public GvDataList<T> getGridData() {
-        return mData != null ? mData.toList() : null;
+        return mData.toList();
     }
 
     @Override
     public boolean isExpandable(T datum) {
-        if(mData == null) return false;
-
-        boolean isExpandable = false;
-        for (int i = 0; i < mData.size(); ++i) {
-            T item = mData.getItem(i);
-            isExpandable = item.equals(datum);
-            if (isExpandable) break;
-        }
-
-        return isExpandable;
+        return datum.hasElements() && mData.contains(datum);
     }
 
     @Override
     public ReviewViewAdapter expandGridCell(T datum) {
         if (isExpandable(datum)) {
-            String title = datum.getStringSummary();
-            ReviewNode meta = mRepository.createMetaReview(datum, title);
-            if (meta != null) return getReviewsScreen(meta);
+            ReviewNode meta = mRepository.createMetaReview(datum, datum.getStringSummary());
+            return getReviewsListAdapter(meta);
+        } else {
+            return null;
         }
-
-        return null;
     }
 
     @Override
     public ReviewViewAdapter expandGridData() {
         ReviewNode meta = mRepository.createFlattenedMetaReview(mData, mData.getStringSummary());
-        return getReviewsScreen(meta);
+        return getReviewsListAdapter(meta);
     }
 
-    protected Context getContext() {
-        return mContext;
-    }
-
-    protected ReviewsRepository getReviewsRepository() {
-        return mRepository;
-    }
-
-    private ReviewViewAdapter getReviewsScreen(ReviewNode node) {
-        return ReviewListScreen.newScreen(mContext, node, mRepository).getAdapter();
+    private ReviewViewAdapter getReviewsListAdapter(ReviewNode node) {
+        return FactoryReviewViewAdapter.newReviewsListAdapter(mContext, node, mRepository);
     }
 }
