@@ -35,7 +35,7 @@ public class ViewerAdapterToDataTest extends AndroidTestCase {
         ReviewNode node = ReviewMocker.newReviewNode(false);
         GvTagList tags = GvDataMocker.newTagList(3, false);
         TagsManager.tag(getContext(), node.getId(), tags.toStringArray());
-        ReviewViewAdapter<? extends GvData> parent = FactoryReviewViewAdapter.newTreeDataAdapter
+        ReviewViewAdapter<? extends GvData> parent = FactoryReviewViewAdapter.newNodeDataAdapter
                 (getContext(), node);
 
         ViewerAdapterToData expander = new ViewerAdapterToData(parent);

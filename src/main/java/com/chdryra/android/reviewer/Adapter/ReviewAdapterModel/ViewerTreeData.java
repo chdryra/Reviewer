@@ -32,7 +32,7 @@ public class ViewerTreeData extends ViewerReviewData {
                         getRepository()).getAdapter();;
             } else {
                 String subject = datum.getStringSummary();
-                adapter = FactoryReviewViewAdapter.newExpandToReviewsAdapterForAggregate(
+                adapter = FactoryReviewViewAdapter.newAggregateToReviewsAdapter(
                         getContext(), (GvCanonicalCollection) datum, getRepository(), subject);
             }
         }

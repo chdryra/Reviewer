@@ -38,7 +38,8 @@ public class ViewerChildList implements GridDataViewer<GvReviewOverviewList.GvRe
 
     @Override
     public GvReviewOverviewList getGridData() {
-        return MdGvConverter.convert(mNode.getChildren(), mNode.getId(), mRepository.getTagsManager());
+        return MdGvConverter.convert(mNode.getChildren(), mNode.getId(), mRepository
+                .getTagsManager());
     }
 
     @Override
@@ -50,8 +51,8 @@ public class ViewerChildList implements GridDataViewer<GvReviewOverviewList.GvRe
     @Override
     public ReviewViewAdapter expandGridCell(GvReviewOverviewList.GvReviewOverview datum) {
         if (isExpandable(datum)) {
-            ReviewNode node = mNode.getChildren().get(ReviewId.fromString(datum.getId()));
-            return FactoryReviewViewAdapter.newTreeDataAdapter(mContext, node, mRepository);
+            ReviewId id = ReviewId.fromString(datum.getId());
+            return newNodeDataAdapter(mNode.getChildren().get(id));
         } else {
             return null;
         }
@@ -59,6 +60,10 @@ public class ViewerChildList implements GridDataViewer<GvReviewOverviewList.GvRe
 
     @Override
     public ReviewViewAdapter expandGridData() {
-        return FactoryReviewViewAdapter.newTreeDataAdapter(mContext, mNode, mRepository);
+        return newNodeDataAdapter(mNode);
+    }
+
+    private ReviewViewAdapter newNodeDataAdapter(ReviewNode node) {
+        return FactoryReviewViewAdapter.newNodeDataAdapter(mContext, node, mRepository);
     }
 }

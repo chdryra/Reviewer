@@ -13,14 +13,16 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
  * On: 05/10/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ViewerToData<T extends GvData> implements GridDataViewer<T> {
+public class ViewerDataToData<T extends GvData> implements GridDataViewer<T> {
+    private Context mContext;
     private ReviewNode mNode;
     private GvDataCollection<T> mData;
-    private Context mContext;
     private ReviewsRepository mRepository;
 
-    public ViewerToData(Context context, ReviewNode node, GvDataCollection<T> data,
-                        ReviewsRepository repository) {
+    public ViewerDataToData(Context context,
+                            ReviewNode node,
+                            GvDataCollection<T> data,
+                            ReviewsRepository repository) {
         mContext = context;
         mNode = node;
         mData = data;
@@ -40,7 +42,7 @@ public class ViewerToData<T extends GvData> implements GridDataViewer<T> {
     @Override
     public ReviewViewAdapter expandGridCell(T datum) {
         if (isExpandable(datum)) {
-            return FactoryReviewViewAdapter.newExpandToDataAdapter(mContext, mNode,
+            return FactoryReviewViewAdapter.newDataToDataAdapter(mContext, mNode,
                     (GvDataCollection) datum, mRepository);
         }
 
@@ -50,7 +52,7 @@ public class ViewerToData<T extends GvData> implements GridDataViewer<T> {
     @Override
     public ReviewViewAdapter expandGridData() {
         ReviewNode meta = mRepository.createMetaReview(mData, mData.getStringSummary());
-        return FactoryReviewViewAdapter.newTreeDataAdapter(mContext, meta, mRepository);
+        return FactoryReviewViewAdapter.newNodeDataAdapter(mContext, meta, mRepository);
     }
 }
 

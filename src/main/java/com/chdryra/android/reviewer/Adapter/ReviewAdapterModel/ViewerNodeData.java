@@ -21,8 +21,13 @@ public class ViewerNodeData implements GridDataViewer<GvData> {
         if(children.size() > 1) {
             mViewer = new ViewerTreeData(context, node, repository);
         } else {
-            ReviewNode review = children.size() == 0 ? node : children.getItem(0);
-            mViewer = new ViewerReviewData(context, review, repository);
+            ReviewNode toExpand = children.size() == 0 ? node : children.getItem(0);
+            ReviewNode expanded = toExpand.expand();
+            if(expanded.equals(toExpand)) {
+                mViewer = new ViewerReviewData(context, expanded, repository);
+            } else {
+                mViewer = new ViewerNodeData(context, expanded, repository);
+            }
         }
     }
 

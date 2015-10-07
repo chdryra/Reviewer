@@ -2,13 +2,13 @@ package com.chdryra.android.reviewer.View.Screens;
 
 import android.content.Context;
 
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.FactoryReviewViewAdapter;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.AdapterReviewNode;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewAdapter;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ViewerChildList;
 import com.chdryra.android.reviewer.Model.ReviewStructure.FactoryReview;
 import com.chdryra.android.reviewer.Model.ReviewStructure.Review;
 import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
 import com.chdryra.android.reviewer.ReviewsProviderModel.ReviewsRepository;
-import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 
 /**
  * Created by: Rizwan Choudrey
@@ -21,8 +21,8 @@ public class ReviewListScreen {
     private ReviewListScreen(Context context, ReviewNode node, ReviewsRepository repository,
                              ReviewViewAction.GridItemAction giAction,
                              ReviewViewAction.MenuAction menuAction) {
-        ReviewViewAdapter<? extends GvData> adapter =
-                FactoryReviewViewAdapter.newChildListAdapter(context, node, repository);
+        ReviewViewAdapter adapter = new AdapterReviewNode<>(node,
+                new ViewerChildList(context, node, repository));
 
         ReviewViewActionCollection actions = new ReviewViewActionCollection();
         actions.setAction(giAction);

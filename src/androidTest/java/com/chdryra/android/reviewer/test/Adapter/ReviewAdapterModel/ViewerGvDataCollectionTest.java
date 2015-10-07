@@ -35,7 +35,7 @@ public class ViewerGvDataCollectionTest extends AndroidTestCase {
 
         ReviewNode node = ReviewMocker.newReviewNode(false);
         ReviewViewAdapter<GvReviewOverviewList.GvReviewOverview> parent =
-                FactoryReviewViewAdapter.newChildListAdapter(getContext(), node);
+                FactoryReviewViewAdapter.newReviewsListAdapter(getContext(), node);
         ViewerAdapterToData expander = new ViewerAdapterToData(parent);
         ViewerGvDataCollection<GvCommentList.GvComment> wrapper = new ViewerGvDataCollection<>(expander, data);
 

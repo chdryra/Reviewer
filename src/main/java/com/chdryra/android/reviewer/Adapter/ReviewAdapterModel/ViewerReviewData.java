@@ -66,7 +66,7 @@ public class ViewerReviewData implements GridDataViewer<GvData> {
     @Override
     public ReviewViewAdapter expandGridCell(GvData datum) {
         if (isExpandable(datum)) {
-            return FactoryReviewViewAdapter.newExpandToDataAdapter(mContext, mNode,
+            return FactoryReviewViewAdapter.newDataToDataAdapter(mContext, mNode,
                     (GvDataCollection<? extends GvData>) datum, mRepository);
         } else {
             return null;

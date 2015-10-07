@@ -40,7 +40,7 @@ public class AdapterCommentsAggregate extends AdapterReviewNode<GvCanonical> {
             current = mComments;
         }
 
-        setViewer(new ViewerToReviews<>(mContext, current, mRepository));
+        setViewer(new ViewerDataToReviews<>(mContext, current, mRepository));
     }
 
     private void splitComments() {

@@ -27,7 +27,6 @@ import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.View.ActivitiesFragments.ActivityFeed;
 import com.chdryra.android.reviewer.View.ActivitiesFragments.FragmentReviewView;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
-import com.chdryra.android.reviewer.View.GvDataModel.GvDataCollection;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvSocialPlatformList;
@@ -149,11 +148,6 @@ public class ShareScreen {
             @Override
             public ReviewViewAdapter expandGridData() {
                 return null;
-            }
-
-            @Override
-            public void setData(GvDataCollection<GvSocialPlatformList.GvSocialPlatform> data) {
-
             }
         }
     }
