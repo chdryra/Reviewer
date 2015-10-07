@@ -11,7 +11,7 @@ package com.chdryra.android.reviewer.test.Adapter.ReviewAdapterModel;
 import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ViewerReviewData;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ViewerNodeData;
 import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
 import com.chdryra.android.reviewer.Model.TagsModel.TagsManager;
 import com.chdryra.android.reviewer.View.GvDataModel.GvAuthorList;
@@ -41,7 +41,8 @@ public class ViewerReviewDataTest extends AndroidTestCase {
         GvTagList tags = GvDataMocker.newTagList(3, false);
         TagsManager.tag(getContext(), node.getId(), tags.toStringArray());
 
-        ViewerReviewData wrapper = new ViewerReviewData(getContext(), node);
+        ViewerNodeData.ViewerReviewData wrapper = new ViewerNodeData.ViewerReviewData(getContext
+                (), node);
         GvList collection = wrapper.getGridData();
         assertNotNull(collection);
         assertEquals(10, collection.size());
@@ -75,7 +76,7 @@ public class ViewerReviewDataTest extends AndroidTestCase {
         GvTagList tags = GvDataMocker.newTagList(3, false);
         TagsManager.tag(getContext(), node.getId(), tags.toStringArray());
 
-        ViewerReviewData wrapper = new ViewerReviewData(getContext(), node);
+        ViewerNodeData.ViewerReviewData wrapper = new ViewerNodeData.ViewerReviewData(getContext(), node);
         GvList collection = wrapper.getGridData();
         assertNotNull(collection);
         assertEquals(6, collection.size());

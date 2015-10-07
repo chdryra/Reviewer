@@ -25,30 +25,21 @@ import com.chdryra.android.reviewer.View.Screens.ReviewView;
  * Adapter for {@link Review} for passing {@link com.chdryra
  * .android.reviewer.MdData} to View layer as {@link GvData}
  */
-public interface ReviewViewAdapter<T extends GvData> extends GridDataObservable,
-        GridDataViewer<T> {
+public interface ReviewViewAdapter<T extends GvData> extends GridDataViewer<T>, GridDataObservable {
+    void registerReviewView(ReviewView view);
+
+    ReviewView getReviewView();
+
     String getSubject();
 
     float getRating();
 
     float getAverageRating();
 
-    GvDataList<T> getGridData();
-
     GvImageList getCovers();
 
-    void registerReviewView(ReviewView view);
-
-    ReviewView getReviewView();
-
     @Override
-    void registerGridDataObserver(GridDataObserver observer);
-
-    @Override
-    void unregisterGridDataObserver(GridDataObserver observer);
-
-    @Override
-    void notifyGridDataObservers();
+    GvDataList<T> getGridData();
 
     @Override
     boolean isExpandable(T datum);
@@ -58,4 +49,13 @@ public interface ReviewViewAdapter<T extends GvData> extends GridDataObservable,
 
     @Override
     ReviewViewAdapter expandGridData();
+
+    @Override
+    void registerGridDataObserver(GridDataObserver observer);
+
+    @Override
+    void unregisterGridDataObserver(GridDataObserver observer);
+
+    @Override
+    void notifyGridDataObservers();
 }

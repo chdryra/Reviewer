@@ -61,7 +61,7 @@ public class FactoryReviewViewAdapter {
 
         GridDataViewer<GvCanonical> viewer;
         if (data.getGvDataType() == GvCriterionList.GvCriterion.TYPE) {
-            viewer = new ViewerCriteria(context,
+            viewer = new ViewerAggregateCriteria(context,
                     (GvCanonicalCollection<GvCriterionList.GvCriterion>) data, repository);
         } else if (data.getGvDataType() == GvFactList.GvFact.TYPE ||
                 data.getGvDataType() == GvImageList.GvImage.TYPE) {

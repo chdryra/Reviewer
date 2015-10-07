@@ -44,8 +44,7 @@ public class ViewerAggregateToData<T extends GvData> implements GridDataViewer<G
         } else if(datum.size() == 1) {
             return new ViewerDataToReviews<>(mContext, mData, mRepository).expandGridCell(datum);
         } else {
-            adapter = FactoryReviewViewAdapter.newDataToReviewsAdapter(mContext, datum.toList(),
-                    mRepository, datum.getCanonical().getStringSummary());
+            adapter = newDataToReviewsAdapter(datum);
         }
 
         return adapter;
@@ -62,5 +61,10 @@ public class ViewerAggregateToData<T extends GvData> implements GridDataViewer<G
 
     protected ReviewsRepository getRepository() {
         return mRepository;
+    }
+
+    protected ReviewViewAdapter newDataToReviewsAdapter(GvCanonical datum) {
+        return FactoryReviewViewAdapter.newDataToReviewsAdapter(mContext, datum.toList(),
+                mRepository, datum.getCanonical().getStringSummary());
     }
 }

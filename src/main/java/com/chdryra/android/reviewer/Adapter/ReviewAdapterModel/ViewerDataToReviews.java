@@ -40,7 +40,7 @@ public class ViewerDataToReviews<T extends GvData> implements GridDataViewer<T> 
     public ReviewViewAdapter expandGridCell(T datum) {
         if (isExpandable(datum)) {
             ReviewNode meta = mRepository.createMetaReview(datum, datum.getStringSummary());
-            return getReviewsListAdapter(meta);
+            return FactoryReviewViewAdapter.newReviewsListAdapter(mContext, meta, mRepository);
         } else {
             return null;
         }
@@ -49,10 +49,6 @@ public class ViewerDataToReviews<T extends GvData> implements GridDataViewer<T> 
     @Override
     public ReviewViewAdapter expandGridData() {
         ReviewNode meta = mRepository.createFlattenedMetaReview(mData, mData.getStringSummary());
-        return getReviewsListAdapter(meta);
-    }
-
-    private ReviewViewAdapter getReviewsListAdapter(ReviewNode node) {
-        return FactoryReviewViewAdapter.newReviewsListAdapter(mContext, node, mRepository);
+        return FactoryReviewViewAdapter.newReviewsListAdapter(mContext, meta, mRepository);
     }
 }
