@@ -213,8 +213,8 @@ public class BuildScreen {
             @Override
             public void onImageChosen(GvImageList.GvImage image) {
                 image.setIsCover(true);
-                ReviewBuilderAdapter.DataBuilderAdapter builder = getBuilder().getDataBuilder
-                        (GvImageList.GvImage.TYPE);
+                ReviewBuilderAdapter.DataBuilderAdapter<GvImageList.GvImage> builder;
+                builder = getBuilder().getDataBuilder(GvImageList.GvImage.TYPE);
                 builder.add(image);
                 builder.setData();
             }
@@ -242,7 +242,6 @@ public class BuildScreen {
         private BuildScreenMenu(String title) {
             super(MENU, title, true);
             mActionItem = new MenuActionItem() {
-                //Overridden
                 @Override
                 public void doAction(Context context, MenuItem item) {
                     mEditor.setRatingAverage(true);
@@ -262,17 +261,6 @@ public class BuildScreen {
             mEditor = ReviewEditor.cast(getReviewView());
         }
     }
-
-//    private class BuildScreenRatingBar extends EditScreen.RatingBar {
-//        //Overridden
-//        @Override
-//        public void onRatingChanged(android.widget.RatingBar ratingBar, float rating,
-//                                    boolean fromUser) {
-//            super.onRatingChanged(ratingBar, rating, fromUser);
-//            if (fromUser) ((ReviewBuilderAdapter) getAdapter()).setRatingIsAverage(false);
-//            ((ReviewBuilderAdapter) getAdapter()).setRating();
-//        }
-//    }
 
     private class BuildScreenModifier implements ReviewViewPerspective.ReviewViewModifier {
         private final ReviewBuilderAdapter mBuilder;

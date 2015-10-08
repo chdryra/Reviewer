@@ -223,6 +223,7 @@ public class ReviewBuilderAdapter extends ReviewViewAdapterBasic {
 
         public void setData() {
             mDataBuilder.setData();
+            getParentBuilder().notifyGridDataObservers();
         }
 
         public void reset() {
