@@ -45,6 +45,7 @@ public class GvSocialPlatformList extends GvDataList<GvSocialPlatformList.GvSoci
     }
 
 //Classes
+
     /**
      * {@link } version of: no equivalent as used for review sharing screen.
      * {@link ViewHolder}: {@link VhSocialPlatform}

@@ -53,6 +53,7 @@ public class GvCommentList extends GvDataList<GvCommentList.GvComment> {
     }
 
 //Classes
+
     /**
      * {@link GvData} version of: {@link com.chdryra
      * .android.reviewer.MdCommentList.MdComment}

@@ -64,6 +64,7 @@ public class GvReviewOverviewList extends GvDataList<GvReviewOverviewList.GvRevi
     }
 
 //Classes
+
     /**
      * {@link GvData} version of: {@link Review}
      * {@link ViewHolder): {@link VhReviewOverview }

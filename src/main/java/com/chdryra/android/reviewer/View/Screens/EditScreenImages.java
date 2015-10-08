@@ -49,7 +49,7 @@ public class EditScreenImages {
             GvImageList images = (GvImageList) getGridData();
             GvImageList.GvImage cover = images.getItem(0);
             cover.setIsCover(true);
-            getReviewView().updateView();
+            getReviewView().update();
         }
 
         //Overridden
@@ -119,7 +119,7 @@ public class EditScreenImages {
                 GvImageList.GvImage cover = (GvImageList.GvImage) GvDataPacker.unpackItem
                         (GvDataPacker.CurrentNewDatum.CURRENT, args);
                 getEditor().proposeCover(cover);
-                getReviewView().updateView();
+                getReviewView().update();
             }
         }
     }

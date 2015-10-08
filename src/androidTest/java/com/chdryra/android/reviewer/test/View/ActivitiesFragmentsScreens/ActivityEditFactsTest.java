@@ -91,6 +91,7 @@ public class ActivityEditFactsTest extends ActivityEditScreenTest {
         mSolo.waitForDialogToOpen(TIMEOUT);
         assertTrue(mSolo.searchText(alert));
         runOnUiThread(new Runnable() {
+//Overridden
             @Override
             public void run() {
                 mSignaler.reset();

@@ -34,6 +34,17 @@ public class CanonicalLocationTest extends CanonicalGvDataTest<GvLocationList.Gv
     private static final double MID_LAT = 39.423527;
     private static final double MID_LNG = -80.077744;
 
+//protected methods
+    @Override
+    protected GvLocationList.GvLocation getTestDatum() {
+        return new GvLocationList.GvLocation(new LatLng(NYC_LAT, NYC_LNG), NYC);
+    }
+
+    @Override
+    protected CanonicalDatumMaker<GvLocationList.GvLocation> getCanonicalMaker() {
+        return new CanonicalLocation();
+    }
+
     private void checkMidpoint() {
         LatLng nycLL = new LatLng(NYC_LAT, NYC_LNG);
         LatLng chiLL = new LatLng(CHI_LAT, CHI_LNG);
@@ -62,15 +73,5 @@ public class CanonicalLocationTest extends CanonicalGvDataTest<GvLocationList.Gv
     @Override
     protected void additionalTests() {
         checkMidpoint();
-    }
-
-    @Override
-    protected GvLocationList.GvLocation getTestDatum() {
-        return new GvLocationList.GvLocation(new LatLng(NYC_LAT, NYC_LNG), NYC);
-    }
-
-    @Override
-    protected CanonicalDatumMaker<GvLocationList.GvLocation> getCanonicalMaker() {
-        return new CanonicalLocation();
     }
 }

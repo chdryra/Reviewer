@@ -47,6 +47,7 @@ public class ImageChooser {
     private String mCaptureFile;
 
     public interface ImageChooserListener {
+        //abstract methods
         //abstract
         public void onImageChosen(GvImageList.GvImage image);
     }

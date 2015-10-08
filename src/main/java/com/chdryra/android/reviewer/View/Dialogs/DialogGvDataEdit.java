@@ -56,6 +56,7 @@ public abstract class DialogGvDataEdit<T extends GvData>
      * @param <T>:{@link GvData} type
      */
     public interface GvDataEditListener<T extends GvData> {
+        //abstract methods
         //abstract
         void onGvDataDelete(T data);
 

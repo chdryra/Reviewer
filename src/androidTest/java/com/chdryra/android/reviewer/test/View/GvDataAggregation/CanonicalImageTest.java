@@ -31,6 +31,16 @@ public class CanonicalImageTest extends CanonicalGvDataTest<GvImageList.GvImage>
     private static final GvImageList.GvImage IMAGE4 = GvDataMocker.newImage(null);
 
     //protected methods
+    @Override
+    protected GvImageList.GvImage getTestDatum() {
+        return IMAGE1;
+    }
+
+    @Override
+    protected CanonicalDatumMaker<GvImageList.GvImage> getCanonicalMaker() {
+        return new CanonicalImage();
+    }
+
     private void checkDifferentBitmapsNotValid() {
         mData = newDataList();
         mData.add(IMAGE1);
@@ -109,16 +119,6 @@ public class CanonicalImageTest extends CanonicalGvDataTest<GvImageList.GvImage>
         checkDifferentBitmapsNotValid();
         checkSameBitmapsDifferentDatesNoCaptions();
         checkSameBitmapsDifferentCaptions();
-    }
-
-    @Override
-    protected GvImageList.GvImage getTestDatum() {
-        return IMAGE1;
-    }
-
-    @Override
-    protected CanonicalDatumMaker<GvImageList.GvImage> getCanonicalMaker() {
-        return new CanonicalImage();
     }
 
     @Override

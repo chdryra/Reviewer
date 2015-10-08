@@ -37,6 +37,7 @@ public class GvDateList extends GvDataList<GvDateList.GvDate> {
     }
 
 //Classes
+
     /**
      * {@link } version of: {@link java.util.Date}
      * {@link ViewHolder}: {@link VhDate}

@@ -61,6 +61,7 @@ public abstract class DialogGvDataAdd<T extends GvData> extends
      * Provides a callback for when the add button is pressed
      */
     public interface GvDataAddListener<T extends GvData> {
+        //abstract methods
         //abstract
         boolean onGvDataAdd(T data);
 

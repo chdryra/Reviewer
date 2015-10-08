@@ -24,6 +24,16 @@ public class CanonicalTagTest extends CanonicalGvDataTest<GvTagList.GvTag> {
     private static final String TAG3 = RandomString.nextWord();
 
     //protected methods
+    @Override
+    protected GvTagList.GvTag getTestDatum() {
+        return new GvTagList.GvTag(TAG1);
+    }
+
+    @Override
+    protected CanonicalDatumMaker<GvTagList.GvTag> getCanonicalMaker() {
+        return new CanonicalTagMode();
+    }
+
     private void checkDifferent() {
         mData = newDataList();
         GvTagList.GvTag tag1 = new GvTagList.GvTag(TAG1);
@@ -48,15 +58,5 @@ public class CanonicalTagTest extends CanonicalGvDataTest<GvTagList.GvTag> {
     @Override
     protected void additionalTests() {
         checkDifferent();
-    }
-
-    @Override
-    protected GvTagList.GvTag getTestDatum() {
-        return new GvTagList.GvTag(TAG1);
-    }
-
-    @Override
-    protected CanonicalDatumMaker<GvTagList.GvTag> getCanonicalMaker() {
-        return new CanonicalTagMode();
     }
 }

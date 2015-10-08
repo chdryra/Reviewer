@@ -74,6 +74,12 @@ public class GvDataList<T extends GvData> extends ViewHolderDataList<T> implemen
         mReviewId = in.readParcelable(GvReviewId.class.getClassLoader());
     }
 
+//protected methods
+    @Override
+    protected Comparator<T> getDefaultComparator() {
+        return GvDataComparators.getDefaultComparator(mType);
+    }
+
     //Overridden
     @Override
     public GvDataType<T> getGvDataType() {
@@ -110,11 +116,6 @@ public class GvDataList<T extends GvData> extends ViewHolderDataList<T> implemen
     @Override
     public boolean contains(T datum) {
         return super.contains(mType.cast(datum));
-    }
-
-    @Override
-    protected Comparator<T> getDefaultComparator() {
-        return GvDataComparators.getDefaultComparator(mType);
     }
 
     @Override

@@ -23,6 +23,17 @@ public class CanonicalSubjectTest extends CanonicalGvDataTest<GvSubjectList.GvSu
     private static final String SUBJECT2 = RandomString.nextWord();
     private static final String SUBJECT3 = RandomString.nextWord();
 
+//protected methods
+    @Override
+    protected GvSubjectList.GvSubject getTestDatum() {
+        return new GvSubjectList.GvSubject(SUBJECT1);
+    }
+
+    @Override
+    protected CanonicalDatumMaker<GvSubjectList.GvSubject> getCanonicalMaker() {
+        return new CanonicalSubjectMode();
+    }
+
     private void checkDifferent() {
         mData = newDataList();
         GvSubjectList.GvSubject subject1 = new GvSubjectList.GvSubject(SUBJECT1);
@@ -47,15 +58,5 @@ public class CanonicalSubjectTest extends CanonicalGvDataTest<GvSubjectList.GvSu
     @Override
     protected void additionalTests() {
         checkDifferent();
-    }
-
-    @Override
-    protected GvSubjectList.GvSubject getTestDatum() {
-        return new GvSubjectList.GvSubject(SUBJECT1);
-    }
-
-    @Override
-    protected CanonicalDatumMaker<GvSubjectList.GvSubject> getCanonicalMaker() {
-        return new CanonicalSubjectMode();
     }
 }

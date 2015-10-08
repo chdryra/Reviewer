@@ -43,6 +43,7 @@ public class DialogEditLocationTest extends DialogGvDataEditTest<GvLocationList.
         return mCurrent;
     }
 
+//Overridden
     @Override
     protected GvData newDatum() {
         mCurrent = (GvLocationList.GvLocation) super.newDatum();

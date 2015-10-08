@@ -37,6 +37,7 @@ public class CanonicalFact implements CanonicalDatumMaker<GvFactList.GvFact> {
 
         counter = new DatumCounter<>(data,
                 new DataGetter<GvFactList.GvFact, String>() {
+//Overridden
                     @Override
                     public String getData(GvFactList.GvFact datum) {
                         return datum.getValue();

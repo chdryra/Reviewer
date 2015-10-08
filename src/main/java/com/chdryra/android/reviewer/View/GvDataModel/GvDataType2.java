@@ -52,7 +52,7 @@ public class GvDataType2<T extends GvData> implements Parcelable {
 
     //Static methods
     public static <T1 extends GvData, T2 extends GvDataCollection<T1>> GvDataType2<T2> compoundType
-            (Class<T2> dataClass, GvDataType2<T1> elementType) {
+    (Class<T2> dataClass, GvDataType2<T1> elementType) {
         return new GvCompoundType<>(dataClass, elementType);
     }
 
@@ -115,6 +115,7 @@ public class GvDataType2<T extends GvData> implements Parcelable {
             GvDataType2<T2> {
         public static final Creator<GvCompoundType> CREATOR = new Parcelable
                 .Creator<GvCompoundType>() {
+//Overridden
             public GvCompoundType createFromParcel(Parcel in) {
                 return new GvCompoundType(in);
             }

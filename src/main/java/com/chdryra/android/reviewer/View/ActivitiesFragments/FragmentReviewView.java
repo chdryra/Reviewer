@@ -167,7 +167,8 @@ public class FragmentReviewView extends Fragment implements GridDataObservable.G
             mSubjectView.setFocusable(true);
             ((ClearableEditText) mSubjectView).makeClearable(true);
             mSubjectView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-                final ReviewViewAction.SubjectAction action = mReviewView.getSubjectViewAction();
+                final ReviewViewAction.SubjectAction action
+                        = mReviewView.getActions().getSubjectAction();
 
                 //Overridden
                 @Override
@@ -197,7 +198,8 @@ public class FragmentReviewView extends Fragment implements GridDataObservable.G
             return;
         }
 
-        final ReviewViewAction.RatingBarAction ratingBarAction = mReviewView.getRatingBarAction();
+        final ReviewViewAction.RatingBarAction ratingBarAction
+                = mReviewView.getActions().getRatingBarAction();
         if (isEditable()) {
             mRatingBar.setIsIndicator(false);
             mRatingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
@@ -230,7 +232,8 @@ public class FragmentReviewView extends Fragment implements GridDataObservable.G
             return;
         }
 
-        final ReviewViewAction.BannerButtonAction action = mReviewView.getBannerButtonAction();
+        final ReviewViewAction.BannerButtonAction action
+                = mReviewView.getActions().getBannerButtonAction();
         mBannerButton.setText(action.getButtonTitle());
         mBannerButton.setTextColor(mSubjectView.getTextColors().getDefaultColor());
         mBannerButton.setOnClickListener(new View.OnClickListener() {
@@ -258,7 +261,7 @@ public class FragmentReviewView extends Fragment implements GridDataObservable.G
         mGridView.setColumnWidth(getGridCellWidth());
         mGridView.setNumColumns(getNumberColumns());
 
-        final ReviewViewAction.GridItemAction action = mReviewView.getGridItemAction();
+        final ReviewViewAction.GridItemAction action = mReviewView.getActions().getGridItemAction();
         mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             //Overridden
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
@@ -364,13 +367,13 @@ public class FragmentReviewView extends Fragment implements GridDataObservable.G
     @Override
     public void onCreateOptionsMenu(Menu menu, android.view.MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        mReviewView.getMenuAction().inflateMenu(menu, inflater);
+        mReviewView.getActions().getMenuAction().inflateMenu(menu, inflater);
     }
 
     @Override
     public boolean onOptionsItemSelected(android.view.MenuItem item) {
-        return mReviewView.getMenuAction().onItemSelected(item) || super
-                .onOptionsItemSelected(item);
+        return mReviewView.getActions().getMenuAction().onItemSelected(item)
+                || super.onOptionsItemSelected(item);
     }
 
     @Override

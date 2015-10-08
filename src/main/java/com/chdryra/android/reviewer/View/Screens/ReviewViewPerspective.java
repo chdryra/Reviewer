@@ -20,6 +20,7 @@ public class ReviewViewPerspective {
     private ReviewViewModifier mModifier;
 
     public interface ReviewViewModifier {
+        //abstract methods
         //abstract
         View modify(FragmentReviewView parent, View v, LayoutInflater inflater,
                     ViewGroup container, Bundle savedInstanceState);

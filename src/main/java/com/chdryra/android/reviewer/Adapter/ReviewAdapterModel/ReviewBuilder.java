@@ -131,7 +131,7 @@ public class ReviewBuilder {
     public <T extends GvData> void setData(GvDataList<T> data, boolean copy) {
         GvDataType<T> dataType = data.getGvDataType();
         if (dataType == GvCriterionList.GvCriterion.TYPE) {
-            setChildren(data);
+            setCriteria(data);
         } else if (TYPES.contains(dataType)) {
             if (copy) {
                 mData.put(dataType, MdGvConverter.copy(data));
@@ -169,7 +169,7 @@ public class ReviewBuilder {
         return new DataBuilder<>(MdGvConverter.copy(getData(dataType)));
     }
 
-    private void setChildren(GvDataList children) {
+    private void setCriteria(GvDataList children) {
         mChildren = new ArrayList<>();
         for (GvCriterionList.GvCriterion child : (GvCriterionList) children) {
             ReviewBuilder childBuilder = new ReviewBuilder(mContext, mAuthor, mTagsManager);

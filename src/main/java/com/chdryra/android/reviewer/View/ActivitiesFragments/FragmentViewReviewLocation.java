@@ -109,12 +109,14 @@ public class FragmentViewReviewLocation extends Fragment implements
             }
         });
         mGotoMapsButton.setOnClickListener(new View.OnClickListener() {
+//Overridden
             @Override
             public void onClick(View v) {
                 onGotoMapsSelected();
             }
         });
         mDoneButton.setOnClickListener(new View.OnClickListener() {
+//Overridden
             @Override
             public void onClick(View v) {
                 onDoneSelected();

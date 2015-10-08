@@ -11,7 +11,6 @@ package com.chdryra.android.reviewer.View.Screens;
 import android.content.Context;
 import android.view.MenuItem;
 
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilderAdapter;
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCriterionList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
@@ -33,12 +32,12 @@ public class EditScreenCriteria {
         public static final int MENU_AVERAGE_ID = R.id.menu_item_average_rating;
         private static final int MENU = R.menu.menu_edit_children;
 
-        private final MenuItemChildrenRatingAverage mActionItem;
+        private final MenuItemCriteriaRatingAverage mActionItem;
 
         //Constructors
         public Menu() {
             super(TYPE.getDataName(), TYPE.getDataName(), false, true, MENU);
-            mActionItem = new MenuItemChildrenRatingAverage();
+            mActionItem = new MenuItemCriteriaRatingAverage();
         }
 
         //Overridden
@@ -57,12 +56,8 @@ public class EditScreenCriteria {
         @Override
         public void onAttachReviewView() {
             super.onAttachReviewView();
-
             ReviewEditor editor = getEditor();
             editor.registerGridDataObserver(this);
-            ReviewBuilderAdapter.DataBuilderAdapter adapter = (ReviewBuilderAdapter
-                    .DataBuilderAdapter) editor.getAdapter();
-            editor.setRatingAverage(adapter.getParentBuilder().isRatingAverage());
         }
 
         @Override
@@ -71,7 +66,7 @@ public class EditScreenCriteria {
             super.onUnattachReviewView();
         }
 
-        public class MenuItemChildrenRatingAverage implements MenuAction.MenuActionItem {
+        public class MenuItemCriteriaRatingAverage implements MenuAction.MenuActionItem {
             public void setAverageRating() {
                 float rating = 0;
                 GvCriterionList children = (GvCriterionList) getGridData();
@@ -86,7 +81,6 @@ public class EditScreenCriteria {
             @Override
             public void doAction(Context context, MenuItem item) {
                 getEditor().setRatingAverage(true);
-                setAverageRating();
             }
         }
     }

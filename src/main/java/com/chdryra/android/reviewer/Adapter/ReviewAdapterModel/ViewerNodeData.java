@@ -46,7 +46,22 @@ public class ViewerNodeData implements GridDataViewer<GvData> {
         return mViewer.getGridData();
     }
 
-    private static class ViewerReviewData implements GridDataViewer<GvData> {
+    @Override
+    public boolean isExpandable(GvData datum) {
+        return mViewer.isExpandable(datum);
+    }
+
+    @Override
+    public ReviewViewAdapter expandGridCell(GvData datum) {
+        return mViewer.expandGridCell(datum);
+    }
+
+    @Override
+    public ReviewViewAdapter expandGridData() {
+        return mViewer.expandGridData();
+    }
+
+    private class ViewerReviewData implements GridDataViewer<GvData> {
         private Context mContext;
         private ReviewNode mNode;
         private ReviewsRepository mRepository;
@@ -87,14 +102,13 @@ public class ViewerNodeData implements GridDataViewer<GvData> {
             return data;
         }
 
+        //Overridden
         @Override
         public GvList getGridData() {
             GvList data = makeGridData();
             mCache = data;
             return data;
         }
-
-
 
         @Override
         public boolean isExpandable(GvData datum) {
@@ -109,8 +123,6 @@ public class ViewerNodeData implements GridDataViewer<GvData> {
             return mCache.contains(datum);
         }
 
-
-
         @Override
         public ReviewViewAdapter expandGridCell(GvData datum) {
             if (isExpandable(datum)) {
@@ -121,14 +133,10 @@ public class ViewerNodeData implements GridDataViewer<GvData> {
             }
         }
 
-
-
         @Override
         public ReviewViewAdapter expandGridData() {
             return null;
         }
-
-
     }
 
     /**
@@ -136,7 +144,7 @@ public class ViewerNodeData implements GridDataViewer<GvData> {
      * On: 05/10/2015
      * Email: rizwan.choudrey@gmail.com
      */
-    private static class ViewerTreeData extends ViewerReviewData {
+    private class ViewerTreeData extends ViewerReviewData {
         private ViewerTreeData(Context context, ReviewNode node, ReviewsRepository repository) {
             super(context, node, repository);
         }
@@ -182,22 +190,6 @@ public class ViewerNodeData implements GridDataViewer<GvData> {
 
             return adapter;
         }
-    }
-
-    @Override
-    public boolean isExpandable(GvData datum) {
-        return mViewer.isExpandable(datum);
-    }
-
-
-    @Override
-    public ReviewViewAdapter expandGridCell(GvData datum) {
-        return mViewer.expandGridCell(datum);
-    }
-
-    @Override
-    public ReviewViewAdapter expandGridData() {
-        return mViewer.expandGridData();
     }
 
 

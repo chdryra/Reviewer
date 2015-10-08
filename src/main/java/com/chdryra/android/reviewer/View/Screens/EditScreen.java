@@ -137,7 +137,6 @@ public class EditScreen {
         //TODO make type safe
         protected boolean addData(GvData data) {
             boolean added = getDataBuilder().add(data);
-            getReviewView().updateView();
             return added;
         }
 
@@ -263,13 +262,13 @@ public class EditScreen {
         //TODO make type safe
         protected void editData(GvData oldDatum, GvData newDatum) {
             getDataBuilder().replace(oldDatum, newDatum);
-            getReviewView().updateView();
+            getReviewView().update();
         }
 
         //TODO make type safe
         protected void deleteData(GvData datum) {
             getDataBuilder().delete(datum);
-            getReviewView().updateView();
+            getReviewView().update();
         }
 
         protected void showAlertDialog(String alert, int requestCode, GvData item) {
@@ -400,6 +399,7 @@ public class EditScreen {
             };
 
             mDoneAction = new MenuActionItem() {
+//Overridden
                 @Override
                 public void doAction(Context context, MenuItem item) {
                     doDoneSelected();
@@ -441,7 +441,6 @@ public class EditScreen {
         protected void doDeleteSelected() {
             if (hasDataToDelete()) {
                 getBuilder().deleteAll();
-                getReviewView().updateView();
                 if (mDismissOnDelete) {
                     sendResult(RESULT_DELETE);
                     getActivity().finish();
@@ -450,13 +449,12 @@ public class EditScreen {
         }
 
         private void doDoneSelected() {
-            ReviewView view = getReviewView();
             ReviewBuilderAdapter.DataBuilderAdapter builder = getBuilder();
 
             builder.setData();
-            builder.setSubject(view.getFragmentSubject());
-            builder.getParentBuilder().setRatingIsAverage(mEditor.isRatingAverage());
-            builder.setRating(view.getFragmentRating());
+            builder.setSubject();
+            builder.setRatingIsAverage(mEditor.isRatingAverage());
+            builder.setRating();
         }
 
         private void showDeleteConfirmDialog() {
@@ -493,6 +491,7 @@ public class EditScreen {
 
         private abstract class DeleteConfirmListener extends Fragment implements DialogAlertFragment
                 .DialogAlertListener {
+            //Overridden
             @Override
             public void onAlertNegative(int requestCode, Bundle args) {
 
@@ -517,10 +516,7 @@ public class EditScreen {
         @Override
         public void onRatingChanged(android.widget.RatingBar ratingBar, float rating,
                                     boolean fromUser) {
-            if (fromUser) {
-                mEditor.setRatingAverage(false);
-                mEditor.setRating(rating, true);
-            }
+            if (fromUser) mEditor.setRating(rating, true);
         }
 
         @Override

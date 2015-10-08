@@ -21,6 +21,7 @@ import com.chdryra.android.reviewer.Model.TreeMethods.VisitorReviewNode;
  * </p>
  */
 public interface ReviewNode extends Review {
+    //abstract methods
     //abstract
     Review getReview();
 

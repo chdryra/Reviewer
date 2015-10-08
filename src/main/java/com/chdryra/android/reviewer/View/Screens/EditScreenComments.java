@@ -52,7 +52,7 @@ public class EditScreenComments {
                         comment.setIsHeadline(false);
                     }
                 }
-                getReviewView().updateView();
+                getReviewView().update();
             }
         }
 

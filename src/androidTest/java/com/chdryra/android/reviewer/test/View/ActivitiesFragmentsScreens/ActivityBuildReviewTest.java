@@ -242,6 +242,12 @@ public class ActivityBuildReviewTest extends ActivityReviewViewTest {
         assertEquals(getAverageRating(false), mAdapter.getAverageRating());
     }
 
+//protected methods
+    @Override
+    protected ReviewView getView() {
+        return BuildScreen.newScreen(getInstrumentation().getTargetContext());
+    }
+
     protected void checkFragmentSubjectRating(String subject, float rating) {
         FragmentReviewView fragment = getFragmentViewReview();
         assertEquals(subject, fragment.getSubject());
@@ -532,6 +538,7 @@ public class ActivityBuildReviewTest extends ActivityReviewViewTest {
 
     private void clickDoneButton(final String tag) {
         Runnable clicker = new Runnable() {
+//Overridden
             @Override
             public void run() {
                 mSignaler.reset();
@@ -625,11 +632,6 @@ public class ActivityBuildReviewTest extends ActivityReviewViewTest {
         FragmentReviewView fragment = getFragmentViewReview();
         assertEquals(mAdapter.getSubject(), fragment.getSubject());
         assertEquals(mAdapter.getRating(), fragment.getRating());
-    }
-
-    @Override
-    protected ReviewView getView() {
-        return BuildScreen.newScreen(getInstrumentation().getTargetContext());
     }
 
     @Override

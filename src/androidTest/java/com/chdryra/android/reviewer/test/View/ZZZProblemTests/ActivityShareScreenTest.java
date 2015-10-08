@@ -85,6 +85,12 @@ public class ActivityShareScreenTest extends ActivityReviewViewTest {
         feedActivity.finish();
     }
 
+//protected methods
+    @Override
+    protected ReviewView getView() {
+        return ShareScreen.newScreen(getInstrumentation().getTargetContext());
+    }
+
     private GvSocialPlatformList.GvSocialPlatform getPlatform(int index) {
         return (GvSocialPlatformList.GvSocialPlatform) getGridItem(index);
     }
@@ -110,11 +116,6 @@ public class ActivityShareScreenTest extends ActivityReviewViewTest {
         FragmentReviewView fragment = getFragmentViewReview();
         assertEquals(mAdapter.getSubject(), fragment.getSubject());
         assertEquals(mAdapter.getRating(), fragment.getRating());
-    }
-
-    @Override
-    protected ReviewView getView() {
-        return ShareScreen.newScreen(getInstrumentation().getTargetContext());
     }
 
     @Override

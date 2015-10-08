@@ -58,7 +58,7 @@ public class BuildScreen {
         String screenTitle = context.getResources().getString(R.string.screen_title_build_review);
         String buttonTitle = context.getResources().getString(R.string.button_add_review_data);
         actions.setAction(new SubjectEdit());
-        actions.setAction(new BuildScreenRatingBar());
+        actions.setAction(new EditScreen.RatingBar());
         actions.setAction(ReviewViewAction.BannerButtonAction.newDisplayButton(buttonTitle));
         actions.setAction(mGridItem);
         actions.setAction(new BuildScreenMenu(screenTitle));
@@ -83,6 +83,7 @@ public class BuildScreen {
     }
 
 //Classes
+
     /**
      * Created by: Rizwan Choudrey
      * On: 24/01/2015
@@ -93,7 +94,7 @@ public class BuildScreen {
         @Override
         public void onEditorDone(CharSequence s) {
             ReviewBuilderAdapter adapter = (ReviewBuilderAdapter) getAdapter();
-            adapter.setSubject(s.toString());
+            adapter.setSubject();
         }
     }
 
@@ -213,26 +214,20 @@ public class BuildScreen {
             public void onImageChosen(GvImageList.GvImage image) {
                 image.setIsCover(true);
                 ReviewBuilderAdapter.DataBuilderAdapter builder = getBuilder().getDataBuilder
-                        (GvImageList
-                                .GvImage.TYPE);
+                        (GvImageList.GvImage.TYPE);
                 builder.add(image);
                 builder.setData();
-                getReviewView().updateView();
             }
 
             @Override
             public void onActivityResult(int requestCode, int resultCode, Intent data) {
                 ActivityResultCode result = ActivityResultCode.get(resultCode);
-
                 boolean imageRequested = requestCode == getImageRequestCode();
-
                 if (imageRequested && mImageChooser.chosenImageExists(result, data)) {
                     mImageChooser.getChosenImage(this);
-                } else {
-                    super.onActivityResult(requestCode, resultCode, data);
                 }
 
-                getReviewView().updateView();
+                getBuilder().notifyGridDataObservers();
             }
         }
     }
@@ -250,10 +245,7 @@ public class BuildScreen {
                 //Overridden
                 @Override
                 public void doAction(Context context, MenuItem item) {
-                    ReviewBuilderAdapter builder = (ReviewBuilderAdapter) getAdapter();
-                    builder.setRatingIsAverage(true);
                     mEditor.setRatingAverage(true);
-                    mEditor.setRating(builder.getRating(), false);
                 }
             };
         }
@@ -271,16 +263,16 @@ public class BuildScreen {
         }
     }
 
-    private class BuildScreenRatingBar extends EditScreen.RatingBar {
-        //Overridden
-        @Override
-        public void onRatingChanged(android.widget.RatingBar ratingBar, float rating,
-                                    boolean fromUser) {
-            super.onRatingChanged(ratingBar, rating, fromUser);
-            if (fromUser) ((ReviewBuilderAdapter) getAdapter()).setRatingIsAverage(false);
-            ((ReviewBuilderAdapter) getAdapter()).setRating(rating);
-        }
-    }
+//    private class BuildScreenRatingBar extends EditScreen.RatingBar {
+//        //Overridden
+//        @Override
+//        public void onRatingChanged(android.widget.RatingBar ratingBar, float rating,
+//                                    boolean fromUser) {
+//            super.onRatingChanged(ratingBar, rating, fromUser);
+//            if (fromUser) ((ReviewBuilderAdapter) getAdapter()).setRatingIsAverage(false);
+//            ((ReviewBuilderAdapter) getAdapter()).setRating();
+//        }
+//    }
 
     private class BuildScreenModifier implements ReviewViewPerspective.ReviewViewModifier {
         private final ReviewBuilderAdapter mBuilder;

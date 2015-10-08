@@ -18,6 +18,7 @@ import java.util.Date;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface DataImage {
+    //abstract methods
     //abstract
     Bitmap getBitmap();
 

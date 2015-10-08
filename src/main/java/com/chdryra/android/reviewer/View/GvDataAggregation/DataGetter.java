@@ -14,6 +14,7 @@ package com.chdryra.android.reviewer.View.GvDataAggregation;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface DataGetter<T, D> {
+    //abstract methods
     //abstract
     D getData(T datum);
 }

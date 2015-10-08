@@ -51,6 +51,7 @@ public class GvCriterionList extends GvDataList<GvCriterionList.GvCriterion> {
     }
 
 //Classes
+
     /**
      * {@link GvData} version of: no equivalent as used
      * for review children (sub-reviews).

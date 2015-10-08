@@ -25,6 +25,7 @@ public class CanonicalCriterionMode implements CanonicalDatumMaker<GvCriterionLi
 
         DatumCounter<GvCriterionList.GvCriterion, Float> ratingCounter = new DatumCounter<>(data,
                 new DataGetter<GvCriterionList.GvCriterion, Float>() {
+//Overridden
                     @Override
                     public Float getData(GvCriterionList.GvCriterion datum) {
                         return datum.getRating();

@@ -12,7 +12,6 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
 public class ReviewEditor extends ReviewView {
     private FragmentReviewView mParent;
     private ReviewBuilderEditor mEditor;
-    private boolean mRatingIsAverage = false;
 
     //Constructors
     public ReviewEditor(ReviewBuilderAdapter.DataBuilderAdapter builder,
@@ -20,7 +19,6 @@ public class ReviewEditor extends ReviewView {
                         ReviewViewActionCollection actions) {
         super(new ReviewViewPerspective(builder, params, actions));
         mEditor = new ReviewDataBuilderEditor(builder);
-        mRatingIsAverage = builder.getParentBuilder().isRatingAverage();
     }
 
     public ReviewEditor(ReviewBuilderAdapter builder, ReviewViewParams params,
@@ -28,7 +26,6 @@ public class ReviewEditor extends ReviewView {
                         ReviewViewPerspective.ReviewViewModifier modifier) {
         super(new ReviewViewPerspective(builder, params, actions, modifier));
         mEditor = new ReviewBuilderEditor(builder);
-        mRatingIsAverage = builder.isRatingAverage();
     }
 
     //Static methods
@@ -44,15 +41,16 @@ public class ReviewEditor extends ReviewView {
 
     //public methods
     public boolean isRatingAverage() {
-        return mRatingIsAverage;
+        return mEditor.isRatingAverage();
     }
 
     public void setRatingAverage(boolean isAverage) {
-        mRatingIsAverage = isAverage;
+        mEditor.setRatingIsAverage(isAverage);
     }
 
     public void setRating(float rating, boolean fromUser) {
-        mEditor.setRating(rating, fromUser, mParent);
+        if(fromUser) setRatingAverage(false);
+        mEditor.setRating(rating, fromUser);
     }
 
     public void proposeCover(GvImageList.GvImage image) {
@@ -78,18 +76,13 @@ public class ReviewEditor extends ReviewView {
     }
 
     @Override
-    public float getFragmentRating() {
-        return mRatingIsAverage ? mEditor.getAverageRating() : super.getFragmentRating();
-    }
-
-    @Override
     public void attachFragment(FragmentReviewView parent) {
         mParent = parent;
         super.attachFragment(parent);
     }
 
-    private static class ReviewBuilderEditor {
-        private ReviewBuilderAdapter mBuilder;
+    private class ReviewBuilderEditor {
+        protected ReviewBuilderAdapter mBuilder;
 
         private ReviewBuilderEditor(ReviewBuilderAdapter builder) {
             mBuilder = builder;
@@ -100,21 +93,34 @@ public class ReviewEditor extends ReviewView {
             return mBuilder.getRating();
         }
 
-        public float getAverageRating() {
-            return mBuilder.getAverageRating();
+        public boolean isRatingAverage() {
+            return mBuilder.isRatingAverage();
         }
 
-        public void setRating(float rating, boolean fromUser, FragmentReviewView parent) {
-            if (!fromUser) parent.setRating(rating);
+        public void setRatingIsAverage(boolean isAverage) {
+            mBuilder.setRatingIsAverage(isAverage);
+            if(isAverage) setRating(mBuilder.getRating(), false);
+        }
+
+        public void setRating(float rating, boolean fromUser) {
+            if (!fromUser) {
+                mParent.setRating(rating);
+            } else {
+                mBuilder.setRating();
+            }
         }
     }
 
-    private static class ReviewDataBuilderEditor extends ReviewBuilderEditor {
+    private class ReviewDataBuilderEditor extends ReviewBuilderEditor {
         private float mRating;
+        private boolean mRatingIsAverage;
+        private ReviewBuilderAdapter.DataBuilderAdapter mDataBuilder;
 
         private ReviewDataBuilderEditor(ReviewBuilderAdapter.DataBuilderAdapter builder) {
             super(builder.getParentBuilder());
-            mRating = builder.getRating();
+            mDataBuilder = builder;
+            mRating = mDataBuilder.getRating();
+            mRatingIsAverage = mDataBuilder.isRatingAverage();
         }
 
         //Overridden
@@ -124,9 +130,19 @@ public class ReviewEditor extends ReviewView {
         }
 
         @Override
-        public void setRating(float rating, boolean fromUser, FragmentReviewView parent) {
+        public boolean isRatingAverage() {
+            return mRatingIsAverage;
+        }
+
+        @Override
+        public void setRatingIsAverage(boolean isAverage) {
+            mRatingIsAverage = isAverage;
+            if(isAverage) setRating(mDataBuilder.getAverageRating(), false);
+        }
+
+        public void setRating(float rating, boolean fromUser) {
+            if (!fromUser) mParent.setRating(rating);
             mRating = rating;
-            super.setRating(rating, fromUser, parent);
         }
     }
 }

@@ -27,6 +27,17 @@ public class CanonicalCriterionAverageTest extends CanonicalGvDataTest<GvCriteri
     private static final float RATING2 = 2f;
     private static final float RATING3 = 3f;
 
+//protected methods
+    @Override
+    protected GvCriterionList.GvCriterion getTestDatum() {
+        return new GvCriterionList.GvCriterion(SUBJECT1, RATING1);
+    }
+
+    @Override
+    protected CanonicalDatumMaker<GvCriterionList.GvCriterion> getCanonicalMaker() {
+        return new CanonicalCriterionAverage();
+    }
+
     private void checkSameSubjectDifferentRatings() {
         mData = newDataList();
         GvCriterionList.GvCriterion review1 = new GvCriterionList.GvCriterion(SUBJECT1,
@@ -89,15 +100,5 @@ public class CanonicalCriterionAverageTest extends CanonicalGvDataTest<GvCriteri
     protected void additionalTests() {
         checkDifferent();
         checkSameSubjectDifferentRatings();
-    }
-
-    @Override
-    protected GvCriterionList.GvCriterion getTestDatum() {
-        return new GvCriterionList.GvCriterion(SUBJECT1, RATING1);
-    }
-
-    @Override
-    protected CanonicalDatumMaker<GvCriterionList.GvCriterion> getCanonicalMaker() {
-        return new CanonicalCriterionAverage();
     }
 }

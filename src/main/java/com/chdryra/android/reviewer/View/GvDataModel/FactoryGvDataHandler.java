@@ -18,7 +18,7 @@ import android.content.Context;
 public class FactoryGvDataHandler {
     //Static methods
     public static <T extends GvData> GvDataHandler<T> newHandler
-            (GvDataList<T> data) {
+    (GvDataList<T> data) {
         if (data.getGvDataType() == GvImageList.GvImage.TYPE) {
             return new GvDataHandler<>(data, new GvDataHandler.AddConstraint<T>() {
                 //Overridden
@@ -29,6 +29,7 @@ public class FactoryGvDataHandler {
             });
         } else if (data.getGvDataType() == GvCriterionList.GvCriterion.TYPE) {
             GvDataHandler.AddConstraint<T> add = new GvDataHandler.AddConstraint<T>() {
+//Overridden
                 @Override
                 public boolean passes(GvDataList<T> data, T datum) {
                     return childAdd(data, (GvCriterionList.GvCriterion) datum);

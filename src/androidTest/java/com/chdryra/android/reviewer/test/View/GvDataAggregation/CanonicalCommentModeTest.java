@@ -24,6 +24,17 @@ public class CanonicalCommentModeTest extends CanonicalGvDataTest<GvCommentList.
     private static final String COMMENT3 = RandomString.nextSentence();
     private static final String COMMENT4 = RandomString.nextSentence();
 
+//protected methods
+    @Override
+    protected GvCommentList.GvComment getTestDatum() {
+        return new GvCommentList.GvComment(COMMENT1);
+    }
+
+    @Override
+    protected CanonicalDatumMaker<GvCommentList.GvComment> getCanonicalMaker() {
+        return new CanonicalCommentMode();
+    }
+
     private void checkDifferentComments() {
         mData = newDataList();
         GvCommentList.GvComment comment1 = new GvCommentList.GvComment(COMMENT2);
@@ -48,15 +59,5 @@ public class CanonicalCommentModeTest extends CanonicalGvDataTest<GvCommentList.
     @Override
     protected void additionalTests() {
         checkDifferentComments();
-    }
-
-    @Override
-    protected GvCommentList.GvComment getTestDatum() {
-        return new GvCommentList.GvComment(COMMENT1);
-    }
-
-    @Override
-    protected CanonicalDatumMaker<GvCommentList.GvComment> getCanonicalMaker() {
-        return new CanonicalCommentMode();
     }
 }

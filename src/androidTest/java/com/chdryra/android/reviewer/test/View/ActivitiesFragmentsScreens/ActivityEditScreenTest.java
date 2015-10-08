@@ -154,6 +154,11 @@ public abstract class ActivityEditScreenTest extends ActivityReviewViewTest {
         return getBuilder().getParentBuilder();
     }
 
+    @Override
+    protected ReviewView getView() {
+        return EditScreen.newScreen(getInstrumentation().getTargetContext(), mDataType);
+    }
+
     protected void clickMenuDelete() {
         mSolo.clickOnActionBarItem(DELETE);
     }
@@ -638,6 +643,7 @@ public abstract class ActivityEditScreenTest extends ActivityReviewViewTest {
         });
 
         mClickRunnables.put(Button.ADDADD, new Runnable() {
+//Overridden
             @Override
             public void run() {
                 mSignaler.reset();
@@ -647,6 +653,7 @@ public abstract class ActivityEditScreenTest extends ActivityReviewViewTest {
         });
 
         mClickRunnables.put(Button.ADDDONE, new Runnable() {
+//Overridden
             @Override
             public void run() {
                 mSignaler.reset();
@@ -658,6 +665,7 @@ public abstract class ActivityEditScreenTest extends ActivityReviewViewTest {
 
     private void setEditorDialogButtonClicks() {
         mClickRunnables.put(Button.EDITCANCEL, new Runnable() {
+//Overridden
             @Override
             public void run() {
                 mSignaler.reset();
@@ -667,6 +675,7 @@ public abstract class ActivityEditScreenTest extends ActivityReviewViewTest {
         });
 
         mClickRunnables.put(Button.EDITDELETE, new Runnable() {
+//Overridden
             @Override
             public void run() {
                 mSignaler.reset();
@@ -676,6 +685,7 @@ public abstract class ActivityEditScreenTest extends ActivityReviewViewTest {
         });
 
         mClickRunnables.put(Button.EDITDONE, new Runnable() {
+//Overridden
             @Override
             public void run() {
                 mSignaler.reset();
@@ -687,6 +697,7 @@ public abstract class ActivityEditScreenTest extends ActivityReviewViewTest {
 
     private void setDeleteConfirmButtonClicks() {
         mClickRunnables.put(Button.DELETECANCEL, new Runnable() {
+//Overridden
             @Override
             public void run() {
                 mSignaler.reset();
@@ -696,6 +707,7 @@ public abstract class ActivityEditScreenTest extends ActivityReviewViewTest {
         });
 
         mClickRunnables.put(Button.DELETECONFIRM, new Runnable() {
+//Overridden
             @Override
             public void run() {
                 mSignaler.reset();
@@ -738,11 +750,6 @@ public abstract class ActivityEditScreenTest extends ActivityReviewViewTest {
     public void testSubjectRating() {
         setUp(false);
         super.testSubjectRating();
-    }
-
-    @Override
-    protected ReviewView getView() {
-        return EditScreen.newScreen(getInstrumentation().getTargetContext(), mDataType);
     }
 
     @Override

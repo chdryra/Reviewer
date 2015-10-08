@@ -40,6 +40,7 @@ public class GvFactList extends GvDataList<GvFactList.GvFact> {
     }
 
 //Classes
+
     /**
      * {@link GvData} version of: {@link com.chdryra
      * .android.reviewer.MdFactList.MdFact}

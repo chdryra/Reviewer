@@ -87,27 +87,11 @@ public class ReviewView implements GridDataObservable.GridDataObserver, Launchab
 
     public void setGridViewData(GvDataList dataToShow) {
         mGridViewData = dataToShow;
-        updateView();
+        update();
     }
 
-    public ReviewViewAction.SubjectAction getSubjectViewAction() {
-        return mPerspective.getActions().getSubjectAction();
-    }
-
-    public ReviewViewAction.RatingBarAction getRatingBarAction() {
-        return mPerspective.getActions().getRatingBarAction();
-    }
-
-    public ReviewViewAction.BannerButtonAction getBannerButtonAction() {
-        return mPerspective.getActions().getBannerButtonAction();
-    }
-
-    public ReviewViewAction.GridItemAction getGridItemAction() {
-        return mPerspective.getActions().getGridItemAction();
-    }
-
-    public ReviewViewAction.MenuAction getMenuAction() {
-        return mPerspective.getActions().getMenuAction();
+    public ReviewViewActionCollection getActions() {
+        return mPerspective.getActions();
     }
 
     public boolean isEditable() {
@@ -131,7 +115,7 @@ public class ReviewView implements GridDataObservable.GridDataObserver, Launchab
 
     public void resetGridViewData() {
         mGridViewData = null;
-        updateView();
+        update();
     }
 
     public void updateCover() {
@@ -150,7 +134,7 @@ public class ReviewView implements GridDataObservable.GridDataObserver, Launchab
         }
     }
 
-    public void updateView() {
+    public void update() {
         notifyObservers();
     }
 

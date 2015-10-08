@@ -29,6 +29,16 @@ public class CanonicalFactTest extends CanonicalGvDataTest<GvFactList.GvFact> {
     private static final String VALUE4 = RandomString.nextWord();
 
     //protected methods
+    @Override
+    protected GvFactList.GvFact getTestDatum() {
+        return new GvFactList.GvFact(LABEL1, VALUE1);
+    }
+
+    @Override
+    protected CanonicalDatumMaker<GvFactList.GvFact> getCanonicalMaker() {
+        return new CanonicalFact();
+    }
+
     private void checkDifferentFacts() {
         mData = newDataList();
         GvFactList.GvFact fact1 = new GvFactList.GvFact(LABEL1, VALUE1);
@@ -101,15 +111,5 @@ public class CanonicalFactTest extends CanonicalGvDataTest<GvFactList.GvFact> {
         checkDifferentFacts();
         checkSameLabelDifferentValues();
         checkDifferentLabelsSameValues();
-    }
-
-    @Override
-    protected GvFactList.GvFact getTestDatum() {
-        return new GvFactList.GvFact(LABEL1, VALUE1);
-    }
-
-    @Override
-    protected CanonicalDatumMaker<GvFactList.GvFact> getCanonicalMaker() {
-        return new CanonicalFact();
     }
 }

@@ -32,6 +32,7 @@ public class ReviewerDbRow {
     public static final String SEPARATOR = ":";
 
     public interface TableRow {
+        //abstract methods
         //abstract
         String getRowId();
 

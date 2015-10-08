@@ -66,6 +66,7 @@ public class ReviewerDb {
     private TagsManager mTagsManager;
 
     public interface ReviewerDbObserver {
+        //abstract methods
         //abstract
         void onReviewAdded(Review review);
 

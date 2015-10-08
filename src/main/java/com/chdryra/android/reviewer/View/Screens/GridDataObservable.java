@@ -15,10 +15,12 @@ package com.chdryra.android.reviewer.View.Screens;
  */
 public interface GridDataObservable {
     interface GridDataObserver {
+        //abstract methods
         //abstract
         void onGridDataChanged();
     }
 
+    //abstract methods
     //abstract
     void registerGridDataObserver(GridDataObserver observer);
 

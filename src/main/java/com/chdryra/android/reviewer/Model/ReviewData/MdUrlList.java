@@ -26,6 +26,7 @@ public class MdUrlList extends MdDataList<MdUrlList.MdUrl> {
     }
 
 //Classes
+
     /**
      * Review Data: URL
      * <p>

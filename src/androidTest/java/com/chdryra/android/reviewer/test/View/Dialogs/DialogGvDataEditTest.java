@@ -185,6 +185,7 @@ public abstract class DialogGvDataEditTest<T extends GvData> extends
 
         final FragmentManager manager = mActivity.getFragmentManager();
         mActivity.runOnUiThread(new Runnable() {
+//Overridden
             public void run() {
                 manager.executePendingTransactions();
 
@@ -220,6 +221,7 @@ public abstract class DialogGvDataEditTest<T extends GvData> extends
     private void pressDialogButton(final DialogButton button) {
         mSignaler.reset();
         mActivity.runOnUiThread(new Runnable() {
+//Overridden
             public void run() {
                 if (button == DialogButton.CANCEL) {
                     mDialog.clickCancelButton();

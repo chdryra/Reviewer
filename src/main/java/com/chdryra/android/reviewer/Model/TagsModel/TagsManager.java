@@ -71,6 +71,7 @@ public class TagsManager {
     }
 
 //Classes
+
     /**
      * Iterable collection of ReviewTags.
      */
@@ -140,6 +141,11 @@ public class TagsManager {
 
         }
 
+        @Override
+        public int hashCode() {
+            return mTags.hashCode();
+        }
+
         public class ReviewTagIterator implements Iterator<ReviewTag> {
             int position = 0;
 
@@ -167,11 +173,6 @@ public class TagsManager {
                     ReviewTagCollection.this.remove(getItem(position));
                 }
             }
-        }
-
-        @Override
-        public int hashCode() {
-            return mTags.hashCode();
         }
 
 

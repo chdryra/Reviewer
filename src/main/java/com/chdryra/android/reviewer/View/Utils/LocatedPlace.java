@@ -55,6 +55,15 @@ public class LocatedPlace {
                 .hashCode());
     }
 
+//Overridden
+    @Override
+    public int hashCode() {
+        int result = mLatLng.hashCode();
+        result = 31 * result + mDescription.hashCode();
+        result = 31 * result + mId.hashCode();
+        return result;
+    }
+
     //Classes
     public static class LocationId {
         private LocationProvider mProvider;
@@ -95,13 +104,5 @@ public class LocatedPlace {
             result = 31 * result + mId.hashCode();
             return result;
         }
-    }
-
-    @Override
-    public int hashCode() {
-        int result = mLatLng.hashCode();
-        result = 31 * result + mDescription.hashCode();
-        result = 31 * result + mId.hashCode();
-        return result;
     }
 }

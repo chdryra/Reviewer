@@ -32,6 +32,7 @@ public class GvUrlList extends GvDataList<GvUrlList.GvUrl> {
     }
 
 //Classes
+
     /**
      * {@link GvData} version of: {@link com.chdryra
      * .android.reviewer.MdUrlList.MdUrl}

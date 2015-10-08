@@ -188,6 +188,7 @@ public class ActivityEditLocationsTest extends ActivityEditScreenTest {
         assertTrue(mSolo.searchText(alert));
 
         runOnUiThread(new Runnable() {
+//Overridden
             @Override
             public void run() {
                 mSignaler.reset();

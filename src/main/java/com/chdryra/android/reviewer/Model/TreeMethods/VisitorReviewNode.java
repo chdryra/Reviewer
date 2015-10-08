@@ -14,6 +14,7 @@ import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
  * Visitor pattern for {@link ReviewNode}s
  */
 public interface VisitorReviewNode {
+    //abstract methods
     //abstract
     void visit(ReviewNode reviewNode);
 }

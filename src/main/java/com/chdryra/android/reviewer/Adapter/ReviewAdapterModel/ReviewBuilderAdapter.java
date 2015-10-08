@@ -21,6 +21,7 @@ import com.chdryra.android.reviewer.Model.TagsModel.TagsManager;
 import com.chdryra.android.reviewer.Model.UserData.Author;
 import com.chdryra.android.reviewer.View.Configs.ConfigGvDataUi;
 import com.chdryra.android.reviewer.View.GvDataModel.GvBuildReviewList;
+import com.chdryra.android.reviewer.View.GvDataModel.GvCriterionList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
@@ -147,7 +148,8 @@ public class ReviewBuilderAdapter extends ReviewViewAdapterBasic {
         return mBuilder.getSubject();
     }
 
-    public void setSubject(String subject) {
+    public void setSubject() {
+        String subject = getReviewView().getFragmentSubject();
         mBuilder.setSubject(subject);
         newIncrementor();
         mSubjectTag = adjustTagsIfNecessary(mSubjectTag, subject);
@@ -156,6 +158,19 @@ public class ReviewBuilderAdapter extends ReviewViewAdapterBasic {
     @Override
     public GvDataList getGridData() {
         return mBuildUi;
+    }
+
+    public float getRating() {
+        return mBuilder.getRating();
+    }
+
+    public void setRating() {
+        mBuilder.setRating(getReviewView().getFragmentRating());
+    }
+
+    @Override
+    public GvImageList getCovers() {
+        return (GvImageList) getData(GvImageList.GvImage.TYPE);
     }
 
     public class DataBuilderAdapter<T extends GvData> extends ReviewViewAdapterBasic {
@@ -173,8 +188,16 @@ public class ReviewBuilderAdapter extends ReviewViewAdapterBasic {
             return ReviewBuilderAdapter.this;
         }
 
+        public boolean isRatingAverage() {
+            return getParentBuilder().isRatingAverage();
+        }
+
         public float getAverageRating() {
-            return getParentBuilder().getAverageRating();
+            if(mType == GvCriterionList.GvCriterion.TYPE) {
+                return ((GvCriterionList)getGridData()).getAverageRating();
+            } else {
+                return getParentBuilder().getAverageRating();
+            }
         }
 
         public boolean add(T datum) {
@@ -207,19 +230,19 @@ public class ReviewBuilderAdapter extends ReviewViewAdapterBasic {
             notifyGridDataObservers();
         }
 
+        //Overridden
         @Override
         public GvDataList<T> getGridData() {
             return mDataBuilder.getGvData();
         }
-
 
         @Override
         public String getSubject() {
             return getParentBuilder().getSubject();
         }
 
-        public void setSubject(String subject) {
-            getParentBuilder().setSubject(subject);
+        public void setSubject() {
+            getParentBuilder().setSubject();
         }
 
         @Override
@@ -227,11 +250,13 @@ public class ReviewBuilderAdapter extends ReviewViewAdapterBasic {
             return getParentBuilder().getRating();
         }
 
-        public void setRating(float rating) {
-            getParentBuilder().setRating(rating);
+        public void setRating() {
+            getParentBuilder().setRating();
         }
 
-
+        public void setRatingIsAverage(boolean ratingIsAverage) {
+            getParentBuilder().setRatingIsAverage(ratingIsAverage);
+        }
 
         @Override
         public GvImageList getCovers() {
@@ -262,21 +287,5 @@ public class ReviewBuilderAdapter extends ReviewViewAdapterBasic {
         private <T extends GvData> DataBuilderAdapter<T> get(GvDataType<T> type) {
             return (DataBuilderAdapter<T>) mDataBuilders.get(type);
         }
-    }
-
-    public float getRating() {
-        return mBuilder.getRating();
-    }
-
-
-    public void setRating(float rating) {
-        mBuilder.setRating(rating);
-    }
-
-
-
-    @Override
-    public GvImageList getCovers() {
-        return (GvImageList) getData(GvImageList.GvImage.TYPE);
     }
 }

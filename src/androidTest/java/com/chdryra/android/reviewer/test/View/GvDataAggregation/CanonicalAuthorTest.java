@@ -29,6 +29,16 @@ public class CanonicalAuthorTest extends CanonicalGvDataTest<GvAuthorList.GvAuth
     }
 
     //protected methods
+    @Override
+    protected GvAuthorList.GvAuthor getTestDatum() {
+        return AUTHOR1;
+    }
+
+    @Override
+    protected CanonicalDatumMaker<GvAuthorList.GvAuthor> getCanonicalMaker() {
+        return new CanonicalAuthor();
+    }
+
     private void checkDifferentAuthorsNotValid() {
         mData = newDataList();
         mData.add(AUTHOR1);
@@ -43,15 +53,5 @@ public class CanonicalAuthorTest extends CanonicalGvDataTest<GvAuthorList.GvAuth
     @Override
     protected void additionalTests() {
         checkDifferentAuthorsNotValid();
-    }
-
-    @Override
-    protected GvAuthorList.GvAuthor getTestDatum() {
-        return AUTHOR1;
-    }
-
-    @Override
-    protected CanonicalDatumMaker<GvAuthorList.GvAuthor> getCanonicalMaker() {
-        return new CanonicalAuthor();
     }
 }

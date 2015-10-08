@@ -37,6 +37,12 @@ public abstract class DialogGvDataView<T extends GvData> extends DialogTwoButton
         mDataType = dataType;
     }
 
+//protected methods
+    @Override
+    protected Intent getReturnData() {
+        return null;
+    }
+
     //Overridden
     @Override
     public String getLaunchTag() {
@@ -51,11 +57,6 @@ public abstract class DialogGvDataView<T extends GvData> extends DialogTwoButton
     @Override
     protected View createDialogUi() {
         return mLayout.createLayoutUi(getActivity(), mDatum);
-    }
-
-    @Override
-    protected Intent getReturnData() {
-        return null;
     }
 
     @Override

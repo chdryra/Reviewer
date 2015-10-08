@@ -63,7 +63,7 @@ public class FactoryGvDataViewLayout {
 
     //Static methods
     public static <T extends GvData> AddEditLayout<T> newLayout
-            (GvDataType dataType, AddEditLayout.GvDataAdder adder) {
+    (GvDataType dataType, AddEditLayout.GvDataAdder adder) {
         if (sFactory == null) sFactory = new FactoryGvDataViewLayout();
         try {
             Constructor ctor = sFactory.mMapAdd.get(dataType)

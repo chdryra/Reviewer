@@ -14,6 +14,7 @@ package com.chdryra.android.reviewer.Adapter.DataAdapterModel;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface DataComment {
+    //abstract methods
     //abstract
     String getComment();
 

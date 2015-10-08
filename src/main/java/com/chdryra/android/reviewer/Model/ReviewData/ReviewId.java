@@ -33,6 +33,7 @@ public class ReviewId implements MdData {
      * To facilitate RCollectionReview
      */
     public interface IdAble {
+        //abstract methods
         //abstract
         ReviewId getId();
     }

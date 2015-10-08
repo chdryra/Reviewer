@@ -34,6 +34,7 @@ public class GvAuthorList extends GvDataList<GvAuthorList.GvAuthor> {
     }
 
 //Classes
+
     /**
      * {@link } version of: {@link com.chdryra.android.reviewer.Model.UserData.Author}
      * {@link ViewHolder}: {@link VhAuthor}

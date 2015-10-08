@@ -31,6 +31,7 @@ public abstract class AddEditLayout<T extends GvData> extends DialogLayout<T> {
     private final int mEditTextId;
 
     private interface GvDataEditManager<T extends GvData> {
+        //abstract methods
         //abstract
         void initialise(T data);
 
@@ -38,6 +39,7 @@ public abstract class AddEditLayout<T extends GvData> extends DialogLayout<T> {
     }
 
     public interface GvDataEditor {
+        //abstract methods
         //abstract
         void setKeyboardAction(EditText editText);
 
@@ -45,12 +47,14 @@ public abstract class AddEditLayout<T extends GvData> extends DialogLayout<T> {
     }
 
     public interface GvDataAdder {
+        //abstract methods
         //abstract
         void setKeyboardAction(EditText editText);
 
         void setTitle(String title);
     }
 
+    //abstract methods
     //abstract
     public abstract T createGvData();
 

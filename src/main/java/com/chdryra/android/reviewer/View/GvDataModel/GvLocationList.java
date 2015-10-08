@@ -34,6 +34,7 @@ public class GvLocationList extends GvDataList<GvLocationList.GvLocation> {
     }
 
 //Classes
+
     /**
      * {@link GvData} version of: {@link com.chdryra
      * .android.reviewer.MdLocationList.MdLocation}

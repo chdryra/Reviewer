@@ -51,6 +51,7 @@ import com.chdryra.android.reviewer.Model.UserData.Author;
  */
 
 public interface Review extends ReviewId.IdAble {
+    //abstract methods
     //abstract
     MdSubject getSubject();
 

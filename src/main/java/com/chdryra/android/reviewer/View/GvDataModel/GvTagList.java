@@ -29,6 +29,7 @@ public class GvTagList extends GvTextList<GvTagList.GvTag> {
     }
 
 //Classes
+
     /**
      * {@link } version of: {@link TagsManager.ReviewTag}
      * {@link ViewHolder}: {@link VhTag}

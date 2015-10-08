@@ -25,6 +25,7 @@ public class MdLocationList extends MdDataList<MdLocationList.MdLocation> {
     }
 
 //Classes
+
     /**
      * Review Data: location
      */

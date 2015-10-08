@@ -169,7 +169,7 @@ public class ReviewViewAction {
         private boolean mDisplayHomeAsUp = true;
 
         public interface MenuActionItem {
-            //abstract
+            //abstract methods
             void doAction(Context context, MenuItem item);
         }
 

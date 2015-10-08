@@ -18,6 +18,7 @@ package com.chdryra.android.reviewer.Model.ReviewData;
  */
 
 public interface MdData {
+    //abstract methods
     //abstract
     ReviewId getReviewId();
 
