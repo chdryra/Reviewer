@@ -58,7 +58,7 @@ public class ConfigGvDataUiTest extends AndroidTestCase {
 
             //Add
             ConfigGvDataUi.LaunchableConfig uiConfig = config.getAdderConfig();
-            assertEquals(dataType, uiConfig.getGVType());
+            assertEquals(dataType, uiConfig.getDataType());
 
             String tag = uiConfig.getTag(); //tags make sense
             assertNotNull(tag);
@@ -78,7 +78,7 @@ public class ConfigGvDataUiTest extends AndroidTestCase {
 
             //Edit
             uiConfig = config.getEditorConfig();
-            assertEquals(dataType, uiConfig.getGVType());
+            assertEquals(dataType, uiConfig.getDataType());
 
             tag = uiConfig.getTag();
             assertNotNull(tag);

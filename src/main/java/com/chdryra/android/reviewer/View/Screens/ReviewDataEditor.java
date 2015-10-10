@@ -40,8 +40,8 @@ public class ReviewDataEditor<T extends GvData> extends ReviewView {
     }
 
     //public methods
-    public void setSubject(String subject) {
-
+    public void setSubject() {
+        mSubject = getFragmentSubject();
     }
 
     public boolean isRatingAverage() {

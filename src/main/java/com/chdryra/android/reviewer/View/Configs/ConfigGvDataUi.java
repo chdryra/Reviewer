@@ -158,7 +158,7 @@ public final class ConfigGvDataUi {
 
 
         //public methods
-        public GvDataType getGVType() {
+        public GvDataType getDataType() {
             return mDataType;
         }
 

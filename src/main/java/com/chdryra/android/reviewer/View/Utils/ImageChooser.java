@@ -47,9 +47,8 @@ public class ImageChooser {
     private String mCaptureFile;
 
     public interface ImageChooserListener {
-        //abstract methods
         //abstract
-        public void onImageChosen(GvImageList.GvImage image);
+        void onChosenImage(GvImageList.GvImage image);
     }
 
     //Constructors
@@ -122,7 +121,7 @@ public class ImageChooser {
                     ExifInterface exif = ImageHelper.getExif(mCaptureFile);
                     LatLng ll = ImageHelper.getLatLngFromExif(exif);
                     Date date = ImageHelper.getDateTimeFromEXIF(exif);
-                    listener.onImageChosen(new GvImageList.GvImage(bitmap, date, ll, null, false));
+                    listener.onChosenImage(new GvImageList.GvImage(bitmap, date, ll, null, false));
                 }
             };
 

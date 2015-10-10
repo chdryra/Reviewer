@@ -148,8 +148,7 @@ public class ReviewBuilderAdapter extends ReviewViewAdapterBasic {
         return mBuilder.getSubject();
     }
 
-    public void setSubject() {
-        String subject = getReviewView().getFragmentSubject();
+    public void setSubject(String subject) {
         mBuilder.setSubject(subject);
         newIncrementor();
         mSubjectTag = adjustTagsIfNecessary(mSubjectTag, subject);
@@ -164,13 +163,13 @@ public class ReviewBuilderAdapter extends ReviewViewAdapterBasic {
         return mBuilder.getRating();
     }
 
-    public void setRating() {
-        mBuilder.setRating(getReviewView().getFragmentRating());
+    public void setRating(float rating) {
+        mBuilder.setRating(rating);
     }
 
     @Override
     public GvImageList getCovers() {
-        return (GvImageList) getData(GvImageList.GvImage.TYPE);
+        return ((GvImageList) getData(GvImageList.GvImage.TYPE)).getCovers();
     }
 
     public class DataBuilderAdapter<T extends GvData> extends ReviewViewAdapterBasic {
@@ -184,6 +183,10 @@ public class ReviewBuilderAdapter extends ReviewViewAdapterBasic {
         }
 
         //public methods
+        public GvDataType<T> getDataType() {
+            return mType;
+        }
+
         public ReviewBuilderAdapter getParentBuilder() {
             return ReviewBuilderAdapter.this;
         }
@@ -234,7 +237,7 @@ public class ReviewBuilderAdapter extends ReviewViewAdapterBasic {
         //Overridden
         @Override
         public GvDataList<T> getGridData() {
-            return mDataBuilder.getGvData();
+            return mDataBuilder.getData();
         }
 
         @Override
@@ -242,8 +245,8 @@ public class ReviewBuilderAdapter extends ReviewViewAdapterBasic {
             return getParentBuilder().getSubject();
         }
 
-        public void setSubject() {
-            getParentBuilder().setSubject();
+        public void setSubject(String subject) {
+            getParentBuilder().setSubject(subject);
         }
 
         @Override
@@ -251,8 +254,8 @@ public class ReviewBuilderAdapter extends ReviewViewAdapterBasic {
             return getParentBuilder().getRating();
         }
 
-        public void setRating() {
-            getParentBuilder().setRating();
+        public void setRating(float rating) {
+            getParentBuilder().setRating(rating);
         }
 
         public void setRatingIsAverage(boolean ratingIsAverage) {
@@ -261,10 +264,14 @@ public class ReviewBuilderAdapter extends ReviewViewAdapterBasic {
 
         @Override
         public GvImageList getCovers() {
-            GvDataList images = getParentBuilder().getCovers();
-            if (mType == GvImageList.GvImage.TYPE) images = getGridData();
+            GvImageList images;
+            if (mType == GvImageList.GvImage.TYPE) {
+                images = (GvImageList) getGridData();
+            } else {
+                images = getParentBuilder().getCovers();
+            }
 
-            return (GvImageList) images;
+            return images;
         }
     }
 

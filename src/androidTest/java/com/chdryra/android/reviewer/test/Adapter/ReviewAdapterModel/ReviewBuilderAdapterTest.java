@@ -298,7 +298,7 @@ public class ReviewBuilderAdapterTest extends ActivityInstrumentationTestCase2<A
         Context context = getInstrumentation().getTargetContext();
         Administrator admin = Administrator.get(context);
         admin.newReviewBuilder();
-        admin.packView(BuildScreen.newScreen(context), i);
+        admin.packView(BuildScreen.newEditor(context), i);
         setActivityIntent(i);
 
         mBuilder = admin.getReviewBuilder();

@@ -20,6 +20,7 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
 import com.chdryra.android.reviewer.View.GvDataModel.GvFactList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvLocationList;
+import com.chdryra.android.reviewer.View.GvDataModel.GvTagList;
 
 /**
  * Created by: Rizwan Choudrey
@@ -60,6 +61,7 @@ public class EditScreen<T extends GvData> {
 
     private ReviewViewActionCollection getActions() {
         ReviewViewActionCollection actions = new ReviewViewActionCollection();
+        actions.setAction(newSubjectAction());
         actions.setAction(new RatingBar());
         actions.setAction(newBannerButtonAction());
         actions.setAction(newGridItemAction());
@@ -67,6 +69,16 @@ public class EditScreen<T extends GvData> {
         return actions;
     }
 
+    private ReviewViewAction.SubjectAction newSubjectAction() {
+        ReviewViewAction.SubjectAction action;
+        if(mDataType == GvTagList.GvTag.TYPE) {
+            action = new EditScreenTags.SubjectEditTags();
+        } else {
+            action = new SubjectEdit<>(mDataType);
+        }
+
+        return action;
+    }
     private ReviewViewAction.MenuAction newMenuAction() {
         if (mDataType == GvCommentList.GvComment.TYPE) {
             return new EditScreenComments.MenuEditComment();

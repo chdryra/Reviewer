@@ -97,7 +97,7 @@ public class ReviewBuilder {
 
     public void setRatingIsAverage(boolean ratingIsAverage) {
         mIsAverage = ratingIsAverage;
-        if (ratingIsAverage) mRating = getCriteria().getAverageRating();
+        if (ratingIsAverage) mRating = getAverageRating();
     }
 
     //TODO make type safe
@@ -107,19 +107,6 @@ public class ReviewBuilder {
 
     public <T extends GvData> void resetDataBuilder(GvDataType<T> dataType) {
         getDataBuilder(dataType).resetData();
-    }
-
-    public Review buildReview() {
-        if (!isValidForPublication()) {
-            throw new IllegalStateException("Review is not valid for publication!");
-        }
-
-        PublishDate date = PublishDate.now();
-        Review review = assembleReview(new ReviewPublisher(mAuthor, date));
-        GvTagList tags = (GvTagList) getData(GvTagList.GvTag.TYPE);
-        mTagsManager.tagReview(review.getId(), tags.toStringArray());
-
-        return review;
     }
 
     //TODO make type safe
@@ -139,6 +126,19 @@ public class ReviewBuilder {
                 mData.put(dataType, data);
             }
         }
+    }
+
+    public Review buildReview() {
+        if (!isValidForPublication()) {
+            throw new IllegalStateException("Review is not valid for publication!");
+        }
+
+        PublishDate date = PublishDate.now();
+        Review review = assembleReview(new ReviewPublisher(mAuthor, date));
+        GvTagList tags = (GvTagList) getData(GvTagList.GvTag.TYPE);
+        mTagsManager.tagReview(review.getId(), tags.toStringArray());
+
+        return review;
     }
 
     //private methods
@@ -192,7 +192,7 @@ public class ReviewBuilder {
             return ReviewBuilder.this;
         }
 
-        public GvDataList<T> getGvData() {
+        public GvDataList<T> getData() {
             return mHandler.getData();
         }
 
@@ -217,12 +217,12 @@ public class ReviewBuilder {
         }
 
         public void setData() {
-            getParentBuilder().setData(getGvData(), true);
+            getParentBuilder().setData(getData(), true);
         }
 
         public void resetData() {
             GvDataType<T> type = mHandler.getGvDataType();
-            mHandler = FactoryGvDataHandler.newHandler(getData(type));
+            mHandler = FactoryGvDataHandler.newHandler(getParentBuilder().getData(type));
         }
     }
 }

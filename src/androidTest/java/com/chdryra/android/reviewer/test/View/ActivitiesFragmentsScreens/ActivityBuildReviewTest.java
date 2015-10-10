@@ -245,7 +245,7 @@ public class ActivityBuildReviewTest extends ActivityReviewViewTest {
 //protected methods
     @Override
     protected ReviewView getView() {
-        return BuildScreen.newScreen(getInstrumentation().getTargetContext());
+        return BuildScreen.newEditor(getInstrumentation().getTargetContext());
     }
 
     protected void checkFragmentSubjectRating(String subject, float rating) {
