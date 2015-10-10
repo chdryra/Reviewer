@@ -111,7 +111,7 @@ public class AuthorFeedScreen implements ReviewsProviderObserver {
                 @Override
                 public void doAction(Context context, MenuItem item) {
                     Administrator.get(context).newReviewBuilder();
-                    LaunchableUi ui = BuildScreen.newScreen(context);
+                    LaunchableUi ui = BuildScreen.newEditor(context);
                     LauncherUi.launch(ui, getReviewView().getFragment(), REQUEST_CODE, ui
                             .getLaunchTag
                                     (), new Bundle());

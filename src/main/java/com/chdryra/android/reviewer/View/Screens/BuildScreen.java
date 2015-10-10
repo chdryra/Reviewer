@@ -46,55 +46,67 @@ import com.google.android.gms.maps.model.LatLng;
  * Email: rizwan.choudrey@gmail.com
  */
 public class BuildScreen {
-    private final ReviewView mScreen;
+    private final ReviewEditor mEditor;
     private final BuildScreenGridItem mGridItem;
 
     private BuildScreen(Context context) {
-        mGridItem = new BuildScreenGridItem();
-
-        ReviewBuilderAdapter builder = Administrator.get(context).getReviewBuilder();
+        //Actions
         ReviewViewActionCollection actions = new ReviewViewActionCollection();
+        mGridItem = new BuildScreenGridItem();
         actions.setAction(mGridItem);
         String screenTitle = context.getResources().getString(R.string.screen_title_build_review);
         String buttonTitle = context.getResources().getString(R.string.button_add_review_data);
         actions.setAction(new SubjectEdit());
-        actions.setAction(new EditScreen.RatingBar());
+        actions.setAction(new RatingBar());
         actions.setAction(ReviewViewAction.BannerButtonAction.newDisplayButton(buttonTitle));
-        actions.setAction(mGridItem);
         actions.setAction(new BuildScreenMenu(screenTitle));
+
+        //Parameters
         ReviewViewParams params = new ReviewViewParams();
         params.setGridAlpha(ReviewViewParams.GridViewAlpha.TRANSPARENT);
 
-        mScreen = new ReviewEditor(builder, params, actions, new BuildScreenModifier(builder));
+        //Builder
+        ReviewBuilderAdapter builder = Administrator.get(context).getReviewBuilder();
+
+        mEditor = new ReviewEditor(builder, params, actions, new BuildScreenModifier());
     }
 
     //Static methods
-    public static ReviewView newScreen(Context context) {
-        return new BuildScreen(context).getScreen();
+    public static ReviewView newEditor(Context context) {
+        return new BuildScreen(context).getEditor();
     }
 
     //private methods
-    private ReviewView getScreen() {
-        return mScreen;
+    private ReviewView getEditor() {
+        return mEditor;
     }
 
     private void showTagDialog() {
         mGridItem.showQuickDialog(ConfigGvDataUi.getConfig(GvTagList.GvTag.TYPE));
     }
 
-//Classes
+
+    //Classes
 
     /**
      * Created by: Rizwan Choudrey
      * On: 24/01/2015
      * Email: rizwan.choudrey@gmail.com
      */
-    public static class SubjectEdit extends ReviewViewAction.SubjectAction {
+    private class SubjectEdit extends ReviewViewAction.SubjectAction {
         //Overridden
         @Override
         public void onEditorDone(CharSequence s) {
-            ReviewBuilderAdapter adapter = (ReviewBuilderAdapter) getAdapter();
-            adapter.setSubject();
+            mEditor.setSubject();
+        }
+    }
+
+    private class RatingBar extends ReviewViewAction.RatingBarAction {
+        //Overridden
+        @Override
+        public void onRatingChanged(android.widget.RatingBar ratingBar, float rating,
+                                    boolean fromUser) {
+            mEditor.setRating(rating, fromUser);
         }
     }
 
@@ -112,10 +124,6 @@ public class BuildScreen {
         }
 
         //private methods
-        private ReviewBuilderAdapter getBuilder() {
-            return (ReviewBuilderAdapter) getAdapter();
-        }
-
         private int getImageRequestCode() {
             return ConfigGvDataUi.getConfig(GvImageList.GvImage.TYPE).getAdderConfig()
                     .getRequestCode();
@@ -157,10 +165,9 @@ public class BuildScreen {
             LatLng latLng = mLatLng;
             boolean fromImage = false;
 
-            GvImageList images = (GvImageList) getBuilder().getDataBuilder(GvImageList.GvImage.TYPE)
-                    .getGridData();
-            if (images.size() > 0) {
-                LatLng coverLatLng = images.getCovers().getItem(0).getLatLng();
+            GvImageList covers = mEditor.getCovers();
+            if (covers.size() > 0) {
+                LatLng coverLatLng = covers.getItem(0).getLatLng();
                 if (coverLatLng != null) {
                     latLng = coverLatLng;
                     fromImage = true;
@@ -211,15 +218,6 @@ public class BuildScreen {
             }
 
             @Override
-            public void onImageChosen(GvImageList.GvImage image) {
-                image.setIsCover(true);
-                ReviewBuilderAdapter.DataBuilderAdapter<GvImageList.GvImage> builder;
-                builder = getBuilder().getDataBuilder(GvImageList.GvImage.TYPE);
-                builder.add(image);
-                builder.setData();
-            }
-
-            @Override
             public void onActivityResult(int requestCode, int resultCode, Intent data) {
                 ActivityResultCode result = ActivityResultCode.get(resultCode);
                 boolean imageRequested = requestCode == getImageRequestCode();
@@ -227,7 +225,12 @@ public class BuildScreen {
                     mImageChooser.getChosenImage(this);
                 }
 
-                getBuilder().notifyGridDataObservers();
+                mEditor.updateEditor();
+            }
+
+            @Override
+            public void onChosenImage(GvImageList.GvImage image) {
+                mEditor.setCover(image);
             }
         }
     }
@@ -237,14 +240,14 @@ public class BuildScreen {
         private static final int MENU = R.menu.menu_build_review;
 
         private final MenuActionItem mActionItem;
-        private ReviewEditor mEditor;
 
         private BuildScreenMenu(String title) {
             super(MENU, title, true);
             mActionItem = new MenuActionItem() {
+                //Overridden
                 @Override
                 public void doAction(Context context, MenuItem item) {
-                    mEditor.setRatingAverage(true);
+                    mEditor.setRatingIsAverage(true);
                 }
             };
         }
@@ -254,33 +257,19 @@ public class BuildScreen {
         protected void addMenuItems() {
             bindMenuActionItem(mActionItem, MENU_AVERAGE_ID, false);
         }
-
-        @Override
-        public void onAttachReviewView() {
-            super.onAttachReviewView();
-            mEditor = ReviewEditor.cast(getReviewView());
-        }
     }
 
     private class BuildScreenModifier implements ReviewViewPerspective.ReviewViewModifier {
-        private final ReviewBuilderAdapter mBuilder;
-
-        private BuildScreenModifier(ReviewBuilderAdapter builder) {
-            mBuilder = builder;
-        }
-
         private void requestShareIntent(FragmentReviewView parent) {
             Activity activity = parent.getActivity();
 
             if (parent.getSubject().length() == 0) {
-                Toast.makeText(activity, R.string.toast_enter_subject,
-                        Toast.LENGTH_SHORT).show();
+                Toast.makeText(activity, R.string.toast_enter_subject, Toast.LENGTH_SHORT).show();
                 return;
             }
 
-            if (mBuilder.getDataSize(GvTagList.GvTag.TYPE) == 0) {
-                Toast.makeText(activity, R.string.toast_enter_tag,
-                        Toast.LENGTH_SHORT).show();
+            if (!mEditor.hasTags()) {
+                Toast.makeText(activity, R.string.toast_enter_tag, Toast.LENGTH_SHORT).show();
                 showTagDialog();
                 return;
             }

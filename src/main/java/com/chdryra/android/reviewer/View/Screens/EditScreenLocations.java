@@ -13,13 +13,13 @@ import android.view.View;
 
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.View.ActivitiesFragments.ActivityEditLocationMap;
-import com.chdryra.android.reviewer.View.Configs.ConfigGvDataUi;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
 import com.chdryra.android.reviewer.View.GvDataModel.GvLocationList;
 import com.chdryra.android.reviewer.View.Launcher.FactoryLaunchable;
 import com.chdryra.android.reviewer.View.Launcher.LaunchableUi;
 import com.chdryra.android.reviewer.View.Launcher.LauncherUi;
+import com.chdryra.android.reviewer.View.Utils.RequestCodeGenerator;
 
 /**
  * Created by: Rizwan Choudrey
@@ -29,16 +29,14 @@ import com.chdryra.android.reviewer.View.Launcher.LauncherUi;
 public class EditScreenLocations {
     private static final GvDataType<GvLocationList.GvLocation> TYPE =
             GvLocationList.GvLocation.TYPE;
-    private static final ConfigGvDataUi.Config CONFIG =
-            ConfigGvDataUi.getConfig(TYPE);
 
     //Classes
-    public static class BannerButton extends EditScreen.BannerButton {
-        private static final int ADD_ON_MAP = 200;
+    public static class BannerButtonAddLocation extends BannerButtonAdd<GvLocationList.GvLocation> {
+        private static final int ADD_ON_MAP = RequestCodeGenerator.getCode("AddOnMap");
 
         //Constructors
-        public BannerButton(String title) {
-            super(CONFIG.getAdderConfig(), title);
+        public BannerButtonAddLocation(String title) {
+            super(TYPE, title);
         }
 
         //Overridden
@@ -57,12 +55,12 @@ public class EditScreenLocations {
         }
     }
 
-    public static class GridItem extends EditScreen.GridItem {
-        private static final int EDIT_ON_MAP = 200;
+    public static class GridItemEditLocation extends GridItemAddEdit<GvLocationList.GvLocation> {
+        private static final int EDIT_ON_MAP = RequestCodeGenerator.getCode("EditOnMap");
 
         //Constructors
-        public GridItem() {
-            super(CONFIG.getEditorConfig());
+        public GridItemEditLocation() {
+            super(TYPE);
         }
 
         //Overridden

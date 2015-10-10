@@ -25,8 +25,8 @@ public class EditScreenCriteria {
             GvCriterionList.GvCriterion.TYPE;
 
     //Classes
-    public static class Menu extends EditScreen.Menu implements GridDataObservable
-            .GridDataObserver {
+    public static class MenuEditCriteria extends MenuDataEdit<GvCriterionList.GvCriterion>
+            implements GridDataObservable.GridDataObserver {
         public static final int MENU_DELETE_ID = R.id.menu_item_delete;
         public static final int MENU_DONE_ID = R.id.menu_item_done;
         public static final int MENU_AVERAGE_ID = R.id.menu_item_average_rating;
@@ -35,8 +35,8 @@ public class EditScreenCriteria {
         private final MenuItemCriteriaRatingAverage mActionItem;
 
         //Constructors
-        public Menu() {
-            super(TYPE.getDataName(), TYPE.getDataName(), false, true, MENU);
+        public MenuEditCriteria() {
+            super(TYPE, TYPE.getDataName(), TYPE.getDataName(), false, true, MENU);
             mActionItem = new MenuItemCriteriaRatingAverage();
         }
 
@@ -56,8 +56,7 @@ public class EditScreenCriteria {
         @Override
         public void onAttachReviewView() {
             super.onAttachReviewView();
-            ReviewEditor editor = getEditor();
-            editor.registerGridDataObserver(this);
+            getReviewView().registerGridDataObserver(this);
         }
 
         @Override

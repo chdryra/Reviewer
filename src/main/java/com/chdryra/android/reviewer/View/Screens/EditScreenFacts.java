@@ -13,7 +13,6 @@ import android.view.View;
 
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.View.ActivitiesFragments.ActivityEditUrlBrowser;
-import com.chdryra.android.reviewer.View.Configs.ConfigGvDataUi;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
 import com.chdryra.android.reviewer.View.GvDataModel.GvFactList;
@@ -29,16 +28,14 @@ import com.chdryra.android.reviewer.View.Launcher.LauncherUi;
 public class EditScreenFacts {
     private static final GvDataType<GvFactList.GvFact> TYPE =
             GvFactList.GvFact.TYPE;
-    private static final ConfigGvDataUi.Config CONFIG =
-            ConfigGvDataUi.getConfig(TYPE);
 
     //Classes
-    public static class BannerButton extends EditScreen.BannerButton {
+    public static class BannerButtonAddFacts extends BannerButtonAdd<GvFactList.GvFact> {
         private static final int ADD_ON_BROWSER = 200;
 
         //Constructors
-        public BannerButton(String title) {
-            super(CONFIG.getAdderConfig(), title);
+        public BannerButtonAddFacts(String title) {
+            super(TYPE, title);
         }
 
         //Overridden
@@ -52,18 +49,18 @@ public class EditScreenFacts {
         @Override
         protected void onDialogAlertPositive(int requestCode) {
             if (requestCode == ADD_ON_BROWSER) {
-                LaunchableUi mapUi = FactoryLaunchable.newLaunchable(ActivityEditUrlBrowser.class);
-                LauncherUi.launch(mapUi, getListener(), getRequestCode(), null, new Bundle());
+                LaunchableUi urlUi = FactoryLaunchable.newLaunchable(ActivityEditUrlBrowser.class);
+                LauncherUi.launch(urlUi, getListener(), getRequestCode(), null, new Bundle());
             }
         }
     }
 
-    public static class GridItem extends EditScreen.GridItem {
+    public static class GridItemAddEditFact extends GridItemAddEdit<GvFactList.GvFact> {
         private static final int EDIT_ON_BROWSER = 200;
 
         //Constructors
-        public GridItem() {
-            super(CONFIG.getEditorConfig());
+        public GridItemAddEditFact() {
+            super(TYPE);
         }
 
         //Overridden
@@ -81,9 +78,8 @@ public class EditScreenFacts {
         @Override
         protected void onDialogAlertPositive(int requestCode, Bundle args) {
             if (requestCode == EDIT_ON_BROWSER) {
-                LaunchableUi mapUi = FactoryLaunchable.newLaunchable(ActivityEditUrlBrowser
-                        .class);
-                LauncherUi.launch(mapUi, getListener(), getLaunchableRequestCode(), null, args);
+                LaunchableUi urlUi = FactoryLaunchable.newLaunchable(ActivityEditUrlBrowser.class);
+                LauncherUi.launch(urlUi, getListener(), getLaunchableRequestCode(), null, args);
             }
         }
     }

@@ -16,12 +16,12 @@ import android.view.View;
 import com.chdryra.android.mygenerallibrary.ActivityResultCode;
 import com.chdryra.android.reviewer.ApplicationSingletons.Administrator;
 import com.chdryra.android.reviewer.R;
-import com.chdryra.android.reviewer.View.Configs.ConfigGvDataUi;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataPacker;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
 import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
 import com.chdryra.android.reviewer.View.Utils.ImageChooser;
+import com.chdryra.android.reviewer.View.Utils.RequestCodeGenerator;
 
 /**
  * Created by: Rizwan Choudrey
@@ -29,18 +29,15 @@ import com.chdryra.android.reviewer.View.Utils.ImageChooser;
  * Email: rizwan.choudrey@gmail.com
  */
 public class EditScreenImages {
-    private static final GvDataType<GvImageList.GvImage> TYPE =
-            GvImageList.GvImage.TYPE;
-    private static final ConfigGvDataUi.Config CONFIG =
-            ConfigGvDataUi.getConfig(TYPE);
+    private static final GvDataType<GvImageList.GvImage> TYPE = GvImageList.GvImage.TYPE;
 
     //Classes
-    public static class BannerButton extends EditScreen.BannerButton {
+    public static class BannerButtonAddImage extends BannerButtonAdd<GvImageList.GvImage> {
         private ImageChooser mImageChooser;
 
         //Constructors
-        public BannerButton(String title) {
-            super(CONFIG.getAdderConfig(), title);
+        public BannerButtonAddImage(String title) {
+            super(TYPE, title);
             setListener(new AddImageListener() {
             });
         }
@@ -80,19 +77,19 @@ public class EditScreenImages {
             }
 
             @Override
-            public void onImageChosen(GvImageList.GvImage image) {
+            public void onChosenImage(GvImageList.GvImage image) {
                 if (getGridData().size() == 0) image.setIsCover(true);
                 if (addData(image) && getGridData().size() == 1) setCover();
             }
         }
     }
 
-    public static class GridItem extends EditScreen.GridItem {
-        private static final int IMAGE_AS_COVER = 200;
+    public static class GridItemAddEditImage extends GridItemAddEdit<GvImageList.GvImage> {
+        private static final int IMAGE_AS_COVER = RequestCodeGenerator.getCode("ImageAsCover");
 
         //Constructors
-        public GridItem() {
-            super(CONFIG.getEditorConfig());
+        public GridItemAddEditImage() {
+            super(TYPE);
         }
 
         //Overridden
@@ -108,9 +105,9 @@ public class EditScreenImages {
         }
 
         @Override
-        protected void deleteData(GvData datum) {
+        protected void deleteData(GvImageList.GvImage datum) {
             super.deleteData(datum);
-            if (((GvImageList.GvImage) datum).isCover()) getReviewView().updateCover();
+            if (datum.isCover()) getReviewView().updateCover();
         }
 
         @Override
@@ -118,9 +115,21 @@ public class EditScreenImages {
             if (requestCode == IMAGE_AS_COVER) {
                 GvImageList.GvImage cover = (GvImageList.GvImage) GvDataPacker.unpackItem
                         (GvDataPacker.CurrentNewDatum.CURRENT, args);
-                getEditor().proposeCover(cover);
-                getReviewView().update();
+                proposeCover(cover);
             }
+        }
+
+
+        private void proposeCover(GvImageList.GvImage image) {
+            ReviewDataEditor<GvImageList.GvImage> editor = getEditor();
+            if (editor.getParams().manageCover()) {
+                GvImageList covers = editor.getCovers();
+                for(GvImageList.GvImage cover : covers) {
+                    cover.setIsCover(false);
+                }
+                image.setIsCover(true);
+            }
+            editor.update();
         }
     }
 }

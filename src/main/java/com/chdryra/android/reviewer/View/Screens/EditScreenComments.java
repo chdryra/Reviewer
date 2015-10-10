@@ -12,7 +12,6 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.chdryra.android.reviewer.R;
-import com.chdryra.android.reviewer.View.Configs.ConfigGvDataUi;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataPacker;
@@ -26,16 +25,14 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
 public class EditScreenComments {
     private static final GvDataType<GvCommentList.GvComment> TYPE =
             GvCommentList.GvComment.TYPE;
-    private static final ConfigGvDataUi.Config CONFIG =
-            ConfigGvDataUi.getConfig(TYPE);
 
     //Classes
-    public static class GridItem extends EditScreen.GridItem {
+    public static class GridItemAddEditComments extends GridItemAddEdit<GvCommentList.GvComment> {
         private static final int COMMENT_AS_HEADLINE = 200;
 
         //Constructors
-        public GridItem() {
-            super(CONFIG.getEditorConfig());
+        public GridItemAddEditComments() {
+            super(TYPE);
         }
 
         //Overridden
@@ -74,8 +71,8 @@ public class EditScreenComments {
         }
     }
 
-    public static class Menu extends EditScreen.Menu implements GridDataObservable
-            .GridDataObserver {
+    public static class MenuEditComment extends MenuDataEdit<GvCommentList.GvComment>
+            implements GridDataObservable.GridDataObserver {
         public static final int MENU_DELETE_ID = R.id.menu_item_delete;
         public static final int MENU_DONE_ID = R.id.menu_item_done;
         public static final int MENU_SPLIT_ID = R.id.menu_item_split_comment;
@@ -84,8 +81,8 @@ public class EditScreenComments {
         private final MaiSplitComments mSplitter;
 
         //Constructors
-        public Menu() {
-            super(TYPE.getDataName(), TYPE.getDataName(), false, true, MENU);
+        public MenuEditComment() {
+            super(TYPE, TYPE.getDataName(), TYPE.getDataName(), false, true, MENU);
             mSplitter = new MaiSplitComments(this);
         }
 
