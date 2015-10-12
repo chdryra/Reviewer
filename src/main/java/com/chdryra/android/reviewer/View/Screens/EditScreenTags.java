@@ -30,7 +30,10 @@ public class EditScreenTags {
         @Override
         public void onAttachReviewView() {
             super.onAttachReviewView();
-            mCurrentSubjectTag = new GvTagList.GvTag(getEditor().getSubject());
+            String subject = getEditor().getSubject();
+            if(DataValidator.validateString(subject)) {
+                mCurrentSubjectTag = new GvTagList.GvTag(subject);
+            }
         }
 
         private void adjustTagsIfNecessary() {
@@ -42,11 +45,20 @@ public class EditScreenTags {
             if (toAdd.equals(toRemove)) return;
 
             GvTagList tags = (GvTagList) editor.getGridData();
-            boolean replace = DataValidator.validateString(camel) && !tags.contains(toAdd);
-            if(replace) {
-                editor.replace(toRemove, toAdd);
-                mCurrentSubjectTag = toAdd;
+            if(DataValidator.validateString(camel)) {
+                if(!tags.contains(toAdd)) {
+                    if(toRemove != null ) {
+                        editor.replace(toRemove, toAdd);
+                    } else {
+                        editor.add(toAdd);
+                    }
+                    mCurrentSubjectTag = toAdd;
+                }
+            } else if(mCurrentSubjectTag != null){
+                editor.delete(toRemove);
+                mCurrentSubjectTag = null;
             }
+
         }
     }
 }
