@@ -37,15 +37,20 @@ public class EditScreenReviewData<T extends GvData> {
         mContext = context;
         mDataType = dataType;
 
-        //Actions
-        ReviewViewActionCollection actions = getActions();
+        //Adapter
+        ReviewBuilderAdapter builder = Administrator.get(context).getReviewBuilder();
+        ReviewBuilderAdapter.DataBuilderAdapter<T> adapter = builder.getDataBuilder(mDataType);
 
         //Parameters
         ReviewViewParams params = DefaultParameters.getParams(mDataType);
 
-        //Builder
-        ReviewBuilderAdapter builder = Administrator.get(context).getReviewBuilder();
-        ReviewBuilderAdapter.DataBuilderAdapter<T> adapter = builder.getDataBuilder(mDataType);
+        //Actions
+        ReviewViewActions actions = new ReviewViewActions();
+        actions.setAction(newMenuAction());
+        actions.setAction(newSubjectAction());
+        actions.setAction(newRatingBarAction());
+        actions.setAction(newBannerButtonAction());
+        actions.setAction(newGridItemAction());
 
         mEditor = new ReviewDataEditor<>(adapter, params, actions);
     }
@@ -53,17 +58,17 @@ public class EditScreenReviewData<T extends GvData> {
     //Static methods
     public static <T extends GvData> ReviewView newScreen(Context context, GvDataType<T> dataType) {
         EditScreenReviewData screen;
-        if(dataType == GvCommentList.GvComment.TYPE) {
+        if (dataType == GvCommentList.GvComment.TYPE) {
             screen = new EditScreenComments(context);
-        } else if(dataType == GvCriterionList.GvCriterion.TYPE) {
+        } else if (dataType == GvCriterionList.GvCriterion.TYPE) {
             screen = new EditScreenCriteria(context);
-        } else if(dataType == GvFactList.GvFact.TYPE) {
+        } else if (dataType == GvFactList.GvFact.TYPE) {
             screen = new EditScreenFacts(context);
-        } else if(dataType == GvImageList.GvImage.TYPE) {
+        } else if (dataType == GvImageList.GvImage.TYPE) {
             screen = new EditScreenImages(context);
-        } else if(dataType == GvLocationList.GvLocation.TYPE) {
+        } else if (dataType == GvLocationList.GvLocation.TYPE) {
             screen = new EditScreenLocations(context);
-        } else if(dataType == GvTagList.GvTag.TYPE) {
+        } else if (dataType == GvTagList.GvTag.TYPE) {
             screen = new EditScreenTags(context);
         } else {
             screen = new EditScreenReviewData<>(context, dataType);
@@ -72,19 +77,11 @@ public class EditScreenReviewData<T extends GvData> {
         return screen.getEditor();
     }
 
-    //private methods
-    protected ReviewView getEditor() {
-        return mEditor;
-    }
-
-    private ReviewViewActionCollection getActions() {
-        ReviewViewActionCollection actions = new ReviewViewActionCollection();
-        actions.setAction(newSubjectAction());
-        actions.setAction(newRatingBarAction());
-        actions.setAction(newBannerButtonAction());
-        actions.setAction(newGridItemAction());
-        actions.setAction(newMenuAction());
-        return actions;
+    //protected methods
+    protected String getBannerButtonTitle() {
+        String title = mContext.getResources().getString(R.string.button_add);
+        title += " " + mDataType.getDatumName();
+        return title;
     }
 
     protected ReviewViewAction.SubjectAction newSubjectAction() {
@@ -94,7 +91,7 @@ public class EditScreenReviewData<T extends GvData> {
     protected ReviewViewAction.RatingBarAction newRatingBarAction() {
         return new RatingBarEdit();
     }
-    
+
     protected ReviewViewAction.MenuAction newMenuAction() {
         return new MenuDataEdit<>(mDataType);
     }
@@ -103,16 +100,15 @@ public class EditScreenReviewData<T extends GvData> {
         return new GridItemAddEdit<>(mDataType);
     }
 
-    protected String getBannerButtonTitle() {
-        String title = mContext.getResources().getString(R.string.button_add);
-        title += " " + mDataType.getDatumName();
-        return title;
-    }
-
     protected ReviewViewAction.BannerButtonAction newBannerButtonAction() {
         return new BannerButtonAdd<>(mDataType, getBannerButtonTitle());
     }
-    
+
+    //private methods
+    private ReviewView getEditor() {
+        return mEditor;
+    }
+
     protected class RatingBarEdit extends ReviewViewAction.RatingBarAction {
         //Overridden
         @Override

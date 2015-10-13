@@ -51,7 +51,7 @@ public class BuildScreen {
 
     private BuildScreen(Context context) {
         //Actions
-        ReviewViewActionCollection actions = new ReviewViewActionCollection();
+        ReviewViewActions actions = new ReviewViewActions();
         mGridItem = new BuildScreenGridItem();
         actions.setAction(mGridItem);
         String screenTitle = context.getResources().getString(R.string.screen_title_build_review);

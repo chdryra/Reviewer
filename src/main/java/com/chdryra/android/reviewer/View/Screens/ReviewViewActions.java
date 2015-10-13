@@ -5,7 +5,7 @@ package com.chdryra.android.reviewer.View.Screens;
  * On: 03/10/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ReviewViewActionCollection {
+public class ReviewViewActions {
     private ReviewViewAction.SubjectAction mSubjectAction;
     private ReviewViewAction.RatingBarAction mRatingBarAction;
     private ReviewViewAction.BannerButtonAction mBannerButtonAction;
@@ -13,7 +13,7 @@ public class ReviewViewActionCollection {
     private ReviewViewAction.MenuAction mMenuAction;
 
     //Constructors
-    public ReviewViewActionCollection() {
+    public ReviewViewActions() {
         mSubjectAction = new ReviewViewAction.SubjectAction();
         mRatingBarAction = new ReviewViewAction.RatingBarAction();
         mBannerButtonAction = new ReviewViewAction.BannerButtonAction();

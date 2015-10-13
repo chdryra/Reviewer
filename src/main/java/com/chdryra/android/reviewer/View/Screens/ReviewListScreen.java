@@ -24,7 +24,7 @@ public class ReviewListScreen {
         ReviewViewAdapter adapter = new AdapterReviewNode<>(node,
                 new ViewerChildList(context, node, repository));
 
-        ReviewViewActionCollection actions = new ReviewViewActionCollection();
+        ReviewViewActions actions = new ReviewViewActions();
         actions.setAction(giAction);
         if (menuAction != null) actions.setAction(menuAction);
         actions.setAction(new RbExpandGrid());

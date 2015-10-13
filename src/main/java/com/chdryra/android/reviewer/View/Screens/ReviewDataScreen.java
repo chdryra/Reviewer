@@ -24,7 +24,7 @@ public class ReviewDataScreen {
     public static ReviewView newScreen(ReviewViewAdapter adapter) {
         ReviewViewParams params = new ReviewViewParams();
 
-        ReviewViewActionCollection actions = new ReviewViewActionCollection();
+        ReviewViewActions actions = new ReviewViewActions();
         actions.setAction(new RbExpandGrid());
         actions.setAction(new GiDataLauncher());
 
@@ -36,7 +36,7 @@ public class ReviewDataScreen {
                                        GvDataType forDefaults) {
         ReviewViewParams params = DefaultParameters.getParams(forDefaults);
 
-        ReviewViewActionCollection actions = new ReviewViewActionCollection();
+        ReviewViewActions actions = new ReviewViewActions();
         actions.setAction(new RbExpandGrid());
         actions.setAction(DefaultMenus.getMenu(forDefaults));
         actions.setAction(DefaultGridActions.getGridAction(forDefaults));

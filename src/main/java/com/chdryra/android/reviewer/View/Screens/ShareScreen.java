@@ -44,7 +44,7 @@ public class ShareScreen {
 
         ReviewViewAdapter adapter = new ShareScreenAdapter(context, builder);
 
-        ReviewViewActionCollection actions = new ReviewViewActionCollection();
+        ReviewViewActions actions = new ReviewViewActions();
         String title = context.getResources().getString(R.string.button_social);
         actions.setAction(ReviewViewAction.BannerButtonAction.newDisplayButton(title));
         actions.setAction(new ShareScreenGridItem());

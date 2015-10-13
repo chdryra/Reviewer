@@ -16,11 +16,10 @@ import com.chdryra.android.reviewer.View.ActivitiesFragments.FragmentReviewView;
 public class ReviewViewPerspective {
     private ReviewViewAdapter mAdapter;
     private ReviewViewParams mParams;
-    private ReviewViewActionCollection mActions;
+    private ReviewViewActions mActions;
     private ReviewViewModifier mModifier;
 
     public interface ReviewViewModifier {
-        //abstract methods
         //abstract
         View modify(FragmentReviewView parent, View v, LayoutInflater inflater,
                     ViewGroup container, Bundle savedInstanceState);
@@ -29,13 +28,13 @@ public class ReviewViewPerspective {
     //Constructors
     public ReviewViewPerspective(ReviewViewAdapter adapter,
                                  ReviewViewParams params,
-                                 ReviewViewActionCollection actions) {
+                                 ReviewViewActions actions) {
         this(adapter, params, actions, null);
     }
 
     public ReviewViewPerspective(ReviewViewAdapter adapter,
                                  ReviewViewParams params,
-                                 ReviewViewActionCollection actions,
+                                 ReviewViewActions actions,
                                  ReviewViewModifier modifier) {
         mAdapter = adapter;
         mParams = params;
@@ -52,7 +51,7 @@ public class ReviewViewPerspective {
         return mParams;
     }
 
-    public ReviewViewActionCollection getActions() {
+    public ReviewViewActions getActions() {
         return mActions;
     }
 

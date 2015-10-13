@@ -16,7 +16,7 @@ public class ReviewEditor extends ReviewView {
     //Constructors
     public ReviewEditor(ReviewBuilderAdapter builder,
                         ReviewViewParams params,
-                        ReviewViewActionCollection actions,
+                        ReviewViewActions actions,
                         ReviewViewPerspective.ReviewViewModifier modifier) {
         super(new ReviewViewPerspective(builder, params, actions, modifier));
         mBuilder = builder;

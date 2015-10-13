@@ -90,7 +90,7 @@ public class ReviewView implements GridDataObservable.GridDataObserver, Launchab
         if(mFragment != null) mFragment.onGridDataChanged();
     }
 
-    public ReviewViewActionCollection getActions() {
+    public ReviewViewActions getActions() {
         return mPerspective.getActions();
     }
 

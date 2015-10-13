@@ -22,7 +22,7 @@ public class ReviewDataEditor<T extends GvData> extends ReviewView {
     //Constructors
     public ReviewDataEditor(ReviewBuilderAdapter.DataBuilderAdapter<T> builder,
                             ReviewViewParams params,
-                            ReviewViewActionCollection actions) {
+                            ReviewViewActions actions) {
         super(new ReviewViewPerspective(builder, params, actions));
         mBuilder = builder;
         mSubject = builder.getSubject();
@@ -33,6 +33,7 @@ public class ReviewDataEditor<T extends GvData> extends ReviewView {
     //Static methods
     public static <T extends GvData> ReviewDataEditor<T> cast(ReviewView view, GvDataType<T> type) {
         try {
+            //TODO make type safe
             return (ReviewDataEditor<T>) view;
         } catch (ClassCastException e) {
             throw new ClassCastException("ReviewView must be an Editor of type " + type.getDatumName());
