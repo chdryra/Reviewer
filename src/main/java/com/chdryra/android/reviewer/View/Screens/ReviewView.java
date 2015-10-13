@@ -49,7 +49,7 @@ public class ReviewView implements GridDataObservable.GridDataObserver, Launchab
         ReviewViewAdapter adapter = mPerspective.getAdapter();
         adapter.registerReviewView(this);
         adapter.registerGridDataObserver(this);
-        setGridViewData(adapter.getGridData());
+        mGridViewData = adapter.getGridData();
     }
 
     //public methods
@@ -87,7 +87,7 @@ public class ReviewView implements GridDataObservable.GridDataObserver, Launchab
 
     public void setGridViewData(GvDataList dataToShow) {
         mGridViewData = dataToShow;
-        update();
+        if(mFragment != null) mFragment.onGridDataChanged();
     }
 
     public ReviewViewActionCollection getActions() {

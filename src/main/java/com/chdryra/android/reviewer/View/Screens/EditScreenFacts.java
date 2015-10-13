@@ -8,6 +8,7 @@
 
 package com.chdryra.android.reviewer.View.Screens;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 
@@ -19,22 +20,37 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvFactList;
 import com.chdryra.android.reviewer.View.Launcher.FactoryLaunchable;
 import com.chdryra.android.reviewer.View.Launcher.LaunchableUi;
 import com.chdryra.android.reviewer.View.Launcher.LauncherUi;
+import com.chdryra.android.reviewer.View.Utils.RequestCodeGenerator;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 19/03/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class EditScreenFacts {
+public class EditScreenFacts extends EditScreenReviewData<GvFactList.GvFact> {
     private static final GvDataType<GvFactList.GvFact> TYPE =
             GvFactList.GvFact.TYPE;
 
+    public EditScreenFacts(Context context) {
+        super(context, TYPE);
+    }
+
+    @Override
+    protected ReviewViewAction.GridItemAction newGridItemAction() {
+        return new GridItemAddEditFact();
+    }
+
+    @Override
+    protected ReviewViewAction.BannerButtonAction newBannerButtonAction() {
+        return new BannerButtonAddFacts(getBannerButtonTitle());
+    }
+
     //Classes
-    public static class BannerButtonAddFacts extends BannerButtonAdd<GvFactList.GvFact> {
-        private static final int ADD_ON_BROWSER = 200;
+    private static class BannerButtonAddFacts extends BannerButtonAdd<GvFactList.GvFact> {
+        private static final int ADD_ON_BROWSER = RequestCodeGenerator.getCode("AddOnBrowser");
 
         //Constructors
-        public BannerButtonAddFacts(String title) {
+        private BannerButtonAddFacts(String title) {
             super(TYPE, title);
         }
 
@@ -55,11 +71,11 @@ public class EditScreenFacts {
         }
     }
 
-    public static class GridItemAddEditFact extends GridItemAddEdit<GvFactList.GvFact> {
-        private static final int EDIT_ON_BROWSER = 200;
+    private static class GridItemAddEditFact extends GridItemAddEdit<GvFactList.GvFact> {
+        private static final int EDIT_ON_BROWSER = RequestCodeGenerator.getCode("EditOnBrowser");
 
         //Constructors
-        public GridItemAddEditFact() {
+        private GridItemAddEditFact() {
             super(TYPE);
         }
 

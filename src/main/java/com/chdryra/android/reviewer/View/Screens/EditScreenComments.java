@@ -8,6 +8,7 @@
 
 package com.chdryra.android.reviewer.View.Screens;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 
@@ -16,22 +17,38 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataPacker;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
+import com.chdryra.android.reviewer.View.Utils.RequestCodeGenerator;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 19/03/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class EditScreenComments {
+public class EditScreenComments extends EditScreenReviewData<GvCommentList.GvComment> {
     private static final GvDataType<GvCommentList.GvComment> TYPE =
             GvCommentList.GvComment.TYPE;
 
+    public EditScreenComments(Context context) {
+        super(context, TYPE);
+    }
+
+    @Override
+    protected ReviewViewAction.GridItemAction newGridItemAction() {
+        return new GridItemAddEditComments();
+    }
+
+    @Override
+    protected ReviewViewAction.MenuAction newMenuAction() {
+        return new MenuEditComment();
+    }
+
     //Classes
-    public static class GridItemAddEditComments extends GridItemAddEdit<GvCommentList.GvComment> {
-        private static final int COMMENT_AS_HEADLINE = 200;
+    private static class GridItemAddEditComments extends GridItemAddEdit<GvCommentList.GvComment> {
+        private static final int COMMENT_AS_HEADLINE 
+                = RequestCodeGenerator.getCode("CommentAsHeadline");
 
         //Constructors
-        public GridItemAddEditComments() {
+        private GridItemAddEditComments() {
             super(TYPE);
         }
 
@@ -71,17 +88,17 @@ public class EditScreenComments {
         }
     }
 
-    public static class MenuEditComment extends MenuDataEdit<GvCommentList.GvComment>
+    private class MenuEditComment extends MenuDataEdit<GvCommentList.GvComment>
             implements GridDataObservable.GridDataObserver {
         public static final int MENU_DELETE_ID = R.id.menu_item_delete;
         public static final int MENU_DONE_ID = R.id.menu_item_done;
-        public static final int MENU_SPLIT_ID = R.id.menu_item_split_comment;
+        private static final int MENU_SPLIT_ID = R.id.menu_item_split_comment;
         private static final int MENU = R.menu.menu_edit_comments;
 
         private final MaiSplitComments mSplitter;
 
         //Constructors
-        public MenuEditComment() {
+        private MenuEditComment() {
             super(TYPE, TYPE.getDataName(), TYPE.getDataName(), false, true, MENU);
             mSplitter = new MaiSplitComments(this);
         }

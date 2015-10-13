@@ -9,6 +9,7 @@
 package com.chdryra.android.reviewer.View.Screens;
 
 import android.app.Fragment;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -28,15 +29,29 @@ import com.chdryra.android.reviewer.View.Utils.RequestCodeGenerator;
  * On: 19/03/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class EditScreenImages {
+public class EditScreenImages extends EditScreenReviewData<GvImageList.GvImage> {
     private static final GvDataType<GvImageList.GvImage> TYPE = GvImageList.GvImage.TYPE;
 
+    public EditScreenImages(Context context) {
+        super(context, TYPE);
+    }
+
+    @Override
+    protected ReviewViewAction.GridItemAction newGridItemAction() {
+        return new GridItemAddEditImage();
+    }
+
+    @Override
+    protected ReviewViewAction.BannerButtonAction newBannerButtonAction() {
+        return new BannerButtonAddImage(getBannerButtonTitle());
+    }
+
     //Classes
-    public static class BannerButtonAddImage extends BannerButtonAdd<GvImageList.GvImage> {
+    private static class BannerButtonAddImage extends BannerButtonAdd<GvImageList.GvImage> {
         private ImageChooser mImageChooser;
 
         //Constructors
-        public BannerButtonAddImage(String title) {
+        private BannerButtonAddImage(String title) {
             super(TYPE, title);
             setListener(new AddImageListener() {
             });
@@ -84,11 +99,11 @@ public class EditScreenImages {
         }
     }
 
-    public static class GridItemAddEditImage extends GridItemAddEdit<GvImageList.GvImage> {
+    private static class GridItemAddEditImage extends GridItemAddEdit<GvImageList.GvImage> {
         private static final int IMAGE_AS_COVER = RequestCodeGenerator.getCode("ImageAsCover");
 
         //Constructors
-        public GridItemAddEditImage() {
+        private GridItemAddEditImage() {
             super(TYPE);
         }
 

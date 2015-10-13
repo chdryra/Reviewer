@@ -8,6 +8,7 @@
 
 package com.chdryra.android.reviewer.View.Screens;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 
@@ -26,16 +27,30 @@ import com.chdryra.android.reviewer.View.Utils.RequestCodeGenerator;
  * On: 19/03/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class EditScreenLocations {
+public class EditScreenLocations extends EditScreenReviewData<GvLocationList.GvLocation> {
     private static final GvDataType<GvLocationList.GvLocation> TYPE =
             GvLocationList.GvLocation.TYPE;
 
+    public EditScreenLocations(Context context) {
+        super(context, TYPE);
+    }
+
+    @Override
+    protected ReviewViewAction.GridItemAction newGridItemAction() {
+        return new GridItemEditLocation();
+    }
+
+    @Override
+    protected ReviewViewAction.BannerButtonAction newBannerButtonAction() {
+        return new BannerButtonAddLocation(getBannerButtonTitle());
+    }
+
     //Classes
-    public static class BannerButtonAddLocation extends BannerButtonAdd<GvLocationList.GvLocation> {
+    private static class BannerButtonAddLocation extends BannerButtonAdd<GvLocationList.GvLocation> {
         private static final int ADD_ON_MAP = RequestCodeGenerator.getCode("AddOnMap");
 
         //Constructors
-        public BannerButtonAddLocation(String title) {
+        private BannerButtonAddLocation(String title) {
             super(TYPE, title);
         }
 
@@ -55,11 +70,11 @@ public class EditScreenLocations {
         }
     }
 
-    public static class GridItemEditLocation extends GridItemAddEdit<GvLocationList.GvLocation> {
+    private static class GridItemEditLocation extends GridItemAddEdit<GvLocationList.GvLocation> {
         private static final int EDIT_ON_MAP = RequestCodeGenerator.getCode("EditOnMap");
 
         //Constructors
-        public GridItemEditLocation() {
+        private GridItemEditLocation() {
             super(TYPE);
         }
 

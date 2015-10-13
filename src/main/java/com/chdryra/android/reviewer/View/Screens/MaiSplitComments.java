@@ -41,7 +41,7 @@ public class MaiSplitComments implements ReviewViewAction.MenuAction.MenuActionI
             if (mCommentsAreSplit) {
                 view.setGridViewData(comments.getSplitComments());
             } else {
-                view.resetGridViewData();
+                view.setGridViewData(comments);
             }
         } else {
             AdapterCommentsAggregate adapter = (AdapterCommentsAggregate) view.getAdapter();

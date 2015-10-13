@@ -140,7 +140,7 @@ public class BuildScreen {
         private void startActivity(ConfigGvDataUi.Config config) {
             Intent i = new Intent(getActivity(), ActivityReviewView.class);
             Administrator admin = Administrator.get(getActivity());
-            admin.packView(EditScreen.newScreen(getActivity(), config.getGvDataType()), i);
+            admin.packView(EditScreenReviewData.newScreen(getActivity(), config.getGvDataType()), i);
 
             mListener.startActivity(i);
         }

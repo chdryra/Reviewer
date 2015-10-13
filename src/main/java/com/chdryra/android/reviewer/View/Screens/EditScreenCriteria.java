@@ -20,12 +20,21 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
  * On: 19/03/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class EditScreenCriteria {
+public class EditScreenCriteria extends EditScreenReviewData<GvCriterionList.GvCriterion> {
     private static final GvDataType<GvCriterionList.GvCriterion> TYPE =
             GvCriterionList.GvCriterion.TYPE;
 
+    public EditScreenCriteria(Context context) {
+        super(context, TYPE);
+    }
+
+    @Override
+    protected ReviewViewAction.MenuAction newMenuAction() {
+        return new MenuEditCriteria();
+    }
+
     //Classes
-    public static class MenuEditCriteria extends MenuDataEdit<GvCriterionList.GvCriterion>
+    private class MenuEditCriteria extends MenuDataEdit<GvCriterionList.GvCriterion>
             implements GridDataObservable.GridDataObserver {
         public static final int MENU_DELETE_ID = R.id.menu_item_delete;
         public static final int MENU_DONE_ID = R.id.menu_item_done;
@@ -35,7 +44,7 @@ public class EditScreenCriteria {
         private final MenuItemCriteriaRatingAverage mActionItem;
 
         //Constructors
-        public MenuEditCriteria() {
+        private MenuEditCriteria() {
             super(TYPE, TYPE.getDataName(), TYPE.getDataName(), false, true, MENU);
             mActionItem = new MenuItemCriteriaRatingAverage();
         }

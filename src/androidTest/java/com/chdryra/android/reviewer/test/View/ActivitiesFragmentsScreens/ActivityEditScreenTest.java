@@ -27,7 +27,7 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvCriterionList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
-import com.chdryra.android.reviewer.View.Screens.EditScreen;
+import com.chdryra.android.reviewer.View.Screens.EditScreenReviewData;
 import com.chdryra.android.reviewer.View.Screens.ReviewView;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
 import com.chdryra.android.reviewer.test.TestUtils.SoloDataEntry;
@@ -156,7 +156,7 @@ public abstract class ActivityEditScreenTest extends ActivityReviewViewTest {
 
     @Override
     protected ReviewView getView() {
-        return EditScreen.newScreen(getInstrumentation().getTargetContext(), mDataType);
+        return EditScreenReviewData.newScreen(getInstrumentation().getTargetContext(), mDataType);
     }
 
     protected void clickMenuDelete() {

@@ -9,6 +9,7 @@
 package com.chdryra.android.reviewer.View.Screens;
 
 import android.content.Context;
+import android.widget.RatingBar;
 
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilderAdapter;
 import com.chdryra.android.reviewer.ApplicationSingletons.Administrator;
@@ -27,12 +28,12 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvTagList;
  * On: 24/01/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class EditScreen<T extends GvData> {
+public class EditScreenReviewData<T extends GvData> {
     private Context mContext;
     private ReviewDataEditor<T> mEditor;
     private GvDataType<T> mDataType;
 
-    private EditScreen(Context context, GvDataType<T> dataType) {
+    protected EditScreenReviewData(Context context, GvDataType<T> dataType) {
         mContext = context;
         mDataType = dataType;
 
@@ -51,77 +52,71 @@ public class EditScreen<T extends GvData> {
 
     //Static methods
     public static <T extends GvData> ReviewView newScreen(Context context, GvDataType<T> dataType) {
-        return new EditScreen<>(context, dataType).getEditor();
+        EditScreenReviewData screen;
+        if(dataType == GvCommentList.GvComment.TYPE) {
+            screen = new EditScreenComments(context);
+        } else if(dataType == GvCriterionList.GvCriterion.TYPE) {
+            screen = new EditScreenCriteria(context);
+        } else if(dataType == GvFactList.GvFact.TYPE) {
+            screen = new EditScreenFacts(context);
+        } else if(dataType == GvImageList.GvImage.TYPE) {
+            screen = new EditScreenImages(context);
+        } else if(dataType == GvLocationList.GvLocation.TYPE) {
+            screen = new EditScreenLocations(context);
+        } else if(dataType == GvTagList.GvTag.TYPE) {
+            screen = new EditScreenTags(context);
+        } else {
+            screen = new EditScreenReviewData<>(context, dataType);
+        }
+
+        return screen.getEditor();
     }
 
     //private methods
-    private ReviewView getEditor() {
+    protected ReviewView getEditor() {
         return mEditor;
     }
 
     private ReviewViewActionCollection getActions() {
         ReviewViewActionCollection actions = new ReviewViewActionCollection();
         actions.setAction(newSubjectAction());
-        actions.setAction(new RatingBar());
+        actions.setAction(newRatingBarAction());
         actions.setAction(newBannerButtonAction());
         actions.setAction(newGridItemAction());
         actions.setAction(newMenuAction());
         return actions;
     }
 
-    private ReviewViewAction.SubjectAction newSubjectAction() {
-        ReviewViewAction.SubjectAction action;
-        if(mDataType == GvTagList.GvTag.TYPE) {
-            action = new EditScreenTags.SubjectEditTags();
-        } else {
-            action = new SubjectEdit<>(mDataType);
-        }
-
-        return action;
-    }
-    private ReviewViewAction.MenuAction newMenuAction() {
-        if (mDataType == GvCommentList.GvComment.TYPE) {
-            return new EditScreenComments.MenuEditComment();
-        } else if (mDataType == GvCriterionList.GvCriterion.TYPE) {
-            return new EditScreenCriteria.MenuEditCriteria();
-        } else {
-            return new MenuDataEdit<>(mDataType);
-        }
+    protected ReviewViewAction.SubjectAction newSubjectAction() {
+        return new SubjectEdit<>(mDataType);
     }
 
-    private ReviewViewAction.GridItemAction newGridItemAction() {
-        if (mDataType == GvCommentList.GvComment.TYPE) {
-            return new EditScreenComments.GridItemAddEditComments();
-        } else if (mDataType == GvImageList.GvImage.TYPE) {
-            return new EditScreenImages.GridItemAddEditImage();
-        } else if (mDataType == GvLocationList.GvLocation.TYPE) {
-            return new EditScreenLocations.GridItemEditLocation();
-        } else if (mDataType == GvFactList.GvFact.TYPE) {
-            return new EditScreenFacts.GridItemAddEditFact();
-        } else {
-            return new GridItemAddEdit<>(mDataType);
-        }
+    protected ReviewViewAction.RatingBarAction newRatingBarAction() {
+        return new RatingBarEdit();
+    }
+    
+    protected ReviewViewAction.MenuAction newMenuAction() {
+        return new MenuDataEdit<>(mDataType);
     }
 
-    private ReviewViewAction.BannerButtonAction newBannerButtonAction() {
+    protected ReviewViewAction.GridItemAction newGridItemAction() {
+        return new GridItemAddEdit<>(mDataType);
+    }
+
+    protected String getBannerButtonTitle() {
         String title = mContext.getResources().getString(R.string.button_add);
         title += " " + mDataType.getDatumName();
-        if (mDataType == GvImageList.GvImage.TYPE) {
-            return new EditScreenImages.BannerButtonAddImage(title);
-        } else if (mDataType == GvLocationList.GvLocation.TYPE) {
-            return new EditScreenLocations.BannerButtonAddLocation(title);
-        } else if (mDataType == GvFactList.GvFact.TYPE) {
-            return new EditScreenFacts.BannerButtonAddFacts(title);
-        } else {
-            return new BannerButtonAdd<>(mDataType, title);
-        }
+        return title;
     }
 
-    private class RatingBar extends ReviewViewAction.RatingBarAction {
+    protected ReviewViewAction.BannerButtonAction newBannerButtonAction() {
+        return new BannerButtonAdd<>(mDataType, getBannerButtonTitle());
+    }
+    
+    protected class RatingBarEdit extends ReviewViewAction.RatingBarAction {
         //Overridden
         @Override
-        public void onRatingChanged(android.widget.RatingBar ratingBar, float rating,
-                                    boolean fromUser) {
+        public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
             if (fromUser) mEditor.setRating(rating, true);
         }
     }

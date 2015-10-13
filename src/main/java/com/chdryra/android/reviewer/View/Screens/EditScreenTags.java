@@ -1,5 +1,7 @@
 package com.chdryra.android.reviewer.View.Screens;
 
+import android.content.Context;
+
 import com.chdryra.android.mygenerallibrary.TextUtils;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
@@ -10,13 +12,22 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvTagList;
  * On: 10/10/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class EditScreenTags {
+public class EditScreenTags extends EditScreenReviewData<GvTagList.GvTag> {
     private static final GvDataType<GvTagList.GvTag> TYPE = GvTagList.GvTag.TYPE;
 
-    public static class SubjectEditTags extends SubjectEdit<GvTagList.GvTag> {
+    public EditScreenTags(Context context) {
+        super(context, TYPE);
+    }
+
+    @Override
+    protected ReviewViewAction.SubjectAction newSubjectAction() {
+        return new SubjectEditTags();
+    }
+
+    private static class SubjectEditTags extends SubjectEdit<GvTagList.GvTag> {
         private GvTagList.GvTag mCurrentSubjectTag;
 
-        public SubjectEditTags() {
+        private SubjectEditTags() {
             super(TYPE);
         }
 
