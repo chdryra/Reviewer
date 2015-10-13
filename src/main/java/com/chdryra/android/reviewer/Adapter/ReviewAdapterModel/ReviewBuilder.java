@@ -71,6 +71,10 @@ public class ReviewBuilder {
         return mContext;
     }
 
+    public Author getAuthor() {
+        return mAuthor;
+    }
+
     public String getSubject() {
         return mSubject;
     }

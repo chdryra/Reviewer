@@ -17,8 +17,6 @@ import com.chdryra.android.mygenerallibrary.FileIncrementorFactory;
 import com.chdryra.android.mygenerallibrary.TextUtils;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
 import com.chdryra.android.reviewer.Model.ReviewStructure.Review;
-import com.chdryra.android.reviewer.Model.TagsModel.TagsManager;
-import com.chdryra.android.reviewer.Model.UserData.Author;
 import com.chdryra.android.reviewer.View.Configs.ConfigGvDataUi;
 import com.chdryra.android.reviewer.View.GvDataModel.GvBuildReviewList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCriterionList;
@@ -50,67 +48,43 @@ public class ReviewBuilderAdapter extends ReviewViewAdapterBasic {
             .getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM);
 
     private final DataBuildersMap mDataBuilders;
-    private final Context mContext;
-    private final Author mAuthor;
     private final GvBuildReviewList mBuildUi;
     private FileIncrementor mIncrementor;
     private ReviewBuilder mBuilder;
     private GvTagList.GvTag mSubjectTag;
 
     //Constructors
-    public ReviewBuilderAdapter(Context context, Author author, TagsManager tagsManager) {
-        mContext = context;
-        mAuthor = author;
-        mBuilder = new ReviewBuilder(context, author, tagsManager);
+    public ReviewBuilderAdapter(ReviewBuilder builder) {
+        mBuilder = builder;
         mDataBuilders = new DataBuildersMap();
         mBuildUi = GvBuildReviewList.newInstance(this);
         newIncrementor();
     }
 
     //public methods
-    public Context getContext() {
-        return mContext;
-    }
-
-    public boolean isRatingAverage() {
-        return mBuilder.isRatingAverage();
-    }
-
-    public float getAverageRating() {
-        return mBuilder.getAverageRating();
-    }
-
     public void setRatingIsAverage(boolean ratingIsAverage) {
         mBuilder.setRatingIsAverage(ratingIsAverage);
     }
 
     public ImageChooser getImageChooser(Activity activity) {
-        Context c = activity.getApplicationContext();
-        if (c.equals(mContext.getApplicationContext())) {
-            return new ImageChooser(activity, (FileIncrementorFactory.ImageFileIncrementor)
-                    mIncrementor);
-        } else {
-            throw new RuntimeException("Activity should belong to correct application context");
-        }
+        return new ImageChooser(activity, (FileIncrementorFactory.ImageFileIncrementor)
+                mIncrementor);
     }
 
     public <T extends GvData> DataBuilderAdapter<T> getDataBuilder(GvDataType<T> dataType) {
         return mDataBuilders.get(dataType);
     }
 
-    public <T extends GvData> void resetDataBuilder(GvDataType<T> dataType) {
-        getDataBuilder(dataType).reset();
-    }
-
-    public int getDataSize(GvDataType dataType) {
-        return getData(dataType).size();
+    public boolean hasTags() {
+        return getData(GvTagList.GvTag.TYPE).size() > 0;
     }
 
     public Review publish() {
         return mBuilder.buildReview();
     }
 
-    public <T extends GvData> GvDataList<T> getData(GvDataType<T> dataType) {
+    //private methods
+    private <T extends GvData> GvDataList<T> getData(GvDataType<T> dataType) {
         return mBuilder.getData(dataType);
     }
 
@@ -135,11 +109,12 @@ public class ReviewBuilderAdapter extends ReviewViewAdapterBasic {
     }
 
     private void newIncrementor() {
-        String dir = mContext.getString(mContext.getApplicationInfo().labelRes);
+        Context context = mBuilder.getContext();
+        String author = mBuilder.getAuthor().getName();
+        String dir = context.getString(context.getApplicationInfo().labelRes);
         String subject = mBuilder.getSubject();
-        String filename = DataValidator.validateString(subject) ? subject : mAuthor.getName();
-        mIncrementor = FileIncrementorFactory.newImageFileIncrementor(FILE_DIR_EXT, dir,
-                filename);
+        String filename = DataValidator.validateString(subject) ? subject : author;
+        mIncrementor = FileIncrementorFactory.newImageFileIncrementor(FILE_DIR_EXT, dir, filename);
     }
 
     //Overridden
@@ -192,14 +167,14 @@ public class ReviewBuilderAdapter extends ReviewViewAdapterBasic {
         }
 
         public boolean isRatingAverage() {
-            return getParentBuilder().isRatingAverage();
+            return mBuilder.isRatingAverage();
         }
 
         public float getAverageRating() {
-            if(mType == GvCriterionList.GvCriterion.TYPE) {
-                return ((GvCriterionList)getGridData()).getAverageRating();
+            if (mType == GvCriterionList.GvCriterion.TYPE) {
+                return ((GvCriterionList) getGridData()).getAverageRating();
             } else {
-                return getParentBuilder().getAverageRating();
+                return mBuilder.getAverageRating();
             }
         }
 
@@ -234,6 +209,10 @@ public class ReviewBuilderAdapter extends ReviewViewAdapterBasic {
             notifyGridDataObservers();
         }
 
+        public void setRatingIsAverage(boolean ratingIsAverage) {
+            getParentBuilder().setRatingIsAverage(ratingIsAverage);
+        }
+
         //Overridden
         @Override
         public GvDataList<T> getGridData() {
@@ -258,20 +237,10 @@ public class ReviewBuilderAdapter extends ReviewViewAdapterBasic {
             getParentBuilder().setRating(rating);
         }
 
-        public void setRatingIsAverage(boolean ratingIsAverage) {
-            getParentBuilder().setRatingIsAverage(ratingIsAverage);
-        }
-
         @Override
         public GvImageList getCovers() {
-            GvImageList images;
-            if (mType == GvImageList.GvImage.TYPE) {
-                images = (GvImageList) getGridData();
-            } else {
-                images = getParentBuilder().getCovers();
-            }
-
-            return images;
+            return mType == GvImageList.GvImage.TYPE ? (GvImageList) getGridData()
+                    : getParentBuilder().getCovers();
         }
     }
 
@@ -282,7 +251,7 @@ public class ReviewBuilderAdapter extends ReviewViewAdapterBasic {
 
         private DataBuildersMap() {
             mDataBuilders = new HashMap<>();
-            for (GvDataType<? extends GvData> dataType : TYPES) {
+            for (GvDataType dataType : TYPES) {
                 add(dataType);
             }
         }
@@ -291,7 +260,7 @@ public class ReviewBuilderAdapter extends ReviewViewAdapterBasic {
             mDataBuilders.put(type, newDataBuilder(type));
         }
 
-        //TODO make type safe although it really is....
+        //TODO make type safe although it is really....
         private <T extends GvData> DataBuilderAdapter<T> get(GvDataType<T> type) {
             return (DataBuilderAdapter<T>) mDataBuilders.get(type);
         }

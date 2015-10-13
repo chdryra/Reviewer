@@ -3,7 +3,6 @@ package com.chdryra.android.reviewer.View.Screens;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilderAdapter;
 import com.chdryra.android.reviewer.View.ActivitiesFragments.FragmentReviewView;
 import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvTagList;
 
 /**
  * Created by: Rizwan Choudrey
@@ -26,10 +25,6 @@ public class ReviewEditor extends ReviewView {
     //public methods
     public void setSubject() {
         mBuilder.setSubject(getFragmentSubject());
-    }
-
-    public boolean isRatingAverage() {
-        return mBuilder.isRatingAverage();
     }
 
     public void setRatingIsAverage(boolean isAverage) {
@@ -65,7 +60,7 @@ public class ReviewEditor extends ReviewView {
     }
 
     public boolean hasTags() {
-        return mBuilder.getDataSize(GvTagList.GvTag.TYPE) > 0;
+        return mBuilder.hasTags();
     }
 
     //Overridden

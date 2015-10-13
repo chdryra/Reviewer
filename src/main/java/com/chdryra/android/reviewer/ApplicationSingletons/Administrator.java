@@ -13,6 +13,7 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.chdryra.android.mygenerallibrary.ObjectHolder;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilder;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilderAdapter;
 import com.chdryra.android.reviewer.Database.ReviewerDb;
 import com.chdryra.android.reviewer.Model.ReviewData.IdableList;
@@ -109,7 +110,8 @@ public class Administrator extends ApplicationSingleton {
     }
 
     public ReviewBuilderAdapter newReviewBuilder() {
-        mReviewBuilderAdapter = new ReviewBuilderAdapter(getContext(), AUTHOR, mTagsManager);
+        ReviewBuilder builder = new ReviewBuilder(getContext(), getAuthor(), getTagsManager());
+        mReviewBuilderAdapter = new ReviewBuilderAdapter(builder);
         return mReviewBuilderAdapter;
     }
 

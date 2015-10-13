@@ -585,7 +585,7 @@ public class ActivityBuildReviewTest extends ActivityReviewViewTest {
     private void checkBuilderChanges(GvDataType dataType) {
         for (GvBuildReviewList.GvBuildReview type : mList) {
             if (dataType != null && type.getGvDataType() == dataType) continue;
-            assertEquals(0, getBuilder().getDataSize(type.getGvDataType()));
+            assertEquals(0, getBuilder().hasTags(type.getGvDataType()));
         }
     }
 

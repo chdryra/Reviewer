@@ -594,7 +594,7 @@ public abstract class ActivityEditScreenTest extends ActivityReviewViewTest {
 
         clickMenuDone();
 
-        assertEquals(confirm ? 0 : mData.size(), getParentBuilder().getDataSize(mDataType));
+        assertEquals(confirm ? 0 : mData.size(), getParentBuilder().hasTags(mDataType));
         checkBuildersSubjectRatingOnDone();
     }
 
