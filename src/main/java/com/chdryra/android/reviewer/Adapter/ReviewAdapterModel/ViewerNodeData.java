@@ -4,8 +4,12 @@ import android.content.Context;
 
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.MdGvConverter;
 import com.chdryra.android.reviewer.Model.ReviewData.IdableList;
+import com.chdryra.android.reviewer.Model.ReviewData.MdDataList;
+import com.chdryra.android.reviewer.Model.ReviewData.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewStructure.Review;
 import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
+import com.chdryra.android.reviewer.Model.TagsModel.TagsManager;
+import com.chdryra.android.reviewer.Model.TreeMethods.VisitorReviewsGetter;
 import com.chdryra.android.reviewer.ReviewsProviderModel.ReviewsRepository;
 import com.chdryra.android.reviewer.View.GvDataAggregation.Aggregater;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCanonicalCollection;
@@ -15,6 +19,7 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvReviewId;
 import com.chdryra.android.reviewer.View.GvDataModel.GvReviewOverviewList;
+import com.chdryra.android.reviewer.View.GvDataModel.GvTagList;
 
 /**
  * Created by: Rizwan Choudrey
@@ -27,17 +32,33 @@ public class ViewerNodeData implements GridDataViewer<GvData> {
     //Constructors
     public ViewerNodeData(Context context, ReviewNode node, ReviewsRepository repository) {
         IdableList<ReviewNode> children = node.getChildren();
-        if (children.size() > 1) {
+        if (children.size() > 1) { //aggregate children into meta review
             mViewer = new ViewerTreeData(context, node, repository);
         } else {
             ReviewNode toExpand = children.size() == 0 ? node : children.getItem(0);
             ReviewNode expanded = toExpand.expand();
-            if (expanded.equals(toExpand)) {
+            if (expanded.equals(toExpand)) { //must be a leaf node so view review
                 mViewer = new ViewerReviewData(context, expanded, repository);
-            } else {
+            } else { //expand next layer of tree
                 mViewer = new ViewerNodeData(context, expanded, repository);
             }
         }
+    }
+
+    private GvTagList collectTags(ReviewNode node, TagsManager tagsManager) {
+        MdDataList<ReviewId> ids = new MdDataList<>(node.getId());
+        for (Review review : VisitorReviewsGetter.flatten(node)) {
+            ids.add(review.getId());
+        }
+
+        GvTagList tags = new GvTagList(GvReviewId.getId(node.getId().toString()));
+        for (ReviewId id : ids) {
+            for (GvTagList.GvTag tag : MdGvConverter.getTags(id.toString(), tagsManager)) {
+                tags.add(tag);
+            }
+        }
+
+        return tags;
     }
 
     //Overridden
@@ -155,7 +176,6 @@ public class ViewerNodeData implements GridDataViewer<GvData> {
             ReviewNode node = getReviewNode();
             ReviewsRepository repository = getRepository();
 
-            TagCollector tagCollector = new TagCollector(node, repository.getTagsManager());
             ViewerChildList wrapper = new ViewerChildList(getContext(), node, repository);
 
             GvList data = new GvList(GvReviewId.getId(node.getId().toString()));
@@ -164,7 +184,7 @@ public class ViewerNodeData implements GridDataViewer<GvData> {
             data.add(Aggregater.aggregate(MdGvConverter.convertChildSubjects(node)));
             data.add(Aggregater.aggregate(MdGvConverter.convertChildPublishDates(node)));
 
-            data.add(Aggregater.aggregate(tagCollector.collectTags()));
+            data.add(Aggregater.aggregate(collectTags(node, repository.getTagsManager())));
             data.add(Aggregater.aggregate(MdGvConverter.convert(node.getCriteria())));
             data.add(Aggregater.aggregate(MdGvConverter.convert(node.getImages())));
             data.add(Aggregater.aggregate(MdGvConverter.convert(node.getComments())));
@@ -191,6 +211,4 @@ public class ViewerNodeData implements GridDataViewer<GvData> {
             return adapter;
         }
     }
-
-
 }

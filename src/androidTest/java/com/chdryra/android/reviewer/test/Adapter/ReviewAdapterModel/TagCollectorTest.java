@@ -3,7 +3,7 @@ package com.chdryra.android.reviewer.test.Adapter.ReviewAdapterModel;
 import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.TagCollector;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ViewerNodeData;
 import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
 import com.chdryra.android.reviewer.Model.TagsModel.TagsManager;
 import com.chdryra.android.reviewer.Model.TreeMethods.VisitorReviewsGetter;
@@ -37,7 +37,7 @@ public class TagCollectorTest extends AndroidTestCase {
             }
         }
 
-        TagCollector collector = new TagCollector(node.getParent());
+        ViewerNodeData.TagCollector collector = new ViewerNodeData.TagCollector(node.getParent());
         GvTagList collected = collector.collectTags(getContext());
         assertEquals(appliedTags.size(), collected.size());
         appliedTags.sort();
