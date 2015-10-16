@@ -99,7 +99,6 @@ public class ReviewBuilderAdapter extends ReviewViewAdapterBasic {
                 && tagBuilder.add(newTag);
         tagBuilder.delete(toRemove);
         tagBuilder.setData();
-        notifyGridDataObservers();
 
         return added ? newTag : null;
     }
@@ -180,23 +179,23 @@ public class ReviewBuilderAdapter extends ReviewViewAdapterBasic {
 
         public boolean add(T datum) {
             boolean success = mDataBuilder.add(datum);
-            notifyGridDataObservers();
+            this.notifyGridDataObservers();
             return success;
         }
 
         public void delete(T datum) {
             mDataBuilder.delete(datum);
-            notifyGridDataObservers();
+            this.notifyGridDataObservers();
         }
 
         public void deleteAll() {
             mDataBuilder.deleteAll();
-            notifyGridDataObservers();
+            this.notifyGridDataObservers();
         }
 
         public void replace(T oldDatum, T newDatum) {
             mDataBuilder.replace(oldDatum, newDatum);
-            notifyGridDataObservers();
+            this.notifyGridDataObservers();
         }
 
         public void setData() {
@@ -206,7 +205,7 @@ public class ReviewBuilderAdapter extends ReviewViewAdapterBasic {
 
         public void reset() {
             mDataBuilder.resetData();
-            notifyGridDataObservers();
+            this.notifyGridDataObservers();
         }
 
         public void setRatingIsAverage(boolean ratingIsAverage) {

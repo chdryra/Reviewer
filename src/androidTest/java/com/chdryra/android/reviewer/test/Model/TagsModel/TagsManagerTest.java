@@ -6,7 +6,7 @@
  * Date: 18 February, 2015
  */
 
-package com.chdryra.android.reviewer.test.ApplicationSingletons;
+package com.chdryra.android.reviewer.test.Model.TagsModel;
 
 import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;

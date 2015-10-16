@@ -11,7 +11,6 @@ package com.chdryra.android.reviewer.test.Adapter.ReviewAdapterModel;
 import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.mygenerallibrary.TextUtils;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilder;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilderAdapter;
 import com.chdryra.android.reviewer.Model.ReviewData.MdCriterionList;
@@ -23,44 +22,51 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCriterionList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
+import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
 import com.chdryra.android.reviewer.View.GvDataModel.GvFactList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvLocationList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvTagList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvUrlList;
-import com.chdryra.android.reviewer.View.Screens.GridDataObservable;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
 import com.chdryra.android.reviewer.test.TestUtils.MdGvEquality;
 import com.chdryra.android.reviewer.test.TestUtils.RandomAuthor;
 import com.chdryra.android.reviewer.test.TestUtils.RandomRating;
-import com.chdryra.android.testutils.CallBackSignaler;
 import com.chdryra.android.testutils.RandomString;
+
+import java.util.ArrayList;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 17/02/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ReviewBuilderAdapterTest extends AndroidTestCase {
+public class ReviewBuilderTest extends AndroidTestCase {
     private static final int NUM = 3;
+    private static final ArrayList<GvDataType<? extends GvData>> TYPES = GvDataMocker.TYPES;
 
     private Author mAuthor;
     private TagsManager mTagsManager;
     private ReviewBuilder mBuilder;
     private ReviewBuilderAdapter mAdapter;
-    private CallBackSignaler mSignaler;
 
     @SmallTest
     public void testGetSetRatingAverage() {
         mAdapter.setRatingIsAverage(false);
-        assertFalse(mBuilder.isRatingAverage());
+        GvCriterionList criteria;
+        do {
+            criteria = GvDataMocker.newChildList(NUM, false);
+            setBuilderData(criteria);
+        } while (criteria.getAverageRating() == mAdapter.getRating());
+
+        assertFalse(criteria.getAverageRating() == mAdapter.getRating());
         mAdapter.setRatingIsAverage(true);
-        assertTrue(mBuilder.isRatingAverage());
+        assertTrue(criteria.getAverageRating() == mAdapter.getRating());
     }
 
     @SmallTest
     public void testGetImageChooser() {
-        //Empty because need activity
+        assertNotNull(mAdapter.getImageChooser(getActivity()));
     }
 
     @SmallTest
@@ -105,7 +111,7 @@ public class ReviewBuilderAdapterTest extends AndroidTestCase {
         setBuilderData(tags);
 
         Review published = mAdapter.publish();
-        assertEquals(mAuthor, published.getAuthor());
+
         assertEquals(subject, published.getSubject().get());
         assertEquals(rating, published.getRating().getValue());
 
@@ -114,7 +120,8 @@ public class ReviewBuilderAdapterTest extends AndroidTestCase {
         MdGvEquality.check(published.getImages(), (GvImageList) images);
         MdGvEquality.check(published.getLocations(), (GvLocationList) locations);
 
-        TagsManager.ReviewTagCollection tagsPublished = mTagsManager.getTags(published.getId());
+        TagsManager.ReviewTagCollection tagsPublished = TagsManager.getTags(getActivity(),
+                published.getId());
         assertEquals(tags.size(), tagsPublished.size());
         for (int j = 0; j < tags.size(); ++j) {
             GvTagList.GvTag tag = (GvTagList.GvTag) tags.getItem(j);
@@ -132,7 +139,8 @@ public class ReviewBuilderAdapterTest extends AndroidTestCase {
                     .getItem(i);
             assertEquals(child.getSubject(), childReview.getSubject().get());
             assertEquals(child.getRating(), childReview.getRating().getValue());
-            TagsManager.ReviewTagCollection tagsChild = mTagsManager.getTags(childReview.getId());
+            TagsManager.ReviewTagCollection tagsChild = TagsManager.getTags(getActivity(),
+                    childReview.getId());
             assertEquals(tags.size(), tagsChild.size());
             for (int j = 0; j < tags.size(); ++j) {
                 GvTagList.GvTag tag = (GvTagList.GvTag) tags.getItem(j);
@@ -144,51 +152,17 @@ public class ReviewBuilderAdapterTest extends AndroidTestCase {
     @SmallTest
     public void testSetGetSubject() {
         assertEquals(0, mAdapter.getSubject().length());
-        assertEquals(0, mBuilder.getSubject().length());
-        assertFalse(mAdapter.hasTags());
-
-        //Set up observation of tags
-        ReviewBuilderAdapter.DataBuilderAdapter<GvTagList.GvTag> tagBuilder
-                = mAdapter.getDataBuilder(GvTagList.GvTag.TYPE);
-        CallBackSignaler tagSignaler = new CallBackSignaler(5000);
-        tagBuilder.registerGridDataObserver(new GridObserver(tagSignaler));
-
-        //Make sure observers signaled
         String subject = RandomString.nextWord();
-        mSignaler.reset();
         mAdapter.setSubject(subject);
-        mSignaler.waitForSignal();
-        tagSignaler.waitForSignal();
-        assertFalse(mSignaler.timedOut());
-        assertFalse(tagSignaler.timedOut());
-
-        //Subject and tags properly set
         assertEquals(subject, mAdapter.getSubject());
-        assertEquals(subject, mBuilder.getSubject());
-        assertTrue(mAdapter.hasTags());
-        GvTagList tags = (GvTagList) mAdapter.getDataBuilder(GvTagList.GvTag.TYPE).getGridData();
-        assertEquals(1, tags.size());
-        assertEquals(subject, tags.getItem(0).get());
-
-        //Change subject should readjust tags
-        String subject2 = RandomString.nextSentence();
-        tagSignaler.reset();
-        mAdapter.setSubject(subject);
-        tagSignaler.waitForSignal();
-        assertFalse(tagSignaler.timedOut());
-        tags = (GvTagList) mAdapter.getDataBuilder(GvTagList.GvTag.TYPE).getGridData();
-        assertEquals(1, tags.size());
-        assertEquals(TextUtils.toCamelCase(subject2), tags.getItem(0).get());
     }
 
     @SmallTest
     public void testSetGetRating() {
         assertEquals(0f, mAdapter.getRating());
-        assertEquals(0f, mBuilder.getRating());
         float rating = RandomRating.nextRating();
         mAdapter.setRating(rating);
         assertEquals(rating, mAdapter.getRating());
-        assertEquals(rating, mBuilder.getRating());
     }
 
     @SmallTest
@@ -199,26 +173,121 @@ public class ReviewBuilderAdapterTest extends AndroidTestCase {
     }
 
     @SmallTest
-    public void testGetCovers() {
+    public void testGetImages() {
         assertEquals(0, mAdapter.getCovers().size());
         GvImageList images = GvDataMocker.newImageList(NUM, false);
         setBuilderData(images);
-        assertEquals(1, mAdapter.getCovers().size());
-        assertEquals(images.getItem(0), mAdapter.getCovers().getItem(0));
+        assertEquals(images.size(), mAdapter.getCovers().size());
+        assertEquals(images, mAdapter.getCovers());
     }
 
-    private <T extends GvData> void setBuilderData(GvDataList<T> data) {
-        ReviewBuilderAdapter.DataBuilderAdapter<T> builder =
-                mAdapter.getDataBuilder(data.getGvDataType());
+    @SmallTest
+    public void testDataBuilderSetGetSubject() {
+        assertEquals("", mAdapter.getSubject());
+        String subject = RandomString.nextWord();
+        for (GvDataType dataType : TYPES) {
+            ReviewBuilderAdapter.DataBuilderAdapter builder = mAdapter.getDataBuilder(dataType);
+            assertEquals("", builder.getSubject());
+            mAdapter.setSubject(subject);
+            assertEquals(subject, builder.getSubject());
+            mAdapter.setSubject("");
+            assertEquals("", builder.getSubject());
+            builder.setSubject(subject);
+            assertEquals(subject, builder.getSubject());
+            assertEquals(subject, mAdapter.getSubject());
+            mAdapter.setSubject("");
+        }
+    }
+
+    @SmallTest
+    public void testDataBuilderSetGetRating() {
+        assertEquals(0f, mAdapter.getRating());
+        float rating = RandomRating.nextRating();
+        for (GvDataType dataType : TYPES) {
+            ReviewBuilderAdapter.DataBuilderAdapter builder = mAdapter.getDataBuilder(dataType);
+            assertEquals(0f, builder.getRating());
+            mAdapter.setRating(rating);
+            assertEquals(rating, builder.getRating());
+            mAdapter.setRating(0f);
+            assertEquals(0f, builder.getRating());
+            builder.setRating(rating);
+            assertEquals(rating, builder.getRating());
+            assertEquals(rating, mAdapter.getRating());
+            mAdapter.setRating(0f);
+        }
+    }
+
+    @SmallTest
+    public void testDataBuilderGetParentBuilder() {
+        for (GvDataType dataType : TYPES) {
+            assertEquals(mAdapter, mAdapter.getDataBuilder(dataType).getParentBuilder());
+        }
+    }
+
+    @SmallTest
+    public void testDataBuilderGetAverageRating() {
+        mAdapter.setRatingIsAverage(false);
+        GvCriterionList criteria;
+        do {
+            criteria = GvDataMocker.newChildList(NUM, false);
+            setBuilderData(criteria);
+        } while (criteria.getAverageRating() == mAdapter.getRating());
+
+        for (GvDataType dataType : TYPES) {
+            ReviewBuilderAdapter.DataBuilderAdapter builder = mAdapter.getDataBuilder(dataType);
+            assertEquals(criteria.getAverageRating(), builder.getAverageRating());
+        }
+    }
+
+    @SmallTest
+    public void testDataBuilderGetImages() {
+        GvImageList images = GvDataMocker.newImageList(NUM, false);
+        GvImageList newImages = GvDataMocker.newImageList(NUM, false);
+        setBuilderData(images);
+
+        ReviewBuilderAdapter.DataBuilderAdapter imageBuilder =
+                mAdapter.getDataBuilder(GvImageList.GvImage.TYPE);
+        imageBuilder.deleteAll();
+        for (GvImageList.GvImage image : newImages) {
+            imageBuilder.add(image);
+        }
+
+        assertEquals(images, mAdapter.getCovers());
+        for (GvDataType dataType : TYPES) {
+            ReviewBuilderAdapter.DataBuilderAdapter builder = mAdapter.getDataBuilder(dataType);
+            if (dataType == GvImageList.GvImage.TYPE) {
+                assertEquals(newImages, builder.getCovers());
+            } else {
+                assertEquals(images, builder.getCovers());
+            }
+        }
+    }
+
+    @SmallTest
+    public void testDataBuilderGetSetData() {
+        for (GvDataType dataType : TYPES) {
+            assertEquals(0, getBuilderData(dataType).size());
+        }
+
+        for (GvDataType dataType : TYPES) {
+            GvDataList data = GvDataMocker.getData(dataType, NUM);
+            setBuilderData(data);
+            assertEquals(data, getBuilderData(dataType));
+        }
+    }
+
+    private GvDataList getBuilderData(GvDataType dataType) {
+        return mAdapter.getDataBuilder(dataType).getGridData();
+    }
+
+    private void setBuilderData(GvDataList data) {
+        ReviewBuilderAdapter.DataBuilderAdapter builder = mAdapter.getDataBuilder(data
+                .getGvDataType());
         for (int i = 0; i < data.size(); ++i) {
-            T datum = data.getItem(i);
+            GvData datum = (GvData) data.getItem(i);
             assertTrue(builder.add(datum));
         }
-        mSignaler.reset();
         builder.setData();
-        mSignaler.waitForSignal();
-        assertFalse(mSignaler.timedOut());
-        mSignaler.reset();
     }
 
     //Overridden
@@ -228,20 +297,5 @@ public class ReviewBuilderAdapterTest extends AndroidTestCase {
         mTagsManager = new TagsManager();
         mBuilder = new ReviewBuilder(getContext(), mAuthor, mTagsManager);
         mAdapter = new ReviewBuilderAdapter(mBuilder);
-        mSignaler = new CallBackSignaler(5000);
-        mAdapter.registerGridDataObserver(new GridObserver(mSignaler));
-    }
-
-    private static class GridObserver implements GridDataObservable.GridDataObserver {
-        private CallBackSignaler mCallBack;
-
-        private GridObserver(CallBackSignaler signaler) {
-            mCallBack = signaler;
-        }
-
-        @Override
-        public void onGridDataChanged() {
-            mCallBack.signal();
-        }
     }
 }

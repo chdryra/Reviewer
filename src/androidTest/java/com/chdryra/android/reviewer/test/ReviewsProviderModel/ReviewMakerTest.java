@@ -1,4 +1,4 @@
-package com.chdryra.android.reviewer.test.ApplicationSingletons;
+package com.chdryra.android.reviewer.test.ReviewsProviderModel;
 
 import android.content.Context;
 import android.test.InstrumentationTestCase;

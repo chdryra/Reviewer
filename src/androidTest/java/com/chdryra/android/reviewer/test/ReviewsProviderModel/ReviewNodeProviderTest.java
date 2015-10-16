@@ -6,7 +6,7 @@
  * Date: 11 May, 2015
  */
 
-package com.chdryra.android.reviewer.test.ApplicationSingletons;
+package com.chdryra.android.reviewer.test.ReviewsProviderModel;
 
 import android.content.Intent;
 import android.test.ActivityInstrumentationTestCase2;

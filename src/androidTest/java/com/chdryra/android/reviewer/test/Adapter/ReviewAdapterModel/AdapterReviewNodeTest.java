@@ -49,11 +49,6 @@ public class AdapterReviewNodeTest extends AndroidTestCase {
     }
 
     @SmallTest
-    public void testGetAverageRating() {
-        assertEquals(getRating(), mAdapter.getAverageRating(), 0.0001);
-    }
-
-    @SmallTest
     public void testGetCovers() {
         assertEquals(mNode.getImages().getCovers().size(), mAdapter.getCovers().size());
     }

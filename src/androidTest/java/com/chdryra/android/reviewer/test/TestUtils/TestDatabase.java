@@ -11,9 +11,11 @@ package com.chdryra.android.reviewer.test.TestUtils;
 import android.app.Instrumentation;
 import android.content.Context;
 
+import com.chdryra.android.reviewer.ApplicationSingletons.Administrator;
 import com.chdryra.android.reviewer.Database.ReviewerDb;
 import com.chdryra.android.reviewer.Model.ReviewData.IdableList;
 import com.chdryra.android.reviewer.Model.ReviewStructure.Review;
+import com.chdryra.android.reviewer.Model.TagsModel.TagsManager;
 
 import java.io.File;
 
@@ -29,7 +31,8 @@ public class TestDatabase {
 
     private TestDatabase(Instrumentation instr) {
         mInstr = instr;
-        mDatabase = ReviewerDb.getTestDatabase(getDbContext());
+        TagsManager tagsManager = Administrator.get(getDbContext()).getTagsManager();
+        mDatabase = ReviewerDb.getTestDatabase(getDbContext(), tagsManager);
     }
 
     //Static methods

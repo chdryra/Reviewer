@@ -1,15 +1,15 @@
-package com.chdryra.android.reviewer.test.ApplicationSingletons;
+package com.chdryra.android.reviewer.test.ReviewsProviderModel;
 
 import android.content.Context;
 import android.test.InstrumentationTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.MdGvConverter;
+import com.chdryra.android.reviewer.ApplicationSingletons.Administrator;
+import com.chdryra.android.reviewer.Model.ReviewData.IdableList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdCommentList;
 import com.chdryra.android.reviewer.Model.ReviewData.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewStructure.Review;
-import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
-import com.chdryra.android.reviewer.ReviewsProviderModel.ReviewNodeProvider;
 import com.chdryra.android.reviewer.ReviewsProviderModel.ReviewsRepository;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
 import com.chdryra.android.reviewer.test.TestUtils.TestDatabase;
@@ -22,13 +22,13 @@ import java.util.ArrayList;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ReviewsRepositoryTest extends InstrumentationTestCase {
-    ReviewNode mFeed;
+    ReviewsRepository mRepo;
     Context mContext;
 
     @SmallTest
     public void testGetReviewDatum() {
         //Just check for comments as generic wrt GvData
-        MdCommentList allComments = mFeed.getComments();
+        MdCommentList allComments = getComments();
         assertTrue(allComments.size() > 1);
         ArrayList<ReviewId> numReviewsWithComments = new ArrayList<>();
         for (MdCommentList.MdComment comment : allComments) {
@@ -39,7 +39,7 @@ public class ReviewsRepositoryTest extends InstrumentationTestCase {
 
         GvCommentList comments = MdGvConverter.convert(allComments);
         for (GvCommentList.GvComment comment : comments) {
-            Review review = ReviewsRepository.getReview(mContext, comment);
+            Review review = mRepo.getReview(comment);
             assertNotNull(review);
             assertEquals(comment.getReviewId().getId(), review.getId().toString());
             GvCommentList reviewComments = MdGvConverter.convert(review.getComments());
@@ -50,11 +50,11 @@ public class ReviewsRepositoryTest extends InstrumentationTestCase {
     @SmallTest
     public void testGetReviewData() {
         //Just check for comments as generic wrt GvData
-        MdCommentList allComments = mFeed.getComments();
+        MdCommentList allComments = getComments();
         assertTrue(allComments.size() > 1);
 
         //Get comments from 2 reviews
-        MdCommentList commentsOfInterest = new MdCommentList(mFeed.getId());
+        MdCommentList commentsOfInterest = new MdCommentList(null);
         ReviewId initial = allComments.getItem(0).getReviewId();
         ArrayList<String> ids = new ArrayList<>();
         for (MdCommentList.MdComment comment : allComments) {
@@ -67,7 +67,7 @@ public class ReviewsRepositoryTest extends InstrumentationTestCase {
 
         //Create meta review
         GvCommentList comments = MdGvConverter.convert(commentsOfInterest);
-        Review review = ReviewsRepository.getReview(mContext, comments);
+        Review review = mRepo.getReview(comments);
         assertNotNull(review);
 
         //Check all comments of interest present
@@ -87,12 +87,22 @@ public class ReviewsRepositoryTest extends InstrumentationTestCase {
     protected void setUp() throws Exception {
         TestDatabase.recreateDatabase(getInstrumentation());
         mContext = getInstrumentation().getTargetContext();
-        mFeed = ReviewNodeProvider.getReviewNode(mContext);
-        assertTrue(mFeed.getChildren().size() > 0);
+        mRepo = Administrator.get(mContext).getReviewsRepository();
+        assertTrue(mRepo.getReviews().size() > 0);
     }
 
     @Override
     protected void tearDown() throws Exception {
         TestDatabase.deleteDatabase(getInstrumentation());
+    }
+
+    private MdCommentList getComments() {
+        IdableList<Review> reviews = mRepo.getReviews();
+        MdCommentList comments = new MdCommentList(null);
+        for(Review review : reviews) {
+            comments.addList(review.getComments());
+        }
+
+        return comments;
     }
 }

@@ -32,14 +32,17 @@ public class ViewerNodeData implements GridDataViewer<GvData> {
     //Constructors
     public ViewerNodeData(Context context, ReviewNode node, ReviewsRepository repository) {
         IdableList<ReviewNode> children = node.getChildren();
-        if (children.size() > 1) { //aggregate children into meta review
+        if (children.size() > 1) {
+            //aggregate children into meta review
             mViewer = new ViewerTreeData(context, node, repository);
         } else {
             ReviewNode toExpand = children.size() == 0 ? node : children.getItem(0);
             ReviewNode expanded = toExpand.expand();
-            if (expanded.equals(toExpand)) { //must be a leaf node so view review
+            if (expanded.equals(toExpand)) {
+                //must be a leaf node so view review
                 mViewer = new ViewerReviewData(context, expanded, repository);
-            } else { //expand next layer of tree
+            } else {
+                //expand next layer of tree
                 mViewer = new ViewerNodeData(context, expanded, repository);
             }
         }
