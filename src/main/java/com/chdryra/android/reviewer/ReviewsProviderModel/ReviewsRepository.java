@@ -29,6 +29,10 @@ public class ReviewsRepository implements ReviewsProvider {
         mAuthor = author;
     }
 
+    public Author getAuthor() {
+        return mAuthor;
+    }
+
     public TagsManager.ReviewTagCollection getTags(ReviewId id) {
         return getTagsManager().getTags(id);
     }

@@ -15,7 +15,7 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvTagList;
  * On: 02/02/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ActivityEditTagsTest extends ActivityEditScreenTest {
+public class ActivityEditTagsTest extends ActivityEditScreenTest<GvTagList.GvTag> {
     //Constructors
     public ActivityEditTagsTest() {
         super(GvTagList.GvTag.TYPE);

@@ -79,8 +79,8 @@ public class AdministratorTest extends ActivityInstrumentationTestCase2<Activity
         assertNotNull(builder);
         builder.setSubject(RandomString.nextWord());
         GvTagList tags = GvDataMocker.newTagList(3, false);
-        ReviewBuilderAdapter.DataBuilderAdapter tagBuilder = builder.getDataBuilder(GvTagList
-                .GvTag.TYPE);
+        ReviewBuilderAdapter.DataBuilderAdapter<GvTagList.GvTag> tagBuilder
+                = builder.getDataBuilder(GvTagList.GvTag.TYPE);
         for (GvTagList.GvTag tag : tags) {
             tagBuilder.add(tag);
         }

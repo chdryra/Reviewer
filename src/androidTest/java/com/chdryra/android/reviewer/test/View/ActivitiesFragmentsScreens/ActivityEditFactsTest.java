@@ -29,7 +29,7 @@ import java.net.URL;
  * On: 05/02/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ActivityEditFactsTest extends ActivityEditScreenTest {
+public class ActivityEditFactsTest extends ActivityEditScreenTest<GvFactList.GvFact> {
     private static final String BBC = "BBC";
     private static final String BBC_URL = "http://www.bbc.co.uk/";
 
@@ -72,7 +72,6 @@ public class ActivityEditFactsTest extends ActivityEditScreenTest {
         Activity browser = waitForBrowserToLaunch();
         checkBrowserIsShowing(true);
         browser.finish();
-        ;
     }
 
     @SmallTest
@@ -114,7 +113,7 @@ public class ActivityEditFactsTest extends ActivityEditScreenTest {
     public void testBannerButtonAddUrl() {
         mUrlData = true;
         super.testBannerButtonAddDone();
-        GvDataList builderData = getParentBuilder().getData(mDataType);
+        GvDataList builderData = mReviewBuilder.getData(mDataType);
         GvFactList.GvFact url = (GvFactList.GvFact) builderData.getItem(0);
         assertTrue(url.isUrl());
     }
@@ -152,7 +151,7 @@ public class ActivityEditFactsTest extends ActivityEditScreenTest {
                 null, false);
     }
 
-    protected GvDataList newData() {
+    protected GvDataList<GvFactList.GvFact> newData() {
         if (mUrlData) {
             GvFactList urls = new GvFactList();
             try {

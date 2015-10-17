@@ -27,7 +27,7 @@ public class TestDatabaseTest extends InstrumentationTestCase {
         TestDatabase.recreateDatabase(getInstrumentation());
         ReviewerDb db = TestDatabase.getDatabase(getInstrumentation());
         assertNotNull(db);
-        IdableList<Review> testReviews = TestReviews.getReviews(getInstrumentation());
+        IdableList<Review> testReviews = TestReviews.getReviews(getInstrumentation()).getReviews();
         IdableList<Review> reviews = db.loadReviewsFromDb();
         assertEquals(testReviews.size(), reviews.size());
         for (int i = 0; i < reviews.size(); ++i) {

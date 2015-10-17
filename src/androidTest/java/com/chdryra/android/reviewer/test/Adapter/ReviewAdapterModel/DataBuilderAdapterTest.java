@@ -28,11 +28,8 @@ import java.util.ArrayList;
  */
 public class DataBuilderAdapterTest extends AndroidTestCase {
     private static final int NUM = 3;
-    private static final ArrayList<GvDataType<? extends GvData>> TYPES = GvDataMocker.TYPES;
+    private static final ArrayList<GvDataType> TYPES = GvDataMocker.TYPES;
 
-    private Author mAuthor;
-    private TagsManager mTagsManager;
-    private ReviewBuilder mBuilder;
     private ReviewBuilderAdapter mAdapter;
     private CallBackSignaler mSignaler;
 
@@ -186,19 +183,19 @@ public class DataBuilderAdapterTest extends AndroidTestCase {
 
     @SmallTest
     public void testAdd() {
-        for(GvDataType<? extends GvData> dataType : TYPES) {
+        for(GvDataType dataType : TYPES) {
             addAndTestDatum(dataType, 0, new GridObserver(mSignaler));
         }
     }
 
     @SmallTest
-    public <T extends GvData> void testDelete() {
-        for(GvDataType<? extends GvData> dataType : TYPES) {
+    public void testDelete() {
+        for(GvDataType dataType : TYPES) {
             GridObserver observer = new GridObserver(mSignaler);
             GvData datum = addAndTestDatum(dataType, 0, observer);
             ReviewBuilderAdapter.DataBuilderAdapter adapter = getBuilder(dataType);
             observer.reset();
-            adapter.delete(datum);
+            adapter.delete(datum); //TODO make type safe
             observer.waitAndTestForNotification();
             GvDataList<?> data = adapter.getGridData();
             assertEquals(0, data.size());
@@ -207,7 +204,7 @@ public class DataBuilderAdapterTest extends AndroidTestCase {
 
     @SmallTest
     public void testDeleteAll() {
-        for(GvDataType<? extends GvData> dataType : TYPES) {
+        for(GvDataType dataType : TYPES) {
             GridObserver observer = new GridObserver(mSignaler);
             addAndTestDatum(dataType, 0, observer);
             addAndTestDatum(dataType, 1, null);
@@ -225,13 +222,13 @@ public class DataBuilderAdapterTest extends AndroidTestCase {
 
     @SmallTest
     public void testReplace() {
-        for(GvDataType<? extends GvData> dataType : TYPES) {
+        for(GvDataType dataType : TYPES) {
             GridObserver observer = new GridObserver(mSignaler);
             GvData oldDatum = addAndTestDatum(dataType, 0, observer);
             GvData newDatum = GvDataMocker.getDatum(dataType);
             ReviewBuilderAdapter.DataBuilderAdapter adapter = getBuilder(dataType);
             observer.reset();
-            adapter.replace(oldDatum, newDatum);
+            adapter.replace(oldDatum, newDatum); //TODO make type safe
             observer.waitAndTestForNotification();
 
             GvDataList<?> data = adapter.getGridData();
@@ -242,7 +239,7 @@ public class DataBuilderAdapterTest extends AndroidTestCase {
 
     @SmallTest
     public void testReset() {
-        for(GvDataType<? extends GvData> dataType : TYPES) {
+        for(GvDataType dataType : TYPES) {
             GvDataList<?> origData = GvDataMocker.getData(dataType, NUM);
             setBuilderData(origData);
 
@@ -262,7 +259,7 @@ public class DataBuilderAdapterTest extends AndroidTestCase {
     }
 
     private <T extends GvData> T addAndTestDatum(GvDataType<T> dataType, int index, GridObserver observer) {
-        T datum = (T)GvDataMocker.getDatum(dataType);
+        T datum = (T)GvDataMocker.getDatum(dataType); //TODO make type safe
         ReviewBuilderAdapter.DataBuilderAdapter<T> adapter = getBuilder(dataType);
         GvDataList data = adapter.getGridData();
         assertEquals(index, data.size());
@@ -303,10 +300,10 @@ public class DataBuilderAdapterTest extends AndroidTestCase {
     //Overridden
     @Override
     protected void setUp() throws Exception {
-        mAuthor = RandomAuthor.nextAuthor();
-        mTagsManager = new TagsManager();
-        mBuilder = new ReviewBuilder(getContext(), mAuthor, mTagsManager);
-        mAdapter = new ReviewBuilderAdapter(mBuilder);
+        Author author = RandomAuthor.nextAuthor();
+        TagsManager tagsManager = new TagsManager();
+        ReviewBuilder builder = new ReviewBuilder(getContext(), author, tagsManager);
+        mAdapter = new ReviewBuilderAdapter(builder);
         mSignaler = new CallBackSignaler(5000);
     }
 

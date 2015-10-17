@@ -46,27 +46,25 @@ public class AuthorFeedScreen implements ReviewsProviderObserver {
     private ReviewTreeNode mNode;
     private ReviewView mReviewView;
 
-    private AuthorFeedScreen(Context context, ReviewsRepository repository, Author author) {
+    private AuthorFeedScreen(Context context, ReviewsRepository feed) {
+        Author author = feed.getAuthor();
         String title = author.getName() + "'s feed";
         ReviewPublisher publisher = new ReviewPublisher(author, PublishDate.now());
         Review root = FactoryReview.createReviewUser(publisher, title, 0f);
         mNode = FactoryReview.createReviewTreeNode(root, true);
-        for (Review review : repository.getReviews()) {
+        for (Review review : feed.getReviews()) {
             addReview(review);
         }
 
         mReviewView = ReviewListScreen.newScreen(context, mNode
-                , repository, new GridItem(), new FeedScreenMenu());
+                , feed, new GridItem(), new FeedScreenMenu());
 
-        repository.registerObserver(this);
+        feed.registerObserver(this);
     }
 
     //Static methods
-    public static ReviewView newScreen(Context context) {
-        ReviewsRepository provider = Administrator.get(context).getReviewsRepository();
-        Author author = Administrator.get(context).getAuthor();
-        AuthorFeedScreen screen = new AuthorFeedScreen(context, provider, author);
-        return screen.getReviewView();
+    public static ReviewView newScreen(Context context, ReviewsRepository feed) {
+        return new AuthorFeedScreen(context, feed).getReviewView();
     }
 
     //private methods

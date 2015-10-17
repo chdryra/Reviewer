@@ -13,11 +13,8 @@ import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilderAdapter;
 import com.chdryra.android.reviewer.ApplicationSingletons.Administrator;
-import com.chdryra.android.reviewer.Model.ReviewData.IdableList;
-import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
 import com.chdryra.android.reviewer.Model.Social.SocialPlatformList;
 import com.chdryra.android.reviewer.R;
-import com.chdryra.android.reviewer.ReviewsProviderModel.ReviewNodeProvider;
 import com.chdryra.android.reviewer.View.ActivitiesFragments.ActivityFeed;
 import com.chdryra.android.reviewer.View.ActivitiesFragments.FragmentReviewView;
 import com.chdryra.android.reviewer.View.GvDataModel.GvSocialPlatformList;
@@ -44,8 +41,7 @@ public class ActivityShareScreenTest extends ActivityReviewViewTest {
         assertEquals(mList.size(), getGridSize());
         int i = 0;
         for (SocialPlatformList.SocialPlatform platform : mList) {
-            GvSocialPlatformList.GvSocialPlatform gv = (GvSocialPlatformList.GvSocialPlatform)
-                    getGridItem(i++);
+            GvSocialPlatformList.GvSocialPlatform gv = getPlatform(i++);
             assertEquals(platform.getName(), gv.getName());
             assertEquals(platform.getFollowers(), gv.getFollowers());
         }
@@ -69,7 +65,6 @@ public class ActivityShareScreenTest extends ActivityReviewViewTest {
     public void testPublishButton() {
         Instrumentation.ActivityMonitor monitor = getInstrumentation().addMonitor(ActivityFeed.class
                 .getName(), null, false);
-        assertEquals(0, ReviewNodeProvider.getReviewNode(getActivity()).getChildren().size());
 
         mSolo.clickOnText(getActivity().getResources().getString(R
                 .string.button_publish));
@@ -78,14 +73,10 @@ public class ActivityShareScreenTest extends ActivityReviewViewTest {
         ActivityFeed feedActivity = (ActivityFeed) monitor.waitForActivityWithTimeout(TIMEOUT);
         assertNotNull(feedActivity);
         assertEquals(ActivityFeed.class, feedActivity.getClass());
-        IdableList<ReviewNode> list = ReviewNodeProvider.getReviewNode(getActivity()).getChildren();
-        assertEquals(1, list.size());
-        assertEquals(mAdapter.getSubject(), list.getItem(0).getSubject().get());
-        assertEquals(mAdapter.getRating(), list.getItem(0).getRating().getValue());
         feedActivity.finish();
     }
 
-//protected methods
+    //protected methods
     @Override
     protected ReviewView getView() {
         return ShareScreen.newScreen(getInstrumentation().getTargetContext());
@@ -102,8 +93,8 @@ public class ActivityShareScreenTest extends ActivityReviewViewTest {
 
         builder.setRating(RandomRating.nextRating());
         builder.setSubject(RandomString.nextWord());
-        ReviewBuilderAdapter.DataBuilderAdapter tagBulder = builder.getDataBuilder(GvTagList
-                .GvTag.TYPE);
+        ReviewBuilderAdapter.DataBuilderAdapter<GvTagList.GvTag> tagBulder =
+                builder.getDataBuilder(GvTagList.GvTag.TYPE);
         for (GvTagList.GvTag tag : GvDataMocker.newTagList(3, false)) {
             tagBulder.add(tag);
         }

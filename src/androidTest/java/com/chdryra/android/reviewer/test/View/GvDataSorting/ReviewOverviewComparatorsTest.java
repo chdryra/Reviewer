@@ -65,6 +65,6 @@ public class ReviewOverviewComparatorsTest extends ComparatorCollectionTest<GvRe
         return new GvReviewOverviewList.GvReviewOverview(RandomReviewId.nextIdString(),
                 RandomAuthor.nextAuthor(), publishDate, RandomString.nextWord(),
                 RandomRating.nextRating(), BitmapMocker.nextBitmap(), RandomString.nextSentence(),
-                new ArrayList<String>());
+                new ArrayList<String>(), new ArrayList<String>());
     }
 }

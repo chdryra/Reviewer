@@ -15,7 +15,6 @@ import android.test.suitebuilder.annotation.SmallTest;
 import com.chdryra.android.mygenerallibrary.DialogAlertFragment;
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
 
@@ -24,7 +23,7 @@ import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
  * On: 04/02/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ActivityEditCommentsTest extends ActivityEditScreenTest {
+public class ActivityEditCommentsTest extends ActivityEditScreenTest<GvCommentList.GvComment> {
     private static final int SPLIT = R.id.menu_item_split_comment;
 
     //Constructors
@@ -86,7 +85,7 @@ public class ActivityEditCommentsTest extends ActivityEditScreenTest {
         }
 
         comments.getItem(0).setIsHeadline(true);
-        GvCommentList.GvComment oldHeadline = (GvCommentList.GvComment) getGridItem(0);
+        GvCommentList.GvComment oldHeadline = getGridItem(0);
         assertNotNull(oldHeadline);
         assertTrue(oldHeadline.isHeadline());
         for (int i = 0; i < comments.size(); ++i) {
@@ -120,7 +119,7 @@ public class ActivityEditCommentsTest extends ActivityEditScreenTest {
         mSolo.waitForDialogToClose(TIMEOUT);
         assertFalse(mSolo.searchText(alert));
 
-        GvCommentList.GvComment newHeadline = (GvCommentList.GvComment) getGridItem(0);
+        GvCommentList.GvComment newHeadline = getGridItem(0);
         assertNotNull(newHeadline);
         assertTrue(newHeadline.isHeadline());
         assertFalse(oldHeadline.isHeadline());
@@ -142,7 +141,7 @@ public class ActivityEditCommentsTest extends ActivityEditScreenTest {
         clickDeleteConfirm();
         waitForLaunchableToClose();
 
-        GvCommentList.GvComment newnewHeadline = (GvCommentList.GvComment) getGridItem(0);
+        GvCommentList.GvComment newnewHeadline = getGridItem(0);
         assertNotNull(newnewHeadline);
         assertTrue(newnewHeadline.isHeadline());
         assertFalse(newHeadline.isHeadline());
@@ -158,16 +157,16 @@ public class ActivityEditCommentsTest extends ActivityEditScreenTest {
 
     //Overridden
     @Override
-    protected GvData newEditDatum(GvData oldDatum) {
+    protected GvCommentList.GvComment newEditDatum(GvCommentList.GvComment oldDatum) {
         GvCommentList.GvComment newComment = (GvCommentList.GvComment) GvDataMocker.getDatum
                 (mDataType);
-        newComment.setIsHeadline(((GvCommentList.GvComment) oldDatum).isHeadline());
+        newComment.setIsHeadline(( oldDatum).isHeadline());
 
         return newComment;
     }
 
     @Override
-    protected GvDataList newData() {
+    protected GvDataList<GvCommentList.GvComment> newData() {
         GvCommentList comments = (GvCommentList) super.newData();
         for (GvCommentList.GvComment comment : comments) {
             comment.setIsHeadline(false);
@@ -179,9 +178,8 @@ public class ActivityEditCommentsTest extends ActivityEditScreenTest {
     }
 
     @Override
-    protected GvData parentDatum(GvData currentDatum) {
-        GvCommentList.GvComment comment = (GvCommentList.GvComment) currentDatum;
-        comment.setIsHeadline(true);
-        return comment;
+    protected GvCommentList.GvComment parentDatum(GvCommentList.GvComment currentDatum) {
+        currentDatum.setIsHeadline(true);
+        return currentDatum;
     }
 }

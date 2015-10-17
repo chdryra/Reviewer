@@ -26,7 +26,7 @@ import java.util.ArrayList;
  * Email: rizwan.choudrey@gmail.com
  */
 public class GvDataPackerTest extends TestCase {
-    private static final ArrayList<GvDataType<? extends GvData>> TYPES = GvDataMocker.TYPES;
+    private static final ArrayList<GvDataType> TYPES = GvDataMocker.TYPES;
 
     public void testPackItemUnpackItemBundleStatic() {
         for (GvDataType dataType : TYPES) {

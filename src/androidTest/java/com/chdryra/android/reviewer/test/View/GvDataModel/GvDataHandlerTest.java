@@ -27,7 +27,7 @@ import java.util.ArrayList;
  * Email: rizwan.choudrey@gmail.com
  */
 public class GvDataHandlerTest extends AndroidTestCase {
-    private static final ArrayList<GvDataType<? extends GvData>> TYPES = GvDataMocker.TYPES;
+    private static final ArrayList<GvDataType> TYPES = GvDataMocker.TYPES;
     private static final int NUMDATA = 30;
 
     @SmallTest

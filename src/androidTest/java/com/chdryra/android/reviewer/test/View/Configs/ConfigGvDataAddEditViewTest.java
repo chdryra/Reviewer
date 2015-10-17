@@ -11,7 +11,6 @@ package com.chdryra.android.reviewer.test.View.Configs;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.View.Configs.ConfigGvDataAddEditView;
-import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
 import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
 import com.chdryra.android.reviewer.View.Launcher.LaunchableUi;
@@ -28,7 +27,7 @@ import java.util.Arrays;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ConfigGvDataAddEditViewTest extends TestCase {
-    private static final ArrayList<GvDataType<? extends GvData>> TYPES = GvDataMocker.TYPES;
+    private static final ArrayList<GvDataType> TYPES = GvDataMocker.TYPES;
     private static final GvDataType[] NULLADDS = {GvImageList.GvImage.TYPE};
 
     @SmallTest

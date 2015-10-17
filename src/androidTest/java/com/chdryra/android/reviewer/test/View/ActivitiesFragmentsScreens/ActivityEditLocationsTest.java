@@ -8,7 +8,6 @@
 
 package com.chdryra.android.reviewer.test.View.ActivitiesFragmentsScreens;
 
-import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.Instrumentation;
@@ -30,7 +29,7 @@ import com.google.android.gms.maps.model.LatLng;
  * On: 09/02/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ActivityEditLocationsTest extends ActivityEditScreenTest {
+public class ActivityEditLocationsTest extends ActivityEditScreenTest<GvLocationList.GvLocation> {
     protected static final int NUM_DATA = 3;
     private static final GvLocationList.GvLocation TAYYABS =
             new GvLocationList.GvLocation(new LatLng(51.517264, -0.063484), "Tayyabs");
@@ -108,7 +107,7 @@ public class ActivityEditLocationsTest extends ActivityEditScreenTest {
         checkBuildersSubjectRatingAsExpected();
 
         //Need to copy maps found location.
-        GvLocationList.GvLocation loc = (GvLocationList.GvLocation) getGridItem(0);
+        GvLocationList.GvLocation loc = getGridItem(0);
         GvLocationList testData = new GvLocationList();
         testData.add(new GvLocationList.GvLocation(loc.getLatLng(), here.getName()));
 
@@ -157,13 +156,6 @@ public class ActivityEditLocationsTest extends ActivityEditScreenTest {
         return (DialogAlertFragment) f;
     }
 
-    private Activity getMapActivity() {
-        Activity activity = mMapMonitor.getLastActivity();
-        if (activity == null) activity = mActivity;
-
-        return activity;
-    }
-
     private void waitForMapToLaunch() {
         ActivityEditLocationMap mapActivity = (ActivityEditLocationMap)
                 mMapMonitor.waitForActivityWithTimeout(TIMEOUT);
@@ -181,7 +173,7 @@ public class ActivityEditLocationsTest extends ActivityEditScreenTest {
         assertFalse(mSolo.searchText(alert));
         checkMapIsShowing(false);
 
-        GvLocationList.GvLocation clickedOn = (GvLocationList.GvLocation) getGridItem(0);
+        GvLocationList.GvLocation clickedOn = getGridItem(0);
         clickLongOnGridItem(0);
 
         mSolo.waitForDialogToOpen(TIMEOUT);
@@ -255,13 +247,12 @@ public class ActivityEditLocationsTest extends ActivityEditScreenTest {
     }
 
     @Override
-    protected GvData newEditDatum(GvData oldDatum) {
-        GvLocationList.GvLocation location = (GvLocationList.GvLocation) oldDatum;
-        return new GvLocationList.GvLocation(location.getLatLng(), RandomString.nextWord());
+    protected GvLocationList.GvLocation newEditDatum(GvLocationList.GvLocation oldDatum) {
+        return new GvLocationList.GvLocation(oldDatum.getLatLng(), RandomString.nextWord());
     }
 
     @Override
-    protected GvDataList newData() {
+    protected GvDataList<GvLocationList.GvLocation> newData() {
         return mLocs;
     }
 

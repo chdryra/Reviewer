@@ -15,7 +15,6 @@ import android.view.KeyEvent;
 
 import com.chdryra.android.mygenerallibrary.DialogAlertFragment;
 import com.chdryra.android.reviewer.R;
-import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
 import com.chdryra.android.testutils.RandomString;
 
@@ -24,7 +23,7 @@ import com.chdryra.android.testutils.RandomString;
  * On: 09/02/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ActivityEditImagesTest extends ActivityEditScreenTest {
+public class ActivityEditImagesTest extends ActivityEditScreenTest<GvImageList.GvImage> {
 
     //Constructors
     public ActivityEditImagesTest() {
@@ -40,7 +39,7 @@ public class ActivityEditImagesTest extends ActivityEditScreenTest {
         }
         images.getItem(0).setIsCover(true);
 
-        GvImageList.GvImage oldCover = (GvImageList.GvImage) getGridItem(0);
+        GvImageList.GvImage oldCover = getGridItem(0);
         assertNotNull(oldCover);
         assertTrue(oldCover.isCover());
         for (int i = 0; i < images.size(); ++i) {
@@ -74,7 +73,7 @@ public class ActivityEditImagesTest extends ActivityEditScreenTest {
         mSolo.waitForDialogToClose(TIMEOUT);
         assertFalse(mSolo.searchText(alert));
 
-        GvImageList.GvImage newCover = (GvImageList.GvImage) getGridItem(0);
+        GvImageList.GvImage newCover = getGridItem(0);
         assertNotNull(newCover);
         assertTrue(newCover.isCover());
         assertFalse(oldCover.isCover());
@@ -97,7 +96,7 @@ public class ActivityEditImagesTest extends ActivityEditScreenTest {
         clickDeleteConfirm();
         waitForLaunchableToClose();
 
-        GvImageList.GvImage newnewCover = (GvImageList.GvImage) getGridItem(0);
+        GvImageList.GvImage newnewCover = getGridItem(0);
         assertNotNull(newnewCover);
         assertTrue(newnewCover.isCover());
         assertFalse(newCover.equals(newnewCover));
@@ -130,10 +129,9 @@ public class ActivityEditImagesTest extends ActivityEditScreenTest {
     }
 
     @Override
-    protected GvData newEditDatum(GvData current) {
-        GvImageList.GvImage oldDatum = (GvImageList.GvImage) current;
-        return new GvImageList.GvImage(oldDatum.getBitmap(), oldDatum.getDate(),
-                oldDatum.getLatLng(), RandomString.nextSentence(), oldDatum.isCover());
+    protected GvImageList.GvImage newEditDatum(GvImageList.GvImage current) {
+        return new GvImageList.GvImage(current.getBitmap(), current.getDate(),
+                current.getLatLng(), RandomString.nextSentence(), current.isCover());
     }
 }
 

@@ -19,7 +19,7 @@ import com.chdryra.android.reviewer.test.TestUtils.SoloDataEntry;
  * On: 05/02/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ActivityEditChildrenTest extends ActivityEditScreenTest {
+public class ActivityEditChildrenTest extends ActivityEditScreenTest<GvCriterionList.GvCriterion> {
     private static final int AVERAGE = R.id.menu_item_average_rating;
     private float mGridRatingBeforeDone;
     private boolean mIsAverage = false;
@@ -100,16 +100,16 @@ public class ActivityEditChildrenTest extends ActivityEditScreenTest {
         }
 
         assertFalse(getFragmentViewReview().getRating() == fromChildren);
-        assertFalse(getBuilder().getParentBuilder().isRatingAverage());
+        assertFalse(mReviewBuilder.isRatingAverage());
 
         mSolo.clickOnActionBarItem(AVERAGE);
 
         assertTrue(getFragmentViewReview().getRating() == fromChildren);
-        assertFalse(getBuilder().getParentBuilder().isRatingAverage());
+        assertFalse(mReviewBuilder.isRatingAverage());
 
         clickMenuDone();
 
-        assertTrue(getBuilder().getParentBuilder().isRatingAverage());
+        assertTrue(mReviewBuilder.isRatingAverage());
         assertEquals(mGridRatingBeforeDone, getBuilder().getParentBuilder().getRating());
     }
 
@@ -117,9 +117,7 @@ public class ActivityEditChildrenTest extends ActivityEditScreenTest {
         int numCells = getGridSize();
         float rating = 0;
         for (int i = 0; i < numCells; ++i) {
-            GvCriterionList.GvCriterion review = (GvCriterionList.GvCriterion)
-                    getGridItem(i);
-            rating += review.getRating() / numCells;
+            rating += getGridItem(i).getRating() / numCells;
         }
 
         return nearestHalf ? Math.round(rating * 2f) / 2f : rating;
@@ -144,7 +142,7 @@ public class ActivityEditChildrenTest extends ActivityEditScreenTest {
 
     @Override
     protected void checkBuildersSubjectRatingOnDone() {
-        if (getBuilder().getParentBuilder().isRatingAverage()) {
+        if (mReviewBuilder.isRatingAverage()) {
             checkBuildersSubjectRating(mOriginalSubject, mGridRatingBeforeDone);
         } else {
             super.checkBuildersSubjectRatingOnDone();
@@ -153,7 +151,7 @@ public class ActivityEditChildrenTest extends ActivityEditScreenTest {
 
     @Override
     protected void checkBuildersSubjectRatingAsExpected() {
-        float rating = getBuilder().getParentBuilder().isRatingAverage() ? mOriginalRating
+        float rating = mReviewBuilder.isRatingAverage() ? mOriginalRating
                 : mOriginalRatingNotAverage;
 
         checkBuildersSubjectRating(mOriginalSubject, rating);
@@ -161,7 +159,7 @@ public class ActivityEditChildrenTest extends ActivityEditScreenTest {
 
     @Override
     protected void checkFragmentSubjectRatingAsExpected() {
-        if (getBuilder().getParentBuilder().isRatingAverage()) {
+        if (mReviewBuilder.isRatingAverage()) {
             checkFragmentSubjectRating(mOriginalSubject, getAverageRating(true));
         } else {
             super.checkFragmentSubjectRatingAsExpected();

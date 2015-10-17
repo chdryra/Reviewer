@@ -17,10 +17,18 @@ import android.test.suitebuilder.annotation.SmallTest;
 import android.util.Log;
 import android.widget.GridView;
 
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilder;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilderAdapter;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewAdapter;
 import com.chdryra.android.reviewer.ApplicationSingletons.Administrator;
+import com.chdryra.android.reviewer.Model.ReviewData.IdableList;
+import com.chdryra.android.reviewer.Model.ReviewStructure.Review;
+import com.chdryra.android.reviewer.Model.TagsModel.TagsManager;
+import com.chdryra.android.reviewer.Model.UserData.Author;
 import com.chdryra.android.reviewer.R;
+import com.chdryra.android.reviewer.ReviewsProviderModel.ReviewsProvider;
+import com.chdryra.android.reviewer.ReviewsProviderModel.ReviewsRepository;
+import com.chdryra.android.reviewer.ReviewsProviderModel.StaticReviewsProvider;
 import com.chdryra.android.reviewer.View.ActivitiesFragments.ActivityReviewView;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvReviewOverviewList;
@@ -28,9 +36,9 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvTagList;
 import com.chdryra.android.reviewer.View.Screens.AuthorFeedScreen;
 import com.chdryra.android.reviewer.View.Screens.ReviewView;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
+import com.chdryra.android.reviewer.test.TestUtils.RandomAuthor;
 import com.chdryra.android.reviewer.test.TestUtils.RandomRating;
 import com.chdryra.android.reviewer.test.TestUtils.SoloUtils;
-import com.chdryra.android.reviewer.test.TestUtils.TestDatabase;
 import com.chdryra.android.testutils.RandomString;
 import com.robotium.solo.Solo;
 
@@ -49,7 +57,6 @@ public class ActivityFeedTest extends
     protected ReviewViewAdapter mAdapter;
     protected Activity mActivity;
     protected Solo mSolo;
-    private Administrator mAdmin;
 
     //Constructors
     public ActivityFeedTest() {
@@ -114,35 +121,13 @@ public class ActivityFeedTest extends
     @Override
     protected void setUp() {
         Context context = getInstrumentation().getTargetContext();
-        mAdmin = Administrator.get(context);
-        ReviewView feedScreen = AuthorFeedScreen.newScreen(context);
+
+        ReviewView feedScreen = AuthorFeedScreen.newScreen(context, createFeed());
         mAdapter = feedScreen.getAdapter();
 
-        if (mAdapter.getGridData().size() == 0) {
-            for (int i = 0; i < NUM; ++i) {
-                ReviewBuilderAdapter builder = mAdmin.newReviewBuilder();
-                builder.setSubject(RandomString.nextWord());
-                builder.setRating(RandomRating.nextRating());
-                ReviewBuilderAdapter.DataBuilderAdapter dataBuilderAdapter =
-                        builder.getDataBuilder(GvTagList.GvTag.TYPE);
-                GvTagList tags = GvDataMocker.newTagList(NUM, false);
-                for (int j = 0; j < tags.size(); ++j) {
-                    dataBuilderAdapter.add(tags.getItem(j));
-                }
-                dataBuilderAdapter.setData();
-                mAdmin.publishReviewBuilder();
-                try {
-                    Thread.sleep(10);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-            feedScreen = AuthorFeedScreen.newScreen(context);
-            mAdapter = feedScreen.getAdapter();
-        }
-
         Intent i = new Intent();
-        mAdmin.packView(AuthorFeedScreen.newScreen(getInstrumentation().getTargetContext()), i);
+        Administrator admin = Administrator.get(context);
+        admin.packView(feedScreen, i);
         setActivityIntent(i);
         mActivity = getActivity();
 
@@ -150,11 +135,29 @@ public class ActivityFeedTest extends
         SoloUtils.pretouchScreen(mActivity, mSolo);
     }
 
-    @Override
-    protected void tearDown() throws Exception {
-        TestDatabase.deleteDatabase(getInstrumentation());
-        mActivity.finish();
+    private ReviewsRepository createFeed() {
+        Author author = RandomAuthor.nextAuthor();
+        TagsManager tagsManager = new TagsManager();
+        IdableList<Review> reviews = new IdableList<>();
+        for (int i = 0; i < NUM; ++i) {
+            ReviewBuilder builder = new ReviewBuilder(getActivity(), author, tagsManager);
+            ReviewBuilderAdapter adapter = new ReviewBuilderAdapter(builder);
+
+            adapter.setSubject(RandomString.nextWord());
+            adapter.setRating(RandomRating.nextRating());
+
+            ReviewBuilderAdapter.DataBuilderAdapter<GvTagList.GvTag> dataBuilderAdapter =
+                    adapter.getDataBuilder(GvTagList.GvTag.TYPE);
+            GvTagList tags = GvDataMocker.newTagList(NUM, false);
+            for (int j = 0; j < tags.size(); ++j) {
+                dataBuilderAdapter.add(tags.getItem(j));
+            }
+            dataBuilderAdapter.setData();
+
+            reviews.add(adapter.publish());
+        }
+
+        ReviewsProvider provider = new StaticReviewsProvider(reviews, tagsManager);
+        return new ReviewsRepository(provider, author);
     }
-
-
 }

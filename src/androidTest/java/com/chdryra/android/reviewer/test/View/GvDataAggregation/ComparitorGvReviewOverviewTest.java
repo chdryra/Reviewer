@@ -57,7 +57,7 @@ public class ComparitorGvReviewOverviewTest extends TestCase {
 
         rhs = new GvReviewOverviewList.GvReviewOverview(lhsReview.getId(), rhs.getAuthor(), rhs
                 .getPublishDate(), rhs.getSubject(), rhs.getRating(), rhs.getCoverImage(), rhs
-                .getHeadline(), new ArrayList<String>());
+                .getHeadline(), new ArrayList<String>(), new ArrayList<String>());
         GvReviewOverviewList.GvReviewOverview[] params = new GvReviewOverviewList
                 .GvReviewOverview[2];
         params[0] = lhs;
