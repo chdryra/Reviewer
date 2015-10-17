@@ -24,6 +24,7 @@ import com.chdryra.android.reviewer.Model.ReviewData.MdLocationList;
 import com.chdryra.android.reviewer.Model.ReviewStructure.Review;
 import com.chdryra.android.reviewer.Model.TagsModel.TagsManager;
 import com.chdryra.android.reviewer.R;
+import com.chdryra.android.reviewer.ReviewsProviderModel.ReviewsProvider;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -38,20 +39,20 @@ public class TestReviewsTest extends InstrumentationTestCase {
 
     @SmallTest
     public void testGetReviews() {
-        IdableList<Review> reviews = TestReviews.getReviews(getInstrumentation());
+        ReviewsProvider provider = TestReviews.getReviews(getInstrumentation());
+        IdableList<Review> reviews = provider.getReviews();
         assertEquals(2, reviews.size());
-        testReview1(reviews.getItem(0));
-        testReview2(reviews.getItem(1));
+        testReview1(reviews.getItem(0), provider.getTagsManager());
+        testReview2(reviews.getItem(1), provider.getTagsManager());
     }
 
-    private void testReview1(Review review) {
+    private void testReview1(Review review, TagsManager tagsManager) {
         assertEquals("Tayyabs", review.getSubject().get());
         assertTrue(review.isRatingAverageOfCriteria());
         assertEquals(3.5f, review.getRating().getValue());
 
         //Tags
-        TagsManager.ReviewTagCollection tags = TagsManager.getTags(getInstrumentation()
-                .getContext(), review.getId());
+        TagsManager.ReviewTagCollection tags = tagsManager.getTags(review.getId());
         assertEquals(3, tags.size());
         assertEquals("Restaurant", tags.getItem(0).get());
         assertEquals("Pakistani", tags.getItem(1).get());
@@ -128,14 +129,13 @@ public class TestReviewsTest extends InstrumentationTestCase {
         assertTrue(loadBitmap("tayyabs.jpg").sameAs(image.getBitmap()));
     }
 
-    private void testReview2(Review review) {
+    private void testReview2(Review review, TagsManager tagsManager) {
         assertEquals("The Weekend", review.getSubject().get());
         assertFalse(review.isRatingAverageOfCriteria());
         assertEquals(5f, review.getRating().getValue());
 
         //Tags
-        TagsManager.ReviewTagCollection tags = TagsManager.getTags(getInstrumentation()
-                .getContext(), review.getId());
+        TagsManager.ReviewTagCollection tags = tagsManager.getTags(review.getId());
         assertEquals(4, tags.size());
         assertEquals("Reading", tags.getItem(0).get());
         assertEquals("Mum", tags.getItem(1).get());

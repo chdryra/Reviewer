@@ -18,6 +18,8 @@ import com.chdryra.android.reviewer.test.TestUtils.RandomReviewId;
 
 import junit.framework.TestCase;
 
+import java.util.Random;
+
 /**
  * Created by: Rizwan Choudrey
  * On: 08/06/2015
@@ -25,31 +27,44 @@ import junit.framework.TestCase;
  */
 public class MdRatingTest extends TestCase {
     private static final ReviewId ID = RandomReviewId.nextId();
+    private static final Random RANDOM = new Random();
 
     @SmallTest
     public void testGetters() {
         float score = RandomRating.nextRating();
-        MdRating rating = new MdRating(score, ID);
+        int weight = randomWeight();
+        MdRating rating = new MdRating(score, weight, ID);
         assertEquals(score, rating.getValue());
+        assertEquals(weight, rating.getWeight());
         assertEquals(ID, rating.getReviewId());
     }
 
     @SmallTest
     public void testHasData() {
-        float score = RandomRating.nextRating();
-        MdRating rating = new MdRating(score, ID);
+        MdRating rating = new MdRating(RandomRating.nextRating(), randomWeight(), ID);
         assertTrue(rating.hasData());
     }
 
     @SmallTest
     public void testEqualsHash() {
         float score1 = 1f;
+        int weight1 = 1;
         float score2 = 2f;
+        int weight2 = 2;
         ReviewId id2 = RandomReviewId.nextId();
 
-        MdRating rating1 = new MdRating(score1, ID);
-        MdDataUtils.testEqualsHash(rating1, new MdRating(score2, ID), false);
-        MdDataUtils.testEqualsHash(rating1, new MdRating(score1, id2), false);
-        MdDataUtils.testEqualsHash(rating1, new MdRating(score1, ID), true);
+        MdRating rating1 = new MdRating(score1, weight1, ID);
+        MdDataUtils.testEqualsHash(rating1, new MdRating(score2, weight1, ID), false);
+        MdDataUtils.testEqualsHash(rating1, new MdRating(score2, weight2, ID), false);
+        MdDataUtils.testEqualsHash(rating1, new MdRating(score2, weight1, id2), false);
+        MdDataUtils.testEqualsHash(rating1, new MdRating(score2, weight2, id2), false);
+        MdDataUtils.testEqualsHash(rating1, new MdRating(score1, weight2, ID), false);
+        MdDataUtils.testEqualsHash(rating1, new MdRating(score1, weight1, id2), false);
+        MdDataUtils.testEqualsHash(rating1, new MdRating(score1, weight2, id2), false);
+        MdDataUtils.testEqualsHash(rating1, new MdRating(score1, weight1, ID), true);
+    }
+
+    private int randomWeight() {
+        return RANDOM.nextInt(100);
     }
 }

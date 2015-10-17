@@ -11,11 +11,10 @@ package com.chdryra.android.reviewer.test.TestUtils;
 import android.app.Instrumentation;
 import android.content.Context;
 
-import com.chdryra.android.reviewer.ApplicationSingletons.Administrator;
 import com.chdryra.android.reviewer.Database.ReviewerDb;
 import com.chdryra.android.reviewer.Model.ReviewData.IdableList;
 import com.chdryra.android.reviewer.Model.ReviewStructure.Review;
-import com.chdryra.android.reviewer.Model.TagsModel.TagsManager;
+import com.chdryra.android.reviewer.ReviewsProviderModel.ReviewsProvider;
 
 import java.io.File;
 
@@ -28,11 +27,12 @@ public class TestDatabase {
     private static TestDatabase sDatabase;
     private ReviewerDb mDatabase;
     private Instrumentation mInstr;
+    private ReviewsProvider mTestReviews;
 
     private TestDatabase(Instrumentation instr) {
         mInstr = instr;
-        TagsManager tagsManager = Administrator.get(getDbContext()).getTagsManager();
-        mDatabase = ReviewerDb.getTestDatabase(getDbContext(), tagsManager);
+        mTestReviews = TestReviews.getReviews(instr);
+        mDatabase = ReviewerDb.getTestDatabase(getDbContext(), mTestReviews.getTagsManager());
     }
 
     //Static methods
@@ -43,7 +43,7 @@ public class TestDatabase {
     public static void recreateDatabase(Instrumentation instr) {
         TestDatabase tdb = get(instr);
         tdb.deleteDatabaseIfNecessary();
-        IdableList<Review> reviews = TestReviews.getReviews(instr);
+        IdableList<Review> reviews = tdb.getTestReviews().getReviews();
         ReviewerDb db = tdb.getDatabase();
         for (Review review : reviews) {
             db.addReviewToDb(review);
@@ -60,6 +60,10 @@ public class TestDatabase {
     }
 
     //private methods
+    private ReviewsProvider getTestReviews() {
+        return mTestReviews;
+    }
+
     private ReviewerDb getDatabase() {
         return mDatabase;
     }

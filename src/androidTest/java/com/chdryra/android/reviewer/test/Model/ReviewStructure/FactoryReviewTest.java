@@ -27,7 +27,9 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvLocationList;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
 import com.chdryra.android.reviewer.test.TestUtils.MdGvEquality;
 import com.chdryra.android.reviewer.test.TestUtils.RandomPublishDate;
+import com.chdryra.android.reviewer.test.TestUtils.RandomPublisher;
 import com.chdryra.android.reviewer.test.TestUtils.RandomRating;
+import com.chdryra.android.reviewer.test.TestUtils.ReviewMocker;
 import com.chdryra.android.testutils.RandomString;
 
 import junit.framework.TestCase;
@@ -77,6 +79,31 @@ public class FactoryReviewTest extends TestCase {
         node = FactoryReview.createReviewTreeNode(mReview, false);
         checkNode(node);
         assertFalse(node.isRatingAverageOfChildren());
+    }
+
+    @SmallTest
+    public void testCreateMetaReview() {
+        IdableList<Review> reviews = new IdableList<>();
+        float averageRating = 0f;
+        for (int i = 0; i < NUM; ++i) {
+            Review review = ReviewMocker.newReview();
+            reviews.add(review);
+            averageRating += review.getRating().getValue() / NUM;
+        }
+        String subject = RandomString.nextWord();
+
+        ReviewPublisher publisher = RandomPublisher.nextPublisher();
+        ReviewNode meta = FactoryReview.createMetaReview(reviews, publisher, subject);
+
+        assertEquals(publisher.getAuthor(), meta.getAuthor());
+        assertEquals(publisher.getDate(), meta.getPublishDate());
+        assertEquals(subject, meta.getSubject().get());
+        assertEquals(averageRating, meta.getRating().getValue());
+        IdableList<ReviewNode> children = meta.getChildren();
+        assertEquals(NUM, children.size());
+        for (int i = 0; i < NUM; ++i) {
+            assertEquals(reviews.getItem(i), children.getItem(i).getReview());
+        }
     }
 
     private Review nextReview() {

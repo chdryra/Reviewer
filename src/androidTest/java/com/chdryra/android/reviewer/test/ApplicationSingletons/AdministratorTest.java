@@ -18,7 +18,7 @@ import com.chdryra.android.reviewer.ApplicationSingletons.Administrator;
 import com.chdryra.android.reviewer.Database.ReviewerDb;
 import com.chdryra.android.reviewer.Model.ReviewData.IdableList;
 import com.chdryra.android.reviewer.Model.ReviewStructure.Review;
-import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
+import com.chdryra.android.reviewer.ReviewsProviderModel.ReviewsRepository;
 import com.chdryra.android.reviewer.View.ActivitiesFragments.ActivityReviewView;
 import com.chdryra.android.reviewer.View.GvDataModel.GvSocialPlatformList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvTagList;
@@ -69,9 +69,9 @@ public class AdministratorTest extends ActivityInstrumentationTestCase2<Activity
     @SmallTest
     @UiThreadTest
     public void testPublishReviewBuilder() {
-        ReviewNode feedNode = ReviewNodeProvider.getReviewNode(getActivity());
-        assertNotNull(feedNode);
-        int numReviews = feedNode.getChildren().size();
+        ReviewsRepository repo = mAdmin.getReviewsRepository();
+        assertNotNull(repo);
+        int numReviews = repo.getReviews().size();
         ReviewerDb db = TestDatabase.getDatabase(getInstrumentation());
         assertEquals(numReviews, db.loadReviewsFromDb().size());
 
@@ -87,14 +87,14 @@ public class AdministratorTest extends ActivityInstrumentationTestCase2<Activity
         tagBuilder.setData();
         mAdmin.publishReviewBuilder();
 
-        IdableList<ReviewNode> reviews = feedNode.getChildren();
+        IdableList<Review> reviews = repo.getReviews();
         int newSize = reviews.size();
         assertEquals(numReviews + 1, newSize);
         assertNull(mAdmin.getReviewBuilder());
 
         IdableList<Review> fromDb = db.loadReviewsFromDb();
         assertEquals(numReviews + 1, fromDb.size());
-        ReviewNode mostRecent = reviews.getItem(newSize - 1);
+        Review mostRecent = reviews.getItem(newSize - 1);
         assertTrue(fromDb.containsId(mostRecent.getId()));
     }
 

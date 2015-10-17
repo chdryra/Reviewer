@@ -16,9 +16,11 @@ import android.test.suitebuilder.annotation.SmallTest;
 import com.chdryra.android.mygenerallibrary.DialogAlertFragment;
 import com.chdryra.android.mygenerallibrary.DialogDeleteConfirm;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.MdGvConverter;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilder;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilderAdapter;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewAdapter;
 import com.chdryra.android.reviewer.ApplicationSingletons.Administrator;
+import com.chdryra.android.reviewer.Model.TagsModel.TagsManager;
 import com.chdryra.android.reviewer.View.ActivitiesFragments.FragmentReviewView;
 import com.chdryra.android.reviewer.View.Configs.ConfigGvDataUi;
 import com.chdryra.android.reviewer.View.Dialogs.DialogGvDataAdd;
@@ -30,6 +32,7 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
 import com.chdryra.android.reviewer.View.Screens.EditScreenReviewData;
 import com.chdryra.android.reviewer.View.Screens.ReviewView;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
+import com.chdryra.android.reviewer.test.TestUtils.RandomAuthor;
 import com.chdryra.android.reviewer.test.TestUtils.SoloDataEntry;
 import com.chdryra.android.reviewer.test.TestUtils.SoloUtils;
 import com.chdryra.android.testutils.CallBackSignaler;
@@ -42,7 +45,7 @@ import java.util.Map;
  * On: 03/02/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public abstract class ActivityEditScreenTest extends ActivityReviewViewTest {
+public abstract class ActivityEditScreenTest<T extends GvData> extends ActivityReviewViewTest<T> {
     protected static final long TIMEOUT = 5000;
     protected static final int DELETE = com.chdryra.android.reviewer.R.id
             .menu_item_delete;
@@ -50,11 +53,13 @@ public abstract class ActivityEditScreenTest extends ActivityReviewViewTest {
             .menu_item_done;
     protected static final int NUM_DATA = 3;
 
-    protected final GvDataType mDataType;
+    protected final GvDataType<T> mDataType;
     private final Map<Button, Runnable> mClickRunnables = new HashMap<>();
+    protected ReviewBuilderAdapter.DataBuilderAdapter<T> mBuilder;
+    protected ReviewBuilder mReviewBuilder;
     protected String mOriginalSubject;
     protected float mOriginalRating;
-    protected GvDataList mData;
+    protected GvDataList<T> mData;
     protected CallBackSignaler mSignaler;
     private ConfigGvDataUi.LaunchableConfig mAddConfig;
     private ConfigGvDataUi.LaunchableConfig mEditConfig;
@@ -66,7 +71,7 @@ public abstract class ActivityEditScreenTest extends ActivityReviewViewTest {
     }
 
     //Constructors
-    public ActivityEditScreenTest(GvDataType dataType) {
+    public ActivityEditScreenTest(GvDataType<T> dataType) {
         mDataType = dataType;
     }
 
@@ -146,8 +151,8 @@ public abstract class ActivityEditScreenTest extends ActivityReviewViewTest {
         return mActivity;
     }
 
-    protected ReviewBuilderAdapter.DataBuilderAdapter getBuilder() {
-        return (ReviewBuilderAdapter.DataBuilderAdapter) mAdapter;
+    protected ReviewBuilderAdapter.DataBuilderAdapter<T> getBuilder() {
+        return mBuilder;
     }
 
     protected ReviewBuilderAdapter getParentBuilder() {
@@ -195,7 +200,7 @@ public abstract class ActivityEditScreenTest extends ActivityReviewViewTest {
         setDialogButtonClickRunnables();
     }
 
-    protected void checkInGrid(GvDataList data, boolean isInGrid) {
+    protected void checkInGrid(GvDataList<T> data, boolean isInGrid) {
         if (isInGrid) {
             assertEquals(data.size(), getGridSize());
             data.sort();
@@ -262,23 +267,24 @@ public abstract class ActivityEditScreenTest extends ActivityReviewViewTest {
     }
 
     //For ActivityEditLocationsTest
-    protected GvDataList getAddDataToTestAgainst(GvDataList data) {
+    protected GvDataList<T> getAddDataToTestAgainst(GvDataList<T> data) {
         return data;
     }
 
     protected void testGridItemEdit(boolean confirm) {
         setUp(true);
 
-        GvDataList data = MdGvConverter.copy(getBuilder().getGridData());
-        GvData currentDatum = getGridItem(0);
-        GvData newDatum = newEditDatum(currentDatum);
+        //TODO make type safe
+        GvDataList<T> data = MdGvConverter.copy(getBuilder().getGridData());
+        assertNotNull(data);
+        T currentDatum = getGridItem(0);
+        T newDatum = newEditDatum(currentDatum);
 
         checkInBuilders(data, true);
         checkInGrid(data, true);
 
         editData(0, newDatum, confirm);
 
-        //TODO make type safe
         if (confirm) {
             data.remove(currentDatum);
             data.add(newDatum);
@@ -296,11 +302,13 @@ public abstract class ActivityEditScreenTest extends ActivityReviewViewTest {
         checkBuildersSubjectRatingOnDone();
     }
 
-    protected GvData newEditDatum(GvData oldDatum) {
-        return GvDataMocker.getDatum(mDataType);
+    protected T newEditDatum(T oldDatum) {
+        //TODO make type safe
+        return (T)GvDataMocker.getDatum(mDataType);
     }
 
-    protected GvDataList newData() {
+    protected GvDataList<T> newData() {
+        //TODO make type safe
         return GvDataMocker.getData(mDataType, NUM_DATA);
     }
 
@@ -396,14 +404,14 @@ public abstract class ActivityEditScreenTest extends ActivityReviewViewTest {
         setDeleteConfirmButtonClicks();
     }
 
-    protected void checkInBuilders(GvData datum, boolean result) {
+    protected void checkInBuilders(T datum, boolean result) {
         checkInBuilder(datum, result);
         checkInParentBuilder(datum, result);
     }
 
-    protected void checkInParentBuilder(GvData datum, boolean result) {
+    protected void checkInParentBuilder(T datum, boolean result) {
         //TODO make type safe
-        assertEquals(result, getParentBuilder().getData(mDataType).contains(datum));
+        assertEquals(result, mReviewBuilder.getData(mDataType).contains(datum));
     }
 
     protected void checkInBuilder(GvData datum, boolean result) {
@@ -430,7 +438,7 @@ public abstract class ActivityEditScreenTest extends ActivityReviewViewTest {
     }
 
     protected void checkInParentBuilder(GvDataList data, boolean result) {
-        GvDataList builderData = getParentBuilder().getData(mDataType);
+        GvDataList<T> builderData = mReviewBuilder.getData(mDataType);
         builderData.sort();
         data.sort();
         if (data.size() == 0 && builderData.size() == 0 && !result) return;
@@ -478,7 +486,7 @@ public abstract class ActivityEditScreenTest extends ActivityReviewViewTest {
         assertTrue(result ? inGrid : !inGrid);
     }
 
-    protected GvData parentDatum(GvData currentDatum) {
+    protected T parentDatum(T currentDatum) {
         return currentDatum;
     }
 
@@ -512,7 +520,7 @@ public abstract class ActivityEditScreenTest extends ActivityReviewViewTest {
     private void testBannerButtonAdd(boolean confirm) {
         setUp(false);
 
-        final GvDataList data = newData();
+        final GvDataList<T> data = newData();
         checkInBuilders(data, false);
         checkInGrid(data, false);
 
@@ -532,7 +540,7 @@ public abstract class ActivityEditScreenTest extends ActivityReviewViewTest {
         checkBuildersSubjectRatingAsExpected();
 
         if (!confirm) data.removeAll();
-        GvDataList testData = getAddDataToTestAgainst(data);
+        GvDataList<T> testData = getAddDataToTestAgainst(data);
 
         checkInGrid(testData, true);
         checkInBuilder(testData, true);
@@ -548,14 +556,14 @@ public abstract class ActivityEditScreenTest extends ActivityReviewViewTest {
     private void testGridItemDelete(boolean confirm) {
         setUp(true);
 
-        GvData currentDatum = getGridItem(0);
+        T currentDatum = getGridItem(0);
 
         checkInBuilders(currentDatum, true);
         checkInGrid(currentDatum, true);
 
         deleteGridItem(0, confirm);
 
-        GvData currentDatumUnModified = parentDatum(currentDatum);
+        T currentDatumUnModified = parentDatum(currentDatum);
 
         checkInGrid(currentDatum, !confirm);
         checkInBuilder(currentDatum, !confirm);
@@ -594,7 +602,7 @@ public abstract class ActivityEditScreenTest extends ActivityReviewViewTest {
 
         clickMenuDone();
 
-        assertEquals(confirm ? 0 : mData.size(), getParentBuilder().hasTags(mDataType));
+        assertEquals(confirm ? 0 : mData.size(), mReviewBuilder.getData(mDataType).size());
         checkBuildersSubjectRatingOnDone();
     }
 
@@ -730,20 +738,20 @@ public abstract class ActivityEditScreenTest extends ActivityReviewViewTest {
     //Overridden
     @Override
     protected void setAdapter() {
-        ReviewBuilderAdapter builder = Administrator.get(getInstrumentation().getTargetContext())
-                .getReviewBuilder();
-        ReviewBuilderAdapter.DataBuilderAdapter dbuilder = builder.getDataBuilder(mDataType);
+        mReviewBuilder = new ReviewBuilder(getActivity(), RandomAuthor.nextAuthor(), new TagsManager());
+        ReviewBuilderAdapter builder = new ReviewBuilderAdapter(mReviewBuilder);
+        mBuilder = builder.getDataBuilder(mDataType);
 
         if (mWithData) {
             mData = newData();
             for (int i = 0; i < mData.size(); ++i) {
                 //TODO make type safe
-                dbuilder.add((GvData) mData.getItem(i));
+                mBuilder.add(mData.getItem(i));
             }
-            dbuilder.setData();
+            mBuilder.setData();
         }
 
-        mAdapter = dbuilder;
+        mAdapter = mBuilder;
     }
 
     @Override

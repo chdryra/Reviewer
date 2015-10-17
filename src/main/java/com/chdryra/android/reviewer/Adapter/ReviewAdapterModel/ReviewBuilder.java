@@ -74,7 +74,7 @@ public class ReviewBuilder {
     public Author getAuthor() {
         return mAuthor;
     }
-    
+
     public String getSubject() {
         return mSubject;
     }
@@ -132,12 +132,11 @@ public class ReviewBuilder {
         }
     }
 
-    public Review buildReview() {
+    public Review buildReview(PublishDate date) {
         if (!isValidForPublication()) {
             throw new IllegalStateException("Review is not valid for publication!");
         }
 
-        PublishDate date = PublishDate.now();
         Review review = assembleReview(new ReviewPublisher(mAuthor, date));
         GvTagList tags = (GvTagList) getData(GvTagList.GvTag.TYPE);
         mTagsManager.tagReview(review.getId(), tags.toStringArray());

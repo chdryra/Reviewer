@@ -8,45 +8,48 @@
 
 package com.chdryra.android.reviewer.test.Model.TagsModel;
 
-import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.Model.ReviewData.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewStructure.Review;
 import com.chdryra.android.reviewer.Model.TagsModel.TagsManager;
 import com.chdryra.android.reviewer.View.GvDataModel.GvTagList;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
 import com.chdryra.android.reviewer.test.TestUtils.ReviewMocker;
 
-import java.util.ArrayList;
+import junit.framework.TestCase;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 18/02/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class TagsManagerTest extends AndroidTestCase {
+public class TagsManagerTest extends TestCase {
     private static final int NUM = 4;
+    private TagsManager mTagsManager;
+
+    @Override
+    protected void setUp() throws Exception {
+        mTagsManager = new TagsManager();
+    }
 
     @SmallTest
     public void testTagAndGetTag() {
         GvTagList tags = (GvTagList) GvDataMocker.getData(GvTagList.GvTag.TYPE, NUM);
         Review review = ReviewMocker.newReview();
 
-        TagsManager.ReviewTagCollection tagCollection = TagsManager.getTags(getContext(), review
-                .getId());
+        TagsManager.ReviewTagCollection tagCollection = mTagsManager.getTags(review.getId());
         assertEquals(0, tagCollection.size());
 
-        TagsManager.tag(getContext(), review.getId(), tags.toStringArray());
+        mTagsManager.tagReview(review.getId(), tags.toStringArray());
 
-        tagCollection = TagsManager.getTags(getContext(), review.getId());
+        tagCollection = mTagsManager.getTags(review.getId());
         assertEquals(tags.size(), tagCollection.size());
         for (int i = 0; i < tags.size(); ++i) {
             assertEquals(tags.getItem(i).get(), tagCollection.getItem(i).get());
         }
 
         Review untagged = ReviewMocker.newReview();
-        TagsManager.ReviewTagCollection empty = TagsManager.getTags(getContext(), untagged.getId());
+        TagsManager.ReviewTagCollection empty = mTagsManager.getTags(untagged.getId());
         assertEquals(0, empty.size());
     }
 
@@ -70,13 +73,11 @@ public class TagsManagerTest extends AndroidTestCase {
         Review review1 = ReviewMocker.newReview();
         Review review2 = ReviewMocker.newReview();
 
-        TagsManager.tag(getContext(), review1.getId(), tags1.toStringArray());
-        TagsManager.tag(getContext(), review2.getId(), tags2.toStringArray());
+        mTagsManager.tagReview(review1.getId(), tags1.toStringArray());
+        mTagsManager.tagReview(review2.getId(), tags2.toStringArray());
 
-        TagsManager.ReviewTagCollection tagCollection1 = TagsManager.getTags(getContext(),
-                review1.getId());
-        TagsManager.ReviewTagCollection tagCollection2 = TagsManager.getTags(getContext(),
-                review2.getId());
+        TagsManager.ReviewTagCollection tagCollection1 = mTagsManager.getTags(review1.getId());
+        TagsManager.ReviewTagCollection tagCollection2 = mTagsManager.getTags(review2.getId());
         assertEquals(tags1.size(), tagCollection1.size());
         assertEquals(tags2.size(), tagCollection2.size());
 
@@ -117,10 +118,10 @@ public class TagsManagerTest extends AndroidTestCase {
         Review review1 = ReviewMocker.newReview();
         Review review2 = ReviewMocker.newReview();
 
-        TagsManager.tag(getContext(), review1.getId(), tags1.toStringArray());
-        TagsManager.tag(getContext(), review2.getId(), tags2.toStringArray());
+        mTagsManager.tagReview(review1.getId(), tags1.toStringArray());
+        mTagsManager.tagReview(review2.getId(), tags2.toStringArray());
 
-        TagsManager.ReviewTagCollection allTags = TagsManager.getTags(getContext());
+        TagsManager.ReviewTagCollection allTags = mTagsManager.getTags();
         assertEquals(tags1.size() + tagsUnshared.size(), allTags.size());
         GvTagList allocated = new GvTagList();
         for (int i = 0; i < NUM; ++i) {
@@ -137,38 +138,24 @@ public class TagsManagerTest extends AndroidTestCase {
         GvTagList tags = (GvTagList) GvDataMocker.getData(GvTagList.GvTag.TYPE, NUM);
         Review review = ReviewMocker.newReview();
 
-        TagsManager.ReviewTagCollection tagCollection = TagsManager.getTags(getContext(), review
-                .getId());
+        TagsManager.ReviewTagCollection tagCollection = mTagsManager.getTags(review.getId());
         assertEquals(0, tagCollection.size());
 
-        TagsManager.tag(getContext(), review.getId(), tags.toStringArray());
+        mTagsManager.tagReview(review.getId(), tags.toStringArray());
 
-        tagCollection = TagsManager.getTags(getContext(), review.getId());
+        tagCollection = mTagsManager.getTags(review.getId());
         assertEquals(tags.size(), tagCollection.size());
         for (int i = 0; i < tags.size(); ++i) {
             assertEquals(tags.getItem(i).get(), tagCollection.getItem(i).get());
         }
 
-        assertEquals(tags.size(), TagsManager.getTags(getContext()).size());
+        assertEquals(tags.size(), mTagsManager.getTags().size());
         for (TagsManager.ReviewTag tag : tagCollection) {
             assertTrue(tag.tagsReview(review.getId()));
-            TagsManager.untag(getContext(), review.getId(), tag);
+            mTagsManager.untagReview(review.getId(), tag);
             assertFalse(tag.tagsReview(review.getId()));
         }
 
-        assertEquals(0, TagsManager.getTags(getContext()).size());
-    }
-
-    //Overridden
-    @Override
-    protected void tearDown() throws Exception {
-        TagsManager.ReviewTagCollection tags = TagsManager.getTags(getContext());
-        for (TagsManager.ReviewTag tag : tags) {
-            ArrayList<ReviewId> ids = tag.getReviews();
-            for (ReviewId id : ids) {
-                TagsManager.untag(getContext(), id, tag);
-            }
-        }
-        assertTrue(TagsManager.getTags(getContext()).size() == 0);
+        assertEquals(0, mTagsManager.getTags().size());
     }
 }

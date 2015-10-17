@@ -18,6 +18,7 @@ import com.chdryra.android.reviewer.Database.DbTableDef;
 import com.chdryra.android.reviewer.Database.ReviewerDb;
 import com.chdryra.android.reviewer.Database.ReviewerDbContract;
 import com.chdryra.android.reviewer.Database.SQL;
+import com.chdryra.android.reviewer.Model.TagsModel.TagsManager;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -89,7 +90,7 @@ public class ReviewDbHelperTest extends AndroidTestCase {
     //Overridden
     @Override
     protected void setUp() throws Exception {
-        mDatabase = ReviewerDb.getTestDatabase(getContext());
+        mDatabase = ReviewerDb.getTestDatabase(getContext(), new TagsManager());
         mHelper = mDatabase.getHelper();
         mTables = new ArrayList<>();
         mTables = ReviewerDbContract.getContract().getTableDefinitions();

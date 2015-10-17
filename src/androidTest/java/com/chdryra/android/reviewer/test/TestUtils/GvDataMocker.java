@@ -46,7 +46,7 @@ import java.util.Random;
  * Email: rizwan.choudrey@gmail.com
  */
 public class GvDataMocker {
-    public static final ArrayList<GvDataType<? extends GvData>> TYPES = ConfigGvDataUi.BUILD_TYPES;
+    public static final ArrayList<GvDataType> TYPES = ConfigGvDataUi.BUILD_TYPES;
     private static final RandomString STRING_GENERATOR = new RandomString();
     private static final Random RAND = new Random();
 
@@ -288,14 +288,15 @@ public class GvDataMocker {
         Bitmap bitmap = BitmapMocker.nextBitmap(RAND.nextBoolean());
         String comment = RandomString.nextSentence();
         ArrayList<String> locations = new ArrayList<>();
+        ArrayList<String> tags = new ArrayList<>();
         for (int i = 0; i < 3; ++i) {
             locations.add(RandomString.nextWord());
+            tags.add(RandomString.nextWord());
         }
         GvReviewId id = GvReviewId.getId(RandomReviewId.nextId().toString());
 
         return new GvReviewOverviewList.GvReviewOverview(parentId, id.toString(), author, date,
-                subject,
-                rating, bitmap, comment, locations);
+                subject, rating, bitmap, comment, locations, tags);
     }
 
     public static GvSocialPlatformList.GvSocialPlatform newSocialPlatform() {

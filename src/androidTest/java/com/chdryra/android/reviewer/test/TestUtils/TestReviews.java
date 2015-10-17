@@ -19,11 +19,13 @@ import com.chdryra.android.mygenerallibrary.TextUtils;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilder;
 import com.chdryra.android.reviewer.Model.ReviewData.IdableList;
 import com.chdryra.android.reviewer.Model.ReviewData.PublishDate;
-import com.chdryra.android.reviewer.Model.ReviewData.ReviewPublisher;
 import com.chdryra.android.reviewer.Model.ReviewStructure.Review;
+import com.chdryra.android.reviewer.Model.TagsModel.TagsManager;
 import com.chdryra.android.reviewer.Model.UserData.Author;
 import com.chdryra.android.reviewer.Model.UserData.UserId;
 import com.chdryra.android.reviewer.R;
+import com.chdryra.android.reviewer.ReviewsProviderModel.ReviewsProvider;
+import com.chdryra.android.reviewer.ReviewsProviderModel.StaticReviewsProvider;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCriterionList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvFactList;
@@ -60,18 +62,19 @@ public class TestReviews {
     }
 
     //Static methods
-    public static IdableList<Review> getReviews(Instrumentation instr) {
+    public static ReviewsProvider getReviews(Instrumentation instr) {
         TestReviews testReviews = get(instr);
         IdableList<Review> reviews = testReviews.mReviews;
+        TagsManager tagsManager = new TagsManager();
         if (reviews.size() == 0) {
-            reviews.add(testReviews.getReview(testReviews.getReview1()));
-            reviews.add(testReviews.getReview(testReviews.getReview2()));
-            reviews.add(testReviews.getReview(testReviews.getReview3()));
-            reviews.add(testReviews.getReview(testReviews.getReview4()));
+            reviews.add(testReviews.getReview(testReviews.getReview1(), tagsManager));
+            reviews.add(testReviews.getReview(testReviews.getReview2(), tagsManager));
+            reviews.add(testReviews.getReview(testReviews.getReview3(), tagsManager));
+            reviews.add(testReviews.getReview(testReviews.getReview4(), tagsManager));
             testReviews.mReviews = reviews;
         }
 
-        return reviews;
+        return new StaticReviewsProvider(reviews, tagsManager);
     }
 
     private static TestReviews get(Instrumentation instr) {
@@ -216,20 +219,21 @@ public class TestReviews {
         return review;
     }
 
-    private Review getReview(TestReview review) {
-        ReviewPublisher publisher = new ReviewPublisher(AUTHOR,
-                PublishDate.then(review.mPublishDate.getTime()));
-        ReviewBuilder builder = new ReviewBuilder(mInstr.getTargetContext(), publisher);
+    private Review getReview(TestReview review, TagsManager tagsManager) {
+        ReviewBuilder builder = new ReviewBuilder(mInstr.getTargetContext(), AUTHOR, tagsManager);
         builder.setSubject(review.mSubject);
         builder.setRating(review.mRating);
         builder.setRatingIsAverage(review.mIsRatingAverage);
-        ReviewBuilder.DataBuilder b = builder.getDataBuilder(GvCommentList
-                .GvComment.TYPE);
+        
+        ReviewBuilder.DataBuilder<GvCommentList.GvComment> commentBuilder 
+                = builder.getDataBuilder(GvCommentList.GvComment.TYPE);
         for (String comment : review.mComments) {
-            b.add(new GvCommentList.GvComment(comment));
+            commentBuilder.add(new GvCommentList.GvComment(comment));
         }
-        b.setData();
-        b = builder.getDataBuilder(GvFactList.GvFact.TYPE);
+        commentBuilder.setData();
+        
+        ReviewBuilder.DataBuilder<GvFactList.GvFact> factBuilder
+                = builder.getDataBuilder(GvFactList.GvFact.TYPE);
         for (Fact fact : review.mFacts) {
             GvFactList.GvFact f = new GvFactList.GvFact(fact.mLabel, fact.mValue);
             if (fact.mIsUrl) {
@@ -239,33 +243,41 @@ public class TestReviews {
                     e.printStackTrace();
                 }
             }
-            b.add(f);
+            factBuilder.add(f);
         }
-        b.setData();
-        b = builder.getDataBuilder(GvLocationList.GvLocation.TYPE);
+        factBuilder.setData();
+        
+        ReviewBuilder.DataBuilder<GvLocationList.GvLocation> locationBuilder
+                = builder.getDataBuilder(GvLocationList.GvLocation.TYPE);
         for (Location Location : review.mLocations) {
-            b.add(new GvLocationList.GvLocation(Location.mLatLng, Location.mName));
+            locationBuilder.add(new GvLocationList.GvLocation(Location.mLatLng, Location.mName));
         }
-        b.setData();
-        b = builder.getDataBuilder(GvImageList.GvImage.TYPE);
+        locationBuilder.setData();
+
+        ReviewBuilder.DataBuilder<GvImageList.GvImage> imageBuilder
+                = builder.getDataBuilder(GvImageList.GvImage.TYPE);
         for (Image image : review.mImages) {
-            b.add(new GvImageList.GvImage(image.mBitmap, image.mDate, null, image.mCaption, image
-                    .mIsCover));
+            imageBuilder.add(new GvImageList.GvImage(image.mBitmap, image.mDate, null,
+                    image.mCaption, image.mIsCover));
         }
-        b.setData();
-        b = builder.getDataBuilder(GvCriterionList.GvCriterion.TYPE);
+        imageBuilder.setData();
+
+        ReviewBuilder.DataBuilder<GvCriterionList.GvCriterion> criterionBuilder
+                = builder.getDataBuilder(GvCriterionList.GvCriterion.TYPE);
         for (Criterion child : review.mCriteria) {
-            b.add(new GvCriterionList.GvCriterion(child.mSubject, child.mRating));
+            criterionBuilder.add(new GvCriterionList.GvCriterion(child.mSubject, child.mRating));
         }
-        b.setData();
-        b = builder.getDataBuilder(GvTagList.GvTag.TYPE);
+        criterionBuilder.setData();
+
+        ReviewBuilder.DataBuilder<GvTagList.GvTag> tagBuilder
+                = builder.getDataBuilder(GvTagList.GvTag.TYPE);
         for (String tag : review.mTags) {
-            b.add(new GvTagList.GvTag(tag));
+            tagBuilder.add(new GvTagList.GvTag(tag));
         }
-        b.setData();
+        tagBuilder.setData();
 
 
-        return builder.buildReview();
+        return builder.buildReview(PublishDate.then(review.mPublishDate.getTime()));
     }
 
     private Bitmap loadBitmap(String fileName) {

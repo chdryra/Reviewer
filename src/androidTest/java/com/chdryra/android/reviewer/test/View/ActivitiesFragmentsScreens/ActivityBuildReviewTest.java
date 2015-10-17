@@ -18,8 +18,9 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.chdryra.android.mygenerallibrary.DialogCancelActionDoneFragment;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilder;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilderAdapter;
-import com.chdryra.android.reviewer.ApplicationSingletons.Administrator;
+import com.chdryra.android.reviewer.Model.TagsModel.TagsManager;
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.View.ActivitiesFragments.ActivityReviewView;
 import com.chdryra.android.reviewer.View.ActivitiesFragments.FragmentReviewView;
@@ -38,6 +39,7 @@ import com.chdryra.android.reviewer.View.Screens.BuildScreen;
 import com.chdryra.android.reviewer.View.Screens.ReviewView;
 import com.chdryra.android.reviewer.View.Utils.CommentFormatter;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
+import com.chdryra.android.reviewer.test.TestUtils.RandomAuthor;
 import com.chdryra.android.reviewer.test.TestUtils.SoloDataEntry;
 import com.chdryra.android.testutils.CallBackSignaler;
 
@@ -53,7 +55,6 @@ public class ActivityBuildReviewTest extends ActivityReviewViewTest {
     private static final int TIMEOUT = 10000;
     private static final int AVERAGE = R.id.menu_item_average_rating;
 
-    private Administrator mAdmin;
     private GvBuildReviewList mList;
     private String mOriginalSubject;
     private float mOriginalRating;
@@ -214,32 +215,26 @@ public class ActivityBuildReviewTest extends ActivityReviewViewTest {
         GvCriterionList.GvCriterion child = editSubjectRating();
         checkFragmentSubjectRating(child.getSubject(), child.getRating());
         checkAdapterSubjectRating(child.getSubject(), child.getRating());
-        assertFalse(getBuilder().isRatingAverage());
 
+        //There are no criteria so should set to zero
         mSolo.clickOnActionBarItem(AVERAGE);
 
         checkAdapterSubjectRating(child.getSubject(), 0);
         checkFragmentSubjectRating(child.getSubject(), 0);
-        assertTrue(getBuilder().isRatingAverage());
-        assertEquals(0f, mAdapter.getAverageRating());
 
         child = editSubjectRating();
 
         mOriginalSubject = child.getSubject();
         mOriginalRating = child.getRating();
-        assertFalse(getBuilder().isRatingAverage());
 
         testClickWithoutData(GvCriterionList.GvCriterion.TYPE, NUM_DATA);
 
-        assertFalse(getBuilder().isRatingAverage());
         while (child.getRating() == getAverageRating(true)) child = editSubjectRating();
         assertFalse(child.getRating() == getAverageRating(true));
 
         mSolo.clickOnActionBarItem(AVERAGE);
         checkFragmentSubjectRating(child.getSubject(), getAverageRating(true));
         checkAdapterSubjectRating(child.getSubject(), getAverageRating(false));
-        assertTrue(getBuilder().isRatingAverage());
-        assertEquals(getAverageRating(false), mAdapter.getAverageRating());
     }
 
 //protected methods
@@ -582,10 +577,11 @@ public class ActivityBuildReviewTest extends ActivityReviewViewTest {
         mSolo.sleep(1000);
     }
 
-    private void checkBuilderChanges(GvDataType dataType) {
+    private void checkBuilderChanges(GvDataType dataTypeToIgnore) {
         for (GvBuildReviewList.GvBuildReview type : mList) {
-            if (dataType != null && type.getGvDataType() == dataType) continue;
-            assertEquals(0, getBuilder().hasTags(type.getGvDataType()));
+            GvDataType dataType = type.getGvDataType();
+            if (dataTypeToIgnore != null && dataType == dataTypeToIgnore) continue;
+            assertEquals(0, getBuilder().getDataBuilder(dataType).getGridData().size());
         }
     }
 
@@ -609,7 +605,6 @@ public class ActivityBuildReviewTest extends ActivityReviewViewTest {
 
         //Kind of simulate touch
         mSolo.clickOnView(mSolo.getView(R.id.review_rating));
-        assertFalse(getBuilder().isRatingAverage());
         assertEquals(3.0f, getBuilder().getRating());
         mSolo.setProgressBar(0, (int) (child.getRating() * 2f));
 
@@ -624,7 +619,9 @@ public class ActivityBuildReviewTest extends ActivityReviewViewTest {
     //Overridden
     @Override
     protected void setAdapter() {
-        mAdapter = mAdmin.newReviewBuilder();
+        ReviewBuilder builder =
+                new ReviewBuilder(getActivity(), RandomAuthor.nextAuthor(), new TagsManager());
+        mAdapter = new ReviewBuilderAdapter(builder);
     }
 
     @SmallTest
@@ -636,7 +633,6 @@ public class ActivityBuildReviewTest extends ActivityReviewViewTest {
 
     @Override
     protected void setUp() {
-        mAdmin = Administrator.get(getInstrumentation().getTargetContext());
         super.setUp();
 
         mList = (GvBuildReviewList) mAdapter.getGridData();

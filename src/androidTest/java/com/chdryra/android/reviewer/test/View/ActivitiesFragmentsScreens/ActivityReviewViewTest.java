@@ -31,9 +31,9 @@ import java.util.ArrayList;
  * On: 10/02/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public abstract class ActivityReviewViewTest extends
+public abstract class ActivityReviewViewTest<T extends GvData> extends
         ActivityInstrumentationTestCase2<ActivityReviewView> {
-    protected ReviewViewAdapter mAdapter;
+    protected ReviewViewAdapter<T> mAdapter;
     protected Activity mActivity;
     protected Solo mSolo;
 
@@ -70,8 +70,9 @@ public abstract class ActivityReviewViewTest extends
         return (FragmentReviewView) f;
     }
 
-    protected GvData getGridItem(int position) {
-        return (GvData) getGridView().getItemAtPosition(position);
+    protected T getGridItem(int position) {
+        //TODO make type safe
+        return (T) getGridView().getItemAtPosition(position);
     }
 
     //Overridden

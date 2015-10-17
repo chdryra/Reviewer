@@ -16,6 +16,7 @@ import com.chdryra.android.mygenerallibrary.FileIncrementor;
 import com.chdryra.android.mygenerallibrary.FileIncrementorFactory;
 import com.chdryra.android.mygenerallibrary.TextUtils;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
+import com.chdryra.android.reviewer.Model.ReviewData.PublishDate;
 import com.chdryra.android.reviewer.Model.ReviewStructure.Review;
 import com.chdryra.android.reviewer.View.Configs.ConfigGvDataUi;
 import com.chdryra.android.reviewer.View.GvDataModel.GvBuildReviewList;
@@ -80,7 +81,7 @@ public class ReviewBuilderAdapter extends ReviewViewAdapterBasic {
     }
 
     public Review publish() {
-        return mBuilder.buildReview();
+        return mBuilder.buildReview(PublishDate.now());
     }
 
     //private methods
@@ -146,7 +147,7 @@ public class ReviewBuilderAdapter extends ReviewViewAdapterBasic {
         return ((GvImageList) getData(GvImageList.GvImage.TYPE)).getCovers();
     }
 
-    public class DataBuilderAdapter<T extends GvData> extends ReviewViewAdapterBasic {
+    public class DataBuilderAdapter<T extends GvData> extends ReviewViewAdapterBasic<T> {
         private ReviewBuilder.DataBuilder<T> mDataBuilder;
         private GvDataType<T> mType;
 

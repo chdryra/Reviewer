@@ -11,6 +11,7 @@ package com.chdryra.android.reviewer.test.Model.TreeMethods;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.Model.ReviewData.IdableList;
+import com.chdryra.android.reviewer.Model.ReviewStructure.Review;
 import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
 import com.chdryra.android.reviewer.Model.TreeMethods.VisitorReviewsGetter;
 import com.chdryra.android.reviewer.test.TestUtils.ReviewMocker;
@@ -29,22 +30,22 @@ public class VisitorReviewsGetterTest extends TestCase {
         VisitorReviewsGetter visitor = new VisitorReviewsGetter();
         node.acceptVisitor(visitor);
 
-        IdableList<ReviewNode> nodes = visitor.getNodes();
-        IdableList<ReviewNode> flattened = flatten(node);
+        IdableList<Review> nodes = visitor.getReviews();
+        IdableList<Review> flattened = flatten(node);
         assertEquals(flattened.size(), nodes.size());
-        for (ReviewNode item : flattened) {
+        for (Review item : flattened) {
             assertTrue(nodes.containsId(item.getId()));
         }
     }
 
-    private IdableList<ReviewNode> flatten(ReviewNode node) {
-        IdableList<ReviewNode> nodes = new IdableList<>();
-        nodes.add(node);
+    private IdableList<Review> flatten(ReviewNode node) {
+        IdableList<Review> reviews = new IdableList<>();
+        reviews.add(node.getReview());
 
         for (ReviewNode child : node.getChildren()) {
-            nodes.add(flatten(child));
+            reviews.add(flatten(child));
         }
 
-        return nodes;
+        return reviews;
     }
 }
