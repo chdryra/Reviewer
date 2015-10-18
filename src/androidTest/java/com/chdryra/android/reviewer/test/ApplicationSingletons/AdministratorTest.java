@@ -8,8 +8,8 @@
 
 package com.chdryra.android.reviewer.test.ApplicationSingletons;
 
-import android.content.Intent;
-import android.test.ActivityInstrumentationTestCase2;
+import android.content.Context;
+import android.test.InstrumentationTestCase;
 import android.test.UiThreadTest;
 import android.test.suitebuilder.annotation.SmallTest;
 
@@ -19,10 +19,8 @@ import com.chdryra.android.reviewer.Database.ReviewerDb;
 import com.chdryra.android.reviewer.Model.ReviewData.IdableList;
 import com.chdryra.android.reviewer.Model.ReviewStructure.Review;
 import com.chdryra.android.reviewer.ReviewsProviderModel.ReviewsRepository;
-import com.chdryra.android.reviewer.View.ActivitiesFragments.ActivityReviewView;
 import com.chdryra.android.reviewer.View.GvDataModel.GvSocialPlatformList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvTagList;
-import com.chdryra.android.reviewer.View.Screens.AuthorFeedScreen;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
 import com.chdryra.android.reviewer.test.TestUtils.TestDatabase;
 import com.chdryra.android.testutils.RandomString;
@@ -32,21 +30,17 @@ import com.chdryra.android.testutils.RandomString;
  * On: 02/12/2014
  * Email: rizwan.choudrey@gmail.com
  */
-public class AdministratorTest extends ActivityInstrumentationTestCase2<ActivityReviewView> {
+public class AdministratorTest extends InstrumentationTestCase {
     private Administrator mAdmin;
-
-    //Constructors
-    public AdministratorTest() {
-        super(ActivityReviewView.class);
-    }
 
     @SmallTest
     public void testGetImageChooser() {
+        Context context = getInstrumentation().getTargetContext();
         if (mAdmin.getReviewBuilder() == null) {
-            assertNull(Administrator.getImageChooser(getActivity()));
+            assertNull(Administrator.getImageChooser(context));
         }
         mAdmin.newReviewBuilder();
-        assertNotNull(Administrator.getImageChooser(getActivity()));
+        assertNotNull(Administrator.getImageChooser(context));
     }
 
     @SmallTest
@@ -111,10 +105,5 @@ public class AdministratorTest extends ActivityInstrumentationTestCase2<Activity
     protected void setUp() throws Exception {
         super.setUp();
         mAdmin = Administrator.get(getInstrumentation().getTargetContext());
-        assertNotNull(mAdmin);
-        Intent i = new Intent();
-        mAdmin.packView(AuthorFeedScreen.newScreen(getInstrumentation().getTargetContext()), i);
-        setActivityIntent(i);
-        assertNotNull(getActivity());
     }
 }

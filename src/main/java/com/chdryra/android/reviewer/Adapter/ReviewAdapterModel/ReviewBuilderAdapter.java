@@ -8,7 +8,6 @@
 
 package com.chdryra.android.reviewer.Adapter.ReviewAdapterModel;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Environment;
 
@@ -67,8 +66,8 @@ public class ReviewBuilderAdapter extends ReviewViewAdapterBasic {
         mBuilder.setRatingIsAverage(ratingIsAverage);
     }
 
-    public ImageChooser getImageChooser(Activity activity) {
-        return new ImageChooser(activity, (FileIncrementorFactory.ImageFileIncrementor)
+    public ImageChooser getImageChooser(Context context) {
+        return new ImageChooser(context, (FileIncrementorFactory.ImageFileIncrementor)
                 mIncrementor);
     }
 

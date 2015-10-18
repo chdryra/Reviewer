@@ -8,7 +8,6 @@
 
 package com.chdryra.android.reviewer.View.Utils;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -42,7 +41,7 @@ public class ImageChooser {
     private static final String ERROR_CREATE = "Couldn't create file";
     private static final String ERROR_NO_STORAGE = "No storage available";
 
-    private final Activity mActivity;
+    private final Context mContext;
     private final FileIncrementor mFileIncrementor;
     private String mCaptureFile;
 
@@ -52,9 +51,9 @@ public class ImageChooser {
     }
 
     //Constructors
-    public ImageChooser(Activity activity,
+    public ImageChooser(Context context,
                         FileIncrementorFactory.ImageFileIncrementor fileIncrementor) {
-        mActivity = activity;
+        mContext = context;
         mFileIncrementor = fileIncrementor;
     }
 
@@ -62,7 +61,7 @@ public class ImageChooser {
     public Intent getChooserIntents() {
         try {
             createNewCaptureFile();
-            return ImageHelper.getImageChooserIntents(mActivity, mCaptureFile);
+            return ImageHelper.getImageChooserIntents(mContext, mCaptureFile);
         } catch (IOException e) {
             Log.e(TAG, e.getMessage());
         }
@@ -84,7 +83,7 @@ public class ImageChooser {
 
             if (!isCamera) {
                 deleteCreatedCaptureFile();
-                mCaptureFile = getImagePathFromUri(mActivity, data.getData());
+                mCaptureFile = getImagePathFromUri(mContext, data.getData());
             }
 
             if (ImageHelper.bitmapExists(mCaptureFile)) {
@@ -92,7 +91,7 @@ public class ImageChooser {
                     //Update android gallery
                     Uri imageUri = Uri.fromFile(new File(mCaptureFile));
                     Intent scanFile = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, imageUri);
-                    mActivity.sendBroadcast(scanFile);
+                    mContext.sendBroadcast(scanFile);
                 }
 
                 return true;
@@ -111,8 +110,8 @@ public class ImageChooser {
 
     public void getChosenImage(final ImageChooserListener listener) {
         if (mCaptureFile != null) {
-            int maxWidth = (int) mActivity.getResources().getDimension(R.dimen.imageMaxWidth);
-            int maxHeight = (int) mActivity.getResources().getDimension(R.dimen.imageMaxHeight);
+            int maxWidth = (int) mContext.getResources().getDimension(R.dimen.imageMaxWidth);
+            int maxHeight = (int) mContext.getResources().getDimension(R.dimen.imageMaxHeight);
 
             final BitmapLoader.LoadListener loadListener = new BitmapLoader.LoadListener() {
                 //Overridden
@@ -135,14 +134,18 @@ public class ImageChooser {
         try {
             String[] proj = {MediaStore.Images.Media.DATA};
             cursor = context.getContentResolver().query(contentUri, proj, null, null, null);
-            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-            cursor.moveToFirst();
-            return cursor.getString(column_index);
+            if(cursor != null) {
+                int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+                cursor.moveToFirst();
+                return cursor.getString(column_index);
+            }
         } finally {
             if (cursor != null) {
                 cursor.close();
             }
         }
+
+        return "";
     }
 
     private void createNewCaptureFile() throws IOException {

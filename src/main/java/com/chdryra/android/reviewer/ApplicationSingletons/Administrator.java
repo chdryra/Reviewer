@@ -8,7 +8,6 @@
 
 package com.chdryra.android.reviewer.ApplicationSingletons;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 
@@ -78,11 +77,11 @@ public class Administrator extends ApplicationSingleton {
         return sSingleton;
     }
 
-    public static ImageChooser getImageChooser(Activity activity) {
-        Administrator admin = get(activity);
+    public static ImageChooser getImageChooser(Context context) {
+        Administrator admin = get(context);
         ImageChooser chooser = null;
         if (admin.mReviewBuilderAdapter != null) {
-            chooser = admin.mReviewBuilderAdapter.getImageChooser(activity);
+            chooser = admin.mReviewBuilderAdapter.getImageChooser(context);
         }
 
         return chooser;
