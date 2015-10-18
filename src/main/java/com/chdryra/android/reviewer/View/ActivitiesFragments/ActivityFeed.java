@@ -11,8 +11,9 @@ package com.chdryra.android.reviewer.View.ActivitiesFragments;
 import android.app.Fragment;
 
 import com.chdryra.android.reviewer.ApplicationSingletons.Administrator;
+import com.chdryra.android.reviewer.ApplicationSingletons.ReviewViewPacker;
 import com.chdryra.android.reviewer.ReviewsProviderModel.ReviewsRepository;
-import com.chdryra.android.reviewer.View.Screens.AuthorFeedScreen;
+import com.chdryra.android.reviewer.View.Screens.FeedScreen;
 
 /**
  * UI Activity holding published reviews feed.
@@ -22,10 +23,8 @@ public class ActivityFeed extends ActivityReviewView {
     //Overridden
     @Override
     protected Fragment createFragment() {
-        Administrator admin = Administrator.get(this);
-        ReviewsRepository feed = admin.getReviewsRepository();
-        admin.packView(AuthorFeedScreen.newScreen(this, feed), getIntent());
-
+        ReviewsRepository feed = Administrator.get(this).getReviewsRepository();
+        ReviewViewPacker.packView(this, FeedScreen.newScreen(this, feed), getIntent());
         return new FragmentReviewView();
     }
 

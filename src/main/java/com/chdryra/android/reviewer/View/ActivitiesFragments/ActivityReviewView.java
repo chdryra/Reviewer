@@ -18,15 +18,6 @@ import com.chdryra.android.mygenerallibrary.ActivitySingleFragment;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ActivityReviewView extends ActivitySingleFragment {
-//    public static void startNewActivity(Activity activity, ReviewView screen) {
-//        if (activity == null) return;
-//
-//        Intent i = new Intent(activity, ActivityReviewView.class);
-//        Administrator.get(activity).packView(screen, i);
-//
-//        activity.startActivity(i);
-//    }
-
     //Overridden
     protected Fragment createFragment() {
         return new FragmentReviewView();

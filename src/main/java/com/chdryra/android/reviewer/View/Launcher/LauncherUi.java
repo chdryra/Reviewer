@@ -14,7 +14,7 @@ import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.chdryra.android.reviewer.ApplicationSingletons.Administrator;
+import com.chdryra.android.reviewer.ApplicationSingletons.ReviewViewPacker;
 import com.chdryra.android.reviewer.View.ActivitiesFragments.ActivityReviewView;
 import com.chdryra.android.reviewer.View.Dialogs.DialogShower;
 import com.chdryra.android.reviewer.View.Screens.ReviewView;
@@ -67,7 +67,7 @@ public class LauncherUi {
     public void launch(ReviewView reviewView) {
         Activity activity = mCommissioner.getActivity();
         Intent i = new Intent(activity, ActivityReviewView.class);
-        Administrator.get(activity).packView(reviewView, i);
+        ReviewViewPacker.packView(activity, reviewView, i);
         activity.startActivityForResult(i, mRequestCode);
     }
 }

@@ -19,6 +19,7 @@ import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewAdapter;
 import com.chdryra.android.reviewer.ApplicationSingletons.Administrator;
+import com.chdryra.android.reviewer.ApplicationSingletons.ReviewViewPacker;
 import com.chdryra.android.reviewer.View.ActivitiesFragments.ActivityReviewView;
 import com.chdryra.android.reviewer.View.Dialogs.DialogGvDataAdd;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
@@ -26,6 +27,7 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
 import com.chdryra.android.reviewer.View.Launcher.LauncherUi;
 import com.chdryra.android.reviewer.View.Screens.EditScreenReviewData;
+import com.chdryra.android.reviewer.View.Screens.ReviewView;
 import com.chdryra.android.reviewer.test.TestUtils.DialogAddListener;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
 import com.chdryra.android.reviewer.test.TestUtils.SoloDataEntry;
@@ -238,8 +240,8 @@ public abstract class DialogGvDataAddTest<T extends GvData> extends
 
         Intent i = new Intent();
         Context context = getInstrumentation().getTargetContext();
-        Administrator admin = Administrator.get(context);
-        admin.packView(EditScreenReviewData.newScreen(context, mDialog.getGvDataType()), i);
+        ReviewView screen = EditScreenReviewData.newScreen(context, mDialog.getGvDataType());
+        ReviewViewPacker.packView(context, screen, i);
         setActivityIntent(i);
         mActivity = getActivity();
 

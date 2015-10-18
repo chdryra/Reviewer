@@ -9,9 +9,7 @@
 package com.chdryra.android.reviewer.ApplicationSingletons;
 
 import android.content.Context;
-import android.content.Intent;
 
-import com.chdryra.android.mygenerallibrary.ObjectHolder;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilder;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilderAdapter;
 import com.chdryra.android.reviewer.Database.ReviewerDb;
@@ -23,10 +21,7 @@ import com.chdryra.android.reviewer.Model.UserData.UserId;
 import com.chdryra.android.reviewer.ReviewsProviderModel.ReviewerDbProvider;
 import com.chdryra.android.reviewer.ReviewsProviderModel.ReviewsRepository;
 import com.chdryra.android.reviewer.View.GvDataModel.GvSocialPlatformList;
-import com.chdryra.android.reviewer.View.Screens.ReviewView;
 import com.chdryra.android.reviewer.View.Utils.ImageChooser;
-
-import java.util.UUID;
 
 /**
  * Singleton that controls app-wide duties. Holds 4 main objects:
@@ -49,13 +44,11 @@ import java.util.UUID;
  */
 public class Administrator extends ApplicationSingleton {
     private static final String NAME = "Administrator";
-    private static final String REVIEWVIEW_ID = "com.chdryra.android.reviewer.review_id";
     private static final Author AUTHOR = new Author("Rizwan Choudrey", UserId
             .generateId());
 
     private static Administrator sSingleton;
 
-    private final ObjectHolder mViews;
     private final ReviewerDb mDatabase;
     private final ReviewsRepository mReviewsRepository;
     private final TagsManager mTagsManager;
@@ -63,7 +56,6 @@ public class Administrator extends ApplicationSingleton {
 
     private Administrator(Context context) {
         super(context, NAME);
-        mViews = new ObjectHolder();
         mTagsManager = new TagsManager();
         mDatabase = ReviewerDb.getTestDatabase(context, mTagsManager);
         ReviewerDbProvider provider = new ReviewerDbProvider(mDatabase);
@@ -122,19 +114,5 @@ public class Administrator extends ApplicationSingleton {
 
     public void deleteFromAuthorsFeed(String reviewId) {
         mDatabase.deleteReviewFromDb(reviewId);
-    }
-
-    public void packView(ReviewView view, Intent i) {
-        String id = UUID.randomUUID().toString();
-        mViews.addObject(id, view);
-        i.putExtra(REVIEWVIEW_ID, id);
-    }
-
-    public ReviewView unpackView(Intent i) {
-        String id = i.getStringExtra(REVIEWVIEW_ID);
-        ReviewView view = (ReviewView) mViews.getObject(id);
-        mViews.removeObject(id);
-
-        return view;
     }
 }

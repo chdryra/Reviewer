@@ -33,7 +33,7 @@ import android.widget.TextView;
 
 import com.chdryra.android.myandroidwidgets.ClearableEditText;
 import com.chdryra.android.mygenerallibrary.ViewHolderAdapter;
-import com.chdryra.android.reviewer.ApplicationSingletons.Administrator;
+import com.chdryra.android.reviewer.ApplicationSingletons.ReviewViewPacker;
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
@@ -318,7 +318,7 @@ public class FragmentReviewView extends Fragment implements GridDataObservable.G
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mReviewView = Administrator.get(getActivity()).unpackView(getActivity().getIntent());
+        mReviewView = ReviewViewPacker.unpackView(getActivity(), getActivity().getIntent());
         mReviewView.attachFragment(this);
 
         ReviewViewParams params = mReviewView.getParams();

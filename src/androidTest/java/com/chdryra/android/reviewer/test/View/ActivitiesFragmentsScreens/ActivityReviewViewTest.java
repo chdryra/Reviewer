@@ -17,7 +17,7 @@ import android.test.suitebuilder.annotation.SmallTest;
 import android.widget.GridView;
 
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewAdapter;
-import com.chdryra.android.reviewer.ApplicationSingletons.Administrator;
+import com.chdryra.android.reviewer.ApplicationSingletons.ReviewViewPacker;
 import com.chdryra.android.reviewer.View.ActivitiesFragments.ActivityReviewView;
 import com.chdryra.android.reviewer.View.ActivitiesFragments.FragmentReviewView;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
@@ -83,7 +83,7 @@ public abstract class ActivityReviewViewTest<T extends GvData> extends
         setAdapter();
 
         Intent i = new Intent();
-        Administrator.get(getInstrumentation().getTargetContext()).packView(getView(), i);
+        ReviewViewPacker.packView(getInstrumentation().getTargetContext(), getView(), i);
         setActivityIntent(i);
         mActivity = getActivity();
 

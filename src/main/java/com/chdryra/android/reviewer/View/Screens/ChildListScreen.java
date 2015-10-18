@@ -15,17 +15,18 @@ import com.chdryra.android.reviewer.ReviewsProviderModel.ReviewsRepository;
  * On: 30/08/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ReviewListScreen {
+public class ChildListScreen {
     private ReviewView mReviewView;
 
-    private ReviewListScreen(Context context, ReviewNode node, ReviewsRepository repository,
-                             ReviewViewAction.GridItemAction giAction,
-                             ReviewViewAction.MenuAction menuAction) {
+    private ChildListScreen(Context context, ReviewNode node, ReviewsRepository repository,
+                            ReviewViewAction.GridItemAction giAction,
+                            ReviewViewAction.MenuAction menuAction) {
+
         ReviewViewAdapter adapter = new AdapterReviewNode<>(node,
                 new ViewerChildList(context, node, repository));
 
         ReviewViewActions actions = new ReviewViewActions();
-        actions.setAction(giAction);
+        if (giAction != null) actions.setAction(giAction);
         if (menuAction != null) actions.setAction(menuAction);
         actions.setAction(new RbExpandGrid());
 
@@ -41,16 +42,15 @@ public class ReviewListScreen {
 
     //Static methods
     public static ReviewView newScreen(Context context, ReviewNode node, ReviewsRepository
-            repository,
-                                       ReviewViewAction.GridItemAction giAction,
+            repository, ReviewViewAction.GridItemAction giAction,
                                        ReviewViewAction.MenuAction menuAction) {
-        return new ReviewListScreen(context, node, repository, giAction, menuAction)
+        return new ChildListScreen(context, node, repository, giAction, menuAction)
                 .getReviewView();
     }
 
     public static ReviewView newScreen(Context context, ReviewNode node, ReviewsRepository
             repository) {
-        return new ReviewListScreen(context, node, repository, new GiLaunchReviewDataScreen(),
+        return new ChildListScreen(context, node, repository, new GiLaunchReviewDataScreen(),
                 null).getReviewView();
     }
 

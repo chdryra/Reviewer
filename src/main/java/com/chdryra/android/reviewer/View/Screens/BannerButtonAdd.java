@@ -36,7 +36,6 @@ public class BannerButtonAdd<T extends GvData>
         super(title);
         mDataType = dataType;
         mConfig = ConfigGvDataUi.getConfig(mDataType).getAdderConfig();
-        //TODO make type safe
         setListener(new AddListener() {
         });
     }
@@ -89,7 +88,7 @@ public class BannerButtonAdd<T extends GvData>
         mEditor = ReviewDataEditor.cast(getReviewView(), mDataType);
     }
 
-    // /Dialogs expected to communicate directly with target fragments so using "invisible"
+    // Dialogs expected to communicate directly with target fragments so using "invisible"
     // fragment as listener.
     //Restrictions on how fragments are constructed mean I have to use an abstract class...
     protected abstract class AddListener extends Fragment

@@ -20,7 +20,7 @@ import android.widget.GridView;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilder;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilderAdapter;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewAdapter;
-import com.chdryra.android.reviewer.ApplicationSingletons.Administrator;
+import com.chdryra.android.reviewer.ApplicationSingletons.ReviewViewPacker;
 import com.chdryra.android.reviewer.Model.ReviewData.IdableList;
 import com.chdryra.android.reviewer.Model.ReviewStructure.Review;
 import com.chdryra.android.reviewer.Model.TagsModel.TagsManager;
@@ -33,7 +33,7 @@ import com.chdryra.android.reviewer.View.ActivitiesFragments.ActivityReviewView;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvReviewOverviewList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvTagList;
-import com.chdryra.android.reviewer.View.Screens.AuthorFeedScreen;
+import com.chdryra.android.reviewer.View.Screens.FeedScreen;
 import com.chdryra.android.reviewer.View.Screens.ReviewView;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
 import com.chdryra.android.reviewer.test.TestUtils.RandomAuthor;
@@ -122,12 +122,11 @@ public class ActivityFeedTest extends
     protected void setUp() {
         Context context = getInstrumentation().getTargetContext();
 
-        ReviewView feedScreen = AuthorFeedScreen.newScreen(context, createFeed());
+        ReviewView feedScreen = FeedScreen.newScreen(context, createFeed());
         mAdapter = feedScreen.getAdapter();
 
         Intent i = new Intent();
-        Administrator admin = Administrator.get(context);
-        admin.packView(feedScreen, i);
+        ReviewViewPacker.packView(getActivity(), feedScreen, i);
         setActivityIntent(i);
         mActivity = getActivity();
 

@@ -20,7 +20,7 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataCollection;
 import com.chdryra.android.reviewer.View.GvDataModel.GvFactList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
-import com.chdryra.android.reviewer.View.Screens.ReviewListScreen;
+import com.chdryra.android.reviewer.View.Screens.ChildListScreen;
 
 /**
  * Created by: Rizwan Choudrey
@@ -35,7 +35,7 @@ public class FactoryReviewViewAdapter {
     //Static methods
     public static ReviewViewAdapter newReviewsListAdapter(Context context, ReviewNode node,
                                                           ReviewsRepository repository) {
-        return ReviewListScreen.newScreen(context, node, repository).getAdapter();
+        return ChildListScreen.newScreen(context, node, repository).getAdapter();
     }
 
     public static ReviewViewAdapter newNodeDataAdapter(Context context, ReviewNode node,
