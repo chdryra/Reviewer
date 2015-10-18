@@ -115,7 +115,7 @@ public class ReviewView implements GridDataObservable.GridDataObserver, Launchab
 
     public void resetGridViewData() {
         mGridViewData = null;
-        update();
+        notifyObservers();
     }
 
     public void updateCover() {
@@ -132,10 +132,6 @@ public class ReviewView implements GridDataObservable.GridDataObserver, Launchab
 
             mFragment.setCover(cover);
         }
-    }
-
-    public void update() {
-        notifyObservers();
     }
 
     public void attachActionListeners() {

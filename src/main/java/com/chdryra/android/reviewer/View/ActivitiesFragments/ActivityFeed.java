@@ -8,24 +8,38 @@
 
 package com.chdryra.android.reviewer.View.ActivitiesFragments;
 
-import android.app.Fragment;
+import android.os.Bundle;
 
+import com.chdryra.android.mygenerallibrary.DialogAlertFragment;
 import com.chdryra.android.reviewer.ApplicationSingletons.Administrator;
-import com.chdryra.android.reviewer.ApplicationSingletons.ReviewViewPacker;
-import com.chdryra.android.reviewer.ReviewsProviderModel.ReviewsRepository;
+import com.chdryra.android.reviewer.View.GvDataModel.GvData;
+import com.chdryra.android.reviewer.View.GvDataModel.GvDataPacker;
+import com.chdryra.android.reviewer.View.GvDataModel.GvReviewOverviewList;
 import com.chdryra.android.reviewer.View.Screens.FeedScreen;
+import com.chdryra.android.reviewer.View.Screens.ReviewView;
 
 /**
  * UI Activity holding published reviews feed.
  */
-public class ActivityFeed extends ActivityReviewView {
+public class ActivityFeed extends ActivityReviewView
+        implements DialogAlertFragment.DialogAlertListener{
 
     //Overridden
     @Override
-    protected Fragment createFragment() {
-        ReviewsRepository feed = Administrator.get(this).getReviewsRepository();
-        ReviewViewPacker.packView(this, FeedScreen.newScreen(this, feed), getIntent());
-        return new FragmentReviewView();
+    protected ReviewView createView() {
+        return FeedScreen.newScreen(this, Administrator.get(this).getReviewsRepository());
     }
 
+    //Overridden
+    @Override
+    public void onAlertNegative(int requestCode, Bundle args) {
+    }
+
+    @Override
+    public void onAlertPositive(int requestCode, Bundle args) {
+        GvData datum = GvDataPacker.unpackItem(GvDataPacker.CurrentNewDatum.CURRENT, args);
+        GvReviewOverviewList.GvReviewOverview review = (GvReviewOverviewList
+                .GvReviewOverview) datum;
+        Administrator.get(this).deleteFromAuthorsFeed(review.getId());
+    }
 }

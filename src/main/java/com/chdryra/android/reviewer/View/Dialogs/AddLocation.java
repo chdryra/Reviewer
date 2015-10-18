@@ -64,8 +64,6 @@ public class AddLocation extends AddEditLayout<GvLocationList.GvLocation>
     private ViewHolderAdapterFiltered mFilteredAdapter;
     private ViewHolderAdapterFiltered.QueryFilter mQueryFilter;
 
-    private boolean mLatLngProvided = false;
-
     private String mNoLocation;
     private String mSearching;
     private int mHint;

@@ -66,7 +66,7 @@ public class EditScreenComments extends EditScreenReviewData<GvCommentList.GvCom
                         comment.setIsHeadline(false);
                     }
                 }
-                getReviewView().update();
+                getReviewView().notifyObservers();
             }
         }
 

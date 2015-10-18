@@ -1,6 +1,5 @@
 package com.chdryra.android.reviewer.View.Screens;
 
-import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -8,14 +7,13 @@ import android.view.View;
 
 import com.chdryra.android.mygenerallibrary.DialogAlertFragment;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewAdapter;
-import com.chdryra.android.reviewer.ApplicationSingletons.Administrator;
 import com.chdryra.android.reviewer.Model.UserData.Author;
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.ReviewsProviderModel.ReviewsRepository;
+import com.chdryra.android.reviewer.View.ActivitiesFragments.ActivityBuildReview;
 import com.chdryra.android.reviewer.View.Dialogs.DialogShower;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataPacker;
-import com.chdryra.android.reviewer.View.GvDataModel.GvReviewOverviewList;
 import com.chdryra.android.reviewer.View.Launcher.LaunchableUi;
 import com.chdryra.android.reviewer.View.Launcher.LauncherUi;
 import com.chdryra.android.reviewer.View.Utils.RequestCodeGenerator;
@@ -46,15 +44,6 @@ public class FeedScreen {
      * Email: rizwan.choudrey@gmail.com
      */
     private static class FeedScreenGridItem extends GiLaunchReviewDataScreen {
-        private static final String TAG = "FeedScreenGridItem";
-        private FeedScreenGridItemListener mListener;
-
-        //Constructors
-        private FeedScreenGridItem() {
-            mListener = new FeedScreenGridItemListener();
-            super.registerActionListener(mListener, TAG);
-        }
-
         //Overridden
         @Override
         public void onLongClickExpandable(GvData item, int position, View v, ReviewViewAdapter
@@ -64,36 +53,10 @@ public class FeedScreen {
                 Bundle args = new Bundle();
                 GvDataPacker.packItem(GvDataPacker.CurrentNewDatum.CURRENT, item, args);
                 DialogAlertFragment dialog = DialogAlertFragment.newDialog(alert, args);
-                DialogShower.show(dialog, mListener, FeedScreenGridItemListener.REQUEST_CODE,
-                        DialogAlertFragment.ALERT_TAG);
+                DialogShower.show(dialog, getActivity(), DialogAlertFragment.ALERT_TAG);
             }
         }
 
-    }
-
-    /**
-     * Created by: Rizwan Choudrey
-     * On: 18/10/2015
-     * Email: rizwan.choudrey@gmail.com
-     */
-    public static class FeedScreenGridItemListener extends Fragment
-            implements DialogAlertFragment.DialogAlertListener {
-        public static final int REQUEST_CODE = RequestCodeGenerator.getCode("RequestDelete");
-
-        //Overridden
-        @Override
-        public void onAlertNegative(int requestCode, Bundle args) {
-        }
-
-        @Override
-        public void onAlertPositive(int requestCode, Bundle args) {
-            if (requestCode == REQUEST_CODE) {
-                GvData datum = GvDataPacker.unpackItem(GvDataPacker.CurrentNewDatum.CURRENT, args);
-                GvReviewOverviewList.GvReviewOverview review = (GvReviewOverviewList
-                        .GvReviewOverview) datum;
-                Administrator.get(getActivity()).deleteFromAuthorsFeed(review.getId());
-            }
-        }
     }
 
     /**
@@ -117,8 +80,7 @@ public class FeedScreen {
                 //Overridden
                 @Override
                 public void doAction(Context context, MenuItem item) {
-                    Administrator.get(context).newReviewBuilder();
-                    LaunchableUi ui = BuildScreen.newEditor(context);
+                    LaunchableUi ui = new ActivityBuildReview();
                     LauncherUi.launch(ui, getReviewView().getFragment(), REQUEST_CODE,
                             ui.getLaunchTag(), new Bundle());
                 }

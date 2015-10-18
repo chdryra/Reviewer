@@ -61,7 +61,7 @@ public class EditScreenImages extends EditScreenReviewData<GvImageList.GvImage> 
             GvImageList images = (GvImageList) getGridData();
             GvImageList.GvImage cover = images.getItem(0);
             cover.setIsCover(true);
-            getReviewView().update();
+            getReviewView().notifyObservers();
         }
 
         //Overridden
@@ -144,7 +144,7 @@ public class EditScreenImages extends EditScreenReviewData<GvImageList.GvImage> 
                 }
                 image.setIsCover(true);
             }
-            editor.update();
+            editor.notifyObservers();
         }
     }
 }

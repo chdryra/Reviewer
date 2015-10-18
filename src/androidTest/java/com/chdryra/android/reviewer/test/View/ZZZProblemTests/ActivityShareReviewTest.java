@@ -31,7 +31,7 @@ import com.chdryra.android.testutils.RandomString;
  * On: 10/02/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ActivityShareScreenTest extends ActivityReviewViewTest {
+public class ActivityShareReviewTest extends ActivityReviewViewTest {
     private static final int TIMEOUT = 10000;
     private SocialPlatformList mList;
     private Administrator mAdmin;

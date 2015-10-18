@@ -11,6 +11,7 @@ package com.chdryra.android.reviewer.View.ActivitiesFragments;
 import android.app.Fragment;
 
 import com.chdryra.android.mygenerallibrary.ActivitySingleFragment;
+import com.chdryra.android.reviewer.View.Screens.ReviewView;
 
 /**
  * Created by: Rizwan Choudrey
@@ -18,9 +19,26 @@ import com.chdryra.android.mygenerallibrary.ActivitySingleFragment;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ActivityReviewView extends ActivitySingleFragment {
+    private FragmentReviewView mFragment;
+    private ReviewView mView;
+
+    protected ReviewView createView() {
+        return null;
+    }
+
+    public ReviewView getReviewView() {
+        return mView;
+    }
+
+    public FragmentReviewView getFragment() {
+        return mFragment;
+    }
+
     //Overridden
     protected Fragment createFragment() {
-        return new FragmentReviewView();
+        mView = createView();
+        mFragment = new FragmentReviewView();
+        return mFragment;
     }
 
 }

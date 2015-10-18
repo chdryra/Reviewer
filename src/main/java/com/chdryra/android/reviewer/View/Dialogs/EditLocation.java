@@ -35,8 +35,7 @@ public class EditLocation extends AddEditLayout<GvLocationList.GvLocation> {
     @Override
     public GvLocationList.GvLocation createGvData() {
         return new GvLocationList.GvLocation(mLatLng, ((EditText) getView(LOCATION)).getText()
-                .toString()
-                .trim());
+                .toString().trim());
     }
 
     @Override

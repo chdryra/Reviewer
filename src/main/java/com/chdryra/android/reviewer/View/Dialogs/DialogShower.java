@@ -8,6 +8,7 @@
 
 package com.chdryra.android.reviewer.View.Dialogs;
 
+import android.app.Activity;
 import android.app.DialogFragment;
 import android.app.Fragment;
 import android.os.Bundle;
@@ -27,5 +28,9 @@ public class DialogShower {
                             String tag) {
         dialog.setTargetFragment(targetFragment, requestCode);
         dialog.show(targetFragment.getFragmentManager(), tag);
+    }
+
+    public static void show(DialogFragment dialog, Activity activity, String tag) {
+        dialog.show(activity.getFragmentManager(), tag);
     }
 }

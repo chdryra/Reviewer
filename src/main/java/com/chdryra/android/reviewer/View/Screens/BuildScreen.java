@@ -10,7 +10,6 @@ package com.chdryra.android.reviewer.View.Screens;
 
 import android.app.ActionBar;
 import android.app.Activity;
-import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
@@ -29,6 +28,7 @@ import com.chdryra.android.reviewer.ApplicationSingletons.Administrator;
 import com.chdryra.android.reviewer.ApplicationSingletons.ReviewViewPacker;
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.View.ActivitiesFragments.ActivityReviewView;
+import com.chdryra.android.reviewer.View.ActivitiesFragments.ActivityShareReview;
 import com.chdryra.android.reviewer.View.ActivitiesFragments.FragmentReviewView;
 import com.chdryra.android.reviewer.View.Configs.ConfigGvDataUi;
 import com.chdryra.android.reviewer.View.Dialogs.AddLocation;
@@ -46,11 +46,14 @@ import com.google.android.gms.maps.model.LatLng;
  * On: 19/03/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class BuildScreen {
+public class BuildScreen implements ImageChooser.ImageChooserListener,
+        LocationClientConnector.Locatable{
     private final ReviewEditor mEditor;
+    private ImageChooser mImageChooser;
+    private LatLng mLatLng;
     private final BuildScreenGridItem mGridItem;
 
-    private BuildScreen(Context context) {
+    public BuildScreen(Context context, ReviewBuilderAdapter builder) {
         //Actions
         ReviewViewActions actions = new ReviewViewActions();
         mGridItem = new BuildScreenGridItem();
@@ -66,20 +69,55 @@ public class BuildScreen {
         ReviewViewParams params = new ReviewViewParams();
         params.setGridAlpha(ReviewViewParams.GridViewAlpha.TRANSPARENT);
 
-        //Builder
-        ReviewBuilderAdapter builder = Administrator.get(context).getReviewBuilder();
-
         mEditor = new ReviewEditor(builder, params, actions, new BuildScreenModifier());
     }
 
-    //Static methods
-    public static ReviewView newEditor(Context context) {
-        return new BuildScreen(context).getEditor();
+    public void setCover(GvImageList.GvImage image) {
+        mEditor.setCover(image);
+    }
+
+    public void updateScreen() {
+        mEditor.notifyBuilder();
+    }
+
+    public void setLatLng(LatLng latLng) {
+        mLatLng = latLng;
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        ActivityResultCode result = ActivityResultCode.get(resultCode);
+        boolean imageRequested = requestCode == getImageRequestCode();
+        if (imageRequested && mImageChooser.chosenImageExists(result, data)) {
+            mImageChooser.getChosenImage(this);
+        }
+
+        updateScreen();
+    }
+
+    //Overridden
+    @Override
+    public void onLocated(Location location) {
+        setLatLng(new LatLng(location.getLatitude(), location.getLongitude()));
+    }
+
+    @Override
+    public void onLocationClientConnected(Location location) {
+        onLocated(location);
+    }
+
+    @Override
+    public void onChosenImage(GvImageList.GvImage image) {
+        setCover(image);
+    }
+
+    public ReviewEditor getEditor() {
+        return mEditor;
     }
 
     //private methods
-    private ReviewView getEditor() {
-        return mEditor;
+    private int getImageRequestCode() {
+        return ConfigGvDataUi.getConfig(GvImageList.GvImage.TYPE).getAdderConfig()
+                .getRequestCode();
     }
 
     private void showTagDialog() {
@@ -88,7 +126,6 @@ public class BuildScreen {
 
 
     //Classes
-
     /**
      * Created by: Rizwan Choudrey
      * On: 24/01/2015
@@ -112,24 +149,9 @@ public class BuildScreen {
     }
 
     private class BuildScreenGridItem extends ReviewViewAction.GridItemAction {
-        private static final String TAG = "GridItemBuildUiListener";
-        private final BuildListener mListener;
-        private LatLng mLatLng;
-        private ImageChooser mImageChooser;
         private LocationClientConnector mLocationClient;
 
-        private BuildScreenGridItem() {
-            mListener = new BuildListener() {
-            };
-            registerActionListener(mListener, TAG);
-        }
-
         //private methods
-        private int getImageRequestCode() {
-            return ConfigGvDataUi.getConfig(GvImageList.GvImage.TYPE).getAdderConfig()
-                    .getRequestCode();
-        }
-
         private void executeIntent(GvBuildReviewList.GvBuildReview gridCell, boolean quickDialog) {
             if (quickDialog && gridCell.getDataSize() == 0) {
                 showQuickDialog(gridCell.getConfig());
@@ -143,13 +165,12 @@ public class BuildScreen {
             Intent i = new Intent(activity, ActivityReviewView.class);
             ReviewView screen = EditScreenReviewData.newScreen(activity, config.getGvDataType());
             ReviewViewPacker.packView(activity, screen, i);
-
-            mListener.startActivity(i);
+            getActivity().startActivity(i);
         }
 
         private void showQuickDialog(ConfigGvDataUi.Config config) {
             if (config.getGvDataType() == GvImageList.GvImage.TYPE) {
-                mListener.startActivityForResult(mImageChooser.getChooserIntents(),
+                getActivity().startActivityForResult(mImageChooser.getChooserIntents(),
                         getImageRequestCode());
                 return;
             }
@@ -158,9 +179,10 @@ public class BuildScreen {
             args.putBoolean(DialogGvDataAdd.QUICK_SET, true);
             packLatLng(args);
 
+            ActivityReviewView activity = (ActivityReviewView) getActivity();
             ConfigGvDataUi.LaunchableConfig adderConfig = config.getAdderConfig();
-            LauncherUi.launch(adderConfig.getLaunchable(), mListener, adderConfig.getRequestCode(),
-                    adderConfig.getTag(), args);
+            LauncherUi.launch(adderConfig.getLaunchable(), activity.getFragment(),
+                    adderConfig.getRequestCode(), adderConfig.getTag(), args);
         }
 
         private void packLatLng(Bundle args) {
@@ -190,7 +212,7 @@ public class BuildScreen {
         @Override
         public void onAttachReviewView() {
             mImageChooser = Administrator.getImageChooser(getActivity());
-            mLocationClient = new LocationClientConnector(getActivity(), mListener);
+            mLocationClient = new LocationClientConnector(getActivity(), BuildScreen.this);
             mLocationClient.connect();
         }
 
@@ -202,38 +224,6 @@ public class BuildScreen {
         @Override
         public void onGridItemLongClick(GvData item, int position, View v) {
             executeIntent((GvBuildReviewList.GvBuildReview) item, false);
-        }
-
-        private abstract class BuildListener extends Fragment implements
-                ImageChooser.ImageChooserListener,
-                LocationClientConnector.Locatable {
-
-            //Overridden
-            @Override
-            public void onLocated(Location location) {
-                mLatLng = new LatLng(location.getLatitude(), location.getLongitude());
-            }
-
-            @Override
-            public void onLocationClientConnected(Location location) {
-                onLocated(location);
-            }
-
-            @Override
-            public void onActivityResult(int requestCode, int resultCode, Intent data) {
-                ActivityResultCode result = ActivityResultCode.get(resultCode);
-                boolean imageRequested = requestCode == getImageRequestCode();
-                if (imageRequested && mImageChooser.chosenImageExists(result, data)) {
-                    mImageChooser.getChosenImage(this);
-                }
-
-                mEditor.updateEditor();
-            }
-
-            @Override
-            public void onChosenImage(GvImageList.GvImage image) {
-                mEditor.setCover(image);
-            }
         }
     }
 
@@ -276,8 +266,7 @@ public class BuildScreen {
                 return;
             }
 
-            Intent i = new Intent(activity, ActivityReviewView.class);
-            ReviewViewPacker.packView(activity, ShareScreen.newScreen(activity), i);
+            Intent i = new Intent(activity, ActivityShareReview.class);
             activity.startActivity(i);
         }
 

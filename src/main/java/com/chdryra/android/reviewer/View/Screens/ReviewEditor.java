@@ -55,7 +55,7 @@ public class ReviewEditor extends ReviewView {
         builder.setData();
     }
 
-    public void updateEditor() {
+    public void notifyBuilder() {
         mBuilder.notifyGridDataObservers();
     }
 

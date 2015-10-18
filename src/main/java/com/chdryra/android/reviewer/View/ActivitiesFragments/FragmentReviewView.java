@@ -17,6 +17,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -33,7 +34,6 @@ import android.widget.TextView;
 
 import com.chdryra.android.myandroidwidgets.ClearableEditText;
 import com.chdryra.android.mygenerallibrary.ViewHolderAdapter;
-import com.chdryra.android.reviewer.ApplicationSingletons.ReviewViewPacker;
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
@@ -50,6 +50,8 @@ import com.chdryra.android.reviewer.View.Screens.ReviewViewParams;
  */
 @SuppressWarnings("EmptyMethod")
 public class FragmentReviewView extends Fragment implements GridDataObservable.GridDataObserver {
+    private static final String TAG = "FragmentReviewView";
+
     private static final int LAYOUT = R.layout.fragment_view_review;
     private static final int LINEAR_LAYOUT = R.id.linearlayout;
     private static final int SUBJECT = R.id.subject_edit_text;
@@ -318,7 +320,15 @@ public class FragmentReviewView extends Fragment implements GridDataObservable.G
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mReviewView = ReviewViewPacker.unpackView(getActivity(), getActivity().getIntent());
+        ActivityReviewView activity;
+        try {
+            activity = (ActivityReviewView) getActivity();
+        } catch (ClassCastException e) {
+            Log.e(TAG, "Activity must be an ActivityReviewView");
+            return;
+        }
+        //mReviewView = ReviewViewPacker.unpackView(getActivity(), getActivity().getIntent());
+        mReviewView = activity.getReviewView();
         mReviewView.attachFragment(this);
 
         ReviewViewParams params = mReviewView.getParams();
