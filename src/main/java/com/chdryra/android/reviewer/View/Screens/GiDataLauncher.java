@@ -1,6 +1,5 @@
 package com.chdryra.android.reviewer.View.Screens;
 
-import android.app.Fragment;
 import android.os.Bundle;
 import android.view.View;
 
@@ -20,15 +19,6 @@ import com.chdryra.android.reviewer.View.Utils.RequestCodeGenerator;
 public class GiDataLauncher extends GridItemExpander {
     private static final String TAG = "GiDataLauncher.GridItemListener";
     private static final int REQUEST_CODE = RequestCodeGenerator.getCode(TAG);
-
-    private GridItemListener mListener;
-
-    //Constructors
-    public GiDataLauncher() {
-        mListener = new GridItemListener() {
-        };
-        super.registerActionListener(mListener, TAG);
-    }
 
     //Overridden
     @Override
@@ -60,16 +50,13 @@ public class GiDataLauncher extends GridItemExpander {
         ConfigGvDataUi.Config config = ConfigGvDataUi.getConfig(item.getGvDataType());
         if (config != null) {
             ConfigGvDataUi.LaunchableConfig view = config.getViewConfig();
-            LauncherUi.launch(view.getLaunchable(), mListener, view.getRequestCode(), view
-                    .getTag(), args);
+            LauncherUi.launch(view.getLaunchable(), getReviewView().getFragment(),
+                    view.getRequestCode(), view.getTag(), args);
         }
     }
 
     @Override
     public void onLongClickNotExpandable(GvData item, int position, View v) {
         onClickNotExpandable(item, position, v);
-    }
-
-    protected abstract class GridItemListener extends Fragment {
     }
 }

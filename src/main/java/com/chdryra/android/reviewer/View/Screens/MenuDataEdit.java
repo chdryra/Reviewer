@@ -1,6 +1,5 @@
 package com.chdryra.android.reviewer.View.Screens;
 
-import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -12,13 +11,15 @@ import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilderAdap
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
+import com.chdryra.android.reviewer.View.Utils.RequestCodeGenerator;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 10/10/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class MenuDataEdit<T extends GvData> extends ReviewViewAction.MenuAction {
+public class MenuDataEdit<T extends GvData> extends ReviewViewAction.MenuAction
+        implements DialogAlertFragment.DialogAlertListener{
     private static final String TAG = "ActionMenuDeleteDoneGridListener";
 
     private static final int MENU = R.menu.menu_delete_done;
@@ -28,7 +29,7 @@ public class MenuDataEdit<T extends GvData> extends ReviewViewAction.MenuAction 
     public static final ActivityResultCode RESULT_DELETE = ActivityResultCode.DELETE;
     public static final ActivityResultCode RESULT_DONE = ActivityResultCode.DONE;
 
-    private static final int DELETE_CONFIRM = 314;
+    public static final int ALERT_DIALOG = RequestCodeGenerator.getCode("DeleteConfirm");
 
     private final MenuActionItem mDeleteAction;
     private final MenuActionItem mDoneAction;
@@ -37,7 +38,6 @@ public class MenuDataEdit<T extends GvData> extends ReviewViewAction.MenuAction 
     private final boolean mDismissOnDelete;
     private final boolean mDismissOnDone;
 
-    private final Fragment mListener;
     private GvDataType<T> mDataType;
     private ReviewDataEditor<T> mEditor;
 
@@ -82,9 +82,16 @@ public class MenuDataEdit<T extends GvData> extends ReviewViewAction.MenuAction 
         };
 
         addMenuItems();
-        mListener = new DeleteConfirmListener() {
-        };
-        registerActionListener(mListener, TAG);
+    }
+
+    @Override
+    public void onAlertNegative(int requestCode, Bundle args) {
+
+    }
+
+    @Override
+    public void onAlertPositive(int requestCode, Bundle args) {
+        if (requestCode == ALERT_DIALOG) doDeleteSelected();
     }
 
     //protected methods
@@ -112,7 +119,7 @@ public class MenuDataEdit<T extends GvData> extends ReviewViewAction.MenuAction 
         bindMenuActionItem(getDoneAction(), doneId, mDismissOnDone);
     }
 
-    protected void doDeleteSelected() {
+    public void doDeleteSelected() {
         if (hasDataToDelete()) {
             getBuilder().deleteAll();
             if (mDismissOnDelete) {
@@ -128,7 +135,7 @@ public class MenuDataEdit<T extends GvData> extends ReviewViewAction.MenuAction 
 
     private void showDeleteConfirmDialog() {
         String deleteWhat = "all " + mDeleteWhat;
-        DialogDeleteConfirm.showDialog(deleteWhat, mListener, DELETE_CONFIRM,
+        DialogDeleteConfirm.showDialog(deleteWhat, null, ALERT_DIALOG,
                 getActivity().getFragmentManager());
     }
 
@@ -154,19 +161,4 @@ public class MenuDataEdit<T extends GvData> extends ReviewViewAction.MenuAction 
         super.onAttachReviewView();
         mEditor = ReviewDataEditor.cast(getReviewView(), mDataType);
     }
-
-    private abstract class DeleteConfirmListener extends Fragment implements DialogAlertFragment
-            .DialogAlertListener {
-        //Overridden
-        @Override
-        public void onAlertNegative(int requestCode, Bundle args) {
-
-        }
-
-        @Override
-        public void onAlertPositive(int requestCode, Bundle args) {
-            if (requestCode == DELETE_CONFIRM) doDeleteSelected();
-        }
-    }
-
 }

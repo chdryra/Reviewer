@@ -47,7 +47,7 @@ public class EditScreenImages extends EditScreenReviewData<GvImageList.GvImage> 
     }
 
     //Classes
-    private static class BannerButtonAddImage extends BannerButtonAdd<GvImageList.GvImage> {
+    private static class BannerButtonAddImage extends BannerButtonEdit<GvImageList.GvImage> {
         private ImageChooser mImageChooser;
 
         //Constructors
@@ -99,7 +99,7 @@ public class EditScreenImages extends EditScreenReviewData<GvImageList.GvImage> 
         }
     }
 
-    private static class GridItemAddEditImage extends GridItemAddEdit<GvImageList.GvImage> {
+    private static class GridItemAddEditImage extends GridItemEdit<GvImageList.GvImage> {
         private static final int IMAGE_AS_COVER = RequestCodeGenerator.getCode("ImageAsCover");
 
         //Constructors

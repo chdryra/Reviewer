@@ -46,7 +46,7 @@ public class EditScreenLocations extends EditScreenReviewData<GvLocationList.GvL
     }
 
     //Classes
-    private static class BannerButtonAddLocation extends BannerButtonAdd<GvLocationList.GvLocation> {
+    private static class BannerButtonAddLocation extends BannerButtonEdit<GvLocationList.GvLocation> {
         private static final int ADD_ON_MAP = RequestCodeGenerator.getCode("AddOnMap");
 
         //Constructors
@@ -70,7 +70,7 @@ public class EditScreenLocations extends EditScreenReviewData<GvLocationList.GvL
         }
     }
 
-    private static class GridItemEditLocation extends GridItemAddEdit<GvLocationList.GvLocation> {
+    private static class GridItemEditLocation extends GridItemEdit<GvLocationList.GvLocation> {
         private static final int EDIT_ON_MAP = RequestCodeGenerator.getCode("EditOnMap");
 
         //Constructors

@@ -22,7 +22,7 @@ import com.chdryra.android.reviewer.View.Launcher.LauncherUi;
  * On: 09/10/2015
  * Email: rizwan.choudrey@gmail.com
  */ //Classes
-public class BannerButtonAdd<T extends GvData>
+public class BannerButtonEdit<T extends GvData>
         extends ReviewViewAction.BannerButtonAction {
     private static final String TAG = "ActionBannerButtonAddListener";
 
@@ -32,7 +32,7 @@ public class BannerButtonAdd<T extends GvData>
     private GvDataList<T> mAdded;
     private ReviewDataEditor<T> mEditor;
 
-    protected BannerButtonAdd(GvDataType<T> dataType, String title) {
+    protected BannerButtonEdit(GvDataType<T> dataType, String title) {
         super(title);
         mDataType = dataType;
         mConfig = ConfigGvDataUi.getConfig(mDataType).getAdderConfig();

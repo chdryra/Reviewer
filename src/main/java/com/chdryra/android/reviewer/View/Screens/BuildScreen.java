@@ -179,9 +179,8 @@ public class BuildScreen implements ImageChooser.ImageChooserListener,
             args.putBoolean(DialogGvDataAdd.QUICK_SET, true);
             packLatLng(args);
 
-            ActivityReviewView activity = (ActivityReviewView) getActivity();
             ConfigGvDataUi.LaunchableConfig adderConfig = config.getAdderConfig();
-            LauncherUi.launch(adderConfig.getLaunchable(), activity.getFragment(),
+            LauncherUi.launch(adderConfig.getLaunchable(), getReviewView().getFragment(),
                     adderConfig.getRequestCode(), adderConfig.getTag(), args);
         }
 

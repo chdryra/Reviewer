@@ -36,17 +36,17 @@ public class EditScreenFacts extends EditScreenReviewData<GvFactList.GvFact> {
     }
 
     @Override
-    protected ReviewViewAction.GridItemAction newGridItemAction() {
+    protected GridItemEdit<GvFactList.GvFact> newGridItemAction() {
         return new GridItemAddEditFact();
     }
 
     @Override
-    protected ReviewViewAction.BannerButtonAction newBannerButtonAction() {
+    protected BannerButtonEdit<GvFactList.GvFact> newBannerButtonAction() {
         return new BannerButtonAddFacts(getBannerButtonTitle());
     }
 
     //Classes
-    private static class BannerButtonAddFacts extends BannerButtonAdd<GvFactList.GvFact> {
+    private static class BannerButtonAddFacts extends BannerButtonEdit<GvFactList.GvFact> {
         private static final int ADD_ON_BROWSER = RequestCodeGenerator.getCode("AddOnBrowser");
 
         //Constructors
@@ -71,7 +71,7 @@ public class EditScreenFacts extends EditScreenReviewData<GvFactList.GvFact> {
         }
     }
 
-    private static class GridItemAddEditFact extends GridItemAddEdit<GvFactList.GvFact> {
+    private static class GridItemAddEditFact extends GridItemEdit<GvFactList.GvFact> {
         private static final int EDIT_ON_BROWSER = RequestCodeGenerator.getCode("EditOnBrowser");
 
         //Constructors

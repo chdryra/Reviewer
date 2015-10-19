@@ -33,17 +33,17 @@ public class EditScreenComments extends EditScreenReviewData<GvCommentList.GvCom
     }
 
     @Override
-    protected ReviewViewAction.GridItemAction newGridItemAction() {
+    protected GridItemEdit<GvCommentList.GvComment> newGridItemAction() {
         return new GridItemAddEditComments();
     }
 
     @Override
-    protected ReviewViewAction.MenuAction newMenuAction() {
+    protected MenuDataEdit<GvCommentList.GvComment> newMenuAction() {
         return new MenuEditComment();
     }
 
     //Classes
-    private static class GridItemAddEditComments extends GridItemAddEdit<GvCommentList.GvComment> {
+    private static class GridItemAddEditComments extends GridItemEdit<GvCommentList.GvComment> {
         private static final int COMMENT_AS_HEADLINE 
                 = RequestCodeGenerator.getCode("CommentAsHeadline");
 

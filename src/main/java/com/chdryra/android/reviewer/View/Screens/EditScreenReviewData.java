@@ -9,11 +9,15 @@
 package com.chdryra.android.reviewer.View.Screens;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.widget.RatingBar;
 
+import com.chdryra.android.mygenerallibrary.DialogAlertFragment;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilderAdapter;
 import com.chdryra.android.reviewer.ApplicationSingletons.Administrator;
 import com.chdryra.android.reviewer.R;
+import com.chdryra.android.reviewer.View.Dialogs.DialogGvDataAdd;
+import com.chdryra.android.reviewer.View.Dialogs.DialogGvDataEdit;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCriterionList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
@@ -28,12 +32,19 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvTagList;
  * On: 24/01/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class EditScreenReviewData<T extends GvData> {
+public class EditScreenReviewData<T extends GvData>
+        implements DialogAlertFragment.DialogAlertListener,
+        DialogGvDataAdd.GvDataAddListener<T>, DialogGvDataEdit.GvDataEditListener<T>{
     private Context mContext;
     private ReviewDataEditor<T> mEditor;
     private GvDataType<T> mDataType;
+    private MenuDataEdit<T> mMenu;
+    private SubjectEdit<T> mSubject;
+    private RatingBarEdit mRatingBar;
+    private BannerButtonEdit<T> mBannerButton;
+    private GridItemEdit<T> mGriditem;
 
-    protected EditScreenReviewData(Context context, GvDataType<T> dataType) {
+    public EditScreenReviewData(Context context, GvDataType<T> dataType) {
         mContext = context;
         mDataType = dataType;
 
@@ -45,18 +56,58 @@ public class EditScreenReviewData<T extends GvData> {
         ReviewViewParams params = DefaultParameters.getParams(mDataType);
 
         //Actions
+        mMenu = newMenuAction();
+        mSubject = newSubjectAction();
+        mRatingBar = newRatingBarAction();
+        mBannerButton = newBannerButtonAction();
+        mGriditem = newGridItemAction();
         ReviewViewActions actions = new ReviewViewActions();
-        actions.setAction(newMenuAction());
-        actions.setAction(newSubjectAction());
-        actions.setAction(newRatingBarAction());
-        actions.setAction(newBannerButtonAction());
-        actions.setAction(newGridItemAction());
+        actions.setAction(mMenu);
+        actions.setAction(mSubject);
+        actions.setAction(mRatingBar);
+        actions.setAction(mBannerButton);
+        actions.setAction(mGriditem);
 
         mEditor = new ReviewDataEditor<>(adapter, params, actions);
     }
 
+    @Override
+    public void onAlertNegative(int requestCode, Bundle args) {
+        if (requestCode == MenuDataEdit.ALERT_DIALOG) mMenu.onAlertNegative(requestCode, args);
+    }
+
+    @Override
+    public void onAlertPositive(int requestCode, Bundle args) {
+        if (requestCode == MenuDataEdit.ALERT_DIALOG) mMenu.onAlertPositive(requestCode, args);
+    }
+
+    @Override
+    public boolean onGvDataAdd(T data) {
+        return false;
+    }
+
+    @Override
+    public void onGvDataCancel() {
+
+    }
+
+    @Override
+    public void onGvDataDone() {
+
+    }
+
+    @Override
+    public void onGvDataDelete(T data) {
+
+    }
+
+    @Override
+    public void onGvDataEdit(T oldDatum, T newDatum) {
+
+    }
+
     //Static methods
-    public static <T extends GvData> ReviewView newScreen(Context context, GvDataType<T> dataType) {
+    public static <T extends GvData> EditScreenReviewData<T> newScreen(Context context, GvDataType<T> dataType) {
         EditScreenReviewData screen;
         if (dataType == GvCommentList.GvComment.TYPE) {
             screen = new EditScreenComments(context);
@@ -74,7 +125,7 @@ public class EditScreenReviewData<T extends GvData> {
             screen = new EditScreenReviewData<>(context, dataType);
         }
 
-        return screen.getEditor();
+        return screen;
     }
 
     //protected methods
@@ -84,28 +135,27 @@ public class EditScreenReviewData<T extends GvData> {
         return title;
     }
 
-    protected ReviewViewAction.SubjectAction newSubjectAction() {
+    protected SubjectEdit<T> newSubjectAction() {
         return new SubjectEdit<>(mDataType);
     }
 
-    protected ReviewViewAction.RatingBarAction newRatingBarAction() {
+    protected RatingBarEdit newRatingBarAction() {
         return new RatingBarEdit();
     }
 
-    protected ReviewViewAction.MenuAction newMenuAction() {
+    protected MenuDataEdit<T> newMenuAction() {
         return new MenuDataEdit<>(mDataType);
     }
 
-    protected ReviewViewAction.GridItemAction newGridItemAction() {
-        return new GridItemAddEdit<>(mDataType);
+    protected GridItemEdit<T> newGridItemAction() {
+        return new GridItemEdit<>(mDataType);
     }
 
-    protected ReviewViewAction.BannerButtonAction newBannerButtonAction() {
-        return new BannerButtonAdd<>(mDataType, getBannerButtonTitle());
+    protected BannerButtonEdit<T> newBannerButtonAction() {
+        return new BannerButtonEdit<>(mDataType, getBannerButtonTitle());
     }
 
-    //private methods
-    private ReviewView getEditor() {
+    public ReviewDataEditor<T> getEditor() {
         return mEditor;
     }
 

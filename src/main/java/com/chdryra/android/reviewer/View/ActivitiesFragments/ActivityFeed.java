@@ -12,9 +12,6 @@ import android.os.Bundle;
 
 import com.chdryra.android.mygenerallibrary.DialogAlertFragment;
 import com.chdryra.android.reviewer.ApplicationSingletons.Administrator;
-import com.chdryra.android.reviewer.View.GvDataModel.GvData;
-import com.chdryra.android.reviewer.View.GvDataModel.GvDataPacker;
-import com.chdryra.android.reviewer.View.GvDataModel.GvReviewOverviewList;
 import com.chdryra.android.reviewer.View.Screens.FeedScreen;
 import com.chdryra.android.reviewer.View.Screens.ReviewView;
 
@@ -24,22 +21,23 @@ import com.chdryra.android.reviewer.View.Screens.ReviewView;
 public class ActivityFeed extends ActivityReviewView
         implements DialogAlertFragment.DialogAlertListener{
 
+    private FeedScreen mScreen;
+
     //Overridden
     @Override
     protected ReviewView createView() {
-        return FeedScreen.newScreen(this, Administrator.get(this).getReviewsRepository());
+        mScreen = new FeedScreen(this, Administrator.get(this).getReviewsRepository());
+        return mScreen.getReviewView();
     }
 
     //Overridden
     @Override
     public void onAlertNegative(int requestCode, Bundle args) {
+        mScreen.onAlertNegative(requestCode, args);
     }
 
     @Override
     public void onAlertPositive(int requestCode, Bundle args) {
-        GvData datum = GvDataPacker.unpackItem(GvDataPacker.CurrentNewDatum.CURRENT, args);
-        GvReviewOverviewList.GvReviewOverview review = (GvReviewOverviewList
-                .GvReviewOverview) datum;
-        Administrator.get(this).deleteFromAuthorsFeed(review.getId());
+        mScreen.onAlertPositive(requestCode, args);
     }
 }

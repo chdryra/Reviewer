@@ -21,19 +21,17 @@ import com.chdryra.android.reviewer.View.Launcher.LauncherUi;
  * Email: rizwan.choudrey@gmail.com
  */
 @SuppressWarnings("EmptyMethod")
-public class GridItemAddEdit<T extends GvData> extends ReviewViewAction.GridItemAction {
+public class GridItemEdit<T extends GvData> extends ReviewViewAction.GridItemAction
+        implements DialogAlertFragment.DialogAlertListener{
     private static final String TAG = "GridItemEditListener";
 
     private GvDataType<T> mDataType;
     private final ConfigGvDataUi.LaunchableConfig mConfig;
-    private Fragment mListener;
     private ReviewDataEditor<T> mEditor;
 
-    protected GridItemAddEdit(GvDataType<T> dataType) {
+    protected GridItemEdit(GvDataType<T> dataType) {
         mDataType = dataType;
         mConfig = ConfigGvDataUi.getConfig(mDataType).getEditorConfig();
-        setListener(new EditListener() {
-        });
     }
 
     protected ReviewDataEditor<T> getEditor() {
@@ -41,15 +39,6 @@ public class GridItemAddEdit<T extends GvData> extends ReviewViewAction.GridItem
     }
 
     //protected methods
-    protected Fragment getListener() {
-        return mListener;
-    }
-
-    protected void setListener(Fragment listener) {
-        mListener = listener;
-        super.registerActionListener(listener, TAG);
-    }
-
     protected int getLaunchableRequestCode() {
         return mConfig.getRequestCode();
     }
@@ -67,8 +56,8 @@ public class GridItemAddEdit<T extends GvData> extends ReviewViewAction.GridItem
         if (item != null) {
             GvDataPacker.packItem(GvDataPacker.CurrentNewDatum.CURRENT, item, args);
         }
-        DialogAlertFragment dialog = DialogAlertFragment.newDialog(alert, args);
-        DialogShower.show(dialog, getListener(), requestCode, DialogAlertFragment.ALERT_TAG);
+        DialogAlertFragment dialog = DialogAlertFragment.newDialog(alert, requestCode, args);
+        DialogShower.show(dialog, getActivity(), DialogAlertFragment.ALERT_TAG);
     }
 
     protected void onDialogAlertNegative(int requestCode, Bundle args) {
