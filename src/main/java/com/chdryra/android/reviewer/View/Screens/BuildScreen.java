@@ -152,16 +152,12 @@ public class BuildScreen implements ImageChooser.ImageChooserListener,
 
         //private methods
         private void executeIntent(GvBuildReviewList.GvBuildReview gridCell, boolean quickDialog) {
+            ConfigGvDataUi.Config config = gridCell.getConfig();
             if (quickDialog && gridCell.getDataSize() == 0) {
-                showQuickDialog(gridCell.getConfig());
+                showQuickDialog(config);
             } else {
-                startActivity(gridCell.getConfig());
+                ActivityEditData.start(getActivity(), config.getGvDataType());
             }
-        }
-
-        private void startActivity(ConfigGvDataUi.Config config) {
-            Intent i = ActivityEditData.getStartIntent(getActivity(), config.getGvDataType());
-            getActivity().startActivity(i);
         }
 
         private void showQuickDialog(ConfigGvDataUi.Config config) {

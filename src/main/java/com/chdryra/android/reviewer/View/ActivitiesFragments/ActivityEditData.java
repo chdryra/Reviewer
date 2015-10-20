@@ -38,13 +38,12 @@ public class ActivityEditData<T extends GvData> extends ActivityReviewView imple
         mDataType = dataType;
     }
 
-    public static <T extends GvData> Intent getStartIntent(Activity activity, GvDataType<T>
-            dataType) {
-        //Because activity is typed...
+    public static <T extends GvData> void start(Activity launcher, GvDataType<T> dataType) {
+        //Because activity is typed and want class info at runtime to start activity
         ActivityEditData<T> dummy = new ActivityEditData<>(dataType);
-        Intent i = new Intent(activity, dummy.getClass());
+        Intent i = new Intent(launcher, dummy.getClass());
         i.putExtra(GVDATA_TYPE, dataType);
-        return i;
+        launcher.startActivity(i);
     }
 
     @Override
