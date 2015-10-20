@@ -25,9 +25,8 @@ import com.chdryra.android.mygenerallibrary.ActivityResultCode;
 import com.chdryra.android.mygenerallibrary.LocationClientConnector;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilderAdapter;
 import com.chdryra.android.reviewer.ApplicationSingletons.Administrator;
-import com.chdryra.android.reviewer.ApplicationSingletons.ReviewViewPacker;
 import com.chdryra.android.reviewer.R;
-import com.chdryra.android.reviewer.View.ActivitiesFragments.ActivityReviewView;
+import com.chdryra.android.reviewer.View.ActivitiesFragments.ActivityEditData;
 import com.chdryra.android.reviewer.View.ActivitiesFragments.ActivityShareReview;
 import com.chdryra.android.reviewer.View.ActivitiesFragments.FragmentReviewView;
 import com.chdryra.android.reviewer.View.Configs.ConfigGvDataUi;
@@ -161,10 +160,7 @@ public class BuildScreen implements ImageChooser.ImageChooserListener,
         }
 
         private void startActivity(ConfigGvDataUi.Config config) {
-            Activity activity = getActivity();
-            Intent i = new Intent(activity, ActivityReviewView.class);
-            ReviewView screen = EditScreenReviewData.newScreen(activity, config.getGvDataType());
-            ReviewViewPacker.packView(activity, screen, i);
+            Intent i = ActivityEditData.getStartIntent(getActivity(), config.getGvDataType());
             getActivity().startActivity(i);
         }
 

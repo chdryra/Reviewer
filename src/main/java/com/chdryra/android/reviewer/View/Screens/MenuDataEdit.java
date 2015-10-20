@@ -20,8 +20,6 @@ import com.chdryra.android.reviewer.View.Utils.RequestCodeGenerator;
  */
 public class MenuDataEdit<T extends GvData> extends ReviewViewAction.MenuAction
         implements DialogAlertFragment.DialogAlertListener{
-    private static final String TAG = "ActionMenuDeleteDoneGridListener";
-
     private static final int MENU = R.menu.menu_delete_done;
     public static final int MENU_DELETE_ID = R.id.menu_item_delete;
     public static final int MENU_DONE_ID = R.id.menu_item_done;
@@ -29,7 +27,7 @@ public class MenuDataEdit<T extends GvData> extends ReviewViewAction.MenuAction
     public static final ActivityResultCode RESULT_DELETE = ActivityResultCode.DELETE;
     public static final ActivityResultCode RESULT_DONE = ActivityResultCode.DONE;
 
-    public static final int ALERT_DIALOG = RequestCodeGenerator.getCode("DeleteConfirm");
+    private static final int ALERT_DIALOG = RequestCodeGenerator.getCode("DeleteConfirm");
 
     private final MenuActionItem mDeleteAction;
     private final MenuActionItem mDoneAction;
@@ -82,6 +80,10 @@ public class MenuDataEdit<T extends GvData> extends ReviewViewAction.MenuAction
         };
 
         addMenuItems();
+    }
+
+    public int getAlertRequestCode() {
+        return ALERT_DIALOG;
     }
 
     @Override

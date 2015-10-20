@@ -44,7 +44,7 @@ public class EditScreenComments extends EditScreenReviewData<GvCommentList.GvCom
 
     //Classes
     private static class GridItemAddEditComments extends GridItemEdit<GvCommentList.GvComment> {
-        private static final int COMMENT_AS_HEADLINE 
+        private static final int COMMENT_AS_HEADLINE
                 = RequestCodeGenerator.getCode("CommentAsHeadline");
 
         //Constructors
@@ -54,7 +54,7 @@ public class EditScreenComments extends EditScreenReviewData<GvCommentList.GvCom
 
         //Overridden
         @Override
-        protected void onDialogAlertPositive(int requestCode, Bundle args) {
+        public void onAlertPositive(int requestCode, Bundle args) {
             if (requestCode == COMMENT_AS_HEADLINE) {
                 GvCommentList.GvComment headline = (GvCommentList.GvComment) GvDataPacker
                         .unpackItem(GvDataPacker.CurrentNewDatum.CURRENT, args);

@@ -71,7 +71,7 @@ public class FeedScreen implements DialogAlertFragment.DialogAlertListener{
                 Bundle args = new Bundle();
                 GvDataPacker.packItem(GvDataPacker.CurrentNewDatum.CURRENT, item, args);
                 DialogAlertFragment dialog = DialogAlertFragment.newDialog(alert, DIALOG_ALERT, args);
-                DialogShower.show(dialog, getActivity(), DialogAlertFragment.ALERT_TAG);
+                DialogShower.show(dialog, getActivity(), DIALOG_ALERT, DialogAlertFragment.ALERT_TAG);
             }
         }
 
@@ -82,10 +82,12 @@ public class FeedScreen implements DialogAlertFragment.DialogAlertListener{
 
         @Override
         public void onAlertPositive(int requestCode, Bundle args) {
-            GvData datum = GvDataPacker.unpackItem(GvDataPacker.CurrentNewDatum.CURRENT, args);
-            GvReviewOverviewList.GvReviewOverview review = (GvReviewOverviewList
-                    .GvReviewOverview) datum;
-            Administrator.get(getActivity()).deleteFromAuthorsFeed(review.getId());
+            if(requestCode == DIALOG_ALERT) {
+                GvData datum = GvDataPacker.unpackItem(GvDataPacker.CurrentNewDatum.CURRENT, args);
+                GvReviewOverviewList.GvReviewOverview review = (GvReviewOverviewList
+                        .GvReviewOverview) datum;
+                Administrator.get(getActivity()).deleteFromAuthorsFeed(review.getId());
+            }
         }
     }
 

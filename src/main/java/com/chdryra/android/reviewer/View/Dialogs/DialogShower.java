@@ -30,7 +30,8 @@ public class DialogShower {
         dialog.show(targetFragment.getFragmentManager(), tag);
     }
 
-    public static void show(DialogFragment dialog, Activity activity, String tag) {
+    public static void show(DialogFragment dialog, Activity activity, int requestCode, String tag) {
+        dialog.setTargetFragment(null, requestCode);
         dialog.show(activity.getFragmentManager(), tag);
     }
 }

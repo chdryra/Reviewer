@@ -56,11 +56,10 @@ public abstract class DialogGvDataEdit<T extends GvData>
      * @param <T>:{@link GvData} type
      */
     public interface GvDataEditListener<T extends GvData> {
-        //abstract methods
         //abstract
-        void onGvDataDelete(T data);
+        void onGvDataDelete(T data, int requestCode);
 
-        void onGvDataEdit(T oldDatum, T newDatum);
+        void onGvDataEdit(T oldDatum, T newDatum, int requestCode);
     }
 
     //Constructors
@@ -102,7 +101,7 @@ public abstract class DialogGvDataEdit<T extends GvData>
 
     @Override
     protected void onConfirmedDeleteButtonClick() {
-        mEditListener.onGvDataDelete(mDatum);
+        mEditListener.onGvDataDelete(mDatum, getTargetRequestCode());
     }
 
     @Override
@@ -139,6 +138,6 @@ public abstract class DialogGvDataEdit<T extends GvData>
 
     @Override
     protected void onDoneButtonClick() {
-        mEditListener.onGvDataEdit(mDatum, mLayout.createGvData());
+        mEditListener.onGvDataEdit(mDatum, mLayout.createGvData(), getTargetRequestCode());
     }
 }

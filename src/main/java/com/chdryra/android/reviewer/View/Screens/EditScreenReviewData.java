@@ -9,6 +9,7 @@
 package com.chdryra.android.reviewer.View.Screens;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.RatingBar;
 
@@ -32,9 +33,12 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvTagList;
  * On: 24/01/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class EditScreenReviewData<T extends GvData>
-        implements DialogAlertFragment.DialogAlertListener,
-        DialogGvDataAdd.GvDataAddListener<T>, DialogGvDataEdit.GvDataEditListener<T>{
+public class EditScreenReviewData<T extends GvData> implements
+        DialogAlertFragment.DialogAlertListener,
+        DialogGvDataAdd.GvDataAddListener<T>,
+        DialogGvDataEdit.GvDataEditListener<T>,
+        ActivityResultListener {
+
     private Context mContext;
     private ReviewDataEditor<T> mEditor;
     private GvDataType<T> mDataType;
@@ -73,37 +77,67 @@ public class EditScreenReviewData<T extends GvData>
 
     @Override
     public void onAlertNegative(int requestCode, Bundle args) {
-        if (requestCode == MenuDataEdit.ALERT_DIALOG) mMenu.onAlertNegative(requestCode, args);
+        if (requestCode == mMenu.getAlertRequestCode()) {
+            mMenu.onAlertNegative(requestCode, args);
+        } else if(requestCode == mGriditem.getAlertRequestCode()) {
+            mGriditem.onAlertNegative(requestCode, args);
+        }
     }
 
     @Override
     public void onAlertPositive(int requestCode, Bundle args) {
-        if (requestCode == MenuDataEdit.ALERT_DIALOG) mMenu.onAlertPositive(requestCode, args);
+        if (requestCode == mMenu.getAlertRequestCode()) {
+            mMenu.onAlertPositive(requestCode, args);
+        } else if(requestCode == mGriditem.getAlertRequestCode()) {
+            mGriditem.onAlertPositive(requestCode, args);
+        }
     }
 
     @Override
-    public boolean onGvDataAdd(T data) {
-        return false;
+    public boolean onGvDataAdd(T data, int requestCode) {
+        boolean success = false;
+        if(requestCode == mBannerButton.getLaunchableRequestCode()) {
+            success = mBannerButton.onGvDataAdd(data, requestCode);
+        }
+
+        return success;
     }
 
     @Override
-    public void onGvDataCancel() {
-
+    public void onGvDataCancel(int requestCode) {
+        if(requestCode == mBannerButton.getLaunchableRequestCode()) {
+            mBannerButton.onGvDataCancel(requestCode);
+        }
     }
 
     @Override
-    public void onGvDataDone() {
-
+    public void onGvDataDone(int requestCode) {
+        if(requestCode == mBannerButton.getLaunchableRequestCode()) {
+            mBannerButton.onGvDataDone(requestCode);
+        }
     }
 
     @Override
-    public void onGvDataDelete(T data) {
-
+    public void onGvDataDelete(T data, int requestCode) {
+        if(requestCode == mGriditem.getLaunchableRequestCode()) {
+            mGriditem.onGvDataDelete(data, requestCode);
+        }
     }
 
     @Override
-    public void onGvDataEdit(T oldDatum, T newDatum) {
+    public void onGvDataEdit(T oldDatum, T newDatum, int requestCode) {
+        if(requestCode == mGriditem.getLaunchableRequestCode()) {
+            mGriditem.onGvDataEdit(oldDatum, newDatum, requestCode);
+        }
+    }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode == mBannerButton.getLaunchableRequestCode()) {
+            mBannerButton.onActivityResult(requestCode, resultCode, data);
+        } else if(requestCode == mGriditem.getLaunchableRequestCode()) {
+            mGriditem.onActivityResult(requestCode, resultCode, data);
+        }
     }
 
     //Static methods

@@ -8,7 +8,6 @@
 
 package com.chdryra.android.reviewer.View.Screens;
 
-import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -29,32 +28,39 @@ import com.chdryra.android.reviewer.View.Utils.RequestCodeGenerator;
  * On: 19/03/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class EditScreenImages extends EditScreenReviewData<GvImageList.GvImage> {
+public class EditScreenImages extends EditScreenReviewData<GvImageList.GvImage> implements
+        ImageChooser.ImageChooserListener{
     private static final GvDataType<GvImageList.GvImage> TYPE = GvImageList.GvImage.TYPE;
+    private BannerButtonAddImage mBannerButton;
 
     public EditScreenImages(Context context) {
         super(context, TYPE);
     }
 
     @Override
-    protected ReviewViewAction.GridItemAction newGridItemAction() {
+    protected GridItemEdit<GvImageList.GvImage> newGridItemAction() {
         return new GridItemAddEditImage();
     }
 
     @Override
-    protected ReviewViewAction.BannerButtonAction newBannerButtonAction() {
-        return new BannerButtonAddImage(getBannerButtonTitle());
+    protected BannerButtonEdit<GvImageList.GvImage> newBannerButtonAction() {
+        mBannerButton = new BannerButtonAddImage(getBannerButtonTitle());
+        return mBannerButton;
+    }
+
+    @Override
+    public void onChosenImage(GvImageList.GvImage image) {
+        mBannerButton.onChosenImage(image);
     }
 
     //Classes
-    private static class BannerButtonAddImage extends BannerButtonEdit<GvImageList.GvImage> {
+    private static class BannerButtonAddImage extends BannerButtonEdit<GvImageList.GvImage>
+            implements ImageChooser.ImageChooserListener{
         private ImageChooser mImageChooser;
 
         //Constructors
         private BannerButtonAddImage(String title) {
             super(TYPE, title);
-            setListener(new AddImageListener() {
-            });
         }
 
         private void setCover() {
@@ -73,29 +79,24 @@ public class EditScreenImages extends EditScreenReviewData<GvImageList.GvImage> 
 
         @Override
         public void onClick(View v) {
-            getListener().startActivityForResult(mImageChooser.getChooserIntents(),
-                    getRequestCode());
+            getActivity().startActivityForResult(mImageChooser.getChooserIntents(),
+                    getLaunchableRequestCode());
         }
 
-        private abstract class AddImageListener extends Fragment implements ImageChooser
-                .ImageChooserListener {
+        @Override
+        public void onActivityResult(int requestCode, int resultCode, Intent data) {
+            boolean correctCode = requestCode == getLaunchableRequestCode();
+            boolean isOk = ActivityResultCode.OK.equals(resultCode);
+            boolean imageExists = mImageChooser.chosenImageExists(ActivityResultCode.get
+                    (resultCode), data);
 
-            //Overridden
-            @Override
-            public void onActivityResult(int requestCode, int resultCode, Intent data) {
-                boolean correctCode = requestCode == getRequestCode();
-                boolean isOk = ActivityResultCode.OK.equals(resultCode);
-                boolean imageExists = mImageChooser.chosenImageExists(ActivityResultCode.get
-                        (resultCode), data);
+            if (correctCode && isOk && imageExists) mImageChooser.getChosenImage(this);
+        }
 
-                if (correctCode && isOk && imageExists) mImageChooser.getChosenImage(this);
-            }
-
-            @Override
-            public void onChosenImage(GvImageList.GvImage image) {
-                if (getGridData().size() == 0) image.setIsCover(true);
-                if (addData(image) && getGridData().size() == 1) setCover();
-            }
+        @Override
+        public void onChosenImage(GvImageList.GvImage image) {
+            if (getGridData().size() == 0) image.setIsCover(true);
+            if (addData(image) && getGridData().size() == 1) setCover();
         }
     }
 
@@ -126,7 +127,7 @@ public class EditScreenImages extends EditScreenReviewData<GvImageList.GvImage> 
         }
 
         @Override
-        protected void onDialogAlertPositive(int requestCode, Bundle args) {
+        public void onAlertPositive(int requestCode, Bundle args) {
             if (requestCode == IMAGE_AS_COVER) {
                 GvImageList.GvImage cover = (GvImageList.GvImage) GvDataPacker.unpackItem
                         (GvDataPacker.CurrentNewDatum.CURRENT, args);

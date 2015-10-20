@@ -1,6 +1,5 @@
 package com.chdryra.android.reviewer.View.Screens;
 
-import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -21,26 +20,31 @@ import com.chdryra.android.reviewer.View.Launcher.LauncherUi;
  * Email: rizwan.choudrey@gmail.com
  */
 @SuppressWarnings("EmptyMethod")
-public class GridItemEdit<T extends GvData> extends ReviewViewAction.GridItemAction
-        implements DialogAlertFragment.DialogAlertListener{
-    private static final String TAG = "GridItemEditListener";
-
+public class GridItemEdit<T extends GvData> extends ReviewViewAction.GridItemAction implements
+        DialogAlertFragment.DialogAlertListener,
+        DialogGvDataEdit.GvDataEditListener<T>,
+        ActivityResultListener{
     private GvDataType<T> mDataType;
     private final ConfigGvDataUi.LaunchableConfig mConfig;
     private ReviewDataEditor<T> mEditor;
+    private int mAlertDialogRequestCode;
 
-    protected GridItemEdit(GvDataType<T> dataType) {
+    public GridItemEdit(GvDataType<T> dataType) {
         mDataType = dataType;
         mConfig = ConfigGvDataUi.getConfig(mDataType).getEditorConfig();
     }
 
-    protected ReviewDataEditor<T> getEditor() {
-        return mEditor;
+    public int getAlertRequestCode() {
+        return mAlertDialogRequestCode;
+    }
+
+    public int getLaunchableRequestCode() {
+        return mConfig.getRequestCode();
     }
 
     //protected methods
-    protected int getLaunchableRequestCode() {
-        return mConfig.getRequestCode();
+    protected ReviewDataEditor<T> getEditor() {
+        return mEditor;
     }
 
     protected void editData(T oldDatum, T newDatum) {
@@ -52,23 +56,26 @@ public class GridItemEdit<T extends GvData> extends ReviewViewAction.GridItemAct
     }
 
     protected void showAlertDialog(String alert, int requestCode, GvData item) {
+        mAlertDialogRequestCode = requestCode;
         Bundle args = new Bundle();
         if (item != null) {
             GvDataPacker.packItem(GvDataPacker.CurrentNewDatum.CURRENT, item, args);
         }
         DialogAlertFragment dialog = DialogAlertFragment.newDialog(alert, requestCode, args);
-        DialogShower.show(dialog, getActivity(), DialogAlertFragment.ALERT_TAG);
-    }
-
-    protected void onDialogAlertNegative(int requestCode, Bundle args) {
-
-    }
-
-    protected void onDialogAlertPositive(int requestCode, Bundle args) {
-
+        DialogShower.show(dialog, getActivity(), requestCode, DialogAlertFragment.ALERT_TAG);
     }
 
     //Overridden
+    @Override
+    public void onAlertNegative(int requestCode, Bundle args) {
+
+    }
+
+    @Override
+    public void onAlertPositive(int requestCode, Bundle args) {
+
+    }
+
     @Override
     public void onAttachReviewView() {
         super.onAttachReviewView();
@@ -80,46 +87,29 @@ public class GridItemEdit<T extends GvData> extends ReviewViewAction.GridItemAct
         Bundle args = new Bundle();
         GvDataPacker.packItem(GvDataPacker.CurrentNewDatum.CURRENT, item, args);
 
-        LauncherUi.launch(mConfig.getLaunchable(), mListener, getLaunchableRequestCode(),
-                mConfig.getTag(), args);
+        LauncherUi.launch(mConfig.getLaunchable(), getReviewView().getFragment(),
+                getLaunchableRequestCode(), mConfig.getTag(), args);
     }
 
-    protected abstract class EditListener extends Fragment
-            implements DialogGvDataEdit.GvDataEditListener<T>,
-            DialogAlertFragment.DialogAlertListener {
+    @Override
+    public void onGvDataDelete(T data, int requestCode) {
+        if(requestCode == getLaunchableRequestCode()) deleteData(data);
+    }
 
-        //Overridden
-        @Override
-        public void onGvDataDelete(T data) {
-            deleteData(data);
-        }
+    @Override
+    public void onGvDataEdit(T oldDatum, T newDatum, int requestCode) {
+        if(requestCode == getLaunchableRequestCode()) editData(oldDatum, newDatum);
+    }
 
-        @Override
-        public void onGvDataEdit(T oldDatum, T newDatum) {
-            editData(oldDatum, newDatum);
-        }
-
-        @Override
-        public void onAlertNegative(int requestCode, Bundle args) {
-            onDialogAlertNegative(requestCode, args);
-        }
-
-        @Override
-        public void onAlertPositive(int requestCode, Bundle args) {
-            onDialogAlertPositive(requestCode, args);
-        }
-
-        //For location and URL edit activities
-        @Override
-        public void onActivityResult(int requestCode, int resultCode, Intent data) {
-            if (requestCode == getLaunchableRequestCode() && data != null) {
-                T oldDatum = (T)GvDataPacker.unpackItem(GvDataPacker.CurrentNewDatum.CURRENT, data);
-                if (ActivityResultCode.get(resultCode) == ActivityResultCode.DONE) {
-                    T newDatum = (T)GvDataPacker.unpackItem(GvDataPacker.CurrentNewDatum.NEW, data);
-                    onGvDataEdit(oldDatum, newDatum);
-                } else if (ActivityResultCode.get(resultCode) == ActivityResultCode.DELETE) {
-                    onGvDataDelete(oldDatum);
-                }
+    //For location and URL edit activities
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == getLaunchableRequestCode() && data != null) {
+            T oldDatum = (T)GvDataPacker.unpackItem(GvDataPacker.CurrentNewDatum.CURRENT, data);
+            if (ActivityResultCode.get(resultCode) == ActivityResultCode.DONE) {
+                T newDatum = (T)GvDataPacker.unpackItem(GvDataPacker.CurrentNewDatum.NEW, data);
+                onGvDataEdit(oldDatum, newDatum, requestCode);
+            } else if (ActivityResultCode.get(resultCode) == ActivityResultCode.DELETE) {
+                onGvDataDelete(oldDatum, requestCode);
             }
         }
     }

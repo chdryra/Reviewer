@@ -36,12 +36,12 @@ public class EditScreenLocations extends EditScreenReviewData<GvLocationList.GvL
     }
 
     @Override
-    protected ReviewViewAction.GridItemAction newGridItemAction() {
+    protected GridItemEdit<GvLocationList.GvLocation> newGridItemAction() {
         return new GridItemEditLocation();
     }
 
     @Override
-    protected ReviewViewAction.BannerButtonAction newBannerButtonAction() {
+    protected BannerButtonEdit<GvLocationList.GvLocation> newBannerButtonAction() {
         return new BannerButtonAddLocation(getBannerButtonTitle());
     }
 
@@ -62,10 +62,11 @@ public class EditScreenLocations extends EditScreenReviewData<GvLocationList.GvL
         }
 
         @Override
-        protected void onDialogAlertPositive(int requestCode) {
+        public void onAlertPositive(int requestCode, Bundle args) {
             if (requestCode == ADD_ON_MAP) {
                 LaunchableUi mapUi = FactoryLaunchable.newLaunchable(ActivityEditLocationMap.class);
-                LauncherUi.launch(mapUi, getListener(), getRequestCode(), null, new Bundle());
+                LauncherUi.launch(mapUi, getReviewView().getFragment(), getLaunchableRequestCode(),
+                        null, new Bundle());
             }
         }
     }
@@ -86,10 +87,11 @@ public class EditScreenLocations extends EditScreenReviewData<GvLocationList.GvL
         }
 
         @Override
-        protected void onDialogAlertPositive(int requestCode, Bundle args) {
+        public void onAlertPositive(int requestCode, Bundle args) {
             if (requestCode == EDIT_ON_MAP) {
                 LaunchableUi mapUi = FactoryLaunchable.newLaunchable(ActivityEditLocationMap.class);
-                LauncherUi.launch(mapUi, getListener(), getLaunchableRequestCode(), null, args);
+                LauncherUi.launch(mapUi, getReviewView().getFragment(), getLaunchableRequestCode(),
+                        null, args);
             }
         }
     }

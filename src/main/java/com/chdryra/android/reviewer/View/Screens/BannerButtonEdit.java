@@ -1,6 +1,5 @@
 package com.chdryra.android.reviewer.View.Screens;
 
-import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -23,12 +22,12 @@ import com.chdryra.android.reviewer.View.Launcher.LauncherUi;
  * Email: rizwan.choudrey@gmail.com
  */ //Classes
 public class BannerButtonEdit<T extends GvData>
-        extends ReviewViewAction.BannerButtonAction {
-    private static final String TAG = "ActionBannerButtonAddListener";
-
+        extends ReviewViewAction.BannerButtonAction implements
+        DialogAlertFragment.DialogAlertListener,
+        DialogGvDataAdd.GvDataAddListener<T>,
+        ActivityResultListener{
     private GvDataType<T> mDataType;
     private final ConfigGvDataUi.LaunchableConfig mConfig;
-    private Fragment mListener;
     private GvDataList<T> mAdded;
     private ReviewDataEditor<T> mEditor;
 
@@ -36,21 +35,11 @@ public class BannerButtonEdit<T extends GvData>
         super(title);
         mDataType = dataType;
         mConfig = ConfigGvDataUi.getConfig(mDataType).getAdderConfig();
-        setListener(new AddListener() {
-        });
+        initDataList();
     }
 
     //protected methods
-    protected Fragment getListener() {
-        return mListener;
-    }
-
-    protected void setListener(Fragment listener) {
-        mListener = listener;
-        super.registerActionListener(listener, TAG);
-    }
-
-    protected int getRequestCode() {
+    protected int getLaunchableRequestCode() {
         return mConfig.getRequestCode();
     }
 
@@ -60,16 +49,8 @@ public class BannerButtonEdit<T extends GvData>
     }
 
     protected void showAlertDialog(String alert, int requestCode) {
-        DialogAlertFragment dialog = DialogAlertFragment.newDialog(alert, new Bundle());
-        DialogShower.show(dialog, getListener(), requestCode, DialogAlertFragment.ALERT_TAG);
-    }
-
-    protected void onDialogAlertNegative(int requestCode) {
-
-    }
-
-    protected void onDialogAlertPositive(int requestCode) {
-
+        DialogAlertFragment dialog = DialogAlertFragment.newDialog(alert, requestCode, new Bundle());
+        DialogShower.show(dialog, getReviewView().getFragment(), requestCode, DialogAlertFragment.ALERT_TAG);
     }
 
     private void initDataList() {
@@ -79,8 +60,8 @@ public class BannerButtonEdit<T extends GvData>
     //Overridden
     @Override
     public void onClick(View v) {
-        LauncherUi.launch(mConfig.getLaunchable(), getListener(), getRequestCode(),
-                mConfig.getTag(), new Bundle());
+        LauncherUi.launch(mConfig.getLaunchable(), getReviewView().getFragment(),
+                getLaunchableRequestCode(), mConfig.getTag(), new Bundle());
     }
 
     @Override
@@ -88,56 +69,48 @@ public class BannerButtonEdit<T extends GvData>
         mEditor = ReviewDataEditor.cast(getReviewView(), mDataType);
     }
 
-    // Dialogs expected to communicate directly with target fragments so using "invisible"
-    // fragment as listener.
-    //Restrictions on how fragments are constructed mean I have to use an abstract class...
-    protected abstract class AddListener extends Fragment
-            implements DialogGvDataAdd.GvDataAddListener<T>,
-            DialogAlertFragment.DialogAlertListener {
 
-        private AddListener() {
-            initDataList();
-        }
+    @Override
+    public void onAlertNegative(int requestCode, Bundle args) {
 
-        //Overridden
-        @Override
-        public boolean onGvDataAdd(T data) {
-            boolean success = addData(data);
+    }
+
+    @Override
+    public void onAlertPositive(int requestCode, Bundle args) {
+
+    }
+
+    @Override
+    public boolean onGvDataAdd(T data, int requestCode) {
+        boolean success = false;
+        if(requestCode == getLaunchableRequestCode()) {
+            success = addData(data);
             if (success) mAdded.add(data);
-            return success;
         }
+        return success;
+    }
 
-        @Override
-        public void onGvDataCancel() {
+    @Override
+    public void onGvDataCancel(int requestCode) {
+        if(requestCode == getLaunchableRequestCode()) {
             for (T added : mAdded) {
                 mEditor.delete(added);
             }
             initDataList();
         }
+    }
 
-        @Override
-        public void onGvDataDone() {
-            initDataList();
-        }
+    @Override
+    public void onGvDataDone(int requestCode) {
+        if(requestCode == getLaunchableRequestCode()) initDataList();
+    }
 
-        @Override
-        public void onAlertNegative(int requestCode, Bundle args) {
-            onDialogAlertNegative(requestCode);
-        }
-
-        //For location and URL add activities
-        @Override
-        public void onActivityResult(int requestCode, int resultCode, Intent data) {
-            if (requestCode == getRequestCode() && data != null
-                    && ActivityResultCode.get(resultCode) == ActivityResultCode.DONE) {
-                T datum = (T)GvDataPacker.unpackItem(GvDataPacker.CurrentNewDatum.NEW, data);
-                onGvDataAdd(datum);
-            }
-        }
-
-        @Override
-        public void onAlertPositive(int requestCode, Bundle args) {
-            onDialogAlertPositive(requestCode);
+    //For location and URL add activities
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == getLaunchableRequestCode() && data != null
+                && ActivityResultCode.get(resultCode) == ActivityResultCode.DONE) {
+            T datum = (T) GvDataPacker.unpackItem(GvDataPacker.CurrentNewDatum.NEW, data);
+            onGvDataAdd(datum, requestCode);
         }
     }
 }

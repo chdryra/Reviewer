@@ -61,13 +61,12 @@ public abstract class DialogGvDataAdd<T extends GvData> extends
      * Provides a callback for when the add button is pressed
      */
     public interface GvDataAddListener<T extends GvData> {
-        //abstract methods
         //abstract
-        boolean onGvDataAdd(T data);
+        boolean onGvDataAdd(T data, int requestCode);
 
-        void onGvDataCancel();
+        void onGvDataCancel(int requestCode);
 
-        void onGvDataDone();
+        void onGvDataDone(int requestCode);
     }
 
     //Constructors
@@ -119,7 +118,7 @@ public abstract class DialogGvDataAdd<T extends GvData> extends
         T newDatum = mLayout.createGvData();
 
         boolean added = isQuickSet() ? mBuilder.add(newDatum) :
-                newDatum.isValidForDisplay() && mAddListener.onGvDataAdd(newDatum);
+                newDatum.isValidForDisplay() && mAddListener.onGvDataAdd(newDatum, getTargetRequestCode());
 
         if (added) mLayout.onAdd(newDatum);
     }
@@ -153,7 +152,7 @@ public abstract class DialogGvDataAdd<T extends GvData> extends
         if (isQuickSet()) {
             mBuilder.reset();
         } else {
-            mAddListener.onGvDataCancel();
+            mAddListener.onGvDataCancel(getTargetRequestCode());
         }
     }
 
@@ -162,7 +161,7 @@ public abstract class DialogGvDataAdd<T extends GvData> extends
         if (isQuickSet()) {
             mBuilder.setData();
         } else {
-            mAddListener.onGvDataDone();
+            mAddListener.onGvDataDone(getTargetRequestCode());
         }
     }
 }

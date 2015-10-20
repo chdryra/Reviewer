@@ -1,26 +1,56 @@
 package com.chdryra.android.reviewer.View.ActivitiesFragments;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.chdryra.android.mygenerallibrary.DialogAlertFragment;
+import com.chdryra.android.reviewer.View.Dialogs.DialogGvDataAdd;
 import com.chdryra.android.reviewer.View.Dialogs.DialogGvDataEdit;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
+import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
+import com.chdryra.android.reviewer.View.Screens.EditScreenImages;
 import com.chdryra.android.reviewer.View.Screens.EditScreenReviewData;
 import com.chdryra.android.reviewer.View.Screens.ReviewView;
+import com.chdryra.android.reviewer.View.Utils.ImageChooser;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 19/10/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ActivityEditData<T extends GvData> extends ActivityReviewView
-        implements DialogAlertFragment.DialogAlertListener, DialogGvDataEdit.GvDataEditListener<T> {
+public class ActivityEditData<T extends GvData> extends ActivityReviewView implements
+        DialogAlertFragment.DialogAlertListener,
+        DialogGvDataEdit.GvDataEditListener<T>,
+        DialogGvDataAdd.GvDataAddListener<T>, ImageChooser.ImageChooserListener{
+
+    private static final String GVDATA_TYPE
+            = "com.chdryra.android.reviewer.View.ActivitiesFragments.ActivityEditData.gvdata_type";
     private GvDataType<T> mDataType;
     private EditScreenReviewData<T> mScreen;
 
-    public ActivityEditData(GvDataType<T> dataType) {
+    public ActivityEditData() {
+
+    }
+
+    private ActivityEditData(GvDataType<T> dataType) {
         mDataType = dataType;
+    }
+
+    public static <T extends GvData> Intent getStartIntent(Activity activity, GvDataType<T>
+            dataType) {
+        //Because activity is typed...
+        ActivityEditData<T> dummy = new ActivityEditData<>(dataType);
+        Intent i = new Intent(activity, dummy.getClass());
+        i.putExtra(GVDATA_TYPE, dataType);
+        return i;
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        mDataType = getIntent().getParcelableExtra(GVDATA_TYPE);
+        super.onCreate(savedInstanceState);
     }
 
     @Override
@@ -40,12 +70,40 @@ public class ActivityEditData<T extends GvData> extends ActivityReviewView
     }
 
     @Override
-    public void onGvDataDelete(T data) {
-
+    public void onGvDataDelete(T data, int requestCode) {
+        mScreen.onGvDataDelete(data, requestCode);
     }
 
     @Override
-    public void onGvDataEdit(T oldDatum, T newDatum) {
+    public void onGvDataEdit(T oldDatum, T newDatum, int requestCode) {
+        mScreen.onGvDataEdit(oldDatum, newDatum, requestCode);
+    }
 
+    @Override
+    public boolean onGvDataAdd(T data, int requestCode) {
+        return mScreen.onGvDataAdd(data, requestCode);
+    }
+
+    @Override
+    public void onGvDataCancel(int requestCode) {
+        mScreen.onGvDataCancel(requestCode);
+    }
+
+    @Override
+    public void onGvDataDone(int requestCode) {
+        mScreen.onGvDataDone(requestCode);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        mScreen.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    public void onChosenImage(GvImageList.GvImage image) {
+        if(mDataType == GvImageList.GvImage.TYPE) {
+            EditScreenImages screen = (EditScreenImages) mScreen;
+            screen.onChosenImage(image);
+        }
     }
 }

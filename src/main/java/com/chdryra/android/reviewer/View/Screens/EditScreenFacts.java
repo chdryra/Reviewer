@@ -57,16 +57,16 @@ public class EditScreenFacts extends EditScreenReviewData<GvFactList.GvFact> {
         //Overridden
         @Override
         public boolean onLongClick(View v) {
-            showAlertDialog(getActivity().getString(R.string.alert_add_on_browser),
-                    ADD_ON_BROWSER);
+            showAlertDialog(getActivity().getString(R.string.alert_add_on_browser), ADD_ON_BROWSER);
             return true;
         }
 
         @Override
-        protected void onDialogAlertPositive(int requestCode) {
+        public void onAlertPositive(int requestCode, Bundle args) {
             if (requestCode == ADD_ON_BROWSER) {
                 LaunchableUi urlUi = FactoryLaunchable.newLaunchable(ActivityEditUrlBrowser.class);
-                LauncherUi.launch(urlUi, getListener(), getRequestCode(), null, new Bundle());
+                LauncherUi.launch(urlUi, getReviewView().getFragment(), getLaunchableRequestCode(),
+                        null, new Bundle());
             }
         }
     }
@@ -92,10 +92,11 @@ public class EditScreenFacts extends EditScreenReviewData<GvFactList.GvFact> {
         }
 
         @Override
-        protected void onDialogAlertPositive(int requestCode, Bundle args) {
+        public void onAlertPositive(int requestCode, Bundle args) {
             if (requestCode == EDIT_ON_BROWSER) {
                 LaunchableUi urlUi = FactoryLaunchable.newLaunchable(ActivityEditUrlBrowser.class);
-                LauncherUi.launch(urlUi, getListener(), getLaunchableRequestCode(), null, args);
+                LauncherUi.launch(urlUi, getReviewView().getFragment(), getLaunchableRequestCode(),
+                        null, args);
             }
         }
     }

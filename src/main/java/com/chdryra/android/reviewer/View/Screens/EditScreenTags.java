@@ -20,7 +20,7 @@ public class EditScreenTags extends EditScreenReviewData<GvTagList.GvTag> {
     }
 
     @Override
-    protected ReviewViewAction.SubjectAction newSubjectAction() {
+    protected SubjectEdit<GvTagList.GvTag> newSubjectAction() {
         return new SubjectEditTags();
     }
 

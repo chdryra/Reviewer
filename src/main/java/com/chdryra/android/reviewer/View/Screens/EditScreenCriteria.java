@@ -29,7 +29,7 @@ public class EditScreenCriteria extends EditScreenReviewData<GvCriterionList.GvC
     }
 
     @Override
-    protected ReviewViewAction.MenuAction newMenuAction() {
+    protected MenuDataEdit<GvCriterionList.GvCriterion> newMenuAction() {
         return new MenuEditCriteria();
     }
 
