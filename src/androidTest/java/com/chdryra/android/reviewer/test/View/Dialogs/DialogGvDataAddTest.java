@@ -240,7 +240,7 @@ public abstract class DialogGvDataAddTest<T extends GvData> extends
 
         Intent i = new Intent();
         Context context = getInstrumentation().getTargetContext();
-        ReviewView screen = EditScreenReviewData.newScreen(context, mDialog.getGvDataType());
+        ReviewView screen = EditScreenReviewData.newScreen(context, mDialog.getGvDataType()).getEditor();
         ReviewViewPacker.packView(context, screen, i);
         setActivityIntent(i);
         mActivity = getActivity();

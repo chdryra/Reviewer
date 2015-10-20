@@ -25,7 +25,7 @@ public class ActivityFeed extends ActivityReviewView
 
     //Overridden
     @Override
-    protected ReviewView createView() {
+    protected ReviewView createReviewView() {
         mScreen = new FeedScreen(this, Administrator.get(this).getReviewsRepository());
         return mScreen.getReviewView();
     }

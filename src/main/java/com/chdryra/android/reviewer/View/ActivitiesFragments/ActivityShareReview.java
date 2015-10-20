@@ -10,7 +10,7 @@ import com.chdryra.android.reviewer.View.Screens.ShareScreen;
  */
 public class ActivityShareReview extends ActivityReviewView {
     @Override
-    protected ReviewView createView() {
+    protected ReviewView createReviewView() {
         return ShareScreen.newScreen(this);
     }
 }

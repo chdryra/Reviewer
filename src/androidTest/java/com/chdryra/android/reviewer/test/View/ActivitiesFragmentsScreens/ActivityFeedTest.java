@@ -122,7 +122,7 @@ public class ActivityFeedTest extends
     protected void setUp() {
         Context context = getInstrumentation().getTargetContext();
 
-        ReviewView feedScreen = FeedScreen.newScreen(context, createFeed());
+        ReviewView feedScreen = new FeedScreen(context, createFeed()).getReviewView();
         mAdapter = feedScreen.getAdapter();
 
         Intent i = new Intent();

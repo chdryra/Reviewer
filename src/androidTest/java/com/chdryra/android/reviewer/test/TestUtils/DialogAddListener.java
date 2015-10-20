@@ -40,7 +40,7 @@ public class DialogAddListener<T extends GvData> extends Fragment implements
 
     //Overridden
     @Override
-    public boolean onGvDataAdd(T data) {
+    public boolean onGvDataAdd(T data, int requestCode) {
         if (data != null) {
             mAddData = data;
             return true;
@@ -50,13 +50,13 @@ public class DialogAddListener<T extends GvData> extends Fragment implements
     }
 
     @Override
-    public void onGvDataCancel() {
+    public void onGvDataCancel(int requestCode) {
         mAddData = null;
         mDoneData = null;
     }
 
     @Override
-    public void onGvDataDone() {
+    public void onGvDataDone(int requestCode) {
         mDoneData = mAddData;
     }
 }

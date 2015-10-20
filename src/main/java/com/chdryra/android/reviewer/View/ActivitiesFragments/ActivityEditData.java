@@ -53,7 +53,7 @@ public class ActivityEditData<T extends GvData> extends ActivityReviewView imple
     }
 
     @Override
-    protected ReviewView createView() {
+    protected ReviewView createReviewView() {
         mScreen = EditScreenReviewData.newScreen(this, mDataType);
         return mScreen.getEditor();
     }

@@ -18,13 +18,11 @@ import com.chdryra.android.reviewer.View.Screens.ReviewView;
  * On: 27/01/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ActivityReviewView extends ActivitySingleFragment {
+public abstract class ActivityReviewView extends ActivitySingleFragment {
     private FragmentReviewView mFragment;
     private ReviewView mView;
 
-    protected ReviewView createView() {
-        return null;
-    }
+    protected abstract ReviewView createReviewView();
 
     public ReviewView getReviewView() {
         return mView;
@@ -34,9 +32,9 @@ public class ActivityReviewView extends ActivitySingleFragment {
         return mFragment;
     }
 
-    //Overridden
+    @Override
     protected Fragment createFragment() {
-        mView = createView();
+        mView = createReviewView();
         mFragment = new FragmentReviewView();
         return mFragment;
     }

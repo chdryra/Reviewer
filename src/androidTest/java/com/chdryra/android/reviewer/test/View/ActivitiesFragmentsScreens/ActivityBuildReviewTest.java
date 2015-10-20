@@ -59,6 +59,7 @@ public class ActivityBuildReviewTest extends ActivityReviewViewTest {
     private String mOriginalSubject;
     private float mOriginalRating;
     private CallBackSignaler mSignaler;
+    private BuildScreen mScreen;
 
     @SmallTest
     public void testSubjectRatingChange() {
@@ -240,7 +241,7 @@ public class ActivityBuildReviewTest extends ActivityReviewViewTest {
 //protected methods
     @Override
     protected ReviewView getView() {
-        return BuildScreen.newEditor(getInstrumentation().getTargetContext());
+        return mScreen.getEditor();
     }
 
     protected void checkFragmentSubjectRating(String subject, float rating) {
@@ -622,6 +623,7 @@ public class ActivityBuildReviewTest extends ActivityReviewViewTest {
         ReviewBuilder builder =
                 new ReviewBuilder(getActivity(), RandomAuthor.nextAuthor(), new TagsManager());
         mAdapter = new ReviewBuilderAdapter(builder);
+        mScreen = new BuildScreen(getActivity(), (ReviewBuilderAdapter) mAdapter);
     }
 
     @SmallTest

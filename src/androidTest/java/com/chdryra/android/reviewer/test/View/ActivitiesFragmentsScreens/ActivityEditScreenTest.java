@@ -161,7 +161,7 @@ public abstract class ActivityEditScreenTest<T extends GvData> extends ActivityR
 
     @Override
     protected ReviewView getView() {
-        return EditScreenReviewData.newScreen(getInstrumentation().getTargetContext(), mDataType);
+        return EditScreenReviewData.newScreen(getInstrumentation().getTargetContext(), mDataType).getEditor();
     }
 
     protected void clickMenuDelete() {

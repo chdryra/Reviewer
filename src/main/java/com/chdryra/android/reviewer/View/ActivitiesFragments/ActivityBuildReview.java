@@ -19,7 +19,7 @@ public class ActivityBuildReview extends ActivityReviewView implements Launchabl
     private BuildScreen mBuildScreen;
 
     @Override
-    protected ReviewView createView() {
+    protected ReviewView createReviewView() {
         ReviewBuilderAdapter builder = Administrator.get(this).newReviewBuilder();
         mBuildScreen = new BuildScreen(this, builder);
         return mBuildScreen.getEditor();

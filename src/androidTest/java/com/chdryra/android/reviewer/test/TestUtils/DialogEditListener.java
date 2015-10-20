@@ -35,12 +35,12 @@ public class DialogEditListener<T extends GvData> extends Fragment implements
 
     //Overridden
     @Override
-    public void onGvDataDelete(T data) {
+    public void onGvDataDelete(T data, int requestCode) {
         mDataOld = data;
     }
 
     @Override
-    public void onGvDataEdit(T oldDatum, T newDatum) {
+    public void onGvDataEdit(T oldDatum, T newDatum, int requestCode) {
         mDataOld = oldDatum;
         mDataNew = newDatum;
     }
