@@ -100,7 +100,7 @@ public class ActivityEditData<T extends GvData> extends ActivityReviewView imple
 
     @Override
     public void onChosenImage(GvImageList.GvImage image) {
-        if(mDataType == GvImageList.GvImage.TYPE) {
+        if(mDataType.equals(GvImageList.GvImage.TYPE)) {
             EditScreenImages screen = (EditScreenImages) mScreen;
             screen.onChosenImage(image);
         }

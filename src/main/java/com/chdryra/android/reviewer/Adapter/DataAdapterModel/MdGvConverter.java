@@ -217,19 +217,19 @@ public class MdGvConverter {
 
     public static GvDataList copy(GvDataList data) {
         GvDataType dataType = data.getGvDataType();
-        if (dataType == GvCommentList.GvComment.TYPE) {
+        if (dataType.equals(GvCommentList.GvComment.TYPE)) {
             return new GvCommentList((GvCommentList) data);
-        } else if (dataType == GvFactList.GvFact.TYPE) {
+        } else if (dataType.equals(GvFactList.GvFact.TYPE)) {
             return copy((GvFactList) data);
-        } else if (dataType == GvImageList.GvImage.TYPE) {
+        } else if (dataType.equals(GvImageList.GvImage.TYPE)) {
             return new GvImageList((GvImageList) data);
-        } else if (dataType == GvLocationList.GvLocation.TYPE) {
+        } else if (dataType.equals(GvLocationList.GvLocation.TYPE)) {
             return new GvLocationList((GvLocationList) data);
-        } else if (dataType == GvUrlList.GvUrl.TYPE) {
+        } else if (dataType.equals(GvUrlList.GvUrl.TYPE)) {
             return new GvUrlList((GvUrlList) data);
-        } else if (dataType == GvTagList.GvTag.TYPE) {
+        } else if (dataType.equals(GvTagList.GvTag.TYPE)) {
             return new GvTagList((GvTagList) data);
-        } else if (dataType == GvCriterionList.GvCriterion.TYPE) {
+        } else if (dataType.equals(GvCriterionList.GvCriterion.TYPE)) {
             return new GvCriterionList((GvCriterionList) data);
         } else {
             return null;

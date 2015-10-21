@@ -19,7 +19,8 @@ public class FactoryGvDataHandler {
     //Static methods
     public static <T extends GvData> GvDataHandler<T> newHandler
     (GvDataList<T> data) {
-        if (data.getGvDataType() == GvImageList.GvImage.TYPE) {
+        GvDataType<T> dataType = data.getGvDataType();
+        if (dataType.equals(GvImageList.GvImage.TYPE)) {
             return new GvDataHandler<>(data, new GvDataHandler.AddConstraint<T>() {
                 //Overridden
                 @Override
@@ -27,7 +28,7 @@ public class FactoryGvDataHandler {
                     return imageAdd(data, (GvImageList.GvImage) datum);
                 }
             });
-        } else if (data.getGvDataType() == GvCriterionList.GvCriterion.TYPE) {
+        } else if (dataType.equals(GvCriterionList.GvCriterion.TYPE)) {
             GvDataHandler.AddConstraint<T> add = new GvDataHandler.AddConstraint<T>() {
 //Overridden
                 @Override
@@ -47,7 +48,7 @@ public class FactoryGvDataHandler {
             };
 
             return new GvDataHandler<>(data, add, replace);
-        } else if (data.getGvDataType() == GvCommentList.GvComment.TYPE) {
+        } else if (dataType.equals(GvCommentList.GvComment.TYPE)) {
             //TODO make type safe
             return (GvDataHandler) new GvCommentHandler(data);
         } else {

@@ -127,7 +127,7 @@ public abstract class DialogGvDataEdit<T extends GvData>
         //TODO make type safe
         mEditListener = (GvDataEditListener<T>) getTargetListener(GvDataEditListener.class);
 
-        if (getGvDataType() == GvImageList.GvImage.TYPE) {
+        if (getGvDataType().equals(GvImageList.GvImage.TYPE)) {
             setDialogTitle(null);
             hideKeyboardOnLaunch();
         } else {

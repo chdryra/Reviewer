@@ -151,21 +151,19 @@ public class FragmentViewReviewLocation extends Fragment implements
     }
 
     @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        mLocationClient = new LocationClientConnector(activity, this);
-        mLocationClient.connect();
-    }
-
-    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Bundle args = LauncherUi.getArgsForActivity(getActivity());
+        Activity activity = getActivity();
+
+        mLocationClient = new LocationClientConnector(activity, this);
+        mLocationClient.connect();
+
+        Bundle args = LauncherUi.getArgsForActivity(activity);
         mCurrent = (GvLocationList.GvLocation) GvDataPacker.unpackItem(GvDataPacker
                 .CurrentNewDatum.CURRENT, args);
 
-        MapsInitializer.initialize(getActivity());
+        MapsInitializer.initialize(activity);
     }
 
     @Override

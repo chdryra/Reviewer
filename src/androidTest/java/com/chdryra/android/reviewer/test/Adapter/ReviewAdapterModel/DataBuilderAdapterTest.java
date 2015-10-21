@@ -128,7 +128,7 @@ public class DataBuilderAdapterTest extends AndroidTestCase {
 
         for (GvDataType dataType : TYPES) {
             ReviewBuilderAdapter.DataBuilderAdapter builder = mAdapter.getDataBuilder(dataType);
-            if(dataType == GvCriterionList.GvCriterion.TYPE) {
+            if(dataType.equals(GvCriterionList.GvCriterion.TYPE)) {
                 assertEquals(criteria2.getAverageRating(), builder.getAverageRating());
             } else {
                 assertEquals(criteria.getAverageRating(), builder.getAverageRating());
@@ -160,7 +160,7 @@ public class DataBuilderAdapterTest extends AndroidTestCase {
         for (GvDataType dataType : TYPES) {
             ReviewBuilderAdapter.DataBuilderAdapter builder = mAdapter.getDataBuilder(dataType);
             assertEquals(1, builder.getCovers().size());
-            if (dataType == GvImageList.GvImage.TYPE) {
+            if (dataType.equals(GvImageList.GvImage.TYPE)) {
                 assertEquals(newImages.getItem(0), builder.getCovers().getItem(0));
             } else {
                 assertEquals(images.getItem(0), builder.getCovers().getItem(0));

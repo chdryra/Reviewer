@@ -442,7 +442,7 @@ public class ActivityBuildReviewTest extends ActivityReviewViewTest {
 
     private GvDataList getData(GvDataType dataType, int numData) {
         GvDataList data;
-        if (dataType == GvCommentList.GvComment.TYPE) {
+        if (dataType.equals(GvCommentList.GvComment.TYPE)) {
             GvCommentList mocked = GvDataMocker.newCommentList(numData, false);
             GvCommentList comments = new GvCommentList();
             for (int i = 0; i < numData; ++i) {
@@ -451,7 +451,7 @@ public class ActivityBuildReviewTest extends ActivityReviewViewTest {
                 comments.add(new GvCommentList.GvComment(mock.getComment(), isHeadline));
             }
             data = comments;
-        } else if (dataType == GvImageList.GvImage.TYPE) {
+        } else if (dataType.equals(GvImageList.GvImage.TYPE)) {
             GvImageList mocked = GvDataMocker.newImageList(numData, false);
             GvImageList images = new GvImageList();
             for (int i = 0; i < numData; ++i) {

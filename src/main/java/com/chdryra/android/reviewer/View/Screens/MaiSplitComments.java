@@ -35,8 +35,8 @@ public class MaiSplitComments implements ReviewViewAction.MenuAction.MenuActionI
 
         //Hacky central...
         GvDataList data = view.getGridData();
-        GvDataType type = data.getGvDataType();
-        if (type == GvCommentList.GvComment.TYPE) {
+        GvDataType dataType = data.getGvDataType();
+        if (dataType.equals(GvCommentList.GvComment.TYPE)) {
             GvCommentList comments = (GvCommentList) data;
             if (mCommentsAreSplit) {
                 view.setGridViewData(comments.getSplitComments());

@@ -121,7 +121,7 @@ public class ReviewBuilder {
 
     public <T extends GvData> void setData(GvDataList<T> data, boolean copy) {
         GvDataType<T> dataType = data.getGvDataType();
-        if (dataType == GvCriterionList.GvCriterion.TYPE) {
+        if (dataType.equals(GvCriterionList.GvCriterion.TYPE)) {
             setCriteria(data);
         } else if (TYPES.contains(dataType)) {
             if (copy) {

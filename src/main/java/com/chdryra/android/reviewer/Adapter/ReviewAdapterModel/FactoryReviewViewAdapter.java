@@ -54,18 +54,18 @@ public class FactoryReviewViewAdapter {
     public static <T extends GvData> ReviewViewAdapter newAggregateToReviewsAdapter(
             Context context, GvCanonicalCollection<T> data, ReviewsRepository repository,
             String subject) {
-        if (data.getGvDataType() == GvCommentList.GvComment.TYPE) {
+        if (data.getGvDataType().equals(GvCommentList.GvComment.TYPE)) {
             ReviewNode node = repository.createMetaReview(data, subject);
             return new AdapterCommentsAggregate(context, node,
                     (GvCanonicalCollection<GvCommentList.GvComment>) data, repository);
         }
 
         GridDataViewer<GvCanonical> viewer;
-        if (data.getGvDataType() == GvCriterionList.GvCriterion.TYPE) {
+        if (data.getGvDataType().equals(GvCriterionList.GvCriterion.TYPE)) {
             viewer = new ViewerAggregateCriteria(context,
                     (GvCanonicalCollection<GvCriterionList.GvCriterion>) data, repository);
-        } else if (data.getGvDataType() == GvFactList.GvFact.TYPE ||
-                data.getGvDataType() == GvImageList.GvImage.TYPE) {
+        } else if (data.getGvDataType().equals(GvFactList.GvFact.TYPE) ||
+                data.getGvDataType().equals(GvImageList.GvImage.TYPE)) {
             viewer = new ViewerAggregateToData<>(context, data, repository);
         } else {
             viewer = new ViewerDataToReviews<>(context, data, repository);

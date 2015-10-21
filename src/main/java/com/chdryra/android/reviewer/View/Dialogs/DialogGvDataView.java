@@ -74,11 +74,11 @@ public abstract class DialogGvDataView<T extends GvData> extends DialogTwoButton
         mLayout = FactoryGvDataViewLayout.newLayout(mDatum.getGvDataType());
         mLayout.onActivityAttached(getActivity(), args);
 
-        GvDataType type = mDatum.getGvDataType();
-        if (type == GvImageList.GvImage.TYPE) {
+        GvDataType dataType = mDatum.getGvDataType();
+        if (dataType.equals(GvImageList.GvImage.TYPE)) {
             setDialogTitle(null);
         } else {
-            setDialogTitle(type.getDatumName());
+            setDialogTitle(dataType.getDatumName());
         }
     }
 }

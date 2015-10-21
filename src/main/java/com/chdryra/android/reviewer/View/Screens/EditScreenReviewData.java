@@ -143,17 +143,17 @@ public class EditScreenReviewData<T extends GvData> implements
     //Static methods
     public static <T extends GvData> EditScreenReviewData<T> newScreen(Context context, GvDataType<T> dataType) {
         EditScreenReviewData screen;
-        if (dataType == GvCommentList.GvComment.TYPE) {
+        if (dataType.equals(GvCommentList.GvComment.TYPE)) {
             screen = new EditScreenComments(context);
-        } else if (dataType == GvCriterionList.GvCriterion.TYPE) {
+        } else if (dataType.equals(GvCriterionList.GvCriterion.TYPE)) {
             screen = new EditScreenCriteria(context);
-        } else if (dataType == GvFactList.GvFact.TYPE) {
+        } else if (dataType.equals(GvFactList.GvFact.TYPE)) {
             screen = new EditScreenFacts(context);
-        } else if (dataType == GvImageList.GvImage.TYPE) {
+        } else if (dataType.equals(GvImageList.GvImage.TYPE)) {
             screen = new EditScreenImages(context);
-        } else if (dataType == GvLocationList.GvLocation.TYPE) {
+        } else if (dataType.equals(GvLocationList.GvLocation.TYPE)) {
             screen = new EditScreenLocations(context);
-        } else if (dataType == GvTagList.GvTag.TYPE) {
+        } else if (dataType.equals(GvTagList.GvTag.TYPE)) {
             screen = new EditScreenTags(context);
         } else {
             screen = new EditScreenReviewData<>(context, dataType);

@@ -170,7 +170,7 @@ public class ReviewBuilderAdapter extends ReviewViewAdapterBasic {
         }
 
         public float getAverageRating() {
-            if (mType == GvCriterionList.GvCriterion.TYPE) {
+            if (mType.equals(GvCriterionList.GvCriterion.TYPE)) {
                 return ((GvCriterionList) getGridData()).getAverageRating();
             } else {
                 return mBuilder.getAverageRating();
@@ -238,7 +238,7 @@ public class ReviewBuilderAdapter extends ReviewViewAdapterBasic {
 
         @Override
         public GvImageList getCovers() {
-            return mType == GvImageList.GvImage.TYPE ? (GvImageList) getGridData()
+            return mType.equals(GvImageList.GvImage.TYPE) ? (GvImageList) getGridData()
                     : getParentBuilder().getCovers();
         }
     }

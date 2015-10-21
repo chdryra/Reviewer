@@ -65,7 +65,7 @@ public class VhDataCollection implements ViewHolder {
     public void updateView(ViewHolderData data) {
         GvDataCollection dataList = (GvDataCollection) data;
         if (dataList.size() != 1 ||
-                dataList.getGvDataType() == GvImageList.GvImage.TYPE) {
+                dataList.getGvDataType().equals(GvImageList.GvImage.TYPE)) {
             updateDataView(dataList);
         } else {
             updateDatumView(dataList);

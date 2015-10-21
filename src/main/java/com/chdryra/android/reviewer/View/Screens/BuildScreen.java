@@ -161,7 +161,7 @@ public class BuildScreen implements ImageChooser.ImageChooserListener,
         }
 
         private void showQuickDialog(ConfigGvDataUi.Config config) {
-            if (config.getGvDataType() == GvImageList.GvImage.TYPE) {
+            if (config.getGvDataType().equals(GvImageList.GvImage.TYPE)) {
                 getActivity().startActivityForResult(mImageChooser.getChooserIntents(),
                         getImageRequestCode());
                 return;

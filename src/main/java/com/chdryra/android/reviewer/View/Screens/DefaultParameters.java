@@ -12,7 +12,7 @@ public class DefaultParameters {
     //Static methods
     public static ReviewViewParams getParams(GvDataType dataType) {
         ReviewViewParams params = new ReviewViewParams();
-        if (dataType == GvImageList.GvImage.TYPE) {
+        if (dataType.equals(GvImageList.GvImage.TYPE)) {
             ReviewViewParams.CellDimension half = ReviewViewParams.CellDimension.HALF;
             params.setCellHeight(half).setCellWidth(half);
         }

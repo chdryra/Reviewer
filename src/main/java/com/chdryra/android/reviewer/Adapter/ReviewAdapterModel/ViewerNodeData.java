@@ -201,7 +201,7 @@ public class ViewerNodeData implements GridDataViewer<GvData> {
         public ReviewViewAdapter expandGridCell(GvData datum) {
             ReviewViewAdapter adapter = null;
             if (isExpandable(datum)) {
-                if (datum.getGvDataType() == GvReviewOverviewList.GvReviewOverview.TYPE) {
+                if (datum.getGvDataType().equals(GvReviewOverviewList.GvReviewOverview.TYPE)) {
                     adapter = FactoryReviewViewAdapter.newReviewsListAdapter(getContext(),
                             getReviewNode(), getRepository());
                 } else {

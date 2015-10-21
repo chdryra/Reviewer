@@ -11,6 +11,8 @@ package com.chdryra.android.reviewer.View.GvDataModel;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import org.jetbrains.annotations.NotNull;
+
 /**
  * Created by: Rizwan Choudrey
  * On: 24/03/2015
@@ -49,6 +51,10 @@ public class GvDataType<T extends GvData> implements Parcelable {
         mDataClass = (Class<T>) in.readValue(Class.class.getClassLoader());
         mDatumName = in.readString();
         mDataName = in.readString();
+    }
+
+    public static boolean areEqual(@NotNull GvDataType lhs, @NotNull GvDataType rhs) {
+        return lhs.equals(rhs);
     }
 
     //public methods

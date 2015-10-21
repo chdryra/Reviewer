@@ -55,15 +55,15 @@ public class MdDataMocker {
 
     //Just a convenient method even if it uses GvType.....
     public MdDataList getData(GvDataType dataType, int size) {
-        if (dataType == GvCommentList.GvComment.TYPE) {
+        if (dataType.equals(GvCommentList.GvComment.TYPE)) {
             return newCommentList(size);
-        } else if (dataType == GvFactList.GvFact.TYPE) {
+        } else if (dataType.equals(GvFactList.GvFact.TYPE)) {
             return newFactList(size);
-        } else if (dataType == GvImageList.GvImage.TYPE) {
+        } else if (dataType.equals(GvImageList.GvImage.TYPE)) {
             return newImageList(size);
-        } else if (dataType == GvLocationList.GvLocation.TYPE) {
+        } else if (dataType.equals(GvLocationList.GvLocation.TYPE)) {
             return newLocationList(size);
-        } else if (dataType == GvUrlList.GvUrl.TYPE) {
+        } else if (dataType.equals(GvUrlList.GvUrl.TYPE)) {
             return newUrlList(size);
         } else {
             return null;
