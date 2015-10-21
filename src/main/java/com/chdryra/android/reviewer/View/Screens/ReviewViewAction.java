@@ -27,7 +27,6 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
 
 import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by: Rizwan Choudrey
@@ -60,9 +59,6 @@ public class ReviewViewAction {
         if (mReviewView != null) onUnattachReviewView();
         mReviewView = reviewView;
         onAttachReviewView();
-        for (Map.Entry<String, Fragment> entry : mListeners.entrySet()) {
-            mReviewView.registerActionListener(entry.getValue(), entry.getKey());
-        }
     }
 
     public void onUnattachReviewView() {
@@ -76,19 +72,6 @@ public class ReviewViewAction {
     //protected methods
     protected GvDataList getGridData() {
         return getReviewView().getGridData();
-    }
-
-    protected void registerActionListener(Fragment listener, String tag) {
-        if (!mListeners.containsKey(tag)) {
-            mListeners.put(tag, listener);
-        } else {
-            unregisterActionListener(tag);
-            registerActionListener(listener, tag);
-        }
-    }
-
-    protected void unregisterActionListener(String tag) {
-        if (mListeners.containsKey(tag)) mListeners.remove(tag);
     }
 
     //Classes

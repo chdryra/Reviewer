@@ -36,13 +36,13 @@ public class ReviewViewPacker extends ApplicationSingleton {
     }
 
     public static void packView(Context context, ReviewView view, Intent i) {
-        String id = UUID.randomUUID().toString();
+        String id = i.getStringExtra(REVIEWVIEW_ID);
+        if(id == null) id = UUID.randomUUID().toString();
         getViews(context).addObject(id, view);
         i.putExtra(REVIEWVIEW_ID, id);
     }
 
     public static ReviewView unpackView(Context context, Intent i) {
-        ReviewViewPacker packer = get(context);
         String id = i.getStringExtra(REVIEWVIEW_ID);
         ReviewView view = (ReviewView) getViews(context).getObject(id);
         getViews(context).removeObject(id);

@@ -1,6 +1,8 @@
 package com.chdryra.android.reviewer.View.Screens;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,8 +18,6 @@ import com.chdryra.android.reviewer.View.Dialogs.DialogShower;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataPacker;
 import com.chdryra.android.reviewer.View.GvDataModel.GvReviewOverviewList;
-import com.chdryra.android.reviewer.View.Launcher.LaunchableUi;
-import com.chdryra.android.reviewer.View.Launcher.LauncherUi;
 import com.chdryra.android.reviewer.View.Utils.RequestCodeGenerator;
 
 /**
@@ -99,7 +99,6 @@ public class FeedScreen implements DialogAlertFragment.DialogAlertListener{
     private static class FeedScreenMenu extends ReviewViewAction.MenuAction {
         public static final int MENU_NEW_REVIEW_ID = R.id.menu_item_new_review;
         private static final int MENU = R.menu.menu_feed;
-        private static final int REQUEST_CODE = RequestCodeGenerator.getCode("FeedScreenMenu");
 
         private FeedScreenMenu() {
             super(MENU, null, false);
@@ -112,9 +111,8 @@ public class FeedScreen implements DialogAlertFragment.DialogAlertListener{
                 //Overridden
                 @Override
                 public void doAction(Context context, MenuItem item) {
-                    LaunchableUi ui = new ActivityBuildReview();
-                    LauncherUi.launch(ui, getReviewView().getFragment(), REQUEST_CODE,
-                            ui.getLaunchTag(), new Bundle());
+                    Activity activity = getActivity();
+                    activity.startActivity(new Intent(activity, ActivityBuildReview.class));
                 }
             }, MENU_NEW_REVIEW_ID, false);
         }

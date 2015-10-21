@@ -13,7 +13,6 @@ import android.app.ActionBar;
 import android.app.Fragment;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
@@ -327,7 +326,7 @@ public class FragmentReviewView extends Fragment implements GridDataObservable.G
             Log.e(TAG, "Activity must be an ActivityReviewView");
             return;
         }
-        //mReviewView = ReviewViewPacker.unpackView(getActivity(), getActivity().getIntent());
+
         mReviewView = activity.getReviewView();
         mReviewView.attachFragment(this);
 
@@ -363,12 +362,6 @@ public class FragmentReviewView extends Fragment implements GridDataObservable.G
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
-        new AttachActionListenersTask().execute();
-    }
-
-    @Override
     public void onResume() {
         super.onResume();
         updateUi();
@@ -389,21 +382,6 @@ public class FragmentReviewView extends Fragment implements GridDataObservable.G
     @Override
     public void onGridDataChanged() {
         updateUi();
-    }
-
-    //Have to do this hacky crap because FragmentManager cannot properly deal with child
-    // fragments as executePendingTransactions not properly synchronised pre API 17.
-    private class AttachActionListenersTask extends AsyncTask<Void, Void, Void> {
-        //Overridden
-        protected Void doInBackground(Void... params) {
-            return null;
-        }
-
-
-        @Override
-        protected void onPostExecute(Void result) {
-            mReviewView.attachActionListeners();
-        }
     }
 }
 

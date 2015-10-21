@@ -9,9 +9,6 @@
 package com.chdryra.android.reviewer.View.Screens;
 
 import android.app.Activity;
-import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,8 +22,6 @@ import com.chdryra.android.reviewer.View.Launcher.LaunchableUi;
 import com.chdryra.android.reviewer.View.Launcher.LauncherUi;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by: Rizwan Choudrey
@@ -35,7 +30,6 @@ import java.util.Map;
  */
 public class ReviewView implements GridDataObservable.GridDataObserver, LaunchableUi {
     private ReviewViewPerspective mPerspective;
-    private HashMap<String, Fragment> mActionListeners;
     private ArrayList<GridDataObservable.GridDataObserver> mGridObservers;
     private FragmentReviewView mFragment;
     private GvDataList mGridViewData;
@@ -44,7 +38,6 @@ public class ReviewView implements GridDataObservable.GridDataObserver, Launchab
     public ReviewView(ReviewViewPerspective perspective) {
         mPerspective = perspective;
         mGridObservers = new ArrayList<>();
-        mActionListeners = new HashMap<>();
 
         ReviewViewAdapter adapter = mPerspective.getAdapter();
         adapter.registerReviewView(this);
@@ -132,20 +125,6 @@ public class ReviewView implements GridDataObservable.GridDataObserver, Launchab
 
             mFragment.setCover(cover);
         }
-    }
-
-    public void attachActionListeners() {
-        FragmentManager manager = mFragment.getFragmentManager();
-        FragmentTransaction ft = manager.beginTransaction();
-        for (Map.Entry<String, Fragment> entry : mActionListeners.entrySet()) {
-            ft.add(entry.getValue(), entry.getKey());
-        }
-        ft.commit();
-        manager.executePendingTransactions();
-    }
-
-    public void registerActionListener(Fragment listener, String tag) {
-        if (!mActionListeners.containsKey(tag)) mActionListeners.put(tag, listener);
     }
 
     public void registerGridDataObserver(GridDataObservable.GridDataObserver observer) {

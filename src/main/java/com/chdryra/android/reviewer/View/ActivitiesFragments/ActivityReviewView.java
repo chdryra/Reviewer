@@ -11,6 +11,7 @@ package com.chdryra.android.reviewer.View.ActivitiesFragments;
 import android.app.Fragment;
 
 import com.chdryra.android.mygenerallibrary.ActivitySingleFragment;
+import com.chdryra.android.reviewer.ApplicationSingletons.ReviewViewPacker;
 import com.chdryra.android.reviewer.View.Screens.ReviewView;
 
 /**
@@ -18,11 +19,13 @@ import com.chdryra.android.reviewer.View.Screens.ReviewView;
  * On: 27/01/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public abstract class ActivityReviewView extends ActivitySingleFragment {
+public class ActivityReviewView extends ActivitySingleFragment {
     private FragmentReviewView mFragment;
     private ReviewView mView;
 
-    protected abstract ReviewView createReviewView();
+    protected ReviewView createReviewView() {
+        return ReviewViewPacker.unpackView(this, getIntent());
+    }
 
     public ReviewView getReviewView() {
         return mView;
@@ -38,5 +41,4 @@ public abstract class ActivityReviewView extends ActivitySingleFragment {
         mFragment = new FragmentReviewView();
         return mFragment;
     }
-
 }
