@@ -328,6 +328,7 @@ public class FragmentReviewView extends Fragment implements GridDataObservable.G
         }
 
         mReviewView = activity.getReviewView();
+        if(mReviewView == null) throw new IllegalStateException("ReviewView cannot be null!");
         mReviewView.attachFragment(this);
 
         ReviewViewParams params = mReviewView.getParams();
