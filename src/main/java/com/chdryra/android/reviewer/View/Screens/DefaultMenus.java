@@ -18,7 +18,7 @@ public class DefaultMenus {
         if (dataType.equals(GvCommentList.GvComment.TYPE)) {
             return new ViewScreenComments.CommentsMenu();
         } else {
-            return new ReviewViewAction.MenuAction();
+            return new ReviewViewAction.MenuAction(dataType.getDataName());
         }
     }
 }
