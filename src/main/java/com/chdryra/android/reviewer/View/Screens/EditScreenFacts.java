@@ -65,8 +65,8 @@ public class EditScreenFacts extends EditScreenReviewData<GvFactList.GvFact> {
         public void onAlertPositive(int requestCode, Bundle args) {
             if (requestCode == ADD_ON_BROWSER) {
                 LaunchableUi urlUi = FactoryLaunchable.newLaunchable(ActivityEditUrlBrowser.class);
-                LauncherUi.launch(urlUi, getReviewView().getFragment(), getLaunchableRequestCode(),
-                        null, new Bundle());
+                LauncherUi.launch(urlUi, getActivity(), getLaunchableRequestCode(), null,
+                        new Bundle());
             }
         }
     }
@@ -95,8 +95,7 @@ public class EditScreenFacts extends EditScreenReviewData<GvFactList.GvFact> {
         public void onAlertPositive(int requestCode, Bundle args) {
             if (requestCode == EDIT_ON_BROWSER) {
                 LaunchableUi urlUi = FactoryLaunchable.newLaunchable(ActivityEditUrlBrowser.class);
-                LauncherUi.launch(urlUi, getReviewView().getFragment(), getLaunchableRequestCode(),
-                        null, args);
+                LauncherUi.launch(urlUi, getActivity(), getLaunchableRequestCode(), null, args);
             }
         }
     }

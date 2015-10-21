@@ -22,7 +22,6 @@ public class GiLaunchReviewDataScreen extends GridItemExpander {
     public void onClickExpandable(GvData item, int position, View v, ReviewViewAdapter
             expanded) {
         ReviewView ui = ReviewDataScreen.newScreen(expanded, item.getGvDataType());
-        LauncherUi.launch(ui, getReviewView().getFragment(), REQUEST_CODE, ui.getLaunchTag(), new
-                Bundle());
+        LauncherUi.launch(ui, getActivity(), REQUEST_CODE, ui.getLaunchTag(), new Bundle());
     }
 }

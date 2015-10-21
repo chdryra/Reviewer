@@ -49,8 +49,7 @@ public class BannerButtonEdit<T extends GvData>
     }
 
     protected void showAlertDialog(String alert, int requestCode) {
-        DialogAlertFragment dialog = DialogAlertFragment.newDialog(alert, requestCode, new Bundle());
-        DialogShower.show(dialog, getReviewView().getFragment(), requestCode, DialogAlertFragment.ALERT_TAG);
+        DialogShower.showAlert(alert, getActivity(), requestCode, DialogAlertFragment.ALERT_TAG);
     }
 
     private void initDataList() {
@@ -60,8 +59,8 @@ public class BannerButtonEdit<T extends GvData>
     //Overridden
     @Override
     public void onClick(View v) {
-        LauncherUi.launch(mConfig.getLaunchable(), getReviewView().getFragment(),
-                getLaunchableRequestCode(), mConfig.getTag(), new Bundle());
+        LauncherUi.launch(mConfig.getLaunchable(), getActivity(), getLaunchableRequestCode(),
+                mConfig.getTag(), new Bundle());
     }
 
     @Override

@@ -172,7 +172,7 @@ public class BuildScreen implements ImageChooser.ImageChooserListener,
             packLatLng(args);
 
             ConfigGvDataUi.LaunchableConfig adderConfig = config.getAdderConfig();
-            LauncherUi.launch(adderConfig.getLaunchable(), getReviewView().getFragment(),
+            LauncherUi.launch(adderConfig.getLaunchable(), getActivity(),
                     adderConfig.getRequestCode(), adderConfig.getTag(), args);
         }
 

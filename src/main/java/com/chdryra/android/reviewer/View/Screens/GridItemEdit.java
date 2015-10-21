@@ -58,11 +58,8 @@ public class GridItemEdit<T extends GvData> extends ReviewViewAction.GridItemAct
     protected void showAlertDialog(String alert, int requestCode, GvData item) {
         mAlertDialogRequestCode = requestCode;
         Bundle args = new Bundle();
-        if (item != null) {
-            GvDataPacker.packItem(GvDataPacker.CurrentNewDatum.CURRENT, item, args);
-        }
-        DialogAlertFragment dialog = DialogAlertFragment.newDialog(alert, requestCode, args);
-        DialogShower.show(dialog, getActivity(), requestCode, DialogAlertFragment.ALERT_TAG);
+        if (item != null) GvDataPacker.packItem(GvDataPacker.CurrentNewDatum.CURRENT, item, args);
+        DialogShower.showAlert(alert, getActivity(), requestCode, DialogAlertFragment.ALERT_TAG);
     }
 
     //Overridden
@@ -87,8 +84,8 @@ public class GridItemEdit<T extends GvData> extends ReviewViewAction.GridItemAct
         Bundle args = new Bundle();
         GvDataPacker.packItem(GvDataPacker.CurrentNewDatum.CURRENT, item, args);
 
-        LauncherUi.launch(mConfig.getLaunchable(), getReviewView().getFragment(),
-                getLaunchableRequestCode(), mConfig.getTag(), args);
+        LauncherUi.launch(mConfig.getLaunchable(), getActivity(), getLaunchableRequestCode(),
+                mConfig.getTag(), args);
     }
 
     @Override

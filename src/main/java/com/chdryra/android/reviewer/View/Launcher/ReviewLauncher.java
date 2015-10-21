@@ -8,8 +8,7 @@
 
 package com.chdryra.android.reviewer.View.Launcher;
 
-import android.app.Fragment;
-import android.content.Context;
+import android.app.Activity;
 import android.os.Bundle;
 
 import com.chdryra.android.reviewer.ApplicationSingletons.Administrator;
@@ -26,16 +25,15 @@ import com.chdryra.android.reviewer.View.Utils.RequestCodeGenerator;
  */
 public class ReviewLauncher {
     //Static methods
-    public static void launchReview(Context context, Fragment commissioner, GvData datum) {
-        ReviewsRepository repo = Administrator.get(context).getReviewsRepository();
-        launchReview(context, commissioner, repo.getReview(datum), repo);
+    public static void launchReview(Activity activity, GvData datum) {
+        ReviewsRepository repo = Administrator.get(activity).getReviewsRepository();
+        launchReview(activity, repo.getReview(datum), repo);
     }
 
-    private static void launchReview(Context context, Fragment commissioner, Review review,
-                                     ReviewsRepository repository) {
-        LaunchableUi ui = ChildListScreen.newScreen(context, review, repository);
+    private static void launchReview(Activity activity, Review review, ReviewsRepository repository) {
+        LaunchableUi ui = ChildListScreen.newScreen(activity, review, repository);
         String tag = review.getSubject().get();
         int requestCode = RequestCodeGenerator.getCode(tag);
-        LauncherUi.launch(ui, commissioner, requestCode, tag, new Bundle());
+        LauncherUi.launch(ui, activity, requestCode, tag, new Bundle());
     }
 }

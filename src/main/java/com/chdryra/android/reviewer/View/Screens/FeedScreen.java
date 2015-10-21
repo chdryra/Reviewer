@@ -70,8 +70,7 @@ public class FeedScreen implements DialogAlertFragment.DialogAlertListener{
                 String alert = getActivity().getResources().getString(R.string.alert_delete_review);
                 Bundle args = new Bundle();
                 GvDataPacker.packItem(GvDataPacker.CurrentNewDatum.CURRENT, item, args);
-                DialogAlertFragment dialog = DialogAlertFragment.newDialog(alert, DIALOG_ALERT, args);
-                DialogShower.show(dialog, getActivity(), DIALOG_ALERT, DialogAlertFragment.ALERT_TAG);
+                DialogShower.showAlert(alert, getActivity(), DIALOG_ALERT, DialogAlertFragment.ALERT_TAG);
             }
         }
 

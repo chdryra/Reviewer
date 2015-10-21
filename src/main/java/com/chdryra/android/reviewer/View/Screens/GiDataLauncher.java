@@ -26,8 +26,7 @@ public class GiDataLauncher extends GridItemExpander {
             expanded) {
         ReviewView screen = expanded.getReviewView();
         if (screen == null) screen = ReviewDataScreen.newScreen(expanded, item.getGvDataType());
-        LauncherUi.launch(screen, getReviewView().getFragment(), REQUEST_CODE, screen.getLaunchTag
-                (), new Bundle());
+        LauncherUi.launch(screen, getActivity(), REQUEST_CODE, screen.getLaunchTag(), new Bundle());
     }
 
     @Override
@@ -50,8 +49,8 @@ public class GiDataLauncher extends GridItemExpander {
         ConfigGvDataUi.Config config = ConfigGvDataUi.getConfig(item.getGvDataType());
         if (config != null) {
             ConfigGvDataUi.LaunchableConfig view = config.getViewConfig();
-            LauncherUi.launch(view.getLaunchable(), getReviewView().getFragment(),
-                    view.getRequestCode(), view.getTag(), args);
+            LauncherUi.launch(view.getLaunchable(), getActivity(), view.getRequestCode(),
+                    view.getTag(), args);
         }
     }
 

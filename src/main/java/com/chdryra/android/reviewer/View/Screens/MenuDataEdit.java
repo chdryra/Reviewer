@@ -137,8 +137,7 @@ public class MenuDataEdit<T extends GvData> extends ReviewViewAction.MenuAction
 
     private void showDeleteConfirmDialog() {
         String deleteWhat = "all " + mDeleteWhat;
-        DialogDeleteConfirm.showDialog(deleteWhat, null, ALERT_DIALOG,
-                getActivity().getFragmentManager());
+        DialogDeleteConfirm.showDialog(deleteWhat, ALERT_DIALOG, getActivity().getFragmentManager());
     }
 
     private boolean hasDataToDelete() {

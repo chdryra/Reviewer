@@ -10,7 +10,6 @@ package com.chdryra.android.reviewer.View.Launcher;
 
 import android.app.Activity;
 import android.app.DialogFragment;
-import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -31,12 +30,12 @@ import com.chdryra.android.reviewer.View.Screens.ReviewView;
  */
 public class LauncherUi {
     private static final String LAUNCHER_ARGS = "com.chdryra.android.review.args_key";
-    private final Fragment mCommissioner;
+    private final Activity mCommissioner;
     private final int mRequestCode;
     private final String mTag;
     private final Bundle mArgs;
 
-    private LauncherUi(Fragment commissioner, int requestCode, String tag, Bundle args) {
+    private LauncherUi(Activity commissioner, int requestCode, String tag, Bundle args) {
         mCommissioner = commissioner;
         mRequestCode = requestCode;
         mTag = tag;
@@ -44,7 +43,7 @@ public class LauncherUi {
     }
 
     //Static methods
-    public static void launch(LaunchableUi ui, Fragment commissioner, int requestCode, String tag,
+    public static void launch(LaunchableUi ui, Activity commissioner, int requestCode, String tag,
                               Bundle args) {
         if (ui == null) return;
         ui.launch(new LauncherUi(commissioner, requestCode, tag, args));
@@ -59,13 +58,13 @@ public class LauncherUi {
     }
 
     public void launch(Activity launchableUI) {
-        Intent i = new Intent(mCommissioner.getActivity(), launchableUI.getClass());
+        Intent i = new Intent(mCommissioner, launchableUI.getClass());
         i.putExtra(LAUNCHER_ARGS, mArgs);
         mCommissioner.startActivityForResult(i, mRequestCode);
     }
 
     public void launch(ReviewView reviewView) {
-        Activity activity = mCommissioner.getActivity();
+        Activity activity = mCommissioner;
         Intent i = new Intent(activity, ActivityReviewView.class);
         ReviewViewPacker.packView(activity, reviewView, i);
         activity.startActivityForResult(i, mRequestCode);

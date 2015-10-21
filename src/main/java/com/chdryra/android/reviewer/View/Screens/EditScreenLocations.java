@@ -65,8 +65,8 @@ public class EditScreenLocations extends EditScreenReviewData<GvLocationList.GvL
         public void onAlertPositive(int requestCode, Bundle args) {
             if (requestCode == ADD_ON_MAP) {
                 LaunchableUi mapUi = FactoryLaunchable.newLaunchable(ActivityEditLocationMap.class);
-                LauncherUi.launch(mapUi, getReviewView().getFragment(), getLaunchableRequestCode(),
-                        null, new Bundle());
+                LauncherUi.launch(mapUi, getActivity(), getLaunchableRequestCode(), null,
+                        new Bundle());
             }
         }
     }
@@ -90,8 +90,7 @@ public class EditScreenLocations extends EditScreenReviewData<GvLocationList.GvL
         public void onAlertPositive(int requestCode, Bundle args) {
             if (requestCode == EDIT_ON_MAP) {
                 LaunchableUi mapUi = FactoryLaunchable.newLaunchable(ActivityEditLocationMap.class);
-                LauncherUi.launch(mapUi, getReviewView().getFragment(), getLaunchableRequestCode(),
-                        null, args);
+                LauncherUi.launch(mapUi, getActivity(), getLaunchableRequestCode(), null, args);
             }
         }
     }
