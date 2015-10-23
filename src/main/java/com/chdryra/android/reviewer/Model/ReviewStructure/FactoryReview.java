@@ -19,7 +19,6 @@ import com.chdryra.android.reviewer.Model.ReviewData.MdImageList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdLocationList;
 import com.chdryra.android.reviewer.Model.ReviewData.PublishDate;
 import com.chdryra.android.reviewer.Model.ReviewData.ReviewId;
-import com.chdryra.android.reviewer.Model.ReviewData.ReviewPublisher;
 
 import java.util.ArrayList;
 

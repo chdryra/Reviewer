@@ -36,7 +36,7 @@ public abstract class ReviewViewAdapterBasic<T extends GvData> implements Review
 
     //Overridden
     @Override
-    public void registerReviewView(ReviewView view) {
+    public void attachReviewView(ReviewView view) {
         mView = view;
     }
 

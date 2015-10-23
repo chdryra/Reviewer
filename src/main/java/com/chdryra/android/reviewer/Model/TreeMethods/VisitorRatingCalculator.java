@@ -16,7 +16,6 @@ import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
  * targeted towards rating calculations.
  */
 public interface VisitorRatingCalculator extends VisitorReviewNode {
-    //abstract methods
     //abstract
     float getRating();
 

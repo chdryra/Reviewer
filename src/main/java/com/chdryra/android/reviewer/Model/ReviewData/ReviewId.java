@@ -8,6 +8,7 @@
 
 package com.chdryra.android.reviewer.Model.ReviewData;
 
+import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewPublisher;
 import com.chdryra.android.reviewer.Model.UserData.UserId;
 
 /**

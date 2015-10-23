@@ -1,14 +1,12 @@
 package com.chdryra.android.reviewer.Adapter.ReviewAdapterModel;
 
-import android.content.Context;
-
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.MdGvConverter;
 import com.chdryra.android.reviewer.Model.ReviewData.IdableList;
 import com.chdryra.android.reviewer.Model.ReviewData.PublishDate;
-import com.chdryra.android.reviewer.Model.ReviewData.ReviewPublisher;
 import com.chdryra.android.reviewer.Model.ReviewStructure.FactoryReview;
 import com.chdryra.android.reviewer.Model.ReviewStructure.Review;
+import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewPublisher;
 import com.chdryra.android.reviewer.Model.TagsModel.TagsManager;
 import com.chdryra.android.reviewer.Model.UserData.Author;
 import com.chdryra.android.reviewer.View.Configs.ConfigGvDataUi;
@@ -37,7 +35,6 @@ import java.util.Map;
 public class ReviewBuilder {
     public static final ArrayList<GvDataType> TYPES = ConfigGvDataUi.BUILD_TYPES;
 
-    private final Context mContext;
     private final Map<GvDataType, GvDataList> mData;
     private final Map<GvDataType, DataBuilder> mDataBuilders;
 
@@ -49,8 +46,7 @@ public class ReviewBuilder {
     private TagsManager mTagsManager;
 
     //Constructors
-    public ReviewBuilder(Context context, Author author, TagsManager tagsManager) {
-        mContext = context;
+    public ReviewBuilder(Author author, TagsManager tagsManager) {
         mAuthor = author;
         mTagsManager = tagsManager;
         mChildren = new ArrayList<>();
@@ -67,10 +63,6 @@ public class ReviewBuilder {
     }
 
     //public methods
-    public Context getContext() {
-        return mContext;
-    }
-
     public Author getAuthor() {
         return mAuthor;
     }
@@ -146,7 +138,7 @@ public class ReviewBuilder {
 
     //private methods
     private boolean isValidForPublication() {
-        return DataValidator.validateString(mSubject);
+        return DataValidator.validateString(mSubject) && getData(GvTagList.GvTag.TYPE).size() > 0;
     }
 
     private GvCriterionList getCriteria() {
@@ -175,7 +167,7 @@ public class ReviewBuilder {
     private void setCriteria(GvDataList children) {
         mChildren = new ArrayList<>();
         for (GvCriterionList.GvCriterion child : (GvCriterionList) children) {
-            ReviewBuilder childBuilder = new ReviewBuilder(mContext, mAuthor, mTagsManager);
+            ReviewBuilder childBuilder = new ReviewBuilder(mAuthor, mTagsManager);
             childBuilder.setSubject(child.getSubject());
             childBuilder.setRating(child.getRating());
             mChildren.add(childBuilder);
@@ -203,8 +195,8 @@ public class ReviewBuilder {
             getParentBuilder().resetDataBuilder(mHandler.getGvDataType());
         }
 
-        public boolean add(T datum) {
-            return mHandler.add(datum, mContext);
+        public GvDataHandler.ConstraintResult add(T datum) {
+            return mHandler.add(datum);
         }
 
         public void delete(T datum) {
@@ -215,8 +207,8 @@ public class ReviewBuilder {
             mHandler.deleteAll();
         }
 
-        public void replace(T oldDatum, T newDatum) {
-            mHandler.replace(oldDatum, newDatum, mContext);
+        public GvDataHandler.ConstraintResult replace(T oldDatum, T newDatum) {
+            return mHandler.replace(oldDatum, newDatum);
         }
 
         public void setData() {

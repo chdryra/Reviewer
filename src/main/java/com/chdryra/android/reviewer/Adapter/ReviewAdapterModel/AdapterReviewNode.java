@@ -28,7 +28,7 @@ public class AdapterReviewNode<T extends GvData> extends ReviewViewAdapterBasic<
 
     //Constructors
     public AdapterReviewNode(ReviewNode node, GridDataViewer<T> viewer) {
-        mNode = node;
+        this(node);
         setViewer(viewer);
     }
 

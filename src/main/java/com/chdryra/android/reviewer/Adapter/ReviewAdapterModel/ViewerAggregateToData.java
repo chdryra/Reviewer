@@ -20,10 +20,10 @@ public class ViewerAggregateToData<T extends GvData> implements GridDataViewer<G
 
     //Constructors
     public ViewerAggregateToData(Context context,
-                                 GvCanonicalCollection<T> data,
+                                 GvCanonicalCollection<T> aggregateData,
                                  ReviewsRepository repository) {
         mContext = context;
-        mData = data;
+        mData = aggregateData;
         mRepository = repository;
     }
 

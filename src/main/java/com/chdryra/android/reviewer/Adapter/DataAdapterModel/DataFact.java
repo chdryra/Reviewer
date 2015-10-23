@@ -14,7 +14,6 @@ package com.chdryra.android.reviewer.Adapter.DataAdapterModel;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface DataFact {
-    //abstract methods
     //abstract
     String getLabel();
 

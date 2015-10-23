@@ -32,7 +32,6 @@ import com.chdryra.android.reviewer.View.ActivitiesFragments.FragmentReviewView;
 import com.chdryra.android.reviewer.View.Configs.ConfigGvDataUi;
 import com.chdryra.android.reviewer.View.Dialogs.AddLocation;
 import com.chdryra.android.reviewer.View.Dialogs.DialogGvDataAdd;
-import com.chdryra.android.reviewer.View.GvDataModel.GvBuildReviewList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvTagList;
@@ -151,7 +150,7 @@ public class BuildScreen implements ImageChooser.ImageChooserListener,
         private LocationClientConnector mLocationClient;
 
         //private methods
-        private void executeIntent(GvBuildReviewList.GvBuildReview gridCell, boolean quickDialog) {
+        private void executeIntent(ReviewBuilderAdapter.BuilderGridCell gridCell, boolean quickDialog) {
             ConfigGvDataUi.Config config = gridCell.getConfig();
             if (quickDialog && gridCell.getDataSize() == 0) {
                 showQuickDialog(config);
@@ -209,12 +208,12 @@ public class BuildScreen implements ImageChooser.ImageChooserListener,
 
         @Override
         public void onGridItemClick(GvData item, int position, View v) {
-            executeIntent((GvBuildReviewList.GvBuildReview) item, true);
+            executeIntent((ReviewBuilderAdapter.BuilderGridCell) item, true);
         }
 
         @Override
         public void onGridItemLongClick(GvData item, int position, View v) {
-            executeIntent((GvBuildReviewList.GvBuildReview) item, false);
+            executeIntent((ReviewBuilderAdapter.BuilderGridCell) item, false);
         }
     }
 

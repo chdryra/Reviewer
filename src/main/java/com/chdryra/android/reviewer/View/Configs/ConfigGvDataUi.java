@@ -21,6 +21,7 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvUrlList;
 import com.chdryra.android.reviewer.View.Launcher.FactoryLaunchable;
 import com.chdryra.android.reviewer.View.Launcher.LaunchableUi;
 import com.chdryra.android.reviewer.View.Launcher.LauncherUi;
+import com.chdryra.android.reviewer.View.Utils.RequestCodeGenerator;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -40,8 +41,8 @@ import java.util.Map;
 public final class ConfigGvDataUi {
     public static final ArrayList<GvDataType> BUILD_TYPES = new ArrayList<>();
     public static final ArrayList<GvDataType> ALL_TYPES = new ArrayList<>();
-    private static final int DATA_ADD = 2718;
-    private static final int DATA_EDIT = 2819;
+    private static final int DATA_ADD = RequestCodeGenerator.getCode("DataAdd");
+    private static final int DATA_EDIT = RequestCodeGenerator.getCode("DataEdit");
     private static ConfigGvDataUi sConfigGvDataUi;
 
     static {
@@ -81,7 +82,7 @@ public final class ConfigGvDataUi {
     }
 
     /**
-     * Encapsulates add, edit configs for a given
+     * Encapsulates add, edit, view configs for a given
      * {@link GvDataType}.
      */
     public class Config {
@@ -131,7 +132,7 @@ public final class ConfigGvDataUi {
     }
 
     /**
-     * Encapsulates a configuration for a UI that can add or edit review data of a certain
+     * Encapsulates a configuration for a UI that can add, edit, view review data of a certain
      * {@link GvDataType}. Packages together:
      * <ul>
      * <li>A {@link LaunchableUi} implementation for

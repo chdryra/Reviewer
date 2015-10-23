@@ -17,7 +17,6 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface GridDataViewer<T extends GvData> {
-    //abstract methods
     //abstract
     GvDataList<T> getGridData();
 

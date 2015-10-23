@@ -101,8 +101,8 @@ public class Administrator extends ApplicationSingleton {
     }
 
     public ReviewBuilderAdapter newReviewBuilder() {
-        ReviewBuilder builder = new ReviewBuilder(getContext(), getAuthor(), getTagsManager());
-        mReviewBuilderAdapter = new ReviewBuilderAdapter(builder);
+        ReviewBuilder builder = new ReviewBuilder(getAuthor(), getTagsManager());
+        mReviewBuilderAdapter = new ReviewBuilderAdapter(getContext(), builder);
         return mReviewBuilderAdapter;
     }
 

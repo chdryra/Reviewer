@@ -13,6 +13,7 @@ import android.graphics.Bitmap;
 import com.chdryra.android.reviewer.Model.ReviewData.IdableList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdCommentList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdCriterionList;
+import com.chdryra.android.reviewer.Model.ReviewData.MdDataList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdFactList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdImageList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdLocationList;
@@ -23,7 +24,6 @@ import com.chdryra.android.reviewer.Model.ReviewData.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewStructure.Review;
 import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
 import com.chdryra.android.reviewer.Model.TagsModel.TagsManager;
-import com.chdryra.android.reviewer.Model.TreeMethods.ChildDataGetter;
 import com.chdryra.android.reviewer.Model.UserData.Author;
 import com.chdryra.android.reviewer.View.GvDataModel.GvAuthorList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
@@ -249,10 +249,14 @@ public class MdGvConverter {
     }
 
     public static GvSubjectList convertChildSubjects(ReviewNode node) {
+        MdDataList<MdSubject> mdsubjects = new MdDataList<>(node.getId());
+        for (ReviewNode child : node.getChildren()) {
+            mdsubjects.add(child.getSubject());
+        }
+
         GvReviewId id = GvReviewId.getId(node.getId().toString());
         GvSubjectList subjects = new GvSubjectList(id);
-        ChildDataGetter getter = new ChildDataGetter(node);
-        for (MdSubject mdSubject : getter.getSubjects()) {
+        for (MdSubject mdSubject : mdsubjects) {
             GvReviewId subjectId = GvReviewId.getId(mdSubject.getReviewId().toString());
             String subject = mdSubject.get();
             subjects.add(new GvSubjectList.GvSubject(subjectId, subject));

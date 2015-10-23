@@ -10,21 +10,28 @@ package com.chdryra.android.reviewer.Adapter.ReviewAdapterModel;
 
 import android.content.Context;
 import android.os.Environment;
+import android.widget.Toast;
 
 import com.chdryra.android.mygenerallibrary.FileIncrementor;
 import com.chdryra.android.mygenerallibrary.FileIncrementorFactory;
 import com.chdryra.android.mygenerallibrary.TextUtils;
+import com.chdryra.android.mygenerallibrary.ViewHolder;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
 import com.chdryra.android.reviewer.Model.ReviewData.PublishDate;
 import com.chdryra.android.reviewer.Model.ReviewStructure.Review;
+import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.View.Configs.ConfigGvDataUi;
-import com.chdryra.android.reviewer.View.GvDataModel.GvBuildReviewList;
+import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCriterionList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
+import com.chdryra.android.reviewer.View.GvDataModel.GvDataHandler;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
+import com.chdryra.android.reviewer.View.GvDataModel.GvFactList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
+import com.chdryra.android.reviewer.View.GvDataModel.GvLocationList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvTagList;
+import com.chdryra.android.reviewer.View.GvDataModel.VhBuildReviewData;
 import com.chdryra.android.reviewer.View.Utils.ImageChooser;
 
 import java.io.File;
@@ -47,17 +54,19 @@ public class ReviewBuilderAdapter extends ReviewViewAdapterBasic {
     private static final File FILE_DIR_EXT = Environment
             .getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM);
 
+    private final Context mContext;
     private final DataBuildersMap mDataBuilders;
-    private final GvBuildReviewList mBuildUi;
+    private final BuilderGridData mBuildUi;
     private FileIncrementor mIncrementor;
     private ReviewBuilder mBuilder;
     private GvTagList.GvTag mSubjectTag;
 
     //Constructors
-    public ReviewBuilderAdapter(ReviewBuilder builder) {
+    public ReviewBuilderAdapter(Context context, ReviewBuilder builder) {
+        mContext = context;
         mBuilder = builder;
         mDataBuilders = new DataBuildersMap();
-        mBuildUi = GvBuildReviewList.newInstance(this);
+        mBuildUi = new BuilderGridData(this);
         newIncrementor();
     }
 
@@ -73,6 +82,10 @@ public class ReviewBuilderAdapter extends ReviewViewAdapterBasic {
 
     public <T extends GvData> DataBuilderAdapter<T> getDataBuilder(GvDataType<T> dataType) {
         return mDataBuilders.get(dataType);
+    }
+
+    private <T extends GvData> DataBuilderAdapter<T> newDataBuilder(GvDataType<T> dataType) {
+        return new DataBuilderAdapter<>(dataType);
     }
 
     public boolean hasTags() {
@@ -103,14 +116,9 @@ public class ReviewBuilderAdapter extends ReviewViewAdapterBasic {
         return added ? newTag : null;
     }
 
-    private <T extends GvData> DataBuilderAdapter<T> newDataBuilder(GvDataType<T> dataType) {
-        return new DataBuilderAdapter<>(dataType);
-    }
-
     private void newIncrementor() {
-        Context context = mBuilder.getContext();
         String author = mBuilder.getAuthor().getName();
-        String dir = context.getString(context.getApplicationInfo().labelRes);
+        String dir = mContext.getString(mContext.getApplicationInfo().labelRes);
         String subject = mBuilder.getSubject();
         String filename = DataValidator.validateString(subject) ? subject : author;
         mIncrementor = FileIncrementorFactory.newImageFileIncrementor(FILE_DIR_EXT, dir, filename);
@@ -178,9 +186,16 @@ public class ReviewBuilderAdapter extends ReviewViewAdapterBasic {
         }
 
         public boolean add(T datum) {
-            boolean success = mDataBuilder.add(datum);
-            this.notifyGridDataObservers();
-            return success;
+            GvDataHandler.ConstraintResult res = mDataBuilder.add(datum);
+            if(res == GvDataHandler.ConstraintResult.PASSED) {
+                this.notifyGridDataObservers();
+                return true;
+            } else {
+                if(res == GvDataHandler.ConstraintResult.HAS_DATUM) {
+                    makeToastHasItem(mContext, datum);
+                }
+                return false;
+            }
         }
 
         public void delete(T datum) {
@@ -194,8 +209,14 @@ public class ReviewBuilderAdapter extends ReviewViewAdapterBasic {
         }
 
         public void replace(T oldDatum, T newDatum) {
-            mDataBuilder.replace(oldDatum, newDatum);
-            this.notifyGridDataObservers();
+            GvDataHandler.ConstraintResult res = mDataBuilder.replace(oldDatum, newDatum);
+            if(res == GvDataHandler.ConstraintResult.PASSED) {
+                this.notifyGridDataObservers();
+            } else {
+                if(res == GvDataHandler.ConstraintResult.HAS_DATUM) {
+                    makeToastHasItem(mContext, newDatum);
+                }
+            }
         }
 
         public void setData() {
@@ -243,6 +264,13 @@ public class ReviewBuilderAdapter extends ReviewViewAdapterBasic {
         }
     }
 
+
+    private void makeToastHasItem(Context context, GvData datum) {
+        String toast = context.getResources().getString(R.string.toast_has) + " " + datum
+                .getGvDataType().getDatumName();
+        Toast.makeText(context, toast, Toast.LENGTH_SHORT).show();
+    }
+
     //To ensure type safety
     private class DataBuildersMap {
         private final Map<GvDataType<? extends GvData>, DataBuilderAdapter<? extends GvData>>
@@ -262,6 +290,78 @@ public class ReviewBuilderAdapter extends ReviewViewAdapterBasic {
         //TODO make type safe although it is really....
         private <T extends GvData> DataBuilderAdapter<T> get(GvDataType<T> type) {
             return (DataBuilderAdapter<T>) mDataBuilders.get(type);
+        }
+    }
+
+    /**
+     * Encapsulates the range of responses and displays available to each data tile depending
+     * on the underlying data and user interaction.
+     */
+    public static class BuilderGridData extends GvDataList<BuilderGridCell> {
+        private final ReviewBuilderAdapter mBuilder;
+
+        private BuilderGridData(ReviewBuilderAdapter builder) {
+            super(BuilderGridCell.TYPE, null);
+
+            mBuilder = builder;
+
+            add(GvTagList.GvTag.TYPE);
+            add(GvCriterionList.GvCriterion.TYPE);
+            add(GvImageList.GvImage.TYPE);
+            add(GvCommentList.GvComment.TYPE);
+            add(GvLocationList.GvLocation.TYPE);
+            add(GvFactList.GvFact.TYPE);
+        }
+
+        private <T extends GvData> void add(GvDataType<T> dataType) {
+            add(new BuilderGridCell<>(dataType, mBuilder));
+        }
+
+        //Overridden
+        @Override
+        public void sort() {
+        }
+    }
+
+    public static class BuilderGridCell<T extends GvData> extends GvDataList<T>
+            implements GridDataObserver {
+
+        public static GvDataType<BuilderGridCell> TYPE =
+                new GvDataType<>(BuilderGridCell.class, "create", "create");
+
+        private final ConfigGvDataUi.Config mConfig;
+        private final DataBuilderAdapter<T> mBuilder;
+
+        private BuilderGridCell(GvDataType<T> dataType, ReviewBuilderAdapter builder) {
+            super(dataType, null);
+            mConfig = ConfigGvDataUi.getConfig(dataType);
+            mBuilder = builder.getDataBuilder(dataType);
+            mBuilder.registerGridDataObserver(this);
+        }
+
+        //public methods
+        public ConfigGvDataUi.Config getConfig() {
+            return mConfig;
+        }
+
+        public int getDataSize() {
+            return mBuilder.getGridData().size();
+        }
+
+        //Overridden
+        @Override
+        public String getStringSummary() {
+            return getGvDataType().getDataName();
+        }
+
+        @Override
+        public ViewHolder getViewHolder() {
+            return new VhBuildReviewData();
+        }
+
+        @Override
+        public void onGridDataChanged() {
+            mData = mBuilder.getGridData().toArrayList();
         }
     }
 }

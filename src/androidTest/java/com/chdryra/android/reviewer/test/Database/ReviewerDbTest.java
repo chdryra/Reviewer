@@ -39,7 +39,7 @@ import com.chdryra.android.reviewer.Model.ReviewData.MdFactList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdImageList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdLocationList;
 import com.chdryra.android.reviewer.Model.ReviewData.ReviewId;
-import com.chdryra.android.reviewer.Model.ReviewData.ReviewPublisher;
+import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewPublisher;
 import com.chdryra.android.reviewer.Model.ReviewStructure.Review;
 import com.chdryra.android.reviewer.Model.TagsModel.TagsManager;
 import com.chdryra.android.reviewer.Model.UserData.Author;

@@ -8,12 +8,6 @@
 
 package com.chdryra.android.reviewer.View.GvDataModel;
 
-import android.content.Context;
-import android.widget.Toast;
-
-import com.chdryra.android.reviewer.R;
-
-
 /**
  * Created by: Rizwan Choudrey
  * On: 14/10/2014
@@ -40,10 +34,10 @@ public class GvDataHandler<T extends GvData> {
     }
 
     public GvDataHandler(GvDataList<T> data, AddConstraint<T> addConstraint,
-                         ReplaceConstraint<T> relaceConstraint) {
+                         ReplaceConstraint<T> replaceConstraint) {
         mData = data;
         mAddConstraint = addConstraint;
-        mReplaceConstraint = relaceConstraint;
+        mReplaceConstraint = replaceConstraint;
     }
 
     //public methods
@@ -55,28 +49,33 @@ public class GvDataHandler<T extends GvData> {
         return mData;
     }
 
-    public boolean add(T newDatum, Context context) {
+    public ConstraintResult add(T newDatum) {
+        ConstraintResult res;
         if (isValid(newDatum)) {
-            if (mAddConstraint.passes(mData, newDatum)) {
-                mData.add(newDatum);
-                return true;
-            } else if (context != null) {
-                makeToastHasItem(context);
-            }
+            res = mAddConstraint.passes(mData, newDatum);
+            if (res == ConstraintResult.PASSED) mData.add(newDatum);
+        } else {
+            res = ConstraintResult.INVALID_DATUM;
         }
 
-        return false;
+        return res;
     }
 
-    public void replace(T oldDatum, T newDatum, Context context) {
-        if (!oldDatum.equals(newDatum) && isValid(oldDatum) && isValid(newDatum)) {
-            if (mReplaceConstraint.passes(mData, oldDatum, newDatum)) {
+    public ConstraintResult replace(T oldDatum, T newDatum) {
+        ConstraintResult res;
+        if(oldDatum.equals(newDatum)) {
+            res = ConstraintResult.OLD_EQUALS_NEW;
+        } else if(!isValid(oldDatum) || !isValid(newDatum)) {
+            res = ConstraintResult.INVALID_DATUM;
+        } else {
+            res = mReplaceConstraint.passes(mData, oldDatum, newDatum);
+            if (res == ConstraintResult.PASSED) {
                 mData.remove(oldDatum);
                 mData.add(newDatum);
-            } else if (context != null) {
-                makeToastHasItem(context);
             }
         }
+
+        return res;
     }
 
     public void delete(T data) {
@@ -87,26 +86,37 @@ public class GvDataHandler<T extends GvData> {
         mData.removeAll();
     }
 
-    private void makeToastHasItem(Context context) {
-        String toast = context.getResources().getString(R.string.toast_has) + " " + mData
-                .getGvDataType().getDatumName();
-        Toast.makeText(context, toast, Toast.LENGTH_SHORT).show();
-    }
-
     private boolean isValid(T datum) {
         return datum != null && datum.isValidForDisplay();
     }
 
     //Classes
     public static class AddConstraint<G extends GvData> {
-        public boolean passes(GvDataList<G> data, G datum) {
-            return !data.contains(datum);
+        public ConstraintResult passes(GvDataList<G> data, G datum) {
+            if(data == null) {
+                return ConstraintResult.NULL_LIST;
+            } else {
+                return !data.contains(datum) ? ConstraintResult.PASSED : ConstraintResult.HAS_DATUM;
+            }
         }
     }
 
     public static class ReplaceConstraint<G extends GvData> {
-        public boolean passes(GvDataList<G> data, G oldDatum, G newDatum) {
-            return !data.contains(newDatum);
+        public ConstraintResult passes(GvDataList<G> data, G oldDatum, G newDatum) {
+            if(data == null) {
+                return ConstraintResult.NULL_LIST;
+            } else {
+                return !data.contains(newDatum) ? ConstraintResult.PASSED : ConstraintResult.HAS_DATUM;
+
+            }
         }
+    }
+
+    public enum ConstraintResult {
+        PASSED,
+        NULL_LIST,
+        HAS_DATUM,
+        INVALID_DATUM,
+        OLD_EQUALS_NEW
     }
 }

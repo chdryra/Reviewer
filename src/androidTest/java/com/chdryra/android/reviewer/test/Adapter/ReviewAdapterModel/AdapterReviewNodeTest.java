@@ -15,7 +15,7 @@ import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.AdapterReviewNode
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ViewerChildList;
 import com.chdryra.android.reviewer.Model.ReviewData.IdableList;
 import com.chdryra.android.reviewer.Model.ReviewData.PublishDate;
-import com.chdryra.android.reviewer.Model.ReviewData.ReviewPublisher;
+import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewPublisher;
 import com.chdryra.android.reviewer.Model.ReviewStructure.FactoryReview;
 import com.chdryra.android.reviewer.Model.ReviewStructure.Review;
 import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;

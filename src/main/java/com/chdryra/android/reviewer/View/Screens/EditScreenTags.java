@@ -1,6 +1,7 @@
 package com.chdryra.android.reviewer.View.Screens;
 
 import android.content.Context;
+import android.widget.Toast;
 
 import com.chdryra.android.mygenerallibrary.TextUtils;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
@@ -14,9 +15,15 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvTagList;
  */
 public class EditScreenTags extends EditScreenReviewData<GvTagList.GvTag> {
     private static final GvDataType<GvTagList.GvTag> TYPE = GvTagList.GvTag.TYPE;
+    private GvTagList.GvTag mCurrentSubjectTag;
 
     public EditScreenTags(Context context) {
         super(context, TYPE);
+    }
+
+    @Override
+    protected MenuDataEdit<GvTagList.GvTag> newMenuAction() {
+        return new MenuDataEditTags();
     }
 
     @Override
@@ -24,8 +31,17 @@ public class EditScreenTags extends EditScreenReviewData<GvTagList.GvTag> {
         return new SubjectEditTags();
     }
 
-    private static class SubjectEditTags extends SubjectEdit<GvTagList.GvTag> {
-        private GvTagList.GvTag mCurrentSubjectTag;
+    @Override
+    public void onGvDataDelete(GvTagList.GvTag data, int requestCode) {
+        if(data.equals(mCurrentSubjectTag)) {
+            String toast = "Cannot delete subject tag...";
+            Toast.makeText(getContext(), toast, Toast.LENGTH_SHORT).show();
+        } else {
+            super.onGvDataDelete(data, requestCode);
+        }
+    }
+
+    private class SubjectEditTags extends SubjectEdit<GvTagList.GvTag> {
 
         private SubjectEditTags() {
             super(TYPE);
@@ -46,30 +62,48 @@ public class EditScreenTags extends EditScreenReviewData<GvTagList.GvTag> {
                 mCurrentSubjectTag = new GvTagList.GvTag(subject);
             }
         }
+    }
 
-        private void adjustTagsIfNecessary() {
-            ReviewDataEditor<GvTagList.GvTag> editor = getEditor();
+    private class MenuDataEditTags extends MenuDataEdit<GvTagList.GvTag> {
+        public MenuDataEditTags() {
+            super(TYPE);
+        }
 
-            String camel = TextUtils.toCamelCase(editor.getFragmentSubject());
-            GvTagList.GvTag toAdd = new GvTagList.GvTag(camel);
-            GvTagList.GvTag toRemove = mCurrentSubjectTag;
-            if (toAdd.equals(toRemove)) return;
+        @Override
+        protected void doDoneSelected() {
+            adjustTagsIfNecessary();
+            super.doDoneSelected();
+        }
 
-            GvTagList tags = (GvTagList) editor.getGridData();
-            if(DataValidator.validateString(camel)) {
-                if(!tags.contains(toAdd)) {
-                    if(toRemove != null ) {
-                        editor.replace(toRemove, toAdd);
-                    } else {
-                        editor.add(toAdd);
-                    }
-                    mCurrentSubjectTag = toAdd;
+        @Override
+        protected void doDeleteSelected() {
+            super.doDeleteSelected();
+            mCurrentSubjectTag = null;
+            adjustTagsIfNecessary();
+        }
+    }
+
+    private void adjustTagsIfNecessary() {
+        ReviewDataEditor<GvTagList.GvTag> editor = getEditor();
+
+        String camel = TextUtils.toCamelCase(editor.getFragmentSubject());
+        GvTagList.GvTag toAdd = new GvTagList.GvTag(camel);
+        GvTagList.GvTag toRemove = mCurrentSubjectTag;
+        if(toAdd.equals(toRemove)) return;
+
+        GvTagList tags = (GvTagList) editor.getGridData();
+        if(DataValidator.validateString(camel)) {
+            if(!tags.contains(toAdd)) {
+                if(toRemove != null ) {
+                    editor.replace(toRemove, toAdd);
+                } else {
+                    editor.add(toAdd);
                 }
-            } else if(mCurrentSubjectTag != null){
-                editor.delete(toRemove);
-                mCurrentSubjectTag = null;
+                mCurrentSubjectTag = toAdd;
             }
-
+        } else if(mCurrentSubjectTag != null){
+            editor.delete(toRemove);
+            mCurrentSubjectTag = null;
         }
     }
 }

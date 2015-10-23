@@ -1,5 +1,6 @@
-package com.chdryra.android.reviewer.Model.ReviewData;
+package com.chdryra.android.reviewer.Model.ReviewStructure;
 
+import com.chdryra.android.reviewer.Model.ReviewData.PublishDate;
 import com.chdryra.android.reviewer.Model.UserData.Author;
 import com.chdryra.android.reviewer.Model.UserData.UserId;
 

@@ -75,6 +75,10 @@ public class EditScreenReviewData<T extends GvData> implements
         mEditor = new ReviewDataEditor<>(adapter, params, actions);
     }
 
+    protected Context getContext() {
+        return mContext;
+    }
+
     @Override
     public void onAlertNegative(int requestCode, Bundle args) {
         if (requestCode == mMenu.getAlertRequestCode()) {

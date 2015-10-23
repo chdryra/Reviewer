@@ -47,7 +47,7 @@ import org.jetbrains.annotations.NotNull;
  * </ul>
  * </p>
  */
-public class FragmentViewReviewLocation extends Fragment implements
+public class FragmentViewLocation extends Fragment implements
         LocationClientConnector.Locatable {
     private static final float DEFAULT_ZOOM = 15;
 

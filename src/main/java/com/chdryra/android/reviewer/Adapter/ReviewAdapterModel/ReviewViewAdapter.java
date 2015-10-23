@@ -22,13 +22,13 @@ import com.chdryra.android.reviewer.View.Screens.GridDataObservable;
 import com.chdryra.android.reviewer.View.Screens.ReviewView;
 
 /**
- * Adapter for {@link Review} model data to be presented in a {@link ReviewView} View layer via
+ * Adapter for {@link Review} model data to be presented in a {@link ReviewView} View layer using
  * {@link GvData}
  */
 public interface ReviewViewAdapter<T extends GvData> extends GridDataViewer<T>, GridDataObservable {
 
     //abstract
-    void registerReviewView(ReviewView view);
+    void attachReviewView(ReviewView view);
 
     ReviewView getReviewView();
 

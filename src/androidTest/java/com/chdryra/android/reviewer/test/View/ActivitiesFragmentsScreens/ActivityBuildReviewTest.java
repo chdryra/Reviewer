@@ -25,7 +25,6 @@ import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.View.ActivitiesFragments.ActivityReviewView;
 import com.chdryra.android.reviewer.View.ActivitiesFragments.FragmentReviewView;
 import com.chdryra.android.reviewer.View.Configs.ConfigGvDataUi;
-import com.chdryra.android.reviewer.View.GvDataModel.GvBuildReviewList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCriterionList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
@@ -55,7 +54,7 @@ public class ActivityBuildReviewTest extends ActivityReviewViewTest {
     private static final int TIMEOUT = 10000;
     private static final int AVERAGE = R.id.menu_item_average_rating;
 
-    private GvBuildReviewList mList;
+    private ReviewBuilderAdapter.BuilderGridData mList;
     private String mOriginalSubject;
     private float mOriginalRating;
     private CallBackSignaler mSignaler;
@@ -71,7 +70,7 @@ public class ActivityBuildReviewTest extends ActivityReviewViewTest {
 
     @SmallTest
     public void testLabels() {
-        for (GvBuildReviewList.GvBuildReview dataType : mList) {
+        for (ReviewBuilderAdapter.BuilderGridData.GvBuildReview dataType : mList) {
             assertTrue(mSolo.searchText(dataType.getGvDataType().getDataName()));
         }
     }
@@ -579,7 +578,7 @@ public class ActivityBuildReviewTest extends ActivityReviewViewTest {
     }
 
     private void checkBuilderChanges(GvDataType dataTypeToIgnore) {
-        for (GvBuildReviewList.GvBuildReview type : mList) {
+        for (ReviewBuilderAdapter.BuilderGridData.GvBuildReview type : mList) {
             GvDataType dataType = type.getGvDataType();
             if (dataTypeToIgnore != null && dataType == dataTypeToIgnore) continue;
             assertEquals(0, getBuilder().getDataBuilder(dataType).getGridData().size());
@@ -637,7 +636,7 @@ public class ActivityBuildReviewTest extends ActivityReviewViewTest {
     protected void setUp() {
         super.setUp();
 
-        mList = (GvBuildReviewList) mAdapter.getGridData();
+        mList = (ReviewBuilderAdapter.BuilderGridData) mAdapter.getGridData();
         mOriginalSubject = mAdapter.getSubject();
         mOriginalRating = mAdapter.getRating();
 

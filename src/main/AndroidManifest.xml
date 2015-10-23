@@ -124,7 +124,7 @@
 
         <!-- Browser choose link -->
         <activity
-            android:name=".View.ActivitiesFragments.ActivityViewReviewLocation"
+            android:name=".View.ActivitiesFragments.ActivityViewLocation"
             android:configChanges="orientation"
             android:exported="true"
             android:label="@string/activity_title_location"

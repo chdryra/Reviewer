@@ -18,7 +18,7 @@ import com.chdryra.android.reviewer.View.Launcher.LauncherUi;
 /**
  * UI Activity holding {@link FragmentEditLocationMap}: mapping and editing a location.
  */
-public class ActivityViewReviewLocation extends ActivitySingleFragment implements LaunchableUi {
+public class ActivityViewLocation extends ActivitySingleFragment implements LaunchableUi {
     private static final String TAG = "ActivityViewReviewLocation";
 
     //Overridden
@@ -34,6 +34,6 @@ public class ActivityViewReviewLocation extends ActivitySingleFragment implement
 
     @Override
     protected Fragment createFragment() {
-        return new FragmentViewReviewLocation();
+        return new FragmentViewLocation();
     }
 }

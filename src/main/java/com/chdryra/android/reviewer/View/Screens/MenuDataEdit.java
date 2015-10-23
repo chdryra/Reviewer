@@ -121,7 +121,7 @@ public class MenuDataEdit<T extends GvData> extends ReviewViewAction.MenuAction
         bindMenuActionItem(getDoneAction(), doneId, mDismissOnDone);
     }
 
-    public void doDeleteSelected() {
+    protected void doDeleteSelected() {
         if (hasDataToDelete()) {
             getBuilder().deleteAll();
             if (mDismissOnDelete) {
@@ -131,7 +131,7 @@ public class MenuDataEdit<T extends GvData> extends ReviewViewAction.MenuAction
         }
     }
 
-    private void doDoneSelected() {
+    protected void doDoneSelected() {
         mEditor.commitEdits();
     }
 

@@ -9,7 +9,7 @@
 package com.chdryra.android.reviewer.View.Configs;
 
 import com.chdryra.android.reviewer.View.ActivitiesFragments.ActivityEditUrlBrowser;
-import com.chdryra.android.reviewer.View.ActivitiesFragments.ActivityViewReviewLocation;
+import com.chdryra.android.reviewer.View.ActivitiesFragments.ActivityViewLocation;
 import com.chdryra.android.reviewer.View.Dialogs.DialogGvDataAdd;
 import com.chdryra.android.reviewer.View.Dialogs.DialogGvDataEdit;
 import com.chdryra.android.reviewer.View.Dialogs.DialogGvDataView;
@@ -53,7 +53,7 @@ public final class ConfigGvDataAddEditView {
                 new AddEditViewUis(AddFact.class, EditFact.class, ViewFact.class));
         mMap.put(GvLocationList.GvLocation.TYPE,
                 new AddEditViewUis(AddLocation.class, EditLocation.class,
-                        ActivityViewReviewLocation.class));
+                        ActivityViewLocation.class));
         mMap.put(GvUrlList.GvUrl.TYPE,
                 new AddEditViewUis(ActivityEditUrlBrowser.class, ActivityEditUrlBrowser.class,
                         ActivityEditUrlBrowser.class));
@@ -217,14 +217,6 @@ public final class ConfigGvDataAddEditView {
         }
     }
 
-    //Location
-    public static class ViewLocation extends DialogGvDataView<GvLocationList.GvLocation> {
-        //Constructors
-        public ViewLocation() {
-            super(GvLocationList.GvLocation.TYPE);
-        }
-    }
-
     //Subject
     public static class ViewSubject extends DialogGvDataView<GvSubjectList.GvSubject> {
         //Constructors
@@ -242,7 +234,7 @@ public final class ConfigGvDataAddEditView {
     }
 
     /**
-     * Packages together an add and edit UI.
+     * Packages together add, edit and view UIs.
      */
     class AddEditViewUis {
         private final Class<? extends LaunchableUi> mAdd;
@@ -250,8 +242,8 @@ public final class ConfigGvDataAddEditView {
         private final Class<? extends LaunchableUi> mView;
 
         private AddEditViewUis(Class<? extends LaunchableUi> add,
-                               Class<? extends LaunchableUi> edit, Class<? extends LaunchableUi>
-                                       view) {
+                               Class<? extends LaunchableUi> edit,
+                               Class<? extends LaunchableUi> view) {
             mAdd = add;
             mEdit = edit;
             mView = view;

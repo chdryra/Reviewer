@@ -18,7 +18,6 @@ import com.chdryra.android.reviewer.Model.ReviewData.MdCriterionList;
 import com.chdryra.android.reviewer.Model.ReviewStructure.Review;
 import com.chdryra.android.reviewer.Model.TagsModel.TagsManager;
 import com.chdryra.android.reviewer.Model.UserData.Author;
-import com.chdryra.android.reviewer.View.GvDataModel.GvBuildReviewList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCriterionList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
@@ -193,7 +192,7 @@ public class ReviewBuilderAdapterTest extends AndroidTestCase {
 
     @SmallTest
     public void testGetGridData() {
-        GvBuildReviewList list = (GvBuildReviewList) mAdapter.getGridData();
+        ReviewBuilderAdapter.BuilderGridData list = (ReviewBuilderAdapter.BuilderGridData) mAdapter.getGridData();
         assertNotNull(list);
         assertEquals(6, list.size());
     }
