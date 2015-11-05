@@ -25,15 +25,19 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
 
 public class AdapterReviewNode<T extends GvData> extends ReviewViewAdapterBasic<T> {
     private ReviewNode mNode;
+    private MdGvConverter mConverter;
 
     //Constructors
-    public AdapterReviewNode(ReviewNode node, GridDataViewer<T> viewer) {
-        this(node);
+    public AdapterReviewNode(ReviewNode node,
+                             MdGvConverter converter,
+                             GridDataViewer<T> viewer) {
+        this(node, converter);
         setViewer(viewer);
     }
 
-    protected AdapterReviewNode(ReviewNode node) {
+    public AdapterReviewNode(ReviewNode node, MdGvConverter converter) {
         mNode = node;
+        mConverter = converter;
     }
 
     //Overridden
@@ -49,6 +53,6 @@ public class AdapterReviewNode<T extends GvData> extends ReviewViewAdapterBasic<
 
     @Override
     public GvImageList getCovers() {
-        return MdGvConverter.convert(mNode.getImages().getCovers());
+        return mConverter.convert(mNode.getImages().getCovers());
     }
 }

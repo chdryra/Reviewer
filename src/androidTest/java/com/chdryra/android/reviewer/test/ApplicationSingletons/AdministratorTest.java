@@ -104,6 +104,6 @@ public class AdministratorTest extends InstrumentationTestCase {
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        mAdmin = Administrator.get(getInstrumentation().getTargetContext());
+        mAdmin = Administrator.getInstance(getInstrumentation().getTargetContext());
     }
 }

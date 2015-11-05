@@ -53,7 +53,7 @@ public class EditScreenReviewData<T extends GvData> implements
         mDataType = dataType;
 
         //Adapter
-        ReviewBuilderAdapter builder = Administrator.get(context).getReviewBuilder();
+        ReviewBuilderAdapter builder = Administrator.getInstance(context).getReviewBuilder();
         ReviewBuilderAdapter.DataBuilderAdapter<T> adapter = builder.getDataBuilder(mDataType);
 
         //Parameters

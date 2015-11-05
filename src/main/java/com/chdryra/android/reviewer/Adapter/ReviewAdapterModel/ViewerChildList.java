@@ -8,12 +8,10 @@
 
 package com.chdryra.android.reviewer.Adapter.ReviewAdapterModel;
 
-import android.content.Context;
-
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.MdGvConverter;
 import com.chdryra.android.reviewer.Model.ReviewData.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
-import com.chdryra.android.reviewer.ReviewsProviderModel.ReviewsRepository;
+import com.chdryra.android.reviewer.Model.TagsModel.TagsManager;
 import com.chdryra.android.reviewer.View.GvDataModel.GvReviewOverviewList;
 
 /**
@@ -26,26 +24,30 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvReviewOverviewList;
  * Grid data is {@link GvReviewOverviewList}.
  */
 public class ViewerChildList implements GridDataViewer<GvReviewOverviewList.GvReviewOverview> {
-    private Context mContext;
     private ReviewNode mNode;
-    private ReviewsRepository mRepository;
+    private MdGvConverter mConverter;
+    private TagsManager mTagsManager;
+    private FactoryReviewViewAdapter mAdapterFactory;
 
     //Constructors
-    public ViewerChildList(Context context, ReviewNode node, ReviewsRepository repository) {
-        mContext = context;
+    public ViewerChildList(ReviewNode node,
+                           MdGvConverter converter,
+                           TagsManager tagsManager,
+                           FactoryReviewViewAdapter adapterFactory) {
         mNode = node;
-        mRepository = repository;
+        mConverter = converter;
+        mTagsManager = tagsManager;
+        mAdapterFactory = adapterFactory;
     }
 
     private ReviewViewAdapter newNodeDataAdapter(ReviewNode node) {
-        return FactoryReviewViewAdapter.newNodeDataAdapter(mContext, node, mRepository);
+        return mAdapterFactory.newNodeDataAdapter(node);
     }
 
     //Overridden
     @Override
     public GvReviewOverviewList getGridData() {
-        return MdGvConverter.convert(mNode.getChildren(), mNode.getId(), mRepository
-                .getTagsManager());
+        return mConverter.convert(mNode.getChildren(), mNode.getId(), mTagsManager);
     }
 
     @Override

@@ -21,11 +21,13 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvReviewId;
  */
 public class ReviewsRepository implements ReviewsProvider {
     private ReviewsProvider mProvider;
+    private FactoryReview mReviewFactory;
     private Author mAuthor;
 
     //Constructors
-    public ReviewsRepository(ReviewsProvider provider, Author author) {
+    public ReviewsRepository(ReviewsProvider provider, FactoryReview reviewFactory, Author author) {
         mProvider = provider;
+        mReviewFactory = reviewFactory;
         mAuthor = author;
     }
 
@@ -56,7 +58,7 @@ public class ReviewsRepository implements ReviewsProvider {
         }
 
         ReviewPublisher publisher = new ReviewPublisher(mAuthor, PublishDate.now());
-        return FactoryReview.createMetaReview(reviews, publisher, subject);
+        return mReviewFactory.createMetaReview(reviews, publisher, subject);
     }
 
     public ReviewNode createMetaReview(GvData datum, String subject) {
@@ -64,7 +66,7 @@ public class ReviewsRepository implements ReviewsProvider {
             return createMetaReview((GvDataCollection<? extends GvData>) datum, subject);
         }
 
-        return FactoryReview.createMetaReview(getReview(datum));
+        return mReviewFactory.createMetaReview(getReview(datum));
     }
 
     public <T extends GvData> ReviewNode createFlattenedMetaReview(GvDataCollection<T> data,
@@ -73,7 +75,7 @@ public class ReviewsRepository implements ReviewsProvider {
         IdableList<Review> flattened = VisitorReviewsGetter.flatten(meta);
 
         ReviewPublisher publisher = new ReviewPublisher(mAuthor, PublishDate.now());
-        return FactoryReview.createMetaReview(flattened, publisher, subject);
+        return mReviewFactory.createMetaReview(flattened, publisher, subject);
     }
 
     //Overridden

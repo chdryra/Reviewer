@@ -1,9 +1,6 @@
 package com.chdryra.android.reviewer.Adapter.ReviewAdapterModel;
 
-import android.content.Context;
-
 import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
-import com.chdryra.android.reviewer.ReviewsProviderModel.ReviewsRepository;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataCollection;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
@@ -14,20 +11,17 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ViewerDataToData<T extends GvData> implements GridDataViewer<T> {
-    private Context mContext;
     private ReviewNode mNode;
     private GvDataCollection<T> mData;
-    private ReviewsRepository mRepository;
+    private FactoryReviewViewAdapter mAdapterFactory;
 
     //Constructors
-    public ViewerDataToData(Context context,
-                            ReviewNode node,
+    public ViewerDataToData(ReviewNode node,
                             GvDataCollection<T> data,
-                            ReviewsRepository repository) {
-        mContext = context;
+                            FactoryReviewViewAdapter adapterFactory) {
         mNode = node;
         mData = data;
-        mRepository = repository;
+        mAdapterFactory = adapterFactory;
     }
 
     //Overridden
@@ -44,8 +38,7 @@ public class ViewerDataToData<T extends GvData> implements GridDataViewer<T> {
     @Override
     public ReviewViewAdapter expandGridCell(T datum) {
         if (isExpandable(datum)) {
-            return FactoryReviewViewAdapter.newDataToDataAdapter(mContext, mNode,
-                    (GvDataCollection) datum, mRepository);
+            return mAdapterFactory.newDataToDataAdapter(mNode, (GvDataCollection) datum);
         }
 
         return null;
@@ -53,8 +46,7 @@ public class ViewerDataToData<T extends GvData> implements GridDataViewer<T> {
 
     @Override
     public ReviewViewAdapter expandGridData() {
-        ReviewNode meta = mRepository.createMetaReview(mData, mData.getStringSummary());
-        return FactoryReviewViewAdapter.newNodeDataAdapter(mContext, meta, mRepository);
+        return mAdapterFactory.newNodeDataAdapter(mData);
     }
 }
 

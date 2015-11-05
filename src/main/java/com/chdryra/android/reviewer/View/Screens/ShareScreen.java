@@ -39,7 +39,7 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvSocialPlatformList;
 public class ShareScreen {
     //Static methods
     public static ReviewView newScreen(Context context) {
-        Administrator admin = Administrator.get(context);
+        Administrator admin = Administrator.getInstance(context);
         ReviewBuilderAdapter builder = admin.getReviewBuilder();
 
         ReviewViewAdapter adapter = new ShareScreenAdapter(context, builder);
@@ -88,7 +88,7 @@ public class ShareScreen {
                 //Overridden
                 @Override
                 public void onClick(View v) {
-                    Administrator.get(activity).publishReviewBuilder();
+                    Administrator.getInstance(activity).publishReviewBuilder();
                     Intent intent = new Intent(activity, ActivityFeed.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                     parent.startActivity(intent);
@@ -135,7 +135,7 @@ public class ShareScreen {
             //Overridden
             @Override
             public GvDataList<GvSocialPlatformList.GvSocialPlatform> getGridData() {
-                return Administrator.get(mContext).getSocialPlatformList();
+                return Administrator.getInstance(mContext).getSocialPlatformList();
             }
 
             @Override

@@ -5,7 +5,7 @@ import android.test.suitebuilder.annotation.SmallTest;
 import com.chdryra.android.reviewer.View.GvDataAggregation.CanonicalCommentMode;
 import com.chdryra.android.reviewer.View.GvDataAggregation.ComparitorGvComment;
 import com.chdryra.android.reviewer.View.GvDataAggregation.DifferencePercentage;
-import com.chdryra.android.reviewer.View.GvDataAggregation.GvDataAggregater;
+import com.chdryra.android.reviewer.View.GvDataAggregation.GvDataAggregator;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCanonical;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCanonicalCollection;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
@@ -18,7 +18,7 @@ import junit.framework.TestCase;
  * On: 16/07/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class GvDataAggregaterTest extends TestCase {
+public class GvDataAggregatorTest extends TestCase {
     private static final int NUM = 100;
 
     @SmallTest
@@ -29,8 +29,8 @@ public class GvDataAggregaterTest extends TestCase {
         DifferencePercentage minDiff = new DifferencePercentage(0.85);
         CanonicalCommentMode canonical = new CanonicalCommentMode();
 
-        GvDataAggregater<GvCommentList.GvComment, DifferencePercentage, DifferencePercentage>
-                aggregater = new GvDataAggregater<>(comparitor, minDiff, canonical);
+        GvDataAggregator<GvCommentList.GvComment, DifferencePercentage, DifferencePercentage>
+                aggregater = new GvDataAggregator<>(comparitor, minDiff, canonical);
         GvCanonicalCollection<GvCommentList.GvComment> results = aggregater.aggregate(data);
 
         assertTrue(results.size() > 0);

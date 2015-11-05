@@ -1,8 +1,5 @@
 package com.chdryra.android.reviewer.Adapter.ReviewAdapterModel;
 
-import android.content.Context;
-
-import com.chdryra.android.reviewer.ReviewsProviderModel.ReviewsRepository;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCanonical;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCanonicalCollection;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
@@ -14,31 +11,26 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ViewerAggregateToData<T extends GvData> implements GridDataViewer<GvCanonical> {
-    private Context mContext;
     private GvCanonicalCollection<T> mData;
-    private ReviewsRepository mRepository;
+    private FactoryReviewViewAdapter mAdapterFactory;
+    private GridDataViewer<GvCanonical> mViewer;
 
     //Constructors
-    public ViewerAggregateToData(Context context,
-                                 GvCanonicalCollection<T> aggregateData,
-                                 ReviewsRepository repository) {
-        mContext = context;
+    public ViewerAggregateToData(GvCanonicalCollection<T> aggregateData,
+                                 FactoryReviewViewAdapter adapterFactory) {
         mData = aggregateData;
-        mRepository = repository;
+        mAdapterFactory = adapterFactory;
+        mViewer = mAdapterFactory.newDataToReviewsViewer(mData);
+    }
+
+    public FactoryReviewViewAdapter getAdapterFactory() {
+        return mAdapterFactory;
     }
 
     //protected methods
-    protected Context getContext() {
-        return mContext;
-    }
-
-    protected ReviewsRepository getRepository() {
-        return mRepository;
-    }
-
     protected ReviewViewAdapter newDataToReviewsAdapter(GvCanonical datum) {
-        return FactoryReviewViewAdapter.newDataToReviewsAdapter(mContext, datum.toList(),
-                mRepository, datum.getCanonical().getStringSummary());
+        return mAdapterFactory.newDataToReviewsAdapter(datum.toList(),
+                datum.getCanonical().getStringSummary());
     }
 
     //Overridden
@@ -58,7 +50,7 @@ public class ViewerAggregateToData<T extends GvData> implements GridDataViewer<G
         if (!isExpandable(datum)) {
             adapter = null;
         } else if (datum.size() == 1) {
-            return new ViewerDataToReviews<>(mContext, mData, mRepository).expandGridCell(datum);
+            return mViewer.expandGridCell(datum);
         } else {
             adapter = newDataToReviewsAdapter(datum);
         }
@@ -68,6 +60,6 @@ public class ViewerAggregateToData<T extends GvData> implements GridDataViewer<G
 
     @Override
     public ReviewViewAdapter expandGridData() {
-        return new ViewerDataToReviews<>(mContext, mData, mRepository).expandGridData();
+        return mViewer.expandGridData();
     }
 }

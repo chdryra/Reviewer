@@ -11,8 +11,18 @@ package com.chdryra.android.reviewer.View.ActivitiesFragments;
 import android.os.Bundle;
 
 import com.chdryra.android.mygenerallibrary.DialogAlertFragment;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.MdGvConverter;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.FactoryReviewViewAdapter;
+import com.chdryra.android.reviewer.ApplicationContexts.ApplicationContext;
+import com.chdryra.android.reviewer.ApplicationContexts.ApplicationLaunch;
 import com.chdryra.android.reviewer.ApplicationSingletons.Administrator;
+import com.chdryra.android.reviewer.Model.ReviewData.PublishDate;
+import com.chdryra.android.reviewer.Model.ReviewStructure.FactoryReview;
+import com.chdryra.android.reviewer.ReviewsProviderModel.ReviewsRepository;
+import com.chdryra.android.reviewer.View.Screens.FactoryChildListScreen;
 import com.chdryra.android.reviewer.View.Screens.FeedScreen;
+import com.chdryra.android.reviewer.View.Screens.FeedScreenGridItem;
+import com.chdryra.android.reviewer.View.Screens.FeedScreenMenu;
 import com.chdryra.android.reviewer.View.Screens.ReviewView;
 
 /**
@@ -26,8 +36,19 @@ public class ActivityFeed extends ActivityReviewView
     //Overridden
     @Override
     protected ReviewView createReviewView() {
-        mScreen = new FeedScreen(this, Administrator.get(this).getReviewsRepository());
-        return mScreen.getReviewView();
+        ApplicationContext appContext = ApplicationLaunch.defaultLaunchState(this);
+
+        Administrator admin = Administrator.getInstance(this);
+        ReviewsRepository feed = admin.getReviewsRepository();
+        FactoryReview reviewFactory = appContext.getReviewFactory();
+        MdGvConverter converter = appContext.getMdGvConverter();
+        FactoryChildListScreen childListFactory = appContext.getChildListScreenFactory();
+        FactoryReviewViewAdapter adapterFactory = appContext.getReviewViewAdapterFactory();
+        FeedScreenMenu menuAction = new FeedScreenMenu();
+
+        mScreen = new FeedScreen(new FeedScreenGridItem());
+        return mScreen.createView(feed, PublishDate.now(), reviewFactory, converter,
+                childListFactory, adapterFactory, menuAction);
     }
 
     //Overridden

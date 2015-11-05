@@ -1,9 +1,6 @@
 package com.chdryra.android.reviewer.Adapter.ReviewAdapterModel;
 
-import android.content.Context;
-
-import com.chdryra.android.reviewer.ReviewsProviderModel.ReviewsRepository;
-import com.chdryra.android.reviewer.View.GvDataAggregation.Aggregater;
+import com.chdryra.android.reviewer.View.GvDataAggregation.FactoryGvDataAggregate;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCanonical;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCanonicalCollection;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCriterionList;
@@ -14,24 +11,27 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvCriterionList;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ViewerAggregateCriteria extends ViewerAggregateToData<GvCriterionList.GvCriterion> {
+    FactoryGvDataAggregate mAggregateFactory;
+
     //Constructors
-    public ViewerAggregateCriteria(Context context,
-                                   GvCanonicalCollection<GvCriterionList.GvCriterion> data,
-                                   ReviewsRepository repository) {
-        super(context, data, repository);
+    public ViewerAggregateCriteria(GvCanonicalCollection<GvCriterionList.GvCriterion> data,
+                                   FactoryReviewViewAdapter adapterFactory,
+                                   FactoryGvDataAggregate aggregateFactory) {
+        super(data, adapterFactory);
+        mAggregateFactory = aggregateFactory;
     }
 
     //Overridden
     @Override
     protected ReviewViewAdapter newDataToReviewsAdapter(GvCanonical datum) {
-        GvCanonicalCollection<GvCriterionList.GvCriterion> newAggregate
-                = Aggregater.aggregateCriteriaMode((GvCriterionList) datum.toList());
+        GvCanonicalCollection<GvCriterionList.GvCriterion> aggregate;
+        aggregate = mAggregateFactory.getAggregate((GvCriterionList) datum.toList(), true);
 
         int diffSubject = 0;
-        GvCriterionList.GvCriterion reference = newAggregate.getItem(0).getCanonical();
+        GvCriterionList.GvCriterion reference = aggregate.getCanonical(0);
         String refSubject = reference.getSubject();
-        for (int i = 1; i < newAggregate.size(); ++i) {
-            GvCriterionList.GvCriterion next = newAggregate.getItem(i).getCanonical();
+        for (int i = 1; i < aggregate.size(); ++i) {
+            GvCriterionList.GvCriterion next = aggregate.getCanonical(i);
             String subject = next.getSubject();
             if (!refSubject.equals(subject)) diffSubject++;
         }
@@ -39,7 +39,6 @@ public class ViewerAggregateCriteria extends ViewerAggregateToData<GvCriterionLi
         String diff = diffSubject > 0 ? " + " + String.valueOf(diffSubject) : "";
         String subject = refSubject + diff;
 
-        return FactoryReviewViewAdapter.newDataToReviewsAdapter(getContext(),
-                newAggregate, getRepository(), subject);
+        return getAdapterFactory().newDataToReviewsAdapter(aggregate, subject);
     }
 }

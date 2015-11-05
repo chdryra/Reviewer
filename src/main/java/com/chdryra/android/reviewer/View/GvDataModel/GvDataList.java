@@ -170,4 +170,5 @@ public class GvDataList<T extends GvData> extends ViewHolderDataList<T> implemen
         result = 31 * result + (mReviewId != null ? mReviewId.hashCode() : 0);
         return result;
     }
+
 }

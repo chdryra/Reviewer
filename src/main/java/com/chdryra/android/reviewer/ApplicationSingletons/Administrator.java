@@ -12,13 +12,12 @@ import android.content.Context;
 
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilder;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilderAdapter;
+import com.chdryra.android.reviewer.ApplicationContexts.ApplicationContext;
 import com.chdryra.android.reviewer.Database.ReviewerDb;
 import com.chdryra.android.reviewer.Model.ReviewData.IdableList;
 import com.chdryra.android.reviewer.Model.ReviewStructure.Review;
 import com.chdryra.android.reviewer.Model.TagsModel.TagsManager;
 import com.chdryra.android.reviewer.Model.UserData.Author;
-import com.chdryra.android.reviewer.Model.UserData.UserId;
-import com.chdryra.android.reviewer.ReviewsProviderModel.ReviewerDbProvider;
 import com.chdryra.android.reviewer.ReviewsProviderModel.ReviewsRepository;
 import com.chdryra.android.reviewer.View.GvDataModel.GvSocialPlatformList;
 import com.chdryra.android.reviewer.View.Utils.ImageChooser;
@@ -44,44 +43,57 @@ import com.chdryra.android.reviewer.View.Utils.ImageChooser;
  */
 public class Administrator extends ApplicationSingleton {
     private static final String NAME = "Administrator";
-    private static final Author AUTHOR = new Author("Rizwan Choudrey", UserId
-            .generateId());
 
     private static Administrator sSingleton;
 
+    private final Author mAuthor;
     private final ReviewerDb mDatabase;
     private final ReviewsRepository mReviewsRepository;
     private final TagsManager mTagsManager;
+    private final GvSocialPlatformList mSocialPlatformList;
     private ReviewBuilderAdapter mReviewBuilderAdapter;
 
     private Administrator(Context context) {
         super(context, NAME);
-        mTagsManager = new TagsManager();
-        mDatabase = ReviewerDb.getTestDatabase(context, mTagsManager);
-        ReviewerDbProvider provider = new ReviewerDbProvider(mDatabase);
-        mDatabase.registerObserver(provider);
-        mReviewsRepository = new ReviewsRepository(provider, AUTHOR);
+        throw new IllegalStateException("Need to call createWithApplicationContext first!");
+    }
+
+    private Administrator(Context context, ApplicationContext applicationContext) {
+        super(context, NAME);
+        mAuthor = applicationContext.getAuthor();
+        mTagsManager = applicationContext.getTagsManager();
+        mDatabase = applicationContext.getDataBase();
+        mReviewsRepository = applicationContext.getReviewsRepository();
+        mSocialPlatformList = new GvSocialPlatformList(applicationContext.getSocialPlatformList());
     }
 
     //Static methods
-    public static Administrator get(Context c) {
+    public static Administrator createWithApplicationContext(Context context,
+                                                    ApplicationContext applicationContext) {
+        return new Administrator(context, applicationContext);
+    }
+
+    public static void setAsAdministrator(Administrator administrator) {
+        sSingleton = administrator;
+    }
+
+    public static Administrator getInstance(Context c) {
         sSingleton = getSingleton(sSingleton, Administrator.class, c);
         return sSingleton;
     }
 
-    public static ImageChooser getImageChooser(Context context) {
-        Administrator admin = get(context);
+    //public methods
+    public ImageChooser getImageChooser(Context context) {
         ImageChooser chooser = null;
-        if (admin.mReviewBuilderAdapter != null) {
-            chooser = admin.mReviewBuilderAdapter.getImageChooser(context);
+        if (mReviewBuilderAdapter != null) {
+            chooser = mReviewBuilderAdapter.getImageChooser(context);
         }
 
         return chooser;
     }
 
-    //public methods
     public Author getAuthor() {
-        return AUTHOR;
+        return mAuthor;
     }
 
     public ReviewsRepository getReviewsRepository() {
@@ -97,7 +109,7 @@ public class Administrator extends ApplicationSingleton {
     }
 
     public GvSocialPlatformList getSocialPlatformList() {
-        return GvSocialPlatformList.getLatest(getContext());
+        return mSocialPlatformList;
     }
 
     public ReviewBuilderAdapter newReviewBuilder() {

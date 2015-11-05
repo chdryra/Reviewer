@@ -20,6 +20,7 @@ import com.chdryra.android.reviewer.Model.ReviewData.ReviewId;
  * Email: rizwan.choudrey@gmail.com
  */
 public class GvReviewId implements GvData {
+    public static final GvReviewId NULL_ID = new GvReviewId();
     public static final GvDataType<GvReviewId> TYPE =
             new GvDataType<>(GvReviewId.class, "ReviewId");
 
@@ -37,6 +38,10 @@ public class GvReviewId implements GvData {
     private ReviewId mId;
 
     //Constructors
+    private GvReviewId() {
+
+    }
+
     public GvReviewId(GvReviewId id) {
         this(ReviewId.fromString(id.getId()));
     }

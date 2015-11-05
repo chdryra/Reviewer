@@ -8,7 +8,6 @@
 
 package com.chdryra.android.reviewer.View.GvDataModel;
 
-import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -25,23 +24,40 @@ import com.chdryra.android.reviewer.Model.Social.SocialPlatformList.SocialPlatfo
  * @see SocialPlatformList
  */
 public class GvSocialPlatformList extends GvDataList<GvSocialPlatformList.GvSocialPlatform> {
+    public static final Parcelable.Creator<GvSocialPlatformList> CREATOR = new Parcelable
+            .Creator<GvSocialPlatformList>() {
+        //Overridden
+        public GvSocialPlatformList createFromParcel(Parcel in) {
+            return new GvSocialPlatformList(in);
+        }
+
+        public GvSocialPlatformList[] newArray(int size) {
+            return new GvSocialPlatformList[size];
+        }
+    };
+
+    private SocialPlatformList mList;
+
     //Constructors
     //For testing
     public GvSocialPlatformList() {
         super(GvSocialPlatform.TYPE, null);
     }
 
-    private GvSocialPlatformList(Context context) {
+    public GvSocialPlatformList(Parcel in) {
+        super(in);
+    }
+
+    public GvSocialPlatformList(SocialPlatformList list) {
         this();
-        for (SocialPlatform platform : SocialPlatformList.getList(context)) {
+        mList = list;
+        for (SocialPlatform platform : list) {
             add(new GvSocialPlatform(platform.getName(), platform.getFollowers()));
         }
     }
 
-    //Static methods
-    public static GvSocialPlatformList getLatest(Context context) {
-        SocialPlatformList.update(context);
-        return new GvSocialPlatformList(context);
+    public void update() {
+        mList.update();
     }
 
 //Classes

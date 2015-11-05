@@ -21,5 +21,4 @@ public interface ReviewsProvider {
     void registerObserver(ReviewsProviderObserver observer);
 
     void unregisterObserver(ReviewsProviderObserver observer);
-
 }

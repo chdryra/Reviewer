@@ -112,7 +112,7 @@ public class ActivityShareReviewTest extends ActivityReviewViewTest {
     @Override
     protected void setUp() {
         mList = SocialPlatformList.getList(getInstrumentation().getTargetContext());
-        mAdmin = Administrator.get(getInstrumentation().getTargetContext());
+        mAdmin = Administrator.getInstance(getInstrumentation().getTargetContext());
         super.setUp();
     }
 }

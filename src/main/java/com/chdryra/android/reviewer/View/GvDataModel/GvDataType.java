@@ -19,6 +19,7 @@ import org.jetbrains.annotations.NotNull;
  * Email: rizwan.choudrey@gmail.com
  */
 public class GvDataType<T extends GvData> implements Parcelable {
+    public static final GvDataType NULL_TYPE = new GvDataType<>();
     public static final Parcelable.Creator<GvDataType> CREATOR = new Parcelable
             .Creator<GvDataType>() {
         //Overridden
@@ -36,11 +37,17 @@ public class GvDataType<T extends GvData> implements Parcelable {
     private final String mDataName;
 
     //Constructors
-    public GvDataType(Class<T> dataClass, String datum) {
+    private GvDataType() {
+        mDataClass = null;
+        mDatumName = "";
+        mDataName = "";
+    }
+
+    public GvDataType(@NotNull Class<T> dataClass, String datum) {
         this(dataClass, datum, datum + "s");
     }
 
-    public GvDataType(Class<T> dataClass, String datum, String data) {
+    public GvDataType(@NotNull Class<T> dataClass, String datum, String data) {
         mDataClass = dataClass;
         mDatumName = datum;
         mDataName = data;

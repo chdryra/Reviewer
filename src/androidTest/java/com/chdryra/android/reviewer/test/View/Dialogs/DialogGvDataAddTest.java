@@ -235,7 +235,7 @@ public abstract class DialogGvDataAddTest<T extends GvData> extends
         mDialog = mDialogClass.newInstance();
         mListener = new DialogAddListener<>();
 
-        mAdapter = Administrator.get(getInstrumentation().getTargetContext())
+        mAdapter = Administrator.getInstance(getInstrumentation().getTargetContext())
                 .newReviewBuilder().getDataBuilder(mDialog.getGvDataType());
 
         Intent i = new Intent();

@@ -43,11 +43,13 @@ public class ReviewBuilder {
     private ArrayList<ReviewBuilder> mChildren;
     private boolean mIsAverage = false;
     private Author mAuthor;
+    private MdGvConverter mConverter;
     private TagsManager mTagsManager;
 
     //Constructors
-    public ReviewBuilder(Author author, TagsManager tagsManager) {
+    public ReviewBuilder(Author author, MdGvConverter converter, TagsManager tagsManager) {
         mAuthor = author;
+        mConverter = converter;
         mTagsManager = tagsManager;
         mChildren = new ArrayList<>();
 
@@ -108,7 +110,7 @@ public class ReviewBuilder {
     //TODO make type safe
     public <T extends GvData> GvDataList<T> getData(GvDataType<T> dataType) {
         GvDataList data = mData.get(dataType);
-        return data != null ? MdGvConverter.copy(data) : null;
+        return data != null ? mConverter.copy(data) : null;
     }
 
     public <T extends GvData> void setData(GvDataList<T> data, boolean copy) {
@@ -117,7 +119,7 @@ public class ReviewBuilder {
             setCriteria(data);
         } else if (TYPES.contains(dataType)) {
             if (copy) {
-                mData.put(dataType, MdGvConverter.copy(data));
+                mData.put(dataType, mConverter.copy(data));
             } else {
                 mData.put(dataType, data);
             }

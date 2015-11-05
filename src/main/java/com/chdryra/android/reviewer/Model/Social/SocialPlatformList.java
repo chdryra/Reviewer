@@ -20,7 +20,6 @@ import java.util.LinkedList;
  * for finding latest number of followers on each platform.
  */
 public class SocialPlatformList implements Iterable<SocialPlatformList.SocialPlatform> {
-    private static SocialPlatformList sList;
     private final LinkedList<SocialPlatform> mPlatforms;
 
     /**
@@ -46,7 +45,7 @@ public class SocialPlatformList implements Iterable<SocialPlatformList.SocialPla
         }
     }
 
-    private SocialPlatformList(Context context) {
+    public SocialPlatformList(Context context) {
         mPlatforms = new LinkedList<>();
         Platform[] platforms = Platform.values();
         for (Platform platform : platforms) {
@@ -54,17 +53,8 @@ public class SocialPlatformList implements Iterable<SocialPlatformList.SocialPla
         }
     }
 
-    //Static methods
-    public static SocialPlatformList getList(Context context) {
-        if (sList == null) {
-            sList = new SocialPlatformList(context);
-        }
-
-        return sList;
-    }
-
-    public static void update(Context context) {
-        for (SocialPlatform platform : getList(context)) {
+    public void update() {
+        for (SocialPlatform platform : this) {
             platform.update();
         }
     }

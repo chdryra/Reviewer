@@ -80,6 +80,10 @@ public class GvCanonicalCollection<T extends GvData> implements GvDataCollection
         return mData.getItem(position);
     }
 
+    public T getCanonical(int position) {
+        return getItem(position).getCanonical();
+    }
+
     @Override
     public GvDataList<GvCanonical> toList() {
         return mData;

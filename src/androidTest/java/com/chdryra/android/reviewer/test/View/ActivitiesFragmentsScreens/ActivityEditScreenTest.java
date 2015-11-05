@@ -177,7 +177,7 @@ public abstract class ActivityEditScreenTest<T extends GvData> extends ActivityR
     }
 
     protected void setUp(boolean withData) {
-        Administrator.get(getInstrumentation().getTargetContext()).newReviewBuilder();
+        Administrator.getInstance(getInstrumentation().getTargetContext()).newReviewBuilder();
         mWithData = withData;
         super.setUp();
 

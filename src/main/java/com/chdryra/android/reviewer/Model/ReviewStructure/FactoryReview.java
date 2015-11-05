@@ -32,34 +32,28 @@ import java.util.ArrayList;
  */
 public class FactoryReview {
 
-    private static FactoryReview sFactory = null;
-
-    //Constructors
-    private FactoryReview() {
-    }
-
     //Static methods
-    public static Review createReviewUser(ReviewPublisher publisher, String subject,
+    public Review createReviewUser(ReviewPublisher publisher, String subject,
                                           float rating,
                                           Iterable<? extends DataComment> comments,
                                           Iterable<? extends DataImage> images,
                                           Iterable<? extends DataFact> facts,
                                           Iterable<? extends DataLocation> locations,
                                           IdableList<Review> criteria, boolean ratingIsAverage) {
-        return getInstance().newReviewUser(publisher, subject, rating, comments,
+        return newReviewUser(publisher, subject, rating, comments,
                 images, facts, locations, criteria, ratingIsAverage);
     }
 
-    public static Review createReviewUser(ReviewPublisher publisher, String subject,
+    public Review createReviewUser(ReviewPublisher publisher, String subject,
                                           float rating) {
-        return getInstance().newReviewUser(publisher, subject, rating);
+        return newReviewUser(publisher, subject, rating);
     }
 
-    public static ReviewTreeNode createReviewTreeNode(Review review, boolean isAverage) {
-        return getInstance().newReviewTreeNode(review, isAverage);
+    public ReviewTreeNode createReviewTreeNode(Review review, boolean isAverage) {
+        return newReviewTreeNode(review, isAverage);
     }
 
-    public static ReviewNode createMetaReview(Review review) {
+    public ReviewNode createMetaReview(Review review) {
         ReviewPublisher publisher = new ReviewPublisher(review.getAuthor(),
                 PublishDate.then(review.getPublishDate().getTime()));
         IdableList<Review> single = new IdableList<>();
@@ -68,26 +62,18 @@ public class FactoryReview {
         return createMetaReview(single, publisher, review.getSubject().get());
     }
 
-    public static ReviewNode createMetaReview(IdableList<Review> reviews,
-                                              ReviewPublisher publisher, String subject) {
-        Review meta = FactoryReview.createReviewUser(publisher, subject, 0f);
-        ReviewTreeNode parent = FactoryReview.createReviewTreeNode(meta, true);
+    public ReviewNode createMetaReview(IdableList<Review> reviews, ReviewPublisher publisher,
+                                       String subject) {
+        Review meta = createReviewUser(publisher, subject, 0f);
+        ReviewTreeNode parent = createReviewTreeNode(meta, true);
         for (Review review : reviews) {
-            parent.addChild(FactoryReview.createReviewTreeNode(review, false));
+            parent.addChild(createReviewTreeNode(review, false));
         }
 
         return parent.createTree();
     }
 
     //private methods
-    private static FactoryReview getInstance() {
-        if (sFactory == null) {
-            sFactory = new FactoryReview();
-        }
-
-        return sFactory;
-    }
-
     private Review newReviewUser(ReviewPublisher publisher, String subject, float
             rating) {
         return new ReviewUser(ReviewId.newId(publisher), publisher.getAuthor(), publisher.getDate(),

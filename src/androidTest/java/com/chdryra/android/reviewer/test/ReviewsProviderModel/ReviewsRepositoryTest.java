@@ -123,7 +123,7 @@ public class ReviewsRepositoryTest extends InstrumentationTestCase {
     protected void setUp() throws Exception {
         TestDatabase.recreateDatabase(getInstrumentation());
         mContext = getInstrumentation().getTargetContext();
-        mRepo = Administrator.get(mContext).getReviewsRepository();
+        mRepo = Administrator.getInstance(mContext).getReviewsRepository();
         assertTrue(mRepo.getReviews().size() > 0);
     }
 
