@@ -27,7 +27,8 @@ public class FactoryGridDataViewer {
         IdableList<ReviewNode> children = node.getChildren();
         if (children.size() > 1) {
             //aggregate children into meta review
-            viewer = new ViewerTreeData(node, converter, tagsManager, adapterFactory, aggregateFactory);
+            viewer = new ViewerTreeData(node, converter, tagsManager, this, adapterFactory,
+                    aggregateFactory);
         } else {
             ReviewNode toExpand = children.size() == 0 ? node : children.getItem(0);
             ReviewNode expanded = toExpand.expand();
@@ -50,13 +51,14 @@ public class FactoryGridDataViewer {
     }
 
     public <T extends GvData> GridDataViewer<GvCanonical> newAggregateToDataViewer(GvCanonicalCollection<T> data,
-                                                                         FactoryReviewViewAdapter adapterFactory) {
+                                                                         FactoryReviewViewAdapter adapterFactory,
+                                                                                   FactoryGvDataAggregate aggregateFactory) {
         GridDataViewer<GvCanonical> viewer;
         if (data.getGvDataType().equals(GvCriterionList.GvCriterion.TYPE)) {
-            viewer = new ViewerAggregateCriteria( (GvCanonicalCollection<GvCriterionList.GvCriterion>) data, adapterFactory,
-                    new FactoryGvDataAggregate());
+            viewer = new ViewerAggregateCriteria( (GvCanonicalCollection<GvCriterionList.GvCriterion>) data,
+                    this, adapterFactory, aggregateFactory);
         } else {
-            viewer = new ViewerAggregateToData<>(data, adapterFactory);
+            viewer = new ViewerAggregateToData<>(data, this, adapterFactory);
         }
 
         return viewer;

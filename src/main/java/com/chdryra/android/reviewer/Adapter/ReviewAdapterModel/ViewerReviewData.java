@@ -42,6 +42,14 @@ class ViewerReviewData implements GridDataViewer<GvData> {
         return mAdapterFactory;
     }
 
+    protected MdGvConverter getConverter() {
+        return mConverter;
+    }
+
+    protected TagsManager getTagsManager() {
+        return mTagsManager;
+    }
+
     protected GvList makeGridData() {
         Review review = mNode.getReview();
         GvReviewId id = GvReviewId.getId(review.getId().toString());

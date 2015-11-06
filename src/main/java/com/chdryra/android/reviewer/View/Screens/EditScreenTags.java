@@ -5,6 +5,7 @@ import android.widget.Toast;
 
 import com.chdryra.android.mygenerallibrary.TextUtils;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilderAdapter;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
 import com.chdryra.android.reviewer.View.GvDataModel.GvTagList;
 
@@ -17,8 +18,8 @@ public class EditScreenTags extends EditScreenReviewData<GvTagList.GvTag> {
     private static final GvDataType<GvTagList.GvTag> TYPE = GvTagList.GvTag.TYPE;
     private GvTagList.GvTag mCurrentSubjectTag;
 
-    public EditScreenTags(Context context) {
-        super(context, TYPE);
+    public EditScreenTags(Context context, ReviewBuilderAdapter builder) {
+        super(context, builder, TYPE);
     }
 
     @Override

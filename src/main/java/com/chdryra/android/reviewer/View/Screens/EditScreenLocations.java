@@ -12,6 +12,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilderAdapter;
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.View.ActivitiesFragments.ActivityEditLocationMap;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
@@ -31,8 +32,8 @@ public class EditScreenLocations extends EditScreenReviewData<GvLocationList.GvL
     private static final GvDataType<GvLocationList.GvLocation> TYPE =
             GvLocationList.GvLocation.TYPE;
 
-    public EditScreenLocations(Context context) {
-        super(context, TYPE);
+    public EditScreenLocations(Context context, ReviewBuilderAdapter builder) {
+        super(context, builder, TYPE);
     }
 
     @Override

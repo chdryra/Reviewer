@@ -40,18 +40,18 @@ public class ReviewUserDb implements Review {
     private ReviewNode mNode;
 
     //Constructors
-    public ReviewUserDb(RowReview row, ReviewerDb database) {
+    public ReviewUserDb(RowReview row, ReviewerDb database, FactoryReview reviewFactory) {
         mDatabase = database;
-        init(row);
+        init(row, reviewFactory);
     }
 
-    public ReviewUserDb(String reviewId, ReviewerDb database) {
+    public ReviewUserDb(String reviewId, ReviewerDb database, FactoryReview reviewFactory) {
         mDatabase = database;
         RowReview row = getRowWhere(ReviewerDb.REVIEWS, RowReview.REVIEW_ID, reviewId);
-        init(row);
+        init(row, reviewFactory);
     }
 
-    private void init(RowReview row) {
+    private void init(RowReview row, FactoryReview reviewFactory) {
         ContentValues values = row.getContentValues();
 
         String subject = values.getAsString(RowReview.SUBJECT);
@@ -63,7 +63,7 @@ public class ReviewUserDb implements Review {
         float rating = values.getAsFloat(RowReview.RATING);
         mRating = new MdRating(rating, 1, mReviewId);
         mRatingIsAverage = values.getAsBoolean(RowReview.IS_AVERAGE);
-        mNode = FactoryReview.createReviewTreeNode(this, false).createTree();
+        mNode = reviewFactory.createReviewTreeNode(this, false).createTree();
     }
 
     private <T extends ReviewerDbRow.TableRow> T getRowWhere(ReviewerDbTable<T> table, String

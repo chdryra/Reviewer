@@ -15,7 +15,7 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvReviewOverviewList;
  * On: 30/08/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class FactoryChildListScreen {
+public class BuilderChildListScreen {
     public ReviewView createView(ReviewNode node,
                                  MdGvConverter converter,
                                  TagsManager tagsManager,

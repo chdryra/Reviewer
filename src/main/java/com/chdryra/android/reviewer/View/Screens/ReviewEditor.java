@@ -1,8 +1,11 @@
 package com.chdryra.android.reviewer.View.Screens;
 
+import android.content.Context;
+
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilderAdapter;
 import com.chdryra.android.reviewer.View.ActivitiesFragments.FragmentReviewView;
 import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
+import com.chdryra.android.reviewer.View.Utils.ImageChooser;
 
 /**
  * Created by: Rizwan Choudrey
@@ -61,6 +64,10 @@ public class ReviewEditor extends ReviewView {
 
     public boolean hasTags() {
         return mBuilder.hasTags();
+    }
+
+    public ImageChooser getImageChooser(Context context) {
+        return mBuilder.getImageChooser(context);
     }
 
     //Overridden

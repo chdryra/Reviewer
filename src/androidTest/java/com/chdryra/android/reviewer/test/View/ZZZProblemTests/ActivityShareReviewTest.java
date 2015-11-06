@@ -20,7 +20,7 @@ import com.chdryra.android.reviewer.View.ActivitiesFragments.FragmentReviewView;
 import com.chdryra.android.reviewer.View.GvDataModel.GvSocialPlatformList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvTagList;
 import com.chdryra.android.reviewer.View.Screens.ReviewView;
-import com.chdryra.android.reviewer.View.Screens.ShareScreen;
+import com.chdryra.android.reviewer.View.Screens.BuilderShareScreen;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
 import com.chdryra.android.reviewer.test.TestUtils.RandomRating;
 import com.chdryra.android.reviewer.test.View.ActivitiesFragmentsScreens.ActivityReviewViewTest;
@@ -79,7 +79,7 @@ public class ActivityShareReviewTest extends ActivityReviewViewTest {
     //protected methods
     @Override
     protected ReviewView getView() {
-        return ShareScreen.newScreen(getInstrumentation().getTargetContext());
+        return BuilderShareScreen.createView(getInstrumentation().getTargetContext());
     }
 
     private GvSocialPlatformList.GvSocialPlatform getPlatform(int index) {

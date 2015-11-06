@@ -14,7 +14,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.chdryra.android.mygenerallibrary.ActivityResultCode;
-import com.chdryra.android.reviewer.ApplicationSingletons.Administrator;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilderAdapter;
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataPacker;
@@ -32,9 +32,11 @@ public class EditScreenImages extends EditScreenReviewData<GvImageList.GvImage> 
         ImageChooser.ImageChooserListener{
     private static final GvDataType<GvImageList.GvImage> TYPE = GvImageList.GvImage.TYPE;
     private BannerButtonAddImage mBannerButton;
+    private ImageChooser mImageChooser;
 
-    public EditScreenImages(Context context) {
-        super(context, TYPE);
+    public EditScreenImages(Context context, ReviewBuilderAdapter builder, ImageChooser imageChooser) {
+        super(context, builder, TYPE);
+        mImageChooser = imageChooser;
     }
 
     @Override
@@ -54,9 +56,8 @@ public class EditScreenImages extends EditScreenReviewData<GvImageList.GvImage> 
     }
 
     //Classes
-    private static class BannerButtonAddImage extends BannerButtonEdit<GvImageList.GvImage>
+    private class BannerButtonAddImage extends BannerButtonEdit<GvImageList.GvImage>
             implements ImageChooser.ImageChooserListener{
-        private ImageChooser mImageChooser;
 
         //Constructors
         private BannerButtonAddImage(String title) {
@@ -71,12 +72,6 @@ public class EditScreenImages extends EditScreenReviewData<GvImageList.GvImage> 
         }
 
         //Overridden
-        @Override
-        public void onAttachReviewView() {
-            super.onAttachReviewView();
-            mImageChooser = Administrator.getImageChooser(getActivity());
-        }
-
         @Override
         public void onClick(View v) {
             getActivity().startActivityForResult(mImageChooser.getChooserIntents(),

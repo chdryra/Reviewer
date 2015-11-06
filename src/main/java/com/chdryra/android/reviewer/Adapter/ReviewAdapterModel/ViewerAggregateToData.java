@@ -17,10 +17,11 @@ public class ViewerAggregateToData<T extends GvData> implements GridDataViewer<G
 
     //Constructors
     public ViewerAggregateToData(GvCanonicalCollection<T> aggregateData,
+                                 FactoryGridDataViewer viewerfactory,
                                  FactoryReviewViewAdapter adapterFactory) {
         mData = aggregateData;
         mAdapterFactory = adapterFactory;
-        mViewer = mAdapterFactory.newDataToReviewsViewer(mData);
+        mViewer = viewerfactory.newDataToReviewsViewer(mData, mAdapterFactory);
     }
 
     public FactoryReviewViewAdapter getAdapterFactory() {

@@ -15,18 +15,11 @@ import android.widget.RatingBar;
 
 import com.chdryra.android.mygenerallibrary.DialogAlertFragment;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilderAdapter;
-import com.chdryra.android.reviewer.ApplicationSingletons.Administrator;
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.View.Dialogs.DialogGvDataAdd;
 import com.chdryra.android.reviewer.View.Dialogs.DialogGvDataEdit;
-import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvCriterionList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
-import com.chdryra.android.reviewer.View.GvDataModel.GvFactList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvLocationList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvTagList;
 
 /**
  * Created by: Rizwan Choudrey
@@ -48,12 +41,12 @@ public class EditScreenReviewData<T extends GvData> implements
     private BannerButtonEdit<T> mBannerButton;
     private GridItemEdit<T> mGriditem;
 
-    public EditScreenReviewData(Context context, GvDataType<T> dataType) {
+    public EditScreenReviewData(Context context, ReviewBuilderAdapter builder,
+                                GvDataType<T> dataType) {
         mContext = context;
         mDataType = dataType;
 
         //Adapter
-        ReviewBuilderAdapter builder = Administrator.getInstance(context).getReviewBuilder();
         ReviewBuilderAdapter.DataBuilderAdapter<T> adapter = builder.getDataBuilder(mDataType);
 
         //Parameters
@@ -142,28 +135,6 @@ public class EditScreenReviewData<T extends GvData> implements
         } else if(requestCode == mGriditem.getLaunchableRequestCode()) {
             mGriditem.onActivityResult(requestCode, resultCode, data);
         }
-    }
-
-    //Static methods
-    public static <T extends GvData> EditScreenReviewData<T> newScreen(Context context, GvDataType<T> dataType) {
-        EditScreenReviewData screen;
-        if (dataType.equals(GvCommentList.GvComment.TYPE)) {
-            screen = new EditScreenComments(context);
-        } else if (dataType.equals(GvCriterionList.GvCriterion.TYPE)) {
-            screen = new EditScreenCriteria(context);
-        } else if (dataType.equals(GvFactList.GvFact.TYPE)) {
-            screen = new EditScreenFacts(context);
-        } else if (dataType.equals(GvImageList.GvImage.TYPE)) {
-            screen = new EditScreenImages(context);
-        } else if (dataType.equals(GvLocationList.GvLocation.TYPE)) {
-            screen = new EditScreenLocations(context);
-        } else if (dataType.equals(GvTagList.GvTag.TYPE)) {
-            screen = new EditScreenTags(context);
-        } else {
-            screen = new EditScreenReviewData<>(context, dataType);
-        }
-
-        return screen;
     }
 
     //protected methods

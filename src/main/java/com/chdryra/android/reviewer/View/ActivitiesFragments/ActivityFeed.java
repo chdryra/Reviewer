@@ -19,7 +19,7 @@ import com.chdryra.android.reviewer.ApplicationSingletons.Administrator;
 import com.chdryra.android.reviewer.Model.ReviewData.PublishDate;
 import com.chdryra.android.reviewer.Model.ReviewStructure.FactoryReview;
 import com.chdryra.android.reviewer.ReviewsProviderModel.ReviewsRepository;
-import com.chdryra.android.reviewer.View.Screens.FactoryChildListScreen;
+import com.chdryra.android.reviewer.View.Screens.BuilderChildListScreen;
 import com.chdryra.android.reviewer.View.Screens.FeedScreen;
 import com.chdryra.android.reviewer.View.Screens.FeedScreenGridItem;
 import com.chdryra.android.reviewer.View.Screens.FeedScreenMenu;
@@ -30,19 +30,18 @@ import com.chdryra.android.reviewer.View.Screens.ReviewView;
  */
 public class ActivityFeed extends ActivityReviewView
         implements DialogAlertFragment.DialogAlertListener{
-
     private FeedScreen mScreen;
 
     //Overridden
     @Override
     protected ReviewView createReviewView() {
-        ApplicationContext appContext = ApplicationLaunch.defaultLaunchState(this);
+        ApplicationContext appContext = ApplicationLaunch.initialiseLaunchState(this);
 
         Administrator admin = Administrator.getInstance(this);
         ReviewsRepository feed = admin.getReviewsRepository();
         FactoryReview reviewFactory = appContext.getReviewFactory();
         MdGvConverter converter = appContext.getMdGvConverter();
-        FactoryChildListScreen childListFactory = appContext.getChildListScreenFactory();
+        BuilderChildListScreen childListFactory = appContext.getChildListScreenFactory();
         FactoryReviewViewAdapter adapterFactory = appContext.getReviewViewAdapterFactory();
         FeedScreenMenu menuAction = new FeedScreenMenu();
 

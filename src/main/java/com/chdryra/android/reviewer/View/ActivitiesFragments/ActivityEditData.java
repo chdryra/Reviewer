@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.chdryra.android.mygenerallibrary.DialogAlertFragment;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilderAdapter;
+import com.chdryra.android.reviewer.ApplicationSingletons.Administrator;
 import com.chdryra.android.reviewer.View.Dialogs.DialogGvDataAdd;
 import com.chdryra.android.reviewer.View.Dialogs.DialogGvDataEdit;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
@@ -12,6 +14,7 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
 import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
 import com.chdryra.android.reviewer.View.Screens.EditScreenImages;
 import com.chdryra.android.reviewer.View.Screens.EditScreenReviewData;
+import com.chdryra.android.reviewer.View.Screens.FactoryEditScreen;
 import com.chdryra.android.reviewer.View.Screens.ReviewView;
 import com.chdryra.android.reviewer.View.Utils.ImageChooser;
 
@@ -54,7 +57,9 @@ public class ActivityEditData<T extends GvData> extends ActivityReviewView imple
 
     @Override
     protected ReviewView createReviewView() {
-        mScreen = EditScreenReviewData.newScreen(this, mDataType);
+        ReviewBuilderAdapter builder = Administrator.getInstance(this).getReviewBuilder();
+        FactoryEditScreen factory = new FactoryEditScreen(this, builder);
+        mScreen = factory.newScreen(mDataType);
         return mScreen.getEditor();
     }
 

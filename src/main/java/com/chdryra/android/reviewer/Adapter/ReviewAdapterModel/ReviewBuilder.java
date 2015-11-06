@@ -43,18 +43,23 @@ public class ReviewBuilder {
     private ArrayList<ReviewBuilder> mChildren;
     private boolean mIsAverage = false;
     private Author mAuthor;
+
     private MdGvConverter mConverter;
     private TagsManager mTagsManager;
+    private FactoryReview mReviewFactory;
 
     //Constructors
-    public ReviewBuilder(Author author, MdGvConverter converter, TagsManager tagsManager) {
+    public ReviewBuilder(Author author, MdGvConverter converter, TagsManager tagsManager,
+                         FactoryReview reviewFactory) {
         mAuthor = author;
         mConverter = converter;
         mTagsManager = tagsManager;
-        mChildren = new ArrayList<>();
+        mReviewFactory = reviewFactory;
 
+        mChildren = new ArrayList<>();
         mData = new HashMap<>();
         mDataBuilders = new HashMap<>();
+
         for (GvDataType dataType : TYPES) {
             mData.put(dataType, FactoryGvData.newDataList(dataType));
             mDataBuilders.put(dataType, newDataBuilder(dataType));
@@ -153,7 +158,7 @@ public class ReviewBuilder {
             criteria.add(child.assembleReview(publisher));
         }
 
-        return FactoryReview.createReviewUser(publisher, getSubject(), getRating(),
+        return mReviewFactory.createReviewUser(publisher, getSubject(), getRating(),
                 getData(GvCommentList.GvComment.TYPE),
                 getData(GvImageList.GvImage.TYPE),
                 getData(GvFactList.GvFact.TYPE),
@@ -163,18 +168,19 @@ public class ReviewBuilder {
 
     //TODO make type safe
     private <T extends GvData> DataBuilder<T> newDataBuilder(GvDataType<T> dataType) {
-        return new DataBuilder<>(MdGvConverter.copy(getData(dataType)));
+        return new DataBuilder<>(mConverter.copy(getData(dataType)));
     }
 
     private void setCriteria(GvDataList children) {
         mChildren = new ArrayList<>();
         for (GvCriterionList.GvCriterion child : (GvCriterionList) children) {
-            ReviewBuilder childBuilder = new ReviewBuilder(mAuthor, mTagsManager);
+            ReviewBuilder childBuilder =
+                    new ReviewBuilder(mAuthor, mConverter, mTagsManager, mReviewFactory);
             childBuilder.setSubject(child.getSubject());
             childBuilder.setRating(child.getRating());
             mChildren.add(childBuilder);
         }
-        mData.put(GvCriterionList.GvCriterion.TYPE, MdGvConverter.copy(children));
+        mData.put(GvCriterionList.GvCriterion.TYPE, mConverter.copy(children));
     }
 
     public class DataBuilder<T extends GvData> {

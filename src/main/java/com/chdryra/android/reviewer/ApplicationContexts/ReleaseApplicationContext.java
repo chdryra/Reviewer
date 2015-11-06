@@ -14,16 +14,17 @@ import com.chdryra.android.reviewer.Model.UserData.UserId;
 import com.chdryra.android.reviewer.ReviewsProviderModel.ReviewerDbProvider;
 import com.chdryra.android.reviewer.ReviewsProviderModel.ReviewsRepository;
 import com.chdryra.android.reviewer.View.GvDataAggregation.FactoryGvDataAggregate;
-import com.chdryra.android.reviewer.View.Screens.FactoryChildListScreen;
+import com.chdryra.android.reviewer.View.Screens.BuilderChildListScreen;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 05/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class DefaultApplicationContext implements ApplicationContext {
+public class ReleaseApplicationContext implements ApplicationContext {
     private static final Author AUTHOR = new Author("Rizwan Choudrey", UserId
             .generateId());
+    private static final String DATABASE_NAME = "Reviewer.db";
 
     private FactoryReview mFactoryReview;
     private TagsManager mTagsManager;
@@ -31,22 +32,22 @@ public class DefaultApplicationContext implements ApplicationContext {
     private ReviewsRepository mReviewsRepository;
     private MdGvConverter mMdGvConverter;
     private SocialPlatformList mSocialPlatforms;
-    private FactoryChildListScreen mFactoryChildListScreen;
+    private BuilderChildListScreen mBuilderChildListScreen;
     private FactoryReviewViewAdapter mFactoryReviewViewAdapter;
 
-    public DefaultApplicationContext(Context context) {
-        mFactoryReview = new FactoryReview();
+    public ReleaseApplicationContext(Context context) {
+        mMdGvConverter = new MdGvConverter();
+        mFactoryReview = new FactoryReview(mMdGvConverter);
         mTagsManager = new TagsManager();
-        mReviewerDb = ReviewerDb.getTestDatabase(context, mTagsManager);
+        mReviewerDb = new ReviewerDb(context, DATABASE_NAME, mTagsManager, mFactoryReview);
         ReviewerDbProvider provider = new ReviewerDbProvider(mReviewerDb);
         mReviewerDb.registerObserver(provider);
         mReviewsRepository = new ReviewsRepository(provider, mFactoryReview, AUTHOR);
-        mMdGvConverter = new MdGvConverter();
         mSocialPlatforms = new SocialPlatformList(context);
-        mFactoryChildListScreen = new FactoryChildListScreen();
+        mBuilderChildListScreen = new BuilderChildListScreen();
         FactoryGridDataViewer viewerFactory = new FactoryGridDataViewer();
         FactoryGvDataAggregate aggregateFactory = new FactoryGvDataAggregate();
-        mFactoryReviewViewAdapter = new FactoryReviewViewAdapter(mFactoryChildListScreen,
+        mFactoryReviewViewAdapter = new FactoryReviewViewAdapter(mBuilderChildListScreen,
                 viewerFactory, aggregateFactory, mReviewsRepository, mMdGvConverter);
     }
 
@@ -86,8 +87,8 @@ public class DefaultApplicationContext implements ApplicationContext {
     }
 
     @Override
-    public FactoryChildListScreen getChildListScreenFactory() {
-        return mFactoryChildListScreen;
+    public BuilderChildListScreen getChildListScreenFactory() {
+        return mBuilderChildListScreen;
     }
 
     @Override

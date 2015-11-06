@@ -13,22 +13,30 @@ import android.graphics.Bitmap;
 import com.chdryra.android.reviewer.Model.ReviewData.IdableList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdCommentList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdCriterionList;
+import com.chdryra.android.reviewer.Model.ReviewData.MdDataList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdFactList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdImageList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdLocationList;
+import com.chdryra.android.reviewer.Model.ReviewData.MdSubject;
 import com.chdryra.android.reviewer.Model.ReviewData.MdUrlList;
+import com.chdryra.android.reviewer.Model.ReviewData.PublishDate;
 import com.chdryra.android.reviewer.Model.ReviewData.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewStructure.Review;
+import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
 import com.chdryra.android.reviewer.Model.TagsModel.TagsManager;
+import com.chdryra.android.reviewer.Model.UserData.Author;
+import com.chdryra.android.reviewer.View.GvDataModel.GvAuthorList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCriterionList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
+import com.chdryra.android.reviewer.View.GvDataModel.GvDateList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvFactList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvLocationList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvReviewId;
 import com.chdryra.android.reviewer.View.GvDataModel.GvReviewOverviewList;
+import com.chdryra.android.reviewer.View.GvDataModel.GvSubjectList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvTagList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvUrlList;
 
@@ -195,6 +203,49 @@ public class MdGvConverter {
         return new GvReviewOverviewList.GvReviewOverview(id, review.getId().toString(),
                 review.getAuthor(), review.getPublishDate().getDate(), review.getSubject().get(),
                 review.getRating().getValue(), cover, headline, locationNames, tags);
+    }
+
+    public GvSubjectList convertSubjects(IdableList<ReviewNode> nodes, ReviewId holder) {
+        MdDataList<MdSubject> mdsubjects = new MdDataList<>(holder);
+        for (ReviewNode node : nodes) {
+            mdsubjects.add(node.getSubject());
+        }
+
+        GvReviewId id = GvReviewId.getId(holder.toString());
+        GvSubjectList subjects = new GvSubjectList(id);
+        for (MdSubject mdSubject : mdsubjects) {
+            GvReviewId subjectId = GvReviewId.getId(mdSubject.getReviewId().toString());
+            String subject = mdSubject.get();
+            subjects.add(new GvSubjectList.GvSubject(subjectId, subject));
+        }
+
+        return subjects;
+    }
+
+    public GvAuthorList convertAuthors(IdableList<ReviewNode> nodes, ReviewId holder) {
+        GvReviewId id = GvReviewId.getId(holder.toString());
+        GvAuthorList authors = new GvAuthorList(id);
+        for (ReviewNode node : nodes) {
+            GvReviewId childId = GvReviewId.getId(node.getId().toString());
+            Author author = node.getAuthor();
+            authors.add(new GvAuthorList.GvAuthor(childId, author.getName(),
+                    author.getUserId().toString()));
+
+        }
+
+        return authors;
+    }
+
+    public GvDateList convertPublishDates(IdableList<ReviewNode> nodes, ReviewId holder) {
+        GvReviewId id = GvReviewId.getId(holder.toString());
+        GvDateList list = new GvDateList(id);
+        for (ReviewNode node : nodes) {
+            GvReviewId childId = GvReviewId.getId(node.getId().toString());
+            PublishDate date = node.getPublishDate();
+            list.add(new GvDateList.GvDate(childId, date.getDate()));
+        }
+
+        return list;
     }
 
     public GvDataList copy(GvDataList data) {

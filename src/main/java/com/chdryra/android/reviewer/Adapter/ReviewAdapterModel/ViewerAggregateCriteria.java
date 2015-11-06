@@ -15,9 +15,10 @@ public class ViewerAggregateCriteria extends ViewerAggregateToData<GvCriterionLi
 
     //Constructors
     public ViewerAggregateCriteria(GvCanonicalCollection<GvCriterionList.GvCriterion> data,
+                                   FactoryGridDataViewer viewerFactory,
                                    FactoryReviewViewAdapter adapterFactory,
                                    FactoryGvDataAggregate aggregateFactory) {
-        super(data, adapterFactory);
+        super(data, viewerFactory, adapterFactory);
         mAggregateFactory = aggregateFactory;
     }
 

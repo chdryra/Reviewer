@@ -8,27 +8,30 @@
 
 package com.chdryra.android.reviewer.ApplicationSingletons;
 
+import android.app.Activity;
 import android.content.Context;
+import android.os.Bundle;
 
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.FactoryReviewViewAdapter;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilder;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilderAdapter;
 import com.chdryra.android.reviewer.ApplicationContexts.ApplicationContext;
 import com.chdryra.android.reviewer.Database.ReviewerDb;
-import com.chdryra.android.reviewer.Model.ReviewData.IdableList;
 import com.chdryra.android.reviewer.Model.ReviewStructure.Review;
-import com.chdryra.android.reviewer.Model.TagsModel.TagsManager;
-import com.chdryra.android.reviewer.Model.UserData.Author;
+import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
+import com.chdryra.android.reviewer.Model.Social.SocialPlatformList;
 import com.chdryra.android.reviewer.ReviewsProviderModel.ReviewsRepository;
-import com.chdryra.android.reviewer.View.GvDataModel.GvSocialPlatformList;
-import com.chdryra.android.reviewer.View.Utils.ImageChooser;
+import com.chdryra.android.reviewer.View.GvDataModel.GvReviewId;
+import com.chdryra.android.reviewer.View.Launcher.LaunchableUi;
+import com.chdryra.android.reviewer.View.Launcher.LauncherUi;
+import com.chdryra.android.reviewer.View.Utils.RequestCodeGenerator;
 
 /**
- * Singleton that controls app-wide duties. Holds 4 main objects:
+ * Singleton that controls app-wide duties. Holds 3 main objects:
  * <ul>
- * <li>Author: author credentials</li>
- * <li>Published reviews: collection of published reviews to display on feed activity</li>
- * <li>Review adapter: controls editing of new reviews</li>
- * <li>Context: application context for retrieving app data</li>
+ * <li>ApplicationContext: for app-wide dependency injection</li>
+ * <li>ReviewerDb: on-phone cache</li>
+ * <li>ReviewBuilderAdapter: controls editing of new reviews</li>
  * </ul>
  * <p/>
  * Also manages:
@@ -36,21 +39,17 @@ import com.chdryra.android.reviewer.View.Utils.ImageChooser;
  * <li>The creation of new reviews</li>
  * <li>Publishing of reviews</li>
  * <li>List of social platforms</li>
+ * <li>Launching of reviews form repository</li>
  * </ul>
  *
- * @see Author
- * @see IdableList
  */
 public class Administrator extends ApplicationSingleton {
     private static final String NAME = "Administrator";
 
     private static Administrator sSingleton;
 
-    private final Author mAuthor;
+    private final ApplicationContext mApplicationContext;
     private final ReviewerDb mDatabase;
-    private final ReviewsRepository mReviewsRepository;
-    private final TagsManager mTagsManager;
-    private final GvSocialPlatformList mSocialPlatformList;
     private ReviewBuilderAdapter mReviewBuilderAdapter;
 
     private Administrator(Context context) {
@@ -60,16 +59,14 @@ public class Administrator extends ApplicationSingleton {
 
     private Administrator(Context context, ApplicationContext applicationContext) {
         super(context, NAME);
-        mAuthor = applicationContext.getAuthor();
-        mTagsManager = applicationContext.getTagsManager();
+        mApplicationContext = applicationContext;
         mDatabase = applicationContext.getDataBase();
-        mReviewsRepository = applicationContext.getReviewsRepository();
-        mSocialPlatformList = new GvSocialPlatformList(applicationContext.getSocialPlatformList());
     }
 
     //Static methods
     public static Administrator createWithApplicationContext(Context context,
-                                                    ApplicationContext applicationContext) {
+                                                             ApplicationContext
+                                                                     applicationContext) {
         return new Administrator(context, applicationContext);
     }
 
@@ -83,37 +80,22 @@ public class Administrator extends ApplicationSingleton {
     }
 
     //public methods
-    public ImageChooser getImageChooser(Context context) {
-        ImageChooser chooser = null;
-        if (mReviewBuilderAdapter != null) {
-            chooser = mReviewBuilderAdapter.getImageChooser(context);
-        }
-
-        return chooser;
-    }
-
-    public Author getAuthor() {
-        return mAuthor;
-    }
-
     public ReviewsRepository getReviewsRepository() {
-        return mReviewsRepository;
-    }
-
-    public TagsManager getTagsManager() {
-        return mTagsManager;
+        return mApplicationContext.getReviewsRepository();
     }
 
     public ReviewBuilderAdapter getReviewBuilder() {
         return mReviewBuilderAdapter;
     }
 
-    public GvSocialPlatformList getSocialPlatformList() {
-        return mSocialPlatformList;
+    public SocialPlatformList getSocialPlatformList() {
+        return mApplicationContext.getSocialPlatformList();
     }
 
     public ReviewBuilderAdapter newReviewBuilder() {
-        ReviewBuilder builder = new ReviewBuilder(getAuthor(), getTagsManager());
+        ReviewBuilder builder = new ReviewBuilder(mApplicationContext.getAuthor(),
+                mApplicationContext.getMdGvConverter(), mApplicationContext.getTagsManager(),
+                mApplicationContext.getReviewFactory());
         mReviewBuilderAdapter = new ReviewBuilderAdapter(getContext(), builder);
         return mReviewBuilderAdapter;
     }
@@ -126,5 +108,16 @@ public class Administrator extends ApplicationSingleton {
 
     public void deleteFromAuthorsFeed(String reviewId) {
         mDatabase.deleteReviewFromDb(reviewId);
+    }
+
+    public void launchReview(Activity activity, GvReviewId id) {
+        ReviewsRepository repo = getReviewsRepository();
+        Review review = repo.getReview(id);
+        ReviewNode reviewNode = mApplicationContext.getReviewFactory().createMetaReview(review);
+        FactoryReviewViewAdapter adapterFactory = mApplicationContext.getReviewViewAdapterFactory();
+        LaunchableUi ui = adapterFactory.newReviewsListAdapter(reviewNode).getReviewView();
+        String tag = review.getSubject().get();
+        int requestCode = RequestCodeGenerator.getCode(tag);
+        LauncherUi.launch(ui, activity, requestCode, tag, new Bundle());
     }
 }

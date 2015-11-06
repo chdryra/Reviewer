@@ -11,6 +11,7 @@ package com.chdryra.android.reviewer.View.Screens;
 import android.content.Context;
 import android.view.MenuItem;
 
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilderAdapter;
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCriterionList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
@@ -24,8 +25,8 @@ public class EditScreenCriteria extends EditScreenReviewData<GvCriterionList.GvC
     private static final GvDataType<GvCriterionList.GvCriterion> TYPE =
             GvCriterionList.GvCriterion.TYPE;
 
-    public EditScreenCriteria(Context context) {
-        super(context, TYPE);
+    public EditScreenCriteria(Context context, ReviewBuilderAdapter builder) {
+        super(context, builder, TYPE);
     }
 
     @Override

@@ -26,8 +26,8 @@ import com.chdryra.android.reviewer.Model.ReviewData.MdImageList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdLocationList;
 import com.chdryra.android.reviewer.Model.ReviewData.PublishDate;
 import com.chdryra.android.reviewer.Model.ReviewData.ReviewId;
+import com.chdryra.android.reviewer.Model.ReviewStructure.FactoryReview;
 import com.chdryra.android.reviewer.Model.ReviewStructure.Review;
-import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewUser;
 import com.chdryra.android.reviewer.Model.TagsModel.TagsManager;
 import com.chdryra.android.reviewer.Model.UserData.Author;
 
@@ -58,36 +58,29 @@ public class ReviewerDb {
     public static final String COLUMN_NAME_REVIEW_ID =
             ReviewerDbContract.NAME_REVIEW_ID;
     private static final String TAG = "ReviewerDb";
-    private static final String DATABASE_NAME = "Reviewer.db";
     private static final int VERSION_NUMBER = 1;
-    ArrayList<ReviewerDbObserver> mObservers;
+    
+    private ArrayList<ReviewerDbObserver> mObservers;
     private SQLiteOpenHelper mHelper;
     private String mDatabaseName;
     private TagsManager mTagsManager;
-
+    private FactoryReview mReviewFactory;
+    
     public interface ReviewerDbObserver {
-        //abstract methods
         //abstract
         void onReviewAdded(Review review);
 
         void onReviewDeleted(String reviewId);
     }
 
-    private ReviewerDb(Context context, String databaseName, TagsManager tagsManager) {
+    public ReviewerDb(Context context, String databaseName, TagsManager tagsManager, 
+                       FactoryReview reviewFactory) {
         mDatabaseName = databaseName;
         DbContract contract = ReviewerDbContract.getContract();
         mHelper = new DbHelper(context, new DbManager(contract), mDatabaseName, VERSION_NUMBER);
         mTagsManager = tagsManager;
+        mReviewFactory = reviewFactory;
         mObservers = new ArrayList<>();
-    }
-
-    //Static methods
-    public static ReviewerDb getDatabase(Context context, TagsManager tagsManager) {
-        return new ReviewerDb(context, DATABASE_NAME, tagsManager);
-    }
-
-    public static ReviewerDb getTestDatabase(Context context, TagsManager tagsManager) {
-        return new ReviewerDb(context, "Test" + DATABASE_NAME, tagsManager);
     }
 
     //public methods
@@ -244,8 +237,10 @@ public class ReviewerDb {
         IdableList<Review> critList = loadReviewsFromDbWhere(db, RowReview.PARENT_ID, reviewId);
         boolean isAverage = values.getAsBoolean(RowReview.IS_AVERAGE);
 
-        ReviewUser review = new ReviewUser(id, author, publishDate, subject, rating, comments,
-                images, facts, locations, critList, isAverage);
+        ReviewerDbReview reviewDb = new ReviewerDbReview(id, author, publishDate, subject, rating,
+                comments, images, facts, locations, critList, isAverage);
+
+        Review review = mReviewFactory.createReviewUser(reviewDb);
 
         setTags(id, db);
 
@@ -506,6 +501,81 @@ public class ReviewerDb {
             throw new RuntimeException("Couldn't access class " + listClass.getName(), e);
         } catch (InvocationTargetException e) {
             throw new RuntimeException("Couldn't invoke class " + listClass.getName(), e);
+        }
+    }
+    
+    public class ReviewerDbReview {
+        private final ReviewId mId;
+        private final Author mAuthor;
+        private final PublishDate mPublishDate;
+        private final String mSubject;
+        private final float mRating;
+        private final MdCommentList mComments;
+        private final MdImageList mImages;
+        private final MdFactList mFacts;
+        private final MdLocationList mLocations;
+        private final IdableList<Review> mCritList;
+        private final boolean mIsAverage;
+        
+        private  ReviewerDbReview(ReviewId id, Author author, PublishDate publishDate, 
+                                  String subject, float rating, MdCommentList comments,
+                                  MdImageList images, MdFactList facts, MdLocationList locations, 
+                                  IdableList<Review> critList, boolean isAverage) {
+            mId = id;
+            mAuthor = author;
+            mPublishDate = publishDate;
+            mSubject = subject;
+            mRating = rating;
+            mComments = comments;
+            mImages = images;
+            mFacts = facts;
+            mLocations = locations;
+            mCritList = critList;
+            mIsAverage = isAverage;
+        }
+
+        public ReviewId getId() {
+            return mId;
+        }
+
+        public Author getAuthor() {
+            return mAuthor;
+        }
+
+        public PublishDate getPublishDate() {
+            return mPublishDate;
+        }
+
+        public String getSubject() {
+            return mSubject;
+        }
+
+        public float getRating() {
+            return mRating;
+        }
+
+        public MdCommentList getComments() {
+            return mComments;
+        }
+
+        public MdImageList getImages() {
+            return mImages;
+        }
+
+        public MdFactList getFacts() {
+            return mFacts;
+        }
+
+        public MdLocationList getLocations() {
+            return mLocations;
+        }
+
+        public IdableList<Review> getCritList() {
+            return mCritList;
+        }
+
+        public boolean isAverage() {
+            return mIsAverage;
         }
     }
 }

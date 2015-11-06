@@ -8,11 +8,6 @@
 
 package com.chdryra.android.reviewer.Model.ReviewStructure;
 
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataComment;
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataFact;
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataImage;
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataLocation;
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.MdGvConverter;
 import com.chdryra.android.reviewer.Model.ReviewData.IdableList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdCommentList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdCriterionList;
@@ -24,6 +19,8 @@ import com.chdryra.android.reviewer.Model.ReviewData.MdSubject;
 import com.chdryra.android.reviewer.Model.ReviewData.PublishDate;
 import com.chdryra.android.reviewer.Model.ReviewData.ReviewId;
 import com.chdryra.android.reviewer.Model.UserData.Author;
+
+import junit.framework.Assert;
 
 /**
  * Created by: Rizwan Choudrey
@@ -52,34 +49,38 @@ public class ReviewUser implements Review {
 
     //Constructors
     public ReviewUser(ReviewId id, Author author, PublishDate publishDate, String subject, float
-            rating,
-                      Iterable<? extends DataComment> comments,
-                      Iterable<? extends DataImage> images,
-                      Iterable<? extends DataFact> facts,
-                      Iterable<? extends DataLocation> locations,
+            rating, MdCommentList comments,
+                      MdImageList images,
+                      MdFactList facts,
+                      MdLocationList locations,
                       IdableList<Review> criteria,
-                      boolean ratingIsAverage) {
+                      boolean ratingIsAverage,
+                      FactoryReview reviewFactory) {
         mId = id;
         mAuthor = author;
         mPublishDate = publishDate;
         mSubject = new MdSubject(subject, mId);
-        mComments = MdGvConverter.toMdCommentList(comments, mId);
-        mImages = MdGvConverter.toMdImageList(images, mId);
-        mFacts = MdGvConverter.toMdFactList(facts, mId);
-        mLocations = MdGvConverter.toMdLocationList(locations, mId);
-
-        if (ratingIsAverage) {
-            ReviewTreeNode node = FactoryReview.createReviewTreeNode(this, true);
+        mRatingIsAverage = ratingIsAverage;
+        if (mRatingIsAverage) {
+            ReviewTreeNode node = reviewFactory.createReviewTreeNode(this, true);
             for (Review criterion : criteria) {
-                node.addChild(FactoryReview.createReviewTreeNode(criterion, false));
+                node.addChild(reviewFactory.createReviewTreeNode(criterion, false));
             }
             rating = node.getRating().getValue();
         }
-
         mRating = new MdRating(rating, 1, mId);
-        mRatingIsAverage = ratingIsAverage;
-        mNode = FactoryReview.createReviewTreeNode(this, false).createTree();
+
+        Assert.assertEquals(mId, comments.getReviewId());
+        Assert.assertEquals(mId, images.getReviewId());
+        Assert.assertEquals(mId, facts.getReviewId());
+        Assert.assertEquals(mId, locations.getReviewId());
+        mComments = comments;
+        mImages = images;
+        mFacts = facts;
+        mLocations = locations;
+
         mCriteria = new MdCriterionList(criteria, mId);
+        mNode = reviewFactory.createReviewTreeNode(this, false).createTree();
     }
 
     //Overridden

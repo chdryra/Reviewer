@@ -10,8 +10,23 @@ import com.chdryra.android.reviewer.ApplicationSingletons.Administrator;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ApplicationLaunch {
-    public static ApplicationContext defaultLaunchState(Context context) {
-        ApplicationContext applicationContext = new DefaultApplicationContext(context);
+    public static boolean sTestState = false;
+
+    public static void setReleaseLaunchState() {
+        sTestState = false;
+    }
+
+    public static void setTestLaunchState() {
+        sTestState = true;
+    }
+
+    public static ApplicationContext initialiseLaunchState(Context context) {
+        ApplicationContext applicationContext;
+        if(sTestState) {
+            applicationContext = new TestDatabaseApplicationContext(context);
+        } else {
+            applicationContext = new ReleaseApplicationContext(context);
+        }
         createLaunchState(context, applicationContext);
         return applicationContext;
     }

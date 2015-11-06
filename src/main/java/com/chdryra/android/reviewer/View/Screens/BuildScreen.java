@@ -24,7 +24,6 @@ import android.widget.Toast;
 import com.chdryra.android.mygenerallibrary.ActivityResultCode;
 import com.chdryra.android.mygenerallibrary.LocationClientConnector;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilderAdapter;
-import com.chdryra.android.reviewer.ApplicationSingletons.Administrator;
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.View.ActivitiesFragments.ActivityEditData;
 import com.chdryra.android.reviewer.View.ActivitiesFragments.ActivityShareReview;
@@ -45,12 +44,13 @@ import com.google.android.gms.maps.model.LatLng;
  * Email: rizwan.choudrey@gmail.com
  */
 public class BuildScreen implements ImageChooser.ImageChooserListener,
-        LocationClientConnector.Locatable{
+        LocationClientConnector.Locatable {
     private final ReviewEditor mEditor;
+    private final BuildScreenGridItem mGridItem;
     private ImageChooser mImageChooser;
     private LatLng mLatLng;
-    private final BuildScreenGridItem mGridItem;
 
+//Constructors
     public BuildScreen(Context context, ReviewBuilderAdapter builder) {
         //Actions
         ReviewViewActions actions = new ReviewViewActions();
@@ -70,16 +70,9 @@ public class BuildScreen implements ImageChooser.ImageChooserListener,
         mEditor = new ReviewEditor(builder, params, actions, new BuildScreenModifier());
     }
 
-    public void setCover(GvImageList.GvImage image) {
-        mEditor.setCover(image);
-    }
-
-    public void updateScreen() {
-        mEditor.notifyBuilder();
-    }
-
-    public void setLatLng(LatLng latLng) {
-        mLatLng = latLng;
+    //public methods
+    public ReviewEditor getEditor() {
+        return mEditor;
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -90,6 +83,28 @@ public class BuildScreen implements ImageChooser.ImageChooserListener,
         }
 
         updateScreen();
+    }
+
+    //private methods
+    private int getImageRequestCode() {
+        return ConfigGvDataUi.getConfig(GvImageList.GvImage.TYPE).getAdderConfig()
+                .getRequestCode();
+    }
+
+    private void setCover(GvImageList.GvImage image) {
+        mEditor.setCover(image);
+    }
+
+    private void updateScreen() {
+        mEditor.notifyBuilder();
+    }
+
+    private void setLatLng(LatLng latLng) {
+        mLatLng = latLng;
+    }
+
+    private void showTagDialog() {
+        mGridItem.showQuickDialog(ConfigGvDataUi.getConfig(GvTagList.GvTag.TYPE));
     }
 
     //Overridden
@@ -108,22 +123,8 @@ public class BuildScreen implements ImageChooser.ImageChooserListener,
         setCover(image);
     }
 
-    public ReviewEditor getEditor() {
-        return mEditor;
-    }
-
-    //private methods
-    private int getImageRequestCode() {
-        return ConfigGvDataUi.getConfig(GvImageList.GvImage.TYPE).getAdderConfig()
-                .getRequestCode();
-    }
-
-    private void showTagDialog() {
-        mGridItem.showQuickDialog(ConfigGvDataUi.getConfig(GvTagList.GvTag.TYPE));
-    }
-
-
     //Classes
+
     /**
      * Created by: Rizwan Choudrey
      * On: 24/01/2015
@@ -150,7 +151,8 @@ public class BuildScreen implements ImageChooser.ImageChooserListener,
         private LocationClientConnector mLocationClient;
 
         //private methods
-        private void executeIntent(ReviewBuilderAdapter.BuilderGridCell gridCell, boolean quickDialog) {
+        private void executeIntent(ReviewBuilderAdapter.BuilderGridCell gridCell, boolean
+                quickDialog) {
             ConfigGvDataUi.Config config = gridCell.getConfig();
             if (quickDialog && gridCell.getDataSize() == 0) {
                 showQuickDialog(config);
@@ -201,7 +203,7 @@ public class BuildScreen implements ImageChooser.ImageChooserListener,
 
         @Override
         public void onAttachReviewView() {
-            mImageChooser = Administrator.getImageChooser(getActivity());
+            mImageChooser = mEditor.getImageChooser(getActivity());
             mLocationClient = new LocationClientConnector(getActivity(), BuildScreen.this);
             mLocationClient.connect();
         }

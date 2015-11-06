@@ -8,7 +8,7 @@ import com.chdryra.android.reviewer.Model.Social.SocialPlatformList;
 import com.chdryra.android.reviewer.Model.TagsModel.TagsManager;
 import com.chdryra.android.reviewer.Model.UserData.Author;
 import com.chdryra.android.reviewer.ReviewsProviderModel.ReviewsRepository;
-import com.chdryra.android.reviewer.View.Screens.FactoryChildListScreen;
+import com.chdryra.android.reviewer.View.Screens.BuilderChildListScreen;
 
 /**
  * Created by: Rizwan Choudrey
@@ -23,6 +23,6 @@ public interface ApplicationContext {
     ReviewsRepository getReviewsRepository();
     MdGvConverter getMdGvConverter();
     FactoryReviewViewAdapter getReviewViewAdapterFactory();
-    FactoryChildListScreen getChildListScreenFactory();
+    BuilderChildListScreen getChildListScreenFactory();
     FactoryReview getReviewFactory();
 }

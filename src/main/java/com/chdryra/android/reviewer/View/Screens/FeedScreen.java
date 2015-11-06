@@ -26,7 +26,7 @@ public class FeedScreen implements DialogAlertFragment.DialogAlertListener{
                                  PublishDate publishDate,
                                  FactoryReview reviewFactory,
                                  MdGvConverter converter,
-                                 FactoryChildListScreen childListFactory,
+                                 BuilderChildListScreen childListFactory,
                                  FactoryReviewViewAdapter adapterFactory,
                                  FeedScreenMenu menuAction) {
         Author author = feed.getAuthor();

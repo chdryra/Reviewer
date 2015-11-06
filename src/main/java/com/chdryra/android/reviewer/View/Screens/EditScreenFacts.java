@@ -12,6 +12,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilderAdapter;
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.View.ActivitiesFragments.ActivityEditUrlBrowser;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
@@ -31,8 +32,8 @@ public class EditScreenFacts extends EditScreenReviewData<GvFactList.GvFact> {
     private static final GvDataType<GvFactList.GvFact> TYPE =
             GvFactList.GvFact.TYPE;
 
-    public EditScreenFacts(Context context) {
-        super(context, TYPE);
+    public EditScreenFacts(Context context, ReviewBuilderAdapter builder) {
+        super(context, builder, TYPE);
     }
 
     @Override

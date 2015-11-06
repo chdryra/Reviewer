@@ -49,7 +49,7 @@ public class ReviewsRepositoryScreen implements ReviewsProviderObserver {
     }
 
     public ReviewView createView(MdGvConverter converter,
-                           FactoryChildListScreen childListFactory,
+                           BuilderChildListScreen childListFactory,
                            FactoryReviewViewAdapter adapterFactory,
                            ReviewViewAction.GridItemAction giAction,
                            ReviewViewAction.MenuAction menuAction) {
