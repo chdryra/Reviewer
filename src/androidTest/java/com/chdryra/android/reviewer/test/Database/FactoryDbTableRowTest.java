@@ -11,7 +11,7 @@ package com.chdryra.android.reviewer.test.Database;
 import android.database.MatrixCursor;
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.Database.FactoryTableRow;
+import com.chdryra.android.reviewer.Database.FactoryDbTableRow;
 import com.chdryra.android.reviewer.Database.RowAuthor;
 import com.chdryra.android.reviewer.Database.RowComment;
 import com.chdryra.android.reviewer.Database.RowFact;
@@ -34,18 +34,18 @@ import junit.framework.TestCase;
  * On: 10/04/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class FactoryTableRowTest extends TestCase {
+public class FactoryDbTableRowTest extends TestCase {
     private MdDataMocker mMocker;
 
     @SmallTest
     public void testEmptyRow() {
-        assertNotNull(FactoryTableRow.emptyRow(RowAuthor.class));
-        assertNotNull(FactoryTableRow.emptyRow(RowComment.class));
-        assertNotNull(FactoryTableRow.emptyRow(RowFact.class));
-        assertNotNull(FactoryTableRow.emptyRow(RowImage.class));
-        assertNotNull(FactoryTableRow.emptyRow(RowLocation.class));
-        assertNotNull(FactoryTableRow.emptyRow(RowReview.class));
-        assertNotNull(FactoryTableRow.emptyRow(RowTag.class));
+        assertNotNull(FactoryDbTableRow.emptyRow(RowAuthor.class));
+        assertNotNull(FactoryDbTableRow.emptyRow(RowComment.class));
+        assertNotNull(FactoryDbTableRow.emptyRow(RowFact.class));
+        assertNotNull(FactoryDbTableRow.emptyRow(RowImage.class));
+        assertNotNull(FactoryDbTableRow.emptyRow(RowLocation.class));
+        assertNotNull(FactoryDbTableRow.emptyRow(RowReview.class));
+        assertNotNull(FactoryDbTableRow.emptyRow(RowTag.class));
     }
 
     @SmallTest
@@ -63,45 +63,45 @@ public class FactoryTableRowTest extends TestCase {
                 review.getSubject().get(), review.getRating().getValue(), review
                 .isRatingAverageOfCriteria() ? 1 : 0});
         cursor.moveToFirst();
-        assertNotNull(FactoryTableRow.newRow(cursor, RowReview.class));
+        assertNotNull(FactoryDbTableRow.newRow(cursor, RowReview.class));
     }
 
     @SmallTest
     public void testNewRowReview() {
-        assertNotNull(FactoryTableRow.newRow(ReviewMocker.newReview()));
+        assertNotNull(FactoryDbTableRow.newRow(ReviewMocker.newReview()));
     }
 
     @SmallTest
     public void testNewRowCriterion() {
         MdCriterionList.MdCriterion criterion =
                 new MdCriterionList.MdCriterion(ReviewMocker.newReview(), RandomReviewId.nextId());
-        assertNotNull(FactoryTableRow.newRow(criterion));
+        assertNotNull(FactoryDbTableRow.newRow(criterion));
     }
 
     @SmallTest
     public void testNewRowAuthor() {
-        assertNotNull(FactoryTableRow.newRow(RandomAuthor.nextAuthor()));
+        assertNotNull(FactoryDbTableRow.newRow(RandomAuthor.nextAuthor()));
     }
 
     @SmallTest
     public void testNewRowComment() {
-        assertNotNull(FactoryTableRow.newRow(mMocker.newComment(), 0));
+        assertNotNull(FactoryDbTableRow.newRow(mMocker.newComment(), 0));
     }
 
     @SmallTest
     public void testNewRowFact() {
-        assertNotNull(FactoryTableRow.newRow(mMocker.newFact(), 0));
-        assertNotNull(FactoryTableRow.newRow(mMocker.newUrl(), 0));
+        assertNotNull(FactoryDbTableRow.newRow(mMocker.newFact(), 0));
+        assertNotNull(FactoryDbTableRow.newRow(mMocker.newUrl(), 0));
     }
 
     @SmallTest
     public void testNewRowLocation() {
-        assertNotNull(FactoryTableRow.newRow(mMocker.newLocation(), 0));
+        assertNotNull(FactoryDbTableRow.newRow(mMocker.newLocation(), 0));
     }
 
     @SmallTest
     public void testNewRowImage() {
-        assertNotNull(FactoryTableRow.newRow(mMocker.newImage(), 0));
+        assertNotNull(FactoryDbTableRow.newRow(mMocker.newImage(), 0));
     }
 
     //Overridden

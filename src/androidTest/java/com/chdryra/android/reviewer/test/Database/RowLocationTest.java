@@ -12,7 +12,7 @@ import android.content.ContentValues;
 import android.database.MatrixCursor;
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.Database.FactoryTableRow;
+import com.chdryra.android.reviewer.Database.FactoryDbTableRow;
 import com.chdryra.android.reviewer.Database.RowLocation;
 import com.chdryra.android.reviewer.Model.ReviewData.MdLocationList;
 import com.chdryra.android.reviewer.test.TestUtils.MdDataMocker;
@@ -51,7 +51,7 @@ public class RowLocationTest extends TestCase {
 
     //private methods
     private String getDatumId() {
-        return mLocation.getReviewId().toString() + FactoryTableRow.SEPARATOR + "l" + String.valueOf
+        return mLocation.getReviewId().toString() + FactoryDbTableRow.SEPARATOR + "l" + String.valueOf
                 (INDEX);
     }
 

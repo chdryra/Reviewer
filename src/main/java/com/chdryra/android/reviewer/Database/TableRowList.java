@@ -15,6 +15,6 @@ import com.chdryra.android.mygenerallibrary.SortableList;
  * On: 09/04/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class TableRowList<T extends TableRow> extends SortableList<T> {
+public class TableRowList<T extends DbTableRow> extends SortableList<T> {
 
 }

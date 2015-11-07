@@ -18,7 +18,7 @@ import java.util.ArrayList;
 
 public final class ReviewerDbContract implements DbContract, ReviewerDbTables {
     private ReviewerDbTables mTables;
-    private ArrayList<DbTableDef> mTablesList;
+    private ArrayList<DbTable> mTablesList;
     private ArrayList<String> mTableNames;
 
     public ReviewerDbContract(ReviewerDbTables tables) {
@@ -34,14 +34,14 @@ public final class ReviewerDbContract implements DbContract, ReviewerDbTables {
         mTablesList.add(tables.getTagsTable());
 
         mTableNames = new ArrayList<>();
-        for (DbTableDef table : mTablesList) {
+        for (DbTable table : mTablesList) {
             mTableNames.add(table.getName());
         }
     }
 
     //Overridden
     @Override
-    public ArrayList<DbTableDef> getTableDefinitions() {
+    public ArrayList<DbTable> getTableDefinitions() {
         return mTablesList;
     }
 
@@ -56,37 +56,37 @@ public final class ReviewerDbContract implements DbContract, ReviewerDbTables {
     }
 
     @Override
-    public ReviewerDbTable<RowReview> getReviewsTable() {
+    public DbTable<RowReview> getReviewsTable() {
         return mTables.getReviewsTable();
     }
 
     @Override
-    public ReviewerDbTable<RowComment> getCommentsTable() {
+    public DbTable<RowComment> getCommentsTable() {
         return mTables.getCommentsTable();
     }
 
     @Override
-    public ReviewerDbTable<RowFact> getFactsTable() {
+    public DbTable<RowFact> getFactsTable() {
         return mTables.getFactsTable();
     }
 
     @Override
-    public ReviewerDbTable<RowLocation> getLocationsTable() {
+    public DbTable<RowLocation> getLocationsTable() {
         return mTables.getLocationsTable();
     }
 
     @Override
-    public ReviewerDbTable<RowImage> getImagesTable() {
+    public DbTable<RowImage> getImagesTable() {
         return mTables.getImagesTable();
     }
 
     @Override
-    public ReviewerDbTable<RowAuthor> getAuthorsTable() {
+    public DbTable<RowAuthor> getAuthorsTable() {
         return mTables.getAuthorsTable();
     }
 
     @Override
-    public ReviewerDbTable<RowTag> getTagsTable() {
+    public DbTable<RowTag> getTagsTable() {
         return mTables.getTagsTable();
     }
 }

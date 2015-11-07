@@ -5,10 +5,10 @@ package com.chdryra.android.reviewer.Database;
  * On: 07/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class TableImages extends ReviewerDbTable<RowImage> {
+public class TableImages extends DbTable<RowImage> {
     private static final String TABLE = "Images";
     
-    public TableImages(DbTableDef reviewsTable) {
+    public TableImages(DbTable reviewsTable) {
         super(TABLE, RowImage.class);
         addPrimaryKey(RowImage.COLUMN_IMAGE_ID, SQL.StorageType.TEXT);
         addColumn(RowImage.COLUMN_REVIEW_ID, SQL.StorageType.TEXT, SQL.Nullable.FALSE);

@@ -12,7 +12,7 @@ import com.chdryra.android.reviewer.Model.UserData.UserId;
  * On: 09/04/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class RowAuthor implements TableRow {
+public class RowAuthor implements DbTableRow {
     public static final String COLUMN_USER_ID = "user_id";
     public  static final String COLUMN_AUTHOR_NAME = "name";
 

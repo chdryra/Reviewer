@@ -14,7 +14,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.Database.DbTableDef;
+import com.chdryra.android.reviewer.Database.DbTable;
 import com.chdryra.android.reviewer.Database.ReviewerDb;
 import com.chdryra.android.reviewer.Database.ReviewerDbContract;
 import com.chdryra.android.reviewer.Database.SQL;
@@ -31,13 +31,13 @@ import java.util.Arrays;
 public class ReviewDbHelperTest extends AndroidTestCase {
     private ReviewerDb mDatabase;
     private SQLiteOpenHelper mHelper;
-    private ArrayList<DbTableDef> mTables;
+    private ArrayList<DbTable> mTables;
 
     @SmallTest
     public void testDatabaseExists() {
         SQLiteDatabase db = mHelper.getReadableDatabase();
 
-        for (DbTableDef table : mTables) {
+        for (DbTable table : mTables) {
             assertTrue(tableExists(table, db));
         }
     }
@@ -46,12 +46,12 @@ public class ReviewDbHelperTest extends AndroidTestCase {
     public void testTableColumnsCorrect() {
         SQLiteDatabase db = mHelper.getReadableDatabase();
 
-        for (DbTableDef table : mTables) {
+        for (DbTable table : mTables) {
             testTableColumns(table, db);
         }
     }
 
-    private void testTableColumns(DbTableDef tableDef, SQLiteDatabase db) {
+    private void testTableColumns(DbTable tableDef, SQLiteDatabase db) {
         ArrayList<String> tableCols = getTableColumns(tableDef.getName(), db);
         ArrayList<String> colNames = tableDef.getColumnNames();
         assertEquals(colNames.size(), tableCols.size());
@@ -60,7 +60,7 @@ public class ReviewDbHelperTest extends AndroidTestCase {
         }
     }
 
-    private boolean tableExists(DbTableDef table, SQLiteDatabase database) {
+    private boolean tableExists(DbTable table, SQLiteDatabase database) {
         String query = SQL.SELECT + SQL.DISTINCT + "tbl_name ";
         query += SQL.FROM + "sqlite_master " + SQL.WHERE;
         query += "tbl_name = '" + table.getName() + "'";

@@ -5,7 +5,7 @@ package com.chdryra.android.reviewer.Database;
  * On: 07/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class TableTags extends ReviewerDbTable<RowTag> {
+public class TableTags extends DbTable<RowTag> {
     private static final String TABLE = "Tags";
    
     public TableTags() {

@@ -12,7 +12,7 @@ import com.chdryra.android.reviewer.Model.ReviewStructure.Review;
  * On: 09/04/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class RowReview implements TableRow {
+public class RowReview implements DbTableRow {
     public static final String COLUMN_REVIEW_ID = "review_id";
     public static final String COLUMN_PARENT_ID = "parent_id";
     public static final String COLUMN_AUTHOR_ID = "author_id";

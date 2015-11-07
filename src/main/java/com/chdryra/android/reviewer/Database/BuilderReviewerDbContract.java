@@ -37,37 +37,37 @@ public class BuilderReviewerDbContract {
         }
 
         @Override
-        public ReviewerDbTable<RowReview> getReviewsTable() {
+        public DbTable<RowReview> getReviewsTable() {
             return mReviewsTable;
         }
 
         @Override
-        public ReviewerDbTable<RowComment> getCommentsTable() {
+        public DbTable<RowComment> getCommentsTable() {
             return mCommentsTable;
         }
 
         @Override
-        public ReviewerDbTable<RowFact> getFactsTable() {
+        public DbTable<RowFact> getFactsTable() {
             return mFactsTable;
         }
 
         @Override
-        public ReviewerDbTable<RowLocation> getLocationsTable() {
+        public DbTable<RowLocation> getLocationsTable() {
             return mLocationsTable;
         }
 
         @Override
-        public ReviewerDbTable<RowImage> getImagesTable() {
+        public DbTable<RowImage> getImagesTable() {
             return mImagesTable;
         }
 
         @Override
-        public ReviewerDbTable<RowAuthor> getAuthorsTable() {
+        public DbTable<RowAuthor> getAuthorsTable() {
             return mAuthorsTable;
         }
 
         @Override
-        public ReviewerDbTable<RowTag> getTagsTable() {
+        public DbTable<RowTag> getTagsTable() {
             return mTagsTable;
         }
     }

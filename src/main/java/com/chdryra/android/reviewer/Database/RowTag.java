@@ -15,7 +15,7 @@ import java.util.Arrays;
  * On: 09/04/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class RowTag implements TableRow {
+public class RowTag implements DbTableRow {
     public static final String COLUMN_TAG = "tag";
     public static final String COLUMN_REVIEWS = "reviews";
 

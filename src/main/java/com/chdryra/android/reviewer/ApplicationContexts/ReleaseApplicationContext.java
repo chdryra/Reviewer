@@ -10,7 +10,7 @@ import com.chdryra.android.reviewer.Database.BuilderReviewerDbContract;
 import com.chdryra.android.reviewer.Database.DbContractExecutor;
 import com.chdryra.android.reviewer.Database.DbHelper;
 import com.chdryra.android.reviewer.Database.DbSpecification;
-import com.chdryra.android.reviewer.Database.FactoryTableRow;
+import com.chdryra.android.reviewer.Database.FactoryDbTableRow;
 import com.chdryra.android.reviewer.Database.ReviewerDb;
 import com.chdryra.android.reviewer.Database.ReviewerDbContract;
 import com.chdryra.android.reviewer.Model.ReviewStructure.FactoryReview;
@@ -68,7 +68,7 @@ public class ReleaseApplicationContext extends ApplicationContextBasic {
         DbSpecification spec = new DbSpecification(databaseName, contract, databaseVersion);
         DbHelper dbHelper = new DbHelper(context, spec, new DbContractExecutor());
         setReviewerDb(new ReviewerDb(dbHelper, contract, getTagsManager(), getReviewFactory(),
-                new FactoryTableRow(getDataValidator())));
+                new FactoryDbTableRow(getDataValidator())));
 
         //ReviewsRepository
         ReviewerDbProvider provider = new ReviewerDbProvider(getReviewerDb());

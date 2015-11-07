@@ -8,17 +8,17 @@ package com.chdryra.android.reviewer.Database;
 interface ReviewerDbTables {
     String getColumnNameReviewId();
 
-    ReviewerDbTable<RowReview> getReviewsTable();
+    DbTable<RowReview> getReviewsTable();
 
-    ReviewerDbTable<RowComment> getCommentsTable();
+    DbTable<RowComment> getCommentsTable();
 
-    ReviewerDbTable<RowFact> getFactsTable();
+    DbTable<RowFact> getFactsTable();
 
-    ReviewerDbTable<RowLocation> getLocationsTable();
+    DbTable<RowLocation> getLocationsTable();
 
-    ReviewerDbTable<RowImage> getImagesTable();
+    DbTable<RowImage> getImagesTable();
 
-    ReviewerDbTable<RowAuthor> getAuthorsTable();
+    DbTable<RowAuthor> getAuthorsTable();
 
-    ReviewerDbTable<RowTag> getTagsTable();
+    DbTable<RowTag> getTagsTable();
 }

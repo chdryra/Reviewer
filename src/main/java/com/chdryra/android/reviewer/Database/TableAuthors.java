@@ -5,7 +5,7 @@ package com.chdryra.android.reviewer.Database;
  * On: 07/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class TableAuthors extends ReviewerDbTable<RowAuthor> {
+public class TableAuthors extends DbTable<RowAuthor> {
     private static final String TABLE = "Authors";
 
     public TableAuthors() {

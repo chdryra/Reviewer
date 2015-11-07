@@ -7,7 +7,7 @@ import android.content.ContentValues;
  * On: 07/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public interface TableRow {
+public interface DbTableRow {
     //abstract
     String getRowId();
 

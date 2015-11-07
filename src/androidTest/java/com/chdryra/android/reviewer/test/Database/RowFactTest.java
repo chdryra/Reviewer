@@ -12,7 +12,7 @@ import android.content.ContentValues;
 import android.database.MatrixCursor;
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.Database.FactoryTableRow;
+import com.chdryra.android.reviewer.Database.FactoryDbTableRow;
 import com.chdryra.android.reviewer.Database.RowFact;
 import com.chdryra.android.reviewer.Model.ReviewData.MdFactList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdUrlList;
@@ -58,7 +58,7 @@ public class RowFactTest extends TestCase {
 
     //private methods
     private String getDatumId() {
-        return mFact.getReviewId().toString() + FactoryTableRow.SEPARATOR + "f" + String.valueOf
+        return mFact.getReviewId().toString() + FactoryDbTableRow.SEPARATOR + "f" + String.valueOf
                 (INDEX);
     }
 

@@ -5,10 +5,10 @@ package com.chdryra.android.reviewer.Database;
  * On: 07/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class TableComments extends ReviewerDbTable<RowComment> {
+public class TableComments extends DbTable<RowComment> {
     private static final String TABLE = "Comments";
     
-    public TableComments(DbTableDef reviewsTable) {
+    public TableComments(DbTable reviewsTable) {
         super(TABLE, RowComment.class);
         addPrimaryKey(RowComment.COLUMN_COMMENT_ID, SQL.StorageType.TEXT);
         addColumn(RowComment.COLUMN_REVIEW_ID, SQL.StorageType.TEXT, SQL.Nullable.FALSE);

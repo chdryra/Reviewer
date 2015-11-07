@@ -48,14 +48,14 @@ public class ReviewerDb implements ReviewerDbTables {
     private final SQLiteOpenHelper mHelper;
     private final TagsManager mTagsManager;
     private final FactoryReview mReviewFactory;
-    private final FactoryTableRow mRowFactory;
+    private final FactoryDbTableRow mRowFactory;
     private final ArrayList<ReviewerDbObserver> mObservers;
 
     public ReviewerDb(DbHelper dbHelper,
                       ReviewerDbTables reviewerDbTables,
                       TagsManager tagsManager,
                       FactoryReview reviewFactory,
-                      FactoryTableRow rowFactory) {
+                      FactoryDbTableRow rowFactory) {
         mTables = reviewerDbTables;
         mHelper = dbHelper;
         mTagsManager = tagsManager;
@@ -83,37 +83,37 @@ public class ReviewerDb implements ReviewerDbTables {
     }
 
     @Override
-    public ReviewerDbTable<RowReview> getReviewsTable() {
+    public DbTable<RowReview> getReviewsTable() {
         return mTables.getReviewsTable();
     }
 
     @Override
-    public ReviewerDbTable<RowComment> getCommentsTable() {
+    public DbTable<RowComment> getCommentsTable() {
         return mTables.getCommentsTable();
     }
 
     @Override
-    public ReviewerDbTable<RowFact> getFactsTable() {
+    public DbTable<RowFact> getFactsTable() {
         return mTables.getFactsTable();
     }
 
     @Override
-    public ReviewerDbTable<RowLocation> getLocationsTable() {
+    public DbTable<RowLocation> getLocationsTable() {
         return mTables.getLocationsTable();
     }
 
     @Override
-    public ReviewerDbTable<RowImage> getImagesTable() {
+    public DbTable<RowImage> getImagesTable() {
         return mTables.getImagesTable();
     }
 
     @Override
-    public ReviewerDbTable<RowAuthor> getAuthorsTable() {
+    public DbTable<RowAuthor> getAuthorsTable() {
         return mTables.getAuthorsTable();
     }
 
     @Override
-    public ReviewerDbTable<RowTag> getTagsTable() {
+    public DbTable<RowTag> getTagsTable() {
         return mTables.getTagsTable();
     }
 
@@ -189,8 +189,8 @@ public class ReviewerDb implements ReviewerDbTables {
         return reviews;
     }
 
-    public <T extends TableRow> T getRowWhere(SQLiteDatabase db,
-                                                            ReviewerDbTable<T> table, String col,
+    public <T extends DbTableRow> T getRowWhere(SQLiteDatabase db,
+                                                            DbTable<T> table, String col,
                                                             String val) {
         Cursor cursor = getCursorWhere(db, table.getName(), col, val);
 
@@ -204,7 +204,7 @@ public class ReviewerDb implements ReviewerDbTables {
     }
 
     public <T1 extends MdData, T2 extends MdDataList<T1>, T3 extends MdDataRow<T1>> T2
-    loadFromDataTable(SQLiteDatabase db, ReviewerDbTable<T3> table, String reviewId, Class<T2>
+    loadFromDataTable(SQLiteDatabase db, DbTable<T3> table, String reviewId, Class<T2>
             listClass) {
         TableRowList<T3> rows = getRowsWhere(db, table, getColumnNameReviewId(), reviewId);
         T2 dataList = newMdList(listClass, reviewId);
@@ -271,8 +271,8 @@ public class ReviewerDb implements ReviewerDbTables {
         if (tags.size() == 0) loadTags(db);
     }
 
-    private <T extends TableRow> TableRowList<T> getRowsWhere(SQLiteDatabase db,
-                                                                            ReviewerDbTable<T>
+    private <T extends DbTableRow> TableRowList<T> getRowsWhere(SQLiteDatabase db,
+                                                                            DbTable<T>
                                                                                     table, String
                                                                                     col, String
                                                                                     val) {
@@ -312,7 +312,7 @@ public class ReviewerDb implements ReviewerDbTables {
 
         Author author = review.getAuthor();
         String userId = author.getUserId().toString();
-        ReviewerDbTable<RowAuthor> authorsTable = getAuthorsTable();
+        DbTable<RowAuthor> authorsTable = getAuthorsTable();
         if (!isIdInTable(userId, authorsTable.getColumn(RowAuthor.COLUMN_USER_ID), authorsTable, db)) {
             addToAuthorsTable(author, db);
         }
@@ -440,8 +440,8 @@ public class ReviewerDb implements ReviewerDbTables {
         }
     }
 
-    private void insertRow(TableRow row, ReviewerDbTable table, SQLiteDatabase db) {
-        DbTableDef.DbColumnDef idCol = table.getColumn(row.getRowIdColumnName());
+    private void insertRow(DbTableRow row, DbTable table, SQLiteDatabase db) {
+        DbTable.DbColumnDef idCol = table.getColumn(row.getRowIdColumnName());
         String id = row.getRowId();
         String tableName = table.getName();
         if (isIdInTable(id, idCol, table, db)) {
@@ -458,7 +458,7 @@ public class ReviewerDb implements ReviewerDbTables {
         }
     }
 
-    private void deleteRows(String col, String val, ReviewerDbTable table, SQLiteDatabase db) {
+    private void deleteRows(String col, String val, DbTable table, SQLiteDatabase db) {
         String tableName = table.getName();
 
         String message = val + " from " + tableName + " table ";
@@ -471,9 +471,9 @@ public class ReviewerDb implements ReviewerDbTables {
         }
     }
 
-    private void insertOrReplaceRow(TableRow row, ReviewerDbTable
+    private void insertOrReplaceRow(DbTableRow row, DbTable
             table, SQLiteDatabase db) {
-        DbTableDef.DbColumnDef idCol = table.getColumn(row.getRowIdColumnName());
+        DbTable.DbColumnDef idCol = table.getColumn(row.getRowIdColumnName());
         String id = row.getRowId();
         String tableName = table.getName();
         if (isIdInTable(id, idCol, table, db)) {
@@ -490,11 +490,11 @@ public class ReviewerDb implements ReviewerDbTables {
     }
 
     private boolean isReviewInDb(Review review, SQLiteDatabase db) {
-        DbTableDef.DbColumnDef reviewIdCol = getReviewsTable().getColumn(getColumnNameReviewId());
+        DbTable.DbColumnDef reviewIdCol = getReviewsTable().getColumn(getColumnNameReviewId());
         return isIdInTable(review.getId().toString(), reviewIdCol, getReviewsTable(), db);
     }
 
-    private boolean isIdInTable(String id, DbTableDef.DbColumnDef idCol, ReviewerDbTable table,
+    private boolean isIdInTable(String id, DbTable.DbColumnDef idCol, DbTable table,
                                 SQLiteDatabase db) {
         String pkCol = idCol.getName();
         Cursor cursor = getCursorWhere(db, table.getName(), pkCol, id);

@@ -17,15 +17,17 @@ import java.util.ArrayList;
  * On: 30/03/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class DbTableDef implements BaseColumns {
+public class DbTable<T extends DbTableRow> implements BaseColumns {
     private String mTableName;
+    private Class<T> mRowClass;
     private ArrayList<DbColumnDef> mPrimaryKeys;
     private ArrayList<DbColumnDef> mOtherColumns;
     private ArrayList<ForeignKeyConstraint> mFkConstraints;
 
     //Constructors
-    public DbTableDef(String tableName) {
+    public DbTable(String tableName, Class<T> rowClass) {
         mTableName = tableName;
+        mRowClass = rowClass;
         mPrimaryKeys = new ArrayList<>();
         mOtherColumns = new ArrayList<>();
         mFkConstraints = new ArrayList<>();
@@ -34,6 +36,10 @@ public class DbTableDef implements BaseColumns {
     //public methods
     public String getName() {
         return mTableName;
+    }
+
+    public Class<T> getRowClass() {
+        return mRowClass;
     }
 
     public ArrayList<DbColumnDef> getPrimaryKeys() {
@@ -69,7 +75,7 @@ public class DbTableDef implements BaseColumns {
         mPrimaryKeys.add(new DbColumnDef(columnName, type, SQL.Nullable.FALSE));
     }
 
-    public void addForeignKeyConstraint(String[] columnNames, DbTableDef pkTable) {
+    public void addForeignKeyConstraint(String[] columnNames, DbTable pkTable) {
         if (columnNames.length != pkTable.getPrimaryKeys().size()) {
             throw new IllegalArgumentException("Number of column names should match number of " +
                     "primary key columns in pkTable!");
@@ -98,10 +104,10 @@ public class DbTableDef implements BaseColumns {
 
     public class ForeignKeyConstraint {
         private ArrayList<DbColumnDef> mFkColumns;
-        private DbTableDef mPkTable;
+        private DbTable mPkTable;
 
         private ForeignKeyConstraint(ArrayList<DbColumnDef> fkColumns,
-                                     DbTableDef pkTable) {
+                                     DbTable pkTable) {
             mFkColumns = fkColumns;
             mPkTable = pkTable;
         }
@@ -111,7 +117,7 @@ public class DbTableDef implements BaseColumns {
             return mFkColumns;
         }
 
-        public DbTableDef getForeignTable() {
+        public DbTable getForeignTable() {
             return mPkTable;
         }
     }

@@ -13,7 +13,7 @@ import android.database.MatrixCursor;
 import android.graphics.Bitmap;
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.Database.FactoryTableRow;
+import com.chdryra.android.reviewer.Database.FactoryDbTableRow;
 import com.chdryra.android.reviewer.Database.RowImage;
 import com.chdryra.android.reviewer.Model.ReviewData.MdImageList;
 import com.chdryra.android.reviewer.test.TestUtils.MdDataMocker;
@@ -53,7 +53,7 @@ public class RowImageTest extends TestCase {
 
     //private methods
     private String getDatumId() {
-        return mImage.getReviewId().toString() + FactoryTableRow.SEPARATOR + "i" + String.valueOf
+        return mImage.getReviewId().toString() + FactoryDbTableRow.SEPARATOR + "i" + String.valueOf
                 (INDEX);
     }
 

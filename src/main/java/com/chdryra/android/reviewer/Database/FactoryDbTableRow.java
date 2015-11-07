@@ -28,14 +28,14 @@ import java.lang.reflect.InvocationTargetException;
  * On: 02/04/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class FactoryTableRow {
+public class FactoryDbTableRow {
     private DataValidator mValidator;
 
-    public FactoryTableRow(DataValidator validator) {
+    public FactoryDbTableRow(DataValidator validator) {
         mValidator = validator;
     }
 
-    public <T extends TableRow> T emptyRow(Class<T> rowClass) {
+    public <T extends DbTableRow> T emptyRow(Class<T> rowClass) {
         try {
             return rowClass.newInstance();
         } catch (InstantiationException e) {
@@ -45,7 +45,7 @@ public class FactoryTableRow {
         }
     }
 
-    public <T extends TableRow> T newRow(Cursor cursor, Class<T> rowClass) {
+    public <T extends DbTableRow> T newRow(Cursor cursor, Class<T> rowClass) {
         try {
             Constructor c = rowClass.getConstructor(Cursor.class, DataValidator.class);
             return rowClass.cast(c.newInstance(cursor, mValidator));
@@ -61,35 +61,35 @@ public class FactoryTableRow {
         }
     }
 
-    public TableRow newRow(Review review) {
+    public DbTableRow newRow(Review review) {
         return new RowReview(review, mValidator);
     }
 
-    public TableRow newRow(MdCriterionList.MdCriterion criterion) {
+    public DbTableRow newRow(MdCriterionList.MdCriterion criterion) {
         return new RowReview(criterion, mValidator);
     }
 
-    public TableRow newRow(Author author) {
+    public DbTableRow newRow(Author author) {
         return new RowAuthor(author, mValidator);
     }
 
-    public TableRow newRow(ReviewTag tag) {
+    public DbTableRow newRow(ReviewTag tag) {
         return new RowTag(tag, mValidator);
     }
 
-    public TableRow newRow(MdCommentList.MdComment comment, int index) {
+    public DbTableRow newRow(MdCommentList.MdComment comment, int index) {
         return new RowComment(comment, index, mValidator);
     }
 
-    public TableRow newRow(MdFactList.MdFact fact, int index) {
+    public DbTableRow newRow(MdFactList.MdFact fact, int index) {
         return new RowFact(fact, index, mValidator);
     }
 
-    public TableRow newRow(MdLocationList.MdLocation location, int index) {
+    public DbTableRow newRow(MdLocationList.MdLocation location, int index) {
         return new RowLocation(location, index, mValidator);
     }
 
-    public TableRow newRow(MdImageList.MdImage image, int index) {
+    public DbTableRow newRow(MdImageList.MdImage image, int index) {
         return new RowImage(image, index, mValidator);
     }
 }

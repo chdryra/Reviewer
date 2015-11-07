@@ -12,7 +12,7 @@ import android.content.ContentValues;
 import android.database.MatrixCursor;
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.Database.FactoryTableRow;
+import com.chdryra.android.reviewer.Database.FactoryDbTableRow;
 import com.chdryra.android.reviewer.Database.RowComment;
 import com.chdryra.android.reviewer.Model.ReviewData.MdCommentList;
 import com.chdryra.android.reviewer.test.TestUtils.MdDataMocker;
@@ -49,7 +49,7 @@ public class RowCommentTest extends TestCase {
 
     //private methods
     private String getDatumId() {
-        return mComment.getReviewId().toString() + FactoryTableRow.SEPARATOR + "c" + String.valueOf
+        return mComment.getReviewId().toString() + FactoryDbTableRow.SEPARATOR + "c" + String.valueOf
                 (INDEX);
     }
 

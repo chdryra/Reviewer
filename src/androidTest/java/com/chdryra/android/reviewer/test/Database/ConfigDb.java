@@ -9,7 +9,7 @@
 package com.chdryra.android.reviewer.test.Database;
 
 import com.chdryra.android.reviewer.Database.ReviewerDbContract;
-import com.chdryra.android.reviewer.Database.ReviewerDbTable;
+import com.chdryra.android.reviewer.Database.DbTable;
 import com.chdryra.android.reviewer.Database.RowAuthor;
 import com.chdryra.android.reviewer.Database.RowComment;
 import com.chdryra.android.reviewer.Database.RowFact;
@@ -23,7 +23,7 @@ import com.chdryra.android.reviewer.Database.TableFacts;
 import com.chdryra.android.reviewer.Database.TableImages;
 import com.chdryra.android.reviewer.Database.TableLocations;
 import com.chdryra.android.reviewer.Database.TableReviews;
-import com.chdryra.android.reviewer.Database.TableRow;
+import com.chdryra.android.reviewer.Database.DbTableRow;
 import com.chdryra.android.reviewer.Database.TableTags;
 
 import java.util.HashMap;
@@ -84,19 +84,19 @@ public class ConfigDb {
     }
 
     public class Config {
-        private ReviewerDbTable mTable;
+        private DbTable mTable;
         private String mPkColumn;
-        private Class<? extends TableRow> mRowClass;
+        private Class<? extends DbTableRow> mRowClass;
 
-        private Config(ReviewerDbTable table, String pkColumn,
-                       Class<? extends TableRow> rowClass) {
+        private Config(DbTable table, String pkColumn,
+                       Class<? extends DbTableRow> rowClass) {
             mTable = table;
             mPkColumn = pkColumn;
             mRowClass = rowClass;
         }
 
         //public methods
-        public ReviewerDbTable getTable() {
+        public DbTable getTable() {
             return mTable;
         }
 
@@ -104,7 +104,7 @@ public class ConfigDb {
             return mPkColumn;
         }
 
-        public Class<? extends TableRow> getRowClass() {
+        public Class<? extends DbTableRow> getRowClass() {
             return mRowClass;
         }
     }

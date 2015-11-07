@@ -27,8 +27,8 @@ public class DbContractExecutor {
     private static final String TAG = "DbCreator";
 
     public void createDatabase(DbContract contract, SQLiteDatabase db) {
-        ArrayList<DbTableDef> tableDefs = contract.getTableDefinitions();
-        for (DbTableDef tableDef : tableDefs) {
+        ArrayList<DbTable> tableDefs = contract.getTableDefinitions();
+        for (DbTable tableDef : tableDefs) {
             try {
                 String command = getCreateTableSql(tableDef);
                 Log.i(TAG, "Executing SQL:\n" + command);
@@ -47,7 +47,7 @@ public class DbContractExecutor {
         }
     }
 
-    private String getCreateTableSql(DbTableDef table) {
+    private String getCreateTableSql(DbTable table) {
         String colDef = getColumnDefinitions(table);
         String pkDef = getPrimaryKeyDefinition(table);
         String fkDef = getFkConstraintsDefinition(table);
@@ -61,8 +61,8 @@ public class DbContractExecutor {
         return definition;
     }
 
-    private String getColumnDefinitions(DbTableDef table) {
-        ArrayList<DbTableDef.DbColumnDef> columns = table.getAllColumns();
+    private String getColumnDefinitions(DbTable table) {
+        ArrayList<DbTable.DbColumnDef> columns = table.getAllColumns();
         String definition = "";
         if (columns.size() == 0) return definition;
 
@@ -74,15 +74,15 @@ public class DbContractExecutor {
         return definition;
     }
 
-    private String getColumnDefinition(DbTableDef.DbColumnDef column) {
+    private String getColumnDefinition(DbTable.DbColumnDef column) {
         String definition = column.getName() + SQL.SPACE + column.getType().name();
         definition += column.isNullable() ? "" : SQL.SPACE + SQL.NOT_NULL;
 
         return definition;
     }
 
-    private String getPrimaryKeyDefinition(DbTableDef table) {
-        ArrayList<DbTableDef.DbColumnDef> pks = table.getPrimaryKeys();
+    private String getPrimaryKeyDefinition(DbTable table) {
+        ArrayList<DbTable.DbColumnDef> pks = table.getPrimaryKeys();
         String definition = "";
         if (pks.size() == 0) return definition;
 
@@ -92,8 +92,8 @@ public class DbContractExecutor {
         return definition;
     }
 
-    private String getFkConstraintsDefinition(DbTableDef table) {
-        ArrayList<DbTableDef.ForeignKeyConstraint> constraints = table
+    private String getFkConstraintsDefinition(DbTable table) {
+        ArrayList<DbTable.ForeignKeyConstraint> constraints = table
                 .getForeignKeyConstraints();
         String definition = "";
         if (constraints.size() == 0) return definition;
@@ -106,9 +106,9 @@ public class DbContractExecutor {
         return definition;
     }
 
-    private String getFkConstraintDefinition(DbTableDef.ForeignKeyConstraint
+    private String getFkConstraintDefinition(DbTable.ForeignKeyConstraint
                                                      constraint) {
-        DbTableDef fkTable = constraint.getForeignTable();
+        DbTable fkTable = constraint.getForeignTable();
 
         String definition = SQL.FOREIGN_KEY + SQL.OPEN_BRACKET;
         definition += getCommaSeparatedNames(constraint.getFkColumns()) + SQL.CLOSE_BRACKET;
@@ -130,9 +130,9 @@ public class DbContractExecutor {
         return definition;
     }
 
-    private String getCommaSeparatedNames(ArrayList<DbTableDef.DbColumnDef> cols) {
+    private String getCommaSeparatedNames(ArrayList<DbTable.DbColumnDef> cols) {
         String cs = "";
-        for (DbTableDef.DbColumnDef column : cols) {
+        for (DbTable.DbColumnDef column : cols) {
             cs += column.getName() + SQL.COMMA;
         }
 

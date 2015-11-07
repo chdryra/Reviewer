@@ -5,10 +5,10 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.chdryra.android.reviewer.Database.MdDataRow;
 import com.chdryra.android.reviewer.Database.ReviewerDb;
-import com.chdryra.android.reviewer.Database.ReviewerDbTable;
+import com.chdryra.android.reviewer.Database.DbTable;
 import com.chdryra.android.reviewer.Database.RowAuthor;
 import com.chdryra.android.reviewer.Database.RowReview;
-import com.chdryra.android.reviewer.Database.TableRow;
+import com.chdryra.android.reviewer.Database.DbTableRow;
 import com.chdryra.android.reviewer.Model.ReviewData.IdableList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdCommentList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdCriterionList;
@@ -66,7 +66,7 @@ public class ReviewUserDb implements Review {
         mNode = reviewFactory.createReviewTreeNode(this, false).createTree();
     }
 
-    private <T extends TableRow> T getRowWhere(ReviewerDbTable<T> table, String
+    private <T extends DbTableRow> T getRowWhere(DbTable<T> table, String
             col, String val) {
         SQLiteDatabase db = mDatabase.getHelper().getReadableDatabase();
 
@@ -80,7 +80,7 @@ public class ReviewUserDb implements Review {
     }
 
     private <T1 extends MdData, T2 extends MdDataList<T1>, T3 extends MdDataRow<T1>> T2
-    loadFromDataTable(ReviewerDbTable<T3> table, Class<T2> listClass) {
+    loadFromDataTable(DbTable<T3> table, Class<T2> listClass) {
         SQLiteDatabase db = mDatabase.getHelper().getReadableDatabase();
 
         db.beginTransaction();
