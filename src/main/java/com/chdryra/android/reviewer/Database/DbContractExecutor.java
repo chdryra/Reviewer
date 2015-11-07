@@ -27,14 +27,14 @@ public class DbContractExecutor {
     private static final String TAG = "DbCreator";
 
     public void createDatabase(DbContract contract, SQLiteDatabase db) {
-        ArrayList<DbTable> tableDefs = contract.getTableDefinitions();
-        for (DbTable tableDef : tableDefs) {
+        ArrayList<DbTable<? extends DbTableRow>> tables = contract.getTables();
+        for (DbTable<?> table : tables) {
             try {
-                String command = getCreateTableSql(tableDef);
+                String command = getCreateTableSql(table);
                 Log.i(TAG, "Executing SQL:\n" + command);
                 db.execSQL(command);
             } catch (SQLException e) {
-                throw new RuntimeException("Problem creating table " + tableDef.getName(), e);
+                throw new RuntimeException("Problem creating table " + table.getName(), e);
             }
         }
     }
@@ -47,7 +47,7 @@ public class DbContractExecutor {
         }
     }
 
-    private String getCreateTableSql(DbTable table) {
+    private String getCreateTableSql(DbTable<? extends DbTableRow> table) {
         String colDef = getColumnDefinitions(table);
         String pkDef = getPrimaryKeyDefinition(table);
         String fkDef = getFkConstraintsDefinition(table);
@@ -61,7 +61,7 @@ public class DbContractExecutor {
         return definition;
     }
 
-    private String getColumnDefinitions(DbTable table) {
+    private String getColumnDefinitions(DbTable<? extends DbTableRow> table) {
         ArrayList<DbTable.DbColumnDef> columns = table.getAllColumns();
         String definition = "";
         if (columns.size() == 0) return definition;
@@ -81,7 +81,7 @@ public class DbContractExecutor {
         return definition;
     }
 
-    private String getPrimaryKeyDefinition(DbTable table) {
+    private String getPrimaryKeyDefinition(DbTable<? extends DbTableRow> table) {
         ArrayList<DbTable.DbColumnDef> pks = table.getPrimaryKeys();
         String definition = "";
         if (pks.size() == 0) return definition;
@@ -92,9 +92,8 @@ public class DbContractExecutor {
         return definition;
     }
 
-    private String getFkConstraintsDefinition(DbTable table) {
-        ArrayList<DbTable.ForeignKeyConstraint> constraints = table
-                .getForeignKeyConstraints();
+    private String getFkConstraintsDefinition(DbTable<? extends DbTableRow> table) {
+        ArrayList<DbTable.ForeignKeyConstraint> constraints = table.getForeignKeyConstraints();
         String definition = "";
         if (constraints.size() == 0) return definition;
 

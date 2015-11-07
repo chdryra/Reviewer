@@ -8,7 +8,7 @@ package com.chdryra.android.reviewer.Database;
 public class TableComments extends DbTable<RowComment> {
     private static final String TABLE = "Comments";
     
-    public TableComments(DbTable reviewsTable) {
+    public TableComments(DbTable<? extends RowReview> reviewsTable) {
         super(TABLE, RowComment.class);
         addPrimaryKey(RowComment.COLUMN_COMMENT_ID, SQL.StorageType.TEXT);
         addColumn(RowComment.COLUMN_REVIEW_ID, SQL.StorageType.TEXT, SQL.Nullable.FALSE);

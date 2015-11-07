@@ -3,12 +3,12 @@ package com.chdryra.android.reviewer.Model.ReviewStructure;
 import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.chdryra.android.reviewer.Database.DbTable;
+import com.chdryra.android.reviewer.Database.DbTableRow;
 import com.chdryra.android.reviewer.Database.MdDataRow;
 import com.chdryra.android.reviewer.Database.ReviewerDb;
-import com.chdryra.android.reviewer.Database.DbTable;
 import com.chdryra.android.reviewer.Database.RowAuthor;
 import com.chdryra.android.reviewer.Database.RowReview;
-import com.chdryra.android.reviewer.Database.DbTableRow;
 import com.chdryra.android.reviewer.Model.ReviewData.IdableList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdCommentList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdCriterionList;
@@ -45,24 +45,18 @@ public class ReviewUserDb implements Review {
         init(row, reviewFactory);
     }
 
-    public ReviewUserDb(String reviewId, ReviewerDb database, FactoryReview reviewFactory) {
-        mDatabase = database;
-        RowReview row = getRowWhere(mDatabase.getReviewsTable(), RowReview.REVIEW_ID, reviewId);
-        init(row, reviewFactory);
-    }
-
     private void init(RowReview row, FactoryReview reviewFactory) {
         ContentValues values = row.getContentValues();
 
-        String subject = values.getAsString(RowReview.SUBJECT);
-        mReviewId = ReviewId.fromString(values.getAsString(RowReview.REVIEW_ID));
+        String subject = values.getAsString(RowReview.COLUMN_SUBJECT);
+        mReviewId = ReviewId.fromString(values.getAsString(RowReview.COLUMN_REVIEW_ID));
         mSubject = new MdSubject(subject, mReviewId);
-        mPublishDate = PublishDate.then(values.getAsLong(RowReview.PUBLISH_DATE));
-        String userId = values.getAsString(RowReview.AUTHOR_ID);
+        mPublishDate = PublishDate.then(values.getAsLong(RowReview.COLUMN_PUBLISH_DATE));
+        String userId = values.getAsString(RowReview.COLUMN_AUTHOR_ID);
         mUserId = UserId.fromString(userId);
-        float rating = values.getAsFloat(RowReview.RATING);
+        float rating = values.getAsFloat(RowReview.COLUMN_RATING);
         mRating = new MdRating(rating, 1, mReviewId);
-        mRatingIsAverage = values.getAsBoolean(RowReview.IS_AVERAGE);
+        mRatingIsAverage = values.getAsBoolean(RowReview.COLUMN_RATING_IS_AVERAGE);
         mNode = reviewFactory.createReviewTreeNode(this, false).createTree();
     }
 
@@ -105,7 +99,8 @@ public class ReviewUserDb implements Review {
 
     @Override
     public Author getAuthor() {
-        RowAuthor row = getRowWhere(mDatabase.getAuthorsTable(), RowAuthor.USER_ID, mUserId.toString());
+        RowAuthor row = getRowWhere(mDatabase.getAuthorsTable(), RowAuthor.COLUMN_USER_ID,
+                mUserId.toString());
         return row.toAuthor();
     }
 
@@ -127,8 +122,8 @@ public class ReviewUserDb implements Review {
     @Override
     public MdCriterionList getCriteria() {
         SQLiteDatabase db = mDatabase.getHelper().getReadableDatabase();
-        IdableList<Review> criteria = mDatabase.loadReviewsFromDbWhere(db, RowReview.PARENT_ID,
-                mReviewId.toString());
+        IdableList<Review> criteria = mDatabase.loadReviewsFromDbWhere(db, RowReview
+                .COLUMN_PARENT_ID, mReviewId.toString());
         return new MdCriterionList(criteria, mReviewId);
     }
 

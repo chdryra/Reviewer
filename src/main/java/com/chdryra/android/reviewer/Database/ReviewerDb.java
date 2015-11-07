@@ -8,7 +8,6 @@
 
 package com.chdryra.android.reviewer.Database;
 
-import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
@@ -23,9 +22,7 @@ import com.chdryra.android.reviewer.Model.ReviewData.MdDataList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdFactList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdImageList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdLocationList;
-import com.chdryra.android.reviewer.Model.ReviewData.PublishDate;
 import com.chdryra.android.reviewer.Model.ReviewData.ReviewId;
-import com.chdryra.android.reviewer.Model.ReviewStructure.FactoryReview;
 import com.chdryra.android.reviewer.Model.ReviewStructure.Review;
 import com.chdryra.android.reviewer.Model.TagsModel.ReviewTag;
 import com.chdryra.android.reviewer.Model.TagsModel.ReviewTagCollection;
@@ -47,19 +44,22 @@ public class ReviewerDb implements ReviewerDbTables {
     private final ReviewerDbTables mTables;
     private final SQLiteOpenHelper mHelper;
     private final TagsManager mTagsManager;
-    private final FactoryReview mReviewFactory;
+    private final ReviewLoader mReviewLoader;
     private final FactoryDbTableRow mRowFactory;
     private final ArrayList<ReviewerDbObserver> mObservers;
 
-    public ReviewerDb(DbHelper dbHelper,
-                      ReviewerDbTables reviewerDbTables,
-                      TagsManager tagsManager,
-                      FactoryReview reviewFactory,
-                      FactoryDbTableRow rowFactory) {
-        mTables = reviewerDbTables;
+    public interface ReviewLoader {
+        Review loadReview(RowReview reviewRow, ReviewerDb database, SQLiteDatabase db);
+    }
+
+    public ReviewerDb(DbHelper<ReviewerDbContract> dbHelper,
+                      ReviewLoader reviewLoader,
+                      FactoryDbTableRow rowFactory,
+                      TagsManager tagsManager) {
         mHelper = dbHelper;
+        mTables = dbHelper.getContract();
         mTagsManager = tagsManager;
-        mReviewFactory = reviewFactory;
+        mReviewLoader = reviewLoader;
         mRowFactory = rowFactory;
         mObservers = new ArrayList<>();
     }
@@ -122,10 +122,6 @@ public class ReviewerDb implements ReviewerDbTables {
         mObservers.add(observer);
     }
 
-    public void unregisterObserver(ReviewerDbObserver observer) {
-        mObservers.remove(observer);
-    }
-
     public void addReviewToDb(Review review) {
         SQLiteDatabase db = mHelper.getWritableDatabase();
 
@@ -143,7 +139,7 @@ public class ReviewerDb implements ReviewerDbTables {
 
         db.beginTransaction();
         RowReview row = getRowWhere(db, getReviewsTable(), RowReview.COLUMN_REVIEW_ID, reviewId);
-        Review review = buildReview(row, db);
+        Review review = loadReview(row, db);
         db.setTransactionSuccessful();
         db.endTransaction();
 
@@ -183,7 +179,7 @@ public class ReviewerDb implements ReviewerDbTables {
 
         IdableList<Review> reviews = new IdableList<>();
         for (RowReview reviewRow : reviewsList) {
-            reviews.add(buildReview(reviewRow, db));
+            reviews.add(loadReview(reviewRow, db));
         }
 
         return reviews;
@@ -215,6 +211,7 @@ public class ReviewerDb implements ReviewerDbTables {
         return dataList;
     }
 
+    //Private methods
     private void loadTags(SQLiteDatabase db) {
         for (RowTag tag : getRowsWhere(db, getTagsTable(), null, null)) {
             ArrayList<String> reviews = tag.getReviewIds();
@@ -224,7 +221,6 @@ public class ReviewerDb implements ReviewerDbTables {
         }
     }
 
-    //Private methods
     private void notifyOnAddReview(Review review) {
         for (ReviewerDbObserver observer : mObservers) {
             observer.onReviewAdded(review);
@@ -237,31 +233,10 @@ public class ReviewerDb implements ReviewerDbTables {
         }
     }
 
-    private Review buildReview(RowReview reviewRow, SQLiteDatabase db) {
+    private Review loadReview(RowReview reviewRow, SQLiteDatabase db) {
         if (!reviewRow.hasData()) return null;
-
-        ContentValues values = reviewRow.getContentValues();
-
-        String reviewId = values.getAsString(RowReview.COLUMN_REVIEW_ID);
-        ReviewId id = ReviewId.fromString(values.getAsString(RowReview.COLUMN_REVIEW_ID));
-        String userId = values.getAsString(RowReview.COLUMN_AUTHOR_ID);
-        Author author = getRowWhere(db, getAuthorsTable(), RowAuthor.COLUMN_USER_ID, userId).toAuthor();
-        PublishDate publishDate = PublishDate.then(values.getAsLong(RowReview.COLUMN_PUBLISH_DATE));
-        String subject = values.getAsString(RowReview.COLUMN_SUBJECT);
-        float rating = values.getAsFloat(RowReview.COLUMN_RATING);
-        MdCommentList comments = loadFromDataTable(db, getCommentsTable(), reviewId, MdCommentList.class);
-        MdFactList facts = loadFromDataTable(db, getFactsTable(), reviewId, MdFactList.class);
-        MdLocationList locations = loadFromDataTable(db, getLocationsTable(), reviewId, MdLocationList.class);
-        MdImageList images = loadFromDataTable(db, getImagesTable(), reviewId, MdImageList.class);
-        IdableList<Review> critList = loadReviewsFromDbWhere(db, RowReview.COLUMN_PARENT_ID, reviewId);
-        boolean isAverage = values.getAsBoolean(RowReview.COLUMN_RATING_IS_AVERAGE);
-
-        ReviewerDbReview reviewDb = new ReviewerDbReview(id, author, publishDate, subject, rating,
-                comments, images, facts, locations, critList, isAverage);
-
-        Review review = mReviewFactory.createReviewUser(reviewDb);
-
-        setTags(id, db);
+        Review review = mReviewLoader.loadReview(reviewRow, this, db);
+        setTags(review.getId(), db);
 
         return review;
     }
@@ -525,79 +500,5 @@ public class ReviewerDb implements ReviewerDbTables {
             throw new RuntimeException("Couldn't invoke class " + listClass.getName(), e);
         }
     }
-    
-    public class ReviewerDbReview {
-        private final ReviewId mId;
-        private final Author mAuthor;
-        private final PublishDate mPublishDate;
-        private final String mSubject;
-        private final float mRating;
-        private final MdCommentList mComments;
-        private final MdImageList mImages;
-        private final MdFactList mFacts;
-        private final MdLocationList mLocations;
-        private final IdableList<Review> mCritList;
-        private final boolean mIsAverage;
-        
-        private  ReviewerDbReview(ReviewId id, Author author, PublishDate publishDate, 
-                                  String subject, float rating, MdCommentList comments,
-                                  MdImageList images, MdFactList facts, MdLocationList locations, 
-                                  IdableList<Review> critList, boolean isAverage) {
-            mId = id;
-            mAuthor = author;
-            mPublishDate = publishDate;
-            mSubject = subject;
-            mRating = rating;
-            mComments = comments;
-            mImages = images;
-            mFacts = facts;
-            mLocations = locations;
-            mCritList = critList;
-            mIsAverage = isAverage;
-        }
 
-        public ReviewId getId() {
-            return mId;
-        }
-
-        public Author getAuthor() {
-            return mAuthor;
-        }
-
-        public PublishDate getPublishDate() {
-            return mPublishDate;
-        }
-
-        public String getSubject() {
-            return mSubject;
-        }
-
-        public float getRating() {
-            return mRating;
-        }
-
-        public MdCommentList getComments() {
-            return mComments;
-        }
-
-        public MdImageList getImages() {
-            return mImages;
-        }
-
-        public MdFactList getFacts() {
-            return mFacts;
-        }
-
-        public MdLocationList getLocations() {
-            return mLocations;
-        }
-
-        public IdableList<Review> getCritList() {
-            return mCritList;
-        }
-
-        public boolean isAverage() {
-            return mIsAverage;
-        }
-    }
 }

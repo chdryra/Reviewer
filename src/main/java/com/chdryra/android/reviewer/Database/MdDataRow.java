@@ -8,6 +8,8 @@
 
 package com.chdryra.android.reviewer.Database;
 
+import android.content.ContentValues;
+
 import com.chdryra.android.reviewer.Model.ReviewData.MdData;
 
 /**
@@ -18,4 +20,16 @@ import com.chdryra.android.reviewer.Model.ReviewData.MdData;
 public interface MdDataRow<T extends MdData> extends DbTableRow {
     //abstract
     T toMdData();
+
+    @Override
+    String getRowId();
+
+    @Override
+    String getRowIdColumnName();
+
+    @Override
+    ContentValues getContentValues();
+
+    @Override
+    boolean hasData();
 }

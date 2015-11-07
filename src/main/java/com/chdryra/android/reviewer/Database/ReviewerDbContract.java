@@ -41,7 +41,7 @@ public final class ReviewerDbContract implements DbContract, ReviewerDbTables {
 
     //Overridden
     @Override
-    public ArrayList<DbTable> getTableDefinitions() {
+    public ArrayList<DbTable> getTables() {
         return mTablesList;
     }
 

@@ -11,6 +11,7 @@ import com.chdryra.android.reviewer.Database.DbContractExecutor;
 import com.chdryra.android.reviewer.Database.DbHelper;
 import com.chdryra.android.reviewer.Database.DbSpecification;
 import com.chdryra.android.reviewer.Database.FactoryDbTableRow;
+import com.chdryra.android.reviewer.Database.ReviewLoaderStatic;
 import com.chdryra.android.reviewer.Database.ReviewerDb;
 import com.chdryra.android.reviewer.Database.ReviewerDbContract;
 import com.chdryra.android.reviewer.Model.ReviewStructure.FactoryReview;
@@ -55,9 +56,10 @@ public class ReleaseApplicationContext extends ApplicationContextBasic {
         setBuilderChildListScreen(new BuilderChildListScreen());
 
         //FactoryReviewViewAdapter
+        GvDataAggregater aggregater = new GvDataAggregater();
+        FactoryGridDataViewer viewerFactory = new FactoryGridDataViewer();
         setFactoryReviewViewAdapter(new FactoryReviewViewAdapter(getBuilderChildListScreen(),
-                new FactoryGridDataViewer(), new GvDataAggregater(),
-                getReviewsRepository(), getMdGvConverter()));
+                viewerFactory, aggregater, getReviewsRepository(), getMdGvConverter()));
 
         //DataValidator
         setDataValidator(new DataValidator());
@@ -65,10 +67,13 @@ public class ReleaseApplicationContext extends ApplicationContextBasic {
         //ReviewerDb
         BuilderReviewerDbContract builder = new BuilderReviewerDbContract();
         ReviewerDbContract contract = builder.newContract();
-        DbSpecification spec = new DbSpecification(databaseName, contract, databaseVersion);
-        DbHelper dbHelper = new DbHelper(context, spec, new DbContractExecutor());
-        setReviewerDb(new ReviewerDb(dbHelper, contract, getTagsManager(), getReviewFactory(),
-                new FactoryDbTableRow(getDataValidator())));
+        DbSpecification<ReviewerDbContract> spec
+                = new DbSpecification<>(databaseName, contract, databaseVersion);
+        DbHelper<ReviewerDbContract> dbHelper
+                = new DbHelper<>(context, spec, new DbContractExecutor());
+        ReviewerDb.ReviewLoader loader = new ReviewLoaderStatic(getReviewFactory());
+        FactoryDbTableRow factory =new FactoryDbTableRow(getDataValidator());
+        setReviewerDb(new ReviewerDb(dbHelper, loader, factory, getTagsManager()));
 
         //ReviewsRepository
         ReviewerDbProvider provider = new ReviewerDbProvider(getReviewerDb());

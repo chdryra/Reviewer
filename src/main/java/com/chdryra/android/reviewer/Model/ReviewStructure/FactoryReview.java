@@ -13,7 +13,7 @@ import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataFact;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataImage;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataLocation;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.MdGvConverter;
-import com.chdryra.android.reviewer.Database.ReviewerDb;
+import com.chdryra.android.reviewer.Database.ReviewDataHolder;
 import com.chdryra.android.reviewer.Model.ReviewData.IdableList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdCommentList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdFactList;
@@ -33,7 +33,7 @@ import java.util.ArrayList;
  * put constructors so as to minimise the use of constructors in multiple places.
  * </p>
  */
-public class FactoryReview {
+public class FactoryReview implements ReviewDataHolder.BuilderReviewUser {
     private MdGvConverter mConverter;
 
     //Constructors
@@ -54,12 +54,6 @@ public class FactoryReview {
 
     public Review createReviewUser(ReviewPublisher publisher, String subject, float rating) {
         return newReviewUser(publisher, subject, rating);
-    }
-
-    public Review createReviewUser(ReviewerDb.ReviewerDbReview review) {
-        return newReviewUser(review.getId(), review.getAuthor(), review.getPublishDate(),
-                review.getSubject(), review.getRating(), review.getComments(), review.getImages(),
-                review.getFacts(), review.getLocations(), review.getCritList(), review.isAverage());
     }
 
     public ReviewTreeNode createReviewTreeNode(Review review, boolean isAverage) {
@@ -131,5 +125,13 @@ public class FactoryReview {
 
     private ReviewTreeNode newReviewTreeNode(Review review, boolean isAverage) {
         return new ReviewTreeNode(review, isAverage, review.getId());
+    }
+
+//Overridden
+    @Override
+    public Review createReviewUser(ReviewDataHolder review) {
+        return newReviewUser(review.getId(), review.getAuthor(), review.getPublishDate(),
+                review.getSubject(), review.getRating(), review.getComments(), review.getImages(),
+                review.getFacts(), review.getLocations(), review.getCritList(), review.isAverage());
     }
 }

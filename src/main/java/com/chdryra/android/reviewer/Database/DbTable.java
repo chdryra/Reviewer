@@ -75,7 +75,7 @@ public class DbTable<T extends DbTableRow> implements BaseColumns {
         mPrimaryKeys.add(new DbColumnDef(columnName, type, SQL.Nullable.FALSE));
     }
 
-    public void addForeignKeyConstraint(String[] columnNames, DbTable pkTable) {
+    public void addForeignKeyConstraint(String[] columnNames, DbTable<? extends DbTableRow> pkTable) {
         if (columnNames.length != pkTable.getPrimaryKeys().size()) {
             throw new IllegalArgumentException("Number of column names should match number of " +
                     "primary key columns in pkTable!");
@@ -104,10 +104,10 @@ public class DbTable<T extends DbTableRow> implements BaseColumns {
 
     public class ForeignKeyConstraint {
         private ArrayList<DbColumnDef> mFkColumns;
-        private DbTable mPkTable;
+        private DbTable<? extends DbTableRow> mPkTable;
 
         private ForeignKeyConstraint(ArrayList<DbColumnDef> fkColumns,
-                                     DbTable pkTable) {
+                                     DbTable<? extends DbTableRow> pkTable) {
             mFkColumns = fkColumns;
             mPkTable = pkTable;
         }
@@ -117,12 +117,12 @@ public class DbTable<T extends DbTableRow> implements BaseColumns {
             return mFkColumns;
         }
 
-        public DbTable getForeignTable() {
+        public DbTable<? extends DbTableRow> getForeignTable() {
             return mPkTable;
         }
     }
 
-    public class DbColumnDef {
+    public static class DbColumnDef {
         private String mColumnName;
         private SQL.StorageType mType;
         private boolean mIsNullable;

@@ -5,12 +5,12 @@ package com.chdryra.android.reviewer.Database;
  * On: 07/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class DbSpecification {
+public class DbSpecification<T extends DbContract> {
     private String mDatabaseName;
-    private DbContract mContract;
+    private T mContract;
     private int mVersionNumber;
 
-    public DbSpecification(String databaseName, DbContract contract, int versionNumber) {
+    public DbSpecification(String databaseName, T contract, int versionNumber) {
         mDatabaseName = databaseName;
         mContract = contract;
         mVersionNumber = versionNumber;
@@ -20,7 +20,7 @@ public class DbSpecification {
         return mDatabaseName;
     }
 
-    public DbContract getContract() {
+    public T getContract() {
         return mContract;
     }
 

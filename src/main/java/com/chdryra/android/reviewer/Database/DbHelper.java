@@ -17,15 +17,19 @@ import android.database.sqlite.SQLiteOpenHelper;
  * On: 08/04/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class DbHelper extends SQLiteOpenHelper {
-    private DbContract mContract;
+public class DbHelper<T extends DbContract> extends SQLiteOpenHelper {
+    private T mContract;
     private DbContractExecutor mDbContractExecutor;
 
     //Constructors
-    public DbHelper(Context context, DbSpecification spec, DbContractExecutor dbContractExecutor) {
+    public DbHelper(Context context, DbSpecification<T> spec, DbContractExecutor dbContractExecutor) {
         super(context, spec.getDatabaseName(), null, spec.getVersionNumber());
         mContract = spec.getContract();
         mDbContractExecutor = dbContractExecutor;
+    }
+
+    public T getContract() {
+        return mContract;
     }
 
     //Overridden

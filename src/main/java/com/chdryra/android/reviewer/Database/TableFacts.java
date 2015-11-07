@@ -8,7 +8,7 @@ package com.chdryra.android.reviewer.Database;
 public class TableFacts extends DbTable<RowFact> {
     private static final String TABLE = "Facts";
     
-    public TableFacts(DbTable reviewsTable) {
+    public TableFacts(DbTable<? extends RowReview> reviewsTable) {
         super(TABLE, RowFact.class);
         addPrimaryKey(RowFact.COLUMN_FACT_ID, SQL.StorageType.TEXT);
         addColumn(RowFact.COLUMN_REVIEW_ID, SQL.StorageType.TEXT, SQL.Nullable.FALSE);

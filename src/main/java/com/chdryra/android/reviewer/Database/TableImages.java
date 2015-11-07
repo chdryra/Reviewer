@@ -8,7 +8,7 @@ package com.chdryra.android.reviewer.Database;
 public class TableImages extends DbTable<RowImage> {
     private static final String TABLE = "Images";
     
-    public TableImages(DbTable reviewsTable) {
+    public TableImages(DbTable<? extends RowReview> reviewsTable) {
         super(TABLE, RowImage.class);
         addPrimaryKey(RowImage.COLUMN_IMAGE_ID, SQL.StorageType.TEXT);
         addColumn(RowImage.COLUMN_REVIEW_ID, SQL.StorageType.TEXT, SQL.Nullable.FALSE);

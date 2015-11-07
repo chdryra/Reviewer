@@ -17,7 +17,7 @@ import java.util.ArrayList;
  */
 public interface DbContract {
     //abstract
-    ArrayList<DbTable> getTableDefinitions();
+    ArrayList<DbTable<? extends DbTableRow>> getTables();
 
     ArrayList<String> getTableNames();
 }
