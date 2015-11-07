@@ -2,7 +2,7 @@ package com.chdryra.android.reviewer.Adapter.ReviewAdapterModel;
 
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.MdGvConverter;
 import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
-import com.chdryra.android.reviewer.View.GvDataAggregation.FactoryGvDataAggregate;
+import com.chdryra.android.reviewer.View.GvDataAggregation.GvDataAggregater;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCanonical;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCanonicalCollection;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
@@ -17,7 +17,7 @@ public class AdapterCommentsAggregate extends AdapterReviewNode<GvCanonical> {
     private GvCanonicalCollection<GvCommentList.GvComment> mCommentsSplit;
     private FactoryGridDataViewer mViewerFactory;
     private FactoryReviewViewAdapter mAdapterFactory;
-    private FactoryGvDataAggregate mAggregateFactory;
+    private GvDataAggregater mAggregater;
 
     //Constructors
     public AdapterCommentsAggregate(ReviewNode node,
@@ -25,12 +25,12 @@ public class AdapterCommentsAggregate extends AdapterReviewNode<GvCanonical> {
                                     GvCanonicalCollection<GvCommentList.GvComment> comments,
                                     FactoryGridDataViewer viewerFactory,
                                     FactoryReviewViewAdapter adapterFactory,
-                                    FactoryGvDataAggregate aggregateFactory) {
+                                    GvDataAggregater aggregater) {
         super(node, converter);
         mComments = comments;
         mViewerFactory = viewerFactory;
         mAdapterFactory = adapterFactory;
-        mAggregateFactory = aggregateFactory;
+        mAggregater = aggregater;
         setSplit(false);
     }
 
@@ -54,6 +54,6 @@ public class AdapterCommentsAggregate extends AdapterReviewNode<GvCanonical> {
             allComments.addList(canonical.toList());
         }
         GvCommentList split = allComments.getSplitComments();
-        mCommentsSplit = mAggregateFactory.getAggregate(split);
+        mCommentsSplit = mAggregater.getAggregate(split);
     }
 }

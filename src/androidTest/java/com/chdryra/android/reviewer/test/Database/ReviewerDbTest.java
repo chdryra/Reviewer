@@ -21,7 +21,7 @@ import android.test.suitebuilder.annotation.SmallTest;
 import com.chdryra.android.reviewer.Database.DbTableDef;
 import com.chdryra.android.reviewer.Database.ReviewerDb;
 import com.chdryra.android.reviewer.Database.ReviewerDbContract;
-import com.chdryra.android.reviewer.Database.ReviewerDbRow;
+import com.chdryra.android.reviewer.Database.FactoryTableRow;
 import com.chdryra.android.reviewer.Database.ReviewerDbTable;
 import com.chdryra.android.reviewer.Database.RowAuthor;
 import com.chdryra.android.reviewer.Database.RowComment;
@@ -30,6 +30,7 @@ import com.chdryra.android.reviewer.Database.RowImage;
 import com.chdryra.android.reviewer.Database.RowLocation;
 import com.chdryra.android.reviewer.Database.RowReview;
 import com.chdryra.android.reviewer.Database.RowTag;
+import com.chdryra.android.reviewer.Database.TableRow;
 import com.chdryra.android.reviewer.Model.ReviewData.IdableList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdCommentList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdCriterionList;
@@ -363,7 +364,7 @@ public class ReviewerDbTest extends AndroidTestCase {
     }
 
     private void testLocationsRow(MdLocationList.MdLocation location, int index, boolean hasData) {
-        String id = ReviewerDbRow.newRow(location, index).getRowId();
+        String id = FactoryTableRow.newRow(location, index).getRowId();
         ContentValues vals = getRowVals(ConfigDb.DbData.LOCATIONS, id);
         if (!hasData) {
             testNullContentValues(vals, ConfigDb.DbData.LOCATIONS);
@@ -379,7 +380,7 @@ public class ReviewerDbTest extends AndroidTestCase {
     }
 
     private void testImagesRow(MdImageList.MdImage image, int index, boolean hasData) {
-        String id = ReviewerDbRow.newRow(image, index).getRowId();
+        String id = FactoryTableRow.newRow(image, index).getRowId();
         ContentValues vals = getRowVals(ConfigDb.DbData.IMAGES, id);
         if (!hasData) {
             testNullContentValues(vals, ConfigDb.DbData.IMAGES);
@@ -399,7 +400,7 @@ public class ReviewerDbTest extends AndroidTestCase {
     }
 
     private void testFactsRow(MdFactList.MdFact fact, int index, boolean hasData) {
-        String id = ReviewerDbRow.newRow(fact, index).getRowId();
+        String id = FactoryTableRow.newRow(fact, index).getRowId();
         ContentValues vals = getRowVals(ConfigDb.DbData.FACTS, id);
         if (!hasData) {
             testNullContentValues(vals, ConfigDb.DbData.FACTS);
@@ -414,7 +415,7 @@ public class ReviewerDbTest extends AndroidTestCase {
     }
 
     private void testCommentsRow(MdCommentList.MdComment comment, int index, boolean hasData) {
-        String id = ReviewerDbRow.newRow(comment, index).getRowId();
+        String id = FactoryTableRow.newRow(comment, index).getRowId();
         ContentValues vals = getRowVals(ConfigDb.DbData.COMMENTS, id);
         if (!hasData) {
             testNullContentValues(vals, ConfigDb.DbData.COMMENTS);
@@ -428,7 +429,7 @@ public class ReviewerDbTest extends AndroidTestCase {
     }
 
     private void testReviewsRow(Review review, String parentId, boolean hasData) {
-        String id = ReviewerDbRow.newRow(review).getRowId();
+        String id = FactoryTableRow.newRow(review).getRowId();
         ContentValues vals = getRowVals(ConfigDb.DbData.REVIEWS, id);
         if (!hasData) {
             testNullContentValues(vals, ConfigDb.DbData.REVIEWS);
@@ -446,7 +447,7 @@ public class ReviewerDbTest extends AndroidTestCase {
     }
 
     private void testAuthorsRow(Author author, boolean hasData) {
-        String id = ReviewerDbRow.newRow(author).getRowId();
+        String id = FactoryTableRow.newRow(author).getRowId();
         ContentValues vals = getRowVals(ConfigDb.DbData.AUTHORS, id);
         if (!hasData) {
             testNullContentValues(vals, ConfigDb.DbData.AUTHORS);
@@ -474,12 +475,12 @@ public class ReviewerDbTest extends AndroidTestCase {
         SQLiteDatabase db = helper.getReadableDatabase();
         Cursor cursor = db.rawQuery(query, args);
 
-        ReviewerDbRow.TableRow row;
+        TableRow row;
         if (cursor.getCount() == 0) {
-            row = ReviewerDbRow.emptyRow(table.getRowClass());
+            row = FactoryTableRow.emptyRow(table.getRowClass());
         } else {
             cursor.moveToFirst();
-            row = ReviewerDbRow.newRow(cursor, table.getRowClass());
+            row = FactoryTableRow.newRow(cursor, table.getRowClass());
             assertTrue(row.hasData());
         }
 

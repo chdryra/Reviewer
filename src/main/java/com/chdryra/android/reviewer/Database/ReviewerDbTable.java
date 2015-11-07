@@ -13,7 +13,7 @@ package com.chdryra.android.reviewer.Database;
  * On: 09/04/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ReviewerDbTable<T extends ReviewerDbRow.TableRow> extends DbTableDef {
+public class ReviewerDbTable<T extends TableRow> extends DbTableDef {
     private Class<T> mRowClass;
 
     //Constructors

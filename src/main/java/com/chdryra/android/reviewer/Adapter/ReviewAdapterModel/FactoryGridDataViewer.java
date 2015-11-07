@@ -4,7 +4,7 @@ import com.chdryra.android.reviewer.Adapter.DataAdapterModel.MdGvConverter;
 import com.chdryra.android.reviewer.Model.ReviewData.IdableList;
 import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
 import com.chdryra.android.reviewer.Model.TagsModel.TagsManager;
-import com.chdryra.android.reviewer.View.GvDataAggregation.FactoryGvDataAggregate;
+import com.chdryra.android.reviewer.View.GvDataAggregation.GvDataAggregater;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCanonical;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCanonicalCollection;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCriterionList;
@@ -22,7 +22,7 @@ public class FactoryGridDataViewer {
                                                     MdGvConverter converter,
                                                     TagsManager tagsManager,
                                                     FactoryReviewViewAdapter adapterFactory,
-                                                    FactoryGvDataAggregate aggregateFactory) {
+                                                    GvDataAggregater aggregateFactory) {
         GridDataViewer<GvData> viewer;
         IdableList<ReviewNode> children = node.getChildren();
         if (children.size() > 1) {
@@ -52,7 +52,7 @@ public class FactoryGridDataViewer {
 
     public <T extends GvData> GridDataViewer<GvCanonical> newAggregateToDataViewer(GvCanonicalCollection<T> data,
                                                                          FactoryReviewViewAdapter adapterFactory,
-                                                                                   FactoryGvDataAggregate aggregateFactory) {
+                                                                                   GvDataAggregater aggregateFactory) {
         GridDataViewer<GvCanonical> viewer;
         if (data.getGvDataType().equals(GvCriterionList.GvCriterion.TYPE)) {
             viewer = new ViewerAggregateCriteria( (GvCanonicalCollection<GvCriterionList.GvCriterion>) data,

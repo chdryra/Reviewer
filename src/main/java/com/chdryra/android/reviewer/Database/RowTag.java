@@ -23,30 +23,33 @@ import java.util.Arrays;
  * On: 09/04/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class RowTag implements ReviewerDbRow.TableRow {
+public class RowTag implements TableRow {
     private static final String SEPARATOR = ",";
     public static String TAG = ReviewerDbContract.TableTags.COLUMN_NAME_TAG;
     public static String REVIEWS = ReviewerDbContract.TableTags.COLUMN_NAME_REVIEWS;
 
     private String mTag;
     private String mReviews;
+    private DataValidator mValidator;
 
     //Constructors
     public RowTag() {
     }
 
-    public RowTag(TagsManager.ReviewTag tag) {
+    public RowTag(TagsManager.ReviewTag tag, DataValidator validator) {
         mTag = tag.get();
         mReviews = "";
         for (ReviewId id : tag.getReviews()) {
             mReviews += id.toString() + SEPARATOR;
         }
         mReviews = mReviews.substring(0, mReviews.length() - 1);
+        mValidator = validator;
     }
 
-    public RowTag(Cursor cursor) {
+    public RowTag(Cursor cursor, DataValidator validator) {
         mTag = cursor.getString(cursor.getColumnIndexOrThrow(TAG));
         mReviews = cursor.getString(cursor.getColumnIndexOrThrow(REVIEWS));
+        mValidator = validator;
     }
 
     //public methods
@@ -80,6 +83,6 @@ public class RowTag implements ReviewerDbRow.TableRow {
 
     @Override
     public boolean hasData() {
-        return DataValidator.validateString(getRowId());
+        return mValidator != null && mValidator.validateString(getRowId());
     }
 }

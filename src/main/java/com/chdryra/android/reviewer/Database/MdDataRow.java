@@ -15,8 +15,7 @@ import com.chdryra.android.reviewer.Model.ReviewData.MdData;
  * On: 09/04/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public interface MdDataRow<T extends MdData> extends ReviewerDbRow.TableRow {
-    //abstract methods
+public interface MdDataRow<T extends MdData> extends TableRow {
     //abstract
     T toMdData();
 }

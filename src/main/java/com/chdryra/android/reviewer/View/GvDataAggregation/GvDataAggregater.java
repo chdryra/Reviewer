@@ -18,7 +18,7 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvTagList;
  * On: 14/07/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class FactoryGvDataAggregate {
+public class GvDataAggregater {
     private static final DifferenceBoolean SAME_BOOL = new DifferenceBoolean(false);
     private static final DifferencePercentage SAME_PCNT = new DifferencePercentage(0);
     private static final DifferenceDate SAME_DAY = new DifferenceDate(DifferenceDate.DateBucket
@@ -27,7 +27,7 @@ public class FactoryGvDataAggregate {
     private static final DifferenceLocation SAME_LOC = new DifferenceLocation(TEN_METRES,
             SAME_PCNT);
 
-    public FactoryGvDataAggregate() {
+    public GvDataAggregater() {
     }
 
     public GvCanonicalCollection<GvAuthorList.GvAuthor> getAggregate(GvAuthorList data) {

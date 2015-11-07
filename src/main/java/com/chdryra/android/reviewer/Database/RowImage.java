@@ -32,6 +32,7 @@ public class RowImage implements MdDataRow<MdImageList.MdImage> {
     public static String DATE = ReviewerDbContract.TableImages.COLUMN_NAME_IMAGE_DATE;
     public static String CAPTION = ReviewerDbContract.TableImages.COLUMN_NAME_CAPTION;
     public static String IS_COVER = ReviewerDbContract.TableImages.COLUMN_NAME_IS_COVER;
+    private static final String SEPARATOR = ":";
 
     private String mImageId;
     private String mReviewId;
@@ -39,29 +40,32 @@ public class RowImage implements MdDataRow<MdImageList.MdImage> {
     private long mDate;
     private String mCaption;
     private boolean mIsCover;
+    private DataValidator mValidator;
 
     //Constructors
     public RowImage() {
     }
 
-    public RowImage(MdImageList.MdImage image, int index) {
+    public RowImage(MdImageList.MdImage image, int index, DataValidator validator) {
         mReviewId = image.getReviewId().toString();
-        mImageId = mReviewId + ReviewerDbRow.SEPARATOR + "i" + String.valueOf(index);
+        mImageId = mReviewId + SEPARATOR + "i" + String.valueOf(index);
         mCaption = image.getCaption();
         mIsCover = image.isCover();
         mDate = image.getDate().getTime();
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         image.getBitmap().compress(Bitmap.CompressFormat.PNG, 100, bos);
         mBitmap = bos.toByteArray();
+        mValidator = validator;
     }
 
-    public RowImage(Cursor cursor) {
+    public RowImage(Cursor cursor, DataValidator validator) {
         mImageId = cursor.getString(cursor.getColumnIndexOrThrow(IMAGE_ID));
         mReviewId = cursor.getString(cursor.getColumnIndexOrThrow(REVIEW_ID));
         mBitmap = cursor.getBlob(cursor.getColumnIndexOrThrow(BITMAP));
         mDate = cursor.getLong(cursor.getColumnIndexOrThrow(DATE));
         mCaption = cursor.getString(cursor.getColumnIndexOrThrow(CAPTION));
         mIsCover = cursor.getInt(cursor.getColumnIndexOrThrow(IS_COVER)) == 1;
+        mValidator = validator;
     }
 
     //Overridden
@@ -90,7 +94,7 @@ public class RowImage implements MdDataRow<MdImageList.MdImage> {
 
     @Override
     public boolean hasData() {
-        return DataValidator.validateString(getRowId());
+        return mValidator != null && mValidator.validateString(getRowId());
     }
 
     @Override

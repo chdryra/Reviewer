@@ -137,7 +137,7 @@ public abstract class DialogGvDataAdd<T extends GvData> extends
         mLayout.onActivityAttached(getActivity(), args);
         mQuickSet = args != null && args.getBoolean(QUICK_SET);
 
-        mBuilder = Administrator.getInstance(getActivity()).getReviewBuilder().getDataBuilder(mDataType);
+        mBuilder = Administrator.getInstance(getActivity()).getReviewBuilderAdapter().getDataBuilder(mDataType);
 
         //TODO make type safe
         if (!isQuickSet()) {

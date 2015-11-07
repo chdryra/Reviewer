@@ -16,7 +16,6 @@ import java.util.ArrayList;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface DbContract {
-    //abstract methods
     //abstract
     ArrayList<DbTableDef> getTableDefinitions();
 

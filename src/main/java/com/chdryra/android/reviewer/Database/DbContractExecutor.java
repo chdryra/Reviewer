@@ -21,20 +21,13 @@ import java.util.ArrayList;
  * On: 31/03/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class DbManager {
+public class DbContractExecutor {
     private static final String CHECKS_OFF = "SET foreign_key_checks = 0;";
     private static final String CHECKS_ON = "SET foreign_key_checks = 1;";
     private static final String TAG = "DbCreator";
 
-    private DbContract mContract;
-
-    //Constructors
-    public DbManager(DbContract contract) {
-        mContract = contract;
-    }
-
-    public void createDatabase(SQLiteDatabase db) {
-        ArrayList<DbTableDef> tableDefs = mContract.getTableDefinitions();
+    public void createDatabase(DbContract contract, SQLiteDatabase db) {
+        ArrayList<DbTableDef> tableDefs = contract.getTableDefinitions();
         for (DbTableDef tableDef : tableDefs) {
             try {
                 String command = getCreateTableSql(tableDef);
@@ -46,9 +39,9 @@ public class DbManager {
         }
     }
 
-    public void upgradeDatabase(SQLiteDatabase db, int oldVersion, int newVersion) {
+    public void upgradeDatabase(DbContract contract, SQLiteDatabase db, int oldVersion, int newVersion) {
         try {
-            db.execSQL(dropAllTablesSql());
+            db.execSQL(dropAllTablesSql(contract.getTableNames()));
         } catch (SQLException e) {
             throw new RuntimeException("Problem dropping tables", e);
         }
@@ -126,8 +119,8 @@ public class DbManager {
         return definition;
     }
 
-    private String dropAllTablesSql() {
-        String tables = StringUtils.join(mContract.getTableNames().toArray(), ",");
+    private String dropAllTablesSql(ArrayList<String> tableNames) {
+        String tables = StringUtils.join(tableNames.toArray(), ",");
         String dropString = SQL.DROP_TABLE_IF_EXISTS + tables + SQL.SEMICOLON;
 
         String definition = CHECKS_OFF + SQL.NEW_LINE;

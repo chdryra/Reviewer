@@ -1,5 +1,6 @@
 package com.chdryra.android.reviewer.ApplicationContexts;
 
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.MdGvConverter;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.FactoryReviewViewAdapter;
 import com.chdryra.android.reviewer.Database.ReviewerDb;
@@ -17,12 +18,13 @@ import com.chdryra.android.reviewer.View.Screens.BuilderChildListScreen;
  */
 public interface ApplicationContext {
     Author getAuthor();
-    ReviewerDb getDataBase();
+    ReviewerDb getReviewerDb();
     TagsManager getTagsManager();
     SocialPlatformList getSocialPlatformList();
     ReviewsRepository getReviewsRepository();
     MdGvConverter getMdGvConverter();
     FactoryReviewViewAdapter getReviewViewAdapterFactory();
-    BuilderChildListScreen getChildListScreenFactory();
+    BuilderChildListScreen getBuilderChildListScreen();
     FactoryReview getReviewFactory();
+    DataValidator getDataValidator();
 }

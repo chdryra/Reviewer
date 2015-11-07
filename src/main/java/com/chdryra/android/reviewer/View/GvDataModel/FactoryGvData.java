@@ -79,23 +79,6 @@ public class FactoryGvData {
         }
     }
 
-    public static <T extends GvData> T copy(T datum) {
-        //TODO make type safe
-        Class<T> dataClass = (Class<T>) datum.getGvDataType().getDataClass();
-        try {
-            Constructor<T> ctor = dataClass.getConstructor(datum.getClass());
-            return ctor.newInstance(datum);
-        } catch (NoSuchMethodException e) {
-            throw new RuntimeException(NO_CTOR_ERR + dataClass.getName());
-        } catch (InstantiationException e) {
-            throw new RuntimeException(INSTANTIATION_ERR + dataClass.getName());
-        } catch (IllegalAccessException e) {
-            throw new RuntimeException(ILLEGAL_ACCESS_ERR + dataClass.getName());
-        } catch (InvocationTargetException e) {
-            throw new RuntimeException(INVOCATION_ERR + dataClass.getName());
-        }
-    }
-
     private static FactoryGvData get() {
         if (sFactory == null) sFactory = new FactoryGvData();
         return sFactory;

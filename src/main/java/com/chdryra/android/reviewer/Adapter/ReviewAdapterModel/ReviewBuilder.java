@@ -47,14 +47,16 @@ public class ReviewBuilder {
     private MdGvConverter mConverter;
     private TagsManager mTagsManager;
     private FactoryReview mReviewFactory;
+    private DataValidator mDataValidator;
 
     //Constructors
     public ReviewBuilder(Author author, MdGvConverter converter, TagsManager tagsManager,
-                         FactoryReview reviewFactory) {
+                         FactoryReview reviewFactory, DataValidator dataValidator) {
         mAuthor = author;
         mConverter = converter;
         mTagsManager = tagsManager;
         mReviewFactory = reviewFactory;
+        mDataValidator = dataValidator;
 
         mChildren = new ArrayList<>();
         mData = new HashMap<>();
@@ -95,7 +97,8 @@ public class ReviewBuilder {
     }
 
     public float getAverageRating() {
-        return getCriteria().getAverageRating();
+        GvCriterionList criteria = (GvCriterionList) getData(GvCriterionList.GvCriterion.TYPE);
+        return criteria.getAverageRating();
     }
 
     public void setRatingIsAverage(boolean ratingIsAverage) {
@@ -105,7 +108,7 @@ public class ReviewBuilder {
 
     //TODO make type safe
     public <T extends GvData> DataBuilder<T> getDataBuilder(GvDataType<T> dataType) {
-        return (DataBuilder<T>) mDataBuilders.get(dataType);
+        return mDataBuilders.get(dataType);
     }
 
     public <T extends GvData> void resetDataBuilder(GvDataType<T> dataType) {
@@ -114,8 +117,7 @@ public class ReviewBuilder {
 
     //TODO make type safe
     public <T extends GvData> GvDataList<T> getData(GvDataType<T> dataType) {
-        GvDataList data = mData.get(dataType);
-        return data != null ? mConverter.copy(data) : null;
+        return mData.get(dataType);
     }
 
     public <T extends GvData> void setData(GvDataList<T> data, boolean copy) {
@@ -145,11 +147,7 @@ public class ReviewBuilder {
 
     //private methods
     private boolean isValidForPublication() {
-        return DataValidator.validateString(mSubject) && getData(GvTagList.GvTag.TYPE).size() > 0;
-    }
-
-    private GvCriterionList getCriteria() {
-        return (GvCriterionList) getData(GvCriterionList.GvCriterion.TYPE);
+        return mDataValidator.validateString(mSubject) && getData(GvTagList.GvTag.TYPE).size() > 0;
     }
 
     private Review assembleReview(ReviewPublisher publisher) {
@@ -174,8 +172,8 @@ public class ReviewBuilder {
     private void setCriteria(GvDataList children) {
         mChildren = new ArrayList<>();
         for (GvCriterionList.GvCriterion child : (GvCriterionList) children) {
-            ReviewBuilder childBuilder =
-                    new ReviewBuilder(mAuthor, mConverter, mTagsManager, mReviewFactory);
+            ReviewBuilder childBuilder = new ReviewBuilder(mAuthor, mConverter, mTagsManager,
+                    mReviewFactory, mDataValidator);
             childBuilder.setSubject(child.getSubject());
             childBuilder.setRating(child.getRating());
             mChildren.add(childBuilder);
@@ -223,9 +221,11 @@ public class ReviewBuilder {
             getParentBuilder().setData(getData(), true);
         }
 
+        //TODO make type safe
         public void resetData() {
             GvDataType<T> type = mHandler.getGvDataType();
-            mHandler = FactoryGvDataHandler.newHandler(getParentBuilder().getData(type));
+            GvDataList<T> data = mConverter.copy(getParentBuilder().getData(type));
+            mHandler = FactoryGvDataHandler.newHandler(data);
         }
     }
 }

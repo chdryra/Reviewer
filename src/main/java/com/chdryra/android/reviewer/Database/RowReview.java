@@ -20,7 +20,7 @@ import com.chdryra.android.reviewer.Model.ReviewStructure.Review;
  * On: 09/04/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class RowReview implements ReviewerDbRow.TableRow {
+public class RowReview implements TableRow {
     public static String REVIEW_ID = ReviewerDbContract.TableReviews.COLUMN_NAME_REVIEW_ID;
     public static String PARENT_ID = ReviewerDbContract.TableReviews.COLUMN_NAME_PARENT_ID;
     public static String AUTHOR_ID = ReviewerDbContract.TableReviews.COLUMN_NAME_AUTHOR_ID;
@@ -37,26 +37,28 @@ public class RowReview implements ReviewerDbRow.TableRow {
     private String mSubject;
     private float mRating;
     private boolean mRatingIsAverage;
+    private DataValidator mValidator;
 
     //Constructors
     public RowReview() {
     }
 
-    public RowReview(Review review) {
+    public RowReview(Review review, DataValidator validator) {
         mReviewId = review.getId().toString();
         mAuthorId = review.getAuthor().getUserId().toString();
         mPublishDate = review.getPublishDate().getDate().getTime();
         mSubject = review.getSubject().get();
         mRating = review.getRating().getValue();
         mRatingIsAverage = review.isRatingAverageOfCriteria();
+        mValidator = validator;
     }
 
-    public RowReview(MdCriterionList.MdCriterion criterion) {
-        this(criterion.getReview());
+    public RowReview(MdCriterionList.MdCriterion criterion, DataValidator validator) {
+        this(criterion.getReview(), validator);
         mParentId = criterion.getReviewId().toString();
     }
 
-    public RowReview(Cursor cursor) {
+    public RowReview(Cursor cursor, DataValidator validator) {
         mReviewId = cursor.getString(cursor.getColumnIndexOrThrow(REVIEW_ID));
         mParentId = cursor.getString(cursor.getColumnIndexOrThrow(PARENT_ID));
         mAuthorId = cursor.getString(cursor.getColumnIndexOrThrow(AUTHOR_ID));
@@ -64,6 +66,7 @@ public class RowReview implements ReviewerDbRow.TableRow {
         mSubject = cursor.getString(cursor.getColumnIndexOrThrow(SUBJECT));
         mRating = cursor.getFloat(cursor.getColumnIndexOrThrow(RATING));
         mRatingIsAverage = cursor.getInt(cursor.getColumnIndexOrThrow(IS_AVERAGE)) == 1;
+        mValidator = validator;
     }
 
     //Overridden
@@ -93,6 +96,6 @@ public class RowReview implements ReviewerDbRow.TableRow {
 
     @Override
     public boolean hasData() {
-        return DataValidator.validateString(getRowId());
+        return mValidator != null && mValidator.validateString(getRowId());
     }
 }

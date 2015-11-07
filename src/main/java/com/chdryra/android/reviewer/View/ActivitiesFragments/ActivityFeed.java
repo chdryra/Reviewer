@@ -41,7 +41,7 @@ public class ActivityFeed extends ActivityReviewView
         ReviewsRepository feed = admin.getReviewsRepository();
         FactoryReview reviewFactory = appContext.getReviewFactory();
         MdGvConverter converter = appContext.getMdGvConverter();
-        BuilderChildListScreen childListFactory = appContext.getChildListScreenFactory();
+        BuilderChildListScreen childListFactory = appContext.getBuilderChildListScreen();
         FactoryReviewViewAdapter adapterFactory = appContext.getReviewViewAdapterFactory();
         FeedScreenMenu menuAction = new FeedScreenMenu();
 

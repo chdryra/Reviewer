@@ -1,6 +1,7 @@
 package com.chdryra.android.reviewer.ReviewsProviderModel;
 
 import com.chdryra.android.reviewer.Database.ReviewerDb;
+import com.chdryra.android.reviewer.Database.ReviewerDbObserver;
 import com.chdryra.android.reviewer.Model.ReviewData.IdableList;
 import com.chdryra.android.reviewer.Model.ReviewData.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewStructure.Review;
@@ -13,7 +14,7 @@ import java.util.ArrayList;
  * On: 30/09/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ReviewerDbProvider implements ReviewsProvider, ReviewerDb.ReviewerDbObserver {
+public class ReviewerDbProvider implements ReviewsProvider, ReviewerDbObserver {
     private ReviewerDb mDatabase;
     private ArrayList<ReviewsProviderObserver> mObservers;
 

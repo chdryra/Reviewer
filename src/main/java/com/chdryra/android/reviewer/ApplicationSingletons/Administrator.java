@@ -13,7 +13,6 @@ import android.content.Context;
 import android.os.Bundle;
 
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.FactoryReviewViewAdapter;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilder;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilderAdapter;
 import com.chdryra.android.reviewer.ApplicationContexts.ApplicationContext;
 import com.chdryra.android.reviewer.Database.ReviewerDb;
@@ -60,7 +59,7 @@ public class Administrator extends ApplicationSingleton {
     private Administrator(Context context, ApplicationContext applicationContext) {
         super(context, NAME);
         mApplicationContext = applicationContext;
-        mDatabase = applicationContext.getDataBase();
+        mDatabase = applicationContext.getReviewerDb();
     }
 
     //Static methods
@@ -80,11 +79,15 @@ public class Administrator extends ApplicationSingleton {
     }
 
     //public methods
+    public ApplicationContext getApplicationContext() {
+        return mApplicationContext;
+    }
+
     public ReviewsRepository getReviewsRepository() {
         return mApplicationContext.getReviewsRepository();
     }
 
-    public ReviewBuilderAdapter getReviewBuilder() {
+    public ReviewBuilderAdapter getReviewBuilderAdapter() {
         return mReviewBuilderAdapter;
     }
 
@@ -92,12 +95,8 @@ public class Administrator extends ApplicationSingleton {
         return mApplicationContext.getSocialPlatformList();
     }
 
-    public ReviewBuilderAdapter newReviewBuilder() {
-        ReviewBuilder builder = new ReviewBuilder(mApplicationContext.getAuthor(),
-                mApplicationContext.getMdGvConverter(), mApplicationContext.getTagsManager(),
-                mApplicationContext.getReviewFactory());
-        mReviewBuilderAdapter = new ReviewBuilderAdapter(getContext(), builder);
-        return mReviewBuilderAdapter;
+    public void setReviewBuilderAdapter(ReviewBuilderAdapter reviewBuilderAdapter) {
+        mReviewBuilderAdapter = reviewBuilderAdapter;
     }
 
     public void publishReviewBuilder() {

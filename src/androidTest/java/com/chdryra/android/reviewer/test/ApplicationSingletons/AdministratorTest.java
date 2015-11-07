@@ -36,7 +36,7 @@ public class AdministratorTest extends InstrumentationTestCase {
     @SmallTest
     public void testGetImageChooser() {
         Context context = getInstrumentation().getTargetContext();
-        if (mAdmin.getReviewBuilder() == null) {
+        if (mAdmin.getReviewBuilderAdapter() == null) {
             assertNull(Administrator.getImageChooser(context));
         }
         mAdmin.newReviewBuilder();
@@ -52,7 +52,7 @@ public class AdministratorTest extends InstrumentationTestCase {
     public void testGetReviewBuilder() {
         ReviewBuilderAdapter builder = mAdmin.newReviewBuilder();
         assertNotNull(builder);
-        assertEquals(builder, mAdmin.getReviewBuilder());
+        assertEquals(builder, mAdmin.getReviewBuilderAdapter());
     }
 
     @SmallTest
@@ -84,7 +84,7 @@ public class AdministratorTest extends InstrumentationTestCase {
         IdableList<Review> reviews = repo.getReviews();
         int newSize = reviews.size();
         assertEquals(numReviews + 1, newSize);
-        assertNull(mAdmin.getReviewBuilder());
+        assertNull(mAdmin.getReviewBuilderAdapter());
 
         IdableList<Review> fromDb = db.loadReviewsFromDb();
         assertEquals(numReviews + 1, fromDb.size());

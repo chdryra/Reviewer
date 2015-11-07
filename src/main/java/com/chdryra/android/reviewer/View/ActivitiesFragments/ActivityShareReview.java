@@ -18,7 +18,7 @@ public class ActivityShareReview extends ActivityReviewView {
         Administrator admin = Administrator.getInstance(this);
         String title = getResources().getString(R.string.button_social);
         SocialPlatformList socialPlatforms = admin.getSocialPlatformList();
-        ReviewBuilderAdapter builder = admin.getReviewBuilder();
+        ReviewBuilderAdapter builder = admin.getReviewBuilderAdapter();
         BuilderShareScreen shareScreen = new BuilderShareScreen();
         return shareScreen.createView(title, socialPlatforms, builder);
     }

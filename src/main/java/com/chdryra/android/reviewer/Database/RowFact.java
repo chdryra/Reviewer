@@ -31,31 +31,35 @@ public class RowFact implements MdDataRow<MdFactList.MdFact> {
     public static String LABEL = ReviewerDbContract.TableFacts.COLUMN_NAME_LABEL;
     public static String VALUE = ReviewerDbContract.TableFacts.COLUMN_NAME_VALUE;
     public static String IS_URL = ReviewerDbContract.TableFacts.COLUMN_NAME_IS_URL;
+    private static final String SEPARATOR = ":";
 
     private String mFactId;
     private String mReviewId;
     private String mLabel;
     private String mValue;
     private boolean mIsUrl;
+    private DataValidator mValidator;
 
     //Constructors
     public RowFact() {
     }
 
-    public RowFact(MdFactList.MdFact fact, int index) {
+    public RowFact(MdFactList.MdFact fact, int index, DataValidator validator) {
         mReviewId = fact.getReviewId().toString();
-        mFactId = mReviewId + ReviewerDbRow.SEPARATOR + "f" + String.valueOf(index);
+        mFactId = mReviewId + SEPARATOR + "f" + String.valueOf(index);
         mLabel = fact.getLabel();
         mValue = fact.getValue();
         mIsUrl = fact.isUrl();
+        mValidator = validator;
     }
 
-    public RowFact(Cursor cursor) {
+    public RowFact(Cursor cursor, DataValidator validator) {
         mFactId = cursor.getString(cursor.getColumnIndexOrThrow(FACT_ID));
         mReviewId = cursor.getString(cursor.getColumnIndexOrThrow(REVIEW_ID));
         mLabel = cursor.getString(cursor.getColumnIndexOrThrow(LABEL));
         mValue = cursor.getString(cursor.getColumnIndexOrThrow(VALUE));
         mIsUrl = cursor.getInt(cursor.getColumnIndexOrThrow(IS_URL)) == 1;
+        mValidator = validator;
     }
 
     //Overridden
@@ -83,7 +87,7 @@ public class RowFact implements MdDataRow<MdFactList.MdFact> {
 
     @Override
     public boolean hasData() {
-        return DataValidator.validateString(getRowId());
+        return mValidator != null && mValidator.validateString(getRowId());
     }
 
     public MdFactList.MdFact toMdData() {

@@ -25,28 +25,32 @@ public class RowComment implements MdDataRow<MdCommentList.MdComment> {
     public static String REVIEW_ID = ReviewerDbContract.TableComments.COLUMN_NAME_REVIEW_ID;
     public static String COMMENT = ReviewerDbContract.TableComments.COLUMN_NAME_COMMENT;
     public static String IS_HEADLINE = ReviewerDbContract.TableComments.COLUMN_NAME_IS_HEADLINE;
+    private static final String SEPARATOR = ":";
 
     private String mCommentId;
     private String mReviewId;
     private String mComment;
     private boolean mIsHeadline;
+    private DataValidator mValidator;
 
     //Constructors
     public RowComment() {
     }
 
-    public RowComment(MdCommentList.MdComment comment, int index) {
+    public RowComment(MdCommentList.MdComment comment, int index, DataValidator validator) {
         mReviewId = comment.getReviewId().toString();
-        mCommentId = mReviewId + ReviewerDbRow.SEPARATOR + "c" + String.valueOf(index);
+        mCommentId = mReviewId + SEPARATOR + "c" + String.valueOf(index);
         mComment = comment.getComment();
         mIsHeadline = comment.isHeadline();
+        mValidator = validator;
     }
 
-    public RowComment(Cursor cursor) {
+    public RowComment(Cursor cursor, DataValidator validator) {
         mReviewId = cursor.getString(cursor.getColumnIndexOrThrow(REVIEW_ID));
         mCommentId = cursor.getString(cursor.getColumnIndexOrThrow(COMMENT_ID));
         mComment = cursor.getString(cursor.getColumnIndexOrThrow(COMMENT));
         mIsHeadline = cursor.getInt(cursor.getColumnIndexOrThrow(IS_HEADLINE)) == 1;
+        mValidator = validator;
     }
 
     //Overridden
@@ -73,7 +77,7 @@ public class RowComment implements MdDataRow<MdCommentList.MdComment> {
 
     @Override
     public boolean hasData() {
-        return DataValidator.validateString(getRowId());
+        return mValidator != null && mValidator.validateString(getRowId());
     }
 
     @Override

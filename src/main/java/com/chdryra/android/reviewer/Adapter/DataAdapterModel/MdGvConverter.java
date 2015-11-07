@@ -28,8 +28,8 @@ import com.chdryra.android.reviewer.Model.UserData.Author;
 import com.chdryra.android.reviewer.View.GvDataModel.GvAuthorList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCriterionList;
+import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDateList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvFactList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
@@ -37,9 +37,10 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvLocationList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvReviewId;
 import com.chdryra.android.reviewer.View.GvDataModel.GvReviewOverviewList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvSubjectList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvTagList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvUrlList;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 
 /**
@@ -247,35 +248,50 @@ public class MdGvConverter {
 
         return list;
     }
+//
+//    public GvDataList copy(GvDataList data) {
+//        GvDataType dataType = data.getGvDataType();
+//        if (dataType.equals(GvCommentList.GvComment.TYPE)) {
+//            return new GvCommentList((GvCommentList) data);
+//        } else if (dataType.equals(GvFactList.GvFact.TYPE)) {
+//            return copyFactsOrUrls((GvFactList) data);
+//        } else if (dataType.equals(GvImageList.GvImage.TYPE)) {
+//            return new GvImageList((GvImageList) data);
+//        } else if (dataType.equals(GvLocationList.GvLocation.TYPE)) {
+//            return new GvLocationList((GvLocationList) data);
+//        } else if (dataType.equals(GvUrlList.GvUrl.TYPE)) {
+//            return new GvUrlList((GvUrlList) data);
+//        } else if (dataType.equals(GvTagList.GvTag.TYPE)) {
+//            return new GvTagList((GvTagList) data);
+//        } else if (dataType.equals(GvCriterionList.GvCriterion.TYPE)) {
+//            return new GvCriterionList((GvCriterionList) data);
+//        } else {
+//            return null;
+//        }
+//    }
 
-    public GvDataList copy(GvDataList data) {
-        GvDataType dataType = data.getGvDataType();
-        if (dataType.equals(GvCommentList.GvComment.TYPE)) {
-            return new GvCommentList((GvCommentList) data);
-        } else if (dataType.equals(GvFactList.GvFact.TYPE)) {
-            return copy((GvFactList) data);
-        } else if (dataType.equals(GvImageList.GvImage.TYPE)) {
-            return new GvImageList((GvImageList) data);
-        } else if (dataType.equals(GvLocationList.GvLocation.TYPE)) {
-            return new GvLocationList((GvLocationList) data);
-        } else if (dataType.equals(GvUrlList.GvUrl.TYPE)) {
-            return new GvUrlList((GvUrlList) data);
-        } else if (dataType.equals(GvTagList.GvTag.TYPE)) {
-            return new GvTagList((GvTagList) data);
-        } else if (dataType.equals(GvCriterionList.GvCriterion.TYPE)) {
-            return new GvCriterionList((GvCriterionList) data);
-        } else {
-            return null;
+    public <T extends GvData> GvDataList<T> copy(GvDataList<T> data) {
+        Class<?> dataClass = data.getClass();
+        Constructor<?> con;
+        try {
+            con = dataClass.getConstructor(dataClass);
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
         }
-    }
 
-    private GvFactList copy(GvFactList facts) {
-        GvFactList list = new GvFactList(facts.getReviewId());
-        for (GvFactList.GvFact fact : facts) {
-            list.add(getGvFactOrUrl(fact));
+        try {
+            return (GvDataList<T>) con.newInstance(data);
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
         }
-
-        return list;
     }
 
     private GvFactList.GvFact getGvFactOrUrl(MdFactList.MdFact fact) {
@@ -285,14 +301,6 @@ public class MdGvConverter {
             return new GvUrlList.GvUrl(id, fact.getLabel(), url.getUrl());
         } else {
             return new GvFactList.GvFact(id, fact.getLabel(), fact.getValue());
-        }
-    }
-
-    private GvFactList.GvFact getGvFactOrUrl(GvFactList.GvFact fact) {
-        if (fact.isUrl()) {
-            return new GvUrlList.GvUrl((GvUrlList.GvUrl) fact);
-        } else {
-            return new GvFactList.GvFact(fact);
         }
     }
 

@@ -14,12 +14,12 @@ package com.chdryra.android.reviewer.Adapter.DataAdapterModel;
  * Email: rizwan.choudrey@gmail.com
  */
 public class DataValidator {
-    //Static methods
-    public static boolean validate(DataComment comment) {
+
+    public boolean validate(DataComment comment) {
         return NotNull(comment) && validateString(comment.getComment());
     }
 
-    public static boolean validate(DataFact fact) {
+    public boolean validate(DataFact fact) {
         if (!NotNull(fact)) return false;
 
         if (fact.isUrl()) {
@@ -30,24 +30,24 @@ public class DataValidator {
         }
     }
 
-    public static boolean validate(DataImage image) {
+    public boolean validate(DataImage image) {
         return NotNull(image) && NotNull(image.getBitmap());
     }
 
-    public static boolean validate(DataLocation location) {
+    public boolean validate(DataLocation location) {
         return NotNull(location) && NotNull(location.getLatLng()) && validateString(location
                 .getName());
     }
 
-    public static boolean validateUrl(DataUrl url) {
+    public boolean validateUrl(DataUrl url) {
         return NotNull(url) && NotNull(url.getUrl()) && validateString(url.getLabel());
     }
 
-    public static boolean validateString(String string) {
+    public boolean validateString(String string) {
         return NotNull(string) && string.length() > 0;
     }
 
-    public static boolean NotNull(Object obj) {
+    public boolean NotNull(Object obj) {
         return obj != null;
     }
 }

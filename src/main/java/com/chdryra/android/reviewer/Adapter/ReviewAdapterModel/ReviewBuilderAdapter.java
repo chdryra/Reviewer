@@ -10,6 +10,8 @@ package com.chdryra.android.reviewer.Adapter.ReviewAdapterModel;
 
 import android.content.Context;
 import android.os.Environment;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.widget.Toast;
 
 import com.chdryra.android.mygenerallibrary.FileIncrementor;
@@ -59,12 +61,14 @@ public class ReviewBuilderAdapter extends ReviewViewAdapterBasic {
     private final BuilderGridData mBuildUi;
     private FileIncrementor mIncrementor;
     private ReviewBuilder mBuilder;
+    private DataValidator mDataValidator;
     private GvTagList.GvTag mSubjectTag;
 
     //Constructors
-    public ReviewBuilderAdapter(Context context, ReviewBuilder builder) {
+    public ReviewBuilderAdapter(Context context, ReviewBuilder builder, DataValidator dataValidator) {
         mContext = context;
         mBuilder = builder;
+        mDataValidator = dataValidator;
         mDataBuilders = new DataBuildersMap();
         mBuildUi = new BuilderGridData(this);
         newIncrementor();
@@ -89,7 +93,7 @@ public class ReviewBuilderAdapter extends ReviewViewAdapterBasic {
     }
 
     public boolean hasTags() {
-        return getData(GvTagList.GvTag.TYPE).size() > 0;
+        return mBuilder.getData(GvTagList.GvTag.TYPE).size() > 0;
     }
 
     public Review publish() {
@@ -97,10 +101,6 @@ public class ReviewBuilderAdapter extends ReviewViewAdapterBasic {
     }
 
     //private methods
-    private <T extends GvData> GvDataList<T> getData(GvDataType<T> dataType) {
-        return mBuilder.getData(dataType);
-    }
-
     private GvTagList.GvTag adjustTagsIfNecessary(GvTagList.GvTag toRemove, String toAdd) {
         String camel = TextUtils.toCamelCase(toAdd);
         GvTagList.GvTag newTag = new GvTagList.GvTag(camel);
@@ -108,7 +108,7 @@ public class ReviewBuilderAdapter extends ReviewViewAdapterBasic {
 
         DataBuilderAdapter<GvTagList.GvTag> tagBuilder = getDataBuilder(GvTagList.GvTag.TYPE);
         GvTagList tags = (GvTagList) tagBuilder.getGridData();
-        boolean added = DataValidator.validateString(camel) && !tags.contains(newTag)
+        boolean added = mDataValidator.validateString(camel) && !tags.contains(newTag)
                 && tagBuilder.add(newTag);
         tagBuilder.delete(toRemove);
         tagBuilder.setData();
@@ -120,7 +120,7 @@ public class ReviewBuilderAdapter extends ReviewViewAdapterBasic {
         String author = mBuilder.getAuthor().getName();
         String dir = mContext.getString(mContext.getApplicationInfo().labelRes);
         String subject = mBuilder.getSubject();
-        String filename = DataValidator.validateString(subject) ? subject : author;
+        String filename = mDataValidator.validateString(subject) ? subject : author;
         mIncrementor = FileIncrementorFactory.newImageFileIncrementor(FILE_DIR_EXT, dir, filename);
     }
 
@@ -151,7 +151,7 @@ public class ReviewBuilderAdapter extends ReviewViewAdapterBasic {
 
     @Override
     public GvImageList getCovers() {
-        return ((GvImageList) getData(GvImageList.GvImage.TYPE)).getCovers();
+        return ((GvImageList) mBuilder.getData(GvImageList.GvImage.TYPE)).getCovers();
     }
 
     public class DataBuilderAdapter<T extends GvData> extends ReviewViewAdapterBasic<T> {
@@ -298,7 +298,18 @@ public class ReviewBuilderAdapter extends ReviewViewAdapterBasic {
      * on the underlying data and user interaction.
      */
     public static class BuilderGridData extends GvDataList<BuilderGridCell> {
-        private final ReviewBuilderAdapter mBuilder;
+        public static final Parcelable.Creator<BuilderGridData> CREATOR = new Parcelable
+                .Creator<BuilderGridData>() {
+            //Overridden
+            public BuilderGridData createFromParcel(Parcel in) {
+                return new BuilderGridData(in);
+            }
+
+            public BuilderGridData[] newArray(int size) {
+                return new BuilderGridData[size];
+            }
+        };
+        private ReviewBuilderAdapter mBuilder;
 
         private BuilderGridData(ReviewBuilderAdapter builder) {
             super(BuilderGridCell.TYPE, null);
@@ -313,6 +324,10 @@ public class ReviewBuilderAdapter extends ReviewViewAdapterBasic {
             add(GvFactList.GvFact.TYPE);
         }
 
+        private BuilderGridData(Parcel in) {
+            super(in);
+        }
+
         private <T extends GvData> void add(GvDataType<T> dataType) {
             add(new BuilderGridCell<>(dataType, mBuilder));
         }
@@ -325,18 +340,33 @@ public class ReviewBuilderAdapter extends ReviewViewAdapterBasic {
 
     public static class BuilderGridCell<T extends GvData> extends GvDataList<T>
             implements GridDataObserver {
+        public static final Parcelable.Creator<BuilderGridCell> CREATOR = new Parcelable
+                .Creator<BuilderGridCell>() {
+            //Overridden
+            public BuilderGridCell createFromParcel(Parcel in) {
+                return new BuilderGridCell(in);
+            }
+
+            public BuilderGridCell[] newArray(int size) {
+                return new BuilderGridCell[size];
+            }
+        };
 
         public static GvDataType<BuilderGridCell> TYPE =
                 new GvDataType<>(BuilderGridCell.class, "create", "create");
 
-        private final ConfigGvDataUi.Config mConfig;
-        private final DataBuilderAdapter<T> mBuilder;
+        private ConfigGvDataUi.Config mConfig;
+        private DataBuilderAdapter<T> mBuilder;
 
         private BuilderGridCell(GvDataType<T> dataType, ReviewBuilderAdapter builder) {
             super(dataType, null);
             mConfig = ConfigGvDataUi.getConfig(dataType);
             mBuilder = builder.getDataBuilder(dataType);
             mBuilder.registerGridDataObserver(this);
+        }
+
+        private BuilderGridCell(Parcel in) {
+            super(in);
         }
 
         //public methods

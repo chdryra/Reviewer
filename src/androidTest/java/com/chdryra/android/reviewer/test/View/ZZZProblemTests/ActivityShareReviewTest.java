@@ -9,9 +9,12 @@
 package com.chdryra.android.reviewer.test.View.ZZZProblemTests;
 
 import android.app.Instrumentation;
+import android.content.Context;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilderAdapter;
+import com.chdryra.android.reviewer.ApplicationContexts.ApplicationContext;
+import com.chdryra.android.reviewer.ApplicationContexts.TestDatabaseApplicationContext;
 import com.chdryra.android.reviewer.ApplicationSingletons.Administrator;
 import com.chdryra.android.reviewer.Model.Social.SocialPlatformList;
 import com.chdryra.android.reviewer.R;
@@ -19,8 +22,8 @@ import com.chdryra.android.reviewer.View.ActivitiesFragments.ActivityFeed;
 import com.chdryra.android.reviewer.View.ActivitiesFragments.FragmentReviewView;
 import com.chdryra.android.reviewer.View.GvDataModel.GvSocialPlatformList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvTagList;
-import com.chdryra.android.reviewer.View.Screens.ReviewView;
 import com.chdryra.android.reviewer.View.Screens.BuilderShareScreen;
+import com.chdryra.android.reviewer.View.Screens.ReviewView;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
 import com.chdryra.android.reviewer.test.TestUtils.RandomRating;
 import com.chdryra.android.reviewer.test.View.ActivitiesFragmentsScreens.ActivityReviewViewTest;
@@ -79,7 +82,8 @@ public class ActivityShareReviewTest extends ActivityReviewViewTest {
     //protected methods
     @Override
     protected ReviewView getView() {
-        return BuilderShareScreen.createView(getInstrumentation().getTargetContext());
+        BuilderShareScreen builder = new BuilderShareScreen();
+        return builder.createView("ShareScreen", mList, (ReviewBuilderAdapter) mAdapter);
     }
 
     private GvSocialPlatformList.GvSocialPlatform getPlatform(int index) {
@@ -111,8 +115,10 @@ public class ActivityShareReviewTest extends ActivityReviewViewTest {
 
     @Override
     protected void setUp() {
-        mList = SocialPlatformList.getList(getInstrumentation().getTargetContext());
-        mAdmin = Administrator.getInstance(getInstrumentation().getTargetContext());
+        Context context = getInstrumentation().getTargetContext();
+        mList = new SocialPlatformList(context);
+        ApplicationContext testContext = new TestDatabaseApplicationContext(context);
+        mAdmin = Administrator.createWithApplicationContext(context, testContext);
         super.setUp();
     }
 }

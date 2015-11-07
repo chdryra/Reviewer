@@ -2,10 +2,16 @@ package com.chdryra.android.reviewer.ApplicationContexts;
 
 import android.content.Context;
 
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.MdGvConverter;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.FactoryGridDataViewer;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.FactoryReviewViewAdapter;
+import com.chdryra.android.reviewer.Database.DbContractExecutor;
+import com.chdryra.android.reviewer.Database.DbHelper;
+import com.chdryra.android.reviewer.Database.DbSpecification;
+import com.chdryra.android.reviewer.Database.FactoryTableRow;
 import com.chdryra.android.reviewer.Database.ReviewerDb;
+import com.chdryra.android.reviewer.Database.ReviewerDbContract;
 import com.chdryra.android.reviewer.Model.ReviewStructure.FactoryReview;
 import com.chdryra.android.reviewer.Model.Social.SocialPlatformList;
 import com.chdryra.android.reviewer.Model.TagsModel.TagsManager;
@@ -13,7 +19,7 @@ import com.chdryra.android.reviewer.Model.UserData.Author;
 import com.chdryra.android.reviewer.Model.UserData.UserId;
 import com.chdryra.android.reviewer.ReviewsProviderModel.ReviewerDbProvider;
 import com.chdryra.android.reviewer.ReviewsProviderModel.ReviewsRepository;
-import com.chdryra.android.reviewer.View.GvDataAggregation.FactoryGvDataAggregate;
+import com.chdryra.android.reviewer.View.GvDataAggregation.GvDataAggregater;
 import com.chdryra.android.reviewer.View.Screens.BuilderChildListScreen;
 
 /**
@@ -21,78 +27,49 @@ import com.chdryra.android.reviewer.View.Screens.BuilderChildListScreen;
  * On: 05/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ReleaseApplicationContext implements ApplicationContext {
+public class ReleaseApplicationContext extends ApplicationContextBasic {
     private static final Author AUTHOR = new Author("Rizwan Choudrey", UserId
             .generateId());
     private static final String DATABASE_NAME = "Reviewer.db";
-
-    private FactoryReview mFactoryReview;
-    private TagsManager mTagsManager;
-    private ReviewerDb mReviewerDb;
-    private ReviewsRepository mReviewsRepository;
-    private MdGvConverter mMdGvConverter;
-    private SocialPlatformList mSocialPlatforms;
-    private BuilderChildListScreen mBuilderChildListScreen;
-    private FactoryReviewViewAdapter mFactoryReviewViewAdapter;
+    private static final int DATABASE_VER = 1;
 
     public ReleaseApplicationContext(Context context) {
-        mMdGvConverter = new MdGvConverter();
-        mFactoryReview = new FactoryReview(mMdGvConverter);
-        mTagsManager = new TagsManager();
-        mReviewerDb = new ReviewerDb(context, DATABASE_NAME, mTagsManager, mFactoryReview);
-        ReviewerDbProvider provider = new ReviewerDbProvider(mReviewerDb);
-        mReviewerDb.registerObserver(provider);
-        mReviewsRepository = new ReviewsRepository(provider, mFactoryReview, AUTHOR);
-        mSocialPlatforms = new SocialPlatformList(context);
-        mBuilderChildListScreen = new BuilderChildListScreen();
-        FactoryGridDataViewer viewerFactory = new FactoryGridDataViewer();
-        FactoryGvDataAggregate aggregateFactory = new FactoryGvDataAggregate();
-        mFactoryReviewViewAdapter = new FactoryReviewViewAdapter(mBuilderChildListScreen,
-                viewerFactory, aggregateFactory, mReviewsRepository, mMdGvConverter);
+        this(context, DATABASE_NAME, DATABASE_VER);
     }
 
-    @Override
-    public Author getAuthor() {
-        return AUTHOR;
-    }
+    protected ReleaseApplicationContext(Context context, String databaseName, int databaseVersion) {
+        //MdGvConverter
+        setMdGvConverter(new MdGvConverter());
 
-    @Override
-    public ReviewerDb getDataBase() {
-        return mReviewerDb;
-    }
+        //FactoryReview
+        setFactoryReview(new FactoryReview(getMdGvConverter()));
 
-    @Override
-    public TagsManager getTagsManager() {
-        return mTagsManager;
-    }
+        //TagsManager
+        setTagsManager(new TagsManager());
 
-    @Override
-    public SocialPlatformList getSocialPlatformList() {
-        return mSocialPlatforms;
-    }
+        //SocialPlatforms
+        setSocialPlatforms(new SocialPlatformList(context));
 
-    @Override
-    public ReviewsRepository getReviewsRepository() {
-        return mReviewsRepository;
-    }
+        //BuilderChildListScreen
+        setBuilderChildListScreen(new BuilderChildListScreen());
 
-    @Override
-    public MdGvConverter getMdGvConverter() {
-        return mMdGvConverter;
-    }
+        //FactoryReviewViewAdapter
+        setFactoryReviewViewAdapter(new FactoryReviewViewAdapter(getBuilderChildListScreen(),
+                new FactoryGridDataViewer(), new GvDataAggregater(),
+                getReviewsRepository(), getMdGvConverter()));
 
-    @Override
-    public FactoryReviewViewAdapter getReviewViewAdapterFactory() {
-        return mFactoryReviewViewAdapter;
-    }
+        //DataValidator
+        setDataValidator(new DataValidator());
 
-    @Override
-    public BuilderChildListScreen getChildListScreenFactory() {
-        return mBuilderChildListScreen;
-    }
+        //ReviewerDb
+        DbSpecification spec = new DbSpecification(databaseName, new ReviewerDbContract(), databaseVersion);
+        DbHelper dbHelper = new DbHelper(context, spec, new DbContractExecutor());
+        setReviewerDb(new ReviewerDb(dbHelper, getTagsManager(), getReviewFactory(),
+                new FactoryTableRow(getDataValidator())));
 
-    @Override
-    public FactoryReview getReviewFactory() {
-        return mFactoryReview;
+        //ReviewsRepository
+        ReviewerDbProvider provider = new ReviewerDbProvider(getReviewerDb());
+        getReviewerDb().registerObserver(provider);
+        setReviewsRepository(new ReviewsRepository(provider, getReviewFactory(), AUTHOR));
     }
 }

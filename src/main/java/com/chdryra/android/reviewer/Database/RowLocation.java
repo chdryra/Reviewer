@@ -22,37 +22,40 @@ import com.google.android.gms.maps.model.LatLng;
  * Email: rizwan.choudrey@gmail.com
  */
 public class RowLocation implements MdDataRow<MdLocationList.MdLocation> {
-    public static String LOCATION_ID = ReviewerDbContract.TableLocations
-            .COLUMN_NAME_LOCATION_ID;
+    public static String LOCATION_ID = ReviewerDbContract.TableLocations.COLUMN_NAME_LOCATION_ID;
     public static String REVIEW_ID = ReviewerDbContract.TableLocations.COLUMN_NAME_REVIEW_ID;
     public static String LAT = ReviewerDbContract.TableLocations.COLUMN_NAME_LATITUDE;
     public static String LNG = ReviewerDbContract.TableLocations.COLUMN_NAME_LONGITUDE;
     public static String NAME = ReviewerDbContract.TableLocations.COLUMN_NAME_NAME;
+    private static final String SEPARATOR = ":";
 
     private String mLocationId;
     private String mReviewId;
     private double mLatitude;
     private double mLongitude;
     private String mName;
+    private DataValidator mValidator;
 
     //Constructors
     public RowLocation() {
     }
 
-    public RowLocation(MdLocationList.MdLocation location, int index) {
+    public RowLocation(MdLocationList.MdLocation location, int index, DataValidator validator) {
         mReviewId = location.getReviewId().toString();
-        mLocationId = mReviewId + ReviewerDbRow.SEPARATOR + "l" + String.valueOf(index);
+        mLocationId = mReviewId + SEPARATOR + "l" + String.valueOf(index);
         mLatitude = location.getLatLng().latitude;
         mLongitude = location.getLatLng().longitude;
         mName = location.getName();
+        mValidator = validator;
     }
 
-    public RowLocation(Cursor cursor) {
+    public RowLocation(Cursor cursor, DataValidator validator) {
         mLocationId = cursor.getString(cursor.getColumnIndexOrThrow(LOCATION_ID));
         mReviewId = cursor.getString(cursor.getColumnIndexOrThrow(REVIEW_ID));
         mLatitude = cursor.getDouble(cursor.getColumnIndexOrThrow(LAT));
         mLongitude = cursor.getDouble(cursor.getColumnIndexOrThrow(LNG));
         mName = cursor.getString(cursor.getColumnIndexOrThrow(NAME));
+        mValidator = validator;
     }
 
 
@@ -81,7 +84,7 @@ public class RowLocation implements MdDataRow<MdLocationList.MdLocation> {
 
     @Override
     public boolean hasData() {
-        return DataValidator.validateString(getRowId());
+        return mValidator != null && mValidator.validateString(getRowId());
     }
 
     @Override

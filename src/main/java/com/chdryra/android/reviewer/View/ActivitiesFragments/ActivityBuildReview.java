@@ -2,7 +2,10 @@ package com.chdryra.android.reviewer.View.ActivitiesFragments;
 
 import android.content.Intent;
 
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilder;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilderAdapter;
+import com.chdryra.android.reviewer.ApplicationContexts.ApplicationContext;
 import com.chdryra.android.reviewer.ApplicationSingletons.Administrator;
 import com.chdryra.android.reviewer.View.Launcher.LaunchableUi;
 import com.chdryra.android.reviewer.View.Launcher.LauncherUi;
@@ -20,8 +23,15 @@ public class ActivityBuildReview extends ActivityReviewView implements Launchabl
 
     @Override
     protected ReviewView createReviewView() {
-        ReviewBuilderAdapter builder = Administrator.getInstance(this).newReviewBuilder();
-        mBuildScreen = new BuildScreen(this, builder);
+        Administrator admin = Administrator.getInstance(this);
+        ApplicationContext appContext = admin.getApplicationContext();
+        DataValidator validator = appContext.getDataValidator();
+        ReviewBuilder builder = new ReviewBuilder(appContext.getAuthor(),
+                appContext.getMdGvConverter(), appContext.getTagsManager(),
+                appContext.getReviewFactory(), validator);
+        ReviewBuilderAdapter adapter = new ReviewBuilderAdapter(this, builder, validator);
+        admin.setReviewBuilderAdapter(adapter);
+        mBuildScreen = new BuildScreen(this, adapter);
         return mBuildScreen.getEditor();
     }
 

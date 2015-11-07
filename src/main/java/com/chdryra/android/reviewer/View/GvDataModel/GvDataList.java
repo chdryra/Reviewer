@@ -18,6 +18,8 @@ import com.chdryra.android.reviewer.View.GvDataSorting.GvDataComparators;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -44,6 +46,10 @@ public class GvDataList<T extends GvData> extends ViewHolderDataList<T> implemen
             return new GvDataList[size];
         }
     };
+    private static final String NO_CTOR_ERR = "Constructor not found: ";
+    private static final String INSTANTIATION_ERR = "Constructor not found: ";
+    private static final String INVOCATION_ERR = "Exception thrown by constructor: ";
+    private static final String ILLEGAL_ACCESS_ERR = "Access not allowed to this constructor: ";
 
     private final GvDataType<T> mType;
     private GvReviewId mReviewId;
@@ -52,7 +58,7 @@ public class GvDataList<T extends GvData> extends ViewHolderDataList<T> implemen
     public GvDataList(GvReviewId reviewId, GvDataList<T> data) {
         this(data.getGvDataType(), reviewId);
         for (T datum : data) {
-            add(FactoryGvData.copy(datum));
+            add(copy(datum));
         }
     }
 
@@ -171,4 +177,20 @@ public class GvDataList<T extends GvData> extends ViewHolderDataList<T> implemen
         return result;
     }
 
+    private T copy(T datum) {
+        //TODO make type safe
+        Class<T> dataClass = (Class<T>) datum.getClass();
+        try {
+            Constructor<T> ctor = dataClass.getConstructor(datum.getClass());
+            return ctor.newInstance(datum);
+        } catch (NoSuchMethodException e) {
+            throw new RuntimeException(NO_CTOR_ERR + dataClass.getName());
+        } catch (InstantiationException e) {
+            throw new RuntimeException(INSTANTIATION_ERR + dataClass.getName());
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(ILLEGAL_ACCESS_ERR + dataClass.getName());
+        } catch (InvocationTargetException e) {
+            throw new RuntimeException(INVOCATION_ERR + dataClass.getName());
+        }
+    }
 }

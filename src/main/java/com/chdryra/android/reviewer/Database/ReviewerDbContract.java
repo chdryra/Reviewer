@@ -26,11 +26,10 @@ public final class ReviewerDbContract implements DbContract {
     public static final ReviewerDbTable<RowAuthor> AUTHORS_TABLE = TableAuthors.get();
     public static final ReviewerDbTable<RowTag> TAGS_TABLE = TableTags.get();
 
-    private static ReviewerDbContract sContract;
     private ArrayList<DbTableDef> mTables;
     private ArrayList<String> mTableNames;
 
-    private ReviewerDbContract() {
+    public ReviewerDbContract() {
         mTables = new ArrayList<>();
         mTables.add(REVIEWS_TABLE);
         mTables.add(COMMENTS_TABLE);
@@ -44,12 +43,6 @@ public final class ReviewerDbContract implements DbContract {
         for (DbTableDef table : mTables) {
             mTableNames.add(table.getName());
         }
-    }
-
-    //Static methods
-    public static ReviewerDbContract getContract() {
-        if (sContract == null) sContract = new ReviewerDbContract();
-        return sContract;
     }
 
     //Overridden

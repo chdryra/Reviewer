@@ -20,25 +20,28 @@ import com.chdryra.android.reviewer.Model.UserData.UserId;
  * On: 09/04/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class RowAuthor implements ReviewerDbRow.TableRow {
+public class RowAuthor implements TableRow {
     public static String USER_ID = ReviewerDbContract.TableAuthors.COLUMN_NAME_USER_ID;
     public static String AUTHOR_NAME = ReviewerDbContract.TableAuthors.COLUMN_NAME_NAME;
 
     private String mUserId;
     private String mName;
+    private DataValidator mValidator;
 
     //Constructors
     public RowAuthor() {
     }
 
-    public RowAuthor(Author author) {
+    public RowAuthor(Author author, DataValidator validator) {
         mUserId = author.getUserId().toString();
         mName = author.getName();
+        mValidator = validator;
     }
 
-    public RowAuthor(Cursor cursor) {
+    public RowAuthor(Cursor cursor, DataValidator validator) {
         mUserId = cursor.getString(cursor.getColumnIndexOrThrow(USER_ID));
         mName = cursor.getString(cursor.getColumnIndexOrThrow(AUTHOR_NAME));
+        mValidator = validator;
     }
 
     public Author toAuthor() {
@@ -67,6 +70,6 @@ public class RowAuthor implements ReviewerDbRow.TableRow {
 
     @Override
     public boolean hasData() {
-        return DataValidator.validateString(getRowId());
+        return mValidator != null && mValidator.validateString(getRowId());
     }
 }

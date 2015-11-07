@@ -11,6 +11,7 @@ package com.chdryra.android.reviewer.test.Adapter.ReviewAdapterModel;
 import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.MdGvConverter;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.AdapterReviewNode;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ViewerChildList;
 import com.chdryra.android.reviewer.Model.ReviewData.IdableList;
@@ -20,6 +21,7 @@ import com.chdryra.android.reviewer.Model.ReviewStructure.FactoryReview;
 import com.chdryra.android.reviewer.Model.ReviewStructure.Review;
 import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewTreeNode;
+import com.chdryra.android.reviewer.Model.TagsModel.TagsManager;
 import com.chdryra.android.reviewer.Model.UserData.Author;
 import com.chdryra.android.reviewer.Model.UserData.UserId;
 import com.chdryra.android.reviewer.ReviewsProviderModel.ReviewsRepository;
@@ -91,8 +93,9 @@ public class AdapterReviewNodeTest extends AndroidTestCase {
 
     private void setAdapter() {
         ReviewPublisher publisher = new ReviewPublisher(mAuthor, PublishDate.now());
-        Review review = FactoryReview.createReviewUser(publisher, RandomString.nextWord(), 0f);
-        ReviewTreeNode collection = FactoryReview.createReviewTreeNode(review, true);
+        FactoryReview reviewFactory = new FactoryReview(new MdGvConverter());
+        Review review = reviewFactory.createReviewUser(publisher, RandomString.nextWord(), 0f);
+        ReviewTreeNode collection = reviewFactory.createReviewTreeNode(review, true);
         mReviews = new IdableList<>();
         for (int i = 0; i < NUM; ++i) {
             ReviewTreeNode child = (ReviewTreeNode) ReviewMocker.newReviewNode(false);
@@ -101,6 +104,7 @@ public class AdapterReviewNodeTest extends AndroidTestCase {
         }
 
         mNode = collection;
+        RandomReviewsRepository rando = new RandomReviewsRepository()
         ReviewsRepository repo = RandomReviewsRepository.nextRepository(mNode);
         ViewerChildList wrapper = new ViewerChildList(getContext(), mNode, repo);
         mAdapter = new AdapterReviewNode<>(mNode, wrapper);

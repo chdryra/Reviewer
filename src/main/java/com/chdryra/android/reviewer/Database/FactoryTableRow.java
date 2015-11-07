@@ -8,9 +8,9 @@
 
 package com.chdryra.android.reviewer.Database;
 
-import android.content.ContentValues;
 import android.database.Cursor;
 
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
 import com.chdryra.android.reviewer.Model.ReviewData.MdCommentList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdCriterionList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdFactList;
@@ -28,23 +28,14 @@ import java.lang.reflect.InvocationTargetException;
  * On: 02/04/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ReviewerDbRow {
-    public static final String SEPARATOR = ":";
+public class FactoryTableRow {
+    private DataValidator mValidator;
 
-    public interface TableRow {
-        //abstract methods
-        //abstract
-        String getRowId();
-
-        String getRowIdColumnName();
-
-        ContentValues getContentValues();
-
-        boolean hasData();
+    public FactoryTableRow(DataValidator validator) {
+        mValidator = validator;
     }
 
-    //Static methods
-    public static <T extends TableRow> T emptyRow(Class<T> rowClass) {
+    public <T extends TableRow> T emptyRow(Class<T> rowClass) {
         try {
             return rowClass.newInstance();
         } catch (InstantiationException e) {
@@ -54,10 +45,10 @@ public class ReviewerDbRow {
         }
     }
 
-    public static <T extends TableRow> T newRow(Cursor cursor, Class<T> rowClass) {
+    public <T extends TableRow> T newRow(Cursor cursor, Class<T> rowClass) {
         try {
-            Constructor c = rowClass.getConstructor(Cursor.class);
-            return rowClass.cast(c.newInstance(cursor));
+            Constructor c = rowClass.getConstructor(Cursor.class, DataValidator.class);
+            return rowClass.cast(c.newInstance(cursor, mValidator));
         } catch (NoSuchMethodException e) {
             throw new RuntimeException("Couldn't find Cursor constructor for " + rowClass
                     .getName(), e);
@@ -70,35 +61,35 @@ public class ReviewerDbRow {
         }
     }
 
-    public static TableRow newRow(Review review) {
-        return new RowReview(review);
+    public TableRow newRow(Review review) {
+        return new RowReview(review, mValidator);
     }
 
-    public static TableRow newRow(MdCriterionList.MdCriterion criterion) {
-        return new RowReview(criterion);
+    public TableRow newRow(MdCriterionList.MdCriterion criterion) {
+        return new RowReview(criterion, mValidator);
     }
 
-    public static TableRow newRow(Author author) {
-        return new RowAuthor(author);
+    public TableRow newRow(Author author) {
+        return new RowAuthor(author, mValidator);
     }
 
-    public static TableRow newRow(TagsManager.ReviewTag tag) {
-        return new RowTag(tag);
+    public TableRow newRow(TagsManager.ReviewTag tag) {
+        return new RowTag(tag, mValidator);
     }
 
-    public static TableRow newRow(MdCommentList.MdComment comment, int index) {
-        return new RowComment(comment, index);
+    public TableRow newRow(MdCommentList.MdComment comment, int index) {
+        return new RowComment(comment, index, mValidator);
     }
 
-    public static TableRow newRow(MdFactList.MdFact fact, int index) {
-        return new RowFact(fact, index);
+    public TableRow newRow(MdFactList.MdFact fact, int index) {
+        return new RowFact(fact, index, mValidator);
     }
 
-    public static TableRow newRow(MdLocationList.MdLocation location, int index) {
-        return new RowLocation(location, index);
+    public TableRow newRow(MdLocationList.MdLocation location, int index) {
+        return new RowLocation(location, index, mValidator);
     }
 
-    public static TableRow newRow(MdImageList.MdImage image, int index) {
-        return new RowImage(image, index);
+    public TableRow newRow(MdImageList.MdImage image, int index) {
+        return new RowImage(image, index, mValidator);
     }
 }

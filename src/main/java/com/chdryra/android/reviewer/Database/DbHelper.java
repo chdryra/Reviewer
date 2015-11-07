@@ -18,22 +18,24 @@ import android.database.sqlite.SQLiteOpenHelper;
  * Email: rizwan.choudrey@gmail.com
  */
 public class DbHelper extends SQLiteOpenHelper {
-    private DbManager mDbManager;
+    private DbContract mContract;
+    private DbContractExecutor mDbContractExecutor;
 
     //Constructors
-    public DbHelper(Context context, DbManager dbManager, String databaseName, int version) {
-        super(context, databaseName, null, version);
-        mDbManager = dbManager;
+    public DbHelper(Context context, DbSpecification spec, DbContractExecutor dbContractExecutor) {
+        super(context, spec.getDatabaseName(), null, spec.getVersionNumber());
+        mContract = spec.getContract();
+        mDbContractExecutor = dbContractExecutor;
     }
 
     //Overridden
     @Override
     public void onCreate(SQLiteDatabase db) {
-        mDbManager.createDatabase(db);
+        mDbContractExecutor.createDatabase(mContract, db);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        mDbManager.upgradeDatabase(db, oldVersion, newVersion);
+        mDbContractExecutor.upgradeDatabase(mContract, db, oldVersion, newVersion);
     }
 }

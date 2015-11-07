@@ -12,7 +12,7 @@ import com.chdryra.android.reviewer.Adapter.DataAdapterModel.MdGvConverter;
 import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
 import com.chdryra.android.reviewer.Model.TagsModel.TagsManager;
 import com.chdryra.android.reviewer.ReviewsProviderModel.ReviewsRepository;
-import com.chdryra.android.reviewer.View.GvDataAggregation.FactoryGvDataAggregate;
+import com.chdryra.android.reviewer.View.GvDataAggregation.GvDataAggregater;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCanonical;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCanonicalCollection;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
@@ -36,19 +36,19 @@ import com.chdryra.android.reviewer.View.Screens.ReviewViewAction;
 public class FactoryReviewViewAdapter {
     private BuilderChildListScreen mListScreenFactory;
     private FactoryGridDataViewer mViewerFactory;
-    private FactoryGvDataAggregate mAggregateFactory;
+    private GvDataAggregater mAggregater;
     private MdGvConverter mConverter;
     private ReviewsRepository mRepository;
 
     //Constructors
     public FactoryReviewViewAdapter(BuilderChildListScreen listScreenFactory,
                                     FactoryGridDataViewer viewerFactory,
-                                    FactoryGvDataAggregate aggregateFactory,
+                                    GvDataAggregater aggregater,
                                     ReviewsRepository repository,
                                     MdGvConverter converter) {
         mListScreenFactory = listScreenFactory;
         mViewerFactory = viewerFactory;
-        mAggregateFactory = aggregateFactory;
+        mAggregater = aggregater;
         mRepository = repository;
         mConverter = converter;
     }
@@ -60,7 +60,8 @@ public class FactoryReviewViewAdapter {
 
     public ReviewViewAdapter newReviewsListAdapter(ReviewNode node) {
         ReviewViewAction.GridItemAction gi = new GiLaunchReviewDataScreen();
-        ReviewView view = mListScreenFactory.createView(node, mConverter, getTagsManager(), this, gi, null);
+        ReviewView view = mListScreenFactory.createView(node, mConverter, getTagsManager(), this,
+                gi, null);
         return view.getAdapter();
     }
 
@@ -76,7 +77,7 @@ public class FactoryReviewViewAdapter {
 
     public ReviewViewAdapter newNodeDataAdapter(ReviewNode node) {
         GridDataViewer<GvData> viewer = mViewerFactory.newNodeDataViewer(node, mConverter,
-                getTagsManager(), this, mAggregateFactory);
+                getTagsManager(), this, mAggregater);
         return newAdapterReviewNode(node, viewer);
     }
 
@@ -99,14 +100,14 @@ public class FactoryReviewViewAdapter {
             ReviewNode node = mRepository.createMetaReview(data, subject);
             return new AdapterCommentsAggregate(node, mConverter,
                     (GvCanonicalCollection<GvCommentList.GvComment>) data, mViewerFactory, this,
-                    mAggregateFactory);
+                    mAggregater);
         }
 
         GridDataViewer<GvCanonical> viewer;
         boolean aggregateToData = type.equals(GvCriterionList.GvCriterion.TYPE) ||
                 type.equals(GvFactList.GvFact.TYPE) || type.equals(GvImageList.GvImage.TYPE);
         if (aggregateToData) {
-            viewer = mViewerFactory.newAggregateToDataViewer(data, this, mAggregateFactory);
+            viewer = mViewerFactory.newAggregateToDataViewer(data, this, mAggregater);
         } else {
             viewer = mViewerFactory.newDataToReviewsViewer(data, this);
         }

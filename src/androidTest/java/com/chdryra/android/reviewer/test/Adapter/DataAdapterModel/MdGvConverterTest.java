@@ -33,13 +33,14 @@ import junit.framework.TestCase;
  * Email: rizwan.choudrey@gmail.com
  */
 public class MdGvConverterTest extends TestCase {
-    private static final int NUM = 1;
+    private static final int NUM = 5;
     public MdDataMocker mMocker;
+    public MdGvConverter mConverter;
 
     @SmallTest
     public void testConvertCommentList() {
         MdCommentList mdData = mMocker.newCommentList(NUM);
-        GvCommentList gvData = MdGvConverter.convert(mdData);
+        GvCommentList gvData = mConverter.convert(mdData);
 
         assertEquals(NUM, mdData.size());
         assertEquals(mdData.size(), gvData.size());
@@ -59,7 +60,7 @@ public class MdGvConverterTest extends TestCase {
     @SmallTest
     public void testConvertFactList() {
         MdFactList mdData = mMocker.newFactList(NUM);
-        GvFactList gvData = MdGvConverter.convert(mdData);
+        GvFactList gvData = mConverter.convert(mdData);
 
         assertEquals(NUM, mdData.size());
         assertEquals(mdData.size(), gvData.size());
@@ -81,7 +82,7 @@ public class MdGvConverterTest extends TestCase {
     public void testConvertImageList() {
         MdImageList mdData = mMocker.newImageList(NUM);
 
-        GvImageList gvData = MdGvConverter.convert(mdData);
+        GvImageList gvData = mConverter.convert(mdData);
 
         assertEquals(NUM, mdData.size());
         assertEquals(mdData.size(), gvData.size());
@@ -103,7 +104,7 @@ public class MdGvConverterTest extends TestCase {
     @SmallTest
     public void testConvertLocationList() {
         MdLocationList mdData = mMocker.newLocationList(NUM);
-        GvLocationList gvData = MdGvConverter.convert(mdData);
+        GvLocationList gvData = mConverter.convert(mdData);
 
         assertEquals(NUM, mdData.size());
         assertEquals(mdData.size(), gvData.size());
@@ -124,7 +125,7 @@ public class MdGvConverterTest extends TestCase {
     @SmallTest
     public void testConvertUrlList() {
         MdUrlList mdData = mMocker.newUrlList(NUM);
-        GvUrlList gvData = MdGvConverter.convert(mdData);
+        GvUrlList gvData = mConverter.convert(mdData);
 
         assertEquals(NUM, mdData.size());
         assertEquals(mdData.size(), gvData.size());
@@ -146,5 +147,6 @@ public class MdGvConverterTest extends TestCase {
     protected void setUp() throws Exception {
         super.setUp();
         mMocker = new MdDataMocker(ReviewMocker.newReview().getId());
+        mConverter = new MdGvConverter();
     }
 }

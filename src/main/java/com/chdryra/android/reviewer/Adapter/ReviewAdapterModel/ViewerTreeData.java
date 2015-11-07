@@ -8,7 +8,7 @@ import com.chdryra.android.reviewer.Model.ReviewStructure.Review;
 import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
 import com.chdryra.android.reviewer.Model.TagsModel.TagsManager;
 import com.chdryra.android.reviewer.Model.TreeMethods.VisitorReviewsGetter;
-import com.chdryra.android.reviewer.View.GvDataAggregation.FactoryGvDataAggregate;
+import com.chdryra.android.reviewer.View.GvDataAggregation.GvDataAggregater;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCanonicalCollection;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvList;
@@ -22,7 +22,7 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvTagList;
  * Email: rizwan.choudrey@gmail.com
  */
 class ViewerTreeData extends ViewerReviewData {
-    private FactoryGvDataAggregate mAggregateFactory;
+    private GvDataAggregater mAggregater;
     private FactoryGridDataViewer mViewerFactory;
 
     ViewerTreeData(ReviewNode node,
@@ -30,9 +30,9 @@ class ViewerTreeData extends ViewerReviewData {
                    TagsManager tagsManager,
                    FactoryGridDataViewer viewerFactory,
                    FactoryReviewViewAdapter adapterFactory,
-                   FactoryGvDataAggregate aggregateFactory) {
+                   GvDataAggregater aggregater) {
         super(node, converter, tagsManager, adapterFactory);
-        mAggregateFactory = aggregateFactory;
+        mAggregater = aggregater;
         mViewerFactory = viewerFactory;
     }
 
@@ -49,15 +49,15 @@ class ViewerTreeData extends ViewerReviewData {
         IdableList<ReviewNode> nodes = node.getChildren();
         GvList data = new GvList(GvReviewId.getId(node.getId().toString()));
         data.add(wrapper.getGridData());
-        data.add(mAggregateFactory.getAggregate(converter.convertAuthors(nodes, id)));
-        data.add(mAggregateFactory.getAggregate(converter.convertSubjects(nodes, id)));
-        data.add(mAggregateFactory.getAggregate(converter.convertPublishDates(nodes, id)));
-        data.add(mAggregateFactory.getAggregate(collectTags()));
-        data.add(mAggregateFactory.getAggregate(converter.convert(node.getCriteria()), false));
-        data.add(mAggregateFactory.getAggregate(converter.convert(node.getImages())));
-        data.add(mAggregateFactory.getAggregate(converter.convert(node.getComments())));
-        data.add(mAggregateFactory.getAggregate(converter.convert(node.getLocations())));
-        data.add(mAggregateFactory.getAggregate(converter.convert(node.getFacts())));
+        data.add(mAggregater.getAggregate(converter.convertAuthors(nodes, id)));
+        data.add(mAggregater.getAggregate(converter.convertSubjects(nodes, id)));
+        data.add(mAggregater.getAggregate(converter.convertPublishDates(nodes, id)));
+        data.add(mAggregater.getAggregate(collectTags()));
+        data.add(mAggregater.getAggregate(converter.convert(node.getCriteria()), false));
+        data.add(mAggregater.getAggregate(converter.convert(node.getImages())));
+        data.add(mAggregater.getAggregate(converter.convert(node.getComments())));
+        data.add(mAggregater.getAggregate(converter.convert(node.getLocations())));
+        data.add(mAggregater.getAggregate(converter.convert(node.getFacts())));
 
         return data;
     }
