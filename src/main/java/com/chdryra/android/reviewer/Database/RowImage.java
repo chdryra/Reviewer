@@ -1,11 +1,3 @@
-/*
- * Copyright (c) 2015, Rizwan Choudrey - All Rights Reserved
- * Unauthorized copying of this file, via any medium is strictly prohibited
- * Proprietary and confidential
- * Author: Rizwan Choudrey
- * Date: 9 April, 2015
- */
-
 package com.chdryra.android.reviewer.Database;
 
 import android.content.ContentValues;
@@ -26,12 +18,13 @@ import java.util.Date;
  * Email: rizwan.choudrey@gmail.com
  */
 public class RowImage implements MdDataRow<MdImageList.MdImage> {
-    public static String IMAGE_ID = ReviewerDbContract.TableImages.COLUMN_NAME_IMAGE_ID;
-    public static String REVIEW_ID = ReviewerDbContract.TableImages.COLUMN_NAME_REVIEW_ID;
-    public static String BITMAP = ReviewerDbContract.TableImages.COLUMN_NAME_BITMAP;
-    public static String DATE = ReviewerDbContract.TableImages.COLUMN_NAME_IMAGE_DATE;
-    public static String CAPTION = ReviewerDbContract.TableImages.COLUMN_NAME_CAPTION;
-    public static String IS_COVER = ReviewerDbContract.TableImages.COLUMN_NAME_IS_COVER;
+    public static final String COLUMN_IMAGE_ID = "image_id";
+    public static final String COLUMN_REVIEW_ID = "review_id";
+    public static final String COLUMN_BITMAP = "bitmap";
+    public static final String COLUMN_IMAGE_DATE = "image_date";
+    public static final String COLUMN_CAPTION = "caption";
+    public static final String COLUMN_IS_COVER = "is_cover";
+
     private static final String SEPARATOR = ":";
 
     private String mImageId;
@@ -43,9 +36,6 @@ public class RowImage implements MdDataRow<MdImageList.MdImage> {
     private DataValidator mValidator;
 
     //Constructors
-    public RowImage() {
-    }
-
     public RowImage(MdImageList.MdImage image, int index, DataValidator validator) {
         mReviewId = image.getReviewId().toString();
         mImageId = mReviewId + SEPARATOR + "i" + String.valueOf(index);
@@ -58,13 +48,17 @@ public class RowImage implements MdDataRow<MdImageList.MdImage> {
         mValidator = validator;
     }
 
+    //Via reflection
+    public RowImage() {
+    }
+
     public RowImage(Cursor cursor, DataValidator validator) {
-        mImageId = cursor.getString(cursor.getColumnIndexOrThrow(IMAGE_ID));
-        mReviewId = cursor.getString(cursor.getColumnIndexOrThrow(REVIEW_ID));
-        mBitmap = cursor.getBlob(cursor.getColumnIndexOrThrow(BITMAP));
-        mDate = cursor.getLong(cursor.getColumnIndexOrThrow(DATE));
-        mCaption = cursor.getString(cursor.getColumnIndexOrThrow(CAPTION));
-        mIsCover = cursor.getInt(cursor.getColumnIndexOrThrow(IS_COVER)) == 1;
+        mImageId = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_IMAGE_ID));
+        mReviewId = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_REVIEW_ID));
+        mBitmap = cursor.getBlob(cursor.getColumnIndexOrThrow(COLUMN_BITMAP));
+        mDate = cursor.getLong(cursor.getColumnIndexOrThrow(COLUMN_IMAGE_DATE));
+        mCaption = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_CAPTION));
+        mIsCover = cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_IS_COVER)) == 1;
         mValidator = validator;
     }
 
@@ -76,18 +70,18 @@ public class RowImage implements MdDataRow<MdImageList.MdImage> {
 
     @Override
     public String getRowIdColumnName() {
-        return IMAGE_ID;
+        return COLUMN_IMAGE_ID;
     }
 
     @Override
     public ContentValues getContentValues() {
         ContentValues values = new ContentValues();
-        values.put(IMAGE_ID, mImageId);
-        values.put(REVIEW_ID, mReviewId);
-        values.put(BITMAP, mBitmap);
-        values.put(DATE, mDate);
-        values.put(CAPTION, mCaption);
-        values.put(IS_COVER, mIsCover);
+        values.put(COLUMN_IMAGE_ID, mImageId);
+        values.put(COLUMN_REVIEW_ID, mReviewId);
+        values.put(COLUMN_BITMAP, mBitmap);
+        values.put(COLUMN_IMAGE_DATE, mDate);
+        values.put(COLUMN_CAPTION, mCaption);
+        values.put(COLUMN_IS_COVER, mIsCover);
 
         return values;
     }

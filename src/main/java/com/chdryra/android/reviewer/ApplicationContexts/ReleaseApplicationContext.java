@@ -6,6 +6,7 @@ import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.MdGvConverter;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.FactoryGridDataViewer;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.FactoryReviewViewAdapter;
+import com.chdryra.android.reviewer.Database.BuilderReviewerDbContract;
 import com.chdryra.android.reviewer.Database.DbContractExecutor;
 import com.chdryra.android.reviewer.Database.DbHelper;
 import com.chdryra.android.reviewer.Database.DbSpecification;
@@ -62,9 +63,11 @@ public class ReleaseApplicationContext extends ApplicationContextBasic {
         setDataValidator(new DataValidator());
 
         //ReviewerDb
-        DbSpecification spec = new DbSpecification(databaseName, new ReviewerDbContract(), databaseVersion);
+        BuilderReviewerDbContract builder = new BuilderReviewerDbContract();
+        ReviewerDbContract contract = builder.newContract();
+        DbSpecification spec = new DbSpecification(databaseName, contract, databaseVersion);
         DbHelper dbHelper = new DbHelper(context, spec, new DbContractExecutor());
-        setReviewerDb(new ReviewerDb(dbHelper, getTagsManager(), getReviewFactory(),
+        setReviewerDb(new ReviewerDb(dbHelper, contract, getTagsManager(), getReviewFactory(),
                 new FactoryTableRow(getDataValidator())));
 
         //ReviewsRepository

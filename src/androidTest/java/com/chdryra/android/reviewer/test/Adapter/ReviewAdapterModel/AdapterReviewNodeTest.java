@@ -104,7 +104,7 @@ public class AdapterReviewNodeTest extends AndroidTestCase {
         }
 
         mNode = collection;
-        RandomReviewsRepository rando = new RandomReviewsRepository()
+        RandomReviewsRepository rando = new RandomReviewsRepository();
         ReviewsRepository repo = RandomReviewsRepository.nextRepository(mNode);
         ViewerChildList wrapper = new ViewerChildList(getContext(), mNode, repo);
         mAdapter = new AdapterReviewNode<>(mNode, wrapper);

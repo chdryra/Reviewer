@@ -42,6 +42,8 @@ import com.chdryra.android.reviewer.Model.ReviewData.MdLocationList;
 import com.chdryra.android.reviewer.Model.ReviewData.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewPublisher;
 import com.chdryra.android.reviewer.Model.ReviewStructure.Review;
+import com.chdryra.android.reviewer.Model.TagsModel.ReviewTag;
+import com.chdryra.android.reviewer.Model.TagsModel.ReviewTagCollection;
 import com.chdryra.android.reviewer.Model.TagsModel.TagsManager;
 import com.chdryra.android.reviewer.Model.UserData.Author;
 import com.chdryra.android.reviewer.View.GvDataModel.GvTagList;
@@ -237,26 +239,26 @@ public class ReviewerDbTest extends AndroidTestCase {
         }
 
         Map<String, ArrayList<String>> tagsMap = new HashMap<>();
-        TagsManager.ReviewTagCollection tagCollection = mTagsManager.getTags();
-        for (TagsManager.ReviewTag tag : tagCollection) {
+        ReviewTagCollection tagCollection = mTagsManager.getTags();
+        for (ReviewTag tag : tagCollection) {
             ArrayList<String> reviewList = new ArrayList<>();
             ArrayList<ReviewId> tagged = tag.getReviews();
             for (ReviewId id : tagged) {
                 reviewList.add(id.toString());
             }
-            tagsMap.put(tag.get(), reviewList);
+            tagsMap.put(tag.getTag(), reviewList);
         }
 
         return tagsMap;
     }
 
-    private void checkTagList(TagsManager.ReviewTagCollection lhs,
-                              TagsManager.ReviewTagCollection rhs) {
+    private void checkTagList(ReviewTagCollection lhs,
+                              ReviewTagCollection rhs) {
         assertEquals(lhs.size(), rhs.size());
         for (int i = 0; i < rhs.size(); ++i) {
-            TagsManager.ReviewTag tag = rhs.getItem(i);
-            assertEquals(lhs.getItem(i).get(), tag.get());
-            ArrayList<String> tagged = mTagsMap.get(tag.get());
+            ReviewTag tag = rhs.getItem(i);
+            assertEquals(lhs.getItem(i).getTag(), tag.getTag());
+            ArrayList<String> tagged = mTagsMap.get(tag.getTag());
             ArrayList<ReviewId> taggedIds = tag.getReviews();
             for (int j = 0; j < taggedIds.size(); ++j) {
                 assertEquals(tagged.get(j), taggedIds.get(j).toString());

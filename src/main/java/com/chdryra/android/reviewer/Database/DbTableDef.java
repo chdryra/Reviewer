@@ -139,9 +139,5 @@ public class DbTableDef implements BaseColumns {
         public boolean isNullable() {
             return mIsNullable;
         }
-
-        public DbTableDef getParentTable() {
-            return DbTableDef.this;
-        }
     }
 }

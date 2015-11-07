@@ -1,11 +1,3 @@
-/*
- * Copyright (c) 2015, Rizwan Choudrey - All Rights Reserved
- * Unauthorized copying of this file, via any medium is strictly prohibited
- * Proprietary and confidential
- * Author: Rizwan Choudrey
- * Date: 9 April, 2015
- */
-
 package com.chdryra.android.reviewer.Database;
 
 import android.content.ContentValues;
@@ -21,10 +13,11 @@ import com.chdryra.android.reviewer.Model.ReviewData.ReviewId;
  * Email: rizwan.choudrey@gmail.com
  */
 public class RowComment implements MdDataRow<MdCommentList.MdComment> {
-    public static String COMMENT_ID = ReviewerDbContract.TableComments.COLUMN_NAME_COMMENT_ID;
-    public static String REVIEW_ID = ReviewerDbContract.TableComments.COLUMN_NAME_REVIEW_ID;
-    public static String COMMENT = ReviewerDbContract.TableComments.COLUMN_NAME_COMMENT;
-    public static String IS_HEADLINE = ReviewerDbContract.TableComments.COLUMN_NAME_IS_HEADLINE;
+    public static final String COLUMN_COMMENT_ID = "comment_id";
+    public static final String COLUMN_REVIEW_ID = "review_id";
+    public static final String COLUMN_COMMENT = "comment";
+    public static final String COLUMN_IS_HEADLINE = "is_headline";
+
     private static final String SEPARATOR = ":";
 
     private String mCommentId;
@@ -34,9 +27,6 @@ public class RowComment implements MdDataRow<MdCommentList.MdComment> {
     private DataValidator mValidator;
 
     //Constructors
-    public RowComment() {
-    }
-
     public RowComment(MdCommentList.MdComment comment, int index, DataValidator validator) {
         mReviewId = comment.getReviewId().toString();
         mCommentId = mReviewId + SEPARATOR + "c" + String.valueOf(index);
@@ -45,11 +35,15 @@ public class RowComment implements MdDataRow<MdCommentList.MdComment> {
         mValidator = validator;
     }
 
+    //Via reflection
+    public RowComment() {
+    }
+
     public RowComment(Cursor cursor, DataValidator validator) {
-        mReviewId = cursor.getString(cursor.getColumnIndexOrThrow(REVIEW_ID));
-        mCommentId = cursor.getString(cursor.getColumnIndexOrThrow(COMMENT_ID));
-        mComment = cursor.getString(cursor.getColumnIndexOrThrow(COMMENT));
-        mIsHeadline = cursor.getInt(cursor.getColumnIndexOrThrow(IS_HEADLINE)) == 1;
+        mReviewId = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_REVIEW_ID));
+        mCommentId = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_COMMENT_ID));
+        mComment = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_COMMENT));
+        mIsHeadline = cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_IS_HEADLINE)) == 1;
         mValidator = validator;
     }
 
@@ -61,16 +55,16 @@ public class RowComment implements MdDataRow<MdCommentList.MdComment> {
 
     @Override
     public String getRowIdColumnName() {
-        return COMMENT_ID;
+        return COLUMN_COMMENT_ID;
     }
 
     @Override
     public ContentValues getContentValues() {
         ContentValues values = new ContentValues();
-        values.put(COMMENT_ID, mCommentId);
-        values.put(REVIEW_ID, mReviewId);
-        values.put(COMMENT, mComment);
-        values.put(IS_HEADLINE, mIsHeadline);
+        values.put(COLUMN_COMMENT_ID, mCommentId);
+        values.put(COLUMN_REVIEW_ID, mReviewId);
+        values.put(COLUMN_COMMENT, mComment);
+        values.put(COLUMN_IS_HEADLINE, mIsHeadline);
 
         return values;
     }

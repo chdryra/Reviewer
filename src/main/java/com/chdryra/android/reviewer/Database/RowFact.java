@@ -1,11 +1,3 @@
-/*
- * Copyright (c) 2015, Rizwan Choudrey - All Rights Reserved
- * Unauthorized copying of this file, via any medium is strictly prohibited
- * Proprietary and confidential
- * Author: Rizwan Choudrey
- * Date: 9 April, 2015
- */
-
 package com.chdryra.android.reviewer.Database;
 
 import android.content.ContentValues;
@@ -26,11 +18,12 @@ import java.net.URL;
  * Email: rizwan.choudrey@gmail.com
  */
 public class RowFact implements MdDataRow<MdFactList.MdFact> {
-    public static String FACT_ID = ReviewerDbContract.TableFacts.COLUMN_NAME_FACT_ID;
-    public static String REVIEW_ID = ReviewerDbContract.TableFacts.COLUMN_NAME_REVIEW_ID;
-    public static String LABEL = ReviewerDbContract.TableFacts.COLUMN_NAME_LABEL;
-    public static String VALUE = ReviewerDbContract.TableFacts.COLUMN_NAME_VALUE;
-    public static String IS_URL = ReviewerDbContract.TableFacts.COLUMN_NAME_IS_URL;
+    public static final String COLUMN_FACT_ID = "fact_id";
+    public static final String COLUMN_REVIEW_ID = "review_id";
+    public static final String COLUMN_LABEL = "label";
+    public static final String COLUMN_VALUE = "value";
+    public static final String COLUMN_IS_URL = "is_url";
+
     private static final String SEPARATOR = ":";
 
     private String mFactId;
@@ -41,9 +34,6 @@ public class RowFact implements MdDataRow<MdFactList.MdFact> {
     private DataValidator mValidator;
 
     //Constructors
-    public RowFact() {
-    }
-
     public RowFact(MdFactList.MdFact fact, int index, DataValidator validator) {
         mReviewId = fact.getReviewId().toString();
         mFactId = mReviewId + SEPARATOR + "f" + String.valueOf(index);
@@ -53,12 +43,16 @@ public class RowFact implements MdDataRow<MdFactList.MdFact> {
         mValidator = validator;
     }
 
+    //Via reflection
+    public RowFact() {
+    }
+
     public RowFact(Cursor cursor, DataValidator validator) {
-        mFactId = cursor.getString(cursor.getColumnIndexOrThrow(FACT_ID));
-        mReviewId = cursor.getString(cursor.getColumnIndexOrThrow(REVIEW_ID));
-        mLabel = cursor.getString(cursor.getColumnIndexOrThrow(LABEL));
-        mValue = cursor.getString(cursor.getColumnIndexOrThrow(VALUE));
-        mIsUrl = cursor.getInt(cursor.getColumnIndexOrThrow(IS_URL)) == 1;
+        mFactId = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_FACT_ID));
+        mReviewId = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_REVIEW_ID));
+        mLabel = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_LABEL));
+        mValue = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_VALUE));
+        mIsUrl = cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_IS_URL)) == 1;
         mValidator = validator;
     }
 
@@ -70,17 +64,17 @@ public class RowFact implements MdDataRow<MdFactList.MdFact> {
 
     @Override
     public String getRowIdColumnName() {
-        return FACT_ID;
+        return COLUMN_FACT_ID;
     }
 
     @Override
     public ContentValues getContentValues() {
         ContentValues values = new ContentValues();
-        values.put(FACT_ID, mFactId);
-        values.put(REVIEW_ID, mReviewId);
-        values.put(LABEL, mLabel);
-        values.put(VALUE, mValue);
-        values.put(IS_URL, mIsUrl);
+        values.put(COLUMN_FACT_ID, mFactId);
+        values.put(COLUMN_REVIEW_ID, mReviewId);
+        values.put(COLUMN_LABEL, mLabel);
+        values.put(COLUMN_VALUE, mValue);
+        values.put(COLUMN_IS_URL, mIsUrl);
 
         return values;
     }

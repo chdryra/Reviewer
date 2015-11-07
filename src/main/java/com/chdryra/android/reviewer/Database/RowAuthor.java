@@ -1,11 +1,3 @@
-/*
- * Copyright (c) 2015, Rizwan Choudrey - All Rights Reserved
- * Unauthorized copying of this file, via any medium is strictly prohibited
- * Proprietary and confidential
- * Author: Rizwan Choudrey
- * Date: 9 April, 2015
- */
-
 package com.chdryra.android.reviewer.Database;
 
 import android.content.ContentValues;
@@ -21,26 +13,27 @@ import com.chdryra.android.reviewer.Model.UserData.UserId;
  * Email: rizwan.choudrey@gmail.com
  */
 public class RowAuthor implements TableRow {
-    public static String USER_ID = ReviewerDbContract.TableAuthors.COLUMN_NAME_USER_ID;
-    public static String AUTHOR_NAME = ReviewerDbContract.TableAuthors.COLUMN_NAME_NAME;
+    public static final String COLUMN_USER_ID = "user_id";
+    public  static final String COLUMN_AUTHOR_NAME = "name";
 
     private String mUserId;
     private String mName;
     private DataValidator mValidator;
 
     //Constructors
-    public RowAuthor() {
-    }
-
     public RowAuthor(Author author, DataValidator validator) {
         mUserId = author.getUserId().toString();
         mName = author.getName();
         mValidator = validator;
     }
 
+    //Via reflection
+    public RowAuthor() {
+    }
+
     public RowAuthor(Cursor cursor, DataValidator validator) {
-        mUserId = cursor.getString(cursor.getColumnIndexOrThrow(USER_ID));
-        mName = cursor.getString(cursor.getColumnIndexOrThrow(AUTHOR_NAME));
+        mUserId = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_USER_ID));
+        mName = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_AUTHOR_NAME));
         mValidator = validator;
     }
 
@@ -56,14 +49,14 @@ public class RowAuthor implements TableRow {
 
     @Override
     public String getRowIdColumnName() {
-        return USER_ID;
+        return COLUMN_USER_ID;
     }
 
     @Override
     public ContentValues getContentValues() {
         ContentValues values = new ContentValues();
-        values.put(USER_ID, mUserId);
-        values.put(AUTHOR_NAME, mName);
+        values.put(COLUMN_USER_ID, mUserId);
+        values.put(COLUMN_AUTHOR_NAME, mName);
 
         return values;
     }

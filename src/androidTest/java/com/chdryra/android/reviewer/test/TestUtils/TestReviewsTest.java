@@ -22,6 +22,7 @@ import com.chdryra.android.reviewer.Model.ReviewData.MdFactList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdImageList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdLocationList;
 import com.chdryra.android.reviewer.Model.ReviewStructure.Review;
+import com.chdryra.android.reviewer.Model.TagsModel.ReviewTagCollection;
 import com.chdryra.android.reviewer.Model.TagsModel.TagsManager;
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.ReviewsProviderModel.ReviewsProvider;
@@ -52,11 +53,11 @@ public class TestReviewsTest extends InstrumentationTestCase {
         assertEquals(3.5f, review.getRating().getValue());
 
         //Tags
-        TagsManager.ReviewTagCollection tags = tagsManager.getTags(review.getId());
+        ReviewTagCollection tags = tagsManager.getTags(review.getId());
         assertEquals(3, tags.size());
-        assertEquals("Restaurant", tags.getItem(0).get());
-        assertEquals("Pakistani", tags.getItem(1).get());
-        assertEquals("London", tags.getItem(2).get());
+        assertEquals("Restaurant", tags.getItem(0).getTag());
+        assertEquals("Pakistani", tags.getItem(1).getTag());
+        assertEquals("London", tags.getItem(2).getTag());
 
         //Children
         MdCriterionList criteria = review.getCriteria();
@@ -135,12 +136,12 @@ public class TestReviewsTest extends InstrumentationTestCase {
         assertEquals(5f, review.getRating().getValue());
 
         //Tags
-        TagsManager.ReviewTagCollection tags = tagsManager.getTags(review.getId());
+        ReviewTagCollection tags = tagsManager.getTags(review.getId());
         assertEquals(4, tags.size());
-        assertEquals("Reading", tags.getItem(0).get());
-        assertEquals("Mum", tags.getItem(1).get());
-        assertEquals("Kew Gardens", tags.getItem(2).get());
-        assertEquals("Baby", tags.getItem(3).get());
+        assertEquals("Reading", tags.getItem(0).getTag());
+        assertEquals("Mum", tags.getItem(1).getTag());
+        assertEquals("Kew Gardens", tags.getItem(2).getTag());
+        assertEquals("Baby", tags.getItem(3).getTag());
 
         //Children
         MdCriterionList children = review.getCriteria();

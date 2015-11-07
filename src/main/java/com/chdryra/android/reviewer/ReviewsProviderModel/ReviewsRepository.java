@@ -7,6 +7,7 @@ import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewPublisher;
 import com.chdryra.android.reviewer.Model.ReviewStructure.FactoryReview;
 import com.chdryra.android.reviewer.Model.ReviewStructure.Review;
 import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
+import com.chdryra.android.reviewer.Model.TagsModel.ReviewTagCollection;
 import com.chdryra.android.reviewer.Model.TagsModel.TagsManager;
 import com.chdryra.android.reviewer.Model.TreeMethods.VisitorReviewsGetter;
 import com.chdryra.android.reviewer.Model.UserData.Author;
@@ -35,7 +36,7 @@ public class ReviewsRepository implements ReviewsProvider {
         return mAuthor;
     }
 
-    public TagsManager.ReviewTagCollection getTags(ReviewId id) {
+    public ReviewTagCollection getTags(ReviewId id) {
         return getTagsManager().getTags(id);
     }
 

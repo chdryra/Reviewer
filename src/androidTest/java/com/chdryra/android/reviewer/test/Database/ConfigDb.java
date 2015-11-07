@@ -17,7 +17,14 @@ import com.chdryra.android.reviewer.Database.RowImage;
 import com.chdryra.android.reviewer.Database.RowLocation;
 import com.chdryra.android.reviewer.Database.RowReview;
 import com.chdryra.android.reviewer.Database.RowTag;
+import com.chdryra.android.reviewer.Database.TableAuthors;
+import com.chdryra.android.reviewer.Database.TableComments;
+import com.chdryra.android.reviewer.Database.TableFacts;
+import com.chdryra.android.reviewer.Database.TableImages;
+import com.chdryra.android.reviewer.Database.TableLocations;
+import com.chdryra.android.reviewer.Database.TableReviews;
 import com.chdryra.android.reviewer.Database.TableRow;
+import com.chdryra.android.reviewer.Database.TableTags;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -37,31 +44,31 @@ public class ConfigDb {
         mConfigsMap = new HashMap<>();
         mConfigsMap.put(DbData.REVIEWS,
                 new Config(ReviewerDbContract.REVIEWS_TABLE,
-                        ReviewerDbContract.TableReviews.COLUMN_NAME_REVIEW_ID,
+                        TableReviews.COLUMN_NAME_REVIEW_ID,
                         RowReview.class));
         mConfigsMap.put(DbData.COMMENTS,
                 new Config(ReviewerDbContract.COMMENTS_TABLE,
-                        ReviewerDbContract.TableComments.COLUMN_NAME_COMMENT_ID,
+                        TableComments.COLUMN_NAME_COMMENT_ID,
                         RowComment.class));
         mConfigsMap.put(DbData.FACTS,
                 new Config(ReviewerDbContract.FACTS_TABLE,
-                        ReviewerDbContract.TableFacts.COLUMN_NAME_FACT_ID,
+                        TableFacts.COLUMN_NAME_FACT_ID,
                         RowFact.class));
         mConfigsMap.put(DbData.LOCATIONS,
                 new Config(ReviewerDbContract.LOCATIONS_TABLE,
-                        ReviewerDbContract.TableLocations.COLUMN_NAME_LOCATION_ID,
+                        TableLocations.COLUMN_NAME_LOCATION_ID,
                         RowLocation.class));
         mConfigsMap.put(DbData.IMAGES,
                 new Config(ReviewerDbContract.IMAGES_TABLE,
-                        ReviewerDbContract.TableImages.COLUMN_NAME_IMAGE_ID,
+                        TableImages.COLUMN_NAME_IMAGE_ID,
                         RowImage.class));
         mConfigsMap.put(DbData.AUTHORS,
                 new Config(ReviewerDbContract.AUTHORS_TABLE,
-                        ReviewerDbContract.TableAuthors.COLUMN_NAME_USER_ID,
+                        TableAuthors.COLUMN_NAME_USER_ID,
                         RowAuthor.class));
         mConfigsMap.put(DbData.TAGS,
                 new Config(ReviewerDbContract.TAGS_TABLE,
-                        ReviewerDbContract.TableTags.COLUMN_NAME_TAG,
+                        TableTags.COLUMN_NAME_TAG,
                         RowTag.class));
     }
 

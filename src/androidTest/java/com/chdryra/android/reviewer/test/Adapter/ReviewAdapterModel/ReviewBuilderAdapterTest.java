@@ -16,6 +16,7 @@ import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilder;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilderAdapter;
 import com.chdryra.android.reviewer.Model.ReviewData.MdCriterionList;
 import com.chdryra.android.reviewer.Model.ReviewStructure.Review;
+import com.chdryra.android.reviewer.Model.TagsModel.ReviewTagCollection;
 import com.chdryra.android.reviewer.Model.TagsModel.TagsManager;
 import com.chdryra.android.reviewer.Model.UserData.Author;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
@@ -113,11 +114,11 @@ public class ReviewBuilderAdapterTest extends AndroidTestCase {
         MdGvEquality.check(published.getImages(), (GvImageList) images);
         MdGvEquality.check(published.getLocations(), (GvLocationList) locations);
 
-        TagsManager.ReviewTagCollection tagsPublished = mTagsManager.getTags(published.getId());
+        ReviewTagCollection tagsPublished = mTagsManager.getTags(published.getId());
         assertEquals(tags.size(), tagsPublished.size());
         for (int j = 0; j < tags.size(); ++j) {
             GvTagList.GvTag tag = (GvTagList.GvTag) tags.getItem(j);
-            assertEquals(tag.get(), tagsPublished.getItem(j).get());
+            assertEquals(tag.get(), tagsPublished.getItem(j).getTag());
         }
 
         MdCriterionList criteria = published.getCriteria();
@@ -131,11 +132,11 @@ public class ReviewBuilderAdapterTest extends AndroidTestCase {
                     .getItem(i);
             assertEquals(child.getSubject(), childReview.getSubject().get());
             assertEquals(child.getRating(), childReview.getRating().getValue());
-            TagsManager.ReviewTagCollection tagsChild = mTagsManager.getTags(childReview.getId());
+            ReviewTagCollection tagsChild = mTagsManager.getTags(childReview.getId());
             assertEquals(tags.size(), tagsChild.size());
             for (int j = 0; j < tags.size(); ++j) {
                 GvTagList.GvTag tag = (GvTagList.GvTag) tags.getItem(j);
-                assertEquals(tag.get(), tagsChild.getItem(j).get());
+                assertEquals(tag.get(), tagsChild.getItem(j).getTag());
             }
         }
     }

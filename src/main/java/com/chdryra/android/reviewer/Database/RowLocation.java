@@ -1,11 +1,3 @@
-/*
- * Copyright (c) 2015, Rizwan Choudrey - All Rights Reserved
- * Unauthorized copying of this file, via any medium is strictly prohibited
- * Proprietary and confidential
- * Author: Rizwan Choudrey
- * Date: 9 April, 2015
- */
-
 package com.chdryra.android.reviewer.Database;
 
 import android.content.ContentValues;
@@ -22,11 +14,12 @@ import com.google.android.gms.maps.model.LatLng;
  * Email: rizwan.choudrey@gmail.com
  */
 public class RowLocation implements MdDataRow<MdLocationList.MdLocation> {
-    public static String LOCATION_ID = ReviewerDbContract.TableLocations.COLUMN_NAME_LOCATION_ID;
-    public static String REVIEW_ID = ReviewerDbContract.TableLocations.COLUMN_NAME_REVIEW_ID;
-    public static String LAT = ReviewerDbContract.TableLocations.COLUMN_NAME_LATITUDE;
-    public static String LNG = ReviewerDbContract.TableLocations.COLUMN_NAME_LONGITUDE;
-    public static String NAME = ReviewerDbContract.TableLocations.COLUMN_NAME_NAME;
+    public static final String COLUMN_LOCATION_ID = "location_id";
+    public static final String COLUMN_REVIEW_ID = "review_id";
+    public static final String COLUMN_LATITUDE = "latitude";
+    public static final String COLUMN_LONGITUDE = "longitude";
+    public static final String COLUMN_NAME = "name";
+
     private static final String SEPARATOR = ":";
 
     private String mLocationId;
@@ -37,9 +30,6 @@ public class RowLocation implements MdDataRow<MdLocationList.MdLocation> {
     private DataValidator mValidator;
 
     //Constructors
-    public RowLocation() {
-    }
-
     public RowLocation(MdLocationList.MdLocation location, int index, DataValidator validator) {
         mReviewId = location.getReviewId().toString();
         mLocationId = mReviewId + SEPARATOR + "l" + String.valueOf(index);
@@ -49,12 +39,16 @@ public class RowLocation implements MdDataRow<MdLocationList.MdLocation> {
         mValidator = validator;
     }
 
+    //Via reflection
+    public RowLocation() {
+    }
+
     public RowLocation(Cursor cursor, DataValidator validator) {
-        mLocationId = cursor.getString(cursor.getColumnIndexOrThrow(LOCATION_ID));
-        mReviewId = cursor.getString(cursor.getColumnIndexOrThrow(REVIEW_ID));
-        mLatitude = cursor.getDouble(cursor.getColumnIndexOrThrow(LAT));
-        mLongitude = cursor.getDouble(cursor.getColumnIndexOrThrow(LNG));
-        mName = cursor.getString(cursor.getColumnIndexOrThrow(NAME));
+        mLocationId = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_LOCATION_ID));
+        mReviewId = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_REVIEW_ID));
+        mLatitude = cursor.getDouble(cursor.getColumnIndexOrThrow(COLUMN_LATITUDE));
+        mLongitude = cursor.getDouble(cursor.getColumnIndexOrThrow(COLUMN_LONGITUDE));
+        mName = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_NAME));
         mValidator = validator;
     }
 
@@ -67,17 +61,17 @@ public class RowLocation implements MdDataRow<MdLocationList.MdLocation> {
 
     @Override
     public String getRowIdColumnName() {
-        return LOCATION_ID;
+        return COLUMN_LOCATION_ID;
     }
 
     @Override
     public ContentValues getContentValues() {
         ContentValues values = new ContentValues();
-        values.put(LOCATION_ID, mLocationId);
-        values.put(REVIEW_ID, mReviewId);
-        values.put(LAT, mLatitude);
-        values.put(LNG, mLongitude);
-        values.put(NAME, mName);
+        values.put(COLUMN_LOCATION_ID, mLocationId);
+        values.put(COLUMN_REVIEW_ID, mReviewId);
+        values.put(COLUMN_LATITUDE, mLatitude);
+        values.put(COLUMN_LONGITUDE, mLongitude);
+        values.put(COLUMN_NAME, mName);
 
         return values;
     }

@@ -12,7 +12,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.chdryra.android.mygenerallibrary.ViewHolder;
-import com.chdryra.android.reviewer.Model.TagsModel.TagsManager;
+import com.chdryra.android.reviewer.Model.TagsModel.ReviewTag;
 
 public class GvTagList extends GvTextList<GvTagList.GvTag> {
     //Constructors
@@ -31,7 +31,7 @@ public class GvTagList extends GvTextList<GvTagList.GvTag> {
 //Classes
 
     /**
-     * {@link } version of: {@link TagsManager.ReviewTag}
+     * {@link } version of: {@link ReviewTag}
      * {@link ViewHolder}: {@link VhTag}
      * <p/>
      * <p>

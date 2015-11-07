@@ -4,6 +4,8 @@ import com.chdryra.android.reviewer.Adapter.DataAdapterModel.MdGvConverter;
 import com.chdryra.android.reviewer.Model.ReviewData.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewStructure.Review;
 import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
+import com.chdryra.android.reviewer.Model.TagsModel.ReviewTag;
+import com.chdryra.android.reviewer.Model.TagsModel.ReviewTagCollection;
 import com.chdryra.android.reviewer.Model.TagsModel.TagsManager;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataCollection;
@@ -103,11 +105,11 @@ class ViewerReviewData implements GridDataViewer<GvData> {
 
     protected GvTagList getTags(String reviewId) {
         ReviewId id = ReviewId.fromString(reviewId);
-        TagsManager.ReviewTagCollection tags = mTagsManager.getTags(id);
+        ReviewTagCollection tags = mTagsManager.getTags(id);
         GvReviewId gvid = GvReviewId.getId(reviewId);
         GvTagList tagList = new GvTagList(gvid);
-        for (TagsManager.ReviewTag tag : tags) {
-            tagList.add(new GvTagList.GvTag(gvid, tag.get()));
+        for (ReviewTag tag : tags) {
+            tagList.add(new GvTagList.GvTag(gvid, tag.getTag()));
         }
 
         return tagList;

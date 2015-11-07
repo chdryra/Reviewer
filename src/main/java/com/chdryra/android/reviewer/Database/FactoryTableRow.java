@@ -17,7 +17,7 @@ import com.chdryra.android.reviewer.Model.ReviewData.MdFactList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdImageList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdLocationList;
 import com.chdryra.android.reviewer.Model.ReviewStructure.Review;
-import com.chdryra.android.reviewer.Model.TagsModel.TagsManager;
+import com.chdryra.android.reviewer.Model.TagsModel.ReviewTag;
 import com.chdryra.android.reviewer.Model.UserData.Author;
 
 import java.lang.reflect.Constructor;
@@ -73,7 +73,7 @@ public class FactoryTableRow {
         return new RowAuthor(author, mValidator);
     }
 
-    public TableRow newRow(TagsManager.ReviewTag tag) {
+    public TableRow newRow(ReviewTag tag) {
         return new RowTag(tag, mValidator);
     }
 

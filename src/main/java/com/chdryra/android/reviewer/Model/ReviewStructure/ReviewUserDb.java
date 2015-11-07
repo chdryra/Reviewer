@@ -47,7 +47,7 @@ public class ReviewUserDb implements Review {
 
     public ReviewUserDb(String reviewId, ReviewerDb database, FactoryReview reviewFactory) {
         mDatabase = database;
-        RowReview row = getRowWhere(ReviewerDb.REVIEWS, RowReview.REVIEW_ID, reviewId);
+        RowReview row = getRowWhere(mDatabase.getReviewsTable(), RowReview.REVIEW_ID, reviewId);
         init(row, reviewFactory);
     }
 
@@ -105,7 +105,7 @@ public class ReviewUserDb implements Review {
 
     @Override
     public Author getAuthor() {
-        RowAuthor row = getRowWhere(ReviewerDb.AUTHORS, RowAuthor.USER_ID, mUserId.toString());
+        RowAuthor row = getRowWhere(mDatabase.getAuthorsTable(), RowAuthor.USER_ID, mUserId.toString());
         return row.toAuthor();
     }
 
@@ -134,22 +134,22 @@ public class ReviewUserDb implements Review {
 
     @Override
     public MdCommentList getComments() {
-        return loadFromDataTable(ReviewerDb.COMMENTS, MdCommentList.class);
+        return loadFromDataTable(mDatabase.getCommentsTable(), MdCommentList.class);
     }
 
     @Override
     public MdFactList getFacts() {
-        return loadFromDataTable(ReviewerDb.FACTS, MdFactList.class);
+        return loadFromDataTable(mDatabase.getFactsTable(), MdFactList.class);
     }
 
     @Override
     public MdImageList getImages() {
-        return loadFromDataTable(ReviewerDb.IMAGES, MdImageList.class);
+        return loadFromDataTable(mDatabase.getImagesTable(), MdImageList.class);
     }
 
     @Override
     public MdLocationList getLocations() {
-        return loadFromDataTable(ReviewerDb.LOCATIONS, MdLocationList.class);
+        return loadFromDataTable(mDatabase.getLocationsTable(), MdLocationList.class);
     }
 
     @Override
