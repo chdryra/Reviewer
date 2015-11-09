@@ -12,7 +12,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.chdryra.android.mygenerallibrary.ViewHolder;
-import com.chdryra.android.reviewer.Model.ReviewData.ReviewId;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
 
 /**
  * Created by: Rizwan Choudrey
@@ -35,7 +35,7 @@ public class GvReviewId implements GvData {
             return new GvReviewId[size];
         }
     };
-    private ReviewId mId;
+    private String mId;
 
     //Constructors
     private GvReviewId() {
@@ -43,25 +43,20 @@ public class GvReviewId implements GvData {
     }
 
     public GvReviewId(GvReviewId id) {
-        this(ReviewId.fromString(id.getId()));
+        this(id.getId());
     }
 
     public GvReviewId(Parcel in) {
-        mId = ReviewId.fromString(in.readString());
+        mId = in.readString();
     }
 
-    private GvReviewId(ReviewId id) {
+    public GvReviewId(String id) {
         mId = id;
-    }
-
-    //Static methods
-    public static GvReviewId getId(String id) {
-        return new GvReviewId(ReviewId.fromString(id));
     }
 
     //public methods
     public String getId() {
-        return mId.toString();
+        return mId;
     }
 
     //Overridden
@@ -98,6 +93,11 @@ public class GvReviewId implements GvData {
     @Override
     public boolean isValidForDisplay() {
         return false;
+    }
+
+    @Override
+    public boolean hasData(DataValidator dataValidator) {
+        return dataValidator.validateString(mId);
     }
 
     @Override

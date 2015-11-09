@@ -24,7 +24,7 @@ public class VhTag extends VhText {
             public String getString(ViewHolderData data) {
                 GvTagList.GvTag tag = (GvTagList.GvTag) data;
                 String hash = hashTag ? "#" : "";
-                return tag != null ? hash + tag.get() : null;
+                return tag != null ? hash + tag.getString() : null;
             }
         });
     }

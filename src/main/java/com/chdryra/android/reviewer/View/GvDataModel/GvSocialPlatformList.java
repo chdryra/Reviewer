@@ -164,7 +164,12 @@ public class GvSocialPlatformList extends GvDataList<GvSocialPlatformList.GvSoci
 
         @Override
         public boolean isValidForDisplay() {
-            return DataValidator.validateString(getName());
+            return getName() != null && getName().length() > 0;
+        }
+
+        @Override
+        public boolean hasData(DataValidator dataValidator) {
+            return dataValidator.validateString(getName());
         }
     }
 }

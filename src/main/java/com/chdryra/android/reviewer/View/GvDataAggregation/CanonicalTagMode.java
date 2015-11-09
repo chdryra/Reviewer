@@ -27,7 +27,7 @@ public class CanonicalTagMode implements CanonicalDatumMaker<GvTagList.GvTag> {
                     //Overridden
                     @Override
                     public String getData(GvTagList.GvTag datum) {
-                        return datum.get();
+                        return datum.getString();
                     }
                 });
 

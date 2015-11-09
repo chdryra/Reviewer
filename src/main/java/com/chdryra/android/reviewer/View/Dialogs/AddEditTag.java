@@ -40,6 +40,6 @@ public class AddEditTag extends AddEditLayout<GvTagList.GvTag> {
 
     @Override
     public void updateLayout(GvTagList.GvTag tag) {
-        ((EditText) getView(TAG)).setText(tag.get());
+        ((EditText) getView(TAG)).setText(tag.getString());
     }
 }

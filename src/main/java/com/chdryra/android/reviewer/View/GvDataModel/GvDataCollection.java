@@ -8,6 +8,11 @@
 
 package com.chdryra.android.reviewer.View.GvDataModel;
 
+import android.os.Parcel;
+
+import com.chdryra.android.mygenerallibrary.ViewHolder;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
+
 /**
  * Created by: Rizwan Choudrey
  * On: 26/06/2015
@@ -25,4 +30,40 @@ public interface GvDataCollection<T extends GvData> extends GvData {
     GvDataList<T> toList();
 
     boolean contains(T item);
+
+    @Override
+    GvDataType<? extends GvData> getGvDataType();
+
+    @Override
+    String getStringSummary();
+
+    @Override
+    GvReviewId getReviewId();
+
+    @Override
+    boolean hasElements();
+
+    @Override
+    boolean isCollection();
+
+    @Override
+    int describeContents();
+
+    @Override
+    void writeToParcel(Parcel dest, int flags);
+
+    @Override
+    boolean hasData(DataValidator dataValidator);
+
+    @Override
+    ViewHolder getViewHolder();
+
+    @Override
+    boolean isValidForDisplay();
+
+    @Override
+    boolean equals(Object o);
+
+    @Override
+    int hashCode();
 }

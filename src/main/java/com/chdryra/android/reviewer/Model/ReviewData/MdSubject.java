@@ -37,8 +37,8 @@ public class MdSubject implements MdData {
     }
 
     @Override
-    public boolean hasData() {
-        return DataValidator.validateString(mSubject);
+    public boolean hasData(DataValidator dataValidator) {
+        return dataValidator.validateString(mSubject);
     }
 
     @Override

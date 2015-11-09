@@ -13,6 +13,7 @@ import android.os.Parcelable;
 
 import com.chdryra.android.mygenerallibrary.ViewHolder;
 import com.chdryra.android.mygenerallibrary.ViewHolderDataList;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewAdapter;
 import com.chdryra.android.reviewer.View.GvDataSorting.GvDataComparators;
 
@@ -145,6 +146,11 @@ public class GvDataList<T extends GvData> extends ViewHolderDataList<T> implemen
     @Override
     public boolean isValidForDisplay() {
         return true;
+    }
+
+    @Override
+    public boolean hasData(DataValidator dataValidator) {
+        return mData.size() > 0;
     }
 
     @Override

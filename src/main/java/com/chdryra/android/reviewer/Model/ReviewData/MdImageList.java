@@ -70,8 +70,8 @@ public class MdImageList extends MdDataList<MdImageList.MdImage> {
         }
 
         @Override
-        public boolean hasData() {
-            return DataValidator.validate(this);
+        public boolean hasData(DataValidator dataValidator) {
+            return dataValidator.validate(this);
         }
 
         @Override

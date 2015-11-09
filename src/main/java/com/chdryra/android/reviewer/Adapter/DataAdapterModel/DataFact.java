@@ -13,11 +13,14 @@ package com.chdryra.android.reviewer.Adapter.DataAdapterModel;
  * On: 09/12/2014
  * Email: rizwan.choudrey@gmail.com
  */
-public interface DataFact {
+public interface DataFact extends Validatable{
     //abstract
     String getLabel();
 
     String getValue();
 
     boolean isUrl();
+
+    @Override
+    boolean hasData(DataValidator dataValidator);
 }

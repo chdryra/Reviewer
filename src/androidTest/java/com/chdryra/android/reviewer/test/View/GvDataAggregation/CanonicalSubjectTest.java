@@ -51,7 +51,7 @@ public class CanonicalSubjectTest extends CanonicalGvDataTest<GvSubjectList.GvSu
 
         GvSubjectList.GvSubject canon = mCanonical.getCanonical(mData);
         assertTrue(canon.isValidForDisplay());
-        assertEquals(SUBJECT2 + " + 2", canon.get());
+        assertEquals(SUBJECT2 + " + 2", canon.getString());
     }
 
     //Overridden

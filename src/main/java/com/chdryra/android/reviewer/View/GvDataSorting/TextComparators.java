@@ -26,7 +26,7 @@ public class TextComparators extends ComparatorCollection<GvText> {
         //Overridden
         @Override
         public int compare(T lhs, T rhs) {
-            return lhs.get().compareToIgnoreCase(rhs.get());
+            return lhs.getString().compareToIgnoreCase(rhs.getString());
         }
     }
 }

@@ -4,6 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.chdryra.android.mygenerallibrary.ViewHolder;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -133,6 +134,11 @@ public class GvCanonical<T extends GvData> implements GvDataCollection<T>, Itera
     @Override
     public boolean isValidForDisplay() {
         return mCanonical.isValidForDisplay();
+    }
+
+    @Override
+    public boolean hasData(DataValidator dataValidator) {
+        return mCanonical.hasData(dataValidator);
     }
 
     @Override

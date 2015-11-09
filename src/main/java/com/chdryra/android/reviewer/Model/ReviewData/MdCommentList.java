@@ -52,8 +52,8 @@ public class MdCommentList extends MdDataList<MdCommentList.MdComment> {
         }
 
         @Override
-        public boolean hasData() {
-            return DataValidator.validate(this);
+        public boolean hasData(DataValidator dataValidator) {
+            return dataValidator.validate(this);
         }
 
         @Override

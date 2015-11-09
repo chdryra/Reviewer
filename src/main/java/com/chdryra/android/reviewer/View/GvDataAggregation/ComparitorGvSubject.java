@@ -22,7 +22,7 @@ public class ComparitorGvSubject extends ComparitorStringable<GvSubjectList.GvSu
             //Overridden
             @Override
             public String getData(GvSubjectList.GvSubject datum) {
-                return datum.get().toLowerCase();
+                return datum.getString().toLowerCase();
             }
         });
     }

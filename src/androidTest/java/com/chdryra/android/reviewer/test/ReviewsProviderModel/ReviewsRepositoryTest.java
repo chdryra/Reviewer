@@ -42,12 +42,12 @@ public class ReviewsRepositoryTest extends InstrumentationTestCase {
         }
         assertTrue(numReviewsWithComments.size() > 1);
 
-        GvCommentList comments = MdGvConverter.convert(allComments);
+        GvCommentList comments = MdGvConverter.toGvDataList(allComments);
         for (GvCommentList.GvComment comment : comments) {
             Review review = mRepo.getReview(comment);
             assertNotNull(review);
             assertEquals(comment.getReviewId().getId(), review.getId().toString());
-            GvCommentList reviewComments = MdGvConverter.convert(review.getComments());
+            GvCommentList reviewComments = MdGvConverter.toGvDataList(review.getComments());
             assertTrue(reviewComments.contains(comment));
         }
     }
@@ -71,12 +71,12 @@ public class ReviewsRepositoryTest extends InstrumentationTestCase {
         assertEquals(2, ids.size());
 
         //Create meta review
-        GvCommentList comments = MdGvConverter.convert(commentsOfInterest);
+        GvCommentList comments = MdGvConverter.toGvDataList(commentsOfInterest);
         Review review = mRepo.getReview(comments);
         assertNotNull(review);
 
         //Check all comments of interest present
-        GvCommentList reviewComments = MdGvConverter.convert(review.getComments());
+        GvCommentList reviewComments = MdGvConverter.toGvDataList(review.getComments());
         for (GvCommentList.GvComment comment : comments) {
             assertTrue(reviewComments.contains(comment));
         }
@@ -104,7 +104,7 @@ public class ReviewsRepositoryTest extends InstrumentationTestCase {
         MdCommentList ofInterest = new MdCommentList(RandomReviewId.nextId());
         ofInterest.add(comments1.getItem(rand.nextInt(comments1.size())));
         ofInterest.add(comments2.getItem(rand.nextInt(comments2.size())));
-        GvCommentList comments = MdGvConverter.convert(ofInterest);
+        GvCommentList comments = MdGvConverter.toGvDataList(ofInterest);
 
         ReviewNode meta = mRepo.createMetaReview(comments, subject);
 

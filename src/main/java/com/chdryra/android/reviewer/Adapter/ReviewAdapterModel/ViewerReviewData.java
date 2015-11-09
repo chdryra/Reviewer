@@ -58,11 +58,11 @@ class ViewerReviewData implements GridDataViewer<GvData> {
 
         GvList data = new GvList(id);
         data.add(getTags(review.getId().toString()));
-        data.add(mConverter.convert(review.getCriteria()));
-        data.add(mConverter.convert(review.getImages()));
-        data.add(mConverter.convert(review.getComments()));
-        data.add(mConverter.convert(review.getLocations()));
-        data.add(mConverter.convert(review.getFacts()));
+        data.add(mConverter.toGvDataList(review.getCriteria()));
+        data.add(mConverter.toGvDataList(review.getImages()));
+        data.add(mConverter.toGvDataList(review.getComments()));
+        data.add(mConverter.toGvDataList(review.getLocations()));
+        data.add(mConverter.toGvDataList(review.getFacts()));
 
         return data;
     }

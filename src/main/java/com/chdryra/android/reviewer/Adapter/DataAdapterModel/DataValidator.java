@@ -15,6 +15,10 @@ package com.chdryra.android.reviewer.Adapter.DataAdapterModel;
  */
 public class DataValidator {
 
+    public boolean validate(DataAuthor author) {
+        return NotNull(author) && validateString(author.getName()) && validateString(author.getUserId());
+    }
+
     public boolean validate(DataComment comment) {
         return NotNull(comment) && validateString(comment.getComment());
     }

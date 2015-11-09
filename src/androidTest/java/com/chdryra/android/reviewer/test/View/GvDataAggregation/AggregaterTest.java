@@ -110,15 +110,15 @@ public class AggregaterTest extends TestCase {
         for (int i = 0; i < maxIter; ++i) {
             if (size1++ < num1) {
                 subjects.add(new GvSubjectList.GvSubject(RandomReviewId.nextGvReviewId(), subject1
-                        .get()));
+                        .getString()));
             }
             if (size2++ < num2) {
                 subjects.add(new GvSubjectList.GvSubject(RandomReviewId.nextGvReviewId(), subject2
-                        .get()));
+                        .getString()));
             }
             if (size3++ < num3) {
                 subjects.add(new GvSubjectList.GvSubject(RandomReviewId.nextGvReviewId(), subject3
-                        .get()));
+                        .getString()));
             }
         }
         assertEquals(total, subjects.size());
@@ -131,11 +131,11 @@ public class AggregaterTest extends TestCase {
             GvSubjectList values = (GvSubjectList) gvCanonical.toList();
             GvSubjectList.GvSubject reference = references[i];
             GvSubjectList.GvSubject canonical = gvCanonical.getCanonical();
-            assertEquals(reference.get(), canonical.get());
+            assertEquals(reference.getString(), canonical.getString());
             assertEquals(referenceNums[i], values.size());
             for (int j = 0; j < values.size(); ++j) {
                 GvSubjectList.GvSubject value = values.getItem(j);
-                assertEquals(reference.get(), value.get());
+                assertEquals(reference.getString(), value.getString());
             }
         }
     }
@@ -161,15 +161,15 @@ public class AggregaterTest extends TestCase {
         for (int i = 0; i < maxIter; ++i) {
             if (size1++ < num1) {
                 tags.add(new GvTagList.GvTag(RandomReviewId.nextGvReviewId(), tag1
-                        .get()));
+                        .getString()));
             }
             if (size2++ < num2) {
                 tags.add(new GvTagList.GvTag(RandomReviewId.nextGvReviewId(), tag2
-                        .get()));
+                        .getString()));
             }
             if (size3++ < num3) {
                 tags.add(new GvTagList.GvTag(RandomReviewId.nextGvReviewId(), tag3
-                        .get()));
+                        .getString()));
             }
         }
         assertEquals(total, tags.size());
@@ -182,11 +182,11 @@ public class AggregaterTest extends TestCase {
             GvTagList.GvTag canonical = gvCanonical.getCanonical();
             GvTagList values = (GvTagList) gvCanonical.toList();
             GvTagList.GvTag reference = references[i];
-            assertEquals(reference.get(), canonical.get());
+            assertEquals(reference.getString(), canonical.getString());
             assertEquals(referenceNums[i], values.size());
             for (int j = 0; j < values.size(); ++j) {
                 GvTagList.GvTag value = values.getItem(j);
-                assertEquals(reference.get(), value.get());
+                assertEquals(reference.getString(), value.getString());
             }
         }
     }

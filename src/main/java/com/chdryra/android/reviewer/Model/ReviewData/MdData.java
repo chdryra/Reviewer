@@ -8,6 +8,9 @@
 
 package com.chdryra.android.reviewer.Model.ReviewData;
 
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Validatable;
+
 /**
  * Defines interface for Review Data, data that reviews hold and can return.
  * <p/>
@@ -17,12 +20,12 @@ package com.chdryra.android.reviewer.Model.ReviewData;
  * </p>
  */
 
-public interface MdData {
-    //abstract methods
+public interface MdData extends Validatable{
     //abstract
     ReviewId getReviewId();
 
-    boolean hasData();
+    @Override
+    boolean hasData(DataValidator dataValidator);
 
     //Overridden
     @Override

@@ -8,6 +8,7 @@
 
 package com.chdryra.android.reviewer.Model.ReviewData;
 
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
 import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewPublisher;
 import com.chdryra.android.reviewer.Model.UserData.UserId;
 
@@ -34,7 +35,6 @@ public class ReviewId implements MdData {
      * To facilitate RCollectionReview
      */
     public interface IdAble {
-        //abstract methods
         //abstract
         ReviewId getId();
     }
@@ -71,7 +71,7 @@ public class ReviewId implements MdData {
     }
 
     @Override
-    public boolean hasData() {
+    public boolean hasData(DataValidator dataValidator) {
         return true;
     }
 

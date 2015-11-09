@@ -1,5 +1,6 @@
 package com.chdryra.android.reviewer.Model.ReviewData;
 
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
 import com.chdryra.android.reviewer.Model.ReviewStructure.Review;
 
 /**
@@ -51,7 +52,7 @@ public class MdCriterionList extends MdDataList<MdCriterionList.MdCriterion> {
         }
 
         @Override
-        public boolean hasData() {
+        public boolean hasData(DataValidator dataValidator) {
             return mCriterion != null && mParentId != null;
         }
 

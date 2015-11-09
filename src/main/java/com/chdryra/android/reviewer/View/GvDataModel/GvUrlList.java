@@ -18,9 +18,25 @@ import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
 import java.net.URL;
 
 public class GvUrlList extends GvDataList<GvUrlList.GvUrl> {
+    public static final Parcelable.Creator<GvUrlList> CREATOR = new Parcelable
+            .Creator<GvUrlList>() {
+        //Overridden
+        public GvUrlList createFromParcel(Parcel in) {
+            return new GvUrlList(in);
+        }
+
+        public GvUrlList[] newArray(int size) {
+            return new GvUrlList[size];
+        }
+    };
+
     //Constructors
     public GvUrlList() {
         super(GvUrl.TYPE, null);
+    }
+
+    public GvUrlList(Parcel in) {
+        super(in);
     }
 
     public GvUrlList(GvReviewId id) {
@@ -88,7 +104,12 @@ public class GvUrlList extends GvDataList<GvUrlList.GvUrl> {
 
         @Override
         public boolean isValidForDisplay() {
-            return DataValidator.validate(this);
+            return getLabel() != null && getLabel().length() > 0 && mUrl != null;
+        }
+
+        @Override
+        public boolean hasData(DataValidator dataValidator) {
+            return dataValidator.validate(this);
         }
 
         @Override

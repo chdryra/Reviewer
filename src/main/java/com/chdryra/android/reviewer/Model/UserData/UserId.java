@@ -21,7 +21,6 @@ import java.util.UUID;
  */
 
 public class UserId {
-    public final static UserId NULL_ID = new UserId();
     public final static String NULL_ID_STRING = "NULL";
     private final UUID mId;
 

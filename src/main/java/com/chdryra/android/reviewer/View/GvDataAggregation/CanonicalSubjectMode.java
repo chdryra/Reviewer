@@ -27,7 +27,7 @@ public class CanonicalSubjectMode implements CanonicalDatumMaker<GvSubjectList.G
                     //Overridden
                     @Override
                     public String getData(GvSubjectList.GvSubject datum) {
-                        return datum.get();
+                        return datum.getString();
                     }
                 });
 

@@ -56,7 +56,7 @@ public class ViewerChildListTest extends AndroidTestCase {
                 location += " +" + String.valueOf(locs.size() - 1) + loc;
             }
             assertEquals(location, item.getLocationString());
-            GvCommentList headlines = MdGvConverter.convert(child.getComments()).getHeadlines();
+            GvCommentList headlines = MdGvConverter.toGvDataList(child.getComments()).getHeadlines();
             String headline = headlines.size() > 0 ? headlines.getItem(0).getHeadline() : null;
             assertEquals(headline, item.getHeadline());
             MdImageList covers = child.getImages().getCovers();

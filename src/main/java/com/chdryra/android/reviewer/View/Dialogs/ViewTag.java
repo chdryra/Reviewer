@@ -31,6 +31,6 @@ public class ViewTag extends DialogLayout<GvTagList.GvTag> {
     //Overridden
     @Override
     public void updateLayout(GvTagList.GvTag tag) {
-        ((TextView) getView(TAG)).setText(tag.get());
+        ((TextView) getView(TAG)).setText(tag.getString());
     }
 }

@@ -20,9 +20,25 @@ import com.google.android.gms.maps.model.LatLng;
 import java.util.StringTokenizer;
 
 public class GvLocationList extends GvDataList<GvLocationList.GvLocation> {
+    public static final Parcelable.Creator<GvLocationList> CREATOR = new Parcelable
+            .Creator<GvLocationList>() {
+        //Overridden
+        public GvLocationList createFromParcel(Parcel in) {
+            return new GvLocationList(in);
+        }
+
+        public GvLocationList[] newArray(int size) {
+            return new GvLocationList[size];
+        }
+    };
+
     //Constructors
     public GvLocationList() {
         super(GvLocation.TYPE, null);
+    }
+
+    public GvLocationList(Parcel in) {
+        super(in);
     }
 
     public GvLocationList(GvReviewId id) {
@@ -102,7 +118,12 @@ public class GvLocationList extends GvDataList<GvLocationList.GvLocation> {
 
         @Override
         public boolean isValidForDisplay() {
-            return DataValidator.validate(this);
+            return mLatLng != null && mName != null && mName.length() > 0;
+        }
+
+        @Override
+        public boolean hasData(DataValidator dataValidator) {
+            return dataValidator.validate(this);
         }
 
         @Override

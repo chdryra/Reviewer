@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.webkit.URLUtil;
 
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataFact;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
 import com.chdryra.android.reviewer.Model.ReviewData.MdFactList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdUrlList;
@@ -17,7 +18,7 @@ import java.net.URL;
  * On: 09/04/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class RowFact implements MdDataRow<MdFactList.MdFact> {
+public class RowFact implements MdDataRow<MdFactList.MdFact>, DataFact {
     public static final String COLUMN_FACT_ID = "fact_id";
     public static final String COLUMN_REVIEW_ID = "review_id";
     public static final String COLUMN_LABEL = "label";
@@ -31,32 +32,45 @@ public class RowFact implements MdDataRow<MdFactList.MdFact> {
     private String mLabel;
     private String mValue;
     private boolean mIsUrl;
-    private DataValidator mValidator;
 
     //Constructors
-    public RowFact(MdFactList.MdFact fact, int index, DataValidator validator) {
+    public RowFact(MdFactList.MdFact fact, int index) {
         mReviewId = fact.getReviewId().toString();
         mFactId = mReviewId + SEPARATOR + "f" + String.valueOf(index);
         mLabel = fact.getLabel();
         mValue = fact.getValue();
         mIsUrl = fact.isUrl();
-        mValidator = validator;
     }
 
     //Via reflection
     public RowFact() {
     }
 
-    public RowFact(Cursor cursor, DataValidator validator) {
+    public RowFact(Cursor cursor) {
         mFactId = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_FACT_ID));
         mReviewId = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_REVIEW_ID));
         mLabel = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_LABEL));
         mValue = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_VALUE));
         mIsUrl = cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_IS_URL)) == 1;
-        mValidator = validator;
     }
 
     //Overridden
+
+    @Override
+    public String getLabel() {
+        return mLabel;
+    }
+
+    @Override
+    public String getValue() {
+        return mValue;
+    }
+
+    @Override
+    public boolean isUrl() {
+        return mIsUrl;
+    }
+
     @Override
     public String getRowId() {
         return mFactId;
@@ -80,8 +94,8 @@ public class RowFact implements MdDataRow<MdFactList.MdFact> {
     }
 
     @Override
-    public boolean hasData() {
-        return mValidator != null && mValidator.validateString(getRowId());
+    public boolean hasData(DataValidator validator) {
+        return validator.validate(this);
     }
 
     public MdFactList.MdFact toMdData() {

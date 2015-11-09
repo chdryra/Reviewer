@@ -12,6 +12,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.chdryra.android.mygenerallibrary.VHDDualString;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
 
 /**
  * Created by: Rizwan Choudrey
@@ -81,6 +82,11 @@ public class GvDualText extends VHDDualString implements GvData {
     @Override
     public boolean isCollection() {
         return false;
+    }
+
+    @Override
+    public boolean hasData(DataValidator dataValidator) {
+        return dataValidator.validateString(getUpper()) && dataValidator.validateString(getLower());
     }
 
     @Override

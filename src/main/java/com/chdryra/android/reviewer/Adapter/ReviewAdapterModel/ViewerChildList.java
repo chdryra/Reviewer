@@ -47,7 +47,7 @@ public class ViewerChildList implements GridDataViewer<GvReviewOverviewList.GvRe
     //Overridden
     @Override
     public GvReviewOverviewList getGridData() {
-        return mConverter.convert(mNode.getChildren(), mNode.getId(), mTagsManager);
+        return mConverter.toGvDataList(mNode.getChildren(), mNode.getId(), mTagsManager);
     }
 
     @Override

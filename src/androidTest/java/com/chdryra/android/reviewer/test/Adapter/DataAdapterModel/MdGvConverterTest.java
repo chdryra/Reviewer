@@ -40,7 +40,7 @@ public class MdGvConverterTest extends TestCase {
     @SmallTest
     public void testConvertCommentList() {
         MdCommentList mdData = mMocker.newCommentList(NUM);
-        GvCommentList gvData = mConverter.convert(mdData);
+        GvCommentList gvData = mConverter.toGvDataList(mdData);
 
         assertEquals(NUM, mdData.size());
         assertEquals(mdData.size(), gvData.size());
@@ -60,7 +60,7 @@ public class MdGvConverterTest extends TestCase {
     @SmallTest
     public void testConvertFactList() {
         MdFactList mdData = mMocker.newFactList(NUM);
-        GvFactList gvData = mConverter.convert(mdData);
+        GvFactList gvData = mConverter.toGvDataList(mdData);
 
         assertEquals(NUM, mdData.size());
         assertEquals(mdData.size(), gvData.size());
@@ -82,7 +82,7 @@ public class MdGvConverterTest extends TestCase {
     public void testConvertImageList() {
         MdImageList mdData = mMocker.newImageList(NUM);
 
-        GvImageList gvData = mConverter.convert(mdData);
+        GvImageList gvData = mConverter.toGvDataList(mdData);
 
         assertEquals(NUM, mdData.size());
         assertEquals(mdData.size(), gvData.size());
@@ -104,7 +104,7 @@ public class MdGvConverterTest extends TestCase {
     @SmallTest
     public void testConvertLocationList() {
         MdLocationList mdData = mMocker.newLocationList(NUM);
-        GvLocationList gvData = mConverter.convert(mdData);
+        GvLocationList gvData = mConverter.toGvDataList(mdData);
 
         assertEquals(NUM, mdData.size());
         assertEquals(mdData.size(), gvData.size());
@@ -125,7 +125,7 @@ public class MdGvConverterTest extends TestCase {
     @SmallTest
     public void testConvertUrlList() {
         MdUrlList mdData = mMocker.newUrlList(NUM);
-        GvUrlList gvData = mConverter.convert(mdData);
+        GvUrlList gvData = mConverter.toGvDataList(mdData);
 
         assertEquals(NUM, mdData.size());
         assertEquals(mdData.size(), gvData.size());

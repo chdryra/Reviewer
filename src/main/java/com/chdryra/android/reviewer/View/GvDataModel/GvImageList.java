@@ -25,9 +25,25 @@ import java.util.Random;
  * used as a background image for a review.
  */
 public class GvImageList extends GvDataList<GvImageList.GvImage> {
+    public static final Parcelable.Creator<GvImageList> CREATOR = new Parcelable
+            .Creator<GvImageList>() {
+        //Overridden
+        public GvImageList createFromParcel(Parcel in) {
+            return new GvImageList(in);
+        }
+
+        public GvImageList[] newArray(int size) {
+            return new GvImageList[size];
+        }
+    };
+
     //Constructors
     public GvImageList() {
         super(GvImage.TYPE, null);
+    }
+
+    public GvImageList(Parcel in) {
+        super(in);
     }
 
     public GvImageList(GvReviewId id) {
@@ -148,7 +164,12 @@ public class GvImageList extends GvDataList<GvImageList.GvImage> {
 
         @Override
         public boolean isValidForDisplay() {
-            return DataValidator.validate(this);
+            return mBitmap != null;
+        }
+
+        @Override
+        public boolean hasData(DataValidator dataValidator) {
+            return dataValidator.validate(this);
         }
 
         @Override

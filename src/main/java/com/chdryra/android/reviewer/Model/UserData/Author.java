@@ -8,11 +8,13 @@
 
 package com.chdryra.android.reviewer.Model.UserData;
 
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataAuthor;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
+
 /**
  * Holds Author data. Currently only wraps a name and unique {@link UserId}.
  */
-public class Author {
-    public final static Author NULL_AUTHOR = new Author("", UserId.NULL_ID);
+public class Author implements DataAuthor{
     private final UserId mId;
     private final String mName;
 
@@ -22,16 +24,22 @@ public class Author {
         mId = id;
     }
 
-    //public methods
+    //Overridden
+    @Override
     public String getName() {
         return mName;
     }
 
-    public UserId getUserId() {
-        return mId;
+    @Override
+    public String getUserId() {
+        return mId != null ? mId.toString() : "";
     }
 
-    //Overridden
+    @Override
+    public boolean hasData(DataValidator dataValidator) {
+        return dataValidator.validate(this);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

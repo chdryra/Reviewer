@@ -8,6 +8,8 @@
 
 package com.chdryra.android.reviewer.Model.ReviewData;
 
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
+
 /**
  * Review Data: rating
  * <p>
@@ -42,7 +44,7 @@ public class MdRating implements MdData {
     }
 
     @Override
-    public boolean hasData() {
+    public boolean hasData(DataValidator dataValidator) {
         return true;
     }
 

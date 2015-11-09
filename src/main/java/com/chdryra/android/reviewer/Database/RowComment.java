@@ -3,6 +3,7 @@ package com.chdryra.android.reviewer.Database;
 import android.content.ContentValues;
 import android.database.Cursor;
 
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataComment;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
 import com.chdryra.android.reviewer.Model.ReviewData.MdCommentList;
 import com.chdryra.android.reviewer.Model.ReviewData.ReviewId;
@@ -12,7 +13,7 @@ import com.chdryra.android.reviewer.Model.ReviewData.ReviewId;
  * On: 09/04/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class RowComment implements MdDataRow<MdCommentList.MdComment> {
+public class RowComment implements MdDataRow<MdCommentList.MdComment>, DataComment {
     public static final String COLUMN_COMMENT_ID = "comment_id";
     public static final String COLUMN_REVIEW_ID = "review_id";
     public static final String COLUMN_COMMENT = "comment";
@@ -24,30 +25,38 @@ public class RowComment implements MdDataRow<MdCommentList.MdComment> {
     private String mReviewId;
     private String mComment;
     private boolean mIsHeadline;
-    private DataValidator mValidator;
 
     //Constructors
-    public RowComment(MdCommentList.MdComment comment, int index, DataValidator validator) {
+    public RowComment(MdCommentList.MdComment comment, int index) {
         mReviewId = comment.getReviewId().toString();
         mCommentId = mReviewId + SEPARATOR + "c" + String.valueOf(index);
         mComment = comment.getComment();
         mIsHeadline = comment.isHeadline();
-        mValidator = validator;
     }
 
     //Via reflection
     public RowComment() {
     }
 
-    public RowComment(Cursor cursor, DataValidator validator) {
+    public RowComment(Cursor cursor) {
         mReviewId = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_REVIEW_ID));
         mCommentId = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_COMMENT_ID));
         mComment = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_COMMENT));
         mIsHeadline = cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_IS_HEADLINE)) == 1;
-        mValidator = validator;
     }
 
     //Overridden
+
+    @Override
+    public String getComment() {
+        return mComment;
+    }
+
+    @Override
+    public boolean isHeadline() {
+        return mIsHeadline;
+    }
+
     @Override
     public String getRowId() {
         return mCommentId;
@@ -70,8 +79,8 @@ public class RowComment implements MdDataRow<MdCommentList.MdComment> {
     }
 
     @Override
-    public boolean hasData() {
-        return mValidator != null && mValidator.validateString(getRowId());
+    public boolean hasData(DataValidator validator) {
+        return validator.validate(this);
     }
 
     @Override

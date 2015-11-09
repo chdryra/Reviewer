@@ -196,8 +196,15 @@ public class GvReviewOverviewList extends GvDataList<GvReviewOverviewList.GvRevi
 
         @Override
         public boolean isValidForDisplay() {
-            return DataValidator.validateString(mId) && DataValidator.validateString(mSubject)
-                    && DataValidator.validateString(mAuthor.getName()) && DataValidator.NotNull
+            String name = mAuthor.getName();
+            return mSubject != null && mSubject.length() > 0 && mPublishDate != null &&
+                    name != null && name.length() > 0 && mTags != null && mTags.size() > 0;
+        }
+
+        @Override
+        public boolean hasData(DataValidator dataValidator) {
+            return dataValidator.validateString(mId) && dataValidator.validateString(mSubject)
+                    && dataValidator.validateString(mAuthor.getName()) && dataValidator.NotNull
                     (mPublishDate) && mTags != null && mTags.size() > 0;
         }
 

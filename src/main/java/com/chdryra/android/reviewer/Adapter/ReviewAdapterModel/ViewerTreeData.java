@@ -53,11 +53,11 @@ class ViewerTreeData extends ViewerReviewData {
         data.add(mAggregater.getAggregate(converter.convertSubjects(nodes, id)));
         data.add(mAggregater.getAggregate(converter.convertPublishDates(nodes, id)));
         data.add(mAggregater.getAggregate(collectTags()));
-        data.add(mAggregater.getAggregate(converter.convert(node.getCriteria()), false));
-        data.add(mAggregater.getAggregate(converter.convert(node.getImages())));
-        data.add(mAggregater.getAggregate(converter.convert(node.getComments())));
-        data.add(mAggregater.getAggregate(converter.convert(node.getLocations())));
-        data.add(mAggregater.getAggregate(converter.convert(node.getFacts())));
+        data.add(mAggregater.getAggregate(converter.toGvDataList(node.getCriteria()), false));
+        data.add(mAggregater.getAggregate(converter.toGvDataList(node.getImages())));
+        data.add(mAggregater.getAggregate(converter.toGvDataList(node.getComments())));
+        data.add(mAggregater.getAggregate(converter.toGvDataList(node.getLocations())));
+        data.add(mAggregater.getAggregate(converter.toGvDataList(node.getFacts())));
 
         return data;
     }

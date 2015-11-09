@@ -4,6 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.chdryra.android.mygenerallibrary.ViewHolder;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
 import com.chdryra.android.reviewer.View.GvDataSorting.GvDataComparators;
 
 import java.util.Comparator;
@@ -138,6 +139,11 @@ public class GvCanonicalCollection<T extends GvData> implements GvDataCollection
     @Override
     public boolean isValidForDisplay() {
         return true;
+    }
+
+    @Override
+    public boolean hasData(DataValidator dataValidator) {
+        return size() > 0;
     }
 
     @Override

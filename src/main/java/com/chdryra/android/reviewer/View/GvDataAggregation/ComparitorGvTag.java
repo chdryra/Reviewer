@@ -22,7 +22,7 @@ public class ComparitorGvTag extends ComparitorStringable<GvTagList.GvTag> {
             //Overridden
             @Override
             public String getData(GvTagList.GvTag datum) {
-                return datum.get().toLowerCase();
+                return datum.getString().toLowerCase();
             }
         });
     }

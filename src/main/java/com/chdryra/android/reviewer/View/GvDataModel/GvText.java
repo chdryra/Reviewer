@@ -13,6 +13,7 @@ import android.os.Parcelable;
 
 import com.chdryra.android.mygenerallibrary.VHDString;
 import com.chdryra.android.mygenerallibrary.ViewHolder;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -74,7 +75,7 @@ public class GvText<T extends GvText> extends VHDString implements GvData {
 
     @Override
     public String getStringSummary() {
-        return get();
+        return getString();
     }
 
     @Override
@@ -95,6 +96,11 @@ public class GvText<T extends GvText> extends VHDString implements GvData {
     @Override
     public ViewHolder getViewHolder() {
         return new VhText();
+    }
+
+    @Override
+    public boolean hasData(DataValidator dataValidator) {
+        return dataValidator.validateString(getString());
     }
 
     @Override
@@ -125,7 +131,7 @@ public class GvText<T extends GvText> extends VHDString implements GvData {
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeString(get());
+        parcel.writeString(getString());
         parcel.writeParcelable(mType, i);
         parcel.writeParcelable(mId, i);
     }

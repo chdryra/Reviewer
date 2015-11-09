@@ -19,9 +19,25 @@ import com.chdryra.android.reviewer.View.Utils.RatingFormatter;
  * Used for review children (sub-reviews).
  */
 public class GvCriterionList extends GvDataList<GvCriterionList.GvCriterion> {
+    public static final Parcelable.Creator<GvCriterionList> CREATOR = new Parcelable
+            .Creator<GvCriterionList>() {
+        //Overridden
+        public GvCriterionList createFromParcel(Parcel in) {
+            return new GvCriterionList(in);
+        }
+
+        public GvCriterionList[] newArray(int size) {
+            return new GvCriterionList[size];
+        }
+    };
+    
     //Constructors
     public GvCriterionList() {
         super(GvCriterion.TYPE, null);
+    }
+
+    public GvCriterionList(Parcel in) {
+        super(in);
     }
 
     public GvCriterionList(GvReviewId id) {
@@ -117,7 +133,12 @@ public class GvCriterionList extends GvDataList<GvCriterionList.GvCriterion> {
 
         @Override
         public boolean isValidForDisplay() {
-            return DataValidator.validateString(mSubject);
+            return mSubject != null && mSubject.length() > 0;
+        }
+
+        @Override
+        public boolean hasData(DataValidator dataValidator) {
+            return dataValidator.validateString(mSubject);
         }
 
         @Override

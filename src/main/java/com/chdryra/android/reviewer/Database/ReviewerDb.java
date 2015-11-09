@@ -200,8 +200,7 @@ public class ReviewerDb implements ReviewerDbTables {
     }
 
     public <T1 extends MdData, T2 extends MdDataList<T1>, T3 extends MdDataRow<T1>> T2
-    loadFromDataTable(SQLiteDatabase db, DbTable<T3> table, String reviewId, Class<T2>
-            listClass) {
+    loadFromDataTable(SQLiteDatabase db, DbTable<T3> table, String reviewId, Class<T2> listClass) {
         TableRowList<T3> rows = getRowsWhere(db, table, getColumnNameReviewId(), reviewId);
         T2 dataList = newMdList(listClass, reviewId);
         for (T3 row : rows) {

@@ -9,12 +9,10 @@
 package com.chdryra.android.reviewer.Model.ReviewData;
 
 import com.chdryra.android.mygenerallibrary.SortableList;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
 
 /**
  * Review Data: Sortable collection of {@link MdData} objects that itself is considered Review Data
- * <p>
- * {@link #hasData()}: at least 1 object in collection.
- * </p>
  *
  * @param <T>: {@link MdData} type in collection.
  */
@@ -33,7 +31,7 @@ public class MdDataList<T extends MdData> extends SortableList<T> implements MdD
     }
 
     @Override
-    public boolean hasData() {
+    public boolean hasData(DataValidator dataValidator) {
         return mData.size() > 0;
     }
 

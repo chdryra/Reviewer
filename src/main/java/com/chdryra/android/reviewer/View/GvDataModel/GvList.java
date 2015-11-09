@@ -8,18 +8,37 @@
 
 package com.chdryra.android.reviewer.View.GvDataModel;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Created by: Rizwan Choudrey
  * On: 13/05/2015
  * Email: rizwan.choudrey@gmail.com
  */
 public class GvList extends GvDataList<GvData> {
+    public static final Parcelable.Creator<GvList> CREATOR = new Parcelable
+            .Creator<GvList>() {
+        //Overridden
+        public GvList createFromParcel(Parcel in) {
+            return new GvList(in);
+        }
+
+        public GvList[] newArray(int size) {
+            return new GvList[size];
+        }
+    };
+
     public static final GvDataType<GvData> TYPE =
             new GvDataType<>(GvData.class, "Review Data", "Review Data");
 
     //Constructors
     public GvList() {
         super(TYPE, null);
+    }
+
+    public GvList(Parcel in) {
+        super(in);
     }
 
     public GvList(GvReviewId id) {

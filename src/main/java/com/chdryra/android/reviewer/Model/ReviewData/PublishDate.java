@@ -16,36 +16,22 @@ import java.util.Date;
  * Email: rizwan.choudrey@gmail.com
  */
 public class PublishDate {
-    private Date mDate;
-
-    private PublishDate() {
-        mDate = new Date();
-    }
+    private long mTime;
 
     private PublishDate(long time) {
-        mDate = new Date(time);
-    }
-
-    //Static methods
-    public static PublishDate now() {
-        return new PublishDate();
-    }
-
-    public static PublishDate then(long time) {
         if (time > new Date().getTime()) {
             throw new IllegalStateException("Publish date must not be in the future!");
         }
-
-        return new PublishDate(time);
+        mTime = time;
     }
 
     //public methods
     public Date getDate() {
-        return mDate;
+        return new Date(mTime);
     }
 
     public long getTime() {
-        return mDate.getTime();
+        return mTime;
     }
 
     //Overridden
@@ -56,12 +42,12 @@ public class PublishDate {
 
         PublishDate that = (PublishDate) o;
 
-        return mDate.equals(that.mDate);
+        return mTime == that.mTime;
 
     }
 
     @Override
     public int hashCode() {
-        return mDate.hashCode();
+        return getDate().hashCode();
     }
 }

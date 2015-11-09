@@ -28,12 +28,12 @@ public class AddEditTagTest extends AddEditLayoutTest<GvTagList.GvTag> {
     //Overridden
     @Override
     protected void enterData(GvTagList.GvTag comment) {
-        mEditText.setText(comment.get());
+        mEditText.setText(comment.getString());
     }
 
     @Override
     protected void checkViewAndDataEquivalence(GvTagList.GvTag datum, boolean result) {
-        assertEquals(result, mEditText.getText().toString().trim().equals(datum.get()));
+        assertEquals(result, mEditText.getText().toString().trim().equals(datum.getString()));
     }
 
     @Override

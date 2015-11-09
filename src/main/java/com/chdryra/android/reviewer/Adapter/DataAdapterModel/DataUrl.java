@@ -22,4 +22,7 @@ public interface DataUrl extends DataFact {
     //Overridden
     @Override
     String getLabel();
+
+    @Override
+    boolean hasData(DataValidator dataValidator);
 }

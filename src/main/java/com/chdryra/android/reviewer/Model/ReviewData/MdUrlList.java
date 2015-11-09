@@ -44,8 +44,8 @@ public class MdUrlList extends MdDataList<MdUrlList.MdUrl> {
 
         //Overridden
         @Override
-        public boolean hasData() {
-            return DataValidator.validate(this);
+        public boolean hasData(DataValidator dataValidator) {
+            return dataValidator.validate(this);
         }
 
         @Override

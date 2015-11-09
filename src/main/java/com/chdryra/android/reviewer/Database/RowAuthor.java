@@ -3,6 +3,7 @@ package com.chdryra.android.reviewer.Database;
 import android.content.ContentValues;
 import android.database.Cursor;
 
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataAuthor;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
 import com.chdryra.android.reviewer.Model.UserData.Author;
 import com.chdryra.android.reviewer.Model.UserData.UserId;
@@ -12,29 +13,26 @@ import com.chdryra.android.reviewer.Model.UserData.UserId;
  * On: 09/04/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class RowAuthor implements DbTableRow {
+public class RowAuthor implements DbTableRow, DataAuthor {
     public static final String COLUMN_USER_ID = "user_id";
     public  static final String COLUMN_AUTHOR_NAME = "name";
 
     private String mUserId;
     private String mName;
-    private DataValidator mValidator;
 
     //Constructors
-    public RowAuthor(Author author, DataValidator validator) {
-        mUserId = author.getUserId().toString();
+    public RowAuthor(Author author) {
+        mUserId = author.getUserId();
         mName = author.getName();
-        mValidator = validator;
     }
 
     //Via reflection
     public RowAuthor() {
     }
 
-    public RowAuthor(Cursor cursor, DataValidator validator) {
+    public RowAuthor(Cursor cursor) {
         mUserId = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_USER_ID));
         mName = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_AUTHOR_NAME));
-        mValidator = validator;
     }
 
     public Author toAuthor() {
@@ -42,6 +40,17 @@ public class RowAuthor implements DbTableRow {
     }
 
     //Overridden
+
+    @Override
+    public String getName() {
+        return mName;
+    }
+
+    @Override
+    public String getUserId() {
+        return mUserId;
+    }
+
     @Override
     public String getRowId() {
         return mUserId;
@@ -62,7 +71,7 @@ public class RowAuthor implements DbTableRow {
     }
 
     @Override
-    public boolean hasData() {
-        return mValidator != null && mValidator.validateString(getRowId());
+    public boolean hasData(DataValidator validator) {
+        return validator.validate(this);
     }
 }

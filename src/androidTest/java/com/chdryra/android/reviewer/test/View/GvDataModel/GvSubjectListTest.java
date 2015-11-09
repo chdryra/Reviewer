@@ -49,8 +49,8 @@ public class GvSubjectListTest extends TestCase {
 
     @SmallTest
     public void testGvSubject() {
-        String subject1 = GvDataMocker.newSubject(null).get();
-        String subject2 = GvDataMocker.newSubject(null).get();
+        String subject1 = GvDataMocker.newSubject(null).getString();
+        String subject2 = GvDataMocker.newSubject(null).getString();
 
         GvSubjectList.GvSubject gvSubject = new GvSubjectList.GvSubject(subject1);
         GvSubjectList.GvSubject gvSubjectEquals = new GvSubjectList.GvSubject(subject1);
@@ -64,7 +64,7 @@ public class GvSubjectListTest extends TestCase {
         assertNotNull(gvSubject.getViewHolder());
         assertTrue(gvSubject.isValidForDisplay());
 
-        assertEquals(subject1, gvSubject.get());
+        assertEquals(subject1, gvSubject.getString());
 
         assertTrue(gvSubject.equals(gvSubjectEquals));
         assertTrue(gvSubject.equals(gvSubjectEquals2));
@@ -87,7 +87,7 @@ public class GvSubjectListTest extends TestCase {
         GvText prev = mList.getItem(0);
         for (int i = 1; i < mList.size(); ++i) {
             GvText next = mList.getItem(i);
-            assertTrue(prev.get().compareToIgnoreCase(next.get()) < 0);
+            assertTrue(prev.getString().compareToIgnoreCase(next.getString()) < 0);
             prev = next;
         }
     }

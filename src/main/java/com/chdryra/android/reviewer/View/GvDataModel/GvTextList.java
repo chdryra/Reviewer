@@ -8,6 +8,9 @@
 
 package com.chdryra.android.reviewer.View.GvDataModel;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.ArrayList;
 
 /**
@@ -16,10 +19,26 @@ import java.util.ArrayList;
  * Email: rizwan.choudrey@gmail.com
  */
 public class GvTextList<T extends GvText> extends GvDataList<T> {
+    public static final Parcelable.Creator<GvTextList> CREATOR = new Parcelable
+            .Creator<GvTextList>() {
+        //Overridden
+        public GvTextList createFromParcel(Parcel in) {
+            return new GvTextList(in);
+        }
+
+        public GvTextList[] newArray(int size) {
+            return new GvTextList[size];
+        }
+    };
+
     private static final GvDataType<GvTextList> TYPE
             = GvTypeMaker.newType(GvTextList.class, GvText.TYPE);
 
     //Constructors
+    public GvTextList(Parcel in)  {
+        super(in);
+    }
+
     public GvTextList(GvDataType<T> type) {
         this(type, null);
     }
@@ -35,7 +54,7 @@ public class GvTextList<T extends GvText> extends GvDataList<T> {
     public ArrayList<String> toStringArray() {
         ArrayList<String> strings = new ArrayList<>();
         for (T tag : this) {
-            strings.add(tag.get());
+            strings.add(tag.getString());
         }
 
         return strings;

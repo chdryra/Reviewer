@@ -17,7 +17,7 @@ import java.util.Date;
  * On: 09/12/2014
  * Email: rizwan.choudrey@gmail.com
  */
-public interface DataImage {
+public interface DataImage extends Validatable{
     //abstract
     Bitmap getBitmap();
 
@@ -26,4 +26,7 @@ public interface DataImage {
     String getCaption();
 
     boolean isCover();
+
+    @Override
+    boolean hasData(DataValidator dataValidator);
 }

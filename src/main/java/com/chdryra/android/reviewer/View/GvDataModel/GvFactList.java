@@ -105,8 +105,8 @@ public class GvFactList extends GvDataList<GvFactList.GvFact> {
         }
 
         @Override
-        public boolean isValidForDisplay() {
-            return DataValidator.validate(this);
+        public boolean hasData(DataValidator dataValidator) {
+            return dataValidator.validate(this);
         }
 
         @Override

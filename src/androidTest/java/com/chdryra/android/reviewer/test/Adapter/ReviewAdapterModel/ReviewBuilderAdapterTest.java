@@ -118,7 +118,7 @@ public class ReviewBuilderAdapterTest extends AndroidTestCase {
         assertEquals(tags.size(), tagsPublished.size());
         for (int j = 0; j < tags.size(); ++j) {
             GvTagList.GvTag tag = (GvTagList.GvTag) tags.getItem(j);
-            assertEquals(tag.get(), tagsPublished.getItem(j).getTag());
+            assertEquals(tag.getString(), tagsPublished.getItem(j).getTag());
         }
 
         MdCriterionList criteria = published.getCriteria();
@@ -136,7 +136,7 @@ public class ReviewBuilderAdapterTest extends AndroidTestCase {
             assertEquals(tags.size(), tagsChild.size());
             for (int j = 0; j < tags.size(); ++j) {
                 GvTagList.GvTag tag = (GvTagList.GvTag) tags.getItem(j);
-                assertEquals(tag.get(), tagsChild.getItem(j).getTag());
+                assertEquals(tag.getString(), tagsChild.getItem(j).getTag());
             }
         }
     }
@@ -168,7 +168,7 @@ public class ReviewBuilderAdapterTest extends AndroidTestCase {
         assertTrue(mAdapter.hasTags());
         GvTagList tags = (GvTagList) mAdapter.getDataBuilder(GvTagList.GvTag.TYPE).getGridData();
         assertEquals(1, tags.size());
-        assertEquals(subject, tags.getItem(0).get());
+        assertEquals(subject, tags.getItem(0).getString());
 
         //Change subject should readjust tags
         String subject2 = RandomString.nextSentence();
@@ -178,7 +178,7 @@ public class ReviewBuilderAdapterTest extends AndroidTestCase {
         assertFalse(tagSignaler.timedOut());
         tags = (GvTagList) mAdapter.getDataBuilder(GvTagList.GvTag.TYPE).getGridData();
         assertEquals(1, tags.size());
-        assertEquals(TextUtils.toCamelCase(subject2), tags.getItem(0).get());
+        assertEquals(TextUtils.toCamelCase(subject2), tags.getItem(0).getString());
     }
 
     @SmallTest

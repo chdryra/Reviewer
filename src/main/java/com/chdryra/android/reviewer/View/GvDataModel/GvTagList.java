@@ -15,9 +15,25 @@ import com.chdryra.android.mygenerallibrary.ViewHolder;
 import com.chdryra.android.reviewer.Model.TagsModel.ReviewTag;
 
 public class GvTagList extends GvTextList<GvTagList.GvTag> {
+    public static final Parcelable.Creator<GvTagList> CREATOR = new Parcelable
+            .Creator<GvTagList>() {
+        //Overridden
+        public GvTagList createFromParcel(Parcel in) {
+            return new GvTagList(in);
+        }
+
+        public GvTagList[] newArray(int size) {
+            return new GvTagList[size];
+        }
+    };
+
     //Constructors
     public GvTagList() {
         super(GvTag.TYPE);
+    }
+
+    public GvTagList(Parcel in) {
+        super(in);
     }
 
     public GvTagList(GvReviewId id) {
@@ -66,7 +82,7 @@ public class GvTagList extends GvTextList<GvTagList.GvTag> {
         }
 
         public GvTag(GvTag tag) {
-            this(tag.getReviewId(), tag.get());
+            this(tag.getReviewId(), tag.getString());
         }
 
         GvTag(Parcel in) {
@@ -81,7 +97,7 @@ public class GvTagList extends GvTextList<GvTagList.GvTag> {
 
         @Override
         public String getStringSummary() {
-            return "#" + get();
+            return "#" + getString();
         }
 
         @Override

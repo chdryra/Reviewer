@@ -12,6 +12,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.chdryra.android.mygenerallibrary.ViewHolder;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -23,9 +24,25 @@ import java.util.Date;
  * Email: rizwan.choudrey@gmail.com
  */
 public class GvDateList extends GvDataList<GvDateList.GvDate> {
+    public static final Parcelable.Creator<GvDateList> CREATOR = new Parcelable
+            .Creator<GvDateList>() {
+        //Overridden
+        public GvDateList createFromParcel(Parcel in) {
+            return new GvDateList(in);
+        }
+
+        public GvDateList[] newArray(int size) {
+            return new GvDateList[size];
+        }
+    };
+
     //Constructors
     public GvDateList() {
         super(GvDate.TYPE, null);
+    }
+
+    public GvDateList(Parcel in) {
+        super(in);
     }
 
     public GvDateList(GvReviewId id) {
@@ -135,6 +152,11 @@ public class GvDateList extends GvDataList<GvDateList.GvDate> {
         @Override
         public boolean isValidForDisplay() {
             return mDate != null;
+        }
+
+        @Override
+        public boolean hasData(DataValidator dataValidator) {
+            return isValidForDisplay();
         }
     }
 }

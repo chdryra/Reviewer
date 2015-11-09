@@ -42,7 +42,7 @@ public class SoloDataEntry {
 
     public static void enterTag(Solo solo, GvTagList.GvTag data) {
         solo.clearEditText(solo.getEditText(0));
-        solo.enterText(solo.getEditText(0), data.get());
+        solo.enterText(solo.getEditText(0), data.getString());
     }
 
     public static void enterComment(Solo solo, GvCommentList.GvComment data) {

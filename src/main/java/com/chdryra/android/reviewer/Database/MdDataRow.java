@@ -10,6 +10,8 @@ package com.chdryra.android.reviewer.Database;
 
 import android.content.ContentValues;
 
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.MdGvConverter;
 import com.chdryra.android.reviewer.Model.ReviewData.MdData;
 
 /**
@@ -19,7 +21,7 @@ import com.chdryra.android.reviewer.Model.ReviewData.MdData;
  */
 public interface MdDataRow<T extends MdData> extends DbTableRow {
     //abstract
-    T toMdData();
+    T toMdData(MdGvConverter converter);
 
     @Override
     String getRowId();
@@ -31,5 +33,5 @@ public interface MdDataRow<T extends MdData> extends DbTableRow {
     ContentValues getContentValues();
 
     @Override
-    boolean hasData();
+    boolean hasData(DataValidator validator);
 }

@@ -47,7 +47,7 @@ public class TagsManagerTest extends TestCase {
         tagCollection = mTagsManager.getTags(review.getId());
         assertEquals(tags.size(), tagCollection.size());
         for (int i = 0; i < tags.size(); ++i) {
-            assertEquals(tags.getItem(i).get(), tagCollection.getItem(i).getTag());
+            assertEquals(tags.getItem(i).getString(), tagCollection.getItem(i).getTag());
         }
 
         Review untagged = ReviewMocker.newReview();
@@ -148,7 +148,7 @@ public class TagsManagerTest extends TestCase {
         tagCollection = mTagsManager.getTags(review.getId());
         assertEquals(tags.size(), tagCollection.size());
         for (int i = 0; i < tags.size(); ++i) {
-            assertEquals(tags.getItem(i).get(), tagCollection.getItem(i).getTag());
+            assertEquals(tags.getItem(i).getString(), tagCollection.getItem(i).getTag());
         }
 
         assertEquals(tags.size(), mTagsManager.getTags().size());

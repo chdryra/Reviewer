@@ -51,7 +51,7 @@ public class CanonicalTagTest extends CanonicalGvDataTest<GvTagList.GvTag> {
 
         GvTagList.GvTag canon = mCanonical.getCanonical(mData);
         assertTrue(canon.isValidForDisplay());
-        assertEquals(TAG2 + " + 2", canon.get());
+        assertEquals(TAG2 + " + 2", canon.getString());
     }
 
     //Overridden

@@ -232,7 +232,7 @@ public class ReviewerDbTest extends AndroidTestCase {
             ReviewId id = review.getId();
             for (int i = 0; i < 2; ++i) {
                 int index = r.nextInt(numTags);
-                String tag = tags.getItem(index).get();
+                String tag = tags.getItem(index).getString();
                 mTagsManager.tagReview(id, tag);
             }
         }

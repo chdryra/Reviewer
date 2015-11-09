@@ -338,7 +338,7 @@ public class ActivityBuildReviewTest extends ActivityReviewViewTest {
             ArrayList<TextView> tvs = mSolo.getCurrentViews(TextView.class, cell);
             GvTagList.GvTag tag = (GvTagList.GvTag) data.getItem(0);
             assertEquals(1, tvs.size());
-            assertEquals(tag.get(), tvs.get(0).getText().toString());
+            assertEquals(tag.getString(), tvs.get(0).getText().toString());
 
         } else if (data.getGvDataType().equals(GvCommentList.GvComment.TYPE)) {
             ArrayList<TextView> tvs;

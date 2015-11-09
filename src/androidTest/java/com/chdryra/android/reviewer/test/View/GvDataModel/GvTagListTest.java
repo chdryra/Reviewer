@@ -47,8 +47,8 @@ public class GvTagListTest extends TestCase {
 
     @SmallTest
     public void testGvTag() {
-        String tag1 = GvDataMocker.newTag(null).get();
-        String tag2 = GvDataMocker.newTag(null).get();
+        String tag1 = GvDataMocker.newTag(null).getString();
+        String tag2 = GvDataMocker.newTag(null).getString();
 
         GvTagList.GvTag gvTag = new GvTagList.GvTag(tag1);
         GvTagList.GvTag gvTagEquals = new GvTagList.GvTag(tag1);
@@ -62,7 +62,7 @@ public class GvTagListTest extends TestCase {
         assertNotNull(gvTag.getViewHolder());
         assertTrue(gvTag.isValidForDisplay());
 
-        assertEquals(tag1, gvTag.get());
+        assertEquals(tag1, gvTag.getString());
 
         assertTrue(gvTag.equals(gvTagEquals));
         assertTrue(gvTag.equals(gvTagEquals2));
@@ -85,7 +85,7 @@ public class GvTagListTest extends TestCase {
         GvTagList.GvTag prev = mList.getItem(0);
         for (int i = 1; i < mList.size(); ++i) {
             GvTagList.GvTag next = mList.getItem(i);
-            assertTrue(prev.get().compareToIgnoreCase(next.get()) < 0);
+            assertTrue(prev.getString().compareToIgnoreCase(next.getString()) < 0);
             prev = next;
         }
     }

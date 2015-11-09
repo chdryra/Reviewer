@@ -12,6 +12,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.chdryra.android.mygenerallibrary.ViewHolder;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataAuthor;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
 
 /**
@@ -20,9 +21,25 @@ import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
  * Email: rizwan.choudrey@gmail.com
  */
 public class GvAuthorList extends GvDataList<GvAuthorList.GvAuthor> {
+    public static final Parcelable.Creator<GvAuthorList> CREATOR = new Parcelable
+            .Creator<GvAuthorList>() {
+        //Overridden
+        public GvAuthorList createFromParcel(Parcel in) {
+            return new GvAuthorList(in);
+        }
+
+        public GvAuthorList[] newArray(int size) {
+            return new GvAuthorList[size];
+        }
+    };
+
     //Constructors
     public GvAuthorList() {
         super(GvAuthor.TYPE, null);
+    }
+
+    public GvAuthorList(Parcel in) {
+        super(in);
     }
 
     public GvAuthorList(GvReviewId id) {
@@ -43,7 +60,7 @@ public class GvAuthorList extends GvDataList<GvAuthorList.GvAuthor> {
      * Ignores case when comparing authors.
      * </p>
      */
-    public static class GvAuthor extends GvDataBasic<GvAuthor> {
+    public static class GvAuthor extends GvDataBasic<GvAuthor> implements DataAuthor{
         public static final GvDataType<GvAuthor> TYPE =
                 new GvDataType<>(GvAuthor.class, "author");
         public static final Parcelable.Creator<GvAuthor> CREATOR = new Parcelable
@@ -86,16 +103,17 @@ public class GvAuthorList extends GvDataList<GvAuthorList.GvAuthor> {
             mUserId = in.readString();
         }
 
-        //public methods
+        //Overridden
+        @Override
         public String getName() {
             return mName;
         }
 
+        @Override
         public String getUserId() {
             return mUserId;
         }
 
-        //Overridden
         @Override
         public int describeContents() {
             return 0;
@@ -143,7 +161,12 @@ public class GvAuthorList extends GvDataList<GvAuthorList.GvAuthor> {
 
         @Override
         public boolean isValidForDisplay() {
-            return DataValidator.validateString(mName) && DataValidator.validateString(mUserId);
+            return mName != null && mName.length() > 0;
+        }
+
+        @Override
+        public boolean hasData(DataValidator dataValidator) {
+            return dataValidator.validate(this);
         }
     }
 }
