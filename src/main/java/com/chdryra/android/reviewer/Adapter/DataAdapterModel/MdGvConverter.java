@@ -52,10 +52,10 @@ import java.util.ArrayList;
 public class MdGvConverter {
     //Comments
     public GvCommentList toGvDataList(MdCommentList comments) {
-        GvReviewId idList = new GvReviewId(comments.getReviewId().toString());
+        GvReviewId idList = new GvReviewId(comments.getReviewId());
         GvCommentList list = new GvCommentList(idList);
         for (MdCommentList.MdComment comment : comments) {
-            GvReviewId  id = new GvReviewId(comment.getReviewId().toString());
+            GvReviewId  id = new GvReviewId(comment.getReviewId());
             list.add(new GvCommentList.GvComment(id, comment.getComment(), comment.isHeadline()));
         }
 

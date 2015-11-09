@@ -12,9 +12,6 @@ import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
 
 /**
  * Review Data: subject
- * <p>
- * {@link #hasData()}: string at least 1 character in length.
- * </p>
  */
 public class MdSubject implements MdData {
     private final String mSubject;
@@ -32,8 +29,8 @@ public class MdSubject implements MdData {
 
     //Overridden
     @Override
-    public ReviewId getReviewId() {
-        return mReviewId;
+    public String getReviewId() {
+        return mReviewId.toString();
     }
 
     @Override

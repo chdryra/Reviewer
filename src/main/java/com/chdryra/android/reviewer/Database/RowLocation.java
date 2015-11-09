@@ -15,7 +15,7 @@ import com.google.android.gms.maps.model.LatLng;
  * On: 09/04/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class RowLocation implements MdDataRow<MdLocationList.MdLocation>, DataLocation {
+public class RowLocation implements ReviewDataRow<MdLocationList.MdLocation>, DataLocation {
     public static final String COLUMN_LOCATION_ID = "location_id";
     public static final String COLUMN_REVIEW_ID = "review_id";
     public static final String COLUMN_LATITUDE = "latitude";

@@ -18,9 +18,6 @@ import com.chdryra.android.reviewer.Model.UserData.UserId;
  * Use static methods <code>generateId(.)</code> to return a unique RDId.
  * </p>
  * <p/>
- * <p>
- * {@link #hasData()}: true
- * </p>
  * <p/>
  * //TODO There's a reason couldn't use holding review but can't remember. Find out.
  */
@@ -66,8 +63,8 @@ public class ReviewId implements MdData {
 
     //Overridden
     @Override
-    public ReviewId getReviewId() {
-        return this;
+    public String getReviewId() {
+        return mString;
     }
 
     @Override

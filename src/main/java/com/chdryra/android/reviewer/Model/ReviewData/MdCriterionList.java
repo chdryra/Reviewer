@@ -17,7 +17,7 @@ public class MdCriterionList extends MdDataList<MdCriterionList.MdCriterion> {
     public MdCriterionList(IdableList<Review> criteria, ReviewId parentId) {
         super(parentId);
         for (Review criterion : criteria) {
-            add(new MdCriterion(criterion, getReviewId()));
+            add(new MdCriterion(criterion, getReviewIdObject()));
         }
     }
 
@@ -47,8 +47,8 @@ public class MdCriterionList extends MdDataList<MdCriterionList.MdCriterion> {
 
         //Overridden
         @Override
-        public ReviewId getReviewId() {
-            return mParentId;
+        public String getReviewId() {
+            return mParentId.toString();
         }
 
         @Override

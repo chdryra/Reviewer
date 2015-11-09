@@ -17,7 +17,7 @@ import java.util.Date;
  * On: 09/12/2014
  * Email: rizwan.choudrey@gmail.com
  */
-public interface DataImage extends Validatable{
+public interface DataImage extends DataReview, Validatable{
     //abstract
     Bitmap getBitmap();
 

@@ -38,7 +38,7 @@ public interface GvDataCollection<T extends GvData> extends GvData {
     String getStringSummary();
 
     @Override
-    GvReviewId getReviewId();
+    String getReviewId();
 
     @Override
     boolean hasElements();

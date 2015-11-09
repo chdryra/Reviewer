@@ -1,11 +1,10 @@
 package com.chdryra.android.reviewer.Model.ReviewStructure;
 
-import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.chdryra.android.reviewer.Database.DbTable;
 import com.chdryra.android.reviewer.Database.DbTableRow;
-import com.chdryra.android.reviewer.Database.MdDataRow;
+import com.chdryra.android.reviewer.Database.ReviewDataRow;
 import com.chdryra.android.reviewer.Database.ReviewerDb;
 import com.chdryra.android.reviewer.Database.RowAuthor;
 import com.chdryra.android.reviewer.Database.RowReview;
@@ -46,17 +45,13 @@ public class ReviewUserDb implements Review {
     }
 
     private void init(RowReview row, FactoryReview reviewFactory) {
-        ContentValues values = row.getContentValues();
-
-        String subject = values.getAsString(RowReview.COLUMN_SUBJECT);
-        mReviewId = ReviewId.fromString(values.getAsString(RowReview.COLUMN_REVIEW_ID));
+        String subject = row.getSubject();
+        mReviewId = ReviewId.fromString(row.getReviewId());
         mSubject = new MdSubject(subject, mReviewId);
-        mPublishDate = PublishDate.then(values.getAsLong(RowReview.COLUMN_PUBLISH_DATE));
-        String userId = values.getAsString(RowReview.COLUMN_AUTHOR_ID);
-        mUserId = UserId.fromString(userId);
-        float rating = values.getAsFloat(RowReview.COLUMN_RATING);
-        mRating = new MdRating(rating, 1, mReviewId);
-        mRatingIsAverage = values.getAsBoolean(RowReview.COLUMN_RATING_IS_AVERAGE);
+        mPublishDate = new PublishDate(row.getPublishDate());
+        mUserId = UserId.fromString(row.getAuthorId());
+        mRating = new MdRating(row.getRating(), row.getRatingWeight(), mReviewId);
+        mRatingIsAverage = row.isRatingIsAverage();
         mNode = reviewFactory.createReviewTreeNode(this, false).createTree();
     }
 
@@ -73,7 +68,7 @@ public class ReviewUserDb implements Review {
         return row;
     }
 
-    private <T1 extends MdData, T2 extends MdDataList<T1>, T3 extends MdDataRow<T1>> T2
+    private <T1 extends MdData, T2 extends MdDataList<T1>, T3 extends ReviewDataRow<T1>> T2
     loadFromDataTable(DbTable<T3> table, Class<T2> listClass) {
         SQLiteDatabase db = mDatabase.getHelper().getReadableDatabase();
 
@@ -101,7 +96,7 @@ public class ReviewUserDb implements Review {
     public Author getAuthor() {
         RowAuthor row = getRowWhere(mDatabase.getAuthorsTable(), RowAuthor.COLUMN_USER_ID,
                 mUserId.toString());
-        return row.toAuthor();
+        return new Author(row.getName(), UserId.fromString(row.getUserId()));
     }
 
     @Override

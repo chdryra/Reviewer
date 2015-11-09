@@ -90,7 +90,7 @@ public class GvCanonical<T extends GvData> implements GvDataCollection<T>, Itera
     }
 
     @Override
-    public GvReviewId getReviewId() {
+    public String getReviewId() {
         return mCanonical.getReviewId();
     }
 

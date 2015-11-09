@@ -29,9 +29,6 @@ public class MdUrlList extends MdDataList<MdUrlList.MdUrl> {
 
     /**
      * Review Data: URL
-     * <p>
-     * {@link #hasData()}: non-null URL.
-     * </p>
      */
     public static class MdUrl extends MdFactList.MdFact implements DataUrl {
         private final URL mUrl;

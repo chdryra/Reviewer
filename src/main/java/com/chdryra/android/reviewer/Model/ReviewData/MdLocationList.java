@@ -44,8 +44,8 @@ public class MdLocationList extends MdDataList<MdLocationList.MdLocation> {
 
         //Overridden
         @Override
-        public ReviewId getReviewId() {
-            return mReviewId;
+        public String getReviewId() {
+            return mReviewId.toString();
         }
 
         @Override

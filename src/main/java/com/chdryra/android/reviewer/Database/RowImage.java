@@ -18,7 +18,7 @@ import java.util.Date;
  * On: 09/04/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class RowImage implements MdDataRow<MdImageList.MdImage>, DataImage {
+public class RowImage implements ReviewDataRow<MdImageList.MdImage>, DataImage {
     public static final String COLUMN_IMAGE_ID = "image_id";
     public static final String COLUMN_REVIEW_ID = "review_id";
     public static final String COLUMN_BITMAP = "bitmap";

@@ -94,7 +94,7 @@ public class GvAuthorList extends GvDataList<GvAuthorList.GvAuthor> {
         }
 
         public GvAuthor(GvAuthor author) {
-            this(author.getReviewId(), author.getName(), author.getUserId());
+            this(author.getReviewIdObject(), author.getName(), author.getUserId());
         }
 
         GvAuthor(Parcel in) {

@@ -10,18 +10,17 @@ package com.chdryra.android.reviewer.Database;
 
 import android.content.ContentValues;
 
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataReview;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.MdGvConverter;
-import com.chdryra.android.reviewer.Model.ReviewData.MdData;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 09/04/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public interface MdDataRow<T extends MdData> extends DbTableRow {
-    //abstract
-    T toMdData(MdGvConverter converter);
+public interface ReviewDataRow extends DataReview, DbTableRow {
+    @Override
+    String getReviewId();
 
     @Override
     String getRowId();

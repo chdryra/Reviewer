@@ -8,7 +8,6 @@
 
 package com.chdryra.android.reviewer.Model.ReviewStructure;
 
-import com.chdryra.android.reviewer.Model.ReviewData.IdableList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdCommentList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdCriterionList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdFactList;
@@ -48,38 +47,32 @@ public class ReviewUser implements Review {
     private ReviewNode mNode;
 
     //Constructors
-    public ReviewUser(ReviewId id, Author author, PublishDate publishDate, String subject, float
-            rating, MdCommentList comments,
+    public ReviewUser(ReviewId id, Author author, PublishDate publishDate, MdSubject subject,
+                      MdRating rating, MdCommentList comments,
                       MdImageList images,
                       MdFactList facts,
                       MdLocationList locations,
-                      IdableList<Review> criteria,
+                      MdCriterionList criteria,
                       boolean ratingIsAverage,
                       FactoryReview reviewFactory) {
         mId = id;
         mAuthor = author;
         mPublishDate = publishDate;
-        mSubject = new MdSubject(subject, mId);
+        mSubject = subject;
         mRatingIsAverage = ratingIsAverage;
-        if (mRatingIsAverage) {
-            ReviewTreeNode node = reviewFactory.createReviewTreeNode(this, true);
-            for (Review criterion : criteria) {
-                node.addChild(reviewFactory.createReviewTreeNode(criterion, false));
-            }
-            rating = node.getRating().getValue();
-        }
-        mRating = new MdRating(rating, 1, mId);
 
-        Assert.assertEquals(mId, comments.getReviewId());
-        Assert.assertEquals(mId, images.getReviewId());
-        Assert.assertEquals(mId, facts.getReviewId());
-        Assert.assertEquals(mId, locations.getReviewId());
+        mRating = rating;
+        Assert.assertEquals(mId.toString(), subject.getReviewId());
+        Assert.assertEquals(mId.toString(), rating.getReviewId());
+        Assert.assertEquals(mId.toString(), comments.getReviewId());
+        Assert.assertEquals(mId.toString(), images.getReviewId());
+        Assert.assertEquals(mId.toString(), facts.getReviewId());
+        Assert.assertEquals(mId.toString(), locations.getReviewId());
         mComments = comments;
         mImages = images;
         mFacts = facts;
         mLocations = locations;
-
-        mCriteria = new MdCriterionList(criteria, mId);
+        mCriteria = criteria;
         mNode = reviewFactory.createReviewTreeNode(this, false).createTree();
     }
 

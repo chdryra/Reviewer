@@ -18,7 +18,7 @@ import java.util.Date;
 public class PublishDate {
     private long mTime;
 
-    private PublishDate(long time) {
+    public PublishDate(long time) {
         if (time > new Date().getTime()) {
             throw new IllegalStateException("Publish date must not be in the future!");
         }

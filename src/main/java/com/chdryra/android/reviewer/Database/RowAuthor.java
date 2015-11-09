@@ -5,8 +5,6 @@ import android.database.Cursor;
 
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataAuthor;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
-import com.chdryra.android.reviewer.Model.UserData.Author;
-import com.chdryra.android.reviewer.Model.UserData.UserId;
 
 /**
  * Created by: Rizwan Choudrey
@@ -21,7 +19,7 @@ public class RowAuthor implements DbTableRow, DataAuthor {
     private String mName;
 
     //Constructors
-    public RowAuthor(Author author) {
+    public RowAuthor(DataAuthor author) {
         mUserId = author.getUserId();
         mName = author.getName();
     }
@@ -33,10 +31,6 @@ public class RowAuthor implements DbTableRow, DataAuthor {
     public RowAuthor(Cursor cursor) {
         mUserId = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_USER_ID));
         mName = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_AUTHOR_NAME));
-    }
-
-    public Author toAuthor() {
-        return new Author(mName, UserId.fromString(mUserId));
     }
 
     //Overridden

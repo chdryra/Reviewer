@@ -24,10 +24,14 @@ public class MdDataList<T extends MdData> extends SortableList<T> implements MdD
         mReviewId = reviewId;
     }
 
+    protected ReviewId getReviewIdObject() {
+        return mReviewId;
+    }
+
     //Overridden
     @Override
-    public ReviewId getReviewId() {
-        return mReviewId;
+    public String getReviewId() {
+        return mReviewId.toString();
     }
 
     @Override

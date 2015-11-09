@@ -1,10 +1,10 @@
 package com.chdryra.android.reviewer.Database;
 
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataComment;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataFact;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataImage;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataLocation;
 import com.chdryra.android.reviewer.Model.ReviewData.IdableList;
-import com.chdryra.android.reviewer.Model.ReviewData.MdCommentList;
-import com.chdryra.android.reviewer.Model.ReviewData.MdFactList;
-import com.chdryra.android.reviewer.Model.ReviewData.MdImageList;
-import com.chdryra.android.reviewer.Model.ReviewData.MdLocationList;
 import com.chdryra.android.reviewer.Model.ReviewData.PublishDate;
 import com.chdryra.android.reviewer.Model.ReviewData.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewStructure.Review;
@@ -21,22 +21,27 @@ public class ReviewDataHolder {
     private final PublishDate mPublishDate;
     private final String mSubject;
     private final float mRating;
-    private final MdCommentList mComments;
-    private final MdImageList mImages;
-    private final MdFactList mFacts;
-    private final MdLocationList mLocations;
+    private final int mRatingWeight;
+    private final Iterable<DataComment> mComments;
+    private final Iterable<DataImage> mImages;
+    private final Iterable<DataFact> mFacts;
+    private final Iterable<DataLocation> mLocations;
     private final IdableList<Review> mCritList;
     private final boolean mIsAverage;
 
     public ReviewDataHolder(ReviewId id, Author author, PublishDate publishDate,
-                            String subject, float rating, MdCommentList comments,
-                            MdImageList images, MdFactList facts, MdLocationList locations,
+                            String subject, float rating, int ratingWeight,
+                            Iterable<DataComment> comments,
+                            Iterable<DataImage> images,
+                            Iterable<DataFact> facts,
+                            Iterable<DataLocation> locations,
                             IdableList<Review> critList, boolean isAverage) {
         mId = id;
         mAuthor = author;
         mPublishDate = publishDate;
         mSubject = subject;
         mRating = rating;
+        mRatingWeight = ratingWeight;
         mComments = comments;
         mImages = images;
         mFacts = facts;
@@ -65,19 +70,23 @@ public class ReviewDataHolder {
         return mRating;
     }
 
-    public MdCommentList getComments() {
+    public float getRatingWeight() {
+        return mRatingWeight;
+    }
+
+    public Iterable<DataComment> getComments() {
         return mComments;
     }
 
-    public MdImageList getImages() {
+    public Iterable<DataImage> getImages() {
         return mImages;
     }
 
-    public MdFactList getFacts() {
+    public Iterable<DataFact> getFacts() {
         return mFacts;
     }
 
-    public MdLocationList getLocations() {
+    public Iterable<DataLocation> getLocations() {
         return mLocations;
     }
 

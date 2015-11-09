@@ -12,9 +12,6 @@ import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
 
 /**
  * Review Data: rating
- * <p>
- * {@link #hasData()}: true
- * </p>
  */
 public class MdRating implements MdData {
     private final float mRating;
@@ -39,8 +36,8 @@ public class MdRating implements MdData {
 
     //Overridden
     @Override
-    public ReviewId getReviewId() {
-        return mReviewId;
+    public String getReviewId() {
+        return mReviewId.toString();
     }
 
     @Override

@@ -94,7 +94,7 @@ public class GvDateList extends GvDataList<GvDateList.GvDate> {
         }
 
         public GvDate(GvDate date) {
-            this(date.getReviewId(), date.getDate());
+            this(date.getReviewIdObject(), date.getDate());
         }
 
         GvDate(Parcel in) {

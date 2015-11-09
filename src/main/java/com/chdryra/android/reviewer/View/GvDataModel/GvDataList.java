@@ -70,7 +70,7 @@ public class GvDataList<T extends GvData> extends ViewHolderDataList<T> implemen
 
     //Copy constructor
     public GvDataList(GvDataList<T> data) {
-        this(data.getReviewId(), data);
+        this(data.getReviewIdObject(), data);
     }
 
     public GvDataList(Parcel in) {
@@ -82,6 +82,10 @@ public class GvDataList<T extends GvData> extends ViewHolderDataList<T> implemen
     }
 
 //protected methods
+    protected GvReviewId getReviewIdObject() {
+        return mReviewId;
+    }
+
     @Override
     protected Comparator<T> getDefaultComparator() {
         return GvDataComparators.getDefaultComparator(mType);
@@ -101,8 +105,8 @@ public class GvDataList<T extends GvData> extends ViewHolderDataList<T> implemen
     }
 
     @Override
-    public GvReviewId getReviewId() {
-        return mReviewId;
+    public String getReviewId() {
+        return mReviewId.toString();
     }
 
     @Override

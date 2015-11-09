@@ -106,7 +106,7 @@ public class GvCanonicalCollection<T extends GvData> implements GvDataCollection
     }
 
     @Override
-    public GvReviewId getReviewId() {
+    public String getReviewId() {
         return null;
     }
 

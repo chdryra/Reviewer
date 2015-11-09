@@ -71,8 +71,8 @@ public class GvReviewId implements GvData {
     }
 
     @Override
-    public GvReviewId getReviewId() {
-        return this;
+    public String getReviewId() {
+        return toString();
     }
 
     @Override

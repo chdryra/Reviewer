@@ -13,11 +13,14 @@ package com.chdryra.android.reviewer.Adapter.DataAdapterModel;
  * On: 09/12/2014
  * Email: rizwan.choudrey@gmail.com
  */
-public interface DataComment extends Validatable{
+public interface DataComment extends DataReview, Validatable{
     //abstract
     String getComment();
 
     boolean isHeadline();
+
+    @Override
+    String getReviewId();
 
     @Override
     boolean hasData(DataValidator dataValidator);

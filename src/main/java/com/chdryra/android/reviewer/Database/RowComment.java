@@ -5,15 +5,13 @@ import android.database.Cursor;
 
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataComment;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
-import com.chdryra.android.reviewer.Model.ReviewData.MdCommentList;
-import com.chdryra.android.reviewer.Model.ReviewData.ReviewId;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 09/04/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class RowComment implements MdDataRow<MdCommentList.MdComment>, DataComment {
+public class RowComment implements ReviewDataRow, DataComment {
     public static final String COLUMN_COMMENT_ID = "comment_id";
     public static final String COLUMN_REVIEW_ID = "review_id";
     public static final String COLUMN_COMMENT = "comment";
@@ -27,8 +25,8 @@ public class RowComment implements MdDataRow<MdCommentList.MdComment>, DataComme
     private boolean mIsHeadline;
 
     //Constructors
-    public RowComment(MdCommentList.MdComment comment, int index) {
-        mReviewId = comment.getReviewId().toString();
+    public RowComment(DataComment comment, int index) {
+        mReviewId = comment.getReviewId();
         mCommentId = mReviewId + SEPARATOR + "c" + String.valueOf(index);
         mComment = comment.getComment();
         mIsHeadline = comment.isHeadline();
@@ -46,6 +44,11 @@ public class RowComment implements MdDataRow<MdCommentList.MdComment>, DataComme
     }
 
     //Overridden
+
+    @Override
+    public String getReviewId() {
+        return mReviewId;
+    }
 
     @Override
     public String getComment() {
@@ -81,10 +84,5 @@ public class RowComment implements MdDataRow<MdCommentList.MdComment>, DataComme
     @Override
     public boolean hasData(DataValidator validator) {
         return validator.validate(this);
-    }
-
-    @Override
-    public MdCommentList.MdComment toMdData() {
-        return new MdCommentList.MdComment(mComment, mIsHeadline, ReviewId.fromString(mReviewId));
     }
 }

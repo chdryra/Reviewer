@@ -8,6 +8,7 @@
 
 package com.chdryra.android.reviewer.Model.ReviewData;
 
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataReview;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Validatable;
 
@@ -20,9 +21,9 @@ import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Validatable;
  * </p>
  */
 
-public interface MdData extends Validatable{
-    //abstract
-    ReviewId getReviewId();
+public interface MdData extends DataReview, Validatable{
+    @Override
+    String getReviewId();
 
     @Override
     boolean hasData(DataValidator dataValidator);

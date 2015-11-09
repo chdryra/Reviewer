@@ -29,7 +29,7 @@ public class MdImageList extends MdDataList<MdImageList.MdImage> {
 
     //public methods
     public MdImageList getCovers() {
-        MdImageList covers = new MdImageList(getReviewId());
+        MdImageList covers = new MdImageList(getReviewIdObject());
         for (MdImage image : this) {
             if (image.isCover()) covers.add(image);
         }
@@ -65,8 +65,8 @@ public class MdImageList extends MdDataList<MdImageList.MdImage> {
 
         //Overridden
         @Override
-        public ReviewId getReviewId() {
-            return mReviewId;
+        public String getReviewId() {
+            return mReviewId.toString();
         }
 
         @Override

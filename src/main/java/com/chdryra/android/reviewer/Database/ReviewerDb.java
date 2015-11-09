@@ -199,7 +199,7 @@ public class ReviewerDb implements ReviewerDbTables {
         return row;
     }
 
-    public <T1 extends MdData, T2 extends MdDataList<T1>, T3 extends MdDataRow<T1>> T2
+    public <T1 extends MdData, T2 extends MdDataList<T1>, T3 extends ReviewDataRow<T1>> T2
     loadFromDataTable(SQLiteDatabase db, DbTable<T3> table, String reviewId, Class<T2> listClass) {
         TableRowList<T3> rows = getRowsWhere(db, table, getColumnNameReviewId(), reviewId);
         T2 dataList = newMdList(listClass, reviewId);
@@ -208,6 +208,17 @@ public class ReviewerDb implements ReviewerDbTables {
         }
 
         return dataList;
+    }
+
+    public <T1 extends DbTableRow> ArrayList<T1>
+    loadFromDataTable(SQLiteDatabase db, DbTable<T1> table, String reviewId) {
+        TableRowList<T1> rows = getRowsWhere(db, table, getColumnNameReviewId(), reviewId);
+        ArrayList<T1> results = new ArrayList<>();
+        for (T1 row : rows) {
+            results.add(row);
+        }
+
+        return results;
     }
 
     //Private methods

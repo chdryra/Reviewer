@@ -18,7 +18,7 @@ import java.net.URL;
  * On: 09/04/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class RowFact implements MdDataRow<MdFactList.MdFact>, DataFact {
+public class RowFact implements ReviewDataRow, DataFact {
     public static final String COLUMN_FACT_ID = "fact_id";
     public static final String COLUMN_REVIEW_ID = "review_id";
     public static final String COLUMN_LABEL = "label";
@@ -34,8 +34,8 @@ public class RowFact implements MdDataRow<MdFactList.MdFact>, DataFact {
     private boolean mIsUrl;
 
     //Constructors
-    public RowFact(MdFactList.MdFact fact, int index) {
-        mReviewId = fact.getReviewId().toString();
+    public RowFact(DataFact fact, int index) {
+        mReviewId = fact.getReviewId();
         mFactId = mReviewId + SEPARATOR + "f" + String.valueOf(index);
         mLabel = fact.getLabel();
         mValue = fact.getValue();
@@ -55,6 +55,11 @@ public class RowFact implements MdDataRow<MdFactList.MdFact>, DataFact {
     }
 
     //Overridden
+
+    @Override
+    public String getReviewId() {
+        return mReviewId;
+    }
 
     @Override
     public String getLabel() {

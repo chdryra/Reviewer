@@ -48,8 +48,8 @@ public class MdFactList extends MdDataList<MdFactList.MdFact> {
 
         //Overridden
         @Override
-        public ReviewId getReviewId() {
-            return mReviewId;
+        public String getReviewId() {
+            return mReviewId.toString();
         }
 
         @Override

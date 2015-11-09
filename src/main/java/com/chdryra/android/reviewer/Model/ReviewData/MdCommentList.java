@@ -47,8 +47,8 @@ public class MdCommentList extends MdDataList<MdCommentList.MdComment> {
 
         //Overridden
         @Override
-        public ReviewId getReviewId() {
-            return mReviewId;
+        public String getReviewId() {
+            return mReviewId.toString();
         }
 
         @Override

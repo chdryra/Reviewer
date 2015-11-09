@@ -13,6 +13,7 @@ import android.os.Parcelable;
 
 import com.chdryra.android.mygenerallibrary.ViewHolder;
 import com.chdryra.android.mygenerallibrary.ViewHolderData;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataReview;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Validatable;
 
@@ -21,17 +22,18 @@ import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Validatable;
  * On: 24/03/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public interface GvData extends ViewHolderData, Parcelable, Validatable {
+public interface GvData extends DataReview, Validatable, ViewHolderData, Parcelable {
     //abstract
     GvDataType<? extends GvData> getGvDataType();
 
     String getStringSummary();
 
-    GvReviewId getReviewId();
-
     boolean hasElements();
 
     boolean isCollection();
+
+    @Override
+    String getReviewId();
 
     //Overridden
     @Override

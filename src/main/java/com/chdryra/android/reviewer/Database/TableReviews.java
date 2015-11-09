@@ -15,6 +15,8 @@ public class TableReviews extends DbTable<RowReview> {
         addColumn(RowReview.COLUMN_PUBLISH_DATE, SQL.StorageType.INTEGER, SQL.Nullable.FALSE);
         addColumn(RowReview.COLUMN_SUBJECT, SQL.StorageType.TEXT, SQL.Nullable.FALSE);
         addColumn(RowReview.COLUMN_RATING, SQL.StorageType.REAL, SQL.Nullable.FALSE);
+        addColumn(RowReview.COLUMN_RATING, SQL.StorageType.REAL, SQL.Nullable.FALSE);
+        addColumn(RowReview.COLUMN_RATING_WEIGHT, SQL.StorageType.REAL, SQL.Nullable.   FALSE);
         addColumn(RowReview.COLUMN_RATING_IS_AVERAGE, SQL.StorageType.INTEGER, SQL.Nullable.FALSE);
         addColumn(RowReview.COLUMN_PARENT_ID, SQL.StorageType.TEXT, SQL.Nullable.TRUE);
         addForeignKeyConstraint(new String[]{RowReview.COLUMN_AUTHOR_ID}, authorsTable);
